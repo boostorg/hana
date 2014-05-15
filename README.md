@@ -1,6 +1,8 @@
 # Boost.Hana
-## A C++11 library for productive metaprogramming
+> An experimental C++1y metaprogramming library
 
-### Disclaimer
-This library is highly experimental. It has not even been _proposed_ to
-Boost yet and may never be, depending on the results.
+## Disclaimers
+This is not an official Boost library and there is no guarantee whatsoever
+that it will be proposed.
+
+The library is unstable at the moment; do not use for production.
