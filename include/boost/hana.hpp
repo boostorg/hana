@@ -30,7 +30,6 @@
  * Data types provided by the library.
  */
 
-
-
+#include <boost/hana/integral.hpp>
 
 #endif // !BOOST_HANA_HPP

@@ -1,23 +1,15 @@
 #=============================================================================
 # Setup unit tests
 #=============================================================================
-add_custom_target(tests COMMENT "Build all the unit tests.")
+enable_testing()
+add_custom_target(tests
+    COMMAND ${CMAKE_CTEST_COMMAND}
+    COMMENT "Build and run all the unit tests.")
 
-function(BOOST_HANA_add_module module)
-    add_custom_target(${module}
-        COMMENT "Build unit tests for the ${module} module.")
-    add_dependencies(tests ${module})
+function(boost_hana_add_test name)
+    add_executable(${name} EXCLUDE_FROM_ALL ${name}.cpp)
+    add_test(NAME ${name} COMMAND ${name})
+    add_dependencies(tests ${name})
 endfunction()
 
-function(BOOST_HANA_add_tests module)
-    if(NOT TARGET ${module})
-        BOOST_HANA_add_module(${module})
-    endif()
-
-    foreach(test IN ITEMS ${ARGN})
-        add_executable(${module}.${test} ${module}/${test}.cpp)
-        add_dependencies(${module} ${module}.${test})
-    endforeach()
-endfunction()
-
-
+boost_hana_add_test(integral)
