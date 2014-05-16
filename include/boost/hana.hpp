@@ -30,6 +30,7 @@
  * Data types provided by the library.
  */
 
+#include <boost/hana/core.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functor.hpp>
 #include <boost/hana/integral.hpp>

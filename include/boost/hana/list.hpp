@@ -36,7 +36,7 @@ namespace boost { namespace hana {
     } list{};
 
     template <typename ...Xs>
-    struct Iterable<List<Xs...>> {
+    struct Iterable<List<Xs...>> : defaults<Iterable> {
         static constexpr auto head_impl(List<Xs...> xs)
         { return std::get<0>(xs.storage_); }
 
@@ -55,7 +55,7 @@ namespace boost { namespace hana {
     };
 
     template <typename ...Xs>
-    struct Functor<List<Xs...>> {
+    struct Functor<List<Xs...>> : defaults<Functor> {
         template <typename F, std::size_t ...Index>
         static constexpr auto
         helper(F f, List<Xs...> xs, std::index_sequence<Index...>)
@@ -67,7 +67,7 @@ namespace boost { namespace hana {
     };
 
     template <typename X, typename ...Xs>
-    struct Foldable<List<X, Xs...>> {
+    struct Foldable<List<X, Xs...>> : defaults<Foldable> {
         template <typename F, typename State>
         static constexpr auto foldl_impl(F f, State s, List<X, Xs...> xs)
         { return foldl(f, f(s, head(xs)), tail(xs)); }
@@ -78,7 +78,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Foldable<List<>> {
+    struct Foldable<List<>> : defaults<Foldable> {
         template <typename F, typename State>
         static constexpr auto foldl_impl(F f, State s, List<> xs)
         { return s; }

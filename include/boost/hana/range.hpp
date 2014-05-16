@@ -39,13 +39,13 @@ namespace boost { namespace hana {
     } range{};
 
     template <typename T>
-    struct Iterable<Range<T>> {
+    struct Iterable<Range<T>> : defaults<Iterable> {
         static constexpr Bool<true> is_empty_impl(Range<T>)
         { return {}; }
     };
 
     template <typename T, T v, T ...vs>
-    struct Iterable<Range<T, v, vs...>> {
+    struct Iterable<Range<T, v, vs...>> : defaults<Iterable> {
         static constexpr Integral<T, v> head_impl(Range<T, v, vs...>)
         { return {}; }
 
@@ -57,14 +57,14 @@ namespace boost { namespace hana {
     };
 
     template <typename T, T ...vs>
-    struct Functor<Range<T, vs...>> {
+    struct Functor<Range<T, vs...>> : defaults<Functor> {
         template <typename F>
         static constexpr auto fmap_impl(F f, Range<T, vs...>)
         { return list(f(Integral<T, vs>{})...); }
     };
 
     template <typename T, T v, T ...vs>
-    struct Foldable<Range<T, v, vs...>> {
+    struct Foldable<Range<T, v, vs...>> : defaults<Foldable> {
         template <typename F, typename State>
         static constexpr auto foldl_impl(F f, State s, Range<T, v, vs...> xs)
         { return foldl(f, f(s, head(xs)), tail(xs)); }
@@ -75,7 +75,7 @@ namespace boost { namespace hana {
     };
 
     template <typename T>
-    struct Foldable<Range<T>> {
+    struct Foldable<Range<T>> : defaults<Foldable> {
         template <typename F, typename State>
         static constexpr auto foldl_impl(F f, State s, Range<T> xs)
         { return s; }

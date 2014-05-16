@@ -14,6 +14,7 @@ endfunction()
 
 boost_hana_add_test(hana)
 boost_hana_add_test(integral)
+boost_hana_add_test(iterable)
 boost_hana_add_test(list)
 boost_hana_add_test(range)
 boost_hana_add_test(type)
