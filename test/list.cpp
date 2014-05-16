@@ -49,8 +49,21 @@ void test_Functor() {
     BOOST_HANA_STATIC_ASSERT(fmap(f, list(int_<1>, int_<2>, int_<3>)) == list(f(int_<1>), f(int_<2>), f(int_<3>)));
 }
 
+void test_Foldable() {
+    BOOST_HANA_STATIC_ASSERT(foldl(list, int_<0>, list()) == int_<0>);
+    BOOST_HANA_STATIC_ASSERT(foldl(list, int_<0>, list(int_<1>)) == list(int_<0>, int_<1>));
+    BOOST_HANA_STATIC_ASSERT(foldl(list, int_<0>, list(int_<1>, int_<2>)) == list(list(int_<0>, int_<1>), int_<2>));
+    BOOST_HANA_STATIC_ASSERT(foldl(list, int_<0>, list(int_<1>, int_<2>, int_<3>)) == list(list(list(int_<0>, int_<1>), int_<2>), int_<3>));
+
+    BOOST_HANA_STATIC_ASSERT(foldr(list, int_<0>, list()) == int_<0>);
+    BOOST_HANA_STATIC_ASSERT(foldr(list, int_<1>, list(int_<0>)) == list(int_<0>, int_<1>));
+    BOOST_HANA_STATIC_ASSERT(foldr(list, int_<2>, list(int_<0>, int_<1>)) == list(int_<0>, list(int_<1>, int_<2>)));
+    BOOST_HANA_STATIC_ASSERT(foldr(list, int_<3>, list(int_<0>, int_<1>, int_<2>)) == list(int_<0>, list(int_<1>, list(int_<2>, int_<3>))));
+}
+
 int main() {
     test_Iterable();
     test_comparison();
     test_Functor();
+    test_Foldable();
 }

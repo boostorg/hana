@@ -12,6 +12,7 @@
 #ifndef BOOST_HANA_LIST_HPP
 #define BOOST_HANA_LIST_HPP
 
+#include <boost/hana/foldable.hpp>
 #include <boost/hana/functor.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/iterable.hpp>
@@ -63,6 +64,28 @@ namespace boost { namespace hana {
         template <typename F>
         static constexpr auto fmap_impl(F f, List<Xs...> xs)
         { return helper(f, xs, std::index_sequence_for<Xs...>{}); }
+    };
+
+    template <typename X, typename ...Xs>
+    struct Foldable<List<X, Xs...>> {
+        template <typename F, typename State>
+        static constexpr auto foldl_impl(F f, State s, List<X, Xs...> xs)
+        { return foldl(f, f(s, head(xs)), tail(xs)); }
+
+        template <typename F, typename State>
+        static constexpr auto foldr_impl(F f, State s, List<X, Xs...> xs)
+        { return f(head(xs), foldr(f, s, tail(xs))); }
+    };
+
+    template <>
+    struct Foldable<List<>> {
+        template <typename F, typename State>
+        static constexpr auto foldl_impl(F f, State s, List<> xs)
+        { return s; }
+
+        template <typename F, typename State>
+        static constexpr auto foldr_impl(F f, State s, List<> xs)
+        { return s; }
     };
 
     // comparison

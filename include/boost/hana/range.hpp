@@ -12,6 +12,7 @@
 #ifndef BOOST_HANA_RANGE_HPP
 #define BOOST_HANA_RANGE_HPP
 
+#include <boost/hana/foldable.hpp>
 #include <boost/hana/functor.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/iterable.hpp>
@@ -60,6 +61,28 @@ namespace boost { namespace hana {
         template <typename F>
         static constexpr auto fmap_impl(F f, Range<T, vs...>)
         { return list(f(Integral<T, vs>{})...); }
+    };
+
+    template <typename T, T v, T ...vs>
+    struct Foldable<Range<T, v, vs...>> {
+        template <typename F, typename State>
+        static constexpr auto foldl_impl(F f, State s, Range<T, v, vs...> xs)
+        { return foldl(f, f(s, head(xs)), tail(xs)); }
+
+        template <typename F, typename State>
+        static constexpr auto foldr_impl(F f, State s, Range<T, v, vs...> xs)
+        { return f(head(xs), foldr(f, s, tail(xs))); }
+    };
+
+    template <typename T>
+    struct Foldable<Range<T>> {
+        template <typename F, typename State>
+        static constexpr auto foldl_impl(F f, State s, Range<T> xs)
+        { return s; }
+
+        template <typename F, typename State>
+        static constexpr auto foldr_impl(F f, State s, Range<T> xs)
+        { return s; }
     };
 
     // comparison
