@@ -12,4 +12,7 @@ function(boost_hana_add_test name)
     add_dependencies(tests ${name})
 endfunction()
 
+boost_hana_add_test(hana)
 boost_hana_add_test(integral)
+boost_hana_add_test(list)
+boost_hana_add_test(range)

@@ -1,7 +1,7 @@
 
 # Simple Makefile forwarding to the build directory.
 
-.PHONY: all gen-cmake doc test
+.PHONY: all gen-cmake doc
 
 # Suppress the output of the forwarding of commands.
 ${VERBOSE}.SILENT:
@@ -13,9 +13,6 @@ all:
 	make -C build $@
 
 doc:
-	make -C build $@ $(args)
-
-test:
 	make -C build $@ $(args)
 
 gen-cmake:

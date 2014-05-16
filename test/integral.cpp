@@ -6,6 +6,7 @@
  */
 
 #include <boost/hana/integral.hpp>
+
 #include <boost/hana/detail/static_assert.hpp>
 using namespace boost::hana;
 

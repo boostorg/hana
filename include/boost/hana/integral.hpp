@@ -12,10 +12,11 @@
 #ifndef BOOST_HANA_INTEGRAL_HPP
 #define BOOST_HANA_INTEGRAL_HPP
 
-#include <boost/hana/detail/std.hpp>
+#include <cstddef>
 
 
 namespace boost { namespace hana {
+    //! @ingroup datatypes
     template <typename T, T t>
     struct Integral {
         constexpr operator T() const { return t; }
@@ -55,8 +56,8 @@ namespace boost { namespace hana {
     constexpr auto true_ = bool_<true>;
     constexpr auto false_ = bool_<false>;
 
-    template <detail::std_size_t i> using SizeT = Integral<detail::std_size_t, i>;
-    template <detail::std_size_t i> constexpr SizeT<i> size_t{};
+    template <std::size_t i> using SizeT = Integral<std::size_t, i>;
+    template <std::size_t i> constexpr SizeT<i> size_t{};
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_INTEGRAL_HPP
