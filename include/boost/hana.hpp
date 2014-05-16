@@ -36,5 +36,6 @@
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/list.hpp>
 #include <boost/hana/range.hpp>
+#include <boost/hana/type.hpp>
 
 #endif // !BOOST_HANA_HPP
