@@ -1,6 +1,9 @@
 # Boost.Hana
 > An experimental C++1y metaprogramming library
 
+This library is an attempt to merge Boost.Fusion and the Boost.MPL into
+a single metaprogramming library.
+
 ## Disclaimers
 This is not an official Boost library and there is no guarantee whatsoever
 that it will be proposed.
