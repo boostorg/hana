@@ -12,6 +12,7 @@
 #ifndef BOOST_HANA_LIST_HPP
 #define BOOST_HANA_LIST_HPP
 
+#include <boost/hana/detail/foldable_from_iterable.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functor.hpp>
 #include <boost/hana/integral.hpp>
@@ -66,27 +67,10 @@ namespace boost { namespace hana {
         { return helper(f, xs, std::index_sequence_for<Xs...>{}); }
     };
 
-    template <typename X, typename ...Xs>
-    struct Foldable<List<X, Xs...>> : defaults<Foldable> {
-        template <typename F, typename State>
-        static constexpr auto foldl_impl(F f, State s, List<X, Xs...> xs)
-        { return foldl(f, f(s, head(xs)), tail(xs)); }
-
-        template <typename F, typename State>
-        static constexpr auto foldr_impl(F f, State s, List<X, Xs...> xs)
-        { return f(head(xs), foldr(f, s, tail(xs))); }
-    };
-
-    template <>
-    struct Foldable<List<>> : defaults<Foldable> {
-        template <typename F, typename State>
-        static constexpr auto foldl_impl(F f, State s, List<> xs)
-        { return s; }
-
-        template <typename F, typename State>
-        static constexpr auto foldr_impl(F f, State s, List<> xs)
-        { return s; }
-    };
+    template <typename ...Xs>
+    struct Foldable<List<Xs...>>
+        : detail::foldable_from_iterable
+    { };
 
     // comparison
     template <typename ...Xs>
@@ -110,6 +94,20 @@ namespace boost { namespace hana {
         // error: invalid argument type 'auto' to unary expression
         -> decltype(!(xs == ys))
     { return !(xs == ys); }
+}} // end namespace boost::hana
+
+#include <boost/hana/range.hpp>
+
+namespace boost { namespace hana {
+    constexpr struct _zip_with {
+        template <typename F, typename ...Lists>
+        constexpr auto operator()(F f, Lists ...lists) const {
+            return fmap(
+                [=](auto index) { return f(at(index, lists)...); },
+                range(size_t<0>, minimum(list(length(lists)...)))
+            );
+        }
+    } zip_with{};
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_LIST_HPP

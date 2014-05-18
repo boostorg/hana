@@ -53,10 +53,20 @@ void test_Foldable() {
     BOOST_HANA_STATIC_ASSERT(foldl(list, int_<0>, range(int_<1>, int_<3>)) == list(list(int_<0>, int_<1>), int_<2>));
     BOOST_HANA_STATIC_ASSERT(foldl(list, int_<0>, range(int_<1>, int_<4>)) == list(list(list(int_<0>, int_<1>), int_<2>), int_<3>));
 
+    BOOST_HANA_STATIC_ASSERT(foldl1(list, range(int_<0>, int_<1>)) == int_<0>);
+    BOOST_HANA_STATIC_ASSERT(foldl1(list, range(int_<0>, int_<2>)) == list(int_<0>, int_<1>));
+    BOOST_HANA_STATIC_ASSERT(foldl1(list, range(int_<0>, int_<3>)) == list(list(int_<0>, int_<1>), int_<2>));
+    BOOST_HANA_STATIC_ASSERT(foldl1(list, range(int_<0>, int_<4>)) == list(list(list(int_<0>, int_<1>), int_<2>), int_<3>));
+
     BOOST_HANA_STATIC_ASSERT(foldr(list, int_<0>, range(int_<0>, int_<0>)) == int_<0>);
     BOOST_HANA_STATIC_ASSERT(foldr(list, int_<1>, range(int_<0>, int_<1>)) == list(int_<0>, int_<1>));
     BOOST_HANA_STATIC_ASSERT(foldr(list, int_<2>, range(int_<0>, int_<2>)) == list(int_<0>, list(int_<1>, int_<2>)));
     BOOST_HANA_STATIC_ASSERT(foldr(list, int_<3>, range(int_<0>, int_<3>)) == list(int_<0>, list(int_<1>, list(int_<2>, int_<3>))));
+
+    BOOST_HANA_STATIC_ASSERT(foldr1(list, range(int_<0>, int_<1>)) == int_<0>);
+    BOOST_HANA_STATIC_ASSERT(foldr1(list, range(int_<0>, int_<2>)) == list(int_<0>, int_<1>));
+    BOOST_HANA_STATIC_ASSERT(foldr1(list, range(int_<0>, int_<3>)) == list(int_<0>, list(int_<1>, int_<2>)));
+    BOOST_HANA_STATIC_ASSERT(foldr1(list, range(int_<0>, int_<4>)) == list(int_<0>, list(int_<1>, list(int_<2>, int_<3>))));
 }
 
 int main() {
