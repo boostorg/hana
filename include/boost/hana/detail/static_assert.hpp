@@ -23,6 +23,6 @@
  * lambdas are not available yet and so our unit tests can't use
  * static_assert.
  */
-#define BOOST_HANA_STATIC_ASSERT(...) assert(__VA_ARGS__)
+#define BOOST_HANA_STATIC_ASSERT(...) assert((__VA_ARGS__))
 
 #endif // !BOOST_HANA_DETAIL_STATIC_ASSERT_HPP
