@@ -13,6 +13,7 @@ function(boost_hana_add_test name)
 endfunction()
 
 boost_hana_add_test(hana)
+boost_hana_add_test(if)
 boost_hana_add_test(integral)
 boost_hana_add_test(iterable)
 boost_hana_add_test(list)
