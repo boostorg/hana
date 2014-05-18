@@ -11,9 +11,6 @@
 using namespace boost::hana;
 
 
-template <bool b = false>
-struct invalid { static_assert(b, "invalid must not be instantiated"); };
-
 void test_type_traits() {
     enum _e { };          constexpr auto e = type<_e>;
     struct _s { };        constexpr auto s = type<_s>;
@@ -154,9 +151,4 @@ int main() {
 
     BOOST_HANA_STATIC_ASSERT(type<void> == type<void>);
     BOOST_HANA_STATIC_ASSERT(type<void> != type<int>);
-
-#if 0
-    BOOST_HANA_STATIC_ASSERT(type<invalid<>> == type<invalid<>>);
-    BOOST_HANA_STATIC_ASSERT(type<invalid<>> != type<int>);
-#endif
 }
