@@ -19,6 +19,7 @@
 #include <boost/hana/functor.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/iterable.hpp>
+#include <boost/hana/logical.hpp>
 
 #include <type_traits>
 #include <utility>
@@ -63,28 +64,19 @@ namespace boost { namespace hana {
         : detail::foldable_from_iterable
     { };
 
-    namespace detail {
-        template <bool ...> struct bool_seq;
-        template <bool ...b>
-        using and_ = Bool<std::is_same<
-            bool_seq<b...>, bool_seq<(b, true)...>
-        >::value>;
-
-        template <typename X, X ...xs, typename Y, Y ...ys>
-        constexpr and_<(xs == ys)...>
-        equal_helper(Range<X, xs...> a, Range<Y, ys...> b, Bool<true>)
-        { return {}; }
-
-        template <typename X, X ...xs, typename Y, Y ...ys>
-        constexpr Bool<false>
-        equal_helper(Range<X, xs...>, Range<Y, ys...>, Bool<false>)
-        { return {}; }
-    }
-
     template <typename T, T ...ts, typename U, U ...us>
     struct Comparable<Range<T, ts...>, Range<U, us...>> : defaults<Comparable> {
+        static constexpr Bool<false>
+        equal_helper(Range<T, ts...>, Range<U, us...>, Bool<false>)
+        { return {}; }
+
+        template <typename X, X ...xs, typename Y, Y ...ys>
+        static constexpr auto
+        equal_helper(Range<X, xs...>, Range<Y, ys...>, Bool<true>)
+        { return and_(bool_<xs == ys>...); }
+
         static constexpr auto equal_impl(Range<T, ts...> a, Range<U, us...> b)
-        { return detail::equal_helper(a, b, bool_<sizeof...(ts) == sizeof...(us)>); }
+        { return equal_helper(a, b, bool_<sizeof...(ts) == sizeof...(us)>); }
     };
 
     template <typename T, T ...ts, typename U, U ...us>

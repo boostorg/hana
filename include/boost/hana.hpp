@@ -34,10 +34,10 @@
 #include <boost/hana/core.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functor.hpp>
-#include <boost/hana/if.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/list.hpp>
+#include <boost/hana/logical.hpp>
 #include <boost/hana/range.hpp>
 #include <boost/hana/type.hpp>
 

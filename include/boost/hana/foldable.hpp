@@ -13,7 +13,7 @@
 #define BOOST_HANA_FOLDABLE_HPP
 
 #include <boost/hana/core.hpp>
-#include <boost/hana/if.hpp>
+#include <boost/hana/logical.hpp>
 
 
 namespace boost { namespace hana {
