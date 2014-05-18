@@ -20,9 +20,6 @@ namespace boost { namespace hana {
     template <typename T, T t>
     struct Integral {
         constexpr operator T() const { return t; }
-
-        constexpr Integral<decltype(!t), !t> operator!() const
-        { return {}; }
     };
 
 #define BOOST_HANA_INTEGRAL_BINARY_OP(op)                                   \
@@ -31,21 +28,40 @@ namespace boost { namespace hana {
     operator op(Integral<U, u>, Integral<V, v>)                             \
     { return {}; }                                                          \
 /**/
+#define BOOST_HANA_INTEGRAL_UNARY_OP(op)                                    \
+    template <typename U, U u>                                              \
+    constexpr Integral<decltype(op u), (op u)>                              \
+    operator op(Integral<U, u>)                                             \
+    { return {}; }                                                          \
+/**/
+    // Arithmetic
+    BOOST_HANA_INTEGRAL_UNARY_OP(+)
+    BOOST_HANA_INTEGRAL_UNARY_OP(-)
     BOOST_HANA_INTEGRAL_BINARY_OP(+)
     BOOST_HANA_INTEGRAL_BINARY_OP(-)
     BOOST_HANA_INTEGRAL_BINARY_OP(*)
     BOOST_HANA_INTEGRAL_BINARY_OP(/)
+    BOOST_HANA_INTEGRAL_BINARY_OP(%)
+    BOOST_HANA_INTEGRAL_UNARY_OP(~)
+    BOOST_HANA_INTEGRAL_BINARY_OP(&)
+    BOOST_HANA_INTEGRAL_BINARY_OP(|)
+    BOOST_HANA_INTEGRAL_BINARY_OP(^)
+    BOOST_HANA_INTEGRAL_BINARY_OP(<<)
+    BOOST_HANA_INTEGRAL_BINARY_OP(>>)
 
+    // Comparison
     BOOST_HANA_INTEGRAL_BINARY_OP(==)
     BOOST_HANA_INTEGRAL_BINARY_OP(!=)
-
     BOOST_HANA_INTEGRAL_BINARY_OP(<)
     BOOST_HANA_INTEGRAL_BINARY_OP(<=)
     BOOST_HANA_INTEGRAL_BINARY_OP(>)
     BOOST_HANA_INTEGRAL_BINARY_OP(>=)
 
+    // Logical
     BOOST_HANA_INTEGRAL_BINARY_OP(||)
     BOOST_HANA_INTEGRAL_BINARY_OP(&&)
+    BOOST_HANA_INTEGRAL_UNARY_OP(!)
+#undef BOOST_HANA_INTEGRAL_UNARY_OP
 #undef BOOST_HANA_INTEGRAL_BINARY_OP
 
     template <int i> using Int = Integral<int, i>;
