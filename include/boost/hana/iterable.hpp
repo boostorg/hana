@@ -63,6 +63,42 @@ namespace boost { namespace hana {
         { return Iterable<Iterable_>::drop_impl(n, iterable); }
     } drop{};
 
+    constexpr struct _any {
+        template <typename Pred, typename Iterable_>
+        constexpr auto operator()(Pred pred, Iterable_ iterable) const
+        { return Iterable<Iterable_>::any_impl(pred, iterable); }
+    } any{};
+
+    constexpr struct _any_of {
+        template <typename Iterable_>
+        constexpr auto operator()(Iterable_ iterable) const
+        { return Iterable<Iterable_>::any_of_impl(iterable); }
+    } any_of{};
+
+    constexpr struct _all {
+        template <typename Pred, typename Iterable_>
+        constexpr auto operator()(Pred pred, Iterable_ iterable) const
+        { return Iterable<Iterable_>::all_impl(pred, iterable); }
+    } all{};
+
+    constexpr struct _all_of {
+        template <typename Iterable_>
+        constexpr auto operator()(Iterable_ iterable) const
+        { return Iterable<Iterable_>::all_of_impl(iterable); }
+    } all_of{};
+
+    constexpr struct _none {
+        template <typename Pred, typename Iterable_>
+        constexpr auto operator()(Pred pred, Iterable_ iterable) const
+        { return Iterable<Iterable_>::none_impl(pred, iterable); }
+    } none{};
+
+    constexpr struct _none_of {
+        template <typename Iterable_>
+        constexpr auto operator()(Iterable_ iterable) const
+        { return Iterable<Iterable_>::none_of_impl(iterable); }
+    } none_of{};
+
 
     template <>
     struct defaults<Iterable> {
@@ -114,6 +150,43 @@ namespace boost { namespace hana {
             return drop_helper(n, iterable,
                                   n == int_<0> || is_empty(iterable));
         }
+
+        // any, all, none
+        template <typename Pred, typename Iterable_>
+        static constexpr Bool<false>
+        any_helper(Pred pred, Iterable_ iterable, Bool<true>)
+        { return {}; }
+
+        template <typename Pred, typename Iterable_>
+        static constexpr auto
+        any_helper(Pred pred, Iterable_ iterable, Bool<false>)
+        { return pred(head(iterable)) || any(pred, tail(iterable)); }
+
+        template <typename Pred, typename Iterable_>
+        static constexpr auto any_impl(Pred pred, Iterable_ iterable)
+        { return any_helper(pred, iterable, is_empty(iterable)); }
+
+        template <typename Pred, typename Iterable_>
+        static constexpr auto all_impl(Pred pred, Iterable_ iterable)
+        { return !any([=](auto x) { return !pred(x); }, iterable); }
+
+        template <typename Pred, typename Iterable_>
+        static constexpr auto none_impl(Pred pred, Iterable_ iterable)
+        { return !any(pred, iterable); }
+
+
+        // any_of, all_of, none_of
+        template <typename Iterable_>
+        static constexpr auto any_of_impl(Iterable_ iterable)
+        { return any([](auto x) { return x; }, iterable); }
+
+        template <typename Iterable_>
+        static constexpr auto all_of_impl(Iterable_ iterable)
+        { return all([](auto x) { return x; }, iterable); }
+
+        template <typename Iterable_>
+        static constexpr auto none_of_impl(Iterable_ iterable)
+        { return none([](auto x) { return x; }, iterable); }
     };
 }} // end namespace boost::hana
 

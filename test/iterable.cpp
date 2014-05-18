@@ -53,9 +53,21 @@ void test_drop() {
     BOOST_HANA_STATIC_ASSERT(drop(int_<2>, iterable(int_<0>, int_<1>)) == iterable());
 }
 
+void test_all_of() {
+    BOOST_HANA_STATIC_ASSERT(all_of(iterable()));
+    BOOST_HANA_STATIC_ASSERT(all_of(iterable(true_)));
+    BOOST_HANA_STATIC_ASSERT(all_of(iterable(true_, true_)));
+    BOOST_HANA_STATIC_ASSERT(!all_of(iterable(true_, true_, false_)));
+    BOOST_HANA_STATIC_ASSERT(!all_of(iterable(false_, true_, true_)));
+
+    BOOST_HANA_STATIC_ASSERT(all_of(iterable(true, true)));
+    BOOST_HANA_STATIC_ASSERT(!all_of(iterable(true, true, false)));
+}
+
 int main() {
     test_at();
     test_last();
     test_length();
     test_drop();
+    test_all_of();
 }
