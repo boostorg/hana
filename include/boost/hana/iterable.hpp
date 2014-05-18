@@ -57,6 +57,12 @@ namespace boost { namespace hana {
         { return Iterable<Iterable_>::length_impl(iterable); }
     } length{};
 
+    constexpr struct _drop {
+        template <typename N, typename Iterable_>
+        constexpr auto operator()(N n, Iterable_ iterable) const
+        { return Iterable<Iterable_>::drop_impl(n, iterable); }
+    } drop{};
+
 
     template <>
     struct defaults<Iterable> {
@@ -93,6 +99,21 @@ namespace boost { namespace hana {
         template <typename Iterable_>
         static constexpr auto length_impl(Iterable_ iterable)
         { return length_helper(iterable, is_empty(iterable)); }
+
+
+        template <typename N, typename Iterable_>
+        static constexpr auto drop_helper(N, Iterable_ iterable, Bool<true>)
+        { return iterable; }
+
+        template <typename N, typename Iterable_>
+        static constexpr auto drop_helper(N n, Iterable_ iterable, Bool<false>)
+        { return drop(n - int_<1>, tail(iterable)); }
+
+        template <typename N, typename Iterable_>
+        static constexpr auto drop_impl(N n, Iterable_ iterable) {
+            return drop_helper(n, iterable,
+                                  n == int_<0> || is_empty(iterable));
+        }
     };
 }} // end namespace boost::hana
 

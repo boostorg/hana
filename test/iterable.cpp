@@ -39,8 +39,23 @@ void test_length() {
     BOOST_HANA_STATIC_ASSERT(length(iterable(int_<0>, int_<1>, int_<2>)) == int_<3>);
 }
 
+void test_drop() {
+    BOOST_HANA_STATIC_ASSERT(drop(int_<0>, iterable()) == iterable());
+    BOOST_HANA_STATIC_ASSERT(drop(int_<1>, iterable()) == iterable());
+    BOOST_HANA_STATIC_ASSERT(drop(int_<2>, iterable()) == iterable());
+
+    BOOST_HANA_STATIC_ASSERT(drop(int_<0>, iterable(int_<0>)) == iterable(int_<0>));
+    BOOST_HANA_STATIC_ASSERT(drop(int_<1>, iterable(int_<0>)) == iterable());
+    BOOST_HANA_STATIC_ASSERT(drop(int_<2>, iterable(int_<0>)) == iterable());
+
+    BOOST_HANA_STATIC_ASSERT(drop(int_<0>, iterable(int_<0>, int_<1>)) == iterable(int_<0>, int_<1>));
+    BOOST_HANA_STATIC_ASSERT(drop(int_<1>, iterable(int_<0>, int_<1>)) == iterable(int_<1>));
+    BOOST_HANA_STATIC_ASSERT(drop(int_<2>, iterable(int_<0>, int_<1>)) == iterable());
+}
+
 int main() {
     test_at();
     test_last();
     test_length();
+    test_drop();
 }
