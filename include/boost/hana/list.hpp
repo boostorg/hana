@@ -12,6 +12,8 @@
 #ifndef BOOST_HANA_LIST_HPP
 #define BOOST_HANA_LIST_HPP
 
+#include <boost/hana/comparable.hpp>
+#include <boost/hana/detail/comparable_from_iterable.hpp>
 #include <boost/hana/detail/foldable_from_iterable.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functor.hpp>
@@ -72,28 +74,18 @@ namespace boost { namespace hana {
         : detail::foldable_from_iterable
     { };
 
-    // comparison
-    template <typename ...Xs>
-    constexpr Bool<false> operator==(List<Xs...>, List<>) { return {}; }
+    template <typename ...Xs, typename ...Ys>
+    struct Comparable<List<Xs...>, List<Ys...>>
+        : detail::comparable_from_iterable
+    { };
 
-    template <typename ...Ys>
-    constexpr Bool<false> operator==(List<>, List<Ys...>) { return {}; }
-
-    constexpr Bool<true> operator==(List<>, List<>) { return {}; }
-
-    template <typename X, typename ...Xs, typename Y, typename ...Ys>
-    constexpr auto operator==(List<X, Xs...> xs, List<Y, Ys...> ys)
-        // decltype is required or Clang says
-        // error: invalid argument type 'auto' to unary expression
-        -> decltype(head(xs) == head(ys) && tail(xs) == tail(ys))
-    { return head(xs) == head(ys) && tail(xs) == tail(ys); }
+    template <typename ...Xs, typename ...Ys>
+    constexpr auto operator==(List<Xs...> xs, List<Ys...> ys)
+    {  return equal(xs, ys); }
 
     template <typename ...Xs, typename ...Ys>
     constexpr auto operator!=(List<Xs...> xs, List<Ys...> ys)
-        // decltype is required or Clang says
-        // error: invalid argument type 'auto' to unary expression
-        -> decltype(!(xs == ys))
-    { return !(xs == ys); }
+    {  return not_equal(xs, ys); }
 }} // end namespace boost::hana
 
 #include <boost/hana/range.hpp>

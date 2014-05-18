@@ -12,6 +12,7 @@
 #ifndef BOOST_HANA_TYPE_HPP
 #define BOOST_HANA_TYPE_HPP
 
+#include <boost/hana/comparable.hpp>
 #include <boost/hana/integral.hpp>
 
 #include <type_traits>
@@ -26,13 +27,15 @@ namespace boost { namespace hana {
     constexpr Type<T> type{};
 
     template <typename T, typename U>
-    constexpr Bool<false> operator==(Type<T>, Type<U>) { return {}; }
-    template <typename T>
-    constexpr Bool<true> operator==(Type<T>, Type<T>) { return {}; }
+    struct Comparable<Type<T>, Type<U>> : defaults<Comparable> {
+        static constexpr auto equal_impl(Type<T>, Type<U>)
+        { return bool_<std::is_same<T, U>::value>; }
+    };
 
     template <typename T, typename U>
-    constexpr auto operator!=(Type<T> t, Type<U> u) -> decltype(!(t == u))
-    { return !(t == u); }
+    constexpr auto operator==(Type<T> t, Type<U> u) { return equal(t, u); }
+    template <typename T, typename U>
+    constexpr auto operator!=(Type<T> t, Type<U> u) { return not_equal(t, u); }
 
 #define BOOST_HANA_WRAP_TYPE_TRAIT(trait)                                   \
     constexpr struct _ ## trait {                                           \

@@ -12,6 +12,8 @@
 #ifndef BOOST_HANA_INTEGRAL_HPP
 #define BOOST_HANA_INTEGRAL_HPP
 
+#include <boost/hana/comparable.hpp>
+
 #include <cstddef>
 
 
@@ -20,6 +22,15 @@ namespace boost { namespace hana {
     template <typename T, T t>
     struct Integral {
         constexpr operator T() const { return t; }
+    };
+
+    template <typename T, T t, typename U, U u>
+    struct Comparable<Integral<T, t>, Integral<U, u>> {
+        static constexpr Integral<bool, t == u> equal_impl(...)
+        { return {}; }
+
+        static constexpr Integral<bool, t != u> not_equal_impl(...)
+        { return {}; }
     };
 
 #define BOOST_HANA_INTEGRAL_BINARY_OP(op)                                   \

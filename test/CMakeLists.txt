@@ -13,6 +13,7 @@ function(boost_hana_add_test name)
     add_dependencies(tests ${name})
 endfunction()
 
+boost_hana_add_test(detail.comparable_from_iterable)
 boost_hana_add_test(detail.foldable_from_iterable)
 boost_hana_add_test(foldable)
 boost_hana_add_test(hana)
