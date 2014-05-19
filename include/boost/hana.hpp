@@ -33,6 +33,7 @@
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core.hpp>
 #include <boost/hana/foldable.hpp>
+#include <boost/hana/functional.hpp>
 #include <boost/hana/functor.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/iterable.hpp>
