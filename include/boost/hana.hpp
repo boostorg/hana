@@ -40,6 +40,7 @@
 #include <boost/hana/list.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/range.hpp>
+#include <boost/hana/std_array.hpp>
 #include <boost/hana/type.hpp>
 
 #endif // !BOOST_HANA_HPP
