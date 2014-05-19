@@ -27,6 +27,61 @@ namespace boost { namespace hana {
         constexpr auto operator()(F f, Args ...args) const
         { return f(args...); }
     } apply{};
+
+
+    constexpr struct _always {
+    private:
+        template <typename X>
+        struct alwayser {
+            X x;
+            template <typename ...Y>
+            constexpr auto operator()(Y ...) const
+            { return x; }
+        };
+
+    public:
+        template <typename X>
+        constexpr auto operator()(X x) const
+        { return alwayser<X>{x}; }
+    } always{};
+
+    constexpr struct _id {
+        template <typename X>
+        constexpr auto operator()(X x) const
+        { return x; }
+    } id{};
+
+    constexpr struct _compose {
+    private:
+        template <typename F, typename G>
+        struct composer {
+            F f; G g;
+            template <typename X, typename ...Xs>
+            constexpr auto operator()(X x, Xs ...xs) const
+            { return f(g(x), xs...); }
+        };
+
+    public:
+        template <typename F, typename G>
+        constexpr auto operator()(F f, G g) const
+        { return composer<F, G>{f, g}; }
+    } compose{};
+
+    constexpr struct _flip {
+    private:
+        template <typename F>
+        struct flipper {
+            F f;
+            template <typename X, typename Y, typename ...Ys>
+            constexpr auto operator()(X x, Y y, Ys ...ys) const
+            { return f(y, x, ys...); }
+        };
+
+    public:
+        template <typename F>
+        constexpr flipper<F> operator()(F f) const
+        { return {f}; }
+    } flip{};
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FUNCTIONAL_HPP

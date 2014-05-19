@@ -16,6 +16,7 @@
 #include <boost/hana/detail/comparable_from_iterable.hpp>
 #include <boost/hana/detail/foldable_from_iterable.hpp>
 #include <boost/hana/foldable.hpp>
+#include <boost/hana/functional.hpp>
 #include <boost/hana/functor.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/iterable.hpp>
@@ -151,9 +152,8 @@ namespace boost { namespace hana {
 
     constexpr struct _reverse {
         template <typename ...Xs>
-        constexpr auto operator()(List<Xs...> xs) const {
-            return foldl([](auto x, auto y) { return cons(y, x); }, list(), xs);
-        }
+        constexpr auto operator()(List<Xs...> xs) const
+        { return foldl(flip(cons), list(), xs); }
     } reverse{};
 
     constexpr struct _filter {
