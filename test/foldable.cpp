@@ -27,7 +27,23 @@ void test_maximum() {
     BOOST_HANA_STATIC_ASSERT(maximum(foldable(int_<1>, int_<0>)) == int_<1>);
 }
 
+void test_sum() {
+    BOOST_HANA_STATIC_ASSERT(sum(foldable()) == int_<0>);
+    BOOST_HANA_STATIC_ASSERT(sum(foldable(int_<0>)) == int_<0>);
+    BOOST_HANA_STATIC_ASSERT(sum(foldable(int_<0>, int_<1>)) == int_<1>);
+    BOOST_HANA_STATIC_ASSERT(sum(foldable(int_<0>, int_<1>, int_<2>)) == int_<3>);
+}
+
+void test_product() {
+    BOOST_HANA_STATIC_ASSERT(product(foldable()) == int_<1>);
+    BOOST_HANA_STATIC_ASSERT(product(foldable(int_<1>)) == int_<1>);
+    BOOST_HANA_STATIC_ASSERT(product(foldable(int_<1>, int_<2>)) == int_<2>);
+    BOOST_HANA_STATIC_ASSERT(product(foldable(int_<1>, int_<2>, int_<3>)) == int_<6>);
+}
+
 int main() {
     test_minimum();
     test_maximum();
+    test_sum();
+    test_product();
 }

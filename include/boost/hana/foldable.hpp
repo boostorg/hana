@@ -13,6 +13,7 @@
 #define BOOST_HANA_FOLDABLE_HPP
 
 #include <boost/hana/core.hpp>
+#include <boost/hana/integral.hpp>
 #include <boost/hana/logical.hpp>
 
 
@@ -69,6 +70,18 @@ namespace boost { namespace hana {
         { return Foldable<Foldable_>::minimum_by_impl(pred, foldable); }
     } minimum_by{};
 
+    constexpr struct _sum {
+        template <typename Foldable_>
+        constexpr auto operator()(Foldable_ foldable) const
+        { return Foldable<Foldable_>::sum_impl(foldable); }
+    } sum{};
+
+    constexpr struct _product {
+        template <typename Foldable_>
+        constexpr auto operator()(Foldable_ foldable) const
+        { return Foldable<Foldable_>::product_impl(foldable); }
+    } product{};
+
     template <>
     struct defaults<Foldable> {
         template <typename Foldable_>
@@ -94,6 +107,14 @@ namespace boost { namespace hana {
                 foldable
             );
         }
+
+        template <typename Foldable_>
+        static constexpr auto sum_impl(Foldable_ foldable)
+        { return foldl([](auto x, auto y) { return x + y; }, int_<0>, foldable); }
+
+        template <typename Foldable_>
+        static constexpr auto product_impl(Foldable_ foldable)
+        { return foldl([](auto x, auto y) { return x * y; }, int_<1>, foldable); }
     };
 }} // end namespace boost::hana
 
