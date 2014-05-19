@@ -11,7 +11,11 @@
 using namespace boost::hana;
 
 
-void test_type_traits() {
+int main() {
+    BOOST_HANA_STATIC_ASSERT(type<void> == type<void>);
+    BOOST_HANA_STATIC_ASSERT(type<void> != type<int>);
+
+
     enum _e { };          constexpr auto e = type<_e>;
     struct _s { };        constexpr auto s = type<_s>;
     using _f = void(*)();
@@ -144,11 +148,4 @@ void test_type_traits() {
     trait::common_type(s, s);
     trait::underlying_type(e);
     trait::result_of(type<_f(void)>);
-}
-
-int main() {
-    test_type_traits();
-
-    BOOST_HANA_STATIC_ASSERT(type<void> == type<void>);
-    BOOST_HANA_STATIC_ASSERT(type<void> != type<int>);
 }
