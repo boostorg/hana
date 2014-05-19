@@ -19,6 +19,7 @@
 #include <boost/hana/functor.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/iterable.hpp>
+#include <boost/hana/logical.hpp>
 
 #include <cstddef>
 #include <tuple>
@@ -27,6 +28,7 @@
 
 namespace boost { namespace hana {
     //! @ingroup datatypes
+    //! @todo How to implement iterate and repeat?
     template <typename ...Xs>
     struct List {
         std::tuple<Xs...> storage_;
@@ -100,6 +102,79 @@ namespace boost { namespace hana {
             );
         }
     } zip_with{};
+
+    constexpr struct _zip {
+        template <typename ...Lists>
+        constexpr auto operator()(Lists ...lists) const
+        { return zip_with(list, lists...); }
+    } zip{};
+
+    constexpr struct _cons {
+        template <typename X, typename ...Xs>
+        constexpr List<X, Xs...> operator()(X x, List<Xs...> xs) const
+        { return {std::tuple_cat(std::make_tuple(x), xs.storage_)}; }
+    } cons{};
+
+    constexpr struct _snoc {
+        template <typename ...Xs, typename X>
+        constexpr List<Xs..., X> operator()(List<Xs...> xs, X x) const
+        { return {std::tuple_cat(xs.storage_, std::make_tuple(x))}; }
+    } snoc{};
+
+    constexpr struct _take {
+        template <typename T, T t>
+        static constexpr SizeT<t> to_size_t(Integral<T, t>)
+        { return {}; }
+
+        template <typename N, typename ...Xs>
+        constexpr auto operator()(N n, List<Xs...> xs) const {
+            auto min = [](auto a, auto b) { return if_(a < b, a, b); };
+            return fmap(
+                [=](auto index) { return at(index, xs); },
+                range(size_t<0>, min(to_size_t(n), length(xs)))
+            );
+        }
+    } take{};
+
+    constexpr struct _take_while {
+        template <typename Pred, typename ...Xs>
+        constexpr auto operator()(Pred p, List<Xs...> xs) const {
+            auto go = [=](auto xs) {
+                return if_(p(head(xs)),
+                    [=](auto xs) { return cons(head(xs), (*this)(p, tail(xs))); },
+                    [](auto) { return list(); }
+                )(xs);
+            };
+            return if_(is_empty(xs), [](auto xs) { return xs; }, go)(xs);
+        }
+    } take_while{};
+
+    constexpr struct _reverse {
+        template <typename ...Xs>
+        constexpr auto operator()(List<Xs...> xs) const {
+            return foldl([](auto x, auto y) { return cons(y, x); }, list(), xs);
+        }
+    } reverse{};
+
+    constexpr struct _filter {
+        template <typename Pred, typename ...Xs>
+        constexpr auto operator()(Pred p, List<Xs...> xs) const {
+            auto go = [=](auto x, auto xs) {
+                return if_(p(x), cons(x, xs), xs);
+            };
+            return foldr(go, list(), xs);
+        }
+    } filter{};
+
+    constexpr struct _concat {
+        template <typename ...Xs>
+        static constexpr List<Xs...> list_from_tuple(std::tuple<Xs...> tup)
+        { return {tup}; }
+
+        template <typename ...Lists>
+        constexpr auto operator()(Lists ...lists) const
+        { return list_from_tuple(std::tuple_cat(lists.storage_...)); }
+    } concat{};
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_LIST_HPP

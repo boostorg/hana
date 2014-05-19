@@ -63,9 +63,91 @@ void test_zip_with() {
     BOOST_HANA_STATIC_ASSERT(zip_with(std::plus<>{}, list_c<1, 2, 3, 4>, list_c<5, 6, 7>) == list_c<1 + 5, 2 + 6, 3 + 7>);
 }
 
+void test_zip() {
+    BOOST_HANA_STATIC_ASSERT(zip(list(), list()) == list());
+    BOOST_HANA_STATIC_ASSERT(zip(list_c<0>, list_c<1>) == list(list_c<0, 1>));
+    BOOST_HANA_STATIC_ASSERT(zip(list_c<0>, list_c<1>, list_c<2>) == list(list_c<0, 1, 2>));
+    BOOST_HANA_STATIC_ASSERT(zip(list_c<0, 3>, list_c<1, 4>, list_c<2, 5, 8>) == list(list_c<0, 1, 2>, list_c<3, 4, 5>));
+}
+
+void test_cons() {
+    BOOST_HANA_STATIC_ASSERT(cons(int_<0>, list()) == list_c<0>);
+    BOOST_HANA_STATIC_ASSERT(cons(int_<0>, list_c<1>) == list_c<0, 1>);
+    BOOST_HANA_STATIC_ASSERT(cons(int_<0>, list_c<1, 2>) == list_c<0, 1, 2>);
+}
+
+void test_snoc() {
+    BOOST_HANA_STATIC_ASSERT(snoc(list(), int_<0>) == list_c<0>);
+    BOOST_HANA_STATIC_ASSERT(snoc(list_c<0>, int_<1>) == list_c<0, 1>);
+    BOOST_HANA_STATIC_ASSERT(snoc(list_c<0, 1>, int_<2>) == list_c<0, 1, 2>);
+}
+
+void test_take() {
+    BOOST_HANA_STATIC_ASSERT(take(int_<0>, list()) == list());
+    BOOST_HANA_STATIC_ASSERT(take(int_<1>, list()) == list());
+    BOOST_HANA_STATIC_ASSERT(take(int_<2>, list()) == list());
+
+    BOOST_HANA_STATIC_ASSERT(take(int_<0>, list_c<0>) == list());
+    BOOST_HANA_STATIC_ASSERT(take(int_<1>, list_c<0>) == list_c<0>);
+    BOOST_HANA_STATIC_ASSERT(take(int_<2>, list_c<0>) == list_c<0>);
+    BOOST_HANA_STATIC_ASSERT(take(int_<3>, list_c<0>) == list_c<0>);
+
+    BOOST_HANA_STATIC_ASSERT(take(int_<0>, list_c<0, 1>) == list());
+    BOOST_HANA_STATIC_ASSERT(take(int_<1>, list_c<0, 1>) == list_c<0>);
+    BOOST_HANA_STATIC_ASSERT(take(int_<2>, list_c<0, 1>) == list_c<0, 1>);
+    BOOST_HANA_STATIC_ASSERT(take(int_<3>, list_c<0, 1>) == list_c<0, 1>);
+}
+
+constexpr struct _odd {
+    template <typename I>
+    constexpr auto operator()(I i) const { return i % int_<2> != int_<0>; }
+} odd{};
+void test_take_while() {
+    BOOST_HANA_STATIC_ASSERT(take_while(odd, list_c<>) == list_c<>);
+    BOOST_HANA_STATIC_ASSERT(take_while(odd, list_c<0>) == list_c<>);
+    BOOST_HANA_STATIC_ASSERT(take_while(odd, list_c<0, 2>) == list_c<>);
+
+    BOOST_HANA_STATIC_ASSERT(take_while(odd, list_c<0, 1, 3>) == list_c<>);
+    BOOST_HANA_STATIC_ASSERT(take_while(odd, list_c<1, 0, 3>) == list_c<1>);
+    BOOST_HANA_STATIC_ASSERT(take_while(odd, list_c<1, 3, 0>) == list_c<1, 3>);
+    BOOST_HANA_STATIC_ASSERT(take_while(odd, list_c<1, 3, 0, 2>) == list_c<1, 3>);
+}
+
+void test_reverse() {
+    BOOST_HANA_STATIC_ASSERT(reverse(list_c<>) == list_c<>);
+    BOOST_HANA_STATIC_ASSERT(reverse(list_c<0>) == list_c<0>);
+    BOOST_HANA_STATIC_ASSERT(reverse(list_c<0, 1>) == list_c<1, 0>);
+    BOOST_HANA_STATIC_ASSERT(reverse(list_c<0, 1, 2>) == list_c<2, 1, 0>);
+}
+
+void test_filter() {
+    BOOST_HANA_STATIC_ASSERT(filter(odd, list_c<>) == list_c<>);
+    BOOST_HANA_STATIC_ASSERT(filter(odd, list_c<0>) == list_c<>);
+    BOOST_HANA_STATIC_ASSERT(filter(odd, list_c<0, 1>) == list_c<1>);
+    BOOST_HANA_STATIC_ASSERT(filter(odd, list_c<0, 1, 2>) == list_c<1>);
+    BOOST_HANA_STATIC_ASSERT(filter(odd, list_c<0, 1, 2, 3>) == list_c<1, 3>);
+}
+
+void test_concat() {
+    BOOST_HANA_STATIC_ASSERT(concat() == list_c<>);
+    BOOST_HANA_STATIC_ASSERT(concat(list_c<>) == list_c<>);
+    BOOST_HANA_STATIC_ASSERT(concat(list_c<0>, list_c<>) == list_c<0>);
+    BOOST_HANA_STATIC_ASSERT(concat(list_c<0>, list_c<1>) == list_c<0, 1>);
+    BOOST_HANA_STATIC_ASSERT(concat(list_c<>, list_c<0>) == list_c<0>);
+    BOOST_HANA_STATIC_ASSERT(concat(list_c<0>, list_c<1>, list_c<2, 3>) == list_c<0, 1, 2, 3>);
+}
+
 int main() {
     test_Iterable();
     test_comparison();
     test_Functor();
     test_zip_with();
+    test_zip();
+    test_cons();
+    test_snoc();
+    test_take();
+    test_take_while();
+    test_reverse();
+    test_filter();
+    test_concat();
 }
