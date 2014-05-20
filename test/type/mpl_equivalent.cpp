@@ -7,6 +7,7 @@
 
 #include <boost/hana/type.hpp>
 
+#include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/list.hpp>
 
 #include <type_traits>
@@ -14,17 +15,17 @@ using namespace boost::hana;
 
 
 int main() {
-    static_assert(
+    BOOST_HANA_STATIC_ASSERT(
         fmap(trait::add_pointer, list_t<void, int(), char[10]>)
         ==
         list_t<void*, int(*)(), char(*)[10]>
-    , "");
+    );
 
-    static_assert(
+    BOOST_HANA_STATIC_ASSERT(
         head(fmap(trait::add_pointer, list_t<void, int, char>))
         ==
         type<void*>
-    , "");
+    );
 
     static_assert(std::is_same<
         decltype(
