@@ -23,6 +23,7 @@ boost_hana_add_test(functional.compose)
 boost_hana_add_test(functional.flip)
 boost_hana_add_test(functional.id)
 boost_hana_add_test(functional.lift)
+boost_hana_add_test(functional.partial)
 
 boost_hana_add_test(list.comparable)
 boost_hana_add_test(list.concat)

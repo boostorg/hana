@@ -82,6 +82,12 @@ namespace boost { namespace hana {
         constexpr flipper<F> operator()(F f) const
         { return {f}; }
     } flip{};
+
+    constexpr struct _partial {
+        template <typename F, typename ...Args>
+        constexpr auto operator()(F f, Args ...xs) const
+        { return [=](auto ...ys) { return f(xs..., ys...); }; }
+    } partial{};
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FUNCTIONAL_HPP
