@@ -13,9 +13,6 @@
 using namespace boost::hana;
 
 
-template <typename ...T>
-constexpr auto list_t = list(type<T>...);
-
 int main() {
     static_assert(
         fmap(trait::add_pointer, list_t<void, int, char>)

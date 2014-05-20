@@ -21,6 +21,7 @@
 #include <boost/hana/integral.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/logical.hpp>
+#include <boost/hana/type.hpp>
 
 #include <cstddef>
 #include <tuple>
@@ -40,6 +41,9 @@ namespace boost { namespace hana {
         constexpr List<Xs...> operator()(Xs... xs) const
         { return {{xs...}}; }
     } list{};
+
+    template <typename ...Xs>
+    constexpr auto list_t = list(type<Xs>...);
 
     template <typename ...Xs>
     struct Iterable<List<Xs...>> : defaults<Iterable> {
