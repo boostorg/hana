@@ -13,7 +13,9 @@
 #define BOOST_HANA_ITERABLE_HPP
 
 #include <boost/hana/core.hpp>
+#include <boost/hana/functional.hpp>
 #include <boost/hana/integral.hpp>
+#include <boost/hana/logical.hpp>
 
 
 namespace boost { namespace hana {
@@ -103,68 +105,47 @@ namespace boost { namespace hana {
     template <>
     struct defaults<Iterable> {
         template <typename Index, typename Iterable_>
-        static constexpr auto at_impl(Index n, Iterable_ iterable)
-        { return at(n - size_t<1>, tail(iterable)); }
-
-        template <typename T, typename Iterable_>
-        static constexpr auto at_impl(Integral<T, 0>, Iterable_ iterable)
-        { return head(iterable); }
-
-
-        template <typename Iterable_>
-        static constexpr auto last_helper(Iterable_ iterable, Bool<true>)
-        { return head(iterable); }
+        static constexpr auto at_impl(Index n, Iterable_ iterable) {
+            return if_(n == size_t<0>,
+                [](auto n, auto it) { return head(it); },
+                [](auto n, auto it) { return at(n - size_t<1>, tail(it)); }
+            )(n, iterable);
+        }
 
         template <typename Iterable_>
-        static constexpr auto last_helper(Iterable_ iterable, Bool<false>)
-        { return last(tail(iterable)); }
+        static constexpr auto last_impl(Iterable_ iterable) {
+            return if_(is_empty(tail(iterable)),
+                head,
+                compose(last, tail)
+            )(iterable);
+        }
 
         template <typename Iterable_>
-        static constexpr auto last_impl(Iterable_ iterable)
-        { return last_helper(iterable, is_empty(tail(iterable))); }
-
-
-        template <typename Iterable_>
-        static constexpr auto length_helper(Iterable_ iterable, Bool<true>)
-        { return size_t<0>; }
-
-        template <typename Iterable_>
-        static constexpr auto length_helper(Iterable_ iterable, Bool<false>)
-        { return size_t<1> + length(tail(iterable)); }
-
-        template <typename Iterable_>
-        static constexpr auto length_impl(Iterable_ iterable)
-        { return length_helper(iterable, is_empty(iterable)); }
-
-
-        template <typename N, typename Iterable_>
-        static constexpr auto drop_helper(N, Iterable_ iterable, Bool<true>)
-        { return iterable; }
-
-        template <typename N, typename Iterable_>
-        static constexpr auto drop_helper(N n, Iterable_ iterable, Bool<false>)
-        { return drop(n - int_<1>, tail(iterable)); }
+        static constexpr auto length_impl(Iterable_ iterable) {
+            return if_(is_empty(iterable),
+                always(size_t<0>),
+                [](auto it) { return size_t<1> + length(tail(it)); }
+            )(iterable);
+        }
 
         template <typename N, typename Iterable_>
         static constexpr auto drop_impl(N n, Iterable_ iterable) {
-            return drop_helper(n, iterable,
-                                  n == int_<0> || is_empty(iterable));
+            return if_(n == size_t<0> || is_empty(iterable),
+                always(iterable),
+                [](auto n, auto it) { return drop(n - size_t<1>, tail(it)); }
+            )(n, iterable);
         }
 
         // any, all, none
         template <typename Pred, typename Iterable_>
-        static constexpr Bool<false>
-        any_helper(Pred pred, Iterable_ iterable, Bool<true>)
-        { return {}; }
-
-        template <typename Pred, typename Iterable_>
-        static constexpr auto
-        any_helper(Pred pred, Iterable_ iterable, Bool<false>)
-        { return pred(head(iterable)) || any(pred, tail(iterable)); }
-
-        template <typename Pred, typename Iterable_>
-        static constexpr auto any_impl(Pred pred, Iterable_ iterable)
-        { return any_helper(pred, iterable, is_empty(iterable)); }
+        static constexpr auto any_impl(Pred pred, Iterable_ iterable) {
+            return if_(is_empty(iterable),
+                always(false_),
+                [](auto pred, auto it) {
+                    return pred(head(it)) || any(pred, tail(it));
+                }
+            )(pred, iterable);
+        }
 
         template <typename Pred, typename Iterable_>
         static constexpr auto all_impl(Pred pred, Iterable_ iterable)
@@ -178,15 +159,15 @@ namespace boost { namespace hana {
         // any_of, all_of, none_of
         template <typename Iterable_>
         static constexpr auto any_of_impl(Iterable_ iterable)
-        { return any([](auto x) { return x; }, iterable); }
+        { return any(id, iterable); }
 
         template <typename Iterable_>
         static constexpr auto all_of_impl(Iterable_ iterable)
-        { return all([](auto x) { return x; }, iterable); }
+        { return all(id, iterable); }
 
         template <typename Iterable_>
         static constexpr auto none_of_impl(Iterable_ iterable)
-        { return none([](auto x) { return x; }, iterable); }
+        { return none(id, iterable); }
     };
 }} // end namespace boost::hana
 

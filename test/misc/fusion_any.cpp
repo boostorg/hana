@@ -5,6 +5,7 @@
  *             http://www.boost.org/LICENSE_1_0.txt)
  */
 
+#include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/list.hpp>
 
@@ -31,8 +32,10 @@ namespace constexpr_predicate {
         constexpr bool operator()(T t) const { return t % 2; }
     };
 
-    static_assert(any(odd{}, list(1, 2)), "");
-    static_assert(!any(odd{}, list(2, 4)), "");
+    void test() {
+        BOOST_HANA_STATIC_ASSERT(any(odd{}, list(1, 2)));
+        BOOST_HANA_STATIC_ASSERT(!any(odd{}, list(2, 4)));
+    }
 }
 
 namespace type_only_predicate {
@@ -54,4 +57,5 @@ namespace type_only_predicate {
 
 int main() {
     purely_runtime_predicate::test();
+    constexpr_predicate::test();
 }
