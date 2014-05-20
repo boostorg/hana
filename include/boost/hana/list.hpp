@@ -45,6 +45,9 @@ namespace boost { namespace hana {
     template <typename ...Xs>
     constexpr auto list_t = list(type<Xs>...);
 
+    template <typename T, T ...xs>
+    constexpr auto list_c = list(Integral<T, xs>{}...);
+
     template <typename ...Xs>
     struct Iterable<List<Xs...>> : defaults<Iterable> {
         static constexpr auto head_impl(List<Xs...> xs)
