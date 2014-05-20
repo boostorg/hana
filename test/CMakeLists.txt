@@ -53,12 +53,16 @@ boost_hana_add_test(logical.and)
 boost_hana_add_test(logical.if)
 boost_hana_add_test(logical.or)
 
+boost_hana_add_test(range.comparable)
+boost_hana_add_test(range.functor)
+boost_hana_add_test(range.iterable)
+
 boost_hana_add_test(type.mpl_equivalent)
 boost_hana_add_test(type.traits)
+
 
 boost_hana_add_test(hana)
 boost_hana_add_test(integral)
 boost_hana_add_test(misc.adl)
 boost_hana_add_test(misc.fusion_any)
-boost_hana_add_test(range)
 boost_hana_add_test(std_array)
