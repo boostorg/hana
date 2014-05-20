@@ -15,9 +15,9 @@ using namespace boost::hana;
 
 int main() {
     static_assert(
-        fmap(trait::add_pointer, list_t<void, int, char>)
+        fmap(trait::add_pointer, list_t<void, int(), char[10]>)
         ==
-        list_t<void*, int*, char*>
+        list_t<void*, int(*)(), char(*)[10]>
     , "");
 
     static_assert(
