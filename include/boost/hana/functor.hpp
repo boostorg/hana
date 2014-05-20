@@ -12,16 +12,17 @@
 #ifndef BOOST_HANA_FUNCTOR_HPP
 #define BOOST_HANA_FUNCTOR_HPP
 
+#include <boost/hana/detail/constexpr.hpp>
+
+
 namespace boost { namespace hana {
     //! @ingroup typeclasses
     template <typename T>
     struct Functor;
 
-    constexpr struct _fmap {
-        template <typename F, typename Functor_>
-        constexpr auto operator()(F f, Functor_ functor) const
-        { return Functor<Functor_>::fmap_impl(f, functor); }
-    } fmap{};
+    BOOST_HANA_CONSTEXPR_LAMBDA auto fmap = [](auto f, auto functor) {
+        return Functor<decltype(functor)>::fmap_impl(f, functor);
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FUNCTOR_HPP

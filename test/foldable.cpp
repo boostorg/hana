@@ -7,13 +7,14 @@
 
 #include <boost/hana/foldable.hpp>
 
+#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/list.hpp>
 using namespace boost::hana;
 
 
-constexpr auto foldable = list; // minimal foldable
+BOOST_HANA_CONSTEXPR_LAMBDA auto foldable = list; // minimal foldable
 
 void test_minimum() {
     BOOST_HANA_STATIC_ASSERT(minimum(foldable(int_<0>)) == int_<0>);

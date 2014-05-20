@@ -14,6 +14,7 @@
 
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/detail/comparable_from_iterable.hpp>
+#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/foldable_from_iterable.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional.hpp>
@@ -36,17 +37,15 @@ namespace boost { namespace hana {
         std::tuple<Xs...> storage_;
     };
 
-    constexpr struct _list {
-        template <typename ...Xs>
-        constexpr List<Xs...> operator()(Xs... xs) const
-        { return {{xs...}}; }
-    } list{};
+    BOOST_HANA_CONSTEXPR_LAMBDA auto list = [](auto ...xs) {
+        return List<decltype(xs)...>{{xs...}};
+    };
 
     template <typename ...Xs>
-    constexpr auto list_t = list(type<Xs>...);
+    BOOST_HANA_CONSTEXPR_LAMBDA auto list_t = list(type<Xs>...);
 
     template <typename T, T ...xs>
-    constexpr auto list_c = list(Integral<T, xs>{}...);
+    BOOST_HANA_CONSTEXPR_LAMBDA auto list_c = list(Integral<T, xs>{}...);
 
     template <typename ...Xs>
     struct Iterable<List<Xs...>> : defaults<Iterable> {
@@ -101,49 +100,48 @@ namespace boost { namespace hana {
 #include <boost/hana/range.hpp>
 
 namespace boost { namespace hana {
-    constexpr struct _zip_with {
-        template <typename F, typename ...Lists>
-        constexpr auto operator()(F f, Lists ...lists) const {
-            return fmap(
-                [=](auto index) { return f(at(index, lists)...); },
-                range(size_t<0>, minimum(list(length(lists)...)))
-            );
-        }
-    } zip_with{};
+    namespace list_detail {
+        template <typename ...Xs>
+        static constexpr List<Xs...> from_tuple(std::tuple<Xs...> tuple)
+        { return {tuple}; }
 
-    constexpr struct _zip {
-        template <typename ...Lists>
-        constexpr auto operator()(Lists ...lists) const
-        { return zip_with(list, lists...); }
-    } zip{};
-
-    constexpr struct _cons {
-        template <typename X, typename ...Xs>
-        constexpr List<X, Xs...> operator()(X x, List<Xs...> xs) const
-        { return {std::tuple_cat(std::make_tuple(x), xs.storage_)}; }
-    } cons{};
-
-    constexpr struct _snoc {
-        template <typename ...Xs, typename X>
-        constexpr List<Xs..., X> operator()(List<Xs...> xs, X x) const
-        { return {std::tuple_cat(xs.storage_, std::make_tuple(x))}; }
-    } snoc{};
-
-    constexpr struct _take {
+        //! @todo Remove this hack.
         template <typename T, T t>
         static constexpr SizeT<t> to_size_t(Integral<T, t>)
         { return {}; }
+    }
 
-        template <typename N, typename ...Xs>
-        constexpr auto operator()(N n, List<Xs...> xs) const {
-            auto min = [](auto a, auto b) { return if_(a < b, a, b); };
-            return fmap(
-                [=](auto index) { return at(index, xs); },
-                range(size_t<0>, min(to_size_t(n), length(xs)))
-            );
-        }
-    } take{};
 
+    BOOST_HANA_CONSTEXPR_LAMBDA auto zip_with = [](auto f, auto ...lists) {
+        return fmap(
+            [=](auto index) { return f(at(index, lists)...); },
+            range(size_t<0>, minimum(list(length(lists)...)))
+        );
+    };
+
+    BOOST_HANA_CONSTEXPR_LAMBDA auto zip = [](auto ...lists) {
+        return zip_with(list, lists...);
+    };
+
+    BOOST_HANA_CONSTEXPR_LAMBDA auto cons = [](auto x, auto xs) {
+        return list_detail::from_tuple(std::tuple_cat(std::make_tuple(x), xs.storage_));
+    };
+
+    BOOST_HANA_CONSTEXPR_LAMBDA auto snoc = [](auto xs, auto x) {
+        return list_detail::from_tuple(std::tuple_cat(xs.storage_, std::make_tuple(x)));
+    };
+
+
+    BOOST_HANA_CONSTEXPR_LAMBDA auto take = [](auto n, auto xs) {
+        auto min = [](auto a, auto b) { return if_(a < b, a, b); };
+        return fmap(
+            [=](auto index) { return at(index, xs); },
+            range(size_t<0>, list_detail::to_size_t(min(n, length(xs))))
+        );
+    };
+
+    // Can't use a lambda because of recursion.
+    //! @todo Use a Y-combinator :)
     constexpr struct _take_while {
         template <typename Pred, typename ...Xs>
         constexpr auto operator()(Pred p, List<Xs...> xs) const {
@@ -157,31 +155,20 @@ namespace boost { namespace hana {
         }
     } take_while{};
 
-    constexpr struct _reverse {
-        template <typename ...Xs>
-        constexpr auto operator()(List<Xs...> xs) const
-        { return foldl(flip(cons), list(), xs); }
-    } reverse{};
+    BOOST_HANA_CONSTEXPR_LAMBDA auto reverse = [](auto xs) {
+        return foldl(flip(cons), list(), xs);
+    };
 
-    constexpr struct _filter {
-        template <typename Pred, typename ...Xs>
-        constexpr auto operator()(Pred p, List<Xs...> xs) const {
-            auto go = [=](auto x, auto xs) {
-                return if_(p(x), cons(x, xs), xs);
-            };
-            return foldr(go, list(), xs);
-        }
-    } filter{};
+    BOOST_HANA_CONSTEXPR_LAMBDA auto filter = [](auto pred, auto xs) {
+        auto go = [=](auto x, auto xs) {
+            return if_(pred(x), cons, always(xs))(x, xs);
+        };
+        return foldr(go, list(), xs);
+    };
 
-    constexpr struct _concat {
-        template <typename ...Xs>
-        static constexpr List<Xs...> list_from_tuple(std::tuple<Xs...> tup)
-        { return {tup}; }
-
-        template <typename ...Lists>
-        constexpr auto operator()(Lists ...lists) const
-        { return list_from_tuple(std::tuple_cat(lists.storage_...)); }
-    } concat{};
+    BOOST_HANA_CONSTEXPR_LAMBDA auto concat = [](auto ...lists) {
+        return list_detail::from_tuple(std::tuple_cat(lists.storage_...));
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_LIST_HPP

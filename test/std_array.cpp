@@ -14,7 +14,7 @@ using namespace boost::hana;
 
 
 template <int ...i>
-constexpr auto array = std::array<int, sizeof...(i)>{{i...}};
+ auto array = std::array<int, sizeof...(i)>{{i...}};
 
 int main() {
     BOOST_HANA_STATIC_ASSERT(is_empty(array<>));

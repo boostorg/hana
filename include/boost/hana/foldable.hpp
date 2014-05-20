@@ -13,6 +13,7 @@
 #define BOOST_HANA_FOLDABLE_HPP
 
 #include <boost/hana/core.hpp>
+#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/logical.hpp>
 
@@ -22,65 +23,47 @@ namespace boost { namespace hana {
     template <typename T>
     struct Foldable;
 
-    constexpr struct _foldl {
-        template <typename F, typename State, typename Foldable_>
-        constexpr auto operator()(F f, State s, Foldable_ foldable) const
-        { return Foldable<Foldable_>::foldl_impl(f, s, foldable); }
-    } foldl{};
+    BOOST_HANA_CONSTEXPR_LAMBDA auto foldl = [](auto f, auto state, auto foldable) {
+        return Foldable<decltype(foldable)>::foldl_impl(f, state, foldable);
+    };
 
-    constexpr struct _foldr {
-        template <typename F, typename State, typename Foldable_>
-        constexpr auto operator()(F f, State s, Foldable_ foldable) const
-        { return Foldable<Foldable_>::foldr_impl(f, s, foldable); }
-    } foldr{};
+    BOOST_HANA_CONSTEXPR_LAMBDA auto foldr = [](auto f, auto state, auto foldable) {
+        return Foldable<decltype(foldable)>::foldr_impl(f, state, foldable);
+    };
 
-    constexpr struct _foldr1 {
-        template <typename F, typename Foldable_>
-        constexpr auto operator()(F f, Foldable_ foldable) const
-        { return Foldable<Foldable_>::foldr1_impl(f, foldable); }
-    } foldr1{};
+    BOOST_HANA_CONSTEXPR_LAMBDA auto foldr1 = [](auto f, auto foldable) {
+        return Foldable<decltype(foldable)>::foldr1_impl(f, foldable);
+    };
 
-    constexpr struct _foldl1 {
-        template <typename F, typename Foldable_>
-        constexpr auto operator()(F f, Foldable_ foldable) const
-        { return Foldable<Foldable_>::foldl1_impl(f, foldable); }
-    } foldl1{};
+    BOOST_HANA_CONSTEXPR_LAMBDA auto foldl1 = [](auto f, auto foldable) {
+        return Foldable<decltype(foldable)>::foldl1_impl(f, foldable);
+    };
 
-    constexpr struct _minimum {
-        template <typename Foldable_>
-        constexpr auto operator()(Foldable_ foldable) const
-        { return Foldable<Foldable_>::minimum_impl(foldable); }
-    } minimum{};
 
-    constexpr struct _maximum {
-        template <typename Foldable_>
-        constexpr auto operator()(Foldable_ foldable) const
-        { return Foldable<Foldable_>::maximum_impl(foldable); }
-    } maximum{};
+    BOOST_HANA_CONSTEXPR_LAMBDA auto minimum_by = [](auto pred, auto foldable) {
+        return Foldable<decltype(foldable)>::minimum_by_impl(pred, foldable);
+    };
 
-    constexpr struct _maximum_by {
-        template <typename Pred, typename Foldable_>
-        constexpr auto operator()(Pred pred, Foldable_ foldable) const
-        { return Foldable<Foldable_>::maximum_by_impl(pred, foldable); }
-    } maximum_by{};
+    BOOST_HANA_CONSTEXPR_LAMBDA auto minimum = [](auto foldable) {
+        return Foldable<decltype(foldable)>::minimum_impl(foldable);
+    };
 
-    constexpr struct _minimum_by {
-        template <typename Pred, typename Foldable_>
-        constexpr auto operator()(Pred pred, Foldable_ foldable) const
-        { return Foldable<Foldable_>::minimum_by_impl(pred, foldable); }
-    } minimum_by{};
+    BOOST_HANA_CONSTEXPR_LAMBDA auto maximum_by = [](auto pred, auto foldable) {
+        return Foldable<decltype(foldable)>::maximum_by_impl(pred, foldable);
+    };
 
-    constexpr struct _sum {
-        template <typename Foldable_>
-        constexpr auto operator()(Foldable_ foldable) const
-        { return Foldable<Foldable_>::sum_impl(foldable); }
-    } sum{};
+    BOOST_HANA_CONSTEXPR_LAMBDA auto maximum = [](auto foldable) {
+        return Foldable<decltype(foldable)>::maximum_impl(foldable);
+    };
 
-    constexpr struct _product {
-        template <typename Foldable_>
-        constexpr auto operator()(Foldable_ foldable) const
-        { return Foldable<Foldable_>::product_impl(foldable); }
-    } product{};
+    BOOST_HANA_CONSTEXPR_LAMBDA auto sum = [](auto foldable) {
+        return Foldable<decltype(foldable)>::sum_impl(foldable);
+    };
+
+    BOOST_HANA_CONSTEXPR_LAMBDA auto product = [](auto foldable) {
+        return Foldable<decltype(foldable)>::product_impl(foldable);
+    };
+
 
     template <>
     struct defaults<Foldable> {

@@ -10,6 +10,7 @@
 #include <boost/hana/detail/static_assert.hpp>
 using namespace boost::hana;
 
+
 void test_Comparable() {
     BOOST_HANA_STATIC_ASSERT(equal(int_<0>, int_<0>));
     BOOST_HANA_STATIC_ASSERT(!equal(int_<1>, int_<0>));

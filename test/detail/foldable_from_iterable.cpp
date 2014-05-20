@@ -7,13 +7,14 @@
 
 #include <boost/hana/detail/foldable_from_iterable.hpp>
 
+#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/list.hpp>
 using namespace boost::hana;
 
 
-constexpr auto iterable = list; // minimal iterable
+BOOST_HANA_CONSTEXPR_LAMBDA auto iterable = list; // minimal iterable
 
 void test_foldl() {
     BOOST_HANA_STATIC_ASSERT(foldl(list, int_<0>, iterable()) == int_<0>);

@@ -7,13 +7,14 @@
 
 #include <boost/hana/list.hpp>
 
+#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/integral.hpp>
 using namespace boost::hana;
 
 
 template <int ...i>
-constexpr auto ilist = list_c<int, i...>;
+BOOST_HANA_CONSTEXPR_LAMBDA auto ilist = list_c<int, i...>;
 
 int main() {
     BOOST_HANA_STATIC_ASSERT(cons(int_<0>, list()) == ilist<0>);

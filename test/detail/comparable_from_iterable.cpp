@@ -7,13 +7,14 @@
 
 #include <boost/hana/detail/comparable_from_iterable.hpp>
 
+#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/list.hpp>
 using namespace boost::hana;
 
 
-constexpr auto iterable = list; // minimal iterable
+BOOST_HANA_CONSTEXPR_LAMBDA auto iterable = list; // minimal iterable
 
 int main() {
     BOOST_HANA_STATIC_ASSERT(equal(iterable(), iterable()));

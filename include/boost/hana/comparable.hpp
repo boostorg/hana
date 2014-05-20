@@ -13,6 +13,7 @@
 #define BOOST_HANA_COMPARABLE_HPP
 
 #include <boost/hana/core.hpp>
+#include <boost/hana/detail/constexpr.hpp>
 
 
 namespace boost { namespace hana {
@@ -20,17 +21,13 @@ namespace boost { namespace hana {
     template <typename T, typename U>
     struct Comparable;
 
-    constexpr struct _equal {
-        template <typename T, typename U>
-        constexpr auto operator()(T t, U u) const
-        { return Comparable<T, U>::equal_impl(t, u); }
-    } equal{};
+    BOOST_HANA_CONSTEXPR_LAMBDA auto equal = [](auto x, auto y) {
+        return Comparable<decltype(x), decltype(y)>::equal_impl(x, y);
+    };
 
-    constexpr struct _not_equal {
-        template <typename T, typename U>
-        constexpr auto operator()(T t, U u) const
-        { return Comparable<T, U>::not_equal_impl(t, u); }
-    } not_equal{};
+    BOOST_HANA_CONSTEXPR_LAMBDA auto not_equal = [](auto x, auto y) {
+        return Comparable<decltype(x), decltype(y)>::not_equal_impl(x, y);
+    };
 
     template <>
     struct defaults<Comparable> {

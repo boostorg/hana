@@ -13,6 +13,7 @@
 #define BOOST_HANA_ITERABLE_HPP
 
 #include <boost/hana/core.hpp>
+#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/logical.hpp>
@@ -23,83 +24,59 @@ namespace boost { namespace hana {
     template <typename T>
     struct Iterable;
 
-    constexpr struct _head {
-        template <typename Iterable_>
-        constexpr auto operator()(Iterable_ iterable) const
-        { return Iterable<Iterable_>::head_impl(iterable); }
-    } head{};
 
-    constexpr struct _tail {
-        template <typename Iterable_>
-        constexpr auto operator()(Iterable_ iterable) const
-        { return Iterable<Iterable_>::tail_impl(iterable); }
-    } tail{};
+    BOOST_HANA_CONSTEXPR_LAMBDA auto head = [](auto iterable) {
+        return Iterable<decltype(iterable)>::head_impl(iterable);
+    };
 
-    constexpr struct _is_empty {
-        template <typename Iterable_>
-        constexpr auto operator()(Iterable_ iterable) const
-        { return Iterable<Iterable_>::is_empty_impl(iterable); }
-    } is_empty{};
+    BOOST_HANA_CONSTEXPR_LAMBDA auto tail = [](auto iterable) {
+        return Iterable<decltype(iterable)>::tail_impl(iterable);
+    };
 
-    constexpr struct _at {
-        template <typename Index, typename Iterable_>
-        constexpr auto operator()(Index n, Iterable_ iterable) const
-        { return Iterable<Iterable_>::at_impl(n, iterable); }
-    } at{};
+    BOOST_HANA_CONSTEXPR_LAMBDA auto is_empty = [](auto iterable) {
+        return Iterable<decltype(iterable)>::is_empty_impl(iterable);
+    };
 
-    constexpr struct _last {
-        template <typename Iterable_>
-        constexpr auto operator()(Iterable_ iterable) const
-        { return Iterable<Iterable_>::last_impl(iterable); }
-    } last{};
 
-    constexpr struct _length {
-        template <typename Iterable_>
-        constexpr auto operator()(Iterable_ iterable) const
-        { return Iterable<Iterable_>::length_impl(iterable); }
-    } length{};
+    BOOST_HANA_CONSTEXPR_LAMBDA auto at = [](auto n, auto iterable) {
+        return Iterable<decltype(iterable)>::at_impl(n, iterable);
+    };
 
-    constexpr struct _drop {
-        template <typename N, typename Iterable_>
-        constexpr auto operator()(N n, Iterable_ iterable) const
-        { return Iterable<Iterable_>::drop_impl(n, iterable); }
-    } drop{};
+    BOOST_HANA_CONSTEXPR_LAMBDA auto last = [](auto iterable) {
+        return Iterable<decltype(iterable)>::last_impl(iterable);
+    };
 
-    constexpr struct _any {
-        template <typename Pred, typename Iterable_>
-        constexpr auto operator()(Pred pred, Iterable_ iterable) const
-        { return Iterable<Iterable_>::any_impl(pred, iterable); }
-    } any{};
+    BOOST_HANA_CONSTEXPR_LAMBDA auto length = [](auto iterable) {
+        return Iterable<decltype(iterable)>::length_impl(iterable);
+    };
 
-    constexpr struct _any_of {
-        template <typename Iterable_>
-        constexpr auto operator()(Iterable_ iterable) const
-        { return Iterable<Iterable_>::any_of_impl(iterable); }
-    } any_of{};
+    BOOST_HANA_CONSTEXPR_LAMBDA auto drop = [](auto n, auto iterable) {
+        return Iterable<decltype(iterable)>::drop_impl(n, iterable);
+    };
 
-    constexpr struct _all {
-        template <typename Pred, typename Iterable_>
-        constexpr auto operator()(Pred pred, Iterable_ iterable) const
-        { return Iterable<Iterable_>::all_impl(pred, iterable); }
-    } all{};
+    BOOST_HANA_CONSTEXPR_LAMBDA auto any = [](auto pred, auto iterable) {
+        return Iterable<decltype(iterable)>::any_impl(pred, iterable);
+    };
 
-    constexpr struct _all_of {
-        template <typename Iterable_>
-        constexpr auto operator()(Iterable_ iterable) const
-        { return Iterable<Iterable_>::all_of_impl(iterable); }
-    } all_of{};
+    BOOST_HANA_CONSTEXPR_LAMBDA auto any_of = [](auto iterable) {
+        return Iterable<decltype(iterable)>::any_of_impl(iterable);
+    };
 
-    constexpr struct _none {
-        template <typename Pred, typename Iterable_>
-        constexpr auto operator()(Pred pred, Iterable_ iterable) const
-        { return Iterable<Iterable_>::none_impl(pred, iterable); }
-    } none{};
+    BOOST_HANA_CONSTEXPR_LAMBDA auto all = [](auto pred, auto iterable) {
+        return Iterable<decltype(iterable)>::all_impl(pred, iterable);
+    };
 
-    constexpr struct _none_of {
-        template <typename Iterable_>
-        constexpr auto operator()(Iterable_ iterable) const
-        { return Iterable<Iterable_>::none_of_impl(iterable); }
-    } none_of{};
+    BOOST_HANA_CONSTEXPR_LAMBDA auto all_of = [](auto iterable) {
+        return Iterable<decltype(iterable)>::all_of_impl(iterable);
+    };
+
+    BOOST_HANA_CONSTEXPR_LAMBDA auto none = [](auto pred, auto iterable) {
+        return Iterable<decltype(iterable)>::none_impl(pred, iterable);
+    };
+
+    BOOST_HANA_CONSTEXPR_LAMBDA auto none_of = [](auto iterable) {
+        return Iterable<decltype(iterable)>::none_of_impl(iterable);
+    };
 
 
     template <>
