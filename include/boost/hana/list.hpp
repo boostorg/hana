@@ -24,21 +24,16 @@
 #include <boost/hana/logical.hpp>
 #include <boost/hana/type.hpp>
 
-#include <cstddef>
-#include <tuple>
-#include <utility>
-
 
 namespace boost { namespace hana {
     //! @ingroup datatypes
     //! @todo How to implement iterate and repeat?
-    template <typename ...Xs>
-    struct List {
-        std::tuple<Xs...> storage_;
-    };
+    template <typename Into>
+    struct List { Into into; };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto list = [](auto ...xs) {
-        return List<decltype(xs)...>{{xs...}};
+        auto into = [=](auto f) { return f(xs...); };
+        return List<decltype(into)>{into};
     };
 
     template <typename ...Xs>
@@ -47,53 +42,47 @@ namespace boost { namespace hana {
     template <typename T, T ...xs>
     BOOST_HANA_CONSTEXPR_LAMBDA auto list_c = list(Integral<T, xs>{}...);
 
-    template <typename ...Xs>
-    struct Iterable<List<Xs...>> : defaults<Iterable> {
-        static constexpr auto head_impl(List<Xs...> xs)
-        { return std::get<0>(xs.storage_); }
+    template <typename Storage>
+    struct Iterable<List<Storage>> : defaults<Iterable> {
+        static constexpr auto head_impl(List<Storage> xs) {
+            return xs.into([](auto x, ...) { return x; });
+        }
 
+        static constexpr auto tail_impl(List<Storage> xs) {
+            return xs.into([](auto, auto ...xs) { return list(xs...); });
+        }
 
-        template <std::size_t ...Index>
-        static constexpr auto
-        helper(List<Xs...> xs, std::index_sequence<Index...>)
-        { return list(std::get<Index + 1>(xs.storage_)...); }
-
-        static constexpr auto tail_impl(List<Xs...> xs)
-        { return helper(xs, std::make_index_sequence<sizeof...(Xs) - 1>{}); }
-
-
-        static constexpr Bool<sizeof...(Xs) == 0> is_empty_impl(List<Xs...>)
-        { return {}; }
+        static constexpr auto is_empty_impl(List<Storage> xs) {
+            return xs.into([](auto ...xs) {
+                return bool_<sizeof...(xs) == 0>;
+            });
+        }
     };
 
-    template <typename ...Xs>
-    struct Functor<List<Xs...>> : defaults<Functor> {
-        template <typename F, std::size_t ...Index>
-        static constexpr auto
-        helper(F f, List<Xs...> xs, std::index_sequence<Index...>)
-        { return list(f(std::get<Index>(xs.storage_))...); }
-
+    template <typename Storage>
+    struct Functor<List<Storage>> : defaults<Functor> {
         template <typename F>
-        static constexpr auto fmap_impl(F f, List<Xs...> xs)
-        { return helper(f, xs, std::index_sequence_for<Xs...>{}); }
+        static constexpr auto fmap_impl(F f, List<Storage> xs) {
+            return xs.into([=](auto ...xs) { return list(f(xs)...); });
+        }
     };
 
-    template <typename ...Xs>
-    struct Foldable<List<Xs...>>
+    template <typename Storage>
+    struct Foldable<List<Storage>>
         : detail::foldable_from_iterable
     { };
 
-    template <typename ...Xs, typename ...Ys>
-    struct Comparable<List<Xs...>, List<Ys...>>
+    template <typename Storage1, typename Storage2>
+    struct Comparable<List<Storage1>, List<Storage2>>
         : detail::comparable_from_iterable
     { };
 
-    template <typename ...Xs, typename ...Ys>
-    constexpr auto operator==(List<Xs...> xs, List<Ys...> ys)
+    template <typename Storage1, typename Storage2>
+    constexpr auto operator==(List<Storage1> xs, List<Storage2> ys)
     {  return equal(xs, ys); }
 
-    template <typename ...Xs, typename ...Ys>
-    constexpr auto operator!=(List<Xs...> xs, List<Ys...> ys)
+    template <typename Storage1, typename Storage2>
+    constexpr auto operator!=(List<Storage1> xs, List<Storage2> ys)
     {  return not_equal(xs, ys); }
 }} // end namespace boost::hana
 
@@ -101,10 +90,6 @@ namespace boost { namespace hana {
 
 namespace boost { namespace hana {
     namespace list_detail {
-        template <typename ...Xs>
-        static constexpr List<Xs...> from_tuple(std::tuple<Xs...> tuple)
-        { return {tuple}; }
-
         //! @todo Remove this hack.
         template <typename T, T t>
         static constexpr SizeT<t> to_size_t(Integral<T, t>)
@@ -124,11 +109,11 @@ namespace boost { namespace hana {
     };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto cons = [](auto x, auto xs) {
-        return list_detail::from_tuple(std::tuple_cat(std::make_tuple(x), xs.storage_));
+        return xs.into([=](auto ...xs) { return list(x, xs...); });
     };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto snoc = [](auto xs, auto x) {
-        return list_detail::from_tuple(std::tuple_cat(xs.storage_, std::make_tuple(x)));
+        return xs.into([=](auto ...xs) { return list(xs..., x); });
     };
 
 
@@ -166,7 +151,14 @@ namespace boost { namespace hana {
     };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto concat = [](auto ...lists) {
-        return list_detail::from_tuple(std::tuple_cat(lists.storage_...));
+        auto concat2 = [](auto xs, auto ys) {
+            return xs.into([=](auto ...xs) {
+                return ys.into([=](auto ...ys) {
+                    return list(xs..., ys...);
+                });
+            });
+        };
+        return foldl(concat2, list(), list(lists...));
     };
 }} // end namespace boost::hana
 
