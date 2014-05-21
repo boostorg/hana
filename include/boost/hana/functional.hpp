@@ -47,6 +47,17 @@ namespace boost { namespace hana {
     BOOST_HANA_CONSTEXPR_LAMBDA auto partial = [](auto f, auto ...xs) {
         return [=](auto ...ys) { return f(xs..., ys...); };
     };
+
+    constexpr struct {
+        template <typename F>
+        constexpr auto operator()(F f) const {
+            auto fst = [](auto a, ...) { return a; };
+            //! @todo Find a simpler way to make `f` dependent.
+            return [=](auto ...xs) {
+                return f((*this)(fst(f, xs...)), xs...);
+            };
+        }
+    } fix{};
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FUNCTIONAL_HPP
