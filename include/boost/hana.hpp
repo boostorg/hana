@@ -41,6 +41,7 @@
 #include <boost/hana/logical.hpp>
 #include <boost/hana/range.hpp>
 #include <boost/hana/std_array.hpp>
+#include <boost/hana/std_integer_sequence.hpp>
 #include <boost/hana/std_tuple.hpp>
 #include <boost/hana/type.hpp>
 

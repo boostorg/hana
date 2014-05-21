@@ -58,6 +58,8 @@ boost_hana_add_test(range.comparable)
 boost_hana_add_test(range.functor)
 boost_hana_add_test(range.iterable)
 
+boost_hana_add_test(std_integer_sequence.iterable)
+
 boost_hana_add_test(std_tuple.functor)
 boost_hana_add_test(std_tuple.iterable)
 
