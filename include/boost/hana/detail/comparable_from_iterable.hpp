@@ -14,25 +14,24 @@
 
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core.hpp>
-#include <boost/hana/integral.hpp>
 #include <boost/hana/iterable.hpp>
+#include <boost/hana/logical.hpp>
 
 
 namespace boost { namespace hana { namespace detail {
     //! @ingroup details
     struct comparable_from_iterable : defaults<Comparable> {
-        template <typename Xs, typename Ys, bool xs_empty, bool ys_empty>
-        static constexpr Bool<xs_empty && ys_empty>
-        equal_helper(Xs xs, Ys ys, Bool<xs_empty>, Bool<ys_empty>)
-        { return {}; }
-
         template <typename Xs, typename Ys>
-        static constexpr auto equal_helper(Xs xs, Ys ys, Bool<false>, Bool<false>)
-        { return head(xs) == head(ys) && tail(xs) == tail(ys); }
-
-        template <typename Xs, typename Ys>
-        static constexpr auto equal_impl(Xs xs, Ys ys)
-        { return equal_helper(xs, ys, is_empty(xs), is_empty(ys)); }
+        static constexpr auto equal_impl(Xs xs, Ys ys) {
+            return if_(is_empty(xs) || is_empty(ys),
+                [](auto xs, auto ys) {
+                    return is_empty(xs) && is_empty(ys);
+                },
+                [](auto xs, auto ys) {
+                    return head(xs) == head(ys) && tail(xs) == tail(ys);
+                }
+            )(xs, ys);
+        }
     };
 }}} // end namespace boost::hana::detail
 

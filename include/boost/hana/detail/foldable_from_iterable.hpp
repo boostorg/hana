@@ -14,57 +14,41 @@
 
 #include <boost/hana/core.hpp>
 #include <boost/hana/foldable.hpp>
+#include <boost/hana/functional.hpp>
 #include <boost/hana/iterable.hpp>
+#include <boost/hana/logical.hpp>
 
 
 namespace boost { namespace hana { namespace detail {
     //! @ingroup details
     struct foldable_from_iterable : defaults<Foldable> {
         template <typename F, typename State, typename Iterable>
-        static constexpr auto foldl_helper(F f, State s, Iterable xs, Bool<false>)
-        { return foldl(f, f(s, head(xs)), tail(xs)); }
-
-        template <typename F, typename State, typename Iterable>
-        static constexpr auto foldl_helper(F f, State s, Iterable xs, Bool<true>)
-        { return s; }
-
-        template <typename F, typename State, typename Iterable>
-        static constexpr auto foldl_impl(F f, State s, Iterable xs)
-        { return foldl_helper(f, s, xs, is_empty(xs)); }
-
-
+        static constexpr auto foldl_impl(F f, State s, Iterable xs) {
+            return if_(is_empty(xs),
+                always(s),
+                [=](auto xs) { return foldl(f, f(s, head(xs)), tail(xs)); }
+            )(xs);
+        }
 
         template <typename F, typename Iterable>
         static constexpr auto foldl1_impl(F f, Iterable xs)
         { return foldl(f, head(xs), tail(xs)); }
 
-
-
         template <typename F, typename Iterable>
-        static constexpr auto foldr1_helper(F f, Iterable xs, Bool<false>)
-        { return f(head(xs), foldr1(f, tail(xs))); }
-
-        template <typename F, typename Iterable>
-        static constexpr auto foldr1_helper(F f, Iterable xs, Bool<true>)
-        { return head(xs); }
-
-        template <typename F, typename Iterable>
-        static constexpr auto foldr1_impl(F f, Iterable xs)
-        { return foldr1_helper(f, xs, is_empty(tail(xs))); }
-
-
+        static constexpr auto foldr1_impl(F f, Iterable xs) {
+            return if_(is_empty(tail(xs)),
+                head,
+                [=](auto xs) { return f(head(xs), foldr1(f, tail(xs))); }
+            )(xs);
+        }
 
         template <typename F, typename State, typename Iterable>
-        static constexpr auto foldr_helper(F f, State s, Iterable xs, Bool<false>)
-        { return f(head(xs), foldr(f, s, tail(xs))); }
-
-        template <typename F, typename State, typename Iterable>
-        static constexpr auto foldr_helper(F f, State s, Iterable xs, Bool<true>)
-        { return s; }
-
-        template <typename F, typename State, typename Iterable>
-        static constexpr auto foldr_impl(F f, State s, Iterable xs)
-        { return foldr_helper(f, s, xs, is_empty(xs)); }
+        static constexpr auto foldr_impl(F f, State s, Iterable xs) {
+            return if_(is_empty(xs),
+                always(s),
+                [=](auto xs) { return f(head(xs), foldr(f, s, tail(xs))); }
+            )(xs);
+        }
     };
 }}} // end namespace boost::hana::detail
 
