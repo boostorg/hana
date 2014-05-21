@@ -14,8 +14,6 @@
 
 #include <boost/hana/comparable.hpp>
 
-#include <cstddef>
-
 
 namespace boost { namespace hana {
     //! @ingroup datatypes
@@ -83,8 +81,11 @@ namespace boost { namespace hana {
     constexpr auto true_ = bool_<true>;
     constexpr auto false_ = bool_<false>;
 
-    template <std::size_t i> using SizeT = Integral<std::size_t, i>;
-    template <std::size_t i> constexpr SizeT<i> size_t{};
+    namespace detail { using std_size_t = decltype(sizeof(int)); }
+    template <detail::std_size_t n>
+    using SizeT = Integral<detail::std_size_t, n>;
+    template <detail::std_size_t n>
+    constexpr SizeT<n> size_t{};
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_INTEGRAL_HPP
