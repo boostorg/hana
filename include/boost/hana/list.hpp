@@ -140,20 +140,19 @@ namespace boost { namespace hana {
         );
     };
 
-    // Can't use a lambda because of recursion.
-    //! @todo Use a Y-combinator :)
-    constexpr struct _take_while {
-        template <typename Pred, typename ...Xs>
-        constexpr auto operator()(Pred p, List<Xs...> xs) const {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto take_while = fix(
+        [](auto take_while, auto pred, auto xs) {
             auto go = [=](auto xs) {
-                return if_(p(head(xs)),
-                    [=](auto xs) { return cons(head(xs), (*this)(p, tail(xs))); },
-                    [](auto) { return list(); }
+                return if_(pred(head(xs)),
+                    [=](auto xs) {
+                        return cons(head(xs), take_while(pred, tail(xs)));
+                    },
+                    always(list())
                 )(xs);
             };
-            return if_(is_empty(xs), [](auto xs) { return xs; }, go)(xs);
+            return if_(is_empty(xs), id, go)(xs);
         }
-    } take_while{};
+    );
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto reverse = [](auto xs) {
         return foldl(flip(cons), list(), xs);
