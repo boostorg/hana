@@ -28,7 +28,8 @@ namespace boost { namespace hana { namespace detail {
                     return is_empty(xs) && is_empty(ys);
                 },
                 [](auto xs, auto ys) {
-                    return head(xs) == head(ys) && tail(xs) == tail(ys);
+                    return equal(head(xs), head(ys)) &&
+                           equal(tail(xs), tail(ys));
                 }
             )(xs, ys);
         }

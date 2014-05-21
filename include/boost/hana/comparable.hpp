@@ -19,7 +19,13 @@
 namespace boost { namespace hana {
     //! @ingroup typeclasses
     template <typename T, typename U>
-    struct Comparable;
+    struct Comparable {
+        static constexpr auto equal_impl(T t, U u)
+        { return t == u; }
+
+        static constexpr auto not_equal_impl(T t, U u)
+        { return t != u; }
+    };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto equal = [](auto x, auto y) {
         return Comparable<decltype(x), decltype(y)>::equal_impl(x, y);
