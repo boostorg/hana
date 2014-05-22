@@ -16,15 +16,16 @@
 
 
 namespace boost { namespace hana {
-    template <template <typename ...> class f>
-    struct _lift {
-        template <typename ...Args>
-        f<Args...> operator()(Args ...) const;
-    };
+    namespace functional_detail {
+        template <template <typename ...> class f>
+        struct Lift {
+            template <typename ...Args>
+            f<Args...> operator()(Args ...) const;
+        };
+    }
 
     template <template <typename ...> class f>
-    constexpr auto lift = _lift<f>{};
-
+    constexpr auto lift = functional_detail::Lift<f>{};
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto apply = [](auto f, auto ...xs) {
         return f(xs...);
