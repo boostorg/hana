@@ -16,6 +16,7 @@ endfunction()
 
 boost_hana_add_test(detail.comparable_from_iterable)
 boost_hana_add_test(detail.foldable_from_iterable)
+boost_hana_add_test(detail.left_folds)
 
 boost_hana_add_test(foldable.maximum)
 boost_hana_add_test(foldable.minimum)

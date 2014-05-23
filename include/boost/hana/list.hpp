@@ -16,6 +16,7 @@
 #include <boost/hana/detail/comparable_from_iterable.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/foldable_from_iterable.hpp>
+#include <boost/hana/detail/left_folds/variadic.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/functor.hpp>
@@ -68,9 +69,14 @@ namespace boost { namespace hana {
     };
 
     template <typename Storage>
-    struct Foldable<List<Storage>>
-        : detail::foldable_from_iterable
-    { };
+    struct Foldable<List<Storage>> : detail::foldable_from_iterable {
+        template <typename F, typename State>
+        static constexpr auto foldl_impl(F f, State s, List<Storage> xs) {
+            return xs.into([=](auto ...xs) {
+                return detail::left_folds::variadic(f, s, xs...);
+            });
+        }
+    };
 
     template <typename Storage1, typename Storage2>
     struct Comparable<List<Storage1>, List<Storage2>>
