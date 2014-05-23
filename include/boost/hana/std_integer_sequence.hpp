@@ -20,6 +20,7 @@
 #include <boost/hana/integral.hpp>
 #include <boost/hana/iterable.hpp>
 
+#include <type_traits>
 #include <utility>
 
 

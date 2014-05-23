@@ -26,7 +26,7 @@ namespace boost { namespace hana { namespace detail {
         static constexpr auto foldl_impl(F f, State s, Iterable xs) {
             return if_(is_empty(xs),
                 always(s),
-                [=](auto xs) { return foldl(f, f(s, head(xs)), tail(xs)); }
+                [=](auto xs) { return foldl_impl(f, f(s, head(xs)), tail(xs)); }
             )(xs);
         }
 
@@ -38,7 +38,7 @@ namespace boost { namespace hana { namespace detail {
         static constexpr auto foldr1_impl(F f, Iterable xs) {
             return if_(is_empty(tail(xs)),
                 head,
-                [=](auto xs) { return f(head(xs), foldr1(f, tail(xs))); }
+                [=](auto xs) { return f(head(xs), foldr1_impl(f, tail(xs))); }
             )(xs);
         }
 
@@ -46,7 +46,7 @@ namespace boost { namespace hana { namespace detail {
         static constexpr auto foldr_impl(F f, State s, Iterable xs) {
             return if_(is_empty(xs),
                 always(s),
-                [=](auto xs) { return f(head(xs), foldr(f, s, tail(xs))); }
+                [=](auto xs) { return f(head(xs), foldr_impl(f, s, tail(xs))); }
             )(xs);
         }
     };

@@ -85,7 +85,7 @@ namespace boost { namespace hana {
         static constexpr auto at_impl(Index n, Iterable_ iterable) {
             return if_(n == size_t<0>,
                 [](auto n, auto it) { return head(it); },
-                [](auto n, auto it) { return at(n - size_t<1>, tail(it)); }
+                [](auto n, auto it) { return at_impl(n - size_t<1>, tail(it)); }
             )(n, iterable);
         }
 
@@ -93,7 +93,7 @@ namespace boost { namespace hana {
         static constexpr auto last_impl(Iterable_ iterable) {
             return if_(is_empty(tail(iterable)),
                 head,
-                compose(last, tail)
+                [](auto it) { return last_impl(tail(it)); }
             )(iterable);
         }
 
@@ -101,7 +101,7 @@ namespace boost { namespace hana {
         static constexpr auto length_impl(Iterable_ iterable) {
             return if_(is_empty(iterable),
                 always(size_t<0>),
-                [](auto it) { return size_t<1> + length(tail(it)); }
+                [](auto it) { return size_t<1> + length_impl(tail(it)); }
             )(iterable);
         }
 
@@ -109,7 +109,7 @@ namespace boost { namespace hana {
         static constexpr auto drop_impl(N n, Iterable_ iterable) {
             return if_(n == size_t<0> || is_empty(iterable),
                 always(iterable),
-                [](auto n, auto it) { return drop(n - size_t<1>, tail(it)); }
+                [](auto n, auto it) { return drop_impl(n - size_t<1>, tail(it)); }
             )(n, iterable);
         }
 
@@ -119,7 +119,7 @@ namespace boost { namespace hana {
             return if_(is_empty(iterable),
                 always(false_),
                 [](auto pred, auto it) {
-                    return pred(head(it)) || any(pred, tail(it));
+                    return pred(head(it)) || any_impl(pred, tail(it));
                 }
             )(pred, iterable);
         }

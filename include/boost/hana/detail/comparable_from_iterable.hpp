@@ -29,7 +29,7 @@ namespace boost { namespace hana { namespace detail {
                 },
                 [](auto xs, auto ys) {
                     return equal(head(xs), head(ys)) &&
-                           equal(tail(xs), tail(ys));
+                           equal_impl(tail(xs), tail(ys));
                 }
             )(xs, ys);
         }
