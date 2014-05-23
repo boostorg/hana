@@ -1,0 +1,76 @@
+require 'benchcc'
+require 'csv'
+require 'gnuplot'
+
+
+task :default => [:all]
+task :all
+
+INCLUDES = %w{../../include}.map { |path|
+  "-I " + File.expand_path(path, __FILE__)
+}
+
+
+Benchcc::Compiler.list.product(Dir['*']) do |compiler, dir|
+  benchmark = File.basename(dir)
+  bm = Benchcc::Benchmark.new(benchmark)
+  bm.implementations.each do |implementation|
+    task :all => benchmark
+    task compiler.id => "#{compiler.id}.#{benchmark}"
+    task benchmark => "#{compiler.id}.#{benchmark}"
+    task "#{compiler.id}.#{benchmark}" => "#{compiler.id}.#{benchmark}.#{implementation}"
+    task "#{compiler.id}.#{benchmark}.#{implementation}" => "_datasets/#{compiler.id}/#{benchmark}/#{implementation}"
+
+    file "_datasets/#{compiler.id}/#{benchmark}/#{implementation}" => [
+        bm.dependencies_of(implementation),
+        directory("_datasets/#{compiler.id}/#{benchmark}").name
+    ].flatten do |ofile|
+      data = bm.run(implementation) { |code|
+        compiler.compile_code(code, *INCLUDES, "-fsyntax-only")
+      }
+
+      CSV.open(ofile.name, 'wb') do |csv|
+        csv << data.first.keys unless data.empty?
+        data.each { |line| csv << line.values }
+      end
+    end
+  end
+end
+
+
+task :memusg do |t, args|
+  Gnuplot.open do |io|
+    Gnuplot::Plot.new(io) do |plot|
+      plot.ylabel   'Memory usage'
+      plot.decimal  "locale 'en_US.UTF-8'"
+      plot.format   'y "%.2e kb"'
+      plot.term     'png'
+      plot.output   'memusg.png'
+      plot.data = args.extras.map { |arg|
+        csv = CSV.table("_datasets/#{arg}")
+        Gnuplot::DataSet.new([csv[:depth], csv[:peak_memusg]]) { |ds|
+          ds.title = arg
+          ds.with = 'lines'
+        }
+      }
+    end
+  end
+end
+
+task :time do |t, args|
+  Gnuplot.open do |io|
+    Gnuplot::Plot.new(io) do |plot|
+      plot.ylabel   'Compilation time'
+      plot.format   'y "%.2g s"'
+      plot.term     'png'
+      plot.output   'time.png'
+      plot.data = args.extras.map { |arg|
+        csv = CSV.table("_datasets/#{arg}")
+        Gnuplot::DataSet.new([csv[:depth], csv[:wall_time]]) { |ds|
+          ds.title = arg
+          ds.with = 'lines'
+        }
+      }
+    end
+  end
+end

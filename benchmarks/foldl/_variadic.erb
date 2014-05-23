@@ -1,0 +1,23 @@
+<%= (0..unroll).map { |n|
+    tparams = ['typename F', 'typename State', *(0...n).map { |i| "typename X#{i}" }]
+    tparams << 'typename ...Xs' if n == unroll
+
+    params = ['F f', 'State s', *(0...n).map { |i| "X#{i} x#{i}" }]
+    params << 'Xs ...xs' if n == unroll
+
+    args = (0...n).map { |i| "x#{i}" }
+    foldl = args.foldl('s') { |s, x| "f(#{s}, #{x})" }
+    foldl = "variadic_unrolled(f, #{foldl}, xs...)" if n == unroll
+
+    <<-EOS
+    template <#{tparams.join(', ')}>
+    auto variadic_unrolled(#{params.join(', ')})
+    { return #{foldl}; }
+    EOS
+}.join("\n") %>
+
+
+<%= render('_main.erb') do |f, s, xs|
+    args = [f, s, xs].flatten
+    "variadic_unrolled(#{args.join(', ')})"
+end %>
