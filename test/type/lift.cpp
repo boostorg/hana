@@ -5,15 +5,14 @@
  *             http://www.boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/functional.hpp>
+#include <boost/hana/type.hpp>
+
+#include <boost/hana/detail/static_assert.hpp>
 
 #include <type_traits>
 using namespace boost::hana;
 
 
 int main() {
-    static_assert(std::is_same<
-        decltype(lift<std::add_pointer>(int{}))::type,
-        int*
-    >::value, "");
+    BOOST_HANA_STATIC_ASSERT(lift<std::add_pointer_t>(type<void>) == type<void*>);
 }

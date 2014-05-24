@@ -20,15 +20,6 @@
 
 
 namespace boost { namespace hana { namespace trait {
-#define BOOST_HANA_WRAP_TYPE_TRAIT(trait)                                   \
-    constexpr struct _ ## trait {                                           \
-        template <typename T>                                               \
-        constexpr Type<typename std::trait<T>::type>                        \
-        operator()(Type<T>) const                                           \
-        { return {}; }                                                      \
-    } trait{};                                                              \
-/**/
-
 #define BOOST_HANA_BOOLEAN_TYPE_TRAIT(trait)                                \
     constexpr struct _ ## trait {                                           \
         template <typename T>                                               \
@@ -157,30 +148,30 @@ namespace boost { namespace hana { namespace trait {
     // Type modifications
     ///////////////////
     // Const-volatility specifiers
-    BOOST_HANA_WRAP_TYPE_TRAIT(remove_cv)
-    BOOST_HANA_WRAP_TYPE_TRAIT(remove_const)
-    BOOST_HANA_WRAP_TYPE_TRAIT(remove_volatile)
+    constexpr auto remove_cv = lift<std::remove_cv_t>;
+    constexpr auto remove_const = lift<std::remove_const_t>;
+    constexpr auto remove_volatile = lift<std::remove_volatile_t>;
 
-    BOOST_HANA_WRAP_TYPE_TRAIT(add_cv)
-    BOOST_HANA_WRAP_TYPE_TRAIT(add_const)
-    BOOST_HANA_WRAP_TYPE_TRAIT(add_volatile)
+    constexpr auto add_cv = lift<std::add_cv_t>;
+    constexpr auto add_const = lift<std::add_const_t>;
+    constexpr auto add_volatile = lift<std::add_volatile_t>;
 
     // References
-    BOOST_HANA_WRAP_TYPE_TRAIT(remove_reference)
-    BOOST_HANA_WRAP_TYPE_TRAIT(add_lvalue_reference)
-    BOOST_HANA_WRAP_TYPE_TRAIT(add_rvalue_reference)
+    constexpr auto remove_reference = lift<std::remove_reference_t>;
+    constexpr auto add_lvalue_reference = lift<std::add_lvalue_reference_t>;
+    constexpr auto add_rvalue_reference = lift<std::add_rvalue_reference_t>;
 
     // Pointers
-    BOOST_HANA_WRAP_TYPE_TRAIT(remove_pointer)
-    BOOST_HANA_WRAP_TYPE_TRAIT(add_pointer)
+    constexpr auto remove_pointer = lift<std::remove_pointer_t>;
+    constexpr auto add_pointer = lift<std::add_pointer_t>;
 
     // Sign modifiers
-    BOOST_HANA_WRAP_TYPE_TRAIT(make_signed)
-    BOOST_HANA_WRAP_TYPE_TRAIT(make_unsigned)
+    constexpr auto make_signed = lift<std::make_signed_t>;
+    constexpr auto make_unsigned = lift<std::make_unsigned_t>;
 
     // Arrays
-    BOOST_HANA_WRAP_TYPE_TRAIT(remove_extent)
-    BOOST_HANA_WRAP_TYPE_TRAIT(remove_all_extents)
+    constexpr auto remove_extent = lift<std::remove_extent_t>;
+    constexpr auto remove_all_extents = lift<std::remove_all_extents_t>;
 
     // Miscellaneous transformations
     constexpr struct _aligned_storage {
@@ -199,21 +190,15 @@ namespace boost { namespace hana { namespace trait {
         operator()(SizeT<Len>, Type<T>...) const { return {}; }
     } aligned_union{};
 
-    BOOST_HANA_WRAP_TYPE_TRAIT(decay)
+    constexpr auto decay = lift<std::decay_t>;
     // enable_if
     // disable_if
     // conditional
 
-    constexpr struct _common_type {
-        template <typename ...T>
-        constexpr Type<typename std::common_type<T...>::type>
-        operator()(Type<T>...) const { return {}; }
-    } common_type{};
+    constexpr auto common_type = lift<std::common_type_t>;
+    constexpr auto underlying_type = lift<std::underlying_type_t>;
+    constexpr auto result_of = lift<std::result_of_t>;
 
-    BOOST_HANA_WRAP_TYPE_TRAIT(underlying_type)
-    BOOST_HANA_WRAP_TYPE_TRAIT(result_of)
-
-#undef BOOST_HANA_WRAP_TYPE_TRAIT
 #undef BOOST_HANA_BOOLEAN_TYPE_TRAIT
 #undef BOOST_HANA_BOOLEAN_BINARY_TYPE_TRAIT
 #undef BOOST_HANA_BOOLEAN_NARY_TYPE_TRAIT

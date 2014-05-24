@@ -38,9 +38,25 @@ namespace boost { namespace hana {
     };
 
     template <typename T, typename U>
-    constexpr auto operator==(Type<T> t, Type<U> u) { return equal(t, u); }
+    constexpr auto operator==(Type<T> t, Type<U> u)
+    { return equal(t, u); }
+
     template <typename T, typename U>
-    constexpr auto operator!=(Type<T> t, Type<U> u) { return not_equal(t, u); }
+    constexpr auto operator!=(Type<T> t, Type<U> u)
+    { return not_equal(t, u); }
+
+
+    namespace type_detail {
+        template <template <typename ...> class f>
+        struct Lift {
+            template <typename ...Args>
+            constexpr auto operator()(Type<Args>...) const
+            { return type<f<Args...>>; }
+        };
+    }
+
+    template <template <typename ...> class f>
+    constexpr auto lift = type_detail::Lift<f>{};
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_TYPE_HPP

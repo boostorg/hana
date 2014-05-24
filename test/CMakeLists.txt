@@ -35,7 +35,6 @@ boost_hana_add_test(functional.compose)
 boost_hana_add_test(functional.fix)
 boost_hana_add_test(functional.flip)
 boost_hana_add_test(functional.id)
-boost_hana_add_test(functional.lift)
 boost_hana_add_test(functional.partial)
 
 boost_hana_add_test(integral.comparable)
@@ -69,6 +68,7 @@ boost_hana_add_test(range.functor)
 boost_hana_add_test(range.iterable)
 
 boost_hana_add_test(type.comparable)
+boost_hana_add_test(type.lift)
 boost_hana_add_test(type.traits)
 
 
