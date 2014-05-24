@@ -5,17 +5,14 @@
  *             http://www.boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/type.hpp>
+#include <boost/hana/trait.hpp>
 
 #include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/type.hpp>
 using namespace boost::hana;
 
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(type<void> == type<void>);
-    BOOST_HANA_STATIC_ASSERT(type<void> != type<int>);
-
-
     enum _e { };          constexpr auto e = type<_e>;
     struct _s { };        constexpr auto s = type<_s>;
     using _f = void(*)();

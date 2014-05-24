@@ -64,6 +64,7 @@ boost_hana_add_test(std_integer_sequence.iterable)
 boost_hana_add_test(std_tuple.functor)
 boost_hana_add_test(std_tuple.iterable)
 
+boost_hana_add_test(type.comparable)
 boost_hana_add_test(type.mpl_equivalent)
 boost_hana_add_test(type.traits)
 

@@ -5,6 +5,7 @@
  *             http://www.boost.org/LICENSE_1_0.txt)
  */
 
+#include <boost/hana/trait.hpp>
 #include <boost/hana/type.hpp>
 
 #include <boost/hana/detail/static_assert.hpp>
@@ -22,14 +23,14 @@ int main() {
     );
 
     BOOST_HANA_STATIC_ASSERT(
-        head(fmap(trait::add_pointer, list_t<void, int, char>))
+        head(fmap(trait::add_pointer, list_t<void, int(), char[10]>))
         ==
         type<void*>
     );
 
     static_assert(std::is_same<
         decltype(
-            head(fmap(trait::add_pointer, list_t<void, int, char>))
+            head(fmap(trait::add_pointer, list_t<void, int(), char[10]>))
         )::type,
         void*
     >::value, "");
