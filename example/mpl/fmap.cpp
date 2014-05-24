@@ -5,11 +5,10 @@
  *             http://www.boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/trait.hpp>
-#include <boost/hana/type.hpp>
-
 #include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/list.hpp>
+#include <boost/hana/trait.hpp>
+#include <boost/hana/type.hpp>
 
 #include <type_traits>
 using namespace boost::hana;

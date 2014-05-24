@@ -32,6 +32,9 @@ boost_hana_add_test(functional.id)
 boost_hana_add_test(functional.lift)
 boost_hana_add_test(functional.partial)
 
+boost_hana_add_test(integral.comparable)
+boost_hana_add_test(integral.operators)
+
 boost_hana_add_test(iterable.all_of)
 boost_hana_add_test(iterable.at)
 boost_hana_add_test(iterable.drop)
@@ -59,18 +62,16 @@ boost_hana_add_test(range.comparable)
 boost_hana_add_test(range.functor)
 boost_hana_add_test(range.iterable)
 
+boost_hana_add_test(std_array.iterable)
+
 boost_hana_add_test(std_integer_sequence.iterable)
 
 boost_hana_add_test(std_tuple.functor)
 boost_hana_add_test(std_tuple.iterable)
 
 boost_hana_add_test(type.comparable)
-boost_hana_add_test(type.mpl_equivalent)
 boost_hana_add_test(type.traits)
 
 
 boost_hana_add_test(hana)
-boost_hana_add_test(integral)
 boost_hana_add_test(misc.adl)
-boost_hana_add_test(misc.fusion_any)
-boost_hana_add_test(std_array)

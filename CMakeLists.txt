@@ -95,8 +95,9 @@ find_package(Doxygen)
 
 
 #=============================================================================
-# Setup the headers, documentation and tests
+# Setup the headers, documentation, examples and tests
 #=============================================================================
 include_directories(include)
 add_subdirectory(doc)
+add_subdirectory(example)
 add_subdirectory(test)
