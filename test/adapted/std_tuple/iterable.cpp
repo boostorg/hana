@@ -5,7 +5,7 @@
  *             http://www.boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/std_tuple.hpp>
+#include <boost/hana/adapted/std_tuple.hpp>
 
 #include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/integral.hpp>

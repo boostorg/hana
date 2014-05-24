@@ -14,6 +14,11 @@ function(boost_hana_add_test name)
 endfunction()
 
 
+boost_hana_add_test(adapted.std_array.iterable)
+boost_hana_add_test(adapted.std_integer_sequence.iterable)
+boost_hana_add_test(adapted.std_tuple.functor)
+boost_hana_add_test(adapted.std_tuple.iterable)
+
 boost_hana_add_test(detail.comparable_from_iterable)
 boost_hana_add_test(detail.foldable_from_iterable)
 boost_hana_add_test(detail.left_folds)
@@ -61,13 +66,6 @@ boost_hana_add_test(logical.or)
 boost_hana_add_test(range.comparable)
 boost_hana_add_test(range.functor)
 boost_hana_add_test(range.iterable)
-
-boost_hana_add_test(std_array.iterable)
-
-boost_hana_add_test(std_integer_sequence.iterable)
-
-boost_hana_add_test(std_tuple.functor)
-boost_hana_add_test(std_tuple.iterable)
 
 boost_hana_add_test(type.comparable)
 boost_hana_add_test(type.traits)

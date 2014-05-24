@@ -6,7 +6,7 @@
 # Suppress the output of the forwarding of commands.
 ${VERBOSE}.SILENT:
 
-all: tests
+all: tests examples
 	make -C build $@
 
 %:

@@ -30,6 +30,9 @@
  * Data types provided by the library.
  */
 
+#include <boost/hana/adapted/std_array.hpp>
+#include <boost/hana/adapted/std_integer_sequence.hpp>
+#include <boost/hana/adapted/std_tuple.hpp>
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core.hpp>
 #include <boost/hana/foldable.hpp>
@@ -40,9 +43,6 @@
 #include <boost/hana/list.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/range.hpp>
-#include <boost/hana/std_array.hpp>
-#include <boost/hana/std_integer_sequence.hpp>
-#include <boost/hana/std_tuple.hpp>
 #include <boost/hana/trait.hpp>
 #include <boost/hana/type.hpp>
 
