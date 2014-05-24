@@ -15,14 +15,12 @@
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/detail/comparable_from_iterable.hpp>
 #include <boost/hana/detail/foldable_from_iterable.hpp>
+#include <boost/hana/detail/integer_sequence.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functor.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/logical.hpp>
-
-#include <type_traits>
-#include <utility>
 
 
 namespace boost { namespace hana {
@@ -31,13 +29,10 @@ namespace boost { namespace hana {
     struct Range { };
 
     constexpr struct _range {
-        template <typename T, T x, T ...v>
-        static constexpr Range<T, (v + x)...>
-        slide(std::integer_sequence<T, v...>) { return {}; }
-
         template <typename T, T from, T to>
         constexpr auto operator()(Integral<T, from>, Integral<T, to>) const {
-            return slide<T, from>(std::make_integer_sequence<T, to - from>{});
+            return typename detail::make_integer_sequence<T, to - from>::
+                   template slide_by<from, Range>{};
         }
     } range{};
 
