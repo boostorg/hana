@@ -71,6 +71,10 @@ boost_hana_add_test(type.comparable)
 boost_hana_add_test(type.lift)
 boost_hana_add_test(type.traits)
 
+boost_hana_add_test(typelist.comparable)
+boost_hana_add_test(typelist.functor)
+boost_hana_add_test(typelist.iterable)
+
 
 boost_hana_add_test(hana)
 boost_hana_add_test(misc.adl)

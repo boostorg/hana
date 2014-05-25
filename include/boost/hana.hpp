@@ -45,5 +45,6 @@
 #include <boost/hana/range.hpp>
 #include <boost/hana/trait.hpp>
 #include <boost/hana/type.hpp>
+#include <boost/hana/typelist.hpp>
 
 #endif // !BOOST_HANA_HPP
