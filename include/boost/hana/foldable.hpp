@@ -64,6 +64,10 @@ namespace boost { namespace hana {
         return Foldable<decltype(foldable)>::product_impl(foldable);
     };
 
+    BOOST_HANA_CONSTEXPR_LAMBDA auto count = [](auto pred, auto foldable) {
+        return Foldable<decltype(foldable)>::count_impl(pred, foldable);
+    };
+
 
     template <>
     struct defaults<Foldable> {
@@ -98,6 +102,14 @@ namespace boost { namespace hana {
         template <typename Foldable_>
         static constexpr auto product_impl(Foldable_ foldable)
         { return foldl([](auto x, auto y) { return x * y; }, int_<1>, foldable); }
+
+        template <typename Pred, typename Foldable_>
+        static constexpr auto count_impl(Pred pred, Foldable_ foldable) {
+            auto inc = [=](auto counter, auto x) {
+                return if_(pred(x), counter + size_t<1>, counter);
+            };
+            return foldl(inc, size_t<0>, foldable);
+        }
     };
 }} // end namespace boost::hana
 
