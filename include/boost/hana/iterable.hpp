@@ -17,6 +17,7 @@
 #include <boost/hana/functional.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/logical.hpp>
+#include <boost/hana/maybe.hpp>
 
 
 namespace boost { namespace hana {
