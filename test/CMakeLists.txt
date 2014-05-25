@@ -43,6 +43,7 @@ boost_hana_add_test(integral.operators)
 boost_hana_add_test(iterable.all_of)
 boost_hana_add_test(iterable.at)
 boost_hana_add_test(iterable.drop)
+boost_hana_add_test(iterable.drop_while)
 boost_hana_add_test(iterable.last)
 boost_hana_add_test(iterable.length)
 

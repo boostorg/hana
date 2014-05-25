@@ -54,6 +54,10 @@ namespace boost { namespace hana {
         return Iterable<decltype(iterable)>::drop_impl(n, iterable);
     };
 
+    BOOST_HANA_CONSTEXPR_LAMBDA auto drop_while = [](auto pred, auto iterable) {
+        return Iterable<decltype(iterable)>::drop_while_impl(pred, iterable);
+    };
+
     BOOST_HANA_CONSTEXPR_LAMBDA auto any = [](auto pred, auto iterable) {
         return Iterable<decltype(iterable)>::any_impl(pred, iterable);
     };
@@ -111,6 +115,19 @@ namespace boost { namespace hana {
                 always(iterable),
                 [](auto n, auto it) { return drop_impl(n - size_t<1>, tail(it)); }
             )(n, iterable);
+        }
+
+        template <typename Pred, typename Iterable_>
+        static constexpr auto drop_while_impl(Pred pred, Iterable_ iterable) {
+            return if_(is_empty(iterable),
+                always(iterable),
+                [=](auto it) {
+                    return if_(pred(head(it)),
+                        [=](auto it) { return drop_while_impl(pred, tail(it)); },
+                        always(it)
+                    )(it);
+                }
+            )(iterable);
         }
 
         // any, all, none
