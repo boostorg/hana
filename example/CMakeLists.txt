@@ -15,6 +15,7 @@ boost_hana_add_example(mpl.fmap)
 
 boost_hana_add_example(fusion.all)
 boost_hana_add_example(fusion.any)
+boost_hana_add_example(fusion.find)
 boost_hana_add_example(fusion.foldl)
 boost_hana_add_example(fusion.foldr)
 boost_hana_add_example(fusion.none)
