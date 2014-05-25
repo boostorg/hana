@@ -16,6 +16,6 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto odd = [](auto x) {
 };
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(any(odd, list(1, 2)));
-    BOOST_HANA_STATIC_ASSERT(!any(odd, list(2, 4)));
+    BOOST_HANA_STATIC_ASSERT(none(odd, list(2, 4)));
+    BOOST_HANA_STATIC_ASSERT(!none(odd, list(1, 2)));
 }

@@ -6,16 +6,17 @@
  */
 
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/list.hpp>
+
+#include <boost/lexical_cast.hpp>
+#include <cassert>
+#include <string>
 using namespace boost::hana;
 
 
-BOOST_HANA_CONSTEXPR_LAMBDA auto odd = [](auto x) {
-    return x % 2;
-};
+BOOST_HANA_CONSTEXPR_LAMBDA auto make_string = [](auto x, std::string str)
+{ return boost::lexical_cast<std::string>(x) + str; };
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(any(odd, list(1, 2)));
-    BOOST_HANA_STATIC_ASSERT(!any(odd, list(2, 4)));
+    assert(foldr(make_string, "4", list(1, "2", '3')) == "1234");
 }
