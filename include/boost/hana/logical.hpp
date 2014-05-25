@@ -46,6 +46,10 @@ namespace boost { namespace hana {
         template <typename Then, typename Else>
         constexpr auto operator()(Bool<false>, Then, Else e) const
         { return e; }
+
+        template <typename Then, typename Else>
+        constexpr auto operator()(bool cond, Then t, Else e) const
+        { return cond ? t : e; }
     } if_{};
 }} // end namespace boost::hana
 
