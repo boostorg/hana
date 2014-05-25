@@ -38,7 +38,7 @@ namespace boost { namespace hana {
     };
 
     template <typename ...Xs>
-    BOOST_HANA_CONSTEXPR_LAMBDA auto list_t = list(type<Xs>...);
+    BOOST_HANA_CONSTEXPR_LAMBDA auto list_t = list(Type<Xs>{}...);
 
     template <typename T, T ...xs>
     BOOST_HANA_CONSTEXPR_LAMBDA auto list_c = list(Integral<T, xs>{}...);
