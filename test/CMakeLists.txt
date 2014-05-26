@@ -37,6 +37,7 @@ boost_hana_add_test(functional.fix)
 boost_hana_add_test(functional.flip)
 boost_hana_add_test(functional.id)
 boost_hana_add_test(functional.partial)
+boost_hana_add_test(functional.placeholder)
 
 boost_hana_add_test(integral.comparable)
 boost_hana_add_test(integral.operators)

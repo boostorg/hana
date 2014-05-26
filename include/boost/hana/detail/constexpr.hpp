@@ -15,8 +15,8 @@
 /*!
  * @ingroup details
  * Expands to `constexpr` if constexpr lambdas are supported and
- * to `const` otherwise.
+ * to nothing otherwise.
  */
-#define BOOST_HANA_CONSTEXPR_LAMBDA const
+#define BOOST_HANA_CONSTEXPR_LAMBDA /* nothing */
 
 #endif // !BOOST_HANA_DETAIL_CONSTEXPR_HPP

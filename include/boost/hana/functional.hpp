@@ -48,6 +48,59 @@ namespace boost { namespace hana {
             };
         }
     } fix{};
+
+
+    constexpr struct Placeholder { } _{};
+
+#define BOOST_HANA_PLACEHOLDER_BINARY_OP(op)                                \
+    template <typename X>                                                   \
+    constexpr auto operator op (X x, Placeholder)                           \
+    { return [=](auto y) { return x op y; }; }                              \
+                                                                            \
+    template <typename Y>                                                   \
+    constexpr auto operator op (Placeholder, Y y)                           \
+    { return [=](auto x) { return x op y; }; }                              \
+                                                                            \
+    BOOST_HANA_CONSTEXPR_LAMBDA auto operator op (Placeholder, Placeholder) \
+    { return [](auto x, auto y) { return x op y; }; }                       \
+/**/
+
+#define BOOST_HANA_PLACEHOLDER_UNARY_OP(op)                                 \
+    BOOST_HANA_CONSTEXPR_LAMBDA auto operator op (Placeholder)              \
+    { return [](auto x) { return op x; }; }                                 \
+/**/
+    // Arithmetic
+    BOOST_HANA_PLACEHOLDER_UNARY_OP(+)
+    BOOST_HANA_PLACEHOLDER_UNARY_OP(-)
+    BOOST_HANA_PLACEHOLDER_BINARY_OP(+)
+    BOOST_HANA_PLACEHOLDER_BINARY_OP(-)
+    BOOST_HANA_PLACEHOLDER_BINARY_OP(*)
+    BOOST_HANA_PLACEHOLDER_BINARY_OP(/)
+    BOOST_HANA_PLACEHOLDER_BINARY_OP(%)
+    BOOST_HANA_PLACEHOLDER_UNARY_OP(~)
+    BOOST_HANA_PLACEHOLDER_BINARY_OP(&)
+    BOOST_HANA_PLACEHOLDER_BINARY_OP(|)
+    BOOST_HANA_PLACEHOLDER_BINARY_OP(^)
+    BOOST_HANA_PLACEHOLDER_BINARY_OP(<<)
+    BOOST_HANA_PLACEHOLDER_BINARY_OP(>>)
+
+    // Comparison
+    BOOST_HANA_PLACEHOLDER_BINARY_OP(==)
+    BOOST_HANA_PLACEHOLDER_BINARY_OP(!=)
+    BOOST_HANA_PLACEHOLDER_BINARY_OP(<)
+    BOOST_HANA_PLACEHOLDER_BINARY_OP(<=)
+    BOOST_HANA_PLACEHOLDER_BINARY_OP(>)
+    BOOST_HANA_PLACEHOLDER_BINARY_OP(>=)
+
+    // Logical
+    BOOST_HANA_PLACEHOLDER_BINARY_OP(||)
+    BOOST_HANA_PLACEHOLDER_BINARY_OP(&&)
+    BOOST_HANA_PLACEHOLDER_UNARY_OP(!)
+
+    // Member access
+    BOOST_HANA_PLACEHOLDER_UNARY_OP(*)
+#undef BOOST_HANA_PREFIX_PLACEHOLDER_OP
+#undef BOOST_HANA_BINARY_PLACEHOLDER_OP
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FUNCTIONAL_HPP
