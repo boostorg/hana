@@ -46,16 +46,26 @@ namespace boost { namespace hana {
     template <typename Storage>
     struct Iterable<List<Storage>> : defaults<Iterable> {
         static constexpr auto head_impl(List<Storage> xs) {
-            return xs.into([](auto x, ...) { return x; });
+            return xs.into([](auto x, ...) {
+                return x;
+            });
         }
 
         static constexpr auto tail_impl(List<Storage> xs) {
-            return xs.into([](auto, auto ...xs) { return list(xs...); });
+            return xs.into([](auto, auto ...xs) {
+                return list(xs...);
+            });
         }
 
         static constexpr auto is_empty_impl(List<Storage> xs) {
             return xs.into([](auto ...xs) {
                 return bool_<sizeof...(xs) == 0>;
+            });
+        }
+
+        static constexpr auto length_impl(List<Storage> xs) {
+            return xs.into([](auto ...xs) {
+                return size_t<sizeof...(xs)>;
             });
         }
     };
@@ -107,6 +117,13 @@ namespace boost { namespace hana {
         return fmap(
             [=](auto index) { return f(at(index, lists)...); },
             range(size_t<0>, minimum(list(length(lists)...)))
+        );
+    };
+
+    BOOST_HANA_CONSTEXPR_LAMBDA auto init = [](auto xs) {
+        return fmap(
+            [=](auto index) { return at(index, xs); },
+            range(size_t<0>, length(xs) - size_t<1>)
         );
     };
 
