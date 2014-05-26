@@ -300,3 +300,14 @@ static constexpr auto at_impl(Index n, Iterable_ iterable) {
   `fmap(g, argwise(f))(xs...)` would be equivalent to `f(g(xs)...)`. This is also
   equivalent to `argmap` in the MPL11. Perhaps other MPL11 operations like `bind`
   and `on` have a category theoretical meaning?
+- Conversions from `Integral<T, t>` to `T` are sometimes problematic. Consider:
+```cpp
+constexpr auto odd = [](auto x) {
+    return x % int_<2>;
+};
+
+if_(odd(int_<1>), something_of_type_A, something_of_type_B)
+```
+This will fail because `odd(int_<1>)` has type `Int<1 % 2>`, which is
+convertible to `bool` but not to `Bool<...>`. Because of this, the runtime
+`if_` is used and compilation fails.

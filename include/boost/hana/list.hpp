@@ -166,6 +166,37 @@ namespace boost { namespace hana {
         };
         return foldl(concat2, list(), list(lists...));
     };
+
+    //! @todo Use a more efficient implementation.
+    BOOST_HANA_CONSTEXPR_LAMBDA auto partition = [](auto pred, auto xs) {
+        return list(filter(pred, xs), filter(compose(!_, pred), xs));
+    };
+
+    BOOST_HANA_CONSTEXPR_LAMBDA auto sort_by = fix(
+        [](auto sort_by, auto pred, auto xs) {
+            return if_(is_empty(xs),
+                always(xs),
+                [=](auto xs) {
+                    return if_(is_empty(tail(xs)),
+                        always(xs),
+                        [=](auto xs) {
+                            auto pivot = head(xs);
+                            auto rest = tail(xs);
+                            auto parts = partition(partial(pred, pivot), rest);
+                            return concat(
+                                sort_by(pred, at(int_<1>, parts)),
+                                cons(pivot, sort_by(pred, at(int_<0>, parts)))
+                            );
+                        }
+                    )(xs);
+                }
+            )(xs);
+        }
+    );
+
+    BOOST_HANA_CONSTEXPR_LAMBDA auto sort = [](auto xs) {
+        return sort_by(_ < _, xs);
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_LIST_HPP

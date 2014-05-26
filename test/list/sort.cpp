@@ -16,14 +16,10 @@ using namespace boost::hana;
 template <int ...i>
 BOOST_HANA_CONSTEXPR_LAMBDA auto ilist = list_c<int, i...>;
 
-BOOST_HANA_CONSTEXPR_LAMBDA auto odd = [](auto x) {
-    return x % int_<2> != int_<0>;
-};
-
 int main() {
-    BOOST_HANA_STATIC_ASSERT(filter(odd, ilist<>) == ilist<>);
-    BOOST_HANA_STATIC_ASSERT(filter(odd, ilist<0>) == ilist<>);
-    BOOST_HANA_STATIC_ASSERT(filter(odd, ilist<0, 1>) == ilist<1>);
-    BOOST_HANA_STATIC_ASSERT(filter(odd, ilist<0, 1, 2>) == ilist<1>);
-    BOOST_HANA_STATIC_ASSERT(filter(odd, ilist<0, 1, 2, 3>) == ilist<1, 3>);
+    BOOST_HANA_STATIC_ASSERT(sort(ilist<>) == ilist<>);
+    BOOST_HANA_STATIC_ASSERT(sort(ilist<0>) == ilist<0>);
+    BOOST_HANA_STATIC_ASSERT(sort(ilist<0, 1>) == ilist<0, 1>);
+    BOOST_HANA_STATIC_ASSERT(sort(ilist<1, 0>) == ilist<0, 1>);
+    BOOST_HANA_STATIC_ASSERT(sort(ilist<1, 0, 4, 2>) == ilist<0, 1, 2, 4>);
 }
