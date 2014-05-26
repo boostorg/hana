@@ -19,6 +19,7 @@ boost_hana_add_test(adapted.std_integer_sequence.iterable)
 boost_hana_add_test(adapted.std_tuple.functor)
 boost_hana_add_test(adapted.std_tuple.iterable)
 
+boost_hana_add_test(detail.at_index)
 boost_hana_add_test(detail.comparable_from_iterable)
 boost_hana_add_test(detail.foldable_from_iterable)
 boost_hana_add_test(detail.integer_sequence)

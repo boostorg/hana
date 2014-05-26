@@ -13,6 +13,7 @@
 #define BOOST_HANA_LIST_HPP
 
 #include <boost/hana/comparable.hpp>
+#include <boost/hana/detail/at_index/best.hpp>
 #include <boost/hana/detail/comparable_from_iterable.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/foldable_from_iterable.hpp>
@@ -66,6 +67,13 @@ namespace boost { namespace hana {
         static constexpr auto length_impl(List<Storage> xs) {
             return xs.into([](auto ...xs) {
                 return size_t<sizeof...(xs)>;
+            });
+        }
+
+        template <typename Index>
+        static constexpr auto at_impl(Index n, List<Storage> xs) {
+            return xs.into([=](auto ...xs) {
+                return detail::at_index::best(n, xs...);
             });
         }
     };
