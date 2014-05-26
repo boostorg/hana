@@ -6,16 +6,14 @@
  */
 
 #include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/functional.hpp>
 #include <boost/hana/list.hpp>
-
-#include <functional>
 using namespace boost::hana;
 
 
 int main() {
-    // Elementwise product
     BOOST_HANA_STATIC_ASSERT(
-        zip_with(std::multiplies<>{}, list(1, 2, 3, 4), list(5, 6, 7, 8))
+        zip_with(_ * _, list(1, 2, 3, 4), list(5, 6, 7, 8))
         ==
         list(5, 12, 21, 32)
     );

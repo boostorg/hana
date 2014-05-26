@@ -5,6 +5,7 @@
  *             http://www.boost.org/LICENSE_1_0.txt)
  */
 
+#include <boost/hana/functional.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/list.hpp>
 
@@ -12,18 +13,13 @@
 using namespace boost::hana;
 
 
-struct odd {
-    template <typename T>
-    constexpr auto operator()(T t) const { return t % int_<2>; }
-};
-
 static_assert(std::is_same<
-    decltype(any(odd{}, list(int_<1>, int_<2>))),
+    decltype(any(_ % int_<2>, list(int_<1>, int_<2>))),
     Bool<true>
 >::value, "");
 
 static_assert(std::is_same<
-    decltype(any(odd{}, list(int_<2>, int_<4>))),
+    decltype(any(_ % int_<2>, list(int_<2>, int_<4>))),
     Bool<false>
 >::value, "");
 

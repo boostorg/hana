@@ -15,8 +15,7 @@ using namespace boost::hana;
 
 
 int main() {
-    //! @todo Use placeholders instead of partial.
     BOOST_HANA_CONSTEXPR_LAMBDA auto types = list_t<char, int, unsigned, long, unsigned long>;
-    BOOST_HANA_STATIC_ASSERT(find(partial(equal, type<unsigned>), types) == just(type<unsigned>));
-    BOOST_HANA_STATIC_ASSERT(find(partial(equal, type<void>), types) == nothing);
+    BOOST_HANA_STATIC_ASSERT(find(_ == type<unsigned>, types) == just(type<unsigned>));
+    BOOST_HANA_STATIC_ASSERT(find(_ == type<void>, types) == nothing);
 }
