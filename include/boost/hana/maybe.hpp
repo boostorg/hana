@@ -16,6 +16,7 @@
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/functor.hpp>
 #include <boost/hana/integral.hpp>
+#include <boost/hana/monad.hpp>
 
 
 namespace boost { namespace hana {
@@ -68,13 +69,28 @@ namespace boost { namespace hana {
     } maybe{};
 
     template <>
-    struct Functor<_Maybe> {
+    struct Functor<_Maybe> : defaults<Functor> {
         template <typename F, typename T>
         static constexpr auto fmap_impl(F f, Just<T> j)
         { return just(f(j.val)); }
 
         template <typename F>
         static constexpr auto fmap_impl(F, Nothing)
+        { return nothing; }
+    };
+
+    template <>
+    struct Monad<_Maybe> : defaults<Monad> {
+        template <typename T>
+        static constexpr auto unit_impl(T x)
+        { return just(x); }
+
+        template <typename T>
+        static constexpr auto join_impl(Just<Just<T>> j)
+        { return j.val; }
+
+        template <typename AnythingElse>
+        static constexpr auto join_impl(AnythingElse)
         { return nothing; }
     };
 }} // end namespace boost::hana

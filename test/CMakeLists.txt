@@ -78,6 +78,7 @@ boost_hana_add_test(logical.or)
 boost_hana_add_test(maybe.comparable)
 boost_hana_add_test(maybe.functor)
 boost_hana_add_test(maybe.maybe)
+boost_hana_add_test(maybe.monad)
 
 boost_hana_add_test(range.comparable)
 boost_hana_add_test(range.functor)

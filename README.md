@@ -460,3 +460,7 @@ if_(odd(int_<1>), something_of_type_A, something_of_type_B)
 This will fail because `odd(int_<1>)` has type `Int<1 % 2>`, which is
 convertible to `bool` but not to `Bool<...>`. Because of this, the runtime
 `if_` is used and compilation fails.
+
+- Provide automatic verification of Functor and Monad laws. There are also
+other components that should document requirements, like Comparable. We need
+a way to automatically (or easily) checking for those.
