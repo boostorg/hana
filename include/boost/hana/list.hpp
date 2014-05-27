@@ -95,6 +95,27 @@ namespace boost { namespace hana {
         }
     };
 
+    namespace list_detail {
+        BOOST_HANA_CONSTEXPR_LAMBDA auto concat2 = [](auto xs, auto ys) {
+            return xs.into([=](auto ...xs) {
+                return ys.into([=](auto ...ys) {
+                    return list(xs..., ys...);
+                });
+            });
+        };
+    }
+
+    template <>
+    struct Monad<_List> : defaults<Monad> {
+        template <typename X>
+        static constexpr auto unit_impl(X x)
+        { return list(x); }
+
+        template <typename Xxs>
+        static constexpr auto join_impl(Xxs xxs)
+        { return foldl(list_detail::concat2, list(), xxs); }
+    };
+
     template <>
     struct Foldable<_List> : detail::foldable_from_iterable {
         template <typename F, typename State, typename Xs>
@@ -191,14 +212,7 @@ namespace boost { namespace hana {
     };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto concat = [](auto ...lists) {
-        auto concat2 = [](auto xs, auto ys) {
-            return xs.into([=](auto ...xs) {
-                return ys.into([=](auto ...ys) {
-                    return list(xs..., ys...);
-                });
-            });
-        };
-        return foldl(concat2, list(), list(lists...));
+        return foldl(list_detail::concat2, list(), list(lists...));
     };
 
     //! @todo Use a more efficient implementation.
