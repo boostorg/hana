@@ -18,6 +18,7 @@
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/foldable_from_iterable.hpp>
 #include <boost/hana/detail/left_folds/variadic.hpp>
+#include <boost/hana/detail/left_folds/variadic_meta.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/functor.hpp>
@@ -28,62 +29,91 @@
 
 
 namespace boost { namespace hana {
-    struct _List;
+    //! @ingroup datatypes
+    //! @todo How to implement iterate and repeat?
+    struct List;
 
     namespace operators {
-        //! @ingroup datatypes
-        //! @todo How to implement iterate and repeat?
-        template <typename Into>
-        struct List {
-            using hana_datatype = _List;
-            Into into;
+        template <typename Storage>
+        struct HetList {
+            using hana_datatype = List;
+            Storage into;
+        };
+
+        template <typename ...Xs>
+        struct TypeList {
+            using hana_datatype = List;
+
+            struct {
+                template <typename F>
+                constexpr auto operator()(F f) const
+                { return f(type<Xs>...); }
+            } into;
         };
     }
-    using operators::List;
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto list = [](auto ...xs) {
         auto into = [=](auto f) { return f(xs...); };
-        return List<decltype(into)>{into};
+        return operators::HetList<decltype(into)>{into};
     };
 
     template <typename ...Xs>
-    BOOST_HANA_CONSTEXPR_LAMBDA auto list_t = list(Type<Xs>{}...);
+    constexpr operators::TypeList<Xs...> list_t{};
 
     template <typename T, T ...xs>
     BOOST_HANA_CONSTEXPR_LAMBDA auto list_c = list(Integral<T, xs>{}...);
 
     template <>
-    struct Iterable<_List> : defaults<Iterable> {
-        template <typename Xs>
-        static constexpr auto head_impl(Xs xs) {
+    struct Iterable<List> : defaults<Iterable> {
+        // TypeList
+        template <typename X, typename ...Xs>
+        static constexpr auto head_impl(operators::TypeList<X, Xs...>)
+        { return type<X>; }
+
+        template <typename X, typename ...Xs>
+        static constexpr auto tail_impl(operators::TypeList<X, Xs...>)
+        { return list_t<Xs...>; }
+
+        template <typename ...Xs>
+        static constexpr auto is_empty_impl(operators::TypeList<Xs...>)
+        { return bool_<sizeof...(Xs) == 0>; }
+
+        template <typename ...Xs>
+        static constexpr auto length_impl(operators::TypeList<Xs...>)
+        { return size_t<sizeof...(Xs)>; }
+
+
+        // HetList
+        template <typename Storage>
+        static constexpr auto head_impl(operators::HetList<Storage> xs) {
             return xs.into([](auto x, ...) {
                 return x;
             });
         }
 
-        template <typename Xs>
-        static constexpr auto tail_impl(Xs xs) {
+        template <typename Storage>
+        static constexpr auto tail_impl(operators::HetList<Storage> xs) {
             return xs.into([](auto, auto ...xs) {
                 return list(xs...);
             });
         }
 
-        template <typename Xs>
-        static constexpr auto is_empty_impl(Xs xs) {
+        template <typename Storage>
+        static constexpr auto is_empty_impl(operators::HetList<Storage> xs) {
             return xs.into([](auto ...xs) {
                 return bool_<sizeof...(xs) == 0>;
             });
         }
 
-        template <typename Xs>
-        static constexpr auto length_impl(Xs xs) {
+        template <typename Storage>
+        static constexpr auto length_impl(operators::HetList<Storage> xs) {
             return xs.into([](auto ...xs) {
                 return size_t<sizeof...(xs)>;
             });
         }
 
-        template <typename Index, typename Xs>
-        static constexpr auto at_impl(Index n, Xs xs) {
+        template <typename Index, typename Storage>
+        static constexpr auto at_impl(Index n, operators::HetList<Storage> xs) {
             return xs.into([=](auto ...xs) {
                 return detail::at_index::best(n, xs...);
             });
@@ -91,11 +121,20 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Functor<_List> : defaults<Functor> {
-        template <typename F, typename Xs>
-        static constexpr auto fmap_impl(F f, Xs xs) {
+    struct Functor<List> : defaults<Functor> {
+        template <typename F, typename Storage>
+        static constexpr auto fmap_impl(F f, operators::HetList<Storage> xs) {
             return xs.into([=](auto ...xs) { return list(f(xs)...); });
         }
+
+        template <typename F, typename ...Xs>
+        static constexpr auto fmap_impl(F f, operators::TypeList<Xs...>)
+        { return list(f(type<Xs>)...); }
+
+        template <template <typename ...> class F, typename ...Xs>
+        static constexpr
+        auto fmap_impl(type_detail::Lift<F>, operators::TypeList<Xs...>)
+        { return list_t<F<Xs>...>; }
     };
 
     namespace list_detail {
@@ -109,7 +148,7 @@ namespace boost { namespace hana {
     }
 
     template <>
-    struct Monad<_List> : defaults<Monad> {
+    struct Monad<List> : defaults<Monad> {
         template <typename X>
         static constexpr auto unit_impl(X x)
         { return list(x); }
@@ -120,17 +159,30 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Foldable<_List> : detail::foldable_from_iterable {
-        template <typename F, typename State, typename Xs>
-        static constexpr auto foldl_impl(F f, State s, Xs xs) {
+    struct Foldable<List> : detail::foldable_from_iterable {
+        template <typename F, typename State, typename Storage>
+        static constexpr auto
+        foldl_impl(F f, State s, operators::HetList<Storage> xs) {
             return xs.into([=](auto ...xs) {
                 return detail::left_folds::variadic(f, s, xs...);
             });
         }
+
+        template <typename F, typename State, typename ...Xs>
+        static constexpr auto
+        foldl_impl(F f, State s, operators::TypeList<Xs...>) {
+            return detail::left_folds::variadic(f, s, Type<Xs>{}...);
+        }
+
+        template <template <typename ...> class F, typename State, typename ...Xs>
+        static constexpr auto
+        foldl_impl(type_detail::Lift<F>, Type<State>, operators::TypeList<Xs...>) {
+            return type<detail::left_folds::variadic_meta<F, State, Xs...>>;
+        }
     };
 
     template <>
-    struct Comparable<_List, _List>
+    struct Comparable<List, List>
         : detail::comparable_from_iterable
     { };
 }} // end namespace boost::hana
