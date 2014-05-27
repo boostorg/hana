@@ -83,7 +83,9 @@ boost_hana_add_test(range.functor)
 boost_hana_add_test(range.iterable)
 
 boost_hana_add_test(type.comparable)
+boost_hana_add_test(type.functor)
 boost_hana_add_test(type.lift)
+boost_hana_add_test(type.monad)
 boost_hana_add_test(type.traits)
 
 boost_hana_add_test(typelist.comparable)

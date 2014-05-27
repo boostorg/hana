@@ -43,6 +43,7 @@
 #include <boost/hana/list.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/maybe.hpp>
+#include <boost/hana/monad.hpp>
 #include <boost/hana/range.hpp>
 #include <boost/hana/trait.hpp>
 #include <boost/hana/type.hpp>

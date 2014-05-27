@@ -14,7 +14,9 @@
 
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core.hpp>
+#include <boost/hana/functor.hpp>
 #include <boost/hana/integral.hpp>
+#include <boost/hana/monad.hpp>
 
 
 namespace boost { namespace hana {
@@ -29,6 +31,23 @@ namespace boost { namespace hana {
 
     template <typename T>
     constexpr Type<T> type{};
+
+    //! @ingroup datatypes
+    template <template <typename ...> class f>
+    struct Template { };
+
+    template <template <typename ...> class f>
+    constexpr Template<f> template_{};
+
+    /*!
+     * Inverse of `unit`.
+     *
+     * This is a partial function. It is only defined for default
+     * constructible `T`s.
+     */
+    template <typename T>
+    constexpr T untype(Type<T>)
+    { return {}; }
 
     template <>
     struct Comparable<_Type, _Type> : defaults<Comparable> {
@@ -49,6 +68,25 @@ namespace boost { namespace hana {
     constexpr auto operator!=(Type<T> t, Type<U> u)
     { return not_equal(t, u); }
 
+
+
+    template <>
+    struct Functor<_Type> : defaults<Functor> {
+        template <template <typename ...> class F, typename T>
+        static constexpr Type<F<T>> fmap_impl(Template<F>, Type<T>)
+        { return {}; }
+    };
+
+    template <>
+    struct Monad<_Type> : defaults<Monad> {
+        template <typename T>
+        static constexpr Type<T> unit_impl(T)
+        { return {}; }
+
+        template <typename T>
+        static constexpr Type<T> join_impl(Type<Type<T>>)
+        { return {}; }
+    };
 
     namespace type_detail {
         template <template <typename ...> class f>
