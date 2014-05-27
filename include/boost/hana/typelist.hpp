@@ -28,11 +28,14 @@
 namespace boost { namespace hana {
     struct _Typelist;
 
-    //! @ingroup datatypes
-    template <typename ...Xs>
-    struct Typelist {
-        using hana_datatype = _Typelist;
-    };
+    namespace operators {
+        //! @ingroup datatypes
+        template <typename ...Xs>
+        struct Typelist {
+            using hana_datatype = _Typelist;
+        };
+    }
+    using operators::Typelist;
 
     template <typename ...Xs>
     constexpr auto typelist = Typelist<Xs...>{};
@@ -80,14 +83,6 @@ namespace boost { namespace hana {
     struct Comparable<_Typelist, _Typelist>
         : detail::comparable_from_iterable
     { };
-
-    template <typename ...Xs, typename ...Ys>
-    constexpr auto operator==(Typelist<Xs...> xs, Typelist<Ys...> ys)
-    {  return equal(xs, ys); }
-
-    template <typename ...Xs, typename ...Ys>
-    constexpr auto operator!=(Typelist<Xs...> xs, Typelist<Ys...> ys)
-    {  return not_equal(xs, ys); }
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_TYPELIST_HPP

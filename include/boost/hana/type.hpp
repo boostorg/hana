@@ -22,12 +22,15 @@
 namespace boost { namespace hana {
     struct _Type;
 
-    //! @ingroup datatypes
-    template <typename T>
-    struct Type {
-        using hana_datatype = _Type;
-        using type = T;
-    };
+    namespace operators {
+        //! @ingroup datatypes
+        template <typename T>
+        struct Type {
+            using hana_datatype = _Type;
+            using type = T;
+        };
+    }
+    using operators::Type;
 
     template <typename T>
     constexpr Type<T> type{};
@@ -59,15 +62,6 @@ namespace boost { namespace hana {
         static constexpr auto equal_impl(Type<T>, Type<T>)
         { return true_; }
     };
-
-    template <typename T, typename U>
-    constexpr auto operator==(Type<T> t, Type<U> u)
-    { return equal(t, u); }
-
-    template <typename T, typename U>
-    constexpr auto operator!=(Type<T> t, Type<U> u)
-    { return not_equal(t, u); }
-
 
 
     template <>

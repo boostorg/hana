@@ -26,11 +26,14 @@
 namespace boost { namespace hana {
     struct _Range;
 
-    //! @ingroup datatypes
-    template <typename T, T ...v>
-    struct Range {
-        using hana_datatype = _Range;
-    };
+    namespace operators {
+        //! @ingroup datatypes
+        template <typename T, T ...v>
+        struct Range {
+            using hana_datatype = _Range;
+        };
+    }
+    using operators::Range;
 
     constexpr struct _range {
         template <typename T, T from, T to>
@@ -76,14 +79,6 @@ namespace boost { namespace hana {
         static constexpr auto equal_impl(Range<T, ts...> a, Range<U, us...> b)
         { return equal_helper(a, b, bool_<sizeof...(ts) == sizeof...(us)>); }
     };
-
-    template <typename T, T ...ts, typename U, U ...us>
-    constexpr auto operator==(Range<T, ts...> a, Range<U, us...> b)
-    {  return equal(a, b); }
-
-    template <typename T, T ...ts, typename U, U ...us>
-    constexpr auto operator!=(Range<T, ts...> a, Range<U, us...> b)
-    {  return not_equal(a, b); }
 }} // end namespace boost::hana
 
 #include <boost/hana/list.hpp>

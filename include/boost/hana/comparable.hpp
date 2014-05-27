@@ -39,6 +39,16 @@ namespace boost { namespace hana {
                not_equal_impl(x, y);
     };
 
+    namespace operators {
+        template <typename T, typename U>
+        constexpr auto operator==(T t, U u)
+        { return equal(t, u); }
+
+        template <typename T, typename U>
+        constexpr auto operator!=(T t, U u)
+        { return not_equal(t, u); }
+    }
+
     template <>
     struct defaults<Comparable> {
         template <typename T, typename U>

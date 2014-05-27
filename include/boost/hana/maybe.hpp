@@ -21,16 +21,19 @@
 namespace boost { namespace hana {
     struct _Maybe;
 
-    template <bool is_valid, typename T>
-    struct Maybe {
-        using hana_datatype = _Maybe;
-    };
+    namespace operators {
+        template <bool is_valid, typename T>
+        struct Maybe {
+            using hana_datatype = _Maybe;
+        };
 
-    template <typename T>
-    struct Maybe<true, T> {
-        using hana_datatype = _Maybe;
-        T val;
-    };
+        template <typename T>
+        struct Maybe<true, T> {
+            using hana_datatype = _Maybe;
+            T val;
+        };
+    }
+    using operators::Maybe;
 
     template <typename T>
     using Just = Maybe<true, T>;
@@ -53,14 +56,6 @@ namespace boost { namespace hana {
         static constexpr auto equal_impl(Maybe<tv, T>, Maybe<uv, U>)
         { return bool_<tv == uv>; }
     };
-
-    template <bool tv, typename T, bool uv, typename U>
-    constexpr auto operator==(Maybe<tv, T> t, Maybe<uv, U> u)
-    { return equal(t, u); }
-
-    template <bool tv, typename T, bool uv, typename U>
-    constexpr auto operator!=(Maybe<tv, T> t, Maybe<uv, U> u)
-    { return not_equal(t, u); }
 
     constexpr struct _maybe {
         template <typename Default, typename F>

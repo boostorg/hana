@@ -30,13 +30,16 @@
 namespace boost { namespace hana {
     struct _List;
 
-    //! @ingroup datatypes
-    //! @todo How to implement iterate and repeat?
-    template <typename Into>
-    struct List {
-        using hana_datatype = _List;
-        Into into;
-    };
+    namespace operators {
+        //! @ingroup datatypes
+        //! @todo How to implement iterate and repeat?
+        template <typename Into>
+        struct List {
+            using hana_datatype = _List;
+            Into into;
+        };
+    }
+    using operators::List;
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto list = [](auto ...xs) {
         auto into = [=](auto f) { return f(xs...); };
@@ -130,14 +133,6 @@ namespace boost { namespace hana {
     struct Comparable<_List, _List>
         : detail::comparable_from_iterable
     { };
-
-    template <typename Storage1, typename Storage2>
-    constexpr auto operator==(List<Storage1> xs, List<Storage2> ys)
-    {  return equal(xs, ys); }
-
-    template <typename Storage1, typename Storage2>
-    constexpr auto operator!=(List<Storage1> xs, List<Storage2> ys)
-    {  return not_equal(xs, ys); }
 }} // end namespace boost::hana
 
 #include <boost/hana/range.hpp>
