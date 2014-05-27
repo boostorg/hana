@@ -26,57 +26,58 @@
 
 
 namespace boost { namespace hana {
+    struct _Typelist;
+
     //! @ingroup datatypes
     template <typename ...Xs>
-    struct Typelist { };
+    struct Typelist {
+        using hana_datatype = _Typelist;
+    };
 
     template <typename ...Xs>
     constexpr auto typelist = Typelist<Xs...>{};
 
-    template <typename X, typename ...Xs>
-    struct Iterable<Typelist<X, Xs...>> {
+    template <>
+    struct Iterable<_Typelist> {
+        template <typename X, typename ...Xs>
         static constexpr auto head_impl(Typelist<X, Xs...>)
         { return type<X>; }
 
+        template <typename X, typename ...Xs>
         static constexpr auto tail_impl(Typelist<X, Xs...>)
         { return typelist<Xs...>; }
 
-        static constexpr auto is_empty_impl(Typelist<X, Xs...>)
-        { return false_; }
+        template <typename ...Xs>
+        static constexpr auto is_empty_impl(Typelist<Xs...>)
+        { return bool_<sizeof...(Xs) == 0>; }
     };
 
     template <>
-    struct Iterable<Typelist<>> {
-        static constexpr auto is_empty_impl(Typelist<>)
-        { return true_; }
-    };
-
-    template <typename ...Xs>
-    struct Functor<Typelist<Xs...>> : defaults<Functor> {
-        template <typename F>
+    struct Functor<_Typelist> : defaults<Functor> {
+        template <typename F, typename ...Xs>
         static constexpr auto fmap_impl(F f, Typelist<Xs...>)
         { return list(f(type<Xs>)...); }
 
-        template <template <typename ...> class F>
+        template <template <typename ...> class F, typename ...Xs>
         static constexpr auto fmap_impl(type_detail::Lift<F>, Typelist<Xs...>)
         { return typelist<F<Xs>...>; }
     };
 
-    template <typename ...Xs>
-    struct Foldable<Typelist<Xs...>> : detail::foldable_from_iterable {
-        template <typename F, typename State>
+    template <>
+    struct Foldable<_Typelist> : detail::foldable_from_iterable {
+        template <typename F, typename State, typename ...Xs>
         static constexpr auto foldl_impl(F f, State s, Typelist<Xs...>) {
             return detail::left_folds::variadic(f, s, type<Xs>...);
         }
 
-        template <template <typename ...> class F, typename State>
+        template <template <typename ...> class F, typename State, typename ...Xs>
         static constexpr auto foldl_impl(type_detail::Lift<F>, Type<State>, Typelist<Xs...>) {
             return type<detail::left_folds::variadic_meta<F, State, Xs...>>;
         }
     };
 
-    template <typename ...Xs, typename ...Ys>
-    struct Comparable<Typelist<Xs...>, Typelist<Ys...>>
+    template <>
+    struct Comparable<_Typelist, _Typelist>
         : detail::comparable_from_iterable
     { };
 

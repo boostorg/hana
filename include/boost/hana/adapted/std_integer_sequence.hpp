@@ -25,28 +25,35 @@
 
 
 namespace boost { namespace hana {
+    struct StdIntegerSequence;
+
     template <typename T, T ...v>
-    struct Iterable<std::integer_sequence<T, v...>> : defaults<Iterable> {
-        template <T x, T ...xs>
+    struct datatype<std::integer_sequence<T, v...>> {
+        using type = StdIntegerSequence;
+    };
+
+    template <>
+    struct Iterable<StdIntegerSequence> : defaults<Iterable> {
+        template <typename T, T x, T ...xs>
         static constexpr auto head_impl(std::integer_sequence<T, x, xs...>)
         { return std::integral_constant<T, x>{}; }
 
-        template <T x, T ...xs>
+        template <typename T, T x, T ...xs>
         static constexpr auto tail_impl(std::integer_sequence<T, x, xs...>)
         { return std::integer_sequence<T, xs...>{}; }
 
-        static constexpr auto is_empty_impl(std::integer_sequence<T, v...>)
-        { return bool_<sizeof...(v) == 0>; }
+        template <typename T, T ...xs>
+        static constexpr auto is_empty_impl(std::integer_sequence<T, xs...>)
+        { return bool_<sizeof...(xs) == 0>; }
     };
 
-    template <typename T, T ...v>
-    struct Foldable<std::integer_sequence<T, v...>>
+    template <>
+    struct Foldable<StdIntegerSequence>
         : detail::foldable_from_iterable
     { };
 
-    template <typename X, X ...xs, typename Y, Y ...ys>
-    struct Comparable<std::integer_sequence<X, xs...>,
-                      std::integer_sequence<Y, ys...>>
+    template <>
+    struct Comparable<StdIntegerSequence, StdIntegerSequence>
         : detail::comparable_from_iterable
     { };
 }} // end namespace boost::hana

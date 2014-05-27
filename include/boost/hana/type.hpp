@@ -18,23 +18,27 @@
 
 
 namespace boost { namespace hana {
+    struct _Type;
+
     //! @ingroup datatypes
     template <typename T>
-    struct Type { using type = T; };
+    struct Type {
+        using hana_datatype = _Type;
+        using type = T;
+    };
 
     template <typename T>
     constexpr Type<T> type{};
 
-    template <typename T, typename U>
-    struct Comparable<Type<T>, Type<U>> : defaults<Comparable> {
-        static constexpr auto equal_impl(...) { return false_; }
-        static constexpr auto not_equal_impl(...) { return true_; }
-    };
+    template <>
+    struct Comparable<_Type, _Type> : defaults<Comparable> {
+        template <typename T, typename U>
+        static constexpr auto equal_impl(Type<T>, Type<U>)
+        { return false_; }
 
-    template <typename T>
-    struct Comparable<Type<T>, Type<T>> : defaults<Comparable> {
-        static constexpr auto equal_impl(...) { return true_; }
-        static constexpr auto not_equal_impl(...) { return false_; }
+        template <typename T>
+        static constexpr auto equal_impl(Type<T>, Type<T>)
+        { return true_; }
     };
 
     template <typename T, typename U>

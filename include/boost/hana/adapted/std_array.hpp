@@ -26,30 +26,40 @@
 
 
 namespace boost { namespace hana {
+    struct StdArray;
+
     template <typename T, std::size_t N>
-    struct Iterable<std::array<T, N>> : defaults<Iterable> {
+    struct datatype<std::array<T, N>> {
+        using type = StdArray;
+    };
+
+    template <>
+    struct Iterable<StdArray> : defaults<Iterable> {
+        template <typename T, std::size_t N>
         static constexpr T head_impl(std::array<T, N> arr)
         { return arr[0]; }
 
-        template <std::size_t ...Index>
+        template <typename T, std::size_t N, std::size_t ...Index>
         static constexpr std::array<T, sizeof...(Index)>
         tail_helper(std::array<T, N> arr, Range<std::size_t, Index...>)
         { return {{arr[Index]...}}; }
 
+        template <typename T, std::size_t N>
         static constexpr auto tail_impl(std::array<T, N> arr)
         { return tail_helper(arr, range(size_t<1>, size_t<N>)); }
 
+        template <typename T, std::size_t N>
         static constexpr Bool<N == 0> is_empty_impl(std::array<T, N> arr)
         { return {}; }
     };
 
-    template <typename T, std::size_t N>
-    struct Foldable<std::array<T, N>>
+    template <>
+    struct Foldable<StdArray>
         : detail::foldable_from_iterable
     { };
 
-    template <typename T, std::size_t Nt, typename U, std::size_t Nu>
-    struct Comparable<std::array<T, Nt>, std::array<U, Nu>>
+    template <>
+    struct Comparable<StdArray, StdArray>
         : detail::comparable_from_iterable
     { };
 }} // end namespace boost::hana

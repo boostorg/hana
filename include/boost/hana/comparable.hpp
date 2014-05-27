@@ -20,19 +20,23 @@ namespace boost { namespace hana {
     //! @ingroup typeclasses
     template <typename T, typename U>
     struct Comparable {
-        static constexpr auto equal_impl(T t, U u)
-        { return t == u; }
+        template <typename X, typename Y>
+        static constexpr auto equal_impl(X x, Y y)
+        { return x == y; }
 
-        static constexpr auto not_equal_impl(T t, U u)
-        { return t != u; }
+        template <typename X, typename Y>
+        static constexpr auto not_equal_impl(X x, Y y)
+        { return x != y; }
     };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto equal = [](auto x, auto y) {
-        return Comparable<decltype(x), decltype(y)>::equal_impl(x, y);
+        return Comparable<datatype_t<decltype(x)>, datatype_t<decltype(y)>>::
+               equal_impl(x, y);
     };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto not_equal = [](auto x, auto y) {
-        return Comparable<decltype(x), decltype(y)>::not_equal_impl(x, y);
+        return Comparable<datatype_t<decltype(x)>, datatype_t<decltype(y)>>::
+               not_equal_impl(x, y);
     };
 
     template <>

@@ -19,11 +19,18 @@
 
 
 namespace boost { namespace hana {
+    struct _Maybe;
+
     template <bool is_valid, typename T>
-    struct Maybe { };
+    struct Maybe {
+        using hana_datatype = _Maybe;
+    };
 
     template <typename T>
-    struct Maybe<true, T> { T val; };
+    struct Maybe<true, T> {
+        using hana_datatype = _Maybe;
+        T val;
+    };
 
     template <typename T>
     using Just = Maybe<true, T>;
@@ -36,14 +43,13 @@ namespace boost { namespace hana {
 
     constexpr Nothing nothing{};
 
-    template <typename T, typename U>
-    struct Comparable<Just<T>, Just<U>> : defaults<Comparable> {
+    template <>
+    struct Comparable<_Maybe, _Maybe> : defaults<Comparable> {
+        template <typename T, typename U>
         static constexpr auto equal_impl(Just<T> t, Just<U> u)
         { return equal(t.val, u.val); }
-    };
 
-    template <bool tv, typename T, bool uv, typename U>
-    struct Comparable<Maybe<tv, T>, Maybe<uv, U>> : defaults<Comparable> {
+        template <bool tv, typename T, bool uv, typename U>
         static constexpr auto equal_impl(Maybe<tv, T>, Maybe<uv, U>)
         { return bool_<tv == uv>; }
     };
@@ -67,17 +73,14 @@ namespace boost { namespace hana {
     } maybe{};
 
     template <>
-    struct Functor<Nothing> {
+    struct Functor<_Maybe> {
+        template <typename F, typename T>
+        static constexpr auto fmap_impl(F f, Just<T> j)
+        { return just(f(j.val)); }
+
         template <typename F>
         static constexpr auto fmap_impl(F, Nothing)
         { return nothing; }
-    };
-
-    template <typename T>
-    struct Functor<Just<T>> {
-        template <typename F>
-        static constexpr auto fmap_impl(F f, Just<T> j)
-        { return just(f(j.val)); }
     };
 }} // end namespace boost::hana
 

@@ -12,6 +12,7 @@
 #ifndef BOOST_HANA_FUNCTOR_HPP
 #define BOOST_HANA_FUNCTOR_HPP
 
+#include <boost/hana/core.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 
 
@@ -21,7 +22,7 @@ namespace boost { namespace hana {
     struct Functor;
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto fmap = [](auto f, auto functor) {
-        return Functor<decltype(functor)>::fmap_impl(f, functor);
+        return Functor<datatype_t<decltype(functor)>>::fmap_impl(f, functor);
     };
 }} // end namespace boost::hana
 

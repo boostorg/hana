@@ -15,6 +15,17 @@
 namespace boost { namespace hana {
     template <template <typename ...> class Typeclass>
     struct defaults { };
+
+    template <typename T> typename T::hana_datatype datatype_impl(void*);
+    template <typename T> T datatype_impl(...);
+
+    template <typename T>
+    struct datatype {
+        using type = decltype(datatype_impl<T>(nullptr));
+    };
+
+    template <typename T>
+    using datatype_t = typename datatype<T>::type;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_CORE_HPP

@@ -24,48 +24,48 @@ namespace boost { namespace hana {
     struct Foldable;
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto foldl = [](auto f, auto state, auto foldable) {
-        return Foldable<decltype(foldable)>::foldl_impl(f, state, foldable);
+        return Foldable<datatype_t<decltype(foldable)>>::foldl_impl(f, state, foldable);
     };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto foldr = [](auto f, auto state, auto foldable) {
-        return Foldable<decltype(foldable)>::foldr_impl(f, state, foldable);
+        return Foldable<datatype_t<decltype(foldable)>>::foldr_impl(f, state, foldable);
     };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto foldr1 = [](auto f, auto foldable) {
-        return Foldable<decltype(foldable)>::foldr1_impl(f, foldable);
+        return Foldable<datatype_t<decltype(foldable)>>::foldr1_impl(f, foldable);
     };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto foldl1 = [](auto f, auto foldable) {
-        return Foldable<decltype(foldable)>::foldl1_impl(f, foldable);
+        return Foldable<datatype_t<decltype(foldable)>>::foldl1_impl(f, foldable);
     };
 
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto minimum_by = [](auto pred, auto foldable) {
-        return Foldable<decltype(foldable)>::minimum_by_impl(pred, foldable);
+        return Foldable<datatype_t<decltype(foldable)>>::minimum_by_impl(pred, foldable);
     };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto minimum = [](auto foldable) {
-        return Foldable<decltype(foldable)>::minimum_impl(foldable);
+        return Foldable<datatype_t<decltype(foldable)>>::minimum_impl(foldable);
     };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto maximum_by = [](auto pred, auto foldable) {
-        return Foldable<decltype(foldable)>::maximum_by_impl(pred, foldable);
+        return Foldable<datatype_t<decltype(foldable)>>::maximum_by_impl(pred, foldable);
     };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto maximum = [](auto foldable) {
-        return Foldable<decltype(foldable)>::maximum_impl(foldable);
+        return Foldable<datatype_t<decltype(foldable)>>::maximum_impl(foldable);
     };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto sum = [](auto foldable) {
-        return Foldable<decltype(foldable)>::sum_impl(foldable);
+        return Foldable<datatype_t<decltype(foldable)>>::sum_impl(foldable);
     };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto product = [](auto foldable) {
-        return Foldable<decltype(foldable)>::product_impl(foldable);
+        return Foldable<datatype_t<decltype(foldable)>>::product_impl(foldable);
     };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto count = [](auto pred, auto foldable) {
-        return Foldable<decltype(foldable)>::count_impl(pred, foldable);
+        return Foldable<datatype_t<decltype(foldable)>>::count_impl(pred, foldable);
     };
 
 

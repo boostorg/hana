@@ -27,68 +27,68 @@ namespace boost { namespace hana {
 
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto head = [](auto iterable) {
-        return Iterable<decltype(iterable)>::head_impl(iterable);
+        return Iterable<datatype_t<decltype(iterable)>>::head_impl(iterable);
     };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto tail = [](auto iterable) {
-        return Iterable<decltype(iterable)>::tail_impl(iterable);
+        return Iterable<datatype_t<decltype(iterable)>>::tail_impl(iterable);
     };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto is_empty = [](auto iterable) {
-        return Iterable<decltype(iterable)>::is_empty_impl(iterable);
+        return Iterable<datatype_t<decltype(iterable)>>::is_empty_impl(iterable);
     };
 
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto at = [](auto n, auto iterable) {
-        return Iterable<decltype(iterable)>::at_impl(n, iterable);
+        return Iterable<datatype_t<decltype(iterable)>>::at_impl(n, iterable);
     };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto last = [](auto iterable) {
-        return Iterable<decltype(iterable)>::last_impl(iterable);
+        return Iterable<datatype_t<decltype(iterable)>>::last_impl(iterable);
     };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto length = [](auto iterable) {
-        return Iterable<decltype(iterable)>::length_impl(iterable);
+        return Iterable<datatype_t<decltype(iterable)>>::length_impl(iterable);
     };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto drop = [](auto n, auto iterable) {
-        return Iterable<decltype(iterable)>::drop_impl(n, iterable);
+        return Iterable<datatype_t<decltype(iterable)>>::drop_impl(n, iterable);
     };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto drop_while = [](auto pred, auto iterable) {
-        return Iterable<decltype(iterable)>::drop_while_impl(pred, iterable);
+        return Iterable<datatype_t<decltype(iterable)>>::drop_while_impl(pred, iterable);
     };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto drop_until = [](auto pred, auto iterable) {
-        return Iterable<decltype(iterable)>::drop_until_impl(pred, iterable);
+        return Iterable<datatype_t<decltype(iterable)>>::drop_until_impl(pred, iterable);
     };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto find = [](auto pred, auto iterable) {
-        return Iterable<decltype(iterable)>::find_impl(pred, iterable);
+        return Iterable<datatype_t<decltype(iterable)>>::find_impl(pred, iterable);
     };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto any = [](auto pred, auto iterable) {
-        return Iterable<decltype(iterable)>::any_impl(pred, iterable);
+        return Iterable<datatype_t<decltype(iterable)>>::any_impl(pred, iterable);
     };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto any_of = [](auto iterable) {
-        return Iterable<decltype(iterable)>::any_of_impl(iterable);
+        return Iterable<datatype_t<decltype(iterable)>>::any_of_impl(iterable);
     };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto all = [](auto pred, auto iterable) {
-        return Iterable<decltype(iterable)>::all_impl(pred, iterable);
+        return Iterable<datatype_t<decltype(iterable)>>::all_impl(pred, iterable);
     };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto all_of = [](auto iterable) {
-        return Iterable<decltype(iterable)>::all_of_impl(iterable);
+        return Iterable<datatype_t<decltype(iterable)>>::all_of_impl(iterable);
     };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto none = [](auto pred, auto iterable) {
-        return Iterable<decltype(iterable)>::none_impl(pred, iterable);
+        return Iterable<datatype_t<decltype(iterable)>>::none_impl(pred, iterable);
     };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto none_of = [](auto iterable) {
-        return Iterable<decltype(iterable)>::none_of_impl(iterable);
+        return Iterable<datatype_t<decltype(iterable)>>::none_of_impl(iterable);
     };
 
 

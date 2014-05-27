@@ -13,21 +13,29 @@
 #define BOOST_HANA_INTEGRAL_HPP
 
 #include <boost/hana/comparable.hpp>
+#include <boost/hana/core.hpp>
 
 
 namespace boost { namespace hana {
+    struct _Integral;
+
     //! @ingroup datatypes
     template <typename T, T t>
     struct Integral {
         constexpr operator T() const { return t; }
+        using hana_datatype = _Integral;
     };
 
-    template <typename T, T t, typename U, U u>
-    struct Comparable<Integral<T, t>, Integral<U, u>> {
-        static constexpr Integral<bool, t == u> equal_impl(...)
+    template <>
+    struct Comparable<_Integral, _Integral> : defaults<Comparable> {
+        template <typename T, T t, typename U, U u>
+        static constexpr Integral<bool, t == u>
+        equal_impl(Integral<T, t>, Integral<U, u>)
         { return {}; }
 
-        static constexpr Integral<bool, t != u> not_equal_impl(...)
+        template <typename T, T t, typename U, U u>
+        static constexpr Integral<bool, t != u>
+        not_equal_impl(Integral<T, t>, Integral<U, u>)
         { return {}; }
     };
 

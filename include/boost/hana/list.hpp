@@ -28,10 +28,15 @@
 
 
 namespace boost { namespace hana {
+    struct _List;
+
     //! @ingroup datatypes
     //! @todo How to implement iterate and repeat?
     template <typename Into>
-    struct List { Into into; };
+    struct List {
+        using hana_datatype = _List;
+        Into into;
+    };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto list = [](auto ...xs) {
         auto into = [=](auto f) { return f(xs...); };
@@ -44,60 +49,64 @@ namespace boost { namespace hana {
     template <typename T, T ...xs>
     BOOST_HANA_CONSTEXPR_LAMBDA auto list_c = list(Integral<T, xs>{}...);
 
-    template <typename Storage>
-    struct Iterable<List<Storage>> : defaults<Iterable> {
-        static constexpr auto head_impl(List<Storage> xs) {
+    template <>
+    struct Iterable<_List> : defaults<Iterable> {
+        template <typename Xs>
+        static constexpr auto head_impl(Xs xs) {
             return xs.into([](auto x, ...) {
                 return x;
             });
         }
 
-        static constexpr auto tail_impl(List<Storage> xs) {
+        template <typename Xs>
+        static constexpr auto tail_impl(Xs xs) {
             return xs.into([](auto, auto ...xs) {
                 return list(xs...);
             });
         }
 
-        static constexpr auto is_empty_impl(List<Storage> xs) {
+        template <typename Xs>
+        static constexpr auto is_empty_impl(Xs xs) {
             return xs.into([](auto ...xs) {
                 return bool_<sizeof...(xs) == 0>;
             });
         }
 
-        static constexpr auto length_impl(List<Storage> xs) {
+        template <typename Xs>
+        static constexpr auto length_impl(Xs xs) {
             return xs.into([](auto ...xs) {
                 return size_t<sizeof...(xs)>;
             });
         }
 
-        template <typename Index>
-        static constexpr auto at_impl(Index n, List<Storage> xs) {
+        template <typename Index, typename Xs>
+        static constexpr auto at_impl(Index n, Xs xs) {
             return xs.into([=](auto ...xs) {
                 return detail::at_index::best(n, xs...);
             });
         }
     };
 
-    template <typename Storage>
-    struct Functor<List<Storage>> : defaults<Functor> {
-        template <typename F>
-        static constexpr auto fmap_impl(F f, List<Storage> xs) {
+    template <>
+    struct Functor<_List> : defaults<Functor> {
+        template <typename F, typename Xs>
+        static constexpr auto fmap_impl(F f, Xs xs) {
             return xs.into([=](auto ...xs) { return list(f(xs)...); });
         }
     };
 
-    template <typename Storage>
-    struct Foldable<List<Storage>> : detail::foldable_from_iterable {
-        template <typename F, typename State>
-        static constexpr auto foldl_impl(F f, State s, List<Storage> xs) {
+    template <>
+    struct Foldable<_List> : detail::foldable_from_iterable {
+        template <typename F, typename State, typename Xs>
+        static constexpr auto foldl_impl(F f, State s, Xs xs) {
             return xs.into([=](auto ...xs) {
                 return detail::left_folds::variadic(f, s, xs...);
             });
         }
     };
 
-    template <typename Storage1, typename Storage2>
-    struct Comparable<List<Storage1>, List<Storage2>>
+    template <>
+    struct Comparable<_List, _List>
         : detail::comparable_from_iterable
     { };
 

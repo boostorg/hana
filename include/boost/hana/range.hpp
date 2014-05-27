@@ -24,9 +24,13 @@
 
 
 namespace boost { namespace hana {
+    struct _Range;
+
     //! @ingroup datatypes
     template <typename T, T ...v>
-    struct Range { };
+    struct Range {
+        using hana_datatype = _Range;
+    };
 
     constexpr struct _range {
         template <typename T, T from, T to>
@@ -36,31 +40,29 @@ namespace boost { namespace hana {
         }
     } range{};
 
-    template <typename T>
-    struct Iterable<Range<T>> : defaults<Iterable> {
-        static constexpr Bool<true> is_empty_impl(Range<T>)
-        { return {}; }
-    };
-
-    template <typename T, T v, T ...vs>
-    struct Iterable<Range<T, v, vs...>> : defaults<Iterable> {
+    template <>
+    struct Iterable<_Range> : defaults<Iterable> {
+        template <typename T, T v, T ...vs>
         static constexpr Integral<T, v> head_impl(Range<T, v, vs...>)
         { return {}; }
 
+        template <typename T, T v, T ...vs>
         static constexpr Range<T, vs...> tail_impl(Range<T, v, vs...>)
         { return {}; }
 
-        static constexpr Bool<false> is_empty_impl(Range<T, v, vs...>)
-        { return {}; }
+        template <typename T, T ...vs>
+        static constexpr auto is_empty_impl(Range<T, vs...>)
+        { return bool_<sizeof...(vs) == 0>; }
     };
 
-    template <typename T, T ...vs>
-    struct Foldable<Range<T, vs...>>
+    template <>
+    struct Foldable<_Range>
         : detail::foldable_from_iterable
     { };
 
-    template <typename T, T ...ts, typename U, U ...us>
-    struct Comparable<Range<T, ts...>, Range<U, us...>> : defaults<Comparable> {
+    template <>
+    struct Comparable<_Range, _Range> : defaults<Comparable> {
+        template <typename T, T ...ts, typename U, U ...us>
         static constexpr Bool<false>
         equal_helper(Range<T, ts...>, Range<U, us...>, Bool<false>)
         { return {}; }
@@ -70,6 +72,7 @@ namespace boost { namespace hana {
         equal_helper(Range<X, xs...>, Range<Y, ys...>, Bool<true>)
         { return and_(bool_<xs == ys>...); }
 
+        template <typename T, T ...ts, typename U, U ...us>
         static constexpr auto equal_impl(Range<T, ts...> a, Range<U, us...> b)
         { return equal_helper(a, b, bool_<sizeof...(ts) == sizeof...(us)>); }
     };
@@ -86,9 +89,9 @@ namespace boost { namespace hana {
 #include <boost/hana/list.hpp>
 
 namespace boost { namespace hana {
-    template <typename T, T ...vs>
-    struct Functor<Range<T, vs...>> : defaults<Functor> {
-        template <typename F>
+    template <>
+    struct Functor<_Range> : defaults<Functor> {
+        template <typename F, typename T, T ...vs>
         static constexpr auto fmap_impl(F f, Range<T, vs...>)
         { return list(f(Integral<T, vs>{})...); }
     };
