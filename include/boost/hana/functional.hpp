@@ -49,6 +49,19 @@ namespace boost { namespace hana {
         }
     } fix{};
 
+    template <unsigned n>
+    BOOST_HANA_CONSTEXPR_LAMBDA auto curry = [](auto f) {
+        static_assert(n > 0,
+            "curry<0> is not allowed. what should that mean anyway?");
+        return [=](auto x) {
+            return curry<n-1>(partial(f, x));
+        };
+    };
+
+    template <>
+    BOOST_HANA_CONSTEXPR_LAMBDA auto curry<1> = [](auto f) {
+        return [=](auto x) { return f(x); };
+    };
 
     constexpr struct Placeholder { } _{};
 
