@@ -37,13 +37,17 @@ namespace boost { namespace hana {
 
     //! @ingroup datatypes
     template <template <typename ...> class f>
-    struct Template { };
+    struct Template {
+        template <typename ...Args>
+        constexpr auto operator()(Type<Args>...) const
+        { return type<f<Args...>>; }
+    };
 
     template <template <typename ...> class f>
     constexpr Template<f> template_{};
 
     /*!
-     * Inverse of `unit`.
+     * Inverse of `unit` for `Type`s.
      *
      * This is a partial function. It is only defined for default
      * constructible `T`s.
@@ -66,9 +70,9 @@ namespace boost { namespace hana {
 
     template <>
     struct Functor<_Type> : defaults<Functor> {
-        template <template <typename ...> class F, typename T>
-        static constexpr Type<F<T>> fmap_impl(Template<F>, Type<T>)
-        { return {}; }
+        template <typename F, typename T>
+        static constexpr auto fmap_impl(F f, Type<T> t)
+        { return f(t); }
     };
 
     template <>
