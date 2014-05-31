@@ -47,6 +47,7 @@ boost_hana_add_test(functional.partial)
 boost_hana_add_test(functional.placeholder)
 
 boost_hana_add_test(integral.comparable)
+boost_hana_add_test(integral.literals)
 boost_hana_add_test(integral.operators)
 
 boost_hana_add_test(iterable.all_of)

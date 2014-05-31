@@ -81,19 +81,101 @@ namespace boost { namespace hana {
 #undef BOOST_HANA_INTEGRAL_UNARY_OP
 #undef BOOST_HANA_INTEGRAL_BINARY_OP
 
-    template <int i> using Int = Integral<int, i>;
-    template <int i> constexpr Int<i> int_{};
+    namespace detail { using std_size_t = decltype(sizeof(int)); }
 
-    template <bool b> using Bool = Integral<bool, b>;
-    template <bool b> constexpr Bool<b> bool_{};
+    template <bool b>
+    using Bool = Integral<bool, b>;
+
+    template <char c>
+    using Char = Integral<char, c>;
+
+    template <short i>
+    using Short = Integral<short, i>;
+
+    template <unsigned short i>
+    using UShort = Integral<unsigned short, i>;
+
+    template <int i>
+    using Int = Integral<int, i>;
+
+    template <unsigned int i>
+    using UInt = Integral<unsigned int, i>;
+
+    template <long i>
+    using Long = Integral<long, i>;
+
+    template <unsigned long i>
+    using ULong = Integral<unsigned long, i>;
+
+    template <long long i>
+    using LLong = Integral<long long, i>;
+
+    template <unsigned long long i>
+    using ULLong = Integral<unsigned long long, i>;
+
+    template <detail::std_size_t n>
+    using SizeT = Integral<detail::std_size_t, n>;
+
+
+    template <bool b>
+    constexpr Bool<b> bool_{};
     constexpr auto true_ = bool_<true>;
     constexpr auto false_ = bool_<false>;
 
-    namespace detail { using std_size_t = decltype(sizeof(int)); }
-    template <detail::std_size_t n>
-    using SizeT = Integral<detail::std_size_t, n>;
+    template <char c>
+    constexpr Char<c> char_{};
+
+    template <short i>
+    constexpr Short<i> short_{};
+
+    template <unsigned short i>
+    constexpr UShort<i> ushort{};
+
+    template <int i>
+    constexpr Int<i> int_{};
+
+    template <unsigned int i>
+    constexpr UInt<i> uint{};
+
+    template <long i>
+    constexpr Long<i> long_{};
+
+    template <unsigned long i>
+    constexpr ULong<i> ulong{};
+
+    template <long long i>
+    constexpr LLong<i> llong{};
+
+    template <unsigned long long i>
+    constexpr ULLong<i> ullong{};
+
     template <detail::std_size_t n>
     constexpr SizeT<n> size_t{};
+
+    namespace integral_detail {
+        constexpr int to_int(char c)
+        { return static_cast<int>(c) - 48; }
+
+        template <detail::std_size_t N>
+        constexpr unsigned long long parse(const char (&arr)[N]) {
+            unsigned long long number = 0, base = 1;
+            for (detail::std_size_t i = 0; i < N; ++i) {
+                number += to_int(arr[N - 1 - i]) * base;
+                base *= 10;
+            }
+            return number;
+        }
+    }
+
+    namespace literals {
+        //! @todo Add support for stuff like `0x1234_c`.
+        template <char ...c>
+        constexpr Integral<
+            unsigned long long,
+            integral_detail::parse<sizeof...(c)>({c...})
+        >
+        operator"" _c() { return {}; }
+    }
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_INTEGRAL_HPP
