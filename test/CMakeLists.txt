@@ -35,6 +35,8 @@ boost_hana_add_test(foldable.sum)
 
 boost_hana_add_test(functional.always)
 boost_hana_add_test(functional.apply)
+boost_hana_add_test(functional.argwise.functor)
+boost_hana_add_test(functional.argwise.invocation)
 boost_hana_add_test(functional.compose)
 boost_hana_add_test(functional.curry)
 boost_hana_add_test(functional.fix)

@@ -13,6 +13,7 @@
 #define BOOST_HANA_FUNCTIONAL_HPP
 
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/functor.hpp>
 
 
 namespace boost { namespace hana {
@@ -61,6 +62,31 @@ namespace boost { namespace hana {
     template <>
     BOOST_HANA_CONSTEXPR_LAMBDA auto curry<1> = [](auto f) {
         return [=](auto x) { return f(x); };
+    };
+
+    struct Argwise;
+
+    template <typename F, typename G>
+    struct _argwise {
+        F f;
+        G g;
+        using hana_datatype = Argwise;
+
+        template <typename ...Xs>
+        constexpr auto operator()(Xs ...xs) const
+        { return f(g(xs)...); }
+    };
+
+    BOOST_HANA_CONSTEXPR_LAMBDA auto argwise = [](auto f) {
+        return _argwise<decltype(f), decltype(id)>{f, id};
+    };
+
+    template <>
+    struct Functor<Argwise> {
+        template <typename H, typename F, typename G>
+        static constexpr auto fmap_impl(H h, _argwise<F, G> aw) {
+            return _argwise<F, decltype(compose(h, aw.g))>{aw.f, compose(h, aw.g)};
+        }
     };
 
     constexpr struct Placeholder { } _{};
