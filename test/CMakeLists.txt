@@ -32,6 +32,7 @@ boost_hana_add_test(foldable.maximum)
 boost_hana_add_test(foldable.minimum)
 boost_hana_add_test(foldable.product)
 boost_hana_add_test(foldable.sum)
+boost_hana_add_test(foldable.unpack)
 
 boost_hana_add_test(functional.always)
 boost_hana_add_test(functional.apply)
@@ -87,7 +88,7 @@ boost_hana_add_test(maybe.maybe)
 boost_hana_add_test(maybe.monad)
 
 boost_hana_add_test(range.comparable)
-boost_hana_add_test(range.functor)
+boost_hana_add_test(range.foldable)
 boost_hana_add_test(range.iterable)
 
 boost_hana_add_test(type.comparable)

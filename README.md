@@ -444,11 +444,8 @@ static_assert(std::is_same<
 - Do we want `char_<1> + char<2> == char_<3>` or `char_<1> + char_<2> == int_<3>`?
 - How to avoid problems with ADL? `type<invalid> == type<invalid>` will instantiate
   `invalid` because of ADL for `operator==`.
-- Does it make sense to have something like an `argwise(f)` wrapper for functions
-  which would provide some typeclasses like container-like Functor. In particular,
-  `fmap(g, argwise(f))(xs...)` would be equivalent to `f(g(xs)...)`. This is also
-  equivalent to `argmap` in the MPL11. Perhaps other MPL11 operations like `bind`
-  and `on` have a category theoretical meaning?
+- Import functional stuff from the MPL11. In particular, try to find whether
+  they can be implemented in terms of known typeclasses.
 - Conversions from `Integral<T, t>` to `T` are sometimes problematic. Consider:
 ```cpp
 constexpr auto odd = [](auto x) {

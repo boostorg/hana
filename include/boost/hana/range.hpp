@@ -17,7 +17,6 @@
 #include <boost/hana/detail/foldable_from_iterable.hpp>
 #include <boost/hana/detail/integer_sequence.hpp>
 #include <boost/hana/foldable.hpp>
-#include <boost/hana/functor.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/logical.hpp>
@@ -59,9 +58,11 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Foldable<_Range>
-        : detail::foldable_from_iterable
-    { };
+    struct Foldable<_Range> : detail::foldable_from_iterable {
+        template <typename F, typename T, T ...vs>
+        static constexpr auto unpack_impl(F f, Range<T, vs...>)
+        { return f(Integral<T, vs>{}...); }
+    };
 
     template <>
     struct Comparable<_Range, _Range> : defaults<Comparable> {
@@ -80,16 +81,5 @@ namespace boost { namespace hana {
         { return equal_helper(a, b, bool_<sizeof...(ts) == sizeof...(us)>); }
     };
 }} // end namespace boost::hana
-
-#include <boost/hana/list.hpp>
-
-namespace boost { namespace hana {
-    template <>
-    struct Functor<_Range> : defaults<Functor> {
-        template <typename F, typename T, T ...vs>
-        static constexpr auto fmap_impl(F f, Range<T, vs...>)
-        { return list(f(Integral<T, vs>{})...); }
-    };
-}}
 
 #endif // !BOOST_HANA_RANGE_HPP

@@ -25,6 +25,7 @@
 #include <boost/hana/integral.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/logical.hpp>
+#include <boost/hana/range.hpp>
 #include <boost/hana/type.hpp>
 
 
@@ -179,17 +180,17 @@ namespace boost { namespace hana {
         foldl_impl(type_detail::Lift<F>, Type<State>, operators::TypeList<Xs...>) {
             return type<detail::left_folds::variadic_meta<F, State, Xs...>>;
         }
+
+        template <typename F, typename Xs>
+        static constexpr auto unpack_impl(F f, Xs xs)
+        { return xs.into(f); }
     };
 
     template <>
     struct Comparable<List, List>
         : detail::comparable_from_iterable
     { };
-}} // end namespace boost::hana
 
-#include <boost/hana/range.hpp>
-
-namespace boost { namespace hana {
     namespace list_detail {
         //! @todo Remove this hack.
         template <typename T, T t>
@@ -199,15 +200,15 @@ namespace boost { namespace hana {
 
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto zip_with = [](auto f, auto ...lists) {
-        return fmap(
-            [=](auto index) { return f(at(index, lists)...); },
+        return unpack(
+            fmap([=](auto index) { return f(at(index, lists)...); }, argwise(list)),
             range(size_t<0>, minimum(list(length(lists)...)))
         );
     };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto init = [](auto xs) {
-        return fmap(
-            [=](auto index) { return at(index, xs); },
+        return unpack(
+            fmap([=](auto index) { return at(index, xs); }, argwise(list)),
             range(size_t<0>, length(xs) - size_t<1>)
         );
     };
@@ -227,8 +228,8 @@ namespace boost { namespace hana {
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto take = [](auto n, auto xs) {
         auto min = [](auto a, auto b) { return if_(a < b, a, b); };
-        return fmap(
-            [=](auto index) { return at(index, xs); },
+        return unpack(
+            fmap([=](auto index) { return at(index, xs); }, argwise(list)),
             range(size_t<0>, list_detail::to_size_t(min(n, length(xs))))
         );
     };

@@ -14,6 +14,7 @@
 
 #include <boost/hana/core.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/functional.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/logical.hpp>
 
@@ -68,6 +69,10 @@ namespace boost { namespace hana {
         return Foldable<datatype_t<decltype(foldable)>>::count_impl(pred, foldable);
     };
 
+    BOOST_HANA_CONSTEXPR_LAMBDA auto unpack = [](auto f, auto foldable) {
+        return Foldable<datatype_t<decltype(foldable)>>::unpack_impl(f, foldable);
+    };
+
 
     template <>
     struct defaults<Foldable> {
@@ -110,6 +115,10 @@ namespace boost { namespace hana {
             };
             return foldl(inc, size_t<0>, foldable);
         }
+
+        template <typename F, typename Foldable_>
+        static constexpr auto unpack_impl(F f, Foldable_ foldable)
+        { return foldl(partial, f, foldable)(); }
     };
 }} // end namespace boost::hana
 

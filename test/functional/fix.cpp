@@ -9,6 +9,7 @@
 
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/functional.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/range.hpp>
@@ -27,14 +28,13 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto fact = fix(
 constexpr unsigned long long fact_test(unsigned long long n)
 { return n == 0 ? 1 : n * fact_test(n - 1); }
 
-
 int main() {
     //! @todo Use some kind of monadic mapping here.
-    fmap(
-        [](auto n) {
+    unpack(
+        fmap([](auto n) {
             BOOST_HANA_STATIC_ASSERT(fact(n) == fact_test(n));
             return 0;
-        },
+        }, argwise([](...) { })),
         range(size_t<0>, size_t<15>)
     );
 }
