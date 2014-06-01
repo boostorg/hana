@@ -12,22 +12,50 @@
 #ifndef BOOST_HANA_DETAIL_LAWS_HPP
 #define BOOST_HANA_DETAIL_LAWS_HPP
 
+#include <boost/hana/core.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/functor.hpp>
+#include <boost/hana/monad.hpp>
 
 
 namespace boost { namespace hana { namespace detail {
-    //! @ingroup details
     template <template <typename ...> class Typeclass>
     BOOST_HANA_CONSTEXPR_LAMBDA auto laws = [] { };
 
+    //! @ingroup details
+    //! @{
+
+    /*!
+     * Checks the `Functor` laws.
+     *
+     *
+       @code
+            fmap id == id
+            fmap (f . g) == fmap f . fmap g
+        @endcode
+     */
     template <>
     BOOST_HANA_CONSTEXPR_LAMBDA auto laws<Functor> = [](auto functor, auto f, auto g) {
         return fmap(id, functor) == functor &&
                fmap(compose(f, g), functor) == fmap(f, fmap(g, functor));
     };
+
+    /*!
+     * Checks the `Monad` laws.
+     *
+     * @todo
+     */
+    template <>
+    BOOST_HANA_CONSTEXPR_LAMBDA auto laws<Monad> = [](auto monad, auto a, auto f, auto g) {
+        auto unit_ = unit<datatype_t<decltype(monad)>>;
+        return bind(unit_(a), f) == f(a) &&
+               bind(monad, unit_) == monad &&
+               bind(monad, [=](auto x) { return bind(f(x), g); }) == bind(bind(monad, f), g) &&
+               fmap(f, monad) == bind(monad, compose(unit_, f));
+    };
+
+    //! @}
 }}} // end namespace boost::hana::detail
 
 #endif // !BOOST_HANA_DETAIL_LAWS_HPP

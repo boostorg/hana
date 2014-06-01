@@ -458,6 +458,11 @@ This will fail because `odd(int_<1>)` has type `Int<1 % 2>`, which is
 convertible to `bool` but not to `Bool<...>`. Because of this, the runtime
 `if_` is used and compilation fails.
 
-- Provide automatic verification of Functor and Monad laws. There are also
-other components that should document requirements, like Comparable. We need
-a way to automatically (or easily) checking for those.
+- Should we provide forward declaration headers like in MPL11? If so, should
+  only the forward decl. be necessary to instantiate typeclasses? If so, it
+  should be documented that including `typeclass.hpp` is only necessary if
+  one needs the default methods.
+
+- Provide an integrated way of checking laws for typeclasses. Also, provide
+such laws for e.g. Comparable (should be an equivalence relation at the very
+least).

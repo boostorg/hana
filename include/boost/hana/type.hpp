@@ -2,6 +2,8 @@
  * @file
  * Defines `boost::hana::Type`.
  *
+ * @todo Verify `Monad` laws for `Type`.
+ *
  *
  * @copyright Louis Dionne 2014
  * Distributed under the Boost Software License, Version 1.0.
