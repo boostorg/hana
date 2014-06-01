@@ -14,7 +14,19 @@ using namespace boost::hana;
 
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(curry<1>(list)(int_<0>) == list(int_<0>));
-    BOOST_HANA_STATIC_ASSERT(curry<2>(list)(int_<0>)(int_<1>) == list(int_<0>, int_<1>));
-    BOOST_HANA_STATIC_ASSERT(curry<3>(list)(int_<0>)(int_<1>)(int_<2>) == list(int_<0>, int_<1>, int_<2>));
+    BOOST_HANA_STATIC_ASSERT(curry<0>(list)() == list());
+
+    BOOST_HANA_STATIC_ASSERT(curry<1>(list)(int_<0>) == list_c<int, 0>);
+    BOOST_HANA_STATIC_ASSERT(curry<1>(list)()(int_<0>) == list_c<int, 0>);
+
+    BOOST_HANA_STATIC_ASSERT(curry<2>(list)(int_<0>, int_<1>) == list_c<int, 0, 1>);
+    BOOST_HANA_STATIC_ASSERT(curry<2>(list)(int_<0>)(int_<1>) == list_c<int, 0, 1>);
+    BOOST_HANA_STATIC_ASSERT(curry<2>(list)()(int_<0>, int_<1>) == list_c<int, 0, 1>);
+
+    BOOST_HANA_STATIC_ASSERT(curry<3>(list)(int_<0>, int_<1>, int_<2>) == list_c<int, 0, 1, 2>);
+    BOOST_HANA_STATIC_ASSERT(curry<3>(list)(int_<0>, int_<1>)(int_<2>) == list_c<int, 0, 1, 2>);
+    BOOST_HANA_STATIC_ASSERT(curry<3>(list)(int_<0>)(int_<1>, int_<2>) == list_c<int, 0, 1, 2>);
+    BOOST_HANA_STATIC_ASSERT(curry<3>(list)()(int_<0>, int_<1>, int_<2>) == list_c<int, 0, 1, 2>);
+    BOOST_HANA_STATIC_ASSERT(curry<3>(list)(int_<0>)(int_<1>)(int_<2>) == list_c<int, 0, 1, 2>);
+    BOOST_HANA_STATIC_ASSERT(curry<3>(list)(int_<0>)()(int_<1>, int_<2>) == list_c<int, 0, 1, 2>);
 }

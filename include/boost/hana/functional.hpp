@@ -50,18 +50,29 @@ namespace boost { namespace hana {
         }
     } fix{};
 
-    template <unsigned n>
+    template <typename F, unsigned Arity>
+    struct curry_impl;
+
+    template <unsigned arity>
     BOOST_HANA_CONSTEXPR_LAMBDA auto curry = [](auto f) {
-        static_assert(n > 0,
-            "curry<0> is not allowed. what should that mean anyway?");
-        return [=](auto x) {
-            return curry<n-1>(partial(f, x));
-        };
+        return curry_impl<decltype(f), arity>{f};
+    };
+
+    template <typename F, unsigned Arity>
+    struct curry_impl {
+        F f;
+
+        template <typename ...Args>
+        constexpr auto operator()(Args ...args) const
+        { return curry<Arity - sizeof...(Args)>(partial(f, args...))(); }
+
+        constexpr auto operator()() const
+        { return *this; }
     };
 
     template <>
-    BOOST_HANA_CONSTEXPR_LAMBDA auto curry<1> = [](auto f) {
-        return [=](auto x) { return f(x); };
+    BOOST_HANA_CONSTEXPR_LAMBDA auto curry<0> = [](auto f) {
+        return f;
     };
 
     struct Argwise;
