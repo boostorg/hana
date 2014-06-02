@@ -19,9 +19,9 @@
  */
 
 /*!
- * @defgroup typeclasses Typeclasses
+ * @defgroup typeclasses Type classes
  *
- * General purpose typeclasses provided by the library.
+ * General purpose type classes provided by the library.
  */
 
 /*!

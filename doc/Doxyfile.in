@@ -125,7 +125,7 @@ ABBREVIATE_BRIEF       =
 # description.
 # The default value is: NO.
 
-ALWAYS_DETAILED_SEC    = NO
+ALWAYS_DETAILED_SEC    = YES
 
 # If the INLINE_INHERITED_MEMB tag is set to YES, doxygen will show all
 # inherited members of a class in the documentation of that class as if those
@@ -197,7 +197,7 @@ QT_AUTOBRIEF           = YES
 # not recognized any more.
 # The default value is: NO.
 
-MULTILINE_CPP_IS_BRIEF = NO
+MULTILINE_CPP_IS_BRIEF = YES
 
 # If the INHERIT_DOCS tag is set to YES then an undocumented member inherits the
 # documentation from any documented member that it re-implements.
@@ -228,7 +228,15 @@ TAB_SIZE               = 4
 # "Side Effects:". You can put \n's in the value part of an alias to insert
 # newlines.
 
-ALIASES                =
+ALIASES =
+
+ALIASES += typeclass{1}="@ingroup typeclasses"
+ALIASES += typeclass_section{1}="--------------------------------------------------------------------------------\n### \1"
+ALIASES += mcd="@typeclass_section{Minimal complete definition}"
+ALIASES += laws="@typeclass_section{Laws}"
+
+ALIASES += method{1}="@relatesalso \1 \n @hideinitializer"
+
 
 # This tag can be used to specify a number of word-keyword mappings (TCL only).
 # A mapping has the form "name=value". For example adding "class=itcl::class"
@@ -309,7 +317,7 @@ AUTOLINK_SUPPORT       = YES
 # diagrams that involve STL classes more complete and accurate.
 # The default value is: NO.
 
-BUILTIN_STL_SUPPORT    = NO
+BUILTIN_STL_SUPPORT    = YES
 
 # If you use Microsoft's C++/CLI language, you should set this option to YES to
 # enable parsing support.
@@ -489,7 +497,7 @@ HIDE_IN_BODY_DOCS      = NO
 # will be excluded. Set it to YES to include the internal documentation.
 # The default value is: NO.
 
-INTERNAL_DOCS          = yes
+INTERNAL_DOCS          = NO
 
 # If the CASE_SENSE_NAMES tag is set to NO then doxygen will only generate file
 # names in lower-case letters. If set to YES upper-case letters are also
@@ -564,7 +572,7 @@ SORT_MEMBERS_CTORS_1ST = NO
 # appear in their defined order.
 # The default value is: NO.
 
-SORT_GROUP_NAMES       = NO
+SORT_GROUP_NAMES       = YES
 
 # If the SORT_BY_SCOPE_NAME tag is set to YES, the class list will be sorted by
 # fully-qualified names, including namespaces. If set to NO, the class list will
@@ -822,7 +830,8 @@ EXCLUDE_SYMBOLS        =
 # that contain example code fragments that are included (see the \include
 # command).
 
-EXAMPLE_PATH           =
+EXAMPLE_PATH  = @Boost.Hana_SOURCE_DIR@/example
+EXAMPLE_PATH += @Boost.Hana_SOURCE_DIR@/test
 
 # If the value of the EXAMPLE_PATH tag contains directories, you can use the
 # EXAMPLE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp and
@@ -1419,7 +1428,7 @@ FORMULA_TRANSPARENT    = YES
 # The default value is: NO.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-USE_MATHJAX            = NO
+USE_MATHJAX            = YES
 
 # When MathJax is enabled you can set the default output format to be used for
 # the MathJax output. See the MathJax site (see:
@@ -1942,7 +1951,7 @@ INCLUDE_FILE_PATTERNS  =
 # recursively expanded use the := operator instead of the = operator.
 # This tag requires that the tag ENABLE_PREPROCESSING is set to YES.
 
-PREDEFINED             = BOOST_MPL11_DOXYGEN_INVOKED
+PREDEFINED             = BOOST_HANA_DOXYGEN_INVOKED
 
 # If the MACRO_EXPANSION and EXPAND_ONLY_PREDEF tags are set to YES then this
 # tag can be used to specify a list of macro names that should be expanded. The

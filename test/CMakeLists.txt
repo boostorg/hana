@@ -8,9 +8,9 @@ add_custom_target(tests
 
 function(boost_hana_add_test name)
     string(REGEX REPLACE "[.]" "/" source ${name})
-    add_executable(${name} EXCLUDE_FROM_ALL ${source}.cpp)
-    add_test(NAME ${name} COMMAND ${name})
-    add_dependencies(tests ${name})
+    add_executable(test.${name} EXCLUDE_FROM_ALL ${source}.cpp)
+    add_test(NAME test.${name} COMMAND test.${name})
+    add_dependencies(tests test.${name})
 endfunction()
 
 

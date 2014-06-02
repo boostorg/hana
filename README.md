@@ -466,3 +466,10 @@ convertible to `bool` but not to `Bool<...>`. Because of this, the runtime
 - Provide an integrated way of checking laws for typeclasses. Also, provide
 such laws for e.g. Comparable (should be an equivalence relation at the very
 least).
+
+- Complete documentation w/ examples for everything.
+- Document the category theoretical foundation of the `Type` Monad.
+- Move self-notes for `Type`-related stuff to the (internal?) documentation
+  of `Type`.
+- Write a tutorial.
+- Provide a Main page for the Doxygen documentation.
