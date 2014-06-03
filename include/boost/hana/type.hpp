@@ -1,14 +1,10 @@
 /*!
- * @file
- * Defines `boost::hana::Type`.
- *
- * @todo Verify `Monad` laws for `Type`.
- *
- *
- * @copyright Louis Dionne 2014
- * Distributed under the Boost Software License, Version 1.0.
- *         (See accompanying file LICENSE.md or copy at
- *             http://www.boost.org/LICENSE_1_0.txt)
+@file
+Defines `boost::hana::Type`.
+
+@copyright Louis Dionne 2014
+Distributed under the Boost Software License, Version 1.0.
+(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
 #ifndef BOOST_HANA_TYPE_HPP
@@ -53,6 +49,8 @@ namespace boost { namespace hana {
      *
      * This is a partial function. It is only defined for default
      * constructible `T`s.
+     *
+     * @todo Verify `Monad` laws for `Type`.
      */
     template <typename T>
     constexpr T untype(Type<T>)
