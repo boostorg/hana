@@ -442,8 +442,6 @@ static_assert(std::is_same<
 
 ## Todo
 - Do we want `char_<1> + char<2> == char_<3>` or `char_<1> + char_<2> == int_<3>`?
-- How to avoid problems with ADL? `type<invalid> == type<invalid>` will instantiate
-  `invalid` because of ADL for `operator==`.
 - Import functional stuff from the MPL11. In particular, try to find whether
   they can be implemented in terms of known typeclasses.
 - Conversions from `Integral<T, t>` to `T` are sometimes problematic. Consider:
