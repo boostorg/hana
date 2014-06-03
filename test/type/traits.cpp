@@ -8,6 +8,7 @@
 #include <boost/hana/trait.hpp>
 
 #include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/integral.hpp>
 #include <boost/hana/type.hpp>
 using namespace boost::hana;
 
@@ -101,6 +102,7 @@ int main() {
     trait::alignment_of(s);
     trait::rank(s);
     trait::extent(s);
+    trait::extent(type<int[2][3]>, uint<1>);
 
     // Type relationships
     trait::is_same(s, s);

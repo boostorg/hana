@@ -1,12 +1,10 @@
 /*!
- * @file
- * Defines `boost::hana::Integral`.
- *
- *
- * @copyright Louis Dionne 2014
- * Distributed under the Boost Software License, Version 1.0.
- *         (See accompanying file LICENSE.md or copy at
- *             http://www.boost.org/LICENSE_1_0.txt)
+@file
+Defines `boost::hana::Integral`.
+
+@copyright Louis Dionne 2014
+Distributed under the Boost Software License, Version 1.0.
+(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
 #ifndef BOOST_HANA_INTEGRAL_HPP
@@ -17,9 +15,25 @@
 
 
 namespace boost { namespace hana {
-    struct _Integral;
+    /*!
+    @datatype{Integral}
+    @{
+    Represents a compile-time value of an integral type.
 
-    //! @ingroup datatypes
+    @instantiates{Comparable}
+
+    @todo
+    - Document valid expressions with any object of an `Integral` data type as
+    in the MPL11?
+    - I'm not sure what's the role of `Bool` and friends. I'm also not sure
+    of the role of `bool_` and friends. What are they? How should they be
+    documented? What is an implementation detail and what's not?
+    - Pick another name for this data type; _I is not allowed by the standard.
+     */
+    struct _Integral { };
+
+    //! @}
+
     template <typename T, T t>
     struct Integral {
         constexpr operator T() const { return t; }
@@ -116,6 +130,8 @@ namespace boost { namespace hana {
     template <detail::std_size_t n>
     using SizeT = Integral<detail::std_size_t, n>;
 
+    template <typename T, T v>
+    constexpr Integral<T, v> integral{};
 
     template <bool b>
     constexpr Bool<b> bool_{};
