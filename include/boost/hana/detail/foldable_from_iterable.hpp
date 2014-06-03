@@ -1,12 +1,10 @@
 /*!
- * @file
- * Defines `boost::hana::detail::foldable_from_iterable`.
- *
- *
- * @copyright Louis Dionne 2014
- * Distributed under the Boost Software License, Version 1.0.
- *         (See accompanying file LICENSE.md or copy at
- *             http://www.boost.org/LICENSE_1_0.txt)
+@file
+Defines `boost::hana::detail::foldable_from_iterable`.
+
+@copyright Louis Dionne 2014
+Distributed under the Boost Software License, Version 1.0.
+(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
 #ifndef BOOST_HANA_DETAIL_FOLDABLE_FROM_ITERABLE_HPP
@@ -47,6 +45,16 @@ namespace boost { namespace hana { namespace detail {
             return if_(is_empty(xs),
                 always(s),
                 [=](auto xs) { return f(head(xs), foldr_impl(f, s, tail(xs))); }
+            )(xs);
+        }
+
+        template <typename F, typename State, typename Iterable>
+        static constexpr auto lazy_foldr_impl(F f, State s, Iterable xs) {
+            return if_(is_empty(xs),
+                always(s),
+                [=](auto xs) {
+                    return f(partial(head, xs), partial(lazy_foldr, f, s, tail(xs)));
+                }
             )(xs);
         }
     };

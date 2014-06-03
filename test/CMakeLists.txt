@@ -28,6 +28,7 @@ boost_hana_add_test(detail.integer_sequence)
 boost_hana_add_test(detail.left_folds)
 
 boost_hana_add_test(foldable.count)
+boost_hana_add_test(foldable.foldr)
 boost_hana_add_test(foldable.maximum)
 boost_hana_add_test(foldable.minimum)
 boost_hana_add_test(foldable.product)

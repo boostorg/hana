@@ -24,7 +24,7 @@ namespace boost { namespace hana {
     The `Foldable` type class is used for data structures that can be folded.
 
     @mcd
-    `foldl`, `foldr`, `foldl1` and `foldr1`
+    `foldl`, `foldl1`, `foldr1` and `lazy_foldr`
 
     @todo
     Provide examples for the methods? I think the instance of `Foldable` for
@@ -59,6 +59,16 @@ namespace boost { namespace hana {
     //! @method{Foldable}
     BOOST_HANA_CONSTEXPR_LAMBDA auto foldl1 = [](auto f, auto foldable) {
         return Foldable<datatype_t<decltype(foldable)>>::foldl1_impl(f, foldable);
+    };
+
+    //! Lazy right-associative fold of a structure using a binary operation.
+    //!
+    //! Unlike for strict folds, the binary operation should take nullary
+    //! functions returning an element and the state instead of taking an
+    //! element and the state directly.
+    //! @method{Foldable}
+    BOOST_HANA_CONSTEXPR_LAMBDA auto lazy_foldr = [](auto f, auto state, auto foldable) {
+        return Foldable<datatype_t<decltype(foldable)>>::lazy_foldr_impl(f, state, foldable);
     };
 
     //! Return the least element of a non-empty structure with respect to
@@ -116,6 +126,10 @@ namespace boost { namespace hana {
 
     template <>
     struct defaults<Foldable> {
+        template <typename F, typename State, typename Foldable_>
+        static constexpr auto foldr_impl(F f, State s, Foldable_ foldable)
+        { return lazy_foldr(fmap(apply, argwise(f)), s, foldable); }
+
         template <typename Foldable_>
         static constexpr auto minimum_impl(Foldable_ foldable)
         { return minimum_by([](auto x, auto y) { return x < y; }, foldable); }
