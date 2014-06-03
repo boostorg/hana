@@ -122,42 +122,6 @@ namespace boost { namespace hana {
         return Iterable<datatype_t<decltype(iterable)>>::find_impl(predicate, iterable);
     };
 
-    //! Return whether any element of the iterable satisfies the `predicate`.
-    //! @method{Iterable}
-    BOOST_HANA_CONSTEXPR_LAMBDA auto any = [](auto predicate, auto iterable) {
-        return Iterable<datatype_t<decltype(iterable)>>::any_impl(predicate, iterable);
-    };
-
-    //! Return whether any element of the iterable is true-valued.
-    //! @method{Iterable}
-    BOOST_HANA_CONSTEXPR_LAMBDA auto any_of = [](auto iterable) {
-        return Iterable<datatype_t<decltype(iterable)>>::any_of_impl(iterable);
-    };
-
-    //! Return whether all the elements of the iterable satisfy the `predicate`.
-    //! @method{Iterable}
-    BOOST_HANA_CONSTEXPR_LAMBDA auto all = [](auto predicate, auto iterable) {
-        return Iterable<datatype_t<decltype(iterable)>>::all_impl(predicate, iterable);
-    };
-
-    //! Return whether all the elements of the iterable are true-valued.
-    //! @method{Iterable}
-    BOOST_HANA_CONSTEXPR_LAMBDA auto all_of = [](auto iterable) {
-        return Iterable<datatype_t<decltype(iterable)>>::all_of_impl(iterable);
-    };
-
-    //! Return whether none of the elements of the iterable satisfy the `predicate`.
-    //! @method{Iterable}
-    BOOST_HANA_CONSTEXPR_LAMBDA auto none = [](auto predicate, auto iterable) {
-        return Iterable<datatype_t<decltype(iterable)>>::none_impl(predicate, iterable);
-    };
-
-    //! Return whether none of the elements of the iterable are true-valued.
-    //! @method{Iterable}
-    BOOST_HANA_CONSTEXPR_LAMBDA auto none_of = [](auto iterable) {
-        return Iterable<datatype_t<decltype(iterable)>>::none_of_impl(iterable);
-    };
-
     //! @}
 
     template <>
@@ -220,39 +184,6 @@ namespace boost { namespace hana {
                 compose(just, head)
             )(e);
         }
-
-        // any, all, none
-        template <typename Pred, typename Iterable_>
-        static constexpr auto any_impl(Pred pred, Iterable_ iterable) {
-            return if_(is_empty(iterable),
-                always(false_),
-                [](auto pred, auto it) {
-                    return pred(head(it)) || any_impl(pred, tail(it));
-                }
-            )(pred, iterable);
-        }
-
-        template <typename Pred, typename Iterable_>
-        static constexpr auto all_impl(Pred pred, Iterable_ iterable)
-        { return !any([=](auto x) { return !pred(x); }, iterable); }
-
-        template <typename Pred, typename Iterable_>
-        static constexpr auto none_impl(Pred pred, Iterable_ iterable)
-        { return !any(pred, iterable); }
-
-
-        // any_of, all_of, none_of
-        template <typename Iterable_>
-        static constexpr auto any_of_impl(Iterable_ iterable)
-        { return any(id, iterable); }
-
-        template <typename Iterable_>
-        static constexpr auto all_of_impl(Iterable_ iterable)
-        { return all(id, iterable); }
-
-        template <typename Iterable_>
-        static constexpr auto none_of_impl(Iterable_ iterable)
-        { return none(id, iterable); }
     };
 }} // end namespace boost::hana
 

@@ -122,6 +122,42 @@ namespace boost { namespace hana {
         return Foldable<datatype_t<decltype(foldable)>>::unpack_impl(f, foldable);
     };
 
+    //! Return whether any element of the structure satisfies the `predicate`.
+    //! @method{Foldable}
+    BOOST_HANA_CONSTEXPR_LAMBDA auto any = [](auto predicate, auto foldable) {
+        return Foldable<datatype_t<decltype(foldable)>>::any_impl(predicate, foldable);
+    };
+
+    //! Return whether any element of the structure is true-valued.
+    //! @method{Foldable}
+    BOOST_HANA_CONSTEXPR_LAMBDA auto any_of = [](auto foldable) {
+        return Foldable<datatype_t<decltype(foldable)>>::any_of_impl(foldable);
+    };
+
+    //! Return whether all the elements of the structure satisfy the `predicate`.
+    //! @method{Foldable}
+    BOOST_HANA_CONSTEXPR_LAMBDA auto all = [](auto predicate, auto foldable) {
+        return Foldable<datatype_t<decltype(foldable)>>::all_impl(predicate, foldable);
+    };
+
+    //! Return whether all the elements of the structure are true-valued.
+    //! @method{Foldable}
+    BOOST_HANA_CONSTEXPR_LAMBDA auto all_of = [](auto foldable) {
+        return Foldable<datatype_t<decltype(foldable)>>::all_of_impl(foldable);
+    };
+
+    //! Return whether none of the elements of the structure satisfy the `predicate`.
+    //! @method{Foldable}
+    BOOST_HANA_CONSTEXPR_LAMBDA auto none = [](auto predicate, auto foldable) {
+        return Foldable<datatype_t<decltype(foldable)>>::none_impl(predicate, foldable);
+    };
+
+    //! Return whether none of the elements of the structure are true-valued.
+    //! @method{Foldable}
+    BOOST_HANA_CONSTEXPR_LAMBDA auto none_of = [](auto foldable) {
+        return Foldable<datatype_t<decltype(foldable)>>::none_of_impl(foldable);
+    };
+
     //! @}
 
     template <>
@@ -173,6 +209,54 @@ namespace boost { namespace hana {
         template <typename F, typename Foldable_>
         static constexpr auto unpack_impl(F f, Foldable_ foldable)
         { return foldl(partial, f, foldable)(); }
+
+        template <typename Pred>
+        struct lazy_or {
+            Pred p;
+            template <typename X, typename Y>
+            constexpr auto operator()(X x, Y y) const
+            { return call(p(x()), y); }
+
+            template <typename Y>
+            constexpr auto call(decltype(true_), Y y) const
+            { return true_; }
+
+            template <typename Y>
+            constexpr auto call(decltype(false_), Y y) const
+            { return y(); }
+
+            template <typename Y>
+            constexpr auto call(bool b, Y y) const
+            { return b ? b : y(); }
+        };
+
+        // any, all, none
+        template <typename Pred, typename Foldable_>
+        static constexpr auto any_impl(Pred pred, Foldable_ foldable) {
+            return lazy_foldr(lazy_or<Pred>{pred}, false_, foldable);
+        }
+
+        template <typename Pred, typename Foldable_>
+        static constexpr auto all_impl(Pred pred, Foldable_ foldable)
+        { return !any([=](auto x) { return !pred(x); }, foldable); }
+
+        template <typename Pred, typename Foldable_>
+        static constexpr auto none_impl(Pred pred, Foldable_ foldable)
+        { return !any(pred, foldable); }
+
+
+        // any_of, all_of, none_of
+        template <typename Foldable_>
+        static constexpr auto any_of_impl(Foldable_ foldable)
+        { return any(id, foldable); }
+
+        template <typename Foldable_>
+        static constexpr auto all_of_impl(Foldable_ foldable)
+        { return all(id, foldable); }
+
+        template <typename Foldable_>
+        static constexpr auto none_of_impl(Foldable_ foldable)
+        { return none(id, foldable); }
     };
 }} // end namespace boost::hana
 
