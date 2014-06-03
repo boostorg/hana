@@ -1,12 +1,10 @@
 /*!
- * @file
- * Defines `boost::hana::Iterable`.
- *
- *
- * @copyright Louis Dionne 2014
- * Distributed under the Boost Software License, Version 1.0.
- *         (See accompanying file LICENSE.md or copy at
- *             http://www.boost.org/LICENSE_1_0.txt)
+@file
+Defines `boost::hana::Iterable`.
+
+@copyright Louis Dionne 2014
+Distributed under the Boost Software License, Version 1.0.
+(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
 #ifndef BOOST_HANA_ITERABLE_HPP
@@ -21,76 +19,146 @@
 
 
 namespace boost { namespace hana {
-    //! @ingroup typeclasses
+    /*!
+    @typeclass{Iterable}
+    @{
+    Data structures allowing external iteration.
+
+    @mcd
+    `head`, `tail` and `is_empty`
+
+    @note
+    All indexing is 0-based.
+
+    @todo
+    - What about infinite `Iterable`s?
+    - There are probably tons of laws that must be respected?
+    - How to document/provide default instantiations for some type classes
+    like `Foldable`?
+    - Instead of having a lot of methods, maybe some of the functions below
+    should just be implemented as functions using the mcd, as in the MPL11?
+     */
     template <typename T>
     struct Iterable;
 
-
+    //! Return the first element of a non-empty iterable.
+    //! @method{Iterable}
     BOOST_HANA_CONSTEXPR_LAMBDA auto head = [](auto iterable) {
         return Iterable<datatype_t<decltype(iterable)>>::head_impl(iterable);
     };
 
+    //! Return a new iterable containing all but the first element of a
+    //! non-empty iterable.
+    //! @method{Iterable}
     BOOST_HANA_CONSTEXPR_LAMBDA auto tail = [](auto iterable) {
         return Iterable<datatype_t<decltype(iterable)>>::tail_impl(iterable);
     };
 
+    //! Return whether the iterable is empty.
+    //! @method{Iterable}
     BOOST_HANA_CONSTEXPR_LAMBDA auto is_empty = [](auto iterable) {
         return Iterable<datatype_t<decltype(iterable)>>::is_empty_impl(iterable);
     };
 
-
+    //! Return the `n`th element of an iterable.
+    //! @method{Iterable}
     BOOST_HANA_CONSTEXPR_LAMBDA auto at = [](auto n, auto iterable) {
         return Iterable<datatype_t<decltype(iterable)>>::at_impl(n, iterable);
     };
 
+    //! Return the last element of a non-empty iterable.
+    //! @method{Iterable}
     BOOST_HANA_CONSTEXPR_LAMBDA auto last = [](auto iterable) {
         return Iterable<datatype_t<decltype(iterable)>>::last_impl(iterable);
     };
 
+    //! Return the number of elements in a finite iterable.
+    //! @method{Iterable}
+    //!
+    //! @todo
+    //! - Should this be moved into `Foldable`?
+    //! - Implement this with `foldl`:
+    //! @code
+    //!     foldl([](auto n, auto) { return n + size_t<1>; }, size_t<0>, iterable);
+    //! @endcode
     BOOST_HANA_CONSTEXPR_LAMBDA auto length = [](auto iterable) {
         return Iterable<datatype_t<decltype(iterable)>>::length_impl(iterable);
     };
 
+    //! Drop the first `n` elements of an iterable and return the rest.
+    //!
+    //! `n` must be a non-negative `Integral` representing the number of
+    //! elements to be dropped from the iterable. If `n` is greater than
+    //! the length of the iterable, the returned iterable is empty.
+    //!
+    //! @method{Iterable}
     BOOST_HANA_CONSTEXPR_LAMBDA auto drop = [](auto n, auto iterable) {
         return Iterable<datatype_t<decltype(iterable)>>::drop_impl(n, iterable);
     };
 
-    BOOST_HANA_CONSTEXPR_LAMBDA auto drop_while = [](auto pred, auto iterable) {
-        return Iterable<datatype_t<decltype(iterable)>>::drop_while_impl(pred, iterable);
+    //! Drop elements from an iterable up to, but not including, the first
+    //! element for which the `predicate` is not satisfied.
+    //!
+    //! Specifically, `drop_while` returns an iterable containing all the
+    //! elements of the original iterable except for those in the range
+    //! delimited by [`head`, `e`), where `head` is the first element and
+    //! `e` is the first element for which the `predicate` is not satisfied.
+    //!
+    //! @method{Iterable}
+    BOOST_HANA_CONSTEXPR_LAMBDA auto drop_while = [](auto predicate, auto iterable) {
+        return Iterable<datatype_t<decltype(iterable)>>::drop_while_impl(predicate, iterable);
     };
 
-    BOOST_HANA_CONSTEXPR_LAMBDA auto drop_until = [](auto pred, auto iterable) {
-        return Iterable<datatype_t<decltype(iterable)>>::drop_until_impl(pred, iterable);
+    //! Equivalent to `drop_while` with a negated `predicate`.
+    //! @method{Iterable}
+    BOOST_HANA_CONSTEXPR_LAMBDA auto drop_until = [](auto predicate, auto iterable) {
+        return Iterable<datatype_t<decltype(iterable)>>::drop_until_impl(predicate, iterable);
     };
 
-    BOOST_HANA_CONSTEXPR_LAMBDA auto find = [](auto pred, auto iterable) {
-        return Iterable<datatype_t<decltype(iterable)>>::find_impl(pred, iterable);
+    //! Return `just` the first element satisfying the `predicate`, or `nothing`
+    //! if there is no such element.
+    //! @method{Iterable}
+    BOOST_HANA_CONSTEXPR_LAMBDA auto find = [](auto predicate, auto iterable) {
+        return Iterable<datatype_t<decltype(iterable)>>::find_impl(predicate, iterable);
     };
 
-    BOOST_HANA_CONSTEXPR_LAMBDA auto any = [](auto pred, auto iterable) {
-        return Iterable<datatype_t<decltype(iterable)>>::any_impl(pred, iterable);
+    //! Return whether any element of the iterable satisfies the `predicate`.
+    //! @method{Iterable}
+    BOOST_HANA_CONSTEXPR_LAMBDA auto any = [](auto predicate, auto iterable) {
+        return Iterable<datatype_t<decltype(iterable)>>::any_impl(predicate, iterable);
     };
 
+    //! Return whether any element of the iterable is true-valued.
+    //! @method{Iterable}
     BOOST_HANA_CONSTEXPR_LAMBDA auto any_of = [](auto iterable) {
         return Iterable<datatype_t<decltype(iterable)>>::any_of_impl(iterable);
     };
 
-    BOOST_HANA_CONSTEXPR_LAMBDA auto all = [](auto pred, auto iterable) {
-        return Iterable<datatype_t<decltype(iterable)>>::all_impl(pred, iterable);
+    //! Return whether all the elements of the iterable satisfy the `predicate`.
+    //! @method{Iterable}
+    BOOST_HANA_CONSTEXPR_LAMBDA auto all = [](auto predicate, auto iterable) {
+        return Iterable<datatype_t<decltype(iterable)>>::all_impl(predicate, iterable);
     };
 
+    //! Return whether all the elements of the iterable are true-valued.
+    //! @method{Iterable}
     BOOST_HANA_CONSTEXPR_LAMBDA auto all_of = [](auto iterable) {
         return Iterable<datatype_t<decltype(iterable)>>::all_of_impl(iterable);
     };
 
-    BOOST_HANA_CONSTEXPR_LAMBDA auto none = [](auto pred, auto iterable) {
-        return Iterable<datatype_t<decltype(iterable)>>::none_impl(pred, iterable);
+    //! Return whether none of the elements of the iterable satisfy the `predicate`.
+    //! @method{Iterable}
+    BOOST_HANA_CONSTEXPR_LAMBDA auto none = [](auto predicate, auto iterable) {
+        return Iterable<datatype_t<decltype(iterable)>>::none_impl(predicate, iterable);
     };
 
+    //! Return whether none of the elements of the iterable are true-valued.
+    //! @method{Iterable}
     BOOST_HANA_CONSTEXPR_LAMBDA auto none_of = [](auto iterable) {
         return Iterable<datatype_t<decltype(iterable)>>::none_of_impl(iterable);
     };
 
+    //! @}
 
     template <>
     struct defaults<Iterable> {

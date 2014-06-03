@@ -1,12 +1,10 @@
 /*!
- * @file
- * Defines `boost::hana::List`.
- *
- *
- * @copyright Louis Dionne 2014
- * Distributed under the Boost Software License, Version 1.0.
- *         (See accompanying file LICENSE.md or copy at
- *             http://www.boost.org/LICENSE_1_0.txt)
+@file
+Defines `boost::hana::List`.
+
+@copyright Louis Dionne 2014
+Distributed under the Boost Software License, Version 1.0.
+(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
 #ifndef BOOST_HANA_LIST_HPP
@@ -30,9 +28,21 @@
 
 
 namespace boost { namespace hana {
-    //! @ingroup datatypes
-    //! @todo How to implement iterate and repeat?
-    struct List;
+    /*!
+    @datatype{List}
+    @{
+    General purpose compile-time heterogeneous sequence.
+
+    @instantiates{Iterable, Functor, Foldable, Monad, Comparable}
+
+    @todo
+    - How to implement iterate and repeat?
+    - Document the list-specific functions.
+    - Document how the type classes are instantiated.
+     */
+    struct List { };
+
+    //! @}
 
     namespace operators {
         template <typename Storage>
@@ -62,7 +72,7 @@ namespace boost { namespace hana {
     constexpr operators::TypeList<Xs...> list_t{};
 
     template <typename T, T ...xs>
-    BOOST_HANA_CONSTEXPR_LAMBDA auto list_c = list(Integral<T, xs>{}...);
+    BOOST_HANA_CONSTEXPR_LAMBDA auto list_c = list(integral<T, xs>...);
 
     template <>
     struct Iterable<List> : defaults<Iterable> {
@@ -191,13 +201,6 @@ namespace boost { namespace hana {
         : detail::comparable_from_iterable
     { };
 
-    namespace list_detail {
-        //! @todo Remove this hack.
-        template <typename T, T t>
-        static constexpr SizeT<t> to_size_t(Integral<T, t>)
-        { return {}; }
-    }
-
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto zip_with = [](auto f, auto ...lists) {
         return unpack(
@@ -230,7 +233,7 @@ namespace boost { namespace hana {
         auto min = [](auto a, auto b) { return if_(a < b, a, b); };
         return unpack(
             fmap([=](auto index) { return at(index, xs); }, argwise(list)),
-            range(size_t<0>, list_detail::to_size_t(min(n, length(xs))))
+            range(size_t<0>, min(n, length(xs)))
         );
     };
 

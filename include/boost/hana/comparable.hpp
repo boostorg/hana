@@ -33,12 +33,13 @@ namespace boost { namespace hana {
     @f}
 
     @todo
-    Should all datatypes have a default implementation to allow arbitrary
+    - Should all data types have a default implementation to allow arbitrary
     objects of different types to be compared? See Boost.Fusion for an
     example of this.
-
-    @todo
-    Document `==` and `!=` operators.
+    - Document `==` and `!=` operators.
+    - Should `equal` and `not_equal` allow more than 2 arguments as in the
+    MPL11?
+    - Implement automatic checking of the laws for Comparable, if possible.
      */
     template <typename T, typename U>
     struct Comparable {

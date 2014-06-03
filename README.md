@@ -473,3 +473,11 @@ least).
   of `Type`.
 - Write a tutorial.
 - Provide a Main page for the Doxygen documentation.
+- Consider making function objects automatically curriable. This could allow
+_super sexy_ stuff like:
+```cpp
+template <>
+struct Iterable<List> {
+    static constexpr auto length_impl = foldl(some_lambda, size_t<0>);
+};
+```

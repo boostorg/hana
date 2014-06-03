@@ -182,6 +182,12 @@ namespace boost { namespace hana {
 
     ### Example
     @snippet example/functional/placeholder.cpp main
+
+    @todo
+    Consider allowing placeholder expressions to be called with more arguments
+    than required. The extraneous arguments could just be discarded as with
+    `boost::bind`. This could be useful to implement e.g. `length` as a
+    wrapper over `foldl`.
      */
     constexpr struct { } _{};
 

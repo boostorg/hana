@@ -1,11 +1,10 @@
 /*!
- * @file
- * Defines `boost::hana::Maybe`.
- *
- * @copyright Louis Dionne 2014
- * Distributed under the Boost Software License, Version 1.0.
- *         (See accompanying file LICENSE.md or copy at
- *             http://www.boost.org/LICENSE_1_0.txt)
+@file
+Defines `boost::hana::Maybe`.
+
+@copyright Louis Dionne 2014
+Distributed under the Boost Software License, Version 1.0.
+(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
 #ifndef BOOST_HANA_MAYBE_HPP
@@ -20,7 +19,23 @@
 
 
 namespace boost { namespace hana {
-    struct _Maybe;
+    /*!
+    @datatype{Maybe}
+    @{
+    Represents an optional value.
+
+    A `Maybe` either contains a value (represented as `just(x)`), or it is
+    empty (represented as `nothing`).
+
+    @instantiates{Comparable, Functor, Monad}
+
+    @todo
+    - `Comparable` should only be instantiated when the content of the `Maybe`
+    is `Comparable`.
+     */
+    struct _Maybe { };
+
+    //! @}
 
     namespace operators {
         template <bool is_valid, typename T>

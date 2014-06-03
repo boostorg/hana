@@ -35,8 +35,8 @@ namespace boost { namespace hana {
     using operators::Range;
 
     constexpr struct _range {
-        template <typename T, T from, T to>
-        constexpr auto operator()(Integral<T, from>, Integral<T, to>) const {
+        template <typename T, T from, typename U, U to>
+        constexpr auto operator()(Integral<T, from>, Integral<U, to>) const {
             return typename detail::make_integer_sequence<T, to - from>::
                    template slide_by<from, Range>{};
         }
@@ -45,8 +45,8 @@ namespace boost { namespace hana {
     template <>
     struct Iterable<_Range> : defaults<Iterable> {
         template <typename T, T v, T ...vs>
-        static constexpr Integral<T, v> head_impl(Range<T, v, vs...>)
-        { return {}; }
+        static constexpr auto head_impl(Range<T, v, vs...>)
+        { return integral<T, v>; }
 
         template <typename T, T v, T ...vs>
         static constexpr Range<T, vs...> tail_impl(Range<T, v, vs...>)

@@ -235,7 +235,16 @@ ALIASES += typeclass_section{1}="-----------------------------------------------
 ALIASES += mcd="@typeclass_section{Minimal complete definition}"
 ALIASES += laws="@typeclass_section{Laws}"
 
-ALIASES += method{1}="@relatesalso \1 \n @hideinitializer"
+ALIASES += datatype{1}="@ingroup datatypes"
+ALIASES += datatype_section{1}="--------------------------------------------------------------------------------\n### \1"
+ALIASES += instantiates{1}="@datatype_section{Instantiates}\n- \1"
+ALIASES += instantiates{2}="@instantiates{\1}\n- \2"
+ALIASES += instantiates{3}="@instantiates{\1, \2}\n- \3"
+ALIASES += instantiates{4}="@instantiates{\1, \2, \3}\n- \4"
+ALIASES += instantiates{5}="@instantiates{\1, \2, \3, \4}\n- \5"
+ALIASES += instantiates{6}="@instantiates{\1, \2, \3, \4, \5}\n- \6"
+
+ALIASES += method{1}="@relatesalso \1\n@hideinitializer"
 
 
 # This tag can be used to specify a number of word-keyword mappings (TCL only).

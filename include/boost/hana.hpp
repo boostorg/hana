@@ -1,34 +1,23 @@
 /*!
- * @file
- * Includes all the headers of the library.
- *
- *
- * @copyright Louis Dionne 2014
- * Distributed under the Boost Software License, Version 1.0.
- *         (See accompanying file LICENSE.md or copy at
- *             http://www.boost.org/LICENSE_1_0.txt)
+@file
+Includes all the headers of the library.
+
+@copyright Louis Dionne 2014
+Distributed under the Boost Software License, Version 1.0.
+(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
 #ifndef BOOST_HANA_HPP
 #define BOOST_HANA_HPP
 
-/*!
- * @defgroup details Details
- *
- * Implementation details.
- */
+//! @defgroup details Details
+//! Implementation details.
 
-/*!
- * @defgroup typeclasses Type classes
- *
- * General purpose type classes provided by the library.
- */
+//! @defgroup typeclasses Type classes
+//! General purpose type classes provided by the library.
 
-/*!
- * @defgroup datatypes Data Types
- *
- * Data types provided by the library.
- */
+//! @defgroup datatypes Data types
+//! General purpose data types provided by the library.
 
 #include <boost/hana/adapted/std_array.hpp>
 #include <boost/hana/adapted/std_integer_sequence.hpp>
