@@ -10,7 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FUNCTIONAL_HPP
 #define BOOST_HANA_FUNCTIONAL_HPP
 
+#include <boost/hana/detail/at_index/best.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/integral.hpp>
+
+#include <cstddef>
 
 
 namespace boost { namespace hana {
@@ -46,6 +50,30 @@ namespace boost { namespace hana {
     //! @snippet example/functional/apply.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto apply = [](auto f, auto ...xs) {
         return f(xs...);
+    };
+
+    //! Returns its `n`th argument.
+    //!
+    //! Indexing starts at 1, so that `arg<1>` returns the 1st argument,
+    //! `arg<2>` the 2nd and so on. Using `arg<0>` is an error. Passing
+    //! less than `n` arguments to `arg<n>` is also an error.
+    //!
+    //! ### Example
+    //! @snippet example/functional/arg.cpp main
+    //!
+    //! @todo
+    //! - It is really stupid that we need to include `integral` for this.
+    //! - Maybe this should be `arg(n)` instead of `arg<n>`?
+    //! - The example sucks.
+    template <std::size_t n>
+    BOOST_HANA_CONSTEXPR_LAMBDA auto arg = [](auto ...xs) {
+        static_assert(n > 0,
+        "invalid usage of arg with n == 0");
+
+        static_assert(sizeof...(xs) >= n,
+        "invalid usage of arg with too few arguments");
+
+        return detail::at_index::best(size_t<n-1>, xs...);
     };
 
     /*!

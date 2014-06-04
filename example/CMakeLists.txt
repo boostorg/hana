@@ -15,6 +15,7 @@ endfunction()
 
 boost_hana_add_example(functional.always)
 boost_hana_add_example(functional.apply)
+boost_hana_add_example(functional.arg)
 boost_hana_add_example(functional.compose)
 boost_hana_add_example(functional.curry)
 boost_hana_add_example(functional.fix)

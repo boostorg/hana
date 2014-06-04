@@ -38,6 +38,7 @@ boost_hana_add_test(foldable.unpack)
 
 boost_hana_add_test(functional.always)
 boost_hana_add_test(functional.apply)
+boost_hana_add_test(functional.arg)
 boost_hana_add_test(functional.compose)
 boost_hana_add_test(functional.curry)
 boost_hana_add_test(functional.fix)
