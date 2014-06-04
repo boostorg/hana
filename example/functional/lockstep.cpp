@@ -12,15 +12,18 @@ using namespace boost::hana;
 
 int main() {
     //! [main]
-    BOOST_HANA_CONSTEXPR_LAMBDA auto increment = [](auto x) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto plus = [](auto x, auto y) {
+        return x + y;
+    };
+
+    BOOST_HANA_CONSTEXPR_LAMBDA auto to_int = [](char c) {
+        return static_cast<int>(c) - 48;
+    };
+
+    BOOST_HANA_CONSTEXPR_LAMBDA auto inc = [](auto x) {
         return x + 1;
     };
 
-    BOOST_HANA_CONSTEXPR_LAMBDA auto multiply = [](auto x, auto y) {
-        return x * y;
-    };
-
-    BOOST_HANA_STATIC_ASSERT(argwise(multiply)(2, 4) == 2 * 4);
-    BOOST_HANA_STATIC_ASSERT(fmap(increment, argwise(multiply))(2, 4) == 3 * 5);
+    BOOST_HANA_STATIC_ASSERT(lockstep(plus, to_int, inc)('3', 4) == 3 + 5);
     //! [main]
 }

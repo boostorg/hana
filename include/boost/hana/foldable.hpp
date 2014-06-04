@@ -164,7 +164,7 @@ namespace boost { namespace hana {
     struct defaults<Foldable> {
         template <typename F, typename State, typename Foldable_>
         static constexpr auto foldr_impl(F f, State s, Foldable_ foldable)
-        { return lazy_foldr(fmap(apply, argwise(f)), s, foldable); }
+        { return lazy_foldr(on(f, apply), s, foldable); }
 
         template <typename Foldable_>
         static constexpr auto minimum_impl(Foldable_ foldable)

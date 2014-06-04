@@ -30,10 +30,10 @@ constexpr unsigned long long fact_test(unsigned long long n)
 int main() {
     //! @todo Use some kind of monadic mapping here.
     unpack(
-        fmap([](auto n) {
+        on([](...) { }, [](auto n) {
             BOOST_HANA_STATIC_ASSERT(fact(n) == fact_test(n));
             return 0;
-        }, argwise([](...) { })),
+        }),
         range(size_t<0>, size_t<15>)
     );
 }

@@ -44,7 +44,7 @@ void test_foldr1() {
     BOOST_HANA_STATIC_ASSERT(foldr1(list, iterable(int_<0>, int_<1>, int_<2>, int_<3>)) == list(int_<0>, list(int_<1>, list(int_<2>, int_<3>))));
 }
 
-BOOST_HANA_CONSTEXPR_LAMBDA auto strict_list = fmap(apply, argwise(list));
+BOOST_HANA_CONSTEXPR_LAMBDA auto strict_list = on(list, apply);
 
 void test_lazy_foldr() {
     BOOST_HANA_STATIC_ASSERT(lazy_foldr(strict_list, int_<0>, iterable()) == int_<0>);

@@ -11,16 +11,12 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FUNCTIONAL_HPP
 
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/functor.hpp>
 
 
 namespace boost { namespace hana {
     namespace functional_detail {
         template <typename F, unsigned Arity>
         struct curry_impl;
-
-        template <typename F, typename G>
-        struct argwise_impl;
     }
 
     //! @defgroup Functional Functional
@@ -50,24 +46,6 @@ namespace boost { namespace hana {
     //! @snippet example/functional/apply.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto apply = [](auto f, auto ...xs) {
         return f(xs...);
-    };
-
-    /*!
-    Allows argument-wise function composition.
-
-    Specifically, `argwise(f)` is a function object equivalent to `f`
-    and also a `Functor` with the following definition for `fmap`:
-    @code
-        fmap(g, argwise(f))(xs...) = f(g(xs)...)
-    @endcode
-
-    ### Example
-    @snippet example/functional/argwise.cpp main
-
-    @hideinitializer
-     */
-    BOOST_HANA_CONSTEXPR_LAMBDA auto argwise = [](auto f) {
-        return functional_detail::argwise_impl<decltype(f), decltype(id)>{f, id};
     };
 
     /*!
@@ -157,6 +135,46 @@ namespace boost { namespace hana {
         return [=](auto x, auto y, auto ...z) { return f(y, x, z...); };
     };
 
+    //! Invokes `f` with the result of invoking each `g` on its corresponding
+    //! argument, in lockstep.
+    //!
+    //! @note
+    //! Since the `g`s are applied in lockstep to the arguments, the number
+    //! of arguments must match the number of `g`s.
+    //!
+    //! @todo Rename this.
+    //!
+    //! ### Example
+    //! @snippet example/functional/lockstep.cpp main
+    BOOST_HANA_CONSTEXPR_LAMBDA auto lockstep = [](auto f, auto ...g) {
+        return [f, g...](auto ...x) { return f(g(x)...); };
+    };
+
+    /*!
+    Invokes `f` with the result of invoking `g` on each argument.
+
+    @note
+    `on` is associative, i.e. `on(f, on(g, h))` is equivalent to
+    `on(on(f, g), h)`.
+
+    ### Examples
+    @snippet example/functional/on.cpp main1
+    @snippet example/functional/on.cpp main2
+
+    @internal
+    ### Proof of associativity
+    @code
+        on(f, on(g, h))(xs...) == f(on(g, h)(xs)...)
+                               == f(g(h(xs))...)
+
+        on(on(f, g), h)(xs...) == on(f, g)(h(xs)...)
+                               == f(g(h(xs))...)
+    @endcode
+     */
+    BOOST_HANA_CONSTEXPR_LAMBDA auto on = [](auto f, auto g) {
+        return [=](auto ...x) { return f(g(x)...); };
+    };
+
     //! Returns `f` partially applied to `xs...`.
     //!
     //! ### Example
@@ -244,20 +262,6 @@ namespace boost { namespace hana {
 #undef BOOST_HANA_BINARY_PLACEHOLDER_OP
 
     namespace functional_detail {
-        struct Argwise;
-
-        template <typename F, typename G>
-        struct argwise_impl {
-            F f;
-            G g;
-            using hana_datatype = Argwise;
-
-            template <typename ...Xs>
-            constexpr auto operator()(Xs ...xs) const
-            { return f(g(xs)...); }
-        };
-
-
         template <typename F, unsigned Arity>
         struct curry_impl {
             F f;
@@ -270,16 +274,6 @@ namespace boost { namespace hana {
             { return *this; }
         };
     }
-
-    template <>
-    struct Functor<functional_detail::Argwise> {
-        template <typename H, typename F, typename G>
-        static constexpr auto fmap_impl(H h, functional_detail::argwise_impl<F, G> aw) {
-            return functional_detail::argwise_impl<F, decltype(compose(h, aw.g))>{
-                aw.f, compose(h, aw.g)
-            };
-        }
-    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FUNCTIONAL_HPP

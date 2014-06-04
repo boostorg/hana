@@ -204,14 +204,14 @@ namespace boost { namespace hana {
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto zip_with = [](auto f, auto ...lists) {
         return unpack(
-            fmap([=](auto index) { return f(at(index, lists)...); }, argwise(list)),
+            on(list, [=](auto index) { return f(at(index, lists)...); }),
             range(size_t<0>, minimum(list(length(lists)...)))
         );
     };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto init = [](auto xs) {
         return unpack(
-            fmap([=](auto index) { return at(index, xs); }, argwise(list)),
+            on(list, [=](auto index) { return at(index, xs); }),
             range(size_t<0>, length(xs) - size_t<1>)
         );
     };
@@ -229,10 +229,11 @@ namespace boost { namespace hana {
     };
 
 
+    //! @todo Move `min` in a proper type class.
     BOOST_HANA_CONSTEXPR_LAMBDA auto take = [](auto n, auto xs) {
         auto min = [](auto a, auto b) { return if_(a < b, a, b); };
         return unpack(
-            fmap([=](auto index) { return at(index, xs); }, argwise(list)),
+            on(list, [=](auto index) { return at(index, xs); }),
             range(size_t<0>, min(n, length(xs)))
         );
     };
