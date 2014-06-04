@@ -133,6 +133,34 @@ namespace boost { namespace hana {
     };
 
     /*!
+    Invokes `f` with the result of invoking each `g` with all the arguments.
+
+    @note
+    - The arity of `f` must match the number of `g`s.
+    - When used with two functions only, `fbind` is associative. In other
+    words, `fbind(f, fbind(g, h))` is equivalent to `fbind(fbind(f, g), h)`.
+
+    ### Example
+    @snippet example/functional/fbind.cpp main
+
+    @todo
+    Find a better name.
+
+    @internal
+    ### Proof of associativity in the binary case
+    @code
+        bind f (bind g h) $ xs... == f ((bind g h) xs...)
+                                  == f (g (h xs...))
+
+        bind (bind f g) h $ xs... == (bind f g) (h xs...)
+                                  == f (g (h xs...))
+    @endcode
+     */
+    BOOST_HANA_CONSTEXPR_LAMBDA auto fbind = [](auto f, auto ...g) {
+        return [=](auto ...x) { return f(g(x...)...); };
+    };
+
+    /*!
     Computes the least fixed point of a function.
 
     Specifically, `fix(f, xs...)` is equivalent to `f(fix(f), xs...)`, where
