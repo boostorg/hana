@@ -13,7 +13,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/integral.hpp>
 #include <boost/hana/type.hpp>
 
-#include <cstddef>
 #include <type_traits>
 
 
@@ -154,19 +153,19 @@ namespace boost { namespace hana { namespace trait {
 
     // Miscellaneous transformations
     constexpr struct _aligned_storage {
-        template <std::size_t Len, std::size_t Align>
-        constexpr typename std::aligned_storage<Len, Align>::type
-        operator()(SizeT<Len>, SizeT<Align>) const { return {}; }
+        template <typename Len, typename Align>
+        constexpr auto operator()(Len len, Align align) const
+        { return type<std::aligned_storage_t<len, align>>; }
 
-        template <std::size_t Len>
-        constexpr typename std::aligned_storage<Len>::type
-        operator()(SizeT<Len>) const { return {}; }
+        template <typename Len>
+        constexpr auto operator()(Len len) const
+        { return type<std::aligned_storage_t<len>>; }
     } aligned_storage{};
 
     constexpr struct _aligned_union {
-        template <std::size_t Len, typename ...T>
-        constexpr typename std::aligned_union<Len, T...>::type
-        operator()(SizeT<Len>, Type<T>...) const { return {}; }
+        template <typename Len, typename ...T>
+        constexpr auto operator()(Len len, Type<T>...) const
+        { return type<std::aligned_union_t<len, T...>>; }
     } aligned_union{};
 
     constexpr auto decay = lift<std::decay_t>;

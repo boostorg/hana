@@ -32,13 +32,15 @@ namespace boost { namespace hana {
     }
     using operators::Range;
 
-    constexpr struct _range {
-        template <typename T, T from, typename U, U to>
-        constexpr auto operator()(Integral<T, from>, Integral<U, to>) const {
-            return typename detail::make_integer_sequence<T, to - from>::
-                   template slide_by<from, Range>{};
-        }
-    } range{};
+    BOOST_HANA_CONSTEXPR_LAMBDA auto range = [](auto from, auto to) {
+        // For some reason, Clang 3.5 requires that we create an intermediate
+        // variable whose type is dependent so we can use `size` as a template
+        // parameter below.
+        auto size = to - from;
+        return typename detail::make_integer_sequence<
+            decltype(value(from)), size
+        >::template slide_by<from, Range>{};
+    };
 
     template <>
     struct Iterable<_Range> : defaults<Iterable> {
