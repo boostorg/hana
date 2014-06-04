@@ -23,9 +23,30 @@ namespace boost { namespace hana {
         struct curry_impl;
     }
 
-    //! @defgroup Functional Functional
-    //! General purpose function objects.
-    //! @{
+    /*!
+    @defgroup Functional Functional
+    General purpose function objects.
+
+    @todo
+    - Consider adding a way to create infix operators.
+    @code
+        compare /on/ first
+        compare *on* first
+        compare %on% first
+
+        compare -on- first
+        compare +on+ first
+
+        compare <on> first
+        compare >on< first
+
+        compare ^on^ first
+        compare |on| first
+    @endcode
+    Also, see http://liveworkspace.org/code/12lxjX$40.
+
+    @{
+     */
 
     //! The identity function -- returns its argument unchanged.
     //!
