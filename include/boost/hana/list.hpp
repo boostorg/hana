@@ -182,7 +182,7 @@ namespace boost { namespace hana {
         template <typename F, typename State, typename ...Xs>
         static constexpr auto
         foldl_impl(F f, State s, operators::TypeList<Xs...>) {
-            return detail::left_folds::variadic(f, s, Type<Xs>{}...);
+            return detail::left_folds::variadic(f, s, type<Xs>...);
         }
 
         template <template <typename ...> class F, typename State, typename ...Xs>

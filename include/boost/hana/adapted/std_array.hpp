@@ -47,8 +47,8 @@ namespace boost { namespace hana {
         { return tail_helper(arr, range(size_t<1>, size_t<N>)); }
 
         template <typename T, std::size_t N>
-        static constexpr Bool<N == 0> is_empty_impl(std::array<T, N> arr)
-        { return {}; }
+        static constexpr auto is_empty_impl(std::array<T, N> arr)
+        { return bool_<N == 0>; }
     };
 
     template <>

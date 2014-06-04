@@ -59,24 +59,19 @@ namespace boost { namespace hana {
     struct Foldable<_Range> : detail::foldable_from_iterable {
         template <typename F, typename T, T ...vs>
         static constexpr auto unpack_impl(F f, Range<T, vs...>)
-        { return f(Integral<T, vs>{}...); }
+        { return f(integral<T, vs>...); }
     };
 
     template <>
     struct Comparable<_Range, _Range> : defaults<Comparable> {
+        // SFINAE handles the case where sizeof...(ts) != sizeof...(us).
         template <typename T, T ...ts, typename U, U ...us>
-        static constexpr Bool<false>
-        equal_helper(Range<T, ts...>, Range<U, us...>, Bool<false>)
+        static constexpr auto equal_impl(Range<T, ts...>, Range<U, us...>)
+            -> decltype(and_(bool_<(ts == us)>...))
         { return {}; }
 
-        template <typename X, X ...xs, typename Y, Y ...ys>
-        static constexpr auto
-        equal_helper(Range<X, xs...>, Range<Y, ys...>, Bool<true>)
-        { return and_(bool_<xs == ys>...); }
-
-        template <typename T, T ...ts, typename U, U ...us>
-        static constexpr auto equal_impl(Range<T, ts...> a, Range<U, us...> b)
-        { return equal_helper(a, b, bool_<sizeof...(ts) == sizeof...(us)>); }
+        static constexpr auto equal_impl(...)
+        { return false_; }
     };
 }} // end namespace boost::hana
 

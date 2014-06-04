@@ -96,6 +96,7 @@ boost_hana_add_test(range.foldable)
 boost_hana_add_test(range.iterable)
 
 boost_hana_add_test(type.comparable)
+boost_hana_add_test(type.decltype)
 boost_hana_add_test(type.functor)
 boost_hana_add_test(type.lift)
 boost_hana_add_test(type.monad)

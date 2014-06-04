@@ -9,8 +9,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/type.hpp>
-
-#include <type_traits>
 using namespace boost::hana;
 
 
@@ -22,6 +20,6 @@ int main() {
     BOOST_HANA_STATIC_ASSERT(if_(true, 0, 1) == 0);
     BOOST_HANA_STATIC_ASSERT(if_(false, 0, 1) == 1);
 
-    static_assert(std::is_same<decltype(if_(true_, type<T>, type<E>))::type, T>{}, "");
-    static_assert(std::is_same<decltype(if_(false_, type<T>, type<E>))::type, E>{}, "");
+    BOOST_HANA_STATIC_ASSERT(if_(true_, type<T>, type<E>) == type<T>);
+    BOOST_HANA_STATIC_ASSERT(if_(false_, type<T>, type<E>) == type<E>);
 }

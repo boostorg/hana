@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core.hpp>
+#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/functor.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/monad.hpp>
@@ -60,6 +61,10 @@ namespace boost { namespace hana {
     template <typename T>
     constexpr T untype(Type<T>)
     { return {}; }
+
+    BOOST_HANA_CONSTEXPR_LAMBDA auto decltype_ = [](auto t) {
+        return type<decltype(t)>;
+    };
 
     template <>
     struct Comparable<_Type, _Type> : defaults<Comparable> {

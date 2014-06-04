@@ -31,8 +31,8 @@ namespace boost { namespace hana {
         constexpr auto operator()(X x, Xs ...xs) const
         { return x && (*this)(xs...); }
 
-        constexpr Bool<true> operator()() const
-        { return {}; }
+        constexpr auto operator()() const
+        { return true_; }
     } and_{};
 
     constexpr struct _or {
@@ -40,17 +40,17 @@ namespace boost { namespace hana {
         constexpr auto operator()(X x, Xs ...xs) const
         { return x || (*this)(xs...); }
 
-        constexpr Bool<false> operator()() const
-        { return {}; }
+        constexpr auto operator()() const
+        { return false_; }
     } or_{};
 
     constexpr struct _if {
         template <typename Then, typename Else>
-        constexpr auto operator()(Bool<true>, Then t, Else) const
+        constexpr auto operator()(decltype(true_), Then t, Else) const
         { return t; }
 
         template <typename Then, typename Else>
-        constexpr auto operator()(Bool<false>, Then, Else e) const
+        constexpr auto operator()(decltype(false_), Then, Else e) const
         { return e; }
 
         template <typename Then, typename Else>
