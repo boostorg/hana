@@ -18,10 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 General purpose type classes provided by the library.
 
 @todo
-- Provide an integrated way of checking laws for typeclasses. Also, provide
-such laws for e.g. Comparable (should be an equivalence relation at the very
-least).
-
+Provide an integrated way of checking laws for typeclasses.
  */
 
 //! @defgroup datatypes Data types
