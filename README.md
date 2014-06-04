@@ -441,30 +441,11 @@ static_assert(std::is_same<
 
 
 ## Todo
-- Do we want `char_<1> + char<2> == char_<3>` or `char_<1> + char_<2> == int_<3>`?
-- Conversions from `Integral<T, t>` to `T` are sometimes problematic. Consider:
-```cpp
-constexpr auto odd = [](auto x) {
-    return x % int_<2>;
-};
-
-if_(odd(int_<1>), something_of_type_A, something_of_type_B)
-```
-This will fail because `odd(int_<1>)` has type `Int<1 % 2>`, which is
-convertible to `bool` but not to `Bool<...>`. Because of this, the runtime
-`if_` is used and compilation fails.
-
 - Should we provide forward declaration headers like in MPL11? If so, should
   only the forward decl. be necessary to instantiate typeclasses? If so, it
   should be documented that including `typeclass.hpp` is only necessary if
   one needs the default methods.
-
-- Provide an integrated way of checking laws for typeclasses. Also, provide
-such laws for e.g. Comparable (should be an equivalence relation at the very
-least).
-
 - Complete documentation w/ examples for everything.
-- Document the category theoretical foundation of the `Type` Monad.
 - Move self-notes for `Type`-related stuff to the (internal?) documentation
   of `Type`.
 - Write a tutorial.

@@ -29,6 +29,21 @@ namespace boost { namespace hana {
     of the role of `bool_` and friends. What are they? How should they be
     documented? What is an implementation detail and what's not?
     - Pick another name for this data type; _I is not allowed by the standard.
+    - Do we want `char_<1> + char<2> == char_<3>` or
+    `char_<1> + char_<2> == int_<3>`?
+
+    - Conversions from `Integral<T, t>` to `T` are sometimes problematic.
+    Consider:
+    @code
+        constexpr auto odd = [](auto x) {
+            return x % int_<2>;
+        };
+
+        if_(odd(int_<1>), something_of_type_A, something_of_type_B)
+    @endcode
+    This will fail because `odd(int_<1>)` has type `Int<1 % 2>`, which is
+    convertible to `bool` but not to `Bool<...>`. Because of this, the
+    runtime `if_` is used and compilation fails.
      */
     struct _Integral { };
 

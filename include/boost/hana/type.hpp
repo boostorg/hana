@@ -18,10 +18,16 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
+    //! @datatype{Type}
+    //! @{
+    //!
+    //! @todo
+    //! Document the category theoretical foundation of the `Monad` instance.
     struct _Type;
 
+    //! @}
+
     namespace operators {
-        //! @ingroup datatypes
         template <typename T>
         struct Type {
             using hana_datatype = _Type;
@@ -33,7 +39,6 @@ namespace boost { namespace hana {
     template <typename T>
     constexpr Type<T> type{};
 
-    //! @ingroup datatypes
     template <template <typename ...> class f>
     struct Template {
         template <typename ...Args>
