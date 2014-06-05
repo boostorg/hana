@@ -89,10 +89,6 @@ namespace boost { namespace hana {
         static constexpr auto is_empty_impl(operators::TypeList<Xs...>)
         { return bool_<sizeof...(Xs) == 0>; }
 
-        template <typename ...Xs>
-        static constexpr auto length_impl(operators::TypeList<Xs...>)
-        { return size_t<sizeof...(Xs)>; }
-
 
         // HetList
         template <typename Storage>
@@ -113,13 +109,6 @@ namespace boost { namespace hana {
         static constexpr auto is_empty_impl(operators::HetList<Storage> xs) {
             return xs.into([](auto ...xs) {
                 return bool_<sizeof...(xs) == 0>;
-            });
-        }
-
-        template <typename Storage>
-        static constexpr auto length_impl(operators::HetList<Storage> xs) {
-            return xs.into([](auto ...xs) {
-                return size_t<sizeof...(xs)>;
             });
         }
 
@@ -194,6 +183,17 @@ namespace boost { namespace hana {
         template <typename F, typename Xs>
         static constexpr auto unpack_impl(F f, Xs xs)
         { return xs.into(f); }
+
+        template <typename ...Xs>
+        static constexpr auto length_impl(operators::TypeList<Xs...>)
+        { return size_t<sizeof...(Xs)>; }
+
+        template <typename Storage>
+        static constexpr auto length_impl(operators::HetList<Storage> xs) {
+            return xs.into([](auto ...xs) {
+                return size_t<sizeof...(xs)>;
+            });
+        }
     };
 
     template <>

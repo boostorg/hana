@@ -71,6 +71,12 @@ namespace boost { namespace hana {
         return Foldable<datatype_t<decltype(foldable)>>::lazy_foldr_impl(f, state, foldable);
     };
 
+    //! Return the number of elements in a finite structure.
+    //! @method{Foldable}
+    BOOST_HANA_CONSTEXPR_LAMBDA auto length = [](auto foldable) {
+        return Foldable<datatype_t<decltype(foldable)>>::length_impl(foldable);
+    };
+
     //! Return the least element of a non-empty structure with respect to
     //! a `predicate`.
     //! @method{Foldable}
@@ -165,6 +171,12 @@ namespace boost { namespace hana {
         template <typename F, typename State, typename Foldable_>
         static constexpr auto foldr_impl(F f, State s, Foldable_ foldable)
         { return lazy_foldr(on(f, apply), s, foldable); }
+
+        template <typename Foldable_>
+        static constexpr auto length_impl(Foldable_ foldable) {
+            auto incr = [](auto n, auto) { return n + size_t<1>; };
+            return foldl(incr, size_t<0>, foldable);
+        }
 
         template <typename Foldable_>
         static constexpr auto minimum_impl(Foldable_ foldable)

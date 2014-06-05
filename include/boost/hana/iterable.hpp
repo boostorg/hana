@@ -72,19 +72,6 @@ namespace boost { namespace hana {
         return Iterable<datatype_t<decltype(iterable)>>::last_impl(iterable);
     };
 
-    //! Return the number of elements in a finite iterable.
-    //! @method{Iterable}
-    //!
-    //! @todo
-    //! - Should this be moved into `Foldable`?
-    //! - Implement this with `foldl`:
-    //! @code
-    //!     foldl([](auto n, auto) { return n + size_t<1>; }, size_t<0>, iterable);
-    //! @endcode
-    BOOST_HANA_CONSTEXPR_LAMBDA auto length = [](auto iterable) {
-        return Iterable<datatype_t<decltype(iterable)>>::length_impl(iterable);
-    };
-
     //! Drop the first `n` elements of an iterable and return the rest.
     //!
     //! `n` must be a non-negative `Integral` representing the number of
@@ -139,14 +126,6 @@ namespace boost { namespace hana {
             return if_(is_empty(tail(iterable)),
                 head,
                 [](auto it) { return last_impl(tail(it)); }
-            )(iterable);
-        }
-
-        template <typename Iterable_>
-        static constexpr auto length_impl(Iterable_ iterable) {
-            return if_(is_empty(iterable),
-                always(size_t<0>),
-                [](auto it) { return size_t<1> + length_impl(tail(it)); }
             )(iterable);
         }
 

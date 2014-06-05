@@ -26,9 +26,4 @@ int main() {
     BOOST_HANA_STATIC_ASSERT(tail(list_t<x0>) == list_t<>);
     BOOST_HANA_STATIC_ASSERT(tail(list_t<x0, x1>) == list_t<x1>);
     BOOST_HANA_STATIC_ASSERT(tail(list_t<x0, x1, x2>) == list_t<x1, x2>);
-
-    BOOST_HANA_STATIC_ASSERT(length(list_t<>) == size_t<0>);
-    BOOST_HANA_STATIC_ASSERT(length(list_t<x0>) == size_t<1>);
-    BOOST_HANA_STATIC_ASSERT(length(list_t<x0, x1>) == size_t<2>);
-    BOOST_HANA_STATIC_ASSERT(length(list_t<x0, x1, x2>) == size_t<3>);
 }
