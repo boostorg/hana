@@ -100,6 +100,7 @@ boost_hana_add_test(range.foldable)
 boost_hana_add_test(range.iterable)
 
 boost_hana_add_test(sandbox.function)
+boost_hana_add_test(sandbox.infix)
 boost_hana_add_test(sandbox.worksheet)
 
 boost_hana_add_test(type.comparable)

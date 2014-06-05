@@ -65,7 +65,7 @@ namespace boost { namespace hana {
             return domain(f) == domain(g) && all(fbind(_==_, f, g), domain(f));
         }
     };
-}}
+}} // end namespace boost::hana
 
 
 // BOOST_HANA_CONSTEXPR_LAMBDA auto is_injective = [](auto f) {
