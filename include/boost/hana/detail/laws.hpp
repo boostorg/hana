@@ -21,29 +21,12 @@ namespace boost { namespace hana { namespace detail {
     template <template <typename ...> class Typeclass>
     BOOST_HANA_CONSTEXPR_LAMBDA auto laws = [] { };
 
-    //! @ingroup details
-    //! @{
-
-    /*!
-     * Checks the `Functor` laws.
-     *
-     *
-       @code
-            fmap id == id
-            fmap (f . g) == fmap f . fmap g
-        @endcode
-     */
     template <>
     BOOST_HANA_CONSTEXPR_LAMBDA auto laws<Functor> = [](auto functor, auto f, auto g) {
         return fmap(id, functor) == functor &&
                fmap(compose(f, g), functor) == fmap(f, fmap(g, functor));
     };
 
-    /*!
-     * Checks the `Monad` laws.
-     *
-     * @todo
-     */
     template <>
     BOOST_HANA_CONSTEXPR_LAMBDA auto laws<Monad> = [](auto monad, auto a, auto f, auto g) {
         auto unit_ = unit<datatype_t<decltype(monad)>>;
@@ -52,8 +35,6 @@ namespace boost { namespace hana { namespace detail {
                bind(monad, [=](auto x) { return bind(f(x), g); }) == bind(bind(monad, f), g) &&
                fmap(f, monad) == bind(monad, compose(unit_, f));
     };
-
-    //! @}
 }}} // end namespace boost::hana::detail
 
 #endif // !BOOST_HANA_DETAIL_LAWS_HPP

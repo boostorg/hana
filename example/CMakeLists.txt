@@ -39,6 +39,9 @@ boost_hana_add_example(fusion.reverse)
 boost_hana_add_example(fusion.zip)
 boost_hana_add_example(fusion.zip_with)
 
+boost_hana_add_example(integral.literals)
+boost_hana_add_example(integral.operators)
+
 boost_hana_add_example(mpl.any)
 boost_hana_add_example(mpl.count)
 boost_hana_add_example(mpl.find)

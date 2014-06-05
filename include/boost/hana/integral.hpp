@@ -19,7 +19,6 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     /*!
     @datatype{Integral}
-    @{
     Represents a compile-time value of an integral type.
 
     Let `n` be an object of an `Integral` data type. The compile-time value
@@ -30,10 +29,7 @@ namespace boost { namespace hana {
     @instantiates{Comparable}
 
     @todo
-    - Do we want `char_<1> + char<2> == char_<3>` or
-      `char_<1> + char_<2> == int_<3>`?
-    - Conversions from `Integral<T, t>` to `T` are sometimes problematic.
-    Consider:
+    Implicit conversions to the underlying integral type can be problematic:
     @code
         constexpr auto odd = [](auto x) {
             return x % int_<2>;
@@ -47,8 +43,6 @@ namespace boost { namespace hana {
      */
     struct Integral { };
 
-    //! @}
-
     namespace integral_detail {
         template <typename T, T t>
         struct integral_type {
@@ -60,43 +54,78 @@ namespace boost { namespace hana {
         };
     }
 
+    /*!
+    A compile-time integral value of the given type and value.
+
+    For convenience, common operators are overloaded to return the result
+    of the corresponding operator as an `integral<...>`.
+
+    ### Overloaded operators
+    - Arithmetic: binary `+`, binary `-`, `/`, `*`, `%`, unary `+`, unary `-`
+    - Bitwise: `~`, `&`, `|`, `^`, `<<`, `>>`
+    - Comparison: `==`, `!=`, `<`, `<=`, `>`, `>=`
+    - Logical: `||`, `&&`, `!`
+    - Member access: `*` (dereference)
+
+    ### Example
+    @snippet example/integral/operators.cpp main
+
+    @relates Integral
+    @todo
+    Do we want `char_<1> + char_<2> == char_<3>` or `char_<1> + char_<2> == int_<3>`?
+     */
     template <typename T, T v>
     constexpr integral_detail::integral_type<T, v> integral{};
 
+    //! @relates Integral
     template <bool b>
-    constexpr decltype(integral<bool, b>) bool_{};
+    constexpr auto bool_ = decltype(integral<bool, b>){};
+
+    //! @relates Integral
     constexpr auto true_ = bool_<true>;
+
+    //! @relates Integral
     constexpr auto false_ = bool_<false>;
 
+    //! @relates Integral
     template <char c>
-    constexpr decltype(integral<char, c>) char_;
+    constexpr auto char_ = decltype(integral<char, c>){};
 
+    //! @relates Integral
     template <short i>
-    constexpr decltype(integral<short, i>) short_{};
+    constexpr auto short_ = decltype(integral<short, i>){};
 
+    //! @relates Integral
     template <unsigned short i>
-    constexpr decltype(integral<unsigned short, i>) ushort{};
+    constexpr auto ushort = decltype(integral<unsigned short, i>){};
 
+    //! @relates Integral
     template <int i>
-    constexpr decltype(integral<int, i>) int_{};
+    constexpr auto int_ = decltype(integral<int, i>){};
 
+    //! @relates Integral
     template <unsigned int i>
-    constexpr decltype(integral<unsigned int, i>) uint{};
+    constexpr auto uint = decltype(integral<unsigned int, i>){};
 
+    //! @relates Integral
     template <long i>
-    constexpr decltype(integral<long, i>) long_{};
+    constexpr auto long_ = decltype(integral<long, i>){};
 
+    //! @relates Integral
     template <unsigned long i>
-    constexpr decltype(integral<unsigned long, i>) ulong{};
+    constexpr auto ulong = decltype(integral<unsigned long, i>){};
 
+    //! @relates Integral
     template <long long i>
-    constexpr decltype(integral<long long, i>) llong{};
+    constexpr auto llong = decltype(integral<long long, i>){};
 
+    //! @relates Integral
     template <unsigned long long i>
-    constexpr decltype(integral<unsigned long long, i>) ullong{};
+    constexpr auto ullong = decltype(integral<unsigned long long, i>){};
 
+    //! @relates Integral
     template <std::size_t i>
-    constexpr decltype(integral<std::size_t, i>) size_t{};
+    constexpr auto size_t = decltype(integral<std::size_t, i>){};
 
     template <>
     struct Comparable<Integral, Integral> : defaults<Comparable> {
@@ -165,6 +194,15 @@ namespace boost { namespace hana {
     }
 
     namespace literals {
+        //! Creates an `Integral` from a literal.
+        //!
+        //! The literal is parsed at compile-time and the result is returned
+        //! as an `ullong<...>`.
+        //!
+        //! ### Example
+        //! @snippet example/integral/literals.cpp main
+        //!
+        //! @relates boost::hana::Integral
         //! @todo Add support for stuff like `0x1234_c`.
         template <char ...c>
         constexpr auto operator"" _c()

@@ -34,8 +34,9 @@ namespace boost { namespace hana {
 
     @todo
     - Should all data types have a default implementation to allow arbitrary
-    objects of different types to be compared? See Boost.Fusion for an
-    example of this.
+    objects of different types to be compared? By default, two objects that
+    don't share a common_type would be unequal, and otherwise we would use
+    the common_type's comparison, if any.
     - Implement automatic checking of the laws for Comparable, if possible.
      */
     template <typename T, typename U>
