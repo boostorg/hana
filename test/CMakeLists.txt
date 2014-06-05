@@ -99,9 +99,12 @@ boost_hana_add_test(range.comparable)
 boost_hana_add_test(range.foldable)
 boost_hana_add_test(range.iterable)
 
+boost_hana_add_test(sandbox.array.api)
 boost_hana_add_test(sandbox.function)
 boost_hana_add_test(sandbox.infix)
+boost_hana_add_test(sandbox.llist)
 boost_hana_add_test(sandbox.operator)
+boost_hana_add_test(sandbox.string)
 boost_hana_add_test(sandbox.worksheet)
 
 boost_hana_add_test(type.comparable)
