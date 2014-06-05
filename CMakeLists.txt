@@ -99,5 +99,7 @@ find_package(Doxygen)
 #=============================================================================
 include_directories(include)
 add_subdirectory(doc)
+
+enable_testing() # required by tests and examples
 add_subdirectory(example)
 add_subdirectory(test)
