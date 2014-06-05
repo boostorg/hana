@@ -99,6 +99,9 @@ boost_hana_add_test(range.comparable)
 boost_hana_add_test(range.foldable)
 boost_hana_add_test(range.iterable)
 
+boost_hana_add_test(sandbox.function)
+boost_hana_add_test(sandbox.worksheet)
+
 boost_hana_add_test(type.comparable)
 boost_hana_add_test(type.decltype)
 boost_hana_add_test(type.functor)
@@ -107,5 +110,4 @@ boost_hana_add_test(type.monad)
 boost_hana_add_test(type.traits)
 
 boost_hana_add_test(hana)
-boost_hana_add_test(worksheet)
 boost_hana_add_test(misc.adl)

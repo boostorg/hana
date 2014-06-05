@@ -17,4 +17,6 @@ int main() {
     BOOST_HANA_STATIC_ASSERT(12_c == long_<12>);
     BOOST_HANA_STATIC_ASSERT(123_c == long_<123>);
     BOOST_HANA_STATIC_ASSERT(1234567_c == long_<1234567>);
+
+    BOOST_HANA_STATIC_ASSERT(-34_c == int_<-34>);
 }
