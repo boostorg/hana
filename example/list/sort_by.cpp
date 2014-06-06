@@ -5,17 +5,17 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/functional.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/list.hpp>
-#include <boost/hana/type.hpp>
 using namespace boost::hana;
+using namespace literals;
 
-
-BOOST_HANA_CONSTEXPR_LAMBDA auto odd = [](auto x) {
-    return x % int_<2> != int_<0>;
-};
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(decltype_(any(odd, list(int_<1>, int_<2>))) == decltype_(true_));
-    BOOST_HANA_STATIC_ASSERT(decltype_(any(odd, list(int_<2>, int_<4>))) == decltype_(false_));
+    //! [main]
+    BOOST_HANA_STATIC_ASSERT(
+        sort_by(_>_, list(1_c, -2_c, 3_c, 0_c)) == list(3_c, 1_c, 0_c, -2_c)
+    );
+    //! [main]
 }

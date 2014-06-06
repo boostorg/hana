@@ -6,16 +6,18 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/functional.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/list.hpp>
+#include <boost/hana/trait.hpp>
+#include <boost/hana/type.hpp>
 using namespace boost::hana;
 
 
-BOOST_HANA_CONSTEXPR_LAMBDA auto odd = [](auto x) {
-    return x % int_<2> != int_<0>;
-};
-
 int main() {
-    BOOST_HANA_STATIC_ASSERT(count(odd, list(int_<1>, int_<2>, int_<3>)) == int_<2>);
-    BOOST_HANA_STATIC_ASSERT(count(odd, list(1, 2, 3)) == 2);
+    //! [main]
+    //! @todo Fix this.
+    BOOST_HANA_CONSTEXPR_LAMBDA auto is_integral = compose(trait::is_integral, decltype_);
+    BOOST_HANA_STATIC_ASSERT(filter(is_integral, list(1, 2.0, 3, 4.0)) == list(1, 3));
+    //! [main]
 }

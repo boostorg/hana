@@ -10,5 +10,7 @@ using namespace boost::hana;
 
 
 int main() {
+    //! [main]
     BOOST_HANA_STATIC_ASSERT(reverse(list(1, "2", '3')) == list('3', "2", 1));
+    //! [main]
 }

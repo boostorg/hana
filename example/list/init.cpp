@@ -4,17 +4,16 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/integral.hpp>
 #include <boost/hana/list.hpp>
 using namespace boost::hana;
+using namespace literals;
 
-
-BOOST_HANA_CONSTEXPR_LAMBDA auto odd = [](auto x) {
-    return x % 2;
-};
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(none(odd, list(2, 4)));
-    BOOST_HANA_STATIC_ASSERT(!none(odd, list(1, 2)));
+    //! [main]
+    BOOST_HANA_STATIC_ASSERT(init(list(1)) == list());
+    BOOST_HANA_STATIC_ASSERT(init(list(1, '2', "3", 4_c)) == list(1, '2', "3"));
+    //! [main]
 }

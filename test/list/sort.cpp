@@ -21,4 +21,5 @@ int main() {
     BOOST_HANA_STATIC_ASSERT(sort(ilist<0, 1>) == ilist<0, 1>);
     BOOST_HANA_STATIC_ASSERT(sort(ilist<1, 0>) == ilist<0, 1>);
     BOOST_HANA_STATIC_ASSERT(sort(ilist<1, 0, 4, 2>) == ilist<0, 1, 2, 4>);
+    BOOST_HANA_STATIC_ASSERT(sort(ilist<1, 0, -4, 2>) == ilist<-4, 0, 1, 2>);
 }

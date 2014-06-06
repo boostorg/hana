@@ -4,7 +4,6 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/integral.hpp>
@@ -12,11 +11,19 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/trait.hpp>
 #include <boost/hana/type.hpp>
 using namespace boost::hana;
+using namespace literals;
 
 
 int main() {
-    BOOST_HANA_CONSTEXPR_LAMBDA auto types = list_t<int, char, long, short, char, long, double, long>;
-    BOOST_HANA_STATIC_ASSERT(count(trait::is_floating_point, types) == int_<1>);
-    BOOST_HANA_STATIC_ASSERT(count(partial(trait::is_same, type<char>), types) == int_<2>);
-    BOOST_HANA_STATIC_ASSERT(count(partial(trait::is_same, type<void>), types) == int_<0>);
+    //! [main]
+    BOOST_HANA_STATIC_ASSERT(
+        take_while(_ < 2_c, list(0_c, 1_c, 2_c, 3_c)) == list(0_c, 1_c)
+    );
+
+    BOOST_HANA_STATIC_ASSERT(
+        take_while(trait::is_floating_point, list_t<float, double, int, double>)
+        ==
+        list_t<float, double>
+    );
+    //! [main]
 }

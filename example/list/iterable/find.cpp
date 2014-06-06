@@ -9,12 +9,27 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functional.hpp>
 #include <boost/hana/list.hpp>
 #include <boost/hana/maybe.hpp>
+#include <boost/hana/trait.hpp>
 #include <boost/hana/type.hpp>
 using namespace boost::hana;
 
 
 int main() {
+    //! [fusion]
+
+    //! @todo `compose(trait::..., decltype_)` is too verbose. Find an elegant
+    //! way to make this easier.
+    BOOST_HANA_STATIC_ASSERT(
+        find(compose(trait::is_integral, decltype_), list(1.0, 2)) == just(2)
+    );
+    BOOST_HANA_STATIC_ASSERT(
+        find(compose(trait::is_class, decltype_), list(1.0, 2)) == nothing
+    );
+    //! [fusion]
+
+    //! [mpl]
     BOOST_HANA_CONSTEXPR_LAMBDA auto types = list_t<char, int, unsigned, long, unsigned long>;
     BOOST_HANA_STATIC_ASSERT(find(_ == type<unsigned>, types) == just(type<unsigned>));
     BOOST_HANA_STATIC_ASSERT(find(_ == type<void>, types) == nothing);
+    //! [mpl]
 }

@@ -10,7 +10,17 @@ using namespace boost::hana;
 
 
 int main() {
+    //! [main]
     BOOST_HANA_STATIC_ASSERT(
-        zip(list(1, 'a'), list(2, "bb")) == list(list(1, 2), list('a', "bb"))
+        zip(list(1, 'a'), list(2, "bb"))
+        ==
+        list(list(1, 2), list('a', "bb"))
     );
+
+    BOOST_HANA_STATIC_ASSERT(
+        zip(list(1, 'a'), list(2, "bb"), list(3, "c", "ignored"))
+        ==
+        list(list(1, 2, 3), list('a', "bb", "c"))
+    );
+    //! [main]
 }

@@ -23,4 +23,19 @@ int main() {
     BOOST_HANA_STATIC_ASSERT(zip_with(plus, ilist<1>, ilist<3>) == ilist<1 + 3>);
     BOOST_HANA_STATIC_ASSERT(zip_with(plus, ilist<1, 2>, ilist<3, 4>) == ilist<1 + 3, 2 + 4>);
     BOOST_HANA_STATIC_ASSERT(zip_with(plus, ilist<1, 2, 3, 4>, ilist<5, 6, 7>) == ilist<1 + 5, 2 + 6, 3 + 7>);
+
+    BOOST_HANA_STATIC_ASSERT(
+        zip_with(list,
+            list('1', '2', '3', '4'),
+            list("1", "2", "3"),
+            list(1, 2, 3, 4),
+            list(list(), list(list()), list(list(list())))
+        )
+        ==
+        list(
+            list('1', "1", 1, list()),
+            list('2', "2", 2, list(list())),
+            list('3', "3", 3, list(list(list())))
+        )
+    );
 }

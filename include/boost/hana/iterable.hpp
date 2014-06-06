@@ -105,6 +105,12 @@ namespace boost { namespace hana {
     //! Return `just` the first element satisfying the `predicate`, or `nothing`
     //! if there is no such element.
     //! @method{Iterable}
+    //!
+    //! ### Fusion example
+    //! @snippet example/list/iterable/find.cpp fusion
+    //!
+    //! ### MPL example
+    //! @snippet example/list/iterable/find.cpp mpl
     BOOST_HANA_CONSTEXPR_LAMBDA auto find = [](auto predicate, auto iterable) {
         return Iterable<datatype_t<decltype(iterable)>>::find_impl(predicate, iterable);
     };

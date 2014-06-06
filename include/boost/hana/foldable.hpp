@@ -37,12 +37,24 @@ namespace boost { namespace hana {
 
     //! Left-associative fold of a structure using a binary operation.
     //! @method{Foldable}
+    //!
+    //! ### Fusion example
+    //! @snippet example/list/foldable/foldl.cpp fusion
+    //!
+    //! ### MPL example
+    //! @snippet example/list/foldable/foldl.cpp mpl
     BOOST_HANA_CONSTEXPR_LAMBDA auto foldl = [](auto f, auto state, auto foldable) {
         return Foldable<datatype_t<decltype(foldable)>>::foldl_impl(f, state, foldable);
     };
 
     //! Right-associative fold of a structure using a binary operation.
     //! @method{Foldable}
+    //!
+    //! ### Fusion example
+    //! @snippet example/list/foldable/foldr.cpp fusion
+    //!
+    //! ### MPL example
+    //! @snippet example/list/foldable/foldr.cpp mpl
     BOOST_HANA_CONSTEXPR_LAMBDA auto foldr = [](auto f, auto state, auto foldable) {
         return Foldable<datatype_t<decltype(foldable)>>::foldr_impl(f, state, foldable);
     };
@@ -118,6 +130,12 @@ namespace boost { namespace hana {
     //! Return the number of elements in the structure for which the
     //! `predicate` is satisfied.
     //! @method{Foldable}
+    //!
+    //! ### Fusion example
+    //! @snippet example/list/foldable/count.cpp fusion
+    //!
+    //! ### MPL example
+    //! @snippet example/list/foldable/count.cpp mpl
     BOOST_HANA_CONSTEXPR_LAMBDA auto count = [](auto predicate, auto foldable) {
         return Foldable<datatype_t<decltype(foldable)>>::count_impl(predicate, foldable);
     };
@@ -130,6 +148,12 @@ namespace boost { namespace hana {
 
     //! Return whether any element of the structure satisfies the `predicate`.
     //! @method{Foldable}
+    //!
+    //! ### Fusion example
+    //! @snippet example/list/foldable/any.cpp fusion
+    //!
+    //! ### MPL example
+    //! @snippet example/list/foldable/any.cpp mpl
     BOOST_HANA_CONSTEXPR_LAMBDA auto any = [](auto predicate, auto foldable) {
         return Foldable<datatype_t<decltype(foldable)>>::any_impl(predicate, foldable);
     };
@@ -142,6 +166,12 @@ namespace boost { namespace hana {
 
     //! Return whether all the elements of the structure satisfy the `predicate`.
     //! @method{Foldable}
+    //!
+    //! ### Fusion example
+    //! @snippet example/list/foldable/all.cpp fusion
+    //!
+    //! ### MPL example
+    //! @snippet example/list/foldable/all.cpp mpl
     BOOST_HANA_CONSTEXPR_LAMBDA auto all = [](auto predicate, auto foldable) {
         return Foldable<datatype_t<decltype(foldable)>>::all_impl(predicate, foldable);
     };
@@ -154,6 +184,12 @@ namespace boost { namespace hana {
 
     //! Return whether none of the elements of the structure satisfy the `predicate`.
     //! @method{Foldable}
+    //!
+    //! ### Fusion example
+    //! @snippet example/list/foldable/none.cpp fusion
+    //!
+    //! ### MPL example
+    //! @snippet example/list/foldable/none.cpp mpl
     BOOST_HANA_CONSTEXPR_LAMBDA auto none = [](auto predicate, auto foldable) {
         return Foldable<datatype_t<decltype(foldable)>>::none_impl(predicate, foldable);
     };
