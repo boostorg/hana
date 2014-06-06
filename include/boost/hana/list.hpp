@@ -124,7 +124,7 @@ namespace boost { namespace hana {
         // HetList
         template <typename Storage>
         static constexpr auto head_impl(operators::HetList<Storage> xs) {
-            return xs.into([](auto x, ...) {
+            return xs.into([](auto x, auto ...rest) {
                 return x;
             });
         }

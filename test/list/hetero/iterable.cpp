@@ -11,6 +11,10 @@ Distributed under the Boost Software License, Version 1.0.
 using namespace boost::hana;
 
 
+struct non_trivial {
+    virtual ~non_trivial() { }
+};
+
 int main() {
     BOOST_HANA_STATIC_ASSERT(is_empty(list()));
     BOOST_HANA_STATIC_ASSERT(!is_empty(list(int_<0>)));
@@ -18,6 +22,7 @@ int main() {
 
     BOOST_HANA_STATIC_ASSERT(head(list(int_<0>)) == int_<0>);
     BOOST_HANA_STATIC_ASSERT(head(list(int_<0>, int_<1>)) == int_<0>);
+    BOOST_HANA_STATIC_ASSERT(head(list(int_<0>, int_<1>, non_trivial{})) == int_<0>);
 
     BOOST_HANA_STATIC_ASSERT(tail(list(int_<0>)) == list());
     BOOST_HANA_STATIC_ASSERT(tail(list(int_<0>, int_<1>)) == list(int_<1>));
