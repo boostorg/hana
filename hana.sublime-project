@@ -1,0 +1,24 @@
+{
+    "folders":
+    [
+        {
+            "follow_symlinks": true,
+            "path": "."
+        }
+    ],
+
+    "build_systems":
+    [
+        {
+            "name": "Build current file",
+            "cmd": ["./sublime_make", "$file"],
+            "working_dir": "$project_path"
+        }
+    ],
+
+    "settings":
+    {
+        "sublimegdb_commandline": "gdb --interpreter=mi build/test/test.foldable.all_of",
+        "sublimegdb_workingdir": "."
+    }
+}
