@@ -7,16 +7,19 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/integral.hpp>
 
 #include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/type.hpp>
 using namespace boost::hana;
 using namespace literals;
 
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(0_c == long_<0>);
-    BOOST_HANA_STATIC_ASSERT(1_c == long_<1>);
-    BOOST_HANA_STATIC_ASSERT(12_c == long_<12>);
-    BOOST_HANA_STATIC_ASSERT(123_c == long_<123>);
-    BOOST_HANA_STATIC_ASSERT(1234567_c == long_<1234567>);
+    BOOST_HANA_STATIC_ASSERT(0_c == llong<0>);
+    BOOST_HANA_STATIC_ASSERT(1_c == llong<1>);
+    BOOST_HANA_STATIC_ASSERT(12_c == llong<12>);
+    BOOST_HANA_STATIC_ASSERT(123_c == llong<123>);
+    BOOST_HANA_STATIC_ASSERT(1234567_c == llong<1234567>);
+    BOOST_HANA_STATIC_ASSERT(-34_c == llong<-34>);
 
-    BOOST_HANA_STATIC_ASSERT(-34_c == int_<-34>);
+    BOOST_HANA_STATIC_ASSERT(decltype_(-1234_c) == decltype_(llong<-1234>));
+    BOOST_HANA_STATIC_ASSERT(-12_c < 0_c);
 }

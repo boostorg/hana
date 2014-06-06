@@ -227,8 +227,8 @@ namespace boost { namespace hana {
         { return static_cast<int>(c) - 48; }
 
         template <std::size_t N>
-        constexpr unsigned long long parse(const char (&arr)[N]) {
-            unsigned long long number = 0, base = 1;
+        constexpr long long parse(const char (&arr)[N]) {
+            long long number = 0, base = 1;
             for (std::size_t i = 0; i < N; ++i) {
                 number += to_int(arr[N - 1 - i]) * base;
                 base *= 10;
@@ -239,18 +239,24 @@ namespace boost { namespace hana {
 
     namespace literals {
         //! Creates an `Integral` from a literal.
+        //! @relates boost::hana::Integral
         //!
         //! The literal is parsed at compile-time and the result is returned
-        //! as an `ullong<...>`.
+        //! as an `llong<...>`.
+        //!
+        //! @note
+        //! We use `llong<...>` instead of `ullong<...>` because using an
+        //! unsigned type leads to unexpected behavior when doing stuff like
+        //! `-1_c`. If we used an unsigned type, `-1_c` would be something
+        //! like `ullong<-1>` which is actually `ullong<something huge>`.
         //!
         //! ### Example
         //! @snippet example/integral/literals.cpp main
         //!
-        //! @relates boost::hana::Integral
         //! @todo Add support for stuff like `0x1234_c`.
         template <char ...c>
         constexpr auto operator"" _c()
-        { return ullong<integral_detail::parse<sizeof...(c)>({c...})>; }
+        { return llong<integral_detail::parse<sizeof...(c)>({c...})>; }
     }
 }} // end namespace boost::hana
 

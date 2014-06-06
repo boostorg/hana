@@ -14,8 +14,11 @@ using namespace literals;
 
 int main() {
     //! [main]
-    BOOST_HANA_STATIC_ASSERT(1234_c == ullong<1234>);
-    BOOST_HANA_STATIC_ASSERT(decltype_(1234_c) == decltype_(ullong<1234>));
+    BOOST_HANA_STATIC_ASSERT(1234_c == llong<1234>);
+    BOOST_HANA_STATIC_ASSERT(decltype_(1234_c) == decltype_(llong<1234>));
+
+    BOOST_HANA_STATIC_ASSERT(-1234_c == llong<-1234>);
+    BOOST_HANA_STATIC_ASSERT(decltype_(-1234_c) == decltype_(llong<-1234>));
 
     BOOST_HANA_STATIC_ASSERT(sum(list(1_c, 2_c, 3_c, 4_c)) == 10_c);
     //! [main]
