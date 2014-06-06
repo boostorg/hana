@@ -102,6 +102,7 @@ boost_hana_add_test(range.foldable)
 boost_hana_add_test(range.iterable)
 
 boost_hana_add_test(sandbox.array.api)
+boost_hana_add_test(sandbox.assert)
 boost_hana_add_test(sandbox.function)
 boost_hana_add_test(sandbox.infix)
 boost_hana_add_test(sandbox.llist)
