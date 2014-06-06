@@ -40,7 +40,6 @@ namespace boost { namespace hana {
     - Is it desirable to have different ways of creating lists, or should we
       in fact provide `type_list`, `homogeneous_list`, etc...?
     - How to implement iterate and repeat?
-    - Document the list-specific functions.
     - Document how the type classes are instantiated.
      */
     struct List { };
