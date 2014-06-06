@@ -52,10 +52,24 @@ namespace boost { namespace hana {
             constexpr operator T() const { return t; }
             using hana_datatype = Integral;
         };
+
+        // We're not gonna include the whole <type_traits> for this.
+        template <typename T>
+        struct remove_cv { using type = T; };
+
+        template <typename T>
+        struct remove_cv<T const> { using type = T; };
+
+        template <typename T>
+        struct remove_cv<T volatile> { using type = T; };
+
+        template <typename T>
+        struct remove_cv<T const volatile> { using type = T; };
     }
 
     /*!
     A compile-time integral value of the given type and value.
+    @relates Integral
 
     For convenience, common operators are overloaded to return the result
     of the corresponding operator as an `integral<...>`.
@@ -70,12 +84,42 @@ namespace boost { namespace hana {
     ### Example
     @snippet example/integral/operators.cpp main
 
-    @relates Integral
+    @note
+    For any `const-volatility` specifier `cv`, `integral<T cv, n>` is always
+    the same as `integral<T, n>`.
+
+    @internal
+    ### Rationale for striping cv-specifiers
+    In the following idiom,
+    @code
+        integral<decltype(Trait::value), Trait::value>
+    @endcode
+    if `Trait::value` is declared as `static const T value = ...;`, then
+    `decltype(Trait::value)` is `T const` instead of `T`. This causes
+    unintuitive behavior in some cases. For example, with a definition
+    of `trait::is_floating_point` using the above idiom,
+    @code
+        static_assert(
+            decltype_(trait::is_floating_point(type<char>)) ==
+            decltype_(false_)
+        , "");
+    @endcode
+    will fail, but the following will succeed
+    @code
+        static_assert(
+            decltype_(trait::is_floating_point(type<char>)) ==
+            decltype_(integral<bool const, false>)
+        , "");
+    @endcode
+    Since there does not seem to be a lot of use cases for keeping
+    cv-qualifiers in the integral type, we just remove them.
+
     @todo
     Do we want `char_<1> + char_<2> == char_<3>` or `char_<1> + char_<2> == int_<3>`?
      */
     template <typename T, T v>
-    constexpr integral_detail::integral_type<T, v> integral{};
+    constexpr integral_detail::integral_type<
+              typename integral_detail::remove_cv<T>::type, v> integral{};
 
     //! @relates Integral
     template <bool b>

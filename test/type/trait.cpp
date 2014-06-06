@@ -12,11 +12,12 @@ Distributed under the Boost Software License, Version 1.0.
 using namespace boost::hana;
 
 
-int main() {
-    enum _e { };          constexpr auto e = type<_e>;
-    struct _s { };        constexpr auto s = type<_s>;
-    using _f = void(*)();
+enum Enumeration { };
+struct Structure { };
+constexpr auto e = type<Enumeration>;
+constexpr auto s = type<Structure>;
 
+int main() {
     // We just make sure that they compile. If the forwarding to `std::` is
     // well done, it is the job of `std::` to return the right thing.
 
@@ -24,7 +25,7 @@ int main() {
     // Type properties
     ///////////////////
     // Primary type categories
-    trait::is_void(s);
+    BOOST_HANA_STATIC_ASSERT(decltype_(trait::is_void(s)) == decltype_(false_));
     trait::is_null_pointer(s);
     trait::is_integral(s);
     trait::is_floating_point(s);
@@ -145,5 +146,6 @@ int main() {
 
     trait::common_type(s, s);
     trait::underlying_type(e);
-    trait::result_of(type<_f(void)>);
+    using FunctionPointer = void(*)();
+    trait::result_of(type<FunctionPointer(void)>);
 }
