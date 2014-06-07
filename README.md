@@ -11,6 +11,10 @@ that it will be proposed.
 The library is unstable at the moment; do not use for production.
 
 
+## Reference documentation (still incomplete)
+http://ldionne.github.io/hana
+
+
 ## Self notes
 
 ### Non-constexpr sequences
