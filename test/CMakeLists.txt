@@ -92,9 +92,9 @@ boost_hana_add_test(logical.and)
 boost_hana_add_test(logical.if)
 boost_hana_add_test(logical.or)
 
+boost_hana_add_test(maybe.api)
 boost_hana_add_test(maybe.comparable)
 boost_hana_add_test(maybe.functor)
-boost_hana_add_test(maybe.maybe)
 boost_hana_add_test(maybe.monad)
 
 boost_hana_add_test(range.comparable)

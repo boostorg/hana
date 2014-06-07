@@ -14,8 +14,8 @@ using namespace boost::hana;
 
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(unit<_Maybe>(int_<3>) == just(int_<3>));
-    BOOST_HANA_STATIC_ASSERT(unit<_Maybe>(3) == just(3));
+    BOOST_HANA_STATIC_ASSERT(unit<Maybe>(int_<3>) == just(int_<3>));
+    BOOST_HANA_STATIC_ASSERT(unit<Maybe>(3) == just(3));
 
     BOOST_HANA_STATIC_ASSERT(join(nothing) == nothing);
     BOOST_HANA_STATIC_ASSERT(join(just(nothing)) == nothing);

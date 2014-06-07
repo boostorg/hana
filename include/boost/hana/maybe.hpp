@@ -21,7 +21,6 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     /*!
     @datatype{Maybe}
-    @{
     Represents an optional value.
 
     A `Maybe` either contains a value (represented as `just(x)`), or it is
@@ -30,78 +29,127 @@ namespace boost { namespace hana {
     @instantiates{Comparable, Functor, Monad}
 
     @todo
-    - `Comparable` should only be instantiated when the content of the `Maybe`
-    is `Comparable`.
+    - Document how the type classes are instantiated?
+    - Show examples? Might be overkill for API functions, but not for
+      type class instances.
      */
-    struct _Maybe { };
-
-    //! @}
+    struct Maybe { };
 
     namespace operators {
         template <bool is_valid, typename T>
-        struct Maybe {
-            using hana_datatype = _Maybe;
+        struct _maybe {
+            using hana_datatype = Maybe;
         };
 
         template <typename T>
-        struct Maybe<true, T> {
-            using hana_datatype = _Maybe;
+        struct _maybe<true, T> {
+            using hana_datatype = Maybe;
             T val;
         };
+
+        template <typename T>
+        using _just = _maybe<true, T>;
+        using _nothing = _maybe<false, void>;
     }
-    using operators::Maybe;
 
-    template <typename T>
-    using Just = Maybe<true, T>;
+    namespace maybe_detail {
+        struct _maybe_func {
+            template <typename Default, typename F>
+            constexpr auto operator()(Default default_, F, operators::_nothing) const
+            { return default_; }
 
-    using Nothing = Maybe<false, struct _nothing>;
+            template <typename Default, typename F, typename T>
+            constexpr auto operator()(Default, F f, operators::_just<T> j) const
+            { return f(j.val); }
+        };
+    }
 
+    //! Applies a function to the contents of a `Maybe`, with a fallback
+    //! result.
+    //! @relates Maybe
+    //!
+    //! Specifically, `maybe` takes a default value, a function and an
+    //! optional value. If the optional value is `nothing`, the default
+    //! value is returned. Otherwise, the function is applied to the
+    //! content of the `just`.
+    constexpr maybe_detail::_maybe_func maybe{};
+
+    //! Creates an optional value containing `x`.
+    //! @relates Maybe
+    //! @hideinitializer
     BOOST_HANA_CONSTEXPR_LAMBDA auto just = [](auto x) {
-        return Just<decltype(x)>{x};
+        return operators::_just<decltype(x)>{x};
     };
 
-    constexpr Nothing nothing{};
+    //! Returns whether a `Maybe` contains a value.
+    //! @relates Maybe
+    BOOST_HANA_CONSTEXPR_LAMBDA auto is_just = [](auto m) {
+        return maybe(false_, [](auto) { return true_; }, m);
+    };
+
+    //! Creates an empty optional value.
+    //! @relates Maybe
+    //! @hideinitializer
+    constexpr operators::_nothing nothing{};
+
+    //! Returns whether a `Maybe` is empty.
+    //! @relates Maybe
+    BOOST_HANA_CONSTEXPR_LAMBDA auto is_nothing = [](auto m) {
+        return !is_just(m);
+    };
+
+    //! Returns the contents of a `Maybe`, or a default value if the `Maybe`
+    //! is `nothing`.
+    //! @relates Maybe
+    BOOST_HANA_CONSTEXPR_LAMBDA auto from_maybe = [](auto default_, auto m) {
+        return maybe(default_, [](auto x) { return x; }, m);
+    };
+
+    //! Extract the value out of a `just`, or trigger a compile-time error
+    //! if the argument is `nothing`.
+    //! @relates Maybe
+    BOOST_HANA_CONSTEXPR_LAMBDA auto from_just = [](auto m) {
+        auto err = [](auto ...dum) {
+            constexpr bool always_false = sizeof...(dum) != 0;
+            static_assert(always_false,
+            "trying to extract the value inside a boost::hana::nothing "
+            "with boost::hana::from_just");
+        };
+        return maybe(err, [](auto x) { return [=] { return x; }; }, m)();
+    };
 
     template <>
-    struct Comparable<_Maybe, _Maybe> : defaults<Comparable> {
+    struct Comparable<Maybe, Maybe> : defaults<Comparable> {
         template <typename T, typename U>
-        static constexpr auto equal_impl(Just<T> t, Just<U> u)
+        static constexpr auto
+        equal_impl(operators::_just<T> t, operators::_just<U> u)
         { return equal(t.val, u.val); }
 
         template <bool tv, typename T, bool uv, typename U>
-        static constexpr auto equal_impl(Maybe<tv, T>, Maybe<uv, U>)
+        static constexpr auto
+        equal_impl(operators::_maybe<tv, T>, operators::_maybe<uv, U>)
         { return bool_<tv == uv>; }
     };
 
-    constexpr struct _maybe {
-        template <typename Default, typename F>
-        constexpr auto operator()(Default default_, F, Nothing) const
-        { return default_; }
-
-        template <typename Default, typename F, typename T>
-        constexpr auto operator()(Default, F f, Just<T> j) const
-        { return f(j.val); }
-    } maybe{};
-
     template <>
-    struct Functor<_Maybe> : defaults<Functor> {
+    struct Functor<Maybe> : defaults<Functor> {
         template <typename F, typename T>
-        static constexpr auto fmap_impl(F f, Just<T> j)
+        static constexpr auto fmap_impl(F f, operators::_just<T> j)
         { return just(f(j.val)); }
 
         template <typename F>
-        static constexpr auto fmap_impl(F, Nothing)
+        static constexpr auto fmap_impl(F, operators::_nothing)
         { return nothing; }
     };
 
     template <>
-    struct Monad<_Maybe> : defaults<Monad> {
+    struct Monad<Maybe> : defaults<Monad> {
         template <typename T>
         static constexpr auto unit_impl(T x)
         { return just(x); }
 
         template <typename T>
-        static constexpr auto join_impl(Just<Just<T>> j)
+        static constexpr auto join_impl(operators::_just<operators::_just<T>> j)
         { return j.val; }
 
         template <typename AnythingElse>
