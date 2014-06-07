@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['variadic_5fmeta',['variadic_meta',['../group__details.html#ga8b9ba0101dd65acf6b5152381fa4109f',1,'boost::hana::detail::left_folds']]]
+  ['datatype_5ft',['datatype_t',['../group___core.html#gae3cedd3772d00ac7c4de9dc3d719f321',1,'boost::hana']]]
 ];

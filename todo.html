@@ -13,6 +13,12 @@
 <script type="text/javascript">
   $(document).ready(function() { searchBox.OnSelectItem(0); });
 </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -64,7 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -80,21 +86,104 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><dl class="reflist">
-<dt><a class="anchor" id="_todo000001"></a>Member <a class="el" href="group__details.html#gad94ca1e1725032e42ded1be674647bf2">boost::hana::detail::laws&lt; Monad &gt;</a>  </dt>
-<dd></dd>
-<dt><a class="anchor" id="_todo000007"></a>File <a class="el" href="logical_8hpp.html">logical.hpp</a>  </dt>
+<dt><a class="anchor" id="_todo000010"></a>Member <a class="el" href="group___functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">boost::hana::_</a>  </dt>
+<dd>Consider allowing placeholder expressions to be called with more arguments than required. The extraneous arguments could just be discarded as with <code>boost::bind</code>. This could be useful to implement e.g. <code>length</code> as a wrapper over <code>foldl</code>.  </dd>
+<dt><a class="anchor" id="_todo000006"></a>Member <a class="el" href="group___functional.html#ga6acc765a35c4dc85f0deab4785831a3d">boost::hana::arg</a>  </dt>
 <dd><ul>
-<li>Use a non-naive implementation for <code>and_</code> and <code>or_</code>.</li>
-<li>How to short-circuit? </li>
+<li>It is really stupid that we need to include <code>integral</code> for this.</li>
+<li>Maybe this should be <code>arg(n)</code> instead of <code>arg&lt;n&gt;</code>?</li>
+<li>The example sucks.  </li>
 </ul>
 </dd>
-<dt><a class="anchor" id="_todo000008"></a>File <a class="el" href="type_8hpp.html">type.hpp</a>  </dt>
-<dd>Verify <code>Monad</code> laws for <code>Type</code>.</dd>
+<dt><a class="anchor" id="_todo000001"></a>Class <a class="el" href="structboost_1_1hana_1_1_comparable.html">boost::hana::Comparable&lt; T, U &gt;</a>  </dt>
+<dd><ul>
+<li>Should all data types have a default implementation to allow arbitrary objects of different types to be compared? By default, two objects that don't share a common_type would be unequal, and otherwise we would use the common_type's comparison, if any.</li>
+<li>Implement automatic checking of the laws for Comparable, if possible.  </li>
+</ul>
+</dd>
+<dt><a class="anchor" id="_todo000007"></a>Member <a class="el" href="group___functional.html#ga49ea872ade5ac8f6c10052c495302e89">boost::hana::curry</a>  </dt>
+<dd>Consider making <code>curry&lt;0&gt;(f)</code> equivalent to <code>f</code>. It might be more general or less useful if it creates subtle pitfalls. </dd>
+<dt><a class="anchor" id="_todo000002"></a>Class <a class="el" href="structboost_1_1hana_1_1datatype.html">boost::hana::datatype&lt; T &gt;</a>  </dt>
+<dd>Is there a more efficient way of performing SFINAE which would not require an overload resolution?  </dd>
+<dt><a class="anchor" id="_todo000008"></a>Member <a class="el" href="group___functional.html#gaab5ecce4ccdd050a59083edf74f0f4b9">boost::hana::fbind</a>  </dt>
+<dd>Find a better name. </dd>
+<dt><a class="anchor" id="_todo000005"></a>Class <a class="el" href="structboost_1_1hana_1_1_foldable.html">boost::hana::Foldable&lt; T &gt;</a>  </dt>
+<dd>Provide examples for the methods? I think the instance of <code>Foldable</code> for <code>Iterable</code>s must be documented properly with examples, but we can't do better without loss of generality here. Or maybe we can use a parallel with <code>toList</code> to document equalities that must hold?  </dd>
+<dt><a class="anchor" id="_todo000012"></a>Class <a class="el" href="structboost_1_1hana_1_1_integral.html">boost::hana::Integral</a>  </dt>
+<dd>Implicit conversions to the underlying integral type can be problematic: <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> odd = [](<span class="keyword">auto</span> x) {</div>
+<div class="line">    <span class="keywordflow">return</span> x % int_&lt;2&gt;;</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line">if_(odd(int_&lt;1&gt;), something_of_type_A, something_of_type_B)</div>
+</div><!-- fragment --> This will fail because <code>odd(int_&lt;1&gt;)</code> has type <code>Int&lt;1 % 2&gt;</code>, which is convertible to <code>bool</code> but not to <code>Bool&lt;...&gt;</code>. Because of this, the runtime <code>if_</code> is used and compilation fails.  </dd>
+<dt><a class="anchor" id="_todo000015"></a>Class <a class="el" href="structboost_1_1hana_1_1_iterable.html">boost::hana::Iterable&lt; T &gt;</a>  </dt>
+<dd><ul>
+<li>What about infinite <code>Iterable</code>s?</li>
+<li>There are probably tons of laws that must be respected?</li>
+<li>How to document/provide default instantiations for some type classes like <code>Foldable</code>?</li>
+<li>Instead of having a lot of methods, maybe some of the functions below should just be implemented as functions using the mcd, as in the MPL11?  </li>
+</ul>
+</dd>
+<dt><a class="anchor" id="_todo000016"></a>Class <a class="el" href="structboost_1_1hana_1_1_list.html">boost::hana::List</a>  </dt>
+<dd><ul>
+<li>It might be possible to optimize the implementation of homogeneous lists using an array.</li>
+<li>Is it desirable to have different ways of creating lists, or should we in fact provide <code>type_list</code>, <code>homogeneous_list</code>, etc...?</li>
+<li>How to implement iterate and repeat?</li>
+<li>Document how the type classes are instantiated.  </li>
+</ul>
+</dd>
+<dt><a class="anchor" id="_todo000009"></a>Member <a class="el" href="group___functional.html#gafca60c09e1f7a32a2b52baaf6515c279">boost::hana::lockstep</a>  </dt>
+<dd>Rename this. </dd>
+<dt><a class="anchor" id="_todo000025"></a>Class <a class="el" href="structboost_1_1hana_1_1_maybe.html">boost::hana::Maybe</a>  </dt>
+<dd><ul>
+<li>Document how the type classes are instantiated?</li>
+<li>Show examples? Might be overkill for API functions, but not for type class instances.  </li>
+</ul>
+</dd>
+<dt><a class="anchor" id="_todo000004"></a>Class <a class="el" href="structboost_1_1hana_1_1sandbox_1_1array__detail_1_1__eq.html">boost::hana::sandbox::array_detail::_eq</a>  </dt>
+<dd>Remove the need for this.  </dd>
+<dt><a class="anchor" id="_todo000003"></a>Class <a class="el" href="structboost_1_1hana_1_1sandbox_1_1array__detail_1_1__less.html">boost::hana::sandbox::array_detail::_less</a>  </dt>
+<dd>Remove the need for this.  </dd>
+<dt><a class="anchor" id="_todo000013"></a>Member <a class="el" href="structboost_1_1hana_1_1_integral.html#a56d5d40ca74277b9054ab6c98ce7a187">integral</a>  </dt>
+<dd>Do we want <code>char_&lt;1&gt; + char_&lt;2&gt; == char_&lt;3&gt;</code> or <code>char_&lt;1&gt; + char_&lt;2&gt; == int_&lt;3&gt;</code>?  </dd>
+<dt><a class="anchor" id="_todo000017"></a>Member <a class="el" href="structboost_1_1hana_1_1_list.html#ab7d8228755c2e0a5f150622fe0337984">list_c</a>  </dt>
+<dd>Actually provide optimizations.  </dd>
+<dt><a class="anchor" id="_todo000024"></a>Group <a class="el" href="group___logical.html">Logical</a>  </dt>
+<dd><ul>
+<li>Use a non-naive implementation for <code>and_</code> and <code>or_</code>.</li>
+<li>How to short-circuit?</li>
+<li>Do we even need <code>and_</code> and <code>or_</code>? Perhaps we only need <code>&amp;&amp;</code> and <code>||</code> with the new paradigm?</li>
+<li>Document the contents of this module. </li>
+</ul>
+</dd>
+<dt><a class="anchor" id="_todo000014"></a>Member <a class="el" href="structboost_1_1hana_1_1_integral.html#a1c078fd00db48686ca9e0aa17f47344e">operator</a> "_c" </dt>
+<dd>Add support for stuff like <code>0x1234_c</code>.  </dd>
+<dt><a class="anchor" id="_todo000021"></a>Member <a class="el" href="structboost_1_1hana_1_1_list.html#a788b65dd69bb016d647801718e840816">partition</a>  </dt>
+<dd><p class="startdd">Use a more efficient implementation. </p>
+<p class="enddd">Express the fact that we need the predicate to be compile-time.  </p>
+</dd>
+<dt><a class="anchor" id="_todo000023"></a>Member <a class="el" href="structboost_1_1hana_1_1_list.html#a58c1454689bf6d2264bc428dc1d039db">sort</a>  </dt>
+<dd>Use a real type class method for Orderables when we get one.  </dd>
+<dt><a class="anchor" id="_todo000022"></a>Member <a class="el" href="structboost_1_1hana_1_1_list.html#a6ed2907b48fcba3dd1059b4b0bfde624">sort_by</a>  </dt>
+<dd><p class="startdd">Document the properties of the <code>predicate</code>. </p>
+<p class="enddd">Document the properties of the sort. Is it stable?  </p>
+</dd>
+<dt><a class="anchor" id="_todo000019"></a>Member <a class="el" href="structboost_1_1hana_1_1_list.html#a2c20028c5115dcf38063d322f27b4ee1">take</a>  </dt>
+<dd>Move <code>min</code> in a proper type class.  </dd>
+<dt><a class="anchor" id="_todo000020"></a>Member <a class="el" href="structboost_1_1hana_1_1_list.html#a86916c5c62a42f01f85450b366ef6eff">take_while</a>  </dt>
+<dd>How to specify that a predicate must be compile-time? </dd>
+<dt><a class="anchor" id="_todo000028"></a>Group <a class="el" href="group__typeclasses.html">typeclasses</a>  </dt>
+<dd>Provide an integrated way of checking laws for typeclasses.  </dd>
+<dt><a class="anchor" id="_todo000018"></a>Member <a class="el" href="structboost_1_1hana_1_1_list.html#a5eadaf63535ebb8cdd8d9e4c16b9bacd">zip_with</a>  </dt>
+<dd><ul>
+<li>Consider allowing only two lists and achieving the variadic behavior in some other way. This would make it possible to automatically curry <code>zip_with</code>. It might be possible to achieve the variadic behavior with e.g. Applicative Functors? If we decide to keep the variadic behavior, then we probably want to support the 0 list case. How should <code>zip_with</code> behave in that case? </li>
+</ul>
+</dd>
 </dl>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jun 1 2014 12:31:38 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jun 7 2014 17:35:13 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

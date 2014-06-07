@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['best_2ehpp',['best.hpp',['../best_8hpp.html',1,'']]]
+  ['algorithm_2ehpp',['algorithm.hpp',['../algorithm_8hpp.html',1,'']]],
+  ['array_2ehpp',['array.hpp',['../array_8hpp.html',1,'']]]
 ];

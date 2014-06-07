@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['overload_5fresolution_2ehpp',['overload_resolution.hpp',['../overload__resolution_8hpp.html',1,'']]]
+  ['maybe_2ehpp',['maybe.hpp',['../maybe_8hpp.html',1,'']]],
+  ['monad_2ehpp',['monad.hpp',['../monad_8hpp.html',1,'']]]
 ];

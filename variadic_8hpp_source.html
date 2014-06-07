@@ -13,6 +13,12 @@
 <script type="text/javascript">
   $(document).ready(function() { searchBox.OnSelectItem(0); });
 </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -70,7 +76,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -90,36 +96,36 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <a href="variadic_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#ifndef BOOST_HANA_DETAIL_LEFT_FOLDS_VARIADIC_HPP</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#define BOOST_HANA_DETAIL_LEFT_FOLDS_VARIADIC_HPP</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="variadic__meta_8hpp.html">boost/hana/detail/left_folds/variadic_meta.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="variadic__unrolled_8hpp.html">boost/hana/detail/left_folds/variadic_unrolled.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">namespace </span>boost { <span class="keyword">namespace </span>hana { <span class="keyword">namespace </span>detail { <span class="keyword">namespace </span>left_folds {</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    constexpr <span class="keyword">struct </span>_variadic {</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> F, <span class="keyword">typename</span> State, <span class="keyword">typename</span> ...Xs&gt;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        constexpr <span class="keyword">auto</span> operator()(F f, State s, Xs ...xs)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">        </span>{ <span class="keywordflow">return</span> variadic_unrolled(f, s, xs...); }</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...&gt; <span class="keyword">class </span>F, <span class="keyword">typename</span> State, <span class="keyword">typename</span> ...Xs&gt;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        constexpr <span class="keyword">auto</span> operator()(type_detail::Lift&lt;F&gt; f, Type&lt;State&gt; s, Type&lt;Xs&gt; ...xs)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            <span class="keywordflow">return</span> type&lt;<a class="code" href="group__details.html#ga8b9ba0101dd65acf6b5152381fa4109f">variadic_meta</a>&lt;F, State, Xs...&gt;&gt;;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        }</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    } variadic{};</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;}}}} <span class="comment">// end namespace boost::hana::detail::left_folds</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#endif // !BOOST_HANA_DETAIL_LEFT_FOLDS_VARIADIC_HPP</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#ifndef BOOST_HANA_DETAIL_LEFT_FOLDS_VARIADIC_HPP</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#define BOOST_HANA_DETAIL_LEFT_FOLDS_VARIADIC_HPP</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="variadic__meta_8hpp.html">boost/hana/detail/left_folds/variadic_meta.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="variadic__unrolled_8hpp.html">boost/hana/detail/left_folds/variadic_unrolled.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">namespace </span>boost { <span class="keyword">namespace </span>hana { <span class="keyword">namespace </span>detail { <span class="keyword">namespace </span>left_folds {</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    constexpr <span class="keyword">struct </span>_variadic {</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> F, <span class="keyword">typename</span> State, <span class="keyword">typename</span> ...Xs&gt;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        constexpr <span class="keyword">auto</span> operator()(F f, State s, Xs ...xs)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">        </span>{ <span class="keywordflow">return</span> variadic_unrolled(f, s, xs...); }</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...&gt; <span class="keyword">class </span>F, <span class="keyword">typename</span> State, <span class="keyword">typename</span> ...Xs&gt;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        constexpr <span class="keyword">auto</span> operator()(type_detail::Lift&lt;F&gt; f, Type&lt;State&gt; s, Type&lt;Xs&gt; ...xs)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            <span class="keywordflow">return</span> type&lt;<a class="code" href="group__details.html#ga8b9ba0101dd65acf6b5152381fa4109f">variadic_meta</a>&lt;F, State, Xs...&gt;&gt;;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        }</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    } variadic{};</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;}}}} <span class="comment">// end namespace boost::hana::detail::left_folds</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#endif // !BOOST_HANA_DETAIL_LEFT_FOLDS_VARIADIC_HPP</span></div>
 <div class="ttc" id="variadic__meta_8hpp_html"><div class="ttname"><a href="variadic__meta_8hpp.html">variadic_meta.hpp</a></div><div class="ttdoc">Defines boost::hana::detail::left_folds::variadic_meta. </div></div>
 <div class="ttc" id="variadic__unrolled_8hpp_html"><div class="ttname"><a href="variadic__unrolled_8hpp.html">variadic_unrolled.hpp</a></div><div class="ttdoc">Defines boost::hana::detail::left_folds::variadic_unrolled. </div></div>
 <div class="ttc" id="type_8hpp_html"><div class="ttname"><a href="type_8hpp.html">type.hpp</a></div><div class="ttdoc">Defines boost::hana::Type. </div></div>
-<div class="ttc" id="group__details_html_ga8b9ba0101dd65acf6b5152381fa4109f"><div class="ttname"><a href="group__details.html#ga8b9ba0101dd65acf6b5152381fa4109f">boost::hana::detail::left_folds::variadic_meta</a></div><div class="ttdeci">typename variadic_meta_indirect&lt; f, state, xs...&gt;::type variadic_meta</div><div class="ttdoc">Recursive alias-based variadic left fold for types only. </div><div class="ttdef"><b>Definition:</b> variadic_meta.hpp:80</div></div>
+<div class="ttc" id="group__details_html_ga8b9ba0101dd65acf6b5152381fa4109f"><div class="ttname"><a href="group__details.html#ga8b9ba0101dd65acf6b5152381fa4109f">boost::hana::detail::left_folds::variadic_meta</a></div><div class="ttdeci">typename variadic_meta_indirect&lt; f, state, xs...&gt;::type variadic_meta</div><div class="ttdoc">Recursive alias-based variadic left fold for types only. </div><div class="ttdef"><b>Definition:</b> variadic_meta.hpp:78</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jun 1 2014 12:31:38 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jun 7 2014 17:35:13 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

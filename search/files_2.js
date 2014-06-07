@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['foldable_2ehpp',['foldable.hpp',['../foldable_8hpp.html',1,'']]],
-  ['foldable_5ffrom_5fiterable_2ehpp',['foldable_from_iterable.hpp',['../foldable__from__iterable_8hpp.html',1,'']]],
-  ['functional_2ehpp',['functional.hpp',['../functional_8hpp.html',1,'']]],
-  ['functor_2ehpp',['functor.hpp',['../functor_8hpp.html',1,'']]]
+  ['comparable_2ehpp',['comparable.hpp',['../comparable_8hpp.html',1,'']]],
+  ['comparable_5ffrom_5fiterable_2ehpp',['comparable_from_iterable.hpp',['../comparable__from__iterable_8hpp.html',1,'']]],
+  ['constexpr_2ehpp',['constexpr.hpp',['../constexpr_8hpp.html',1,'']]],
+  ['core_2ehpp',['core.hpp',['../core_8hpp.html',1,'']]]
 ];

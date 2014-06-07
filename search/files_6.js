@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['maybe_2ehpp',['maybe.hpp',['../maybe_8hpp.html',1,'']]],
-  ['monad_2ehpp',['monad.hpp',['../monad_8hpp.html',1,'']]]
+  ['laws_2ehpp',['laws.hpp',['../laws_8hpp.html',1,'']]],
+  ['list_2ehpp',['list.hpp',['../list_8hpp.html',1,'']]],
+  ['logical_2ehpp',['logical.hpp',['../logical_8hpp.html',1,'']]]
 ];
