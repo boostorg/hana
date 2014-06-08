@@ -22,7 +22,11 @@ namespace boost { namespace hana { namespace detail { namespace left_folds {
         { return variadic_unrolled(f, s, xs...); }
 
         template <template <typename ...> class F, typename State, typename ...Xs>
-        constexpr auto operator()(type_detail::Lift<F> f, Type<State> s, Type<Xs> ...xs) const {
+        constexpr auto operator()(
+            type_detail::Template<F> f,
+            operators::_type<State> s,
+            operators::_type<Xs> ...xs) const
+        {
             return type<variadic_meta<F, State, Xs...>>;
         }
     } variadic{};

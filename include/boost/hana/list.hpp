@@ -163,7 +163,7 @@ namespace boost { namespace hana {
 
         template <template <typename ...> class F, typename ...Xs>
         static constexpr
-        auto fmap_impl(type_detail::Lift<F>, operators::TypeList<Xs...>)
+        auto fmap_impl(type_detail::Template<F>, operators::TypeList<Xs...>)
         { return list_t<F<Xs>...>; }
     };
 
@@ -206,7 +206,7 @@ namespace boost { namespace hana {
 
         template <template <typename ...> class F, typename State, typename ...Xs>
         static constexpr auto
-        foldl_impl(type_detail::Lift<F>, Type<State>, operators::TypeList<Xs...>) {
+        foldl_impl(type_detail::Template<F>, operators::_type<State>, operators::TypeList<Xs...>) {
             return type<detail::left_folds::variadic_meta<F, State, Xs...>>;
         }
 

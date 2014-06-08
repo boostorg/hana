@@ -16,46 +16,50 @@ using namespace boost::hana;
 
 struct x0; struct x1; struct x2;
 
-constexpr struct {
-    constexpr auto operator()(Type<x0>) const { return 0; }
-    constexpr auto operator()(Type<x1>) const { return 1; }
-    constexpr auto operator()(Type<x2>) const { return 2; }
-} fv{};
+namespace test_values {
+    constexpr struct {
+        //! @todo Decouple this from `Type`.
+        constexpr auto operator()(operators::_type<x0>) const { return 0; }
+        constexpr auto operator()(operators::_type<x1>) const { return 1; }
+        constexpr auto operator()(operators::_type<x2>) const { return 2; }
+    } f{};
 
-BOOST_HANA_CONSTEXPR_LAMBDA auto gv = _ + int_<1>;
+    BOOST_HANA_CONSTEXPR_LAMBDA auto g = _ + int_<1>;
 
-void test_values() {
-    BOOST_HANA_STATIC_ASSERT(fmap(fv, list_t<>) == list());
-    BOOST_HANA_STATIC_ASSERT(fmap(fv, list_t<x0>) == list(0));
-    BOOST_HANA_STATIC_ASSERT(fmap(fv, list_t<x0, x1>) == list(0, 1));
-    BOOST_HANA_STATIC_ASSERT(fmap(fv, list_t<x0, x1, x2>) == list(0, 1, 2));
+    void go() {
+        BOOST_HANA_STATIC_ASSERT(fmap(f, list_t<>) == list());
+        BOOST_HANA_STATIC_ASSERT(fmap(f, list_t<x0>) == list(0));
+        BOOST_HANA_STATIC_ASSERT(fmap(f, list_t<x0, x1>) == list(0, 1));
+        BOOST_HANA_STATIC_ASSERT(fmap(f, list_t<x0, x1, x2>) == list(0, 1, 2));
 
-    BOOST_HANA_STATIC_ASSERT(detail::laws<Functor>(list_t<>, gv, fv));
-    BOOST_HANA_STATIC_ASSERT(detail::laws<Functor>(list_t<x0>, gv, fv));
-    BOOST_HANA_STATIC_ASSERT(detail::laws<Functor>(list_t<x0, x1>, gv, fv));
-    BOOST_HANA_STATIC_ASSERT(detail::laws<Functor>(list_t<x0, x1, x2>, gv, fv));
+        BOOST_HANA_STATIC_ASSERT(detail::laws<Functor>(list_t<>, g, f));
+        BOOST_HANA_STATIC_ASSERT(detail::laws<Functor>(list_t<x0>, g, f));
+        BOOST_HANA_STATIC_ASSERT(detail::laws<Functor>(list_t<x0, x1>, g, f));
+        BOOST_HANA_STATIC_ASSERT(detail::laws<Functor>(list_t<x0, x1, x2>, g, f));
+    }
 }
 
+namespace test_types {
+    template <typename ...> struct F { };
+    template <typename ...> struct G { };
+    constexpr auto f = template_<F>;
+    constexpr auto g = template_<G>;
 
-template <typename ...> struct _ft { };
-template <typename ...> struct _gt { };
-constexpr auto ft = lift<_ft>;
-constexpr auto gt = lift<_gt>;
+    void go() {
+        BOOST_HANA_STATIC_ASSERT(fmap(f, list_t<>) == list_t<>);
+        BOOST_HANA_STATIC_ASSERT(fmap(f, list_t<x0>) == list_t<F<x0>>);
+        BOOST_HANA_STATIC_ASSERT(fmap(f, list_t<x0, x1>) == list_t<F<x0>, F<x1>>);
+        BOOST_HANA_STATIC_ASSERT(fmap(f, list_t<x0, x1, x2>) == list_t<F<x0>, F<x1>, F<x2>>);
 
-void test_types() {
-    BOOST_HANA_STATIC_ASSERT(fmap(ft, list_t<>) == list_t<>);
-    BOOST_HANA_STATIC_ASSERT(fmap(ft, list_t<x0>) == list_t<_ft<x0>>);
-    BOOST_HANA_STATIC_ASSERT(fmap(ft, list_t<x0, x1>) == list_t<_ft<x0>, _ft<x1>>);
-    BOOST_HANA_STATIC_ASSERT(fmap(ft, list_t<x0, x1, x2>) == list_t<_ft<x0>, _ft<x1>, _ft<x2>>);
-
-    BOOST_HANA_STATIC_ASSERT(detail::laws<Functor>(list_t<>, ft, gt));
-    BOOST_HANA_STATIC_ASSERT(detail::laws<Functor>(list_t<x0>, ft, gt));
-    BOOST_HANA_STATIC_ASSERT(detail::laws<Functor>(list_t<x0, x1>, ft, gt));
-    BOOST_HANA_STATIC_ASSERT(detail::laws<Functor>(list_t<x0, x1, x2>, ft, gt));
+        BOOST_HANA_STATIC_ASSERT(detail::laws<Functor>(list_t<>, f, g));
+        BOOST_HANA_STATIC_ASSERT(detail::laws<Functor>(list_t<x0>, f, g));
+        BOOST_HANA_STATIC_ASSERT(detail::laws<Functor>(list_t<x0, x1>, f, g));
+        BOOST_HANA_STATIC_ASSERT(detail::laws<Functor>(list_t<x0, x1, x2>, f, g));
+    }
 }
 
 
 int main() {
-    test_values();
-    test_types();
+    test_values::go();
+    test_types::go();
 }

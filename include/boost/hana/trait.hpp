@@ -20,7 +20,7 @@ namespace boost { namespace hana { namespace trait {
     template <template <typename ...> class Trait>
     struct integral_trait {
         template <typename ...T>
-        constexpr auto operator()(Type<T>...) const
+        constexpr auto operator()(operators::_type<T>...) const
         { return integral<decltype(Trait<T...>::value), Trait<T...>::value>; }
     };
 
@@ -106,14 +106,14 @@ namespace boost { namespace hana { namespace trait {
     constexpr auto rank = integral_trait<std::rank>{};
     constexpr struct _extent {
         template <typename T, typename N>
-        constexpr auto operator()(Type<T>, N n) const {
+        constexpr auto operator()(operators::_type<T>, N n) const {
             return integral<
                 decltype(std::extent<T, n>::value), std::extent<T, n>::value
             >;
         }
 
         template <typename T>
-        constexpr auto operator()(Type<T> t) const
+        constexpr auto operator()(operators::_type<T> t) const
         { return (*this)(t, uint<0>); }
     } extent{};
 
@@ -126,30 +126,30 @@ namespace boost { namespace hana { namespace trait {
     // Type modifications
     ///////////////////
     // Const-volatility specifiers
-    constexpr auto remove_cv = lift<std::remove_cv_t>;
-    constexpr auto remove_const = lift<std::remove_const_t>;
-    constexpr auto remove_volatile = lift<std::remove_volatile_t>;
+    constexpr auto remove_cv = template_<std::remove_cv_t>;
+    constexpr auto remove_const = template_<std::remove_const_t>;
+    constexpr auto remove_volatile = template_<std::remove_volatile_t>;
 
-    constexpr auto add_cv = lift<std::add_cv_t>;
-    constexpr auto add_const = lift<std::add_const_t>;
-    constexpr auto add_volatile = lift<std::add_volatile_t>;
+    constexpr auto add_cv = template_<std::add_cv_t>;
+    constexpr auto add_const = template_<std::add_const_t>;
+    constexpr auto add_volatile = template_<std::add_volatile_t>;
 
     // References
-    constexpr auto remove_reference = lift<std::remove_reference_t>;
-    constexpr auto add_lvalue_reference = lift<std::add_lvalue_reference_t>;
-    constexpr auto add_rvalue_reference = lift<std::add_rvalue_reference_t>;
+    constexpr auto remove_reference = template_<std::remove_reference_t>;
+    constexpr auto add_lvalue_reference = template_<std::add_lvalue_reference_t>;
+    constexpr auto add_rvalue_reference = template_<std::add_rvalue_reference_t>;
 
     // Pointers
-    constexpr auto remove_pointer = lift<std::remove_pointer_t>;
-    constexpr auto add_pointer = lift<std::add_pointer_t>;
+    constexpr auto remove_pointer = template_<std::remove_pointer_t>;
+    constexpr auto add_pointer = template_<std::add_pointer_t>;
 
     // Sign modifiers
-    constexpr auto make_signed = lift<std::make_signed_t>;
-    constexpr auto make_unsigned = lift<std::make_unsigned_t>;
+    constexpr auto make_signed = template_<std::make_signed_t>;
+    constexpr auto make_unsigned = template_<std::make_unsigned_t>;
 
     // Arrays
-    constexpr auto remove_extent = lift<std::remove_extent_t>;
-    constexpr auto remove_all_extents = lift<std::remove_all_extents_t>;
+    constexpr auto remove_extent = template_<std::remove_extent_t>;
+    constexpr auto remove_all_extents = template_<std::remove_all_extents_t>;
 
     // Miscellaneous transformations
     constexpr struct _aligned_storage {
@@ -164,18 +164,18 @@ namespace boost { namespace hana { namespace trait {
 
     constexpr struct _aligned_union {
         template <typename Len, typename ...T>
-        constexpr auto operator()(Len len, Type<T>...) const
+        constexpr auto operator()(Len len, operators::_type<T>...) const
         { return type<std::aligned_union_t<len, T...>>; }
     } aligned_union{};
 
-    constexpr auto decay = lift<std::decay_t>;
+    constexpr auto decay = template_<std::decay_t>;
     // enable_if
     // disable_if
     // conditional
 
-    constexpr auto common_type = lift<std::common_type_t>;
-    constexpr auto underlying_type = lift<std::underlying_type_t>;
-    constexpr auto result_of = lift<std::result_of_t>;
+    constexpr auto common_type = template_<std::common_type_t>;
+    constexpr auto underlying_type = template_<std::underlying_type_t>;
+    constexpr auto result_of = template_<std::result_of_t>;
 }}} // end namespace boost::hana::trait
 
 #endif // !BOOST_HANA_TRAIT_HPP

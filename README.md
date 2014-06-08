@@ -450,8 +450,6 @@ static_assert(std::is_same<
   should be documented that including `typeclass.hpp` is only necessary if
   one needs the default methods.
 - Complete documentation w/ examples for everything.
-- Move self-notes for `Type`-related stuff to the (internal?) documentation
-  of `Type`.
 - Write a tutorial.
 - Provide a Main page for the Doxygen documentation.
 - Consider making function objects automatically curriable. This could allow

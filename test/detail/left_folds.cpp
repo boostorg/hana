@@ -19,9 +19,8 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto variadic_unrolled = [](auto f, auto s, auto ...
     return detail::left_folds::variadic_unrolled(f, s, xs...);
 };
 
-template <typename ...>
-struct _f { struct type; };
-constexpr auto f = lift<_f>;
+template <typename ...> struct F;
+constexpr auto f = template_<F>;
 
 template <typename Foldl>
 constexpr void test_foldl(Foldl foldl) {
