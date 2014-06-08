@@ -103,6 +103,7 @@ boost_hana_add_test(range.iterable)
 
 boost_hana_add_test(sandbox.array.api)
 boost_hana_add_test(sandbox.assert)
+boost_hana_add_test(sandbox.comparable_interop)
 boost_hana_add_test(sandbox.dispatch)
 boost_hana_add_test(sandbox.function)
 boost_hana_add_test(sandbox.infix)
