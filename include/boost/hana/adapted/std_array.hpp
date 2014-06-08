@@ -37,14 +37,17 @@ namespace boost { namespace hana {
         static constexpr T head_impl(std::array<T, N> arr)
         { return arr[0]; }
 
-        template <typename T, std::size_t N, std::size_t ...Index>
-        static constexpr std::array<T, sizeof...(Index)>
-        tail_helper(std::array<T, N> arr, Range<std::size_t, Index...>)
-        { return {{arr[Index]...}}; }
-
+        //! @todo
+        //! We needlessly create a ton of `size_t<indices>...` when we
+        //! unpack the range. We should be able to unpack the range and
+        //! get straight `std::size_t`s instead of `size_t<...>`s when
+        //! we don't need them.
         template <typename T, std::size_t N>
-        static constexpr auto tail_impl(std::array<T, N> arr)
-        { return tail_helper(arr, range(size_t<1>, size_t<N>)); }
+        static constexpr auto tail_impl(std::array<T, N> arr)  {
+            auto make_array = [=](auto ...indices) -> std::array<T, N - 1>
+            { return {{arr[indices]...}}; };
+            return unpack(make_array, range(size_t<1>, size_t<N>));
+        }
 
         template <typename T, std::size_t N>
         static constexpr auto is_empty_impl(std::array<T, N> arr)

@@ -21,17 +21,23 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    struct _Range;
+    //! @datatype{Range}
+    //! Compile-time half-open interval of `Integral`s.
+    //!
+    //! @instantiates{Iterable, Foldable, Comparable}
+    //!
+    //! @todo Document instances.
+    //! @todo The implementation could be more clever: only unpack when we
+    //! need to, but don't encode it in the type of the range.
+    struct Range { };
 
     namespace operators {
-        //! @ingroup datatypes
         template <typename T, T ...v>
-        struct Range {
-            using hana_datatype = _Range;
-        };
+        struct _range { using hana_datatype = Range; };
     }
-    using operators::Range;
 
+    //! Creates a `Range` containing the integers in `[from, to)`.
+    //! @relates Range
     BOOST_HANA_CONSTEXPR_LAMBDA auto range = [](auto from, auto to) {
         // For some reason, Clang 3.5 requires that we create an intermediate
         // variable whose type is dependent so we can use `size` as a template
@@ -39,36 +45,38 @@ namespace boost { namespace hana {
         auto size = to - from;
         return typename detail::make_integer_sequence<
             decltype(value(from)), size
-        >::template slide_by<from, Range>{};
+        >::template slide_by<from, operators::_range>{};
     };
 
     template <>
-    struct Iterable<_Range> : defaults<Iterable> {
+    struct Iterable<Range> : defaults<Iterable> {
         template <typename T, T v, T ...vs>
-        static constexpr auto head_impl(Range<T, v, vs...>)
+        static constexpr auto head_impl(operators::_range<T, v, vs...>)
         { return integral<T, v>; }
 
         template <typename T, T v, T ...vs>
-        static constexpr Range<T, vs...> tail_impl(Range<T, v, vs...>)
+        static constexpr operators::_range<T, vs...>
+        tail_impl(operators::_range<T, v, vs...>)
         { return {}; }
 
         template <typename T, T ...vs>
-        static constexpr auto is_empty_impl(Range<T, vs...>)
+        static constexpr auto is_empty_impl(operators::_range<T, vs...>)
         { return bool_<sizeof...(vs) == 0>; }
     };
 
     template <>
-    struct Foldable<_Range> : detail::foldable_from_iterable {
+    struct Foldable<Range> : detail::foldable_from_iterable {
         template <typename F, typename T, T ...vs>
-        static constexpr auto unpack_impl(F f, Range<T, vs...>)
+        static constexpr auto unpack_impl(F f, operators::_range<T, vs...>)
         { return f(integral<T, vs>...); }
     };
 
     template <>
-    struct Comparable<_Range, _Range> : defaults<Comparable> {
+    struct Comparable<Range, Range> : defaults<Comparable> {
         // SFINAE handles the case where sizeof...(ts) != sizeof...(us).
         template <typename T, T ...ts, typename U, U ...us>
-        static constexpr auto equal_impl(Range<T, ts...>, Range<U, us...>)
+        static constexpr auto
+        equal_impl(operators::_range<T, ts...>, operators::_range<U, us...>)
             -> decltype(and_(bool_<(ts == us)>...))
         { return {}; }
 
