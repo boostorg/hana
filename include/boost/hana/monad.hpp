@@ -17,22 +17,46 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! @ingroup typeclasses
+    /*!
+    @typeclass{Monad}
+    @{
+    `Monad`s are `Functor`s with the ability to wrap values into them
+    and flatten values that were wrapped more than once.
+
+    @mcd
+    `unit` and (`join` or `bind`)
+
+    @laws
+    Instances of `Monad` must satisfy the following laws:
+    @code
+        bind(unit<M>(x), f) == f(x)
+        bind(m, unit<M>) == m
+        bind(m, [](auto x){ return bind(f(x), g); }) == bind(bind(m, f), g)
+    @endcode
+     */
     template <typename M>
     struct Monad;
 
+    //! Wrap a value into a `Monad`.
+    //! @method{Monad}
     template <typename M>
     BOOST_HANA_CONSTEXPR_LAMBDA auto unit = [](auto x) {
         return Monad<M>::unit_impl(x);
     };
 
+    //! Apply a function returning a monad to the value(s) inside a monad.
+    //! @method{Monad}
+    BOOST_HANA_CONSTEXPR_LAMBDA auto bind = [](auto monad, auto f) {
+        return Monad<datatype_t<decltype(monad)>>::bind_impl(monad, f);
+    };
+
+    //! Flatten two levels of monadic wrapping into a single level.
+    //! @method{Monad}
     BOOST_HANA_CONSTEXPR_LAMBDA auto join = [](auto monad) {
         return Monad<datatype_t<decltype(monad)>>::join_impl(monad);
     };
 
-    BOOST_HANA_CONSTEXPR_LAMBDA auto bind = [](auto monad, auto f) {
-        return Monad<datatype_t<decltype(monad)>>::bind_impl(monad, f);
-    };
+    //! @}
 
     template <>
     struct defaults<Monad> {
