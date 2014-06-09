@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_LIST_HPP
 
 #include <boost/hana/comparable.hpp>
+#include <boost/hana/core.hpp>
 #include <boost/hana/detail/at_index/best.hpp>
 #include <boost/hana/detail/comparable_from_iterable.hpp>
 #include <boost/hana/detail/constexpr.hpp>
@@ -45,6 +46,16 @@ namespace boost { namespace hana {
      */
     struct List { };
 
+    namespace list_detail {
+        template <typename ...xs>
+        struct type_container { };
+
+        template <typename ...xs>
+        struct hidden_type_container {
+            struct type { using contents = type_container<xs...>; };
+        };
+    }
+
     namespace operators {
         template <typename Storage>
         struct HetList {
@@ -52,14 +63,18 @@ namespace boost { namespace hana {
             Storage into;
         };
 
-        template <typename ...Xs>
+        template <typename HiddenTypeContainer>
         struct TypeList {
             using hana_datatype = List;
 
             struct {
+                template <typename F, typename ...Xs>
+                static constexpr auto call(F f, list_detail::type_container<Xs...>)
+                { return f(type<Xs>...); }
+
                 template <typename F>
                 constexpr auto operator()(F f) const
-                { return f(type<Xs>...); }
+                { return call(f, typename HiddenTypeContainer::contents{}); }
             } into;
         };
     }
@@ -82,11 +97,10 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/list/list_t.cpp main
-    //!
-    //! @bug
-    //! The types will be instantiated when ADL triggers.
     template <typename ...xs>
-    constexpr operators::TypeList<xs...> list_t{};
+    constexpr operators::TypeList<
+        typename list_detail::hidden_type_container<xs...>::type
+    > list_t{};
 
     //! Creates a `List` of `Integral`s.
     //! @relates List
@@ -109,16 +123,19 @@ namespace boost { namespace hana {
     struct Iterable<List> : defaults<Iterable> {
         // TypeList
         template <typename X, typename ...Xs>
-        static constexpr auto head_impl(operators::TypeList<X, Xs...>)
+        static constexpr auto head_helper(list_detail::type_container<X, Xs...>)
         { return type<X>; }
+        template <typename HiddenTypeContainer>
+        static constexpr auto head_impl(operators::TypeList<HiddenTypeContainer>)
+        { return head_helper(typename HiddenTypeContainer::contents{}); }
+
 
         template <typename X, typename ...Xs>
-        static constexpr auto tail_impl(operators::TypeList<X, Xs...>)
+        static constexpr auto tail_helper(list_detail::type_container<X, Xs...>)
         { return list_t<Xs...>; }
-
-        template <typename ...Xs>
-        static constexpr auto is_empty_impl(operators::TypeList<Xs...>)
-        { return bool_<sizeof...(Xs) == 0>; }
+        template <typename HiddenTypeContainer>
+        static constexpr auto tail_impl(operators::TypeList<HiddenTypeContainer>)
+        { return tail_helper(typename HiddenTypeContainer::contents{}); }
 
 
         // HetList
@@ -136,36 +153,30 @@ namespace boost { namespace hana {
             });
         }
 
-        template <typename Storage>
-        static constexpr auto is_empty_impl(operators::HetList<Storage> xs) {
-            return xs.into([](auto ...xs) {
-                return bool_<sizeof...(xs) == 0>;
-            });
-        }
-
         template <typename Index, typename Storage>
         static constexpr auto at_impl(Index n, operators::HetList<Storage> xs) {
             return xs.into([=](auto ...xs) {
                 return detail::at_index::best(n, xs...);
             });
         }
+
+        template <typename Xs>
+        static constexpr auto is_empty_impl(Xs xs)
+        { return length(xs) == size_t<0>; }
     };
 
     template <>
     struct Functor<List> : defaults<Functor> {
-        template <typename F, typename Storage>
-        static constexpr auto fmap_impl(F f, operators::HetList<Storage> xs) {
-            return xs.into([=](auto ...xs) { return list(f(xs)...); });
-        }
-
-        template <typename F, typename ...Xs>
-        static constexpr auto fmap_impl(F f, operators::TypeList<Xs...>)
-        { return list(f(type<Xs>)...); }
+        template <typename F, typename Xs>
+        static constexpr auto fmap_impl(F f, Xs xs)
+        { return xs.into([=](auto ...xs) { return list(f(xs)...); }); }
 
         template <template <typename ...> class F, typename ...Xs>
-        static constexpr
-        auto fmap_impl(type_detail::Template<F>, operators::TypeList<Xs...>)
+        static constexpr auto fmap_helper(type_detail::Template<F>, list_detail::type_container<Xs...>)
         { return list_t<F<Xs>...>; }
+        template <template <typename ...> class F, typename HiddenTypeContainer>
+        static constexpr auto fmap_impl(type_detail::Template<F> f, operators::TypeList<HiddenTypeContainer>)
+        { return fmap_helper(f, typename HiddenTypeContainer::contents{}); }
     };
 
     namespace list_detail {
@@ -191,18 +202,12 @@ namespace boost { namespace hana {
 
     template <>
     struct Foldable<List> : detail::foldable_from_iterable {
-        template <typename F, typename State, typename Storage>
+        template <typename F, typename State, typename Xs>
         static constexpr auto
-        foldl_impl(F f, State s, operators::HetList<Storage> xs) {
+        foldl_impl(F f, State s, Xs xs) {
             return xs.into([=](auto ...xs) {
                 return detail::left_folds::variadic(f, s, xs...);
             });
-        }
-
-        template <typename F, typename State, typename ...Xs>
-        static constexpr auto
-        foldl_impl(F f, State s, operators::TypeList<Xs...>) {
-            return detail::left_folds::variadic(f, s, type<Xs>...);
         }
 
         // template <template <typename ...> class F, typename State, typename ...Xs>
@@ -215,9 +220,13 @@ namespace boost { namespace hana {
         static constexpr auto unpack_impl(F f, Xs xs)
         { return xs.into(f); }
 
+
         template <typename ...Xs>
-        static constexpr auto length_impl(operators::TypeList<Xs...>)
+        static constexpr auto length_helper(list_detail::type_container<Xs...>)
         { return size_t<sizeof...(Xs)>; }
+        template <typename HiddenTypeContainer>
+        static constexpr auto length_impl(operators::TypeList<HiddenTypeContainer>)
+        { return length_helper(typename HiddenTypeContainer::contents{}); }
 
         template <typename Storage>
         static constexpr auto length_impl(operators::HetList<Storage> xs) {
