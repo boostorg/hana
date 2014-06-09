@@ -6,6 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/trait.hpp>
 
+#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/type.hpp>
@@ -14,8 +15,8 @@ using namespace boost::hana;
 
 enum Enumeration { };
 struct Structure { };
-constexpr auto e = type<Enumeration>;
-constexpr auto s = type<Structure>;
+BOOST_HANA_CONSTEXPR_LAMBDA auto e = type<Enumeration>;
+BOOST_HANA_CONSTEXPR_LAMBDA auto s = type<Structure>;
 
 int main() {
     // We just make sure that they compile. If the forwarding to `std::` is

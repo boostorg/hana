@@ -20,8 +20,12 @@ namespace boost { namespace hana { namespace trait {
     template <template <typename ...> class Trait>
     struct integral_trait {
         template <typename ...T>
-        constexpr auto operator()(operators::_type<T>...) const
-        { return integral<decltype(Trait<T...>::value), Trait<T...>::value>; }
+        constexpr auto operator()(T...) const {
+            return integral<
+                decltype(Trait<untype_t<T>...>::value),
+                Trait<untype_t<T>...>::value
+            >;
+        }
     };
 
     ///////////////////
@@ -106,14 +110,15 @@ namespace boost { namespace hana { namespace trait {
     constexpr auto rank = integral_trait<std::rank>{};
     constexpr struct _extent {
         template <typename T, typename N>
-        constexpr auto operator()(operators::_type<T>, N n) const {
+        constexpr auto operator()(T, N n) const {
             return integral<
-                decltype(std::extent<T, n>::value), std::extent<T, n>::value
+                decltype(std::extent<untype_t<T>, n>::value),
+                std::extent<untype_t<T>, n>::value
             >;
         }
 
         template <typename T>
-        constexpr auto operator()(operators::_type<T> t) const
+        constexpr auto operator()(T t) const
         { return (*this)(t, uint<0>); }
     } extent{};
 
@@ -164,8 +169,8 @@ namespace boost { namespace hana { namespace trait {
 
     constexpr struct _aligned_union {
         template <typename Len, typename ...T>
-        constexpr auto operator()(Len len, operators::_type<T>...) const
-        { return type<std::aligned_union_t<len, T...>>; }
+        constexpr auto operator()(Len len, T...) const
+        { return type<std::aligned_union_t<len, untype_t<T>...>>; }
     } aligned_union{};
 
     constexpr auto decay = template_<std::decay_t>;

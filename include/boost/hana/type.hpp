@@ -23,7 +23,8 @@ namespace boost { namespace hana {
     //! Wrapper to manipulate C++ types as constexpr objects.
     //!
     //! @todo
-    //! - Document the category theoretical foundation of the `Monad` instance.
+    //! - Completely figure out and document the category theoretical
+    //!   foundation of this data type.
     //! - Verify `Monad` laws.
     //! - Move self-notes for `Type`-related stuff to the (internal?)
     //!   documentation of `Type`.
@@ -33,25 +34,45 @@ namespace boost { namespace hana {
     //! - Add examples.
     struct Type { };
 
-    namespace operators {
-        template <typename T>
-        struct _type {
-            using hana_datatype = Type;
-            using type = T;
-        };
-    }
-
     //! Creates a `Type` representing `T`.
     //! @relates Type
     template <typename T>
-    constexpr operators::_type<T> type{};
+    BOOST_HANA_CONSTEXPR_LAMBDA auto type = [] {
+        struct wrapper : operators::enable {
+            using hana_datatype = Type;
+            using hidden = T;
+        };
+        return wrapper{};
+    }();
+
+    //! Metafunction returning the type represented by a `Type`.
+    //! @relates Type
+    //!
+    //! @note This operation is the inverse of `type`.
+    //!
+    //! @todo Explain why this must be a metafunction, with examples.
+    template <typename T>
+    struct untype {
+        using type = typename T::hidden;
+    };
+
+    //! Alias to `untype<T>::type`; provided for convenience.
+    //! @relates Type
+    template <typename T>
+    using untype_t = typename untype<T>::type;
+
+    //! Returns the type of an object as a `Type`.
+    //! @relates Type
+    BOOST_HANA_CONSTEXPR_LAMBDA auto decltype_ = [](auto t) {
+        return type<decltype(t)>;
+    };
 
     namespace type_detail {
         template <template <typename ...> class f>
         struct Template {
             template <typename ...Args>
-            constexpr auto operator()(operators::_type<Args>...) const
-            { return type<f<Args...>>; }
+            constexpr auto operator()(Args...) const
+            { return type<f<untype_t<Args>...>>; }
         };
     }
 
@@ -67,35 +88,14 @@ namespace boost { namespace hana {
     template <template <typename ...> class f>
     constexpr type_detail::Template<f> template_{};
 
-    struct _untype {
-        template <typename T>
-        constexpr T operator()(operators::_type<T>) const
-        { return {}; }
-    };
-
-    //! Default constructs an object of the type wrapped in a `Type`.
-    //! @relates Type
-    //!
-    //! Obviously, this function can only be used when the wrapped type
-    //! is default constructible.
-    //!
-    //! @note This function is the inverse of `decltype_`.
-    constexpr _untype untype{};
-
-    //! Returns the type of an object as a `Type`.
-    //! @relates Type
-    BOOST_HANA_CONSTEXPR_LAMBDA auto decltype_ = [](auto t) {
-        return type<decltype(t)>;
-    };
-
     template <>
     struct Comparable<Type, Type> : defaults<Comparable> {
         template <typename T, typename U>
-        static constexpr auto equal_impl(operators::_type<T>, operators::_type<U>)
+        static constexpr auto equal_impl(T, U)
         { return false_; }
 
         template <typename T>
-        static constexpr auto equal_impl(operators::_type<T>, operators::_type<T>)
+        static constexpr auto equal_impl(T, T)
         { return true_; }
     };
 
@@ -103,20 +103,19 @@ namespace boost { namespace hana {
     template <>
     struct Functor<Type> : defaults<Functor> {
         template <typename F, typename T>
-        static constexpr auto fmap_impl(F f, operators::_type<T> t)
+        static constexpr auto fmap_impl(F f, T t)
         { return f(t); }
     };
 
     template <>
     struct Monad<Type> : defaults<Monad> {
         template <typename T>
-        static constexpr operators::_type<T> unit_impl(T)
-        { return {}; }
+        static constexpr auto unit_impl(T t)
+        { return decltype_(t); }
 
         template <typename T>
-        static constexpr operators::_type<T>
-        join_impl(operators::_type<operators::_type<T>>)
-        { return {}; }
+        static constexpr auto join_impl(T)
+        { return untype_t<T>{}; }
     };
 }} // end namespace boost::hana
 

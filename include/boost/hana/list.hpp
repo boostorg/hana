@@ -35,6 +35,7 @@ namespace boost { namespace hana {
     @instantiates{Iterable, Functor, Foldable, Monad, Comparable}
 
     @todo
+    - Re-enable the foldl optimization for type lists.
     - It might be possible to optimize the implementation of homogeneous lists
       using an array.
     - Is it desirable to have different ways of creating lists, or should we
@@ -204,11 +205,11 @@ namespace boost { namespace hana {
             return detail::left_folds::variadic(f, s, type<Xs>...);
         }
 
-        template <template <typename ...> class F, typename State, typename ...Xs>
-        static constexpr auto
-        foldl_impl(type_detail::Template<F>, operators::_type<State>, operators::TypeList<Xs...>) {
-            return type<detail::left_folds::variadic_meta<F, State, Xs...>>;
-        }
+        // template <template <typename ...> class F, typename State, typename ...Xs>
+        // static constexpr auto
+        // foldl_impl(type_detail::Template<F>, operators::_type<State>, operators::TypeList<Xs...>) {
+        //     return type<detail::left_folds::variadic_meta<F, State, Xs...>>;
+        // }
 
         template <typename F, typename Xs>
         static constexpr auto unpack_impl(F f, Xs xs)

@@ -18,10 +18,9 @@ struct x0; struct x1; struct x2;
 
 namespace test_values {
     constexpr struct {
-        //! @todo Decouple this from `Type`.
-        constexpr auto operator()(operators::_type<x0>) const { return 0; }
-        constexpr auto operator()(operators::_type<x1>) const { return 1; }
-        constexpr auto operator()(operators::_type<x2>) const { return 2; }
+        constexpr auto operator()(decltype(type<x0>)) const { return 0; }
+        constexpr auto operator()(decltype(type<x1>)) const { return 1; }
+        constexpr auto operator()(decltype(type<x2>)) const { return 2; }
     } f{};
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto g = _ + int_<1>;
