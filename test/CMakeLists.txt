@@ -120,5 +120,6 @@ boost_hana_add_test(type.functor)
 boost_hana_add_test(type.monad)
 boost_hana_add_test(type.template)
 boost_hana_add_test(type.trait)
+boost_hana_add_test(type.type)
 
 boost_hana_add_test(hana)

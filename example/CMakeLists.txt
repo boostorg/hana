@@ -54,4 +54,6 @@ boost_hana_add_example(list.take_while)
 boost_hana_add_example(list.zip)
 boost_hana_add_example(list.zip_with)
 
+boost_hana_add_example(type.construct)
+boost_hana_add_example(type.initializer_list)
 boost_hana_add_example(type.untype)

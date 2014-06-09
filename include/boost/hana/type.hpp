@@ -17,6 +17,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/integral.hpp>
 #include <boost/hana/monad.hpp>
 
+#include <initializer_list>
+
 
 namespace boost { namespace hana {
     //! @datatype{Type}
@@ -34,11 +36,56 @@ namespace boost { namespace hana {
     //! - Add examples.
     struct Type { };
 
+    namespace type_detail {
+        template <typename Wrapper>
+        struct construct {
+            template <typename T>
+            constexpr auto operator()(std::initializer_list<T> ilist) const
+            { return typename Wrapper::hidden(ilist); }
+
+            template <typename ...Args>
+            constexpr auto operator()(Args ...args) const
+            { return typename Wrapper::hidden{args...}; }
+        };
+    }
+
     //! Creates a `Type` representing `T`.
     //! @relates Type
+    //! @hideinitializer
+    //!
+    //! Additionally, `type<T>` is a function returning an object of type
+    //! `T` constructed with the arguments passed to it.
+    //!
+    //! ### Example
+    //! @snippet example/type/construct.cpp main
+    //!
+    //! @note
+    //! `std::initializer_list` is supported too:
+    //! @snippet example/type/initializer_list.cpp main
+    //!
+    //! @todo
+    //! Should this fail or not? Currently it fails because
+    //! "non-constant-expression cannot be narrowed from type 'double' to
+    //! 'float' in initializer list"
+    //! @code
+    //!     type<float>(double{1.2})
+    //! @endcode
+    //!
+    //! @todo
+    //! Consider making `type<>` equivalent to `decltype_`, and then removing
+    //! `decltype_`.\n
+    //! Pros:
+    //! - Reduces the number of names we have to remember. Right now, it's
+    //!   really messy with `decltype_`, `type<T>`, `untype` and all that
+    //!   fluff.
+    //! - `type<>` has 3 letters less than `decltype_`. Not a big pro,
+    //!   but still.\n
+    //! Cons:
+    //! - Too much overloading of the same name with different semantics can
+    //!   yield the opposite effect and be messier than using different names.
     template <typename T>
     BOOST_HANA_CONSTEXPR_LAMBDA auto type = [] {
-        struct wrapper : operators::enable {
+        struct wrapper : operators::enable, type_detail::construct<wrapper> {
             using hana_datatype = Type;
             using hidden = T;
         };
