@@ -88,6 +88,10 @@ namespace boost { namespace hana {
     ### Example
     @snippet example/functional/compose.cpp main
 
+    @todo
+    Consider supporting more than 2 arguments. It's a major gain but we lose
+    the ability to curry automatically.
+
     @internal
     ### Proof of associativity (`.` is `compose`)
     @code{haskell}
