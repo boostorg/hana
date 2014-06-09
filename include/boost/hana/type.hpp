@@ -45,18 +45,29 @@ namespace boost { namespace hana {
         return wrapper{};
     }();
 
+#if defined(BOOST_HANA_DOXYGEN_INVOKED)
     //! Metafunction returning the type represented by a `Type`.
     //! @relates Type
     //!
-    //! @note This operation is the inverse of `type`.
+    //! This operation is the inverse of `type`. It must be a metafunction
+    //! because if it were a function, it would have to return an object,
+    //! which is not always possible (consider uninhabited types).
     //!
-    //! @todo Explain why this must be a metafunction, with examples.
+    //! ### Example
+    //! @snippet example/type/untype.cpp main
+    //!
+    //! @internal
+    //! internal: Keep this an alias so it stays grouped with `Type` in
+    //! the documentation.
+    template <typename T>
+    using untype = unspecified;
+#else
     template <typename T>
     struct untype {
         using type = typename T::hidden;
     };
+#endif
 
-    //! Alias to `untype<T>::type`; provided for convenience.
     //! @relates Type
     template <typename T>
     using untype_t = typename untype<T>::type;
