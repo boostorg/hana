@@ -156,7 +156,7 @@ namespace boost { namespace hana {
         template <typename Index, typename Storage>
         static constexpr auto at_impl(Index n, operators::HetList<Storage> xs) {
             return xs.into([=](auto ...xs) {
-                return detail::at_index::best(n, xs...);
+                return detail::at_index::best<n>(xs...);
             });
         }
 

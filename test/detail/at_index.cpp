@@ -11,6 +11,8 @@ Distributed under the Boost Software License, Version 1.0.
 using namespace boost::hana;
 
 
+struct non_pod { virtual ~non_pod() { } };
+
 template <typename At>
 constexpr void test_at(At at) {
     BOOST_HANA_STATIC_ASSERT(at(size_t<0>, int_<0>) == int_<0>);
@@ -25,8 +27,13 @@ constexpr void test_at(At at) {
     BOOST_HANA_STATIC_ASSERT(at(size_t<0>, 0) == 0);
     BOOST_HANA_STATIC_ASSERT(at(size_t<1>, 0, '1') == '1');
     BOOST_HANA_STATIC_ASSERT(at(size_t<2>, 0, '1', "2") == "2");
+
+    BOOST_HANA_STATIC_ASSERT(at(size_t<0>, int_<0>, non_pod{}) == int_<0>);
+    BOOST_HANA_STATIC_ASSERT(at(size_t<1>, non_pod{}, int_<1>) == int_<1>);
 }
 
 int main() {
-    test_at(detail::at_index::overload_resolution);
+    test_at([](auto n, auto ...xs) {
+        return detail::at_index::overload_resolution<n>(xs...);
+    });
 }

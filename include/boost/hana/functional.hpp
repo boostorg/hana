@@ -12,7 +12,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/at_index/best.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/integral.hpp>
 
 #include <cstddef>
 
@@ -64,9 +63,7 @@ namespace boost { namespace hana {
     //! @snippet example/functional/arg.cpp main
     //!
     //! @todo
-    //! - It is really stupid that we need to include `integral` for this.
-    //! - Maybe this should be `arg(n)` instead of `arg<n>`?
-    //! - The example sucks.
+    //! Maybe this should be `arg(n)` instead of `arg<n>`?
     template <std::size_t n>
     BOOST_HANA_CONSTEXPR_LAMBDA auto arg = [](auto ...xs) {
         static_assert(n > 0,
@@ -75,7 +72,10 @@ namespace boost { namespace hana {
         static_assert(sizeof...(xs) >= n,
         "invalid usage of arg with too few arguments");
 
-        return detail::at_index::best(size_t<n-1>, xs...);
+        // Since compilers will typically try to continue for a bit after
+        // an error/static assertion, we must avoid sending the compiler in
+        // a very long computation if n == 0.
+        return detail::at_index::best<n == 0 ? 0 : n - 1>(xs...);
     };
 
     /*!
