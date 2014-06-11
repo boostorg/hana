@@ -16,35 +16,51 @@ namespace boost { namespace hana {
     //! @{
 
     /*!
-    Implements the default methods of a type class.
+    Contains the default methods of a type class.
 
-    By default, this is an empty type. It should be specialized for type
-    classes wishing to provide a default implementation for some methods:
+    By default, no default methods are defined. It should be specialized for
+    type classes wishing to provide a default implementation for some methods:
     @code
         template <>
-        struct defaults<SomeTypeclass> {
-            // provide a default implementation for methods outside
-            // of the minimal complete definition
+        struct defaults<Typeclass> {
+            template <typename ...Args>
+            struct with {
+                // provide a default implementation for methods outside
+                // of the minimal complete definition
+            };
         };
     @endcode
 
-    Then, data types instantiating `SomeTypeclass` may use the default
-    methods in the following way:
+    The `Args...` are specific to each type class; one should consult the
+    documentation of the type class to know what arguments are expected.
+    */
+    template <template <typename ...> class Typeclass>
+    struct defaults {
+        template <typename ...>
+        using with = defaults;
+    };
+
+    /*!
+    Contains complimentary type class instantiations for instances of
+    other type classes.
+
+    By default, no complimentary instances are provided. Type classes wishing
+    to provide a complimentary instance must do so by specializing `instance`:
     @code
-        template <>
-        struct SomeTypeclass<SomeDatatype> : defaults<SomeTypeclass> {
-            // minimal complete definition at least
+        template <typename ...Args>
+        struct instance<Typeclass>::with<Args...> {
+            // provide complimentary methods or even a full instance
         };
     @endcode
 
-    When instantiating a type class `T`, it is a good idea to always inherit
-    from `defaults<T>` regardless of whether default methods are actually
-    required. This allows new methods to be added to the type class without
-    breaking existing user code, provided the new methods are not part of
-    the minimal complete definition.
+    The `Args...` are specific to each type class; one should consult the
+    documentation of the type class to know what arguments are expected.
      */
     template <template <typename ...> class Typeclass>
-    struct defaults { };
+    struct instance {
+        template <typename ...>
+        using with = instance;
+    };
 
     namespace core_detail {
         template <typename T> typename T::hana_datatype datatype_impl(void*);

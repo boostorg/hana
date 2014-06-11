@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_RANGE_HPP
 
 #include <boost/hana/comparable.hpp>
-#include <boost/hana/detail/comparable_from_iterable.hpp>
 #include <boost/hana/detail/foldable_from_iterable.hpp>
 #include <boost/hana/detail/integer_sequence.hpp>
 #include <boost/hana/foldable.hpp>
@@ -72,7 +71,12 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Comparable<Range, Range> : defaults<Comparable> {
+    constexpr bool comparable_from_iterable<Range> = true;
+
+    template <>
+    struct Comparable<Range, Range>
+        : defaults<Comparable>::template with<Range, Range>
+    {
         // SFINAE handles the case where sizeof...(ts) != sizeof...(us).
         template <typename T, T ...ts, typename U, U ...us>
         static constexpr auto

@@ -119,7 +119,9 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Comparable<Maybe, Maybe> : defaults<Comparable> {
+    struct Comparable<Maybe, Maybe>
+        : defaults<Comparable>::template with<Maybe, Maybe>
+    {
         template <typename T, typename U>
         static constexpr auto
         equal_impl(operators::_just<T> t, operators::_just<U> u)

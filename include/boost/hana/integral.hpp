@@ -172,7 +172,9 @@ namespace boost { namespace hana {
     constexpr auto size_t = decltype(integral<std::size_t, i>){};
 
     template <>
-    struct Comparable<Integral, Integral> : defaults<Comparable> {
+    struct Comparable<Integral, Integral>
+        : defaults<Comparable>::template with<Integral, Integral>
+    {
         template <typename T, typename U>
         static constexpr auto equal_impl(T t, U u)
         { return bool_<value(t) == value(u)>; }

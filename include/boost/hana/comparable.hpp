@@ -39,16 +39,8 @@ namespace boost { namespace hana {
     the common_type's comparison, if any.
     - Implement automatic checking of the laws for Comparable, if possible.
      */
-    template <typename T, typename U>
-    struct Comparable {
-        template <typename X, typename Y>
-        static constexpr auto equal_impl(X x, Y y)
-        { return x == y; }
-
-        template <typename X, typename Y>
-        static constexpr auto not_equal_impl(X x, Y y)
-        { return x != y; }
-    };
+    template <typename T, typename U, typename Enable = void>
+    struct Comparable;
 
     /*!
     Returns whether `x` is equal to `y`.
@@ -79,6 +71,37 @@ namespace boost { namespace hana {
                not_equal_impl(x, y);
     };
 
+    template <>
+    struct defaults<Comparable> {
+        template <typename T, typename U, typename Enable = void>
+        struct with {
+            template <typename X, typename Y>
+            static constexpr auto equal_impl(X x, Y y)
+            { return !not_equal(x, y); }
+
+            template <typename X, typename Y>
+            static constexpr auto not_equal_impl(X x, Y y)
+            { return !equal(x, y); }
+        };
+    };
+
+    template <>
+    struct instance<Comparable> {
+        template <typename T, typename U, typename Enable = void>
+        struct with : defaults<Comparable>::template with<T, U> {
+            template <typename X, typename Y>
+            static constexpr auto equal_impl(X x, Y y)
+            { return x == y; }
+
+            template <typename X, typename Y>
+            static constexpr auto not_equal_impl(X x, Y y)
+            { return x != y; }
+        };
+    };
+
+    template <typename T, typename U, typename Enable>
+    struct Comparable : instance<Comparable>::template with<T, U> { };
+
     //! @}
 
     namespace operators {
@@ -94,17 +117,6 @@ namespace boost { namespace hana {
         constexpr auto operator!=(T t, U u)
         { return not_equal(t, u); }
     }
-
-    template <>
-    struct defaults<Comparable> {
-        template <typename T, typename U>
-        static constexpr auto equal_impl(T t, U u)
-        { return !not_equal(t, u); }
-
-        template <typename T, typename U>
-        static constexpr auto not_equal_impl(T t, U u)
-        { return !equal(t, u); }
-    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_COMPARABLE_HPP

@@ -10,12 +10,15 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_ITERABLE_HPP
 #define BOOST_HANA_ITERABLE_HPP
 
+#include <boost/hana/comparable.hpp>
 #include <boost/hana/core.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/maybe.hpp>
+
+#include <type_traits> // for std::enable_if_t
 
 
 namespace boost { namespace hana {
@@ -37,6 +40,9 @@ namespace boost { namespace hana {
     like `Foldable`?
     - Instead of having a lot of methods, maybe some of the functions below
     should just be implemented as functions using the mcd, as in the MPL11?
+    - Remove `<type_traits>` include.
+    - Document the complimentary instantiation of `Comparable`.
+    - Test comparison of mixed data type `Iterable`s.
      */
     template <typename T>
     struct Iterable;
@@ -168,6 +174,32 @@ namespace boost { namespace hana {
                 always(nothing),
                 compose(just, head)
             )(e);
+        }
+    };
+
+    template <typename T>
+    constexpr bool comparable_from_iterable = false;
+
+    template <typename T, typename U>
+    struct instance<Comparable>::with<T, U,
+        std::enable_if_t<
+            comparable_from_iterable<T> &&
+            comparable_from_iterable<U>
+        >
+    >
+        : defaults<Comparable>::template with<T, U>
+    {
+        template <typename Xs, typename Ys>
+        static constexpr auto equal_impl(Xs xs, Ys ys) {
+            return if_(is_empty(xs) || is_empty(ys),
+                [](auto xs, auto ys) {
+                    return is_empty(xs) && is_empty(ys);
+                },
+                [](auto xs, auto ys) {
+                    return equal(head(xs), head(ys)) &&
+                           equal_impl(tail(xs), tail(ys));
+                }
+            )(xs, ys);
         }
     };
 }} // end namespace boost::hana

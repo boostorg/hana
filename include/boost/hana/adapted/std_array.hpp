@@ -12,7 +12,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core.hpp>
-#include <boost/hana/detail/comparable_from_iterable.hpp>
 #include <boost/hana/detail/foldable_from_iterable.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/integral.hpp>
@@ -60,9 +59,7 @@ namespace boost { namespace hana {
     { };
 
     template <>
-    struct Comparable<StdArray, StdArray>
-        : detail::comparable_from_iterable
-    { };
+    constexpr bool comparable_from_iterable<StdArray> = true;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_STD_ARRAY_HPP

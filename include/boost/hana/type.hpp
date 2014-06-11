@@ -147,7 +147,9 @@ namespace boost { namespace hana {
     constexpr type_detail::Template<f> template_{};
 
     template <>
-    struct Comparable<Type, Type> : defaults<Comparable> {
+    struct Comparable<Type, Type>
+        : defaults<Comparable>::template with<Type, Type>
+    {
         template <typename T, typename U>
         static constexpr auto equal_impl(T, U)
         { return false_; }

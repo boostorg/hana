@@ -18,7 +18,9 @@ Distributed under the Boost Software License, Version 1.0.
 General purpose type classes provided by the library.
 
 @todo
-Provide an integrated way of checking laws for typeclasses.
+- Provide an integrated way of checking laws for type classes.
+- Make sure our dispatching system is sound.
+- Use the new dispatching system consistently across type classes.
  */
 
 //! @defgroup datatypes Data types

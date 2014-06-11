@@ -8,7 +8,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_TEST_ITERABLE_MINIMAL_ITERABLE_HPP
 
 #include <boost/hana/comparable.hpp>
-#include <boost/hana/detail/comparable_from_iterable.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/foldable_from_iterable.hpp>
 #include <boost/hana/foldable.hpp>
@@ -57,9 +56,7 @@ namespace boost { namespace hana {
     { };
 
     template <>
-    struct Comparable<MinimalIterable, MinimalIterable>
-        : detail::comparable_from_iterable
-    { };
+    constexpr bool comparable_from_iterable<MinimalIterable> = true;
 }}
 
 #endif // !BOOST_HANA_TEST_ITERABLE_MINIMAL_ITERABLE_HPP

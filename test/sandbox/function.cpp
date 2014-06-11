@@ -59,7 +59,9 @@ namespace boost { namespace hana {
 
 
     template <>
-    struct Comparable<Function, Function> : defaults<Comparable> {
+    struct Comparable<Function, Function>
+        : defaults<Comparable>::template with<Function, Function>
+    {
         template <typename F, typename G>
         static constexpr auto equal_impl(F f, G g) {
             return domain(f) == domain(g) && all(fbind(_==_, f, g), domain(f));
