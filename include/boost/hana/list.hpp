@@ -14,7 +14,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core.hpp>
 #include <boost/hana/detail/at_index/best.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/foldable_from_iterable.hpp>
 #include <boost/hana/detail/left_folds/variadic.hpp>
 #include <boost/hana/detail/left_folds/variadic_meta.hpp>
 #include <boost/hana/foldable.hpp>
@@ -165,7 +164,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Functor<List> : defaults<Functor> {
+    struct Functor<List> : defaults<Functor>::with<List> {
         template <typename F, typename Xs>
         static constexpr auto fmap_impl(F f, Xs xs)
         { return xs.into([=](auto ...xs) { return list(f(xs)...); }); }
@@ -200,7 +199,10 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Foldable<List> : detail::foldable_from_iterable {
+    constexpr bool foldable_from_iterable<List> = true;
+
+    template <>
+    struct Foldable<List> : instance<Foldable>::with<List> {
         template <typename F, typename State, typename Xs>
         static constexpr auto
         foldl_impl(F f, State s, Xs xs) {

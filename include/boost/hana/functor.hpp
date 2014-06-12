@@ -30,7 +30,7 @@ namespace boost { namespace hana {
         fmap (f . g) == fmap f . fmap g
     @endcode
      */
-    template <typename T>
+    template <typename T, typename Enable = void>
     struct Functor;
 
     //! Maps `f` over a `Functor`.
@@ -44,6 +44,21 @@ namespace boost { namespace hana {
     BOOST_HANA_CONSTEXPR_LAMBDA auto fmap = [](auto f, auto functor) {
         return Functor<datatype_t<decltype(functor)>>::fmap_impl(f, functor);
     };
+
+    template <>
+    struct instance<Functor> {
+        template <typename T, typename Enable = void>
+        struct with { };
+    };
+
+    template <>
+    struct defaults<Functor> {
+        template <typename T, typename Enable = void>
+        struct with { };
+    };
+
+    template <typename T, typename Enable>
+    struct Functor : instance<Functor>::template with<T> { };
 
     //! @}
 }} // end namespace boost::hana

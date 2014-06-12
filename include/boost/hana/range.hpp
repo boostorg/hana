@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_RANGE_HPP
 
 #include <boost/hana/comparable.hpp>
-#include <boost/hana/detail/foldable_from_iterable.hpp>
 #include <boost/hana/detail/integer_sequence.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/integral.hpp>
@@ -64,7 +63,10 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Foldable<Range> : detail::foldable_from_iterable {
+    constexpr bool foldable_from_iterable<Range> = true;
+
+    template <>
+    struct Foldable<Range> : instance<Foldable>::with<Range> {
         template <typename F, typename T, T ...vs>
         static constexpr auto unpack_impl(F f, operators::_range<T, vs...>)
         { return f(integral<T, vs>...); }

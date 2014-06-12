@@ -33,6 +33,12 @@ namespace boost { namespace hana {
 
     The `Args...` are specific to each type class; one should consult the
     documentation of the type class to know what arguments are expected.
+
+    @todo
+    - Possible error: "cannot specialize a dependent template" because `with`
+    is an alias when/if we try to specialize `defaults<Typeclass>::%with<...>`.
+    Same issue for `instance`.
+    - Should a default `with` be provided at all?
     */
     template <template <typename ...> class Typeclass>
     struct defaults {

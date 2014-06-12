@@ -21,7 +21,6 @@ boost_hana_add_test(adapted.std_tuple.iterable)
 boost_hana_add_test(core.datatype)
 
 boost_hana_add_test(detail.at_index)
-boost_hana_add_test(detail.foldable_from_iterable)
 boost_hana_add_test(detail.integer_sequence)
 boost_hana_add_test(detail.left_folds)
 
@@ -63,6 +62,7 @@ boost_hana_add_test(iterable.drop)
 boost_hana_add_test(iterable.drop_until)
 boost_hana_add_test(iterable.drop_while)
 boost_hana_add_test(iterable.find)
+boost_hana_add_test(iterable.foldable)
 boost_hana_add_test(iterable.last)
 
 boost_hana_add_test(list.concat)

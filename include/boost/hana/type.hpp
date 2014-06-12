@@ -161,7 +161,7 @@ namespace boost { namespace hana {
 
 
     template <>
-    struct Functor<Type> : defaults<Functor> {
+    struct Functor<Type> : defaults<Functor>::with<Type> {
         template <typename F, typename T>
         static constexpr auto fmap_impl(F f, T t)
         { return f(t); }
