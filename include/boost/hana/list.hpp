@@ -66,6 +66,7 @@ namespace boost { namespace hana {
             using hana_datatype = List;
 
             struct {
+                //! @cond
                 template <typename F, typename ...Xs>
                 static constexpr auto call(F f, list_detail::type_container<Xs...>)
                 { return f(type<Xs>...); }
@@ -73,6 +74,7 @@ namespace boost { namespace hana {
                 template <typename F>
                 constexpr auto operator()(F f) const
                 { return call(f, typename HiddenTypeContainer::contents{}); }
+                //! @endcond
             } into;
         };
     }

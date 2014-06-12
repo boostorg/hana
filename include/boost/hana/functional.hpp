@@ -177,16 +177,20 @@ namespace boost { namespace hana {
 
     ### Example
     @snippet example/functional/fix.cpp main
+
+    @todo
+    Find a simpler way to make `f` dependent in `operator()(...)`.
      */
     constexpr struct {
+        //! @cond
         template <typename F>
         constexpr auto operator()(F f) const {
             auto fst = [](auto a, ...) { return a; };
-            //! @todo Find a simpler way to make `f` dependent.
             return [=](auto ...xs) {
                 return f((*this)(fst(f, xs...)), xs...);
             };
         }
+        //! @endcond
     } fix{};
 
     //! Returns a function invoking `f` with its two first arguments reversed.
