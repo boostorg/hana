@@ -25,41 +25,63 @@ namespace boost { namespace hana {
     //! @instantiates{Iterable, Foldable, Comparable}
     //!
     //! @todo Document instances.
-    //! @todo The implementation could be more clever: only unpack when we
-    //! need to, but don't encode it in the type of the range.
     struct Range { };
 
     namespace operators {
-        template <typename T, T ...v>
-        struct _range { using hana_datatype = Range; };
+        template <typename From, typename To>
+        struct _range {
+            From from;
+            To to;
+            using hana_datatype = Range;
+        };
     }
 
-    //! Creates a `Range` containing the integers in `[from, to)`.
+    //! Creates a `Range` containing the `Integral`s in `[from, to)`.
     //! @relates Range
+    //! @hideinitializer
+    //!
+    //! `from` and `to` must be `Integral`s such that `from <= to`. Otherwise,
+    //! a compilation error is triggered.
+    //!
+    //! ### Example
+    //! @snippet example/range/range.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto range = [](auto from, auto to) {
         // For some reason, Clang 3.5 requires that we create an intermediate
-        // variable whose type is dependent so we can use `size` as a template
-        // parameter below.
-        auto size = to - from;
-        return typename detail::make_integer_sequence<
-            decltype(value(from)), size
-        >::template slide_by<from, operators::_range>{};
+        // variable whose type is dependent so we can use `valid_range` as a
+        // constant expression below.
+        auto valid_range = from <= to;
+        static_assert(valid_range,
+        "invalid usage of boost::hana::range(from, to) with from > to");
+        return operators::_range<decltype(from), decltype(to)>{from, to};
     };
 
     template <>
     struct Iterable<Range> : defaults<Iterable>::with<Range> {
-        template <typename T, T v, T ...vs>
-        static constexpr auto head_impl(operators::_range<T, v, vs...>)
-        { return integral<T, v>; }
+        template <typename R>
+        static constexpr auto head_impl(R r)
+        { return r.from; }
 
-        template <typename T, T v, T ...vs>
-        static constexpr operators::_range<T, vs...>
-        tail_impl(operators::_range<T, v, vs...>)
-        { return {}; }
+        template <typename R>
+        static constexpr auto tail_impl(R r)
+        { return range(r.from + int_<1>, r.to); }
 
-        template <typename T, T ...vs>
-        static constexpr auto is_empty_impl(operators::_range<T, vs...>)
-        { return bool_<sizeof...(vs) == 0>; }
+        template <typename R>
+        static constexpr auto is_empty_impl(R r)
+        { return r.from == r.to; }
+
+        template <typename N, typename R>
+        static constexpr auto at_impl(N n, R r)
+        { return r.from + n; }
+
+        template <typename R>
+        static constexpr auto last_impl(R r)
+        { return r.to - int_<1>; }
+
+        template <typename N, typename R>
+        static constexpr auto drop_impl(N n, R r) {
+            auto size = r.to - r.from;
+            return range(if_(n > size, r.to, r.from + n), r.to);
+        }
     };
 
     template <>
@@ -67,9 +89,22 @@ namespace boost { namespace hana {
 
     template <>
     struct Foldable<Range> : instance<Foldable>::with<Range> {
-        template <typename F, typename T, T ...vs>
-        static constexpr auto unpack_impl(F f, operators::_range<T, vs...>)
-        { return f(integral<T, vs>...); }
+        template <typename F, typename From, typename T, T ...vs>
+        static constexpr auto unpack_helper(F f, From from, detail::integer_sequence<T, vs...>)
+        { return f(integral<T, from + vs>...); }
+
+        template <typename F, typename R>
+        static constexpr auto unpack_impl(F f, R r) {
+            // For some reason, Clang 3.5 requires that we create an intermediate
+            // variable whose type is dependent so we can use `size` as a
+            // constant expression below.
+            auto size = r.to - r.from;
+            return unpack_helper(f, r.from, detail::make_integer_sequence<decltype(value(r.from)), size>{});
+        }
+
+        template <typename R>
+        static constexpr auto length_impl(R r)
+        { return r.to - r.from; }
     };
 
     template <>
@@ -79,15 +114,11 @@ namespace boost { namespace hana {
     struct Comparable<Range, Range>
         : defaults<Comparable>::template with<Range, Range>
     {
-        // SFINAE handles the case where sizeof...(ts) != sizeof...(us).
-        template <typename T, T ...ts, typename U, U ...us>
-        static constexpr auto
-        equal_impl(operators::_range<T, ts...>, operators::_range<U, us...>)
-            -> decltype(and_(bool_<(ts == us)>...))
-        { return {}; }
-
-        static constexpr auto equal_impl(...)
-        { return false_; }
+        template <typename R1, typename R2>
+        static constexpr auto equal_impl(R1 r1, R2 r2) {
+            return (is_empty(r1) && is_empty(r2)) ||
+                   (r1.from == r2.from && r1.to == r2.to);
+        }
     };
 }} // end namespace boost::hana
 

@@ -15,10 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana { namespace detail {
     template <typename T, T ...n>
-    struct integer_sequence {
-        template <T i, template <typename U, U ...> class r = integer_sequence>
-        using slide_by = r<T, (n + i)...>;
-    };
+    struct integer_sequence { };
 
     template <std::size_t ...n>
     using index_sequence = integer_sequence<std::size_t, n...>;
