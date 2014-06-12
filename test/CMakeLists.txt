@@ -19,6 +19,8 @@ boost_hana_add_test(adapted.std_tuple.functor)
 boost_hana_add_test(adapted.std_tuple.iterable)
 
 boost_hana_add_test(core.datatype)
+boost_hana_add_test(core.defaults)
+boost_hana_add_test(core.instance)
 
 boost_hana_add_test(detail.at_index)
 boost_hana_add_test(detail.integer_sequence)

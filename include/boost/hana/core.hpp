@@ -18,55 +18,90 @@ namespace boost { namespace hana {
     /*!
     Contains the default methods of a type class.
 
-    By default, no default methods are defined. It should be specialized for
-    type classes wishing to provide a default implementation for some methods:
+    Every type class instance must inherit exactly one of `defaults<>::%with<>`
+    and `instance<>::%with<>`. Since `instance<>::%with<>` specializations are
+    required to inherit `defaults<>::%with<>`, it is always inherited from.
+    This is important since it allows default methods to be added to the type
+    class without breaking existing user code, provided the new methods are
+    not part of the minimal complete definition.
+
+    When implementing a new type class, `defaults` __must__ be specialized
+    even if default methods are not provided. Specialization is done as
+    follows:
     @code
         template <>
         struct defaults<Typeclass> {
             template <typename ...Args>
             struct with {
                 // provide a default implementation for methods outside
-                // of the minimal complete definition
+                // of the minimal complete definition if desired
             };
         };
     @endcode
 
-    The `Args...` are specific to each type class; one should consult the
-    documentation of the type class to know what arguments are expected.
+    The `Args...` are specific to each type class; the documentation should
+    explain their purpose.
 
     @todo
-    - Possible error: "cannot specialize a dependent template" because `with`
-    is an alias when/if we try to specialize `defaults<Typeclass>::%with<...>`.
-    Same issue for `instance`.
-    - Should a default `with` be provided at all?
+    - Document best practices with Enablers.
+    - Show examples with enablers and other useful stuff.
     */
     template <template <typename ...> class Typeclass>
-    struct defaults {
-        template <typename ...>
-        using with = defaults;
-    };
+    struct defaults;
 
     /*!
-    Contains complimentary type class instantiations for instances of
-    other type classes.
+    Allows complimentary type class instances to be provided.
 
-    By default, no complimentary instances are provided. Type classes wishing
-    to provide a complimentary instance must do so by specializing `instance`:
+    Every type class instance must inherit exactly one of `defaults<>::%with<>`
+    and `instance<>::%with<>`. The latter may not be provided, in which case
+    the only choice is to inherit `defaults<>::%with<>`. Complimentary
+    instances, if any, should be documented for each type class.
+
+    When implementing a new type class, one has to inherit from
+    `instance<>::%with<>` as follows:
     @code
-        template <typename ...Args>
-        struct instance<Typeclass>::with<Args...> {
-            // provide complimentary methods or even a full instance
+        template <typename ...>
+        struct Typeclass : instance<Typeclass>::template with<...> { };
+    @endcode
+
+    This allows complimentary instances to be found when no explicit instance
+    is provided for a data type. Also, `instance` __must__ be specialized for
+    every type class even if no complimentary instances are provided.
+    Specialization must be done as follows:
+    @code
+        template <>
+        struct instance<Typeclass> {
+            template <typename ...Args>
+            struct with;
         };
     @endcode
 
-    The `Args...` are specific to each type class; one should consult the
-    documentation of the type class to know what arguments are expected.
+    The `Args...` are specific to each type class; the documentation should
+    explain their purpose. Then, to provide a complimentary instance, one can
+    specialize `instance` as follows:
+    @code
+        template <...>
+        struct instance<Typeclass>::with<...>
+            : defaults<Typeclass>::with<...>
+        {
+            // whatever you want
+        };
+    @endcode
+
+    Inheriting from `defaults` in that specialization is mandatory.
+
+    @note
+    Unless you want to break the world, always make sure that users opt-in
+    __explicitly__ into a complimentary type class instance. Otherwise, code
+    relying on the fact that a data type is _not_ an instance of a given type
+    class could break when the complimentary instance is made available.
+
+    @todo
+    - Document best practices with Enablers.
+    - Show examples with enablers and other useful stuff.
      */
     template <template <typename ...> class Typeclass>
-    struct instance {
-        template <typename ...>
-        using with = instance;
-    };
+    struct instance;
 
     namespace core_detail {
         template <typename T> typename T::hana_datatype datatype_impl(void*);
