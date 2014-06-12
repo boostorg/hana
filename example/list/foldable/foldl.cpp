@@ -20,11 +20,13 @@ using namespace boost::hana;
 
 int main() {
     //! [fusion]
-    auto make_string = [](std::string str, auto x) {
-        return str + (std::ostringstream{} << x).str();
+    auto to_string = [](auto x) { return (std::ostringstream{} << x).str(); };
+
+    auto show = [=](auto x, auto y) {
+        return "(" + to_string(x) + " + " + to_string(y) + ")";
     };
 
-    assert(foldl(make_string, "1", list(2, "3", '4')) == "1234");
+    assert(foldl(show, "1", list(2, "3", '4')) == "(((1 + 2) + 3) + 4)");
     //! [fusion]
 
     //! [mpl]

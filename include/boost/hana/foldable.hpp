@@ -27,10 +27,11 @@ namespace boost { namespace hana {
     `foldl`, `foldl1`, `foldr1` and `lazy_foldr`
 
     @todo
-    Provide examples for the methods? I think the instance of `Foldable` for
+    - Provide examples for the methods? I think the instance of `Foldable` for
     `Iterable`s must be documented properly with examples, but we can't do
     better without loss of generality here. Or maybe we can use a parallel
     with `toList` to document equalities that must hold?
+    - Reduce the mcd.
      */
     template <typename T, typename Enable = void>
     struct Foldable;
@@ -62,6 +63,9 @@ namespace boost { namespace hana {
     //! Variant of `foldr` that has no base case, and thus may only be
     //! applied to non-empty structures.
     //! @method{Foldable}
+    //!
+    //! ### Example
+    //! @snippet example/list/foldable/foldr1.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto foldr1 = [](auto f, auto foldable) {
         return Foldable<datatype_t<decltype(foldable)>>::foldr1_impl(f, foldable);
     };
@@ -69,6 +73,9 @@ namespace boost { namespace hana {
     //! Variant of `foldl` that has no base case, and thus may only be
     //! applied to non-empty structures.
     //! @method{Foldable}
+    //!
+    //! ### Example
+    //! @snippet example/list/foldable/foldl1.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto foldl1 = [](auto f, auto foldable) {
         return Foldable<datatype_t<decltype(foldable)>>::foldl1_impl(f, foldable);
     };
@@ -79,6 +86,9 @@ namespace boost { namespace hana {
     //! functions returning an element and the state instead of taking an
     //! element and the state directly.
     //! @method{Foldable}
+    //!
+    //! ### Example
+    //! @snippet example/list/foldable/lazy_foldr.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto lazy_foldr = [](auto f, auto state, auto foldable) {
         return Foldable<datatype_t<decltype(foldable)>>::lazy_foldr_impl(f, state, foldable);
     };

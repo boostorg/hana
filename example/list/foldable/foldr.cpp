@@ -18,11 +18,13 @@ using namespace boost::hana;
 
 int main() {
     //! [fusion]
-    auto make_string = [](auto x, std::string str) {
-        return str + (std::ostringstream{} << x).str();
+    auto to_string = [](auto x) { return (std::ostringstream{} << x).str(); };
+
+    auto show = [=](auto x, auto y) {
+        return "(" + to_string(x) + " + " + to_string(y) + ")";
     };
 
-    assert(foldr(make_string, "4", list(1, "2", '3')) == "4321");
+    assert(foldr(show, "4", list(1, "2", '3')) == "(1 + (2 + (3 + 4)))");
     //! [fusion]
 
     //! [mpl]
