@@ -112,6 +112,7 @@ boost_hana_add_test(sandbox.function)
 boost_hana_add_test(sandbox.infix)
 boost_hana_add_test(sandbox.llist)
 boost_hana_add_test(sandbox.operator)
+boost_hana_add_test(sandbox.sfinae)
 boost_hana_add_test(sandbox.string)
 boost_hana_add_test(sandbox.worksheet)
 
