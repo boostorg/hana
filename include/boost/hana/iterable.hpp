@@ -45,7 +45,7 @@ namespace boost { namespace hana {
     - Document the complimentary instantiation of `Comparable` and `Foldable`.
     - Test comparison of mixed data type `Iterable`s.
      */
-    template <typename T>
+    template <typename T, typename Enable = void>
     struct Iterable;
 
     //! Return the first element of a non-empty iterable.
@@ -122,61 +122,73 @@ namespace boost { namespace hana {
         return Iterable<datatype_t<decltype(iterable)>>::find_impl(predicate, iterable);
     };
 
-    //! @}
+    template <>
+    struct instance<Iterable> {
+        template <typename T, typename Enable = void>
+        struct with { };
+    };
 
     template <>
     struct defaults<Iterable> {
-        template <typename Index, typename Iterable_>
-        static constexpr auto at_impl(Index n, Iterable_ iterable) {
-            return if_(n == size_t<0>,
-                [](auto n, auto it) { return head(it); },
-                [](auto n, auto it) { return at_impl(n - size_t<1>, tail(it)); }
-            )(n, iterable);
-        }
+        template <typename T, typename Enable = void>
+        struct with {
+            template <typename Index, typename Iterable_>
+            static constexpr auto at_impl(Index n, Iterable_ iterable) {
+                return if_(n == size_t<0>,
+                    [](auto n, auto it) { return head(it); },
+                    [](auto n, auto it) { return at_impl(n - size_t<1>, tail(it)); }
+                )(n, iterable);
+            }
 
-        template <typename Iterable_>
-        static constexpr auto last_impl(Iterable_ iterable) {
-            return if_(is_empty(tail(iterable)),
-                head,
-                [](auto it) { return last_impl(tail(it)); }
-            )(iterable);
-        }
+            template <typename Iterable_>
+            static constexpr auto last_impl(Iterable_ iterable) {
+                return if_(is_empty(tail(iterable)),
+                    head,
+                    [](auto it) { return last_impl(tail(it)); }
+                )(iterable);
+            }
 
-        template <typename N, typename Iterable_>
-        static constexpr auto drop_impl(N n, Iterable_ iterable) {
-            return if_(n == size_t<0> || is_empty(iterable),
-                always(iterable),
-                [](auto n, auto it) { return drop_impl(n - size_t<1>, tail(it)); }
-            )(n, iterable);
-        }
+            template <typename N, typename Iterable_>
+            static constexpr auto drop_impl(N n, Iterable_ iterable) {
+                return if_(n == size_t<0> || is_empty(iterable),
+                    always(iterable),
+                    [](auto n, auto it) { return drop_impl(n - size_t<1>, tail(it)); }
+                )(n, iterable);
+            }
 
-        template <typename Pred, typename Iterable_>
-        static constexpr auto drop_while_impl(Pred pred, Iterable_ iterable) {
-            return if_(is_empty(iterable),
-                always(iterable),
-                [=](auto it) {
-                    return if_(pred(head(it)),
-                        [=](auto it) { return drop_while_impl(pred, tail(it)); },
-                        always(it)
-                    )(it);
-                }
-            )(iterable);
-        }
+            template <typename Pred, typename Iterable_>
+            static constexpr auto drop_while_impl(Pred pred, Iterable_ iterable) {
+                return if_(is_empty(iterable),
+                    always(iterable),
+                    [=](auto it) {
+                        return if_(pred(head(it)),
+                            [=](auto it) { return drop_while_impl(pred, tail(it)); },
+                            always(it)
+                        )(it);
+                    }
+                )(iterable);
+            }
 
-        template <typename Pred, typename Iterable_>
-        static constexpr auto drop_until_impl(Pred pred, Iterable_ iterable) {
-            return drop_while([=](auto x) { return !pred(x); }, iterable);
-        }
+            template <typename Pred, typename Iterable_>
+            static constexpr auto drop_until_impl(Pred pred, Iterable_ iterable) {
+                return drop_while([=](auto x) { return !pred(x); }, iterable);
+            }
 
-        template <typename Pred, typename Iterable_>
-        static constexpr auto find_impl(Pred pred, Iterable_ iterable) {
-            auto e = drop_until(pred, iterable);
-            return if_(is_empty(e),
-                always(nothing),
-                compose(just, head)
-            )(e);
-        }
+            template <typename Pred, typename Iterable_>
+            static constexpr auto find_impl(Pred pred, Iterable_ iterable) {
+                auto e = drop_until(pred, iterable);
+                return if_(is_empty(e),
+                    always(nothing),
+                    compose(just, head)
+                )(e);
+            }
+        };
     };
+
+    template <typename T, typename Enable>
+    struct Iterable : instance<Iterable>::template with<T> { };
+
+    //! @}
 
     template <typename T>
     constexpr bool comparable_from_iterable = false;

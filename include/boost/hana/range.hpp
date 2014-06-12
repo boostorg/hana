@@ -47,7 +47,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Iterable<Range> : defaults<Iterable> {
+    struct Iterable<Range> : defaults<Iterable>::with<Range> {
         template <typename T, T v, T ...vs>
         static constexpr auto head_impl(operators::_range<T, v, vs...>)
         { return integral<T, v>; }

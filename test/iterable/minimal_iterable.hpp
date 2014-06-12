@@ -32,7 +32,9 @@ namespace {
 
 namespace boost { namespace hana {
     template <>
-    struct Iterable<MinimalIterable> : defaults<Iterable> {
+    struct Iterable<MinimalIterable>
+        : defaults<Iterable>::with<MinimalIterable>
+    {
         template <typename Xs>
         static constexpr auto head_impl(Xs xs)
         { return head(xs.actual); }

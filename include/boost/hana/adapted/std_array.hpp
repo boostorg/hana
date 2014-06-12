@@ -30,7 +30,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Iterable<StdArray> : defaults<Iterable> {
+    struct Iterable<StdArray> : defaults<Iterable>::with<StdArray> {
         template <typename T, std::size_t N>
         static constexpr T head_impl(std::array<T, N> arr)
         { return arr[0]; }

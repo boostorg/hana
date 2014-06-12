@@ -118,7 +118,7 @@ namespace boost { namespace hana {
     BOOST_HANA_CONSTEXPR_LAMBDA auto list_c = list(integral<T, xs>...);
 
     template <>
-    struct Iterable<List> : defaults<Iterable> {
+    struct Iterable<List> : defaults<Iterable>::with<List> {
         // TypeList
         template <typename X, typename ...Xs>
         static constexpr auto head_helper(list_detail::type_container<X, Xs...>)

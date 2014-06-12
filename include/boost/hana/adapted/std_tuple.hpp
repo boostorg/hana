@@ -31,7 +31,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Iterable<StdTuple> : defaults<Iterable> {
+    struct Iterable<StdTuple> : defaults<Iterable>::with<StdTuple> {
         template <typename ...Xs>
         static constexpr auto head_impl(std::tuple<Xs...> tuple)
         { return std::get<0>(tuple); }
