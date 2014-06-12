@@ -34,7 +34,7 @@ namespace boost { namespace hana {
         bind(m, [](auto x){ return bind(f(x), g); }) == bind(bind(m, f), g)
     @endcode
      */
-    template <typename M>
+    template <typename M, typename Enable = void>
     struct Monad;
 
     //! Wrap a value into a `Monad`.
@@ -56,18 +56,30 @@ namespace boost { namespace hana {
         return Monad<datatype_t<decltype(monad)>>::join_impl(monad);
     };
 
-    //! @}
+    template <>
+    struct instance<Monad> {
+        template <typename M, typename Enable = void>
+        struct with { };
+    };
 
     template <>
     struct defaults<Monad> {
-        template <typename Monad_>
-        static constexpr auto join_impl(Monad_ monad)
-        { return bind(monad, id); }
+        template <typename M, typename Enable = void>
+        struct with {
+            template <typename Monad_>
+            static constexpr auto join_impl(Monad_ monad)
+            { return bind(monad, id); }
 
-        template <typename Monad_, typename F>
-        static constexpr auto bind_impl(Monad_ monad, F f)
-        { return join(fmap(f, monad)); }
+            template <typename Monad_, typename F>
+            static constexpr auto bind_impl(Monad_ monad, F f)
+            { return join(fmap(f, monad)); }
+        };
     };
+
+    template <typename M, typename Enable>
+    struct Monad : instance<Monad>::template with<M> { };
+
+    //! @}
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_MONAD_HPP

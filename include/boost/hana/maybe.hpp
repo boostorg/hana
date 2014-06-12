@@ -145,7 +145,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Monad<Maybe> : defaults<Monad> {
+    struct Monad<Maybe> : defaults<Monad>::with<Maybe> {
         template <typename T>
         static constexpr auto unit_impl(T x)
         { return just(x); }
