@@ -173,7 +173,7 @@ namespace boost { namespace hana {
 
     template <>
     struct Comparable<Integral, Integral>
-        : defaults<Comparable>::template with<Integral, Integral>
+        : defaults<Comparable>::with<Integral, Integral>
     {
         template <typename T, typename U>
         static constexpr auto equal_impl(T t, U u)
