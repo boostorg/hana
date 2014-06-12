@@ -43,7 +43,6 @@ namespace boost { namespace hana {
     should just be implemented as functions using the mcd, as in the MPL11?
     - Remove `<type_traits>` include.
     - Document the complimentary instantiation of `Comparable` and `Foldable`.
-    - Test comparison of mixed data type `Iterable`s.
      */
     template <typename T, typename Enable = void>
     struct Iterable;

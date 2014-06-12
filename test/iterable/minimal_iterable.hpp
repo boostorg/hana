@@ -14,26 +14,28 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/list.hpp>
 
 
-namespace {
-    template <typename T, typename Datatype>
-    struct with_datatype_impl {
-        T actual;
-        using hana_datatype = Datatype;
-    };
+template <typename T, typename Datatype>
+struct with_datatype_impl {
+    T actual;
+    using hana_datatype = Datatype;
+};
 
-    struct MinimalIterable;
+template <int i>
+struct MinimalIterable;
 
-    BOOST_HANA_CONSTEXPR_LAMBDA auto iterable = [](auto ...xs) {
-        return with_datatype_impl<
-            decltype(boost::hana::list(xs...)), MinimalIterable
-        >{boost::hana::list(xs...)};
-    };
-}
+template <int i>
+BOOST_HANA_CONSTEXPR_LAMBDA auto minimal_iterable = [](auto ...xs) {
+    return with_datatype_impl<
+        decltype(boost::hana::list(xs...)), MinimalIterable<i>
+    >{boost::hana::list(xs...)};
+};
+
+BOOST_HANA_CONSTEXPR_LAMBDA auto iterable = minimal_iterable<0>;
 
 namespace boost { namespace hana {
-    template <>
-    struct Iterable<MinimalIterable>
-        : defaults<Iterable>::with<MinimalIterable>
+    template <int i>
+    struct Iterable<MinimalIterable<i>>
+        : defaults<Iterable>::template with<MinimalIterable<i>>
     {
         template <typename Xs>
         static constexpr auto head_impl(Xs xs)
@@ -42,7 +44,7 @@ namespace boost { namespace hana {
         template <typename Xs>
         static constexpr auto tail_impl(Xs xs) {
             return with_datatype_impl<
-                decltype(tail(xs.actual)), MinimalIterable
+                decltype(tail(xs.actual)), MinimalIterable<i>
             >{tail(xs.actual)};
         }
 
@@ -51,11 +53,21 @@ namespace boost { namespace hana {
         { return is_empty(xs.actual); }
     };
 
-    template <>
-    constexpr bool foldable_from_iterable<MinimalIterable> = true;
+    template <int i>
+    constexpr bool foldable_from_iterable<MinimalIterable<i>> = true;
 
-    template <>
-    constexpr bool comparable_from_iterable<MinimalIterable> = true;
+    template <int i>
+    constexpr bool comparable_from_iterable<MinimalIterable<i>> = true;
+
+    //! @todo
+    //! This is a workaround for a Clang 3.5 bug. Clang fails to see the
+    //! partial specializations of these variable templates as constant
+    //! expressions when used in some contexts requiring constant expressions.
+    //! Using the partial specializations in a constant expression explicitly
+    //! makes it work. Remove this when it's fixed.
+    static_assert(foldable_from_iterable<MinimalIterable<0>>, "");
+    static_assert(comparable_from_iterable<MinimalIterable<0>>, "");
+    static_assert(comparable_from_iterable<MinimalIterable<1>>, "");
 }}
 
 #endif // !BOOST_HANA_TEST_ITERABLE_MINIMAL_ITERABLE_HPP
