@@ -24,25 +24,66 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     /*!
-    @typeclass{Iterable}
-    @{
+    @ingroup typeclasses
     Data structures allowing external iteration.
 
-    @mcd
+    --------------------------------------------------------------------------
+
+    ## Minimal complete definition
     `head`, `tail` and `is_empty`
 
+    --------------------------------------------------------------------------
+
+    ## Provided instances
+
+    ### Comparable
+    Two `Iterable`s are equal if and only if they contain the same number of
+    elements and their elements at any given index are equal. To enable the
+    `Comparable` instance for a data type, specialize the
+    `comparable_from_iterable` variable template.
+    @snippet example/list/comparable.cpp main
+
+    ### Foldable
+    Let `xs` be an `Iterable` and let `xi` denote its `i`-th element. In other
+    words, `xs` is equivalent to a list containing `[x1, ..., xN]`, where `N`
+    is the number of elements. Right-folding `xs` with a binary operation `*`
+    (in infix notation for legibility) is equivalent to
+    @code
+        x1 * (x2 * ( ... * (xN-1 * xN)))
+    @endcode
+
+    Similarly, left-folding `xs` is equivalent to
+    @code
+        (((x1 * x2) * x3) * ...) * xN
+    @endcode
+
+    In both cases, notice the side of the parentheses. Left-folding applies
+    `*` in a left-associative manner, whereas right-folding applies it in
+    a right-associative manner. For associative operations, i.e. operations
+    such that for all `a`, `b` and `c`,
+    @f{align*}{
+        (a * b) * c = a * (b * c)
+    @f}
+    this makes no difference. Also note that lazy folds and folds with an
+    initial state are implemented in an analogous way. To enable the `Foldable`
+    instance for a data type, specialize the `foldable_from_iterable` variable
+    template.
+    #### Example 1
+    @snippet example/list/foldable/foldl.cpp fusion
+    #### Example 2
+    @snippet example/list/foldable/foldr.cpp fusion
+
+    --------------------------------------------------------------------------
+
     @note
-    All indexing is 0-based.
+    In the description of the methods, all indexing is 0-based.
 
     @todo
     - What about infinite `Iterable`s?
     - There are probably tons of laws that must be respected?
-    - How to document/provide default instantiations for some type classes
-    like `Foldable`?
     - Instead of having a lot of methods, maybe some of the functions below
-    should just be implemented as functions using the mcd, as in the MPL11?
+      should just be implemented as functions using the mcd, as in the MPL11?
     - Remove `<type_traits>` include.
-    - Document the complimentary instantiation of `Comparable` and `Foldable`.
      */
     template <typename T, typename Enable = void>
     struct Iterable;
@@ -68,6 +109,9 @@ namespace boost { namespace hana {
 
     //! Return the `n`th element of an iterable.
     //! @method{Iterable}
+    //!
+    //! ### Example
+    //! @snippet example/list/iterable/at.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto at = [](auto n, auto iterable) {
         return Iterable<datatype_t<decltype(iterable)>>::at_impl(n, iterable);
     };
@@ -79,25 +123,29 @@ namespace boost { namespace hana {
     };
 
     //! Drop the first `n` elements of an iterable and return the rest.
+    //! @method{Iterable}
     //!
     //! `n` must be a non-negative `Integral` representing the number of
     //! elements to be dropped from the iterable. If `n` is greater than
     //! the length of the iterable, the returned iterable is empty.
     //!
-    //! @method{Iterable}
+    //! ### Example
+    //! @snippet example/list/iterable/drop.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto drop = [](auto n, auto iterable) {
         return Iterable<datatype_t<decltype(iterable)>>::drop_impl(n, iterable);
     };
 
     //! Drop elements from an iterable up to, but not including, the first
     //! element for which the `predicate` is not satisfied.
+    //! @method{Iterable}
     //!
     //! Specifically, `drop_while` returns an iterable containing all the
     //! elements of the original iterable except for those in the range
     //! delimited by [`head`, `e`), where `head` is the first element and
     //! `e` is the first element for which the `predicate` is not satisfied.
     //!
-    //! @method{Iterable}
+    //! ### Example
+    //! @snippet example/range/iterable/drop_while.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto drop_while = [](auto predicate, auto iterable) {
         return Iterable<datatype_t<decltype(iterable)>>::drop_while_impl(predicate, iterable);
     };
@@ -186,8 +234,6 @@ namespace boost { namespace hana {
 
     template <typename T, typename Enable>
     struct Iterable : instance<Iterable>::template with<T> { };
-
-    //! @}
 
     template <typename T>
     constexpr bool comparable_from_iterable = false;

@@ -32,7 +32,7 @@ namespace boost { namespace hana {
     `[from, to)`. The head of `r` is an `Integral` with value `from`, its tail
     is the range representing the `[from + 1, to)` interval and `r` is empty
     if and only if `from == to`.
-    @snippet example/range/iterable.cpp main
+    @snippet example/range/iterable/overview.cpp main
 
     ### Foldable
     Generic instance for `Iterable`s.

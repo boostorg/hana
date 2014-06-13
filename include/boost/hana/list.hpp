@@ -53,31 +53,7 @@ namespace boost { namespace hana {
     @snippet example/list/functor/fmap.cpp mpl
 
     ### Foldable
-    Let `xs` be a `List` containing the element `[x1, ..., xN]`. Right-folding
-    the list with a binary operation `@` (in infix notation for legibility) is
-    equivalent to
-    @code
-        x1 @ (x2 @ ( ... @ (xN-1 @ xN)))
-    @endcode
-
-    Similarly, left-folding the list is equivalent to
-    @code
-        (((x1 @ x2) @ x3) @ ...) @ xN
-    @endcode
-
-    In both cases, notice the side of the parentheses. Left-folding applies
-    `@` in a left-associative manner, whereas right-folding applies it in
-    a right-associative manner. For associative operations, i.e. operations
-    `*` such that for all `a`, `b` and `c`,
-    @f{align*}{
-        (a * b) * c = a * (b * c)
-    @f}
-    this makes no difference. Lazy folds and folds with an initial state are
-    implemented in an analogous way for `List`.
-    #### Example 1
-    @snippet example/list/foldable/foldl.cpp fusion
-    #### Example 2
-    @snippet example/list/foldable/foldr.cpp fusion
+    Generic instance for `Iterable`s.
 
     ### Monad
     There are many ways to explain the `List` `Monad`. We will stick to a
