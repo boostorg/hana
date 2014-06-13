@@ -40,7 +40,14 @@ namespace boost { namespace hana {
     //! argument(s) it is invoked with.
     //!
     //! ### Example
-    //! @snippet example/functional/always.cpp main
+    //! @snippet example/functional/always/basic.cpp main
+    //!
+    //! @note
+    //! This can be useful to make an expression dependent in order to delay
+    //! the instantiation of its type by the compiler.
+    //!
+    //! ### Example
+    //! @snippet example/functional/always/dependent.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto always = [](auto x) {
         return [=](auto ...y) { return x; };
     };
@@ -177,17 +184,13 @@ namespace boost { namespace hana {
 
     ### Example
     @snippet example/functional/fix.cpp main
-
-    @todo
-    Find a simpler way to make `f` dependent in `operator()(...)`.
      */
     constexpr struct {
         //! @cond
         template <typename F>
         constexpr auto operator()(F f) const {
-            auto fst = [](auto a, ...) { return a; };
             return [=](auto ...xs) {
-                return f((*this)(fst(f, xs...)), xs...);
+                return f((*this)(always(f)(xs...)), xs...);
             };
         }
         //! @endcond
