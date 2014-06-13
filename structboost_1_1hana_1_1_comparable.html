@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.7"/>
-<title>Boost.Hana: boost::hana::Comparable&lt; T, U &gt; Struct Template Reference</title>
+<title>Boost.Hana: boost::hana::Comparable&lt; T, U, Enable &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -69,7 +69,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -97,7 +96,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="#related">Related Functions</a> &#124;
 <a href="structboost_1_1hana_1_1_comparable-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">boost::hana::Comparable&lt; T, U &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__typeclasses.html">Type classes</a></div></div>  </div>
+<div class="title">boost::hana::Comparable&lt; T, U, Enable &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__typeclasses.html">Type classes</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -125,8 +124,8 @@ Related Functions</h2></td></tr>
 <tr class="separator:a6983538356aab75eddf1a7aace6c7925"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><h3>template&lt;typename T, typename U&gt;<br />
-struct boost::hana::Comparable&lt; T, U &gt;</h3>
+<div class="textblock"><h3>template&lt;typename T, typename U, typename Enable = void&gt;<br />
+struct boost::hana::Comparable&lt; T, U, Enable &gt;</h3>
 
 <p>The <code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable type class defines equality and inequality. ">Comparable</a></code> type class defines equality and inequality. </p>
 <hr/>
@@ -136,7 +135,7 @@ struct boost::hana::Comparable&lt; T, U &gt;</h3>
 <p><code>equal</code> must define an equivalence relation. In other words, for all <code>a</code>, <code>b</code>, <code>c</code> of comparable data types, </p><p class="formulaDsp">
 \begin{align*} a = a &amp;&amp; \text{Reflexivity} \\ a = b \Rightarrow b = a &amp;&amp; \text{Symmetry} \\ a = b \wedge b = c \Rightarrow a = c &amp;&amp; \text{Transitivity} \end{align*}
 </p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd><ul>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000002">Todo:</a></b></dt><dd><ul>
 <li>Should all data types have a default implementation to allow arbitrary objects of different types to be compared? By default, two objects that don't share a common_type would be unequal, and otherwise we would use the common_type's comparison, if any.</li>
 <li>Implement automatic checking of the laws for <a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable type class defines equality and inequality. ">Comparable</a>, if possible. </li>
 </ul>
@@ -146,7 +145,7 @@ struct boost::hana::Comparable&lt; T, U &gt;</h3>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T , typename U &gt; </div>
+template&lt;typename T , typename U , typename Enable  = void&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -178,7 +177,7 @@ template&lt;typename T , typename U &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T , typename U &gt; </div>
+template&lt;typename T , typename U , typename Enable  = void&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -277,7 +276,7 @@ template&lt;typename T , typename U &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Jun 7 2014 17:35:13 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jun 12 2014 20:35:48 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

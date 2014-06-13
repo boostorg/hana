@@ -169,7 +169,7 @@ Variables</h2></td></tr>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> double_ = 2 * <a class="code" href="group___functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a>;</div>
 <div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(double_(1) == 2);</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000010">Todo:</a></b></dt><dd>Consider allowing placeholder expressions to be called with more arguments than required. The extraneous arguments could just be discarded as with <code>boost::bind</code>. This could be useful to implement e.g. <code>length</code> as a wrapper over <code>foldl</code>. </dd></dl>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000016">Todo:</a></b></dt><dd>Consider allowing placeholder expressions to be called with more arguments than required. The extraneous arguments could just be discarded as with <code>boost::bind</code>. This could be useful to implement e.g. <code>length</code> as a wrapper over <code>foldl</code>. </dd></dl>
 
 </div>
 </div>
@@ -234,19 +234,21 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">        static_assert(<span class="keyword">sizeof</span>...(xs) &gt;= n,</div>
 <div class="line">        <span class="stringliteral">&quot;invalid usage of arg with too few arguments&quot;</span>);</div>
 <div class="line"></div>
-<div class="line">        <span class="keywordflow">return</span> detail::at_index::best(size_t&lt;n-1&gt;, xs...);</div>
+<div class="line">        </div>
+<div class="line">        </div>
+<div class="line">        </div>
+<div class="line">        <span class="keywordflow">return</span> detail::at_index::best&lt;n == 0 ? 0 : n - 1&gt;(xs...);</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Returns its <code>n</code>th argument. </p>
 <p>Indexing starts at 1, so that <code>arg&lt;1&gt;</code> returns the 1st argument, <code>arg&lt;2&gt;</code> the 2nd and so on. Using <code>arg&lt;0&gt;</code> is an error. Passing less than <code>n</code> arguments to <code>arg&lt;n&gt;</code> is also an error.</p>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(arg&lt;2&gt;(<span class="charliteral">&#39;1&#39;</span>, <span class="stringliteral">&quot;2&quot;</span>, 3) == <span class="stringliteral">&quot;2&quot;</span>);</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000006">Todo:</a></b></dt><dd><ul>
-<li>It is really stupid that we need to include <code>integral</code> for this.</li>
-<li><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a> this should be <code>arg(n)</code> instead of <code>arg&lt;n&gt;</code>?</li>
-<li>The example sucks. </li>
-</ul>
-</dd></dl>
+<div class="fragment"><div class="line">    <span class="comment">// arg&lt;0&gt;(1, 2, 3); // static assertion</span></div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(arg&lt;1&gt;(<span class="charliteral">&#39;1&#39;</span>, <span class="stringliteral">&quot;2&quot;</span>, 3) == <span class="charliteral">&#39;1&#39;</span>);</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(arg&lt;2&gt;(<span class="charliteral">&#39;1&#39;</span>, <span class="stringliteral">&quot;2&quot;</span>, 3) == <span class="stringliteral">&quot;2&quot;</span>);</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(arg&lt;3&gt;(<span class="charliteral">&#39;1&#39;</span>, <span class="stringliteral">&quot;2&quot;</span>, 3) == 3);</div>
+<div class="line">    <span class="comment">// arg&lt;4&gt;(1, 2, 3); // static assertion</span></div>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000010">Todo:</a></b></dt><dd><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a> this should be <code>arg(n)</code> instead of <code>arg&lt;n&gt;</code>? </dd></dl>
 
 </div>
 </div>
@@ -275,7 +277,8 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">    };</div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="group___functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>(increment, double_)(3) == (3 * 2) + 1);</div>
-</div><!-- fragment --> <h3>Proof of associativity (<code>.</code> is <code>compose</code>)</h3>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000011">Todo:</a></b></dt><dd>Consider supporting more than 2 arguments. It's a major gain but we lose the ability to curry automatically.</dd></dl>
+<h3>Proof of associativity (<code>.</code> is <code>compose</code>)</h3>
 <div class="fragment"><div class="line">f . (g . h) $ x xs... == f ((g . h) x) xs...</div>
 <div class="line">                      == f (g (h x)) xs...</div>
 <div class="line"></div>
@@ -312,7 +315,7 @@ template&lt;unsigned arity&gt; </div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(curry&lt;0&gt;(two)() == two());</div>
 </div><!-- fragment --> </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000007">Todo:</a></b></dt><dd>Consider making <code>curry&lt;0&gt;(f)</code> equivalent to <code>f</code>. It might be more general or less useful if it creates subtle pitfalls.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000012">Todo:</a></b></dt><dd>Consider making <code>curry&lt;0&gt;(f)</code> equivalent to <code>f</code>. It might be more general or less useful if it creates subtle pitfalls.</dd></dl>
 
 </div>
 </div>
@@ -341,7 +344,7 @@ template&lt;unsigned arity&gt; </div>
 <div class="line">    };</div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="group___functional.html#gaab5ecce4ccdd050a59083edf74f0f4b9">fbind</a>(divide, arg&lt;2&gt;, arg&lt;1&gt;)(5, 10) == 10 / 5);</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000008">Todo:</a></b></dt><dd>Find a better name.</dd></dl>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000013">Todo:</a></b></dt><dd>Find a better name.</dd></dl>
 <h3>Proof of associativity in the binary case</h3>
 <div class="fragment"><div class="line">bind f (bind g h) $ xs... == f ((bind g h) xs...)</div>
 <div class="line">                          == f (g (h xs...))</div>
@@ -370,7 +373,8 @@ template&lt;unsigned arity&gt; </div>
 <div class="line">    });</div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(factorial(5) == 120);</div>
-</div><!-- fragment -->
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000014">Todo:</a></b></dt><dd>Find a simpler way to make <code>f</code> dependent in <code>operator()(...)</code>. </dd></dl>
+
 </div>
 </div>
 <a class="anchor" id="ga004f884cdbb85c2efe3383c1db450094"></a>
@@ -435,7 +439,7 @@ template&lt;unsigned arity&gt; </div>
 </div><!-- fragment -->
 <p>Invokes <code>f</code> with the result of invoking each <code>g</code> on its corresponding argument, in lockstep. </p>
 <dl class="section note"><dt>Note</dt><dd>Since the <code>g</code>s are applied in lockstep to the arguments, the number of arguments must match the number of <code>g</code>s.</dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000009">Todo:</a></b></dt><dd>Rename this.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000015">Todo:</a></b></dt><dd>Rename this.</dd></dl>
 <h3>Example</h3>
 <div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> plus = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
 <div class="line">        <span class="keywordflow">return</span> x + y;</div>
@@ -526,7 +530,7 @@ template&lt;unsigned arity&gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Jun 7 2014 17:35:13 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jun 12 2014 20:35:48 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

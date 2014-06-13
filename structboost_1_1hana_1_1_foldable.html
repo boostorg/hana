@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.7"/>
-<title>Boost.Hana: boost::hana::Foldable&lt; T &gt; Struct Template Reference</title>
+<title>Boost.Hana: boost::hana::Foldable&lt; T, Enable &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -69,7 +69,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -96,7 +95,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div class="summary">
 <a href="structboost_1_1hana_1_1_foldable-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">boost::hana::Foldable&lt; T &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__typeclasses.html">Type classes</a></div></div>  </div>
+<div class="title">boost::hana::Foldable&lt; T, Enable &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__typeclasses.html">Type classes</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -170,20 +169,24 @@ Related Functions</h2></td></tr>
 <tr class="separator:abf1dbf83a1d98c62994e207ea18eea8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><h3>template&lt;typename T&gt;<br />
-struct boost::hana::Foldable&lt; T &gt;</h3>
+<div class="textblock"><h3>template&lt;typename T, typename Enable = void&gt;<br />
+struct boost::hana::Foldable&lt; T, Enable &gt;</h3>
 
 <p>The <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable type class is used for data structures that can be folded. ">Foldable</a></code> type class is used for data structures that can be folded. </p>
 <hr/>
  <h3>Minimal complete definition</h3>
 <p><code>foldl</code>, <code>foldl1</code>, <code>foldr1</code> and <code>lazy_foldr</code></p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000005">Todo:</a></b></dt><dd>Provide examples for the methods? I think the instance of <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable type class is used for data structures that can be folded. ">Foldable</a></code> for <code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="Data structures allowing external iteration. ">Iterable</a></code>s must be documented properly with examples, but we can't do better without loss of generality here. Or maybe we can use a parallel with <code>toList</code> to document equalities that must hold? </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000009">Todo:</a></b></dt><dd><ul>
+<li>Provide examples for the methods? I think the instance of <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable type class is used for data structures that can be folded. ">Foldable</a></code> for <code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="Data structures allowing external iteration. ">Iterable</a></code>s must be documented properly with examples, but we can't do better without loss of generality here. Or maybe we can use a parallel with <code>toList</code> to document equalities that must hold?</li>
+<li>Reduce the mcd. </li>
+</ul>
+</dd></dl>
 </div><h2 class="groupheader">Friends And Related Function Documentation</h2>
 <a class="anchor" id="a695907e4a3ef7d0e9ab34f5afff709b2"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T &gt; </div>
+template&lt;typename T , typename Enable  = void&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -217,7 +220,7 @@ template&lt;typename T &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T &gt; </div>
+template&lt;typename T , typename Enable  = void&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -241,7 +244,7 @@ template&lt;typename T &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T &gt; </div>
+template&lt;typename T , typename Enable  = void&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -275,7 +278,7 @@ template&lt;typename T &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T &gt; </div>
+template&lt;typename T , typename Enable  = void&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -299,7 +302,7 @@ template&lt;typename T &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T &gt; </div>
+template&lt;typename T , typename Enable  = void&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -335,7 +338,7 @@ template&lt;typename T &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T &gt; </div>
+template&lt;typename T , typename Enable  = void&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -353,11 +356,13 @@ template&lt;typename T &gt; </div>
 
 <p>Left-associative fold of a structure using a binary operation. </p>
 <h3>Fusion example</h3>
-<div class="fragment"><div class="line">    <span class="keyword">auto</span> make_string = [](std::string str, <span class="keyword">auto</span> x) {</div>
-<div class="line">        <span class="keywordflow">return</span> str + (std::ostringstream{} &lt;&lt; x).str();</div>
+<div class="fragment"><div class="line">    <span class="keyword">auto</span> to_string = [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> (std::ostringstream{} &lt;&lt; x).str(); };</div>
+<div class="line"></div>
+<div class="line">    <span class="keyword">auto</span> show = [=](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
+<div class="line">        <span class="keywordflow">return</span> <span class="stringliteral">&quot;(&quot;</span> + to_string(x) + <span class="stringliteral">&quot; + &quot;</span> + to_string(y) + <span class="stringliteral">&quot;)&quot;</span>;</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    assert(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a0a5d375abcde2ceed89662df491a2c43">foldl</a>(make_string, <span class="stringliteral">&quot;1&quot;</span>, list(2, <span class="stringliteral">&quot;3&quot;</span>, <span class="charliteral">&#39;4&#39;</span>)) == <span class="stringliteral">&quot;1234&quot;</span>);</div>
+<div class="line">    assert(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a0a5d375abcde2ceed89662df491a2c43">foldl</a>(show, <span class="stringliteral">&quot;1&quot;</span>, list(2, <span class="stringliteral">&quot;3&quot;</span>, <span class="charliteral">&#39;4&#39;</span>)) == <span class="stringliteral">&quot;(((1 + 2) + 3) + 4)&quot;</span>);</div>
 </div><!-- fragment --> <h3>MPL example</h3>
 <div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> types = list_t&lt;long, float, short, double, float, long, long double&gt;;</div>
 <div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> count_if_float = [](<span class="keyword">auto</span> c, <span class="keyword">auto</span> t) {</div>
@@ -372,7 +377,7 @@ template&lt;typename T &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T &gt; </div>
+template&lt;typename T , typename Enable  = void&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -389,14 +394,22 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>Variant of <code>foldl</code> that has no base case, and thus may only be applied to non-empty structures. </p>
-
+<h3>Example</h3>
+<div class="fragment"><div class="line">    <span class="keyword">auto</span> to_string = [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> (std::ostringstream{} &lt;&lt; x).str(); };</div>
+<div class="line"></div>
+<div class="line">    <span class="keyword">auto</span> show = [=](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
+<div class="line">        <span class="keywordflow">return</span> <span class="stringliteral">&quot;(&quot;</span> + to_string(x) + <span class="stringliteral">&quot; + &quot;</span> + to_string(y) + <span class="stringliteral">&quot;)&quot;</span>;</div>
+<div class="line">    };</div>
+<div class="line"></div>
+<div class="line">    assert(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a8ca4972e61b7ad36ff9fcca9e6131da6">foldl1</a>(show, list(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>)) == <span class="stringliteral">&quot;((1 + 2) + 3)&quot;</span>);</div>
+</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="ab1dcc2a64352a571154c2ebd8fd1b37d"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T &gt; </div>
+template&lt;typename T , typename Enable  = void&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -414,11 +427,13 @@ template&lt;typename T &gt; </div>
 
 <p>Right-associative fold of a structure using a binary operation. </p>
 <h3>Fusion example</h3>
-<div class="fragment"><div class="line">    <span class="keyword">auto</span> make_string = [](<span class="keyword">auto</span> x, std::string str) {</div>
-<div class="line">        <span class="keywordflow">return</span> str + (std::ostringstream{} &lt;&lt; x).str();</div>
+<div class="fragment"><div class="line">    <span class="keyword">auto</span> to_string = [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> (std::ostringstream{} &lt;&lt; x).str(); };</div>
+<div class="line"></div>
+<div class="line">    <span class="keyword">auto</span> show = [=](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
+<div class="line">        <span class="keywordflow">return</span> <span class="stringliteral">&quot;(&quot;</span> + to_string(x) + <span class="stringliteral">&quot; + &quot;</span> + to_string(y) + <span class="stringliteral">&quot;)&quot;</span>;</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    assert(<a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>(make_string, <span class="stringliteral">&quot;4&quot;</span>, list(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>)) == <span class="stringliteral">&quot;4321&quot;</span>);</div>
+<div class="line">    assert(<a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>(show, <span class="stringliteral">&quot;4&quot;</span>, list(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>)) == <span class="stringliteral">&quot;(1 + (2 + (3 + 4)))&quot;</span>);</div>
 </div><!-- fragment --> <h3>MPL example</h3>
 <div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> numbers = list_c&lt;int, 5, -1, 0, -7, -2, 0, -5, 4&gt;;</div>
 <div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> negatives = list_c&lt;int, -1, -7, -2, -5&gt;;</div>
@@ -435,7 +450,7 @@ template&lt;typename T &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T &gt; </div>
+template&lt;typename T , typename Enable  = void&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -452,14 +467,22 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>Variant of <code>foldr</code> that has no base case, and thus may only be applied to non-empty structures. </p>
-
+<h3>Example</h3>
+<div class="fragment"><div class="line">    <span class="keyword">auto</span> to_string = [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> (std::ostringstream{} &lt;&lt; x).str(); };</div>
+<div class="line"></div>
+<div class="line">    <span class="keyword">auto</span> show = [=](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
+<div class="line">        <span class="keywordflow">return</span> <span class="stringliteral">&quot;(&quot;</span> + to_string(x) + <span class="stringliteral">&quot; + &quot;</span> + to_string(y) + <span class="stringliteral">&quot;)&quot;</span>;</div>
+<div class="line">    };</div>
+<div class="line"></div>
+<div class="line">    assert(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a03b3683b885c27b5c607fe6f0d2f7356">foldr1</a>(show, list(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>)) == <span class="stringliteral">&quot;(1 + (2 + 3))&quot;</span>);</div>
+</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a511d1c511a0a5205d3498e214a311cb1"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T &gt; </div>
+template&lt;typename T , typename Enable  = void&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -476,15 +499,25 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>Lazy right-associative fold of a structure using a binary operation. </p>
-<p>Unlike for strict folds, the binary operation should take nullary functions returning an element and the state instead of taking an element and the state directly. </p>
-
+<p>Unlike for strict folds, the binary operation should take nullary functions returning an element and the state instead of taking an element and the state directly.</p>
+<h3>Example</h3>
+<div class="fragment"><div class="line">    <span class="keyword">auto</span> to_string = [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> (std::ostringstream{} &lt;&lt; x).str(); };</div>
+<div class="line"></div>
+<div class="line">    <span class="keyword">auto</span> show = [=](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
+<div class="line">        <span class="keyword">auto</span> y_ = if_(x() &lt; 4_c, y, <a class="code" href="group___functional.html#ga835970cb25a0c8dc200f1e5f8943538b">always</a>(<span class="stringliteral">&quot;...&quot;</span>))();</div>
+<div class="line">        <span class="keywordflow">return</span> <span class="stringliteral">&quot;(&quot;</span> + to_string(x()) + <span class="stringliteral">&quot; + &quot;</span> + to_string(y_) + <span class="stringliteral">&quot;)&quot;</span>;</div>
+<div class="line">    };</div>
+<div class="line"></div>
+<div class="line">    <span class="keyword">auto</span> state = [] { assert(<span class="keyword">false</span>); }; <span class="comment">// this will never be evaluated</span></div>
+<div class="line">    assert(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a511d1c511a0a5205d3498e214a311cb1">lazy_foldr</a>(show, state, range(1_c, 999999_c)) == <span class="stringliteral">&quot;(1 + (2 + (3 + (4 + ...))))&quot;</span>);</div>
+</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a5fb377e43aa7753bb77aa346c67fae0d"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T &gt; </div>
+template&lt;typename T , typename Enable  = void&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -508,7 +541,7 @@ template&lt;typename T &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T &gt; </div>
+template&lt;typename T , typename Enable  = void&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -532,7 +565,7 @@ template&lt;typename T &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T &gt; </div>
+template&lt;typename T , typename Enable  = void&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -556,7 +589,7 @@ template&lt;typename T &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T &gt; </div>
+template&lt;typename T , typename Enable  = void&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -580,7 +613,7 @@ template&lt;typename T &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T &gt; </div>
+template&lt;typename T , typename Enable  = void&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -604,7 +637,7 @@ template&lt;typename T &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T &gt; </div>
+template&lt;typename T , typename Enable  = void&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -638,7 +671,7 @@ template&lt;typename T &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T &gt; </div>
+template&lt;typename T , typename Enable  = void&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -662,7 +695,7 @@ template&lt;typename T &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T &gt; </div>
+template&lt;typename T , typename Enable  = void&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -686,7 +719,7 @@ template&lt;typename T &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T &gt; </div>
+template&lt;typename T , typename Enable  = void&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -710,7 +743,7 @@ template&lt;typename T &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T &gt; </div>
+template&lt;typename T , typename Enable  = void&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -733,7 +766,7 @@ template&lt;typename T &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Jun 7 2014 17:35:13 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jun 12 2014 20:35:48 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

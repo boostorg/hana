@@ -9,7 +9,6 @@ var searchData=
   ['fmap',['fmap',['../structboost_1_1hana_1_1_functor.html#a84bb505c8405a5cd3003db49f652faa2',1,'boost::hana::Functor']]],
   ['foldable',['Foldable',['../structboost_1_1hana_1_1_foldable.html',1,'boost::hana']]],
   ['foldable_2ehpp',['foldable.hpp',['../foldable_8hpp.html',1,'']]],
-  ['foldable_5ffrom_5fiterable_2ehpp',['foldable_from_iterable.hpp',['../foldable__from__iterable_8hpp.html',1,'']]],
   ['foldl',['foldl',['../structboost_1_1hana_1_1_foldable.html#a0a5d375abcde2ceed89662df491a2c43',1,'boost::hana::Foldable']]],
   ['foldl1',['foldl1',['../structboost_1_1hana_1_1_foldable.html#a8ca4972e61b7ad36ff9fcca9e6131da6',1,'boost::hana::Foldable']]],
   ['foldr',['foldr',['../structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d',1,'boost::hana::Foldable']]],

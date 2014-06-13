@@ -101,37 +101,41 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">namespace </span>boost { <span class="keyword">namespace </span>hana {</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...&gt; <span class="keyword">class </span>Typeclass&gt;</div>
-<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1defaults.html">   47</a></span>&#160;    <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1defaults.html">defaults</a> { };</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keyword">namespace </span>core_detail {</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">typename</span> T::hana_datatype datatype_impl(<span class="keywordtype">void</span>*);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; T datatype_impl(...);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    }</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1datatype.html">   67</a></span>&#160;    <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1datatype.html">datatype</a> {</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="keyword">using</span> type = decltype(core_detail::datatype_impl&lt;T&gt;(<span class="keyword">nullptr</span>));</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    };</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="group___core.html#gae3cedd3772d00ac7c4de9dc3d719f321">   73</a></span>&#160;    <span class="keyword">using</span> <a class="code" href="group___core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t</a> = <span class="keyword">typename</span> datatype&lt;T&gt;::type;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keyword">namespace </span>operators {</div>
-<div class="line"><a name="l00085"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1operators_1_1enable.html">   85</a></span>&#160;        <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1operators_1_1enable.html">enable</a> { };</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    }</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;}} <span class="comment">// end namespace boost::hana</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="preprocessor">#endif // !BOOST_HANA_CORE_HPP</span></div>
-<div class="ttc" id="group___core_html_gae3cedd3772d00ac7c4de9dc3d719f321"><div class="ttname"><a href="group___core.html#gae3cedd3772d00ac7c4de9dc3d719f321">boost::hana::datatype_t</a></div><div class="ttdeci">typename datatype&lt; T &gt;::type datatype_t</div><div class="ttdoc">Alias to datatype<T>::type. </div><div class="ttdef"><b>Definition:</b> core.hpp:73</div></div>
-<div class="ttc" id="structboost_1_1hana_1_1operators_1_1enable_html"><div class="ttname"><a href="structboost_1_1hana_1_1operators_1_1enable.html">boost::hana::operators::enable</a></div><div class="ttdoc">Allows operators in the boost::hana::operators namespace to be found by ADL. </div><div class="ttdef"><b>Definition:</b> core.hpp:85</div></div>
-<div class="ttc" id="structboost_1_1hana_1_1datatype_html"><div class="ttname"><a href="structboost_1_1hana_1_1datatype.html">boost::hana::datatype</a></div><div class="ttdoc">Trait returning the data type associated to T. </div><div class="ttdef"><b>Definition:</b> core.hpp:67</div></div>
-<div class="ttc" id="structboost_1_1hana_1_1defaults_html"><div class="ttname"><a href="structboost_1_1hana_1_1defaults.html">boost::hana::defaults</a></div><div class="ttdoc">Implements the default methods of a type class. </div><div class="ttdef"><b>Definition:</b> core.hpp:47</div></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...&gt; <span class="keyword">class </span>Typeclass&gt;</div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1defaults.html">   50</a></span>&#160;    <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1defaults.html">defaults</a>;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...&gt; <span class="keyword">class </span>Typeclass&gt;</div>
+<div class="line"><a name="l00104"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1instance.html">  104</a></span>&#160;    <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1instance.html">instance</a>;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keyword">namespace </span>core_detail {</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">typename</span> T::hana_datatype datatype_impl(<span class="keywordtype">void</span>*);</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; T datatype_impl(...);</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    }</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00124"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1datatype.html">  124</a></span>&#160;    <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1datatype.html">datatype</a> {</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        <span class="keyword">using</span> type = decltype(core_detail::datatype_impl&lt;T&gt;(<span class="keyword">nullptr</span>));</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    };</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00130"></a><span class="lineno"><a class="line" href="group___core.html#gae3cedd3772d00ac7c4de9dc3d719f321">  130</a></span>&#160;    <span class="keyword">using</span> <a class="code" href="group___core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t</a> = <span class="keyword">typename</span> datatype&lt;T&gt;::type;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <span class="keyword">namespace </span>operators {</div>
+<div class="line"><a name="l00142"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1operators_1_1enable.html">  142</a></span>&#160;        <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1operators_1_1enable.html">enable</a> { };</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    }</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;}} <span class="comment">// end namespace boost::hana</span></div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;<span class="preprocessor">#endif // !BOOST_HANA_CORE_HPP</span></div>
+<div class="ttc" id="group___core_html_gae3cedd3772d00ac7c4de9dc3d719f321"><div class="ttname"><a href="group___core.html#gae3cedd3772d00ac7c4de9dc3d719f321">boost::hana::datatype_t</a></div><div class="ttdeci">typename datatype&lt; T &gt;::type datatype_t</div><div class="ttdoc">Alias to datatype<T>::type. </div><div class="ttdef"><b>Definition:</b> core.hpp:130</div></div>
+<div class="ttc" id="structboost_1_1hana_1_1operators_1_1enable_html"><div class="ttname"><a href="structboost_1_1hana_1_1operators_1_1enable.html">boost::hana::operators::enable</a></div><div class="ttdoc">Allows operators in the boost::hana::operators namespace to be found by ADL. </div><div class="ttdef"><b>Definition:</b> core.hpp:142</div></div>
+<div class="ttc" id="structboost_1_1hana_1_1instance_html"><div class="ttname"><a href="structboost_1_1hana_1_1instance.html">boost::hana::instance</a></div><div class="ttdoc">Allows complimentary type class instances to be provided. </div><div class="ttdef"><b>Definition:</b> core.hpp:104</div></div>
+<div class="ttc" id="structboost_1_1hana_1_1datatype_html"><div class="ttname"><a href="structboost_1_1hana_1_1datatype.html">boost::hana::datatype</a></div><div class="ttdoc">Trait returning the data type associated to T. </div><div class="ttdef"><b>Definition:</b> core.hpp:124</div></div>
+<div class="ttc" id="structboost_1_1hana_1_1defaults_html"><div class="ttname"><a href="structboost_1_1hana_1_1defaults.html">boost::hana::defaults</a></div><div class="ttdoc">Contains the default methods of a type class. </div><div class="ttdef"><b>Definition:</b> core.hpp:50</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Jun 7 2014 17:35:13 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jun 12 2014 20:35:48 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

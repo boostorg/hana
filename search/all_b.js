@@ -7,5 +7,6 @@ var searchData=
   ['maybe_2ehpp',['maybe.hpp',['../maybe_8hpp.html',1,'']]],
   ['minimum',['minimum',['../structboost_1_1hana_1_1_foldable.html#aead74d4a75dd467873fcc9124d06b5f4',1,'boost::hana::Foldable']]],
   ['minimum_5fby',['minimum_by',['../structboost_1_1hana_1_1_foldable.html#a11341a0d825e7898572c1d22d1efe8f4',1,'boost::hana::Foldable']]],
+  ['monad',['Monad',['../structboost_1_1hana_1_1_monad.html',1,'boost::hana']]],
   ['monad_2ehpp',['monad.hpp',['../monad_8hpp.html',1,'']]]
 ];

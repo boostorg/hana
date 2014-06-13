@@ -109,167 +109,172 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...&gt; <span class="keyword">class </span>Trait&gt;</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keyword">struct </span>integral_trait {</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...T&gt;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        constexpr <span class="keyword">auto</span> operator()(Type&lt;T&gt;...)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">        </span>{ <span class="keywordflow">return</span> integral&lt;decltype(Trait&lt;T...&gt;::value), Trait&lt;T...&gt;::value&gt;; }</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    };</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="comment">// Type properties</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment"></span>    <span class="comment">// Primary type categories</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    constexpr <span class="keyword">auto</span> is_void = integral_trait&lt;std::is_void&gt;{};</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    constexpr <span class="keyword">auto</span> is_null_pointer = integral_trait&lt;std::is_null_pointer&gt;{};</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    constexpr <span class="keyword">auto</span> is_integral = integral_trait&lt;std::is_integral&gt;{};</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    constexpr <span class="keyword">auto</span> is_floating_point = integral_trait&lt;std::is_floating_point&gt;{};</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    constexpr <span class="keyword">auto</span> is_array = integral_trait&lt;std::is_array&gt;{};</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    constexpr <span class="keyword">auto</span> is_enum = integral_trait&lt;std::is_enum&gt;{};</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    constexpr <span class="keyword">auto</span> is_union = integral_trait&lt;std::is_union&gt;{};</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    constexpr <span class="keyword">auto</span> is_class = integral_trait&lt;std::is_class&gt;{};</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    constexpr <span class="keyword">auto</span> is_function = integral_trait&lt;std::is_function&gt;{};</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    constexpr <span class="keyword">auto</span> is_pointer = integral_trait&lt;std::is_pointer&gt;{};</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    constexpr <span class="keyword">auto</span> is_lvalue_reference = integral_trait&lt;std::is_lvalue_reference&gt;{};</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    constexpr <span class="keyword">auto</span> is_rvalue_reference = integral_trait&lt;std::is_rvalue_reference&gt;{};</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    constexpr <span class="keyword">auto</span> is_member_object_pointer = integral_trait&lt;std::is_member_object_pointer&gt;{};</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    constexpr <span class="keyword">auto</span> is_member_function_pointer = integral_trait&lt;std::is_member_function_pointer&gt;{};</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="comment">// Composite type categories</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    constexpr <span class="keyword">auto</span> is_fundamental = integral_trait&lt;std::is_fundamental&gt;{};</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    constexpr <span class="keyword">auto</span> is_arithmetic = integral_trait&lt;std::is_arithmetic&gt;{};</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    constexpr <span class="keyword">auto</span> is_scalar = integral_trait&lt;std::is_scalar&gt;{};</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    constexpr <span class="keyword">auto</span> is_object = integral_trait&lt;std::is_object&gt;{};</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    constexpr <span class="keyword">auto</span> is_compound = integral_trait&lt;std::is_compound&gt;{};</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    constexpr <span class="keyword">auto</span> is_reference = integral_trait&lt;std::is_reference&gt;{};</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    constexpr <span class="keyword">auto</span> is_member_pointer = integral_trait&lt;std::is_member_pointer&gt;{};</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="comment">// Type properties</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    constexpr <span class="keyword">auto</span> is_const = integral_trait&lt;std::is_const&gt;{};</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    constexpr <span class="keyword">auto</span> is_volatile = integral_trait&lt;std::is_volatile&gt;{};</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    constexpr <span class="keyword">auto</span> is_trivial = integral_trait&lt;std::is_trivial&gt;{};</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    constexpr <span class="keyword">auto</span> is_trivially_copyable = integral_trait&lt;std::is_trivially_copyable&gt;{};</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    constexpr <span class="keyword">auto</span> is_standard_layout = integral_trait&lt;std::is_standard_layout&gt;{};</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    constexpr <span class="keyword">auto</span> is_pod = integral_trait&lt;std::is_pod&gt;{};</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    constexpr <span class="keyword">auto</span> is_literal_type = integral_trait&lt;std::is_literal_type&gt;{};</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    constexpr <span class="keyword">auto</span> is_empty = integral_trait&lt;std::is_empty&gt;{};</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    constexpr <span class="keyword">auto</span> is_polymorphic = integral_trait&lt;std::is_polymorphic&gt;{};</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    constexpr <span class="keyword">auto</span> is_abstract = integral_trait&lt;std::is_abstract&gt;{};</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    constexpr <span class="keyword">auto</span> is_signed = integral_trait&lt;std::is_signed&gt;{};</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    constexpr <span class="keyword">auto</span> is_unsigned = integral_trait&lt;std::is_unsigned&gt;{};</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="comment">// Supported operations</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    constexpr <span class="keyword">auto</span> is_constructible = integral_trait&lt;std::is_constructible&gt;{};</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    constexpr <span class="keyword">auto</span> is_trivially_constructible = integral_trait&lt;std::is_trivially_constructible&gt;{};</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    constexpr <span class="keyword">auto</span> is_nothrow_constructible = integral_trait&lt;std::is_nothrow_constructible&gt;{};</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    constexpr <span class="keyword">auto</span> is_default_constructible = integral_trait&lt;std::is_default_constructible&gt;{};</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    constexpr <span class="keyword">auto</span> is_trivially_default_constructible = integral_trait&lt;std::is_trivially_default_constructible&gt;{};</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    constexpr <span class="keyword">auto</span> is_nothrow_default_constructible = integral_trait&lt;std::is_nothrow_default_constructible&gt;{};</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        constexpr <span class="keyword">auto</span> operator()(T...)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            <span class="keywordflow">return</span> integral&lt;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                decltype(Trait&lt;untype_t&lt;T&gt;...&gt;::value),</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                Trait&lt;untype_t&lt;T&gt;...&gt;::value</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            &gt;;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        }</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    };</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="comment">// Type properties</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="comment"></span>    <span class="comment">// Primary type categories</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    constexpr <span class="keyword">auto</span> is_void = integral_trait&lt;std::is_void&gt;{};</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    constexpr <span class="keyword">auto</span> is_null_pointer = integral_trait&lt;std::is_null_pointer&gt;{};</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    constexpr <span class="keyword">auto</span> is_integral = integral_trait&lt;std::is_integral&gt;{};</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    constexpr <span class="keyword">auto</span> is_floating_point = integral_trait&lt;std::is_floating_point&gt;{};</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    constexpr <span class="keyword">auto</span> is_array = integral_trait&lt;std::is_array&gt;{};</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    constexpr <span class="keyword">auto</span> is_enum = integral_trait&lt;std::is_enum&gt;{};</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    constexpr <span class="keyword">auto</span> is_union = integral_trait&lt;std::is_union&gt;{};</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    constexpr <span class="keyword">auto</span> is_class = integral_trait&lt;std::is_class&gt;{};</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    constexpr <span class="keyword">auto</span> is_function = integral_trait&lt;std::is_function&gt;{};</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    constexpr <span class="keyword">auto</span> is_pointer = integral_trait&lt;std::is_pointer&gt;{};</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    constexpr <span class="keyword">auto</span> is_lvalue_reference = integral_trait&lt;std::is_lvalue_reference&gt;{};</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    constexpr <span class="keyword">auto</span> is_rvalue_reference = integral_trait&lt;std::is_rvalue_reference&gt;{};</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    constexpr <span class="keyword">auto</span> is_member_object_pointer = integral_trait&lt;std::is_member_object_pointer&gt;{};</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    constexpr <span class="keyword">auto</span> is_member_function_pointer = integral_trait&lt;std::is_member_function_pointer&gt;{};</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="comment">// Composite type categories</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    constexpr <span class="keyword">auto</span> is_fundamental = integral_trait&lt;std::is_fundamental&gt;{};</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    constexpr <span class="keyword">auto</span> is_arithmetic = integral_trait&lt;std::is_arithmetic&gt;{};</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    constexpr <span class="keyword">auto</span> is_scalar = integral_trait&lt;std::is_scalar&gt;{};</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    constexpr <span class="keyword">auto</span> is_object = integral_trait&lt;std::is_object&gt;{};</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    constexpr <span class="keyword">auto</span> is_compound = integral_trait&lt;std::is_compound&gt;{};</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    constexpr <span class="keyword">auto</span> is_reference = integral_trait&lt;std::is_reference&gt;{};</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    constexpr <span class="keyword">auto</span> is_member_pointer = integral_trait&lt;std::is_member_pointer&gt;{};</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="comment">// Type properties</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    constexpr <span class="keyword">auto</span> is_const = integral_trait&lt;std::is_const&gt;{};</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    constexpr <span class="keyword">auto</span> is_volatile = integral_trait&lt;std::is_volatile&gt;{};</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    constexpr <span class="keyword">auto</span> is_trivial = integral_trait&lt;std::is_trivial&gt;{};</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    constexpr <span class="keyword">auto</span> is_trivially_copyable = integral_trait&lt;std::is_trivially_copyable&gt;{};</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    constexpr <span class="keyword">auto</span> is_standard_layout = integral_trait&lt;std::is_standard_layout&gt;{};</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    constexpr <span class="keyword">auto</span> is_pod = integral_trait&lt;std::is_pod&gt;{};</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    constexpr <span class="keyword">auto</span> is_literal_type = integral_trait&lt;std::is_literal_type&gt;{};</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    constexpr <span class="keyword">auto</span> is_empty = integral_trait&lt;std::is_empty&gt;{};</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    constexpr <span class="keyword">auto</span> is_polymorphic = integral_trait&lt;std::is_polymorphic&gt;{};</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    constexpr <span class="keyword">auto</span> is_abstract = integral_trait&lt;std::is_abstract&gt;{};</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    constexpr <span class="keyword">auto</span> is_signed = integral_trait&lt;std::is_signed&gt;{};</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    constexpr <span class="keyword">auto</span> is_unsigned = integral_trait&lt;std::is_unsigned&gt;{};</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="comment">// Supported operations</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    constexpr <span class="keyword">auto</span> is_constructible = integral_trait&lt;std::is_constructible&gt;{};</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    constexpr <span class="keyword">auto</span> is_trivially_constructible = integral_trait&lt;std::is_trivially_constructible&gt;{};</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    constexpr <span class="keyword">auto</span> is_nothrow_constructible = integral_trait&lt;std::is_nothrow_constructible&gt;{};</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    constexpr <span class="keyword">auto</span> is_copy_constructible = integral_trait&lt;std::is_copy_constructible&gt;{};</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    constexpr <span class="keyword">auto</span> is_trivially_copy_constructible = integral_trait&lt;std::is_trivially_copy_constructible&gt;{};</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    constexpr <span class="keyword">auto</span> is_nothrow_copy_constructible = integral_trait&lt;std::is_nothrow_copy_constructible&gt;{};</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    constexpr <span class="keyword">auto</span> is_default_constructible = integral_trait&lt;std::is_default_constructible&gt;{};</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    constexpr <span class="keyword">auto</span> is_trivially_default_constructible = integral_trait&lt;std::is_trivially_default_constructible&gt;{};</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    constexpr <span class="keyword">auto</span> is_nothrow_default_constructible = integral_trait&lt;std::is_nothrow_default_constructible&gt;{};</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    constexpr <span class="keyword">auto</span> is_move_constructible = integral_trait&lt;std::is_move_constructible&gt;{};</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    constexpr <span class="keyword">auto</span> is_trivially_move_constructible = integral_trait&lt;std::is_trivially_move_constructible&gt;{};</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    constexpr <span class="keyword">auto</span> is_nothrow_move_constructible = integral_trait&lt;std::is_nothrow_move_constructible&gt;{};</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    constexpr <span class="keyword">auto</span> is_copy_constructible = integral_trait&lt;std::is_copy_constructible&gt;{};</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    constexpr <span class="keyword">auto</span> is_trivially_copy_constructible = integral_trait&lt;std::is_trivially_copy_constructible&gt;{};</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    constexpr <span class="keyword">auto</span> is_nothrow_copy_constructible = integral_trait&lt;std::is_nothrow_copy_constructible&gt;{};</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    constexpr <span class="keyword">auto</span> is_assignable = integral_trait&lt;std::is_assignable&gt;{};</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    constexpr <span class="keyword">auto</span> is_trivially_assignable = integral_trait&lt;std::is_trivially_assignable&gt;{};</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    constexpr <span class="keyword">auto</span> is_nothrow_assignable = integral_trait&lt;std::is_nothrow_assignable&gt;{};</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    constexpr <span class="keyword">auto</span> is_move_constructible = integral_trait&lt;std::is_move_constructible&gt;{};</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    constexpr <span class="keyword">auto</span> is_trivially_move_constructible = integral_trait&lt;std::is_trivially_move_constructible&gt;{};</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    constexpr <span class="keyword">auto</span> is_nothrow_move_constructible = integral_trait&lt;std::is_nothrow_move_constructible&gt;{};</div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    constexpr <span class="keyword">auto</span> is_copy_assignable = integral_trait&lt;std::is_copy_assignable&gt;{};</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    constexpr <span class="keyword">auto</span> is_trivially_copy_assignable = integral_trait&lt;std::is_trivially_copy_assignable&gt;{};</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    constexpr <span class="keyword">auto</span> is_nothrow_copy_assignable = integral_trait&lt;std::is_nothrow_copy_assignable&gt;{};</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    constexpr <span class="keyword">auto</span> is_assignable = integral_trait&lt;std::is_assignable&gt;{};</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    constexpr <span class="keyword">auto</span> is_trivially_assignable = integral_trait&lt;std::is_trivially_assignable&gt;{};</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    constexpr <span class="keyword">auto</span> is_nothrow_assignable = integral_trait&lt;std::is_nothrow_assignable&gt;{};</div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    constexpr <span class="keyword">auto</span> is_move_assignable = integral_trait&lt;std::is_move_assignable&gt;{};</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    constexpr <span class="keyword">auto</span> is_trivially_move_assignable = integral_trait&lt;std::is_trivially_move_assignable&gt;{};</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    constexpr <span class="keyword">auto</span> is_nothrow_move_assignable = integral_trait&lt;std::is_nothrow_move_assignable&gt;{};</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    constexpr <span class="keyword">auto</span> is_copy_assignable = integral_trait&lt;std::is_copy_assignable&gt;{};</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    constexpr <span class="keyword">auto</span> is_trivially_copy_assignable = integral_trait&lt;std::is_trivially_copy_assignable&gt;{};</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    constexpr <span class="keyword">auto</span> is_nothrow_copy_assignable = integral_trait&lt;std::is_nothrow_copy_assignable&gt;{};</div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    constexpr <span class="keyword">auto</span> is_destructible = integral_trait&lt;std::is_destructible&gt;{};</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    constexpr <span class="keyword">auto</span> is_trivially_destructible = integral_trait&lt;std::is_trivially_destructible&gt;{};</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    constexpr <span class="keyword">auto</span> is_nothrow_destructible = integral_trait&lt;std::is_nothrow_destructible&gt;{};</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    constexpr <span class="keyword">auto</span> is_move_assignable = integral_trait&lt;std::is_move_assignable&gt;{};</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    constexpr <span class="keyword">auto</span> is_trivially_move_assignable = integral_trait&lt;std::is_trivially_move_assignable&gt;{};</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    constexpr <span class="keyword">auto</span> is_nothrow_move_assignable = integral_trait&lt;std::is_nothrow_move_assignable&gt;{};</div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    constexpr <span class="keyword">auto</span> has_virtual_destructor = integral_trait&lt;std::has_virtual_destructor&gt;{};</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="comment">// Property queries</span></div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    constexpr <span class="keyword">auto</span> alignment_of = integral_trait&lt;std::alignment_of&gt;{};</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    constexpr <span class="keyword">auto</span> rank = integral_trait&lt;std::rank&gt;{};</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    constexpr <span class="keyword">struct </span>_extent {</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> N&gt;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        constexpr <span class="keyword">auto</span> operator()(Type&lt;T&gt;, N n)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            <span class="keywordflow">return</span> integral&lt;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                decltype(std::extent&lt;T, n&gt;::value), std::extent&lt;T, n&gt;::value</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            &gt;;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        }</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        constexpr <span class="keyword">auto</span> operator()(Type&lt;T&gt; t)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="keyword">        </span>{ <span class="keywordflow">return</span> (*<span class="keyword">this</span>)(t, uint&lt;0&gt;); }</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    } extent{};</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    constexpr <span class="keyword">auto</span> is_destructible = integral_trait&lt;std::is_destructible&gt;{};</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    constexpr <span class="keyword">auto</span> is_trivially_destructible = integral_trait&lt;std::is_trivially_destructible&gt;{};</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    constexpr <span class="keyword">auto</span> is_nothrow_destructible = integral_trait&lt;std::is_nothrow_destructible&gt;{};</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    constexpr <span class="keyword">auto</span> has_virtual_destructor = integral_trait&lt;std::has_virtual_destructor&gt;{};</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="comment">// Property queries</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    constexpr <span class="keyword">auto</span> alignment_of = integral_trait&lt;std::alignment_of&gt;{};</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    constexpr <span class="keyword">auto</span> rank = integral_trait&lt;std::rank&gt;{};</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    constexpr <span class="keyword">struct </span>_extent {</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> N&gt;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        constexpr <span class="keyword">auto</span> operator()(T, N n)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            <span class="keywordflow">return</span> integral&lt;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                decltype(std::extent&lt;untype_t&lt;T&gt;, n&gt;::value),</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                std::extent&lt;untype_t&lt;T&gt;, n&gt;::value</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;            &gt;;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        }</div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="comment">// Type relationships</span></div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    constexpr <span class="keyword">auto</span> is_same = integral_trait&lt;std::is_same&gt;{};</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    constexpr <span class="keyword">auto</span> is_base_of = integral_trait&lt;std::is_base_of&gt;{};</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    constexpr <span class="keyword">auto</span> is_convertible = integral_trait&lt;std::is_convertible&gt;{};</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        constexpr <span class="keyword">auto</span> operator()(T t)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="keyword">        </span>{ <span class="keywordflow">return</span> (*<span class="keyword">this</span>)(t, uint&lt;0&gt;); }</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    } extent{};</div>
 <div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    <span class="comment">// Type modifications</span></div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;<span class="comment"></span>    <span class="comment">// Const-volatility specifiers</span></div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    constexpr <span class="keyword">auto</span> remove_cv = lift&lt;std::remove_cv_t&gt;;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    constexpr <span class="keyword">auto</span> remove_const = lift&lt;std::remove_const_t&gt;;</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    constexpr <span class="keyword">auto</span> remove_volatile = lift&lt;std::remove_volatile_t&gt;;</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    constexpr <span class="keyword">auto</span> add_cv = lift&lt;std::add_cv_t&gt;;</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    constexpr <span class="keyword">auto</span> add_const = lift&lt;std::add_const_t&gt;;</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    constexpr <span class="keyword">auto</span> add_volatile = lift&lt;std::add_volatile_t&gt;;</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    <span class="comment">// References</span></div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    constexpr <span class="keyword">auto</span> remove_reference = lift&lt;std::remove_reference_t&gt;;</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    constexpr <span class="keyword">auto</span> add_lvalue_reference = lift&lt;std::add_lvalue_reference_t&gt;;</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    constexpr <span class="keyword">auto</span> add_rvalue_reference = lift&lt;std::add_rvalue_reference_t&gt;;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="comment">// Type relationships</span></div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    constexpr <span class="keyword">auto</span> is_same = integral_trait&lt;std::is_same&gt;{};</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    constexpr <span class="keyword">auto</span> is_base_of = integral_trait&lt;std::is_base_of&gt;{};</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    constexpr <span class="keyword">auto</span> is_convertible = integral_trait&lt;std::is_convertible&gt;{};</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="comment">// Type modifications</span></div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="comment"></span>    <span class="comment">// Const-volatility specifiers</span></div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    constexpr <span class="keyword">auto</span> remove_cv = template_&lt;std::remove_cv_t&gt;;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    constexpr <span class="keyword">auto</span> remove_const = template_&lt;std::remove_const_t&gt;;</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    constexpr <span class="keyword">auto</span> remove_volatile = template_&lt;std::remove_volatile_t&gt;;</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    constexpr <span class="keyword">auto</span> add_cv = template_&lt;std::add_cv_t&gt;;</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    constexpr <span class="keyword">auto</span> add_const = template_&lt;std::add_const_t&gt;;</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    constexpr <span class="keyword">auto</span> add_volatile = template_&lt;std::add_volatile_t&gt;;</div>
 <div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    <span class="comment">// Pointers</span></div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    constexpr <span class="keyword">auto</span> remove_pointer = lift&lt;std::remove_pointer_t&gt;;</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    constexpr <span class="keyword">auto</span> add_pointer = lift&lt;std::add_pointer_t&gt;;</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="comment">// Sign modifiers</span></div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    constexpr <span class="keyword">auto</span> make_signed = lift&lt;std::make_signed_t&gt;;</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    constexpr <span class="keyword">auto</span> make_unsigned = lift&lt;std::make_unsigned_t&gt;;</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    <span class="comment">// Arrays</span></div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    constexpr <span class="keyword">auto</span> remove_extent = lift&lt;std::remove_extent_t&gt;;</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    constexpr <span class="keyword">auto</span> remove_all_extents = lift&lt;std::remove_all_extents_t&gt;;</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="comment">// Miscellaneous transformations</span></div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    constexpr <span class="keyword">struct </span>_aligned_storage {</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Len, <span class="keyword">typename</span> Align&gt;</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        constexpr <span class="keyword">auto</span> operator()(Len len, Align align)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;<span class="keyword">        </span>{ <span class="keywordflow">return</span> type&lt;std::aligned_storage_t&lt;len, align&gt;&gt;; }</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Len&gt;</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        constexpr <span class="keyword">auto</span> operator()(Len len)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;<span class="keyword">        </span>{ <span class="keywordflow">return</span> type&lt;std::aligned_storage_t&lt;len&gt;&gt;; }</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    } aligned_storage{};</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    <span class="comment">// References</span></div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    constexpr <span class="keyword">auto</span> remove_reference = template_&lt;std::remove_reference_t&gt;;</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    constexpr <span class="keyword">auto</span> add_lvalue_reference = template_&lt;std::add_lvalue_reference_t&gt;;</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    constexpr <span class="keyword">auto</span> add_rvalue_reference = template_&lt;std::add_rvalue_reference_t&gt;;</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    <span class="comment">// Pointers</span></div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    constexpr <span class="keyword">auto</span> remove_pointer = template_&lt;std::remove_pointer_t&gt;;</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    constexpr <span class="keyword">auto</span> add_pointer = template_&lt;std::add_pointer_t&gt;;</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="comment">// Sign modifiers</span></div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    constexpr <span class="keyword">auto</span> make_signed = template_&lt;std::make_signed_t&gt;;</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    constexpr <span class="keyword">auto</span> make_unsigned = template_&lt;std::make_unsigned_t&gt;;</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <span class="comment">// Arrays</span></div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    constexpr <span class="keyword">auto</span> remove_extent = template_&lt;std::remove_extent_t&gt;;</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    constexpr <span class="keyword">auto</span> remove_all_extents = template_&lt;std::remove_all_extents_t&gt;;</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    <span class="comment">// Miscellaneous transformations</span></div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    constexpr <span class="keyword">struct </span>_aligned_storage {</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Len, <span class="keyword">typename</span> Align&gt;</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        constexpr <span class="keyword">auto</span> operator()(Len len, Align align)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;<span class="keyword">        </span>{ <span class="keywordflow">return</span> type&lt;std::aligned_storage_t&lt;len, align&gt;&gt;; }</div>
 <div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    constexpr <span class="keyword">struct </span>_aligned_union {</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Len, <span class="keyword">typename</span> ...T&gt;</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        constexpr <span class="keyword">auto</span> operator()(Len len, Type&lt;T&gt;...)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;<span class="keyword">        </span>{ <span class="keywordflow">return</span> type&lt;std::aligned_union_t&lt;len, T...&gt;&gt;; }</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    } aligned_union{};</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    constexpr <span class="keyword">auto</span> decay = lift&lt;std::decay_t&gt;;</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    <span class="comment">// enable_if</span></div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    <span class="comment">// disable_if</span></div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    <span class="comment">// conditional</span></div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Len&gt;</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        constexpr <span class="keyword">auto</span> operator()(Len len)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;<span class="keyword">        </span>{ <span class="keywordflow">return</span> type&lt;std::aligned_storage_t&lt;len&gt;&gt;; }</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    } aligned_storage{};</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    constexpr <span class="keyword">struct </span>_aligned_union {</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Len, <span class="keyword">typename</span> ...T&gt;</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        constexpr <span class="keyword">auto</span> operator()(Len len, T...)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;<span class="keyword">        </span>{ <span class="keywordflow">return</span> type&lt;std::aligned_union_t&lt;len, untype_t&lt;T&gt;...&gt;&gt;; }</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    } aligned_union{};</div>
 <div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    constexpr <span class="keyword">auto</span> common_type = lift&lt;std::common_type_t&gt;;</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    constexpr <span class="keyword">auto</span> underlying_type = lift&lt;std::underlying_type_t&gt;;</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    constexpr <span class="keyword">auto</span> result_of = lift&lt;std::result_of_t&gt;;</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;}}} <span class="comment">// end namespace boost::hana::trait</span></div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    constexpr <span class="keyword">auto</span> decay = template_&lt;std::decay_t&gt;;</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    <span class="comment">// enable_if</span></div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    <span class="comment">// disable_if</span></div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    <span class="comment">// conditional</span></div>
 <div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;<span class="preprocessor">#endif // !BOOST_HANA_TRAIT_HPP</span></div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    constexpr <span class="keyword">auto</span> common_type = template_&lt;std::common_type_t&gt;;</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    constexpr <span class="keyword">auto</span> underlying_type = template_&lt;std::underlying_type_t&gt;;</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    constexpr <span class="keyword">auto</span> result_of = template_&lt;std::result_of_t&gt;;</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;}}} <span class="comment">// end namespace boost::hana::trait</span></div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;<span class="preprocessor">#endif // !BOOST_HANA_TRAIT_HPP</span></div>
 <div class="ttc" id="type_8hpp_html"><div class="ttname"><a href="type_8hpp.html">type.hpp</a></div><div class="ttdoc">Defines boost::hana::Type. </div></div>
 <div class="ttc" id="integral_8hpp_html"><div class="ttname"><a href="integral_8hpp.html">integral.hpp</a></div><div class="ttdoc">Defines boost::hana::Integral. </div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Jun 7 2014 17:35:13 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jun 12 2014 20:35:48 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

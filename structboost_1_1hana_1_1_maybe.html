@@ -69,7 +69,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -133,18 +132,26 @@ Related Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents an optional value. </p>
 <p>A <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code> either contains a value (represented as <code>just(x)</code>), or it is empty (represented as <code>nothing</code>). </p><hr/>
- <h3>Instantiates</h3>
-<ul>
-<li><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable type class defines equality and inequality. ">Comparable</a></li>
-<li><a class="el" href="structboost_1_1hana_1_1_functor.html" title="Functor represents types that can be mapped over. ">Functor</a></li>
-<li>Monad</li>
-</ul>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000025">Todo:</a></b></dt><dd><ul>
-<li>Document how the type classes are instantiated?</li>
-<li>Show examples? Might be overkill for API functions, but not for type class instances. </li>
-</ul>
-</dd></dl>
-</div><h2 class="groupheader">Friends And Related Function Documentation</h2>
+<h2>Instance of</h2>
+<h3><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable type class defines equality and inequality. ">Comparable</a></h3>
+<p>Two <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code>s are equal if and only if they are both empty or they both contain a value and those values are equal. </p><div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a29f6b42bf7bb5ca6d310c40baf1da900">nothing</a> == <a class="code" href="structboost_1_1hana_1_1_maybe.html#a29f6b42bf7bb5ca6d310c40baf1da900">nothing</a>);</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(1) == <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(1));</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(1) != <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(2));</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(1) != <a class="code" href="structboost_1_1hana_1_1_maybe.html#a29f6b42bf7bb5ca6d310c40baf1da900">nothing</a>);</div>
+</div><!-- fragment --> <h3><a class="el" href="structboost_1_1hana_1_1_functor.html" title="Functor represents types that can be mapped over. ">Functor</a></h3>
+<p>A <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code> can be seen as a <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose compile-time heterogeneous sequence. ">List</a></code> containing either one element (<code>just(x)</code>) or no elements at all (<code>nothing</code>). As such, <code>fmap</code> for <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code>s returns <code>nothing</code> when applied to <code>nothing</code> and <code>just(f(x))</code> when applied to <code>just(x)</code>. </p><div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> inc = [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> x + 1; };</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(fmap(inc, <a class="code" href="structboost_1_1hana_1_1_maybe.html#a29f6b42bf7bb5ca6d310c40baf1da900">nothing</a>) == <a class="code" href="structboost_1_1hana_1_1_maybe.html#a29f6b42bf7bb5ca6d310c40baf1da900">nothing</a>);</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(fmap(inc, <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(1)) == <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(2));</div>
+</div><!-- fragment --> <h3><a class="el" href="structboost_1_1hana_1_1_monad.html" title="Monads are Functors with the ability to wrap values into them and flatten values that were wrapped mo...">Monad</a></h3>
+<p>The <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code> <code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="Monads are Functors with the ability to wrap values into them and flatten values that were wrapped mo...">Monad</a></code> makes it easy to compose actions that might fail. First, a value can be made an optional value with <code>unit&lt;<a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a>&gt;</code>, which is equivalent to <code>just</code>. Second, one can feed an optional value if there is one into a function with <code>bind</code>, which will return <code>nothing</code> if there is no value. Finally, optional-optional values can have their redundant level of <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code>ness removed with <code>join</code>. </p><div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> inc = [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(x + 1); };</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(unit&lt;Maybe&gt;(1) == <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(1));</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(bind(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(1), inc) == <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(2));</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(bind(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a29f6b42bf7bb5ca6d310c40baf1da900">nothing</a>, inc) == <a class="code" href="structboost_1_1hana_1_1_maybe.html#a29f6b42bf7bb5ca6d310c40baf1da900">nothing</a>);</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(join(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(2))) == <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(2));</div>
+</div><!-- fragment --></div><h2 class="groupheader">Friends And Related Function Documentation</h2>
 <a class="anchor" id="a2ebdc9b916940e038e6f2e3043e4f796"></a>
 <div class="memitem">
 <div class="memproto">
@@ -198,7 +205,10 @@ Related Functions</h2></td></tr>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Returns the contents of a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code>, or a default value if the <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code> is <code>nothing</code>. </p>
-
+<h3>Example</h3>
+<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#afb98884a58d911687bf2aa64a411d623">from_maybe</a>(0, <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(1)) == 1);</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#afb98884a58d911687bf2aa64a411d623">from_maybe</a>(0, <a class="code" href="structboost_1_1hana_1_1_maybe.html#a29f6b42bf7bb5ca6d310c40baf1da900">nothing</a>) == 0);</div>
+</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a1047a69893a62cd36eb0d2934f85e0e7"></a>
@@ -292,8 +302,12 @@ Related Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Applies a function to the contents of a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code>, with a fallback result. </p>
-<p>Specifically, <code>maybe</code> takes a default value, a function and an optional value. If the optional value is <code>nothing</code>, the default value is returned. Otherwise, the function is applied to the content of the <code>just</code>. </p>
-
+<p>Specifically, <code>maybe</code> takes a default value, a function and an optional value. If the optional value is <code>nothing</code>, the default value is returned. Otherwise, the function is applied to the content of the <code>just</code>.</p>
+<h3>Example</h3>
+<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> inc = [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> x + 1; };</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#aa51f2e2a3f721e15f1a9b58bfa2913c1">maybe</a>(0, inc, <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(1)) == 2);</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#aa51f2e2a3f721e15f1a9b58bfa2913c1">maybe</a>(0, inc, <a class="code" href="structboost_1_1hana_1_1_maybe.html#a29f6b42bf7bb5ca6d310c40baf1da900">nothing</a>) == 0);</div>
+</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a29f6b42bf7bb5ca6d310c40baf1da900"></a>
@@ -321,7 +335,7 @@ Related Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Jun 7 2014 17:35:13 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jun 12 2014 20:35:48 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

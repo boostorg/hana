@@ -69,7 +69,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -111,11 +110,13 @@ Related Functions</h2></td></tr>
 <tr class="memitem:a7d7c9b8e94dfcac46c7427a9b82e3225"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a></td></tr>
 <tr class="memdesc:a7d7c9b8e94dfcac46c7427a9b82e3225"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose compile-time heterogeneous sequence. ">List</a></code> containing <code>xs...</code>.  <a href="#a7d7c9b8e94dfcac46c7427a9b82e3225">More...</a><br /></td></tr>
 <tr class="separator:a7d7c9b8e94dfcac46c7427a9b82e3225"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0e3aaf35bbb93cd53399abcb21813745"><td class="memTemplParams" colspan="2">template&lt;typename... xs&gt; </td></tr>
-<tr class="memitem:a0e3aaf35bbb93cd53399abcb21813745"><td class="memTemplItemLeft" align="right" valign="top">constexpr operators::TypeList<br class="typebreak" />
-&lt; xs...&gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#a0e3aaf35bbb93cd53399abcb21813745">list_t</a> {}</td></tr>
-<tr class="memdesc:a0e3aaf35bbb93cd53399abcb21813745"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose compile-time heterogeneous sequence. ">List</a></code> of types.  <a href="#a0e3aaf35bbb93cd53399abcb21813745">More...</a><br /></td></tr>
-<tr class="separator:a0e3aaf35bbb93cd53399abcb21813745"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb3c449ff9dc562a4569406e1de3ebb9"><td class="memTemplParams" colspan="2">template&lt;typename... xs&gt; </td></tr>
+<tr class="memitem:acb3c449ff9dc562a4569406e1de3ebb9"><td class="memTemplItemLeft" align="right" valign="top">constexpr operators::TypeList<br class="typebreak" />
+&lt; typename <br class="typebreak" />
+list_detail::hidden_type_container<br class="typebreak" />
+&lt; xs...&gt;::type &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#acb3c449ff9dc562a4569406e1de3ebb9">list_t</a> {}</td></tr>
+<tr class="memdesc:acb3c449ff9dc562a4569406e1de3ebb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose compile-time heterogeneous sequence. ">List</a></code> of types.  <a href="#acb3c449ff9dc562a4569406e1de3ebb9">More...</a><br /></td></tr>
+<tr class="separator:acb3c449ff9dc562a4569406e1de3ebb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab7d8228755c2e0a5f150622fe0337984"><td class="memTemplParams" colspan="2">template&lt;typename T , T... xs&gt; </td></tr>
 <tr class="memitem:ab7d8228755c2e0a5f150622fe0337984"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#ab7d8228755c2e0a5f150622fe0337984">list_c</a> = <a class="el" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(integral&lt;T, xs&gt;...)</td></tr>
 <tr class="memdesc:ab7d8228755c2e0a5f150622fe0337984"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose compile-time heterogeneous sequence. ">List</a></code> of <code><a class="el" href="structboost_1_1hana_1_1_integral.html" title="Represents a compile-time value of an integral type. ">Integral</a></code>s.  <a href="#ab7d8228755c2e0a5f150622fe0337984">More...</a><br /></td></tr>
@@ -166,19 +167,70 @@ Related Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>General purpose compile-time heterogeneous sequence. </p>
 <hr/>
- <h3>Instantiates</h3>
-<ul>
-<li><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="Data structures allowing external iteration. ">Iterable</a></li>
-<li><a class="el" href="structboost_1_1hana_1_1_functor.html" title="Functor represents types that can be mapped over. ">Functor</a></li>
-<li><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable type class is used for data structures that can be folded. ">Foldable</a></li>
-<li>Monad</li>
-<li><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable type class defines equality and inequality. ">Comparable</a></li>
-</ul>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000016">Todo:</a></b></dt><dd><ul>
+<h2>Instance of</h2>
+<h3><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="Data structures allowing external iteration. ">Iterable</a></h3>
+<p><code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose compile-time heterogeneous sequence. ">List</a></code> is an <code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="Data structures allowing external iteration. ">Iterable</a></code> in the most obvious way. The head of a non-empty list corresponds to its first element. The tail of a non-empty list is a list containing all the elements in the same order, except the head. Finally, a list is empty if and only if it has no elements in it. </p><div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(head(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="charliteral">&#39;2&#39;</span>, <span class="stringliteral">&quot;3&quot;</span>)) == 1);</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(tail(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="charliteral">&#39;2&#39;</span>, <span class="stringliteral">&quot;3&quot;</span>)) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(<span class="charliteral">&#39;2&#39;</span>, <span class="stringliteral">&quot;3&quot;</span>));</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(!is_empty(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="charliteral">&#39;2&#39;</span>, <span class="stringliteral">&quot;3&quot;</span>)));</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(is_empty(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>()));</div>
+</div><!-- fragment --> <h3><a class="el" href="structboost_1_1hana_1_1_functor.html" title="Functor represents types that can be mapped over. ">Functor</a></h3>
+<p><code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose compile-time heterogeneous sequence. ">List</a></code> implements <code>fmap</code> as the mapping of a function over each element of the list. This is somewhat equivalent to <code>std::transform</code>. Mapping a function over an empty list returns an empty list and never applies the function. </p><h4>Example 1</h4>
+<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> to_string = [](<span class="keyword">auto</span> x) {</div>
+<div class="line">        <span class="keywordflow">return</span> (std::ostringstream{} &lt;&lt; x).str();</div>
+<div class="line">    };</div>
+<div class="line"></div>
+<div class="line">    assert(</div>
+<div class="line">        fmap(to_string, <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="charliteral">&#39;2&#39;</span>, <span class="stringliteral">&quot;3&quot;</span>, std::string{<span class="stringliteral">&quot;456&quot;</span>})) ==</div>
+<div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(<span class="stringliteral">&quot;1&quot;</span>, <span class="stringliteral">&quot;2&quot;</span>, <span class="stringliteral">&quot;3&quot;</span>, <span class="stringliteral">&quot;456&quot;</span>)</div>
+<div class="line">    );</div>
+</div><!-- fragment --><h4>Example 2</h4>
+<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> types = list_t&lt;void, int(), char[10]&gt;;</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="line">        fmap(trait::add_pointer, types) == <a class="code" href="structboost_1_1hana_1_1_list.html#acb3c449ff9dc562a4569406e1de3ebb9">list_t</a>&lt;<span class="keywordtype">void</span>*, <span class="keywordtype">int</span>(*)(), <span class="keywordtype">char</span>(*)[10]&gt;</div>
+<div class="line">    );</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="line">        head(fmap(trait::add_pointer, types)) == type&lt;void*&gt;</div>
+<div class="line">    );</div>
+</div><!-- fragment --> <h3><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable type class is used for data structures that can be folded. ">Foldable</a></h3>
+<p>Let <code>xs</code> be a <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose compile-time heterogeneous sequence. ">List</a></code> containing the element <code>[x1, ..., xN]</code>. Right-folding the list with a binary operation <code>@</code> (in infix notation for legibility) is equivalent to </p><div class="fragment"><div class="line">x1 @ (x2 @ ( ... @ (xN-1 @ xN)))</div>
+</div><!-- fragment --><p>Similarly, left-folding the list is equivalent to </p><div class="fragment"><div class="line">(((x1 @ x2) @ x3) @ ...) @ xN</div>
+</div><!-- fragment --><p>In both cases, notice the side of the parentheses. Left-folding applies <code>@</code> in a left-associative manner, whereas right-folding applies it in a right-associative manner. For associative operations, i.e. operations <code>*</code> such that for all <code>a</code>, <code>b</code> and <code>c</code>, </p><p class="formulaDsp">
+\begin{align*} (a * b) * c = a * (b * c) \end{align*}
+</p>
+<p> this makes no difference. Lazy folds and folds with an initial state are implemented in an analogous way for <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose compile-time heterogeneous sequence. ">List</a></code>. </p><h4>Example 1</h4>
+<div class="fragment"><div class="line">    <span class="keyword">auto</span> to_string = [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> (std::ostringstream{} &lt;&lt; x).str(); };</div>
+<div class="line"></div>
+<div class="line">    <span class="keyword">auto</span> show = [=](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
+<div class="line">        <span class="keywordflow">return</span> <span class="stringliteral">&quot;(&quot;</span> + to_string(x) + <span class="stringliteral">&quot; + &quot;</span> + to_string(y) + <span class="stringliteral">&quot;)&quot;</span>;</div>
+<div class="line">    };</div>
+<div class="line"></div>
+<div class="line">    assert(foldl(show, <span class="stringliteral">&quot;1&quot;</span>, <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(2, <span class="stringliteral">&quot;3&quot;</span>, <span class="charliteral">&#39;4&#39;</span>)) == <span class="stringliteral">&quot;(((1 + 2) + 3) + 4)&quot;</span>);</div>
+</div><!-- fragment --><h4>Example 2</h4>
+<div class="fragment"><div class="line">    <span class="keyword">auto</span> to_string = [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> (std::ostringstream{} &lt;&lt; x).str(); };</div>
+<div class="line"></div>
+<div class="line">    <span class="keyword">auto</span> show = [=](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
+<div class="line">        <span class="keywordflow">return</span> <span class="stringliteral">&quot;(&quot;</span> + to_string(x) + <span class="stringliteral">&quot; + &quot;</span> + to_string(y) + <span class="stringliteral">&quot;)&quot;</span>;</div>
+<div class="line">    };</div>
+<div class="line"></div>
+<div class="line">    assert(foldr(show, <span class="stringliteral">&quot;4&quot;</span>, <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>)) == <span class="stringliteral">&quot;(1 + (2 + (3 + 4)))&quot;</span>);</div>
+</div><!-- fragment --> <h3><a class="el" href="structboost_1_1hana_1_1_monad.html" title="Monads are Functors with the ability to wrap values into them and flatten values that were wrapped mo...">Monad</a></h3>
+<p>There are many ways to explain the <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose compile-time heterogeneous sequence. ">List</a></code> <code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="Monads are Functors with the ability to wrap values into them and flatten values that were wrapped mo...">Monad</a></code>. We will stick to a description of what it does without trying to explain the intuition behind it; there are tons of tutorials available on the net.</p>
+<p>A value can be turned into a singleton list with <code>unit</code>. A function returning a list of results can be mapped over all the elements of a list and have all the results concatenated using <code>bind</code>. Finally, a list of lists can be flattened one level with <code>join</code>. </p><div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> f = [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(x, -x); };</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(bind(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, 2, 3), f) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, -1, 2, -2, 3, -3));</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="line">        join(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, 2), <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(3, 4), <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(5, 6)))) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, 2, 3, 4, <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(5, 6))</div>
+<div class="line">    );</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(unit&lt;List&gt;(<span class="charliteral">&#39;a&#39;</span>) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(<span class="charliteral">&#39;a&#39;</span>));</div>
+</div><!-- fragment --> <h3><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable type class defines equality and inequality. ">Comparable</a></h3>
+<p>Generic instance for <code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="Data structures allowing external iteration. ">Iterable</a></code>s. </p><hr/>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000021">Todo:</a></b></dt><dd><ul>
+<li>Re-enable the foldl optimization for type lists.</li>
 <li>It might be possible to optimize the implementation of homogeneous lists using an array.</li>
 <li>Is it desirable to have different ways of creating lists, or should we in fact provide <code>type_list</code>, <code>homogeneous_list</code>, etc...?</li>
-<li>How to implement iterate and repeat?</li>
-<li>Document how the type classes are instantiated. </li>
+<li>How to implement iterate and repeat? </li>
 </ul>
 </dd></dl>
 </div><h2 class="groupheader">Friends And Related Function Documentation</h2>
@@ -366,11 +418,11 @@ template&lt;typename T , T... xs&gt; </div>
 <h3>Example</h3>
 <div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(list_c&lt;int, 0, 1, 2&gt; == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(int_&lt;0&gt;, int_&lt;1&gt;, int_&lt;2&gt;));</div>
 <div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(head(list_c&lt;int, 0, 1, 2&gt;) == int_&lt;0&gt;);</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000017">Todo:</a></b></dt><dd>Actually provide optimizations. </dd></dl>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000022">Todo:</a></b></dt><dd>Actually provide optimizations. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a0e3aaf35bbb93cd53399abcb21813745"></a>
+<a class="anchor" id="acb3c449ff9dc562a4569406e1de3ebb9"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -380,7 +432,7 @@ template&lt;typename... xs&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr operators::TypeList&lt;xs...&gt; list_t {}</td>
+          <td class="memname">constexpr operators::TypeList&lt; typename list_detail::hidden_type_container&lt;xs...&gt;::type &gt; list_t {}</td>
         </tr>
       </table>
   </td>
@@ -396,8 +448,7 @@ template&lt;typename... xs&gt; </div>
 <h3>Example</h3>
 <div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(list_t&lt;void, int, float&gt; == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(type&lt;void&gt;, type&lt;int&gt;, type&lt;float&gt;));</div>
 <div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(head(list_t&lt;void, int, float&gt;) == type&lt;void&gt;);</div>
-</div><!-- fragment --> <dl class="bug"><dt><b><a class="el" href="bug.html#_bug000001">Bug:</a></b></dt><dd>The types will be instantiated when ADL triggers. </dd></dl>
-
+</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a788b65dd69bb016d647801718e840816"></a>
@@ -446,7 +497,7 @@ template&lt;typename... xs&gt; </div>
 <div class="line">            list_t&lt;void, int, char&gt;</div>
 <div class="line">        )</div>
 <div class="line">    );</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000021">Todo:</a></b></dt><dd><p class="startdd">Use a more efficient implementation. </p>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000026">Todo:</a></b></dt><dd><p class="startdd">Use a more efficient implementation. </p>
 <p class="enddd">Express the fact that we need the predicate to be compile-time. </p>
 </dd></dl>
 
@@ -534,7 +585,7 @@ template&lt;typename... xs&gt; </div>
 <div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
 <div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a58c1454689bf6d2264bc428dc1d039db">sort</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1_c, -2_c, 3_c, 0_c)) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(-2_c, 0_c, 1_c, 3_c)</div>
 <div class="line">    );</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000023">Todo:</a></b></dt><dd>Use a real type class method for Orderables when we get one. </dd></dl>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000028">Todo:</a></b></dt><dd>Use a real type class method for Orderables when we get one. </dd></dl>
 
 </div>
 </div>
@@ -582,7 +633,7 @@ template&lt;typename... xs&gt; </div>
 <div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
 <div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a6ed2907b48fcba3dd1059b4b0bfde624">sort_by</a>(<a class="code" href="group___functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a>&gt;<a class="code" href="group___functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a>, <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1_c, -2_c, 3_c, 0_c)) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(3_c, 1_c, 0_c, -2_c)</div>
 <div class="line">    );</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000022">Todo:</a></b></dt><dd><p class="startdd">Document the properties of the <code>predicate</code>. </p>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000027">Todo:</a></b></dt><dd><p class="startdd">Document the properties of the <code>predicate</code>. </p>
 <p class="enddd">Document the properties of the sort. Is it stable? </p>
 </dd></dl>
 
@@ -621,7 +672,7 @@ template&lt;typename... xs&gt; </div>
 <div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a2c20028c5115dcf38063d322f27b4ee1">take</a>(2_c, <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="charliteral">&#39;2&#39;</span>, <span class="stringliteral">&quot;3&quot;</span>)) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="charliteral">&#39;2&#39;</span>));</div>
 <div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a2c20028c5115dcf38063d322f27b4ee1">take</a>(3_c, <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="charliteral">&#39;2&#39;</span>, <span class="stringliteral">&quot;3&quot;</span>)) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="charliteral">&#39;2&#39;</span>, <span class="stringliteral">&quot;3&quot;</span>));</div>
 <div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a2c20028c5115dcf38063d322f27b4ee1">take</a>(4_c, <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="charliteral">&#39;2&#39;</span>, <span class="stringliteral">&quot;3&quot;</span>)) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="charliteral">&#39;2&#39;</span>, <span class="stringliteral">&quot;3&quot;</span>));</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000019">Todo:</a></b></dt><dd>Move <code>min</code> in a proper type class. </dd></dl>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000024">Todo:</a></b></dt><dd>Move <code>min</code> in a proper type class. </dd></dl>
 
 </div>
 </div>
@@ -690,7 +741,7 @@ template&lt;typename... xs&gt; </div>
 </div><!-- fragment -->
 <p>Take elements while the <code>predicate</code> is satisfied. </p>
 <p>Specifically, returns the longest prefix of a list in which all elements satisfy the given predicate.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000020">Todo:</a></b></dt><dd>How to specify that a predicate must be compile-time?</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000025">Todo:</a></b></dt><dd>How to specify that a predicate must be compile-time?</dd></dl>
 <h3>Example</h3>
 <div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
 <div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a86916c5c62a42f01f85450b366ef6eff">take_while</a>(<a class="code" href="group___functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a> &lt; 2_c, <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(0_c, 1_c, 2_c, 3_c)) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(0_c, 1_c)</div>
@@ -780,7 +831,7 @@ template&lt;typename... xs&gt; </div>
 <div class="line">        ==</div>
 <div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(5, 12, 21, 32)</div>
 <div class="line">    );</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000018">Todo:</a></b></dt><dd><ul>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000023">Todo:</a></b></dt><dd><ul>
 <li>Consider allowing only two lists and achieving the variadic behavior in some other way. This would make it possible to automatically curry <code>zip_with</code>. It might be possible to achieve the variadic behavior with e.g. Applicative Functors? If we decide to keep the variadic behavior, then we probably want to support the 0 list case. How should <code>zip_with</code> behave in that case? </li>
 </ul>
 </dd></dl>
@@ -790,7 +841,7 @@ template&lt;typename... xs&gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Jun 7 2014 17:35:13 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jun 12 2014 20:35:48 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

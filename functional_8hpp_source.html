@@ -101,173 +101,174 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="best_8hpp.html">boost/hana/detail/at_index/best.hpp</a>&gt;</span></div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="constexpr_8hpp.html">boost/hana/detail/constexpr.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="integral_8hpp.html">boost/hana/integral.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &lt;cstddef&gt;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;cstddef&gt;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">namespace </span>boost { <span class="keyword">namespace </span>hana {</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keyword">namespace </span>functional_detail {</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> F, <span class="keywordtype">unsigned</span> Arity&gt;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="keyword">struct </span>curry_impl;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    }</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> <span class="keywordtype">id</span> = [](<span class="keyword">auto</span> x) {</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordflow">return</span> x;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    };</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="group___functional.html#ga835970cb25a0c8dc200f1e5f8943538b">   45</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> <a class="code" href="group___functional.html#ga835970cb25a0c8dc200f1e5f8943538b">always</a> = [](<span class="keyword">auto</span> x) {</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> ...y) { <span class="keywordflow">return</span> x; };</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    };</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="group___functional.html#ga30027c383676084be151ef3c6cf2829f">   53</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> <a class="code" href="group___functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a> = [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> ...xs) {</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordflow">return</span> f(xs...);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    };</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keyword">template</span> &lt;std::<span class="keywordtype">size_t</span> n&gt;</div>
-<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="group___functional.html#ga6acc765a35c4dc85f0deab4785831a3d">   71</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> <a class="code" href="group___functional.html#ga6acc765a35c4dc85f0deab4785831a3d">arg</a> = [](<span class="keyword">auto</span> ...xs) {</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        static_assert(n &gt; 0,</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="stringliteral">&quot;invalid usage of arg with n == 0&quot;</span>);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">namespace </span>boost { <span class="keyword">namespace </span>hana {</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keyword">namespace </span>functional_detail {</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> F, <span class="keywordtype">unsigned</span> Arity&gt;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">struct </span>curry_impl;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    }</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> <span class="keywordtype">id</span> = [](<span class="keyword">auto</span> x) {</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keywordflow">return</span> x;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    };</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="group___functional.html#ga835970cb25a0c8dc200f1e5f8943538b">   44</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> <a class="code" href="group___functional.html#ga835970cb25a0c8dc200f1e5f8943538b">always</a> = [](<span class="keyword">auto</span> x) {</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> ...y) { <span class="keywordflow">return</span> x; };</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    };</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="group___functional.html#ga30027c383676084be151ef3c6cf2829f">   52</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> <a class="code" href="group___functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a> = [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> ...xs) {</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordflow">return</span> f(xs...);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    };</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keyword">template</span> &lt;std::<span class="keywordtype">size_t</span> n&gt;</div>
+<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="group___functional.html#ga6acc765a35c4dc85f0deab4785831a3d">   68</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> <a class="code" href="group___functional.html#ga6acc765a35c4dc85f0deab4785831a3d">arg</a> = [](<span class="keyword">auto</span> ...xs) {</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        static_assert(n &gt; 0,</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="stringliteral">&quot;invalid usage of arg with n == 0&quot;</span>);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        static_assert(<span class="keyword">sizeof</span>...(xs) &gt;= n,</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="stringliteral">&quot;invalid usage of arg with too few arguments&quot;</span>);</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        static_assert(<span class="keyword">sizeof</span>...(xs) &gt;= n,</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="stringliteral">&quot;invalid usage of arg with too few arguments&quot;</span>);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <span class="keywordflow">return</span> detail::at_index::best(size_t&lt;n-1&gt;, xs...);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="comment">// Since compilers will typically try to continue for a bit after</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="comment">// an error/static assertion, we must avoid sending the compiler in</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="comment">// a very long computation if n == 0.</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <span class="keywordflow">return</span> detail::at_index::best&lt;n == 0 ? 0 : n - 1&gt;(xs...);</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    };</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
-<div class="line"><a name="l00101"></a><span class="lineno"><a class="line" href="group___functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">  101</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> <a class="code" href="group___functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a> = [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> g) {</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> x, <span class="keyword">auto</span> ...xs) { <span class="keywordflow">return</span> f(g(x), xs...); };</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    };</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <span class="keyword">template</span> &lt;<span class="keywordtype">unsigned</span> arity&gt;</div>
-<div class="line"><a name="l00128"></a><span class="lineno"><a class="line" href="group___functional.html#ga49ea872ade5ac8f6c10052c495302e89">  128</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> <a class="code" href="group___functional.html#ga49ea872ade5ac8f6c10052c495302e89">curry</a> = [](<span class="keyword">auto</span> f) {</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        <span class="keywordflow">return</span> functional_detail::curry_impl&lt;decltype(f), arity&gt;{f};</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    };</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <span class="keyword">template</span> &lt;&gt;</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> curry&lt;0&gt; = [](<span class="keyword">auto</span> f) {</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        <span class="keywordflow">return</span> [=] { <span class="keywordflow">return</span> f(); };</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    };</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;</div>
-<div class="line"><a name="l00161"></a><span class="lineno"><a class="line" href="group___functional.html#gaab5ecce4ccdd050a59083edf74f0f4b9">  161</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> <a class="code" href="group___functional.html#gaab5ecce4ccdd050a59083edf74f0f4b9">fbind</a> = [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> ...g) {</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> ...x) { <span class="keywordflow">return</span> f(g(x...)...); };</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    };</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    constexpr <span class="keyword">struct </span>{</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> F&gt;</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;        constexpr <span class="keyword">auto</span> operator()(F f)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;            <span class="keyword">auto</span> fst = [](<span class="keyword">auto</span> a, ...) { <span class="keywordflow">return</span> a; };</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;            <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> ...xs) {</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;                <span class="keywordflow">return</span> f((*<span class="keyword">this</span>)(fst(f, xs...)), xs...);</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;            };</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        }</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    } <a class="code" href="group___functional.html#ga26508f30f8842350ea0f9a7ca73bfd52">fix</a>{};</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;</div>
-<div class="line"><a name="l00192"></a><span class="lineno"><a class="line" href="group___functional.html#ga004f884cdbb85c2efe3383c1db450094">  192</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> <a class="code" href="group___functional.html#ga004f884cdbb85c2efe3383c1db450094">flip</a> = [](<span class="keyword">auto</span> f) {</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;        <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y, <span class="keyword">auto</span> ...z) { <span class="keywordflow">return</span> f(y, x, z...); };</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    };</div>
+<div class="line"><a name="l00105"></a><span class="lineno"><a class="line" href="group___functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">  105</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> <a class="code" href="group___functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a> = [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> g) {</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> x, <span class="keyword">auto</span> ...xs) { <span class="keywordflow">return</span> f(g(x), xs...); };</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    };</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="keyword">template</span> &lt;<span class="keywordtype">unsigned</span> arity&gt;</div>
+<div class="line"><a name="l00132"></a><span class="lineno"><a class="line" href="group___functional.html#ga49ea872ade5ac8f6c10052c495302e89">  132</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> <a class="code" href="group___functional.html#ga49ea872ade5ac8f6c10052c495302e89">curry</a> = [](<span class="keyword">auto</span> f) {</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        <span class="keywordflow">return</span> functional_detail::curry_impl&lt;decltype(f), arity&gt;{f};</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    };</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    <span class="keyword">template</span> &lt;&gt;</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> curry&lt;0&gt; = [](<span class="keyword">auto</span> f) {</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        <span class="keywordflow">return</span> [=] { <span class="keywordflow">return</span> f(); };</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    };</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;</div>
+<div class="line"><a name="l00165"></a><span class="lineno"><a class="line" href="group___functional.html#gaab5ecce4ccdd050a59083edf74f0f4b9">  165</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> <a class="code" href="group___functional.html#gaab5ecce4ccdd050a59083edf74f0f4b9">fbind</a> = [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> ...g) {</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> ...x) { <span class="keywordflow">return</span> f(g(x...)...); };</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    };</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    constexpr <span class="keyword">struct </span>{</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> F&gt;</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        constexpr <span class="keyword">auto</span> operator()(F f)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;            <span class="keyword">auto</span> fst = [](<span class="keyword">auto</span> a, ...) { <span class="keywordflow">return</span> a; };</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;            <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> ...xs) {</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;                <span class="keywordflow">return</span> f((*<span class="keyword">this</span>)(fst(f, xs...)), xs...);</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;            };</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        }</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    } <a class="code" href="group___functional.html#ga26508f30f8842350ea0f9a7ca73bfd52">fix</a>{};</div>
 <div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;</div>
-<div class="line"><a name="l00207"></a><span class="lineno"><a class="line" href="group___functional.html#gafca60c09e1f7a32a2b52baaf6515c279">  207</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> <a class="code" href="group___functional.html#gafca60c09e1f7a32a2b52baaf6515c279">lockstep</a> = [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> ...g) {</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;        <span class="keywordflow">return</span> [f, g...](<span class="keyword">auto</span> ...x) { <span class="keywordflow">return</span> f(g(x)...); };</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;    };</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;</div>
-<div class="line"><a name="l00232"></a><span class="lineno"><a class="line" href="group___functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">  232</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> <a class="code" href="group___functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a> = [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> g) {</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;        <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> ...x) { <span class="keywordflow">return</span> f(g(x)...); };</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    };</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;</div>
-<div class="line"><a name="l00240"></a><span class="lineno"><a class="line" href="group___functional.html#ga778b2daa27882e71d28b6f2b38982ddf">  240</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> <a class="code" href="group___functional.html#ga778b2daa27882e71d28b6f2b38982ddf">partial</a> = [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> ...xs) {</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;        <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> ...ys) { <span class="keywordflow">return</span> f(xs..., ys...); };</div>
+<div class="line"><a name="l00200"></a><span class="lineno"><a class="line" href="group___functional.html#ga004f884cdbb85c2efe3383c1db450094">  200</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> <a class="code" href="group___functional.html#ga004f884cdbb85c2efe3383c1db450094">flip</a> = [](<span class="keyword">auto</span> f) {</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;        <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y, <span class="keyword">auto</span> ...z) { <span class="keywordflow">return</span> f(y, x, z...); };</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    };</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;</div>
+<div class="line"><a name="l00215"></a><span class="lineno"><a class="line" href="group___functional.html#gafca60c09e1f7a32a2b52baaf6515c279">  215</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> <a class="code" href="group___functional.html#gafca60c09e1f7a32a2b52baaf6515c279">lockstep</a> = [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> ...g) {</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        <span class="keywordflow">return</span> [f, g...](<span class="keyword">auto</span> ...x) { <span class="keywordflow">return</span> f(g(x)...); };</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;    };</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;</div>
+<div class="line"><a name="l00240"></a><span class="lineno"><a class="line" href="group___functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">  240</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> <a class="code" href="group___functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a> = [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> g) {</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;        <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> ...x) { <span class="keywordflow">return</span> f(g(x)...); };</div>
 <div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    };</div>
 <div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;    constexpr <span class="keyword">struct </span>{ } <a class="code" href="group___functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a>{};</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;<span class="preprocessor">#define BOOST_HANA_PLACEHOLDER_BINARY_OP(op)                                \</span></div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;<span class="preprocessor">    template &lt;typename X&gt;                                                   \</span></div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;<span class="preprocessor">    constexpr auto operator op (X x, decltype(_))                           \</span></div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;<span class="preprocessor">    { return [=](auto y) { return x op y; }; }                              \</span></div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;<span class="preprocessor">                                                                            \</span></div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;<span class="preprocessor">    template &lt;typename Y&gt;                                                   \</span></div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;<span class="preprocessor">    constexpr auto operator op (decltype(_), Y y)                           \</span></div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;<span class="preprocessor">    { return [=](auto x) { return x op y; }; }                              \</span></div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;<span class="preprocessor">                                                                            \</span></div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;<span class="preprocessor">    BOOST_HANA_CONSTEXPR_LAMBDA auto operator op (decltype(_), decltype(_)) \</span></div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;<span class="preprocessor">    { return [](auto x, auto y) { return x op y; }; }                       \</span></div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;</div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;<span class="preprocessor">#define BOOST_HANA_PLACEHOLDER_UNARY_OP(op)                                 \</span></div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;<span class="preprocessor">    BOOST_HANA_CONSTEXPR_LAMBDA auto operator op (decltype(_))              \</span></div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;<span class="preprocessor">    { return [](auto x) { return op x; }; }                                 \</span></div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;    <span class="comment">// Arithmetic</span></div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;    BOOST_HANA_PLACEHOLDER_UNARY_OP(+)</div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;    BOOST_HANA_PLACEHOLDER_UNARY_OP(-)</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;    BOOST_HANA_PLACEHOLDER_BINARY_OP(+)</div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;    BOOST_HANA_PLACEHOLDER_BINARY_OP(-)</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;    BOOST_HANA_PLACEHOLDER_BINARY_OP(*)</div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;    BOOST_HANA_PLACEHOLDER_BINARY_OP(/)</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;    BOOST_HANA_PLACEHOLDER_BINARY_OP(%)</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;    BOOST_HANA_PLACEHOLDER_UNARY_OP(~)</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;    BOOST_HANA_PLACEHOLDER_BINARY_OP(&amp;)</div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;    BOOST_HANA_PLACEHOLDER_BINARY_OP(|)</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;    BOOST_HANA_PLACEHOLDER_BINARY_OP(^)</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;    BOOST_HANA_PLACEHOLDER_BINARY_OP(&lt;&lt;)</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;    BOOST_HANA_PLACEHOLDER_BINARY_OP(&gt;&gt;)</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;    <span class="comment">// Comparison</span></div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;    BOOST_HANA_PLACEHOLDER_BINARY_OP(==)</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;    BOOST_HANA_PLACEHOLDER_BINARY_OP(!=)</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;    BOOST_HANA_PLACEHOLDER_BINARY_OP(&lt;)</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;    BOOST_HANA_PLACEHOLDER_BINARY_OP(&lt;=)</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;    BOOST_HANA_PLACEHOLDER_BINARY_OP(&gt;)</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;    BOOST_HANA_PLACEHOLDER_BINARY_OP(&gt;=)</div>
+<div class="line"><a name="l00248"></a><span class="lineno"><a class="line" href="group___functional.html#ga778b2daa27882e71d28b6f2b38982ddf">  248</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> <a class="code" href="group___functional.html#ga778b2daa27882e71d28b6f2b38982ddf">partial</a> = [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> ...xs) {</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;        <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> ...ys) { <span class="keywordflow">return</span> f(xs..., ys...); };</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    };</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;    constexpr <span class="keyword">struct </span>{ } <a class="code" href="group___functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a>{};</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;<span class="preprocessor">#define BOOST_HANA_PLACEHOLDER_BINARY_OP(op)                                \</span></div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;<span class="preprocessor">    template &lt;typename X&gt;                                                   \</span></div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;<span class="preprocessor">    constexpr auto operator op (X x, decltype(_))                           \</span></div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;<span class="preprocessor">    { return [=](auto y) { return x op y; }; }                              \</span></div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;<span class="preprocessor">                                                                            \</span></div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;<span class="preprocessor">    template &lt;typename Y&gt;                                                   \</span></div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;<span class="preprocessor">    constexpr auto operator op (decltype(_), Y y)                           \</span></div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;<span class="preprocessor">    { return [=](auto x) { return x op y; }; }                              \</span></div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;<span class="preprocessor">                                                                            \</span></div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;<span class="preprocessor">    BOOST_HANA_CONSTEXPR_LAMBDA auto operator op (decltype(_), decltype(_)) \</span></div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;<span class="preprocessor">    { return [](auto x, auto y) { return x op y; }; }                       \</span></div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;<span class="preprocessor">#define BOOST_HANA_PLACEHOLDER_UNARY_OP(op)                                 \</span></div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;<span class="preprocessor">    BOOST_HANA_CONSTEXPR_LAMBDA auto operator op (decltype(_))              \</span></div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;<span class="preprocessor">    { return [](auto x) { return op x; }; }                                 \</span></div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;    <span class="comment">// Arithmetic</span></div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;    BOOST_HANA_PLACEHOLDER_UNARY_OP(+)</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;    BOOST_HANA_PLACEHOLDER_UNARY_OP(-)</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;    BOOST_HANA_PLACEHOLDER_BINARY_OP(+)</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;    BOOST_HANA_PLACEHOLDER_BINARY_OP(-)</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;    BOOST_HANA_PLACEHOLDER_BINARY_OP(*)</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;    BOOST_HANA_PLACEHOLDER_BINARY_OP(/)</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;    BOOST_HANA_PLACEHOLDER_BINARY_OP(%)</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;    BOOST_HANA_PLACEHOLDER_UNARY_OP(~)</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;    BOOST_HANA_PLACEHOLDER_BINARY_OP(&amp;)</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;    BOOST_HANA_PLACEHOLDER_BINARY_OP(|)</div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;    BOOST_HANA_PLACEHOLDER_BINARY_OP(^)</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;    BOOST_HANA_PLACEHOLDER_BINARY_OP(&lt;&lt;)</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;    BOOST_HANA_PLACEHOLDER_BINARY_OP(&gt;&gt;)</div>
 <div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;    <span class="comment">// Logical</span></div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;    BOOST_HANA_PLACEHOLDER_BINARY_OP(||)</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;    BOOST_HANA_PLACEHOLDER_BINARY_OP(&amp;&amp;)</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;    BOOST_HANA_PLACEHOLDER_UNARY_OP(!)</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;    <span class="comment">// Member access</span></div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;    BOOST_HANA_PLACEHOLDER_UNARY_OP(*)</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;<span class="preprocessor">#undef BOOST_HANA_PREFIX_PLACEHOLDER_OP</span></div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;<span class="preprocessor">#undef BOOST_HANA_BINARY_PLACEHOLDER_OP</span></div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;</div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;    <span class="keyword">namespace </span>functional_detail {</div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> F, <span class="keywordtype">unsigned</span> Arity&gt;</div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;        <span class="keyword">struct </span>curry_impl {</div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;            F f;</div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;</div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;            <span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...Args&gt;</div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;            constexpr <span class="keyword">auto</span> operator()(Args ...args)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;<span class="keyword">            </span>{ <span class="keywordflow">return</span> <a class="code" href="group___functional.html#ga49ea872ade5ac8f6c10052c495302e89">curry</a>&lt;Arity - <span class="keyword">sizeof</span>...(Args)&gt;(<a class="code" href="group___functional.html#ga778b2daa27882e71d28b6f2b38982ddf">partial</a>(f, args...))(); }</div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;</div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;            constexpr <span class="keyword">auto</span> operator()()<span class="keyword"> const</span></div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;<span class="keyword">            </span>{ <span class="keywordflow">return</span> *<span class="keyword">this</span>; }</div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;        };</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;    }</div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;}} <span class="comment">// end namespace boost::hana</span></div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;</div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;<span class="preprocessor">#endif // !BOOST_HANA_FUNCTIONAL_HPP</span></div>
-<div class="ttc" id="group___functional_html_gafca60c09e1f7a32a2b52baaf6515c279"><div class="ttname"><a href="group___functional.html#gafca60c09e1f7a32a2b52baaf6515c279">boost::hana::lockstep</a></div><div class="ttdeci">constexpr auto lockstep</div><div class="ttdoc">Invokes f with the result of invoking each g on its corresponding argument, in lockstep. </div><div class="ttdef"><b>Definition:</b> functional.hpp:207</div></div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;    <span class="comment">// Comparison</span></div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;    BOOST_HANA_PLACEHOLDER_BINARY_OP(==)</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;    BOOST_HANA_PLACEHOLDER_BINARY_OP(!=)</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;    BOOST_HANA_PLACEHOLDER_BINARY_OP(&lt;)</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;    BOOST_HANA_PLACEHOLDER_BINARY_OP(&lt;=)</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;    BOOST_HANA_PLACEHOLDER_BINARY_OP(&gt;)</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;    BOOST_HANA_PLACEHOLDER_BINARY_OP(&gt;=)</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;    <span class="comment">// Logical</span></div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;    BOOST_HANA_PLACEHOLDER_BINARY_OP(||)</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;    BOOST_HANA_PLACEHOLDER_BINARY_OP(&amp;&amp;)</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;    BOOST_HANA_PLACEHOLDER_UNARY_OP(!)</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;</div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;    <span class="comment">// Member access</span></div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;    BOOST_HANA_PLACEHOLDER_UNARY_OP(*)</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;<span class="preprocessor">#undef BOOST_HANA_PREFIX_PLACEHOLDER_OP</span></div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;<span class="preprocessor">#undef BOOST_HANA_BINARY_PLACEHOLDER_OP</span></div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;    <span class="keyword">namespace </span>functional_detail {</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> F, <span class="keywordtype">unsigned</span> Arity&gt;</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;        <span class="keyword">struct </span>curry_impl {</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;            F f;</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;</div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;            <span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...Args&gt;</div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;            constexpr <span class="keyword">auto</span> operator()(Args ...args)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;<span class="keyword">            </span>{ <span class="keywordflow">return</span> <a class="code" href="group___functional.html#ga49ea872ade5ac8f6c10052c495302e89">curry</a>&lt;Arity - <span class="keyword">sizeof</span>...(Args)&gt;(<a class="code" href="group___functional.html#ga778b2daa27882e71d28b6f2b38982ddf">partial</a>(f, args...))(); }</div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;</div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;            constexpr <span class="keyword">auto</span> operator()()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;<span class="keyword">            </span>{ <span class="keywordflow">return</span> *<span class="keyword">this</span>; }</div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;        };</div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;    }</div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;}} <span class="comment">// end namespace boost::hana</span></div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;</div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;<span class="preprocessor">#endif // !BOOST_HANA_FUNCTIONAL_HPP</span></div>
+<div class="ttc" id="group___functional_html_gafca60c09e1f7a32a2b52baaf6515c279"><div class="ttname"><a href="group___functional.html#gafca60c09e1f7a32a2b52baaf6515c279">boost::hana::lockstep</a></div><div class="ttdeci">constexpr auto lockstep</div><div class="ttdoc">Invokes f with the result of invoking each g on its corresponding argument, in lockstep. </div><div class="ttdef"><b>Definition:</b> functional.hpp:215</div></div>
 <div class="ttc" id="group___functional_html_gaba86a38c81e3c99f4076ebfb2b46f7b2"><div class="ttname"><a href="group___functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">boost::hana::_</a></div><div class="ttdeci">constexpr struct boost::hana::@1 _</div><div class="ttdoc">Allows creating simple functions inline. </div></div>
 <div class="ttc" id="group__details_html_gacf82d20cb2ab6efe5849fadae0a043a8"><div class="ttname"><a href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a></div><div class="ttdeci">#define BOOST_HANA_CONSTEXPR_LAMBDA</div><div class="ttdoc">Expands to constexpr if constexpr lambdas are supported and to nothing otherwise. ...</div><div class="ttdef"><b>Definition:</b> constexpr.hpp:18</div></div>
-<div class="ttc" id="group___functional_html_ga30027c383676084be151ef3c6cf2829f"><div class="ttname"><a href="group___functional.html#ga30027c383676084be151ef3c6cf2829f">boost::hana::apply</a></div><div class="ttdeci">constexpr auto apply</div><div class="ttdoc">Invokes f with xs... as arguments. </div><div class="ttdef"><b>Definition:</b> functional.hpp:53</div></div>
-<div class="ttc" id="group___functional_html_ga778b2daa27882e71d28b6f2b38982ddf"><div class="ttname"><a href="group___functional.html#ga778b2daa27882e71d28b6f2b38982ddf">boost::hana::partial</a></div><div class="ttdeci">constexpr auto partial</div><div class="ttdoc">Returns f partially applied to xs.... </div><div class="ttdef"><b>Definition:</b> functional.hpp:240</div></div>
+<div class="ttc" id="group___functional_html_ga30027c383676084be151ef3c6cf2829f"><div class="ttname"><a href="group___functional.html#ga30027c383676084be151ef3c6cf2829f">boost::hana::apply</a></div><div class="ttdeci">constexpr auto apply</div><div class="ttdoc">Invokes f with xs... as arguments. </div><div class="ttdef"><b>Definition:</b> functional.hpp:52</div></div>
+<div class="ttc" id="group___functional_html_ga778b2daa27882e71d28b6f2b38982ddf"><div class="ttname"><a href="group___functional.html#ga778b2daa27882e71d28b6f2b38982ddf">boost::hana::partial</a></div><div class="ttdeci">constexpr auto partial</div><div class="ttdoc">Returns f partially applied to xs.... </div><div class="ttdef"><b>Definition:</b> functional.hpp:248</div></div>
 <div class="ttc" id="best_8hpp_html"><div class="ttname"><a href="best_8hpp.html">best.hpp</a></div><div class="ttdoc">Defines boost::hana::detail::at_index::best. </div></div>
-<div class="ttc" id="group___functional_html_ga6acc765a35c4dc85f0deab4785831a3d"><div class="ttname"><a href="group___functional.html#ga6acc765a35c4dc85f0deab4785831a3d">boost::hana::arg</a></div><div class="ttdeci">constexpr auto arg</div><div class="ttdoc">Returns its nth argument. </div><div class="ttdef"><b>Definition:</b> functional.hpp:71</div></div>
-<div class="ttc" id="group___functional_html_ga35c4fc3c5677b9f558150b90e74d3ab1"><div class="ttname"><a href="group___functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">boost::hana::on</a></div><div class="ttdeci">constexpr auto on</div><div class="ttdoc">Invokes f with the result of invoking g on each argument. </div><div class="ttdef"><b>Definition:</b> functional.hpp:232</div></div>
-<div class="ttc" id="group___functional_html_ga835970cb25a0c8dc200f1e5f8943538b"><div class="ttname"><a href="group___functional.html#ga835970cb25a0c8dc200f1e5f8943538b">boost::hana::always</a></div><div class="ttdeci">constexpr auto always</div><div class="ttdoc">Returns a constant function returning x regardless of the argument(s) it is invoked with...</div><div class="ttdef"><b>Definition:</b> functional.hpp:45</div></div>
-<div class="ttc" id="group___functional_html_ga004f884cdbb85c2efe3383c1db450094"><div class="ttname"><a href="group___functional.html#ga004f884cdbb85c2efe3383c1db450094">boost::hana::flip</a></div><div class="ttdeci">constexpr auto flip</div><div class="ttdoc">Returns a function invoking f with its two first arguments reversed. </div><div class="ttdef"><b>Definition:</b> functional.hpp:192</div></div>
-<div class="ttc" id="group___functional_html_gaab5ecce4ccdd050a59083edf74f0f4b9"><div class="ttname"><a href="group___functional.html#gaab5ecce4ccdd050a59083edf74f0f4b9">boost::hana::fbind</a></div><div class="ttdeci">constexpr auto fbind</div><div class="ttdoc">Invokes f with the result of invoking each g with all the arguments. </div><div class="ttdef"><b>Definition:</b> functional.hpp:161</div></div>
-<div class="ttc" id="group___functional_html_ga3b16146e53efcdf9ecbb9a7b21f8cd0b"><div class="ttname"><a href="group___functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">boost::hana::compose</a></div><div class="ttdeci">constexpr auto compose</div><div class="ttdoc">Returns the composition of two functions. </div><div class="ttdef"><b>Definition:</b> functional.hpp:101</div></div>
+<div class="ttc" id="group___functional_html_ga6acc765a35c4dc85f0deab4785831a3d"><div class="ttname"><a href="group___functional.html#ga6acc765a35c4dc85f0deab4785831a3d">boost::hana::arg</a></div><div class="ttdeci">constexpr auto arg</div><div class="ttdoc">Returns its nth argument. </div><div class="ttdef"><b>Definition:</b> functional.hpp:68</div></div>
+<div class="ttc" id="group___functional_html_ga35c4fc3c5677b9f558150b90e74d3ab1"><div class="ttname"><a href="group___functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">boost::hana::on</a></div><div class="ttdeci">constexpr auto on</div><div class="ttdoc">Invokes f with the result of invoking g on each argument. </div><div class="ttdef"><b>Definition:</b> functional.hpp:240</div></div>
+<div class="ttc" id="group___functional_html_ga835970cb25a0c8dc200f1e5f8943538b"><div class="ttname"><a href="group___functional.html#ga835970cb25a0c8dc200f1e5f8943538b">boost::hana::always</a></div><div class="ttdeci">constexpr auto always</div><div class="ttdoc">Returns a constant function returning x regardless of the argument(s) it is invoked with...</div><div class="ttdef"><b>Definition:</b> functional.hpp:44</div></div>
+<div class="ttc" id="group___functional_html_ga004f884cdbb85c2efe3383c1db450094"><div class="ttname"><a href="group___functional.html#ga004f884cdbb85c2efe3383c1db450094">boost::hana::flip</a></div><div class="ttdeci">constexpr auto flip</div><div class="ttdoc">Returns a function invoking f with its two first arguments reversed. </div><div class="ttdef"><b>Definition:</b> functional.hpp:200</div></div>
+<div class="ttc" id="group___functional_html_gaab5ecce4ccdd050a59083edf74f0f4b9"><div class="ttname"><a href="group___functional.html#gaab5ecce4ccdd050a59083edf74f0f4b9">boost::hana::fbind</a></div><div class="ttdeci">constexpr auto fbind</div><div class="ttdoc">Invokes f with the result of invoking each g with all the arguments. </div><div class="ttdef"><b>Definition:</b> functional.hpp:165</div></div>
+<div class="ttc" id="group___functional_html_ga3b16146e53efcdf9ecbb9a7b21f8cd0b"><div class="ttname"><a href="group___functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">boost::hana::compose</a></div><div class="ttdeci">constexpr auto compose</div><div class="ttdoc">Returns the composition of two functions. </div><div class="ttdef"><b>Definition:</b> functional.hpp:105</div></div>
 <div class="ttc" id="group___functional_html_ga26508f30f8842350ea0f9a7ca73bfd52"><div class="ttname"><a href="group___functional.html#ga26508f30f8842350ea0f9a7ca73bfd52">boost::hana::fix</a></div><div class="ttdeci">constexpr struct boost::hana::@0 fix</div><div class="ttdoc">Computes the least fixed point of a function. </div></div>
 <div class="ttc" id="constexpr_8hpp_html"><div class="ttname"><a href="constexpr_8hpp.html">constexpr.hpp</a></div><div class="ttdoc">Defines the BOOST_HANA_CONSTEXPR_LAMBDA macro. </div></div>
-<div class="ttc" id="group___functional_html_ga49ea872ade5ac8f6c10052c495302e89"><div class="ttname"><a href="group___functional.html#ga49ea872ade5ac8f6c10052c495302e89">boost::hana::curry</a></div><div class="ttdeci">constexpr auto curry</div><div class="ttdoc">Returns a curriable function of the given arity. </div><div class="ttdef"><b>Definition:</b> functional.hpp:128</div></div>
-<div class="ttc" id="integral_8hpp_html"><div class="ttname"><a href="integral_8hpp.html">integral.hpp</a></div><div class="ttdoc">Defines boost::hana::Integral. </div></div>
+<div class="ttc" id="group___functional_html_ga49ea872ade5ac8f6c10052c495302e89"><div class="ttname"><a href="group___functional.html#ga49ea872ade5ac8f6c10052c495302e89">boost::hana::curry</a></div><div class="ttdeci">constexpr auto curry</div><div class="ttdoc">Returns a curriable function of the given arity. </div><div class="ttdef"><b>Definition:</b> functional.hpp:132</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Jun 7 2014 17:35:13 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jun 12 2014 20:35:48 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

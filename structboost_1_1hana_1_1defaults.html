@@ -69,7 +69,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -98,27 +97,32 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>Implements the default methods of a type class.  
+<p>Contains the default methods of a type class.  
  <a href="structboost_1_1hana_1_1defaults.html#details">More...</a></p>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;template&lt; typename...&gt; class Typeclass&gt;<br />
 struct boost::hana::defaults&lt; Typeclass &gt;</h3>
 
-<p>Implements the default methods of a type class. </p>
-<p>By default, this is an empty type. It should be specialized for type classes wishing to provide a default implementation for some methods: </p><div class="fragment"><div class="line"><span class="keyword">template</span> &lt;&gt;</div>
-<div class="line"><span class="keyword">struct </span>defaults&lt;SomeTypeclass&gt; {</div>
-<div class="line">    <span class="comment">// provide a default implementation for methods outside</span></div>
-<div class="line">    <span class="comment">// of the minimal complete definition</span></div>
+<p>Contains the default methods of a type class. </p>
+<p>Every type class instance must inherit exactly one of <code>defaults&lt;&gt;::with&lt;&gt;</code> and <code>instance&lt;&gt;::with&lt;&gt;</code>. Since <code>instance&lt;&gt;::with&lt;&gt;</code> specializations are required to inherit <code>defaults&lt;&gt;::with&lt;&gt;</code>, it is always inherited from. This is important since it allows default methods to be added to the type class without breaking existing user code, provided the new methods are not part of the minimal complete definition.</p>
+<p>When implementing a new type class, <code>defaults</code> <b>must</b> be specialized even if default methods are not provided. Specialization is done as follows: </p><div class="fragment"><div class="line"><span class="keyword">template</span> &lt;&gt;</div>
+<div class="line"><span class="keyword">struct </span>defaults&lt;Typeclass&gt; {</div>
+<div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...Args&gt;</div>
+<div class="line">    <span class="keyword">struct </span>with {</div>
+<div class="line">        <span class="comment">// provide a default implementation for methods outside</span></div>
+<div class="line">        <span class="comment">// of the minimal complete definition if desired</span></div>
+<div class="line">    };</div>
 <div class="line">};</div>
-</div><!-- fragment --><p>Then, data types instantiating <code>SomeTypeclass</code> may use the default methods in the following way: </p><div class="fragment"><div class="line"><span class="keyword">template</span> &lt;&gt;</div>
-<div class="line"><span class="keyword">struct </span>SomeTypeclass&lt;SomeDatatype&gt; : defaults&lt;SomeTypeclass&gt; {</div>
-<div class="line">    <span class="comment">// minimal complete definition at least</span></div>
-<div class="line">};</div>
-</div><!-- fragment --><p>When instantiating a type class <code>T</code>, it is a good idea to always inherit from <code>defaults&lt;T&gt;</code> regardless of whether default methods are actually required. This allows new methods to be added to the type class without breaking existing user code, provided the new methods are not part of the minimal complete definition. </p>
+</div><!-- fragment --><p>The <code>Args...</code> are specific to each type class; the documentation should explain their purpose.</p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000003">Todo:</a></b></dt><dd><ul>
+<li>Document best practices with Enablers.</li>
+<li>Show examples with enablers and other useful stuff. </li>
+</ul>
+</dd></dl>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Jun 7 2014 17:35:13 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jun 12 2014 20:35:48 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>
