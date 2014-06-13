@@ -19,12 +19,27 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! @datatype{Range}
-    //! Compile-time half-open interval of `Integral`s.
-    //!
-    //! @instantiates{Iterable, Foldable, Comparable}
-    //!
-    //! @todo Document instances.
+    /*!
+    @ingroup datatypes
+    Compile-time half-open interval of `Integral`s.
+
+    --------------------------------------------------------------------------
+
+    ## Instance of
+
+    ### Iterable
+    Let `r` be a `Range` containing the `Integral`s in the half-open interval
+    `[from, to)`. The head of `r` is an `Integral` with value `from`, its tail
+    is the range representing the `[from + 1, to)` interval and `r` is empty
+    if and only if `from == to`.
+    @snippet example/range/iterable.cpp main
+
+    ### Foldable
+    Generic instance for `Iterable`s.
+
+    ### Comparable
+    Generic instance for `Iterable`s.
+     */
     struct Range { };
 
     namespace operators {

@@ -5,15 +5,14 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/detail/static_assert.hpp>
-#include <boost/hana/integral.hpp>
-#include <boost/hana/list.hpp>
-#include <boost/hana/range.hpp>
+#include <boost/hana/type.hpp>
 using namespace boost::hana;
 
 
 int main() {
     //! [main]
-    BOOST_HANA_STATIC_ASSERT(range(int_<0>, int_<5>) == list_c<int, 0, 1, 2, 3, 4>);
-    BOOST_HANA_STATIC_ASSERT(range(int_<-1>, int_<3>) == list_c<int, -1, 0, 1, 2>);
+    struct X { };
+    BOOST_HANA_STATIC_ASSERT(type<X> == decltype_(X{}));
+    BOOST_HANA_STATIC_ASSERT(type<int> == decltype_(1));
     //! [main]
 }

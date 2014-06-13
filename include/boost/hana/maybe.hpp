@@ -20,18 +20,36 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     /*!
-    @datatype{Maybe}
+    @ingroup datatypes
     Represents an optional value.
 
     A `Maybe` either contains a value (represented as `just(x)`), or it is
     empty (represented as `nothing`).
 
-    @instantiates{Comparable, Functor, Monad}
+    --------------------------------------------------------------------------
 
-    @todo
-    - Document how the type classes are instantiated?
-    - Show examples? Might be overkill for API functions, but not for
-      type class instances.
+    ## Instance of
+
+    ### Comparable
+    Two `Maybe`s are equal if and only if they are both empty or they both
+    contain a value and those values are equal.
+    @snippet example/maybe/comparable.cpp main
+
+    ### Functor
+    A `Maybe` can be seen as a `List` containing either one element (`just(x)`)
+    or no elements at all (`nothing`). As such, `fmap` for `Maybe`s returns
+    `nothing` when applied to `nothing` and `just(f(x))` when applied to
+    `just(x)`.
+    @snippet example/maybe/functor.cpp main
+
+    ### Monad
+    The `Maybe` `Monad` makes it easy to compose actions that might fail.
+    First, a value can be made an optional value with `unit<Maybe>`, which
+    is equivalent to `just`. Second, one can feed an optional value if there
+    is one into a function with `bind`, which will return `nothing` if there
+    is no value. Finally, optional-optional values can have their redundant
+    level of `Maybe`ness removed with `join`.
+    @snippet example/maybe/monad.cpp main
      */
     struct Maybe { };
 
@@ -72,6 +90,9 @@ namespace boost { namespace hana {
     //! optional value. If the optional value is `nothing`, the default
     //! value is returned. Otherwise, the function is applied to the
     //! content of the `just`.
+    //!
+    //! ### Example
+    //! @snippet example/maybe/api.cpp maybe
     constexpr maybe_detail::_maybe_func maybe{};
 
     //! Creates an optional value containing `x`.
@@ -101,6 +122,9 @@ namespace boost { namespace hana {
     //! Returns the contents of a `Maybe`, or a default value if the `Maybe`
     //! is `nothing`.
     //! @relates Maybe
+    //!
+    //! ### Example
+    //! @snippet example/maybe/api.cpp from_maybe
     BOOST_HANA_CONSTEXPR_LAMBDA auto from_maybe = [](auto default_, auto m) {
         return maybe(default_, [](auto x) { return x; }, m);
     };
@@ -154,8 +178,10 @@ namespace boost { namespace hana {
         static constexpr auto join_impl(operators::_just<operators::_just<T>> j)
         { return j.val; }
 
-        template <typename AnythingElse>
-        static constexpr auto join_impl(AnythingElse)
+        static constexpr auto join_impl(operators::_nothing)
+        { return nothing; }
+
+        static constexpr auto join_impl(operators::_just<operators::_nothing>)
         { return nothing; }
     };
 }} // end namespace boost::hana

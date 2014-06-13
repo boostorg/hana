@@ -21,19 +21,37 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! @datatype{Type}
-    //! Wrapper to manipulate C++ types as constexpr objects.
-    //!
-    //! @todo
-    //! - Completely figure out and document the category theoretical
-    //!   foundation of this data type.
-    //! - Verify `Monad` laws.
-    //! - Move self-notes for `Type`-related stuff to the (internal?)
-    //!   documentation of `Type`.
-    //! - Document instances.
-    //! - Consider having a `.name()` method that would return the
-    //!   (demangled?) `typeid(T).name()`.
-    //! - Add examples.
+    /*!
+    @ingroup datatypes
+    C++ type represented as a constexpr object.
+
+    --------------------------------------------------------------------------
+
+    ## Instance of
+
+    ### Comparable
+    Two `Type`s are equal if and only if they represent the same C++ type.
+    Hence, equality is equivalent to the `std::is_same` type trait.
+    @snippet example/type/comparable.cpp main
+
+    ### Functor
+    TODO
+
+    ### Monad
+    TODO
+
+    --------------------------------------------------------------------------
+
+    @todo
+    - Completely figure out and document the category theoretical foundation
+      of this data type.
+    - Verify `Monad` laws.
+    - Move self-notes for `Type`-related stuff to the (internal?)
+      documentation of `Type`.
+    - Consider having a `.name()` method that would return the
+      (demangled?) `typeid(T).name()`.
+    - Document `Functor` and `Monad` instances.
+     */
     struct Type { };
 
     namespace type_detail {
@@ -49,40 +67,41 @@ namespace boost { namespace hana {
         };
     }
 
-    //! Creates a `Type` representing `T`.
-    //! @relates Type
-    //! @hideinitializer
-    //!
-    //! Additionally, `type<T>` is a function returning an object of type
-    //! `T` constructed with the arguments passed to it.
-    //!
-    //! ### Example
-    //! @snippet example/type/construct.cpp main
-    //!
-    //! @note
-    //! `std::initializer_list` is supported too:
-    //! @snippet example/type/initializer_list.cpp main
-    //!
-    //! @todo
-    //! Should this fail or not? Currently it fails because
-    //! "non-constant-expression cannot be narrowed from type 'double' to
-    //! 'float' in initializer list"
-    //! @code
-    //!     type<float>(double{1.2})
-    //! @endcode
-    //!
-    //! @todo
-    //! Consider making `type<>` equivalent to `decltype_`, and then removing
-    //! `decltype_`.\n
-    //! Pros:
-    //! - Reduces the number of names we have to remember. Right now, it's
-    //!   really messy with `decltype_`, `type<T>`, `untype` and all that
-    //!   fluff.
-    //! - `type<>` has 3 letters less than `decltype_`. Not a big pro,
-    //!   but still.\n
-    //! Cons:
-    //! - Too much overloading of the same name with different semantics can
-    //!   yield the opposite effect and be messier than using different names.
+    /*!
+    Creates a `Type` representing `T`.
+    @relates Type
+    @hideinitializer
+
+    Additionally, `type<T>` is a function returning an object of type
+    `T` constructed with the arguments passed to it.
+
+    ### Example
+    @snippet example/type/construct.cpp main
+
+    @note
+    `std::initializer_list` is supported too:
+    @snippet example/type/initializer_list.cpp main
+
+    @todo
+    Should this fail or not? Currently it fails because
+    "non-constant-expression cannot be narrowed from type 'double' to
+    'float' in initializer list"
+    @code
+        type<float>(double{1.2})
+    @endcode
+
+    @todo
+    Consider making `type<>` equivalent to `decltype_`, and then removing
+    `decltype_`.\n
+    Pros:
+    - Reduces the number of names we have to remember. Right now, it's
+      really messy with `decltype_`, `type<T>`, `untype` and all that fluff.
+    - `type<>` has 3 letters less than `decltype_`. Not a big pro,
+      but still.\n
+    Cons:
+    - Too much overloading of the same name with different semantics can
+      yield the opposite effect and be messier than using different names.
+     */
     template <typename T>
     BOOST_HANA_CONSTEXPR_LAMBDA auto type = [] {
         struct wrapper : operators::enable, type_detail::construct<wrapper> {
@@ -121,6 +140,9 @@ namespace boost { namespace hana {
 
     //! Returns the type of an object as a `Type`.
     //! @relates Type
+    //!
+    //! ### Example
+    //! @snippet example/type/decltype.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto decltype_ = [](auto t) {
         return type<decltype(t)>;
     };
@@ -142,6 +164,9 @@ namespace boost { namespace hana {
     @code
         template_<f>(type<x1>, ..., type<xN>) == type<f<x1, ..., xN>>
     @endcode
+
+    ### Example
+    @snippet example/type/template.cpp main
      */
     template <template <typename ...> class f>
     constexpr type_detail::Template<f> template_{};

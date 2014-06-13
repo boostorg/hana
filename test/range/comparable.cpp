@@ -21,4 +21,6 @@ int main() {
     BOOST_HANA_STATIC_ASSERT(range(int_<0>, int_<0>) == range(int_<2>, int_<2>));
 
     BOOST_HANA_STATIC_ASSERT(range(int_<2>, int_<4>) == range(int_<2>, int_<4>));
+    BOOST_HANA_STATIC_ASSERT(range(int_<-4>, int_<-3>) == range(int_<-4>, int_<-3>));
+    BOOST_HANA_STATIC_ASSERT(range(int_<-4>, int_<2>) == range(int_<-4>, int_<2>));
 }

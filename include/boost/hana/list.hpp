@@ -28,10 +28,72 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     /*!
-    @datatype{List}
+    @ingroup datatypes
     General purpose compile-time heterogeneous sequence.
 
-    @instantiates{Iterable, Functor, Foldable, Monad, Comparable}
+    --------------------------------------------------------------------------
+
+    ## Instance of
+
+    ### Iterable
+    `List` is an `Iterable` in the most obvious way. The head of a non-empty
+    list corresponds to its first element. The tail of a non-empty list is
+    a list containing all the elements in the same order, except the head.
+    Finally, a list is empty if and only if it has no elements in it.
+    @snippet example/list/iterable/overview.cpp main
+
+    ### Functor
+    `List` implements `fmap` as the mapping of a function over each element
+    of the list. This is somewhat equivalent to `std::transform`. Mapping a
+    function over an empty list returns an empty list and never applies the
+    function.
+    #### Example 1
+    @snippet example/list/functor/fmap.cpp fusion
+    #### Example 2
+    @snippet example/list/functor/fmap.cpp mpl
+
+    ### Foldable
+    Let `xs` be a `List` containing the element `[x1, ..., xN]`. Right-folding
+    the list with a binary operation `@` (in infix notation for legibility) is
+    equivalent to
+    @code
+        x1 @ (x2 @ ( ... @ (xN-1 @ xN)))
+    @endcode
+
+    Similarly, left-folding the list is equivalent to
+    @code
+        (((x1 @ x2) @ x3) @ ...) @ xN
+    @endcode
+
+    In both cases, notice the side of the parentheses. Left-folding applies
+    `@` in a left-associative manner, whereas right-folding applies it in
+    a right-associative manner. For associative operations, i.e. operations
+    `*` such that for all `a`, `b` and `c`,
+    @f{align*}{
+        (a * b) * c = a * (b * c)
+    @f}
+    this makes no difference. Lazy folds and folds with an initial state are
+    implemented in an analogous way for `List`.
+    #### Example 1
+    @snippet example/list/foldable/foldl.cpp fusion
+    #### Example 2
+    @snippet example/list/foldable/foldr.cpp fusion
+
+    ### Monad
+    There are many ways to explain the `List` `Monad`. We will stick to a
+    description of what it does without trying to explain the intuition
+    behind it; there are tons of tutorials available on the net.
+
+    A value can be turned into a singleton list with `unit`. A function
+    returning a list of results can be mapped over all the elements of a
+    list and have all the results concatenated using `bind`. Finally, a
+    list of lists can be flattened one level with `join`.
+    @snippet example/list/monad/overview.cpp main
+
+    ### Comparable
+    Generic instance for `Iterable`s.
+
+    --------------------------------------------------------------------------
 
     @todo
     - Re-enable the foldl optimization for type lists.
@@ -40,7 +102,6 @@ namespace boost { namespace hana {
     - Is it desirable to have different ways of creating lists, or should we
       in fact provide `type_list`, `homogeneous_list`, etc...?
     - How to implement iterate and repeat?
-    - Document how the type classes are instantiated.
      */
     struct List { };
 

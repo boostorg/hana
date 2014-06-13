@@ -18,7 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     /*!
-    @datatype{Integral}
+    @ingroup datatypes
     Represents a compile-time value of an integral type.
 
     Let `n` be an object of an `Integral` data type. The compile-time value
@@ -26,7 +26,16 @@ namespace boost { namespace hana {
     object of the underlying integral type. `n` is also implicitly
     `constexpr`-convertible to the underlying integral type.
 
-    @instantiates{Comparable}
+    --------------------------------------------------------------------------
+
+    ## Instance of
+
+    ### Comparable
+    Two `Integral`s are equal if and only if the integral values they
+    represent are equal. Conversions are allowed.
+    @snippet example/integral/comparable.cpp main
+
+    --------------------------------------------------------------------------
 
     @todo
     Implicit conversions to the underlying integral type can be problematic:
