@@ -445,30 +445,83 @@ namespace boost { namespace hana {
     //! @relates List
     //!
     //! Specifically, returns a list whose first element is a list of the
-    //! elements satisfying the predicate, and whose second element is a list
-    //! of the elements that do not satisfy the predicate.
+    //! elements satisfying the predicate, and whose second element is a
+    //! list of the elements that do not satisfy the predicate.
+    //!
+    //! @note
+    //! The predicate must return an `Integral`.
     //!
     //! ### Fusion example
     //! @snippet example/list/partition.cpp fusion
     //!
     //! ### MPL example
     //! @snippet example/list/partition.cpp mpl
-    //!
-    //! @todo Use a more efficient implementation.
-    //! @todo Express the fact that we need the predicate to be compile-time.
     BOOST_HANA_CONSTEXPR_LAMBDA auto partition = [](auto predicate, auto xs) {
-        auto not_pred = [=](auto x) { return !predicate(x); };
-        return list(filter(predicate, xs), filter(not_pred, xs));
+        auto go = [=](auto parts, auto x) {
+            auto yes = head(parts);
+            auto no = head(tail(parts));
+            return if_(predicate(x),
+                list(snoc(yes, x), no),
+                list(yes, snoc(no, x))
+            );
+        };
+        return foldl(go, list(list(), list()), xs);
     };
+
+    namespace list_detail {
+        BOOST_HANA_CONSTEXPR_LAMBDA auto insertions = curry<2>(fix(
+            [](auto insertions, auto x, auto l) {
+                return if_(is_empty(l),
+                    always(list(list(x))),
+                    [=](auto l) {
+                        auto y = head(l);
+                        auto ys = tail(l);
+                        return cons(
+                            cons(x, l),
+                            fmap(partial(cons, y), insertions(x, ys))
+                        );
+                    }
+                )(l);
+            }
+        ));
+    }
+
+    //! Return a list of all the permutations of the given list.
+    //! @relates List
+    //!
+    //! The permutations are not guaranteed to be in any specific order.
+    //!
+    //! ### Example
+    //! @snippet example/list/permutations.cpp main
+    //!
+    //! @note
+    //! Implementation taken from http://stackoverflow.com/a/2184129/627587.
+    //!
+    //! @bug
+    //! We got a performance problem here. Generating the permutations of
+    //! a list of more than 3 elements starts taking a long time (>6s).
+    BOOST_HANA_CONSTEXPR_LAMBDA auto permutations = fix(
+        [](auto permutations, auto xs) {
+            return if_(is_empty(xs),
+                always(list(list())),
+                [=](auto xs) {
+                    return join(fmap(
+                        list_detail::insertions(head(xs)),
+                        permutations(tail(xs))
+                    ));
+                }
+            )(xs);
+        }
+    );
 
     //! Sort a list based on the given `predicate`.
     //! @relates List
     //!
+    //! The predicate must be a [strict weak ordering](http://en.wikipedia.org/wiki/Strict_weak_ordering#Strict_weak_orderings).
+    //! The sort is guaranteed to be stable.
+    //!
     //! ### Example
     //! @snippet example/list/sort_by.cpp main
-    //!
-    //! @todo Document the properties of the `predicate`.
-    //! @todo Document the properties of the sort. Is it stable?
     BOOST_HANA_CONSTEXPR_LAMBDA auto sort_by = fix(
         [](auto sort_by, auto predicate, auto xs) {
             return if_(is_empty(xs),
@@ -479,10 +532,12 @@ namespace boost { namespace hana {
                         [=](auto xs) {
                             auto pivot = head(xs);
                             auto rest = tail(xs);
-                            auto parts = partition(partial(predicate, pivot), rest);
+                            auto parts = partition([=](auto x) { return predicate(x, pivot); }, rest);
+                            auto smaller = at(int_<0>, parts);
+                            auto greater_equal = at(int_<1>, parts);
                             return concat(
-                                sort_by(predicate, at(int_<1>, parts)),
-                                cons(pivot, sort_by(predicate, at(int_<0>, parts)))
+                                sort_by(predicate, smaller),
+                                cons(pivot, sort_by(predicate, greater_equal))
                             );
                         }
                     )(xs);

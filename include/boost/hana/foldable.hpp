@@ -89,6 +89,10 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/list/foldable/lazy_foldr.cpp main
+    //!
+    //! @bug
+    //! We got a performance problem here. It seems very hard to implement
+    //! this method efficiently.
     BOOST_HANA_CONSTEXPR_LAMBDA auto lazy_foldr = [](auto f, auto state, auto foldable) {
         return Foldable<datatype_t<decltype(foldable)>>::lazy_foldr_impl(f, state, foldable);
     };

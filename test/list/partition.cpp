@@ -25,4 +25,5 @@ int main() {
     BOOST_HANA_STATIC_ASSERT(partition(neg, ilist<-1>) == list(ilist<-1>, ilist<>));
     BOOST_HANA_STATIC_ASSERT(partition(neg, ilist<-1, 0, 2>) == list(ilist<-1>, ilist<0, 2>));
     BOOST_HANA_STATIC_ASSERT(partition(neg, ilist<0, -3, 2, -5, 6>) == list(ilist<-3, -5>, ilist<0, 2, 6>));
+    BOOST_HANA_STATIC_ASSERT(partition(neg, ilist<-1, 2, -3, 0, -3, 4>) == list(ilist<-1, -3, -3>, ilist<2, 0, 4>));
 }
