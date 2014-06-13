@@ -13,13 +13,12 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/enable_if.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/maybe.hpp>
-
-#include <type_traits> // for std::enable_if_t
 
 
 namespace boost { namespace hana {
@@ -83,7 +82,6 @@ namespace boost { namespace hana {
     - There are probably tons of laws that must be respected?
     - Instead of having a lot of methods, maybe some of the functions below
       should just be implemented as functions using the mcd, as in the MPL11?
-    - Remove `<type_traits>` include.
      */
     template <typename T, typename Enable = void>
     struct Iterable;
@@ -240,7 +238,7 @@ namespace boost { namespace hana {
 
     template <typename T, typename U>
     struct instance<Comparable>::with<T, U,
-        std::enable_if_t<
+        detail::enable_if_t<
             comparable_from_iterable<T> &&
             comparable_from_iterable<U>
         >
@@ -265,7 +263,9 @@ namespace boost { namespace hana {
     constexpr bool foldable_from_iterable = false;
 
     template <typename T>
-    struct instance<Foldable>::with<T, std::enable_if_t<foldable_from_iterable<T>>>
+    struct instance<Foldable>::with<T,
+        detail::enable_if_t<foldable_from_iterable<T>>
+    >
         : defaults<Foldable>::template with<T>
     {
         template <typename F, typename State, typename Iterable>
