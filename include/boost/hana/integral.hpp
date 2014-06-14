@@ -22,7 +22,7 @@ namespace boost { namespace hana {
     Represents a compile-time value of an integral type.
 
     Let `n` be an object of an `Integral` data type. The compile-time value
-    represented by `n` is accessible as `value(n)`, which is a `constexpr`
+    represented by `n` is accessible as `n()`, which is a `constexpr`
     object of the underlying integral type. `n` is also implicitly
     `constexpr`-convertible to the underlying integral type.
 
@@ -55,9 +55,7 @@ namespace boost { namespace hana {
     namespace integral_detail {
         template <typename T, T t>
         struct integral_type {
-            // See test/integral/bug_constexpr_value.cpp for why we use
-            // a const& here.
-            friend constexpr T value(integral_type const&) { return t; }
+            constexpr T operator()() const { return t; }
             constexpr operator T() const { return t; }
             using hana_datatype = Integral;
         };
@@ -186,7 +184,7 @@ namespace boost { namespace hana {
     {
         template <typename T, typename U>
         static constexpr auto equal_impl(T t, U u)
-        { return bool_<value(t) == value(u)>; }
+        { return bool_<t() == u()>; }
     };
 
 #define BOOST_HANA_INTEGRAL_BINARY_OP(op)                                   \

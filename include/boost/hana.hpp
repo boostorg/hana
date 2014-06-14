@@ -20,7 +20,7 @@ General purpose type classes provided by the library.
 @todo
 - Provide an integrated way of checking laws for type classes.
 - Creating new type classes is __way__ too complicated with the new
-  dispatching system.
+dispatching system.
  */
 
 //! @defgroup datatypes Data types
@@ -28,6 +28,7 @@ General purpose type classes provided by the library.
 
 #include <boost/hana/adapted/std_array.hpp>
 #include <boost/hana/adapted/std_integer_sequence.hpp>
+#include <boost/hana/adapted/std_integral_constant.hpp>
 #include <boost/hana/adapted/std_tuple.hpp>
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core.hpp>

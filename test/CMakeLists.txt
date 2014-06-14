@@ -15,6 +15,8 @@ endfunction()
 
 boost_hana_add_test(adapted.std_array.iterable)
 boost_hana_add_test(adapted.std_integer_sequence.iterable)
+boost_hana_add_test(adapted.std_integral_constant.api)
+boost_hana_add_test(adapted.std_integral_constant.integral_interop)
 boost_hana_add_test(adapted.std_tuple.functor)
 boost_hana_add_test(adapted.std_tuple.iterable)
 
@@ -52,7 +54,6 @@ boost_hana_add_test(functional.placeholder)
 
 boost_hana_add_test(integral.api)
 boost_hana_add_test(integral.bug_constexpr_init)
-boost_hana_add_test(integral.bug_constexpr_value)
 boost_hana_add_test(integral.bug_strip_cv_qualifiers)
 boost_hana_add_test(integral.comparable)
 boost_hana_add_test(integral.literals)

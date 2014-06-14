@@ -118,7 +118,7 @@ namespace boost { namespace hana {
             // variable whose type is dependent so we can use `size` as a
             // constant expression below.
             auto size = r.to - r.from;
-            return unpack_helper(f, r.from, detail::make_integer_sequence<decltype(value(r.from)), size>{});
+            return unpack_helper(f, r.from, detail::make_integer_sequence<decltype(r.from()), size>{});
         }
 
         template <typename R>

@@ -14,14 +14,14 @@ using namespace boost::hana;
 
 
 int main() {
-    // value(...)
-    static_assert(value(size_t<0>) == 0, "");
-    static_assert(value(size_t<1>) == 1, "");
-    static_assert(value(int_<-3>) == -3, "");
+    // operator()
+    static_assert(size_t<0>() == 0, "");
+    static_assert(size_t<1>() == 1, "");
+    static_assert(int_<-3>() == -3, "");
 
-    // decltype(value(...))
-    BOOST_HANA_STATIC_ASSERT(decltype_(value(size_t<0>)) == type<std::size_t>);
-    BOOST_HANA_STATIC_ASSERT(decltype_(value(int_<-3>)) == type<int>);
+    // decltype(operator())
+    BOOST_HANA_STATIC_ASSERT(decltype_(size_t<0>()) == type<std::size_t>);
+    BOOST_HANA_STATIC_ASSERT(decltype_(int_<-3>()) == type<int>);
 
     // conversions
     constexpr std::size_t a = size_t<0>, b = size_t<1>;
