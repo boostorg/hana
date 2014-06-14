@@ -19,19 +19,17 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     /*!
-    @typeclass{Foldable}
-    @{
+    @ingroup typeclasses
     The `Foldable` type class is used for data structures that can be folded.
 
-    @mcd
+    --------------------------------------------------------------------------
+
+    ## Minimal complete definition
     `foldl`, `foldl1`, `foldr1` and `lazy_foldr`
 
-    @todo
-    - Provide examples for the methods? I think the instance of `Foldable` for
-    `Iterable`s must be documented properly with examples, but we can't do
-    better without loss of generality here. Or maybe we can use a parallel
-    with `toList` to document equalities that must hold?
-    - Reduce the mcd.
+    --------------------------------------------------------------------------
+
+    @todo Reduce the mcd.
      */
     template <typename T, typename Enable = void>
     struct Foldable;
@@ -88,7 +86,7 @@ namespace boost { namespace hana {
     //! @method{Foldable}
     //!
     //! ### Example
-    //! @snippet example/list/foldable/lazy_foldr.cpp main
+    //! @snippet example/range/foldable/lazy_foldr.cpp main
     //!
     //! @bug
     //! We got a performance problem here. It seems very hard to implement
@@ -99,6 +97,9 @@ namespace boost { namespace hana {
 
     //! Return the number of elements in a finite structure.
     //! @method{Foldable}
+    //!
+    //! ### Example
+    //! @snippet example/list/foldable/length.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto length = [](auto foldable) {
         return Foldable<datatype_t<decltype(foldable)>>::length_impl(foldable);
     };
@@ -106,12 +107,18 @@ namespace boost { namespace hana {
     //! Return the least element of a non-empty structure with respect to
     //! a `predicate`.
     //! @method{Foldable}
+    //!
+    //! ### Example
+    //! @snippet example/list/foldable/minimum_by.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto minimum_by = [](auto predicate, auto foldable) {
         return Foldable<datatype_t<decltype(foldable)>>::minimum_by_impl(predicate, foldable);
     };
 
     //! Return the least element of a non-empty structure.
     //! @method{Foldable}
+    //!
+    //! ### Example
+    //! @snippet example/list/foldable/minimum.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto minimum = [](auto foldable) {
         return Foldable<datatype_t<decltype(foldable)>>::minimum_impl(foldable);
     };
@@ -137,6 +144,9 @@ namespace boost { namespace hana {
 
     //! Compute the product of the numbers of a structure.
     //! @method{Foldable}
+    //!
+    //! ### Example
+    //! @snippet example/range/foldable/product.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto product = [](auto foldable) {
         return Foldable<datatype_t<decltype(foldable)>>::product_impl(foldable);
     };
@@ -156,6 +166,9 @@ namespace boost { namespace hana {
 
     //! Invoke a function with the elements of a structure as arguments.
     //! @method{Foldable}
+    //!
+    //! ### Example
+    //! @snippet example/list/foldable/unpack.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto unpack = [](auto f, auto foldable) {
         return Foldable<datatype_t<decltype(foldable)>>::unpack_impl(f, foldable);
     };

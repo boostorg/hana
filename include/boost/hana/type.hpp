@@ -147,6 +147,18 @@ namespace boost { namespace hana {
         return type<decltype(t)>;
     };
 
+    //! Returns the size of the C++ type represented by a `Type`.
+    //! @relates Type
+    //!
+    //! ### Example
+    //! @snippet example/type/sizeof.cpp main
+    //!
+    //! @todo
+    //! Should we also support non-`Type`s? That could definitely be useful.
+    BOOST_HANA_CONSTEXPR_LAMBDA auto sizeof_ = [](auto t) {
+        return size_t<sizeof(untype_t<decltype(t)>)>;
+    };
+
     namespace type_detail {
         template <template <typename ...> class f>
         struct Template {
