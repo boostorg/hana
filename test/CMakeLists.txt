@@ -57,6 +57,7 @@ boost_hana_add_test(integral.bug_constexpr_init)
 boost_hana_add_test(integral.bug_strip_cv_qualifiers)
 boost_hana_add_test(integral.comparable)
 boost_hana_add_test(integral.literals)
+boost_hana_add_test(integral.logical)
 boost_hana_add_test(integral.operators)
 
 boost_hana_add_test(iterable.at)
@@ -95,7 +96,7 @@ boost_hana_add_test(list.zip)
 boost_hana_add_test(list.zip_with)
 
 boost_hana_add_test(logical.and)
-boost_hana_add_test(logical.if)
+boost_hana_add_test(logical.bool)
 boost_hana_add_test(logical.or)
 
 boost_hana_add_test(maybe.api)

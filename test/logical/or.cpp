@@ -7,17 +7,25 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/logical.hpp>
 
 #include <boost/hana/detail/static_assert.hpp>
-#include <boost/hana/integral.hpp>
+
+#include "minimal_logical.hpp"
 using namespace boost::hana;
 
 
+constexpr struct { } invalid{};
+
 int main() {
     BOOST_HANA_STATIC_ASSERT(!or_());
-    BOOST_HANA_STATIC_ASSERT(!or_(false_));
-    BOOST_HANA_STATIC_ASSERT(!or_(false_, false_));
 
-    BOOST_HANA_STATIC_ASSERT(or_(true_));
-    BOOST_HANA_STATIC_ASSERT(or_(false_, true_));
-    BOOST_HANA_STATIC_ASSERT(or_(false_, false_, true_));
-    BOOST_HANA_STATIC_ASSERT(or_(true_, false_, false_));
+    BOOST_HANA_STATIC_ASSERT(or_(logical<true>));
+    BOOST_HANA_STATIC_ASSERT(!or_(logical<false>));
+
+    BOOST_HANA_STATIC_ASSERT(!or_(logical<false>, logical<false>));
+    BOOST_HANA_STATIC_ASSERT(or_(logical<false>, logical<true>));
+    // BOOST_HANA_STATIC_ASSERT(or_(logical<true>, invalid));
+
+    BOOST_HANA_STATIC_ASSERT(!or_(logical<false>, logical<false>, logical<false>));
+    BOOST_HANA_STATIC_ASSERT(or_(logical<false>, logical<false>, logical<true>));
+    // BOOST_HANA_STATIC_ASSERT(or_(logical<false>, logical<true>, invalid));
+    // BOOST_HANA_STATIC_ASSERT(or_(logical<true>, invalid, invalid));
 }

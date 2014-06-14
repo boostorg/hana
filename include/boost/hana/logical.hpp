@@ -1,6 +1,6 @@
 /*!
 @file
-Defines the @ref Logical module.
+Defines `boost::hana::Logical`.
 
 @copyright Louis Dionne 2014
 Distributed under the Boost Software License, Version 1.0.
@@ -10,55 +10,149 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_LOGICAL_HPP
 #define BOOST_HANA_LOGICAL_HPP
 
-#include <boost/hana/integral.hpp>
+#include <boost/hana/core.hpp>
+#include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/integral_fwd.hpp>
 
 
 namespace boost { namespace hana {
-    //! @defgroup Logical Logical
-    //! Logical operators and conditional branch selection.
-    //!
-    //! @todo
-    //! - Use a non-naive implementation for `and_` and `or_`.
-    //! - How to short-circuit?
-    //! - Do we even need `and_` and `or_`? Perhaps we only need `&&` and `||`
-    //! with the new paradigm?
-    //! - Document the contents of this module.
-    //!
-    //! @{
+    /*!
+    @ingroup typeclasses
+    The `Logical` type class is for data types acting like a boolean.
 
-    constexpr struct _and {
-        template <typename X, typename ...Xs>
-        constexpr auto operator()(X x, Xs ...xs) const
-        { return x && (*this)(xs...); }
+    --------------------------------------------------------------------------
+
+    ## Minimal complete definition
+    `if_`
+
+    -------------------------------------------------------------------------
+
+    @todo
+    Use a non-naive implementation for variadic `and_` and `or_`.
+
+    @bug
+    We don't short-circuit right now. Don't forget to change the examples and
+    unit tests when that's implemented.
+     */
+    template <typename T, typename Enable = void>
+    struct Logical;
+
+    //! Conditionally return one of two values based on a condition.
+    //! @method{Logical}
+    BOOST_HANA_CONSTEXPR_LAMBDA auto if_ = [](auto logical, auto then_, auto else_) {
+        return Logical<datatype_t<decltype(logical)>>::if_impl(logical, then_, else_);
+    };
+
+    struct _and {
+        template <typename X, typename Y>
+        constexpr auto operator()(X x, Y y) const
+        { return Logical<datatype_t<decltype(x)>>::and_impl(x, y); }
+
+        template <typename X, typename Y, typename ...Z>
+        constexpr auto operator()(X x, Y y, Z ...z) const
+        { return (*this)(x, (*this)(y, z...)); }
+
+        template <typename X>
+        constexpr auto operator()(X x) const
+        { return x; }
 
         constexpr auto operator()() const
         { return true_; }
-    } and_{};
+    };
 
-    constexpr struct _or {
-        template <typename X, typename ...Xs>
-        constexpr auto operator()(X x, Xs ...xs) const
-        { return x || (*this)(xs...); }
+    //! Return whether all the arguments are true-valued.
+    //! @method{Logical}
+    //!
+    //! `and_` can be called with any number of arguments. When called with
+    //! two arguments, `and_` dispatches to the type class implementation.
+    //! Otherwise,
+    //! @code
+    //!     and_() == true_
+    //!     and_(x) == x
+    //!     and_(x, y, ...z) == and_(x, and_(y, z...))
+    //! @endcode
+    //!
+    //! ### Example
+    //! @snippet example/integral/logical/and.cpp main
+    constexpr _and and_{};
+
+    struct _or {
+        template <typename X, typename Y>
+        constexpr auto operator()(X x, Y y) const
+        { return Logical<datatype_t<decltype(x)>>::or_impl(x, y); }
+
+        template <typename X, typename Y, typename ...Z>
+        constexpr auto operator()(X x, Y y, Z ...z) const
+        { return (*this)(x, (*this)(y, z...)); }
+
+        template <typename X>
+        constexpr auto operator()(X x) const
+        { return x; }
 
         constexpr auto operator()() const
         { return false_; }
-    } or_{};
+    };
 
-    constexpr struct _if {
-        template <typename Then, typename Else>
-        constexpr auto operator()(decltype(true_), Then t, Else) const
-        { return t; }
+    //! Return whether any of the arguments is true-valued.
+    //! @method{Logical}
+    //!
+    //! `or_` can be called with any number of arguments. When called with
+    //! two arguments, `or_` dispatches to the type class implementation.
+    //! Otherwise,
+    //! @code
+    //!     or_() == false_
+    //!     or_(x) == x
+    //!     or_(x, y, ...z) == or_(x, or_(y, z...))
+    //! @endcode
+    //!
+    //! ### Example
+    //! @snippet example/integral/logical/or.cpp main
+    constexpr _or or_{};
 
-        template <typename Then, typename Else>
-        constexpr auto operator()(decltype(false_), Then, Else e) const
-        { return e; }
+    namespace operators {
+        //! Equivalent to `and_`.
+        //! @method{boost::hana::Logical}
+        template <typename X, typename Y>
+        constexpr auto operator&&(X x, Y y)
+        { return and_(x, y); }
 
+        //! Equivalent to `or_`.
+        //! @method{boost::hana::Logical}
+        template <typename X, typename Y>
+        constexpr auto operator||(X x, Y y)
+        { return or_(x, y); }
+    }
+
+
+    template <>
+    struct instance<Logical> {
+        template <typename T, typename Enable = void>
+        struct with { };
+    };
+
+    template <>
+    struct defaults<Logical> {
+        template <typename T, typename Enable = void>
+        struct with {
+            template <typename X, typename Y>
+            static constexpr auto or_impl(X x, Y y)
+            { return if_(x, x, y); }
+
+            template <typename X, typename Y>
+            static constexpr auto and_impl(X x, Y y)
+            { return if_(x, y, x); }
+        };
+    };
+
+    template <typename T, typename Enable>
+    struct Logical : instance<Logical>::template with<T> { };
+
+    template <>
+    struct Logical<bool> : defaults<Logical>::with<bool> {
         template <typename Then, typename Else>
-        constexpr auto operator()(bool cond, Then t, Else e) const
+        static constexpr auto if_impl(bool cond, Then t, Else e)
         { return cond ? t : e; }
-    } if_{};
-
-    //! @}
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_LOGICAL_HPP

@@ -29,6 +29,8 @@ boost_hana_add_example(functional.placeholder)
 
 boost_hana_add_example(integral.comparable)
 boost_hana_add_example(integral.literals)
+boost_hana_add_example(integral.logical.and)
+boost_hana_add_example(integral.logical.or)
 boost_hana_add_example(integral.operators)
 
 boost_hana_add_example(list.comparable)
