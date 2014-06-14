@@ -546,7 +546,7 @@ namespace boost { namespace hana {
         }
     );
 
-    //! Sort a list based on the `<` partial ordering.
+    //! Sort a list based on the `<` strict weak ordering.
     //! @relates List
     //!
     //! ### Example
