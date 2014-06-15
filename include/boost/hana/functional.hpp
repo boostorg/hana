@@ -70,7 +70,9 @@ namespace boost { namespace hana {
     //! @snippet example/functional/arg.cpp main
     //!
     //! @todo
-    //! Maybe this should be `arg(n)` instead of `arg<n>`?
+    //! Maybe this should be `arg(n)` instead of `arg<n>`? It's more
+    //! consistent but harder to use since we have to write `arg(int_<n>)(...)`
+    //! instead of `arg<n>(...)`.
     template <std::size_t n>
     BOOST_HANA_CONSTEXPR_LAMBDA auto arg = [](auto ...xs) {
         static_assert(n > 0,

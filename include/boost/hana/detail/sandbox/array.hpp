@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/sandbox/algorithm.hpp>
 
 #include <cstddef>      // for std::size_t and std::ptrdiff_t
+#include <functional>   // for std::less and std::equal_to
 #include <iterator>     // for std::reverse_iterator<>
 #include <stdexcept>    // for std::out_of_range
 #include <type_traits>  // for std::integral_constant
@@ -121,28 +122,12 @@ namespace boost { namespace hana { namespace sandbox {
         value_type elems_[Size > 0 ? Size : 1];
     };
 
-    namespace array_detail {
-        //! @todo Remove the need for this.
-        constexpr struct _less {
-            template <typename T, typename U>
-            constexpr auto operator()(T t, U u) const
-            { return t < u; }
-        } less{};
-
-        //! @todo Remove the need for this.
-        constexpr struct _eq {
-            template <typename T, typename U>
-            constexpr auto operator()(T t, U u) const
-            { return t == u; }
-        } eq{};
-    }
-
     //////////////////////////////////////////////////////////////////////
     // Comparison
     //////////////////////////////////////////////////////////////////////
     template <typename T, std::size_t SizeT, typename U, std::size_t SizeU>
     constexpr bool operator==(array<T, SizeT> const& x, array<U, SizeU> const& y) {
-        return std_equal(x.cbegin(), x.cend(), y.cbegin(), y.cend(), array_detail::eq);
+        return std_equal(x.cbegin(), x.cend(), y.cbegin(), y.cend(), std::equal_to<>{});
     }
 
     template <typename T, std::size_t SizeT, typename U, std::size_t SizeU>
@@ -151,7 +136,7 @@ namespace boost { namespace hana { namespace sandbox {
 
     template <typename T, std::size_t SizeT, typename U, std::size_t SizeU>
     constexpr bool operator<(array<T, SizeT> const& x, array<U, SizeU> const& y) {
-        return std_lexicographical_compare(x.cbegin(), x.cend(), y.cbegin(), y.cend(), array_detail::less);
+        return std_lexicographical_compare(x.cbegin(), x.cend(), y.cbegin(), y.cend(), std::less<>{});
     }
 
     template <typename T, std::size_t SizeT, typename U, std::size_t SizeU>

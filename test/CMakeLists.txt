@@ -108,7 +108,7 @@ boost_hana_add_test(range.comparable)
 boost_hana_add_test(range.foldable)
 boost_hana_add_test(range.iterable)
 
-boost_hana_add_test(sandbox.array.api)
+boost_hana_add_test(sandbox.array)
 boost_hana_add_test(sandbox.assert)
 boost_hana_add_test(sandbox.comparable_interop)
 boost_hana_add_test(sandbox.dispatch)
