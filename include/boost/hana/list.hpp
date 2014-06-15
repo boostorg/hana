@@ -279,63 +279,16 @@ namespace boost { namespace hana {
     template <>
     constexpr bool comparable_from_iterable<List> = true;
 
-    /*!
-    Zip one list or more with a given function.
-    @relates List
-
-    Specifically, returns a list whose i-th element is `f(s1[i], ..., sn[i])`,
-    where `sk[i]` denotes the i-th element of the k-th list passed as an
-    argument. The returned list stops when the shortest input sequence is
-    exhausted.
-
-    In other words, `zip_with(f, s1, ..., sn)` is a list of the form
-    @code
-        f(s1[0], ..., sn[0])
-        f(s1[1], ..., sn[1])
-        ...
-        f(s1[k], ..., sn[k])
-    @endcode
-    where `k` is the length of the shortest list.
-
-    ### Example
-    @snippet example/list/zip_with.cpp main
-
-    @todo
-    - Consider allowing only two lists and achieving the variadic behavior
-    in some other way. This would make it possible to automatically curry
-    `zip_with`. It might be possible to achieve the variadic behavior with
-    e.g. Applicative Functors? If we decide to keep the variadic behavior,
-    then we probably want to support the 0 list case. How should `zip_with`
-    behave in that case?
-     */
-    BOOST_HANA_CONSTEXPR_LAMBDA auto zip_with = [](auto f, auto ...lists) {
-        static_assert(sizeof...(lists) >= 1,
-            "zip_with requires at least one list");
-        return unpack(
-            on(list, [=](auto index) { return f(at(index, lists)...); }),
-            range(size_t<0>, minimum(list(length(lists)...)))
-        );
-    };
-
-    //! Zip one list or more.
+    //! Concatenate zero or more lists together.
     //! @relates List
     //!
-    //! ### Example
-    //! @snippet example/list/zip.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto zip = [](auto ...lists) {
-        return zip_with(list, lists...);
-    };
-
-    //! Removes the last element of a non-empty list.
-    //! @relates List
+    //! With 0 arguments, returns an empty list. With 1 argument, returns
+    //! the list itself.
     //!
     //! ### Example
-    //! @snippet example/list/init.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto init = [](auto xs) {
-        return unpack(
-            on(list, [=](auto index) { return at(index, xs); }),
-            range(size_t<0>, length(xs) - size_t<1>)
-        );
+    //! @snippet example/list/concat.cpp main
+    BOOST_HANA_CONSTEXPR_LAMBDA auto concat = [](auto ...lists) {
+        return foldl(list_detail::concat2, list(), list(lists...));
     };
 
     //! Prepend an element to the head of a list.
@@ -345,76 +298,6 @@ namespace boost { namespace hana {
     //! @snippet example/list/cons.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto cons = [](auto x, auto xs) {
         return xs.into([=](auto ...xs) { return list(x, xs...); });
-    };
-
-    //! Append an element to the end of a list.
-    //! @relates List
-    //!
-    //! ### Example
-    //! @snippet example/list/snoc.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto snoc = [](auto xs, auto x) {
-        return xs.into([=](auto ...xs) { return list(xs..., x); });
-    };
-
-
-    //! Return the first `n` elements of a list.
-    //! @relates List
-    //!
-    //! `n` must be a non-negative `Integral` representing the number of
-    //! elements to keep. If `n` is greater than the length of the list,
-    //! the whole list is returned.
-    //!
-    //! ### Example
-    //! @snippet example/list/take.cpp main
-    //!
-    //! @todo Move `min` in a proper type class.
-    BOOST_HANA_CONSTEXPR_LAMBDA auto take = [](auto n, auto xs) {
-        auto min = [](auto a, auto b) { return if_(a < b, a, b); };
-        return unpack(
-            on(list, [=](auto index) { return at(index, xs); }),
-            range(size_t<0>, min(n, length(xs)))
-        );
-    };
-
-    //! Take elements while the `predicate` is satisfied.
-    //! @relates List
-    //!
-    //! Specifically, returns the longest prefix of a list in which all
-    //! elements satisfy the given predicate.
-    //!
-    //! @todo
-    //! How to specify that a predicate must be compile-time?
-    //!
-    //! ### Example
-    //! @snippet example/list/take_while.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto take_while = [](auto predicate, auto xs) {
-        auto acc = [=](auto x, auto xs) {
-            return if_(predicate(x()),
-                [=](auto xs) { return cons(x(), xs()); },
-                always(list())
-            )(xs);
-        };
-        return lazy_foldr(acc, list(), xs);
-    };
-
-    //! Take elements until the `predicate` is satisfied.
-    //! @relates List
-    //!
-    //! This is equivalent to `take_while` with a negated predicate.
-    //!
-    //! ### Example
-    //! @snippet example/list/take_until.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto take_until = [](auto predicate, auto xs) {
-        return take_while([=](auto x) { return !predicate(x); }, xs);
-    };
-
-    //! Reverse a list.
-    //! @relates List
-    //!
-    //! ### Example
-    //! @snippet example/list/reverse.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto reverse = [](auto xs) {
-        return foldl(flip(cons), list(), xs);
     };
 
     //! Return a list containing only the elements satisfying the `predicate`.
@@ -429,16 +312,25 @@ namespace boost { namespace hana {
         return foldr(go, list(), xs);
     };
 
-    //! Concatenate zero or more lists together.
+    //! Removes the last element of a non-empty list.
     //! @relates List
     //!
-    //! With 0 arguments, returns an empty list. With 1 argument, returns
-    //! the list itself.
+    //! ### Example
+    //! @snippet example/list/init.cpp main
+    BOOST_HANA_CONSTEXPR_LAMBDA auto init = [](auto xs) {
+        return unpack(
+            on(list, [=](auto index) { return at(index, xs); }),
+            range(size_t<0>, length(xs) - size_t<1>)
+        );
+    };
+
+    //! Append an element to the end of a list.
+    //! @relates List
     //!
     //! ### Example
-    //! @snippet example/list/concat.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto concat = [](auto ...lists) {
-        return foldl(list_detail::concat2, list(), list(lists...));
+    //! @snippet example/list/snoc.cpp main
+    BOOST_HANA_CONSTEXPR_LAMBDA auto snoc = [](auto xs, auto x) {
+        return xs.into([=](auto ...xs) { return list(xs..., x); });
     };
 
     //! Partition a list based on a `predicate`.
@@ -514,6 +406,15 @@ namespace boost { namespace hana {
         }
     );
 
+    //! Reverse a list.
+    //! @relates List
+    //!
+    //! ### Example
+    //! @snippet example/list/reverse.cpp main
+    BOOST_HANA_CONSTEXPR_LAMBDA auto reverse = [](auto xs) {
+        return foldl(flip(cons), list(), xs);
+    };
+
     //! Sort a list based on the given `predicate`.
     //! @relates List
     //!
@@ -555,6 +456,105 @@ namespace boost { namespace hana {
     //! @todo Use a real type class method for Orderables when we get one.
     BOOST_HANA_CONSTEXPR_LAMBDA auto sort = [](auto xs) {
         return sort_by(_ < _, xs);
+    };
+
+    //! Return the first `n` elements of a list.
+    //! @relates List
+    //!
+    //! `n` must be a non-negative `Integral` representing the number of
+    //! elements to keep. If `n` is greater than the length of the list,
+    //! the whole list is returned.
+    //!
+    //! ### Example
+    //! @snippet example/list/take.cpp main
+    //!
+    //! @todo Move `min` in a proper type class.
+    BOOST_HANA_CONSTEXPR_LAMBDA auto take = [](auto n, auto xs) {
+        auto min = [](auto a, auto b) { return if_(a < b, a, b); };
+        return unpack(
+            on(list, [=](auto index) { return at(index, xs); }),
+            range(size_t<0>, min(n, length(xs)))
+        );
+    };
+
+    //! Take elements while the `predicate` is satisfied.
+    //! @relates List
+    //!
+    //! Specifically, returns the longest prefix of a list in which all
+    //! elements satisfy the given predicate. The predicate must return
+    //! an `Integral`.
+    //!
+    //! ### Example
+    //! @snippet example/list/take_while.cpp main
+    BOOST_HANA_CONSTEXPR_LAMBDA auto take_while = [](auto predicate, auto xs) {
+        auto acc = [=](auto x, auto xs) {
+            return if_(predicate(x()),
+                [=](auto xs) { return cons(x(), xs()); },
+                always(list())
+            )(xs);
+        };
+        return lazy_foldr(acc, list(), xs);
+    };
+
+    //! Take elements until the `predicate` is satisfied.
+    //! @relates List
+    //!
+    //! This is equivalent to `take_while` with a negated predicate.
+    //!
+    //! ### Example
+    //! @snippet example/list/take_until.cpp main
+    BOOST_HANA_CONSTEXPR_LAMBDA auto take_until = [](auto predicate, auto xs) {
+        return take_while([=](auto x) { return !predicate(x); }, xs);
+    };
+
+    /*!
+    Zip several lists with a given function.
+    @relates List
+
+    Specifically, returns a list whose i-th element is `f(s1[i], ..., sn[i])`,
+    where `sk[i]` denotes the i-th element of the k-th list passed as an
+    argument. The returned list stops when the shortest input sequence is
+    exhausted.
+
+    In other words, `zip_with(f, s1, ..., sn)` is a list of the form
+    @code
+        f(s1[0], ..., sn[0])
+        f(s1[1], ..., sn[1])
+        ...
+        f(s1[k], ..., sn[k])
+    @endcode
+    where `k` is the length of the shortest list.
+
+    @note
+    When invoked with 0 arguments, returns an empty list.
+
+    ### Example
+    @snippet example/list/zip_with.cpp main
+
+    @todo
+    - Consider allowing only two lists and achieving the variadic behavior
+    in some other way. This would make it possible to automatically curry
+    `zip_with`. It might be possible to achieve the variadic behavior with
+    e.g. Applicative Functors?
+     */
+    BOOST_HANA_CONSTEXPR_LAMBDA auto zip_with = [](auto f, auto ...lists) {
+        auto go = [=](auto index) {
+            return always(f)(index)(at(index, lists)...);
+        };
+        auto zip_length = if_(bool_<sizeof...(lists) == 0>,
+            always(size_t<0>),
+            [=](auto list) { return minimum(list(length(lists)...)); }
+        )(list);
+        return unpack(on(list, go), range(size_t<0>, zip_length));
+    };
+
+    //! Zip one list or more.
+    //! @relates List
+    //!
+    //! ### Example
+    //! @snippet example/list/zip.cpp main
+    BOOST_HANA_CONSTEXPR_LAMBDA auto zip = [](auto ...lists) {
+        return zip_with(list, lists...);
     };
 }} // end namespace boost::hana
 

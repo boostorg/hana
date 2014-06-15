@@ -15,6 +15,13 @@ template <int ...i>
 BOOST_HANA_CONSTEXPR_LAMBDA auto ilist = list_c<int, i...>;
 
 int main() {
+    BOOST_HANA_STATIC_ASSERT(zip() == list());
+
+    BOOST_HANA_STATIC_ASSERT(zip(list()) == list());
+    BOOST_HANA_STATIC_ASSERT(zip(ilist<0>) == list(ilist<0>));
+    BOOST_HANA_STATIC_ASSERT(zip(ilist<0, 1>) == list(ilist<0>, ilist<1>));
+    BOOST_HANA_STATIC_ASSERT(zip(ilist<0, 1, 2>) == list(ilist<0>, ilist<1>, ilist<2>));
+
     BOOST_HANA_STATIC_ASSERT(zip(list(), list()) == list());
     BOOST_HANA_STATIC_ASSERT(zip(ilist<0>, ilist<1>) == list(ilist<0, 1>));
     BOOST_HANA_STATIC_ASSERT(zip(ilist<0>, ilist<1>, ilist<2>) == list(ilist<0, 1, 2>));
