@@ -179,26 +179,26 @@ namespace boost { namespace hana {
         struct with {
             template <typename Index, typename Iterable_>
             static constexpr auto at_impl(Index n, Iterable_ iterable) {
-                return if_(n == size_t<0>,
-                    [](auto n, auto it) { return head(it); },
-                    [](auto n, auto it) { return at_impl(n - size_t<1>, tail(it)); }
-                )(n, iterable);
+                return eval_if(n == size_t<0>,
+                    [=](auto _) { return head(_(iterable)); },
+                    [=](auto _) { return at_impl(_(n) - size_t<1>, tail(_(iterable))); }
+                );
             }
 
             template <typename Iterable_>
             static constexpr auto last_impl(Iterable_ iterable) {
-                return if_(is_empty(tail(iterable)),
-                    head,
-                    [](auto it) { return last_impl(tail(it)); }
-                )(iterable);
+                return eval_if(is_empty(tail(iterable)),
+                    [=](auto _) { return head(_(iterable)); },
+                    [=](auto _) { return last_impl(tail(_(iterable))); }
+                );
             }
 
             template <typename N, typename Iterable_>
             static constexpr auto drop_impl(N n, Iterable_ iterable) {
-                return if_(n == size_t<0> || is_empty(iterable),
+                return eval_if(n == size_t<0> || is_empty(iterable),
                     always(iterable),
-                    [](auto n, auto it) { return drop_impl(n - size_t<1>, tail(it)); }
-                )(n, iterable);
+                    [=](auto _) { return drop_impl(_(n) - size_t<1>, tail(_(iterable))); }
+                );
             }
 
             template <typename Pred, typename Iterable_>
@@ -270,10 +270,10 @@ namespace boost { namespace hana {
     {
         template <typename F, typename State, typename Iterable>
         static constexpr auto foldl_impl(F f, State s, Iterable xs) {
-            return if_(is_empty(xs),
+            return eval_if(is_empty(xs),
                 always(s),
-                [=](auto xs) { return foldl_impl(f, f(s, head(xs)), tail(xs)); }
-            )(xs);
+                [=](auto _) { return foldl_impl(f, f(s, head(_(xs))), tail(_(xs))); }
+            );
         }
 
         template <typename F, typename Iterable>
@@ -282,28 +282,28 @@ namespace boost { namespace hana {
 
         template <typename F, typename Iterable>
         static constexpr auto foldr1_impl(F f, Iterable xs) {
-            return if_(is_empty(tail(xs)),
-                head,
-                [=](auto xs) { return f(head(xs), foldr1_impl(f, tail(xs))); }
-            )(xs);
+            return eval_if(is_empty(tail(xs)),
+                [=](auto) { return head(xs); },
+                [=](auto _) { return f(head(xs), foldr1_impl(f, tail(_(xs)))); }
+            );
         }
 
         template <typename F, typename State, typename Iterable>
         static constexpr auto foldr_impl(F f, State s, Iterable xs) {
-            return if_(is_empty(xs),
+            return eval_if(is_empty(xs),
                 always(s),
-                [=](auto xs) { return f(head(xs), foldr_impl(f, s, tail(xs))); }
-            )(xs);
+                [=](auto _) { return f(head(_(xs)), foldr_impl(f, s, tail(_(xs)))); }
+            );
         }
 
         template <typename F, typename State, typename Iterable>
         static constexpr auto lazy_foldr_impl(F f, State s, Iterable xs) {
-            return if_(is_empty(xs),
+            return eval_if(is_empty(xs),
                 always(s),
-                [=](auto xs) {
-                    return f(partial(head, xs), partial(lazy_foldr, f, s, tail(xs)));
+                [=](auto _) {
+                    return f(partial(head, xs), partial(lazy_foldr, f, s, tail(_(xs))));
                 }
-            )(xs);
+            );
         }
     };
 }} // end namespace boost::hana
