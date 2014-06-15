@@ -32,6 +32,13 @@ namespace boost { namespace hana {
     represent are equal. Conversions are allowed.
     @snippet example/integral/comparable.cpp main
 
+    ### Logical
+    An `Integral` is true-valued if and only if its integral value is
+    true-valued, i.e. if
+    @code
+        static_cast<bool>(n()) == true
+    @endcode
+
     --------------------------------------------------------------------------
 
     @todo

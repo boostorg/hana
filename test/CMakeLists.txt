@@ -97,6 +97,7 @@ boost_hana_add_test(list.zip_with)
 
 boost_hana_add_test(logical.and)
 boost_hana_add_test(logical.bool)
+boost_hana_add_test(logical.if)
 boost_hana_add_test(logical.or)
 
 boost_hana_add_test(maybe.api)

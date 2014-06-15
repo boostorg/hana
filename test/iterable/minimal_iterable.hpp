@@ -65,6 +65,7 @@ namespace boost { namespace hana {
     //! expressions when used in some contexts requiring constant expressions.
     //! Using the partial specializations in a constant expression explicitly
     //! makes it work. Remove this when it's fixed.
+    //! See http://llvm.org/bugs/show_bug.cgi?id=19571
     static_assert(foldable_from_iterable<MinimalIterable<0>>, "");
     static_assert(comparable_from_iterable<MinimalIterable<0>>, "");
     static_assert(comparable_from_iterable<MinimalIterable<1>>, "");

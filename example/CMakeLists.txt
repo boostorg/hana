@@ -12,6 +12,8 @@ function(boost_hana_add_example name)
     add_dependencies(examples example.${name})
 endfunction()
 
+boost_hana_add_example(bool.logical.eval_if)
+
 boost_hana_add_example(functional.always.basic)
 boost_hana_add_example(functional.always.dependent)
 boost_hana_add_example(functional.apply)
@@ -30,6 +32,7 @@ boost_hana_add_example(functional.placeholder)
 boost_hana_add_example(integral.comparable)
 boost_hana_add_example(integral.literals)
 boost_hana_add_example(integral.logical.and)
+boost_hana_add_example(integral.logical.eval_if)
 boost_hana_add_example(integral.logical.or)
 boost_hana_add_example(integral.operators)
 

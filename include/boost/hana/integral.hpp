@@ -29,16 +29,16 @@ namespace boost { namespace hana {
     template <>
     struct Logical<Integral> : defaults<Logical>::with<Integral> {
         template <typename Cond, typename Then, typename Else>
-        static constexpr auto if_impl(Cond c, Then t, Else e)
-        { return if_impl(bool_<c()>, t, e); }
+        static constexpr auto eval_if_impl(Cond c, Then t, Else e)
+        { return eval_if_impl(bool_<c()>, t, e); }
 
         template <typename Then, typename Else>
-        static constexpr auto if_impl(decltype(true_), Then t, Else)
-        { return t; }
+        static constexpr auto eval_if_impl(decltype(true_), Then t, Else)
+        { return t([](auto x) { return x; }); }
 
         template <typename Then, typename Else>
-        static constexpr auto if_impl(decltype(false_), Then, Else e)
-        { return e; }
+        static constexpr auto eval_if_impl(decltype(false_), Then, Else e)
+        { return e([](auto x) { return x; }); }
     };
 
     namespace integral_detail {

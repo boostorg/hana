@@ -29,12 +29,12 @@ namespace boost { namespace hana {
         : defaults<Logical>::template with<MinimalLogical>
     {
         template <typename Then, typename Else>
-        static constexpr auto if_impl(_logical<true>, Then t, Else)
-        { return t; }
+        static constexpr auto eval_if_impl(_logical<true>, Then t, Else)
+        { return t([](auto x) { return x; }); }
 
         template <typename Then, typename Else>
-        static constexpr auto if_impl(_logical<false>, Then, Else e)
-        { return e; }
+        static constexpr auto eval_if_impl(_logical<false>, Then, Else e)
+        { return e([](auto x) { return x; }); }
     };
 }}
 

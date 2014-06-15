@@ -23,7 +23,7 @@ namespace boost { namespace hana {
     --------------------------------------------------------------------------
 
     ## Minimal complete definition
-    `if_`
+    `eval_if`
 
     -------------------------------------------------------------------------
 
@@ -41,6 +41,23 @@ namespace boost { namespace hana {
     //! @method{Logical}
     BOOST_HANA_CONSTEXPR_LAMBDA auto if_ = [](auto logical, auto then_, auto else_) {
         return Logical<datatype_t<decltype(logical)>>::if_impl(logical, then_, else_);
+    };
+
+    //! Conditionally execute one of two branches based on a condition.
+    //! @method{Logical}
+    //!
+    //! The selected branch will be invoked with an identity function, wich
+    //! allows making types and values dependent inside a lambda and achieve
+    //! a lazy-like behavior. However, type instantiation laziness can only
+    //! be achieved with `Integral` conditions or equivalent.
+    //!
+    //! ### Example (purely compile-time condition)
+    //! @snippet example/integral/logical/eval_if.cpp main
+    //!
+    //! ### Example (runtime or `constexpr` condition)
+    //! @snippet example/bool/logical/eval_if.cpp main
+    BOOST_HANA_CONSTEXPR_LAMBDA auto eval_if = [](auto logical, auto then_branch, auto else_branch) {
+        return Logical<datatype_t<decltype(logical)>>::eval_if_impl(logical, then_branch, else_branch);
     };
 
     struct _and {
@@ -132,7 +149,7 @@ namespace boost { namespace hana {
 
     template <>
     struct defaults<Logical> {
-        template <typename T, typename Enable = void>
+        template <typename, typename Enable = void>
         struct with {
             template <typename X, typename Y>
             static constexpr auto or_impl(X x, Y y)
@@ -141,6 +158,10 @@ namespace boost { namespace hana {
             template <typename X, typename Y>
             static constexpr auto and_impl(X x, Y y)
             { return if_(x, y, x); }
+
+            template <typename C, typename T, typename E>
+            static constexpr auto if_impl(C c, T t, E e)
+            { return eval_if(c, [=](auto) { return t; }, [=](auto) { return e; }); }
         };
     };
 
@@ -150,8 +171,10 @@ namespace boost { namespace hana {
     template <>
     struct Logical<bool> : defaults<Logical>::with<bool> {
         template <typename Then, typename Else>
-        static constexpr auto if_impl(bool cond, Then t, Else e)
-        { return cond ? t : e; }
+        static constexpr auto eval_if_impl(bool cond, Then t, Else e) {
+            auto id = [](auto x) { return x; };
+            return cond ? t(id) : e(id);
+        }
     };
 }} // end namespace boost::hana
 

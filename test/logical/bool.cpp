@@ -11,6 +11,15 @@ using namespace boost::hana;
 
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(if_(true, 0, 1) == 0);
-    BOOST_HANA_STATIC_ASSERT(if_(false, 0, 1) == 1);
+    BOOST_HANA_STATIC_ASSERT(eval_if(true,
+        [](auto) { return true; },
+        [](auto id) { return 1 / id(0); }
+    ) == true);
+    BOOST_HANA_STATIC_ASSERT(eval_if(false,
+        [](auto id) { return 1 / id(0); },
+        [](auto) { return false; }
+    ) == false);
+
+    BOOST_HANA_STATIC_ASSERT(if_(true, true, false) == true);
+    BOOST_HANA_STATIC_ASSERT(if_(false, true, false) == false);
 }
