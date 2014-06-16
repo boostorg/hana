@@ -23,8 +23,8 @@ int main() {
     };
 
     assert(
-        fmap(to_string, list(1, '2', "3", std::string{"456"})) ==
-        list("1", "2", "3", "456")
+        fmap(to_string, list(1, '2', "345", std::string{"67"})) ==
+        list("1", "2", "345", "67")
     );
     //! [fusion]
 

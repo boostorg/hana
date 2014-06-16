@@ -26,7 +26,8 @@ int main() {
     // Type properties
     ///////////////////
     // Primary type categories
-    BOOST_HANA_STATIC_ASSERT(decltype_(trait::is_void(s)) == decltype_(false_));
+    auto is_void = trait::is_void(s);
+    static_assert(!is_void(), "the traits should be compile-time checkable");
     trait::is_null_pointer(s);
     trait::is_integral(s);
     trait::is_floating_point(s);

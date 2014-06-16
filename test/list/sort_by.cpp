@@ -6,6 +6,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/list.hpp>
 
+#include <boost/hana/comparable.hpp>
+#include <boost/hana/core.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/functional.hpp>
@@ -14,17 +16,23 @@ Distributed under the Boost Software License, Version 1.0.
 using namespace boost::hana;
 
 
-namespace test {
-    template <int equivalence_class> struct X { };
-    template <int equivalence_class> struct Y { };
 
-    template <int i, int j, template <int> class X, template <int> class Y>
-    constexpr auto operator==(X<i>, Y<j>)
-    { return type<X<i>> == type<Y<j>>; }
-}
+struct EqClass;
+template <int equivalence_class> struct X { using hana_datatype = EqClass; };
+template <int equivalence_class> struct Y { using hana_datatype = EqClass; };
+template <int equivalence_class> constexpr X<equivalence_class> x{};
+template <int equivalence_class> constexpr Y<equivalence_class> y{};
 
-template <int equivalence_class> constexpr test::X<equivalence_class> x{};
-template <int equivalence_class> constexpr test::Y<equivalence_class> y{};
+namespace boost { namespace hana {
+    template <>
+    struct Comparable<EqClass, EqClass>
+        : defaults<Comparable>::with<EqClass, EqClass>
+    {
+        template <typename T, typename U>
+        static constexpr auto equal_impl(T, U)
+        { return type<T> == type<U>; }
+    };
+}}
 
 constexpr struct _predicate {
     template <int i, int j, template <int> class X, template <int> class Y>
