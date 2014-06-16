@@ -65,6 +65,15 @@ namespace boost { namespace hana {
             constexpr auto operator()(Args ...args) const
             { return typename Wrapper::hidden{args...}; }
         };
+
+        template <typename T>
+        constexpr auto make_wrapper() {
+            struct wrapper : operators::enable, construct<wrapper> {
+                using hana_datatype = Type;
+                using hidden = T;
+            };
+            return wrapper{};
+        }
     }
 
     /*!
@@ -103,13 +112,7 @@ namespace boost { namespace hana {
       yield the opposite effect and be messier than using different names.
      */
     template <typename T>
-    BOOST_HANA_CONSTEXPR_LAMBDA auto type = [] {
-        struct wrapper : operators::enable, type_detail::construct<wrapper> {
-            using hana_datatype = Type;
-            using hidden = T;
-        };
-        return wrapper{};
-    }();
+    constexpr auto type = type_detail::make_wrapper<T>();
 
 #if defined(BOOST_HANA_DOXYGEN_INVOKED)
     //! Metafunction returning the type represented by a `Type`.

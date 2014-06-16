@@ -11,22 +11,18 @@ Distributed under the Boost Software License, Version 1.0.
 using namespace boost::hana;
 
 
-//! @todo
-//! We use `decltype_(T{})` instead of `type<T>` because Clang segfaults.
-//! See http://llvm.org/bugs/show_bug.cgi?id=20046
-//! and use `type<T>` once that's fixed.
-struct T { }; struct E { };
+struct T; struct E;
 constexpr struct { } invalid{};
 
 void test_eval_if() {
     BOOST_HANA_STATIC_ASSERT(eval_if(true_,
-        [](auto) { return decltype_(T{}); },
-        [](auto id) { id(invalid)("would fail"); return decltype_(E{}); }
+        [](auto) { return type<T>; },
+        [](auto id) { id(invalid)("would fail"); return type<E>; }
     ) == type<T>);
 
     BOOST_HANA_STATIC_ASSERT(eval_if(false_,
-        [](auto id) { id(invalid)("would fail"); return decltype_(T{}); },
-        [](auto) { return decltype_(E{}); }
+        [](auto id) { id(invalid)("would fail"); return type<T>; },
+        [](auto) { return type<E>; }
     ) == type<E>);
 }
 
