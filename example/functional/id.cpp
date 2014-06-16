@@ -12,6 +12,6 @@ using namespace boost::hana;
 int main() {
     //! [main]
     BOOST_HANA_STATIC_ASSERT(id(1) == 1);
-    BOOST_HANA_STATIC_ASSERT(id("abcdef") == "abcdef");
+    BOOST_HANA_STATIC_ASSERT(id('1') == '1');
     //! [main]
 }

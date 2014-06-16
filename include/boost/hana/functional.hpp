@@ -22,11 +22,9 @@ namespace boost { namespace hana {
         struct curry_impl;
     }
 
-    /*!
-    @defgroup Functional Functional
-    General purpose function objects.
-    @{
-     */
+    //! @defgroup Functional Functional
+    //! General purpose function objects.
+    //! @{
 
     //! The identity function -- returns its argument unchanged.
     //!
@@ -137,7 +135,7 @@ namespace boost { namespace hana {
 
     @hideinitializer
      */
-    template <unsigned arity>
+    template <unsigned int arity>
     BOOST_HANA_CONSTEXPR_LAMBDA auto curry = [](auto f) {
         return functional_detail::curry_impl<decltype(f), arity>{f};
     };
@@ -150,28 +148,35 @@ namespace boost { namespace hana {
     /*!
     Invokes `f` with the result of invoking each `g` with all the arguments.
 
+    This is called `demux` because of a vague similarity between this device
+    and a demultiplexer in signal processing. `demux` takes what can be seen
+    as a continuation, a bunch of functions to split a signal and zero or more
+    arguments representing the signal. Then, it calls the continuation with
+    the result of splitting the signal with whatever functions where given.
+
     @note
     - The arity of `f` must match the number of `g`s.
-    - When used with two functions only, `fbind` is associative. In other
-    words, `fbind(f, fbind(g, h))` is equivalent to `fbind(fbind(f, g), h)`.
+    - When used with two functions only, `demux` is associative. In other
+      words, `demux(f, demux(g, h))` is equivalent to `demux(demux(f, g), h)`.
 
     ### Example
-    @snippet example/functional/fbind.cpp main
+    @snippet example/functional/demux.cpp main
 
     @todo
-    Find a better name.
+    - I think this is equivalent to `fmap . fmap`. See
+      http://stackoverflow.com/q/5821089/627587
 
     @internal
     ### Proof of associativity in the binary case
     @code
-        bind f (bind g h) $ xs... == f ((bind g h) xs...)
-                                  == f (g (h xs...))
+        demux(f, demux(g, h))(x...) == f(demux(g, h)(x...))
+                                    == f(g(h(x...)))
 
-        bind (bind f g) h $ xs... == (bind f g) (h xs...)
-                                  == f (g (h xs...))
+        demux(demux(f, g), h)(x...) == demux(f, g)(h(x...))
+                                    == f(g(h(x...)))
     @endcode
      */
-    BOOST_HANA_CONSTEXPR_LAMBDA auto fbind = [](auto f, auto ...g) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto demux = [](auto f, auto ...g) {
         return [=](auto ...x) { return f(g(x...)...); };
     };
 
@@ -213,7 +218,7 @@ namespace boost { namespace hana {
     //! Since the `g`s are applied in lockstep to the arguments, the number
     //! of arguments must match the number of `g`s.
     //!
-    //! @todo Rename this.
+    //! @todo Find a better name.
     //!
     //! ### Example
     //! @snippet example/functional/lockstep.cpp main
@@ -261,6 +266,11 @@ namespace boost { namespace hana {
     the corresponding operator on its arguments. Operators may also be
     partially applied to one argument to create Haskell-like "sections".
 
+    If invoked with more than two arguments, the extraneous arguments are
+    discarded instead of triggering an error. This makes functions created
+    with `_` more useful as callbacks, since callbacks are sometimes given
+    more information than necessary.
+
     ### Overloaded operators
     - Arithmetic: binary `+`, binary `-`, `/`, `*`, `%`, unary `+`, unary `-`
     - Bitwise: `~`, `&`, `|`, `^`, `<<`, `>>`
@@ -271,12 +281,6 @@ namespace boost { namespace hana {
 
     ### Example
     @snippet example/functional/placeholder.cpp main
-
-    @todo
-    Consider allowing placeholder expressions to be called with more arguments
-    than required. The extraneous arguments could just be discarded as with
-    `boost::bind`. This could be useful to implement e.g. `length` as a
-    wrapper over `foldl`.
      */
     constexpr struct { } _{};
 
@@ -285,19 +289,19 @@ namespace boost { namespace hana {
 #define BOOST_HANA_PLACEHOLDER_BINARY_OP(op)                                \
     template <typename X>                                                   \
     constexpr auto operator op (X x, decltype(_))                           \
-    { return [=](auto y) { return x op y; }; }                              \
+    { return [=](auto y, auto ...z) { return x op y; }; }                   \
                                                                             \
     template <typename Y>                                                   \
     constexpr auto operator op (decltype(_), Y y)                           \
-    { return [=](auto x) { return x op y; }; }                              \
+    { return [=](auto x, auto ...z) { return x op y; }; }                   \
                                                                             \
     BOOST_HANA_CONSTEXPR_LAMBDA auto operator op (decltype(_), decltype(_)) \
-    { return [](auto x, auto y) { return x op y; }; }                       \
+    { return [](auto x, auto y, auto ...z) { return x op y; }; }            \
 /**/
 
 #define BOOST_HANA_PLACEHOLDER_UNARY_OP(op)                                 \
     BOOST_HANA_CONSTEXPR_LAMBDA auto operator op (decltype(_))              \
-    { return [](auto x) { return op x; }; }                                 \
+    { return [](auto x, auto ...z) { return op x; }; }                      \
 /**/
     // Arithmetic
     BOOST_HANA_PLACEHOLDER_UNARY_OP(+)
@@ -307,6 +311,8 @@ namespace boost { namespace hana {
     BOOST_HANA_PLACEHOLDER_BINARY_OP(*)
     BOOST_HANA_PLACEHOLDER_BINARY_OP(/)
     BOOST_HANA_PLACEHOLDER_BINARY_OP(%)
+
+    // Bitwise
     BOOST_HANA_PLACEHOLDER_UNARY_OP(~)
     BOOST_HANA_PLACEHOLDER_BINARY_OP(&)
     BOOST_HANA_PLACEHOLDER_BINARY_OP(|)
@@ -333,13 +339,16 @@ namespace boost { namespace hana {
 #undef BOOST_HANA_BINARY_PLACEHOLDER_OP
 
     namespace functional_detail {
-        template <typename F, unsigned Arity>
+        template <typename F, unsigned int Arity>
         struct curry_impl {
             F f;
 
             template <typename ...Args>
-            constexpr auto operator()(Args ...args) const
-            { return curry<Arity - sizeof...(Args)>(partial(f, args...))(); }
+            constexpr auto operator()(Args ...args) const {
+                static_assert(Arity >= sizeof...(args),
+                "too many arguments provided to boost::hana::curry");
+                return curry<Arity - sizeof...(Args)>(partial(f, args...))();
+            }
 
             constexpr auto operator()() const
             { return *this; }

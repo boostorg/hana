@@ -20,5 +20,8 @@ int main() {
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto double_ = 2 * _;
     BOOST_HANA_STATIC_ASSERT(double_(1) == 2);
+
+    // Extra arguments are ignored.
+    BOOST_HANA_STATIC_ASSERT(double_(1, "ignored") == 2);
     //! [main]
 }

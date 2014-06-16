@@ -10,9 +10,13 @@ Distributed under the Boost Software License, Version 1.0.
 using namespace boost::hana;
 
 
+struct nonpod { virtual ~nonpod() { } };
+
 int main() {
-    BOOST_HANA_STATIC_ASSERT(always(10)() == 10);
-    BOOST_HANA_STATIC_ASSERT(always(10)('a') == 10);
-    BOOST_HANA_STATIC_ASSERT(always(10)('a', 'b') == 10);
-    BOOST_HANA_STATIC_ASSERT(always(10)('a', 'b', 'c') == 10);
+    BOOST_HANA_STATIC_ASSERT(always('a')() == 'a');
+    BOOST_HANA_STATIC_ASSERT(always('a')(1) == 'a');
+    BOOST_HANA_STATIC_ASSERT(always('a')(1, '2') == 'a');
+    BOOST_HANA_STATIC_ASSERT(always('a')(1, '2', "3") == 'a');
+    BOOST_HANA_STATIC_ASSERT(always('a')(1, '2', "3", 4.4f) == 'a');
+    BOOST_HANA_STATIC_ASSERT(always('a')(1, '2', "3", 4.4f, nonpod{}) == 'a');
 }

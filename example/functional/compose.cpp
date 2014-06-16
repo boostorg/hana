@@ -12,14 +12,14 @@ using namespace boost::hana;
 
 int main() {
     //! [main]
+    BOOST_HANA_CONSTEXPR_LAMBDA auto to_char = [](int x) {
+        return static_cast<char>(x + 48);
+    };
+
     BOOST_HANA_CONSTEXPR_LAMBDA auto increment = [](auto x) {
         return x + 1;
     };
 
-    BOOST_HANA_CONSTEXPR_LAMBDA auto double_ = [](auto x) {
-        return x * 2;
-    };
-
-    BOOST_HANA_STATIC_ASSERT(compose(increment, double_)(3) == (3 * 2) + 1);
+    BOOST_HANA_STATIC_ASSERT(compose(to_char, increment)(3) == '4');
     //! [main]
 }

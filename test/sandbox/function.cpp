@@ -64,7 +64,7 @@ namespace boost { namespace hana {
     {
         template <typename F, typename G>
         static constexpr auto equal_impl(F f, G g) {
-            return domain(f) == domain(g) && all(fbind(_==_, f, g), domain(f));
+            return domain(f) == domain(g) && all(demux(_==_, f, g), domain(f));
         }
     };
 }} // end namespace boost::hana

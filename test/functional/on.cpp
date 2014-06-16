@@ -6,18 +6,23 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/functional.hpp>
 
+#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/static_assert.hpp>
-#include <boost/hana/integral.hpp>
-#include <boost/hana/list.hpp>
+
+#include <tuple>
 using namespace boost::hana;
 
 
-BOOST_HANA_CONSTEXPR_LAMBDA auto inc = [](auto x) { return x + int_<1>; };
+BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto ...xs) {
+    return std::make_tuple(xs...);
+};
+
+BOOST_HANA_CONSTEXPR_LAMBDA auto g = [](auto x) { return x + 1; };
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(on(list, inc)() == list());
-    BOOST_HANA_STATIC_ASSERT(on(list, inc)(int_<0>) == list_c<int, 1>);
-    BOOST_HANA_STATIC_ASSERT(on(list, inc)(int_<0>, int_<1>) == list_c<int, 1, 2>);
-    BOOST_HANA_STATIC_ASSERT(on(list, inc)(int_<0>, int_<1>, int_<2>) == list_c<int, 1, 2, 3>);
-    BOOST_HANA_STATIC_ASSERT(on(list, inc)(0, 1, 2, 3) == list(1, 2, 3, 4));
+    BOOST_HANA_STATIC_ASSERT(on(f, g)() == f());
+    BOOST_HANA_STATIC_ASSERT(on(f, g)(1) == f(g(1)));
+    BOOST_HANA_STATIC_ASSERT(on(f, g)(1, '2') == f(g(1), g('2')));
+    BOOST_HANA_STATIC_ASSERT(on(f, g)(1, '2', 3.3) == f(g(1), g('2'), g(3.3)));
+    BOOST_HANA_STATIC_ASSERT(on(f, g)(1, '2', 3.3, 4.4f) == f(g(1), g('2'), g(3.3), g(4.4f)));
 }
