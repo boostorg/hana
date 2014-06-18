@@ -17,17 +17,15 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana { namespace detail { namespace at_index {
-    struct eat { template <typename ...T> eat(T&&...) { } };
-
     template <std::size_t ...ignore>
     constexpr auto overload_impl(index_sequence<ignore...>) {
-        return [](decltype(ignore, eat{})..., auto nth, auto ...rest)
-        { return nth; };
+        return [](decltype(ignore, (void*)0)..., auto nth, ...)
+        { return *nth; };
     }
 
     template <std::size_t n>
     BOOST_HANA_CONSTEXPR_LAMBDA auto overload_resolution = [](auto ...xs) {
-        return overload_impl(make_index_sequence<n>{})(xs...);
+        return overload_impl(make_index_sequence<n>{})(&xs...);
     };
 }}}} // end namespace boost::hana::detail::at_index
 
