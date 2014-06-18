@@ -18,15 +18,18 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     /*!
-    @typeclass{Monad}
-    @{
+    @ingroup typeclasses
     `Monad`s are `Functor`s with the ability to wrap values into them
     and flatten values that were wrapped more than once.
 
-    @mcd
+    --------------------------------------------------------------------------
+
+    ## Minimal complete definition
     `unit` and (`join` or `bind`)
 
-    @laws
+    --------------------------------------------------------------------------
+
+    ## Laws
     Instances of `Monad` must satisfy the following laws:
     @code
         bind(unit<M>(x), f) == f(x)
@@ -78,8 +81,6 @@ namespace boost { namespace hana {
 
     template <typename M, typename Enable>
     struct Monad : instance<Monad>::template with<M> { };
-
-    //! @}
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_MONAD_HPP

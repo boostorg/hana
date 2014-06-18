@@ -105,6 +105,9 @@ boost_hana_add_test(maybe.comparable)
 boost_hana_add_test(maybe.functor)
 boost_hana_add_test(maybe.monad)
 
+boost_hana_add_test(monad.mcd_bind)
+boost_hana_add_test(monad.mcd_join)
+
 boost_hana_add_test(range.comparable)
 boost_hana_add_test(range.foldable)
 boost_hana_add_test(range.iterable)
