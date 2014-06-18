@@ -229,11 +229,6 @@ TAB_SIZE               = 4
 # newlines.
 
 ALIASES =
-
-ALIASES += typeclass{1}="@ingroup typeclasses"
-ALIASES += typeclass_section{1}="--------------------------------------------------------------------------------\n### \1"
-ALIASES += mcd="@typeclass_section{Minimal complete definition}"
-ALIASES += laws="@typeclass_section{Laws}"
 ALIASES += method{1}="@relatesalso \1\n@hideinitializer"
 
 
