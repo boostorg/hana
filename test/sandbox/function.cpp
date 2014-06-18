@@ -60,7 +60,7 @@ namespace boost { namespace hana {
 
     template <>
     struct Comparable<Function, Function>
-        : defaults<Comparable>::template with<Function, Function>
+        : defaults<Comparable>::with<Function, Function>
     {
         template <typename F, typename G>
         static constexpr auto equal_impl(F f, G g) {

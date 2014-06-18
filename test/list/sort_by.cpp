@@ -7,7 +7,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/list.hpp>
 
 #include <boost/hana/comparable.hpp>
-#include <boost/hana/core.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/functional.hpp>

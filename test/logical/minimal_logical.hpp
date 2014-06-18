@@ -7,7 +7,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TEST_LOGICAL_MINIMAL_LOGICAL_HPP
 #define BOOST_HANA_TEST_LOGICAL_MINIMAL_LOGICAL_HPP
 
-#include <boost/hana/core.hpp>
 #include <boost/hana/logical.hpp>
 
 
@@ -25,9 +24,7 @@ constexpr _logical<b> logical{};
 
 namespace boost { namespace hana {
     template <>
-    struct Logical<MinimalLogical>
-        : defaults<Logical>::template with<MinimalLogical>
-    {
+    struct Logical<MinimalLogical> : defaults<Logical>::with<MinimalLogical> {
         template <typename Then, typename Else>
         static constexpr auto eval_if_impl(_logical<true>, Then t, Else)
         { return t([](auto x) { return x; }); }

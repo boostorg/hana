@@ -13,6 +13,15 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     //! @defgroup Core Core
     //! Miscellaneous core utilities.
+    //!
+    //!
+    //! @note
+    //! Users who only wish to instantiate a type class do not need to include
+    //! this header to get the declarations of `defaults` and `instance` in
+    //! scope. Type classes are required to either forward declare them or
+    //! include this header so users are free from that burden when they
+    //! include the type class' header.
+    //!
     //! @{
 
     /*!
@@ -40,11 +49,13 @@ namespace boost { namespace hana {
     @endcode
 
     The `Args...` are specific to each type class; the documentation should
-    explain their purpose.
+    explain their purpose. When possible, it is nice to include a dummy
+    template parameter for SFINAE, which allows `defaults` to be specialized
+    for all types satisfying a predicate.
 
-    @todo
-    - Document best practices with Enablers.
-    - Show examples with enablers and other useful stuff.
+    ### Example
+    @include example/core/defaults.cpp
+
     */
     template <template <typename ...> class Typeclass>
     struct defaults;
@@ -53,15 +64,15 @@ namespace boost { namespace hana {
     Allows complimentary type class instances to be provided.
 
     Every type class instance must inherit exactly one of `defaults<>::%with<>`
-    and `instance<>::%with<>`. The latter may not be provided, in which case
-    the only choice is to inherit `defaults<>::%with<>`. Complimentary
-    instances, if any, should be documented for each type class.
+    and `instance<>::%with<>`. The latter may not be provided (see below), in
+    which case the only choice is to inherit `defaults<>::%with<>`.
+    Complimentary instances, if any, should be documented for each type class.
 
-    When implementing a new type class, one has to inherit from
-    `instance<>::%with<>` as follows:
+    When implementing a new type class, the primary template has to inherit
+    from `instance<>::%with<>` as follows:
     @code
         template <typename ...>
-        struct Typeclass : instance<Typeclass>::template with<...> { };
+        struct Typeclass : instance<Typeclass>::with<...> { };
     @endcode
 
     This allows complimentary instances to be found when no explicit instance
@@ -72,13 +83,25 @@ namespace boost { namespace hana {
         template <>
         struct instance<Typeclass> {
             template <typename ...Args>
-            struct with;
+            struct with { };
         };
     @endcode
 
+    Anything appearing in the primary template of `instance<Typeclass>::%with`
+    will be available to all data types by default. This can be used to
+    provide a default behavior for all data types while still allowing
+    this behavior to be customized. However, this should seldom be used
+    because methods with a meaningful behavior for all data types are rare.
+    This feature is provided for flexibility, but it should be a hint to
+    reconsider your type class design if you are about to use it.
+
     The `Args...` are specific to each type class; the documentation should
-    explain their purpose. Then, to provide a complimentary instance, one can
-    specialize `instance` as follows:
+    explain their purpose. When possible, it is nice to include a dummy
+    template parameter for SFINAE, which allows `instance` to be specialized
+    for all types satisfying a predicate.
+
+    To provide a complimentary instance, one can then specialize `instance`
+    as follows:
     @code
         template <...>
         struct instance<Typeclass>::with<...>
@@ -96,9 +119,9 @@ namespace boost { namespace hana {
     relying on the fact that a data type is _not_ an instance of a given type
     class could break when the complimentary instance is made available.
 
-    @todo
-    - Document best practices with Enablers.
-    - Show examples with enablers and other useful stuff.
+    ### Example
+    @include example/core/instance.cpp
+
      */
     template <template <typename ...> class Typeclass>
     struct instance;

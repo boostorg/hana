@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_MAYBE_HPP
 
 #include <boost/hana/comparable.hpp>
-#include <boost/hana/core.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/functor.hpp>
 #include <boost/hana/integral.hpp>

@@ -14,6 +14,9 @@ endfunction()
 
 boost_hana_add_example(bool.logical.eval_if)
 
+boost_hana_add_example(core.defaults)
+boost_hana_add_example(core.instance)
+
 boost_hana_add_example(functional.always.basic)
 boost_hana_add_example(functional.always.dependent)
 boost_hana_add_example(functional.apply)
