@@ -8,10 +8,49 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_TEST_FOLDABLE_MINIMAL_FOLDABLE_HPP
 
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/list.hpp>
+#include <boost/hana/foldable.hpp>
 
 
-//! @todo Write a real minimal foldable.
-BOOST_HANA_CONSTEXPR_LAMBDA auto foldable = boost::hana::list;
+struct MinimalFoldable;
+
+template <typename Storage>
+struct _foldable {
+    Storage storage;
+    using hana_datatype = MinimalFoldable;
+};
+
+BOOST_HANA_CONSTEXPR_LAMBDA auto foldable = [](auto ...xs) {
+    auto storage = [=](auto f) { return f(xs...); };
+    return _foldable<decltype(storage)>{storage};
+};
+
+namespace boost { namespace hana {
+    template <>
+    struct Foldable<MinimalFoldable>
+        : defaults<Foldable>::with<MinimalFoldable>
+    {
+        struct helper {
+            template <typename F, typename S, typename X, typename ...Xs>
+            constexpr auto operator()(F f, S s, X x, Xs ...xs) const {
+                return f(
+                    [=] { return x; },
+                    [=](auto ...nothing) {
+                        static_assert(sizeof...(nothing) == 0, "");
+                        return lazy_foldr(f, s, foldable(xs..., nothing...));
+                    }
+                );
+            }
+
+            template <typename F, typename S>
+            constexpr auto operator()(F f, S s) const
+            { return s; }
+        };
+
+        template <typename F, typename S, typename Xs>
+        static constexpr auto lazy_foldr_impl(F f, S s, Xs xs) {
+            return xs.storage([=](auto ...xs) { return helper{}(f, s, xs...); });
+        }
+    };
+}}
 
 #endif // !BOOST_HANA_TEST_FOLDABLE_MINIMAL_FOLDABLE_HPP

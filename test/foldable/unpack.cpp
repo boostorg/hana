@@ -6,22 +6,27 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/foldable.hpp>
 
+#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/static_assert.hpp>
-#include <boost/hana/functional.hpp>
 #include <boost/hana/integral.hpp>
-#include <boost/hana/list.hpp>
 
 #include "minimal_foldable.hpp"
+#include <tuple>
 using namespace boost::hana;
 
 
-int main() {
-    BOOST_HANA_STATIC_ASSERT(unpack(list, foldable()) == list());
-    BOOST_HANA_STATIC_ASSERT(unpack(list, foldable(int_<0>)) == list_c<int, 0>);
-    BOOST_HANA_STATIC_ASSERT(unpack(list, foldable(int_<0>, int_<1>)) == list_c<int, 0, 1>);
-    BOOST_HANA_STATIC_ASSERT(unpack(list, foldable(int_<0>, int_<1>, int_<2>)) == list_c<int, 0, 1, 2>);
+BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto ...xs) {
+    return std::make_tuple(xs...);
+};
 
-    BOOST_HANA_STATIC_ASSERT(unpack(list, foldable(0)) == list(0));
-    BOOST_HANA_STATIC_ASSERT(unpack(list, foldable(0, '1')) == list(0, '1'));
-    BOOST_HANA_STATIC_ASSERT(unpack(list, foldable(0, '1', "2")) == list(0, '1', "2"));
+int main() {
+    BOOST_HANA_STATIC_ASSERT(unpack(f, foldable()) == f());
+    BOOST_HANA_STATIC_ASSERT(unpack(f, foldable(1)) == f(1));
+    BOOST_HANA_STATIC_ASSERT(unpack(f, foldable(1, '2')) == f(1, '2'));
+    BOOST_HANA_STATIC_ASSERT(unpack(f, foldable(1, '2', 3.3)) == f(1, '2', 3.3));
+    BOOST_HANA_STATIC_ASSERT(unpack(f, foldable(1, '2', 3.3, nullptr)) == f(1, '2', 3.3, nullptr));
+
+    BOOST_HANA_STATIC_ASSERT(unpack(f, foldable(int_<0>)) == f(int_<0>));
+    BOOST_HANA_STATIC_ASSERT(unpack(f, foldable(int_<0>, int_<1>)) == f(int_<0>, int_<1>));
+    BOOST_HANA_STATIC_ASSERT(unpack(f, foldable(int_<0>, int_<1>, int_<2>)) == f(int_<0>, int_<1>, int_<2>));
 }

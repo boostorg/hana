@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functional.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/logical.hpp>
+#include <boost/hana/maybe.hpp>
 
 
 namespace boost { namespace hana {
@@ -25,11 +26,7 @@ namespace boost { namespace hana {
     --------------------------------------------------------------------------
 
     ## Minimal complete definition
-    `foldl`, `foldl1`, `foldr1` and `lazy_foldr`
-
-    --------------------------------------------------------------------------
-
-    @todo Reduce the mcd.
+    `lazy_foldr`
      */
     template <typename T, typename Enable = void>
     struct Foldable;
@@ -79,11 +76,11 @@ namespace boost { namespace hana {
     };
 
     //! Lazy right-associative fold of a structure using a binary operation.
+    //! @method{Foldable}
     //!
     //! Unlike for strict folds, the binary operation should take nullary
     //! functions returning an element and the state instead of taking an
     //! element and the state directly.
-    //! @method{Foldable}
     //!
     //! ### Example
     //! @snippet example/range/foldable/lazy_foldr.cpp main
@@ -93,6 +90,42 @@ namespace boost { namespace hana {
     //! this method efficiently.
     BOOST_HANA_CONSTEXPR_LAMBDA auto lazy_foldr = [](auto f, auto state, auto foldable) {
         return Foldable<datatype_t<decltype(foldable)>>::lazy_foldr_impl(f, state, foldable);
+    };
+
+    //! Lazy left-associative fold of a structure using a binary operation.
+    //! @method{Foldable}
+    //!
+    //! Unlike for strict folds, the binary operation should take nullary
+    //! functions returning the state and an element instead of taking the
+    //! state and an element directly.
+    //!
+    //! @warning
+    //! It is important to be aware that a lazy left fold must still walk the
+    //! whole structure before it can return. This is because of the nature of
+    //! left-folds, which are always equivalent to
+    //! @code
+    //!     foldl(f, state, structure):
+    //!         if (some_stop_condition)
+    //!             return state
+    //!         else
+    //!             return foldl(f, f(...), ...);
+    //! @endcode
+    //! Notice how `foldl` calls itself recursively in the `else` branch; this
+    //! means that the next invocation of `foldl` is always needed, and so the
+    //! whole structure has to be unfolded. When `f` is lazy, this has the
+    //! effect of creating a (potentially huge) chain of "thunks":
+    //! @code
+    //!     f(f(f(f(f(x1, state), x2), x3), x4), x5)
+    //! @endcode
+    //! This chain is then only evaluated lazily, but creating the chain
+    //! itself can cause a stack overflow. If you don't need to accumulate
+    //! the result lazily, consider using `foldl` instead, which does not
+    //! create a chain of thunks and evaluates `f` as it goes.
+    //!
+    //! ### Example
+    //! @snippet example/range/foldable/lazy_foldl.cpp main
+    BOOST_HANA_CONSTEXPR_LAMBDA auto lazy_foldl = [](auto f, auto state, auto foldable) {
+        return Foldable<datatype_t<decltype(foldable)>>::lazy_foldl_impl(f, state, foldable);
     };
 
     //! Return the number of elements in a finite structure.
@@ -162,6 +195,21 @@ namespace boost { namespace hana {
     //! @snippet example/list/foldable/count.cpp mpl
     BOOST_HANA_CONSTEXPR_LAMBDA auto count = [](auto predicate, auto foldable) {
         return Foldable<datatype_t<decltype(foldable)>>::count_impl(predicate, foldable);
+    };
+
+    //! Find an element satisfying a predicate in the structure.
+    //! @method{Foldable}
+    //!
+    //! Specifically, returns `just` the first element satisfying the
+    //! `predicate`, or `nothing` if there is no such element.
+    //!
+    //! ### Fusion example
+    //! @snippet example/list/foldable/find.cpp fusion
+    //!
+    //! ### MPL example
+    //! @snippet example/list/foldable/find.cpp mpl
+    BOOST_HANA_CONSTEXPR_LAMBDA auto find = [](auto predicate, auto foldable) {
+        return Foldable<datatype_t<decltype(foldable)>>::find_impl(predicate, foldable);
     };
 
     //! Invoke a function with the elements of a structure as arguments.
@@ -235,19 +283,57 @@ namespace boost { namespace hana {
             static constexpr auto foldr_impl(F f, State s, Foldable_ foldable)
             { return lazy_foldr(on(f, apply), s, foldable); }
 
-            template <typename Foldable_>
-            static constexpr auto length_impl(Foldable_ foldable) {
-                auto incr = [](auto n, auto) { return n + size_t<1>; };
-                return foldl(incr, size_t<0>, foldable);
+            template <typename F, typename Foldable_>
+            static constexpr auto foldr1_impl(F f, Foldable_ foldable) {
+                auto maybe_f = [=](auto lx, auto my) {
+                    return just(maybe(lx(), partial(f, lx()), my()));
+                };
+                return from_just(lazy_foldr(maybe_f, nothing, foldable));
+            }
+
+            template <typename F, typename State, typename Foldable_>
+            static constexpr auto foldl_impl(F f, State s, Foldable_ foldable) {
+                auto f_ = [=](auto x, auto next) {
+                    return [=](auto state) {
+                        return next()(f(state, x()));
+                    };
+                };
+                return lazy_foldr(f_, id, foldable)(s);
+            }
+
+            template <typename F, typename Foldable_>
+            static constexpr auto foldl1_impl(F f, Foldable_ foldable) {
+                auto maybe_f = [=](auto mx, auto ly) {
+                    return maybe(
+                        just(ly()),
+                        [=](auto x) { return just(f(x, ly())); },
+                        mx()
+                    );
+                };
+                return from_just(lazy_foldl(maybe_f, nothing, foldable));
+            }
+
+            template <typename F, typename State, typename Foldable_>
+            static constexpr auto lazy_foldl_impl(F f, State s, Foldable_ foldable) {
+                auto f_ = [=](auto lx, auto lnext) {
+                    return [=](auto state) {
+                        return lnext()(f([=] { return state; }, lx));
+                    };
+                };
+                return lazy_foldr(f_, id, foldable)(s);
             }
 
             template <typename Foldable_>
+            static constexpr auto length_impl(Foldable_ foldable)
+            { return foldl(_ + size_t<1>, size_t<0>, foldable); }
+
+            template <typename Foldable_>
             static constexpr auto minimum_impl(Foldable_ foldable)
-            { return minimum_by([](auto x, auto y) { return x < y; }, foldable); }
+            { return minimum_by(_ < _, foldable); }
 
             template <typename Foldable_>
             static constexpr auto maximum_impl(Foldable_ foldable)
-            { return maximum_by([](auto x, auto y) { return x < y; }, foldable); }
+            { return maximum_by(_ < _, foldable); }
 
             template <typename Pred, typename Foldable_>
             static constexpr auto minimum_by_impl(Pred pred, Foldable_ foldable) {
@@ -265,18 +351,32 @@ namespace boost { namespace hana {
                 );
             }
 
+            template <typename Pred, typename Foldable_>
+            static constexpr auto find_impl(Pred pred, Foldable_ foldable) {
+                auto go = [=](auto x, auto tail) {
+                    return eval_if(pred(x()),
+                        always(just(x())),
+                        [=](auto id) { return id(tail)(); }
+                    );
+                };
+                return lazy_foldr(go, nothing, foldable);
+            }
+
             template <typename Foldable_>
             static constexpr auto sum_impl(Foldable_ foldable)
-            { return foldl([](auto x, auto y) { return x + y; }, int_<0>, foldable); }
+            { return foldl(_ + _, int_<0>, foldable); }
 
             template <typename Foldable_>
             static constexpr auto product_impl(Foldable_ foldable)
-            { return foldl([](auto x, auto y) { return x * y; }, int_<1>, foldable); }
+            { return foldl(_ * _, int_<1>, foldable); }
 
             template <typename Pred, typename Foldable_>
             static constexpr auto count_impl(Pred pred, Foldable_ foldable) {
                 auto inc = [=](auto counter, auto x) {
-                    return if_(pred(x), counter + size_t<1>, counter);
+                    //! @todo
+                    //! We use `!!pred(x)` to allow ints and other stuff.
+                    //! Remove this once we get a proper `Logical` type class.
+                    return if_(!!pred(x), counter + size_t<1>, counter);
                 };
                 return foldl(inc, size_t<0>, foldable);
             }
@@ -285,30 +385,15 @@ namespace boost { namespace hana {
             static constexpr auto unpack_impl(F f, Foldable_ foldable)
             { return foldl(partial, f, foldable)(); }
 
-            template <typename Pred>
-            struct lazy_or {
-                Pred p;
-                template <typename X, typename Y>
-                constexpr auto operator()(X x, Y y) const
-                { return call(p(x()), y); }
-
-                template <typename Y>
-                constexpr auto call(decltype(true_), Y y) const
-                { return true_; }
-
-                template <typename Y>
-                constexpr auto call(decltype(false_), Y y) const
-                { return y(); }
-
-                template <typename Y>
-                constexpr auto call(bool b, Y y) const
-                { return b ? b : y(); }
-            };
 
             // any, all, none
             template <typename Pred, typename Foldable_>
             static constexpr auto any_impl(Pred pred, Foldable_ foldable) {
-                return lazy_foldr(lazy_or<Pred>{pred}, false_, foldable);
+                auto lazy_or = [=](auto lx, auto ly) {
+                    auto p = pred(lx());
+                    return eval_if(p, always(p), [=](auto _) { return _(ly)(); });
+                };
+                return lazy_foldr(lazy_or, false_, foldable);
             }
 
             template <typename Pred, typename Foldable_>
@@ -343,8 +428,6 @@ namespace boost { namespace hana {
 
     template <typename T, typename Enable>
     struct Foldable : instance<Foldable>::template with<T> { };
-
-    //! @}
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FOLDABLE_HPP

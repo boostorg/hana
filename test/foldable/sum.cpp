@@ -15,7 +15,13 @@ using namespace boost::hana;
 
 int main() {
     BOOST_HANA_STATIC_ASSERT(sum(foldable()) == int_<0>);
-    BOOST_HANA_STATIC_ASSERT(sum(foldable(int_<0>)) == int_<0>);
-    BOOST_HANA_STATIC_ASSERT(sum(foldable(int_<0>, int_<1>)) == int_<1>);
-    BOOST_HANA_STATIC_ASSERT(sum(foldable(int_<0>, int_<1>, int_<2>)) == int_<3>);
+    BOOST_HANA_STATIC_ASSERT(sum(foldable(int_<1>)) == int_<1>);
+    BOOST_HANA_STATIC_ASSERT(sum(foldable(int_<1>, int_<2>)) == int_<1 + 2>);
+    BOOST_HANA_STATIC_ASSERT(sum(foldable(int_<1>, int_<2>, int_<3>)) == int_<1 + 2 + 3>);
+    BOOST_HANA_STATIC_ASSERT(sum(foldable(int_<1>, int_<2>, int_<3>, int_<4>)) == int_<1 + 2 + 3 + 4>);
+
+    BOOST_HANA_STATIC_ASSERT(sum(foldable(1)) == 1);
+    BOOST_HANA_STATIC_ASSERT(sum(foldable(1, 2)) == 1 + 2);
+    BOOST_HANA_STATIC_ASSERT(sum(foldable(1, 2, 3)) == 1 + 2 + 3);
+    BOOST_HANA_STATIC_ASSERT(sum(foldable(1, 2, 3, 4)) == 1 + 2 + 3 + 4);
 }

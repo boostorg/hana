@@ -19,16 +19,15 @@ int main() {
     //! [main]
     auto to_string = [](auto x) { return (std::ostringstream{} << x).str(); };
 
-    auto up_to = [=](auto n) {
+    auto down_to = [=](auto n) {
         return [=](auto x, auto y) {
-            auto y_ = if_(x() == n, always("..."), y)();
-            return "(" + to_string(x()) + " + " + to_string(y_) + ")";
+            auto x_ = if_(y() == n, always("..."), x)();
+            return "(" + to_string(x_) + " + " + to_string(y()) + ")";
         };
     };
 
-    constexpr struct { } state{}; // this will never be evaluated
     assert(
-        lazy_foldr(up_to(4_c), state, range(1_c, 999999_c)) == "(1 + (2 + (3 + (4 + ...))))"
+        lazy_foldl(down_to(4_c), 1_c, range(2_c, 8_c)) == "((((... + 4) + 5) + 6) + 7)"
     );
     //! [main]
 }

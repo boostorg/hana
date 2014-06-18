@@ -15,7 +15,13 @@ using namespace boost::hana;
 
 int main() {
     BOOST_HANA_STATIC_ASSERT(product(foldable()) == int_<1>);
-    BOOST_HANA_STATIC_ASSERT(product(foldable(int_<1>)) == int_<1>);
-    BOOST_HANA_STATIC_ASSERT(product(foldable(int_<1>, int_<2>)) == int_<2>);
-    BOOST_HANA_STATIC_ASSERT(product(foldable(int_<1>, int_<2>, int_<3>)) == int_<6>);
+    BOOST_HANA_STATIC_ASSERT(product(foldable(int_<2>)) == int_<2>);
+    BOOST_HANA_STATIC_ASSERT(product(foldable(int_<2>, int_<3>)) == int_<2 * 3>);
+    BOOST_HANA_STATIC_ASSERT(product(foldable(int_<2>, int_<3>, int_<4>)) == int_<2 * 3 * 4>);
+    BOOST_HANA_STATIC_ASSERT(product(foldable(int_<2>, int_<3>, int_<4>, int_<5>)) == int_<2 * 3 * 4 * 5>);
+
+    BOOST_HANA_STATIC_ASSERT(product(foldable(2)) == 2);
+    BOOST_HANA_STATIC_ASSERT(product(foldable(2, 3)) == 2 * 3);
+    BOOST_HANA_STATIC_ASSERT(product(foldable(2, 3, 4)) == 2 * 3 * 4);
+    BOOST_HANA_STATIC_ASSERT(product(foldable(2, 3, 4, 5)) == 2 * 3 * 4 * 5);
 }

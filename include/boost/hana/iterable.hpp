@@ -154,19 +154,6 @@ namespace boost { namespace hana {
         return Iterable<datatype_t<decltype(iterable)>>::drop_until_impl(predicate, iterable);
     };
 
-    //! Return `just` the first element satisfying the `predicate`, or `nothing`
-    //! if there is no such element.
-    //! @method{Iterable}
-    //!
-    //! ### Fusion example
-    //! @snippet example/list/iterable/find.cpp fusion
-    //!
-    //! ### MPL example
-    //! @snippet example/list/iterable/find.cpp mpl
-    BOOST_HANA_CONSTEXPR_LAMBDA auto find = [](auto predicate, auto iterable) {
-        return Iterable<datatype_t<decltype(iterable)>>::find_impl(predicate, iterable);
-    };
-
     template <>
     struct instance<Iterable> {
         template <typename T, typename Enable = void>
@@ -217,15 +204,6 @@ namespace boost { namespace hana {
             template <typename Pred, typename Iterable_>
             static constexpr auto drop_until_impl(Pred pred, Iterable_ iterable) {
                 return drop_while([=](auto x) { return !pred(x); }, iterable);
-            }
-
-            template <typename Pred, typename Iterable_>
-            static constexpr auto find_impl(Pred pred, Iterable_ iterable) {
-                auto e = drop_until(pred, iterable);
-                return if_(is_empty(e),
-                    always(nothing),
-                    compose(just, head)
-                )(e);
             }
         };
     };
@@ -303,6 +281,15 @@ namespace boost { namespace hana {
                 [=](auto _) {
                     return f(partial(head, xs), partial(lazy_foldr, f, s, tail(_(xs))));
                 }
+            );
+        }
+
+        template <typename Pred, typename Iterable_>
+        static constexpr auto find_impl(Pred pred, Iterable_ xs) {
+            auto e = drop_until(pred, xs);
+            return eval_if(is_empty(e),
+                always(nothing),
+                [=](auto _) { return just(_(head)(e)); }
             );
         }
     };

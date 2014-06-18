@@ -8,19 +8,65 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/integral.hpp>
-#include <boost/hana/type.hpp>
 
 #include "minimal_foldable.hpp"
 using namespace boost::hana;
 
 
 int main() {
+    // compile-time
     BOOST_HANA_STATIC_ASSERT(maximum(foldable(int_<0>)) == int_<0>);
-    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int_<0>, int_<1>)) == int_<1>);
-    BOOST_HANA_STATIC_ASSERT(decltype_(maximum(foldable(int_<1>, int_<0>))) == decltype_(int_<1>));
 
-    BOOST_HANA_STATIC_ASSERT(maximum(foldable(0)) == 0);
-    BOOST_HANA_STATIC_ASSERT(maximum(foldable(0, 1)) == 1);
-    BOOST_HANA_STATIC_ASSERT(maximum(foldable(1, 0)) == 1);
-    BOOST_HANA_STATIC_ASSERT(maximum(foldable(1, 0, int_<-2>, 15)) == 15);
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int_<0>, int_<1>)) == int_<1>);
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int_<1>, int_<0>)) == int_<1>);
+
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int_<0>, int_<1>, int_<2>)) == int_<2>);
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int_<1>, int_<0>, int_<2>)) == int_<2>);
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int_<1>, int_<2>, int_<0>)) == int_<2>);
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int_<2>, int_<1>, int_<0>)) == int_<2>);
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int_<2>, int_<0>, int_<1>)) == int_<2>);
+
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int_<0>, int_<1>, int_<2>, int_<3>)) == int_<3>);
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int_<1>, int_<0>, int_<2>, int_<3>)) == int_<3>);
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int_<1>, int_<2>, int_<0>, int_<3>)) == int_<3>);
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int_<1>, int_<2>, int_<3>, int_<0>)) == int_<3>);
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int_<2>, int_<1>, int_<3>, int_<0>)) == int_<3>);
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int_<2>, int_<3>, int_<1>, int_<0>)) == int_<3>);
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int_<2>, int_<3>, int_<0>, int_<1>)) == int_<3>);
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int_<3>, int_<2>, int_<0>, int_<1>)) == int_<3>);
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int_<3>, int_<0>, int_<2>, int_<1>)) == int_<3>);
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int_<3>, int_<0>, int_<1>, int_<2>)) == int_<3>);
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int_<0>, int_<2>, int_<3>, int_<1>)) == int_<3>);
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int_<0>, int_<3>, int_<1>, int_<2>)) == int_<3>);
+
+
+    // constexpr/runtime
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int{0})) == int{0});
+
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int{0}, char{1})) == char{1});
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int{1}, char{0})) == int{1});
+
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int{0}, char{1}, long{2})) == long{2});
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int{1}, char{0}, long{2})) == long{2});
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int{1}, char{2}, long{0})) == char{2});
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int{2}, char{1}, long{0})) == int{2});
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int{2}, char{0}, long{1})) == int{2});
+
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int{0}, char{1}, long{2}, double{3})) == double{3});
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int{1}, char{0}, long{2}, double{3})) == double{3});
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int{1}, char{2}, long{0}, double{3})) == double{3});
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int{1}, char{2}, long{3}, double{0})) == long{3});
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int{2}, char{1}, long{3}, double{0})) == long{3});
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int{2}, char{3}, long{1}, double{0})) == char{3});
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int{2}, char{3}, long{0}, double{1})) == char{3});
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int{3}, char{2}, long{0}, double{1})) == int{3});
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int{3}, char{0}, long{2}, double{1})) == int{3});
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int{3}, char{0}, long{1}, double{2})) == int{3});
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int{0}, char{2}, long{3}, double{1})) == long{3});
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int{0}, char{3}, long{1}, double{2})) == char{3});
+
+
+    // mixed
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int{0}, char{1}, long_<2>)) == long{2});
+    BOOST_HANA_STATIC_ASSERT(maximum(foldable(int{0}, long_<1>, char{2})) == char{2});
 }
