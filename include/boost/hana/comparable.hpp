@@ -12,18 +12,22 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/logical.hpp>
 
 
 namespace boost { namespace hana {
     /*!
-    @typeclass{Comparable}
-    @{
+    @ingroup typeclasses
     The `Comparable` type class defines equality and inequality.
 
-    @mcd
+    --------------------------------------------------------------------------
+
+    ## Minimal complete definition
     `equal` or `not_equal`
 
-    @laws
+    --------------------------------------------------------------------------
+
+    ## Laws
     `equal` must define an equivalence relation. In other words, for all
     `a`, `b`, `c` of comparable data types,
     @f{align*}{
@@ -32,18 +36,20 @@ namespace boost { namespace hana {
         a = b \wedge b = c \Rightarrow a = c && \text{Transitivity}
     @f}
 
+    --------------------------------------------------------------------------
+
     @todo
     - Should all data types have a default implementation to allow arbitrary
-    objects of different types to be compared? By default, two objects that
-    don't share a common_type would be unequal, and otherwise we would use
-    the common_type's comparison, if any.
+      objects of different types to be compared? By default, two objects that
+      don't share a common_type would be unequal, and otherwise we would use
+      the common_type's comparison, if any.
     - Implement automatic checking of the laws for Comparable, if possible.
      */
     template <typename T, typename U, typename Enable = void>
     struct Comparable;
 
     /*!
-    Returns whether `x` is equal to `y`.
+    Returns a `Logical` representing whether `x` is equal to `y`.
     @method{Comparable}
 
     @internal
@@ -64,7 +70,7 @@ namespace boost { namespace hana {
                equal_impl(x, y);
     };
 
-    //! Returns whether `x` is not equal to `y`.
+    //! Returns a `Logical` representing whether `x` is not equal to `y`.
     //! @method{Comparable}
     BOOST_HANA_CONSTEXPR_LAMBDA auto not_equal = [](auto x, auto y) {
         return Comparable<datatype_t<decltype(x)>, datatype_t<decltype(y)>>::
@@ -101,8 +107,6 @@ namespace boost { namespace hana {
 
     template <typename T, typename U, typename Enable>
     struct Comparable : instance<Comparable>::template with<T, U> { };
-
-    //! @}
 
     namespace operators {
         //! Equivalent to `equal`.
