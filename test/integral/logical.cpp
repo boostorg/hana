@@ -14,7 +14,7 @@ using namespace boost::hana;
 struct T; struct E;
 constexpr struct { } invalid{};
 
-void test_eval_if() {
+auto test_eval_if = [](auto true_, auto false_) {
     BOOST_HANA_STATIC_ASSERT(eval_if(true_,
         [](auto) { return type<T>; },
         [](auto id) { id(invalid)("would fail"); return type<E>; }
@@ -24,34 +24,39 @@ void test_eval_if() {
         [](auto id) { id(invalid)("would fail"); return type<T>; },
         [](auto) { return type<E>; }
     ) == type<E>);
-}
+};
 
-void test_if() {
+auto test_if = [](auto true_, auto false_) {
     BOOST_HANA_STATIC_ASSERT(if_(true_, type<T>, type<E>) == type<T>);
     BOOST_HANA_STATIC_ASSERT(if_(false_, type<T>, type<E>) == type<E>);
-}
+};
 
-void test_and() {
+auto test_and = [](auto true_, auto false_) {
     BOOST_HANA_STATIC_ASSERT(!or_(false_));
     BOOST_HANA_STATIC_ASSERT(or_(true_));
     BOOST_HANA_STATIC_ASSERT(!or_(false_, false_));
     BOOST_HANA_STATIC_ASSERT(or_(false_, true_));
     BOOST_HANA_STATIC_ASSERT(or_(false_, false_, true_));
     // BOOST_HANA_STATIC_ASSERT(or_(true_, invalid, invalid));
-}
+};
 
-void test_or() {
+auto test_or = [](auto true_, auto false_) {
     BOOST_HANA_STATIC_ASSERT(and_(true_));
     BOOST_HANA_STATIC_ASSERT(!and_(false_));
     BOOST_HANA_STATIC_ASSERT(and_(true_, true_));
     BOOST_HANA_STATIC_ASSERT(!and_(true_, false_));
     BOOST_HANA_STATIC_ASSERT(!and_(true_, true_, false_));
     // BOOST_HANA_STATIC_ASSERT(!and_(false_, invalid, invalid));
-}
+};
+
+auto test = [](auto true_, auto false_) {
+    test_eval_if(true_, false_);
+    test_if(true_, false_);
+    test_and(true_, false_);
+    test_or(true_, false_);
+};
 
 int main() {
-    test_eval_if();
-    test_if();
-    test_and();
-    test_or();
+    test(true_, false_);
+    test(int_<2>, int_<0>); // make sure int_<2> can be treated as true_
 }

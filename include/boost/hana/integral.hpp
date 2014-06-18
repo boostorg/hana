@@ -30,7 +30,7 @@ namespace boost { namespace hana {
     struct Logical<Integral> : defaults<Logical>::with<Integral> {
         template <typename Cond, typename Then, typename Else>
         static constexpr auto eval_if_impl(Cond c, Then t, Else e)
-        { return eval_if_impl(bool_<c()>, t, e); }
+        { return eval_if_impl(bool_<static_cast<bool>(c())>, t, e); }
 
         template <typename Then, typename Else>
         static constexpr auto eval_if_impl(decltype(true_), Then t, Else)
