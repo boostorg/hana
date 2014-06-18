@@ -16,14 +16,17 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     /*!
-    @typeclass{Functor}
-    @{
+    @ingroup typeclasses
     `Functor` represents types that can be mapped over.
 
-    @mcd
+    --------------------------------------------------------------------------
+
+    ## Minimal complete definition
     `fmap`
 
-    @laws
+    --------------------------------------------------------------------------
+
+    ## Laws
     Instances of `Functor` must satisfy the following laws:
     @code
         fmap id == id
@@ -59,8 +62,6 @@ namespace boost { namespace hana {
 
     template <typename T, typename Enable>
     struct Functor : instance<Functor>::template with<T> { };
-
-    //! @}
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FUNCTOR_HPP
