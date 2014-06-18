@@ -127,8 +127,13 @@ namespace boost { namespace hana {
     struct instance;
 
     namespace core_detail {
-        template <typename T> typename T::hana_datatype datatype_impl(void*);
-        template <typename T> T datatype_impl(...);
+        template <typename T, typename Enable = void*>
+        struct datatype_impl { using type = T; };
+
+        template <typename T>
+        struct datatype_impl<T, decltype((void*)(typename T::hana_datatype*)0)> {
+            using type = typename T::hana_datatype;
+        };
     }
 
     /*!
@@ -139,10 +144,6 @@ namespace boost { namespace hana {
     to customize the data type of `T` without requiring `T` to have a
     nested `hana_datatype` type.
 
-    @todo
-    Is there a more efficient way of performing SFINAE which would not
-    require an overload resolution?
-
     @bug
     The data type of `std::is_pointer<int>{}` is `std::is_pointer<int>`
     instead of `Integral` because `std::is_pointer` only _inherits_ from
@@ -150,7 +151,7 @@ namespace boost { namespace hana {
      */
     template <typename T>
     struct datatype {
-        using type = decltype(core_detail::datatype_impl<T>(nullptr));
+        using type = typename core_detail::datatype_impl<T>::type;
     };
 
     //! Alias to `datatype<T>::%type`.
