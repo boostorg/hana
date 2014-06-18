@@ -442,14 +442,14 @@ static_assert(std::is_same<
 >::value, "");
 ```
 
+## Rationales
+
+### Why not provide forward declaration headers as in the MPL11?
+A lot of methods are in fact lambdas. Since we can't forward declare those,
+it makes little sense to have forward declaration headers.
 
 
 ## Todo
-- Should we provide forward declaration headers like in MPL11? If so, should
-  only the forward decl. be necessary to instantiate typeclasses? If so, it
-  should be documented that including `typeclass.hpp` is only necessary if
-  one needs the default methods.
-- Complete documentation w/ examples for everything.
 - Write a tutorial.
 - Provide a Main page for the Doxygen documentation.
 - Consider making function objects automatically curriable. This could allow
