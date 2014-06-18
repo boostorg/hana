@@ -193,7 +193,7 @@ namespace boost { namespace hana {
         template <typename Index, typename Storage>
         static constexpr auto at_impl(Index n, operators::HetList<Storage> xs) {
             return xs.into([=](auto ...xs) {
-                return detail::at_index::best<n>(xs...);
+                return detail::at_index::best<n()>(xs...);
             });
         }
 
@@ -307,7 +307,10 @@ namespace boost { namespace hana {
     //! @snippet example/list/filter.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto filter = [](auto predicate, auto xs) {
         auto go = [=](auto x, auto xs) {
-            return if_(predicate(x), cons, always(xs))(x, xs);
+            return eval_if(predicate(x),
+                [=](auto _) { return _(cons)(x, xs); },
+                always(xs)
+            );
         };
         return foldr(go, list(), xs);
     };
@@ -363,17 +366,17 @@ namespace boost { namespace hana {
     namespace list_detail {
         BOOST_HANA_CONSTEXPR_LAMBDA auto insertions = curry<2>(fix(
             [](auto insertions, auto x, auto l) {
-                return if_(is_empty(l),
+                return eval_if(is_empty(l),
                     always(list(list(x))),
-                    [=](auto l) {
-                        auto y = head(l);
-                        auto ys = tail(l);
+                    [=](auto _) {
+                        auto y = _(head)(l);
+                        auto ys = _(tail)(l);
                         return cons(
-                            cons(x, l),
+                            _(cons)(x, l),
                             fmap(partial(cons, y), insertions(x, ys))
                         );
                     }
-                )(l);
+                );
             }
         ));
     }
@@ -394,15 +397,15 @@ namespace boost { namespace hana {
     //! a list of more than 3 elements starts taking a long time (>6s).
     BOOST_HANA_CONSTEXPR_LAMBDA auto permutations = fix(
         [](auto permutations, auto xs) {
-            return if_(is_empty(xs),
+            return eval_if(is_empty(xs),
                 always(list(list())),
-                [=](auto xs) {
+                [=](auto _) {
                     return join(fmap(
-                        list_detail::insertions(head(xs)),
-                        permutations(tail(xs))
+                        list_detail::insertions(_(head)(xs)),
+                        permutations(_(tail)(xs))
                     ));
                 }
-            )(xs);
+            );
         }
     );
 
@@ -425,14 +428,14 @@ namespace boost { namespace hana {
     //! @snippet example/list/sort_by.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto sort_by = fix(
         [](auto sort_by, auto predicate, auto xs) {
-            return if_(is_empty(xs),
+            return eval_if(is_empty(xs),
                 always(xs),
-                [=](auto xs) {
-                    return if_(is_empty(tail(xs)),
+                [=](auto _) {
+                    return eval_if(is_empty(_(tail)(xs)),
                         always(xs),
-                        [=](auto xs) {
-                            auto pivot = head(xs);
-                            auto rest = tail(xs);
+                        [=](auto _) {
+                            auto pivot = _(head)(xs);
+                            auto rest = _(tail)(xs);
                             auto parts = partition([=](auto x) { return predicate(x, pivot); }, rest);
                             auto smaller = at(int_<0>, parts);
                             auto greater_equal = at(int_<1>, parts);
@@ -441,9 +444,9 @@ namespace boost { namespace hana {
                                 cons(pivot, sort_by(predicate, greater_equal))
                             );
                         }
-                    )(xs);
+                    );
                 }
-            )(xs);
+            );
         }
     );
 
@@ -488,10 +491,10 @@ namespace boost { namespace hana {
     //! @snippet example/list/take_while.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto take_while = [](auto predicate, auto xs) {
         auto acc = [=](auto x, auto xs) {
-            return if_(predicate(x()),
-                [=](auto xs) { return cons(x(), xs()); },
+            return eval_if(predicate(x()),
+                [=](auto _) { return cons(x(), _(xs)()); },
                 always(list())
-            )(xs);
+            );
         };
         return lazy_foldr(acc, list(), xs);
     };
@@ -541,10 +544,10 @@ namespace boost { namespace hana {
         auto go = [=](auto index) {
             return always(f)(index)(at(index, lists)...);
         };
-        auto zip_length = if_(bool_<sizeof...(lists) == 0>,
+        auto zip_length = eval_if(bool_<sizeof...(lists) == 0>,
             always(size_t<0>),
-            [=](auto list) { return minimum(list(length(lists)...)); }
-        )(list);
+            [=](auto _) { return minimum(_(list)(length(lists)...)); }
+        );
         return unpack(on(list, go), range(size_t<0>, zip_length));
     };
 
