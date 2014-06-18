@@ -26,9 +26,9 @@ int main() {
     BOOST_HANA_STATIC_ASSERT(is_nothing(nothing));
 
     // from_maybe
-    BOOST_HANA_STATIC_ASSERT(from_maybe("default", nothing) == "default");
-    BOOST_HANA_STATIC_ASSERT(from_maybe("default", just(1)) == 1);
-    BOOST_HANA_STATIC_ASSERT(from_maybe("default", just(int_<3>)) == int_<3>);
+    BOOST_HANA_STATIC_ASSERT(from_maybe('d', nothing) == 'd');
+    BOOST_HANA_STATIC_ASSERT(from_maybe('d', just(1)) == 1);
+    BOOST_HANA_STATIC_ASSERT(from_maybe('d', just(int_<3>)) == int_<3>);
 
     // from_just
     BOOST_HANA_STATIC_ASSERT(from_just(just(1)) == 1);

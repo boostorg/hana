@@ -56,29 +56,25 @@ namespace boost { namespace hana {
         template <bool is_valid, typename T>
         struct _maybe {
             using hana_datatype = Maybe;
+
+            template <typename Default, typename F>
+            constexpr auto maybe(Default d, F) const
+            { return d; }
         };
 
         template <typename T>
         struct _maybe<true, T> {
             using hana_datatype = Maybe;
             T val;
+
+            template <typename Default, typename F>
+            constexpr auto maybe(Default, F f) const
+            { return f(val); }
         };
 
         template <typename T>
         using _just = _maybe<true, T>;
         using _nothing = _maybe<false, void>;
-    }
-
-    namespace maybe_detail {
-        struct _maybe_func {
-            template <typename Default, typename F>
-            constexpr auto operator()(Default default_, F, operators::_nothing) const
-            { return default_; }
-
-            template <typename Default, typename F, typename T>
-            constexpr auto operator()(Default, F f, operators::_just<T> j) const
-            { return f(j.val); }
-        };
     }
 
     //! Applies a function to the contents of a `Maybe`, with a fallback
@@ -92,7 +88,9 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/maybe/api.cpp maybe
-    constexpr maybe_detail::_maybe_func maybe{};
+    BOOST_HANA_CONSTEXPR_LAMBDA auto maybe = [](auto default_, auto f, auto m) {
+        return m.maybe(default_, f);
+    };
 
     //! Creates an optional value containing `x`.
     //! @relates Maybe
@@ -115,7 +113,7 @@ namespace boost { namespace hana {
     //! Returns whether a `Maybe` is empty.
     //! @relates Maybe
     BOOST_HANA_CONSTEXPR_LAMBDA auto is_nothing = [](auto m) {
-        return !is_just(m);
+        return maybe(true_, [](auto) { return false_; }, m);
     };
 
     //! Returns the contents of a `Maybe`, or a default value if the `Maybe`
@@ -143,7 +141,7 @@ namespace boost { namespace hana {
 
     template <>
     struct Comparable<Maybe, Maybe>
-        : defaults<Comparable>::template with<Maybe, Maybe>
+        : defaults<Comparable>::with<Maybe, Maybe>
     {
         template <typename T, typename U>
         static constexpr auto
