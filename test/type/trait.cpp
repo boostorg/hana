@@ -15,8 +15,8 @@ using namespace boost::hana;
 
 enum Enumeration { };
 struct Structure { };
-BOOST_HANA_CONSTEXPR_LAMBDA auto e = type<Enumeration>;
-BOOST_HANA_CONSTEXPR_LAMBDA auto s = type<Structure>;
+constexpr auto e = type<Enumeration>;
+constexpr auto s = type<Structure>;
 
 int main() {
     // We just make sure that they compile. If the forwarding to `std::` is

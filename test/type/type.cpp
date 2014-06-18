@@ -20,7 +20,7 @@ int main() {
     BOOST_HANA_STATIC_ASSERT(type<float>(2.42f) == float{2.42});
     BOOST_HANA_STATIC_ASSERT(type<double>(2.42) == double{2.42});
 
-    // weird parentheses are because `assert` is a macro
-    assert(type<std::vector<int>>({1, 2, 3}) == (std::vector<int>{1, 2, 3}));
-    assert((type<std::pair<int, char>>)(1, '2') == std::make_pair(1, '2'));
+    // double parentheses are because `assert` is a macro
+    assert((type<std::vector<int>>({1, 2, 3}) == std::vector<int>{1, 2, 3}));
+    assert((type<std::pair<int, char>>(1, '2') == std::make_pair(1, '2')));
 }
