@@ -16,6 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functor.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/iterable.hpp>
+#include <boost/hana/monad.hpp>
 
 #include <cstddef>
 #include <tuple>
@@ -60,6 +61,22 @@ namespace boost { namespace hana {
         template <typename F, typename ...Xs>
         static constexpr auto fmap_impl(F f, std::tuple<Xs...> tuple)
         { return helper(f, tuple, std::index_sequence_for<Xs...>{}); }
+    };
+
+    template <>
+    struct Monad<StdTuple> : defaults<Monad>::with<StdTuple> {
+        template <typename X>
+        static constexpr auto unit_impl(X x)
+        { return std::tuple<X>{x}; }
+
+        template <typename ...Tuples, std::size_t ...Index>
+        static constexpr auto
+        helper(std::tuple<Tuples...> tuples, std::index_sequence<Index...>)
+        { return std::tuple_cat(std::get<Index>(tuples)...); }
+
+        template <typename ...Tuples>
+        static constexpr auto join_impl(std::tuple<Tuples...> tuples)
+        { return helper(tuples, std::index_sequence_for<Tuples...>{}); }
     };
 
     template <>

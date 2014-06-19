@@ -24,9 +24,9 @@ int main() {
     BOOST_HANA_STATIC_ASSERT(join(list(list(), list(int_<0>))) == list(int_<0>));
     BOOST_HANA_STATIC_ASSERT(join(list(list(int_<0>), list(int_<1>))) == list(int_<0>, int_<1>));
     BOOST_HANA_STATIC_ASSERT(
-        join(list(list(0, int_<1>), list(), list('2', "3"), list(int_<4>)))
+        join(list(list(0, int_<1>), list(), list('2', 3.3), list(int_<4>)))
         ==
-        list(0, int_<1>, '2', "3", int_<4>)
+        list(0, int_<1>, '2', 3.3, int_<4>)
     );
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto x) { return list(x + int_<1>); };

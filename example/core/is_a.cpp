@@ -34,7 +34,7 @@ int main() {
     check_table(                      is_a<Logical>, is_an<Iterable>, is_a<Monad>   )(
     row(just(1),                         false_,         false_,         true_      ),
     row(list(1, '2', 3.3),               false_,         true_,          true_      ),
-    row(std::make_tuple("abc", 'd'),     false_,         true_,          false_     ),
+    row(std::make_tuple("abc", 'd'),     false_,         true_,          true_      ),
     row(long_<12>,                       true_,          false_,         false_     ),
     row(range(int_<-4>, int_<15>),       false_,         true_,          false_     )
     );

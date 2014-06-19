@@ -19,6 +19,7 @@ boost_hana_add_test(adapted.std_integral_constant.api)
 boost_hana_add_test(adapted.std_integral_constant.integral_interop)
 boost_hana_add_test(adapted.std_tuple.functor)
 boost_hana_add_test(adapted.std_tuple.iterable)
+boost_hana_add_test(adapted.std_tuple.monad)
 
 boost_hana_add_test(comparable.mcd_equal)
 boost_hana_add_test(comparable.mcd_not_equal)
