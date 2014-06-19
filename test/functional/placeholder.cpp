@@ -6,6 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/functional.hpp>
 
+#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/static_assert.hpp>
 
 #include <cassert>
@@ -68,5 +69,21 @@ int main() {
 
     // Member access
     constexpr int i = 4;
+    constexpr int array[] = {0, 1, 2};
     BOOST_HANA_TEST_UNARY_OP(*, &i)
+
+    BOOST_HANA_STATIC_ASSERT(_[0](array) == array[0]);
+    assert(_[0](array, extra) == array[0]);
+    assert(_[0](array, extra, extra) == array[0]);
+    BOOST_HANA_STATIC_ASSERT(_[1](array) == array[1]);
+    BOOST_HANA_STATIC_ASSERT(_[1](array) == array[1]);
+    BOOST_HANA_STATIC_ASSERT(_[2](array) == array[2]);
+
+    // Other
+    BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto x) { return x + 1; };
+    BOOST_HANA_STATIC_ASSERT(_(1)(f) == f(1));
+    assert(_(1)(f, extra) == f(1));
+    assert(_(1)(f, extra, extra) == f(1));
+    BOOST_HANA_STATIC_ASSERT(_(2)(f) == f(2));
+    BOOST_HANA_STATIC_ASSERT(_(3)(f) == f(3));
 }

@@ -276,13 +276,22 @@ namespace boost { namespace hana {
     - Bitwise: `~`, `&`, `|`, `^`, `<<`, `>>`
     - Comparison: `==`, `!=`, `<`, `<=`, `>`, `>=`
     - Logical: `||`, `&&`, `!`
-    - Member access: `*` (dereference)
+    - Member access: `*` (dereference), `[]` (array subscript)
+    - Other: `()` (function call)
 
 
     ### Example
     @snippet example/functional/placeholder.cpp main
      */
-    constexpr struct { } _{};
+    constexpr struct {
+        template <typename X>
+        constexpr auto operator[](X x) const
+        { return [=](auto c, auto ...z) { return c[x]; }; }
+
+        template <typename ...X>
+        constexpr auto operator()(X ...x) const
+        { return [=](auto f, auto ...z) { return f(x...); }; }
+    } _{};
 
     //! @}
 
@@ -333,8 +342,11 @@ namespace boost { namespace hana {
     BOOST_HANA_PLACEHOLDER_BINARY_OP(&&)
     BOOST_HANA_PLACEHOLDER_UNARY_OP(!)
 
-    // Member access
+    // Member access (array subscript is a member function)
     BOOST_HANA_PLACEHOLDER_UNARY_OP(*)
+
+    // Other (function call is a member function)
+
 #undef BOOST_HANA_PREFIX_PLACEHOLDER_OP
 #undef BOOST_HANA_BINARY_PLACEHOLDER_OP
 
