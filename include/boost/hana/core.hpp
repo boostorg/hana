@@ -13,8 +13,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/integral_fwd.hpp>
 
-#include <type_traits>
-
 
 namespace boost { namespace hana {
     namespace core_detail { template <typename ...> struct is_an_instance; }
@@ -239,11 +237,23 @@ namespace boost { namespace hana {
         return convert<To, datatype_t<decltype(object)>>::apply(object);
     };
 
+    namespace core_detail {
+        template <typename T, typename Enable = void*>
+        constexpr auto instantiates_impl = false_;
+
+        template <typename T>
+        constexpr auto instantiates_impl<T,
+            decltype((void*)static_cast<defaults<>*>((T*)0))> = true_;
+    }
+
     //! Whether the type class is instantiated with the given arguments.
+    //! @hideinitializer
+    //!
+    //! This is provided in addition to `is_a` for type classes taking more
+    //! than one argument or when no object of the data type is available.
     template <template <typename ...> class Typeclass, typename ...Datatypes>
-    constexpr auto instantiates = bool_<
-        std::is_base_of<defaults<>, Typeclass<Datatypes...>>::value
-    >;
+    constexpr auto instantiates =
+        core_detail::instantiates_impl<Typeclass<Datatypes...>>;
 
     //! Return whether an object is an instance of the given type class.
     //!
