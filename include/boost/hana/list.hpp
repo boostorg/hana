@@ -11,8 +11,10 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_LIST_HPP
 
 #include <boost/hana/comparable.hpp>
+#include <boost/hana/core.hpp>
 #include <boost/hana/detail/at_index/best.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/enable_if.hpp>
 #include <boost/hana/detail/left_folds/variadic.hpp>
 #include <boost/hana/detail/left_folds/variadic_meta.hpp>
 #include <boost/hana/foldable.hpp>
@@ -29,6 +31,9 @@ namespace boost { namespace hana {
     /*!
     @ingroup datatypes
     General purpose compile-time heterogeneous sequence.
+
+    @note
+    Any `Foldable` can be converted to a `List`.
 
     --------------------------------------------------------------------------
 
@@ -557,6 +562,14 @@ namespace boost { namespace hana {
     //! @snippet example/list/zip.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto zip = [](auto ...lists) {
         return zip_with(list, lists...);
+    };
+
+    //! @todo Find a clean way to implement `is_foldable`.
+    template <typename T>
+    struct convert<List, T, detail::enable_if_t<foldable_detail::is_foldable<T>()>> {
+        template <typename Xs>
+        static constexpr auto apply(Xs xs)
+        { return foldr(cons, list(), xs); }
     };
 }} // end namespace boost::hana
 

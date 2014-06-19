@@ -279,6 +279,8 @@ namespace boost { namespace hana {
     struct defaults<Foldable> {
         template <typename T, typename Enable = void>
         struct with {
+            static constexpr auto is_foldable = true_;
+
             template <typename F, typename State, typename Foldable_>
             static constexpr auto foldr_impl(F f, State s, Foldable_ foldable)
             { return lazy_foldr(on(f, apply), s, foldable); }
@@ -423,11 +425,19 @@ namespace boost { namespace hana {
     template <>
     struct instance<Foldable> {
         template <typename T, typename Enable = void>
-        struct with { };
+        struct with {
+            static constexpr auto is_foldable = false_;
+        };
     };
 
     template <typename T, typename Enable>
     struct Foldable : instance<Foldable>::template with<T> { };
+
+    namespace foldable_detail {
+        //! @todo Find a cleaner way to implement this.
+        template <typename T>
+        constexpr auto is_foldable = Foldable<T>::is_foldable;
+    }
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FOLDABLE_HPP

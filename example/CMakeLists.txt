@@ -14,6 +14,7 @@ endfunction()
 
 boost_hana_add_example(bool.logical.eval_if)
 
+boost_hana_add_example(core.convert)
 boost_hana_add_example(core.defaults)
 boost_hana_add_example(core.instance)
 
@@ -73,6 +74,7 @@ boost_hana_add_example(list.sort_by)
 boost_hana_add_example(list.take)
 boost_hana_add_example(list.take_until)
 boost_hana_add_example(list.take_while)
+boost_hana_add_example(list.to)
 boost_hana_add_example(list.zip)
 boost_hana_add_example(list.zip_with)
 

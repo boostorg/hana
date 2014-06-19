@@ -10,6 +10,9 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_CORE_HPP
 #define BOOST_HANA_CORE_HPP
 
+#include <boost/hana/detail/constexpr.hpp>
+
+
 namespace boost { namespace hana {
     //! @defgroup Core Core
     //! Miscellaneous core utilities.
@@ -148,6 +151,10 @@ namespace boost { namespace hana {
     The data type of `std::is_pointer<int>{}` is `std::is_pointer<int>`
     instead of `Integral` because `std::is_pointer` only _inherits_ from
     `std::integral_constant`.
+
+    @todo
+    Could this be related to `decltype_`? If so, how? It is a valid question
+    whether `decltype_(list(...))` should be `List` or `<garbage>`.
      */
     template <typename T>
     struct datatype {
@@ -157,6 +164,68 @@ namespace boost { namespace hana {
     //! Alias to `datatype<T>::%type`.
     template <typename T>
     using datatype_t = typename datatype<T>::type;
+
+    namespace core_detail {
+        template <typename To, typename From>
+        struct default_convert {
+            template <typename X>
+            static constexpr auto apply_impl(X x, int)
+                -> decltype(static_cast<To>(x))
+            { return static_cast<To>(x); }
+
+            template <typename X>
+            static constexpr auto apply_impl(X x, ...) {
+                static_assert((sizeof(X), false),
+                "there exists no conversion between the given data types");
+            }
+
+            template <typename X>
+            static constexpr auto apply(X x)
+            { return apply_impl(x, int{0}); }
+        };
+
+        template <typename To>
+        struct default_convert<To, To> {
+            template <typename X>
+            static constexpr auto apply(X x) { return x; }
+        };
+    }
+
+    //! Implements conversions between data types.
+    //!
+    //! To specify a conversion between two data types, one must specialize
+    //! `convert` for the corresponding data types. A dummy template parameter
+    //! is also provided for SFINAE. This allows conversions to be specified
+    //! for all data types satisfying a predicate.
+    //!
+    //! By default, `convert` has the following behavior:
+    //! If the `To` and `From` data types are the same, nothing is done.
+    //! Otherwise, if the type of the converted-from object -- its actual
+    //! type, not its data type -- is convertible to the `To` data type with
+    //! `static_cast`, that conversion is used. Otherwise, a static assertion
+    //! is triggered.
+    //!
+    //! @note
+    //! `convert` is only used to provide the conversions; to actually
+    //! perform conversions, use `to`.
+    //!
+    //! ### Example
+    //! @include example/core/convert.cpp
+    template <typename To, typename From, typename Enable = void>
+    struct convert
+        : core_detail::default_convert<To, From>
+    { };
+
+    //! Create an object of a data type from an object of another data type.
+    //!
+    //! See `convert` for how to specify user-defined conversions.
+    //!
+    //! ### Example
+    //! @snippet example/list/to.cpp main
+    template <typename To>
+    BOOST_HANA_CONSTEXPR_LAMBDA auto to = [](auto object) {
+        return convert<To, datatype_t<decltype(object)>>::apply(object);
+    };
 
     //! @}
 
