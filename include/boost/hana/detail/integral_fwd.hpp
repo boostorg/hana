@@ -86,6 +86,8 @@ namespace boost { namespace hana {
         BOOST_HANA_INTEGRAL_BINARY_OP(*)
         BOOST_HANA_INTEGRAL_BINARY_OP(/)
         BOOST_HANA_INTEGRAL_BINARY_OP(%)
+
+        // Bitwise
         BOOST_HANA_INTEGRAL_UNARY_OP(~)
         BOOST_HANA_INTEGRAL_BINARY_OP(&)
         BOOST_HANA_INTEGRAL_BINARY_OP(|)

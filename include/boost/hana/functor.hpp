@@ -57,7 +57,7 @@ namespace boost { namespace hana {
     template <>
     struct defaults<Functor> {
         template <typename T, typename Enable = void>
-        struct with { };
+        struct with : defaults<> { };
     };
 
     template <typename T, typename Enable>

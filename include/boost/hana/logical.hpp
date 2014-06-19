@@ -150,7 +150,7 @@ namespace boost { namespace hana {
     template <>
     struct defaults<Logical> {
         template <typename, typename Enable = void>
-        struct with {
+        struct with : defaults<> {
             template <typename X, typename Y>
             static constexpr auto or_impl(X x, Y y)
             { return if_(x, x, y); }

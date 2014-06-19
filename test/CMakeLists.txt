@@ -28,6 +28,8 @@ boost_hana_add_test(core.convert.specialize)
 boost_hana_add_test(core.datatype)
 boost_hana_add_test(core.defaults)
 boost_hana_add_test(core.instance)
+boost_hana_add_test(core.instantiates)
+boost_hana_add_test(core.is_a)
 
 boost_hana_add_test(detail.at_index)
 boost_hana_add_test(detail.integer_sequence)

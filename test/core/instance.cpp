@@ -30,7 +30,7 @@ namespace boost { namespace hana {
     template <>
     struct defaults<Typeclass> {
         template <typename T, typename Enable = void>
-        struct with {
+        struct with : defaults<> {
             static constexpr bool has_complimentary = false;
             static constexpr bool has_defaults = true;
             static constexpr bool has_explicit_instance = false;

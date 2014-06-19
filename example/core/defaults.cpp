@@ -33,7 +33,7 @@ namespace boost { namespace hana {
     template <>
     struct defaults<Incrementable> {
         template <typename T, typename Enable = void>
-        struct with {
+        struct with : defaults<> {
             template <typename X>
             static constexpr auto next_n_impl(X x, unsigned int n) {
                 if (n == 0) return x;

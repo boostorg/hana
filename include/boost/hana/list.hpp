@@ -564,9 +564,8 @@ namespace boost { namespace hana {
         return zip_with(list, lists...);
     };
 
-    //! @todo Find a clean way to implement `is_foldable`.
     template <typename T>
-    struct convert<List, T, detail::enable_if_t<foldable_detail::is_foldable<T>()>> {
+    struct convert<List, T, detail::enable_if_t<instantiates<Foldable, T>>> {
         template <typename Xs>
         static constexpr auto apply(Xs xs)
         { return foldr(cons, list(), xs); }

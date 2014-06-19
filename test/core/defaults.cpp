@@ -30,7 +30,7 @@ namespace boost { namespace hana {
     template <>
     struct defaults<Typeclass> {
         template <typename T, typename Enable = void>
-        struct with {
+        struct with : defaults<> {
             static constexpr bool has_complimentary = false;
             static constexpr bool has_defaults = true;
             static constexpr bool has_predicated_defaults = false;
@@ -50,7 +50,9 @@ struct predicate : std::false_type { };
 
 namespace boost { namespace hana {
     template <typename T>
-    struct defaults<Typeclass>::with<T, std::enable_if_t<predicate<T>{}>> {
+    struct defaults<Typeclass>::with<T, std::enable_if_t<predicate<T>{}>>
+        : defaults<>
+    {
         static constexpr bool has_complimentary = false;
         static constexpr bool has_defaults = false;
         static constexpr bool has_predicated_defaults = true;

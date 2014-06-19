@@ -68,7 +68,7 @@ namespace boost { namespace hana {
     template <>
     struct defaults<Monad> {
         template <typename M, typename Enable = void>
-        struct with {
+        struct with : defaults<> {
             template <typename Monad_>
             static constexpr auto join_impl(Monad_ monad)
             { return bind(monad, id); }

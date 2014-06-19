@@ -163,7 +163,7 @@ namespace boost { namespace hana {
     template <>
     struct defaults<Iterable> {
         template <typename T, typename Enable = void>
-        struct with {
+        struct with : defaults<> {
             template <typename Index, typename Iterable_>
             static constexpr auto at_impl(Index n, Iterable_ iterable) {
                 return eval_if(n == size_t<0>,

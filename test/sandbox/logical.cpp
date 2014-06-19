@@ -72,7 +72,7 @@ namespace boost { namespace hana {
     template <>
     struct defaults<sandbox::Logical> {
         template <typename T, typename Enable = void>
-        struct with {
+        struct with : defaults<> {
             template <typename Cond, typename Then, typename Else>
             static constexpr auto if_impl(Cond c, Then t, Else e)
             { return sandbox::eval_if(c, always(t), always(e)); }

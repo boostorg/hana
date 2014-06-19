@@ -11,9 +11,14 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_CORE_HPP
 
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/integral_fwd.hpp>
+
+#include <type_traits>
 
 
 namespace boost { namespace hana {
+    namespace core_detail { template <typename ...> struct is_an_instance; }
+
     //! @defgroup Core Core
     //! Miscellaneous core utilities.
     //!
@@ -44,24 +49,31 @@ namespace boost { namespace hana {
         template <>
         struct defaults<Typeclass> {
             template <typename ...Args>
-            struct with {
+            struct with : defaults<> {
                 // provide a default implementation for methods outside
                 // of the minimal complete definition if desired
             };
         };
     @endcode
 
+    Inheriting from `defaults<>` is mandatory; it is required to implement
+    some features of the library. Note that all the specializations of
+    `defaults<Typeclass>::%with`, if any, must inherit from `defaults<>`.
+
     The `Args...` are specific to each type class; the documentation should
-    explain their purpose. When possible, it is nice to include a dummy
+    explain their purpose. When possible, it is also nice to include a dummy
     template parameter for SFINAE, which allows `defaults` to be specialized
-    for all types satisfying a predicate.
+    for all types satisfying some predicate.
 
     ### Example
     @include example/core/defaults.cpp
 
     */
-    template <template <typename ...> class Typeclass>
+    template <template <typename ...> class Typeclass = core_detail::is_an_instance>
     struct defaults;
+
+    template <>
+    struct defaults<core_detail::is_an_instance> { };
 
     /*!
     Allows complimentary type class instances to be provided.
@@ -226,6 +238,26 @@ namespace boost { namespace hana {
     BOOST_HANA_CONSTEXPR_LAMBDA auto to = [](auto object) {
         return convert<To, datatype_t<decltype(object)>>::apply(object);
     };
+
+    //! Whether the type class is instantiated with the given arguments.
+    template <template <typename ...> class Typeclass, typename ...Datatypes>
+    constexpr auto instantiates = bool_<
+        std::is_base_of<defaults<>, Typeclass<Datatypes...>>::value
+    >;
+
+    //! Return whether an object is an instance of the given type class.
+    //!
+    //! ### Example
+    //! @snippet example/core/is_a.cpp main
+    template <template <typename ...> class Typeclass>
+    BOOST_HANA_CONSTEXPR_LAMBDA auto is_a = [](auto x) {
+        return instantiates<Typeclass, datatype_t<decltype(x)>>;
+    };
+
+    //! Equivalent to `is_a`; provided for consistency with the rules of the
+    //! English language.
+    template <template <typename ...> class Typeclass>
+    BOOST_HANA_CONSTEXPR_LAMBDA auto is_an = is_a<Typeclass>;
 
     //! @}
 

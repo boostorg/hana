@@ -80,7 +80,7 @@ namespace boost { namespace hana {
     template <>
     struct defaults<Comparable> {
         template <typename T, typename U, typename Enable = void>
-        struct with {
+        struct with : defaults<> {
             template <typename X, typename Y>
             static constexpr auto equal_impl(X x, Y y)
             { return !not_equal(x, y); }

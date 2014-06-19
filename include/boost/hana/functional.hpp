@@ -284,6 +284,7 @@ namespace boost { namespace hana {
     @snippet example/functional/placeholder.cpp main
      */
     constexpr struct {
+        //! @cond
         template <typename X>
         constexpr auto operator[](X x) const
         { return [=](auto c, auto ...z) { return c[x]; }; }
@@ -291,6 +292,7 @@ namespace boost { namespace hana {
         template <typename ...X>
         constexpr auto operator()(X ...x) const
         { return [=](auto f, auto ...z) { return f(x...); }; }
+        //! @endcond
     } _{};
 
     //! @}

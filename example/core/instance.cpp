@@ -29,7 +29,7 @@ namespace boost { namespace hana {
     template <>
     struct defaults<Incrementable> {
         template <typename T, typename Enable = void>
-        struct with { };
+        struct with : defaults<> { };
     };
 }}
 
