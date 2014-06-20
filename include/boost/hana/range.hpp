@@ -60,10 +60,6 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/range/range.cpp main
-    //!
-    //! @todo Consider providing a `range[from, to]` constructor which would
-    //! create the closed interval `[from, to]`. Then, `range(from, to)` might
-    //! become an open interval. How would we handle half-open intervals?
     BOOST_HANA_CONSTEXPR_LAMBDA auto range = [](auto from, auto to) {
         // For some reason, Clang 3.5 requires that we create an intermediate
         // variable whose type is dependent so we can use `valid_range` as a
@@ -114,9 +110,6 @@ namespace boost { namespace hana {
 
         template <typename F, typename R>
         static constexpr auto unpack_impl(F f, R r) {
-            // For some reason, Clang 3.5 requires that we create an intermediate
-            // variable whose type is dependent so we can use `size` as a
-            // constant expression below.
             auto size = r.to - r.from;
             return unpack_helper(f, r.from, detail::make_integer_sequence<decltype(r.from()), size()>{});
         }
