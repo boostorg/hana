@@ -7,8 +7,8 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#ifndef BOOST_HANA_STD_TUPLE_HPP
-#define BOOST_HANA_STD_TUPLE_HPP
+#ifndef BOOST_HANA_ADAPTED_STD_TUPLE_HPP
+#define BOOST_HANA_ADAPTED_STD_TUPLE_HPP
 
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core.hpp>
@@ -86,4 +86,4 @@ namespace boost { namespace hana {
     constexpr bool comparable_from_iterable<StdTuple> = true;
 }} // end namespace boost::hana
 
-#endif // !BOOST_HANA_STD_TUPLE_HPP
+#endif // !BOOST_HANA_ADAPTED_STD_TUPLE_HPP
