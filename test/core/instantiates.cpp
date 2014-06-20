@@ -37,6 +37,14 @@ struct Typeclass : instance<Typeclass>::template with<T> { };
 //////////////////////////////////////////////////////////////////////////////
 struct NotInstance;
 struct Instance;
+struct ComplimentaryInstance;
+
+namespace boost { namespace hana {
+    template <>
+    struct instance<Typeclass>::with<ComplimentaryInstance>
+        : defaults<Typeclass>::with<ComplimentaryInstance>
+    { };
+}}
 
 template <>
 struct Typeclass<Instance> : defaults<Typeclass>::with<Instance> { };
@@ -47,4 +55,6 @@ int main() {
 
     BOOST_HANA_STATIC_ASSERT(!instantiates<Typeclass, void>);
     BOOST_HANA_STATIC_ASSERT(!instantiates<Typeclass, NotInstance>);
+
+    BOOST_HANA_STATIC_ASSERT(instantiates<Typeclass, ComplimentaryInstance>);
 }

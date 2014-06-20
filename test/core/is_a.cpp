@@ -7,6 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core.hpp>
 
 #include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/foldable.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/list.hpp>
 #include <boost/hana/maybe.hpp>
@@ -66,9 +67,12 @@ int main() {
     // Check with a couple of "real" instances
     BOOST_HANA_STATIC_ASSERT(is_an<Iterable>(list(1, '2', 3)));
     BOOST_HANA_STATIC_ASSERT(is_a<Monad>(list(1, '2', 3)));
+    BOOST_HANA_STATIC_ASSERT(is_a<Foldable>(list(1, '2', 3)));
 
     BOOST_HANA_STATIC_ASSERT(!is_an<Iterable>(just(1)));
     BOOST_HANA_STATIC_ASSERT(!is_an<Iterable>(nothing));
+    BOOST_HANA_STATIC_ASSERT(!is_a<Foldable>(just('1')));
+    BOOST_HANA_STATIC_ASSERT(!is_a<Foldable>(nothing));
     BOOST_HANA_STATIC_ASSERT(is_a<Monad>(just("abcd")));
     BOOST_HANA_STATIC_ASSERT(is_a<Monad>(nothing));
 }
