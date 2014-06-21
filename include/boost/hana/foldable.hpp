@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FOLDABLE_HPP
 #define BOOST_HANA_FOLDABLE_HPP
 
+#include <boost/hana/comparable.hpp>
 #include <boost/hana/core.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/functional.hpp>
@@ -212,6 +213,15 @@ namespace boost { namespace hana {
         return Foldable<datatype_t<decltype(foldable)>>::find_impl(predicate, foldable);
     };
 
+    //! Return whether the element occurs in the structure.
+    //! @method{Foldable}
+    //!
+    //! ### Example
+    //! @snippet example/list/foldable/elem.cpp main
+    BOOST_HANA_CONSTEXPR_LAMBDA auto elem = [](auto x, auto foldable) {
+        return Foldable<datatype_t<decltype(foldable)>>::elem_impl(x, foldable);
+    };
+
     //! Invoke a function with the elements of a structure as arguments.
     //! @method{Foldable}
     //!
@@ -361,6 +371,10 @@ namespace boost { namespace hana {
                 };
                 return lazy_foldr(go, nothing, foldable);
             }
+
+            template <typename X, typename Foldable_>
+            static constexpr auto elem_impl(X x, Foldable_ foldable)
+            { return any([=](auto y) { return equal(x, y); }, foldable); }
 
             template <typename Foldable_>
             static constexpr auto sum_impl(Foldable_ foldable)

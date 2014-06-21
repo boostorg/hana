@@ -138,6 +138,9 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/list/list_t.cpp main
+    //!
+    //! @todo
+    //! We can have efficient membership testing for those.
     template <typename ...xs>
     constexpr operators::TypeList<
         typename list_detail::hidden_type_container<xs...>::type

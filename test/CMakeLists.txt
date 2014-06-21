@@ -41,6 +41,7 @@ boost_hana_add_test(detail.left_folds)
 
 boost_hana_add_test(foldable.all_of)
 boost_hana_add_test(foldable.count)
+boost_hana_add_test(foldable.elem)
 boost_hana_add_test(foldable.find)
 boost_hana_add_test(foldable.foldl)
 boost_hana_add_test(foldable.foldl1)

@@ -18,14 +18,10 @@ using sandbox::pair;
 using sandbox::second;
 
 
-BOOST_HANA_CONSTEXPR_LAMBDA auto contains = [](auto x, auto xs) {
-    return any(_ == x, xs);
-};
-
 BOOST_HANA_CONSTEXPR_LAMBDA auto check_fold = [](auto ...pairs) {
     auto values = fmap(second, list(pairs...));
     auto result = lazy_foldr(on(cons, apply), list(), map(pairs...));
-    assert(contains(result, permutations(values)));
+    assert(elem(result, permutations(values)));
 };
 
 int main() {
