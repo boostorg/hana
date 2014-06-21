@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_LIST_HPP
 #define BOOST_HANA_LIST_HPP
 
+#include <boost/hana/applicative.hpp>
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core.hpp>
 #include <boost/hana/detail/at_index/best.hpp>
@@ -56,6 +57,12 @@ namespace boost { namespace hana {
     #### Example 2
     @snippet example/list/functor/fmap.cpp mpl
 
+    ### Applicative
+    A value can be lifted into a singleton list with `pure<List>`. `ap(fs, xs)`
+    applies each function in the list `fs` to each value in the list `xs`, and
+    returns a list containing all the results.
+    @snippet example/list/applicative/overview.cpp main
+
     ### Foldable
     Generic instance for `Iterable`s.
 
@@ -82,6 +89,7 @@ namespace boost { namespace hana {
     - Is it desirable to have different ways of creating lists, or should we
       in fact provide `type_list`, `homogeneous_list`, etc...?
     - How to implement iterate and repeat?
+    - Check laws for `Applicative`.
      */
     struct List { };
 
@@ -234,14 +242,25 @@ namespace boost { namespace hana {
     }
 
     template <>
+    struct Applicative<List> : defaults<Applicative>::with<List> {
+        template <typename X>
+        static constexpr auto pure_impl(X x)
+        { return list(x); }
+
+        template <typename Fs, typename Xs>
+        static constexpr auto ap_impl(Fs fs, Xs xs)
+        { return bind(fs, [=](auto f) { return fmap(f, xs); }); }
+    };
+
+    template <>
     struct Monad<List> : defaults<Monad>::with<List> {
         template <typename X>
         static constexpr auto unit_impl(X x)
         { return list(x); }
 
-        template <typename Xxs>
-        static constexpr auto join_impl(Xxs xxs)
-        { return foldl(list_detail::concat2, list(), xxs); }
+        template <typename Xss>
+        static constexpr auto join_impl(Xss xss)
+        { return foldl(list_detail::concat2, list(), xss); }
     };
 
     template <>

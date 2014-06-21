@@ -89,6 +89,7 @@ boost_hana_add_test(iterable.drop_while)
 boost_hana_add_test(iterable.foldable)
 boost_hana_add_test(iterable.last)
 
+boost_hana_add_test(list.applicative)
 boost_hana_add_test(list.concat)
 boost_hana_add_test(list.cons)
 boost_hana_add_test(list.filter)

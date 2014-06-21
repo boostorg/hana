@@ -39,6 +39,7 @@ boost_hana_add_example(integral.logical.eval_if)
 boost_hana_add_example(integral.logical.or)
 boost_hana_add_example(integral.operators)
 
+boost_hana_add_example(list.applicative.overview)
 boost_hana_add_example(list.comparable)
 boost_hana_add_example(list.concat)
 boost_hana_add_example(list.cons)
