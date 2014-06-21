@@ -51,6 +51,8 @@ namespace boost { namespace hana {
     - Consider having a `.name()` method that would return the
       (demangled?) `typeid(T).name()`.
     - Document `Functor` and `Monad` instances.
+    - Use lambdas for `lift` and `lift_` once
+      http://llvm.org/bugs/show_bug.cgi?id=20046 is fixed.
      */
     struct Type { };
 
@@ -185,6 +187,63 @@ namespace boost { namespace hana {
      */
     template <template <typename ...> class f>
     constexpr type_detail::Template<f> template_{};
+
+    namespace type_detail {
+        template <template <typename ...> class f>
+        struct lift {
+            template <typename ...T>
+            constexpr auto operator()(T ...t) const
+            { return f<untype_t<decltype(t)>...>{}; }
+        };
+
+        template <template <typename ...> class f>
+        struct lift_ {
+            template <typename ...T>
+            constexpr auto operator()(T ...t) const
+            { return f<decltype(t)...>{}; }
+        };
+    }
+
+    //! Lift a template in the MPL world to a function in the Hana world.
+    //! @relates Type
+    //!
+    //! Specifically, returns a default-constructed object of the type created
+    //! by instantiating the template with the given `Type` arguments. This is
+    //! different from `template_` in that `lift` does not return a `Type`.
+    //! However, note that `lift<f>(t...)` is effectively equivalent to
+    //! `template_<f>(t...)()`.
+    //!
+    //! The principal use case for `lift` is to transform metafunctions
+    //! inheriting from a meaningful base like `std::integral_constant`
+    //! into functions returning e.g. an `Integral`.
+    //!
+    //! ### Example
+    //! @snippet example/type/lift.cpp liftable
+    //!
+    //! Note that not all metafunctions of the standard library can be lifted
+    //! this way. For example, `std::aligned_storage` can't be lifted because
+    //! it requires non-type template parameters. Since there is no uniform
+    //! way of dealing with non-type template parameters, one must resort
+    //! to using e.g. an inline lambda to "lift" these metafunctions. In
+    //! practice, however, this should not be a problem.
+    //!
+    //! ### Example of a non-liftable metafunction
+    //! @snippet example/type/lift.cpp nonliftable
+    //!
+    //! @note
+    //! When using `lift` with type traits returning `std::integral_constant`s,
+    //! don't forget to include the boost/hana/adapted/std_integral_constant.hpp
+    //! header!
+    template <template <typename ...> class f>
+    constexpr type_detail::lift<f> lift{};
+
+    //! Equivalent to `compose(lift<f>, decltype_)`; provided for convenience.
+    //! @relates Type
+    //!
+    //! ### Example
+    //! @snippet example/type/lift_.cpp main
+    template <template <typename ...> class f>
+    constexpr type_detail::lift_<f> lift_{};
 
     template <>
     struct Comparable<Type, Type> : defaults<Comparable>::with<Type, Type> {

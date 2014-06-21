@@ -6,24 +6,16 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/adapted/std_integral_constant.hpp>
 #include <boost/hana/detail/static_assert.hpp>
-#include <boost/hana/functional.hpp>
-#include <boost/hana/integral.hpp>
-#include <boost/hana/list.hpp>
 #include <boost/hana/type.hpp>
+
+#include <type_traits>
 using namespace boost::hana;
-using namespace literals;
 
 
 int main() {
     //! [main]
-    BOOST_HANA_STATIC_ASSERT(
-        take_until(_ < 2_c, list(3_c, 2_c, 1_c, 0_c)) == list(3_c, 2_c)
-    );
-
-    BOOST_HANA_STATIC_ASSERT(
-        take_until(lift<std::is_floating_point>, list_t<int, float, char>)
-        ==
-        list_t<int>
-    );
+    BOOST_HANA_STATIC_ASSERT(lift_<std::is_integral>(2));
+    BOOST_HANA_STATIC_ASSERT(lift_<std::is_integral>(2ll));
+    BOOST_HANA_STATIC_ASSERT(!lift_<std::is_integral>(2.2));
     //! [main]
 }

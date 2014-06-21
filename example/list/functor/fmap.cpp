@@ -7,7 +7,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/list.hpp>
-#include <boost/hana/trait.hpp>
 #include <boost/hana/type.hpp>
 
 #include <cassert>
@@ -30,11 +29,8 @@ int main() {
 
     //! [mpl]
     BOOST_HANA_CONSTEXPR_LAMBDA auto types = list_t<void, int(), char[10]>;
-    BOOST_HANA_STATIC_ASSERT(
-        fmap(trait::add_pointer, types) == list_t<void*, int(*)(), char(*)[10]>
-    );
-    BOOST_HANA_STATIC_ASSERT(
-        head(fmap(trait::add_pointer, types)) == type<void*>
-    );
+    BOOST_HANA_CONSTEXPR_LAMBDA auto pointers = fmap(template_<std::add_pointer_t>, types);
+    BOOST_HANA_STATIC_ASSERT(pointers == list_t<void*, int(*)(), char(*)[10]>);
+    BOOST_HANA_STATIC_ASSERT(head(pointers) == type<void*>);
     //! [mpl]
 }

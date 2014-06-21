@@ -4,27 +4,20 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
+#include <boost/hana/adapted/std_integral_constant.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/list.hpp>
 #include <boost/hana/maybe.hpp>
-#include <boost/hana/trait.hpp>
 #include <boost/hana/type.hpp>
 using namespace boost::hana;
 
 
 int main() {
     //! [fusion]
-
-    //! @todo `compose(trait::..., decltype_)` is too verbose. Find an elegant
-    //! way to make this easier.
-    BOOST_HANA_STATIC_ASSERT(
-        find(compose(trait::is_integral, decltype_), list(1.0, 2)) == just(2)
-    );
-    BOOST_HANA_STATIC_ASSERT(
-        find(compose(trait::is_class, decltype_), list(1.0, 2)) == nothing
-    );
+    BOOST_HANA_STATIC_ASSERT(find(lift_<std::is_integral>, list(1.0, 2, '3')) == just(2));
+    BOOST_HANA_STATIC_ASSERT(find(lift_<std::is_class>, list(1.0, 2, '3')) == nothing);
     //! [fusion]
 
     //! [mpl]
