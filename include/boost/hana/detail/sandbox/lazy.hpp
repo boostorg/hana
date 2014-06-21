@@ -29,6 +29,9 @@ namespace sandbox {
             template <typename ...>
             using underlying_type = T;
 
+            constexpr auto eval() const
+            { return r(id); }
+
             constexpr operator T() const
             { return r(id); }
         };
@@ -36,6 +39,9 @@ namespace sandbox {
         template <typename R>
         struct value<R, delayed> {
             R r;
+
+            constexpr auto eval() const
+            { return r(id); }
 
             template <typename ...Dummy>
             using underlying_type = decltype(r(always(id)(((Dummy*)0)...)));
@@ -49,6 +55,17 @@ namespace sandbox {
             constexpr operator T() const
             { return r(id); }
         };
+
+        template <typename T>
+        struct lazy {
+            template <typename F>
+            constexpr auto operator()(F f) const {
+                return [=](auto ...x) {
+                    auto r = [=](auto _) { return _(f)(x...); };
+                    return value<decltype(r), T>{r};
+                };
+            }
+        };
     } // end namespace lazy_detail
 
     //! @todo
@@ -60,12 +77,7 @@ namespace sandbox {
     //!   i.e. `lazy<eager_policy>(invalid)(args...)` would fail even if we
     //!   don't attempt any conversion.
     template <typename T = lazy_detail::delayed>
-    BOOST_HANA_CONSTEXPR_LAMBDA auto lazy = [](auto f) {
-        return [=](auto ...x) {
-            auto r = [=](auto _) { return _(f)(x...); };
-            return lazy_detail::value<decltype(r), T>{r};
-        };
-    };
+    constexpr lazy_detail::lazy<T> lazy{};
 } // end namespace sandbox
 
 template <typename R, typename T>
