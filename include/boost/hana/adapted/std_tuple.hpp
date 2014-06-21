@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_ADAPTED_STD_TUPLE_HPP
 #define BOOST_HANA_ADAPTED_STD_TUPLE_HPP
 
+#include <boost/hana/applicative.hpp>
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core.hpp>
 #include <boost/hana/foldable.hpp>
@@ -61,6 +62,18 @@ namespace boost { namespace hana {
         template <typename F, typename ...Xs>
         static constexpr auto fmap_impl(F f, std::tuple<Xs...> tuple)
         { return helper(f, tuple, std::index_sequence_for<Xs...>{}); }
+    };
+
+    //! @todo Check `Applicative` laws.
+    template <>
+    struct Applicative<StdTuple> : defaults<Applicative>::with<StdTuple> {
+        template <typename X>
+        static constexpr auto pure_impl(X x)
+        { return std::tuple<X>{x}; }
+
+        template <typename Fs, typename Xs>
+        static constexpr auto ap_impl(Fs fs, Xs xs)
+        { return bind(fs, [=](auto f) { return fmap(f, xs); }); }
     };
 
     template <>

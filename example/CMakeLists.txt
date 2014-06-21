@@ -84,6 +84,7 @@ boost_hana_add_example(list.zip_with)
 boost_hana_add_example(logical.default_instance.eval_if)
 
 boost_hana_add_example(maybe.api)
+boost_hana_add_example(maybe.applicative)
 boost_hana_add_example(maybe.comparable)
 boost_hana_add_example(maybe.functor)
 boost_hana_add_example(maybe.monad)

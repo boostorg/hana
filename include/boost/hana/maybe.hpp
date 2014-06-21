@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_MAYBE_HPP
 #define BOOST_HANA_MAYBE_HPP
 
+#include <boost/hana/applicative.hpp>
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/functor.hpp>
@@ -41,6 +42,13 @@ namespace boost { namespace hana {
     `just(x)`.
     @snippet example/maybe/functor.cpp main
 
+    ### Applicative
+    First, a value can be made optional with `pure<Maybe>`, which is
+    equivalent to `just`. Second, one can feed an optional value to an
+    optional function with `ap`, which will return `just(f(x))` if there
+    is a function _and_ a value and `nothing` otherwise.
+    @include example/maybe/applicative.cpp
+
     ### Monad
     The `Maybe` `Monad` makes it easy to compose actions that might fail.
     First, a value can be made an optional value with `unit<Maybe>`, which
@@ -49,6 +57,9 @@ namespace boost { namespace hana {
     is no value. Finally, optional-optional values can have their redundant
     level of `Maybe`ness removed with `join`.
     @snippet example/maybe/monad.cpp main
+
+    @todo
+    Check `Applicative` laws.
      */
     struct Maybe { };
 
@@ -163,6 +174,17 @@ namespace boost { namespace hana {
         template <typename F>
         static constexpr auto fmap_impl(F, operators::_nothing)
         { return nothing; }
+    };
+
+    template <>
+    struct Applicative<Maybe> : defaults<Applicative>::with<Maybe> {
+        template <typename T>
+        static constexpr auto pure_impl(T x)
+        { return just(x); }
+
+        template <typename Mf, typename Mx>
+        static constexpr auto ap_impl(Mf mf, Mx mx)
+        { return maybe(nothing, [=](auto f) { return fmap(f, mx); }, mf); }
     };
 
     template <>
