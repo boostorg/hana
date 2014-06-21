@@ -141,10 +141,10 @@ namespace boost { namespace hana {
 
     namespace core_detail {
         template <typename T, typename Enable = void*>
-        struct datatype_impl { using type = T; };
+        struct default_datatype { using type = T; };
 
         template <typename T>
-        struct datatype_impl<T, decltype((void*)(typename T::hana_datatype*)0)> {
+        struct default_datatype<T, decltype((void*)(typename T::hana_datatype*)0)> {
             using type = typename T::hana_datatype;
         };
     }
@@ -155,20 +155,21 @@ namespace boost { namespace hana {
     By default, this metafunction returns `T::hana_datatype` if that
     expression is valid, and `T` otherwise. It can also be specialized
     to customize the data type of `T` without requiring `T` to have a
-    nested `hana_datatype` type.
-
-    @bug
-    The data type of `std::is_pointer<int>{}` is `std::is_pointer<int>`
-    instead of `Integral` because `std::is_pointer` only _inherits_ from
-    `std::integral_constant`.
+    nested `hana_datatype` type. A dummy parameter is also provided to
+    allow `datatype` to be specialized for all types satisfying a predicate
+    using `std::enable_if`.
 
     @todo
-    Could this be related to `decltype_`? If so, how? It is a valid question
-    whether `decltype_(list(...))` should be `List` or `<garbage>`.
+    - Could this be related to `decltype_`? If so, how? It is a valid question
+      whether `decltype_(list(...))` should be `List` or `<garbage>`.
+    - Consider using two layers of specializations to improve performance if
+      this is an issue. I suspect that using the enabler will hurt performance
+      a lot because it requires the compiler to look at all the enablers each
+      time `datatype` is instantiated.
      */
-    template <typename T>
+    template <typename T, typename Enable = void>
     struct datatype {
-        using type = typename core_detail::datatype_impl<T>::type;
+        using type = typename core_detail::default_datatype<T>::type;
     };
 
     //! Alias to `datatype<T>::%type`.
