@@ -19,7 +19,6 @@ namespace boost { namespace hana {
         : MonadInstance
         , defaults<Monad>::with<MinimalMonad>
     {
-        using MonadInstance::unit_impl;
         using MonadInstance::bind_impl;
         using defaults<hana::Monad>::with<MinimalMonad>::join_impl;
     };

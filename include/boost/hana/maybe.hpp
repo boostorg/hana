@@ -43,7 +43,7 @@ namespace boost { namespace hana {
     @snippet example/maybe/functor.cpp main
 
     ### Applicative
-    First, a value can be made optional with `pure<Maybe>`, which is
+    First, a value can be made optional with `unit<Maybe>`, which is
     equivalent to `just`. Second, one can feed an optional value to an
     optional function with `ap`, which will return `just(f(x))` if there
     is a function _and_ a value and `nothing` otherwise.
@@ -51,11 +51,10 @@ namespace boost { namespace hana {
 
     ### Monad
     The `Maybe` `Monad` makes it easy to compose actions that might fail.
-    First, a value can be made an optional value with `unit<Maybe>`, which
-    is equivalent to `just`. Second, one can feed an optional value if there
-    is one into a function with `bind`, which will return `nothing` if there
-    is no value. Finally, optional-optional values can have their redundant
-    level of `Maybe`ness removed with `join`.
+    One can feed an optional value if there is one into a function with
+    `bind`, which will return `nothing` if there is no value. Finally,
+    optional-optional values can have their redundant level of
+    `Maybe`ness removed with `join`.
     @snippet example/maybe/monad.cpp main
 
     @todo
@@ -179,7 +178,7 @@ namespace boost { namespace hana {
     template <>
     struct Applicative<Maybe> : defaults<Applicative>::with<Maybe> {
         template <typename T>
-        static constexpr auto pure_impl(T x)
+        static constexpr auto unit_impl(T x)
         { return just(x); }
 
         template <typename Mf, typename Mx>
@@ -189,10 +188,6 @@ namespace boost { namespace hana {
 
     template <>
     struct Monad<Maybe> : defaults<Monad>::with<Maybe> {
-        template <typename T>
-        static constexpr auto unit_impl(T x)
-        { return just(x); }
-
         template <typename T>
         static constexpr auto join_impl(operators::_just<operators::_just<T>> j)
         { return j.val; }

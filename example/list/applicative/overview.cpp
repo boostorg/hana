@@ -13,9 +13,11 @@ using namespace boost::hana;
 
 int main() {
     //! [main]
+    BOOST_HANA_STATIC_ASSERT(unit<List>('a') == list('a'));
+
     BOOST_HANA_CONSTEXPR_LAMBDA auto f = curry<2>(_ + _);
     BOOST_HANA_STATIC_ASSERT(
-        ap(ap(pure<List>(f), list(1, 2)), list(3, 4, 5)) ==
+        ap(ap(unit<List>(f), list(1, 2)), list(3, 4, 5)) ==
         list(
             f(1, 3), f(1, 4), f(1, 5),
             f(2, 3), f(2, 4), f(2, 5)

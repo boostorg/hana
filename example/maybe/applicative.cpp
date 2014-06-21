@@ -42,4 +42,6 @@ int main() {
     BOOST_HANA_STATIC_ASSERT(eval<'1', '?', '2'> == nothing);
     BOOST_HANA_STATIC_ASSERT(eval<'1', '+', '?'> == nothing);
     BOOST_HANA_STATIC_ASSERT(eval<'?', '?', '?'> == nothing);
+
+    BOOST_HANA_STATIC_ASSERT(unit<Maybe>(123) == just(123));
 }

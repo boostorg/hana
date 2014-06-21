@@ -12,9 +12,9 @@ using namespace boost::hana;
 
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(pure<Maybe>(1) == just(1));
-    BOOST_HANA_STATIC_ASSERT(pure<Maybe>('1') == just('1'));
-    BOOST_HANA_STATIC_ASSERT(pure<Maybe>(1.1) == just(1.1));
+    BOOST_HANA_STATIC_ASSERT(unit<Maybe>(1) == just(1));
+    BOOST_HANA_STATIC_ASSERT(unit<Maybe>('1') == just('1'));
+    BOOST_HANA_STATIC_ASSERT(unit<Maybe>(1.1) == just(1.1));
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto x) { return just(x + 1); };
     constexpr auto x = 3;

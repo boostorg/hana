@@ -13,8 +13,6 @@ int main() {
     //! [main]
     BOOST_HANA_CONSTEXPR_LAMBDA auto inc = [](auto x) { return just(x + 1); };
 
-    BOOST_HANA_STATIC_ASSERT(unit<Maybe>(1) == just(1));
-
     BOOST_HANA_STATIC_ASSERT(bind(just(1), inc) == just(2));
     BOOST_HANA_STATIC_ASSERT(bind(nothing, inc) == nothing);
 

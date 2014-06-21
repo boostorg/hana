@@ -218,7 +218,8 @@ namespace boost { namespace hana {
     //! Since the `g`s are applied in lockstep to the arguments, the number
     //! of arguments must match the number of `g`s.
     //!
-    //! @todo Find a better name.
+    //! @todo
+    //! I think this is equivalent to `<*>` for `((->) r)`.
     //!
     //! ### Example
     //! @snippet example/functional/lockstep.cpp main

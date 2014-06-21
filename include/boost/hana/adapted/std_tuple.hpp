@@ -68,7 +68,7 @@ namespace boost { namespace hana {
     template <>
     struct Applicative<StdTuple> : defaults<Applicative>::with<StdTuple> {
         template <typename X>
-        static constexpr auto pure_impl(X x)
+        static constexpr auto unit_impl(X x)
         { return std::tuple<X>{x}; }
 
         template <typename Fs, typename Xs>
@@ -78,10 +78,6 @@ namespace boost { namespace hana {
 
     template <>
     struct Monad<StdTuple> : defaults<Monad>::with<StdTuple> {
-        template <typename X>
-        static constexpr auto unit_impl(X x)
-        { return std::tuple<X>{x}; }
-
         template <typename ...Tuples, std::size_t ...Index>
         static constexpr auto
         helper(std::tuple<Tuples...> tuples, std::index_sequence<Index...>)

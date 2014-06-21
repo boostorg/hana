@@ -37,6 +37,9 @@ namespace boost { namespace hana {
     ### Functor
     TODO
 
+    ### Applicative
+    TODO
+
     ### Monad
     TODO
 
@@ -46,6 +49,7 @@ namespace boost { namespace hana {
     - Completely figure out and document the category theoretical foundation
       of this data type.
     - Verify `Monad` laws.
+    - Instantiate `Applicative`.
     - Move self-notes for `Type`-related stuff to the (internal?)
       documentation of `Type`.
     - Consider having a `.name()` method that would return the
@@ -265,10 +269,6 @@ namespace boost { namespace hana {
 
     template <>
     struct Monad<Type> : defaults<Monad>::with<Type> {
-        template <typename T>
-        static constexpr auto unit_impl(T t)
-        { return decltype_(t); }
-
         template <typename T>
         static constexpr auto join_impl(T)
         { return untype_t<T>{}; }

@@ -23,23 +23,23 @@ namespace boost { namespace hana {
     --------------------------------------------------------------------------
 
     ## Minimal complete definition
-    `pure` and `ap`
+    `unit` and `ap`
 
     --------------------------------------------------------------------------
 
     ## Laws
     For any `Applicative` `A`, the following laws must be satisfied:
     @code
-        ap(pure<A>(id), u) == u                                  // identity
-        ap(ap(ap(pure<A>(compose), u), v), w) == ap(u, ap(v, w)) // composition
-        ap(pure<A>(f), pure<A>(x)) == pure<A>(f(x))              // homomorphism
-        ap(u, pure<A>(y)) == ap(pure<A>(apply(y)), u)            // interchange
+        ap(unit<A>(id), u) == u                                  // identity
+        ap(ap(ap(unit<A>(compose), u), v), w) == ap(u, ap(v, w)) // composition
+        ap(unit<A>(f), unit<A>(x)) == unit<A>(f(x))              // homomorphism
+        ap(u, unit<A>(y)) == ap(unit<A>(apply(y)), u)            // interchange
     @endcode
 
     As a consequence of these laws, the `Functor` instance for `A` will
     satisfy
     @code
-        fmap(f, x) == ap(pure<A>(f), x)
+        fmap(f, x) == ap(unit<A>(f), x)
     @endcode
      */
     template <typename T, typename Enable = void>
@@ -62,10 +62,9 @@ namespace boost { namespace hana {
     //!
     //! @todo
     //! - This is craving to be renamed to `lift`?
-    //! - Remove redundancy with `Monad`'s `unit`.
     template <typename T>
-    BOOST_HANA_CONSTEXPR_LAMBDA auto pure = [](auto x) {
-        return Applicative<T>::pure_impl(x);
+    BOOST_HANA_CONSTEXPR_LAMBDA auto unit = [](auto x) {
+        return Applicative<T>::unit_impl(x);
     };
 
     template <>

@@ -19,13 +19,13 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     /*!
     @ingroup typeclasses
-    `Monad`s are `Functor`s with the ability to wrap values into them
-    and flatten values that were wrapped more than once.
+    `Monad`s are `Applicative`s with the ability to flatten values that were
+    lifted more than once.
 
     --------------------------------------------------------------------------
 
     ## Minimal complete definition
-    `unit` and (`join` or `bind`)
+    `join` or `bind`
 
     --------------------------------------------------------------------------
 
@@ -39,13 +39,6 @@ namespace boost { namespace hana {
      */
     template <typename M, typename Enable = void>
     struct Monad;
-
-    //! Wrap a value into a `Monad`.
-    //! @method{Monad}
-    template <typename M>
-    BOOST_HANA_CONSTEXPR_LAMBDA auto unit = [](auto x) {
-        return Monad<M>::unit_impl(x);
-    };
 
     //! Apply a function returning a monad to the value(s) inside a monad.
     //! @method{Monad}

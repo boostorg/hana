@@ -28,8 +28,6 @@ template <typename T> using G = std::remove_const_t<decltype(type<F<T>>)>;
 struct X { };
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(unit<Type>(X{}) == decltype_(X{}));
-
     BOOST_HANA_STATIC_ASSERT(join(decltype_(decltype_(X{}))) == decltype_(X{}));
     BOOST_HANA_STATIC_ASSERT(join(decltype_(decltype_(decltype_(X{})))) == decltype_(decltype_(X{})));
 

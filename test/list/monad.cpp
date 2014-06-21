@@ -15,10 +15,6 @@ using namespace boost::hana;
 
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(unit<List>(int_<0>) == list(int_<0>));
-    BOOST_HANA_STATIC_ASSERT(unit<List>(int_<1>) == list(int_<1>));
-    BOOST_HANA_STATIC_ASSERT(unit<List>(3) == list(3));
-
     BOOST_HANA_STATIC_ASSERT(join(list(list(), list())) == list());
     BOOST_HANA_STATIC_ASSERT(join(list(list(int_<0>), list())) == list(int_<0>));
     BOOST_HANA_STATIC_ASSERT(join(list(list(), list(int_<0>))) == list(int_<0>));

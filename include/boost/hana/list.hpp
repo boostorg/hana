@@ -58,24 +58,19 @@ namespace boost { namespace hana {
     @snippet example/list/functor/fmap.cpp mpl
 
     ### Applicative
-    A value can be lifted into a singleton list with `pure<List>`. `ap(fs, xs)`
+    A value can be lifted into a singleton list with `unit<List>`. `ap(fs, xs)`
     applies each function in the list `fs` to each value in the list `xs`, and
     returns a list containing all the results.
     @snippet example/list/applicative/overview.cpp main
 
-    ### Foldable
-    Generic instance for `Iterable`s.
-
     ### Monad
-    There are many ways to explain the `List` `Monad`. We will stick to a
-    description of what it does without trying to explain the intuition
-    behind it; there are tons of tutorials available on the net.
-
-    A value can be turned into a singleton list with `unit`. A function
-    returning a list of results can be mapped over all the elements of a
-    list and have all the results concatenated using `bind`. Finally, a
+    A function returning a list of results can be mapped over all the elements
+    of a list and have all the results concatenated using `bind`. Also, a
     list of lists can be flattened one level with `join`.
     @snippet example/list/monad/overview.cpp main
+
+    ### Foldable
+    Generic instance for `Iterable`s.
 
     ### Comparable
     Generic instance for `Iterable`s.
@@ -244,7 +239,7 @@ namespace boost { namespace hana {
     template <>
     struct Applicative<List> : defaults<Applicative>::with<List> {
         template <typename X>
-        static constexpr auto pure_impl(X x)
+        static constexpr auto unit_impl(X x)
         { return list(x); }
 
         template <typename Fs, typename Xs>
@@ -254,10 +249,6 @@ namespace boost { namespace hana {
 
     template <>
     struct Monad<List> : defaults<Monad>::with<List> {
-        template <typename X>
-        static constexpr auto unit_impl(X x)
-        { return list(x); }
-
         template <typename Xss>
         static constexpr auto join_impl(Xss xss)
         { return foldl(list_detail::concat2, list(), xss); }
