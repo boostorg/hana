@@ -190,20 +190,20 @@ namespace boost { namespace hana {
 
             template <typename Pred, typename Iterable_>
             static constexpr auto drop_while_impl(Pred pred, Iterable_ iterable) {
-                return if_(is_empty(iterable),
+                return eval_if(is_empty(iterable),
                     always(iterable),
-                    [=](auto it) {
-                        return if_(pred(head(it)),
-                            [=](auto it) { return drop_while_impl(pred, tail(it)); },
-                            always(it)
-                        )(it);
+                    [=](auto _) {
+                        return eval_if(pred(_(head)(iterable)),
+                            [=](auto _) { return drop_while_impl(pred, _(tail)(iterable)); },
+                            always(iterable)
+                        );
                     }
-                )(iterable);
+                );
             }
 
             template <typename Pred, typename Iterable_>
             static constexpr auto drop_until_impl(Pred pred, Iterable_ iterable) {
-                return drop_while([=](auto x) { return !pred(x); }, iterable);
+                return drop_while([=](auto x) { return not_(pred(x)); }, iterable);
             }
         };
     };

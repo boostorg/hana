@@ -15,8 +15,13 @@ struct MinimalLogical;
 template <bool b>
 struct _logical {
     using hana_datatype = MinimalLogical;
-    constexpr bool operator!() const { return !b; }
+    explicit constexpr operator bool() const { return b; }
 };
+
+// required for the tests
+template <bool b1, bool b2>
+constexpr bool operator==(_logical<b1>, _logical<b2>)
+{ return b1 == b2; }
 
 template <bool b>
 constexpr _logical<b> logical{};
@@ -32,6 +37,10 @@ namespace boost { namespace hana {
         template <typename Then, typename Else>
         static constexpr auto eval_if_impl(_logical<false>, Then, Else e)
         { return e([](auto x) { return x; }); }
+
+        template <bool b>
+        static constexpr auto not_impl(_logical<b>)
+        { return logical<!b>; }
     };
 }}
 

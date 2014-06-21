@@ -28,4 +28,11 @@ int main() {
     BOOST_HANA_STATIC_ASSERT(!and_(logical<true>, logical<true>, logical<false>));
     BOOST_HANA_STATIC_ASSERT(!and_(logical<true>, logical<false>, invalid));
     // BOOST_HANA_STATIC_ASSERT(!and_(logical<false>, invalid, invalid));
+
+    // operators
+    using operators::operator&&;
+    BOOST_HANA_STATIC_ASSERT((logical<true> && logical<true>) == and_(logical<true>, logical<true>));
+    BOOST_HANA_STATIC_ASSERT((logical<true> && logical<false>) == and_(logical<true>, logical<false>));
+    BOOST_HANA_STATIC_ASSERT((logical<false> && logical<true>) == and_(logical<false>, logical<true>));
+    BOOST_HANA_STATIC_ASSERT((logical<false> && logical<false>) == and_(logical<false>, logical<false>));
 }

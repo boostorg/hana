@@ -514,7 +514,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/list/take_until.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto take_until = [](auto predicate, auto xs) {
-        return take_while([=](auto x) { return !predicate(x); }, xs);
+        return take_while([=](auto x) { return not_(predicate(x)); }, xs);
     };
 
     /*!

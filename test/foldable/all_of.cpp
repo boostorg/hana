@@ -15,11 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 using namespace boost::hana;
 
 
-struct invalid_value {
-    using hana_datatype = invalid_value;
-    //! @todo This should be part of Logical's mcd.
-    invalid_value operator!() const { assert(false); return *this; }
-};
+struct invalid_value { using hana_datatype = invalid_value; };
 struct invalid_type { };
 
 namespace boost { namespace hana {
@@ -28,6 +24,9 @@ namespace boost { namespace hana {
         template <typename T, typename F>
         static bool eval_if_impl(invalid_value, T, F)
         { assert(false); return true; }
+
+        static auto not_impl(invalid_value self)
+        { assert(false); return self; }
     };
 }}
 

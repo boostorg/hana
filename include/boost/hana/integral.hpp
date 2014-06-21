@@ -38,6 +38,10 @@ namespace boost { namespace hana {
         template <typename Then, typename Else>
         static constexpr auto eval_if_impl(decltype(false_), Then, Else e)
         { return e([](auto x) { return x; }); }
+
+        template <typename Cond>
+        static constexpr auto not_impl(Cond c)
+        { return bool_<!c()>; }
     };
 
     namespace integral_detail {

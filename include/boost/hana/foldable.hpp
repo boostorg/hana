@@ -387,10 +387,7 @@ namespace boost { namespace hana {
             template <typename Pred, typename Foldable_>
             static constexpr auto count_impl(Pred pred, Foldable_ foldable) {
                 auto inc = [=](auto counter, auto x) {
-                    //! @todo
-                    //! We use `!!pred(x)` to allow ints and other stuff.
-                    //! Remove this once we get a proper `Logical` type class.
-                    return if_(!!pred(x), counter + size_t<1>, counter);
+                    return if_(pred(x), counter + size_t<1>, counter);
                 };
                 return foldl(inc, size_t<0>, foldable);
             }
@@ -412,11 +409,11 @@ namespace boost { namespace hana {
 
             template <typename Pred, typename Foldable_>
             static constexpr auto all_impl(Pred pred, Foldable_ foldable)
-            { return !any([=](auto x) { return !pred(x); }, foldable); }
+            { return not_(any([=](auto x) { return not_(pred(x)); }, foldable)); }
 
             template <typename Pred, typename Foldable_>
             static constexpr auto none_impl(Pred pred, Foldable_ foldable)
-            { return !any(pred, foldable); }
+            { return not_(any(pred, foldable)); }
 
 
             // any_of, all_of, none_of

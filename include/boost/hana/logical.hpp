@@ -23,12 +23,13 @@ namespace boost { namespace hana {
     --------------------------------------------------------------------------
 
     ## Minimal complete definition
-    `eval_if`
+    `eval_if` and `not_`
 
     -------------------------------------------------------------------------
 
     @todo
-    Use a non-naive implementation for variadic `and_` and `or_`.
+    - Use a non-naive implementation for variadic `and_` and `or_`.
+    - Consider making this a real boolean algebra.
 
     @bug
     We don't short-circuit right now. Don't forget to change the examples and
@@ -55,9 +56,15 @@ namespace boost { namespace hana {
     //! @snippet example/integral/logical/eval_if.cpp main
     //!
     //! ### Example (runtime or `constexpr` condition)
-    //! @snippet example/bool/logical/eval_if.cpp main
+    //! @snippet example/logical/default_instance/eval_if.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto eval_if = [](auto logical, auto then_branch, auto else_branch) {
         return Logical<datatype_t<decltype(logical)>>::eval_if_impl(logical, then_branch, else_branch);
+    };
+
+    //! Negates a `Logical`.
+    //! @method{Logical}
+    BOOST_HANA_CONSTEXPR_LAMBDA auto not_ = [](auto logical) {
+        return Logical<datatype_t<decltype(logical)>>::not_impl(logical);
     };
 
     struct _and {
@@ -138,6 +145,12 @@ namespace boost { namespace hana {
         template <typename X, typename Y>
         constexpr auto operator||(X x, Y y)
         { return or_(x, y); }
+
+        //! Equivalent to `not_`.
+        //! @method{boost::hana::Logical}
+        template <typename X>
+        constexpr auto operator!(X x)
+        { return not_(x); }
     }
 
 
@@ -168,13 +181,18 @@ namespace boost { namespace hana {
     template <typename T, typename Enable>
     struct Logical : instance<Logical>::template with<T> { };
 
-    template <>
-    struct Logical<bool> : defaults<Logical>::with<bool> {
+    template <typename T>
+    struct instance<Logical>::with<T, decltype(*(T*)0 ? (void)0 : (void)0)>
+        : defaults<Logical>::template with<T>
+    {
         template <typename Then, typename Else>
         static constexpr auto eval_if_impl(bool cond, Then t, Else e) {
             auto id = [](auto x) { return x; };
             return cond ? t(id) : e(id);
         }
+
+        static constexpr auto not_impl(bool cond)
+        { return !cond; }
     };
 }} // end namespace boost::hana
 

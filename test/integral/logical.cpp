@@ -49,11 +49,17 @@ auto test_or = [](auto true_, auto false_) {
     // BOOST_HANA_STATIC_ASSERT(!and_(false_, invalid, invalid));
 };
 
+auto test_not = [](auto true_, auto false_) {
+    BOOST_HANA_STATIC_ASSERT(not_(false_));
+    BOOST_HANA_STATIC_ASSERT(not_(not_(true_)));
+};
+
 auto test = [](auto true_, auto false_) {
     test_eval_if(true_, false_);
     test_if(true_, false_);
     test_and(true_, false_);
     test_or(true_, false_);
+    test_not(true_, false_);
 };
 
 int main() {

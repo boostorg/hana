@@ -12,8 +12,6 @@ function(boost_hana_add_example name)
     add_dependencies(examples example.${name})
 endfunction()
 
-boost_hana_add_example(bool.logical.eval_if)
-
 boost_hana_add_example(core.convert)
 boost_hana_add_example(core.defaults)
 boost_hana_add_example(core.instance)
@@ -81,6 +79,8 @@ boost_hana_add_example(list.take_while)
 boost_hana_add_example(list.to)
 boost_hana_add_example(list.zip)
 boost_hana_add_example(list.zip_with)
+
+boost_hana_add_example(logical.default_instance.eval_if)
 
 boost_hana_add_example(maybe.api)
 boost_hana_add_example(maybe.comparable)
