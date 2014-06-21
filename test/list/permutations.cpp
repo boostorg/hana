@@ -19,16 +19,11 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto permute = [](auto xs) {
         auto expected = list(expected_...);
 
         //! @todo
-        //! Provide a real `contains` method.
-        auto is_expected = [=](auto perm) {
-            return any(_ == perm, expected);
-        };
-
-        //! @todo
         //! This is a cheap unordered container membership checking.
         //! Use a real unordered container instead.
         BOOST_HANA_STATIC_ASSERT(
-            length(expected) == length(actual) && all(is_expected, actual)
+            length(expected) == length(actual) &&
+            all([=](auto x) { return elem(x, expected); }, actual)
         );
     };
 };
