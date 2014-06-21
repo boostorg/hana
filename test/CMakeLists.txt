@@ -69,6 +69,9 @@ boost_hana_add_test(functional.on)
 boost_hana_add_test(functional.partial)
 boost_hana_add_test(functional.placeholder)
 
+boost_hana_add_test(functor.mcd_adjust)
+boost_hana_add_test(functor.mcd_fmap)
+
 boost_hana_add_test(integral.api)
 boost_hana_add_test(integral.bug_constexpr_init)
 boost_hana_add_test(integral.bug_strip_cv_qualifiers)
