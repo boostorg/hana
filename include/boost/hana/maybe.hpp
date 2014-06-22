@@ -43,7 +43,7 @@ namespace boost { namespace hana {
     @snippet example/maybe/functor.cpp main
 
     ### Applicative
-    First, a value can be made optional with `unit<Maybe>`, which is
+    First, a value can be made optional with `lift<Maybe>`, which is
     equivalent to `just`. Second, one can feed an optional value to an
     optional function with `ap`, which will return `just(f(x))` if there
     is a function _and_ a value and `nothing` otherwise.
@@ -178,7 +178,7 @@ namespace boost { namespace hana {
     template <>
     struct Applicative<Maybe> : defaults<Applicative>::with<Maybe> {
         template <typename T>
-        static constexpr auto unit_impl(T x)
+        static constexpr auto lift_impl(T x)
         { return just(x); }
 
         template <typename Mf, typename Mx>

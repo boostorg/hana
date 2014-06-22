@@ -32,8 +32,8 @@ namespace boost { namespace hana {
     ## Laws
     Instances of `Monad` must satisfy the following laws:
     @code
-        bind(unit<M>(x), f) == f(x)
-        bind(m, unit<M>) == m
+        bind(lift<M>(x), f) == f(x)
+        bind(m, lift<M>) == m
         bind(m, [](auto x){ return bind(f(x), g); }) == bind(bind(m, f), g)
     @endcode
      */

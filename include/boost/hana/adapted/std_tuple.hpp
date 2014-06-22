@@ -68,7 +68,7 @@ namespace boost { namespace hana {
     template <>
     struct Applicative<StdTuple> : defaults<Applicative>::with<StdTuple> {
         template <typename X>
-        static constexpr auto unit_impl(X x)
+        static constexpr auto lift_impl(X x)
         { return std::tuple<X>{x}; }
 
         template <typename Fs, typename Xs>

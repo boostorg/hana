@@ -30,11 +30,11 @@ namespace boost { namespace hana { namespace detail {
 
     template <>
     BOOST_HANA_CONSTEXPR_LAMBDA auto laws<Monad> = [](auto monad, auto a, auto f, auto g) {
-        auto unit_ = unit<datatype_t<decltype(monad)>>;
-        return bind(unit_(a), f) == f(a) &&
-               bind(monad, unit_) == monad &&
+        auto lift_ = lift<datatype_t<decltype(monad)>>;
+        return bind(lift_(a), f) == f(a) &&
+               bind(monad, lift_) == monad &&
                bind(monad, [=](auto x) { return bind(f(x), g); }) == bind(bind(monad, f), g) &&
-               fmap(f, monad) == bind(monad, compose(unit_, f));
+               fmap(f, monad) == bind(monad, compose(lift_, f));
     };
 }}} // end namespace boost::hana::detail
 

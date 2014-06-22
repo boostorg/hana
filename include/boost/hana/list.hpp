@@ -58,7 +58,7 @@ namespace boost { namespace hana {
     @snippet example/list/functor/fmap.cpp mpl
 
     ### Applicative
-    A value can be lifted into a singleton list with `unit<List>`. `ap(fs, xs)`
+    A value can be lifted into a singleton list with `lift<List>`. `ap(fs, xs)`
     applies each function in the list `fs` to each value in the list `xs`, and
     returns a list containing all the results.
     @snippet example/list/applicative/overview.cpp main
@@ -239,7 +239,7 @@ namespace boost { namespace hana {
     template <>
     struct Applicative<List> : defaults<Applicative>::with<List> {
         template <typename X>
-        static constexpr auto unit_impl(X x)
+        static constexpr auto lift_impl(X x)
         { return list(x); }
 
         template <typename Fs, typename Xs>

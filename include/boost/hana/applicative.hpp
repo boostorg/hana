@@ -23,23 +23,23 @@ namespace boost { namespace hana {
     --------------------------------------------------------------------------
 
     ## Minimal complete definition
-    `unit` and `ap`
+    `lift` and `ap`
 
     --------------------------------------------------------------------------
 
     ## Laws
     For any `Applicative` `A`, the following laws must be satisfied:
     @code
-        ap(unit<A>(id), u) == u                                  // identity
-        ap(ap(ap(unit<A>(compose), u), v), w) == ap(u, ap(v, w)) // composition
-        ap(unit<A>(f), unit<A>(x)) == unit<A>(f(x))              // homomorphism
-        ap(u, unit<A>(y)) == ap(unit<A>(apply(y)), u)            // interchange
+        ap(lift<A>(id), u) == u                                  // identity
+        ap(ap(ap(lift<A>(compose), u), v), w) == ap(u, ap(v, w)) // composition
+        ap(lift<A>(f), lift<A>(x)) == lift<A>(f(x))              // homomorphism
+        ap(u, lift<A>(y)) == ap(lift<A>(apply(y)), u)            // interchange
     @endcode
 
     As a consequence of these laws, the `Functor` instance for `A` will
     satisfy
     @code
-        fmap(f, x) == ap(unit<A>(f), x)
+        fmap(f, x) == ap(lift<A>(f), x)
     @endcode
      */
     template <typename T, typename Enable = void>
@@ -59,12 +59,9 @@ namespace boost { namespace hana {
 
     //! Lift a value into the functor.
     //! @method{Applicative}
-    //!
-    //! @todo
-    //! - This is craving to be renamed to `lift`?
     template <typename T>
-    BOOST_HANA_CONSTEXPR_LAMBDA auto unit = [](auto x) {
-        return Applicative<T>::unit_impl(x);
+    BOOST_HANA_CONSTEXPR_LAMBDA auto lift = [](auto x) {
+        return Applicative<T>::lift_impl(x);
     };
 
     template <>

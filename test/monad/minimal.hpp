@@ -44,7 +44,7 @@ namespace boost { namespace hana {
     template <>
     struct Applicative<MinimalMonad> : defaults<Applicative>::with<MinimalMonad> {
         template <typename T>
-        static constexpr auto unit_impl(T t)
+        static constexpr auto lift_impl(T t)
         { return monad<T>{t}; }
 
         template <typename F, typename X>

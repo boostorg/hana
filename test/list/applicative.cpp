@@ -22,9 +22,9 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto g = [](auto ...xs) {
 };
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(unit<List>(1) == list(1));
-    BOOST_HANA_STATIC_ASSERT(unit<List>(1.1) == list(1.1));
-    BOOST_HANA_STATIC_ASSERT(unit<List>('1') == list('1'));
+    BOOST_HANA_STATIC_ASSERT(lift<List>(1) == list(1));
+    BOOST_HANA_STATIC_ASSERT(lift<List>(1.1) == list(1.1));
+    BOOST_HANA_STATIC_ASSERT(lift<List>('1') == list('1'));
 
     BOOST_HANA_STATIC_ASSERT(ap(list(), list()) == list());
     BOOST_HANA_STATIC_ASSERT(ap(list(), list(1)) == list());
