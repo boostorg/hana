@@ -8,13 +8,16 @@ Distributed under the Boost Software License, Version 1.0.
 using namespace boost::hana;
 
 
-template <typename ...> struct F { };
+template <typename ...> struct F { struct type; };
+struct M { template <typename ...> struct apply { struct type; }; };
 struct T;
 
 int main() {
     // See http://llvm.org/bugs/show_bug.cgi?id=20046
-    [](auto) { return lift<F>; }(1);
-    [](auto) { return lift_<F>; }(1);
+    [](auto) { return trait<F>; }(1);
+    [](auto) { return trait_<F>; }(1);
     [](auto) { return type<T>; }(1);
     [](auto) { return template_<F>; }(1);
+    [](auto) { return metafunction<F>; }(1);
+    [](auto) { return metafunction_class<M>; }(1);
 }

@@ -32,7 +32,7 @@ int main() {
     //! [mpl]
     BOOST_HANA_CONSTEXPR_LAMBDA auto types = list_t<long, float, short, double, float, long, long double>;
     BOOST_HANA_CONSTEXPR_LAMBDA auto count_if_float = [](auto c, auto t) {
-        return if_(lift<std::is_floating_point>(t), c + int_<1>, c);
+        return if_(trait<std::is_floating_point>(t), c + int_<1>, c);
     };
 
     BOOST_HANA_STATIC_ASSERT(foldl(count_if_float, int_<0>, types) == int_<4>);

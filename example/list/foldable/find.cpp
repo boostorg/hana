@@ -16,8 +16,8 @@ using namespace boost::hana;
 
 int main() {
     //! [fusion]
-    BOOST_HANA_STATIC_ASSERT(find(lift_<std::is_integral>, list(1.0, 2, '3')) == just(2));
-    BOOST_HANA_STATIC_ASSERT(find(lift_<std::is_class>, list(1.0, 2, '3')) == nothing);
+    BOOST_HANA_STATIC_ASSERT(find(trait_<std::is_integral>, list(1.0, 2, '3')) == just(2));
+    BOOST_HANA_STATIC_ASSERT(find(trait_<std::is_class>, list(1.0, 2, '3')) == nothing);
     //! [fusion]
 
     //! [mpl]

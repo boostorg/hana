@@ -15,14 +15,14 @@ struct x1 { }; struct x2 { }; struct x3 { };
 
 int main() {
     // make sure the types are good
-    static_assert(std::is_same<decltype(lift_<f>()), f<>>{}, "");
-    static_assert(std::is_same<decltype(lift_<f>(x1{})), f<x1>>{}, "");
-    static_assert(std::is_same<decltype(lift_<f>(x1{}, x2{})), f<x1, x2>>{}, "");
-    static_assert(std::is_same<decltype(lift_<f>(x1{}, x2{}, x3{})), f<x1, x2, x3>>{}, "");
+    static_assert(std::is_same<decltype(trait_<f>()), f<>>{}, "");
+    static_assert(std::is_same<decltype(trait_<f>(x1{})), f<x1>>{}, "");
+    static_assert(std::is_same<decltype(trait_<f>(x1{}, x2{})), f<x1, x2>>{}, "");
+    static_assert(std::is_same<decltype(trait_<f>(x1{}, x2{}, x3{})), f<x1, x2, x3>>{}, "");
 
     // make sure we can use it; we already made sure the return type was correct
-    lift_<f>();
-    lift_<f>(x1{});
-    lift_<f>(x1{}, x2{});
-    lift_<f>(x1{}, x2{}, x3{});
+    trait_<f>();
+    trait_<f>(x1{});
+    trait_<f>(x1{}, x2{});
+    trait_<f>(x1{}, x2{}, x3{});
 }

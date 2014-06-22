@@ -78,7 +78,7 @@ namespace boost { namespace hana {
     --------------------------------------------------------------------------
 
     @todo
-    - Re-enable the foldl optimization for type lists.
+    - Re-enable the foldl and fmap optimization for type lists.
     - It might be possible to optimize the implementation of homogeneous lists
       using an array.
     - Is it desirable to have different ways of creating lists, or should we
@@ -218,12 +218,12 @@ namespace boost { namespace hana {
         static constexpr auto fmap_impl(F f, Xs xs)
         { return xs.into([=](auto ...xs) { return list(f(xs)...); }); }
 
-        template <template <typename ...> class F, typename ...Xs>
-        static constexpr auto fmap_helper(type_detail::Template<F>, list_detail::type_container<Xs...>)
-        { return list_t<F<Xs>...>; }
-        template <template <typename ...> class F, typename HiddenTypeContainer>
-        static constexpr auto fmap_impl(type_detail::Template<F> f, operators::TypeList<HiddenTypeContainer>)
-        { return fmap_helper(f, typename HiddenTypeContainer::contents{}); }
+        // template <template <typename ...> class F, typename ...Xs>
+        // static constexpr auto fmap_helper(type_detail::Template<F>, list_detail::type_container<Xs...>)
+        // { return list_t<F<Xs>...>; }
+        // template <template <typename ...> class F, typename HiddenTypeContainer>
+        // static constexpr auto fmap_impl(type_detail::Template<F> f, operators::TypeList<HiddenTypeContainer>)
+        // { return fmap_helper(f, typename HiddenTypeContainer::contents{}); }
     };
 
     namespace list_detail {

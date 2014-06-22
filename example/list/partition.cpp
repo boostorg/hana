@@ -31,7 +31,7 @@ int main() {
 
     //! [mpl]
     BOOST_HANA_STATIC_ASSERT(
-        partition(lift<std::is_floating_point>, list_t<void, int, float, char, double>)
+        partition(trait<std::is_floating_point>, list_t<void, int, float, char, double>)
         ==
         list(
             list_t<float, double>,

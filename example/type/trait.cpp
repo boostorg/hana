@@ -16,8 +16,8 @@ using namespace boost::hana;
 
 int main() {
     //! [liftable]
-    BOOST_HANA_STATIC_ASSERT(lift<std::is_integral>(type<int>));
-    BOOST_HANA_STATIC_ASSERT(!lift<std::is_integral>(type<float>));
+    BOOST_HANA_STATIC_ASSERT(trait<std::is_integral>(type<int>));
+    BOOST_HANA_STATIC_ASSERT(!trait<std::is_integral>(type<float>));
     //! [liftable]
 
     //! [nonliftable]

@@ -55,8 +55,7 @@ namespace boost { namespace hana {
     - Consider having a `.name()` method that would return the
       (demangled?) `typeid(T).name()`.
     - Document `Functor` and `Monad` instances.
-    - Use lambdas for `lift` and `lift_` once
-      http://llvm.org/bugs/show_bug.cgi?id=20046 is fixed.
+    - Use more lambdas once http://llvm.org/bugs/show_bug.cgi?id=20046 is fixed.
      */
     struct Type { };
 
@@ -104,18 +103,6 @@ namespace boost { namespace hana {
     @code
         type<float>(double{1.2})
     @endcode
-
-    @todo
-    Consider making `type<>` equivalent to `decltype_`, and then removing
-    `decltype_`.\n
-    Pros:
-    - Reduces the number of names we have to remember. Right now, it's
-      really messy with `decltype_`, `type<T>`, `untype` and all that fluff.
-    - `type<>` has 3 letters less than `decltype_`. Not a big pro,
-      but still.\n
-    Cons:
-    - Too much overloading of the same name with different semantics can
-      yield the opposite effect and be messier than using different names.
      */
     template <typename T>
     constexpr auto type = type_detail::make_wrapper<T>();
@@ -170,84 +157,115 @@ namespace boost { namespace hana {
 
     namespace type_detail {
         template <template <typename ...> class f>
-        struct Template {
+        struct template_ {
             template <typename ...Args>
             constexpr auto operator()(Args...) const
             { return type<f<untype_t<Args>...>>; }
         };
-    }
 
-    /*!
-    Wraps a template as a constexpr object.
-    @relates Type
-
-    Additionally, `template_<f>` is a function on `Type`s satisfying
-    @code
-        template_<f>(type<x1>, ..., type<xN>) == type<f<x1, ..., xN>>
-    @endcode
-
-    ### Example
-    @snippet example/type/template.cpp main
-     */
-    template <template <typename ...> class f>
-    constexpr type_detail::Template<f> template_{};
-
-    namespace type_detail {
         template <template <typename ...> class f>
-        struct lift {
-            template <typename ...T>
-            constexpr auto operator()(T ...t) const
-            { return f<untype_t<decltype(t)>...>{}; }
+        struct metafunction {
+            template <typename ...Args>
+            constexpr auto operator()(Args...) const
+            { return type<typename f<untype_t<Args>...>::type>; }
+        };
+
+        template <typename f>
+        struct metafunction_class {
+            template <typename ...Args>
+            constexpr auto operator()(Args...) const
+            { return type<typename f::template apply<untype_t<Args>...>::type>; }
         };
 
         template <template <typename ...> class f>
-        struct lift_ {
+        struct trait {
+            template <typename ...Args>
+            constexpr auto operator()(Args...) const
+            { return f<untype_t<Args>...>{}; }
+        };
+
+        template <template <typename ...> class f>
+        struct trait_ {
             template <typename ...T>
             constexpr auto operator()(T ...t) const
             { return f<decltype(t)...>{}; }
         };
     }
 
-    //! Lift a template in the MPL world to a function in the Hana world.
+    //! Lift a template to a function on `Type`s.
     //! @relates Type
     //!
-    //! Specifically, returns a default-constructed object of the type created
-    //! by instantiating the template with the given `Type` arguments. This is
-    //! different from `template_` in that `lift` does not return a `Type`.
-    //! However, note that `lift<f>(t...)` is effectively equivalent to
-    //! `template_<f>(t...)()`.
+    //! Specifically, `template_<f>` is a function on `Type`s satisfying
+    //! @code
+    //!     template_<f>(type<x1>, ..., type<xN>) == type<f<x1, ..., xN>>
+    //! @endcode
     //!
-    //! The principal use case for `lift` is to transform metafunctions
+    //! ### Example
+    //! @snippet example/type/template.cpp main
+    template <template <typename ...> class f>
+    constexpr type_detail::template_<f> template_{};
+
+    //! Lift a metafunction to a function on `Type`s.
+    //! @relates Type
+    //!
+    //! Specifically, `metafunction<f>` is a function on `Type`s satisfying
+    //! @code
+    //!     metafunction<f>(type<x1>, ..., type<xN>) == type<f<x1, ..., xN>::type>
+    //! @endcode
+    template <template <typename ...> class f>
+    constexpr type_detail::metafunction<f> metafunction{};
+
+    //! Lift a metafunction class to a function on `Type`s.
+    //! @relates Type
+    //!
+    //! Specifically, `metafunction_class<f>` is a function on `Type`s
+    //! satisfying
+    //! @code
+    //!     metafunction_class<f>(type<x1>, ..., type<xN>) == type<f::apply<x1, ..., xN>::type>
+    //! @endcode
+    template <typename f>
+    constexpr type_detail::metafunction_class<f> metafunction_class{};
+
+    //! Lift a metafunction to a function taking `Type`s and returning a
+    //! default-constructed object.
+    //! @relates Type
+    //!
+    //! Specifically, `trait<f>(t...)` is equivalent to `template_<f>(t...)()`.
+    //! The principal use case for `trait` is to transform metafunctions
     //! inheriting from a meaningful base like `std::integral_constant`
     //! into functions returning e.g. an `Integral`.
     //!
+    //! The word `trait` is used because a name was needed and the principal
+    //! use case involves metafunctions from the standard that we also call
+    //! type traits.
+    //!
     //! ### Example
-    //! @snippet example/type/lift.cpp liftable
+    //! @snippet example/type/trait.cpp liftable
     //!
     //! Note that not all metafunctions of the standard library can be lifted
     //! this way. For example, `std::aligned_storage` can't be lifted because
     //! it requires non-type template parameters. Since there is no uniform
-    //! way of dealing with non-type template parameters, one must resort
-    //! to using e.g. an inline lambda to "lift" these metafunctions. In
-    //! practice, however, this should not be a problem.
+    //! way of dealing with non-type template parameters, one must resort to
+    //! using e.g. an inline lambda to "lift" those metafunctions. In practice,
+    //! however, this should not be a problem.
     //!
     //! ### Example of a non-liftable metafunction
-    //! @snippet example/type/lift.cpp nonliftable
+    //! @snippet example/type/trait.cpp nonliftable
     //!
     //! @note
-    //! When using `lift` with type traits returning `std::integral_constant`s,
+    //! When using `trait` with metafunctions returning `std::integral_constant`s,
     //! don't forget to include the boost/hana/adapted/std_integral_constant.hpp
     //! header!
     template <template <typename ...> class f>
-    constexpr type_detail::lift<f> lift{};
+    constexpr type_detail::trait<f> trait{};
 
-    //! Equivalent to `compose(lift<f>, decltype_)`; provided for convenience.
+    //! Equivalent to `compose(trait<f>, decltype_)`; provided for convenience.
     //! @relates Type
     //!
     //! ### Example
-    //! @snippet example/type/lift_.cpp main
+    //! @snippet example/type/trait_.cpp main
     template <template <typename ...> class f>
-    constexpr type_detail::lift_<f> lift_{};
+    constexpr type_detail::trait_<f> trait_{};
 
     template <>
     struct Comparable<Type, Type> : defaults<Comparable>::with<Type, Type> {

@@ -27,7 +27,7 @@ int main() {
 
     //! [mpl]
     BOOST_HANA_CONSTEXPR_LAMBDA auto types = list_t<int, char, long, short, char, long, double, long>;
-    BOOST_HANA_STATIC_ASSERT(count(lift<std::is_floating_point>, types) == 1_c);
+    BOOST_HANA_STATIC_ASSERT(count(trait<std::is_floating_point>, types) == 1_c);
     BOOST_HANA_STATIC_ASSERT(count(_ == type<char>, types) == 2_c);
     BOOST_HANA_STATIC_ASSERT(count(_ == type<void>, types) == 0_c);
     //! [mpl]

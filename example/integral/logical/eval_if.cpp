@@ -17,7 +17,7 @@ using namespace boost::hana;
 int main() {
     //! [main]
     BOOST_HANA_CONSTEXPR_LAMBDA auto safe_make_unsigned = [](auto t) {
-        return eval_if(lift<std::is_integral>(t),
+        return eval_if(trait<std::is_integral>(t),
             [=](auto id) { return id(template_<std::make_unsigned_t>)(t); },
             always(t)
         );

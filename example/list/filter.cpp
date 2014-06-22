@@ -15,6 +15,6 @@ using namespace boost::hana;
 
 int main() {
     //! [main]
-    BOOST_HANA_STATIC_ASSERT(filter(lift_<std::is_integral>, list(1, 2.0, 3, 4.0)) == list(1, 3));
+    BOOST_HANA_STATIC_ASSERT(filter(trait_<std::is_integral>, list(1, 2.0, 3, 4.0)) == list(1, 3));
     //! [main]
 }

@@ -21,7 +21,7 @@ int main() {
     );
 
     BOOST_HANA_STATIC_ASSERT(
-        take_while(lift<std::is_floating_point>, list_t<float, double, int, double>)
+        take_while(trait<std::is_floating_point>, list_t<float, double, int, double>)
         ==
         list_t<float, double>
     );
