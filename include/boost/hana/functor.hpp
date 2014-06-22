@@ -80,24 +80,24 @@ namespace boost { namespace hana {
     struct defaults<Functor> {
         template <typename T, typename Enable = void>
         struct with : defaults<> {
-            template <typename Pred, typename F, typename Foldable_>
-            static constexpr auto adjust_impl(Pred pred, F f, Foldable_ foldable) {
+            template <typename Pred, typename F, typename Functor_>
+            static constexpr auto adjust_impl(Pred pred, F f, Functor_ functor) {
                 auto go = [=](auto x) {
                     return eval_if(pred(x),
                         [=](auto _) { return _(f)(x); },
                         [=](auto) { return x; }
                     );
                 };
-                return fmap(go, foldable);
+                return fmap(go, functor);
             }
 
-            template <typename Pred, typename Value, typename Foldable_>
-            static constexpr auto replace_impl(Pred pred, Value v, Foldable_ foldable)
-            { return adjust(pred, [=](auto) { return v; }, foldable); }
+            template <typename Pred, typename Value, typename Functor_>
+            static constexpr auto replace_impl(Pred pred, Value v, Functor_ functor)
+            { return adjust(pred, [=](auto) { return v; }, functor); }
 
-            template <typename F, typename Foldable_>
-            static constexpr auto fmap_impl(F f, Foldable_ foldable)
-            { return adjust([](auto) { return true_; }, f, foldable); }
+            template <typename F, typename Functor_>
+            static constexpr auto fmap_impl(F f, Functor_ functor)
+            { return adjust([](auto) { return true_; }, f, functor); }
         };
     };
 
