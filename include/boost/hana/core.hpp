@@ -126,6 +126,10 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @include example/core/typeclass.cpp
+    //!
+    //! @todo
+    //! Provide a way to explicitly disable an instance? This could be useful
+    //! to disable undesirable predicated instances.
     template <typename Typeclass>
     struct typeclass {
         using default_ = core_detail::no_instance;

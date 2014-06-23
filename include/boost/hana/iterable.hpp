@@ -253,15 +253,15 @@ namespace boost { namespace hana {
     struct Iterable::ComparableInstance : Comparable::equal_mcd {
         template <typename Xs, typename Ys>
         static constexpr auto equal_impl(Xs xs, Ys ys) {
-            return if_(is_empty(xs) || is_empty(ys),
-                [](auto xs, auto ys) {
-                    return is_empty(xs) && is_empty(ys);
+            return eval_if(or_(is_empty(xs), is_empty(ys)),
+                [=](auto _) {
+                    return and_(_(is_empty)(xs), _(is_empty)(ys));
                 },
-                [](auto xs, auto ys) {
-                    return equal(head(xs), head(ys)) &&
-                           equal_impl(tail(xs), tail(ys));
+                [=](auto _) {
+                    return and_(equal(_(head)(xs), _(head)(ys)),
+                                equal_impl(_(tail)(xs), _(tail)(ys)));
                 }
-            )(xs, ys);
+            );
         }
     };
 
