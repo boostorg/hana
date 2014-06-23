@@ -20,7 +20,7 @@ struct invalid_type { };
 
 namespace boost { namespace hana {
     template <>
-    struct Logical<invalid_value> : defaults<Logical>::with<invalid_value> {
+    struct Logical::instance<invalid_value> : Logical::mcd {
         template <typename T, typename F>
         static bool eval_if_impl(invalid_value, T, F)
         { assert(false); return true; }

@@ -15,12 +15,10 @@ using namespace boost::hana;
 
 namespace boost { namespace hana {
     template <>
-    struct Monad<MinimalMonad>
-        : MonadInstance
-        , defaults<Monad>::with<MinimalMonad>
-    {
-        using MonadInstance::bind_impl;
-        using defaults<hana::Monad>::with<MinimalMonad>::join_impl;
+    struct Monad::instance<MinimalMonad> : Monad::bind_mcd {
+        template <typename M, typename F>
+        static constexpr auto bind_impl(M m, F f)
+        { return f(m.value); }
     };
 }}
 

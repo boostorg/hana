@@ -19,7 +19,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana { namespace detail {
-    template <template <typename ...> class Typeclass>
+    template <typename Typeclass>
     BOOST_HANA_CONSTEXPR_LAMBDA auto laws = [] { };
 
     template <>

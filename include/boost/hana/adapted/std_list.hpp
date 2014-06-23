@@ -30,7 +30,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Iterable<StdList> : defaults<Iterable>::with<StdList> {
+    struct Iterable::instance<StdList> : Iterable::mcd {
         template <typename Xs>
         static auto head_impl(Xs xs)
         { return xs.front(); }
@@ -45,7 +45,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Functor<StdList> : defaults<Functor>::with<StdList> {
+    struct Functor::instance<StdList> : Functor::fmap_mcd {
         template <typename F, typename Xs>
         static constexpr auto fmap_impl(F f, Xs xs) {
             std::list<decltype(f(xs.front()))> ys{};

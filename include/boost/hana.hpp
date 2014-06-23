@@ -19,8 +19,6 @@ General purpose type classes provided by the library.
 
 @todo
 - Provide an integrated way of checking laws for type classes.
-- Creating new type classes is __way__ too complicated with the new
-  dispatching system.
 - Provide a way to check type class requirements like
   `Functor f => Applicative f`.
 - Document requirements for the existing type classes.

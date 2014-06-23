@@ -12,7 +12,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/functional.hpp>
 #include <boost/hana/functor.hpp>
 
 
@@ -37,43 +36,34 @@ namespace boost { namespace hana {
         bind(m, [](auto x){ return bind(f(x), g); }) == bind(bind(m, f), g)
     @endcode
      */
-    template <typename M, typename Enable = void>
-    struct Monad;
+    struct Monad : typeclass<Monad> {
+        struct bind_mcd;
+        struct join_mcd;
+    };
 
     //! Apply a function returning a monad to the value(s) inside a monad.
     //! @method{Monad}
     BOOST_HANA_CONSTEXPR_LAMBDA auto bind = [](auto monad, auto f) {
-        return Monad<datatype_t<decltype(monad)>>::bind_impl(monad, f);
+        return Monad::instance<datatype_t<decltype(monad)>>::bind_impl(monad, f);
     };
 
     //! Flatten two levels of monadic wrapping into a single level.
     //! @method{Monad}
     BOOST_HANA_CONSTEXPR_LAMBDA auto join = [](auto monad) {
-        return Monad<datatype_t<decltype(monad)>>::join_impl(monad);
+        return Monad::instance<datatype_t<decltype(monad)>>::join_impl(monad);
     };
 
-    template <>
-    struct instance<Monad> {
-        template <typename M, typename Enable = void>
-        struct with { };
+    struct Monad::bind_mcd {
+        template <typename M>
+        static constexpr auto join_impl(M monad)
+        { return bind(monad, [](auto x) { return x; }); }
     };
 
-    template <>
-    struct defaults<Monad> {
-        template <typename M, typename Enable = void>
-        struct with : defaults<> {
-            template <typename Monad_>
-            static constexpr auto join_impl(Monad_ monad)
-            { return bind(monad, id); }
-
-            template <typename Monad_, typename F>
-            static constexpr auto bind_impl(Monad_ monad, F f)
-            { return join(fmap(f, monad)); }
-        };
+    struct Monad::join_mcd {
+        template <typename M, typename F>
+        static constexpr auto bind_impl(M monad, F f)
+        { return join(fmap(f, monad)); }
     };
-
-    template <typename M, typename Enable>
-    struct Monad : instance<Monad>::template with<M> { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_MONAD_HPP

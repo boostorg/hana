@@ -29,8 +29,9 @@ namespace boost { namespace hana {
     ## Minimal complete definition
     `lazy_foldr`
      */
-    template <typename T, typename Enable = void>
-    struct Foldable;
+    struct Foldable : typeclass<Foldable> {
+        struct lazy_foldr_mcd;
+    };
 
     //! Left-associative fold of a structure using a binary operation.
     //! @method{Foldable}
@@ -41,7 +42,7 @@ namespace boost { namespace hana {
     //! ### MPL example
     //! @snippet example/list/foldable/foldl.cpp mpl
     BOOST_HANA_CONSTEXPR_LAMBDA auto foldl = [](auto f, auto state, auto foldable) {
-        return Foldable<datatype_t<decltype(foldable)>>::foldl_impl(f, state, foldable);
+        return Foldable::instance<datatype_t<decltype(foldable)>>::foldl_impl(f, state, foldable);
     };
 
     //! Right-associative fold of a structure using a binary operation.
@@ -53,7 +54,7 @@ namespace boost { namespace hana {
     //! ### MPL example
     //! @snippet example/list/foldable/foldr.cpp mpl
     BOOST_HANA_CONSTEXPR_LAMBDA auto foldr = [](auto f, auto state, auto foldable) {
-        return Foldable<datatype_t<decltype(foldable)>>::foldr_impl(f, state, foldable);
+        return Foldable::instance<datatype_t<decltype(foldable)>>::foldr_impl(f, state, foldable);
     };
 
     //! Variant of `foldr` that has no base case, and thus may only be
@@ -63,7 +64,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/list/foldable/foldr1.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto foldr1 = [](auto f, auto foldable) {
-        return Foldable<datatype_t<decltype(foldable)>>::foldr1_impl(f, foldable);
+        return Foldable::instance<datatype_t<decltype(foldable)>>::foldr1_impl(f, foldable);
     };
 
     //! Variant of `foldl` that has no base case, and thus may only be
@@ -73,7 +74,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/list/foldable/foldl1.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto foldl1 = [](auto f, auto foldable) {
-        return Foldable<datatype_t<decltype(foldable)>>::foldl1_impl(f, foldable);
+        return Foldable::instance<datatype_t<decltype(foldable)>>::foldl1_impl(f, foldable);
     };
 
     //! Lazy right-associative fold of a structure using a binary operation.
@@ -90,7 +91,7 @@ namespace boost { namespace hana {
     //! We got a performance problem here. It seems very hard to implement
     //! this method efficiently.
     BOOST_HANA_CONSTEXPR_LAMBDA auto lazy_foldr = [](auto f, auto state, auto foldable) {
-        return Foldable<datatype_t<decltype(foldable)>>::lazy_foldr_impl(f, state, foldable);
+        return Foldable::instance<datatype_t<decltype(foldable)>>::lazy_foldr_impl(f, state, foldable);
     };
 
     //! Lazy left-associative fold of a structure using a binary operation.
@@ -126,7 +127,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/range/foldable/lazy_foldl.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto lazy_foldl = [](auto f, auto state, auto foldable) {
-        return Foldable<datatype_t<decltype(foldable)>>::lazy_foldl_impl(f, state, foldable);
+        return Foldable::instance<datatype_t<decltype(foldable)>>::lazy_foldl_impl(f, state, foldable);
     };
 
     //! Return the number of elements in a finite structure.
@@ -135,7 +136,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/list/foldable/length.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto length = [](auto foldable) {
-        return Foldable<datatype_t<decltype(foldable)>>::length_impl(foldable);
+        return Foldable::instance<datatype_t<decltype(foldable)>>::length_impl(foldable);
     };
 
     //! Return the least element of a non-empty structure with respect to
@@ -145,7 +146,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/list/foldable/minimum_by.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto minimum_by = [](auto predicate, auto foldable) {
-        return Foldable<datatype_t<decltype(foldable)>>::minimum_by_impl(predicate, foldable);
+        return Foldable::instance<datatype_t<decltype(foldable)>>::minimum_by_impl(predicate, foldable);
     };
 
     //! Return the least element of a non-empty structure.
@@ -154,26 +155,26 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/list/foldable/minimum.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto minimum = [](auto foldable) {
-        return Foldable<datatype_t<decltype(foldable)>>::minimum_impl(foldable);
+        return Foldable::instance<datatype_t<decltype(foldable)>>::minimum_impl(foldable);
     };
 
     //! Return the largest element of a non-empty structure with respect to
     //! a `predicate`.
     //! @method{Foldable}
     BOOST_HANA_CONSTEXPR_LAMBDA auto maximum_by = [](auto predicate, auto foldable) {
-        return Foldable<datatype_t<decltype(foldable)>>::maximum_by_impl(predicate, foldable);
+        return Foldable::instance<datatype_t<decltype(foldable)>>::maximum_by_impl(predicate, foldable);
     };
 
     //! Return the largest element of a non-empty structure.
     //! @method{Foldable}
     BOOST_HANA_CONSTEXPR_LAMBDA auto maximum = [](auto foldable) {
-        return Foldable<datatype_t<decltype(foldable)>>::maximum_impl(foldable);
+        return Foldable::instance<datatype_t<decltype(foldable)>>::maximum_impl(foldable);
     };
 
     //! Compute the sum of the numbers of a structure.
     //! @method{Foldable}
     BOOST_HANA_CONSTEXPR_LAMBDA auto sum = [](auto foldable) {
-        return Foldable<datatype_t<decltype(foldable)>>::sum_impl(foldable);
+        return Foldable::instance<datatype_t<decltype(foldable)>>::sum_impl(foldable);
     };
 
     //! Compute the product of the numbers of a structure.
@@ -182,7 +183,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/range/foldable/product.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto product = [](auto foldable) {
-        return Foldable<datatype_t<decltype(foldable)>>::product_impl(foldable);
+        return Foldable::instance<datatype_t<decltype(foldable)>>::product_impl(foldable);
     };
 
     //! Return the number of elements in the structure for which the
@@ -195,7 +196,7 @@ namespace boost { namespace hana {
     //! ### MPL example
     //! @snippet example/list/foldable/count.cpp mpl
     BOOST_HANA_CONSTEXPR_LAMBDA auto count = [](auto predicate, auto foldable) {
-        return Foldable<datatype_t<decltype(foldable)>>::count_impl(predicate, foldable);
+        return Foldable::instance<datatype_t<decltype(foldable)>>::count_impl(predicate, foldable);
     };
 
     //! Find an element satisfying a predicate in the structure.
@@ -210,7 +211,7 @@ namespace boost { namespace hana {
     //! ### MPL example
     //! @snippet example/list/foldable/find.cpp mpl
     BOOST_HANA_CONSTEXPR_LAMBDA auto find = [](auto predicate, auto foldable) {
-        return Foldable<datatype_t<decltype(foldable)>>::find_impl(predicate, foldable);
+        return Foldable::instance<datatype_t<decltype(foldable)>>::find_impl(predicate, foldable);
     };
 
     //! Return whether the element occurs in the structure.
@@ -219,7 +220,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/list/foldable/elem.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto elem = [](auto x, auto foldable) {
-        return Foldable<datatype_t<decltype(foldable)>>::elem_impl(x, foldable);
+        return Foldable::instance<datatype_t<decltype(foldable)>>::elem_impl(x, foldable);
     };
 
     //! Invoke a function with the elements of a structure as arguments.
@@ -228,7 +229,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/list/foldable/unpack.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto unpack = [](auto f, auto foldable) {
-        return Foldable<datatype_t<decltype(foldable)>>::unpack_impl(f, foldable);
+        return Foldable::instance<datatype_t<decltype(foldable)>>::unpack_impl(f, foldable);
     };
 
     //! Return whether any element of the structure satisfies the `predicate`.
@@ -240,13 +241,13 @@ namespace boost { namespace hana {
     //! ### MPL example
     //! @snippet example/list/foldable/any.cpp mpl
     BOOST_HANA_CONSTEXPR_LAMBDA auto any = [](auto predicate, auto foldable) {
-        return Foldable<datatype_t<decltype(foldable)>>::any_impl(predicate, foldable);
+        return Foldable::instance<datatype_t<decltype(foldable)>>::any_impl(predicate, foldable);
     };
 
     //! Return whether any element of the structure is true-valued.
     //! @method{Foldable}
     BOOST_HANA_CONSTEXPR_LAMBDA auto any_of = [](auto foldable) {
-        return Foldable<datatype_t<decltype(foldable)>>::any_of_impl(foldable);
+        return Foldable::instance<datatype_t<decltype(foldable)>>::any_of_impl(foldable);
     };
 
     //! Return whether all the elements of the structure satisfy the `predicate`.
@@ -258,13 +259,13 @@ namespace boost { namespace hana {
     //! ### MPL example
     //! @snippet example/list/foldable/all.cpp mpl
     BOOST_HANA_CONSTEXPR_LAMBDA auto all = [](auto predicate, auto foldable) {
-        return Foldable<datatype_t<decltype(foldable)>>::all_impl(predicate, foldable);
+        return Foldable::instance<datatype_t<decltype(foldable)>>::all_impl(predicate, foldable);
     };
 
     //! Return whether all the elements of the structure are true-valued.
     //! @method{Foldable}
     BOOST_HANA_CONSTEXPR_LAMBDA auto all_of = [](auto foldable) {
-        return Foldable<datatype_t<decltype(foldable)>>::all_of_impl(foldable);
+        return Foldable::instance<datatype_t<decltype(foldable)>>::all_of_impl(foldable);
     };
 
     //! Return whether none of the elements of the structure satisfy the `predicate`.
@@ -276,169 +277,156 @@ namespace boost { namespace hana {
     //! ### MPL example
     //! @snippet example/list/foldable/none.cpp mpl
     BOOST_HANA_CONSTEXPR_LAMBDA auto none = [](auto predicate, auto foldable) {
-        return Foldable<datatype_t<decltype(foldable)>>::none_impl(predicate, foldable);
+        return Foldable::instance<datatype_t<decltype(foldable)>>::none_impl(predicate, foldable);
     };
 
     //! Return whether none of the elements of the structure are true-valued.
     //! @method{Foldable}
     BOOST_HANA_CONSTEXPR_LAMBDA auto none_of = [](auto foldable) {
-        return Foldable<datatype_t<decltype(foldable)>>::none_of_impl(foldable);
+        return Foldable::instance<datatype_t<decltype(foldable)>>::none_of_impl(foldable);
     };
 
-    template <>
-    struct defaults<Foldable> {
-        template <typename T, typename Enable = void>
-        struct with : defaults<> {
-            template <typename F, typename State, typename Foldable_>
-            static constexpr auto foldr_impl(F f, State s, Foldable_ foldable)
-            { return lazy_foldr(on(f, apply), s, foldable); }
+    struct Foldable::lazy_foldr_mcd {
+        template <typename F, typename State, typename Foldable_>
+        static constexpr auto foldr_impl(F f, State s, Foldable_ foldable)
+        { return lazy_foldr(on(f, apply), s, foldable); }
 
-            template <typename F, typename Foldable_>
-            static constexpr auto foldr1_impl(F f, Foldable_ foldable) {
-                auto maybe_f = [=](auto lx, auto my) {
-                    return just(maybe(lx(), partial(f, lx()), my()));
+        template <typename F, typename Foldable_>
+        static constexpr auto foldr1_impl(F f, Foldable_ foldable) {
+            auto maybe_f = [=](auto lx, auto my) {
+                return just(maybe(lx(), partial(f, lx()), my()));
+            };
+            return from_just(lazy_foldr(maybe_f, nothing, foldable));
+        }
+
+        template <typename F, typename State, typename Foldable_>
+        static constexpr auto foldl_impl(F f, State s, Foldable_ foldable) {
+            auto f_ = [=](auto x, auto next) {
+                return [=](auto state) {
+                    return next()(f(state, x()));
                 };
-                return from_just(lazy_foldr(maybe_f, nothing, foldable));
-            }
+            };
+            return lazy_foldr(f_, id, foldable)(s);
+        }
 
-            template <typename F, typename State, typename Foldable_>
-            static constexpr auto foldl_impl(F f, State s, Foldable_ foldable) {
-                auto f_ = [=](auto x, auto next) {
-                    return [=](auto state) {
-                        return next()(f(state, x()));
-                    };
-                };
-                return lazy_foldr(f_, id, foldable)(s);
-            }
-
-            template <typename F, typename Foldable_>
-            static constexpr auto foldl1_impl(F f, Foldable_ foldable) {
-                auto maybe_f = [=](auto mx, auto ly) {
-                    return maybe(
-                        just(ly()),
-                        [=](auto x) { return just(f(x, ly())); },
-                        mx()
-                    );
-                };
-                return from_just(lazy_foldl(maybe_f, nothing, foldable));
-            }
-
-            template <typename F, typename State, typename Foldable_>
-            static constexpr auto lazy_foldl_impl(F f, State s, Foldable_ foldable) {
-                auto f_ = [=](auto lx, auto lnext) {
-                    return [=](auto state) {
-                        return lnext()(f([=] { return state; }, lx));
-                    };
-                };
-                return lazy_foldr(f_, id, foldable)(s);
-            }
-
-            template <typename Foldable_>
-            static constexpr auto length_impl(Foldable_ foldable)
-            { return foldl(_ + size_t<1>, size_t<0>, foldable); }
-
-            template <typename Foldable_>
-            static constexpr auto minimum_impl(Foldable_ foldable)
-            { return minimum_by(_ < _, foldable); }
-
-            template <typename Foldable_>
-            static constexpr auto maximum_impl(Foldable_ foldable)
-            { return maximum_by(_ < _, foldable); }
-
-            template <typename Pred, typename Foldable_>
-            static constexpr auto minimum_by_impl(Pred pred, Foldable_ foldable) {
-                return foldl1(
-                    [=](auto x, auto y) { return if_(pred(x, y), x, y); },
-                    foldable
+        template <typename F, typename Foldable_>
+        static constexpr auto foldl1_impl(F f, Foldable_ foldable) {
+            auto maybe_f = [=](auto mx, auto ly) {
+                return maybe(
+                    just(ly()),
+                    [=](auto x) { return just(f(x, ly())); },
+                    mx()
                 );
-            }
+            };
+            return from_just(lazy_foldl(maybe_f, nothing, foldable));
+        }
 
-            template <typename Pred, typename Foldable_>
-            static constexpr auto maximum_by_impl(Pred pred, Foldable_ foldable) {
-                return foldl1(
-                    [=](auto x, auto y) { return if_(pred(x, y), y, x); },
-                    foldable
+        template <typename F, typename State, typename Foldable_>
+        static constexpr auto lazy_foldl_impl(F f, State s, Foldable_ foldable) {
+            auto f_ = [=](auto lx, auto lnext) {
+                return [=](auto state) {
+                    return lnext()(f([=] { return state; }, lx));
+                };
+            };
+            return lazy_foldr(f_, id, foldable)(s);
+        }
+
+        template <typename Foldable_>
+        static constexpr auto length_impl(Foldable_ foldable)
+        { return foldl(_ + size_t<1>, size_t<0>, foldable); }
+
+        template <typename Foldable_>
+        static constexpr auto minimum_impl(Foldable_ foldable)
+        { return minimum_by(_ < _, foldable); }
+
+        template <typename Foldable_>
+        static constexpr auto maximum_impl(Foldable_ foldable)
+        { return maximum_by(_ < _, foldable); }
+
+        template <typename Pred, typename Foldable_>
+        static constexpr auto minimum_by_impl(Pred pred, Foldable_ foldable) {
+            return foldl1(
+                [=](auto x, auto y) { return if_(pred(x, y), x, y); },
+                foldable
+            );
+        }
+
+        template <typename Pred, typename Foldable_>
+        static constexpr auto maximum_by_impl(Pred pred, Foldable_ foldable) {
+            return foldl1(
+                [=](auto x, auto y) { return if_(pred(x, y), y, x); },
+                foldable
+            );
+        }
+
+        template <typename Pred, typename Foldable_>
+        static constexpr auto find_impl(Pred pred, Foldable_ foldable) {
+            auto go = [=](auto x, auto tail) {
+                return eval_if(pred(x()),
+                    always(just(x())),
+                    [=](auto id) { return id(tail)(); }
                 );
-            }
+            };
+            return lazy_foldr(go, nothing, foldable);
+        }
 
-            template <typename Pred, typename Foldable_>
-            static constexpr auto find_impl(Pred pred, Foldable_ foldable) {
-                auto go = [=](auto x, auto tail) {
-                    return eval_if(pred(x()),
-                        always(just(x())),
-                        [=](auto id) { return id(tail)(); }
-                    );
-                };
-                return lazy_foldr(go, nothing, foldable);
-            }
+        template <typename X, typename Foldable_>
+        static constexpr auto elem_impl(X x, Foldable_ foldable)
+        { return any([=](auto y) { return equal(x, y); }, foldable); }
 
-            template <typename X, typename Foldable_>
-            static constexpr auto elem_impl(X x, Foldable_ foldable)
-            { return any([=](auto y) { return equal(x, y); }, foldable); }
+        template <typename Foldable_>
+        static constexpr auto sum_impl(Foldable_ foldable)
+        { return foldl(_ + _, int_<0>, foldable); }
 
-            template <typename Foldable_>
-            static constexpr auto sum_impl(Foldable_ foldable)
-            { return foldl(_ + _, int_<0>, foldable); }
+        template <typename Foldable_>
+        static constexpr auto product_impl(Foldable_ foldable)
+        { return foldl(_ * _, int_<1>, foldable); }
 
-            template <typename Foldable_>
-            static constexpr auto product_impl(Foldable_ foldable)
-            { return foldl(_ * _, int_<1>, foldable); }
+        template <typename Pred, typename Foldable_>
+        static constexpr auto count_impl(Pred pred, Foldable_ foldable) {
+            auto inc = [=](auto counter, auto x) {
+                return if_(pred(x), counter + size_t<1>, counter);
+            };
+            return foldl(inc, size_t<0>, foldable);
+        }
 
-            template <typename Pred, typename Foldable_>
-            static constexpr auto count_impl(Pred pred, Foldable_ foldable) {
-                auto inc = [=](auto counter, auto x) {
-                    return if_(pred(x), counter + size_t<1>, counter);
-                };
-                return foldl(inc, size_t<0>, foldable);
-            }
-
-            template <typename F, typename Foldable_>
-            static constexpr auto unpack_impl(F f, Foldable_ foldable)
-            { return foldl(partial, f, foldable)(); }
+        template <typename F, typename Foldable_>
+        static constexpr auto unpack_impl(F f, Foldable_ foldable)
+        { return foldl(partial, f, foldable)(); }
 
 
-            // any, all, none
-            template <typename Pred, typename Foldable_>
-            static constexpr auto any_impl(Pred pred, Foldable_ foldable) {
-                auto lazy_or = [=](auto lx, auto ly) {
-                    auto p = pred(lx());
-                    return eval_if(p, always(p), [=](auto _) { return _(ly)(); });
-                };
-                return lazy_foldr(lazy_or, false_, foldable);
-            }
+        // any, all, none
+        template <typename Pred, typename Foldable_>
+        static constexpr auto any_impl(Pred pred, Foldable_ foldable) {
+            auto lazy_or = [=](auto lx, auto ly) {
+                auto p = pred(lx());
+                return eval_if(p, always(p), [=](auto _) { return _(ly)(); });
+            };
+            return lazy_foldr(lazy_or, false_, foldable);
+        }
 
-            template <typename Pred, typename Foldable_>
-            static constexpr auto all_impl(Pred pred, Foldable_ foldable)
-            { return not_(any([=](auto x) { return not_(pred(x)); }, foldable)); }
+        template <typename Pred, typename Foldable_>
+        static constexpr auto all_impl(Pred pred, Foldable_ foldable)
+        { return not_(any([=](auto x) { return not_(pred(x)); }, foldable)); }
 
-            template <typename Pred, typename Foldable_>
-            static constexpr auto none_impl(Pred pred, Foldable_ foldable)
-            { return not_(any(pred, foldable)); }
+        template <typename Pred, typename Foldable_>
+        static constexpr auto none_impl(Pred pred, Foldable_ foldable)
+        { return not_(any(pred, foldable)); }
 
 
-            // any_of, all_of, none_of
-            template <typename Foldable_>
-            static constexpr auto any_of_impl(Foldable_ foldable)
-            { return any(id, foldable); }
+        // any_of, all_of, none_of
+        template <typename Foldable_>
+        static constexpr auto any_of_impl(Foldable_ foldable)
+        { return any(id, foldable); }
 
-            template <typename Foldable_>
-            static constexpr auto all_of_impl(Foldable_ foldable)
-            { return all(id, foldable); }
+        template <typename Foldable_>
+        static constexpr auto all_of_impl(Foldable_ foldable)
+        { return all(id, foldable); }
 
-            template <typename Foldable_>
-            static constexpr auto none_of_impl(Foldable_ foldable)
-            { return none(id, foldable); }
-        };
+        template <typename Foldable_>
+        static constexpr auto none_of_impl(Foldable_ foldable)
+        { return none(id, foldable); }
     };
-
-    template <>
-    struct instance<Foldable> {
-        template <typename T, typename Enable = void>
-        struct with { };
-    };
-
-    template <typename T, typename Enable>
-    struct Foldable : instance<Foldable>::template with<T> { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FOLDABLE_HPP

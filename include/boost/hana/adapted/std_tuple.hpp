@@ -33,7 +33,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Iterable<StdTuple> : defaults<Iterable>::with<StdTuple> {
+    struct Iterable::instance<StdTuple> : Iterable::mcd {
         template <typename ...Xs>
         static constexpr auto head_impl(std::tuple<Xs...> tuple)
         { return std::get<0>(tuple); }
@@ -53,7 +53,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Functor<StdTuple> : defaults<Functor>::with<StdTuple> {
+    struct Functor::instance<StdTuple> : Functor::fmap_mcd {
         template <typename F, typename ...Xs, std::size_t ...Index>
         static constexpr auto
         helper(F f, std::tuple<Xs...> tuple, std::index_sequence<Index...>)
@@ -66,7 +66,7 @@ namespace boost { namespace hana {
 
     //! @todo Check `Applicative` laws.
     template <>
-    struct Applicative<StdTuple> : defaults<Applicative>::with<StdTuple> {
+    struct Applicative::instance<StdTuple> : Applicative::mcd {
         template <typename X>
         static constexpr auto lift_impl(X x)
         { return std::tuple<X>{x}; }
@@ -77,7 +77,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Monad<StdTuple> : defaults<Monad>::with<StdTuple> {
+    struct Monad::instance<StdTuple> : Monad::join_mcd {
         template <typename ...Tuples, std::size_t ...Index>
         static constexpr auto
         helper(std::tuple<Tuples...> tuples, std::index_sequence<Index...>)

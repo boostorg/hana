@@ -12,12 +12,10 @@ using namespace boost::hana;
 
 namespace boost { namespace hana {
     template <>
-    struct Functor<MinimalFunctor>
-        : FunctorMcd
-        , defaults<Functor>::with<MinimalFunctor>
-    {
-        using FunctorMcd::fmap_impl;
-        using defaults<hana::Functor>::with<MinimalFunctor>::adjust_impl;
+    struct Functor::instance<MinimalFunctor> : Functor::fmap_mcd {
+        template <typename F, typename Functor>
+        static constexpr auto fmap_impl(F f, Functor self)
+        { return self.storage([=](auto ...x) { return functor(f(x)...); }); }
     };
 }}
 

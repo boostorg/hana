@@ -150,7 +150,7 @@ auto det = [](auto m) {
 
 namespace boost { namespace hana {
     template <>
-    struct Functor<Matrix> : defaults<Functor>::with<Matrix> {
+    struct Functor::instance<Matrix> : Functor::fmap_mcd {
         template <typename F, typename M>
         static constexpr auto fmap_impl(F f, M mat) {
             auto new_storage = fmap(partial(fmap, f), mat.rows_);
@@ -159,7 +159,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Comparable<Matrix, Matrix> : defaults<Comparable>::with<Matrix, Matrix> {
+    struct Comparable::instance<Matrix, Matrix> : Comparable::equal_mcd {
         template <typename M1, typename M2>
         static constexpr auto equal_impl(M1 m1, M2 m2) {
             return m1.nrows() == m2.nrows() &&

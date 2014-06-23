@@ -35,8 +35,10 @@ namespace boost { namespace hana {
         fmap (f . g) == fmap f . fmap g
     @endcode
      */
-    template <typename T, typename Enable = void>
-    struct Functor;
+    struct Functor : typeclass<Functor> {
+        struct fmap_mcd;
+        struct adjust_mcd;
+    };
 
     //! Maps `f` over a `Functor`.
     //! @method{Functor}
@@ -47,7 +49,7 @@ namespace boost { namespace hana {
     //! ### MPL example
     //! @snippet example/list/functor/fmap.cpp mpl
     BOOST_HANA_CONSTEXPR_LAMBDA auto fmap = [](auto f, auto functor) {
-        return Functor<datatype_t<decltype(functor)>>::fmap_impl(f, functor);
+        return Functor::instance<datatype_t<decltype(functor)>>::fmap_impl(f, functor);
     };
 
     //! Update all the elements satisfying the `predicate` with the given
@@ -57,7 +59,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/list/functor/adjust.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto adjust = [](auto predicate, auto f, auto functor) {
-        return Functor<datatype_t<decltype(functor)>>::adjust_impl(predicate, f, functor);
+        return Functor::instance<datatype_t<decltype(functor)>>::adjust_impl(predicate, f, functor);
     };
 
     //! Replace all the elements satisfying the `predicate` with the given
@@ -67,42 +69,35 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/list/functor/replace.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto replace = [](auto predicate, auto value, auto functor) {
-        return Functor<datatype_t<decltype(functor)>>::replace_impl(predicate, value, functor);
+        return Functor::instance<datatype_t<decltype(functor)>>::replace_impl(predicate, value, functor);
     };
 
-    template <>
-    struct instance<Functor> {
-        template <typename T, typename Enable = void>
-        struct with { };
-    };
-
-    template <>
-    struct defaults<Functor> {
-        template <typename T, typename Enable = void>
-        struct with : defaults<> {
-            template <typename Pred, typename F, typename Functor_>
-            static constexpr auto adjust_impl(Pred pred, F f, Functor_ functor) {
-                auto go = [=](auto x) {
-                    return eval_if(pred(x),
-                        [=](auto _) { return _(f)(x); },
-                        [=](auto) { return x; }
-                    );
-                };
-                return fmap(go, functor);
-            }
-
-            template <typename Pred, typename Value, typename Functor_>
-            static constexpr auto replace_impl(Pred pred, Value v, Functor_ functor)
+    namespace functor_detail {
+        struct common {
+            template <typename Pred, typename Value, typename F>
+            static constexpr auto replace_impl(Pred pred, Value v, F functor)
             { return adjust(pred, [=](auto) { return v; }, functor); }
-
-            template <typename F, typename Functor_>
-            static constexpr auto fmap_impl(F f, Functor_ functor)
-            { return adjust([](auto) { return true_; }, f, functor); }
         };
+    }
+
+    struct Functor::fmap_mcd : functor_detail::common {
+        template <typename Pred, typename F, typename Functor_>
+        static constexpr auto adjust_impl(Pred pred, F f, Functor_ functor) {
+            auto go = [=](auto x) {
+                return eval_if(pred(x),
+                    [=](auto _) { return _(f)(x); },
+                    [=](auto) { return x; }
+                );
+            };
+            return fmap(go, functor);
+        }
     };
 
-    template <typename T, typename Enable>
-    struct Functor : instance<Functor>::template with<T> { };
+    struct Functor::adjust_mcd : functor_detail::common {
+        template <typename F, typename Functor_>
+        static constexpr auto fmap_impl(F f, Functor_ functor)
+        { return adjust([](auto) { return true_; }, f, functor); }
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FUNCTOR_HPP

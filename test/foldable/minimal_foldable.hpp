@@ -26,9 +26,7 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto foldable = [](auto ...xs) {
 
 namespace boost { namespace hana {
     template <>
-    struct Foldable<MinimalFoldable>
-        : defaults<Foldable>::with<MinimalFoldable>
-    {
+    struct Foldable::instance<MinimalFoldable> : Foldable::lazy_foldr_mcd {
         struct helper {
             template <typename F, typename S, typename X, typename ...Xs>
             constexpr auto operator()(F f, S s, X x, Xs ...xs) const {

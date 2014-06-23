@@ -23,26 +23,16 @@ struct monad {
     { return a.value == b.value; }
 };
 
-struct MonadInstance {
-    template <typename M, typename F>
-    static constexpr auto bind_impl(M m, F f)
-    { return f(m.value); }
-
-    template <typename M>
-    static constexpr auto join_impl(M m)
-    { return m.value; }
-};
-
 namespace boost { namespace hana {
     template <>
-    struct Functor<MinimalMonad> : defaults<Functor>::with<MinimalMonad> {
+    struct Functor::instance<MinimalMonad> : Functor::fmap_mcd {
         template <typename F, typename M>
         static constexpr auto fmap_impl(F f, M m)
         { return monad<decltype(f(m.value))>{f(m.value)}; }
     };
 
     template <>
-    struct Applicative<MinimalMonad> : defaults<Applicative>::with<MinimalMonad> {
+    struct Applicative::instance<MinimalMonad> : Applicative::mcd {
         template <typename T>
         static constexpr auto lift_impl(T t)
         { return monad<T>{t}; }

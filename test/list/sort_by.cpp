@@ -24,9 +24,7 @@ template <int equivalence_class> constexpr Y<equivalence_class> y{};
 
 namespace boost { namespace hana {
     template <>
-    struct Comparable<EqClass, EqClass>
-        : defaults<Comparable>::with<EqClass, EqClass>
-    {
+    struct Comparable::instance<EqClass, EqClass> : Comparable::equal_mcd {
         template <typename T, typename U>
         static constexpr auto equal_impl(T, U)
         { return type<T> == type<U>; }

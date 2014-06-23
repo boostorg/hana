@@ -12,7 +12,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/list.hpp>
-#include <boost/hana/logical.hpp>
 
 
 struct MinimalFunctor;
@@ -31,24 +30,6 @@ struct _functor {
 BOOST_HANA_CONSTEXPR_LAMBDA auto functor = [](auto ...xs) {
     auto storage = [=](auto f) { return f(xs...); };
     return _functor<decltype(storage)>{storage};
-};
-
-struct FunctorMcd {
-    template <typename F, typename Functor>
-    static constexpr auto fmap_impl(F f, Functor self)
-    { return self.storage([=](auto ...x) { return functor(f(x)...); }); }
-
-    template <typename Pred, typename F, typename Functor>
-    static constexpr auto adjust_impl(Pred p, F f, Functor self) {
-        return self.storage([=](auto ...x) {
-            return functor(
-                boost::hana::eval_if(p(x),
-                    [=](auto _) { return _(f)(x); },
-                    [=](auto _) { return x; }
-                )...
-            );
-        });
-    }
 };
 
 auto FunctorTest = [](auto functor) {

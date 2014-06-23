@@ -7,6 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable.hpp>
 
 #include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/integral.hpp>
 
 #include "minimal.hpp"
 using namespace boost::hana;
@@ -14,12 +15,12 @@ using namespace boost::hana;
 
 namespace boost { namespace hana {
     template <>
-    struct Comparable<MinimalComparable, MinimalComparable>
-        : ComparableInstance
-        , defaults<Comparable>::with<MinimalComparable, MinimalComparable>
+    struct Comparable::instance<MinimalComparable, MinimalComparable>
+        : Comparable::equal_mcd
     {
-        using ComparableInstance::equal_impl;
-        using defaults<hana::Comparable>::with<MinimalComparable, MinimalComparable>::not_equal_impl;
+        template <int i, int j>
+        static constexpr auto equal_impl(_comparable<i>, _comparable<j>)
+        { return bool_<i == j>; }
     };
 }}
 

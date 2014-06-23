@@ -42,8 +42,9 @@ namespace boost { namespace hana {
         fmap(f, x) == ap(lift<A>(f), x)
     @endcode
      */
-    template <typename T, typename Enable = void>
-    struct Applicative;
+    struct Applicative : typeclass<Applicative> {
+        struct mcd { };
+    };
 
     //! Lifted application.
     //! @method{Applicative}
@@ -54,30 +55,22 @@ namespace boost { namespace hana {
     //! @todo
     //! Should this be a variadic function?
     BOOST_HANA_CONSTEXPR_LAMBDA auto ap = [](auto f, auto x) {
-        return Applicative<datatype_t<decltype(f)>>::ap_impl(f, x);
+        return Applicative::instance<datatype_t<decltype(f)>>::ap_impl(f, x);
     };
+
+    namespace applicative_detail {
+        template <typename A>
+        struct lift {
+            template <typename X>
+            constexpr auto operator()(X x) const
+            { return Applicative::instance<A>::lift_impl(x); }
+        };
+    }
 
     //! Lift a value into the functor.
     //! @method{Applicative}
-    template <typename T>
-    BOOST_HANA_CONSTEXPR_LAMBDA auto lift = [](auto x) {
-        return Applicative<T>::lift_impl(x);
-    };
-
-    template <>
-    struct instance<Applicative> {
-        template <typename T, typename Enable = void>
-        struct with { };
-    };
-
-    template <>
-    struct defaults<Applicative> {
-        template <typename T, typename Enable = void>
-        struct with : defaults<> { };
-    };
-
-    template <typename T, typename Enable>
-    struct Applicative : instance<Applicative>::template with<T> { };
+    template <typename A>
+    constexpr applicative_detail::lift<A> lift{};
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_APPLICATIVE_HPP

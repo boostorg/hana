@@ -29,7 +29,7 @@ constexpr _logical<b> logical{};
 
 namespace boost { namespace hana {
     template <>
-    struct Logical<MinimalLogical> : defaults<Logical>::with<MinimalLogical> {
+    struct Logical::instance<MinimalLogical> : Logical::mcd {
         template <typename Then, typename Else>
         static constexpr auto eval_if_impl(_logical<true>, Then t, Else)
         { return t([](auto x) { return x; }); }

@@ -268,7 +268,7 @@ namespace boost { namespace hana {
     constexpr type_detail::trait_<f> trait_{};
 
     template <>
-    struct Comparable<Type, Type> : defaults<Comparable>::with<Type, Type> {
+    struct Comparable::instance<Type, Type> : Comparable::equal_mcd {
         template <typename T, typename U>
         static constexpr auto equal_impl(T, U)
         { return false_; }
@@ -279,14 +279,14 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Functor<Type> : defaults<Functor>::with<Type> {
+    struct Functor::instance<Type> : Functor::fmap_mcd {
         template <typename F, typename T>
         static constexpr auto fmap_impl(F f, T t)
         { return f(t); }
     };
 
     template <>
-    struct Monad<Type> : defaults<Monad>::with<Type> {
+    struct Monad::instance<Type> : Monad::join_mcd {
         template <typename T>
         static constexpr auto join_impl(T)
         { return untype_t<T>{}; }

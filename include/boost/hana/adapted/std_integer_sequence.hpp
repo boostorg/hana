@@ -30,9 +30,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Iterable<StdIntegerSequence>
-        : defaults<Iterable>::with<StdIntegerSequence>
-    {
+    struct Iterable::instance<StdIntegerSequence> : Iterable::mcd {
         template <typename T, T x, T ...xs>
         static constexpr auto head_impl(std::integer_sequence<T, x, xs...>)
         { return std::integral_constant<T, x>{}; }

@@ -167,7 +167,7 @@ namespace boost { namespace hana {
     BOOST_HANA_CONSTEXPR_LAMBDA auto list_c = list(integral<T, xs>...);
 
     template <>
-    struct Iterable<List> : defaults<Iterable>::with<List> {
+    struct Iterable::instance<List> : Iterable::mcd {
         // TypeList
         template <typename X, typename ...Xs>
         static constexpr auto head_helper(list_detail::type_container<X, Xs...>)
@@ -213,7 +213,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Functor<List> : defaults<Functor>::with<List> {
+    struct Functor::instance<List> : Functor::fmap_mcd {
         template <typename F, typename Xs>
         static constexpr auto fmap_impl(F f, Xs xs)
         { return xs.into([=](auto ...xs) { return list(f(xs)...); }); }
@@ -237,7 +237,7 @@ namespace boost { namespace hana {
     }
 
     template <>
-    struct Applicative<List> : defaults<Applicative>::with<List> {
+    struct Applicative::instance<List> : Applicative::mcd {
         template <typename X>
         static constexpr auto lift_impl(X x)
         { return list(x); }
@@ -248,7 +248,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Monad<List> : defaults<Monad>::with<List> {
+    struct Monad::instance<List> : Monad::join_mcd {
         template <typename Xss>
         static constexpr auto join_impl(Xss xss)
         { return foldl(list_detail::concat2, list(), xss); }
@@ -258,7 +258,7 @@ namespace boost { namespace hana {
     constexpr bool foldable_from_iterable<List> = true;
 
     template <>
-    struct Foldable<List> : instance<Foldable>::with<List> {
+    struct Foldable::instance<List> : Iterable::FoldableInstance {
         template <typename F, typename State, typename Xs>
         static constexpr auto
         foldl_impl(F f, State s, Xs xs) {

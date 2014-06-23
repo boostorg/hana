@@ -83,26 +83,29 @@ namespace boost { namespace hana {
     - Instead of having a lot of methods, maybe some of the functions below
       should just be implemented as functions using the mcd, as in the MPL11?
      */
-    template <typename T, typename Enable = void>
-    struct Iterable;
+    struct Iterable : typeclass<Iterable> {
+        struct mcd;
+        struct FoldableInstance;
+        struct ComparableInstance;
+    };
 
     //! Return the first element of a non-empty iterable.
     //! @method{Iterable}
     BOOST_HANA_CONSTEXPR_LAMBDA auto head = [](auto iterable) {
-        return Iterable<datatype_t<decltype(iterable)>>::head_impl(iterable);
+        return Iterable::instance<datatype_t<decltype(iterable)>>::head_impl(iterable);
     };
 
     //! Return a new iterable containing all but the first element of a
     //! non-empty iterable.
     //! @method{Iterable}
     BOOST_HANA_CONSTEXPR_LAMBDA auto tail = [](auto iterable) {
-        return Iterable<datatype_t<decltype(iterable)>>::tail_impl(iterable);
+        return Iterable::instance<datatype_t<decltype(iterable)>>::tail_impl(iterable);
     };
 
     //! Return whether the iterable is empty.
     //! @method{Iterable}
     BOOST_HANA_CONSTEXPR_LAMBDA auto is_empty = [](auto iterable) {
-        return Iterable<datatype_t<decltype(iterable)>>::is_empty_impl(iterable);
+        return Iterable::instance<datatype_t<decltype(iterable)>>::is_empty_impl(iterable);
     };
 
     //! Return the `n`th element of an iterable.
@@ -111,13 +114,13 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/list/iterable/at.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto at = [](auto n, auto iterable) {
-        return Iterable<datatype_t<decltype(iterable)>>::at_impl(n, iterable);
+        return Iterable::instance<datatype_t<decltype(iterable)>>::at_impl(n, iterable);
     };
 
     //! Return the last element of a non-empty iterable.
     //! @method{Iterable}
     BOOST_HANA_CONSTEXPR_LAMBDA auto last = [](auto iterable) {
-        return Iterable<datatype_t<decltype(iterable)>>::last_impl(iterable);
+        return Iterable::instance<datatype_t<decltype(iterable)>>::last_impl(iterable);
     };
 
     //! Drop the first `n` elements of an iterable and return the rest.
@@ -130,7 +133,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/list/iterable/drop.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto drop = [](auto n, auto iterable) {
-        return Iterable<datatype_t<decltype(iterable)>>::drop_impl(n, iterable);
+        return Iterable::instance<datatype_t<decltype(iterable)>>::drop_impl(n, iterable);
     };
 
     //! Drop elements from an iterable up to, but not including, the first
@@ -145,107 +148,60 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/range/iterable/drop_while.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto drop_while = [](auto predicate, auto iterable) {
-        return Iterable<datatype_t<decltype(iterable)>>::drop_while_impl(predicate, iterable);
+        return Iterable::instance<datatype_t<decltype(iterable)>>::drop_while_impl(predicate, iterable);
     };
 
     //! Equivalent to `drop_while` with a negated `predicate`.
     //! @method{Iterable}
     BOOST_HANA_CONSTEXPR_LAMBDA auto drop_until = [](auto predicate, auto iterable) {
-        return Iterable<datatype_t<decltype(iterable)>>::drop_until_impl(predicate, iterable);
+        return Iterable::instance<datatype_t<decltype(iterable)>>::drop_until_impl(predicate, iterable);
     };
 
-    template <>
-    struct instance<Iterable> {
-        template <typename T, typename Enable = void>
-        struct with { };
-    };
+    struct Iterable::mcd {
+        template <typename Index, typename Iterable_>
+        static constexpr auto at_impl(Index n, Iterable_ iterable) {
+            return eval_if(n == size_t<0>,
+                [=](auto _) { return head(_(iterable)); },
+                [=](auto _) { return at_impl(_(n) - size_t<1>, tail(_(iterable))); }
+            );
+        }
 
-    template <>
-    struct defaults<Iterable> {
-        template <typename T, typename Enable = void>
-        struct with : defaults<> {
-            template <typename Index, typename Iterable_>
-            static constexpr auto at_impl(Index n, Iterable_ iterable) {
-                return eval_if(n == size_t<0>,
-                    [=](auto _) { return head(_(iterable)); },
-                    [=](auto _) { return at_impl(_(n) - size_t<1>, tail(_(iterable))); }
-                );
-            }
+        template <typename Iterable_>
+        static constexpr auto last_impl(Iterable_ iterable) {
+            return eval_if(is_empty(tail(iterable)),
+                [=](auto _) { return head(_(iterable)); },
+                [=](auto _) { return last_impl(tail(_(iterable))); }
+            );
+        }
 
-            template <typename Iterable_>
-            static constexpr auto last_impl(Iterable_ iterable) {
-                return eval_if(is_empty(tail(iterable)),
-                    [=](auto _) { return head(_(iterable)); },
-                    [=](auto _) { return last_impl(tail(_(iterable))); }
-                );
-            }
+        template <typename N, typename Iterable_>
+        static constexpr auto drop_impl(N n, Iterable_ iterable) {
+            return eval_if(n == size_t<0> || is_empty(iterable),
+                always(iterable),
+                [=](auto _) { return drop_impl(_(n) - size_t<1>, tail(_(iterable))); }
+            );
+        }
 
-            template <typename N, typename Iterable_>
-            static constexpr auto drop_impl(N n, Iterable_ iterable) {
-                return eval_if(n == size_t<0> || is_empty(iterable),
-                    always(iterable),
-                    [=](auto _) { return drop_impl(_(n) - size_t<1>, tail(_(iterable))); }
-                );
-            }
-
-            template <typename Pred, typename Iterable_>
-            static constexpr auto drop_while_impl(Pred pred, Iterable_ iterable) {
-                return eval_if(is_empty(iterable),
-                    always(iterable),
-                    [=](auto _) {
-                        return eval_if(pred(_(head)(iterable)),
-                            [=](auto _) { return drop_while_impl(pred, _(tail)(iterable)); },
-                            always(iterable)
-                        );
-                    }
-                );
-            }
-
-            template <typename Pred, typename Iterable_>
-            static constexpr auto drop_until_impl(Pred pred, Iterable_ iterable) {
-                return drop_while([=](auto x) { return not_(pred(x)); }, iterable);
-            }
-        };
-    };
-
-    template <typename T, typename Enable>
-    struct Iterable : instance<Iterable>::template with<T> { };
-
-    template <typename T>
-    constexpr bool comparable_from_iterable = false;
-
-    template <typename T, typename U>
-    struct instance<Comparable>::with<T, U,
-        detail::enable_if_t<
-            comparable_from_iterable<T> &&
-            comparable_from_iterable<U>
-        >
-    >
-        : defaults<Comparable>::template with<T, U>
-    {
-        template <typename Xs, typename Ys>
-        static constexpr auto equal_impl(Xs xs, Ys ys) {
-            return if_(is_empty(xs) || is_empty(ys),
-                [](auto xs, auto ys) {
-                    return is_empty(xs) && is_empty(ys);
-                },
-                [](auto xs, auto ys) {
-                    return equal(head(xs), head(ys)) &&
-                           equal_impl(tail(xs), tail(ys));
+        template <typename Pred, typename Iterable_>
+        static constexpr auto drop_while_impl(Pred pred, Iterable_ iterable) {
+            return eval_if(is_empty(iterable),
+                always(iterable),
+                [=](auto _) {
+                    return eval_if(pred(_(head)(iterable)),
+                        [=](auto _) { return drop_while_impl(pred, _(tail)(iterable)); },
+                        always(iterable)
+                    );
                 }
-            )(xs, ys);
+            );
+        }
+
+        template <typename Pred, typename Iterable_>
+        static constexpr auto drop_until_impl(Pred pred, Iterable_ iterable) {
+            return drop_while([=](auto x) { return not_(pred(x)); }, iterable);
         }
     };
 
-    template <typename T>
-    constexpr bool foldable_from_iterable = false;
-
-    template <typename T>
-    struct instance<Foldable>::with<T,
-        detail::enable_if_t<foldable_from_iterable<T>>
-    >
-        : defaults<Foldable>::template with<T>
-    {
+    struct Iterable::FoldableInstance : Foldable::lazy_foldr_mcd {
         template <typename F, typename State, typename Iterable>
         static constexpr auto foldl_impl(F f, State s, Iterable xs) {
             return eval_if(is_empty(xs),
@@ -293,6 +249,43 @@ namespace boost { namespace hana {
             );
         }
     };
+
+    struct Iterable::ComparableInstance : Comparable::equal_mcd {
+        template <typename Xs, typename Ys>
+        static constexpr auto equal_impl(Xs xs, Ys ys) {
+            return if_(is_empty(xs) || is_empty(ys),
+                [](auto xs, auto ys) {
+                    return is_empty(xs) && is_empty(ys);
+                },
+                [](auto xs, auto ys) {
+                    return equal(head(xs), head(ys)) &&
+                           equal_impl(tail(xs), tail(ys));
+                }
+            )(xs, ys);
+        }
+    };
+
+    template <typename T>
+    constexpr bool comparable_from_iterable = false;
+
+    template <typename T, typename U>
+    struct Comparable::instance<T, U,
+        detail::enable_if_t<
+            comparable_from_iterable<T> && comparable_from_iterable<U>
+        >
+    >
+        : Iterable::ComparableInstance
+    { };
+
+    template <typename T>
+    constexpr bool foldable_from_iterable = false;
+
+    template <typename T>
+    struct Foldable::instance<T,
+        detail::enable_if_t<foldable_from_iterable<T>>
+    >
+        : Iterable::FoldableInstance
+    { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_ITERABLE_HPP

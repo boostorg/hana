@@ -32,26 +32,27 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto minimal_iterable = [](auto ...xs) {
 
 BOOST_HANA_CONSTEXPR_LAMBDA auto iterable = minimal_iterable<0>;
 
+template <int i>
+struct MinimalInstance : boost::hana::Iterable::mcd {
+    template <typename Xs>
+    static constexpr auto head_impl(Xs xs)
+    { return boost::hana::head(xs.actual); }
+
+    template <typename Xs>
+    static constexpr auto tail_impl(Xs xs) {
+        return with_datatype_impl<
+            decltype(boost::hana::tail(xs.actual)), MinimalIterable<i>
+        >{boost::hana::tail(xs.actual)};
+    }
+
+    template <typename Xs>
+    static constexpr auto is_empty_impl(Xs xs)
+    { return boost::hana::is_empty(xs.actual); }
+};
+
 namespace boost { namespace hana {
-    template <int i>
-    struct Iterable<MinimalIterable<i>>
-        : defaults<Iterable>::template with<MinimalIterable<i>>
-    {
-        template <typename Xs>
-        static constexpr auto head_impl(Xs xs)
-        { return head(xs.actual); }
-
-        template <typename Xs>
-        static constexpr auto tail_impl(Xs xs) {
-            return with_datatype_impl<
-                decltype(tail(xs.actual)), MinimalIterable<i>
-            >{tail(xs.actual)};
-        }
-
-        template <typename Xs>
-        static constexpr auto is_empty_impl(Xs xs)
-        { return is_empty(xs.actual); }
-    };
+    template <> struct Iterable::instance<MinimalIterable<0>> : MinimalInstance<0> { };
+    template <> struct Iterable::instance<MinimalIterable<1>> : MinimalInstance<1> { };
 
     template <int i>
     constexpr bool foldable_from_iterable<MinimalIterable<i>> = true;

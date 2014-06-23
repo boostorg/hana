@@ -150,9 +150,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Comparable<Maybe, Maybe>
-        : defaults<Comparable>::with<Maybe, Maybe>
-    {
+    struct Comparable::instance<Maybe, Maybe> : Comparable::equal_mcd {
         template <typename T, typename U>
         static constexpr auto
         equal_impl(operators::_just<T> t, operators::_just<U> u)
@@ -165,7 +163,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Functor<Maybe> : defaults<Functor>::with<Maybe> {
+    struct Functor::instance<Maybe> : Functor::fmap_mcd {
         template <typename F, typename T>
         static constexpr auto fmap_impl(F f, operators::_just<T> j)
         { return just(f(j.val)); }
@@ -176,7 +174,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Applicative<Maybe> : defaults<Applicative>::with<Maybe> {
+    struct Applicative::instance<Maybe> : Applicative::mcd {
         template <typename T>
         static constexpr auto lift_impl(T x)
         { return just(x); }
@@ -187,7 +185,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Monad<Maybe> : defaults<Monad>::with<Maybe> {
+    struct Monad::instance<Maybe> : Monad::join_mcd {
         template <typename T>
         static constexpr auto join_impl(operators::_just<operators::_just<T>> j)
         { return j.val; }

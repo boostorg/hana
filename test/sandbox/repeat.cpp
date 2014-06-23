@@ -31,7 +31,7 @@ auto repeat = fix([](auto repeat, auto x) {
 
 namespace boost { namespace hana {
     template <>
-    struct Iterable<LazyList> : defaults<Iterable>::with<LazyList> {
+    struct Iterable::instance<LazyList> : Iterable::mcd {
         template <typename Xs>
         static constexpr auto head_impl(Xs lcons)
         { return lcons.x; }

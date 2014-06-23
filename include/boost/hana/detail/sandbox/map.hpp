@@ -128,7 +128,7 @@ namespace boost { namespace hana {
     } // end namespace sandbox
 
     template <>
-    struct Foldable<sandbox::Map> : defaults<Foldable>::with<sandbox::Map> {
+    struct Foldable::instance<sandbox::Map> : Foldable::lazy_foldr_mcd {
         template <typename F, typename State, typename Map>
         static constexpr auto lazy_foldr_impl(F f, State s, Map m) {
             auto f_ = [=](auto bucket, auto s) {

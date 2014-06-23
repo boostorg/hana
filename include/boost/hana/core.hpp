@@ -15,129 +15,146 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    namespace core_detail { template <typename ...> struct is_an_instance; }
+    namespace core_detail {
+        struct no_instance { };
+
+        template <typename T, typename Enable = void*>
+        constexpr auto instantiates_impl = true_;
+
+        template <typename T>
+        constexpr auto instantiates_impl<T,
+            decltype((void*)static_cast<no_instance*>((T*)0))> = false_;
+    }
 
     //! @defgroup Core Core
     //! Miscellaneous core utilities.
-    //!
-    //!
-    //! @note
-    //! Users who only wish to instantiate a type class do not need to include
-    //! this header to get the declarations of `defaults` and `instance` in
-    //! scope. Type classes are required to either forward declare them or
-    //! include this header so users are free from that burden when they
-    //! include the type class' header.
-    //!
     //! @{
 
-    /*!
-    Contains the default methods of a type class.
+    //! Machinery for creating a unary type class.
+    //!
+    //!
+    //! ### Creating a type class
+    //! Creating a new type class is done by inheriting from `typeclass`:
+    //! @code
+    //!     struct Typeclass : typeclass<Typeclass> { };
+    //! @endcode
+    //!
+    //! If desired, default methods can be provided by putting them inside
+    //! a nested type of `Typeclass`:
+    //! @code
+    //!     struct Typeclass : typeclass<Typeclass> {
+    //!         struct some_member {
+    //!             // default methods
+    //!         };
+    //!     };
+    //! @endcode
+    //!
+    //! In this library, type classes with a single minimal complete definition
+    //! provide their default methods, if any, in the nested type named `mcd`.
+    //! In the case where multiple minimal complete definitions exist, each set
+    //! of default methods is in a different nested type with a descriptive
+    //! name. In all cases, the minimal complete definition(s) and the location
+    //! of their associated set of default methods are documented.
+    //!
+    //! One can also provide a default instance for all data types by defining
+    //! a `default_` member:
+    //! @code
+    //!     struct Typeclass : typeclass<Typeclass> {
+    //!         struct default_ {
+    //!             // default instance for all data types
+    //!         };
+    //!     };
+    //! @endcode
+    //!
+    //! `default_` should be just like a normal instance; see below for how
+    //! to instantiate a type class. This can be used to provide a default
+    //! behavior for all data types while still allowing this behavior to
+    //! be customized by instantiating the type class. However, this should
+    //! seldom be used because methods with a meaningful behavior for all
+    //! data types are rare. This feature is provided for flexibility, but
+    //! it should be a hint to reconsider your type class design if you are
+    //! about to use it.
+    //!
+    //!
+    //! ### Instantiating a type class
+    //! Instantiating a type class is done by specializing the associated
+    //! `instance` nested type:
+    //! @code
+    //!     template <>
+    //!     struct Typeclass::instance<Datatype> : Typeclass::mcd {
+    //!         // minimal complete definition at least
+    //!     };
+    //! @endcode
+    //!
+    //! Inheriting from `Typeclass::mcd` makes the default methods associated
+    //! to that minimal complete definition available. If multiple minimal
+    //! complete definitions are provided, one has to choose and inherit from
+    //! the corresponding set of default methods.
+    //!
+    //! It is possible to over-define a type class, i.e. provide more methods
+    //! than strictly necessary to fulfill the minimal complete definition.
+    //! Simply implement those methods as if they were part of the minimal
+    //! complete definition:
+    //! @code
+    //!     template <>
+    //!     struct Typeclass::instance<Datatype> : Typeclass::mcd {
+    //!         // minimal complete definition
+    //!
+    //!         // more methods
+    //!     };
+    //! @endcode
+    //!
+    //! Inheriting from a set of default methods is recommended even if default
+    //! methods are not actually required, i.e. all the methods of the type
+    //! class are implemented in the instance. This allows methods to be added
+    //! to the type class without breaking the instance, provided the type
+    //! class does not change its minimal complete definition(s).
+    //!
+    //! One can also instantiate a type class for all data types satisfying a
+    //! predicate:
+    //! @code
+    //!     template <typename T>
+    //!     struct Typeclass::instance<T, std::enable_if_t<Predicate(T)>>
+    //!         : Typeclass::mcd
+    //!     {
+    //!         // ...
+    //!     };
+    //! @endcode
+    //!
+    //! This uses the well-known C++ trick of providing a dummy template
+    //! parameter allowing SFINAE.
+    //!
+    //! ### Example
+    //! @include example/core/typeclass.cpp
+    template <typename Typeclass>
+    struct typeclass {
+        using default_ = core_detail::no_instance;
 
-    Every type class instance must inherit exactly one of `defaults<>::%with<>`
-    and `instance<>::%with<>`. Since `instance<>::%with<>` specializations are
-    required to inherit `defaults<>::%with<>`, it is always inherited from.
-    This is important since it allows default methods to be added to the type
-    class without breaking existing user code, provided the new methods are
-    not part of the minimal complete definition.
+        template <typename T, typename Enable = void>
+        struct instance : Typeclass::default_ { };
+    };
 
-    When implementing a new type class, `defaults` __must__ be specialized
-    even if default methods are not provided. Specialization is done as
-    follows:
-    @code
-        template <>
-        struct defaults<Typeclass> {
-            template <typename ...Args>
-            struct with : defaults<> {
-                // provide a default implementation for methods outside
-                // of the minimal complete definition if desired
-            };
-        };
-    @endcode
+    //! Machinery for creating a binary type class.
+    //!
+    //! This is equivalent to `typeclass`, except it creates a type class
+    //! with two arguments.
+    template <typename Typeclass>
+    struct binary_typeclass {
+        using default_ = core_detail::no_instance;
 
-    Inheriting from `defaults<>` is mandatory; it is required to implement
-    some features of the library. Note that all the specializations of
-    `defaults<Typeclass>::%with`, if any, must inherit from `defaults<>`.
+        template <typename T, typename U, typename Enable = void>
+        struct instance : Typeclass::default_ { };
+    };
 
-    The `Args...` are specific to each type class; the documentation should
-    explain their purpose. When possible, it is also nice to include a dummy
-    template parameter for SFINAE, which allows `defaults` to be specialized
-    for all types satisfying some predicate.
-
-    ### Example
-    @include example/core/defaults.cpp
-
-    */
-    template <template <typename ...> class Typeclass = core_detail::is_an_instance>
-    struct defaults;
-
-    template <>
-    struct defaults<core_detail::is_an_instance> { };
-
-    /*!
-    Allows complimentary type class instances to be provided.
-
-    Every type class instance must inherit exactly one of `defaults<>::%with<>`
-    and `instance<>::%with<>`. The latter may not be provided (see below), in
-    which case the only choice is to inherit `defaults<>::%with<>`.
-    Complimentary instances, if any, should be documented for each type class.
-
-    When implementing a new type class, the primary template has to inherit
-    from `instance<>::%with<>` as follows:
-    @code
-        template <typename ...>
-        struct Typeclass : instance<Typeclass>::with<...> { };
-    @endcode
-
-    This allows complimentary instances to be found when no explicit instance
-    is provided for a data type. Also, `instance` __must__ be specialized for
-    every type class even if no complimentary instances are provided.
-    Specialization must be done as follows:
-    @code
-        template <>
-        struct instance<Typeclass> {
-            template <typename ...Args>
-            struct with { };
-        };
-    @endcode
-
-    Anything appearing in the primary template of `instance<Typeclass>::%with`
-    will be available to all data types by default. This can be used to
-    provide a default behavior for all data types while still allowing
-    this behavior to be customized. However, this should seldom be used
-    because methods with a meaningful behavior for all data types are rare.
-    This feature is provided for flexibility, but it should be a hint to
-    reconsider your type class design if you are about to use it.
-
-    The `Args...` are specific to each type class; the documentation should
-    explain their purpose. When possible, it is nice to include a dummy
-    template parameter for SFINAE, which allows `instance` to be specialized
-    for all types satisfying a predicate.
-
-    To provide a complimentary instance, one can then specialize `instance`
-    as follows:
-    @code
-        template <...>
-        struct instance<Typeclass>::with<...>
-            : defaults<Typeclass>::with<...>
-        {
-            // whatever you want
-        };
-    @endcode
-
-    Inheriting from `defaults` in that specialization is mandatory.
-
-    @note
-    Unless you want to break the world, always make sure that users opt-in
-    __explicitly__ into a complimentary type class instance. Otherwise, code
-    relying on the fact that a data type is _not_ an instance of a given type
-    class could break when the complimentary instance is made available.
-
-    ### Example
-    @include example/core/instance.cpp
-
-     */
-    template <template <typename ...> class Typeclass>
-    struct instance;
+    //! Whether the type class is instantiated with the given arguments.
+    //! @hideinitializer
+    //!
+    //! This is provided in addition to `is_a` for type classes taking more
+    //! than one argument or when no object of the data type is available.
+    template <typename Typeclass, typename ...Datatypes>
+    constexpr auto instantiates = core_detail::instantiates_impl<
+        typename Typeclass::template instance<Datatypes...>
+    >;
 
     namespace core_detail {
         template <typename T, typename Enable = void*>
@@ -150,7 +167,7 @@ namespace boost { namespace hana {
     }
 
     /*!
-    Trait returning the data type associated to `T`.
+    Metafunction returning the data type associated to `T`.
 
     By default, this metafunction returns `T::hana_datatype` if that
     expression is valid, and `T` otherwise. It can also be specialized
@@ -175,6 +192,20 @@ namespace boost { namespace hana {
     //! Alias to `datatype<T>::%type`.
     template <typename T>
     using datatype_t = typename datatype<T>::type;
+
+    //! Return whether an object is an instance of the given type class.
+    //!
+    //! ### Example
+    //! @snippet example/core/is_a.cpp main
+    template <typename Typeclass>
+    BOOST_HANA_CONSTEXPR_LAMBDA auto is_a = [](auto x) {
+        return instantiates<Typeclass, datatype_t<decltype(x)>>;
+    };
+
+    //! Equivalent to `is_a`; provided for consistency with the rules of the
+    //! English language.
+    template <typename Typeclass>
+    BOOST_HANA_CONSTEXPR_LAMBDA auto is_an = is_a<Typeclass>;
 
     namespace core_detail {
         template <typename To, typename From>
@@ -237,38 +268,6 @@ namespace boost { namespace hana {
     BOOST_HANA_CONSTEXPR_LAMBDA auto to = [](auto object) {
         return convert<To, datatype_t<decltype(object)>>::apply(object);
     };
-
-    namespace core_detail {
-        template <typename T, typename Enable = void*>
-        constexpr auto instantiates_impl = false_;
-
-        template <typename T>
-        constexpr auto instantiates_impl<T,
-            decltype((void*)static_cast<defaults<>*>((T*)0))> = true_;
-    }
-
-    //! Whether the type class is instantiated with the given arguments.
-    //! @hideinitializer
-    //!
-    //! This is provided in addition to `is_a` for type classes taking more
-    //! than one argument or when no object of the data type is available.
-    template <template <typename ...> class Typeclass, typename ...Datatypes>
-    constexpr auto instantiates =
-        core_detail::instantiates_impl<Typeclass<Datatypes...>>;
-
-    //! Return whether an object is an instance of the given type class.
-    //!
-    //! ### Example
-    //! @snippet example/core/is_a.cpp main
-    template <template <typename ...> class Typeclass>
-    BOOST_HANA_CONSTEXPR_LAMBDA auto is_a = [](auto x) {
-        return instantiates<Typeclass, datatype_t<decltype(x)>>;
-    };
-
-    //! Equivalent to `is_a`; provided for consistency with the rules of the
-    //! English language.
-    template <template <typename ...> class Typeclass>
-    BOOST_HANA_CONSTEXPR_LAMBDA auto is_an = is_a<Typeclass>;
 
     //! @}
 

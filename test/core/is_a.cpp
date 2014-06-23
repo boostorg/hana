@@ -15,37 +15,13 @@ Distributed under the Boost Software License, Version 1.0.
 using namespace boost::hana;
 
 
-//////////////////////////////////////////////////////////////////////////////
-// Type class
-//////////////////////////////////////////////////////////////////////////////
-template <typename T>
-struct Typeclass;
+struct Typeclass : typeclass<Typeclass> { };
 
-namespace boost { namespace hana {
-    template <>
-    struct instance<Typeclass> {
-        template <typename T> struct with { };
-    };
-
-    template <>
-    struct defaults<Typeclass> {
-        template <typename T> struct with : defaults<> { };
-    };
-}}
-
-template <typename T>
-struct Typeclass : instance<Typeclass>::template with<T> { };
-
-
-//////////////////////////////////////////////////////////////////////////////
-// Data types
-//////////////////////////////////////////////////////////////////////////////
 struct NotInstance;
 struct Instance;
 
 template <>
-struct Typeclass<Instance> : defaults<Typeclass>::with<Instance> { };
-
+struct Typeclass::instance<Instance> { };
 
 struct an_instance { using hana_datatype = Instance; };
 struct not_instance { using hana_datatype = NotInstance; };

@@ -45,8 +45,11 @@ namespace boost { namespace hana {
       the common_type's comparison, if any.
     - Implement automatic checking of the laws for Comparable, if possible.
      */
-    template <typename T, typename U, typename Enable = void>
-    struct Comparable;
+    struct Comparable : binary_typeclass<Comparable> {
+        struct default_;
+        struct equal_mcd;
+        struct not_equal_mcd;
+    };
 
     /*!
     Returns a `Logical` representing whether `x` is equal to `y`.
@@ -66,47 +69,38 @@ namespace boost { namespace hana {
       is pretty straightforward anyway.
      */
     BOOST_HANA_CONSTEXPR_LAMBDA auto equal = [](auto x, auto y) {
-        return Comparable<datatype_t<decltype(x)>, datatype_t<decltype(y)>>::
+        return Comparable::instance<datatype_t<decltype(x)>, datatype_t<decltype(y)>>::
                equal_impl(x, y);
     };
 
     //! Returns a `Logical` representing whether `x` is not equal to `y`.
     //! @method{Comparable}
     BOOST_HANA_CONSTEXPR_LAMBDA auto not_equal = [](auto x, auto y) {
-        return Comparable<datatype_t<decltype(x)>, datatype_t<decltype(y)>>::
+        return Comparable::instance<datatype_t<decltype(x)>, datatype_t<decltype(y)>>::
                not_equal_impl(x, y);
     };
 
-    template <>
-    struct defaults<Comparable> {
-        template <typename T, typename U, typename Enable = void>
-        struct with : defaults<> {
-            template <typename X, typename Y>
-            static constexpr auto equal_impl(X x, Y y)
-            { return !not_equal(x, y); }
-
-            template <typename X, typename Y>
-            static constexpr auto not_equal_impl(X x, Y y)
-            { return !equal(x, y); }
-        };
+    struct Comparable::equal_mcd {
+        template <typename X, typename Y>
+        static constexpr auto not_equal_impl(X x, Y y)
+        { return not_(equal(x, y)); }
     };
 
-    template <>
-    struct instance<Comparable> {
-        template <typename T, typename U, typename Enable = void>
-        struct with : defaults<Comparable>::template with<T, U> {
-            template <typename X, typename Y>
-            static constexpr auto equal_impl(X x, Y y)
-            { return x == y; }
-
-            template <typename X, typename Y>
-            static constexpr auto not_equal_impl(X x, Y y)
-            { return x != y; }
-        };
+    struct Comparable::not_equal_mcd {
+        template <typename X, typename Y>
+        static constexpr auto equal_impl(X x, Y y)
+        { return not_(not_equal(x, y)); }
     };
 
-    template <typename T, typename U, typename Enable>
-    struct Comparable : instance<Comparable>::template with<T, U> { };
+    struct Comparable::default_ {
+        template <typename X, typename Y>
+        static constexpr auto equal_impl(X x, Y y)
+        { return x == y; }
+
+        template <typename X, typename Y>
+        static constexpr auto not_equal_impl(X x, Y y)
+        { return x != y; }
+    };
 
     namespace operators {
         //! Equivalent to `equal`.

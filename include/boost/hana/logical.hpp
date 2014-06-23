@@ -35,13 +35,14 @@ namespace boost { namespace hana {
     We don't short-circuit right now. Don't forget to change the examples and
     unit tests when that's implemented.
      */
-    template <typename T, typename Enable = void>
-    struct Logical;
+    struct Logical : typeclass<Logical> {
+        struct mcd;
+    };
 
     //! Conditionally return one of two values based on a condition.
     //! @method{Logical}
     BOOST_HANA_CONSTEXPR_LAMBDA auto if_ = [](auto logical, auto then_, auto else_) {
-        return Logical<datatype_t<decltype(logical)>>::if_impl(logical, then_, else_);
+        return Logical::instance<datatype_t<decltype(logical)>>::if_impl(logical, then_, else_);
     };
 
     //! Conditionally execute one of two branches based on a condition.
@@ -58,19 +59,19 @@ namespace boost { namespace hana {
     //! ### Example (runtime or `constexpr` condition)
     //! @snippet example/logical/default_instance/eval_if.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto eval_if = [](auto logical, auto then_branch, auto else_branch) {
-        return Logical<datatype_t<decltype(logical)>>::eval_if_impl(logical, then_branch, else_branch);
+        return Logical::instance<datatype_t<decltype(logical)>>::eval_if_impl(logical, then_branch, else_branch);
     };
 
     //! Negates a `Logical`.
     //! @method{Logical}
     BOOST_HANA_CONSTEXPR_LAMBDA auto not_ = [](auto logical) {
-        return Logical<datatype_t<decltype(logical)>>::not_impl(logical);
+        return Logical::instance<datatype_t<decltype(logical)>>::not_impl(logical);
     };
 
     struct _and {
         template <typename X, typename Y>
         constexpr auto operator()(X x, Y y) const
-        { return Logical<datatype_t<decltype(x)>>::and_impl(x, y); }
+        { return Logical::instance<datatype_t<decltype(x)>>::and_impl(x, y); }
 
         template <typename X, typename Y, typename ...Z>
         constexpr auto operator()(X x, Y y, Z ...z) const
@@ -103,7 +104,7 @@ namespace boost { namespace hana {
     struct _or {
         template <typename X, typename Y>
         constexpr auto operator()(X x, Y y) const
-        { return Logical<datatype_t<decltype(x)>>::or_impl(x, y); }
+        { return Logical::instance<datatype_t<decltype(x)>>::or_impl(x, y); }
 
         template <typename X, typename Y, typename ...Z>
         constexpr auto operator()(X x, Y y, Z ...z) const
@@ -153,47 +154,37 @@ namespace boost { namespace hana {
         { return not_(x); }
     }
 
+    struct Logical::mcd {
+        template <typename X, typename Y>
+        static constexpr auto or_impl(X x, Y y)
+        { return if_(x, x, y); }
 
-    template <>
-    struct instance<Logical> {
-        template <typename T, typename Enable = void>
-        struct with { };
+        template <typename X, typename Y>
+        static constexpr auto and_impl(X x, Y y)
+        { return if_(x, y, x); }
+
+        template <typename C, typename T, typename E>
+        static constexpr auto if_impl(C c, T t, E e)
+        { return eval_if(c, [=](auto) { return t; }, [=](auto) { return e; }); }
     };
 
-    template <>
-    struct defaults<Logical> {
-        template <typename, typename Enable = void>
-        struct with : defaults<> {
-            template <typename X, typename Y>
-            static constexpr auto or_impl(X x, Y y)
-            { return if_(x, x, y); }
+    namespace logical_detail {
+        struct default_logical : Logical::mcd {
+            template <typename Then, typename Else>
+            static constexpr auto eval_if_impl(bool cond, Then t, Else e) {
+                auto id = [](auto x) { return x; };
+                return cond ? t(id) : e(id);
+            }
 
-            template <typename X, typename Y>
-            static constexpr auto and_impl(X x, Y y)
-            { return if_(x, y, x); }
-
-            template <typename C, typename T, typename E>
-            static constexpr auto if_impl(C c, T t, E e)
-            { return eval_if(c, [=](auto) { return t; }, [=](auto) { return e; }); }
+            static constexpr auto not_impl(bool cond)
+            { return !cond; }
         };
-    };
-
-    template <typename T, typename Enable>
-    struct Logical : instance<Logical>::template with<T> { };
+    }
 
     template <typename T>
-    struct instance<Logical>::with<T, decltype(*(T*)0 ? (void)0 : (void)0)>
-        : defaults<Logical>::template with<T>
-    {
-        template <typename Then, typename Else>
-        static constexpr auto eval_if_impl(bool cond, Then t, Else e) {
-            auto id = [](auto x) { return x; };
-            return cond ? t(id) : e(id);
-        }
-
-        static constexpr auto not_impl(bool cond)
-        { return !cond; }
-    };
+    struct Logical::instance<T, decltype(*(T*)0 ? (void)0 : (void)0)>
+        : logical_detail::default_logical
+    { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_LOGICAL_HPP

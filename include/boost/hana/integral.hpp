@@ -17,16 +17,14 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     template <>
-    struct Comparable<Integral, Integral>
-        : defaults<Comparable>::with<Integral, Integral>
-    {
+    struct Comparable::instance<Integral, Integral> : Comparable::equal_mcd {
         template <typename T, typename U>
         static constexpr auto equal_impl(T t, U u)
         { return bool_<t() == u()>; }
     };
 
     template <>
-    struct Logical<Integral> : defaults<Logical>::with<Integral> {
+    struct Logical::instance<Integral> : Logical::mcd {
         template <typename Cond, typename Then, typename Else>
         static constexpr auto eval_if_impl(Cond c, Then t, Else e)
         { return eval_if_impl(bool_<static_cast<bool>(c())>, t, e); }

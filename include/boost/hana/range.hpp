@@ -71,7 +71,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Iterable<Range> : defaults<Iterable>::with<Range> {
+    struct Iterable::instance<Range> : Iterable::mcd {
         template <typename R>
         static constexpr auto head_impl(R r)
         { return r.from; }
@@ -103,7 +103,7 @@ namespace boost { namespace hana {
     constexpr bool foldable_from_iterable<Range> = true;
 
     template <>
-    struct Foldable<Range> : instance<Foldable>::with<Range> {
+    struct Foldable::instance<Range> : Iterable::FoldableInstance {
         template <typename F, typename From, typename T, T ...vs>
         static constexpr auto unpack_helper(F f, From from, detail::integer_sequence<T, vs...>)
         { return f(integral<T, from() + vs>...); }
@@ -123,7 +123,7 @@ namespace boost { namespace hana {
     constexpr bool comparable_from_iterable<Range> = true;
 
     template <>
-    struct Comparable<Range, Range> : defaults<Comparable>::with<Range, Range> {
+    struct Comparable::instance<Range, Range> : Comparable::equal_mcd {
         template <typename R1, typename R2>
         static constexpr auto equal_impl(R1 r1, R2 r2) {
             return (is_empty(r1) && is_empty(r2)) ||
