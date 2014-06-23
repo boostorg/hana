@@ -13,7 +13,7 @@ using namespace boost::hana;
 
 int main() {
     //! [main]
-    BOOST_HANA_STATIC_ASSERT(range(int_<0>, int_<5>) == list_c<int, 0, 1, 2, 3, 4>);
-    BOOST_HANA_STATIC_ASSERT(range(int_<-1>, int_<3>) == list_c<int, -1, 0, 1, 2>);
+    BOOST_HANA_STATIC_ASSERT(to<List>(range(int_<0>, int_<5>)) == list_c<int, 0, 1, 2, 3, 4>);
+    BOOST_HANA_STATIC_ASSERT(to<List>(range(int_<-1>, int_<3>)) == list_c<int, -1, 0, 1, 2>);
     //! [main]
 }
