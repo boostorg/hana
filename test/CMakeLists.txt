@@ -152,6 +152,7 @@ boost_hana_add_test(sandbox.ratio)
 boost_hana_add_test(sandbox.repeat)
 boost_hana_add_test(sandbox.sfinae)
 boost_hana_add_test(sandbox.string)
+boost_hana_add_test(sandbox.tuple)
 boost_hana_add_test(sandbox.worksheet)
 
 boost_hana_add_test(type.bugs.adl)
