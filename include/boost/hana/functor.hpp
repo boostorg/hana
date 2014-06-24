@@ -72,11 +72,24 @@ namespace boost { namespace hana {
         return Functor::instance<datatype_t<decltype(functor)>>::replace_impl(predicate, value, functor);
     };
 
+    //! Replace all the elements with a value.
+    //! @method{Functor}
+    //!
+    //! ### Example
+    //! @snippet example/list/functor/fill.cpp main
+    BOOST_HANA_CONSTEXPR_LAMBDA auto fill = [](auto value, auto functor) {
+        return Functor::instance<datatype_t<decltype(functor)>>::fill_impl(value, functor);
+    };
+
     namespace functor_detail {
         struct common {
             template <typename Pred, typename Value, typename F>
             static constexpr auto replace_impl(Pred pred, Value v, F functor)
             { return adjust(pred, [=](auto) { return v; }, functor); }
+
+            template <typename Value, typename F>
+            static constexpr auto fill_impl(Value v, F functor)
+            { return fmap([=](auto) { return v; }, functor); }
         };
     }
 

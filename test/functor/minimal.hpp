@@ -81,6 +81,15 @@ auto FunctorTest = [](auto functor) {
     BOOST_HANA_STATIC_ASSERT(fmap(f, functor(0)) == functor(f(0)));
     BOOST_HANA_STATIC_ASSERT(fmap(f, functor(0, 1)) == functor(f(0), f(1)));
     BOOST_HANA_STATIC_ASSERT(fmap(f, functor(0, 1, 2)) == functor(f(0), f(1), f(2)));
+
+
+    // fill
+    BOOST_HANA_CONSTEXPR_LAMBDA auto v = int_<999>;
+    BOOST_HANA_STATIC_ASSERT(fill(v, functor()) == functor());
+    BOOST_HANA_STATIC_ASSERT(fill(v, functor(int_<0>)) == functor(v));
+    BOOST_HANA_STATIC_ASSERT(fill(v, functor(int_<0>, int_<1>)) == functor(v, v));
+    BOOST_HANA_STATIC_ASSERT(fill(v, functor(int_<0>, int_<1>, int_<2>)) == functor(v, v, v));
+    BOOST_HANA_STATIC_ASSERT(fill(v, functor(int_<0>, int_<1>, int_<2>, int_<3>)) == functor(v, v, v, v));
 };
 
 #endif // !BOOST_HANA_TEST_FUNCTOR_MINIMAL_HPP
