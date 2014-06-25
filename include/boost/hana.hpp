@@ -31,6 +31,7 @@ General purpose type classes provided by the library.
 #include <boost/hana/adapted/std_integer_sequence.hpp>
 #include <boost/hana/adapted/std_integral_constant.hpp>
 #include <boost/hana/adapted/std_list.hpp>
+#include <boost/hana/adapted/std_pair.hpp>
 #include <boost/hana/adapted/std_tuple.hpp>
 #include <boost/hana/applicative.hpp>
 #include <boost/hana/comparable.hpp>
