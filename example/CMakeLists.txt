@@ -89,6 +89,8 @@ boost_hana_add_example(maybe.comparable)
 boost_hana_add_example(maybe.functor)
 boost_hana_add_example(maybe.monad)
 
+boost_hana_add_example(pair.comparable)
+
 boost_hana_add_example(range.foldable.lazy_foldl)
 boost_hana_add_example(range.foldable.lazy_foldr)
 boost_hana_add_example(range.foldable.product)

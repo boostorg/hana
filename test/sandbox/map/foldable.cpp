@@ -10,12 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functional.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/list.hpp>
+#include <boost/hana/pair.hpp>
 
 #include <cassert>
 using namespace boost::hana;
 using sandbox::map;
-using sandbox::pair;
-using sandbox::second;
 
 
 BOOST_HANA_CONSTEXPR_LAMBDA auto check_fold = [](auto ...pairs) {

@@ -15,30 +15,14 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/list.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/maybe.hpp>
+#include <boost/hana/pair.hpp>
 
 
 namespace boost { namespace hana {
     namespace sandbox {
         struct Map;
 
-        BOOST_HANA_CONSTEXPR_LAMBDA auto pair = [](auto x, auto y) {
-            return [=](auto f) { return f(x, y); };
-        };
-
-        BOOST_HANA_CONSTEXPR_LAMBDA auto second = [](auto p) {
-            return p([](auto x, auto y) { return y; });
-        };
-
-        BOOST_HANA_CONSTEXPR_LAMBDA auto first = [](auto p) {
-            return p([](auto x, auto y) { return x; });
-        };
-
         namespace map_detail {
-            BOOST_HANA_CONSTEXPR_LAMBDA auto replace = [](auto pred, auto new_val, auto xs) {
-                auto go = [=](auto x) { return if_(pred(x), new_val, x); };
-                return fmap(go, xs);
-            };
-
             template <typename Hash, typename Pairs>
             struct bucket;
 
@@ -132,7 +116,7 @@ namespace boost { namespace hana {
         template <typename F, typename State, typename Map>
         static constexpr auto lazy_foldr_impl(F f, State s, Map m) {
             auto f_ = [=](auto bucket, auto s) {
-                return lazy_foldr(f, s(), fmap(sandbox::second, bucket().pairs));
+                return lazy_foldr(f, s(), fmap(second, bucket().pairs));
             };
             return lazy_foldr(f_, s, m.buckets);
         }
