@@ -10,10 +10,10 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_ADAPTED_STD_ARRAY_HPP
 #define BOOST_HANA_ADAPTED_STD_ARRAY_HPP
 
-#include <boost/hana/comparable.hpp>
 #include <boost/hana/core.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/iterable.hpp>
+#include <boost/hana/list.hpp>
 #include <boost/hana/range.hpp>
 
 #include <array>
@@ -52,7 +52,25 @@ namespace boost { namespace hana {
     };
 
     template <>
-    constexpr bool comparable_from_iterable<StdArray> = true;
+    struct List::instance<StdArray> : List::mcd<StdArray> {
+        struct anything { };
+
+        static constexpr auto nil_impl() {
+            return std::array<anything, 0>{};
+        }
+
+        template <typename X, typename T, std::size_t N>
+        static constexpr auto cons_impl(X x, std::array<T, N> arr) {
+            auto make_array = [=](auto ...indices) -> std::array<T, N + 1>
+            { return {{x, arr[indices]...}}; };
+            return unpack(make_array, range(size_t<0>, size_t<N>));
+        }
+
+        template <typename X>
+        static constexpr auto cons_impl(X x, std::array<anything, 0>) {
+            return cons_impl(x, std::array<X, 0>{});
+        }
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_ADAPTED_STD_ARRAY_HPP
