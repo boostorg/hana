@@ -13,7 +13,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/applicative.hpp>
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core.hpp>
-#include <boost/hana/foldable.hpp>
 #include <boost/hana/functor.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/iterable.hpp>
@@ -87,9 +86,6 @@ namespace boost { namespace hana {
         static constexpr auto join_impl(std::tuple<Tuples...> tuples)
         { return helper(tuples, std::index_sequence_for<Tuples...>{}); }
     };
-
-    template <>
-    constexpr bool foldable_from_iterable<StdTuple> = true;
 
     template <>
     constexpr bool comparable_from_iterable<StdTuple> = true;

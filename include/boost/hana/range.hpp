@@ -90,9 +90,6 @@ namespace boost { namespace hana {
         }
     };
 
-    template <>
-    constexpr bool foldable_from_iterable<Range> = true;
-
     //! Generic instance for `Iterable`s.
     template <>
     struct Foldable::instance<Range> : Iterable::FoldableInstance {

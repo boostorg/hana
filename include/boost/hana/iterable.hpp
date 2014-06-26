@@ -233,20 +233,15 @@ namespace boost { namespace hana {
     //!
     //! @snippet example/list/comparable.cpp main
     template <typename T, typename U>
-    struct Comparable::instance<T, U,
-        detail::enable_if_t<
-            comparable_from_iterable<T> && comparable_from_iterable<U>
-        >
-    >
+    struct Comparable::instance<T, U, detail::enable_if_t<
+        comparable_from_iterable<T> && comparable_from_iterable<U>
+    >>
         : Iterable::ComparableInstance
     { };
 
-    template <typename T>
-    constexpr bool foldable_from_iterable = false;
-
     //! @details
     //! Let `xs` be an `Iterable` and let `xi` denote its `i`-th element. In
-    //! other words, `xs` is equivalent to a list containing `[x1, ..., xN]`,
+    //! other words, `xs` can be folded into a list containing `[x1, ..., xN]`,
     //! where `N` is the number of elements. Right-folding `xs` with a binary
     //! operation `*` (in infix notation for legibility) is equivalent to
     //! @code
@@ -266,9 +261,7 @@ namespace boost { namespace hana {
     //!     (a * b) * c = a * (b * c)
     //! @f}
     //! this makes no difference. Also note that lazy folds and folds with an
-    //! initial state are implemented in an analogous way. To enable the
-    //! `Foldable` instance for a data type, specialize the
-    //! `foldable_from_iterable` variable template.
+    //! initial state are implemented in an analogous way.
     //!
     //! ### Example 1
     //! @snippet example/list/foldable/foldl.cpp main
@@ -276,7 +269,7 @@ namespace boost { namespace hana {
     //! ### Example 2
     //! @snippet example/integer_list/foldable/foldr.cpp main
     template <typename T>
-    struct Foldable::instance<T, detail::enable_if_t<foldable_from_iterable<T>>>
+    struct Foldable::instance<T, detail::enable_if_t<instantiates<Iterable, T>>>
         : Iterable::FoldableInstance
     { };
 }} // end namespace boost::hana

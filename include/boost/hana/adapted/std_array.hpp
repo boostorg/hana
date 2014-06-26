@@ -12,7 +12,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core.hpp>
-#include <boost/hana/foldable.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/range.hpp>
@@ -51,9 +50,6 @@ namespace boost { namespace hana {
         static constexpr auto is_empty_impl(std::array<T, N> arr)
         { return bool_<N == 0>; }
     };
-
-    template <>
-    constexpr bool foldable_from_iterable<StdArray> = true;
 
     template <>
     constexpr bool comparable_from_iterable<StdArray> = true;

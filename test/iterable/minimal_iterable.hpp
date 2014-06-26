@@ -9,7 +9,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/foldable.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/list.hpp>
 
@@ -55,9 +54,6 @@ namespace boost { namespace hana {
     template <> struct Iterable::instance<MinimalIterable<1>> : MinimalInstance<1> { };
 
     template <int i>
-    constexpr bool foldable_from_iterable<MinimalIterable<i>> = true;
-
-    template <int i>
     constexpr bool comparable_from_iterable<MinimalIterable<i>> = true;
 
     //! @todo
@@ -67,7 +63,6 @@ namespace boost { namespace hana {
     //! Using the partial specializations in a constant expression explicitly
     //! makes it work. Remove this when it's fixed.
     //! See http://llvm.org/bugs/show_bug.cgi?id=19571
-    static_assert(foldable_from_iterable<MinimalIterable<0>>, "");
     static_assert(comparable_from_iterable<MinimalIterable<0>>, "");
     static_assert(comparable_from_iterable<MinimalIterable<1>>, "");
 }}

@@ -46,9 +46,6 @@ namespace boost { namespace hana {
     };
 
     template <>
-    constexpr bool foldable_from_iterable<LazyList> = true;
-
-    template <>
     constexpr bool comparable_from_iterable<LazyList> = true;
 }}
 

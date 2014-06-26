@@ -56,9 +56,6 @@ namespace boost { namespace hana {
     };
 
     template <>
-    constexpr bool foldable_from_iterable<StdList> = true;
-
-    template <>
     constexpr bool comparable_from_iterable<StdList> = true;
 }} // end namespace boost::hana
 
