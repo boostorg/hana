@@ -65,6 +65,8 @@ namespace boost { namespace hana {
     - How to implement iterate and repeat?
     - Check laws for `Applicative`.
     - Get rid of the `<type_traits>` include.
+    - We could provide automatic unit testing for any instance because we
+      have the isomorphisms.
      */
     struct List : typeclass<List> {
         template <typename T>
