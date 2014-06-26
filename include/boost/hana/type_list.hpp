@@ -29,6 +29,10 @@ namespace boost { namespace hana {
     //! @todo
     //! - Implement efficient membership testing.
     //! - Actually provide optimizations.
+    //! - `TypeList` is not really a `Functor` because the function must
+    //!   map from `Type`s to `Type`s. Should it be modified so that
+    //!   `TypeList` becomes `List` if we try to store something else
+    //!   than `Type`s? The same issue goes for `IntegerList`.
     struct TypeList { };
 
     namespace operators {

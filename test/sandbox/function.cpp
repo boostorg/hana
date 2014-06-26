@@ -89,29 +89,23 @@ using namespace literals;
 
 
 int main() {
-    auto f = function(list_c<int, 1, 2, 3>, list_c<int, 1, 2, 3, 4, 5, 6>)(
-        [](auto x) {
-            return x + int_<1>;
-        }
+    auto f = function(list(1_c, 2_c, 3_c), list(1_c, 2_c, 3_c, 4_c, 5_c, 6_c))(
+        [](auto x) { return x + 1_c; }
     );
 
-    auto g = function(list_c<int, 1, 2, 3>, list_c<int, 2, 3, 4>)(
-        [](auto x) {
-            return x + int_<1>;
-        }
+    auto g = function(list(1_c, 2_c, 3_c), list(2_c, 3_c, 4_c))(
+        [](auto x) { return x + 1_c; }
     );
 
-    auto h = function(list_c<int, 1, 2, 3>, list_c<int, 0, 1, 2>)(
-        [](auto x) {
-            return x - int_<1>;
-        }
+    auto h = function(list(1_c, 2_c, 3_c), list(0_c, 1_c, 2_c))(
+        [](auto x) { return x - 1_c; }
     );
 
     BOOST_HANA_STATIC_ASSERT(f == g);
     BOOST_HANA_STATIC_ASSERT(f != h);
-    BOOST_HANA_STATIC_ASSERT(f(1) == int_<2>);
+    BOOST_HANA_STATIC_ASSERT(f(1) == 2);
     try { f(6); throw; } catch (std::domain_error) { }
 
 
-    BOOST_HANA_STATIC_ASSERT(frange(f) == list_c<int, 4, 3, 2>);
+    BOOST_HANA_STATIC_ASSERT(frange(f) == list(4_c, 3_c, 2_c));
 }

@@ -70,9 +70,9 @@ namespace boost { namespace hana {
     instance for a data type, specialize the `foldable_from_iterable` variable
     template.
     #### Example 1
-    @snippet example/list/foldable/foldl.cpp fusion
+    @snippet example/list/foldable/foldl.cpp main
     #### Example 2
-    @snippet example/list/foldable/foldr.cpp fusion
+    @snippet example/integer_list/foldable/foldr.cpp main
 
     --------------------------------------------------------------------------
 

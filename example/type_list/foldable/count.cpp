@@ -9,26 +9,19 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/integral.hpp>
-#include <boost/hana/list.hpp>
 #include <boost/hana/type.hpp>
+#include <boost/hana/type_list.hpp>
+
+#include <type_traits>
 using namespace boost::hana;
 using namespace literals;
 
 
 int main() {
-    //! [fusion]
-    BOOST_HANA_CONSTEXPR_LAMBDA auto odd = [](auto x) {
-        return x % 2_c != 0_c;
-    };
-
-    BOOST_HANA_STATIC_ASSERT(count(odd, list(1_c, 2_c, 3_c)) == 2_c);
-    BOOST_HANA_STATIC_ASSERT(count(odd, list(1, 2, 3)) == 2);
-    //! [fusion]
-
-    //! [mpl]
-    BOOST_HANA_CONSTEXPR_LAMBDA auto types = list_t<int, char, long, short, char, long, double, long>;
+    //! [main]
+    BOOST_HANA_CONSTEXPR_LAMBDA auto types = type_list<int, char, long, short, char, long, double, long>;
     BOOST_HANA_STATIC_ASSERT(count(trait<std::is_floating_point>, types) == 1_c);
     BOOST_HANA_STATIC_ASSERT(count(_ == type<char>, types) == 2_c);
     BOOST_HANA_STATIC_ASSERT(count(_ == type<void>, types) == 0_c);
-    //! [mpl]
+    //! [main]
 }

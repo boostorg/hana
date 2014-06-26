@@ -27,8 +27,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/pair.hpp>
 #include <boost/hana/range.hpp>
 
-#include <boost/hana/type.hpp> // for list_t
-
 #include <type_traits> // for std::is_same
 
 
@@ -57,7 +55,6 @@ namespace boost { namespace hana {
     - How to implement iterate and repeat?
     - Check laws for `Applicative`.
     - Get rid of the `<type_traits>` include.
-    - Get rid of `list_t` and `list_c`.
      */
     struct List : typeclass<List> {
         template <typename T>
@@ -154,11 +151,11 @@ namespace boost { namespace hana {
     //! @note
     //! The predicate must return an `Integral`.
     //!
-    //! ### Fusion example
-    //! @snippet example/list/partition.cpp fusion
+    //! ### Example 1
+    //! @snippet example/integer_list/partition.cpp main
     //!
-    //! ### MPL example
-    //! @snippet example/list/partition.cpp mpl
+    //! ### Example 2
+    //! @snippet example/type_list/partition.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto partition = [](auto predicate, auto xs) {
         return List::instance<datatype_t<decltype(xs)>>::partition_impl(predicate, xs);
     };
@@ -243,7 +240,7 @@ namespace boost { namespace hana {
     //! This is equivalent to `take_while` with a negated predicate.
     //!
     //! ### Example
-    //! @snippet example/list/take_until.cpp main
+    //! @snippet example/integer_list/take_until.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto take_until = [](auto predicate, auto xs) {
         return List::instance<datatype_t<decltype(xs)>>::take_until_impl(predicate, xs);
     };
@@ -256,7 +253,7 @@ namespace boost { namespace hana {
     //! an `Integral`.
     //!
     //! ### Example
-    //! @snippet example/list/take_while.cpp main
+    //! @snippet example/integer_list/take_while.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto take_while = [](auto predicate, auto xs) {
         return List::instance<datatype_t<decltype(xs)>>::take_while_impl(predicate, xs);
     };
@@ -481,10 +478,10 @@ namespace boost { namespace hana {
     //! applies the function.
     //!
     //! ### Example 1
-    //! @snippet example/list/functor/fmap.cpp fusion
+    //! @snippet example/list/functor/fmap.cpp main
     //!
     //! ### Example 2
-    //! @snippet example/list/functor/fmap.cpp mpl
+    //! @snippet example/type_list/functor/fmap.cpp main
     template <typename T>
     struct Functor::instance<T, detail::enable_if_t<instantiates<List, T>>>
         : Functor::fmap_mcd
@@ -544,14 +541,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // The List data type
     //////////////////////////////////////////////////////////////////////////
-    template <typename T, T ...xs>
-    [[deprecated("use integer_list instead")]]
-    BOOST_HANA_CONSTEXPR_LAMBDA auto list_c = list(integral<T, xs>...);
-
-    template <typename ...xs>
-    [[deprecated("use type_list instead")]]
-    BOOST_HANA_CONSTEXPR_LAMBDA auto list_t = list(type<xs>...);
-
     //! @details
     //! Generic instance for `Iterable`s.
     template <>

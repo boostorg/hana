@@ -38,11 +38,11 @@ namespace boost { namespace hana {
     //! Left-associative fold of a structure using a binary operation.
     //! @method{Foldable}
     //!
-    //! ### Fusion example
-    //! @snippet example/list/foldable/foldl.cpp fusion
+    //! ### Example 1
+    //! @snippet example/list/foldable/foldl.cpp main
     //!
-    //! ### MPL example
-    //! @snippet example/list/foldable/foldl.cpp mpl
+    //! ### Example 2
+    //! @snippet example/type_list/foldable/foldl.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto foldl = [](auto f, auto state, auto foldable) {
         return Foldable::instance<datatype_t<decltype(foldable)>>::foldl_impl(f, state, foldable);
     };
@@ -50,11 +50,11 @@ namespace boost { namespace hana {
     //! Right-associative fold of a structure using a binary operation.
     //! @method{Foldable}
     //!
-    //! ### Fusion example
-    //! @snippet example/list/foldable/foldr.cpp fusion
+    //! ### Example 1
+    //! @snippet example/list/foldable/foldr.cpp main
     //!
-    //! ### MPL example
-    //! @snippet example/list/foldable/foldr.cpp mpl
+    //! ### Example 2
+    //! @snippet example/integer_list/foldable/foldr.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto foldr = [](auto f, auto state, auto foldable) {
         return Foldable::instance<datatype_t<decltype(foldable)>>::foldr_impl(f, state, foldable);
     };
@@ -146,7 +146,7 @@ namespace boost { namespace hana {
     //! @method{Foldable}
     //!
     //! ### Example
-    //! @snippet example/list/foldable/minimum_by.cpp main
+    //! @snippet example/type_list/foldable/minimum_by.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto minimum_by = [](auto predicate, auto foldable) {
         return Foldable::instance<datatype_t<decltype(foldable)>>::minimum_by_impl(predicate, foldable);
     };
@@ -155,7 +155,7 @@ namespace boost { namespace hana {
     //! @method{Foldable}
     //!
     //! ### Example
-    //! @snippet example/list/foldable/minimum.cpp main
+    //! @snippet example/integer_list/foldable/minimum.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto minimum = [](auto foldable) {
         return Foldable::instance<datatype_t<decltype(foldable)>>::minimum_impl(foldable);
     };
@@ -192,11 +192,11 @@ namespace boost { namespace hana {
     //! `predicate` is satisfied.
     //! @method{Foldable}
     //!
-    //! ### Fusion example
-    //! @snippet example/list/foldable/count.cpp fusion
+    //! ### Example 1
+    //! @snippet example/integer_list/foldable/count.cpp main
     //!
-    //! ### MPL example
-    //! @snippet example/list/foldable/count.cpp mpl
+    //! ### Example 2
+    //! @snippet example/type_list/foldable/count.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto count = [](auto predicate, auto foldable) {
         return Foldable::instance<datatype_t<decltype(foldable)>>::count_impl(predicate, foldable);
     };
@@ -207,11 +207,11 @@ namespace boost { namespace hana {
     //! Specifically, returns `just` the first element satisfying the
     //! `predicate`, or `nothing` if there is no such element.
     //!
-    //! ### Fusion example
-    //! @snippet example/list/foldable/find.cpp fusion
+    //! ### Example 1
+    //! @snippet example/list/foldable/find.cpp main
     //!
-    //! ### MPL example
-    //! @snippet example/list/foldable/find.cpp mpl
+    //! ### Example 2
+    //! @snippet example/type_list/foldable/find.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto find = [](auto predicate, auto foldable) {
         return Foldable::instance<datatype_t<decltype(foldable)>>::find_impl(predicate, foldable);
     };

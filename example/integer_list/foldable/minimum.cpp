@@ -5,17 +5,13 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/detail/static_assert.hpp>
-#include <boost/hana/functional.hpp>
+#include <boost/hana/integer_list.hpp>
 #include <boost/hana/integral.hpp>
-#include <boost/hana/list.hpp>
-#include <boost/hana/type.hpp>
 using namespace boost::hana;
 
 
 int main() {
     //! [main]
-    BOOST_HANA_STATIC_ASSERT(
-        minimum_by(on(_<_, sizeof_), list_t<char[1], char[2], char[3]>) == type<char[1]>
-    );
+    BOOST_HANA_STATIC_ASSERT(minimum(integer_list<int, -1, 0, 2, -4, 6, 9>) == int_<-4>);
     //! [main]
 }

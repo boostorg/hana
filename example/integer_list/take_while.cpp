@@ -5,16 +5,17 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/functional.hpp>
+#include <boost/hana/integer_list.hpp>
 #include <boost/hana/integral.hpp>
-#include <boost/hana/range.hpp>
 using namespace boost::hana;
 using namespace literals;
 
 
 int main() {
     //! [main]
-    BOOST_HANA_STATIC_ASSERT(head(range(0_c, 5_c)) == 0_c);
-    BOOST_HANA_STATIC_ASSERT(last(range(0_c, 5_c)) == 4_c);
-    BOOST_HANA_STATIC_ASSERT(tail(range(0_c, 5_c)) == range(1_c, 5_c));
+    BOOST_HANA_STATIC_ASSERT(
+        take_while(_ < 2_c, integer_list<int, 0, 1, 2, 3>) == integer_list<int, 0, 1>
+    );
     //! [main]
 }

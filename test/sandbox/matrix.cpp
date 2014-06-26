@@ -274,10 +274,10 @@ void test_transpose() {
 void test_repeat_n() {
     struct T;
     BOOST_HANA_STATIC_ASSERT(repeat_n(int_<0>, type<T>) == list());
-    BOOST_HANA_STATIC_ASSERT(repeat_n(int_<1>, type<T>) == list_t<T>);
-    BOOST_HANA_STATIC_ASSERT(repeat_n(int_<2>, type<T>) == list_t<T, T>);
-    BOOST_HANA_STATIC_ASSERT(repeat_n(int_<3>, type<T>) == list_t<T, T, T>);
-    BOOST_HANA_STATIC_ASSERT(repeat_n(int_<4>, type<T>) == list_t<T, T, T, T>);
+    BOOST_HANA_STATIC_ASSERT(repeat_n(int_<1>, type<T>) == list(type<T>));
+    BOOST_HANA_STATIC_ASSERT(repeat_n(int_<2>, type<T>) == list(type<T>, type<T>));
+    BOOST_HANA_STATIC_ASSERT(repeat_n(int_<3>, type<T>) == list(type<T>, type<T>, type<T>));
+    BOOST_HANA_STATIC_ASSERT(repeat_n(int_<4>, type<T>) == list(type<T>, type<T>, type<T>, type<T>));
 }
 
 void test_determinant() {

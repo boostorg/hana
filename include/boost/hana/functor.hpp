@@ -45,11 +45,11 @@ namespace boost { namespace hana {
     //! Maps `f` over a `Functor`.
     //! @method{Functor}
     //!
-    //! ### Fusion example
-    //! @snippet example/list/functor/fmap.cpp fusion
+    //! ### Example 1
+    //! @snippet example/list/functor/fmap.cpp main
     //!
-    //! ### MPL example
-    //! @snippet example/list/functor/fmap.cpp mpl
+    //! ### Example 2
+    //! @snippet example/type_list/functor/fmap.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto fmap = [](auto f, auto functor) {
         return Functor::instance<datatype_t<decltype(functor)>>::fmap_impl(f, functor);
     };
