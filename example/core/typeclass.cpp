@@ -55,17 +55,14 @@ struct Incrementable::instance<long> : Incrementable::next_n_mcd {
     { return x + n; }
 };
 
-//! @todo Change this once Clang is fixed.
-struct incrementable_for_floats : Incrementable::next_mcd {
+template <typename T>
+struct Incrementable::instance<T, std::enable_if_t<std::is_floating_point<T>{}>>
+    : Incrementable::next_mcd
+{
     template <typename X>
     static constexpr auto next_impl(X x)
     { return x + 1; }
 };
-
-template <typename T>
-struct Incrementable::instance<T, std::enable_if_t<std::is_floating_point<T>{}>>
-    : incrementable_for_floats
-{ };
 
 int main() {
     BOOST_HANA_STATIC_ASSERT(next(1) == 2);
