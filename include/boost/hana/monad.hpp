@@ -25,11 +25,6 @@ namespace boost { namespace hana {
 
     --------------------------------------------------------------------------
 
-    ## Minimal complete definition
-    `join` or `bind`
-
-    --------------------------------------------------------------------------
-
     ## Laws
     Instances of `Monad` must satisfy the following laws:
     @code
@@ -55,12 +50,14 @@ namespace boost { namespace hana {
         return Monad::instance<datatype_t<decltype(monad)>>::join_impl(monad);
     };
 
+    //! Minimal complete definition: `bind`
     struct Monad::bind_mcd {
         template <typename M>
         static constexpr auto join_impl(M monad)
         { return bind(monad, [](auto x) { return x; }); }
     };
 
+    //! Minimal complete definition: `join`
     struct Monad::join_mcd {
         template <typename M, typename F>
         static constexpr auto bind_impl(M monad, F f)

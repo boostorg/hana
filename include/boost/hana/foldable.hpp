@@ -22,15 +22,9 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     BOOST_HANA_TYPECLASS_BOILERPLATE(struct Foldable)
 
-    /*!
-    @ingroup typeclasses
-    The `Foldable` type class is used for data structures that can be folded.
-
-    --------------------------------------------------------------------------
-
-    ## Minimal complete definition
-    `lazy_foldr`
-     */
+    //! @ingroup typeclasses
+    //! Data structures that can be folded, i.e. summarized into
+    //! a single value.
     struct Foldable : typeclass<Foldable> {
         struct lazy_foldr_mcd;
     };
@@ -288,6 +282,8 @@ namespace boost { namespace hana {
         return Foldable::instance<datatype_t<decltype(foldable)>>::none_of_impl(foldable);
     };
 
+    //! @details
+    //! Minimal complete definition: `lazy_foldr`
     struct Foldable::lazy_foldr_mcd {
         template <typename F, typename State, typename Foldable_>
         static constexpr auto foldr_impl(F f, State s, Foldable_ foldable)

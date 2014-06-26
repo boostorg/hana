@@ -21,42 +21,25 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    /*!
-    @ingroup datatypes
-    C++ type represented as a constexpr object.
-
-    --------------------------------------------------------------------------
-
-    ## Instance of
-
-    ### Comparable
-    Two `Type`s are equal if and only if they represent the same C++ type.
-    Hence, equality is equivalent to the `std::is_same` type trait.
-    @snippet example/type/comparable.cpp main
-
-    ### Functor
-    TODO
-
-    ### Applicative
-    TODO
-
-    ### Monad
-    TODO
-
-    --------------------------------------------------------------------------
-
-    @todo
-    - Completely figure out and document the category theoretical foundation
-      of this data type.
-    - Verify `Monad` laws.
-    - Instantiate `Applicative`.
-    - Move self-notes for `Type`-related stuff to the (internal?)
-      documentation of `Type`.
-    - Consider having a `.name()` method that would return the
-      (demangled?) `typeid(T).name()`.
-    - Document `Functor` and `Monad` instances.
-    - Use more lambdas once http://llvm.org/bugs/show_bug.cgi?id=20046 is fixed.
-     */
+    //! @ingroup datatypes
+    //! C++ type represented as a constexpr object.
+    //!
+    //! ## Instance of
+    //! `Comparable`, `Functor`, `Applicative`, `Monad`
+    //!
+    //!
+    //! @todo
+    //! - Completely figure out and document the category theoretical
+    //!   foundation of this data type.
+    //! - Verify `Monad` laws.
+    //! - Instantiate `Applicative`.
+    //! - Move self-notes for `Type`-related stuff to the (internal?)
+    //!   documentation of `Type`.
+    //! - Consider having a `.name()` method that would return the
+    //!   (demangled?) `typeid(T).name()`.
+    //! - Document `Functor` and `Monad` instances.
+    //! - Use more lambdas once http://llvm.org/bugs/show_bug.cgi?id=20046
+    //!   is fixed.
     struct Type { };
 
     namespace type_detail {
@@ -267,6 +250,11 @@ namespace boost { namespace hana {
     template <template <typename ...> class f>
     constexpr type_detail::trait_<f> trait_{};
 
+    //! @details
+    //! Two `Type`s are equal if and only if they represent the same C++ type.
+    //! Hence, equality is equivalent to the `std::is_same` type trait.
+    //!
+    //! @snippet example/type/comparable.cpp main
     template <>
     struct Comparable::instance<Type, Type> : Comparable::equal_mcd {
         template <typename T, typename U>

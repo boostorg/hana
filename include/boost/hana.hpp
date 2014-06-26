@@ -13,18 +13,16 @@ Distributed under the Boost Software License, Version 1.0.
 //! @defgroup details Details
 //! Implementation details.
 
-/*!
-@defgroup typeclasses Type classes
-General purpose type classes provided by the library.
-
-@todo
-- Provide an integrated way of checking laws for type classes.
-- Provide a way to check type class requirements like
-  `Functor f => Applicative f`.
-- Document requirements for the existing type classes.
-- Consider providing complimentary instances via e.g.
-  `Foldable::instance<Iterable>`.
- */
+//! @defgroup typeclasses Type classes
+//! General purpose type classes provided by the library.
+//!
+//! @todo
+//! - Provide an integrated way of checking laws for type classes.
+//! - Provide a way to check type class requirements like
+//!   `Functor f => Applicative f`.
+//! - Document requirements for the existing type classes.
+//! - Consider providing complimentary instances via e.g.
+//!   `Foldable::instance<Iterable>`.
 
 //! @defgroup datatypes Data types
 //! General purpose data types provided by the library.

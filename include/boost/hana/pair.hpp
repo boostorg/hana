@@ -30,22 +30,8 @@ namespace boost { namespace hana {
     unique up to isomorphism, `Pair` is also a data type instantiating the
     `Pair` type class with the only possible instance up to isomorphism.
 
-    --------------------------------------------------------------------------
-
-    ## Minimal complete definition
-    `first` and `second`
-
-    --------------------------------------------------------------------------
-
     ## Provided instances
-
-    ### Comparable
-    Two pairs `x` and `y` are equal iff they are equal element wise, i.e. iff
-    @code
-        first(x) == first(y) && second(x) == second(y)
-    @endcode
-    #### Example
-    @snippet example/pair/comparable.cpp main
+    `Comparable`
 
     --------------------------------------------------------------------------
 
@@ -54,6 +40,7 @@ namespace boost { namespace hana {
     `Foldable`.
      */
     struct Pair : typeclass<Pair> {
+        //! Minimal complete definition: `first` and `second`
         struct mcd { };
     };
 
@@ -93,81 +80,73 @@ namespace boost { namespace hana {
         static constexpr auto second_impl(P p) { return p.second; }
     };
 
-    namespace pair_detail {
-        struct Comparable_instance : Comparable::equal_mcd {
-            template <typename X, typename Y>
-            static constexpr auto equal_impl(X x, Y y) {
-                return and_(
-                    equal(first(x), first(y)),
-                    equal(second(x), second(y))
-                );
-            }
-        };
-
-#if 0
-        struct Functor_instance : Functor::fmap_mcd {
-            template <typename F, typename P>
-            static constexpr auto fmap_impl(F f, P p)
-            { return pair(f(first(p)), f(second(p))); }
-        };
-
-        struct Applicative_instance : Applicative::mcd {
-            template <typename X>
-            static constexpr auto lift_impl(X x)
-            { return pair(x, x); }
-
-            template <typename F, typename P>
-            static constexpr auto ap_impl(F f, P p)
-            { return pair(first(f)(first(p), second(f)(second(p)))); }
-        };
-
-        struct Monad_instance : Monad::bind_mcd {
-            #error ??
-            template <typename P, typename F>
-            static constexpr auto bind_impl(P p, F f) {
-                return pair(
-                    bind(first(p), compose(first, f)),
-                    bind(second(p), compose(second, f))
-                );
-            }
-        };
-
-        struct Foldable_instance : Foldable::lazy_foldr_mcd {
-            template <typename F, typename S, typename P>
-            static constexpr auto lazy_foldr_impl(F f, S s, P p) {
-                return f(first(p), f(second(p), s));
-            }
-        };
-#endif
-    } // end namespace pair_detail
-
+    //! @details
+    //! Two pairs `x` and `y` are equal iff they are equal element wise, i.e.
+    //! iff
+    //! @code
+    //!     first(x) == first(y) && second(x) == second(y)
+    //! @endcode
+    //!
+    //! ### Example
+    //! @snippet example/pair/comparable.cpp main
     template <typename T, typename U>
     struct Comparable::instance<T, U, detail::enable_if_t<
         instantiates<Pair, T> && instantiates<Pair, U>
-    >>
-        : pair_detail::Comparable_instance
-    { };
+    >> : Comparable::equal_mcd {
+        template <typename X, typename Y>
+        static constexpr auto equal_impl(X x, Y y) {
+            return and_(
+                equal(first(x), first(y)),
+                equal(second(x), second(y))
+            );
+        }
+    };
 
 #if 0
     template <typename T>
     struct Functor::instance<T, detail::enable_if_t<instantiates<Pair, T>>>
-        : pair_detail::Functor_instance
-    { };
+        : Functor::fmap_mcd
+    {
+        template <typename F, typename P>
+        static constexpr auto fmap_impl(F f, P p)
+        { return pair(f(first(p)), f(second(p))); }
+    };
 
     template <typename T>
     struct Applicative::instance<T, detail::enable_if_t<instantiates<Pair, T>>>
-        : pair_detail::Applicative_instance
-    { };
+        : Applicative::mcd
+    {
+        template <typename X>
+        static constexpr auto lift_impl(X x)
+        { return pair(x, x); }
+
+        template <typename F, typename P>
+        static constexpr auto ap_impl(F f, P p)
+        { return pair(first(f)(first(p), second(f)(second(p)))); }
+    };
 
     template <typename T>
     struct Monad::instance<T, detail::enable_if_t<instantiates<Pair, T>>>
-        : pair_detail::Monad_instance
-    { };
+        : Monad::bind_mcd
+    {
+        template <typename P, typename F>
+        static constexpr auto bind_impl(P p, F f) {
+            return pair(
+                bind(first(p), compose(first, f)),
+                bind(second(p), compose(second, f))
+            );
+        }
+    };
 
     template <typename T>
     struct Foldable::instance<T, detail::enable_if_t<instantiates<Pair, T>>>
-        : pair_detail::Foldable_instance
-    { };
+        : Foldable::lazy_foldr_mcd
+    {
+        template <typename F, typename S, typename P>
+        static constexpr auto lazy_foldr_impl(F f, S s, P p) {
+            return f(first(p), f(second(p), s));
+        }
+    };
 #endif
 }} // end namespace boost::hana
 

@@ -22,11 +22,6 @@ namespace boost { namespace hana {
     @ingroup typeclasses
     The `Logical` type class is for data types acting like a boolean.
 
-    --------------------------------------------------------------------------
-
-    ## Minimal complete definition
-    `eval_if` and `not_`
-
     -------------------------------------------------------------------------
 
     @todo
@@ -156,6 +151,7 @@ namespace boost { namespace hana {
         { return not_(x); }
     }
 
+    //! Minimal complete definition: `eval_if` and `not_`
     struct Logical::mcd {
         template <typename X, typename Y>
         static constexpr auto or_impl(X x, Y y)

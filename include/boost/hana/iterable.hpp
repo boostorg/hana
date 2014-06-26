@@ -30,52 +30,6 @@ namespace boost { namespace hana {
 
     --------------------------------------------------------------------------
 
-    ## Minimal complete definition
-    `head`, `tail` and `is_empty`
-
-    --------------------------------------------------------------------------
-
-    ## Provided instances
-
-    ### Comparable
-    Two `Iterable`s are equal if and only if they contain the same number of
-    elements and their elements at any given index are equal. To enable the
-    `Comparable` instance for a data type, specialize the
-    `comparable_from_iterable` variable template.
-    @snippet example/list/comparable.cpp main
-
-    ### Foldable
-    Let `xs` be an `Iterable` and let `xi` denote its `i`-th element. In other
-    words, `xs` is equivalent to a list containing `[x1, ..., xN]`, where `N`
-    is the number of elements. Right-folding `xs` with a binary operation `*`
-    (in infix notation for legibility) is equivalent to
-    @code
-        x1 * (x2 * ( ... * (xN-1 * xN)))
-    @endcode
-
-    Similarly, left-folding `xs` is equivalent to
-    @code
-        (((x1 * x2) * x3) * ...) * xN
-    @endcode
-
-    In both cases, notice the side of the parentheses. Left-folding applies
-    `*` in a left-associative manner, whereas right-folding applies it in
-    a right-associative manner. For associative operations, i.e. operations
-    such that for all `a`, `b` and `c`,
-    @f{align*}{
-        (a * b) * c = a * (b * c)
-    @f}
-    this makes no difference. Also note that lazy folds and folds with an
-    initial state are implemented in an analogous way. To enable the `Foldable`
-    instance for a data type, specialize the `foldable_from_iterable` variable
-    template.
-    #### Example 1
-    @snippet example/list/foldable/foldl.cpp main
-    #### Example 2
-    @snippet example/integer_list/foldable/foldr.cpp main
-
-    --------------------------------------------------------------------------
-
     @note
     In the description of the methods, all indexing is 0-based.
 
@@ -159,6 +113,7 @@ namespace boost { namespace hana {
         return Iterable::instance<datatype_t<decltype(iterable)>>::drop_until_impl(predicate, iterable);
     };
 
+    //! Minimal complete definition: `head`, `tail` and `is_empty`
     struct Iterable::mcd {
         template <typename Index, typename Iterable_>
         static constexpr auto at_impl(Index n, Iterable_ iterable) {
@@ -270,6 +225,13 @@ namespace boost { namespace hana {
     template <typename T>
     constexpr bool comparable_from_iterable = false;
 
+    //! @details
+    //! Two `Iterable`s are equal if and only if they contain the same number
+    //! of elements and their elements at any given index are equal. To enable
+    //! the `Comparable` instance for a data type, specialize the
+    //! `comparable_from_iterable` variable template.
+    //!
+    //! @snippet example/list/comparable.cpp main
     template <typename T, typename U>
     struct Comparable::instance<T, U,
         detail::enable_if_t<
@@ -282,10 +244,39 @@ namespace boost { namespace hana {
     template <typename T>
     constexpr bool foldable_from_iterable = false;
 
+    //! @details
+    //! Let `xs` be an `Iterable` and let `xi` denote its `i`-th element. In
+    //! other words, `xs` is equivalent to a list containing `[x1, ..., xN]`,
+    //! where `N` is the number of elements. Right-folding `xs` with a binary
+    //! operation `*` (in infix notation for legibility) is equivalent to
+    //! @code
+    //!     x1 * (x2 * ( ... * (xN-1 * xN)))
+    //! @endcode
+    //!
+    //! Similarly, left-folding `xs` is equivalent to
+    //! @code
+    //!     (((x1 * x2) * x3) * ...) * xN
+    //! @endcode
+    //!
+    //! In both cases, notice the side of the parentheses. Left-folding
+    //! applies `*` in a left-associative manner, whereas right-folding
+    //! applies it in a right-associative manner. For associative operations,
+    //! i.e. operations such that for all `a`, `b` and `c`,
+    //! @f{align*}{
+    //!     (a * b) * c = a * (b * c)
+    //! @f}
+    //! this makes no difference. Also note that lazy folds and folds with an
+    //! initial state are implemented in an analogous way. To enable the
+    //! `Foldable` instance for a data type, specialize the
+    //! `foldable_from_iterable` variable template.
+    //!
+    //! ### Example 1
+    //! @snippet example/list/foldable/foldl.cpp main
+    //!
+    //! ### Example 2
+    //! @snippet example/integer_list/foldable/foldr.cpp main
     template <typename T>
-    struct Foldable::instance<T,
-        detail::enable_if_t<foldable_from_iterable<T>>
-    >
+    struct Foldable::instance<T, detail::enable_if_t<foldable_from_iterable<T>>>
         : Iterable::FoldableInstance
     { };
 }} // end namespace boost::hana

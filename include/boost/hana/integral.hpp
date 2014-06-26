@@ -14,8 +14,15 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/integral_fwd.hpp>
 #include <boost/hana/logical.hpp>
 
+#include <cstddef>
+
 
 namespace boost { namespace hana {
+    //! @details
+    //! Two `Integral`s are equal if and only if the integral values they
+    //! represent are equal. Conversions are allowed.
+    //!
+    //! @snippet example/integral/comparable.cpp main
     template <>
     struct Comparable::instance<Integral, Integral> : Comparable::equal_mcd {
         template <typename T, typename U>
@@ -23,6 +30,12 @@ namespace boost { namespace hana {
         { return bool_<t() == u()>; }
     };
 
+    //! @details
+    //! An `Integral` is true-valued if and only if its integral value is
+    //! true-valued, i.e. if
+    //! @code
+    //!     static_cast<bool>(n()) == true
+    //! @endcode
     template <>
     struct Logical::instance<Integral> : Logical::mcd {
         template <typename Cond, typename Then, typename Else>

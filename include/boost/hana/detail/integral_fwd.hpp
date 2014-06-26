@@ -23,21 +23,8 @@ namespace boost { namespace hana {
     object of the underlying integral type. `n` is also implicitly
     `constexpr`-convertible to the underlying integral type.
 
-    --------------------------------------------------------------------------
-
     ## Instance of
-
-    ### Comparable
-    Two `Integral`s are equal if and only if the integral values they
-    represent are equal. Conversions are allowed.
-    @snippet example/integral/comparable.cpp main
-
-    ### Logical
-    An `Integral` is true-valued if and only if its integral value is
-    true-valued, i.e. if
-    @code
-        static_cast<bool>(n()) == true
-    @endcode
+    `Comparable`, `Logical`
 
     --------------------------------------------------------------------------
 

@@ -25,11 +25,6 @@ namespace boost { namespace hana {
 
     --------------------------------------------------------------------------
 
-    ## Minimal complete definition
-    `fmap` or `adjust`
-
-    --------------------------------------------------------------------------
-
     ## Laws
     Instances of `Functor` must satisfy the following laws:
     @code
@@ -95,6 +90,7 @@ namespace boost { namespace hana {
         };
     }
 
+    //! Minimal complete definition: `fmap`
     struct Functor::fmap_mcd : functor_detail::common {
         template <typename Pred, typename F, typename Functor_>
         static constexpr auto adjust_impl(Pred pred, F f, Functor_ functor) {
@@ -108,6 +104,7 @@ namespace boost { namespace hana {
         }
     };
 
+    //! Minimal complete definition: `adjust`
     struct Functor::adjust_mcd : functor_detail::common {
         template <typename F, typename Functor_>
         static constexpr auto fmap_impl(F f, Functor_ functor)

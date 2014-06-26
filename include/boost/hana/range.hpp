@@ -19,27 +19,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    /*!
-    @ingroup datatypes
-    Compile-time half-open interval of `Integral`s.
-
-    --------------------------------------------------------------------------
-
-    ## Instance of
-
-    ### Iterable
-    Let `r` be a `Range` containing the `Integral`s in the half-open interval
-    `[from, to)`. The head of `r` is an `Integral` with value `from`, its tail
-    is the range representing the `[from + 1, to)` interval and `r` is empty
-    if and only if `from == to`.
-    @snippet example/range/iterable/overview.cpp main
-
-    ### Foldable
-    Generic instance for `Iterable`s.
-
-    ### Comparable
-    Generic instance for `Iterable`s.
-     */
+    //! @ingroup datatypes
+    //! Compile-time half-open interval of `Integral`s.
+    //!
+    //! ## Instance of
+    //! `Iterable`, `Foldable`, `Comparable`
     struct Range { };
 
     namespace operators {
@@ -70,6 +54,13 @@ namespace boost { namespace hana {
         return operators::_range<decltype(from), decltype(to)>{from, to};
     };
 
+    //! @details
+    //! Let `r` be a `Range` containing the `Integral`s in the half-open
+    //! interval `[from, to)`. The head of `r` is an `Integral` with value
+    //! `from`, its tail is the range representing the `[from + 1, to)`
+    //! interval and `r` is empty if and only if `from == to`.
+    //!
+    //! @snippet example/range/iterable/overview.cpp main
     template <>
     struct Iterable::instance<Range> : Iterable::mcd {
         template <typename R>
@@ -102,6 +93,7 @@ namespace boost { namespace hana {
     template <>
     constexpr bool foldable_from_iterable<Range> = true;
 
+    //! Generic instance for `Iterable`s.
     template <>
     struct Foldable::instance<Range> : Iterable::FoldableInstance {
         template <typename F, typename From, typename T, T ...vs>
@@ -122,6 +114,9 @@ namespace boost { namespace hana {
     template <>
     constexpr bool comparable_from_iterable<Range> = true;
 
+    //! @details
+    //! Two ranges are equal if and only if they are both empty or they have
+    //! the same `head` and the same length.
     template <>
     struct Comparable::instance<Range, Range> : Comparable::equal_mcd {
         template <typename R1, typename R2>
