@@ -16,6 +16,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
+    BOOST_HANA_BINARY_TYPECLASS_BOILERPLATE(struct Comparable)
+
     /*!
     @ingroup typeclasses
     The `Comparable` type class defines equality and inequality.

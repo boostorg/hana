@@ -12,6 +12,10 @@ Distributed under the Boost Software License, Version 1.0.
 namespace hana = boost::hana;
 
 
+struct Incrementable;
+namespace boost { namespace hana {
+    BOOST_HANA_TYPECLASS_BOILERPLATE(::Incrementable)
+}}
 struct Incrementable : hana::typeclass<Incrementable> {
     struct next_mcd;
     struct next_n_mcd;

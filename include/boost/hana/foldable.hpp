@@ -20,6 +20,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
+    BOOST_HANA_TYPECLASS_BOILERPLATE(struct Foldable)
+
     /*!
     @ingroup typeclasses
     The `Foldable` type class is used for data structures that can be folded.

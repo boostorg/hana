@@ -10,6 +10,10 @@ Distributed under the Boost Software License, Version 1.0.
 namespace hana = boost::hana;
 
 
+struct Typeclass;
+namespace boost { namespace hana {
+    BOOST_HANA_TYPECLASS_BOILERPLATE(::Typeclass)
+}}
 struct Typeclass : hana::typeclass<Typeclass> {
     struct default_ {
         static constexpr bool has_explicit_instance = false;

@@ -15,6 +15,10 @@ Distributed under the Boost Software License, Version 1.0.
 using namespace boost::hana;
 
 
+struct Typeclass;
+namespace boost { namespace hana {
+    BOOST_HANA_TYPECLASS_BOILERPLATE(::Typeclass)
+}}
 struct Typeclass : typeclass<Typeclass> { };
 
 struct NotInstance;

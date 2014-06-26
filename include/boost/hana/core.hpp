@@ -24,6 +24,9 @@ namespace boost { namespace hana {
         template <typename T>
         constexpr auto instantiates_impl<T,
             decltype((void*)static_cast<no_instance*>((T*)0))> = false_;
+
+        template <typename x, typename ...>
+        struct dependent { using type = x; };
     }
 
     //! @defgroup Core Core
@@ -131,24 +134,38 @@ namespace boost { namespace hana {
     //! Provide a way to explicitly disable an instance? This could be useful
     //! to disable undesirable predicated instances.
     template <typename Typeclass>
-    struct typeclass {
-        using default_ = core_detail::no_instance;
+    struct typeclass;
 
-        template <typename T, typename Enable = void>
-        struct instance : Typeclass::default_ { };
-    };
+    #define BOOST_HANA_TYPECLASS_BOILERPLATE(NAME)                          \
+        template <>                                                         \
+        struct typeclass<NAME> {                                            \
+            using default_ = core_detail::no_instance;                      \
+                                                                            \
+            template <typename T, typename Enable = void>                   \
+            struct instance                                                 \
+                : core_detail::dependent<NAME, Enable>::type::default_      \
+            { };                                                            \
+        };                                                                  \
+    /**/
 
     //! Machinery for creating a binary type class.
     //!
     //! This is equivalent to `typeclass`, except it creates a type class
     //! with two arguments.
     template <typename Typeclass>
-    struct binary_typeclass {
-        using default_ = core_detail::no_instance;
+    struct binary_typeclass;
 
-        template <typename T, typename U, typename Enable = void>
-        struct instance : Typeclass::default_ { };
-    };
+    #define BOOST_HANA_BINARY_TYPECLASS_BOILERPLATE(NAME)                   \
+        template <>                                                         \
+        struct binary_typeclass<NAME> {                                     \
+            using default_ = core_detail::no_instance;                      \
+                                                                            \
+            template <typename T, typename U, typename Enable = void>       \
+            struct instance                                                 \
+                : core_detail::dependent<NAME, Enable>::type::default_      \
+            { };                                                            \
+        };                                                                  \
+    /**/
 
     //! Whether the type class is instantiated with the given arguments.
     //! @hideinitializer

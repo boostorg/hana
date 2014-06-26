@@ -12,6 +12,11 @@ Distributed under the Boost Software License, Version 1.0.
 namespace hana = boost::hana;
 
 
+struct Logical;
+namespace boost { namespace hana {
+    BOOST_HANA_TYPECLASS_BOILERPLATE(::Logical)
+}}
+
 // Difficulties:
 // 1. eval_if(false_, ...) will use Logical<bool> because it will try
 //    to eval(false_), which is false_(), which is false.

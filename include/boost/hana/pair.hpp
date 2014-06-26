@@ -18,6 +18,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
+    BOOST_HANA_TYPECLASS_BOILERPLATE(struct Pair)
+
     /*!
     @ingroup typeclasses
     @ingroup datatypes
