@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['instance',['instance',['../structboost_1_1hana_1_1instance.html',1,'boost::hana']]],
-  ['integral',['Integral',['../structboost_1_1hana_1_1_integral.html',1,'boost::hana']]],
-  ['iterable',['Iterable',['../structboost_1_1hana_1_1_iterable.html',1,'boost::hana']]]
+  ['fmap_5fmcd',['fmap_mcd',['../structboost_1_1hana_1_1_functor_1_1fmap__mcd.html',1,'boost::hana::Functor']]],
+  ['foldable',['Foldable',['../structboost_1_1hana_1_1_foldable.html',1,'boost::hana']]],
+  ['functor',['Functor',['../structboost_1_1hana_1_1_functor.html',1,'boost::hana']]]
 ];

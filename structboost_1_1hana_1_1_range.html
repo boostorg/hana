@@ -69,6 +69,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -113,18 +114,8 @@ Related Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Compile-time half-open interval of <code><a class="el" href="structboost_1_1hana_1_1_integral.html" title="Represents a compile-time value of an integral type. ">Integral</a></code>s. </p>
-<hr/>
 <h2>Instance of</h2>
-<h3><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="Data structures allowing external iteration. ">Iterable</a></h3>
-<p>Let <code>r</code> be a <code><a class="el" href="structboost_1_1hana_1_1_range.html" title="Compile-time half-open interval of Integrals. ">Range</a></code> containing the <code><a class="el" href="structboost_1_1hana_1_1_integral.html" title="Represents a compile-time value of an integral type. ">Integral</a></code>s in the half-open interval <code>[from, to)</code>. The head of <code>r</code> is an <code><a class="el" href="structboost_1_1hana_1_1_integral.html" title="Represents a compile-time value of an integral type. ">Integral</a></code> with value <code>from</code>, its tail is the range representing the <code>[from + 1, to)</code> interval and <code>r</code> is empty if and only if <code>from == to</code>. </p><div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> r = <a class="code" href="structboost_1_1hana_1_1_range.html#ac3b5f08f5a346605377cf5fa9c4fb973">range</a>(int_&lt;0&gt;, int_&lt;1000&gt;);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(head(r) == int_&lt;0&gt;);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(last(r) == int_&lt;999&gt;);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(!is_empty(r));</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(is_empty(<a class="code" href="structboost_1_1hana_1_1_range.html#ac3b5f08f5a346605377cf5fa9c4fb973">range</a>(int_&lt;3&gt;, int_&lt;3&gt;)));</div>
-</div><!-- fragment --> <h3><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable type class is used for data structures that can be folded. ">Foldable</a></h3>
-<p>Generic instance for <code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="Data structures allowing external iteration. ">Iterable</a></code>s.</p>
-<h3><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable type class defines equality and inequality. ">Comparable</a></h3>
-<p>Generic instance for <code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="Data structures allowing external iteration. ">Iterable</a></code>s. </p>
+<p><code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="Data structures allowing external iteration. ">Iterable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="Data structures that can be folded, i.e. summarized into a single value. ">Foldable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable type class defines equality and inequality. ">Comparable</a></code> </p>
 </div><h2 class="groupheader">Friends And Related Function Documentation</h2>
 <a class="anchor" id="ac3b5f08f5a346605377cf5fa9c4fb973"></a>
 <div class="memitem">
@@ -147,15 +138,16 @@ Related Functions</h2></td></tr>
 <p>Creates a <code><a class="el" href="structboost_1_1hana_1_1_range.html" title="Compile-time half-open interval of Integrals. ">Range</a></code> containing the <code><a class="el" href="structboost_1_1hana_1_1_integral.html" title="Represents a compile-time value of an integral type. ">Integral</a></code>s in <code>[from, to)</code>. </p>
 <p><code>from</code> and <code>to</code> must be <code><a class="el" href="structboost_1_1hana_1_1_integral.html" title="Represents a compile-time value of an integral type. ">Integral</a></code>s such that <code>from &lt;= to</code>. Otherwise, a compilation error is triggered.</p>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_range.html#ac3b5f08f5a346605377cf5fa9c4fb973">range</a>(int_&lt;0&gt;, int_&lt;5&gt;) == list_c&lt;int, 0, 1, 2, 3, 4&gt;);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_range.html#ac3b5f08f5a346605377cf5fa9c4fb973">range</a>(int_&lt;-1&gt;, int_&lt;3&gt;) == list_c&lt;int, -1, 0, 1, 2&gt;);</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(head(<a class="code" href="structboost_1_1hana_1_1_range.html#ac3b5f08f5a346605377cf5fa9c4fb973">range</a>(0_c, 5_c)) == 0_c);</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(last(<a class="code" href="structboost_1_1hana_1_1_range.html#ac3b5f08f5a346605377cf5fa9c4fb973">range</a>(0_c, 5_c)) == 4_c);</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(tail(<a class="code" href="structboost_1_1hana_1_1_range.html#ac3b5f08f5a346605377cf5fa9c4fb973">range</a>(0_c, 5_c)) == <a class="code" href="structboost_1_1hana_1_1_range.html#ac3b5f08f5a346605377cf5fa9c4fb973">range</a>(1_c, 5_c));</div>
 </div><!-- fragment -->
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jun 12 2014 20:35:48 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jun 26 2014 11:22:18 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

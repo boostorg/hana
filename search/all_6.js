@@ -1,12 +1,14 @@
 var searchData=
 [
   ['false_5f',['false_',['../structboost_1_1hana_1_1_integral.html#a1fb33fb686dbbe3e9718071ba2630641',1,'boost::hana::Integral']]],
-  ['fbind',['fbind',['../group___functional.html#gaab5ecce4ccdd050a59083edf74f0f4b9',1,'boost::hana']]],
+  ['fill',['fill',['../structboost_1_1hana_1_1_functor.html#a35025921d0fb75c28c2411d207a0da5e',1,'boost::hana::Functor']]],
   ['filter',['filter',['../structboost_1_1hana_1_1_list.html#a929370eddd43bb1a4a11b00a7880eadb',1,'boost::hana::List']]],
-  ['find',['find',['../structboost_1_1hana_1_1_iterable.html#a2772d97163d2e2ca3f51b2d16d13ff66',1,'boost::hana::Iterable']]],
+  ['find',['find',['../structboost_1_1hana_1_1_foldable.html#a2772d97163d2e2ca3f51b2d16d13ff66',1,'boost::hana::Foldable']]],
+  ['first',['first',['../structboost_1_1hana_1_1_pair.html#ab6548bd227a06799a2e5abdfd9e9b0b9',1,'boost::hana::Pair']]],
   ['fix',['fix',['../group___functional.html#ga26508f30f8842350ea0f9a7ca73bfd52',1,'boost::hana']]],
   ['flip',['flip',['../group___functional.html#ga004f884cdbb85c2efe3383c1db450094',1,'boost::hana']]],
   ['fmap',['fmap',['../structboost_1_1hana_1_1_functor.html#a84bb505c8405a5cd3003db49f652faa2',1,'boost::hana::Functor']]],
+  ['fmap_5fmcd',['fmap_mcd',['../structboost_1_1hana_1_1_functor_1_1fmap__mcd.html',1,'boost::hana::Functor']]],
   ['foldable',['Foldable',['../structboost_1_1hana_1_1_foldable.html',1,'boost::hana']]],
   ['foldable_2ehpp',['foldable.hpp',['../foldable_8hpp.html',1,'']]],
   ['foldl',['foldl',['../structboost_1_1hana_1_1_foldable.html#a0a5d375abcde2ceed89662df491a2c43',1,'boost::hana::Foldable']]],

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['logical',['Logical',['../group___logical.html',1,'']]]
+  ['type_20classes',['Type classes',['../group__typeclasses.html',1,'']]]
 ];

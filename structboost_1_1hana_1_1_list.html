@@ -69,6 +69,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -93,144 +94,99 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#related">Related Functions</a> &#124;
 <a href="structboost_1_1hana_1_1_list-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">boost::hana::List Struct Reference<div class="ingroups"><a class="el" href="group__datatypes.html">Data types</a></div></div>  </div>
+<div class="title">boost::hana::List Struct Reference<div class="ingroups"><a class="el" href="group__typeclasses.html">Type classes</a> &#124; <a class="el" href="group__datatypes.html">Data types</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>General purpose compile-time heterogeneous sequence.  
+<p>General purpose index-based sequence.  
  <a href="structboost_1_1hana_1_1_list.html#details">More...</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list_1_1instance_3_01_integer_list_01_4.html">instance&lt; IntegerList &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list_1_1instance_3_01_list_01_4.html">instance&lt; List &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list_1_1instance_3_01_type_list_01_4.html">instance&lt; TypeList &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list_1_1mcd.html">mcd</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Related Functions</h2></td></tr>
 <tr><td class="ititle" colspan="2"><p>(Note that these are not member functions.) </p>
 </td></tr>
 <tr class="memitem:a7d7c9b8e94dfcac46c7427a9b82e3225"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a></td></tr>
-<tr class="memdesc:a7d7c9b8e94dfcac46c7427a9b82e3225"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose compile-time heterogeneous sequence. ">List</a></code> containing <code>xs...</code>.  <a href="#a7d7c9b8e94dfcac46c7427a9b82e3225">More...</a><br /></td></tr>
+<tr class="memdesc:a7d7c9b8e94dfcac46c7427a9b82e3225"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose index-based sequence. ">List</a></code> containing <code>xs...</code>.  <a href="#a7d7c9b8e94dfcac46c7427a9b82e3225">More...</a><br /></td></tr>
 <tr class="separator:a7d7c9b8e94dfcac46c7427a9b82e3225"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acb3c449ff9dc562a4569406e1de3ebb9"><td class="memTemplParams" colspan="2">template&lt;typename... xs&gt; </td></tr>
-<tr class="memitem:acb3c449ff9dc562a4569406e1de3ebb9"><td class="memTemplItemLeft" align="right" valign="top">constexpr operators::TypeList<br class="typebreak" />
-&lt; typename <br class="typebreak" />
-list_detail::hidden_type_container<br class="typebreak" />
-&lt; xs...&gt;::type &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#acb3c449ff9dc562a4569406e1de3ebb9">list_t</a> {}</td></tr>
-<tr class="memdesc:acb3c449ff9dc562a4569406e1de3ebb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose compile-time heterogeneous sequence. ">List</a></code> of types.  <a href="#acb3c449ff9dc562a4569406e1de3ebb9">More...</a><br /></td></tr>
-<tr class="separator:acb3c449ff9dc562a4569406e1de3ebb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab7d8228755c2e0a5f150622fe0337984"><td class="memTemplParams" colspan="2">template&lt;typename T , T... xs&gt; </td></tr>
-<tr class="memitem:ab7d8228755c2e0a5f150622fe0337984"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#ab7d8228755c2e0a5f150622fe0337984">list_c</a> = <a class="el" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(integral&lt;T, xs&gt;...)</td></tr>
-<tr class="memdesc:ab7d8228755c2e0a5f150622fe0337984"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose compile-time heterogeneous sequence. ">List</a></code> of <code><a class="el" href="structboost_1_1hana_1_1_integral.html" title="Represents a compile-time value of an integral type. ">Integral</a></code>s.  <a href="#ab7d8228755c2e0a5f150622fe0337984">More...</a><br /></td></tr>
-<tr class="separator:ab7d8228755c2e0a5f150622fe0337984"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5eadaf63535ebb8cdd8d9e4c16b9bacd"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#a5eadaf63535ebb8cdd8d9e4c16b9bacd">zip_with</a></td></tr>
-<tr class="memdesc:a5eadaf63535ebb8cdd8d9e4c16b9bacd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Zip one list or more with a given function.  <a href="#a5eadaf63535ebb8cdd8d9e4c16b9bacd">More...</a><br /></td></tr>
-<tr class="separator:a5eadaf63535ebb8cdd8d9e4c16b9bacd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a23b6ac9e78577d70b9108a80e6b1534c"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#a23b6ac9e78577d70b9108a80e6b1534c">zip</a></td></tr>
-<tr class="memdesc:a23b6ac9e78577d70b9108a80e6b1534c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Zip one list or more.  <a href="#a23b6ac9e78577d70b9108a80e6b1534c">More...</a><br /></td></tr>
-<tr class="separator:a23b6ac9e78577d70b9108a80e6b1534c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a733fdb2e8686033466beea8323e53a26"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#a733fdb2e8686033466beea8323e53a26">init</a></td></tr>
-<tr class="memdesc:a733fdb2e8686033466beea8323e53a26"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the last element of a non-empty list.  <a href="#a733fdb2e8686033466beea8323e53a26">More...</a><br /></td></tr>
-<tr class="separator:a733fdb2e8686033466beea8323e53a26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30a6926751dfcafbe2bb67738e2da3c4"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#a30a6926751dfcafbe2bb67738e2da3c4">concat</a></td></tr>
+<tr class="memdesc:a30a6926751dfcafbe2bb67738e2da3c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Concatenate two lists together.  <a href="#a30a6926751dfcafbe2bb67738e2da3c4">More...</a><br /></td></tr>
+<tr class="separator:a30a6926751dfcafbe2bb67738e2da3c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a51732ddadf982e47f5757b092294df12"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#a51732ddadf982e47f5757b092294df12">cons</a></td></tr>
 <tr class="memdesc:a51732ddadf982e47f5757b092294df12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prepend an element to the head of a list.  <a href="#a51732ddadf982e47f5757b092294df12">More...</a><br /></td></tr>
 <tr class="separator:a51732ddadf982e47f5757b092294df12"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a95183c155c6180b31d4965aa203957d0"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#a95183c155c6180b31d4965aa203957d0">snoc</a></td></tr>
-<tr class="memdesc:a95183c155c6180b31d4965aa203957d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Append an element to the end of a list.  <a href="#a95183c155c6180b31d4965aa203957d0">More...</a><br /></td></tr>
-<tr class="separator:a95183c155c6180b31d4965aa203957d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2c20028c5115dcf38063d322f27b4ee1"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#a2c20028c5115dcf38063d322f27b4ee1">take</a></td></tr>
-<tr class="memdesc:a2c20028c5115dcf38063d322f27b4ee1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the first <code>n</code> elements of a list.  <a href="#a2c20028c5115dcf38063d322f27b4ee1">More...</a><br /></td></tr>
-<tr class="separator:a2c20028c5115dcf38063d322f27b4ee1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a86916c5c62a42f01f85450b366ef6eff"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#a86916c5c62a42f01f85450b366ef6eff">take_while</a></td></tr>
-<tr class="memdesc:a86916c5c62a42f01f85450b366ef6eff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Take elements while the <code>predicate</code> is satisfied.  <a href="#a86916c5c62a42f01f85450b366ef6eff">More...</a><br /></td></tr>
-<tr class="separator:a86916c5c62a42f01f85450b366ef6eff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a27aa67fa9ffc3d89b23a6dce018013d4"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#a27aa67fa9ffc3d89b23a6dce018013d4">take_until</a></td></tr>
-<tr class="memdesc:a27aa67fa9ffc3d89b23a6dce018013d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Take elements until the <code>predicate</code> is satisfied.  <a href="#a27aa67fa9ffc3d89b23a6dce018013d4">More...</a><br /></td></tr>
-<tr class="separator:a27aa67fa9ffc3d89b23a6dce018013d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4471413ccc3835db5e48658683b8aba0"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#a4471413ccc3835db5e48658683b8aba0">reverse</a></td></tr>
-<tr class="memdesc:a4471413ccc3835db5e48658683b8aba0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reverse a list.  <a href="#a4471413ccc3835db5e48658683b8aba0">More...</a><br /></td></tr>
-<tr class="separator:a4471413ccc3835db5e48658683b8aba0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a929370eddd43bb1a4a11b00a7880eadb"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#a929370eddd43bb1a4a11b00a7880eadb">filter</a></td></tr>
 <tr class="memdesc:a929370eddd43bb1a4a11b00a7880eadb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a list containing only the elements satisfying the <code>predicate</code>.  <a href="#a929370eddd43bb1a4a11b00a7880eadb">More...</a><br /></td></tr>
 <tr class="separator:a929370eddd43bb1a4a11b00a7880eadb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a30a6926751dfcafbe2bb67738e2da3c4"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#a30a6926751dfcafbe2bb67738e2da3c4">concat</a></td></tr>
-<tr class="memdesc:a30a6926751dfcafbe2bb67738e2da3c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Concatenate zero or more lists together.  <a href="#a30a6926751dfcafbe2bb67738e2da3c4">More...</a><br /></td></tr>
-<tr class="separator:a30a6926751dfcafbe2bb67738e2da3c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a733fdb2e8686033466beea8323e53a26"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#a733fdb2e8686033466beea8323e53a26">init</a></td></tr>
+<tr class="memdesc:a733fdb2e8686033466beea8323e53a26"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the last element of a non-empty list.  <a href="#a733fdb2e8686033466beea8323e53a26">More...</a><br /></td></tr>
+<tr class="separator:a733fdb2e8686033466beea8323e53a26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28529f82a678e8814fe6224f626115f3"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a28529f82a678e8814fe6224f626115f3"><td class="memTemplItemLeft" align="right" valign="top">constexpr list_detail::into&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#a28529f82a678e8814fe6224f626115f3">into</a></td></tr>
+<tr class="memdesc:a28529f82a678e8814fe6224f626115f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose index-based sequence. ">List</a></code> with the given elements in it.  <a href="#a28529f82a678e8814fe6224f626115f3">More...</a><br /></td></tr>
+<tr class="separator:a28529f82a678e8814fe6224f626115f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04e654b583265053e4dde63fff0c0aea"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a04e654b583265053e4dde63fff0c0aea"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#a04e654b583265053e4dde63fff0c0aea">nil</a></td></tr>
+<tr class="memdesc:a04e654b583265053e4dde63fff0c0aea"><td class="mdescLeft">&#160;</td><td class="mdescRight">An empty list.  <a href="#a04e654b583265053e4dde63fff0c0aea">More...</a><br /></td></tr>
+<tr class="separator:a04e654b583265053e4dde63fff0c0aea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a788b65dd69bb016d647801718e840816"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#a788b65dd69bb016d647801718e840816">partition</a></td></tr>
 <tr class="memdesc:a788b65dd69bb016d647801718e840816"><td class="mdescLeft">&#160;</td><td class="mdescRight">Partition a list based on a <code>predicate</code>.  <a href="#a788b65dd69bb016d647801718e840816">More...</a><br /></td></tr>
 <tr class="separator:a788b65dd69bb016d647801718e840816"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45ec7767d19eb7eaabb71ead3796a7f1"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#a45ec7767d19eb7eaabb71ead3796a7f1">permutations</a></td></tr>
+<tr class="memdesc:a45ec7767d19eb7eaabb71ead3796a7f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a list of all the permutations of the given list.  <a href="#a45ec7767d19eb7eaabb71ead3796a7f1">More...</a><br /></td></tr>
+<tr class="separator:a45ec7767d19eb7eaabb71ead3796a7f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4471413ccc3835db5e48658683b8aba0"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#a4471413ccc3835db5e48658683b8aba0">reverse</a></td></tr>
+<tr class="memdesc:a4471413ccc3835db5e48658683b8aba0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reverse a list.  <a href="#a4471413ccc3835db5e48658683b8aba0">More...</a><br /></td></tr>
+<tr class="separator:a4471413ccc3835db5e48658683b8aba0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95183c155c6180b31d4965aa203957d0"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#a95183c155c6180b31d4965aa203957d0">snoc</a></td></tr>
+<tr class="memdesc:a95183c155c6180b31d4965aa203957d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Append an element to the end of a list.  <a href="#a95183c155c6180b31d4965aa203957d0">More...</a><br /></td></tr>
+<tr class="separator:a95183c155c6180b31d4965aa203957d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58c1454689bf6d2264bc428dc1d039db"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#a58c1454689bf6d2264bc428dc1d039db">sort</a></td></tr>
+<tr class="memdesc:a58c1454689bf6d2264bc428dc1d039db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sort a list based on the <code>&lt;</code> strict weak ordering.  <a href="#a58c1454689bf6d2264bc428dc1d039db">More...</a><br /></td></tr>
+<tr class="separator:a58c1454689bf6d2264bc428dc1d039db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ed2907b48fcba3dd1059b4b0bfde624"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#a6ed2907b48fcba3dd1059b4b0bfde624">sort_by</a></td></tr>
 <tr class="memdesc:a6ed2907b48fcba3dd1059b4b0bfde624"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sort a list based on the given <code>predicate</code>.  <a href="#a6ed2907b48fcba3dd1059b4b0bfde624">More...</a><br /></td></tr>
 <tr class="separator:a6ed2907b48fcba3dd1059b4b0bfde624"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a58c1454689bf6d2264bc428dc1d039db"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#a58c1454689bf6d2264bc428dc1d039db">sort</a></td></tr>
-<tr class="memdesc:a58c1454689bf6d2264bc428dc1d039db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sort a list based on the <code>&lt;</code> partial ordering.  <a href="#a58c1454689bf6d2264bc428dc1d039db">More...</a><br /></td></tr>
-<tr class="separator:a58c1454689bf6d2264bc428dc1d039db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c20028c5115dcf38063d322f27b4ee1"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#a2c20028c5115dcf38063d322f27b4ee1">take</a></td></tr>
+<tr class="memdesc:a2c20028c5115dcf38063d322f27b4ee1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the first <code>n</code> elements of a list.  <a href="#a2c20028c5115dcf38063d322f27b4ee1">More...</a><br /></td></tr>
+<tr class="separator:a2c20028c5115dcf38063d322f27b4ee1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27aa67fa9ffc3d89b23a6dce018013d4"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#a27aa67fa9ffc3d89b23a6dce018013d4">take_until</a></td></tr>
+<tr class="memdesc:a27aa67fa9ffc3d89b23a6dce018013d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Take elements until the <code>predicate</code> is satisfied.  <a href="#a27aa67fa9ffc3d89b23a6dce018013d4">More...</a><br /></td></tr>
+<tr class="separator:a27aa67fa9ffc3d89b23a6dce018013d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86916c5c62a42f01f85450b366ef6eff"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#a86916c5c62a42f01f85450b366ef6eff">take_while</a></td></tr>
+<tr class="memdesc:a86916c5c62a42f01f85450b366ef6eff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Take elements while the <code>predicate</code> is satisfied.  <a href="#a86916c5c62a42f01f85450b366ef6eff">More...</a><br /></td></tr>
+<tr class="separator:a86916c5c62a42f01f85450b366ef6eff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23b6ac9e78577d70b9108a80e6b1534c"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#a23b6ac9e78577d70b9108a80e6b1534c">zip</a></td></tr>
+<tr class="memdesc:a23b6ac9e78577d70b9108a80e6b1534c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Zip zero lists or more.  <a href="#a23b6ac9e78577d70b9108a80e6b1534c">More...</a><br /></td></tr>
+<tr class="separator:a23b6ac9e78577d70b9108a80e6b1534c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5eadaf63535ebb8cdd8d9e4c16b9bacd"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#a5eadaf63535ebb8cdd8d9e4c16b9bacd">zip_with</a></td></tr>
+<tr class="memdesc:a5eadaf63535ebb8cdd8d9e4c16b9bacd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Zip several lists with a given function.  <a href="#a5eadaf63535ebb8cdd8d9e4c16b9bacd">More...</a><br /></td></tr>
+<tr class="separator:a5eadaf63535ebb8cdd8d9e4c16b9bacd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>General purpose compile-time heterogeneous sequence. </p>
+<div class="textblock"><p>General purpose index-based sequence. </p>
 <hr/>
-<h2>Instance of</h2>
-<h3><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="Data structures allowing external iteration. ">Iterable</a></h3>
-<p><code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose compile-time heterogeneous sequence. ">List</a></code> is an <code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="Data structures allowing external iteration. ">Iterable</a></code> in the most obvious way. The head of a non-empty list corresponds to its first element. The tail of a non-empty list is a list containing all the elements in the same order, except the head. Finally, a list is empty if and only if it has no elements in it. </p><div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(head(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="charliteral">&#39;2&#39;</span>, <span class="stringliteral">&quot;3&quot;</span>)) == 1);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(tail(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="charliteral">&#39;2&#39;</span>, <span class="stringliteral">&quot;3&quot;</span>)) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(<span class="charliteral">&#39;2&#39;</span>, <span class="stringliteral">&quot;3&quot;</span>));</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(!is_empty(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="charliteral">&#39;2&#39;</span>, <span class="stringliteral">&quot;3&quot;</span>)));</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(is_empty(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>()));</div>
-</div><!-- fragment --> <h3><a class="el" href="structboost_1_1hana_1_1_functor.html" title="Functor represents types that can be mapped over. ">Functor</a></h3>
-<p><code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose compile-time heterogeneous sequence. ">List</a></code> implements <code>fmap</code> as the mapping of a function over each element of the list. This is somewhat equivalent to <code>std::transform</code>. Mapping a function over an empty list returns an empty list and never applies the function. </p><h4>Example 1</h4>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> to_string = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">        <span class="keywordflow">return</span> (std::ostringstream{} &lt;&lt; x).str();</div>
-<div class="line">    };</div>
-<div class="line"></div>
-<div class="line">    assert(</div>
-<div class="line">        fmap(to_string, <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="charliteral">&#39;2&#39;</span>, <span class="stringliteral">&quot;3&quot;</span>, std::string{<span class="stringliteral">&quot;456&quot;</span>})) ==</div>
-<div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(<span class="stringliteral">&quot;1&quot;</span>, <span class="stringliteral">&quot;2&quot;</span>, <span class="stringliteral">&quot;3&quot;</span>, <span class="stringliteral">&quot;456&quot;</span>)</div>
-<div class="line">    );</div>
-</div><!-- fragment --><h4>Example 2</h4>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> types = list_t&lt;void, int(), char[10]&gt;;</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
-<div class="line">        fmap(trait::add_pointer, types) == <a class="code" href="structboost_1_1hana_1_1_list.html#acb3c449ff9dc562a4569406e1de3ebb9">list_t</a>&lt;<span class="keywordtype">void</span>*, <span class="keywordtype">int</span>(*)(), <span class="keywordtype">char</span>(*)[10]&gt;</div>
-<div class="line">    );</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
-<div class="line">        head(fmap(trait::add_pointer, types)) == type&lt;void*&gt;</div>
-<div class="line">    );</div>
-</div><!-- fragment --> <h3><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable type class is used for data structures that can be folded. ">Foldable</a></h3>
-<p>Let <code>xs</code> be a <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose compile-time heterogeneous sequence. ">List</a></code> containing the element <code>[x1, ..., xN]</code>. Right-folding the list with a binary operation <code>@</code> (in infix notation for legibility) is equivalent to </p><div class="fragment"><div class="line">x1 @ (x2 @ ( ... @ (xN-1 @ xN)))</div>
-</div><!-- fragment --><p>Similarly, left-folding the list is equivalent to </p><div class="fragment"><div class="line">(((x1 @ x2) @ x3) @ ...) @ xN</div>
-</div><!-- fragment --><p>In both cases, notice the side of the parentheses. Left-folding applies <code>@</code> in a left-associative manner, whereas right-folding applies it in a right-associative manner. For associative operations, i.e. operations <code>*</code> such that for all <code>a</code>, <code>b</code> and <code>c</code>, </p><p class="formulaDsp">
-\begin{align*} (a * b) * c = a * (b * c) \end{align*}
-</p>
-<p> this makes no difference. Lazy folds and folds with an initial state are implemented in an analogous way for <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose compile-time heterogeneous sequence. ">List</a></code>. </p><h4>Example 1</h4>
-<div class="fragment"><div class="line">    <span class="keyword">auto</span> to_string = [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> (std::ostringstream{} &lt;&lt; x).str(); };</div>
-<div class="line"></div>
-<div class="line">    <span class="keyword">auto</span> show = [=](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
-<div class="line">        <span class="keywordflow">return</span> <span class="stringliteral">&quot;(&quot;</span> + to_string(x) + <span class="stringliteral">&quot; + &quot;</span> + to_string(y) + <span class="stringliteral">&quot;)&quot;</span>;</div>
-<div class="line">    };</div>
-<div class="line"></div>
-<div class="line">    assert(foldl(show, <span class="stringliteral">&quot;1&quot;</span>, <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(2, <span class="stringliteral">&quot;3&quot;</span>, <span class="charliteral">&#39;4&#39;</span>)) == <span class="stringliteral">&quot;(((1 + 2) + 3) + 4)&quot;</span>);</div>
-</div><!-- fragment --><h4>Example 2</h4>
-<div class="fragment"><div class="line">    <span class="keyword">auto</span> to_string = [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> (std::ostringstream{} &lt;&lt; x).str(); };</div>
-<div class="line"></div>
-<div class="line">    <span class="keyword">auto</span> show = [=](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
-<div class="line">        <span class="keywordflow">return</span> <span class="stringliteral">&quot;(&quot;</span> + to_string(x) + <span class="stringliteral">&quot; + &quot;</span> + to_string(y) + <span class="stringliteral">&quot;)&quot;</span>;</div>
-<div class="line">    };</div>
-<div class="line"></div>
-<div class="line">    assert(foldr(show, <span class="stringliteral">&quot;4&quot;</span>, <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>)) == <span class="stringliteral">&quot;(1 + (2 + (3 + 4)))&quot;</span>);</div>
-</div><!-- fragment --> <h3><a class="el" href="structboost_1_1hana_1_1_monad.html" title="Monads are Functors with the ability to wrap values into them and flatten values that were wrapped mo...">Monad</a></h3>
-<p>There are many ways to explain the <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose compile-time heterogeneous sequence. ">List</a></code> <code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="Monads are Functors with the ability to wrap values into them and flatten values that were wrapped mo...">Monad</a></code>. We will stick to a description of what it does without trying to explain the intuition behind it; there are tons of tutorials available on the net.</p>
-<p>A value can be turned into a singleton list with <code>unit</code>. A function returning a list of results can be mapped over all the elements of a list and have all the results concatenated using <code>bind</code>. Finally, a list of lists can be flattened one level with <code>join</code>. </p><div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> f = [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(x, -x); };</div>
-<div class="line"></div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(bind(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, 2, 3), f) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, -1, 2, -2, 3, -3));</div>
-<div class="line"></div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
-<div class="line">        join(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, 2), <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(3, 4), <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(5, 6)))) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, 2, 3, 4, <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(5, 6))</div>
-<div class="line">    );</div>
-<div class="line"></div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(unit&lt;List&gt;(<span class="charliteral">&#39;a&#39;</span>) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(<span class="charliteral">&#39;a&#39;</span>));</div>
-</div><!-- fragment --> <h3><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable type class defines equality and inequality. ">Comparable</a></h3>
-<p>Generic instance for <code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="Data structures allowing external iteration. ">Iterable</a></code>s. </p><hr/>
+<h2>Instance of (as a data type)</h2>
+<p><code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="Data structures allowing external iteration. ">Iterable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_functor.html" title="Functor represents types that can be mapped over. ">Functor</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="Applicatives are Functors with the ability to lift values and combine computations. ">Applicative</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="Monads are Applicatives with the ability to flatten values that were lifted more than once...">Monad</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="Data structures that can be folded, i.e. summarized into a single value. ">Foldable</a></code> and <code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable type class defines equality and inequality. ">Comparable</a></code> </p><hr/>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000021">Todo:</a></b></dt><dd><ul>
-<li>Re-enable the foldl optimization for type lists.</li>
 <li>It might be possible to optimize the implementation of homogeneous lists using an array.</li>
-<li>Is it desirable to have different ways of creating lists, or should we in fact provide <code>type_list</code>, <code>homogeneous_list</code>, etc...?</li>
-<li>How to implement iterate and repeat? </li>
+<li>How to implement iterate and repeat?</li>
+<li>Check laws for <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="Applicatives are Functors with the ability to lift values and combine computations. ">Applicative</a></code>.</li>
+<li>Get rid of the <code>&lt;type_traits&gt;</code> include. </li>
 </ul>
 </dd></dl>
 </div><h2 class="groupheader">Friends And Related Function Documentation</h2>
@@ -251,27 +207,10 @@ list_detail::hidden_type_container<br class="typebreak" />
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> ...lists) {</div>
-<div class="line">        <span class="keywordflow">return</span> foldl(list_detail::concat2, <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(), <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(lists...));</div>
-<div class="line">    }</div>
-</div><!-- fragment -->
-<p>Concatenate zero or more lists together. </p>
-<p>With 0 arguments, returns an empty list. With 1 argument, returns the list itself.</p>
+
+<p>Concatenate two lists together. </p>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a30a6926751dfcafbe2bb67738e2da3c4">concat</a>() == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>());</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a30a6926751dfcafbe2bb67738e2da3c4">concat</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="stringliteral">&quot;abc&quot;</span>)) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="stringliteral">&quot;abc&quot;</span>));</div>
-<div class="line"></div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
-<div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a30a6926751dfcafbe2bb67738e2da3c4">concat</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="charliteral">&#39;a&#39;</span>), <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(2_c, <span class="stringliteral">&quot;bb&quot;</span>))</div>
-<div class="line">        ==</div>
-<div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="charliteral">&#39;a&#39;</span>, 2_c, <span class="stringliteral">&quot;bb&quot;</span>)</div>
-<div class="line">    );</div>
-<div class="line"></div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
-<div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a30a6926751dfcafbe2bb67738e2da3c4">concat</a>(list_t&lt;int, char&gt;, list_t&lt;&gt;, list_t&lt;void, struct foo&gt;)</div>
-<div class="line">        ==</div>
-<div class="line">        list_t&lt;int, char, void, struct foo&gt;</div>
-<div class="line">    );</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a30a6926751dfcafbe2bb67738e2da3c4">concat</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="charliteral">&#39;2&#39;</span>), <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(3.3, 4_c)) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, 4_c));</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -292,10 +231,7 @@ list_detail::hidden_type_container<br class="typebreak" />
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> xs) {</div>
-<div class="line">        <span class="keywordflow">return</span> xs.into([=](<span class="keyword">auto</span> ...xs) { <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(x, xs...); });</div>
-<div class="line">    }</div>
-</div><!-- fragment -->
+
 <p>Prepend an element to the head of a list. </p>
 <h3>Example</h3>
 <div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a51732ddadf982e47f5757b092294df12">cons</a>(1, <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>()) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1));</div>
@@ -321,17 +257,10 @@ list_detail::hidden_type_container<br class="typebreak" />
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> predicate, <span class="keyword">auto</span> xs) {</div>
-<div class="line">        <span class="keyword">auto</span> go = [=](<span class="keyword">auto</span> x, <span class="keyword">auto</span> xs) {</div>
-<div class="line">            <span class="keywordflow">return</span> if_(predicate(x), <a class="code" href="structboost_1_1hana_1_1_list.html#a51732ddadf982e47f5757b092294df12">cons</a>, <a class="code" href="group___functional.html#ga835970cb25a0c8dc200f1e5f8943538b">always</a>(xs))(x, xs);</div>
-<div class="line">        };</div>
-<div class="line">        <span class="keywordflow">return</span> foldr(go, <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(), xs);</div>
-<div class="line">    }</div>
-</div><!-- fragment -->
+
 <p>Return a list containing only the elements satisfying the <code>predicate</code>. </p>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> is_integral = <a class="code" href="group___functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>(trait::is_integral, decltype_);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a929370eddd43bb1a4a11b00a7880eadb">filter</a>(is_integral, <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, 2.0, 3, 4.0)) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, 3));</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a929370eddd43bb1a4a11b00a7880eadb">filter</a>(trait_&lt;std::is_integral&gt;, <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, 2.0, 3, 4.0)) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, 3));</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -352,17 +281,39 @@ list_detail::hidden_type_container<br class="typebreak" />
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> xs) {</div>
-<div class="line">        <span class="keywordflow">return</span> unpack(</div>
-<div class="line">            <a class="code" href="group___functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>, [=](<span class="keyword">auto</span> index) { <span class="keywordflow">return</span> at(index, xs); }),</div>
-<div class="line">            range(size_t&lt;0&gt;, length(xs) - size_t&lt;1&gt;)</div>
-<div class="line">        );</div>
-<div class="line">    }</div>
-</div><!-- fragment -->
+
 <p>Removes the last element of a non-empty list. </p>
 <h3>Example</h3>
 <div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a733fdb2e8686033466beea8323e53a26">init</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1)) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>());</div>
 <div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a733fdb2e8686033466beea8323e53a26">init</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="charliteral">&#39;2&#39;</span>, <span class="stringliteral">&quot;3&quot;</span>, 4_c)) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="charliteral">&#39;2&#39;</span>, <span class="stringliteral">&quot;3&quot;</span>));</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="a28529f82a678e8814fe6224f626115f3"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr list_detail::into&lt;T&gt; into</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates a <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose index-based sequence. ">List</a></code> with the given elements in it. </p>
+<h3>Example</h3>
+<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(unpack(into&lt;List&gt;, just(3)) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(3));</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(unpack(into&lt;List&gt;, nothing) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>());</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(unpack(into&lt;List&gt;, std::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="charliteral">&#39;2&#39;</span>, 3.3));</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -384,25 +335,26 @@ list_detail::hidden_type_container<br class="typebreak" />
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> ...xs) {</div>
-<div class="line">        <span class="keyword">auto</span> into = [=](<span class="keyword">auto</span> f) { <span class="keywordflow">return</span> f(xs...); };</div>
-<div class="line">        <span class="keywordflow">return</span> operators::HetList&lt;decltype(into)&gt;{into};</div>
+<div class="line">        <span class="keyword">auto</span> storage = [=](<span class="keyword">auto</span> f) { <span class="keywordflow">return</span> f(xs...); };</div>
+<div class="line">        <span class="keywordflow">return</span> operators::list&lt;decltype(storage)&gt;{storage};</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
-<p>Creates a <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose compile-time heterogeneous sequence. ">List</a></code> containing <code>xs...</code>. </p>
+<p>Creates a <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose index-based sequence. ">List</a></code> containing <code>xs...</code>. </p>
+<p>The <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose index-based sequence. ">List</a></code> data type is a general purpose compile-time heterogeneous sequence. </p>
 
 </div>
 </div>
-<a class="anchor" id="ab7d8228755c2e0a5f150622fe0337984"></a>
+<a class="anchor" id="a04e654b583265053e4dde63fff0c0aea"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T , T... xs&gt; </div>
+template&lt;typename T &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto list_c = <a class="el" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(integral&lt;T, xs&gt;...)</td>
+          <td class="memname">constexpr auto nil</td>
         </tr>
       </table>
   </td>
@@ -412,43 +364,8 @@ template&lt;typename T , T... xs&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Creates a <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose compile-time heterogeneous sequence. ">List</a></code> of <code><a class="el" href="structboost_1_1hana_1_1_integral.html" title="Represents a compile-time value of an integral type. ">Integral</a></code>s. </p>
-<p>This is functionally equivalent to <code>list(integral&lt;T, xs&gt;...)</code>.</p>
-<dl class="section note"><dt>Note</dt><dd><code>list_c</code> may be more efficient than its <code>list</code> counterpart because of optimizations. When possible, <code>list_c</code> should be preferred.</dd></dl>
-<h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(list_c&lt;int, 0, 1, 2&gt; == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(int_&lt;0&gt;, int_&lt;1&gt;, int_&lt;2&gt;));</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(head(list_c&lt;int, 0, 1, 2&gt;) == int_&lt;0&gt;);</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000022">Todo:</a></b></dt><dd>Actually provide optimizations. </dd></dl>
+<p>An empty list. </p>
 
-</div>
-</div>
-<a class="anchor" id="acb3c449ff9dc562a4569406e1de3ebb9"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename... xs&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr operators::TypeList&lt; typename list_detail::hidden_type_container&lt;xs...&gt;::type &gt; list_t {}</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">related</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Creates a <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose compile-time heterogeneous sequence. ">List</a></code> of types. </p>
-<p>This is functionally equivalent to <code>list(type&lt;xs&gt;...)</code>.</p>
-<dl class="section note"><dt>Note</dt><dd><code>list_t</code> may be more efficient than its <code>list</code> counterpart because of optimizations. When possible, <code>list_t</code> should be preferred.</dd></dl>
-<h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(list_t&lt;void, int, float&gt; == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(type&lt;void&gt;, type&lt;int&gt;, type&lt;float&gt;));</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(head(list_t&lt;void, int, float&gt;) == type&lt;void&gt;);</div>
-</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a788b65dd69bb016d647801718e840816"></a>
@@ -468,38 +385,74 @@ template&lt;typename... xs&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> predicate, <span class="keyword">auto</span> xs) {</div>
-<div class="line">        <span class="keyword">auto</span> not_pred = [=](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> !predicate(x); };</div>
-<div class="line">        <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a929370eddd43bb1a4a11b00a7880eadb">filter</a>(predicate, xs), <a class="code" href="structboost_1_1hana_1_1_list.html#a929370eddd43bb1a4a11b00a7880eadb">filter</a>(not_pred, xs));</div>
-<div class="line">    }</div>
-</div><!-- fragment -->
+
 <p>Partition a list based on a <code>predicate</code>. </p>
-<p>Specifically, returns a list whose first element is a list of the elements satisfying the predicate, and whose second element is a list of the elements that do not satisfy the predicate.</p>
-<h3>Fusion example</h3>
+<p>Specifically, returns a <code><a class="el" href="structboost_1_1hana_1_1_pair.html" title="Generic container of two elements. ">Pair</a></code> whose first element is a list of the elements satisfying the predicate, and whose second element is a list of the elements that do not satisfy the predicate.</p>
+<dl class="section note"><dt>Note</dt><dd>The predicate must return an <code><a class="el" href="structboost_1_1hana_1_1_integral.html" title="Represents a compile-time value of an integral type. ">Integral</a></code>.</dd></dl>
+<h3>Example 1</h3>
 <div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> odd = [](<span class="keyword">auto</span> x) {</div>
 <div class="line">        <span class="keywordflow">return</span> x % int_&lt;2&gt; != int_&lt;0&gt;;</div>
 <div class="line">    };</div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
-<div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a788b65dd69bb016d647801718e840816">partition</a>(odd, list_c&lt;int, 1, 2, 3, 4, 5, 6, 7&gt;)</div>
+<div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a788b65dd69bb016d647801718e840816">partition</a>(odd, integer_list&lt;int, 1, 2, 3, 4, 5, 6, 7&gt;)</div>
 <div class="line">        ==</div>
-<div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(</div>
-<div class="line">            list_c&lt;int, 1, 3, 5, 7&gt;,</div>
-<div class="line">            list_c&lt;int, 2, 4, 6&gt;</div>
+<div class="line">        pair(</div>
+<div class="line">            integer_list&lt;int, 1, 3, 5, 7&gt;,</div>
+<div class="line">            integer_list&lt;int, 2, 4, 6&gt;</div>
 <div class="line">        )</div>
 <div class="line">    );</div>
-</div><!-- fragment --> <h3>MPL example</h3>
+</div><!-- fragment --> <h3>Example 2</h3>
 <div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
-<div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a788b65dd69bb016d647801718e840816">partition</a>(trait::is_floating_point, list_t&lt;void, int, float, char, double&gt;)</div>
+<div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a788b65dd69bb016d647801718e840816">partition</a>(trait&lt;std::is_floating_point&gt;, type_list&lt;void, int, float, char, double&gt;)</div>
 <div class="line">        ==</div>
-<div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(</div>
-<div class="line">            list_t&lt;float, double&gt;,</div>
-<div class="line">            list_t&lt;void, int, char&gt;</div>
+<div class="line">        pair(</div>
+<div class="line">            type_list&lt;float, double&gt;,</div>
+<div class="line">            type_list&lt;void, int, char&gt;</div>
 <div class="line">        )</div>
 <div class="line">    );</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000026">Todo:</a></b></dt><dd><p class="startdd">Use a more efficient implementation. </p>
-<p class="enddd">Express the fact that we need the predicate to be compile-time. </p>
-</dd></dl>
+</div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="a45ec7767d19eb7eaabb71ead3796a7f1"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto permutations</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return a list of all the permutations of the given list. </p>
+<p>The permutations are not guaranteed to be in any specific order.</p>
+<h3>Example</h3>
+<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> is_permutation_of = curry&lt;2&gt;([](<span class="keyword">auto</span> xs, <span class="keyword">auto</span> perm) {</div>
+<div class="line">        <span class="keywordflow">return</span> any(<a class="code" href="group___functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a> == perm, <a class="code" href="structboost_1_1hana_1_1_list.html#a45ec7767d19eb7eaabb71ead3796a7f1">permutations</a>(xs));</div>
+<div class="line">    });</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="line">        all(is_permutation_of(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(<span class="charliteral">&#39;1&#39;</span>, 2, 3.0)),</div>
+<div class="line">            <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(</div>
+<div class="line">                <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(<span class="charliteral">&#39;1&#39;</span>, 2, 3.0),</div>
+<div class="line">                <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(<span class="charliteral">&#39;1&#39;</span>, 3.0, 2),</div>
+<div class="line">                <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(2, <span class="charliteral">&#39;1&#39;</span>, 3.0),</div>
+<div class="line">                <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(2, 3.0, <span class="charliteral">&#39;1&#39;</span>),</div>
+<div class="line">                <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(3.0, <span class="charliteral">&#39;1&#39;</span>, 2),</div>
+<div class="line">                <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(3.0, 2, <span class="charliteral">&#39;1&#39;</span>)</div>
+<div class="line">            )</div>
+<div class="line">        )</div>
+<div class="line">    );</div>
+</div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd>Implementation taken from <a href="http://stackoverflow.com/a/2184129/627587">http://stackoverflow.com/a/2184129/627587</a>.</dd></dl>
+<dl class="bug"><dt><b><a class="el" href="bug.html#_bug000003">Bug:</a></b></dt><dd>We got a performance problem here. Generating the permutations of a list of more than 3 elements starts taking a long time (&gt;6s). </dd></dl>
 
 </div>
 </div>
@@ -520,10 +473,7 @@ template&lt;typename... xs&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> xs) {</div>
-<div class="line">        <span class="keywordflow">return</span> foldl(<a class="code" href="group___functional.html#ga004f884cdbb85c2efe3383c1db450094">flip</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a51732ddadf982e47f5757b092294df12">cons</a>), <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(), xs);</div>
-<div class="line">    }</div>
-</div><!-- fragment -->
+
 <p>Reverse a list. </p>
 <h3>Example</h3>
 <div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a4471413ccc3835db5e48658683b8aba0">reverse</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>)) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(<span class="charliteral">&#39;3&#39;</span>, <span class="stringliteral">&quot;2&quot;</span>, 1));</div>
@@ -547,10 +497,7 @@ template&lt;typename... xs&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> xs, <span class="keyword">auto</span> x) {</div>
-<div class="line">        <span class="keywordflow">return</span> xs.into([=](<span class="keyword">auto</span> ...xs) { <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(xs..., x); });</div>
-<div class="line">    }</div>
-</div><!-- fragment -->
+
 <p>Append an element to the end of a list. </p>
 <h3>Example</h3>
 <div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a95183c155c6180b31d4965aa203957d0">snoc</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(), 1) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1));</div>
@@ -576,16 +523,13 @@ template&lt;typename... xs&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> xs) {</div>
-<div class="line">        <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_list.html#a6ed2907b48fcba3dd1059b4b0bfde624">sort_by</a>(<a class="code" href="group___functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a> &lt; <a class="code" href="group___functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a>, xs);</div>
-<div class="line">    }</div>
-</div><!-- fragment -->
-<p>Sort a list based on the <code>&lt;</code> partial ordering. </p>
+
+<p>Sort a list based on the <code>&lt;</code> strict weak ordering. </p>
 <h3>Example</h3>
 <div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
 <div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a58c1454689bf6d2264bc428dc1d039db">sort</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1_c, -2_c, 3_c, 0_c)) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(-2_c, 0_c, 1_c, 3_c)</div>
 <div class="line">    );</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000028">Todo:</a></b></dt><dd>Use a real type class method for Orderables when we get one. </dd></dl>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000022">Todo:</a></b></dt><dd>Use a real type class method for Orderables when we get one. </dd></dl>
 
 </div>
 </div>
@@ -606,37 +550,14 @@ template&lt;typename... xs&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= <a class="code" href="group___functional.html#ga26508f30f8842350ea0f9a7ca73bfd52">fix</a>(</div>
-<div class="line">        [](<span class="keyword">auto</span> <a class="code" href="structboost_1_1hana_1_1_list.html#a6ed2907b48fcba3dd1059b4b0bfde624">sort_by</a>, <span class="keyword">auto</span> predicate, <span class="keyword">auto</span> xs) {</div>
-<div class="line">            <span class="keywordflow">return</span> if_(is_empty(xs),</div>
-<div class="line">                <a class="code" href="group___functional.html#ga835970cb25a0c8dc200f1e5f8943538b">always</a>(xs),</div>
-<div class="line">                [=](<span class="keyword">auto</span> xs) {</div>
-<div class="line">                    <span class="keywordflow">return</span> if_(is_empty(tail(xs)),</div>
-<div class="line">                        <a class="code" href="group___functional.html#ga835970cb25a0c8dc200f1e5f8943538b">always</a>(xs),</div>
-<div class="line">                        [=](<span class="keyword">auto</span> xs) {</div>
-<div class="line">                            <span class="keyword">auto</span> pivot = head(xs);</div>
-<div class="line">                            <span class="keyword">auto</span> rest = tail(xs);</div>
-<div class="line">                            <span class="keyword">auto</span> parts = <a class="code" href="structboost_1_1hana_1_1_list.html#a788b65dd69bb016d647801718e840816">partition</a>(<a class="code" href="group___functional.html#ga778b2daa27882e71d28b6f2b38982ddf">partial</a>(predicate, pivot), rest);</div>
-<div class="line">                            <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_list.html#a30a6926751dfcafbe2bb67738e2da3c4">concat</a>(</div>
-<div class="line">                                <a class="code" href="structboost_1_1hana_1_1_list.html#a6ed2907b48fcba3dd1059b4b0bfde624">sort_by</a>(predicate, at(int_&lt;1&gt;, parts)),</div>
-<div class="line">                                <a class="code" href="structboost_1_1hana_1_1_list.html#a51732ddadf982e47f5757b092294df12">cons</a>(pivot, <a class="code" href="structboost_1_1hana_1_1_list.html#a6ed2907b48fcba3dd1059b4b0bfde624">sort_by</a>(predicate, at(int_&lt;0&gt;, parts)))</div>
-<div class="line">                            );</div>
-<div class="line">                        }</div>
-<div class="line">                    )(xs);</div>
-<div class="line">                }</div>
-<div class="line">            )(xs);</div>
-<div class="line">        }</div>
-<div class="line">    )</div>
-</div><!-- fragment -->
+
 <p>Sort a list based on the given <code>predicate</code>. </p>
+<p>The predicate must be a <a href="http://en.wikipedia.org/wiki/Strict_weak_ordering#Strict_weak_orderings">strict weak ordering</a>. The sort is guaranteed to be stable.</p>
 <h3>Example</h3>
 <div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
 <div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a6ed2907b48fcba3dd1059b4b0bfde624">sort_by</a>(<a class="code" href="group___functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a>&gt;<a class="code" href="group___functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a>, <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1_c, -2_c, 3_c, 0_c)) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(3_c, 1_c, 0_c, -2_c)</div>
 <div class="line">    );</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000027">Todo:</a></b></dt><dd><p class="startdd">Document the properties of the <code>predicate</code>. </p>
-<p class="enddd">Document the properties of the sort. Is it stable? </p>
-</dd></dl>
-
+</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a2c20028c5115dcf38063d322f27b4ee1"></a>
@@ -656,14 +577,7 @@ template&lt;typename... xs&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> n, <span class="keyword">auto</span> xs) {</div>
-<div class="line">        <span class="keyword">auto</span> min = [](<span class="keyword">auto</span> a, <span class="keyword">auto</span> b) { <span class="keywordflow">return</span> if_(a &lt; b, a, b); };</div>
-<div class="line">        <span class="keywordflow">return</span> unpack(</div>
-<div class="line">            <a class="code" href="group___functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>, [=](<span class="keyword">auto</span> index) { <span class="keywordflow">return</span> at(index, xs); }),</div>
-<div class="line">            range(size_t&lt;0&gt;, min(n, length(xs)))</div>
-<div class="line">        );</div>
-<div class="line">    }</div>
-</div><!-- fragment -->
+
 <p>Return the first <code>n</code> elements of a list. </p>
 <p><code>n</code> must be a non-negative <code><a class="el" href="structboost_1_1hana_1_1_integral.html" title="Represents a compile-time value of an integral type. ">Integral</a></code> representing the number of elements to keep. If <code>n</code> is greater than the length of the list, the whole list is returned.</p>
 <h3>Example</h3>
@@ -672,7 +586,7 @@ template&lt;typename... xs&gt; </div>
 <div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a2c20028c5115dcf38063d322f27b4ee1">take</a>(2_c, <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="charliteral">&#39;2&#39;</span>, <span class="stringliteral">&quot;3&quot;</span>)) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="charliteral">&#39;2&#39;</span>));</div>
 <div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a2c20028c5115dcf38063d322f27b4ee1">take</a>(3_c, <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="charliteral">&#39;2&#39;</span>, <span class="stringliteral">&quot;3&quot;</span>)) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="charliteral">&#39;2&#39;</span>, <span class="stringliteral">&quot;3&quot;</span>));</div>
 <div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a2c20028c5115dcf38063d322f27b4ee1">take</a>(4_c, <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="charliteral">&#39;2&#39;</span>, <span class="stringliteral">&quot;3&quot;</span>)) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="charliteral">&#39;2&#39;</span>, <span class="stringliteral">&quot;3&quot;</span>));</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000024">Todo:</a></b></dt><dd>Move <code>min</code> in a proper type class. </dd></dl>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000023">Todo:</a></b></dt><dd>Move <code>min</code> in a proper type class. </dd></dl>
 
 </div>
 </div>
@@ -693,21 +607,12 @@ template&lt;typename... xs&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> predicate, <span class="keyword">auto</span> xs) {</div>
-<div class="line">        <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_list.html#a86916c5c62a42f01f85450b366ef6eff">take_while</a>([=](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> !predicate(x); }, xs);</div>
-<div class="line">    }</div>
-</div><!-- fragment -->
+
 <p>Take elements until the <code>predicate</code> is satisfied. </p>
 <p>This is equivalent to <code>take_while</code> with a negated predicate.</p>
 <h3>Example</h3>
 <div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
-<div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a27aa67fa9ffc3d89b23a6dce018013d4">take_until</a>(<a class="code" href="group___functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a> &lt; 2_c, <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(3_c, 2_c, 1_c, 0_c)) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(3_c, 2_c)</div>
-<div class="line">    );</div>
-<div class="line"></div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
-<div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a27aa67fa9ffc3d89b23a6dce018013d4">take_until</a>(trait::is_floating_point, list_t&lt;int, float, char&gt;)</div>
-<div class="line">        ==</div>
-<div class="line">        list_t&lt;int&gt;</div>
+<div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a27aa67fa9ffc3d89b23a6dce018013d4">take_until</a>(<a class="code" href="group___functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a> &lt; 2_c, integer_list&lt;int, 3, 2, 1, 0&gt;) == integer_list&lt;int, 3, 2&gt;</div>
 <div class="line">    );</div>
 </div><!-- fragment -->
 </div>
@@ -729,28 +634,12 @@ template&lt;typename... xs&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> predicate, <span class="keyword">auto</span> xs) {</div>
-<div class="line">        <span class="keyword">auto</span> acc = [=](<span class="keyword">auto</span> x, <span class="keyword">auto</span> xs) {</div>
-<div class="line">            <span class="keywordflow">return</span> if_(predicate(x()),</div>
-<div class="line">                [=](<span class="keyword">auto</span> xs) { <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_list.html#a51732ddadf982e47f5757b092294df12">cons</a>(x(), xs()); },</div>
-<div class="line">                <a class="code" href="group___functional.html#ga835970cb25a0c8dc200f1e5f8943538b">always</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>())</div>
-<div class="line">            )(xs);</div>
-<div class="line">        };</div>
-<div class="line">        <span class="keywordflow">return</span> lazy_foldr(acc, <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(), xs);</div>
-<div class="line">    }</div>
-</div><!-- fragment -->
+
 <p>Take elements while the <code>predicate</code> is satisfied. </p>
-<p>Specifically, returns the longest prefix of a list in which all elements satisfy the given predicate.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000025">Todo:</a></b></dt><dd>How to specify that a predicate must be compile-time?</dd></dl>
+<p>Specifically, returns the longest prefix of a list in which all elements satisfy the given predicate. The predicate must return an <code><a class="el" href="structboost_1_1hana_1_1_integral.html" title="Represents a compile-time value of an integral type. ">Integral</a></code>.</p>
 <h3>Example</h3>
 <div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
-<div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a86916c5c62a42f01f85450b366ef6eff">take_while</a>(<a class="code" href="group___functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a> &lt; 2_c, <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(0_c, 1_c, 2_c, 3_c)) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(0_c, 1_c)</div>
-<div class="line">    );</div>
-<div class="line"></div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
-<div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a86916c5c62a42f01f85450b366ef6eff">take_while</a>(trait::is_floating_point, list_t&lt;float, double, int, double&gt;)</div>
-<div class="line">        ==</div>
-<div class="line">        list_t&lt;float, double&gt;</div>
+<div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a86916c5c62a42f01f85450b366ef6eff">take_while</a>(<a class="code" href="group___functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a> &lt; 2_c, integer_list&lt;int, 0, 1, 2, 3&gt;) == integer_list&lt;int, 0, 1&gt;</div>
 <div class="line">    );</div>
 </div><!-- fragment -->
 </div>
@@ -772,11 +661,8 @@ template&lt;typename... xs&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> ...lists) {</div>
-<div class="line">        <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_list.html#a5eadaf63535ebb8cdd8d9e4c16b9bacd">zip_with</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>, lists...);</div>
-<div class="line">    }</div>
-</div><!-- fragment -->
-<p>Zip one list or more. </p>
+
+<p>Zip zero lists or more. </p>
 <h3>Example</h3>
 <div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
 <div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a23b6ac9e78577d70b9108a80e6b1534c">zip</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="charliteral">&#39;a&#39;</span>), <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(2, <span class="stringliteral">&quot;bb&quot;</span>))</div>
@@ -809,30 +695,23 @@ template&lt;typename... xs&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> ...lists) {</div>
-<div class="line">        static_assert(<span class="keyword">sizeof</span>...(lists) &gt;= 1,</div>
-<div class="line">            <span class="stringliteral">&quot;zip_with requires at least one list&quot;</span>);</div>
-<div class="line">        <span class="keywordflow">return</span> unpack(</div>
-<div class="line">            <a class="code" href="group___functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>, [=](<span class="keyword">auto</span> index) { <span class="keywordflow">return</span> f(at(index, lists)...); }),</div>
-<div class="line">            range(size_t&lt;0&gt;, minimum(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(length(lists)...)))</div>
-<div class="line">        );</div>
-<div class="line">    }</div>
-</div><!-- fragment -->
-<p>Zip one list or more with a given function. </p>
+
+<p>Zip several lists with a given function. </p>
 <p>Specifically, returns a list whose i-th element is <code>f(s1[i], ..., sn[i])</code>, where <code>sk[i]</code> denotes the i-th element of the k-th list passed as an argument. The returned list stops when the shortest input sequence is exhausted.</p>
 <p>In other words, <code>zip_with(f, s1, ..., sn)</code> is a list of the form </p><div class="fragment"><div class="line">f(s1[0], ..., sn[0])</div>
 <div class="line">f(s1[1], ..., sn[1])</div>
 <div class="line">...</div>
 <div class="line">f(s1[k], ..., sn[k])</div>
 </div><!-- fragment --><p> where <code>k</code> is the length of the shortest list.</p>
+<dl class="section note"><dt>Note</dt><dd>When invoked with 0 arguments, returns an empty list.</dd></dl>
 <h3>Example</h3>
 <div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
 <div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a5eadaf63535ebb8cdd8d9e4c16b9bacd">zip_with</a>(<a class="code" href="group___functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a> * <a class="code" href="group___functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a>, <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, 2, 3, 4), <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(5, 6, 7, 8, <span class="stringliteral">&quot;ignored&quot;</span>))</div>
 <div class="line">        ==</div>
 <div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(5, 12, 21, 32)</div>
 <div class="line">    );</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000023">Todo:</a></b></dt><dd><ul>
-<li>Consider allowing only two lists and achieving the variadic behavior in some other way. This would make it possible to automatically curry <code>zip_with</code>. It might be possible to achieve the variadic behavior with e.g. Applicative Functors? If we decide to keep the variadic behavior, then we probably want to support the 0 list case. How should <code>zip_with</code> behave in that case? </li>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000024">Todo:</a></b></dt><dd><ul>
+<li>Consider allowing only two lists and achieving the variadic behavior in some other way. This would make it possible to automatically curry <code>zip_with</code>. It might be possible to achieve the variadic behavior with e.g. <a class="el" href="structboost_1_1hana_1_1_applicative.html" title="Applicatives are Functors with the ability to lift values and combine computations. ">Applicative</a> Functors? </li>
 </ul>
 </dd></dl>
 
@@ -841,7 +720,7 @@ template&lt;typename... xs&gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jun 12 2014 20:35:48 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jun 26 2014 11:22:17 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

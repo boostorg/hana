@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.7"/>
-<title>Boost.Hana: boost::hana::Monad&lt; M, Enable &gt; Struct Template Reference</title>
+<title>Boost.Hana: boost::hana::Monad Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -69,6 +69,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -93,24 +94,34 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#related">Related Functions</a> &#124;
 <a href="structboost_1_1hana_1_1_monad-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">boost::hana::Monad&lt; M, Enable &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__typeclasses.html">Type classes</a></div></div>  </div>
+<div class="title">boost::hana::Monad Struct Reference<div class="ingroups"><a class="el" href="group__typeclasses.html">Type classes</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p><code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="Monads are Functors with the ability to wrap values into them and flatten values that were wrapped mo...">Monad</a></code>s are <code><a class="el" href="structboost_1_1hana_1_1_functor.html" title="Functor represents types that can be mapped over. ">Functor</a></code>s with the ability to wrap values into them and flatten values that were wrapped more than once.  
+<p><code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="Monads are Applicatives with the ability to flatten values that were lifted more than once...">Monad</a></code>s are <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="Applicatives are Functors with the ability to lift values and combine computations. ">Applicative</a></code>s with the ability to flatten values that were lifted more than once.  
  <a href="structboost_1_1hana_1_1_monad.html#details">More...</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_monad_1_1bind__mcd.html">bind_mcd</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Minimal complete definition: <code>bind</code>  <a href="structboost_1_1hana_1_1_monad_1_1bind__mcd.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_monad_1_1instance_3_01_maybe_01_4.html">instance&lt; Maybe &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_monad_1_1instance_3_01_t_00_01detail_1_1enable__if__t_3_01instantiates_3_01_list_00_01_t_01_4_01_4_01_4.html">instance&lt; T, detail::enable_if_t&lt; instantiates&lt; List, T &gt; &gt; &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_monad_1_1join__mcd.html">join_mcd</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Minimal complete definition: <code>join</code>  <a href="structboost_1_1hana_1_1_monad_1_1join__mcd.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Related Functions</h2></td></tr>
 <tr><td class="ititle" colspan="2"><p>(Note that these are not member functions.) </p>
 </td></tr>
-<tr><td colspan="2"><div class="groupHeader"></div></td></tr>
-<tr class="memitem:a834ec78181ee980512cbfcba39738024"><td class="memTemplParams" colspan="2">template&lt;typename M &gt; </td></tr>
-<tr class="memitem:a834ec78181ee980512cbfcba39738024"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_monad.html#a834ec78181ee980512cbfcba39738024">unit</a></td></tr>
-<tr class="memdesc:a834ec78181ee980512cbfcba39738024"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wrap a value into a <code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="Monads are Functors with the ability to wrap values into them and flatten values that were wrapped mo...">Monad</a></code>.  <a href="#a834ec78181ee980512cbfcba39738024">More...</a><br /></td></tr>
-<tr class="separator:a834ec78181ee980512cbfcba39738024"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4df7d83b8aeb3bcf99e5675f69af4090"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_monad.html#a4df7d83b8aeb3bcf99e5675f69af4090">bind</a></td></tr>
 <tr class="memdesc:a4df7d83b8aeb3bcf99e5675f69af4090"><td class="mdescLeft">&#160;</td><td class="mdescRight">Apply a function returning a monad to the value(s) inside a monad.  <a href="#a4df7d83b8aeb3bcf99e5675f69af4090">More...</a><br /></td></tr>
 <tr class="separator:a4df7d83b8aeb3bcf99e5675f69af4090"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -119,23 +130,16 @@ Related Functions</h2></td></tr>
 <tr class="separator:a03f57bdbbaf34b74120e9b7053b82a98"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><h3>template&lt;typename M, typename Enable = void&gt;<br />
-struct boost::hana::Monad&lt; M, Enable &gt;</h3>
-
-<p><code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="Monads are Functors with the ability to wrap values into them and flatten values that were wrapped mo...">Monad</a></code>s are <code><a class="el" href="structboost_1_1hana_1_1_functor.html" title="Functor represents types that can be mapped over. ">Functor</a></code>s with the ability to wrap values into them and flatten values that were wrapped more than once. </p>
+<div class="textblock"><p><code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="Monads are Applicatives with the ability to flatten values that were lifted more than once...">Monad</a></code>s are <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="Applicatives are Functors with the ability to lift values and combine computations. ">Applicative</a></code>s with the ability to flatten values that were lifted more than once. </p>
 <hr/>
- <h3>Minimal complete definition</h3>
-<p><code>unit</code> and (<code>join</code> or <code>bind</code>) </p><hr/>
- <h3>Laws</h3>
-<p>Instances of <code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="Monads are Functors with the ability to wrap values into them and flatten values that were wrapped mo...">Monad</a></code> must satisfy the following laws: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_monad.html#a4df7d83b8aeb3bcf99e5675f69af4090">bind</a>(unit&lt;M&gt;(x), f) == f(x)</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1_monad.html#a4df7d83b8aeb3bcf99e5675f69af4090">bind</a>(m, <a class="code" href="structboost_1_1hana_1_1_monad.html#a834ec78181ee980512cbfcba39738024">unit</a>&lt;M&gt;) == m</div>
+<h2>Laws</h2>
+<p>Instances of <code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="Monads are Applicatives with the ability to flatten values that were lifted more than once...">Monad</a></code> must satisfy the following laws: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_monad.html#a4df7d83b8aeb3bcf99e5675f69af4090">bind</a>(lift&lt;M&gt;(x), f) == f(x)</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1_monad.html#a4df7d83b8aeb3bcf99e5675f69af4090">bind</a>(m, lift&lt;M&gt;) == m</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1_monad.html#a4df7d83b8aeb3bcf99e5675f69af4090">bind</a>(m, [](auto x){ <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_monad.html#a4df7d83b8aeb3bcf99e5675f69af4090">bind</a>(f(x), g); }) == <a class="code" href="structboost_1_1hana_1_1_monad.html#a4df7d83b8aeb3bcf99e5675f69af4090">bind</a>(<a class="code" href="structboost_1_1hana_1_1_monad.html#a4df7d83b8aeb3bcf99e5675f69af4090">bind</a>(m, f), g)</div>
 </div><!-- fragment --> </div><h2 class="groupheader">Friends And Related Function Documentation</h2>
 <a class="anchor" id="a4df7d83b8aeb3bcf99e5675f69af4090"></a>
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename M , typename Enable  = void&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -158,8 +162,6 @@ template&lt;typename M , typename Enable  = void&gt; </div>
 <a class="anchor" id="a03f57bdbbaf34b74120e9b7053b82a98"></a>
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename M , typename Enable  = void&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -179,36 +181,10 @@ template&lt;typename M , typename Enable  = void&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a834ec78181ee980512cbfcba39738024"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename M , typename Enable  = void&gt; </div>
-<div class="memtemplate">
-template&lt;typename M &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr auto unit</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">related</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Wrap a value into a <code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="Monads are Functors with the ability to wrap values into them and flatten values that were wrapped mo...">Monad</a></code>. </p>
-
-</div>
-</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jun 12 2014 20:35:48 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jun 26 2014 11:22:17 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

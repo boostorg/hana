@@ -101,53 +101,50 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="core_8hpp.html">boost/hana/core.hpp</a>&gt;</span></div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="constexpr_8hpp.html">boost/hana/detail/constexpr.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="logical_8hpp.html">boost/hana/logical.hpp</a>&gt;</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">namespace </span>boost { <span class="keyword">namespace </span>hana {</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U, <span class="keyword">typename</span> Enable = <span class="keywordtype">void</span>&gt;</div>
-<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_comparable.html">   43</a></span>&#160;    <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1_comparable.html">Comparable</a>;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">   62</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> equal = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_comparable.html">Comparable&lt;datatype_t&lt;decltype(x)&gt;</a>, <a class="code" href="group___core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(y)&gt;</a>&gt;::</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;               equal_impl(x, y);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    };</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
-<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925">   69</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> not_equal = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_comparable.html">Comparable&lt;datatype_t&lt;decltype(x)&gt;</a>, <a class="code" href="group___core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(y)&gt;</a>&gt;::</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;               not_equal_impl(x, y);</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    };</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keyword">template</span> &lt;&gt;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1defaults.html">defaults</a>&lt;<a class="code" href="structboost_1_1hana_1_1_comparable.html">Comparable</a>&gt; {</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U, <span class="keyword">typename</span> Enable = <span class="keywordtype">void</span>&gt;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="keyword">struct </span>with {</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X, <span class="keyword">typename</span> Y&gt;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            <span class="keyword">static</span> constexpr <span class="keyword">auto</span> equal_impl(X x, Y y)</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            { <span class="keywordflow">return</span> !not_equal(x, y); }</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X, <span class="keyword">typename</span> Y&gt;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            <span class="keyword">static</span> constexpr <span class="keyword">auto</span> not_equal_impl(X x, Y y)</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            { <span class="keywordflow">return</span> !equal(x, y); }</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        };</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    };</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keyword">template</span> &lt;&gt;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keyword">struct </span>instance&lt;Comparable&gt; {</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U, <span class="keyword">typename</span> Enable = <span class="keywordtype">void</span>&gt;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="keyword">struct </span>with : defaults&lt;Comparable&gt;::template with&lt;T, U&gt; {</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X, <span class="keyword">typename</span> Y&gt;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            <span class="keyword">static</span> constexpr <span class="keyword">auto</span> equal_impl(X x, Y y)</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            { <span class="keywordflow">return</span> x == y; }</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X, <span class="keyword">typename</span> Y&gt;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            <span class="keyword">static</span> constexpr <span class="keyword">auto</span> not_equal_impl(X x, Y y)</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            { <span class="keywordflow">return</span> x != y; }</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        };</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    };</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">namespace </span>boost { <span class="keyword">namespace </span>hana {</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    BOOST_HANA_BINARY_TYPECLASS_BOILERPLATE(<span class="keyword">struct</span> Comparable)</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    </div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_comparable.html">   50</a></span>&#160;    struct <a class="code" href="structboost_1_1hana_1_1_comparable.html">Comparable</a> : <a class="code" href="structboost_1_1hana_1_1binary__typeclass.html">binary_typeclass</a>&lt;<a class="code" href="structboost_1_1hana_1_1_comparable.html">Comparable</a>&gt; {</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keyword">struct </span>default_;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keyword">struct </span>equal_mcd;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keyword">struct </span>not_equal_mcd;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    };</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">   73</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> equal = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="keywordflow">return</span> Comparable::instance&lt;datatype_t&lt;decltype(x)&gt;, <a class="code" href="group___core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(y)&gt;</a>&gt;::</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;               equal_impl(x, y);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    };</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
+<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925">   80</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> not_equal = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="keywordflow">return</span> Comparable::instance&lt;datatype_t&lt;decltype(x)&gt;, <a class="code" href="group___core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(y)&gt;</a>&gt;::</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;               not_equal_impl(x, y);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    };</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keyword">struct </span>Comparable::equal_mcd {</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X, <span class="keyword">typename</span> Y&gt;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="keyword">static</span> constexpr <span class="keyword">auto</span> not_equal_impl(X x, Y y)</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        { <span class="keywordflow">return</span> not_(<a class="code" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>(x, y)); }</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    };</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keyword">struct </span>Comparable::not_equal_mcd {</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X, <span class="keyword">typename</span> Y&gt;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        <span class="keyword">static</span> constexpr <span class="keyword">auto</span> equal_impl(X x, Y y)</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        { <span class="keywordflow">return</span> not_(<a class="code" href="structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925">not_equal</a>(x, y)); }</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    };</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keyword">struct </span>Comparable::default_ {</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X, <span class="keyword">typename</span> Y&gt;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        <span class="keyword">static</span> constexpr <span class="keyword">auto</span> equal_impl(X x, Y y)</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        { <span class="keywordflow">return</span> x == y; }</div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U, <span class="keyword">typename</span> Enable&gt;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keyword">struct </span>Comparable : instance&lt;Comparable&gt;::template with&lt;T, U&gt; { };</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X, <span class="keyword">typename</span> Y&gt;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        <span class="keyword">static</span> constexpr <span class="keyword">auto</span> not_equal_impl(X x, Y y)</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        { <span class="keywordflow">return</span> x != y; }</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    };</div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="keyword">namespace </span>operators {</div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U&gt;</div>
@@ -161,18 +158,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;}} <span class="comment">// end namespace boost::hana</span></div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;</div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="preprocessor">#endif // !BOOST_HANA_COMPARABLE_HPP</span></div>
-<div class="ttc" id="structboost_1_1hana_1_1_comparable_html"><div class="ttname"><a href="structboost_1_1hana_1_1_comparable.html">boost::hana::Comparable</a></div><div class="ttdoc">The Comparable type class defines equality and inequality. </div><div class="ttdef"><b>Definition:</b> comparable.hpp:43</div></div>
+<div class="ttc" id="structboost_1_1hana_1_1_comparable_html"><div class="ttname"><a href="structboost_1_1hana_1_1_comparable.html">boost::hana::Comparable</a></div><div class="ttdoc">The Comparable type class defines equality and inequality. </div><div class="ttdef"><b>Definition:</b> comparable.hpp:50</div></div>
 <div class="ttc" id="group__details_html_gacf82d20cb2ab6efe5849fadae0a043a8"><div class="ttname"><a href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a></div><div class="ttdeci">#define BOOST_HANA_CONSTEXPR_LAMBDA</div><div class="ttdoc">Expands to constexpr if constexpr lambdas are supported and to nothing otherwise. ...</div><div class="ttdef"><b>Definition:</b> constexpr.hpp:18</div></div>
 <div class="ttc" id="structboost_1_1hana_1_1_comparable_html_aeaf55eb75a556b3a05bab60cd6812765"><div class="ttname"><a href="structboost_1_1hana_1_1_comparable.html#aeaf55eb75a556b3a05bab60cd6812765">boost::hana::Comparable::operator==</a></div><div class="ttdeci">constexpr auto operator==(T t, U u)</div><div class="ttdoc">Equivalent to equal. </div><div class="ttdef"><b>Definition:</b> comparable.hpp:111</div></div>
-<div class="ttc" id="group___core_html_gae3cedd3772d00ac7c4de9dc3d719f321"><div class="ttname"><a href="group___core.html#gae3cedd3772d00ac7c4de9dc3d719f321">boost::hana::datatype_t</a></div><div class="ttdeci">typename datatype&lt; T &gt;::type datatype_t</div><div class="ttdoc">Alias to datatype<T>::type. </div><div class="ttdef"><b>Definition:</b> core.hpp:130</div></div>
+<div class="ttc" id="structboost_1_1hana_1_1binary__typeclass_html"><div class="ttname"><a href="structboost_1_1hana_1_1binary__typeclass.html">boost::hana::binary_typeclass</a></div><div class="ttdoc">Machinery for creating a binary type class. </div><div class="ttdef"><b>Definition:</b> core.hpp:156</div></div>
+<div class="ttc" id="group___core_html_gae3cedd3772d00ac7c4de9dc3d719f321"><div class="ttname"><a href="group___core.html#gae3cedd3772d00ac7c4de9dc3d719f321">boost::hana::datatype_t</a></div><div class="ttdeci">typename datatype&lt; T &gt;::type datatype_t</div><div class="ttdoc">Alias to datatype<T>::type. </div><div class="ttdef"><b>Definition:</b> core.hpp:215</div></div>
+<div class="ttc" id="logical_8hpp_html"><div class="ttname"><a href="logical_8hpp.html">logical.hpp</a></div><div class="ttdoc">Defines boost::hana::Logical. </div></div>
+<div class="ttc" id="structboost_1_1hana_1_1_comparable_html_aa3d0a020ddd527610472c91f5a8cc627"><div class="ttname"><a href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">boost::hana::Comparable::equal</a></div><div class="ttdeci">constexpr auto equal</div><div class="ttdoc">Returns a Logical representing whether x is equal to y. </div><div class="ttdef"><b>Definition:</b> comparable.hpp:73</div></div>
 <div class="ttc" id="constexpr_8hpp_html"><div class="ttname"><a href="constexpr_8hpp.html">constexpr.hpp</a></div><div class="ttdoc">Defines the BOOST_HANA_CONSTEXPR_LAMBDA macro. </div></div>
 <div class="ttc" id="core_8hpp_html"><div class="ttname"><a href="core_8hpp.html">core.hpp</a></div><div class="ttdoc">Defines the Core module. </div></div>
-<div class="ttc" id="structboost_1_1hana_1_1defaults_html"><div class="ttname"><a href="structboost_1_1hana_1_1defaults.html">boost::hana::defaults</a></div><div class="ttdoc">Contains the default methods of a type class. </div><div class="ttdef"><b>Definition:</b> core.hpp:50</div></div>
+<div class="ttc" id="structboost_1_1hana_1_1_comparable_html_a6983538356aab75eddf1a7aace6c7925"><div class="ttname"><a href="structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925">boost::hana::Comparable::not_equal</a></div><div class="ttdeci">constexpr auto not_equal</div><div class="ttdoc">Returns a Logical representing whether x is not equal to y. </div><div class="ttdef"><b>Definition:</b> comparable.hpp:80</div></div>
 <div class="ttc" id="structboost_1_1hana_1_1_comparable_html_aae66dcc2f25a479af62d1ec8f88af5be"><div class="ttname"><a href="structboost_1_1hana_1_1_comparable.html#aae66dcc2f25a479af62d1ec8f88af5be">boost::hana::Comparable::operator!=</a></div><div class="ttdeci">constexpr auto operator!=(T t, U u)</div><div class="ttdoc">Equivalent to not_equal. </div><div class="ttdef"><b>Definition:</b> comparable.hpp:117</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jun 12 2014 20:35:48 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jun 26 2014 11:22:17 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

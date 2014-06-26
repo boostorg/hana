@@ -93,7 +93,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#typedef-members">Typedefs</a>  </div>
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">core.hpp File Reference</div>  </div>
 </div><!--header-->
@@ -106,14 +107,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1defaults.html">boost::hana::defaults&lt; Typeclass &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains the default methods of a type class.  <a href="structboost_1_1hana_1_1defaults.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1typeclass.html">boost::hana::typeclass&lt; Typeclass &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Machinery for creating a unary type class.  <a href="structboost_1_1hana_1_1typeclass.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1instance.html">boost::hana::instance&lt; Typeclass &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows complimentary type class instances to be provided.  <a href="structboost_1_1hana_1_1instance.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1binary__typeclass.html">boost::hana::binary_typeclass&lt; Typeclass &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Machinery for creating a binary type class.  <a href="structboost_1_1hana_1_1binary__typeclass.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1datatype.html">boost::hana::datatype&lt; T &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Trait returning the data type associated to <code>T</code>.  <a href="structboost_1_1hana_1_1datatype.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1datatype.html">boost::hana::datatype&lt; T, Enable &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Metafunction returning the data type associated to <code>T</code>.  <a href="structboost_1_1hana_1_1datatype.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1convert.html">boost::hana::convert&lt; To, From, Enable &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements conversions between data types.  <a href="structboost_1_1hana_1_1convert.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1operators_1_1enable.html">boost::hana::operators::enable</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows operators in the <code>boost::hana::operators</code> namespace to be found by ADL.  <a href="structboost_1_1hana_1_1operators_1_1enable.html#details">More...</a><br /></td></tr>
@@ -125,6 +129,25 @@ Typedefs</h2></td></tr>
 <tr class="memitem:gae3cedd3772d00ac7c4de9dc3d719f321"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group___core.html#gae3cedd3772d00ac7c4de9dc3d719f321">boost::hana::datatype_t</a> = typename datatype&lt; T &gt;::<a class="el" href="structboost_1_1hana_1_1_type.html#a025fc6d44331ec99083ee6b33136b878">type</a></td></tr>
 <tr class="memdesc:gae3cedd3772d00ac7c4de9dc3d719f321"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias to <code>datatype&lt;T&gt;::type</code>.  <a href="group___core.html#gae3cedd3772d00ac7c4de9dc3d719f321">More...</a><br /></td></tr>
 <tr class="separator:gae3cedd3772d00ac7c4de9dc3d719f321"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:ga1505b4c072265b1461478be8e424e356"><td class="memTemplParams" colspan="2">template&lt;typename Typeclass , typename... Datatypes&gt; </td></tr>
+<tr class="memitem:ga1505b4c072265b1461478be8e424e356"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group___core.html#ga1505b4c072265b1461478be8e424e356">boost::hana::instantiates</a></td></tr>
+<tr class="memdesc:ga1505b4c072265b1461478be8e424e356"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether the type class is instantiated with the given arguments.  <a href="group___core.html#ga1505b4c072265b1461478be8e424e356">More...</a><br /></td></tr>
+<tr class="separator:ga1505b4c072265b1461478be8e424e356"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaedc4d8de51d01223a808153b9e5dc350"><td class="memTemplParams" colspan="2">template&lt;typename Typeclass &gt; </td></tr>
+<tr class="memitem:gaedc4d8de51d01223a808153b9e5dc350"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group___core.html#gaedc4d8de51d01223a808153b9e5dc350">boost::hana::is_a</a></td></tr>
+<tr class="memdesc:gaedc4d8de51d01223a808153b9e5dc350"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return whether an object is an instance of the given type class.  <a href="group___core.html#gaedc4d8de51d01223a808153b9e5dc350">More...</a><br /></td></tr>
+<tr class="separator:gaedc4d8de51d01223a808153b9e5dc350"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga85552dd9b71b55816e5d8970d527cbdf"><td class="memTemplParams" colspan="2">template&lt;typename Typeclass &gt; </td></tr>
+<tr class="memitem:ga85552dd9b71b55816e5d8970d527cbdf"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group___core.html#ga85552dd9b71b55816e5d8970d527cbdf">boost::hana::is_an</a> = is_a&lt;Typeclass&gt;</td></tr>
+<tr class="memdesc:ga85552dd9b71b55816e5d8970d527cbdf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>is_a</code>; provided for consistency with the rules of the English language.  <a href="group___core.html#ga85552dd9b71b55816e5d8970d527cbdf">More...</a><br /></td></tr>
+<tr class="separator:ga85552dd9b71b55816e5d8970d527cbdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadc70755c1d059139297814fb3bfeb91e"><td class="memTemplParams" colspan="2">template&lt;typename To &gt; </td></tr>
+<tr class="memitem:gadc70755c1d059139297814fb3bfeb91e"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group___core.html#gadc70755c1d059139297814fb3bfeb91e">boost::hana::to</a></td></tr>
+<tr class="memdesc:gadc70755c1d059139297814fb3bfeb91e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an object of a data type from an object of another data type.  <a href="group___core.html#gadc70755c1d059139297814fb3bfeb91e">More...</a><br /></td></tr>
+<tr class="separator:gadc70755c1d059139297814fb3bfeb91e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Defines the <a class="el" href="group___core.html">Core</a> module. </p>
@@ -132,7 +155,7 @@ Typedefs</h2></td></tr>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jun 12 2014 20:35:48 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jun 26 2014 11:22:17 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['foldable',['Foldable',['../structboost_1_1hana_1_1_foldable.html',1,'boost::hana']]],
-  ['functor',['Functor',['../structboost_1_1hana_1_1_functor.html',1,'boost::hana']]]
+  ['enable',['enable',['../structboost_1_1hana_1_1operators_1_1enable.html',1,'boost::hana::operators']]]
 ];

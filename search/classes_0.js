@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['_5feq',['_eq',['../structboost_1_1hana_1_1sandbox_1_1array__detail_1_1__eq.html',1,'boost::hana::sandbox::array_detail']]],
-  ['_5fless',['_less',['../structboost_1_1hana_1_1sandbox_1_1array__detail_1_1__less.html',1,'boost::hana::sandbox::array_detail']]]
+  ['adjust_5fmcd',['adjust_mcd',['../structboost_1_1hana_1_1_functor_1_1adjust__mcd.html',1,'boost::hana::Functor']]],
+  ['applicative',['Applicative',['../structboost_1_1hana_1_1_applicative.html',1,'boost::hana']]]
 ];
