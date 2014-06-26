@@ -24,11 +24,6 @@ namespace boost { namespace hana {
 
     --------------------------------------------------------------------------
 
-    ## Minimal complete definition
-    `equal` or `not_equal`
-
-    --------------------------------------------------------------------------
-
     ## Laws
     `equal` must define an equivalence relation. In other words, for all
     `a`, `b`, `c` of comparable data types,
@@ -82,12 +77,14 @@ namespace boost { namespace hana {
                not_equal_impl(x, y);
     };
 
+    //! Minimal complete definition : `equal`
     struct Comparable::equal_mcd {
         template <typename X, typename Y>
         static constexpr auto not_equal_impl(X x, Y y)
         { return not_(equal(x, y)); }
     };
 
+    //! Minimal complete definition : `not_equal`
     struct Comparable::not_equal_mcd {
         template <typename X, typename Y>
         static constexpr auto equal_impl(X x, Y y)
