@@ -51,8 +51,8 @@ int main() {
 
     BOOST_HANA_STATIC_ASSERT(!is_an<Iterable>(just(1)));
     BOOST_HANA_STATIC_ASSERT(!is_an<Iterable>(nothing));
-    BOOST_HANA_STATIC_ASSERT(!is_a<Foldable>(just('1')));
-    BOOST_HANA_STATIC_ASSERT(!is_a<Foldable>(nothing));
+    BOOST_HANA_STATIC_ASSERT(is_a<Foldable>(just('1')));
+    BOOST_HANA_STATIC_ASSERT(is_a<Foldable>(nothing));
     BOOST_HANA_STATIC_ASSERT(is_a<Monad>(just("abcd")));
     BOOST_HANA_STATIC_ASSERT(is_a<Monad>(nothing));
 }

@@ -17,346 +17,137 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/enable_if.hpp>
 #include <boost/hana/detail/left_folds/variadic.hpp>
-#include <boost/hana/detail/left_folds/variadic_meta.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/functor.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/logical.hpp>
+#include <boost/hana/monad.hpp>
+#include <boost/hana/pair.hpp>
 #include <boost/hana/range.hpp>
-#include <boost/hana/type.hpp>
+
+#include <boost/hana/type.hpp> // for list_t
+
+#include <type_traits> // for std::is_same
 
 
 namespace boost { namespace hana {
-    /*!
-    @ingroup datatypes
-    General purpose compile-time heterogeneous sequence.
+    //////////////////////////////////////////////////////////////////////////
+    // The List type class
+    //////////////////////////////////////////////////////////////////////////
 
-    @note
-    Any `Foldable` can be converted to a `List`.
+    BOOST_HANA_TYPECLASS_BOILERPLATE(struct List)
+
+    /*!
+    @ingroup typeclasses
+    @ingroup datatypes
+    General purpose index-based sequence.
 
     --------------------------------------------------------------------------
 
-    ## Instance of
-
-    ### Iterable
-    `List` is an `Iterable` in the most obvious way. The head of a non-empty
-    list corresponds to its first element. The tail of a non-empty list is
-    a list containing all the elements in the same order, except the head.
-    Finally, a list is empty if and only if it has no elements in it.
-    @snippet example/list/iterable/overview.cpp main
-
-    ### Functor
-    `List` implements `fmap` as the mapping of a function over each element
-    of the list. This is somewhat equivalent to `std::transform`. Mapping a
-    function over an empty list returns an empty list and never applies the
-    function.
-    #### Example 1
-    @snippet example/list/functor/fmap.cpp fusion
-    #### Example 2
-    @snippet example/list/functor/fmap.cpp mpl
-
-    ### Applicative
-    A value can be lifted into a singleton list with `lift<List>`. `ap(fs, xs)`
-    applies each function in the list `fs` to each value in the list `xs`, and
-    returns a list containing all the results.
-    @snippet example/list/applicative/overview.cpp main
-
-    ### Monad
-    A function returning a list of results can be mapped over all the elements
-    of a list and have all the results concatenated using `bind`. Also, a
-    list of lists can be flattened one level with `join`.
-    @snippet example/list/monad/overview.cpp main
-
-    ### Foldable
-    Generic instance for `Iterable`s.
-
-    ### Comparable
-    Generic instance for `Iterable`s.
+    ## Instance of (as a data type)
+    `Iterable`, `Functor`, `Applicative`, `Monad`, `Foldable` and `Comparable`
 
     --------------------------------------------------------------------------
 
     @todo
-    - Re-enable the foldl and fmap optimization for type lists.
     - It might be possible to optimize the implementation of homogeneous lists
       using an array.
-    - Is it desirable to have different ways of creating lists, or should we
-      in fact provide `type_list`, `homogeneous_list`, etc...?
     - How to implement iterate and repeat?
     - Check laws for `Applicative`.
+    - Get rid of the `<type_traits>` include.
+    - Get rid of `list_t` and `list_c`.
      */
-    struct List { };
+    struct List : typeclass<List> {
+        template <typename T>
+        struct mcd;
+    };
 
-    namespace list_detail {
-        template <typename ...xs>
-        struct type_container { };
-
-        template <typename ...xs>
-        struct hidden_type_container {
-            struct type { using contents = type_container<xs...>; };
-        };
-    }
-
+    //////////////////////////////////////////////////////////////////////////
     namespace operators {
         template <typename Storage>
-        struct HetList {
+        struct list {
             using hana_datatype = List;
-            Storage into;
-        };
-
-        template <typename HiddenTypeContainer>
-        struct TypeList {
-            using hana_datatype = List;
-
-            struct {
-                //! @cond
-                template <typename F, typename ...Xs>
-                static constexpr auto call(F f, list_detail::type_container<Xs...>)
-                { return f(type<Xs>...); }
-
-                template <typename F>
-                constexpr auto operator()(F f) const
-                { return call(f, typename HiddenTypeContainer::contents{}); }
-                //! @endcond
-            } into;
+            Storage storage;
         };
     }
 
     //! Creates a `List` containing `xs...`.
     //! @relates List
+    //!
+    //! The `List` data type is a general purpose compile-time heterogeneous
+    //! sequence.
     BOOST_HANA_CONSTEXPR_LAMBDA auto list = [](auto ...xs) {
-        auto into = [=](auto f) { return f(xs...); };
-        return operators::HetList<decltype(into)>{into};
+        auto storage = [=](auto f) { return f(xs...); };
+        return operators::list<decltype(storage)>{storage};
     };
-
-    //! Creates a `List` of types.
-    //! @relates List
-    //!
-    //! This is functionally equivalent to `list(type<xs>...)`.
-    //!
-    //! @note
-    //! `list_t` may be more efficient than its `list` counterpart because
-    //! of optimizations. When possible, `list_t` should be preferred.
-    //!
-    //! ### Example
-    //! @snippet example/list/list_t.cpp main
-    //!
-    //! @todo
-    //! We can have efficient membership testing for those.
-    template <typename ...xs>
-    constexpr operators::TypeList<
-        typename list_detail::hidden_type_container<xs...>::type
-    > list_t{};
-
-    //! Creates a `List` of `Integral`s.
-    //! @relates List
-    //!
-    //! This is functionally equivalent to `list(integral<T, xs>...)`.
-    //!
-    //! @note
-    //! `list_c` may be more efficient than its `list` counterpart because
-    //! of optimizations. When possible, `list_c` should be preferred.
-    //!
-    //! ### Example
-    //! @snippet example/list/list_c.cpp main
-    //!
-    //! @todo
-    //! Actually provide optimizations.
-    template <typename T, T ...xs>
-    BOOST_HANA_CONSTEXPR_LAMBDA auto list_c = list(integral<T, xs>...);
-
-    template <>
-    struct Iterable::instance<List> : Iterable::mcd {
-        // TypeList
-        template <typename X, typename ...Xs>
-        static constexpr auto head_helper(list_detail::type_container<X, Xs...>)
-        { return type<X>; }
-        template <typename HiddenTypeContainer>
-        static constexpr auto head_impl(operators::TypeList<HiddenTypeContainer>)
-        { return head_helper(typename HiddenTypeContainer::contents{}); }
+    //////////////////////////////////////////////////////////////////////////
 
 
-        template <typename X, typename ...Xs>
-        static constexpr auto tail_helper(list_detail::type_container<X, Xs...>)
-        { return list_t<Xs...>; }
-        template <typename HiddenTypeContainer>
-        static constexpr auto tail_impl(operators::TypeList<HiddenTypeContainer>)
-        { return tail_helper(typename HiddenTypeContainer::contents{}); }
-
-
-        // HetList
-        template <typename Storage>
-        static constexpr auto head_impl(operators::HetList<Storage> xs) {
-            return xs.into([](auto x, auto ...rest) {
-                return x;
-            });
-        }
-
-        template <typename Storage>
-        static constexpr auto tail_impl(operators::HetList<Storage> xs) {
-            return xs.into([](auto, auto ...xs) {
-                return list(xs...);
-            });
-        }
-
-        template <typename Index, typename Storage>
-        static constexpr auto at_impl(Index n, operators::HetList<Storage> xs) {
-            return xs.into([=](auto ...xs) {
-                return detail::at_index::best<n()>(xs...);
-            });
-        }
-
-        template <typename Xs>
-        static constexpr auto is_empty_impl(Xs xs)
-        { return length(xs) == size_t<0>; }
-    };
-
-    template <>
-    struct Functor::instance<List> : Functor::fmap_mcd {
-        template <typename F, typename Xs>
-        static constexpr auto fmap_impl(F f, Xs xs)
-        { return xs.into([=](auto ...xs) { return list(f(xs)...); }); }
-
-        // template <template <typename ...> class F, typename ...Xs>
-        // static constexpr auto fmap_helper(type_detail::Template<F>, list_detail::type_container<Xs...>)
-        // { return list_t<F<Xs>...>; }
-        // template <template <typename ...> class F, typename HiddenTypeContainer>
-        // static constexpr auto fmap_impl(type_detail::Template<F> f, operators::TypeList<HiddenTypeContainer>)
-        // { return fmap_helper(f, typename HiddenTypeContainer::contents{}); }
-    };
-
-    namespace list_detail {
-        BOOST_HANA_CONSTEXPR_LAMBDA auto concat2 = [](auto xs, auto ys) {
-            return xs.into([=](auto ...xs) {
-                return ys.into([=](auto ...ys) {
-                    return list(xs..., ys...);
-                });
-            });
-        };
-    }
-
-    template <>
-    struct Applicative::instance<List> : Applicative::mcd {
-        template <typename X>
-        static constexpr auto lift_impl(X x)
-        { return list(x); }
-
-        template <typename Fs, typename Xs>
-        static constexpr auto ap_impl(Fs fs, Xs xs)
-        { return bind(fs, [=](auto f) { return fmap(f, xs); }); }
-    };
-
-    template <>
-    struct Monad::instance<List> : Monad::join_mcd {
-        template <typename Xss>
-        static constexpr auto join_impl(Xss xss)
-        { return foldl(list_detail::concat2, list(), xss); }
-    };
-
-    template <>
-    constexpr bool foldable_from_iterable<List> = true;
-
-    template <>
-    struct Foldable::instance<List> : Iterable::FoldableInstance {
-        template <typename F, typename State, typename Xs>
-        static constexpr auto
-        foldl_impl(F f, State s, Xs xs) {
-            return xs.into([=](auto ...xs) {
-                return detail::left_folds::variadic(f, s, xs...);
-            });
-        }
-
-        // template <template <typename ...> class F, typename State, typename ...Xs>
-        // static constexpr auto
-        // foldl_impl(type_detail::Template<F>, operators::_type<State>, operators::TypeList<Xs...>) {
-        //     return type<detail::left_folds::variadic_meta<F, State, Xs...>>;
-        // }
-
-        template <typename F, typename Xs>
-        static constexpr auto unpack_impl(F f, Xs xs)
-        { return xs.into(f); }
-
-
-        template <typename ...Xs>
-        static constexpr auto length_helper(list_detail::type_container<Xs...>)
-        { return size_t<sizeof...(Xs)>; }
-        template <typename HiddenTypeContainer>
-        static constexpr auto length_impl(operators::TypeList<HiddenTypeContainer>)
-        { return length_helper(typename HiddenTypeContainer::contents{}); }
-
-        template <typename Storage>
-        static constexpr auto length_impl(operators::HetList<Storage> xs) {
-            return xs.into([](auto ...xs) {
-                return size_t<sizeof...(xs)>;
-            });
-        }
-    };
-
-    template <>
-    constexpr bool comparable_from_iterable<List> = true;
-
-    //! Concatenate zero or more lists together.
-    //! @relates List
-    //!
-    //! With 0 arguments, returns an empty list. With 1 argument, returns
-    //! the list itself.
+    //! Concatenate two lists together.
+    //! @method{List}
     //!
     //! ### Example
     //! @snippet example/list/concat.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto concat = [](auto ...lists) {
-        return foldl(list_detail::concat2, list(), list(lists...));
+    BOOST_HANA_CONSTEXPR_LAMBDA auto concat = [](auto xs, auto ys) {
+        static_assert(std::is_same<datatype_t<decltype(xs)>, datatype_t<decltype(ys)>>{}, "");
+        return List::instance<datatype_t<decltype(xs)>>::concat_impl(xs, ys);
     };
 
     //! Prepend an element to the head of a list.
-    //! @relates List
+    //! @method{List}
     //!
     //! ### Example
     //! @snippet example/list/cons.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto cons = [](auto x, auto xs) {
-        return xs.into([=](auto ...xs) { return list(x, xs...); });
+        return List::instance<datatype_t<decltype(xs)>>::cons_impl(x, xs);
     };
 
     //! Return a list containing only the elements satisfying the `predicate`.
-    //! @relates List
+    //! @method{List}
     //!
     //! ### Example
     //! @snippet example/list/filter.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto filter = [](auto predicate, auto xs) {
-        auto go = [=](auto x, auto xs) {
-            return eval_if(predicate(x),
-                [=](auto _) { return _(cons)(x, xs); },
-                always(xs)
-            );
-        };
-        return foldr(go, list(), xs);
+        return List::instance<datatype_t<decltype(xs)>>::filter_impl(predicate, xs);
     };
 
     //! Removes the last element of a non-empty list.
-    //! @relates List
+    //! @method{List}
     //!
     //! ### Example
     //! @snippet example/list/init.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto init = [](auto xs) {
-        return unpack(
-            on(list, [=](auto index) { return at(index, xs); }),
-            range(size_t<0>, length(xs) - size_t<1>)
-        );
+        return List::instance<datatype_t<decltype(xs)>>::init_impl(xs);
     };
 
-    //! Append an element to the end of a list.
-    //! @relates List
+    namespace list_detail {
+        template <typename T>
+        struct into {
+            template <typename ...Xs>
+            constexpr auto operator()(Xs ...xs) const
+            { return List::instance<T>::into_impl(xs...); }
+        };
+    }
+
+    //! Creates a `List` with the given elements in it.
+    //! @method{List}
     //!
     //! ### Example
-    //! @snippet example/list/snoc.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto snoc = [](auto xs, auto x) {
-        return xs.into([=](auto ...xs) { return list(xs..., x); });
-    };
+    //! @snippet example/list/into.cpp main
+    template <typename T>
+    constexpr list_detail::into<T> into{};
+
+    //! An empty list.
+    //! @method{List}
+    template <typename T>
+    BOOST_HANA_CONSTEXPR_LAMBDA auto nil = List::instance<T>::nil_impl();
 
     //! Partition a list based on a `predicate`.
-    //! @relates List
+    //! @method{List}
     //!
-    //! Specifically, returns a list whose first element is a list of the
+    //! Specifically, returns a `Pair` whose first element is a list of the
     //! elements satisfying the predicate, and whose second element is a
     //! list of the elements that do not satisfy the predicate.
     //!
@@ -369,37 +160,11 @@ namespace boost { namespace hana {
     //! ### MPL example
     //! @snippet example/list/partition.cpp mpl
     BOOST_HANA_CONSTEXPR_LAMBDA auto partition = [](auto predicate, auto xs) {
-        auto go = [=](auto parts, auto x) {
-            auto yes = head(parts);
-            auto no = head(tail(parts));
-            return if_(predicate(x),
-                list(snoc(yes, x), no),
-                list(yes, snoc(no, x))
-            );
-        };
-        return foldl(go, list(list(), list()), xs);
+        return List::instance<datatype_t<decltype(xs)>>::partition_impl(predicate, xs);
     };
 
-    namespace list_detail {
-        BOOST_HANA_CONSTEXPR_LAMBDA auto insertions = curry<2>(fix(
-            [](auto insertions, auto x, auto l) {
-                return eval_if(is_empty(l),
-                    always(list(list(x))),
-                    [=](auto _) {
-                        auto y = _(head)(l);
-                        auto ys = _(tail)(l);
-                        return cons(
-                            _(cons)(x, l),
-                            fmap(partial(cons, y), insertions(x, ys))
-                        );
-                    }
-                );
-            }
-        ));
-    }
-
     //! Return a list of all the permutations of the given list.
-    //! @relates List
+    //! @method{List}
     //!
     //! The permutations are not guaranteed to be in any specific order.
     //!
@@ -412,74 +177,53 @@ namespace boost { namespace hana {
     //! @bug
     //! We got a performance problem here. Generating the permutations of
     //! a list of more than 3 elements starts taking a long time (>6s).
-    BOOST_HANA_CONSTEXPR_LAMBDA auto permutations = fix(
-        [](auto permutations, auto xs) {
-            return eval_if(is_empty(xs),
-                always(list(list())),
-                [=](auto _) {
-                    return join(fmap(
-                        list_detail::insertions(_(head)(xs)),
-                        permutations(_(tail)(xs))
-                    ));
-                }
-            );
-        }
-    );
+    BOOST_HANA_CONSTEXPR_LAMBDA auto permutations = [](auto xs) {
+        return List::instance<datatype_t<decltype(xs)>>::permutations_impl(xs);
+    };
 
     //! Reverse a list.
-    //! @relates List
+    //! @method{List}
     //!
     //! ### Example
     //! @snippet example/list/reverse.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto reverse = [](auto xs) {
-        return foldl(flip(cons), list(), xs);
+        return List::instance<datatype_t<decltype(xs)>>::reverse_impl(xs);
     };
 
-    //! Sort a list based on the given `predicate`.
-    //! @relates List
-    //!
-    //! The predicate must be a [strict weak ordering](http://en.wikipedia.org/wiki/Strict_weak_ordering#Strict_weak_orderings).
-    //! The sort is guaranteed to be stable.
+    //! Append an element to the end of a list.
+    //! @method{List}
     //!
     //! ### Example
-    //! @snippet example/list/sort_by.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto sort_by = fix(
-        [](auto sort_by, auto predicate, auto xs) {
-            return eval_if(is_empty(xs),
-                always(xs),
-                [=](auto _) {
-                    return eval_if(is_empty(_(tail)(xs)),
-                        always(xs),
-                        [=](auto _) {
-                            auto pivot = _(head)(xs);
-                            auto rest = _(tail)(xs);
-                            auto parts = partition([=](auto x) { return predicate(x, pivot); }, rest);
-                            auto smaller = at(int_<0>, parts);
-                            auto greater_equal = at(int_<1>, parts);
-                            return concat(
-                                sort_by(predicate, smaller),
-                                cons(pivot, sort_by(predicate, greater_equal))
-                            );
-                        }
-                    );
-                }
-            );
-        }
-    );
+    //! @snippet example/list/snoc.cpp main
+    BOOST_HANA_CONSTEXPR_LAMBDA auto snoc = [](auto xs, auto x) {
+        return List::instance<datatype_t<decltype(xs)>>::snoc_impl(xs, x);
+    };
 
     //! Sort a list based on the `<` strict weak ordering.
-    //! @relates List
+    //! @method{List}
     //!
     //! ### Example
     //! @snippet example/list/sort.cpp main
     //!
     //! @todo Use a real type class method for Orderables when we get one.
     BOOST_HANA_CONSTEXPR_LAMBDA auto sort = [](auto xs) {
-        return sort_by(_ < _, xs);
+        return List::instance<datatype_t<decltype(xs)>>::sort_impl(xs);
+    };
+
+    //! Sort a list based on the given `predicate`.
+    //! @method{List}
+    //!
+    //! The predicate must be a [strict weak ordering](http://en.wikipedia.org/wiki/Strict_weak_ordering#Strict_weak_orderings).
+    //! The sort is guaranteed to be stable.
+    //!
+    //! ### Example
+    //! @snippet example/list/sort_by.cpp main
+    BOOST_HANA_CONSTEXPR_LAMBDA auto sort_by = [](auto predicate, auto xs) {
+        return List::instance<datatype_t<decltype(xs)>>::sort_by_impl(predicate, xs);
     };
 
     //! Return the first `n` elements of a list.
-    //! @relates List
+    //! @method{List}
     //!
     //! `n` must be a non-negative `Integral` representing the number of
     //! elements to keep. If `n` is greater than the length of the list,
@@ -490,15 +234,22 @@ namespace boost { namespace hana {
     //!
     //! @todo Move `min` in a proper type class.
     BOOST_HANA_CONSTEXPR_LAMBDA auto take = [](auto n, auto xs) {
-        auto min = [](auto a, auto b) { return if_(a < b, a, b); };
-        return unpack(
-            on(list, [=](auto index) { return at(index, xs); }),
-            range(size_t<0>, min(n, length(xs)))
-        );
+        return List::instance<datatype_t<decltype(xs)>>::take_impl(n, xs);
+    };
+
+    //! Take elements until the `predicate` is satisfied.
+    //! @method{List}
+    //!
+    //! This is equivalent to `take_while` with a negated predicate.
+    //!
+    //! ### Example
+    //! @snippet example/list/take_until.cpp main
+    BOOST_HANA_CONSTEXPR_LAMBDA auto take_until = [](auto predicate, auto xs) {
+        return List::instance<datatype_t<decltype(xs)>>::take_until_impl(predicate, xs);
     };
 
     //! Take elements while the `predicate` is satisfied.
-    //! @relates List
+    //! @method{List}
     //!
     //! Specifically, returns the longest prefix of a list in which all
     //! elements satisfy the given predicate. The predicate must return
@@ -507,29 +258,38 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/list/take_while.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto take_while = [](auto predicate, auto xs) {
-        auto acc = [=](auto x, auto xs) {
-            return eval_if(predicate(x()),
-                [=](auto _) { return cons(x(), _(xs)()); },
-                always(list())
-            );
-        };
-        return lazy_foldr(acc, list(), xs);
+        return List::instance<datatype_t<decltype(xs)>>::take_while_impl(predicate, xs);
     };
 
-    //! Take elements until the `predicate` is satisfied.
-    //! @relates List
-    //!
-    //! This is equivalent to `take_while` with a negated predicate.
+    namespace list_detail {
+        BOOST_HANA_CONSTEXPR_LAMBDA auto zip() { return list(); }
+
+        template <typename Xs, typename ...Xss>
+        constexpr auto zip(Xs xs, Xss ...xss) {
+            return List::instance<datatype_t<Xs>>::zip_impl(xs, xss...);
+        }
+
+        template <typename F>
+        constexpr auto zip_with(F) { return list(); }
+
+        template <typename F, typename Xs, typename ...Xss>
+        constexpr auto zip_with(F f, Xs xs, Xss ...xss) {
+            return List::instance<datatype_t<Xs>>::zip_with_impl(f, xs, xss...);
+        }
+    }
+
+    //! Zip zero lists or more.
+    //! @method{List}
     //!
     //! ### Example
-    //! @snippet example/list/take_until.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto take_until = [](auto predicate, auto xs) {
-        return take_while([=](auto x) { return not_(predicate(x)); }, xs);
+    //! @snippet example/list/zip.cpp main
+    BOOST_HANA_CONSTEXPR_LAMBDA auto zip = [](auto ...lists) {
+        return list_detail::zip(lists...);
     };
 
     /*!
     Zip several lists with a given function.
-    @relates List
+    @method{List}
 
     Specifically, returns a list whose i-th element is `f(s1[i], ..., sn[i])`,
     where `sk[i]` denotes the i-th element of the k-th list passed as an
@@ -557,31 +317,388 @@ namespace boost { namespace hana {
     `zip_with`. It might be possible to achieve the variadic behavior with
     e.g. Applicative Functors?
      */
-    BOOST_HANA_CONSTEXPR_LAMBDA auto zip_with = [](auto f, auto ...lists) {
-        auto go = [=](auto index) {
-            return always(f)(index)(at(index, lists)...);
-        };
-        auto zip_length = eval_if(bool_<sizeof...(lists) == 0>,
-            always(size_t<0>),
-            [=](auto _) { return minimum(_(list)(length(lists)...)); }
-        );
-        return unpack(on(list, go), range(size_t<0>, zip_length));
+    BOOST_HANA_CONSTEXPR_LAMBDA auto zip_with = [](auto f, auto ...xss) {
+        return list_detail::zip_with(f, xss...);
     };
 
-    //! Zip one list or more.
-    //! @relates List
+    //! @details
+    //! Requires `Iterable`, `Foldable`, `cons`, and `nil`.
+    template <typename T>
+    struct List::mcd {
+        template <typename Xs, typename Ys>
+        static constexpr auto concat_impl(Xs xs, Ys ys)
+        { return foldr(cons, ys, xs); }
+
+        template <typename Pred, typename Xs>
+        static constexpr auto filter_impl(Pred pred, Xs xs) {
+            auto go = [=](auto x, auto xs) {
+                return eval_if(pred(x),
+                    [=](auto _) { return _(cons)(x, xs); },
+                    always(xs)
+                );
+            };
+            return foldr(go, nil<datatype_t<Xs>>, xs);
+        }
+
+        template <typename Xs>
+        static constexpr auto init_impl(Xs xs) {
+            return eval_if(is_empty(tail(xs)),
+                always(nil<datatype_t<Xs>>),
+                [=](auto _) { return cons(_(head)(xs), init_impl(_(tail)(xs))); }
+            );
+        }
+
+        template <typename ...Xs>
+        static constexpr auto into_impl(Xs ...xs) {
+            return foldr(cons, nil<T>, list(xs...));
+        }
+
+        template <typename Pred, typename Xs>
+        static constexpr auto partition_impl(Pred pred, Xs xs) {
+            auto go = [=](auto parts, auto x) {
+                return eval_if(pred(x),
+                    [=](auto _) { return pair(_(snoc)(first(parts), x), second(parts)); },
+                    [=](auto _) { return pair(first(parts), _(snoc)(second(parts), x)); }
+                );
+            };
+            return foldl(go, pair(nil<T>, nil<T>), xs);
+        }
+
+    private:
+        template <typename X, typename Xs>
+        static constexpr auto insertions(X x, Xs l) {
+            return eval_if(is_empty(l),
+                always(lift<T>(lift<T>(x))),
+                [=](auto _) {
+                    auto y = _(head)(l);
+                    auto ys = _(tail)(l);
+                    return cons(
+                        _(cons)(x, l),
+                        fmap(partial(cons, y), insertions(x, ys))
+                    );
+                }
+            );
+        }
+
+    public:
+        template <typename Xs>
+        static constexpr auto permutations_impl(Xs xs) {
+            return eval_if(is_empty(xs),
+                always(lift<T>(nil<T>)),
+                [=](auto _) {
+                    return join(fmap(
+                        [=](auto ys) { return insertions(_(head)(xs), ys); },
+                        permutations_impl(_(tail)(xs))
+                    ));
+                }
+            );
+        }
+
+        template <typename Xs>
+        static constexpr auto reverse_impl(Xs xs) {
+            return foldl(flip(cons), nil<T>, xs);
+        }
+
+        template <typename Xs, typename X>
+        static constexpr auto snoc_impl(Xs xs, X x) {
+            return foldr(cons, lift<T>(x), xs);
+        }
+
+        template <typename Xs>
+        static constexpr auto sort_impl(Xs xs) {
+            return sort_by(_ < _, xs);
+        }
+
+        template <typename Pred, typename Xs>
+        static constexpr auto sort_by_impl(Pred pred, Xs xs) {
+            return eval_if(is_empty(xs),
+                always(xs),
+                [=](auto _) {
+                    return eval_if(is_empty(_(tail)(xs)),
+                        always(xs),
+                        [=](auto _) {
+                            auto pivot = _(head)(xs);
+                            auto rest = _(tail)(xs);
+                            auto parts = partition([=](auto x) { return pred(x, pivot); }, rest);
+                            return concat(
+                                sort_by_impl(pred, first(parts)),
+                                cons(pivot, sort_by_impl(pred, second(parts)))
+                            );
+                        }
+                    );
+                }
+            );
+        }
+
+        template <typename N, typename Xs>
+        static constexpr auto take_impl(N n, Xs xs) {
+            return eval_if(or_(is_empty(xs), equal(n, int_<0>)),
+                always(nil<T>),
+                [=](auto _) {
+                    return cons(_(head)(xs), take_impl(n - int_<1>, _(tail)(xs)));
+                }
+            );
+        }
+
+        template <typename Pred, typename Xs>
+        static constexpr auto take_until_impl(Pred pred, Xs xs) {
+            return take_while([=](auto x) { return not_(pred(x)); }, xs);
+        }
+
+        template <typename Pred, typename Xs>
+        static constexpr auto take_while_impl(Pred pred, Xs xs) {
+            auto acc = [=](auto x, auto xs) {
+                return eval_if(pred(x()),
+                    [=](auto _) { return cons(x(), _(xs)()); },
+                    always(nil<T>)
+                );
+            };
+            return lazy_foldr(acc, nil<T>, xs);
+        }
+
+        template <typename ...Xss>
+        static constexpr auto zip_impl(Xss ...xss)
+        { return zip_with(into<T>, xss...); }
+
+        template <typename F, typename ...Xss>
+        static constexpr auto zip_with_impl(F f, Xss ...xss) {
+            return eval_if(any_of(list(is_empty(xss)...)),
+                always(nil<T>),
+                [=](auto _) {
+                    return cons(
+                        f(_(head)(xss)...),
+                        zip_with_impl(f, _(tail)(xss)...)
+                    );
+                }
+            );
+        }
+    };
+
+    //! @details
+    //! `List`s implement `fmap` as the mapping of a function over each
+    //! element of the list. This is somewhat equivalent to `std::transform`.
+    //! Mapping a function over an empty list returns an empty list and never
+    //! applies the function.
+    //!
+    //! ### Example 1
+    //! @snippet example/list/functor/fmap.cpp fusion
+    //!
+    //! ### Example 2
+    //! @snippet example/list/functor/fmap.cpp mpl
+    template <typename T>
+    struct Functor::instance<T, detail::enable_if_t<instantiates<List, T>>>
+        : Functor::fmap_mcd
+    {
+        template <typename F, typename Xs>
+        static constexpr auto fmap_impl(F f, Xs xs) {
+            return foldr(compose(cons, f), nil<T>, xs);
+        }
+    };
+
+    //! @details
+    //! A value can be lifted into a singleton list with `lift`. `ap(fs, xs)`
+    //! applies each function in the list `fs` to each value in the list `xs`,
+    //! and returns a list containing all the results.
     //!
     //! ### Example
-    //! @snippet example/list/zip.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto zip = [](auto ...lists) {
-        return zip_with(list, lists...);
+    //! @snippet example/list/applicative/overview.cpp main
+    template <typename T>
+    struct Applicative::instance<T, detail::enable_if_t<instantiates<List, T>>>
+        : Applicative::mcd
+    {
+        template <typename X>
+        static constexpr auto lift_impl(X x)
+        { return cons(x, nil<T>); }
+
+        template <typename Fs, typename Xs>
+        static constexpr auto ap_impl(Fs fs, Xs xs)
+        { return bind(fs, [=](auto f) { return fmap(f, xs); }); }
     };
 
+    //! @details
+    //! A function returning a list of results can be mapped over all the
+    //! elements of a list and have all the results concatenated using `bind`.
+    //! Also, a list of lists can be flattened one level with `join`.
+    //!
+    //! ### Example
+    //! @snippet example/list/monad/overview.cpp main
     template <typename T>
-    struct convert<List, T, detail::enable_if_t<instantiates<Foldable, T>>> {
+    struct Monad::instance<T, detail::enable_if_t<instantiates<List, T>>>
+        : Monad::join_mcd
+    {
+        template <typename Xss>
+        static constexpr auto join_impl(Xss xss)
+        { return foldl(concat, nil<T>, xss); }
+    };
+
+    //! Converts a `Foldable` to a `List`.
+    template <typename L, typename T>
+    struct convert<L, T, detail::enable_if_t<
+        instantiates<List, L> && instantiates<Foldable, T>
+    >> {
         template <typename Xs>
         static constexpr auto apply(Xs xs)
-        { return foldr(cons, list(), xs); }
+        { return foldr(cons, nil<L>, xs); }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // The List data type
+    //////////////////////////////////////////////////////////////////////////
+    template <typename T, T ...xs>
+    [[deprecated("use integer_list instead")]]
+    BOOST_HANA_CONSTEXPR_LAMBDA auto list_c = list(integral<T, xs>...);
+
+    template <typename ...xs>
+    [[deprecated("use type_list instead")]]
+    BOOST_HANA_CONSTEXPR_LAMBDA auto list_t = list(type<xs>...);
+
+    //! @details
+    //! Generic instance for `Iterable`s.
+    template <>
+    struct Foldable::instance<List> : Iterable::FoldableInstance {
+        template <typename F, typename State, typename Xs>
+        static constexpr auto foldl_impl(F f, State s, Xs xs) {
+            return xs.storage([=](auto ...xs) {
+                return detail::left_folds::variadic(f, s, xs...);
+            });
+        }
+
+        template <typename F, typename Xs>
+        static constexpr auto unpack_impl(F f, Xs xs) {
+            return xs.storage(f);
+        }
+
+        template <typename Xs>
+        static constexpr auto length_impl(Xs xs) {
+            return xs.storage([](auto ...xs) {
+                return size_t<sizeof...(xs)>;
+            });
+        }
+    };
+
+    //! @details
+    //! `List` is an `Iterable` in the most obvious way. The head of a
+    //! non-empty list corresponds to its first element. The tail of a
+    //! non-empty list is a list containing all the elements in the same
+    //! order, except the head. Finally, a list is empty if and only if
+    //! it has no elements in it.
+    //!
+    //! ### Example
+    //! @snippet example/list/iterable/overview.cpp main
+    template <>
+    struct Iterable::instance<List> : Iterable::mcd {
+        template <typename Xs>
+        static constexpr auto head_impl(Xs xs) {
+            return xs.storage([](auto x, auto ...rest) {
+                return x;
+            });
+        }
+
+        template <typename Xs>
+        static constexpr auto tail_impl(Xs xs) {
+            return xs.storage([](auto x, auto ...rest) {
+                return list(rest...);
+            });
+        }
+
+        template <typename Xs>
+        static constexpr auto is_empty_impl(Xs xs) {
+            return xs.storage([](auto ...xs) {
+                return bool_<sizeof...(xs) == 0>;
+            });
+        }
+
+        template <typename Index, typename Xs>
+        static constexpr auto at_impl(Index n, Xs xs) {
+            return xs.storage([=](auto ...xs) {
+                return detail::at_index::best<n()>(xs...);
+            });
+        }
+    };
+
+    //! @details
+    //! `nil<List>` is equivalent to `list()`, and `cons(x, list(xs...))` is
+    //! equivalent to `list(x, xs...)`.
+    template <>
+    struct List::instance<List> : List::mcd<List> {
+        static BOOST_HANA_CONSTEXPR_LAMBDA auto nil_impl() {
+            return list();
+        }
+
+        template <typename X, typename Xs>
+        static constexpr auto cons_impl(X x, Xs xs) {
+            return xs.storage([=](auto ...xs) {
+                return list(x, xs...);
+            });
+        }
+
+        template <typename Xs, typename Ys>
+        static constexpr auto concat_impl(Xs xs, Ys ys) {
+            return xs.storage([=](auto ...xs) {
+                return ys.storage([=](auto ...ys) {
+                    return list(xs..., ys...);
+                });
+            });
+        }
+
+        template <typename Xs>
+        static constexpr auto init_impl(Xs xs) {
+            return unpack(
+                on(list, [=](auto index) { return at(index, xs); }),
+                range(size_t<0>, length(xs) - size_t<1>)
+            );
+        }
+
+        template <typename Xs, typename X>
+        static constexpr auto snoc_impl(Xs xs, X x) {
+            return xs.storage([=](auto ...xs) {
+                return list(xs..., x);
+            });
+        }
+
+        template <typename N, typename Xs>
+        static constexpr auto take_impl(N n, Xs xs) {
+            auto min = [](auto a, auto b) { return if_(a < b, a, b); };
+            return unpack(
+                on(list, [=](auto index) { return at(index, xs); }),
+                range(size_t<0>, min(n, length(xs)))
+            );
+        }
+
+        template <typename F, typename ...Xss>
+        static constexpr auto zip_with_impl(F f, Xss ...lists) {
+            auto go = [=](auto index) {
+                return always(f)(index)(at(index, lists)...);
+            };
+            auto zip_length = minimum(list(length(lists)...));
+            return unpack(on(list, go), range(size_t<0>, zip_length));
+        }
+    };
+
+    //! @cond
+    template <>
+    struct Functor::instance<List> : Functor::fmap_mcd {
+        template <typename F, typename Xs>
+        static constexpr auto fmap_impl(F f, Xs xs) {
+            return xs.storage([=](auto ...xs) {
+                return list(f(xs)...);
+            });
+        }
+    };
+    //! @endcond
+
+    //! @details
+    //! Two `List`s are equal if and only if they contain the same number
+    //! of elements and their elements at any given index are equal.
+    //!
+    //! ### Example
+    //! @snippet example/list/comparable.cpp main
+    //!
+    //! @todo
+    //! Don't use the Iterable instance; write an efficient one.
+    template <>
+    struct Comparable::instance<List, List> : Iterable::ComparableInstance {
+
     };
 }} // end namespace boost::hana
 

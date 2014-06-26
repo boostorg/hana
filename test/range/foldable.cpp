@@ -8,15 +8,20 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/integral.hpp>
-#include <boost/hana/list.hpp>
+
+#include <tuple>
 using namespace boost::hana;
 
 
+BOOST_HANA_CONSTEXPR_LAMBDA auto tuple = [](auto ...xs) {
+    return std::make_tuple(xs...);
+};
+
 int main() {
-    BOOST_HANA_STATIC_ASSERT(unpack(list, range(int_<0>, int_<0>)) == list());
-    BOOST_HANA_STATIC_ASSERT(unpack(list, range(int_<0>, int_<1>)) == list_c<int, 0>);
-    BOOST_HANA_STATIC_ASSERT(unpack(list, range(int_<0>, int_<2>)) == list_c<int, 0, 1>);
-    BOOST_HANA_STATIC_ASSERT(unpack(list, range(int_<0>, int_<3>)) == list_c<int, 0, 1, 2>);
+    BOOST_HANA_STATIC_ASSERT(unpack(tuple, range(int_<0>, int_<0>)) == tuple());
+    BOOST_HANA_STATIC_ASSERT(unpack(tuple, range(int_<0>, int_<1>)) == tuple(int_<0>));
+    BOOST_HANA_STATIC_ASSERT(unpack(tuple, range(int_<0>, int_<2>)) == tuple(int_<0>, int_<1>));
+    BOOST_HANA_STATIC_ASSERT(unpack(tuple, range(int_<0>, int_<3>)) == tuple(int_<0>, int_<1>, int_<2>));
 
     BOOST_HANA_STATIC_ASSERT(length(range(int_<0>, int_<0>)) == int_<0>);
     BOOST_HANA_STATIC_ASSERT(length(range(int_<0>, int_<1>)) == int_<1>);

@@ -5,14 +5,14 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/integer_list.hpp>
 #include <boost/hana/integral.hpp>
-#include <boost/hana/list.hpp>
 using namespace boost::hana;
-using namespace literals;
 
 
 int main() {
     //! [main]
-    BOOST_HANA_STATIC_ASSERT(concat(list(1, '2'), list(3.3, 4_c)) == list(1, '2', 3.3, 4_c));
+    BOOST_HANA_STATIC_ASSERT(to<List>(integer_list<int, 0, 1, 2>) == list(int_<0>, int_<1>, int_<2>));
+    BOOST_HANA_STATIC_ASSERT(head(integer_list<int, 0, 1, 2>) == int_<0>);
     //! [main]
 }

@@ -22,6 +22,8 @@ General purpose type classes provided by the library.
 - Provide a way to check type class requirements like
   `Functor f => Applicative f`.
 - Document requirements for the existing type classes.
+- Consider providing complimentary instances via e.g.
+  `Foldable::instance<Iterable>`.
  */
 
 //! @defgroup datatypes Data types
@@ -39,6 +41,7 @@ General purpose type classes provided by the library.
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/functor.hpp>
+#include <boost/hana/integer_list.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/list.hpp>
@@ -48,5 +51,6 @@ General purpose type classes provided by the library.
 #include <boost/hana/pair.hpp>
 #include <boost/hana/range.hpp>
 #include <boost/hana/type.hpp>
+#include <boost/hana/type_list.hpp>
 
 #endif // !BOOST_HANA_HPP
