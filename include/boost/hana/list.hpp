@@ -49,6 +49,16 @@ namespace boost { namespace hana {
 
     --------------------------------------------------------------------------
 
+    ## Laws (as a type class)
+    For any two `List`s `x` and `y`,
+    @f{align*}{
+        x = y \iff \tt{to<List>(x)} = \tt{to<List>(y)}
+    @f}
+    This is basically saying that all `List` instances are isomorphic, and
+    it therefore makes sense to define comparison for any two `List`s.
+
+    --------------------------------------------------------------------------
+
     @todo
     - It might be possible to optimize the implementation of homogeneous lists
       using an array.
@@ -528,6 +538,31 @@ namespace boost { namespace hana {
         { return foldl(concat, nil<T>, xss); }
     };
 
+    //! @details
+    //! Two `List`s are equal if and only if they contain the same number
+    //! of elements and their elements at any given index are equal.
+    //!
+    //! ### Example
+    //! @snippet example/list/comparable.cpp main
+    template <typename T, typename U>
+    struct Comparable::instance<T, U, detail::enable_if_t<
+        instantiates<List, T> && instantiates<List, U>
+    >> : Comparable::equal_mcd
+    {
+        template <typename Xs, typename Ys>
+        static constexpr auto equal_impl(Xs xs, Ys ys) {
+            return eval_if(or_(is_empty(xs), is_empty(ys)),
+                [=](auto _) {
+                    return and_(_(is_empty)(xs), _(is_empty)(ys));
+                },
+                [=](auto _) {
+                    return and_(equal(_(head)(xs), _(head)(ys)),
+                                equal_impl(_(tail)(xs), _(tail)(ys)));
+                }
+            );
+        }
+    };
+
     //! Converts a `Foldable` to a `List`.
     template <typename L, typename T>
     struct convert<L, T, detail::enable_if_t<
@@ -675,20 +710,6 @@ namespace boost { namespace hana {
         }
     };
     //! @endcond
-
-    //! @details
-    //! Two `List`s are equal if and only if they contain the same number
-    //! of elements and their elements at any given index are equal.
-    //!
-    //! ### Example
-    //! @snippet example/list/comparable.cpp main
-    //!
-    //! @todo
-    //! Don't use the Iterable instance; write an efficient one.
-    template <>
-    struct Comparable::instance<List, List> : Iterable::ComparableInstance {
-
-    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_LIST_HPP
