@@ -9,24 +9,17 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/wrap.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/list.hpp>
 
-
-template <typename T, typename Datatype>
-struct with_datatype_impl {
-    T actual;
-    using hana_datatype = Datatype;
-};
 
 template <int i>
 struct MinimalIterable;
 
 template <int i>
 BOOST_HANA_CONSTEXPR_LAMBDA auto minimal_iterable = [](auto ...xs) {
-    return with_datatype_impl<
-        decltype(boost::hana::list(xs...)), MinimalIterable<i>
-    >{boost::hana::list(xs...)};
+    return boost::hana::detail::wrap<MinimalIterable<i>>(boost::hana::list(xs...));
 };
 
 BOOST_HANA_CONSTEXPR_LAMBDA auto iterable = minimal_iterable<0>;
@@ -35,18 +28,18 @@ template <int i>
 struct MinimalInstance : boost::hana::Iterable::mcd {
     template <typename Xs>
     static constexpr auto head_impl(Xs xs)
-    { return boost::hana::head(xs.actual); }
+    { return boost::hana::head(boost::hana::detail::unwrap(xs)); }
 
     template <typename Xs>
     static constexpr auto tail_impl(Xs xs) {
-        return with_datatype_impl<
-            decltype(boost::hana::tail(xs.actual)), MinimalIterable<i>
-        >{boost::hana::tail(xs.actual)};
+        return boost::hana::detail::wrap<MinimalIterable<i>>(
+            boost::hana::tail(boost::hana::detail::unwrap(xs))
+        );
     }
 
     template <typename Xs>
     static constexpr auto is_empty_impl(Xs xs)
-    { return boost::hana::is_empty(xs.actual); }
+    { return boost::hana::is_empty(boost::hana::detail::unwrap(xs)); }
 };
 
 namespace boost { namespace hana {
