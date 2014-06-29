@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/detail/integral_fwd.hpp>
 #include <boost/hana/logical.hpp>
+#include <boost/hana/orderable.hpp>
 
 #include <cstddef>
 
@@ -28,6 +29,18 @@ namespace boost { namespace hana {
         template <typename T, typename U>
         static constexpr auto equal_impl(T t, U u)
         { return bool_<t() == u()>; }
+    };
+
+    //! @details
+    //! An `Integral` is less than another if and only if its underlying
+    //! integral value is less than the other's.
+    //!
+    //! @snippet example/integral/orderable.cpp main
+    template <>
+    struct Orderable::instance<Integral, Integral> : Orderable::less_mcd {
+        template <typename T, typename U>
+        static constexpr auto less_impl(T t, U u)
+        { return bool_<(t() < u())>; }
     };
 
     //! @details
