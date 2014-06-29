@@ -12,7 +12,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core.hpp>
-#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/functor.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/monad.hpp>
@@ -117,14 +116,26 @@ namespace boost { namespace hana {
     template <typename T>
     using untype_t = typename untype<T>::type;
 
+    namespace type_detail {
+        struct decltype_ {
+            template <typename T>
+            constexpr auto operator()(T) const
+            { return type<T>; }
+        };
+
+        struct sizeof_ {
+            template <typename T>
+            constexpr auto operator()(T) const
+            { return size_t<sizeof(untype_t<T>)>; }
+        };
+    }
+
     //! Returns the type of an object as a `Type`.
     //! @relates Type
     //!
     //! ### Example
     //! @snippet example/type/decltype.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto decltype_ = [](auto t) {
-        return type<decltype(t)>;
-    };
+    constexpr type_detail::decltype_ decltype_{};
 
     //! Returns the size of the C++ type represented by a `Type`.
     //! @relates Type
@@ -134,9 +145,7 @@ namespace boost { namespace hana {
     //!
     //! @todo
     //! Should we also support non-`Type`s? That could definitely be useful.
-    BOOST_HANA_CONSTEXPR_LAMBDA auto sizeof_ = [](auto t) {
-        return size_t<sizeof(untype_t<decltype(t)>)>;
-    };
+    constexpr type_detail::sizeof_ sizeof_{};
 
     namespace type_detail {
         template <template <typename ...> class f>
