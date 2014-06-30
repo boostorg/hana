@@ -91,7 +91,7 @@ namespace boost { namespace hana {
     //! @snippet example/pair/comparable.cpp main
     template <typename T, typename U>
     struct Comparable::instance<T, U, detail::enable_if_t<
-        instantiates<Pair, T> && instantiates<Pair, U>
+        instantiates<Pair, T>() && instantiates<Pair, U>()
     >> : Comparable::equal_mcd {
         template <typename X, typename Y>
         static constexpr auto equal_impl(X x, Y y) {
@@ -104,7 +104,7 @@ namespace boost { namespace hana {
 
 #if 0
     template <typename T>
-    struct Functor::instance<T, detail::enable_if_t<instantiates<Pair, T>>>
+    struct Functor::instance<T, detail::enable_if_t<instantiates<Pair, T>()>>
         : Functor::fmap_mcd
     {
         template <typename F, typename P>
@@ -113,7 +113,7 @@ namespace boost { namespace hana {
     };
 
     template <typename T>
-    struct Applicative::instance<T, detail::enable_if_t<instantiates<Pair, T>>>
+    struct Applicative::instance<T, detail::enable_if_t<instantiates<Pair, T>()>>
         : Applicative::mcd
     {
         template <typename X>
@@ -126,7 +126,7 @@ namespace boost { namespace hana {
     };
 
     template <typename T>
-    struct Monad::instance<T, detail::enable_if_t<instantiates<Pair, T>>>
+    struct Monad::instance<T, detail::enable_if_t<instantiates<Pair, T>()>>
         : Monad::bind_mcd
     {
         template <typename P, typename F>
@@ -139,7 +139,7 @@ namespace boost { namespace hana {
     };
 
     template <typename T>
-    struct Foldable::instance<T, detail::enable_if_t<instantiates<Pair, T>>>
+    struct Foldable::instance<T, detail::enable_if_t<instantiates<Pair, T>()>>
         : Foldable::lazy_foldr_mcd
     {
         template <typename F, typename S, typename P>

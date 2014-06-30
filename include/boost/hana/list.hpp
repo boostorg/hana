@@ -495,7 +495,7 @@ namespace boost { namespace hana {
     //! ### Example 2
     //! @snippet example/type_list/functor/fmap.cpp main
     template <typename T>
-    struct Functor::instance<T, detail::enable_if_t<instantiates<List, T>>>
+    struct Functor::instance<T, detail::enable_if_t<instantiates<List, T>()>>
         : Functor::fmap_mcd
     {
         template <typename F, typename Xs>
@@ -512,7 +512,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/list/applicative/overview.cpp main
     template <typename T>
-    struct Applicative::instance<T, detail::enable_if_t<instantiates<List, T>>>
+    struct Applicative::instance<T, detail::enable_if_t<instantiates<List, T>()>>
         : Applicative::mcd
     {
         template <typename X>
@@ -532,7 +532,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/list/monad/overview.cpp main
     template <typename T>
-    struct Monad::instance<T, detail::enable_if_t<instantiates<List, T>>>
+    struct Monad::instance<T, detail::enable_if_t<instantiates<List, T>()>>
         : Monad::join_mcd
     {
         template <typename Xss>
@@ -548,7 +548,7 @@ namespace boost { namespace hana {
     //! @snippet example/list/comparable.cpp main
     template <typename T, typename U>
     struct Comparable::instance<T, U, detail::enable_if_t<
-        instantiates<List, T> && instantiates<List, U>
+        instantiates<List, T>() && instantiates<List, U>()
     >> : Comparable::equal_mcd
     {
         template <typename Xs, typename Ys>
@@ -568,7 +568,7 @@ namespace boost { namespace hana {
     //! Converts a `Foldable` to a `List`.
     template <typename L, typename T>
     struct convert<L, T, detail::enable_if_t<
-        instantiates<List, L> && instantiates<Foldable, T>
+        instantiates<List, L>() && instantiates<Foldable, T>()
     >> {
         template <typename Xs>
         static constexpr auto apply(Xs xs)
