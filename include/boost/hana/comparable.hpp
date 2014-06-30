@@ -27,11 +27,11 @@ namespace boost { namespace hana {
     ## Laws
     `equal` must define an equivalence relation. In other words, for all
     `a`, `b`, `c` of comparable data types,
-    @f{align*}{
-        a = a                                && \text{Reflexivity}      \\
-        a = b \Rightarrow b = a              && \text{Symmetry}         \\
-        a = b \wedge b = c \Rightarrow a = c && \text{Transitivity}
-    @f}
+    @code
+        a == a                          // Reflexivity
+        if a == b then b == a           // Symmetry
+        if a == b && b == c then a == c // Transitivity
+    @endcode
 
     --------------------------------------------------------------------------
 
