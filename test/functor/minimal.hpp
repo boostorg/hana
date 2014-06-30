@@ -7,6 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TEST_FUNCTOR_MINIMAL_HPP
 #define BOOST_HANA_TEST_FUNCTOR_MINIMAL_HPP
 
+#include <boost/hana/comparable.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/laws.hpp>
 #include <boost/hana/detail/static_assert.hpp>
@@ -16,16 +17,23 @@ Distributed under the Boost Software License, Version 1.0.
 
 struct MinimalFunctor;
 
-template <typename Storage>
+template <typename Storage, typename = boost::hana::operators::enable>
 struct _functor {
     using hana_datatype = MinimalFunctor;
     Storage storage;
-
-    // Required to check Functor laws.
-    template <typename S1, typename S2>
-    friend constexpr auto operator==(_functor<S1> a, _functor<S2> b)
-    { return a.storage(boost::hana::list) == b.storage(boost::hana::list); }
 };
+
+namespace boost { namespace hana {
+    // Required to check Functor laws.
+    template <>
+    struct Comparable::instance<MinimalFunctor, MinimalFunctor>
+        : Comparable::equal_mcd
+    {
+        template <typename S1, typename S2>
+        static constexpr auto equal_impl(_functor<S1> a, _functor<S2> b)
+        { return a.storage(list) == b.storage(list); }
+    };
+}}
 
 BOOST_HANA_CONSTEXPR_LAMBDA auto functor = [](auto ...xs) {
     auto storage = [=](auto f) { return f(xs...); };

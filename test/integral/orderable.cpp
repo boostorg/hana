@@ -11,6 +11,7 @@ using namespace boost::hana;
 
 
 int main() {
+    // Integral < Integral
     BOOST_HANA_STATIC_ASSERT(less(int_<0>, int_<1>));
     BOOST_HANA_STATIC_ASSERT(not_(less(int_<0>, int_<0>)));
     BOOST_HANA_STATIC_ASSERT(not_(less(int_<1>, int_<0>)));
@@ -18,4 +19,24 @@ int main() {
     BOOST_HANA_STATIC_ASSERT(less(int_<0>, long_<1>));
     BOOST_HANA_STATIC_ASSERT(not_(less(int_<0>, long_<0>)));
     BOOST_HANA_STATIC_ASSERT(not_(less(int_<1>, long_<0>)));
+
+
+    // Integral < other
+    BOOST_HANA_STATIC_ASSERT(less(int_<0>, int{1}));
+    BOOST_HANA_STATIC_ASSERT(not_(less(int_<0>, int{0})));
+    BOOST_HANA_STATIC_ASSERT(not_(less(int_<1>, int{0})));
+
+    BOOST_HANA_STATIC_ASSERT(less(int_<0>, long{1}));
+    BOOST_HANA_STATIC_ASSERT(not_(less(int_<0>, long{0})));
+    BOOST_HANA_STATIC_ASSERT(not_(less(int_<1>, long{0})));
+
+
+    // other < Integral
+    BOOST_HANA_STATIC_ASSERT(less(int{0}, int_<1>));
+    BOOST_HANA_STATIC_ASSERT(not_(less(int{0}, int_<0>)));
+    BOOST_HANA_STATIC_ASSERT(not_(less(int{1}, int_<0>)));
+
+    BOOST_HANA_STATIC_ASSERT(less(int{0}, long_<1>));
+    BOOST_HANA_STATIC_ASSERT(not_(less(int{0}, long_<0>)));
+    BOOST_HANA_STATIC_ASSERT(not_(less(int{1}, long_<0>)));
 }

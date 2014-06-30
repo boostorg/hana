@@ -11,11 +11,13 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_INTEGRAL_HPP
 
 #include <boost/hana/comparable.hpp>
+#include <boost/hana/detail/enable_if.hpp>
 #include <boost/hana/detail/integral_fwd.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/orderable.hpp>
 
 #include <cstddef>
+#include <type_traits>
 
 
 namespace boost { namespace hana {
@@ -32,6 +34,27 @@ namespace boost { namespace hana {
     };
 
     //! @details
+    //! `Integral`s can be compared with objects of any integral type; the
+    //! comparison is done by comparing their underlying integral value.
+    template <typename T>
+    struct Comparable::instance<Integral, T, detail::enable_if_t<std::is_integral<T>{}>>
+        : Comparable::equal_mcd
+    {
+        template <typename X, typename Y>
+        static constexpr auto equal_impl(X x, Y y)
+        { return x() == y; }
+    };
+
+    template <typename T>
+    struct Comparable::instance<T, Integral, detail::enable_if_t<std::is_integral<T>{}>>
+        : Comparable::equal_mcd
+    {
+        template <typename X, typename Y>
+        static constexpr auto equal_impl(X x, Y y)
+        { return x == y(); }
+    };
+
+    //! @details
     //! An `Integral` is less than another if and only if its underlying
     //! integral value is less than the other's.
     //!
@@ -41,6 +64,27 @@ namespace boost { namespace hana {
         template <typename T, typename U>
         static constexpr auto less_impl(T t, U u)
         { return bool_<(t() < u())>; }
+    };
+
+    //! @details
+    //! `Integral`s can be ordered with objects of any integral type; the
+    //! ordering is done by ordering their underlying integral value.
+    template <typename T>
+    struct Orderable::instance<Integral, T, detail::enable_if_t<std::is_integral<T>{}>>
+        : Orderable::less_mcd
+    {
+        template <typename X, typename Y>
+        static constexpr auto less_impl(X x, Y y)
+        { return x() < y; }
+    };
+
+    template <typename T>
+    struct Orderable::instance<T, Integral, detail::enable_if_t<std::is_integral<T>{}>>
+        : Orderable::less_mcd
+    {
+        template <typename X, typename Y>
+        static constexpr auto less_impl(X x, Y y)
+        { return x < y(); }
     };
 
     //! @details

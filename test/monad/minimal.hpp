@@ -8,6 +8,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_TEST_MONAD_MINIMAL_HPP
 
 #include <boost/hana/applicative.hpp>
+#include <boost/hana/comparable.hpp>
 #include <boost/hana/functor.hpp>
 
 
@@ -17,13 +18,19 @@ template <typename T>
 struct monad {
     T value;
     using hana_datatype = MinimalMonad;
-
-    // Required to check Monad laws.
-    friend constexpr bool operator==(monad<T> a, monad<T> b)
-    { return a.value == b.value; }
 };
 
 namespace boost { namespace hana {
+    // Required to check Monad laws.
+    template <>
+    struct Comparable::instance<MinimalMonad, MinimalMonad>
+        : Comparable::equal_mcd
+    {
+        template <typename T>
+        static constexpr auto equal_impl(monad<T> a, monad<T> b)
+        { return equal(a.value, b.value); }
+    };
+
     template <>
     struct Functor::instance<MinimalMonad> : Functor::fmap_mcd {
         template <typename F, typename M>

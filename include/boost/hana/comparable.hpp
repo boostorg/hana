@@ -36,14 +36,9 @@ namespace boost { namespace hana {
     --------------------------------------------------------------------------
 
     @todo
-    - Should all data types have a default implementation to allow arbitrary
-      objects of different types to be compared? By default, two objects that
-      don't share a common_type would be unequal, and otherwise we would use
-      the common_type's comparison, if any.
-    - Implement automatic checking of the laws for Comparable, if possible.
+    Implement automatic checking of the laws for Comparable, if possible.
      */
     struct Comparable : binary_typeclass<Comparable> {
-        struct default_;
         struct equal_mcd;
         struct not_equal_mcd;
     };
@@ -93,14 +88,16 @@ namespace boost { namespace hana {
         { return not_(not_equal(x, y)); }
     };
 
-    struct Comparable::default_ {
-        template <typename X, typename Y>
+    //! @details
+    //! Objects whose data type is the same as their C++ type and who have a
+    //! valid `operator==` are automatically instances of `Comparable` by
+    //! using that comparison.
+    template <typename X, typename Y>
+    struct Comparable::instance<X, Y, decltype((void)(*(X*)0 == *(Y*)0))>
+        : Comparable::equal_mcd
+    {
         static constexpr auto equal_impl(X x, Y y)
         { return x == y; }
-
-        template <typename X, typename Y>
-        static constexpr auto not_equal_impl(X x, Y y)
-        { return x != y; }
     };
 
     namespace operators {

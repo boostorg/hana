@@ -4,6 +4,8 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
+#include <boost/hana/adapted/std_list.hpp>
+#include <boost/hana/comparable.hpp>
 #include <boost/hana/core.hpp>
 #include <boost/hana/list.hpp>
 
@@ -21,8 +23,12 @@ namespace boost { namespace hana {
     template <typename T>
     struct datatype<std::vector<T>> { using type = StdVector; };
 
-    template <typename T>
-    struct datatype<std::list<T>> { using type = StdList; };
+    template <>
+    struct Comparable::instance<StdVector, StdVector> {
+        template <typename T>
+        static auto equal_impl(std::vector<T> xs, std::vector<T> ys)
+        { return xs == ys; }
+    };
 
     template <>
     struct convert<StdVector, StdList> {
