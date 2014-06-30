@@ -166,23 +166,19 @@ namespace boost { namespace hana {
         { return eval_if(c, [=](auto) { return t; }, [=](auto) { return e; }); }
     };
 
-    namespace logical_detail {
-        struct default_logical : Logical::mcd {
-            template <typename Then, typename Else>
-            static constexpr auto eval_if_impl(bool cond, Then t, Else e) {
-                auto id = [](auto x) { return x; };
-                return cond ? t(id) : e(id);
-            }
-
-            static constexpr auto not_impl(bool cond)
-            { return !cond; }
-        };
-    }
-
     template <typename T>
     struct Logical::instance<T, decltype(*(T*)0 ? (void)0 : (void)0)>
-        : logical_detail::default_logical
-    { };
+        : Logical::mcd
+    {
+        template <typename Then, typename Else>
+        static constexpr auto eval_if_impl(bool cond, Then t, Else e) {
+            auto id = [](auto x) { return x; };
+            return cond ? t(id) : e(id);
+        }
+
+        static constexpr auto not_impl(bool cond)
+        { return !cond; }
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_LOGICAL_HPP
