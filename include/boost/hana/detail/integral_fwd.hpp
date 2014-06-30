@@ -2,6 +2,13 @@
 @file
 Internal header to break cyclic dependencies.
 
+@todo
+Some headers include this only, which breaks them if they don't include
+the full `boost/hana/integral.hpp` and return an `Integral` from one of
+their function (the user would expect that the header includes everything
+that's required). Because of circular dependencies, those headers can't
+include `boost/hana/integral.hpp`. Fix this.
+
 @copyright Louis Dionne 2014
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
@@ -43,9 +50,9 @@ namespace boost { namespace hana {
      */
     struct Integral { };
 
-    namespace integral_detail {
+    namespace operators {
         template <typename T, T t>
-        struct _integral {
+        struct integral {
             constexpr T operator()() const { return t; }
             constexpr operator T() const { return t; }
             using hana_datatype = Integral;
@@ -53,15 +60,15 @@ namespace boost { namespace hana {
 
 #define BOOST_HANA_INTEGRAL_BINARY_OP(op)                                   \
     template <typename U, U u, typename V, V v>                             \
-    constexpr _integral<decltype(u op v), (u op v)>                         \
-    operator op(_integral<U, u>, _integral<V, v>)                           \
+    constexpr integral<decltype(u op v), (u op v)>                          \
+    operator op(integral<U, u>, integral<V, v>)                             \
     { return {}; }                                                          \
 /**/
 
 #define BOOST_HANA_INTEGRAL_UNARY_OP(op)                                    \
     template <typename U, U u>                                              \
-    constexpr _integral<decltype(op u), (op u)>                             \
-    operator op(_integral<U, u>)                                            \
+    constexpr integral<decltype(op u), (op u)>                              \
+    operator op(integral<U, u>)                                             \
     { return {}; }                                                          \
 /**/
 
@@ -82,22 +89,11 @@ namespace boost { namespace hana {
         BOOST_HANA_INTEGRAL_BINARY_OP(<<)
         BOOST_HANA_INTEGRAL_BINARY_OP(>>)
 
-        // Comparison
-        BOOST_HANA_INTEGRAL_BINARY_OP(==)
-        BOOST_HANA_INTEGRAL_BINARY_OP(!=)
-        BOOST_HANA_INTEGRAL_BINARY_OP(<)
-        BOOST_HANA_INTEGRAL_BINARY_OP(<=)
-        BOOST_HANA_INTEGRAL_BINARY_OP(>)
-        BOOST_HANA_INTEGRAL_BINARY_OP(>=)
-
-        // Logical
-        BOOST_HANA_INTEGRAL_UNARY_OP(!)
-        BOOST_HANA_INTEGRAL_BINARY_OP(&&)
-        BOOST_HANA_INTEGRAL_BINARY_OP(||)
-
 #undef BOOST_HANA_INTEGRAL_UNARY_OP
 #undef BOOST_HANA_INTEGRAL_BINARY_OP
+    }
 
+    namespace integral_detail {
         // We're not gonna include the whole <type_traits> for this.
         template <typename T>
         struct remove_cv { using type = T; };
@@ -160,12 +156,10 @@ namespace boost { namespace hana {
     cv-qualifiers in the integral type, we just remove them.
 
     @todo
-    - Do we want `char_<1> + char_<2> == char_<3>` or `char_<1> + char_<2> == int_<3>`?
-    - Don't overload operators handled by type classes once we get a working
-      interoperation with runtime integers.
+    Do we want `char_<1> + char_<2> == char_<3>` or `char_<1> + char_<2> == int_<3>`?
      */
     template <typename T, T v>
-    constexpr integral_detail::_integral<
+    constexpr operators::integral<
               typename integral_detail::remove_cv<T>::type, v> integral{};
 
     //! @relates Integral
