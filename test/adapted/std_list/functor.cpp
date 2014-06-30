@@ -24,7 +24,9 @@ int main() {
     assert(fmap(f, std_list{1, 2}) == (std_list{2, 3}));
     assert(fmap(f, std_list{1, 2, 3}) == (std_list{2, 3, 4}));
 
+#if 0
     assert(detail::laws<Functor>(std_list{}, f, g));
     assert(detail::laws<Functor>(std_list{1}, f, g));
     assert(detail::laws<Functor>(std_list{1, 2, 3}, f, g));
+#endif
 }

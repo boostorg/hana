@@ -117,7 +117,7 @@ namespace boost { namespace hana {
     struct Iterable::mcd {
         template <typename Index, typename Iterable_>
         static constexpr auto at_impl(Index n, Iterable_ iterable) {
-            return eval_if(n == size_t<0>,
+            return eval_if(equal(n, size_t<0>),
                 [=](auto _) { return head(_(iterable)); },
                 [=](auto _) { return at_impl(_(n) - size_t<1>, tail(_(iterable))); }
             );
@@ -133,7 +133,7 @@ namespace boost { namespace hana {
 
         template <typename N, typename Iterable_>
         static constexpr auto drop_impl(N n, Iterable_ iterable) {
-            return eval_if(n == size_t<0> || is_empty(iterable),
+            return eval_if(or_(equal(n, size_t<0>), is_empty(iterable)),
                 always(iterable),
                 [=](auto _) { return drop_impl(_(n) - size_t<1>, tail(_(iterable))); }
             );

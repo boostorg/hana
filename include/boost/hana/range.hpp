@@ -73,7 +73,7 @@ namespace boost { namespace hana {
 
         template <typename R>
         static constexpr auto is_empty_impl(R r)
-        { return r.from == r.to; }
+        { return equal(r.from, r.to); }
 
         template <typename N, typename R>
         static constexpr auto at_impl(N n, R r)
@@ -118,8 +118,13 @@ namespace boost { namespace hana {
     struct Comparable::instance<Range, Range> : Comparable::equal_mcd {
         template <typename R1, typename R2>
         static constexpr auto equal_impl(R1 r1, R2 r2) {
-            return (is_empty(r1) && is_empty(r2)) ||
-                   (r1.from == r2.from && r1.to == r2.to);
+            return or_(
+                and_(is_empty(r1), is_empty(r2)),
+                and_(
+                    equal(r1.from, r2.from),
+                    equal(r1.to, r2.to)
+                )
+            );
         }
     };
 }} // end namespace boost::hana

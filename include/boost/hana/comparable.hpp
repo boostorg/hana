@@ -66,15 +66,17 @@ namespace boost { namespace hana {
       is pretty straightforward anyway.
      */
     BOOST_HANA_CONSTEXPR_LAMBDA auto equal = [](auto x, auto y) {
-        return Comparable::instance<datatype_t<decltype(x)>, datatype_t<decltype(y)>>::
-               equal_impl(x, y);
+        return Comparable::instance<
+            datatype_t<decltype(x)>, datatype_t<decltype(y)>
+        >::equal_impl(x, y);
     };
 
     //! Returns a `Logical` representing whether `x` is not equal to `y`.
     //! @method{Comparable}
     BOOST_HANA_CONSTEXPR_LAMBDA auto not_equal = [](auto x, auto y) {
-        return Comparable::instance<datatype_t<decltype(x)>, datatype_t<decltype(y)>>::
-               not_equal_impl(x, y);
+        return Comparable::instance<
+            datatype_t<decltype(x)>, datatype_t<decltype(y)>
+        >::not_equal_impl(x, y);
     };
 
     //! Minimal complete definition : `equal`
