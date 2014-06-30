@@ -24,6 +24,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/monad.hpp>
+#include <boost/hana/orderable.hpp>
 #include <boost/hana/pair.hpp>
 #include <boost/hana/range.hpp>
 
@@ -208,13 +209,11 @@ namespace boost { namespace hana {
         return List::instance<datatype_t<decltype(xs)>>::snoc_impl(xs, x);
     };
 
-    //! Sort a list based on the `<` strict weak ordering.
+    //! Sort a list based on the `less` strict weak ordering.
     //! @method{List}
     //!
     //! ### Example
     //! @snippet example/list/sort.cpp main
-    //!
-    //! @todo Use a real type class method for Orderables when we get one.
     BOOST_HANA_CONSTEXPR_LAMBDA auto sort = [](auto xs) {
         return List::instance<datatype_t<decltype(xs)>>::sort_impl(xs);
     };
@@ -240,8 +239,6 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/list/take.cpp main
-    //!
-    //! @todo Move `min` in a proper type class.
     BOOST_HANA_CONSTEXPR_LAMBDA auto take = [](auto n, auto xs) {
         return List::instance<datatype_t<decltype(xs)>>::take_impl(n, xs);
     };
@@ -415,7 +412,7 @@ namespace boost { namespace hana {
 
         template <typename Xs>
         static constexpr auto sort_impl(Xs xs) {
-            return sort_by(_ < _, xs);
+            return sort_by(less, xs);
         }
 
         template <typename Pred, typename Xs>
@@ -684,7 +681,6 @@ namespace boost { namespace hana {
 
         template <typename N, typename Xs>
         static constexpr auto take_impl(N n, Xs xs) {
-            auto min = [](auto a, auto b) { return if_(a < b, a, b); };
             return unpack(
                 on(list, [=](auto index) { return at(index, xs); }),
                 range(size_t<0>, min(n, length(xs)))

@@ -141,6 +141,18 @@ namespace boost { namespace hana {
         static constexpr auto max_impl(X x, Y y)
         { return if_(less(x, y), y, x); }
     };
+
+    //! @details
+    //! Objects whose data type is the same as their C++ type and who have a
+    //! valid `operator<` are automatically instances of `Orderable` by using
+    //! that ordering.
+    template <typename X, typename Y>
+    struct Orderable::instance<X, Y, decltype((void)(*(X*)0 < *(Y*)0))>
+        : Orderable::less_mcd
+    {
+        static constexpr auto less_impl(X x, Y y)
+        { return x < y; }
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_ORDERABLE_HPP

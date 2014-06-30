@@ -17,6 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functional.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/logical.hpp>
+#include <boost/hana/orderable.hpp>
 
 
 namespace boost { namespace hana {
@@ -335,11 +336,11 @@ namespace boost { namespace hana {
 
         template <typename Foldable_>
         static constexpr auto minimum_impl(Foldable_ foldable)
-        { return minimum_by(_ < _, foldable); }
+        { return minimum_by(less, foldable); }
 
         template <typename Foldable_>
         static constexpr auto maximum_impl(Foldable_ foldable)
-        { return maximum_by(_ < _, foldable); }
+        { return maximum_by(less, foldable); }
 
         template <typename Pred, typename Foldable_>
         static constexpr auto minimum_by_impl(Pred pred, Foldable_ foldable) {
