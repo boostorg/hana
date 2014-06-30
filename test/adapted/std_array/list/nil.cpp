@@ -13,8 +13,7 @@ using namespace boost::hana;
 
 
 int main() {
-    using operators::operator==;
-    BOOST_HANA_STATIC_ASSERT(nil<StdArray> == std::array<char, 0>{});
-    BOOST_HANA_STATIC_ASSERT(nil<StdArray> == std::array<int, 0>{});
-    BOOST_HANA_STATIC_ASSERT(nil<StdArray> == std::array<long, 0>{});
+    BOOST_HANA_STATIC_ASSERT(equal(nil<StdArray>, std::array<char, 0>{}));
+    BOOST_HANA_STATIC_ASSERT(equal(nil<StdArray>, std::array<int, 0>{}));
+    BOOST_HANA_STATIC_ASSERT(equal(nil<StdArray>, std::array<long, 0>{}));
 }
