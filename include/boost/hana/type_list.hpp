@@ -119,7 +119,7 @@ namespace boost { namespace hana {
     public:
         template <typename X, typename Xs>
         static constexpr auto cons_impl(X x, Xs xs) {
-            return Xs::template storage<cons_helper>::template value<untype_t<X>>;
+            return Xs::template storage<cons_helper>::template value<typename X::type>;
         }
 
         static constexpr auto nil_impl() {

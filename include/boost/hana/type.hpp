@@ -43,79 +43,48 @@ namespace boost { namespace hana {
     struct Type { };
 
     namespace type_detail {
-        template <typename Wrapper>
-        struct construct {
-            template <typename T>
-            constexpr auto operator()(std::initializer_list<T> ilist) const
-            { return typename Wrapper::hidden(ilist); }
-
-            template <typename ...Args>
-            constexpr auto operator()(Args ...args) const
-            { return typename Wrapper::hidden{args...}; }
-        };
-
         template <typename T>
-        constexpr auto make_wrapper() {
-            struct wrapper : operators::enable, construct<wrapper> {
+        struct make_type {
+            struct type_ : operators::enable {
                 using hana_datatype = Type;
-                using hidden = T;
+                using type = T;
+
+                template <typename U>
+                constexpr auto operator()(std::initializer_list<U> ilist) const
+                { return T(ilist); }
+
+                template <typename ...Args>
+                constexpr auto operator()(Args ...args) const
+                { return T{args...}; }
             };
-            return wrapper{};
-        }
+            using type = type_;
+        };
     }
 
-    /*!
-    Creates a `Type` representing `T`.
-    @relates Type
-    @hideinitializer
-
-    Additionally, `type<T>` is a function returning an object of type
-    `T` constructed with the arguments passed to it.
-
-    ### Example
-    @snippet example/type/construct.cpp main
-
-    @note
-    `std::initializer_list` is supported too:
-    @snippet example/type/initializer_list.cpp main
-
-    @todo
-    Should this fail or not? Currently it fails because
-    "non-constant-expression cannot be narrowed from type 'double' to
-    'float' in initializer list"
-    @code
-        type<float>(double{1.2})
-    @endcode
-     */
-    template <typename T>
-    constexpr auto type = type_detail::make_wrapper<T>();
-
-#if defined(BOOST_HANA_DOXYGEN_INVOKED)
-    //! Metafunction returning the type represented by a `Type`.
+    //! Creates an object representing the C++ type `T`.
     //! @relates Type
+    //! @hideinitializer
     //!
-    //! This operation is the inverse of `type`. It must be a metafunction
-    //! because if it were a function, it would have to return an object,
-    //! which is not always possible (consider uninhabited types).
+    //! `type<T>` is a function returning an object of type `T` constructed
+    //! with the arguments passed to it:
+    //! @snippet example/type/construct.cpp main
     //!
-    //! ### Example
-    //! @snippet example/type/untype.cpp main
+    //! `std::initializer_list` is supported too:
+    //! @snippet example/type/initializer_list.cpp main
     //!
-    //! @internal
-    //! internal: Keep this an alias so it stays grouped with `Type` in
-    //! the documentation.
+    //! `decltype(type<T>)` also has a nested alias to `T` named `type`.
+    //! Hence, it can be used as a metafunction returning `T`:
+    //! @snippet example/type/as_metafunction.cpp main
+    //!
+    //! @todo
+    //! Should this fail or not? Currently it fails because
+    //! "non-constant-expression cannot be narrowed from type 'double' to
+    //! 'float' in initializer list"
+    //! @code
+    //!     type<float>(double{1.2})
+    //! @endcode
     template <typename T>
-    using untype = unspecified;
-#else
-    template <typename T>
-    struct untype {
-        using type = typename T::hidden;
-    };
-#endif
-
-    //! @relates Type
-    template <typename T>
-    using untype_t = typename untype<T>::type;
+    constexpr typename type_detail::make_type<T>::type type{};
 
     namespace type_detail {
         struct decltype_ {
@@ -127,7 +96,7 @@ namespace boost { namespace hana {
         struct sizeof_ {
             template <typename T>
             constexpr auto operator()(T) const
-            { return size_t<sizeof(untype_t<T>)>; }
+            { return size_t<sizeof(typename T::type)>; }
         };
     }
 
@@ -153,28 +122,28 @@ namespace boost { namespace hana {
         struct template_ {
             template <typename ...Args>
             constexpr auto operator()(Args...) const
-            { return type<f<untype_t<Args>...>>; }
+            { return type<f<typename Args::type...>>; }
         };
 
         template <template <typename ...> class f>
         struct metafunction {
             template <typename ...Args>
             constexpr auto operator()(Args...) const
-            { return type<typename f<untype_t<Args>...>::type>; }
+            { return type<typename f<typename Args::type...>::type>; }
         };
 
         template <typename f>
         struct metafunction_class {
             template <typename ...Args>
             constexpr auto operator()(Args...) const
-            { return type<typename f::template apply<untype_t<Args>...>::type>; }
+            { return type<typename f::template apply<typename Args::type...>::type>; }
         };
 
         template <template <typename ...> class f>
         struct trait {
             template <typename ...Args>
             constexpr auto operator()(Args...) const
-            { return f<untype_t<Args>...>{}; }
+            { return f<typename Args::type...>{}; }
         };
 
         template <template <typename ...> class f>
@@ -287,7 +256,7 @@ namespace boost { namespace hana {
     struct Monad::instance<Type> : Monad::join_mcd {
         template <typename T>
         static constexpr auto join_impl(T)
-        { return untype_t<T>{}; }
+        { return typename T::type{}; }
     };
 }} // end namespace boost::hana
 
