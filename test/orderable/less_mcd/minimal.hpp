@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TEST_ORDERABLE_LESS_MCD_MINIMAL_HPP
 #define BOOST_HANA_TEST_ORDERABLE_LESS_MCD_MINIMAL_HPP
 
-#include <boost/hana/integral.hpp>
+#include <boost/hana/bool.hpp>
 #include <boost/hana/orderable.hpp>
 
 

@@ -16,6 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/integral.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/logical.hpp>
+#include <boost/hana/orderable.hpp>
 
 
 namespace boost { namespace hana {
@@ -48,7 +49,7 @@ namespace boost { namespace hana {
         // For some reason, Clang 3.5 requires that we create an intermediate
         // variable whose type is dependent so we can use `valid_range` as a
         // constant expression below.
-        auto valid_range = from <= to;
+        auto valid_range = less_equal(from, to);
         static_assert(valid_range(),
         "invalid usage of boost::hana::range(from, to) with from > to");
         return operators::_range<decltype(from), decltype(to)>{from, to};
@@ -86,7 +87,7 @@ namespace boost { namespace hana {
         template <typename N, typename R>
         static constexpr auto drop_impl(N n, R r) {
             auto size = r.to - r.from;
-            return range(if_(n > size, r.to, r.from + n), r.to);
+            return range(if_(greater(n, size), r.to, r.from + n), r.to);
         }
     };
 

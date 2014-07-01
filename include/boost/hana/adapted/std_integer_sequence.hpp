@@ -11,9 +11,9 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_ADAPTED_STD_INTEGER_SEQUENCE_HPP
 
 #include <boost/hana/adapted/std_integral_constant.hpp>
+#include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core.hpp>
-#include <boost/hana/integral.hpp>
 #include <boost/hana/iterable.hpp>
 
 #include <type_traits>

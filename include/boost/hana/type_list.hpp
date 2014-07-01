@@ -10,9 +10,9 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TYPE_LIST_HPP
 #define BOOST_HANA_TYPE_LIST_HPP
 
+#include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/foldable.hpp>
-#include <boost/hana/integral.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/list.hpp>
 #include <boost/hana/type.hpp>

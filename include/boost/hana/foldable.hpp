@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FOLDABLE_HPP
 #define BOOST_HANA_FOLDABLE_HPP
 
+#include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core.hpp>
 #include <boost/hana/detail/constexpr.hpp>
