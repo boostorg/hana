@@ -16,15 +16,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     namespace core_detail {
-        struct no_instance { };
-
-        template <typename T, typename Enable = void*>
-        constexpr auto instantiates_impl = true_;
-
-        template <typename T>
-        constexpr auto instantiates_impl<T,
-            decltype((void*)static_cast<no_instance*>((T*)0))> = false_;
-
         template <typename x, typename ...>
         struct dependent { using type = x; };
     }
@@ -129,17 +120,23 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @include example/core/typeclass.cpp
-    //!
-    //! @todo
-    //! Provide a way to explicitly disable an instance? This could be useful
-    //! to disable undesirable predicated instances.
     template <typename Typeclass>
     struct typeclass;
+
+    //! Explicitly disable a type class instance.
+    //!
+    //! This is meant as a way to disable a type class instance provided
+    //! through a predicate which, for some reason, is not desirable for
+    //! a given data type.
+    //!
+    //! ### Example
+    //! @include example/core/disable.cpp
+    struct disable { };
 
     #define BOOST_HANA_TYPECLASS_BOILERPLATE(NAME)                          \
         template <>                                                         \
         struct typeclass<NAME> {                                            \
-            using default_ = core_detail::no_instance;                      \
+            using default_ = disable;                                       \
                                                                             \
             template <typename T, typename Enable = void>                   \
             struct instance                                                 \
@@ -158,7 +155,7 @@ namespace boost { namespace hana {
     #define BOOST_HANA_BINARY_TYPECLASS_BOILERPLATE(NAME)                   \
         template <>                                                         \
         struct binary_typeclass<NAME> {                                     \
-            using default_ = core_detail::no_instance;                      \
+            using default_ = disable;                                       \
                                                                             \
             template <typename T, typename U, typename Enable = void>       \
             struct instance                                                 \
@@ -166,6 +163,15 @@ namespace boost { namespace hana {
             { };                                                            \
         };                                                                  \
     /**/
+
+    namespace core_detail {
+        template <typename T, typename Enable = void*>
+        constexpr auto instantiates_impl = true_;
+
+        template <typename T>
+        constexpr auto instantiates_impl<T,
+            decltype((void*)static_cast<disable*>((T*)0))> = false_;
+    }
 
     //! Whether the type class is instantiated with the given arguments.
     //! @hideinitializer
