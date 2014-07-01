@@ -1,6 +1,6 @@
 /*!
 @file
-Defines the @ref Core module.
+Defines the @ref core module.
 
 @copyright Louis Dionne 2014
 Distributed under the Boost Software License, Version 1.0.
@@ -20,10 +20,10 @@ namespace boost { namespace hana {
         struct dependent { using type = x; };
     }
 
-    //! @defgroup Core Core
+    //! @defgroup core Core
     //! Miscellaneous core utilities.
-    //! @{
 
+    //! @ingroup core
     //! Machinery for creating a unary type class.
     //!
     //!
@@ -123,6 +123,7 @@ namespace boost { namespace hana {
     template <typename Typeclass>
     struct typeclass;
 
+    //! @ingroup core
     //! Explicitly disable a type class instance.
     //!
     //! This is meant as a way to disable a type class instance provided
@@ -145,6 +146,7 @@ namespace boost { namespace hana {
         };                                                                  \
     /**/
 
+    //! @ingroup core
     //! Machinery for creating a binary type class.
     //!
     //! This is equivalent to `typeclass`, except it creates a type class
@@ -165,23 +167,20 @@ namespace boost { namespace hana {
     /**/
 
     namespace core_detail {
-        template <typename T, typename Enable = void*>
-        constexpr auto instantiates_impl = true_;
-
-        template <typename T>
-        constexpr auto instantiates_impl<T,
-            decltype((void*)static_cast<disable*>((T*)0))> = false_;
+        constexpr auto instantiates_impl(...) { return true_; }
+        constexpr auto instantiates_impl(disable*) { return false_; }
     }
 
+    //! @ingroup core
     //! Whether the type class is instantiated with the given arguments.
     //! @hideinitializer
     //!
     //! This is provided in addition to `is_a` for type classes taking more
     //! than one argument or when no object of the data type is available.
     template <typename Typeclass, typename ...Datatypes>
-    constexpr auto instantiates = core_detail::instantiates_impl<
-        typename Typeclass::template instance<Datatypes...>
-    >;
+    constexpr auto instantiates = core_detail::instantiates_impl(
+        (typename Typeclass::template instance<Datatypes...>*)0
+    );
 
     namespace core_detail {
         template <typename T, typename Enable = void*>
@@ -194,6 +193,7 @@ namespace boost { namespace hana {
     }
 
     /*!
+    @ingroup core
     Metafunction returning the data type associated to `T`.
 
     By default, this metafunction returns `T::hana_datatype` if that
@@ -216,10 +216,12 @@ namespace boost { namespace hana {
         using type = typename core_detail::default_datatype<T>::type;
     };
 
+    //! @ingroup core
     //! Alias to `datatype<T>::%type`.
     template <typename T>
     using datatype_t = typename datatype<T>::type;
 
+    //! @ingroup core
     //! Return whether an object is an instance of the given type class.
     //!
     //! ### Example
@@ -229,6 +231,7 @@ namespace boost { namespace hana {
         return instantiates<Typeclass, datatype_t<decltype(x)>>;
     };
 
+    //! @ingroup core
     //! Equivalent to `is_a`; provided for consistency with the rules of the
     //! English language.
     template <typename Typeclass>
@@ -260,6 +263,7 @@ namespace boost { namespace hana {
         };
     }
 
+    //! @ingroup core
     //! Implements conversions between data types.
     //!
     //! To specify a conversion between two data types, one must specialize
@@ -285,6 +289,7 @@ namespace boost { namespace hana {
         : core_detail::default_convert<To, From>
     { };
 
+    //! @ingroup core
     //! Create an object of a data type from an object of another data type.
     //!
     //! See `convert` for how to specify user-defined conversions.
@@ -296,10 +301,8 @@ namespace boost { namespace hana {
         return convert<To, datatype_t<decltype(object)>>::apply(object);
     };
 
-    //! @}
-
     namespace operators {
-        //! @ingroup Core
+        //! @ingroup core
         //! Allows operators in the `boost::hana::operators` namespace to be
         //! found by ADL.
         //!
