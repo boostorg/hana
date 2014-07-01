@@ -12,10 +12,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/applicative.hpp>
 #include <boost/hana/bool.hpp>
-#include <boost/hana/comparable.hpp>
 #include <boost/hana/core.hpp>
 #include <boost/hana/functor.hpp>
 #include <boost/hana/iterable.hpp>
+#include <boost/hana/list.hpp>
 #include <boost/hana/monad.hpp>
 
 #include <cstddef>
@@ -49,6 +49,16 @@ namespace boost { namespace hana {
         template <typename ...Xs>
         static constexpr auto is_empty_impl(std::tuple<Xs...>)
         { return bool_<sizeof...(Xs) == 0>; }
+    };
+
+    template <>
+    struct List::instance<StdTuple> : List::mcd<StdTuple> {
+        static constexpr auto nil_impl()
+        { return std::tuple<>{}; }
+
+        template <typename X, typename Xs>
+        static constexpr auto cons_impl(X x, Xs xs)
+        { return std::tuple_cat(std::make_tuple(x), xs); }
     };
 
     template <>
@@ -86,9 +96,6 @@ namespace boost { namespace hana {
         static constexpr auto join_impl(std::tuple<Tuples...> tuples)
         { return helper(tuples, std::index_sequence_for<Tuples...>{}); }
     };
-
-    template <>
-    constexpr bool comparable_from_iterable<StdTuple> = true;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_ADAPTED_STD_TUPLE_HPP

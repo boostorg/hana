@@ -207,6 +207,15 @@ namespace boost { namespace hana {
         }
     };
 
+    //! @details
+    //! Instance of `Comparable` for `Iterable`s; two `Iterable`s are equal
+    //! if and only if they contain the same number of elements and their
+    //! elements at any given index are equal.
+    //!
+    //! @todo
+    //! This should not be provided because `Iterable`s are not unique up to
+    //! isomorphism, comparing two `Iterable`s using a `List`-like comparison
+    //! might be lossy.
     struct Iterable::ComparableInstance : Comparable::equal_mcd {
         template <typename Xs, typename Ys>
         static constexpr auto equal_impl(Xs xs, Ys ys) {
@@ -221,23 +230,6 @@ namespace boost { namespace hana {
             );
         }
     };
-
-    template <typename T>
-    constexpr bool comparable_from_iterable = false;
-
-    //! @details
-    //! Two `Iterable`s are equal if and only if they contain the same number
-    //! of elements and their elements at any given index are equal. To enable
-    //! the `Comparable` instance for a data type, specialize the
-    //! `comparable_from_iterable` variable template.
-    //!
-    //! @snippet example/list/comparable.cpp main
-    template <typename T, typename U>
-    struct Comparable::instance<T, U, detail::enable_if_t<
-        comparable_from_iterable<T> && comparable_from_iterable<U>
-    >>
-        : Iterable::ComparableInstance
-    { };
 
     //! @details
     //! Let `xs` be an `Iterable` and let `xi` denote its `i`-th element. In

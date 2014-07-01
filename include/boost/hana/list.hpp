@@ -69,6 +69,8 @@ namespace boost { namespace hana {
     - Get rid of the `<type_traits>` include.
     - We could provide automatic unit testing for any instance because we
       have the isomorphisms.
+    - There is a strong relationship between this and `MonadPlus`. Actually,
+      they might be just the same. Check this out.
      */
     struct List : typeclass<List> {
         template <typename T>

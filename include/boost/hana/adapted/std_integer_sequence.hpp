@@ -44,7 +44,9 @@ namespace boost { namespace hana {
     };
 
     template <>
-    constexpr bool comparable_from_iterable<StdIntegerSequence> = true;
+    struct Comparable::instance<StdIntegerSequence, StdIntegerSequence>
+        : Iterable::ComparableInstance
+    { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_ADAPTED_STD_INTEGER_SEQUENCE_HPP

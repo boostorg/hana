@@ -109,9 +109,6 @@ namespace boost { namespace hana {
         { return r.to - r.from; }
     };
 
-    template <>
-    constexpr bool comparable_from_iterable<Range> = true;
-
     //! @details
     //! Two ranges are equal if and only if they are both empty or they have
     //! the same `head` and the same length.

@@ -14,17 +14,12 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/list.hpp>
 
 
-template <int i>
 struct MinimalIterable;
 
-template <int i>
-BOOST_HANA_CONSTEXPR_LAMBDA auto minimal_iterable = [](auto ...xs) {
-    return boost::hana::detail::wrap<MinimalIterable<i>>(boost::hana::list(xs...));
+BOOST_HANA_CONSTEXPR_LAMBDA auto iterable = [](auto ...xs) {
+    return boost::hana::detail::wrap<MinimalIterable>(boost::hana::list(xs...));
 };
 
-BOOST_HANA_CONSTEXPR_LAMBDA auto iterable = minimal_iterable<0>;
-
-template <int i>
 struct MinimalInstance : boost::hana::Iterable::mcd {
     template <typename Xs>
     static constexpr auto head_impl(Xs xs)
@@ -32,7 +27,7 @@ struct MinimalInstance : boost::hana::Iterable::mcd {
 
     template <typename Xs>
     static constexpr auto tail_impl(Xs xs) {
-        return boost::hana::detail::wrap<MinimalIterable<i>>(
+        return boost::hana::detail::wrap<MinimalIterable>(
             boost::hana::tail(boost::hana::detail::unwrap(xs))
         );
     }
@@ -43,21 +38,15 @@ struct MinimalInstance : boost::hana::Iterable::mcd {
 };
 
 namespace boost { namespace hana {
-    template <> struct Iterable::instance<MinimalIterable<0>> : MinimalInstance<0> { };
-    template <> struct Iterable::instance<MinimalIterable<1>> : MinimalInstance<1> { };
+    template <>
+    struct Iterable::instance<MinimalIterable>
+        : MinimalInstance
+    { };
 
-    template <int i>
-    constexpr bool comparable_from_iterable<MinimalIterable<i>> = true;
-
-    //! @todo
-    //! This is a workaround for a Clang 3.5 bug. Clang fails to see the
-    //! partial specializations of these variable templates as constant
-    //! expressions when used in some contexts requiring constant expressions.
-    //! Using the partial specializations in a constant expression explicitly
-    //! makes it work. Remove this when it's fixed.
-    //! See http://llvm.org/bugs/show_bug.cgi?id=19571
-    static_assert(comparable_from_iterable<MinimalIterable<0>>, "");
-    static_assert(comparable_from_iterable<MinimalIterable<1>>, "");
+    template <>
+    struct Comparable::instance<MinimalIterable, MinimalIterable>
+        : Iterable::ComparableInstance
+    { };
 }}
 
 #endif // !BOOST_HANA_TEST_ITERABLE_MINIMAL_ITERABLE_HPP

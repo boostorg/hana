@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_ADAPTED_STD_LIST_HPP
 #define BOOST_HANA_ADAPTED_STD_LIST_HPP
 
+#include <boost/hana/comparable.hpp>
 #include <boost/hana/core.hpp>
 #include <boost/hana/functor.hpp>
 #include <boost/hana/iterable.hpp>
@@ -56,7 +57,9 @@ namespace boost { namespace hana {
     };
 
     template <>
-    constexpr bool comparable_from_iterable<StdList> = true;
+    struct Comparable::instance<StdList, StdList>
+        : Iterable::ComparableInstance
+    { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_ADAPTED_STD_LIST_HPP

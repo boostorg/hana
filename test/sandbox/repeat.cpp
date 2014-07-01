@@ -5,6 +5,7 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/bool.hpp>
+#include <boost/hana/comparable.hpp>
 #include <boost/hana/detail/sandbox/lazy.hpp>
 #include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/functional.hpp>
@@ -47,7 +48,9 @@ namespace boost { namespace hana {
     };
 
     template <>
-    constexpr bool comparable_from_iterable<LazyList> = true;
+    struct Comparable::instance<LazyList, LazyList>
+        : Iterable::ComparableInstance
+    { };
 }}
 
 
