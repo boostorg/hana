@@ -21,12 +21,12 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto tuple = [](auto ...xs) {
 };
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(join(tuple(tuple(), tuple())) == tuple());
-    BOOST_HANA_STATIC_ASSERT(join(tuple(tuple(int_<0>), tuple())) == tuple(int_<0>));
-    BOOST_HANA_STATIC_ASSERT(join(tuple(tuple(), tuple(int_<0>))) == tuple(int_<0>));
-    BOOST_HANA_STATIC_ASSERT(join(tuple(tuple(int_<0>), tuple(int_<1>))) == tuple(int_<0>, int_<1>));
+    BOOST_HANA_STATIC_ASSERT(flatten(tuple(tuple(), tuple())) == tuple());
+    BOOST_HANA_STATIC_ASSERT(flatten(tuple(tuple(int_<0>), tuple())) == tuple(int_<0>));
+    BOOST_HANA_STATIC_ASSERT(flatten(tuple(tuple(), tuple(int_<0>))) == tuple(int_<0>));
+    BOOST_HANA_STATIC_ASSERT(flatten(tuple(tuple(int_<0>), tuple(int_<1>))) == tuple(int_<0>, int_<1>));
     BOOST_HANA_STATIC_ASSERT(
-        join(tuple(tuple(0, int_<1>), tuple(), tuple('2', 3.3), tuple(int_<4>)))
+        flatten(tuple(tuple(0, int_<1>), tuple(), tuple('2', 3.3), tuple(int_<4>)))
         ==
         tuple(0, int_<1>, '2', 3.3, int_<4>)
     );

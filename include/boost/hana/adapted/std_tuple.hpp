@@ -86,14 +86,14 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Monad::instance<StdTuple> : Monad::join_mcd {
+    struct Monad::instance<StdTuple> : Monad::flatten_mcd {
         template <typename ...Tuples, std::size_t ...Index>
         static constexpr auto
         helper(std::tuple<Tuples...> tuples, std::index_sequence<Index...>)
         { return std::tuple_cat(std::get<Index>(tuples)...); }
 
         template <typename ...Tuples>
-        static constexpr auto join_impl(std::tuple<Tuples...> tuples)
+        static constexpr auto flatten_impl(std::tuple<Tuples...> tuples)
         { return helper(tuples, std::index_sequence_for<Tuples...>{}); }
     };
 }} // end namespace boost::hana

@@ -253,9 +253,9 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Monad::instance<Type> : Monad::join_mcd {
+    struct Monad::instance<Type> : Monad::flatten_mcd {
         template <typename T>
-        static constexpr auto join_impl(T)
+        static constexpr auto flatten_impl(T)
         { return typename T::type{}; }
     };
 }} // end namespace boost::hana

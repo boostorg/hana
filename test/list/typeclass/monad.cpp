@@ -17,12 +17,12 @@ using namespace boost::hana;
 
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(join(minimal_list(minimal_list(), minimal_list())) == minimal_list());
-    BOOST_HANA_STATIC_ASSERT(join(minimal_list(minimal_list(int_<0>), minimal_list())) == minimal_list(int_<0>));
-    BOOST_HANA_STATIC_ASSERT(join(minimal_list(minimal_list(), minimal_list(int_<0>))) == minimal_list(int_<0>));
-    BOOST_HANA_STATIC_ASSERT(join(minimal_list(minimal_list(int_<0>), minimal_list(int_<1>))) == minimal_list(int_<0>, int_<1>));
+    BOOST_HANA_STATIC_ASSERT(flatten(minimal_list(minimal_list(), minimal_list())) == minimal_list());
+    BOOST_HANA_STATIC_ASSERT(flatten(minimal_list(minimal_list(int_<0>), minimal_list())) == minimal_list(int_<0>));
+    BOOST_HANA_STATIC_ASSERT(flatten(minimal_list(minimal_list(), minimal_list(int_<0>))) == minimal_list(int_<0>));
+    BOOST_HANA_STATIC_ASSERT(flatten(minimal_list(minimal_list(int_<0>), minimal_list(int_<1>))) == minimal_list(int_<0>, int_<1>));
     BOOST_HANA_STATIC_ASSERT(
-        join(minimal_list(minimal_list(0, int_<1>), minimal_list(), minimal_list('2', 3.3), minimal_list(int_<4>)))
+        flatten(minimal_list(minimal_list(0, int_<1>), minimal_list(), minimal_list('2', 3.3), minimal_list(int_<4>)))
         ==
         minimal_list(0, int_<1>, '2', 3.3, int_<4>)
     );

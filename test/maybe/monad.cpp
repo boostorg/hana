@@ -14,9 +14,9 @@ using namespace boost::hana;
 
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(join(nothing) == nothing);
-    BOOST_HANA_STATIC_ASSERT(join(just(nothing)) == nothing);
-    BOOST_HANA_STATIC_ASSERT(join(just(just(int_<3>))) == just(int_<3>));
+    BOOST_HANA_STATIC_ASSERT(flatten(nothing) == nothing);
+    BOOST_HANA_STATIC_ASSERT(flatten(just(nothing)) == nothing);
+    BOOST_HANA_STATIC_ASSERT(flatten(just(just(int_<3>))) == just(int_<3>));
 
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto x) { return just(x + int_<1>); };

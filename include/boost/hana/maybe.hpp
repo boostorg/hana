@@ -83,20 +83,20 @@ namespace boost { namespace hana {
     //! One can feed an optional value if there is one into a function with
     //! `bind`, which will return `nothing` if there is no value. Finally,
     //! optional-optional values can have their redundant level of
-    //! `Maybe`ness removed with `join`.
+    //! `Maybe`ness removed with `flatten`.
     //!
     //! ### Example
     //! @snippet example/maybe/monad.cpp main
     template <>
-    struct Monad::instance<Maybe> : Monad::join_mcd {
+    struct Monad::instance<Maybe> : Monad::flatten_mcd {
         template <typename T>
-        static constexpr auto join_impl(operators::_just<operators::_just<T>> j)
+        static constexpr auto flatten_impl(operators::_just<operators::_just<T>> j)
         { return j.val; }
 
-        static constexpr auto join_impl(operators::_nothing)
+        static constexpr auto flatten_impl(operators::_nothing)
         { return nothing; }
 
-        static constexpr auto join_impl(operators::_just<operators::_nothing>)
+        static constexpr auto flatten_impl(operators::_just<operators::_nothing>)
         { return nothing; }
     };
 

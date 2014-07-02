@@ -15,9 +15,9 @@ using namespace boost::hana;
 
 namespace boost { namespace hana {
     template <>
-    struct Monad::instance<MinimalMonad> : Monad::join_mcd {
+    struct Monad::instance<MinimalMonad> : Monad::flatten_mcd {
         template <typename M>
-        static constexpr auto join_impl(M m)
+        static constexpr auto flatten_impl(M m)
         { return m.value; }
     };
 }}

@@ -395,7 +395,7 @@ namespace boost { namespace hana {
             return eval_if(is_empty(xs),
                 always(lift<T>(nil<T>)),
                 [=](auto _) {
-                    return join(fmap(
+                    return flatten(fmap(
                         [=](auto ys) { return insertions(_(head)(xs), ys); },
                         permutations_impl(_(tail)(xs))
                     ));
@@ -527,16 +527,16 @@ namespace boost { namespace hana {
     //! @details
     //! A function returning a list of results can be mapped over all the
     //! elements of a list and have all the results concatenated using `bind`.
-    //! Also, a list of lists can be flattened one level with `join`.
+    //! Also, a list of lists can be flattened one level with `flatten`.
     //!
     //! ### Example
     //! @snippet example/list/monad/overview.cpp main
     template <typename T>
     struct Monad::instance<T, detail::enable_if_t<instantiates<List, T>()>>
-        : Monad::join_mcd
+        : Monad::flatten_mcd
     {
         template <typename Xss>
-        static constexpr auto join_impl(Xss xss)
+        static constexpr auto flatten_impl(Xss xss)
         { return foldl(concat, nil<T>, xss); }
     };
 

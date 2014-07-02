@@ -35,7 +35,7 @@ namespace boost { namespace hana {
      */
     struct Monad : typeclass<Monad> {
         struct bind_mcd;
-        struct join_mcd;
+        struct flatten_mcd;
     };
 
     //! Apply a function returning a monad to the value(s) inside a monad.
@@ -46,22 +46,22 @@ namespace boost { namespace hana {
 
     //! Flatten two levels of monadic wrapping into a single level.
     //! @method{Monad}
-    BOOST_HANA_CONSTEXPR_LAMBDA auto join = [](auto monad) {
-        return Monad::instance<datatype_t<decltype(monad)>>::join_impl(monad);
+    BOOST_HANA_CONSTEXPR_LAMBDA auto flatten = [](auto monad) {
+        return Monad::instance<datatype_t<decltype(monad)>>::flatten_impl(monad);
     };
 
     //! Minimal complete definition: `bind`
     struct Monad::bind_mcd {
         template <typename M>
-        static constexpr auto join_impl(M monad)
+        static constexpr auto flatten_impl(M monad)
         { return bind(monad, [](auto x) { return x; }); }
     };
 
-    //! Minimal complete definition: `join`
-    struct Monad::join_mcd {
+    //! Minimal complete definition: `flatten`
+    struct Monad::flatten_mcd {
         template <typename M, typename F>
         static constexpr auto bind_impl(M monad, F f)
-        { return join(fmap(f, monad)); }
+        { return flatten(fmap(f, monad)); }
     };
 }} // end namespace boost::hana
 
