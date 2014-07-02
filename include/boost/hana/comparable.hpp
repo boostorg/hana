@@ -10,9 +10,9 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_COMPARABLE_HPP
 #define BOOST_HANA_COMPARABLE_HPP
 
-#include <boost/hana/core.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/logical.hpp>
+#include <boost/hana/detail/typeclasses.hpp>
+#include <boost/hana/detail/logical_fwd.hpp>
 
 
 namespace boost { namespace hana {
@@ -116,3 +116,5 @@ namespace boost { namespace hana {
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_COMPARABLE_HPP
+
+#include <boost/hana/logical.hpp>

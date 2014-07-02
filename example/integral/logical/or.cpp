@@ -11,7 +11,6 @@ using namespace boost::hana;
 
 int main() {
     //! [main]
-    BOOST_HANA_STATIC_ASSERT(!or_());
     BOOST_HANA_STATIC_ASSERT(!or_(false_, false_, false_));
     // BOOST_HANA_STATIC_ASSERT(or_(false_, true_, "never evaluated"));
     //! [main]

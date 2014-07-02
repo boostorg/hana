@@ -2,13 +2,6 @@
 @file
 Internal header to break cyclic dependencies.
 
-@todo
-Some headers include this only, which breaks them if they don't include
-the full `boost/hana/integral.hpp` and return an `Integral` from one of
-their function (the user would expect that the header includes everything
-that's required). Because of circular dependencies, those headers can't
-include `boost/hana/integral.hpp`. Fix this.
-
 @copyright Louis Dionne 2014
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)

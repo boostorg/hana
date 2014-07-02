@@ -10,9 +10,9 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FUNCTOR_HPP
 #define BOOST_HANA_FUNCTOR_HPP
 
-#include <boost/hana/core.hpp>
+#include <boost/hana/bool.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/integral_fwd.hpp>
+#include <boost/hana/detail/typeclasses.hpp>
 #include <boost/hana/logical.hpp>
 
 
