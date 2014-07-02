@@ -14,7 +14,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <cassert>
 using namespace boost::hana;
-using sandbox::map;
 
 
 BOOST_HANA_CONSTEXPR_LAMBDA auto check_fold = [](auto ...pairs) {
@@ -23,20 +22,13 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto check_fold = [](auto ...pairs) {
     assert(elem(result, permutations(values)));
 };
 
+template <int k, int v>
+BOOST_HANA_CONSTEXPR_LAMBDA auto p = pair(int_<k>, int_<v>);
+
 int main() {
-    BOOST_HANA_CONSTEXPR_LAMBDA auto k1 = int_<1>;
-    BOOST_HANA_CONSTEXPR_LAMBDA auto k2 = int_<2>;
-    BOOST_HANA_CONSTEXPR_LAMBDA auto k3 = int_<3>;
-    BOOST_HANA_CONSTEXPR_LAMBDA auto k4 = int_<4>;
-
-    BOOST_HANA_CONSTEXPR_LAMBDA auto v1 = char_<'1'>;
-    BOOST_HANA_CONSTEXPR_LAMBDA auto v2 = char_<'2'>;
-    BOOST_HANA_CONSTEXPR_LAMBDA auto v3 = char_<'3'>;
-    BOOST_HANA_CONSTEXPR_LAMBDA auto v4 = char_<'4'>;
-
     check_fold();
-    check_fold(pair(k1, v1));
-    check_fold(pair(k1, v1), pair(k2, v2));
-    check_fold(pair(k1, v1), pair(k2, v2), pair(k3, v3));
-    check_fold(pair(k1, v1), pair(k2, v2), pair(k3, v3), pair(k4, v4));
+    check_fold(p<1, 1>);
+    check_fold(p<1, 1>, p<2, 2>);
+    check_fold(p<1, 1>, p<2, 2>, p<3, 3>);
+    check_fold(p<1, 1>, p<2, 2>, p<3, 3>, p<4, 4>);
 }
