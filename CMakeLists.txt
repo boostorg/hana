@@ -25,7 +25,6 @@ option(BOOST_HANA_ENABLE_LIBCXX   "Use the -stdlib=libc++ if the compiler suppor
 # Check available compiler flags
 #=============================================================================
 include(CheckCXXCompilerFlag)
-check_cxx_compiler_flag(-ftemplate-backtrace-limit=0 BOOST_HANA_HAS_FTEMPLATE_BACKTRACE_LIMIT_0)
 check_cxx_compiler_flag(-pedantic                    BOOST_HANA_HAS_PEDANTIC_FLAG)
 check_cxx_compiler_flag(-std=c++1y                   BOOST_HANA_HAS_STDCXX1Y_FLAG)
 check_cxx_compiler_flag(-stdlib=libc++               BOOST_HANA_HAS_STDLIB_LIBCXX_FLAG)
@@ -54,7 +53,6 @@ append_if(BOOST_HANA_HAS_WNO_UNUSED_LOCAL_TYPEDEFS_FLAG BOOST_HANA_CXX_WARNING_F
 append_if(BOOST_HANA_HAS_WNO_UNUSED_PARAMETER_FLAG      BOOST_HANA_CXX_WARNING_FLAGS -Wno-unused-parameter)
 append_if(BOOST_HANA_HAS_WWRITE_STRINGS_FLAG            BOOST_HANA_CXX_WARNING_FLAGS -Wwrite-strings)
 append_if(BOOST_HANA_HAS_WNO_LONG_LONG_FLAG             BOOST_HANA_CXX_WARNING_FLAGS -Wno-long-long)
-append_if(BOOST_HANA_HAS_FTEMPLATE_BACKTRACE_LIMIT_0    BOOST_HANA_CXX_WARNING_FLAGS -ftemplate-backtrace-limit=0)
 
 if (BOOST_HANA_ENABLE_WERROR)
     append_if(BOOST_HANA_HAS_WERROR_FLAG BOOST_HANA_CXX_WARNING_FLAGS -Werror)
