@@ -27,6 +27,7 @@ Distributed under the Boost Software License, Version 1.0.
 //! @defgroup datatypes Data types
 //! General purpose data types provided by the library.
 
+#include <boost/hana/adapted/mpl_list.hpp>
 #include <boost/hana/adapted/std_array.hpp>
 #include <boost/hana/adapted/std_integer_sequence.hpp>
 #include <boost/hana/adapted/std_integral_constant.hpp>
