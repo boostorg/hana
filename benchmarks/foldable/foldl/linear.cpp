@@ -26,13 +26,10 @@ def unroll_log(n)
 end
 %>
 
+//////////////////////////////////////////////////////////////////////////////
 
+<% 0.upto(unroll).each do |n| %>
+  <%= unroll_linear(n, trailing: n == unroll) %>
+<% end %>
 
-
-
-<%= unroll_log(unroll) %>
-
-<%= render('_main.erb') do |f, s, xs|
-  args = [f, s, xs].flatten
-  "foldl(#{args.join(', ')})"
-end %>
+<%= render('foldable/foldl/main.cpp') %>

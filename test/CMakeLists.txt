@@ -1,7 +1,8 @@
 #=============================================================================
 # Setup unit tests
 #=============================================================================
-add_custom_target(tests
+enable_testing()
+add_custom_target(tests ALL
     COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure -R "test.+"
     COMMENT "Build and run all the unit tests.")
 

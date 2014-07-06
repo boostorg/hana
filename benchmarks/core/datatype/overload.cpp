@@ -9,6 +9,6 @@ struct datatype {
 template <int i>
 struct x { using hana_datatype = x; };
 
-<% for i in 0..n %>
+<% for i in 0..x %>
   template struct datatype<x<<%= i %>>>;
 <% end %>

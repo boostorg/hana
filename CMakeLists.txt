@@ -92,14 +92,15 @@ add_definitions(
 # point where the package is required.
 #=============================================================================
 find_package(Doxygen)
+find_package(Gnuplot)
+find_package(Ruby 2.1)
 
 
 #=============================================================================
-# Setup the headers, documentation, examples and tests
+# Setup subdirectories
 #=============================================================================
 include_directories(include)
+add_subdirectory(benchmarks)
 add_subdirectory(doc)
-
-enable_testing() # required by tests and examples
 add_subdirectory(example)
 add_subdirectory(test)

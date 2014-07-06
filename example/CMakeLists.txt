@@ -1,7 +1,8 @@
 #=============================================================================
 # Setup examples
 #=============================================================================
-add_custom_target(examples
+enable_testing()
+add_custom_target(examples ALL
     COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure -R "example.+"
     COMMENT "Build and run all the examples.")
 
