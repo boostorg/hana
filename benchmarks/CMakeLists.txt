@@ -103,20 +103,27 @@ boost_hana_add_benchmark(list.partition.foldl list/partition/foldl.cpp ${list.pa
 boost_hana_add_plot(list.partition list.partition.foldl list.partition.filter)
 
 # foldable.foldl
-boost_hana_add_benchmark(foldable.foldl.linear1  foldable/foldl/linear.cpp "(0...1000).step(5).map { |n| { x: n, unroll: 1 }}")
-boost_hana_add_benchmark(foldable.foldl.linear2  foldable/foldl/linear.cpp "(0...1000).step(5).map { |n| { x: n, unroll: 2 }}")
-boost_hana_add_benchmark(foldable.foldl.linear4  foldable/foldl/linear.cpp "(0...1000).step(5).map { |n| { x: n, unroll: 4 }}")
-boost_hana_add_benchmark(foldable.foldl.linear8  foldable/foldl/linear.cpp "(0...1000).step(5).map { |n| { x: n, unroll: 8 }}")
-boost_hana_add_benchmark(foldable.foldl.linear16 foldable/foldl/linear.cpp "(0...1000).step(5).map { |n| { x: n, unroll: 16 }}")
-boost_hana_add_benchmark(foldable.foldl.linear32 foldable/foldl/linear.cpp "(0...1000).step(5).map { |n| { x: n, unroll: 32 }}")
-boost_hana_add_benchmark(foldable.foldl.log10  foldable/foldl/log.cpp "(0...1000).step(5).map { |n| { x: n, unroll: 10 }}")
-boost_hana_add_benchmark(foldable.foldl.log20  foldable/foldl/log.cpp "(0...1000).step(5).map { |n| { x: n, unroll: 20 }}")
-boost_hana_add_benchmark(foldable.foldl.log30  foldable/foldl/log.cpp "(0...1000).step(5).map { |n| { x: n, unroll: 30 }}")
-boost_hana_add_benchmark(foldable.foldl.log40  foldable/foldl/log.cpp "(0...1000).step(5).map { |n| { x: n, unroll: 40 }}")
-boost_hana_add_benchmark(foldable.foldl.log100 foldable/foldl/log.cpp "(0...1000).step(5).map { |n| { x: n, unroll: 100 }}")
-boost_hana_add_benchmark(foldable.foldl.log250 foldable/foldl/log.cpp "(0...1000).step(5).map { |n| { x: n, unroll: 250 }}")
+boost_hana_add_benchmark(foldable.foldl.linear1  foldable/foldl/linear.cpp "(0...1000).step(25).map { |n| { x: n, unroll: 1 }}")
+boost_hana_add_benchmark(foldable.foldl.linear2  foldable/foldl/linear.cpp "(0...1000).step(25).map { |n| { x: n, unroll: 2 }}")
+boost_hana_add_benchmark(foldable.foldl.linear4  foldable/foldl/linear.cpp "(0...1000).step(25).map { |n| { x: n, unroll: 4 }}")
+boost_hana_add_benchmark(foldable.foldl.linear8  foldable/foldl/linear.cpp "(0...1000).step(25).map { |n| { x: n, unroll: 8 }}")
+boost_hana_add_benchmark(foldable.foldl.linear16 foldable/foldl/linear.cpp "(0...1000).step(25).map { |n| { x: n, unroll: 16 }}")
+boost_hana_add_benchmark(foldable.foldl.linear32 foldable/foldl/linear.cpp "(0...1000).step(25).map { |n| { x: n, unroll: 32 }}")
+boost_hana_add_benchmark(foldable.foldl.log10  foldable/foldl/log.cpp "(0...1000).step(25).map { |n| { x: n, unroll: 10 }}")
+boost_hana_add_benchmark(foldable.foldl.log20  foldable/foldl/log.cpp "(0...1000).step(25).map { |n| { x: n, unroll: 20 }}")
+boost_hana_add_benchmark(foldable.foldl.log30  foldable/foldl/log.cpp "(0...1000).step(25).map { |n| { x: n, unroll: 30 }}")
+boost_hana_add_benchmark(foldable.foldl.log40  foldable/foldl/log.cpp "(0...1000).step(25).map { |n| { x: n, unroll: 40 }}")
+boost_hana_add_benchmark(foldable.foldl.log100 foldable/foldl/log.cpp "(0...1000).step(25).map { |n| { x: n, unroll: 100 }}")
+boost_hana_add_benchmark(foldable.foldl.log250 foldable/foldl/log.cpp "(0...1000).step(25).map { |n| { x: n, unroll: 250 }}")
 
 boost_hana_add_plot(foldable.foldl
         foldable.foldl.linear1 foldable.foldl.linear2 foldable.foldl.linear4 foldable.foldl.linear8 foldable.foldl.linear16 foldable.foldl.linear32
         foldable.foldl.log10 foldable.foldl.log20 foldable.foldl.log30 foldable.foldl.log40 foldable.foldl.log100 foldable.foldl.log250
 )
+
+# functor.fmap
+set(functor.fmap.env "(0...1000).step(25).map { |n| { x: n } }")
+boost_hana_add_benchmark(functor.fmap.list functor/fmap/list.cpp ${functor.fmap.env})
+boost_hana_add_benchmark(functor.fmap.std_tuple functor/fmap/std_tuple.cpp ${functor.fmap.env})
+boost_hana_add_benchmark(functor.fmap.mpl_list functor/fmap/mpl_list.cpp ${functor.fmap.env})
+boost_hana_add_benchmark(functor.fmap.mpl_vector functor/fmap/mpl_vector.cpp ${functor.fmap.env})
