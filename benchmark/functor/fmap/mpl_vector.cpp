@@ -1,4 +1,4 @@
-#include <boost/hana/adapted/mpl_vector.hpp>
+#include <boost/hana/ext/mpl/vector.hpp>
 #include <boost/hana/type.hpp>
 
 <% vector = Benchcc::MPL::Vector.new((0...x).map { |i| "x<#{i}>" }) %>

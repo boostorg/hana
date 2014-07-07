@@ -216,7 +216,7 @@ namespace boost { namespace hana {
     //!
     //! @note
     //! When using `trait` with metafunctions returning `std::integral_constant`s,
-    //! don't forget to include the boost/hana/adapted/std_integral_constant.hpp
+    //! don't forget to include the boost/hana/ext/std/integral_constant.hpp
     //! header!
     template <template <typename ...> class f>
     constexpr type_detail::trait<f> trait{};

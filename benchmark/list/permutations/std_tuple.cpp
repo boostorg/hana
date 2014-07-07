@@ -1,4 +1,4 @@
-#include <boost/hana/adapted/std_tuple.hpp>
+#include <boost/hana/ext/std/tuple.hpp>
 #include <boost/hana/list.hpp>
 
 #include <tuple>
