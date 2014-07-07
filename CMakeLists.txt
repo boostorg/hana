@@ -98,7 +98,7 @@ find_package(Ruby 2.1)
 # Setup subdirectories
 #=============================================================================
 include_directories(include)
-add_subdirectory(benchmarks)
+add_subdirectory(benchmark)
 add_subdirectory(doc)
 add_subdirectory(example)
 add_subdirectory(test)

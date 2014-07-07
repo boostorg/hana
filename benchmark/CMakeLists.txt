@@ -127,3 +127,4 @@ boost_hana_add_benchmark(functor.fmap.list functor/fmap/list.cpp ${functor.fmap.
 boost_hana_add_benchmark(functor.fmap.std_tuple functor/fmap/std_tuple.cpp ${functor.fmap.env})
 boost_hana_add_benchmark(functor.fmap.mpl_list functor/fmap/mpl_list.cpp ${functor.fmap.env})
 boost_hana_add_benchmark(functor.fmap.mpl_vector functor/fmap/mpl_vector.cpp ${functor.fmap.env})
+boost_hana_add_plot(functor.fmap functor.fmap.list functor.fmap.std_tuple functor.fmap.mpl_list functor.fmap.mpl_vector)

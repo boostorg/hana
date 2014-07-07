@@ -13,7 +13,7 @@ compiler = Benchcc::Compiler.guess_from_binary(CMAKE_CXX_COMPILER)
 
 benchmark_opts = {
   timeout: 120,
-  relative_to: PROJECT_SOURCE_DIR + 'benchmarks'
+  relative_to: PROJECT_SOURCE_DIR + 'benchmark'
 }
 
 compiler_opts = [

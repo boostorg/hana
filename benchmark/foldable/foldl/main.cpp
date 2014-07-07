@@ -3,7 +3,7 @@ struct result { };
 
 constexpr struct {
     template <typename State, typename X>
-    constexpr result<State, X> operator()(State, X) const;
+    constexpr result<State, X> operator()(State, X) const { return {}; }
 } f{};
 
 constexpr struct { } state{};
