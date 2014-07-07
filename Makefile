@@ -1,19 +1,20 @@
+# Simple Makefile to ease day-to-day development
 
-# Simple Makefile forwarding to the build directory.
+.PHONY: doc benchmarks example include test gen-cmake
 
-.PHONY: all gen-cmake doc
-
-# Suppress the output of the forwarding of commands.
 ${VERBOSE}.SILENT:
-
-all: tests examples
-	make -C build $@
 
 %:
 	make -C build $@
 
+all:
+	make -C build $@
+
+benchmarks:
+	make -C build $@
+
 doc:
-	make -C build $@ $(args)
+	make -C build $@
 
 gen-cmake:
 	rm -rf build && mkdir build
