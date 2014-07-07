@@ -18,29 +18,12 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     BOOST_HANA_BINARY_TYPECLASS_BOILERPLATE(struct Comparable)
 
-    /*!
-    @ingroup typeclasses
-    The `Comparable` type class defines equality and inequality.
-
-    --------------------------------------------------------------------------
-
-    ## Laws
-    `equal` must define an equivalence relation. In other words, for all
-    `a`, `b`, `c` of comparable data types,
-    @code
-        a == a                          // Reflexivity
-        if a == b then b == a           // Symmetry
-        if a == b && b == c then a == c // Transitivity
-    @endcode
-
-    --------------------------------------------------------------------------
-
-    @todo
-    Implement automatic checking of the laws for Comparable, if possible.
-     */
+    //! @ingroup typeclasses
+    //! The `Comparable` type class defines equality and inequality.
     struct Comparable : binary_typeclass<Comparable> {
         struct equal_mcd;
         struct not_equal_mcd;
+        struct laws;
     };
 
     /*!
@@ -86,6 +69,26 @@ namespace boost { namespace hana {
         template <typename X, typename Y>
         static constexpr auto equal_impl(X x, Y y)
         { return not_(not_equal(x, y)); }
+    };
+
+    //! @details
+    //! `equal` must define an equivalence relation. In other words, for all
+    //! `a`, `b`, `c` of comparable data types,
+    //! @code
+    //!     a == a                          // Reflexivity
+    //!     if a == b then b == a           // Symmetry
+    //!     if a == b && b == c then a == c // Transitivity
+    //! @endcode
+    struct Comparable::laws {
+        template <typename A, typename B, typename C>
+        static constexpr auto check(A a, B b, C c) {
+            auto implies = [](auto p, auto q) { return or_(not_(p), q); };
+            return and_(
+                equal(a, a),
+                implies(equal(a, b), equal(b, a)),
+                implies(and_(equal(a, b), equal(b, c)), equal(a, c))
+            );
+        }
     };
 
     //! @details
