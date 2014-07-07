@@ -113,6 +113,18 @@ namespace boost { namespace hana {
         return Iterable::instance<datatype_t<decltype(iterable)>>::drop_until_impl(predicate, iterable);
     };
 
+    //! Perform an action on each element of the iterable, discarding the
+    //! result each time.
+    //! @method{Iterable}
+    //!
+    //! ### Example
+    //! @snippet example/list/iterable/for_each.cpp main
+    //!
+    //! @todo This should probably be in a future `Traversable` type class.
+    BOOST_HANA_CONSTEXPR_LAMBDA auto for_each = [](auto iterable, auto f) {
+        return Iterable::instance<datatype_t<decltype(iterable)>>::for_each_impl(iterable, f);
+    };
+
     //! Minimal complete definition: `head`, `tail` and `is_empty`
     struct Iterable::mcd {
         template <typename Index, typename Iterable_>
@@ -155,6 +167,17 @@ namespace boost { namespace hana {
         template <typename Pred, typename Iterable_>
         static constexpr auto drop_until_impl(Pred pred, Iterable_ iterable) {
             return drop_while([=](auto x) { return not_(pred(x)); }, iterable);
+        }
+
+        template <typename It, typename F>
+        static constexpr auto for_each_impl(It it, F f) {
+            return eval_if(is_empty(it),
+                [](auto) { },
+                [=](auto _) {
+                    f(_(head)(it));
+                    for_each_impl(_(tail)(it), f);
+                }
+            );
         }
     };
 
