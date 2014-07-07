@@ -1,6 +1,7 @@
 /*!
 @file
-Includes all the headers of the library.
+Includes all the library components, excluding the adaptors for external
+libraries.
 
 @copyright Louis Dionne 2014
 Distributed under the Boost Software License, Version 1.0.
@@ -31,14 +32,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core.hpp>
-#include <boost/hana/ext/mpl/list.hpp>
-#include <boost/hana/ext/mpl/vector.hpp>
-#include <boost/hana/ext/std/array.hpp>
-#include <boost/hana/ext/std/integer_sequence.hpp>
-#include <boost/hana/ext/std/integral_constant.hpp>
-#include <boost/hana/ext/std/list.hpp>
-#include <boost/hana/ext/std/pair.hpp>
-#include <boost/hana/ext/std/tuple.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/functor.hpp>
