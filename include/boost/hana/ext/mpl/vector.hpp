@@ -37,20 +37,13 @@ namespace boost { namespace hana {
         using type = MplVector;
     };
 
-    namespace mpl_vector_detail {
-        //! @todo Remove the need for this.
-        template <typename F>
-        struct wrap {
-            template <typename ...x>
-            using apply = decltype((*(F*)0)(type<x>...));
-        };
-    }
-
     template <>
     struct Functor::instance<MplVector> : Functor::fmap_mcd {
-        template <typename F, typename Xs>
-        static constexpr auto fmap_impl(F, Xs) {
-            return typename ::boost::mpl::transform<Xs, mpl_vector_detail::wrap<F>>::type{};
+        template <typename f, typename xs>
+        static constexpr auto fmap_impl(f, xs) {
+            return typename ::boost::mpl::transform<
+                xs, detail::type_function<f>
+            >::type{};
         }
     };
 

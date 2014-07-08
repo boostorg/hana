@@ -68,6 +68,12 @@ namespace boost { namespace hana { namespace detail { namespace left_folds {
                      template result<f, state, xs...>;
     };
 
+    template <template <typename ...> class f>
+    struct evaluator {
+        template <typename ...x>
+        using apply = typename f<x...>::type;
+    };
+
 
     /*!
      * @ingroup details
@@ -75,7 +81,7 @@ namespace boost { namespace hana { namespace detail { namespace left_folds {
      * Recursive alias-based variadic left fold for types only.
      */
     template <template <typename ...> class f, typename state, typename ...xs>
-    using variadic_meta = typename variadic_meta_indirect<f, state, xs...>::type;
+    using variadic_meta = typename variadic_meta_indirect<evaluator<f>::template apply, state, xs...>::type;
 }}}} // end namespace boost::hana::detail::left_folds
 
 #endif // !BOOST_HANA_DETAIL_LEFT_FOLDS_VARIADIC_META_HPP

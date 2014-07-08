@@ -33,8 +33,6 @@ namespace boost { namespace hana {
     //!   foundation of this data type.
     //! - Verify `Monad` laws.
     //! - Instantiate `Applicative`.
-    //! - Move self-notes for `Type`-related stuff to the (internal?)
-    //!   documentation of `Type`.
     //! - Consider having a `.name()` method that would return the
     //!   (demangled?) `typeid(T).name()`.
     //! - Document `Functor` and `Monad` instances.
@@ -162,6 +160,37 @@ namespace boost { namespace hana {
             template <typename ...xs>
             constexpr auto operator()(xs...) const
             { return f<xs...>{}; }
+        };
+    }
+
+    namespace detail {
+        template <typename f>
+        struct is_metafunction_class {
+            static constexpr bool value = false;
+        };
+
+        template <typename f, bool = is_metafunction_class<f>::value>
+        struct type_function {
+            template <typename ...x>
+            using apply = decltype((*(f*)0)(type<x>...));
+        };
+
+        template <typename f>
+        struct type_function<f, true> : f { };
+
+        template <template <typename ...> class f>
+        struct is_metafunction_class<type_detail::template_<f>> {
+            static constexpr bool value = true;
+        };
+
+        template <template <typename ...> class f>
+        struct is_metafunction_class<type_detail::metafunction<f>> {
+            static constexpr bool value = true;
+        };
+
+        template <typename f>
+        struct is_metafunction_class<type_detail::metafunction_class<f>> {
+            static constexpr bool value = true;
         };
     }
 

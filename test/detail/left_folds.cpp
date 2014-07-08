@@ -22,6 +22,8 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto variadic_unrolled = [](auto f, auto s, auto ...
 template <typename ...> struct F;
 constexpr auto f = template_<F>;
 
+struct x0; struct x1; struct x2; struct x3;
+
 template <typename Foldl>
 constexpr void test_foldl(Foldl foldl) {
     BOOST_HANA_STATIC_ASSERT(foldl(list, int_<0>) == int_<0>);
@@ -29,7 +31,6 @@ constexpr void test_foldl(Foldl foldl) {
     BOOST_HANA_STATIC_ASSERT(foldl(list, int_<0>, int_<1>, int_<2>) == list(list(int_<0>, int_<1>), int_<2>));
     BOOST_HANA_STATIC_ASSERT(foldl(list, int_<0>, int_<1>, int_<2>, int_<3>) == list(list(list(int_<0>, int_<1>), int_<2>), int_<3>));
 
-    struct x0; struct x1; struct x2; struct x3;
     BOOST_HANA_STATIC_ASSERT(foldl(f, type<x0>) == type<x0>);
     BOOST_HANA_STATIC_ASSERT(foldl(f, type<x0>, type<x1>) == f(type<x0>, type<x1>));
     BOOST_HANA_STATIC_ASSERT(foldl(f, type<x0>, type<x1>, type<x2>) == f(f(type<x0>, type<x1>), type<x2>));
