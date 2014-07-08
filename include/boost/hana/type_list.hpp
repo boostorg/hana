@@ -27,8 +27,7 @@ namespace boost { namespace hana {
     //! optimizations. When possible, it should be preferred.
     //!
     //! @todo
-    //! - Implement efficient membership testing.
-    //! - Actually provide optimizations.
+    //! - Efficient membership testing is possible.
     //! - `TypeList` is not really a `Functor` because the function must
     //!   map from `Type`s to `Type`s. Should it be modified so that
     //!   `TypeList` becomes `List` if we try to store something else

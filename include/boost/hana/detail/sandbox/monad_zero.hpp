@@ -42,7 +42,7 @@ namespace boost { namespace hana {
     //! @method{MonadZero}
     //!
     //! ### Example
-    //! @todo
+    //! ...
     BOOST_HANA_CONSTEXPR_LAMBDA auto filter = [](auto predicate, auto monad) {
         return MonadZero::instance<datatype_t<decltype(monad)>>::filter_impl(predicate, monad);
     };

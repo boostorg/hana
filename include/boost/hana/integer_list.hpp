@@ -24,9 +24,6 @@ namespace boost { namespace hana {
     //! @note
     //! `IntegerList` may be more efficient than `List` because of
     //! optimizations. When possible, it should be preferred.
-    //!
-    //! @todo
-    //! Actually provide optimizations.
     struct IntegerList { };
 
     namespace operators {
