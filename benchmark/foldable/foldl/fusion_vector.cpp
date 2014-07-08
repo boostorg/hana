@@ -1,7 +1,7 @@
 <% vector = Benchcc::Fusion::Vector.new((0..x).map { |i| "x<#{i}>" }) %>
 <%= vector.includes %>
 
-#include <boost/hana/ext/fusion.hpp>
+#include <boost/hana/ext/boost/fusion.hpp>
 
 
 template <typename ...>

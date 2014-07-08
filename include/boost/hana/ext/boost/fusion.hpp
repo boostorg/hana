@@ -7,8 +7,8 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#ifndef BOOST_HANA_EXT_FUSION_VECTOR_HPP
-#define BOOST_HANA_EXT_FUSION_VECTOR_HPP
+#ifndef BOOST_HANA_EXT_BOOST_FUSION_VECTOR_HPP
+#define BOOST_HANA_EXT_BOOST_FUSION_VECTOR_HPP
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/core.hpp>
@@ -88,4 +88,4 @@ namespace boost { namespace hana {
     };
 }} // end namespace boost::hana
 
-#endif // !BOOST_HANA_EXT_FUSION_VECTOR_HPP
+#endif // !BOOST_HANA_EXT_BOOST_FUSION_VECTOR_HPP

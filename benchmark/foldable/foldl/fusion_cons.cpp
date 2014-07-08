@@ -1,7 +1,7 @@
 <% cons = Benchcc::Fusion::Cons.new((0..x).map { |i| "x<#{i}>" }) %>
 <%= cons.includes %>
 
-#include <boost/hana/ext/fusion.hpp>
+#include <boost/hana/ext/boost/fusion.hpp>
 
 
 template <typename ...>

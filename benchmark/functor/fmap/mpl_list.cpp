@@ -1,4 +1,4 @@
-#include <boost/hana/ext/mpl/list.hpp>
+#include <boost/hana/ext/boost/mpl/list.hpp>
 #include <boost/hana/type.hpp>
 
 <% list = Benchcc::MPL::List.new((0...x).map { |i| "x<#{i}>" }) %>
