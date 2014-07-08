@@ -7,6 +7,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/type.hpp>
 
 #include <boost/hana/detail/static_assert.hpp>
+
+#include <type_traits>
 using namespace boost::hana;
 
 
@@ -18,4 +20,9 @@ int main() {
     BOOST_HANA_STATIC_ASSERT(metafunction_class<f>(type<x1>) == type<f::apply<x1>::type>);
     BOOST_HANA_STATIC_ASSERT(metafunction_class<f>(type<x1>, type<x2>) == type<f::apply<x1, x2>::type>);
     BOOST_HANA_STATIC_ASSERT(metafunction_class<f>(type<x1>, type<x2>, type<x3>) == type<f::apply<x1, x2, x3>::type>);
+
+    static_assert(std::is_same<decltype(metafunction_class<f>)::apply<>, f::apply<>>::value, "");
+    static_assert(std::is_same<decltype(metafunction_class<f>)::apply<x1>, f::apply<x1>>::value, "");
+    static_assert(std::is_same<decltype(metafunction_class<f>)::apply<x1, x2>, f::apply<x1, x2>>::value, "");
+    static_assert(std::is_same<decltype(metafunction_class<f>)::apply<x1, x2, x3>, f::apply<x1, x2, x3>>::value, "");
 }

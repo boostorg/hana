@@ -120,37 +120,48 @@ namespace boost { namespace hana {
     namespace type_detail {
         template <template <typename ...> class f>
         struct template_ {
-            template <typename ...Args>
-            constexpr auto operator()(Args...) const
-            { return type<f<typename Args::type...>>; }
+            template <typename ...xs>
+            struct apply {
+                using type = f<xs...>;
+            };
+
+            template <typename ...xs>
+            constexpr auto operator()(xs...) const
+            { return type<f<typename xs::type...>>; }
         };
 
         template <template <typename ...> class f>
         struct metafunction {
-            template <typename ...Args>
-            constexpr auto operator()(Args...) const
-            { return type<typename f<typename Args::type...>::type>; }
+            template <typename ...xs>
+            using apply = f<xs...>;
+
+            template <typename ...xs>
+            constexpr auto operator()(xs...) const
+            { return type<typename f<typename xs::type...>::type>; }
         };
 
         template <typename f>
         struct metafunction_class {
-            template <typename ...Args>
-            constexpr auto operator()(Args...) const
-            { return type<typename f::template apply<typename Args::type...>::type>; }
+            template <typename ...xs>
+            using apply = typename f::template apply<xs...>;
+
+            template <typename ...xs>
+            constexpr auto operator()(xs...) const
+            { return type<typename f::template apply<typename xs::type...>::type>; }
         };
 
         template <template <typename ...> class f>
         struct trait {
-            template <typename ...Args>
-            constexpr auto operator()(Args...) const
-            { return f<typename Args::type...>{}; }
+            template <typename ...xs>
+            constexpr auto operator()(xs...) const
+            { return f<typename xs::type...>{}; }
         };
 
         template <template <typename ...> class f>
         struct trait_ {
-            template <typename ...T>
-            constexpr auto operator()(T ...t) const
-            { return f<decltype(t)...>{}; }
+            template <typename ...xs>
+            constexpr auto operator()(xs...) const
+            { return f<xs...>{}; }
         };
     }
 
@@ -160,6 +171,11 @@ namespace boost { namespace hana {
     //! Specifically, `template_<f>` is a function on `Type`s satisfying
     //! @code
     //!     template_<f>(type<x1>, ..., type<xN>) == type<f<x1, ..., xN>>
+    //! @endcode
+    //!
+    //! `decltype(template_<f>)` is also a metafunction class such that
+    //! @code
+    //!     decltype(template_<f>)::apply<x1, ..., xN>::type == f<x1, ..., xN>
     //! @endcode
     //!
     //! ### Example
@@ -174,6 +190,11 @@ namespace boost { namespace hana {
     //! @code
     //!     metafunction<f>(type<x1>, ..., type<xN>) == type<f<x1, ..., xN>::type>
     //! @endcode
+    //!
+    //! `decltype(metafunction<f>)` is also a metafunction class such that
+    //! @code
+    //!     decltype(metafunction<f>)::apply<x1, ..., xN> == f<x1, ..., xN>
+    //! @endcode
     template <template <typename ...> class f>
     constexpr type_detail::metafunction<f> metafunction{};
 
@@ -184,6 +205,11 @@ namespace boost { namespace hana {
     //! satisfying
     //! @code
     //!     metafunction_class<f>(type<x1>, ..., type<xN>) == type<f::apply<x1, ..., xN>::type>
+    //! @endcode
+    //!
+    //! `decltype(metafunction_class<f>)` is also a metafunction class such that
+    //! @code
+    //!     decltype(metafunction_class<f>)::apply<x1, ..., xN> == f::apply<x1, ..., xN>
     //! @endcode
     template <typename f>
     constexpr type_detail::metafunction_class<f> metafunction_class{};
