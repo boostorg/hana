@@ -273,6 +273,11 @@ namespace boost { namespace hana {
     //! When using `trait` with metafunctions returning `std::integral_constant`s,
     //! don't forget to include the boost/hana/ext/std/integral_constant.hpp
     //! header!
+    //!
+    //! @note
+    //! Since `trait<f>` does not return a `Type`, it does not really make
+    //! sense to make `decltype(trait<f>)` a metafunction class, which
+    //! explains the omission.
     template <template <typename ...> class f>
     constexpr type_detail::trait<f> trait{};
 
@@ -281,6 +286,11 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/type/trait_.cpp main
+    //!
+    //! @note
+    //! Since `trait_<f>` does not return a `Type`, it does not really make
+    //! sense to make `decltype(trait_<f>)` a metafunction class, which
+    //! explains the omission.
     template <template <typename ...> class f>
     constexpr type_detail::trait_<f> trait_{};
 
