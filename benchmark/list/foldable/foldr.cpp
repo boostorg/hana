@@ -8,15 +8,15 @@ template <typename ...>
 struct result { };
 
 struct f {
-    template <typename State, typename X>
-    constexpr result<State, X> operator()(State, X) const { return {}; }
+    template <typename X, typename State>
+    constexpr result<X, State> operator()(X, State) const { return {}; }
 };
 
 struct state { };
 template <int> struct x { };
 
 int main() {
-    auto go = boost::hana::foldl(f{}, state{},
+    auto go = boost::hana::foldr(f{}, state{},
         <%= list(
             (0..x).map { |i| "x<#{i}>" },
             (0..x).map { |i| "x<#{i}>{}" }

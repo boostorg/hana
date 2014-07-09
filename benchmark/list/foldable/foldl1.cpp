@@ -12,14 +12,13 @@ struct f {
     constexpr result<State, X> operator()(State, X) const { return {}; }
 };
 
-struct state { };
 template <int> struct x { };
 
 int main() {
-    auto go = boost::hana::foldl(f{}, state{},
+    auto go = boost::hana::foldl1(f{},
         <%= list(
-            (0..x).map { |i| "x<#{i}>" },
-            (0..x).map { |i| "x<#{i}>{}" }
+                (1..x+1).map { |i| "x<#{i}>" },
+                (1..x+1).map { |i| "x<#{i}>{}" }
         ) %>
     );
 }
