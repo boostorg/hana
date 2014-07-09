@@ -1,11 +1,13 @@
+<%= render(instance) %>
+
+
 #include <boost/hana/list.hpp>
-using namespace boost::hana;
 
 
 template <int i> struct x { };
 
 int main() {
-    permutations(list(
+    auto go = boost::hana::permutations(list(
         <%= (0..x).map { |i| "x<#{i}>{}" }.join(', ') %>
     ));
 }

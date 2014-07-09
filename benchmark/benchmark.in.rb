@@ -12,7 +12,7 @@ compiler = Benchcc::Compiler.guess_from_binary(CMAKE_CXX_COMPILER)
 
 
 benchmark_opts = {
-  timeout: 120,
+  timeout: 30,
   relative_to: PROJECT_SOURCE_DIR + 'benchmark'
 }
 
@@ -26,4 +26,5 @@ data = Benchcc::benchmark_to_csv(input_file, environments, **benchmark_opts) do 
   compiler.compile_code(code, *compiler_opts)
 end
 
+output_file.dirname.mkpath
 output_file.write(data)

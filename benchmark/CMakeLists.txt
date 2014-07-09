@@ -17,119 +17,115 @@ else()
     endif()
 endif()
 
-
-add_custom_target(benchmarks COMMENT "Gather data for all the benchmarks.")
 configure_file(benchmark.in.rb benchmark.rb @ONLY)
+set(BOOST_HANA_BENCHMARK_SCRIPT ${CMAKE_CURRENT_BINARY_DIR}/benchmark.rb)
+set(BOOST_HANA_PLOT_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/plot.rb)
 
-# name: The name of the target referring to the benchmark. This will create
-#       a file called name.csv containing the benchmark data.
+
+add_custom_target(benchmarks COMMENT "Build all the benchmark plots.")
+
+# Creates a command which generates a file containing data from a benchmark.
 #
-# file: The input file to be benchmarked. The path should be relative to the
-#       current directory (benchmarks/), and the file itself can be an ERB
-#       template that will be evaluated prior to compilation.
+# dataset_name:
+#   The name of the dataset. This will be used for the name of the
+#   file containing the dataset.
 #
-# envs: A string of Ruby code generating an Array of Hashes to be used as
-#       the environments when generating the ERB templates.
-function(boost_hana_add_benchmark name file envs)
-    add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${name}.csv
+# cpp_file:
+#   The input file to be benchmarked. The path should be relative to the
+#   source directory in which the function is called. The file can be an
+#   ERB template that will be evaluated prior to compilation.
+#
+# envs:
+#   A string of Ruby code generating an Array of Hashes to be used as
+#   the environments when generating the ERB templates.
+function(boost_hana_add_dataset dataset_name cpp_file envs)
+    add_custom_command(OUTPUT ${dataset_name}
         COMMAND ${RUBY_EXECUTABLE} --
-                ${CMAKE_CURRENT_BINARY_DIR}/benchmark.rb    # script performing benchmarks
-                ${envs}                                     # environments
-                ${CMAKE_CURRENT_BINARY_DIR}/${name}.csv     # output file
-                ${CMAKE_CURRENT_SOURCE_DIR}/${file}         # input file
-
-        DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/benchmark.rb    # script
-                ${CMAKE_CURRENT_SOURCE_DIR}/${file}         # input file
+                ${BOOST_HANA_BENCHMARK_SCRIPT}
+                ${envs}
+                ${dataset_name}
+                ${CMAKE_CURRENT_SOURCE_DIR}/${cpp_file}
+        DEPENDS ${BOOST_HANA_BENCHMARK_SCRIPT}
+                ${CMAKE_CURRENT_SOURCE_DIR}/${cpp_file}
         VERBATIM
     )
-    add_custom_target(benchmark.${name}
-        DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${name}.csv)
-    add_dependencies(benchmarks benchmark.${name})
+    add_custom_target(__${dataset_name} DEPENDS ${dataset_name}) # hack
 endfunction()
 
 
-add_custom_target(plots COMMENT "Build all the benchmark plots.")
-
-# name: The name of the target referring to the plot. This will create
-#       plots called name.time.png and name.memusg.png containing timing
-#       and memory usage information, respectively.
+# Creates a target representing a plot to which curves may be added later.
 #
-# benchmarks: A list of benchmark names representing which benchmarks to plot.
-#             Benchmark names should be as given to boost_hana_add_benchmark.
-function(boost_hana_add_plot name) # benchmarks...
-    set(benchmarks_csv "")
-    foreach(bm IN LISTS ARGN)
-        list(APPEND benchmarks_csv ${CMAKE_CURRENT_BINARY_DIR}/${bm}.csv)
-    endforeach()
-
+# Building a target created with this function will first build all the
+# datasets it needs and then draw the plot using Gnuplot.
+#
+# plot_name:
+#   The name of the target referring to the plot. This will create plots
+#   called plot_name.time.png and plot_name.memusg.png containing timing
+#   and memory usage information, respectively.
+function(boost_hana_add_plot plot_name)
     add_custom_command(
-        OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${name}.time.png
-               ${CMAKE_CURRENT_BINARY_DIR}/${name}.memusg.png
-
+        OUTPUT ${plot_name}.time.png ${plot_name}.memusg.png
         COMMAND ${RUBY_EXECUTABLE} --
-                ${CMAKE_CURRENT_SOURCE_DIR}/plot.rb             # script plotting the data
-                ${CMAKE_CURRENT_BINARY_DIR}/${name}.time.png    # time output file
-                ${CMAKE_CURRENT_BINARY_DIR}/${name}.memusg.png  # memory usage output file
-                ${benchmarks_csv}                               # input files
+                ${BOOST_HANA_PLOT_SCRIPT}
+                ${plot_name}.time.png
+                ${plot_name}.memusg.png
+                $<TARGET_PROPERTY:${plot_name},boost_hana_datasets>
 
-        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/plot.rb             # script
-                ${benchmarks_csv}                               # input files
+        DEPENDS ${BOOST_HANA_PLOT_SCRIPT}
+
+        # todo:
+        # Not supported in CMake 3.0. Once this is supported, remove the
+        # `add_custom_target(_${dataset_name} ...)` in `boost_hana_add_dataset`
+        # and the `add_dependencies` in `boost_hana_add_curve_from_dataset`.
+
+        # DEPENDS $<TARGET_PROPERTY:${plot_name},boost_hana_datasets>
+
         VERBATIM
     )
-    add_custom_target(plot.${name}
-        DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${name}.time.png
-                ${CMAKE_CURRENT_BINARY_DIR}/${name}.memusg.png
-    )
-    add_dependencies(plots plot.${name})
+    add_custom_target(${plot_name} DEPENDS ${plot_name}.time.png ${plot_name}.memusg.png)
+    set_target_properties(${plot_name} PROPERTIES boost_hana_datasets "")
+    add_dependencies(benchmarks ${plot_name})
 endfunction()
 
+# Add a curve on a plot.
+#
+# This is equivalent to creating an anonymous dataset with
+# `boost_hana_add_dataset` and then calling `boost_hana_add_curve_from_dataset`.
+#
+# plot_name:
+#   The name of the plot to which a curve is added. If no target with the
+#   given name exists, it is created with `boost_hana_add_plot`.
+#
+# cpp_file:
+#   Same as for `boost_hana_add_dataset`.
+#
+# envs:
+#   Same as for `boost_hana_add_dataset`.
+function(boost_hana_add_curve_from_source plot_name curve_name cpp_file envs)
+    boost_hana_add_dataset(${plot_name}.${curve_name} ${cpp_file} ${envs})
+    boost_hana_add_curve_from_dataset(${plot_name} ${plot_name}.${curve_name})
+endfunction()
 
-# list.permutations
-set(list.permutations.env "0.upto(2).map { |n| {x: n} }")
-boost_hana_add_benchmark(list.permutations.list list/permutations/list.cpp ${list.permutations.env})
-boost_hana_add_benchmark(list.permutations.std_tuple list/permutations/std_tuple.cpp ${list.permutations.env})
-boost_hana_add_plot(list.permutations list.permutations.list list.permutations.std_tuple)
+# Add a curve representing a dataset to the given plot.
+#
+# It might be desirable to use this function when one wants a dataset to be
+# shared between several plots. Otherwise, using `boost_hana_add_curve_from_source`
+# is simpler.
+#
+# plot_name:
+#   The name of the plot to which a curve is added. If no target with the
+#   given name exists, it is created with `boost_hana_add_plot`.
+#
+# dataset_name:
+#   The name of the dataset to plot.
+function(boost_hana_add_curve_from_dataset plot_name dataset_name)
+    if (NOT TARGET ${plot_name})
+        boost_hana_add_plot(${plot_name})
+    endif()
+    set_property(TARGET ${plot_name} APPEND PROPERTY boost_hana_datasets ${dataset_name})
+    add_dependencies(${plot_name} __${dataset_name}) # hack
+endfunction()
 
-# core.datatype
-set(core.datatype.env "(0...1000).step(5).map { |n| {x: n} }")
-boost_hana_add_benchmark(core.datatype.overload core/datatype/overload.cpp ${core.datatype.env})
-boost_hana_add_benchmark(core.datatype.specialization core/datatype/specialization.cpp ${core.datatype.env})
-boost_hana_add_plot(core.datatype core.datatype.specialization core.datatype.overload)
-
-# list.partition
-set(list.partition.env "(0...150).map { |n| { x: n } }")
-boost_hana_add_benchmark(list.partition.filter list/partition/filter.cpp ${list.partition.env})
-boost_hana_add_benchmark(list.partition.foldl list/partition/foldl.cpp ${list.partition.env})
-boost_hana_add_plot(list.partition list.partition.foldl list.partition.filter)
-
-# foldable.foldl
-boost_hana_add_benchmark(foldable.foldl.linear1  foldable/foldl/linear.cpp "(0...1000).step(25).map { |n| { x: n, unroll: 1 }}")
-boost_hana_add_benchmark(foldable.foldl.linear2  foldable/foldl/linear.cpp "(0...1000).step(25).map { |n| { x: n, unroll: 2 }}")
-boost_hana_add_benchmark(foldable.foldl.linear4  foldable/foldl/linear.cpp "(0...1000).step(25).map { |n| { x: n, unroll: 4 }}")
-boost_hana_add_benchmark(foldable.foldl.linear8  foldable/foldl/linear.cpp "(0...1000).step(25).map { |n| { x: n, unroll: 8 }}")
-boost_hana_add_benchmark(foldable.foldl.linear16 foldable/foldl/linear.cpp "(0...1000).step(25).map { |n| { x: n, unroll: 16 }}")
-boost_hana_add_benchmark(foldable.foldl.linear32 foldable/foldl/linear.cpp "(0...1000).step(25).map { |n| { x: n, unroll: 32 }}")
-boost_hana_add_benchmark(foldable.foldl.log10  foldable/foldl/log.cpp "(0...1000).step(25).map { |n| { x: n, unroll: 10 }}")
-boost_hana_add_benchmark(foldable.foldl.log20  foldable/foldl/log.cpp "(0...1000).step(25).map { |n| { x: n, unroll: 20 }}")
-boost_hana_add_benchmark(foldable.foldl.log30  foldable/foldl/log.cpp "(0...1000).step(25).map { |n| { x: n, unroll: 30 }}")
-boost_hana_add_benchmark(foldable.foldl.log40  foldable/foldl/log.cpp "(0...1000).step(25).map { |n| { x: n, unroll: 40 }}")
-boost_hana_add_benchmark(foldable.foldl.log100 foldable/foldl/log.cpp "(0...1000).step(25).map { |n| { x: n, unroll: 100 }}")
-boost_hana_add_benchmark(foldable.foldl.log250 foldable/foldl/log.cpp "(0...1000).step(25).map { |n| { x: n, unroll: 250 }}")
-boost_hana_add_plot(foldable.foldl.techniques
-    foldable.foldl.linear1 foldable.foldl.linear2 foldable.foldl.linear4 foldable.foldl.linear8 foldable.foldl.linear16 foldable.foldl.linear32
-    foldable.foldl.log10 foldable.foldl.log20 foldable.foldl.log30 foldable.foldl.log40 foldable.foldl.log100 foldable.foldl.log250
-)
-
-boost_hana_add_benchmark(foldable.foldl.list foldable/foldl/list.cpp "(0...1000).step(25).map { |n| { x: n }}")
-boost_hana_add_benchmark(foldable.foldl.fusion_vector foldable/foldl/fusion_vector.cpp "(0...1000).step(25).map { |n| { x: n }}")
-boost_hana_add_benchmark(foldable.foldl.fusion_list foldable/foldl/fusion_list.cpp "(0...1000).step(25).map { |n| { x: n }}")
-boost_hana_add_benchmark(foldable.foldl.fusion_cons foldable/foldl/fusion_cons.cpp "(0...1000).step(25).map { |n| { x: n }}")
-boost_hana_add_plot(foldable.foldl foldable.foldl.list foldable.foldl.fusion_vector foldable.foldl.fusion_list foldable.foldl.fusion_cons)
-
-# functor.fmap
-set(functor.fmap.env "(0...1000).step(25).map { |n| { x: n } }")
-boost_hana_add_benchmark(functor.fmap.list functor/fmap/list.cpp ${functor.fmap.env})
-boost_hana_add_benchmark(functor.fmap.std_tuple functor/fmap/std_tuple.cpp ${functor.fmap.env})
-boost_hana_add_benchmark(functor.fmap.mpl_list functor/fmap/mpl_list.cpp ${functor.fmap.env})
-boost_hana_add_benchmark(functor.fmap.mpl_vector functor/fmap/mpl_vector.cpp ${functor.fmap.env})
-boost_hana_add_plot(functor.fmap functor.fmap.list functor.fmap.std_tuple functor.fmap.mpl_list functor.fmap.mpl_vector)
+add_subdirectory(core)
+add_subdirectory(list)
+add_subdirectory(techniques)

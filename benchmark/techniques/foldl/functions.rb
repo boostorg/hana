@@ -25,11 +25,3 @@ def unroll_log(n)
   end
 end
 %>
-
-//////////////////////////////////////////////////////////////////////////////
-
-<% 0.upto(unroll).each do |n| %>
-  <%= unroll_linear(n, trailing: n == unroll) %>
-<% end %>
-
-<%= render('foldable/foldl/main.cpp') %>
