@@ -1,4 +1,5 @@
-<%= render(instance) %>
+<% render(instance) %>
+<%= includes(0..x) %>
 
 #include <boost/hana/list.hpp>
 using boost::hana::partition;

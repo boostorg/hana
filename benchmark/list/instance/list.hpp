@@ -1,4 +1,11 @@
-#include <boost/hana/list.hpp>
-auto list = [](auto ...xs) {
-    return boost::hana::list(xs...);
-};
+<%
+def includes(xs)
+    return <<-EOS
+        #include <boost/hana/list.hpp>
+    EOS
+end
+
+def list(xs_t, xs)
+  return "boost::hana::list(#{xs.join(', ')})"
+end
+%>

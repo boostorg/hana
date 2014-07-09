@@ -1,4 +1,5 @@
-<%= render(instance) %>
+<% render(instance) %>
+<%= includes(0..x) %>
 
 #include <boost/hana/foldable.hpp>
 
@@ -15,6 +16,7 @@ struct state { };
 template <int> struct x { };
 
 int main() {
-    auto xs = list(<%= (0..x).map { |i| "x<#{i}>{}" }.join(', ') %>);
-    auto go = boost::hana::foldl(f{}, state{}, xs);
+    auto go = boost::hana::foldl(f{}, state{},
+        <%= list((0..x).map { |i| "x<#{i}>" }, (0..x).map { |i| "x<#{i}>{}" }) %>
+    );
 }

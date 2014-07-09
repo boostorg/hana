@@ -12,15 +12,13 @@
 #   bar since it's useless in our use case.
 # - How to benchmark stuff like TypeList, which is only some kind of
 #   restricted List?
-# - Create fusion::cons, fusion::list and fusion::vector correctly/more
-#   efficiently.
 
 
 file(GLOB_RECURSE BOOST_HANA_LIST_INSTANCES
      RELATIVE "${Boost.Hana_SOURCE_DIR}/benchmark"
      "instance/*")
 
-# Add a plot for all the isomorphic instances of List.
+# Add a plot for all the (isomorphic) instances of List.
 function(boost_hana_add_list_plot plot_name cpp_file envs)
     boost_hana_add_plot(${plot_name})
     foreach(instance_file IN LISTS BOOST_HANA_LIST_INSTANCES)
@@ -47,23 +45,23 @@ boost_hana_add_list_plot(
 boost_hana_add_list_plot(
     benchmark.list.functor.fmap
     functor/fmap.cpp
-    "(0..1000).step(25).map { |n| { x: n, instance:\"@instance_file@\" } }"
+    "(0..25).step(25).map { |n| { x: n, instance:\"@instance_file@\" } }"
 )
 
 boost_hana_add_list_plot(
     benchmark.list.foldable.foldl
     foldable/foldl.cpp
-    "(0..1000).step(25).map { |n| { x: n, instance:\"@instance_file@\" } }"
+    "(0..25).step(25).map { |n| { x: n, instance:\"@instance_file@\" } }"
 )
 
 boost_hana_add_list_plot(
     benchmark.list.partition.filter
     partition/filter.cpp
-    "(0..100).step(5).map { |n| { x: n, instance:\"@instance_file@\" } }"
+    "(0..25).step(5).map { |n| { x: n, instance:\"@instance_file@\" } }"
 )
 
 boost_hana_add_list_plot(
     benchmark.list.partition.foldl
     partition/foldl.cpp
-    "(0..100).step(5).map { |n| { x: n, instance:\"@instance_file@\" } }"
+    "(0..25).step(5).map { |n| { x: n, instance:\"@instance_file@\" } }"
 )

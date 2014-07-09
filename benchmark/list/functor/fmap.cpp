@@ -1,4 +1,5 @@
-<%= render(instance) %>
+<% render(instance) %>
+<%= includes(0..x) %>
 
 #include <boost/hana/functor.hpp>
 
@@ -14,6 +15,7 @@ struct f {
 template <int> struct x { };
 
 int main() {
-    auto xs = list(<%= (0..x).map { |i| "x<#{i}>{}" }.join(', ') %>);
-    auto go = boost::hana::fmap(f{}, xs);
+    auto go = boost::hana::fmap(f{},
+        <%= list((0..x).map { |i| "x<#{i}>" }, (0..x).map { |i| "x<#{i}>{}" }) %>
+    );
 }

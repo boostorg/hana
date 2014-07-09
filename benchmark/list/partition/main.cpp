@@ -7,6 +7,9 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto is_odd = [](auto x) {
 };
 
 int main() {
-    auto xs = list(<%= (0..x).map{ |i| "boost::hana::int_<#{i}>" }.join(', ') %>);
+    auto xs = <%= list(
+        (0..x).map{ |i| "decltype(boost::hana::int_<#{i}>)" },
+        (0..x).map{ |i| "boost::hana::int_<#{i}>" }
+    ) %>;
     auto parts = partition(is_odd, xs);
 }
