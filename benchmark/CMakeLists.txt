@@ -47,6 +47,7 @@ function(boost_hana_add_dataset dataset_name cpp_file envs)
                 ${CMAKE_CURRENT_SOURCE_DIR}/${cpp_file}
         DEPENDS ${BOOST_HANA_BENCHMARK_SCRIPT}
                 ${CMAKE_CURRENT_SOURCE_DIR}/${cpp_file}
+        IMPLICIT_DEPENDS CXX ${CMAKE_CURRENT_SOURCE_DIR}/${cpp_file}
         VERBATIM
     )
     add_custom_target(__${dataset_name} DEPENDS ${dataset_name}) # hack
