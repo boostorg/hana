@@ -117,6 +117,16 @@ auto ap_impl<List<Function<X, Y>>, List<X>> = [](auto fs, auto xs) {
 };
 
 
+//////////////////////////////////////////////////////////////////////////////
+// Any
+//////////////////////////////////////////////////////////////////////////////
+struct Any;
+
+auto any = [](auto x) {
+    return hana::detail::wrap<Any>(x);
+};
+
+
 int main() {
     auto f = function<int, int>([](auto x) { return x + 1; });
     auto xs = list<int>(1, 2, 3, 4);
@@ -124,4 +134,10 @@ int main() {
 
     lift<List>(2);
     ap(list<Function<int, int>>(f, f), list<int>(1, 2));
+
+    auto g = function<Any, int>([](auto x) {
+        // We can't do anything with an Any, so there's not much choice here.
+        return 1;
+    });
+    fmap(g, list<Any>(any(1), any('2'), any("345")));
 }
