@@ -6,29 +6,29 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
-#include <boost/hana/detail/sandbox/lazy.hpp>
 #include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/iterable.hpp>
+#include <boost/hana/lazy.hpp>
 using namespace boost::hana;
 
 
 struct LazyList;
 
 template <typename X, typename Xs>
-struct lcons_type {
+struct lazy_cons_type {
     X x;
     Xs xs;
     using hana_datatype = LazyList;
 };
 
-auto lcons = [](auto x, auto xs) {
-    return lcons_type<decltype(x), decltype(xs)>{x, xs};
+auto lazy_cons = [](auto x, auto xs) {
+    return lazy_cons_type<decltype(x), decltype(xs)>{x, xs};
 };
 
 auto repeat = fix([](auto repeat, auto x) {
-    return lcons(x, sandbox::lazy<>(repeat)(x));
+    return lazy_cons(x, lazy(repeat)(x));
 });
 
 namespace boost { namespace hana {
@@ -40,7 +40,7 @@ namespace boost { namespace hana {
 
         template <typename Xs>
         static constexpr auto tail_impl(Xs lcons)
-        { return lcons.xs.eval(); }
+        { return eval(lcons.xs); }
 
         template <typename Xs>
         static constexpr auto is_empty_impl(Xs lcons)
