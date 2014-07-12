@@ -1,5 +1,5 @@
 <%
-def includes(xs)
+def includes(n)
     return <<-EOS
         #include <boost/fusion/container/list/cons.hpp>
         #include <boost/hana/ext/boost/fusion.hpp>

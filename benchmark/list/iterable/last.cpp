@@ -1,5 +1,5 @@
 <% render(instance) %>
-<%= includes(0..x) %>
+<%= includes(x) %>
 
 #include <boost/hana/iterable.hpp>
 

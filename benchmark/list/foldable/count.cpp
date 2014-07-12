@@ -1,5 +1,5 @@
 <% render(instance) %>
-<%= includes(0..x) %>
+<%= includes(x) %>
 
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/foldable.hpp>

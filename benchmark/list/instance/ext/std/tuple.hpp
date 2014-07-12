@@ -1,5 +1,5 @@
 <%
-def includes(xs)
+def includes(n)
     return <<-EOS
         #include <boost/hana/ext/std/tuple.hpp>
         #include <tuple>

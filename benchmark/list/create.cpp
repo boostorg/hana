@@ -1,5 +1,5 @@
 <% render(instance) %>
-<%= includes(0..x) %>
+<%= includes(x) %>
 
 template <int i> struct x { };
 

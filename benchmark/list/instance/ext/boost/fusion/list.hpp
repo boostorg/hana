@@ -1,5 +1,5 @@
 <%
-def includes(xs)
+def includes(n)
     return <<-EOS
         #define FUSION_MAX_LIST_SIZE 50
         #include <boost/fusion/container/list/list.hpp>
