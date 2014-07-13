@@ -12,11 +12,9 @@ using namespace boost::hana;
 
 struct Disabled;
 
-struct Typeclass;
-namespace boost { namespace hana {
-    BOOST_HANA_TYPECLASS_BOILERPLATE(::Typeclass)
-}}
-struct Typeclass : typeclass<Typeclass> { };
+struct Typeclass {
+    BOOST_HANA_TYPECLASS(Typeclass);
+};
 
 // Instance enabled for all data types.
 template <typename T> struct Typeclass::instance<T> { };

@@ -15,8 +15,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    BOOST_HANA_TYPECLASS_BOILERPLATE(struct Applicative)
-
     /*!
     @ingroup typeclasses
     `Applicative`s are `Functor`s with the ability to lift values and combine
@@ -44,7 +42,8 @@ namespace boost { namespace hana {
         fmap(f, x) == ap(lift<A>(f), x)
     @endcode
      */
-    struct Applicative : typeclass<Applicative> {
+    struct Applicative {
+        BOOST_HANA_TYPECLASS(Applicative);
         struct mcd { };
     };
 

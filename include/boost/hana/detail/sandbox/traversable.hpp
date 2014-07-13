@@ -15,8 +15,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    BOOST_HANA_TYPECLASS_BOILERPLATE(struct Traversable)
-
     /*!
     @ingroup typeclasses
     `Traversable` represents types that can be folded in a
@@ -27,7 +25,8 @@ namespace boost { namespace hana {
     ## Laws
 
      */
-    struct Traversable : typeclass<Traversable> {
+    struct Traversable {
+        BOOST_HANA_TYPECLASS(Traversable);
         struct traverse_mcd;
     };
 

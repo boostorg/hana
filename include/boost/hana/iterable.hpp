@@ -22,8 +22,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    BOOST_HANA_TYPECLASS_BOILERPLATE(struct Iterable)
-
     /*!
     @ingroup typeclasses
     Data structures allowing external iteration.
@@ -39,7 +37,8 @@ namespace boost { namespace hana {
     - Instead of having a lot of methods, maybe some of the functions below
       should just be implemented as functions using the mcd, as in the MPL11?
      */
-    struct Iterable : typeclass<Iterable> {
+    struct Iterable {
+        BOOST_HANA_TYPECLASS(Iterable);
         struct mcd;
         struct FoldableInstance;
         struct ComparableInstance;

@@ -15,8 +15,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    BOOST_HANA_TYPECLASS_BOILERPLATE(struct Logical)
-
     /*!
     @ingroup typeclasses
     The `Logical` type class is for data types acting like a boolean.
@@ -31,7 +29,8 @@ namespace boost { namespace hana {
     We don't short-circuit right now. Don't forget to change the examples and
     unit tests when that's implemented.
      */
-    struct Logical : typeclass<Logical> {
+    struct Logical {
+        BOOST_HANA_TYPECLASS(Logical);
         struct mcd;
     };
 

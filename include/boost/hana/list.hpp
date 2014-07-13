@@ -37,9 +37,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // The List type class
     //////////////////////////////////////////////////////////////////////////
-
-    BOOST_HANA_TYPECLASS_BOILERPLATE(struct List)
-
     /*!
     @ingroup typeclasses
     @ingroup datatypes
@@ -73,7 +70,8 @@ namespace boost { namespace hana {
     - There is a strong relationship between this and `MonadPlus`. Actually,
       they might be just the same. Check this out.
      */
-    struct List : typeclass<List> {
+    struct List {
+        BOOST_HANA_TYPECLASS(List);
         template <typename T>
         struct mcd;
     };

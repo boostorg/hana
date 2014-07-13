@@ -11,51 +11,41 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_DETAIL_TYPECLASSES_HPP
 
 namespace boost { namespace hana {
+    namespace core_detail {
+        template <typename x, typename ...>
+        struct dependent { using type = x; };
+    }
+
     //! @ingroup core
     //! Machinery for creating a unary type class.
     //!
     //!
     //! ### Creating a type class
-    //! Creating a new type class is done by inheriting from `typeclass`:
+    //! Creating a new type class is done by using the `BOOST_HANA_TYPECLASS`
+    //! macro inside a struct with the desired name:
     //! @code
-    //!     struct Typeclass : typeclass<Typeclass> { };
+    //!     struct Typeclass {
+    //!         BOOST_HANA_TYPECLASS(Typeclass);
+    //!     };
     //! @endcode
     //!
-    //! If desired, default methods can be provided by putting them inside
-    //! a nested type of `Typeclass`:
+    //! If desired, methods can be provided by putting them inside a nested
+    //! type of `Typeclass`:
     //! @code
-    //!     struct Typeclass : typeclass<Typeclass> {
+    //!     struct Typeclass {
+    //!         BOOST_HANA_TYPECLASS(Typeclass);
     //!         struct some_member {
-    //!             // default methods
+    //!             // methods
     //!         };
     //!     };
     //! @endcode
     //!
     //! In this library, type classes with a single minimal complete definition
-    //! provide their default methods, if any, in the nested type named `mcd`.
-    //! In the case where multiple minimal complete definitions exist, each set
-    //! of default methods is in a different nested type with a descriptive
-    //! name. In all cases, the minimal complete definition(s) and the location
-    //! of their associated set of default methods are documented.
-    //!
-    //! One can also provide a default instance for all data types by defining
-    //! a `default_` member:
-    //! @code
-    //!     struct Typeclass : typeclass<Typeclass> {
-    //!         struct default_ {
-    //!             // default instance for all data types
-    //!         };
-    //!     };
-    //! @endcode
-    //!
-    //! `default_` should be just like a normal instance; see below for how
-    //! to instantiate a type class. This can be used to provide a default
-    //! behavior for all data types while still allowing this behavior to
-    //! be customized by instantiating the type class. However, this should
-    //! seldom be used because methods with a meaningful behavior for all
-    //! data types are rare. This feature is provided for flexibility, but
-    //! it should be a hint to reconsider your type class design if you are
-    //! about to use it.
+    //! provide the other methods, if any, in the nested type named `mcd`. In
+    //! the case where multiple minimal complete definitions exist, each set of
+    //! provided methods is in a different nested type with a descriptive name.
+    //! In all cases, the minimal complete definition(s) and the location of
+    //! their associated set of provided methods are documented.
     //!
     //!
     //! ### Instantiating a type class
@@ -108,8 +98,28 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @include example/core/typeclass.cpp
-    template <typename Typeclass>
-    struct typeclass;
+    #define BOOST_HANA_TYPECLASS(NAME)                                      \
+        template <typename T, typename Enable = void>                       \
+        struct instance                                                     \
+            : ::boost::hana::core_detail::dependent<                        \
+                ::boost::hana::default_instance<NAME>, Enable               \
+            >::type                                                         \
+        { }                                                                 \
+    /**/
+
+    //! @ingroup core
+    //! Machinery for creating a binary type class.
+    //!
+    //! This is equivalent to `BOOST_HANA_TYPECLASS`, except it creates a type
+    //! class with two arguments.
+    #define BOOST_HANA_BINARY_TYPECLASS(NAME)                               \
+        template <typename T, typename U, typename Enable = void>           \
+        struct instance                                                     \
+            : ::boost::hana::core_detail::dependent<                        \
+                ::boost::hana::default_instance<NAME>, Enable               \
+            >::type                                                         \
+        { }                                                                 \
+    /**/
 
     //! @ingroup core
     //! Explicitly disable a type class instance.
@@ -122,42 +132,31 @@ namespace boost { namespace hana {
     //! @include example/core/disable.cpp
     struct disable { };
 
-    namespace core_detail {
-        template <typename x, typename ...>
-        struct dependent { using type = x; };
-    }
-
-    #define BOOST_HANA_TYPECLASS_BOILERPLATE(NAME)                          \
-        template <>                                                         \
-        struct typeclass<NAME> {                                            \
-            using default_ = disable;                                       \
-                                                                            \
-            template <typename T, typename Enable = void>                   \
-            struct instance                                                 \
-                : core_detail::dependent<NAME, Enable>::type::default_      \
-            { };                                                            \
-        };                                                                  \
-    /**/
-
     //! @ingroup core
-    //! Machinery for creating a binary type class.
+    //! Defines a default instance for the given type class.
     //!
-    //! This is equivalent to `typeclass`, except it creates a type class
-    //! with two arguments.
+    //! To define a default instance for all data types, specialize the
+    //! `default_instance` template for the desired type class:
+    //! @code
+    //!     template <>
+    //!     struct default_instance<Typeclass> {
+    //!         // default instance for all data types
+    //!     };
+    //! @endcode
+    //!
+    //! `default_instance` should be just like a normal instance; see below
+    //! for how to instantiate a type class. This can be used to provide a
+    //! default behavior for all data types while still allowing this behavior
+    //! to be customized by instantiating the type class. However, this should
+    //! seldom be used because methods with a meaningful behavior for all
+    //! data types are rare. This feature is provided for flexibility, but
+    //! it should be a hint to reconsider your type class design if you are
+    //! about to use it.
+    //!
+    //! ### Example
+    //! @include example/core/default_instance.cpp
     template <typename Typeclass>
-    struct binary_typeclass;
-
-    #define BOOST_HANA_BINARY_TYPECLASS_BOILERPLATE(NAME)                   \
-        template <>                                                         \
-        struct binary_typeclass<NAME> {                                     \
-            using default_ = disable;                                       \
-                                                                            \
-            template <typename T, typename U, typename Enable = void>       \
-            struct instance                                                 \
-                : core_detail::dependent<NAME, Enable>::type::default_      \
-            { };                                                            \
-        };                                                                  \
-    /**/
+    struct default_instance : disable { };
 
     namespace core_detail {
         template <typename T, typename Enable = void*>

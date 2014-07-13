@@ -15,8 +15,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    BOOST_HANA_TYPECLASS_BOILERPLATE(struct Boolean)
-
     //! @ingroup typeclasses
     //! The `Boolean` type class defines a
     //! [boolean algebra](http://en.wikipedia.org/wiki/Boolean_algebra_(structure)).
@@ -34,7 +32,8 @@ namespace boost { namespace hana {
     //!
     //! ## Laws
     //! ...
-    struct Boolean : typeclass<Boolean> {
+    struct Boolean {
+        BOOST_HANA_TYPECLASS(Boolean);
         struct mcd { };
     };
 

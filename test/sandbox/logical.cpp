@@ -12,11 +12,6 @@ Distributed under the Boost Software License, Version 1.0.
 namespace hana = boost::hana;
 
 
-struct Logical;
-namespace boost { namespace hana {
-    BOOST_HANA_TYPECLASS_BOILERPLATE(::Logical)
-}}
-
 // Difficulties:
 // 1. eval_if(false_, ...) will use Logical<bool> because it will try
 //    to eval(false_), which is false_(), which is false.
@@ -36,9 +31,9 @@ namespace boost { namespace hana {
 // Warning: make sure the whole approach with `eval` is not
 // fundamentally broken. There seems to be some loss of information
 // in eval(), which I suspect breaks the whole thing in subtle cases.
-struct Logical : hana::typeclass<Logical> {
+struct Logical {
+    BOOST_HANA_TYPECLASS(Logical);
     struct mcd;
-    struct default_;
 };
 
 BOOST_HANA_CONSTEXPR_LAMBDA auto if_ = [](auto logical, auto then_, auto else_) {
@@ -83,17 +78,20 @@ struct Logical::mcd {
     { return eval_if(c, hana::always(t), hana::always(e)); }
 };
 
-struct Logical::default_ : Logical::mcd {
-    template <typename Cond, typename Then, typename Else>
-    static constexpr auto eval_if_impl(Cond c, Then t, Else e) {
-        auto would_recurse = hana::decltype_(eval(c)) == hana::decltype_(c);
-        static_assert(!would_recurse(),
-        "Condition is probably not a logical. Trying to evaluate "
-        "it and use it as the condition to if_ again would cause "
-        "infinite recursion.");
-        return eval_if(eval(c), t, e);
-    }
-};
+namespace boost { namespace hana {
+    template <>
+    struct default_instance< ::Logical> : ::Logical::mcd {
+        template <typename Cond, typename Then, typename Else>
+        static constexpr auto eval_if_impl(Cond c, Then t, Else e) {
+            auto would_recurse = hana::decltype_(::eval(c)) == hana::decltype_(c);
+            static_assert(!would_recurse(),
+            "Condition is probably not a logical. Trying to evaluate "
+            "it and use it as the condition to if_ again would cause "
+            "infinite recursion.");
+            return ::eval_if(::eval(c), t, e);
+        }
+    };
+}}
 
 template <>
 struct Logical::instance<bool> : Logical::mcd {

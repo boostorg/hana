@@ -16,8 +16,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    BOOST_HANA_TYPECLASS_BOILERPLATE(struct Monad)
-
     /*!
     @ingroup typeclasses
     `Monad`s are `Applicative`s with the ability to flatten values that were
@@ -33,7 +31,8 @@ namespace boost { namespace hana {
         bind(m, [](auto x){ return bind(f(x), g); }) == bind(bind(m, f), g)
     @endcode
      */
-    struct Monad : typeclass<Monad> {
+    struct Monad {
+        BOOST_HANA_TYPECLASS(Monad);
         struct bind_mcd;
         struct flatten_mcd;
     };

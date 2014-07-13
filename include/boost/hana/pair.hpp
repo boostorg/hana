@@ -18,8 +18,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    BOOST_HANA_TYPECLASS_BOILERPLATE(struct Pair)
-
     /*!
     @ingroup typeclasses
     @ingroup datatypes
@@ -39,7 +37,8 @@ namespace boost { namespace hana {
     Provide and document instances for `Functor`, `Applicative`, `Monad` and
     `Foldable`.
      */
-    struct Pair : typeclass<Pair> {
+    struct Pair {
+        BOOST_HANA_TYPECLASS(Pair);
         //! Minimal complete definition: `first` and `second`
         struct mcd { };
     };

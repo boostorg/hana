@@ -18,8 +18,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    BOOST_HANA_TYPECLASS_BOILERPLATE(struct MonadZero)
-
     //! @ingroup typeclasses
     //! `Monad`s with a neutral element.
     //!
@@ -28,7 +26,8 @@ namespace boost { namespace hana {
     //!
     //! ## Laws
     //! ...
-    struct MonadZero : typeclass<MonadZero> {
+    struct MonadZero {
+        BOOST_HANA_TYPECLASS(MonadZero);
         template <typename M>
         struct mcd;
     };

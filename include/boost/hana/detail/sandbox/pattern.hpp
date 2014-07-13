@@ -15,8 +15,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    BOOST_HANA_TYPECLASS_BOILERPLATE(struct Pattern)
-
     //! @ingroup typeclasses
     //! ...
     //!
@@ -37,7 +35,8 @@ namespace boost { namespace hana {
     //! A lazy action could be anything that can be called with `id`; this
     //! would allow us to create lazy lambdas on the fly and also to use
     //! `lazy()` when we want to.
-    struct Pattern : typeclass<Pattern> {
+    struct Pattern {
+        BOOST_HANA_TYPECLASS(Pattern);
         struct mcd { };
     };
 

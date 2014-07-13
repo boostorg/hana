@@ -22,12 +22,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    BOOST_HANA_TYPECLASS_BOILERPLATE(struct Foldable)
-
     //! @ingroup typeclasses
     //! Data structures that can be folded, i.e. summarized into
     //! a single value.
-    struct Foldable : typeclass<Foldable> {
+    struct Foldable {
+        BOOST_HANA_TYPECLASS(Foldable);
         struct lazy_foldr_mcd;
     };
 

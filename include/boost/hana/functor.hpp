@@ -17,8 +17,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    BOOST_HANA_TYPECLASS_BOILERPLATE(struct Functor)
-
     /*!
     @ingroup typeclasses
     `Functor` represents types that can be mapped over.
@@ -32,7 +30,8 @@ namespace boost { namespace hana {
         fmap (f . g) == fmap f . fmap g
     @endcode
      */
-    struct Functor : typeclass<Functor> {
+    struct Functor {
+        BOOST_HANA_TYPECLASS(Functor);
         struct fmap_mcd;
         struct adjust_mcd;
     };

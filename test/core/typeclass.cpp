@@ -10,17 +10,18 @@ Distributed under the Boost Software License, Version 1.0.
 namespace hana = boost::hana;
 
 
-struct Typeclass;
+struct Typeclass {
+    BOOST_HANA_TYPECLASS(Typeclass);
+};
+
 namespace boost { namespace hana {
-    BOOST_HANA_TYPECLASS_BOILERPLATE(::Typeclass)
-}}
-struct Typeclass : hana::typeclass<Typeclass> {
-    struct default_ {
+    template <>
+    struct default_instance<Typeclass> {
         static constexpr bool has_explicit_instance = false;
         static constexpr bool has_predicated_instance = false;
         static constexpr bool has_defaults = true;
     };
-};
+}}
 
 struct ExplicitInstance;
 struct PredicatedInstance;

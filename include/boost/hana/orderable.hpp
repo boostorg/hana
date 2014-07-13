@@ -16,8 +16,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    BOOST_HANA_BINARY_TYPECLASS_BOILERPLATE(struct Orderable)
-
     /*!
     @ingroup typeclasses
     The `Orderable` type class is used for data types defining a
@@ -39,7 +37,8 @@ namespace boost { namespace hana {
         if a ~ b && b ~ c then a ~ c // Transitivity of incomparability
     @endcode
      */
-    struct Orderable : binary_typeclass<Orderable> {
+    struct Orderable {
+        BOOST_HANA_BINARY_TYPECLASS(Orderable);
         struct less_mcd;
     };
 

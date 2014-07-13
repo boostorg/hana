@@ -57,20 +57,18 @@ struct Functor::instance<detail::minimal::Monad<mcd>> : Functor::fmap_mcd {
     { return ap(lift<detail::minimal::Monad<mcd>>(f), m); }
 };
 
-//! @todo
-//! Inherit from Applicative::mcd once Clang is fixed or Core is changed.
-template <typename mcd>
-struct Applicative::instance<detail::minimal::Monad<mcd>> {
+template <typename Mcd>
+struct Applicative::instance<detail::minimal::Monad<Mcd>> : Applicative::mcd {
     template <typename T>
     static constexpr auto lift_impl(T t)
-    { return detail::minimal::monad<mcd>(t); }
+    { return detail::minimal::monad<Mcd>(t); }
 
     //! @todo
     //! Use the bind-based implementation which causes infinite recursion
     //! right now.
     template <typename AF, typename AX>
     static constexpr auto ap_impl(AF af, AX ax) {
-        return detail::minimal::monad<mcd>(af.value(ax.value));
+        return detail::minimal::monad<Mcd>(af.value(ax.value));
         // return bind(af, [=](auto f) {
         //     return bind(ax, [=](auto x) {
         //         return lift<detail::minimal::Monad<mcd>>(f(x));
