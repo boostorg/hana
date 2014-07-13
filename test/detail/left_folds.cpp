@@ -7,17 +7,12 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/left_folds/variadic.hpp>
 #include <boost/hana/detail/left_folds/variadic_unrolled.hpp>
 
-#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/list.hpp>
 #include <boost/hana/type.hpp>
 using namespace boost::hana;
 
-
-BOOST_HANA_CONSTEXPR_LAMBDA auto variadic_unrolled = [](auto f, auto s, auto ...xs) {
-    return detail::left_folds::variadic_unrolled(f, s, xs...);
-};
 
 template <typename ...> struct F;
 constexpr auto f = template_<F>;
@@ -38,6 +33,6 @@ constexpr void test_foldl(Foldl foldl) {
 }
 
 int main() {
-    test_foldl(variadic_unrolled);
+    test_foldl(detail::left_folds::variadic_unrolled);
     test_foldl(detail::left_folds::variadic);
 }

@@ -18,6 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/enable_if.hpp>
 #include <boost/hana/detail/left_folds/variadic.hpp>
+#include <boost/hana/detail/right_folds/variadic_unrolled.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/functor.hpp>
@@ -586,6 +587,13 @@ namespace boost { namespace hana {
         static constexpr auto foldl_impl(F f, State s, Xs xs) {
             return xs.storage([=](auto ...xs) {
                 return detail::left_folds::variadic(f, s, xs...);
+            });
+        }
+
+        template <typename F, typename State, typename Xs>
+        static constexpr auto foldr_impl(F f, State s, Xs xs) {
+            return xs.storage([=](auto ...xs) {
+                return detail::right_folds::variadic_unrolled(f, s, xs...);
             });
         }
 
