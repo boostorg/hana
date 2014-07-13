@@ -6,16 +6,18 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/foldable.hpp>
 
+#include <boost/hana/detail/minimal/foldable.hpp>
 #include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/maybe.hpp>
-
-#include "minimal_foldable.hpp"
 using namespace boost::hana;
 
 
-int main() {
+template <typename mcd>
+void test() {
+    constexpr auto foldable = detail::minimal::foldable<mcd>;
+
     constexpr struct { } invalid{};
 
     BOOST_HANA_STATIC_ASSERT(find(id, foldable()) == nothing);
@@ -40,4 +42,8 @@ int main() {
     BOOST_HANA_STATIC_ASSERT(find(id, foldable(int{0}, long{1})) == just(long{1}));
     BOOST_HANA_STATIC_ASSERT(find(id, foldable(int{0}, long{0})) == nothing);
 #endif
+}
+
+int main() {
+    test<Foldable::lazy_foldr_mcd>();
 }

@@ -7,10 +7,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/foldable.hpp>
 
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/minimal/foldable.hpp>
 #include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/integral.hpp>
 
-#include "minimal_foldable.hpp"
 #include <tuple>
 using namespace boost::hana;
 
@@ -19,7 +19,10 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto x, auto xs) {
     return std::tuple_cat(std::make_tuple(x), xs);
 };
 
-int main() {
+template <typename mcd>
+void test() {
+    constexpr auto foldable = detail::minimal::foldable<mcd>;
+
     constexpr std::tuple<> s;
     BOOST_HANA_STATIC_ASSERT(foldr(f, s, foldable()) == s);
     BOOST_HANA_STATIC_ASSERT(foldr(f, s, foldable(1)) == f(1, s));
@@ -31,4 +34,8 @@ int main() {
     BOOST_HANA_STATIC_ASSERT(foldr(f, s, foldable(int_<0>, int_<1>)) == f(int_<0>, f(int_<1>, s)));
     BOOST_HANA_STATIC_ASSERT(foldr(f, s, foldable(int_<0>, int_<1>, int_<2>)) == f(int_<0>, f(int_<1>, f(int_<2>, s))));
     BOOST_HANA_STATIC_ASSERT(foldr(f, s, foldable(int_<0>, int_<1>, int_<2>, int_<3>)) == f(int_<0>, f(int_<1>, f(int_<2>, f(int_<3>, s)))));
+}
+
+int main() {
+    test<Foldable::lazy_foldr_mcd>();
 }

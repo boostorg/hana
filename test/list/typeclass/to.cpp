@@ -6,13 +6,15 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/list.hpp>
 
+#include <boost/hana/detail/minimal/foldable.hpp>
 #include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/integral.hpp>
 
-#include "../../foldable/minimal_foldable.hpp"
 #include "minimal.hpp"
 using namespace boost::hana;
 
+
+constexpr auto foldable = detail::minimal::foldable<>;
 
 int main() {
     BOOST_HANA_STATIC_ASSERT(to<MinimalList>(foldable()) == minimal_list());
