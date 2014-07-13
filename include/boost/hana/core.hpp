@@ -114,17 +114,6 @@ namespace boost { namespace hana {
     BOOST_HANA_CONSTEXPR_LAMBDA auto to = [](auto object) {
         return convert<To, datatype_t<decltype(object)>>::apply(object);
     };
-
-    namespace operators {
-        //! @ingroup core
-        //! Allows operators in the `boost::hana::operators` namespace to be
-        //! found by ADL.
-        //!
-        //! Use this as a dummy template parameter or base class to make
-        //! operators in the `boost::hana::operators` namespace ADL-findable
-        //! for a type.
-        struct enable { };
-    }
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_CORE_HPP

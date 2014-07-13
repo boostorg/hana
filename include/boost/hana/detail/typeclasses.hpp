@@ -195,6 +195,21 @@ namespace boost { namespace hana {
     //! Alias to `datatype<T>::%type`.
     template <typename T>
     using datatype_t = typename datatype<T>::type;
+
+    namespace operators {
+        //! @ingroup core
+        //! Allows operators in the `boost::hana::operators` namespace to be
+        //! found by ADL.
+        //!
+        //! Use this as a dummy template parameter or base class to make
+        //! operators in the `boost::hana::operators` namespace ADL-findable
+        //! for a type.
+        //!
+        //! @note
+        //! boost/hana/core.hpp does not need to be included when the header
+        //! of a type class providing operators has been included.
+        struct enable { };
+    }
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_DETAIL_TYPECLASSES_HPP
