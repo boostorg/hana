@@ -6,14 +6,16 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/iterable.hpp>
 
+#include <boost/hana/detail/minimal/iterable.hpp>
 #include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/integral.hpp>
-
-#include "minimal_iterable.hpp"
 using namespace boost::hana;
 
 
-int main() {
+template <typename mcd>
+void test() {
+    constexpr auto iterable = detail::minimal::iterable<mcd>;
+
     BOOST_HANA_STATIC_ASSERT(drop(int_<0>, iterable()) == iterable());
     BOOST_HANA_STATIC_ASSERT(drop(int_<1>, iterable()) == iterable());
     BOOST_HANA_STATIC_ASSERT(drop(int_<2>, iterable()) == iterable());
@@ -25,4 +27,8 @@ int main() {
     BOOST_HANA_STATIC_ASSERT(drop(int_<0>, iterable(int_<0>, int_<1>)) == iterable(int_<0>, int_<1>));
     BOOST_HANA_STATIC_ASSERT(drop(int_<1>, iterable(int_<0>, int_<1>)) == iterable(int_<1>));
     BOOST_HANA_STATIC_ASSERT(drop(int_<2>, iterable(int_<0>, int_<1>)) == iterable());
+}
+
+int main() {
+    test<Iterable::mcd>();
 }

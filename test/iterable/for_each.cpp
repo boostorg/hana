@@ -6,25 +6,32 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/iterable.hpp>
 
-#include "minimal_iterable.hpp"
+#include <boost/hana/detail/minimal/iterable.hpp>
+
 #include <cassert>
 #include <vector>
 using namespace boost::hana;
 
 
-auto test = [](auto ...xs) {
-    std::vector<int> seen{};
-    for_each(iterable(xs...), [&](int x) {
-        seen.push_back(x);
-    });
-    assert(seen == std::vector<int>{xs...});
-};
+template <typename mcd>
+void test() {
+    constexpr auto iterable = detail::minimal::iterable<mcd>;
+
+    auto check = [=](auto ...xs) {
+        std::vector<int> seen{};
+        for_each(iterable(xs...), [&](int x) {
+            seen.push_back(x);
+        });
+        assert(seen == std::vector<int>{xs...});
+    };
+    check();
+    check(0);
+    check(0, 1);
+    check(0, 1, 2);
+    check(0, 1, 2, 3);
+    check(0, 1, 2, 3, 4);
+}
 
 int main() {
-    test();
-    test(0);
-    test(0, 1);
-    test(0, 1, 2);
-    test(0, 1, 2, 3);
-    test(0, 1, 2, 3, 4);
+    test<Iterable::mcd>();
 }
