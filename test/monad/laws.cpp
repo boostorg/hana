@@ -7,26 +7,23 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/monad.hpp>
 
 #include <boost/hana/detail/laws.hpp>
+#include <boost/hana/detail/minimal/monad.hpp>
 #include <boost/hana/detail/static_assert.hpp>
-
-#include "minimal.hpp"
 using namespace boost::hana;
 
 
-namespace boost { namespace hana {
-    template <>
-    struct Monad::instance<MinimalMonad> : Monad::flatten_mcd {
-        template <typename M>
-        static constexpr auto flatten_impl(M m)
-        { return m.value; }
-    };
-}}
+template <typename mcd>
+void test() {
+    constexpr auto monad = detail::minimal::monad<mcd>;
+    BOOST_HANA_STATIC_ASSERT(detail::laws<Monad>(
+        monad(1),
+        2,
+        [=](auto x) { return monad(x + 1); },
+        [=](auto x) { return monad(x * 2); }
+    ));
+}
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(detail::laws<Monad>(
-        monad<int>{1},
-        2,
-        [](auto x) { return monad<int>{x + 1}; },
-        [](auto x) { return monad<int>{x * 2}; }
-    ));
+    test<Monad::flatten_mcd>();
+    test<Monad::bind_mcd>();
 }
