@@ -19,32 +19,60 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //! @ingroup datatypes
-    //! The `Lazy` data type implements laziness via a monadic interface.
+    //! The `Lazy` data type implements superficial laziness via a monadic
+    //! interface.
+    //!
+    //! It is important to understand that the laziness implemented by `Lazy`
+    //! is only superficial; only function applications made inside the `Lazy`
+    //! monad can be made lazy, not all their subexpressions.
     //!
     //! ----------------------------------------------------------------------
     //!
     //! ## Instance of
-    //! `Functor`, `Applicative` and `Monad`.
+    //! `Functor`, `Applicative` and `Monad`
+    //!
+    //! @note
+    //! `Lazy` only instantiates a few type classes because providing more
+    //! functionality would require evaluating the lazy values in most cases.
+    //! Since this raises some issues such as side effects and memoization,
+    //! the data type is kept simple.
     struct Lazy { };
-
-    //! Create a function returning a lazy value.
-    //! @relates Lazy
-    //!
-    //! Specifically, `lazy(f)(x)` is equivalent to
-    //! `ap(lift<Lazy>(f), lift<Lazy>(x))`.
-    //!
-    //! ### Example
-    //! @snippet example/lazy/lazy.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto lazy = [](auto f) {
-        return [=](auto ...x) {
-            return detail::wrap<Lazy>([=](auto _) { return _(f)(x...); });
-        };
-    };
 
     //! Evaluate a lazy value and return it.
     //! @relates Lazy
     BOOST_HANA_CONSTEXPR_LAMBDA auto eval = [](auto lx) {
-        return detail::unwrap(lx)([](auto x) { return x; });
+        return lx.storage([](auto x) { return x; });
+    };
+
+    namespace lazy_detail {
+        template <typename Storage, typename = operators::enable>
+        struct lazy {
+            Storage storage;
+            using hana_datatype = Lazy;
+
+            template <typename ...Xs>
+            constexpr auto operator()(Xs ...xs) const {
+                auto new_storage = [=](auto _) {
+                    return _(eval)(*this)(xs...);
+                };
+                return lazy<decltype(new_storage)>{new_storage};
+            }
+        };
+    }
+
+    //! Lifts a normal value to a lazy one.
+    //! @relates Lazy
+    //!
+    //! Additionally, `lazy(f)` is a function such that `lazy(f)(x1, ..., xN)`
+    //! is equivalent to `ap(lazy(f), lift<Lazy>(x1), ..., lift<Lazy>(xN))`,
+    //! which is in turn equivalent to `lazy(f(x1, ..., xN))`, except for the
+    //! fact that the inner call to `f` is evaluated lazily.
+    //!
+    //! ### Example
+    //! @snippet example/lazy/lazy.cpp main
+    BOOST_HANA_CONSTEXPR_LAMBDA auto lazy = [](auto x) {
+        auto storage = [=](auto _) { return x; };
+        return lazy_detail::lazy<decltype(storage)>{storage};
     };
 
     //! @details
@@ -57,9 +85,8 @@ namespace boost { namespace hana {
     struct Functor::instance<Lazy> : Functor::fmap_mcd {
         template <typename F, typename LX>
         static constexpr auto fmap_impl(F f, LX lx) {
-            return detail::wrap<Lazy>([=](auto _) {
-                return f(_(eval)(lx));
-            });
+            auto storage = [=](auto _) { return f(_(eval)(lx)); };
+            return lazy_detail::lazy<decltype(storage)>{storage};
         }
     };
 
@@ -70,24 +97,39 @@ namespace boost { namespace hana {
     struct Applicative::instance<Lazy> : Applicative::mcd {
         template <typename X>
         static constexpr auto lift_impl(X x) {
-            return detail::wrap<Lazy>([=](auto) { return x; });
+            auto storage = [=](auto) { return x; };
+            return lazy_detail::lazy<decltype(storage)>{storage};
         }
 
         template <typename LF, typename LX>
         static constexpr auto ap_impl(LF lf, LX lx) {
-            return detail::wrap<Lazy>([=](auto _) {
-                return _(eval)(lf)(_(eval)(lx));
-            });
+            auto storage = [=](auto _) { return _(eval)(lf)(_(eval)(lx)); };
+            return lazy_detail::lazy<decltype(storage)>{storage};
         }
     };
 
     //! @details
-    //! A lazy-lazy value can be made into a lazy value with `flatten`.
+    //! The `Lazy` monad allows combining lazy computations into larger
+    //! lazy computations.
+    //!
+    //! ### Example
+    //! @snippet example/lazy/monad.cpp main
     template <>
     struct Monad::instance<Lazy> : Monad::flatten_mcd {
         template <typename LLX>
         static constexpr auto flatten_impl(LLX llx) {
-            return eval(llx);
+            auto storage = [=](auto _) {
+                return eval(_(eval)(llx));
+            };
+            return lazy_detail::lazy<decltype(storage)>{storage};
+        }
+
+        template <typename LX, typename F>
+        static constexpr auto bind_impl(LX lx, F f) {
+            auto storage = [=](auto _) {
+                return eval(f(_(eval)(lx)));
+            };
+            return lazy_detail::lazy<decltype(storage)>{storage};
         }
     };
 }} // end namespace boost::hana

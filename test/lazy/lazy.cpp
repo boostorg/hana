@@ -7,21 +7,32 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/lazy.hpp>
 
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/minimal/comparable.hpp>
 #include <boost/hana/detail/static_assert.hpp>
+
+#include "comparable.hpp"
+#include <tuple>
 using namespace boost::hana;
 
 
-BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto x) {
-    return x + 1;
+BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto ...xs) {
+    return std::make_tuple(xs...);
 };
 
 BOOST_HANA_CONSTEXPR_LAMBDA auto invalid = [](auto x) {
     return x.this_function_must_not_be_instantiated;
 };
 
-int main() {
-    BOOST_HANA_STATIC_ASSERT(eval(lazy(f)(1)) == 1 + 1);
-    BOOST_HANA_STATIC_ASSERT(eval(lazy(f)(2.2)) == 2.2 + 1);
+template <int i>
+constexpr auto x = detail::minimal::comparable<>(i);
 
-    lazy(invalid)(1); // The function must not be applied.
+int main() {
+    BOOST_HANA_STATIC_ASSERT(lazy(f)(x<0>) == lazy(f(x<0>)));
+    BOOST_HANA_STATIC_ASSERT(lazy(f)(x<0>, x<1>) == lazy(f(x<0>, x<1>)));
+    BOOST_HANA_STATIC_ASSERT(lazy(f)(x<0>, x<1>, x<2>) == lazy(f(x<0>, x<1>, x<2>)));
+
+    // The function is not applied.
+    lazy(invalid)(x<0>);
+    lazy(invalid)(x<0>, x<1>);
+    lazy(invalid)(x<0>, x<1>, x<2>);
 }
