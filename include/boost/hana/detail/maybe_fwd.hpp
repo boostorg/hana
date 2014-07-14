@@ -25,9 +25,6 @@ namespace boost { namespace hana {
 
     ## Instance of
     `Comparable`, `Functor`, `Applicative`, `Monad` and `Foldable`
-
-    @todo
-    Check `Applicative` laws.
      */
     struct Maybe { };
 
