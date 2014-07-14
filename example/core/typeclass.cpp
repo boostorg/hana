@@ -53,7 +53,7 @@ struct Incrementable::instance<long> : Incrementable::next_n_mcd {
 };
 
 template <typename T>
-struct Incrementable::instance<T, std::enable_if_t<std::is_floating_point<T>{}>>
+struct Incrementable::instance<T, hana::when<std::is_floating_point<T>{}>>
     : Incrementable::next_mcd
 {
     template <typename X>

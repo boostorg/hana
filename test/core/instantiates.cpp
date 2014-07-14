@@ -21,7 +21,7 @@ struct Instance;
 struct PredicatedInstance;
 
 template <typename T>
-struct Typeclass::instance<T, std::enable_if_t<std::is_same<T, PredicatedInstance>{}>> { };
+struct Typeclass::instance<T, when<std::is_same<T, PredicatedInstance>{}>> { };
 
 template <>
 struct Typeclass::instance<Instance> { };

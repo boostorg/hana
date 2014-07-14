@@ -13,7 +13,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/enable_if.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/integral.hpp>
@@ -283,7 +282,7 @@ namespace boost { namespace hana {
     //! ### Example 2
     //! @snippet example/integer_list/foldable/foldr.cpp main
     template <typename T>
-    struct Foldable::instance<T, detail::enable_if_t<instantiates<Iterable, T>()>>
+    struct Foldable::instance<T, when<instantiates<Iterable, T>()>>
         : Iterable::FoldableInstance
     { };
 }} // end namespace boost::hana

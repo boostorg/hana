@@ -13,7 +13,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/enable_if.hpp>
 #include <boost/hana/logical.hpp>
 
 
@@ -89,7 +88,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/pair/comparable.cpp main
     template <typename T, typename U>
-    struct Comparable::instance<T, U, detail::enable_if_t<
+    struct Comparable::instance<T, U, when<
         instantiates<Pair, T>() && instantiates<Pair, U>()
     >> : Comparable::equal_mcd {
         template <typename X, typename Y>
@@ -103,7 +102,7 @@ namespace boost { namespace hana {
 
 #if 0
     template <typename T>
-    struct Functor::instance<T, detail::enable_if_t<instantiates<Pair, T>()>>
+    struct Functor::instance<T, when<instantiates<Pair, T>()>>
         : Functor::fmap_mcd
     {
         template <typename F, typename P>
@@ -112,7 +111,7 @@ namespace boost { namespace hana {
     };
 
     template <typename T>
-    struct Applicative::instance<T, detail::enable_if_t<instantiates<Pair, T>()>>
+    struct Applicative::instance<T, when<instantiates<Pair, T>()>>
         : Applicative::mcd
     {
         template <typename X>
@@ -125,7 +124,7 @@ namespace boost { namespace hana {
     };
 
     template <typename T>
-    struct Monad::instance<T, detail::enable_if_t<instantiates<Pair, T>()>>
+    struct Monad::instance<T, when<instantiates<Pair, T>()>>
         : Monad::bind_mcd
     {
         template <typename P, typename F>
@@ -138,7 +137,7 @@ namespace boost { namespace hana {
     };
 
     template <typename T>
-    struct Foldable::instance<T, detail::enable_if_t<instantiates<Pair, T>()>>
+    struct Foldable::instance<T, when<instantiates<Pair, T>()>>
         : Foldable::lazy_foldr_mcd
     {
         template <typename F, typename S, typename P>

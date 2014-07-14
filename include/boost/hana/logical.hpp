@@ -31,7 +31,7 @@ namespace boost { namespace hana {
     };
 
     template <typename T>
-    struct Logical::instance<T, decltype(*(T*)0 ? (void)0 : (void)0)>
+    struct Logical::instance<T, when_valid<decltype(*(T*)0 ? (void)0 : (void)0)>>
         : Logical::mcd
     {
         template <typename Then, typename Else>

@@ -82,44 +82,98 @@ namespace boost { namespace hana {
     //! to the type class without breaking the instance, provided the type
     //! class does not change its minimal complete definition(s).
     //!
-    //! One can also instantiate a type class for all data types satisfying a
-    //! predicate:
+    //! Type classes can also be instantiated for all specializations of a
+    //! parametric data type in the most natural way:
     //! @code
     //!     template <typename T>
-    //!     struct Typeclass::instance<T, std::enable_if_t<Predicate(T)>>
+    //!     struct Typeclass::instance<SomeDatatype<T>> : Typeclass::mcd {
+    //!         // ...
+    //!     };
+    //! @endcode
+    //!
+    //! Finally, type classes can be instantiated for all data types
+    //! satisfying some predicate:
+    //! @code
+    //!     template <typename T>
+    //!     struct Typeclass::instance<T, when<Predicate(T)>>
     //!         : Typeclass::mcd
     //!     {
     //!         // ...
     //!     };
     //! @endcode
     //!
-    //! This uses the well-known C++ trick of providing a dummy template
-    //! parameter allowing SFINAE.
+    //! Note that instances provided through partial specialization have the
+    //! priority over instances provided through a predicate. This allows
+    //! data types (parametric or not) to instantiate a type class even if
+    //! an instance for the same type class is provided through a predicate.
+    //!
+    //! Using `when` is necessary for two reasons. First, a non-type
+    //! template argument may not depend on a template parameter of a
+    //! partial specialization, so we need to wrap the `bool` result of
+    //! the predicate into a type. Second, `when` is used to implement the
+    //! priority of partially specialized instances over predicated instances.
     //!
     //! ### Example
     //! @include example/core/typeclass.cpp
     #define BOOST_HANA_TYPECLASS(NAME)                                      \
-        template <typename T, typename Enable = void>                       \
+        /** @cond */                                                        \
+        template <typename T, typename = struct unspecified>                \
         struct instance                                                     \
-            : ::boost::hana::core_detail::dependent<                        \
-                ::boost::hana::default_instance<NAME>, Enable               \
-            >::type                                                         \
+            : instance<T, ::boost::hana::when<true>>                        \
+        { };                                                                \
+                                                                            \
+        template <typename T, bool condition>                               \
+        struct instance<T, ::boost::hana::when<condition>>                  \
+            : ::boost::hana::default_instance<                              \
+                typename ::boost::hana::core_detail::dependent<             \
+                    NAME, ::boost::hana::when<condition>                    \
+                >::type                                                     \
+            >                                                               \
         { }                                                                 \
+        /** @endcond */                                                     \
     /**/
 
     //! @ingroup core
     //! Machinery for creating a binary type class.
     //!
-    //! This is equivalent to `BOOST_HANA_TYPECLASS`, except it creates a type
-    //! class with two arguments.
+    //! This is equivalent to `BOOST_HANA_TYPECLASS`, except it creates a
+    //! type class with two arguments.
     #define BOOST_HANA_BINARY_TYPECLASS(NAME)                               \
-        template <typename T, typename U, typename Enable = void>           \
+        /** @cond */                                                        \
+        template <typename T, typename U, typename = struct unspecified>    \
         struct instance                                                     \
-            : ::boost::hana::core_detail::dependent<                        \
-                ::boost::hana::default_instance<NAME>, Enable               \
-            >::type                                                         \
+            : instance<T, U, ::boost::hana::when<true>>                     \
+        { };                                                                \
+                                                                            \
+        template <typename T, typename U, bool condition>                   \
+        struct instance<T, U, ::boost::hana::when<condition>>               \
+            : ::boost::hana::default_instance<                              \
+                typename ::boost::hana::core_detail::dependent<             \
+                    NAME, ::boost::hana::when<condition>                    \
+                >::type                                                     \
+            >                                                               \
         { }                                                                 \
+        /** @endcond */                                                     \
     /**/
+
+    //! @ingroup core
+    //! Used to instantiate a type class based on the value of a predicate.
+    //!
+    //! @note
+    //! `when` is provided whenever the header of a type class is included;
+    //! including boost/hana/core.hpp is not necessary in that case.
+    template <bool condition>
+    struct when { };
+
+    //! @ingroup core
+    //! Used to instantiate a type class based on the validity of
+    //! an expression.
+    //!
+    //! Specifically, this is equivalent to `when<true>`, but SFINAE will
+    //! cause the partial specialization to fail when the expression is
+    //! ill-formed.
+    template <typename ...>
+    using when_valid = when<true>;
 
     //! @ingroup core
     //! Explicitly disable a type class instance.

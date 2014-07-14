@@ -494,7 +494,7 @@ namespace boost { namespace hana {
     //! ### Example 2
     //! @snippet example/type_list/functor/fmap.cpp main
     template <typename T>
-    struct Functor::instance<T, detail::enable_if_t<instantiates<List, T>()>>
+    struct Functor::instance<T, when<instantiates<List, T>()>>
         : Functor::fmap_mcd
     {
         template <typename F, typename Xs>
@@ -511,7 +511,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/list/applicative/overview.cpp main
     template <typename T>
-    struct Applicative::instance<T, detail::enable_if_t<instantiates<List, T>()>>
+    struct Applicative::instance<T, when<instantiates<List, T>()>>
         : Applicative::mcd
     {
         template <typename X>
@@ -531,7 +531,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/list/monad/overview.cpp main
     template <typename T>
-    struct Monad::instance<T, detail::enable_if_t<instantiates<List, T>()>>
+    struct Monad::instance<T, when<instantiates<List, T>()>>
         : Monad::flatten_mcd
     {
         template <typename Xss>
@@ -546,7 +546,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/list/comparable.cpp main
     template <typename T, typename U>
-    struct Comparable::instance<T, U, detail::enable_if_t<
+    struct Comparable::instance<T, U, when<
         instantiates<List, T>() && instantiates<List, U>()
     >> : Comparable::equal_mcd
     {
