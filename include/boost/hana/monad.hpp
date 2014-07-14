@@ -10,8 +10,8 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_MONAD_HPP
 #define BOOST_HANA_MONAD_HPP
 
-#include <boost/hana/core.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/typeclasses.hpp>
 #include <boost/hana/functor.hpp>
 
 
@@ -62,6 +62,18 @@ namespace boost { namespace hana {
         static constexpr auto bind_impl(M monad, F f)
         { return flatten(fmap(f, monad)); }
     };
+
+    namespace operators {
+        //! Equivalent to `bind`.
+        //! @method{boost::hana::Monad}
+        //!
+        //! @note
+        //! This was preferred over `>>=` because `>>=` is right associative,
+        //! which makes it impossible to chain computations.
+        template <typename M, typename F>
+        constexpr auto operator>>(M m, F f)
+        { return bind(m, f); }
+    }
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_MONAD_HPP
