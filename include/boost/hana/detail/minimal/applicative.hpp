@@ -17,7 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
 namespace detail { namespace minimal {
-    template <typename mcd>
+    template <typename mcd = hana::Applicative::mcd>
     struct Applicative { };
 
     template <typename T, typename mcd, typename = operators::enable>

@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
 namespace detail { namespace minimal {
-    template <typename mcd>
+    template <typename mcd = hana::Foldable::lazy_foldr_mcd>
     struct Foldable { };
 
     template <typename mcd>
