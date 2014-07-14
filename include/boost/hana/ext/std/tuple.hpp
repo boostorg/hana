@@ -73,7 +73,10 @@ namespace boost { namespace hana {
         { return helper(f, tuple, std::index_sequence_for<Xs...>{}); }
     };
 
-    //! @todo Check `Applicative` laws.
+    //! @todo
+    //! Get rid of this redundant instance once
+    //! http://llvm.org/bugs/show_bug.cgi?id=19616
+    //! is fixed.
     template <>
     struct Applicative::instance<StdTuple> : Applicative::mcd {
         template <typename X>
