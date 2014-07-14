@@ -6,17 +6,18 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/list.hpp>
 #include <boost/hana/maybe.hpp>
 using namespace boost::hana;
 
 
 int main() {
     //! [main]
-    BOOST_HANA_CONSTEXPR_LAMBDA auto inc = [](auto x) { return just(x + 1); };
+    BOOST_HANA_CONSTEXPR_LAMBDA auto replicate3 = [](auto x) {
+        return list(x, x, x);
+    };
 
-    BOOST_HANA_STATIC_ASSERT(bind(just(1), inc) == just(2));
-    BOOST_HANA_STATIC_ASSERT(bind(nothing, inc) == nothing);
-
-    BOOST_HANA_STATIC_ASSERT(flatten(just(just(2))) == just(2));
+    BOOST_HANA_STATIC_ASSERT(traverse<List>(replicate3, just(1)) == list(just(1), just(1), just(1)));
+    BOOST_HANA_STATIC_ASSERT(traverse<List>(replicate3, nothing) == list(nothing));
     //! [main]
 }

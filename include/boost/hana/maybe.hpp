@@ -18,6 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functor.hpp>
 #include <boost/hana/monad.hpp>
+#include <boost/hana/traversable.hpp>
 
 
 namespace boost { namespace hana {
@@ -115,6 +116,25 @@ namespace boost { namespace hana {
                 return f([=] { return x; }, [=] { return s; });
             };
             return maybe(s, go, m);
+        }
+    };
+
+    //! @details
+    //! Traversing `nothing` yields `nothing` in the new applicative, and
+    //! traversing `just(x)` applies the function and maps `just` inside
+    //! the resulting applicative.
+    //!
+    //! ### Example
+    //! @snippet example/maybe/traversable.cpp main
+    template <>
+    struct Traversable::instance<Maybe> : Traversable::traverse_mcd {
+        template <typename A, typename F, typename M>
+        static constexpr auto traverse_impl(F f, M mx) {
+            return maybe(
+                lift<A>(nothing),
+                [=](auto x) { return fmap(just, f(x)); },
+                mx
+            );
         }
     };
 }} // end namespace boost::hana

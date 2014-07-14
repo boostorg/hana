@@ -29,6 +29,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/orderable.hpp>
 #include <boost/hana/pair.hpp>
 #include <boost/hana/range.hpp>
+#include <boost/hana/traversable.hpp>
 
 #include <type_traits> // for std::is_same
 
@@ -45,7 +46,8 @@ namespace boost { namespace hana {
     --------------------------------------------------------------------------
 
     ## Instance of (as a data type)
-    `Iterable`, `Functor`, `Applicative`, `Monad`, `Foldable` and `Comparable`
+    `Iterable`, `Functor`, `Applicative`, `Monad`, `Foldable`, `Traversable`,
+    and `Comparable`
 
     --------------------------------------------------------------------------
 
@@ -537,6 +539,30 @@ namespace boost { namespace hana {
         template <typename Xss>
         static constexpr auto flatten_impl(Xss xss)
         { return foldl(concat, nil<T>, xss); }
+    };
+
+    //! @details
+    //! This instance is hard to describe in words; see the examples.
+    //!
+    //! ### Example
+    //! @snippet example/list/traversable/traverse.cpp main
+    //!
+    //! ### Example
+    //! @snippet example/list/traversable/sequence.cpp main
+    template <typename T>
+    struct Traversable::instance<T, when<instantiates<List, T>()>>
+        : Traversable::traverse_mcd
+    {
+        template <typename A, typename F, typename Xs>
+        static constexpr auto traverse_impl(F f, Xs xs) {
+            auto curried_cons = [](auto x) {
+                return [=](auto xs) { return cons(x, xs); };
+            };
+            auto cons_f = [=](auto x, auto ys) {
+                return ap(fmap(curried_cons, f(x)), ys);
+            };
+            return foldr(cons_f, lift<A>(nil<T>), xs);
+        }
     };
 
     //! @details
