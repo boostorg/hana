@@ -22,19 +22,17 @@ struct partially_specialized_instance;
 template <typename T>
 struct explicitly_specialized_instance;
 
+template <typename T>
 struct defaulted_instance;
 
 
 struct Typeclass {
     BOOST_HANA_TYPECLASS(Typeclass);
-};
-
-namespace boost { namespace hana {
-    template <>
-    struct default_instance< ::Typeclass> {
-        using which = defaulted_instance;
+    template <typename T>
+    struct default_instance {
+        using which = defaulted_instance<T>;
     };
-}}
+};
 
 template <typename T>
 struct predicate { static constexpr bool value = false; };
@@ -137,7 +135,7 @@ static_assert(std::is_same<
 
 static_assert(std::is_same<
     Typeclass::instance<NotInstance>::which,
-    defaulted_instance
+    defaulted_instance<NotInstance>
 >::value, "");
 
 int main() { }

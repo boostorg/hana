@@ -11,9 +11,21 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_DETAIL_TYPECLASSES_HPP
 
 namespace boost { namespace hana {
+    struct disable;
+
     namespace core_detail {
-        template <typename x, typename ...>
-        struct dependent { using type = x; };
+        template <typename Void, typename Typeclass, typename ...Args>
+        struct default_instance {
+            using type = disable;
+        };
+
+        template <typename Typeclass, typename ...Args>
+        struct default_instance<
+            decltype((void)(typename Typeclass::template default_instance<Args...>*)0),
+            Typeclass, Args...
+        > {
+            using type = typename Typeclass::template default_instance<Args...>;
+        };
     }
 
     //! @ingroup core
@@ -46,6 +58,31 @@ namespace boost { namespace hana {
     //! provided methods is in a different nested type with a descriptive name.
     //! In all cases, the minimal complete definition(s) and the location of
     //! their associated set of provided methods are documented.
+    //!
+    //! It is also possible to define a default instance for all data types.
+    //! To do so, provide a nested `default_instance` template inside the
+    //! type class:
+    //! @code
+    //!     struct Typeclass {
+    //!         BOOST_HANA_TYPECLASS(Typeclass);
+    //!         template <typename ...TypeclassArguments>
+    //!         struct default_instance {
+    //!             // default instance for all data types
+    //!         };
+    //!     };
+    //! @endcode
+    //!
+    //! The nested `default_instance` should be just like a normal instance;
+    //! see below for how to instantiate a type class. This can be used to
+    //! provide a default behavior for all data types while still allowing
+    //! this behavior to be customized by instantiating the type class. However,
+    //! this should seldom be used because methods with a meaningful behavior
+    //! for all data types are rare. This feature is provided for flexibility,
+    //! but it should be a hint to reconsider your type class design if you
+    //! are about to use it.
+    //!
+    //! ### Example
+    //! @include example/core/default_instance.cpp
     //!
     //!
     //! ### Instantiating a type class
@@ -124,11 +161,9 @@ namespace boost { namespace hana {
                                                                             \
         template <typename T, bool condition>                               \
         struct instance<T, ::boost::hana::when<condition>>                  \
-            : ::boost::hana::default_instance<                              \
-                typename ::boost::hana::core_detail::dependent<             \
-                    NAME, ::boost::hana::when<condition>                    \
-                >::type                                                     \
-            >                                                               \
+            : ::boost::hana::core_detail::default_instance<                 \
+                void, NAME, T                                               \
+            >::type                                                         \
         { }                                                                 \
         /** @endcond */                                                     \
     /**/
@@ -147,11 +182,9 @@ namespace boost { namespace hana {
                                                                             \
         template <typename T, typename U, bool condition>                   \
         struct instance<T, U, ::boost::hana::when<condition>>               \
-            : ::boost::hana::default_instance<                              \
-                typename ::boost::hana::core_detail::dependent<             \
-                    NAME, ::boost::hana::when<condition>                    \
-                >::type                                                     \
-            >                                                               \
+            : ::boost::hana::core_detail::default_instance<                 \
+                void, NAME, T, U                                            \
+            >::type                                                         \
         { }                                                                 \
         /** @endcond */                                                     \
     /**/
@@ -185,32 +218,6 @@ namespace boost { namespace hana {
     //! ### Example
     //! @include example/core/disable.cpp
     struct disable { };
-
-    //! @ingroup core
-    //! Defines a default instance for the given type class.
-    //!
-    //! To define a default instance for all data types, specialize the
-    //! `default_instance` template for the desired type class:
-    //! @code
-    //!     template <>
-    //!     struct default_instance<Typeclass> {
-    //!         // default instance for all data types
-    //!     };
-    //! @endcode
-    //!
-    //! `default_instance` should be just like a normal instance; see below
-    //! for how to instantiate a type class. This can be used to provide a
-    //! default behavior for all data types while still allowing this behavior
-    //! to be customized by instantiating the type class. However, this should
-    //! seldom be used because methods with a meaningful behavior for all
-    //! data types are rare. This feature is provided for flexibility, but
-    //! it should be a hint to reconsider your type class design if you are
-    //! about to use it.
-    //!
-    //! ### Example
-    //! @include example/core/default_instance.cpp
-    template <typename Typeclass>
-    struct default_instance : disable { };
 
     namespace core_detail {
         template <typename T, typename Enable = void*>

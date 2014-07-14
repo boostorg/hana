@@ -34,6 +34,8 @@ namespace hana = boost::hana;
 struct Logical {
     BOOST_HANA_TYPECLASS(Logical);
     struct mcd;
+    template <typename T>
+    struct default_instance;
 };
 
 BOOST_HANA_CONSTEXPR_LAMBDA auto if_ = [](auto logical, auto then_, auto else_) {
@@ -78,20 +80,18 @@ struct Logical::mcd {
     { return eval_if(c, hana::always(t), hana::always(e)); }
 };
 
-namespace boost { namespace hana {
-    template <>
-    struct default_instance< ::Logical> : ::Logical::mcd {
-        template <typename Cond, typename Then, typename Else>
-        static constexpr auto eval_if_impl(Cond c, Then t, Else e) {
-            auto would_recurse = hana::decltype_(::eval(c)) == hana::decltype_(c);
-            static_assert(!would_recurse(),
-            "Condition is probably not a logical. Trying to evaluate "
-            "it and use it as the condition to if_ again would cause "
-            "infinite recursion.");
-            return ::eval_if(::eval(c), t, e);
-        }
-    };
-}}
+template <typename T>
+struct Logical::default_instance : Logical::mcd {
+    template <typename Cond, typename Then, typename Else>
+    static constexpr auto eval_if_impl(Cond c, Then t, Else e) {
+        auto would_recurse = hana::decltype_(eval(c)) == hana::decltype_(c);
+        static_assert(!would_recurse(),
+        "Condition is probably not a logical. Trying to evaluate "
+        "it and use it as the condition to if_ again would cause "
+        "infinite recursion.");
+        return eval_if(eval(c), t, e);
+    }
+};
 
 template <>
 struct Logical::instance<bool> : Logical::mcd {

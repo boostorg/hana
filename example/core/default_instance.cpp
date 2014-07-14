@@ -16,20 +16,18 @@ namespace hana = boost::hana;
 struct Showable {
     BOOST_HANA_TYPECLASS(Showable);
     struct mcd { };
+
+    template <typename T>
+    struct default_instance : mcd {
+        template <typename X>
+        static std::string show_impl(X)
+        { return "<?>"; }
+    };
 };
 
 BOOST_HANA_CONSTEXPR_LAMBDA auto show = [](auto x) {
     return Showable::instance<hana::datatype_t<decltype(x)>>::show_impl(x);
 };
-
-namespace boost { namespace hana {
-    template <>
-    struct default_instance<Showable> : Showable::mcd {
-        template <typename X>
-        static std::string show_impl(X)
-        { return "<?>"; }
-    };
-}}
 
 template <>
 struct Showable::instance<int> : Showable::mcd {
