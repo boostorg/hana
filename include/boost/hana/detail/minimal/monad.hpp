@@ -50,31 +50,22 @@ struct Comparable::instance<
     { return equal(x.value, y.value); }
 };
 
-template <typename mcd>
-struct Functor::instance<detail::minimal::Monad<mcd>> : Functor::fmap_mcd {
+template <typename Mcd>
+struct Functor::instance<detail::minimal::Monad<Mcd>> : Functor::fmap_mcd {
     template <typename F, typename M>
     static constexpr auto fmap_impl(F f, M m)
-    { return ap(lift<detail::minimal::Monad<mcd>>(f), m); }
+    { return detail::minimal::monad<Mcd>(f(m.value)); }
 };
 
 template <typename Mcd>
 struct Applicative::instance<detail::minimal::Monad<Mcd>> : Applicative::mcd {
-    template <typename T>
-    static constexpr auto lift_impl(T t)
-    { return detail::minimal::monad<Mcd>(t); }
+    template <typename X>
+    static constexpr auto lift_impl(X x)
+    { return detail::minimal::monad<Mcd>(x); }
 
-    //! @todo
-    //! Use the bind-based implementation which causes infinite recursion
-    //! right now.
     template <typename AF, typename AX>
-    static constexpr auto ap_impl(AF af, AX ax) {
-        return detail::minimal::monad<Mcd>(af.value(ax.value));
-        // return bind(af, [=](auto f) {
-        //     return bind(ax, [=](auto x) {
-        //         return lift<detail::minimal::Monad<mcd>>(f(x));
-        //     });
-        // });
-    }
+    static constexpr auto ap_impl(AF af, AX ax)
+    { return detail::minimal::monad<Mcd>(af.value(ax.value)); }
 };
 
 template <>
