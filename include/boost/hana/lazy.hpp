@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_LAZY_HPP
 #define BOOST_HANA_LAZY_HPP
 
-#include <boost/hana/applicative.hpp>
+#include <boost/hana/applicative/mcd.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/wrap.hpp>
 #include <boost/hana/functor/fmap_mcd.hpp>
