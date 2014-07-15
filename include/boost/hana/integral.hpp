@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_INTEGRAL_HPP
 #define BOOST_HANA_INTEGRAL_HPP
 
-#include <boost/hana/comparable.hpp>
+#include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/detail/integral_fwd.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/orderable.hpp>

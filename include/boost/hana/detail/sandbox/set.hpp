@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_SET_HPP
 #define BOOST_HANA_SET_HPP
 
-#include <boost/hana/comparable.hpp>
+#include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/wrap.hpp>
 #include <boost/hana/foldable.hpp>

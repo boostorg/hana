@@ -11,7 +11,8 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_DETAIL_MINIMAL_ITERABLE_HPP
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/comparable.hpp>
+#include <boost/hana/comparable/equal_mcd.hpp>
+#include <boost/hana/core.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/list.hpp>
 

@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_RANGE_HPP
 #define BOOST_HANA_RANGE_HPP
 
-#include <boost/hana/comparable.hpp>
+#include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/detail/integer_sequence.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/integral.hpp>

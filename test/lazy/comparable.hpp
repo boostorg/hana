@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TEST_LAZY_COMPARABLE_HPP
 #define BOOST_HANA_TEST_LAZY_COMPARABLE_HPP
 
-#include <boost/hana/comparable.hpp>
+#include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/lazy.hpp>
 
 
