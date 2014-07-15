@@ -103,6 +103,15 @@ namespace boost { namespace hana {
         : core_detail::default_convert<To, From>
     { };
 
+    namespace core_detail {
+        template <typename To>
+        struct to {
+            template <typename X>
+            constexpr auto operator()(X x) const
+            { return convert<To, datatype_t<X>>::apply(x); }
+        };
+    }
+
     //! @ingroup core
     //! Create an object of a data type from an object of another data type.
     //!
@@ -111,9 +120,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/list/to.cpp main
     template <typename To>
-    BOOST_HANA_CONSTEXPR_LAMBDA auto to = [](auto object) {
-        return convert<To, datatype_t<decltype(object)>>::apply(object);
-    };
+    constexpr core_detail::to<To> to{};
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_CORE_HPP
