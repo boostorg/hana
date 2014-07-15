@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functor/fmap_mcd.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/list.hpp>
-#include <boost/hana/monad.hpp>
+#include <boost/hana/monad/flatten_mcd.hpp>
 
 #include <cstddef>
 #include <tuple>

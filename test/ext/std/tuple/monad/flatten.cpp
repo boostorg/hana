@@ -7,10 +7,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/ext/std/tuple.hpp>
 
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/laws.hpp>
 #include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/integral.hpp>
-#include <boost/hana/monad.hpp>
 
 #include <tuple>
 using namespace boost::hana;
@@ -30,14 +28,4 @@ int main() {
         ==
         tuple(0, int_<1>, '2', 3.3, int_<4>)
     );
-
-    BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto x) { return tuple(x + int_<1>); };
-    BOOST_HANA_CONSTEXPR_LAMBDA auto g = [](auto x) { return tuple(x * int_<3>); };
-    BOOST_HANA_CONSTEXPR_LAMBDA auto check_monad_laws = [=](auto ...xs) {
-        BOOST_HANA_STATIC_ASSERT(detail::laws<Monad>(tuple(xs...), int_<1>, f, g));
-    };
-    check_monad_laws();
-    check_monad_laws(int_<1>);
-    check_monad_laws(int_<1>, int_<2>);
-    check_monad_laws(1, 2, 3, 4);
 }

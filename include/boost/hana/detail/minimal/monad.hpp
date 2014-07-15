@@ -13,7 +13,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/applicative/mcd.hpp>
 #include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/functor/fmap_mcd.hpp>
-#include <boost/hana/monad.hpp>
+#include <boost/hana/monad/bind_mcd.hpp>
+#include <boost/hana/monad/flatten_mcd.hpp>
 
 
 namespace boost { namespace hana {
