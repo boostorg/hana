@@ -24,7 +24,7 @@ namespace boost { namespace hana {
     struct datatype<std::vector<T>> { using type = StdVector; };
 
     template <>
-    struct Comparable::instance<StdVector, StdVector> {
+    struct Comparable::instance<StdVector, StdVector> : Comparable::equal_mcd {
         template <typename T>
         static auto equal_impl(std::vector<T> xs, std::vector<T> ys)
         { return xs == ys; }
