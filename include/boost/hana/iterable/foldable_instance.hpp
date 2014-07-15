@@ -15,7 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core.hpp> // for instantiates
 #include <boost/hana/foldable/lazy_foldr_mcd.hpp>
 #include <boost/hana/functional.hpp> // for partial
-#include <boost/hana/logical.hpp>
+#include <boost/hana/logical/logical.hpp>
 #include <boost/hana/maybe.hpp>
 
 

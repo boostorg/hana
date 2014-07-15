@@ -12,7 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/comparable/comparable.hpp>
 
-#include <boost/hana/detail/logical_fwd.hpp>
+#include <boost/hana/logical/logical.hpp>
 
 
 namespace boost { namespace hana {
@@ -38,5 +38,3 @@ namespace boost { namespace hana {
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_COMPARABLE_LAWS_HPP
-
-#include <boost/hana/logical.hpp>

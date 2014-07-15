@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/applicative/applicative.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/typeclasses.hpp>
-#include <boost/hana/logical.hpp>
+#include <boost/hana/logical/logical.hpp>
 #include <boost/hana/monad/monad.hpp>
 
 

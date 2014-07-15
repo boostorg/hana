@@ -8,7 +8,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functional.hpp>
 #include <boost/hana/functor/functor.hpp>
 #include <boost/hana/iterable/iterable.hpp>
-#include <boost/hana/logical.hpp>
+#include <boost/hana/logical/logical.hpp>
 
 #include <cassert>
 using namespace boost::hana;

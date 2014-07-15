@@ -8,7 +8,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/minimal/orderable.hpp>
 #include <boost/hana/detail/static_assert.hpp>
-#include <boost/hana/logical.hpp>
+#include <boost/hana/logical/logical.hpp>
 using namespace boost::hana;
 
 

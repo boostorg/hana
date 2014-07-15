@@ -1,16 +1,17 @@
 /*!
 @file
-Internal header to break cyclic dependencies.
+Forward declares `boost::hana::Logical`.
 
 @copyright Louis Dionne 2014
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#ifndef BOOST_HANA_DETAIL_LOGICAL_FWD_HPP
-#define BOOST_HANA_DETAIL_LOGICAL_FWD_HPP
+#ifndef BOOST_HANA_LOGICAL_LOGICAL_HPP
+#define BOOST_HANA_LOGICAL_LOGICAL_HPP
 
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/dependent_on.hpp>
 #include <boost/hana/detail/typeclasses.hpp>
 
 
@@ -37,7 +38,9 @@ namespace boost { namespace hana {
     //! Conditionally return one of two values based on a condition.
     //! @method{Logical}
     BOOST_HANA_CONSTEXPR_LAMBDA auto if_ = [](auto logical, auto then_, auto else_) {
-        return Logical::instance<datatype_t<decltype(logical)>>::if_impl(logical, then_, else_);
+        return Logical::instance<
+            datatype_t<decltype(logical)>
+        >::if_impl(logical, then_, else_);
     };
 
     //! Conditionally execute one of two branches based on a condition.
@@ -54,13 +57,17 @@ namespace boost { namespace hana {
     //! ### Example (runtime or `constexpr` condition)
     //! @snippet example/logical/default_instance/eval_if.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto eval_if = [](auto logical, auto then_branch, auto else_branch) {
-        return Logical::instance<datatype_t<decltype(logical)>>::eval_if_impl(logical, then_branch, else_branch);
+        return Logical::instance<
+            datatype_t<decltype(logical)>
+        >::eval_if_impl(logical, then_branch, else_branch);
     };
 
     //! Negates a `Logical`.
     //! @method{Logical}
     BOOST_HANA_CONSTEXPR_LAMBDA auto not_ = [](auto logical) {
-        return Logical::instance<datatype_t<decltype(logical)>>::not_impl(logical);
+        return Logical::instance<
+            datatype_t<decltype(logical)>
+        >::not_impl(logical);
     };
 
     struct _and {
@@ -75,18 +82,15 @@ namespace boost { namespace hana {
         template <typename X>
         constexpr auto operator()(X x) const
         { return x; }
-
-        constexpr auto operator()() const;
     };
 
     //! Return whether all the arguments are true-valued.
     //! @method{Logical}
     //!
-    //! `and_` can be called with any number of arguments. When called with
+    //! `and_` can be called with one argument or more. When called with
     //! two arguments, `and_` dispatches to the type class implementation.
     //! Otherwise,
     //! @code
-    //!     and_() == true_
     //!     and_(x) == x
     //!     and_(x, y, ...z) == and_(x, and_(y, z...))
     //! @endcode
@@ -107,18 +111,15 @@ namespace boost { namespace hana {
         template <typename X>
         constexpr auto operator()(X x) const
         { return x; }
-
-        constexpr auto operator()() const;
     };
 
     //! Return whether any of the arguments is true-valued.
     //! @method{Logical}
     //!
-    //! `or_` can be called with any number of arguments. When called with
+    //! `or_` can be called with one argument or more. When called with
     //! two arguments, `or_` dispatches to the type class implementation.
     //! Otherwise,
     //! @code
-    //!     or_() == false_
     //!     or_(x) == x
     //!     or_(x, y, ...z) == or_(x, or_(y, z...))
     //! @endcode
@@ -146,6 +147,27 @@ namespace boost { namespace hana {
         constexpr auto operator!(X x)
         { return not_(x); }
     }
+
+    template <typename T>
+    struct Logical::instance<T, when_valid<decltype(*(T*)0 ? (void)0 : (void)0)>>
+        : detail::dependent_on<T, Logical::mcd>
+    {
+        template <typename Then, typename Else>
+        static constexpr auto eval_if_impl(bool cond, Then t, Else e) {
+            auto id = [](auto x) { return x; };
+            return cond ? t(id) : e(id);
+        }
+
+        static constexpr auto not_impl(bool cond)
+        { return !cond; }
+    };
 }} // end namespace boost::hana
 
-#endif // !BOOST_HANA_DETAIL_LOGICAL_FWD_HPP
+#endif // !BOOST_HANA_LOGICAL_LOGICAL_HPP
+
+//! @todo
+//! It does not make sense to put provided instances for e.g. Logical bool in
+//! the fwd header of Logical, because if it is ever instantiated it will
+//! require Logical::mcd, which is not included by logical/logical.hpp.
+//! Find a resolution.
+#include <boost/hana/logical/mcd.hpp>

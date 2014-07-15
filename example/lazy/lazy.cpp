@@ -8,7 +8,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/lazy.hpp>
-#include <boost/hana/logical.hpp>
 using namespace boost::hana;
 
 

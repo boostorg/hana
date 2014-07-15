@@ -17,7 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/functor/functor.hpp>
-#include <boost/hana/logical.hpp>
+#include <boost/hana/logical/logical.hpp>
 
 
 namespace boost { namespace hana {
