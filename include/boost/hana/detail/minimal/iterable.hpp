@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/iterable.hpp>
+#include <boost/hana/list.hpp>
 
 
 namespace boost { namespace hana {
@@ -44,9 +45,11 @@ namespace detail { namespace minimal {
 template <typename mcd>
 struct Comparable::instance<
     detail::minimal::Iterable<mcd>, detail::minimal::Iterable<mcd>
->
-    : Iterable::ComparableInstance
-{ };
+> : Comparable::equal_mcd {
+    template <typename Xs, typename Ys>
+    static constexpr auto equal_impl(Xs xs, Ys ys)
+    { return equal(to<List>(xs), to<List>(ys)); }
+};
 
 template <>
 struct Iterable::instance<detail::minimal::Iterable<Iterable::mcd>>

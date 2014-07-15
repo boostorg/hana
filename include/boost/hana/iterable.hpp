@@ -33,14 +33,11 @@ namespace boost { namespace hana {
     @todo
     - What about infinite `Iterable`s?
     - There are probably tons of laws that must be respected?
-    - Instead of having a lot of methods, maybe some of the functions below
-      should just be implemented as functions using the mcd, as in the MPL11?
      */
     struct Iterable {
         BOOST_HANA_TYPECLASS(Iterable);
         struct mcd;
         struct FoldableInstance;
-        struct ComparableInstance;
     };
 
     //! Return the first element of a non-empty iterable.
@@ -224,30 +221,6 @@ namespace boost { namespace hana {
             return eval_if(is_empty(e),
                 always(nothing),
                 [=](auto _) { return just(_(head)(e)); }
-            );
-        }
-    };
-
-    //! @details
-    //! Instance of `Comparable` for `Iterable`s; two `Iterable`s are equal
-    //! if and only if they contain the same number of elements and their
-    //! elements at any given index are equal.
-    //!
-    //! @todo
-    //! This should not be provided because `Iterable`s are not unique up to
-    //! isomorphism, comparing two `Iterable`s using a `List`-like comparison
-    //! might be lossy.
-    struct Iterable::ComparableInstance : Comparable::equal_mcd {
-        template <typename Xs, typename Ys>
-        static constexpr auto equal_impl(Xs xs, Ys ys) {
-            return eval_if(or_(is_empty(xs), is_empty(ys)),
-                [=](auto _) {
-                    return and_(_(is_empty)(xs), _(is_empty)(ys));
-                },
-                [=](auto _) {
-                    return and_(equal(_(head)(xs), _(head)(ys)),
-                                equal_impl(_(tail)(xs), _(tail)(ys)));
-                }
             );
         }
     };

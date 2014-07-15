@@ -5,12 +5,12 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/comparable.hpp>
 #include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/lazy.hpp>
+#include <boost/hana/list.hpp>
 using namespace boost::hana;
 
 
@@ -26,6 +26,10 @@ struct lazy_cons_type {
 auto lazy_cons = [](auto x, auto xs) {
     return lazy_cons_type<decltype(x), decltype(xs)>{x, xs};
 };
+
+struct lazy_nil_type { using hana_datatype = LazyList; };
+
+constexpr lazy_nil_type lazy_nil{};
 
 auto repeat = fix([](auto repeat, auto x) {
     return lazy_cons(x, lazy(repeat)(x));
@@ -45,12 +49,20 @@ namespace boost { namespace hana {
         template <typename Xs>
         static constexpr auto is_empty_impl(Xs lcons)
         { return false_; }
+
+        static constexpr auto is_empty_impl(lazy_nil_type)
+        { return true_; }
     };
 
     template <>
-    struct Comparable::instance<LazyList, LazyList>
-        : Iterable::ComparableInstance
-    { };
+    struct List::instance<LazyList> : List::mcd<LazyList> {
+        static constexpr auto nil_impl()
+        { return lazy_nil; }
+
+        template <typename X, typename Xs>
+        static constexpr auto cons_impl(X x, Xs xs)
+        { return lazy_cons(x, lazy(xs)); }
+    };
 }}
 
 
@@ -58,4 +70,6 @@ int main() {
     BOOST_HANA_STATIC_ASSERT(!is_empty(repeat(1)));
     BOOST_HANA_STATIC_ASSERT(head(repeat(1)) == 1);
     BOOST_HANA_STATIC_ASSERT(at(int_<10>, repeat(1)) == 1);
+
+    BOOST_HANA_STATIC_ASSERT(take(int_<2>, repeat('x')) == list('x', 'x'));
 }
