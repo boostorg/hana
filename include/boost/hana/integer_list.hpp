@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_INTEGER_LIST_HPP
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/iterable.hpp>
+#include <boost/hana/iterable/mcd.hpp>
 #include <boost/hana/list.hpp>
 
 

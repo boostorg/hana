@@ -14,7 +14,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/integer_sequence.hpp>
 #include <boost/hana/foldable/foldable.hpp>
 #include <boost/hana/integral.hpp>
-#include <boost/hana/iterable.hpp>
+#include <boost/hana/iterable/foldable_instance.hpp>
+#include <boost/hana/iterable/mcd.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/orderable/orderable.hpp>
 

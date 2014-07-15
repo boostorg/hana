@@ -6,7 +6,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/comparable/comparable.hpp>
 #include <boost/hana/functional.hpp>
-#include <boost/hana/iterable.hpp>
+#include <boost/hana/functor/functor.hpp>
+#include <boost/hana/iterable/iterable.hpp>
 #include <boost/hana/logical.hpp>
 
 #include <cassert>

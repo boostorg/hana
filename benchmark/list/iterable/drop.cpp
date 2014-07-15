@@ -2,7 +2,7 @@
 <%= includes(x) %>
 
 #include <boost/hana/integral.hpp>
-#include <boost/hana/iterable.hpp>
+#include <boost/hana/iterable/iterable.hpp>
 
 
 template <int> struct x { };
