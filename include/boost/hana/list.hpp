@@ -26,7 +26,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/monad/flatten_mcd.hpp>
-#include <boost/hana/orderable.hpp>
+#include <boost/hana/orderable/orderable.hpp>
 #include <boost/hana/pair.hpp>
 #include <boost/hana/range.hpp>
 #include <boost/hana/traversable/traverse_mcd.hpp>
