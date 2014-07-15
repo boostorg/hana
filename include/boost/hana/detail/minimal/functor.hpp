@@ -11,7 +11,8 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_DETAIL_MINIMAL_FUNCTOR_HPP
 
 #include <boost/hana/comparable/equal_mcd.hpp>
-#include <boost/hana/functor.hpp>
+#include <boost/hana/functor/adjust_mcd.hpp>
+#include <boost/hana/functor/fmap_mcd.hpp>
 
 
 namespace boost { namespace hana {

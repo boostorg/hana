@@ -6,8 +6,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/type.hpp>
 
-#include <boost/hana/detail/laws.hpp>
 #include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/functor/laws.hpp>
 using namespace boost::hana;
 
 
@@ -16,9 +16,6 @@ template <typename ...> struct g;
 struct x;
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(fmap(template_<f>, type<x>) == type<f<x>>);
-    BOOST_HANA_STATIC_ASSERT(fmap(template_<f>, type<void>) == type<f<void>>);
-
-    BOOST_HANA_STATIC_ASSERT(detail::laws<Functor>(type<x>, template_<f>, template_<g>));
-    BOOST_HANA_STATIC_ASSERT(detail::laws<Functor>(type<void>, template_<f>, template_<g>));
+    BOOST_HANA_STATIC_ASSERT(Functor::laws::check(type<x>, template_<f>, template_<g>));
+    BOOST_HANA_STATIC_ASSERT(Functor::laws::check(type<void>, template_<f>, template_<g>));
 }

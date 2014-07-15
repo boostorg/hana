@@ -1,7 +1,7 @@
 <% render(instance) %>
 <%= includes(x) %>
 
-#include <boost/hana/functor.hpp>
+#include <boost/hana/functor/functor.hpp>
 
 
 template <typename X>

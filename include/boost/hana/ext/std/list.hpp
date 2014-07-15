@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_EXT_STD_LIST_HPP
 
 #include <boost/hana/core.hpp>
-#include <boost/hana/functor.hpp>
+#include <boost/hana/functor/fmap_mcd.hpp>
 #include <boost/hana/iterable.hpp>
 
 #include <list>

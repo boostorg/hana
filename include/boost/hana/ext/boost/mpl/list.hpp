@@ -14,7 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/core.hpp>
 #include <boost/hana/detail/enable_if.hpp>
-#include <boost/hana/functor.hpp>
+#include <boost/hana/functor/fmap_mcd.hpp>
 #include <boost/hana/type.hpp>
 
 #include <boost/mpl/equal.hpp>

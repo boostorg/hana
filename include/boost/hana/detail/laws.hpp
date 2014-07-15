@@ -15,7 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/functional.hpp>
-#include <boost/hana/functor.hpp>
+#include <boost/hana/functor/functor.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/monad.hpp>
 
@@ -23,14 +23,6 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana { namespace detail {
     template <typename Typeclass>
     BOOST_HANA_CONSTEXPR_LAMBDA auto laws = [] { };
-
-    template <>
-    BOOST_HANA_CONSTEXPR_LAMBDA auto laws<Functor> = [](auto functor, auto f, auto g) {
-        return and_(
-            equal(fmap(id, functor), functor),
-            equal(fmap(compose(f, g), functor), fmap(f, fmap(g, functor)))
-        );
-    };
 
     template <>
     BOOST_HANA_CONSTEXPR_LAMBDA auto laws<Monad> = [](auto monad, auto a, auto f, auto g) {

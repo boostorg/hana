@@ -21,7 +21,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/right_folds/variadic_unrolled.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional.hpp>
-#include <boost/hana/functor.hpp>
+#include <boost/hana/functor/fmap_mcd.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/logical.hpp>

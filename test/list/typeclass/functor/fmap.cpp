@@ -7,16 +7,14 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/list.hpp>
 
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/laws.hpp>
 #include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/integral.hpp>
 
-#include "minimal.hpp"
+#include "../minimal.hpp"
 using namespace boost::hana;
 
 
 BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto i) { return i + int_<1>; };
-BOOST_HANA_CONSTEXPR_LAMBDA auto g = [](auto i) { return i * int_<3>; };
 
 int main() {
     BOOST_HANA_STATIC_ASSERT(fmap(f, minimal_list()) == minimal_list());
@@ -24,9 +22,4 @@ int main() {
     BOOST_HANA_STATIC_ASSERT(fmap(f, minimal_list(int_<1>, int_<2>)) == minimal_list(f(int_<1>), f(int_<2>)));
     BOOST_HANA_STATIC_ASSERT(fmap(f, minimal_list(int_<1>, int_<2>, int_<3>)) == minimal_list(f(int_<1>), f(int_<2>), f(int_<3>)));
     BOOST_HANA_STATIC_ASSERT(fmap(f, minimal_list(1, 2, 3)) == minimal_list(f(1), f(2), f(3)));
-
-    BOOST_HANA_STATIC_ASSERT(detail::laws<Functor>(minimal_list(), f, g));
-    BOOST_HANA_STATIC_ASSERT(detail::laws<Functor>(minimal_list(int_<1>), f, g));
-    BOOST_HANA_STATIC_ASSERT(detail::laws<Functor>(minimal_list(int_<1>, int_<2>), f, g));
-    BOOST_HANA_STATIC_ASSERT(detail::laws<Functor>(minimal_list(1, 2, 3), f, g));
 }
