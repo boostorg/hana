@@ -16,11 +16,4 @@ int main() {
     BOOST_HANA_STATIC_ASSERT(is_empty(std::index_sequence<>{}));
     BOOST_HANA_STATIC_ASSERT(!is_empty(std::index_sequence<0>{}));
     BOOST_HANA_STATIC_ASSERT(!is_empty(std::index_sequence<1>{}));
-
-    BOOST_HANA_STATIC_ASSERT(head(std::index_sequence<0>{}) == 0);
-    BOOST_HANA_STATIC_ASSERT(head(std::index_sequence<0, 1>{}) == 0);
-
-    BOOST_HANA_STATIC_ASSERT(equal(tail(std::index_sequence<0>{}), std::index_sequence<>{}));
-    BOOST_HANA_STATIC_ASSERT(equal(tail(std::index_sequence<0, 1>{}), std::index_sequence<1>{}));
-    BOOST_HANA_STATIC_ASSERT(equal(tail(std::index_sequence<0, 1, 2>{}), std::index_sequence<1, 2>{}));
 }
