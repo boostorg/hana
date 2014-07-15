@@ -12,7 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/detail/integer_sequence.hpp>
-#include <boost/hana/foldable.hpp>
+#include <boost/hana/foldable/foldable.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/logical.hpp>

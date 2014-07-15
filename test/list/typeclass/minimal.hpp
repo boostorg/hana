@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/wrap.hpp>
-#include <boost/hana/foldable.hpp>
+#include <boost/hana/foldable/foldable.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/list.hpp>

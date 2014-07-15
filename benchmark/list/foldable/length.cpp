@@ -1,7 +1,7 @@
 <% render(instance) %>
 <%= includes(x) %>
 
-#include <boost/hana/foldable.hpp>
+#include <boost/hana/foldable/foldable.hpp>
 
 
 template <int> struct x { };

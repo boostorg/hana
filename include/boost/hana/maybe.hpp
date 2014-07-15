@@ -15,7 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/maybe_fwd.hpp>
-#include <boost/hana/foldable.hpp>
+#include <boost/hana/foldable/lazy_foldr_mcd.hpp>
 #include <boost/hana/functor/fmap_mcd.hpp>
 #include <boost/hana/monad/flatten_mcd.hpp>
 #include <boost/hana/traversable/traverse_mcd.hpp>

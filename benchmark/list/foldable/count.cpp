@@ -2,7 +2,7 @@
 <%= includes(x) %>
 
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/foldable.hpp>
+#include <boost/hana/foldable/foldable.hpp>
 #include <boost/hana/integral.hpp>
 
 
