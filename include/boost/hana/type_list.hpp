@@ -12,7 +12,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
-#include <boost/hana/foldable.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/list.hpp>
 #include <boost/hana/type.hpp>
@@ -55,13 +54,6 @@ namespace boost { namespace hana {
     //! @snippet example/type_list/type_list.cpp main
     template <typename ...xs>
     constexpr typename operators::type_list<xs...>::type type_list{};
-
-    //! @details
-    //! Generic instance for `Iterable`s.
-    template <>
-    struct Foldable::instance<TypeList> : Iterable::FoldableInstance {
-
-    };
 
     //! @details
     //! The head of `type_list<x, xs...>` is `type<x>`, its tail is

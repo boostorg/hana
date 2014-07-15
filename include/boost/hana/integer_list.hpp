@@ -11,8 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_INTEGER_LIST_HPP
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/comparable.hpp>
-#include <boost/hana/foldable.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/list.hpp>
 
@@ -42,13 +40,6 @@ namespace boost { namespace hana {
     //! @snippet example/integer_list/integer_list.cpp main
     template <typename T, T ...xs>
     constexpr operators::integer_list<T, xs...> integer_list{};
-
-    //! @details
-    //! Generic instance for `Iterable`s.
-    template <>
-    struct Foldable::instance<IntegerList> : Iterable::FoldableInstance {
-
-    };
 
     //! @details
     //! The head of `integer_list<T, x, xs...>` is `integral<T, x>`, its tail
@@ -94,13 +85,6 @@ namespace boost { namespace hana {
             return integer_list<void>;
         }
     };
-
-    //! @details
-    //! Generic instance for `Iterable`s.
-    template <>
-    struct Comparable::instance<IntegerList, IntegerList>
-        : Iterable::ComparableInstance
-    { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_INTEGER_LIST_HPP
