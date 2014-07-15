@@ -12,7 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/applicative/applicative.hpp>
 #include <boost/hana/comparable/equal_mcd.hpp>
-#include <boost/hana/traversable.hpp>
+#include <boost/hana/traversable/traverse_mcd.hpp>
 
 
 namespace boost { namespace hana {
