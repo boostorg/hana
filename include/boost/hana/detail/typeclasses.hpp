@@ -144,17 +144,20 @@ namespace boost { namespace hana {
     //! data types (parametric or not) to instantiate a type class even if
     //! an instance for the same type class is provided through a predicate.
     //!
+    //! ### Example
+    //! @include example/core/typeclass.cpp
+    //!
+    //! @internal
     //! Using `when` is necessary for two reasons. First, a non-type
     //! template argument may not depend on a template parameter of a
     //! partial specialization, so we need to wrap the `bool` result of
     //! the predicate into a type. Second, `when` is used to implement the
-    //! priority of partially specialized instances over predicated instances.
-    //!
-    //! ### Example
-    //! @include example/core/typeclass.cpp
+    //! priority of partially specialized instances over predicated instances,
+    //! but we could also achieve the same by replacing `when<true>` with
+    //! `void` and letting people use `enable_if`.
     #define BOOST_HANA_TYPECLASS(NAME)                                      \
         /** @cond */                                                        \
-        template <typename T, typename = struct unspecified>                \
+        template <typename T, typename ...>                                 \
         struct instance                                                     \
             : instance<T, ::boost::hana::when<true>>                        \
         { };                                                                \
@@ -175,7 +178,7 @@ namespace boost { namespace hana {
     //! type class with two arguments.
     #define BOOST_HANA_BINARY_TYPECLASS(NAME)                               \
         /** @cond */                                                        \
-        template <typename T, typename U, typename = struct unspecified>    \
+        template <typename T, typename U, typename ...>                     \
         struct instance                                                     \
             : instance<T, U, ::boost::hana::when<true>>                     \
         { };                                                                \
