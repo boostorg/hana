@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/comparable/comparable.hpp>
 
+#include <boost/hana/foldable/foldable.hpp>
 #include <boost/hana/logical/logical.hpp>
 
 
@@ -25,14 +26,20 @@ namespace boost { namespace hana {
     //!     if a == b && b == c then a == c // Transitivity
     //! @endcode
     struct Comparable::laws {
-        template <typename A, typename B, typename C>
-        static constexpr auto check(A a, B b, C c) {
+        template <typename ComparableObjects>
+        static constexpr auto check(ComparableObjects objs) {
             auto implies = [](auto p, auto q) { return or_(not_(p), q); };
-            return and_(
-                equal(a, a),
-                implies(equal(a, b), equal(b, a)),
-                implies(and_(equal(a, b), equal(b, c)), equal(a, c))
-            );
+            return all([=](auto a) {
+                return all([=](auto b) {
+                    return all([=](auto c) {
+                        return and_(
+                            equal(a, a),
+                            implies(equal(a, b), equal(b, a)),
+                            implies(and_(equal(a, b), equal(b, c)), equal(a, c))
+                        );
+                    }, objs);
+                }, objs);
+            }, objs);
         }
     };
 }} // end namespace boost::hana
