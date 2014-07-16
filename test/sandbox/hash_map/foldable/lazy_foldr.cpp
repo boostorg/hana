@@ -9,7 +9,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/integral.hpp>
-#include <boost/hana/list.hpp>
+#include <boost/hana/list/instance.hpp>
 #include <boost/hana/pair/instance.hpp>
 
 #include <cassert>

@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TEST_EXT_BOOST_FUSION_HELPER_HPP
 #define BOOST_HANA_TEST_EXT_BOOST_FUSION_HELPER_HPP
 
-#include <boost/hana/list.hpp>
+#include <boost/hana/list/instance.hpp>
 
 #include <boost/fusion/container/generation/make_cons.hpp>
 #include <boost/fusion/container/generation/make_deque.hpp>

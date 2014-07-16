@@ -4,17 +4,27 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/list.hpp>
+#include <boost/hana/list/mcd.hpp>
 
+#include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/minimal/comparable.hpp>
+#include <boost/hana/detail/minimal/list.hpp>
 #include <boost/hana/detail/static_assert.hpp>
-#include <boost/hana/integral.hpp>
-
-#include "minimal.hpp"
 using namespace boost::hana;
 
 
+template <int i>
+constexpr auto x = detail::minimal::comparable<>(i);
+
+template <typename mcd>
+void test() {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto list = detail::minimal::list<mcd>;
+
+    BOOST_HANA_STATIC_ASSERT(snoc(list(), x<0>) == list(x<0>));
+    BOOST_HANA_STATIC_ASSERT(snoc(list(x<0>), x<1>) == list(x<0>, x<1>));
+    BOOST_HANA_STATIC_ASSERT(snoc(list(x<0>, x<1>), x<2>) == list(x<0>, x<1>, x<2>));
+}
+
 int main() {
-    BOOST_HANA_STATIC_ASSERT(snoc(ilist<>, int_<0>) == ilist<0>);
-    BOOST_HANA_STATIC_ASSERT(snoc(ilist<0>, int_<1>) == ilist<0, 1>);
-    BOOST_HANA_STATIC_ASSERT(snoc(ilist<0, 1>, int_<2>) == ilist<0, 1, 2>);
+    test<List::mcd<void>>();
 }

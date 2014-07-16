@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/ext/std/integral_constant.hpp>
-#include <boost/hana/list.hpp>
+#include <boost/hana/list/instance.hpp>
 #include <boost/hana/maybe.hpp>
 #include <boost/hana/type.hpp>
 using namespace boost::hana;

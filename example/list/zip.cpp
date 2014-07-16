@@ -5,22 +5,22 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/detail/static_assert.hpp>
-#include <boost/hana/list.hpp>
+#include <boost/hana/list/instance.hpp>
 using namespace boost::hana;
 
 
 int main() {
     //! [main]
     BOOST_HANA_STATIC_ASSERT(
-        zip(list(1, 'a'), list(2, "bb"))
+        zip(list(1, 'a'), list(2, 3.3))
         ==
-        list(list(1, 2), list('a', "bb"))
+        list(list(1, 2), list('a', 3.3))
     );
 
     BOOST_HANA_STATIC_ASSERT(
-        zip(list(1, 'a'), list(2, "bb"), list(3, "c", "ignored"))
+        zip(list(1, 'a'), list(2, 3.3), list(3, 'c', "ignored"))
         ==
-        list(list(1, 2, 3), list('a', "bb", "c"))
+        list(list(1, 2, 3), list('a', 3.3, 'c'))
     );
     //! [main]
 }

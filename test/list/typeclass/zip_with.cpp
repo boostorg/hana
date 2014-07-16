@@ -4,50 +4,70 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/list.hpp>
+#include <boost/hana/list/mcd.hpp>
 
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/minimal/comparable.hpp>
+#include <boost/hana/detail/minimal/list.hpp>
 #include <boost/hana/detail/static_assert.hpp>
-#include <boost/hana/integral.hpp>
 
-#include "minimal.hpp"
+#include <tuple>
 using namespace boost::hana;
 
 
-BOOST_HANA_CONSTEXPR_LAMBDA auto plus = [](auto x, auto y) { return x + y; };
-BOOST_HANA_CONSTEXPR_LAMBDA auto inc = [](auto x) { return x + int_<1>; };
+template <int i>
+constexpr auto x = detail::minimal::comparable<>(i);
 
-int main() {
-    BOOST_HANA_STATIC_ASSERT(zip_with(inc) == list());
-    BOOST_HANA_STATIC_ASSERT(zip_with(plus) == list());
+BOOST_HANA_CONSTEXPR_LAMBDA auto f1 = [](auto x) {
+    return std::make_tuple(x);
+};
 
-    BOOST_HANA_STATIC_ASSERT(zip_with(inc, ilist<>) == ilist<>);
-    BOOST_HANA_STATIC_ASSERT(zip_with(inc, ilist<0>) == ilist<1>);
-    BOOST_HANA_STATIC_ASSERT(zip_with(inc, ilist<0, 1>) == ilist<1, 2>);
-    BOOST_HANA_STATIC_ASSERT(zip_with(inc, ilist<0, 1, 2>) == ilist<1, 2, 3>);
-    BOOST_HANA_STATIC_ASSERT(zip_with(inc, ilist<>, ilist<>) == ilist<>);
+BOOST_HANA_CONSTEXPR_LAMBDA auto f2 = [](auto x, auto y) {
+    return std::make_tuple(x, y);
+};
 
-    BOOST_HANA_STATIC_ASSERT(zip_with(plus, ilist<>) == ilist<>);
-    BOOST_HANA_STATIC_ASSERT(zip_with(plus, ilist<>, ilist<>) == ilist<>);
-    BOOST_HANA_STATIC_ASSERT(zip_with(plus, ilist<1>, ilist<>) == ilist<>);
-    BOOST_HANA_STATIC_ASSERT(zip_with(plus, ilist<>, ilist<3>) == ilist<>);
-    BOOST_HANA_STATIC_ASSERT(zip_with(plus, ilist<1>, ilist<3>) == ilist<1 + 3>);
-    BOOST_HANA_STATIC_ASSERT(zip_with(plus, ilist<1, 2>, ilist<3, 4>) == ilist<1 + 3, 2 + 4>);
-    BOOST_HANA_STATIC_ASSERT(zip_with(plus, ilist<1, 2, 3, 4>, ilist<5, 6, 7>) == ilist<1 + 5, 2 + 6, 3 + 7>);
-    BOOST_HANA_STATIC_ASSERT(zip_with(plus, ilist<>, ilist<>, ilist<>) == ilist<>);
+BOOST_HANA_CONSTEXPR_LAMBDA auto fn = [](auto ...xs) {
+    return std::make_tuple(xs...);
+};
+
+template <typename mcd>
+void test() {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto list = detail::minimal::list<mcd>;
+
+    BOOST_HANA_STATIC_ASSERT(zip_with(f1, list()) == list());
+    BOOST_HANA_STATIC_ASSERT(zip_with(f1, list(x<0>)) == list(f1(x<0>)));
+    BOOST_HANA_STATIC_ASSERT(zip_with(f1, list(x<0>, x<1>)) == list(f1(x<0>), f1(x<1>)));
+    BOOST_HANA_STATIC_ASSERT(zip_with(f1, list(x<0>, x<1>, x<2>)) == list(f1(x<0>), f1(x<1>), f1(x<2>)));
+    BOOST_HANA_STATIC_ASSERT(zip_with(f1, list(), list()) == list());
+    BOOST_HANA_STATIC_ASSERT(zip_with(f1, list(), list(x<1>)) == list());
+
+    BOOST_HANA_STATIC_ASSERT(zip_with(f2, list()) == list());
+    BOOST_HANA_STATIC_ASSERT(zip_with(f2, list(), list()) == list());
+    BOOST_HANA_STATIC_ASSERT(zip_with(f2, list(x<0>), list()) == list());
+    BOOST_HANA_STATIC_ASSERT(zip_with(f2, list(), list(x<0>)) == list());
+    BOOST_HANA_STATIC_ASSERT(zip_with(f2, list(x<0>), list(x<1>)) == list(f2(x<0>, x<1>)));
+    BOOST_HANA_STATIC_ASSERT(zip_with(f2, list(x<0>, x<1>), list(x<2>, x<3>)) == list(f2(x<0>, x<2>), f2(x<1>, x<3>)));
+    BOOST_HANA_STATIC_ASSERT(zip_with(f2, list(x<1>, x<2>, x<3>, x<4>), list(x<5>, x<6>, x<7>)) == list(f2(x<1>, x<5>), f2(x<2>, x<6>), f2(x<3>, x<7>)));
+    BOOST_HANA_STATIC_ASSERT(zip_with(f2, list(), list(), list()) == list());
+    BOOST_HANA_STATIC_ASSERT(zip_with(f2, list(), list(), list(x<1>)) == list());
+    BOOST_HANA_STATIC_ASSERT(zip_with(f2, list(), list(x<1>), list(x<2>)) == list());
 
     BOOST_HANA_STATIC_ASSERT(
-        zip_with(minimal_list,
-            minimal_list('1', '2', '3', '4'),
-            minimal_list(1.1, 2.2, 3.3),
-            minimal_list(1, 2, 3, 4),
-            minimal_list(minimal_list(), minimal_list(minimal_list()), minimal_list(minimal_list(minimal_list())))
+        zip_with(fn,
+            list(x<11>, x<12>, x<13>, x<14>),
+            list(x<21>, x<22>, x<23>),
+            list(x<31>, x<32>, x<33>, x<34>),
+            list(x<41>, x<42>, x<43>, x<44>, x<45>)
         )
         ==
-        minimal_list(
-            minimal_list('1', 1.1, 1, minimal_list()),
-            minimal_list('2', 2.2, 2, minimal_list(minimal_list())),
-            minimal_list('3', 3.3, 3, minimal_list(minimal_list(minimal_list())))
+        list(
+            fn(x<11>, x<21>, x<31>, x<41>),
+            fn(x<12>, x<22>, x<32>, x<42>),
+            fn(x<13>, x<23>, x<33>, x<43>)
         )
     );
+}
+
+int main() {
+    test<List::mcd<void>>();
 }

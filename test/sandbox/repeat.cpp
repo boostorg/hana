@@ -10,7 +10,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/integral.hpp>
 #include <boost/hana/iterable/mcd.hpp>
 #include <boost/hana/lazy.hpp>
-#include <boost/hana/list.hpp>
+#include <boost/hana/list/instance.hpp>
+#include <boost/hana/list/mcd.hpp>
 using namespace boost::hana;
 
 

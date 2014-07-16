@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/core.hpp>
 #include <boost/hana/ext/std/list.hpp>
-#include <boost/hana/list.hpp>
+#include <boost/hana/list/instance.hpp>
 
 #include <cassert>
 #include <list>

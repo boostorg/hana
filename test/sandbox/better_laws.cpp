@@ -43,7 +43,7 @@ auto Functor_laws = [](auto functions_from_Y_to_Z, auto functions_from_X_to_Y, a
 };
 
 //////////////////////////////////////////////////////////////////////////////
-#include <boost/hana/list.hpp>
+#include <boost/hana/list/instance.hpp>
 
 
 int main() {

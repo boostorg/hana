@@ -15,7 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/wrap.hpp>
 #include <boost/hana/foldable/lazy_foldr_mcd.hpp>
 #include <boost/hana/functor/fmap_mcd.hpp>
-#include <boost/hana/list.hpp>
+#include <boost/hana/list/instance.hpp>
 #include <boost/hana/logical/logical.hpp>
 #include <boost/hana/pair/instance.hpp>
 
