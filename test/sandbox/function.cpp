@@ -4,13 +4,12 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/comparable.hpp>
+#include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/core.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/foldable.hpp>
 #include <boost/hana/functional.hpp>
-#include <boost/hana/list.hpp>
-#include <boost/hana/logical.hpp>
+#include <boost/hana/list/instance.hpp>
+#include <boost/hana/logical/logical.hpp>
 
 #include <stdexcept>
 
@@ -82,7 +81,7 @@ namespace boost { namespace hana {
 
 #include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/integral.hpp>
-#include <boost/hana/list.hpp>
+#include <boost/hana/list/instance.hpp>
 #include <boost/hana/range.hpp>
 using namespace boost::hana;
 using namespace literals;

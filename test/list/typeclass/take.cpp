@@ -4,26 +4,38 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/list.hpp>
+#include <boost/hana/list/mcd.hpp>
 
+#include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/minimal/comparable.hpp>
+#include <boost/hana/detail/minimal/list.hpp>
 #include <boost/hana/detail/static_assert.hpp>
-
-#include "minimal.hpp"
+#include <boost/hana/integral.hpp>
 using namespace boost::hana;
 
 
+template <int i>
+constexpr auto x = detail::minimal::comparable<>(i);
+
+template <typename mcd>
+void test() {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto list = detail::minimal::list<mcd>;
+
+    BOOST_HANA_STATIC_ASSERT(take(int_<0>, list()) == list());
+    BOOST_HANA_STATIC_ASSERT(take(int_<1>, list()) == list());
+    BOOST_HANA_STATIC_ASSERT(take(int_<2>, list()) == list());
+
+    BOOST_HANA_STATIC_ASSERT(take(int_<0>, list(x<0>)) == list());
+    BOOST_HANA_STATIC_ASSERT(take(int_<1>, list(x<0>)) == list(x<0>));
+    BOOST_HANA_STATIC_ASSERT(take(int_<2>, list(x<0>)) == list(x<0>));
+    BOOST_HANA_STATIC_ASSERT(take(int_<3>, list(x<0>)) == list(x<0>));
+
+    BOOST_HANA_STATIC_ASSERT(take(int_<0>, list(x<0>, x<1>)) == list());
+    BOOST_HANA_STATIC_ASSERT(take(int_<1>, list(x<0>, x<1>)) == list(x<0>));
+    BOOST_HANA_STATIC_ASSERT(take(int_<2>, list(x<0>, x<1>)) == list(x<0>, x<1>));
+    BOOST_HANA_STATIC_ASSERT(take(int_<3>, list(x<0>, x<1>)) == list(x<0>, x<1>));
+}
+
 int main() {
-    BOOST_HANA_STATIC_ASSERT(take(int_<0>, ilist<>) == ilist<>);
-    BOOST_HANA_STATIC_ASSERT(take(int_<1>, ilist<>) == ilist<>);
-    BOOST_HANA_STATIC_ASSERT(take(int_<2>, ilist<>) == ilist<>);
-
-    BOOST_HANA_STATIC_ASSERT(take(int_<0>, ilist<0>) == ilist<>);
-    BOOST_HANA_STATIC_ASSERT(take(int_<1>, ilist<0>) == ilist<0>);
-    BOOST_HANA_STATIC_ASSERT(take(int_<2>, ilist<0>) == ilist<0>);
-    BOOST_HANA_STATIC_ASSERT(take(int_<3>, ilist<0>) == ilist<0>);
-
-    BOOST_HANA_STATIC_ASSERT(take(int_<0>, ilist<0, 1>) == ilist<>);
-    BOOST_HANA_STATIC_ASSERT(take(int_<1>, ilist<0, 1>) == ilist<0>);
-    BOOST_HANA_STATIC_ASSERT(take(int_<2>, ilist<0, 1>) == ilist<0, 1>);
-    BOOST_HANA_STATIC_ASSERT(take(int_<3>, ilist<0, 1>) == ilist<0, 1>);
+    test<List::mcd<void>>();
 }

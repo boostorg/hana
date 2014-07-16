@@ -10,10 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_MINIMAL_MONAD_HPP
 #define BOOST_HANA_DETAIL_MINIMAL_MONAD_HPP
 
-#include <boost/hana/applicative.hpp>
-#include <boost/hana/comparable.hpp>
-#include <boost/hana/functor.hpp>
-#include <boost/hana/monad.hpp>
+#include <boost/hana/applicative/mcd.hpp>
+#include <boost/hana/comparable/equal_mcd.hpp>
+#include <boost/hana/functor/fmap_mcd.hpp>
+#include <boost/hana/monad/bind_mcd.hpp>
+#include <boost/hana/monad/flatten_mcd.hpp>
 
 
 namespace boost { namespace hana {

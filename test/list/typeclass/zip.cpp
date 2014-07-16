@@ -4,25 +4,34 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/list.hpp>
+#include <boost/hana/list/mcd.hpp>
 
+#include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/minimal/comparable.hpp>
+#include <boost/hana/detail/minimal/list.hpp>
 #include <boost/hana/detail/static_assert.hpp>
-
-#include "minimal.hpp"
 using namespace boost::hana;
 
 
+template <int i>
+constexpr auto x = detail::minimal::comparable<>(i);
+
+template <typename mcd>
+void test() {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto list = detail::minimal::list<mcd>;
+
+    BOOST_HANA_STATIC_ASSERT(zip(list()) == list());
+    BOOST_HANA_STATIC_ASSERT(zip(list(x<0>)) == list(list(x<0>)));
+    BOOST_HANA_STATIC_ASSERT(zip(list(x<0>, x<1>)) == list(list(x<0>), list(x<1>)));
+    BOOST_HANA_STATIC_ASSERT(zip(list(x<0>, x<1>, x<2>)) == list(list(x<0>), list(x<1>), list(x<2>)));
+
+    BOOST_HANA_STATIC_ASSERT(zip(list(), list()) == list());
+    BOOST_HANA_STATIC_ASSERT(zip(list(x<0>), list(x<1>)) == list(list(x<0>, x<1>)));
+
+    BOOST_HANA_STATIC_ASSERT(zip(list(x<0>), list(x<1>), list(x<2>)) == list(list(x<0>, x<1>, x<2>)));
+    BOOST_HANA_STATIC_ASSERT(zip(list(x<0>, x<3>), list(x<1>, x<4>), list(x<2>, x<5>, x<8>)) == list(list(x<0>, x<1>, x<2>), list(x<3>, x<4>, x<5>)));
+}
+
 int main() {
-    BOOST_HANA_STATIC_ASSERT(zip() == list());
-
-    BOOST_HANA_STATIC_ASSERT(zip(ilist<>) == minimal_list());
-    BOOST_HANA_STATIC_ASSERT(zip(ilist<0>) == minimal_list(ilist<0>));
-    BOOST_HANA_STATIC_ASSERT(zip(ilist<0, 1>) == minimal_list(ilist<0>, ilist<1>));
-    BOOST_HANA_STATIC_ASSERT(zip(ilist<0, 1, 2>) == minimal_list(ilist<0>, ilist<1>, ilist<2>));
-
-    BOOST_HANA_STATIC_ASSERT(zip(ilist<>, ilist<>) == minimal_list());
-    BOOST_HANA_STATIC_ASSERT(zip(ilist<0>, ilist<1>) == minimal_list(ilist<0, 1>));
-
-    BOOST_HANA_STATIC_ASSERT(zip(ilist<0>, ilist<1>, ilist<2>) == minimal_list(ilist<0, 1, 2>));
-    BOOST_HANA_STATIC_ASSERT(zip(ilist<0, 3>, ilist<1, 4>, ilist<2, 5, 8>) == minimal_list(ilist<0, 1, 2>, ilist<3, 4, 5>));
+    test<List::mcd<void>>();
 }

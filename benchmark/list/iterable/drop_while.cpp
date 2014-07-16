@@ -3,7 +3,7 @@
 
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/integral.hpp>
-#include <boost/hana/iterable.hpp>
+#include <boost/hana/iterable/iterable.hpp>
 
 
 BOOST_HANA_CONSTEXPR_LAMBDA auto is_odd = [](auto x) {

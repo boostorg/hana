@@ -7,8 +7,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/ext/boost/mpl/vector.hpp>
 
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/laws.hpp>
 #include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/functor/laws.hpp>
 #include <boost/hana/type.hpp>
 
 #include <boost/mpl/vector.hpp>
@@ -24,8 +24,8 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto g = template_<g_>;
 struct x0; struct x1; struct x2;
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(detail::laws<Functor>(mpl::vector<>{}, f, g));
-    BOOST_HANA_STATIC_ASSERT(detail::laws<Functor>(mpl::vector<x0>{}, f, g));
-    BOOST_HANA_STATIC_ASSERT(detail::laws<Functor>(mpl::vector<x0, x1>{}, f, g));
-    BOOST_HANA_STATIC_ASSERT(detail::laws<Functor>(mpl::vector<x0, x1, x2>{}, f, g));
+    BOOST_HANA_STATIC_ASSERT(Functor::laws::check(mpl::vector<>{}, f, g));
+    BOOST_HANA_STATIC_ASSERT(Functor::laws::check(mpl::vector<x0>{}, f, g));
+    BOOST_HANA_STATIC_ASSERT(Functor::laws::check(mpl::vector<x0, x1>{}, f, g));
+    BOOST_HANA_STATIC_ASSERT(Functor::laws::check(mpl::vector<x0, x1, x2>{}, f, g));
 }

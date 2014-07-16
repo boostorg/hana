@@ -4,10 +4,11 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/comparable.hpp>
+#include <boost/hana/comparable/comparable.hpp>
 #include <boost/hana/functional.hpp>
-#include <boost/hana/iterable.hpp>
-#include <boost/hana/logical.hpp>
+#include <boost/hana/functor/functor.hpp>
+#include <boost/hana/iterable/iterable.hpp>
+#include <boost/hana/logical/logical.hpp>
 
 #include <cassert>
 using namespace boost::hana;
@@ -42,7 +43,7 @@ auto Functor_laws = [](auto functions_from_Y_to_Z, auto functions_from_X_to_Y, a
 };
 
 //////////////////////////////////////////////////////////////////////////////
-#include <boost/hana/list.hpp>
+#include <boost/hana/list/instance.hpp>
 
 
 int main() {

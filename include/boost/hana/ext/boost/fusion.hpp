@@ -13,11 +13,12 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/core.hpp>
 #include <boost/hana/detail/enable_if.hpp>
-#include <boost/hana/foldable.hpp>
+#include <boost/hana/foldable/foldable.hpp>
+#include <boost/hana/functor/fmap_mcd.hpp>
 #include <boost/hana/integral.hpp>
-#include <boost/hana/iterable.hpp>
-#include <boost/hana/list.hpp>
-#include <boost/hana/functor.hpp>
+#include <boost/hana/iterable/foldable_instance.hpp>
+#include <boost/hana/iterable/mcd.hpp>
+#include <boost/hana/list/mcd.hpp>
 
 #include <boost/fusion/algorithm/iteration/fold.hpp>
 #include <boost/fusion/algorithm/iteration/for_each.hpp>

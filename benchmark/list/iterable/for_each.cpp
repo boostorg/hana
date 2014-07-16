@@ -1,10 +1,10 @@
 <% render(instance) %>
 <%= includes(x) %>
 
-#include <boost/hana/iterable.hpp>
+#include <boost/hana/iterable/iterable.hpp>
+
 
 template <int> struct x { };
-
 
 int main() {
     boost::hana::for_each(

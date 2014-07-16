@@ -11,11 +11,11 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_TYPE_HPP
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/comparable.hpp>
+#include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/core.hpp>
-#include <boost/hana/functor.hpp>
+#include <boost/hana/functor/fmap_mcd.hpp>
 #include <boost/hana/integral.hpp>
-#include <boost/hana/monad.hpp>
+#include <boost/hana/monad/flatten_mcd.hpp>
 
 #include <initializer_list>
 

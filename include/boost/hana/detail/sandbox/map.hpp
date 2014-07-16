@@ -10,14 +10,14 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_MAP_HPP
 #define BOOST_HANA_MAP_HPP
 
-#include <boost/hana/comparable.hpp>
+#include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/wrap.hpp>
-#include <boost/hana/foldable.hpp>
-#include <boost/hana/functor.hpp>
-#include <boost/hana/list.hpp>
-#include <boost/hana/logical.hpp>
-#include <boost/hana/pair.hpp>
+#include <boost/hana/foldable/lazy_foldr_mcd.hpp>
+#include <boost/hana/functor/fmap_mcd.hpp>
+#include <boost/hana/list/instance.hpp>
+#include <boost/hana/logical/logical.hpp>
+#include <boost/hana/pair/instance.hpp>
 
 
 namespace boost { namespace hana {

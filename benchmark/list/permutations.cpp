@@ -1,7 +1,7 @@
 <% render(instance) %>
 <%= includes(x) %>
 
-#include <boost/hana/list.hpp>
+#include <boost/hana/list/list.hpp>
 
 
 template <int i> struct x { };

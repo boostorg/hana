@@ -12,8 +12,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/core.hpp>
-#include <boost/hana/iterable.hpp>
-#include <boost/hana/list.hpp>
+#include <boost/hana/iterable/foldable_instance.hpp>
+#include <boost/hana/iterable/mcd.hpp>
+#include <boost/hana/list/mcd.hpp>
 
 #include <boost/tuple/tuple.hpp>
 

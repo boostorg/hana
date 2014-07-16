@@ -1,7 +1,7 @@
 <%
 def includes(n)
     return <<-EOS
-        #include <boost/hana/list.hpp>
+        #include <boost/hana/list/instance.hpp>
     EOS
 end
 

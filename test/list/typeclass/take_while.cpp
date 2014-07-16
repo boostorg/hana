@@ -4,28 +4,45 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/list.hpp>
+#include <boost/hana/list/mcd.hpp>
 
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/minimal/list.hpp>
 #include <boost/hana/detail/static_assert.hpp>
-#include <boost/hana/integral.hpp>
 
-#include "minimal.hpp"
+#include <boost/hana/integral.hpp>
 using namespace boost::hana;
 
 
-BOOST_HANA_CONSTEXPR_LAMBDA auto odd = [](auto x) {
-    return x % int_<2> != int_<0>;
+BOOST_HANA_CONSTEXPR_LAMBDA auto isnt = [](auto x) {
+    return [=](auto y) { return not_equal(x, y); };
 };
 
-int main() {
-    BOOST_HANA_STATIC_ASSERT(take_while(odd, ilist<>) == ilist<>);
-    BOOST_HANA_STATIC_ASSERT(take_while(odd, ilist<0>) == ilist<>);
-    BOOST_HANA_STATIC_ASSERT(take_while(odd, ilist<0, 2>) == ilist<>);
+// take_while requires the predicate to return an Integral boolean, so we
+// need the comparison to be purely compile-time.
+template <int i>
+constexpr auto x = int_<i>;
 
-    BOOST_HANA_STATIC_ASSERT(take_while(odd, ilist<0, 1, 3>) == ilist<>);
-    BOOST_HANA_STATIC_ASSERT(take_while(odd, ilist<1, 0, 3>) == ilist<1>);
-    BOOST_HANA_STATIC_ASSERT(take_while(odd, ilist<1, 3, 0>) == ilist<1, 3>);
-    BOOST_HANA_STATIC_ASSERT(take_while(odd, ilist<1, 3, 0, 2>) == ilist<1, 3>);
-    BOOST_HANA_STATIC_ASSERT(take_while(odd, ilist<1, 3, 5>) == ilist<1, 3, 5>);
+template <typename mcd>
+void test() {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto list = detail::minimal::list<mcd>;
+    constexpr auto z = x<999>;
+
+    BOOST_HANA_STATIC_ASSERT(take_while(isnt(z), list()) == list());
+
+    BOOST_HANA_STATIC_ASSERT(take_while(isnt(z), list(x<1>)) == list(x<1>));
+    BOOST_HANA_STATIC_ASSERT(take_while(isnt(z), list(z)) == list());
+
+    BOOST_HANA_STATIC_ASSERT(take_while(isnt(z), list(x<1>, x<2>)) == list(x<1>, x<2>));
+    BOOST_HANA_STATIC_ASSERT(take_while(isnt(z), list(x<1>, z)) == list(x<1>));
+    BOOST_HANA_STATIC_ASSERT(take_while(isnt(z), list(z, x<2>)) == list());
+
+    BOOST_HANA_STATIC_ASSERT(take_while(isnt(z), list(x<1>, x<2>, x<3>)) == list(x<1>, x<2>, x<3>));
+    BOOST_HANA_STATIC_ASSERT(take_while(isnt(z), list(x<1>, x<2>, z)) == list(x<1>, x<2>));
+    BOOST_HANA_STATIC_ASSERT(take_while(isnt(z), list(x<1>, z, x<3>)) == list(x<1>));
+    BOOST_HANA_STATIC_ASSERT(take_while(isnt(z), list(z, x<2>, x<3>)) == list());
+}
+
+int main() {
+    test<List::mcd<void>>();
 }

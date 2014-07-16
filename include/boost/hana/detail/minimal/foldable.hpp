@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_DETAIL_MINIMAL_FOLDABLE_HPP
 
 #include <boost/hana/detail/wrap.hpp>
-#include <boost/hana/foldable.hpp>
+#include <boost/hana/foldable/lazy_foldr_mcd.hpp>
 
 
 namespace boost { namespace hana {

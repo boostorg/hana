@@ -10,9 +10,9 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_MINIMAL_TRAVERSABLE_HPP
 #define BOOST_HANA_DETAIL_MINIMAL_TRAVERSABLE_HPP
 
-#include <boost/hana/applicative.hpp>
-#include <boost/hana/comparable.hpp>
-#include <boost/hana/traversable.hpp>
+#include <boost/hana/applicative/applicative.hpp>
+#include <boost/hana/comparable/equal_mcd.hpp>
+#include <boost/hana/traversable/traverse_mcd.hpp>
 
 
 namespace boost { namespace hana {

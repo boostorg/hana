@@ -5,6 +5,7 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/list/instance.hpp>
 #include <boost/hana/type.hpp>
 #include <boost/hana/type_list.hpp>
 using namespace boost::hana;

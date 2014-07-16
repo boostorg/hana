@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/ext/std/list.hpp>
 
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/laws.hpp>
+#include <boost/hana/functor/laws.hpp>
 
 #include <cassert>
 #include <list>
@@ -25,8 +25,8 @@ int main() {
     assert(fmap(f, std_list{1, 2, 3}) == (std_list{2, 3, 4}));
 
 #if 0
-    assert(detail::laws<Functor>(std_list{}, f, g));
-    assert(detail::laws<Functor>(std_list{1}, f, g));
-    assert(detail::laws<Functor>(std_list{1, 2, 3}, f, g));
+    assert(Functor::laws::check(std_list{}, f, g));
+    assert(Functor::laws::check(std_list{1}, f, g));
+    assert(Functor::laws::check(std_list{1, 2, 3}, f, g));
 #endif
 }

@@ -4,18 +4,25 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/logical.hpp>
+#include <boost/hana/logical/mcd.hpp>
 
+#include <boost/hana/detail/minimal/comparable.hpp>
+#include <boost/hana/detail/minimal/logical.hpp>
 #include <boost/hana/detail/static_assert.hpp>
-#include <boost/hana/type.hpp>
-
-#include "minimal_logical.hpp"
 using namespace boost::hana;
 
 
-struct T; struct E;
+template <int i>
+constexpr auto x = detail::minimal::comparable<>(i);
+
+template <typename mcd>
+void test() {
+    constexpr auto logical = detail::minimal::logical<mcd>;
+
+    BOOST_HANA_STATIC_ASSERT(if_(logical(true), x<0>, x<1>) == x<0>);
+    BOOST_HANA_STATIC_ASSERT(if_(logical(false), x<0>, x<1>) == x<1>);
+}
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(if_(logical<true>, type<T>, type<E>) == type<T>);
-    BOOST_HANA_STATIC_ASSERT(if_(logical<false>, type<T>, type<E>) == type<E>);
+    test<Logical::mcd>();
 }
