@@ -34,10 +34,10 @@ namespace boost { namespace hana {
     //!   than `Type`s? The same issue goes for `IntegerList`.
     struct TypeList { };
 
-    namespace operators {
+    namespace tlist_detail {
         template <typename ...xs>
         struct type_list {
-            struct type {
+            struct type : operators::enable {
                 using hana_datatype = TypeList;
 
                 template <template <typename ...> class f>
@@ -54,7 +54,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/type_list/type_list.cpp main
     template <typename ...xs>
-    constexpr typename operators::type_list<xs...>::type type_list{};
+    constexpr typename tlist_detail::type_list<xs...>::type type_list{};
 
     //! @details
     //! The head of `type_list<x, xs...>` is `type<x>`, its tail is

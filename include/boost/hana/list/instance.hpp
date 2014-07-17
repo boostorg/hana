@@ -27,8 +27,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    namespace operators {
-        template <typename Storage>
+    namespace list_detail {
+        template <typename Storage, typename = operators::enable>
         struct list {
             using hana_datatype = List;
             Storage storage;
@@ -42,7 +42,7 @@ namespace boost { namespace hana {
     //! sequence.
     BOOST_HANA_CONSTEXPR_LAMBDA auto list = [](auto ...xs) {
         auto storage = [=](auto f) { return f(xs...); };
-        return operators::list<decltype(storage)>{storage};
+        return list_detail::list<decltype(storage)>{storage};
     };
 
     //! @details

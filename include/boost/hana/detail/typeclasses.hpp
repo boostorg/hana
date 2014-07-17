@@ -271,6 +271,10 @@ namespace boost { namespace hana {
         //! @note
         //! boost/hana/core.hpp does not need to be included when the header
         //! of a type class providing operators has been included.
+        //!
+        //! @note
+        //! Nothing except operators should be defined in this namespace;
+        //! otherwise, ambiguities can arise when `using namespace operators`.
         struct enable { };
     }
 }} // end namespace boost::hana

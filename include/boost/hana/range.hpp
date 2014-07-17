@@ -28,9 +28,9 @@ namespace boost { namespace hana {
     //! `Iterable`, `Foldable`, `Comparable`
     struct Range { };
 
-    namespace operators {
-        template <typename From, typename To>
-        struct _range {
+    namespace range_detail {
+        template <typename From, typename To, typename = operators::enable>
+        struct range {
             From from;
             To to;
             using hana_datatype = Range;
@@ -53,7 +53,7 @@ namespace boost { namespace hana {
         auto valid_range = less_equal(from, to);
         static_assert(valid_range(),
         "invalid usage of boost::hana::range(from, to) with from > to");
-        return operators::_range<decltype(from), decltype(to)>{from, to};
+        return range_detail::range<decltype(from), decltype(to)>{from, to};
     };
 
     //! @details

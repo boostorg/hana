@@ -25,9 +25,9 @@ namespace boost { namespace hana {
     //! optimizations. When possible, it should be preferred.
     struct IntegerList { };
 
-    namespace operators {
+    namespace ilist_detail {
         template <typename T, T ...xs>
-        struct integer_list {
+        struct integer_list : operators::enable {
             using hana_datatype = IntegerList;
         };
     }
@@ -40,7 +40,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/integer_list/integer_list.cpp main
     template <typename T, T ...xs>
-    constexpr operators::integer_list<T, xs...> integer_list{};
+    constexpr ilist_detail::integer_list<T, xs...> integer_list{};
 
     //! @details
     //! The head of `integer_list<T, x, xs...>` is `integral<T, x>`, its tail
@@ -49,17 +49,17 @@ namespace boost { namespace hana {
     template <>
     struct Iterable::instance<IntegerList> : Iterable::mcd {
         template <typename T, T x, T ...xs>
-        static constexpr auto head_impl(operators::integer_list<T, x, xs...>) {
+        static constexpr auto head_impl(ilist_detail::integer_list<T, x, xs...>) {
             return integral<T, x>;
         }
 
         template <typename T, T x, T ...xs>
-        static constexpr auto tail_impl(operators::integer_list<T, x, xs...>) {
+        static constexpr auto tail_impl(ilist_detail::integer_list<T, x, xs...>) {
             return integer_list<T, xs...>;
         }
 
         template <typename T, T ...xs>
-        static constexpr auto is_empty_impl(operators::integer_list<T, xs...>) {
+        static constexpr auto is_empty_impl(ilist_detail::integer_list<T, xs...>) {
             return bool_<sizeof...(xs) == 0>;
         }
     };
@@ -73,12 +73,12 @@ namespace boost { namespace hana {
     template <>
     struct List::instance<IntegerList> : List::mcd<IntegerList> {
         template <typename X, typename T, T ...xs>
-        static constexpr auto cons_impl(X x, operators::integer_list<T, xs...>) {
+        static constexpr auto cons_impl(X x, ilist_detail::integer_list<T, xs...>) {
             return integer_list<T, static_cast<T>(x), xs...>;
         }
 
         template <typename X>
-        static constexpr auto cons_impl(X x, operators::integer_list<void>) {
+        static constexpr auto cons_impl(X x, ilist_detail::integer_list<void>) {
             return integer_list<decltype(x()), x()>;
         }
 

@@ -17,8 +17,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    namespace operators {
-        template <typename First, typename Second>
+    namespace pair_detail {
+        template <typename First, typename Second, typename = operators::enable>
         struct pair {
             First first;
             Second second;
@@ -29,7 +29,7 @@ namespace boost { namespace hana {
     //! Creates a `Pair` with the given elements.
     //! @relates{Pair}
     BOOST_HANA_CONSTEXPR_LAMBDA auto pair = [](auto first, auto second) {
-        return operators::pair<
+        return pair_detail::pair<
             decltype(first), decltype(second)
         >{first, second};
     };
