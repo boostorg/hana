@@ -12,7 +12,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/orderable/orderable.hpp>
 
-#include <boost/hana/bool.hpp>
+#include <boost/hana/foldable/foldable.hpp>
+#include <boost/hana/logical/logical.hpp>
 
 
 namespace boost { namespace hana {
@@ -29,11 +30,29 @@ namespace boost { namespace hana {
     //!     if a < b && b < c then a < c // Transitivity
     //!     if a ~ b && b ~ c then a ~ c // Transitivity of incomparability
     //! @endcode
-    //!
-    //! @todo Actually implement the laws.
     struct Orderable::laws {
-        static constexpr auto check()
-        { return true_; }
+        template <typename Orderables>
+        static constexpr auto check(Orderables orderables) {
+            auto implies = [](auto p, auto q) { return or_(not_(p), q); };
+            auto incomparable = [](auto x, auto y) {
+                return not_(or_(less(x, y), less(y, x)));
+            };
+            return all([=](auto a) {
+                return all([=](auto b) {
+                    return all([=](auto c) {
+                        return and_(
+                            not(less(a, a)),
+                            implies(less(a, b), not_(less(b, a))),
+                            implies(and_(less(a, b), less(b, c)), less(a, c)),
+                            implies(
+                                and_(incomparable(a, b), incomparable(b, c)),
+                                incomparable(a, c)
+                            )
+                        );
+                    }, orderables);
+                }, orderables);
+            }, orderables);
+        }
     };
 }} // end namespace boost::hana
 
