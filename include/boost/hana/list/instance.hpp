@@ -2,6 +2,9 @@
 @file
 Defines the `boost::hana::List` instance.
 
+@todo
+Find a way to get rid of this header. Same goes for pair/instance.hpp.
+
 @copyright Louis Dionne 2014
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
@@ -40,6 +43,13 @@ namespace boost { namespace hana {
     //!
     //! The `List` data type is a general purpose compile-time heterogeneous
     //! sequence.
+    //!
+    //! @todo
+    //! Consider having `list_of<Type>`, `list_of<Integral>`, ...,
+    //! `list_of<Anything>`, with `list == list_of<Anything>`. It does not
+    //! fix the problem of partial type classes (e.g. `MplVector` is not
+    //! _actually_ a `List`), but at least we remove `TypeList` and
+    //! `IntegerList`, which are arguably ugly.
     BOOST_HANA_CONSTEXPR_LAMBDA auto list = [](auto ...xs) {
         auto storage = [=](auto f) { return f(xs...); };
         return list_detail::list<decltype(storage)>{storage};

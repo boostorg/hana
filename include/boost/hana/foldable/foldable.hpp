@@ -18,6 +18,12 @@ namespace boost { namespace hana {
     //! @ingroup typeclasses
     //! Data structures that can be folded, i.e. summarized into
     //! a single value.
+    //!
+    //! @todo
+    //! Consider removing `any`, `all`, `none`, `elem` and `find` from this
+    //! type class and putting them inside a `Searchable` type class. This
+    //! would allow removing `lazy_foldr` and could maybe be used for
+    //! associative sequences as well.
     struct Foldable {
         BOOST_HANA_TYPECLASS(Foldable);
         struct lazy_foldr_mcd;

@@ -36,6 +36,10 @@ namespace boost { namespace hana {
     //! functionality would require evaluating the lazy values in most cases.
     //! Since this raises some issues such as side effects and memoization,
     //! the data type is kept simple.
+    //!
+    //! @todo
+    //! Right now, we can't do `lazy(f)()` because `ap(f)` is invalid. How
+    //! should we fix this?
     struct Lazy { };
 
     //! Evaluate a lazy value and return it.

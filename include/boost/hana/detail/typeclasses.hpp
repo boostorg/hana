@@ -275,6 +275,22 @@ namespace boost { namespace hana {
         //! @note
         //! Nothing except operators should be defined in this namespace;
         //! otherwise, ambiguities can arise when `using namespace operators`.
+        //!
+        //! @todo
+        //! Is ADL really the best way of providing custom operators? This has
+        //! (at least) the problem that templated types which have nothing to
+        //! do with Boost.Hana could have their set of associated namespaces
+        //! augmented with `boost::hana::operators` in an undesirable way:
+        //! @code
+        //!     template <typename T>
+        //!     struct nothing_to_do_with_hana { };
+        //!
+        //!     template <typename T, typename = operators::enable>
+        //!     struct something_to_do_with_hana { };
+        //!
+        //!     nothing_to_do_with_hana<something_to_do_with_hana<int>> x{};
+        //!     x == x; // tries to use Comparable::equal_impl
+        //! @endcode
         struct enable { };
     }
 }} // end namespace boost::hana

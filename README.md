@@ -298,16 +298,3 @@ static constexpr auto at_impl(Index n, Iterable_ iterable) {
 ### Why not provide forward declaration headers as in the MPL11?
 A lot of methods are in fact lambdas. Since we can't forward declare those,
 it makes little sense to have forward declaration headers.
-
-
-## Todo
-- Write a tutorial.
-- Provide a Main page for the Doxygen documentation.
-- Consider making function objects automatically curriable. This could allow
-_super sexy_ stuff like:
-```cpp
-template <>
-struct Iterable<List> {
-    static constexpr auto length_impl = foldl(some_lambda, size_t<0>);
-};
-```

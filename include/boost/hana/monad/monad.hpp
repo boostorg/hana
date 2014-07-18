@@ -18,6 +18,10 @@ namespace boost { namespace hana {
     //! @ingroup typeclasses
     //! `Monad`s are `Applicative`s with the ability to flatten values that
     //! were lifted more than once.
+    //!
+    //! @todo
+    //! - Consider adding a function to tap inside a monadic chain. This is
+    //!   probably the same as Haskell's `>>`.
     struct Monad {
         BOOST_HANA_TYPECLASS(Monad);
         struct bind_mcd;
