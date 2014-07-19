@@ -19,7 +19,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functor/fmap_mcd.hpp>
 #include <boost/hana/iterable/iterable.hpp>
 #include <boost/hana/logical/logical.hpp>
+#include <boost/hana/maybe.hpp>
 #include <boost/hana/monad/flatten_mcd.hpp>
+#include <boost/hana/searchable/find_mcd.hpp>
 #include <boost/hana/traversable/traverse_mcd.hpp>
 
 #include <type_traits> // for std::is_same
@@ -412,6 +414,42 @@ namespace boost { namespace hana {
                 [=](auto _) {
                     return and_(equal(_(head)(xs), _(head)(ys)),
                                 equal_impl(_(tail)(xs), _(tail)(ys)));
+                }
+            );
+        }
+    };
+
+    //! @details
+    //! A `List` can be searched by doing a linear search in the elements,
+    //! with the keys and values being both the elements in the list.
+    //!
+    //! @todo
+    //! Technically, this can be implemented in `Iterable`. Should it?
+    //!
+    //! ### Example
+    //! @snippet example/list/searchable/find.cpp main
+    template <typename T>
+    struct Searchable::instance<T, when<instantiates<List, T>()>>
+        : Searchable::find_mcd
+    {
+        template <typename Pred, typename Xs>
+        static constexpr auto find_impl(Pred pred, Xs xs) {
+            auto e = drop_until(pred, xs);
+            return eval_if(is_empty(e),
+                [](auto) { return nothing; },
+                [=](auto _) { return just(_(head)(e)); }
+            );
+        }
+
+        template <typename Pred, typename Xs>
+        static constexpr auto any_impl(Pred pred, Xs xs) {
+            return eval_if(is_empty(xs),
+                [](auto _) { return false_; },
+                [=](auto _) {
+                    return eval_if(pred(_(head)(xs)),
+                        [=](auto _) { return true_; },
+                        [=](auto _) { return any_impl(pred, _(tail)(xs)); }
+                    );
                 }
             );
         }
