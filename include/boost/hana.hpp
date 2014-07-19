@@ -27,7 +27,6 @@ libraries.
       Boost.Hana.
 - Write runtime benchmarks.
 - Setup a BJam build system.
-- Implement associative containers.
 - Implement user-defined type adapters for associative sequences.
 - Provide a Main page for the Doxygen documentation.
 - Consider making function objects automatically curriable. This could allow
@@ -102,6 +101,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/lazy.hpp>
 #include <boost/hana/list.hpp>
 #include <boost/hana/logical.hpp>
+#include <boost/hana/map.hpp>
 #include <boost/hana/maybe.hpp>
 #include <boost/hana/monad.hpp>
 #include <boost/hana/orderable.hpp>
