@@ -28,42 +28,42 @@ namespace boost { namespace hana {
      */
     struct Maybe { };
 
-    namespace operators {
-        template <bool is_valid, typename T>
-        struct _maybe {
+    namespace maybe_detail {
+        template <bool is_valid, typename T, typename = operators::enable>
+        struct maybe {
             using hana_datatype = Maybe;
 
             template <typename Default, typename F>
-            constexpr auto maybe(Default d, F) const
+            constexpr auto maybe_impl(Default d, F) const
             { return d; }
         };
 
         template <typename T>
-        struct _maybe<true, T> {
+        struct maybe<true, T> {
             using hana_datatype = Maybe;
             T val;
 
             template <typename Default, typename F>
-            constexpr auto maybe(Default, F f) const
+            constexpr auto maybe_impl(Default, F f) const
             { return f(val); }
         };
 
         template <typename T>
-        using _just = _maybe<true, T>;
-        using _nothing = _maybe<false, void>;
+        using just = maybe<true, T>;
+        using nothing = maybe<false, void>;
     }
 
     //! Creates an optional value containing `x`.
     //! @relates Maybe
     //! @hideinitializer
     BOOST_HANA_CONSTEXPR_LAMBDA auto just = [](auto x) {
-        return operators::_just<decltype(x)>{x};
+        return maybe_detail::just<decltype(x)>{x};
     };
 
     //! Creates an empty optional value.
     //! @relates Maybe
     //! @hideinitializer
-    constexpr operators::_nothing nothing{};
+    constexpr maybe_detail::nothing nothing{};
 
     //! Applies a function to the contents of a `Maybe`, with a fallback
     //! result.
@@ -77,7 +77,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/maybe/api.cpp maybe
     BOOST_HANA_CONSTEXPR_LAMBDA auto maybe = [](auto default_, auto f, auto m) {
-        return m.maybe(default_, f);
+        return m.maybe_impl(default_, f);
     };
 
     //! Returns whether a `Maybe` contains a value.

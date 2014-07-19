@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/wrap.hpp>
-#include <boost/hana/foldable/lazy_foldr_mcd.hpp>
+#include <boost/hana/foldable/mcd.hpp>
 #include <boost/hana/functor/fmap_mcd.hpp>
 #include <boost/hana/list/instance.hpp>
 #include <boost/hana/logical/logical.hpp>
@@ -60,10 +60,15 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Foldable::instance<Map> : Foldable::lazy_foldr_mcd {
+    struct Foldable::instance<Map> : Foldable::mcd {
         template <typename F, typename State, typename Map>
-        static constexpr auto lazy_foldr_impl(F f, State s, Map m) {
-            return lazy_foldr(f, s, values(m));
+        static constexpr auto foldr_impl(F f, State s, Map m) {
+            return foldr(f, s, values(m));
+        }
+
+        template <typename F, typename State, typename Map>
+        static constexpr auto foldl_impl(F f, State s, Map m) {
+            return foldl(f, s, values(m));
         }
 
         template <typename Map>

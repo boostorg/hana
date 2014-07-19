@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_HASH_MAP_HPP
 
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/foldable/lazy_foldr_mcd.hpp>
+#include <boost/hana/foldable/mcd.hpp>
 #include <boost/hana/list/instance.hpp>
 #include <boost/hana/logical/logical.hpp>
 #include <boost/hana/maybe.hpp>
@@ -110,13 +110,21 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Foldable::instance<HashMap> : Foldable::lazy_foldr_mcd {
+    struct Foldable::instance<HashMap> : Foldable::mcd {
         template <typename F, typename State, typename Map>
-        static constexpr auto lazy_foldr_impl(F f, State s, Map m) {
+        static constexpr auto foldr_impl(F f, State s, Map m) {
             auto f_ = [=](auto bucket, auto s) {
-                return lazy_foldr(f, s(), fmap(second, bucket().pairs));
+                return foldr(f, s, fmap(second, bucket.pairs));
             };
-            return lazy_foldr(f_, s, m.buckets);
+            return foldr(f_, s, m.buckets);
+        }
+
+        template <typename F, typename State, typename Map>
+        static constexpr auto foldl_impl(F f, State s, Map m) {
+            auto f_ = [=](auto s, auto bucket) {
+                return foldl(f, s, fmap(second, bucket.pairs));
+            };
+            return foldl(f_, s, m.buckets);
         }
     };
 }} // end namespace boost::hana

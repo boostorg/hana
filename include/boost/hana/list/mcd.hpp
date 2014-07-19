@@ -151,13 +151,20 @@ namespace boost { namespace hana {
 
         template <typename Pred, typename Xs>
         static constexpr auto take_while_impl(Pred pred, Xs xs) {
-            auto acc = [=](auto x, auto xs) {
-                return eval_if(pred(x()),
-                    [=](auto _) { return cons(x(), _(xs)()); },
-                    [](auto _) { return nil<T>; }
-                );
-            };
-            return lazy_foldr(acc, nil<T>, xs);
+            return eval_if(is_empty(xs),
+                [=](auto _) { return nil<T>; },
+                [=](auto _) {
+                    return eval_if(pred(_(head)(xs)),
+                        [=](auto _) {
+                            return cons(
+                                _(head)(xs),
+                                take_while_impl(pred, _(tail)(xs))
+                            );
+                        },
+                        [=](auto _) { return nil<T>; }
+                    );
+                }
+            );
         }
 
         template <typename ...Xss>

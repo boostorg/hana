@@ -13,23 +13,15 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/typeclasses.hpp>
 
-#include <boost/hana/searchable/searchable.hpp> //! @todo remove this
-
 
 namespace boost { namespace hana {
     //! @ingroup typeclasses
     //! Data structures that can be folded, i.e. summarized into
     //! a single value.
-    //!
-    //! @todo
-    //! Consider removing `any`, `all`, `none`, `elem` and `find` from this
-    //! type class and putting them inside a `Searchable` type class. This
-    //! would allow removing `lazy_foldr` and could maybe be used for
-    //! associative sequences as well.
     struct Foldable {
         BOOST_HANA_TYPECLASS(Foldable);
-        struct lazy_foldr_mcd;
         struct laws;
+        struct mcd;
     };
 
     //! Left-associative fold of a structure using a binary operation.
@@ -82,63 +74,6 @@ namespace boost { namespace hana {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
         >::foldl1_impl(f, foldable);
-    };
-
-    //! Lazy right-associative fold of a structure using a binary operation.
-    //! @method{Foldable}
-    //!
-    //! Unlike for strict folds, the binary operation should take nullary
-    //! functions returning an element and the state instead of taking an
-    //! element and the state directly.
-    //!
-    //! ### Example
-    //! @snippet example/range/foldable/lazy_foldr.cpp main
-    //!
-    //! @bug
-    //! We got a performance problem here. It seems very hard to implement
-    //! this method efficiently.
-    BOOST_HANA_CONSTEXPR_LAMBDA auto lazy_foldr = [](auto f, auto state, auto foldable) {
-        return Foldable::instance<
-            datatype_t<decltype(foldable)>
-        >::lazy_foldr_impl(f, state, foldable);
-    };
-
-    //! Lazy left-associative fold of a structure using a binary operation.
-    //! @method{Foldable}
-    //!
-    //! Unlike for strict folds, the binary operation should take nullary
-    //! functions returning the state and an element instead of taking the
-    //! state and an element directly.
-    //!
-    //! @warning
-    //! It is important to be aware that a lazy left fold must still walk the
-    //! whole structure before it can return. This is because of the nature of
-    //! left-folds, which are always equivalent to
-    //! @code
-    //!     foldl(f, state, structure):
-    //!         if (some_stop_condition)
-    //!             return state
-    //!         else
-    //!             return foldl(f, f(...), ...);
-    //! @endcode
-    //! Notice how `foldl` calls itself recursively in the `else` branch; this
-    //! means that the next invocation of `foldl` is always needed, and so the
-    //! whole structure has to be unfolded. When `f` is lazy, this has the
-    //! effect of creating a (potentially huge) chain of "thunks":
-    //! @code
-    //!     f(f(f(f(f(x1, state), x2), x3), x4), x5)
-    //! @endcode
-    //! This chain is then only evaluated lazily, but creating the chain
-    //! itself can cause a stack overflow. If you don't need to accumulate
-    //! the result lazily, consider using `foldl` instead, which does not
-    //! create a chain of thunks and evaluates `f` as it goes.
-    //!
-    //! ### Example
-    //! @snippet example/range/foldable/lazy_foldl.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto lazy_foldl = [](auto f, auto state, auto foldable) {
-        return Foldable::instance<
-            datatype_t<decltype(foldable)>
-        >::lazy_foldl_impl(f, state, foldable);
     };
 
     //! Return the number of elements in a finite structure.

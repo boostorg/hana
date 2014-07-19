@@ -14,8 +14,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/dependent_on.hpp>
 #include <boost/hana/detail/maybe_fwd.hpp>
-#include <boost/hana/foldable/lazy_foldr_mcd.hpp>
+#include <boost/hana/foldable/mcd.hpp>
 #include <boost/hana/functor/fmap_mcd.hpp>
 #include <boost/hana/logical/logical.hpp>
 #include <boost/hana/monad/flatten_mcd.hpp>
@@ -34,12 +35,12 @@ namespace boost { namespace hana {
     struct Comparable::instance<Maybe, Maybe> : Comparable::equal_mcd {
         template <typename T, typename U>
         static constexpr auto
-        equal_impl(operators::_just<T> t, operators::_just<U> u)
+        equal_impl(maybe_detail::just<T> t, maybe_detail::just<U> u)
         { return equal(t.val, u.val); }
 
         template <bool tv, typename T, bool uv, typename U>
         static constexpr auto
-        equal_impl(operators::_maybe<tv, T>, operators::_maybe<uv, U>)
+        equal_impl(maybe_detail::maybe<tv, T>, maybe_detail::maybe<uv, U>)
         { return bool_<tv == uv>; }
     };
 
@@ -53,13 +54,9 @@ namespace boost { namespace hana {
     //! @snippet example/maybe/functor.cpp main
     template <>
     struct Functor::instance<Maybe> : Functor::fmap_mcd {
-        template <typename F, typename T>
-        static constexpr auto fmap_impl(F f, operators::_just<T> j)
-        { return just(f(j.val)); }
-
-        template <typename F>
-        static constexpr auto fmap_impl(F, operators::_nothing)
-        { return nothing; }
+        template <typename F, typename M>
+        static constexpr auto fmap_impl(F f, M m)
+        { return maybe(nothing, [=](auto x) { return just(f(x)); }, m); }
     };
 
     //! @details
@@ -92,15 +89,9 @@ namespace boost { namespace hana {
     //! @snippet example/maybe/monad.cpp main
     template <>
     struct Monad::instance<Maybe> : Monad::flatten_mcd {
-        template <typename T>
-        static constexpr auto flatten_impl(operators::_just<operators::_just<T>> j)
-        { return j.val; }
-
-        static constexpr auto flatten_impl(operators::_nothing)
-        { return nothing; }
-
-        static constexpr auto flatten_impl(operators::_just<operators::_nothing>)
-        { return nothing; }
+        template <typename MMX>
+        static constexpr auto flatten_impl(MMX mmx)
+        { return maybe(nothing, [](auto mx) { return mx; }, mmx); }
     };
 
     //! @details
@@ -110,15 +101,17 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/maybe/foldable.cpp main
-    template <>
-    struct Foldable::instance<Maybe> : Foldable::lazy_foldr_mcd {
+    template <typename ...Nothing>
+    struct Foldable::instance<Maybe, Nothing...>
+        : detail::dependent_on<char[sizeof...(Nothing) + 1], Foldable::mcd>
+    {
         template <typename F, typename S, typename M>
-        static constexpr auto lazy_foldr_impl(F f, S s, M m) {
-            auto go = [=](auto x) {
-                return f([=] { return x; }, [=] { return s; });
-            };
-            return maybe(s, go, m);
-        }
+        static constexpr auto foldr_impl(F f, S s, M m)
+        { return maybe(s, [=](auto x) { return f(x, s); }, m); }
+
+        template <typename F, typename S, typename M>
+        static constexpr auto foldl_impl(F f, S s, M m)
+        { return maybe(s, [=](auto x) { return f(s, x); }, m); }
     };
 
     //! @details

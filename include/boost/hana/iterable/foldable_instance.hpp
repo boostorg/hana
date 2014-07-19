@@ -17,13 +17,12 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/iterable/iterable.hpp>
 
 #include <boost/hana/core.hpp> // for instantiates
-#include <boost/hana/foldable/lazy_foldr_mcd.hpp>
-#include <boost/hana/functional.hpp> // for partial
+#include <boost/hana/foldable/mcd.hpp>
 #include <boost/hana/logical/logical.hpp>
 
 
 namespace boost { namespace hana {
-    struct Iterable::FoldableInstance : Foldable::lazy_foldr_mcd {
+    struct Iterable::FoldableInstance : Foldable::mcd {
         template <typename F, typename State, typename Iterable>
         static constexpr auto foldl_impl(F f, State s, Iterable xs) {
             return eval_if(is_empty(xs),
@@ -49,16 +48,6 @@ namespace boost { namespace hana {
             return eval_if(is_empty(xs),
                 [=](auto) { return s; },
                 [=](auto _) { return f(head(_(xs)), foldr_impl(f, s, tail(_(xs)))); }
-            );
-        }
-
-        template <typename F, typename State, typename Iterable>
-        static constexpr auto lazy_foldr_impl(F f, State s, Iterable xs) {
-            return eval_if(is_empty(xs),
-                [=](auto) { return s; },
-                [=](auto _) {
-                    return f(partial(head, xs), partial(lazy_foldr, f, s, tail(_(xs))));
-                }
             );
         }
     };

@@ -4,7 +4,7 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/foldable/lazy_foldr_mcd.hpp>
+#include <boost/hana/foldable/mcd.hpp>
 
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/minimal/foldable.hpp>
@@ -37,5 +37,5 @@ void test() {
 }
 
 int main() {
-    test<Foldable::lazy_foldr_mcd>();
+    test<Foldable::mcd>();
 }

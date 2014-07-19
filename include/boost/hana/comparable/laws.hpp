@@ -12,8 +12,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/comparable/comparable.hpp>
 
-#include <boost/hana/foldable/foldable.hpp>
 #include <boost/hana/logical/logical.hpp>
+#include <boost/hana/searchable/searchable.hpp>
 
 
 namespace boost { namespace hana {

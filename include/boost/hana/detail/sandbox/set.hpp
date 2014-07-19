@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/wrap.hpp>
-#include <boost/hana/foldable/lazy_foldr_mcd.hpp>
+#include <boost/hana/foldable/mcd.hpp>
 #include <boost/hana/list/instance.hpp>
 #include <boost/hana/logical/logical.hpp>
 #include <boost/hana/searchable/find_mcd.hpp>
@@ -40,10 +40,15 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Foldable::instance<Set> : Foldable::lazy_foldr_mcd {
+    struct Foldable::instance<Set> : Foldable::mcd {
         template <typename F, typename State, typename Set>
-        static constexpr auto lazy_foldr_impl(F f, State s, Set set) {
-            return lazy_foldr(f, s, detail::unwrap(set));
+        static constexpr auto foldr_impl(F f, State s, Set set) {
+            return foldr(f, s, detail::unwrap(set));
+        }
+
+        template <typename F, typename State, typename Set>
+        static constexpr auto foldl_impl(F f, State s, Set set) {
+            return foldl(f, s, detail::unwrap(set));
         }
 
         template <typename Set>
