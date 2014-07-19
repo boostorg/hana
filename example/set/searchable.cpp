@@ -15,7 +15,7 @@ using namespace boost::hana;
 int main() {
     //! [main]
     BOOST_HANA_CONSTEXPR_LAMBDA auto xs = set(int_<0>, int_<1>, int_<2>);
-    BOOST_HANA_STATIC_ASSERT(find_key(int_<0>, xs) == just(int_<0>));
-    BOOST_HANA_STATIC_ASSERT(find_key(int_<3>, xs) == nothing);
+    BOOST_HANA_STATIC_ASSERT(lookup(int_<0>, xs) == just(int_<0>));
+    BOOST_HANA_STATIC_ASSERT(lookup(int_<3>, xs) == nothing);
     //! [main]
 }

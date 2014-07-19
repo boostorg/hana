@@ -63,7 +63,7 @@ namespace boost { namespace hana {
             return and_(
                 equal(length(detail::unwrap(m1)), length(detail::unwrap(m2))),
                 all([=](auto k) {
-                    return equal(find_key(k, m1), find_key(k, m2));
+                    return equal(lookup(k, m1), lookup(k, m2));
                 }, keys(m1))
             );
         }

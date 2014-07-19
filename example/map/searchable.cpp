@@ -18,8 +18,8 @@ int main() {
         pair(type<int>, 'i'),
         pair(type<float>, 'f')
     );
-    BOOST_HANA_STATIC_ASSERT(find_key(type<int>, m) == just('i'));
-    BOOST_HANA_STATIC_ASSERT(find_key(type<float>, m) == just('f'));
-    BOOST_HANA_STATIC_ASSERT(find_key(type<void>, m) == nothing);
+    BOOST_HANA_STATIC_ASSERT(lookup(type<int>, m) == just('i'));
+    BOOST_HANA_STATIC_ASSERT(lookup(type<float>, m) == just('f'));
+    BOOST_HANA_STATIC_ASSERT(lookup(type<void>, m) == nothing);
     //! [main]
 }

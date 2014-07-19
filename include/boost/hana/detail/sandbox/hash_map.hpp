@@ -16,6 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/logical/logical.hpp>
 #include <boost/hana/maybe.hpp>
 #include <boost/hana/pair/instance.hpp>
+#include <boost/hana/searchable/find_mcd.hpp>
 
 
 namespace boost { namespace hana {
@@ -101,12 +102,26 @@ namespace boost { namespace hana {
         return foldl(ins, empty_map, list(pairs...));
     };
 
-    BOOST_HANA_CONSTEXPR_LAMBDA auto lookup = [](auto key, auto map) {
-        auto h = hash(key);
-        auto bucket = find([=](auto b) { return b.hash == h; }, map.buckets);
-        return maybe(nothing,
-            [=](auto bucket) { return bucket.lookup(key); }
-        , bucket);
+    template <>
+    struct Searchable::instance<HashMap> : Searchable::find_mcd {
+        template <typename Pred, typename Map>
+        static constexpr auto find_impl(Pred pred, Map map) {
+            return; // not implemented
+        }
+
+        template <typename Pred, typename Map>
+        static constexpr auto any_impl(Pred pred, Map map) {
+            return; // not implemented
+        }
+
+        template <typename Key, typename Map>
+        static constexpr auto lookup_impl(Key key, Map map) {
+            auto h = hash(key);
+            auto bucket = find([=](auto b) { return b.hash == h; }, map.buckets);
+            return maybe(nothing,
+                [=](auto bucket) { return bucket.lookup(key); }
+            , bucket);
+        }
     };
 
     template <>

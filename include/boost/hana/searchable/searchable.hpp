@@ -122,10 +122,10 @@ namespace boost { namespace hana {
 
     //! Find the value associated to the given key.
     //! @method{Searchable}
-    BOOST_HANA_CONSTEXPR_LAMBDA auto find_key = [](auto key, auto searchable) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto lookup = [](auto key, auto searchable) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
-        >::find_key_impl(key, searchable);
+        >::lookup_impl(key, searchable);
     };
 }} // end namespace boost::hana
 

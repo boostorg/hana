@@ -50,7 +50,7 @@ namespace boost { namespace hana {
         { return none([](auto x) { return x; }, srch); }
 
         template <typename Key, typename Srch>
-        static constexpr auto find_key_impl(Key key, Srch srch)
+        static constexpr auto lookup_impl(Key key, Srch srch)
         { return find([=](auto k) { return equal(key, k); }, srch); }
     };
 }} // end namespace boost::hana
