@@ -119,6 +119,14 @@ namespace boost { namespace hana {
             datatype_t<decltype(searchable)>
         >::find_impl(predicate, searchable);
     };
+
+    //! Find the value associated to the given key.
+    //! @method{Searchable}
+    BOOST_HANA_CONSTEXPR_LAMBDA auto find_key = [](auto key, auto searchable) {
+        return Searchable::instance<
+            datatype_t<decltype(searchable)>
+        >::find_key_impl(key, searchable);
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_SEARCHABLE_SEARCHABLE_HPP
