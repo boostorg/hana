@@ -19,22 +19,36 @@ using namespace boost::hana;
 template <int i>
 constexpr auto x = detail::minimal::comparable<>(i);
 
-BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto x) {
-    return std::make_tuple(x);
+template <int i, int j>
+struct _f {
+    template <typename X>
+    constexpr auto operator()(X x) const
+    { return std::make_tuple(i, j, x); }
 };
 
-BOOST_HANA_CONSTEXPR_LAMBDA auto g = [](auto x) {
-    return std::make_tuple(x);
-};
+template <int i, int j>
+constexpr _f<i, j> f{};
 
 template <typename mcd>
 void test() {
     BOOST_HANA_CONSTEXPR_LAMBDA auto list = detail::minimal::list<mcd>;
 
-    BOOST_HANA_STATIC_ASSERT(Functor::laws::check(list(), f, g));
-    BOOST_HANA_STATIC_ASSERT(Functor::laws::check(list(x<0>), f, g));
-    BOOST_HANA_STATIC_ASSERT(Functor::laws::check(list(x<0>, x<1>), f, g));
-    BOOST_HANA_STATIC_ASSERT(Functor::laws::check(list(x<0>, x<1>, x<2>), f, g));
+    BOOST_HANA_STATIC_ASSERT(Functor::laws::check(
+        list(
+            list(),
+            list(x<0>),
+            list(x<0>, x<1>),
+            list(x<0>, x<1>, x<2>)
+        ),
+        list(
+            f<1, 1>,
+            f<1, 2>
+        ),
+        list(
+            f<2, 1>,
+            f<2, 2>
+        )
+    ));
 }
 
 int main() {

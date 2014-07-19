@@ -13,9 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/core.hpp>
-#include <boost/hana/functor/fmap_mcd.hpp>
 #include <boost/hana/integral.hpp>
-#include <boost/hana/monad/flatten_mcd.hpp>
 
 #include <initializer_list>
 
@@ -25,17 +23,16 @@ namespace boost { namespace hana {
     //! C++ type represented as a constexpr object.
     //!
     //! ## Instance of
-    //! `Comparable`, `Functor`, `Applicative`, `Monad`
+    //! `Comparable`
     //!
     //!
     //! @todo
     //! - Completely figure out and document the category theoretical
     //!   foundation of this data type.
-    //! - Verify `Monad` laws.
-    //! - Instantiate `Applicative`.
+    //! - Consider instantiating `Functor`, `Applicative` and `Monad` if
+    //!   that's possible.
     //! - Consider having a `.name()` method that would return the
     //!   (demangled?) `typeid(T).name()`.
-    //! - Document `Functor` and `Monad` instances.
     //! - Use more lambdas once http://llvm.org/bugs/show_bug.cgi?id=20046
     //!   is fixed.
     struct Type { };
@@ -308,20 +305,6 @@ namespace boost { namespace hana {
         template <typename T>
         static constexpr auto equal_impl(T, T)
         { return true_; }
-    };
-
-    template <>
-    struct Functor::instance<Type> : Functor::fmap_mcd {
-        template <typename F, typename T>
-        static constexpr auto fmap_impl(F f, T t)
-        { return f(t); }
-    };
-
-    template <>
-    struct Monad::instance<Type> : Monad::flatten_mcd {
-        template <typename T>
-        static constexpr auto flatten_impl(T)
-        { return typename T::type{}; }
     };
 }} // end namespace boost::hana
 

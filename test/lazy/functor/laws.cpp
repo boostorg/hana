@@ -4,12 +4,14 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/list/instance.hpp>
+#include <boost/hana/lazy.hpp>
 
 #include <boost/hana/detail/minimal/comparable.hpp>
 #include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/functor/laws.hpp>
+#include <boost/hana/list/instance.hpp>
 
+#include "../comparable.hpp"
 #include <tuple>
 using namespace boost::hana;
 
@@ -29,12 +31,7 @@ constexpr _f<i, j> f{};
 
 int main() {
     BOOST_HANA_STATIC_ASSERT(Functor::laws::check(
-        list(
-            list(),
-            list(x<0>),
-            list(x<0>, x<1>),
-            list(x<0>, x<1>, x<2>)
-        ),
+        list(lazy(x<0>)),
         list(
             f<1, 1>,
             f<1, 2>

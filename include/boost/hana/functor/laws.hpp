@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable/comparable.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/logical/logical.hpp>
+#include <boost/hana/searchable/searchable.hpp>
 
 
 namespace boost { namespace hana {
@@ -25,11 +26,22 @@ namespace boost { namespace hana {
     //!     fmap (f . g) == fmap f . fmap g
     //! @endcode
     struct Functor::laws {
-        template <typename Functor_, typename F, typename G>
-        static constexpr auto check(Functor_ functor, F f, G g) {
+        template <typename FunctorsOnX, typename FunctionsFromXtoY, typename FunctionsFromYtoZ>
+        static constexpr auto check(FunctorsOnX xs, FunctionsFromXtoY fs, FunctionsFromYtoZ gs) {
             return and_(
-                equal(fmap(id, functor), functor),
-                equal(fmap(compose(f, g), functor), fmap(f, fmap(g, functor)))
+                all([=](auto x) {
+                    return equal(fmap(id, x), x);
+                }, xs),
+                all([=](auto x) {
+                    return all([=](auto f) {
+                        return all([=](auto g) {
+                            return equal(
+                                fmap(compose(f, g), x),
+                                fmap(f, fmap(g, x))
+                            );
+                        }, gs);
+                    }, fs);
+                }, xs)
             );
         }
     };

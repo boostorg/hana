@@ -6,9 +6,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/ext/boost/mpl/list.hpp>
 
-#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/functor/laws.hpp>
+#include <boost/hana/list/instance.hpp>
 #include <boost/hana/type.hpp>
 
 #include <boost/mpl/list.hpp>
@@ -16,16 +16,29 @@ using namespace boost::hana;
 namespace mpl = boost::mpl;
 
 
-template <typename> struct f_;
-template <typename> struct g_;
-BOOST_HANA_CONSTEXPR_LAMBDA auto f = template_<f_>;
-BOOST_HANA_CONSTEXPR_LAMBDA auto g = template_<g_>;
+template <int ...>
+struct result {
+    template <typename T>
+    struct apply { using type = apply; };
+};
 
 struct x0; struct x1; struct x2;
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(Functor::laws::check(mpl::list<>{}, f, g));
-    BOOST_HANA_STATIC_ASSERT(Functor::laws::check(mpl::list<x0>{}, f, g));
-    BOOST_HANA_STATIC_ASSERT(Functor::laws::check(mpl::list<x0, x1>{}, f, g));
-    BOOST_HANA_STATIC_ASSERT(Functor::laws::check(mpl::list<x0, x1, x2>{}, f, g));
+    BOOST_HANA_STATIC_ASSERT(Functor::laws::check(
+        list(
+            mpl::list<>{},
+            mpl::list<x0>{},
+            mpl::list<x0, x1>{},
+            mpl::list<x0, x1, x2>{}
+        ),
+        list(
+            metafunction_class<result<1, 1>>,
+            metafunction_class<result<1, 2>>
+        ),
+        list(
+            metafunction_class<result<2, 1>>,
+            metafunction_class<result<2, 2>>
+        )
+    ));
 }

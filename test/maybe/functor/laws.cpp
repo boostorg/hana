@@ -7,17 +7,30 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/maybe.hpp>
 
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/minimal/comparable.hpp>
 #include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/functor/laws.hpp>
-#include <boost/hana/integral.hpp>
+#include <boost/hana/list/instance.hpp>
+
+#include <tuple>
 using namespace boost::hana;
 
 
-BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto x) { return x + int_<1>; };
-BOOST_HANA_CONSTEXPR_LAMBDA auto g = [](auto x) { return x * int_<3>; };
+template <int i>
+constexpr auto x = detail::minimal::comparable<>(i);
+
+BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto x) {
+    return std::make_tuple(1, x);
+};
+
+BOOST_HANA_CONSTEXPR_LAMBDA auto g = [](auto x) {
+    return std::make_tuple(2, x);
+};
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(Functor::laws::check(nothing, f, g));
-    BOOST_HANA_STATIC_ASSERT(Functor::laws::check(just(int_<3>), f, g));
-    BOOST_HANA_STATIC_ASSERT(Functor::laws::check(just(3), f, g));
+    BOOST_HANA_STATIC_ASSERT(Functor::laws::check(
+        list(nothing, just(x<0>)),
+        list(f),
+        list(g)
+    ));
 }
