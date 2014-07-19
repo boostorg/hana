@@ -107,6 +107,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/orderable.hpp>
 #include <boost/hana/pair.hpp>
 #include <boost/hana/range.hpp>
+#include <boost/hana/searchable.hpp>
 #include <boost/hana/traversable.hpp>
 #include <boost/hana/type.hpp>
 #include <boost/hana/type_list.hpp>

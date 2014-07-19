@@ -16,6 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/foldable/lazy_foldr_mcd.hpp>
 #include <boost/hana/list/instance.hpp>
 #include <boost/hana/logical/logical.hpp>
+#include <boost/hana/searchable/find_mcd.hpp>
 
 
 namespace boost { namespace hana {
@@ -48,6 +49,17 @@ namespace boost { namespace hana {
         template <typename Set>
         static constexpr auto length_impl(Set set)
         { return length(detail::unwrap(set)); }
+    };
+
+    template <>
+    struct Searchable::instance<Set> : Searchable::find_mcd {
+        template <typename Pred, typename Set>
+        static constexpr auto find_impl(Pred pred, Set set)
+        { return find(pred, to<List>(set)); }
+
+        template <typename Pred, typename Set>
+        static constexpr auto any_impl(Pred pred, Set set)
+        { return any(pred, to<List>(set)); }
     };
 
     template <>

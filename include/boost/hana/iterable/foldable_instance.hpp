@@ -20,7 +20,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/foldable/lazy_foldr_mcd.hpp>
 #include <boost/hana/functional.hpp> // for partial
 #include <boost/hana/logical/logical.hpp>
-#include <boost/hana/maybe.hpp>
 
 
 namespace boost { namespace hana {
@@ -60,15 +59,6 @@ namespace boost { namespace hana {
                 [=](auto _) {
                     return f(partial(head, xs), partial(lazy_foldr, f, s, tail(_(xs))));
                 }
-            );
-        }
-
-        template <typename Pred, typename Iterable_>
-        static constexpr auto find_impl(Pred pred, Iterable_ xs) {
-            auto e = drop_until(pred, xs);
-            return eval_if(is_empty(e),
-                [](auto) { return nothing; },
-                [=](auto _) { return just(_(head)(e)); }
             );
         }
     };

@@ -64,10 +64,19 @@ boost_hana_add_list_plot(
 )
 
 # Foldable
-foreach(method IN ITEMS any count elem find foldl foldl1 foldr foldr1 length minimum product sum unpack)
+foreach(method IN ITEMS count foldl foldl1 foldr foldr1 length minimum product sum unpack)
     boost_hana_add_list_plot(
         benchmark.list.foldable.${method}
         foldable/${method}.cpp
+        "(0..500).step(25).map { |n| { x: n, instance:\"@instance_file@\" } }"
+    )
+endforeach()
+
+# Searchable
+foreach(method IN ITEMS any elem find)
+    boost_hana_add_list_plot(
+        benchmark.list.searchable.${method}
+        searchable/${method}.cpp
         "(0..500).step(25).map { |n| { x: n, instance:\"@instance_file@\" } }"
     )
 endforeach()

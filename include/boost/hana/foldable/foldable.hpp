@@ -13,6 +13,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/typeclasses.hpp>
 
+#include <boost/hana/searchable/searchable.hpp> //! @todo remove this
+
 
 namespace boost { namespace hana {
     //! @ingroup typeclasses
@@ -224,34 +226,6 @@ namespace boost { namespace hana {
         >::count_impl(predicate, foldable);
     };
 
-    //! Find an element satisfying a predicate in the structure.
-    //! @method{Foldable}
-    //!
-    //! Specifically, returns `just` the first element satisfying the
-    //! `predicate`, or `nothing` if there is no such element.
-    //!
-    //! ### Example 1
-    //! @snippet example/list/foldable/find.cpp main
-    //!
-    //! ### Example 2
-    //! @snippet example/type_list/foldable/find.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto find = [](auto predicate, auto foldable) {
-        return Foldable::instance<
-            datatype_t<decltype(foldable)>
-        >::find_impl(predicate, foldable);
-    };
-
-    //! Return whether the element occurs in the structure.
-    //! @method{Foldable}
-    //!
-    //! ### Example
-    //! @snippet example/list/foldable/elem.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto elem = [](auto x, auto foldable) {
-        return Foldable::instance<
-            datatype_t<decltype(foldable)>
-        >::elem_impl(x, foldable);
-    };
-
     //! Invoke a function with the elements of a structure as arguments.
     //! @method{Foldable}
     //!
@@ -261,72 +235,6 @@ namespace boost { namespace hana {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
         >::unpack_impl(f, foldable);
-    };
-
-    //! Return whether any element of the structure satisfies the `predicate`.
-    //! @method{Foldable}
-    //!
-    //! ### Fusion example
-    //! @snippet example/list/foldable/any.cpp fusion
-    //!
-    //! ### MPL example
-    //! @snippet example/list/foldable/any.cpp mpl
-    BOOST_HANA_CONSTEXPR_LAMBDA auto any = [](auto predicate, auto foldable) {
-        return Foldable::instance<
-            datatype_t<decltype(foldable)>
-        >::any_impl(predicate, foldable);
-    };
-
-    //! Return whether any element of the structure is true-valued.
-    //! @method{Foldable}
-    BOOST_HANA_CONSTEXPR_LAMBDA auto any_of = [](auto foldable) {
-        return Foldable::instance<
-            datatype_t<decltype(foldable)>
-        >::any_of_impl(foldable);
-    };
-
-    //! Return whether all the elements of the structure satisfy the `predicate`.
-    //! @method{Foldable}
-    //!
-    //! ### Fusion example
-    //! @snippet example/list/foldable/all.cpp fusion
-    //!
-    //! ### MPL example
-    //! @snippet example/list/foldable/all.cpp mpl
-    BOOST_HANA_CONSTEXPR_LAMBDA auto all = [](auto predicate, auto foldable) {
-        return Foldable::instance<
-            datatype_t<decltype(foldable)>
-        >::all_impl(predicate, foldable);
-    };
-
-    //! Return whether all the elements of the structure are true-valued.
-    //! @method{Foldable}
-    BOOST_HANA_CONSTEXPR_LAMBDA auto all_of = [](auto foldable) {
-        return Foldable::instance<
-            datatype_t<decltype(foldable)>
-        >::all_of_impl(foldable);
-    };
-
-    //! Return whether none of the elements of the structure satisfy the `predicate`.
-    //! @method{Foldable}
-    //!
-    //! ### Fusion example
-    //! @snippet example/list/foldable/none.cpp fusion
-    //!
-    //! ### MPL example
-    //! @snippet example/list/foldable/none.cpp mpl
-    BOOST_HANA_CONSTEXPR_LAMBDA auto none = [](auto predicate, auto foldable) {
-        return Foldable::instance<
-            datatype_t<decltype(foldable)>
-        >::none_impl(predicate, foldable);
-    };
-
-    //! Return whether none of the elements of the structure are true-valued.
-    //! @method{Foldable}
-    BOOST_HANA_CONSTEXPR_LAMBDA auto none_of = [](auto foldable) {
-        return Foldable::instance<
-            datatype_t<decltype(foldable)>
-        >::none_of_impl(foldable);
     };
 }} // end namespace boost::hana
 

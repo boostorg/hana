@@ -1,17 +1,12 @@
 <% render(instance) %>
 <%= includes(x) %>
 
-#include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/foldable/foldable.hpp>
 #include <boost/hana/integral.hpp>
+#include <boost/hana/searchable/searchable.hpp>
 
-
-BOOST_HANA_CONSTEXPR_LAMBDA auto in_the_middle = [](auto x) {
-    return x == boost::hana::int_<  <%= x / 2 %>    >;
-};
 
 int main() {
-    auto go = boost::hana::any(in_the_middle,
+    auto go = boost::hana::elem(boost::hana::int_<  <%= x / 2 %>    >,
         <%= list(
             (0..x).map { |i| "decltype(boost::hana::int_<#{i}>)" },
             (0..x).map { |i| "boost::hana::int_<#{i}>" }

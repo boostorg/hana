@@ -20,6 +20,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/logical/logical.hpp>
 #include <boost/hana/orderable/orderable.hpp>
 
+#include <boost/hana/core.hpp>
+#include <boost/hana/detail/dependent_on.hpp> //! @todo remove this
+#include <boost/hana/searchable/find_mcd.hpp> //! @todo remove this
+
 
 namespace boost { namespace hana {
     //! @details
@@ -97,21 +101,6 @@ namespace boost { namespace hana {
             );
         }
 
-        template <typename Pred, typename Foldable_>
-        static constexpr auto find_impl(Pred pred, Foldable_ foldable) {
-            auto go = [=](auto x, auto tail) {
-                return eval_if(pred(x()),
-                    always(just(x())),
-                    [=](auto _) { return _(tail)(); }
-                );
-            };
-            return lazy_foldr(go, nothing, foldable);
-        }
-
-        template <typename X, typename Foldable_>
-        static constexpr auto elem_impl(X x, Foldable_ foldable)
-        { return any([=](auto y) { return equal(x, y); }, foldable); }
-
         template <typename Foldable_>
         static constexpr auto sum_impl(Foldable_ foldable)
         { return foldl(_ + _, int_<0>, foldable); }
@@ -131,9 +120,24 @@ namespace boost { namespace hana {
         template <typename F, typename Foldable_>
         static constexpr auto unpack_impl(F f, Foldable_ foldable)
         { return foldl(partial, f, foldable)(); }
+    };
 
+    //! @todo Remove this.
+    template <typename T>
+    struct Searchable::instance<T, when<instantiates<Foldable, T>()>>
+        : detail::dependent_on<T, Searchable::find_mcd>
+    {
+        template <typename Pred, typename Foldable_>
+        static constexpr auto find_impl(Pred pred, Foldable_ foldable) {
+            auto go = [=](auto x, auto tail) {
+                return eval_if(pred(x()),
+                    always(just(x())),
+                    [=](auto _) { return _(tail)(); }
+                );
+            };
+            return lazy_foldr(go, nothing, foldable);
+        }
 
-        // any, all, none
         template <typename Pred, typename Foldable_>
         static constexpr auto any_impl(Pred pred, Foldable_ foldable) {
             auto lazy_or = [=](auto lx, auto ly) {
@@ -142,28 +146,6 @@ namespace boost { namespace hana {
             };
             return lazy_foldr(lazy_or, false_, foldable);
         }
-
-        template <typename Pred, typename Foldable_>
-        static constexpr auto all_impl(Pred pred, Foldable_ foldable)
-        { return not_(any([=](auto x) { return not_(pred(x)); }, foldable)); }
-
-        template <typename Pred, typename Foldable_>
-        static constexpr auto none_impl(Pred pred, Foldable_ foldable)
-        { return not_(any(pred, foldable)); }
-
-
-        // any_of, all_of, none_of
-        template <typename Foldable_>
-        static constexpr auto any_of_impl(Foldable_ foldable)
-        { return any(id, foldable); }
-
-        template <typename Foldable_>
-        static constexpr auto all_of_impl(Foldable_ foldable)
-        { return all(id, foldable); }
-
-        template <typename Foldable_>
-        static constexpr auto none_of_impl(Foldable_ foldable)
-        { return none(id, foldable); }
     };
 }} // end namespace boost::hana
 
