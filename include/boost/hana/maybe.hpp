@@ -17,7 +17,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/maybe_fwd.hpp>
 #include <boost/hana/foldable/lazy_foldr_mcd.hpp>
 #include <boost/hana/functor/fmap_mcd.hpp>
+#include <boost/hana/logical/logical.hpp>
 #include <boost/hana/monad/flatten_mcd.hpp>
+#include <boost/hana/searchable/find_mcd.hpp>
 #include <boost/hana/traversable/traverse_mcd.hpp>
 
 
@@ -136,6 +138,27 @@ namespace boost { namespace hana {
                 mx
             );
         }
+    };
+
+    //! Searching a `Maybe` is equivalent to searching a list containing
+    //! `x` for `just(x)` and an empty list for `nothing`.
+    //!
+    //! ### Example
+    //! @snippet example/maybe/searchable.cpp main
+    template <>
+    struct Searchable::instance<Maybe> : Searchable::find_mcd {
+        template <typename Pred, typename M>
+        static constexpr auto find_impl(Pred p, M m) {
+            return maybe(
+                nothing,
+                [=](auto x) { return if_(p(x), just(x), nothing); },
+                m
+            );
+        }
+
+        template <typename Pred, typename M>
+        static constexpr auto any_impl(Pred p, M m)
+        { return maybe(false_, p, m); }
     };
 }} // end namespace boost::hana
 
