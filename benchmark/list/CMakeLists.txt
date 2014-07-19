@@ -46,13 +46,13 @@ boost_hana_add_list_plot(
 boost_hana_add_list_plot(
     benchmark.list.partition.filter
     partition/filter.cpp
-    "(0..500).step(25).map { |n| { x: n, instance:\"@instance_file@\" } }"
+    "((0..50).to_a + (51..500).step(25).to_a).map { |n| { x: n, instance:\"@instance_file@\" } }"
 )
 
 boost_hana_add_list_plot(
     benchmark.list.partition.foldl
     partition/foldl.cpp
-    "(0..500).step(25).map { |n| { x: n, instance:\"@instance_file@\" } }"
+    "((0..50).to_a + (51..500).step(25).to_a).map { |n| { x: n, instance:\"@instance_file@\" } }"
 )
 
 # Functor
@@ -60,7 +60,7 @@ boost_hana_add_list_plot(
     benchmark.list.functor.fmap
     functor/fmap.cpp
 
-    "(0..500).step(25).map { |n| { x: n, instance:\"@instance_file@\" } }"
+    "((0..50).to_a + (51..500).step(25).to_a).map { |n| { x: n, instance:\"@instance_file@\" } }"
 )
 
 # Foldable
@@ -68,7 +68,7 @@ foreach(method IN ITEMS count foldl foldl1 foldr foldr1 length minimum product s
     boost_hana_add_list_plot(
         benchmark.list.foldable.${method}
         foldable/${method}.cpp
-        "(0..500).step(25).map { |n| { x: n, instance:\"@instance_file@\" } }"
+        "((0..50).to_a + (51..500).step(25).to_a).map { |n| { x: n, instance:\"@instance_file@\" } }"
     )
 endforeach()
 
@@ -77,7 +77,7 @@ foreach(method IN ITEMS any elem find)
     boost_hana_add_list_plot(
         benchmark.list.searchable.${method}
         searchable/${method}.cpp
-        "(0..500).step(25).map { |n| { x: n, instance:\"@instance_file@\" } }"
+        "((0..50).to_a + (51..500).step(25).to_a).map { |n| { x: n, instance:\"@instance_file@\" } }"
     )
 endforeach()
 
@@ -86,7 +86,7 @@ foreach(method IN ITEMS last drop drop_while for_each)
     boost_hana_add_list_plot(
         benchmark.list.iterable.${method}
         iterable/${method}.cpp
-        "(1..1001).step(25).map { |n| { x: n, instance:\"@instance_file@\" } }"
+        "((1..50).to_a + (51..1001).step(25).to_a).map { |n| { x: n, instance:\"@instance_file@\" } }"
     )
 endforeach()
 
@@ -94,5 +94,5 @@ endforeach()
 boost_hana_add_list_plot(
     benchmark.list.create
     create.cpp
-    "(0..1000).step(25).map { |n| { x: n, instance:\"@instance_file@\" } }"
+    "((0..50).to_a + (51..1000).step(25).to_a).map { |n| { x: n, instance:\"@instance_file@\" } }"
 )
