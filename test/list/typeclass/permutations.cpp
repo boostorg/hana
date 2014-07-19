@@ -25,9 +25,6 @@ void test() {
             auto actual = permutations(xs);
             auto expected = list(expected_...);
 
-            //! @todo
-            //! This is a cheap unordered container membership checking.
-            //! Use a real unordered container instead.
             BOOST_HANA_STATIC_ASSERT(
                 length(expected) == length(actual) &&
                 all([=](auto x) { return elem(x, expected); }, actual)
