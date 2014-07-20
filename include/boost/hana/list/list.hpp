@@ -189,6 +189,50 @@ namespace boost { namespace hana {
         >::reverse_impl(xs);
     };
 
+    //! Similar to `foldl`, but returns a list of reduced values from the left.
+    //! @method{List}
+    //!
+    //! ### Example
+    //! @snippet example/list/scanl.cpp main
+    BOOST_HANA_CONSTEXPR_LAMBDA auto scanl = [](auto f, auto s, auto xs) {
+        return List::instance<
+            datatype_t<decltype(xs)>
+        >::scanl_impl(f, s, xs);
+    };
+
+    //! Variant of `scanl` that has no starting value argument.
+    //! @method{List}
+    //!
+    //! ### Example
+    //! @snippet example/list/scanl1.cpp main
+    BOOST_HANA_CONSTEXPR_LAMBDA auto scanl1 = [](auto f, auto xs) {
+        return List::instance<
+            datatype_t<decltype(xs)>
+        >::scanl1_impl(f, xs);
+    };
+
+    //! Similar to `foldr`, but returns a list of reduced values from the right.
+    //! @method{List}
+    //!
+    //! ### Example
+    //! @snippet example/list/scanr.cpp main
+    BOOST_HANA_CONSTEXPR_LAMBDA auto scanr = [](auto f, auto s, auto xs) {
+        return List::instance<
+            datatype_t<decltype(xs)>
+        >::scanr_impl(f, s, xs);
+    };
+
+    //! Variant of `scanr` that has no starting value argument.
+    //! @method{List}
+    //!
+    //! ### Example
+    //! @snippet example/list/scanr1.cpp main
+    BOOST_HANA_CONSTEXPR_LAMBDA auto scanr1 = [](auto f, auto xs) {
+        return List::instance<
+            datatype_t<decltype(xs)>
+        >::scanr1_impl(f, xs);
+    };
+
     //! Append an element to the end of a list.
     //! @method{List}
     //!

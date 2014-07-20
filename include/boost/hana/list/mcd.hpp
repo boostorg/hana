@@ -103,6 +103,53 @@ namespace boost { namespace hana {
             return foldl(flip_cons, nil<T>, xs);
         }
 
+        template <typename F, typename S, typename Xs>
+        static constexpr auto scanl_impl(F f, S s, Xs xs) {
+            return eval_if(is_empty(xs),
+                [=](auto _) { return lift<T>(s); },
+                [=](auto _) {
+                    return cons(s, scanl_impl(f, f(s, _(head)(xs)), _(tail)(xs)));
+                }
+            );
+        }
+
+        template <typename F, typename Xs>
+        static constexpr auto scanl1_impl(F f, Xs xs) {
+            return eval_if(is_empty(xs),
+                [](auto _) { return nil<T>; },
+                [=](auto _) { return scanl(f, _(head)(xs), _(tail)(xs)); }
+            );
+        }
+
+        template <typename F, typename S, typename Xs>
+        static constexpr auto scanr_impl(F f, S s, Xs xs) {
+            return eval_if(is_empty(xs),
+                [=](auto _) { return lift<T>(s); },
+                [=](auto _) {
+                    auto rest = scanr_impl(f, s, _(tail)(xs));
+                    return cons(f(_(head)(xs), head(rest)), rest);
+                }
+            );
+        }
+
+        template <typename F, typename Lst>
+        static constexpr auto scanr1_impl(F f, Lst lst) {
+            return eval_if(is_empty(lst),
+                [](auto _) { return nil<T>; },
+                [=](auto _) {
+                    auto x = _(head)(lst);
+                    auto xs = _(tail)(lst);
+                    return eval_if(is_empty(xs),
+                        [=](auto _) { return lift<T>(x); },
+                        [=](auto _) {
+                            auto rest = scanr1_impl(_(f), xs);
+                            return cons(f(x, head(rest)), rest);
+                        }
+                    );
+                }
+            );
+        }
+
         template <typename Xs, typename X>
         static constexpr auto snoc_impl(Xs xs, X x) {
             return foldr(cons, lift<T>(x), xs);
