@@ -13,11 +13,11 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto is_odd = [](auto x) {
 int main() {
     auto go = boost::hana::drop_while(is_odd,
         <%= list(
-            (0..x/2).map { |i| "boost::hana::int_<#{2*i+1}>" } +
-            (0..x/2).map { |i| "boost::hana::int_<#{2*i}>" },
+            (0..x/2).map { |i| "decltype(boost::hana::int_<#{2*i+1}>)" } +
+            (0..x/2).map { |i| "decltype(boost::hana::int_<#{2*i}>)" },
 
-            (0..x/2).map { |i| "boost::hana::int_<#{2*i+1}>{}" } +
-            (0..x/2).map { |i| "boost::hana::int_<#{2*i}>{}" }
+            (0..x/2).map { |i| "boost::hana::int_<#{2*i+1}>" } +
+            (0..x/2).map { |i| "boost::hana::int_<#{2*i}>" }
         ) %>
     );
 }
