@@ -1,5 +1,5 @@
 <% render(instance) %>
-<%= includes(x) %>
+<%= includes((0..x/2).size * 2) %>
 
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/integral.hpp>

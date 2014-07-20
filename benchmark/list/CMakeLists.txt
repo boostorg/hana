@@ -55,6 +55,15 @@ boost_hana_add_list_plot(
     "((0..50).to_a + (51..500).step(25).to_a).map { |n| { x: n, instance:\"@instance_file@\" } }"
 )
 
+foreach(method IN ITEMS scanl scanr)
+    boost_hana_add_list_plot(
+        benchmark.list.${method}
+        ${method}.cpp
+        "((0..50).to_a + (51..500).step(25).to_a).map { |n| { x: n, instance:\"@instance_file@\" } }"
+    )
+endforeach()
+
+
 # Functor
 boost_hana_add_list_plot(
     benchmark.list.functor.fmap

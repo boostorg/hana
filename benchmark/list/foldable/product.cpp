@@ -1,5 +1,5 @@
 <% render(instance) %>
-<%= includes(x) %>
+<%= includes((1..x+1).size) %>
 
 #include <boost/hana/foldable/foldable.hpp>
 #include <boost/hana/integral.hpp>
