@@ -61,6 +61,13 @@ namespace boost { namespace hana {
       have the isomorphisms.
     - There is a strong relationship between this and `MonadPlus`. Actually,
       they might be just the same. Check this out.
+    - Implement the following methods:
+        - `unfoldr`, `unfoldl`, `unzip`
+        - `intersperse`, `intercalate`, `transpose`, `subsequences`
+        - `split_at`, `span`, `break`, `group_by`, `group`, `inits`, `tails`
+    - Consider implementing the following methods:
+        - `nub_by`, `nub`, `delete_by`, `insert`
+        - `set_difference_by`, `set_union_by`, `set_intersection_by`
      */
     struct List {
         BOOST_HANA_TYPECLASS(List);
