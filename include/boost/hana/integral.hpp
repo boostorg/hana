@@ -15,7 +15,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/logical/mcd.hpp>
 #include <boost/hana/orderable/less_mcd.hpp>
 
-#include <cstddef>
 #include <type_traits>
 
 
@@ -115,10 +114,10 @@ namespace boost { namespace hana {
         constexpr int to_int(char c)
         { return static_cast<int>(c) - 48; }
 
-        template <std::size_t N>
+        template <decltype(sizeof(int)) N>
         constexpr long long parse(const char (&arr)[N]) {
             long long number = 0, base = 1;
-            for (std::size_t i = 0; i < N; ++i) {
+            for (decltype(N) i = 0; i < N; ++i) {
                 number += to_int(arr[N - 1 - i]) * base;
                 base *= 10;
             }
