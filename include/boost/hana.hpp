@@ -27,7 +27,6 @@ libraries.
       Boost.Hana.
 - Write runtime benchmarks.
 - Setup a BJam build system.
-- Implement user-defined type adapters for associative sequences.
 - Provide a Main page for the Doxygen documentation.
 - Consider making function objects automatically curriable. This could allow
   _super sexy_ stuff like:
@@ -108,6 +107,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/orderable.hpp>
 #include <boost/hana/pair.hpp>
 #include <boost/hana/range.hpp>
+#include <boost/hana/record.hpp>
 #include <boost/hana/searchable.hpp>
 #include <boost/hana/set.hpp>
 #include <boost/hana/traversable.hpp>
