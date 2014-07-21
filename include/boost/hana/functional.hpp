@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/at_index/best.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/left_folds/variadic_unrolled.hpp>
 
 
 namespace boost { namespace hana {
@@ -83,32 +84,38 @@ namespace boost { namespace hana {
         return detail::at_index::best<n == 0 ? 0 : n - 1>(xs...);
     };
 
-    /*!
-    Returns the composition of two functions.
+    namespace functional_detail {
+        BOOST_HANA_CONSTEXPR_LAMBDA auto compose2 = [](auto f, auto g) {
+            return [=](auto x, auto ...xs) { return f(g(x), xs...); };
+        };
+    }
 
-    @note
-    `compose` is an associative operation; `compose(f, compose(g, h))`
-    is equivalent to `compose(compose(f, g), h)`.
-
-    ### Example
-    @snippet example/functional/compose.cpp main
-
-    @todo
-    Consider supporting more than 2 arguments. It's a major gain but we lose
-    the ability to curry automatically.
-
-    @internal
-    ### Proof of associativity (`.` is `compose`)
-    @code{haskell}
-        f . (g . h) $ x xs... == f ((g . h) x) xs...
-                              == f (g (h x)) xs...
-
-        (f . g) . h $ x xs... == (f . g) (h x) xs...
-                              == f (g (h x)) xs...
-    @endcode
-     */
-    BOOST_HANA_CONSTEXPR_LAMBDA auto compose = [](auto f, auto g) {
-        return [=](auto x, auto ...xs) { return f(g(x), xs...); };
+    //! Returns the composition of two functions or more.
+    //!
+    //! Specifically, `compose(f, g)(x, y...)` is equivalent to
+    //! `f(g(x), y...)`, and `compose(f, g, h...)` is equivalent
+    //! to `compose(f, compose(g, h...))`.
+    //!
+    //! @note
+    //! `compose` is an associative operation; `compose(f, compose(g, h))`
+    //! is equivalent to `compose(compose(f, g), h)`.
+    //!
+    //! ### Example
+    //! @snippet example/functional/compose.cpp main
+    //!
+    //! @internal
+    //! ### Proof of associativity (`.` is `compose`)
+    //! @code{haskell}
+    //!     f . (g . h) $ x xs... == f ((g . h) x) xs...
+    //!                           == f (g (h x)) xs...
+    //!
+    //!     (f . g) . h $ x xs... == (f . g) (h x) xs...
+    //!                           == f (g (h x)) xs...
+    //! @endcode
+    BOOST_HANA_CONSTEXPR_LAMBDA auto compose = [](auto f, auto g, auto ...h) {
+        return detail::left_folds::variadic_unrolled(
+            functional_detail::compose2, f, g, h...
+        );
     };
 
     /*!

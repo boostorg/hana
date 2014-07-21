@@ -188,5 +188,5 @@ int main() {
     // It's better than:
     BOOST_HANA_STATIC_ASSERT(compose(f, compose(g, h))(3) == ((3 + 1) * 2) % 3);
     // but it's not better than:
-    // compose(f, g, h)(3)
+    BOOST_HANA_STATIC_ASSERT(compose(f, g, h)(3) == ((3 + 1) * 2) % 3);
 }
