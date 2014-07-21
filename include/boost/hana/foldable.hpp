@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FOLDABLE_HPP
 
 #include <boost/hana/foldable/foldable.hpp>
-#include <boost/hana/foldable/laws.hpp>
 #include <boost/hana/foldable/mcd.hpp>
 
 #endif // !BOOST_HANA_FOLDABLE_HPP

@@ -20,7 +20,6 @@ namespace boost { namespace hana {
     //! a single value.
     struct Foldable {
         BOOST_HANA_TYPECLASS(Foldable);
-        struct laws;
         struct mcd;
     };
 

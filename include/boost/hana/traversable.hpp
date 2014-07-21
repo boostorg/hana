@@ -10,7 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TRAVERSABLE_HPP
 #define BOOST_HANA_TRAVERSABLE_HPP
 
-#include <boost/hana/traversable/laws.hpp>
 #include <boost/hana/traversable/traversable.hpp>
 #include <boost/hana/traversable/traverse_mcd.hpp>
 

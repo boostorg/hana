@@ -20,7 +20,6 @@ namespace boost { namespace hana {
     struct Traversable {
         BOOST_HANA_TYPECLASS(Traversable);
         struct traverse_mcd;
-        struct laws;
     };
 
     namespace traversable_detail {
