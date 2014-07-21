@@ -1,8 +1,8 @@
 # Boost.Hana
-> An experimental C++1y metaprogramming library
+> <!-- todo: tagline here -->
 
-This library is an attempt to merge Boost.Fusion and the Boost.MPL into
-a single metaprogramming library.
+<!-- todo: short description of the library -->
+
 
 ## Disclaimers
 This is not an official Boost library and there is no guarantee whatsoever
@@ -11,290 +11,102 @@ that it will be proposed.
 The library is unstable at the moment; do not use for production.
 
 
-## Reference documentation (still incomplete)
-http://ldionne.github.io/hana
+## Documentation
+See the [TUTORIAL.md](TUTORIAL.md) file for the tutorial, and
+http://ldionne.github.io/hana for the (mostly) up to date
+reference documentation.
 
 
-## Self notes
+## Prerequisites and installation
+Boost.Hana is a header only library. To use it in your own project, just add
+the [include](include) directory to your compiler's header search path and
+you are done.
 
-### Non-constexpr sequences
-Sequences whose constructor(s) are not constexpr can't always know their
-bounds at compile-time. What we would like is for `Iterable` and such
-typeclasses to provide defaults that also work for these runtime sequences.
-The difference between runtime sequences and compile-time sequences is that
-the `is_empty` method can only return a runtime `bool` for the former, while
-it returns a `Bool<...>` for the latter.
+The library relies on a full-featured C++14 compiler and standard library, but
+nothing else is required. As of July 2014, the only compiler known to compile
+the test suite is Clang 3.5.0 (trunk).
 
-#### Attempt 1
-This works, but it requires a lot of repetition:
 
-```cpp
-template <typename Index, typename Iterable_>
-static constexpr auto at_helper(Bool<true>, Index n, Iterable_ iterable)
-{ return head(iterable); }
+## License
+Please see [LICENSE.md](LICENSE.md).
 
-template <typename Index, typename Iterable_>
-static constexpr auto at_helper(Bool<false>, Index n, Iterable_ iterable)
-{ return at_helper(n == size_t<1>, n - size_t<1>, tail(iterable)); }
 
-template <typename Index, typename Iterable_>
-static constexpr auto at_helper(bool cond, Index n, Iterable_ iterable) {
-    if (cond) return head(iterable);
-    else      return at_helper(n == size_t<1>, n - size_t<1>, tail(iterable));
-}
-
-template <typename Index, typename Iterable_>
-static constexpr auto at_impl(Index n, Iterable_ iterable)
-{ return at_helper(n == size_t<0>, n, iterable); }
+## Hacking on Hana
+Setting yourself up to work on Boost.Hana is easy. First, you will need an
+installation of [CMake][]. Once this is done, you can `cd` to the root of
+the project and setup the build directory:
+```shell
+mkdir build
+cd foo
+cmake ..
 ```
 
-
-#### Attempt 2
-The obvious improvement is to use an external `if_` that factors the
-repetition away. Unfortunately, it does not work.
-
-```cpp
-constexpr struct _lazy_if {
-    template <typename Then, typename Else, typename ...Args>
-    constexpr auto operator()(Bool<true>, Then t, Else, Args ...args) const
-    { return t(args...); }
-
-    template <typename Then, typename Else, typename ...Args>
-    constexpr auto operator()(Bool<false>, Then, Else e, Args ...args) const
-    { return e(args...); }
-
-    template <typename Then, typename Else, typename ...Args>
-    constexpr auto operator()(bool cond, Then t, Else e, Args ...args) const {
-        if (cond) return t(args...);
-        else      return e(args...);
-    }
-} lazy_if{};
-
-
-template <typename Index, typename Iterable_>
-static constexpr auto at_impl(Index n, Iterable_ iterable) {
-    return lazy_if(n == size_t<0>,
-        [](auto n, auto it) { return head(it); },
-        [](auto n, auto it) { return at_impl(n - size_t<1>, tail(it)); },
-        n, iterable
-    );
-}
+You can now build and run the unit tests and the examples. I assume that you
+used the Makefile generator with CMake; the commands may differ for other
+generators:
+```shell
+make tests
+make examples
 ```
 
-Note that we pass `Args...` to the `lazy_if` because otherwise we would need
-to return two different lambdas from the same function in the `bool` case.
+> #### Tip
+> There is a Makefile at the root of the project which forwards everything
+> to the `build` directory. Hence, you can also issue those commands from the
+> root of the project instead of the `build` directory.
 
-I think the reason for it not working is because we introduce a new
-intermediate lambda
+There are also optional targets which are enabled only when the required
+software is available on your computer. For example, generating the
+documentation requires [Doxygen][] to be installed. An informative message
+will be printed during the CMake generation step whenever an optional target
+is disabled. You can install any missing software and then re-run the CMake
+generation to update the list of available targets.
 
-```cpp
-[](auto n, auto it) { return at_impl(n - size_t<1>, tail(it)); },
-```
+> #### Tip
+> You can use the `help` target to get a list of all the available targets.
+> Don't worry, the list is very long because each unit test and example is a
+> different target.
 
-in the _then_ branch, which causes the compiler to hit the instantiation
-limit while trying to recursively instantiate `at_impl` when it instantiates
-the lambda.
+If you want to add unit tests or examples, just add a source file where it
+makes sense to do so and then re-run the CMake generation step so the new
+source file is known to the build system. If the relative path from the root
+of the project to the new source file is `path/to/file.cpp`, a target named
+`path.to.file` to compile the file will be created when CMake is run.
 
-
-#### Attempt 2.5
-Using a different `if_`, but it still does not work.
-
-```cpp
-constexpr struct _tri_if {
-    template <typename Then, typename Else, typename Maybe, typename ...Args>
-    constexpr auto operator()(Bool<true> cond, Then t, Else, Maybe, Args ...args) const
-    { return t(cond, args...); }
-
-    template <typename Then, typename Else, typename Maybe, typename ...Args>
-    constexpr auto operator()(Bool<false> cond, Then, Else e, Maybe, Args ...args) const
-    { return e(cond, args...); }
-
-    template <typename Then, typename Else, typename Maybe, typename ...Args>
-    constexpr auto operator()(bool cond, Then, Else, Maybe m, Args ...args) const
-    { return m(cond, args...); }
-} tri_if{};
-
-template <typename Index, typename Iterable_>
-static constexpr auto at_impl(Index n, Iterable_ iterable) {
-    return tri_if(n == size_t<0>,
-        [](auto cond, auto n, auto it) { return head(it); },
-        [](auto cond, auto n, auto it) { return at_impl(n - size_t<1>, tail(it)); },
-        [](bool cond, Index n, Iterable_ it) {
-            return cond ? head(it) : at_impl(n - size_t<1>, tail(it));
-        },
-        n, iterable
-    );
-}
-```
+> #### Tip for Sublime Text users
+> If you use the provided [hana.sublime-project](hana.sublime-project) file,
+> you can select the "Build current file" build system to build the target
+> associated to the current file.
 
 
-#### Attempt 3
-Here, I'm trying to use structs to make everything more explicit. Still does
-not work because the problem is when instantiating the inner `apply` function.
-See the comment below.
+## Project organization
+The project is organized in a couple of subdirectories.
+- The [benchmarks](benchmarks) directory contains compile-time benchmarks to
+  make sure we're freakin' fast. The benchmark code is written mostly in the
+  form of [eRuby][] templates. The templates are used to generate C++ files
+  which are then compiled while gathering compilation statistics. The
+  benchmarks are driven by CMake files.
+- The [doc](doc) directory contains configuration files needed to generate
+  the documentation.
+- The [example](example) directory contains the source code for all the
+  examples of both the tutorial and the reference documentation.
+- The [include](include) directory contains the library itself, which is
+  header only.
+- The [test](test) directory contains the source code for all the unit tests.
 
-```cpp
-template <typename Cond, typename = void>
-struct at_helper;
 
-template <typename Dummy>
-struct at_helper<Bool<true>, Dummy> {
-    template <typename Index, typename Iterable_>
-    static constexpr auto apply(Bool<true>, Index n, Iterable_ iterable) {
-        return head(iterable);
-    }
-};
+## Contributing
+Want to contribute? Great!
 
-template <typename Dummy>
-struct at_helper<Bool<false>, Dummy> {
-    template <typename Index, typename Iterable_>
-    static constexpr auto apply(Bool<false>, Index n, Iterable_ iterable) {
-        return at_helper<decltype(n == size_t<1>)>::apply(
-            n == size_t<1>, n - size_t<1>, tail(iterable)
-        );
-    }
-};
+1. Fork it.
+2. Create a branch (`git checkout -b feature_X`)
+3. Do your modifications on that branch
+4. Make sure you did not break anything (`make tests examples`)
+5. Commit your changes (`git commit -am "Added feature X"`)
+6. Push to the branch (`git push origin feature_X`)
+7. Open a [Pull Request][1]
 
-template <typename Dummy>
-struct at_helper<bool, Dummy> {
-    template <typename Index, typename Iterable_>
-    static constexpr auto apply(bool cond, Index n, Iterable_ iterable) {
-        if (cond)
-            return head(iterable);
-        else
-            // This triggers infinite recursive instantiations.
-            // return at_helper<Bool<false>>::apply(false_, n, iterable);
 
-            // This works. decltype(...) is actually bool.
-            return at_helper<decltype(n == size_t<1>)>::apply(
-                n == size_t<1>, n - size_t<1>, tail(iterable)
-            );
-    }
-};
-
-template <typename Index, typename Iterable_>
-static constexpr auto at_impl(Index n, Iterable_ iterable) {
-    return at_helper<decltype(n == size_t<0>)>::apply(n == size_t<0>, n, iterable);
-}
-```
-
-#### Attempt 4
-It works, but it's not a solution. I basically use the preprocessor to
-generate some of the duplicate code.
-
-```cpp
-#define HACK(f)                                                             \
-template <TPARAMS>                                                          \
-static constexpr auto f(Bool<true>, PARAMS)                                 \
-{ return TRUE_BRANCH; }                                                     \
-                                                                            \
-template <TPARAMS>                                                          \
-static constexpr auto f(Bool<false>, PARAMS)                                \
-{ return FALSE_BRANCH; }                                                    \
-                                                                            \
-template <TPARAMS>                                                          \
-static constexpr auto f(bool cond, PARAMS) {                                \
-    if (cond) return TRUE_BRANCH;                                           \
-    else      return FALSE_BRANCH;                                          \
-}                                                                           \
-/**/
-
-#define TPARAMS typename Index, typename Iterable_
-#define PARAMS Index n, Iterable_ iterable
-#define TRUE_BRANCH head(iterable)
-#define FALSE_BRANCH at_helper(n == size_t<1>, n - size_t<1>, tail(iterable))
-
-HACK(at_helper);
-
-template <typename Index, typename Iterable_>
-static constexpr auto at_impl(Index n, Iterable_ iterable)
-{ return at_helper(n == size_t<0>, n, iterable); }
-```
-
-#### Attempt 5
-Trying to factor out the branches into lambdas. This recursively instantiates
-stuff too.
-
-```cpp
-BOOST_HANA_CONSTEXPR_LAMBDA auto true_branch = [](auto at_impl, auto n, auto iterable)
-{ return head(iterable); };
-
-BOOST_HANA_CONSTEXPR_LAMBDA auto false_branch = [](auto at_impl, auto n, auto iterable)
-{ return at_impl(n - size_t<1>, tail(iterable)); };
-
-template <typename F, typename Index, typename Iterable_>
-static constexpr auto at_helper(F at_impl, Bool<true>, Index n, Iterable_ iterable)
-{ return true_branch(at_impl, n, iterable); }
-
-template <typename F, typename Index, typename Iterable_>
-static constexpr auto at_helper(F at_impl, Bool<false>, Index n, Iterable_ iterable)
-{ return false_branch(at_impl, n, iterable); }
-
-template <typename F, typename Index, typename Iterable_>
-static constexpr auto at_helper(F at_impl, bool cond, Index n, Iterable_ iterable) {
-    if (cond) return true_branch(at_impl, n, iterable);
-    else      return false_branch(at_impl, n, iterable);
-}
-
-BOOST_HANA_CONSTEXPR_LAMBDA auto at_impl = fix(
-    [](auto at_impl, auto n, auto iterable)
-    { return at_helper(at_impl, n == size_t<0>, n, iterable); }
-);
-```
-
-#### Attempt 6
-Make everything explicit by using structs.
-
-```cpp
-template <typename Condition, typename Index, typename Iterable_>
-struct at_helper;
-
-template <typename AtHelper>
-struct false_branch {
-    template <typename Index, typename It>
-    static constexpr auto apply(Index n, It it) {
-        return AtHelper::apply(n == size_t<1>, n - size_t<1>, tail(it));
-    }
-};
-
-template <typename Index, typename Iterable_>
-struct at_helper<Bool<true>, Index, Iterable_> {
-    static constexpr auto apply(Bool<true>, Index n, Iterable_ it)
-    { return head(it); }
-};
-
-template <typename Index, typename Iterable_>
-struct at_helper<Bool<false>, Index, Iterable_> {
-    static constexpr auto apply(Bool<false>, Index n, Iterable_ it) {
-        // This works
-        return false_branch<at_helper<decltype(n == size_t<1>), decltype(n - size_t<1>), decltype(tail(it))>>::apply(n, it);
-
-        // This works too.
-        // return at_helper<decltype(n == size_t<1>), decltype(n - size_t<1>), decltype(tail(it))>::
-        //        apply(n == size_t<1>, n - size_t<1>, tail(it));
-    }
-};
-
-template <typename Index, typename Iterable_>
-struct at_helper<bool, Index, Iterable_> {
-    static constexpr auto apply(bool cond, Index n, Iterable_ it) {
-        if (cond) return head(it);
-                  // Surprisingly, using the false_branch<...> just like above
-                  // does not work here. WTF!
-        else      return at_helper<decltype(n == size_t<1>), decltype(n - size_t<1>), decltype(tail(it))>::
-                         apply(n == size_t<1>, n - size_t<1>, tail(it));
-    }
-};
-
-template <typename Index, typename Iterable_>
-static constexpr auto at_impl(Index n, Iterable_ iterable) {
-    return at_helper<decltype(n == size_t<0>), decltype(n), decltype(iterable)>::
-           apply(n == size_t<0>, n, iterable);
-}
-```
-
-## Rationales
-
-### Why not provide forward declaration headers as in the MPL11?
-A lot of methods are in fact lambdas. Since we can't forward declare those,
-it makes little sense to have forward declaration headers.
+<!-- Links -->
+[CMake]: http://www.cmake.org
+[Doxygen]: http://www.doxygen.org
+[eRuby]: http://en.wikipedia.org/wiki/ERuby
