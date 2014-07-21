@@ -83,7 +83,8 @@ namespace boost { namespace hana {
     BOOST_HANA_CONSTEXPR_LAMBDA auto concat = [](auto xs, auto ys) {
         static_assert(std::is_same<
             datatype_t<decltype(xs)>, datatype_t<decltype(ys)>
-        >::value, "");
+        >::value,
+        "boost::hana::concat: both arguments must have the same data type");
         return List::instance<
             datatype_t<decltype(xs)>
         >::concat_impl(xs, ys);
