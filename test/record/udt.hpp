@@ -9,7 +9,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/constant.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/map.hpp>
+#include <boost/hana/list/instance.hpp>
 #include <boost/hana/pair/instance.hpp>
 #include <boost/hana/record/mcd.hpp>
 
@@ -31,7 +31,7 @@ namespace boost { namespace hana {
     template <>
     struct Record::instance<udt> : Record::mcd {
         static BOOST_HANA_CONSTEXPR_LAMBDA auto members_impl() {
-            return map(
+            return list(
                 pair(member1, [](auto u) { return u.member1; }),
                 pair(member2, [](auto u) { return u.member2; })
             );

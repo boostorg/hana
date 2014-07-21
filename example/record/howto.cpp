@@ -29,7 +29,7 @@ namespace boost { namespace hana {
     template <>
     struct Record::instance<Person> : Record::mcd {
         static BOOST_HANA_CONSTEXPR_LAMBDA auto members_impl() {
-            return map(
+            return list(
                 pair(name, [](auto p) { return p.name; }),
                 pair(age, [](auto p) { return p.age; })
             );
