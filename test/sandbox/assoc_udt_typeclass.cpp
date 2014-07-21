@@ -8,7 +8,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core.hpp> // for instantiates
 #include <boost/hana/detail/enable_if.hpp>
 #include <boost/hana/foldable/mcd.hpp>
+#include <boost/hana/list/instance.hpp>
 #include <boost/hana/map.hpp>
+#include <boost/hana/maybe.hpp>
+#include <boost/hana/pair/instance.hpp>
 #include <boost/hana/searchable/find_mcd.hpp>
 
 
@@ -72,17 +75,13 @@ namespace boost { namespace hana {
 
     template <typename T>
     struct convert<Map, T, detail::enable_if_t<instantiates<AssociativeUDT, T>()>> {
-        template <typename X>
-        static constexpr auto apply(X x) {
-
-        }
-    };
-
-    template <typename T>
-    struct convert<T, Map, detail::enable_if_t<instantiates<AssociativeUDT, T>()>> {
-        template <typename M>
-        static constexpr auto apply(M m) {
-
+        template <typename UDT>
+        static constexpr auto apply(UDT udt) {
+            return to<Map>(
+                foldr([=](auto key, auto rest) {
+                    return cons(pair(key, from_just(lookup(key, udt))), rest);
+                }, list(), keys(member_map<T>))
+            );
         }
     };
 }} // end namespace boost::hana
@@ -129,4 +128,9 @@ int main() {
 
     BOOST_HANA_STATIC_ASSERT(lookup(gender, louis) == just(Gender::male));
     BOOST_HANA_STATIC_ASSERT(lookup(age, louis) == just(22));
+
+    BOOST_HANA_STATIC_ASSERT(to<Map>(louis) == map(
+        pair(gender, Gender::male),
+        pair(age, 22)
+    ));
 }
