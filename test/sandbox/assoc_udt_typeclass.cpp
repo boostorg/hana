@@ -89,6 +89,7 @@ namespace boost { namespace hana {
 
 
 //////////////////////////////////////////////////////////////////////////////
+#include <boost/hana/constant.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/integral.hpp>
@@ -105,28 +106,6 @@ struct Person {
     Gender gender;
     int age;
 };
-
-template <typename T, T v>
-struct _constant {
-    static constexpr T value = v;
-    constexpr operator T() const { return value; }
-
-    template <typename X, X x, typename Y, Y y>
-    static constexpr auto eq(_constant<X, x>, _constant<Y, y>)
-        -> decltype(bool_<x == y>)
-    { return bool_<x == y>; }
-
-    static constexpr auto eq(...)
-    { return false_; }
-
-    template <typename X, X x, typename Y, Y y>
-    friend constexpr auto operator==(_constant<X, x> a, _constant<Y, y> b)
-    { return eq(a, b); }
-};
-
-template <typename T, T v>
-constexpr _constant<T, v> constant{};
-
 
 auto gender = constant<decltype(&Person::gender), &Person::gender>;
 auto age = constant<decltype(&Person::age), &Person::age>;
