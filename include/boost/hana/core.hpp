@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_CORE_HPP
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/typeclasses.hpp>
 
 
@@ -35,21 +34,28 @@ namespace boost { namespace hana {
         (typename Typeclass::template instance<Datatypes...>*)0
     );
 
+    namespace core_detail {
+        template <typename Typeclass>
+        struct is_a {
+            template <typename X>
+            constexpr auto operator()(X x) const
+            { return instantiates<Typeclass, datatype_t<X>>; }
+        };
+    }
+
     //! @ingroup core
     //! Return whether an object is an instance of the given type class.
     //!
     //! ### Example
     //! @snippet example/core/is_a.cpp main
     template <typename Typeclass>
-    BOOST_HANA_CONSTEXPR_LAMBDA auto is_a = [](auto x) {
-        return instantiates<Typeclass, datatype_t<decltype(x)>>;
-    };
+    constexpr core_detail::is_a<Typeclass> is_a{};
 
     //! @ingroup core
     //! Equivalent to `is_a`; provided for consistency with the rules of the
     //! English language.
     template <typename Typeclass>
-    BOOST_HANA_CONSTEXPR_LAMBDA auto is_an = is_a<Typeclass>;
+    constexpr core_detail::is_a<Typeclass> is_an{};
 
     namespace core_detail {
         template <typename To, typename From>

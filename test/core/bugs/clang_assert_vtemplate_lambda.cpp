@@ -8,13 +8,19 @@ Distributed under the Boost Software License, Version 1.0.
 using namespace boost::hana;
 
 
+struct Typeclass {
+    BOOST_HANA_TYPECLASS(Typeclass);
+};
+
 template <typename X>
-auto function(X x) {
-    return to<int>(x);
+void test(X x) {
+    to<int>(x);
+    is_a<Typeclass>(x);
+    is_an<Typeclass>(x);
 }
 
 int main() {
-    // Clang asserts in the code generation if `to` is
-    // implemented as a lambda.
-    function(3);
+    // Clang asserts in the code generation when we use variable template
+    // lambdas inside a template.
+    test(3);
 }
