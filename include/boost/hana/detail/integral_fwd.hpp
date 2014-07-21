@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_INTEGRAL_FWD_HPP
 #define BOOST_HANA_DETAIL_INTEGRAL_FWD_HPP
 
-#include <cstddef>
+#include <boost/hana/detail/typeclasses.hpp>
 
 
 namespace boost { namespace hana {
@@ -43,9 +43,9 @@ namespace boost { namespace hana {
      */
     struct Integral { };
 
-    namespace operators {
+    namespace integral_detail {
         template <typename T, T t>
-        struct integral {
+        struct integral : operators::enable {
             constexpr T operator()() const { return t; }
             constexpr operator T() const { return t; }
             using hana_datatype = Integral;
@@ -84,9 +84,7 @@ namespace boost { namespace hana {
 
 #undef BOOST_HANA_INTEGRAL_UNARY_OP
 #undef BOOST_HANA_INTEGRAL_BINARY_OP
-    }
 
-    namespace integral_detail {
         // We're not gonna include the whole <type_traits> for this.
         template <typename T>
         struct remove_cv { using type = T; };
@@ -99,7 +97,7 @@ namespace boost { namespace hana {
 
         template <typename T>
         struct remove_cv<T const volatile> { using type = T; };
-    }
+    } // end namespace integral_detail
 
     /*!
     A compile-time integral value of the given type and value.
@@ -152,7 +150,7 @@ namespace boost { namespace hana {
     Do we want `char_<1> + char_<2> == char_<3>` or `char_<1> + char_<2> == int_<3>`?
      */
     template <typename T, T v>
-    constexpr operators::integral<
+    constexpr integral_detail::integral<
               typename integral_detail::remove_cv<T>::type, v> integral{};
 
     //! @relates Integral
@@ -202,8 +200,8 @@ namespace boost { namespace hana {
     constexpr auto ullong = decltype(integral<unsigned long long, i>){};
 
     //! @relates Integral
-    template <std::size_t i>
-    constexpr auto size_t = decltype(integral<std::size_t, i>){};
+    template <decltype(sizeof(int)) i>
+    constexpr auto size_t = decltype(integral<decltype(sizeof(int)), i>){};
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_DETAIL_INTEGRAL_FWD_HPP
