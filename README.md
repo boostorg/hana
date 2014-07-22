@@ -12,9 +12,8 @@ The library is unstable at the moment; do not use for production.
 
 
 ## Documentation
-See the [TUTORIAL.md](TUTORIAL.md) file for the tutorial, and
-http://ldionne.github.io/hana for the (mostly) up to date
-reference documentation.
+You can browse the documentation online at http://ldionne.github.io/hana.
+<!-- todo: make it possible to browse offline -->
 
 
 ## Prerequisites and installation
