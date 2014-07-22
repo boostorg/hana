@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <type_traits>
 using namespace boost::hana;
-using namespace detail;
 
 
 struct Datatype;
@@ -20,17 +19,17 @@ struct Anything;
 struct anything { using hana_datatype = Anything; };
 
 static_assert(std::is_same<
-    datatype_t<decltype(wrap<Datatype>(anything{}))>,
+    datatype_t<decltype(detail::wrap<Datatype>(anything{}))>,
     Datatype
 >::value, "");
 
 static_assert(std::is_same<
     datatype_t<anything>,
     datatype_t<decltype(
-        unwrap(wrap<Datatype>(anything{}))
+        detail::unwrap(detail::wrap<Datatype>(anything{}))
     )>
 >::value, "");
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(unwrap(wrap<Datatype>(2.2)) == 2.2);
+    BOOST_HANA_STATIC_ASSERT(detail::unwrap(detail::wrap<Datatype>(2.2)) == 2.2);
 }

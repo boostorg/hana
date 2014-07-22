@@ -12,7 +12,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/core.hpp>
-#include <boost/hana/detail/enable_if.hpp>
 #include <boost/hana/foldable/foldable.hpp>
 #include <boost/hana/functor/fmap_mcd.hpp>
 #include <boost/hana/integral.hpp>
@@ -82,7 +81,7 @@ namespace boost { namespace hana {
     struct FusionNonAssociativeForwardSequence;
 
     template <typename T>
-    struct datatype<T, detail::enable_if_t<
+    struct datatype<T, std::enable_if_t<
         fusion_detail::is_nonassociative_forward_sequence<T>::value
     >> {
         using type = FusionNonAssociativeForwardSequence;
@@ -98,7 +97,7 @@ namespace boost { namespace hana {
         }
 
         template <typename F, typename State, typename Xs, typename =
-            detail::enable_if_t<
+            std::enable_if_t<
                 fusion_detail::is_bidirectional_sequence<
                     std::remove_reference_t<Xs>
                 >::value
@@ -110,7 +109,7 @@ namespace boost { namespace hana {
         }
 
         template <typename F, typename State, typename Xs, typename =
-            detail::enable_if_t<
+            std::enable_if_t<
                 !fusion_detail::is_bidirectional_sequence<
                     std::remove_reference_t<Xs>
                 >::value
@@ -167,7 +166,7 @@ namespace boost { namespace hana {
             return boost::fusion::pop_front(std::forward<Xs>(xs));
         }
 
-        template <typename Xs, typename = detail::enable_if_t<
+        template <typename Xs, typename = std::enable_if_t<
             fusion_detail::is_bidirectional_sequence<
                 std::remove_reference_t<Xs>
             >::value
@@ -176,7 +175,7 @@ namespace boost { namespace hana {
             return boost::fusion::back(std::forward<Xs>(xs));
         }
 
-        template <typename Xs, typename = detail::enable_if_t<
+        template <typename Xs, typename = std::enable_if_t<
             !fusion_detail::is_bidirectional_sequence<
                 std::remove_reference_t<Xs>
             >::value
@@ -185,7 +184,7 @@ namespace boost { namespace hana {
             return Iterable::mcd::last_impl(std::forward<Xs>(xs));
         }
 
-        template <typename N, typename Xs, typename = detail::enable_if_t<
+        template <typename N, typename Xs, typename = std::enable_if_t<
             fusion_detail::is_random_access_sequence<
                 std::remove_reference_t<Xs>
             >::value
@@ -194,7 +193,7 @@ namespace boost { namespace hana {
             return boost::fusion::at_c<n()>(std::forward<Xs>(xs));
         }
 
-        template <typename N, typename Xs, typename = detail::enable_if_t<
+        template <typename N, typename Xs, typename = std::enable_if_t<
             !fusion_detail::is_random_access_sequence<
                 std::remove_reference_t<Xs>
             >::value
@@ -222,7 +221,7 @@ namespace boost { namespace hana {
         static auto nil_impl()
         { return boost::fusion::nil{}; }
 
-        template <typename Xs, typename = detail::enable_if_t<
+        template <typename Xs, typename = std::enable_if_t<
             fusion_detail::is_bidirectional_sequence<
                 std::remove_reference_t<Xs>
             >::value
@@ -231,7 +230,7 @@ namespace boost { namespace hana {
             return boost::fusion::reverse(std::forward<Xs>(xs));
         }
 
-        template <typename Xs, typename = detail::enable_if_t<
+        template <typename Xs, typename = std::enable_if_t<
             !fusion_detail::is_bidirectional_sequence<
                 std::remove_reference_t<Xs>
             >::value

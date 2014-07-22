@@ -1,24 +1,24 @@
 /*!
 @file
-Defines `boost::hana::detail::integer_sequence`.
+Defines `boost::hana::detail::std::integer_sequence`.
 
 @copyright Louis Dionne 2014
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#ifndef BOOST_HANA_DETAIL_INTEGER_SEQUENCE_HPP
-#define BOOST_HANA_DETAIL_INTEGER_SEQUENCE_HPP
+#ifndef BOOST_HANA_DETAIL_STD_INTEGER_SEQUENCE_HPP
+#define BOOST_HANA_DETAIL_STD_INTEGER_SEQUENCE_HPP
 
-#include <cstddef>
+#include <boost/hana/detail/std/size_t.hpp>
 
 
-namespace boost { namespace hana { namespace detail {
+namespace boost { namespace hana { namespace detail { namespace std {
     template <typename T, T ...n>
     struct integer_sequence { };
 
-    template <std::size_t ...n>
-    using index_sequence = integer_sequence<std::size_t, n...>;
+    template <size_t ...n>
+    using index_sequence = integer_sequence<size_t, n...>;
 
 
     namespace int_seq_detail {
@@ -30,7 +30,7 @@ namespace boost { namespace hana { namespace detail {
             using type = integer_sequence<T, m..., (sizeof...(m) + n)...>;
         };
 
-        template <std::size_t n>
+        template <size_t n>
         struct make_index_sequence {
             using type = typename concat<
                 typename make_index_sequence<n / 2>::type,
@@ -60,16 +60,16 @@ namespace boost { namespace hana { namespace detail {
     template <typename T, T n>
     using make_integer_sequence = typename int_seq_detail::cast_to<T,
         typename int_seq_detail::make_index_sequence<
-            static_cast<std::size_t>(n)
+            static_cast<size_t>(n)
         >::type
     >::type;
 
-    template <std::size_t n>
+    template <size_t n>
     using make_index_sequence =
         typename int_seq_detail::make_index_sequence<n>::type;
 
     template <typename ...T>
     using index_sequence_for = make_index_sequence<sizeof...(T)>;
-}}} // end namespace boost::hana::detail
+}}}} // end namespace boost::hana::detail::std
 
-#endif // !BOOST_HANA_DETAIL_INTEGER_SEQUENCE_HPP
+#endif // !BOOST_HANA_DETAIL_STD_INTEGER_SEQUENCE_HPP

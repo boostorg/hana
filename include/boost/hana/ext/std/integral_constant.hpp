@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_EXT_STD_INTEGRAL_CONSTANT_HPP
 
 #include <boost/hana/core.hpp>
-#include <boost/hana/detail/enable_if.hpp>
 #include <boost/hana/integral.hpp>
 
 #include <type_traits>
@@ -32,7 +31,7 @@ namespace boost { namespace hana {
 
     template <typename T>
     struct datatype<T,
-        detail::enable_if_t<adapted_detail::is_std_integral_constant((T*)0)>
+        std::enable_if_t<adapted_detail::is_std_integral_constant((T*)0)>
     > {
         using type = StdIntegralConstant;
     };

@@ -12,10 +12,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/detail/integral_fwd.hpp>
+#include <boost/hana/detail/std/size_t.hpp>
+#include <boost/hana/detail/std/type_traits.hpp>
 #include <boost/hana/logical/mcd.hpp>
 #include <boost/hana/orderable/less_mcd.hpp>
-
-#include <type_traits>
 
 
 namespace boost { namespace hana {
@@ -35,7 +35,7 @@ namespace boost { namespace hana {
     //! `Integral`s can be compared with objects of any integral type; the
     //! comparison is done by comparing their underlying integral value.
     template <typename T>
-    struct Comparable::instance<Integral, T, when<std::is_integral<T>{}>>
+    struct Comparable::instance<Integral, T, when<detail::std::is_integral<T>{}>>
         : Comparable::equal_mcd
     {
         template <typename X, typename Y>
@@ -44,7 +44,7 @@ namespace boost { namespace hana {
     };
 
     template <typename T>
-    struct Comparable::instance<T, Integral, when<std::is_integral<T>{}>>
+    struct Comparable::instance<T, Integral, when<detail::std::is_integral<T>{}>>
         : Comparable::equal_mcd
     {
         template <typename X, typename Y>
@@ -68,7 +68,7 @@ namespace boost { namespace hana {
     //! `Integral`s can be ordered with objects of any integral type; the
     //! ordering is done by ordering their underlying integral value.
     template <typename T>
-    struct Orderable::instance<Integral, T, when<std::is_integral<T>{}>>
+    struct Orderable::instance<Integral, T, when<detail::std::is_integral<T>{}>>
         : Orderable::less_mcd
     {
         template <typename X, typename Y>
@@ -77,7 +77,7 @@ namespace boost { namespace hana {
     };
 
     template <typename T>
-    struct Orderable::instance<T, Integral, when<std::is_integral<T>{}>>
+    struct Orderable::instance<T, Integral, when<detail::std::is_integral<T>{}>>
         : Orderable::less_mcd
     {
         template <typename X, typename Y>
@@ -114,7 +114,7 @@ namespace boost { namespace hana {
         constexpr int to_int(char c)
         { return static_cast<int>(c) - 48; }
 
-        template <decltype(sizeof(int)) N>
+        template <detail::std::size_t N>
         constexpr long long parse(const char (&arr)[N]) {
             long long number = 0, base = 1;
             for (decltype(N) i = 0; i < N; ++i) {

@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/at_index/best.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/left_folds/variadic_unrolled.hpp>
+#include <boost/hana/detail/std/size_t.hpp>
 
 
 namespace boost { namespace hana {
@@ -70,7 +71,7 @@ namespace boost { namespace hana {
     //! Maybe this should be `arg(n)` instead of `arg<n>`? It's more
     //! consistent but harder to use since we have to write `arg(int_<n>)(...)`
     //! instead of `arg<n>(...)`.
-    template <decltype(sizeof(int)) n>
+    template <detail::std::size_t n>
     BOOST_HANA_CONSTEXPR_LAMBDA auto arg = [](auto ...xs) {
         static_assert(n > 0,
         "invalid usage of arg with n == 0");

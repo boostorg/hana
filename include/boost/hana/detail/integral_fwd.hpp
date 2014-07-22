@@ -10,6 +10,8 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_INTEGRAL_FWD_HPP
 #define BOOST_HANA_DETAIL_INTEGRAL_FWD_HPP
 
+#include <boost/hana/detail/std/size_t.hpp>
+#include <boost/hana/detail/std/type_traits.hpp>
 #include <boost/hana/detail/typeclasses.hpp>
 
 
@@ -84,19 +86,6 @@ namespace boost { namespace hana {
 
 #undef BOOST_HANA_INTEGRAL_UNARY_OP
 #undef BOOST_HANA_INTEGRAL_BINARY_OP
-
-        // We're not gonna include the whole <type_traits> for this.
-        template <typename T>
-        struct remove_cv { using type = T; };
-
-        template <typename T>
-        struct remove_cv<T const> { using type = T; };
-
-        template <typename T>
-        struct remove_cv<T volatile> { using type = T; };
-
-        template <typename T>
-        struct remove_cv<T const volatile> { using type = T; };
     } // end namespace integral_detail
 
     /*!
@@ -151,7 +140,8 @@ namespace boost { namespace hana {
      */
     template <typename T, T v>
     constexpr integral_detail::integral<
-              typename integral_detail::remove_cv<T>::type, v> integral{};
+        typename detail::std::remove_cv<T>::type, v
+    > integral{};
 
     //! @relates Integral
     template <bool b>
@@ -200,8 +190,8 @@ namespace boost { namespace hana {
     constexpr auto ullong = decltype(integral<unsigned long long, i>){};
 
     //! @relates Integral
-    template <decltype(sizeof(int)) i>
-    constexpr auto size_t = decltype(integral<decltype(sizeof(int)), i>){};
+    template <detail::std::size_t i>
+    constexpr auto size_t = decltype(integral<detail::std::size_t, i>){};
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_DETAIL_INTEGRAL_FWD_HPP

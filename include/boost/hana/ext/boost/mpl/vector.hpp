@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/core.hpp>
-#include <boost/hana/detail/enable_if.hpp>
+#include <boost/hana/detail/std/type_traits.hpp>
 #include <boost/hana/functor/fmap_mcd.hpp>
 #include <boost/hana/type.hpp>
 
@@ -21,15 +21,14 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/mpl/sequence_tag.hpp>
 #include <boost/mpl/transform.hpp>
 #include <boost/mpl/vector.hpp>
-#include <type_traits>
 
 
 namespace boost { namespace hana {
     struct MplVector;
 
     template <typename T>
-    struct datatype<T, detail::enable_if_t<
-        std::is_same<
+    struct datatype<T, detail::std::enable_if_t<
+        detail::std::is_same<
             typename boost::mpl::sequence_tag<T>::type,
             boost::mpl::aux::vector_tag
         >::value

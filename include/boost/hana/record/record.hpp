@@ -43,7 +43,7 @@ namespace boost { namespace hana {
 
 #include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/core.hpp> // for instantiates
-#include <boost/hana/detail/enable_if.hpp>
+#include <boost/hana/detail/std/type_traits.hpp>
 #include <boost/hana/foldable/mcd.hpp>
 #include <boost/hana/map.hpp>
 #include <boost/hana/pair/instance.hpp>
@@ -112,7 +112,7 @@ namespace boost { namespace hana {
     //! `members<R>` to a `Map`, except the values are replaced by the actual
     //! members of the object instead of accessors.
     template <typename R>
-    struct convert<Map, R, detail::enable_if_t<instantiates<Record, R>()>> {
+    struct convert<Map, R, detail::std::enable_if_t<instantiates<Record, R>()>> {
         template <typename X>
         static constexpr auto apply(X x) {
             return to<Map>(fmap(

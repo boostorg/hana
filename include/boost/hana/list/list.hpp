@@ -14,7 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/core.hpp> // for instantiates and convert
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/enable_if.hpp>
+#include <boost/hana/detail/std/type_traits.hpp>
 #include <boost/hana/foldable/foldable.hpp>
 #include <boost/hana/functor/fmap_mcd.hpp>
 #include <boost/hana/iterable/iterable.hpp>
@@ -23,8 +23,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/monad/flatten_mcd.hpp>
 #include <boost/hana/searchable/find_mcd.hpp>
 #include <boost/hana/traversable/traverse_mcd.hpp>
-
-#include <type_traits> // for std::is_same
 
 
 namespace boost { namespace hana {
@@ -81,7 +79,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/list/concat.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto concat = [](auto xs, auto ys) {
-        static_assert(std::is_same<
+        static_assert(detail::std::is_same<
             datatype_t<decltype(xs)>, datatype_t<decltype(ys)>
         >::value,
         "boost::hana::concat: both arguments must have the same data type");
@@ -509,7 +507,7 @@ namespace boost { namespace hana {
 
     //! Converts a `Foldable` to a `List`.
     template <typename L, typename T>
-    struct convert<L, T, detail::enable_if_t<
+    struct convert<L, T, detail::std::enable_if_t<
         instantiates<List, L>() && instantiates<Foldable, T>()
     >> {
         template <typename Xs>

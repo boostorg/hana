@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/core.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/enable_if.hpp>
+#include <boost/hana/detail/std/type_traits.hpp>
 #include <boost/hana/detail/wrap.hpp>
 #include <boost/hana/list/instance.hpp>
 #include <boost/hana/logical/logical.hpp>
@@ -95,7 +95,7 @@ namespace boost { namespace hana {
     //! @note
     //! The list must not contain duplicate keys.
     template <typename L>
-    struct convert<Map, L, detail::enable_if_t<instantiates<List, L>()>> {
+    struct convert<Map, L, detail::std::enable_if_t<instantiates<List, L>()>> {
         template <typename Xs>
         static constexpr auto apply(Xs xs)
         { return unpack(map, xs); }
@@ -104,7 +104,7 @@ namespace boost { namespace hana {
     //! Converts a `Map` to a `List` of `Pair`s.
     //! @relates Map
     template <typename L>
-    struct convert<L, Map, detail::enable_if_t<instantiates<List, L>()>> {
+    struct convert<L, Map, detail::std::enable_if_t<instantiates<List, L>()>> {
         template <typename M>
         static constexpr auto apply(M m)
         { return to<L>(detail::unwrap(m)); }

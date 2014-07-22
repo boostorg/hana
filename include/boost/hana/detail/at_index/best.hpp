@@ -11,8 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_DETAIL_AT_INDEX_BEST_HPP
 
 #include <boost/hana/detail/at_index/overload_resolution.hpp>
-
-#include <cstddef>
+#include <boost/hana/detail/std/size_t.hpp>
 
 
 namespace boost { namespace hana { namespace detail { namespace at_index {
