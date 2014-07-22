@@ -147,15 +147,16 @@ Related Functions</h2></td></tr>
 <tr class="memitem:a7ea270dc46fcf8e1a186e99c3019e551"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_iterable.html#a7ea270dc46fcf8e1a186e99c3019e551">drop_until</a></td></tr>
 <tr class="memdesc:a7ea270dc46fcf8e1a186e99c3019e551"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>drop_while</code> with a negated <code>predicate</code>.  <a href="#a7ea270dc46fcf8e1a186e99c3019e551">More...</a><br /></td></tr>
 <tr class="separator:a7ea270dc46fcf8e1a186e99c3019e551"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80176fbdfbccc09e902263557eb0984d"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_iterable.html#a80176fbdfbccc09e902263557eb0984d">for_each</a></td></tr>
+<tr class="memdesc:a80176fbdfbccc09e902263557eb0984d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform an action on each element of the iterable, discarding the result each time.  <a href="#a80176fbdfbccc09e902263557eb0984d">More...</a><br /></td></tr>
+<tr class="separator:a80176fbdfbccc09e902263557eb0984d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Data structures allowing external iteration. </p>
-<hr/>
 <dl class="section note"><dt>Note</dt><dd>In the description of the methods, all indexing is 0-based.</dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000020">Todo:</a></b></dt><dd><ul>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000016">Todo:</a></b></dt><dd><ul>
 <li>What about infinite <code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="Data structures allowing external iteration. ">Iterable</a></code>s?</li>
-<li>There are probably tons of laws that must be respected?</li>
-<li>Instead of having a lot of methods, maybe some of the functions below should just be implemented as functions using the mcd, as in the MPL11? </li>
+<li>There are probably tons of laws that must be respected? </li>
 </ul>
 </dd></dl>
 </div><h2 class="groupheader">Friends And Related Function Documentation</h2>
@@ -259,11 +260,41 @@ Related Functions</h2></td></tr>
 <p>Specifically, <code>drop_while</code> returns an iterable containing all the elements of the original iterable except for those in the range delimited by [<code>head</code>, <code>e</code>), where <code>head</code> is the first element and <code>e</code> is the first element for which the <code>predicate</code> is not satisfied.</p>
 <h3>Example</h3>
 <div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
-<div class="line">        <a class="code" href="structboost_1_1hana_1_1_iterable.html#aab3e80f4ae219afb61b12201738d28b8">drop_while</a>(<a class="code" href="group___functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a> &lt; int_&lt;0&gt;, range(int_&lt;-3&gt;, int_&lt;6&gt;))</div>
+<div class="line">        <a class="code" href="structboost_1_1hana_1_1_iterable.html#aab3e80f4ae219afb61b12201738d28b8">drop_while</a>(_ &lt; int_&lt;0&gt;, range(int_&lt;-3&gt;, int_&lt;6&gt;))</div>
 <div class="line">        ==</div>
 <div class="line">        range(int_&lt;0&gt;, int_&lt;6&gt;)</div>
 <div class="line">    );</div>
 </div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="a80176fbdfbccc09e902263557eb0984d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto for_each</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Perform an action on each element of the iterable, discarding the result each time. </p>
+<h3>Example</h3>
+<div class="fragment"><div class="line">    std::stringstream ss;</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_iterable.html#a80176fbdfbccc09e902263557eb0984d">for_each</a>(list(0, <span class="charliteral">&#39;1&#39;</span>, <span class="stringliteral">&quot;234&quot;</span>, 5.5), [&amp;](<span class="keyword">auto</span> x) {</div>
+<div class="line">        ss &lt;&lt; x &lt;&lt; <span class="charliteral">&#39; &#39;</span>;</div>
+<div class="line">    });</div>
+<div class="line"></div>
+<div class="line">    assert(ss.str() == <span class="stringliteral">&quot;0 1 234 5.5 &quot;</span>);</div>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000017">Todo:</a></b></dt><dd>This should probably be in a future <code><a class="el" href="structboost_1_1hana_1_1_traversable.html" title="Data structures that can be traversed from left to right. ">Traversable</a></code> type class. </dd></dl>
+
 </div>
 </div>
 <a class="anchor" id="adc2675aeee1174a9b337e94f39506bec"></a>
@@ -357,7 +388,7 @@ Related Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jun 26 2014 11:22:17 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jul 22 2014 13:51:05 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

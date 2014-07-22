@@ -99,45 +99,18 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#ifndef BOOST_HANA_APPLICATIVE_HPP</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#define BOOST_HANA_APPLICATIVE_HPP</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="core_8hpp.html">boost/hana/core.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="constexpr_8hpp.html">boost/hana/detail/constexpr.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="applicative_2applicative_8hpp.html">boost/hana/applicative/applicative.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="applicative_2laws_8hpp.html">boost/hana/applicative/laws.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="applicative_2mcd_8hpp.html">boost/hana/applicative/mcd.hpp</a>&gt;</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">namespace </span>boost { <span class="keyword">namespace </span>hana {</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    BOOST_HANA_TYPECLASS_BOILERPLATE(<span class="keyword">struct</span> Applicative)</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    </div>
-<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_applicative.html">   47</a></span>&#160;    struct <a class="code" href="structboost_1_1hana_1_1_applicative.html">Applicative</a> : <a class="code" href="structboost_1_1hana_1_1typeclass.html">typeclass</a>&lt;<a class="code" href="structboost_1_1hana_1_1_applicative.html">Applicative</a>&gt; {</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keyword">struct </span>mcd { };</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    };</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">   59</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> ap = [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> x) {</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keywordflow">return</span> Applicative::instance&lt;datatype_t&lt;decltype(f)&gt;&gt;::ap_impl(f, x);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    };</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keyword">namespace </span>applicative_detail {</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> A&gt;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keyword">struct </span>lift {</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            constexpr <span class="keyword">auto</span> operator()(X x)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="keyword">            </span>{ <span class="keywordflow">return</span> Applicative::instance&lt;A&gt;::lift_impl(x); }</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        };</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    }</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> A&gt;</div>
-<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_applicative.html#a418eeb3e706b17eabd5bf0a491d3219e">   75</a></span>&#160;    constexpr applicative_detail::lift&lt;A&gt; lift{};</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;}} <span class="comment">// end namespace boost::hana</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor">#endif // !BOOST_HANA_APPLICATIVE_HPP</span></div>
-<div class="ttc" id="group__details_html_gacf82d20cb2ab6efe5849fadae0a043a8"><div class="ttname"><a href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a></div><div class="ttdeci">#define BOOST_HANA_CONSTEXPR_LAMBDA</div><div class="ttdoc">Expands to constexpr if constexpr lambdas are supported and to nothing otherwise. ...</div><div class="ttdef"><b>Definition:</b> constexpr.hpp:18</div></div>
-<div class="ttc" id="structboost_1_1hana_1_1_applicative_html"><div class="ttname"><a href="structboost_1_1hana_1_1_applicative.html">boost::hana::Applicative</a></div><div class="ttdoc">Applicatives are Functors with the ability to lift values and combine computations. </div><div class="ttdef"><b>Definition:</b> applicative.hpp:47</div></div>
-<div class="ttc" id="structboost_1_1hana_1_1typeclass_html"><div class="ttname"><a href="structboost_1_1hana_1_1typeclass.html">boost::hana::typeclass</a></div><div class="ttdoc">Machinery for creating a unary type class. </div><div class="ttdef"><b>Definition:</b> core.hpp:137</div></div>
-<div class="ttc" id="constexpr_8hpp_html"><div class="ttname"><a href="constexpr_8hpp.html">constexpr.hpp</a></div><div class="ttdoc">Defines the BOOST_HANA_CONSTEXPR_LAMBDA macro. </div></div>
-<div class="ttc" id="core_8hpp_html"><div class="ttname"><a href="core_8hpp.html">core.hpp</a></div><div class="ttdoc">Defines the Core module. </div></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#endif // !BOOST_HANA_APPLICATIVE_HPP</span></div>
+<div class="ttc" id="applicative_2applicative_8hpp_html"><div class="ttname"><a href="applicative_2applicative_8hpp.html">applicative.hpp</a></div><div class="ttdoc">Forward declares boost::hana::Applicative. </div></div>
+<div class="ttc" id="applicative_2mcd_8hpp_html"><div class="ttname"><a href="applicative_2mcd_8hpp.html">mcd.hpp</a></div><div class="ttdoc">Defines boost::hana::Applicative::mcd. </div></div>
+<div class="ttc" id="applicative_2laws_8hpp_html"><div class="ttname"><a href="applicative_2laws_8hpp.html">laws.hpp</a></div><div class="ttdoc">Defines boost::hana::Applicative::laws. </div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jun 26 2014 11:22:17 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jul 22 2014 13:51:04 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

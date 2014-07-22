@@ -111,10 +111,9 @@ struct boost::hana::Applicative::instance&lt; Maybe &gt;</h3>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="bool_8hpp.html">boost/hana/bool.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="constexpr_8hpp.html">boost/hana/detail/constexpr.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="static__assert_8hpp.html">boost/hana/detail/static_assert.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="functional_8hpp.html">boost/hana/functional.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral_8hpp.html">boost/hana/integral.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="maybe_8hpp.html">boost/hana/maybe.hpp</a>&gt;</span></div>
 <div class="line"><span class="keyword">using namespace </span>boost::hana;</div>
 <div class="line"></div>
@@ -140,22 +139,22 @@ struct boost::hana::Applicative::instance&lt; Maybe &gt;</h3>
 <div class="line">);</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keywordtype">char</span> x, <span class="keywordtype">char</span> op, <span class="keywordtype">char</span> y&gt;</div>
-<div class="line"><a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> eval = <a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(<a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(fmap(curry&lt;2&gt;, function&lt;op&gt;), digit&lt;x&gt;), digit&lt;y&gt;);</div>
+<div class="line"><a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> evaluate = <a class="code" href="structboost_1_1hana_1_1_applicative.html#a0d7511a7a164af8cc6040052b3fbee51">ap</a>(function&lt;op&gt;, digit&lt;x&gt;, digit&lt;y&gt;);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(eval&lt;&#39;1&#39;, &#39;+&#39;, &#39;2&#39;&gt; == just(1 + 2));</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(evaluate&lt;&#39;1&#39;, &#39;+&#39;, &#39;2&#39;&gt; == just(1 + 2));</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(eval&lt;&#39;?&#39;, &#39;+&#39;, &#39;2&#39;&gt; == nothing);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(eval&lt;&#39;1&#39;, &#39;?&#39;, &#39;2&#39;&gt; == nothing);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(eval&lt;&#39;1&#39;, &#39;+&#39;, &#39;?&#39;&gt; == nothing);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(eval&lt;&#39;?&#39;, &#39;?&#39;, &#39;?&#39;&gt; == nothing);</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(evaluate&lt;&#39;?&#39;, &#39;+&#39;, &#39;2&#39;&gt; == nothing);</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(evaluate&lt;&#39;1&#39;, &#39;?&#39;, &#39;2&#39;&gt; == nothing);</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(evaluate&lt;&#39;1&#39;, &#39;+&#39;, &#39;?&#39;&gt; == nothing);</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(evaluate&lt;&#39;?&#39;, &#39;?&#39;, &#39;?&#39;&gt; == nothing);</div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(lift&lt;Maybe&gt;(123) == just(123));</div>
 <div class="line">}</div>
 </div><!-- fragment --> </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jun 26 2014 11:22:17 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jul 22 2014 13:51:05 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

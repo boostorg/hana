@@ -96,64 +96,70 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <a href="hana_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#ifndef BOOST_HANA_HPP</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#define BOOST_HANA_HPP</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="std__array_8hpp.html">boost/hana/adapted/std_array.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="std__integer__sequence_8hpp.html">boost/hana/adapted/std_integer_sequence.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="std__integral__constant_8hpp.html">boost/hana/adapted/std_integral_constant.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="std__list_8hpp.html">boost/hana/adapted/std_list.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="std__pair_8hpp.html">boost/hana/adapted/std_pair.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="std__tuple_8hpp.html">boost/hana/adapted/std_tuple.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="applicative_8hpp.html">boost/hana/applicative.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="comparable_8hpp.html">boost/hana/comparable.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="core_8hpp.html">boost/hana/core.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="foldable_8hpp.html">boost/hana/foldable.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="functional_8hpp.html">boost/hana/functional.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="functor_8hpp.html">boost/hana/functor.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="integer__list_8hpp.html">boost/hana/integer_list.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="integral_8hpp.html">boost/hana/integral.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="iterable_8hpp.html">boost/hana/iterable.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="list_8hpp.html">boost/hana/list.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="logical_8hpp.html">boost/hana/logical.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="maybe_8hpp.html">boost/hana/maybe.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="monad_8hpp.html">boost/hana/monad.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="pair_8hpp.html">boost/hana/pair.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="range_8hpp.html">boost/hana/range.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="type__list_8hpp.html">boost/hana/type_list.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">#endif // !BOOST_HANA_HPP</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#ifndef BOOST_HANA_HPP</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#define BOOST_HANA_HPP</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="applicative_8hpp.html">boost/hana/applicative.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="bool_8hpp.html">boost/hana/bool.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="comparable_8hpp.html">boost/hana/comparable.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="constant_8hpp.html">boost/hana/constant.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="core_8hpp.html">boost/hana/core.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="foldable_8hpp.html">boost/hana/foldable.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="functional_8hpp.html">boost/hana/functional.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="functor_8hpp.html">boost/hana/functor.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="integer__list_8hpp.html">boost/hana/integer_list.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="integral_8hpp.html">boost/hana/integral.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="iterable_8hpp.html">boost/hana/iterable.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="lazy_8hpp.html">boost/hana/lazy.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="list_8hpp.html">boost/hana/list.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="logical_8hpp.html">boost/hana/logical.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="map_8hpp.html">boost/hana/map.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="maybe_8hpp.html">boost/hana/maybe.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="monad_8hpp.html">boost/hana/monad.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="orderable_8hpp.html">boost/hana/orderable.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="pair_8hpp.html">boost/hana/pair.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="range_8hpp.html">boost/hana/range.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="record_8hpp.html">boost/hana/record.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="searchable_8hpp.html">boost/hana/searchable.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="set_8hpp.html">boost/hana/set.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="traversable_8hpp.html">boost/hana/traversable.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="type__list_8hpp.html">boost/hana/type_list.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;<span class="preprocessor">#endif // !BOOST_HANA_HPP</span></div>
 <div class="ttc" id="applicative_8hpp_html"><div class="ttname"><a href="applicative_8hpp.html">applicative.hpp</a></div><div class="ttdoc">Defines boost::hana::Applicative. </div></div>
 <div class="ttc" id="iterable_8hpp_html"><div class="ttname"><a href="iterable_8hpp.html">iterable.hpp</a></div><div class="ttdoc">Defines boost::hana::Iterable. </div></div>
 <div class="ttc" id="list_8hpp_html"><div class="ttname"><a href="list_8hpp.html">list.hpp</a></div><div class="ttdoc">Defines boost::hana::List. </div></div>
 <div class="ttc" id="type_8hpp_html"><div class="ttname"><a href="type_8hpp.html">type.hpp</a></div><div class="ttdoc">Defines boost::hana::Type. </div></div>
-<div class="ttc" id="std__integer__sequence_8hpp_html"><div class="ttname"><a href="std__integer__sequence_8hpp.html">std_integer_sequence.hpp</a></div><div class="ttdoc">Adapts std::integer_sequence. </div></div>
 <div class="ttc" id="integer__list_8hpp_html"><div class="ttname"><a href="integer__list_8hpp.html">integer_list.hpp</a></div><div class="ttdoc">Defines boost::hana::IntegerList. </div></div>
-<div class="ttc" id="std__tuple_8hpp_html"><div class="ttname"><a href="std__tuple_8hpp.html">std_tuple.hpp</a></div><div class="ttdoc">Adapts std::tuple. </div></div>
+<div class="ttc" id="traversable_8hpp_html"><div class="ttname"><a href="traversable_8hpp.html">traversable.hpp</a></div><div class="ttdoc">Defines boost::hana::Traversable. </div></div>
+<div class="ttc" id="set_8hpp_html"><div class="ttname"><a href="set_8hpp.html">set.hpp</a></div><div class="ttdoc">Defines boost::hana::Set. </div></div>
 <div class="ttc" id="comparable_8hpp_html"><div class="ttname"><a href="comparable_8hpp.html">comparable.hpp</a></div><div class="ttdoc">Defines boost::hana::Comparable. </div></div>
+<div class="ttc" id="map_8hpp_html"><div class="ttname"><a href="map_8hpp.html">map.hpp</a></div><div class="ttdoc">Defines boost::hana::Map. </div></div>
+<div class="ttc" id="constant_8hpp_html"><div class="ttname"><a href="constant_8hpp.html">constant.hpp</a></div><div class="ttdoc">Defines boost::hana::Constant. </div></div>
 <div class="ttc" id="maybe_8hpp_html"><div class="ttname"><a href="maybe_8hpp.html">maybe.hpp</a></div><div class="ttdoc">Defines boost::hana::Maybe. </div></div>
 <div class="ttc" id="monad_8hpp_html"><div class="ttname"><a href="monad_8hpp.html">monad.hpp</a></div><div class="ttdoc">Defines boost::hana::Monad. </div></div>
 <div class="ttc" id="functor_8hpp_html"><div class="ttname"><a href="functor_8hpp.html">functor.hpp</a></div><div class="ttdoc">Defines boost::hana::Functor. </div></div>
 <div class="ttc" id="logical_8hpp_html"><div class="ttname"><a href="logical_8hpp.html">logical.hpp</a></div><div class="ttdoc">Defines boost::hana::Logical. </div></div>
 <div class="ttc" id="type__list_8hpp_html"><div class="ttname"><a href="type__list_8hpp.html">type_list.hpp</a></div><div class="ttdoc">Defines boost::hana::TypeList. </div></div>
+<div class="ttc" id="record_8hpp_html"><div class="ttname"><a href="record_8hpp.html">record.hpp</a></div><div class="ttdoc">Defines boost::hana::Record. </div></div>
+<div class="ttc" id="searchable_8hpp_html"><div class="ttname"><a href="searchable_8hpp.html">searchable.hpp</a></div><div class="ttdoc">Defines boost::hana::Searchable. </div></div>
 <div class="ttc" id="pair_8hpp_html"><div class="ttname"><a href="pair_8hpp.html">pair.hpp</a></div><div class="ttdoc">Defines boost::hana::Pair. </div></div>
-<div class="ttc" id="std__array_8hpp_html"><div class="ttname"><a href="std__array_8hpp.html">std_array.hpp</a></div><div class="ttdoc">Adapts std::array. </div></div>
+<div class="ttc" id="lazy_8hpp_html"><div class="ttname"><a href="lazy_8hpp.html">lazy.hpp</a></div><div class="ttdoc">Defines boost::hana::Lazy. </div></div>
 <div class="ttc" id="core_8hpp_html"><div class="ttname"><a href="core_8hpp.html">core.hpp</a></div><div class="ttdoc">Defines the Core module. </div></div>
 <div class="ttc" id="integral_8hpp_html"><div class="ttname"><a href="integral_8hpp.html">integral.hpp</a></div><div class="ttdoc">Defines boost::hana::Integral. </div></div>
-<div class="ttc" id="std__list_8hpp_html"><div class="ttname"><a href="std__list_8hpp.html">std_list.hpp</a></div><div class="ttdoc">Adapts std::list. </div></div>
 <div class="ttc" id="range_8hpp_html"><div class="ttname"><a href="range_8hpp.html">range.hpp</a></div><div class="ttdoc">Defines boost::hana::Range. </div></div>
-<div class="ttc" id="std__pair_8hpp_html"><div class="ttname"><a href="std__pair_8hpp.html">std_pair.hpp</a></div><div class="ttdoc">Adapts std::pair. </div></div>
-<div class="ttc" id="std__integral__constant_8hpp_html"><div class="ttname"><a href="std__integral__constant_8hpp.html">std_integral_constant.hpp</a></div><div class="ttdoc">Adapts std::integral_constant. </div></div>
+<div class="ttc" id="orderable_8hpp_html"><div class="ttname"><a href="orderable_8hpp.html">orderable.hpp</a></div><div class="ttdoc">Defines boost::hana::Orderable. </div></div>
+<div class="ttc" id="bool_8hpp_html"><div class="ttname"><a href="bool_8hpp.html">bool.hpp</a></div><div class="ttdoc">Forwards to boost/hana/integral.hpp. </div></div>
 <div class="ttc" id="foldable_8hpp_html"><div class="ttname"><a href="foldable_8hpp.html">foldable.hpp</a></div><div class="ttdoc">Defines boost::hana::Foldable. </div></div>
 <div class="ttc" id="functional_8hpp_html"><div class="ttname"><a href="functional_8hpp.html">functional.hpp</a></div><div class="ttdoc">Defines the Functional module. </div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jun 26 2014 11:22:17 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jul 22 2014 13:51:04 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

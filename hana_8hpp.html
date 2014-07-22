@@ -96,17 +96,40 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>Includes all the headers of the library.  
+<p>Includes all the library components, excluding the adaptors for external libraries.  
 <a href="#details">More...</a></p>
 
 <p><a href="hana_8hpp_source.html">Go to the source code of this file.</a></p>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Includes all the headers of the library. </p>
+<div class="textblock"><p>Includes all the library components, excluding the adaptors for external libraries. </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000033">Todo:</a></b></dt><dd><ul>
+<li>When we have functions with several variants, consider naming versions with the following scheme: <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>.lazy</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>.strict</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a> == <a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>.strict</div>
+</div><!-- fragment --> That would be prettier and not much more complicated. However, we would need a naming convention for the <code>_impl</code> versions of those.</li>
+<li>To consider: is it possible/desirable to eliminate partial functions? For example, removing <code>head</code> and <code>tail</code>, which can fail, and replace them by a function which returns a <code>Maybe</code>.</li>
+<li>Document the library's stance on perfect forwarding and move semantics. Make compile-time tests with non-copyable types and runtime tests with expensive-to-copy types.</li>
+<li>In the unit tests, we might want to use an injective function on <code>Comparable</code>s instead of <code>std::make_tuple</code>.</li>
+<li>Write a tutorial. In particular:<ul>
+<li>Document how to emulate <code>make_fused</code> and friends from Boost.Fusion.</li>
+<li>Document how to write common Boost.Fusion and Boost.MPL idioms with Boost.Hana.</li>
+</ul>
+</li>
+<li>Write runtime benchmarks.</li>
+<li>Setup a BJam build system.</li>
+<li>Provide a Main page for the Doxygen documentation.</li>
+<li>Consider making function objects automatically curriable. This could allow <em>super sexy</em> stuff like: <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;&gt;</div>
+<div class="line"><span class="keyword">struct </span>Iterable&lt;List&gt; {</div>
+<div class="line">    <span class="keyword">static</span> constexpr <span class="keyword">auto</span> length_impl = foldl(some_lambda, size_t&lt;0&gt;);</div>
+<div class="line">};</div>
+</div><!-- fragment --></li>
+</ul>
+</dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>Louis Dionne 2014 Distributed under the Boost Software License, Version 1.0. (See accompanying file LICENSE.md or copy at <a href="http://boost.org/LICENSE_1_0.txt">http://boost.org/LICENSE_1_0.txt</a>) </dd></dl>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jun 26 2014 11:22:17 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jul 22 2014 13:51:04 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

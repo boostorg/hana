@@ -1,9 +1,14 @@
 var searchData=
 [
-  ['nil',['nil',['../structboost_1_1hana_1_1_list.html#a04e654b583265053e4dde63fff0c0aea',1,'boost::hana::List']]],
-  ['none',['none',['../structboost_1_1hana_1_1_foldable.html#a9365b793fe547271e48fa719a7f4854d',1,'boost::hana::Foldable']]],
-  ['none_5fof',['none_of',['../structboost_1_1hana_1_1_foldable.html#abf1dbf83a1d98c62994e207ea18eea8a',1,'boost::hana::Foldable']]],
-  ['not_5f',['not_',['../structboost_1_1hana_1_1_logical.html#a3c5a578f274b7513e5008eab698fa5bc',1,'boost::hana::Logical']]],
-  ['not_5fequal',['not_equal',['../structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925',1,'boost::hana::Comparable']]],
-  ['nothing',['nothing',['../structboost_1_1hana_1_1_maybe.html#a29f6b42bf7bb5ca6d310c40baf1da900',1,'boost::hana::Maybe']]]
+  ['last',['last',['../structboost_1_1hana_1_1_iterable.html#a5379264e83af65af8802eeec0d49e5f0',1,'boost::hana::Iterable']]],
+  ['lazy',['lazy',['../structboost_1_1hana_1_1_lazy.html#a73e14285897797737683aa2a776a6e0e',1,'boost::hana::Lazy']]],
+  ['length',['length',['../structboost_1_1hana_1_1_foldable.html#a5fb377e43aa7753bb77aa346c67fae0d',1,'boost::hana::Foldable']]],
+  ['less',['less',['../structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5',1,'boost::hana::Orderable']]],
+  ['less_5fequal',['less_equal',['../structboost_1_1hana_1_1_orderable.html#a8012cbd416c2067be764046dcd0c2a23',1,'boost::hana::Orderable']]],
+  ['lift',['lift',['../structboost_1_1hana_1_1_applicative.html#a418eeb3e706b17eabd5bf0a491d3219e',1,'boost::hana::Applicative']]],
+  ['list',['list',['../structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225',1,'boost::hana::List']]],
+  ['llong',['llong',['../structboost_1_1hana_1_1_integral.html#a1d39c4f98b84422263842b6c04ef0a7e',1,'boost::hana::Integral']]],
+  ['lockstep',['lockstep',['../group___functional.html#gafca60c09e1f7a32a2b52baaf6515c279',1,'boost::hana']]],
+  ['long_5f',['long_',['../structboost_1_1hana_1_1_integral.html#ac9f0f0f418542662d6d3d6ad92a896e0',1,'boost::hana::Integral']]],
+  ['lookup',['lookup',['../structboost_1_1hana_1_1_searchable.html#a82e67ada9561f5e1176faab8eb94a064',1,'boost::hana::Searchable']]]
 ];

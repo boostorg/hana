@@ -110,12 +110,14 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_monad_1_1bind__mcd.html">bind_mcd</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Minimal complete definition: <code>bind</code>  <a href="structboost_1_1hana_1_1_monad_1_1bind__mcd.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_monad_1_1flatten__mcd.html">flatten_mcd</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Minimal complete definition: <code>flatten</code>  <a href="structboost_1_1hana_1_1_monad_1_1flatten__mcd.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_monad_1_1instance_3_01_lazy_01_4.html">instance&lt; Lazy &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_monad_1_1instance_3_01_maybe_01_4.html">instance&lt; Maybe &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_monad_1_1instance_3_01_t_00_01detail_1_1enable__if__t_3_01instantiates_3_01_list_00_01_t_01_4_01_4_01_4.html">instance&lt; T, detail::enable_if_t&lt; instantiates&lt; List, T &gt; &gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_monad_1_1join__mcd.html">join_mcd</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Minimal complete definition: <code>join</code>  <a href="structboost_1_1hana_1_1_monad_1_1join__mcd.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_monad_1_1laws.html">laws</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
@@ -125,18 +127,21 @@ Related Functions</h2></td></tr>
 <tr class="memitem:a4df7d83b8aeb3bcf99e5675f69af4090"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_monad.html#a4df7d83b8aeb3bcf99e5675f69af4090">bind</a></td></tr>
 <tr class="memdesc:a4df7d83b8aeb3bcf99e5675f69af4090"><td class="mdescLeft">&#160;</td><td class="mdescRight">Apply a function returning a monad to the value(s) inside a monad.  <a href="#a4df7d83b8aeb3bcf99e5675f69af4090">More...</a><br /></td></tr>
 <tr class="separator:a4df7d83b8aeb3bcf99e5675f69af4090"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a03f57bdbbaf34b74120e9b7053b82a98"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_monad.html#a03f57bdbbaf34b74120e9b7053b82a98">join</a></td></tr>
-<tr class="memdesc:a03f57bdbbaf34b74120e9b7053b82a98"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flatten two levels of monadic wrapping into a single level.  <a href="#a03f57bdbbaf34b74120e9b7053b82a98">More...</a><br /></td></tr>
-<tr class="separator:a03f57bdbbaf34b74120e9b7053b82a98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45985423d0658e88f0403773146af110"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_monad.html#a45985423d0658e88f0403773146af110">flatten</a></td></tr>
+<tr class="memdesc:a45985423d0658e88f0403773146af110"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flatten two levels of monadic wrapping into a single level.  <a href="#a45985423d0658e88f0403773146af110">More...</a><br /></td></tr>
+<tr class="separator:a45985423d0658e88f0403773146af110"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa266ca28db36a8dfd828fbdd82c0ffb6"><td class="memTemplParams" colspan="2">template&lt;typename M , typename F &gt; </td></tr>
+<tr class="memitem:aa266ca28db36a8dfd828fbdd82c0ffb6"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_monad.html#aa266ca28db36a8dfd828fbdd82c0ffb6">operator&gt;&gt;</a> (M m, F f)</td></tr>
+<tr class="memdesc:aa266ca28db36a8dfd828fbdd82c0ffb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>bind</code>.  <a href="#aa266ca28db36a8dfd828fbdd82c0ffb6">More...</a><br /></td></tr>
+<tr class="separator:aa266ca28db36a8dfd828fbdd82c0ffb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="Monads are Applicatives with the ability to flatten values that were lifted more than once...">Monad</a></code>s are <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="Applicatives are Functors with the ability to lift values and combine computations. ">Applicative</a></code>s with the ability to flatten values that were lifted more than once. </p>
-<hr/>
-<h2>Laws</h2>
-<p>Instances of <code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="Monads are Applicatives with the ability to flatten values that were lifted more than once...">Monad</a></code> must satisfy the following laws: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_monad.html#a4df7d83b8aeb3bcf99e5675f69af4090">bind</a>(lift&lt;M&gt;(x), f) == f(x)</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1_monad.html#a4df7d83b8aeb3bcf99e5675f69af4090">bind</a>(m, lift&lt;M&gt;) == m</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1_monad.html#a4df7d83b8aeb3bcf99e5675f69af4090">bind</a>(m, [](auto x){ <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_monad.html#a4df7d83b8aeb3bcf99e5675f69af4090">bind</a>(f(x), g); }) == <a class="code" href="structboost_1_1hana_1_1_monad.html#a4df7d83b8aeb3bcf99e5675f69af4090">bind</a>(<a class="code" href="structboost_1_1hana_1_1_monad.html#a4df7d83b8aeb3bcf99e5675f69af4090">bind</a>(m, f), g)</div>
-</div><!-- fragment --> </div><h2 class="groupheader">Friends And Related Function Documentation</h2>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000026">Todo:</a></b></dt><dd><ul>
+<li>Consider adding a function to tap inside a monadic chain. This is probably the same as Haskell's <code>&gt;&gt;</code>. </li>
+</ul>
+</dd></dl>
+</div><h2 class="groupheader">Friends And Related Function Documentation</h2>
 <a class="anchor" id="a4df7d83b8aeb3bcf99e5675f69af4090"></a>
 <div class="memitem">
 <div class="memproto">
@@ -159,7 +164,7 @@ Related Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a03f57bdbbaf34b74120e9b7053b82a98"></a>
+<a class="anchor" id="a45985423d0658e88f0403773146af110"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -167,7 +172,7 @@ Related Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto join</td>
+          <td class="memname">constexpr auto flatten</td>
         </tr>
       </table>
   </td>
@@ -181,10 +186,49 @@ Related Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="aa266ca28db36a8dfd828fbdd82c0ffb6"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename M , typename F &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto operator&gt;&gt; </td>
+          <td>(</td>
+          <td class="paramtype">M&#160;</td>
+          <td class="paramname"><em>m</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">F&#160;</td>
+          <td class="paramname"><em>f</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Equivalent to <code>bind</code>. </p>
+<dl class="section note"><dt>Note</dt><dd>This was preferred over <code>&gt;&gt;=</code> because <code>&gt;&gt;=</code> is right associative, which makes it impossible to chain computations. </dd></dl>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jun 26 2014 11:22:17 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jul 22 2014 13:51:05 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

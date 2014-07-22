@@ -1,8 +1,9 @@
 var searchData=
 [
-  ['pair',['pair',['../structboost_1_1hana_1_1_pair.html#a8d15743bd0fcc2cf033ed657e95998c1',1,'boost::hana::Pair']]],
-  ['partial',['partial',['../group___functional.html#ga778b2daa27882e71d28b6f2b38982ddf',1,'boost::hana']]],
-  ['partition',['partition',['../structboost_1_1hana_1_1_list.html#a788b65dd69bb016d647801718e840816',1,'boost::hana::List']]],
-  ['permutations',['permutations',['../structboost_1_1hana_1_1_list.html#a45ec7767d19eb7eaabb71ead3796a7f1',1,'boost::hana::List']]],
-  ['product',['product',['../structboost_1_1hana_1_1_foldable.html#aa37fd8d56461f749d49423c711e4c67a',1,'boost::hana::Foldable']]]
+  ['nil',['nil',['../structboost_1_1hana_1_1_list.html#a04e654b583265053e4dde63fff0c0aea',1,'boost::hana::List']]],
+  ['none',['none',['../structboost_1_1hana_1_1_searchable.html#a9365b793fe547271e48fa719a7f4854d',1,'boost::hana::Searchable']]],
+  ['none_5fof',['none_of',['../structboost_1_1hana_1_1_searchable.html#abf1dbf83a1d98c62994e207ea18eea8a',1,'boost::hana::Searchable']]],
+  ['not_5f',['not_',['../structboost_1_1hana_1_1_logical.html#a3c5a578f274b7513e5008eab698fa5bc',1,'boost::hana::Logical']]],
+  ['not_5fequal',['not_equal',['../structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925',1,'boost::hana::Comparable']]],
+  ['nothing',['nothing',['../structboost_1_1hana_1_1_maybe.html#a2be2b3e89cab04d5f1e2b9edefdb2518',1,'boost::hana::Maybe']]]
 ];

@@ -96,40 +96,59 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <a href="variadic_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#ifndef BOOST_HANA_DETAIL_LEFT_FOLDS_VARIADIC_HPP</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#define BOOST_HANA_DETAIL_LEFT_FOLDS_VARIADIC_HPP</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="variadic__meta_8hpp.html">boost/hana/detail/left_folds/variadic_meta.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="variadic__unrolled_8hpp.html">boost/hana/detail/left_folds/variadic_unrolled.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#ifndef BOOST_HANA_DETAIL_LEFT_FOLDS_VARIADIC_HPP</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#define BOOST_HANA_DETAIL_LEFT_FOLDS_VARIADIC_HPP</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="constexpr_8hpp.html">boost/hana/detail/constexpr.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="variadic__meta_8hpp.html">boost/hana/detail/left_folds/variadic_meta.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="left__folds_2variadic__unrolled_8hpp.html">boost/hana/detail/left_folds/variadic_unrolled.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">namespace </span>boost { <span class="keyword">namespace </span>hana { <span class="keyword">namespace </span>detail { <span class="keyword">namespace </span>left_folds {</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    constexpr <span class="keyword">struct </span>_variadic {</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> F, <span class="keyword">typename</span> State, <span class="keyword">typename</span> ...Xs&gt;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        constexpr <span class="keyword">auto</span> operator()(F f, State s, Xs ...xs)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">        </span>{ <span class="keywordflow">return</span> variadic_unrolled(f, s, xs...); }</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="comment">// template &lt;template &lt;typename ...&gt; class F, typename State, typename ...Xs&gt;</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="comment">// constexpr auto operator()(</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="comment">//     type_detail::Template&lt;F&gt; f,</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="comment">//     operators::_type&lt;State&gt; s,</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="comment">//     operators::_type&lt;Xs&gt; ...xs) const</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="comment">// {</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="comment">//     return type&lt;variadic_meta&lt;F, State, Xs...&gt;&gt;;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="comment">// }</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    } variadic{};</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;}}}} <span class="comment">// end namespace boost::hana::detail::left_folds</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#endif // !BOOST_HANA_DETAIL_LEFT_FOLDS_VARIADIC_HPP</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">namespace </span>boost { <span class="keyword">namespace </span>hana { <span class="keyword">namespace </span>detail { <span class="keyword">namespace </span>left_folds {</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keyword">template</span> &lt;<span class="keywordtype">bool</span> is_mfc&gt;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keyword">struct </span>variadic_impl;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keyword">template</span> &lt;&gt;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keyword">struct </span>variadic_impl&lt;false&gt; {</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> F, <span class="keyword">typename</span> State, <span class="keyword">typename</span> ...Xs&gt;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="keyword">static</span> constexpr <span class="keyword">auto</span> <a class="code" href="group___functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>(F f, State s, Xs ...xs)</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        { <span class="keywordflow">return</span> variadic_unrolled(f, s, xs...); }</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    };</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keyword">template</span> &lt;&gt;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">struct </span>variadic_impl&lt;true&gt; {</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> f, <span class="keyword">typename</span> state, <span class="keyword">typename</span> ...xs&gt;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keyword">static</span> constexpr <span class="keyword">auto</span> <a class="code" href="group___functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>(f, state, xs...) {</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            <span class="keywordflow">return</span> type&lt;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                <a class="code" href="group__details.html#gaa0cde9789584111ebbdf52b22ed703f0">variadic_meta</a>&lt;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                    f::template <a class="code" href="group___functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>,</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                    <span class="keyword">typename</span> state::type,</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                    <span class="keyword">typename</span> xs::type...</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                &gt;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            &gt;;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        }</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    };</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> variadic = [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> state, <span class="keyword">auto</span> ...xs) {</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keywordflow">return</span> variadic_impl&lt;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            detail::is_metafunction_class&lt;decltype(f)&gt;::value</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        &gt;<a class="code" href="group___functional.html#ga30027c383676084be151ef3c6cf2829f">::apply</a>(f, state, xs...);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    };</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;}}}} <span class="comment">// end namespace boost::hana::detail::left_folds</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">#endif // !BOOST_HANA_DETAIL_LEFT_FOLDS_VARIADIC_HPP</span></div>
+<div class="ttc" id="left__folds_2variadic__unrolled_8hpp_html"><div class="ttname"><a href="left__folds_2variadic__unrolled_8hpp.html">variadic_unrolled.hpp</a></div><div class="ttdoc">Defines boost::hana::detail::left_folds::variadic_unrolled. </div></div>
+<div class="ttc" id="group__details_html_gacf82d20cb2ab6efe5849fadae0a043a8"><div class="ttname"><a href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a></div><div class="ttdeci">#define BOOST_HANA_CONSTEXPR_LAMBDA</div><div class="ttdoc">Expands to constexpr if constexpr lambdas are supported and to nothing otherwise. ...</div><div class="ttdef"><b>Definition:</b> constexpr.hpp:18</div></div>
 <div class="ttc" id="variadic__meta_8hpp_html"><div class="ttname"><a href="variadic__meta_8hpp.html">variadic_meta.hpp</a></div><div class="ttdoc">Defines boost::hana::detail::left_folds::variadic_meta. </div></div>
-<div class="ttc" id="variadic__unrolled_8hpp_html"><div class="ttname"><a href="variadic__unrolled_8hpp.html">variadic_unrolled.hpp</a></div><div class="ttdoc">Defines boost::hana::detail::left_folds::variadic_unrolled. </div></div>
+<div class="ttc" id="group___functional_html_ga30027c383676084be151ef3c6cf2829f"><div class="ttname"><a href="group___functional.html#ga30027c383676084be151ef3c6cf2829f">boost::hana::apply</a></div><div class="ttdeci">constexpr auto apply</div><div class="ttdoc">Invokes f with xs... as arguments. </div><div class="ttdef"><b>Definition:</b> functional.hpp:57</div></div>
 <div class="ttc" id="type_8hpp_html"><div class="ttname"><a href="type_8hpp.html">type.hpp</a></div><div class="ttdoc">Defines boost::hana::Type. </div></div>
+<div class="ttc" id="constexpr_8hpp_html"><div class="ttname"><a href="constexpr_8hpp.html">constexpr.hpp</a></div><div class="ttdoc">Defines the BOOST_HANA_CONSTEXPR_LAMBDA macro. </div></div>
+<div class="ttc" id="group__details_html_gaa0cde9789584111ebbdf52b22ed703f0"><div class="ttname"><a href="group__details.html#gaa0cde9789584111ebbdf52b22ed703f0">boost::hana::detail::left_folds::variadic_meta</a></div><div class="ttdeci">typename variadic_meta_indirect&lt; evaluator&lt; f &gt;::template apply, state, xs...&gt;::type variadic_meta</div><div class="ttdoc">Recursive alias-based variadic left fold for types only. </div><div class="ttdef"><b>Definition:</b> variadic_meta.hpp:84</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jun 26 2014 11:22:17 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jul 22 2014 13:51:04 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

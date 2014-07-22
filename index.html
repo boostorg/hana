@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.7"/>
-<title>Boost.Hana: Main Page</title>
+<title>Boost.Hana: Boost.Hana</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -82,13 +82,80 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div class="header">
   <div class="headertitle">
-<div class="title">Boost.Hana Documentation</div>  </div>
+<div class="title">Boost.Hana </div>  </div>
 </div><!--header-->
 <div class="contents">
-</div><!-- contents -->
+<div class="toc"><h3>Table of Contents</h3>
+<ul><li class="level1"><a href="#preface">Preface</a></li>
+<li class="level1"><a href="#introduction">Introduction</a></li>
+<li class="level1"><a href="#quick-start">Quick start</a></li>
+<li class="level1"><a href="#organization">Organization</a></li>
+<li class="level1"><a href="#datatypes">Data types</a></li>
+<li class="level1"><a href="#type-classes">Type classes</a></li>
+</ul>
+</div>
+<div class="textblock"><h1><a class="anchor" id="preface"></a>
+Preface</h1>
+<p>The seed that became this library was planted in late 2012, when I first started to reimplement the <a href="http://www.boost.org/doc/libs/release/libs/mpl/doc/index.html">Boost.MPL</a> using C++11 in a project named <a href="http://github.com/ldionne/mpl11">MPL11</a>. In spring 2014, I applied to <a href="http://www.google-melange.com/gsoc/homepage/google/gsoc2014">Google Summer of Code</a> with that project for the Boost organization and got in. The goal was to polish the MPL11 and get it in Boost by the end of the summer. In May, before GSoC was started full steam, I presented the project at <a href="http://cppnow.org">C++Now</a> and had insightful conversations with several attendees. The idea that it was possible to unify the <a href="http://www.boost.org/doc/libs/release/libs/fusion/doc/html/index.html">Boost.Fusion</a> and the <a href="http://www.boost.org/doc/libs/release/libs/mpl/doc/index.html">Boost.MPL</a> libraries made its way and I became convinced of it after writing the first prototype for what is now Boost.Hana. We are now in late July and the plan is to request an official review to get the library in Boost by the end of GSoC; we'll see how that works out.</p>
+<p>Let the fun begin.</p>
+<h1><a class="anchor" id="introduction"></a>
+Introduction</h1>
+<p>Boost.Hana is a library of combinators tailored towards the manipulation of heterogeneous collections. However, the core of Hana is a powerful system for ad-hoc polymorphism inspired by Haskell type classes; this extension system is then used to provide all the functionality of the library in a generic way.</p>
+<p>The library uses a purely functional style of programming, which is required to manipulate objects of heterogeneous types &ndash; it is impossible to modify the type of an object, so a new object must be introduced.</p>
+<p>Contrary to previous metaprogramming libraries like Boost.MPL and Boost.Fusion, the design of the library is not based on that of the STL. Rather, it is strongly inspired by several (standard and non standard) modules written for the Haskell programming language. Through experience, the author has found this to be much more expressive, flexible and easy to use while not sacrificing any performance given the purely functional setting.</p>
+<h1><a class="anchor" id="quick-start"></a>
+Quick start</h1>
+<p>This section assumes the reader is already familiar with <code>std::tuple</code> and basic metaprogramming. First, let's include the library:</p>
+ <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="hana_8hpp.html">boost/hana.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">using namespace </span>boost::hana;</div>
+</div><!-- fragment --></p>
+<blockquote class="doxtable">
+<h4>Note</h4>
+<p>Unless specified otherwise, the documentation assumes that the above lines are present before examples and code snippets. Use your judgement! </p>
+</blockquote>
+<p>Finer grained headers are provided and will be explained in the <a class="el" href="index.html#organization">Organization</a> section, but for now this will do. Let's create an heterogeneous list, which is conceptually the same as a <code>std::tuple</code>:</p>
+<p><div class="fragment"><div class="line">    <span class="keyword">auto</span> xs = <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="charliteral">&#39;2&#39;</span>, std::string{<span class="stringliteral">&quot;345&quot;</span>});</div>
+</div><!-- fragment --></p>
+<p>Here, <code>list</code> is a generic lambda taking a variable number of arguments and returning an object which is a valid sequence for Boost.Hana. The actual type of the object returned by <code>list</code> is left unspecified, as will always be the case in this library. However, something called its "data type" is specified; <code>list</code> returns an object of data type <code>List</code>. Data types will be explained in detail in their own section. There are several operations that can be performed on lists; here are a couple so you get the feeling:</p>
+<p><div class="fragment"><div class="line">    assert(<a class="code" href="structboost_1_1hana_1_1_iterable.html#a5379264e83af65af8802eeec0d49e5f0">last</a>(xs) == <span class="stringliteral">&quot;345&quot;</span>);</div>
+<div class="line">    assert(<a class="code" href="structboost_1_1hana_1_1_iterable.html#ab15783aae10d4373e2399abe728f3f96">tail</a>(xs) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(<span class="charliteral">&#39;2&#39;</span>, std::string{<span class="stringliteral">&quot;345&quot;</span>}));</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(!<a class="code" href="structboost_1_1hana_1_1_iterable.html#a4193ecf811f29479c60022564afa512a">is_empty</a>(xs));</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_iterable.html#a80176fbdfbccc09e902263557eb0984d">for_each</a>(xs, [](<span class="keyword">auto</span> x) { std::cout &lt;&lt; x; });</div>
+</div><!-- fragment --></p>
+<p>An interesting observation is that <code>is_empty</code> returns a value that can be constexpr-converted to bool even though the list contains non-constexpr objects (a <code>std::string</code>). Indeed, the size of the sequence is known at compile-time regardless of its content, so it only makes sense that the library does not throw away this information. Let's take that <code>for_each</code> for a tour and write a function that prints a list as XML:</p>
+<p><div class="fragment"><div class="line">    <span class="keyword">auto</span> to_xml = [](<span class="keyword">auto</span>&amp; ostream, <span class="keyword">auto</span> xs) {</div>
+<div class="line">        <a class="code" href="structboost_1_1hana_1_1_iterable.html#a80176fbdfbccc09e902263557eb0984d">for_each</a>(xs, [&amp;](<span class="keyword">auto</span> x) {</div>
+<div class="line">            ostream &lt;&lt; <span class="charliteral">&#39;&lt;&#39;</span>  &lt;&lt; <span class="keyword">typeid</span>(x).name() &lt;&lt; <span class="charliteral">&#39;&gt;&#39;</span></div>
+<div class="line">                    &lt;&lt;                x</div>
+<div class="line">                    &lt;&lt; <span class="stringliteral">&quot;&lt;/&quot;</span> &lt;&lt; <span class="keyword">typeid</span>(x).name() &lt;&lt; <span class="charliteral">&#39;&gt;&#39;</span>;</div>
+<div class="line">        });</div>
+<div class="line">    };</div>
+<div class="line">    to_xml(std::cout, xs);</div>
+</div><!-- fragment --></p>
+<p>One of the initial goals of the library was to unify type level programming with value level programming. So in principle, it should be possible to manipulate types and sequences of types just as one would do with the Boost.MPL. Here is how Hana does it:</p>
+<p><div class="fragment"><div class="line">    <span class="keyword">auto</span> ts = <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(type&lt;int*&gt;, type&lt;void&gt;, type&lt;char const&gt;);</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_iterable.html#a5379264e83af65af8802eeec0d49e5f0">last</a>(ts) == type&lt;char const&gt;);</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_functor.html#a84bb505c8405a5cd3003db49f652faa2">fmap</a>(metafunction&lt;std::add_pointer&gt;, ts) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(type&lt;int**&gt;, type&lt;void*&gt;, type&lt;char const*&gt;));</div>
+</div><!-- fragment --></p>
+<p>There is a lot going on here. First, <code>type</code> is a variable template, and <code>type&lt;T&gt;</code> is an object representing the C++ type <code>T</code>. Since it's an object, it makes perfect sense to create a list out of these guys. Second, <code>fmap</code> is a function similar to <code>std::transform</code>: it takes a function object and a list (actually any <code>Functor</code> &ndash; more on this later), applies the function to every element in the list and returns the resulting list. Now, this means that somehow <code>metafunction&lt;std::add_pointer&gt;</code> is in fact a function object. Specifically, <code>metafunction</code> is a variable template taking a template template parameter, and <code>metafunction&lt;std::add_pointer&gt;</code> is a function object which accepts a <code>type&lt;T&gt;</code> and returns <code>type&lt;std::add_pointer&lt;T&gt;::type&gt;</code>. Still with me?</p>
+<p>So far, we can perform computations on C++ types but we can't really do anything useful with the result if we can't get the type out, i.e. get the <code>T</code> out of <code>type&lt;T&gt;</code>. This is easily done:</p>
+<p><div class="fragment"><div class="line">    static_assert(std::is_same&lt;</div>
+<div class="line">        decltype(<a class="code" href="structboost_1_1hana_1_1_iterable.html#a5379264e83af65af8802eeec0d49e5f0">last</a>(ts))::<a class="code" href="structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c">type</a>,</div>
+<div class="line">        <span class="keywordtype">char</span> <span class="keyword">const</span></div>
+<div class="line">    &gt;::value, <span class="stringliteral">&quot;&quot;</span>);</div>
+</div><!-- fragment --></p>
+<p>It turns out that while <code>type&lt;T&gt;</code> has an unspecified C++ type, that C++ type is still guaranteed to have a nested type named <code>type</code> which is an alias to <code>T</code>. In Boost.MPL parlance, <code>decltype(type&lt;T&gt;)</code> is a nullary metafunction returning <code>T</code>.</p>
+<p>This is it for the quick start. Of course, there is much more available like associative sequences, sets, ranges and even an heterogeneous <code>std::optional</code> called <code>Maybe</code>, but you can read on if you want to know more.</p>
+<h1><a class="anchor" id="organization"></a>
+Organization</h1>
+<h1><a class="anchor" id="datatypes"></a>
+Data types</h1>
+<h1><a class="anchor" id="type-classes"></a>
+Type classes</h1>
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jun 26 2014 11:22:18 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jul 22 2014 13:51:05 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

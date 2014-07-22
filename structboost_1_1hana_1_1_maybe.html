@@ -111,9 +111,9 @@ Related Functions</h2></td></tr>
 <tr class="memitem:a8ad818d6df7379b0adefa45d2ac844d0"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a></td></tr>
 <tr class="memdesc:a8ad818d6df7379b0adefa45d2ac844d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an optional value containing <code>x</code>.  <a href="#a8ad818d6df7379b0adefa45d2ac844d0">More...</a><br /></td></tr>
 <tr class="separator:a8ad818d6df7379b0adefa45d2ac844d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a29f6b42bf7bb5ca6d310c40baf1da900"><td class="memItemLeft" align="right" valign="top">constexpr operators::_nothing&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_maybe.html#a29f6b42bf7bb5ca6d310c40baf1da900">nothing</a></td></tr>
-<tr class="memdesc:a29f6b42bf7bb5ca6d310c40baf1da900"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an empty optional value.  <a href="#a29f6b42bf7bb5ca6d310c40baf1da900">More...</a><br /></td></tr>
-<tr class="separator:a29f6b42bf7bb5ca6d310c40baf1da900"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2be2b3e89cab04d5f1e2b9edefdb2518"><td class="memItemLeft" align="right" valign="top">constexpr maybe_detail::nothing&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_maybe.html#a2be2b3e89cab04d5f1e2b9edefdb2518">nothing</a></td></tr>
+<tr class="memdesc:a2be2b3e89cab04d5f1e2b9edefdb2518"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an empty optional value.  <a href="#a2be2b3e89cab04d5f1e2b9edefdb2518">More...</a><br /></td></tr>
+<tr class="separator:a2be2b3e89cab04d5f1e2b9edefdb2518"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6529e11cb228e99a05e81071752807d5"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_maybe.html#a6529e11cb228e99a05e81071752807d5">maybe</a></td></tr>
 <tr class="memdesc:a6529e11cb228e99a05e81071752807d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applies a function to the contents of a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code>, with a fallback result.  <a href="#a6529e11cb228e99a05e81071752807d5">More...</a><br /></td></tr>
 <tr class="separator:a6529e11cb228e99a05e81071752807d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -134,8 +134,7 @@ Related Functions</h2></td></tr>
 <div class="textblock"><p>Represents an optional value. </p>
 <p>A <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code> either contains a value (represented as <code>just(x)</code>), or it is empty (represented as <code>nothing</code>). </p><hr/>
 <h2>Instance of</h2>
-<p><code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable type class defines equality and inequality. ">Comparable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_functor.html" title="Functor represents types that can be mapped over. ">Functor</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="Applicatives are Functors with the ability to lift values and combine computations. ">Applicative</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="Monads are Applicatives with the ability to flatten values that were lifted more than once...">Monad</a></code> and <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="Data structures that can be folded, i.e. summarized into a single value. ">Foldable</a></code></p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000010">Todo:</a></b></dt><dd>Check <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="Applicatives are Functors with the ability to lift values and combine computations. ">Applicative</a></code> laws. </dd></dl>
+<p><code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable type class defines equality and inequality. ">Comparable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_functor.html" title="Functor represents types that can be mapped over. ">Functor</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="Applicatives are Functors with the ability to lift values and combine computations. ">Applicative</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="Monads are Applicatives with the ability to flatten values that were lifted more than once...">Monad</a></code> and <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="Data structures that can be folded, i.e. summarized into a single value. ">Foldable</a></code> </p>
 </div><h2 class="groupheader">Friends And Related Function Documentation</h2>
 <a class="anchor" id="a2ebdc9b916940e038e6f2e3043e4f796"></a>
 <div class="memitem">
@@ -192,7 +191,7 @@ Related Functions</h2></td></tr>
 <p>Returns the contents of a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code>, or a default value if the <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code> is <code>nothing</code>. </p>
 <h3>Example</h3>
 <div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#afb98884a58d911687bf2aa64a411d623">from_maybe</a>(0, <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(1)) == 1);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#afb98884a58d911687bf2aa64a411d623">from_maybe</a>(0, <a class="code" href="structboost_1_1hana_1_1_maybe.html#a29f6b42bf7bb5ca6d310c40baf1da900">nothing</a>) == 0);</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#afb98884a58d911687bf2aa64a411d623">from_maybe</a>(0, <a class="code" href="structboost_1_1hana_1_1_maybe.html#a2be2b3e89cab04d5f1e2b9edefdb2518">nothing</a>) == 0);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -286,7 +285,7 @@ Related Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> default_, <span class="keyword">auto</span> f, <span class="keyword">auto</span> m) {</div>
-<div class="line">        <span class="keywordflow">return</span> m.maybe(default_, f);</div>
+<div class="line">        <span class="keywordflow">return</span> m.maybe_impl(default_, f);</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Applies a function to the contents of a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code>, with a fallback result. </p>
@@ -294,11 +293,11 @@ Related Functions</h2></td></tr>
 <h3>Example</h3>
 <div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> inc = [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> x + 1; };</div>
 <div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a6529e11cb228e99a05e81071752807d5">maybe</a>(0, inc, <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(1)) == 2);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a6529e11cb228e99a05e81071752807d5">maybe</a>(0, inc, <a class="code" href="structboost_1_1hana_1_1_maybe.html#a29f6b42bf7bb5ca6d310c40baf1da900">nothing</a>) == 0);</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a6529e11cb228e99a05e81071752807d5">maybe</a>(0, inc, <a class="code" href="structboost_1_1hana_1_1_maybe.html#a2be2b3e89cab04d5f1e2b9edefdb2518">nothing</a>) == 0);</div>
 </div><!-- fragment -->
 </div>
 </div>
-<a class="anchor" id="a29f6b42bf7bb5ca6d310c40baf1da900"></a>
+<a class="anchor" id="a2be2b3e89cab04d5f1e2b9edefdb2518"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -306,7 +305,7 @@ Related Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr operators::_nothing nothing</td>
+          <td class="memname">constexpr maybe_detail::nothing nothing</td>
         </tr>
       </table>
   </td>
@@ -323,7 +322,7 @@ Related Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jun 26 2014 11:22:17 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jul 22 2014 13:51:05 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

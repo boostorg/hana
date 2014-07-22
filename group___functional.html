@@ -102,12 +102,12 @@ Variables</h2></td></tr>
 <tr class="memitem:ga30027c383676084be151ef3c6cf2829f"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___functional.html#ga30027c383676084be151ef3c6cf2829f">boost::hana::apply</a></td></tr>
 <tr class="memdesc:ga30027c383676084be151ef3c6cf2829f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes <code>f</code> with <code>xs...</code> as arguments.  <a href="#ga30027c383676084be151ef3c6cf2829f">More...</a><br /></td></tr>
 <tr class="separator:ga30027c383676084be151ef3c6cf2829f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga6acc765a35c4dc85f0deab4785831a3d"><td class="memTemplParams" colspan="2">template&lt;std::size_t n&gt; </td></tr>
+<tr class="memitem:ga6acc765a35c4dc85f0deab4785831a3d"><td class="memTemplParams" colspan="2">template&lt;detail::std::size_t n&gt; </td></tr>
 <tr class="memitem:ga6acc765a35c4dc85f0deab4785831a3d"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group___functional.html#ga6acc765a35c4dc85f0deab4785831a3d">boost::hana::arg</a></td></tr>
 <tr class="memdesc:ga6acc765a35c4dc85f0deab4785831a3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns its <code>n</code>th argument.  <a href="#ga6acc765a35c4dc85f0deab4785831a3d">More...</a><br /></td></tr>
 <tr class="separator:ga6acc765a35c4dc85f0deab4785831a3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga3b16146e53efcdf9ecbb9a7b21f8cd0b"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">boost::hana::compose</a></td></tr>
-<tr class="memdesc:ga3b16146e53efcdf9ecbb9a7b21f8cd0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the composition of two functions.  <a href="#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">More...</a><br /></td></tr>
+<tr class="memdesc:ga3b16146e53efcdf9ecbb9a7b21f8cd0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the composition of two functions or more.  <a href="#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">More...</a><br /></td></tr>
 <tr class="separator:ga3b16146e53efcdf9ecbb9a7b21f8cd0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga49ea872ade5ac8f6c10052c495302e89"><td class="memTemplParams" colspan="2">template&lt;unsigned int arity&gt; </td></tr>
 <tr class="memitem:ga49ea872ade5ac8f6c10052c495302e89"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group___functional.html#ga49ea872ade5ac8f6c10052c495302e89">boost::hana::curry</a></td></tr>
@@ -240,7 +240,7 @@ Variables</h2></td></tr>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;std::size_t n&gt; </div>
+template&lt;detail::std::size_t n&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">constexpr auto boost::hana::arg</td>
@@ -268,7 +268,7 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(arg&lt;2&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3) == <span class="charliteral">&#39;2&#39;</span>);</div>
 <div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(arg&lt;3&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3) == 3.3);</div>
 <div class="line">    <span class="comment">// arg&lt;4&gt;(1, &#39;2&#39;, 3.3); // static assertion</span></div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000013">Todo:</a></b></dt><dd><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a> this should be <code>arg(n)</code> instead of <code>arg&lt;n&gt;</code>? It's more consistent but harder to use since we have to write <code>arg(int_&lt;n&gt;)(...)</code> instead of <code>arg&lt;n&gt;(...)</code>. </dd></dl>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000010">Todo:</a></b></dt><dd><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a> this should be <code>arg(n)</code> instead of <code>arg&lt;n&gt;</code>? It's more consistent but harder to use since we have to write <code>arg(int_&lt;n&gt;)(...)</code> instead of <code>arg&lt;n&gt;(...)</code>. </dd></dl>
 
 </div>
 </div>
@@ -281,11 +281,14 @@ template&lt;std::size_t n&gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> g) {</div>
-<div class="line">        <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> x, <span class="keyword">auto</span> ...xs) { <span class="keywordflow">return</span> f(g(x), xs...); };</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> g, <span class="keyword">auto</span> ...h) {</div>
+<div class="line">        <span class="keywordflow">return</span> detail::left_folds::variadic_unrolled(</div>
+<div class="line">            functional_detail::compose2, f, g, h...</div>
+<div class="line">        );</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
-<p>Returns the composition of two functions. </p>
+<p>Returns the composition of two functions or more. </p>
+<p>Specifically, <code>compose(f, g)(x, y...)</code> is equivalent to <code>f(g(x), y...)</code>, and <code>compose(f, g, h...)</code> is equivalent to <code>compose(f, compose(g, h...))</code>.</p>
 <dl class="section note"><dt>Note</dt><dd><code>compose</code> is an associative operation; <code>compose(f, compose(g, h))</code> is equivalent to <code>compose(compose(f, g), h)</code>.</dd></dl>
 <h3>Example</h3>
 <div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> to_char = [](<span class="keywordtype">int</span> x) {</div>
@@ -297,14 +300,7 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">    };</div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="group___functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>(to_char, increment)(3) == <span class="charliteral">&#39;4&#39;</span>);</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000014">Todo:</a></b></dt><dd>Consider supporting more than 2 arguments. It's a major gain but we lose the ability to curry automatically.</dd></dl>
-<h3>Proof of associativity (<code>.</code> is <code>compose</code>)</h3>
-<div class="fragment"><div class="line">f . (g . h) $ x xs... == f ((g . h) x) xs...</div>
-<div class="line">                      == f (g (h x)) xs...</div>
-<div class="line"></div>
-<div class="line">(f . g) . h $ x xs... == (f . g) (h x) xs...</div>
-<div class="line">                      == f (g (h x)) xs...</div>
-</div><!-- fragment --> 
+</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="ga49ea872ade5ac8f6c10052c495302e89"></a>
@@ -335,7 +331,7 @@ template&lt;unsigned int arity&gt; </div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(curry&lt;0&gt;(two)() == two());</div>
 </div><!-- fragment --> </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000015">Todo:</a></b></dt><dd>Consider making <code>curry&lt;0&gt;(f)</code> equivalent to <code>f</code>. It might be more general or less useful if it creates subtle pitfalls.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000011">Todo:</a></b></dt><dd>Consider making <code>curry&lt;0&gt;(f)</code> equivalent to <code>f</code>. It might be more general or less useful if it creates subtle pitfalls.</dd></dl>
 
 </div>
 </div>
@@ -369,17 +365,11 @@ template&lt;unsigned int arity&gt; </div>
 <div class="line">        ==</div>
 <div class="line">        make_tuple(10 + 4, 10 - 4, 10 * 4, 10 / 4)</div>
 <div class="line">    );</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000016">Todo:</a></b></dt><dd><ul>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000012">Todo:</a></b></dt><dd><ul>
 <li>I think this is equivalent to <code>fmap . fmap</code>. See <a href="http://stackoverflow.com/q/5821089/627587">http://stackoverflow.com/q/5821089/627587</a></li>
 </ul>
 </dd></dl>
-<h3>Proof of associativity in the binary case</h3>
-<div class="fragment"><div class="line"><a class="code" href="group___functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(f, <a class="code" href="group___functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(g, h))(x...) == f(<a class="code" href="group___functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(g, h)(x...))</div>
-<div class="line">                            == f(g(h(x...)))</div>
-<div class="line"></div>
-<div class="line"><a class="code" href="group___functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(<a class="code" href="group___functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(f, g), h)(x...) == <a class="code" href="group___functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(f, g)(h(x...))</div>
-<div class="line">                            == f(g(h(x...)))</div>
-</div><!-- fragment --> 
+
 </div>
 </div>
 <a class="anchor" id="ga26508f30f8842350ea0f9a7ca73bfd52"></a>
@@ -466,7 +456,7 @@ template&lt;unsigned int arity&gt; </div>
 </div><!-- fragment -->
 <p>Invokes <code>f</code> with the result of invoking each <code>g</code> on its corresponding argument, in lockstep. </p>
 <dl class="section note"><dt>Note</dt><dd>Since the <code>g</code>s are applied in lockstep to the arguments, the number of arguments must match the number of <code>g</code>s.</dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000017">Todo:</a></b></dt><dd>I think this is equivalent to <code>&lt;*&gt;</code> for <code>((-&gt;) r)</code>.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000013">Todo:</a></b></dt><dd>I think this is equivalent to <code>&lt;*&gt;</code> for <code>((-&gt;) r)</code>.</dd></dl>
 <h3>Example</h3>
 <div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> plus = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
 <div class="line">        <span class="keywordflow">return</span> x + y;</div>
@@ -520,13 +510,7 @@ template&lt;unsigned int arity&gt; </div>
 <div class="line">    };</div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="group___functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>(multiply, increment)(2, 4) == 3 * 5);</div>
-</div><!-- fragment --> <h3>Proof of associativity</h3>
-<div class="fragment"><div class="line"><a class="code" href="group___functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>(f, <a class="code" href="group___functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>(g, h))(xs...) == f(<a class="code" href="group___functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>(g, h)(xs)...)</div>
-<div class="line">                       == f(g(h(xs))...)</div>
-<div class="line"></div>
-<div class="line"><a class="code" href="group___functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>(<a class="code" href="group___functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>(f, g), h)(xs...) == <a class="code" href="group___functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>(f, g)(h(xs)...)</div>
-<div class="line">                       == f(g(h(xs))...)</div>
-</div><!-- fragment --> 
+</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="ga778b2daa27882e71d28b6f2b38982ddf"></a>
@@ -557,7 +541,7 @@ template&lt;unsigned int arity&gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jun 26 2014 11:22:17 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jul 22 2014 13:51:05 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

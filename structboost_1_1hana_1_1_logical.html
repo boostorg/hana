@@ -148,12 +148,12 @@ Related Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code> type class is for data types acting like a boolean. </p>
 <hr/>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000026">Todo:</a></b></dt><dd><ul>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000025">Todo:</a></b></dt><dd><ul>
 <li>Use a non-naive implementation for variadic <code>and_</code> and <code>or_</code>.</li>
 <li>Consider making this a real boolean algebra.</li>
 </ul>
 </dd></dl>
-<dl class="bug"><dt><b><a class="el" href="bug.html#_bug000004">Bug:</a></b></dt><dd>We don't short-circuit right now. Don't forget to change the examples and unit tests when that's implemented. </dd></dl>
+<dl class="bug"><dt><b><a class="el" href="bug.html#_bug000003">Bug:</a></b></dt><dd>We don't short-circuit right now. Don't forget to change the examples and unit tests when that's implemented. </dd></dl>
 </div><h2 class="groupheader">Friends And Related Function Documentation</h2>
 <a class="anchor" id="a54c3469073cdefeecc1a6d4cfaf89ca0"></a>
 <div class="memitem">
@@ -174,12 +174,10 @@ Related Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Return whether all the arguments are true-valued. </p>
-<p><code>and_</code> can be called with any number of arguments. When called with two arguments, <code>and_</code> dispatches to the type class implementation. Otherwise, </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_logical.html#a54c3469073cdefeecc1a6d4cfaf89ca0">and_</a>() == true_</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1_logical.html#a54c3469073cdefeecc1a6d4cfaf89ca0">and_</a>(x) == x</div>
+<p><code>and_</code> can be called with one argument or more. When called with two arguments, <code>and_</code> dispatches to the type class implementation. Otherwise, </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_logical.html#a54c3469073cdefeecc1a6d4cfaf89ca0">and_</a>(x) == x</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1_logical.html#a54c3469073cdefeecc1a6d4cfaf89ca0">and_</a>(x, y, ...z) == <a class="code" href="structboost_1_1hana_1_1_logical.html#a54c3469073cdefeecc1a6d4cfaf89ca0">and_</a>(x, <a class="code" href="structboost_1_1hana_1_1_logical.html#a54c3469073cdefeecc1a6d4cfaf89ca0">and_</a>(y, z...))</div>
 </div><!-- fragment --><h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_logical.html#a54c3469073cdefeecc1a6d4cfaf89ca0">and_</a>());</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_logical.html#a54c3469073cdefeecc1a6d4cfaf89ca0">and_</a>(true_, true_, true_, true_));</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_logical.html#a54c3469073cdefeecc1a6d4cfaf89ca0">and_</a>(true_, true_, true_, true_));</div>
 <div class="line">    <span class="comment">// BOOST_HANA_STATIC_ASSERT(!and_(true_, false_, &quot;never evaluated&quot;));</span></div>
 </div><!-- fragment -->
 </div>
@@ -394,12 +392,10 @@ template&lt;typename X , typename Y &gt; </div>
 </div><div class="memdoc">
 
 <p>Return whether any of the arguments is true-valued. </p>
-<p><code>or_</code> can be called with any number of arguments. When called with two arguments, <code>or_</code> dispatches to the type class implementation. Otherwise, </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_logical.html#ac68b6f5ded3c6bcd17a6c69bce0df2df">or_</a>() == false_</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1_logical.html#ac68b6f5ded3c6bcd17a6c69bce0df2df">or_</a>(x) == x</div>
+<p><code>or_</code> can be called with one argument or more. When called with two arguments, <code>or_</code> dispatches to the type class implementation. Otherwise, </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_logical.html#ac68b6f5ded3c6bcd17a6c69bce0df2df">or_</a>(x) == x</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1_logical.html#ac68b6f5ded3c6bcd17a6c69bce0df2df">or_</a>(x, y, ...z) == <a class="code" href="structboost_1_1hana_1_1_logical.html#ac68b6f5ded3c6bcd17a6c69bce0df2df">or_</a>(x, <a class="code" href="structboost_1_1hana_1_1_logical.html#ac68b6f5ded3c6bcd17a6c69bce0df2df">or_</a>(y, z...))</div>
 </div><!-- fragment --><h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(!<a class="code" href="structboost_1_1hana_1_1_logical.html#ac68b6f5ded3c6bcd17a6c69bce0df2df">or_</a>());</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(!<a class="code" href="structboost_1_1hana_1_1_logical.html#ac68b6f5ded3c6bcd17a6c69bce0df2df">or_</a>(false_, false_, false_));</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(!<a class="code" href="structboost_1_1hana_1_1_logical.html#ac68b6f5ded3c6bcd17a6c69bce0df2df">or_</a>(false_, false_, false_));</div>
 <div class="line">    <span class="comment">// BOOST_HANA_STATIC_ASSERT(or_(false_, true_, &quot;never evaluated&quot;));</span></div>
 </div><!-- fragment -->
 </div>
@@ -407,7 +403,7 @@ template&lt;typename X , typename Y &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jun 26 2014 11:22:17 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jul 22 2014 13:51:05 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

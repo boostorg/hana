@@ -96,7 +96,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div class="summary">
 <a href="structboost_1_1hana_1_1convert-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">boost::hana::convert&lt; To, From, Enable &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group___core.html">Core</a></div></div>  </div>
+<div class="title">boost::hana::convert&lt; To, From, Enable &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__core.html">Core</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -117,8 +117,10 @@ struct boost::hana::convert&lt; To, From, Enable &gt;</h3>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal__mcd_8hpp.html">boost/hana/comparable/equal_mcd.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_8hpp.html">boost/hana/core.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="list_8hpp.html">boost/hana/list.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="ext_2std_2list_8hpp.html">boost/hana/ext/std/list.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="list_2instance_8hpp.html">boost/hana/list/instance.hpp</a>&gt;</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;cassert&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;list&gt;</span></div>
@@ -134,8 +136,12 @@ struct boost::hana::convert&lt; To, From, Enable &gt;</h3>
 <div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line">    <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1datatype.html">datatype</a>&lt;std::vector&lt;T&gt;&gt; { <span class="keyword">using</span> type = StdVector; };</div>
 <div class="line"></div>
-<div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line">    <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1datatype.html">datatype</a>&lt;std::list&lt;T&gt;&gt; { <span class="keyword">using</span> type = StdList; };</div>
+<div class="line">    <span class="keyword">template</span> &lt;&gt;</div>
+<div class="line">    <span class="keyword">struct </span>Comparable::instance&lt;StdVector, StdVector&gt; : <a class="code" href="structboost_1_1hana_1_1_comparable_1_1equal__mcd.html">Comparable::equal_mcd</a> {</div>
+<div class="line">        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line">        <span class="keyword">static</span> <span class="keyword">auto</span> equal_impl(std::vector&lt;T&gt; xs, std::vector&lt;T&gt; ys)</div>
+<div class="line">        { <span class="keywordflow">return</span> xs == ys; }</div>
+<div class="line">    };</div>
 <div class="line"></div>
 <div class="line">    <span class="keyword">template</span> &lt;&gt;</div>
 <div class="line">    <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1convert.html">convert</a>&lt;StdVector, StdList&gt; {</div>
@@ -165,7 +171,7 @@ struct boost::hana::convert&lt; To, From, Enable &gt;</h3>
 </div><!-- fragment --> </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jun 26 2014 11:22:17 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jul 22 2014 13:51:05 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

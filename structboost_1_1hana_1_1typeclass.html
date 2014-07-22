@@ -94,7 +94,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">boost::hana::typeclass&lt; Typeclass &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group___core.html">Core</a></div></div>  </div>
+<div class="title">boost::hana::typeclass&lt; Typeclass &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__core.html">Core</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -197,16 +197,14 @@ struct boost::hana::typeclass&lt; Typeclass &gt;</h3>
 <div class="line">    { <span class="keywordflow">return</span> x + n; }</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><span class="keyword">struct </span>incrementable_for_floats : Incrementable::next_mcd {</div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><span class="keyword">struct </span>Incrementable::instance&lt;T, std::enable_if_t&lt;std::is_floating_point&lt;T&gt;{}&gt;&gt;</div>
+<div class="line">    : Incrementable::next_mcd</div>
+<div class="line">{</div>
 <div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;</div>
 <div class="line">    <span class="keyword">static</span> constexpr <span class="keyword">auto</span> next_impl(X x)</div>
 <div class="line">    { <span class="keywordflow">return</span> x + 1; }</div>
 <div class="line">};</div>
-<div class="line"></div>
-<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><span class="keyword">struct </span>Incrementable::instance&lt;T, std::enable_if_t&lt;std::is_floating_point&lt;T&gt;{}&gt;&gt;</div>
-<div class="line">    : incrementable_for_floats</div>
-<div class="line">{ };</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(next(1) == 2);</div>
@@ -218,11 +216,10 @@ struct boost::hana::typeclass&lt; Typeclass &gt;</h3>
 <div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(next(1.0) == 2.0);</div>
 <div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(next_n(1.0, 3) == 4.0);</div>
 <div class="line">}</div>
-</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000005">Todo:</a></b></dt><dd>Provide a way to explicitly disable an instance? This could be useful to disable undesirable predicated instances. </dd></dl>
-</div></div><!-- contents -->
+</div><!-- fragment --> </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jun 26 2014 11:22:18 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jul 12 2014 17:55:55 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

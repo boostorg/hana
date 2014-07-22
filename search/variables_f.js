@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['range',['range',['../structboost_1_1hana_1_1_range.html#ac3b5f08f5a346605377cf5fa9c4fb973',1,'boost::hana::Range']]],
-  ['replace',['replace',['../structboost_1_1hana_1_1_functor.html#a72e73dcc09699c619bcfb006029a8967',1,'boost::hana::Functor']]],
-  ['reverse',['reverse',['../structboost_1_1hana_1_1_list.html#a4471413ccc3835db5e48658683b8aba0',1,'boost::hana::List']]]
+  ['on',['on',['../group___functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1',1,'boost::hana']]],
+  ['or_5f',['or_',['../structboost_1_1hana_1_1_logical.html#ac68b6f5ded3c6bcd17a6c69bce0df2df',1,'boost::hana::Logical']]]
 ];
