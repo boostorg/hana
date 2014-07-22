@@ -28,6 +28,10 @@ namespace boost { namespace hana {
     //! The order of the elements of the map is unspecified. Also, all the
     //! keys must be comparable with each other and that comparison must
     //! yield a boolean `Integral`.
+    //!
+    //! @todo
+    //! We can't have a map with both `Type` and `Integral` keys because they
+    //! are not `Comparable` together. Is this normal or should we fix this?
     struct Map { };
 
     //! Creates a `Map` with the given key/value associations.
