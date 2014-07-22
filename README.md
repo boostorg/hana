@@ -103,7 +103,7 @@ Want to contribute? Great!
 4. Make sure you did not break anything (`make tests examples`)
 5. Commit your changes (`git commit -am "Added feature X"`)
 6. Push to the branch (`git push origin feature_X`)
-7. Open a [Pull Request][1]
+7. Open a pull request
 
 
 <!-- Links -->
