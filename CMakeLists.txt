@@ -67,6 +67,7 @@ add_definitions(
 #=============================================================================
 find_package(Boost)
 find_package(Doxygen)
+find_package(Git)
 find_package(Gnuplot)
 find_package(Ruby 2.1)
 
