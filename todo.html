@@ -88,6 +88,31 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="textblock"><dl class="reflist">
 <dt><a class="anchor" id="_todo000001"></a>Member <a class="el" href="structboost_1_1hana_1_1_applicative.html#a0d7511a7a164af8cc6040052b3fbee51">ap</a>  </dt>
 <dd>Consider giving access to all the arguments to the type class implementation. This is for performance purposes.  </dd>
+<dt><a class="anchor" id="_todo000035"></a>page <a class="el" href="index.html">Boost.Hana</a>  </dt>
+<dd><p class="startdd"></p>
+<p></p>
+<ul>
+<li>When we have functions with several variants, consider naming versions with the following scheme: <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>.lazy</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>.strict</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a> == <a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>.strict</div>
+</div><!-- fragment --> That would be prettier and not much more complicated. However, we would need a naming convention for the <code>_impl</code> versions of those.</li>
+<li>To consider: is it possible/desirable to eliminate partial functions? For example, removing <code>head</code> and <code>tail</code>, which can fail, and replace them by a function which returns a <code>Maybe</code>.</li>
+<li>Document the library's stance on perfect forwarding and move semantics. Make compile-time tests with non-copyable types and runtime tests with expensive-to-copy types.</li>
+<li>In the unit tests, we might want to use an injective function on <code>Comparable</code>s instead of <code>std::make_tuple</code>.</li>
+<li>Write a tutorial. In particular:<ul>
+<li>Document how to emulate <code>make_fused</code> and friends from Boost.Fusion.</li>
+<li>Document how to write common Boost.Fusion and Boost.MPL idioms with Boost.Hana.</li>
+</ul>
+</li>
+<li>Write runtime benchmarks.</li>
+<li>Setup a BJam build system.</li>
+<li>Consider making function objects automatically curriable. This could allow <em>super sexy</em> stuff like: <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;&gt;</div>
+<div class="line"><span class="keyword">struct </span>Iterable&lt;List&gt; {</div>
+<div class="line">    <span class="keyword">static</span> constexpr <span class="keyword">auto</span> length_impl = foldl(some_lambda, size_t&lt;0&gt;);</div>
+<div class="line">};</div>
+</div><!-- fragment --> </li>
+</ul>
+</dd>
 <dt><a class="anchor" id="_todo000009"></a>Class <a class="el" href="structboost_1_1hana_1_1_applicative_1_1instance_3_01_std_tuple_01_4.html">boost::hana::Applicative::instance&lt; StdTuple &gt;</a>  </dt>
 <dd>Get rid of this redundant instance once <a href="http://llvm.org/bugs/show_bug.cgi?id=19616">http://llvm.org/bugs/show_bug.cgi?id=19616</a> is fixed.  </dd>
 <dt><a class="anchor" id="_todo000002"></a>Class <a class="el" href="structboost_1_1hana_1_1_applicative_1_1laws.html">boost::hana::Applicative::laws</a>  </dt>
@@ -153,7 +178,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>Consider making this a real boolean algebra. </li>
 </ul>
 </dd>
-<dt><a class="anchor" id="_todo000026"></a>Class <a class="el" href="structboost_1_1hana_1_1_monad.html">boost::hana::Monad</a>  </dt>
+<dt><a class="anchor" id="_todo000026"></a>Class <a class="el" href="structboost_1_1hana_1_1_map.html">boost::hana::Map</a>  </dt>
+<dd>We can't have a map with both <code>Type</code> and <code>Integral</code> keys because they are not <code>Comparable</code> together. Is this normal or should we fix this?  </dd>
+<dt><a class="anchor" id="_todo000027"></a>Class <a class="el" href="structboost_1_1hana_1_1_monad.html">boost::hana::Monad</a>  </dt>
 <dd><ul>
 <li>Consider adding a function to tap inside a monadic chain. This is probably the same as Haskell's <code>&gt;&gt;</code>.  </li>
 </ul>
@@ -168,13 +195,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line">nothing_to_do_with_hana&lt;something_to_do_with_hana&lt;int&gt;&gt; x{};</div>
 <div class="line">x == x; <span class="comment">// tries to use Comparable::equal_impl</span></div>
 </div><!-- fragment -->  </dd>
-<dt><a class="anchor" id="_todo000027"></a>Class <a class="el" href="structboost_1_1hana_1_1_pair.html">boost::hana::Pair</a>  </dt>
+<dt><a class="anchor" id="_todo000028"></a>Class <a class="el" href="structboost_1_1hana_1_1_pair.html">boost::hana::Pair</a>  </dt>
 <dd>Provide and document instances for <code>Functor</code>, <code>Applicative</code>, <code>Monad</code> and <code>Foldable</code>.  </dd>
-<dt><a class="anchor" id="_todo000028"></a>Class <a class="el" href="structboost_1_1hana_1_1_searchable.html">boost::hana::Searchable</a>  </dt>
+<dt><a class="anchor" id="_todo000029"></a>Class <a class="el" href="structboost_1_1hana_1_1_searchable.html">boost::hana::Searchable</a>  </dt>
 <dd>Explain how key/value works for searchables.  </dd>
 <dt><a class="anchor" id="_todo000023"></a>Class <a class="el" href="structboost_1_1hana_1_1_searchable_1_1instance_3_01_t_00_01when_3_01instantiates_3_01_list_00_01_t_01_4_07_08_4_01_4.html">boost::hana::Searchable::instance&lt; T, when&lt; instantiates&lt; List, T &gt;()&gt; &gt;</a>  </dt>
 <dd>Technically, this can be implemented in <code>Iterable</code>. Should it? </dd>
-<dt><a class="anchor" id="_todo000029"></a>Class <a class="el" href="structboost_1_1hana_1_1_type.html">boost::hana::Type</a>  </dt>
+<dt><a class="anchor" id="_todo000030"></a>Class <a class="el" href="structboost_1_1hana_1_1_type.html">boost::hana::Type</a>  </dt>
 <dd><ul>
 <li>Completely figure out and document the category theoretical foundation of this data type.</li>
 <li>Consider instantiating <code>Functor</code>, <code>Applicative</code> and <code>Monad</code> if that's possible.</li>
@@ -182,7 +209,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>Use more lambdas once <a href="http://llvm.org/bugs/show_bug.cgi?id=20046">http://llvm.org/bugs/show_bug.cgi?id=20046</a> is fixed.  </li>
 </ul>
 </dd>
-<dt><a class="anchor" id="_todo000032"></a>Class <a class="el" href="structboost_1_1hana_1_1_type_list.html">boost::hana::TypeList</a>  </dt>
+<dt><a class="anchor" id="_todo000033"></a>Class <a class="el" href="structboost_1_1hana_1_1_type_list.html">boost::hana::TypeList</a>  </dt>
 <dd><ul>
 <li>Efficient membership testing is possible.</li>
 <li><code>TypeList</code> is not really a <code>Functor</code> because the function must map from <code>Type</code>s to <code>Type</code>s. Should it be modified so that <code>TypeList</code> becomes <code>List</code> if we try to store something else than <code>Type</code>s? The same issue goes for <code>IntegerList</code>.  </li>
@@ -192,39 +219,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <dd>Fix headers including this. One possibility would be to provide the instance for Foldable when both foldable.hpp and iterable.hpp are included. </dd>
 <dt><a class="anchor" id="_todo000017"></a>Member <a class="el" href="structboost_1_1hana_1_1_iterable.html#a80176fbdfbccc09e902263557eb0984d">for_each</a>  </dt>
 <dd>This should probably be in a future <code>Traversable</code> type class.  </dd>
-<dt><a class="anchor" id="_todo000033"></a>File <a class="el" href="hana_8hpp.html">hana.hpp</a>  </dt>
-<dd><ul>
-<li>When we have functions with several variants, consider naming versions with the following scheme: <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>.lazy</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>.strict</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a> == <a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>.strict</div>
-</div><!-- fragment --> That would be prettier and not much more complicated. However, we would need a naming convention for the <code>_impl</code> versions of those.</li>
-<li>To consider: is it possible/desirable to eliminate partial functions? For example, removing <code>head</code> and <code>tail</code>, which can fail, and replace them by a function which returns a <code>Maybe</code>.</li>
-<li>Document the library's stance on perfect forwarding and move semantics. Make compile-time tests with non-copyable types and runtime tests with expensive-to-copy types.</li>
-<li>In the unit tests, we might want to use an injective function on <code>Comparable</code>s instead of <code>std::make_tuple</code>.</li>
-<li>Write a tutorial. In particular:<ul>
-<li>Document how to emulate <code>make_fused</code> and friends from Boost.Fusion.</li>
-<li>Document how to write common Boost.Fusion and Boost.MPL idioms with Boost.Hana.</li>
-</ul>
-</li>
-<li>Write runtime benchmarks.</li>
-<li>Setup a BJam build system.</li>
-<li>Provide a Main page for the Doxygen documentation.</li>
-<li>Consider making function objects automatically curriable. This could allow <em>super sexy</em> stuff like: <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;&gt;</div>
-<div class="line"><span class="keyword">struct </span>Iterable&lt;List&gt; {</div>
-<div class="line">    <span class="keyword">static</span> constexpr <span class="keyword">auto</span> length_impl = foldl(some_lambda, size_t&lt;0&gt;);</div>
-<div class="line">};</div>
-</div><!-- fragment --> </li>
-</ul>
-</dd>
 <dt><a class="anchor" id="_todo000019"></a>File <a class="el" href="list_2instance_8hpp.html">instance.hpp</a>  </dt>
 <dd>Find a way to get rid of this header. Same goes for <a class="el" href="pair_2instance_8hpp.html" title="Defines the boost::hana::Pair instance. ">pair/instance.hpp</a>. </dd>
 <dt><a class="anchor" id="_todo000020"></a>Member <a class="el" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>  </dt>
 <dd>Consider having <code>list_of&lt;Type&gt;</code>, <code>list_of&lt;Integral&gt;</code>, ..., <code>list_of&lt;Anything&gt;</code>, with <code>list == list_of&lt;Anything&gt;</code>. It does not fix the problem of partial type classes (e.g. <code>MplVector</code> is not <em>actually</em> a <code>List</code>), but at least we remove <code>TypeList</code> and <code>IntegerList</code>, which are arguably ugly.  </dd>
 <dt><a class="anchor" id="_todo000014"></a>Member <a class="el" href="structboost_1_1hana_1_1_integral.html#a1c078fd00db48686ca9e0aa17f47344e">operator</a> "_c" </dt>
 <dd>Add support for stuff like <code>0x1234_c</code>.  </dd>
-<dt><a class="anchor" id="_todo000031"></a>Member <a class="el" href="structboost_1_1hana_1_1_type.html#a5286be1cfdaca72680089a7d15a5c14c">sizeof_</a>  </dt>
+<dt><a class="anchor" id="_todo000032"></a>Member <a class="el" href="structboost_1_1hana_1_1_type.html#a5286be1cfdaca72680089a7d15a5c14c">sizeof_</a>  </dt>
 <dd>Should we also support non-<code>Type</code>s? That could definitely be useful.  </dd>
-<dt><a class="anchor" id="_todo000030"></a>Member <a class="el" href="structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c">type</a>  </dt>
+<dt><a class="anchor" id="_todo000031"></a>Member <a class="el" href="structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c">type</a>  </dt>
 <dd>Should this fail or not? Currently it fails because "non-constant-expression cannot be narrowed from type 'double' to
 'float' in initializer list" <div class="fragment"><div class="line">type&lt;float&gt;(<span class="keywordtype">double</span>{1.2})</div>
 </div><!-- fragment -->  </dd>
@@ -236,9 +239,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>Document requirements for the existing type classes.</li>
 <li>Find a better way to provide instances between type classes; consider something like <code>Foldable::instance&lt;Iterable&gt;</code>.</li>
 <li>Consider inheriting from a base class even when no mcd is required. That would allow us to <em>not</em> include a useless mcd.</li>
-<li>Document the include structure for type classes and the contracts between headers (what needs to be included and when). Could look like typeclass.hpp &ndash; everything typeclass/typeclass.hpp &ndash; forward declaration, operators, methods, &ndash; default-provided orphan instances (like &ndash; bool for Logical). This one is included by &ndash; everyone else in typeclass/, by contract typeclass/mcd.hpp &ndash; definition of a mcd typeclass/laws.hpp &ndash; laws of the type class</li>
 <li>Consider including the default provided instances in the mcds instead of the forward declaration header of a type class. However, that won't work for instances provided implicitly (e.g. Logical &lt;- bool or Comparable &lt;- x == y), because there is no MCD to be included for those.</li>
-<li>Document the purpose of minimal instances; they are meant to provide an easy to use archetype for testing and their tests are meant to exercice the basic dispatching code of type classes (hence it makes sense to test even the mcd of a minimal instance). In particular, they are not meant to be <em>the</em> minimal instance, which does not exist in general (what does it even mean to be a <em>minimal</em> instance?)  </li>
+<li>Document the purpose of minimal instances; they are meant to provide an easy to use archetype for testing and their tests are meant to exercise the basic dispatching code of type classes (hence it makes sense to test even the mcd of a minimal instance). In particular, they are not meant to be <em>the</em> minimal instance, which does not exist in general (what does it even mean to be a <em>minimal</em> instance?)  </li>
 </ul>
 </dd>
 <dt><a class="anchor" id="_todo000022"></a>Member <a class="el" href="structboost_1_1hana_1_1_list.html#a5eadaf63535ebb8cdd8d9e4c16b9bacd">zip_with</a>  </dt>
@@ -250,7 +252,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jul 22 2014 13:51:05 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jul 23 2014 13:52:46 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

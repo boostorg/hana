@@ -96,22 +96,25 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="textblock"><h1><a class="anchor" id="preface"></a>
 Preface</h1>
-<p>The seed that became this library was planted in late 2012, when I first started to reimplement the <a href="http://www.boost.org/doc/libs/release/libs/mpl/doc/index.html">Boost.MPL</a> using C++11 in a project named <a href="http://github.com/ldionne/mpl11">MPL11</a>. In spring 2014, I applied to <a href="http://www.google-melange.com/gsoc/homepage/google/gsoc2014">Google Summer of Code</a> with that project for the Boost organization and got in. The goal was to polish the MPL11 and get it in Boost by the end of the summer. In May, before GSoC was started full steam, I presented the project at <a href="http://cppnow.org">C++Now</a> and had insightful conversations with several attendees. The idea that it was possible to unify the <a href="http://www.boost.org/doc/libs/release/libs/fusion/doc/html/index.html">Boost.Fusion</a> and the <a href="http://www.boost.org/doc/libs/release/libs/mpl/doc/index.html">Boost.MPL</a> libraries made its way and I became convinced of it after writing the first prototype for what is now Boost.Hana. We are now in late July and the plan is to request an official review to get the library in Boost by the end of GSoC; we'll see how that works out.</p>
+<hr/>
+<p> The seed that became this library was planted in late 2012, when I first started to reimplement the <a href="http://www.boost.org/doc/libs/release/libs/mpl/doc/index.html">Boost.MPL</a> using C++11 in a project named <a href="http://github.com/ldionne/mpl11">MPL11</a>. In spring 2014, I applied to <a href="http://www.google-melange.com/gsoc/homepage/google/gsoc2014">Google Summer of Code</a> with that project for the Boost organization and got in. The goal was to polish the MPL11 and get it in Boost by the end of the summer. In May, before GSoC was started full steam, I presented the project at <a href="http://cppnow.org">C++Now</a> and had insightful conversations with several attendees. The idea that it was possible to unify the <a href="http://www.boost.org/doc/libs/release/libs/fusion/doc/html/index.html">Boost.Fusion</a> and the <a href="http://www.boost.org/doc/libs/release/libs/mpl/doc/index.html">Boost.MPL</a> libraries made its way and I became convinced of it after writing the first prototype for what is now Boost.Hana. We are now in late July and the plan is to request an official review to get the library in Boost by the end of GSoC; we'll see how that works out.</p>
 <p>Let the fun begin.</p>
 <h1><a class="anchor" id="introduction"></a>
 Introduction</h1>
-<p>Boost.Hana is a library of combinators tailored towards the manipulation of heterogeneous collections. However, the core of Hana is a powerful system for ad-hoc polymorphism inspired by Haskell type classes; this extension system is then used to provide all the functionality of the library in a generic way.</p>
+<hr/>
+<p> Boost.Hana is a library of combinators tailored towards the manipulation of heterogeneous collections. However, the core of Hana is a powerful system for ad-hoc polymorphism inspired by Haskell type classes; this extension system is then used to provide all the functionality of the library in a generic way.</p>
 <p>The library uses a purely functional style of programming, which is required to manipulate objects of heterogeneous types &ndash; it is impossible to modify the type of an object, so a new object must be introduced.</p>
 <p>Contrary to previous metaprogramming libraries like Boost.MPL and Boost.Fusion, the design of the library is not based on that of the STL. Rather, it is strongly inspired by several (standard and non standard) modules written for the Haskell programming language. Through experience, the author has found this to be much more expressive, flexible and easy to use while not sacrificing any performance given the purely functional setting.</p>
 <h1><a class="anchor" id="quick-start"></a>
 Quick start</h1>
-<p>This section assumes the reader is already familiar with <code>std::tuple</code> and basic metaprogramming. First, let's include the library:</p>
+<hr/>
+<p> This section assumes the reader is already familiar with <code>std::tuple</code> and basic metaprogramming. First, let's include the library:</p>
  <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="hana_8hpp.html">boost/hana.hpp</a>&gt;</span></div>
 <div class="line"><span class="keyword">using namespace </span>boost::hana;</div>
 </div><!-- fragment --></p>
 <blockquote class="doxtable">
 <h4>Note</h4>
-<p>Unless specified otherwise, the documentation assumes that the above lines are present before examples and code snippets. Use your judgement! </p>
+<p>Unless specified otherwise, the documentation assumes that the above lines are present before examples and code snippets. Use your judgment! </p>
 </blockquote>
 <p>Finer grained headers are provided and will be explained in the <a class="el" href="index.html#organization">Organization</a> section, but for now this will do. Let's create an heterogeneous list, which is conceptually the same as a <code>std::tuple</code>:</p>
 <p><div class="fragment"><div class="line">    <span class="keyword">auto</span> xs = <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="charliteral">&#39;2&#39;</span>, std::string{<span class="stringliteral">&quot;345&quot;</span>});</div>
@@ -148,14 +151,89 @@ Quick start</h1>
 <p>This is it for the quick start. Of course, there is much more available like associative sequences, sets, ranges and even an heterogeneous <code>std::optional</code> called <code>Maybe</code>, but you can read on if you want to know more.</p>
 <h1><a class="anchor" id="organization"></a>
 Organization</h1>
-<h1><a class="anchor" id="datatypes"></a>
+<hr/>
+<p> The library is designed to be very modular while keeping the number of headers that must be included to get basic functionality reasonably low. The structure of the library is influenced by the structure of type classes and data types, which will be covered later. Once you are familiar with these basic concepts, the header structure should feel intuitive.</p>
+<ul>
+<li><code><a class="el" href="hana_8hpp.html" title="Includes all the library components except the adapters for external libraries. ">boost/hana.hpp</a></code><br />
+ This is the master header of the library. It includes the whole public interface of the library except adapters for external libraries, which must be included separately.</li>
+<li><code>boost/hana/</code><ul>
+<li><code><a class="el" href="core_8hpp.html" title="Defines the Core module. ">boost/hana/core.hpp</a></code><br />
+ This file defines core utilities of the library that are tied to the type class dispatching and data type system.</li>
+<li><code>boost/hana/[typeclass].hpp</code><br />
+ A file of this type includes the whole definition of a type class <code>[typeclass]</code>. This includes all the type class methods, minimal complete definitions and laws related to the type class.</li>
+<li><code>boost/hana/[typeclass]/[typeclass].hpp</code><br />
+ A file of this type includes the definition of the type class structure (but not its members like <code>mcd</code>, <code>laws</code>, etc..) and the associated type class methods. It also defines the operators associated to its methods and the default-provided instances for builtin types, if there are any. Note that default-provided instances for non-builtin types are not defined in this header. This header is included by all other headers inside its directory.</li>
+<li><code>boost/hana/[typeclass]/[mcd].hpp</code><br />
+ A file of this type defines a minimal complete definition named <code>[mcd]</code> along with default-provided instances for non-builtin types, if any. It is possible for a type class to have several minimal complete definitions, in which case there are several such headers with a proper name.</li>
+<li><code>boost/hana/[typeclass]/laws.hpp</code><br />
+ This file defines the laws associated to a type class. Not all type classes have laws associated to them and some type classes have laws which are too hard to check, in which case this header is not provided.</li>
+<li><code>boost/hana/[typeclass]/instance.hpp</code><br />
+ Some type classes are such that all instances are forced to be isomorphic. In that case, it sometimes makes sense to provide an implementation of the unique instance. When such an instance is provided, it is defined in this header.</li>
+<li><code>boost/hana/[datatype].hpp</code><br />
+ A file of this type defines a data type named <code>[datatype]</code>. It defines all the type class instances associated to that data type, so that one only has to include the data type's header to get the full functionality it supports.</li>
+<li><p class="startli"><code>boost/hana/ext/</code><br />
+ This directory contains adapters for external libraries. This is the only part of the public interface which is not included by the master header, because that would make the master header dependent on those external libraries. Note that only the strict minimum required to adapt the external component is included in these headers (e.g. a forward declaration). This means that the definition of the external component should still be included when one wants to use it. For example:</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="std_2tuple_8hpp.html">boost/hana/ext/std/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;tuple&gt;</span> <span class="comment">// still required to create a tuple</span></div>
+<div class="line"><span class="keyword">using namespace </span>boost::hana;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    constexpr std::tuple&lt;int, char, float&gt; xs{1, <span class="charliteral">&#39;2&#39;</span>, 3.0f};</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(head(xs) == 1);</div>
+<div class="line">}</div>
+</div><!-- fragment --></li>
+<li><code>boost/hana/sandbox/</code><br />
+ This directory contains experimental code on which no guarantee whatsoever is made. It might not even compile and it will definitely not be stable.</li>
+<li><code>boost/hana/detail/</code><br />
+ This directory contains utilities required internally. Nothing in <code>detail/</code> is guaranteed to be stable, so you should not use it.</li>
+</ul>
+</li>
+</ul>
+<h3>Example</h3>
+<p>Let's say I want to include <code>set</code>. I only have to include its header and I can use all the methods it supports right away:</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="set_8hpp.html">boost/hana/set.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">using namespace </span>boost::hana;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> xs = set(1, 2.2, <span class="charliteral">&#39;x&#39;</span>);</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(elem(<span class="charliteral">&#39;x&#39;</span>, xs));</div>
+<div class="line">}</div>
+</div><!-- fragment --><h1><a class="anchor" id="datatypes"></a>
 Data types</h1>
+<hr/>
+ <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000035">Todo:</a></b></dt><dd></dd></dl>
 <h1><a class="anchor" id="type-classes"></a>
 Type classes</h1>
+<hr/>
+ <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000036">Todo:</a></b></dt><dd></dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000037">Todo:</a></b></dt><dd><ul>
+<li>When we have functions with several variants, consider naming versions with the following scheme: <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>.lazy</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>.strict</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a> == <a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>.strict</div>
+</div><!-- fragment --> That would be prettier and not much more complicated. However, we would need a naming convention for the <code>_impl</code> versions of those.</li>
+<li>To consider: is it possible/desirable to eliminate partial functions? For example, removing <code>head</code> and <code>tail</code>, which can fail, and replace them by a function which returns a <code>Maybe</code>.</li>
+<li>Document the library's stance on perfect forwarding and move semantics. Make compile-time tests with non-copyable types and runtime tests with expensive-to-copy types.</li>
+<li>In the unit tests, we might want to use an injective function on <code>Comparable</code>s instead of <code>std::make_tuple</code>.</li>
+<li>Write a tutorial. In particular:<ul>
+<li>Document how to emulate <code>make_fused</code> and friends from Boost.Fusion.</li>
+<li>Document how to write common Boost.Fusion and Boost.MPL idioms with Boost.Hana.</li>
+</ul>
+</li>
+<li>Write runtime benchmarks.</li>
+<li>Setup a BJam build system.</li>
+<li>Consider making function objects automatically curriable. This could allow <em>super sexy</em> stuff like: <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;&gt;</div>
+<div class="line"><span class="keyword">struct </span>Iterable&lt;List&gt; {</div>
+<div class="line">    <span class="keyword">static</span> constexpr <span class="keyword">auto</span> length_impl = foldl(some_lambda, size_t&lt;0&gt;);</div>
+<div class="line">};</div>
+</div><!-- fragment --></li>
+</ul>
+</dd></dl>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jul 22 2014 13:51:05 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jul 23 2014 13:52:47 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

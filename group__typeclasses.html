@@ -151,15 +151,14 @@ Classes</h2></td></tr>
 <li>Document requirements for the existing type classes.</li>
 <li>Find a better way to provide instances between type classes; consider something like <code>Foldable::instance&lt;Iterable&gt;</code>.</li>
 <li>Consider inheriting from a base class even when no mcd is required. That would allow us to <em>not</em> include a useless mcd.</li>
-<li>Document the include structure for type classes and the contracts between headers (what needs to be included and when). Could look like typeclass.hpp &ndash; everything typeclass/typeclass.hpp &ndash; forward declaration, operators, methods, &ndash; default-provided orphan instances (like &ndash; bool for Logical). This one is included by &ndash; everyone else in typeclass/, by contract typeclass/mcd.hpp &ndash; definition of a mcd typeclass/laws.hpp &ndash; laws of the type class</li>
 <li>Consider including the default provided instances in the mcds instead of the forward declaration header of a type class. However, that won't work for instances provided implicitly (e.g. Logical &lt;- bool or Comparable &lt;- x == y), because there is no MCD to be included for those.</li>
-<li>Document the purpose of minimal instances; they are meant to provide an easy to use archetype for testing and their tests are meant to exercice the basic dispatching code of type classes (hence it makes sense to test even the mcd of a minimal instance). In particular, they are not meant to be <em>the</em> minimal instance, which does not exist in general (what does it even mean to be a <em>minimal</em> instance?) </li>
+<li>Document the purpose of minimal instances; they are meant to provide an easy to use archetype for testing and their tests are meant to exercise the basic dispatching code of type classes (hence it makes sense to test even the mcd of a minimal instance). In particular, they are not meant to be <em>the</em> minimal instance, which does not exist in general (what does it even mean to be a <em>minimal</em> instance?) </li>
 </ul>
 </dd></dl>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jul 22 2014 13:51:05 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jul 23 2014 13:52:46 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>
