@@ -89,6 +89,7 @@ add_definitions(
 # Behavior when the package is found or not is customized at the
 # point where the package is required.
 #=============================================================================
+find_package(Boost)
 find_package(Doxygen)
 find_package(Gnuplot)
 find_package(Ruby 2.1)

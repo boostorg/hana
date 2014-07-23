@@ -18,6 +18,16 @@ file(GLOB_RECURSE BOOST_HANA_LIST_INSTANCES
      RELATIVE "${Boost.Hana_SOURCE_DIR}/benchmark"
      "instance/*")
 
+if (NOT Boost_FOUND)
+    message(STATUS
+    "The Boost library headers were not found; benchmarks for Boost-adapted "
+    "List instances (benchmark/list/instance/ext/boost/*) won't be available.")
+    file(GLOB_RECURSE BOOST_HANA_LIST_INSTANCES_DEPENDING_ON_BOOST
+         RELATIVE "${Boost.Hana_SOURCE_DIR}/benchmark"
+         "instance/ext/boost/*")
+    list(REMOVE_ITEM BOOST_HANA_LIST_INSTANCES ${BOOST_HANA_LIST_INSTANCES_DEPENDING_ON_BOOST})
+endif()
+
 # Add a plot for all the (isomorphic) instances of List.
 function(boost_hana_add_list_plot plot_name cpp_file envs)
     boost_hana_add_plot(${plot_name})
