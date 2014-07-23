@@ -13,7 +13,11 @@ The library is unstable at the moment; do not use for production.
 
 ## Documentation
 You can browse the documentation online at http://ldionne.github.io/hana.
-<!-- todo: make it possible to browse offline -->
+You can also get an offline version of the documentation by checking out
+the `doc/gh-pages` submodule at its latest version:
+```shell
+git submodule update --init --remote
+```
 
 
 ## Prerequisites and installation
@@ -87,7 +91,9 @@ The project is organized in a couple of subdirectories.
   will only work with Clang because of the [gem used][Benchcc] to drive the
   compiler and gather the statistics.
 - The [doc](doc) directory contains configuration files needed to generate
-  the documentation.
+  the documentation. Also, the [doc/gh-pages](doc/gh-pages) directory is
+  a submodule tracking the `gh-pages` branch of the official repository at
+  http://github.com/ldionne/hana, which contains the latest documentation.
 - The [example](example) directory contains the source code for all the
   examples of both the tutorial and the reference documentation.
 - The [include](include) directory contains the library itself, which is
