@@ -11,8 +11,8 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_COMPARABLE_COMPARABLE_HPP
 
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/dependent_on.hpp>
 #include <boost/hana/detail/typeclasses.hpp>
+#include <boost/hana/logical/logical.hpp>
 
 
 namespace boost { namespace hana {
@@ -56,13 +56,20 @@ namespace boost { namespace hana {
         >::not_equal_impl(x, y);
     };
 
+    //! Minimal complete definition : `equal`
+    struct Comparable::equal_mcd {
+        template <typename X, typename Y>
+        static constexpr auto not_equal_impl(X x, Y y)
+        { return not_(equal(x, y)); }
+    };
+
     //! @details
     //! Objects whose data type is the same as their C++ type and who have a
     //! valid `operator==` are automatically instances of `Comparable` by
     //! using that comparison.
     template <typename X, typename Y>
     struct Comparable::instance<X, Y, when_valid<decltype((void)(*(X*)0 == *(Y*)0))>>
-        : detail::dependent_on<X, Comparable::equal_mcd>
+        : Comparable::equal_mcd
     {
         static constexpr auto equal_impl(X x, Y y)
         { return x == y; }

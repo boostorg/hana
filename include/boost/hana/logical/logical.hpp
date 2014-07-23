@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_LOGICAL_LOGICAL_HPP
 
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/dependent_on.hpp>
 #include <boost/hana/detail/typeclasses.hpp>
 
 
@@ -148,9 +147,28 @@ namespace boost { namespace hana {
         { return not_(x); }
     }
 
+    //! Minimal complete definition: `eval_if` and `not_`
+    struct Logical::mcd {
+        template <typename X, typename Y>
+        static constexpr auto or_impl(X x, Y y)
+        { return if_(x, x, y); }
+
+        template <typename X, typename Y>
+        static constexpr auto and_impl(X x, Y y)
+        { return if_(x, y, x); }
+
+        template <typename C, typename T, typename E>
+        static constexpr auto if_impl(C c, T t, E e) {
+            return eval_if(c,
+                [=](auto) { return t; },
+                [=](auto) { return e; }
+            );
+        }
+    };
+
     template <typename T>
     struct Logical::instance<T, when_valid<decltype(*(T*)0 ? (void)0 : (void)0)>>
-        : detail::dependent_on<T, Logical::mcd>
+        : Logical::mcd
     {
         template <typename Then, typename Else>
         static constexpr auto eval_if_impl(bool cond, Then t, Else e) {
@@ -164,10 +182,3 @@ namespace boost { namespace hana {
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_LOGICAL_LOGICAL_HPP
-
-//! @todo
-//! It does not make sense to put provided instances for e.g. Logical bool in
-//! the fwd header of Logical, because if it is ever instantiated it will
-//! require Logical::mcd, which is not included by logical/logical.hpp.
-//! Find a resolution.
-#include <boost/hana/logical/mcd.hpp>

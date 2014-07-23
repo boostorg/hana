@@ -11,8 +11,8 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_ORDERABLE_ORDERABLE_HPP
 
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/dependent_on.hpp>
 #include <boost/hana/detail/typeclasses.hpp>
+#include <boost/hana/logical/logical.hpp>
 
 
 namespace boost { namespace hana {
@@ -101,13 +101,36 @@ namespace boost { namespace hana {
         { return greater_equal(t, u); }
     }
 
+    //! Minimal complete definition: `less`
+    struct Orderable::less_mcd {
+        template <typename X, typename Y>
+        static constexpr auto less_equal_impl(X x, Y y)
+        { return not_(less(y, x)); }
+
+        template <typename X, typename Y>
+        static constexpr auto greater_impl(X x, Y y)
+        { return less(y, x); }
+
+        template <typename X, typename Y>
+        static constexpr auto greater_equal_impl(X x, Y y)
+        { return not_(less(x, y)); }
+
+        template <typename X, typename Y>
+        static constexpr auto min_impl(X x, Y y)
+        { return if_(less(x, y), x, y); }
+
+        template <typename X, typename Y>
+        static constexpr auto max_impl(X x, Y y)
+        { return if_(less(x, y), y, x); }
+    };
+
     //! @details
     //! Objects whose data type is the same as their C++ type and who have a
     //! valid `operator<` are automatically instances of `Orderable` by using
     //! that ordering.
     template <typename X, typename Y>
     struct Orderable::instance<X, Y, when_valid<decltype((void)(*(X*)0 < *(Y*)0))>>
-        : detail::dependent_on<X, Orderable::less_mcd>
+        : Orderable::less_mcd
     {
         static constexpr auto less_impl(X x, Y y)
         { return x < y; }

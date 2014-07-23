@@ -10,18 +10,8 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_COMPARABLE_EQUAL_MCD_HPP
 #define BOOST_HANA_COMPARABLE_EQUAL_MCD_HPP
 
+// This mcd is defined in the forward declaration header because we
+// need it to instantiate `Comparable` for builtins.
 #include <boost/hana/comparable/comparable.hpp>
-
-#include <boost/hana/logical/logical.hpp>
-
-
-namespace boost { namespace hana {
-    //! Minimal complete definition : `equal`
-    struct Comparable::equal_mcd {
-        template <typename X, typename Y>
-        static constexpr auto not_equal_impl(X x, Y y)
-        { return not_(equal(x, y)); }
-    };
-}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_COMPARABLE_EQUAL_MCD_HPP
