@@ -36,7 +36,7 @@ installation of [CMake][]. Once this is done, you can `cd` to the root of
 the project and setup the build directory:
 ```shell
 mkdir build
-cd foo
+cd build
 cmake ..
 ```
 
@@ -65,10 +65,10 @@ generation to update the list of available targets.
 > Don't worry, the list is very long because each unit test and example is a
 > different target.
 
-If you want to add unit tests or examples, just add a source file where it
-makes sense to do so and then re-run the CMake generation step so the new
-source file is known to the build system. If the relative path from the root
-of the project to the new source file is `path/to/file.cpp`, a target named
+If you want to add unit tests or examples, just add a source file in `test/`
+or `example/` and then re-run the CMake generation step so the new source
+file is known to the build system. If the relative path from the root of
+the  project to the new source file is `path/to/file.cpp`, a target named
 `path.to.file` to compile the file will be created when CMake is run.
 
 > #### Tip for Sublime Text users
@@ -79,11 +79,13 @@ of the project to the new source file is `path/to/file.cpp`, a target named
 
 ## Project organization
 The project is organized in a couple of subdirectories.
-- The [benchmarks](benchmarks) directory contains compile-time benchmarks to
+- The [benchmark](benchmark) directory contains compile-time benchmarks to
   make sure we're freakin' fast. The benchmark code is written mostly in the
   form of [eRuby][] templates. The templates are used to generate C++ files
   which are then compiled while gathering compilation statistics. The
-  benchmarks are driven by CMake files.
+  benchmarks are driven by CMake files. Note that currently the benchmarks
+  will only work with Clang because of the [gem used][Benchcc] to drive the
+  compiler and gather the statistics.
 - The [doc](doc) directory contains configuration files needed to generate
   the documentation.
 - The [example](example) directory contains the source code for all the
@@ -106,6 +108,7 @@ Want to contribute? Great!
 
 
 <!-- Links -->
+[Benchcc]: http://github.com/ldionne/benchcc
 [CMake]: http://www.cmake.org
 [Doxygen]: http://www.doxygen.org
 [eRuby]: http://en.wikipedia.org/wiki/ERuby
