@@ -32,10 +32,10 @@ namespace boost { namespace hana {
     };
 
     //! @details
-    //! `Integral`s can be compared with objects of any integral type; the
+    //! `Integral`s can be compared with objects of any arithmetic type; the
     //! comparison is done by comparing their underlying integral value.
     template <typename T>
-    struct Comparable::instance<Integral, T, when<detail::std::is_integral<T>{}>>
+    struct Comparable::instance<Integral, T, when<detail::std::is_arithmetic<T>{}>>
         : Comparable::equal_mcd
     {
         template <typename X, typename Y>
@@ -44,7 +44,7 @@ namespace boost { namespace hana {
     };
 
     template <typename T>
-    struct Comparable::instance<T, Integral, when<detail::std::is_integral<T>{}>>
+    struct Comparable::instance<T, Integral, when<detail::std::is_arithmetic<T>{}>>
         : Comparable::equal_mcd
     {
         template <typename X, typename Y>
@@ -65,10 +65,10 @@ namespace boost { namespace hana {
     };
 
     //! @details
-    //! `Integral`s can be ordered with objects of any integral type; the
+    //! `Integral`s can be ordered with objects of any arithmetic type; the
     //! ordering is done by ordering their underlying integral value.
     template <typename T>
-    struct Orderable::instance<Integral, T, when<detail::std::is_integral<T>{}>>
+    struct Orderable::instance<Integral, T, when<detail::std::is_arithmetic<T>{}>>
         : Orderable::less_mcd
     {
         template <typename X, typename Y>
@@ -77,7 +77,7 @@ namespace boost { namespace hana {
     };
 
     template <typename T>
-    struct Orderable::instance<T, Integral, when<detail::std::is_integral<T>{}>>
+    struct Orderable::instance<T, Integral, when<detail::std::is_arithmetic<T>{}>>
         : Orderable::less_mcd
     {
         template <typename X, typename Y>

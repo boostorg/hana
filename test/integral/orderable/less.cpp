@@ -30,6 +30,10 @@ int main() {
     BOOST_HANA_STATIC_ASSERT(not_(less(int_<0>, long{0})));
     BOOST_HANA_STATIC_ASSERT(not_(less(int_<1>, long{0})));
 
+    BOOST_HANA_STATIC_ASSERT(less(int_<0>, float{1}));
+    BOOST_HANA_STATIC_ASSERT(not_(less(int_<0>, float{0})));
+    BOOST_HANA_STATIC_ASSERT(not_(less(int_<1>, float{0})));
+
 
     // other < Integral
     BOOST_HANA_STATIC_ASSERT(less(int{0}, int_<1>));
@@ -39,4 +43,8 @@ int main() {
     BOOST_HANA_STATIC_ASSERT(less(int{0}, long_<1>));
     BOOST_HANA_STATIC_ASSERT(not_(less(int{0}, long_<0>)));
     BOOST_HANA_STATIC_ASSERT(not_(less(int{1}, long_<0>)));
+
+    BOOST_HANA_STATIC_ASSERT(less(float{0}, long_<1>));
+    BOOST_HANA_STATIC_ASSERT(not_(less(float{0}, long_<0>)));
+    BOOST_HANA_STATIC_ASSERT(not_(less(float{1}, long_<0>)));
 }
