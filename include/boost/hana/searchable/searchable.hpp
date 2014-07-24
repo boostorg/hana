@@ -18,8 +18,9 @@ namespace boost { namespace hana {
     //! @ingroup typeclasses
     //! Data structures that can be searched.
     //!
-    //! @todo
-    //! Explain how key/value works for searchables.
+    //! `Searchable`s have a concept of keys and values. Basically, searching
+    //! is always done on the keys and the result is always the associated
+    //! value. There is no requirement that the keys and values be different.
     struct Searchable {
         BOOST_HANA_TYPECLASS(Searchable);
         struct find_mcd;
