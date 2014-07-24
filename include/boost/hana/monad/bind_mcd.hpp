@@ -15,7 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //! Minimal complete definition: `bind`
-    struct Monad::bind_mcd {
+    struct Monad::bind_mcd : monad_detail::common {
         template <typename M>
         static constexpr auto flatten_impl(M monad)
         { return bind(monad, [](auto x) { return x; }); }

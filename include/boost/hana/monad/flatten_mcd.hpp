@@ -17,7 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //! Minimal complete definition: `flatten`
-    struct Monad::flatten_mcd {
+    struct Monad::flatten_mcd : monad_detail::common {
         template <typename M, typename F>
         static constexpr auto bind_impl(M monad, F f)
         { return flatten(fmap(f, monad)); }
