@@ -1,14 +1,10 @@
 # Boost.Hana
-> <!-- todo: tagline here -->
-
-<!-- todo: short description of the library -->
+> Heterogeneous combiNAtors for expressive metaprogramming
 
 
 ## Disclaimers
-This is not an official Boost library and there is no guarantee whatsoever
-that it will be proposed.
-
-The library is unstable at the moment; do not use for production.
+This is not an official Boost library. However, a formal review will be asked
+for shortly. The library is unstable at the moment; do not use for production.
 
 
 ## Documentation
