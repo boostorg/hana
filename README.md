@@ -7,6 +7,26 @@ This is not an official Boost library. However, a formal review will be asked
 for shortly. The library is unstable at the moment; do not use for production.
 
 
+## Hello world
+<!-- Important: keep this in sync with example/hello_world.cpp -->
+```cpp
+#include <boost/hana.hpp>
+#include <iostream>
+#include <string>
+using namespace boost::hana;
+
+int main() {
+    auto xs = list("Hell", int_<0>, std::string{" world"}, '!');
+
+    // > "Hell0 world!"
+    for_each(xs, [](auto x) { std::cout << x; });
+
+    // > "Hello world!"
+    for_each(replace(_ == int_<0>, 'o', xs), [](auto x) { std::cout << x; });
+}
+```
+
+
 ## Documentation
 You can browse the documentation online at http://ldionne.github.io/hana.
 You can also get an offline version of the documentation by checking out
