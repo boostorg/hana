@@ -100,8 +100,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#define BOOST_HANA_ORDERABLE_ORDERABLE_HPP</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="constexpr_8hpp.html">boost/hana/detail/constexpr.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="dependent__on_8hpp.html">boost/hana/detail/dependent_on.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="typeclasses_8hpp.html">boost/hana/detail/typeclasses.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="typeclasses_8hpp.html">boost/hana/detail/typeclasses.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="logical_2logical_8hpp.html">boost/hana/logical/logical.hpp</a>&gt;</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">namespace </span>boost { <span class="keyword">namespace </span>hana {</div>
@@ -165,18 +165,39 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        { <span class="keywordflow">return</span> greater_equal(t, u); }</div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    }</div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X, <span class="keyword">typename</span> Y&gt;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="keyword">struct </span>Orderable::instance&lt;X, Y, <a class="code" href="group__core.html#ga0f5d717bbf6646619bb6219b104384dc">when_valid</a>&lt;decltype((void)(*(X*)0 &lt; *(Y*)0))&gt;&gt;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        : detail::dependent_on&lt;X, Orderable::less_mcd&gt;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    {</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        <span class="keyword">static</span> constexpr <span class="keyword">auto</span> less_impl(X x, Y y)</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        { <span class="keywordflow">return</span> x &lt; y; }</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    };</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;}} <span class="comment">// end namespace boost::hana</span></div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="preprocessor">#endif // !BOOST_HANA_ORDERABLE_ORDERABLE_HPP</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_orderable_1_1less__mcd.html">  105</a></span>&#160;    <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1_orderable_1_1less__mcd.html">Orderable::less_mcd</a> {</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X, <span class="keyword">typename</span> Y&gt;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        <span class="keyword">static</span> constexpr <span class="keyword">auto</span> less_equal_impl(X x, Y y)</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        { <span class="keywordflow">return</span> not_(<a class="code" href="structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(y, x)); }</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X, <span class="keyword">typename</span> Y&gt;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        <span class="keyword">static</span> constexpr <span class="keyword">auto</span> greater_impl(X x, Y y)</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        { <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(y, x); }</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X, <span class="keyword">typename</span> Y&gt;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        <span class="keyword">static</span> constexpr <span class="keyword">auto</span> greater_equal_impl(X x, Y y)</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        { <span class="keywordflow">return</span> not_(<a class="code" href="structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(x, y)); }</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X, <span class="keyword">typename</span> Y&gt;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        <span class="keyword">static</span> constexpr <span class="keyword">auto</span> min_impl(X x, Y y)</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        { <span class="keywordflow">return</span> if_(<a class="code" href="structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(x, y), x, y); }</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X, <span class="keyword">typename</span> Y&gt;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        <span class="keyword">static</span> constexpr <span class="keyword">auto</span> max_impl(X x, Y y)</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        { <span class="keywordflow">return</span> if_(<a class="code" href="structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(x, y), y, x); }</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    };</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X, <span class="keyword">typename</span> Y&gt;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <span class="keyword">struct </span>Orderable::instance&lt;X, Y, <a class="code" href="structboost_1_1hana_1_1when.html">when_valid</a>&lt;decltype((void)(*(X*)0 &lt; *(Y*)0))&gt;&gt;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        : <a class="code" href="structboost_1_1hana_1_1_orderable_1_1less__mcd.html">Orderable::less_mcd</a></div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    {</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        <span class="keyword">static</span> constexpr <span class="keyword">auto</span> less_impl(X x, Y y)</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        { <span class="keywordflow">return</span> x &lt; y; }</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    };</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;}} <span class="comment">// end namespace boost::hana</span></div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;<span class="preprocessor">#endif // !BOOST_HANA_ORDERABLE_ORDERABLE_HPP</span></div>
 <div class="ttc" id="group__details_html_gacf82d20cb2ab6efe5849fadae0a043a8"><div class="ttname"><a href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a></div><div class="ttdeci">#define BOOST_HANA_CONSTEXPR_LAMBDA</div><div class="ttdoc">Expands to constexpr if constexpr lambdas are supported and to nothing otherwise. ...</div><div class="ttdef"><b>Definition:</b> constexpr.hpp:18</div></div>
-<div class="ttc" id="dependent__on_8hpp_html"><div class="ttname"><a href="dependent__on_8hpp.html">dependent_on.hpp</a></div><div class="ttdoc">Defines boost::hana::detail::dependent_on. </div></div>
 <div class="ttc" id="structboost_1_1hana_1_1_orderable_html_ae640ee6e43199763efd8be41adb60cf7"><div class="ttname"><a href="structboost_1_1hana_1_1_orderable.html#ae640ee6e43199763efd8be41adb60cf7">boost::hana::Orderable::operator&gt;</a></div><div class="ttdeci">constexpr auto operator&gt;(T t, U u)</div><div class="ttdoc">Equivalent to greater. </div><div class="ttdef"><b>Definition:</b> orderable.hpp:94</div></div>
 <div class="ttc" id="group__core_html_gae3cedd3772d00ac7c4de9dc3d719f321"><div class="ttname"><a href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">boost::hana::datatype_t</a></div><div class="ttdeci">typename datatype&lt; T &gt;::type datatype_t</div><div class="ttdoc">Alias to datatype<T>::type. </div><div class="ttdef"><b>Definition:</b> typeclasses.hpp:260</div></div>
 <div class="ttc" id="structboost_1_1hana_1_1_orderable_html"><div class="ttname"><a href="structboost_1_1hana_1_1_orderable.html">boost::hana::Orderable</a></div><div class="ttdoc">The Orderable type class is used for data types defining a strict weak ordering. </div><div class="ttdef"><b>Definition:</b> orderable.hpp:22</div></div>
@@ -186,13 +207,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="structboost_1_1hana_1_1_orderable_1_1laws_html"><div class="ttname"><a href="structboost_1_1hana_1_1_orderable_1_1laws.html">boost::hana::Orderable::laws</a></div><div class="ttdef"><b>Definition:</b> laws.hpp:33</div></div>
 <div class="ttc" id="constexpr_8hpp_html"><div class="ttname"><a href="constexpr_8hpp.html">constexpr.hpp</a></div><div class="ttdoc">Defines the BOOST_HANA_CONSTEXPR_LAMBDA macro. </div></div>
 <div class="ttc" id="structboost_1_1hana_1_1_orderable_html_ac27d042f4f5809c447204b1781f67255"><div class="ttname"><a href="structboost_1_1hana_1_1_orderable.html#ac27d042f4f5809c447204b1781f67255">boost::hana::Orderable::operator&lt;=</a></div><div class="ttdeci">constexpr auto operator&lt;=(T t, U u)</div><div class="ttdoc">Equivalent to less_equal. </div><div class="ttdef"><b>Definition:</b> orderable.hpp:88</div></div>
-<div class="ttc" id="group__core_html_ga0f5d717bbf6646619bb6219b104384dc"><div class="ttname"><a href="group__core.html#ga0f5d717bbf6646619bb6219b104384dc">boost::hana::when_valid</a></div><div class="ttdeci">when&lt; true &gt; when_valid</div><div class="ttdoc">Used to instantiate a type class based on the validity of an expression. </div><div class="ttdef"><b>Definition:</b> typeclasses.hpp:212</div></div>
-<div class="ttc" id="structboost_1_1hana_1_1_orderable_1_1less__mcd_html"><div class="ttname"><a href="structboost_1_1hana_1_1_orderable_1_1less__mcd.html">boost::hana::Orderable::less_mcd</a></div><div class="ttdoc">Minimal complete definition: less </div><div class="ttdef"><b>Definition:</b> less_mcd.hpp:20</div></div>
+<div class="ttc" id="structboost_1_1hana_1_1_orderable_html_ad835070573ed8da3e607eafa824cd7e5"><div class="ttname"><a href="structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5">boost::hana::Orderable::less</a></div><div class="ttdeci">constexpr auto less</div><div class="ttdoc">Returns a Logical representing whether x is less than y. </div><div class="ttdef"><b>Definition:</b> orderable.hpp:30</div></div>
+<div class="ttc" id="logical_2logical_8hpp_html"><div class="ttname"><a href="logical_2logical_8hpp.html">logical.hpp</a></div><div class="ttdoc">Forward declares boost::hana::Logical. </div></div>
+<div class="ttc" id="structboost_1_1hana_1_1when_html"><div class="ttname"><a href="structboost_1_1hana_1_1when.html">boost::hana::when</a></div><div class="ttdoc">Used to instantiate a type class based on the value of a predicate. </div><div class="ttdef"><b>Definition:</b> typeclasses.hpp:202</div></div>
+<div class="ttc" id="structboost_1_1hana_1_1_orderable_1_1less__mcd_html"><div class="ttname"><a href="structboost_1_1hana_1_1_orderable_1_1less__mcd.html">boost::hana::Orderable::less_mcd</a></div><div class="ttdoc">Minimal complete definition: less </div><div class="ttdef"><b>Definition:</b> orderable.hpp:105</div></div>
 <div class="ttc" id="structboost_1_1hana_1_1_orderable_html_a6d4a20e687927fa1aaba8ded1151eaa0"><div class="ttname"><a href="structboost_1_1hana_1_1_orderable.html#a6d4a20e687927fa1aaba8ded1151eaa0">boost::hana::Orderable::operator&gt;=</a></div><div class="ttdeci">constexpr auto operator&gt;=(T t, U u)</div><div class="ttdoc">Equivalent to greater_equal. </div><div class="ttdef"><b>Definition:</b> orderable.hpp:100</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 23 2014 13:52:46 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jul 23 2014 20:47:10 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

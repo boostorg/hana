@@ -107,28 +107,28 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">namespace </span>boost { <span class="keyword">namespace </span>hana {</div>
-<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_lazy.html">   43</a></span>&#160;    <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1_lazy.html">Lazy</a> { };</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_lazy.html#aae2998c08f1f80ed52a6acf57c4eec6c">   47</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> eval = [](<span class="keyword">auto</span> lx) {</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordflow">return</span> lx.storage([](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> x; });</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    };</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keyword">namespace </span>lazy_detail {</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Storage, <span class="keyword">typename</span> = operators::enable&gt;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keyword">struct </span>lazy {</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            Storage storage;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            <span class="keyword">using</span> hana_datatype = <a class="code" href="structboost_1_1hana_1_1_lazy.html">Lazy</a>;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            <span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...Xs&gt;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            constexpr <span class="keyword">auto</span> operator()(Xs ...xs)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                <span class="keyword">auto</span> new_storage = [=](<span class="keyword">auto</span> <a class="code" href="group___functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a>) {</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                    <span class="keywordflow">return</span> <a class="code" href="group___functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a>(eval)(*this)(xs...);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                };</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                <span class="keywordflow">return</span> lazy&lt;decltype(new_storage)&gt;{new_storage};</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            }</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        };</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    }</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_lazy.html">   39</a></span>&#160;    <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1_lazy.html">Lazy</a> { };</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_lazy.html#aae2998c08f1f80ed52a6acf57c4eec6c">   43</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> eval = [](<span class="keyword">auto</span> lx) {</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordflow">return</span> lx.storage([](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> x; });</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    };</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keyword">namespace </span>lazy_detail {</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Storage, <span class="keyword">typename</span> = operators::enable&gt;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keyword">struct </span>lazy {</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            Storage storage;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            <span class="keyword">using</span> hana_datatype = <a class="code" href="structboost_1_1hana_1_1_lazy.html">Lazy</a>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            <span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...Xs&gt;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            constexpr <span class="keyword">auto</span> operator()(Xs ...xs)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                <span class="keyword">auto</span> new_storage = [=](<span class="keyword">auto</span> <a class="code" href="group___functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a>) {</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                    <span class="keywordflow">return</span> <a class="code" href="group___functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a>(eval)(*this)(xs...);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                };</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                <span class="keywordflow">return</span> lazy&lt;decltype(new_storage)&gt;{new_storage};</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            }</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        };</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    }</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
 <div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_lazy.html#a73e14285897797737683aa2a776a6e0e">   77</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> lazy = [](<span class="keyword">auto</span> x) {</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <span class="keyword">auto</span> storage = [=](<span class="keyword">auto</span> <a class="code" href="group___functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a>) { <span class="keywordflow">return</span> x; };</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="keywordflow">return</span> lazy_detail::lazy&lt;decltype(storage)&gt;{storage};</div>
@@ -183,7 +183,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="group__details_html_gacf82d20cb2ab6efe5849fadae0a043a8"><div class="ttname"><a href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a></div><div class="ttdeci">#define BOOST_HANA_CONSTEXPR_LAMBDA</div><div class="ttdoc">Expands to constexpr if constexpr lambdas are supported and to nothing otherwise. ...</div><div class="ttdef"><b>Definition:</b> constexpr.hpp:18</div></div>
 <div class="ttc" id="structboost_1_1hana_1_1_functor_1_1fmap__mcd_html"><div class="ttname"><a href="structboost_1_1hana_1_1_functor_1_1fmap__mcd.html">boost::hana::Functor::fmap_mcd</a></div><div class="ttdoc">Minimal complete definition: fmap </div><div class="ttdef"><b>Definition:</b> fmap_mcd.hpp:20</div></div>
 <div class="ttc" id="wrap_8hpp_html"><div class="ttname"><a href="wrap_8hpp.html">wrap.hpp</a></div><div class="ttdoc">Defines boost::hana::detail::wrap. </div></div>
-<div class="ttc" id="structboost_1_1hana_1_1_lazy_html"><div class="ttname"><a href="structboost_1_1hana_1_1_lazy.html">boost::hana::Lazy</a></div><div class="ttdoc">The Lazy data type implements superficial laziness via a monadic interface. </div><div class="ttdef"><b>Definition:</b> lazy.hpp:43</div></div>
+<div class="ttc" id="structboost_1_1hana_1_1_lazy_html"><div class="ttname"><a href="structboost_1_1hana_1_1_lazy.html">boost::hana::Lazy</a></div><div class="ttdoc">The Lazy data type implements superficial laziness via a monadic interface. </div><div class="ttdef"><b>Definition:</b> lazy.hpp:39</div></div>
 <div class="ttc" id="constexpr_8hpp_html"><div class="ttname"><a href="constexpr_8hpp.html">constexpr.hpp</a></div><div class="ttdoc">Defines the BOOST_HANA_CONSTEXPR_LAMBDA macro. </div></div>
 <div class="ttc" id="flatten__mcd_8hpp_html"><div class="ttname"><a href="flatten__mcd_8hpp.html">flatten_mcd.hpp</a></div><div class="ttdoc">Defines boost::hana::Monad::flatten_mcd. </div></div>
 <div class="ttc" id="structboost_1_1hana_1_1_monad_1_1flatten__mcd_html"><div class="ttname"><a href="structboost_1_1hana_1_1_monad_1_1flatten__mcd.html">boost::hana::Monad::flatten_mcd</a></div><div class="ttdoc">Minimal complete definition: flatten </div><div class="ttdef"><b>Definition:</b> flatten_mcd.hpp:20</div></div>
@@ -193,7 +193,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 23 2014 13:52:46 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jul 23 2014 20:47:10 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

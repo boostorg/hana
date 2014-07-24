@@ -99,38 +99,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#ifndef BOOST_HANA_LOGICAL_MCD_HPP</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#define BOOST_HANA_LOGICAL_MCD_HPP</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="logical_2logical_8hpp.html">boost/hana/logical/logical.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">namespace </span>boost { <span class="keyword">namespace </span>hana {</div>
-<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_logical_1_1mcd.html">   18</a></span>&#160;    <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1_logical_1_1mcd.html">Logical::mcd</a> {</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X, <span class="keyword">typename</span> Y&gt;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keyword">static</span> constexpr <span class="keyword">auto</span> or_impl(X x, Y y)</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        { <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_logical.html#a06927a2badb729e1522b9030d18234df">if_</a>(x, x, y); }</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X, <span class="keyword">typename</span> Y&gt;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="keyword">static</span> constexpr <span class="keyword">auto</span> and_impl(X x, Y y)</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        { <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_logical.html#a06927a2badb729e1522b9030d18234df">if_</a>(x, y, x); }</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> C, <span class="keyword">typename</span> T, <span class="keyword">typename</span> E&gt;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keyword">static</span> constexpr <span class="keyword">auto</span> if_impl(C c, T t, E e) {</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_logical.html#a97f92ff5d73f8ebd7e9eb61142b2e68e">eval_if</a>(c,</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                [=](<span class="keyword">auto</span>) { <span class="keywordflow">return</span> t; },</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                [=](<span class="keyword">auto</span>) { <span class="keywordflow">return</span> e; }</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;            );</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        }</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    };</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;}} <span class="comment">// end namespace boost::hana</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#endif // !BOOST_HANA_LOGICAL_MCD_HPP</span></div>
-<div class="ttc" id="structboost_1_1hana_1_1_logical_html_a06927a2badb729e1522b9030d18234df"><div class="ttname"><a href="structboost_1_1hana_1_1_logical.html#a06927a2badb729e1522b9030d18234df">boost::hana::Logical::if_</a></div><div class="ttdeci">constexpr auto if_</div><div class="ttdoc">Conditionally return one of two values based on a condition. </div><div class="ttdef"><b>Definition:</b> logical.hpp:40</div></div>
-<div class="ttc" id="structboost_1_1hana_1_1_logical_1_1mcd_html"><div class="ttname"><a href="structboost_1_1hana_1_1_logical_1_1mcd.html">boost::hana::Logical::mcd</a></div><div class="ttdoc">Minimal complete definition: eval_if and not_ </div><div class="ttdef"><b>Definition:</b> mcd.hpp:18</div></div>
-<div class="ttc" id="structboost_1_1hana_1_1_logical_html_a97f92ff5d73f8ebd7e9eb61142b2e68e"><div class="ttname"><a href="structboost_1_1hana_1_1_logical.html#a97f92ff5d73f8ebd7e9eb61142b2e68e">boost::hana::Logical::eval_if</a></div><div class="ttdeci">constexpr auto eval_if</div><div class="ttdoc">Conditionally execute one of two branches based on a condition. </div><div class="ttdef"><b>Definition:</b> logical.hpp:59</div></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">// The mcd is defined in the forward declaration header because we</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">// need it for the instance for builtins.</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="logical_2logical_8hpp.html">boost/hana/logical/logical.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#endif // !BOOST_HANA_LOGICAL_MCD_HPP</span></div>
 <div class="ttc" id="logical_2logical_8hpp_html"><div class="ttname"><a href="logical_2logical_8hpp.html">logical.hpp</a></div><div class="ttdoc">Forward declares boost::hana::Logical. </div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 23 2014 13:52:45 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jul 23 2014 20:47:10 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

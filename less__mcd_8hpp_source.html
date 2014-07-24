@@ -99,44 +99,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#ifndef BOOST_HANA_ORDERABLE_LESS_MCD_HPP</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#define BOOST_HANA_ORDERABLE_LESS_MCD_HPP</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="orderable_2orderable_8hpp.html">boost/hana/orderable/orderable.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="logical_2logical_8hpp.html">boost/hana/logical/logical.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">// This mcd is defined in the forward declaration header because we</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">// need it to instantiate `Orderable` for builtins.</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="orderable_2orderable_8hpp.html">boost/hana/orderable/orderable.hpp</a>&gt;</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">namespace </span>boost { <span class="keyword">namespace </span>hana {</div>
-<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_orderable_1_1less__mcd.html">   20</a></span>&#160;    <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1_orderable_1_1less__mcd.html">Orderable::less_mcd</a> {</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X, <span class="keyword">typename</span> Y&gt;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">static</span> constexpr <span class="keyword">auto</span> less_equal_impl(X x, Y y)</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        { <span class="keywordflow">return</span> not_(<a class="code" href="structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(y, x)); }</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X, <span class="keyword">typename</span> Y&gt;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="keyword">static</span> constexpr <span class="keyword">auto</span> greater_impl(X x, Y y)</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        { <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(y, x); }</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X, <span class="keyword">typename</span> Y&gt;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="keyword">static</span> constexpr <span class="keyword">auto</span> greater_equal_impl(X x, Y y)</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        { <span class="keywordflow">return</span> not_(<a class="code" href="structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(x, y)); }</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X, <span class="keyword">typename</span> Y&gt;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keyword">static</span> constexpr <span class="keyword">auto</span> min_impl(X x, Y y)</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        { <span class="keywordflow">return</span> if_(<a class="code" href="structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(x, y), x, y); }</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X, <span class="keyword">typename</span> Y&gt;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keyword">static</span> constexpr <span class="keyword">auto</span> max_impl(X x, Y y)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        { <span class="keywordflow">return</span> if_(<a class="code" href="structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(x, y), y, x); }</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    };</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;}} <span class="comment">// end namespace boost::hana</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#endif // !BOOST_HANA_ORDERABLE_LESS_MCD_HPP</span></div>
-<div class="ttc" id="structboost_1_1hana_1_1_orderable_html_ad835070573ed8da3e607eafa824cd7e5"><div class="ttname"><a href="structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5">boost::hana::Orderable::less</a></div><div class="ttdeci">constexpr auto less</div><div class="ttdoc">Returns a Logical representing whether x is less than y. </div><div class="ttdef"><b>Definition:</b> orderable.hpp:30</div></div>
-<div class="ttc" id="logical_2logical_8hpp_html"><div class="ttname"><a href="logical_2logical_8hpp.html">logical.hpp</a></div><div class="ttdoc">Forward declares boost::hana::Logical. </div></div>
-<div class="ttc" id="structboost_1_1hana_1_1_orderable_1_1less__mcd_html"><div class="ttname"><a href="structboost_1_1hana_1_1_orderable_1_1less__mcd.html">boost::hana::Orderable::less_mcd</a></div><div class="ttdoc">Minimal complete definition: less </div><div class="ttdef"><b>Definition:</b> less_mcd.hpp:20</div></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#endif // !BOOST_HANA_ORDERABLE_LESS_MCD_HPP</span></div>
 <div class="ttc" id="orderable_2orderable_8hpp_html"><div class="ttname"><a href="orderable_2orderable_8hpp.html">orderable.hpp</a></div><div class="ttdoc">Forward declares boost::hana::Orderable. </div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 23 2014 13:52:46 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jul 23 2014 20:47:10 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

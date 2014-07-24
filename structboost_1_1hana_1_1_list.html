@@ -200,7 +200,7 @@ Related Functions</h2></td></tr>
 \begin{align*} x = y \iff \tt{to&lt;List&gt;(x)} = \tt{to&lt;List&gt;(y)} \end{align*}
 </p>
 <p> This is basically saying that all <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose index-based sequence. ">List</a></code> instances are isomorphic, and it therefore makes sense to define comparison for any two <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose index-based sequence. ">List</a></code>s. </p><hr/>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000021">Todo:</a></b></dt><dd><ul>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000020">Todo:</a></b></dt><dd><ul>
 <li>It might be possible to optimize the implementation of homogeneous lists using an array.</li>
 <li>How to implement iterate and repeat?</li>
 <li>Check laws for <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="Applicatives are Functors with the ability to lift values and combine computations. ">Applicative</a></code>.</li>
@@ -372,7 +372,7 @@ template&lt;typename T &gt; </div>
 </div><!-- fragment -->
 <p>Creates a <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose index-based sequence. ">List</a></code> containing <code>xs...</code>. </p>
 <p>The <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose index-based sequence. ">List</a></code> data type is a general purpose compile-time heterogeneous sequence.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000020">Todo:</a></b></dt><dd>Consider having <code>list_of&lt;<a class="el" href="structboost_1_1hana_1_1_type.html" title="C++ type represented as a constexpr object. ">Type</a>&gt;</code>, <code>list_of&lt;<a class="el" href="structboost_1_1hana_1_1_integral.html" title="Represents a compile-time value of an integral type. ">Integral</a>&gt;</code>, ..., <code>list_of&lt;Anything&gt;</code>, with <code>list == list_of&lt;Anything&gt;</code>. It does not fix the problem of partial type classes (e.g. <code>MplVector</code> is not <em>actually</em> a <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose index-based sequence. ">List</a></code>), but at least we remove <code><a class="el" href="structboost_1_1hana_1_1_type_list.html" title="List containing Types only. ">TypeList</a></code> and <code><a class="el" href="structboost_1_1hana_1_1_integer_list.html" title="List containing Integrals of the same underlying type only. ">IntegerList</a></code>, which are arguably ugly. </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000019">Todo:</a></b></dt><dd>Consider having <code>list_of&lt;<a class="el" href="structboost_1_1hana_1_1_type.html" title="C++ type represented as a constexpr object. ">Type</a>&gt;</code>, <code>list_of&lt;<a class="el" href="structboost_1_1hana_1_1_integral.html" title="Represents a compile-time value of an integral type. ">Integral</a>&gt;</code>, ..., <code>list_of&lt;Anything&gt;</code>, with <code>list == list_of&lt;Anything&gt;</code>. It does not fix the problem of partial type classes (e.g. <code>MplVector</code> is not <em>actually</em> a <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose index-based sequence. ">List</a></code>), but at least we remove <code><a class="el" href="structboost_1_1hana_1_1_type_list.html" title="List containing Types only. ">TypeList</a></code> and <code><a class="el" href="structboost_1_1hana_1_1_integer_list.html" title="List containing Integrals of the same underlying type only. ">IntegerList</a></code>, which are arguably ugly. </dd></dl>
 
 </div>
 </div>
@@ -877,7 +877,7 @@ template&lt;typename T &gt; </div>
 <div class="line">        ==</div>
 <div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(5, 12, 21, 32)</div>
 <div class="line">    );</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000022">Todo:</a></b></dt><dd><ul>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000021">Todo:</a></b></dt><dd><ul>
 <li>Consider allowing only two lists and achieving the variadic behavior in some other way. This would make it possible to automatically curry <code>zip_with</code>. It might be possible to achieve the variadic behavior with e.g. <a class="el" href="structboost_1_1hana_1_1_applicative.html" title="Applicatives are Functors with the ability to lift values and combine computations. ">Applicative</a> Functors? </li>
 </ul>
 </dd></dl>
@@ -887,7 +887,7 @@ template&lt;typename T &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 23 2014 13:52:47 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jul 23 2014 20:47:11 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

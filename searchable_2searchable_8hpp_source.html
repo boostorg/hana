@@ -104,78 +104,78 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">namespace </span>boost { <span class="keyword">namespace </span>hana {</div>
-<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_searchable.html">   23</a></span>&#160;    <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1_searchable.html">Searchable</a> {</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <a class="code" href="group__core.html#gac072d4434777cd5ee841a7766d41f1d8">BOOST_HANA_TYPECLASS</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html">Searchable</a>);</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1_searchable_1_1find__mcd.html">find_mcd</a>;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    };</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_searchable.html#a67dd29f7921b76f7d2bd372605f73f7c">   36</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> any = [](<span class="keyword">auto</span> predicate, <span class="keyword">auto</span> searchable) {</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordflow">return</span> Searchable::instance&lt;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(searchable)&gt;</a></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        &gt;::any_impl(predicate, searchable);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    };</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_searchable.html#a2dc05dc4553467aa0a2235088de41b4b">   44</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> any_of = [](<span class="keyword">auto</span> searchable) {</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keywordflow">return</span> Searchable::instance&lt;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(searchable)&gt;</a></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        &gt;::any_of_impl(searchable);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    };</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_searchable.html#a695907e4a3ef7d0e9ab34f5afff709b2">   58</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> all = [](<span class="keyword">auto</span> predicate, <span class="keyword">auto</span> searchable) {</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keywordflow">return</span> Searchable::instance&lt;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(searchable)&gt;</a></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        &gt;::all_impl(predicate, searchable);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    };</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
-<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_searchable.html#adadd57241c497cbe1a2ce5ac57549080">   66</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> all_of = [](<span class="keyword">auto</span> searchable) {</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="keywordflow">return</span> Searchable::instance&lt;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(searchable)&gt;</a></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        &gt;::all_of_impl(searchable);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    };</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_searchable.html#a9365b793fe547271e48fa719a7f4854d">   81</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> none = [](<span class="keyword">auto</span> predicate, <span class="keyword">auto</span> searchable) {</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="keywordflow">return</span> Searchable::instance&lt;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(searchable)&gt;</a></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        &gt;::none_impl(predicate, searchable);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    };</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
-<div class="line"><a name="l00089"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_searchable.html#abf1dbf83a1d98c62994e207ea18eea8a">   89</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> none_of = [](<span class="keyword">auto</span> searchable) {</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        <span class="keywordflow">return</span> Searchable::instance&lt;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(searchable)&gt;</a></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        &gt;::none_of_impl(searchable);</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    };</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
-<div class="line"><a name="l00100"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_searchable.html#a04e413e4acd1dac89e442df2f30f3e2d">  100</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> elem = [](<span class="keyword">auto</span> key, <span class="keyword">auto</span> searchable) {</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        <span class="keywordflow">return</span> Searchable::instance&lt;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(searchable)&gt;</a></div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        &gt;::elem_impl(key, searchable);</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    };</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
-<div class="line"><a name="l00117"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_searchable.html#a2772d97163d2e2ca3f51b2d16d13ff66">  117</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> find = [](<span class="keyword">auto</span> predicate, <span class="keyword">auto</span> searchable) {</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        <span class="keywordflow">return</span> Searchable::instance&lt;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(searchable)&gt;</a></div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        &gt;::find_impl(predicate, searchable);</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    };</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;</div>
-<div class="line"><a name="l00125"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_searchable.html#a82e67ada9561f5e1176faab8eb94a064">  125</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> lookup = [](<span class="keyword">auto</span> key, <span class="keyword">auto</span> searchable) {</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        <span class="keywordflow">return</span> Searchable::instance&lt;</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(searchable)&gt;</a></div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        &gt;::lookup_impl(key, searchable);</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    };</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;}} <span class="comment">// end namespace boost::hana</span></div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="preprocessor">#endif // !BOOST_HANA_SEARCHABLE_SEARCHABLE_HPP</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_searchable.html">   24</a></span>&#160;    <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1_searchable.html">Searchable</a> {</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <a class="code" href="group__core.html#gac072d4434777cd5ee841a7766d41f1d8">BOOST_HANA_TYPECLASS</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html">Searchable</a>);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1_searchable_1_1find__mcd.html">find_mcd</a>;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    };</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_searchable.html#a67dd29f7921b76f7d2bd372605f73f7c">   37</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> any = [](<span class="keyword">auto</span> predicate, <span class="keyword">auto</span> searchable) {</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordflow">return</span> Searchable::instance&lt;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(searchable)&gt;</a></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        &gt;::any_impl(predicate, searchable);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    };</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_searchable.html#a2dc05dc4553467aa0a2235088de41b4b">   45</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> any_of = [](<span class="keyword">auto</span> searchable) {</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordflow">return</span> Searchable::instance&lt;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(searchable)&gt;</a></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        &gt;::any_of_impl(searchable);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    };</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_searchable.html#a695907e4a3ef7d0e9ab34f5afff709b2">   59</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> all = [](<span class="keyword">auto</span> predicate, <span class="keyword">auto</span> searchable) {</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keywordflow">return</span> Searchable::instance&lt;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(searchable)&gt;</a></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        &gt;::all_impl(predicate, searchable);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    };</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_searchable.html#adadd57241c497cbe1a2ce5ac57549080">   67</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> all_of = [](<span class="keyword">auto</span> searchable) {</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="keywordflow">return</span> Searchable::instance&lt;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(searchable)&gt;</a></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        &gt;::all_of_impl(searchable);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    };</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
+<div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_searchable.html#a9365b793fe547271e48fa719a7f4854d">   82</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> none = [](<span class="keyword">auto</span> predicate, <span class="keyword">auto</span> searchable) {</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="keywordflow">return</span> Searchable::instance&lt;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(searchable)&gt;</a></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        &gt;::none_impl(predicate, searchable);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    };</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
+<div class="line"><a name="l00090"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_searchable.html#abf1dbf83a1d98c62994e207ea18eea8a">   90</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> none_of = [](<span class="keyword">auto</span> searchable) {</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="keywordflow">return</span> Searchable::instance&lt;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(searchable)&gt;</a></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        &gt;::none_of_impl(searchable);</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    };</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
+<div class="line"><a name="l00101"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_searchable.html#a04e413e4acd1dac89e442df2f30f3e2d">  101</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> elem = [](<span class="keyword">auto</span> key, <span class="keyword">auto</span> searchable) {</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        <span class="keywordflow">return</span> Searchable::instance&lt;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(searchable)&gt;</a></div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        &gt;::elem_impl(key, searchable);</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    };</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
+<div class="line"><a name="l00118"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_searchable.html#a2772d97163d2e2ca3f51b2d16d13ff66">  118</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> find = [](<span class="keyword">auto</span> predicate, <span class="keyword">auto</span> searchable) {</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        <span class="keywordflow">return</span> Searchable::instance&lt;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(searchable)&gt;</a></div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        &gt;::find_impl(predicate, searchable);</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    };</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;</div>
+<div class="line"><a name="l00126"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_searchable.html#a82e67ada9561f5e1176faab8eb94a064">  126</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> lookup = [](<span class="keyword">auto</span> key, <span class="keyword">auto</span> searchable) {</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        <span class="keywordflow">return</span> Searchable::instance&lt;</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(searchable)&gt;</a></div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        &gt;::lookup_impl(key, searchable);</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    };</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;}} <span class="comment">// end namespace boost::hana</span></div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="preprocessor">#endif // !BOOST_HANA_SEARCHABLE_SEARCHABLE_HPP</span></div>
 <div class="ttc" id="group__details_html_gacf82d20cb2ab6efe5849fadae0a043a8"><div class="ttname"><a href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a></div><div class="ttdeci">#define BOOST_HANA_CONSTEXPR_LAMBDA</div><div class="ttdoc">Expands to constexpr if constexpr lambdas are supported and to nothing otherwise. ...</div><div class="ttdef"><b>Definition:</b> constexpr.hpp:18</div></div>
 <div class="ttc" id="group__core_html_gae3cedd3772d00ac7c4de9dc3d719f321"><div class="ttname"><a href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">boost::hana::datatype_t</a></div><div class="ttdeci">typename datatype&lt; T &gt;::type datatype_t</div><div class="ttdoc">Alias to datatype<T>::type. </div><div class="ttdef"><b>Definition:</b> typeclasses.hpp:260</div></div>
 <div class="ttc" id="typeclasses_8hpp_html"><div class="ttname"><a href="typeclasses_8hpp.html">typeclasses.hpp</a></div><div class="ttdoc">Internal header to break circular dependencies. </div></div>
 <div class="ttc" id="structboost_1_1hana_1_1_searchable_1_1find__mcd_html"><div class="ttname"><a href="structboost_1_1hana_1_1_searchable_1_1find__mcd.html">boost::hana::Searchable::find_mcd</a></div><div class="ttdoc">Minimal complete definition: find and any </div><div class="ttdef"><b>Definition:</b> find_mcd.hpp:27</div></div>
 <div class="ttc" id="constexpr_8hpp_html"><div class="ttname"><a href="constexpr_8hpp.html">constexpr.hpp</a></div><div class="ttdoc">Defines the BOOST_HANA_CONSTEXPR_LAMBDA macro. </div></div>
-<div class="ttc" id="structboost_1_1hana_1_1_searchable_html"><div class="ttname"><a href="structboost_1_1hana_1_1_searchable.html">boost::hana::Searchable</a></div><div class="ttdoc">Data structures that can be searched. </div><div class="ttdef"><b>Definition:</b> searchable.hpp:23</div></div>
+<div class="ttc" id="structboost_1_1hana_1_1_searchable_html"><div class="ttname"><a href="structboost_1_1hana_1_1_searchable.html">boost::hana::Searchable</a></div><div class="ttdoc">Data structures that can be searched. </div><div class="ttdef"><b>Definition:</b> searchable.hpp:24</div></div>
 <div class="ttc" id="group__core_html_gac072d4434777cd5ee841a7766d41f1d8"><div class="ttname"><a href="group__core.html#gac072d4434777cd5ee841a7766d41f1d8">BOOST_HANA_TYPECLASS</a></div><div class="ttdeci">#define BOOST_HANA_TYPECLASS(NAME)</div><div class="ttdoc">Machinery for creating a unary type class. </div><div class="ttdef"><b>Definition:</b> typeclasses.hpp:158</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 23 2014 13:52:46 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jul 23 2014 20:47:10 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

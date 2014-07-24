@@ -99,28 +99,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#ifndef BOOST_HANA_COMPARABLE_EQUAL_MCD_HPP</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#define BOOST_HANA_COMPARABLE_EQUAL_MCD_HPP</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="comparable_2comparable_8hpp.html">boost/hana/comparable/comparable.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="logical_2logical_8hpp.html">boost/hana/logical/logical.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">// This mcd is defined in the forward declaration header because we</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">// need it to instantiate `Comparable` for builtins.</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="comparable_2comparable_8hpp.html">boost/hana/comparable/comparable.hpp</a>&gt;</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">namespace </span>boost { <span class="keyword">namespace </span>hana {</div>
-<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_comparable_1_1equal__mcd.html">   20</a></span>&#160;    <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1_comparable_1_1equal__mcd.html">Comparable::equal_mcd</a> {</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X, <span class="keyword">typename</span> Y&gt;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">static</span> constexpr <span class="keyword">auto</span> not_equal_impl(X x, Y y)</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        { <span class="keywordflow">return</span> not_(<a class="code" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>(x, y)); }</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    };</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;}} <span class="comment">// end namespace boost::hana</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#endif // !BOOST_HANA_COMPARABLE_EQUAL_MCD_HPP</span></div>
-<div class="ttc" id="structboost_1_1hana_1_1_comparable_1_1equal__mcd_html"><div class="ttname"><a href="structboost_1_1hana_1_1_comparable_1_1equal__mcd.html">boost::hana::Comparable::equal_mcd</a></div><div class="ttdoc">Minimal complete definition : equal </div><div class="ttdef"><b>Definition:</b> equal_mcd.hpp:20</div></div>
-<div class="ttc" id="structboost_1_1hana_1_1_comparable_html_aa3d0a020ddd527610472c91f5a8cc627"><div class="ttname"><a href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">boost::hana::Comparable::equal</a></div><div class="ttdeci">constexpr auto equal</div><div class="ttdoc">Returns a Logical representing whether x is equal to y. </div><div class="ttdef"><b>Definition:</b> comparable.hpp:45</div></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#endif // !BOOST_HANA_COMPARABLE_EQUAL_MCD_HPP</span></div>
 <div class="ttc" id="comparable_2comparable_8hpp_html"><div class="ttname"><a href="comparable_2comparable_8hpp.html">comparable.hpp</a></div><div class="ttdoc">Forward declares boost::hana::Comparable. </div></div>
-<div class="ttc" id="logical_2logical_8hpp_html"><div class="ttname"><a href="logical_2logical_8hpp.html">logical.hpp</a></div><div class="ttdoc">Forward declares boost::hana::Logical. </div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 23 2014 13:52:45 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jul 23 2014 20:47:10 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>
