@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 using namespace boost::hana;
 
 
-template <typename mcd>
+template <template <typename ...> class mcd>
 void test() {
     constexpr auto monad = detail::minimal::monad<mcd>;
     BOOST_HANA_STATIC_ASSERT(Monad::laws::check(

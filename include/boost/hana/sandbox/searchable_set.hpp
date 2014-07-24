@@ -110,7 +110,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Monad::instance<SearchableSet> : Monad::flatten_mcd {
+    struct Monad::instance<SearchableSet> : Monad::flatten_mcd<SearchableSet> {
         template <typename SSet>
         static constexpr auto flatten_impl(SSet sset) {
             return searchable_set([=](auto p) {

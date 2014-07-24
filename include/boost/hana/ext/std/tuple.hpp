@@ -90,7 +90,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Monad::instance<StdTuple> : Monad::flatten_mcd {
+    struct Monad::instance<StdTuple> : Monad::flatten_mcd<StdTuple> {
         template <typename ...Tuples, std::size_t ...Index>
         static constexpr auto
         helper(std::tuple<Tuples...> tuples, std::index_sequence<Index...>)

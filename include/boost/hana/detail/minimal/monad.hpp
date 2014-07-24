@@ -19,28 +19,28 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
 namespace detail { namespace minimal {
-    template <typename mcd = hana::Monad::flatten_mcd>
+    template <template <typename ...> class mcd = hana::Monad::flatten_mcd>
     struct Monad { };
 
-    template <typename T, typename mcd, typename = operators::enable>
+    template <typename T, template <typename ...> class mcd, typename = operators::enable>
     struct monad_type {
         T value;
         using hana_datatype = Monad<mcd>;
     };
 
-    template <typename mcd>
+    template <template <typename ...> class mcd>
     struct make_monad_impl {
         template <typename X>
         constexpr auto operator()(X x) const
         { return monad_type<X, mcd>{x}; }
     };
 
-    template <typename mcd = hana::Monad::flatten_mcd>
+    template <template <typename ...> class mcd = hana::Monad::flatten_mcd>
     constexpr make_monad_impl<mcd> monad{};
 }} // end namespace detail::minimal
 
 // Provided for convenience only.
-template <typename mcd>
+template <template <typename ...> class mcd>
 struct Comparable::instance<
     detail::minimal::Monad<mcd>, detail::minimal::Monad<mcd>
 >
@@ -51,14 +51,14 @@ struct Comparable::instance<
     { return equal(x.value, y.value); }
 };
 
-template <typename Mcd>
+template <template <typename ...> class Mcd>
 struct Functor::instance<detail::minimal::Monad<Mcd>> : Functor::fmap_mcd {
     template <typename F, typename M>
     static constexpr auto fmap_impl(F f, M m)
     { return detail::minimal::monad<Mcd>(f(m.value)); }
 };
 
-template <typename Mcd>
+template <template <typename ...> class Mcd>
 struct Applicative::instance<detail::minimal::Monad<Mcd>> : Applicative::mcd {
     template <typename X>
     static constexpr auto lift_impl(X x)
@@ -71,7 +71,7 @@ struct Applicative::instance<detail::minimal::Monad<Mcd>> : Applicative::mcd {
 
 template <>
 struct Monad::instance<detail::minimal::Monad<Monad::flatten_mcd>>
-    : Monad::flatten_mcd
+    : Monad::flatten_mcd<detail::minimal::Monad<Monad::flatten_mcd>>
 {
     template <typename M>
     static constexpr auto flatten_impl(M m)
@@ -80,7 +80,7 @@ struct Monad::instance<detail::minimal::Monad<Monad::flatten_mcd>>
 
 template <>
 struct Monad::instance<detail::minimal::Monad<Monad::bind_mcd>>
-    : Monad::bind_mcd
+    : Monad::bind_mcd<detail::minimal::Monad<Monad::bind_mcd>>
 {
     template <typename M, typename F>
     static constexpr auto bind_impl(M m, F f)

@@ -288,7 +288,7 @@ namespace boost { namespace hana {
     //! @snippet example/list/monad/overview.cpp main
     template <typename T>
     struct Monad::instance<T, when<instantiates<List, T>()>>
-        : Monad::flatten_mcd
+        : Monad::flatten_mcd<T>
     {
         template <typename Xss>
         static constexpr auto flatten_impl(Xss xss)

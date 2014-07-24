@@ -9,7 +9,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/minimal/comparable.hpp>
 #include <boost/hana/detail/minimal/monad.hpp>
-#include <boost/hana/detail/static_assert.hpp>
+
+#include <cassert>
 using namespace boost::hana;
 
 
@@ -20,8 +21,12 @@ struct invalid { };
 template <template <typename ...> class mcd>
 void test() {
     constexpr auto monad = detail::minimal::monad<mcd>;
+    using M = detail::minimal::Monad<mcd>;
 
-    BOOST_HANA_STATIC_ASSERT(then(monad(invalid{}), monad(x<1>)) == monad(x<1>));
+    bool executed = false;
+    auto m = bind(monad(x<0>), tap<M>([&](auto) { executed = true; }));
+    assert(m == monad(x<0>));
+    assert(executed);
 }
 
 int main() {

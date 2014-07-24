@@ -119,7 +119,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/lazy/monad.cpp main
     template <>
-    struct Monad::instance<Lazy> : Monad::flatten_mcd {
+    struct Monad::instance<Lazy> : Monad::flatten_mcd<Lazy> {
         template <typename LLX>
         static constexpr auto flatten_impl(LLX llx) {
             auto storage = [=](auto _) {

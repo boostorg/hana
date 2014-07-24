@@ -88,7 +88,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/maybe/monad.cpp main
     template <>
-    struct Monad::instance<Maybe> : Monad::flatten_mcd {
+    struct Monad::instance<Maybe> : Monad::flatten_mcd<Maybe> {
         template <typename MMX>
         static constexpr auto flatten_impl(MMX mmx)
         { return maybe(nothing, [](auto mx) { return mx; }, mmx); }

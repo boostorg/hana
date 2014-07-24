@@ -68,7 +68,7 @@ namespace boost { namespace hana {
 
     template <typename T>
     struct Monad::instance<T, when<instantiates<Pair, T>()>>
-        : Monad::bind_mcd
+        : Monad::bind_mcd<T>
     {
         template <typename P, typename F>
         static constexpr auto bind_impl(P p, F f) {

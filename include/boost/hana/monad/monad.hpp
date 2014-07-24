@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_MONAD_MONAD_HPP
 #define BOOST_HANA_MONAD_MONAD_HPP
 
+#include <boost/hana/applicative/applicative.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/typeclasses.hpp>
 
@@ -18,12 +19,12 @@ namespace boost { namespace hana {
     //! @ingroup typeclasses
     //! `Monad`s are `Applicative`s with the ability to flatten values that
     //! were lifted more than once.
-    //!
-    //! @todo
-    //! Consider adding a function to tap inside a monadic chain.
     struct Monad {
         BOOST_HANA_TYPECLASS(Monad);
+        template <typename M>
         struct bind_mcd;
+
+        template <typename M>
         struct flatten_mcd;
         struct laws;
     };
@@ -55,6 +56,28 @@ namespace boost { namespace hana {
         >::flatten_impl(monad);
     };
 
+    namespace monad_detail {
+        template <typename M>
+        struct tap {
+            template <typename F>
+            constexpr auto operator()(F f) const
+            { return Monad::instance<M>::tap_impl(f); }
+        };
+    }
+
+    //! Tap inside a monadic chain.
+    //! @method{Monad}
+    //!
+    //! Specifically, `tap<M>(f)(x)` performs `f(x)` and returns `lift<M>(x)`.
+    //! Combined with the law saying that `bind(m, lift<M>) == m`, this
+    //! provides a way of executing an action inside a monadic chain without
+    //! influencing its result.
+    //!
+    //! ### Example
+    //! @snippet example/monad/tap.cpp main
+    template <typename M>
+    constexpr monad_detail::tap<M> tap{};
+
     namespace operators {
         //! Equivalent to `bind`.
         //! @method{boost::hana::Monad}
@@ -68,10 +91,19 @@ namespace boost { namespace hana {
     }
 
     namespace monad_detail {
+        template <typename M>
         struct common {
             template <typename M1, typename M2>
             static constexpr auto then_impl(M1 m1, M2 m2)
             { return bind(m1, [=](auto) { return m2; }); }
+
+            template <typename F>
+            static constexpr auto tap_impl(F f) {
+                return [=](auto x) {
+                    f(x);
+                    return lift<M>(x);
+                };
+            }
         };
     }
 }} // end namespace boost::hana
