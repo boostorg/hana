@@ -235,6 +235,10 @@ namespace boost { namespace hana {
             return maybe(nil<T>, g, f(init));
         }
 
+        template <typename Xs>
+        static constexpr auto unzip_impl(Xs xs)
+        { return unpack(zip, xs); }
+
         template <typename ...Xss>
         static constexpr auto zip_impl(Xss ...xss)
         { return zip_with(into<T>, xss...); }

@@ -48,7 +48,6 @@ namespace boost { namespace hana {
     - There is a strong relationship between this and `MonadPlus`. Actually,
       they might be just the same. Check this out.
     - Implement the following methods:
-        - `unzip`
         - `intersperse`, `intercalate`, `transpose`, `subsequences`
         - `split_at`, `span`, `break`, `group_by`, `group`, `inits`, `tails`
     - Consider implementing the following methods:
@@ -373,6 +372,17 @@ namespace boost { namespace hana {
     //! @snippet example/integer_list/unfoldr.cpp main
     template <typename L>
     constexpr list_detail::unfoldr<L> unfoldr{};
+
+    //! Unzip a list of lists.
+    //! @method{List}
+    //!
+    //! ### Example
+    //! @snippet example/list/unzip.cpp main
+    BOOST_HANA_CONSTEXPR_LAMBDA auto unzip = [](auto xs) {
+        return List::instance<
+            datatype_t<decltype(xs)>
+        >::unzip_impl(xs);
+    };
 
     //! Zip one list or more.
     //! @method{List}
