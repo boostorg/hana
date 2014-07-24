@@ -36,10 +36,6 @@ namespace boost { namespace hana {
     //! functionality would require evaluating the lazy values in most cases.
     //! Since this raises some issues such as side effects and memoization,
     //! the data type is kept simple.
-    //!
-    //! @todo
-    //! Right now, we can't do `lazy(f)()` because `ap(f)` is invalid. How
-    //! should we fix this?
     struct Lazy { };
 
     //! Evaluate a lazy value and return it.
@@ -69,8 +65,12 @@ namespace boost { namespace hana {
     //!
     //! Additionally, `lazy(f)` is a function such that `lazy(f)(x1, ..., xN)`
     //! is equivalent to `ap(lazy(f), lift<Lazy>(x1), ..., lift<Lazy>(xN))`,
-    //! which is in turn equivalent to `lazy(f(x1, ..., xN))`, except for the
-    //! fact that the inner call to `f` is evaluated lazily.
+    //! which in turn is equivalent to `lazy(f(x1, ..., xN))`, except for the
+    //! fact that the inner call to `f` is evaluated lazily. Note that
+    //! `lazy(f)()` is equivalent to `lazy(f())`, with the inner call to
+    //! `f` being evaluated lazily. This is provided for convenience even
+    //! though `ap(lazy(f))` would be invalid because `ap` requires 2
+    //! arguments or more.
     //!
     //! ### Example
     //! @snippet example/lazy/lazy.cpp main
