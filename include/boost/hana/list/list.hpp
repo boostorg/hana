@@ -43,14 +43,12 @@ namespace boost { namespace hana {
     - It might be possible to optimize the implementation of homogeneous lists
       using an array.
     - How to implement iterate and repeat?
-    - Check laws for `Applicative`.
-    - Get rid of the `<type_traits>` include.
     - We could provide automatic unit testing for any instance because we
       have the isomorphisms.
     - There is a strong relationship between this and `MonadPlus`. Actually,
       they might be just the same. Check this out.
     - Implement the following methods:
-        - `unfoldr`, `unfoldl`, `unzip`
+        - `unzip`
         - `intersperse`, `intercalate`, `transpose`, `subsequences`
         - `split_at`, `span`, `break`, `group_by`, `group`, `inits`, `tails`
     - Consider implementing the following methods:
@@ -307,6 +305,74 @@ namespace boost { namespace hana {
             datatype_t<decltype(xs)>
         >::take_while_impl(predicate, xs);
     };
+
+    namespace list_detail {
+        template <typename L>
+        struct unfoldr {
+            template <typename F, typename Initial>
+            constexpr auto operator()(F f, Initial initial) const
+            { return List::instance<L>::unfoldr_impl(f, initial); }
+        };
+
+        template <typename L>
+        struct unfoldl {
+            template <typename F, typename Initial>
+            constexpr auto operator()(F f, Initial initial) const
+            { return List::instance<L>::unfoldl_impl(f, initial); }
+        };
+    }
+
+    //! Dual to `foldl` for lists.
+    //! @method{List}
+    //!
+    //! While `foldl` reduces a list to a summary value, `unfoldl` builds a
+    //! list from a seed value and a function. The function takes the initial
+    //! value and returns `nothing` if it is done producing the list, and
+    //! `just(P(init, elem))` otherwise, where `P` is an arbitrary `Pair`
+    //! constructor and `elem` is the produced element which is appended to
+    //! the list and `init` is the new initial value used in a recursive call
+    //! to the function.
+    //!
+    //! In some cases, `unfoldl` can undo a `foldl` operation:
+    //! @code
+    //!     unfoldl(g, foldl(f, z, xs))
+    //! @endcode
+    //! if the following holds
+    //! @code
+    //!     g(f(y, x)) == just(pair(y, x))
+    //!     g(z) == nothing
+    //! @endcode
+    //!
+    //! ### Example
+    //! @snippet example/integer_list/unfoldl.cpp main
+    template <typename L>
+    constexpr list_detail::unfoldl<L> unfoldl{};
+
+    //! Dual to `foldr` for lists.
+    //! @method{List}
+    //!
+    //! While `foldr` reduces a list to a summary value, `unfoldr` builds a
+    //! list from a seed value and a function. The function takes the initial
+    //! value and returns `nothing` if it is done producing the list, and
+    //! `just(P(elem, init))` otherwise, where `P` is an arbitrary `Pair`
+    //! constructor and `elem` is the produced element which is prepended to
+    //! the list and `init` is the new initial value used in a recursive call
+    //! to the function.
+    //!
+    //! In some cases, `unfoldr` can undo a `foldr` operation:
+    //! @code
+    //!     unfoldr(g, foldr(f, z, xs))
+    //! @endcode
+    //! if the following holds
+    //! @code
+    //!     g(f(x, y)) == just(pair(x, y))
+    //!     g(z) == nothing
+    //! @endcode
+    //!
+    //! ### Example
+    //! @snippet example/integer_list/unfoldr.cpp main
+    template <typename L>
+    constexpr list_detail::unfoldr<L> unfoldr{};
 
     //! Zip one list or more.
     //! @method{List}

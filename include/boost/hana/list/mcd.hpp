@@ -219,6 +219,22 @@ namespace boost { namespace hana {
             );
         }
 
+        template <typename F, typename Init>
+        static constexpr auto unfoldr_impl(F f, Init init) {
+            auto g = [=](auto a_b) {
+                return cons(first(a_b), unfoldr_impl(f, second(a_b)));
+            };
+            return maybe(nil<T>, g, f(init));
+        }
+
+        template <typename F, typename Init>
+        static constexpr auto unfoldl_impl(F f, Init init) {
+            auto g = [=](auto b_a) {
+                return snoc(unfoldl_impl(f, first(b_a)), second(b_a));
+            };
+            return maybe(nil<T>, g, f(init));
+        }
+
         template <typename ...Xss>
         static constexpr auto zip_impl(Xss ...xss)
         { return zip_with(into<T>, xss...); }
