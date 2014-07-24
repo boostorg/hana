@@ -15,8 +15,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core.hpp>
 #include <boost/hana/integral.hpp>
 
-#include <initializer_list>
-
 
 namespace boost { namespace hana {
     //! @ingroup datatypes
@@ -44,13 +42,19 @@ namespace boost { namespace hana {
                 using hana_datatype = Type;
                 using type = T;
 
-                template <typename U>
-                constexpr auto operator()(std::initializer_list<U> ilist) const
-                { return T(ilist); }
+                template <typename ...Args>
+                static constexpr auto construct(int, Args ...args)
+                    -> decltype(T{args...})
+                { return T{args...}; }
+
+                template <typename ...Args>
+                static constexpr auto construct(long, Args ...args)
+                    -> decltype(T(args...))
+                { return T(args...); }
 
                 template <typename ...Args>
                 constexpr auto operator()(Args ...args) const
-                { return T{args...}; }
+                { return construct(int{0}, args...); }
             };
             using type = type_;
         };
@@ -64,20 +68,12 @@ namespace boost { namespace hana {
     //! with the arguments passed to it:
     //! @snippet example/type/construct.cpp main
     //!
-    //! `std::initializer_list` is supported too:
+    //! To use an initializer list, one should construct it explicitly:
     //! @snippet example/type/initializer_list.cpp main
     //!
     //! `decltype(type<T>)` also has a nested alias to `T` named `type`.
     //! Hence, it can be used as a metafunction returning `T`:
     //! @snippet example/type/as_metafunction.cpp main
-    //!
-    //! @todo
-    //! Should this fail or not? Currently it fails because
-    //! "non-constant-expression cannot be narrowed from type 'double' to
-    //! 'float' in initializer list"
-    //! @code
-    //!     type<float>(double{1.2})
-    //! @endcode
     template <typename T>
     constexpr typename type_detail::make_type<T>::type type{};
 
