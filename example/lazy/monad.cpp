@@ -28,11 +28,11 @@ int main() {
 
     std::cout << "creating the monadic chain...\n";
     auto out = read<int>(std::ref(ss))
-        >> [](auto x) {
+        | [](auto x) {
             std::cout << "performing x + 1...\n";
             return lazy(x + 1);
         }
-        >> [](auto x) {
+        | [](auto x) {
             std::cout << "performing x / 2...\n";
             return lazy(x / 2);
         };

@@ -19,19 +19,19 @@ int main() {
 
     std::cerr << "creating the monadic chain...\n";
     auto chain = lazy(dummy)
-        >> [&](int dummy) {
+        | [&](int dummy) {
             std::cerr << "executing the first computation...\n";
             executed[0] = true;
             assert((executed == std::array<bool, 3>{{true, false, false}}));
             return lazy(dummy);
         }
-        >> [&](int dummy) {
+        | [&](int dummy) {
             std::cerr << "executing the second computation...\n";
             executed[1] = true;
             assert((executed == std::array<bool, 3>{{true, true, false}}));
             return lazy(dummy);
         }
-        >> [&](int dummy) {
+        | [&](int dummy) {
             std::cerr << "executing the third computation...\n";
             executed[2] = true;
             assert((executed == std::array<bool, 3>{{true, true, true}}));

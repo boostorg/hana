@@ -13,15 +13,15 @@ Distributed under the Boost Software License, Version 1.0.
 using namespace boost::hana;
 
 
+template <int i>
+constexpr auto x = detail::minimal::comparable<>(i);
+struct invalid { };
+
 template <typename mcd>
 void test() {
     constexpr auto monad = detail::minimal::monad<mcd>;
-    constexpr auto comparable = detail::minimal::comparable<>;
-    struct invalid { };
 
-    BOOST_HANA_STATIC_ASSERT(
-        then(monad(invalid{}), monad(comparable(2))) == monad(comparable(2))
-    );
+    BOOST_HANA_STATIC_ASSERT(then(monad(invalid{}), monad(x<1>)) == monad(x<1>));
 }
 
 int main() {

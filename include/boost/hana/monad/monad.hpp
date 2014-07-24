@@ -63,7 +63,7 @@ namespace boost { namespace hana {
         //! This was preferred over `>>=` because `>>=` is right associative,
         //! which makes it impossible to chain computations.
         template <typename M, typename F>
-        constexpr auto operator>>(M m, F f)
+        constexpr auto operator|(M m, F f)
         { return bind(m, f); }
     }
 

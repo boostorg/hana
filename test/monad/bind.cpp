@@ -25,10 +25,10 @@ void test() {
     };
 
     BOOST_HANA_STATIC_ASSERT(bind(monad(comparable(1)), f) == f(comparable(1)));
-    BOOST_HANA_STATIC_ASSERT((monad(comparable(1)) >> f) == f(comparable(1)));
+    BOOST_HANA_STATIC_ASSERT((monad(comparable(1)) | f) == f(comparable(1)));
 
     // check associativity
-    BOOST_HANA_STATIC_ASSERT((monad(comparable(1)) >> f >> f) == f(std::make_tuple(comparable(1))));
+    BOOST_HANA_STATIC_ASSERT((monad(comparable(1)) | f | f) == f(std::make_tuple(comparable(1))));
 }
 
 int main() {
