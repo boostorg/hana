@@ -5,6 +5,7 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/integral.hpp>
 #include <boost/hana/map.hpp>
 #include <boost/hana/maybe.hpp>
 #include <boost/hana/pair/instance.hpp>
@@ -21,5 +22,6 @@ int main() {
     BOOST_HANA_STATIC_ASSERT(lookup(type<int>, m) == just('i'));
     BOOST_HANA_STATIC_ASSERT(lookup(type<float>, m) == just('f'));
     BOOST_HANA_STATIC_ASSERT(lookup(type<void>, m) == nothing);
+    BOOST_HANA_STATIC_ASSERT(lookup(int_<3>, m) == nothing);
     //! [main]
 }

@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_COMPARABLE_COMPARABLE_HPP
 
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/integral_fwd.hpp>
 #include <boost/hana/detail/typeclasses.hpp>
 #include <boost/hana/logical/logical.hpp>
 
@@ -23,6 +24,9 @@ namespace boost { namespace hana {
         struct equal_mcd;
         struct not_equal_mcd;
         struct laws;
+
+        template <typename T, typename U>
+        struct default_instance;
     };
 
     /*!
@@ -61,6 +65,23 @@ namespace boost { namespace hana {
         template <typename X, typename Y>
         static constexpr auto not_equal_impl(X x, Y y)
         { return not_(equal(x, y)); }
+    };
+
+    //! @details
+    //! Objects of different data types that do not define a `Comparable`
+    //! instance are implicitly `Comparable` by letting any two such objects
+    //! always compare unequal. However, objects of the same data type are
+    //! not implicitly `Comparable`.
+    template <typename T, typename U>
+    struct Comparable::default_instance : Comparable::equal_mcd {
+        template <typename X, typename Y>
+        static constexpr auto equal_impl(X, Y)
+        { return false_; }
+    };
+
+    template <typename T>
+    struct Comparable::default_instance<T, T> : disable {
+        // We let it fail if T is not comparable with itself.
     };
 
     //! @details

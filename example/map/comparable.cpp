@@ -7,6 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/integral.hpp>
 #include <boost/hana/map.hpp>
 #include <boost/hana/pair/instance.hpp>
+#include <boost/hana/type.hpp>
 
 #include <cassert>
 #include <string>
@@ -18,11 +19,11 @@ int main() {
     assert(
         map(
             pair(char_<'a'>, std::string{"foobar"}),
-            pair(int_<2>, nullptr)
+            pair(type<int&&>, nullptr)
         )
         ==
         map(
-            pair(int_<2>, (void*)0),
+            pair(type<int&&>, (void*)0),
             pair(char_<'a'>, "foobar")
         )
     );
