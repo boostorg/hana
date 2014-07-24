@@ -175,7 +175,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    };</div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keyword">template</span> &lt;&gt;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keyword">struct </span>Monad::instance&lt;StdTuple&gt; : <a class="code" href="structboost_1_1hana_1_1_monad_1_1flatten__mcd.html">Monad::flatten_mcd</a> {</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keyword">struct </span>Monad::instance&lt;StdTuple&gt; : <a class="code" href="structboost_1_1hana_1_1_monad_1_1flatten__mcd.html">Monad::flatten_mcd</a>&lt;StdTuple&gt; {</div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...Tuples, std::size_t ...Index&gt;</div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        <span class="keyword">static</span> constexpr <span class="keyword">auto</span></div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        helper(std::tuple&lt;Tuples...&gt; tuples, std::index_sequence&lt;Index...&gt;)</div>
@@ -191,7 +191,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="core_8hpp_html"><div class="ttname"><a href="core_8hpp.html">core.hpp</a></div><div class="ttdoc">Defines the Core module. </div></div>
 <div class="ttc" id="list_2mcd_8hpp_html"><div class="ttname"><a href="list_2mcd_8hpp.html">mcd.hpp</a></div><div class="ttdoc">Defines boost::hana::List::mcd. </div></div>
 <div class="ttc" id="flatten__mcd_8hpp_html"><div class="ttname"><a href="flatten__mcd_8hpp.html">flatten_mcd.hpp</a></div><div class="ttdoc">Defines boost::hana::Monad::flatten_mcd. </div></div>
-<div class="ttc" id="structboost_1_1hana_1_1_monad_1_1flatten__mcd_html"><div class="ttname"><a href="structboost_1_1hana_1_1_monad_1_1flatten__mcd.html">boost::hana::Monad::flatten_mcd</a></div><div class="ttdoc">Minimal complete definition: flatten </div><div class="ttdef"><b>Definition:</b> flatten_mcd.hpp:20</div></div>
+<div class="ttc" id="structboost_1_1hana_1_1_monad_1_1flatten__mcd_html"><div class="ttname"><a href="structboost_1_1hana_1_1_monad_1_1flatten__mcd.html">boost::hana::Monad::flatten_mcd</a></div><div class="ttdoc">Minimal complete definition: flatten </div><div class="ttdef"><b>Definition:</b> flatten_mcd.hpp:21</div></div>
 <div class="ttc" id="applicative_2mcd_8hpp_html"><div class="ttname"><a href="applicative_2mcd_8hpp.html">mcd.hpp</a></div><div class="ttdoc">Defines boost::hana::Applicative::mcd. </div></div>
 <div class="ttc" id="structboost_1_1hana_1_1_applicative_1_1mcd_html"><div class="ttname"><a href="structboost_1_1hana_1_1_applicative_1_1mcd.html">boost::hana::Applicative::mcd</a></div><div class="ttdoc">Minimal complete definition : lift and ap </div><div class="ttdef"><b>Definition:</b> mcd.hpp:18</div></div>
 <div class="ttc" id="foldable__instance_8hpp_html"><div class="ttname"><a href="foldable__instance_8hpp.html">foldable_instance.hpp</a></div><div class="ttdoc">Defines boost::hana::Iterable::FoldableInstance. </div></div>
@@ -201,7 +201,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 23 2014 20:47:10 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jul 24 2014 10:29:13 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

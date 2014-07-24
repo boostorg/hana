@@ -109,13 +109,19 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_monad.html">boost::hana::Monad</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="Monads are Applicatives with the ability to flatten values that were lifted more than once...">Monad</a></code>s are <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="Applicatives are Functors with the ability to lift values and combine computations. ">Applicative</a></code>s with the ability to flatten values that were lifted more than once.  <a href="structboost_1_1hana_1_1_monad.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_monad_1_1bind__mcd.html">boost::hana::Monad::bind_mcd&lt; M &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Minimal complete definition: <code>bind</code>  <a href="structboost_1_1hana_1_1_monad_1_1bind__mcd.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_monad_1_1flatten__mcd.html">boost::hana::Monad::flatten_mcd&lt; M &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Minimal complete definition: <code>flatten</code>  <a href="structboost_1_1hana_1_1_monad_1_1flatten__mcd.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a58e3e46fb2d554e1902a63e56ed3103e"><td class="memTemplParams" colspan="2">template&lt;typename M , typename F &gt; </td></tr>
-<tr class="memitem:a58e3e46fb2d554e1902a63e56ed3103e"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>boost::hana::operators::operator&gt;&gt;</b> (M m, F f)</td></tr>
-<tr class="memdesc:a58e3e46fb2d554e1902a63e56ed3103e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>bind</code>.  <a href="#a58e3e46fb2d554e1902a63e56ed3103e">More...</a><br /></td></tr>
-<tr class="separator:a58e3e46fb2d554e1902a63e56ed3103e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab14a4875bfcfbdc48c20c540cf54a8f"><td class="memTemplParams" colspan="2">template&lt;typename M , typename F &gt; </td></tr>
+<tr class="memitem:aab14a4875bfcfbdc48c20c540cf54a8f"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>boost::hana::operators::operator|</b> (M m, F f)</td></tr>
+<tr class="memdesc:aab14a4875bfcfbdc48c20c540cf54a8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>bind</code>.  <a href="#aab14a4875bfcfbdc48c20c540cf54a8f">More...</a><br /></td></tr>
+<tr class="separator:aab14a4875bfcfbdc48c20c540cf54a8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Forward declares <code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="Monads are Applicatives with the ability to flatten values that were lifted more than once...">boost::hana::Monad</a></code>. </p>
@@ -123,7 +129,7 @@ Functions</h2></td></tr>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 23 2014 20:47:11 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jul 24 2014 10:29:13 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

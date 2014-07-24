@@ -88,7 +88,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="textblock"><dl class="reflist">
 <dt><a class="anchor" id="_todo000001"></a>Member <a class="el" href="structboost_1_1hana_1_1_applicative.html#a0d7511a7a164af8cc6040052b3fbee51">ap</a>  </dt>
 <dd>Consider giving access to all the arguments to the type class implementation. This is for performance purposes.  </dd>
-<dt><a class="anchor" id="_todo000031"></a>page <a class="el" href="index.html">Boost.Hana</a>  </dt>
+<dt><a class="anchor" id="_todo000029"></a>page <a class="el" href="index.html">Boost.Hana</a>  </dt>
 <dd><p class="startdd"></p>
 <p></p>
 <ul>
@@ -176,11 +176,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>Consider making this a real boolean algebra. </li>
 </ul>
 </dd>
-<dt><a class="anchor" id="_todo000024"></a>Class <a class="el" href="structboost_1_1hana_1_1_monad.html">boost::hana::Monad</a>  </dt>
-<dd><ul>
-<li>Consider adding a function to tap inside a monadic chain. This is probably the same as Haskell's <code>&gt;&gt;</code>.  </li>
-</ul>
-</dd>
 <dt><a class="anchor" id="_todo000007"></a>Class <a class="el" href="structboost_1_1hana_1_1operators_1_1enable.html">boost::hana::operators::enable</a>  </dt>
 <dd>Is ADL really the best way of providing custom operators? This has (at least) the problem that templated types which have nothing to do with Boost.Hana could have their set of associated namespaces augmented with <code>boost::hana::operators</code> in an undesirable way: <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><span class="keyword">struct </span>nothing_to_do_with_hana { };</div>
@@ -191,11 +186,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line">nothing_to_do_with_hana&lt;something_to_do_with_hana&lt;int&gt;&gt; x{};</div>
 <div class="line">x == x; <span class="comment">// tries to use Comparable::equal_impl</span></div>
 </div><!-- fragment -->  </dd>
-<dt><a class="anchor" id="_todo000025"></a>Class <a class="el" href="structboost_1_1hana_1_1_pair.html">boost::hana::Pair</a>  </dt>
+<dt><a class="anchor" id="_todo000024"></a>Class <a class="el" href="structboost_1_1hana_1_1_pair.html">boost::hana::Pair</a>  </dt>
 <dd>Provide and document instances for <code>Functor</code>, <code>Applicative</code>, <code>Monad</code> and <code>Foldable</code>.  </dd>
 <dt><a class="anchor" id="_todo000022"></a>Class <a class="el" href="structboost_1_1hana_1_1_searchable_1_1instance_3_01_t_00_01when_3_01instantiates_3_01_list_00_01_t_01_4_07_08_4_01_4.html">boost::hana::Searchable::instance&lt; T, when&lt; instantiates&lt; List, T &gt;()&gt; &gt;</a>  </dt>
 <dd>Technically, this can be implemented in <code>Iterable</code>. Should it? </dd>
-<dt><a class="anchor" id="_todo000026"></a>Class <a class="el" href="structboost_1_1hana_1_1_type.html">boost::hana::Type</a>  </dt>
+<dt><a class="anchor" id="_todo000025"></a>Class <a class="el" href="structboost_1_1hana_1_1_type.html">boost::hana::Type</a>  </dt>
 <dd><ul>
 <li>Completely figure out and document the category theoretical foundation of this data type.</li>
 <li>Consider instantiating <code>Functor</code>, <code>Applicative</code> and <code>Monad</code> if that's possible.</li>
@@ -203,7 +198,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>Use more lambdas once <a href="http://llvm.org/bugs/show_bug.cgi?id=20046">http://llvm.org/bugs/show_bug.cgi?id=20046</a> is fixed.  </li>
 </ul>
 </dd>
-<dt><a class="anchor" id="_todo000029"></a>Class <a class="el" href="structboost_1_1hana_1_1_type_list.html">boost::hana::TypeList</a>  </dt>
+<dt><a class="anchor" id="_todo000027"></a>Class <a class="el" href="structboost_1_1hana_1_1_type_list.html">boost::hana::TypeList</a>  </dt>
 <dd><ul>
 <li>Efficient membership testing is possible.</li>
 <li><code>TypeList</code> is not really a <code>Functor</code> because the function must map from <code>Type</code>s to <code>Type</code>s. Should it be modified so that <code>TypeList</code> becomes <code>List</code> if we try to store something else than <code>Type</code>s? The same issue goes for <code>IntegerList</code>.  </li>
@@ -219,13 +214,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <dd>Consider having <code>list_of&lt;Type&gt;</code>, <code>list_of&lt;Integral&gt;</code>, ..., <code>list_of&lt;Anything&gt;</code>, with <code>list == list_of&lt;Anything&gt;</code>. It does not fix the problem of partial type classes (e.g. <code>MplVector</code> is not <em>actually</em> a <code>List</code>), but at least we remove <code>TypeList</code> and <code>IntegerList</code>, which are arguably ugly.  </dd>
 <dt><a class="anchor" id="_todo000014"></a>Member <a class="el" href="structboost_1_1hana_1_1_integral.html#a1c078fd00db48686ca9e0aa17f47344e">operator</a> "_c" </dt>
 <dd>Add support for stuff like <code>0x1234_c</code>.  </dd>
-<dt><a class="anchor" id="_todo000028"></a>Member <a class="el" href="structboost_1_1hana_1_1_type.html#a5286be1cfdaca72680089a7d15a5c14c">sizeof_</a>  </dt>
+<dt><a class="anchor" id="_todo000026"></a>Member <a class="el" href="structboost_1_1hana_1_1_type.html#a5286be1cfdaca72680089a7d15a5c14c">sizeof_</a>  </dt>
 <dd>Should we also support non-<code>Type</code>s? That could definitely be useful.  </dd>
-<dt><a class="anchor" id="_todo000027"></a>Member <a class="el" href="structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c">type</a>  </dt>
-<dd>Should this fail or not? Currently it fails because "non-constant-expression cannot be narrowed from type 'double' to
-'float' in initializer list" <div class="fragment"><div class="line">type&lt;float&gt;(<span class="keywordtype">double</span>{1.2})</div>
-</div><!-- fragment -->  </dd>
-<dt><a class="anchor" id="_todo000030"></a>Group <a class="el" href="group__typeclasses.html">typeclasses</a>  </dt>
+<dt><a class="anchor" id="_todo000028"></a>Group <a class="el" href="group__typeclasses.html">typeclasses</a>  </dt>
 <dd><ul>
 <li>Implement better law checking and check them for all instances in the unit tests. Since we're modularized, it's OK to resort to heavy stuff in the law-checking because it's presumably only done in unit testing contexts.</li>
 <li>Provide an integrated way of checking laws for type classes.</li>
@@ -246,7 +237,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 23 2014 20:47:11 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jul 24 2014 10:29:13 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

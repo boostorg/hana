@@ -147,7 +147,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keyword">struct </span>Monad::instance&lt;T, when&lt;<a class="code" href="group__core.html#ga1505b4c072265b1461478be8e424e356">instantiates</a>&lt;Pair, T&gt;()&gt;&gt;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        : Monad::bind_mcd</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        : Monad::bind_mcd&lt;T&gt;</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    {</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> P, <span class="keyword">typename</span> F&gt;</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="keyword">static</span> constexpr <span class="keyword">auto</span> bind_impl(P p, F f) {</div>
@@ -191,7 +191,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 23 2014 20:47:10 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jul 24 2014 10:29:13 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

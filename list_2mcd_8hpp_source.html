@@ -351,7 +351,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;</div>
 <div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><a name="l00290"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_monad_1_1instance_3_01_t_00_01when_3_01instantiates_3_01_list_00_01_t_01_4_07_08_4_01_4.html">  290</a></span>&#160;    <span class="keyword">struct </span>Monad::instance&lt;T, <a class="code" href="structboost_1_1hana_1_1when.html">when</a>&lt;<a class="code" href="group__core.html#ga1505b4c072265b1461478be8e424e356">instantiates</a>&lt;<a class="code" href="structboost_1_1hana_1_1_list.html">List</a>, T&gt;()&gt;&gt;</div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;        : <a class="code" href="structboost_1_1hana_1_1_monad_1_1flatten__mcd.html">Monad::flatten_mcd</a></div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;        : <a class="code" href="structboost_1_1hana_1_1_monad_1_1flatten__mcd.html">Monad::flatten_mcd</a>&lt;T&gt;</div>
 <div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;    {</div>
 <div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Xss&gt;</div>
 <div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;        <span class="keyword">static</span> constexpr <span class="keyword">auto</span> flatten_impl(Xss xss)</div>
@@ -455,7 +455,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="structboost_1_1hana_1_1_list_html_a788b65dd69bb016d647801718e840816"><div class="ttname"><a href="structboost_1_1hana_1_1_list.html#a788b65dd69bb016d647801718e840816">boost::hana::List::partition</a></div><div class="ttdeci">constexpr auto partition</div><div class="ttdoc">Partition a list based on a predicate. </div><div class="ttdef"><b>Definition:</b> list.hpp:151</div></div>
 <div class="ttc" id="structboost_1_1hana_1_1_list_html_adfb039a3d46931ef17fef56c77d8256c"><div class="ttname"><a href="structboost_1_1hana_1_1_list.html#adfb039a3d46931ef17fef56c77d8256c">boost::hana::List::scanl</a></div><div class="ttdeci">constexpr auto scanl</div><div class="ttdoc">Similar to foldl, but returns a list of reduced values from the left. </div><div class="ttdef"><b>Definition:</b> list.hpp:193</div></div>
 <div class="ttc" id="flatten__mcd_8hpp_html"><div class="ttname"><a href="flatten__mcd_8hpp.html">flatten_mcd.hpp</a></div><div class="ttdoc">Defines boost::hana::Monad::flatten_mcd. </div></div>
-<div class="ttc" id="structboost_1_1hana_1_1_monad_1_1flatten__mcd_html"><div class="ttname"><a href="structboost_1_1hana_1_1_monad_1_1flatten__mcd.html">boost::hana::Monad::flatten_mcd</a></div><div class="ttdoc">Minimal complete definition: flatten </div><div class="ttdef"><b>Definition:</b> flatten_mcd.hpp:20</div></div>
+<div class="ttc" id="structboost_1_1hana_1_1_monad_1_1flatten__mcd_html"><div class="ttname"><a href="structboost_1_1hana_1_1_monad_1_1flatten__mcd.html">boost::hana::Monad::flatten_mcd</a></div><div class="ttdoc">Minimal complete definition: flatten </div><div class="ttdef"><b>Definition:</b> flatten_mcd.hpp:21</div></div>
 <div class="ttc" id="applicative_2mcd_8hpp_html"><div class="ttname"><a href="applicative_2mcd_8hpp.html">mcd.hpp</a></div><div class="ttdoc">Defines boost::hana::Applicative::mcd. </div></div>
 <div class="ttc" id="logical_2logical_8hpp_html"><div class="ttname"><a href="logical_2logical_8hpp.html">logical.hpp</a></div><div class="ttdoc">Forward declares boost::hana::Logical. </div></div>
 <div class="ttc" id="structboost_1_1hana_1_1_applicative_1_1mcd_html"><div class="ttname"><a href="structboost_1_1hana_1_1_applicative_1_1mcd.html">boost::hana::Applicative::mcd</a></div><div class="ttdoc">Minimal complete definition : lift and ap </div><div class="ttdef"><b>Definition:</b> mcd.hpp:18</div></div>
@@ -470,7 +470,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 23 2014 20:47:10 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jul 24 2014 10:29:13 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

@@ -103,21 +103,22 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">namespace </span>boost { <span class="keyword">namespace </span>hana {</div>
-<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_monad_1_1bind__mcd.html">   18</a></span>&#160;    <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1_monad_1_1bind__mcd.html">Monad::bind_mcd</a> {</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> M&gt;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keyword">static</span> constexpr <span class="keyword">auto</span> flatten_impl(M monad)</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        { <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_monad.html#a4df7d83b8aeb3bcf99e5675f69af4090">bind</a>(monad, [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> x; }); }</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    };</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;}} <span class="comment">// end namespace boost::hana</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#endif // !BOOST_HANA_MONAD_BIND_MCD_HPP</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> M&gt;</div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_monad_1_1bind__mcd.html">   19</a></span>&#160;    <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1_monad_1_1bind__mcd.html">Monad::bind_mcd</a> : monad_detail::common&lt;M&gt; {</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> MM&gt;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keyword">static</span> constexpr <span class="keyword">auto</span> flatten_impl(MM monad)</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        { <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_monad.html#a4df7d83b8aeb3bcf99e5675f69af4090">bind</a>(monad, [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> x; }); }</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    };</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;}} <span class="comment">// end namespace boost::hana</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#endif // !BOOST_HANA_MONAD_BIND_MCD_HPP</span></div>
 <div class="ttc" id="structboost_1_1hana_1_1_monad_html_a4df7d83b8aeb3bcf99e5675f69af4090"><div class="ttname"><a href="structboost_1_1hana_1_1_monad.html#a4df7d83b8aeb3bcf99e5675f69af4090">boost::hana::Monad::bind</a></div><div class="ttdeci">constexpr auto bind</div><div class="ttdoc">Apply a function returning a monad to the value(s) inside a monad. </div><div class="ttdef"><b>Definition:</b> monad.hpp:34</div></div>
 <div class="ttc" id="monad_2monad_8hpp_html"><div class="ttname"><a href="monad_2monad_8hpp.html">monad.hpp</a></div><div class="ttdoc">Forward declares boost::hana::Monad. </div></div>
-<div class="ttc" id="structboost_1_1hana_1_1_monad_1_1bind__mcd_html"><div class="ttname"><a href="structboost_1_1hana_1_1_monad_1_1bind__mcd.html">boost::hana::Monad::bind_mcd</a></div><div class="ttdoc">Minimal complete definition: bind </div><div class="ttdef"><b>Definition:</b> bind_mcd.hpp:18</div></div>
+<div class="ttc" id="structboost_1_1hana_1_1_monad_1_1bind__mcd_html"><div class="ttname"><a href="structboost_1_1hana_1_1_monad_1_1bind__mcd.html">boost::hana::Monad::bind_mcd</a></div><div class="ttdoc">Minimal complete definition: bind </div><div class="ttdef"><b>Definition:</b> bind_mcd.hpp:19</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 23 2014 20:47:10 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jul 24 2014 10:29:13 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

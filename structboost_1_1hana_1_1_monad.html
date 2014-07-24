@@ -127,20 +127,23 @@ Related Functions</h2></td></tr>
 <tr class="memitem:a4df7d83b8aeb3bcf99e5675f69af4090"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_monad.html#a4df7d83b8aeb3bcf99e5675f69af4090">bind</a></td></tr>
 <tr class="memdesc:a4df7d83b8aeb3bcf99e5675f69af4090"><td class="mdescLeft">&#160;</td><td class="mdescRight">Apply a function returning a monad to the value(s) inside a monad.  <a href="#a4df7d83b8aeb3bcf99e5675f69af4090">More...</a><br /></td></tr>
 <tr class="separator:a4df7d83b8aeb3bcf99e5675f69af4090"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfc7efb0044a87a21f663b1a151dac56"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_monad.html#abfc7efb0044a87a21f663b1a151dac56">then</a></td></tr>
+<tr class="memdesc:abfc7efb0044a87a21f663b1a151dac56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sequentially compose two monadic actions, discarding any value produced by the first.  <a href="#abfc7efb0044a87a21f663b1a151dac56">More...</a><br /></td></tr>
+<tr class="separator:abfc7efb0044a87a21f663b1a151dac56"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a45985423d0658e88f0403773146af110"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_monad.html#a45985423d0658e88f0403773146af110">flatten</a></td></tr>
 <tr class="memdesc:a45985423d0658e88f0403773146af110"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flatten two levels of monadic wrapping into a single level.  <a href="#a45985423d0658e88f0403773146af110">More...</a><br /></td></tr>
 <tr class="separator:a45985423d0658e88f0403773146af110"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa266ca28db36a8dfd828fbdd82c0ffb6"><td class="memTemplParams" colspan="2">template&lt;typename M , typename F &gt; </td></tr>
-<tr class="memitem:aa266ca28db36a8dfd828fbdd82c0ffb6"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_monad.html#aa266ca28db36a8dfd828fbdd82c0ffb6">operator&gt;&gt;</a> (M m, F f)</td></tr>
-<tr class="memdesc:aa266ca28db36a8dfd828fbdd82c0ffb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>bind</code>.  <a href="#aa266ca28db36a8dfd828fbdd82c0ffb6">More...</a><br /></td></tr>
-<tr class="separator:aa266ca28db36a8dfd828fbdd82c0ffb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aebcac3880cd4aa434648994ee694c6ca"><td class="memTemplParams" colspan="2">template&lt;typename M &gt; </td></tr>
+<tr class="memitem:aebcac3880cd4aa434648994ee694c6ca"><td class="memTemplItemLeft" align="right" valign="top">constexpr monad_detail::tap&lt; M &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_monad.html#aebcac3880cd4aa434648994ee694c6ca">tap</a></td></tr>
+<tr class="memdesc:aebcac3880cd4aa434648994ee694c6ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tap inside a monadic chain.  <a href="#aebcac3880cd4aa434648994ee694c6ca">More...</a><br /></td></tr>
+<tr class="separator:aebcac3880cd4aa434648994ee694c6ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25d5e6959ae78bd0ac649e2d955e378e"><td class="memTemplParams" colspan="2">template&lt;typename M , typename F &gt; </td></tr>
+<tr class="memitem:a25d5e6959ae78bd0ac649e2d955e378e"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_monad.html#a25d5e6959ae78bd0ac649e2d955e378e">operator|</a> (M m, F f)</td></tr>
+<tr class="memdesc:a25d5e6959ae78bd0ac649e2d955e378e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>bind</code>.  <a href="#a25d5e6959ae78bd0ac649e2d955e378e">More...</a><br /></td></tr>
+<tr class="separator:a25d5e6959ae78bd0ac649e2d955e378e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="Monads are Applicatives with the ability to flatten values that were lifted more than once...">Monad</a></code>s are <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="Applicatives are Functors with the ability to lift values and combine computations. ">Applicative</a></code>s with the ability to flatten values that were lifted more than once. </p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000024">Todo:</a></b></dt><dd><ul>
-<li>Consider adding a function to tap inside a monadic chain. This is probably the same as Haskell's <code>&gt;&gt;</code>. </li>
-</ul>
-</dd></dl>
 </div><h2 class="groupheader">Friends And Related Function Documentation</h2>
 <a class="anchor" id="a4df7d83b8aeb3bcf99e5675f69af4090"></a>
 <div class="memitem">
@@ -186,7 +189,7 @@ Related Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aa266ca28db36a8dfd828fbdd82c0ffb6"></a>
+<a class="anchor" id="a25d5e6959ae78bd0ac649e2d955e378e"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -196,7 +199,7 @@ template&lt;typename M , typename F &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto operator&gt;&gt; </td>
+          <td class="memname">constexpr auto operator| </td>
           <td>(</td>
           <td class="paramtype">M&#160;</td>
           <td class="paramname"><em>m</em>, </td>
@@ -225,10 +228,69 @@ template&lt;typename M , typename F &gt; </div>
 
 </div>
 </div>
+<a class="anchor" id="aebcac3880cd4aa434648994ee694c6ca"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename M &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr monad_detail::tap&lt;M&gt; tap</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Tap inside a monadic chain. </p>
+<p>Specifically, <code>tap&lt;M&gt;(f)(x)</code> performs <code>f(x)</code> and returns <code>lift&lt;M&gt;(x)</code>. Combined with the law saying that <code>bind(m, lift&lt;M&gt;) == m</code>, this provides a way of executing an action inside a monadic chain without influencing its result.</p>
+<h3>Example</h3>
+<div class="fragment"><div class="line">    std::stringstream before, after;</div>
+<div class="line"></div>
+<div class="line">    <span class="keyword">auto</span> xs = list(1, 2, 3)</div>
+<div class="line">        | tap&lt;List&gt;([&amp;](<span class="keyword">auto</span> x) { before &lt;&lt; x &lt;&lt; <span class="charliteral">&#39; &#39;</span>; })</div>
+<div class="line">        | [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> list(x, -x); }</div>
+<div class="line">        | tap&lt;List&gt;([&amp;](<span class="keyword">auto</span> x) { after &lt;&lt; x &lt;&lt; <span class="charliteral">&#39; &#39;</span>; });</div>
+<div class="line"></div>
+<div class="line">    assert(before.str() == <span class="stringliteral">&quot;1 2 3 &quot;</span>);</div>
+<div class="line">    assert(after.str() == <span class="stringliteral">&quot;1 -1 2 -2 3 -3 &quot;</span>);</div>
+<div class="line">    assert(xs == list(1, -1, 2, -2, 3, -3));</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="abfc7efb0044a87a21f663b1a151dac56"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto then</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sequentially compose two monadic actions, discarding any value produced by the first. </p>
+<p>This is equivalent to Haskell's <code>&gt;&gt;</code>. </p>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 23 2014 20:47:11 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jul 24 2014 10:29:13 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>
