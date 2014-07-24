@@ -8,10 +8,8 @@
 #
 #
 # todo:
-# - Benchcc should allow removing the name of the file beside the progress
-#   bar since it's useless in our use case.
-# - How to benchmark stuff like TypeList, which is only some kind of
-#   restricted List?
+# How to benchmark stuff like TypeList, which is only some kind of
+# restricted List?
 
 
 file(GLOB_RECURSE BOOST_HANA_LIST_INSTANCES

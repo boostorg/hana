@@ -13,7 +13,8 @@ compiler = Benchcc::Compiler.guess_from_binary(CMAKE_CXX_COMPILER)
 
 benchmark_opts = {
   timeout: 30,
-  relative_to: PROJECT_SOURCE_DIR + 'benchmark'
+  relative_to: PROJECT_SOURCE_DIR + 'benchmark',
+  progressbar_format: '%p%% | %B |'
 }
 
 compiler_opts = [
@@ -22,9 +23,9 @@ compiler_opts = [
   "-I#{PROJECT_SOURCE_DIR + 'include'}"
 ]
 
-data = Benchcc::benchmark_to_csv(input_file, environments, **benchmark_opts) do |code|
+data = Benchcc::benchmark(input_file, environments, **benchmark_opts) do |code|
   compiler.compile_code(code, *compiler_opts)
-end
+end.to_csv
 
 output_file.dirname.mkpath
 output_file.write(data)
