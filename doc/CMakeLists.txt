@@ -7,9 +7,24 @@ if (NOT DOXYGEN_FOUND)
 endif()
 
 configure_file(Doxyfile.in Doxyfile @ONLY)
+add_custom_target(doc-nobm
+    COMMAND ${DOXYGEN_EXECUTABLE} Doxyfile
+    COMMENT "Generating API documentation with Doxygen (without benchmarks)"
+    VERBATIM
+)
+
+if (NOT TARGET benchmarks)
+    message(STATUS
+        "The 'benchmarks' target is not available; the 'doc' target will be "
+        "unavailable. The 'doc-nobm' target can still be used to generate the "
+        "documentation without benchmarks.")
+    return()
+endif()
+
 add_custom_target(doc
     COMMAND ${DOXYGEN_EXECUTABLE} Doxyfile
     COMMENT "Generating API documentation with Doxygen"
+    DEPENDS benchmarks
     VERBATIM
 )
 

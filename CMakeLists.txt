@@ -74,6 +74,9 @@ find_package(Ruby 2.1)
 
 #=============================================================================
 # Setup subdirectories
+#
+# Note: benchmark/ MUST be included before doc/ because the 'doc' target
+# depends on the 'benchmarks' target.
 #=============================================================================
 include_directories(include)
 add_subdirectory(benchmark)
