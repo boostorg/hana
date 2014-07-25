@@ -159,6 +159,9 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/list/permutations.cpp main
     //!
+    //! ### Benchmarks
+    //! @image html benchmark.list.permutations.time.png
+    //!
     //! @note
     //! Implementation taken from http://stackoverflow.com/a/2184129/627587.
     //!
@@ -187,6 +190,9 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/list/scanl.cpp main
+    //!
+    //! ### Benchmarks
+    //! @image html benchmark.list.scanl.time.png
     BOOST_HANA_CONSTEXPR_LAMBDA auto scanl = [](auto f, auto s, auto xs) {
         return List::instance<
             datatype_t<decltype(xs)>
@@ -198,6 +204,9 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/list/scanl1.cpp main
+    //!
+    //! ### Benchmarks
+    //! @image html benchmark.list.scanl1.time.png
     BOOST_HANA_CONSTEXPR_LAMBDA auto scanl1 = [](auto f, auto xs) {
         return List::instance<
             datatype_t<decltype(xs)>
@@ -209,6 +218,9 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/list/scanr.cpp main
+    //!
+    //! ### Benchmarks
+    //! @image html benchmark.list.scanr.time.png
     BOOST_HANA_CONSTEXPR_LAMBDA auto scanr = [](auto f, auto s, auto xs) {
         return List::instance<
             datatype_t<decltype(xs)>
@@ -220,6 +232,9 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/list/scanr1.cpp main
+    //!
+    //! ### Benchmarks
+    //! @image html benchmark.list.scanr1.time.png
     BOOST_HANA_CONSTEXPR_LAMBDA auto scanr1 = [](auto f, auto xs) {
         return List::instance<
             datatype_t<decltype(xs)>
