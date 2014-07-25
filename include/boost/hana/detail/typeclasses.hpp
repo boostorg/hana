@@ -29,132 +29,13 @@ namespace boost { namespace hana {
     }
 
     //! @ingroup core
-    //! Machinery for creating a unary type class.
+    //! Defines a unary type class
     //!
-    //!
-    //! ### Creating a type class
-    //! Creating a new type class is done by using the `BOOST_HANA_TYPECLASS`
-    //! macro inside a struct with the desired name:
-    //! @code
-    //!     struct Typeclass {
-    //!         BOOST_HANA_TYPECLASS(Typeclass);
-    //!     };
-    //! @endcode
-    //!
-    //! If desired, methods can be provided by putting them inside a nested
-    //! type of `Typeclass`:
-    //! @code
-    //!     struct Typeclass {
-    //!         BOOST_HANA_TYPECLASS(Typeclass);
-    //!         struct some_member {
-    //!             // methods
-    //!         };
-    //!     };
-    //! @endcode
-    //!
-    //! In this library, type classes with a single minimal complete definition
-    //! provide the other methods, if any, in the nested type named `mcd`. In
-    //! the case where multiple minimal complete definitions exist, each set of
-    //! provided methods is in a different nested type with a descriptive name.
-    //! In all cases, the minimal complete definition(s) and the location of
-    //! their associated set of provided methods are documented.
-    //!
-    //! It is also possible to define a default instance for all data types.
-    //! To do so, provide a nested `default_instance` template inside the
-    //! type class:
-    //! @code
-    //!     struct Typeclass {
-    //!         BOOST_HANA_TYPECLASS(Typeclass);
-    //!         template <typename ...TypeclassArguments>
-    //!         struct default_instance {
-    //!             // default instance for all data types
-    //!         };
-    //!     };
-    //! @endcode
-    //!
-    //! The nested `default_instance` should be just like a normal instance;
-    //! see below for how to instantiate a type class. This can be used to
-    //! provide a default behavior for all data types while still allowing
-    //! this behavior to be customized by instantiating the type class. However,
-    //! this should seldom be used because methods with a meaningful behavior
-    //! for all data types are rare. This feature is provided for flexibility,
-    //! but it should be a hint to reconsider your type class design if you
-    //! are about to use it.
-    //!
-    //! ### Example
-    //! @include example/core/default_instance.cpp
-    //!
-    //!
-    //! ### Instantiating a type class
-    //! Instantiating a type class is done by specializing the associated
-    //! `instance` nested type:
-    //! @code
-    //!     template <>
-    //!     struct Typeclass::instance<Datatype> : Typeclass::mcd {
-    //!         // minimal complete definition at least
-    //!     };
-    //! @endcode
-    //!
-    //! Inheriting from `Typeclass::mcd` makes the default methods associated
-    //! to that minimal complete definition available. If multiple minimal
-    //! complete definitions are provided, one has to choose and inherit from
-    //! the corresponding set of default methods.
-    //!
-    //! It is possible to over-define a type class, i.e. provide more methods
-    //! than strictly necessary to fulfill the minimal complete definition.
-    //! Simply implement those methods as if they were part of the minimal
-    //! complete definition:
-    //! @code
-    //!     template <>
-    //!     struct Typeclass::instance<Datatype> : Typeclass::mcd {
-    //!         // minimal complete definition
-    //!
-    //!         // more methods
-    //!     };
-    //! @endcode
-    //!
-    //! Inheriting from a set of default methods is recommended even if default
-    //! methods are not actually required, i.e. all the methods of the type
-    //! class are implemented in the instance. This allows methods to be added
-    //! to the type class without breaking the instance, provided the type
-    //! class does not change its minimal complete definition(s).
-    //!
-    //! Type classes can also be instantiated for all specializations of a
-    //! parametric data type in the most natural way:
-    //! @code
-    //!     template <typename T>
-    //!     struct Typeclass::instance<SomeDatatype<T>> : Typeclass::mcd {
-    //!         // ...
-    //!     };
-    //! @endcode
-    //!
-    //! Finally, type classes can be instantiated for all data types
-    //! satisfying some predicate:
-    //! @code
-    //!     template <typename T>
-    //!     struct Typeclass::instance<T, when<Predicate(T)>>
-    //!         : Typeclass::mcd
-    //!     {
-    //!         // ...
-    //!     };
-    //! @endcode
-    //!
-    //! Note that instances provided through partial specialization have the
-    //! priority over instances provided through a predicate. This allows
-    //! data types (parametric or not) to instantiate a type class even if
-    //! an instance for the same type class is provided through a predicate.
+    //! Use this macro at public scope when defining a type class to create
+    //! the boilerplate necessary for a unary type class.
     //!
     //! ### Example
     //! @include example/core/typeclass.cpp
-    //!
-    //! @internal
-    //! Using `when` is necessary for two reasons. First, a non-type
-    //! template argument may not depend on a template parameter of a
-    //! partial specialization, so we need to wrap the `bool` result of
-    //! the predicate into a type. Second, `when` is used to implement the
-    //! priority of partially specialized instances over predicated instances,
-    //! but we could also achieve the same by replacing `when<true>` with
-    //! `void` and letting people use `enable_if`.
     #define BOOST_HANA_TYPECLASS(NAME)                                      \
         /** @cond */                                                        \
         template <typename T, typename ...>                                 \
@@ -172,7 +53,7 @@ namespace boost { namespace hana {
     /**/
 
     //! @ingroup core
-    //! Machinery for creating a binary type class.
+    //! Defines a binary type class
     //!
     //! This is equivalent to `BOOST_HANA_TYPECLASS`, except it creates a
     //! type class with two arguments.
@@ -198,6 +79,15 @@ namespace boost { namespace hana {
     //! @note
     //! `when` is provided whenever the header of a type class is included;
     //! including boost/hana/core.hpp is not necessary in that case.
+    //!
+    //! @internal
+    //! Using `when` is necessary for two reasons. First, a non-type
+    //! template argument may not depend on a template parameter of a
+    //! partial specialization, so we need to wrap the `bool` result of
+    //! the predicate into a type. Second, `when` is used to implement the
+    //! priority of partially specialized instances over predicated instances,
+    //! but we could also achieve the same by replacing `when<true>` with
+    //! `void` and letting people use `enable_if`.
     template <bool condition>
     struct when { };
 

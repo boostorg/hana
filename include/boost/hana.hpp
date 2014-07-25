@@ -22,7 +22,6 @@ Distributed under the Boost Software License, Version 1.0.
 //!   unit tests. Since we're modularized, it's OK to resort to heavy stuff
 //!   in the law-checking because it's presumably only done in unit testing
 //!   contexts.
-//! - Provide an integrated way of checking laws for type classes.
 //! - Provide a way to check type class requirements like
 //!   `Functor f => Applicative f`.
 //! - Document requirements for the existing type classes.
@@ -30,10 +29,6 @@ Distributed under the Boost Software License, Version 1.0.
 //!   something like `Foldable::instance<Iterable>`.
 //! - Consider inheriting from a base class even when no mcd is required.
 //!   That would allow us to _not_ include a useless mcd.
-//! - Consider including the default provided instances in the mcds instead
-//!   of the forward declaration header of a type class. However, that won't
-//!   work for instances provided implicitly (e.g. Logical <- bool or
-//!   Comparable <- x == y), because there is no MCD to be included for those.
 //! - Document the purpose of minimal instances; they are meant to provide an
 //!   easy to use archetype for testing and their tests are meant to exercise
 //!   the basic dispatching code of type classes (hence it makes sense to test
@@ -75,7 +70,7 @@ Let the fun begin.
 Boost.Hana is a library of combinators tailored towards the manipulation of
 heterogeneous collections. However, the core of Hana is a powerful system for
 ad-hoc polymorphism inspired by Haskell type classes; this extension system
-is then used to provide all the functionality of the library in a generic way.
+is then used to provide all the functionality of the library in a modular way.
 
 The library uses a purely functional style of programming, which is required
 to manipulate objects of heterogeneous types -- it is impossible to modify the
@@ -84,9 +79,9 @@ type of an object, so a new object must be introduced.
 Contrary to previous metaprogramming libraries like Boost.MPL and Boost.Fusion,
 the design of the library is not based on that of the STL. Rather, it is
 strongly inspired by several (standard and non standard) modules written for
-the Haskell programming language. Through experience, the author has found
-this to be much more expressive, flexible and easy to use while not sacrificing
-any performance given the purely functional setting.
+the Haskell programming language. Through experience, I have found this to
+be much more expressive, flexible and easy to use while not sacrificing any
+performance given the purely functional setting.
 
 
 @section quick-start Quick start
@@ -243,7 +238,6 @@ the header structure should feel intuitive.
     This directory contains utilities required internally. Nothing in `detail/`
     is guaranteed to be stable, so you should not use it.
 
-
 ### Example
 Let's say I want to include `set`. I only have to include its header and I
 can use all the methods it supports right away:
@@ -251,16 +245,476 @@ can use all the methods it supports right away:
 @snippet example/tutorial/include_set.cpp main
 
 
+@section typeclasses Type classes
+
+------------------------------------------------------------------------------
+Conceptually, type classes are an artifice allowing humans to manipulate
+objects of heterogeneous types with well-defined semantics. They serve
+a purpose very similar to C++ concepts (which are not in yet) and to
+Haskell type classes, except they do not have language support.
+
+To get my point through, let me make the following claim: a function template
+that compiles with an argument of every possible type must have a trivial
+implementation, in the sense that it must do nothing with its argument except
+perhaps return it. Hence, for a function template to do something interesting,
+it must fail to compile for some set of arguments. While I won't try to prove
+my claim formally -- it might be false in some corner cases --, think about it
+for a moment. Let's say I want to apply a function to each element of an
+heterogeneous sequence:
+
+@code{cpp}
+  for_each(list(x, y, z), f)
+@endcode
+
+The first observation is that `f` must have a templated call operator because
+`x`, `y` and `z` have different types. The second observation is that without
+knowing anything specific about the types of `x`, `y` and `z`, it is impossible
+for `f` to do anything meaningful. For example, could it print its argument?
+Of course not, since it does not know whether `std::cout << x` is well-formed!
+In order to do something meaningful, the function has to put constraints on
+its arguments, it has to define a domain. In other words, it can't be _fully_
+polymorphic, at least not conceptually. The current language does not provide
+a way to express this (concepts are not there yet), so we would write something
+like this instead:
+
+@code{cpp}
+  // compile-time precondition for `f(x)` to be well-formed:
+  // `std::cout << x` must be a valid expression, i.e. `x` must be `Printable`
+  auto f = [](auto x) {
+    std::cout << x;
+  };
+@endcode
+
+While the compile-time precondition is only a comment which the compiler is
+not aware of, there is nonetheless a conceptual constraint on the argument
+of `f`. This allows us to define the domain of `f`, which is any `Printable`
+object. In straight C++, the domain of a function is a C++ type. However, it
+should now be clear from the example that more flexibility could be achieved
+by allowing domains to be arbitrary sets, which is roughly what C++ concepts
+will bring to the table.
+
+> Some libraries trying to make these type constraints more explicit have
+> been built before. An example is [Boost.ConceptCheck][].
+
+Type classes in Boost.Hana are a library-level implementation of such type
+constraints allowing us to organize our generic programming. They allow us
+to bundle together related operations (called methods), to explicitly state
+that a type satisfies some constraints and how, and to do all sorts of tricks
+to reduce the amount of code we have to write. However, they are in no way a
+replacement for concepts; because they do not have language-level support,
+the type constraints are not checked explicitly by the compiler and failure
+to satisfy constraints will result in the usual compiler errors we all know
+and love.
+
+
+@subsection getting-concrete Getting concrete
+
+We're now ready to take a look at these little beasts. Concretely, a type
+class is just a C++ structure or class calling the `BOOST_HANA_TYPECLASS`
+macro in its definition at public scope:
+
+@code
+  struct Printable {
+    BOOST_HANA_TYPECLASS(Printable);
+  };
+@endcode
+
+The `BOOST_HANA_TYPECLASS` macro creates a nested template named `instance`
+-- which will be explained later --, so that name is reserved inside a type
+class to avoid clashes. Other arbitrary members can be put in the type class,
+but it is probably a good idea to keep anything unrelated out for the sake of
+separating concerns:
+
+@code
+  struct Printable {
+    BOOST_HANA_TYPECLASS(Printable);
+
+    // Not invalid, but probably stupid
+    int foo;
+    void bar() const { };
+    struct baz { };
+  };
+@endcode
+
+When I introduced type classes, I said they allowed us to bundle together
+related operations called methods. This is because type classes can be seen
+as defining some kind of public interface consisting of the operations that
+are valid with any object satisfying the constraints of the type class. I
+also said that they made it possible to explicitly state that a type satisfies
+a type class and how it does so. From now on, I will refer to the set of all
+types satisfying a type class `T` as the _instances_ of `T`, and I will refer
+to the act of specifying how a type `t` is an _instance_ of `T` as the act of
+_instantiating_ `T` with `t`. Note that this has nothing to do with C++
+template instantiation; it is just the standard Haskell vocabulary.
+
+To associate methods to a type class, we create a layer of indirection through
+the `instance` member of the type class. For example, let's say we want to
+have a method named `print` in the `Printable` type class:
+
+@code
+  auto print = [](std::ostream& os, auto x) {
+    return Printable::instance<decltype(x)>::print_impl(os, x);
+  };
+@endcode
+
+> #### Note
+> This is actually _slightly_ different from what is really done in the
+> library; this will be clarified in the section on data types.
+
+To make a type an instance of `Printable`, we must implement the `print`
+method, which is done by specializing the `Printable::instance` template
+as follows:
+
+@code
+  template <>
+  struct Printable::instance<int> {
+    static void print_impl(std::ostream& os, int i) {
+      os << i;
+    }
+  };
+@endcode
+
+Note that we could have chosen a name different from `print_impl`, but this
+naming convention has the advantage of being clear and avoiding name
+clashes inside the instance. In particular, we would not want to use
+`Printable::instance<int>::%print`, because using `print` inside the
+instance would then refer to the implementation instead of `::%print`,
+which is unexpected. This naming convention is used for all the type
+classes in Boost.Hana. Now that we have made `int` an instance of
+`Printable`, we can write:
+
+@code
+  print(std::cout, 2);
+@endcode
+
+So far so good, but you probably don't want to write an instance for each
+arithmetic type, right?. Fortunately, I didn't want to either so it is
+possible to instantiate a type class for all types satisfying a predicate:
+
+@code
+  template <typename T>
+  struct Printable::instance<T, when<std::is_arithmetic<T>::value>> {
+    static void print_impl(std::ostream& os, T x) {
+      os << x;
+    }
+  };
+@endcode
+
+`when` accepts a single compile-time boolean and enables the instance if and
+only if that boolean is `true`. This is similar to the well known C++ idiom of
+using a dummy template parameter with `std::enable_if` and relying on SFINAE.
+As expected, we can now write
+
+@code
+  print(std::cout, 2.2);
+@endcode
+
+Ok, we managed to cut down the number of instances quite a bit, but we still
+can't write
+
+@code
+  print(std::cout, std::string{"foo"});
+@endcode
+
+without writing an explicit instance for `std::string`. Again, laziness won me
+over and so it is possible to instantiate a type class for all types making
+some expression well-formed (think SFINAE):
+
+@code
+  template <typename T>
+  struct Printable::instance<T, when_valid<
+    decltype(std::declval<std::ostream&>() << std::declval<T>())
+  >> {
+    static void print_impl(std::ostream& os, T x) {
+      os << x;
+    }
+  };
+@endcode
+
+`when_valid` is actually an alias to `when<true>`, but it takes an arbitrary
+number of types and relies on the fact that SFINAE will kick in and remove
+the specialization if any of the types is not well-formed. As expected, we
+can now write
+
+@code
+  print(std::cout, std::string{"foo"});
+@endcode
+
+Note that instances provided without `when`/`when_valid` (i.e. an explicit
+or partial specialization in the case of a parametric type) have the priority
+over instances provided with it. This is to allow types to instantiate a type
+class even if an instance for the same type class is provided through a
+predicate. This design choice was made assuming that a specialization
+(even partial) is usually meant to be more specific than a catch-all
+instance enabled by a predicate.
+
+All is good so far, but what if we just wanted a string representation of
+our object instead of printing it to a stream? Sure, we could write
+
+@code
+  auto to_string = [](auto x) {
+    std::ostringstream os;
+    print(os, x);
+    return os.str();
+  };
+
+  to_string(1);
+@endcode
+
+but then `to_string(std::string{"foobar"})` would be far from optimal. The
+solution is to make `to_string` a method too, and then specialize the
+instance for `std::string` to make it more efficient:
+
+@code
+  auto to_string = [](auto x) {
+    return Printable::instance<decltype(x)>::to_string_impl(x);
+  };
+
+  template <typename T>
+  struct Printable::instance<T, when_valid<
+    decltype(std::declval<std::ostream&>() << std::declval<T>())
+  >> {
+    static void print_impl(std::ostream& os, T x) {
+      os << x;
+    }
+
+    static std::string to_string_impl(T x) {
+      std::ostringstream os;
+      print(os, x);
+      return os.str();
+    }
+  };
+
+  template <>
+  struct Printable::instance<std::string> {
+    static void print_impl(std::ostream& os, std::string x) {
+      os << x;
+    }
+
+    static std::string to_string_impl(std::string x)
+    { return x; }
+  };
+@endcode
+
+While this is pretty satisfying, notice how the general definition of
+`to_string_impl` is tied to the instance it is defined in, even though it
+would work for any `Printable` implementing `print`. For example, let's say
+we want to instantiate `Printable` for `std::vector<T>` for any `T` which can
+be put to a stream:
+
+@code
+  template <typename T>
+  struct Printable::instance<std::vector<T>, when_valid<
+    decltype(std::declval<std::ostream&>() << std::declval<T>())
+  >> {
+    static void print_impl(std::ostream& os, std::vector<T> v) {
+      os << '[';
+      for (auto it = begin(v); it != end(v); ) {
+        os << *it;
+        if (++it != end(v))
+          os << ", ";
+      }
+      os << ']';
+    }
+
+    static std::string to_string_impl(std::vector<T> v) {
+      std::ostringstream os;
+      print(os, v);
+      return os.str();
+    }
+  };
+@endcode
+
+It is annoying to have to redefine `to_string_impl` even if `print_impl` alone
+would be enough because `to_string_impl` is completely determined by it. From
+now on, I will refer to the minimal set of methods that are required to
+instantiate a type class as the minimal complete definition, abbreviated
+`mcd`. In the present case, the minimal complete definition for the `Printable`
+type class is `print`. To avoid code duplication, a default implementation for
+methods that are not part of the mcd should be provided by the type class. By
+convention, we provide these in a nested type of the type class:
+
+@code
+  struct Printable {
+    BOOST_HANA_TYPECLASS(Printable);
+
+    struct mcd {
+      template <typename X>
+      static std::string to_string_impl(X x) {
+        std::ostringstream os;
+        print(os, x);
+        return os.str();
+      }
+    };
+  };
+@endcode
+
+It then suffices to inherit from that structure when instantiating `Printable`
+to get the default implementation for `to_string_impl`, which can now be
+shared by several instances:
+
+@code
+  template <typename T>
+  struct Printable::instance<T, when_valid<
+    decltype(std::declval<std::ostream&>() << std::declval<T>())
+  >> : Printable::mcd {
+    // print_impl omitted
+  };
+
+  template <typename T>
+  struct Printable::instance<std::vector<T>, when_valid<
+    decltype(std::declval<std::ostream&>() << std::declval<T>())
+  >> : Printable::mcd {
+    // print_impl omitted
+  };
+@endcode
+
+> #### Note
+> For simplicity, the term minimal complete definition can refer either to
+> a minimal set of required methods or to the member of the type class
+> providing the corresponding default implementations.
+
+It is possible for a type class to have several minimal complete definitions.
+For example, one could observe that `print` can also be implemented in terms
+of `to_string`. If we wanted to do so, we could provide both minimal complete
+definitions by putting them into suitably named members of the `Printable`
+type class:
+
+@code
+  struct Printable {
+    BOOST_HANA_TYPECLASS(Printable);
+
+    // requires to_string only
+    struct to_string_mcd {
+      template <typename X>
+      static void print_impl(std::ostream& os, X x) {
+        os << to_string(x);
+      }
+    };
+
+    // requires print only
+    struct print_mcd {
+      template <typename X>
+      static std::string to_string_impl(X x) {
+        std::ostringstream os;
+        print(os, x);
+        return os.str();
+      }
+    };
+  };
+@endcode
+
+Either minimal complete definition could now be used to instantiate `Printable`.
+By convention, in Boost.Hana, the minimal complete definition is always named
+`mcd` when there is a single one. A nested type named `mcd` is also provided
+when there are no default implementations to provide for consistency and for
+extensibility, as will be explained next. If there is more than one possible
+mcd, each mcd is in a different nested type with a descriptive name. In all
+cases, the minimal complete definition(s) are documented.
+
+It is recommended to always inherit from a minimal complete definition, even
+when the default implementations are not actually used:
+
+@code
+  template <>
+  struct Printable::instance<std::string>
+    : Printable::print_mcd // could also be to_string_mcd, it doesn't matter
+  {
+    static void print_impl(std::ostream& os, std::string x)
+    { os << x; }
+
+    static std::string to_string_impl(std::string x)
+    { return x; }
+  };
+@endcode
+
+This allows methods to be added to the type class without breaking the
+instance, provided the type class does not change its minimal complete
+definition(s). This is the reason why a minimal complete definition is
+always provided, even when it contains no default implementations.
+
+To show the full power of type classes and introduce the `instantiates`
+utility, let's define a `Printable` instance for `std::vector`s containing
+any `Printable` type. This is a generalization of our previous `Printable`
+instance for `std::vector`s, which supported only streamable types.
+
+@code
+  template <typename T>
+  struct Printable::instance<std::vector<T>, when<instantiates<Printable, T>()>>
+    : Printable::print_mcd
+  {
+    static void print_impl(std::ostream& os, std::vector<T> v) {
+      os << '[';
+      for (auto it = begin(v); it != end(v); ) {
+        print(os, *it); // recursively print the contents
+        if (++it != end(v))
+          os << ", ";
+      }
+      os << ']';
+    }
+  };
+@endcode
+
+`instantiates` is a variable template taking a type class and several types
+and returns whether the type class is instantiated for the given types. The
+result is returned as a boolean `Integral`, which is basically equivalent to
+a boolean `std::integral_constant`, hence the trailing `()`. We can now print
+nested containers:
+
+@code
+  std::vector<std::vector<int>> v{{1, 2, 3}, {3, 4, 5}};
+  print(std::cout, v); // prints "[[1, 2, 3], [3, 4, 5]]"
+@endcode
+
+One last thing which can be done with type classes is to provide a default
+instance for all data types. To do so, a nested `default_instance` template
+must be defined in the type class:
+
+@code
+  struct Printable {
+    BOOST_HANA_TYPECLASS(Printable);
+
+    // definitions omitted
+    struct to_string_mcd { };
+    struct print_mcd { };
+
+    template <typename T>
+    struct default_instance : to_string_mcd {
+      static std::string to_string_impl(T) {
+        return "<not-printable>";
+      }
+    };
+  };
+@endcode
+
+`default_instance` should be just like a normal instance. Note that this
+feature should seldom be used because methods with a meaningful behavior
+for all data types are rare. This feature is provided for flexibility,
+but it should be a hint to reconsider your type class design if you
+are about to use it.
+
+
+### Example of a type class definition
+@include example/core/typeclass.cpp
+
+### Example of a type class with a default instance
+@include example/core/default_instance.cpp
+
+@todo
+Document type classes with operators.
+
+
 @section datatypes Data types
 
 ------------------------------------------------------------------------------
+Data types are a generalization of usual C++ types making it easier to
+instantiate type classes for heterogeneous containers. They are a
+generatlization of usual C++ types in the sense that every C++ type
+has a data type, but the converse is not true in general.
+
 @todo
+Finish this section.
 
-
-@section type-classes Type classes
-
-------------------------------------------------------------------------------
-@todo
 
 
 
@@ -282,10 +736,9 @@ can use all the methods it supports right away:
   expensive-to-copy types.
 - In the unit tests, we might want to use an injective function on
   `Comparable`s instead of `std::make_tuple`.
-- Write a tutorial. In particular:
-    - Document how to emulate `make_fused` and friends from Boost.Fusion.
-    - Document how to write common Boost.Fusion and Boost.MPL idioms with
-      Boost.Hana.
+- Document how to emulate `make_fused` and friends from Boost.Fusion.
+- Document how to write common Boost.Fusion and Boost.MPL idioms with
+  Boost.Hana.
 - Write runtime benchmarks.
 - Setup a BJam build system.
 - Consider making function objects automatically curriable. This could allow
@@ -299,6 +752,7 @@ can use all the methods it supports right away:
 
 
 <!-- Links -->
+[Boost.ConceptCheck]: http://www.boost.org/doc/libs/release/libs/concept_check/index.html
 [Boost.Fusion]: http://www.boost.org/doc/libs/release/libs/fusion/doc/html/index.html
 [Boost.MPL]: http://www.boost.org/doc/libs/release/libs/mpl/doc/index.html
 [C++Now]: http://cppnow.org
