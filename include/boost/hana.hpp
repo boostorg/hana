@@ -40,7 +40,7 @@ Distributed under the Boost Software License, Version 1.0.
 //! General purpose data types provided by the library.
 
 /*!
-@mainpage Boost.Hana
+@mainpage Boost.Hana Manual
 
 @tableofcontents
 
@@ -708,14 +708,98 @@ Document type classes with operators.
 
 ------------------------------------------------------------------------------
 Data types are a generalization of usual C++ types making it easier to
-instantiate type classes for heterogeneous containers. They are a
-generatlization of usual C++ types in the sense that every C++ type
-has a data type, but the converse is not true in general.
+instantiate type classes for heterogeneous containers. They are very similar
+to Boost.Fusion and Boost.MPL tags. So far, we have only instantiated type
+classes with types that "contained" homogeneous objects (`std::vector<T>`,
+`int`, etc..). What if we wanted to make `boost::fusion::vector` an instance
+of `Printable`?
 
-@todo
-Finish this section.
+@code
+  template <typename ...T>
+  struct Printable::instance<boost::fusion::vector<T...>>
+    : Printable::print_mcd
+  {
+    // print_impl omitted
+  };
+@endcode
 
+If you know Boost.Fusion, then you probably know that it won't work. When
+we instantiate `Printable` for `boost::fusion::vector<T...>`, we're only
+instantiating it for that particular representation of a Boost.Fusion vector.
+This is because Boost.Fusion vectors exist in numbered forms, which are of
+different types:
 
+@code
+  boost::fusion::vector1<T>
+  boost::fusion::vector2<T, U>
+  boost::fusion::vector3<T, U, V>
+  ...
+@endcode
+
+This is an implementation detail required by the lack of variadic templates in
+C++03 that leaks into the interface. This is unfortunate, but we need a way to
+work around it. And it gets worse; I said earlier that `list`, `type` and
+other Boost.Hana components did not specify their type at all -- specifying
+those types would be too restrictive for the implementation --, so it would
+be straight impossible to instantiate type classes with those. The solution
+is to bundle all the types representing the "same thing" under a single tag,
+and then to use that tag to perform the method dispatching. For this, we
+introduce the `datatype` metafunction, which associates a "tag" to a group
+of types. The `Printable` methods now become:
+
+@code
+  auto print = [](std::ostream& os, auto x) {
+    return Printable::instance<
+      typename datatype<decltype(x)>::type
+    >::print_impl(os, x);
+  };
+
+  auto to_string = [](auto x) {
+    return Printable::instance<
+      typename datatype<decltype(x)>::type
+    >::to_string_impl(x);
+  };
+@endcode
+
+> #### Note
+> Actually, it would be possible to work around the issue regarding Fusion
+> vectors by using `boost::fusion::sequence_tag` with `when` to instantiate
+> `Printable` only when it is a Fusion vector, but it still does not resolve
+> the issue for Hana components that do not specify anything about their type.
+
+By default, `datatype<T>::%type` is `T::hana_datatype` if that expression
+is well-formed, and `T` otherwise. It can also be specialized to allow
+customizing the data type of `T` in a ad-hoc manner. Finally, a dummy
+template parameter is provided to allow SFINAE-based specialization.
+For `boost::fusion::vector`, we would then do:
+
+@code
+  struct BoostFusionVector;
+
+  template <typename T>
+  struct datatype<T, std::enable_if_t<
+    is_a_boost_fusion_vector<T>::value
+  >> {
+    using type = BoostFusionVector;
+  };
+@endcode
+
+Where `is_a_boost_fusion_vector` is some metafunction returning whether a
+type is a Fusion vector. Hana components either provide a similar
+specialization or use the nested `hana_datatype` alias to provide a data
+type, which is specified. To make `boost::fusion::vector` `Printable`,
+we would now write:
+
+@code
+  template <>
+  struct Printable::instance<BoostFusionVector> : Printable::print_mcd {
+    // print_impl omitted
+  };
+@endcode
+
+The fact that `datatype<T>::%type` defaults to `T` is _very_ useful, because
+it means that you can ignore it completely if the component you're building
+has a well-defined type, and everything will "just work".
 
 
 @todo
