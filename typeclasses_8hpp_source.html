@@ -117,79 +117,79 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        };</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    }</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00158"></a><span class="lineno"><a class="line" href="group__core.html#gac072d4434777cd5ee841a7766d41f1d8">  158</a></span>&#160;<span class="preprocessor">    #define BOOST_HANA_TYPECLASS(NAME)                                      \</span></div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;<span class="preprocessor">                                                        \</span></div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;<span class="preprocessor">        template &lt;typename T, typename ...&gt;                                 \</span></div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;<span class="preprocessor">        struct instance                                                     \</span></div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;<span class="preprocessor">            : instance&lt;T, ::boost::hana::when&lt;true&gt;&gt;                        \</span></div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;<span class="preprocessor">        { };                                                                \</span></div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;<span class="preprocessor">                                                                            \</span></div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;<span class="preprocessor">        template &lt;typename T, bool condition&gt;                               \</span></div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;<span class="preprocessor">        struct instance&lt;T, ::boost::hana::when&lt;condition&gt;&gt;                  \</span></div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;<span class="preprocessor">            : ::boost::hana::core_detail::default_instance&lt;                 \</span></div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;<span class="preprocessor">                void, NAME, T                                               \</span></div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;<span class="preprocessor">            &gt;::type                                                         \</span></div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;<span class="preprocessor">        { }                                                                 \</span></div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;<span class="preprocessor">                                                     \</span></div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;<span class="preprocessor">    </span></div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;</div>
-<div class="line"><a name="l00179"></a><span class="lineno"><a class="line" href="group__core.html#gabc68f88756ee6bb3b727d8f0abea8ee5">  179</a></span>&#160;<span class="preprocessor">    #define BOOST_HANA_BINARY_TYPECLASS(NAME)                               \</span></div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;<span class="preprocessor">                                                        \</span></div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;<span class="preprocessor">        template &lt;typename T, typename U, typename ...&gt;                     \</span></div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;<span class="preprocessor">        struct instance                                                     \</span></div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;<span class="preprocessor">            : instance&lt;T, U, ::boost::hana::when&lt;true&gt;&gt;                     \</span></div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;<span class="preprocessor">        { };                                                                \</span></div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;<span class="preprocessor">                                                                            \</span></div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;<span class="preprocessor">        template &lt;typename T, typename U, bool condition&gt;                   \</span></div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;<span class="preprocessor">        struct instance&lt;T, U, ::boost::hana::when&lt;condition&gt;&gt;               \</span></div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;<span class="preprocessor">            : ::boost::hana::core_detail::default_instance&lt;                 \</span></div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;<span class="preprocessor">                void, NAME, T, U                                            \</span></div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;<span class="preprocessor">            &gt;::type                                                         \</span></div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;<span class="preprocessor">        { }                                                                 \</span></div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;<span class="preprocessor">                                                     \</span></div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;<span class="preprocessor">    </span></div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    <span class="keyword">template</span> &lt;<span class="keywordtype">bool</span> condition&gt;</div>
-<div class="line"><a name="l00202"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1when.html">  202</a></span>&#160;    <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1when.html">when</a> { };</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...&gt;</div>
-<div class="line"><a name="l00212"></a><span class="lineno"><a class="line" href="group__core.html#ga0f5d717bbf6646619bb6219b104384dc">  212</a></span>&#160;    <span class="keyword">using</span> <a class="code" href="structboost_1_1hana_1_1when.html">when_valid</a> = <a class="code" href="structboost_1_1hana_1_1when.html">when&lt;true&gt;</a>;</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;</div>
-<div class="line"><a name="l00223"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1disable.html">  223</a></span>&#160;    <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1disable.html">disable</a> { };</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    <span class="keyword">namespace </span>core_detail {</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> Enable = <span class="keywordtype">void</span>*&gt;</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;        <span class="keyword">struct </span>default_datatype { <span class="keyword">using</span> type = T; };</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;        <span class="keyword">struct </span>default_datatype&lt;T, decltype((void*)(typename T::hana_datatype*)0)&gt; {</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;            <span class="keyword">using</span> type = <span class="keyword">typename</span> T::hana_datatype;</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;        };</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    }</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> Enable = <span class="keywordtype">void</span>&gt;</div>
-<div class="line"><a name="l00253"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1datatype.html">  253</a></span>&#160;    <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1datatype.html">datatype</a> {</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;        <span class="keyword">using</span> type = <span class="keyword">typename</span> core_detail::default_datatype&lt;T&gt;::type;</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;    };</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00260"></a><span class="lineno"><a class="line" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">  260</a></span>&#160;    <span class="keyword">using</span> <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t</a> = <span class="keyword">typename</span> datatype&lt;T&gt;::type;</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;    <span class="keyword">namespace </span>operators {</div>
-<div class="line"><a name="l00294"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1operators_1_1enable.html">  294</a></span>&#160;        <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1operators_1_1enable.html">enable</a> { };</div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;    }</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;}} <span class="comment">// end namespace boost::hana</span></div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;<span class="preprocessor">#endif // !BOOST_HANA_DETAIL_TYPECLASSES_HPP</span></div>
-<div class="ttc" id="group__core_html_gae3cedd3772d00ac7c4de9dc3d719f321"><div class="ttname"><a href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">boost::hana::datatype_t</a></div><div class="ttdeci">typename datatype&lt; T &gt;::type datatype_t</div><div class="ttdoc">Alias to datatype<T>::type. </div><div class="ttdef"><b>Definition:</b> typeclasses.hpp:260</div></div>
-<div class="ttc" id="structboost_1_1hana_1_1operators_1_1enable_html"><div class="ttname"><a href="structboost_1_1hana_1_1operators_1_1enable.html">boost::hana::operators::enable</a></div><div class="ttdoc">Allows operators in the boost::hana::operators namespace to be found by ADL. </div><div class="ttdef"><b>Definition:</b> typeclasses.hpp:294</div></div>
-<div class="ttc" id="structboost_1_1hana_1_1disable_html"><div class="ttname"><a href="structboost_1_1hana_1_1disable.html">boost::hana::disable</a></div><div class="ttdoc">Explicitly disable a type class instance. </div><div class="ttdef"><b>Definition:</b> typeclasses.hpp:223</div></div>
-<div class="ttc" id="structboost_1_1hana_1_1datatype_html"><div class="ttname"><a href="structboost_1_1hana_1_1datatype.html">boost::hana::datatype</a></div><div class="ttdoc">Metafunction returning the data type associated to T. </div><div class="ttdef"><b>Definition:</b> typeclasses.hpp:253</div></div>
-<div class="ttc" id="structboost_1_1hana_1_1when_html"><div class="ttname"><a href="structboost_1_1hana_1_1when.html">boost::hana::when</a></div><div class="ttdoc">Used to instantiate a type class based on the value of a predicate. </div><div class="ttdef"><b>Definition:</b> typeclasses.hpp:202</div></div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="group__core.html#gac072d4434777cd5ee841a7766d41f1d8">   39</a></span>&#160;<span class="preprocessor">    #define BOOST_HANA_TYPECLASS(NAME)                                      \</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">                                                        \</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">        template &lt;typename T, typename ...&gt;                                 \</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">        struct instance                                                     \</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">            : instance&lt;T, ::boost::hana::when&lt;true&gt;&gt;                        \</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">        { };                                                                \</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">                                                                            \</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">        template &lt;typename T, bool condition&gt;                               \</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">        struct instance&lt;T, ::boost::hana::when&lt;condition&gt;&gt;                  \</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">            : ::boost::hana::core_detail::default_instance&lt;                 \</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">                void, NAME, T                                               \</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">            &gt;::type                                                         \</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">        { }                                                                 \</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">                                                     \</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">    </span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="group__core.html#gabc68f88756ee6bb3b727d8f0abea8ee5">   60</a></span>&#160;<span class="preprocessor">    #define BOOST_HANA_BINARY_TYPECLASS(NAME)                               \</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">                                                        \</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor">        template &lt;typename T, typename U, typename ...&gt;                     \</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor">        struct instance                                                     \</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor">            : instance&lt;T, U, ::boost::hana::when&lt;true&gt;&gt;                     \</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="preprocessor">        { };                                                                \</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="preprocessor">                                                                            \</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="preprocessor">        template &lt;typename T, typename U, bool condition&gt;                   \</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="preprocessor">        struct instance&lt;T, U, ::boost::hana::when&lt;condition&gt;&gt;               \</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="preprocessor">            : ::boost::hana::core_detail::default_instance&lt;                 \</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="preprocessor">                void, NAME, T, U                                            \</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor">            &gt;::type                                                         \</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="preprocessor">        { }                                                                 \</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="preprocessor">                                                     \</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="preprocessor">    </span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keyword">template</span> &lt;<span class="keywordtype">bool</span> condition&gt;</div>
+<div class="line"><a name="l00092"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1when.html">   92</a></span>&#160;    <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1when.html">when</a> { };</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...&gt;</div>
+<div class="line"><a name="l00102"></a><span class="lineno"><a class="line" href="group__core.html#ga0f5d717bbf6646619bb6219b104384dc">  102</a></span>&#160;    <span class="keyword">using</span> <a class="code" href="structboost_1_1hana_1_1when.html">when_valid</a> = <a class="code" href="structboost_1_1hana_1_1when.html">when&lt;true&gt;</a>;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
+<div class="line"><a name="l00113"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1disable.html">  113</a></span>&#160;    <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1disable.html">disable</a> { };</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="keyword">namespace </span>core_detail {</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> Enable = <span class="keywordtype">void</span>*&gt;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        <span class="keyword">struct </span>default_datatype { <span class="keyword">using</span> type = T; };</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        <span class="keyword">struct </span>default_datatype&lt;T, decltype((void*)(typename T::hana_datatype*)0)&gt; {</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;            <span class="keyword">using</span> type = <span class="keyword">typename</span> T::hana_datatype;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        };</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    }</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> Enable = <span class="keywordtype">void</span>&gt;</div>
+<div class="line"><a name="l00143"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1datatype.html">  143</a></span>&#160;    <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1datatype.html">datatype</a> {</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        <span class="keyword">using</span> type = <span class="keyword">typename</span> core_detail::default_datatype&lt;T&gt;::type;</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    };</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00150"></a><span class="lineno"><a class="line" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">  150</a></span>&#160;    <span class="keyword">using</span> <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t</a> = <span class="keyword">typename</span> datatype&lt;T&gt;::type;</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="keyword">namespace </span>operators {</div>
+<div class="line"><a name="l00184"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1operators_1_1enable.html">  184</a></span>&#160;        <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1operators_1_1enable.html">enable</a> { };</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    }</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;}} <span class="comment">// end namespace boost::hana</span></div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;<span class="preprocessor">#endif // !BOOST_HANA_DETAIL_TYPECLASSES_HPP</span></div>
+<div class="ttc" id="group__core_html_gae3cedd3772d00ac7c4de9dc3d719f321"><div class="ttname"><a href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">boost::hana::datatype_t</a></div><div class="ttdeci">typename datatype&lt; T &gt;::type datatype_t</div><div class="ttdoc">Alias to datatype<T>::type. </div><div class="ttdef"><b>Definition:</b> typeclasses.hpp:150</div></div>
+<div class="ttc" id="structboost_1_1hana_1_1operators_1_1enable_html"><div class="ttname"><a href="structboost_1_1hana_1_1operators_1_1enable.html">boost::hana::operators::enable</a></div><div class="ttdoc">Allows operators in the boost::hana::operators namespace to be found by ADL. </div><div class="ttdef"><b>Definition:</b> typeclasses.hpp:184</div></div>
+<div class="ttc" id="structboost_1_1hana_1_1disable_html"><div class="ttname"><a href="structboost_1_1hana_1_1disable.html">boost::hana::disable</a></div><div class="ttdoc">Explicitly disable a type class instance. </div><div class="ttdef"><b>Definition:</b> typeclasses.hpp:113</div></div>
+<div class="ttc" id="structboost_1_1hana_1_1datatype_html"><div class="ttname"><a href="structboost_1_1hana_1_1datatype.html">boost::hana::datatype</a></div><div class="ttdoc">Metafunction returning the data type associated to T. </div><div class="ttdef"><b>Definition:</b> typeclasses.hpp:143</div></div>
+<div class="ttc" id="structboost_1_1hana_1_1when_html"><div class="ttname"><a href="structboost_1_1hana_1_1when.html">boost::hana::when</a></div><div class="ttdoc">Used to instantiate a type class based on the value of a predicate. </div><div class="ttdef"><b>Definition:</b> typeclasses.hpp:92</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jul 24 2014 10:29:13 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jul 24 2014 23:28:47 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

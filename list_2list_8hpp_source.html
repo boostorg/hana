@@ -105,159 +105,187 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">namespace </span>boost { <span class="keyword">namespace </span>hana {</div>
-<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html">   60</a></span>&#160;    <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1_list.html">List</a> {</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <a class="code" href="group__core.html#gac072d4434777cd5ee841a7766d41f1d8">BOOST_HANA_TYPECLASS</a>(<a class="code" href="structboost_1_1hana_1_1_list.html">List</a>);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list_1_1mcd.html">   63</a></span>&#160;        <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1_list_1_1mcd.html">mcd</a>;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    };</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a30a6926751dfcafbe2bb67738e2da3c4">   71</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> concat = [](<span class="keyword">auto</span> xs, <span class="keyword">auto</span> ys) {</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        static_assert(detail::std::is_same&lt;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t</a>&lt;decltype(xs)&gt;, <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t</a>&lt;decltype(ys)&gt;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        &gt;::value,</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="stringliteral">&quot;boost::hana::concat: both arguments must have the same data type&quot;</span>);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="keywordflow">return</span> List::instance&lt;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(xs)&gt;</a></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        &gt;::concat_impl(xs, ys);</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    };</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
-<div class="line"><a name="l00086"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a51732ddadf982e47f5757b092294df12">   86</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> cons = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> xs) {</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="keywordflow">return</span> List::instance&lt;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(xs)&gt;</a></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        &gt;::cons_impl(x, xs);</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    };</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
-<div class="line"><a name="l00097"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a929370eddd43bb1a4a11b00a7880eadb">   97</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> filter = [](<span class="keyword">auto</span> predicate, <span class="keyword">auto</span> xs) {</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        <span class="keywordflow">return</span> List::instance&lt;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(xs)&gt;</a></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        &gt;::filter_impl(predicate, xs);</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    };</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
-<div class="line"><a name="l00108"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a733fdb2e8686033466beea8323e53a26">  108</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> init = [](<span class="keyword">auto</span> xs) {</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <span class="keywordflow">return</span> List::instance&lt;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(xs)&gt;</a></div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        &gt;::init_impl(xs);</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    };</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <span class="keyword">namespace </span>list_detail {</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        <span class="keyword">struct </span>into {</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;            <span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...Xs&gt;</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;            constexpr <span class="keyword">auto</span> operator()(Xs ...xs)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="keyword">            </span>{ <span class="keywordflow">return</span> List::instance&lt;T&gt;::into_impl(xs...); }</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        };</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    }</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00129"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a28529f82a678e8814fe6224f626115f3">  129</a></span>&#160;    constexpr list_detail::into&lt;T&gt; into{};</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00134"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a04e654b583265053e4dde63fff0c0aea">  134</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> nil = List::instance&lt;T&gt;::nil_impl();</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;</div>
-<div class="line"><a name="l00151"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a788b65dd69bb016d647801718e840816">  151</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> partition = [](<span class="keyword">auto</span> predicate, <span class="keyword">auto</span> xs) {</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        <span class="keywordflow">return</span> List::instance&lt;</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(xs)&gt;</a></div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        &gt;::partition_impl(predicate, xs);</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    };</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;</div>
-<div class="line"><a name="l00171"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a45ec7767d19eb7eaabb71ead3796a7f1">  171</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> permutations = [](<span class="keyword">auto</span> xs) {</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        <span class="keywordflow">return</span> List::instance&lt;</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(xs)&gt;</a></div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        &gt;::permutations_impl(xs);</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    };</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;</div>
-<div class="line"><a name="l00182"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a4471413ccc3835db5e48658683b8aba0">  182</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> reverse = [](<span class="keyword">auto</span> xs) {</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        <span class="keywordflow">return</span> List::instance&lt;</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(xs)&gt;</a></div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        &gt;::reverse_impl(xs);</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    };</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;</div>
-<div class="line"><a name="l00193"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#adfb039a3d46931ef17fef56c77d8256c">  193</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> scanl = [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> s, <span class="keyword">auto</span> xs) {</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;        <span class="keywordflow">return</span> List::instance&lt;</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(xs)&gt;</a></div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        &gt;::scanl_impl(f, s, xs);</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    };</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;</div>
-<div class="line"><a name="l00204"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a62411eb57e86f3cb7394f22fd3651355">  204</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> scanl1 = [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> xs) {</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;        <span class="keywordflow">return</span> List::instance&lt;</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(xs)&gt;</a></div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;        &gt;::scanl1_impl(f, xs);</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    };</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;</div>
-<div class="line"><a name="l00215"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#abb725e66aedc0c19c38b38a00302abf4">  215</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> scanr = [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> s, <span class="keyword">auto</span> xs) {</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        <span class="keywordflow">return</span> List::instance&lt;</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(xs)&gt;</a></div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;        &gt;::scanr_impl(f, s, xs);</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;    };</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;</div>
-<div class="line"><a name="l00226"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a5948df39fe904d509f1bb073d53e3965">  226</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> scanr1 = [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> xs) {</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;        <span class="keywordflow">return</span> List::instance&lt;</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(xs)&gt;</a></div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;        &gt;::scanr1_impl(f, xs);</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    };</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;</div>
-<div class="line"><a name="l00237"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a95183c155c6180b31d4965aa203957d0">  237</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> snoc = [](<span class="keyword">auto</span> xs, <span class="keyword">auto</span> x) {</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;        <span class="keywordflow">return</span> List::instance&lt;</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(xs)&gt;</a></div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;        &gt;::snoc_impl(xs, x);</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;    };</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;</div>
-<div class="line"><a name="l00248"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a58c1454689bf6d2264bc428dc1d039db">  248</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> sort = [](<span class="keyword">auto</span> xs) {</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;        <span class="keywordflow">return</span> List::instance&lt;</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(xs)&gt;</a></div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;        &gt;::sort_impl(xs);</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;    };</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;</div>
-<div class="line"><a name="l00262"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a6ed2907b48fcba3dd1059b4b0bfde624">  262</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> sort_by = [](<span class="keyword">auto</span> predicate, <span class="keyword">auto</span> xs) {</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;        <span class="keywordflow">return</span> List::instance&lt;</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(xs)&gt;</a></div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;        &gt;::sort_by_impl(predicate, xs);</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;    };</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;</div>
-<div class="line"><a name="l00277"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a2c20028c5115dcf38063d322f27b4ee1">  277</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> take = [](<span class="keyword">auto</span> n, <span class="keyword">auto</span> xs) {</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;        <span class="keywordflow">return</span> List::instance&lt;</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(xs)&gt;</a></div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;        &gt;::take_impl(n, xs);</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;    };</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;</div>
-<div class="line"><a name="l00290"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a27aa67fa9ffc3d89b23a6dce018013d4">  290</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> take_until = [](<span class="keyword">auto</span> predicate, <span class="keyword">auto</span> xs) {</div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;        <span class="keywordflow">return</span> List::instance&lt;</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(xs)&gt;</a></div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;        &gt;::take_until_impl(predicate, xs);</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;    };</div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;</div>
-<div class="line"><a name="l00305"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a86916c5c62a42f01f85450b366ef6eff">  305</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> take_while = [](<span class="keyword">auto</span> predicate, <span class="keyword">auto</span> xs) {</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;        <span class="keywordflow">return</span> List::instance&lt;</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(xs)&gt;</a></div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;        &gt;::take_while_impl(predicate, xs);</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;    };</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;</div>
-<div class="line"><a name="l00316"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a23b6ac9e78577d70b9108a80e6b1534c">  316</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> zip = [](<span class="keyword">auto</span> xs, <span class="keyword">auto</span> ...ys) {</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;        <span class="keywordflow">return</span> List::instance&lt;</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(xs)&gt;</a></div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;        &gt;::zip_impl(xs, ys...);</div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;    };</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;</div>
-<div class="line"><a name="l00349"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a5eadaf63535ebb8cdd8d9e4c16b9bacd">  349</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> zip_with = [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> xs, <span class="keyword">auto</span> ...ys) {</div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;        <span class="keywordflow">return</span> List::instance&lt;</div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(xs)&gt;</a></div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;        &gt;::zip_with_impl(f, xs, ys...);</div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;    };</div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;}} <span class="comment">// end namespace boost::hana</span></div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;</div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;<span class="preprocessor">#endif // !BOOST_HANA_LIST_LIST_HPP</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html">   57</a></span>&#160;    <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1_list.html">List</a> {</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <a class="code" href="group__core.html#gac072d4434777cd5ee841a7766d41f1d8">BOOST_HANA_TYPECLASS</a>(<a class="code" href="structboost_1_1hana_1_1_list.html">List</a>);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list_1_1mcd.html">   60</a></span>&#160;        <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1_list_1_1mcd.html">mcd</a>;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    };</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a30a6926751dfcafbe2bb67738e2da3c4">   68</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> concat = [](<span class="keyword">auto</span> xs, <span class="keyword">auto</span> ys) {</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        static_assert(detail::std::is_same&lt;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t</a>&lt;decltype(xs)&gt;, <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t</a>&lt;decltype(ys)&gt;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        &gt;::value,</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="stringliteral">&quot;boost::hana::concat: both arguments must have the same data type&quot;</span>);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keywordflow">return</span> List::instance&lt;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(xs)&gt;</a></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        &gt;::concat_impl(xs, ys);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    };</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
+<div class="line"><a name="l00083"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a51732ddadf982e47f5757b092294df12">   83</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> cons = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> xs) {</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="keywordflow">return</span> List::instance&lt;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(xs)&gt;</a></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        &gt;::cons_impl(x, xs);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    };</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
+<div class="line"><a name="l00094"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a929370eddd43bb1a4a11b00a7880eadb">   94</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> filter = [](<span class="keyword">auto</span> predicate, <span class="keyword">auto</span> xs) {</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        <span class="keywordflow">return</span> List::instance&lt;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(xs)&gt;</a></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        &gt;::filter_impl(predicate, xs);</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    };</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
+<div class="line"><a name="l00105"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a733fdb2e8686033466beea8323e53a26">  105</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> init = [](<span class="keyword">auto</span> xs) {</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        <span class="keywordflow">return</span> List::instance&lt;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(xs)&gt;</a></div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        &gt;::init_impl(xs);</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    };</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keyword">namespace </span>list_detail {</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        <span class="keyword">struct </span>into {</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            <span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...Xs&gt;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;            constexpr <span class="keyword">auto</span> operator()(Xs ...xs)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="keyword">            </span>{ <span class="keywordflow">return</span> List::instance&lt;T&gt;::into_impl(xs...); }</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        };</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    }</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00126"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a28529f82a678e8814fe6224f626115f3">  126</a></span>&#160;    constexpr list_detail::into&lt;T&gt; into{};</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00131"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a04e654b583265053e4dde63fff0c0aea">  131</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> nil = List::instance&lt;T&gt;::nil_impl();</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;</div>
+<div class="line"><a name="l00148"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a788b65dd69bb016d647801718e840816">  148</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> partition = [](<span class="keyword">auto</span> predicate, <span class="keyword">auto</span> xs) {</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        <span class="keywordflow">return</span> List::instance&lt;</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(xs)&gt;</a></div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        &gt;::partition_impl(predicate, xs);</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    };</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;</div>
+<div class="line"><a name="l00168"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a45ec7767d19eb7eaabb71ead3796a7f1">  168</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> permutations = [](<span class="keyword">auto</span> xs) {</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        <span class="keywordflow">return</span> List::instance&lt;</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(xs)&gt;</a></div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        &gt;::permutations_impl(xs);</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    };</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;</div>
+<div class="line"><a name="l00179"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a4471413ccc3835db5e48658683b8aba0">  179</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> reverse = [](<span class="keyword">auto</span> xs) {</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;        <span class="keywordflow">return</span> List::instance&lt;</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(xs)&gt;</a></div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;        &gt;::reverse_impl(xs);</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    };</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;</div>
+<div class="line"><a name="l00190"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#adfb039a3d46931ef17fef56c77d8256c">  190</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> scanl = [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> s, <span class="keyword">auto</span> xs) {</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;        <span class="keywordflow">return</span> List::instance&lt;</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(xs)&gt;</a></div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;        &gt;::scanl_impl(f, s, xs);</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    };</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;</div>
+<div class="line"><a name="l00201"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a62411eb57e86f3cb7394f22fd3651355">  201</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> scanl1 = [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> xs) {</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;        <span class="keywordflow">return</span> List::instance&lt;</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(xs)&gt;</a></div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;        &gt;::scanl1_impl(f, xs);</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    };</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;</div>
+<div class="line"><a name="l00212"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#abb725e66aedc0c19c38b38a00302abf4">  212</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> scanr = [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> s, <span class="keyword">auto</span> xs) {</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;        <span class="keywordflow">return</span> List::instance&lt;</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(xs)&gt;</a></div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;        &gt;::scanr_impl(f, s, xs);</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    };</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;</div>
+<div class="line"><a name="l00223"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a5948df39fe904d509f1bb073d53e3965">  223</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> scanr1 = [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> xs) {</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;        <span class="keywordflow">return</span> List::instance&lt;</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(xs)&gt;</a></div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;        &gt;::scanr1_impl(f, xs);</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    };</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;</div>
+<div class="line"><a name="l00234"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a95183c155c6180b31d4965aa203957d0">  234</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> snoc = [](<span class="keyword">auto</span> xs, <span class="keyword">auto</span> x) {</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;        <span class="keywordflow">return</span> List::instance&lt;</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(xs)&gt;</a></div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;        &gt;::snoc_impl(xs, x);</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;    };</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;</div>
+<div class="line"><a name="l00245"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a58c1454689bf6d2264bc428dc1d039db">  245</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> sort = [](<span class="keyword">auto</span> xs) {</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;        <span class="keywordflow">return</span> List::instance&lt;</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(xs)&gt;</a></div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;        &gt;::sort_impl(xs);</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;    };</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;</div>
+<div class="line"><a name="l00259"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a6ed2907b48fcba3dd1059b4b0bfde624">  259</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> sort_by = [](<span class="keyword">auto</span> predicate, <span class="keyword">auto</span> xs) {</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;        <span class="keywordflow">return</span> List::instance&lt;</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(xs)&gt;</a></div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;        &gt;::sort_by_impl(predicate, xs);</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;    };</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;</div>
+<div class="line"><a name="l00274"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a2c20028c5115dcf38063d322f27b4ee1">  274</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> take = [](<span class="keyword">auto</span> n, <span class="keyword">auto</span> xs) {</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;        <span class="keywordflow">return</span> List::instance&lt;</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(xs)&gt;</a></div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;        &gt;::take_impl(n, xs);</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;    };</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;</div>
+<div class="line"><a name="l00287"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a27aa67fa9ffc3d89b23a6dce018013d4">  287</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> take_until = [](<span class="keyword">auto</span> predicate, <span class="keyword">auto</span> xs) {</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;        <span class="keywordflow">return</span> List::instance&lt;</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(xs)&gt;</a></div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;        &gt;::take_until_impl(predicate, xs);</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;    };</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;</div>
+<div class="line"><a name="l00302"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a86916c5c62a42f01f85450b366ef6eff">  302</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> take_while = [](<span class="keyword">auto</span> predicate, <span class="keyword">auto</span> xs) {</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;        <span class="keywordflow">return</span> List::instance&lt;</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(xs)&gt;</a></div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;        &gt;::take_while_impl(predicate, xs);</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;    };</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;</div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;    <span class="keyword">namespace </span>list_detail {</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> L&gt;</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;        <span class="keyword">struct </span>unfoldr {</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;            <span class="keyword">template</span> &lt;<span class="keyword">typename</span> F, <span class="keyword">typename</span> Initial&gt;</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;            constexpr <span class="keyword">auto</span> operator()(F f, Initial initial)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;<span class="keyword">            </span>{ <span class="keywordflow">return</span> List::instance&lt;L&gt;::unfoldr_impl(f, initial); }</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;        };</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> L&gt;</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;        <span class="keyword">struct </span>unfoldl {</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;            <span class="keyword">template</span> &lt;<span class="keyword">typename</span> F, <span class="keyword">typename</span> Initial&gt;</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;            constexpr <span class="keyword">auto</span> operator()(F f, Initial initial)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;<span class="keyword">            </span>{ <span class="keywordflow">return</span> List::instance&lt;L&gt;::unfoldl_impl(f, initial); }</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;        };</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;    }</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;</div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> L&gt;</div>
+<div class="line"><a name="l00348"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a3b66272057350060d1c00e00d726ac23">  348</a></span>&#160;    constexpr list_detail::unfoldl&lt;L&gt; unfoldl{};</div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;</div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> L&gt;</div>
+<div class="line"><a name="l00374"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a9393472189e8d49e2bc8a9e7730b7b60">  374</a></span>&#160;    constexpr list_detail::unfoldr&lt;L&gt; unfoldr{};</div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;</div>
+<div class="line"><a name="l00381"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#abe5308d966fbf95d317511a706d6d20a">  381</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> unzip = [](<span class="keyword">auto</span> xs) {</div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;        <span class="keywordflow">return</span> List::instance&lt;</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(xs)&gt;</a></div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;        &gt;::unzip_impl(xs);</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;    };</div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;</div>
+<div class="line"><a name="l00392"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a23b6ac9e78577d70b9108a80e6b1534c">  392</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> zip = [](<span class="keyword">auto</span> xs, <span class="keyword">auto</span> ...ys) {</div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;        <span class="keywordflow">return</span> List::instance&lt;</div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(xs)&gt;</a></div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;        &gt;::zip_impl(xs, ys...);</div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;    };</div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;</div>
+<div class="line"><a name="l00425"></a><span class="lineno"><a class="line" href="structboost_1_1hana_1_1_list.html#a5eadaf63535ebb8cdd8d9e4c16b9bacd">  425</a></span>&#160;    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> zip_with = [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> xs, <span class="keyword">auto</span> ...ys) {</div>
+<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;        <span class="keywordflow">return</span> List::instance&lt;</div>
+<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;            <a class="code" href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t&lt;decltype(xs)&gt;</a></div>
+<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;        &gt;::zip_with_impl(f, xs, ys...);</div>
+<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;    };</div>
+<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;}} <span class="comment">// end namespace boost::hana</span></div>
+<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;</div>
+<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;<span class="preprocessor">#endif // !BOOST_HANA_LIST_LIST_HPP</span></div>
 <div class="ttc" id="group__details_html_gacf82d20cb2ab6efe5849fadae0a043a8"><div class="ttname"><a href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a></div><div class="ttdeci">#define BOOST_HANA_CONSTEXPR_LAMBDA</div><div class="ttdoc">Expands to constexpr if constexpr lambdas are supported and to nothing otherwise. ...</div><div class="ttdef"><b>Definition:</b> constexpr.hpp:18</div></div>
-<div class="ttc" id="group__core_html_gae3cedd3772d00ac7c4de9dc3d719f321"><div class="ttname"><a href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">boost::hana::datatype_t</a></div><div class="ttdeci">typename datatype&lt; T &gt;::type datatype_t</div><div class="ttdoc">Alias to datatype<T>::type. </div><div class="ttdef"><b>Definition:</b> typeclasses.hpp:260</div></div>
+<div class="ttc" id="group__core_html_gae3cedd3772d00ac7c4de9dc3d719f321"><div class="ttname"><a href="group__core.html#gae3cedd3772d00ac7c4de9dc3d719f321">boost::hana::datatype_t</a></div><div class="ttdeci">typename datatype&lt; T &gt;::type datatype_t</div><div class="ttdoc">Alias to datatype<T>::type. </div><div class="ttdef"><b>Definition:</b> typeclasses.hpp:150</div></div>
 <div class="ttc" id="typeclasses_8hpp_html"><div class="ttname"><a href="typeclasses_8hpp.html">typeclasses.hpp</a></div><div class="ttdoc">Internal header to break circular dependencies. </div></div>
-<div class="ttc" id="structboost_1_1hana_1_1_list_html"><div class="ttname"><a href="structboost_1_1hana_1_1_list.html">boost::hana::List</a></div><div class="ttdoc">General purpose index-based sequence. </div><div class="ttdef"><b>Definition:</b> list.hpp:60</div></div>
+<div class="ttc" id="structboost_1_1hana_1_1_list_html"><div class="ttname"><a href="structboost_1_1hana_1_1_list.html">boost::hana::List</a></div><div class="ttdoc">General purpose index-based sequence. </div><div class="ttdef"><b>Definition:</b> list.hpp:57</div></div>
 <div class="ttc" id="constexpr_8hpp_html"><div class="ttname"><a href="constexpr_8hpp.html">constexpr.hpp</a></div><div class="ttdoc">Defines the BOOST_HANA_CONSTEXPR_LAMBDA macro. </div></div>
-<div class="ttc" id="structboost_1_1hana_1_1_list_1_1mcd_html"><div class="ttname"><a href="structboost_1_1hana_1_1_list_1_1mcd.html">boost::hana::List::mcd</a></div><div class="ttdoc">Minimal complete definition: Iterable, Foldable, cons, and nil </div><div class="ttdef"><b>Definition:</b> list.hpp:63</div></div>
+<div class="ttc" id="structboost_1_1hana_1_1_list_1_1mcd_html"><div class="ttname"><a href="structboost_1_1hana_1_1_list_1_1mcd.html">boost::hana::List::mcd</a></div><div class="ttdoc">Minimal complete definition: Iterable, Foldable, cons, and nil </div><div class="ttdef"><b>Definition:</b> list.hpp:60</div></div>
 <div class="ttc" id="type__traits_8hpp_html"><div class="ttname"><a href="type__traits_8hpp.html">type_traits.hpp</a></div><div class="ttdoc">Defines equivalents for some std type traits to remove dependencies on the standard library...</div></div>
-<div class="ttc" id="group__core_html_gac072d4434777cd5ee841a7766d41f1d8"><div class="ttname"><a href="group__core.html#gac072d4434777cd5ee841a7766d41f1d8">BOOST_HANA_TYPECLASS</a></div><div class="ttdeci">#define BOOST_HANA_TYPECLASS(NAME)</div><div class="ttdoc">Machinery for creating a unary type class. </div><div class="ttdef"><b>Definition:</b> typeclasses.hpp:158</div></div>
+<div class="ttc" id="group__core_html_gac072d4434777cd5ee841a7766d41f1d8"><div class="ttname"><a href="group__core.html#gac072d4434777cd5ee841a7766d41f1d8">BOOST_HANA_TYPECLASS</a></div><div class="ttdeci">#define BOOST_HANA_TYPECLASS(NAME)</div><div class="ttdoc">Defines a unary type class. </div><div class="ttdef"><b>Definition:</b> typeclasses.hpp:39</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jul 24 2014 10:29:13 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jul 24 2014 23:28:46 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

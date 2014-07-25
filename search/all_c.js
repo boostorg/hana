@@ -1,11 +1,11 @@
 var searchData=
 [
   ['last',['last',['../structboost_1_1hana_1_1_iterable.html#a5379264e83af65af8802eeec0d49e5f0',1,'boost::hana::Iterable']]],
-  ['laws',['laws',['../structboost_1_1hana_1_1_functor_1_1laws.html',1,'boost::hana::Functor']]],
-  ['laws',['laws',['../structboost_1_1hana_1_1_orderable_1_1laws.html',1,'boost::hana::Orderable']]],
   ['laws',['laws',['../structboost_1_1hana_1_1_applicative_1_1laws.html',1,'boost::hana::Applicative']]],
-  ['laws',['laws',['../structboost_1_1hana_1_1_comparable_1_1laws.html',1,'boost::hana::Comparable']]],
   ['laws',['laws',['../structboost_1_1hana_1_1_monad_1_1laws.html',1,'boost::hana::Monad']]],
+  ['laws',['laws',['../structboost_1_1hana_1_1_orderable_1_1laws.html',1,'boost::hana::Orderable']]],
+  ['laws',['laws',['../structboost_1_1hana_1_1_comparable_1_1laws.html',1,'boost::hana::Comparable']]],
+  ['laws',['laws',['../structboost_1_1hana_1_1_functor_1_1laws.html',1,'boost::hana::Functor']]],
   ['laws_2ehpp',['laws.hpp',['../applicative_2laws_8hpp.html',1,'']]],
   ['laws_2ehpp',['laws.hpp',['../comparable_2laws_8hpp.html',1,'']]],
   ['laws_2ehpp',['laws.hpp',['../functor_2laws_8hpp.html',1,'']]],

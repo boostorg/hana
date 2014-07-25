@@ -146,19 +146,17 @@ Classes</h2></td></tr>
 <p>General purpose type classes provided by the library. </p>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000028">Todo:</a></b></dt><dd><ul>
 <li>Implement better law checking and check them for all instances in the unit tests. Since we're modularized, it's OK to resort to heavy stuff in the law-checking because it's presumably only done in unit testing contexts.</li>
-<li>Provide an integrated way of checking laws for type classes.</li>
 <li>Provide a way to check type class requirements like <code>Functor f =&gt; Applicative f</code>.</li>
 <li>Document requirements for the existing type classes.</li>
 <li>Find a better way to provide instances between type classes; consider something like <code>Foldable::instance&lt;Iterable&gt;</code>.</li>
 <li>Consider inheriting from a base class even when no mcd is required. That would allow us to <em>not</em> include a useless mcd.</li>
-<li>Consider including the default provided instances in the mcds instead of the forward declaration header of a type class. However, that won't work for instances provided implicitly (e.g. Logical &lt;- bool or Comparable &lt;- x == y), because there is no MCD to be included for those.</li>
 <li>Document the purpose of minimal instances; they are meant to provide an easy to use archetype for testing and their tests are meant to exercise the basic dispatching code of type classes (hence it makes sense to test even the mcd of a minimal instance). In particular, they are not meant to be <em>the</em> minimal instance, which does not exist in general (what does it even mean to be a <em>minimal</em> instance?) </li>
 </ul>
 </dd></dl>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jul 24 2014 10:29:13 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jul 24 2014 23:28:47 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

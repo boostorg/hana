@@ -183,6 +183,17 @@ Related Functions</h2></td></tr>
 <tr class="memitem:a86916c5c62a42f01f85450b366ef6eff"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#a86916c5c62a42f01f85450b366ef6eff">take_while</a></td></tr>
 <tr class="memdesc:a86916c5c62a42f01f85450b366ef6eff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Take elements while the <code>predicate</code> is satisfied.  <a href="#a86916c5c62a42f01f85450b366ef6eff">More...</a><br /></td></tr>
 <tr class="separator:a86916c5c62a42f01f85450b366ef6eff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b66272057350060d1c00e00d726ac23"><td class="memTemplParams" colspan="2">template&lt;typename L &gt; </td></tr>
+<tr class="memitem:a3b66272057350060d1c00e00d726ac23"><td class="memTemplItemLeft" align="right" valign="top">constexpr list_detail::unfoldl&lt; L &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#a3b66272057350060d1c00e00d726ac23">unfoldl</a></td></tr>
+<tr class="memdesc:a3b66272057350060d1c00e00d726ac23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dual to <code>foldl</code> for lists.  <a href="#a3b66272057350060d1c00e00d726ac23">More...</a><br /></td></tr>
+<tr class="separator:a3b66272057350060d1c00e00d726ac23"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9393472189e8d49e2bc8a9e7730b7b60"><td class="memTemplParams" colspan="2">template&lt;typename L &gt; </td></tr>
+<tr class="memitem:a9393472189e8d49e2bc8a9e7730b7b60"><td class="memTemplItemLeft" align="right" valign="top">constexpr list_detail::unfoldr&lt; L &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#a9393472189e8d49e2bc8a9e7730b7b60">unfoldr</a></td></tr>
+<tr class="memdesc:a9393472189e8d49e2bc8a9e7730b7b60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dual to <code>foldr</code> for lists.  <a href="#a9393472189e8d49e2bc8a9e7730b7b60">More...</a><br /></td></tr>
+<tr class="separator:a9393472189e8d49e2bc8a9e7730b7b60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe5308d966fbf95d317511a706d6d20a"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#abe5308d966fbf95d317511a706d6d20a">unzip</a></td></tr>
+<tr class="memdesc:abe5308d966fbf95d317511a706d6d20a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unzip a list of lists.  <a href="#abe5308d966fbf95d317511a706d6d20a">More...</a><br /></td></tr>
+<tr class="separator:abe5308d966fbf95d317511a706d6d20a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a23b6ac9e78577d70b9108a80e6b1534c"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#a23b6ac9e78577d70b9108a80e6b1534c">zip</a></td></tr>
 <tr class="memdesc:a23b6ac9e78577d70b9108a80e6b1534c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Zip one list or more.  <a href="#a23b6ac9e78577d70b9108a80e6b1534c">More...</a><br /></td></tr>
 <tr class="separator:a23b6ac9e78577d70b9108a80e6b1534c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -203,12 +214,9 @@ Related Functions</h2></td></tr>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000020">Todo:</a></b></dt><dd><ul>
 <li>It might be possible to optimize the implementation of homogeneous lists using an array.</li>
 <li>How to implement iterate and repeat?</li>
-<li>Check laws for <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="Applicatives are Functors with the ability to lift values and combine computations. ">Applicative</a></code>.</li>
-<li>Get rid of the <code>&lt;type_traits&gt;</code> include.</li>
 <li>We could provide automatic unit testing for any instance because we have the isomorphisms.</li>
 <li>There is a strong relationship between this and <code>MonadPlus</code>. Actually, they might be just the same. Check this out.</li>
 <li>Implement the following methods:<ul>
-<li><code>unfoldr</code>, <code>unfoldl</code>, <code>unzip</code></li>
 <li><code>intersperse</code>, <code>intercalate</code>, <code>transpose</code>, <code>subsequences</code></li>
 <li><code>split_at</code>, <code>span</code>, <code>break</code>, <code>group_by</code>, <code>group</code>, <code>inits</code>, <code>tails</code></li>
 </ul>
@@ -812,6 +820,112 @@ template&lt;typename T &gt; </div>
 </div><!-- fragment -->
 </div>
 </div>
+<a class="anchor" id="a3b66272057350060d1c00e00d726ac23"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename L &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr list_detail::unfoldl&lt;L&gt; unfoldl</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Dual to <code>foldl</code> for lists. </p>
+<p>While <code>foldl</code> reduces a list to a summary value, <code>unfoldl</code> builds a list from a seed value and a function. The function takes the initial value and returns <code>nothing</code> if it is done producing the list, and <code>just(P(init, elem))</code> otherwise, where <code>P</code> is an arbitrary <code><a class="el" href="structboost_1_1hana_1_1_pair.html" title="Generic container of two elements. ">Pair</a></code> constructor and <code>elem</code> is the produced element which is appended to the list and <code>init</code> is the new initial value used in a recursive call to the function.</p>
+<p>In some cases, <code>unfoldl</code> can undo a <code>foldl</code> operation: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_list.html#a3b66272057350060d1c00e00d726ac23">unfoldl</a>(g, foldl(f, z, xs))</div>
+</div><!-- fragment --><p> if the following holds </p><div class="fragment"><div class="line">g(f(y, x)) == just(pair(y, x))</div>
+<div class="line">g(z) == nothing</div>
+</div><!-- fragment --><h3>Example</h3>
+<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> f = [](<span class="keyword">auto</span> x) {</div>
+<div class="line">        <span class="keywordflow">return</span> if_(x == int_&lt;0&gt;, nothing, just(pair(x - int_&lt;1&gt;, x)));</div>
+<div class="line">    };</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="line">        unfoldl&lt;IntegerList&gt;(f, int_&lt;10&gt;) == integer_list&lt;int, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10&gt;</div>
+<div class="line">    );</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="a9393472189e8d49e2bc8a9e7730b7b60"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename L &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr list_detail::unfoldr&lt;L&gt; unfoldr</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Dual to <code>foldr</code> for lists. </p>
+<p>While <code>foldr</code> reduces a list to a summary value, <code>unfoldr</code> builds a list from a seed value and a function. The function takes the initial value and returns <code>nothing</code> if it is done producing the list, and <code>just(P(elem, init))</code> otherwise, where <code>P</code> is an arbitrary <code><a class="el" href="structboost_1_1hana_1_1_pair.html" title="Generic container of two elements. ">Pair</a></code> constructor and <code>elem</code> is the produced element which is prepended to the list and <code>init</code> is the new initial value used in a recursive call to the function.</p>
+<p>In some cases, <code>unfoldr</code> can undo a <code>foldr</code> operation: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_list.html#a9393472189e8d49e2bc8a9e7730b7b60">unfoldr</a>(g, foldr(f, z, xs))</div>
+</div><!-- fragment --><p> if the following holds </p><div class="fragment"><div class="line">g(f(x, y)) == just(pair(x, y))</div>
+<div class="line">g(z) == nothing</div>
+</div><!-- fragment --><h3>Example</h3>
+<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> f = [](<span class="keyword">auto</span> x) {</div>
+<div class="line">        <span class="keywordflow">return</span> if_(x == int_&lt;0&gt;, nothing, just(pair(x, x - int_&lt;1&gt;)));</div>
+<div class="line">    };</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="line">        unfoldr&lt;IntegerList&gt;(f, int_&lt;10&gt;) == integer_list&lt;int, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1&gt;</div>
+<div class="line">    );</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="abe5308d966fbf95d317511a706d6d20a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto unzip</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Unzip a list of lists. </p>
+<h3>Example</h3>
+<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#abe5308d966fbf95d317511a706d6d20a">unzip</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="charliteral">&#39;2&#39;</span>, 3.3), <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(<span class="charliteral">&#39;4&#39;</span>, 5.5, 6)))</div>
+<div class="line">        ==</div>
+<div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="charliteral">&#39;4&#39;</span>), <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(<span class="charliteral">&#39;2&#39;</span>, 5.5), <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(3.3, 6))</div>
+<div class="line">    );</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#abe5308d966fbf95d317511a706d6d20a">unzip</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="charliteral">&#39;2&#39;</span>, 3.3), <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(<span class="charliteral">&#39;4&#39;</span>, 5.5, 6, <span class="stringliteral">&quot;ignored&quot;</span>)))</div>
+<div class="line">        ==</div>
+<div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="charliteral">&#39;4&#39;</span>), <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(<span class="charliteral">&#39;2&#39;</span>, 5.5), <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(3.3, 6))</div>
+<div class="line">    );</div>
+</div><!-- fragment -->
+</div>
+</div>
 <a class="anchor" id="a23b6ac9e78577d70b9108a80e6b1534c"></a>
 <div class="memitem">
 <div class="memproto">
@@ -887,7 +1001,7 @@ template&lt;typename T &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jul 24 2014 10:29:13 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jul 24 2014 23:28:48 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

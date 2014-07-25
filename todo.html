@@ -89,8 +89,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <dt><a class="anchor" id="_todo000001"></a>Member <a class="el" href="structboost_1_1hana_1_1_applicative.html#a0d7511a7a164af8cc6040052b3fbee51">ap</a>  </dt>
 <dd>Consider giving access to all the arguments to the type class implementation. This is for performance purposes.  </dd>
 <dt><a class="anchor" id="_todo000029"></a>page <a class="el" href="index.html">Boost.Hana</a>  </dt>
-<dd><p class="startdd"></p>
-<p></p>
+<dd><p class="startdd">Document type classes with operators.</p>
+<p>Finish this section.</p>
 <ul>
 <li>When we have functions with several variants, consider naming versions with the following scheme: <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>.lazy</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>.strict</div>
@@ -99,11 +99,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>To consider: is it possible/desirable to eliminate partial functions? For example, removing <code>head</code> and <code>tail</code>, which can fail, and replace them by a function which returns a <code>Maybe</code>.</li>
 <li>Document the library's stance on perfect forwarding and move semantics. Make compile-time tests with non-copyable types and runtime tests with expensive-to-copy types.</li>
 <li>In the unit tests, we might want to use an injective function on <code>Comparable</code>s instead of <code>std::make_tuple</code>.</li>
-<li>Write a tutorial. In particular:<ul>
 <li>Document how to emulate <code>make_fused</code> and friends from Boost.Fusion.</li>
 <li>Document how to write common Boost.Fusion and Boost.MPL idioms with Boost.Hana.</li>
-</ul>
-</li>
 <li>Write runtime benchmarks.</li>
 <li>Setup a BJam build system.</li>
 <li>Consider making function objects automatically curriable. This could allow <em>super sexy</em> stuff like: <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;&gt;</div>
@@ -151,12 +148,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <dd><ul>
 <li>It might be possible to optimize the implementation of homogeneous lists using an array.</li>
 <li>How to implement iterate and repeat?</li>
-<li>Check laws for <code>Applicative</code>.</li>
-<li>Get rid of the <code>&lt;type_traits&gt;</code> include.</li>
 <li>We could provide automatic unit testing for any instance because we have the isomorphisms.</li>
 <li>There is a strong relationship between this and <code>MonadPlus</code>. Actually, they might be just the same. Check this out.</li>
 <li>Implement the following methods:<ul>
-<li><code>unfoldr</code>, <code>unfoldl</code>, <code>unzip</code></li>
 <li><code>intersperse</code>, <code>intercalate</code>, <code>transpose</code>, <code>subsequences</code></li>
 <li><code>split_at</code>, <code>span</code>, <code>break</code>, <code>group_by</code>, <code>group</code>, <code>inits</code>, <code>tails</code></li>
 </ul>
@@ -219,12 +213,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <dt><a class="anchor" id="_todo000028"></a>Group <a class="el" href="group__typeclasses.html">typeclasses</a>  </dt>
 <dd><ul>
 <li>Implement better law checking and check them for all instances in the unit tests. Since we're modularized, it's OK to resort to heavy stuff in the law-checking because it's presumably only done in unit testing contexts.</li>
-<li>Provide an integrated way of checking laws for type classes.</li>
 <li>Provide a way to check type class requirements like <code>Functor f =&gt; Applicative f</code>.</li>
 <li>Document requirements for the existing type classes.</li>
 <li>Find a better way to provide instances between type classes; consider something like <code>Foldable::instance&lt;Iterable&gt;</code>.</li>
 <li>Consider inheriting from a base class even when no mcd is required. That would allow us to <em>not</em> include a useless mcd.</li>
-<li>Consider including the default provided instances in the mcds instead of the forward declaration header of a type class. However, that won't work for instances provided implicitly (e.g. Logical &lt;- bool or Comparable &lt;- x == y), because there is no MCD to be included for those.</li>
 <li>Document the purpose of minimal instances; they are meant to provide an easy to use archetype for testing and their tests are meant to exercise the basic dispatching code of type classes (hence it makes sense to test even the mcd of a minimal instance). In particular, they are not meant to be <em>the</em> minimal instance, which does not exist in general (what does it even mean to be a <em>minimal</em> instance?)  </li>
 </ul>
 </dd>
@@ -237,7 +229,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jul 24 2014 10:29:13 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jul 24 2014 23:28:47 for Boost.Hana by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>
