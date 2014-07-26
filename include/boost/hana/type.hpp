@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/core.hpp>
+#include <boost/hana/detail/dependent_on.hpp>
 #include <boost/hana/integral.hpp>
 
 
@@ -117,8 +118,9 @@ namespace boost { namespace hana {
             };
 
             template <typename ...xs>
-            constexpr auto operator()(xs...) const
-            { return type<f<typename xs::type...>>; }
+            constexpr auto operator()(xs...) const -> decltype(
+                type<f<typename xs::type...>>
+            ) { return {}; }
         };
 
         template <template <typename ...> class f>
@@ -127,32 +129,44 @@ namespace boost { namespace hana {
             using apply = f<xs...>;
 
             template <typename ...xs>
-            constexpr auto operator()(xs...) const
-            { return type<typename f<typename xs::type...>::type>; }
+            constexpr auto operator()(xs...) const -> decltype(
+                type<typename f<typename xs::type...>::type>
+            ) { return {}; }
         };
 
         template <typename f>
         struct metafunction_class {
+            // We need to delay the fetching of `f::apply` in case `f` is
+            // invalid because we want to stay SFINAE friendly.
             template <typename ...xs>
-            using apply = typename f::template apply<xs...>;
+            using apply = typename detail::dependent_on<
+                char[static_cast<bool>(sizeof...(xs)) + 1], f
+            >::template apply<xs...>;
 
             template <typename ...xs>
-            constexpr auto operator()(xs...) const
-            { return type<typename f::template apply<typename xs::type...>::type>; }
+            constexpr auto operator()(xs...) const -> decltype(
+                type<
+                    typename detail::dependent_on<
+                        char[static_cast<bool>(sizeof...(xs)) + 1], f
+                    >::template apply<typename xs::type...>::type
+                >
+            ) { return {}; }
         };
 
         template <template <typename ...> class f>
         struct trait {
             template <typename ...xs>
-            constexpr auto operator()(xs...) const
-            { return f<typename xs::type...>{}; }
+            constexpr auto operator()(xs...) const -> decltype(
+                f<typename xs::type...>{}
+            ) { return {}; }
         };
 
         template <template <typename ...> class f>
         struct trait_ {
             template <typename ...xs>
-            constexpr auto operator()(xs...) const
-            { return f<xs...>{}; }
+            constexpr auto operator()(xs...) const -> decltype(
+                f<xs...>{}
+            ) { return {}; }
         };
     }
 

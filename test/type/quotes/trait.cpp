@@ -6,14 +6,18 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/type.hpp>
 
+#include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/sandbox/detail/is_valid.hpp>
+
 #include <type_traits>
 using namespace boost::hana;
 
 
-template <typename ...> struct f { };
+
 struct x1; struct x2; struct x3;
 
-int main() {
+template <template <typename ...> class f>
+void test() {
     // make sure the types are good
     static_assert(std::is_same<decltype(trait<f>()), f<>>{}, "");
     static_assert(std::is_same<decltype(trait<f>(type<x1>)), f<x1>>{}, "");
@@ -25,4 +29,20 @@ int main() {
     trait<f>(type<x1>);
     trait<f>(type<x1>, type<x2>);
     trait<f>(type<x1>, type<x2>, type<x3>);
+}
+
+template <typename ...> struct f { };
+template <typename ...> struct invalid;
+
+template <typename x = void, typename y = void, typename z = void>
+using alias = f<x, y, z>;
+
+int main() {
+    test<f>();
+
+    // http://www.open-std.org/jtc1/sc22/wg21/docs/cwg_active.html#1430
+    // test<alias>();
+
+    // make sure it's SFINAE friendly
+    BOOST_HANA_STATIC_ASSERT(!detail::is_valid(trait<invalid>)(type<x1>));
 }
