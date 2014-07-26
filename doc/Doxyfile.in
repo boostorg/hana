@@ -6,7 +6,8 @@ PROJECT_NUMBER          =
 STRIP_FROM_PATH         = @Boost.Hana_SOURCE_DIR@/include
 BUILTIN_STL_SUPPORT     = YES
 STRIP_FROM_INC_PATH     = @Boost.Hana_SOURCE_DIR@/include
-ALIASES                 = method{1}="@relatesalso \1\n@hideinitializer"
+ALIASES                 =
+ENABLED_SECTIONS        = # BOOST_HANA_RATIONALES
 
 
 # Resources
@@ -14,7 +15,8 @@ OUTPUT_DIRECTORY        =
 INPUT                   = @Boost.Hana_SOURCE_DIR@/include
 FILE_PATTERNS           = *.hpp
 RECURSIVE               = YES
-EXCLUDE                 = @Boost.Hana_SOURCE_DIR@/include/boost/hana/sandbox
+EXCLUDE                 = @Boost.Hana_SOURCE_DIR@/include/boost/hana/sandbox \
+                          @Boost.Hana_SOURCE_DIR@/include/boost/hana/detail/sandbox
 EXAMPLE_PATH            = @Boost.Hana_SOURCE_DIR@/example \
                           @Boost.Hana_SOURCE_DIR@/test
 EXAMPLE_RECURSIVE       = YES
@@ -24,20 +26,20 @@ IMAGE_PATH              = @Boost.Hana_BINARY_DIR@/benchmark             \
                           @Boost.Hana_BINARY_DIR@/benchmark/techniques
 WARN_IF_UNDOCUMENTED    = NO
 
-SHOW_GROUPED_MEMB_INC  = YES
-BRIEF_MEMBER_DESC      = YES
-REPEAT_BRIEF           = YES
-ALWAYS_DETAILED_SEC    = NO
-INLINE_INHERITED_MEMB  = NO
-JAVADOC_AUTOBRIEF      = YES
-QT_AUTOBRIEF           = YES
-MULTILINE_CPP_IS_BRIEF = YES
-INHERIT_DOCS           = NO
-SEPARATE_MEMBER_PAGES  = NO
-DISTRIBUTE_GROUP_DOC   = NO
-SUBGROUPING            = NO
-INLINE_GROUPED_CLASSES = YES
-INLINE_SIMPLE_STRUCTS  = NO
+SHOW_GROUPED_MEMB_INC   = YES
+BRIEF_MEMBER_DESC       = YES
+REPEAT_BRIEF            = YES
+ALWAYS_DETAILED_SEC     = NO
+INLINE_INHERITED_MEMB   = NO
+JAVADOC_AUTOBRIEF       = YES
+QT_AUTOBRIEF            = YES
+MULTILINE_CPP_IS_BRIEF  = YES
+INHERIT_DOCS            = NO
+SEPARATE_MEMBER_PAGES   = NO
+DISTRIBUTE_GROUP_DOC    = NO
+SUBGROUPING             = NO
+INLINE_GROUPED_CLASSES  = NO
+INLINE_SIMPLE_STRUCTS   = NO
 
 # Generated formats
 GENERATE_HTML           = YES
@@ -51,7 +53,7 @@ GENERATE_DEPRECATEDLIST = YES
 SHOW_USED_FILES         = NO
 SHOW_FILES              = NO
 SHOW_NAMESPACES         = YES
-LAYOUT_FILE             =
+LAYOUT_FILE             = @Boost.Hana_SOURCE_DIR@/doc/layout.xml
 
 
 CLASS_DIAGRAMS          = YES
@@ -66,7 +68,7 @@ INTERNAL_DOCS           = YES
 HIDE_SCOPE_NAMES        = NO
 SHOW_INCLUDE_FILES      = NO
 FORCE_LOCAL_INCLUDES    = NO
-INLINE_INFO             = YES
+INLINE_INFO             = NO
 SORT_MEMBER_DOCS        = NO
 SORT_BRIEF_DOCS         = NO
 SORT_MEMBERS_CTORS_1ST  = NO
@@ -104,7 +106,6 @@ HTML_OUTPUT             = html
 HTML_FILE_EXTENSION     = .html
 HTML_HEADER             =
 HTML_FOOTER             =
-HTML_STYLESHEET         =
 HTML_EXTRA_STYLESHEET   =
 HTML_EXTRA_FILES        =
 HTML_COLORSTYLE_HUE     = 75  # 0 - 359
