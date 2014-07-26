@@ -17,19 +17,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! @details
-    //! `less` must define a strict weak ordering. Formally, let
-    //! @code
-    //!     x ~ y if and only if !(x < y) && !(y < x)
-    //! @endcode
-    //! be the incomparability relation. Then, for all `a`, `b`, `c` of an
-    //! orderable data type,
-    //! @code
-    //!     !(a < a)                     // Irreflexivity
-    //!     if a < b then !(b < a)       // Asymmetry
-    //!     if a < b && b < c then a < c // Transitivity
-    //!     if a ~ b && b ~ c then a ~ c // Transitivity of incomparability
-    //! @endcode
     struct Orderable::laws {
         template <typename Orderables>
         static constexpr auto check(Orderables orderables) {
