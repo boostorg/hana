@@ -37,14 +37,14 @@ var searchData=
   ['instance_3c_20t_2c_20when_3c_20instantiates_3c_20iterable_2c_20t_20_3e_28_29_3e_20_3e',['instance&lt; T, when&lt; instantiates&lt; Iterable, T &gt;()&gt; &gt;',['../structboost_1_1hana_1_1_foldable_1_1instance_3_01_t_00_01when_3_01instantiates_3_01_iterable_00_01_t_01_4_07_08_4_01_4.html',1,'boost::hana::Foldable']]],
   ['instance_3c_20t_2c_20when_3c_20instantiates_3c_20list_2c_20t_20_3e_28_29_3e_20_3e',['instance&lt; T, when&lt; instantiates&lt; List, T &gt;()&gt; &gt;',['../structboost_1_1hana_1_1_traversable_1_1instance_3_01_t_00_01when_3_01instantiates_3_01_list_00_01_t_01_4_07_08_4_01_4.html',1,'boost::hana::Traversable']]],
   ['instance_3c_20t_2c_20when_3c_20instantiates_3c_20list_2c_20t_20_3e_28_29_3e_20_3e',['instance&lt; T, when&lt; instantiates&lt; List, T &gt;()&gt; &gt;',['../structboost_1_1hana_1_1_searchable_1_1instance_3_01_t_00_01when_3_01instantiates_3_01_list_00_01_t_01_4_07_08_4_01_4.html',1,'boost::hana::Searchable']]],
-  ['instance_3c_20t_2c_20when_3c_20instantiates_3c_20list_2c_20t_20_3e_28_29_3e_20_3e',['instance&lt; T, when&lt; instantiates&lt; List, T &gt;()&gt; &gt;',['../structboost_1_1hana_1_1_functor_1_1instance_3_01_t_00_01when_3_01instantiates_3_01_list_00_01_t_01_4_07_08_4_01_4.html',1,'boost::hana::Functor']]],
   ['instance_3c_20t_2c_20when_3c_20instantiates_3c_20list_2c_20t_20_3e_28_29_3e_20_3e',['instance&lt; T, when&lt; instantiates&lt; List, T &gt;()&gt; &gt;',['../structboost_1_1hana_1_1_applicative_1_1instance_3_01_t_00_01when_3_01instantiates_3_01_list_00_01_t_01_4_07_08_4_01_4.html',1,'boost::hana::Applicative']]],
+  ['instance_3c_20t_2c_20when_3c_20instantiates_3c_20list_2c_20t_20_3e_28_29_3e_20_3e',['instance&lt; T, when&lt; instantiates&lt; List, T &gt;()&gt; &gt;',['../structboost_1_1hana_1_1_functor_1_1instance_3_01_t_00_01when_3_01instantiates_3_01_list_00_01_t_01_4_07_08_4_01_4.html',1,'boost::hana::Functor']]],
   ['instance_3c_20t_2c_20when_3c_20instantiates_3c_20list_2c_20t_20_3e_28_29_3e_20_3e',['instance&lt; T, when&lt; instantiates&lt; List, T &gt;()&gt; &gt;',['../structboost_1_1hana_1_1_monad_1_1instance_3_01_t_00_01when_3_01instantiates_3_01_list_00_01_t_01_4_07_08_4_01_4.html',1,'boost::hana::Monad']]],
   ['instance_3c_20type_2c_20type_20_3e',['instance&lt; Type, Type &gt;',['../structboost_1_1hana_1_1_comparable_1_1instance_3_01_type_00_01_type_01_4.html',1,'boost::hana::Comparable']]],
   ['instance_3c_20typelist_20_3e',['instance&lt; TypeList &gt;',['../structboost_1_1hana_1_1_list_1_1instance_3_01_type_list_01_4.html',1,'boost::hana::List']]],
   ['instance_3c_20typelist_20_3e',['instance&lt; TypeList &gt;',['../structboost_1_1hana_1_1_iterable_1_1instance_3_01_type_list_01_4.html',1,'boost::hana::Iterable']]],
   ['instance_3c_20x_2c_20y_2c_20when_5fvalid_3c_20decltype_28_28void_29_28_2a_28x_20_2a_29_200_3d_3d_2a_28y_20_2a_29_200_29_29_3e_20_3e',['instance&lt; X, Y, when_valid&lt; decltype((void)(*(X *) 0==*(Y *) 0))&gt; &gt;',['../structboost_1_1hana_1_1_comparable_1_1instance_3_01_x_00_01_y_00_01when__valid_3_01decltype_07_0b9c7edd68038220b64adea74b77b79b1.html',1,'boost::hana::Comparable']]],
-  ['integerlist',['IntegerList',['../structboost_1_1hana_1_1_integer_list.html',1,'boost::hana']]],
-  ['integral',['Integral',['../structboost_1_1hana_1_1_integral.html',1,'boost::hana']]],
-  ['iterable',['Iterable',['../structboost_1_1hana_1_1_iterable.html',1,'boost::hana']]]
+  ['integerlist',['IntegerList',['../group__datatypes.html#structboost_1_1hana_1_1_integer_list',1,'boost::hana']]],
+  ['integral',['Integral',['../group__datatypes.html#structboost_1_1hana_1_1_integral',1,'boost::hana']]],
+  ['iterable',['Iterable',['../group__typeclasses.html#structboost_1_1hana_1_1_iterable',1,'boost::hana']]]
 ];
