@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_APPLICATIVE_HPP
 
 #include <boost/hana/applicative/applicative.hpp>
-#include <boost/hana/applicative/laws.hpp>
 #include <boost/hana/applicative/mcd.hpp>
 
 #endif // !BOOST_HANA_APPLICATIVE_HPP
