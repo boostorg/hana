@@ -19,6 +19,15 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     //! @ingroup typeclasses
     //! The `Comparable` type class defines equality and inequality.
+    //!
+    //! ### Laws
+    //! `equal` must define an equivalence relation. In other words, for all
+    //! `a`, `b`, `c` of comparable data types,
+    //! @code
+    //!     a == a                          // Reflexivity
+    //!     if a == b then b == a           // Symmetry
+    //!     if a == b && b == c then a == c // Transitivity
+    //! @endcode
     struct Comparable {
         BOOST_HANA_BINARY_TYPECLASS(Comparable);
         struct equal_mcd;
@@ -29,23 +38,28 @@ namespace boost { namespace hana {
         struct default_instance;
     };
 
-    /*!
-    Returns a `Logical` representing whether `x` is equal to `y`.
-    @method{Comparable}
-
-    @internal
-    ### Design choice: arity of `equal`
-    It is a valid question whether `equal` should accept more than 2 arguments
-    and have semantics matching those of Python's `==`. This is not supported
-    right now for the following reasons:
-
-    - It was not shown to be useful so far in the MPL11.
-    - It does not make sense for `not_equal` to have an arity of more than 2,
-      so only `equal` could maybe have those semantics.
-    - Having a binary `equal` makes it possible to use currying.
-    - `equal(x, y...)` can be implemented as `all(x == _, list(y...))`, which
-      is pretty straightforward anyway.
-     */
+    //! Returns a `Logical` representing whether `x` is equal to `y`.
+    //! @relates Comparable
+    //!
+    //! @param x, y
+    //! Two objects to compare for equality.
+    //!
+    //! ### Example
+    //! @snippet example/comparable/equal.cpp main
+    //!
+    //! @if BOOST_HANA_RATIONALES
+    //! ### Rationale for the arity of `equal`
+    //! It is a valid question whether `equal` should accept more than 2
+    //! arguments and have semantics matching those of Python's `==`. This
+    //! is not supported right now for the following reasons:
+    //!
+    //! - It was not shown to be useful so far in the MPL11.
+    //! - It does not make sense for `not_equal` to have an arity of more
+    //!   than 2, so only `equal` could maybe have those semantics.
+    //! - Having a binary `equal` makes it possible to use currying.
+    //! - `equal(x, y...)` can be implemented as `all(x == _, list(y...))`,
+    //!   which is pretty straightforward anyway.
+    //! @endif
     BOOST_HANA_CONSTEXPR_LAMBDA auto equal = [](auto x, auto y) {
         return Comparable::instance<
             datatype_t<decltype(x)>, datatype_t<decltype(y)>
@@ -53,7 +67,13 @@ namespace boost { namespace hana {
     };
 
     //! Returns a `Logical` representing whether `x` is not equal to `y`.
-    //! @method{Comparable}
+    //! @relates Comparable
+    //!
+    //! @param x, y
+    //! Two objects to compare for inequality.
+    //!
+    //! ### Example
+    //! @snippet example/comparable/not_equal.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto not_equal = [](auto x, auto y) {
         return Comparable::instance<
             datatype_t<decltype(x)>, datatype_t<decltype(y)>
@@ -84,10 +104,11 @@ namespace boost { namespace hana {
         // We let it fail if T is not comparable with itself.
     };
 
-    //! @details
-    //! Objects whose data type is the same as their C++ type and who have a
-    //! valid `operator==` are automatically instances of `Comparable` by
-    //! using that comparison.
+    //! Instance of `Comparable` for objects with `EqualityComparable` data
+    //! types.
+    //!
+    //! Any two objects whose data types can be compared using `operator==`
+    //! are automatically instances of `Comparable` by using that comparison.
     template <typename X, typename Y>
     struct Comparable::instance<X, Y, when_valid<decltype((void)(*(X*)0 == *(Y*)0))>>
         : Comparable::equal_mcd
@@ -98,13 +119,13 @@ namespace boost { namespace hana {
 
     namespace operators {
         //! Equivalent to `equal`.
-        //! @method{boost::hana::Comparable}
+        //! @relates boost::hana::Comparable
         template <typename T, typename U>
         constexpr auto operator==(T t, U u)
         { return equal(t, u); }
 
         //! Equivalent to `not_equal`.
-        //! @method{boost::hana::Comparable}
+        //! @relates boost::hana::Comparable
         template <typename T, typename U>
         constexpr auto operator!=(T t, U u)
         { return not_equal(t, u); }

@@ -17,14 +17,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! @details
-    //! `equal` must define an equivalence relation. In other words, for all
-    //! `a`, `b`, `c` of comparable data types,
-    //! @code
-    //!     a == a                          // Reflexivity
-    //!     if a == b then b == a           // Symmetry
-    //!     if a == b && b == c then a == c // Transitivity
-    //! @endcode
     struct Comparable::laws {
         template <typename ComparableObjects>
         static constexpr auto check(ComparableObjects objs) {
