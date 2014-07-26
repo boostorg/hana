@@ -19,12 +19,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! @details
-    //! Instances of `Functor` must satisfy the following laws:
-    //! @code
-    //!     fmap id == id
-    //!     fmap (f . g) == fmap f . fmap g
-    //! @endcode
     struct Functor::laws {
         template <typename FunctorsOnX, typename FunctionsFromXtoY, typename FunctionsFromYtoZ>
         static constexpr auto check(FunctorsOnX xs, FunctionsFromXtoY fs, FunctionsFromYtoZ gs) {

@@ -15,19 +15,16 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    /*!
-    @ingroup typeclasses
-    `Functor` represents types that can be mapped over.
-
-    --------------------------------------------------------------------------
-
-    ## Laws
-    Instances of `Functor` must satisfy the following laws:
-    @code
-        fmap id == id
-        fmap (f . g) == fmap f . fmap g
-    @endcode
-     */
+    //! @ingroup typeclasses
+    //! `Functor` represents types that can be mapped over.
+    //!
+    //! Instances of `Functor` must satisfy the following laws. For any
+    //! `Functor` `x` and functions with matching domains/codomains `f`
+    //! and `g`,
+    //! @code
+    //!     fmap(id, x) == x
+    //!     fmap(compose(f, g), x) == fmap(f, fmap(g, x))
+    //! @endcode
     struct Functor {
         BOOST_HANA_TYPECLASS(Functor);
         struct fmap_mcd;
@@ -35,49 +32,95 @@ namespace boost { namespace hana {
         struct laws;
     };
 
-    //! Maps `f` over a `Functor`.
-    //! @method{Functor}
+    //! Map `f` over a `Functor`.
+    //! @relates Functor
     //!
-    //! ### Example 1
-    //! @snippet example/list/functor/fmap.cpp main
     //!
-    //! ### Example 2
-    //! @snippet example/type_list/functor/fmap.cpp main
+    //! @param f
+    //! A function called as `f(x)` on each element `x` of the structure,
+    //! and returning a new value to replace `x` in the structure.
+    //!
+    //! @param functor
+    //! The structure to map `f` over.
+    //!
+    //!
+    //! ### Example
+    //! @snippet example/functor/fmap.cpp to_string
+    //!
+    //! ### Example
+    //! @snippet example/functor/fmap.cpp add_pointer
     BOOST_HANA_CONSTEXPR_LAMBDA auto fmap = [](auto f, auto functor) {
         return Functor::instance<
             datatype_t<decltype(functor)>
         >::fmap_impl(f, functor);
     };
 
-    //! Update all the elements satisfying the `predicate` with the given
-    //! function.
-    //! @method{Functor}
+    //! Apply a function on all the elements of a structure satisfying a
+    //! `predicate`.
+    //! @relates Functor
+    //!
+    //!
+    //! @param predicate
+    //! A function called as `predicate(x)` for each element `x` of the
+    //! structure and returning a `Logical` representing whether `f` should
+    //! be applied to `x`.
+    //!
+    //! @param f
+    //! A function called as `f(x)` on each element for which the `predicate`
+    //! returns a true-valued `Logical`.
+    //!
+    //! @param functor
+    //! The structure to map `f` over.
+    //!
     //!
     //! ### Example
-    //! @snippet example/list/functor/adjust.cpp main
+    //! @snippet example/functor/adjust.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto adjust = [](auto predicate, auto f, auto functor) {
         return Functor::instance<
             datatype_t<decltype(functor)>
         >::adjust_impl(predicate, f, functor);
     };
 
-    //! Replace all the elements satisfying the `predicate` with the given
-    //! value.
-    //! @method{Functor}
+    //! Replace all the elements of a structure satisfying a `predicate`
+    //! with a fixed value.
+    //! @relates Functor
+    //!
+    //!
+    //! @param predicate
+    //! A function called as `predicate(x)` for each element `x` of the
+    //! structure and returning a `Logical` representing whether `x` should
+    //! be replaced by `value`.
+    //!
+    //! @param value
+    //! A value by which every element `x` of the structure for which
+    //! `predicate` returns a true-valued `Logical` is replaced.
+    //!
+    //! @param functor
+    //! The structure to replace elements of.
+    //!
     //!
     //! ### Example
-    //! @snippet example/list/functor/replace.cpp main
+    //! @snippet example/functor/replace.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto replace = [](auto predicate, auto value, auto functor) {
         return Functor::instance<
             datatype_t<decltype(functor)>
         >::replace_impl(predicate, value, functor);
     };
 
-    //! Replace all the elements with a value.
-    //! @method{Functor}
+    //! Replace all the elements of a structure with a fixed value.
+    //! @relates Functor
+    //!
+    //!
+    //! @param value
+    //! A value by which every element `x` of the structure is replaced,
+    //! unconditionally.
+    //!
+    //! @param functor
+    //! The structure to fill with `value`.
+    //!
     //!
     //! ### Example
-    //! @snippet example/list/functor/fill.cpp main
+    //! @snippet example/functor/fill.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto fill = [](auto value, auto functor) {
         return Functor::instance<
             datatype_t<decltype(functor)>
