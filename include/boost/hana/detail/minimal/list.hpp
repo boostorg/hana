@@ -12,7 +12,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/foldable/foldable.hpp>
-#include <boost/hana/iterable/foldable_instance.hpp>
 #include <boost/hana/iterable/mcd.hpp>
 #include <boost/hana/list/mcd.hpp>
 
@@ -43,7 +42,7 @@ namespace detail { namespace minimal {
 
 template <typename mcd>
 struct Foldable::instance<detail::minimal::List<mcd>>
-    : Iterable::FoldableInstance
+    : detail::FoldableFromIterable
 { };
 
 template <typename Mcd>

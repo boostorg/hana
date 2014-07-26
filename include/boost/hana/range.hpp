@@ -14,7 +14,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/integer_sequence.hpp>
 #include <boost/hana/foldable/foldable.hpp>
 #include <boost/hana/integral.hpp>
-#include <boost/hana/iterable/foldable_instance.hpp>
 #include <boost/hana/iterable/mcd.hpp>
 #include <boost/hana/logical/logical.hpp>
 #include <boost/hana/orderable/orderable.hpp>
@@ -94,7 +93,7 @@ namespace boost { namespace hana {
 
     //! Generic instance for `Iterable`s.
     template <>
-    struct Foldable::instance<Range> : Iterable::FoldableInstance {
+    struct Foldable::instance<Range> : detail::FoldableFromIterable {
         template <typename F, typename From, typename T, T ...vs>
         static constexpr auto unpack_helper(F f, From from,
             detail::std::integer_sequence<T, vs...>)

@@ -23,7 +23,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functional.hpp>
 #include <boost/hana/functor/fmap_mcd.hpp>
 #include <boost/hana/integral.hpp>
-#include <boost/hana/iterable/foldable_instance.hpp>
 #include <boost/hana/iterable/mcd.hpp>
 #include <boost/hana/list/mcd.hpp>
 #include <boost/hana/range.hpp>
@@ -58,7 +57,7 @@ namespace boost { namespace hana {
     //! @details
     //! Generic instance for `Iterable`s.
     template <>
-    struct Foldable::instance<List> : Iterable::FoldableInstance {
+    struct Foldable::instance<List> : detail::FoldableFromIterable {
         template <typename F, typename State, typename Xs>
         static constexpr auto foldl_impl(F f, State s, Xs xs) {
             return xs.storage([=](auto ...xs) {

@@ -14,7 +14,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/core.hpp>
 #include <boost/hana/ext/std/integral_constant.hpp>
-#include <boost/hana/iterable/foldable_instance.hpp>
 #include <boost/hana/iterable/mcd.hpp>
 
 #include <type_traits>
