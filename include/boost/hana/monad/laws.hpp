@@ -21,13 +21,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! @details
-    //! Instances of `Monad` must satisfy the following laws:
-    //! @code
-    //!     bind(lift<M>(x), f) == f(x)
-    //!     bind(m, lift<M>) == m
-    //!     bind(m, [](auto x){ return bind(f(x), g); }) == bind(bind(m, f), g)
-    //! @endcode
     struct Monad::laws {
         template <typename Monad_, typename A, typename F, typename G>
         static constexpr auto check(Monad_ monad, A a, F f, G g) {
