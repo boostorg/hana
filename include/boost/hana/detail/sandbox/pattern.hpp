@@ -41,7 +41,7 @@ namespace boost { namespace hana {
     };
 
     //! ...
-    //! @method{Pattern}
+    //! @relates Pattern
     BOOST_HANA_CONSTEXPR_LAMBDA auto matches = [](auto value, auto pattern) {
         return Pattern::instance<datatype_t<decltype(pattern)>>::matches_impl(value, pattern);
     };

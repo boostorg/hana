@@ -38,30 +38,30 @@ namespace boost { namespace hana {
     };
 
     //! ...
-    //! @method{Boolean}
+    //! @relates Boolean
     BOOST_HANA_CONSTEXPR_LAMBDA auto complement = [](auto x) {
         return Boolean::instance<datatype_t<decltype(x)>>::complement_impl(x);
     };
 
     //! ...
-    //! @method{Boolean}
+    //! @relates Boolean
     BOOST_HANA_CONSTEXPR_LAMBDA auto meet = [](auto x, auto y) {
         return Boolean::instance<datatype_t<decltype(x)>>::meet_impl(x, y);
     };
 
     //! ...
-    //! @method{Boolean}
+    //! @relates Boolean
     BOOST_HANA_CONSTEXPR_LAMBDA auto join = [](auto x, auto y) {
         return Boolean::instance<datatype_t<decltype(x)>>::join_impl(x, y);
     };
 
     //! ...
-    //! @method{Boolean}
+    //! @relates Boolean
     template <typename T>
     BOOST_HANA_CONSTEXPR_LAMBDA auto top = Boolean::instance<T>::top_impl();
 
     //! ...
-    //! @method{Boolean}
+    //! @relates Boolean
     template <typename T>
     BOOST_HANA_CONSTEXPR_LAMBDA auto bottom = Boolean::instance<T>::bottom_impl();
 }} // end namespace boost::hana

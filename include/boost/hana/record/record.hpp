@@ -16,11 +16,12 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //! @ingroup typeclasses
-    //! Type class for record-like user-defined types.
+    //! Represents record-like user-defined types.
     //!
     //! A record-like type is any type which is fundamentally a `struct`,
     //! regardless of the implementation of its accessors and other similar
-    //! details.
+    //! details. Hence, `Record`s can be seen as `Map`s in which keys can't
+    //! be added, which as several useful use cases.
     //!
     //! ### Example
     //! @include example/record/howto.cpp
@@ -30,7 +31,7 @@ namespace boost { namespace hana {
     };
 
     //! A list of pairs representing the data structure.
-    //! @method{Record}
+    //! @relates Record
     //!
     //! Specifically, `members<R>` is a `List` of `Pair`s associating keys to
     //! functions, where a pair `(k, f)` means that the member represented by

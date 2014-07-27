@@ -33,12 +33,12 @@ namespace boost { namespace hana {
     };
 
     //! ...
-    //! @method{MonadZero}
+    //! @relates MonadZero
     template <typename M>
     constexpr auto zero = MonadZero<M>::zero_impl();
 
     //! ...
-    //! @method{MonadZero}
+    //! @relates MonadZero
     //!
     //! ### Example
     //! ...

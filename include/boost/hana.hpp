@@ -24,7 +24,6 @@ Distributed under the Boost Software License, Version 1.0.
 //!   contexts.
 //! - Provide a way to check type class requirements like
 //!   `Functor f => Applicative f`.
-//! - Document requirements for the existing type classes.
 //! - Find a better way to provide instances between type classes; consider
 //!   something like `Foldable::instance<Iterable>`.
 //! - Consider inheriting from a base class even when no mcd is required.
