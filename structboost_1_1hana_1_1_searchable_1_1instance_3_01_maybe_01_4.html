@@ -99,10 +99,22 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_searchable_1_1
 <div class="title">boost::hana::Searchable::instance&lt; Maybe &gt; Struct Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+<a name="details" id="details"></a><h2 class="groupheader">Description</h2>
+<div class="textblock"><h3>template&lt;&gt;<br />
+struct boost::hana::Searchable::instance&lt; Maybe &gt;</h3>
 
-<p>Searching a <code><a class="el" href="group__datatypes.html#structboost_1_1hana_1_1_maybe" title="Represents an optional value. ">Maybe</a></code> is equivalent to searching a list containing <code>x</code> for <code>just(x)</code> and an empty list for <code>nothing</code>.  
- <a href="structboost_1_1hana_1_1_searchable_1_1instance_3_01_maybe_01_4.html#details">More...</a></p>
-<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+<p>Searching a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code> is equivalent to searching a list containing <code>x</code> for <code>just(x)</code> and an empty list for <code>nothing</code>. </p>
+<h3>Example</h3>
+<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> odd = [](<span class="keyword">auto</span> x) {</div>
+<div class="line">        <span class="keywordflow">return</span> x % int_&lt;2&gt; != int_&lt;0&gt;;</div>
+<div class="line">    };</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a2772d97163d2e2ca3f51b2d16d13ff66">find</a>(odd, just(int_&lt;3&gt;)) == just(int_&lt;3&gt;));</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a2772d97163d2e2ca3f51b2d16d13ff66">find</a>(odd, just(int_&lt;2&gt;)) == nothing);</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a2772d97163d2e2ca3f51b2d16d13ff66">find</a>(odd, nothing) == nothing);</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a695907e4a3ef7d0e9ab34f5afff709b2">all</a>(odd, just(int_&lt;3&gt;)));</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a695907e4a3ef7d0e9ab34f5afff709b2">all</a>(odd, nothing));</div>
+</div><!-- fragment --></div><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Inheritance diagram for boost::hana::Searchable::instance&lt; Maybe &gt;:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
@@ -113,27 +125,12 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_searchable_1_1
 <area href="structboost_1_1hana_1_1_searchable_1_1find__mcd.html" title="Minimal complete definition: find and any " alt="boost::hana::Searchable::find_mcd" shape="rect" coords="0,0,263,24"/>
 </map>
  </div></div>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><h3>template&lt;&gt;<br />
-struct boost::hana::Searchable::instance&lt; Maybe &gt;</h3>
-
-<p>Searching a <code><a class="el" href="group__datatypes.html#structboost_1_1hana_1_1_maybe" title="Represents an optional value. ">Maybe</a></code> is equivalent to searching a list containing <code>x</code> for <code>just(x)</code> and an empty list for <code>nothing</code>. </p>
-<h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> odd = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">        <span class="keywordflow">return</span> x % int_&lt;2&gt; != int_&lt;0&gt;;</div>
-<div class="line">    };</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="group__typeclasses.html#a2772d97163d2e2ca3f51b2d16d13ff66">find</a>(odd, just(int_&lt;3&gt;)) == just(int_&lt;3&gt;));</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="group__typeclasses.html#a2772d97163d2e2ca3f51b2d16d13ff66">find</a>(odd, just(int_&lt;2&gt;)) == nothing);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="group__typeclasses.html#a2772d97163d2e2ca3f51b2d16d13ff66">find</a>(odd, nothing) == nothing);</div>
-<div class="line"></div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="group__typeclasses.html#a695907e4a3ef7d0e9ab34f5afff709b2">all</a>(odd, just(int_&lt;3&gt;)));</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="group__typeclasses.html#a695907e4a3ef7d0e9ab34f5afff709b2">all</a>(odd, nothing));</div>
-</div><!-- fragment --></div></div><!-- contents -->
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>boost</b></li><li class="navelem"><b>hana</b></li><li class="navelem"><a class="el" href="group__typeclasses.html#structboost_1_1hana_1_1_searchable">Searchable</a></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1_searchable_1_1instance_3_01_maybe_01_4.html">instance< Maybe ></a></li>
+    <li class="navelem"><b>boost</b></li><li class="navelem"><b>hana</b></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1_searchable.html">Searchable</a></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1_searchable_1_1instance_3_01_maybe_01_4.html">instance< Maybe ></a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.7 </li>

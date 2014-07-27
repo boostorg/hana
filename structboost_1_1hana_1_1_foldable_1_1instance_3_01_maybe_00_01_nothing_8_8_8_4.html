@@ -99,25 +99,25 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_foldable_1_1in
 <div class="title">boost::hana::Foldable::instance&lt; Maybe, Nothing...&gt; Struct Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-
-<p>Inherits dependent_on&lt; char[sizeof...(Nothing)+1], Foldable::mcd &gt;.</p>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Description</h2>
 <div class="textblock"><h3>template&lt;typename... Nothing&gt;<br />
 struct boost::hana::Foldable::instance&lt; Maybe, Nothing...&gt;</h3>
 
-<p>Folding a <code><a class="el" href="group__datatypes.html#structboost_1_1hana_1_1_maybe" title="Represents an optional value. ">Maybe</a></code> is equivalent to folding a <code><a class="el" href="group__typeclasses.html#structboost_1_1hana_1_1_list" title="General purpose index-based sequence. ">List</a></code> containing either no elements (for <code>nothing</code>) or <code>x</code> (for <code>just(x)</code>). The <code><a class="el" href="group__typeclasses.html#structboost_1_1hana_1_1_foldable" title="Data structures that can be folded, i.e. summarized into a single value. ">Foldable</a></code> instance follows from that.</p>
+<p>Folding a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code> is equivalent to folding a <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose index-based sequence. ">List</a></code> containing either no elements (for <code>nothing</code>) or <code>x</code> (for <code>just(x)</code>). The <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="Data structures that can be folded, i.e. summarized into a single value. ">Foldable</a></code> instance follows from that.</p>
 <h3>Example</h3>
 <div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> plus = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) { <span class="keywordflow">return</span> x + y; };</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="group__typeclasses.html#ae99a05a203907d1381a00d9e05425ab7">sum</a>(nothing) == 0);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="group__typeclasses.html#ae99a05a203907d1381a00d9e05425ab7">sum</a>(just(3)) == 3);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="group__typeclasses.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>(plus, 1, nothing) == 1);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="group__typeclasses.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>(plus, 1, just(4)) == 5);</div>
-</div><!-- fragment --></div></div><!-- contents -->
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#ae99a05a203907d1381a00d9e05425ab7">sum</a>(nothing) == 0);</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#ae99a05a203907d1381a00d9e05425ab7">sum</a>(just(3)) == 3);</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>(plus, 1, nothing) == 1);</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>(plus, 1, just(4)) == 5);</div>
+</div><!-- fragment --></div>
+<p>Inherits dependent_on_t&lt;(bool) sizeof...(Nothing), Foldable::mcd &gt;.</p>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>boost</b></li><li class="navelem"><b>hana</b></li><li class="navelem"><a class="el" href="group__typeclasses.html#structboost_1_1hana_1_1_foldable">Foldable</a></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1_foldable_1_1instance_3_01_maybe_00_01_nothing_8_8_8_4.html">instance< Maybe, Nothing...></a></li>
+    <li class="navelem"><b>boost</b></li><li class="navelem"><b>hana</b></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1_foldable.html">Foldable</a></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1_foldable_1_1instance_3_01_maybe_00_01_nothing_8_8_8_4.html">instance< Maybe, Nothing...></a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.7 </li>

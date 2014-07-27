@@ -29,7 +29,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"index.html#quick-start"
+"structboost_1_1hana_1_1_orderable.html#af10ea2fee24c0a780758f67721bb5bfa"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

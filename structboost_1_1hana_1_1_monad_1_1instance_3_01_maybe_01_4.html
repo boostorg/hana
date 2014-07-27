@@ -99,7 +99,19 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_monad_1_1insta
 <div class="title">boost::hana::Monad::instance&lt; Maybe &gt; Struct Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+<a name="details" id="details"></a><h2 class="groupheader">Description</h2>
+<div class="textblock"><h3>template&lt;&gt;<br />
+struct boost::hana::Monad::instance&lt; Maybe &gt;</h3>
+
+<p>The <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code> <code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="Monads are Applicatives with the ability to flatten values that were lifted more than once...">Monad</a></code> makes it easy to compose actions that might fail. One can feed an optional value if there is one into a function with <code>bind</code>, which will return <code>nothing</code> if there is no value. Finally, optional-optional values can have their redundant level of <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code>ness removed with <code>flatten</code>.</p>
+<h3>Example</h3>
+<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> inc = [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> just(x + 1); };</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>((just(1) | inc) == just(2));</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>((nothing | inc) == nothing);</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_monad.html#a45985423d0658e88f0403773146af110">flatten</a>(just(just(2))) == just(2));</div>
+</div><!-- fragment --></div><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Inheritance diagram for boost::hana::Monad::instance&lt; Maybe &gt;:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
@@ -110,24 +122,12 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_monad_1_1insta
 <area href="structboost_1_1hana_1_1_monad_1_1flatten__mcd.html" alt="boost::hana::Monad::flatten_mcd&lt; Maybe &gt;" shape="rect" coords="0,0,254,24"/>
 </map>
  </div></div>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><h3>template&lt;&gt;<br />
-struct boost::hana::Monad::instance&lt; Maybe &gt;</h3>
-
-<p>The <code><a class="el" href="group__datatypes.html#structboost_1_1hana_1_1_maybe" title="Represents an optional value. ">Maybe</a></code> <code><a class="el" href="group__typeclasses.html#structboost_1_1hana_1_1_monad" title="Monads are Applicatives with the ability to flatten values that were lifted more than once...">Monad</a></code> makes it easy to compose actions that might fail. One can feed an optional value if there is one into a function with <code>bind</code>, which will return <code>nothing</code> if there is no value. Finally, optional-optional values can have their redundant level of <code><a class="el" href="group__datatypes.html#structboost_1_1hana_1_1_maybe" title="Represents an optional value. ">Maybe</a></code>ness removed with <code>flatten</code>.</p>
-<h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> inc = [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> just(x + 1); };</div>
-<div class="line"></div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>((just(1) | inc) == just(2));</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>((nothing | inc) == nothing);</div>
-<div class="line"></div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="group__typeclasses.html#a45985423d0658e88f0403773146af110">flatten</a>(just(just(2))) == just(2));</div>
-</div><!-- fragment --></div></div><!-- contents -->
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>boost</b></li><li class="navelem"><b>hana</b></li><li class="navelem"><a class="el" href="group__typeclasses.html#structboost_1_1hana_1_1_monad">Monad</a></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1_monad_1_1instance_3_01_maybe_01_4.html">instance< Maybe ></a></li>
+    <li class="navelem"><b>boost</b></li><li class="navelem"><b>hana</b></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1_monad.html">Monad</a></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1_monad_1_1instance_3_01_maybe_01_4.html">instance< Maybe ></a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.7 </li>

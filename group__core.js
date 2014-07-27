@@ -1,10 +1,10 @@
 var group__core =
 [
-    [ "convert", "group__core.html#structboost_1_1hana_1_1convert", null ],
-    [ "when", "group__core.html#structboost_1_1hana_1_1when", null ],
-    [ "disable", "group__core.html#structboost_1_1hana_1_1disable", null ],
-    [ "datatype", "group__core.html#structboost_1_1hana_1_1datatype", null ],
-    [ "enable", "group__core.html#structboost_1_1hana_1_1operators_1_1enable", null ],
+    [ "convert", "structboost_1_1hana_1_1convert.html", null ],
+    [ "when", "structboost_1_1hana_1_1when.html", null ],
+    [ "disable", "structboost_1_1hana_1_1disable.html", null ],
+    [ "datatype", "structboost_1_1hana_1_1datatype.html", null ],
+    [ "enable", "structboost_1_1hana_1_1operators_1_1enable.html", null ],
     [ "BOOST_HANA_TYPECLASS", "group__core.html#gac072d4434777cd5ee841a7766d41f1d8", null ],
     [ "BOOST_HANA_BINARY_TYPECLASS", "group__core.html#gabc68f88756ee6bb3b727d8f0abea8ee5", null ],
     [ "when_valid", "group__core.html#ga0f5d717bbf6646619bb6219b104384dc", null ],

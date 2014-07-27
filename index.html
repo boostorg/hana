@@ -131,17 +131,17 @@ Quick start</h1>
 <p>Unless specified otherwise, the documentation assumes that the above lines are present before examples and code snippets. Use your judgment! </p>
 </blockquote>
 <p>Finer grained headers are provided and will be explained in the <a class="el" href="index.html#organization">Organization</a> section, but for now this will do. Let's create an heterogeneous list, which is conceptually the same as a <code>std::tuple</code>:</p>
-<p><div class="fragment"><div class="line">    <span class="keyword">auto</span> xs = <a class="code" href="group__typeclasses.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="charliteral">&#39;2&#39;</span>, std::string{<span class="stringliteral">&quot;345&quot;</span>});</div>
+<p><div class="fragment"><div class="line">    <span class="keyword">auto</span> xs = <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="charliteral">&#39;2&#39;</span>, std::string{<span class="stringliteral">&quot;345&quot;</span>});</div>
 </div><!-- fragment --></p>
 <p>Here, <code>list</code> is a generic lambda taking a variable number of arguments and returning an object which is a valid sequence for Boost.Hana. The actual type of the object returned by <code>list</code> is left unspecified, as will always be the case in this library. However, something called its "data type" is specified; <code>list</code> returns an object of data type <code>List</code>. Data types will be explained in detail in their own section. There are several operations that can be performed on lists; here are a couple so you get the feeling:</p>
-<p><div class="fragment"><div class="line">    assert(<a class="code" href="group__typeclasses.html#a5379264e83af65af8802eeec0d49e5f0">last</a>(xs) == <span class="stringliteral">&quot;345&quot;</span>);</div>
-<div class="line">    assert(<a class="code" href="group__typeclasses.html#ab15783aae10d4373e2399abe728f3f96">tail</a>(xs) == <a class="code" href="group__typeclasses.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(<span class="charliteral">&#39;2&#39;</span>, std::string{<span class="stringliteral">&quot;345&quot;</span>}));</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(!<a class="code" href="group__typeclasses.html#a4193ecf811f29479c60022564afa512a">is_empty</a>(xs));</div>
-<div class="line">    <a class="code" href="group__typeclasses.html#a80176fbdfbccc09e902263557eb0984d">for_each</a>(xs, [](<span class="keyword">auto</span> x) { std::cout &lt;&lt; x; });</div>
+<p><div class="fragment"><div class="line">    assert(<a class="code" href="structboost_1_1hana_1_1_iterable.html#a5379264e83af65af8802eeec0d49e5f0">last</a>(xs) == <span class="stringliteral">&quot;345&quot;</span>);</div>
+<div class="line">    assert(<a class="code" href="structboost_1_1hana_1_1_iterable.html#ab15783aae10d4373e2399abe728f3f96">tail</a>(xs) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(<span class="charliteral">&#39;2&#39;</span>, std::string{<span class="stringliteral">&quot;345&quot;</span>}));</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(!<a class="code" href="structboost_1_1hana_1_1_iterable.html#a4193ecf811f29479c60022564afa512a">is_empty</a>(xs));</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_iterable.html#a80176fbdfbccc09e902263557eb0984d">for_each</a>(xs, [](<span class="keyword">auto</span> x) { std::cout &lt;&lt; x; });</div>
 </div><!-- fragment --></p>
 <p>An interesting observation is that <code>is_empty</code> returns a value that can be constexpr-converted to bool even though the list contains non-constexpr objects (a <code>std::string</code>). Indeed, the size of the sequence is known at compile-time regardless of its content, so it only makes sense that the library does not throw away this information. Let's take that <code>for_each</code> for a tour and write a function that prints a list as XML:</p>
 <p><div class="fragment"><div class="line">    <span class="keyword">auto</span> to_xml = [](<span class="keyword">auto</span>&amp; ostream, <span class="keyword">auto</span> xs) {</div>
-<div class="line">        <a class="code" href="group__typeclasses.html#a80176fbdfbccc09e902263557eb0984d">for_each</a>(xs, [&amp;](<span class="keyword">auto</span> x) {</div>
+<div class="line">        <a class="code" href="structboost_1_1hana_1_1_iterable.html#a80176fbdfbccc09e902263557eb0984d">for_each</a>(xs, [&amp;](<span class="keyword">auto</span> x) {</div>
 <div class="line">            ostream &lt;&lt; <span class="charliteral">&#39;&lt;&#39;</span>  &lt;&lt; <span class="keyword">typeid</span>(x).name() &lt;&lt; <span class="charliteral">&#39;&gt;&#39;</span></div>
 <div class="line">                    &lt;&lt;                x</div>
 <div class="line">                    &lt;&lt; <span class="stringliteral">&quot;&lt;/&quot;</span> &lt;&lt; <span class="keyword">typeid</span>(x).name() &lt;&lt; <span class="charliteral">&#39;&gt;&#39;</span>;</div>
@@ -150,14 +150,14 @@ Quick start</h1>
 <div class="line">    to_xml(std::cout, xs);</div>
 </div><!-- fragment --></p>
 <p>One of the initial goals of the library was to unify type level programming with value level programming. So in principle, it should be possible to manipulate types and sequences of types just as one would do with the Boost.MPL. Here is how Hana does it:</p>
-<p><div class="fragment"><div class="line">    <span class="keyword">auto</span> ts = <a class="code" href="group__typeclasses.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(type&lt;int*&gt;, type&lt;void&gt;, type&lt;char const&gt;);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="group__typeclasses.html#a5379264e83af65af8802eeec0d49e5f0">last</a>(ts) == type&lt;char const&gt;);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="group__typeclasses.html#a84bb505c8405a5cd3003db49f652faa2">fmap</a>(metafunction&lt;std::add_pointer&gt;, ts) == <a class="code" href="group__typeclasses.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(type&lt;int**&gt;, type&lt;void*&gt;, type&lt;char const*&gt;));</div>
+<p><div class="fragment"><div class="line">    <span class="keyword">auto</span> ts = <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(type&lt;int*&gt;, type&lt;void&gt;, type&lt;char const&gt;);</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_iterable.html#a5379264e83af65af8802eeec0d49e5f0">last</a>(ts) == type&lt;char const&gt;);</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_functor.html#a84bb505c8405a5cd3003db49f652faa2">fmap</a>(metafunction&lt;std::add_pointer&gt;, ts) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(type&lt;int**&gt;, type&lt;void*&gt;, type&lt;char const*&gt;));</div>
 </div><!-- fragment --></p>
 <p>There is a lot going on here. First, <code>type</code> is a variable template, and <code>type&lt;T&gt;</code> is an object representing the C++ type <code>T</code>. Since it's an object, it makes perfect sense to create a list out of these guys. Second, <code>fmap</code> is a function similar to <code>std::transform</code>: it takes a function object and a list (actually any <code>Functor</code> &ndash; more on this later), applies the function to every element in the list and returns the resulting list. Now, this means that somehow <code>metafunction&lt;std::add_pointer&gt;</code> is in fact a function object. Specifically, <code>metafunction</code> is a variable template taking a template template parameter, and <code>metafunction&lt;std::add_pointer&gt;</code> is a function object which accepts a <code>type&lt;T&gt;</code> and returns <code>type&lt;std::add_pointer&lt;T&gt;::type&gt;</code>. Still with me?</p>
 <p>So far, we can perform computations on C++ types but we can't really do anything useful with the result if we can't get the type out, i.e. get the <code>T</code> out of <code>type&lt;T&gt;</code>. This is easily done:</p>
 <p><div class="fragment"><div class="line">    static_assert(std::is_same&lt;</div>
-<div class="line">        decltype(<a class="code" href="group__typeclasses.html#a5379264e83af65af8802eeec0d49e5f0">last</a>(ts))::<a class="code" href="group__datatypes.html#ab66de88586706cb474453dd937d13f8c">type</a>,</div>
+<div class="line">        decltype(<a class="code" href="structboost_1_1hana_1_1_iterable.html#a5379264e83af65af8802eeec0d49e5f0">last</a>(ts))::<a class="code" href="structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c">type</a>,</div>
 <div class="line">        <span class="keywordtype">char</span> <span class="keyword">const</span></div>
 <div class="line">    &gt;::value, <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment --></p>
@@ -219,7 +219,7 @@ Type classes</h1>
 <hr/>
 <p> Conceptually, type classes are an artifice allowing humans to manipulate objects of heterogeneous types with well-defined semantics. They serve a purpose very similar to C++ concepts (which are not in yet) and to Haskell type classes, except they do not have language support.</p>
 <p>To get my point through, let me make the following claim: a function template that compiles with an argument of every possible type must have a trivial implementation, in the sense that it must do nothing with its argument except perhaps return it. Hence, for a function template to do something interesting, it must fail to compile for some set of arguments. While I won't try to prove my claim formally &ndash; it might be false in some corner cases &ndash;, think about it for a moment. Let's say I want to apply a function to each element of an heterogeneous sequence:</p>
-<div class="fragment"><div class="line"><a class="code" href="group__typeclasses.html#a80176fbdfbccc09e902263557eb0984d">for_each</a>(<a class="code" href="group__typeclasses.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(x, y, z), f)</div>
+<div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_iterable.html#a80176fbdfbccc09e902263557eb0984d">for_each</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(x, y, z), f)</div>
 </div><!-- fragment --><p>The first observation is that <code>f</code> must have a templated call operator because <code>x</code>, <code>y</code> and <code>z</code> have different types. The second observation is that without knowing anything specific about the types of <code>x</code>, <code>y</code> and <code>z</code>, it is impossible for <code>f</code> to do anything meaningful. For example, could it print its argument? Of course not, since it does not know whether <code>std::cout &lt;&lt; x</code> is well-formed! In order to do something meaningful, the function has to put constraints on its arguments, it has to define a domain. In other words, it can't be <em>fully</em> polymorphic, at least not conceptually. The current language does not provide a way to express this (concepts are not there yet), so we would write something like this instead:</p>
 <div class="fragment"><div class="line"><span class="comment">// compile-time precondition for `f(x)` to be well-formed:</span></div>
 <div class="line"><span class="comment">// `std::cout &lt;&lt; x` must be a valid expression, i.e. `x` must be `Printable`</span></div>
@@ -563,7 +563,7 @@ Getting concrete</h2>
 <div class="line">    assert(show(1) == <span class="stringliteral">&quot;1&quot;</span>);</div>
 <div class="line">    assert(show(unshowable{}) == <span class="stringliteral">&quot;&lt;?&gt;&quot;</span>);</div>
 <div class="line">}</div>
-</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000030">Todo:</a></b></dt><dd>Document type classes with operators.</dd></dl>
+</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000027">Todo:</a></b></dt><dd>Document type classes with operators.</dd></dl>
 <h1><a class="anchor" id="datatypes"></a>
 Data types</h1>
 <hr/>
@@ -610,10 +610,10 @@ Data types</h1>
 <div class="line">  <span class="comment">// print_impl omitted</span></div>
 <div class="line">};</div>
 </div><!-- fragment --><p>The fact that <code>datatype&lt;T&gt;::type</code> defaults to <code>T</code> is <em>very</em> useful, because it means that you can ignore it completely if the component you're building has a well-defined type, and everything will "just work".</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000031">Todo:</a></b></dt><dd><ul>
-<li>When we have functions with several variants, consider naming versions with the following scheme: <div class="fragment"><div class="line"><a class="code" href="group__typeclasses.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>.lazy</div>
-<div class="line"><a class="code" href="group__typeclasses.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>.strict</div>
-<div class="line"><a class="code" href="group__typeclasses.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a> == <a class="code" href="group__typeclasses.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>.strict</div>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000028">Todo:</a></b></dt><dd><ul>
+<li>When we have functions with several variants, consider naming versions with the following scheme: <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>.lazy</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>.strict</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a> == <a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>.strict</div>
 </div><!-- fragment --> That would be prettier and not much more complicated. However, we would need a naming convention for the <code>_impl</code> versions of those.</li>
 <li>To consider: is it possible/desirable to eliminate partial functions? For example, removing <code>head</code> and <code>tail</code>, which can fail, and replace them by a function which returns a <code>Maybe</code>.</li>
 <li>Document the library's stance on perfect forwarding and move semantics. Make compile-time tests with non-copyable types and runtime tests with expensive-to-copy types.</li>

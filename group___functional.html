@@ -271,7 +271,7 @@ template&lt;detail::std::size_t n&gt; </div>
 <div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(arg&lt;2&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3) == <span class="charliteral">&#39;2&#39;</span>);</div>
 <div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(arg&lt;3&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3) == 3.3);</div>
 <div class="line">    <span class="comment">// arg&lt;4&gt;(1, &#39;2&#39;, 3.3); // static assertion</span></div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000011">Todo:</a></b></dt><dd><a class="el" href="group__datatypes.html#structboost_1_1hana_1_1_maybe" title="Represents an optional value. ">Maybe</a> this should be <code>arg(n)</code> instead of <code>arg&lt;n&gt;</code>? It's more consistent but harder to use since we have to write <code>arg(int_&lt;n&gt;)(...)</code> instead of <code>arg&lt;n&gt;(...)</code>. </dd></dl>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000009">Todo:</a></b></dt><dd><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a> this should be <code>arg(n)</code> instead of <code>arg&lt;n&gt;</code>? It's more consistent but harder to use since we have to write <code>arg(int_&lt;n&gt;)(...)</code> instead of <code>arg&lt;n&gt;(...)</code>. </dd></dl>
 
 </div>
 </div>
@@ -343,7 +343,7 @@ template&lt;unsigned int arity&gt; </div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(curry&lt;0&gt;(two)() == two());</div>
 </div><!-- fragment --> </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000012">Todo:</a></b></dt><dd>Consider making <code>curry&lt;0&gt;(f)</code> equivalent to <code>f</code>. It might be more general or less useful if it creates subtle pitfalls.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000010">Todo:</a></b></dt><dd>Consider making <code>curry&lt;0&gt;(f)</code> equivalent to <code>f</code>. It might be more general or less useful if it creates subtle pitfalls.</dd></dl>
 
 </div>
 </div>
@@ -379,7 +379,7 @@ template&lt;unsigned int arity&gt; </div>
 <div class="line">        ==</div>
 <div class="line">        make_tuple(10 + 4, 10 - 4, 10 * 4, 10 / 4)</div>
 <div class="line">    );</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000013">Todo:</a></b></dt><dd><ul>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000011">Todo:</a></b></dt><dd><ul>
 <li>I think this is equivalent to <code>fmap . fmap</code>. See <a href="http://stackoverflow.com/q/5821089/627587">http://stackoverflow.com/q/5821089/627587</a></li>
 </ul>
 </dd></dl>
@@ -462,7 +462,7 @@ template&lt;unsigned int arity&gt; </div>
 </div><!-- fragment -->
 <p>Invokes <code>f</code> with the result of invoking each <code>g</code> on its corresponding argument, in lockstep. </p>
 <dl class="section note"><dt>Note</dt><dd>Since the <code>g</code>s are applied in lockstep to the arguments, the number of arguments must match the number of <code>g</code>s.</dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000014">Todo:</a></b></dt><dd>I think this is equivalent to <code>&lt;*&gt;</code> for <code>((-&gt;) r)</code>.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000012">Todo:</a></b></dt><dd>I think this is equivalent to <code>&lt;*&gt;</code> for <code>((-&gt;) r)</code>.</dd></dl>
 <h3>Example</h3>
 <div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> plus = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
 <div class="line">        <span class="keywordflow">return</span> x + y;</div>
@@ -574,7 +574,7 @@ template&lt;unsigned int arity&gt; </div>
 <li>Arithmetic: binary <code>+</code>, binary <code>-</code>, <code>/</code>, <code>*</code>, <code>%</code>, unary <code>+</code>, unary <code>-</code></li>
 <li>Bitwise: <code>~</code>, <code>&amp;</code>, <code>|</code>, <code>^</code>, <code>&lt;&lt;</code>, <code>&gt;&gt;</code></li>
 <li>Comparison: <code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code></li>
-<li><a class="el" href="group__typeclasses.html#structboost_1_1hana_1_1_logical" title="The Logical type class is for data types acting like a boolean. ">Logical</a>: <code>||</code>, <code>&amp;&amp;</code>, <code>!</code></li>
+<li><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a>: <code>||</code>, <code>&amp;&amp;</code>, <code>!</code></li>
 <li>Member access: <code>*</code> (dereference), <code>[]</code> (array subscript)</li>
 <li>Other: <code>()</code> (function call)</li>
 </ul>
