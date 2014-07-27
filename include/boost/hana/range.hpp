@@ -61,7 +61,7 @@ namespace boost { namespace hana {
     //! `from`, its tail is the range representing the `[from + 1, to)`
     //! interval and `r` is empty if and only if `from == to`.
     //!
-    //! @snippet example/range/iterable/overview.cpp main
+    //! @snippet example/range/iterable.cpp main
     template <>
     struct Iterable::instance<Range> : Iterable::mcd {
         template <typename R>
