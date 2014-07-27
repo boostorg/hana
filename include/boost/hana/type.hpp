@@ -13,7 +13,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/core.hpp>
-#include <boost/hana/detail/dependent_on.hpp>
 #include <boost/hana/integral.hpp>
 
 
@@ -34,6 +33,15 @@ namespace boost { namespace hana {
     //!   (demangled?) `typeid(T).name()`.
     //! - Use more lambdas once http://llvm.org/bugs/show_bug.cgi?id=20046
     //!   is fixed.
+    //!
+    //! @bug
+    //! `metafunction` and friends are not SFINAE-friendly right now.
+    //! See bug at
+    //! https://gcc.gnu.org/bugzilla/show_bug.cgi?id=59498
+    //! and Core 1430 issue at
+    //! http://www.open-std.org/jtc1/sc22/wg21/docs/cwg_active.html#1430
+    //! Once this issue is resolved, look at the unit tests for those
+    //! utilities and either uncomment or remove the relevant test section.
     struct Type { };
 
     namespace type_detail {
@@ -118,9 +126,8 @@ namespace boost { namespace hana {
             };
 
             template <typename ...xs>
-            constexpr auto operator()(xs...) const -> decltype(
-                type<f<typename xs::type...>>
-            ) { return {}; }
+            constexpr auto operator()(xs...) const
+            { return type<f<typename xs::type...>>; }
         };
 
         template <template <typename ...> class f>
@@ -129,44 +136,32 @@ namespace boost { namespace hana {
             using apply = f<xs...>;
 
             template <typename ...xs>
-            constexpr auto operator()(xs...) const -> decltype(
-                type<typename f<typename xs::type...>::type>
-            ) { return {}; }
+            constexpr auto operator()(xs...) const
+            { return type<typename f<typename xs::type...>::type>; }
         };
 
         template <typename f>
         struct metafunction_class {
-            // We use `dependent_on` to delay the fetching of `f::apply` in
-            // case `f` is invalid because we want to stay SFINAE friendly.
             template <typename ...xs>
-            using apply = typename detail::dependent_on<
-                (bool)sizeof...(xs), f
-            >::type::template apply<xs...>;
+            using apply = typename f::template apply<xs...>;
 
             template <typename ...xs>
-            constexpr auto operator()(xs...) const -> decltype(
-                type<
-                    typename detail::dependent_on<
-                        (bool)sizeof...(xs), f
-                    >::type::template apply<typename xs::type...>::type
-                >
-            ) { return {}; }
+            constexpr auto operator()(xs...) const
+            { return type<typename f::template apply<typename xs::type...>::type>; }
         };
 
         template <template <typename ...> class f>
         struct trait {
             template <typename ...xs>
-            constexpr auto operator()(xs...) const -> decltype(
-                f<typename xs::type...>{}
-            ) { return {}; }
+            constexpr auto operator()(xs...) const
+            { return f<typename xs::type...>{}; }
         };
 
         template <template <typename ...> class f>
         struct trait_ {
             template <typename ...xs>
-            constexpr auto operator()(xs...) const -> decltype(
-                f<xs...>{}
-            ) { return {}; }
+            constexpr auto operator()(xs...) const
+            { return f<xs...>{}; }
         };
     }
 

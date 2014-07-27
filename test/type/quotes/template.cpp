@@ -40,9 +40,6 @@ using alias = f<x, y, z>;
 int main() {
     test<f>();
 
-    // make sure it's SFINAE friendly
-    BOOST_HANA_STATIC_ASSERT(!detail::is_valid(template_<invalid>)(type<x1>));
-
-    // http://www.open-std.org/jtc1/sc22/wg21/docs/cwg_active.html#1430
+    // BOOST_HANA_STATIC_ASSERT(!detail::is_valid(template_<invalid>)(type<x1>));
     // test<alias>();
 }
