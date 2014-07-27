@@ -103,7 +103,7 @@ namespace boost { namespace hana {
     //! @snippet example/maybe/foldable.cpp main
     template <typename ...Nothing>
     struct Foldable::instance<Maybe, Nothing...>
-        : detail::dependent_on<char[sizeof...(Nothing) + 1], Foldable::mcd>
+        : detail::dependent_on_t<(bool)sizeof...(Nothing), Foldable::mcd>
     {
         template <typename F, typename S, typename M>
         static constexpr auto foldr_impl(F f, S s, M m)

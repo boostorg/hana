@@ -136,19 +136,19 @@ namespace boost { namespace hana {
 
         template <typename f>
         struct metafunction_class {
-            // We need to delay the fetching of `f::apply` in case `f` is
-            // invalid because we want to stay SFINAE friendly.
+            // We use `dependent_on` to delay the fetching of `f::apply` in
+            // case `f` is invalid because we want to stay SFINAE friendly.
             template <typename ...xs>
             using apply = typename detail::dependent_on<
-                char[static_cast<bool>(sizeof...(xs)) + 1], f
-            >::template apply<xs...>;
+                (bool)sizeof...(xs), f
+            >::type::template apply<xs...>;
 
             template <typename ...xs>
             constexpr auto operator()(xs...) const -> decltype(
                 type<
                     typename detail::dependent_on<
-                        char[static_cast<bool>(sizeof...(xs)) + 1], f
-                    >::template apply<typename xs::type...>::type
+                        (bool)sizeof...(xs), f
+                    >::type::template apply<typename xs::type...>::type
                 >
             ) { return {}; }
         };
