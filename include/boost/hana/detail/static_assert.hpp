@@ -10,17 +10,22 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_STATIC_ASSERT_HPP
 #define BOOST_HANA_DETAIL_STATIC_ASSERT_HPP
 
-#include <cassert>
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
 
+    //! @ingroup details
+    //! Expands to a `static_assert` or to an `assert`, depending on
+    //! whether constexpr lambdas are available.
+    //!
+    //! Use this only at function scope. This is a workaround because
+    //! constexpr lambdas are not available yet and so our unit tests
+    //! can't use `static_assert`.
+#   define BOOST_HANA_STATIC_ASSERT(...) static_assert((__VA_ARGS__), "")
 
-/*!
- * @ingroup details
- * Expands to a runtime assertion.
- *
- * Use this only at function scope. This is a workaround because constexpr
- * lambdas are not available yet and so our unit tests can't use
- * static_assert.
- */
-#define BOOST_HANA_STATIC_ASSERT(...) assert((__VA_ARGS__))
+#else
+
+#   include <cassert>
+#   define BOOST_HANA_STATIC_ASSERT(...) assert((__VA_ARGS__))
+
+#endif
 
 #endif // !BOOST_HANA_DETAIL_STATIC_ASSERT_HPP
