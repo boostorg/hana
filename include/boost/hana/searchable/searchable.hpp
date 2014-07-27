@@ -18,22 +18,31 @@ namespace boost { namespace hana {
     //! @ingroup typeclasses
     //! Data structures that can be searched.
     //!
-    //! `Searchable`s have a concept of keys and values. Basically, searching
-    //! is always done on the keys and the result is always the associated
-    //! value. There is no requirement that the keys and values be different.
+    //! `Searchable`s have a concept of keys and values. Searching is always
+    //! done on the keys and the result is always the associated value. There
+    //! is no requirement that the keys and values be different.
     struct Searchable {
         BOOST_HANA_TYPECLASS(Searchable);
         struct find_mcd;
     };
 
     //! Return whether any key of the structure satisfies the `predicate`.
-    //! @method{Searchable}
+    //! @relates Searchable
     //!
-    //! ### Fusion example
-    //! @snippet example/list/searchable/any.cpp fusion
+    //! If the structure is not finite, `predicate` has to be satisfied
+    //! after looking at a finite number of keys for this method to finish.
     //!
-    //! ### MPL example
-    //! @snippet example/list/searchable/any.cpp mpl
+    //!
+    //! @param predicate
+    //! A function called as `predicate(k)`, where `k` is a key of the
+    //! structure, and returning a `Logical`.
+    //!
+    //! @param searchable
+    //! The structure to search.
+    //!
+    //!
+    //! ### Example
+    //! @snippet example/searchable/any.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto any = [](auto predicate, auto searchable) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
@@ -41,7 +50,14 @@ namespace boost { namespace hana {
     };
 
     //! Return whether any key of the structure is true-valued.
-    //! @method{Searchable}
+    //! @relates Searchable
+    //!
+    //! The keys of the structure must be `Logical`s. If the structure is not
+    //! finite, a true-valued key must appear at a finite "index" in order for
+    //! this method to finish.
+    //!
+    //! ### Example
+    //! @snippet example/searchable/any_of.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto any_of = [](auto searchable) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
@@ -49,13 +65,23 @@ namespace boost { namespace hana {
     };
 
     //! Return whether all the keys of the structure satisfy the `predicate`.
-    //! @method{Searchable}
+    //! @relates Searchable
     //!
-    //! ### Fusion example
-    //! @snippet example/list/searchable/all.cpp fusion
+    //! If the structure is not finite, `predicate` has to return a false-
+    //! valued `Logical` after looking at a finite number of keys for this
+    //! method to finish.
     //!
-    //! ### MPL example
-    //! @snippet example/list/searchable/all.cpp mpl
+    //!
+    //! @param predicate
+    //! A function called as `predicate(k)`, where `k` is a key of the
+    //! structure, and returning a `Logical`.
+    //!
+    //! @param searchable
+    //! The structure to search.
+    //!
+    //!
+    //! ### Example
+    //! @snippet example/searchable/all.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto all = [](auto predicate, auto searchable) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
@@ -63,7 +89,14 @@ namespace boost { namespace hana {
     };
 
     //! Return whether all the keys of the structure are true-valued.
-    //! @method{Searchable}
+    //! @relates Searchable
+    //!
+    //! The keys of the structure must be `Logical`s. If the structure is not
+    //! finite, a false-valued key must appear at a finite "index" in order
+    //! for this method to finish.
+    //!
+    //! ### Example
+    //! @snippet example/searchable/all_of.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto all_of = [](auto searchable) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
@@ -72,21 +105,38 @@ namespace boost { namespace hana {
 
     //! Return whether none of the keys of the structure satisfy the
     //! `predicate`.
-    //! @method{Searchable}
+    //! @relates Searchable
     //!
-    //! ### Fusion example
-    //! @snippet example/list/searchable/none.cpp fusion
+    //! If the structure is not finite, `predicate` has to return a true-
+    //! valued `Logical` after looking at a finite number of keys for this
+    //! method to finish.
     //!
-    //! ### MPL example
-    //! @snippet example/list/searchable/none.cpp mpl
+    //!
+    //! @param predicate
+    //! A function called as `predicate(k)`, where `k` is a key of the
+    //! structure, and returning a `Logical`.
+    //!
+    //! @param searchable
+    //! The structure to search.
+    //!
+    //!
+    //! ### Example
+    //! @snippet example/searchable/none.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto none = [](auto predicate, auto searchable) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
         >::none_impl(predicate, searchable);
     };
 
-    //! Return whether none of the keys of the structure is true-valued.
-    //! @method{Searchable}
+    //! Return whether all of the keys of the structure are false-valued.
+    //! @relates Searchable
+    //!
+    //! The keys of the structure must be `Logical`s. If the structure is not
+    //! finite, a true-valued key must appear at a finite "index" in order
+    //! for this method to finish.
+    //!
+    //! ### Example
+    //! @snippet example/searchable/none_of.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto none_of = [](auto searchable) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
@@ -94,35 +144,78 @@ namespace boost { namespace hana {
     };
 
     //! Return whether the key occurs in the structure.
-    //! @method{Searchable}
+    //! @relates Searchable
+    //!
+    //! Specifically, returns whether any of the keys of the structure is
+    //! equal to the given `key`. If the structure is not finite, an equal
+    //! key has to appear at a finite "index" in the structure for this
+    //! method to finish.
+    //!
+    //!
+    //! @param key
+    //! A key to be searched for in the structure. The key has to be
+    //! `Comparable` with the other keys of the structure.
+    //!
+    //! @param searchable
+    //! The structure to search.
     //!
     //! ### Example
-    //! @snippet example/list/searchable/elem.cpp main
+    //! @snippet example/searchable/elem.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto elem = [](auto key, auto searchable) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
         >::elem_impl(key, searchable);
     };
 
-    //! Find the value associated to a key satisfying a predicate.
-    //! @method{Searchable}
+    //! Find the value associated to the first key satisfying a predicate.
+    //! @relates Searchable
     //!
     //! Specifically, returns `just` the first value whose key satisfies the
     //! `predicate`, or `nothing` if there is no such key.
     //!
-    //! ### Example 1
-    //! @snippet example/list/searchable/find.cpp main
     //!
-    //! ### Example 2
-    //! @snippet example/type_list/searchable/find.cpp main
+    //! @param predicate
+    //! A function called as `predicate(k)`, where `k` is a key of the
+    //! structure, and returning a `Logical`. Note that in the current
+    //! version of the library, the `predicate` has to return a compile-time
+    //! `Logical`, i.e. one allowing values of different types in `if_`. This
+    //! is because `find` returns a `Maybe`, which is an heterogeneous data
+    //! type.
+    //!
+    //! @param searchable
+    //! The structure to be searched.
+    //!
+    //!
+    //! ### Example
+    //! @snippet example/searchable/find.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto find = [](auto predicate, auto searchable) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
         >::find_impl(predicate, searchable);
     };
 
-    //! Find the value associated to the given key.
-    //! @method{Searchable}
+    //! Find the value associated to the given key in a structure.
+    //! @relates Searchable
+    //!
+    //! Specifically, returns `just` the first value whose key is equal to
+    //! the given `key`, or `nothing` if there is no such key. Comparison
+    //! is done with `equal`.
+    //!
+    //!
+    //! @param key
+    //! A key to be searched for in the structure. The key has to be
+    //! `Comparable` with the other keys of the structure. In the current
+    //! version of the library, the comparison of `key` with any other key
+    //! of the structure must return a compile-time `Logical`, i.e. one
+    //! allowing values of different types in `if_`. This is because `lookup`
+    //! returns a `Maybe`, which is an heterogeneous data type.
+    //!
+    //! @param searchable
+    //! The structure to be searched.
+    //!
+    //!
+    //! ### Example
+    //! @snippet example/searchable/lookup.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto lookup = [](auto key, auto searchable) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
