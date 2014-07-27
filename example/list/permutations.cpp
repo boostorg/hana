@@ -14,7 +14,7 @@ using namespace boost::hana;
 int main() {
     //! [main]
     BOOST_HANA_CONSTEXPR_LAMBDA auto is_permutation_of = curry<2>([](auto xs, auto perm) {
-        return any(_ == perm, permutations(xs));
+        return elem(perm, permutations(xs));
     });
 
     BOOST_HANA_STATIC_ASSERT(

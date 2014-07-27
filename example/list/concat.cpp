@@ -13,6 +13,8 @@ using namespace literals;
 
 int main() {
     //! [main]
-    BOOST_HANA_STATIC_ASSERT(concat(list(1, '2'), list(3.3, 4_c)) == list(1, '2', 3.3, 4_c));
+    BOOST_HANA_STATIC_ASSERT(
+        concat(list(1, '2'), list(3.3, 4_c)) == list(1, '2', 3.3, 4_c)
+    );
     //! [main]
 }

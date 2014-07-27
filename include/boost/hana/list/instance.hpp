@@ -54,8 +54,7 @@ namespace boost { namespace hana {
         return list_detail::list<decltype(storage)>{storage};
     };
 
-    //! @details
-    //! Generic instance for `Iterable`s.
+    //! @cond
     template <>
     struct Foldable::instance<List> : detail::FoldableFromIterable {
         template <typename F, typename State, typename Xs>
@@ -84,6 +83,7 @@ namespace boost { namespace hana {
             });
         }
     };
+    //! @endcond
 
     //! @details
     //! `List` is an `Iterable` in the most obvious way. The head of a
@@ -125,9 +125,7 @@ namespace boost { namespace hana {
         }
     };
 
-    //! @details
-    //! `nil<List>` is equivalent to `list()`, and `cons(x, list(xs...))` is
-    //! equivalent to `list(x, xs...)`.
+    //! Instance of `List` for the `List` data type.
     template <>
     struct List::instance<List> : List::mcd<List> {
         static BOOST_HANA_CONSTEXPR_LAMBDA auto nil_impl() {

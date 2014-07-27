@@ -11,8 +11,6 @@ using namespace boost::hana;
 
 int main() {
     //! [main]
-    BOOST_HANA_STATIC_ASSERT(cons(1, list()) == list(1));
-    BOOST_HANA_STATIC_ASSERT(cons(1, list('2', 3.3)) == list(1, '2', 3.3));
-    BOOST_HANA_STATIC_ASSERT(cons(1, cons('2', cons(3.3, list()))) == list(1, '2', 3.3));
+    BOOST_HANA_STATIC_ASSERT(nil<List> == list());
     //! [main]
 }

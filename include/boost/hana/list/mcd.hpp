@@ -279,13 +279,14 @@ namespace boost { namespace hana {
         }
     };
 
-    //! @details
+    //! `Applicative` instance for instances of the `List` type class.
+    //!
     //! A value can be lifted into a singleton list with `lift`. `ap(fs, xs)`
     //! applies each function in the list `fs` to each value in the list `xs`,
     //! and returns a list containing all the results.
     //!
     //! ### Example
-    //! @snippet example/list/applicative/overview.cpp main
+    //! @snippet example/list/applicative.cpp main
     template <typename T>
     struct Applicative::instance<T, when<instantiates<List, T>()>>
         : Applicative::mcd
@@ -299,13 +300,14 @@ namespace boost { namespace hana {
         { return bind(fs, [=](auto f) { return fmap(f, xs); }); }
     };
 
-    //! @details
+    //! `Monad` instance for instances of the `List` type class.
+    //!
     //! A function returning a list of results can be mapped over all the
     //! elements of a list and have all the results concatenated using `bind`.
     //! Also, a list of lists can be flattened one level with `flatten`.
     //!
     //! ### Example
-    //! @snippet example/list/monad/overview.cpp main
+    //! @snippet example/list/monad.cpp main
     template <typename T>
     struct Monad::instance<T, when<instantiates<List, T>()>>
         : Monad::flatten_mcd<T>
@@ -315,8 +317,7 @@ namespace boost { namespace hana {
         { return foldl(concat, nil<T>, xss); }
     };
 
-    //! @details
-    //! This instance is hard to describe in words; see the examples.
+    //! `Traversable` instance for `List` instances.
     //!
     //! ### Example
     //! @snippet example/list/traversable/traverse.cpp main
