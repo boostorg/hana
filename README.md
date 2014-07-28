@@ -27,15 +27,6 @@ int main() {
 ```
 
 
-## Documentation
-You can browse the documentation online at http://ldionne.github.io/hana.
-You can also get an offline version of the documentation by checking out
-the `doc/gh-pages` submodule at its latest version:
-```shell
-git submodule update --init --remote
-```
-
-
 ## Prerequisites and installation
 Boost.Hana is a header only library. To use it in your own project, just add
 the [include](include) directory to your compiler's header search path and
@@ -46,8 +37,13 @@ nothing else is required. As of July 2014, the only compiler known to compile
 the test suite is Clang 3.5.0 (trunk).
 
 
-## License
-Please see [LICENSE.md](LICENSE.md).
+## Documentation
+You can browse the documentation online at http://ldionne.github.io/hana.
+You can also get an offline version of the documentation by checking out
+the `doc/gh-pages` submodule at its latest version:
+```shell
+git submodule update --init --remote
+```
 
 
 ## Hacking on Hana
@@ -127,6 +123,10 @@ Want to contribute? Great!
 5. Commit your changes (`git commit -am "Added feature X"`)
 6. Push to the branch (`git push origin feature_X`)
 7. Open a pull request
+
+
+## License
+Please see [LICENSE.md](LICENSE.md).
 
 
 <!-- Links -->
