@@ -7,22 +7,49 @@ This is not an official Boost library. However, a formal review will be asked
 for shortly. The library is unstable at the moment; do not use for production.
 
 
-## Hello world
-<!-- Important: keep this in sync with example/hello_world.cpp -->
+## Overview
+<!-- Important: keep this in sync with example/overview.cpp -->
 ```cpp
-#include <boost/hana.hpp>
-#include <iostream>
+#include <boost/hana/ext/std/tuple.hpp>
+#include <boost/hana/integral.hpp>
+#include <boost/hana/list/instance.hpp>
+
+#include <cassert>
 #include <string>
+#include <tuple>
+#include <type_traits>
 using namespace boost::hana;
 
+
+struct President { std::string name; };
+struct Car       { std::string name; };
+struct City      { std::string name; };
+auto name = [](auto x) { return x.name; };
+
 int main() {
-    auto xs = list("Hell", int_<0>, std::string{" world"}, '!');
+    // Heterogeneous sequences for value-level metaprogramming.
+    auto stuff = list(President{"Obama"}, Car{"Toyota"}, City{"Quebec"});
+    assert(reverse(fmap(name, stuff)) == std::make_tuple("Quebec", "Toyota", "Obama"));
 
-    // > "Hell0 world!"
-    for_each(xs, [](auto x) { std::cout << x; });
+    // Type-level metaprogramming works too.
+    auto types = fmap(decltype_, stuff);
 
-    // > "Hello world!"
-    for_each(replace(_ == int_<0>, 'o', xs), [](auto x) { std::cout << x; });
+    static_assert(std::is_same<
+        decltype(head(types))::type, President
+    >{}, "");
+
+    static_assert(std::is_same<
+        decltype(at(int_<1>, types))::type, Car
+    >{}, "");
+
+    static_assert(std::is_same<
+        decltype(last(types))::type, City
+    >{}, "");
+
+    // No compile-time information is lost.
+    // The dummy variable is required to make it compile or Clang complains.
+    auto length_is_3 = length(stuff) == int_<3>;
+    static_assert(length_is_3, "");
 }
 ```
 
