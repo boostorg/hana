@@ -129,9 +129,9 @@ namespace boost { namespace hana {
     //! applies `*` in a left-associative manner, whereas right-folding
     //! applies it in a right-associative manner. For associative operations,
     //! i.e. operations such that for all `a`, `b` and `c`,
-    //! @f{align*}{
+    //! @code
     //!     (a * b) * c = a * (b * c)
-    //! @f}
+    //! @endcode
     //! this makes no difference. Also note that lazy folds and folds with an
     //! initial state are implemented in an analogous way.
     //!

@@ -1,6 +1,6 @@
 /*!
 @file
-Defines the @ref Functional module.
+Defines the @ref functional module.
 
 @copyright Louis Dionne 2014
 Distributed under the Boost Software License, Version 1.0.
@@ -22,7 +22,7 @@ namespace boost { namespace hana {
         struct curry_impl;
     }
 
-    //! @defgroup Functional Functional
+    //! @defgroup functional Functional
     //! General purpose function objects.
     //! @{
 

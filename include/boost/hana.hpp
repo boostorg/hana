@@ -3,6 +3,38 @@
 Includes all the library components except the adapters for external
 libraries.
 
+
+@todo
+- When we have functions with several variants, consider naming versions
+  with the following scheme:
+  @code
+    foldr.lazy
+    foldr.strict
+    foldr == foldr.strict
+  @endcode
+  That would be prettier and not much more complicated. However, we would
+  need a naming convention for the `_impl` versions of those.
+- To consider: is it possible/desirable to eliminate partial functions?
+  For example, removing `head` and `tail`, which can fail, and replace
+  them by a function which returns a `Maybe`.
+- Document the library's stance on perfect forwarding and move semantics.
+  Make compile-time tests with non-copyable types and runtime tests with
+  expensive-to-copy types.
+- In the unit tests, we might want to use an injective function on
+  `Comparable`s instead of `std::make_tuple`.
+- Document how to write common Boost.Fusion and Boost.MPL idioms with
+  Boost.Hana.
+- Write runtime benchmarks.
+- Setup a BJam build system.
+- Consider making function objects automatically curriable. This could allow
+  _super sexy_ stuff like:
+  @code
+    template <>
+    struct Iterable<List> {
+        static constexpr auto length_impl = foldl(some_lambda, size_t<0>);
+    };
+  @endcode
+
 @copyright Louis Dionne 2014
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
@@ -44,7 +76,7 @@ Distributed under the Boost Software License, Version 1.0.
 @tableofcontents
 
 
-@section preface Preface
+@section tutorial-preface Preface
 
 ------------------------------------------------------------------------------
 The seed that became this library was planted in late 2012, when I first
@@ -63,13 +95,17 @@ we'll see how that works out.
 Let the fun begin.
 
 
-@section introduction Introduction
+@section tutorial-introduction Introduction
 
 ------------------------------------------------------------------------------
 Boost.Hana is a library of combinators tailored towards the manipulation of
 heterogeneous collections. However, the core of Hana is a powerful system for
 ad-hoc polymorphism inspired by Haskell type classes; this extension system
 is then used to provide all the functionality of the library in a modular way.
+Specifically, the library is built around two core concepts; [type classes]
+(@ref tutorial-typeclasses) and [data types](@ref tutorial-datatypes). Type
+classes are essentially abstract interfaces specifying functionality and data
+types are concrete implementations of those interfaces.
 
 The library uses a purely functional style of programming, which is required
 to manipulate objects of heterogeneous types -- it is impossible to modify the
@@ -83,11 +119,11 @@ be much more expressive, flexible and easy to use while not sacrificing any
 performance given the purely functional setting.
 
 
-@section quick-start Quick start
+@section tutorial-quick_start Quick start
 
 ------------------------------------------------------------------------------
-This section assumes the reader is already familiar with `std::tuple` and
-basic metaprogramming. First, let's include the library:
+This section assumes the reader is already familiar with basic metaprogramming
+and the C++14 standard. First, let's include the library:
 
 @dontinclude example/tutorial/quickstart.cpp
 @skip boost/hana.hpp
@@ -97,9 +133,10 @@ basic metaprogramming. First, let's include the library:
 > Unless specified otherwise, the documentation assumes that the above lines
 > are present before examples and code snippets. Use your judgment!
 
-Finer grained headers are provided and will be explained in the
-@ref organization section, but for now this will do. Let's create an
-heterogeneous list, which is conceptually the same as a `std::tuple`:
+Finer grained headers are provided and will be explained in the [Header
+organization](@ref tutorial-header_organization) section, but for now
+that'll do. Let's create an heterogeneous list, which is conceptually
+the same as a `std::tuple`:
 
 @skipline auto xs =
 
@@ -108,14 +145,15 @@ returning an object which is a valid sequence for Boost.Hana. The actual type
 of the object returned by `list` is left unspecified, as will always be the
 case in this library. However, something called its "data type" is specified;
 `list` returns an object of data type `List`. Data types will be explained in
-detail in their own section. There are several operations that can be performed
-on lists; here are a couple so you get the feeling:
+detail in [their own section](@ref tutorial-datatypes). There are several
+operations that can be performed on lists; here are a couple so you get
+the feeling:
 
 @skip assert
 @until for_each
 
 An interesting observation is that `is_empty` returns a value that can be
-constexpr-converted to bool even though the list contains non-constexpr
+constexpr-converted to `bool` even though the list contains non-constexpr
 objects (a `std::string`). Indeed, the size of the sequence is known at
 compile-time regardless of its content, so it only makes sense that the
 library does not throw away this information. Let's take that `for_each`
@@ -161,105 +199,22 @@ associative sequences, sets, ranges and even an heterogeneous `std::optional`
 called `Maybe`, but you can read on if you want to know more.
 
 
-@section organization Organization
-
-------------------------------------------------------------------------------
-The library is designed to be very modular while keeping the number of headers
-that must be included to get basic functionality reasonably low. The structure
-of the library is influenced by the structure of type classes and data types,
-which will be covered later. Once you are familiar with these basic concepts,
-the header structure should feel intuitive.
-
-- `boost/hana.hpp`\n
-  This is the master header of the library. It includes the whole public
-  interface of the library except adapters for external libraries, which
-  must be included separately.
-
-- `boost/hana/`
-
-  - `boost/hana/core.hpp`\n
-    This file defines core utilities of the library that are tied to the
-    type class dispatching and data type system.
-
-  - `boost/hana/[typeclass].hpp`\n
-    A file of this type includes the whole definition of a type class
-    `[typeclass]`. This includes all the type class methods, minimal
-    complete definitions and laws related to the type class.
-
-  - `boost/hana/[typeclass]/[typeclass].hpp`\n
-    A file of this type includes the definition of the type class structure
-    (but not its members like `mcd`, `laws`, etc..) and the associated type
-    class methods. It also defines the operators associated to its methods
-    and the default-provided instances for builtin types, if there are any.
-    Note that default-provided instances for non-builtin types are not
-    defined in this header. This header is included by all other headers
-    inside its directory.
-
-  - `boost/hana/[typeclass]/[mcd].hpp`\n
-    A file of this type defines a minimal complete definition named `[mcd]`
-    along with default-provided instances for non-builtin types, if any. It
-    is possible for a type class to have several minimal complete definitions,
-    in which case there are several such headers with a proper name.
-
-  - `boost/hana/[typeclass]/laws.hpp`\n
-    This file defines the laws associated to a type class. Not all type
-    classes have laws associated to them and some type classes have laws
-    which are too hard to check, in which case this header is not provided.
-
-  - `boost/hana/[typeclass]/instance.hpp`\n
-    Some type classes are such that all instances are forced to be isomorphic.
-    In that case, it sometimes makes sense to provide an implementation of the
-    unique instance. When such an instance is provided, it is defined in this
-    header.
-
-  - `boost/hana/[datatype].hpp`\n
-    A file of this type defines a data type named `[datatype]`. It defines
-    all the type class instances associated to that data type, so that one
-    only has to include the data type's header to get the full functionality
-    it supports.
-
-  - `boost/hana/ext/`\n
-    This directory contains adapters for external libraries. This is the only
-    part of the public interface which is not included by the master header,
-    because that would make the master header dependent on those external
-    libraries. Note that only the strict minimum required to adapt the
-    external component is included in these headers (e.g. a forward
-    declaration). This means that the definition of the external component
-    should still be included when one wants to use it. For example:
-
-    @snippet example/tutorial/include_ext.cpp main
-
-  - `boost/hana/sandbox/`\n
-    This directory contains experimental code on which no guarantee whatsoever
-    is made. It might not even compile and it will definitely not be stable.
-
-  - `boost/hana/detail/`\n
-    This directory contains utilities required internally. Nothing in `detail/`
-    is guaranteed to be stable, so you should not use it.
-
-### Example
-Let's say I want to include `set`. I only have to include its header and I
-can use all the methods it supports right away:
-
-@snippet example/tutorial/include_set.cpp main
-
-
-@section typeclasses Type classes
+@section tutorial-typeclasses Type classes
 
 ------------------------------------------------------------------------------
 Conceptually, type classes are an artifice allowing humans to manipulate
-objects of heterogeneous types with well-defined semantics. They serve
-a purpose very similar to C++ concepts (which are not in yet) and to
-Haskell type classes, except they do not have language support.
+objects of heterogeneous types with well-defined semantics. They serve a
+purpose very similar to C++ concepts (which are not in yet) and to Haskell
+type classes, except they do not have language support.
 
-To get my point through, let me make the following claim: a function template
-that compiles with an argument of every possible type must have a trivial
-implementation, in the sense that it must do nothing with its argument except
-perhaps return it. Hence, for a function template to do something interesting,
-it must fail to compile for some set of arguments. While I won't try to prove
-my claim formally -- it might be false in some corner cases --, think about it
-for a moment. Let's say I want to apply a function to each element of an
-heterogeneous sequence:
+For the sake of the explanation, let me make the following claim: a function
+template that compiles with an argument of every possible type must have a
+trivial implementation, in the sense that it must do nothing with its argument
+except perhaps return it. Hence, for a function template to do something
+interesting, it must fail to compile for some set of arguments. While I won't
+try to prove that claim formally -- it might be false in some corner cases --,
+think about it for a moment. Let's say I want to apply a function to each
+element of an heterogeneous sequence:
 
 @code{cpp}
   for_each(list(x, y, z), f)
@@ -289,11 +244,11 @@ not aware of, there is nonetheless a conceptual constraint on the argument
 of `f`. This allows us to define the domain of `f`, which is any `Printable`
 object. In straight C++, the domain of a function is a C++ type. However, it
 should now be clear from the example that more flexibility could be achieved
-by allowing domains to be arbitrary sets, which is roughly what C++ concepts
-will bring to the table.
+by allowing domains to be arbitrary sets (e.g. the set of all types that can
+be `std::cout`ed), which is roughly what C++ concepts will bring to the table.
 
-> Some libraries trying to make these type constraints more explicit have
-> been built before. An example is [Boost.ConceptCheck][].
+> Some libraries like [Boost.ConceptCheck][] aim to make these type
+> constraints more explicit and checkable until there is language support.
 
 Type classes in Boost.Hana are a library-level implementation of such type
 constraints allowing us to organize our generic programming. They allow us
@@ -306,7 +261,7 @@ to satisfy constraints will result in the usual compiler errors we all know
 and love.
 
 
-@subsection getting-concrete Getting concrete
+@subsection tutorial-typeclasses-getting_concrete Getting concrete
 
 We're now ready to take a look at these little beasts. Concretely, a type
 class is just a C++ structure or class calling the `BOOST_HANA_TYPECLASS`
@@ -338,13 +293,13 @@ separating concerns:
 When I introduced type classes, I said they allowed us to bundle together
 related operations called methods. This is because type classes can be seen
 as defining some kind of public interface consisting of the operations that
-are valid with any object satisfying the constraints of the type class. I
-also said that they made it possible to explicitly state that a type satisfies
-a type class and how it does so. From now on, I will refer to the set of all
-types satisfying a type class `T` as the _instances_ of `T`, and I will refer
-to the act of specifying how a type `t` is an _instance_ of `T` as the act of
-_instantiating_ `T` with `t`. Note that this has nothing to do with C++
-template instantiation; it is just the standard Haskell vocabulary.
+are valid with any object satisfying some constraints. I also said that they
+made it possible to explicitly state that a type satisfies those constraints,
+and how it does so. From now on, I will refer to the set of all types
+satisfying the constraints of a type class `T` as the _instances_ of `T`, and
+I will refer to the act of specifying how a type `t` is an _instance_ of `T`
+as the act of _instantiating_ `T` with `t`. Note that this has nothing to do
+with C++ template instantiation; it is just the standard Haskell terminology.
 
 To associate methods to a type class, we create a layer of indirection through
 the `instance` member of the type class. For example, let's say we want to
@@ -603,13 +558,14 @@ type class:
   };
 @endcode
 
-Either minimal complete definition could now be used to instantiate `Printable`.
-By convention, in Boost.Hana, the minimal complete definition is always named
-`mcd` when there is a single one. A nested type named `mcd` is also provided
-when there are no default implementations to provide for consistency and for
-extensibility, as will be explained next. If there is more than one possible
-mcd, each mcd is in a different nested type with a descriptive name. In all
-cases, the minimal complete definition(s) are documented.
+Either minimal complete definitions could now be used to instantiate
+`Printable`. By convention, in Boost.Hana, the minimal complete definition
+is always named `mcd` when there is a single one. A nested type named `mcd`
+is also provided when there are no default implementations to provide for
+consistency and for extensibility, as will be explained next. If there is
+more than one possible mcd, each mcd is in a different nested type with a
+descriptive name. In all cases, the minimal complete definition(s) are
+documented.
 
 It is recommended to always inherit from a minimal complete definition, even
 when the default implementations are not actually used:
@@ -630,7 +586,7 @@ when the default implementations are not actually used:
 This allows methods to be added to the type class without breaking the
 instance, provided the type class does not change its minimal complete
 definition(s). This is the reason why a minimal complete definition is
-always provided, even when it contains no default implementations.
+always provided, even when it is empty.
 
 To show the full power of type classes and introduce the `instantiates`
 utility, let's define a `Printable` instance for `std::vector`s containing
@@ -654,11 +610,11 @@ instance for `std::vector`s, which supported only streamable types.
   };
 @endcode
 
-`instantiates` is a variable template taking a type class and several types
-and returns whether the type class is instantiated for the given types. The
+`instantiates` is a variable template taking a type class and a type and
+returning whether the type is an instance of the given type class. The
 result is returned as a boolean `Integral`, which is basically equivalent to
-a boolean `std::integral_constant`, hence the trailing `()`. We can now print
-nested containers:
+a boolean `std::integral_constant`, hence the trailing `()` to convert the
+result to a `bool` at compile-time. We can now print nested containers:
 
 @code
   std::vector<std::vector<int>> v{{1, 2, 3}, {3, 4, 5}};
@@ -703,7 +659,7 @@ are about to use it.
 Document type classes with operators.
 
 
-@section datatypes Data types
+@section tutorial-datatypes Data types
 
 ------------------------------------------------------------------------------
 Data types are a generalization of usual C++ types making it easier to
@@ -801,37 +757,136 @@ it means that you can ignore it completely if the component you're building
 has a well-defined type, and everything will "just work".
 
 
-@todo
-- When we have functions with several variants, consider naming versions
-  with the following scheme:
-  @code
-    foldr.lazy
-    foldr.strict
-    foldr == foldr.strict
-  @endcode
-  That would be prettier and not much more complicated. However, we would
-  need a naming convention for the `_impl` versions of those.
-- To consider: is it possible/desirable to eliminate partial functions?
-  For example, removing `head` and `tail`, which can fail, and replace
-  them by a function which returns a `Maybe`.
-- Document the library's stance on perfect forwarding and move semantics.
-  Make compile-time tests with non-copyable types and runtime tests with
-  expensive-to-copy types.
-- In the unit tests, we might want to use an injective function on
-  `Comparable`s instead of `std::make_tuple`.
-- Document how to emulate `make_fused` and friends from Boost.Fusion.
-- Document how to write common Boost.Fusion and Boost.MPL idioms with
-  Boost.Hana.
-- Write runtime benchmarks.
-- Setup a BJam build system.
-- Consider making function objects automatically curriable. This could allow
-  _super sexy_ stuff like:
-  @code
-    template <>
-    struct Iterable<List> {
-        static constexpr auto length_impl = foldl(some_lambda, size_t<0>);
-    };
-  @endcode
+@section tutorial-header_organization Header organization
+
+------------------------------------------------------------------------------
+The library is designed to be very modular while keeping the number of headers
+that must be included to get basic functionality reasonably low. The structure
+of the library is influenced by the structure of type classes and data types.
+Once you are familiar with the type classes and data types provided with the
+library, the header structure should feel intuitive.
+
+- `boost/hana.hpp`\n
+  This is the master header of the library. It includes the whole public
+  interface of the library except adapters for external libraries, which
+  must be included separately.
+
+- `boost/hana/`
+
+  - `boost/hana/core.hpp`\n
+    This file defines core utilities of the library that are tied to the
+    type class dispatching and data type system.
+
+  - `boost/hana/[typeclass].hpp`\n
+    A file of this type includes the whole definition of a type class
+    `[typeclass]`. This includes all the type class methods, minimal
+    complete definitions and laws related to the type class.
+
+  - `boost/hana/[typeclass]/[typeclass].hpp`\n
+    A file of this type includes the definition of the type class structure
+    (but not its members like `mcd`, `laws`, etc..) and the associated type
+    class methods. It also defines the operators associated to its methods
+    and the default-provided instances for builtin types, if there are any.
+    Note that default-provided instances for non-builtin types are not
+    defined in this header. This header is included by all other headers
+    inside its directory.
+
+  - `boost/hana/[typeclass]/[mcd].hpp`\n
+    A file of this type defines a minimal complete definition named `[mcd]`
+    along with default-provided instances for non-builtin types, if any. It
+    is possible for a type class to have several minimal complete definitions,
+    in which case there are several such headers with a proper name.
+
+  - `boost/hana/[typeclass]/laws.hpp`\n
+    This file defines the laws associated to a type class. Not all type
+    classes have laws associated to them and some type classes have laws
+    which are too hard to check automatically, in which case this header
+    is not provided.
+
+  - `boost/hana/[typeclass]/instance.hpp`\n
+    Some type classes are such that all instances are forced to be isomorphic.
+    In that case, it sometimes makes sense to provide an implementation of the
+    unique instance. When such an instance is provided, it is defined in this
+    header.
+
+  - `boost/hana/[datatype].hpp`\n
+    A file of this type defines a data type named `[datatype]`. It defines
+    all the type class instances associated to that data type, so that one
+    only has to include the data type's header to get the full functionality
+    it supports.
+
+  - `boost/hana/ext/`\n
+    This directory contains adapters for external libraries. This is the only
+    part of the public interface which is not included by the master header,
+    because that would make the master header dependent on those external
+    libraries. Note that only the strict minimum required to adapt the
+    external component is included in these headers (e.g. a forward
+    declaration). This means that the definition of the external component
+    should still be included when one wants to use it. For example:
+
+    @snippet example/tutorial/include_ext.cpp main
+
+  - `boost/hana/sandbox/`\n
+    This directory contains experimental code on which no guarantee whatsoever
+    is made. It might not even compile and it will definitely not be stable.
+
+  - `boost/hana/detail/`\n
+    This directory contains utilities required internally. Nothing in `detail/`
+    is guaranteed to be stable, so you should not use it.
+
+### Example
+Let's say I want to include `set`. I only have to include its header and I
+can use all the methods it supports right away:
+
+@snippet example/tutorial/include_set.cpp main
+
+
+@section tutorial-mastering Mastering the library
+
+------------------------------------------------------------------------------
+You now have everything you need to start using the library. From here on,
+mastering the library is only a matter of understanding and knowing how to
+use the general purpose type classes and data types provided with it, which
+is best done by looking at the reference documentation. At some point, you
+will probably also want to create your own type classes and data types that
+fit your needs better; go ahead, the library was intended to be used that way.
+
+The structure of the reference (available in the menu to the left) goes as
+follow:
+  - @ref core\n
+    Documentation for the core module, which contains everything needed to
+    implement type classes, data types and related utilities. This is relevant
+    if you need to extend the library, but otherwise the tutorial pretty much
+    covered it all.
+
+  - @ref functional\n
+    General purpose function objects that are generally useful in a purely
+    functional setting. These are not tied to any type class or data type
+    (currently).
+
+  - @ref typeclasses\n
+    Documentation for all the type classes provided with the library. Each
+    type class is documented as follows:
+      - The methods it provides
+      - The minimal complete definition(s) required to instantiate it
+      - The laws that must be respected by its instances
+      - Any additional type class specific information
+
+  - @ref datatypes\n
+    Documentation for all the data types provided with the library. Each
+    data type is documented as follows:
+      - The type classes it instantiates, and how it does so
+      - Methods tied to the data type but not to any type class
+      - Any data type specific information
+
+If you are not too familiar with Haskell, I suggest you start with a fairly
+concrete type class and then work your way down to more abstract and powerful
+type classes. A good place to start would be the `List` type class, which
+is useful and very concrete.
+
+I hope you enjoy using the library as much as I enjoyed writing it!
+
+-- Louis
 
 
 <!-- Links -->
