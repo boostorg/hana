@@ -3,7 +3,7 @@
 Defines the `boost::hana::List` instance.
 
 @todo
-Find a way to get rid of this header. Same goes for pair/instance.hpp.
+Find a way to get rid of this header.
 
 @copyright Louis Dionne 2014
 Distributed under the Boost Software License, Version 1.0.

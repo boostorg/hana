@@ -8,14 +8,16 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/minimal/list.hpp>
+#include <boost/hana/detail/minimal/product.hpp>
 #include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/maybe.hpp>
-#include <boost/hana/pair/instance.hpp>
 
 #include <tuple>
 using namespace boost::hana;
 
+
+constexpr auto prod = detail::minimal::product<>;
 
 // stop_at must return a Maybe, so we need the comparison to be compile-time.
 template <int i>
@@ -34,7 +36,7 @@ void test() {
         return [=](auto x) {
             return if_(equal(stop, x),
                 nothing,
-                just(pair(x + int_<1>, f(x)))
+                just(prod(x + int_<1>, f(x)))
             );
         };
     };
@@ -53,14 +55,14 @@ void test_revert() {
     using L = detail::minimal::List<mcd>;
     static constexpr auto z = x<999>;
 
-    BOOST_HANA_CONSTEXPR_LAMBDA auto f = pair;
+    BOOST_HANA_CONSTEXPR_LAMBDA auto f = prod;
     BOOST_HANA_CONSTEXPR_LAMBDA auto g = [=](auto k) {
         return if_(equal(k, z), nothing, just(k));
     };
 
     // Make sure the special conditions are met
     BOOST_HANA_STATIC_ASSERT(g(z) == nothing);
-    BOOST_HANA_STATIC_ASSERT(g(f(z, x<0>)) == just(pair(z, x<0>)));
+    BOOST_HANA_STATIC_ASSERT(g(f(z, x<0>)) == just(prod(z, x<0>)));
 
     // Make sure the reversing works
     auto lists = list(

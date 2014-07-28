@@ -6,7 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/integral.hpp>
 #include <boost/hana/map.hpp>
-#include <boost/hana/pair/instance.hpp>
+#include <boost/hana/pair.hpp>
 #include <boost/hana/type.hpp>
 
 #include <cassert>

@@ -5,16 +5,12 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/detail/static_assert.hpp>
-#include <boost/hana/pair/instance.hpp>
-
-#include <string>
-#include <cassert>
+#include <boost/hana/pair.hpp>
 using namespace boost::hana;
 
 
 int main() {
     //! [main]
-    assert(pair(1, std::string{"234"}) == pair(1, "234"));
-    BOOST_HANA_STATIC_ASSERT(pair('x', 2) != pair('y', 2));
+    BOOST_HANA_STATIC_ASSERT(first(pair(1, 'x')) == 1);
     //! [main]
 }

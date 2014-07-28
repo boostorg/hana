@@ -1,16 +1,16 @@
 /*!
 @file
-Defines `boost::hana::Pair::mcd`.
+Defines `boost::hana::Product::mcd`.
 
 @copyright Louis Dionne 2014
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#ifndef BOOST_HANA_PAIR_MCD_HPP
-#define BOOST_HANA_PAIR_MCD_HPP
+#ifndef BOOST_HANA_PRODUCT_MCD_HPP
+#define BOOST_HANA_PRODUCT_MCD_HPP
 
-#include <boost/hana/pair/pair.hpp>
+#include <boost/hana/product/product.hpp>
 
 #include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/core.hpp> // for instantiates
@@ -19,20 +19,21 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //! Minimal complete definition: `first` and `second`
-    struct Pair::mcd { };
+    struct Product::mcd { };
 
-    //! @details
-    //! Two pairs `x` and `y` are equal iff they are equal element-wise,
+    //! Instance of `Comparable` for `Product`s.
+    //!
+    //! Two products `x` and `y` are equal iff they are equal element-wise,
     //! i.e. iff
     //! @code
     //!     first(x) == first(y) && second(x) == second(y)
     //! @endcode
     //!
     //! ### Example
-    //! @snippet example/pair/comparable.cpp main
+    //! @snippet example/product/comparable.cpp main
     template <typename T, typename U>
     struct Comparable::instance<T, U, when<
-        instantiates<Pair, T>() && instantiates<Pair, U>()
+        instantiates<Product, T>() && instantiates<Product, U>()
     >> : Comparable::equal_mcd {
         template <typename X, typename Y>
         static constexpr auto equal_impl(X x, Y y) {
@@ -96,4 +97,4 @@ namespace boost { namespace hana {
 #endif
 }} // end namespace boost::hana
 
-#endif // !BOOST_HANA_PAIR_MCD_HPP
+#endif // !BOOST_HANA_PRODUCT_MCD_HPP

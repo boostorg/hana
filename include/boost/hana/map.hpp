@@ -17,7 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/wrap.hpp>
 #include <boost/hana/list/instance.hpp>
 #include <boost/hana/logical/logical.hpp>
-#include <boost/hana/pair/pair.hpp>
+#include <boost/hana/product/product.hpp>
 #include <boost/hana/searchable/find_mcd.hpp>
 
 
@@ -89,7 +89,7 @@ namespace boost { namespace hana {
         { return any(pred, keys(map)); }
     };
 
-    //! Converts a `List` of `Pair`s to a `Map`.
+    //! Converts a `List` of `Product`s to a `Map`.
     //! @relates Map
     //!
     //! @note
@@ -101,7 +101,7 @@ namespace boost { namespace hana {
         { return unpack(map, xs); }
     };
 
-    //! Converts a `Map` to a `List` of `Pair`s.
+    //! Converts a `Map` to a `List` of `Product`s.
     //! @relates Map
     template <typename L>
     struct convert<L, Map, detail::std::enable_if_t<instantiates<List, L>()>> {

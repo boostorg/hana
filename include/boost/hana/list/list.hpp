@@ -177,16 +177,16 @@ namespace boost { namespace hana {
     //! Partition a list based on a `predicate`.
     //! @relates List
     //!
-    //! Specifically, returns a `Pair` whose first element is a list of the
-    //! elements satisfying the predicate, and whose second element is a
-    //! list of the elements that do not satisfy the predicate.
+    //! Specifically, returns an unspecified `Product` whose first element is
+    //! a list of the elements satisfying the predicate, and whose second
+    //! element is a list of the elements that do not satisfy the predicate.
     //!
     //!
     //! @param predicate
     //! A function called as `predicate(x)` for each element `x` in the list
     //! and returning a `Logical`. If the result of `predicate` is true-valued,
     //! then `x` is added to the list in the first component of the resulting
-    //! `Pair`. Otherwise, `x` is added to the list in the second component.
+    //! `Product`. Otherwise, `x` is added to the list in the second component.
     //! In the current version of the library, the `predicate` has to return
     //! a [compile-time](@ref Logical_terminology) `Logical`.
     //!
@@ -524,7 +524,7 @@ namespace boost { namespace hana {
     //!        initial value used in the next call to `f` and `x` is an
     //!        element to be appended to the resulting list. Also note
     //!        that `pair` may actually be replaced by any instance of
-    //!        the `Pair` type class.
+    //!        the `Product` type class.
     //!
     //! @param init
     //! An initial value to build the list from.
@@ -566,7 +566,7 @@ namespace boost { namespace hana {
     //!     2. `just(pair(x, init))` if it isn't, where `init` is the new
     //!        initial value used in a recursive call to `f` and `x` is an
     //!        element prepended to the resulting list. Also note that `pair`
-    //!        may actually be replaced by any instance of the `Pair` type
+    //!        may actually be replaced by any instance of the `Product` type
     //!        class.
     //!
     //! @param init

@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_EXT_STD_PAIR_HPP
 
 #include <boost/hana/core.hpp>
-#include <boost/hana/pair/mcd.hpp>
+#include <boost/hana/product/mcd.hpp>
 
 #include <utility>
 
@@ -25,12 +25,18 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Pair::instance<StdPair> : Pair::mcd {
-        template <typename P>
-        static auto first_impl(P p) { return p.first; }
+    struct Product::instance<StdPair> : Product::mcd {
+        template <typename X, typename Y>
+        static auto first_impl(X x, Y y)
+        { return std::make_pair(x, y); }
 
         template <typename P>
-        static auto second_impl(P p) { return p.second; }
+        static auto first_impl(P p)
+        { return p.first; }
+
+        template <typename P>
+        static auto second_impl(P p)
+        { return p.second; }
     };
 }} // end namespace boost::hana
 

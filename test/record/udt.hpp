@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/constant.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/list/instance.hpp>
-#include <boost/hana/pair/instance.hpp>
+#include <boost/hana/pair.hpp>
 #include <boost/hana/record/mcd.hpp>
 
 

@@ -13,11 +13,11 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/record/record.hpp>
 
 #include <boost/hana/comparable/equal_mcd.hpp>
-#include <boost/hana/core.hpp> // for instantiates
+#include <boost/hana/core.hpp> // for instantiates and datatype_t
 #include <boost/hana/detail/std/type_traits.hpp>
 #include <boost/hana/foldable/mcd.hpp>
 #include <boost/hana/map.hpp>
-#include <boost/hana/pair/instance.hpp>
+#include <boost/hana/product/product.hpp>
 #include <boost/hana/searchable/find_mcd.hpp>
 
 
@@ -90,7 +90,10 @@ namespace boost { namespace hana {
         template <typename X>
         static constexpr auto apply(X x) {
             return to<Map>(fmap(
-                [=](auto k_f) { return pair(first(k_f), second(k_f)(x)); },
+                [=](auto k_f) {
+                    using P = datatype_t<decltype(k_f)>;
+                    return make_product<P>(first(k_f), second(k_f)(x));
+                },
                 members<R>
             ));
         }

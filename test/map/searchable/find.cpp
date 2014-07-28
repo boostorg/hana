@@ -7,10 +7,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/map.hpp>
 
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/minimal/product.hpp>
 #include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/maybe.hpp>
-#include <boost/hana/pair/instance.hpp>
 using namespace boost::hana;
 
 
@@ -21,7 +21,7 @@ template <int i>
 constexpr auto value = int_<i + 100>;
 
 template <int i, int j>
-BOOST_HANA_CONSTEXPR_LAMBDA auto p = pair(key<i>, value<j>);
+BOOST_HANA_CONSTEXPR_LAMBDA auto p = detail::minimal::product<>(key<i>, value<j>);
 
 BOOST_HANA_CONSTEXPR_LAMBDA auto is = [](auto x) {
     return [=](auto y) { return equal(x, y); };

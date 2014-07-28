@@ -919,6 +919,7 @@ I hope you enjoy using the library as much as I enjoyed writing it!
 #include <boost/hana/monad.hpp>
 #include <boost/hana/orderable.hpp>
 #include <boost/hana/pair.hpp>
+#include <boost/hana/product.hpp>
 #include <boost/hana/range.hpp>
 #include <boost/hana/record.hpp>
 #include <boost/hana/searchable.hpp>

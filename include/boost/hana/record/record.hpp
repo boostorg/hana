@@ -33,9 +33,9 @@ namespace boost { namespace hana {
     //! A list of pairs representing the data structure.
     //! @relates Record
     //!
-    //! Specifically, `members<R>` is a `List` of `Pair`s associating keys to
-    //! functions, where a pair `(k, f)` means that the member represented by
-    //! the key `k` can be accessed by calling the function `f` on an object
+    //! Specifically, `members<R>` is a `List` of `Product`s associating keys
+    //! to functions, where a pair `(k, f)` means that the member represented
+    //! by the key `k` can be accessed by calling the function `f` on an object
     //! of data type `R`.
     template <typename R>
     BOOST_HANA_CONSTEXPR_LAMBDA auto members = Record::instance<R>::members_impl();
