@@ -20,12 +20,6 @@
 <script type="text/javascript">
   $(document).ready(function() { searchBox.OnSelectItem(0); });
 </script>
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    extensions: ["tex2jax.js"],
-    jax: ["input/TeX","output/HTML-CSS"],
-});
-</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -110,7 +104,7 @@ struct boost::hana::Applicative::instance&lt; T, when&lt; instantiates&lt; List,
 <div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(lift&lt;StdTuple&gt;(<span class="charliteral">&#39;x&#39;</span>) == std::make_tuple(<span class="charliteral">&#39;x&#39;</span>));</div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> f = pair;</div>
-<div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> g = <a class="code" href="group___functional.html#ga004f884cdbb85c2efe3383c1db450094">flip</a>(pair);</div>
+<div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> g = <a class="code" href="group__functional.html#ga004f884cdbb85c2efe3383c1db450094">flip</a>(pair);</div>
 <div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
 <div class="line">        <a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(list(f, g), list(1, 2, 3), list(<span class="charliteral">&#39;a&#39;</span>, <span class="charliteral">&#39;b&#39;</span>))</div>
 <div class="line">            ==</div>

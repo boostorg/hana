@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['id',['id',['../group___functional.html#gaef38cf34324c8edbd3597ae71811d00d',1,'boost::hana']]],
+  ['id',['id',['../group__functional.html#gaef38cf34324c8edbd3597ae71811d00d',1,'boost::hana']]],
   ['if_5f',['if_',['../structboost_1_1hana_1_1_logical.html#a06927a2badb729e1522b9030d18234df',1,'boost::hana::Logical']]],
   ['init',['init',['../structboost_1_1hana_1_1_list.html#a733fdb2e8686033466beea8323e53a26',1,'boost::hana::List']]],
   ['instantiates',['instantiates',['../group__core.html#ga1505b4c072265b1461478be8e424e356',1,'boost::hana']]],

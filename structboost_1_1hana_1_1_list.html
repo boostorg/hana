@@ -20,12 +20,6 @@
 <script type="text/javascript">
   $(document).ready(function() { searchBox.OnSelectItem(0); });
 </script>
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    extensions: ["tex2jax.js"],
-    jax: ["input/TeX","output/HTML-CSS"],
-});
-</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -916,7 +910,7 @@ template&lt;typename L &gt; </div>
 </dl>
 <h3>Example</h3>
 <div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
-<div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a6ed2907b48fcba3dd1059b4b0bfde624">sort_by</a>(<a class="code" href="group___functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a>&gt;<a class="code" href="group___functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a>, <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1_c, -2_c, 3_c, 0_c)) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(3_c, 1_c, 0_c, -2_c)</div>
+<div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a6ed2907b48fcba3dd1059b4b0bfde624">sort_by</a>(<a class="code" href="group__functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a>&gt;<a class="code" href="group__functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a>, <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1_c, -2_c, 3_c, 0_c)) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(3_c, 1_c, 0_c, -2_c)</div>
 <div class="line">    );</div>
 </div><!-- fragment -->
 </div>
@@ -995,7 +989,7 @@ template&lt;typename L &gt; </div>
 </dl>
 <h3>Example</h3>
 <div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
-<div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a27aa67fa9ffc3d89b23a6dce018013d4">take_until</a>(<a class="code" href="group___functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a> &lt; 2_c, integer_list&lt;int, 3, 2, 1, 0&gt;) == integer_list&lt;int, 3, 2&gt;</div>
+<div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a27aa67fa9ffc3d89b23a6dce018013d4">take_until</a>(<a class="code" href="group__functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a> &lt; 2_c, integer_list&lt;int, 3, 2, 1, 0&gt;) == integer_list&lt;int, 3, 2&gt;</div>
 <div class="line">    );</div>
 </div><!-- fragment -->
 </div>
@@ -1034,7 +1028,7 @@ template&lt;typename L &gt; </div>
 </dl>
 <h3>Example</h3>
 <div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
-<div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a86916c5c62a42f01f85450b366ef6eff">take_while</a>(<a class="code" href="group___functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a> &lt; 2_c, integer_list&lt;int, 0, 1, 2, 3&gt;) == integer_list&lt;int, 0, 1&gt;</div>
+<div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a86916c5c62a42f01f85450b366ef6eff">take_while</a>(<a class="code" href="group__functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a> &lt; 2_c, integer_list&lt;int, 0, 1, 2, 3&gt;) == integer_list&lt;int, 0, 1&gt;</div>
 <div class="line">    );</div>
 </div><!-- fragment -->
 </div>
@@ -1269,7 +1263,7 @@ template&lt;typename L &gt; </div>
 </dl>
 <h3>Example</h3>
 <div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
-<div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a5eadaf63535ebb8cdd8d9e4c16b9bacd">zip_with</a>(<a class="code" href="group___functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a> * <a class="code" href="group___functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a>, <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, 2, 3, 4), <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(5, 6, 7, 8, <span class="stringliteral">&quot;ignored&quot;</span>))</div>
+<div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a5eadaf63535ebb8cdd8d9e4c16b9bacd">zip_with</a>(<a class="code" href="group__functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a> * <a class="code" href="group__functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a>, <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, 2, 3, 4), <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(5, 6, 7, 8, <span class="stringliteral">&quot;ignored&quot;</span>))</div>
 <div class="line">        ==</div>
 <div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(5, 12, 21, 32)</div>
 <div class="line">    );</div>

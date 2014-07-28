@@ -2,34 +2,26 @@ var NAVTREE =
 [
   [ "Boost.Hana", "index.html", [
     [ "Boost.Hana Manual", "index.html", [
-      [ "Preface", "index.html#preface", null ],
-      [ "Introduction", "index.html#introduction", null ],
-      [ "Quick start", "index.html#quick-start", null ],
-      [ "Organization", "index.html#organization", null ],
-      [ "Type classes", "index.html#typeclasses", [
-        [ "Getting concrete", "index.html#getting-concrete", null ]
+      [ "Preface", "index.html#tutorial-preface", null ],
+      [ "Introduction", "index.html#tutorial-introduction", null ],
+      [ "Quick start", "index.html#tutorial-quick_start", null ],
+      [ "Type classes", "index.html#tutorial-typeclasses", [
+        [ "Getting concrete", "index.html#tutorial-typeclasses-getting_concrete", null ]
       ] ],
-      [ "Data types", "index.html#datatypes", null ]
+      [ "Data types", "index.html#tutorial-datatypes", null ],
+      [ "Header organization", "index.html#tutorial-header_organization", null ],
+      [ "Mastering the library", "index.html#tutorial-mastering", null ]
     ] ],
     [ "Todo List", "todo.html", null ],
     [ "Bug List", "bug.html", null ],
-    [ "Modules", "modules.html", "modules" ],
-    [ "Classes", null, [
-      [ "Class List", "annotated.html", "annotated" ],
-      [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
-      [ "Class Members", "functions.html", [
-        [ "All", "functions.html", null ],
-        [ "Functions", "functions_func.html", null ],
-        [ "Variables", "functions_vars.html", null ]
-      ] ]
-    ] ]
+    [ "Reference", "modules.html", "modules" ]
   ] ]
 ];
 
 var NAVTREEINDEX =
 [
-".html",
-"structboost_1_1hana_1_1_orderable.html#af10ea2fee24c0a780758f67721bb5bfa"
+"bug.html",
+"structboost_1_1hana_1_1_pair.html#a5d2111e165329a8ded67dec73f2df4ae"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

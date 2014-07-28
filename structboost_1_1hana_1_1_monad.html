@@ -20,12 +20,6 @@
 <script type="text/javascript">
   $(document).ready(function() { searchBox.OnSelectItem(0); });
 </script>
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    extensions: ["tex2jax.js"],
-    jax: ["input/TeX","output/HTML-CSS"],
-});
-</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -194,8 +188,8 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line"><a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> sfinae = [](<span class="keyword">auto</span> f) {</div>
 <div class="line">    <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> ...x) {</div>
 <div class="line">        <span class="keywordflow">return</span> eval_if(detail::is_valid(f)(x...),</div>
-<div class="line">            [=](<span class="keyword">auto</span> <a class="code" href="group___functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a>) { return just(_(f)(x...)); },</div>
-<div class="line">            [](<span class="keyword">auto</span> <a class="code" href="group___functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a>) { return nothing; }</div>
+<div class="line">            [=](<span class="keyword">auto</span> <a class="code" href="group__functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a>) { return just(_(f)(x...)); },</div>
+<div class="line">            [](<span class="keyword">auto</span> <a class="code" href="group__functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a>) { return nothing; }</div>
 <div class="line">        );</div>
 <div class="line">    };</div>
 <div class="line">};</div>

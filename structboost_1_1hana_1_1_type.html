@@ -20,12 +20,6 @@
 <script type="text/javascript">
   $(document).ready(function() { searchBox.OnSelectItem(0); });
 </script>
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    extensions: ["tex2jax.js"],
-    jax: ["input/TeX","output/HTML-CSS"],
-});
-</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -190,7 +184,7 @@ template&lt;typename T &gt; </div>
 <div class="line">    <span class="keyword">auto</span> u = type&lt;std::vector&lt;int&gt;&gt;(std::initializer_list&lt;int&gt;{1, 2, 3});</div>
 <div class="line">    assert(u == v);</div>
 </div><!-- fragment --><p> <code>decltype(type&lt;T&gt;)</code> also has a nested alias to <code>T</code> named <code>type</code>. Hence, it can be used as a metafunction returning <code>T</code>: </p><div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...T&gt;</div>
-<div class="line"><span class="keyword">using</span> largest = decltype(maximum_by(<a class="code" href="group___functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>(<a class="code" href="group___functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a>&lt;<a class="code" href="group___functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a>, <a class="code" href="structboost_1_1hana_1_1_type.html#a5286be1cfdaca72680089a7d15a5c14c">sizeof_</a>), type_list&lt;T...&gt;));</div>
+<div class="line"><span class="keyword">using</span> largest = decltype(maximum_by(<a class="code" href="group__functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>(<a class="code" href="group__functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a>&lt;<a class="code" href="group__functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a>, <a class="code" href="structboost_1_1hana_1_1_type.html#a5286be1cfdaca72680089a7d15a5c14c">sizeof_</a>), type_list&lt;T...&gt;));</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keywordtype">int</span> size&gt;</div>
 <div class="line"><span class="keyword">struct </span>storage { <span class="keywordtype">char</span> s[size]; };</div>
@@ -277,7 +271,7 @@ template&lt;template&lt; typename...&gt; class f&gt; </div>
 
 <p>Lift a template to a function on <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="C++ type represented as a constexpr object. ">Type</a></code>s. </p>
 <p>Specifically, <code>template_&lt;f&gt;</code> is a function on <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="C++ type represented as a constexpr object. ">Type</a></code>s satisfying </p><div class="fragment"><div class="line">template_&lt;f&gt;(type&lt;x1&gt;, ..., type&lt;xN&gt;) == <a class="code" href="structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c">type</a>&lt;f&lt;x1, ..., xN&gt;&gt;</div>
-</div><!-- fragment --><p><code>decltype(template_&lt;f&gt;)</code> is also a metafunction class such that </p><div class="fragment"><div class="line">decltype(template_&lt;f&gt;)::<a class="code" href="group___functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>&lt;x1, ..., xN&gt;::<a class="code" href="structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c">type</a> == f&lt;x1, ..., xN&gt;</div>
+</div><!-- fragment --><p><code>decltype(template_&lt;f&gt;)</code> is also a metafunction class such that </p><div class="fragment"><div class="line">decltype(template_&lt;f&gt;)::<a class="code" href="group__functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>&lt;x1, ..., xN&gt;::<a class="code" href="structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c">type</a> == f&lt;x1, ..., xN&gt;</div>
 </div><!-- fragment --><h3>Example</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...&gt; <span class="keyword">struct </span>f;</div>
 <div class="line"><span class="keyword">struct </span>x;</div>
@@ -318,7 +312,7 @@ template&lt;template&lt; typename...&gt; class f&gt; </div>
 
 <p>Lift a metafunction to a function on <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="C++ type represented as a constexpr object. ">Type</a></code>s. </p>
 <p>Specifically, <code>metafunction&lt;f&gt;</code> is a function on <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="C++ type represented as a constexpr object. ">Type</a></code>s satisfying </p><div class="fragment"><div class="line">metafunction&lt;f&gt;(type&lt;x1&gt;, ..., type&lt;xN&gt;) == <a class="code" href="structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c">type</a>&lt;f&lt;x1, ..., xN&gt;::type&gt;</div>
-</div><!-- fragment --><p><code>decltype(metafunction&lt;f&gt;)</code> is also a metafunction class such that </p><div class="fragment"><div class="line">decltype(metafunction&lt;f&gt;)::<a class="code" href="group___functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>&lt;x1, ..., xN&gt; == f&lt;x1, ..., xN&gt;</div>
+</div><!-- fragment --><p><code>decltype(metafunction&lt;f&gt;)</code> is also a metafunction class such that </p><div class="fragment"><div class="line">decltype(metafunction&lt;f&gt;)::<a class="code" href="group__functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>&lt;x1, ..., xN&gt; == f&lt;x1, ..., xN&gt;</div>
 </div><!-- fragment --> 
 </div>
 </div>
@@ -344,7 +338,7 @@ template&lt;typename f &gt; </div>
 
 <p>Lift a metafunction class to a function on <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="C++ type represented as a constexpr object. ">Type</a></code>s. </p>
 <p>Specifically, <code>metafunction_class&lt;f&gt;</code> is a function on <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="C++ type represented as a constexpr object. ">Type</a></code>s satisfying </p><div class="fragment"><div class="line">metafunction_class&lt;f&gt;(type&lt;x1&gt;, ..., type&lt;xN&gt;) == <a class="code" href="structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c">type</a>&lt;f::apply&lt;x1, ..., xN&gt;::type&gt;</div>
-</div><!-- fragment --><p><code>decltype(metafunction_class&lt;f&gt;)</code> is also a metafunction class such that </p><div class="fragment"><div class="line">decltype(metafunction_class&lt;f&gt;)::<a class="code" href="group___functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>&lt;x1, ..., xN&gt; == f::<a class="code" href="group___functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>&lt;x1, ..., xN&gt;</div>
+</div><!-- fragment --><p><code>decltype(metafunction_class&lt;f&gt;)</code> is also a metafunction class such that </p><div class="fragment"><div class="line">decltype(metafunction_class&lt;f&gt;)::<a class="code" href="group__functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>&lt;x1, ..., xN&gt; == f::<a class="code" href="group__functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>&lt;x1, ..., xN&gt;</div>
 </div><!-- fragment --> 
 </div>
 </div>

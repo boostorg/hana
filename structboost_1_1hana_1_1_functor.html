@@ -20,12 +20,6 @@
 <script type="text/javascript">
   $(document).ready(function() { searchBox.OnSelectItem(0); });
 </script>
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    extensions: ["tex2jax.js"],
-    jax: ["input/TeX","output/HTML-CSS"],
-});
-</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -104,7 +98,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_functor.html',
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
 <div class="textblock"><p><code><a class="el" href="structboost_1_1hana_1_1_functor.html" title="Functor represents types that can be mapped over. ">Functor</a></code> represents types that can be mapped over. </p>
 <p>Instances of <code><a class="el" href="structboost_1_1hana_1_1_functor.html" title="Functor represents types that can be mapped over. ">Functor</a></code> must satisfy the following laws. For any <code><a class="el" href="structboost_1_1hana_1_1_functor.html" title="Functor represents types that can be mapped over. ">Functor</a></code> <code>x</code> and functions with matching domains/codomains <code>f</code> and <code>g</code>, </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_functor.html#a84bb505c8405a5cd3003db49f652faa2">fmap</a>(<span class="keywordtype">id</span>, x) == x</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1_functor.html#a84bb505c8405a5cd3003db49f652faa2">fmap</a>(<a class="code" href="group___functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>(f, g), x) == <a class="code" href="structboost_1_1hana_1_1_functor.html#a84bb505c8405a5cd3003db49f652faa2">fmap</a>(f, <a class="code" href="structboost_1_1hana_1_1_functor.html#a84bb505c8405a5cd3003db49f652faa2">fmap</a>(g, x))</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1_functor.html#a84bb505c8405a5cd3003db49f652faa2">fmap</a>(<a class="code" href="group__functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>(f, g), x) == <a class="code" href="structboost_1_1hana_1_1_functor.html#a84bb505c8405a5cd3003db49f652faa2">fmap</a>(f, <a class="code" href="structboost_1_1hana_1_1_functor.html#a84bb505c8405a5cd3003db49f652faa2">fmap</a>(g, x))</div>
 </div><!-- fragment --> </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of methods</h2></td></tr>

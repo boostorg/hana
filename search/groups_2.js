@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['functional',['Functional',['../group___functional.html',1,'']]]
+  ['functional',['Functional',['../group__functional.html',1,'']]]
 ];

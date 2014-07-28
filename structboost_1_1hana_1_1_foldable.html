@@ -20,12 +20,6 @@
 <script type="text/javascript">
   $(document).ready(function() { searchBox.OnSelectItem(0); });
 </script>
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    extensions: ["tex2jax.js"],
-    jax: ["input/TeX","output/HTML-CSS"],
-});
-</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -633,8 +627,8 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#ae0a55dd7eb4bd4f587f51ffd8c923e53">count</a>(odd, ints) == 2_c);</div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#ae0a55dd7eb4bd4f587f51ffd8c923e53">count</a>(trait&lt;std::is_floating_point&gt;, types) == 1_c);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#ae0a55dd7eb4bd4f587f51ffd8c923e53">count</a>(<a class="code" href="group___functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a> == type&lt;char&gt;, types) == 2_c);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#ae0a55dd7eb4bd4f587f51ffd8c923e53">count</a>(<a class="code" href="group___functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a> == type&lt;void&gt;, types) == 0_c);</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#ae0a55dd7eb4bd4f587f51ffd8c923e53">count</a>(<a class="code" href="group__functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a> == type&lt;char&gt;, types) == 2_c);</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#ae0a55dd7eb4bd4f587f51ffd8c923e53">count</a>(<a class="code" href="group__functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a> == type&lt;void&gt;, types) == 0_c);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -674,13 +668,13 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">    };</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// Would be `boost::fusion::make_fused(add)` in Boost.Fusion.</span></div>
-<div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> add_seq = <a class="code" href="group___functional.html#ga778b2daa27882e71d28b6f2b38982ddf">partial</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a0e3e724580e826eaa39a934eefa2b328">unpack</a>, add);</div>
+<div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> add_seq = <a class="code" href="group__functional.html#ga778b2daa27882e71d28b6f2b38982ddf">partial</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a0e3e724580e826eaa39a934eefa2b328">unpack</a>, add);</div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(add_seq(list(1, 2)) == add(1, 2));</div>
 </div><!-- fragment -->This idiom serves the role of <code>boost::fusion::make_fused</code> and related utilities in the Boost.Fusion library.</dd></dl>
 <h3>Example</h3>
 <div class="fragment"><div class="line">    <span class="keyword">auto</span> cheap_tie = [](<span class="keyword">auto</span>&amp; ...vars) {</div>
-<div class="line">        <span class="keywordflow">return</span> <a class="code" href="group___functional.html#ga778b2daa27882e71d28b6f2b38982ddf">partial</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a0e3e724580e826eaa39a934eefa2b328">unpack</a>, [&amp;vars...](auto ...values) {</div>
+<div class="line">        <span class="keywordflow">return</span> <a class="code" href="group__functional.html#ga778b2daa27882e71d28b6f2b38982ddf">partial</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a0e3e724580e826eaa39a934eefa2b328">unpack</a>, [&amp;vars...](auto ...values) {</div>
 <div class="line">            <span class="comment">// Using an initializer list sequences the assignments.</span></div>
 <div class="line">            int dummy[] = {((vars = values), 0)...};</div>
 <div class="line">            (<span class="keywordtype">void</span>)dummy;</div>

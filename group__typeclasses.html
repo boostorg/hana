@@ -20,12 +20,6 @@
 <script type="text/javascript">
   $(document).ready(function() { searchBox.OnSelectItem(0); });
 </script>
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    extensions: ["tex2jax.js"],
-    jax: ["input/TeX","output/HTML-CSS"],
-});
-</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -99,9 +93,16 @@ $(document).ready(function(){initNavTree('group__typeclasses.html','');});
 <div class="title">Type classes</div>  </div>
 </div><!--header-->
 <div class="contents">
-
-<p>General purpose type classes provided by the library.  
-<a href="#details">More...</a></p>
+<a name="details" id="details"></a><h2 class="groupheader">Description</h2>
+<p>General purpose type classes provided by the library. </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000027">Todo:</a></b></dt><dd><ul>
+<li>Implement better law checking and check them for all instances in the unit tests. Since we're modularized, it's OK to resort to heavy stuff in the law-checking because it's presumably only done in unit testing contexts.</li>
+<li>Provide a way to check type class requirements like <code>Functor f =&gt; Applicative f</code>.</li>
+<li>Find a better way to provide instances between type classes; consider something like <code>Foldable::instance&lt;Iterable&gt;</code>.</li>
+<li>Consider inheriting from a base class even when no mcd is required. That would allow us to <em>not</em> include a useless mcd.</li>
+<li>Document the purpose of minimal instances; they are meant to provide an easy to use archetype for testing and their tests are meant to exercise the basic dispatching code of type classes (hence it makes sense to test even the mcd of a minimal instance). In particular, they are not meant to be <em>the</em> minimal instance, which does not exist in general (what does it even mean to be a <em>minimal</em> instance?) </li>
+</ul>
+</dd></dl>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
@@ -145,16 +146,6 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Types admitting a structure-preserving right fold with an <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="Applicatives are Functors with the ability to lift values and combine computations. ">Applicative</a></code>.  <a href="structboost_1_1hana_1_1_traversable.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p>General purpose type classes provided by the library. </p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000026">Todo:</a></b></dt><dd><ul>
-<li>Implement better law checking and check them for all instances in the unit tests. Since we're modularized, it's OK to resort to heavy stuff in the law-checking because it's presumably only done in unit testing contexts.</li>
-<li>Provide a way to check type class requirements like <code>Functor f =&gt; Applicative f</code>.</li>
-<li>Find a better way to provide instances between type classes; consider something like <code>Foldable::instance&lt;Iterable&gt;</code>.</li>
-<li>Consider inheriting from a base class even when no mcd is required. That would allow us to <em>not</em> include a useless mcd.</li>
-<li>Document the purpose of minimal instances; they are meant to provide an easy to use archetype for testing and their tests are meant to exercise the basic dispatching code of type classes (hence it makes sense to test even the mcd of a minimal instance). In particular, they are not meant to be <em>the</em> minimal instance, which does not exist in general (what does it even mean to be a <em>minimal</em> instance?) </li>
-</ul>
-</dd></dl>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

@@ -20,12 +20,6 @@
 <script type="text/javascript">
   $(document).ready(function() { searchBox.OnSelectItem(0); });
 </script>
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    extensions: ["tex2jax.js"],
-    jax: ["input/TeX","output/HTML-CSS"],
-});
-</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -106,10 +100,8 @@ struct boost::hana::Foldable::instance&lt; T, when&lt; instantiates&lt; Iterable
 <p>Every <code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="Iterable represents data structures supporting external iteration. ">Iterable</a></code> instance gives rise to an instance of <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="Data structures that can be folded, i.e. summarized into a single value. ">Foldable</a></code>, which is valid for all finite such <code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="Iterable represents data structures supporting external iteration. ">Iterable</a></code>s. </p>
 <p>Let <code>xs</code> be an <code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="Iterable represents data structures supporting external iteration. ">Iterable</a></code> and let <code>xi</code> denote its <code>i</code>-th element. In other words, <code>xs</code> can be folded into a list containing <code>[x1, ..., xN]</code>, where <code>N</code> is the number of elements. Right-folding <code>xs</code> with a binary operation <code>*</code> (in infix notation for legibility) is equivalent to </p><div class="fragment"><div class="line">x1 * (x2 * ( ... * (xN-1 * xN)))</div>
 </div><!-- fragment --><p>Similarly, left-folding <code>xs</code> is equivalent to </p><div class="fragment"><div class="line">(((x1 * x2) * x3) * ...) * xN</div>
-</div><!-- fragment --><p>In both cases, notice the side of the parentheses. Left-folding applies <code>*</code> in a left-associative manner, whereas right-folding applies it in a right-associative manner. For associative operations, i.e. operations such that for all <code>a</code>, <code>b</code> and <code>c</code>, </p><p class="formulaDsp">
-\begin{align*} (a * b) * c = a * (b * c) \end{align*}
-</p>
-<p> this makes no difference. Also note that lazy folds and folds with an initial state are implemented in an analogous way.</p>
+</div><!-- fragment --><p>In both cases, notice the side of the parentheses. Left-folding applies <code>*</code> in a left-associative manner, whereas right-folding applies it in a right-associative manner. For associative operations, i.e. operations such that for all <code>a</code>, <code>b</code> and <code>c</code>, </p><div class="fragment"><div class="line">(a * b) * c = a * (b * c)</div>
+</div><!-- fragment --><p> this makes no difference. Also note that lazy folds and folds with an initial state are implemented in an analogous way.</p>
 <h3>Example 1</h3>
 <div class="fragment"><div class="line">    <span class="keyword">auto</span> to_string = [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> (std::ostringstream{} &lt;&lt; x).str(); };</div>
 <div class="line"></div>
