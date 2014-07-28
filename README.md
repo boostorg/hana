@@ -13,6 +13,7 @@ for shortly. The library is unstable at the moment; do not use for production.
 #include <boost/hana/ext/std/tuple.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/list/instance.hpp>
+#include <boost/hana/type.hpp>
 
 #include <cassert>
 #include <string>
@@ -32,24 +33,24 @@ int main() {
     assert(reverse(fmap(name, stuff)) == std::make_tuple("Quebec", "Toyota", "Obama"));
 
     // Type-level metaprogramming works too.
-    auto types = fmap(decltype_, stuff);
+    auto types = fmap(compose(metafunction<std::add_pointer>, decltype_), stuff);
 
     static_assert(std::is_same<
-        decltype(head(types))::type, President
+        decltype(head(types))::type, President*
     >{}, "");
 
     static_assert(std::is_same<
-        decltype(at(int_<1>, types))::type, Car
+        decltype(at(int_<1>, types))::type, Car*
     >{}, "");
 
     static_assert(std::is_same<
-        decltype(last(types))::type, City
+        decltype(last(types))::type, City*
     >{}, "");
 
     // No compile-time information is lost.
     // The dummy variable is required to make it compile or Clang complains.
-    auto length_is_3 = length(stuff) == int_<3>;
-    static_assert(length_is_3, "");
+    auto dummy = length(permutations(stuff)) == int_<3 * 2 * 1>;
+    static_assert(dummy, "");
 }
 ```
 
