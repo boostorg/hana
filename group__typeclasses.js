@@ -21,7 +21,7 @@ var group__typeclasses =
       [ "instance< Range, Range >", "structboost_1_1hana_1_1_comparable_1_1instance_3_01_range_00_01_range_01_4.html", null ],
       [ "instance< Set, Set >", "structboost_1_1hana_1_1_comparable_1_1instance_3_01_set_00_01_set_01_4.html", null ],
       [ "instance< T, U, when< instantiates< List, T >()&&instantiates< List, U >() > >", "structboost_1_1hana_1_1_comparable_1_1instance_3_01_t_00_01_u_00_01when_3_01instantiates_3_01_li6c872fa58ba3bbc8cb05d84011b0f2c4.html", null ],
-      [ "instance< T, U, when< instantiates< Pair, T >()&&instantiates< Pair, U >() > >", "structboost_1_1hana_1_1_comparable_1_1instance_3_01_t_00_01_u_00_01when_3_01instantiates_3_01_pa174f6cb4ea494d92f75e21db3d81dce3.html", null ],
+      [ "instance< T, U, when< instantiates< Product, T >()&&instantiates< Product, U >() > >", "structboost_1_1hana_1_1_comparable_1_1instance_3_01_t_00_01_u_00_01when_3_01instantiates_3_01_prca7b09a674b1ad0d8e944509a1f0a903.html", null ],
       [ "instance< Type, Type >", "structboost_1_1hana_1_1_comparable_1_1instance_3_01_type_00_01_type_01_4.html", null ],
       [ "instance< X, Y, when_valid< decltype((void)(*(X *) 0==*(Y *) 0))> >", "structboost_1_1hana_1_1_comparable_1_1instance_3_01_x_00_01_y_00_01when__valid_3_01decltype_07_0b9c7edd68038220b64adea74b77b79b1.html", null ],
       [ "not_equal_mcd", "structboost_1_1hana_1_1_comparable_1_1not__equal__mcd.html", null ],
@@ -149,11 +149,12 @@ var group__typeclasses =
       [ "operator>", "structboost_1_1hana_1_1_orderable.html#ae640ee6e43199763efd8be41adb60cf7", null ],
       [ "operator>=", "structboost_1_1hana_1_1_orderable.html#a6d4a20e687927fa1aaba8ded1151eaa0", null ]
     ] ],
-    [ "Pair", "structboost_1_1hana_1_1_pair.html", [
-      [ "mcd", "structboost_1_1hana_1_1_pair_1_1mcd.html", null ],
-      [ "pair", "structboost_1_1hana_1_1_pair.html#a8d15743bd0fcc2cf033ed657e95998c1", null ],
-      [ "first", "structboost_1_1hana_1_1_pair.html#ab6548bd227a06799a2e5abdfd9e9b0b9", null ],
-      [ "second", "structboost_1_1hana_1_1_pair.html#a5d2111e165329a8ded67dec73f2df4ae", null ]
+    [ "Product", "structboost_1_1hana_1_1_product.html", [
+      [ "instance< Pair >", "structboost_1_1hana_1_1_product_1_1instance_3_01_pair_01_4.html", null ],
+      [ "mcd", "structboost_1_1hana_1_1_product_1_1mcd.html", null ],
+      [ "make_product", "structboost_1_1hana_1_1_product.html#a888b17591e8a1595ec57067a51b82729", null ],
+      [ "first", "structboost_1_1hana_1_1_product.html#ab6548bd227a06799a2e5abdfd9e9b0b9", null ],
+      [ "second", "structboost_1_1hana_1_1_product.html#a5d2111e165329a8ded67dec73f2df4ae", null ]
     ] ],
     [ "Record", "structboost_1_1hana_1_1_record.html", [
       [ "mcd", "structboost_1_1hana_1_1_record_1_1mcd.html", null ],

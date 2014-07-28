@@ -487,10 +487,10 @@ template&lt;typename L &gt; </div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Partition a list based on a <code>predicate</code>. </p>
-<p>Specifically, returns a <code><a class="el" href="structboost_1_1hana_1_1_pair.html" title="Generic container of two elements. ">Pair</a></code> whose first element is a list of the elements satisfying the predicate, and whose second element is a list of the elements that do not satisfy the predicate.</p>
+<p>Specifically, returns an unspecified <code><a class="el" href="structboost_1_1hana_1_1_product.html" title="Represents types that are generic containers of two elements. ">Product</a></code> whose first element is a list of the elements satisfying the predicate, and whose second element is a list of the elements that do not satisfy the predicate.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">predicate</td><td>A function called as <code>predicate(x)</code> for each element <code>x</code> in the list and returning a <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code>. If the result of <code>predicate</code> is true-valued, then <code>x</code> is added to the list in the first component of the resulting <code><a class="el" href="structboost_1_1hana_1_1_pair.html" title="Generic container of two elements. ">Pair</a></code>. Otherwise, <code>x</code> is added to the list in the second component. In the current version of the library, the <code>predicate</code> has to return a <a class="el" href="structboost_1_1hana_1_1_logical.html#Logical_terminology">compile-time</a> <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code>.</td></tr>
+    <tr><td class="paramname">predicate</td><td>A function called as <code>predicate(x)</code> for each element <code>x</code> in the list and returning a <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code>. If the result of <code>predicate</code> is true-valued, then <code>x</code> is added to the list in the first component of the resulting <code><a class="el" href="structboost_1_1hana_1_1_product.html" title="Represents types that are generic containers of two elements. ">Product</a></code>. Otherwise, <code>x</code> is added to the list in the second component. In the current version of the library, the <code>predicate</code> has to return a <a class="el" href="structboost_1_1hana_1_1_logical.html#Logical_terminology">compile-time</a> <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code>.</td></tr>
     <tr><td class="paramname">xs</td><td>The list to be partitioned.</td></tr>
   </table>
   </dd>
@@ -1064,7 +1064,7 @@ template&lt;typename L &gt; </div>
   <table class="params">
     <tr><td class="paramname">f</td><td>A function called as <code>f(init)</code>, where <code>init</code> is an initial value, and returning<ol type="1">
 <li><code>nothing</code> if it is done producing the list.</li>
-<li><code>just(pair(init, x))</code> if it isn't, where <code>init</code> is the new initial value used in the next call to <code>f</code> and <code>x</code> is an element to be appended to the resulting list. Also note that <code>pair</code> may actually be replaced by any instance of the <code><a class="el" href="structboost_1_1hana_1_1_pair.html" title="Generic container of two elements. ">Pair</a></code> type class.</li>
+<li><code>just(pair(init, x))</code> if it isn't, where <code>init</code> is the new initial value used in the next call to <code>f</code> and <code>x</code> is an element to be appended to the resulting list. Also note that <code>pair</code> may actually be replaced by any instance of the <code><a class="el" href="structboost_1_1hana_1_1_product.html" title="Represents types that are generic containers of two elements. ">Product</a></code> type class.</li>
 </ol>
 </td></tr>
     <tr><td class="paramname">init</td><td>An initial value to build the list from.</td></tr>
@@ -1113,7 +1113,7 @@ template&lt;typename L &gt; </div>
   <table class="params">
     <tr><td class="paramname">f</td><td>A function called as <code>f(init)</code>, where <code>init</code> is an initial value, and returning<ol type="1">
 <li><code>nothing</code> if it is done producing the list.</li>
-<li><code>just(pair(x, init))</code> if it isn't, where <code>init</code> is the new initial value used in a recursive call to <code>f</code> and <code>x</code> is an element prepended to the resulting list. Also note that <code>pair</code> may actually be replaced by any instance of the <code><a class="el" href="structboost_1_1hana_1_1_pair.html" title="Generic container of two elements. ">Pair</a></code> type class.</li>
+<li><code>just(pair(x, init))</code> if it isn't, where <code>init</code> is the new initial value used in a recursive call to <code>f</code> and <code>x</code> is an element prepended to the resulting list. Also note that <code>pair</code> may actually be replaced by any instance of the <code><a class="el" href="structboost_1_1hana_1_1_product.html" title="Represents types that are generic containers of two elements. ">Product</a></code> type class.</li>
 </ol>
 </td></tr>
     <tr><td class="paramname">init</td><td>An initial value to build the list from.</td></tr>

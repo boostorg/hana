@@ -1,12 +1,10 @@
 var NAVTREEINDEX1 =
 {
-"structboost_1_1hana_1_1_pair.html#a5d2111e165329a8ded67dec73f2df4ae":[3,3,9,3],
-"structboost_1_1hana_1_1_pair.html#a8d15743bd0fcc2cf033ed657e95998c1":[3,3,9,1],
-"structboost_1_1hana_1_1_pair.html#a8d15743bd0fcc2cf033ed657e95998c1":[3,4,7,1],
-"structboost_1_1hana_1_1_pair.html#ab6548bd227a06799a2e5abdfd9e9b0b9":[3,4,7,2],
-"structboost_1_1hana_1_1_pair.html#ab6548bd227a06799a2e5abdfd9e9b0b9":[3,3,9,2],
-"structboost_1_1hana_1_1_pair_1_1mcd.html":[3,4,7,0],
-"structboost_1_1hana_1_1_pair_1_1mcd.html":[3,3,9,0],
+"structboost_1_1hana_1_1_product.html#a5d2111e165329a8ded67dec73f2df4ae":[3,3,9,4],
+"structboost_1_1hana_1_1_product.html#a888b17591e8a1595ec57067a51b82729":[3,3,9,2],
+"structboost_1_1hana_1_1_product.html#ab6548bd227a06799a2e5abdfd9e9b0b9":[3,3,9,3],
+"structboost_1_1hana_1_1_product_1_1instance_3_01_pair_01_4.html":[3,3,9,0],
+"structboost_1_1hana_1_1_product_1_1mcd.html":[3,3,9,1],
 "structboost_1_1hana_1_1_range.html":[3,4,8],
 "structboost_1_1hana_1_1_range.html#ac3b5f08f5a346605377cf5fa9c4fb973":[3,4,8,0],
 "structboost_1_1hana_1_1_record.html":[3,3,10],

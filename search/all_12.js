@@ -5,7 +5,7 @@ var searchData=
   ['scanr',['scanr',['../structboost_1_1hana_1_1_list.html#abb725e66aedc0c19c38b38a00302abf4',1,'boost::hana::List']]],
   ['scanr1',['scanr1',['../structboost_1_1hana_1_1_list.html#a5948df39fe904d509f1bb073d53e3965',1,'boost::hana::List']]],
   ['searchable',['Searchable',['../structboost_1_1hana_1_1_searchable.html',1,'boost::hana']]],
-  ['second',['second',['../structboost_1_1hana_1_1_pair.html#a5d2111e165329a8ded67dec73f2df4ae',1,'boost::hana::Pair']]],
+  ['second',['second',['../structboost_1_1hana_1_1_product.html#a5d2111e165329a8ded67dec73f2df4ae',1,'boost::hana::Product']]],
   ['sequence',['sequence',['../structboost_1_1hana_1_1_traversable.html#ad2bcf2a65d198953b1690b02f9425419',1,'boost::hana::Traversable']]],
   ['set',['Set',['../structboost_1_1hana_1_1_set.html',1,'boost::hana']]],
   ['set',['set',['../structboost_1_1hana_1_1_set.html#a7c6caacd6df4a89e8b62b369007d9602',1,'boost::hana::Set']]],
