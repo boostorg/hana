@@ -6,26 +6,25 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/integral.hpp>
 
-#include <boost/hana/comparable/laws.hpp>
+#include <boost/hana/constant/laws.hpp>
 #include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/list/instance.hpp>
 using namespace boost::hana;
 
 
-template <typename T, typename U>
+template <typename T>
 void test() {
-    BOOST_HANA_STATIC_ASSERT(
-        Comparable::laws::check(
-            list(
-                integral<T, 0>, integral<U, 0>,
-                integral<T, 1>, integral<U, 1>,
-                T{0}, T{1}, U{0}, U{1}
-            )
+    BOOST_HANA_STATIC_ASSERT(Constant::laws::check(
+        list(
+            integral<T, 0>,
+            integral<T, 1>,
+            integral<T, 2>,
+            integral<T, 3>
         )
-    );
+    ));
 }
 
 int main() {
-    test<int, int>();
-    test<int, long long>();
+    test<int>();
+    test<long>();
 }

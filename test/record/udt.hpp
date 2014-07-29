@@ -7,11 +7,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TEST_RECORD_UDT_HPP
 #define BOOST_HANA_TEST_RECORD_UDT_HPP
 
-#include <boost/hana/constant.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/list/instance.hpp>
 #include <boost/hana/pair.hpp>
 #include <boost/hana/record/mcd.hpp>
+#include <boost/hana/type.hpp>
 
 
 struct udt {
@@ -19,13 +19,8 @@ struct udt {
     char member2;
 };
 
-constexpr auto member1 = boost::hana::constant<
-    decltype(&udt::member1), &udt::member1
->;
-
-constexpr auto member2 = boost::hana::constant<
-    decltype(&udt::member2), &udt::member2
->;
+constexpr auto member1 = boost::hana::decltype_(&udt::member1);
+constexpr auto member2 = boost::hana::decltype_(&udt::member2);
 
 namespace boost { namespace hana {
     template <>

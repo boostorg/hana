@@ -4,9 +4,10 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/constant.hpp>
+#include <boost/hana/constant/mcd.hpp>
 
 #include <boost/hana/comparable/laws.hpp>
+#include <boost/hana/detail/minimal/constant.hpp>
 #include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/list/instance.hpp>
 using namespace boost::hana;
@@ -17,24 +18,24 @@ struct UDT {
     Type member;
 };
 
-template <typename T, typename U>
+template <typename mcd, typename T, typename U>
 void test() {
     BOOST_HANA_STATIC_ASSERT(
         Comparable::laws::check(
             list(
-                constant<T, 0>,
-                constant<T, 1>,
+                detail::minimal::constant<T, 0, mcd>,
+                detail::minimal::constant<T, 1, mcd>,
 
-                constant<U, 1>,
-                constant<U, 2>,
+                detail::minimal::constant<U, 1, mcd>,
+                detail::minimal::constant<U, 2, mcd>,
 
-                constant<decltype(&UDT::member), &UDT::member>
+                detail::minimal::constant<decltype(&UDT::member), &UDT::member, mcd>
             )
         )
     );
 }
 
 int main() {
-    test<int, int>();
-    test<int, unsigned long long>();
+    test<Constant::mcd, int, int>();
+    test<Constant::mcd, int, unsigned long long>();
 }

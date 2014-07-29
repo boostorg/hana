@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_CORE_HPP
 #define BOOST_HANA_CORE_HPP
 
-#include <boost/hana/bool.hpp>
+#include <boost/hana/detail/integral_fwd.hpp>
 #include <boost/hana/detail/typeclasses.hpp>
 
 
@@ -130,3 +130,5 @@ namespace boost { namespace hana {
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_CORE_HPP
+
+#include <boost/hana/bool.hpp>

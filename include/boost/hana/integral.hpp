@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_INTEGRAL_HPP
 
 #include <boost/hana/comparable/equal_mcd.hpp>
+#include <boost/hana/constant/mcd.hpp>
 #include <boost/hana/detail/integral_fwd.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/detail/std/type_traits.hpp>
@@ -19,18 +20,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! @details
-    //! Two `Integral`s are equal if and only if the integral values they
-    //! represent are equal. Conversions are allowed.
-    //!
-    //! @snippet example/integral/comparable.cpp main
-    template <>
-    struct Comparable::instance<Integral, Integral> : Comparable::equal_mcd {
-        template <typename T, typename U>
-        static constexpr auto equal_impl(T t, U u)
-        { return bool_<t() == u()>; }
-    };
-
     //! @details
     //! `Integral`s can be compared with objects of any arithmetic type; the
     //! comparison is done by comparing their underlying integral value.
@@ -83,6 +72,13 @@ namespace boost { namespace hana {
         template <typename X, typename Y>
         static constexpr auto less_impl(X x, Y y)
         { return x < y(); }
+    };
+
+    template <>
+    struct Constant::instance<Integral> : Constant::mcd {
+        template <typename C>
+        static constexpr auto value_impl(C const& c)
+        { return c(); }
     };
 
     //! @details

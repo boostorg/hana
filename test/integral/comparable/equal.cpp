@@ -11,14 +11,6 @@ using namespace boost::hana;
 
 
 int main() {
-    // Integral == Integral
-    BOOST_HANA_STATIC_ASSERT(equal(int_<0>, int_<0>));
-    BOOST_HANA_STATIC_ASSERT(!equal(int_<1>, int_<0>));
-
-    BOOST_HANA_STATIC_ASSERT(equal(int_<0>, long_<0>));
-    BOOST_HANA_STATIC_ASSERT(!equal(int_<1>, long_<0>));
-
-
     // Integral == other
     BOOST_HANA_STATIC_ASSERT(equal(int_<0>, int{0}));
     BOOST_HANA_STATIC_ASSERT(!equal(int_<0>, int{1}));

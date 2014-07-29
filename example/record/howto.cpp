@@ -4,12 +4,12 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/constant.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/list/instance.hpp>
 #include <boost/hana/map.hpp>
 #include <boost/hana/pair.hpp>
 #include <boost/hana/record/mcd.hpp>
+#include <boost/hana/type.hpp>
 
 #include <cassert>
 #include <string>
@@ -22,8 +22,8 @@ struct Person {
 };
 
 // The keys can be anything as long as they are compile-time comparable.
-constexpr auto name = constant<decltype(&Person::name), &Person::name>;
-constexpr auto age = constant<decltype(&Person::age), &Person::age>;
+constexpr auto name = decltype_(&Person::name);
+constexpr auto age = decltype_(&Person::age);
 
 namespace boost { namespace hana {
     template <>
@@ -44,7 +44,7 @@ int main() {
 
     assert(lookup(name, john) == just("John"));
     assert(lookup(age, john) == just(30));
-    assert(lookup(constant<int, 9>, john) == nothing);
+    assert(lookup("clearly not a member", john) == nothing);
 
     assert(to<List>(john) == list("John", 30));
     assert(to<Map>(john) == map(
