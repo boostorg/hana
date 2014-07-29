@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable/equal_mcd.hpp>
+#include <boost/hana/foldable/mcd.hpp>
 #include <boost/hana/iterable/mcd.hpp>
 #include <boost/hana/list/mcd.hpp>
 #include <boost/hana/type.hpp>
@@ -41,6 +42,11 @@ namespace boost { namespace hana {
 
                 template <template <typename ...> class f>
                 using storage = f<xs...>;
+
+                template <typename F>
+                static constexpr auto storage_(F f) {
+                    return f.template apply<xs...>();
+                }
             };
         };
     }
@@ -116,6 +122,21 @@ namespace boost { namespace hana {
         static constexpr auto nil_impl() {
             return type_list<>;
         }
+    };
+
+    template <>
+    struct Foldable::instance<TypeList> : detail::FoldableFromIterable {
+        template <typename F, typename S>
+        struct helper {
+            F f;
+            S s;
+            template <typename ...xs>
+            constexpr auto apply() const
+            { return detail::left_folds::variadic_t<xs...>(f, s); }
+        };
+        template <typename F, typename S, typename Xs>
+        static constexpr auto foldl_impl(F f, S s, Xs xs)
+        { return xs.storage_(helper<F, S>{f, s}); }
     };
 
     template <>

@@ -17,7 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana { namespace detail { namespace left_folds {
-    template <bool is_mfc>
+    template <bool is_mfc, typename ...xs>
     struct variadic_impl;
 
     template <>
@@ -29,17 +29,44 @@ namespace boost { namespace hana { namespace detail { namespace left_folds {
 
     template <>
     struct variadic_impl<true> {
-        template <typename f, typename state, typename ...xs>
-        static constexpr auto apply(f, state, xs...) {
+        template <typename F, typename State, typename ...xs>
+        static constexpr auto apply(F f, State state, xs...)
+        { return variadic_impl<true, typename xs::type...>::apply(f, state); }
+
+        template <typename F, typename State>
+        static constexpr auto apply(F f, State state)
+        { return state; }
+    };
+
+    template <typename ...xs>
+    struct variadic_impl<false, xs...> {
+        template <typename F, typename State>
+        static constexpr auto apply(F f, State s)
+        { return variadic_impl<false>::apply(f, s, type<xs>...); }
+    };
+
+    template <typename ...xs>
+    struct variadic_impl<true, xs...> {
+        template <typename f, typename state>
+        static constexpr auto apply(f, state) {
             return type<
-                variadic_meta<
-                    f::template apply,
-                    typename state::type,
-                    typename xs::type...
-                >
+                variadic_meta<f::template apply, typename state::type, xs...>
             >;
         }
     };
+
+    template <typename ...xs>
+    struct variadic_t_impl {
+        template <typename F, typename State>
+        constexpr auto operator()(F f, State s) const {
+            return variadic_impl<
+                detail::is_metafunction_class<F>::value, xs...
+            >::apply(f, s);
+        }
+    };
+
+    template <typename ...xs>
+    constexpr variadic_t_impl<xs...> variadic_t{};
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto variadic = [](auto f, auto state, auto ...xs) {
         return variadic_impl<
