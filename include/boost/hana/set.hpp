@@ -17,7 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/wrap.hpp>
 #include <boost/hana/list/instance.hpp>
 #include <boost/hana/logical/logical.hpp>
-#include <boost/hana/searchable/find_mcd.hpp>
+#include <boost/hana/searchable/mcd.hpp>
 
 
 namespace boost { namespace hana {
@@ -58,7 +58,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! example/set/searchable.cpp main
     template <>
-    struct Searchable::instance<Set> : Searchable::find_mcd {
+    struct Searchable::instance<Set> : Searchable::mcd {
         template <typename Pred, typename Set>
         static constexpr auto find_impl(Pred pred, Set set)
         { return find(pred, detail::unwrap(set)); }

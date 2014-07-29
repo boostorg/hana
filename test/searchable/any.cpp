@@ -4,7 +4,7 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/searchable/find_mcd.hpp>
+#include <boost/hana/searchable/mcd.hpp>
 
 #include <boost/hana/detail/minimal/comparable.hpp>
 #include <boost/hana/detail/minimal/searchable.hpp>
@@ -28,5 +28,5 @@ void test() {
 };
 
 int main() {
-    test<Searchable::find_mcd>();
+    test<Searchable::mcd>();
 }

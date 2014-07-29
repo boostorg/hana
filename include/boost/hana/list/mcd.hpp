@@ -25,7 +25,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/monad/flatten_mcd.hpp>
 #include <boost/hana/orderable/orderable.hpp>
 #include <boost/hana/pair.hpp>
-#include <boost/hana/searchable/find_mcd.hpp>
+#include <boost/hana/searchable/mcd.hpp>
 #include <boost/hana/traversable/traverse_mcd.hpp>
 
 
@@ -376,7 +376,7 @@ namespace boost { namespace hana {
     //! @snippet example/list/searchable/find.cpp main
     template <typename T>
     struct Searchable::instance<T, when<instantiates<List, T>()>>
-        : Searchable::find_mcd
+        : Searchable::mcd
     {
         template <typename Pred, typename Xs>
         static constexpr auto find_impl(Pred pred, Xs xs) {

@@ -13,12 +13,12 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/logical/logical.hpp>
 #include <boost/hana/maybe.hpp>
-#include <boost/hana/searchable/find_mcd.hpp>
+#include <boost/hana/searchable/mcd.hpp>
 
 
 namespace boost { namespace hana {
 namespace detail { namespace minimal {
-    template <typename mcd = hana::Searchable::find_mcd>
+    template <typename mcd = hana::Searchable::mcd>
     struct Searchable { };
 
     template <typename X, typename mcd, typename = operators::enable>
@@ -34,7 +34,7 @@ namespace detail { namespace minimal {
         { return searchable_type<X, mcd>{x}; }
     };
 
-    template <typename mcd = hana::Searchable::find_mcd>
+    template <typename mcd = hana::Searchable::mcd>
     constexpr make_searchable_impl<mcd> searchable{};
 }} // end namespace detail::minimal
 
@@ -49,8 +49,8 @@ struct Comparable::instance<
 };
 
 template <>
-struct Searchable::instance<detail::minimal::Searchable<Searchable::find_mcd>>
-    : Searchable::find_mcd
+struct Searchable::instance<detail::minimal::Searchable<Searchable::mcd>>
+    : Searchable::mcd
 {
     template <typename Pred, typename X>
     static constexpr auto find_impl(Pred p, X x)

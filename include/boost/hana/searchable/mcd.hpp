@@ -1,14 +1,14 @@
 /*!
 @file
-Defines `boost::hana::Searchable::find_mcd`.
+Defines `boost::hana::Searchable::mcd`.
 
 @copyright Louis Dionne 2014
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#ifndef BOOST_HANA_SEARCHABLE_FIND_MCD_HPP
-#define BOOST_HANA_SEARCHABLE_FIND_MCD_HPP
+#ifndef BOOST_HANA_SEARCHABLE_MCD_HPP
+#define BOOST_HANA_SEARCHABLE_MCD_HPP
 
 #include <boost/hana/searchable/searchable.hpp>
 
@@ -24,7 +24,7 @@ namespace boost { namespace hana {
     //! then reduce the MCD to `find`. However, this is not done because that
     //! implementation requires the predicate to be compile-time, which is
     //! more restrictive than the original `any` in `Foldable`.
-    struct Searchable::find_mcd {
+    struct Searchable::mcd {
         template <typename X, typename Srch>
         static constexpr auto elem_impl(X x, Srch srch)
         { return any([=](auto y) { return equal(x, y); }, srch); }
@@ -55,4 +55,4 @@ namespace boost { namespace hana {
     };
 }} // end namespace boost::hana
 
-#endif // !BOOST_HANA_SEARCHABLE_FIND_MCD_HPP
+#endif // !BOOST_HANA_SEARCHABLE_MCD_HPP

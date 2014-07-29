@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/logical/logical.hpp>
 #include <boost/hana/maybe.hpp>
 #include <boost/hana/pair.hpp>
-#include <boost/hana/searchable/find_mcd.hpp>
+#include <boost/hana/searchable/mcd.hpp>
 
 
 namespace boost { namespace hana {
@@ -103,7 +103,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Searchable::instance<HashMap> : Searchable::find_mcd {
+    struct Searchable::instance<HashMap> : Searchable::mcd {
         template <typename Pred, typename Map>
         static constexpr auto find_impl(Pred pred, Map map) {
             return; // not implemented

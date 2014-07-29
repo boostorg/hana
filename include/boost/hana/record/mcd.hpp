@@ -18,7 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/foldable/mcd.hpp>
 #include <boost/hana/map.hpp>
 #include <boost/hana/product/product.hpp>
-#include <boost/hana/searchable/find_mcd.hpp>
+#include <boost/hana/searchable/mcd.hpp>
 
 
 namespace boost { namespace hana {
@@ -66,7 +66,7 @@ namespace boost { namespace hana {
     //! Searching a `Record` `r` is equivalent to searching `to<Map>(r)`.
     template <typename R>
     struct Searchable::instance<R, when<instantiates<Record, R>()>>
-        : Searchable::find_mcd
+        : Searchable::mcd
     {
         template <typename Pred, typename X>
         static constexpr auto find_impl(Pred pred, X x) {

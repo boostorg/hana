@@ -20,7 +20,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functor/fmap_mcd.hpp>
 #include <boost/hana/logical/logical.hpp>
 #include <boost/hana/monad/flatten_mcd.hpp>
-#include <boost/hana/searchable/find_mcd.hpp>
+#include <boost/hana/searchable/mcd.hpp>
 #include <boost/hana/traversable/traverse_mcd.hpp>
 
 
@@ -150,7 +150,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/maybe/searchable.cpp main
     template <>
-    struct Searchable::instance<Maybe> : Searchable::find_mcd {
+    struct Searchable::instance<Maybe> : Searchable::mcd {
         template <typename Pred, typename M>
         static constexpr auto find_impl(Pred p, M m) {
             return maybe(

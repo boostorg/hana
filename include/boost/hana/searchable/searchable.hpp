@@ -23,7 +23,7 @@ namespace boost { namespace hana {
     //! is no requirement that the keys and values be different.
     struct Searchable {
         BOOST_HANA_TYPECLASS(Searchable);
-        struct find_mcd;
+        struct mcd;
     };
 
     //! Return whether any key of the structure satisfies the `predicate`.
