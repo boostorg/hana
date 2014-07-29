@@ -283,12 +283,17 @@ separating concerns:
   struct Printable {
     BOOST_HANA_TYPECLASS(Printable);
 
-    // Not invalid, but probably stupid
+    // This is valid, but it's probably not a good idea unless those are
+    // strongly related to the type class.
     int foo;
     void bar() const { };
     struct baz { };
   };
 @endcode
+
+As you will see later with minimal complete definitions, it is often useful
+to put other _related_ members in a type class; don't hesitate to do it when
+it makes sense.
 
 When I introduced type classes, I said they allowed us to bundle together
 related operations called methods. This is because type classes can be seen
