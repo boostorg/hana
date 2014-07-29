@@ -133,10 +133,10 @@ and the C++14 standard. First, let's include the library:
 > Unless specified otherwise, the documentation assumes that the above lines
 > are present before examples and code snippets. Use your judgment!
 
-Finer grained headers are provided and will be explained in the [Header
-organization](@ref tutorial-header_organization) section, but for now
-that'll do. Let's create an heterogeneous list, which is conceptually
-the same as a `std::tuple`:
+Finer grained headers are provided and will be explained in the
+[Header organization](@ref tutorial-header_organization) section,
+but for now that'll do. Let's create an heterogeneous list, which
+is conceptually the same as a `std::tuple`:
 
 @skipline auto xs =
 
