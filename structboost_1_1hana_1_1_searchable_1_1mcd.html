@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.7"/>
-<title>Boost.Hana: boost::hana::Functor::instance&lt; Maybe &gt; Struct Template Reference</title>
+<title>Boost.Hana: boost::hana::Searchable::mcd Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -69,7 +69,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('structboost_1_1hana_1_1_functor_1_1instance_3_01_maybe_01_4.html','');});
+$(document).ready(function(){initNavTree('structboost_1_1hana_1_1_searchable_1_1mcd.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -88,30 +88,27 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_functor_1_1ins
 
 <div class="header">
   <div class="summary">
-<a href="structboost_1_1hana_1_1_functor_1_1instance_3_01_maybe_01_4-members.html">List of all members</a>  </div>
+<a href="structboost_1_1hana_1_1_searchable_1_1mcd-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">boost::hana::Functor::instance&lt; Maybe &gt; Struct Template Reference</div>  </div>
+<div class="title">boost::hana::Searchable::mcd Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
-<div class="textblock"><h3>template&lt;&gt;<br />
-struct boost::hana::Functor::instance&lt; Maybe &gt;</h3>
-
-<p>Instance of <code><a class="el" href="structboost_1_1hana_1_1_functor.html" title="Functor represents types that can be mapped over. ">Functor</a></code> for <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code>s. </p>
-<p>A <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code> can be seen as a <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose index-based sequence. ">List</a></code> containing either one element (<code>just(x)</code>) or no elements at all (<code>nothing</code>). As such, <code>fmap</code> for <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code>s returns <code>nothing</code> when applied to <code>nothing</code> and <code>just(f(x))</code> when applied to <code>just(x)</code>.</p>
-<h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> inc = [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> x + 1; };</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_functor.html#a84bb505c8405a5cd3003db49f652faa2">fmap</a>(inc, nothing) == nothing);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_functor.html#a84bb505c8405a5cd3003db49f652faa2">fmap</a>(inc, just(1)) == just(2));</div>
-</div><!-- fragment --></div><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Inheritance diagram for boost::hana::Functor::instance&lt; Maybe &gt;:</div>
+<div class="textblock"><p>Minimal complete definition: <code>find</code> and <code>any</code> </p>
+<dl class="section note"><dt>Note</dt><dd>We could implement <code>any(pred, xs)</code> as <code>is_just(find(pred, xs))</code>, and then reduce the MCD to <code>find</code>. However, this is not done because that implementation requires the predicate to be compile-time, which is more restrictive than the original <code>any</code> in <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="Data structures that can be folded, i.e. summarized into a single value. ">Foldable</a></code>. </dd></dl>
+</div><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Inheritance diagram for boost::hana::Searchable::mcd:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
  <div class="center">
-  <img src="structboost_1_1hana_1_1_functor_1_1instance_3_01_maybe_01_4.png" usemap="#boost::hana::Functor::instance&lt; Maybe &gt;_map" alt=""/>
-  <map id="boost::hana::Functor::instance&lt; Maybe &gt;_map" name="boost::hana::Functor::instance&lt; Maybe &gt;_map">
-<area href="structboost_1_1hana_1_1_functor_1_1fmap__mcd.html" title="Minimal complete definition: fmap " alt="boost::hana::Functor::fmap_mcd" shape="rect" coords="0,0,242,24"/>
+  <img src="structboost_1_1hana_1_1_searchable_1_1mcd.png" usemap="#boost::hana::Searchable::mcd_map" alt=""/>
+  <map id="boost::hana::Searchable::mcd_map" name="boost::hana::Searchable::mcd_map">
+<area href="structboost_1_1hana_1_1_searchable_1_1instance_3_01_map_01_4.html" title="A map can be searched by its keys with a predicate yielding a boolean Integral. " alt="boost::hana::Searchable::instance&lt; Map &gt;" shape="rect" coords="0,56,442,80"/>
+<area href="structboost_1_1hana_1_1_searchable_1_1instance_3_01_maybe_01_4.html" title="Instance of Searchable for Maybes. " alt="boost::hana::Searchable::instance&lt; Maybe &gt;" shape="rect" coords="452,56,894,80"/>
+<area href="structboost_1_1hana_1_1_searchable_1_1instance_3_01_r_00_01when_3_01instantiates_3_01_record_00_01_r_01_4_07_08_4_01_4.html" title="Searching a Record r is equivalent to searching to<Map>(r). " alt="boost::hana::Searchable::instance&lt; R, when&lt; instantiates&lt; Record, R &gt;()&gt; &gt;" shape="rect" coords="904,56,1346,80"/>
+<area href="structboost_1_1hana_1_1_searchable_1_1instance_3_01_set_01_4.html" title="The keys and the values of a Set are its elements; the Searchable  instance follows naturally from th..." alt="boost::hana::Searchable::instance&lt; Set &gt;" shape="rect" coords="1356,56,1798,80"/>
+<area href="structboost_1_1hana_1_1_searchable_1_1instance_3_01_t_00_01when_3_01instantiates_3_01_list_00_01_t_01_4_07_08_4_01_4.html" alt="boost::hana::Searchable::instance&lt; T, when&lt; instantiates&lt; List, T &gt;()&gt; &gt;" shape="rect" coords="1808,56,2250,80"/>
 </map>
  </div></div>
 </div><!-- contents -->
@@ -119,7 +116,7 @@ struct boost::hana::Functor::instance&lt; Maybe &gt;</h3>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>boost</b></li><li class="navelem"><b>hana</b></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1_functor.html">Functor</a></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1_functor_1_1instance_3_01_maybe_01_4.html">instance< Maybe ></a></li>
+    <li class="navelem"><b>boost</b></li><li class="navelem"><b>hana</b></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1_searchable.html">Searchable</a></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1_searchable_1_1mcd.html">mcd</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.7 </li>

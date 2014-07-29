@@ -125,7 +125,7 @@ Quick start</h1>
 <h4>Note</h4>
 <p>Unless specified otherwise, the documentation assumes that the above lines are present before examples and code snippets. Use your judgment! </p>
 </blockquote>
-<p>Finer grained headers are provided and will be explained in the <a class="el" href="index.html#tutorial-header_organization">Header</a>organization" section, but for now that'll do. Let's create an heterogeneous list, which is conceptually the same as a <code>std::tuple</code>:</p>
+<p>Finer grained headers are provided and will be explained in the <a class="el" href="index.html#tutorial-header_organization">Header organization</a> section, but for now that'll do. Let's create an heterogeneous list, which is conceptually the same as a <code>std::tuple</code>:</p>
 <p><div class="fragment"><div class="line">    <span class="keyword">auto</span> xs = <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="charliteral">&#39;2&#39;</span>, std::string{<span class="stringliteral">&quot;345&quot;</span>});</div>
 </div><!-- fragment --></p>
 <p>Here, <code>list</code> is a generic lambda taking a variable number of arguments and returning an object which is a valid sequence for Boost.Hana. The actual type of the object returned by <code>list</code> is left unspecified, as will always be the case in this library. However, something called its "data type" is specified; <code>list</code> returns an object of data type <code>List</code>. Data types will be explained in detail in <a class="el" href="index.html#tutorial-datatypes">their own section</a>. There are several operations that can be performed on lists; here are a couple so you get the feeling:</p>

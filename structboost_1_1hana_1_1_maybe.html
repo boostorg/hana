@@ -96,37 +96,137 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_maybe.html',''
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
 <div class="textblock"><p>Represents an optional value. </p>
-<p>A <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code> either contains a value (represented as <code>just(x)</code>), or it is empty (represented as <code>nothing</code>). </p><hr/>
+<p>A <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code> either contains a value (represented as <code>just(x)</code>), or it is empty (represented as <code>nothing</code>).</p>
 <h2>Instance of</h2>
-<p><code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable type class defines equality and inequality. ">Comparable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_functor.html" title="Functor represents types that can be mapped over. ">Functor</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="Applicatives are Functors with the ability to lift values and combine computations. ">Applicative</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="Monads are Applicatives with the ability to flatten values that were lifted more than once...">Monad</a></code> and <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="Data structures that can be folded, i.e. summarized into a single value. ">Foldable</a></code> </p>
+<p><code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable type class defines equality and inequality. ">Comparable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_functor.html" title="Functor represents types that can be mapped over. ">Functor</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="Applicatives are Functors with the ability to lift values and combine computations. ">Applicative</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="Monads are Applicatives with the ability to flatten values that were lifted more than once...">Monad</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="Data structures that can be folded, i.e. summarized into a single value. ">Foldable</a></code> and <code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="Data structures that can be searched. ">Searchable</a></code> </p>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of methods</h2></td></tr>
-<tr class="memitem:a8ad818d6df7379b0adefa45d2ac844d0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8ad818d6df7379b0adefa45d2ac844d0"></a>
-constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a></td></tr>
-<tr class="memdesc:a8ad818d6df7379b0adefa45d2ac844d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an optional value containing <code>x</code>. <br /></td></tr>
+<tr class="memitem:a8ad818d6df7379b0adefa45d2ac844d0"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a></td></tr>
+<tr class="memdesc:a8ad818d6df7379b0adefa45d2ac844d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an optional value containing <code>x</code>.  <a href="#a8ad818d6df7379b0adefa45d2ac844d0">More...</a><br /></td></tr>
 <tr class="separator:a8ad818d6df7379b0adefa45d2ac844d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2be2b3e89cab04d5f1e2b9edefdb2518"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2be2b3e89cab04d5f1e2b9edefdb2518"></a>
-constexpr maybe_detail::nothing&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_maybe.html#a2be2b3e89cab04d5f1e2b9edefdb2518">nothing</a></td></tr>
-<tr class="memdesc:a2be2b3e89cab04d5f1e2b9edefdb2518"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an empty optional value. <br /></td></tr>
-<tr class="separator:a2be2b3e89cab04d5f1e2b9edefdb2518"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07b1f3c0503e86e5d53704a0f5845963"><td class="memItemLeft" align="right" valign="top">constexpr unspecified&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_maybe.html#a07b1f3c0503e86e5d53704a0f5845963">nothing</a> {}</td></tr>
+<tr class="memdesc:a07b1f3c0503e86e5d53704a0f5845963"><td class="mdescLeft">&#160;</td><td class="mdescRight">An empty optional value.  <a href="#a07b1f3c0503e86e5d53704a0f5845963">More...</a><br /></td></tr>
+<tr class="separator:a07b1f3c0503e86e5d53704a0f5845963"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d8246013d58b0809b6f18d894525b6c"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_maybe.html#a0d8246013d58b0809b6f18d894525b6c">only_when</a></td></tr>
+<tr class="memdesc:a0d8246013d58b0809b6f18d894525b6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code> with the result of a function, but only if a predicate is satisfied.  <a href="#a0d8246013d58b0809b6f18d894525b6c">More...</a><br /></td></tr>
+<tr class="separator:a0d8246013d58b0809b6f18d894525b6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6529e11cb228e99a05e81071752807d5"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_maybe.html#a6529e11cb228e99a05e81071752807d5">maybe</a></td></tr>
-<tr class="memdesc:a6529e11cb228e99a05e81071752807d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applies a function to the contents of a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code>, with a fallback result.  <a href="#a6529e11cb228e99a05e81071752807d5">More...</a><br /></td></tr>
+<tr class="memdesc:a6529e11cb228e99a05e81071752807d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Apply a function to the contents of a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code>, with a fallback result.  <a href="#a6529e11cb228e99a05e81071752807d5">More...</a><br /></td></tr>
 <tr class="separator:a6529e11cb228e99a05e81071752807d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1047a69893a62cd36eb0d2934f85e0e7"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_maybe.html#a1047a69893a62cd36eb0d2934f85e0e7">is_just</a></td></tr>
-<tr class="memdesc:a1047a69893a62cd36eb0d2934f85e0e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code> contains a value.  <a href="#a1047a69893a62cd36eb0d2934f85e0e7">More...</a><br /></td></tr>
+<tr class="memdesc:a1047a69893a62cd36eb0d2934f85e0e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return whether a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code> contains a value.  <a href="#a1047a69893a62cd36eb0d2934f85e0e7">More...</a><br /></td></tr>
 <tr class="separator:a1047a69893a62cd36eb0d2934f85e0e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4eb266d123883c23853f7731a6c5953f"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_maybe.html#a4eb266d123883c23853f7731a6c5953f">is_nothing</a></td></tr>
-<tr class="memdesc:a4eb266d123883c23853f7731a6c5953f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code> is empty.  <a href="#a4eb266d123883c23853f7731a6c5953f">More...</a><br /></td></tr>
+<tr class="memdesc:a4eb266d123883c23853f7731a6c5953f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return whether a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code> is empty.  <a href="#a4eb266d123883c23853f7731a6c5953f">More...</a><br /></td></tr>
 <tr class="separator:a4eb266d123883c23853f7731a6c5953f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb98884a58d911687bf2aa64a411d623"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_maybe.html#afb98884a58d911687bf2aa64a411d623">from_maybe</a></td></tr>
-<tr class="memdesc:afb98884a58d911687bf2aa64a411d623"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the contents of a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code>, or a default value if the <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code> is <code>nothing</code>.  <a href="#afb98884a58d911687bf2aa64a411d623">More...</a><br /></td></tr>
+<tr class="memdesc:afb98884a58d911687bf2aa64a411d623"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the contents of a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code>, with a fallback result.  <a href="#afb98884a58d911687bf2aa64a411d623">More...</a><br /></td></tr>
 <tr class="separator:afb98884a58d911687bf2aa64a411d623"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2ebdc9b916940e038e6f2e3043e4f796"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_maybe.html#a2ebdc9b916940e038e6f2e3043e4f796">from_just</a></td></tr>
-<tr class="memdesc:a2ebdc9b916940e038e6f2e3043e4f796"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract the value out of a <code>just</code>, or trigger a compile-time error if the argument is <code>nothing</code>.  <a href="#a2ebdc9b916940e038e6f2e3043e4f796">More...</a><br /></td></tr>
+<tr class="memdesc:a2ebdc9b916940e038e6f2e3043e4f796"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract the content of a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code> or fail at compile-time.  <a href="#a2ebdc9b916940e038e6f2e3043e4f796">More...</a><br /></td></tr>
 <tr class="separator:a2ebdc9b916940e038e6f2e3043e4f796"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Methods</h2>
+<a class="anchor" id="a8ad818d6df7379b0adefa45d2ac844d0"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto just</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> x) {</div>
+<div class="line">        <span class="keywordflow">return</span> unspecified;</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Create an optional value containing <code>x</code>. </p>
+<h3>Example</h3>
+<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> just_x = <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<span class="charliteral">&#39;x&#39;</span>);</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="a07b1f3c0503e86e5d53704a0f5845963"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr unspecified nothing {}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>An empty optional value. </p>
+<h3>Example</h3>
+<div class="fragment"><div class="line">    constexpr <span class="keyword">auto</span> x = <a class="code" href="structboost_1_1hana_1_1_maybe.html#a07b1f3c0503e86e5d53704a0f5845963">nothing</a>;</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="a0d8246013d58b0809b6f18d894525b6c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto only_when</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> predicate, <span class="keyword">auto</span> f, <span class="keyword">auto</span> x) {</div>
+<div class="line">        <span class="keywordflow">return</span> eval_if(predicate(x),</div>
+<div class="line">            [=](<span class="keyword">auto</span> <a class="code" href="group__functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a>) { <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<a class="code" href="group__functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a>(f)(x)); },</div>
+<div class="line">            [](<span class="keyword">auto</span> <a class="code" href="group__functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a>) { <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_maybe.html#a07b1f3c0503e86e5d53704a0f5845963">nothing</a>; }</div>
+<div class="line">        );</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Create a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code> with the result of a function, but only if a predicate is satisfied. </p>
+<p>Specifically, returns <code>just(f(x))</code> if <code>predicate(x)</code> is a true-valued <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code>, and <code>nothing</code> otherwise.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">predicate</td><td>A function called as <code>predicate(x)</code> and returning a true-valued <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code> if <code>just(f(x))</code> should be the resulting value, and a false-valued one if <code>nothing</code> should be the resulting value. In the current version of the library, the result of <code>predicate</code> has to be a <a class="el" href="structboost_1_1hana_1_1_logical.html#Logical_terminology">compile-time</a> <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code>.</td></tr>
+    <tr><td class="paramname">f</td><td>A function called as <code>f(x)</code> if the <code>predicate</code> returns a true-valued <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code>, and not called at all otherwise. If the <code>predicate</code> returns a false-valued <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code>, the <code>f(x)</code> expression is not even required to be well-formed.</td></tr>
+    <tr><td class="paramname">x</td><td>The value to either transform and put in a <code>just</code>, or discard.</td></tr>
+  </table>
+  </dd>
+</dl>
+<h3>Example</h3>
+<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> even = [](<span class="keyword">auto</span> x) {</div>
+<div class="line">        <span class="keywordflow">return</span> x % int_&lt;2&gt; == int_&lt;0&gt;;</div>
+<div class="line">    };</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> half = [](<span class="keyword">auto</span> x) {</div>
+<div class="line">        <span class="keywordflow">return</span> x / int_&lt;2&gt;;</div>
+<div class="line">    };</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a0d8246013d58b0809b6f18d894525b6c">only_when</a>(even, half, int_&lt;4&gt;) == <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(int_&lt;2&gt;));</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a0d8246013d58b0809b6f18d894525b6c">only_when</a>(even, half, int_&lt;3&gt;) == <a class="code" href="structboost_1_1hana_1_1_maybe.html#a07b1f3c0503e86e5d53704a0f5845963">nothing</a>);</div>
+</div><!-- fragment -->
+</div>
+</div>
 <a class="anchor" id="a6529e11cb228e99a05e81071752807d5"></a>
 <div class="memitem">
 <div class="memproto">
@@ -145,15 +245,23 @@ constexpr maybe_detail::nothing&#160;</td><td class="memItemRight" valign="botto
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> default_, <span class="keyword">auto</span> f, <span class="keyword">auto</span> m) {</div>
-<div class="line">        <span class="keywordflow">return</span> m.maybe_impl(default_, f);</div>
+<div class="line">        unspecified;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
-<p>Applies a function to the contents of a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code>, with a fallback result. </p>
+<p>Apply a function to the contents of a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code>, with a fallback result. </p>
 <p>Specifically, <code>maybe</code> takes a default value, a function and an optional value. If the optional value is <code>nothing</code>, the default value is returned. Otherwise, the function is applied to the content of the <code>just</code>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">default_</td><td>A default value returned if <code>m</code> is <code>nothing</code>.</td></tr>
+    <tr><td class="paramname">f</td><td>A function called as <code>f(x)</code> if and only if <code>m</code> is an optional value of the form <code>just(x)</code>. In that case, the result returend by <code>maybe</code> is the result of <code>f</code>.</td></tr>
+    <tr><td class="paramname">m</td><td>An optional value.</td></tr>
+  </table>
+  </dd>
+</dl>
 <h3>Example</h3>
 <div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> inc = [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> x + 1; };</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a6529e11cb228e99a05e81071752807d5">maybe</a>(0, inc, <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(1)) == 2);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a6529e11cb228e99a05e81071752807d5">maybe</a>(0, inc, <a class="code" href="structboost_1_1hana_1_1_maybe.html#a2be2b3e89cab04d5f1e2b9edefdb2518">nothing</a>) == 0);</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a6529e11cb228e99a05e81071752807d5">maybe</a>(<span class="charliteral">&#39;x&#39;</span>, inc, <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(1)) == 2);</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a6529e11cb228e99a05e81071752807d5">maybe</a>(<span class="charliteral">&#39;x&#39;</span>, inc, <a class="code" href="structboost_1_1hana_1_1_maybe.html#a07b1f3c0503e86e5d53704a0f5845963">nothing</a>) == <span class="charliteral">&#39;x&#39;</span>);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -178,8 +286,13 @@ constexpr maybe_detail::nothing&#160;</td><td class="memItemRight" valign="botto
 <div class="line">        <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_maybe.html#a6529e11cb228e99a05e81071752807d5">maybe</a>(false_, [](<span class="keyword">auto</span>) { <span class="keywordflow">return</span> true_; }, m);</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
-<p>Returns whether a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code> contains a value. </p>
-
+<p>Return whether a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code> contains a value. </p>
+<p>Specifically, returns a <a class="el" href="structboost_1_1hana_1_1_logical.html#Logical_terminology">compile-time</a> true-valued <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code> if <code>m</code> is of the form <code>just(x)</code> for some <code>x</code>, and a false-valued one otherwise.</p>
+<h3>Example</h3>
+<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>( <a class="code" href="structboost_1_1hana_1_1_maybe.html#a1047a69893a62cd36eb0d2934f85e0e7">is_just</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<span class="charliteral">&#39;x&#39;</span>)));</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>( <a class="code" href="structboost_1_1hana_1_1_maybe.html#a1047a69893a62cd36eb0d2934f85e0e7">is_just</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a07b1f3c0503e86e5d53704a0f5845963">nothing</a>)));</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(!<a class="code" href="structboost_1_1hana_1_1_maybe.html#a1047a69893a62cd36eb0d2934f85e0e7">is_just</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a07b1f3c0503e86e5d53704a0f5845963">nothing</a>));</div>
+</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a4eb266d123883c23853f7731a6c5953f"></a>
@@ -203,8 +316,13 @@ constexpr maybe_detail::nothing&#160;</td><td class="memItemRight" valign="botto
 <div class="line">        <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_maybe.html#a6529e11cb228e99a05e81071752807d5">maybe</a>(true_, [](<span class="keyword">auto</span>) { <span class="keywordflow">return</span> false_; }, m);</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
-<p>Returns whether a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code> is empty. </p>
-
+<p>Return whether a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code> is empty. </p>
+<p>Specifically, returns a <a class="el" href="structboost_1_1hana_1_1_logical.html#Logical_terminology">compile-time</a> true-valued <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code> if <code>m</code> is of the form <code>nothing</code>, and a false-valued one otherwise.</p>
+<h3>Example</h3>
+<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>( <a class="code" href="structboost_1_1hana_1_1_maybe.html#a4eb266d123883c23853f7731a6c5953f">is_nothing</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a07b1f3c0503e86e5d53704a0f5845963">nothing</a>));</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(!<a class="code" href="structboost_1_1hana_1_1_maybe.html#a4eb266d123883c23853f7731a6c5953f">is_nothing</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<span class="charliteral">&#39;x&#39;</span>)));</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(!<a class="code" href="structboost_1_1hana_1_1_maybe.html#a4eb266d123883c23853f7731a6c5953f">is_nothing</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a07b1f3c0503e86e5d53704a0f5845963">nothing</a>)));</div>
+</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="afb98884a58d911687bf2aa64a411d623"></a>
@@ -228,10 +346,18 @@ constexpr maybe_detail::nothing&#160;</td><td class="memItemRight" valign="botto
 <div class="line">        <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_maybe.html#a6529e11cb228e99a05e81071752807d5">maybe</a>(default_, [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> x; }, m);</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
-<p>Returns the contents of a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code>, or a default value if the <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code> is <code>nothing</code>. </p>
+<p>Return the contents of a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code>, with a fallback result. </p>
+<p>Specifically, returns <code>x</code> if <code>m</code> of the form <code>just(x)</code>, and <code>default_</code> if <code>m</code> is of the form <code>nothing</code>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">default_</td><td>The default value to return if <code>m</code> is <code>nothing</code>.</td></tr>
+    <tr><td class="paramname">m</td><td>The optional value to try to retrieve the value from.</td></tr>
+  </table>
+  </dd>
+</dl>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#afb98884a58d911687bf2aa64a411d623">from_maybe</a>(0, <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(1)) == 1);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#afb98884a58d911687bf2aa64a411d623">from_maybe</a>(0, <a class="code" href="structboost_1_1hana_1_1_maybe.html#a2be2b3e89cab04d5f1e2b9edefdb2518">nothing</a>) == 0);</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#afb98884a58d911687bf2aa64a411d623">from_maybe</a>(<span class="charliteral">&#39;x&#39;</span>, <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(1)) == 1);</div>
+<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#afb98884a58d911687bf2aa64a411d623">from_maybe</a>(<span class="charliteral">&#39;x&#39;</span>, <a class="code" href="structboost_1_1hana_1_1_maybe.html#a07b1f3c0503e86e5d53704a0f5845963">nothing</a>) == <span class="charliteral">&#39;x&#39;</span>);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -262,8 +388,12 @@ constexpr maybe_detail::nothing&#160;</td><td class="memItemRight" valign="botto
 <div class="line">        <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_maybe.html#a6529e11cb228e99a05e81071752807d5">maybe</a>(err, [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> [=] { <span class="keywordflow">return</span> x; }; }, m)();</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
-<p>Extract the value out of a <code>just</code>, or trigger a compile-time error if the argument is <code>nothing</code>. </p>
-
+<p>Extract the content of a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code> or fail at compile-time. </p>
+<p>Specifically, returns <code>x</code> if the optional value is of the form <code>just(x)</code>, and triggers a static assertion otherwise.</p>
+<h3>Example</h3>
+<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a2ebdc9b916940e038e6f2e3043e4f796">from_just</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<span class="charliteral">&#39;x&#39;</span>)) == <span class="charliteral">&#39;x&#39;</span>);</div>
+<div class="line">    <span class="comment">// from_just(nothing); // compile-time static assertion</span></div>
+</div><!-- fragment -->
 </div>
 </div>
 </div><!-- contents -->

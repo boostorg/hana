@@ -161,12 +161,12 @@ var group__typeclasses =
       [ "members", "structboost_1_1hana_1_1_record.html#a5ae5ec12bb6524e05cc4750b203c194e", null ]
     ] ],
     [ "Searchable", "structboost_1_1hana_1_1_searchable.html", [
-      [ "find_mcd", "structboost_1_1hana_1_1_searchable_1_1find__mcd.html", null ],
       [ "instance< Map >", "structboost_1_1hana_1_1_searchable_1_1instance_3_01_map_01_4.html", null ],
       [ "instance< Maybe >", "structboost_1_1hana_1_1_searchable_1_1instance_3_01_maybe_01_4.html", null ],
       [ "instance< R, when< instantiates< Record, R >()> >", "structboost_1_1hana_1_1_searchable_1_1instance_3_01_r_00_01when_3_01instantiates_3_01_record_00_01_r_01_4_07_08_4_01_4.html", null ],
       [ "instance< Set >", "structboost_1_1hana_1_1_searchable_1_1instance_3_01_set_01_4.html", null ],
       [ "instance< T, when< instantiates< List, T >()> >", "structboost_1_1hana_1_1_searchable_1_1instance_3_01_t_00_01when_3_01instantiates_3_01_list_00_01_t_01_4_07_08_4_01_4.html", null ],
+      [ "mcd", "structboost_1_1hana_1_1_searchable_1_1mcd.html", null ],
       [ "any", "structboost_1_1hana_1_1_searchable.html#a67dd29f7921b76f7d2bd372605f73f7c", null ],
       [ "any_of", "structboost_1_1hana_1_1_searchable.html#a2dc05dc4553467aa0a2235088de41b4b", null ],
       [ "all", "structboost_1_1hana_1_1_searchable.html#a695907e4a3ef7d0e9ab34f5afff709b2", null ],
