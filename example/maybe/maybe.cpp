@@ -11,14 +11,9 @@ using namespace boost::hana;
 
 
 int main() {
-    //! [from_maybe]
-    BOOST_HANA_STATIC_ASSERT(from_maybe(0, just(1)) == 1);
-    BOOST_HANA_STATIC_ASSERT(from_maybe(0, nothing) == 0);
-    //! [from_maybe]
-
-    //! [maybe]
+    //! [main]
     BOOST_HANA_CONSTEXPR_LAMBDA auto inc = [](auto x) { return x + 1; };
-    BOOST_HANA_STATIC_ASSERT(maybe(0, inc, just(1)) == 2);
-    BOOST_HANA_STATIC_ASSERT(maybe(0, inc, nothing) == 0);
-    //! [maybe]
+    BOOST_HANA_STATIC_ASSERT(maybe('x', inc, just(1)) == 2);
+    BOOST_HANA_STATIC_ASSERT(maybe('x', inc, nothing) == 'x');
+    //! [main]
 }

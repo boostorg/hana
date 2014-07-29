@@ -12,13 +12,7 @@ using namespace boost::hana;
 
 int main() {
     //! [main]
-    BOOST_HANA_CONSTEXPR_LAMBDA auto inc = [](auto x) {
-        return just(x + 1);
-    };
-
-    BOOST_HANA_STATIC_ASSERT(bind(just(1), inc) == just(2));
-    BOOST_HANA_STATIC_ASSERT(bind(nothing, inc) == nothing);
-
-    BOOST_HANA_STATIC_ASSERT(flatten(just(just(2))) == just(2));
+    BOOST_HANA_STATIC_ASSERT(from_maybe('x', just(1)) == 1);
+    BOOST_HANA_STATIC_ASSERT(from_maybe('x', nothing) == 'x');
     //! [main]
 }

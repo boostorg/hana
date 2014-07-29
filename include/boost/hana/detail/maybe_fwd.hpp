@@ -11,21 +11,19 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_DETAIL_MAYBE_FWD_HPP
 
 #include <boost/hana/bool.hpp>
+#include <boost/hana/logical/logical.hpp>
 
 
 namespace boost { namespace hana {
-    /*!
-    @ingroup datatypes
-    Represents an optional value.
-
-    A `Maybe` either contains a value (represented as `just(x)`), or it is
-    empty (represented as `nothing`).
-
-    --------------------------------------------------------------------------
-
-    ## Instance of
-    `Comparable`, `Functor`, `Applicative`, `Monad` and `Foldable`
-     */
+    //! @ingroup datatypes
+    //! Represents an optional value.
+    //!
+    //! A `Maybe` either contains a value (represented as `just(x)`), or it
+    //! is empty (represented as `nothing`).
+    //!
+    //! ## Instance of
+    //! `Comparable`, `Functor`, `Applicative`, `Monad`, `Foldable`
+    //! and `Searchable`
     struct Maybe { };
 
     namespace maybe_detail {
@@ -53,19 +51,65 @@ namespace boost { namespace hana {
         using nothing = maybe<false, void>;
     }
 
-    //! Creates an optional value containing `x`.
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    //! Create an optional value containing `x`.
     //! @relates Maybe
-    //! @hideinitializer
+    //!
+    //! ### Example
+    //! @snippet example/maybe/just.cpp main
+    constexpr auto just = [](auto x) {
+        return unspecified;
+    };
+
+    //! An empty optional value.
+    //! @relates Maybe
+    //!
+    //! ### Example
+    //! @snippet example/maybe/nothing.cpp main
+    constexpr unspecified nothing{};
+#else
     BOOST_HANA_CONSTEXPR_LAMBDA auto just = [](auto x) {
         return maybe_detail::just<decltype(x)>{x};
     };
 
-    //! Creates an empty optional value.
-    //! @relates Maybe
-    //! @hideinitializer
     constexpr maybe_detail::nothing nothing{};
+#endif
 
-    //! Applies a function to the contents of a `Maybe`, with a fallback
+    //! Create a `Maybe` with the result of a function, but only if a
+    //! predicate is satisfied.
+    //! @relates Maybe
+    //!
+    //! Specifically, returns `just(f(x))` if `predicate(x)` is a true-valued
+    //! `Logical`, and `nothing` otherwise.
+    //!
+    //!
+    //! @param predicate
+    //! A function called as `predicate(x)` and returning a true-valued
+    //! `Logical` if `just(f(x))` should be the resulting value, and a
+    //! false-valued one if `nothing` should be the resulting value.
+    //! In the current version of the library, the result of `predicate`
+    //! has to be a [compile-time](@ref Logical_terminology) `Logical`.
+    //!
+    //! @param f
+    //! A function called as `f(x)` if the `predicate` returns a true-valued
+    //! `Logical`, and not called at all otherwise. If the `predicate` returns
+    //! a false-valued `Logical`, the `f(x)` expression is not even required
+    //! to be well-formed.
+    //!
+    //! @param x
+    //! The value to either transform and put in a `just`, or discard.
+    //!
+    //!
+    //! ### Example
+    //! @snippet example/maybe/only_when.cpp main
+    BOOST_HANA_CONSTEXPR_LAMBDA auto only_when = [](auto predicate, auto f, auto x) {
+        return eval_if(predicate(x),
+            [=](auto _) { return just(_(f)(x)); },
+            [](auto _) { return nothing; }
+        );
+    };
+
+    //! Apply a function to the contents of a `Maybe`, with a fallback
     //! result.
     //! @relates Maybe
     //!
@@ -74,37 +118,85 @@ namespace boost { namespace hana {
     //! value is returned. Otherwise, the function is applied to the
     //! content of the `just`.
     //!
+    //!
+    //! @param default_
+    //! A default value returned if `m` is `nothing`.
+    //!
+    //! @param f
+    //! A function called as `f(x)` if and only if `m` is an optional value
+    //! of the form `just(x)`. In that case, the result returend by `maybe`
+    //! is the result of `f`.
+    //!
+    //! @param m
+    //! An optional value.
+    //!
+    //!
     //! ### Example
-    //! @snippet example/maybe/api.cpp maybe
+    //! @snippet example/maybe/maybe.cpp main
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto maybe = [](auto default_, auto f, auto m) {
+        unspecified;
+    };
+#else
     BOOST_HANA_CONSTEXPR_LAMBDA auto maybe = [](auto default_, auto f, auto m) {
         return m.maybe_impl(default_, f);
     };
+#endif
 
-    //! Returns whether a `Maybe` contains a value.
+    //! Return whether a `Maybe` contains a value.
     //! @relates Maybe
+    //!
+    //! Specifically, returns a [compile-time](@ref Logical_terminology)
+    //! true-valued `Logical` if `m` is of the form `just(x)` for some `x`,
+    //! and a false-valued one otherwise.
+    //!
+    //! ### Example
+    //! @snippet example/maybe/is_just.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto is_just = [](auto m) {
         return maybe(false_, [](auto) { return true_; }, m);
     };
 
-    //! Returns whether a `Maybe` is empty.
+    //! Return whether a `Maybe` is empty.
     //! @relates Maybe
+    //!
+    //! Specifically, returns a [compile-time](@ref Logical_terminology)
+    //! true-valued `Logical` if `m` is of the form `nothing`, and a
+    //! false-valued one otherwise.
+    //!
+    //! ### Example
+    //! @snippet example/maybe/is_nothing.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto is_nothing = [](auto m) {
         return maybe(true_, [](auto) { return false_; }, m);
     };
 
-    //! Returns the contents of a `Maybe`, or a default value if the `Maybe`
-    //! is `nothing`.
+    //! Return the contents of a `Maybe`, with a fallback result.
     //! @relates Maybe
     //!
+    //! Specifically, returns `x` if `m` of the form `just(x)`, and `default_`
+    //! if `m` is of the form `nothing`.
+    //!
+    //!
+    //! @param default_
+    //! The default value to return if `m` is `nothing`.
+    //!
+    //! @param m
+    //! The optional value to try to retrieve the value from.
+    //!
+    //!
     //! ### Example
-    //! @snippet example/maybe/api.cpp from_maybe
+    //! @snippet example/maybe/from_maybe.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto from_maybe = [](auto default_, auto m) {
         return maybe(default_, [](auto x) { return x; }, m);
     };
 
-    //! Extract the value out of a `just`, or trigger a compile-time error
-    //! if the argument is `nothing`.
+    //! Extract the content of a `Maybe` or fail at compile-time.
     //! @relates Maybe
+    //!
+    //! Specifically, returns `x` if the optional value is of the form
+    //! `just(x)`, and triggers a static assertion otherwise.
+    //!
+    //! ### Example
+    //! @snippet example/maybe/from_just.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto from_just = [](auto m) {
         auto err = [](auto ...dum) {
             constexpr bool always_false = sizeof...(dum) != 0;

@@ -16,6 +16,7 @@ int main() {
     BOOST_HANA_CONSTEXPR_LAMBDA auto odd = [](auto x) {
         return x % int_<2> != int_<0>;
     };
+
     BOOST_HANA_STATIC_ASSERT(find(odd, just(int_<3>)) == just(int_<3>));
     BOOST_HANA_STATIC_ASSERT(find(odd, just(int_<2>)) == nothing);
     BOOST_HANA_STATIC_ASSERT(find(odd, nothing) == nothing);

@@ -25,7 +25,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! @details
+    //! Instance of `Comparable` for `Maybe`s.
+    //!
     //! Two `Maybe`s are equal if and only if they are both empty or they
     //! both contain a value and those values are equal.
     //!
@@ -44,7 +45,8 @@ namespace boost { namespace hana {
         { return bool_<tv == uv>; }
     };
 
-    //! @details
+    //! Instance of `Functor` for `Maybe`s.
+    //!
     //! A `Maybe` can be seen as a `List` containing either one element
     //! (`just(x)`) or no elements at all (`nothing`). As such, `fmap` for
     //! `Maybe`s returns `nothing` when applied to `nothing` and `just(f(x))`
@@ -59,11 +61,15 @@ namespace boost { namespace hana {
         { return maybe(nothing, [=](auto x) { return just(f(x)); }, m); }
     };
 
-    //! @details
+    //! Instance of `Applicative` for `Maybe`s.
+    //!
     //! First, a value can be made optional with `lift<Maybe>`, which is
     //! equivalent to `just`. Second, one can feed an optional value to an
     //! optional function with `ap`, which will return `just(f(x))` if there
-    //! is a function _and_ a value and `nothing` otherwise.
+    //! is both a function _and_ a value, and `nothing` otherwise.
+    //!
+    //! ### Example
+    //! @snippet example/maybe/applicative_simple.cpp main
     //!
     //! ### Example
     //! @include example/maybe/applicative.cpp
@@ -78,7 +84,8 @@ namespace boost { namespace hana {
         { return maybe(nothing, [=](auto f) { return fmap(f, mx); }, mf); }
     };
 
-    //! @details
+    //! Instance of `Monad` for `Maybe`s.
+    //!
     //! The `Maybe` `Monad` makes it easy to compose actions that might fail.
     //! One can feed an optional value if there is one into a function with
     //! `bind`, which will return `nothing` if there is no value. Finally,
@@ -86,7 +93,7 @@ namespace boost { namespace hana {
     //! `Maybe`ness removed with `flatten`.
     //!
     //! ### Example
-    //! @snippet example/maybe/monad.cpp main
+    //! @include example/maybe/monad.cpp
     template <>
     struct Monad::instance<Maybe> : Monad::flatten_mcd<Maybe> {
         template <typename MMX>
@@ -94,7 +101,8 @@ namespace boost { namespace hana {
         { return maybe(nothing, [](auto mx) { return mx; }, mmx); }
     };
 
-    //! @details
+    //! Instance of `Foldable` for `Maybe`s.
+    //!
     //! Folding a `Maybe` is equivalent to folding a `List` containing either
     //! no elements (for `nothing`) or `x` (for `just(x)`). The `Foldable`
     //! instance follows from that.
@@ -114,7 +122,8 @@ namespace boost { namespace hana {
         { return maybe(s, [=](auto x) { return f(s, x); }, m); }
     };
 
-    //! @details
+    //! Instance of `Traversable` for `Maybe`s.
+    //!
     //! Traversing `nothing` yields `nothing` in the new applicative, and
     //! traversing `just(x)` applies the function and maps `just` inside
     //! the resulting applicative.
@@ -133,6 +142,8 @@ namespace boost { namespace hana {
         }
     };
 
+    //! Instance of `Searchable` for `Maybe`s.
+    //!
     //! Searching a `Maybe` is equivalent to searching a list containing
     //! `x` for `just(x)` and an empty list for `nothing`.
     //!

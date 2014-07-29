@@ -7,19 +7,23 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/maybe.hpp>
 
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/minimal/comparable.hpp>
 #include <boost/hana/detail/static_assert.hpp>
+
+#include <tuple>
 using namespace boost::hana;
 
 
-int main() {
-    BOOST_HANA_STATIC_ASSERT(lift<Maybe>(1) == just(1));
-    BOOST_HANA_STATIC_ASSERT(lift<Maybe>('1') == just('1'));
-    BOOST_HANA_STATIC_ASSERT(lift<Maybe>(1.1) == just(1.1));
+BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto x) {
+    return std::make_tuple(x);
+};
 
-    BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto x) { return just(x + 1); };
-    constexpr auto x = 3;
+template <int i>
+constexpr auto x = detail::minimal::comparable<>(i);
+
+int main() {
     BOOST_HANA_STATIC_ASSERT(ap(nothing, nothing) == nothing);
     BOOST_HANA_STATIC_ASSERT(ap(just(f), nothing) == nothing);
-    BOOST_HANA_STATIC_ASSERT(ap(nothing, just(x)) == nothing);
-    BOOST_HANA_STATIC_ASSERT(ap(just(f), just(x)) == just(f(x)));
+    BOOST_HANA_STATIC_ASSERT(ap(nothing, just(x<0>)) == nothing);
+    BOOST_HANA_STATIC_ASSERT(ap(just(f), just(x<0>)) == just(f(x<0>)));
 }
