@@ -185,12 +185,14 @@ Getting concrete</h2>
 <div class="fragment"><div class="line"><span class="keyword">struct </span>Printable {</div>
 <div class="line">  <a class="code" href="group__core.html#gac072d4434777cd5ee841a7766d41f1d8">BOOST_HANA_TYPECLASS</a>(Printable);</div>
 <div class="line"></div>
-<div class="line">  <span class="comment">// Not invalid, but probably stupid</span></div>
+<div class="line">  <span class="comment">// This is valid, but it&#39;s probably not a good idea unless those are</span></div>
+<div class="line">  <span class="comment">// strongly related to the type class.</span></div>
 <div class="line">  <span class="keywordtype">int</span> foo;</div>
 <div class="line">  <span class="keywordtype">void</span> bar()<span class="keyword"> const </span>{ };</div>
 <div class="line">  <span class="keyword">struct </span>baz { };</div>
 <div class="line">};</div>
-</div><!-- fragment --><p>When I introduced type classes, I said they allowed us to bundle together related operations called methods. This is because type classes can be seen as defining some kind of public interface consisting of the operations that are valid with any object satisfying some constraints. I also said that they made it possible to explicitly state that a type satisfies those constraints, and how it does so. From now on, I will refer to the set of all types satisfying the constraints of a type class <code>T</code> as the <em>instances</em> of <code>T</code>, and I will refer to the act of specifying how a type <code>t</code> is an <em>instance</em> of <code>T</code> as the act of <em>instantiating</em> <code>T</code> with <code>t</code>. Note that this has nothing to do with C++ template instantiation; it is just the standard Haskell terminology.</p>
+</div><!-- fragment --><p>As you will see later with minimal complete definitions, it is often useful to put other <em>related</em> members in a type class; don't hesitate to do it when it makes sense.</p>
+<p>When I introduced type classes, I said they allowed us to bundle together related operations called methods. This is because type classes can be seen as defining some kind of public interface consisting of the operations that are valid with any object satisfying some constraints. I also said that they made it possible to explicitly state that a type satisfies those constraints, and how it does so. From now on, I will refer to the set of all types satisfying the constraints of a type class <code>T</code> as the <em>instances</em> of <code>T</code>, and I will refer to the act of specifying how a type <code>t</code> is an <em>instance</em> of <code>T</code> as the act of <em>instantiating</em> <code>T</code> with <code>t</code>. Note that this has nothing to do with C++ template instantiation; it is just the standard Haskell terminology.</p>
 <p>To associate methods to a type class, we create a layer of indirection through the <code>instance</code> member of the type class. For example, let's say we want to have a method named <code>print</code> in the <code>Printable</code> type class:</p>
 <div class="fragment"><div class="line"><span class="keyword">auto</span> print = [](std::ostream&amp; os, <span class="keyword">auto</span> x) {</div>
 <div class="line">  <span class="keywordflow">return</span> Printable::instance&lt;decltype(x)&gt;::print_impl(os, x);</div>
