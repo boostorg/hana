@@ -7,17 +7,17 @@ if (NOT DOXYGEN_FOUND)
 endif()
 
 configure_file(Doxyfile.in Doxyfile @ONLY)
-add_custom_target(doc-nobm
+add_custom_target(doc.check
     COMMAND ${DOXYGEN_EXECUTABLE} Doxyfile
-    COMMENT "Generating API documentation with Doxygen (without benchmarks)"
+    COMMENT "Running Doxygen to validate the documentation"
     VERBATIM
 )
 
 if (NOT TARGET benchmarks)
     message(STATUS
         "The 'benchmarks' target is not available; the 'doc' target will be "
-        "unavailable. The 'doc-nobm' target can still be used to generate the "
-        "documentation without benchmarks.")
+        "unavailable. The 'doc.check' target can still be used to generate "
+        "the documentation to check for errors/warnings.")
     return()
 endif()
 
@@ -29,9 +29,25 @@ add_custom_target(doc
 )
 
 if (NOT GIT_FOUND)
-    message(STATUS "Git was not found; the 'gh-pages' target will be unavailable.")
+    message(STATUS "Git was not found; the 'gh-pages.update' target will be unavailable.")
     return()
 endif()
+
+add_custom_target(gh-pages.clean
+    COMMAND ${CMAKE_COMMAND} -E remove *.png *.css *.js *.html
+    COMMAND ${CMAKE_COMMAND} -E remove_directory search
+    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/gh-pages
+    COMMENT "Cleaning up doc/gh-pages"
+    VERBATIM
+)
+
+add_custom_target(gh-pages.copy
+    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_BINARY_DIR}/html ${CMAKE_CURRENT_LIST_DIR}/gh-pages
+    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/gh-pages
+    COMMENT "Copying the documentation from ${CMAKE_CURRENT_BINARY_DIR}/html to doc/gh-pages"
+    DEPENDS doc gh-pages.clean
+    VERBATIM
+)
 
 execute_process(
     COMMAND ${GIT_EXECUTABLE} rev-parse --short HEAD
@@ -39,14 +55,11 @@ execute_process(
     OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
-add_custom_target(gh-pages
-    COMMAND ${CMAKE_COMMAND} -E remove *.png *.css *.js *.html
-    COMMAND ${CMAKE_COMMAND} -E remove_directory search
-    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_BINARY_DIR}/html ${CMAKE_CURRENT_LIST_DIR}/gh-pages
+add_custom_target(gh-pages.update
     COMMAND ${GIT_EXECUTABLE} add .
     COMMAND ${GIT_EXECUTABLE} commit -m "Update to ${BOOST_HANA_GIT_SHORT_SHA}"
     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/gh-pages
     COMMENT "Updating the gh-pages branch with freshly built documentation"
-    DEPENDS doc
+    DEPENDS gh-pages.copy
     VERBATIM
 )
