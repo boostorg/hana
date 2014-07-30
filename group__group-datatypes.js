@@ -27,6 +27,7 @@ var group__group_datatypes =
       [ "from_maybe", "structboost_1_1hana_1_1_maybe.html#afb98884a58d911687bf2aa64a411d623", null ],
       [ "from_just", "structboost_1_1hana_1_1_maybe.html#a2ebdc9b916940e038e6f2e3043e4f796", null ]
     ] ],
+    [ "MplIntegralConstant", "structboost_1_1hana_1_1_mpl_integral_constant.html", null ],
     [ "MplVector", "structboost_1_1hana_1_1_mpl_vector.html", null ],
     [ "IntegerList", "structboost_1_1hana_1_1_integer_list.html", [
       [ "integer_list", "structboost_1_1hana_1_1_integer_list.html#ac11fe3aa29fccdcad358f085a643b4be", null ]

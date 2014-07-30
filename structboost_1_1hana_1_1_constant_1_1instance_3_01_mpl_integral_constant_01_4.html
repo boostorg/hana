@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.7"/>
-<title>Boost.Hana: boost::hana::Constant::mcd Struct Reference</title>
+<title>Boost.Hana: boost::hana::Constant::instance&lt; MplIntegralConstant &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -69,7 +69,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('structboost_1_1hana_1_1_constant_1_1mcd.html','');});
+$(document).ready(function(){initNavTree('structboost_1_1hana_1_1_constant_1_1instance_3_01_mpl_integral_constant_01_4.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -87,21 +87,34 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_constant_1_1mc
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="structboost_1_1hana_1_1_constant_1_1instance_3_01_mpl_integral_constant_01_4-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">boost::hana::Constant::mcd Struct Reference</div>  </div>
+<div class="title">boost::hana::Constant::instance&lt; MplIntegralConstant &gt; Struct Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
-<div class="textblock"><p>Minimal complete definition: <code>value</code> </p>
-</div><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Inheritance diagram for boost::hana::Constant::mcd:</div>
+<div class="textblock"><h3>template&lt;&gt;<br />
+struct boost::hana::Constant::instance&lt; MplIntegralConstant &gt;</h3>
+
+<p><code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class is used for data types representing compile-time constants. ">Constant</a></code> instance for Boost.MPL IntegralConstants. </p>
+<h3>Example</h3>
+<div class="fragment"><div class="line">    <span class="keyword">using namespace </span>operators; <span class="comment">// required to be able to == mpl::integral_c</span></div>
+<div class="line"></div>
+<div class="line">    static_assert(<a class="code" href="structboost_1_1hana_1_1_constant.html#a615a7728e2278acb2cab50854079d7fc">value</a>(mpl::integral_c&lt;int, 3&gt;{}) == 3, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(mpl::integral_c&lt;int, 3&gt;{} == mpl::int_&lt;3&gt;{});</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(mpl::integral_c&lt;int, 3&gt;{} == mpl::long_&lt;3&gt;{});</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(mpl::integral_c&lt;int, 3&gt;{} != mpl::int_&lt;0&gt;{});</div>
+</div><!-- fragment --></div><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Inheritance diagram for boost::hana::Constant::instance&lt; MplIntegralConstant &gt;:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
  <div class="center">
-  <img src="structboost_1_1hana_1_1_constant_1_1mcd.png" usemap="#boost::hana::Constant::mcd_map" alt=""/>
-  <map id="boost::hana::Constant::mcd_map" name="boost::hana::Constant::mcd_map">
-<area href="structboost_1_1hana_1_1_constant_1_1instance_3_01_mpl_integral_constant_01_4.html" title="Constant instance for Boost.MPL IntegralConstants. " alt="boost::hana::Constant::instance&lt; MplIntegralConstant &gt;" shape="rect" coords="0,56,320,80"/>
+  <img src="structboost_1_1hana_1_1_constant_1_1instance_3_01_mpl_integral_constant_01_4.png" usemap="#boost::hana::Constant::instance&lt; MplIntegralConstant &gt;_map" alt=""/>
+  <map id="boost::hana::Constant::instance&lt; MplIntegralConstant &gt;_map" name="boost::hana::Constant::instance&lt; MplIntegralConstant &gt;_map">
+<area href="structboost_1_1hana_1_1_constant_1_1mcd.html" title="Minimal complete definition: value " alt="boost::hana::Constant::mcd" shape="rect" coords="0,0,320,24"/>
 </map>
  </div></div>
 </div><!-- contents -->
@@ -109,7 +122,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_constant_1_1mc
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>boost</b></li><li class="navelem"><b>hana</b></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1_constant.html">Constant</a></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1_constant_1_1mcd.html">mcd</a></li>
+    <li class="navelem"><b>boost</b></li><li class="navelem"><b>hana</b></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1_constant.html">Constant</a></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1_constant_1_1instance_3_01_mpl_integral_constant_01_4.html">instance< MplIntegralConstant ></a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.7 </li>
