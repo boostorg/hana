@@ -30,7 +30,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! @ingroup datatypes
+    //! @ingroup group-datatypes
     //! Data type representing Boost.MPL vectors.
     //!
     //! ## Instance of

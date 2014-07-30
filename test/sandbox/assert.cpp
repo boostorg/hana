@@ -34,7 +34,7 @@ namespace boost { namespace hana { namespace detail {
         { assert(expr); }
     } assert_{};
 
-    //! @ingroup details
+    //! @ingroup group-details
     //! Expands to a runtime assertion.
     //!
     //! Use this only at function scope. This is a workaround because
@@ -42,7 +42,7 @@ namespace boost { namespace hana { namespace detail {
     //! can't use static_assert.
     #define BOOST_HANA_STATIC_ASSERT(...) BOOST_HANA_ASSERT(__VA_ARGS__)
 
-    //! @ingroup details
+    //! @ingroup group-details
     //! Performs either a runtime or a compile-time assertion depending on
     //! the type of the expression.
     #define BOOST_HANA_ASSERT(...) \

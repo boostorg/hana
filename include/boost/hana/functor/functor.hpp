@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! @ingroup typeclasses
+    //! @ingroup group-typeclasses
     //! `Functor` represents types that can be mapped over.
     //!
     //! Instances of `Functor` must satisfy the following laws. For any

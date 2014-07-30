@@ -20,7 +20,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! @ingroup datatypes
+    //! @ingroup group-datatypes
     //! Compile-time half-open interval of `Integral`s.
     //!
     //! ## Instance of

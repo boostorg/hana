@@ -43,10 +43,10 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_HPP
 #define BOOST_HANA_HPP
 
-//! @defgroup details Details
+//! @defgroup group-details Details
 //! Implementation details.
 
-//! @defgroup typeclasses Type classes
+//! @defgroup group-typeclasses Type classes
 //! General purpose type classes provided by the library.
 //!
 //! @todo
@@ -67,7 +67,7 @@ Distributed under the Boost Software License, Version 1.0.
 //!   to be _the_ minimal instance, which does not exist in general
 //!   (what does it even mean to be a _minimal_ instance?)
 
-//! @defgroup datatypes Data types
+//! @defgroup group-datatypes Data types
 //! General purpose data types provided by the library.
 
 /*!
@@ -873,7 +873,7 @@ follow:
     functional setting. These are not tied to any type class or data type
     (currently).
 
-  - @ref typeclasses\n
+  - @ref group-typeclasses\n
     Documentation for all the type classes provided with the library. Each
     type class is documented as follows:
       - The methods it provides
@@ -881,7 +881,7 @@ follow:
       - The laws that must be respected by its instances
       - Any additional type class specific information
 
-  - @ref datatypes\n
+  - @ref group-datatypes\n
     Documentation for all the data types provided with the library. Each
     data type is documented as follows:
       - The type classes it instantiates, and how it does so

@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! @ingroup typeclasses
+    //! @ingroup group-typeclasses
     //! Represents types that are generic containers of two elements.
     //!
     //! Specifically, the `Product` type class represents types that are

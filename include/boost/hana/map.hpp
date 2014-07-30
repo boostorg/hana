@@ -23,7 +23,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! @ingroup datatypes
+    //! @ingroup group-datatypes
     //! A basic associative array requiring unique and `Comparable` keys.
     //!
     //! The order of the elements of the map is unspecified. Also, all the

@@ -18,7 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! @ingroup typeclasses
+    //! @ingroup group-typeclasses
     //! `Applicative`s are `Functor`s with the ability to lift values and
     //! combine computations.
     //!

@@ -23,7 +23,7 @@ namespace boost { namespace hana { namespace detail {
     constexpr auto is_valid_impl(long, F, X...)
     { return false_; }
 
-    //! @ingroup details
+    //! @ingroup group-details
     //! `is_valid(f)(x...)` is an `Integral` representing whether  `f(x...)`
     //! is a valid expression.
     BOOST_HANA_CONSTEXPR_LAMBDA auto is_valid = [](auto f) {

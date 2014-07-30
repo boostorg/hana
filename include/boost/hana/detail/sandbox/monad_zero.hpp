@@ -19,7 +19,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! @ingroup typeclasses
+    //! @ingroup group-typeclasses
     //! `Monad`s with a neutral element.
     //!
     //! ## Minimal complete definition

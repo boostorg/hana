@@ -18,7 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! @ingroup datatypes
+    //! @ingroup group-datatypes
     //! The `Lazy` data type implements superficial laziness via a monadic
     //! interface.
     //!

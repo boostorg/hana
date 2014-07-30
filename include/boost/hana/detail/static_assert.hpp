@@ -12,7 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
 
-    //! @ingroup details
+    //! @ingroup group-details
     //! Expands to a `static_assert` or to an `assert`, depending on
     //! whether constexpr lambdas are available.
     //!

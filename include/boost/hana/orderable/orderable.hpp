@@ -17,7 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! @ingroup typeclasses
+    //! @ingroup group-typeclasses
     //! The `Orderable` type class is used for data types defining a
     //! [strict weak ordering](http://en.wikipedia.org/wiki/Strict_weak_ordering).
     //!

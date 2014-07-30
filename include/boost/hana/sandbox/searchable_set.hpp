@@ -20,7 +20,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! @ingroup datatypes
+    //! @ingroup group-datatypes
     //! A `Monad` for searching infinite sets in finite time.
     //!
     //! Taken from http://math.andrej.com/2008/11/21/a-haskell-monad-for-infinite-search-in-finite-time/.

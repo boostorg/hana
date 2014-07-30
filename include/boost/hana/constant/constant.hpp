@@ -15,7 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! @ingroup typeclasses
+    //! @ingroup group-typeclasses
     //! The `Constant` type class is used for data types representing
     //! compile-time constants.
     //!

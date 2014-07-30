@@ -76,7 +76,7 @@ namespace boost { namespace hana { namespace detail { namespace left_folds {
 
 
     /*!
-     * @ingroup details
+     * @ingroup group-details
      *
      * Recursive alias-based variadic left fold for types only.
      */

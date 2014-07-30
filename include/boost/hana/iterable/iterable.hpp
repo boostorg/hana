@@ -20,7 +20,7 @@ namespace boost { namespace hana {
         struct FoldableFromIterable;
     }
 
-    //! @ingroup typeclasses
+    //! @ingroup group-typeclasses
     //! `Iterable` represents data structures supporting external iteration.
     //!
     //! ### Laws

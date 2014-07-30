@@ -12,7 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
 
-    //! @ingroup details
+    //! @ingroup group-details
     //! Expands to `constexpr` if constexpr lambdas are supported and
     //! to nothing otherwise.
 #   define BOOST_HANA_CONSTEXPR_LAMBDA constexpr

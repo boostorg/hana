@@ -17,7 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! @ingroup datatypes
+    //! @ingroup group-datatypes
     //! C++ type represented as a constexpr object.
     //!
     //! ## Instance of

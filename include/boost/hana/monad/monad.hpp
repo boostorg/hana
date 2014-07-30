@@ -17,7 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! @ingroup typeclasses
+    //! @ingroup group-typeclasses
     //! `Monad`s are `Applicative`s with the ability to flatten values that
     //! were lifted more than once.
     //!
