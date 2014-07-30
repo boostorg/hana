@@ -10,9 +10,10 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_COMPARABLE_COMPARABLE_HPP
 #define BOOST_HANA_COMPARABLE_COMPARABLE_HPP
 
+#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/typeclass.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/integral_fwd.hpp>
-#include <boost/hana/detail/typeclasses.hpp>
 #include <boost/hana/logical/logical.hpp>
 
 
@@ -47,7 +48,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/comparable/equal.cpp main
     //!
-    //! @if BOOST_HANA_RATIONALES
+    //! @internal
     //! ### Rationale for the arity of `equal`
     //! It is a valid question whether `equal` should accept more than 2
     //! arguments and have semantics matching those of Python's `==`. This
@@ -59,7 +60,7 @@ namespace boost { namespace hana {
     //! - Having a binary `equal` makes it possible to use currying.
     //! - `equal(x, y...)` can be implemented as `all(x == _, list(y...))`,
     //!   which is pretty straightforward anyway.
-    //! @endif
+    //! @endinternal
     BOOST_HANA_CONSTEXPR_LAMBDA auto equal = [](auto x, auto y) {
         return Comparable::instance<
             datatype_t<decltype(x)>, datatype_t<decltype(y)>

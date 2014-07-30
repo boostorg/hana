@@ -12,11 +12,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable/equal_mcd.hpp>
-#include <boost/hana/core.hpp>
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/detail/std/type_traits.hpp>
 #include <boost/hana/functor/fmap_mcd.hpp>
 #include <boost/hana/iterable/mcd.hpp>
-#include <boost/hana/list/instance.hpp> //! @todo remove this
+#include <boost/hana/list/instance.hpp>
 #include <boost/hana/list/mcd.hpp>
 #include <boost/hana/type.hpp>
 
@@ -47,7 +47,8 @@ namespace boost { namespace hana {
     //! @snippet example/ext/boost/mpl/vector/cheatsheet/fold.cpp hana
     //!
     //! @todo
-    //! Finish the cheat sheet.
+    //! - Finish the cheat sheet.
+    //! - Remove the list/instance.hpp include
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     struct MplVector { };
 #else

@@ -6,7 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/ext/boost/fusion.hpp>
 
-#include <boost/hana/core.hpp>
+#include <boost/hana/core/datatype.hpp>
 
 #include "helper.hpp"
 #include <boost/fusion/container/generation/make_set.hpp>

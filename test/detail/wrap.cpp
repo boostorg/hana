@@ -6,7 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/wrap.hpp>
 
-#include <boost/hana/core.hpp>
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/detail/static_assert.hpp>
 
 #include <type_traits>

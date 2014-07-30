@@ -10,7 +10,8 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_CONSTANT_CONSTANT_HPP
 #define BOOST_HANA_CONSTANT_CONSTANT_HPP
 
-#include <boost/hana/detail/typeclasses.hpp>
+#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/typeclass.hpp>
 
 
 namespace boost { namespace hana {

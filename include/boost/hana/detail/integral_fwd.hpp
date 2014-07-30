@@ -10,9 +10,9 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_INTEGRAL_FWD_HPP
 #define BOOST_HANA_DETAIL_INTEGRAL_FWD_HPP
 
+#include <boost/hana/core/typeclass.hpp> // for operators::enable
 #include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/detail/std/type_traits.hpp>
-#include <boost/hana/detail/typeclasses.hpp>
 
 
 namespace boost { namespace hana {

@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_EXT_BOOST_FUSION_VECTOR_HPP
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/core.hpp>
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/foldable/foldable.hpp>
 #include <boost/hana/functor/fmap_mcd.hpp>
 #include <boost/hana/integral.hpp>

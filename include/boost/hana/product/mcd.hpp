@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/product/product.hpp>
 
 #include <boost/hana/comparable/equal_mcd.hpp>
-#include <boost/hana/core.hpp> // for instantiates
+#include <boost/hana/core/instantiates.hpp>
 #include <boost/hana/logical/logical.hpp>
 
 

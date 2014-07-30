@@ -655,10 +655,10 @@ are about to use it.
 
 
 ### Example of a type class definition
-@include example/core/typeclass.cpp
+@include example/core/typeclass/unary_typeclass.cpp
 
 ### Example of a type class with a default instance
-@include example/core/default_instance.cpp
+@include example/core/typeclass/default_instance.cpp
 
 @todo
 Document type classes with operators.
@@ -845,6 +845,10 @@ can use all the methods it supports right away:
 
 @snippet example/tutorial/include_set.cpp main
 
+@todo
+Consider documenting the subdirectories of core/ one by one, if the current
+separation sticks.
+
 
 @section tutorial-mastering Mastering the library
 
@@ -858,7 +862,7 @@ fit your needs better; go ahead, the library was intended to be used that way.
 
 The structure of the reference (available in the menu to the left) goes as
 follow:
-  - @ref core\n
+  - @ref group-core\n
     Documentation for the core module, which contains everything needed to
     implement type classes, data types and related utilities. This is relevant
     if you need to extend the library, but otherwise the tutorial pretty much

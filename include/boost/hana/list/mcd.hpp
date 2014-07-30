@@ -14,7 +14,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/applicative/mcd.hpp>
 #include <boost/hana/comparable/equal_mcd.hpp>
-#include <boost/hana/core.hpp> // for instantiates and convert
+#include <boost/hana/core/convert.hpp>
+#include <boost/hana/core/instantiates.hpp>
 #include <boost/hana/detail/right_folds/variadic_unrolled.hpp>
 #include <boost/hana/foldable/foldable.hpp>
 #include <boost/hana/functor/fmap_mcd.hpp>

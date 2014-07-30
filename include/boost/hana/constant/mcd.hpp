@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/constant/constant.hpp>
 
 #include <boost/hana/comparable/equal_mcd.hpp>
-#include <boost/hana/core.hpp>
+#include <boost/hana/core/instantiates.hpp>
 #include <boost/hana/detail/integral_fwd.hpp>
 
 

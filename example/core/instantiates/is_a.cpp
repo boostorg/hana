@@ -5,7 +5,7 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/core.hpp>
+#include <boost/hana/core/instantiates.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/ext/std/tuple.hpp>
 #include <boost/hana/integral.hpp>

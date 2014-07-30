@@ -6,7 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/ext/boost/mpl/list.hpp>
 
-#include <boost/hana/core.hpp>
+#include <boost/hana/core/datatype.hpp>
 
 #include <boost/mpl/list.hpp>
 #include <boost/mpl/transform.hpp>

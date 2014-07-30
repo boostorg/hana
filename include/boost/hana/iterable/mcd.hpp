@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/iterable/iterable.hpp>
 
 #include <boost/hana/comparable/comparable.hpp>
-#include <boost/hana/core.hpp> // for instantiates
+#include <boost/hana/core/instantiates.hpp>
 #include <boost/hana/foldable/mcd.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/logical/logical.hpp>

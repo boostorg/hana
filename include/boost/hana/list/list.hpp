@@ -10,9 +10,10 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_LIST_LIST_HPP
 #define BOOST_HANA_LIST_LIST_HPP
 
+#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/typeclass.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/type_traits.hpp>
-#include <boost/hana/detail/typeclasses.hpp>
 
 
 namespace boost { namespace hana {

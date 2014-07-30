@@ -10,8 +10,8 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_RECORD_RECORD_HPP
 #define BOOST_HANA_RECORD_RECORD_HPP
 
+#include <boost/hana/core/typeclass.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/typeclasses.hpp>
 
 
 namespace boost { namespace hana {
@@ -38,7 +38,9 @@ namespace boost { namespace hana {
     //! by the key `k` can be accessed by calling the function `f` on an object
     //! of data type `R`.
     template <typename R>
-    BOOST_HANA_CONSTEXPR_LAMBDA auto members = Record::instance<R>::members_impl();
+    BOOST_HANA_CONSTEXPR_LAMBDA auto members = Record::instance<
+        R
+    >::members_impl();
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_RECORD_RECORD_HPP

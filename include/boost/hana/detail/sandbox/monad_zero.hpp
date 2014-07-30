@@ -11,8 +11,9 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_MONAD_ZERO_HPP
 
 #include <boost/hana/applicative/applicative.hpp>
+#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/typeclass.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/typeclasses.hpp>
 #include <boost/hana/logical/logical.hpp>
 #include <boost/hana/monad/monad.hpp>
 

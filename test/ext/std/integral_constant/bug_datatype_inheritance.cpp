@@ -6,7 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/ext/std/integral_constant.hpp>
 
-#include <boost/hana/core.hpp>
+#include <boost/hana/core/datatype.hpp>
 
 #include <type_traits>
 using namespace boost::hana;

@@ -7,7 +7,7 @@ STRIP_FROM_PATH         = @Boost.Hana_SOURCE_DIR@/include
 BUILTIN_STL_SUPPORT     = YES
 STRIP_FROM_INC_PATH     = @Boost.Hana_SOURCE_DIR@/include
 ALIASES                 =
-ENABLED_SECTIONS        = # BOOST_HANA_RATIONALES
+ENABLED_SECTIONS        =
 
 
 # Resources

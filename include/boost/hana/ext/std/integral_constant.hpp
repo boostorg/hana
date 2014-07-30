@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EXT_STD_INTEGRAL_CONSTANT_HPP
 #define BOOST_HANA_EXT_STD_INTEGRAL_CONSTANT_HPP
 
-#include <boost/hana/core.hpp>
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/integral.hpp>
 
 #include <type_traits>

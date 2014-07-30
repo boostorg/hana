@@ -13,7 +13,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/record/record.hpp>
 
 #include <boost/hana/comparable/equal_mcd.hpp>
-#include <boost/hana/core.hpp> // for instantiates and datatype_t
+#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/instantiates.hpp>
 #include <boost/hana/detail/std/type_traits.hpp>
 #include <boost/hana/foldable/mcd.hpp>
 #include <boost/hana/map.hpp>

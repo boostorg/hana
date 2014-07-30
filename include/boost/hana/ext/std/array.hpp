@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_EXT_STD_ARRAY_HPP
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/core.hpp>
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/iterable/mcd.hpp>
 #include <boost/hana/list/mcd.hpp>
