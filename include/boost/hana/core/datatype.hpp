@@ -11,6 +11,9 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_CORE_DATATYPE_HPP
 
 namespace boost { namespace hana {
+    //! @defgroup group-datatypes Data types
+    //! General purpose data types provided by the library.
+
     namespace core_detail {
         template <typename T, typename Enable = void*>
         struct default_datatype { using type = T; };

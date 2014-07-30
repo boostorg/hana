@@ -7,22 +7,35 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functional.hpp>
 
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/minimal/comparable.hpp>
 #include <boost/hana/detail/static_assert.hpp>
 
 #include <tuple>
 using namespace boost::hana;
 
 
-BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto ...xs) {
-    return std::make_tuple(xs...);
+BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto ...x) {
+    return std::make_tuple('f', x...);
 };
 
-BOOST_HANA_CONSTEXPR_LAMBDA auto g = [](auto x) { return x + 1; };
+BOOST_HANA_CONSTEXPR_LAMBDA auto g = [](auto x) {
+    return std::make_tuple('g', x);
+};
+
+template <int i>
+constexpr auto x = detail::minimal::comparable<>(i);
 
 int main() {
     BOOST_HANA_STATIC_ASSERT(on(f, g)() == f());
-    BOOST_HANA_STATIC_ASSERT(on(f, g)(1) == f(g(1)));
-    BOOST_HANA_STATIC_ASSERT(on(f, g)(1, '2') == f(g(1), g('2')));
-    BOOST_HANA_STATIC_ASSERT(on(f, g)(1, '2', 3.3) == f(g(1), g('2'), g(3.3)));
-    BOOST_HANA_STATIC_ASSERT(on(f, g)(1, '2', 3.3, 4.4f) == f(g(1), g('2'), g(3.3), g(4.4f)));
+    BOOST_HANA_STATIC_ASSERT(on(f, g)(x<0>) == f(g(x<0>)));
+    BOOST_HANA_STATIC_ASSERT(on(f, g)(x<0>, x<1>) == f(g(x<0>), g(x<1>)));
+    BOOST_HANA_STATIC_ASSERT(on(f, g)(x<0>, x<1>, x<2>) == f(g(x<0>), g(x<1>), g(x<2>)));
+    BOOST_HANA_STATIC_ASSERT(on(f, g)(x<0>, x<1>, x<2>, x<3>) == f(g(x<0>), g(x<1>), g(x<2>), g(x<3>)));
+
+    // check the infix version
+    BOOST_HANA_STATIC_ASSERT((f /on/ g)() == f());
+    BOOST_HANA_STATIC_ASSERT((f /on/ g)(x<0>) == f(g(x<0>)));
+    BOOST_HANA_STATIC_ASSERT((f /on/ g)(x<0>, x<1>) == f(g(x<0>), g(x<1>)));
+    BOOST_HANA_STATIC_ASSERT((f /on/ g)(x<0>, x<1>, x<2>) == f(g(x<0>), g(x<1>), g(x<2>)));
+    BOOST_HANA_STATIC_ASSERT((f /on/ g)(x<0>, x<1>, x<2>, x<3>) == f(g(x<0>), g(x<1>), g(x<2>), g(x<3>)));
 }
