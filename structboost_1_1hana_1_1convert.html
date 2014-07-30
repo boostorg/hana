@@ -90,7 +90,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1convert.html','
   <div class="summary">
 <a href="structboost_1_1hana_1_1convert-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">boost::hana::convert&lt; To, From, Enable &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__core.html">Core</a></div></div>  </div>
+<div class="title">boost::hana::convert&lt; To, From, Enable &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__group-core.html">Core</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
@@ -109,7 +109,8 @@ struct boost::hana::convert&lt; To, From, Enable &gt;</h3>
 <div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;boost/hana/comparable/equal_mcd.hpp&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;boost/hana/core.hpp&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;boost/hana/core/convert.hpp&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;boost/hana/core/datatype.hpp&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;boost/hana/ext/std/list.hpp&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;boost/hana/list/instance.hpp&gt;</span></div>
 <div class="line"></div>
@@ -137,7 +138,7 @@ struct boost::hana::convert&lt; To, From, Enable &gt;</h3>
 <div class="line">    <span class="keyword">template</span> &lt;&gt;</div>
 <div class="line">    <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1convert.html">convert</a>&lt;StdVector, StdList&gt; {</div>
 <div class="line">        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line">        <span class="keyword">static</span> std::vector&lt;T&gt; <a class="code" href="group__functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>(std::list&lt;T&gt; xs) {</div>
+<div class="line">        <span class="keyword">static</span> std::vector&lt;T&gt; <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>(std::list&lt;T&gt; xs) {</div>
 <div class="line">            std::vector&lt;T&gt; v{};</div>
 <div class="line">            <span class="keywordflow">for</span> (<span class="keyword">auto</span> x: xs)</div>
 <div class="line">                v.push_back(x);</div>

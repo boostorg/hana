@@ -8,7 +8,7 @@ var searchData=
   ['lift',['lift',['../structboost_1_1hana_1_1_applicative.html#adc481a8251a7f47f526ad84186d35087',1,'boost::hana::Applicative']]],
   ['list',['list',['../structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225',1,'boost::hana::List']]],
   ['llong',['llong',['../structboost_1_1hana_1_1_integral.html#a1d39c4f98b84422263842b6c04ef0a7e',1,'boost::hana::Integral']]],
-  ['lockstep',['lockstep',['../group__functional.html#gafca60c09e1f7a32a2b52baaf6515c279',1,'boost::hana']]],
+  ['lockstep',['lockstep',['../group__group-functional.html#gafca60c09e1f7a32a2b52baaf6515c279',1,'boost::hana']]],
   ['long_5f',['long_',['../structboost_1_1hana_1_1_integral.html#ac9f0f0f418542662d6d3d6ad92a896e0',1,'boost::hana::Integral']]],
   ['lookup',['lookup',['../structboost_1_1hana_1_1_searchable.html#a82e67ada9561f5e1176faab8eb94a064',1,'boost::hana::Searchable']]]
 ];

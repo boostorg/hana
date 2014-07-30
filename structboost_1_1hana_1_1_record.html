@@ -92,7 +92,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_record.html','
 <a href="#nested-classes">Instances and minimal complete definitions</a> &#124;
 <a href="structboost_1_1hana_1_1_record-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">boost::hana::Record Struct Reference<div class="ingroups"><a class="el" href="group__typeclasses.html">Type classes</a></div></div>  </div>
+<div class="title">boost::hana::Record Struct Reference<div class="ingroups"><a class="el" href="group__group-typeclasses.html">Type classes</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
@@ -105,12 +105,12 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_record.html','
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line"><span class="preprocessor">#include &lt;boost/hana/constant.hpp&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;boost/hana/detail/constexpr.hpp&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;boost/hana/list/instance.hpp&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;boost/hana/map.hpp&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;boost/hana/pair.hpp&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;boost/hana/record/mcd.hpp&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;boost/hana/type.hpp&gt;</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;cassert&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div>
@@ -123,13 +123,13 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_record.html','
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// The keys can be anything as long as they are compile-time comparable.</span></div>
-<div class="line">constexpr <span class="keyword">auto</span> name = constant&lt;decltype(&amp;Person::name), &amp;Person::name&gt;;</div>
-<div class="line">constexpr <span class="keyword">auto</span> age = constant&lt;decltype(&amp;Person::age), &amp;Person::age&gt;;</div>
+<div class="line">constexpr <span class="keyword">auto</span> name = decltype_(&amp;Person::name);</div>
+<div class="line">constexpr <span class="keyword">auto</span> age = decltype_(&amp;Person::age);</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">namespace </span>boost { <span class="keyword">namespace </span>hana {</div>
 <div class="line">    <span class="keyword">template</span> &lt;&gt;</div>
 <div class="line">    <span class="keyword">struct </span>Record::instance&lt;Person&gt; : <a class="code" href="structboost_1_1hana_1_1_record_1_1mcd.html">Record::mcd</a> {</div>
-<div class="line">        <span class="keyword">static</span> <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> members_impl() {</div>
+<div class="line">        <span class="keyword">static</span> <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> members_impl() {</div>
 <div class="line">            <span class="keywordflow">return</span> list(</div>
 <div class="line">                pair(name, [](<span class="keyword">auto</span> p) { <span class="keywordflow">return</span> p.name; }),</div>
 <div class="line">                pair(age, [](<span class="keyword">auto</span> p) { <span class="keywordflow">return</span> p.age; })</div>
@@ -145,7 +145,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_record.html','
 <div class="line"></div>
 <div class="line">    assert(lookup(name, john) == just(<span class="stringliteral">&quot;John&quot;</span>));</div>
 <div class="line">    assert(lookup(age, john) == just(30));</div>
-<div class="line">    assert(lookup(constant&lt;int, 9&gt;, john) == nothing);</div>
+<div class="line">    assert(lookup(<span class="stringliteral">&quot;clearly not a member&quot;</span>, john) == nothing);</div>
 <div class="line"></div>
 <div class="line">    assert(to&lt;List&gt;(john) == list(<span class="stringliteral">&quot;John&quot;</span>, 30));</div>
 <div class="line">    assert(to&lt;Map&gt;(john) == map(</div>
@@ -157,7 +157,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_record.html','
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of methods</h2></td></tr>
 <tr class="memitem:a5ae5ec12bb6524e05cc4750b203c194e"><td class="memTemplParams" colspan="2">template&lt;typename R &gt; </td></tr>
-<tr class="memitem:a5ae5ec12bb6524e05cc4750b203c194e"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_record.html#a5ae5ec12bb6524e05cc4750b203c194e">members</a> = Record::instance&lt;R&gt;::members_impl()</td></tr>
+<tr class="memitem:a5ae5ec12bb6524e05cc4750b203c194e"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_record.html#a5ae5ec12bb6524e05cc4750b203c194e">members</a></td></tr>
 <tr class="memdesc:a5ae5ec12bb6524e05cc4750b203c194e"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of pairs representing the data structure.  <a href="#a5ae5ec12bb6524e05cc4750b203c194e">More...</a><br /></td></tr>
 <tr class="separator:a5ae5ec12bb6524e05cc4750b203c194e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -178,7 +178,7 @@ template&lt;typename R &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto members = Record::instance&lt;R&gt;::members_impl()</td>
+          <td class="memname">constexpr auto members</td>
         </tr>
       </table>
   </td>
@@ -187,7 +187,10 @@ template&lt;typename R &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-
+<b>Initial value:</b><div class="fragment"><div class="line">= Record::instance&lt;</div>
+<div class="line">        R</div>
+<div class="line">    &gt;::members_impl()</div>
+</div><!-- fragment -->
 <p>A list of pairs representing the data structure. </p>
 <p>Specifically, <code>members&lt;R&gt;</code> is a <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose index-based sequence. ">List</a></code> of <code><a class="el" href="structboost_1_1hana_1_1_product.html" title="Represents types that are generic containers of two elements. ">Product</a></code>s associating keys to functions, where a pair <code>(k, f)</code> means that the member represented by the key <code>k</code> can be accessed by calling the function <code>f</code> on an object of data type <code>R</code>. </p>
 

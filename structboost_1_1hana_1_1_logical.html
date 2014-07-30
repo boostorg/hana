@@ -92,7 +92,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_logical.html',
 <a href="#nested-classes">Instances and minimal complete definitions</a> &#124;
 <a href="structboost_1_1hana_1_1_logical-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">boost::hana::Logical Struct Reference<div class="ingroups"><a class="el" href="group__typeclasses.html">Type classes</a></div></div>  </div>
+<div class="title">boost::hana::Logical Struct Reference<div class="ingroups"><a class="el" href="group__group-typeclasses.html">Type classes</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
@@ -101,7 +101,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_logical.html',
 <p>Let <code>x</code> be a <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code>. Then, we say that <code>x</code> is true-valued if and only if <code>or_(x, y) == x</code> for all <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code>s <code>y</code>. Conversely, we say that <code>x</code> is false-valued if and only if <code>and_(x, y) == y</code> for all <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code>s <code>y</code>.</p>
 <p>Also, we say that <code>x</code> is a <em>compile-time</em> <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code> if and only if it can have values of different types in both branches of the <code>if_</code> method.</p>
 <dl class="bug"><dt><b><a class="el" href="bug.html#_bug000003">Bug:</a></b></dt><dd>We don't short-circuit right now. Don't forget to change the examples and unit tests when that's implemented.</dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000020">Todo:</a></b></dt><dd>Consider making this a real boolean algebra. </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000021">Todo:</a></b></dt><dd>Consider making this a real boolean algebra. </dd></dl>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of methods</h2></td></tr>
@@ -179,10 +179,10 @@ Instances and minimal complete definitions</h2></td></tr>
   </dd>
 </dl>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_logical.html#a06927a2badb729e1522b9030d18234df">if_</a>(<span class="keyword">true</span>, 1, 2) == 1);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_logical.html#a06927a2badb729e1522b9030d18234df">if_</a>(<span class="keyword">false</span>, 1, 2) == 2);</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_logical.html#a06927a2badb729e1522b9030d18234df">if_</a>(<span class="keyword">true</span>, 1, 2) == 1);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_logical.html#a06927a2badb729e1522b9030d18234df">if_</a>(<span class="keyword">false</span>, 1, 2) == 2);</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
 <div class="line">        <a class="code" href="structboost_1_1hana_1_1_logical.html#a06927a2badb729e1522b9030d18234df">if_</a>(true_,</div>
 <div class="line">            std::make_tuple(<span class="charliteral">&#39;t&#39;</span>, <span class="charliteral">&#39;r&#39;</span>, <span class="charliteral">&#39;u&#39;</span>, <span class="charliteral">&#39;e&#39;</span>),</div>
 <div class="line">            std::make_tuple(<span class="charliteral">&#39;f&#39;</span>, <span class="charliteral">&#39;a&#39;</span>, <span class="charliteral">&#39;l&#39;</span>, <span class="charliteral">&#39;s&#39;</span>, <span class="charliteral">&#39;e&#39;</span>)</div>
@@ -227,25 +227,25 @@ Instances and minimal complete definitions</h2></td></tr>
   </dd>
 </dl>
 <h3>Example (purely compile-time condition)</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> safe_make_unsigned = [](<span class="keyword">auto</span> t) {</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> safe_make_unsigned = [](<span class="keyword">auto</span> t) {</div>
 <div class="line">        <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_logical.html#a97f92ff5d73f8ebd7e9eb61142b2e68e">eval_if</a>(trait&lt;std::is_integral&gt;(t),</div>
-<div class="line">            [=](<span class="keyword">auto</span> <span class="keywordtype">id</span>) { <span class="keywordflow">return</span> <a class="code" href="group__functional.html#gaef38cf34324c8edbd3597ae71811d00d">id</a>(template_&lt;std::make_unsigned_t&gt;)(t); },</div>
-<div class="line">            <a class="code" href="group__functional.html#ga835970cb25a0c8dc200f1e5f8943538b">always</a>(t)</div>
+<div class="line">            [=](<span class="keyword">auto</span> <span class="keywordtype">id</span>) { <span class="keywordflow">return</span> <a class="code" href="group__group-functional.html#gaef38cf34324c8edbd3597ae71811d00d">id</a>(template_&lt;std::make_unsigned_t&gt;)(t); },</div>
+<div class="line">            <a class="code" href="group__group-functional.html#ga835970cb25a0c8dc200f1e5f8943538b">always</a>(t)</div>
 <div class="line">        );</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(safe_make_unsigned(type&lt;void&gt;) == type&lt;void&gt;);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(safe_make_unsigned(type&lt;int&gt;) == type&lt;unsigned int&gt;);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(safe_make_unsigned(type&lt;void&gt;) == type&lt;void&gt;);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(safe_make_unsigned(type&lt;int&gt;) == type&lt;unsigned int&gt;);</div>
 </div><!-- fragment --> <h3>Example (runtime or <code>constexpr</code> condition)</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> safe_divide = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> safe_divide = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
 <div class="line">        <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_logical.html#a97f92ff5d73f8ebd7e9eb61142b2e68e">eval_if</a>(y == 0,</div>
 <div class="line">            [=](<span class="keyword">auto</span>) { <span class="keywordflow">return</span> 0; },</div>
-<div class="line">            [=](<span class="keyword">auto</span> <a class="code" href="group__functional.html#gaef38cf34324c8edbd3597ae71811d00d">id</a>) { <span class="keywordflow">return</span> <a class="code" href="group__functional.html#gaef38cf34324c8edbd3597ae71811d00d">id</a>(x) / y; }</div>
+<div class="line">            [=](<span class="keyword">auto</span> <a class="code" href="group__group-functional.html#gaef38cf34324c8edbd3597ae71811d00d">id</a>) { <span class="keywordflow">return</span> <a class="code" href="group__group-functional.html#gaef38cf34324c8edbd3597ae71811d00d">id</a>(x) / y; }</div>
 <div class="line">        );</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(safe_divide(6, 3) == 2);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(safe_divide(6, 0) == 0);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(safe_divide(6, 3) == 2);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(safe_divide(6, 0) == 0);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -275,8 +275,8 @@ Instances and minimal complete definitions</h2></td></tr>
 <p>Negates a <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code>. </p>
 <p>Specifically, <code>not_(x)</code> returns a false-valued <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code> iff <code>x</code> is a true-valued <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code>, and a true-valued one otherwise.</p>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_logical.html#a3c5a578f274b7513e5008eab698fa5bc">not_</a>(true_) == false_);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_logical.html#a3c5a578f274b7513e5008eab698fa5bc">not_</a>(<span class="keyword">false</span>) == <span class="keyword">true</span>);</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_logical.html#a3c5a578f274b7513e5008eab698fa5bc">not_</a>(true_) == false_);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_logical.html#a3c5a578f274b7513e5008eab698fa5bc">not_</a>(<span class="keyword">false</span>) == <span class="keyword">true</span>);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -305,8 +305,8 @@ Instances and minimal complete definitions</h2></td></tr>
 <p><code>and_</code> can be called with one argument or more. When called with two arguments, <code>and_</code> dispatches to the type class implementation. Otherwise, </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_logical.html#a8d0365b860f1383b8077ea86eee79a23">and_</a>(x) == x</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1_logical.html#a8d0365b860f1383b8077ea86eee79a23">and_</a>(x, y, ...z) == <a class="code" href="structboost_1_1hana_1_1_logical.html#a8d0365b860f1383b8077ea86eee79a23">and_</a>(<a class="code" href="structboost_1_1hana_1_1_logical.html#a8d0365b860f1383b8077ea86eee79a23">and_</a>(x, y), z...)</div>
 </div><!-- fragment --><h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_logical.html#a8d0365b860f1383b8077ea86eee79a23">and_</a>(true_, true_, true_, true_));</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(!<a class="code" href="structboost_1_1hana_1_1_logical.html#a8d0365b860f1383b8077ea86eee79a23">and_</a>(true_, <span class="keyword">false</span>, true_, true_));</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_logical.html#a8d0365b860f1383b8077ea86eee79a23">and_</a>(true_, true_, true_, true_));</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(!<a class="code" href="structboost_1_1hana_1_1_logical.html#a8d0365b860f1383b8077ea86eee79a23">and_</a>(true_, <span class="keyword">false</span>, true_, true_));</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -335,8 +335,8 @@ Instances and minimal complete definitions</h2></td></tr>
 <p><code>or_</code> can be called with one argument or more. When called with two arguments, <code>or_</code> dispatches to the type class implementation. Otherwise, </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_logical.html#ac5683e17dd3318d3be74e5defb1e7252">or_</a>(x) == x</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1_logical.html#ac5683e17dd3318d3be74e5defb1e7252">or_</a>(x, y, ...z) == <a class="code" href="structboost_1_1hana_1_1_logical.html#ac5683e17dd3318d3be74e5defb1e7252">or_</a>(<a class="code" href="structboost_1_1hana_1_1_logical.html#ac5683e17dd3318d3be74e5defb1e7252">or_</a>(x, y), z...)</div>
 </div><!-- fragment --><h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_logical.html#ac5683e17dd3318d3be74e5defb1e7252">or_</a>(false_, false_, true_));</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(!<a class="code" href="structboost_1_1hana_1_1_logical.html#ac5683e17dd3318d3be74e5defb1e7252">or_</a>(false_, false_, false_));</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_logical.html#ac5683e17dd3318d3be74e5defb1e7252">or_</a>(false_, false_, true_));</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(!<a class="code" href="structboost_1_1hana_1_1_logical.html#ac5683e17dd3318d3be74e5defb1e7252">or_</a>(false_, false_, false_));</div>
 </div><!-- fragment -->
 </div>
 </div>

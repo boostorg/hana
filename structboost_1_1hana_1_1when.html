@@ -88,17 +88,50 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1when.html','');
 
 <div class="header">
   <div class="headertitle">
-<div class="title">boost::hana::when&lt; condition &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__core.html">Core</a></div></div>  </div>
+<div class="title">boost::hana::when&lt; condition &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__group-core.html">Core</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
 <div class="textblock"><h3>template&lt;bool condition&gt;<br />
 struct boost::hana::when&lt; condition &gt;</h3>
 
-<p>Used to instantiate a type class based on the value of a predicate. </p>
-<dl class="section note"><dt>Note</dt><dd><code>when</code> is provided whenever the header of a type class is included; including boost/hana/core.hpp is not necessary in that case.</dd></dl>
-<p>Using <code>when</code> is necessary for two reasons. First, a non-type template argument may not depend on a template parameter of a partial specialization, so we need to wrap the <code>bool</code> result of the predicate into a type. Second, <code>when</code> is used to implement the priority of partially specialized instances over predicated instances, but we could also achieve the same by replacing <code>when&lt;true&gt;</code> with <code>void</code> and letting people use <code>enable_if</code>. </p>
-</div></div><!-- contents -->
+<p>Enable a type class instance only if a boolean condition is true. </p>
+<h3>Rationale for using <code>when</code> instead of <code>std::enable_if</code></h3>
+<p>Using <code>when</code> is necessary for two reasons. First, a non-type template argument may not depend on a template parameter of a partial specialization, so we need to wrap the <code>bool</code> condition into a type. Second, <code>when</code> is used to implement the priority of partially specialized instances over predicated instances, but we could also achieve the same by replacing <code>when&lt;true&gt;</code> with <code>void</code> and letting people use <code>enable_if</code>. Hence, I'd say it boils down to preference at this point; I'm open for discussion about this. </p>
+<h3>Example</h3>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2014</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;boost/hana/core/datatype.hpp&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;boost/hana/core/typeclass.hpp&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
+<div class="line"><span class="keyword">using namespace </span>boost::hana;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keyword">struct </span>Printable {</div>
+<div class="line">    <a class="code" href="group__group-core.html#gac072d4434777cd5ee841a7766d41f1d8">BOOST_HANA_TYPECLASS</a>(Printable);</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">auto</span> print = [](std::ostream&amp; os, <span class="keyword">auto</span> x) {</div>
+<div class="line">  <span class="keywordflow">return</span> Printable::instance&lt;datatype_t&lt;decltype(x)&gt;&gt;::print_impl(os, x);</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><span class="keyword">struct </span>Printable::instance&lt;T, <a class="code" href="structboost_1_1hana_1_1when.html">when</a>&lt;std::is_arithmetic&lt;T&gt;::value&gt;&gt; {</div>
+<div class="line">    <span class="keyword">static</span> <span class="keywordtype">void</span> print_impl(std::ostream&amp; os, T x) {</div>
+<div class="line">        os &lt;&lt; x;</div>
+<div class="line">    }</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    print(std::cout, 2);</div>
+<div class="line">}</div>
+</div><!-- fragment --> </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

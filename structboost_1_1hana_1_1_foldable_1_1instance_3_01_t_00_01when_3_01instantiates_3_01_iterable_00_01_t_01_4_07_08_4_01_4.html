@@ -111,14 +111,14 @@ struct boost::hana::Foldable::instance&lt; T, when&lt; instantiates&lt; Iterable
 <div class="line"></div>
 <div class="line">    assert(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a0a5d375abcde2ceed89662df491a2c43">foldl</a>(show, <span class="stringliteral">&quot;1&quot;</span>, list(2, <span class="stringliteral">&quot;3&quot;</span>, <span class="charliteral">&#39;4&#39;</span>)) == <span class="stringliteral">&quot;(((1 + 2) + 3) + 4)&quot;</span>);</div>
 </div><!-- fragment --> <h3>Example 2</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> numbers = integer_list&lt;int, 5, -1, 0, -7, -2, 0, -5, 4&gt;;</div>
-<div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> negatives = integer_list&lt;int, -1, -7, -2, -5&gt;;</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> numbers = integer_list&lt;int, 5, -1, 0, -7, -2, 0, -5, 4&gt;;</div>
+<div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> negatives = integer_list&lt;int, -1, -7, -2, -5&gt;;</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> keep_negatives = [](<span class="keyword">auto</span> n, <span class="keyword">auto</span> acc) {</div>
+<div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> keep_negatives = [](<span class="keyword">auto</span> n, <span class="keyword">auto</span> acc) {</div>
 <div class="line">        <span class="keywordflow">return</span> if_(n &lt; 0_c, cons(n, acc), acc);</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>(keep_negatives, integer_list&lt;int&gt;, numbers) == negatives);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>(keep_negatives, integer_list&lt;int&gt;, numbers) == negatives);</div>
 </div><!-- fragment --></div>
 <p>Inherits boost::hana::detail::FoldableFromIterable.</p>
 </div><!-- contents -->

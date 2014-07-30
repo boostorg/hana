@@ -88,16 +88,14 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1operators_1_1en
 
 <div class="header">
   <div class="headertitle">
-<div class="title">boost::hana::operators::enable Struct Reference<div class="ingroups"><a class="el" href="group__core.html">Core</a></div></div>  </div>
+<div class="title">boost::hana::operators::enable Struct Reference<div class="ingroups"><a class="el" href="group__group-core.html">Core</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
 <div class="textblock"><p>Allows operators in the <code>boost::hana::operators</code> namespace to be found by ADL. </p>
 <p>Use this as a dummy template parameter or base class to make operators in the <code>boost::hana::operators</code> namespace ADL-findable for a type.</p>
-<dl class="section note"><dt>Note</dt><dd>boost/hana/core.hpp does not need to be included when the header of a type class providing operators has been included.</dd>
-<dd>
-Nothing except operators should be defined in this namespace; otherwise, ambiguities can arise when <code>using namespace operators</code>.</dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000006">Todo:</a></b></dt><dd>Is ADL really the best way of providing custom operators? This has (at least) the problem that templated types which have nothing to do with Boost.Hana could have their set of associated namespaces augmented with <code>boost::hana::operators</code> in an undesirable way: <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<dl class="section note"><dt>Note</dt><dd>Nothing except operators should be defined in this namespace; otherwise, ambiguities can arise when <code>using namespace operators</code>.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000004">Todo:</a></b></dt><dd>Is ADL really the best way of providing custom operators? This has (at least) the problem that templated types which have nothing to do with Boost.Hana could have their set of associated namespaces augmented with <code>boost::hana::operators</code> in an undesirable way: <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><span class="keyword">struct </span>nothing_to_do_with_hana { };</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> = operators::enable&gt;</div>
@@ -107,7 +105,7 @@ Nothing except operators should be defined in this namespace; otherwise, ambigui
 <div class="line">x == x; <span class="comment">// tries to use Comparable::equal_impl</span></div>
 </div><!-- fragment --> </dd></dl>
 </div>
-<p>Inherited by boost::hana::constant_detail::constant&lt; T, t &gt;, boost::hana::ilist_detail::integer_list&lt; T, xs &gt;, boost::hana::integral_detail::integral&lt; T, t &gt;, boost::hana::tlist_detail::type_list&lt; xs &gt;::type, boost::hana::type_detail::make_type&lt; T &gt;::type_, boost::hana::ilist_detail::integer_list&lt; T, xs...&gt;, and boost::hana::integral_detail::integral&lt; typename detail::std::remove_cv&lt; T &gt;::type, v &gt;.</p>
+<p>Inherited by boost::hana::ilist_detail::integer_list&lt; T, xs &gt;, boost::hana::integral_detail::integral&lt; T, t &gt;, boost::hana::tlist_detail::type_list&lt; xs &gt;::type, boost::hana::type_detail::make_type&lt; T &gt;::type_, boost::hana::ilist_detail::integer_list&lt; T, xs...&gt;, and boost::hana::integral_detail::integral&lt; typename detail::std::remove_cv&lt; T &gt;::type, v &gt;.</p>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

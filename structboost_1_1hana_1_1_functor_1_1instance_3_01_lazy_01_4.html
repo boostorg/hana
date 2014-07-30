@@ -99,15 +99,15 @@ struct boost::hana::Functor::instance&lt; Lazy &gt;</h3>
 
 <p><code>fmap</code>ing a function to a lazy value returns the result of applying the function as a lazy value.</p>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> double_ = [](<span class="keyword">auto</span> x) {</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> double_ = [](<span class="keyword">auto</span> x) {</div>
 <div class="line">        <span class="keywordflow">return</span> x * 2;</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> one_over = [](<span class="keyword">auto</span> x) {</div>
+<div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> one_over = [](<span class="keyword">auto</span> x) {</div>
 <div class="line">        <span class="keywordflow">return</span> 1 / x;</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(eval(<a class="code" href="structboost_1_1hana_1_1_functor.html#a84bb505c8405a5cd3003db49f652faa2">fmap</a>(double_, lazy(one_over)(4))) == 1 / 2);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(eval(<a class="code" href="structboost_1_1hana_1_1_functor.html#a84bb505c8405a5cd3003db49f652faa2">fmap</a>(double_, lazy(one_over)(4))) == 1 / 2);</div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="structboost_1_1hana_1_1_functor.html#a84bb505c8405a5cd3003db49f652faa2">fmap</a>(double_, lazy(one_over)(0)); <span class="comment">// never evaluated</span></div>
 </div><!-- fragment --></div><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">

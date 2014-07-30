@@ -90,7 +90,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1datatype.html',
   <div class="summary">
 <a href="structboost_1_1hana_1_1datatype-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">boost::hana::datatype&lt; T, Enable &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__core.html">Core</a></div></div>  </div>
+<div class="title">boost::hana::datatype&lt; T, Enable &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__group-core.html">Core</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
@@ -99,7 +99,7 @@ struct boost::hana::datatype&lt; T, Enable &gt;</h3>
 
 <p>Metafunction returning the data type associated to <code>T</code>. </p>
 <p>By default, this metafunction returns <code>T::hana_datatype</code> if that expression is valid, and <code>T</code> otherwise. It can also be specialized to customize the data type of <code>T</code> without requiring <code>T</code> to have a nested <code>hana_datatype</code> type. A dummy parameter is also provided to allow <code>datatype</code> to be specialized for all types satisfying a predicate using <code>std::enable_if</code>.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000005">Todo:</a></b></dt><dd><ul>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000002">Todo:</a></b></dt><dd><ul>
 <li>Could this be related to <code>decltype_</code>? If so, how? It is a valid question whether <code>decltype_(list(...))</code> should be <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose index-based sequence. ">List</a></code> or <code>&lt;garbage&gt;</code>.</li>
 <li>Consider using two layers of specializations to improve performance if this is an issue. I suspect that using the enabler will hurt performance a lot because it requires the compiler to look at all the enablers each time <code>datatype</code> is instantiated. </li>
 </ul>

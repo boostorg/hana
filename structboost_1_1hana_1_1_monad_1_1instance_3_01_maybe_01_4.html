@@ -113,14 +113,14 @@ struct boost::hana::Monad::instance&lt; Maybe &gt;</h3>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> inc = [](<span class="keyword">auto</span> x) {</div>
+<div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> inc = [](<span class="keyword">auto</span> x) {</div>
 <div class="line">        <span class="keywordflow">return</span> just(x + 1);</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_monad.html#a4df7d83b8aeb3bcf99e5675f69af4090">bind</a>(just(1), inc) == just(2));</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_monad.html#a4df7d83b8aeb3bcf99e5675f69af4090">bind</a>(nothing, inc) == nothing);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_monad.html#a4df7d83b8aeb3bcf99e5675f69af4090">bind</a>(just(1), inc) == just(2));</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_monad.html#a4df7d83b8aeb3bcf99e5675f69af4090">bind</a>(nothing, inc) == nothing);</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_monad.html#a45985423d0658e88f0403773146af110">flatten</a>(just(just(2))) == just(2));</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_monad.html#a45985423d0658e88f0403773146af110">flatten</a>(just(just(2))) == just(2));</div>
 <div class="line">}</div>
 </div><!-- fragment --> </div><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Inheritance diagram for boost::hana::Monad::instance&lt; Maybe &gt;:</div>

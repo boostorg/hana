@@ -92,15 +92,15 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_iterable.html'
 <a href="#nested-classes">Instances and minimal complete definitions</a> &#124;
 <a href="structboost_1_1hana_1_1_iterable-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">boost::hana::Iterable Struct Reference<div class="ingroups"><a class="el" href="group__typeclasses.html">Type classes</a></div></div>  </div>
+<div class="title">boost::hana::Iterable Struct Reference<div class="ingroups"><a class="el" href="group__group-typeclasses.html">Type classes</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
 <div class="textblock"><p><code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="Iterable represents data structures supporting external iteration. ">Iterable</a></code> represents data structures supporting external iteration. </p>
 <h3>Laws</h3>
 <p>In a sense, <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="Data structures that can be folded, i.e. summarized into a single value. ">Foldable</a></code> represents data structures supporting internal iteration with the ability to accumulate a result. We request that instances of both <code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="Iterable represents data structures supporting external iteration. ">Iterable</a></code> and <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="Data structures that can be folded, i.e. summarized into a single value. ">Foldable</a></code> provide consistent instances. Hence, for any finite <code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="Iterable represents data structures supporting external iteration. ">Iterable</a></code> <em>and</em> <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="Data structures that can be folded, i.e. summarized into a single value. ">Foldable</a></code> <code>it</code>, the following laws must be satisfied: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_iterable.html#adc2675aeee1174a9b337e94f39506bec">head</a>(it) == <a class="code" href="structboost_1_1hana_1_1_iterable.html#adc2675aeee1174a9b337e94f39506bec">head</a>(to&lt;List&gt;(it))</div>
-<div class="line"><a class="code" href="group__core.html#ga2a7d85fcbf846d9b63a8270f547309be">to</a>&lt;List&gt;(<a class="code" href="structboost_1_1hana_1_1_iterable.html#ab15783aae10d4373e2399abe728f3f96">tail</a>(it)) == <a class="code" href="structboost_1_1hana_1_1_iterable.html#ab15783aae10d4373e2399abe728f3f96">tail</a>(<a class="code" href="group__core.html#ga2a7d85fcbf846d9b63a8270f547309be">to</a>&lt;List&gt;(it))</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1_iterable.html#a4193ecf811f29479c60022564afa512a">is_empty</a>(it) if and only if <a class="code" href="structboost_1_1hana_1_1_iterable.html#a4193ecf811f29479c60022564afa512a">is_empty</a>(<a class="code" href="group__core.html#ga2a7d85fcbf846d9b63a8270f547309be">to</a>&lt;List&gt;(it))</div>
+<div class="line"><a class="code" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>&lt;List&gt;(<a class="code" href="structboost_1_1hana_1_1_iterable.html#ab15783aae10d4373e2399abe728f3f96">tail</a>(it)) == <a class="code" href="structboost_1_1hana_1_1_iterable.html#ab15783aae10d4373e2399abe728f3f96">tail</a>(<a class="code" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>&lt;List&gt;(it))</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1_iterable.html#a4193ecf811f29479c60022564afa512a">is_empty</a>(it) if and only if <a class="code" href="structboost_1_1hana_1_1_iterable.html#a4193ecf811f29479c60022564afa512a">is_empty</a>(<a class="code" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>&lt;List&gt;(it))</div>
 </div><!-- fragment --><p>This is basically saying that linearizing a <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="Data structures that can be folded, i.e. summarized into a single value. ">Foldable</a></code> and then iterating through it should be equivalent to iterating through it in the first place. </p>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
@@ -139,6 +139,9 @@ Instances and minimal complete definitions</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_iterable_1_1instance_3_01_list_01_4.html">instance&lt; List &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_iterable_1_1instance_3_01_mpl_vector_01_4.html">instance&lt; MplVector &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="Iterable represents data structures supporting external iteration. ">Iterable</a></code> instance for Boost.MPL vectors.  <a href="structboost_1_1hana_1_1_iterable_1_1instance_3_01_mpl_vector_01_4.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_iterable_1_1instance_3_01_range_01_4.html">instance&lt; Range &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_iterable_1_1instance_3_01_type_list_01_4.html">instance&lt; TypeList &gt;</a></td></tr>
@@ -173,7 +176,7 @@ Instances and minimal complete definitions</h2></td></tr>
 </div><!-- fragment -->
 <p>Return the first element of a non-empty iterable. </p>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_iterable.html#adc2675aeee1174a9b337e94f39506bec">head</a>(list(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, <span class="keyword">nullptr</span>)) == 1);</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_iterable.html#adc2675aeee1174a9b337e94f39506bec">head</a>(list(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, <span class="keyword">nullptr</span>)) == 1);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -202,7 +205,7 @@ Instances and minimal complete definitions</h2></td></tr>
 </div><!-- fragment -->
 <p>Return a new iterable containing all but the first element of a non-empty iterable. </p>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
 <div class="line">        <a class="code" href="structboost_1_1hana_1_1_iterable.html#ab15783aae10d4373e2399abe728f3f96">tail</a>(list(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, <span class="keyword">nullptr</span>)) == list(<span class="charliteral">&#39;2&#39;</span>, 3.3, <span class="keyword">nullptr</span>)</div>
 <div class="line">    );</div>
 </div><!-- fragment -->
@@ -233,8 +236,8 @@ Instances and minimal complete definitions</h2></td></tr>
 </div><!-- fragment -->
 <p>Return whether the iterable is empty. </p>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(!<a class="code" href="structboost_1_1hana_1_1_iterable.html#a4193ecf811f29479c60022564afa512a">is_empty</a>(list(1, <span class="charliteral">&#39;2&#39;</span>)));</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>( <a class="code" href="structboost_1_1hana_1_1_iterable.html#a4193ecf811f29479c60022564afa512a">is_empty</a>(list()));</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(!<a class="code" href="structboost_1_1hana_1_1_iterable.html#a4193ecf811f29479c60022564afa512a">is_empty</a>(list(1, <span class="charliteral">&#39;2&#39;</span>)));</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>( <a class="code" href="structboost_1_1hana_1_1_iterable.html#a4193ecf811f29479c60022564afa512a">is_empty</a>(list()));</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -270,9 +273,9 @@ Instances and minimal complete definitions</h2></td></tr>
   </dd>
 </dl>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_iterable.html#af4e91486be10ef3a19495cb3d3652721">at</a>(int_&lt;0&gt;, list(0, <span class="charliteral">&#39;1&#39;</span>, 2.0)) == 0);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_iterable.html#af4e91486be10ef3a19495cb3d3652721">at</a>(int_&lt;1&gt;, list(0, <span class="charliteral">&#39;1&#39;</span>, 2.0)) == <span class="charliteral">&#39;1&#39;</span>);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_iterable.html#af4e91486be10ef3a19495cb3d3652721">at</a>(int_&lt;2&gt;, list(0, <span class="charliteral">&#39;1&#39;</span>, 2.0)) == 2.0);</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_iterable.html#af4e91486be10ef3a19495cb3d3652721">at</a>(int_&lt;0&gt;, list(0, <span class="charliteral">&#39;1&#39;</span>, 2.0)) == 0);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_iterable.html#af4e91486be10ef3a19495cb3d3652721">at</a>(int_&lt;1&gt;, list(0, <span class="charliteral">&#39;1&#39;</span>, 2.0)) == <span class="charliteral">&#39;1&#39;</span>);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_iterable.html#af4e91486be10ef3a19495cb3d3652721">at</a>(int_&lt;2&gt;, list(0, <span class="charliteral">&#39;1&#39;</span>, 2.0)) == 2.0);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -301,7 +304,7 @@ Instances and minimal complete definitions</h2></td></tr>
 </div><!-- fragment -->
 <p>Return the last element of a non-empty and finite iterable. </p>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_iterable.html#a5379264e83af65af8802eeec0d49e5f0">last</a>(list(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, <span class="keyword">nullptr</span>)) == <span class="keyword">nullptr</span>);</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_iterable.html#a5379264e83af65af8802eeec0d49e5f0">last</a>(list(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, <span class="keyword">nullptr</span>)) == <span class="keyword">nullptr</span>);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -337,12 +340,12 @@ Instances and minimal complete definitions</h2></td></tr>
   </dd>
 </dl>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> xs = list(0, <span class="charliteral">&#39;1&#39;</span>, 2.0);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>(int_&lt;0&gt;, xs) == xs);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>(int_&lt;1&gt;, xs) == list(<span class="charliteral">&#39;1&#39;</span>, 2.0));</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>(int_&lt;2&gt;, xs) == list(2.0));</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>(int_&lt;3&gt;, xs) == list());</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>(int_&lt;4&gt;, xs) == list());</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> xs = list(0, <span class="charliteral">&#39;1&#39;</span>, 2.0);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>(int_&lt;0&gt;, xs) == xs);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>(int_&lt;1&gt;, xs) == list(<span class="charliteral">&#39;1&#39;</span>, 2.0));</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>(int_&lt;2&gt;, xs) == list(2.0));</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>(int_&lt;3&gt;, xs) == list());</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>(int_&lt;4&gt;, xs) == list());</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -379,15 +382,15 @@ Instances and minimal complete definitions</h2></td></tr>
   </dd>
 </dl>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> negative = [](<span class="keyword">auto</span> x) {</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> negative = [](<span class="keyword">auto</span> x) {</div>
 <div class="line">        <span class="keywordflow">return</span> x &lt; int_&lt;0&gt;;</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
 <div class="line">        <a class="code" href="structboost_1_1hana_1_1_iterable.html#aab3e80f4ae219afb61b12201738d28b8">drop_while</a>(negative, range(int_&lt;-3&gt;, int_&lt;6&gt;)) == range(int_&lt;0&gt;, int_&lt;6&gt;)</div>
 <div class="line">    );</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
 <div class="line">        <a class="code" href="structboost_1_1hana_1_1_iterable.html#aab3e80f4ae219afb61b12201738d28b8">drop_while</a>(negative, list(1_c, -2_c, 4_c, 5_c)) == list(1_c, -2_c, 4_c, 5_c)</div>
 <div class="line">    );</div>
 </div><!-- fragment -->
@@ -427,15 +430,15 @@ Instances and minimal complete definitions</h2></td></tr>
   </dd>
 </dl>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> positive = [](<span class="keyword">auto</span> x) {</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> positive = [](<span class="keyword">auto</span> x) {</div>
 <div class="line">        <span class="keywordflow">return</span> x &gt; int_&lt;0&gt;;</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
 <div class="line">        <a class="code" href="structboost_1_1hana_1_1_iterable.html#a7ea270dc46fcf8e1a186e99c3019e551">drop_until</a>(positive, range(int_&lt;-3&gt;, int_&lt;6&gt;)) == range(int_&lt;1&gt;, int_&lt;6&gt;)</div>
 <div class="line">    );</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
 <div class="line">        <a class="code" href="structboost_1_1hana_1_1_iterable.html#a7ea270dc46fcf8e1a186e99c3019e551">drop_until</a>(positive, list(1_c, -2_c, 4_c, 5_c)) == list(1_c, -2_c, 4_c, 5_c)</div>
 <div class="line">    );</div>
 </div><!-- fragment -->
@@ -480,7 +483,7 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">    });</div>
 <div class="line"></div>
 <div class="line">    assert(ss.str() == <span class="stringliteral">&quot;0 1 234 5.5 &quot;</span>);</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000014">Todo:</a></b></dt><dd>The presence of implicit side effects in this function might be a smell that it should be moved to a different type class and handled through <code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="Monads are Applicatives with the ability to flatten values that were lifted more than once...">Monad</a></code>s. </dd></dl>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000015">Todo:</a></b></dt><dd>The presence of implicit side effects in this function might be a smell that it should be moved to a different type class and handled through <code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="Monads are Applicatives with the ability to flatten values that were lifted more than once...">Monad</a></code>s. </dd></dl>
 
 </div>
 </div>

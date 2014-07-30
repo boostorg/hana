@@ -92,7 +92,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_monad.html',''
 <a href="#nested-classes">Instances and minimal complete definitions</a> &#124;
 <a href="structboost_1_1hana_1_1_monad-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">boost::hana::Monad Struct Reference<div class="ingroups"><a class="el" href="group__typeclasses.html">Type classes</a></div></div>  </div>
+<div class="title">boost::hana::Monad Struct Reference<div class="ingroups"><a class="el" href="group__group-typeclasses.html">Type classes</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
@@ -186,24 +186,24 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line"></div>
 <div class="line"><span class="comment">// `sfinae(f)(x...)` returns `just(f(x...))` if `f(x...)` is well-formed,</span></div>
 <div class="line"><span class="comment">// and `nothing` otherwise.</span></div>
-<div class="line"><a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> sfinae = [](<span class="keyword">auto</span> f) {</div>
+<div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> sfinae = [](<span class="keyword">auto</span> f) {</div>
 <div class="line">    <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> ...x) {</div>
 <div class="line">        <span class="keywordflow">return</span> eval_if(detail::is_valid(f)(x...),</div>
-<div class="line">            [=](<span class="keyword">auto</span> <a class="code" href="group__functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a>) { return just(_(f)(x...)); },</div>
-<div class="line">            [](<span class="keyword">auto</span> <a class="code" href="group__functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a>) { return nothing; }</div>
+<div class="line">            [=](<span class="keyword">auto</span> <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>) { return just(_(f)(x...)); },</div>
+<div class="line">            [](<span class="keyword">auto</span> <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>) { return nothing; }</div>
 <div class="line">        );</div>
 <div class="line">    };</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> deref = [](<span class="keyword">auto</span> x) -&gt; decltype(*x) {</div>
+<div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> deref = [](<span class="keyword">auto</span> x) -&gt; decltype(*x) {</div>
 <div class="line">    <span class="keywordflow">return</span> *x;</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> age = [](<span class="keyword">auto</span> x) -&gt; decltype(x.age) {</div>
+<div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> age = [](<span class="keyword">auto</span> x) -&gt; decltype(x.age) {</div>
 <div class="line">    <span class="keywordflow">return</span> x.age;</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> f = [](<span class="keyword">auto</span> x) {</div>
+<div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> f = [](<span class="keyword">auto</span> x) {</div>
 <div class="line">    <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_monad.html#a4df7d83b8aeb3bcf99e5675f69af4090">bind</a>(sfinae(deref)(x), sfinae(age));</div>
 <div class="line">};</div>
 <div class="line"></div>
@@ -216,13 +216,13 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">    Person john{30};</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// Can&#39;t dereference a non-pointer.</span></div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(f(john) == nothing);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(f(john) == nothing);</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// `int` has no member named `age`.</span></div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(f(1) == nothing);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(f(1) == nothing);</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// All is good.</span></div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(f(&amp;john) == just(30u));</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(f(&amp;john) == just(30u));</div>
 <div class="line">}</div>
 </div><!-- fragment --> 
 </div>
@@ -260,7 +260,7 @@ Instances and minimal complete definitions</h2></td></tr>
   </dd>
 </dl>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
 <div class="line">        <a class="code" href="structboost_1_1hana_1_1_monad.html#abfc7efb0044a87a21f663b1a151dac56">then</a>(list(undefined{}, undefined{}), list(1, 2, 3)) == list(</div>
 <div class="line">            1, 2, 3,</div>
 <div class="line">            1, 2, 3</div>
@@ -300,15 +300,15 @@ Instances and minimal complete definitions</h2></td></tr>
   </dd>
 </dl>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
 <div class="line">        <a class="code" href="structboost_1_1hana_1_1_monad.html#a45985423d0658e88f0403773146af110">flatten</a>(list(list(1, 2, 3), list(4, 5), list(6, 7, 8, 9)))</div>
 <div class="line">        ==</div>
 <div class="line">        list(1, 2, 3, 4, 5, 6, 7, 8, 9)</div>
 <div class="line">    );</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_monad.html#a45985423d0658e88f0403773146af110">flatten</a>(nothing) == nothing);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_monad.html#a45985423d0658e88f0403773146af110">flatten</a>(just(just(1))) == just(1));</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_monad.html#a45985423d0658e88f0403773146af110">flatten</a>(just(nothing)) == nothing);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_monad.html#a45985423d0658e88f0403773146af110">flatten</a>(nothing) == nothing);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_monad.html#a45985423d0658e88f0403773146af110">flatten</a>(just(just(1))) == just(1));</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_monad.html#a45985423d0658e88f0403773146af110">flatten</a>(just(nothing)) == nothing);</div>
 </div><!-- fragment -->
 </div>
 </div>

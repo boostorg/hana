@@ -92,7 +92,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_applicative.ht
 <a href="#nested-classes">Instances and minimal complete definitions</a> &#124;
 <a href="structboost_1_1hana_1_1_applicative-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">boost::hana::Applicative Struct Reference<div class="ingroups"><a class="el" href="group__typeclasses.html">Type classes</a></div></div>  </div>
+<div class="title">boost::hana::Applicative Struct Reference<div class="ingroups"><a class="el" href="group__group-typeclasses.html">Type classes</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
@@ -107,9 +107,9 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_applicative.ht
 <h3>Laws</h3>
 <p>For any <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="Applicatives are Functors with the ability to lift values and combine computations. ">Applicative</a></code> <code>A</code>, the following laws must be satisfied:</p>
 <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(lift&lt;A&gt;(<span class="keywordtype">id</span>), u) == u                          <span class="comment">// identity</span></div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(lift&lt;A&gt;(<a class="code" href="group__functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>), u, v, w) == <a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(u, <a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(v, w)) <span class="comment">// composition</span></div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(lift&lt;A&gt;(<a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>), u, v, w) == <a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(u, <a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(v, w)) <span class="comment">// composition</span></div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(<a class="code" href="structboost_1_1hana_1_1_applicative.html#adc481a8251a7f47f526ad84186d35087">lift</a>&lt;A&gt;(f), <a class="code" href="structboost_1_1hana_1_1_applicative.html#adc481a8251a7f47f526ad84186d35087">lift</a>&lt;A&gt;(x)) == <a class="code" href="structboost_1_1hana_1_1_applicative.html#adc481a8251a7f47f526ad84186d35087">lift</a>&lt;A&gt;(f(x))      <span class="comment">// homomorphism</span></div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(u, <a class="code" href="structboost_1_1hana_1_1_applicative.html#adc481a8251a7f47f526ad84186d35087">lift</a>&lt;A&gt;(y)) == <a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(<a class="code" href="structboost_1_1hana_1_1_applicative.html#adc481a8251a7f47f526ad84186d35087">lift</a>&lt;A&gt;(<a class="code" href="group__functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>(y)), u)    <span class="comment">// interchange</span></div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(u, <a class="code" href="structboost_1_1hana_1_1_applicative.html#adc481a8251a7f47f526ad84186d35087">lift</a>&lt;A&gt;(y)) == <a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(<a class="code" href="structboost_1_1hana_1_1_applicative.html#adc481a8251a7f47f526ad84186d35087">lift</a>&lt;A&gt;(<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>(y)), u)    <span class="comment">// interchange</span></div>
 </div><!-- fragment --><p>As a consequence of these laws, the <code><a class="el" href="structboost_1_1hana_1_1_functor.html" title="Functor represents types that can be mapped over. ">Functor</a></code> instance for <code>A</code> will satisfy</p>
 <div class="fragment"><div class="line">fmap(f, x) == <a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(lift&lt;A&gt;(f), x)</div>
 </div><!-- fragment --> </div><table class="memberdecls">
@@ -166,8 +166,8 @@ Instances and minimal complete definitions</h2></td></tr>
   </dd>
 </dl>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> f = _ + <a class="code" href="group__functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a>;</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> f = _ + <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>;</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
 <div class="line">        <a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(lift&lt;List&gt;(f), list(1, 2), list(3, 4, 5))</div>
 <div class="line">            ==</div>
 <div class="line">        list(</div>
@@ -176,13 +176,13 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">        )</div>
 <div class="line">    );</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> g = [](<span class="keyword">auto</span> a, <span class="keyword">auto</span> b, <span class="keyword">auto</span> c) {</div>
+<div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> g = [](<span class="keyword">auto</span> a, <span class="keyword">auto</span> b, <span class="keyword">auto</span> c) {</div>
 <div class="line">        <span class="keywordflow">return</span> a * b * c;</div>
 <div class="line">    };</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
 <div class="line">        <a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(lift&lt;Maybe&gt;(g), just(1), just(2), just(3)) == just(1 * 2 * 3)</div>
 <div class="line">    );</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
 <div class="line">        <a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(lift&lt;Maybe&gt;(g), just(1), nothing, just(3)) == nothing</div>
 <div class="line">    );</div>
 </div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>Consider giving access to all the arguments to the type class implementation for performance purposes. </dd></dl>
@@ -223,8 +223,8 @@ template&lt;typename A &gt; </div>
   </dd>
 </dl>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(lift&lt;List&gt;(<span class="charliteral">&#39;x&#39;</span>) == list(<span class="charliteral">&#39;x&#39;</span>));</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(lift&lt;Maybe&gt;(<span class="charliteral">&#39;x&#39;</span>) == just(<span class="charliteral">&#39;x&#39;</span>));</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(lift&lt;List&gt;(<span class="charliteral">&#39;x&#39;</span>) == list(<span class="charliteral">&#39;x&#39;</span>));</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(lift&lt;Maybe&gt;(<span class="charliteral">&#39;x&#39;</span>) == just(<span class="charliteral">&#39;x&#39;</span>));</div>
 </div><!-- fragment -->
 </div>
 </div>

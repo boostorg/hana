@@ -100,14 +100,14 @@ struct boost::hana::Applicative::instance&lt; Maybe &gt;</h3>
 <p>Instance of <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="Applicatives are Functors with the ability to lift values and combine computations. ">Applicative</a></code> for <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code>s. </p>
 <p>First, a value can be made optional with <code>lift&lt;<a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a>&gt;</code>, which is equivalent to <code>just</code>. Second, one can feed an optional value to an optional function with <code>ap</code>, which will return <code>just(f(x))</code> if there is both a function <em>and</em> a value, and <code>nothing</code> otherwise.</p>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> f = [](<span class="keyword">auto</span> x) {</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> f = [](<span class="keyword">auto</span> x) {</div>
 <div class="line">        <span class="keywordflow">return</span> x + 1; <span class="comment">// next letter</span></div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(just(f), just(<span class="charliteral">&#39;x&#39;</span>)) == just(f(<span class="charliteral">&#39;x&#39;</span>)));</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(nothing, just(<span class="charliteral">&#39;x&#39;</span>)) == nothing);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(just(f), nothing) == nothing);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(nothing, nothing) == nothing);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(just(f), just(<span class="charliteral">&#39;x&#39;</span>)) == just(f(<span class="charliteral">&#39;x&#39;</span>)));</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(nothing, just(<span class="charliteral">&#39;x&#39;</span>)) == nothing);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(just(f), nothing) == nothing);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(nothing, nothing) == nothing);</div>
 </div><!-- fragment --> <h3>Example</h3>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2014</span></div>
@@ -123,37 +123,37 @@ struct boost::hana::Applicative::instance&lt; Maybe &gt;</h3>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keywordtype">char</span> op&gt;</div>
-<div class="line"><a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> <span class="keyword">function</span> = nothing;</div>
+<div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> <span class="keyword">function</span> = nothing;</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;&gt;</div>
-<div class="line"><a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> function&lt;&#39;+&#39;&gt; = just([](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
+<div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> function&lt;&#39;+&#39;&gt; = just([](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
 <div class="line">    <span class="keywordflow">return</span> x + y;</div>
 <div class="line">});</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;&gt;</div>
-<div class="line"><a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> <span class="keyword">function</span>&lt;<span class="charliteral">&#39;-&#39;</span>&gt; = just([](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
+<div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> <span class="keyword">function</span>&lt;<span class="charliteral">&#39;-&#39;</span>&gt; = just([](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
 <div class="line">    <span class="keywordflow">return</span> x - y;</div>
 <div class="line">});</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// and so on...</span></div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keywordtype">char</span> n&gt;</div>
-<div class="line"><a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> digit = if_(bool_&lt;(n &gt;= <span class="charliteral">&#39;0&#39;</span> &amp;&amp; n &lt;= <span class="charliteral">&#39;9&#39;</span>)&gt;,</div>
+<div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> digit = if_(bool_&lt;(n &gt;= <span class="charliteral">&#39;0&#39;</span> &amp;&amp; n &lt;= <span class="charliteral">&#39;9&#39;</span>)&gt;,</div>
 <div class="line">    just(static_cast&lt;int&gt;(n - 48)), nothing</div>
 <div class="line">);</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keywordtype">char</span> x, <span class="keywordtype">char</span> op, <span class="keywordtype">char</span> y&gt;</div>
-<div class="line"><a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> evaluate = <a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(function&lt;op&gt;, digit&lt;x&gt;, digit&lt;y&gt;);</div>
+<div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> evaluate = <a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(function&lt;op&gt;, digit&lt;x&gt;, digit&lt;y&gt;);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(evaluate&lt;&#39;1&#39;, &#39;+&#39;, &#39;2&#39;&gt; == just(1 + 2));</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(evaluate&lt;&#39;1&#39;, &#39;+&#39;, &#39;2&#39;&gt; == just(1 + 2));</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(evaluate&lt;&#39;?&#39;, &#39;+&#39;, &#39;2&#39;&gt; == nothing);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(evaluate&lt;&#39;1&#39;, &#39;?&#39;, &#39;2&#39;&gt; == nothing);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(evaluate&lt;&#39;1&#39;, &#39;+&#39;, &#39;?&#39;&gt; == nothing);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(evaluate&lt;&#39;?&#39;, &#39;?&#39;, &#39;?&#39;&gt; == nothing);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(evaluate&lt;&#39;?&#39;, &#39;+&#39;, &#39;2&#39;&gt; == nothing);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(evaluate&lt;&#39;1&#39;, &#39;?&#39;, &#39;2&#39;&gt; == nothing);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(evaluate&lt;&#39;1&#39;, &#39;+&#39;, &#39;?&#39;&gt; == nothing);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(evaluate&lt;&#39;?&#39;, &#39;?&#39;, &#39;?&#39;&gt; == nothing);</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(lift&lt;Maybe&gt;(123) == just(123));</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(lift&lt;Maybe&gt;(123) == just(123));</div>
 <div class="line">}</div>
 </div><!-- fragment --> </div><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Inheritance diagram for boost::hana::Applicative::instance&lt; Maybe &gt;:</div>

@@ -99,20 +99,20 @@ struct boost::hana::Traversable::instance&lt; T, when&lt; instantiates&lt; List,
 
 <p><code><a class="el" href="structboost_1_1hana_1_1_traversable.html" title="Types admitting a structure-preserving right fold with an Applicative. ">Traversable</a></code> instance for <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose index-based sequence. ">List</a></code> instances. </p>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> half = [](<span class="keyword">auto</span> x) {</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> half = [](<span class="keyword">auto</span> x) {</div>
 <div class="line">        <span class="keywordflow">return</span> if_(x % int_&lt;2&gt; == int_&lt;0&gt;,</div>
 <div class="line">            just(x / int_&lt;2&gt;),</div>
 <div class="line">            nothing</div>
 <div class="line">        );</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
 <div class="line">        traverse&lt;Maybe&gt;(half, list(int_&lt;2&gt;, int_&lt;4&gt;, int_&lt;6&gt;))</div>
 <div class="line">        ==</div>
 <div class="line">        just(list(int_&lt;1&gt;, int_&lt;2&gt;, int_&lt;3&gt;))</div>
 <div class="line">    );</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
 <div class="line">        traverse&lt;Maybe&gt;(half, list(int_&lt;2&gt;, int_&lt;3&gt;, int_&lt;6&gt;))</div>
 <div class="line">        ==</div>
 <div class="line">        nothing</div>

@@ -91,7 +91,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_maybe.html',''
 <a href="#related">Synopsis of methods</a> &#124;
 <a href="structboost_1_1hana_1_1_maybe-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">boost::hana::Maybe Struct Reference<div class="ingroups"><a class="el" href="group__datatypes.html">Data types</a></div></div>  </div>
+<div class="title">boost::hana::Maybe Struct Reference<div class="ingroups"><a class="el" href="group__group-datatypes.html">Data types</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
@@ -151,7 +151,7 @@ Synopsis of methods</h2></td></tr>
 </div><!-- fragment -->
 <p>Create an optional value containing <code>x</code>. </p>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> just_x = <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<span class="charliteral">&#39;x&#39;</span>);</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> just_x = <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<span class="charliteral">&#39;x&#39;</span>);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -198,8 +198,8 @@ Synopsis of methods</h2></td></tr>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> predicate, <span class="keyword">auto</span> f, <span class="keyword">auto</span> x) {</div>
 <div class="line">        <span class="keywordflow">return</span> eval_if(predicate(x),</div>
-<div class="line">            [=](<span class="keyword">auto</span> <a class="code" href="group__functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a>) { <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<a class="code" href="group__functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a>(f)(x)); },</div>
-<div class="line">            [](<span class="keyword">auto</span> <a class="code" href="group__functional.html#gaba86a38c81e3c99f4076ebfb2b46f7b2">_</a>) { <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_maybe.html#a07b1f3c0503e86e5d53704a0f5845963">nothing</a>; }</div>
+<div class="line">            [=](<span class="keyword">auto</span> <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>) { <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>(f)(x)); },</div>
+<div class="line">            [](<span class="keyword">auto</span> <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>) { <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_maybe.html#a07b1f3c0503e86e5d53704a0f5845963">nothing</a>; }</div>
 <div class="line">        );</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
@@ -214,16 +214,16 @@ Synopsis of methods</h2></td></tr>
   </dd>
 </dl>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> even = [](<span class="keyword">auto</span> x) {</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> even = [](<span class="keyword">auto</span> x) {</div>
 <div class="line">        <span class="keywordflow">return</span> x % int_&lt;2&gt; == int_&lt;0&gt;;</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> half = [](<span class="keyword">auto</span> x) {</div>
+<div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> half = [](<span class="keyword">auto</span> x) {</div>
 <div class="line">        <span class="keywordflow">return</span> x / int_&lt;2&gt;;</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a0d8246013d58b0809b6f18d894525b6c">only_when</a>(even, half, int_&lt;4&gt;) == <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(int_&lt;2&gt;));</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a0d8246013d58b0809b6f18d894525b6c">only_when</a>(even, half, int_&lt;3&gt;) == <a class="code" href="structboost_1_1hana_1_1_maybe.html#a07b1f3c0503e86e5d53704a0f5845963">nothing</a>);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a0d8246013d58b0809b6f18d894525b6c">only_when</a>(even, half, int_&lt;4&gt;) == <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(int_&lt;2&gt;));</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a0d8246013d58b0809b6f18d894525b6c">only_when</a>(even, half, int_&lt;3&gt;) == <a class="code" href="structboost_1_1hana_1_1_maybe.html#a07b1f3c0503e86e5d53704a0f5845963">nothing</a>);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -259,9 +259,9 @@ Synopsis of methods</h2></td></tr>
   </dd>
 </dl>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> inc = [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> x + 1; };</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a6529e11cb228e99a05e81071752807d5">maybe</a>(<span class="charliteral">&#39;x&#39;</span>, inc, <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(1)) == 2);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a6529e11cb228e99a05e81071752807d5">maybe</a>(<span class="charliteral">&#39;x&#39;</span>, inc, <a class="code" href="structboost_1_1hana_1_1_maybe.html#a07b1f3c0503e86e5d53704a0f5845963">nothing</a>) == <span class="charliteral">&#39;x&#39;</span>);</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> inc = [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> x + 1; };</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a6529e11cb228e99a05e81071752807d5">maybe</a>(<span class="charliteral">&#39;x&#39;</span>, inc, <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(1)) == 2);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a6529e11cb228e99a05e81071752807d5">maybe</a>(<span class="charliteral">&#39;x&#39;</span>, inc, <a class="code" href="structboost_1_1hana_1_1_maybe.html#a07b1f3c0503e86e5d53704a0f5845963">nothing</a>) == <span class="charliteral">&#39;x&#39;</span>);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -289,9 +289,9 @@ Synopsis of methods</h2></td></tr>
 <p>Return whether a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code> contains a value. </p>
 <p>Specifically, returns a <a class="el" href="structboost_1_1hana_1_1_logical.html#Logical_terminology">compile-time</a> true-valued <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code> if <code>m</code> is of the form <code>just(x)</code> for some <code>x</code>, and a false-valued one otherwise.</p>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>( <a class="code" href="structboost_1_1hana_1_1_maybe.html#a1047a69893a62cd36eb0d2934f85e0e7">is_just</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<span class="charliteral">&#39;x&#39;</span>)));</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>( <a class="code" href="structboost_1_1hana_1_1_maybe.html#a1047a69893a62cd36eb0d2934f85e0e7">is_just</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a07b1f3c0503e86e5d53704a0f5845963">nothing</a>)));</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(!<a class="code" href="structboost_1_1hana_1_1_maybe.html#a1047a69893a62cd36eb0d2934f85e0e7">is_just</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a07b1f3c0503e86e5d53704a0f5845963">nothing</a>));</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>( <a class="code" href="structboost_1_1hana_1_1_maybe.html#a1047a69893a62cd36eb0d2934f85e0e7">is_just</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<span class="charliteral">&#39;x&#39;</span>)));</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>( <a class="code" href="structboost_1_1hana_1_1_maybe.html#a1047a69893a62cd36eb0d2934f85e0e7">is_just</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a07b1f3c0503e86e5d53704a0f5845963">nothing</a>)));</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(!<a class="code" href="structboost_1_1hana_1_1_maybe.html#a1047a69893a62cd36eb0d2934f85e0e7">is_just</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a07b1f3c0503e86e5d53704a0f5845963">nothing</a>));</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -319,9 +319,9 @@ Synopsis of methods</h2></td></tr>
 <p>Return whether a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code> is empty. </p>
 <p>Specifically, returns a <a class="el" href="structboost_1_1hana_1_1_logical.html#Logical_terminology">compile-time</a> true-valued <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code> if <code>m</code> is of the form <code>nothing</code>, and a false-valued one otherwise.</p>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>( <a class="code" href="structboost_1_1hana_1_1_maybe.html#a4eb266d123883c23853f7731a6c5953f">is_nothing</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a07b1f3c0503e86e5d53704a0f5845963">nothing</a>));</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(!<a class="code" href="structboost_1_1hana_1_1_maybe.html#a4eb266d123883c23853f7731a6c5953f">is_nothing</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<span class="charliteral">&#39;x&#39;</span>)));</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(!<a class="code" href="structboost_1_1hana_1_1_maybe.html#a4eb266d123883c23853f7731a6c5953f">is_nothing</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a07b1f3c0503e86e5d53704a0f5845963">nothing</a>)));</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>( <a class="code" href="structboost_1_1hana_1_1_maybe.html#a4eb266d123883c23853f7731a6c5953f">is_nothing</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a07b1f3c0503e86e5d53704a0f5845963">nothing</a>));</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(!<a class="code" href="structboost_1_1hana_1_1_maybe.html#a4eb266d123883c23853f7731a6c5953f">is_nothing</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<span class="charliteral">&#39;x&#39;</span>)));</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(!<a class="code" href="structboost_1_1hana_1_1_maybe.html#a4eb266d123883c23853f7731a6c5953f">is_nothing</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a07b1f3c0503e86e5d53704a0f5845963">nothing</a>)));</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -356,8 +356,8 @@ Synopsis of methods</h2></td></tr>
   </dd>
 </dl>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#afb98884a58d911687bf2aa64a411d623">from_maybe</a>(<span class="charliteral">&#39;x&#39;</span>, <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(1)) == 1);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#afb98884a58d911687bf2aa64a411d623">from_maybe</a>(<span class="charliteral">&#39;x&#39;</span>, <a class="code" href="structboost_1_1hana_1_1_maybe.html#a07b1f3c0503e86e5d53704a0f5845963">nothing</a>) == <span class="charliteral">&#39;x&#39;</span>);</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#afb98884a58d911687bf2aa64a411d623">from_maybe</a>(<span class="charliteral">&#39;x&#39;</span>, <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(1)) == 1);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#afb98884a58d911687bf2aa64a411d623">from_maybe</a>(<span class="charliteral">&#39;x&#39;</span>, <a class="code" href="structboost_1_1hana_1_1_maybe.html#a07b1f3c0503e86e5d53704a0f5845963">nothing</a>) == <span class="charliteral">&#39;x&#39;</span>);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -391,7 +391,7 @@ Synopsis of methods</h2></td></tr>
 <p>Extract the content of a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code> or fail at compile-time. </p>
 <p>Specifically, returns <code>x</code> if the optional value is of the form <code>just(x)</code>, and triggers a static assertion otherwise.</p>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a2ebdc9b916940e038e6f2e3043e4f796">from_just</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<span class="charliteral">&#39;x&#39;</span>)) == <span class="charliteral">&#39;x&#39;</span>);</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a2ebdc9b916940e038e6f2e3043e4f796">from_just</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<span class="charliteral">&#39;x&#39;</span>)) == <span class="charliteral">&#39;x&#39;</span>);</div>
 <div class="line">    <span class="comment">// from_just(nothing); // compile-time static assertion</span></div>
 </div><!-- fragment -->
 </div>

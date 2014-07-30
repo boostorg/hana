@@ -108,10 +108,10 @@ struct boost::hana::Functor::instance&lt; T, when&lt; instantiates&lt; List, T &
 <div class="line">        list(<span class="stringliteral">&quot;1&quot;</span>, <span class="stringliteral">&quot;2&quot;</span>, <span class="stringliteral">&quot;345&quot;</span>, <span class="stringliteral">&quot;67&quot;</span>)</div>
 <div class="line">    );</div>
 </div><!-- fragment --> <h3>Example 2</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> types = type_list&lt;void, int(), char[10]&gt;;</div>
-<div class="line">    <a class="code" href="group__details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> pointers = <a class="code" href="structboost_1_1hana_1_1_functor.html#a84bb505c8405a5cd3003db49f652faa2">fmap</a>(template_&lt;std::add_pointer_t&gt;, types);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(pointers == type_list&lt;<span class="keywordtype">void</span>*, <span class="keywordtype">int</span>(*)(), <span class="keywordtype">char</span>(*)[10]&gt;);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(head(pointers) == type&lt;void*&gt;);</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> types = type_list&lt;void, int(), char[10]&gt;;</div>
+<div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> pointers = <a class="code" href="structboost_1_1hana_1_1_functor.html#a84bb505c8405a5cd3003db49f652faa2">fmap</a>(template_&lt;std::add_pointer_t&gt;, types);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(pointers == type_list&lt;<span class="keywordtype">void</span>*, <span class="keywordtype">int</span>(*)(), <span class="keywordtype">char</span>(*)[10]&gt;);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(head(pointers) == type&lt;void*&gt;);</div>
 </div><!-- fragment --></div><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Inheritance diagram for boost::hana::Functor::instance&lt; T, when&lt; instantiates&lt; List, T &gt;()&gt; &gt;:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">

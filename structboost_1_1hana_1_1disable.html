@@ -88,7 +88,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1disable.html','
 
 <div class="header">
   <div class="headertitle">
-<div class="title">boost::hana::disable Struct Reference<div class="ingroups"><a class="el" href="group__core.html">Core</a></div></div>  </div>
+<div class="title">boost::hana::disable Struct Reference<div class="ingroups"><a class="el" href="group__group-core.html">Core</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
@@ -101,7 +101,8 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1disable.html','
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line"><span class="preprocessor">#include &lt;boost/hana/core.hpp&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;boost/hana/core/instantiates.hpp&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;boost/hana/core/typeclass.hpp&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;boost/hana/detail/static_assert.hpp&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;boost/hana/ext/std/tuple.hpp&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;boost/hana/list/list.hpp&gt;</span></div>
@@ -115,8 +116,8 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1disable.html','
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line">    <span class="comment">// Usually, List should provide Foldable.</span></div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(instantiates&lt;List, StdTuple&gt;);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(!instantiates&lt;Foldable, StdTuple&gt;);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(instantiates&lt;List, StdTuple&gt;);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(!instantiates&lt;Foldable, StdTuple&gt;);</div>
 <div class="line">}</div>
 </div><!-- fragment --> </div>
 <p>Inherited by boost::hana::Comparable::default_instance&lt; T, T &gt;.</p>

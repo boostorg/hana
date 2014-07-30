@@ -91,7 +91,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_integral.html'
 <a href="#related">Synopsis of methods</a> &#124;
 <a href="structboost_1_1hana_1_1_integral-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">boost::hana::Integral Struct Reference<div class="ingroups"><a class="el" href="group__datatypes.html">Data types</a></div></div>  </div>
+<div class="title">boost::hana::Integral Struct Reference<div class="ingroups"><a class="el" href="group__group-datatypes.html">Data types</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
@@ -99,7 +99,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_integral.html'
 <p>Let <code>n</code> be an object of an <code><a class="el" href="structboost_1_1hana_1_1_integral.html" title="Represents a compile-time value of an integral type. ">Integral</a></code> data type. The compile-time value represented by <code>n</code> is accessible as <code>n()</code>, which is a <code>constexpr</code> object of the underlying integral type. <code>n</code> is also implicitly <code>constexpr</code>-convertible to the underlying integral type.</p>
 <h2>Instance of</h2>
 <p><code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable type class defines equality and inequality. ">Comparable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code> </p><hr/>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000003">Todo:</a></b></dt><dd>Implicit conversions to the underlying integral type can be problematic: <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> odd = [](<span class="keyword">auto</span> x) {</div>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000005">Todo:</a></b></dt><dd>Implicit conversions to the underlying integral type can be problematic: <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> odd = [](<span class="keyword">auto</span> x) {</div>
 <div class="line">    <span class="keywordflow">return</span> x % int_&lt;2&gt;;</div>
 <div class="line">};</div>
 <div class="line"></div>
@@ -190,13 +190,13 @@ template&lt;typename T , T v&gt; </div>
 <li>Member access: <code>*</code> (dereference)</li>
 </ul>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(int_&lt;1&gt; + int_&lt;3&gt; == int_&lt;4&gt;);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(decltype_(int_&lt;1&gt; + int_&lt;3&gt;) == decltype_(int_&lt;4&gt;));</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(int_&lt;1&gt; + int_&lt;3&gt; == int_&lt;4&gt;);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(decltype_(int_&lt;1&gt; + int_&lt;3&gt;) == decltype_(int_&lt;4&gt;));</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// Mixed-type operations are supported:</span></div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(decltype_(size_t&lt;3&gt; * ushort&lt;5&gt;) == decltype_(size_t&lt;15&gt;));</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(decltype_(size_t&lt;15&gt;) != decltype_(int_&lt;15&gt;));</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(size_t&lt;3&gt; * ushort&lt;5&gt; == int_&lt;15&gt;);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(decltype_(size_t&lt;3&gt; * ushort&lt;5&gt;) == decltype_(size_t&lt;15&gt;));</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(decltype_(size_t&lt;15&gt;) != decltype_(int_&lt;15&gt;));</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(size_t&lt;3&gt; * ushort&lt;5&gt; == int_&lt;15&gt;);</div>
 </div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd>For any <code>const-volatility</code> specifier <code>cv</code>, <code>integral&lt;T cv, n&gt;</code> is always the same as <code>integral&lt;T, n&gt;</code>.</dd></dl>
 <h3>Rationale for striping cv-specifiers</h3>
 <p>In the following idiom, </p><div class="fragment"><div class="line">integral&lt;decltype(Trait::value), Trait::value&gt;</div>
@@ -209,7 +209,7 @@ template&lt;typename T , T v&gt; </div>
 <div class="line">    decltype_(integral&lt;bool const, false&gt;)</div>
 <div class="line">, <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment --><p> Since there does not seem to be a lot of use cases for keeping cv-qualifiers in the integral type, we just remove them.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000004">Todo:</a></b></dt><dd>Do we want <code>char_&lt;1&gt; + char_&lt;2&gt; == char_&lt;3&gt;</code> or <code>char_&lt;1&gt; + char_&lt;2&gt; == int_&lt;3&gt;</code>? </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000006">Todo:</a></b></dt><dd>Do we want <code>char_&lt;1&gt; + char_&lt;2&gt; == char_&lt;3&gt;</code> or <code>char_&lt;1&gt; + char_&lt;2&gt; == int_&lt;3&gt;</code>? </dd></dl>
 
 </div>
 </div>
@@ -522,14 +522,14 @@ template&lt;char... c&gt; </div>
 <p>The literal is parsed at compile-time and the result is returned as an <code>llong&lt;...&gt;</code>.</p>
 <dl class="section note"><dt>Note</dt><dd>We use <code>llong&lt;...&gt;</code> instead of <code>ullong&lt;...&gt;</code> because using an unsigned type leads to unexpected behavior when doing stuff like <code>-1_c</code>. If we used an unsigned type, <code>-1_c</code> would be something like <code>ullong&lt;-1&gt;</code> which is actually <code>ullong&lt;something huge&gt;</code>.</dd></dl>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(1234_c == llong&lt;1234&gt;);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(decltype_(1234_c) == decltype_(llong&lt;1234&gt;));</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(1234_c == llong&lt;1234&gt;);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(decltype_(1234_c) == decltype_(llong&lt;1234&gt;));</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(-1234_c == llong&lt;-1234&gt;);</div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(decltype_(-1234_c) == decltype_(llong&lt;-1234&gt;));</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(-1234_c == llong&lt;-1234&gt;);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(decltype_(-1234_c) == decltype_(llong&lt;-1234&gt;));</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(sum(list(1_c, 2_c, 3_c, 4_c)) == 10_c);</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000013">Todo:</a></b></dt><dd>Add support for stuff like <code>0x1234_c</code>. </dd></dl>
+<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(sum(list(1_c, 2_c, 3_c, 4_c)) == 10_c);</div>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000014">Todo:</a></b></dt><dd>Add support for stuff like <code>0x1234_c</code>. </dd></dl>
 
 </div>
 </div>

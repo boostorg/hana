@@ -1,8 +1,8 @@
 var modules =
 [
-    [ "Core", "group__core.html", "group__core" ],
-    [ "Functional", "group__functional.html", "group__functional" ],
-    [ "Details", "group__details.html", "group__details" ],
-    [ "Type classes", "group__typeclasses.html", "group__typeclasses" ],
-    [ "Data types", "group__datatypes.html", "group__datatypes" ]
+    [ "Data types", "group__group-datatypes.html", "group__group-datatypes" ],
+    [ "Type classes", "group__group-typeclasses.html", "group__group-typeclasses" ],
+    [ "Core", "group__group-core.html", "group__group-core" ],
+    [ "Functional", "group__group-functional.html", "group__group-functional" ],
+    [ "Details", "group__group-details.html", "group__group-details" ]
 ];
