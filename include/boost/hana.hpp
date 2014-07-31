@@ -47,7 +47,7 @@ Distributed under the Boost Software License, Version 1.0.
 //! Implementation details.
 
 /*!
-@mainpage Boost.Hana Manual
+@mainpage User Manual
 
 @tableofcontents
 
@@ -699,6 +699,9 @@ follow:
       - The type classes it instantiates, and how it does so
       - Methods tied to the data type but not to any type class
       - Any data type specific information
+
+  - @ref group-details\n
+    Why did I document implementation details? That's a good question.
 
 If you are not too familiar with Haskell, I suggest you start with a fairly
 concrete type class and then work your way down to more abstract and powerful

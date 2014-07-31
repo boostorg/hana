@@ -3,24 +3,50 @@
   <!-- Navigation index tabs for HTML output -->
   <navindex>
     <tab type="mainpage" visible="yes" title=""/>
-    <tab type="pages" visible="yes" title="" intro=""/>
-    <tab type="modules" visible="yes" title="Reference" intro=""/>
+    <tab type="modules" visible="yes"
+                        title="Reference documentation"
+                        intro="
+The reference documentation is split into logical modules, as documented in
+the user manual."/>
 
-    <tab type="namespaces" visible="yes" title="">
-      <tab type="namespacelist" visible="yes" title="" intro=""/>
-      <tab type="namespacemembers" visible="yes" title="" intro=""/>
+    <tab type="usergroup" visible="yes" title="Indexes">
+      <tab type="classmembers" visible="yes"
+                               title="Methods"
+                               intro="
+This is an index of all the methods with links to the
+corresponding documentation."/>
+
+      <tab type="classlist" visible="yes"
+                            title="Type classes, data types and instances"
+                            intro="
+This is a list of all the type classes, data types and instances with links
+to the corresponding documentation. Note that other classes are also included
+in this list because of Doxygen limitations, but you won't even notice. :-)"/>
+
+      <tab type="filelist" visible="yes"
+                           title="Files"
+                           intro=""/>
     </tab>
+
+    <tab type="pages" visible="yes" title="" intro=""/>
+
+
+    <!-- We don't use what's below -->
+    <tab type="namespaces" visible="no" title="">
+      <tab type="namespacelist" visible="no" title="" intro=""/>
+      <tab type="namespacemembers" visible="no" title="" intro=""/>
+    </tab>
+
+    <tab type="examples" visible="no" title="" intro=""/>
+
     <tab type="classes" visible="no" title="">
-      <tab type="classlist" visible="no" title="" intro=""/>
       <tab type="classindex" visible="$ALPHABETICAL_INDEX" title=""/>
       <tab type="hierarchy" visible="no" title="" intro=""/>
-      <tab type="classmembers" visible="no" title="" intro=""/>
     </tab>
-    <tab type="files" visible="yes" title="">
-      <tab type="filelist" visible="yes" title="" intro=""/>
-      <tab type="globals" visible="yes" title="" intro=""/>
+
+    <tab type="files" visible="no" title="">
+      <tab type="globals" visible="no" title="" intro=""/>
     </tab>
-    <tab type="examples" visible="yes" title="" intro=""/>
   </navindex>
 
   <!-- Layout definition for a class page -->
@@ -37,7 +63,7 @@
       <friends title=""/>
       <membergroups visible="yes"/>
 
-      <!-- We don't use those -->
+      <!-- We don't use what's below -->
       <publictypes title=""/>
       <services title=""/>
       <interfaces title=""/>
