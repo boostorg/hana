@@ -55,9 +55,9 @@ var NAVTREEINDEX1 =
 "structboost_1_1hana_1_1_type_list.html":[3,0,12],
 "structboost_1_1hana_1_1_type_list.html#acfe56da5da5e9e8ed2c3d47197ab754e":[3,0,12,0],
 "structboost_1_1hana_1_1convert.html":[3,2,0],
-"structboost_1_1hana_1_1datatype.html":[3,2,1],
-"structboost_1_1hana_1_1disable.html":[3,2,3],
-"structboost_1_1hana_1_1operators_1_1enable.html":[3,2,4],
-"structboost_1_1hana_1_1when.html":[3,2,2],
+"structboost_1_1hana_1_1datatype.html":[3,2,2],
+"structboost_1_1hana_1_1disable.html":[3,2,4],
+"structboost_1_1hana_1_1operators_1_1enable.html":[3,2,3],
+"structboost_1_1hana_1_1when.html":[3,2,1],
 "todo.html":[1]
 };

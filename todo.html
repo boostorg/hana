@@ -95,19 +95,13 @@ $(document).ready(function(){initNavTree('todo.html','');});
 <dt><a class="anchor" id="_todo000001"></a>Member <a class="el" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>  </dt>
 <dd>Consider giving access to all the arguments to the type class implementation for performance purposes.  </dd>
 <dt><a class="anchor" id="_todo000027"></a>page <a class="el" href="index.html">Boost.Hana Manual</a>  </dt>
-<dd><p class="startdd">Document type classes with operators.</p>
-<p class="enddd">Consider documenting the subdirectories of core/ one by one, if the current separation sticks. </p>
-</dd>
+<dd>Document type classes with operators. Document <code>disable</code>. </dd>
 <dt><a class="anchor" id="_todo000010"></a>Class <a class="el" href="structboost_1_1hana_1_1_applicative_1_1instance_3_01_std_tuple_01_4.html">boost::hana::Applicative::instance&lt; StdTuple &gt;</a>  </dt>
 <dd>Get rid of this redundant instance once <a href="http://llvm.org/bugs/show_bug.cgi?id=19616">http://llvm.org/bugs/show_bug.cgi?id=19616</a> is fixed.  </dd>
 <dt><a class="anchor" id="_todo000011"></a>Member <a class="el" href="group__group-functional.html#ga49ea872ade5ac8f6c10052c495302e89">boost::hana::curry</a>  </dt>
 <dd>Consider making <code>curry&lt;0&gt;(f)</code> equivalent to <code>f</code>. It might be more general or less useful if it creates subtle pitfalls. </dd>
-<dt><a class="anchor" id="_todo000002"></a>Class <a class="el" href="structboost_1_1hana_1_1datatype.html">boost::hana::datatype&lt; T, Enable &gt;</a>  </dt>
-<dd><ul>
-<li>Could this be related to <code>decltype_</code>? If so, how? It is a valid question whether <code>decltype_(list(...))</code> should be <code>List</code> or <code>&lt;garbage&gt;</code>.</li>
-<li>Consider using two layers of specializations to improve performance if this is an issue. I suspect that using the enabler will hurt performance a lot because it requires the compiler to look at all the enablers each time <code>datatype</code> is instantiated.  </li>
-</ul>
-</dd>
+<dt><a class="anchor" id="_todo000002"></a>Class <a class="el" href="structboost_1_1hana_1_1datatype.html">boost::hana::datatype&lt; T, &gt;</a>  </dt>
+<dd>Could this be related to <code>decltype_</code>? If so, how? It is a valid question whether <code>decltype_(list(...))</code> should be <code>List</code> or <code>&lt;garbage&gt;</code>.  </dd>
 <dt><a class="anchor" id="_todo000012"></a>Member <a class="el" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">boost::hana::demux</a>  </dt>
 <dd>I think this is equivalent to <code>fmap . fmap</code>. See <a href="http://stackoverflow.com/q/5821089/627587">http://stackoverflow.com/q/5821089/627587</a>  </dd>
 <dt><a class="anchor" id="_todo000008"></a>Class <a class="el" href="structboost_1_1hana_1_1_functor_1_1instance_3_01_mpl_vector_01_4.html">boost::hana::Functor::instance&lt; MplVector &gt;</a>  </dt>
@@ -148,7 +142,7 @@ $(document).ready(function(){initNavTree('todo.html','');});
 <li>Remove the list/instance.hpp include  </li>
 </ul>
 </dd>
-<dt><a class="anchor" id="_todo000004"></a>Class <a class="el" href="structboost_1_1hana_1_1operators_1_1enable.html">boost::hana::operators::enable</a>  </dt>
+<dt><a class="anchor" id="_todo000003"></a>Class <a class="el" href="structboost_1_1hana_1_1operators_1_1enable.html">boost::hana::operators::enable</a>  </dt>
 <dd>Is ADL really the best way of providing custom operators? This has (at least) the problem that templated types which have nothing to do with Boost.Hana could have their set of associated namespaces augmented with <code>boost::hana::operators</code> in an undesirable way: <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><span class="keyword">struct </span>nothing_to_do_with_hana { };</div>
 <div class="line"></div>
@@ -178,7 +172,7 @@ $(document).ready(function(){initNavTree('todo.html','');});
 </dd>
 <dt><a class="anchor" id="_todo000015"></a>Member <a class="el" href="structboost_1_1hana_1_1_iterable.html#a80176fbdfbccc09e902263557eb0984d">for_each</a>  </dt>
 <dd>The presence of implicit side effects in this function might be a smell that it should be moved to a different type class and handled through <code>Monad</code>s.  </dd>
-<dt><a class="anchor" id="_todo000003"></a>Group <a class="el" href="group__group-typeclasses.html">group-typeclasses</a>  </dt>
+<dt><a class="anchor" id="_todo000004"></a>Group <a class="el" href="group__group-typeclasses.html">group-typeclasses</a>  </dt>
 <dd><ul>
 <li>Implement better law checking and check them for all instances in the unit tests. Since we're modularized, it's OK to resort to heavy stuff in the law-checking because it's presumably only done in unit testing contexts.</li>
 <li>Provide a way to check type class requirements like <code>Functor f =&gt; Applicative f</code>.</li>

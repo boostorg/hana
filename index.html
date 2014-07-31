@@ -398,7 +398,6 @@ Getting concrete</h2>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line"><span class="preprocessor">#include &lt;boost/hana/core/datatype.hpp&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;boost/hana/core/typeclass.hpp&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;boost/hana/detail/constexpr.hpp&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;boost/hana/detail/static_assert.hpp&gt;</span></div>
@@ -473,7 +472,6 @@ Getting concrete</h2>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line"><span class="preprocessor">#include &lt;boost/hana/core/datatype.hpp&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;boost/hana/core/typeclass.hpp&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;boost/hana/detail/constexpr.hpp&gt;</span></div>
 <div class="line"></div>
@@ -511,7 +509,7 @@ Getting concrete</h2>
 <div class="line">    assert(show(1) == <span class="stringliteral">&quot;1&quot;</span>);</div>
 <div class="line">    assert(show(unshowable{}) == <span class="stringliteral">&quot;&lt;?&gt;&quot;</span>);</div>
 <div class="line">}</div>
-</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000027">Todo:</a></b></dt><dd>Document type classes with operators.</dd></dl>
+</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000027">Todo:</a></b></dt><dd>Document type classes with operators. Document <code>disable</code>.</dd></dl>
 <h1><a class="anchor" id="tutorial-datatypes"></a>
 Data types</h1>
 <hr/>
@@ -543,13 +541,11 @@ Data types</h1>
 <h4>Note</h4>
 <p>Actually, it would be possible to work around the issue regarding Fusion vectors by using <code>boost::fusion::sequence_tag</code> with <code>when</code> to instantiate <code>Printable</code> only when it is a Fusion vector, but it still does not resolve the issue for Hana components that do not specify anything about their type. </p>
 </blockquote>
-<p>By default, <code>datatype&lt;T&gt;::type</code> is <code>T::hana_datatype</code> if that expression is well-formed, and <code>T</code> otherwise. It can also be specialized to allow customizing the data type of <code>T</code> in a ad-hoc manner. Finally, a dummy template parameter is provided to allow SFINAE-based specialization. For <code>boost::fusion::vector</code>, we would then do:</p>
+<p>By default, <code>datatype&lt;T&gt;::type</code> is <code>T::hana_datatype</code> if that expression is well-formed, and <code>T</code> otherwise. It can also be specialized to allow customizing the data type of <code>T</code> in a ad-hoc manner. Finally, like for type class instances, it can be specialized for all types satisfying some boolean condition using <code>when</code>, or for all types making some expression well-formed with <code>when_valid</code>. For <code>boost::fusion::vector</code>, we would then do:</p>
 <div class="fragment"><div class="line"><span class="keyword">struct </span>BoostFusionVector;</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><span class="keyword">struct </span>datatype&lt;T, std::enable_if_t&lt;</div>
-<div class="line">  is_a_boost_fusion_vector&lt;T&gt;::value</div>
-<div class="line">&gt;&gt; {</div>
+<div class="line"><span class="keyword">struct </span>datatype&lt;T, when&lt;is_a_boost_fusion_vector&lt;T&gt;::<a class="code" href="structboost_1_1hana_1_1_constant.html#a615a7728e2278acb2cab50854079d7fc">value</a>&gt;&gt; {</div>
 <div class="line">  <span class="keyword">using</span> type = BoostFusionVector;</div>
 <div class="line">};</div>
 </div><!-- fragment --><p>Where <code>is_a_boost_fusion_vector</code> is some metafunction returning whether a type is a Fusion vector. Hana components either provide a similar specialization or use the nested <code>hana_datatype</code> alias to provide a data type, which is specified. To make <code>boost::fusion::vector</code> <code>Printable</code>, we would now write:</p>
@@ -566,8 +562,18 @@ Header organization</h1>
 <li><code>boost/hana.hpp</code><br />
  This is the master header of the library. It includes the whole public interface of the library except adapters for external libraries, which must be included separately.</li>
 <li><code>boost/hana/</code><ul>
-<li><code>boost/hana/core.hpp</code><br />
- This file defines core utilities of the library that are tied to the type class dispatching and data type system.</li>
+<li><code>boost/hana/core/</code><ul>
+<li><code>boost/hana/core/datatype.hpp</code><br />
+ This file defines everything required to define a new data type. This includes the <code>datatype</code> metafunction, <code>when</code>, <code>when_valid</code> and <code>operators::enable</code>. By contract, all the other files in <code>boost/hana/core/</code> include this one, so there is no need to include it when something else in <code>boost/hana/core/</code> is already included.</li>
+<li><code>boost/hana/core/typeclass.hpp</code><br />
+ This file defines everything required to define a new type class. This includes the <code>BOOST_HANA_{UNARY,BINARY}_TYPECLASS</code> macros and <code>disable</code>.</li>
+<li><code>boost/hana/core/instantiates.hpp</code><br />
+ This file defines the <code>instantiates</code> utility and related goodies like <code>is_a</code> and <code>is_an</code>.</li>
+<li><code>boost/hana/core/convert.hpp</code><br />
+ This file defines the conversion utilities <code>to</code> and <code>convert</code>.</li>
+</ul>
+</li>
+<li><code>boost/hana/core.hpp</code> This file includes everything in <code>boost/hana/core/</code>.</li>
 <li><code>boost/hana/[typeclass].hpp</code><br />
  A file of this type includes the whole definition of a type class <code>[typeclass]</code>. This includes all the type class methods, minimal complete definitions and laws related to the type class.</li>
 <li><code>boost/hana/[typeclass]/[typeclass].hpp</code><br />
@@ -609,8 +615,7 @@ Header organization</h1>
 <div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> xs = set(1, 2.2, <span class="charliteral">&#39;x&#39;</span>);</div>
 <div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(elem(<span class="charliteral">&#39;x&#39;</span>, xs));</div>
 <div class="line">}</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000028">Todo:</a></b></dt><dd>Consider documenting the subdirectories of core/ one by one, if the current separation sticks.</dd></dl>
-<h1><a class="anchor" id="tutorial-mastering"></a>
+</div><!-- fragment --><h1><a class="anchor" id="tutorial-mastering"></a>
 Mastering the library</h1>
 <hr/>
 <p> You now have everything you need to start using the library. From here on, mastering the library is only a matter of understanding and knowing how to use the general purpose type classes and data types provided with it, which is best done by looking at the reference documentation. At some point, you will probably also want to create your own type classes and data types that fit your needs better; go ahead, the library was intended to be used that way.</p>

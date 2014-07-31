@@ -95,9 +95,9 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1when.html','');
 <div class="textblock"><h3>template&lt;bool condition&gt;<br />
 struct boost::hana::when&lt; condition &gt;</h3>
 
-<p>Enable a type class instance only if a boolean condition is true. </p>
+<p>Enable a type class instance or a data type specialization only if a boolean condition is true. </p>
 <h3>Rationale for using <code>when</code> instead of <code>std::enable_if</code></h3>
-<p>Using <code>when</code> is necessary for two reasons. First, a non-type template argument may not depend on a template parameter of a partial specialization, so we need to wrap the <code>bool</code> condition into a type. Second, <code>when</code> is used to implement the priority of partially specialized instances over predicated instances, but we could also achieve the same by replacing <code>when&lt;true&gt;</code> with <code>void</code> and letting people use <code>enable_if</code>. Hence, I'd say it boils down to preference at this point; I'm open for discussion about this. </p>
+<p>Using <code>when</code> is necessary for two reasons. First, a non-type template argument may not depend on a template parameter of a partial specialization, so we need to wrap the <code>bool</code> condition into a type. Second, <code>when</code> is used to control the priority of partial specializations in a finer grained manner than what can be achieved with the usual <code>typename Enable = void</code> and <code>std::enable_if</code> pattern. </p>
 <h3>Example</h3>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2014</span></div>
@@ -105,7 +105,6 @@ struct boost::hana::when&lt; condition &gt;</h3>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line"><span class="preprocessor">#include &lt;boost/hana/core/datatype.hpp&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;boost/hana/core/typeclass.hpp&gt;</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>

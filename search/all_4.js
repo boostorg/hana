@@ -1,6 +1,7 @@
 var searchData=
 [
   ['datatype',['datatype',['../structboost_1_1hana_1_1datatype.html',1,'boost::hana']]],
+  ['datatype_3c_20t_20_3e',['datatype&lt; T &gt;',['../structboost_1_1hana_1_1datatype.html',1,'boost::hana']]],
   ['datatype_5ft',['datatype_t',['../group__group-core.html#gae3cedd3772d00ac7c4de9dc3d719f321',1,'boost::hana']]],
   ['decltype_5f',['decltype_',['../structboost_1_1hana_1_1_type.html#a81f30da3c8d927156d17ec09b8a2a4de',1,'boost::hana::Type']]],
   ['default_5finstance',['default_instance',['../structboost_1_1hana_1_1_comparable_1_1default__instance.html',1,'boost::hana::Comparable']]],
