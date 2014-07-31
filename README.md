@@ -62,7 +62,9 @@ you are done.
 
 The library relies on a full-featured C++14 compiler and standard library, but
 nothing else is required. As of July 2014, the only compiler known to compile
-the test suite is Clang 3.5.0 (trunk).
+the test suite is Clang 3.5.0 (trunk). While Clang 3.4 has full support for
+C++14, it has several C++14-related bugs that are fixed in 3.5 and make it
+incapable of compiling Hana.
 
 
 ## Documentation
