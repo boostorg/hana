@@ -2,7 +2,9 @@
 # Setup the documentation
 #=============================================================================
 if (NOT DOXYGEN_FOUND)
-    message(STATUS "Doxygen not found; the 'doc' target will be unavailable.")
+    message(STATUS
+    "Doxygen not found; the 'doc' and 'gh-pages.{clean,copy,update}' targets "
+    "will be unavailable.")
     return()
 endif()
 
@@ -15,9 +17,10 @@ add_custom_target(doc.check
 
 if (NOT TARGET benchmarks)
     message(STATUS
-        "The 'benchmarks' target is not available; the 'doc' target will be "
-        "unavailable. The 'doc.check' target can still be used to generate "
-        "the documentation to check for errors/warnings.")
+        "The 'benchmarks' target is not available; the 'doc' and "
+        "'gh-pages.{clean,copy,update}' targets will be unavailable. "
+        "The 'doc.check' target can still be used to generate the "
+        "documentation to check for errors/warnings.")
     return()
 endif()
 
@@ -29,7 +32,9 @@ add_custom_target(doc
 )
 
 if (NOT GIT_FOUND)
-    message(STATUS "Git was not found; the 'gh-pages.update' target will be unavailable.")
+    message(STATUS
+    "Git was not found; the 'gh-pages.{clean,copy,update}' targets "
+    "will be unavailable.")
     return()
 endif()
 
