@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.7"/>
-<title>Boost.Hana: Boost.Hana Manual</title>
+<title>Boost.Hana: User Manual</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -77,7 +77,7 @@ $(document).ready(function(){initNavTree('index.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -88,7 +88,7 @@ $(document).ready(function(){initNavTree('index.html','');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">Boost.Hana Manual </div>  </div>
+<div class="title">User Manual </div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
@@ -118,7 +118,7 @@ Introduction</h1>
 Quick start</h1>
 <hr/>
 <p> This section assumes the reader is already familiar with basic metaprogramming and the C++14 standard. First, let's include the library:</p>
- <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;boost/hana.hpp&gt;</span></div>
+ <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="hana_8hpp.html">boost/hana.hpp</a>&gt;</span></div>
 <div class="line"><span class="keyword">using namespace </span>boost::hana;</div>
 </div><!-- fragment --></p>
 <blockquote class="doxtable">
@@ -481,21 +481,21 @@ Header organization</h1>
 <hr/>
 <p> The library is designed to be very modular while keeping the number of headers that must be included to get basic functionality reasonably low. The structure of the library is influenced by the structure of type classes and data types. Once you are familiar with the type classes and data types provided with the library, the header structure should feel intuitive.</p>
 <ul>
-<li><code>boost/hana.hpp</code><br />
+<li><code><a class="el" href="hana_8hpp.html" title="Includes all the library components except the adapters for external libraries. ">boost/hana.hpp</a></code><br />
  This is the master header of the library. It includes the whole public interface of the library except adapters for external libraries, which must be included separately.</li>
 <li><code>boost/hana/</code><ul>
 <li><code>boost/hana/core/</code><ul>
-<li><code>boost/hana/core/datatype.hpp</code><br />
+<li><code><a class="el" href="datatype_8hpp.html" title="Defines utilities to create data types. ">boost/hana/core/datatype.hpp</a></code><br />
  This file defines everything required to define a new data type. This includes the <code>datatype</code> metafunction, <code>when</code>, <code>when_valid</code> and <code>operators::enable</code>. By contract, all the other files in <code>boost/hana/core/</code> include this one, so there is no need to include it when something else in <code>boost/hana/core/</code> is already included.</li>
-<li><code>boost/hana/core/typeclass.hpp</code><br />
+<li><code><a class="el" href="typeclass_8hpp.html" title="Defines utilities to create type classes. ">boost/hana/core/typeclass.hpp</a></code><br />
  This file defines everything required to define a new type class. This includes the <code>BOOST_HANA_{UNARY,BINARY}_TYPECLASS</code> macros and <code>disable</code>.</li>
-<li><code>boost/hana/core/is_a.hpp</code><br />
+<li><code><a class="el" href="is__a_8hpp.html" title="Defines boost::hana::is_a and boost::hana::is_an. ">boost/hana/core/is_a.hpp</a></code><br />
  This file defines the <code>is_a</code> utility and its friend <code>is_an</code>.</li>
-<li><code>boost/hana/core/convert.hpp</code><br />
+<li><code><a class="el" href="convert_8hpp.html" title="Defines boost::hana::convert and boost::hana::to. ">boost/hana/core/convert.hpp</a></code><br />
  This file defines the conversion utilities <code>to</code> and <code>convert</code>.</li>
 </ul>
 </li>
-<li><code>boost/hana/core.hpp</code> This file includes everything in <code>boost/hana/core/</code>.</li>
+<li><code><a class="el" href="core_8hpp.html" title="Defines the Core module. ">boost/hana/core.hpp</a></code> This file includes everything in <code>boost/hana/core/</code>.</li>
 <li><code>boost/hana/[typeclass].hpp</code><br />
  A file of this type includes the whole definition of a type class <code>[typeclass]</code>. This includes all the type class methods, minimal complete definitions and laws related to the type class.</li>
 <li><code>boost/hana/[typeclass]/[typeclass].hpp</code><br />
@@ -510,7 +510,7 @@ Header organization</h1>
  A file of this type defines a data type named <code>[datatype]</code>. It defines all the type class instances associated to that data type, so that one only has to include the data type's header to get the full functionality it supports.</li>
 <li><p class="startli"><code>boost/hana/ext/</code><br />
  This directory contains adapters for external libraries. This is the only part of the public interface which is not included by the master header, because that would make the master header dependent on those external libraries. Note that only the strict minimum required to adapt the external component is included in these headers (e.g. a forward declaration). This means that the definition of the external component should still be included when one wants to use it. For example:</p>
-<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;boost/hana/ext/std/tuple.hpp&gt;</span></div>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="std_2tuple_8hpp.html">boost/hana/ext/std/tuple.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;tuple&gt;</span> <span class="comment">// still required to create a tuple</span></div>
 <div class="line"><span class="keyword">using namespace </span>boost::hana;</div>
 <div class="line"></div>
@@ -529,7 +529,7 @@ Header organization</h1>
 </ul>
 <h3>Example</h3>
 <p>Let's say I want to include <code>set</code>. I only have to include its header and I can use all the methods it supports right away:</p>
-<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;boost/hana/set.hpp&gt;</span></div>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="set_8hpp.html">boost/hana/set.hpp</a>&gt;</span></div>
 <div class="line"><span class="keyword">using namespace </span>boost::hana;</div>
 <div class="line"></div>
 <div class="line"></div>
@@ -561,6 +561,8 @@ Mastering the library</h1>
 <li>Any data type specific information</li>
 </ul>
 </li>
+<li><a class="el" href="group__group-details.html">Details</a><br />
+ Why did I document implementation details? That's a good question.</li>
 </ul>
 <p>If you are not too familiar with Haskell, I suggest you start with a fairly concrete type class and then work your way down to more abstract and powerful type classes. A good place to start would be the <code>List</code> type class, which is useful and very concrete.</p>
 <p>I hope you enjoy using the library as much as I enjoyed writing it!</p>

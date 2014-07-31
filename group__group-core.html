@@ -77,7 +77,7 @@ $(document).ready(function(){initNavTree('group__group-core.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -169,7 +169,7 @@ template&lt;typename Typeclass , typename... Datatypes&gt; </td></tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;boost/hana/core/typeclass.hpp&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="typeclass_8hpp.html">boost/hana/core/typeclass.hpp</a>&gt;</code></p>
 
 <p>Defines a unary type class. </p>
 <p>Use this macro at public scope when defining a type class to create the boilerplate necessary for a unary type class.</p>
@@ -180,9 +180,9 @@ template&lt;typename Typeclass , typename... Datatypes&gt; </td></tr>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line"><span class="preprocessor">#include &lt;boost/hana/core/typeclass.hpp&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;boost/hana/detail/constexpr.hpp&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;boost/hana/detail/static_assert.hpp&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="typeclass_8hpp.html">boost/hana/core/typeclass.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="constexpr_8hpp.html">boost/hana/detail/constexpr.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="static__assert_8hpp.html">boost/hana/detail/static_assert.hpp</a>&gt;</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
 <div class="line"><span class="keyword">namespace </span>hana = boost::hana;</div>
@@ -264,7 +264,7 @@ template&lt;typename Typeclass , typename... Datatypes&gt; </td></tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;boost/hana/core/typeclass.hpp&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="typeclass_8hpp.html">boost/hana/core/typeclass.hpp</a>&gt;</code></p>
 
 <p>Defines a binary type class. </p>
 <p>This is equivalent to <code>BOOST_HANA_TYPECLASS</code>, except it creates a type class accepting two data types. This is useful for type classes like <code>Comparable</code>, whose methods are binary and should be dispatched using the data types of both arguments.</p>
@@ -275,10 +275,10 @@ template&lt;typename Typeclass , typename... Datatypes&gt; </td></tr>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line"><span class="preprocessor">#include &lt;boost/hana/bool.hpp&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;boost/hana/core/typeclass.hpp&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;boost/hana/detail/constexpr.hpp&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;boost/hana/detail/static_assert.hpp&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="bool_8hpp.html">boost/hana/bool.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="typeclass_8hpp.html">boost/hana/core/typeclass.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="constexpr_8hpp.html">boost/hana/detail/constexpr.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="static__assert_8hpp.html">boost/hana/detail/static_assert.hpp</a>&gt;</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;algorithm&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;cassert&gt;</span></div>
@@ -348,7 +348,7 @@ template&lt;typename... &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;boost/hana/core/datatype.hpp&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="datatype_8hpp.html">boost/hana/core/datatype.hpp</a>&gt;</code></p>
 
 <p>Enable a type class instance or a data type specialization only if an expression is well-formed. </p>
 <p>Specifically, this is equivalent to <code>when&lt;true&gt;</code>, but SFINAE will cause the partial specialization to fail when the expression is ill-formed.</p>
@@ -359,7 +359,7 @@ template&lt;typename... &gt; </div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line"><span class="preprocessor">#include &lt;boost/hana/core/typeclass.hpp&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="typeclass_8hpp.html">boost/hana/core/typeclass.hpp</a>&gt;</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div>
@@ -404,7 +404,7 @@ template&lt;typename To &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;boost/hana/core/convert.hpp&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="convert_8hpp.html">boost/hana/core/convert.hpp</a>&gt;</code></p>
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> x) {</div>
 <div class="line">        <span class="keywordflow">return</span> convert&lt;To, datatype_t&lt;decltype(x)&gt;&gt;<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">::apply</a>(x);</div>
 <div class="line">    }</div>
@@ -451,7 +451,7 @@ template&lt;typename Typeclass , typename... Datatypes&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;boost/hana/core/is_a.hpp&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="is__a_8hpp.html">boost/hana/core/is_a.hpp</a>&gt;</code></p>
 
 <p>Return whether a type class is instantiated with the given data types. </p>
 <p>Specifically, <code>is_a&lt;Typeclass, Datatypes...&gt;</code> is a <a class="el" href="structboost_1_1hana_1_1_logical.html#Logical_terminology">compile-time</a> <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code> representing whether <code>Typeclass::instance&lt;Datatypes...&gt;</code> represents an instance of <code>Typeclass</code>. This does not check whether the instance is valid: it does not check whether laws are satisfied or even if the minimal complete definition is syntactically correct. It only tells whether an instance is there and was not disabled explicitly with <code>disable</code>. Note that exactly one or two data types must be provided because the library currently supports only unary and binary type classes; failure to provide a correct number of arguments will trigger a static assertion.</p>

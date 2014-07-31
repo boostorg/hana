@@ -77,7 +77,7 @@ $(document).ready(function(){initNavTree('group__group-functional.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -151,7 +151,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;boost/hana/functional.hpp&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="functional_8hpp.html">boost/hana/functional.hpp</a>&gt;</code></p>
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> x) {</div>
 <div class="line">        <span class="keywordflow">return</span> x;</div>
 <div class="line">    }</div>
@@ -173,7 +173,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;boost/hana/functional.hpp&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="functional_8hpp.html">boost/hana/functional.hpp</a>&gt;</code></p>
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> x) {</div>
 <div class="line">        <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> ...y) { <span class="keywordflow">return</span> x; };</div>
 <div class="line">    }</div>
@@ -212,7 +212,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;boost/hana/functional.hpp&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="functional_8hpp.html">boost/hana/functional.hpp</a>&gt;</code></p>
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> ...x) {</div>
 <div class="line">        <span class="keywordflow">return</span> f(x...);</div>
 <div class="line">    }</div>
@@ -246,7 +246,7 @@ template&lt;std::size_t n&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;boost/hana/functional.hpp&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="functional_8hpp.html">boost/hana/functional.hpp</a>&gt;</code></p>
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> ...x) {</div>
 <div class="line">        unspecified</div>
 <div class="line">    }</div>
@@ -288,7 +288,7 @@ template&lt;std::size_t n&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;boost/hana/functional.hpp&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="functional_8hpp.html">boost/hana/functional.hpp</a>&gt;</code></p>
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> g, <span class="keyword">auto</span> ...h) {</div>
 <div class="line">        unspecified</div>
 <div class="line">    }</div>
@@ -326,7 +326,7 @@ template&lt;std::size_t n&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;boost/hana/functional.hpp&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="functional_8hpp.html">boost/hana/functional.hpp</a>&gt;</code></p>
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> ...x) {</div>
 <div class="line">        <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> ...y) {</div>
 <div class="line">            <span class="keywordflow">return</span> f(x..., y...);</div>
@@ -359,7 +359,7 @@ template&lt;std::size_t arity&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;boost/hana/functional.hpp&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="functional_8hpp.html">boost/hana/functional.hpp</a>&gt;</code></p>
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> f) {</div>
 <div class="line">        <span class="keywordflow">return</span> unspecified;</div>
 <div class="line">    }</div>
@@ -400,7 +400,7 @@ template&lt;std::size_t arity&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;boost/hana/functional.hpp&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="functional_8hpp.html">boost/hana/functional.hpp</a>&gt;</code></p>
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> ...g) {</div>
 <div class="line">        <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> ...x) { <span class="keywordflow">return</span> f(g(x...)...); };</div>
 <div class="line">    }</div>
@@ -440,7 +440,7 @@ template&lt;std::size_t arity&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;boost/hana/functional.hpp&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="functional_8hpp.html">boost/hana/functional.hpp</a>&gt;</code></p>
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> f) {</div>
 <div class="line">        <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> ...x) {</div>
 <div class="line">            <span class="keywordflow">return</span> f(<a class="code" href="group__group-functional.html#ga1393f40da2e8da6e0c12fce953e56a6c">fix</a>(f), x...);</div>
@@ -479,7 +479,7 @@ template&lt;std::size_t arity&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;boost/hana/functional.hpp&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="functional_8hpp.html">boost/hana/functional.hpp</a>&gt;</code></p>
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> f) {</div>
 <div class="line">        <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y, <span class="keyword">auto</span> ...z) {</div>
 <div class="line">            <span class="keywordflow">return</span> f(y, x, z...);</div>
@@ -511,7 +511,7 @@ template&lt;std::size_t arity&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;boost/hana/functional.hpp&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="functional_8hpp.html">boost/hana/functional.hpp</a>&gt;</code></p>
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> ...g) {</div>
 <div class="line">        <span class="keywordflow">return</span> [f, g...](<span class="keyword">auto</span> ...x) {</div>
 <div class="line">            <span class="keywordflow">return</span> f(g(x)...);</div>
@@ -549,7 +549,7 @@ template&lt;std::size_t arity&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;boost/hana/functional.hpp&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="functional_8hpp.html">boost/hana/functional.hpp</a>&gt;</code></p>
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> g) {</div>
 <div class="line">        <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> ...x) {</div>
 <div class="line">            <span class="keywordflow">return</span> f(g(x)...);</div>
@@ -609,7 +609,7 @@ template&lt;std::size_t arity&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;boost/hana/functional.hpp&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="functional_8hpp.html">boost/hana/functional.hpp</a>&gt;</code></p>
 
 <p>Create simple functions representing C++ operators inline. </p>
 <p>Specifically, <code>_</code> is an object used as a placeholder to build function objects representing calls to C++ operators. It works by overloading the operators between <code>_</code> and any object so that they return a function object which actually calls the corresponding operator on its argument(s). Hence, for any supported operator <code>@</code>: </p><div class="fragment"><div class="line">(<a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> @ <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>)(x, y) == x @ y</div>

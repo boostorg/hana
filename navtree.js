@@ -1,7 +1,7 @@
 var NAVTREE =
 [
   [ "Boost.Hana", "index.html", [
-    [ "Boost.Hana Manual", "index.html", [
+    [ "User Manual", "index.html", [
       [ "Preface", "index.html#tutorial-preface", null ],
       [ "Introduction", "index.html#tutorial-introduction", null ],
       [ "Quick start", "index.html#tutorial-quick_start", null ],
@@ -12,16 +12,25 @@ var NAVTREE =
       [ "Header organization", "index.html#tutorial-header_organization", null ],
       [ "Mastering the library", "index.html#tutorial-mastering", null ]
     ] ],
+    [ "Reference documentation", "modules.html", "modules" ],
+    [ "Indexes", "usergroup0.html", [
+      [ "Methods", "functions.html", [
+        [ "All", "functions.html", null ],
+        [ "Functions", "functions_func.html", null ],
+        [ "Variables", "functions_vars.html", null ]
+      ] ],
+      [ "Type classes, data types and instances", "annotated.html", "annotated" ],
+      [ "Files", "files.html", "files" ]
+    ] ],
     [ "Todo List", "todo.html", null ],
-    [ "Bug List", "bug.html", null ],
-    [ "Reference", "modules.html", "modules" ]
+    [ "Bug List", "bug.html", null ]
   ] ]
 ];
 
 var NAVTREEINDEX =
 [
-"bug.html",
-"structboost_1_1hana_1_1_orderable.html#ae640ee6e43199763efd8be41adb60cf7"
+".html",
+"structboost_1_1hana_1_1_functor.html#a84bb505c8405a5cd3003db49f652faa2"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
