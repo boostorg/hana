@@ -10,6 +10,9 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_CORE_TYPECLASS_HPP
 #define BOOST_HANA_CORE_TYPECLASS_HPP
 
+#include <boost/hana/core/datatype.hpp>
+
+
 namespace boost { namespace hana {
     //! @defgroup group-typeclasses Type classes
     //! General purpose type classes provided by the library.
@@ -57,7 +60,7 @@ namespace boost { namespace hana {
     //! the boilerplate necessary for a unary type class.
     //!
     //! ### Example
-    //! @include example/core/typeclass/unary_typeclass.cpp
+    //! @include example/core/unary_typeclass.cpp
     #define BOOST_HANA_TYPECLASS(NAME)                                      \
         /** @cond */                                                        \
         template <typename T, typename ...>                                 \
@@ -84,7 +87,7 @@ namespace boost { namespace hana {
     //! using the data types of both arguments.
     //!
     //! ### Example
-    //! @include example/core/typeclass/binary_typeclass.cpp
+    //! @include example/core/binary_typeclass.cpp
     #define BOOST_HANA_BINARY_TYPECLASS(NAME)                               \
         /** @cond */                                                        \
         template <typename T, typename U, typename ...>                     \
@@ -102,38 +105,6 @@ namespace boost { namespace hana {
     /**/
 
     //! @ingroup group-core
-    //! Enable a type class instance only if a boolean condition is true.
-    //!
-    //! @internal
-    //! ### Rationale for using `when` instead of `std::enable_if`
-    //! Using `when` is necessary for two reasons. First, a non-type template
-    //! argument may not depend on a template parameter of a partial
-    //! specialization, so we need to wrap the `bool` condition into a type.
-    //! Second, `when` is used to implement the priority of partially
-    //! specialized instances over predicated instances, but we could also
-    //! achieve the same by replacing `when<true>` with `void` and letting
-    //! people use `enable_if`. Hence, I'd say it boils down to preference
-    //! at this point; I'm open for discussion about this.
-    //! @endinternal
-    //!
-    //! ### Example
-    //! @include example/core/typeclass/when.cpp
-    template <bool condition>
-    struct when { };
-
-    //! @ingroup group-core
-    //! Enable a type class instance only if an expression is well-formed.
-    //!
-    //! Specifically, this is equivalent to `when<true>`, but SFINAE will
-    //! cause the partial specialization to fail when the expression is
-    //! ill-formed.
-    //!
-    //! ### Example
-    //! @include example/core/typeclass/when_valid.cpp
-    template <typename ...>
-    using when_valid = when<true>;
-
-    //! @ingroup group-core
     //! Explicitly disable a type class instance.
     //!
     //! This is meant as a way to disable a type class instance provided
@@ -141,39 +112,8 @@ namespace boost { namespace hana {
     //! a given data type.
     //!
     //! ### Example
-    //! @include example/core/typeclass/disable.cpp
+    //! @include example/core/disable.cpp
     struct disable { };
-
-    namespace operators {
-        //! @ingroup group-core
-        //! Allows operators in the `boost::hana::operators` namespace to be
-        //! found by ADL.
-        //!
-        //! Use this as a dummy template parameter or base class to make
-        //! operators in the `boost::hana::operators` namespace ADL-findable
-        //! for a type.
-        //!
-        //! @note
-        //! Nothing except operators should be defined in this namespace;
-        //! otherwise, ambiguities can arise when `using namespace operators`.
-        //!
-        //! @todo
-        //! Is ADL really the best way of providing custom operators? This has
-        //! (at least) the problem that templated types which have nothing to
-        //! do with Boost.Hana could have their set of associated namespaces
-        //! augmented with `boost::hana::operators` in an undesirable way:
-        //! @code
-        //!     template <typename T>
-        //!     struct nothing_to_do_with_hana { };
-        //!
-        //!     template <typename T, typename = operators::enable>
-        //!     struct something_to_do_with_hana { };
-        //!
-        //!     nothing_to_do_with_hana<something_to_do_with_hana<int>> x{};
-        //!     x == x; // tries to use Comparable::equal_impl
-        //! @endcode
-        struct enable { };
-    }
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_CORE_TYPECLASS_HPP

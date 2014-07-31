@@ -10,7 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_LOGICAL_LOGICAL_HPP
 #define BOOST_HANA_LOGICAL_LOGICAL_HPP
 
-#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/typeclass.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/left_folds/variadic_unrolled.hpp>

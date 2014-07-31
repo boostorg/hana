@@ -80,7 +80,7 @@ namespace boost { namespace hana {
     struct FusionNonAssociativeForwardSequence;
 
     template <typename T>
-    struct datatype<T, std::enable_if_t<
+    struct datatype<T, when<
         fusion_detail::is_nonassociative_forward_sequence<T>::value
     >> {
         using type = FusionNonAssociativeForwardSequence;

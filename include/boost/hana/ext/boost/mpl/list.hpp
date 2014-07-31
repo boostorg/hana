@@ -27,7 +27,7 @@ namespace boost { namespace hana {
     struct MplList;
 
     template <typename T>
-    struct datatype<T, detail::std::enable_if_t<
+    struct datatype<T, when<
         detail::std::is_same<
             typename boost::mpl::sequence_tag<T>::type,
             boost::mpl::aux::list_tag

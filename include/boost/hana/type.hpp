@@ -12,7 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable/equal_mcd.hpp>
-#include <boost/hana/core/typeclass.hpp> // for operators::enable
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/integral.hpp>
 
 
@@ -36,11 +36,9 @@ namespace boost { namespace hana {
     //!
     //! @bug
     //! `metafunction` and friends are not SFINAE-friendly right now.
-    //! See bug at
-    //! https://gcc.gnu.org/bugzilla/show_bug.cgi?id=59498
-    //! and Core 1430 issue at
-    //! http://www.open-std.org/jtc1/sc22/wg21/docs/cwg_active.html#1430
-    //! Once this issue is resolved, look at the unit tests for those
+    //! See [this](http://gcc.gnu.org/bugzilla/show_bug.cgi?id=59498) GCC bug
+    //! and also [Core 1430](http://www.open-std.org/jtc1/sc22/wg21/docs/cwg_active.html#1430)
+    //! issue. Once this issue is resolved, look at the unit tests for those
     //! utilities and either uncomment or remove the relevant test section.
     struct Type { };
 

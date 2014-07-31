@@ -30,9 +30,7 @@ namespace boost { namespace hana {
     }
 
     template <typename T>
-    struct datatype<T,
-        std::enable_if_t<adapted_detail::is_std_integral_constant((T*)0)>
-    > {
+    struct datatype<T, when<adapted_detail::is_std_integral_constant((T*)0)>> {
         using type = StdIntegralConstant;
     };
 }} // end namespace boost::hana

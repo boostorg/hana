@@ -631,13 +631,14 @@ are about to use it.
 
 
 ### Example of a type class definition
-@include example/core/typeclass/unary_typeclass.cpp
+@include example/core/unary_typeclass.cpp
 
 ### Example of a type class with a default instance
-@include example/core/typeclass/default_instance.cpp
+@include example/core/default_instance.cpp
 
 @todo
 Document type classes with operators.
+Document `disable`.
 
 
 @section tutorial-datatypes Data types
@@ -705,17 +706,16 @@ of types. The `Printable` methods now become:
 
 By default, `datatype<T>::%type` is `T::hana_datatype` if that expression
 is well-formed, and `T` otherwise. It can also be specialized to allow
-customizing the data type of `T` in a ad-hoc manner. Finally, a dummy
-template parameter is provided to allow SFINAE-based specialization.
-For `boost::fusion::vector`, we would then do:
+customizing the data type of `T` in a ad-hoc manner. Finally, like for type
+class instances, it can be specialized for all types satisfying some boolean
+condition using `when`, or for all types making some expression well-formed
+with `when_valid`. For `boost::fusion::vector`, we would then do:
 
 @code
   struct BoostFusionVector;
 
   template <typename T>
-  struct datatype<T, std::enable_if_t<
-    is_a_boost_fusion_vector<T>::value
-  >> {
+  struct datatype<T, when<is_a_boost_fusion_vector<T>::value>> {
     using type = BoostFusionVector;
   };
 @endcode
@@ -754,9 +754,28 @@ library, the header structure should feel intuitive.
 
 - `boost/hana/`
 
-  - `boost/hana/core.hpp`\n
-    This file defines core utilities of the library that are tied to the
-    type class dispatching and data type system.
+  - `boost/hana/core/`
+
+    - `boost/hana/core/datatype.hpp`\n
+      This file defines everything required to define a new data type. This
+      includes the `datatype` metafunction, `when`, `when_valid` and
+      `operators::enable`. By contract, all the other files in
+      `boost/hana/core/` include this one, so there is no need to include
+      it when something else in `boost/hana/core/` is already included.
+
+    - `boost/hana/core/typeclass.hpp`\n
+      This file defines everything required to define a new type class. This
+      includes the `BOOST_HANA_{UNARY,BINARY}_TYPECLASS` macros and `disable`.
+
+    - `boost/hana/core/instantiates.hpp`\n
+      This file defines the `instantiates` utility and related goodies like
+      `is_a` and `is_an`.
+
+    - `boost/hana/core/convert.hpp`\n
+      This file defines the conversion utilities `to` and `convert`.
+
+  - `boost/hana/core.hpp`
+    This file includes everything in `boost/hana/core/`.
 
   - `boost/hana/[typeclass].hpp`\n
     A file of this type includes the whole definition of a type class
@@ -820,10 +839,6 @@ Let's say I want to include `set`. I only have to include its header and I
 can use all the methods it supports right away:
 
 @snippet example/tutorial/include_set.cpp main
-
-@todo
-Consider documenting the subdirectories of core/ one by one, if the current
-separation sticks.
 
 
 @section tutorial-mastering Mastering the library

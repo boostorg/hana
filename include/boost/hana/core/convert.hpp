@@ -60,7 +60,7 @@ namespace boost { namespace hana {
     //! perform conversions, use `to`.
     //!
     //! ### Example
-    //! @include example/core/convert/convert.cpp
+    //! @include example/core/convert.cpp
     template <typename To, typename From, typename Enable = void>
     struct convert
         : core_detail::default_convert<To, From>
@@ -89,7 +89,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/core/convert/to.cpp main
+    //! @snippet example/core/to.cpp main
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename To>
     constexpr auto to = [](auto x) {

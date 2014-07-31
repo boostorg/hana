@@ -5,7 +5,7 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/comparable/equal_mcd.hpp>
-#include <boost/hana/core/typeclass.hpp> // for operators::enable
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/functor/fmap_mcd.hpp>

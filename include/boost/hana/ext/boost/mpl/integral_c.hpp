@@ -30,7 +30,7 @@ namespace boost { namespace hana {
 #endif
 
     template <typename T>
-    struct datatype<T, detail::std::enable_if_t<
+    struct datatype<T, when<
         detail::std::is_same<typename T::tag, MplIntegralConstant>::value
     >> {
         using type = MplIntegralConstant;

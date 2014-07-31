@@ -10,7 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_CORE_INSTANTIATES_HPP
 #define BOOST_HANA_CORE_INSTANTIATES_HPP
 
-#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/typeclass.hpp> // for disable
 #include <boost/hana/detail/bool_fwd.hpp>
 
@@ -37,7 +36,7 @@ namespace boost { namespace hana {
     //! than one argument or when no object of the data type is available.
     //!
     //! ### Example
-    //! @snippet example/core/instantiates/instantiates.cpp main
+    //! @snippet example/core/instantiates.cpp main
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename Typeclass, typename ...Datatypes>
     constexpr auto instantiates = unspecified;
@@ -61,7 +60,7 @@ namespace boost { namespace hana {
     //! Return whether an object is an instance of the given type class.
     //!
     //! ### Example
-    //! @snippet example/core/instantiates/is_a.cpp main
+    //! @snippet example/core/is_a.cpp main
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename Typeclass>
     constexpr auto is_a = [](auto x) {
