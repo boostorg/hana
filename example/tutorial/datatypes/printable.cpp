@@ -19,16 +19,37 @@ struct Printable {
 //! [methods]
 auto print = [](std::ostream& os, auto x) {
     return Printable::instance<
-        typename datatype<decltype(x)>::type
+        datatype_t<decltype(x)> // <- notice datatype_t here
     >::print_impl(os, x);
 };
 
 auto to_string = [](auto x) {
     return Printable::instance<
-        typename datatype<decltype(x)>::type
+        datatype_t<decltype(x)> // <- same here
     >::to_string_impl(x);
 };
 //! [methods]
+
+//! [my_datatype]
+struct MyDatatype;
+//! [my_datatype]
+
+//! [nested]
+struct MyUserDefinedType {
+    using hana_datatype = MyDatatype;
+};
+//! [nested]
+
+//! [ad_hoc]
+struct i_cant_modify_this;
+
+namespace boost { namespace hana {
+    template <>
+    struct datatype<i_cant_modify_this> {
+        using type = MyDatatype;
+    };
+}}
+//! [ad_hoc]
 
 template <typename T>
 struct is_a_boost_fusion_vector; // ...

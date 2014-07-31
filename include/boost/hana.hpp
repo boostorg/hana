@@ -193,7 +193,7 @@ think about it for a moment. Let's say I want to apply a function to each
 element of an heterogeneous sequence:
 
 @code{cpp}
-  for_each(list(x, y, z), f)
+    for_each(list(x, y, z), f)
 @endcode
 
 The first observation is that `f` must have a templated call operator because
@@ -208,11 +208,11 @@ a way to express this (concepts are not there yet), so we would write something
 like this instead:
 
 @code{cpp}
-  // compile-time precondition for `f(x)` to be well-formed:
-  // `std::cout << x` must be a valid expression, i.e. `x` must be `Printable`
-  auto f = [](auto x) {
-    std::cout << x;
-  };
+    // compile-time precondition for `f(x)` to be well-formed:
+    // `std::cout << x` must be a valid expression, i.e. `x` must be `Printable`
+    auto f = [](auto x) {
+        std::cout << x;
+    };
 @endcode
 
 While the compile-time precondition is only a comment which the compiler is
@@ -444,6 +444,12 @@ requires data types) or at least link to the relevant place in the reference.
 @section tutorial-datatypes Data types
 
 ------------------------------------------------------------------------------
+> #### Note
+> Since I'm going to use the word "type" a lot, I'll sometimes use the term
+> "C++ type" to make it clear that I'm really speaking about the stuff
+> returned by `decltype(...)` as opposed to "data types", which are the
+> subject of this section. So whenever you see "C++ type", think `decltype`.
+
 Data types are a generalization of usual C++ types making it easier to
 instantiate type classes for heterogeneous containers. They are very similar
 to Boost.Fusion and Boost.MPL tags. So far, we have only instantiated type
@@ -452,12 +458,12 @@ classes with types that "contained" homogeneous objects (`std::vector<T>`,
 of `Printable`?
 
 @code
-  template <typename ...T>
-  struct Printable::instance<boost::fusion::vector<T...>>
-    : Printable::print_mcd
-  {
-    // print_impl omitted
-  };
+    template <typename ...T>
+    struct Printable::instance<boost::fusion::vector<T...>>
+      : Printable::print_mcd
+    {
+        // definition omitted
+    };
 @endcode
 
 If you know Boost.Fusion, then you probably know that it won't work. When
@@ -467,10 +473,10 @@ This is because Boost.Fusion vectors exist in numbered forms, which are of
 different types:
 
 @code
-  boost::fusion::vector1<T>
-  boost::fusion::vector2<T, U>
-  boost::fusion::vector3<T, U, V>
-  ...
+    boost::fusion::vector1<T>
+    boost::fusion::vector2<T, U>
+    boost::fusion::vector3<T, U, V>
+    ...
 @endcode
 
 This is an implementation detail required by the lack of variadic templates in
@@ -478,40 +484,80 @@ C++03 that leaks into the interface. This is unfortunate, but we need a way to
 work around it. And it gets worse; I said earlier that `list`, `type` and
 other Boost.Hana components did not specify their type at all -- specifying
 those types would be too restrictive for the implementation --, so it would
-be straight impossible to instantiate type classes with those. The solution
+be outright impossible to instantiate type classes with those. The solution
 is to bundle all the types representing the "same thing" under a single tag,
-and then to use that tag to perform the method dispatching. For this, we
-introduce the `datatype` metafunction, which associates a "tag" to a group
-of types. The `Printable` methods now become:
+and then to use that tag to perform the method dispatching. Hana calls these
+tags "data types", and they are implemented as empty C++ structs or classes:
 
-@snippet example/tutorial/datatypes/printable.cpp methods
+@snippet example/tutorial/datatypes/printable.cpp my_datatype
 
-> #### Note
-> Actually, it would be possible to work around the issue regarding Fusion
-> vectors by using `boost::fusion::sequence_tag` with `when` to instantiate
-> `Printable` only when it is a Fusion vector, but it still does not resolve
-> the issue for Hana components that do not specify anything about their type.
+This is very similar to the tags present in Boost.MPL and Boost.Fusion, except
+Hana data types are not limited to represent sequences only. To carry the
+association between a C++ type and its data type, we introduce a metafunction
+called `datatype`, which takes a normal C++ type and returns the data type
+associated to it. Since several different C++ types can share a common data
+type, we can now associate, for example, all the `boost::fusion::vectorN`s
+to a single type representing them all, say `BoostFusionVector`.
 
-By default, `datatype<T>::%type` is `T::hana_datatype` if that expression
-is well-formed, and `T` otherwise. It can also be specialized to allow
-customizing the data type of `T` in a ad-hoc manner. Finally, like for type
-class instances, it can be specialized for all types satisfying some boolean
-condition using `when`, or for all types making some expression well-formed
-with `when_valid`. For `boost::fusion::vector`, we would then do:
+There are several ways to specify the data type of a C++ type. If it's a
+user-defined type, one can define a nested `hana_dataype` alias inside of it:
+
+@snippet example/tutorial/datatypes/printable.cpp nested
+
+Sometimes, however, the C++ type can't be modified (if it's in a foreign
+library) or simply can't have nested types (if it's not a struct or class).
+In those cases, using a nested alias is impossible and so ad-hoc customization
+is also supported by specializing `datatype`:
+
+@snippet example/tutorial/datatypes/printable.cpp ad_hoc
+
+Just like for type class instances, `datatype` can also be specialized for all
+types satisfying some boolean condition using `when`, or for all types making
+some expression well-formed with `when_valid`. For `boost::fusion::vector`, we
+would then do
 
 @snippet example/tutorial/datatypes/printable.cpp boost_fusion_vector
 
-Where `is_a_boost_fusion_vector` is some metafunction returning whether a
-type is a Fusion vector. Hana components either provide a similar
-specialization or use the nested `hana_datatype` alias to provide a data
-type, which is specified. To make `boost::fusion::vector` `Printable`,
-we would now write:
+where `is_a_boost_fusion_vector` is some metafunction returning whether a
+type is a Fusion vector. The attentive reader might observe that we could
+achieve just the same by using `when<some_predicate<T>::value>` when
+instantiating a type class instead, and then get rid of data types altogether.
+While it would work for e.g. Boost.Fusion vectors, most components in Hana do
+not specify anything about their actual C++ type, so there's no predicate that
+could be used inside the `when`.
+
+One last thing about `datatype`; when it is not specialized and when the
+given C++ type does not have a nested `hana_dataype` alias, `datatype`
+returns the type itself after stripping it from all cv-qualifiers and
+references. This is _super_ useful, mainly for two reasons. First, it allows
+Hana to adopt a reasonable default behavior for some operations involving
+types that have no clue about data types and all that stuff. For example, Hana
+allows comparing any two types for which a valid `operator==` is defined out
+of the box. This is achieved by providing the following instance for the
+`Comparable` type class:
+
+@code
+    template <typename X, typename Y>
+    struct Comparable::instance<X, Y, when_valid<decltype(
+        std::declval<X>() == std::declval<Y>()
+    )>>;
+@endcode
+
+Second, it also means that you can ignore data types completely if you don't
+need their functionality; just use the normal C++ type of your objects and
+everything will "just work". Ok, we're now able to associate data types to
+C++ types; all that's left to do is tweak the method dispatching system so
+it uses data types instead of C++ types, but that's easy. Going back to the
+`Printable` type class, the methods now become:
+
+@snippet example/tutorial/datatypes/printable.cpp methods
+
+By the way, `datatype_t<T>` just an alias to `datatype<T>::%type` saving you
+from writing `typename datatype<T>::%type` all over the place in dependent
+contexts; you can use whichever you prefer. And now, going back to our
+instance of `Printable` for Boost.Fusion vectors, all we have to do is
 
 @snippet example/tutorial/datatypes/printable.cpp boost_fusion_vector_instance
-
-The fact that `datatype<T>::%type` defaults to `T` is _very_ useful, because
-it means that you can ignore it completely if the component you're building
-has a well-defined type, and everything will "just work".
 
 
 @section tutorial-header_organization Header organization
