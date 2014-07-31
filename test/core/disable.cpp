@@ -4,7 +4,7 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/core/instantiates.hpp>
+#include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/typeclass.hpp>
 
 #include <boost/hana/detail/static_assert.hpp>
@@ -25,6 +25,6 @@ template <> struct Typeclass::instance<Disabled> : disable { };
 
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(instantiates<Typeclass, struct AnythingElse>);
-    BOOST_HANA_STATIC_ASSERT(!instantiates<Typeclass, Disabled>);
+    BOOST_HANA_STATIC_ASSERT(is_a<Typeclass, struct AnythingElse>);
+    BOOST_HANA_STATIC_ASSERT(!is_a<Typeclass, Disabled>);
 }

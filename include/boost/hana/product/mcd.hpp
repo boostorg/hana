@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/product/product.hpp>
 
 #include <boost/hana/comparable/equal_mcd.hpp>
-#include <boost/hana/core/instantiates.hpp>
+#include <boost/hana/core/is_a.hpp>
 #include <boost/hana/logical/logical.hpp>
 
 
@@ -33,7 +33,7 @@ namespace boost { namespace hana {
     //! @snippet example/product/comparable.cpp main
     template <typename T, typename U>
     struct Comparable::instance<T, U, when<
-        instantiates<Product, T>() && instantiates<Product, U>()
+        is_a<Product, T>() && is_a<Product, U>()
     >> : Comparable::equal_mcd {
         template <typename X, typename Y>
         static constexpr auto equal_impl(X x, Y y) {
@@ -46,7 +46,7 @@ namespace boost { namespace hana {
 
 #if 0
     template <typename T>
-    struct Functor::instance<T, when<instantiates<Pair, T>()>>
+    struct Functor::instance<T, when<is_a<Pair, T>()>>
         : Functor::fmap_mcd
     {
         template <typename F, typename P>
@@ -55,7 +55,7 @@ namespace boost { namespace hana {
     };
 
     template <typename T>
-    struct Applicative::instance<T, when<instantiates<Pair, T>()>>
+    struct Applicative::instance<T, when<is_a<Pair, T>()>>
         : Applicative::mcd
     {
         template <typename X>
@@ -68,7 +68,7 @@ namespace boost { namespace hana {
     };
 
     template <typename T>
-    struct Monad::instance<T, when<instantiates<Pair, T>()>>
+    struct Monad::instance<T, when<is_a<Pair, T>()>>
         : Monad::bind_mcd<T>
     {
         template <typename P, typename F>
@@ -81,7 +81,7 @@ namespace boost { namespace hana {
     };
 
     template <typename T>
-    struct Foldable::instance<T, when<instantiates<Pair, T>()>>
+    struct Foldable::instance<T, when<is_a<Pair, T>()>>
         : Foldable::mcd
     {
         template <typename F, typename S, typename P>

@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/constant/constant.hpp>
 
 #include <boost/hana/comparable/equal_mcd.hpp>
-#include <boost/hana/core/instantiates.hpp>
+#include <boost/hana/core/is_a.hpp>
 #include <boost/hana/detail/integral_fwd.hpp>
 
 
@@ -30,7 +30,7 @@ namespace boost { namespace hana {
     //! @snippet example/constant/comparable.cpp main
     template <typename C1, typename C2>
     struct Comparable::instance<C1, C2, when<
-        instantiates<Constant, C1>() && instantiates<Constant, C2>()
+        is_a<Constant, C1>() && is_a<Constant, C2>()
     >> : Comparable::equal_mcd {
         template <typename X, typename Y>
         static constexpr auto equal_impl(X x, Y y)

@@ -15,7 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/applicative/mcd.hpp>
 #include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/core/convert.hpp>
-#include <boost/hana/core/instantiates.hpp>
+#include <boost/hana/core/is_a.hpp>
 #include <boost/hana/detail/right_folds/variadic_unrolled.hpp>
 #include <boost/hana/foldable/foldable.hpp>
 #include <boost/hana/functor/fmap_mcd.hpp>
@@ -270,7 +270,7 @@ namespace boost { namespace hana {
     //! ### Example 2
     //! @snippet example/type_list/functor/fmap.cpp main
     template <typename T>
-    struct Functor::instance<T, when<instantiates<List, T>()>>
+    struct Functor::instance<T, when<is_a<List, T>()>>
         : Functor::fmap_mcd
     {
         template <typename F, typename Xs>
@@ -289,7 +289,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/list/applicative.cpp main
     template <typename T>
-    struct Applicative::instance<T, when<instantiates<List, T>()>>
+    struct Applicative::instance<T, when<is_a<List, T>()>>
         : Applicative::mcd
     {
         template <typename X>
@@ -310,7 +310,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/list/monad.cpp main
     template <typename T>
-    struct Monad::instance<T, when<instantiates<List, T>()>>
+    struct Monad::instance<T, when<is_a<List, T>()>>
         : Monad::flatten_mcd<T>
     {
         template <typename Xss>
@@ -326,7 +326,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/list/traversable/sequence.cpp main
     template <typename T>
-    struct Traversable::instance<T, when<instantiates<List, T>()>>
+    struct Traversable::instance<T, when<is_a<List, T>()>>
         : Traversable::traverse_mcd
     {
         template <typename A, typename F, typename Xs>
@@ -349,7 +349,7 @@ namespace boost { namespace hana {
     //! @snippet example/list/comparable.cpp main
     template <typename T, typename U>
     struct Comparable::instance<T, U, when<
-        instantiates<List, T>() && instantiates<List, U>()
+        is_a<List, T>() && is_a<List, U>()
     >> : Comparable::equal_mcd
     {
         template <typename Xs, typename Ys>
@@ -376,7 +376,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/list/searchable/find.cpp main
     template <typename T>
-    struct Searchable::instance<T, when<instantiates<List, T>()>>
+    struct Searchable::instance<T, when<is_a<List, T>()>>
         : Searchable::mcd
     {
         template <typename Pred, typename Xs>
@@ -405,7 +405,7 @@ namespace boost { namespace hana {
     //! Converts a `Foldable` to a `List`.
     template <typename L, typename T>
     struct convert<L, T, detail::std::enable_if_t<
-        instantiates<List, L>() && instantiates<Foldable, T>()
+        is_a<List, L>() && is_a<Foldable, T>()
     >> {
         template <typename Xs>
         static constexpr auto apply(Xs xs)

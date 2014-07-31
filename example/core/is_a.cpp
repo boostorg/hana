@@ -5,8 +5,10 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/core/instantiates.hpp>
+#include <boost/hana/comparable/comparable.hpp>
+#include <boost/hana/core/is_a.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/ext/std/tuple.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/iterable/iterable.hpp>
@@ -21,7 +23,14 @@ using namespace boost::hana;
 
 
 int main() {
-    //! [main]
+    //! [standard]
+    BOOST_HANA_STATIC_ASSERT( is_a<Foldable, Maybe>);
+    BOOST_HANA_STATIC_ASSERT(!is_a<Logical, Maybe>);
+    BOOST_HANA_STATIC_ASSERT(!is_a<Foldable, int>);
+    BOOST_HANA_STATIC_ASSERT( is_a<Comparable, int, long>);
+    //! [standard]
+
+    //! [alternate]
     BOOST_HANA_CONSTEXPR_LAMBDA auto row = list;
     BOOST_HANA_CONSTEXPR_LAMBDA auto check_table = [](auto ...headers) {
         return [=](auto ...rows) {
@@ -41,5 +50,5 @@ int main() {
     row(long_<12>,                       true_,          false_,         false_     ),
     row(range(int_<-4>, int_<15>),       false_,         true_,          false_     )
     );
-    //! [main]
+    //! [alternate]
 }

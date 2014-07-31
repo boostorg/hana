@@ -569,14 +569,14 @@ instance, provided the type class does not change its minimal complete
 definition(s). This is the reason why a minimal complete definition is
 always provided, even when it is empty.
 
-To show the full power of type classes and introduce the `instantiates`
-utility, let's define a `Printable` instance for `std::vector`s containing
-any `Printable` type. This is a generalization of our previous `Printable`
-instance for `std::vector`s, which supported only streamable types.
+To show the full power of type classes and introduce the `is_a` utility, let's
+define a `Printable` instance for `std::vector`s containing any `Printable`
+type. This is a generalization of our previous `Printable` instance for
+`std::vector`s, which supported only streamable types.
 
 @code
   template <typename T>
-  struct Printable::instance<std::vector<T>, when<instantiates<Printable, T>()>>
+  struct Printable::instance<std::vector<T>, when<is_a<Printable, T>()>>
     : Printable::print_mcd
   {
     static void print_impl(std::ostream& os, std::vector<T> v) {
@@ -591,11 +591,11 @@ instance for `std::vector`s, which supported only streamable types.
   };
 @endcode
 
-`instantiates` is a variable template taking a type class and a type and
-returning whether the type is an instance of the given type class. The
-result is returned as a boolean `Integral`, which is basically equivalent to
-a boolean `std::integral_constant`, hence the trailing `()` to convert the
-result to a `bool` at compile-time. We can now print nested containers:
+`is_a` is a variable template taking a type class and a type and returning
+whether the type is an instance of the given type class. The result is
+returned as a boolean `Integral`, which is basically equivalent to a boolean
+`std::integral_constant`, hence the trailing `()` to convert the result to a
+`bool` at compile-time. We can now print nested containers:
 
 @code
   std::vector<std::vector<int>> v{{1, 2, 3}, {3, 4, 5}};
@@ -639,6 +639,8 @@ are about to use it.
 @todo
 Document type classes with operators.
 Document `disable`.
+Our description of `is_a` is reductive. Either explain it better (kind of
+requires data types) or at least link to the relevant place in the reference.
 
 
 @section tutorial-datatypes Data types
@@ -767,9 +769,8 @@ library, the header structure should feel intuitive.
       This file defines everything required to define a new type class. This
       includes the `BOOST_HANA_{UNARY,BINARY}_TYPECLASS` macros and `disable`.
 
-    - `boost/hana/core/instantiates.hpp`\n
-      This file defines the `instantiates` utility and related goodies like
-      `is_a` and `is_an`.
+    - `boost/hana/core/is_a.hpp`\n
+      This file defines the `is_a` utility and its friend `is_an`.
 
     - `boost/hana/core/convert.hpp`\n
       This file defines the conversion utilities `to` and `convert`.
