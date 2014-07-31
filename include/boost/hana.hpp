@@ -243,11 +243,7 @@ We're now ready to take a look at these little beasts. Concretely, a type
 class is just a C++ structure or class calling the `BOOST_HANA_TYPECLASS`
 macro in its definition at public scope:
 
-@code
-  struct Printable {
-    BOOST_HANA_TYPECLASS(Printable);
-  };
-@endcode
+@snippet example/tutorial/typeclasses/printable_no_mcd_1.cpp Printable
 
 The `BOOST_HANA_TYPECLASS` macro creates a nested template named `instance`
 -- which will be explained later --, so that name is reserved inside a type
@@ -255,17 +251,7 @@ class to avoid clashes. Other arbitrary members can be put in the type class,
 but it is probably a good idea to keep anything unrelated out for the sake of
 separating concerns:
 
-@code
-  struct Printable {
-    BOOST_HANA_TYPECLASS(Printable);
-
-    // This is valid, but it's probably not a good idea unless those are
-    // strongly related to the type class.
-    int foo;
-    void bar() const { };
-    struct baz { };
-  };
-@endcode
+@snippet example/tutorial/typeclasses/printable_no_mcd_1.cpp Printable_dumb
 
 As you will see later with minimal complete definitions, it is often useful
 to put other _related_ members in a type class; don't hesitate to do it when
@@ -286,11 +272,7 @@ To associate methods to a type class, we create a layer of indirection through
 the `instance` member of the type class. For example, let's say we want to
 have a method named `print` in the `Printable` type class:
 
-@code
-  auto print = [](std::ostream& os, auto x) {
-    return Printable::instance<decltype(x)>::print_impl(os, x);
-  };
-@endcode
+@snippet example/tutorial/typeclasses/printable_no_mcd_1.cpp print
 
 > #### Note
 > This is actually _slightly_ different from what is really done in the
@@ -300,14 +282,7 @@ To make a type an instance of `Printable`, we must implement the `print`
 method, which is done by specializing the `Printable::instance` template
 as follows:
 
-@code
-  template <>
-  struct Printable::instance<int> {
-    static void print_impl(std::ostream& os, int i) {
-      os << i;
-    }
-  };
-@endcode
+@snippet example/tutorial/typeclasses/printable_no_mcd_1.cpp int_instance
 
 Note that we could have chosen a name different from `print_impl`, but this
 naming convention has the advantage of being clear and avoiding name
@@ -318,62 +293,38 @@ which is unexpected. This naming convention is used for all the type
 classes in Boost.Hana. Now that we have made `int` an instance of
 `Printable`, we can write:
 
-@code
-  print(std::cout, 2);
-@endcode
+@snippet example/tutorial/typeclasses/printable_no_mcd_1.cpp print_int
 
 So far so good, but you probably don't want to write an instance for each
 arithmetic type, right?. Fortunately, I didn't want to either so it is
 possible to instantiate a type class for all types satisfying a predicate:
 
-@code
-  template <typename T>
-  struct Printable::instance<T, when<std::is_arithmetic<T>::value>> {
-    static void print_impl(std::ostream& os, T x) {
-      os << x;
-    }
-  };
-@endcode
+@snippet example/tutorial/typeclasses/printable_no_mcd_1.cpp arithmetic_instance
 
 `when` accepts a single compile-time boolean and enables the instance if and
 only if that boolean is `true`. This is similar to the well known C++ idiom of
 using a dummy template parameter with `std::enable_if` and relying on SFINAE.
 As expected, we can now write
 
-@code
-  print(std::cout, 2.2);
-@endcode
+@snippet example/tutorial/typeclasses/printable_no_mcd_1.cpp print_double
 
 Ok, we managed to cut down the number of instances quite a bit, but we still
 can't write
 
-@code
-  print(std::cout, std::string{"foo"});
-@endcode
+@snippet example/tutorial/typeclasses/printable_no_mcd_2.cpp print_string
 
 without writing an explicit instance for `std::string`. Again, laziness won me
 over and so it is possible to instantiate a type class for all types making
 some expression well-formed (think SFINAE):
 
-@code
-  template <typename T>
-  struct Printable::instance<T, when_valid<
-    decltype(std::declval<std::ostream&>() << std::declval<T>())
-  >> {
-    static void print_impl(std::ostream& os, T x) {
-      os << x;
-    }
-  };
-@endcode
+@snippet example/tutorial/typeclasses/printable_no_mcd_2.cpp streamable_instance
 
 `when_valid` is actually an alias to `when<true>`, but it takes an arbitrary
 number of types and relies on the fact that SFINAE will kick in and remove
 the specialization if any of the types is not well-formed. As expected, we
 can now write
 
-@code
-  print(std::cout, std::string{"foo"});
-@endcode
+@snippet example/tutorial/typeclasses/printable_no_mcd_2.cpp print_string
 
 Note that instances provided without `when`/`when_valid` (i.e. an explicit
 or partial specialization in the case of a parametric type) have the priority
@@ -386,50 +337,14 @@ instance enabled by a predicate.
 All is good so far, but what if we just wanted a string representation of
 our object instead of printing it to a stream? Sure, we could write
 
-@code
-  auto to_string = [](auto x) {
-    std::ostringstream os;
-    print(os, x);
-    return os.str();
-  };
-
-  to_string(1);
-@endcode
+@snippet example/tutorial/typeclasses/printable_no_mcd_2.cpp to_string_non_method
 
 but then `to_string(std::string{"foobar"})` would be far from optimal. The
 solution is to make `to_string` a method too, and then specialize the
-instance for `std::string` to make it more efficient:
+instance for `std::string` to make it more efficient. Here's what we have
+so far:
 
-@code
-  auto to_string = [](auto x) {
-    return Printable::instance<decltype(x)>::to_string_impl(x);
-  };
-
-  template <typename T>
-  struct Printable::instance<T, when_valid<
-    decltype(std::declval<std::ostream&>() << std::declval<T>())
-  >> {
-    static void print_impl(std::ostream& os, T x) {
-      os << x;
-    }
-
-    static std::string to_string_impl(T x) {
-      std::ostringstream os;
-      print(os, x);
-      return os.str();
-    }
-  };
-
-  template <>
-  struct Printable::instance<std::string> {
-    static void print_impl(std::ostream& os, std::string x) {
-      os << x;
-    }
-
-    static std::string to_string_impl(std::string x)
-    { return x; }
-  };
-@endcode
+@snippet example/tutorial/typeclasses/printable_no_mcd_3.cpp recap
 
 While this is pretty satisfying, notice how the general definition of
 `to_string_impl` is tied to the instance it is defined in, even though it
@@ -437,28 +352,7 @@ would work for any `Printable` implementing `print`. For example, let's say
 we want to instantiate `Printable` for `std::vector<T>` for any `T` which can
 be put to a stream:
 
-@code
-  template <typename T>
-  struct Printable::instance<std::vector<T>, when_valid<
-    decltype(std::declval<std::ostream&>() << std::declval<T>())
-  >> {
-    static void print_impl(std::ostream& os, std::vector<T> v) {
-      os << '[';
-      for (auto it = begin(v); it != end(v); ) {
-        os << *it;
-        if (++it != end(v))
-          os << ", ";
-      }
-      os << ']';
-    }
-
-    static std::string to_string_impl(std::vector<T> v) {
-      std::ostringstream os;
-      print(os, v);
-      return os.str();
-    }
-  };
-@endcode
+@snippet example/tutorial/typeclasses/printable_no_mcd_3.cpp vector_streamable_instance
 
 It is annoying to have to redefine `to_string_impl` even if `print_impl` alone
 would be enough because `to_string_impl` is completely determined by it. From
@@ -469,40 +363,13 @@ type class is `print`. To avoid code duplication, a default implementation for
 methods that are not part of the mcd should be provided by the type class. By
 convention, we provide these in a nested type of the type class:
 
-@code
-  struct Printable {
-    BOOST_HANA_TYPECLASS(Printable);
-
-    struct mcd {
-      template <typename X>
-      static std::string to_string_impl(X x) {
-        std::ostringstream os;
-        print(os, x);
-        return os.str();
-      }
-    };
-  };
-@endcode
+@snippet example/tutorial/typeclasses/printable_single_mcd.cpp Printable
 
 It then suffices to inherit from that structure when instantiating `Printable`
 to get the default implementation for `to_string_impl`, which can now be
 shared by several instances:
 
-@code
-  template <typename T>
-  struct Printable::instance<T, when_valid<
-    decltype(std::declval<std::ostream&>() << std::declval<T>())
-  >> : Printable::mcd {
-    // print_impl omitted
-  };
-
-  template <typename T>
-  struct Printable::instance<std::vector<T>, when_valid<
-    decltype(std::declval<std::ostream&>() << std::declval<T>())
-  >> : Printable::mcd {
-    // print_impl omitted
-  };
-@endcode
+@snippet example/tutorial/typeclasses/printable_single_mcd.cpp instances
 
 > #### Note
 > For simplicity, the term minimal complete definition can refer either to
@@ -515,29 +382,7 @@ of `to_string`. If we wanted to do so, we could provide both minimal complete
 definitions by putting them into suitably named members of the `Printable`
 type class:
 
-@code
-  struct Printable {
-    BOOST_HANA_TYPECLASS(Printable);
-
-    // requires to_string only
-    struct to_string_mcd {
-      template <typename X>
-      static void print_impl(std::ostream& os, X x) {
-        os << to_string(x);
-      }
-    };
-
-    // requires print only
-    struct print_mcd {
-      template <typename X>
-      static std::string to_string_impl(X x) {
-        std::ostringstream os;
-        print(os, x);
-        return os.str();
-      }
-    };
-  };
-@endcode
+@snippet example/tutorial/typeclasses/printable_many_mcd.cpp Printable
 
 Either minimal complete definitions could now be used to instantiate
 `Printable`. By convention, in Boost.Hana, the minimal complete definition
@@ -551,18 +396,7 @@ documented.
 It is recommended to always inherit from a minimal complete definition, even
 when the default implementations are not actually used:
 
-@code
-  template <>
-  struct Printable::instance<std::string>
-    : Printable::print_mcd // could also be to_string_mcd, it doesn't matter
-  {
-    static void print_impl(std::ostream& os, std::string x)
-    { os << x; }
-
-    static std::string to_string_impl(std::string x)
-    { return x; }
-  };
-@endcode
+@snippet example/tutorial/typeclasses/printable_many_mcd.cpp string_instance
 
 This allows methods to be added to the type class without breaking the
 instance, provided the type class does not change its minimal complete
@@ -574,22 +408,7 @@ define a `Printable` instance for `std::vector`s containing any `Printable`
 type. This is a generalization of our previous `Printable` instance for
 `std::vector`s, which supported only streamable types.
 
-@code
-  template <typename T>
-  struct Printable::instance<std::vector<T>, when<is_a<Printable, T>()>>
-    : Printable::print_mcd
-  {
-    static void print_impl(std::ostream& os, std::vector<T> v) {
-      os << '[';
-      for (auto it = begin(v); it != end(v); ) {
-        print(os, *it); // recursively print the contents
-        if (++it != end(v))
-          os << ", ";
-      }
-      os << ']';
-    }
-  };
-@endcode
+@snippet example/tutorial/typeclasses/printable_many_mcd.cpp vector_instance
 
 `is_a` is a variable template taking a type class and a type and returning
 whether the type is an instance of the given type class. The result is
@@ -597,44 +416,23 @@ returned as a boolean `Integral`, which is basically equivalent to a boolean
 `std::integral_constant`, hence the trailing `()` to convert the result to a
 `bool` at compile-time. We can now print nested containers:
 
-@code
-  std::vector<std::vector<int>> v{{1, 2, 3}, {3, 4, 5}};
-  print(std::cout, v); // prints "[[1, 2, 3], [3, 4, 5]]"
-@endcode
+@snippet example/tutorial/typeclasses/printable_many_mcd.cpp print_vector
 
 One last thing which can be done with type classes is to provide a default
 instance for all data types. To do so, a nested `default_instance` template
 must be defined in the type class:
 
-@code
-  struct Printable {
-    BOOST_HANA_TYPECLASS(Printable);
-
-    // definitions omitted
-    struct to_string_mcd { };
-    struct print_mcd { };
-
-    template <typename T>
-    struct default_instance : to_string_mcd {
-      static std::string to_string_impl(T) {
-        return "<not-printable>";
-      }
-    };
-  };
-@endcode
+@snippet example/tutorial/typeclasses/printable_default_instance.cpp Printable
 
 `default_instance` should be just like a normal instance. Note that this
 feature should seldom be used because methods with a meaningful behavior
-for all data types are rare. This feature is provided for flexibility,
-but it should be a hint to reconsider your type class design if you
-are about to use it.
+for all data types are rare. This feature is provided for flexibility, but
+it should be a hint to reconsider your type class design if you are about
+to use it. Anyway, with such a default type class, it is now possible to
+print anything, but it might not always be meaningful:
 
+@snippet example/tutorial/typeclasses/printable_default_instance.cpp print_foo
 
-### Example of a type class definition
-@include example/core/unary_typeclass.cpp
-
-### Example of a type class with a default instance
-@include example/core/default_instance.cpp
 
 @todo
 Document type classes with operators.
@@ -686,19 +484,7 @@ and then to use that tag to perform the method dispatching. For this, we
 introduce the `datatype` metafunction, which associates a "tag" to a group
 of types. The `Printable` methods now become:
 
-@code
-  auto print = [](std::ostream& os, auto x) {
-    return Printable::instance<
-      typename datatype<decltype(x)>::type
-    >::print_impl(os, x);
-  };
-
-  auto to_string = [](auto x) {
-    return Printable::instance<
-      typename datatype<decltype(x)>::type
-    >::to_string_impl(x);
-  };
-@endcode
+@snippet example/tutorial/datatypes/printable.cpp methods
 
 > #### Note
 > Actually, it would be possible to work around the issue regarding Fusion
@@ -713,14 +499,7 @@ class instances, it can be specialized for all types satisfying some boolean
 condition using `when`, or for all types making some expression well-formed
 with `when_valid`. For `boost::fusion::vector`, we would then do:
 
-@code
-  struct BoostFusionVector;
-
-  template <typename T>
-  struct datatype<T, when<is_a_boost_fusion_vector<T>::value>> {
-    using type = BoostFusionVector;
-  };
-@endcode
+@snippet example/tutorial/datatypes/printable.cpp boost_fusion_vector
 
 Where `is_a_boost_fusion_vector` is some metafunction returning whether a
 type is a Fusion vector. Hana components either provide a similar
@@ -728,12 +507,7 @@ specialization or use the nested `hana_datatype` alias to provide a data
 type, which is specified. To make `boost::fusion::vector` `Printable`,
 we would now write:
 
-@code
-  template <>
-  struct Printable::instance<BoostFusionVector> : Printable::print_mcd {
-    // print_impl omitted
-  };
-@endcode
+@snippet example/tutorial/datatypes/printable.cpp boost_fusion_vector_instance
 
 The fact that `datatype<T>::%type` defaults to `T` is _very_ useful, because
 it means that you can ignore it completely if the component you're building
@@ -825,7 +599,7 @@ library, the header structure should feel intuitive.
     declaration). This means that the definition of the external component
     should still be included when one wants to use it. For example:
 
-    @snippet example/tutorial/include_ext.cpp main
+    @snippet example/tutorial/organization/include_ext.cpp main
 
   - `boost/hana/sandbox/`\n
     This directory contains experimental code on which no guarantee whatsoever
@@ -839,7 +613,7 @@ library, the header structure should feel intuitive.
 Let's say I want to include `set`. I only have to include its header and I
 can use all the methods it supports right away:
 
-@snippet example/tutorial/include_set.cpp main
+@snippet example/tutorial/organization/include_set.cpp main
 
 
 @section tutorial-mastering Mastering the library
