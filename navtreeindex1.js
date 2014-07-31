@@ -1,6 +1,5 @@
 var NAVTREEINDEX1 =
 {
-"structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5":[3,1,9,3],
 "structboost_1_1hana_1_1_orderable.html#ae640ee6e43199763efd8be41adb60cf7":[3,1,9,12],
 "structboost_1_1hana_1_1_orderable.html#af10ea2fee24c0a780758f67721bb5bfa":[3,1,9,7],
 "structboost_1_1hana_1_1_orderable_1_1instance_3_01_integral_00_01_integral_01_4.html":[3,1,9,0],
@@ -31,9 +30,9 @@ var NAVTREEINDEX1 =
 "structboost_1_1hana_1_1_searchable.html#adadd57241c497cbe1a2ce5ac57549080":[3,1,12,9],
 "structboost_1_1hana_1_1_searchable_1_1instance_3_01_map_01_4.html":[3,1,12,0],
 "structboost_1_1hana_1_1_searchable_1_1instance_3_01_maybe_01_4.html":[3,1,12,1],
-"structboost_1_1hana_1_1_searchable_1_1instance_3_01_r_00_01when_3_01instantiates_3_01_record_00_01_r_01_4_07_08_4_01_4.html":[3,1,12,2],
+"structboost_1_1hana_1_1_searchable_1_1instance_3_01_r_00_01when_3_01is__a_3_01_record_00_01_r_01_4_07_08_4_01_4.html":[3,1,12,2],
 "structboost_1_1hana_1_1_searchable_1_1instance_3_01_set_01_4.html":[3,1,12,3],
-"structboost_1_1hana_1_1_searchable_1_1instance_3_01_t_00_01when_3_01instantiates_3_01_list_00_01_t_01_4_07_08_4_01_4.html":[3,1,12,4],
+"structboost_1_1hana_1_1_searchable_1_1instance_3_01_t_00_01when_3_01is__a_3_01_list_00_01_t_01_4_07_08_4_01_4.html":[3,1,12,4],
 "structboost_1_1hana_1_1_searchable_1_1mcd.html":[3,1,12,5],
 "structboost_1_1hana_1_1_set.html":[3,0,10],
 "structboost_1_1hana_1_1_set.html#a7c6caacd6df4a89e8b62b369007d9602":[3,0,10,0],
@@ -41,7 +40,7 @@ var NAVTREEINDEX1 =
 "structboost_1_1hana_1_1_traversable.html#a15f448955bcfe5b536c94a76b0c007fb":[3,1,13,4],
 "structboost_1_1hana_1_1_traversable.html#ad2bcf2a65d198953b1690b02f9425419":[3,1,13,3],
 "structboost_1_1hana_1_1_traversable_1_1instance_3_01_maybe_01_4.html":[3,1,13,0],
-"structboost_1_1hana_1_1_traversable_1_1instance_3_01_t_00_01when_3_01instantiates_3_01_list_00_01_t_01_4_07_08_4_01_4.html":[3,1,13,1],
+"structboost_1_1hana_1_1_traversable_1_1instance_3_01_t_00_01when_3_01is__a_3_01_list_00_01_t_01_4_07_08_4_01_4.html":[3,1,13,1],
 "structboost_1_1hana_1_1_traversable_1_1traverse__mcd.html":[3,1,13,2],
 "structboost_1_1hana_1_1_type.html":[3,0,11],
 "structboost_1_1hana_1_1_type.html#a503dafb950079297ba2ec206ed8d5c36":[3,0,11,3],

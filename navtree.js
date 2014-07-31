@@ -21,7 +21,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "bug.html",
-"structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5"
+"structboost_1_1hana_1_1_orderable.html#ae640ee6e43199763efd8be41adb60cf7"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

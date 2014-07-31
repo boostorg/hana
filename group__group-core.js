@@ -10,7 +10,6 @@ var group__group_core =
     [ "when_valid", "group__group-core.html#ga0f5d717bbf6646619bb6219b104384dc", null ],
     [ "datatype_t", "group__group-core.html#gae3cedd3772d00ac7c4de9dc3d719f321", null ],
     [ "to", "group__group-core.html#gadc70755c1d059139297814fb3bfeb91e", null ],
-    [ "instantiates", "group__group-core.html#ga1505b4c072265b1461478be8e424e356", null ],
-    [ "is_a", "group__group-core.html#gaedc4d8de51d01223a808153b9e5dc350", null ],
-    [ "is_an", "group__group-core.html#ga85552dd9b71b55816e5d8970d527cbdf", null ]
+    [ "is_a", "group__group-core.html#ga38cf78e1e3e262f7f1c71ddd9ca70cd9", null ],
+    [ "is_an", "group__group-core.html#ga7fdbde52f5fe384a816c6f39ff272df9", null ]
 ];

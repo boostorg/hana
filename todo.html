@@ -95,7 +95,7 @@ $(document).ready(function(){initNavTree('todo.html','');});
 <dt><a class="anchor" id="_todo000001"></a>Member <a class="el" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>  </dt>
 <dd>Consider giving access to all the arguments to the type class implementation for performance purposes.  </dd>
 <dt><a class="anchor" id="_todo000027"></a>page <a class="el" href="index.html">Boost.Hana Manual</a>  </dt>
-<dd>Document type classes with operators. Document <code>disable</code>. </dd>
+<dd>Document type classes with operators. Document <code>disable</code>. Our description of <code>is_a</code> is reductive. Either explain it better (kind of requires data types) or at least link to the relevant place in the reference. </dd>
 <dt><a class="anchor" id="_todo000010"></a>Class <a class="el" href="structboost_1_1hana_1_1_applicative_1_1instance_3_01_std_tuple_01_4.html">boost::hana::Applicative::instance&lt; StdTuple &gt;</a>  </dt>
 <dd>Get rid of this redundant instance once <a href="http://llvm.org/bugs/show_bug.cgi?id=19616">http://llvm.org/bugs/show_bug.cgi?id=19616</a> is fixed.  </dd>
 <dt><a class="anchor" id="_todo000011"></a>Member <a class="el" href="group__group-functional.html#ga49ea872ade5ac8f6c10052c495302e89">boost::hana::curry</a>  </dt>
@@ -152,7 +152,7 @@ $(document).ready(function(){initNavTree('todo.html','');});
 <div class="line">nothing_to_do_with_hana&lt;something_to_do_with_hana&lt;int&gt;&gt; x{};</div>
 <div class="line">x == x; <span class="comment">// tries to use Comparable::equal_impl</span></div>
 </div><!-- fragment -->  </dd>
-<dt><a class="anchor" id="_todo000020"></a>Class <a class="el" href="structboost_1_1hana_1_1_searchable_1_1instance_3_01_t_00_01when_3_01instantiates_3_01_list_00_01_t_01_4_07_08_4_01_4.html">boost::hana::Searchable::instance&lt; T, when&lt; instantiates&lt; List, T &gt;()&gt; &gt;</a>  </dt>
+<dt><a class="anchor" id="_todo000020"></a>Class <a class="el" href="structboost_1_1hana_1_1_searchable_1_1instance_3_01_t_00_01when_3_01is__a_3_01_list_00_01_t_01_4_07_08_4_01_4.html">boost::hana::Searchable::instance&lt; T, when&lt; is_a&lt; List, T &gt;()&gt; &gt;</a>  </dt>
 <dd>Technically, this can be implemented in <code>Iterable</code>. Should it? </dd>
 <dt><a class="anchor" id="_todo000022"></a>Class <a class="el" href="structboost_1_1hana_1_1_traversable.html">boost::hana::Traversable</a>  </dt>
 <dd>Define these functors in the library. </dd>
