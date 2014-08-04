@@ -16,40 +16,55 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    /*!
-    @ingroup group-datatypes
-    Represents a compile-time value of an integral type.
-
-    Let `n` be an object of an `Integral` data type. The compile-time value
-    represented by `n` is accessible as `n()`, which is a `constexpr`
-    object of the underlying integral type. `n` is also implicitly
-    `constexpr`-convertible to the underlying integral type.
-
-    ## Instance of
-    `Comparable`, `Logical`
-
-    --------------------------------------------------------------------------
-
-    @todo
-    Implicit conversions to the underlying integral type can be problematic:
-    @code
-        constexpr auto odd = [](auto x) {
-            return x % int_<2>;
-        };
-
-        if_(odd(int_<1>), something_of_type_A, something_of_type_B)
-    @endcode
-    This will fail because `odd(int_<1>)` has type `Int<1 % 2>`, which is
-    convertible to `bool` but not to `Bool<...>`. Because of this, the
-    runtime `if_` is used and compilation fails.
-     */
+    //! @ingroup group-datatypes
+    //! Represents a compile-time value of an integral type.
+    //!
+    //! `Integral`s are guaranteed to have the same members and capabilities
+    //! as the corresponding `std::integral_constant`. For example, `Integral`s
+    //! are `constexpr`-convertible to their underlying type, they have a
+    //! nested static constant named `value` holding their underlying value,
+    //! and so on.
+    //!
+    //! For convenience, common operators are overloaded to return the result
+    //! of the corresponding operator as an `integral<...>`.
+    //!
+    //! ## Overloaded operators
+    //! - Arithmetic: binary `+`, binary `-`, `/`, `*`, `%`, unary `+`,
+    //!                                                      unary `-`
+    //! - Bitwise: `~`, `&`, `|`, `^`, `<<`, `>>`
+    //! - Comparison: `==`, `!=`, `<`, `<=`, `>`, `>=`
+    //! - Logical: `||`, `&&`, `!`
+    //! - Member access: `*` (dereference)
+    //!
+    //! ## Example
+    //! @snippet example/integral/operators.cpp main
+    //!
+    //! ## Instance of
+    //! `Comparable`, `Logical`
+    //!
+    //! @todo
+    //! Implicit conversions to the underlying integral type can be problematic:
+    //! @code
+    //!     constexpr auto odd = [](auto x) {
+    //!         return x % int_<2>;
+    //!     };
+    //!
+    //!     if_(odd(int_<1>), something_of_type_A, something_of_type_B)
+    //! @endcode
+    //! This will fail because `odd(int_<1>)` has type `Int<1 % 2>`, which is
+    //! convertible to `bool` but not to `Bool<...>`. Because of this, the
+    //! runtime `if_` is used and compilation fails.
     struct Integral { };
 
     namespace integral_detail {
-        template <typename T, T t>
+        template <typename T, T v>
         struct integral : operators::enable {
-            constexpr T operator()() const { return t; }
-            constexpr operator T() const { return t; }
+            using type = integral;
+            using value_type = T;
+            static constexpr value_type value = v;
+            constexpr operator value_type() const noexcept { return value; }
+            constexpr value_type operator()() const noexcept { return value; }
+
             using hana_datatype = Integral;
         };
 
@@ -88,56 +103,42 @@ namespace boost { namespace hana {
 #undef BOOST_HANA_INTEGRAL_BINARY_OP
     } // end namespace integral_detail
 
-    /*!
-    A compile-time integral value of the given type and value.
-    @relates Integral
-
-    For convenience, common operators are overloaded to return the result
-    of the corresponding operator as an `integral<...>`.
-
-    ### Overloaded operators
-    - Arithmetic: binary `+`, binary `-`, `/`, `*`, `%`, unary `+`, unary `-`
-    - Bitwise: `~`, `&`, `|`, `^`, `<<`, `>>`
-    - Comparison: `==`, `!=`, `<`, `<=`, `>`, `>=`
-    - Logical: `||`, `&&`, `!`
-    - Member access: `*` (dereference)
-
-    ### Example
-    @snippet example/integral/operators.cpp main
-
-    @note
-    For any `const-volatility` specifier `cv`, `integral<T cv, n>` is always
-    the same as `integral<T, n>`.
-
-    @internal
-    ### Rationale for striping cv-specifiers
-    In the following idiom,
-    @code
-        integral<decltype(Trait::value), Trait::value>
-    @endcode
-    if `Trait::value` is declared as `static const T value = ...;`, then
-    `decltype(Trait::value)` is `T const` instead of `T`. This causes
-    unintuitive behavior in some cases. For example, with a definition
-    of `trait::is_floating_point` using the above idiom,
-    @code
-        static_assert(
-            decltype_(trait::is_floating_point(type<char>)) ==
-            decltype_(false_)
-        , "");
-    @endcode
-    will fail, but the following will succeed
-    @code
-        static_assert(
-            decltype_(trait::is_floating_point(type<char>)) ==
-            decltype_(integral<bool const, false>)
-        , "");
-    @endcode
-    Since there does not seem to be a lot of use cases for keeping
-    cv-qualifiers in the integral type, we just remove them.
-
-    @todo
-    Do we want `char_<1> + char_<2> == char_<3>` or `char_<1> + char_<2> == int_<3>`?
-     */
+    //! A compile-time integral value of the given type and value.
+    //! @relates Integral
+    //!
+    //! @note
+    //! For any `const-volatility` specifier `cv`, `integral<T cv, n>` is
+    //! always the same as `integral<T, n>`.
+    //!
+    //! @internal
+    //! ### Rationale for striping cv-specifiers
+    //! In the following idiom,
+    //! @code
+    //!     integral<decltype(Trait::value), Trait::value>
+    //! @endcode
+    //! if `Trait::value` is declared as `static const T value = ...;`, then
+    //! `decltype(Trait::value)` is `T const` instead of `T`. This causes
+    //! unintuitive behavior in some cases. For example, with a definition
+    //! of `trait::is_floating_point` using the above idiom,
+    //! @code
+    //!     static_assert(
+    //!         decltype_(trait::is_floating_point(type<char>)) ==
+    //!         decltype_(false_)
+    //!     , "");
+    //! @endcode
+    //! will fail, but the following will succeed
+    //! @code
+    //!     static_assert(
+    //!         decltype_(trait::is_floating_point(type<char>)) ==
+    //!         decltype_(integral<bool const, false>)
+    //!     , "");
+    //! @endcode
+    //! Since there does not seem to be a lot of use cases for keeping
+    //! cv-qualifiers in the integral type, we just remove them.
+    //!
+    //! @todo
+    //! Do we want `char_<1> + char_<2> == char_<3>` or
+    //! `char_<1> + char_<2> == int_<3>`?
     template <typename T, T v>
     constexpr integral_detail::integral<
         typename detail::std::remove_cv<T>::type, v

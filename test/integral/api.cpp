@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/type.hpp>
 
 #include <cstddef>
+#include <type_traits>
 using namespace boost::hana;
 
 
@@ -29,4 +30,16 @@ int main() {
 
     constexpr int c = int_<0>, d = int_<-3>;
     static_assert(c == 0 && d == -3, "");
+
+    // nested ::value
+    static_assert(decltype(int_<1>)::value == 1, "");
+
+    // nested ::type
+    static_assert(std::is_same<
+        decltype(int_<1>)::type,
+        std::remove_cv_t<decltype(int_<1>)>
+    >{}, "");
+
+    // nested ::value_type
+    static_assert(std::is_same<decltype(int_<1>)::value_type, int>{}, "");
 }
