@@ -20,12 +20,16 @@ struct Printable;
 // to make the example simpler is worth it!
 auto print = [](std::ostream& os, auto x) {
     using P = detail::dependent_on_t<(bool)sizeof(x), Printable>;
-    return P::template instance<decltype(x)>::print_impl(os, x);
+    return P::template instance<
+        datatype_t<decltype(x)>
+    >::print_impl(os, x);
 };
 
 auto to_string = [](auto x) {
     using P = detail::dependent_on_t<(bool)sizeof(x), Printable>;
-    return P::template instance<decltype(x)>::to_string_impl(x);
+    return P::template instance<
+        datatype_t<decltype(x)>
+    >::to_string_impl(x);
 };
 
 //! [Printable]
@@ -43,6 +47,13 @@ struct Printable {
     };
 };
 //! [Printable]
+
+//! [disable]
+struct UserDefined { };
+
+template <>
+struct Printable::instance<UserDefined> : disable { };
+//! [disable]
 
 
 int main() {

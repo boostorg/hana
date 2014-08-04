@@ -6,7 +6,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/typeclass.hpp>
 
+#include <cassert>
 #include <iostream>
+#include <sstream>
+#include <string>
 #include <type_traits>
 using namespace boost::hana;
 
@@ -17,31 +20,27 @@ struct Printable {
 };
 //! [Printable]
 
-namespace counter_examples_and_stuff {
-//! [Printable_dumb]
-struct Printable {
-    BOOST_HANA_TYPECLASS(Printable);
-
-    // This is valid, but it's probably not a good idea unless those are
-    // strongly related to the type class.
-    int foo;
-    void bar() const { };
-    struct baz { };
+auto to_string = [](auto x) {
+    return Printable::instance<
+        datatype_t<decltype(x)>
+    >::to_string_impl(x);
 };
-//! [Printable_dumb]
-}
 
-//! [print]
 auto print = [](std::ostream& os, auto x) {
-    return Printable::instance<decltype(x)>::print_impl(os, x);
+    return Printable::instance<
+        datatype_t<decltype(x)>
+    >::print_impl(os, x);
 };
-//! [print]
 
 //! [int_instance]
 template <>
 struct Printable::instance<int> {
     static void print_impl(std::ostream& os, int i) {
         os << i;
+    }
+
+    static std::string to_string_impl(int i) {
+        return (std::ostringstream{} << i).str();
     }
 };
 //! [int_instance]
@@ -52,6 +51,10 @@ struct Printable::instance<T, when<std::is_arithmetic<T>::value>> {
     static void print_impl(std::ostream& os, T x) {
         os << x;
     }
+
+    static std::string to_string_impl(T x) {
+        return (std::ostringstream{} << x).str();
+    }
 };
 //! [arithmetic_instance]
 
@@ -59,9 +62,11 @@ struct Printable::instance<T, when<std::is_arithmetic<T>::value>> {
 int main() {
     //! [print_int]
 print(std::cout, 2);
+assert(to_string(2) == "2");
     //! [print_int]
 
     //! [print_double]
 print(std::cout, 2.2);
+assert(to_string(2.2) == "2.2");
     //! [print_double]
 }

@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
+    //! @anchor group-core-is_a
     //! @ingroup group-core
     //! Return whether a type class is instantiated with the given data types.
     //!

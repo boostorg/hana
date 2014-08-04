@@ -6,6 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/typeclass.hpp>
 
+#include <cassert>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -18,7 +19,15 @@ struct Printable {
 };
 
 auto print = [](std::ostream& os, auto x) {
-    return Printable::instance<decltype(x)>::print_impl(os, x);
+    return Printable::instance<
+        datatype_t<decltype(x)>
+    >::print_impl(os, x);
+};
+
+auto to_string = [](auto x) {
+    return Printable::instance<
+        datatype_t<decltype(x)>
+    >::to_string_impl(x);
 };
 
 //! [streamable_instance]
@@ -29,24 +38,17 @@ struct Printable::instance<T, when_valid<
     static void print_impl(std::ostream& os, T x) {
         os << x;
     }
+
+    static std::string to_string_impl(T x) {
+        return (std::ostringstream{} << x).str();
+    }
 };
 //! [streamable_instance]
-
-void counter_example() {
-    //! [to_string_non_method]
-auto to_string = [](auto x) {
-    std::ostringstream os;
-    print(os, x);
-    return os.str();
-};
-
-to_string(1);
-    //! [to_string_non_method]
-}
 
 
 int main() {
     //! [print_string]
 print(std::cout, std::string{"foo"});
+assert(to_string(std::string{"foo"}) == "foo");
     //! [print_string]
 }
