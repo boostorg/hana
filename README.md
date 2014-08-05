@@ -11,14 +11,12 @@ for shortly. The library is unstable at the moment; do not use for production.
 <!-- Important: keep this in sync with example/overview.cpp -->
 ```cpp
 #include <boost/hana/detail/assert.hpp>
-#include <boost/hana/ext/std/tuple.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/list/instance.hpp>
 #include <boost/hana/type.hpp>
 
 #include <cassert>
 #include <string>
-#include <tuple>
 #include <type_traits>
 using namespace boost::hana;
 
@@ -31,7 +29,7 @@ auto name = [](auto x) { return x.name; };
 int main() {
     // Heterogeneous sequences for value-level metaprogramming.
     auto stuff = list(President{"Obama"}, Car{"Toyota"}, City{"Quebec"});
-    assert(reverse(fmap(name, stuff)) == std::make_tuple("Quebec", "Toyota", "Obama"));
+    assert(reverse(fmap(name, stuff)) == list("Quebec", "Toyota", "Obama"));
 
     // Type-level metaprogramming works too.
     auto types = fmap(compose(metafunction<std::add_pointer>, decltype_), stuff);
