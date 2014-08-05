@@ -33,10 +33,10 @@ int main() {
     BOOST_HANA_CONSTEXPR_ASSERT(less(integer{0}, integer{1}));
     BOOST_HANA_CONSTEXPR_ASSERT(!less(integer{0}, integer{0}));
     BOOST_HANA_CONSTEXPR_ASSERT(!less(integer{1}, integer{0}));
-    BOOST_HANA_CONSTANT_ASSERT(is_a<Orderable, Integer, Integer>);
+    BOOST_HANA_CONSTANT_ASSERT(are<Orderable, Integer, Integer>);
 
     // No instance is provided when the data type differs from the C++ type.
-    BOOST_HANA_CONSTANT_ASSERT(!is_a<Orderable, Integer2, Integer2>);
-    BOOST_HANA_CONSTANT_ASSERT(!is_a<Orderable, Integer2, Integer>);
-    BOOST_HANA_CONSTANT_ASSERT(!is_a<Orderable, Integer, Integer2>);
+    BOOST_HANA_CONSTANT_ASSERT(!are<Orderable, Integer2, Integer2>);
+    BOOST_HANA_CONSTANT_ASSERT(!are<Orderable, Integer2, Integer>);
+    BOOST_HANA_CONSTANT_ASSERT(!are<Orderable, Integer, Integer2>);
 }

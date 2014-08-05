@@ -1,6 +1,6 @@
 /*!
 @file
-Defines `boost::hana::is_a` and `boost::hana::is_an`.
+Defines `boost::hana::is_a`, `boost::hana::is_an`, and `boost::hana::are`.
 
 @copyright Louis Dionne 2014
 Distributed under the Boost Software License, Version 1.0.
@@ -86,6 +86,12 @@ namespace boost { namespace hana {
     //! English language.
     template <typename Typeclass, typename ...Datatypes>
     constexpr auto is_an = is_a<Typeclass, Datatypes...>;
+
+    //! @ingroup group-core
+    //! Equivalent to `is_a`; provided for consistency with the rules of the
+    //! English language when several data types are provided.
+    template <typename Typeclass, typename ...Datatypes>
+    constexpr auto are = is_a<Typeclass, Datatypes...>;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_CORE_IS_A_HPP

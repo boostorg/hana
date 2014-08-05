@@ -34,19 +34,19 @@ int main() {
     // is the same as their C++ type.
     BOOST_HANA_CONSTEXPR_ASSERT(equal(integer{0}, integer{0}));
     BOOST_HANA_CONSTEXPR_ASSERT(!equal(integer{0}, integer{1}));
-    BOOST_HANA_CONSTANT_ASSERT(is_a<Comparable, Integer, Integer>);
+    BOOST_HANA_CONSTANT_ASSERT(are<Comparable, Integer, Integer>);
 
     // No instance is provided when the data type differs from the C++ type,
     // even if the C++ type is EqualityComparable.
-    BOOST_HANA_CONSTANT_ASSERT(!is_a<Comparable, Integer2, Integer2>);
+    BOOST_HANA_CONSTANT_ASSERT(!are<Comparable, Integer2, Integer2>);
 
     // Two objects of different data types are unequal by default.
     struct X { };
     struct Y { };
-    BOOST_HANA_CONSTANT_ASSERT(is_a<Comparable, X, Y>);
+    BOOST_HANA_CONSTANT_ASSERT(are<Comparable, X, Y>);
     BOOST_HANA_CONSTANT_ASSERT(!equal(X{}, Y{}));
 
     // No instance is provided when the two objects are of the same data type.
-    BOOST_HANA_CONSTANT_ASSERT(!is_a<Comparable, X, X>);
-    BOOST_HANA_CONSTANT_ASSERT(!is_a<Comparable, Y, Y>);
+    BOOST_HANA_CONSTANT_ASSERT(!are<Comparable, X, X>);
+    BOOST_HANA_CONSTANT_ASSERT(!are<Comparable, Y, Y>);
 }

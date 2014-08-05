@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/list/instance.hpp>
 #include <boost/hana/maybe.hpp>
 #include <boost/hana/monad/monad.hpp>
+#include <boost/hana/orderable/orderable.hpp>
 
 #include <type_traits>
 using namespace boost::hana;
@@ -73,4 +74,6 @@ int main() {
     BOOST_HANA_CONSTANT_ASSERT(is_a<Foldable>(nothing));
     BOOST_HANA_CONSTANT_ASSERT(is_a<Monad>(just("abcd")));
     BOOST_HANA_CONSTANT_ASSERT(is_a<Monad>(nothing));
+
+    BOOST_HANA_CONSTANT_ASSERT(are<Orderable>(1, 2));
 }

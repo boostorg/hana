@@ -27,7 +27,7 @@ int main() {
     BOOST_HANA_CONSTANT_ASSERT( is_a<Foldable, Maybe>);
     BOOST_HANA_CONSTANT_ASSERT(!is_a<Logical, Maybe>);
     BOOST_HANA_CONSTANT_ASSERT(!is_a<Foldable, int>);
-    BOOST_HANA_CONSTANT_ASSERT( is_a<Comparable, int, long>);
+    BOOST_HANA_CONSTANT_ASSERT( are<Comparable, int, long>);
     //! [standard]
 
     //! [alternate]

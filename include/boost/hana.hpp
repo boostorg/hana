@@ -997,7 +997,7 @@ library, the header structure should feel intuitive.
       includes the `BOOST_HANA_{UNARY,BINARY}_TYPECLASS` macros and `disable`.
 
     - `boost/hana/core/is_a.hpp`\n
-      This file defines the `is_a` utility and its friend `is_an`.
+      This file defines the `is_a` utility and friends.
 
     - `boost/hana/core/convert.hpp`\n
       This file defines the conversion utilities `to` and `convert`.
