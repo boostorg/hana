@@ -9,18 +9,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/mpl/vector.hpp>
 using namespace boost::hana;
+using namespace operators; // required to be able to == MPL vectors
 namespace mpl = boost::mpl;
 
 
-int main() {
-    //! [main]
-    using namespace operators; // required to be able to == MPL vectors
-    BOOST_HANA_CONSTANT_ASSERT(
-        mpl::vector2<int, char>{} == mpl::vector<int, char>{}
-    );
+BOOST_HANA_CONSTANT_ASSERT(mpl::vector2<int, char>{} == mpl::vector<int, char>{});
+BOOST_HANA_CONSTANT_ASSERT(mpl::vector2<int, char>{} != mpl::vector<int, char, float>{});
 
-    BOOST_HANA_CONSTANT_ASSERT(
-        mpl::vector2<int, char>{} != mpl::vector<int, char, float>{}
-    );
-    //! [main]
-}
+int main() { }

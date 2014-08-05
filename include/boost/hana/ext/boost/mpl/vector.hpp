@@ -72,7 +72,7 @@ namespace boost { namespace hana {
     //! partial `Functor`s.
     //!
     //! ### Example
-    //! @snippet example/ext/boost/mpl/vector/functor.cpp main
+    //! @include example/ext/boost/mpl/vector/functor.cpp
     //!
     //! @todo
     //! In the case where `f` is not a metafunction class, don't use
@@ -106,7 +106,7 @@ namespace boost { namespace hana {
     //! That instance is equivalent to `TypeList`'s instance of `Iterable`.
     //!
     //! ### Example
-    //! @snippet example/ext/boost/mpl/vector/iterable.cpp main
+    //! @include example/ext/boost/mpl/vector/iterable.cpp
     template <>
     struct Iterable::instance<MplVector> : Iterable::mcd {
         template <typename xs>
@@ -128,7 +128,7 @@ namespace boost { namespace hana {
     //! only `Type`s can be used with `cons`.
     //!
     //! ### Example
-    //! @snippet example/ext/boost/mpl/vector/list.cpp main
+    //! @include example/ext/boost/mpl/vector/list.cpp
     template <>
     struct List::instance<MplVector> : List::mcd<MplVector> {
         template <typename x, typename xs>
@@ -150,7 +150,7 @@ namespace boost { namespace hana {
     //! Comparing two MPL vectors is equivalent to using `boost::mpl::equal`.
     //!
     //! ### Example
-    //! @snippet example/ext/boost/mpl/vector/comparable.cpp main
+    //! @include example/ext/boost/mpl/vector/comparable.cpp
     template <>
     struct Comparable::instance<MplVector, MplVector> : Comparable::equal_mcd {
         template <typename Xs, typename Ys>

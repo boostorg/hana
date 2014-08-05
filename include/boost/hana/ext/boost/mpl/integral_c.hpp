@@ -39,7 +39,7 @@ namespace boost { namespace hana {
     //! `Constant` instance for Boost.MPL IntegralConstants.
     //!
     //! ### Example
-    //! @snippet example/ext/boost/mpl/integral_c/constant.cpp main
+    //! @include example/ext/boost/mpl/integral_c/constant.cpp
     template <>
     struct Constant::instance<MplIntegralConstant> : Constant::mcd {
         template <typename C>
