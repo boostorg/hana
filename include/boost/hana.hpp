@@ -138,6 +138,10 @@ so you get the feeling:
 
 @snippet example/tutorial/quickstart.cpp value_operations
 
+> __Note__\n
+> `BOOST_HANA_CONSTANT_ASSERT` is a compile-time assertion; the details are
+> explained later in the tutorial.
+
 You have probably observed how the `auto` keyword is used when defining `xs` 
 and how the actual type of `list(...)` is not written anywhere. This will be
 the case a lot in Hana. In particular, `list` is a [generic lambda]
@@ -161,12 +165,12 @@ However, you will never need the actual type of an object to do something
 useful with it, so don't let it bother you.
 
 Another interesting observation in the previous example is that `is_empty`
-returns a value that can be used in a `static_assert` even though the list
-it was called on is not a constant expression (it's not declared with
-`constexpr` and it contains an object of the non-literal type `std::string`
-anyways). Indeed, the size of the sequence is known at compile-time regardless
-of its contents, so it only makes sense that Hana does not throw away this
-information. If that seems surprising to you, think about `std::tuple`:
+returns a value that's known at compile-time even though the list it was
+called on is not a constant expression (it's not declared with `constexpr` and
+it contains an object of the non-literal type `std::string` anyways). Indeed,
+the size of the sequence is known at compile-time regardless of its contents,
+so it only makes sense that Hana does not throw away this information. If that
+seems surprising to you, think about `std::tuple`:
 
 @snippet example/tutorial/quickstart.cpp std_tuple_parallel
 
@@ -441,8 +445,15 @@ provided, so the following is equivalent to the previous example:
 
 @snippet example/tutorial/basic_concepts/constant/integral.cpp integral_shorthands
 
-Additionally, `Integral`s overload common operators so that `integral<...>`s
-can be used with an intuitive syntax:
+Additionally, `Integral`s can be created with the help of [user-defined literals]
+[Wikipedia.CXX14_udl]:
+
+@snippet example/tutorial/basic_concepts/constant/integral.cpp literals
+
+However, this syntax only allows creating `Integral`s with an underlying value
+of type `long long`. Another feature of `Integral`s is that they overload
+common operators so that `integral<...>`s can be used with an intuitive
+syntax:
 
 @snippet example/tutorial/basic_concepts/constant/integral.cpp integral_operators
 
@@ -470,10 +481,69 @@ runtime      | `Constant`    | runtime
 runtime      | runtime       | runtime
 
 
+@subsection tutorial-basic_concepts-side_effects Constants and side effects
+
+Let me ask a tricky question. Is the following code valid?
+
+@code
+    template <typename X>
+    auto identity(X x) { return x; }
+
+    static_assert(value(identity(bool_<true>)), "");
+@endcode
+
+The answer is "no", but the reason might not be obvious at first. Even more
+puzzling is that the following code is perfectly valid:
+
+@snippet example/tutorial/basic_concepts/constant/side_effects.cpp pure
+
+To understand why the compiler can't possibly evaluate the first assertion
+at compile-time, notice that `identity` was not marked `constexpr` and
+consider the following alternative (but valid) definition for `identity`:
+
+@snippet example/tutorial/basic_concepts/constant/side_effects.cpp impure_identity
+
+The signature of the function did not change; the function could even have
+been defined in a separate source file. However, it is now obvious that the
+compiler can't evaluate that expression at compile-time. On the other hand,
+when we write
+
+@snippet example/tutorial/basic_concepts/constant/side_effects.cpp impure
+
+we're telling the compiler to perform those potential side effects during the
+dynamic initialization phase! Then, we use `value` to return the compile-time
+value associated to its argument. Also note that `value` takes a `const&` to
+its argument; if it tried taking it by value, we would be reading from a
+non-`constexpr` variable to do the copying, and that could hide side-effects.
+
+Normally, this would not be a big issue because the expressions we want to
+call `value` with should be constant expressions anyway, so there would be
+no need to introduce a dummy variable. However, Hana uses lambdas pretty
+heavily, and unfortunately lambdas can't appear in constant expressions in
+the current language. Hence, some expressions like
+
+@code
+    length(list(1, 2, 3))
+@endcode
+
+are not constant expressions because they use lambdas internally. In other
+words, while that expression is a `Constant`, it is not `constexpr`.
+
 [constexpr_throw]: http://stackoverflow.com/a/8626450/627587
 [GOTW]: http://www.gotw.ca/gotw/index.htm
+[Wikipedia.CXX14_udl]: http://en.wikipedia.org/wiki/C%2B%2B11#User-defined_literals
 [Wikipedia.generalized_constexpr]: http://en.wikipedia.org/wiki/C%2B%2B11#constexpr_.E2.80.93_Generalized_constant_expressions
 
+
+@subsection tutorial-basic_concepts-assertions A zoo of assertions
+
+The goal of this section is to explain different types of assertions that you
+will encounter in the documentation. While these assertions are not meant to
+be used in user code, you will encounter them in the documentation and in the
+examples, so it is important to understand their purpose.
+
+@todo
+Write this, but how to avoid duplicating the reference documentation?
 
 
 @subsection tutorial-basic_concepts-comparing Comparing objects
@@ -618,7 +688,7 @@ stream would look like:
 
 @subsection tutorial-extending-datatypes Data types
 
-> #### Note
+> __Note__\n
 > Since I'm going to use the word "type" a lot, I'll sometimes use the term
 > "C++ type" to make it clear that I'm really speaking about the stuff
 > returned by `decltype(...)` as opposed to "data types", which are the
@@ -725,7 +795,7 @@ advanced customization of the default behavior of methods -- this will be
 explained below. Second, it ties the concepts used in the library -- which
 otherwise only live in the documentation -- to actual C++ constructs.
 
-> #### Note
+> __Note__\n
 > It is interesting to observe that type class dispatching is strictly more
 > general than basic tag dispatching, the latter being equivalent to type
 > class dispatching where all type classes have a single method.
@@ -826,7 +896,7 @@ inheritted by instances that would like to get that default implementation:
 
 @snippet example/tutorial/typeclasses/printable_1mcd.cpp Printable
 
-> #### Note
+> __Note__\n
 > For simplicity, the term minimal complete definition can refer either to
 > a minimal set of required methods or to the member of the type class
 > providing the corresponding default implementations.

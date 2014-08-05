@@ -10,6 +10,7 @@ for shortly. The library is unstable at the moment; do not use for production.
 ## Overview
 <!-- Important: keep this in sync with example/overview.cpp -->
 ```cpp
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/ext/std/tuple.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/list/instance.hpp>
@@ -47,10 +48,8 @@ int main() {
         decltype(last(types))::type, City*
     >{}, "");
 
-    // No compile-time information is lost.
-    // The dummy variable is required to make it compile or Clang complains.
-    auto dummy = length(permutations(stuff)) == int_<3 * 2 * 1>;
-    static_assert(dummy, "");
+    // No compile-time information is lost (the assertion is done at compile-time).
+    BOOST_HANA_CONSTANT_ASSERT(length(permutations(stuff)) == int_<3 * 2 * 1>);
 }
 ```
 

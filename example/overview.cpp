@@ -8,6 +8,7 @@ Distributed under the Boost Software License, Version 1.0.
 // Important: Keep this file in sync with the Overview in the README
 //////////////////////////////////////////////////////////////////////////////
 
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/ext/std/tuple.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/list/instance.hpp>
@@ -45,8 +46,6 @@ int main() {
         decltype(last(types))::type, City*
     >{}, "");
 
-    // No compile-time information is lost.
-    // The dummy variable is required to make it compile or Clang complains.
-    auto dummy = length(permutations(stuff)) == int_<3 * 2 * 1>;
-    static_assert(dummy, "");
+    // No compile-time information is lost (the assertion is done at compile-time).
+    BOOST_HANA_CONSTANT_ASSERT(length(permutations(stuff)) == int_<3 * 2 * 1>);
 }

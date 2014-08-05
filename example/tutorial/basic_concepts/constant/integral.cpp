@@ -30,11 +30,20 @@ static_assert(One::value == 1               &&
 , "these are all constant expressions");
 //! [integral_api]
 
-namespace anon {
+namespace anon1 {
 //! [integral_shorthands]
 auto one = int_<1>;
 auto yes = bool_<true>;
 //! [integral_shorthands]
+}
+
+namespace anon2 {
+//! [literals]
+using namespace literals; // <-- mandatory to use the _c suffix!
+
+BOOST_HANA_CONSTANT_ASSERT(1234_c == llong<1234>);
+BOOST_HANA_CONSTANT_ASSERT(-1234_c == llong<-1234>);
+//! [literals]
 }
 
 //! [integral_operators]
