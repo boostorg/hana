@@ -55,6 +55,33 @@ namespace boost { namespace hana {
         return range_detail::range<decltype(from), decltype(to)>{from, to};
     };
 
+    //! Shorthand to create a `Range` of `Integral`s.
+    //! @relates Range
+    //!
+    //! This shorthand is provided for convenience only and it is equivalent
+    //! to using `range`. Specifically, `range_c<T, from, to>` is such that
+    //! @code
+    //!     range_c<T, from, to> == range(integral<T, from>, integral<T, to>)
+    //! @endcode
+    //!
+    //!
+    //! @tparam T
+    //! The underlying integral type of the `Integral`s in the created range.
+    //!
+    //! @tparam from
+    //! The inclusive lower bound of the created range.
+    //!
+    //! @tparam to
+    //! The exclusive upper bound of the created range.
+    //!
+    //!
+    //! ### Example
+    //! @snippet example/range/range_c.cpp main
+    template <typename T, T from, T to>
+    BOOST_HANA_CONSTEXPR_LAMBDA auto range_c = range(
+        integral<T, from>, integral<T, to>
+    );
+
     //! @details
     //! Let `r` be a `Range` containing the `Integral`s in the half-open
     //! interval `[from, to)`. The head of `r` is an `Integral` with value
