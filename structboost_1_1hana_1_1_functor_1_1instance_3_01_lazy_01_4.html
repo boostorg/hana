@@ -107,7 +107,7 @@ struct boost::hana::Functor::instance&lt; Lazy &gt;</h3>
 <div class="line">        <span class="keywordflow">return</span> 1 / x;</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(eval(<a class="code" href="structboost_1_1hana_1_1_functor.html#a84bb505c8405a5cd3003db49f652faa2">fmap</a>(double_, lazy(one_over)(4))) == 1 / 2);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(eval(<a class="code" href="structboost_1_1hana_1_1_functor.html#a84bb505c8405a5cd3003db49f652faa2">fmap</a>(double_, lazy(one_over)(4))) == 1 / 2);</div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="structboost_1_1hana_1_1_functor.html#a84bb505c8405a5cd3003db49f652faa2">fmap</a>(double_, lazy(one_over)(0)); <span class="comment">// never evaluated</span></div>
 </div><!-- fragment --></div><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">

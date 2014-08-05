@@ -101,11 +101,11 @@ struct boost::hana::Comparable::instance&lt; MplVector, MplVector &gt;</h3>
 <p>Comparing two MPL vectors is equivalent to using <code>boost::mpl::equal</code>.</p>
 <h3>Example</h3>
 <div class="fragment"><div class="line">    <span class="keyword">using namespace </span>operators; <span class="comment">// required to be able to == MPL vectors</span></div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(</div>
 <div class="line">        mpl::vector2&lt;int, char&gt;{} == mpl::vector&lt;int, char&gt;{}</div>
 <div class="line">    );</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(</div>
 <div class="line">        mpl::vector2&lt;int, char&gt;{} != mpl::vector&lt;int, char, float&gt;{}</div>
 <div class="line">    );</div>
 </div><!-- fragment --></div><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">

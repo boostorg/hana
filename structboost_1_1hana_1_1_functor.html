@@ -169,16 +169,16 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">        <span class="keywordflow">return</span> (std::ostringstream{} &lt;&lt; x).str();</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    assert(</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga7ad5b8e5cb988d185dffa511b50cebd2">BOOST_HANA_RUNTIME_ASSERT</a>(</div>
 <div class="line">        <a class="code" href="structboost_1_1hana_1_1_functor.html#a84bb505c8405a5cd3003db49f652faa2">fmap</a>(to_string, list(1, <span class="charliteral">&#39;2&#39;</span>, <span class="stringliteral">&quot;345&quot;</span>, std::string{<span class="stringliteral">&quot;67&quot;</span>}))</div>
 <div class="line">        ==</div>
 <div class="line">        list(<span class="stringliteral">&quot;1&quot;</span>, <span class="stringliteral">&quot;2&quot;</span>, <span class="stringliteral">&quot;345&quot;</span>, <span class="stringliteral">&quot;67&quot;</span>)</div>
 <div class="line">    );</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_functor.html#a84bb505c8405a5cd3003db49f652faa2">fmap</a>(to_string, nothing) == nothing);</div>
-<div class="line">    assert(<a class="code" href="structboost_1_1hana_1_1_functor.html#a84bb505c8405a5cd3003db49f652faa2">fmap</a>(to_string, just(123)) == just(<span class="stringliteral">&quot;123&quot;</span>));</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_functor.html#a84bb505c8405a5cd3003db49f652faa2">fmap</a>(to_string, nothing) == nothing);</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga7ad5b8e5cb988d185dffa511b50cebd2">BOOST_HANA_RUNTIME_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_functor.html#a84bb505c8405a5cd3003db49f652faa2">fmap</a>(to_string, just(123)) == just(<span class="stringliteral">&quot;123&quot;</span>));</div>
 </div><!-- fragment --> <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(</div>
 <div class="line">        <a class="code" href="structboost_1_1hana_1_1_functor.html#a84bb505c8405a5cd3003db49f652faa2">fmap</a>(template_&lt;std::add_pointer_t&gt;, type_list&lt;<span class="keywordtype">void</span>, <span class="keywordtype">int</span>(), <span class="keywordtype">char</span>[10]&gt;)</div>
 <div class="line">                ==</div>
 <div class="line">        type_list&lt;<span class="keywordtype">void</span>*, <span class="keywordtype">int</span>(*)(), <span class="keywordtype">char</span>(*)[10]&gt;</div>
@@ -227,7 +227,7 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">        <span class="keywordflow">return</span> -x;</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(</div>
 <div class="line">        <a class="code" href="structboost_1_1hana_1_1_functor.html#ac27a1807b60b8fa59e6c618cb8ca749f">adjust</a>(negative, negate, list(-3, -2, -1, 0, 1, 2, 3))</div>
 <div class="line">        ==</div>
 <div class="line">        list(3, 2, 1, 0, 1, 2, 3)</div>
@@ -272,7 +272,7 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">        <span class="keywordflow">return</span> x &lt; 0;</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(</div>
 <div class="line">        <a class="code" href="structboost_1_1hana_1_1_functor.html#a72e73dcc09699c619bcfb006029a8967">replace</a>(negative, 0, list(-3, -2, -1, 0, 1, 2, 3))</div>
 <div class="line">        ==</div>
 <div class="line">        list(0, 0, 0, 0, 1, 2, 3)</div>
@@ -312,12 +312,12 @@ Instances and minimal complete definitions</h2></td></tr>
   </dd>
 </dl>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(</div>
 <div class="line">        <a class="code" href="structboost_1_1hana_1_1_functor.html#a35025921d0fb75c28c2411d207a0da5e">fill</a>(<span class="charliteral">&#39;x&#39;</span>, list(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, <span class="keyword">nullptr</span>)) == list(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;x&#39;</span>)</div>
 <div class="line">    );</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_functor.html#a35025921d0fb75c28c2411d207a0da5e">fill</a>(<span class="charliteral">&#39;x&#39;</span>, nothing) == nothing);</div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_functor.html#a35025921d0fb75c28c2411d207a0da5e">fill</a>(<span class="charliteral">&#39;x&#39;</span>, just(<span class="charliteral">&#39;y&#39;</span>)) == just(<span class="charliteral">&#39;x&#39;</span>));</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_functor.html#a35025921d0fb75c28c2411d207a0da5e">fill</a>(<span class="charliteral">&#39;x&#39;</span>, nothing) == nothing);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_functor.html#a35025921d0fb75c28c2411d207a0da5e">fill</a>(<span class="charliteral">&#39;x&#39;</span>, just(<span class="charliteral">&#39;y&#39;</span>)) == just(<span class="charliteral">&#39;x&#39;</span>));</div>
 </div><!-- fragment -->
 </div>
 </div>

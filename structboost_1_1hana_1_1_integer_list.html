@@ -131,8 +131,8 @@ template&lt;typename T , T... xs&gt; </div>
 <p>Creates a list containing the given <code><a class="el" href="structboost_1_1hana_1_1_integral.html" title="Represents a compile-time value of an integral type. ">Integral</a></code>s. </p>
 <p>This is functionally equivalent to <code>list(integral&lt;T, xs&gt;...)</code>.</p>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(to&lt;List&gt;(integer_list&lt;int, 0, 1, 2&gt;) == list(int_&lt;0&gt;, int_&lt;1&gt;, int_&lt;2&gt;));</div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(head(integer_list&lt;int, 0, 1, 2&gt;) == int_&lt;0&gt;);</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(to&lt;List&gt;(integer_list&lt;int, 0, 1, 2&gt;) == list(int_&lt;0&gt;, int_&lt;1&gt;, int_&lt;2&gt;));</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(head(integer_list&lt;int, 0, 1, 2&gt;) == int_&lt;0&gt;);</div>
 </div><!-- fragment -->
 </div>
 </div>

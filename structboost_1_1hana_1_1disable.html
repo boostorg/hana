@@ -103,7 +103,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1disable.html','
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="is__a_8hpp.html">boost/hana/core/is_a.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="typeclass_8hpp.html">boost/hana/core/typeclass.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="static__assert_8hpp.html">boost/hana/detail/static_assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/detail/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="std_2tuple_8hpp.html">boost/hana/ext/std/tuple.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="list_2list_8hpp.html">boost/hana/list/list.hpp</a>&gt;</span></div>
 <div class="line"><span class="keyword">using namespace </span>boost::hana;</div>
@@ -114,11 +114,11 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1disable.html','
 <div class="line">    <span class="keyword">struct </span>Foldable::instance&lt;StdTuple&gt; : <a class="code" href="structboost_1_1hana_1_1disable.html">disable</a> { };</div>
 <div class="line">}}</div>
 <div class="line"></div>
-<div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    <span class="comment">// Usually, List should provide Foldable.</span></div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(is_a&lt;List, StdTuple&gt;);</div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(!is_a&lt;Foldable, StdTuple&gt;);</div>
-<div class="line">}</div>
+<div class="line"><span class="comment">// Usually, List should provide Foldable.</span></div>
+<div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(is_a&lt;List, StdTuple&gt;);</div>
+<div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(!is_a&lt;Foldable, StdTuple&gt;);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> </div>
 <p>Inherited by boost::hana::Comparable::default_instance&lt; T, T &gt;.</p>
 </div><!-- contents -->

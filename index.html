@@ -93,12 +93,38 @@ $(document).ready(function(){initNavTree('index.html','');});
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
 <ul><li class="level1"><a href="#tutorial-preface">Preface</a></li>
-<li class="level1"><a href="#tutorial-introduction">Introduction</a></li>
-<li class="level1"><a href="#tutorial-quick_start">Quick start</a></li>
-<li class="level1"><a href="#tutorial-typeclasses">Type classes</a><ul><li class="level2"><a href="#tutorial-typeclasses-getting_concrete">Getting concrete</a></li>
+<li class="level1"><a href="#tutorial-introduction">Introduction</a><ul><li class="level2"><a href="#tutorial-introduction-warning">A word of warning</a></li>
 </ul>
 </li>
-<li class="level1"><a href="#tutorial-datatypes">Data types</a></li>
+<li class="level1"><a href="#tutorial-quick_start">Quick start</a><ul><li class="level2"><a href="#tutorial-quick_start-value_computations">Value computations</a></li>
+<li class="level2"><a href="#tutorial-quick_start-type_computations">Type computations</a></li>
+</ul>
+</li>
+<li class="level1"><a href="#tutorial-basic_concepts">Basic concepts</a><ul><li class="level2"><a href="#tutorial-basic_concepts-heterogeneity">Heterogeneity</a></li>
+<li class="level2"><a href="#tutorial-basic_concepts-constant">Constants, or setting constexpr straight</a></li>
+<li class="level2"><a href="#tutorial-basic_concepts-comparing">Comparing objects</a></li>
+<li class="level2"><a href="#tutorial-basic_concepts-mapping">Transforming collections</a></li>
+<li class="level2"><a href="#tutorial-basic_concepts-folding">Folding collections</a></li>
+<li class="level2"><a href="#tutorial-basic_concepts-searching">Searching in collections</a></li>
+<li class="level2"><a href="#tutorial-basic_concepts-iteration">Iterating through collections</a></li>
+<li class="level2"><a href="#tutorial-basic_concepts-list">The List type class</a></li>
+<li class="level2"><a href="#tutorial-basic_concepts-adapting">Adapting user-defined structs</a></li>
+</ul>
+</li>
+<li class="level1"><a href="#tutorial-external_libraries">Integration with external libraries</a><ul><li class="level2"><a href="#tutorial-external_libraries-stl">The standard library</a></li>
+<li class="level2"><a href="#tutorial-external_libraries-fusion">Boost.Fusion</a></li>
+<li class="level2"><a href="#tutorial-external_libraries-mpl">Boost.MPL</a></li>
+</ul>
+</li>
+<li class="level1"><a href="#tutorial-performance_considerations">Performance considerations</a><ul><li class="level2"><a href="#tutorial-performance_considerations-compile_time">Compile-time performance</a></li>
+<li class="level2"><a href="#tutorial-performance_considerations-run_time">Runtime performance</a></li>
+</ul>
+</li>
+<li class="level1"><a href="#tutorial-extending">Extending the library</a><ul><li class="level2"><a href="#tutorial-extending-tag_dispatching">Basic tag dispatching</a></li>
+<li class="level2"><a href="#tutorial-extending-datatypes">Data types</a></li>
+<li class="level2"><a href="#tutorial-extending-typeclasses">Type classes</a></li>
+</ul>
+</li>
 <li class="level1"><a href="#tutorial-header_organization">Header organization</a></li>
 <li class="level1"><a href="#tutorial-mastering">Mastering the library</a></li>
 </ul>
@@ -111,77 +137,361 @@ Preface</h1>
 <h1><a class="anchor" id="tutorial-introduction"></a>
 Introduction</h1>
 <hr/>
-<p> Boost.Hana is a library of combinators tailored towards the manipulation of heterogeneous collections. However, the core of Hana is a powerful system for ad-hoc polymorphism inspired by Haskell type classes; this extension system is then used to provide all the functionality of the library in a modular way. Specifically, the library is built around two core concepts; <a class="el" href="index.html#tutorial-typeclasses">type classes</a> and <a class="el" href="index.html#tutorial-datatypes">data types</a>. Type classes are essentially abstract interfaces specifying functionality and data types are concrete implementations of those interfaces.</p>
-<p>The library uses a purely functional style of programming, which is required to manipulate objects of heterogeneous types &ndash; it is impossible to modify the type of an object, so a new object must be introduced.</p>
-<p>Contrary to previous metaprogramming libraries like Boost.MPL and Boost.Fusion, the design of the library is not based on that of the STL. Rather, it is strongly inspired by several (standard and non standard) modules written for the Haskell programming language. Through experience, I have found this to be much more expressive, flexible and easy to use while not sacrificing any performance given the purely functional setting.</p>
+<p> Boost.Hana is a library of combinators tailored towards the manipulation of heterogeneous collections (think <code>std::tuple</code>). It provides high level operations to manipulate those collections in compile-time efficient ways and with a great level of expressiveness. One of its main purpose is to unify type-level (think <a href="http://www.boost.org/doc/libs/release/libs/mpl/doc/index.html">Boost.MPL</a>) and heterogeneous value-level programming (think <a href="http://www.boost.org/doc/libs/release/libs/fusion/doc/html/index.html">Boost.Fusion</a>) under a single consistent interface, allowing the compile-time and the runtime worlds to interact in new, useful ways. This unification also has the nice side effect of increasing code reuse and easing the learning curve for metaprogramming.</p>
+<p>The core of Hana is a powerful compile-time dispatching system allowing the library to be extended in a ad-hoc manner. This extension system is used within Hana to provide all the functionality of the library in a modular way. It makes Hana very easy to extend, and in fact the library provides interoperation with Boost.Fusion, Boost.MPL and some components of the standard library out of the box.</p>
+<h2><a class="anchor" id="tutorial-introduction-warning"></a>
+A word of warning</h2>
+<p>Programming with heterogeneous objects is inherently functional &ndash; since it is impossible to modify the type of an object, a new object must be introduced instead, which rules out mutation. Unlike previous metaprogramming libraries like Boost.MPL and Boost.Fusion, I have decided to embrace this and as a result, Hana uses an almost purely functional style of programming. However, this style of programming influences not only the internal implementation; it also leaks into the interface. Hence, if you continue beyond this point, be prepared to see quite a bit of functional programming along the way.</p>
+<p>In particular, unlike previous metaprogramming libraries, the design of Hana is not based on that of the STL. Instead, it is inspired by several standard and non standard modules written for the Haskell programming language. Through experience, I have found this to be much more expressive, flexible and easy to use while not sacrificing any performance given the compile-time/runtime-but-heterogeneous setting. However, as a result, many concepts used in Hana will be unfamiliar to C++ programmers without a knowledge of FP, to whom I say: be assured that the reward is totally worth it.</p>
 <h1><a class="anchor" id="tutorial-quick_start"></a>
 Quick start</h1>
 <hr/>
-<p> This section assumes the reader is already familiar with basic metaprogramming and the C++14 standard. First, let's include the library:</p>
- <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="hana_8hpp.html">boost/hana.hpp</a>&gt;</span></div>
+<p> This section assumes the reader is already familiar with basic metaprogramming and the <a href="http://en.wikipedia.org/wiki/C%2B%2B14">C++14 standard</a>. First, let's include the library:</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="hana_8hpp.html">boost/hana.hpp</a>&gt;</span></div>
 <div class="line"><span class="keyword">using namespace </span>boost::hana;</div>
-</div><!-- fragment --></p>
-<blockquote class="doxtable">
-<h4>Note</h4>
-<p>Unless specified otherwise, the documentation assumes that the above lines are present before examples and code snippets. Use your judgment! </p>
-</blockquote>
-<p>Finer grained headers are provided and will be explained in the <a class="el" href="index.html#tutorial-header_organization">Header organization</a> section, but for now that'll do. Let's create an heterogeneous list, which is conceptually the same as a <code>std::tuple</code>:</p>
-<p><div class="fragment"><div class="line">    <span class="keyword">auto</span> xs = <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="charliteral">&#39;2&#39;</span>, std::string{<span class="stringliteral">&quot;345&quot;</span>});</div>
-</div><!-- fragment --></p>
-<p>Here, <code>list</code> is a generic lambda taking a variable number of arguments and returning an object which is a valid sequence for Boost.Hana. The actual type of the object returned by <code>list</code> is left unspecified, as will always be the case in this library. However, something called its "data type" is specified; <code>list</code> returns an object of data type <code>List</code>. Data types will be explained in detail in <a class="el" href="index.html#tutorial-datatypes">their own section</a>. There are several operations that can be performed on lists; here are a couple so you get the feeling:</p>
-<p><div class="fragment"><div class="line">    assert(<a class="code" href="structboost_1_1hana_1_1_iterable.html#a5379264e83af65af8802eeec0d49e5f0">last</a>(xs) == <span class="stringliteral">&quot;345&quot;</span>);</div>
-<div class="line">    assert(<a class="code" href="structboost_1_1hana_1_1_iterable.html#ab15783aae10d4373e2399abe728f3f96">tail</a>(xs) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(<span class="charliteral">&#39;2&#39;</span>, std::string{<span class="stringliteral">&quot;345&quot;</span>}));</div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(!<a class="code" href="structboost_1_1hana_1_1_iterable.html#a4193ecf811f29479c60022564afa512a">is_empty</a>(xs));</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1_iterable.html#a80176fbdfbccc09e902263557eb0984d">for_each</a>(xs, [](<span class="keyword">auto</span> x) { std::cout &lt;&lt; x; });</div>
-</div><!-- fragment --></p>
-<p>An interesting observation is that <code>is_empty</code> returns a value that can be constexpr-converted to <code>bool</code> even though the list contains non-constexpr objects (a <code>std::string</code>). Indeed, the size of the sequence is known at compile-time regardless of its content, so it only makes sense that the library does not throw away this information. Let's take that <code>for_each</code> for a tour and write a function that prints a list as XML:</p>
-<p><div class="fragment"><div class="line">    <span class="keyword">auto</span> to_xml = [](<span class="keyword">auto</span>&amp; ostream, <span class="keyword">auto</span> xs) {</div>
-<div class="line">        <a class="code" href="structboost_1_1hana_1_1_iterable.html#a80176fbdfbccc09e902263557eb0984d">for_each</a>(xs, [&amp;](<span class="keyword">auto</span> x) {</div>
-<div class="line">            ostream &lt;&lt; <span class="charliteral">&#39;&lt;&#39;</span>  &lt;&lt; <span class="keyword">typeid</span>(x).name() &lt;&lt; <span class="charliteral">&#39;&gt;&#39;</span></div>
-<div class="line">                    &lt;&lt;                x</div>
-<div class="line">                    &lt;&lt; <span class="stringliteral">&quot;&lt;/&quot;</span> &lt;&lt; <span class="keyword">typeid</span>(x).name() &lt;&lt; <span class="charliteral">&#39;&gt;&#39;</span>;</div>
-<div class="line">        });</div>
-<div class="line">    };</div>
-<div class="line">    to_xml(std::cout, xs);</div>
-</div><!-- fragment --></p>
-<p>One of the initial goals of the library was to unify type level programming with value level programming. So in principle, it should be possible to manipulate types and sequences of types just as one would do with the Boost.MPL. Here is how Hana does it:</p>
-<p><div class="fragment"><div class="line">    <span class="keyword">auto</span> ts = <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(type&lt;int*&gt;, type&lt;void&gt;, type&lt;char const&gt;);</div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_iterable.html#a5379264e83af65af8802eeec0d49e5f0">last</a>(ts) == type&lt;char const&gt;);</div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_functor.html#a84bb505c8405a5cd3003db49f652faa2">fmap</a>(metafunction&lt;std::add_pointer&gt;, ts) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(type&lt;int**&gt;, type&lt;void*&gt;, type&lt;char const*&gt;));</div>
-</div><!-- fragment --></p>
-<p>There is a lot going on here. First, <code>type</code> is a variable template, and <code>type&lt;T&gt;</code> is an object representing the C++ type <code>T</code>. Since it's an object, it makes perfect sense to create a list out of these guys. Second, <code>fmap</code> is a function similar to <code>std::transform</code>: it takes a function object and a list (actually any <code>Functor</code> &ndash; more on this later), applies the function to every element in the list and returns the resulting list. Now, this means that somehow <code>metafunction&lt;std::add_pointer&gt;</code> is in fact a function object. Specifically, <code>metafunction</code> is a variable template taking a template template parameter, and <code>metafunction&lt;std::add_pointer&gt;</code> is a function object which accepts a <code>type&lt;T&gt;</code> and returns <code>type&lt;std::add_pointer&lt;T&gt;::type&gt;</code>. Still with me?</p>
-<p>So far, we can perform computations on C++ types but we can't really do anything useful with the result if we can't get the type out, i.e. get the <code>T</code> out of <code>type&lt;T&gt;</code>. This is easily done:</p>
-<p><div class="fragment"><div class="line">    static_assert(std::is_same&lt;</div>
-<div class="line">        decltype(<a class="code" href="structboost_1_1hana_1_1_iterable.html#a5379264e83af65af8802eeec0d49e5f0">last</a>(ts))::<a class="code" href="structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c">type</a>,</div>
-<div class="line">        <span class="keywordtype">char</span> <span class="keyword">const</span></div>
-<div class="line">    &gt;::<a class="code" href="structboost_1_1hana_1_1_constant.html#a615a7728e2278acb2cab50854079d7fc">value</a>, <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment --></p>
-<p>It turns out that while <code>type&lt;T&gt;</code> has an unspecified C++ type, that C++ type is still guaranteed to have a nested type named <code>type</code> which is an alias to <code>T</code>. In Boost.MPL parlance, <code>decltype(type&lt;T&gt;)</code> is a nullary metafunction returning <code>T</code>.</p>
+</div><!-- fragment --><p> Unless specified otherwise, the documentation assumes that the above lines are present before examples and code snippets. Also note that finer grained headers are provided and will be explained in the <a class="el" href="index.html#tutorial-header_organization">Header organization</a> section, but for now that'll do.</p>
+<h2><a class="anchor" id="tutorial-quick_start-value_computations"></a>
+Value computations</h2>
+<p>Let's create an heterogeneous list, which is essentially the same as a <code>std::tuple</code>:</p>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> xs = <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="charliteral">&#39;2&#39;</span>, std::string{<span class="stringliteral">&quot;345&quot;</span>});</div>
+</div><!-- fragment --><p> There are several operations that can be performed on lists; here's a couple so you get the feeling:</p>
+<div class="fragment"><div class="line">assert(<a class="code" href="structboost_1_1hana_1_1_iterable.html#a5379264e83af65af8802eeec0d49e5f0">last</a>(xs) == <span class="stringliteral">&quot;345&quot;</span>);</div>
+<div class="line"></div>
+<div class="line">assert(<a class="code" href="structboost_1_1hana_1_1_iterable.html#ab15783aae10d4373e2399abe728f3f96">tail</a>(xs) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(<span class="charliteral">&#39;2&#39;</span>, std::string{<span class="stringliteral">&quot;345&quot;</span>}));</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(!<a class="code" href="structboost_1_1hana_1_1_iterable.html#a4193ecf811f29479c60022564afa512a">is_empty</a>(xs));</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1_iterable.html#a80176fbdfbccc09e902263557eb0984d">for_each</a>(xs, [](<span class="keyword">auto</span> x) {</div>
+<div class="line">    std::cout &lt;&lt; x;</div>
+<div class="line">});</div>
+</div><!-- fragment --><p> You have probably observed how the <code>auto</code> keyword is used when defining <code>xs</code>  and how the actual type of <code>list(...)</code> is not written anywhere. This will be the case a lot in Hana. In particular, <code>list</code> is a <a href="http://en.wikipedia.org/wiki/C%2B%2B14#Generic_lambdas">generic lambda</a> taking a variable number of arguments and returning an object of an unspecified type, but which is nonetheless a valid sequence for Hana. It is defined as:</p>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a> = [](<span class="keyword">auto</span> ...xs) {</div>
+<div class="line">    <span class="keywordflow">return</span> unspecified; <span class="comment">// magic going on here</span></div>
+<div class="line">};</div>
+</div><!-- fragment --><p>So the actual type of <code>list(...)</code> is completely unspecified; this will also be the case for most objects defined by Hana. It does not mean that you can't name that type, but simply that you can't do anything useful with it.</p>
+<div class="fragment"><div class="line"><span class="keyword">using</span> wow_that_is_so_useless = decltype(xs);</div>
+</div><!-- fragment --><p> However, you will never need the actual type of an object to do something useful with it, so don't let it bother you.</p>
+<p>Another interesting observation in the previous example is that <code>is_empty</code> returns a value that can be used in a <code>static_assert</code> even though the list it was called on is not a constant expression (it's not declared with <code>constexpr</code> and it contains an object of the non-literal type <code>std::string</code> anyways). Indeed, the size of the sequence is known at compile-time regardless of its contents, so it only makes sense that Hana does not throw away this information. If that seems surprising to you, think about <code>std::tuple</code>:</p>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> ys = std::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, std::string{<span class="stringliteral">&quot;345&quot;</span>});</div>
+<div class="line"></div>
+<div class="line">static_assert(std::tuple_size&lt;decltype(ys)&gt;::<a class="code" href="structboost_1_1hana_1_1_constant.html#a615a7728e2278acb2cab50854079d7fc">value</a> != 0, <span class="stringliteral">&quot;&quot;</span>);</div>
+</div><!-- fragment --><p> Since the size of the tuple is encoded in it's type, it's always available at compile-time regardless of whether the tuple is <code>constexpr</code> or not. How this works in Hana will be explained in detail later, but the trick is that <code>is_empty</code> returns something like a <code>std::integral_constant</code>, which can always be converted to an integral value at compile-time.</p>
+<h2><a class="anchor" id="tutorial-quick_start-type_computations"></a>
+Type computations</h2>
+<p>One of the initial goals of the library was to unify type level programming with value level programming. So in principle, it should be possible to manipulate types and sequences of types, and then to perform type computations on those just as one would do with the Boost.MPL. Indeed, it's possible. First, we create a list containing types:</p>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> ts = <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(type&lt;int*&gt;, type&lt;void&gt;, type&lt;char const&gt;);</div>
+</div><!-- fragment --><p> Let me clarify what's going on. First, the list does not <em>actually</em> contain types; it only contains objects that represent types for Hana. So those <code>type&lt;...&gt;</code> guys are actually objects! In fact, they are <a href="http://en.wikipedia.org/wiki/C%2B%2B14#Variable_templates">variable templates</a> defined roughly as:</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line">constexpr unspecified <a class="code" href="structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c">type</a>{};</div>
+</div><!-- fragment --><p>Like for <code>list(...)</code>, the actual C++ type of <code>type&lt;...&gt;</code> is left unspecified, but you won't need it anyways. Since <code>type&lt;T&gt;</code> is an object (the fact that it's declared with <code>constexpr</code> is irrelevant), it makes perfect sense to create an heterogeneous sequence of these guys. Let's see what kind of operations we can do with our list:</p>
+<div class="fragment"><div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_iterable.html#a5379264e83af65af8802eeec0d49e5f0">last</a>(ts) == type&lt;char const&gt;);</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_iterable.html#ab15783aae10d4373e2399abe728f3f96">tail</a>(ts) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(type&lt;void&gt;, type&lt;char const&gt;));</div>
+</div><!-- fragment --><p> Ok, so we can store types in heterogeneous sequences and then manipulate those sequences as-if they contained regular heterogeneous objects (which is in fact the case). That's neat, but types are still not very useful when they are in the form of a weird object with an unspecified type that's only understood by Hana. In other words, we'd like to be able to take the <code>T</code> out of a <code>type&lt;T&gt;</code> object, and as a real C++ type that is. That's possible; it turns out that while <code>type&lt;T&gt;</code> has an unspecified type, it is still guaranteed to have a nested alias to <code>T</code> named <code>type</code>:</p>
+<div class="fragment"><div class="line">static_assert(std::is_same&lt;</div>
+<div class="line">    decltype(type&lt;char const&gt;)::<a class="code" href="structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c">type</a>,</div>
+<div class="line">    <span class="keywordtype">char</span> <span class="keyword">const</span></div>
+<div class="line">&gt;::<a class="code" href="structboost_1_1hana_1_1_constant.html#a615a7728e2278acb2cab50854079d7fc">value</a>, <span class="stringliteral">&quot;&quot;</span>);</div>
+</div><!-- fragment --><p> Hence, in Boost.MPL parlance, <code>decltype(type&lt;T&gt;)</code> is a nullary metafunction returning <code>T</code>. Now that we can retrieve the actual C++ type out of those objects, we can do pretty much anything we want. For example, let's print the name of each type in our list, a bit like we did for our list of values above:</p>
+<div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_iterable.html#a80176fbdfbccc09e902263557eb0984d">for_each</a>(ts, [](<span class="keyword">auto</span> t) {</div>
+<div class="line">    <span class="keyword">using</span> T = <span class="keyword">typename</span> decltype(t)::<a class="code" href="structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c">type</a>;</div>
+<div class="line">    std::cout &lt;&lt; <span class="keyword">typeid</span>(T).name();</div>
+<div class="line">});</div>
+</div><!-- fragment --><p> Are we able to apply type transformations? Sure:</p>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> add_pointer = [](<span class="keyword">auto</span> t) {</div>
+<div class="line">    <span class="keyword">using</span> T = <span class="keyword">typename</span> decltype(t)::<a class="code" href="structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c">type</a>;</div>
+<div class="line">    <span class="keywordflow">return</span> type&lt;typename std::add_pointer&lt;T&gt;::type&gt;;</div>
+<div class="line">};</div>
+</div><!-- fragment --><p> <code>add_pointer</code> just takes an object of the form <code>type&lt;T&gt;</code> and returns an object of the form <code>type&lt;T*&gt;</code>. Let's make sure it works as expected:</p>
+<div class="fragment"><div class="line">static_assert(std::is_same&lt;</div>
+<div class="line">    decltype(add_pointer(type&lt;char const&gt;))::<a class="code" href="structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c">type</a>,</div>
+<div class="line">    <span class="keywordtype">char</span> <span class="keyword">const</span>*</div>
+<div class="line">&gt;::<a class="code" href="structboost_1_1hana_1_1_constant.html#a615a7728e2278acb2cab50854079d7fc">value</a>, <span class="stringliteral">&quot;&quot;</span>);</div>
+</div><!-- fragment --><p> Since this pattern of defining functions that are equivalent to some metafunction is recurrent (and quite generic), Hana provides utilities to make this automatically. One of these, <code>metafunction</code>, takes an arbitrary metafunction (in the Boost.MPL sense of it) and promotes it to a regular function working on <code>type&lt;...&gt;</code>s:</p>
+<div class="fragment"><div class="line">static_assert(std::is_same&lt;</div>
+<div class="line">    decltype(metafunction&lt;std::add_pointer&gt;(type&lt;char const&gt;))::<a class="code" href="structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c">type</a>,</div>
+<div class="line">    <span class="keywordtype">char</span> <span class="keyword">const</span>*</div>
+<div class="line">&gt;::<a class="code" href="structboost_1_1hana_1_1_constant.html#a615a7728e2278acb2cab50854079d7fc">value</a>, <span class="stringliteral">&quot;&quot;</span>);</div>
+</div><!-- fragment --><p> Specifically, <code>metafunction</code> is a variable template defined roughly as</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...&gt; <span class="keyword">class </span>f&gt;</div>
+<div class="line">constexpr <span class="keyword">auto</span> <a class="code" href="structboost_1_1hana_1_1_type.html#ae9bfabe7d39900f3ac536b008ef2ad39">metafunction</a> = [](<span class="keyword">auto</span> t) {</div>
+<div class="line">    <span class="keyword">using</span> T = <span class="keyword">typename</span> decltype(t)::<a class="code" href="structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c">type</a>;</div>
+<div class="line">    <span class="keywordflow">return</span> type&lt;typename f&lt;T&gt;::type&gt;;</div>
+<div class="line">};</div>
+</div><!-- fragment --><p>except that the real implementation in Hana works for an arbitrary number of <code>t</code> arguments, which is omitted here for simplicity. Hence, <code>metafunction&lt;f&gt;</code> is a function taking a <code>type&lt;T&gt;</code> and returning a <code>type&lt;R&gt;</code>, where <code>R</code> is the result of applying the <code>f</code> metafunction to <code>T</code>. This way, we can take arbitrary metafunctions working on normal C++ types, apply them to our <code>type&lt;...&gt;</code> objects, and then go back to normal C++ types with <code>decltype(...)::type</code> if we want. At this point, a nice insight is that the Boost.MPL is in fact equivalent to the subset of Hana that works with <code>type&lt;...&gt;</code>s!</p>
 <p>This is it for the quick start. Of course, there is much more available like associative sequences, sets, ranges and even an heterogeneous <code>std::optional</code> called <code>Maybe</code>, but you can read on if you want to know more.</p>
-<h1><a class="anchor" id="tutorial-typeclasses"></a>
-Type classes</h1>
+<h1><a class="anchor" id="tutorial-basic_concepts"></a>
+Basic concepts</h1>
 <hr/>
-<p> Conceptually, type classes are an artifice allowing humans to manipulate objects of heterogeneous types with well-defined semantics. They serve a purpose very similar to C++ concepts (which are not in yet) and to Haskell type classes, except they do not have language support.</p>
+<p> This section introduces the basic concepts of the library in a friendly way. In particular, it does not present everything available in the library and it should not be seen as a replacement for the reference documentation, but merely as a complement and introduction to it. The terms <a class="el" href="index.html#tutorial-extending-typeclasses">type class</a> and <a class="el" href="index.html#tutorial-extending-datatypes">data type</a> will be used in this section without having been defined precisely. For now, it suffices that you think of the former as abstract interfaces specifying a set of operations called <em>methods</em>, and of the latter as actual implementations of those interfaces, with the particularity that a data type may "implement" several such interfaces.</p>
+<h2><a class="anchor" id="tutorial-basic_concepts-heterogeneity"></a>
+Heterogeneity</h2>
+<p>The purpose of Hana is to manipulate heterogeneous objects. Before we dive any deeper in the library, let's ask a fundamental question: does it even make sense to manipulate heterogeneous objects?</p>
 <p>For the sake of the explanation, let me make the following claim: a function template that compiles with an argument of every possible type must have a trivial implementation, in the sense that it must do nothing with its argument except perhaps return it. Hence, for a function template to do something interesting, it must fail to compile for some set of arguments. While I won't try to prove that claim formally &ndash; it might be false in some corner cases &ndash;, think about it for a moment. Let's say I want to apply a function to each element of an heterogeneous sequence:</p>
 <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_iterable.html#a80176fbdfbccc09e902263557eb0984d">for_each</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(x, y, z), f)</div>
-</div><!-- fragment --><p>The first observation is that <code>f</code> must have a templated call operator because <code>x</code>, <code>y</code> and <code>z</code> have different types. The second observation is that without knowing anything specific about the types of <code>x</code>, <code>y</code> and <code>z</code>, it is impossible for <code>f</code> to do anything meaningful. For example, could it print its argument? Of course not, since it does not know whether <code>std::cout &lt;&lt; x</code> is well-formed! In order to do something meaningful, the function has to put constraints on its arguments, it has to define a domain. In other words, it can't be <em>fully</em> polymorphic, at least not conceptually. The current language does not provide a way to express this (concepts are not there yet), so we would write something like this instead:</p>
-<div class="fragment"><div class="line"><span class="comment">// compile-time precondition for `f(x)` to be well-formed:</span></div>
-<div class="line"><span class="comment">// `std::cout &lt;&lt; x` must be a valid expression, i.e. `x` must be `Printable`</span></div>
-<div class="line"><span class="keyword">auto</span> f = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">    std::cout &lt;&lt; x;</div>
+</div><!-- fragment --><p>The first observation is that <code>f</code> must have a templated call operator because <code>x</code>, <code>y</code> and <code>z</code> have different types. The second observation is that without knowing anything specific about the types of <code>x</code>, <code>y</code> and <code>z</code>, it is impossible for <code>f</code> to do anything meaningful. For example, could it print its argument? Of course not, since it does not know whether <code>std::cout &lt;&lt; x</code> is well-formed! In order to do something meaningful, the function has to put constraints on its arguments, it has to define a domain. In other words, it can't be <em>fully</em> polymorphic, at least not conceptually.</p>
+<p>So while we're manipulating types that are technically heterogeneous, they still conceptually need something in common, or it wouldn't be possible to do anything meaningful with them. We'll still say that we're manipulating heterogeneous objects, but always keep in mind that the objects we manipulate must have something in common, and hence be homogeneous in <em>some regard</em>.</p>
+<h2><a class="anchor" id="tutorial-basic_concepts-constant"></a>
+Constants, or setting constexpr straight</h2>
+<p>In C++, the border between compile-time and runtime is hazy, a fact that is even more true with the introduction of <a href="http://en.wikipedia.org/wiki/C%2B%2B11#constexpr_.E2.80.93_Generalized_constant_expressions">generalized constant expressions</a> in C++11. However, being able to manipulate heterogeneous objects is all about understanding that border and then crossing it at one's will. The goal of this section is to set things straight with <code>constexpr</code>; to understand which problems it can solve and which ones it can't. Let's start off with a <a href="http://www.gotw.ca/gotw/index.htm">GOTW</a> style question: do you think the following code should compile, and why?</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line">constexpr T assert_positive(T i) {</div>
+<div class="line">    static_assert(i &gt; 0, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">    <span class="keywordflow">return</span> i;</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    constexpr <span class="keywordtype">int</span> i = 2;</div>
+<div class="line">    assert_positive(i);</div>
+<div class="line">}</div>
+</div><!-- fragment --><p>The right answer is "no". The error given by Clang goes like</p>
+<div class="fragment"><div class="line">error: static_assert expression is not an <a class="code" href="structboost_1_1hana_1_1_integral.html#a9fdcfeb2aec3af66ec8e83d02960d947">integral</a> constant expression</div>
+<div class="line">    static_assert(i &gt; 0, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">                  ^~~~~</div>
+</div><!-- fragment --><p>The problem is that when you are in a function (<code>constexpr</code> or otherwise), you can't use an argument as a constant expression, even if the argument turns out to be a constant expression when you call the function. If you are surprised, consider the following code; the function is not a template anymore, which doesn't change anything with respect to the <code>constexpr</code>-ness of the argument if you think about it. Yet, the answer is now obvious:</p>
+<div class="fragment"><div class="line">constexpr <span class="keywordtype">int</span> assert_positive(<span class="keywordtype">int</span> i) {</div>
+<div class="line">    static_assert(i &gt; 0, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">    <span class="keywordflow">return</span> i;</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    constexpr <span class="keywordtype">int</span> i = 2;</div>
+<div class="line">    assert_positive(i);</div>
+<div class="line">}</div>
+</div><!-- fragment --><p>Actually, since the body of <code>assert_positive</code> is not dependent anymore, Clang does not even reach <code>main</code> before giving the same error as before. Now, this is not a big problem for static assertions because we have <a href="http://stackoverflow.com/a/8626450/627587">another way</a> of reporting errors inside <code>constexpr</code> functions. However, it also means that we can't use an argument as a non-type template parameter, since that requires a constant expression. In other words, we can't create types that are dependent on the <em>value</em> of an argument in C++, which is nothing new if you think about it:</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keywordtype">int</span> i&gt;</div>
+<div class="line"><span class="keyword">struct </span>foo { };</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">void</span> f(<span class="keywordtype">int</span> i) {</div>
+<div class="line">    foo&lt;i&gt; x; <span class="comment">// obviously won&#39;t work</span></div>
+<div class="line">}</div>
+</div><!-- fragment --><p>In particular, this means that the return type of a function can't depend on the value of its arguments; it may only depend on their type, and <code>constexpr</code> can't change this fact. This is of utmost importance to us, because we're interested in manipulating heterogeneous objects and eventually returning them from functions. Some of these functions might want to return an object of type <code>T</code> in one case and an object of type <code>U</code> in the other; from our little analysis, we now know that these "cases" will have to depend on information encoded in the <em>types</em> of the arguments, not in their <em>values</em>.</p>
+<p>To represent this fact, Hana defines the concept of a <code>Constant</code>, which is an object from which a constant expression may always be obtained, regardless of the <code>constexpr</code>-ness of the object. <code>Constant</code>s provide a way to obtain that constant expression through the use of the <code>value</code> function. Specifically, for any <code>Constant</code> <code>c</code>, the following program must be valid:</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;</div>
+<div class="line"><span class="keywordtype">void</span> f(X x) {</div>
+<div class="line">    constexpr <span class="keyword">auto</span> y = <a class="code" href="structboost_1_1hana_1_1_constant.html#a615a7728e2278acb2cab50854079d7fc">value</a>(x);</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    f(c);</div>
+<div class="line">}</div>
+</div><!-- fragment --><p>This law that must be respected by <code>Constant</code>s expresses the minimal requirement that we're able to retrieve a constant expression from an object, even if that object isn't a constant expression. There is no restriction on what the type of the constant expression might be, but it should be documented. Hana provides a model of this concept called an <code>Integral</code>; it encodes a compile-time value of an integral type, and you can think of it as a <code>std::integral_constant</code>. To create an <code>Integral</code>, we use the <code>integral</code> variable template:</p>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> one = integral&lt;int, 1&gt;;</div>
+<div class="line"><span class="keyword">auto</span> yes = integral&lt;bool, true&gt;;</div>
+</div><!-- fragment --><p> <code>integral</code> is defined roughly as</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, T v&gt;</div>
+<div class="line">constexpr unspecified <a class="code" href="structboost_1_1hana_1_1_integral.html#a9fdcfeb2aec3af66ec8e83d02960d947">integral</a>{};</div>
+</div><!-- fragment --><p>where the type of <code>integral&lt;...&gt;</code>, while being unspecified, actually looks a lot like a <code>std::integral_constant</code>. Indeed, an <code>Integral</code> is guaranteed to have the same members as an equivalent <code>std::integral_constant</code>, so they can be used as such</p>
+<div class="fragment"><div class="line"><span class="keyword">using</span> One = decltype(one);</div>
+<div class="line"></div>
+<div class="line">static_assert(std::is_same&lt;One::type, One&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line">static_assert(std::is_same&lt;One::value_type, int&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line">static_assert(One::value == 1               &amp;&amp;</div>
+<div class="line">              static_cast&lt;int&gt;(one) == 1    &amp;&amp;</div>
+<div class="line">              one() == 1                    &amp;&amp;</div>
+<div class="line">              <a class="code" href="structboost_1_1hana_1_1_constant.html#a615a7728e2278acb2cab50854079d7fc">value</a>(one) == 1</div>
+<div class="line">, <span class="stringliteral">&quot;these are all constant expressions&quot;</span>);</div>
+</div><!-- fragment --><p> Shorthands to create <code>Integral</code>s of the most common integral types are also provided, so the following is equivalent to the previous example:</p>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> one = int_&lt;1&gt;;</div>
+<div class="line"><span class="keyword">auto</span> yes = bool_&lt;true&gt;;</div>
+</div><!-- fragment --><p> Additionally, <code>Integral</code>s overload common operators so that <code>integral&lt;...&gt;</code>s can be used with an intuitive syntax:</p>
+<div class="fragment"><div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(int_&lt;1&gt; == integral&lt;int, 1&gt;);</div>
+<div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(int_&lt;1&gt; + long_&lt;2&gt; == long_&lt;3&gt;);</div>
+<div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(!(bool_&lt;true&gt; &amp;&amp; bool_&lt;false&gt;));</div>
+</div><!-- fragment --><p> It is important to realize that these operators return <code>Integral</code>s, not normal values of an integral type. Specifically, for an operator <code>@</code>,</p>
+<div class="fragment"><div class="line">integral&lt;X, x&gt; @ integral&lt;Y, y&gt; == integral&lt;decltype(x @ y), x @ y&gt;</div>
+</div><!-- fragment --><p>This is very important because it allows all the information that's known at compile-time (i.e. <code>Constant</code>s) to be conserved as long as it's only used with other values known at compile-time. If we did not encode the result of these operations in the type of the returned object, we would lose the ability to e.g. make the return type of a function dependent on that object. It is also interesting to observe that whenever an <code>Integral</code> is used with a normal runtime value, the result will be a runtime value (because of the implicit conversion). Hence, we get the following table</p>
+<table class="doxtable">
+<tr>
+<th align="center">left operand </th><th align="center">right operand </th><th align="center">result  </th></tr>
+<tr>
+<td align="center"><code>Constant</code> </td><td align="center"><code>Constant</code> </td><td align="center"><code>Constant</code> </td></tr>
+<tr>
+<td align="center"><code>Constant</code> </td><td align="center">runtime </td><td align="center">runtime </td></tr>
+<tr>
+<td align="center">runtime </td><td align="center"><code>Constant</code> </td><td align="center">runtime </td></tr>
+<tr>
+<td align="center">runtime </td><td align="center">runtime </td><td align="center">runtime </td></tr>
+</table>
+<h2><a class="anchor" id="tutorial-basic_concepts-comparing"></a>
+Comparing objects</h2>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000029">Todo:</a></b></dt><dd>Use Type and List (both compile-time and runtime).</dd></dl>
+<h2><a class="anchor" id="tutorial-basic_concepts-mapping"></a>
+Transforming collections</h2>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000030">Todo:</a></b></dt><dd>Use Maybe and List.</dd></dl>
+<h2><a class="anchor" id="tutorial-basic_concepts-folding"></a>
+Folding collections</h2>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000031">Todo:</a></b></dt><dd>Use Range, List</dd></dl>
+<h2><a class="anchor" id="tutorial-basic_concepts-searching"></a>
+Searching in collections</h2>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000032">Todo:</a></b></dt><dd>Use Map, Set, List</dd></dl>
+<h2><a class="anchor" id="tutorial-basic_concepts-iteration"></a>
+Iterating through collections</h2>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000033">Todo:</a></b></dt><dd>Use List</dd></dl>
+<h2><a class="anchor" id="tutorial-basic_concepts-list"></a>
+The List type class</h2>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000034">Todo:</a></b></dt><dd>Use List</dd></dl>
+<h2><a class="anchor" id="tutorial-basic_concepts-adapting"></a>
+Adapting user-defined structs</h2>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000035">Todo:</a></b></dt><dd>Use a hand-crafted example</dd></dl>
+<h1><a class="anchor" id="tutorial-external_libraries"></a>
+Integration with external libraries</h1>
+<hr/>
+<h2><a class="anchor" id="tutorial-external_libraries-stl"></a>
+The standard library</h2>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000036">Todo:</a></b></dt><dd></dd></dl>
+<h2><a class="anchor" id="tutorial-external_libraries-fusion"></a>
+Boost.Fusion</h2>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000037">Todo:</a></b></dt><dd></dd></dl>
+<h2><a class="anchor" id="tutorial-external_libraries-mpl"></a>
+Boost.MPL</h2>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000038">Todo:</a></b></dt><dd></dd></dl>
+<h1><a class="anchor" id="tutorial-performance_considerations"></a>
+Performance considerations</h1>
+<hr/>
+ <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000039">Todo:</a></b></dt><dd></dd></dl>
+<h2><a class="anchor" id="tutorial-performance_considerations-compile_time"></a>
+Compile-time performance</h2>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000040">Todo:</a></b></dt><dd></dd></dl>
+<h2><a class="anchor" id="tutorial-performance_considerations-run_time"></a>
+Runtime performance</h2>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000041">Todo:</a></b></dt><dd></dd></dl>
+<h1><a class="anchor" id="tutorial-extending"></a>
+Extending the library</h1>
+<hr/>
+<p> As advertised, the core of Hana is a powerful compile-time dispatching system making it painless to extend the library in a ad-hoc manner. The following sections explain this system and how you can use it to extend the library without hassle. The dispatching system is built around two core concepts; <em>type classes</em> and <em>data types</em>.</p>
+<h2><a class="anchor" id="tutorial-extending-tag_dispatching"></a>
+Basic tag dispatching</h2>
+<p>Tag dispatching is a generic programming technique for picking the right implementation of a function depending on the type of the arguments passed to the function. While this technique is not used as-is in the library, it is explained here because it forms the conceptual basis for Hana's compile-time dispatching system.</p>
+<p>The usual mechanism for overriding a function's behavior is overloading. Unfortunately, this mechanism is not always convenient when dealing with families of related types having different C++ types, or with objects of unspecified types as is often the case in Hana. For example, consider trying to overload a function for all Boost.Fusion vectors:</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...T&gt;</div>
+<div class="line"><span class="keywordtype">void</span> <span class="keyword">function</span>(boost::fusion::vector&lt;T...&gt; v) {</div>
+<div class="line">    <span class="comment">// whatever</span></div>
+<div class="line">}</div>
+</div><!-- fragment --><p>If you know Boost.Fusion, then you probably know that it won't work. This is because Boost.Fusion vectors are not necessarily specializations of the <code>boost::fusion::vector</code> template. Fusion vectors also exist in numbered forms, which are all of different types:</p>
+<div class="fragment"><div class="line">boost::fusion::vector1&lt;T&gt;</div>
+<div class="line">boost::fusion::vector2&lt;T, U&gt;</div>
+<div class="line">boost::fusion::vector3&lt;T, U, V&gt;</div>
+<div class="line">...</div>
+</div><!-- fragment --><p>This is an implementation detail required by the lack of variadic templates in C++03 that leaks into the interface. This is unfortunate, but we need a way to work around it. And it gets worse; I said earlier that <code>list</code>, <code>type</code> and other Boost.Hana components did not specify their type at all &ndash; specifying those types would be too restrictive for the implementation &ndash;, so it would be outright impossible to overload functions for those. To work around this, we use an infrastructure with three distinct components:</p>
+<ol type="1">
+<li>A metafunction associating a single tag to every type in a family of related types. Hana calls those tags <em>data types</em>, and the metafunction is called <code>datatype</code>. The next section explains these in depth.</li>
+<li>A function belonging to the public interface of the library, for which we'd like to be able to provide a customized implementation.</li>
+<li>An implementation for the function, parameterized with the data type(s) of the argument(s) passed to the function.</li>
+</ol>
+<p>When the public interface function is called, it will use the metafunction on its argument(s) (or a subset thereof) to obtain their data type(s) and redirect to the implementation associated to those data type(s). For example, a basic setup for tag dispatching of a function that prints its argument to a stream would look like:</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Datatype&gt;</div>
+<div class="line"><span class="keyword">struct </span>print_impl {</div>
+<div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;</div>
+<div class="line">    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>(std::ostream&amp; os, X x) {</div>
+<div class="line">        <span class="comment">/* possibly some default implementation */</span></div>
+<div class="line">    }</div>
 <div class="line">};</div>
-</div><!-- fragment --><p>While the compile-time precondition is only a comment which the compiler is not aware of, there is nonetheless a conceptual constraint on the argument of <code>f</code>. This allows us to define the domain of <code>f</code>, which is any <code>Printable</code> object. In straight C++, the domain of a function is a C++ type. However, it should now be clear from the example that more flexibility could be achieved by allowing domains to be arbitrary sets (e.g. the set of all types that can be <code>std::cout</code>ed), which is roughly what C++ concepts will bring to the table.</p>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;</div>
+<div class="line"><span class="keywordtype">void</span> print(std::ostream&amp; os, X x) {</div>
+<div class="line">    <span class="keyword">using</span> Datatype = <span class="keyword">typename</span> <a class="code" href="structboost_1_1hana_1_1datatype.html">boost::hana::datatype&lt;X&gt;::type</a>;</div>
+<div class="line">    <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">print_impl&lt;Datatype&gt;::apply</a>(os, x);</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;&gt;</div>
+<div class="line"><span class="keyword">struct </span>print_impl&lt;UserDefinedDatatype&gt; {</div>
+<div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;</div>
+<div class="line">    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>(std::ostream&amp; os, X x) {</div>
+<div class="line">        <span class="comment">/* a custom implementation for some data type */</span></div>
+<div class="line">    }</div>
+<div class="line">};</div>
+</div><!-- fragment --><h2><a class="anchor" id="tutorial-extending-datatypes"></a>
+Data types</h2>
 <blockquote class="doxtable">
-<p>Some libraries like <a href="http://www.boost.org/doc/libs/release/libs/concept_check/index.html">Boost.ConceptCheck</a> aim to make these type constraints more explicit and checkable until there is language support. </p>
+<h4>Note</h4>
+<p>Since I'm going to use the word "type" a lot, I'll sometimes use the term "C++ type" to make it clear that I'm really speaking about the stuff returned by <code>decltype(...)</code> as opposed to "data types", which are the subject of this section. So whenever you see "C++ type", think <code>decltype</code>. </p>
 </blockquote>
-<p>Type classes in Boost.Hana are a library-level implementation of such type constraints allowing us to organize our generic programming. They allow us to bundle together related operations (called methods), to explicitly state that a type satisfies some constraints and how, and to do all sorts of tricks to reduce the amount of code we have to write. However, they are in no way a replacement for concepts; because they do not have language-level support, the type constraints are not checked explicitly by the compiler and failure to satisfy constraints will result in the usual compiler errors we all know and love.</p>
-<h2><a class="anchor" id="tutorial-typeclasses-getting_concrete"></a>
-Getting concrete</h2>
-<p>We're now ready to take a look at these little beasts. Concretely, a type class is just a C++ structure or class calling the <code>BOOST_HANA_TYPECLASS</code> macro in its definition at public scope:</p>
+<p>Concretely, data types are implemented as empty structs or classes:</p>
+<div class="fragment"><div class="line"><span class="keyword">struct </span>MyDatatype;</div>
+</div><!-- fragment --><p>This is very similar to the tags present in Boost.MPL and Boost.Fusion, except Hana data types are not limited to represent sequences only. To carry the association between a C++ type and its data type, we use the <code>datatype</code> metafunction, which takes a normal C++ type and returns the data type associated to it. Since several different C++ types can share a common data type, we can now associate, for example, all the <code>boost::fusion::vectorN</code>s to a single type representing them all, say <code>BoostFusionVector</code>.</p>
+<p>There are several ways to specify the data type of a C++ type. If it's a user-defined type, one can define a nested <code>hana_dataype</code> alias inside of it:</p>
+<div class="fragment"><div class="line"><span class="keyword">struct </span>MyUserDefinedType {</div>
+<div class="line">    <span class="keyword">using</span> hana_datatype = MyDatatype;</div>
+<div class="line">};</div>
+</div><!-- fragment --><p>Sometimes, however, the C++ type can't be modified (if it's in a foreign library) or simply can't have nested types (if it's not a struct or class). In those cases, using a nested alias is impossible and so ad-hoc customization is also supported by specializing <code>datatype</code>:</p>
+<div class="fragment"><div class="line"><span class="keyword">struct </span>i_cant_modify_this;</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">namespace </span>boost { <span class="keyword">namespace </span>hana {</div>
+<div class="line">    <span class="keyword">template</span> &lt;&gt;</div>
+<div class="line">    <span class="keyword">struct </span>datatype&lt;i_cant_modify_this&gt; {</div>
+<div class="line">        <span class="keyword">using</span> type = MyDatatype;</div>
+<div class="line">    };</div>
+<div class="line">}}</div>
+</div><!-- fragment --><p><code>datatype</code> can also be specialized for all C++ types satisfying some boolean condition using <code>when</code>. <code>when</code> accepts a single compile-time boolean and enables the specialization of <code>datatype</code> if and only if that boolean is <code>true</code>. This is similar to the well known C++ idiom of using a dummy template parameter with <code>std::enable_if</code> and relying on SFINAE. For <code>boost::fusion::vector</code>, we would then do</p>
+<div class="fragment"><div class="line"><span class="keyword">struct </span>BoostFusionVector;</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">namespace </span>boost { <span class="keyword">namespace </span>hana {</div>
+<div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line">    <span class="keyword">struct </span>datatype&lt;T, when&lt;is_a_boost_fusion_vector&lt;T&gt;::value&gt;&gt; {</div>
+<div class="line">        <span class="keyword">using</span> type = BoostFusionVector;</div>
+<div class="line">    };</div>
+<div class="line">}}</div>
+</div><!-- fragment --><p>where <code>is_a_boost_fusion_vector</code> is some metafunction returning whether a type is a Fusion vector.</p>
+<p>One last thing about <code>datatype</code>; when it is not specialized and when the given C++ type does not have a nested <code>hana_dataype</code> alias, <code>datatype</code> returns the type itself after stripping it from all cv- qualifiers and references. This is <em>super</em> useful, mainly for two reasons. First, it allows Hana to adopt a reasonable default behavior for some operations involving types that have no clue about data types and all that stuff. For example, Hana allows comparing any two types for which a valid <code>operator==</code> is defined out of the box. Second, it also means that you can ignore data types completely if you don't need their functionality; just use the normal C++ type of your objects and everything will "just work".</p>
+<p>By the way, <code>datatype_t&lt;T&gt;</code> is an alias to <code>datatype&lt;T&gt;::type</code> saving you from writing <code>typename datatype&lt;T&gt;::type</code> all over the place in dependent contexts; you can use whichever you prefer.</p>
+<h2><a class="anchor" id="tutorial-extending-typeclasses"></a>
+Type classes</h2>
+<p>Type classes arise from the observation that some groups of operations are often semantically related. For example, if one were to define the concept of an object that can be printed to a stream, it would also make sense to provide a way to get a string representation of that object. Furthermore, given a way to print an object to a stream, one can obtain a string representation easily by using a <code>std::stringstream</code>, and the converse is also true. Since defining any one of those operations also provides an implementation for the other, we would like to be able to only define one to avoid code duplication, while retaining the ability to override both for efficiency.</p>
+<p>Type classes make it possible to do all of this. Concretely, type classes are just bundles of related operations, called <em>methods</em> or <em>type class methods</em>. Instead of doing per-function dispatching as in the previous section, we simply dispatch to the implementation of a function inside a type class. For example, a basic setup for type class dispatching would look like:</p>
+<div class="fragment"><div class="line"><span class="keyword">struct </span>Printable {</div>
+<div class="line">    <a class="code" href="group__group-core.html#gac072d4434777cd5ee841a7766d41f1d8">BOOST_HANA_TYPECLASS</a>(Printable);</div>
+<div class="line"></div>
+<div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line">    <span class="keyword">struct </span>default_implementation {</div>
+<div class="line">        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;</div>
+<div class="line">        <span class="keyword">static</span> <span class="keywordtype">void</span> print_impl(std::ostream&amp; os, X x) {</div>
+<div class="line">            <span class="comment">/* possibly some default implementation */</span>;</div>
+<div class="line">        }</div>
+<div class="line"></div>
+<div class="line">        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;</div>
+<div class="line">        <span class="keyword">static</span> std::string to_string_impl(X x) {</div>
+<div class="line">            <span class="keywordflow">return</span> <span class="stringliteral">&quot;possibly some default implementation&quot;</span>;</div>
+<div class="line">        }</div>
+<div class="line">    };</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;</div>
+<div class="line"><span class="keywordtype">void</span> print(std::ostream&amp; os, X x) {</div>
+<div class="line">    <span class="keyword">using</span> Datatype = <span class="keyword">typename</span> <a class="code" href="structboost_1_1hana_1_1datatype.html">boost::hana::datatype&lt;X&gt;::type</a>;</div>
+<div class="line">    Printable::instance&lt;Datatype&gt;::print_impl(os, x);</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;</div>
+<div class="line">std::string to_string(X x) {</div>
+<div class="line">    <span class="keyword">using</span> Datatype = <span class="keyword">typename</span> <a class="code" href="structboost_1_1hana_1_1datatype.html">boost::hana::datatype&lt;X&gt;::type</a>;</div>
+<div class="line">    <span class="keywordflow">return</span> Printable::instance&lt;Datatype&gt;::to_string_impl(x);</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;&gt;</div>
+<div class="line"><span class="keyword">struct </span>Printable::instance&lt;UserDefinedDatatype&gt; {</div>
+<div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;</div>
+<div class="line">    <span class="keyword">static</span> <span class="keywordtype">void</span> print_impl(std::ostream&amp; os, X x) {</div>
+<div class="line">        <span class="comment">/* a custom implementation for some data type */</span>;</div>
+<div class="line">    }</div>
+<div class="line"></div>
+<div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;</div>
+<div class="line">    <span class="keyword">static</span> std::string to_string_impl(X x) {</div>
+<div class="line">        <span class="keywordflow">return</span> <span class="stringliteral">&quot;a custom implementation for some data type&quot;</span>;</div>
+<div class="line">    }</div>
+<div class="line">};</div>
+</div><!-- fragment --><p> Grouping operations into type classes has several advantages. First, it allows advanced customization of the default behavior of methods &ndash; this will be explained below. Second, it ties the concepts used in the library &ndash; which otherwise only live in the documentation &ndash; to actual C++ constructs.</p>
+<blockquote class="doxtable">
+<h4>Note</h4>
+<p>It is interesting to observe that type class dispatching is strictly more general than basic tag dispatching, the latter being equivalent to type class dispatching where all type classes have a single method. </p>
+</blockquote>
+<p>Let's now explain the above snippet in detail. A type class is just a C++ structure or class calling the <code>BOOST_HANA_TYPECLASS</code> macro in its definition at public scope:</p>
 <div class="fragment"><div class="line"><span class="keyword">struct </span>Printable {</div>
 <div class="line">    <a class="code" href="group__group-core.html#gac072d4434777cd5ee841a7766d41f1d8">BOOST_HANA_TYPECLASS</a>(Printable);</div>
 <div class="line">};</div>
-</div><!-- fragment --><p> The <code>BOOST_HANA_TYPECLASS</code> macro creates a nested template named <code>instance</code> &ndash; which will be explained later &ndash;, so that name is reserved inside a type class to avoid clashes. Other arbitrary members can be put in the type class, but it is probably a good idea to keep anything unrelated out for the sake of separating concerns:</p>
+</div><!-- fragment --><p> The <code>BOOST_HANA_TYPECLASS</code> macro creates a nested template named <code>instance</code>, so that name is reserved inside a type class to avoid clashes. Other arbitrary members can be put in the type class, but it is probably a good idea to keep anything unrelated out for the sake of separating concerns:</p>
 <div class="fragment"><div class="line"><span class="keyword">struct </span>Printable {</div>
 <div class="line">    <a class="code" href="group__group-core.html#gac072d4434777cd5ee841a7766d41f1d8">BOOST_HANA_TYPECLASS</a>(Printable);</div>
 <div class="line"></div>
@@ -191,37 +501,36 @@ Getting concrete</h2>
 <div class="line">    <span class="keywordtype">void</span> bar()<span class="keyword"> const </span>{ };</div>
 <div class="line">    <span class="keyword">struct </span>baz { };</div>
 <div class="line">};</div>
-</div><!-- fragment --><p> As you will see later with minimal complete definitions, it is often useful to put other <em>related</em> members in a type class; don't hesitate to do it when it makes sense.</p>
-<p>When I introduced type classes, I said they allowed us to bundle together related operations called methods. This is because type classes can be seen as defining some kind of public interface consisting of the operations that are valid with any object satisfying some constraints. I also said that they made it possible to explicitly state that a type satisfies those constraints, and how it does so. From now on, I will refer to the set of all types satisfying the constraints of a type class <code>T</code> as the <em>instances</em> of <code>T</code>, and I will refer to the act of specifying how a type <code>t</code> is an <em>instance</em> of <code>T</code> as the act of <em>instantiating</em> <code>T</code> with <code>t</code>. Note that this has nothing to do with C++ template instantiation; it is just the standard Haskell terminology.</p>
-<p>To associate methods to a type class, we create a layer of indirection through the <code>instance</code> member of the type class. For example, let's say we want to have a method named <code>print</code> in the <code>Printable</code> type class:</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> print = [](std::ostream&amp; os, <span class="keyword">auto</span> x) {</div>
-<div class="line">    <span class="keywordflow">return</span> Printable::instance&lt;decltype(x)&gt;::print_impl(os, x);</div>
-<div class="line">};</div>
-</div><!-- fragment --> <blockquote class="doxtable">
-<h4>Note</h4>
-<p>This is actually <em>slightly</em> different from what is really done in the library; this will be clarified in the section on data types. </p>
-</blockquote>
-<p>To make a type an instance of <code>Printable</code>, we must implement the <code>print</code> method, which is done by specializing the <code>Printable::instance</code> template as follows:</p>
+</div><!-- fragment --><p>As you will see later with minimal complete definitions, it is often useful to put other <em>related</em> members in a type class; don't hesitate to do it when it makes sense. The nested <code>instance</code> member of <code>Printable</code> is used when dispatching to the right implementation of a method. It should contain the method implementations for a specific data type. From now on, I will refer to the set of all data types for which <code>Printable::instance</code> is specialized as the <em>instances of <code>Printable</code></em>, and I will refer to the act of specializing <code>Printable::instance</code> as the act of <em>instantiating <code>Printable</code></em>.</p>
+<p>To make a type an instance of <code>Printable</code>, we must implement the <code>print</code> and <code>to_string</code> methods:</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;&gt;</div>
 <div class="line"><span class="keyword">struct </span>Printable::instance&lt;int&gt; {</div>
 <div class="line">    <span class="keyword">static</span> <span class="keywordtype">void</span> print_impl(std::ostream&amp; os, <span class="keywordtype">int</span> i) {</div>
 <div class="line">        os &lt;&lt; i;</div>
 <div class="line">    }</div>
+<div class="line"></div>
+<div class="line">    <span class="keyword">static</span> std::string to_string_impl(<span class="keywordtype">int</span> i) {</div>
+<div class="line">        <span class="keywordflow">return</span> (std::ostringstream{} &lt;&lt; i).str();</div>
+<div class="line">    }</div>
 <div class="line">};</div>
-</div><!-- fragment --><p> Note that we could have chosen a name different from <code>print_impl</code>, but this naming convention has the advantage of being clear and avoiding name clashes inside the instance. In particular, we would not want to use <code>Printable::instance&lt;int&gt;::print</code>, because using <code>print</code> inside the instance would then refer to the implementation instead of <code>::print</code>, which is unexpected. This naming convention is used for all the type classes in Boost.Hana. Now that we have made <code>int</code> an instance of <code>Printable</code>, we can write:</p>
+</div><!-- fragment --><p> Note that we could have chosen a name different from <code>*_impl</code> inside the type class, but this naming convention has the advantage of being clear and avoiding name clashes inside the instance. In particular, we would not want to use <code>Printable::instance&lt;int&gt;::print</code>, because using <code>print</code> inside the instance would then refer to the implementation instead of <code>::print</code>, which is unexpected. This naming convention is used for all the type classes in Boost.Hana. Now that we have made <code>int</code> an instance of <code>Printable</code>, we can write:</p>
 <div class="fragment"><div class="line">print(std::cout, 2);</div>
-</div><!-- fragment --><p> So far so good, but you probably don't want to write an instance for each arithmetic type, right?. Fortunately, I didn't want to either so it is possible to instantiate a type class for all types satisfying a predicate:</p>
+<div class="line">assert(to_string(2) == <span class="stringliteral">&quot;2&quot;</span>);</div>
+</div><!-- fragment --><p> So far so good, but you probably don't want to write an instance for each arithmetic type, right?. Fortunately, I didn't want to either so it is possible to instantiate a type class for all types satisfying a predicate using <code>when</code>, just like for the <code>datatype</code> metafunction:</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><span class="keyword">struct </span>Printable::instance&lt;T, when&lt;std::is_arithmetic&lt;T&gt;<a class="code" href="structboost_1_1hana_1_1_constant.html#a615a7728e2278acb2cab50854079d7fc">::value</a>&gt;&gt; {</div>
 <div class="line">    <span class="keyword">static</span> <span class="keywordtype">void</span> print_impl(std::ostream&amp; os, T x) {</div>
 <div class="line">        os &lt;&lt; x;</div>
 <div class="line">    }</div>
+<div class="line"></div>
+<div class="line">    <span class="keyword">static</span> std::string to_string_impl(T x) {</div>
+<div class="line">        <span class="keywordflow">return</span> (std::ostringstream{} &lt;&lt; x).str();</div>
+<div class="line">    }</div>
 <div class="line">};</div>
-</div><!-- fragment --><p> <code>when</code> accepts a single compile-time boolean and enables the instance if and only if that boolean is <code>true</code>. This is similar to the well known C++ idiom of using a dummy template parameter with <code>std::enable_if</code> and relying on SFINAE. As expected, we can now write</p>
+</div><!-- fragment --><p> As expected, we can now write</p>
 <div class="fragment"><div class="line">print(std::cout, 2.2);</div>
-</div><!-- fragment --><p> Ok, we managed to cut down the number of instances quite a bit, but we still can't write</p>
-<div class="fragment"><div class="line">print(std::cout, std::string{<span class="stringliteral">&quot;foo&quot;</span>});</div>
-</div><!-- fragment --><p> without writing an explicit instance for <code>std::string</code>. Again, laziness won me over and so it is possible to instantiate a type class for all types making some expression well-formed (think SFINAE):</p>
+<div class="line">assert(to_string(2.2) == <span class="stringliteral">&quot;2.2&quot;</span>);</div>
+</div><!-- fragment --><p> Ok, we managed to cut down the number of instances quite a bit, but we still can't print a <code>std::string</code> without writing an explicit instance for <code>std::string</code>, which is a bummer. Again, laziness won me over and so it is possible to instantiate a type class for all types making some expression well-formed (think SFINAE):</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><span class="keyword">struct </span>Printable::instance&lt;T, <a class="code" href="group__group-core.html#ga0f5d717bbf6646619bb6219b104384dc">when_valid</a>&lt;</div>
 <div class="line">    decltype(std::declval&lt;std::ostream&amp;&gt;() &lt;&lt; std::declval&lt;T&gt;())</div>
@@ -229,75 +538,16 @@ Getting concrete</h2>
 <div class="line">    <span class="keyword">static</span> <span class="keywordtype">void</span> print_impl(std::ostream&amp; os, T x) {</div>
 <div class="line">        os &lt;&lt; x;</div>
 <div class="line">    }</div>
-<div class="line">};</div>
-</div><!-- fragment --><p> <code>when_valid</code> is actually an alias to <code>when&lt;true&gt;</code>, but it takes an arbitrary number of types and relies on the fact that SFINAE will kick in and remove the specialization if any of the types is not well-formed. As expected, we can now write</p>
-<div class="fragment"><div class="line">print(std::cout, std::string{<span class="stringliteral">&quot;foo&quot;</span>});</div>
-</div><!-- fragment --><p> Note that instances provided without <code>when</code>/<code>when_valid</code> (i.e. an explicit or partial specialization in the case of a parametric type) have the priority over instances provided with it. This is to allow types to instantiate a type class even if an instance for the same type class is provided through a predicate. This design choice was made assuming that a specialization (even partial) is usually meant to be more specific than a catch-all instance enabled by a predicate.</p>
-<p>All is good so far, but what if we just wanted a string representation of our object instead of printing it to a stream? Sure, we could write</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> to_string = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">    std::ostringstream os;</div>
-<div class="line">    print(os, x);</div>
-<div class="line">    <span class="keywordflow">return</span> os.str();</div>
-<div class="line">};</div>
-<div class="line"></div>
-<div class="line">to_string(1);</div>
-</div><!-- fragment --><p> but then <code>to_string(std::string{"foobar"})</code> would be far from optimal. The solution is to make <code>to_string</code> a method too, and then specialize the instance for <code>std::string</code> to make it more efficient. Here's what we have so far:</p>
-<div class="fragment"><div class="line"><span class="keyword">struct </span>Printable {</div>
-<div class="line">    <a class="code" href="group__group-core.html#gac072d4434777cd5ee841a7766d41f1d8">BOOST_HANA_TYPECLASS</a>(Printable);</div>
-<div class="line">};</div>
-<div class="line"></div>
-<div class="line"><span class="keyword">auto</span> print = [](std::ostream&amp; os, <span class="keyword">auto</span> x) {</div>
-<div class="line">    <span class="keywordflow">return</span> Printable::instance&lt;decltype(x)&gt;::print_impl(os, x);</div>
-<div class="line">};</div>
-<div class="line"></div>
-<div class="line"><span class="keyword">auto</span> to_string = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">    <span class="keywordflow">return</span> Printable::instance&lt;decltype(x)&gt;::to_string_impl(x);</div>
-<div class="line">};</div>
-<div class="line"></div>
-<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><span class="keyword">struct </span>Printable::instance&lt;T, <a class="code" href="group__group-core.html#ga0f5d717bbf6646619bb6219b104384dc">when_valid</a>&lt;</div>
-<div class="line">    decltype(std::declval&lt;std::ostream&amp;&gt;() &lt;&lt; std::declval&lt;T&gt;())</div>
-<div class="line">&gt;&gt; {</div>
-<div class="line">    <span class="keyword">static</span> <span class="keywordtype">void</span> print_impl(std::ostream&amp; os, T x)</div>
-<div class="line">    { os &lt;&lt; x; }</div>
 <div class="line"></div>
 <div class="line">    <span class="keyword">static</span> std::string to_string_impl(T x) {</div>
-<div class="line">        std::ostringstream os;</div>
-<div class="line">        print(os, x);</div>
-<div class="line">        <span class="keywordflow">return</span> os.str();</div>
+<div class="line">        <span class="keywordflow">return</span> (std::ostringstream{} &lt;&lt; x).str();</div>
 <div class="line">    }</div>
 <div class="line">};</div>
-<div class="line"></div>
-<div class="line"><span class="keyword">template</span> &lt;&gt;</div>
-<div class="line"><span class="keyword">struct </span>Printable::instance&lt;std::string&gt; {</div>
-<div class="line">    <span class="keyword">static</span> <span class="keywordtype">void</span> print_impl(std::ostream&amp; os, std::string x)</div>
-<div class="line">    { os &lt;&lt; x; }</div>
-<div class="line"></div>
-<div class="line">    <span class="keyword">static</span> std::string to_string_impl(std::string x)</div>
-<div class="line">    { <span class="keywordflow">return</span> x; }</div>
-<div class="line">};</div>
-</div><!-- fragment --><p> While this is pretty satisfying, notice how the general definition of <code>to_string_impl</code> is tied to the instance it is defined in, even though it would work for any <code>Printable</code> implementing <code>print</code>. For example, let's say we want to instantiate <code>Printable</code> for <code>std::vector&lt;T&gt;</code> for any <code>T</code> which can be put to a stream:</p>
-<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><span class="keyword">struct </span>Printable::instance&lt;std::vector&lt;T&gt;, <a class="code" href="group__group-core.html#ga0f5d717bbf6646619bb6219b104384dc">when_valid</a>&lt;</div>
-<div class="line">    decltype(std::declval&lt;std::ostream&amp;&gt;() &lt;&lt; std::declval&lt;T&gt;())</div>
-<div class="line">&gt;&gt; {</div>
-<div class="line">    static void print_impl(std::ostream&amp; os, std::vector&lt;T&gt; v) {</div>
-<div class="line">        os &lt;&lt; &#39;[&#39;;</div>
-<div class="line">        for (auto it = begin(v); it != end(v); ) {</div>
-<div class="line">            os &lt;&lt; *it;</div>
-<div class="line">            if (++it != end(v))</div>
-<div class="line">                os &lt;&lt; &quot;, &quot;;</div>
-<div class="line">        }</div>
-<div class="line">        os &lt;&lt; &#39;]&#39;;</div>
-<div class="line">    }</div>
-<div class="line"></div>
-<div class="line">    static std::string to_string_impl(std::vector&lt;T&gt; v) {</div>
-<div class="line">        std::ostringstream os;</div>
-<div class="line">        print(os, v);</div>
-<div class="line">        return os.str();</div>
-<div class="line">    }</div>
-<div class="line">};</div>
-</div><!-- fragment --><p> It is annoying to have to redefine <code>to_string_impl</code> even if <code>print_impl</code> alone would be enough because <code>to_string_impl</code> is completely determined by it. From now on, I will refer to the minimal set of methods that are required to instantiate a type class as the minimal complete definition, abbreviated <code>mcd</code>. In the present case, the minimal complete definition for the <code>Printable</code> type class is <code>print</code>. To avoid code duplication, a default implementation for methods that are not part of the mcd should be provided by the type class. By convention, we provide these in a nested type of the type class:</p>
+</div><!-- fragment --><p> <code>when_valid</code> is actually an alias to <code>when&lt;true&gt;</code>, but it takes an arbitrary number of types and relies on the fact that SFINAE will kick in and remove the specialization if any of the types is not well-formed. Note that <code>when_valid</code> can also be used to specialize the <code>datatype</code> metafunction. As expected, we can now write</p>
+<div class="fragment"><div class="line">print(std::cout, std::string{<span class="stringliteral">&quot;foo&quot;</span>});</div>
+<div class="line">assert(to_string(std::string{<span class="stringliteral">&quot;foo&quot;</span>}) == <span class="stringliteral">&quot;foo&quot;</span>);</div>
+</div><!-- fragment --><p> Note that instances provided without <code>when</code>/<code>when_valid</code> (i.e. an explicit or partial specialization in the case of a parametric data type) have the priority over instances provided with it. This is to allow types to instantiate a type class even if an instance for the same type class is provided through a predicate. This design choice was made assuming that a specialization (even partial) is usually meant to be more specific than a catch-all instance enabled by a predicate.</p>
+<p>All is good so far, but notice how we have to write an implementation for <code>to_string</code> every time, and how the implementation is always the same. It should be possible to remove this code duplication, and it is indeed. To do so, we introduce the notion of a <em>minimial complete definition</em>, often abbreviated <em>MCD</em>. The minimal complete definition of a type class is the minimal set of methods that must be implemented to instantiate it. In the case of <code>Printable</code>, we can always implement <code>to_string</code> in terms of <code>print</code>, so <code>print</code> is a MCD of <code>Printable</code>. To avoid code duplication, the default implementation of <code>to_string</code> is provided as a member of the type class and is inheritted by instances that would like to get that default implementation:</p>
 <div class="fragment"><div class="line"><span class="keyword">struct </span>Printable {</div>
 <div class="line">    <a class="code" href="group__group-core.html#gac072d4434777cd5ee841a7766d41f1d8">BOOST_HANA_TYPECLASS</a>(Printable);</div>
 <div class="line"></div>
@@ -310,28 +560,13 @@ Getting concrete</h2>
 <div class="line">        }</div>
 <div class="line">    };</div>
 <div class="line">};</div>
-</div><!-- fragment --><p> It then suffices to inherit from that structure when instantiating <code>Printable</code> to get the default implementation for <code>to_string_impl</code>, which can now be shared by several instances:</p>
-<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><span class="keyword">struct </span>Printable::instance&lt;T, <a class="code" href="group__group-core.html#ga0f5d717bbf6646619bb6219b104384dc">when_valid</a>&lt;</div>
 <div class="line">    decltype(std::declval&lt;std::ostream&amp;&gt;() &lt;&lt; std::declval&lt;T&gt;())</div>
 <div class="line">&gt;&gt; : Printable::mcd {</div>
 <div class="line">    <span class="keyword">static</span> <span class="keywordtype">void</span> print_impl(std::ostream&amp; os, T x)</div>
 <div class="line">    { os &lt;&lt; x; }</div>
-<div class="line">};</div>
-<div class="line"></div>
-<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><span class="keyword">struct </span>Printable::instance&lt;std::vector&lt;T&gt;, <a class="code" href="group__group-core.html#ga0f5d717bbf6646619bb6219b104384dc">when_valid</a>&lt;</div>
-<div class="line">    decltype(std::declval&lt;std::ostream&amp;&gt;() &lt;&lt; std::declval&lt;T&gt;())</div>
-<div class="line">&gt;&gt; : Printable::mcd {</div>
-<div class="line">    static void print_impl(std::ostream&amp; os, std::vector&lt;T&gt; v) {</div>
-<div class="line">        os &lt;&lt; &#39;[&#39;;</div>
-<div class="line">        for (auto it = begin(v); it != end(v); ) {</div>
-<div class="line">            os &lt;&lt; *it;</div>
-<div class="line">            if (++it != end(v))</div>
-<div class="line">                os &lt;&lt; &quot;, &quot;;</div>
-<div class="line">        }</div>
-<div class="line">        os &lt;&lt; &#39;]&#39;;</div>
-<div class="line">    }</div>
 <div class="line">};</div>
 </div><!-- fragment --> <blockquote class="doxtable">
 <h4>Note</h4>
@@ -372,7 +607,7 @@ Getting concrete</h2>
 <div class="line">    { <span class="keywordflow">return</span> x; }</div>
 <div class="line">};</div>
 </div><!-- fragment --><p> This allows methods to be added to the type class without breaking the instance, provided the type class does not change its minimal complete definition(s). This is the reason why a minimal complete definition is always provided, even when it is empty.</p>
-<p>To show the full power of type classes and introduce the <code>is_a</code> utility, let's define a <code>Printable</code> instance for <code>std::vector</code>s containing any <code>Printable</code> type. This is a generalization of our previous <code>Printable</code> instance for <code>std::vector</code>s, which supported only streamable types.</p>
+<p>To show the full power of type classes and introduce the <code>is_a</code> utility, let's define a <code>Printable</code> instance for <code>std::vector</code>s containing any <code>Printable</code> type.</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><span class="keyword">struct </span>Printable::instance&lt;std::vector&lt;T&gt;, when&lt;is_a&lt;Printable, T&gt;()&gt;&gt;</div>
 <div class="line">    : Printable::print_mcd</div>
@@ -387,10 +622,10 @@ Getting concrete</h2>
 <div class="line">        os &lt;&lt; <span class="charliteral">&#39;]&#39;</span>;</div>
 <div class="line">    }</div>
 <div class="line">};</div>
-</div><!-- fragment --><p> <code>is_a</code> is a variable template taking a type class and a type and returning whether the type is an instance of the given type class. The result is returned as a boolean <code>Integral</code>, which is basically equivalent to a boolean <code>std::integral_constant</code>, hence the trailing <code>()</code> to convert the result to a <code>bool</code> at compile-time. We can now print nested containers:</p>
+</div><!-- fragment --><p> <code>is_a</code> is a variable template taking a type class and a data type and returning whether the data type is an instance of the given type class. The result is returned as a boolean <code>Integral</code>, which explains the trailing <code>()</code> to convert the result to a <code>bool</code> at compile-time. We can now print nested containers:</p>
 <div class="fragment"><div class="line">std::vector&lt;std::vector&lt;int&gt;&gt; v{{1, 2, 3}, {3, 4, 5}};</div>
 <div class="line">print(std::cout, v); <span class="comment">// prints &quot;[[1, 2, 3], [3, 4, 5]]&quot;</span></div>
-</div><!-- fragment --><p> One last thing which can be done with type classes is to provide a default instance for all data types. To do so, a nested <code>default_instance</code> template must be defined in the type class:</p>
+</div><!-- fragment --><p> <code>is_a</code> can also be used as a function object and with more than one data type; see the <a class="el" href="group__group-core.html#group-core-is_a">reference documentation</a> for details. Another thing that can be done with type classes is to provide a default instance for all data types. To do so, a nested <code>default_instance</code> template must be defined in the type class:</p>
 <div class="fragment"><div class="line"><span class="keyword">struct </span>Printable {</div>
 <div class="line">    <a class="code" href="group__group-core.html#gac072d4434777cd5ee841a7766d41f1d8">BOOST_HANA_TYPECLASS</a>(Printable);</div>
 <div class="line"></div>
@@ -408,75 +643,14 @@ Getting concrete</h2>
 <div class="fragment"><div class="line"><span class="keyword">struct </span>foo { };</div>
 <div class="line"><span class="comment">// prints some implementation-defined stuff representing foo</span></div>
 <div class="line">print(std::cout, foo{});</div>
-</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000027">Todo:</a></b></dt><dd>Document type classes with operators. Document <code>disable</code>. Our description of <code>is_a</code> is reductive. Either explain it better (kind of requires data types) or at least link to the relevant place in the reference.</dd></dl>
-<h1><a class="anchor" id="tutorial-datatypes"></a>
-Data types</h1>
-<hr/>
- <blockquote class="doxtable">
-<h4>Note</h4>
-<p>Since I'm going to use the word "type" a lot, I'll sometimes use the term "C++ type" to make it clear that I'm really speaking about the stuff returned by <code>decltype(...)</code> as opposed to "data types", which are the subject of this section. So whenever you see "C++ type", think <code>decltype</code>. </p>
-</blockquote>
-<p>Data types are a generalization of usual C++ types making it easier to instantiate type classes for heterogeneous containers. They are very similar to Boost.Fusion and Boost.MPL tags. So far, we have only instantiated type classes with types that "contained" homogeneous objects (<code>std::vector&lt;T&gt;</code>, <code>int</code>, etc..). What if we wanted to make <code>boost::fusion::vector</code> an instance of <code>Printable</code>?</p>
-<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...T&gt;</div>
-<div class="line"><span class="keyword">struct </span>Printable::instance&lt;boost::fusion::vector&lt;T...&gt;&gt;</div>
-<div class="line">  : Printable::print_mcd</div>
-<div class="line">{</div>
-<div class="line">    <span class="comment">// definition omitted</span></div>
-<div class="line">};</div>
-</div><!-- fragment --><p>If you know Boost.Fusion, then you probably know that it won't work. When we instantiate <code>Printable</code> for <code>boost::fusion::vector&lt;T...&gt;</code>, we're only instantiating it for that particular representation of a Boost.Fusion vector. This is because Boost.Fusion vectors exist in numbered forms, which are of different types:</p>
-<div class="fragment"><div class="line">boost::fusion::vector1&lt;T&gt;</div>
-<div class="line">boost::fusion::vector2&lt;T, U&gt;</div>
-<div class="line">boost::fusion::vector3&lt;T, U, V&gt;</div>
-<div class="line">...</div>
-</div><!-- fragment --><p>This is an implementation detail required by the lack of variadic templates in C++03 that leaks into the interface. This is unfortunate, but we need a way to work around it. And it gets worse; I said earlier that <code>list</code>, <code>type</code> and other Boost.Hana components did not specify their type at all &ndash; specifying those types would be too restrictive for the implementation &ndash;, so it would be outright impossible to instantiate type classes with those. The solution is to bundle all the types representing the "same thing" under a single tag, and then to use that tag to perform the method dispatching. Hana calls these tags "data types", and they are implemented as empty C++ structs or classes:</p>
-<div class="fragment"><div class="line"><span class="keyword">struct </span>MyDatatype;</div>
-</div><!-- fragment --><p> This is very similar to the tags present in Boost.MPL and Boost.Fusion, except Hana data types are not limited to represent sequences only. To carry the association between a C++ type and its data type, we introduce a metafunction called <code>datatype</code>, which takes a normal C++ type and returns the data type associated to it. Since several different C++ types can share a common data type, we can now associate, for example, all the <code>boost::fusion::vectorN</code>s to a single type representing them all, say <code>BoostFusionVector</code>.</p>
-<p>There are several ways to specify the data type of a C++ type. If it's a user-defined type, one can define a nested <code>hana_dataype</code> alias inside of it:</p>
-<div class="fragment"><div class="line"><span class="keyword">struct </span>MyUserDefinedType {</div>
-<div class="line">    <span class="keyword">using</span> hana_datatype = MyDatatype;</div>
-<div class="line">};</div>
-</div><!-- fragment --><p> Sometimes, however, the C++ type can't be modified (if it's in a foreign library) or simply can't have nested types (if it's not a struct or class). In those cases, using a nested alias is impossible and so ad-hoc customization is also supported by specializing <code>datatype</code>:</p>
-<div class="fragment"><div class="line"><span class="keyword">struct </span>i_cant_modify_this;</div>
+</div><!-- fragment --><p> One last thing that can be done with type classes is to explicitly disable instances. This can be useful if, for example, an instance for <code>Printable</code> is provided for some type but you would prefer to have a compile-time error if one tries to print an object of that type. To disable the faulty instance, simply specialize it and inherit from <code>disable</code>:</p>
+<div class="fragment"><div class="line"><span class="keyword">struct </span>UserDefined { };</div>
 <div class="line"></div>
-<div class="line"><span class="keyword">namespace </span>boost { <span class="keyword">namespace </span>hana {</div>
-<div class="line">    <span class="keyword">template</span> &lt;&gt;</div>
-<div class="line">    <span class="keyword">struct </span>datatype&lt;i_cant_modify_this&gt; {</div>
-<div class="line">        <span class="keyword">using</span> type = MyDatatype;</div>
-<div class="line">    };</div>
-<div class="line">}}</div>
-</div><!-- fragment --><p> Just like for type class instances, <code>datatype</code> can also be specialized for all types satisfying some boolean condition using <code>when</code>, or for all types making some expression well-formed with <code>when_valid</code>. For <code>boost::fusion::vector</code>, we would then do</p>
-<div class="fragment"><div class="line"><span class="keyword">struct </span>BoostFusionVector;</div>
-<div class="line"></div>
-<div class="line"><span class="keyword">namespace </span>boost { <span class="keyword">namespace </span>hana {</div>
-<div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line">    <span class="keyword">struct </span>datatype&lt;T, when&lt;is_a_boost_fusion_vector&lt;T&gt;::value&gt;&gt; {</div>
-<div class="line">        <span class="keyword">using</span> type = BoostFusionVector;</div>
-<div class="line">    };</div>
-<div class="line">}}</div>
-</div><!-- fragment --><p> where <code>is_a_boost_fusion_vector</code> is some metafunction returning whether a type is a Fusion vector. The attentive reader might observe that we could achieve just the same by using <code>when&lt;some_predicate&lt;T&gt;<a class="el" href="structboost_1_1hana_1_1_constant.html#a615a7728e2278acb2cab50854079d7fc" title="Return the compile-time value of a constant. ">value</a>&gt;</code> when instantiating a type class instead, and then get rid of data types altogether. While it would work for e.g. Boost.Fusion vectors, most components in Hana do not specify anything about their actual C++ type, so there's no predicate that could be used inside the <code>when</code>.</p>
-<p>One last thing about <code>datatype</code>; when it is not specialized and when the given C++ type does not have a nested <code>hana_dataype</code> alias, <code>datatype</code> returns the type itself after stripping it from all cv-qualifiers and references. This is <em>super</em> useful, mainly for two reasons. First, it allows Hana to adopt a reasonable default behavior for some operations involving types that have no clue about data types and all that stuff. For example, Hana allows comparing any two types for which a valid <code>operator==</code> is defined out of the box. This is achieved by providing the following instance for the <code>Comparable</code> type class:</p>
-<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> X, <span class="keyword">typename</span> Y&gt;</div>
-<div class="line"><span class="keyword">struct </span>Comparable::instance&lt;X, Y, <a class="code" href="group__group-core.html#ga0f5d717bbf6646619bb6219b104384dc">when_valid</a>&lt;decltype(</div>
-<div class="line">    std::declval&lt;X&gt;() == std::declval&lt;Y&gt;()</div>
-<div class="line">)&gt;&gt;;</div>
-</div><!-- fragment --><p>Second, it also means that you can ignore data types completely if you don't need their functionality; just use the normal C++ type of your objects and everything will "just work". Ok, we're now able to associate data types to C++ types; all that's left to do is tweak the method dispatching system so it uses data types instead of C++ types, but that's easy. Going back to the <code>Printable</code> type class, the methods now become:</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> print = [](std::ostream&amp; os, <span class="keyword">auto</span> x) {</div>
-<div class="line">    <span class="keywordflow">return</span> Printable::instance&lt;</div>
-<div class="line">        datatype_t&lt;decltype(x)&gt; <span class="comment">// &lt;- notice datatype_t here</span></div>
-<div class="line">    &gt;::print_impl(os, x);</div>
-<div class="line">};</div>
-<div class="line"></div>
-<div class="line"><span class="keyword">auto</span> to_string = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">    <span class="keywordflow">return</span> Printable::instance&lt;</div>
-<div class="line">        datatype_t&lt;decltype(x)&gt; <span class="comment">// &lt;- same here</span></div>
-<div class="line">    &gt;::to_string_impl(x);</div>
-<div class="line">};</div>
-</div><!-- fragment --><p> By the way, <code>datatype_t&lt;T&gt;</code> just an alias to <code>datatype&lt;T&gt;::type</code> saving you from writing <code>typename datatype&lt;T&gt;::type</code> all over the place in dependent contexts; you can use whichever you prefer. And now, going back to our instance of <code>Printable</code> for Boost.Fusion vectors, all we have to do is</p>
-<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;&gt;</div>
-<div class="line"><span class="keyword">struct </span>Printable::instance&lt;BoostFusionVector&gt; : Printable::print_mcd {</div>
-<div class="line">    <span class="comment">// definition omitted</span></div>
-<div class="line">};</div>
-</div><!-- fragment --><h1><a class="anchor" id="tutorial-header_organization"></a>
+<div class="line"><span class="keyword">template</span> &lt;&gt;</div>
+<div class="line"><span class="keyword">struct </span>Printable::instance&lt;UserDefined&gt; : disable { };</div>
+</div><!-- fragment --><p> Now, trying to print an object of data type <code>UserDefined</code> will result in a compile-time error.</p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000042">Todo:</a></b></dt><dd>Document type classes with operators.</dd></dl>
+<h1><a class="anchor" id="tutorial-header_organization"></a>
 Header organization</h1>
 <hr/>
 <p> The library is designed to be very modular while keeping the number of headers that must be included to get basic functionality reasonably low. The structure of the library is influenced by the structure of type classes and data types. Once you are familiar with the type classes and data types provided with the library, the header structure should feel intuitive.</p>
@@ -517,7 +691,7 @@ Header organization</h1>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line">    constexpr std::tuple&lt;int, char, float&gt; xs{1, <span class="charliteral">&#39;2&#39;</span>, 3.0f};</div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(head(xs) == 1);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(head(xs) == 1);</div>
 <div class="line">}</div>
 </div><!-- fragment --></li>
 <li><code>boost/hana/sandbox/</code><br />
@@ -535,7 +709,7 @@ Header organization</h1>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> xs = set(1, 2.2, <span class="charliteral">&#39;x&#39;</span>);</div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(elem(<span class="charliteral">&#39;x&#39;</span>, xs));</div>
+<div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(elem(<span class="charliteral">&#39;x&#39;</span>, xs));</div>
 <div class="line">}</div>
 </div><!-- fragment --><h1><a class="anchor" id="tutorial-mastering"></a>
 Mastering the library</h1>
@@ -564,7 +738,6 @@ Mastering the library</h1>
 <li><a class="el" href="group__group-details.html">Details</a><br />
  Why did I document implementation details? That's a good question.</li>
 </ul>
-<p>If you are not too familiar with Haskell, I suggest you start with a fairly concrete type class and then work your way down to more abstract and powerful type classes. A good place to start would be the <code>List</code> type class, which is useful and very concrete.</p>
 <p>I hope you enjoy using the library as much as I enjoyed writing it!</p>
 <p>&ndash; Louis </p>
 </div></div><!-- contents -->

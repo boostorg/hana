@@ -104,8 +104,8 @@ struct boost::hana::Traversable::instance&lt; Maybe &gt;</h3>
 <div class="line">        <span class="keywordflow">return</span> list(x, x, x);</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(traverse&lt;List&gt;(replicate3, just(1)) == list(just(1), just(1), just(1)));</div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(traverse&lt;List&gt;(replicate3, nothing) == list(nothing));</div>
+<div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(traverse&lt;List&gt;(replicate3, just(1)) == list(just(1), just(1), just(1)));</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(traverse&lt;List&gt;(replicate3, nothing) == list(nothing));</div>
 </div><!-- fragment --></div><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Inheritance diagram for boost::hana::Traversable::instance&lt; Maybe &gt;:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">

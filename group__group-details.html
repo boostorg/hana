@@ -99,13 +99,19 @@ $(document).ready(function(){initNavTree('group__group-details.html','');});
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
+<tr class="memitem:ga7ad5b8e5cb988d185dffa511b50cebd2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-details.html#ga7ad5b8e5cb988d185dffa511b50cebd2">BOOST_HANA_RUNTIME_ASSERT</a>(...)&#160;&#160;&#160;unspecified</td></tr>
+<tr class="memdesc:ga7ad5b8e5cb988d185dffa511b50cebd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Expands to a runtime assertion.  <a href="#ga7ad5b8e5cb988d185dffa511b50cebd2">More...</a><br /></td></tr>
+<tr class="separator:ga7ad5b8e5cb988d185dffa511b50cebd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga90927e0cc2d4f09fd9f7e17ecead6f77"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(...)&#160;&#160;&#160;unspecified</td></tr>
+<tr class="memdesc:ga90927e0cc2d4f09fd9f7e17ecead6f77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compile-time assertion for <code>Constant</code>s.  <a href="#ga90927e0cc2d4f09fd9f7e17ecead6f77">More...</a><br /></td></tr>
+<tr class="separator:ga90927e0cc2d4f09fd9f7e17ecead6f77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf87274a2e99e7f63831553535de99d89"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(...)&#160;&#160;&#160;unspecified</td></tr>
+<tr class="memdesc:gaf87274a2e99e7f63831553535de99d89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Expands to a static assertion or a runtime assertion, depending on whether <code>constexpr</code> lambdas are supported.  <a href="#gaf87274a2e99e7f63831553535de99d89">More...</a><br /></td></tr>
+<tr class="separator:gaf87274a2e99e7f63831553535de99d89"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gacf82d20cb2ab6efe5849fadae0a043a8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="gacf82d20cb2ab6efe5849fadae0a043a8"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a>&#160;&#160;&#160;constexpr</td></tr>
 <tr class="memdesc:gacf82d20cb2ab6efe5849fadae0a043a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Expands to <code>constexpr</code> if constexpr lambdas are supported and to nothing otherwise. <br /></td></tr>
 <tr class="separator:gacf82d20cb2ab6efe5849fadae0a043a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab7f4d2cdacf9c644755995da69af8d4f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(...)&#160;&#160;&#160;static_assert((__VA_ARGS__), &quot;&quot;)</td></tr>
-<tr class="memdesc:gab7f4d2cdacf9c644755995da69af8d4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Expands to a <code>static_assert</code> or to an <code>assert</code>, depending on whether constexpr lambdas are available.  <a href="#gab7f4d2cdacf9c644755995da69af8d4f">More...</a><br /></td></tr>
-<tr class="separator:gab7f4d2cdacf9c644755995da69af8d4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -116,24 +122,70 @@ template&lt;template&lt; typename...&gt; class f, typename state , typename... x
 <tr class="separator:gaa0cde9789584111ebbdf52b22ed703f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
-<a class="anchor" id="gab7f4d2cdacf9c644755995da69af8d4f"></a>
+<a class="anchor" id="ga7ad5b8e5cb988d185dffa511b50cebd2"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define BOOST_HANA_STATIC_ASSERT</td>
+          <td class="memname">#define BOOST_HANA_RUNTIME_ASSERT</td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname"><em>...</em></td><td>)</td>
-          <td>&#160;&#160;&#160;static_assert((__VA_ARGS__), &quot;&quot;)</td>
+          <td>&#160;&#160;&#160;unspecified</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="static__assert_8hpp.html">boost/hana/detail/static_assert.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="assert_8hpp.html">boost/hana/detail/assert.hpp</a>&gt;</code></p>
 
-<p>Expands to a <code>static_assert</code> or to an <code>assert</code>, depending on whether constexpr lambdas are available. </p>
-<p>Use this only at function scope. This is a workaround because constexpr lambdas are not available yet and so our unit tests can't use <code>static_assert</code>. </p>
+<p>Expands to a runtime assertion. </p>
+<p>This macro may only be used at function scope. Its argument must be explicitly convertible to a boolean and its data type must not be a <code>Constant</code>. If the expression is a <code>Constant</code>, a static assertion is triggered; use <code>BOOST_HANA_CONSTANT_ASSERT</code> instead.</p>
+<p>Because this macro uses <code>decltype</code> on its argument, a lambda may not be used inside the expression. </p>
+
+</div>
+</div>
+<a class="anchor" id="ga90927e0cc2d4f09fd9f7e17ecead6f77"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BOOST_HANA_CONSTANT_ASSERT</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em></td><td>)</td>
+          <td>&#160;&#160;&#160;unspecified</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="assert_8hpp.html">boost/hana/detail/assert.hpp</a>&gt;</code></p>
+
+<p>Compile-time assertion for <code>Constant</code>s. </p>
+<p>This macro may be used at any scope where a <code>static_assert</code> can be used. Its argument must be a <code>Constant</code>, or else a compile-time assertion is triggered. If the argument is a <code>Constant</code>, its <code>value</code> is retrieved, it is converted to a boolean and <code>static_assert</code>ed` upon.</p>
+<p>Because this macro uses <code>decltype</code> on its argument, a lambda may not be used inside the expression. </p>
+
+</div>
+</div>
+<a class="anchor" id="gaf87274a2e99e7f63831553535de99d89"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BOOST_HANA_CONSTEXPR_ASSERT</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em></td><td>)</td>
+          <td>&#160;&#160;&#160;unspecified</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="assert_8hpp.html">boost/hana/detail/assert.hpp</a>&gt;</code></p>
+
+<p>Expands to a static assertion or a runtime assertion, depending on whether <code>constexpr</code> lambdas are supported. </p>
+<p>This macro is used to assert on a condition that would be a constant expression if constexpr lambdas were supported.</p>
+<p>This macro may only be used at function scope. Its argument must be convertible to a boolean and its data type must not be a <code>Constant</code>. If the expression is a <code>Constant</code>, a static assertion is triggered; use <code>BOOST_HANA_CONSTANT_ASSERT</code> instead.</p>
+<p>Because this macro uses <code>decltype</code> on its argument, a lambda may not be used inside the expression. </p>
 
 </div>
 </div>

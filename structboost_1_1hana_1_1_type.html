@@ -95,14 +95,16 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_type.html','')
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
-<div class="textblock"><p>C++ type represented as a constexpr object. </p>
+<div class="textblock"><p>Object representing a C++ type. </p>
+<p><code><a class="el" href="structboost_1_1hana_1_1_type.html" title="Object representing a C++ type. ">Type</a></code>s are the key element making it possible to do everything that can be done with Boost.MPL also doable with Hana. A <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="Object representing a C++ type. ">Type</a></code> is an object of an unspecified type which represents (or wraps) a C++ type. However, since it is a regular C++ object, it can be stored in heterogeneous containers, passed as an argument to regular functions and so on. While representing C++ types as values might seem backward at first, it is in fact the very thing that makes it possible to unify type-level programming and value-level programming. In particular, this allows using the same syntax for type-level computations as used in everyday C++, and it even allows certain functions with very few requirements to be used both on types and on values, thus reducing code duplication. In comparison, previous metaprogramming libraries like <a href="http://www.boost.org/doc/libs/release/libs/mpl/doc/index.html">Boost.MPL</a> or <a href="http://github.com/ldionne/mpl11">MPL11</a> used struct-based metafunctions that worked at the type level only, were less expressive due to the lack of anonymous functions and forced the programmer to use an awkward syntax.</p>
+<p>Of course, since each object of data type <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="Object representing a C++ type. ">Type</a></code> has an unspecified (and hence possibly different) C++ type, manipulating these guys requires being able to manipulate heterogeneous objects. Fortunately, this is exactly what this library was built for, so we're good.</p>
+<p>So far, we're only able to pass wrapped types around, which isn't very useful. For <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="Object representing a C++ type. ">Type</a></code>s to be of some use, they have to give us a way of getting that wrapped type out. Hence, for any <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="Object representing a C++ type. ">Type</a></code> <code>t</code>, <code>decltype(t)<a class="el" href="structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c" title="Creates an object representing the C++ type T. ">type</a></code> is an alias to the type it wraps. In Boost.MPL parlance, <code>decltype(t)</code> is a nullary metafunction returning the C++ type <code>t</code> represents.</p>
 <h2>Instance of</h2>
 <p><code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable type class defines equality and inequality. ">Comparable</a></code></p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000023">Todo:</a></b></dt><dd><ul>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000025">Todo:</a></b></dt><dd><ul>
 <li>Completely figure out and document the category theoretical foundation of this data type.</li>
 <li>Consider instantiating <code><a class="el" href="structboost_1_1hana_1_1_functor.html" title="Functor represents types that can be mapped over. ">Functor</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="Applicatives are Functors with the ability to lift values and combine computations. ">Applicative</a></code> and <code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="Monads are Applicatives with the ability to flatten values that were lifted more than once...">Monad</a></code> if that's possible.</li>
 <li>Consider having a <code>.name()</code> method that would return the (demangled?) <code>typeid(T).name()</code>.</li>
-<li>Use more lambdas once <a href="http://llvm.org/bugs/show_bug.cgi?id=20046">http://llvm.org/bugs/show_bug.cgi?id=20046</a> is fixed.</li>
 </ul>
 </dd></dl>
 <dl class="bug"><dt><b><a class="el" href="bug.html#_bug000004">Bug:</a></b></dt><dd><code>metafunction</code> and friends are not SFINAE-friendly right now. See <a href="http://gcc.gnu.org/bugzilla/show_bug.cgi?id=59498">this</a> GCC bug and also <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/cwg_active.html#1430">Core 1430</a> issue. Once this issue is resolved, look at the unit tests for those utilities and either uncomment or remove the relevant test section. </dd></dl>
@@ -116,30 +118,30 @@ type_detail::make_type&lt; T &gt;<br class="typebreak" />
 <tr class="memdesc:ab66de88586706cb474453dd937d13f8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an object representing the C++ type <code>T</code>.  <a href="#ab66de88586706cb474453dd937d13f8c">More...</a><br /></td></tr>
 <tr class="separator:ab66de88586706cb474453dd937d13f8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a81f30da3c8d927156d17ec09b8a2a4de"><td class="memItemLeft" align="right" valign="top">constexpr type_detail::decltype_&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_type.html#a81f30da3c8d927156d17ec09b8a2a4de">decltype_</a> {}</td></tr>
-<tr class="memdesc:a81f30da3c8d927156d17ec09b8a2a4de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the type of an object as a <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="C++ type represented as a constexpr object. ">Type</a></code>.  <a href="#a81f30da3c8d927156d17ec09b8a2a4de">More...</a><br /></td></tr>
+<tr class="memdesc:a81f30da3c8d927156d17ec09b8a2a4de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the type of an object as a <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="Object representing a C++ type. ">Type</a></code>.  <a href="#a81f30da3c8d927156d17ec09b8a2a4de">More...</a><br /></td></tr>
 <tr class="separator:a81f30da3c8d927156d17ec09b8a2a4de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5286be1cfdaca72680089a7d15a5c14c"><td class="memItemLeft" align="right" valign="top">constexpr type_detail::sizeof_&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_type.html#a5286be1cfdaca72680089a7d15a5c14c">sizeof_</a> {}</td></tr>
-<tr class="memdesc:a5286be1cfdaca72680089a7d15a5c14c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the size of the C++ type represented by a <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="C++ type represented as a constexpr object. ">Type</a></code>.  <a href="#a5286be1cfdaca72680089a7d15a5c14c">More...</a><br /></td></tr>
+<tr class="memdesc:a5286be1cfdaca72680089a7d15a5c14c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the size of the C++ type represented by a <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="Object representing a C++ type. ">Type</a></code>.  <a href="#a5286be1cfdaca72680089a7d15a5c14c">More...</a><br /></td></tr>
 <tr class="separator:a5286be1cfdaca72680089a7d15a5c14c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a503dafb950079297ba2ec206ed8d5c36"><td class="memTemplParams" colspan="2">template&lt;template&lt; typename...&gt; class f&gt; </td></tr>
 <tr class="memitem:a503dafb950079297ba2ec206ed8d5c36"><td class="memTemplItemLeft" align="right" valign="top">constexpr <br class="typebreak" />
 type_detail::template_&lt; f &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_type.html#a503dafb950079297ba2ec206ed8d5c36">template_</a> {}</td></tr>
-<tr class="memdesc:a503dafb950079297ba2ec206ed8d5c36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lift a template to a function on <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="C++ type represented as a constexpr object. ">Type</a></code>s.  <a href="#a503dafb950079297ba2ec206ed8d5c36">More...</a><br /></td></tr>
+<tr class="memdesc:a503dafb950079297ba2ec206ed8d5c36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lift a template to a function on <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="Object representing a C++ type. ">Type</a></code>s.  <a href="#a503dafb950079297ba2ec206ed8d5c36">More...</a><br /></td></tr>
 <tr class="separator:a503dafb950079297ba2ec206ed8d5c36"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae9bfabe7d39900f3ac536b008ef2ad39"><td class="memTemplParams" colspan="2">template&lt;template&lt; typename...&gt; class f&gt; </td></tr>
 <tr class="memitem:ae9bfabe7d39900f3ac536b008ef2ad39"><td class="memTemplItemLeft" align="right" valign="top">constexpr <br class="typebreak" />
 type_detail::metafunction&lt; f &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_type.html#ae9bfabe7d39900f3ac536b008ef2ad39">metafunction</a> {}</td></tr>
-<tr class="memdesc:ae9bfabe7d39900f3ac536b008ef2ad39"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lift a metafunction to a function on <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="C++ type represented as a constexpr object. ">Type</a></code>s.  <a href="#ae9bfabe7d39900f3ac536b008ef2ad39">More...</a><br /></td></tr>
+<tr class="memdesc:ae9bfabe7d39900f3ac536b008ef2ad39"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lift a metafunction to a function on <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="Object representing a C++ type. ">Type</a></code>s.  <a href="#ae9bfabe7d39900f3ac536b008ef2ad39">More...</a><br /></td></tr>
 <tr class="separator:ae9bfabe7d39900f3ac536b008ef2ad39"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a58734f5a67f0a7bfbc5351896934610b"><td class="memTemplParams" colspan="2">template&lt;typename f &gt; </td></tr>
 <tr class="memitem:a58734f5a67f0a7bfbc5351896934610b"><td class="memTemplItemLeft" align="right" valign="top">constexpr <br class="typebreak" />
 type_detail::metafunction_class<br class="typebreak" />
 &lt; f &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_type.html#a58734f5a67f0a7bfbc5351896934610b">metafunction_class</a> {}</td></tr>
-<tr class="memdesc:a58734f5a67f0a7bfbc5351896934610b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lift a metafunction class to a function on <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="C++ type represented as a constexpr object. ">Type</a></code>s.  <a href="#a58734f5a67f0a7bfbc5351896934610b">More...</a><br /></td></tr>
+<tr class="memdesc:a58734f5a67f0a7bfbc5351896934610b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lift a metafunction class to a function on <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="Object representing a C++ type. ">Type</a></code>s.  <a href="#a58734f5a67f0a7bfbc5351896934610b">More...</a><br /></td></tr>
 <tr class="separator:a58734f5a67f0a7bfbc5351896934610b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acf4f287f903e6a0a75e53b86da1cbae8"><td class="memTemplParams" colspan="2">template&lt;template&lt; typename...&gt; class f&gt; </td></tr>
 <tr class="memitem:acf4f287f903e6a0a75e53b86da1cbae8"><td class="memTemplItemLeft" align="right" valign="top">constexpr type_detail::trait&lt; f &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_type.html#acf4f287f903e6a0a75e53b86da1cbae8">trait</a> {}</td></tr>
-<tr class="memdesc:acf4f287f903e6a0a75e53b86da1cbae8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lift a metafunction to a function taking <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="C++ type represented as a constexpr object. ">Type</a></code>s and returning a default-constructed object.  <a href="#acf4f287f903e6a0a75e53b86da1cbae8">More...</a><br /></td></tr>
+<tr class="memdesc:acf4f287f903e6a0a75e53b86da1cbae8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lift a metafunction to a function taking <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="Object representing a C++ type. ">Type</a></code>s and returning a default-constructed object.  <a href="#acf4f287f903e6a0a75e53b86da1cbae8">More...</a><br /></td></tr>
 <tr class="separator:acf4f287f903e6a0a75e53b86da1cbae8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5157ade103ca188ea16e378e2d528fb7"><td class="memTemplParams" colspan="2">template&lt;template&lt; typename...&gt; class f&gt; </td></tr>
 <tr class="memitem:a5157ade103ca188ea16e378e2d528fb7"><td class="memTemplItemLeft" align="right" valign="top">constexpr type_detail::trait_&lt; f &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_type.html#a5157ade103ca188ea16e378e2d528fb7">trait_</a> {}</td></tr>
@@ -214,11 +216,11 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Returns the type of an object as a <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="C++ type represented as a constexpr object. ">Type</a></code>. </p>
+<p>Returns the type of an object as a <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="Object representing a C++ type. ">Type</a></code>. </p>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <span class="keyword">struct </span>X { };</div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(type&lt;X&gt; == <a class="code" href="structboost_1_1hana_1_1_type.html#a81f30da3c8d927156d17ec09b8a2a4de">decltype_</a>(X{}));</div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(type&lt;int&gt; == <a class="code" href="structboost_1_1hana_1_1_type.html#a81f30da3c8d927156d17ec09b8a2a4de">decltype_</a>(1));</div>
+<div class="fragment"><div class="line"><span class="keyword">struct </span>X { };</div>
+<div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(type&lt;X&gt; == <a class="code" href="structboost_1_1hana_1_1_type.html#a81f30da3c8d927156d17ec09b8a2a4de">decltype_</a>(X{}));</div>
+<div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(type&lt;int&gt; == <a class="code" href="structboost_1_1hana_1_1_type.html#a81f30da3c8d927156d17ec09b8a2a4de">decltype_</a>(1));</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -240,12 +242,12 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Returns the size of the C++ type represented by a <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="C++ type represented as a constexpr object. ">Type</a></code>. </p>
+<p>Returns the size of the C++ type represented by a <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="Object representing a C++ type. ">Type</a></code>. </p>
 <h3>Example</h3>
 <div class="fragment"><div class="line">    <span class="keyword">struct </span>X { };</div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_type.html#a5286be1cfdaca72680089a7d15a5c14c">sizeof_</a>(type&lt;X&gt;) == <span class="keyword">sizeof</span>(X));</div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_type.html#a5286be1cfdaca72680089a7d15a5c14c">sizeof_</a>(type&lt;int&gt;) == <span class="keyword">sizeof</span>(<span class="keywordtype">int</span>));</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000024">Todo:</a></b></dt><dd>Should we also support non-<code><a class="el" href="structboost_1_1hana_1_1_type.html" title="C++ type represented as a constexpr object. ">Type</a></code>s? That could definitely be useful. </dd></dl>
+<div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_type.html#a5286be1cfdaca72680089a7d15a5c14c">sizeof_</a>(type&lt;X&gt;) == <span class="keyword">sizeof</span>(X));</div>
+<div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_type.html#a5286be1cfdaca72680089a7d15a5c14c">sizeof_</a>(type&lt;int&gt;) == <span class="keyword">sizeof</span>(<span class="keywordtype">int</span>));</div>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000026">Todo:</a></b></dt><dd>Should we also support non-<code><a class="el" href="structboost_1_1hana_1_1_type.html" title="Object representing a C++ type. ">Type</a></code>s? That could definitely be useful. </dd></dl>
 
 </div>
 </div>
@@ -269,24 +271,22 @@ template&lt;template&lt; typename...&gt; class f&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Lift a template to a function on <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="C++ type represented as a constexpr object. ">Type</a></code>s. </p>
-<p>Specifically, <code>template_&lt;f&gt;</code> is a function on <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="C++ type represented as a constexpr object. ">Type</a></code>s satisfying </p><div class="fragment"><div class="line">template_&lt;f&gt;(type&lt;x1&gt;, ..., type&lt;xN&gt;) == <a class="code" href="structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c">type</a>&lt;f&lt;x1, ..., xN&gt;&gt;</div>
+<p>Lift a template to a function on <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="Object representing a C++ type. ">Type</a></code>s. </p>
+<p>Specifically, <code>template_&lt;f&gt;</code> is a function on <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="Object representing a C++ type. ">Type</a></code>s satisfying </p><div class="fragment"><div class="line">template_&lt;f&gt;(type&lt;x1&gt;, ..., type&lt;xN&gt;) == <a class="code" href="structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c">type</a>&lt;f&lt;x1, ..., xN&gt;&gt;</div>
 </div><!-- fragment --><p><code>decltype(template_&lt;f&gt;)</code> is also a metafunction class such that </p><div class="fragment"><div class="line">decltype(template_&lt;f&gt;)::<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>&lt;x1, ..., xN&gt;::<a class="code" href="structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c">type</a> == f&lt;x1, ..., xN&gt;</div>
 </div><!-- fragment --><h3>Example</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...&gt; <span class="keyword">struct </span>f;</div>
 <div class="line"><span class="keyword">struct </span>x;</div>
 <div class="line"><span class="keyword">struct </span>y;</div>
 <div class="line"></div>
-<div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(template_&lt;f&gt;() == <a class="code" href="structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c">type</a>&lt;f&lt;&gt;&gt;);</div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(template_&lt;f&gt;(type&lt;x&gt;) == <a class="code" href="structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c">type</a>&lt;f&lt;x&gt;&gt;);</div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(template_&lt;f&gt;(type&lt;x&gt;, type&lt;y&gt;) == <a class="code" href="structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c">type</a>&lt;f&lt;x, y&gt;&gt;);</div>
+<div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(template_&lt;f&gt;() == <a class="code" href="structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c">type</a>&lt;f&lt;&gt;&gt;);</div>
+<div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(template_&lt;f&gt;(type&lt;x&gt;) == <a class="code" href="structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c">type</a>&lt;f&lt;x&gt;&gt;);</div>
+<div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(template_&lt;f&gt;(type&lt;x&gt;, type&lt;y&gt;) == <a class="code" href="structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c">type</a>&lt;f&lt;x, y&gt;&gt;);</div>
 <div class="line"></div>
-<div class="line">    static_assert(std::is_same&lt;</div>
-<div class="line">        decltype(template_&lt;f&gt;)::apply&lt;x, y&gt;::type,</div>
-<div class="line">        f&lt;x, y&gt;</div>
-<div class="line">    &gt;::value, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">}</div>
+<div class="line">static_assert(std::is_same&lt;</div>
+<div class="line">    decltype(template_&lt;f&gt;)::apply&lt;x, y&gt;::type,</div>
+<div class="line">    f&lt;x, y&gt;</div>
+<div class="line">&gt;::value, <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -310,8 +310,8 @@ template&lt;template&lt; typename...&gt; class f&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Lift a metafunction to a function on <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="C++ type represented as a constexpr object. ">Type</a></code>s. </p>
-<p>Specifically, <code>metafunction&lt;f&gt;</code> is a function on <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="C++ type represented as a constexpr object. ">Type</a></code>s satisfying </p><div class="fragment"><div class="line">metafunction&lt;f&gt;(type&lt;x1&gt;, ..., type&lt;xN&gt;) == <a class="code" href="structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c">type</a>&lt;f&lt;x1, ..., xN&gt;::type&gt;</div>
+<p>Lift a metafunction to a function on <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="Object representing a C++ type. ">Type</a></code>s. </p>
+<p>Specifically, <code>metafunction&lt;f&gt;</code> is a function on <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="Object representing a C++ type. ">Type</a></code>s satisfying </p><div class="fragment"><div class="line">metafunction&lt;f&gt;(type&lt;x1&gt;, ..., type&lt;xN&gt;) == <a class="code" href="structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c">type</a>&lt;f&lt;x1, ..., xN&gt;::type&gt;</div>
 </div><!-- fragment --><p><code>decltype(metafunction&lt;f&gt;)</code> is also a metafunction class such that </p><div class="fragment"><div class="line">decltype(metafunction&lt;f&gt;)::<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>&lt;x1, ..., xN&gt; == f&lt;x1, ..., xN&gt;</div>
 </div><!-- fragment --> 
 </div>
@@ -336,8 +336,8 @@ template&lt;typename f &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Lift a metafunction class to a function on <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="C++ type represented as a constexpr object. ">Type</a></code>s. </p>
-<p>Specifically, <code>metafunction_class&lt;f&gt;</code> is a function on <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="C++ type represented as a constexpr object. ">Type</a></code>s satisfying </p><div class="fragment"><div class="line">metafunction_class&lt;f&gt;(type&lt;x1&gt;, ..., type&lt;xN&gt;) == <a class="code" href="structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c">type</a>&lt;f::apply&lt;x1, ..., xN&gt;::type&gt;</div>
+<p>Lift a metafunction class to a function on <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="Object representing a C++ type. ">Type</a></code>s. </p>
+<p>Specifically, <code>metafunction_class&lt;f&gt;</code> is a function on <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="Object representing a C++ type. ">Type</a></code>s satisfying </p><div class="fragment"><div class="line">metafunction_class&lt;f&gt;(type&lt;x1&gt;, ..., type&lt;xN&gt;) == <a class="code" href="structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c">type</a>&lt;f::apply&lt;x1, ..., xN&gt;::type&gt;</div>
 </div><!-- fragment --><p><code>decltype(metafunction_class&lt;f&gt;)</code> is also a metafunction class such that </p><div class="fragment"><div class="line">decltype(metafunction_class&lt;f&gt;)::<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>&lt;x1, ..., xN&gt; == f::<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>&lt;x1, ..., xN&gt;</div>
 </div><!-- fragment --> 
 </div>
@@ -362,22 +362,24 @@ template&lt;template&lt; typename...&gt; class f&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Lift a metafunction to a function taking <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="C++ type represented as a constexpr object. ">Type</a></code>s and returning a default-constructed object. </p>
+<p>Lift a metafunction to a function taking <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="Object representing a C++ type. ">Type</a></code>s and returning a default-constructed object. </p>
 <p>Specifically, <code>trait&lt;f&gt;(t...)</code> is equivalent to <code>template_&lt;f&gt;(t...)()</code>. The principal use case for <code>trait</code> is to transform metafunctions inheriting from a meaningful base like <code>std::integral_constant</code> into functions returning e.g. an <code><a class="el" href="structboost_1_1hana_1_1_integral.html" title="Represents a compile-time value of an integral type. ">Integral</a></code>.</p>
 <p>The word <code>trait</code> is used because a name was needed and the principal use case involves metafunctions from the standard that we also call type traits.</p>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(trait&lt;std::is_integral&gt;(type&lt;int&gt;));</div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(!trait&lt;std::is_integral&gt;(type&lt;float&gt;));</div>
+<div class="fragment"><div class="line">    <span class="keyword">using</span> operators::operator!; <span class="comment">// required to negate the result of std::is_integral</span></div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(trait&lt;std::is_integral&gt;(type&lt;int&gt;));</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(!trait&lt;std::is_integral&gt;(type&lt;float&gt;));</div>
 </div><!-- fragment --><p> Note that not all metafunctions of the standard library can be lifted this way. For example, <code>std::aligned_storage</code> can't be lifted because it requires non-type template parameters. Since there is no uniform way of dealing with non-type template parameters, one must resort to using e.g. an inline lambda to "lift" those metafunctions. In practice, however, this should not be a problem.</p>
 <h3>Example of a non-liftable metafunction</h3>
 <div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> extent = [](<span class="keyword">auto</span> t, <span class="keyword">auto</span> n) {</div>
 <div class="line">        <span class="keywordflow">return</span> std::extent&lt;typename decltype(t)::type, n()&gt;{};</div>
 <div class="line">    };</div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(extent(type&lt;char&gt;, int_&lt;1&gt;) == int_&lt;0&gt;);</div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(extent(<a class="code" href="structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c">type</a>&lt;<span class="keywordtype">char</span>[1][2]&gt;, int_&lt;1&gt;) == int_&lt;2&gt;);</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(extent(type&lt;char&gt;, int_&lt;1&gt;) == int_&lt;0&gt;);</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(extent(<a class="code" href="structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c">type</a>&lt;<span class="keywordtype">char</span>[1][2]&gt;, int_&lt;1&gt;) == int_&lt;2&gt;);</div>
 </div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd>When using <code>trait</code> with metafunctions returning <code>std::integral_constant</code>s, don't forget to include the <a class="el" href="integral__constant_8hpp.html" title="Adapts std::integral_constant. ">boost/hana/ext/std/integral_constant.hpp</a> header!</dd>
 <dd>
-Since <code>trait&lt;f&gt;</code> does not return a <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="C++ type represented as a constexpr object. ">Type</a></code>, it does not really make sense to make <code>decltype(trait&lt;f&gt;)</code> a metafunction class, which explains the omission. </dd></dl>
+Since <code>trait&lt;f&gt;</code> does not return a <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="Object representing a C++ type. ">Type</a></code>, it does not really make sense to make <code>decltype(trait&lt;f&gt;)</code> a metafunction class, which explains the omission. </dd></dl>
 
 </div>
 </div>
@@ -403,10 +405,10 @@ template&lt;template&lt; typename...&gt; class f&gt; </div>
 
 <p>Equivalent to <code>compose(trait&lt;f&gt;, decltype_)</code>; provided for convenience. </p>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(trait_&lt;std::is_integral&gt;(2));</div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(trait_&lt;std::is_integral&gt;(2ll));</div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(!trait_&lt;std::is_integral&gt;(2.2));</div>
-</div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd>Since <code>trait_&lt;f&gt;</code> does not return a <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="C++ type represented as a constexpr object. ">Type</a></code>, it does not really make sense to make <code>decltype(trait_&lt;f&gt;)</code> a metafunction class, which explains the omission. </dd></dl>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(trait_&lt;std::is_integral&gt;(2));</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(trait_&lt;std::is_integral&gt;(2ll));</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(not_(trait_&lt;std::is_integral&gt;(2.2)));</div>
+</div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd>Since <code>trait_&lt;f&gt;</code> does not return a <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="Object representing a C++ type. ">Type</a></code>, it does not really make sense to make <code>decltype(trait_&lt;f&gt;)</code> a metafunction class, which explains the omission. </dd></dl>
 
 </div>
 </div>

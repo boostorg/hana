@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.7"/>
-<title>Boost.Hana: boost/hana.hpp File Reference</title>
+<title>Boost.Hana: boost/hana/detail/assert.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -69,7 +69,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('hana_8hpp.html','');});
+$(document).ready(function(){initNavTree('assert_8hpp.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -87,40 +87,44 @@ $(document).ready(function(){initNavTree('hana_8hpp.html','');});
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#define-members">Macros</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
-<div class="title">hana.hpp File Reference</div>  </div>
+<div class="title">assert.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Includes all the library components except the adapters for external libraries.  
+<p>Defines macros to perform different kinds of assertions.  
 <a href="#details">More...</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:ga7ad5b8e5cb988d185dffa511b50cebd2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-details.html#ga7ad5b8e5cb988d185dffa511b50cebd2">BOOST_HANA_RUNTIME_ASSERT</a>(...)&#160;&#160;&#160;unspecified</td></tr>
+<tr class="memdesc:ga7ad5b8e5cb988d185dffa511b50cebd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Expands to a runtime assertion.  <a href="group__group-details.html#ga7ad5b8e5cb988d185dffa511b50cebd2">More...</a><br /></td></tr>
+<tr class="separator:ga7ad5b8e5cb988d185dffa511b50cebd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga90927e0cc2d4f09fd9f7e17ecead6f77"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(...)&#160;&#160;&#160;unspecified</td></tr>
+<tr class="memdesc:ga90927e0cc2d4f09fd9f7e17ecead6f77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compile-time assertion for <code>Constant</code>s.  <a href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">More...</a><br /></td></tr>
+<tr class="separator:ga90927e0cc2d4f09fd9f7e17ecead6f77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf87274a2e99e7f63831553535de99d89"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(...)&#160;&#160;&#160;unspecified</td></tr>
+<tr class="memdesc:gaf87274a2e99e7f63831553535de99d89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Expands to a static assertion or a runtime assertion, depending on whether <code>constexpr</code> lambdas are supported.  <a href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">More...</a><br /></td></tr>
+<tr class="separator:gaf87274a2e99e7f63831553535de99d89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:abc594fe10baa471b4cd5763a100c9405"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:abc594fe10baa471b4cd5763a100c9405"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>boost::hana::assert_detail::value_helper&lt; T, true &gt;</b> = <a class="el" href="structboost_1_1hana_1_1_constant.html#a615a7728e2278acb2cab50854079d7fc">value</a>(T{})</td></tr>
+<tr class="separator:abc594fe10baa471b4cd5763a100c9405"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Includes all the library components except the adapters for external libraries. </p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000028">Todo:</a></b></dt><dd><ul>
-<li>When we have functions with several variants, consider naming versions with the following scheme: <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>.lazy</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>.strict</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a> == <a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>.strict</div>
-</div><!-- fragment --> That would be prettier and not much more complicated. However, we would need a naming convention for the <code>_impl</code> versions of those.</li>
-<li>To consider: is it possible/desirable to eliminate partial functions? For example, removing <code>head</code> and <code>tail</code>, which can fail, and replace them by a function which returns a <code>Maybe</code>.</li>
-<li>Document the library's stance on perfect forwarding and move semantics. Make compile-time tests with non-copyable types and runtime tests with expensive-to-copy types.</li>
-<li>In the unit tests, we might want to use an injective function on <code>Comparable</code>s instead of <code>std::make_tuple</code>.</li>
-<li>Document how to write common Boost.Fusion and Boost.MPL idioms with Boost.Hana.</li>
-<li>Write runtime benchmarks.</li>
-<li>Setup a BJam build system.</li>
-<li>Consider making function objects automatically curriable. This could allow <em>super sexy</em> stuff like: <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;&gt;</div>
-<div class="line"><span class="keyword">struct </span>Iterable&lt;List&gt; {</div>
-<div class="line">    <span class="keyword">static</span> constexpr <span class="keyword">auto</span> length_impl = foldl(some_lambda, size_t&lt;0&gt;);</div>
-<div class="line">};</div>
-</div><!-- fragment --></li>
-</ul>
-</dd></dl>
+<div class="textblock"><p>Defines macros to perform different kinds of assertions. </p>
 <dl class="section copyright"><dt>Copyright</dt><dd>Louis Dionne 2014 Distributed under the Boost Software License, Version 1.0. (See accompanying file LICENSE.md or copy at <a href="http://boost.org/LICENSE_1_0.txt">http://boost.org/LICENSE_1_0.txt</a>) </dd></dl>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_3913df26df1cb371abfd458a6c1693a0.html">boost</a></li><li class="navelem"><a class="el" href="hana_8hpp.html">hana.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_3913df26df1cb371abfd458a6c1693a0.html">boost</a></li><li class="navelem"><a class="el" href="dir_be7239abbae3c0cc65a25a72f7ded6b1.html">hana</a></li><li class="navelem"><a class="el" href="dir_7c8e37cc545a1a2feede1af18dce8861.html">detail</a></li><li class="navelem"><a class="el" href="assert_8hpp.html">assert.hpp</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.7 </li>

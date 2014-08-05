@@ -100,8 +100,8 @@ struct boost::hana::Comparable::instance&lt; T, U, when&lt; is_a&lt; Product, T 
 <p>Instance of <code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable type class defines equality and inequality. ">Comparable</a></code> for <code><a class="el" href="structboost_1_1hana_1_1_product.html" title="Represents types that are generic containers of two elements. ">Product</a></code>s. </p>
 <p>Two products <code>x</code> and <code>y</code> are equal iff they are equal element-wise, i.e. iff </p><div class="fragment"><div class="line">first(x) == first(y) &amp;&amp; second(x) == second(y)</div>
 </div><!-- fragment --><h3>Example</h3>
-<div class="fragment"><div class="line">    assert(pair(1, std::string{<span class="stringliteral">&quot;234&quot;</span>}) == pair(1, <span class="stringliteral">&quot;234&quot;</span>));</div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(pair(<span class="charliteral">&#39;x&#39;</span>, 2) != pair(<span class="charliteral">&#39;y&#39;</span>, 2));</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#ga7ad5b8e5cb988d185dffa511b50cebd2">BOOST_HANA_RUNTIME_ASSERT</a>(pair(1, std::string{<span class="stringliteral">&quot;234&quot;</span>}) == pair(1, <span class="stringliteral">&quot;234&quot;</span>));</div>
+<div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(pair(<span class="charliteral">&#39;x&#39;</span>, 2) != pair(<span class="charliteral">&#39;y&#39;</span>, 2));</div>
 </div><!-- fragment --></div><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Inheritance diagram for boost::hana::Comparable::instance&lt; T, U, when&lt; is_a&lt; Product, T &gt;()&amp;&amp;is_a&lt; Product, U &gt;() &gt; &gt;:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">

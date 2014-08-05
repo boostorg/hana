@@ -106,7 +106,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_traversable.ht
 <div class="line"><a class="code" href="structboost_1_1hana_1_1_traversable.html#ad2bcf2a65d198953b1690b02f9425419">sequence</a>(fmap(Compose, x)) == Compose(fmap(<a class="code" href="structboost_1_1hana_1_1_traversable.html#ad2bcf2a65d198953b1690b02f9425419">sequence</a>, sequence(x)))  <span class="comment">// composition</span></div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1_traversable.html#a15f448955bcfe5b536c94a76b0c007fb">traverse</a>(f, x) == sequence(fmap(f, x))</div>
 </div><!-- fragment --><p>where <a href="http://hackage.haskell.org/package/transformers-0.4.1.0/docs/Data-Functor-Identity.html">Identity</a> and <a href="http://hackage.haskell.org/package/transformers-0.4.1.0/docs/Data-Functor-Compose.html">Compose</a> are the identity functor and the composition of functors, respectively. Note that these functors are not provided with the library right now.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000022">Todo:</a></b></dt><dd>Define these functors in the library.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000024">Todo:</a></b></dt><dd>Define these functors in the library.</dd></dl>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of methods</h2></td></tr>
@@ -168,16 +168,16 @@ template&lt;typename A &gt; </div>
   </dd>
 </dl>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(</div>
 <div class="line">        sequence&lt;Maybe&gt;(list(just(1), just(<span class="charliteral">&#39;2&#39;</span>), just(3.3))) == just(list(1, <span class="charliteral">&#39;2&#39;</span>, 3.3))</div>
 <div class="line">    );</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(</div>
 <div class="line">        sequence&lt;Maybe&gt;(list(just(1), nothing, just(3.3))) == nothing</div>
 <div class="line">    );</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// This is a generalized Cartesian product.</span></div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(</div>
 <div class="line">        sequence&lt;List&gt;(list(list(1, 2, 3), list(4), list(5, 6)))</div>
 <div class="line">        ==</div>
 <div class="line">        list(</div>
@@ -236,13 +236,13 @@ template&lt;typename A &gt; </div>
 <div class="line">        );</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(</div>
 <div class="line">        traverse&lt;Maybe&gt;(half, list(int_&lt;2&gt;, int_&lt;4&gt;, int_&lt;6&gt;))</div>
 <div class="line">        ==</div>
 <div class="line">        just(list(int_&lt;1&gt;, int_&lt;2&gt;, int_&lt;3&gt;))</div>
 <div class="line">    );</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(</div>
 <div class="line">        traverse&lt;Maybe&gt;(half, list(int_&lt;2&gt;, int_&lt;3&gt;, int_&lt;6&gt;))</div>
 <div class="line">        ==</div>
 <div class="line">        nothing</div>
@@ -252,11 +252,11 @@ template&lt;typename A &gt; </div>
 <div class="line">        <span class="keywordflow">return</span> list(x, x);</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(</div>
 <div class="line">        traverse&lt;List&gt;(twice, just(<span class="charliteral">&#39;x&#39;</span>)) == list(just(<span class="charliteral">&#39;x&#39;</span>), just(<span class="charliteral">&#39;x&#39;</span>))</div>
 <div class="line">    );</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(</div>
 <div class="line">        traverse&lt;List&gt;(twice, nothing) == list(nothing)</div>
 <div class="line">    );</div>
 </div><!-- fragment -->

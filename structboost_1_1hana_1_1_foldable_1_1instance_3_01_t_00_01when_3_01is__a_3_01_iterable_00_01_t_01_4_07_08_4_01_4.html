@@ -118,7 +118,7 @@ struct boost::hana::Foldable::instance&lt; T, when&lt; is_a&lt; Iterable, T &gt;
 <div class="line">        <span class="keywordflow">return</span> if_(n &lt; 0_c, cons(n, acc), acc);</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>(keep_negatives, integer_list&lt;int&gt;, numbers) == negatives);</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>(keep_negatives, integer_list&lt;int&gt;, numbers) == negatives);</div>
 </div><!-- fragment --></div>
 <p>Inherits boost::hana::detail::FoldableFromIterable.</p>
 </div><!-- contents -->

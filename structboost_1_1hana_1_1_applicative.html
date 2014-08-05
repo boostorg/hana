@@ -167,7 +167,7 @@ Instances and minimal complete definitions</h2></td></tr>
 </dl>
 <h3>Example</h3>
 <div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> f = _ + <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>;</div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(</div>
 <div class="line">        <a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(lift&lt;List&gt;(f), list(1, 2), list(3, 4, 5))</div>
 <div class="line">            ==</div>
 <div class="line">        list(</div>
@@ -179,10 +179,10 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> g = [](<span class="keyword">auto</span> a, <span class="keyword">auto</span> b, <span class="keyword">auto</span> c) {</div>
 <div class="line">        <span class="keywordflow">return</span> a * b * c;</div>
 <div class="line">    };</div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(</div>
 <div class="line">        <a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(lift&lt;Maybe&gt;(g), just(1), just(2), just(3)) == just(1 * 2 * 3)</div>
 <div class="line">    );</div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(</div>
 <div class="line">        <a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(lift&lt;Maybe&gt;(g), just(1), nothing, just(3)) == nothing</div>
 <div class="line">    );</div>
 </div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>Consider giving access to all the arguments to the type class implementation for performance purposes. </dd></dl>
@@ -223,8 +223,8 @@ template&lt;typename A &gt; </div>
   </dd>
 </dl>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(lift&lt;List&gt;(<span class="charliteral">&#39;x&#39;</span>) == list(<span class="charliteral">&#39;x&#39;</span>));</div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(lift&lt;Maybe&gt;(<span class="charliteral">&#39;x&#39;</span>) == just(<span class="charliteral">&#39;x&#39;</span>));</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(lift&lt;List&gt;(<span class="charliteral">&#39;x&#39;</span>) == list(<span class="charliteral">&#39;x&#39;</span>));</div>
+<div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(lift&lt;Maybe&gt;(<span class="charliteral">&#39;x&#39;</span>) == just(<span class="charliteral">&#39;x&#39;</span>));</div>
 </div><!-- fragment -->
 </div>
 </div>

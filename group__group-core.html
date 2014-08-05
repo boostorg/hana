@@ -146,7 +146,6 @@ Variables</h2></td></tr>
 <tr class="separator:gadc70755c1d059139297814fb3bfeb91e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga38cf78e1e3e262f7f1c71ddd9ca70cd9"><td class="memTemplParams" colspan="2">template&lt;typename Typeclass , typename... Datatypes&gt; </td></tr>
 <tr class="memitem:ga38cf78e1e3e262f7f1c71ddd9ca70cd9"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-core.html#ga38cf78e1e3e262f7f1c71ddd9ca70cd9">boost::hana::is_a</a> = unspecified</td></tr>
-<tr class="memdesc:ga38cf78e1e3e262f7f1c71ddd9ca70cd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return whether a type class is instantiated with the given data types.  <a href="#ga38cf78e1e3e262f7f1c71ddd9ca70cd9">More...</a><br /></td></tr>
 <tr class="separator:ga38cf78e1e3e262f7f1c71ddd9ca70cd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga7fdbde52f5fe384a816c6f39ff272df9"><td class="memTemplParams" colspan="2"><a class="anchor" id="ga7fdbde52f5fe384a816c6f39ff272df9"></a>
 template&lt;typename Typeclass , typename... Datatypes&gt; </td></tr>
@@ -181,8 +180,8 @@ template&lt;typename Typeclass , typename... Datatypes&gt; </td></tr>
 <div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="typeclass_8hpp.html">boost/hana/core/typeclass.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/detail/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="constexpr_8hpp.html">boost/hana/detail/constexpr.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="static__assert_8hpp.html">boost/hana/detail/static_assert.hpp</a>&gt;</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
 <div class="line"><span class="keyword">namespace </span>hana = boost::hana;</div>
@@ -195,11 +194,15 @@ template&lt;typename Typeclass , typename... Datatypes&gt; </td></tr>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> next = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">    <span class="keywordflow">return</span> Incrementable::instance&lt;hana::datatype_t&lt;decltype(x)&gt;&gt;::next_impl(x);</div>
+<div class="line">    <span class="keywordflow">return</span> Incrementable::instance&lt;</div>
+<div class="line">        hana::datatype_t&lt;decltype(x)&gt;</div>
+<div class="line">    &gt;::next_impl(x);</div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> next_n = [](<span class="keyword">auto</span> x, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> n) {</div>
-<div class="line">    <span class="keywordflow">return</span> Incrementable::instance&lt;hana::datatype_t&lt;decltype(x)&gt;&gt;::next_n_impl(x, n);</div>
+<div class="line">    <span class="keywordflow">return</span> Incrementable::instance&lt;</div>
+<div class="line">        hana::datatype_t&lt;decltype(x)&gt;</div>
+<div class="line">    &gt;::next_n_impl(x, n);</div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">struct </span>Incrementable::next_mcd {</div>
@@ -238,14 +241,14 @@ template&lt;typename Typeclass , typename... Datatypes&gt; </td></tr>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(next(1) == 2);</div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(next_n(1, 3) == 4);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(next(1) == 2);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(next_n(1, 3) == 4);</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(next(1l) == 2l);</div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(next_n(1l, 3) == 4l);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(next(1l) == 2l);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(next_n(1l, 3) == 4l);</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(next(1.0) == 2.0);</div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(next_n(1.0, 3) == 4.0);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(next(1.0) == 2.0);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(next_n(1.0, 3) == 4.0);</div>
 <div class="line">}</div>
 </div><!-- fragment --> 
 </div>
@@ -277,11 +280,10 @@ template&lt;typename Typeclass , typename... Datatypes&gt; </td></tr>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="bool_8hpp.html">boost/hana/bool.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="typeclass_8hpp.html">boost/hana/core/typeclass.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/detail/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="constexpr_8hpp.html">boost/hana/detail/constexpr.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="static__assert_8hpp.html">boost/hana/detail/static_assert.hpp</a>&gt;</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;algorithm&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;cassert&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;utility&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;vector&gt;</span></div>
@@ -327,10 +329,10 @@ template&lt;typename Typeclass , typename... Datatypes&gt; </td></tr>
 <div class="line"></div>
 <div class="line">    <span class="comment">// We can now compare arbitrary containers</span></div>
 <div class="line">    <span class="comment">// (not that it&#39;s brilliant to do so)</span></div>
-<div class="line">    assert(similar(foo_vec, foo_str));</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga7ad5b8e5cb988d185dffa511b50cebd2">BOOST_HANA_RUNTIME_ASSERT</a>(similar(foo_vec, foo_str));</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// And arbitrary stuff now compare unequal.</span></div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(!similar(1, foo_str));</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(!similar(1, foo_str));</div>
 <div class="line">}</div>
 </div><!-- fragment --> 
 </div>
@@ -425,15 +427,15 @@ template&lt;typename To &gt; </div>
   </dd>
 </dl>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(</div>
 <div class="line">        to&lt;List&gt;(std::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)) == list(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)</div>
 <div class="line">    );</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(</div>
 <div class="line">        to&lt;List&gt;(range(int_&lt;1&gt;, int_&lt;4&gt;)) == list(int_&lt;1&gt;, int_&lt;2&gt;, int_&lt;3&gt;)</div>
 <div class="line">    );</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(</div>
+<div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(</div>
 <div class="line">        to&lt;List&gt;(std::array&lt;int, 3&gt;{{1, 2, 3}}) == list(1, 2, 3)</div>
 <div class="line">    );</div>
 </div><!-- fragment -->
@@ -452,14 +454,13 @@ template&lt;typename Typeclass , typename... Datatypes&gt; </div>
 </div><div class="memdoc">
 
 <p><code>#include &lt;<a class="el" href="is__a_8hpp.html">boost/hana/core/is_a.hpp</a>&gt;</code></p>
-
-<p>Return whether a type class is instantiated with the given data types. </p>
+<p><a class="anchor" id="group-core-is_a"></a> Return whether a type class is instantiated with the given data types.</p>
 <p>Specifically, <code>is_a&lt;Typeclass, Datatypes...&gt;</code> is a <a class="el" href="structboost_1_1hana_1_1_logical.html#Logical_terminology">compile-time</a> <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code> representing whether <code>Typeclass::instance&lt;Datatypes...&gt;</code> represents an instance of <code>Typeclass</code>. This does not check whether the instance is valid: it does not check whether laws are satisfied or even if the minimal complete definition is syntactically correct. It only tells whether an instance is there and was not disabled explicitly with <code>disable</code>. Note that exactly one or two data types must be provided because the library currently supports only unary and binary type classes; failure to provide a correct number of arguments will trigger a static assertion.</p>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>( is_a&lt;Foldable, Maybe&gt;);</div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(!is_a&lt;Logical, Maybe&gt;);</div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>(!is_a&lt;Foldable, int&gt;);</div>
-<div class="line">    <a class="code" href="group__group-details.html#gab7f4d2cdacf9c644755995da69af8d4f">BOOST_HANA_STATIC_ASSERT</a>( is_a&lt;Comparable, int, long&gt;);</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>( is_a&lt;Foldable, Maybe&gt;);</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(!is_a&lt;Logical, Maybe&gt;);</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(!is_a&lt;Foldable, int&gt;);</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>( is_a&lt;Comparable, int, long&gt;);</div>
 </div><!-- fragment --><p> An alternate syntax is provided for convenience. <code>is_a</code> can also be used as a function returning whether the data types of its arguments together define an instance of the given type class. In other words, </p><div class="fragment"><div class="line">is_a&lt;Typeclass&gt;(x1, ..., xn) == is_a&lt;Typeclass, D1, ..., Dn&gt;</div>
 </div><!-- fragment --><p> where <code>xi</code> is an arbitrary object and <code>Di</code> is the data type of the corresponding <code>xi</code>.</p>
 <h3>Example</h3>
@@ -469,9 +470,7 @@ template&lt;typename Typeclass , typename... Datatypes&gt; </div>
 <div class="line">            <span class="keyword">auto</span> row_is_correct = [=](<span class="keyword">auto</span> row) {</div>
 <div class="line">                <span class="keywordflow">return</span> list(headers(head(row))...) == tail(row);</div>
 <div class="line">            };</div>
-<div class="line">            <span class="keyword">auto</span> typeclasses_match = all(row_is_correct, list(rows...));</div>
-<div class="line">            static_assert(typeclasses_match(),</div>
-<div class="line">            <span class="stringliteral">&quot;type classes in the table below are wrong&quot;</span>);</div>
+<div class="line">            <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(all(row_is_correct, list(rows...)));</div>
 <div class="line">        };</div>
 <div class="line">    };</div>
 <div class="line"></div>
