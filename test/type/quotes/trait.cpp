@@ -6,7 +6,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/type.hpp>
 
-#include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/sandbox/detail/is_valid.hpp>
 
 #include <type_traits>
@@ -41,5 +40,5 @@ int main() {
     test<f>();
 
     // test<alias>();
-    // BOOST_HANA_STATIC_ASSERT(!detail::is_valid(trait<invalid>)(type<x1>));
+    // BOOST_HANA_CONSTANT_ASSERT(!detail::is_valid(trait<invalid>)(type<x1>));
 }

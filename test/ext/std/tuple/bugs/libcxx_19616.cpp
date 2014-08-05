@@ -6,7 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/ext/std/tuple.hpp>
 
-#include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/detail/assert.hpp>
 
 #include <tuple>
 using namespace boost::hana;
@@ -15,10 +15,10 @@ using namespace boost::hana;
 int main() {
     // Make sure we workaround the bug at:
     // http://llvm.org/bugs/show_bug.cgi?id=19616
-    BOOST_HANA_STATIC_ASSERT(
-        lift<StdTuple>(std::make_tuple(1)) ==
+    BOOST_HANA_CONSTEXPR_ASSERT(equal(
+        lift<StdTuple>(std::make_tuple(1)),
         std::make_tuple(std::make_tuple(1))
-    );
+    ));
 
     // The following shows the actual bug:
 #if 0

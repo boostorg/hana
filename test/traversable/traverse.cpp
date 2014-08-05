@@ -6,11 +6,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/traversable/traverse_mcd.hpp>
 
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/minimal/applicative.hpp>
 #include <boost/hana/detail/minimal/comparable.hpp>
 #include <boost/hana/detail/minimal/traversable.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 
 #include <tuple>
 using namespace boost::hana;
@@ -25,7 +25,7 @@ void test() {
         return applicative(std::make_tuple(x));
     };
 
-    BOOST_HANA_STATIC_ASSERT(
+    BOOST_HANA_CONSTEXPR_ASSERT(
         traverse<detail::minimal::Applicative<>>(f, traversable(comparable(1)))
             ==
         applicative(traversable(std::make_tuple(comparable(1))))

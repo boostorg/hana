@@ -6,14 +6,14 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/type.hpp>
 
-#include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/detail/assert.hpp>
 using namespace boost::hana;
 
 
 struct x { };
 
-int main() {
-    BOOST_HANA_STATIC_ASSERT(decltype_(1) == type<int>);
-    BOOST_HANA_STATIC_ASSERT(decltype_('1') == type<char>);
-    BOOST_HANA_STATIC_ASSERT(decltype_(x{}) == type<x>);
-}
+BOOST_HANA_CONSTANT_ASSERT(decltype_(1) == type<int>);
+BOOST_HANA_CONSTANT_ASSERT(decltype_('1') == type<char>);
+BOOST_HANA_CONSTANT_ASSERT(decltype_(x{}) == type<x>);
+
+int main() { }

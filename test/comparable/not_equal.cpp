@@ -7,8 +7,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/comparable/not_equal_mcd.hpp>
 
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/minimal/comparable.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 using namespace boost::hana;
 
 
@@ -16,11 +16,11 @@ template <typename mcd>
 void test() {
     constexpr auto comparable = detail::minimal::comparable<mcd>;
 
-    BOOST_HANA_STATIC_ASSERT(not_equal(comparable(0), comparable(1)));
-    BOOST_HANA_STATIC_ASSERT(!not_equal(comparable(0), comparable(0)));
+    BOOST_HANA_CONSTEXPR_ASSERT(not_equal(comparable(0), comparable(1)));
+    BOOST_HANA_CONSTEXPR_ASSERT(!not_equal(comparable(0), comparable(0)));
 
-    BOOST_HANA_STATIC_ASSERT(comparable(0) != comparable(1));
-    BOOST_HANA_STATIC_ASSERT(!(comparable(0) != comparable(0)));
+    BOOST_HANA_CONSTEXPR_ASSERT(comparable(0) != comparable(1));
+    BOOST_HANA_CONSTEXPR_ASSERT(!(comparable(0) != comparable(0)));
 }
 
 int main() {

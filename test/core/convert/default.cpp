@@ -6,9 +6,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/convert.hpp>
 
-#include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/detail/assert.hpp>
 
-#include <cassert>
 #include <string>
 #include <type_traits>
 using namespace boost::hana;
@@ -16,7 +15,7 @@ using namespace boost::hana;
 
 template <typename ToDatatype, typename From, typename To>
 void check_convert(From from, To to_) {
-    assert(to<ToDatatype>(from) == to_);
+    BOOST_HANA_RUNTIME_ASSERT(to<ToDatatype>(from) == to_);
     static_assert(std::is_same<decltype(to<To>(from)), To>{}, "");
 }
 

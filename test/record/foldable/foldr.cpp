@@ -5,8 +5,8 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include "../udt.hpp"
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 
 #include <tuple>
 using namespace boost::hana;
@@ -18,5 +18,5 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto x, auto s) {
 
 int main() {
     constexpr auto s = 3.3;
-    BOOST_HANA_STATIC_ASSERT(foldr(f, s, udt{0, '0'}) == f(0, f('0', s)));
+    BOOST_HANA_CONSTEXPR_ASSERT(foldr(f, s, udt{0, '0'}) == f(0, f('0', s)));
 }

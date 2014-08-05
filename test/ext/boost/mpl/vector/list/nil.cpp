@@ -6,7 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/ext/boost/mpl/vector.hpp>
 
-#include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/detail/assert.hpp>
 
 #include <boost/mpl/vector.hpp>
 using namespace boost::hana;
@@ -14,7 +14,6 @@ namespace mpl = boost::mpl;
 
 
 int main() {
-    using namespace operators;
-    BOOST_HANA_STATIC_ASSERT(nil<MplVector> == mpl::vector<>{});
-    BOOST_HANA_STATIC_ASSERT(nil<MplVector> == mpl::vector0<>{});
+    BOOST_HANA_CONSTANT_ASSERT(equal(nil<MplVector>, mpl::vector<>{}));
+    BOOST_HANA_CONSTANT_ASSERT(equal(nil<MplVector>, mpl::vector0<>{}));
 }

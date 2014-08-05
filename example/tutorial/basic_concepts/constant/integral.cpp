@@ -4,7 +4,7 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/integral.hpp>
 
 #include <type_traits>
@@ -37,10 +37,10 @@ auto yes = bool_<true>;
 //! [integral_shorthands]
 }
 
-int main() {
 //! [integral_operators]
-BOOST_HANA_STATIC_ASSERT(int_<1> == integral<int, 1>);
-BOOST_HANA_STATIC_ASSERT(int_<1> + long_<2> == long_<3>);
-BOOST_HANA_STATIC_ASSERT(!(bool_<true> && bool_<false>));
+BOOST_HANA_CONSTANT_ASSERT(int_<1> == integral<int, 1>);
+BOOST_HANA_CONSTANT_ASSERT(int_<1> + long_<2> == long_<3>);
+BOOST_HANA_CONSTANT_ASSERT(!(bool_<true> && bool_<false>));
 //! [integral_operators]
-}
+
+int main() { }

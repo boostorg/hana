@@ -6,10 +6,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/type_list.hpp>
 
-#include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/detail/assert.hpp>
 using namespace boost::hana;
 
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(nil<TypeList> == type_list<>);
+    BOOST_HANA_CONSTANT_ASSERT(nil<TypeList> == type_list<>);
 }

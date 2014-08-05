@@ -1,6 +1,6 @@
 /*!
 @file
-Defines `boost::hana::Type`.
+Defines the `boost::hana::Type` data type.
 
 @copyright Louis Dionne 2014
 Distributed under the Boost Software License, Version 1.0.
@@ -18,7 +18,39 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //! @ingroup group-datatypes
-    //! C++ type represented as a constexpr object.
+    //! Object representing a C++ type.
+    //!
+    //! `Type`s are the key element making it possible to do everything that
+    //! can be done with Boost.MPL also doable with Hana. A `Type` is an
+    //! object of an unspecified type which represents (or wraps) a C++ type.
+    //! However, since it is a regular C++ object, it can be stored in
+    //! heterogeneous containers, passed as an argument to regular functions
+    //! and so on. While representing C++ types as values might seem backward
+    //! at first, it is in fact the very thing that makes it possible to unify
+    //! type-level programming and value-level programming. In particular,
+    //! this allows using the same syntax for type-level computations as used
+    //! in everyday C++, and it even allows certain functions with very few
+    //! requirements to be used both on types and on values, thus reducing
+    //! code duplication. In comparison, previous metaprogramming libraries
+    //! like [Boost.MPL][] or [MPL11][] used struct-based metafunctions that
+    //! worked at the type level only, were less expressive due to the lack
+    //! of anonymous functions and forced the programmer to use an awkward
+    //! syntax.
+    //!
+    //! Of course, since each object of data type `Type` has an unspecified
+    //! (and hence possibly different) C++ type, manipulating these guys
+    //! requires being able to manipulate heterogeneous objects. Fortunately,
+    //! this is exactly what this library was built for, so we're good.
+    //!
+    //! So far, we're only able to pass wrapped types around, which isn't
+    //! very useful. For `Type`s to be of some use, they have to give us
+    //! a way of getting that wrapped type out. Hence, for any `Type` `t`,
+    //! `decltype(t)::type` is an alias to the type it wraps. In Boost.MPL
+    //! parlance, `decltype(t)` is a nullary metafunction returning the C++
+    //! type `t` represents.
+    //!
+    //! [Boost.MPL]: http://www.boost.org/doc/libs/release/libs/mpl/doc/index.html
+    //! [MPL11]: http://github.com/ldionne/mpl11
     //!
     //! ## Instance of
     //! `Comparable`
@@ -31,8 +63,6 @@ namespace boost { namespace hana {
     //!   that's possible.
     //! - Consider having a `.name()` method that would return the
     //!   (demangled?) `typeid(T).name()`.
-    //! - Use more lambdas once http://llvm.org/bugs/show_bug.cgi?id=20046
-    //!   is fixed.
     //!
     //! @bug
     //! `metafunction` and friends are not SFINAE-friendly right now.

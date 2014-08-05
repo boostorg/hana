@@ -6,17 +6,17 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/functional.hpp>
 
-#include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/detail/assert.hpp>
 using namespace boost::hana;
 
 
 struct nonpod { virtual ~nonpod() { } };
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(always('a')() == 'a');
-    BOOST_HANA_STATIC_ASSERT(always('a')(1) == 'a');
-    BOOST_HANA_STATIC_ASSERT(always('a')(1, '2') == 'a');
-    BOOST_HANA_STATIC_ASSERT(always('a')(1, '2', "3") == 'a');
-    BOOST_HANA_STATIC_ASSERT(always('a')(1, '2', "3", 4.4f) == 'a');
-    BOOST_HANA_STATIC_ASSERT(always('a')(1, '2', "3", 4.4f, nonpod{}) == 'a');
+    BOOST_HANA_CONSTEXPR_ASSERT(always('a')() == 'a');
+    BOOST_HANA_CONSTEXPR_ASSERT(always('a')(1) == 'a');
+    BOOST_HANA_CONSTEXPR_ASSERT(always('a')(1, '2') == 'a');
+    BOOST_HANA_CONSTEXPR_ASSERT(always('a')(1, '2', "3") == 'a');
+    BOOST_HANA_CONSTEXPR_ASSERT(always('a')(1, '2', "3", 4.4f) == 'a');
+    BOOST_HANA_RUNTIME_ASSERT(always('a')(1, '2', "3", 4.4f, nonpod{}) == 'a');
 }

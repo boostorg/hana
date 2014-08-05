@@ -6,17 +6,17 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/integer_list.hpp>
 
-#include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/integral.hpp>
 using namespace boost::hana;
 
 
 template <typename T, typename U>
 void test() {
-    BOOST_HANA_STATIC_ASSERT(cons(integral<T, 0>, integer_list<U>) == integer_list<U, 0>);
-    BOOST_HANA_STATIC_ASSERT(cons(integral<T, 0>, integer_list<U, 1>) == integer_list<U, 0, 1>);
-    BOOST_HANA_STATIC_ASSERT(cons(integral<T, 0>, integer_list<U, 1, 2>) == integer_list<U, 0, 1, 2>);
-    BOOST_HANA_STATIC_ASSERT(cons(integral<T, 0>, integer_list<U, 1, 2, 3>) == integer_list<U, 0, 1, 2, 3>);
+    BOOST_HANA_CONSTANT_ASSERT(cons(integral<T, 0>, integer_list<U>) == integer_list<U, 0>);
+    BOOST_HANA_CONSTANT_ASSERT(cons(integral<T, 0>, integer_list<U, 1>) == integer_list<U, 0, 1>);
+    BOOST_HANA_CONSTANT_ASSERT(cons(integral<T, 0>, integer_list<U, 1, 2>) == integer_list<U, 0, 1, 2>);
+    BOOST_HANA_CONSTANT_ASSERT(cons(integral<T, 0>, integer_list<U, 1, 2, 3>) == integer_list<U, 0, 1, 2, 3>);
 }
 
 int main() {

@@ -4,8 +4,8 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/list/instance.hpp>
 #include <boost/hana/maybe.hpp>
@@ -15,7 +15,7 @@ using namespace boost::hana;
 int main() {
     //! [main]
     BOOST_HANA_CONSTEXPR_LAMBDA auto f = _ + _;
-    BOOST_HANA_STATIC_ASSERT(
+    BOOST_HANA_CONSTEXPR_ASSERT(
         ap(lift<List>(f), list(1, 2), list(3, 4, 5))
             ==
         list(
@@ -27,10 +27,10 @@ int main() {
     BOOST_HANA_CONSTEXPR_LAMBDA auto g = [](auto a, auto b, auto c) {
         return a * b * c;
     };
-    BOOST_HANA_STATIC_ASSERT(
+    BOOST_HANA_CONSTEXPR_ASSERT(
         ap(lift<Maybe>(g), just(1), just(2), just(3)) == just(1 * 2 * 3)
     );
-    BOOST_HANA_STATIC_ASSERT(
+    BOOST_HANA_CONSTANT_ASSERT(
         ap(lift<Maybe>(g), just(1), nothing, just(3)) == nothing
     );
     //! [main]

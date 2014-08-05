@@ -6,11 +6,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/core/typeclass.hpp>
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 
 #include <algorithm>
-#include <cassert>
 #include <string>
 #include <utility>
 #include <vector>
@@ -56,8 +55,8 @@ int main() {
 
     // We can now compare arbitrary containers
     // (not that it's brilliant to do so)
-    assert(similar(foo_vec, foo_str));
+    BOOST_HANA_RUNTIME_ASSERT(similar(foo_vec, foo_str));
 
     // And arbitrary stuff now compare unequal.
-    BOOST_HANA_STATIC_ASSERT(!similar(1, foo_str));
+    BOOST_HANA_CONSTANT_ASSERT(!similar(1, foo_str));
 }

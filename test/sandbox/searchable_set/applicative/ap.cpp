@@ -6,8 +6,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/sandbox/searchable_set.hpp>
 
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/integral.hpp>
 
 #include <tuple>
@@ -26,10 +26,13 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto g = [](auto x) {
     return x * int_<20>;
 };
 
-int main() {
-    BOOST_HANA_STATIC_ASSERT(ap(singleton(f), singleton(x<0>)) == singleton(f(x<0>)));
-    BOOST_HANA_STATIC_ASSERT(ap(singleton(f), doubleton(x<0>, x<1>)) == doubleton(f(x<0>), f(x<1>)));
+BOOST_HANA_CONSTANT_ASSERT(ap(singleton(f), singleton(x<0>)) == singleton(f(x<0>)));
+BOOST_HANA_CONSTANT_ASSERT(ap(singleton(f), doubleton(x<0>, x<1>)) == doubleton(f(x<0>), f(x<1>)));
 
-    BOOST_HANA_STATIC_ASSERT(ap(doubleton(f, g), singleton(x<0>)) == doubleton(f(x<0>), g(x<0>)));
-    BOOST_HANA_STATIC_ASSERT(ap(doubleton(f, g), doubleton(x<0>, x<1>)) == union_(doubleton(f(x<0>), f(x<1>)), doubleton(g(x<0>), g(x<1>))));
+BOOST_HANA_CONSTANT_ASSERT(ap(doubleton(f, g), singleton(x<0>)) == doubleton(f(x<0>), g(x<0>)));
+BOOST_HANA_CONSTANT_ASSERT(ap(doubleton(f, g), doubleton(x<0>, x<1>)) == union_(doubleton(f(x<0>), f(x<1>)), doubleton(g(x<0>), g(x<1>))));
+
+int main() {
+    (void)f;
+    (void)g;
 }

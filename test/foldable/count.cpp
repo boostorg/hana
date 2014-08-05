@@ -6,9 +6,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/foldable/mcd.hpp>
 
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/minimal/foldable.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/integral.hpp>
 using namespace boost::hana;
 
@@ -21,43 +21,41 @@ template <typename mcd>
 void test() {
     constexpr auto foldable = detail::minimal::foldable<mcd>;
 
-    // compile-time
-    BOOST_HANA_STATIC_ASSERT(count(f, foldable()) == size_t<0>);
-    BOOST_HANA_STATIC_ASSERT(count(f, foldable(int_<1>)) == size_t<1>);
-    BOOST_HANA_STATIC_ASSERT(count(f, foldable(int_<0>)) == size_t<0>);
+    BOOST_HANA_CONSTANT_ASSERT(count(f, foldable()) == size_t<0>);
+    BOOST_HANA_CONSTANT_ASSERT(count(f, foldable(int_<1>)) == size_t<1>);
+    BOOST_HANA_CONSTANT_ASSERT(count(f, foldable(int_<0>)) == size_t<0>);
 
-    BOOST_HANA_STATIC_ASSERT(count(f, foldable(int_<1>, char_<1>)) == size_t<2>);
-    BOOST_HANA_STATIC_ASSERT(count(f, foldable(int_<1>, char_<0>)) == size_t<1>);
-    BOOST_HANA_STATIC_ASSERT(count(f, foldable(int_<0>, char_<1>)) == size_t<1>);
-    BOOST_HANA_STATIC_ASSERT(count(f, foldable(int_<0>, char_<0>)) == size_t<0>);
+    BOOST_HANA_CONSTANT_ASSERT(count(f, foldable(int_<1>, char_<1>)) == size_t<2>);
+    BOOST_HANA_CONSTANT_ASSERT(count(f, foldable(int_<1>, char_<0>)) == size_t<1>);
+    BOOST_HANA_CONSTANT_ASSERT(count(f, foldable(int_<0>, char_<1>)) == size_t<1>);
+    BOOST_HANA_CONSTANT_ASSERT(count(f, foldable(int_<0>, char_<0>)) == size_t<0>);
 
-    BOOST_HANA_STATIC_ASSERT(count(f, foldable(int_<1>, char_<1>, long_<1>)) == size_t<3>);
-    BOOST_HANA_STATIC_ASSERT(count(f, foldable(int_<1>, char_<1>, long_<0>)) == size_t<2>);
-    BOOST_HANA_STATIC_ASSERT(count(f, foldable(int_<1>, char_<0>, long_<1>)) == size_t<2>);
-    BOOST_HANA_STATIC_ASSERT(count(f, foldable(int_<1>, char_<0>, long_<0>)) == size_t<1>);
-    BOOST_HANA_STATIC_ASSERT(count(f, foldable(int_<0>, char_<1>, long_<1>)) == size_t<2>);
-    BOOST_HANA_STATIC_ASSERT(count(f, foldable(int_<0>, char_<1>, long_<0>)) == size_t<1>);
-    BOOST_HANA_STATIC_ASSERT(count(f, foldable(int_<0>, char_<0>, long_<1>)) == size_t<1>);
-    BOOST_HANA_STATIC_ASSERT(count(f, foldable(int_<0>, char_<0>, long_<0>)) == size_t<0>);
+    BOOST_HANA_CONSTANT_ASSERT(count(f, foldable(int_<1>, char_<1>, long_<1>)) == size_t<3>);
+    BOOST_HANA_CONSTANT_ASSERT(count(f, foldable(int_<1>, char_<1>, long_<0>)) == size_t<2>);
+    BOOST_HANA_CONSTANT_ASSERT(count(f, foldable(int_<1>, char_<0>, long_<1>)) == size_t<2>);
+    BOOST_HANA_CONSTANT_ASSERT(count(f, foldable(int_<1>, char_<0>, long_<0>)) == size_t<1>);
+    BOOST_HANA_CONSTANT_ASSERT(count(f, foldable(int_<0>, char_<1>, long_<1>)) == size_t<2>);
+    BOOST_HANA_CONSTANT_ASSERT(count(f, foldable(int_<0>, char_<1>, long_<0>)) == size_t<1>);
+    BOOST_HANA_CONSTANT_ASSERT(count(f, foldable(int_<0>, char_<0>, long_<1>)) == size_t<1>);
+    BOOST_HANA_CONSTANT_ASSERT(count(f, foldable(int_<0>, char_<0>, long_<0>)) == size_t<0>);
 
 
-    // constexpr/runtime
-    BOOST_HANA_STATIC_ASSERT(count(f, foldable(int{1})) == 1);
-    BOOST_HANA_STATIC_ASSERT(count(f, foldable(int{0})) == 0);
+    BOOST_HANA_CONSTEXPR_ASSERT(count(f, foldable(int{1})) == 1);
+    BOOST_HANA_CONSTEXPR_ASSERT(count(f, foldable(int{0})) == 0);
 
-    BOOST_HANA_STATIC_ASSERT(count(f, foldable(int{1}, char{1})) == 2);
-    BOOST_HANA_STATIC_ASSERT(count(f, foldable(int{1}, char{0})) == 1);
-    BOOST_HANA_STATIC_ASSERT(count(f, foldable(int{0}, char{1})) == 1);
-    BOOST_HANA_STATIC_ASSERT(count(f, foldable(int{0}, char{0})) == 0);
+    BOOST_HANA_CONSTEXPR_ASSERT(count(f, foldable(int{1}, char{1})) == 2);
+    BOOST_HANA_CONSTEXPR_ASSERT(count(f, foldable(int{1}, char{0})) == 1);
+    BOOST_HANA_CONSTEXPR_ASSERT(count(f, foldable(int{0}, char{1})) == 1);
+    BOOST_HANA_CONSTEXPR_ASSERT(count(f, foldable(int{0}, char{0})) == 0);
 
-    BOOST_HANA_STATIC_ASSERT(count(f, foldable(int{1}, char{1}, double{1})) == 3);
-    BOOST_HANA_STATIC_ASSERT(count(f, foldable(int{1}, char{1}, double{0})) == 2);
-    BOOST_HANA_STATIC_ASSERT(count(f, foldable(int{1}, char{0}, double{1})) == 2);
-    BOOST_HANA_STATIC_ASSERT(count(f, foldable(int{1}, char{0}, double{0})) == 1);
-    BOOST_HANA_STATIC_ASSERT(count(f, foldable(int{0}, char{1}, double{1})) == 2);
-    BOOST_HANA_STATIC_ASSERT(count(f, foldable(int{0}, char{1}, double{0})) == 1);
-    BOOST_HANA_STATIC_ASSERT(count(f, foldable(int{0}, char{0}, double{1})) == 1);
-    BOOST_HANA_STATIC_ASSERT(count(f, foldable(int{0}, char{0}, double{0})) == 0);
+    BOOST_HANA_CONSTEXPR_ASSERT(count(f, foldable(int{1}, char{1}, double{1})) == 3);
+    BOOST_HANA_CONSTEXPR_ASSERT(count(f, foldable(int{1}, char{1}, double{0})) == 2);
+    BOOST_HANA_CONSTEXPR_ASSERT(count(f, foldable(int{1}, char{0}, double{1})) == 2);
+    BOOST_HANA_CONSTEXPR_ASSERT(count(f, foldable(int{1}, char{0}, double{0})) == 1);
+    BOOST_HANA_CONSTEXPR_ASSERT(count(f, foldable(int{0}, char{1}, double{1})) == 2);
+    BOOST_HANA_CONSTEXPR_ASSERT(count(f, foldable(int{0}, char{1}, double{0})) == 1);
+    BOOST_HANA_CONSTEXPR_ASSERT(count(f, foldable(int{0}, char{0}, double{1})) == 1);
+    BOOST_HANA_CONSTEXPR_ASSERT(count(f, foldable(int{0}, char{0}, double{0})) == 0);
 }
 
 int main() {

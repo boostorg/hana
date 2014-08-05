@@ -6,7 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/list/instance.hpp>
 
-#include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/integral.hpp>
 using namespace boost::hana;
 
@@ -14,8 +14,8 @@ using namespace boost::hana;
 struct non_trivial { virtual ~non_trivial() { } };
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(head(list(int_<0>)) == int_<0>);
-    BOOST_HANA_STATIC_ASSERT(head(list(int_<0>, int_<1>)) == int_<0>);
-    BOOST_HANA_STATIC_ASSERT(head(list(int_<0>, int_<1>, int_<2>)) == int_<0>);
-    BOOST_HANA_STATIC_ASSERT(head(list(int_<0>, int_<1>, non_trivial{})) == int_<0>);
+    BOOST_HANA_CONSTANT_ASSERT(head(list(int_<0>)) == int_<0>);
+    BOOST_HANA_CONSTANT_ASSERT(head(list(int_<0>, int_<1>)) == int_<0>);
+    BOOST_HANA_CONSTANT_ASSERT(head(list(int_<0>, int_<1>, int_<2>)) == int_<0>);
+    BOOST_HANA_CONSTANT_ASSERT(head(list(int_<0>, int_<1>, non_trivial{})) == int_<0>);
 }

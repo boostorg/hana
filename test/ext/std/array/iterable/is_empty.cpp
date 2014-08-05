@@ -6,7 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/ext/std/array.hpp>
 
-#include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/detail/assert.hpp>
 
 #include <array>
 using namespace boost::hana;
@@ -16,7 +16,7 @@ template <int ...i>
  auto array = std::array<int, sizeof...(i)>{{i...}};
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(is_empty(array<>));
-    BOOST_HANA_STATIC_ASSERT(!is_empty(array<0>));
-    BOOST_HANA_STATIC_ASSERT(!is_empty(array<0, 1>));
+    BOOST_HANA_CONSTANT_ASSERT(is_empty(array<>));
+    BOOST_HANA_CONSTANT_ASSERT(!is_empty(array<0>));
+    BOOST_HANA_CONSTANT_ASSERT(!is_empty(array<0, 1>));
 }

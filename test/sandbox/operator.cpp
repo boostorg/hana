@@ -65,11 +65,15 @@ namespace boost { namespace hana {
 
 //////////////////////////////////////////////////////////////////////////////
 
-#include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/detail/assert.hpp>
 using namespace boost::hana;
 
+int unused_impl(...) { return 1; }
+template <char ...op> int unused = unused_impl(operator_<op>...);
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(operator_<'+'>(1, 2) == 3);
-    BOOST_HANA_STATIC_ASSERT(operator_<'!'>(true) == false);
+    BOOST_HANA_CONSTEXPR_ASSERT(operator_<'+'>(1, 2) == 3);
+    BOOST_HANA_CONSTEXPR_ASSERT(operator_<'!'>(true) == false);
+
+    (void)unused<'+', '-', '*', '/', '%', '~', '&', '|', '^', '<', '>'>;
 }

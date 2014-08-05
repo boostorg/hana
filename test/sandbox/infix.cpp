@@ -169,8 +169,8 @@ namespace boost { namespace hana {
 
 //////////////////////////////////////////////////////////////////////////////
 
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/functional.hpp>
 using namespace boost::hana;
 
@@ -179,14 +179,14 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto plus = infix<'/'>(_ + _);
 BOOST_HANA_CONSTEXPR_LAMBDA auto o = infix<'/'>(compose);
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(1 /plus/ 2 == 3);
+    BOOST_HANA_CONSTEXPR_ASSERT(1 /plus/ 2 == 3);
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto x) { return x % 3; };
     BOOST_HANA_CONSTEXPR_LAMBDA auto g = [](auto x) { return x * 2; };
     BOOST_HANA_CONSTEXPR_LAMBDA auto h = [](auto x) { return x + 1; };
-    BOOST_HANA_STATIC_ASSERT((f /o/ g /o/ h)(3) == ((3 + 1) * 2) % 3);
+    BOOST_HANA_CONSTEXPR_ASSERT((f /o/ g /o/ h)(3) == ((3 + 1) * 2) % 3);
     // It's better than:
-    BOOST_HANA_STATIC_ASSERT(compose(f, compose(g, h))(3) == ((3 + 1) * 2) % 3);
+    BOOST_HANA_CONSTEXPR_ASSERT(compose(f, compose(g, h))(3) == ((3 + 1) * 2) % 3);
     // but it's not better than:
-    BOOST_HANA_STATIC_ASSERT(compose(f, g, h)(3) == ((3 + 1) * 2) % 3);
+    BOOST_HANA_CONSTEXPR_ASSERT(compose(f, g, h)(3) == ((3 + 1) * 2) % 3);
 }

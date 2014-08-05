@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/ext/boost/mpl/integral_c.hpp>
 
 #include <boost/hana/constant/laws.hpp>
-#include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/list/instance.hpp>
 
 #include <boost/mpl/integral_c.hpp>
@@ -17,7 +17,7 @@ using namespace boost::hana;
 template <typename T>
 void test() {
     namespace mpl = boost::mpl;
-    BOOST_HANA_STATIC_ASSERT(Constant::laws::check(
+    BOOST_HANA_CONSTANT_ASSERT(Constant::laws::check(
         list(
             mpl::integral_c<T, 0>{},
             mpl::integral_c<T, 1>{},

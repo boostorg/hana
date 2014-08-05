@@ -6,10 +6,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/list/mcd.hpp>
 
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/minimal/list.hpp>
 #include <boost/hana/detail/minimal/product.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/maybe.hpp>
 
@@ -41,11 +41,11 @@ void test() {
         };
     };
 
-    BOOST_HANA_STATIC_ASSERT(unfoldl<L>(stop_at(x<0>), x<0>) == list());
-    BOOST_HANA_STATIC_ASSERT(unfoldl<L>(stop_at(x<1>), x<0>) == list(f(x<0>)));
-    BOOST_HANA_STATIC_ASSERT(unfoldl<L>(stop_at(x<2>), x<0>) == list(f(x<1>), f(x<0>)));
-    BOOST_HANA_STATIC_ASSERT(unfoldl<L>(stop_at(x<3>), x<0>) == list(f(x<2>), f(x<1>), f(x<0>)));
-    BOOST_HANA_STATIC_ASSERT(unfoldl<L>(stop_at(x<4>), x<0>) == list(f(x<3>), f(x<2>), f(x<1>), f(x<0>)));
+    BOOST_HANA_CONSTANT_ASSERT(unfoldl<L>(stop_at(x<0>), x<0>) == list());
+    BOOST_HANA_CONSTEXPR_ASSERT(unfoldl<L>(stop_at(x<1>), x<0>) == list(f(x<0>)));
+    BOOST_HANA_CONSTEXPR_ASSERT(unfoldl<L>(stop_at(x<2>), x<0>) == list(f(x<1>), f(x<0>)));
+    BOOST_HANA_CONSTEXPR_ASSERT(unfoldl<L>(stop_at(x<3>), x<0>) == list(f(x<2>), f(x<1>), f(x<0>)));
+    BOOST_HANA_CONSTEXPR_ASSERT(unfoldl<L>(stop_at(x<4>), x<0>) == list(f(x<3>), f(x<2>), f(x<1>), f(x<0>)));
 }
 
 // Make sure it can revert foldl under some conditions
@@ -61,15 +61,15 @@ void test_revert() {
     };
 
     // Make sure the special conditions are met
-    BOOST_HANA_STATIC_ASSERT(g(z) == nothing);
-    BOOST_HANA_STATIC_ASSERT(g(f(z, x<0>)) == just(prod(z, x<0>)));
+    BOOST_HANA_CONSTANT_ASSERT(g(z) == nothing);
+    BOOST_HANA_CONSTANT_ASSERT(g(f(z, x<0>)) == just(prod(z, x<0>)));
 
     // Make sure the reversing works
     auto lists = list(
         list(), list(x<0>), list(x<0>, x<1>), list(x<0>, x<1>, x<2>)
     );
     for_each(lists, [=](auto xs) {
-        BOOST_HANA_STATIC_ASSERT(unfoldl<L>(g, foldl(f, z, xs)) == xs);
+        BOOST_HANA_CONSTANT_ASSERT(unfoldl<L>(g, foldl(f, z, xs)) == xs);
     });
 }
 

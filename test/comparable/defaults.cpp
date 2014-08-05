@@ -9,7 +9,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/is_a.hpp>
 
-#include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/detail/assert.hpp>
 using namespace boost::hana;
 
 
@@ -32,21 +32,21 @@ using Integer2 = datatype_t<integer2>;
 int main() {
     // An instance is provided for EqualityComparable types whose data type
     // is the same as their C++ type.
-    BOOST_HANA_STATIC_ASSERT(equal(integer{0}, integer{0}));
-    BOOST_HANA_STATIC_ASSERT(!equal(integer{0}, integer{1}));
-    BOOST_HANA_STATIC_ASSERT(is_a<Comparable, Integer, Integer>);
+    BOOST_HANA_CONSTEXPR_ASSERT(equal(integer{0}, integer{0}));
+    BOOST_HANA_CONSTEXPR_ASSERT(!equal(integer{0}, integer{1}));
+    BOOST_HANA_CONSTANT_ASSERT(is_a<Comparable, Integer, Integer>);
 
     // No instance is provided when the data type differs from the C++ type,
     // even if the C++ type is EqualityComparable.
-    BOOST_HANA_STATIC_ASSERT(!is_a<Comparable, Integer2, Integer2>);
+    BOOST_HANA_CONSTANT_ASSERT(!is_a<Comparable, Integer2, Integer2>);
 
     // Two objects of different data types are unequal by default.
     struct X { };
     struct Y { };
-    BOOST_HANA_STATIC_ASSERT(is_a<Comparable, X, Y>);
-    BOOST_HANA_STATIC_ASSERT(!equal(X{}, Y{}));
+    BOOST_HANA_CONSTANT_ASSERT(is_a<Comparable, X, Y>);
+    BOOST_HANA_CONSTANT_ASSERT(!equal(X{}, Y{}));
 
     // No instance is provided when the two objects are of the same data type.
-    BOOST_HANA_STATIC_ASSERT(!is_a<Comparable, X, X>);
-    BOOST_HANA_STATIC_ASSERT(!is_a<Comparable, Y, Y>);
+    BOOST_HANA_CONSTANT_ASSERT(!is_a<Comparable, X, X>);
+    BOOST_HANA_CONSTANT_ASSERT(!is_a<Comparable, Y, Y>);
 }

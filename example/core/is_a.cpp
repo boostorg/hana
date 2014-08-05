@@ -7,8 +7,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable/comparable.hpp>
 #include <boost/hana/core/is_a.hpp>
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/ext/std/tuple.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/iterable/iterable.hpp>
@@ -24,10 +24,10 @@ using namespace boost::hana;
 
 int main() {
     //! [standard]
-    BOOST_HANA_STATIC_ASSERT( is_a<Foldable, Maybe>);
-    BOOST_HANA_STATIC_ASSERT(!is_a<Logical, Maybe>);
-    BOOST_HANA_STATIC_ASSERT(!is_a<Foldable, int>);
-    BOOST_HANA_STATIC_ASSERT( is_a<Comparable, int, long>);
+    BOOST_HANA_CONSTANT_ASSERT( is_a<Foldable, Maybe>);
+    BOOST_HANA_CONSTANT_ASSERT(!is_a<Logical, Maybe>);
+    BOOST_HANA_CONSTANT_ASSERT(!is_a<Foldable, int>);
+    BOOST_HANA_CONSTANT_ASSERT( is_a<Comparable, int, long>);
     //! [standard]
 
     //! [alternate]
@@ -37,9 +37,7 @@ int main() {
             auto row_is_correct = [=](auto row) {
                 return list(headers(head(row))...) == tail(row);
             };
-            auto typeclasses_match = all(row_is_correct, list(rows...));
-            static_assert(typeclasses_match(),
-            "type classes in the table below are wrong");
+            BOOST_HANA_CONSTANT_ASSERT(all(row_is_correct, list(rows...)));
         };
     };
 

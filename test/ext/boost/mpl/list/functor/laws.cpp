@@ -6,7 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/ext/boost/mpl/list.hpp>
 
-#include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/functor/laws.hpp>
 #include <boost/hana/list/instance.hpp>
 #include <boost/hana/type.hpp>
@@ -25,7 +25,7 @@ struct result {
 struct x0; struct x1; struct x2;
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(Functor::laws::check(
+    BOOST_HANA_CONSTANT_ASSERT(Functor::laws::check(
         list(
             mpl::list<>{},
             mpl::list<x0>{},

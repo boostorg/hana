@@ -5,8 +5,8 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include "../udt.hpp"
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/maybe.hpp>
 using namespace boost::hana;
 
@@ -16,6 +16,6 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto is = [](auto k) {
 };
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(find(is(member1), udt{0, '0'}) == just(0));
-    BOOST_HANA_STATIC_ASSERT(find(is(member2), udt{0, '0'}) == just('0'));
+    BOOST_HANA_CONSTEXPR_ASSERT(find(is(member1), udt{0, '0'}) == just(0));
+    BOOST_HANA_CONSTEXPR_ASSERT(find(is(member2), udt{0, '0'}) == just('0'));
 }

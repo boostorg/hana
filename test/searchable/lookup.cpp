@@ -6,8 +6,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/searchable/mcd.hpp>
 
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/minimal/searchable.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/maybe.hpp>
 using namespace boost::hana;
@@ -20,8 +20,8 @@ template <typename mcd>
 void test() {
     constexpr auto searchable = detail::minimal::searchable<mcd>;
 
-    BOOST_HANA_STATIC_ASSERT(lookup(x<0>, searchable(x<0>)) == just(x<0>));
-    BOOST_HANA_STATIC_ASSERT(lookup(x<1>, searchable(x<0>)) == nothing);
+    BOOST_HANA_CONSTANT_ASSERT(lookup(x<0>, searchable(x<0>)) == just(x<0>));
+    BOOST_HANA_CONSTANT_ASSERT(lookup(x<1>, searchable(x<0>)) == nothing);
 };
 
 int main() {

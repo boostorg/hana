@@ -6,11 +6,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/map.hpp>
 
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/minimal/comparable.hpp>
 #include <boost/hana/detail/minimal/list.hpp>
 #include <boost/hana/detail/minimal/product.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 using namespace boost::hana;
 
 
@@ -26,9 +26,9 @@ constexpr auto p = detail::minimal::product<>(key<i>, value<j>);
 int main() {
     using L = detail::minimal::List<>;
     constexpr auto list = detail::minimal::list<>;
-    BOOST_HANA_STATIC_ASSERT(to<L>(map()) == list());
-    BOOST_HANA_STATIC_ASSERT(to<L>(map(p<1, 1>)) == list(p<1, 1>));
+    BOOST_HANA_CONSTANT_ASSERT(to<L>(map()) == list());
+    BOOST_HANA_CONSTEXPR_ASSERT(to<L>(map(p<1, 1>)) == list(p<1, 1>));
 
-    BOOST_HANA_STATIC_ASSERT(elem(to<L>(map(p<1, 1>, p<2, 2>)), permutations(list(p<1, 1>, p<2, 2>))));
-    BOOST_HANA_STATIC_ASSERT(elem(to<L>(map(p<1, 1>, p<2, 2>, p<3, 3>)), permutations(list(p<1, 1>, p<2, 2>, p<3, 3>))));
+    BOOST_HANA_CONSTEXPR_ASSERT(elem(to<L>(map(p<1, 1>, p<2, 2>)), permutations(list(p<1, 1>, p<2, 2>))));
+    BOOST_HANA_CONSTEXPR_ASSERT(elem(to<L>(map(p<1, 1>, p<2, 2>, p<3, 3>)), permutations(list(p<1, 1>, p<2, 2>, p<3, 3>))));
 }

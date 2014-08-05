@@ -6,8 +6,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/maybe.hpp>
 
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/minimal/comparable.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 using namespace boost::hana;
 
 
@@ -15,9 +15,9 @@ template <int i>
 constexpr auto x = detail::minimal::comparable<>(i);
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT( equal(nothing, nothing));
-    BOOST_HANA_STATIC_ASSERT(!equal(nothing, just(x<0>)));
-    BOOST_HANA_STATIC_ASSERT(!equal(just(x<0>), nothing));
-    BOOST_HANA_STATIC_ASSERT( equal(just(x<0>), just(x<0>)));
-    BOOST_HANA_STATIC_ASSERT(!equal(just(x<0>), just(x<1>)));
+    BOOST_HANA_CONSTANT_ASSERT( equal(nothing, nothing));
+    BOOST_HANA_CONSTANT_ASSERT(!equal(nothing, just(x<0>)));
+    BOOST_HANA_CONSTANT_ASSERT(!equal(just(x<0>), nothing));
+    BOOST_HANA_CONSTEXPR_ASSERT( equal(just(x<0>), just(x<0>)));
+    BOOST_HANA_CONSTEXPR_ASSERT(!equal(just(x<0>), just(x<1>)));
 }

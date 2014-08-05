@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <tuple>
 #include <type_traits>
 
-#include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/detail/assert.hpp>
 
 //! [includes]
 #include <boost/hana.hpp>
@@ -29,7 +29,7 @@ assert(last(xs) == "345");
 
 assert(tail(xs) == list('2', std::string{"345"}));
 
-BOOST_HANA_STATIC_ASSERT(!is_empty(xs));
+BOOST_HANA_CONSTANT_ASSERT(!is_empty(xs));
 
 for_each(xs, [](auto x) {
     std::cout << x;
@@ -54,9 +54,9 @@ auto ts = list(type<int*>, type<void>, type<char const>);
 //! [ts]
 
 //! [type_operations]
-BOOST_HANA_STATIC_ASSERT(last(ts) == type<char const>);
+BOOST_HANA_CONSTANT_ASSERT(last(ts) == type<char const>);
 
-BOOST_HANA_STATIC_ASSERT(tail(ts) == list(type<void>, type<char const>));
+BOOST_HANA_CONSTANT_ASSERT(tail(ts) == list(type<void>, type<char const>));
 //! [type_operations]
 
 //! [type_out]

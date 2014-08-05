@@ -8,9 +8,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable/equal_mcd.hpp>
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/minimal/list.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/functional.hpp>
 using namespace boost::hana;
 
@@ -42,7 +42,7 @@ constexpr struct _predicate {
 
 BOOST_HANA_CONSTEXPR_LAMBDA auto check = [](auto sorted_list) {
     auto perms = fmap(partial(sort_by, pred), permutations(sorted_list));
-    BOOST_HANA_STATIC_ASSERT(all(_ == sorted_list, perms));
+    BOOST_HANA_CONSTANT_ASSERT(all(_ == sorted_list, perms));
 };
 
 template <typename mcd>
@@ -55,15 +55,15 @@ void test() {
     check(list(x<1>, x<2>, x<3>));
 
     // check stability
-    BOOST_HANA_STATIC_ASSERT(sort_by(pred, list(x<1>, y<1>)) == list(x<1>, y<1>));
-    BOOST_HANA_STATIC_ASSERT(sort_by(pred, list(y<1>, x<1>)) == list(y<1>, x<1>));
+    BOOST_HANA_CONSTANT_ASSERT(sort_by(pred, list(x<1>, y<1>)) == list(x<1>, y<1>));
+    BOOST_HANA_CONSTANT_ASSERT(sort_by(pred, list(y<1>, x<1>)) == list(y<1>, x<1>));
 
-    BOOST_HANA_STATIC_ASSERT(sort_by(pred, list(x<1>, y<1>, x<2>, y<2>)) == list(x<1>, y<1>, x<2>, y<2>));
-    BOOST_HANA_STATIC_ASSERT(sort_by(pred, list(x<1>, x<2>, y<1>, y<2>)) == list(x<1>, y<1>, x<2>, y<2>));
-    BOOST_HANA_STATIC_ASSERT(sort_by(pred, list(y<1>, x<1>, x<2>, y<2>)) == list(y<1>, x<1>, x<2>, y<2>));
-    BOOST_HANA_STATIC_ASSERT(sort_by(pred, list(x<2>, y<1>, y<2>, x<1>)) == list(y<1>, x<1>, x<2>, y<2>));
+    BOOST_HANA_CONSTANT_ASSERT(sort_by(pred, list(x<1>, y<1>, x<2>, y<2>)) == list(x<1>, y<1>, x<2>, y<2>));
+    BOOST_HANA_CONSTANT_ASSERT(sort_by(pred, list(x<1>, x<2>, y<1>, y<2>)) == list(x<1>, y<1>, x<2>, y<2>));
+    BOOST_HANA_CONSTANT_ASSERT(sort_by(pred, list(y<1>, x<1>, x<2>, y<2>)) == list(y<1>, x<1>, x<2>, y<2>));
+    BOOST_HANA_CONSTANT_ASSERT(sort_by(pred, list(x<2>, y<1>, y<2>, x<1>)) == list(y<1>, x<1>, x<2>, y<2>));
 
-    BOOST_HANA_STATIC_ASSERT(sort_by(pred, list(x<1>, x<3>, y<1>, x<2>, y<3>)) == list(x<1>, y<1>, x<2>, x<3>, y<3>));
+    BOOST_HANA_CONSTANT_ASSERT(sort_by(pred, list(x<1>, x<3>, y<1>, x<2>, y<3>)) == list(x<1>, y<1>, x<2>, x<3>, y<3>));
 }
 
 int main() {

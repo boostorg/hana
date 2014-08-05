@@ -6,7 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/ext/boost/mpl/list.hpp>
 
-#include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/type.hpp>
 
 #include <boost/mpl/list.hpp>
@@ -20,8 +20,8 @@ struct f;
 struct x0; struct x1; struct x2;
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(equal(fmap(template_<f>, mpl::list<>{}), mpl::list<>{}));
-    BOOST_HANA_STATIC_ASSERT(equal(fmap(template_<f>, mpl::list<x0>{}), mpl::list<f<x0>>{}));
-    BOOST_HANA_STATIC_ASSERT(equal(fmap(template_<f>, mpl::list<x0, x1>{}), mpl::list<f<x0>, f<x1>>{}));
-    BOOST_HANA_STATIC_ASSERT(equal(fmap(template_<f>, mpl::list<x0, x1, x2>{}), mpl::list<f<x0>, f<x1>, f<x2>>{}));
+    BOOST_HANA_CONSTANT_ASSERT(equal(fmap(template_<f>, mpl::list<>{}), mpl::list<>{}));
+    BOOST_HANA_CONSTANT_ASSERT(equal(fmap(template_<f>, mpl::list<x0>{}), mpl::list<f<x0>>{}));
+    BOOST_HANA_CONSTANT_ASSERT(equal(fmap(template_<f>, mpl::list<x0, x1>{}), mpl::list<f<x0>, f<x1>>{}));
+    BOOST_HANA_CONSTANT_ASSERT(equal(fmap(template_<f>, mpl::list<x0, x1, x2>{}), mpl::list<f<x0>, f<x1>, f<x2>>{}));
 }

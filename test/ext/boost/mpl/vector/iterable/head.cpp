@@ -6,7 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/ext/boost/mpl/vector.hpp>
 
-#include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/type.hpp>
 
 #include <boost/mpl/vector.hpp>
@@ -17,7 +17,7 @@ namespace mpl = boost::mpl;
 struct x1; struct x2; struct x3;
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(head(mpl::vector<x1>{}) == type<x1>);
-    BOOST_HANA_STATIC_ASSERT(head(mpl::vector<x1, x2>{}) == type<x1>);
-    BOOST_HANA_STATIC_ASSERT(head(mpl::vector<x1, x2, x3>{}) == type<x1>);
+    BOOST_HANA_CONSTANT_ASSERT(head(mpl::vector<x1>{}) == type<x1>);
+    BOOST_HANA_CONSTANT_ASSERT(head(mpl::vector<x1, x2>{}) == type<x1>);
+    BOOST_HANA_CONSTANT_ASSERT(head(mpl::vector<x1, x2, x3>{}) == type<x1>);
 }

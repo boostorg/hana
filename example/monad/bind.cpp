@@ -4,8 +4,8 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/maybe.hpp>
 #include <boost/hana/sandbox/detail/is_valid.hpp>
 using namespace boost::hana;
@@ -43,11 +43,11 @@ int main() {
     Person john{30};
 
     // Can't dereference a non-pointer.
-    BOOST_HANA_STATIC_ASSERT(f(john) == nothing);
+    BOOST_HANA_CONSTANT_ASSERT(f(john) == nothing);
 
     // `int` has no member named `age`.
-    BOOST_HANA_STATIC_ASSERT(f(1) == nothing);
+    BOOST_HANA_CONSTANT_ASSERT(f(1) == nothing);
 
     // All is good.
-    BOOST_HANA_STATIC_ASSERT(f(&john) == just(30u));
+    BOOST_HANA_CONSTEXPR_ASSERT(f(&john) == just(30u));
 }

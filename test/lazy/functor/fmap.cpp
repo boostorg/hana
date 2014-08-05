@@ -6,8 +6,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/lazy.hpp>
 
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/functional.hpp>
 
 #include "../comparable.hpp"
@@ -19,10 +19,10 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto x) {
 };
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(fmap(f, lazy(1)) == lazy(f(1)));
-    BOOST_HANA_STATIC_ASSERT(fmap(f, lazy(2.2)) == lazy(f(2.2)));
+    BOOST_HANA_CONSTEXPR_ASSERT(fmap(f, lazy(1)) == lazy(f(1)));
+    BOOST_HANA_CONSTEXPR_ASSERT(fmap(f, lazy(2.2)) == lazy(f(2.2)));
 
-    BOOST_HANA_STATIC_ASSERT(fmap(id, lazy(1)) == lazy(1));
-    BOOST_HANA_STATIC_ASSERT(fmap(id, lazy('2')) == lazy('2'));
-    BOOST_HANA_STATIC_ASSERT(fmap(id, lazy(3.3)) == lazy(3.3));
+    BOOST_HANA_CONSTEXPR_ASSERT(fmap(id, lazy(1)) == lazy(1));
+    BOOST_HANA_CONSTEXPR_ASSERT(fmap(id, lazy('2')) == lazy('2'));
+    BOOST_HANA_CONSTEXPR_ASSERT(fmap(id, lazy(3.3)) == lazy(3.3));
 }

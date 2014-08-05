@@ -4,8 +4,8 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/ext/std/integral_constant.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/type.hpp>
@@ -23,10 +23,10 @@ int main() {
         );
     };
 
-    BOOST_HANA_STATIC_ASSERT(safe_make_unsigned(type<void>) == type<void>);
-    BOOST_HANA_STATIC_ASSERT(safe_make_unsigned(type<int>) == type<unsigned int>);
+    BOOST_HANA_CONSTANT_ASSERT(safe_make_unsigned(type<void>) == type<void>);
+    BOOST_HANA_CONSTANT_ASSERT(safe_make_unsigned(type<int>) == type<unsigned int>);
     //! [heterogeneous]
-
+    (void)safe_make_unsigned;
 
     //! [homogeneous]
     BOOST_HANA_CONSTEXPR_LAMBDA auto safe_divide = [](auto x, auto y) {
@@ -36,7 +36,7 @@ int main() {
         );
     };
 
-    BOOST_HANA_STATIC_ASSERT(safe_divide(6, 3) == 2);
-    BOOST_HANA_STATIC_ASSERT(safe_divide(6, 0) == 0);
+    BOOST_HANA_CONSTEXPR_ASSERT(safe_divide(6, 3) == 2);
+    BOOST_HANA_CONSTEXPR_ASSERT(safe_divide(6, 0) == 0);
     //! [homogeneous]
 }

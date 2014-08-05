@@ -6,8 +6,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/logical/mcd.hpp>
 
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/minimal/logical.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 using namespace boost::hana;
 
 
@@ -15,11 +15,11 @@ template <typename mcd>
 void test() {
     constexpr auto logical = detail::minimal::logical<mcd>;
 
-    BOOST_HANA_STATIC_ASSERT(not_(logical(true)) == logical(false));
-    BOOST_HANA_STATIC_ASSERT(not_(logical(false)) == logical(true));
+    BOOST_HANA_CONSTEXPR_ASSERT(not_(logical(true)) == logical(false));
+    BOOST_HANA_CONSTEXPR_ASSERT(not_(logical(false)) == logical(true));
 
-    BOOST_HANA_STATIC_ASSERT(!logical(true) == not_(logical(true)));
-    BOOST_HANA_STATIC_ASSERT(!logical(false) == not_(logical(false)));
+    BOOST_HANA_CONSTEXPR_ASSERT(!logical(true) == not_(logical(true)));
+    BOOST_HANA_CONSTEXPR_ASSERT(!logical(false) == not_(logical(false)));
 }
 
 int main() {

@@ -5,8 +5,8 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/bool.hpp>
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/lazy.hpp>
 using namespace boost::hana;
 
@@ -20,6 +20,6 @@ int main() {
         return x + 1;
     });
 
-    BOOST_HANA_STATIC_ASSERT(eval(if_(false_, f(0), g(0))) == 0 + 1);
+    BOOST_HANA_CONSTEXPR_ASSERT(eval(if_(false_, f(0), g(0))) == 0 + 1);
     //! [main]
 }

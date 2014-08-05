@@ -6,7 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/type.hpp>
 
-#include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/sandbox/detail/is_valid.hpp>
 
 #include <type_traits>
@@ -17,10 +17,10 @@ struct x1; struct x2; struct x3;
 
 template <typename f>
 void test() {
-    BOOST_HANA_STATIC_ASSERT(metafunction_class<f>() == type<typename f::template apply<>::type>);
-    BOOST_HANA_STATIC_ASSERT(metafunction_class<f>(type<x1>) == type<typename f::template apply<x1>::type>);
-    BOOST_HANA_STATIC_ASSERT(metafunction_class<f>(type<x1>, type<x2>) == type<typename f::template apply<x1, x2>::type>);
-    BOOST_HANA_STATIC_ASSERT(metafunction_class<f>(type<x1>, type<x2>, type<x3>) == type<typename f::template apply<x1, x2, x3>::type>);
+    BOOST_HANA_CONSTANT_ASSERT(metafunction_class<f>() == type<typename f::template apply<>::type>);
+    BOOST_HANA_CONSTANT_ASSERT(metafunction_class<f>(type<x1>) == type<typename f::template apply<x1>::type>);
+    BOOST_HANA_CONSTANT_ASSERT(metafunction_class<f>(type<x1>, type<x2>) == type<typename f::template apply<x1, x2>::type>);
+    BOOST_HANA_CONSTANT_ASSERT(metafunction_class<f>(type<x1>, type<x2>, type<x3>) == type<typename f::template apply<x1, x2, x3>::type>);
 
     using F = decltype(metafunction_class<f>);
     static_assert(std::is_same<typename F::template apply<>, typename f::template apply<>>::value, "");
@@ -41,5 +41,5 @@ int main() {
     test<f>();
 
     // test<alias>();
-    // BOOST_HANA_STATIC_ASSERT(!detail::is_valid(metafunction_class<invalid>)(type<x1>));
+    // BOOST_HANA_CONSTANT_ASSERT(!detail::is_valid(metafunction_class<invalid>)(type<x1>));
 }

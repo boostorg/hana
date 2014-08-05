@@ -6,15 +6,15 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/type_list.hpp>
 
-#include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/type.hpp>
 using namespace boost::hana;
 
 
 struct x0; struct x1; struct x2;
 
-int main() {
-    BOOST_HANA_STATIC_ASSERT(head(type_list<x0>) == type<x0>);
-    BOOST_HANA_STATIC_ASSERT(head(type_list<x0, x1>) == type<x0>);
-    BOOST_HANA_STATIC_ASSERT(head(type_list<x0, x1, x2>) == type<x0>);
-}
+BOOST_HANA_CONSTANT_ASSERT(head(type_list<x0>) == type<x0>);
+BOOST_HANA_CONSTANT_ASSERT(head(type_list<x0, x1>) == type<x0>);
+BOOST_HANA_CONSTANT_ASSERT(head(type_list<x0, x1, x2>) == type<x0>);
+
+int main() { }

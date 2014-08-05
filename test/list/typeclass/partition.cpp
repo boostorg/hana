@@ -6,10 +6,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/list/mcd.hpp>
 
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/minimal/list.hpp>
 #include <boost/hana/detail/minimal/product.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 
 #include <boost/hana/integral.hpp>
 using namespace boost::hana;
@@ -30,15 +30,16 @@ template <typename mcd>
 void test() {
     BOOST_HANA_CONSTEXPR_LAMBDA auto list = detail::minimal::list<mcd>;
 
-    BOOST_HANA_STATIC_ASSERT(partition(neg, list()) == prod(list(), list()));
-    BOOST_HANA_STATIC_ASSERT(partition(neg, list(x<0>)) == prod(list(), list(x<0>)));
-    BOOST_HANA_STATIC_ASSERT(partition(neg, list(x<0>, x<1>)) == prod(list(), list(x<0>, x<1>)));
-    BOOST_HANA_STATIC_ASSERT(partition(neg, list(x<-1>)) == prod(list(x<-1>), list()));
-    BOOST_HANA_STATIC_ASSERT(partition(neg, list(x<-1>, x<0>, x<2>)) == prod(list(x<-1>), list(x<0>, x<2>)));
-    BOOST_HANA_STATIC_ASSERT(partition(neg, list(x<0>, x<-3>, x<2>, x<-5>, x<6>)) == prod(list(x<-3>, x<-5>), list(x<0>, x<2>, x<6>)));
-    BOOST_HANA_STATIC_ASSERT(partition(neg, list(x<-1>, x<2>, x<-3>, x<0>, x<-3>, x<4>)) == prod(list(x<-1>, x<-3>, x<-3>), list(x<2>, x<0>, x<4>)));
+    BOOST_HANA_CONSTANT_ASSERT(partition(neg, list()) == prod(list(), list()));
+    BOOST_HANA_CONSTANT_ASSERT(partition(neg, list(x<0>)) == prod(list(), list(x<0>)));
+    BOOST_HANA_CONSTANT_ASSERT(partition(neg, list(x<0>, x<1>)) == prod(list(), list(x<0>, x<1>)));
+    BOOST_HANA_CONSTANT_ASSERT(partition(neg, list(x<-1>)) == prod(list(x<-1>), list()));
+    BOOST_HANA_CONSTANT_ASSERT(partition(neg, list(x<-1>, x<0>, x<2>)) == prod(list(x<-1>), list(x<0>, x<2>)));
+    BOOST_HANA_CONSTANT_ASSERT(partition(neg, list(x<0>, x<-3>, x<2>, x<-5>, x<6>)) == prod(list(x<-3>, x<-5>), list(x<0>, x<2>, x<6>)));
+    BOOST_HANA_CONSTANT_ASSERT(partition(neg, list(x<-1>, x<2>, x<-3>, x<0>, x<-3>, x<4>)) == prod(list(x<-1>, x<-3>, x<-3>), list(x<2>, x<0>, x<4>)));
 }
 
 int main() {
     test<List::mcd<void>>();
+    (void)neg;
 }

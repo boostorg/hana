@@ -6,8 +6,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/functional.hpp>
 
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 using namespace boost::hana;
 
 
@@ -18,10 +18,10 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto ...xs) {
 struct nonpod { virtual ~nonpod() { } };
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(apply(f) == 0);
-    BOOST_HANA_STATIC_ASSERT(apply(f, 1) == 1);
-    BOOST_HANA_STATIC_ASSERT(apply(f, 1, '2') == 2);
-    BOOST_HANA_STATIC_ASSERT(apply(f, 1, '2', "3") == 3);
-    BOOST_HANA_STATIC_ASSERT(apply(f, 1, '2', "3", 4.4) == 4);
-    BOOST_HANA_STATIC_ASSERT(apply(f, 1, '2', "3", 4.4, nonpod{}) == 5);
+    BOOST_HANA_CONSTEXPR_ASSERT(apply(f) == 0);
+    BOOST_HANA_CONSTEXPR_ASSERT(apply(f, 1) == 1);
+    BOOST_HANA_CONSTEXPR_ASSERT(apply(f, 1, '2') == 2);
+    BOOST_HANA_CONSTEXPR_ASSERT(apply(f, 1, '2', "3") == 3);
+    BOOST_HANA_CONSTEXPR_ASSERT(apply(f, 1, '2', "3", 4.4) == 4);
+    BOOST_HANA_RUNTIME_ASSERT(apply(f, 1, '2', "3", 4.4, nonpod{}) == 5);
 }

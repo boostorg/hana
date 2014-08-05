@@ -6,9 +6,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/foldable/mcd.hpp>
 
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/minimal/foldable.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/integral.hpp>
 
 #include <tuple>
@@ -25,18 +25,18 @@ void test() {
 
     {
     constexpr auto s = std::make_tuple(1);
-    BOOST_HANA_STATIC_ASSERT(foldl1(f, foldable(s)) == s);
-    BOOST_HANA_STATIC_ASSERT(foldl1(f, foldable(s, '2')) == f(s, '2'));
-    BOOST_HANA_STATIC_ASSERT(foldl1(f, foldable(s, '2', 3.3)) == f(f(s, '2'), 3.3));
-    BOOST_HANA_STATIC_ASSERT(foldl1(f, foldable(s, '2', 3.3, 4.4f)) == f(f(f(s, '2'), 3.3), 4.4f));
+    BOOST_HANA_CONSTEXPR_ASSERT(foldl1(f, foldable(s)) == s);
+    BOOST_HANA_CONSTEXPR_ASSERT(foldl1(f, foldable(s, '2')) == f(s, '2'));
+    BOOST_HANA_CONSTEXPR_ASSERT(foldl1(f, foldable(s, '2', 3.3)) == f(f(s, '2'), 3.3));
+    BOOST_HANA_CONSTEXPR_ASSERT(foldl1(f, foldable(s, '2', 3.3, 4.4f)) == f(f(f(s, '2'), 3.3), 4.4f));
     }
 
     {
     constexpr auto s = std::make_tuple(int_<1>);
-    BOOST_HANA_STATIC_ASSERT(foldl1(f, foldable(s)) == s);
-    BOOST_HANA_STATIC_ASSERT(foldl1(f, foldable(s, int_<2>)) == f(s, int_<2>));
-    BOOST_HANA_STATIC_ASSERT(foldl1(f, foldable(s, int_<2>, int_<3>)) == f(f(s, int_<2>), int_<3>));
-    BOOST_HANA_STATIC_ASSERT(foldl1(f, foldable(s, int_<2>, int_<3>, int_<4>)) == f(f(f(s, int_<2>), int_<3>), int_<4>));
+    BOOST_HANA_CONSTEXPR_ASSERT(foldl1(f, foldable(s)) == s);
+    BOOST_HANA_CONSTEXPR_ASSERT(foldl1(f, foldable(s, int_<2>)) == f(s, int_<2>));
+    BOOST_HANA_CONSTEXPR_ASSERT(foldl1(f, foldable(s, int_<2>, int_<3>)) == f(f(s, int_<2>), int_<3>));
+    BOOST_HANA_CONSTEXPR_ASSERT(foldl1(f, foldable(s, int_<2>, int_<3>, int_<4>)) == f(f(f(s, int_<2>), int_<3>), int_<4>));
     }
 }
 

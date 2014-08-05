@@ -5,7 +5,7 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/iterable/mcd.hpp>
@@ -68,9 +68,9 @@ namespace boost { namespace hana {
 
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(!is_empty(repeat(1)));
-    BOOST_HANA_STATIC_ASSERT(head(repeat(1)) == 1);
-    BOOST_HANA_STATIC_ASSERT(at(int_<10>, repeat(1)) == 1);
+    BOOST_HANA_CONSTANT_ASSERT(!is_empty(repeat(1)));
+    BOOST_HANA_CONSTEXPR_ASSERT(head(repeat(1)) == 1);
+    BOOST_HANA_CONSTEXPR_ASSERT(at(int_<10>, repeat(1)) == 1);
 
-    BOOST_HANA_STATIC_ASSERT(take(int_<2>, repeat('x')) == list('x', 'x'));
+    BOOST_HANA_CONSTEXPR_ASSERT(take(int_<2>, repeat('x')) == list('x', 'x'));
 }

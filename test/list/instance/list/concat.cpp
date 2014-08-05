@@ -6,16 +6,16 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/list/instance.hpp>
 
-#include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/detail/assert.hpp>
 using namespace boost::hana;
 
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(concat(list(), list()) == list());
+    BOOST_HANA_CONSTANT_ASSERT(concat(list(), list()) == list());
 
-    BOOST_HANA_STATIC_ASSERT(concat(list(0), list()) == list(0));
-    BOOST_HANA_STATIC_ASSERT(concat(list(0), list('1')) == list(0, '1'));
-    BOOST_HANA_STATIC_ASSERT(concat(list(0), list('1', 2.2)) == list(0, '1', 2.2));
+    BOOST_HANA_CONSTEXPR_ASSERT(concat(list(0), list()) == list(0));
+    BOOST_HANA_CONSTEXPR_ASSERT(concat(list(0), list('1')) == list(0, '1'));
+    BOOST_HANA_CONSTEXPR_ASSERT(concat(list(0), list('1', 2.2)) == list(0, '1', 2.2));
 
-    BOOST_HANA_STATIC_ASSERT(concat(list(0, nullptr), list('1', 2.2)) == list(0, nullptr, '1', 2.2));
+    BOOST_HANA_CONSTEXPR_ASSERT(concat(list(0, nullptr), list('1', 2.2)) == list(0, nullptr, '1', 2.2));
 }

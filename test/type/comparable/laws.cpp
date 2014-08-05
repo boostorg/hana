@@ -7,15 +7,15 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/type.hpp>
 
 #include <boost/hana/comparable/laws.hpp>
-#include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/list/instance.hpp>
 using namespace boost::hana;
 
 
 struct T; struct U;
 
-int main() {
-    BOOST_HANA_STATIC_ASSERT(Comparable::laws::check(
-        list(type<T>, type<U>, type<void>, type<int>, type<int&>)
-    ));
-}
+BOOST_HANA_CONSTANT_ASSERT(Comparable::laws::check(
+    list(type<T>, type<U>, type<void>, type<int>, type<int&>)
+));
+
+int main() { }

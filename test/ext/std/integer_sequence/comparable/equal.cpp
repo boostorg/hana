@@ -6,7 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/ext/std/integer_sequence.hpp>
 
-#include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/detail/assert.hpp>
 
 #include <utility>
 using namespace boost::hana;
@@ -14,16 +14,16 @@ using namespace boost::hana;
 
 template <typename T, typename U>
 void test() {
-    BOOST_HANA_STATIC_ASSERT(equal(std::integer_sequence<T>{}, std::integer_sequence<U>{}));
-    BOOST_HANA_STATIC_ASSERT(!equal(std::integer_sequence<T, 0>{}, std::integer_sequence<U>{}));
-    BOOST_HANA_STATIC_ASSERT(!equal(std::integer_sequence<T>{}, std::integer_sequence<U, 0>{}));
+    BOOST_HANA_CONSTANT_ASSERT(equal(std::integer_sequence<T>{}, std::integer_sequence<U>{}));
+    BOOST_HANA_CONSTANT_ASSERT(!equal(std::integer_sequence<T, 0>{}, std::integer_sequence<U>{}));
+    BOOST_HANA_CONSTANT_ASSERT(!equal(std::integer_sequence<T>{}, std::integer_sequence<U, 0>{}));
 
-    BOOST_HANA_STATIC_ASSERT(equal(std::integer_sequence<T, 0>{}, std::integer_sequence<U, 0>{}));
-    BOOST_HANA_STATIC_ASSERT(!equal(std::integer_sequence<T, 0>{}, std::integer_sequence<U, 0, 1>{}));
-    BOOST_HANA_STATIC_ASSERT(!equal(std::integer_sequence<T, 0, 2>{}, std::integer_sequence<U, 0, 1>{}));
+    BOOST_HANA_CONSTANT_ASSERT(equal(std::integer_sequence<T, 0>{}, std::integer_sequence<U, 0>{}));
+    BOOST_HANA_CONSTANT_ASSERT(!equal(std::integer_sequence<T, 0>{}, std::integer_sequence<U, 0, 1>{}));
+    BOOST_HANA_CONSTANT_ASSERT(!equal(std::integer_sequence<T, 0, 2>{}, std::integer_sequence<U, 0, 1>{}));
 
-    BOOST_HANA_STATIC_ASSERT(equal(std::integer_sequence<T, 0, 1, 2, 3>{}, std::integer_sequence<U, 0, 1, 2, 3>{}));
-    BOOST_HANA_STATIC_ASSERT(!equal(std::integer_sequence<T, 0, 1, 2, 3, 5>{}, std::integer_sequence<U, 0, 1, 2, 3>{}));
+    BOOST_HANA_CONSTANT_ASSERT(equal(std::integer_sequence<T, 0, 1, 2, 3>{}, std::integer_sequence<U, 0, 1, 2, 3>{}));
+    BOOST_HANA_CONSTANT_ASSERT(!equal(std::integer_sequence<T, 0, 1, 2, 3, 5>{}, std::integer_sequence<U, 0, 1, 2, 3>{}));
 }
 
 template <typename T>

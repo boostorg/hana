@@ -4,8 +4,9 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/ext/std/integral_constant.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/list/instance.hpp>
 #include <boost/hana/type.hpp>
@@ -21,13 +22,13 @@ int main() {
         return x % 2_c != 0_c;
     };
 
-    BOOST_HANA_STATIC_ASSERT(none(odd, list(2_c, 4_c)));
-    BOOST_HANA_STATIC_ASSERT(!none(odd, list(1, 2)));
+    BOOST_HANA_CONSTANT_ASSERT(none(odd, list(2_c, 4_c)));
+    BOOST_HANA_CONSTEXPR_ASSERT(!none(odd, list(1, 2)));
 
-    BOOST_HANA_STATIC_ASSERT(
+    BOOST_HANA_CONSTANT_ASSERT(
         !none(trait<std::is_void>, list(type<void>, type<char&>))
     );
-    BOOST_HANA_STATIC_ASSERT(
+    BOOST_HANA_CONSTANT_ASSERT(
         none(trait<std::is_integral>, list(type<void>, type<char&>))
     );
     //! [main]

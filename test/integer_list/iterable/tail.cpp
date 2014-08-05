@@ -6,12 +6,12 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/integer_list.hpp>
 
-#include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/detail/assert.hpp>
 using namespace boost::hana;
 
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(tail(integer_list<int, 0>) == integer_list<int>);
-    BOOST_HANA_STATIC_ASSERT(tail(integer_list<int, 0, 1>) == integer_list<int, 1>);
-    BOOST_HANA_STATIC_ASSERT(tail(integer_list<int, 0, 1, 2>) == integer_list<int, 1, 2>);
+    BOOST_HANA_CONSTANT_ASSERT(tail(integer_list<int, 0>) == integer_list<int>);
+    BOOST_HANA_CONSTANT_ASSERT(tail(integer_list<int, 0, 1>) == integer_list<int, 1>);
+    BOOST_HANA_CONSTANT_ASSERT(tail(integer_list<int, 0, 1, 2>) == integer_list<int, 1, 2>);
 }

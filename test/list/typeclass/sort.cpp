@@ -6,9 +6,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/list/mcd.hpp>
 
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/minimal/list.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 
 #include <boost/hana/integral.hpp>
 using namespace boost::hana;
@@ -23,12 +23,12 @@ template <typename mcd>
 void test() {
     BOOST_HANA_CONSTEXPR_LAMBDA auto list = detail::minimal::list<mcd>;
 
-    BOOST_HANA_STATIC_ASSERT(sort(list()) == list());
-    BOOST_HANA_STATIC_ASSERT(sort(list(x<0>)) == list(x<0>));
-    BOOST_HANA_STATIC_ASSERT(sort(list(x<0>, x<1>)) == list(x<0>, x<1>));
-    BOOST_HANA_STATIC_ASSERT(sort(list(x<1>, x<0>)) == list(x<0>, x<1>));
-    BOOST_HANA_STATIC_ASSERT(sort(list(x<1>, x<0>, x<4>, x<2>)) == list(x<0>, x<1>, x<2>, x<4>));
-    BOOST_HANA_STATIC_ASSERT(sort(list(x<1>, x<0>, x<-4>, x<2>)) == list(x<-4>, x<0>, x<1>, x<2>));
+    BOOST_HANA_CONSTANT_ASSERT(sort(list()) == list());
+    BOOST_HANA_CONSTANT_ASSERT(sort(list(x<0>)) == list(x<0>));
+    BOOST_HANA_CONSTANT_ASSERT(sort(list(x<0>, x<1>)) == list(x<0>, x<1>));
+    BOOST_HANA_CONSTANT_ASSERT(sort(list(x<1>, x<0>)) == list(x<0>, x<1>));
+    BOOST_HANA_CONSTANT_ASSERT(sort(list(x<1>, x<0>, x<4>, x<2>)) == list(x<0>, x<1>, x<2>, x<4>));
+    BOOST_HANA_CONSTANT_ASSERT(sort(list(x<1>, x<0>, x<-4>, x<2>)) == list(x<-4>, x<0>, x<1>, x<2>));
 }
 
 int main() {

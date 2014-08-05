@@ -7,9 +7,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functor/adjust_mcd.hpp>
 #include <boost/hana/functor/fmap_mcd.hpp>
 
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/minimal/functor.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 using namespace boost::hana;
 
 
@@ -21,7 +21,7 @@ template <typename mcd>
 void test() {
     constexpr auto functor = detail::minimal::functor<mcd>;
     constexpr auto x = 1;
-    BOOST_HANA_STATIC_ASSERT(fmap(f, functor(x)) == functor(f(x)));
+    BOOST_HANA_CONSTEXPR_ASSERT(fmap(f, functor(x)) == functor(f(x)));
 }
 
 int main() {

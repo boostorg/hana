@@ -6,10 +6,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/list/mcd.hpp>
 
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/minimal/comparable.hpp>
 #include <boost/hana/detail/minimal/list.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 
 #include <tuple>
 using namespace boost::hana;
@@ -34,25 +34,25 @@ template <typename mcd>
 void test() {
     BOOST_HANA_CONSTEXPR_LAMBDA auto list = detail::minimal::list<mcd>;
 
-    BOOST_HANA_STATIC_ASSERT(zip_with(f1, list()) == list());
-    BOOST_HANA_STATIC_ASSERT(zip_with(f1, list(x<0>)) == list(f1(x<0>)));
-    BOOST_HANA_STATIC_ASSERT(zip_with(f1, list(x<0>, x<1>)) == list(f1(x<0>), f1(x<1>)));
-    BOOST_HANA_STATIC_ASSERT(zip_with(f1, list(x<0>, x<1>, x<2>)) == list(f1(x<0>), f1(x<1>), f1(x<2>)));
-    BOOST_HANA_STATIC_ASSERT(zip_with(f1, list(), list()) == list());
-    BOOST_HANA_STATIC_ASSERT(zip_with(f1, list(), list(x<1>)) == list());
+    BOOST_HANA_CONSTANT_ASSERT(zip_with(f1, list()) == list());
+    BOOST_HANA_CONSTEXPR_ASSERT(zip_with(f1, list(x<0>)) == list(f1(x<0>)));
+    BOOST_HANA_CONSTEXPR_ASSERT(zip_with(f1, list(x<0>, x<1>)) == list(f1(x<0>), f1(x<1>)));
+    BOOST_HANA_CONSTEXPR_ASSERT(zip_with(f1, list(x<0>, x<1>, x<2>)) == list(f1(x<0>), f1(x<1>), f1(x<2>)));
+    BOOST_HANA_CONSTANT_ASSERT(zip_with(f1, list(), list()) == list());
+    BOOST_HANA_CONSTANT_ASSERT(zip_with(f1, list(), list(x<1>)) == list());
 
-    BOOST_HANA_STATIC_ASSERT(zip_with(f2, list()) == list());
-    BOOST_HANA_STATIC_ASSERT(zip_with(f2, list(), list()) == list());
-    BOOST_HANA_STATIC_ASSERT(zip_with(f2, list(x<0>), list()) == list());
-    BOOST_HANA_STATIC_ASSERT(zip_with(f2, list(), list(x<0>)) == list());
-    BOOST_HANA_STATIC_ASSERT(zip_with(f2, list(x<0>), list(x<1>)) == list(f2(x<0>, x<1>)));
-    BOOST_HANA_STATIC_ASSERT(zip_with(f2, list(x<0>, x<1>), list(x<2>, x<3>)) == list(f2(x<0>, x<2>), f2(x<1>, x<3>)));
-    BOOST_HANA_STATIC_ASSERT(zip_with(f2, list(x<1>, x<2>, x<3>, x<4>), list(x<5>, x<6>, x<7>)) == list(f2(x<1>, x<5>), f2(x<2>, x<6>), f2(x<3>, x<7>)));
-    BOOST_HANA_STATIC_ASSERT(zip_with(f2, list(), list(), list()) == list());
-    BOOST_HANA_STATIC_ASSERT(zip_with(f2, list(), list(), list(x<1>)) == list());
-    BOOST_HANA_STATIC_ASSERT(zip_with(f2, list(), list(x<1>), list(x<2>)) == list());
+    BOOST_HANA_CONSTANT_ASSERT(zip_with(f2, list()) == list());
+    BOOST_HANA_CONSTANT_ASSERT(zip_with(f2, list(), list()) == list());
+    BOOST_HANA_CONSTANT_ASSERT(zip_with(f2, list(x<0>), list()) == list());
+    BOOST_HANA_CONSTANT_ASSERT(zip_with(f2, list(), list(x<0>)) == list());
+    BOOST_HANA_CONSTEXPR_ASSERT(zip_with(f2, list(x<0>), list(x<1>)) == list(f2(x<0>, x<1>)));
+    BOOST_HANA_CONSTEXPR_ASSERT(zip_with(f2, list(x<0>, x<1>), list(x<2>, x<3>)) == list(f2(x<0>, x<2>), f2(x<1>, x<3>)));
+    BOOST_HANA_CONSTEXPR_ASSERT(zip_with(f2, list(x<1>, x<2>, x<3>, x<4>), list(x<5>, x<6>, x<7>)) == list(f2(x<1>, x<5>), f2(x<2>, x<6>), f2(x<3>, x<7>)));
+    BOOST_HANA_CONSTANT_ASSERT(zip_with(f2, list(), list(), list()) == list());
+    BOOST_HANA_CONSTANT_ASSERT(zip_with(f2, list(), list(), list(x<1>)) == list());
+    BOOST_HANA_CONSTANT_ASSERT(zip_with(f2, list(), list(x<1>), list(x<2>)) == list());
 
-    BOOST_HANA_STATIC_ASSERT(
+    BOOST_HANA_CONSTEXPR_ASSERT(
         zip_with(fn,
             list(x<11>, x<12>, x<13>, x<14>),
             list(x<21>, x<22>, x<23>),

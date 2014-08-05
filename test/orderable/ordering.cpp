@@ -6,9 +6,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/orderable/less_mcd.hpp>
 
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/minimal/orderable.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 using namespace boost::hana;
 
 
@@ -24,9 +24,9 @@ void test() {
         return x();
     });
 
-    BOOST_HANA_STATIC_ASSERT(less_(ord_(0), ord_(1)) == less(ord(0), ord(1)));
-    BOOST_HANA_STATIC_ASSERT(less_(ord_(0), ord_(0)) == less(ord(0), ord(0)));
-    BOOST_HANA_STATIC_ASSERT(less_(ord_(1), ord_(0)) == less(ord(1), ord(0)));
+    BOOST_HANA_CONSTEXPR_ASSERT(less_(ord_(0), ord_(1)) == less(ord(0), ord(1)));
+    BOOST_HANA_CONSTEXPR_ASSERT(less_(ord_(0), ord_(0)) == less(ord(0), ord(0)));
+    BOOST_HANA_CONSTEXPR_ASSERT(less_(ord_(1), ord_(0)) == less(ord(1), ord(0)));
 }
 
 int main() {

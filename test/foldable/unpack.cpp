@@ -6,9 +6,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/foldable/mcd.hpp>
 
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/minimal/foldable.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/integral.hpp>
 
 #include <tuple>
@@ -23,15 +23,15 @@ template <typename mcd>
 void test() {
     constexpr auto foldable = detail::minimal::foldable<mcd>;
 
-    BOOST_HANA_STATIC_ASSERT(unpack(f, foldable()) == f());
-    BOOST_HANA_STATIC_ASSERT(unpack(f, foldable(1)) == f(1));
-    BOOST_HANA_STATIC_ASSERT(unpack(f, foldable(1, '2')) == f(1, '2'));
-    BOOST_HANA_STATIC_ASSERT(unpack(f, foldable(1, '2', 3.3)) == f(1, '2', 3.3));
-    BOOST_HANA_STATIC_ASSERT(unpack(f, foldable(1, '2', 3.3, nullptr)) == f(1, '2', 3.3, nullptr));
+    BOOST_HANA_CONSTEXPR_ASSERT(unpack(f, foldable()) == f());
+    BOOST_HANA_CONSTEXPR_ASSERT(unpack(f, foldable(1)) == f(1));
+    BOOST_HANA_CONSTEXPR_ASSERT(unpack(f, foldable(1, '2')) == f(1, '2'));
+    BOOST_HANA_CONSTEXPR_ASSERT(unpack(f, foldable(1, '2', 3.3)) == f(1, '2', 3.3));
+    BOOST_HANA_CONSTEXPR_ASSERT(unpack(f, foldable(1, '2', 3.3, nullptr)) == f(1, '2', 3.3, nullptr));
 
-    BOOST_HANA_STATIC_ASSERT(unpack(f, foldable(int_<0>)) == f(int_<0>));
-    BOOST_HANA_STATIC_ASSERT(unpack(f, foldable(int_<0>, int_<1>)) == f(int_<0>, int_<1>));
-    BOOST_HANA_STATIC_ASSERT(unpack(f, foldable(int_<0>, int_<1>, int_<2>)) == f(int_<0>, int_<1>, int_<2>));
+    BOOST_HANA_CONSTEXPR_ASSERT(unpack(f, foldable(int_<0>)) == f(int_<0>));
+    BOOST_HANA_CONSTEXPR_ASSERT(unpack(f, foldable(int_<0>, int_<1>)) == f(int_<0>, int_<1>));
+    BOOST_HANA_CONSTEXPR_ASSERT(unpack(f, foldable(int_<0>, int_<1>, int_<2>)) == f(int_<0>, int_<1>, int_<2>));
 }
 
 int main() {

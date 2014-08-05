@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/wrap.hpp>
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/detail/assert.hpp>
 
 #include <type_traits>
 using namespace boost::hana;
@@ -31,5 +31,5 @@ static_assert(std::is_same<
 >::value, "");
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(detail::unwrap(detail::wrap<Datatype>(2.2)) == 2.2);
+    BOOST_HANA_CONSTEXPR_ASSERT(detail::unwrap(detail::wrap<Datatype>(2.2)) == 2.2);
 }

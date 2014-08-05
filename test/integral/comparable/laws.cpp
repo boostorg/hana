@@ -7,14 +7,14 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/integral.hpp>
 
 #include <boost/hana/comparable/laws.hpp>
-#include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/list/instance.hpp>
 using namespace boost::hana;
 
 
 template <typename T, typename U>
 void test() {
-    BOOST_HANA_STATIC_ASSERT(
+    BOOST_HANA_CONSTEXPR_ASSERT(
         Comparable::laws::check(
             list(
                 integral<T, 0>, integral<U, 0>,

@@ -6,8 +6,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/constant/mcd.hpp>
 
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/minimal/constant.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 using namespace boost::hana;
 
 
@@ -20,15 +20,15 @@ struct UDT {
 
 template <typename mcd, typename T, typename U>
 void test() {
-    BOOST_HANA_STATIC_ASSERT( equal(detail::minimal::constant<T, 0, mcd>, detail::minimal::constant<U, 0, mcd>));
-    BOOST_HANA_STATIC_ASSERT(!equal(detail::minimal::constant<T, 0, mcd>, detail::minimal::constant<U, 1, mcd>));
+    BOOST_HANA_CONSTANT_ASSERT( equal(detail::minimal::constant<T, 0, mcd>, detail::minimal::constant<U, 0, mcd>));
+    BOOST_HANA_CONSTANT_ASSERT(!equal(detail::minimal::constant<T, 0, mcd>, detail::minimal::constant<U, 1, mcd>));
 
     // Incomparable constants must appear as unequal.
-    BOOST_HANA_STATIC_ASSERT(!equal(
+    BOOST_HANA_CONSTANT_ASSERT(!equal(
         detail::minimal::constant<T, 0, mcd>,
         detail::minimal::constant<decltype(&UDT::member1), &UDT::member1, mcd>
     ));
-    BOOST_HANA_STATIC_ASSERT(!equal(
+    BOOST_HANA_CONSTANT_ASSERT(!equal(
         detail::minimal::constant<decltype(&UDT::member1), &UDT::member1, mcd>,
         detail::minimal::constant<decltype(&UDT::member2), &UDT::member2, mcd>
     ));

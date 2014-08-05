@@ -7,10 +7,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/list/mcd.hpp>
 
 #include <boost/hana/comparable/laws.hpp>
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/minimal/comparable.hpp>
 #include <boost/hana/detail/minimal/list.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 using namespace boost::hana;
 
 
@@ -21,7 +21,7 @@ template <typename mcd>
 void test() {
     BOOST_HANA_CONSTEXPR_LAMBDA auto list = detail::minimal::list<mcd>;
 
-    BOOST_HANA_STATIC_ASSERT(
+    BOOST_HANA_CONSTEXPR_ASSERT(
         Comparable::laws::check(
             list(
                 list(),

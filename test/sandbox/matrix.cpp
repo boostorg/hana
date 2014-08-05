@@ -6,7 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/functor/fmap_mcd.hpp>
 #include <boost/hana/integral.hpp>
@@ -175,9 +175,9 @@ void test_sizes() {
         row(1, '2', 3),
         row('4', char_<'5'>, 6)
     );
-    BOOST_HANA_STATIC_ASSERT(m.size() == 6);
-    BOOST_HANA_STATIC_ASSERT(m.ncolumns() == 3);
-    BOOST_HANA_STATIC_ASSERT(m.nrows() == 2);
+    BOOST_HANA_CONSTEXPR_ASSERT(m.size() == 6);
+    BOOST_HANA_CONSTEXPR_ASSERT(m.ncolumns() == 3);
+    BOOST_HANA_CONSTEXPR_ASSERT(m.nrows() == 2);
 }
 
 void test_at() {
@@ -186,29 +186,29 @@ void test_at() {
         row('4', char_<'5'>, 6),
         row(int_<7>, '8', 9.3)
     );
-    BOOST_HANA_STATIC_ASSERT(m.at(int_<0>, int_<0>) == 1);
-    BOOST_HANA_STATIC_ASSERT(m.at(int_<0>, int_<1>) == '2');
-    BOOST_HANA_STATIC_ASSERT(m.at(int_<0>, int_<2>) == 3);
+    BOOST_HANA_CONSTEXPR_ASSERT(m.at(int_<0>, int_<0>) == 1);
+    BOOST_HANA_CONSTEXPR_ASSERT(m.at(int_<0>, int_<1>) == '2');
+    BOOST_HANA_CONSTEXPR_ASSERT(m.at(int_<0>, int_<2>) == 3);
 
-    BOOST_HANA_STATIC_ASSERT(m.at(int_<1>, int_<0>) == '4');
-    BOOST_HANA_STATIC_ASSERT(m.at(int_<1>, int_<1>) == char_<'5'>);
-    BOOST_HANA_STATIC_ASSERT(m.at(int_<1>, int_<2>) == 6);
+    BOOST_HANA_CONSTEXPR_ASSERT(m.at(int_<1>, int_<0>) == '4');
+    BOOST_HANA_CONSTANT_ASSERT(m.at(int_<1>, int_<1>) == char_<'5'>);
+    BOOST_HANA_CONSTEXPR_ASSERT(m.at(int_<1>, int_<2>) == 6);
 
-    BOOST_HANA_STATIC_ASSERT(m.at(int_<2>, int_<0>) == int_<7>);
-    BOOST_HANA_STATIC_ASSERT(m.at(int_<2>, int_<1>) == '8');
-    BOOST_HANA_STATIC_ASSERT(m.at(int_<2>, int_<2>) == 9.3);
+    BOOST_HANA_CONSTANT_ASSERT(m.at(int_<2>, int_<0>) == int_<7>);
+    BOOST_HANA_CONSTEXPR_ASSERT(m.at(int_<2>, int_<1>) == '8');
+    BOOST_HANA_CONSTEXPR_ASSERT(m.at(int_<2>, int_<2>) == 9.3);
 }
 
 void test_comparable() {
-    BOOST_HANA_STATIC_ASSERT(matrix(row(1, 2)) == matrix(row(1, 2)));
-    BOOST_HANA_STATIC_ASSERT(matrix(row(1, 2)) != matrix(row(1, 5)));
+    BOOST_HANA_CONSTEXPR_ASSERT(matrix(row(1, 2)) == matrix(row(1, 2)));
+    BOOST_HANA_CONSTEXPR_ASSERT(matrix(row(1, 2)) != matrix(row(1, 5)));
 
-    BOOST_HANA_STATIC_ASSERT(matrix(row(1, 2), row(3, 4)) == matrix(row(1, 2), row(3, 4)));
-    BOOST_HANA_STATIC_ASSERT(matrix(row(1, 2), row(3, 4)) != matrix(row(1, 2), row(0, 4)));
-    BOOST_HANA_STATIC_ASSERT(matrix(row(1, 2), row(3, 4)) != matrix(row(0, 2), row(3, 4)));
+    BOOST_HANA_CONSTEXPR_ASSERT(matrix(row(1, 2), row(3, 4)) == matrix(row(1, 2), row(3, 4)));
+    BOOST_HANA_CONSTEXPR_ASSERT(matrix(row(1, 2), row(3, 4)) != matrix(row(1, 2), row(0, 4)));
+    BOOST_HANA_CONSTEXPR_ASSERT(matrix(row(1, 2), row(3, 4)) != matrix(row(0, 2), row(3, 4)));
 
-    BOOST_HANA_STATIC_ASSERT(matrix(row(1), row(2)) != matrix(row(3, 4), row(5, 6)));
-    BOOST_HANA_STATIC_ASSERT(matrix(row(1), row(2)) != matrix(row(3, 4)));
+    BOOST_HANA_CONSTANT_ASSERT(matrix(row(1), row(2)) != matrix(row(3, 4), row(5, 6)));
+    BOOST_HANA_CONSTANT_ASSERT(matrix(row(1), row(2)) != matrix(row(3, 4)));
 }
 
 void test_functor() {
@@ -217,7 +217,7 @@ void test_functor() {
         row(int_<4>, 5, 6),
         row(7, 8, int_<9>)
     );
-    BOOST_HANA_STATIC_ASSERT(fmap(_ + int_<1>, m) ==
+    BOOST_HANA_CONSTEXPR_ASSERT(fmap(_ + int_<1>, m) ==
         matrix(
             row(2, int_<3>, 4),
             row(int_<5>, 6, 7),
@@ -228,8 +228,8 @@ void test_functor() {
 
 void test_operators() {
     auto m = matrix(row(1, 2), row(3, 4));
-    BOOST_HANA_STATIC_ASSERT(m + m == matrix(row(2, 4), row(6, 8)));
-    BOOST_HANA_STATIC_ASSERT(m - m == matrix(row(0, 0), row(0, 0)));
+    BOOST_HANA_CONSTEXPR_ASSERT(m + m == matrix(row(2, 4), row(6, 8)));
+    BOOST_HANA_CONSTEXPR_ASSERT(m - m == matrix(row(0, 0), row(0, 0)));
 }
 
 void test_matrix_multiplication() {
@@ -244,7 +244,7 @@ void test_matrix_multiplication() {
         row(5, 6)
     );
 
-    BOOST_HANA_STATIC_ASSERT(A * B == matrix(
+    BOOST_HANA_CONSTEXPR_ASSERT(A * B == matrix(
         row(1*1 + 2*3 + 5*3, 1*2 + 2*4 + 3*6),
         row(4*1 + 3*5 + 5*6, 4*2 + 5*4 + 6*6)
     ));
@@ -252,9 +252,9 @@ void test_matrix_multiplication() {
 
 void test_vector() {
     auto v = vector(1, '2', int_<3>, 4.2f);
-    BOOST_HANA_STATIC_ASSERT(v.size() == 4);
-    BOOST_HANA_STATIC_ASSERT(v.nrows() == 4);
-    BOOST_HANA_STATIC_ASSERT(v.ncolumns() == 1);
+    BOOST_HANA_CONSTEXPR_ASSERT(v.size() == 4);
+    BOOST_HANA_CONSTEXPR_ASSERT(v.nrows() == 4);
+    BOOST_HANA_CONSTEXPR_ASSERT(v.ncolumns() == 1);
 }
 
 void test_transpose() {
@@ -262,7 +262,7 @@ void test_transpose() {
         row(1, 2.2, '3'),
         row(4, '5', 6)
     );
-    BOOST_HANA_STATIC_ASSERT(transpose(m) ==
+    BOOST_HANA_CONSTEXPR_ASSERT(transpose(m) ==
         matrix(
             row(1, 4),
             row(2.2, '5'),
@@ -273,20 +273,20 @@ void test_transpose() {
 
 void test_repeat_n() {
     struct T;
-    BOOST_HANA_STATIC_ASSERT(repeat_n(int_<0>, type<T>) == list());
-    BOOST_HANA_STATIC_ASSERT(repeat_n(int_<1>, type<T>) == list(type<T>));
-    BOOST_HANA_STATIC_ASSERT(repeat_n(int_<2>, type<T>) == list(type<T>, type<T>));
-    BOOST_HANA_STATIC_ASSERT(repeat_n(int_<3>, type<T>) == list(type<T>, type<T>, type<T>));
-    BOOST_HANA_STATIC_ASSERT(repeat_n(int_<4>, type<T>) == list(type<T>, type<T>, type<T>, type<T>));
+    BOOST_HANA_CONSTANT_ASSERT(repeat_n(int_<0>, type<T>) == list());
+    BOOST_HANA_CONSTANT_ASSERT(repeat_n(int_<1>, type<T>) == list(type<T>));
+    BOOST_HANA_CONSTANT_ASSERT(repeat_n(int_<2>, type<T>) == list(type<T>, type<T>));
+    BOOST_HANA_CONSTANT_ASSERT(repeat_n(int_<3>, type<T>) == list(type<T>, type<T>, type<T>));
+    BOOST_HANA_CONSTANT_ASSERT(repeat_n(int_<4>, type<T>) == list(type<T>, type<T>, type<T>, type<T>));
 }
 
 void test_determinant() {
-    BOOST_HANA_STATIC_ASSERT(det(matrix(row(1))) == 1);
-    BOOST_HANA_STATIC_ASSERT(det(matrix(row(2))) == 2);
+    BOOST_HANA_CONSTEXPR_ASSERT(det(matrix(row(1))) == 1);
+    BOOST_HANA_CONSTEXPR_ASSERT(det(matrix(row(2))) == 2);
 
-    BOOST_HANA_STATIC_ASSERT(det(matrix(row(1, 2), row(3, 4))) == -2);
+    BOOST_HANA_CONSTEXPR_ASSERT(det(matrix(row(1, 2), row(3, 4))) == -2);
 
-    BOOST_HANA_STATIC_ASSERT(
+    BOOST_HANA_CONSTEXPR_ASSERT(
         det(matrix(
             row(1, 5, 6),
             row(3, 2, 4),
@@ -295,7 +295,7 @@ void test_determinant() {
         == 51
     );
 
-    BOOST_HANA_STATIC_ASSERT(
+    BOOST_HANA_CONSTEXPR_ASSERT(
         det(matrix(
             row(1, 5, 6, -3),
             row(3, 2, 4, -5),
@@ -304,7 +304,7 @@ void test_determinant() {
         )) == 214
     );
 
-    BOOST_HANA_STATIC_ASSERT(
+    BOOST_HANA_CONSTEXPR_ASSERT(
         det(matrix(
             row(1,  5,  6, -3, 92),
             row(3,  2,  4, -5, 13),
@@ -316,22 +316,22 @@ void test_determinant() {
 }
 
 void test_remove_at() {
-    BOOST_HANA_STATIC_ASSERT(remove_at(int_<0>, list(1)) == list());
-    BOOST_HANA_STATIC_ASSERT(remove_at(int_<0>, list(1, '2')) == list('2'));
-    BOOST_HANA_STATIC_ASSERT(remove_at(int_<0>, list(1, '2', 3.3)) == list('2', 3.3));
+    BOOST_HANA_CONSTANT_ASSERT(remove_at(int_<0>, list(1)) == list());
+    BOOST_HANA_CONSTEXPR_ASSERT(remove_at(int_<0>, list(1, '2')) == list('2'));
+    BOOST_HANA_CONSTEXPR_ASSERT(remove_at(int_<0>, list(1, '2', 3.3)) == list('2', 3.3));
 
-    BOOST_HANA_STATIC_ASSERT(remove_at(int_<1>, list(1, '2')) == list(1));
-    BOOST_HANA_STATIC_ASSERT(remove_at(int_<1>, list(1, '2', 3.3)) == list(1, 3.3));
+    BOOST_HANA_CONSTEXPR_ASSERT(remove_at(int_<1>, list(1, '2')) == list(1));
+    BOOST_HANA_CONSTEXPR_ASSERT(remove_at(int_<1>, list(1, '2', 3.3)) == list(1, 3.3));
 
-    BOOST_HANA_STATIC_ASSERT(remove_at(int_<2>, list(1, '2', 3.3)) == list(1, '2'));
+    BOOST_HANA_CONSTEXPR_ASSERT(remove_at(int_<2>, list(1, '2', 3.3)) == list(1, '2'));
 }
 
 void test_exponent() {
-    BOOST_HANA_STATIC_ASSERT(exponent(3, 0) == 1);
-    BOOST_HANA_STATIC_ASSERT(exponent(3, 1) == 3);
-    BOOST_HANA_STATIC_ASSERT(exponent(3, 2) == 3 * 3);
-    BOOST_HANA_STATIC_ASSERT(exponent(3, 3) == 3 * 3 * 3);
-    BOOST_HANA_STATIC_ASSERT(exponent(3, 4) == 3 * 3 * 3 * 3);
+    BOOST_HANA_CONSTEXPR_ASSERT(exponent(3, 0) == 1);
+    BOOST_HANA_CONSTEXPR_ASSERT(exponent(3, 1) == 3);
+    BOOST_HANA_CONSTEXPR_ASSERT(exponent(3, 2) == 3 * 3);
+    BOOST_HANA_CONSTEXPR_ASSERT(exponent(3, 3) == 3 * 3 * 3);
+    BOOST_HANA_CONSTEXPR_ASSERT(exponent(3, 4) == 3 * 3 * 3 * 3);
 }
 
 int main() {

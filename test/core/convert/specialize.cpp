@@ -6,8 +6,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/convert.hpp>
 
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 using namespace boost::hana;
 
 
@@ -35,11 +35,11 @@ namespace boost { namespace hana {
 int main() {
     constexpr datatype1 d1{12345};
     BOOST_HANA_CONSTEXPR_LAMBDA datatype2 d2 = to<Datatype2>(d1);
-    BOOST_HANA_STATIC_ASSERT(d2.value == d1.value);
+    BOOST_HANA_CONSTEXPR_ASSERT(d2.value == d1.value);
 
     BOOST_HANA_CONSTEXPR_LAMBDA datatype1 copy1 = to<Datatype1>(d1);
-    BOOST_HANA_STATIC_ASSERT(copy1.value == d1.value);
+    BOOST_HANA_CONSTEXPR_ASSERT(copy1.value == d1.value);
 
     BOOST_HANA_CONSTEXPR_LAMBDA datatype2 copy2 = to<Datatype2>(d2);
-    BOOST_HANA_STATIC_ASSERT(copy2.value == d2.value);
+    BOOST_HANA_CONSTEXPR_ASSERT(copy2.value == d2.value);
 }

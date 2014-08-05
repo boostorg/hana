@@ -6,9 +6,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/maybe.hpp>
 
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/minimal/comparable.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 
 #include <tuple>
 using namespace boost::hana;
@@ -22,8 +22,8 @@ template <int i>
 constexpr auto x = detail::minimal::comparable<>(i);
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(ap(nothing, nothing) == nothing);
-    BOOST_HANA_STATIC_ASSERT(ap(just(f), nothing) == nothing);
-    BOOST_HANA_STATIC_ASSERT(ap(nothing, just(x<0>)) == nothing);
-    BOOST_HANA_STATIC_ASSERT(ap(just(f), just(x<0>)) == just(f(x<0>)));
+    BOOST_HANA_CONSTANT_ASSERT(ap(nothing, nothing) == nothing);
+    BOOST_HANA_CONSTANT_ASSERT(ap(just(f), nothing) == nothing);
+    BOOST_HANA_CONSTANT_ASSERT(ap(nothing, just(x<0>)) == nothing);
+    BOOST_HANA_CONSTEXPR_ASSERT(ap(just(f), just(x<0>)) == just(f(x<0>)));
 }

@@ -6,10 +6,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/list/mcd.hpp>
 
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/minimal/comparable.hpp>
 #include <boost/hana/detail/minimal/list.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 using namespace boost::hana;
 
 
@@ -20,14 +20,14 @@ template <typename mcd>
 void test() {
     BOOST_HANA_CONSTEXPR_LAMBDA auto list = detail::minimal::list<mcd>;
 
-    BOOST_HANA_STATIC_ASSERT( equal(list(), list()));
-    BOOST_HANA_STATIC_ASSERT(!equal(list(x<0>), list()));
-    BOOST_HANA_STATIC_ASSERT(!equal(list(), list(x<0>)));
-    BOOST_HANA_STATIC_ASSERT( equal(list(x<0>), list(x<0>)));
+    BOOST_HANA_CONSTANT_ASSERT( equal(list(), list()));
+    BOOST_HANA_CONSTANT_ASSERT(!equal(list(x<0>), list()));
+    BOOST_HANA_CONSTANT_ASSERT(!equal(list(), list(x<0>)));
+    BOOST_HANA_CONSTEXPR_ASSERT( equal(list(x<0>), list(x<0>)));
 
-    BOOST_HANA_STATIC_ASSERT(!equal(list(x<0>, x<1>), list(x<0>)));
-    BOOST_HANA_STATIC_ASSERT( equal(list(x<0>, x<1>), list(x<0>, x<1>)));
-    BOOST_HANA_STATIC_ASSERT(!equal(list(x<0>, x<1>, x<2>, x<3>), list(x<0>, x<1>, x<2>, x<4>)));
+    BOOST_HANA_CONSTEXPR_ASSERT(!equal(list(x<0>, x<1>), list(x<0>)));
+    BOOST_HANA_CONSTEXPR_ASSERT( equal(list(x<0>, x<1>), list(x<0>, x<1>)));
+    BOOST_HANA_CONSTEXPR_ASSERT(!equal(list(x<0>, x<1>, x<2>, x<3>), list(x<0>, x<1>, x<2>, x<4>)));
 }
 
 int main() {

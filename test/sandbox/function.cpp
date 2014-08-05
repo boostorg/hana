@@ -79,7 +79,7 @@ namespace boost { namespace hana {
 // };
 
 
-#include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/list/instance.hpp>
 #include <boost/hana/range.hpp>
@@ -100,11 +100,12 @@ int main() {
         [](auto x) { return x - 1_c; }
     );
 
-    BOOST_HANA_STATIC_ASSERT(f == g);
-    BOOST_HANA_STATIC_ASSERT(f != h);
-    BOOST_HANA_STATIC_ASSERT(f(1) == 2);
+    BOOST_HANA_CONSTANT_ASSERT(f == g);
+    BOOST_HANA_CONSTANT_ASSERT(f != h);
+    BOOST_HANA_CONSTEXPR_ASSERT(f(1) == 2);
     try { f(6); throw; } catch (std::domain_error) { }
 
 
-    BOOST_HANA_STATIC_ASSERT(frange(f) == list(4_c, 3_c, 2_c));
+    BOOST_HANA_CONSTANT_ASSERT(frange(f) == list(4_c, 3_c, 2_c));
+    (void)frange;
 }

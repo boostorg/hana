@@ -6,21 +6,21 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/type.hpp>
 
-#include <boost/hana/detail/static_assert.hpp>
+#include <boost/hana/detail/assert.hpp>
 using namespace boost::hana;
 
 
 struct T; struct U;
 
-int main() {
-    BOOST_HANA_STATIC_ASSERT( equal(type<T>, type<T>));
-    BOOST_HANA_STATIC_ASSERT(!equal(type<T>, type<U>));
-    BOOST_HANA_STATIC_ASSERT(!equal(type<void>, type<U>));
-    BOOST_HANA_STATIC_ASSERT(!equal(type<T>, type<void>));
-    BOOST_HANA_STATIC_ASSERT( equal(type<void>, type<void>));
+BOOST_HANA_CONSTANT_ASSERT( equal(type<T>, type<T>));
+BOOST_HANA_CONSTANT_ASSERT(!equal(type<T>, type<U>));
+BOOST_HANA_CONSTANT_ASSERT(!equal(type<void>, type<U>));
+BOOST_HANA_CONSTANT_ASSERT(!equal(type<T>, type<void>));
+BOOST_HANA_CONSTANT_ASSERT( equal(type<void>, type<void>));
 
-    BOOST_HANA_STATIC_ASSERT( equal(type<T&>, type<T&>));
-    BOOST_HANA_STATIC_ASSERT(!equal(type<T&>, type<T&&>));
-    BOOST_HANA_STATIC_ASSERT(!equal(type<T const>, type<T>));
-    BOOST_HANA_STATIC_ASSERT( equal(type<T const>, type<T const>));
-}
+BOOST_HANA_CONSTANT_ASSERT( equal(type<T&>, type<T&>));
+BOOST_HANA_CONSTANT_ASSERT(!equal(type<T&>, type<T&&>));
+BOOST_HANA_CONSTANT_ASSERT(!equal(type<T const>, type<T>));
+BOOST_HANA_CONSTANT_ASSERT( equal(type<T const>, type<T const>));
+
+int main() { }

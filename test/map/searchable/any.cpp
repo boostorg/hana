@@ -6,10 +6,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/map.hpp>
 
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/minimal/comparable.hpp>
 #include <boost/hana/detail/minimal/product.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 using namespace boost::hana;
 
 
@@ -27,12 +27,12 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto is = [](auto x) {
 };
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(!any(is(key<1>), map()));
+    BOOST_HANA_CONSTANT_ASSERT(!any(is(key<1>), map()));
 
-    BOOST_HANA_STATIC_ASSERT( any(is(key<1>), map(p<1, 1>)));
-    BOOST_HANA_STATIC_ASSERT(!any(is(key<2>), map(p<1, 1>)));
+    BOOST_HANA_CONSTEXPR_ASSERT( any(is(key<1>), map(p<1, 1>)));
+    BOOST_HANA_CONSTEXPR_ASSERT(!any(is(key<2>), map(p<1, 1>)));
 
-    BOOST_HANA_STATIC_ASSERT( any(is(key<1>), map(p<1, 1>, p<2, 2>)));
-    BOOST_HANA_STATIC_ASSERT( any(is(key<2>), map(p<1, 1>, p<2, 2>)));
-    BOOST_HANA_STATIC_ASSERT(!any(is(key<3>), map(p<1, 1>, p<2, 2>)));
+    BOOST_HANA_CONSTEXPR_ASSERT( any(is(key<1>), map(p<1, 1>, p<2, 2>)));
+    BOOST_HANA_CONSTEXPR_ASSERT( any(is(key<2>), map(p<1, 1>, p<2, 2>)));
+    BOOST_HANA_CONSTEXPR_ASSERT(!any(is(key<3>), map(p<1, 1>, p<2, 2>)));
 }

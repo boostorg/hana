@@ -6,10 +6,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/list/mcd.hpp>
 
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/minimal/comparable.hpp>
 #include <boost/hana/detail/minimal/list.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 using namespace boost::hana;
 
 
@@ -25,14 +25,15 @@ void test() {
             auto actual = permutations(xs);
             auto expected = list(expected_...);
 
-            BOOST_HANA_STATIC_ASSERT(
+            BOOST_HANA_CONSTEXPR_ASSERT(
                 length(expected) == length(actual) &&
                 all([=](auto x) { return elem(x, expected); }, actual)
             );
         };
     };
 
-    permute(list())(list());
+    BOOST_HANA_CONSTANT_ASSERT(permutations(list()) == list(list()));
+
     permute(list(x<0>))(list(x<0>));
     permute(list(x<0>, x<1>))(
         list(x<0>, x<1>),

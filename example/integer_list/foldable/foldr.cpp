@@ -4,8 +4,8 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/integer_list.hpp>
 #include <boost/hana/integral.hpp>
 using namespace boost::hana;
@@ -21,6 +21,6 @@ int main() {
         return if_(n < 0_c, cons(n, acc), acc);
     };
 
-    BOOST_HANA_STATIC_ASSERT(foldr(keep_negatives, integer_list<int>, numbers) == negatives);
+    BOOST_HANA_CONSTANT_ASSERT(foldr(keep_negatives, integer_list<int>, numbers) == negatives);
     //! [main]
 }

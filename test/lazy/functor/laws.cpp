@@ -6,8 +6,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/lazy.hpp>
 
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/minimal/comparable.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/functor/laws.hpp>
 #include <boost/hana/list/instance.hpp>
 
@@ -30,7 +30,7 @@ template <int i, int j>
 constexpr _f<i, j> f{};
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(Functor::laws::check(
+    BOOST_HANA_CONSTEXPR_ASSERT(Functor::laws::check(
         list(lazy(x<0>)),
         list(
             f<1, 1>,

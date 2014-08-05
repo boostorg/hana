@@ -7,9 +7,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/map.hpp>
 
 #include <boost/hana/comparable/laws.hpp>
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/minimal/product.hpp>
-#include <boost/hana/detail/static_assert.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/list/instance.hpp>
 using namespace boost::hana;
@@ -25,7 +25,7 @@ template <int i, int j>
 BOOST_HANA_CONSTEXPR_LAMBDA auto p = detail::minimal::product<>(key<i>, value<j>);
 
 int main() {
-    BOOST_HANA_STATIC_ASSERT(Comparable::laws::check(
+    BOOST_HANA_CONSTANT_ASSERT(Comparable::laws::check(
         list(
             map(),
             map(p<1, 1>),
