@@ -48,7 +48,7 @@ namespace boost { namespace hana { namespace assert_detail {
     //! This macro may be used at any scope where a `static_assert` can be
     //! used. Its argument must be a `Constant`, or else a compile-time
     //! assertion is triggered. If the argument is a `Constant`, its `value`
-    //! is retrieved, it is converted to a boolean and `static_assert`ed` upon.
+    //! is retrieved, it is converted to a boolean and `static_assert`ed upon.
     //!
     //! Because this macro uses `decltype` on its argument, a lambda may not
     //! be used inside the expression.
