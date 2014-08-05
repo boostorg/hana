@@ -124,18 +124,19 @@ namespace boost { namespace hana {
             return size_t<Size::value>;
         }
 
-        template <typename Pred, typename Xs>
-        static constexpr auto any_impl(Pred p, Xs&& xs) {
+        //! @todo Move these to a `Searchable` instance.
+        template <typename Xs, typename Pred>
+        static constexpr auto any_impl(Xs&& xs, Pred p) {
             return boost::fusion::any(std::forward<Xs>(xs), p);
         }
 
-        template <typename Pred, typename Xs>
-        static constexpr auto all_impl(Pred p, Xs&& xs) {
+        template <typename Xs, typename Pred>
+        static constexpr auto all_impl(Xs&& xs, Pred p) {
             return boost::fusion::all(std::forward<Xs>(xs), p);
         }
 
-        template <typename Pred, typename Xs>
-        static constexpr auto none_impl(Pred p, Xs&& xs) {
+        template <typename Xs, typename Pred>
+        static constexpr auto none_impl(Xs&& xs, Pred p) {
             return boost::fusion::none(std::forward<Xs>(xs), p);
         }
 

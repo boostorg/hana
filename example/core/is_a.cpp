@@ -37,7 +37,7 @@ int main() {
             auto row_is_correct = [=](auto row) {
                 return list(headers(head(row))...) == tail(row);
             };
-            BOOST_HANA_CONSTANT_ASSERT(all(row_is_correct, list(rows...)));
+            BOOST_HANA_CONSTANT_ASSERT(all(list(rows...), row_is_correct));
         };
     };
 

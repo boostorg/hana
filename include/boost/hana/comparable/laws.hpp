@@ -21,17 +21,17 @@ namespace boost { namespace hana {
         template <typename ComparableObjects>
         static constexpr auto check(ComparableObjects objs) {
             auto implies = [](auto p, auto q) { return or_(not_(p), q); };
-            return all([=](auto a) {
-                return all([=](auto b) {
-                    return all([=](auto c) {
+            return all(objs, [=](auto a) {
+                return all(objs, [=](auto b) {
+                    return all(objs, [=](auto c) {
                         return and_(
                             equal(a, a),
                             implies(equal(a, b), equal(b, a)),
                             implies(and_(equal(a, b), equal(b, c)), equal(a, c))
                         );
-                    }, objs);
-                }, objs);
-            }, objs);
+                    });
+                });
+            });
         }
     };
 }} // end namespace boost::hana

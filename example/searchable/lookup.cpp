@@ -16,13 +16,14 @@ using namespace boost::hana;
 
 int main() {
     //! [main]
-    BOOST_HANA_CONSTANT_ASSERT(lookup(type<int>, list(int_<1>, type<int>, '3')) == just(type<int>));
-    BOOST_HANA_CONSTANT_ASSERT(lookup(type<void>, list(int_<1>, type<int>, '3')) == nothing);
+    BOOST_HANA_CONSTANT_ASSERT(lookup(list(int_<1>, type<int>, '3'), type<int>) == just(type<int>));
+    BOOST_HANA_CONSTANT_ASSERT(lookup(list(int_<1>, type<int>, '3'), type<void>) == nothing);
 
-    BOOST_HANA_CONSTEXPR_ASSERT(lookup(type<float>, map(
+    BOOST_HANA_CONSTEXPR_LAMBDA auto m = map(
         pair(1, 'x'),
         pair(type<float>, 3.3),
         pair(type<char>, type<int>)
-    )) == just(3.3));
+    );
+    BOOST_HANA_CONSTEXPR_ASSERT(lookup(m, type<float>) == just(3.3));
     //! [main]
 }

@@ -24,9 +24,9 @@ namespace boost { namespace hana {
             auto incomparable = [](auto x, auto y) {
                 return not_(or_(less(x, y), less(y, x)));
             };
-            return all([=](auto a) {
-                return all([=](auto b) {
-                    return all([=](auto c) {
+            return all(orderables, [=](auto a) {
+                return all(orderables, [=](auto b) {
+                    return all(orderables, [=](auto c) {
                         return and_(
                             not(less(a, a)),
                             implies(less(a, b), not_(less(b, a))),
@@ -36,9 +36,9 @@ namespace boost { namespace hana {
                                 incomparable(a, c)
                             )
                         );
-                    }, orderables);
-                }, orderables);
-            }, orderables);
+                    });
+                });
+            });
         }
     };
 }} // end namespace boost::hana

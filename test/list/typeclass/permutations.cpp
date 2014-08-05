@@ -27,7 +27,7 @@ void test() {
 
             BOOST_HANA_CONSTEXPR_ASSERT(
                 length(expected) == length(actual) &&
-                all([=](auto x) { return elem(x, expected); }, actual)
+                all(actual, [=](auto x) { return elem(expected, x); })
             );
         };
     };

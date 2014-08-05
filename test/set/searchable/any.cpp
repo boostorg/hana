@@ -20,12 +20,12 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto is = [](auto x) {
 };
 
 int main() {
-    BOOST_HANA_CONSTANT_ASSERT(!any(is(x<1>), set()));
+    BOOST_HANA_CONSTANT_ASSERT(!any(set(), is(x<1>)));
 
-    BOOST_HANA_CONSTEXPR_ASSERT( any(is(x<1>), set(x<1>)));
-    BOOST_HANA_CONSTEXPR_ASSERT(!any(is(x<2>), set(x<1>)));
+    BOOST_HANA_CONSTEXPR_ASSERT( any(set(x<1>), is(x<1>)));
+    BOOST_HANA_CONSTEXPR_ASSERT(!any(set(x<1>), is(x<2>)));
 
-    BOOST_HANA_CONSTEXPR_ASSERT( any(is(x<1>), set(x<1>, x<2>)));
-    BOOST_HANA_CONSTEXPR_ASSERT( any(is(x<2>), set(x<1>, x<2>)));
-    BOOST_HANA_CONSTEXPR_ASSERT(!any(is(x<3>), set(x<1>, x<2>)));
+    BOOST_HANA_CONSTEXPR_ASSERT( any(set(x<1>, x<2>), is(x<1>)));
+    BOOST_HANA_CONSTEXPR_ASSERT( any(set(x<1>, x<2>), is(x<2>)));
+    BOOST_HANA_CONSTEXPR_ASSERT(!any(set(x<1>, x<2>), is(x<3>)));
 }

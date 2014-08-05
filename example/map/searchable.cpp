@@ -19,9 +19,9 @@ int main() {
         pair(type<int>, 'i'),
         pair(type<float>, 'f')
     );
-    BOOST_HANA_CONSTEXPR_ASSERT(lookup(type<int>, m) == just('i'));
-    BOOST_HANA_CONSTEXPR_ASSERT(lookup(type<float>, m) == just('f'));
-    BOOST_HANA_CONSTANT_ASSERT(lookup(type<void>, m) == nothing);
-    BOOST_HANA_CONSTANT_ASSERT(lookup(int_<3>, m) == nothing);
+    BOOST_HANA_CONSTEXPR_ASSERT(lookup(m, type<int>) == just('i'));
+    BOOST_HANA_CONSTEXPR_ASSERT(lookup(m, type<float>) == just('f'));
+    BOOST_HANA_CONSTANT_ASSERT(lookup(m, type<void>) == nothing);
+    BOOST_HANA_CONSTANT_ASSERT(lookup(m, int_<3>) == nothing);
     //! [main]
 }

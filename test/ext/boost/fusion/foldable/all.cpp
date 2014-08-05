@@ -6,10 +6,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/ext/boost/fusion.hpp>
 
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 
 #include "../helper.hpp"
-#include <cassert>
 using namespace boost::hana;
 
 
@@ -19,12 +19,12 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto is_even = [](auto x) {
 
 int main() {
     with_nonassociative_forward_sequences([=](auto container) {
-        assert( all(is_even, container()));
-        assert(!all(is_even, container(1)));
-        assert( all(is_even, container(2)));
-        assert( all(is_even, container(2, 4)));
-        assert(!all(is_even, container(1, 2)));
-        assert(!all(is_even, container(1, 3)));
-        assert(!all(is_even, container(1, 3, 4)));
+        BOOST_HANA_CONSTANT_ASSERT(all(container(), is_even));
+        BOOST_HANA_RUNTIME_ASSERT(!all(container(1), is_even));
+        BOOST_HANA_RUNTIME_ASSERT( all(container(2), is_even));
+        BOOST_HANA_RUNTIME_ASSERT( all(container(2, 4), is_even));
+        BOOST_HANA_RUNTIME_ASSERT(!all(container(1, 2), is_even));
+        BOOST_HANA_RUNTIME_ASSERT(!all(container(1, 3), is_even));
+        BOOST_HANA_RUNTIME_ASSERT(!all(container(1, 3, 4), is_even));
     });
 }

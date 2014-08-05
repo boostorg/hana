@@ -33,7 +33,7 @@ namespace boost { namespace hana {
 
         template <typename X>
         constexpr auto operator()(X x) const {
-            if (!any(_ == x, domain(*this)))
+            if (!elem(domain(*this), x))
                 throw std::domain_error{"use of a hana::function with an argument out of the domain"};
             return def(x);
         }
@@ -51,7 +51,7 @@ namespace boost { namespace hana {
         // Note: that would be better handled by a set data structure, but
         // whatever for now.
         auto insert = [](auto xs, auto x) {
-            return if_(any(_ == x, xs), xs, cons(x, xs));
+            return if_(elem(xs, x), xs, cons(x, xs));
         };
         return foldl(insert, list(), fmap(f, domain(f)));
     };
@@ -61,7 +61,7 @@ namespace boost { namespace hana {
     struct Comparable::instance<Function, Function> : Comparable::equal_mcd {
         template <typename F, typename G>
         static constexpr auto equal_impl(F f, G g) {
-            return domain(f) == domain(g) && all(demux(_==_, f, g), domain(f));
+            return domain(f) == domain(g) && all(domain(f), demux(equal, f, g));
         }
     };
 }} // end namespace boost::hana
@@ -71,7 +71,7 @@ namespace boost { namespace hana {
 //     auto check = [](auto x, auto y) {
 //         return (x != y)     ^implies^   (f(x) != f(y));
 //     };
-//     return all(check, product(domain(f), domain(f)));
+//     return all(product(domain(f), domain(f)), check);
 // };
 
 // BOOST_HANA_CONSTEXPR_LAMBDA auto is_onto = [](auto f) {

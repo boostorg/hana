@@ -19,8 +19,8 @@ template <typename mcd>
 void test() {
     constexpr auto searchable = detail::minimal::searchable<mcd>;
 
-    BOOST_HANA_CONSTEXPR_ASSERT( elem(x<0>, searchable(x<0>)));
-    BOOST_HANA_CONSTEXPR_ASSERT(!elem(x<1>, searchable(x<0>)));
+    BOOST_HANA_CONSTEXPR_ASSERT( elem(searchable(x<0>), x<0>));
+    BOOST_HANA_CONSTEXPR_ASSERT(!elem(searchable(x<0>), x<1>));
 };
 
 int main() {

@@ -19,8 +19,8 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto is = [](auto x) {
     return [=](auto y) { return equal(x, y); };
 };
 
-BOOST_HANA_CONSTANT_ASSERT(find(is(x<0>), just(x<0>)) == just(x<0>));
-BOOST_HANA_CONSTANT_ASSERT(find(is(x<1>), just(x<0>)) == nothing);
-BOOST_HANA_CONSTANT_ASSERT(find(is(x<0>), nothing) == nothing);
+BOOST_HANA_CONSTANT_ASSERT(find(just(x<0>), is(x<0>)) == just(x<0>));
+BOOST_HANA_CONSTANT_ASSERT(find(just(x<0>), is(x<1>)) == nothing);
+BOOST_HANA_CONSTANT_ASSERT(find(nothing, is(x<0>)) == nothing);
 
 int main() { (void)is; }

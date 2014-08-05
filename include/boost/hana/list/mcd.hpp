@@ -379,8 +379,8 @@ namespace boost { namespace hana {
     struct Searchable::instance<T, when<is_a<List, T>()>>
         : Searchable::mcd
     {
-        template <typename Pred, typename Xs>
-        static constexpr auto find_impl(Pred pred, Xs xs) {
+        template <typename Xs, typename Pred>
+        static constexpr auto find_impl(Xs xs, Pred pred) {
             auto e = drop_until(pred, xs);
             return eval_if(is_empty(e),
                 [](auto) { return nothing; },
@@ -388,14 +388,14 @@ namespace boost { namespace hana {
             );
         }
 
-        template <typename Pred, typename Xs>
-        static constexpr auto any_impl(Pred pred, Xs xs) {
+        template <typename Xs, typename Pred>
+        static constexpr auto any_impl(Xs xs, Pred pred) {
             return eval_if(is_empty(xs),
                 [](auto _) { return false_; },
                 [=](auto _) {
                     return eval_if(pred(_(head)(xs)),
                         [=](auto _) { return true_; },
-                        [=](auto _) { return any_impl(pred, _(tail)(xs)); }
+                        [=](auto _) { return any_impl(_(tail)(xs), pred); }
                     );
                 }
             );

@@ -18,11 +18,11 @@ using namespace boost::hana;
 
 int main() {
     //! [main]
-    BOOST_HANA_CONSTEXPR_ASSERT(find(trait_<std::is_integral>, list(1.0, 2, '3')) == just(2));
-    BOOST_HANA_CONSTANT_ASSERT(find(trait_<std::is_class>, list(1.0, 2, '3')) == nothing);
+    BOOST_HANA_CONSTEXPR_ASSERT(find(list(1.0, 2, '3'), trait_<std::is_integral>) == just(2));
+    BOOST_HANA_CONSTANT_ASSERT(find(list(1.0, 2, '3'), trait_<std::is_class>) == nothing);
 
     constexpr auto types = type_list<char, int, unsigned, long, unsigned long>;
-    BOOST_HANA_CONSTANT_ASSERT(find(_ == type<unsigned>, types) == just(type<unsigned>));
-    BOOST_HANA_CONSTANT_ASSERT(find(_ == type<void>, types) == nothing);
+    BOOST_HANA_CONSTANT_ASSERT(find(types, _ == type<unsigned>) == just(type<unsigned>));
+    BOOST_HANA_CONSTANT_ASSERT(find(types, _ == type<void>) == nothing);
     //! [main]
 }

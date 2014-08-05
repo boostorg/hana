@@ -27,12 +27,12 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto is = [](auto x) {
 };
 
 int main() {
-    BOOST_HANA_CONSTANT_ASSERT(!any(is(key<1>), map()));
+    BOOST_HANA_CONSTANT_ASSERT(!any(map(), is(key<1>)));
 
-    BOOST_HANA_CONSTEXPR_ASSERT( any(is(key<1>), map(p<1, 1>)));
-    BOOST_HANA_CONSTEXPR_ASSERT(!any(is(key<2>), map(p<1, 1>)));
+    BOOST_HANA_CONSTEXPR_ASSERT( any(map(p<1, 1>), is(key<1>)));
+    BOOST_HANA_CONSTEXPR_ASSERT(!any(map(p<1, 1>), is(key<2>)));
 
-    BOOST_HANA_CONSTEXPR_ASSERT( any(is(key<1>), map(p<1, 1>, p<2, 2>)));
-    BOOST_HANA_CONSTEXPR_ASSERT( any(is(key<2>), map(p<1, 1>, p<2, 2>)));
-    BOOST_HANA_CONSTEXPR_ASSERT(!any(is(key<3>), map(p<1, 1>, p<2, 2>)));
+    BOOST_HANA_CONSTEXPR_ASSERT( any(map(p<1, 1>, p<2, 2>), is(key<1>)));
+    BOOST_HANA_CONSTEXPR_ASSERT( any(map(p<1, 1>, p<2, 2>), is(key<2>)));
+    BOOST_HANA_CONSTEXPR_ASSERT(!any(map(p<1, 1>, p<2, 2>), is(key<3>)));
 }

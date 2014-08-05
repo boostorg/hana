@@ -42,7 +42,7 @@ constexpr struct _predicate {
 
 BOOST_HANA_CONSTEXPR_LAMBDA auto check = [](auto sorted_list) {
     auto perms = fmap(partial(sort_by, pred), permutations(sorted_list));
-    BOOST_HANA_CONSTANT_ASSERT(all(_ == sorted_list, perms));
+    BOOST_HANA_CONSTANT_ASSERT(all(perms, _ == sorted_list));
 };
 
 template <typename mcd>

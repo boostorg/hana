@@ -16,6 +16,6 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto is = [](auto k) {
 };
 
 int main() {
-    BOOST_HANA_CONSTEXPR_ASSERT(find(is(member1), udt{0, '0'}) == just(0));
-    BOOST_HANA_CONSTEXPR_ASSERT(find(is(member2), udt{0, '0'}) == just('0'));
+    BOOST_HANA_CONSTEXPR_ASSERT(find(udt{0, '0'}, is(member1)) == just(0));
+    BOOST_HANA_CONSTEXPR_ASSERT(find(udt{0, '0'}, is(member2)) == just('0'));
 }

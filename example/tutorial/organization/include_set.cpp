@@ -14,6 +14,6 @@ using namespace boost::hana;
 
 int main() {
     BOOST_HANA_CONSTEXPR_LAMBDA auto xs = set(1, 2.2, 'x');
-    BOOST_HANA_CONSTEXPR_ASSERT(elem('x', xs));
+    BOOST_HANA_CONSTEXPR_ASSERT(elem(xs, 'x'));
 }
 //! [main]

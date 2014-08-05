@@ -92,11 +92,10 @@ auto row = [](auto ...entries) {
 
 auto matrix = [](auto ...rows) {
     auto storage = list(rows...);
-    auto all_same_length = all([=](auto row) {
+    auto all_same_length = all(tail(storage), [=](auto row) {
         return length(row) == length(head(storage));
-    }, tail(storage));
-    static_assert(all_same_length,
-    "");
+    });
+    static_assert(all_same_length, "");
 
     return matrix_type<decltype(storage)>{storage};
 };

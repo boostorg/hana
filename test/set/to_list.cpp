@@ -21,6 +21,6 @@ int main() {
     BOOST_HANA_CONSTANT_ASSERT(to<L>(set()) == list());
     BOOST_HANA_CONSTEXPR_ASSERT(to<L>(set(x<1>)) == list(x<1>));
 
-    BOOST_HANA_CONSTEXPR_ASSERT(elem(to<L>(set(x<1>, x<2>)), permutations(list(x<1>, x<2>))));
-    BOOST_HANA_CONSTEXPR_ASSERT(elem(to<L>(set(x<1>, x<2>, x<3>)), permutations(list(x<1>, x<2>, x<3>))));
+    BOOST_HANA_CONSTEXPR_ASSERT(elem(permutations(list(x<1>, x<2>)), to<L>(set(x<1>, x<2>))));
+    BOOST_HANA_CONSTEXPR_ASSERT(elem(permutations(list(x<1>, x<2>, x<3>)), to<L>(set(x<1>, x<2>, x<3>))));
 }

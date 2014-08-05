@@ -14,7 +14,7 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto is = [](auto k) {
     return [=](auto key) { return equal(k, key); };
 };
 
-BOOST_HANA_CONSTANT_ASSERT(any(is(member1), udt{0, '0'}));
-BOOST_HANA_CONSTANT_ASSERT(any(is(member2), udt{0, '0'}));
+BOOST_HANA_CONSTANT_ASSERT(any(udt{0, '0'}, is(member1)));
+BOOST_HANA_CONSTANT_ASSERT(any(udt{0, '0'}, is(member2)));
 
 int main() { (void)is; }

@@ -26,22 +26,22 @@ void test() {
 
     constexpr struct { } invalid{};
 
-    BOOST_HANA_CONSTANT_ASSERT(find(is(x<9>), list()) == nothing);
+    BOOST_HANA_CONSTANT_ASSERT(find(list(), is(x<9>)) == nothing);
 
-    BOOST_HANA_CONSTANT_ASSERT(find(is(x<9>), list(x<0>)) == nothing);
-    BOOST_HANA_CONSTANT_ASSERT(find(is(x<0>), list(x<0>)) == just(x<0>));
-    BOOST_HANA_CONSTANT_ASSERT(find(is(x<0>), list(x<0>, invalid)) == just(x<0>));
-    BOOST_HANA_CONSTANT_ASSERT(find(is(x<0>), list(x<0>, invalid, invalid)) == just(x<0>));
+    BOOST_HANA_CONSTANT_ASSERT(find(list(x<0>), is(x<9>)) == nothing);
+    BOOST_HANA_CONSTANT_ASSERT(find(list(x<0>), is(x<0>)) == just(x<0>));
+    BOOST_HANA_CONSTANT_ASSERT(find(list(x<0>, invalid), is(x<0>)) == just(x<0>));
+    BOOST_HANA_CONSTANT_ASSERT(find(list(x<0>, invalid, invalid), is(x<0>)) == just(x<0>));
 
-    BOOST_HANA_CONSTANT_ASSERT(find(is(x<9>), list(x<0>, x<1>)) == nothing);
-    BOOST_HANA_CONSTANT_ASSERT(find(is(x<1>), list(x<0>, x<1>)) == just(x<1>));
-    BOOST_HANA_CONSTANT_ASSERT(find(is(x<1>), list(x<0>, x<1>, invalid)) == just(x<1>));
-    BOOST_HANA_CONSTANT_ASSERT(find(is(x<1>), list(x<0>, x<1>, invalid, invalid)) == just(x<1>));
+    BOOST_HANA_CONSTANT_ASSERT(find(list(x<0>, x<1>), is(x<9>)) == nothing);
+    BOOST_HANA_CONSTANT_ASSERT(find(list(x<0>, x<1>), is(x<1>)) == just(x<1>));
+    BOOST_HANA_CONSTANT_ASSERT(find(list(x<0>, x<1>, invalid), is(x<1>)) == just(x<1>));
+    BOOST_HANA_CONSTANT_ASSERT(find(list(x<0>, x<1>, invalid, invalid), is(x<1>)) == just(x<1>));
 
-    BOOST_HANA_CONSTANT_ASSERT(find(is(x<9>), list(x<0>, x<1>, x<2>)) == nothing);
-    BOOST_HANA_CONSTANT_ASSERT(find(is(x<2>), list(x<0>, x<1>, x<2>)) == just(x<2>));
-    BOOST_HANA_CONSTANT_ASSERT(find(is(x<2>), list(x<0>, x<1>, x<2>, nothing)) == just(x<2>));
-    BOOST_HANA_CONSTANT_ASSERT(find(is(x<2>), list(x<0>, x<1>, x<2>, nothing, nothing)) == just(x<2>));
+    BOOST_HANA_CONSTANT_ASSERT(find(list(x<0>, x<1>, x<2>), is(x<9>)) == nothing);
+    BOOST_HANA_CONSTANT_ASSERT(find(list(x<0>, x<1>, x<2>), is(x<2>)) == just(x<2>));
+    BOOST_HANA_CONSTANT_ASSERT(find(list(x<0>, x<1>, x<2>, nothing), is(x<2>)) == just(x<2>));
+    BOOST_HANA_CONSTANT_ASSERT(find(list(x<0>, x<1>, x<2>, nothing, nothing), is(x<2>)) == just(x<2>));
 }
 
 int main() {

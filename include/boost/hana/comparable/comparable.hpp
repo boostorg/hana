@@ -57,7 +57,7 @@ namespace boost { namespace hana {
     //! - It does not make sense for `not_equal` to have an arity of more
     //!   than 2, so only `equal` could maybe have those semantics.
     //! - Having a binary `equal` makes it possible to use currying.
-    //! - `equal(x, y...)` can be implemented as `all(x == _, list(y...))`,
+    //! - `equal(x, y...)` can be implemented as `all(list(y...), x == _)`,
     //!   which is pretty straightforward anyway.
     //! @endinternal
     BOOST_HANA_CONSTEXPR_LAMBDA auto equal = [](auto x, auto y) {

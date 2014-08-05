@@ -29,6 +29,6 @@ int main() {
     BOOST_HANA_CONSTANT_ASSERT(to<L>(map()) == list());
     BOOST_HANA_CONSTEXPR_ASSERT(to<L>(map(p<1, 1>)) == list(p<1, 1>));
 
-    BOOST_HANA_CONSTEXPR_ASSERT(elem(to<L>(map(p<1, 1>, p<2, 2>)), permutations(list(p<1, 1>, p<2, 2>))));
-    BOOST_HANA_CONSTEXPR_ASSERT(elem(to<L>(map(p<1, 1>, p<2, 2>, p<3, 3>)), permutations(list(p<1, 1>, p<2, 2>, p<3, 3>))));
+    BOOST_HANA_CONSTEXPR_ASSERT(elem(permutations(list(p<1, 1>, p<2, 2>)), to<L>(map(p<1, 1>, p<2, 2>))));
+    BOOST_HANA_CONSTEXPR_ASSERT(elem(permutations(list(p<1, 1>, p<2, 2>, p<3, 3>)), to<L>(map(p<1, 1>, p<2, 2>, p<3, 3>))));
 }

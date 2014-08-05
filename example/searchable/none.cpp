@@ -22,14 +22,14 @@ int main() {
         return x % 2_c != 0_c;
     };
 
-    BOOST_HANA_CONSTANT_ASSERT(none(odd, list(2_c, 4_c)));
-    BOOST_HANA_CONSTEXPR_ASSERT(!none(odd, list(1, 2)));
+    BOOST_HANA_CONSTANT_ASSERT(none(list(2_c, 4_c), odd));
+    BOOST_HANA_CONSTEXPR_ASSERT(!none(list(1, 2), odd));
 
     BOOST_HANA_CONSTANT_ASSERT(
-        !none(trait<std::is_void>, list(type<void>, type<char&>))
+        !none(list(type<void>, type<char&>), trait<std::is_void>)
     );
     BOOST_HANA_CONSTANT_ASSERT(
-        none(trait<std::is_integral>, list(type<void>, type<char&>))
+        none(list(type<void>, type<char&>), trait<std::is_integral>)
     );
     //! [main]
 }

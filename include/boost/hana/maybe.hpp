@@ -151,8 +151,8 @@ namespace boost { namespace hana {
     //! @snippet example/maybe/searchable.cpp main
     template <>
     struct Searchable::instance<Maybe> : Searchable::mcd {
-        template <typename Pred, typename M>
-        static constexpr auto find_impl(Pred p, M m) {
+        template <typename M, typename Pred>
+        static constexpr auto find_impl(M m, Pred p) {
             return maybe(
                 nothing,
                 [=](auto x) { return if_(p(x), just(x), nothing); },
@@ -160,8 +160,8 @@ namespace boost { namespace hana {
             );
         }
 
-        template <typename Pred, typename M>
-        static constexpr auto any_impl(Pred p, M m)
+        template <typename M, typename Pred>
+        static constexpr auto any_impl(M m, Pred p)
         { return maybe(false_, p, m); }
     };
 }} // end namespace boost::hana

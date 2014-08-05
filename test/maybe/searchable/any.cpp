@@ -20,7 +20,7 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto is = [](auto x) {
 };
 
 int main() {
-    BOOST_HANA_CONSTEXPR_ASSERT( any(is(x<0>), just(x<0>)));
-    BOOST_HANA_CONSTEXPR_ASSERT(!any(is(x<1>), just(x<0>)));
-    BOOST_HANA_CONSTANT_ASSERT(!any(is(x<0>), nothing));
+    BOOST_HANA_CONSTEXPR_ASSERT( any(just(x<0>), is(x<0>)));
+    BOOST_HANA_CONSTEXPR_ASSERT(!any(just(x<0>), is(x<1>)));
+    BOOST_HANA_CONSTANT_ASSERT(!any(nothing, is(x<0>)));
 }

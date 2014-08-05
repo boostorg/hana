@@ -19,7 +19,7 @@ constexpr auto x = int_<i>;
 BOOST_HANA_CONSTEXPR_LAMBDA auto check = [](auto ...xs) {
     auto eq = [=](auto s) { return equal(to<Set>(s), set(xs...)); };
     return and_(
-        all(eq, permutations(list(xs...))),
+        all(permutations(list(xs...)), eq),
         not_(equal(set(xs...), set(xs..., x<999>)))
     );
 };

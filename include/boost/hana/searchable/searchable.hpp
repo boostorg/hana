@@ -33,20 +33,20 @@ namespace boost { namespace hana {
     //! after looking at a finite number of keys for this method to finish.
     //!
     //!
+    //! @param searchable
+    //! The structure to search.
+    //!
     //! @param predicate
     //! A function called as `predicate(k)`, where `k` is a key of the
     //! structure, and returning a `Logical`.
     //!
-    //! @param searchable
-    //! The structure to search.
-    //!
     //!
     //! ### Example
     //! @snippet example/searchable/any.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto any = [](auto predicate, auto searchable) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto any = [](auto searchable, auto predicate) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
-        >::any_impl(predicate, searchable);
+        >::any_impl(searchable, predicate);
     };
 
     //! Return whether any key of the structure is true-valued.
@@ -72,20 +72,20 @@ namespace boost { namespace hana {
     //! method to finish.
     //!
     //!
+    //! @param searchable
+    //! The structure to search.
+    //!
     //! @param predicate
     //! A function called as `predicate(k)`, where `k` is a key of the
     //! structure, and returning a `Logical`.
     //!
-    //! @param searchable
-    //! The structure to search.
-    //!
     //!
     //! ### Example
     //! @snippet example/searchable/all.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto all = [](auto predicate, auto searchable) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto all = [](auto searchable, auto predicate) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
-        >::all_impl(predicate, searchable);
+        >::all_impl(searchable, predicate);
     };
 
     //! Return whether all the keys of the structure are true-valued.
@@ -112,20 +112,20 @@ namespace boost { namespace hana {
     //! method to finish.
     //!
     //!
+    //! @param searchable
+    //! The structure to search.
+    //!
     //! @param predicate
     //! A function called as `predicate(k)`, where `k` is a key of the
     //! structure, and returning a `Logical`.
     //!
-    //! @param searchable
-    //! The structure to search.
-    //!
     //!
     //! ### Example
     //! @snippet example/searchable/none.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto none = [](auto predicate, auto searchable) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto none = [](auto searchable, auto predicate) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
-        >::none_impl(predicate, searchable);
+        >::none_impl(searchable, predicate);
     };
 
     //! Return whether all of the keys of the structure are false-valued.
@@ -152,19 +152,20 @@ namespace boost { namespace hana {
     //! method to finish.
     //!
     //!
+    //! @param searchable
+    //! The structure to search.
+    //!
     //! @param key
     //! A key to be searched for in the structure. The key has to be
     //! `Comparable` with the other keys of the structure.
     //!
-    //! @param searchable
-    //! The structure to search.
     //!
     //! ### Example
     //! @snippet example/searchable/elem.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto elem = [](auto key, auto searchable) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto elem = [](auto searchable, auto key) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
-        >::elem_impl(key, searchable);
+        >::elem_impl(searchable, key);
     };
 
     //! Find the value associated to the first key satisfying a predicate.
@@ -174,6 +175,9 @@ namespace boost { namespace hana {
     //! `predicate`, or `nothing` if there is no such key.
     //!
     //!
+    //! @param searchable
+    //! The structure to be searched.
+    //!
     //! @param predicate
     //! A function called as `predicate(k)`, where `k` is a key of the
     //! structure, and returning a `Logical`. Note that in the current
@@ -182,16 +186,13 @@ namespace boost { namespace hana {
     //! is because `find` returns a `Maybe`, which is an heterogeneous data
     //! type.
     //!
-    //! @param searchable
-    //! The structure to be searched.
-    //!
     //!
     //! ### Example
     //! @snippet example/searchable/find.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto find = [](auto predicate, auto searchable) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto find = [](auto searchable, auto predicate) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
-        >::find_impl(predicate, searchable);
+        >::find_impl(searchable, predicate);
     };
 
     //! Find the value associated to the given key in a structure.
@@ -202,6 +203,9 @@ namespace boost { namespace hana {
     //! is done with `equal`.
     //!
     //!
+    //! @param searchable
+    //! The structure to be searched.
+    //!
     //! @param key
     //! A key to be searched for in the structure. The key has to be
     //! `Comparable` with the other keys of the structure. In the current
@@ -210,16 +214,13 @@ namespace boost { namespace hana {
     //! allowing values of different types in `if_`. This is because `lookup`
     //! returns a `Maybe`, which is an heterogeneous data type.
     //!
-    //! @param searchable
-    //! The structure to be searched.
-    //!
     //!
     //! ### Example
     //! @snippet example/searchable/lookup.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto lookup = [](auto key, auto searchable) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto lookup = [](auto searchable, auto key) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
-        >::lookup_impl(key, searchable);
+        >::lookup_impl(searchable, key);
     };
 }} // end namespace boost::hana
 

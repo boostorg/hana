@@ -52,12 +52,12 @@ template <>
 struct Searchable::instance<detail::minimal::Searchable<Searchable::mcd>>
     : Searchable::mcd
 {
-    template <typename Pred, typename X>
-    static constexpr auto find_impl(Pred p, X x)
+    template <typename X, typename Pred>
+    static constexpr auto find_impl(X x, Pred p)
     { return if_(p(x.value), just(x.value), nothing); }
 
-    template <typename Pred, typename X>
-    static constexpr auto any_impl(Pred p, X x)
+    template <typename X, typename Pred>
+    static constexpr auto any_impl(X x, Pred p)
     { return p(x.value); }
 };
 }} // end namespace boost::hana

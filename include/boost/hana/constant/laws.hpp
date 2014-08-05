@@ -20,11 +20,11 @@ namespace boost { namespace hana {
     struct Constant::laws {
         template <typename Cs>
         static constexpr auto check(Cs constants) {
-            return all([](auto c) {
+            return all(constants, [](auto c) {
                 constexpr auto must_be_constexpr = value(c);
                 (void)must_be_constexpr;
                 return true_;
-            }, constants);
+            });
         }
     };
 }} // end namespace boost::hana

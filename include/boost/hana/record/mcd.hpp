@@ -35,9 +35,9 @@ namespace boost { namespace hana {
     {
         template <typename X, typename Y>
         static constexpr auto equal_impl(X x, Y y) {
-            return all([=](auto k_f) {
+            return all(members<R>, [=](auto k_f) {
                 return equal(second(k_f)(x), second(k_f)(y));
-            }, members<R>);
+            });
         }
     };
 
@@ -69,17 +69,17 @@ namespace boost { namespace hana {
     struct Searchable::instance<R, when<is_a<Record, R>()>>
         : Searchable::mcd
     {
-        template <typename Pred, typename X>
-        static constexpr auto find_impl(Pred pred, X x) {
+        template <typename X, typename Pred>
+        static constexpr auto find_impl(X x, Pred pred) {
             return fmap(
                 [=](auto k_f) { return second(k_f)(x); },
-                find([=](auto k_f) { return pred(first(k_f)); }, members<R>)
+                find(members<R>, [=](auto k_f) { return pred(first(k_f)); })
             );
         }
 
-        template <typename Pred, typename X>
-        static constexpr auto any_impl(Pred pred, X x) {
-            return any([=](auto k_f) { return pred(first(k_f)); }, members<R>);
+        template <typename X, typename Pred>
+        static constexpr auto any_impl(X x, Pred pred) {
+            return any(members<R>, [=](auto k_f) { return pred(first(k_f)); });
         }
     };
 

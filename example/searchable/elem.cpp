@@ -14,7 +14,7 @@ using namespace boost::hana;
 
 int main() {
     //! [main]
-    BOOST_HANA_CONSTANT_ASSERT(elem(int_<3>, list(2, int_<2>, int_<3>, 'x')));
-    BOOST_HANA_CONSTANT_ASSERT(elem(type<int>, set(1, '2', type<int>, "foobar")));
+    BOOST_HANA_CONSTANT_ASSERT(elem(list(2, int_<2>, int_<3>, 'x'), int_<3>));
+    BOOST_HANA_CONSTANT_ASSERT(elem(set(1, '2', type<int>, "foobar"), type<int>));
     //! [main]
 }

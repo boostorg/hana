@@ -15,7 +15,7 @@ using namespace boost::hana;
 
 int main() {
     //! [main]
-    BOOST_HANA_CONSTEXPR_ASSERT(find(trait_<std::is_integral>, list(1.0, 2, '3')) == just(2));
-    BOOST_HANA_CONSTANT_ASSERT(find(trait_<std::is_class>, list(1.0, 2, '3')) == nothing);
+    BOOST_HANA_CONSTEXPR_ASSERT(find(list(1.0, 2, '3'), trait_<std::is_integral>) == just(2));
+    BOOST_HANA_CONSTANT_ASSERT(find(list(1.0, 2, '3'), trait_<std::is_class>) == nothing);
     //! [main]
 }

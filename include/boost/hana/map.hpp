@@ -63,9 +63,9 @@ namespace boost { namespace hana {
         static constexpr auto equal_impl(M1 m1, M2 m2) {
             return and_(
                 equal(length(detail::unwrap(m1)), length(detail::unwrap(m2))),
-                all([=](auto k) {
-                    return equal(lookup(k, m1), lookup(k, m2));
-                }, keys(m1))
+                all(keys(m1), [=](auto k) {
+                    return equal(lookup(m1, k), lookup(m2, k));
+                })
             );
         }
     };
@@ -77,17 +77,19 @@ namespace boost { namespace hana {
     //! @snippet example/map/searchable.cpp main
     template <>
     struct Searchable::instance<Map> : Searchable::mcd {
-        template <typename Pred, typename M>
-        static constexpr auto find_impl(Pred pred, M map) {
+        template <typename M, typename Pred>
+        static constexpr auto find_impl(M map, Pred pred) {
             return fmap(
                 second,
-                find([=](auto p) { return pred(first(p)); }, detail::unwrap(map))
+                find(detail::unwrap(map), [=](auto p) {
+                    return pred(first(p));
+                })
             );
         }
 
-        template <typename Pred, typename M>
-        static constexpr auto any_impl(Pred pred, M map)
-        { return any(pred, keys(map)); }
+        template <typename M, typename Pred>
+        static constexpr auto any_impl(M map, Pred pred)
+        { return any(keys(map), pred); }
     };
 
     //! Converts a `List` of `Product`s to a `Map`.
@@ -125,7 +127,7 @@ namespace boost { namespace hana {
                 _(replace)(iskey, pair(key, value), detail::unwrap(map))
             );
         };
-        return eval_if(elem(key, keys(map)), replace_existing, add_new);
+        return eval_if(elem(keys(map), key), replace_existing, add_new);
     };
 
     template <>

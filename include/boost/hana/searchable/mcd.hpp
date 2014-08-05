@@ -25,33 +25,33 @@ namespace boost { namespace hana {
     //! implementation requires the predicate to be compile-time, which is
     //! more restrictive than the original `any` in `Foldable`.
     struct Searchable::mcd {
-        template <typename X, typename Srch>
-        static constexpr auto elem_impl(X x, Srch srch)
-        { return any([=](auto y) { return equal(x, y); }, srch); }
+        template <typename Srch, typename X>
+        static constexpr auto elem_impl(Srch srch, X x)
+        { return any(srch, [=](auto y) { return equal(x, y); }); }
 
-        template <typename Pred, typename Srch>
-        static constexpr auto all_impl(Pred pred, Srch srch)
-        { return not_(any([=](auto x) { return not_(pred(x)); }, srch)); }
+        template <typename Srch, typename Pred>
+        static constexpr auto all_impl(Srch srch, Pred pred)
+        { return not_(any(srch, [=](auto x) { return not_(pred(x)); })); }
 
-        template <typename Pred, typename Srch>
-        static constexpr auto none_impl(Pred pred, Srch srch)
-        { return not_(any(pred, srch)); }
+        template <typename Srch, typename Pred>
+        static constexpr auto none_impl(Srch srch, Pred pred)
+        { return not_(any(srch, pred)); }
 
         template <typename Srch>
         static constexpr auto any_of_impl(Srch srch)
-        { return any([](auto x) { return x; }, srch); }
+        { return any(srch, [](auto x) { return x; }); }
 
         template <typename Srch>
         static constexpr auto all_of_impl(Srch srch)
-        { return all([](auto x) { return x; }, srch); }
+        { return all(srch, [](auto x) { return x; }); }
 
         template <typename Srch>
         static constexpr auto none_of_impl(Srch srch)
-        { return none([](auto x) { return x; }, srch); }
+        { return none(srch, [](auto x) { return x; }); }
 
-        template <typename Key, typename Srch>
-        static constexpr auto lookup_impl(Key key, Srch srch)
-        { return find([=](auto k) { return equal(key, k); }, srch); }
+        template <typename Srch, typename Key>
+        static constexpr auto lookup_impl(Srch srch, Key key)
+        { return find(srch, [=](auto k) { return equal(key, k); }); }
     };
 }} // end namespace boost::hana
 

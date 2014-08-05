@@ -14,11 +14,11 @@ using namespace boost::hana;
 int main() {
     //! [main]
     BOOST_HANA_CONSTEXPR_LAMBDA auto is_permutation_of = curry<2>([](auto xs, auto perm) {
-        return elem(perm, permutations(xs));
+        return elem(permutations(xs), perm);
     });
 
     BOOST_HANA_CONSTEXPR_ASSERT(
-        all(is_permutation_of(list('1', 2, 3.0)),
+        all(
             list(
                 list('1', 2, 3.0),
                 list('1', 3.0, 2),
@@ -26,7 +26,8 @@ int main() {
                 list(2, 3.0, '1'),
                 list(3.0, '1', 2),
                 list(3.0, 2, '1')
-            )
+            ),
+            is_permutation_of(list('1', 2, 3.0))
         )
     );
     //! [main]

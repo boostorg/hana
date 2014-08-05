@@ -42,7 +42,7 @@ namespace boost { namespace hana {
             template <typename Key, typename Value>
             constexpr auto insert(Key k, Value v) const {
                 auto iskey = [=](auto pair) { return first(pair) == k; };
-                return eval_if(any(iskey, pairs),
+                return eval_if(any(pairs, iskey),
                     [=](auto _) {
                         auto new_pairs = _(replace)(iskey, pair(k, v), pairs);
                         return make_bucket(hash, new_pairs);
@@ -57,7 +57,7 @@ namespace boost { namespace hana {
             constexpr auto lookup(Key key) const {
                 return fmap(
                     second,
-                    find([=](auto p) { return first(p) == key; }, pairs)
+                    find(pairs, [=](auto p) { return first(p) == key; })
                 );
             }
         };
@@ -77,7 +77,7 @@ namespace boost { namespace hana {
     BOOST_HANA_CONSTEXPR_LAMBDA auto insert = [](auto key, auto value, auto map) {
         auto h = hash(key);
         // This should be O(1), but for now it'll do.
-        auto bucket = find([=](auto b) { return b.hash == h; }, map.buckets);
+        auto bucket = find(map.buckets, [=](auto b) { return b.hash == h; });
 
         auto insert_in_bucket = [=](auto bucket) {
             auto new_buckets = replace(_ == bucket, bucket.insert(key, value), map.buckets);
@@ -104,20 +104,20 @@ namespace boost { namespace hana {
 
     template <>
     struct Searchable::instance<HashMap> : Searchable::mcd {
-        template <typename Pred, typename Map>
-        static constexpr auto find_impl(Pred pred, Map map) {
+        template <typename Map, typename Pred>
+        static constexpr auto find_impl(Map map, Pred pred) {
             return; // not implemented
         }
 
-        template <typename Pred, typename Map>
-        static constexpr auto any_impl(Pred pred, Map map) {
+        template <typename Map, typename Pred>
+        static constexpr auto any_impl(Map map, Pred pred) {
             return; // not implemented
         }
 
-        template <typename Key, typename Map>
-        static constexpr auto lookup_impl(Key key, Map map) {
+        template <typename Map, typename Key>
+        static constexpr auto lookup_impl(Map map, Key key) {
             auto h = hash(key);
-            auto bucket = find([=](auto b) { return b.hash == h; }, map.buckets);
+            auto bucket = find(map.buckets, [=](auto b) { return b.hash == h; });
             return maybe(nothing,
                 [=](auto bucket) { return bucket.lookup(key); }
             , bucket);

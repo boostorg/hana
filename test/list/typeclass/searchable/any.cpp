@@ -25,22 +25,22 @@ void test() {
 
     constexpr struct { } invalid{};
 
-    BOOST_HANA_CONSTANT_ASSERT(!any(is(x<9>), list()));
+    BOOST_HANA_CONSTANT_ASSERT(!any(list(), is(x<9>)));
 
-    BOOST_HANA_CONSTANT_ASSERT(!any(is(x<9>), list(x<0>)));
-    BOOST_HANA_CONSTANT_ASSERT( any(is(x<0>), list(x<0>)));
-    BOOST_HANA_CONSTANT_ASSERT( any(is(x<0>), list(x<0>, invalid)));
-    BOOST_HANA_CONSTANT_ASSERT( any(is(x<0>), list(x<0>, invalid, invalid)));
+    BOOST_HANA_CONSTANT_ASSERT(!any(list(x<0>), is(x<9>)));
+    BOOST_HANA_CONSTANT_ASSERT( any(list(x<0>), is(x<0>)));
+    BOOST_HANA_CONSTANT_ASSERT( any(list(x<0>, invalid), is(x<0>)));
+    BOOST_HANA_CONSTANT_ASSERT( any(list(x<0>, invalid, invalid), is(x<0>)));
 
-    BOOST_HANA_CONSTANT_ASSERT(!any(is(x<9>), list(x<0>, x<1>)));
-    BOOST_HANA_CONSTANT_ASSERT( any(is(x<1>), list(x<0>, x<1>)));
-    BOOST_HANA_CONSTANT_ASSERT( any(is(x<1>), list(x<0>, x<1>, invalid)));
-    BOOST_HANA_CONSTANT_ASSERT( any(is(x<1>), list(x<0>, x<1>, invalid, invalid)));
+    BOOST_HANA_CONSTANT_ASSERT(!any(list(x<0>, x<1>), is(x<9>)));
+    BOOST_HANA_CONSTANT_ASSERT( any(list(x<0>, x<1>), is(x<1>)));
+    BOOST_HANA_CONSTANT_ASSERT( any(list(x<0>, x<1>, invalid), is(x<1>)));
+    BOOST_HANA_CONSTANT_ASSERT( any(list(x<0>, x<1>, invalid, invalid), is(x<1>)));
 
-    BOOST_HANA_CONSTANT_ASSERT(!any(is(x<9>), list(x<0>, x<1>, x<2>)));
-    BOOST_HANA_CONSTANT_ASSERT( any(is(x<2>), list(x<0>, x<1>, x<2>)));
-    BOOST_HANA_CONSTANT_ASSERT( any(is(x<2>), list(x<0>, x<1>, x<2>, nothing)));
-    BOOST_HANA_CONSTANT_ASSERT( any(is(x<2>), list(x<0>, x<1>, x<2>, nothing, nothing)));
+    BOOST_HANA_CONSTANT_ASSERT(!any(list(x<0>, x<1>, x<2>), is(x<9>)));
+    BOOST_HANA_CONSTANT_ASSERT( any(list(x<0>, x<1>, x<2>), is(x<2>)));
+    BOOST_HANA_CONSTANT_ASSERT( any(list(x<0>, x<1>, x<2>, nothing), is(x<2>)));
+    BOOST_HANA_CONSTANT_ASSERT( any(list(x<0>, x<1>, x<2>, nothing, nothing), is(x<2>)));
 }
 
 int main() {

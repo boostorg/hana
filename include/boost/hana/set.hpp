@@ -46,9 +46,9 @@ namespace boost { namespace hana {
         static constexpr auto equal_impl(S1 s1, S2 s2) {
             return and_(
                 equal(length(detail::unwrap(s1)), length(detail::unwrap(s2))),
-                all([=](auto k) {
-                    return equal(lookup(k, s1), lookup(k, s2));
-                }, detail::unwrap(s1))
+                all(detail::unwrap(s1), [=](auto k) {
+                    return equal(lookup(s1, k), lookup(s2, k));
+                })
             );
         }
     };
@@ -60,13 +60,13 @@ namespace boost { namespace hana {
     //! example/set/searchable.cpp main
     template <>
     struct Searchable::instance<Set> : Searchable::mcd {
-        template <typename Pred, typename Set>
-        static constexpr auto find_impl(Pred pred, Set set)
-        { return find(pred, detail::unwrap(set)); }
+        template <typename Set, typename Pred>
+        static constexpr auto find_impl(Set set, Pred pred)
+        { return find(detail::unwrap(set), pred); }
 
-        template <typename Pred, typename Set>
-        static constexpr auto any_impl(Pred pred, Set set)
-        { return any(pred, detail::unwrap(set)); }
+        template <typename Set, typename Pred>
+        static constexpr auto any_impl(Set set, Pred pred)
+        { return any(detail::unwrap(set), pred); }
     };
 
     //! Converts a `List` to a `Set`.
@@ -93,7 +93,7 @@ namespace boost { namespace hana {
 #if 0
     // insert the given element in the set, or do nothing if it is already there
     BOOST_HANA_CONSTEXPR_LAMBDA auto insert = [](auto e, auto set) {
-        return eval_if(elem(e, set),
+        return eval_if(elem(set, e),
             [=](auto) { return set; },
             [=](auto _) { return detail::wrap<Set>(_(cons)(e, detail::unwrap(set))); }
         );

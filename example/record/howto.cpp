@@ -42,9 +42,9 @@ int main() {
     assert(equal(john, john));
     assert(not_equal(john, bob));
 
-    assert(lookup(name, john) == just("John"));
-    assert(lookup(age, john) == just(30));
-    assert(lookup("clearly not a member", john) == nothing);
+    assert(lookup(john, name) == just("John"));
+    assert(lookup(john, age) == just(30));
+    assert(lookup(john, "clearly not a member") == nothing);
 
     assert(to<List>(john) == list("John", 30));
     assert(to<Map>(john) == map(

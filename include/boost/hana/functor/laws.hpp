@@ -23,19 +23,19 @@ namespace boost { namespace hana {
         template <typename FunctorsOnX, typename FunctionsFromXtoY, typename FunctionsFromYtoZ>
         static constexpr auto check(FunctorsOnX xs, FunctionsFromXtoY fs, FunctionsFromYtoZ gs) {
             return and_(
-                all([=](auto x) {
+                all(xs, [=](auto x) {
                     return equal(fmap(id, x), x);
-                }, xs),
-                all([=](auto x) {
-                    return all([=](auto f) {
-                        return all([=](auto g) {
+                }),
+                all(xs, [=](auto x) {
+                    return all(fs, [=](auto f) {
+                        return all(gs, [=](auto g) {
                             return equal(
                                 fmap(compose(f, g), x),
                                 fmap(f, fmap(g, x))
                             );
-                        }, gs);
-                    }, fs);
-                }, xs)
+                        });
+                    });
+                })
             );
         }
     };

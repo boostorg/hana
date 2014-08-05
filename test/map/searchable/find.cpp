@@ -27,13 +27,13 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto is = [](auto x) {
     return [=](auto y) { return equal(x, y); };
 };
 
-BOOST_HANA_CONSTANT_ASSERT(find(is(key<1>), map()) == nothing);
+BOOST_HANA_CONSTANT_ASSERT(find(map(), is(key<1>)) == nothing);
 
-BOOST_HANA_CONSTANT_ASSERT(find(is(key<1>), map(p<1, 1>)) == just(value<1>));
-BOOST_HANA_CONSTANT_ASSERT(find(is(key<2>), map(p<1, 1>)) == nothing);
+BOOST_HANA_CONSTANT_ASSERT(find(map(p<1, 1>), is(key<1>)) == just(value<1>));
+BOOST_HANA_CONSTANT_ASSERT(find(map(p<1, 1>), is(key<2>)) == nothing);
 
-BOOST_HANA_CONSTANT_ASSERT(find(is(key<1>), map(p<1, 1>, p<2, 2>)) == just(value<1>));
-BOOST_HANA_CONSTANT_ASSERT(find(is(key<2>), map(p<1, 1>, p<2, 2>)) == just(value<2>));
-BOOST_HANA_CONSTANT_ASSERT(find(is(key<3>), map(p<1, 1>, p<2, 2>)) == nothing);
+BOOST_HANA_CONSTANT_ASSERT(find(map(p<1, 1>, p<2, 2>), is(key<1>)) == just(value<1>));
+BOOST_HANA_CONSTANT_ASSERT(find(map(p<1, 1>, p<2, 2>), is(key<2>)) == just(value<2>));
+BOOST_HANA_CONSTANT_ASSERT(find(map(p<1, 1>, p<2, 2>), is(key<3>)) == nothing);
 
 int main() { (void)is; }
