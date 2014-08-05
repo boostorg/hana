@@ -161,7 +161,7 @@ template&lt;template&lt; typename...&gt; class f, typename state , typename... x
 <p><code>#include &lt;<a class="el" href="assert_8hpp.html">boost/hana/detail/assert.hpp</a>&gt;</code></p>
 
 <p>Compile-time assertion for <code>Constant</code>s. </p>
-<p>This macro may be used at any scope where a <code>static_assert</code> can be used. Its argument must be a <code>Constant</code>, or else a compile-time assertion is triggered. If the argument is a <code>Constant</code>, its <code>value</code> is retrieved, it is converted to a boolean and <code>static_assert</code>ed` upon.</p>
+<p>This macro may be used at any scope where a <code>static_assert</code> can be used. Its argument must be a <code>Constant</code>, or else a compile-time assertion is triggered. If the argument is a <code>Constant</code>, its <code>value</code> is retrieved, it is converted to a boolean and <code>static_assert</code>ed upon.</p>
 <p>Because this macro uses <code>decltype</code> on its argument, a lambda may not be used inside the expression. </p>
 
 </div>

@@ -100,21 +100,40 @@ struct boost::hana::List::instance&lt; MplVector &gt;</h3>
 <p><code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose index-based sequence. ">List</a></code> instance for Boost.MPL vectors. </p>
 <p>Note that since Boost.MPL vectors can only hold types, only <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="Object representing a C++ type. ">Type</a></code>s can be used with <code>cons</code>.</p>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <span class="keyword">using namespace </span>operators; <span class="comment">// required to be able to == MPL vectors</span></div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2014</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(</div>
-<div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a51732ddadf982e47f5757b092294df12">cons</a>(type&lt;int&gt;, mpl::vector&lt;char&gt;{}) == mpl::vector&lt;int, char&gt;{}</div>
-<div class="line">    );</div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/detail/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="vector_8hpp.html">boost/hana/ext/boost/mpl/vector.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/ext/std/integral_constant.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div>
 <div class="line"></div>
-<div class="line">    <span class="comment">// error: only Types can go in a MPL vector</span></div>
-<div class="line">    <span class="comment">// cons(1, mpl::vector&lt;int&gt;{});</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="vector_8hpp.html">boost/mpl/vector.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
+<div class="line"><span class="keyword">using namespace </span>boost::hana;</div>
+<div class="line"><span class="keyword">using namespace </span>operators; <span class="comment">// required to be able to == MPL vectors</span></div>
+<div class="line"><span class="keyword">namespace </span>mpl = boost::mpl;</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(</div>
-<div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a929370eddd43bb1a4a11b00a7880eadb">filter</a>(trait&lt;std::is_integral&gt;, mpl::vector&lt;int, float, char, void&gt;{})</div>
-<div class="line">        ==</div>
-<div class="line">        mpl::vector&lt;int, char&gt;{}</div>
-<div class="line">    );</div>
-</div><!-- fragment --></div><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_list.html#a51732ddadf982e47f5757b092294df12">cons</a>(type&lt;int&gt;, mpl::vector&lt;char&gt;{}) == mpl::vector&lt;int, char&gt;{}</div>
+<div class="line">);</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// error: only Types can go in a MPL vector</span></div>
+<div class="line"><span class="comment">// cons(1, mpl::vector&lt;int&gt;{});</span></div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_list.html#a929370eddd43bb1a4a11b00a7880eadb">filter</a>(trait&lt;std::is_integral&gt;, mpl::vector&lt;int, float, char, void&gt;{})</div>
+<div class="line">    ==</div>
+<div class="line">    mpl::vector&lt;int, char&gt;{}</div>
+<div class="line">);</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> </div><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Inheritance diagram for boost::hana::List::instance&lt; MplVector &gt;:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>

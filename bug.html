@@ -92,11 +92,11 @@ $(document).ready(function(){initNavTree('bug.html','');});
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><dl class="reflist">
-<dt><a class="anchor" id="_bug000003"></a>Class <a class="el" href="structboost_1_1hana_1_1_logical.html">boost::hana::Logical</a>  </dt>
+<dt><a class="anchor" id="_bug000002"></a>Class <a class="el" href="structboost_1_1hana_1_1_logical.html">boost::hana::Logical</a>  </dt>
 <dd>We don't short-circuit right now. Don't forget to change the examples and unit tests when that's implemented. </dd>
-<dt><a class="anchor" id="_bug000004"></a>Class <a class="el" href="structboost_1_1hana_1_1_type.html">boost::hana::Type</a>  </dt>
+<dt><a class="anchor" id="_bug000003"></a>Class <a class="el" href="structboost_1_1hana_1_1_type.html">boost::hana::Type</a>  </dt>
 <dd><code>metafunction</code> and friends are not SFINAE-friendly right now. See <a href="http://gcc.gnu.org/bugzilla/show_bug.cgi?id=59498">this</a> GCC bug and also <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/cwg_active.html#1430">Core 1430</a> issue. Once this issue is resolved, look at the unit tests for those utilities and either uncomment or remove the relevant test section.  </dd>
-<dt><a class="anchor" id="_bug000002"></a>Member <a class="el" href="structboost_1_1hana_1_1_list.html#a45ec7767d19eb7eaabb71ead3796a7f1">permutations</a>  </dt>
+<dt><a class="anchor" id="_bug000001"></a>Member <a class="el" href="structboost_1_1hana_1_1_list.html#a45ec7767d19eb7eaabb71ead3796a7f1">permutations</a>  </dt>
 <dd>We got a performance problem here. Generating the permutations of a list of more than 3 elements takes a long time (&gt;6s). </dd>
 </dl>
 </div></div><!-- contents -->

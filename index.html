@@ -102,6 +102,8 @@ $(document).ready(function(){initNavTree('index.html','');});
 </li>
 <li class="level1"><a href="#tutorial-basic_concepts">Basic concepts</a><ul><li class="level2"><a href="#tutorial-basic_concepts-heterogeneity">Heterogeneity</a></li>
 <li class="level2"><a href="#tutorial-basic_concepts-constant">Constants, or setting constexpr straight</a></li>
+<li class="level2"><a href="#tutorial-basic_concepts-side_effects">Constants and side effects</a></li>
+<li class="level2"><a href="#tutorial-basic_concepts-assertions">A zoo of assertions</a></li>
 <li class="level2"><a href="#tutorial-basic_concepts-comparing">Comparing objects</a></li>
 <li class="level2"><a href="#tutorial-basic_concepts-mapping">Transforming collections</a></li>
 <li class="level2"><a href="#tutorial-basic_concepts-folding">Folding collections</a></li>
@@ -164,14 +166,18 @@ Value computations</h2>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1_iterable.html#a80176fbdfbccc09e902263557eb0984d">for_each</a>(xs, [](<span class="keyword">auto</span> x) {</div>
 <div class="line">    std::cout &lt;&lt; x;</div>
 <div class="line">});</div>
-</div><!-- fragment --><p> You have probably observed how the <code>auto</code> keyword is used when defining <code>xs</code>  and how the actual type of <code>list(...)</code> is not written anywhere. This will be the case a lot in Hana. In particular, <code>list</code> is a <a href="http://en.wikipedia.org/wiki/C%2B%2B14#Generic_lambdas">generic lambda</a> taking a variable number of arguments and returning an object of an unspecified type, but which is nonetheless a valid sequence for Hana. It is defined as:</p>
+</div><!-- fragment --> <blockquote class="doxtable">
+<p><b>Note</b><br />
+<code>BOOST_HANA_CONSTANT_ASSERT</code> is a compile-time assertion; the details are explained later in the tutorial. </p>
+</blockquote>
+<p>You have probably observed how the <code>auto</code> keyword is used when defining <code>xs</code>  and how the actual type of <code>list(...)</code> is not written anywhere. This will be the case a lot in Hana. In particular, <code>list</code> is a <a href="http://en.wikipedia.org/wiki/C%2B%2B14#Generic_lambdas">generic lambda</a> taking a variable number of arguments and returning an object of an unspecified type, but which is nonetheless a valid sequence for Hana. It is defined as:</p>
 <div class="fragment"><div class="line"><span class="keyword">auto</span> <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a> = [](<span class="keyword">auto</span> ...xs) {</div>
 <div class="line">    <span class="keywordflow">return</span> unspecified; <span class="comment">// magic going on here</span></div>
 <div class="line">};</div>
 </div><!-- fragment --><p>So the actual type of <code>list(...)</code> is completely unspecified; this will also be the case for most objects defined by Hana. It does not mean that you can't name that type, but simply that you can't do anything useful with it.</p>
 <div class="fragment"><div class="line"><span class="keyword">using</span> wow_that_is_so_useless = decltype(xs);</div>
 </div><!-- fragment --><p> However, you will never need the actual type of an object to do something useful with it, so don't let it bother you.</p>
-<p>Another interesting observation in the previous example is that <code>is_empty</code> returns a value that can be used in a <code>static_assert</code> even though the list it was called on is not a constant expression (it's not declared with <code>constexpr</code> and it contains an object of the non-literal type <code>std::string</code> anyways). Indeed, the size of the sequence is known at compile-time regardless of its contents, so it only makes sense that Hana does not throw away this information. If that seems surprising to you, think about <code>std::tuple</code>:</p>
+<p>Another interesting observation in the previous example is that <code>is_empty</code> returns a value that's known at compile-time even though the list it was called on is not a constant expression (it's not declared with <code>constexpr</code> and it contains an object of the non-literal type <code>std::string</code> anyways). Indeed, the size of the sequence is known at compile-time regardless of its contents, so it only makes sense that Hana does not throw away this information. If that seems surprising to you, think about <code>std::tuple</code>:</p>
 <div class="fragment"><div class="line"><span class="keyword">auto</span> ys = std::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, std::string{<span class="stringliteral">&quot;345&quot;</span>});</div>
 <div class="line"></div>
 <div class="line">static_assert(std::tuple_size&lt;decltype(ys)&gt;::<a class="code" href="structboost_1_1hana_1_1_constant.html#a615a7728e2278acb2cab50854079d7fc">value</a> != 0, <span class="stringliteral">&quot;&quot;</span>);</div>
@@ -296,7 +302,12 @@ Constants, or setting constexpr straight</h2>
 </div><!-- fragment --><p> Shorthands to create <code>Integral</code>s of the most common integral types are also provided, so the following is equivalent to the previous example:</p>
 <div class="fragment"><div class="line"><span class="keyword">auto</span> one = int_&lt;1&gt;;</div>
 <div class="line"><span class="keyword">auto</span> yes = bool_&lt;true&gt;;</div>
-</div><!-- fragment --><p> Additionally, <code>Integral</code>s overload common operators so that <code>integral&lt;...&gt;</code>s can be used with an intuitive syntax:</p>
+</div><!-- fragment --><p> Additionally, <code>Integral</code>s can be created with the help of <a href="http://en.wikipedia.org/wiki/C%2B%2B11#User-defined_literals">user-defined literals</a>:</p>
+<div class="fragment"><div class="line"><span class="keyword">using namespace </span>literals; <span class="comment">// &lt;-- mandatory to use the _c suffix!</span></div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(1234_c == llong&lt;1234&gt;);</div>
+<div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(-1234_c == llong&lt;-1234&gt;);</div>
+</div><!-- fragment --><p> However, this syntax only allows creating <code>Integral</code>s with an underlying value of type <code>long long</code>. Another feature of <code>Integral</code>s is that they overload common operators so that <code>integral&lt;...&gt;</code>s can be used with an intuitive syntax:</p>
 <div class="fragment"><div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(int_&lt;1&gt; == integral&lt;int, 1&gt;);</div>
 <div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(int_&lt;1&gt; + long_&lt;2&gt; == long_&lt;3&gt;);</div>
 <div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(!(bool_&lt;true&gt; &amp;&amp; bool_&lt;false&gt;));</div>
@@ -315,49 +326,85 @@ Constants, or setting constexpr straight</h2>
 <tr>
 <td align="center">runtime </td><td align="center">runtime </td><td align="center">runtime </td></tr>
 </table>
+<h2><a class="anchor" id="tutorial-basic_concepts-side_effects"></a>
+Constants and side effects</h2>
+<p>Let me ask a tricky question. Is the following code valid?</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;</div>
+<div class="line"><span class="keyword">auto</span> identity(X x) { <span class="keywordflow">return</span> x; }</div>
+<div class="line"></div>
+<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1_constant.html#a615a7728e2278acb2cab50854079d7fc">value</a>(identity(bool_&lt;true&gt;)), <span class="stringliteral">&quot;&quot;</span>);</div>
+</div><!-- fragment --><p>The answer is "no", but the reason might not be obvious at first. Even more puzzling is that the following code is perfectly valid:</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;</div>
+<div class="line"><span class="keyword">auto</span> identity(X x) { <span class="keywordflow">return</span> x; }</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">auto</span> x = identity(bool_&lt;true&gt;);</div>
+<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1_constant.html#a615a7728e2278acb2cab50854079d7fc">value</a>(x), <span class="stringliteral">&quot;&quot;</span>);</div>
+</div><!-- fragment --><p> To understand why the compiler can't possibly evaluate the first assertion at compile-time, notice that <code>identity</code> was not marked <code>constexpr</code> and consider the following alternative (but valid) definition for <code>identity</code>:</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;</div>
+<div class="line"><span class="keyword">auto</span> identity(X x) {</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Good luck in evaluating this at compile-time!&quot;</span>;</div>
+<div class="line">    <span class="keywordflow">return</span> x;</div>
+<div class="line">}</div>
+</div><!-- fragment --><p> The signature of the function did not change; the function could even have been defined in a separate source file. However, it is now obvious that the compiler can't evaluate that expression at compile-time. On the other hand, when we write</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;</div>
+<div class="line"><span class="keyword">auto</span> identity(X x) {</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Good luck in evaluating this at compile-time!&quot;</span>;</div>
+<div class="line">    <span class="keywordflow">return</span> x;</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">auto</span> x = identity(bool_&lt;true&gt;);</div>
+<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1_constant.html#a615a7728e2278acb2cab50854079d7fc">value</a>(x), <span class="stringliteral">&quot;&quot;</span>);</div>
+</div><!-- fragment --><p> we're telling the compiler to perform those potential side effects during the dynamic initialization phase! Then, we use <code>value</code> to return the compile-time value associated to its argument. Also note that <code>value</code> takes a <code>const&amp;</code> to its argument; if it tried taking it by value, we would be reading from a non-<code>constexpr</code> variable to do the copying, and that could hide side-effects.</p>
+<p>Normally, this would not be a big issue because the expressions we want to call <code>value</code> with should be constant expressions anyway, so there would be no need to introduce a dummy variable. However, Hana uses lambdas pretty heavily, and unfortunately lambdas can't appear in constant expressions in the current language. Hence, some expressions like</p>
+<div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_foldable.html#a5fb377e43aa7753bb77aa346c67fae0d">length</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, 2, 3))</div>
+</div><!-- fragment --><p>are not constant expressions because they use lambdas internally. In other words, while that expression is a <code>Constant</code>, it is not <code>constexpr</code>.</p>
+<h2><a class="anchor" id="tutorial-basic_concepts-assertions"></a>
+A zoo of assertions</h2>
+<p>The goal of this section is to explain different types of assertions that you will encounter in the documentation. While these assertions are not meant to be used in user code, you will encounter them in the documentation and in the examples, so it is important to understand their purpose.</p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000029">Todo:</a></b></dt><dd>Write this, but how to avoid duplicating the reference documentation?</dd></dl>
 <h2><a class="anchor" id="tutorial-basic_concepts-comparing"></a>
 Comparing objects</h2>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000029">Todo:</a></b></dt><dd>Use Type and List (both compile-time and runtime).</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000030">Todo:</a></b></dt><dd>Use Type and List (both compile-time and runtime).</dd></dl>
 <h2><a class="anchor" id="tutorial-basic_concepts-mapping"></a>
 Transforming collections</h2>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000030">Todo:</a></b></dt><dd>Use Maybe and List.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000031">Todo:</a></b></dt><dd>Use Maybe and List.</dd></dl>
 <h2><a class="anchor" id="tutorial-basic_concepts-folding"></a>
 Folding collections</h2>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000031">Todo:</a></b></dt><dd>Use Range, List</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000032">Todo:</a></b></dt><dd>Use Range, List</dd></dl>
 <h2><a class="anchor" id="tutorial-basic_concepts-searching"></a>
 Searching in collections</h2>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000032">Todo:</a></b></dt><dd>Use Map, Set, List</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000033">Todo:</a></b></dt><dd>Use Map, Set, List</dd></dl>
 <h2><a class="anchor" id="tutorial-basic_concepts-iteration"></a>
 Iterating through collections</h2>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000033">Todo:</a></b></dt><dd>Use List</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000034">Todo:</a></b></dt><dd>Use List</dd></dl>
 <h2><a class="anchor" id="tutorial-basic_concepts-list"></a>
 The List type class</h2>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000034">Todo:</a></b></dt><dd>Use List</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000035">Todo:</a></b></dt><dd>Use List</dd></dl>
 <h2><a class="anchor" id="tutorial-basic_concepts-adapting"></a>
 Adapting user-defined structs</h2>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000035">Todo:</a></b></dt><dd>Use a hand-crafted example</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000036">Todo:</a></b></dt><dd>Use a hand-crafted example</dd></dl>
 <h1><a class="anchor" id="tutorial-external_libraries"></a>
 Integration with external libraries</h1>
 <hr/>
 <h2><a class="anchor" id="tutorial-external_libraries-stl"></a>
 The standard library</h2>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000036">Todo:</a></b></dt><dd></dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000037">Todo:</a></b></dt><dd></dd></dl>
 <h2><a class="anchor" id="tutorial-external_libraries-fusion"></a>
 Boost.Fusion</h2>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000037">Todo:</a></b></dt><dd></dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000038">Todo:</a></b></dt><dd></dd></dl>
 <h2><a class="anchor" id="tutorial-external_libraries-mpl"></a>
 Boost.MPL</h2>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000038">Todo:</a></b></dt><dd></dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000039">Todo:</a></b></dt><dd></dd></dl>
 <h1><a class="anchor" id="tutorial-performance_considerations"></a>
 Performance considerations</h1>
 <hr/>
- <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000039">Todo:</a></b></dt><dd></dd></dl>
+ <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000040">Todo:</a></b></dt><dd></dd></dl>
 <h2><a class="anchor" id="tutorial-performance_considerations-compile_time"></a>
 Compile-time performance</h2>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000040">Todo:</a></b></dt><dd></dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000041">Todo:</a></b></dt><dd></dd></dl>
 <h2><a class="anchor" id="tutorial-performance_considerations-run_time"></a>
 Runtime performance</h2>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000041">Todo:</a></b></dt><dd></dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000042">Todo:</a></b></dt><dd></dd></dl>
 <h1><a class="anchor" id="tutorial-extending"></a>
 Extending the library</h1>
 <hr/>
@@ -406,8 +453,8 @@ Basic tag dispatching</h2>
 </div><!-- fragment --><h2><a class="anchor" id="tutorial-extending-datatypes"></a>
 Data types</h2>
 <blockquote class="doxtable">
-<h4>Note</h4>
-<p>Since I'm going to use the word "type" a lot, I'll sometimes use the term "C++ type" to make it clear that I'm really speaking about the stuff returned by <code>decltype(...)</code> as opposed to "data types", which are the subject of this section. So whenever you see "C++ type", think <code>decltype</code>. </p>
+<p><b>Note</b><br />
+Since I'm going to use the word "type" a lot, I'll sometimes use the term "C++ type" to make it clear that I'm really speaking about the stuff returned by <code>decltype(...)</code> as opposed to "data types", which are the subject of this section. So whenever you see "C++ type", think <code>decltype</code>. </p>
 </blockquote>
 <p>Concretely, data types are implemented as empty structs or classes:</p>
 <div class="fragment"><div class="line"><span class="keyword">struct </span>MyDatatype;</div>
@@ -484,8 +531,8 @@ Type classes</h2>
 <div class="line">};</div>
 </div><!-- fragment --><p> Grouping operations into type classes has several advantages. First, it allows advanced customization of the default behavior of methods &ndash; this will be explained below. Second, it ties the concepts used in the library &ndash; which otherwise only live in the documentation &ndash; to actual C++ constructs.</p>
 <blockquote class="doxtable">
-<h4>Note</h4>
-<p>It is interesting to observe that type class dispatching is strictly more general than basic tag dispatching, the latter being equivalent to type class dispatching where all type classes have a single method. </p>
+<p><b>Note</b><br />
+It is interesting to observe that type class dispatching is strictly more general than basic tag dispatching, the latter being equivalent to type class dispatching where all type classes have a single method. </p>
 </blockquote>
 <p>Let's now explain the above snippet in detail. A type class is just a C++ structure or class calling the <code>BOOST_HANA_TYPECLASS</code> macro in its definition at public scope:</p>
 <div class="fragment"><div class="line"><span class="keyword">struct </span>Printable {</div>
@@ -569,8 +616,8 @@ Type classes</h2>
 <div class="line">    { os &lt;&lt; x; }</div>
 <div class="line">};</div>
 </div><!-- fragment --> <blockquote class="doxtable">
-<h4>Note</h4>
-<p>For simplicity, the term minimal complete definition can refer either to a minimal set of required methods or to the member of the type class providing the corresponding default implementations. </p>
+<p><b>Note</b><br />
+For simplicity, the term minimal complete definition can refer either to a minimal set of required methods or to the member of the type class providing the corresponding default implementations. </p>
 </blockquote>
 <p>It is possible for a type class to have several minimal complete definitions. For example, one could observe that <code>print</code> can also be implemented in terms of <code>to_string</code>. If we wanted to do so, we could provide both minimal complete definitions by putting them into suitably named members of the <code>Printable</code> type class:</p>
 <div class="fragment"><div class="line"><span class="keyword">struct </span>Printable {</div>
@@ -649,7 +696,7 @@ Type classes</h2>
 <div class="line"><span class="keyword">template</span> &lt;&gt;</div>
 <div class="line"><span class="keyword">struct </span>Printable::instance&lt;UserDefined&gt; : disable { };</div>
 </div><!-- fragment --><p> Now, trying to print an object of data type <code>UserDefined</code> will result in a compile-time error.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000042">Todo:</a></b></dt><dd>Document type classes with operators.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000043">Todo:</a></b></dt><dd>Document type classes with operators.</dd></dl>
 <h1><a class="anchor" id="tutorial-header_organization"></a>
 Header organization</h1>
 <hr/>

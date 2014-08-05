@@ -108,57 +108,35 @@ struct boost::hana::convert&lt; To, From, Enable &gt;</h3>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal__mcd_8hpp.html">boost/hana/comparable/equal_mcd.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="convert_8hpp.html">boost/hana/core/convert.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="datatype_8hpp.html">boost/hana/core/datatype.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="ext_2std_2list_8hpp.html">boost/hana/ext/std/list.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/detail/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="constexpr_8hpp.html">boost/hana/detail/constexpr.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="instance_8hpp.html">boost/hana/list/instance.hpp</a>&gt;</span></div>
-<div class="line"></div>
-<div class="line"><span class="preprocessor">#include &lt;cassert&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;list&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;vector&gt;</span></div>
 <div class="line"><span class="keyword">using namespace </span>boost::hana;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line"><span class="keyword">struct </span>StdVector;</div>
-<div class="line"><span class="keyword">struct </span>StdList;</div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> X, <span class="keyword">typename</span> Y, <span class="keyword">typename</span> Z&gt;</div>
+<div class="line"><span class="keyword">struct </span>Triple {</div>
+<div class="line">    X first;</div>
+<div class="line">    Y second;</div>
+<div class="line">    Z third;</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> triple = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y, <span class="keyword">auto</span> z) {</div>
+<div class="line">    <span class="keywordflow">return</span> Triple&lt;decltype(x), decltype(y), decltype(z)&gt;{x, y, z};</div>
+<div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">namespace </span>boost { <span class="keyword">namespace </span>hana {</div>
-<div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line">    <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1datatype.html">datatype</a>&lt;std::vector&lt;T&gt;&gt; { <span class="keyword">using</span> type = StdVector; };</div>
-<div class="line"></div>
-<div class="line">    <span class="keyword">template</span> &lt;&gt;</div>
-<div class="line">    <span class="keyword">struct </span>Comparable::instance&lt;StdVector, StdVector&gt; : <a class="code" href="structboost_1_1hana_1_1_comparable_1_1equal__mcd.html">Comparable::equal_mcd</a> {</div>
-<div class="line">        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line">        <span class="keyword">static</span> <span class="keyword">auto</span> equal_impl(std::vector&lt;T&gt; xs, std::vector&lt;T&gt; ys)</div>
-<div class="line">        { <span class="keywordflow">return</span> xs == ys; }</div>
-<div class="line">    };</div>
-<div class="line"></div>
-<div class="line">    <span class="keyword">template</span> &lt;&gt;</div>
-<div class="line">    <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1convert.html">convert</a>&lt;StdVector, StdList&gt; {</div>
-<div class="line">        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line">        <span class="keyword">static</span> std::vector&lt;T&gt; <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>(std::list&lt;T&gt; xs) {</div>
-<div class="line">            std::vector&lt;T&gt; v{};</div>
-<div class="line">            <span class="keywordflow">for</span> (<span class="keyword">auto</span> x: xs)</div>
-<div class="line">                v.push_back(x);</div>
-<div class="line">            <span class="keywordflow">return</span> v;</div>
+<div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X, <span class="keyword">typename</span> Y, <span class="keyword">typename</span> Z&gt;</div>
+<div class="line">    <span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1convert.html">convert</a>&lt;<a class="code" href="structboost_1_1hana_1_1_list.html">List</a>, Triple&lt;X, Y, Z&gt;&gt; {</div>
+<div class="line">        <span class="keyword">static</span> constexpr <span class="keyword">auto</span> <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>(Triple&lt;X, Y, Z&gt; xs) {</div>
+<div class="line">            <span class="keywordflow">return</span> list(xs.first, xs.second, xs.third);</div>
 <div class="line">        }</div>
 <div class="line">    };</div>
 <div class="line">}}</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    <span class="keyword">auto</span> xs = list(</div>
-<div class="line">        std::list&lt;int&gt;{1, 2, 3, 4},</div>
-<div class="line">        std::list&lt;char&gt;{<span class="charliteral">&#39;1&#39;</span>, <span class="charliteral">&#39;2&#39;</span>, <span class="charliteral">&#39;3&#39;</span>, <span class="charliteral">&#39;4&#39;</span>},</div>
-<div class="line">        std::list&lt;std::string&gt;{<span class="stringliteral">&quot;1&quot;</span>, <span class="stringliteral">&quot;2&quot;</span>, <span class="stringliteral">&quot;3&quot;</span>, <span class="stringliteral">&quot;4&quot;</span>}</div>
-<div class="line">    );</div>
-<div class="line"></div>
-<div class="line">    assert(fmap(to&lt;StdVector&gt;, xs) == list(</div>
-<div class="line">        std::vector&lt;int&gt;{1, 2, 3, 4},</div>
-<div class="line">        std::vector&lt;char&gt;{<span class="charliteral">&#39;1&#39;</span>, <span class="charliteral">&#39;2&#39;</span>, <span class="charliteral">&#39;3&#39;</span>, <span class="charliteral">&#39;4&#39;</span>},</div>
-<div class="line">        std::vector&lt;std::string&gt;{<span class="stringliteral">&quot;1&quot;</span>, <span class="stringliteral">&quot;2&quot;</span>, <span class="stringliteral">&quot;3&quot;</span>, <span class="stringliteral">&quot;4&quot;</span>}</div>
-<div class="line">    ));</div>
+<div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(to&lt;List&gt;(triple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)) == list(1, <span class="charliteral">&#39;2&#39;</span>, 3.3));</div>
 <div class="line">}</div>
 </div><!-- fragment --> </div>
 <p>Inherits boost::hana::core_detail::default_convert&lt; To, From &gt;.</p>

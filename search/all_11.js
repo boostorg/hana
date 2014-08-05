@@ -3,6 +3,7 @@ var searchData=
   ['range',['Range',['../structboost_1_1hana_1_1_range.html',1,'boost::hana']]],
   ['range',['range',['../structboost_1_1hana_1_1_range.html#ac3b5f08f5a346605377cf5fa9c4fb973',1,'boost::hana::Range']]],
   ['range_2ehpp',['range.hpp',['../range_8hpp.html',1,'']]],
+  ['range_5fc',['range_c',['../structboost_1_1hana_1_1_range.html#a899b7a0c065ff64cd747fe1671753d3f',1,'boost::hana::Range']]],
   ['record',['Record',['../structboost_1_1hana_1_1_record.html',1,'boost::hana']]],
   ['record_2ehpp',['record.hpp',['../record_8hpp.html',1,'']]],
   ['record_2ehpp',['record.hpp',['../record_2record_8hpp.html',1,'']]],

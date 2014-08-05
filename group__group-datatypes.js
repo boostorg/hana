@@ -77,7 +77,8 @@ var group__group_datatypes =
       [ "pair", "structboost_1_1hana_1_1_pair.html#a8d15743bd0fcc2cf033ed657e95998c1", null ]
     ] ],
     [ "Range", "structboost_1_1hana_1_1_range.html", [
-      [ "range", "structboost_1_1hana_1_1_range.html#ac3b5f08f5a346605377cf5fa9c4fb973", null ]
+      [ "range", "structboost_1_1hana_1_1_range.html#ac3b5f08f5a346605377cf5fa9c4fb973", null ],
+      [ "range_c", "structboost_1_1hana_1_1_range.html#a899b7a0c065ff64cd747fe1671753d3f", null ]
     ] ],
     [ "Set", "structboost_1_1hana_1_1_set.html", [
       [ "set", "structboost_1_1hana_1_1_set.html#a7c6caacd6df4a89e8b62b369007d9602", null ]

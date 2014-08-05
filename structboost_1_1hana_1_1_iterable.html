@@ -235,6 +235,7 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Return whether the iterable is empty. </p>
+<p>Specificaly, <code>is_empty</code> must return a <a class="el" href="structboost_1_1hana_1_1_logical.html#Logical_terminology">compile-time</a> <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code> representing whether the iterable is empty.</p>
 <h3>Example</h3>
 <div class="fragment"><div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(!<a class="code" href="structboost_1_1hana_1_1_iterable.html#a4193ecf811f29479c60022564afa512a">is_empty</a>(list(1, <span class="charliteral">&#39;2&#39;</span>)));</div>
 <div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>( <a class="code" href="structboost_1_1hana_1_1_iterable.html#a4193ecf811f29479c60022564afa512a">is_empty</a>(list()));</div>

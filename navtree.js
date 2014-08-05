@@ -13,6 +13,8 @@ var NAVTREE =
       [ "Basic concepts", "index.html#tutorial-basic_concepts", [
         [ "Heterogeneity", "index.html#tutorial-basic_concepts-heterogeneity", null ],
         [ "Constants, or setting constexpr straight", "index.html#tutorial-basic_concepts-constant", null ],
+        [ "Constants and side effects", "index.html#tutorial-basic_concepts-side_effects", null ],
+        [ "A zoo of assertions", "index.html#tutorial-basic_concepts-assertions", null ],
         [ "Comparing objects", "index.html#tutorial-basic_concepts-comparing", null ],
         [ "Transforming collections", "index.html#tutorial-basic_concepts-mapping", null ],
         [ "Folding collections", "index.html#tutorial-basic_concepts-folding", null ],
@@ -56,8 +58,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"structboost_1_1hana_1_1_constant.html",
-"type__list_8hpp.html"
+"structboost_1_1hana_1_1_comparable_1_1instance_3_01_t_00_01_u_00_01when_3_01is__a_3_01_product_013c6594e5695e2dfb196782c211bc867.html",
+"todo.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

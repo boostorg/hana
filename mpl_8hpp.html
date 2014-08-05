@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.7"/>
-<title>Boost.Hana: boost::hana::Comparable::instance&lt; MplVector, MplVector &gt; Struct Template Reference</title>
+<title>Boost.Hana: boost/hana/ext/boost/mpl.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -69,7 +69,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('structboost_1_1hana_1_1_comparable_1_1instance_3_01_mpl_vector_00_01_mpl_vector_01_4.html','');});
+$(document).ready(function(){initNavTree('mpl_8hpp.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -87,55 +87,22 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_comparable_1_1
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="structboost_1_1hana_1_1_comparable_1_1instance_3_01_mpl_vector_00_01_mpl_vector_01_4-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">boost::hana::Comparable::instance&lt; MplVector, MplVector &gt; Struct Template Reference</div>  </div>
+<div class="title">mpl.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a name="details" id="details"></a><h2 class="groupheader">Description</h2>
-<div class="textblock"><h3>template&lt;&gt;<br />
-struct boost::hana::Comparable::instance&lt; MplVector, MplVector &gt;</h3>
 
-<p><code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable type class defines equality and inequality. ">Comparable</a></code> instance for Boost.MPL vectors. </p>
-<p>Comparing two MPL vectors is equivalent to using <code>boost::mpl::equal</code>.</p>
-<h3>Example</h3>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2014</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
-<div class="line"></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/detail/assert.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="vector_8hpp.html">boost/hana/ext/boost/mpl/vector.hpp</a>&gt;</span></div>
-<div class="line"></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="vector_8hpp.html">boost/mpl/vector.hpp</a>&gt;</span></div>
-<div class="line"><span class="keyword">using namespace </span>boost::hana;</div>
-<div class="line"><span class="keyword">using namespace </span>operators; <span class="comment">// required to be able to == MPL vectors</span></div>
-<div class="line"><span class="keyword">namespace </span>mpl = boost::mpl;</div>
-<div class="line"></div>
-<div class="line"></div>
-<div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(mpl::vector2&lt;int, char&gt;{} == mpl::vector&lt;int, char&gt;{});</div>
-<div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(mpl::vector2&lt;int, char&gt;{} != mpl::vector&lt;int, char, float&gt;{});</div>
-<div class="line"></div>
-<div class="line"><span class="keywordtype">int</span> main() { }</div>
-</div><!-- fragment --> </div><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Inheritance diagram for boost::hana::Comparable::instance&lt; MplVector, MplVector &gt;:</div>
-<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-0-content" class="dyncontent" style="display:none;">
- <div class="center">
-  <img src="structboost_1_1hana_1_1_comparable_1_1instance_3_01_mpl_vector_00_01_mpl_vector_01_4.png" usemap="#boost::hana::Comparable::instance&lt; MplVector, MplVector &gt;_map" alt=""/>
-  <map id="boost::hana::Comparable::instance&lt; MplVector, MplVector &gt;_map" name="boost::hana::Comparable::instance&lt; MplVector, MplVector &gt;_map">
-<area href="structboost_1_1hana_1_1_comparable_1_1equal__mcd.html" title="Minimal complete definition : equal " alt="boost::hana::Comparable::equal_mcd" shape="rect" coords="0,0,354,24"/>
-</map>
- </div></div>
-</div><!-- contents -->
+<p>Includes all the adaptors for the Boost.MPL library.  
+<a href="#details">More...</a></p>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Includes all the adaptors for the Boost.MPL library. </p>
+<dl class="section copyright"><dt>Copyright</dt><dd>Louis Dionne 2014 Distributed under the Boost Software License, Version 1.0. (See accompanying file LICENSE.md or copy at <a href="http://boost.org/LICENSE_1_0.txt">http://boost.org/LICENSE_1_0.txt</a>) </dd></dl>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>boost</b></li><li class="navelem"><b>hana</b></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1_comparable.html">Comparable</a></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1_comparable_1_1instance_3_01_mpl_vector_00_01_mpl_vector_01_4.html">instance< MplVector, MplVector ></a></li>
+    <li class="navelem"><a class="el" href="dir_3913df26df1cb371abfd458a6c1693a0.html">boost</a></li><li class="navelem"><a class="el" href="dir_be7239abbae3c0cc65a25a72f7ded6b1.html">hana</a></li><li class="navelem"><a class="el" href="dir_a196ff861fb16c2c614c3d50357c20c8.html">ext</a></li><li class="navelem"><a class="el" href="dir_de96e9eaa2abb4bada7cfc642b1b97de.html">boost</a></li><li class="navelem"><a class="el" href="mpl_8hpp.html">mpl.hpp</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.7 </li>
