@@ -20,7 +20,7 @@ int main() {
         return "(" + to_string(x) + " + " + to_string(y) + ")";
     };
 
-    assert(scanr(show, 4, list(1, "2", '3')) == list(
+    assert(scanr(list(1, "2", '3'), 4, show) == list(
         "(1 + (2 + (3 + 4)))",
         "(2 + (3 + 4))",
         "(3 + 4)",

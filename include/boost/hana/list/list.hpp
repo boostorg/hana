@@ -97,6 +97,9 @@ namespace boost { namespace hana {
     //! @relates List
     //!
     //!
+    //! @param xs
+    //! The list to filter.
+    //!
     //! @param predicate
     //! A function called as `predicate(x)` for each element `x` in the list
     //! and returning a `Logical` representing whether that element should be
@@ -104,16 +107,13 @@ namespace boost { namespace hana {
     //! the `predicate` has to return a [compile-time](@ref Logical_terminology)
     //! `Logical`.
     //!
-    //! @param xs
-    //! The list to filter.
-    //!
     //!
     //! ### Example
     //! @snippet example/list/filter.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto filter = [](auto predicate, auto xs) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto filter = [](auto xs, auto predicate) {
         return List::instance<
             datatype_t<decltype(xs)>
-        >::filter_impl(predicate, xs);
+        >::filter_impl(xs, predicate);
     };
 
     //! Remove the last element of a non-empty list.
@@ -182,6 +182,9 @@ namespace boost { namespace hana {
     //! element is a list of the elements that do not satisfy the predicate.
     //!
     //!
+    //! @param xs
+    //! The list to be partitioned.
+    //!
     //! @param predicate
     //! A function called as `predicate(x)` for each element `x` in the list
     //! and returning a `Logical`. If the result of `predicate` is true-valued,
@@ -190,19 +193,16 @@ namespace boost { namespace hana {
     //! In the current version of the library, the `predicate` has to return
     //! a [compile-time](@ref Logical_terminology) `Logical`.
     //!
-    //! @param xs
-    //! The list to be partitioned.
-    //!
     //!
     //! ### Example
     //! @snippet example/list/partition.cpp ints
     //!
     //! ### Example
     //! @snippet example/list/partition.cpp types
-    BOOST_HANA_CONSTEXPR_LAMBDA auto partition = [](auto predicate, auto xs) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto partition = [](auto xs, auto predicate) {
         return List::instance<
             datatype_t<decltype(xs)>
-        >::partition_impl(predicate, xs);
+        >::partition_impl(xs, predicate);
     };
 
     //! Return a list of all the permutations of the given list.
@@ -243,16 +243,16 @@ namespace boost { namespace hana {
     //! @relates List
     //!
     //!
-    //! @param f
-    //! A binary function called as `f(state, x)`, where `state` is the
-    //! result accumulated so far and `x` is an element in the list.
+    //! @param xs
+    //! The list to scan.
     //!
     //! @param state
     //! The initial value used for folding. This will always be the first
     //! element of the resulting list.
     //!
-    //! @param xs
-    //! The list to scan.
+    //! @param f
+    //! A binary function called as `f(state, x)`, where `state` is the
+    //! result accumulated so far and `x` is an element in the list.
     //!
     //!
     //! ### Example
@@ -260,10 +260,10 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark.list.scanl.time.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto scanl = [](auto f, auto state, auto xs) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto scanl = [](auto xs, auto state, auto f) {
         return List::instance<
             datatype_t<decltype(xs)>
-        >::scanl_impl(f, state, xs);
+        >::scanl_impl(xs, state, f);
     };
 
     //! Variant of `scanl` that has no starting value argument.
@@ -274,12 +274,12 @@ namespace boost { namespace hana {
     //! an empty list.
     //!
     //!
+    //! @param xs
+    //! The list to scan.
+    //!
     //! @param f
     //! A binary function called as `f(state, x)`, where `state` is the
     //! result accumulated so far and `x` is an element in the list.
-    //!
-    //! @param xs
-    //! The list to scan.
     //!
     //!
     //! ### Example
@@ -287,26 +287,26 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark.list.scanl1.time.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto scanl1 = [](auto f, auto xs) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto scanl1 = [](auto xs, auto f) {
         return List::instance<
             datatype_t<decltype(xs)>
-        >::scanl1_impl(f, xs);
+        >::scanl1_impl(xs, f);
     };
 
     //! Similar to `foldr`, but returns a list of reduced values from the right.
     //! @relates List
     //!
     //!
-    //! @param f
-    //! A binary function called as `f(x, state)`, where `state` is the
-    //! result accumulated so far and `x` is an element in the list.
+    //! @param xs
+    //! The list to scan.
     //!
     //! @param state
     //! The initial value used for folding. This will always be the last
     //! element of the resulting list.
     //!
-    //! @param xs
-    //! The list to scan.
+    //! @param f
+    //! A binary function called as `f(x, state)`, where `state` is the
+    //! result accumulated so far and `x` is an element in the list.
     //!
     //!
     //! ### Example
@@ -314,10 +314,10 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark.list.scanr.time.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto scanr = [](auto f, auto state, auto xs) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto scanr = [](auto xs, auto state, auto f) {
         return List::instance<
             datatype_t<decltype(xs)>
-        >::scanr_impl(f, state, xs);
+        >::scanr_impl(xs, state, f);
     };
 
     //! Variant of `scanr` that has no starting value argument.
@@ -328,12 +328,12 @@ namespace boost { namespace hana {
     //! an empty list.
     //!
     //!
+    //! @param xs
+    //! The list to scan.
+    //!
     //! @param f
     //! A binary function called as `f(x, state)`, where `state` is the
     //! result accumulated so far and `x` is an element in the list.
-    //!
-    //! @param xs
-    //! The list to scan.
     //!
     //!
     //! ### Example
@@ -341,10 +341,10 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark.list.scanr1.time.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto scanr1 = [](auto f, auto xs) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto scanr1 = [](auto xs, auto f) {
         return List::instance<
             datatype_t<decltype(xs)>
-        >::scanr1_impl(f, xs);
+        >::scanr1_impl(xs, f);
     };
 
     //! Append an element to the end of a list.

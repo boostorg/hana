@@ -25,10 +25,10 @@ constexpr auto x = detail::minimal::comparable<>(i);
 template <typename mcd>
 void test() {
     BOOST_HANA_CONSTEXPR_LAMBDA auto list = detail::minimal::list<mcd>;
-    BOOST_HANA_CONSTANT_ASSERT(scanr1(f, list())                  == list(                                           ));
-    BOOST_HANA_CONSTEXPR_ASSERT(scanr1(f, list(x<0>))             == list(                                       x<0>));
-    BOOST_HANA_CONSTEXPR_ASSERT(scanr1(f, list(x<0>, x<1>))       == list(                        f(x<0>, x<1>), x<1>));
-    BOOST_HANA_CONSTEXPR_ASSERT(scanr1(f, list(x<0>, x<1>, x<2>)) == list(f(x<0>, f(x<1>, x<2>)), f(x<1>, x<2>), x<2>));
+    BOOST_HANA_CONSTANT_ASSERT( scanr1(list(), f)                 == list(                                           ));
+    BOOST_HANA_CONSTEXPR_ASSERT(scanr1(list(x<0>), f)             == list(                                       x<0>));
+    BOOST_HANA_CONSTEXPR_ASSERT(scanr1(list(x<0>, x<1>), f)       == list(                        f(x<0>, x<1>), x<1>));
+    BOOST_HANA_CONSTEXPR_ASSERT(scanr1(list(x<0>, x<1>, x<2>), f) == list(f(x<0>, f(x<1>, x<2>)), f(x<1>, x<2>), x<2>));
 }
 
 int main() {

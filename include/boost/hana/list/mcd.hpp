@@ -38,8 +38,8 @@ namespace boost { namespace hana {
         static constexpr auto concat_impl(Xs xs, Ys ys)
         { return foldr(cons, ys, xs); }
 
-        template <typename Pred, typename Xs>
-        static constexpr auto filter_impl(Pred pred, Xs xs) {
+        template <typename Xs, typename Pred>
+        static constexpr auto filter_impl(Xs xs, Pred pred) {
             auto go = [=](auto x, auto xs) {
                 return eval_if(pred(x),
                     [=](auto _) { return _(cons)(x, xs); },
@@ -62,8 +62,8 @@ namespace boost { namespace hana {
             return detail::right_folds::variadic_unrolled(cons, nil<T>, xs...);
         }
 
-        template <typename Pred, typename Xs>
-        static constexpr auto partition_impl(Pred pred, Xs xs) {
+        template <typename Xs, typename Pred>
+        static constexpr auto partition_impl(Xs xs, Pred pred) {
             auto go = [=](auto parts, auto x) {
                 return eval_if(pred(x),
                     [=](auto _) { return pair(_(snoc)(first(parts), x), second(parts)); },
@@ -109,37 +109,37 @@ namespace boost { namespace hana {
             return foldl(flip_cons, nil<T>, xs);
         }
 
-        template <typename F, typename S, typename Xs>
-        static constexpr auto scanl_impl(F f, S s, Xs xs) {
+        template <typename Xs, typename S, typename F>
+        static constexpr auto scanl_impl(Xs xs, S s, F f) {
             return eval_if(is_empty(xs),
                 [=](auto _) { return lift<T>(s); },
                 [=](auto _) {
-                    return cons(s, scanl_impl(f, f(s, _(head)(xs)), _(tail)(xs)));
+                    return cons(s, scanl_impl(_(tail)(xs), f(s, _(head)(xs)), f));
                 }
             );
         }
 
-        template <typename F, typename Xs>
-        static constexpr auto scanl1_impl(F f, Xs xs) {
+        template <typename Xs, typename F>
+        static constexpr auto scanl1_impl(Xs xs, F f) {
             return eval_if(is_empty(xs),
                 [](auto _) { return nil<T>; },
-                [=](auto _) { return scanl(f, _(head)(xs), _(tail)(xs)); }
+                [=](auto _) { return scanl(_(tail)(xs), _(head)(xs), f); }
             );
         }
 
-        template <typename F, typename S, typename Xs>
-        static constexpr auto scanr_impl(F f, S s, Xs xs) {
+        template <typename Xs, typename S, typename F>
+        static constexpr auto scanr_impl(Xs xs, S s, F f) {
             return eval_if(is_empty(xs),
                 [=](auto _) { return lift<T>(s); },
                 [=](auto _) {
-                    auto rest = scanr_impl(f, s, _(tail)(xs));
+                    auto rest = scanr_impl(_(tail)(xs), s, f);
                     return cons(f(_(head)(xs), head(rest)), rest);
                 }
             );
         }
 
-        template <typename F, typename Lst>
-        static constexpr auto scanr1_impl(F f, Lst lst) {
+        template <typename Lst, typename F>
+        static constexpr auto scanr1_impl(Lst lst, F f) {
             return eval_if(is_empty(lst),
                 [](auto _) { return nil<T>; },
                 [=](auto _) {
@@ -148,7 +148,7 @@ namespace boost { namespace hana {
                     return eval_if(is_empty(xs),
                         [=](auto _) { return lift<T>(x); },
                         [=](auto _) {
-                            auto rest = scanr1_impl(_(f), xs);
+                            auto rest = scanr1_impl(xs, _(f));
                             return cons(f(x, head(rest)), rest);
                         }
                     );
@@ -176,7 +176,7 @@ namespace boost { namespace hana {
                         [=](auto _) {
                             auto pivot = _(head)(xs);
                             auto rest = _(tail)(xs);
-                            auto parts = partition([=](auto x) { return pred(x, pivot); }, rest);
+                            auto parts = partition(rest, [=](auto x) { return pred(x, pivot); });
                             return concat(
                                 sort_by_impl(pred, first(parts)),
                                 cons(pivot, sort_by_impl(pred, second(parts)))

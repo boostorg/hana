@@ -28,21 +28,21 @@ void test() {
     BOOST_HANA_CONSTEXPR_LAMBDA auto list = detail::minimal::list<mcd>;
     BOOST_HANA_CONSTEXPR_LAMBDA auto z = x<999>;
 
-    BOOST_HANA_CONSTANT_ASSERT(filter(out(z), list()) == list());
+    BOOST_HANA_CONSTANT_ASSERT(filter(list(), out(z)) == list());
 
-    BOOST_HANA_CONSTANT_ASSERT(filter(out(z), list(z)) == list());
-    BOOST_HANA_CONSTANT_ASSERT(filter(out(z), list(x<1>)) == list(x<1>));
+    BOOST_HANA_CONSTANT_ASSERT(filter(list(z), out(z)) == list());
+    BOOST_HANA_CONSTANT_ASSERT(filter(list(x<1>), out(z)) == list(x<1>));
 
-    BOOST_HANA_CONSTANT_ASSERT(filter(out(z), list(x<1>, x<2>)) == list(x<1>, x<2>));
-    BOOST_HANA_CONSTANT_ASSERT(filter(out(z), list(z, x<2>)) == list(x<2>));
-    BOOST_HANA_CONSTANT_ASSERT(filter(out(z), list(x<1>, z)) == list(x<1>));
+    BOOST_HANA_CONSTANT_ASSERT(filter(list(x<1>, x<2>), out(z)) == list(x<1>, x<2>));
+    BOOST_HANA_CONSTANT_ASSERT(filter(list(z, x<2>), out(z)) == list(x<2>));
+    BOOST_HANA_CONSTANT_ASSERT(filter(list(x<1>, z), out(z)) == list(x<1>));
 
-    BOOST_HANA_CONSTANT_ASSERT(filter(out(z), list(z, x<2>, x<3>)) == list(x<2>, x<3>));
-    BOOST_HANA_CONSTANT_ASSERT(filter(out(z), list(x<1>, z, x<3>)) == list(x<1>, x<3>));
-    BOOST_HANA_CONSTANT_ASSERT(filter(out(z), list(x<1>, x<2>, z)) == list(x<1>, x<2>));
-    BOOST_HANA_CONSTANT_ASSERT(filter(out(z), list(x<1>, z, z)) == list(x<1>));
-    BOOST_HANA_CONSTANT_ASSERT(filter(out(z), list(z, x<2>, z)) == list(x<2>));
-    BOOST_HANA_CONSTANT_ASSERT(filter(out(z), list(z, z, x<3>)) == list(x<3>));
+    BOOST_HANA_CONSTANT_ASSERT(filter(list(z, x<2>, x<3>), out(z)) == list(x<2>, x<3>));
+    BOOST_HANA_CONSTANT_ASSERT(filter(list(x<1>, z, x<3>), out(z)) == list(x<1>, x<3>));
+    BOOST_HANA_CONSTANT_ASSERT(filter(list(x<1>, x<2>, z), out(z)) == list(x<1>, x<2>));
+    BOOST_HANA_CONSTANT_ASSERT(filter(list(x<1>, z, z), out(z)) == list(x<1>));
+    BOOST_HANA_CONSTANT_ASSERT(filter(list(z, x<2>, z), out(z)) == list(x<2>));
+    BOOST_HANA_CONSTANT_ASSERT(filter(list(z, z, x<3>), out(z)) == list(x<3>));
 }
 
 int main() {

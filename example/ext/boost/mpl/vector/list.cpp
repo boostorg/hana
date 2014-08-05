@@ -24,7 +24,7 @@ BOOST_HANA_CONSTANT_ASSERT(
 // cons(1, mpl::vector<int>{});
 
 BOOST_HANA_CONSTANT_ASSERT(
-    filter(trait<std::is_integral>, mpl::vector<int, float, char, void>{})
+    filter(mpl::vector<int, float, char, void>{}, trait<std::is_integral>)
     ==
     mpl::vector<int, char>{}
 );

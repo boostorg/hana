@@ -16,10 +16,11 @@ struct state { };
 template <int> struct x { };
 
 int main() {
-    auto go = boost::hana::scanl(f{}, state{},
+    auto go = boost::hana::scanl(
         <%= list(
             (0..x).map { |i| "x<#{i}>" },
             (0..x).map { |i| "x<#{i}>{}" }
-        ) %>
+        ) %>,
+        state{}, f{}
     );
 }

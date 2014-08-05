@@ -23,7 +23,7 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto odd = [](auto x) {
 };
 
 BOOST_HANA_CONSTANT_ASSERT(
-    partition(odd, integer_list<int, 1, 2, 3, 4, 5, 6, 7>)
+    partition(integer_list<int, 1, 2, 3, 4, 5, 6, 7>, odd)
     ==
     pair(
         integer_list<int, 1, 3, 5, 7>,
@@ -34,7 +34,7 @@ BOOST_HANA_CONSTANT_ASSERT(
 
 //! [types]
 BOOST_HANA_CONSTANT_ASSERT(
-    partition(trait<std::is_floating_point>, type_list<void, int, float, char, double>)
+    partition(type_list<void, int, float, char, double>, trait<std::is_floating_point>)
     ==
     pair(
         type_list<float, double>,

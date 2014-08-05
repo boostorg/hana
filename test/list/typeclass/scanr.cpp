@@ -27,10 +27,10 @@ void test() {
     BOOST_HANA_CONSTEXPR_LAMBDA auto list = detail::minimal::list<mcd>;
     constexpr auto s = x<999>;
 
-    BOOST_HANA_CONSTEXPR_ASSERT(scanr(f, s, list())                 == list(                                                               s));
-    BOOST_HANA_CONSTEXPR_ASSERT(scanr(f, s, list(x<0>))             == list(                                                   f(x<0>, s), s));
-    BOOST_HANA_CONSTEXPR_ASSERT(scanr(f, s, list(x<0>, x<1>))       == list(                              f(x<0>, f(x<1>, s)), f(x<1>, s), s));
-    BOOST_HANA_CONSTEXPR_ASSERT(scanr(f, s, list(x<0>, x<1>, x<2>)) == list(f(x<0>, f(x<1>, f(x<2>, s))), f(x<1>, f(x<2>, s)), f(x<2>, s), s));
+    BOOST_HANA_CONSTEXPR_ASSERT(scanr(list(), s, f)                 == list(                                                               s));
+    BOOST_HANA_CONSTEXPR_ASSERT(scanr(list(x<0>), s, f)             == list(                                                   f(x<0>, s), s));
+    BOOST_HANA_CONSTEXPR_ASSERT(scanr(list(x<0>, x<1>), s, f)       == list(                              f(x<0>, f(x<1>, s)), f(x<1>, s), s));
+    BOOST_HANA_CONSTEXPR_ASSERT(scanr(list(x<0>, x<1>, x<2>), s, f) == list(f(x<0>, f(x<1>, f(x<2>, s))), f(x<1>, f(x<2>, s)), f(x<2>, s), s));
 }
 
 int main() {

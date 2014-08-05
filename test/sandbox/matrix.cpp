@@ -110,7 +110,7 @@ constexpr int exponent(int x, unsigned int n) {
 
 auto remove_at = [](auto n, auto xs) {
     auto with_indices = zip(xs, range(int_<0>, length(xs)));
-    auto removed = filter(compose(n != _, last), with_indices);
+    auto removed = filter(with_indices, compose(n != _, last));
     return fmap(head, removed);
 };
 

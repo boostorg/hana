@@ -3,12 +3,13 @@
 
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/list/list.hpp>
+#include <boost/hana/logical/logical.hpp>
 #include <boost/hana/pair.hpp>
-BOOST_HANA_CONSTEXPR_LAMBDA auto partition = [](auto pred, auto xs) {
-    auto not_pred = [=](auto x) { return !pred(x); };
+
+BOOST_HANA_CONSTEXPR_LAMBDA auto partition = [](auto xs, auto pred) {
     return boost::hana::pair(
-        boost::hana::filter(pred, xs),
-        boost::hana::filter(not_pred, xs)
+        boost::hana::filter(xs, pred),
+        boost::hana::filter(xs, [=](auto x) { return boost::hana::not_(pred(x)); })
     );
 };
 
