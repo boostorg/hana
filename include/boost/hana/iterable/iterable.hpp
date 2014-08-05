@@ -68,6 +68,10 @@ namespace boost { namespace hana {
     //! Return whether the iterable is empty.
     //! @relates Iterable
     //!
+    //! Specificaly, `is_empty` must return a [compile-time]
+    //! (@ref Logical_terminology) `Logical` representing
+    //! whether the iterable is empty.
+    //!
     //! ### Example
     //! @snippet example/iterable/is_empty.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto is_empty = [](auto iterable) {

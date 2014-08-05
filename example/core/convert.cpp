@@ -4,55 +4,33 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/core/convert.hpp>
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/ext/std/list.hpp>
+#include <boost/hana/detail/assert.hpp>
+#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/list/instance.hpp>
-
-#include <cassert>
-#include <list>
-#include <string>
-#include <vector>
 using namespace boost::hana;
 
 
-struct StdVector;
-struct StdList;
+template <typename X, typename Y, typename Z>
+struct Triple {
+    X first;
+    Y second;
+    Z third;
+};
+
+BOOST_HANA_CONSTEXPR_LAMBDA auto triple = [](auto x, auto y, auto z) {
+    return Triple<decltype(x), decltype(y), decltype(z)>{x, y, z};
+};
 
 namespace boost { namespace hana {
-    template <typename T>
-    struct datatype<std::vector<T>> { using type = StdVector; };
-
-    template <>
-    struct Comparable::instance<StdVector, StdVector> : Comparable::equal_mcd {
-        template <typename T>
-        static auto equal_impl(std::vector<T> xs, std::vector<T> ys)
-        { return xs == ys; }
-    };
-
-    template <>
-    struct convert<StdVector, StdList> {
-        template <typename T>
-        static std::vector<T> apply(std::list<T> xs) {
-            std::vector<T> v{};
-            for (auto x: xs)
-                v.push_back(x);
-            return v;
+    template <typename X, typename Y, typename Z>
+    struct convert<List, Triple<X, Y, Z>> {
+        static constexpr auto apply(Triple<X, Y, Z> xs) {
+            return list(xs.first, xs.second, xs.third);
         }
     };
 }}
 
 int main() {
-    auto xs = list(
-        std::list<int>{1, 2, 3, 4},
-        std::list<char>{'1', '2', '3', '4'},
-        std::list<std::string>{"1", "2", "3", "4"}
-    );
-
-    assert(fmap(to<StdVector>, xs) == list(
-        std::vector<int>{1, 2, 3, 4},
-        std::vector<char>{'1', '2', '3', '4'},
-        std::vector<std::string>{"1", "2", "3", "4"}
-    ));
+    BOOST_HANA_CONSTEXPR_ASSERT(to<List>(triple(1, '2', 3.3)) == list(1, '2', 3.3));
 }
