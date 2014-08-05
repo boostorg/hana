@@ -24,9 +24,9 @@ auto with_nonassociative_forward_sequences = [](auto test) {
     test([](auto ...xs) { return boost::fusion::make_tuple(xs...); });
     test([](auto ...xs) {
         return boost::hana::foldr(
-            [](auto x, auto xs) { return boost::fusion::make_cons(x, xs); },
+            boost::hana::list(xs...),
             boost::fusion::nil{},
-            boost::hana::list(xs...)
+            [](auto x, auto xs) { return boost::fusion::make_cons(x, xs); }
         );
     });
 };

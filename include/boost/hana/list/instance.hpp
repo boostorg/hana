@@ -57,22 +57,22 @@ namespace boost { namespace hana {
     //! @cond
     template <>
     struct Foldable::instance<List> : detail::FoldableFromIterable {
-        template <typename F, typename State, typename Xs>
-        static constexpr auto foldl_impl(F f, State s, Xs xs) {
+        template <typename Xs, typename State, typename F>
+        static constexpr auto foldl_impl(Xs xs, State s, F f) {
             return xs.storage([=](auto ...xs) {
                 return detail::left_folds::variadic(f, s, xs...);
             });
         }
 
-        template <typename F, typename State, typename Xs>
-        static constexpr auto foldr_impl(F f, State s, Xs xs) {
+        template <typename Xs, typename State, typename F>
+        static constexpr auto foldr_impl(Xs xs, State s, F f) {
             return xs.storage([=](auto ...xs) {
                 return detail::right_folds::variadic_unrolled(f, s, xs...);
             });
         }
 
-        template <typename F, typename Xs>
-        static constexpr auto unpack_impl(F f, Xs xs) {
+        template <typename Xs, typename F>
+        static constexpr auto unpack_impl(Xs xs, F f) {
             return xs.storage(f);
         }
 
@@ -150,9 +150,8 @@ namespace boost { namespace hana {
 
         template <typename Xs>
         static constexpr auto init_impl(Xs xs) {
-            return unpack(
-                on(list, [=](auto index) { return at(index, xs); }),
-                range(size_t<0>, length(xs) - size_t<1>)
+            return unpack(range(size_t<0>, length(xs) - size_t<1>),
+                on(list, [=](auto index) { return at(index, xs); })
             );
         }
 
@@ -165,19 +164,20 @@ namespace boost { namespace hana {
 
         template <typename N, typename Xs>
         static constexpr auto take_impl(N n, Xs xs) {
-            return unpack(
-                on(list, [=](auto index) { return at(index, xs); }),
-                range(size_t<0>, min(n, length(xs)))
+            return unpack(range(size_t<0>, min(n, length(xs))),
+                on(list, [=](auto index) { return at(index, xs); })
             );
         }
 
         template <typename F, typename ...Xss>
         static constexpr auto zip_with_impl(F f, Xss ...lists) {
-            auto go = [=](auto index) {
-                return always(f)(index)(at(index, lists)...);
+            auto go = [=](auto index, auto ...nothing) {
+                return always(f)(nothing...)(at(index, lists)...);
             };
             auto zip_length = minimum(list(length(lists)...));
-            return unpack(on(list, go), range(size_t<0>, zip_length));
+            return unpack(range(size_t<0>, zip_length),
+                on(list, go)
+            );
         }
     };
 

@@ -126,17 +126,17 @@ namespace boost { namespace hana {
 
     template <>
     struct Foldable::instance<TypeList> : detail::FoldableFromIterable {
-        template <typename F, typename S>
+        template <typename S, typename F>
         struct helper {
-            F f;
             S s;
+            F f;
             template <typename ...xs>
             constexpr auto apply() const
             { return detail::left_folds::variadic_t<xs...>(f, s); }
         };
-        template <typename F, typename S, typename Xs>
-        static constexpr auto foldl_impl(F f, S s, Xs xs)
-        { return xs.storage_(helper<F, S>{f, s}); }
+        template <typename Xs, typename S, typename F>
+        static constexpr auto foldl_impl(Xs xs, S s, F f)
+        { return xs.storage_(helper<S, F>{s, f}); }
     };
 
     template <>

@@ -27,11 +27,11 @@ void test() {
     constexpr auto iterable = detail::minimal::iterable<mcd>;
     constexpr auto s = x<-1>;
 
-    BOOST_HANA_CONSTEXPR_ASSERT(foldl(f, s, iterable()) == s);
-    BOOST_HANA_CONSTEXPR_ASSERT(foldl(f, s, iterable(x<0>)) == f(s, x<0>));
-    BOOST_HANA_CONSTEXPR_ASSERT(foldl(f, s, iterable(x<0>, x<1>)) == f(f(s, x<0>), x<1>));
-    BOOST_HANA_CONSTEXPR_ASSERT(foldl(f, s, iterable(x<0>, x<1>, x<2>)) == f(f(f(s, x<0>), x<1>), x<2>));
-    BOOST_HANA_CONSTEXPR_ASSERT(foldl(f, s, iterable(x<0>, x<1>, x<2>, x<3>)) == f(f(f(f(s, x<0>), x<1>), x<2>), x<3>));
+    BOOST_HANA_CONSTEXPR_ASSERT(foldl(iterable(), s, f) == s);
+    BOOST_HANA_CONSTEXPR_ASSERT(foldl(iterable(x<0>), s, f) == f(s, x<0>));
+    BOOST_HANA_CONSTEXPR_ASSERT(foldl(iterable(x<0>, x<1>), s, f) == f(f(s, x<0>), x<1>));
+    BOOST_HANA_CONSTEXPR_ASSERT(foldl(iterable(x<0>, x<1>, x<2>), s, f) == f(f(f(s, x<0>), x<1>), x<2>));
+    BOOST_HANA_CONSTEXPR_ASSERT(foldl(iterable(x<0>, x<1>, x<2>, x<3>), s, f) == f(f(f(f(s, x<0>), x<1>), x<2>), x<3>));
 }
 
 int main() {

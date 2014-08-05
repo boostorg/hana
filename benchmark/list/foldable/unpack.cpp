@@ -7,10 +7,11 @@
 template <int> struct x { };
 
 int main() {
-    boost::hana::unpack([](auto ...xs) { },
+    boost::hana::unpack(
         <%= list(
             (0..x).map { |i| "x<#{i}>" },
             (0..x).map { |i| "x<#{i}>{}" }
-        ) %>
+        ) %>,
+        [](auto ...xs) { }
     );
 }

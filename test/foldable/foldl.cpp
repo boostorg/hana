@@ -24,16 +24,16 @@ void test() {
     constexpr auto foldable = detail::minimal::foldable<mcd>;
 
     constexpr std::tuple<> s;
-    BOOST_HANA_CONSTEXPR_ASSERT(foldl(f, s, foldable()) == s);
-    BOOST_HANA_CONSTEXPR_ASSERT(foldl(f, s, foldable(1)) == f(s, 1));
-    BOOST_HANA_CONSTEXPR_ASSERT(foldl(f, s, foldable(1, '2')) == f(f(s, 1), '2'));
-    BOOST_HANA_CONSTEXPR_ASSERT(foldl(f, s, foldable(1, '2', 3.3)) == f(f(f(s, 1), '2'), 3.3));
-    BOOST_HANA_CONSTEXPR_ASSERT(foldl(f, s, foldable(1, '2', 3.3, 4.4f)) == f(f(f(f(s, 1), '2'), 3.3), 4.4f));
+    BOOST_HANA_CONSTEXPR_ASSERT(foldl(foldable(), s, f) == s);
+    BOOST_HANA_CONSTEXPR_ASSERT(foldl(foldable(1), s, f) == f(s, 1));
+    BOOST_HANA_CONSTEXPR_ASSERT(foldl(foldable(1, '2'), s, f) == f(f(s, 1), '2'));
+    BOOST_HANA_CONSTEXPR_ASSERT(foldl(foldable(1, '2', 3.3), s, f) == f(f(f(s, 1), '2'), 3.3));
+    BOOST_HANA_CONSTEXPR_ASSERT(foldl(foldable(1, '2', 3.3, 4.4f), s, f) == f(f(f(f(s, 1), '2'), 3.3), 4.4f));
 
-    BOOST_HANA_CONSTEXPR_ASSERT(foldl(f, s, foldable(int_<1>)) == f(s, int_<1>));
-    BOOST_HANA_CONSTEXPR_ASSERT(foldl(f, s, foldable(int_<1>, int_<2>)) == f(f(s, int_<1>), int_<2>));
-    BOOST_HANA_CONSTEXPR_ASSERT(foldl(f, s, foldable(int_<1>, int_<2>, int_<3>)) == f(f(f(s, int_<1>), int_<2>), int_<3>));
-    BOOST_HANA_CONSTEXPR_ASSERT(foldl(f, s, foldable(int_<1>, int_<2>, int_<3>, int_<4>)) == f(f(f(f(s, int_<1>), int_<2>), int_<3>), int_<4>));
+    BOOST_HANA_CONSTEXPR_ASSERT(foldl(foldable(int_<1>), s, f) == f(s, int_<1>));
+    BOOST_HANA_CONSTEXPR_ASSERT(foldl(foldable(int_<1>, int_<2>), s, f) == f(f(s, int_<1>), int_<2>));
+    BOOST_HANA_CONSTEXPR_ASSERT(foldl(foldable(int_<1>, int_<2>, int_<3>), s, f) == f(f(f(s, int_<1>), int_<2>), int_<3>));
+    BOOST_HANA_CONSTEXPR_ASSERT(foldl(foldable(int_<1>, int_<2>, int_<3>, int_<4>), s, f) == f(f(f(f(s, int_<1>), int_<2>), int_<3>), int_<4>));
 }
 
 int main() {

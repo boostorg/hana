@@ -26,10 +26,10 @@ template <typename mcd>
 void test() {
     constexpr auto iterable = detail::minimal::iterable<mcd>;
 
-    BOOST_HANA_CONSTEXPR_ASSERT(foldl1(f, iterable(x<0>)) == x<0>);
-    BOOST_HANA_CONSTEXPR_ASSERT(foldl1(f, iterable(x<0>, x<1>)) == f(x<0>, x<1>));
-    BOOST_HANA_CONSTEXPR_ASSERT(foldl1(f, iterable(x<0>, x<1>, x<2>)) == f(f(x<0>, x<1>), x<2>));
-    BOOST_HANA_CONSTEXPR_ASSERT(foldl1(f, iterable(x<0>, x<1>, x<2>, x<3>)) == f(f(f(x<0>, x<1>), x<2>), x<3>));
+    BOOST_HANA_CONSTEXPR_ASSERT(foldl1(iterable(x<0>), f) == x<0>);
+    BOOST_HANA_CONSTEXPR_ASSERT(foldl1(iterable(x<0>, x<1>), f) == f(x<0>, x<1>));
+    BOOST_HANA_CONSTEXPR_ASSERT(foldl1(iterable(x<0>, x<1>, x<2>), f) == f(f(x<0>, x<1>), x<2>));
+    BOOST_HANA_CONSTEXPR_ASSERT(foldl1(iterable(x<0>, x<1>, x<2>, x<3>), f) == f(f(f(x<0>, x<1>), x<2>), x<3>));
 }
 
 int main() {

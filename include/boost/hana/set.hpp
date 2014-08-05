@@ -78,7 +78,7 @@ namespace boost { namespace hana {
     struct convert<Set, L, detail::std::enable_if_t<is_a<List, L>()>> {
         template <typename Xs>
         static constexpr auto apply(Xs xs)
-        { return unpack(set, xs); }
+        { return unpack(xs, set); }
     };
 
     //! Converts a `Set` to a `List`.
@@ -101,14 +101,14 @@ namespace boost { namespace hana {
 
     template <>
     struct Foldable::instance<Set> : Foldable::mcd {
-        template <typename F, typename State, typename Set>
-        static constexpr auto foldr_impl(F f, State s, Set set) {
-            return foldr(f, s, detail::unwrap(set));
+        template <typename Set, typename State, typename F>
+        static constexpr auto foldr_impl(Set set, State s, F f) {
+            return foldr(detail::unwrap(set), s, f);
         }
 
-        template <typename F, typename State, typename Set>
-        static constexpr auto foldl_impl(F f, State s, Set set) {
-            return foldl(f, s, detail::unwrap(set));
+        template <typename Set, typename State, typename F>
+        static constexpr auto foldl_impl(Set set, State s, F f) {
+            return foldl(detail::unwrap(set), s, f);
         }
 
         template <typename Set>

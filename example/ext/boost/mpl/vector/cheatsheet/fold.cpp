@@ -4,6 +4,7 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/ext/boost/mpl/vector.hpp>
 #include <boost/hana/ext/std/integral_constant.hpp>
@@ -41,16 +42,16 @@ namespace with_hana {
 //! [hana]
 constexpr auto types = hana::type_list<long, float, short, float, long, long double>;
 BOOST_HANA_CONSTEXPR_LAMBDA auto number_of_floats = hana::foldl(
+    types,
+    hana::int_<0>,
     [](auto count, auto t) {
         return hana::if_(hana::trait<std::is_floating_point>(t),
             count + hana::int_<1>,
             count
         );
-    },
-    hana::int_<0>,
-    types
+    }
 );
-static_assert(decltype(number_of_floats == hana::int_<3>){}, "");
+BOOST_HANA_CONSTANT_ASSERT(number_of_floats == hana::int_<3>);
 //! [hana]
 }
 

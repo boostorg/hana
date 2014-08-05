@@ -126,8 +126,8 @@ namespace boost { namespace hana {
             detail::std::integer_sequence<T, vs...>)
         { return f(integral<T, from() + vs>...); }
 
-        template <typename F, typename R>
-        static constexpr auto unpack_impl(F f, R r) {
+        template <typename R, typename F>
+        static constexpr auto unpack_impl(R r, F f) {
             auto size = r.to - r.from;
             return unpack_helper(f, r.from,
                 detail::std::make_integer_sequence<decltype(r.from()), size()>{});

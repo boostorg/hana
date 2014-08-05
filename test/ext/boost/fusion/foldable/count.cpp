@@ -19,11 +19,11 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto is_even = [](auto x) {
 
 int main() {
     with_nonassociative_forward_sequences([=](auto container) {
-        assert(count(is_even, container()) == 0);
-        assert(count(is_even, container(1)) == 0);
-        assert(count(is_even, container(2)) == 1);
-        assert(count(is_even, container(1, 2)) == 1);
-        assert(count(is_even, container(1, 2, 3)) == 1);
-        assert(count(is_even, container(1, 2, 3, 4)) == 2);
+        assert(count(container(), is_even) == 0);
+        assert(count(container(1), is_even) == 0);
+        assert(count(container(2), is_even) == 1);
+        assert(count(container(1, 2), is_even) == 1);
+        assert(count(container(1, 2, 3), is_even) == 1);
+        assert(count(container(1, 2, 3, 4), is_even) == 2);
     });
 }

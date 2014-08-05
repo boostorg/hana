@@ -23,8 +23,8 @@ constexpr auto x = detail::minimal::comparable<>(i);
 
 int main() {
     constexpr auto s = x<-1>;
-    BOOST_HANA_CONSTEXPR_ASSERT(foldr(f, s, list()) == s);
-    BOOST_HANA_CONSTEXPR_ASSERT(foldr(f, s, list(x<0>)) == f(x<0>, s));
-    BOOST_HANA_CONSTEXPR_ASSERT(foldr(f, s, list(x<0>, x<1>)) == f(x<0>, f(x<1>, s)));
-    BOOST_HANA_CONSTEXPR_ASSERT(foldr(f, s, list(x<0>, x<1>, x<2>)) == f(x<0>, f(x<1>, f(x<2>, s))));
+    BOOST_HANA_CONSTEXPR_ASSERT(foldr(list(), s, f) == s);
+    BOOST_HANA_CONSTEXPR_ASSERT(foldr(list(x<0>), s, f) == f(x<0>, s));
+    BOOST_HANA_CONSTEXPR_ASSERT(foldr(list(x<0>, x<1>), s, f) == f(x<0>, f(x<1>, s)));
+    BOOST_HANA_CONSTEXPR_ASSERT(foldr(list(x<0>, x<1>, x<2>), s, f) == f(x<0>, f(x<1>, f(x<2>, s))));
 }

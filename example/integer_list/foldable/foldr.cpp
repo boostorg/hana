@@ -21,6 +21,8 @@ int main() {
         return if_(n < 0_c, cons(n, acc), acc);
     };
 
-    BOOST_HANA_CONSTANT_ASSERT(foldr(keep_negatives, integer_list<int>, numbers) == negatives);
+    BOOST_HANA_CONSTANT_ASSERT(
+        foldr(numbers, integer_list<int>, keep_negatives) == negatives
+    );
     //! [main]
 }

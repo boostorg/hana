@@ -101,7 +101,7 @@ namespace boost { namespace hana {
     struct convert<Map, L, detail::std::enable_if_t<is_a<List, L>()>> {
         template <typename Xs>
         static constexpr auto apply(Xs xs)
-        { return unpack(map, xs); }
+        { return unpack(xs, map); }
     };
 
     //! Converts a `Map` to a `List` of `Product`s.
@@ -132,14 +132,14 @@ namespace boost { namespace hana {
 
     template <>
     struct Foldable::instance<Map> : Foldable::mcd {
-        template <typename F, typename State, typename Map>
-        static constexpr auto foldr_impl(F f, State s, Map m) {
-            return foldr(f, s, values(m));
+        template <typename Map, typename State, typename F>
+        static constexpr auto foldr_impl(Map m, State s, F f) {
+            return foldr(values(m), s, f);
         }
 
-        template <typename F, typename State, typename Map>
-        static constexpr auto foldl_impl(F f, State s, Map m) {
-            return foldl(f, s, values(m));
+        template <typename Map, typename State, typename F>
+        static constexpr auto foldl_impl(Map m, State s, F f) {
+            return foldl(values(m), s, f);
         }
 
         template <typename Map>

@@ -15,10 +15,11 @@ struct f {
 template <int> struct x { };
 
 int main() {
-    auto go = boost::hana::foldl1(f{},
+    auto go = boost::hana::foldl1(
         <%= list(
                 (1..x+1).map { |i| "x<#{i}>" },
                 (1..x+1).map { |i| "x<#{i}>{}" }
-        ) %>
+        ) %>,
+        f{}
     );
 }

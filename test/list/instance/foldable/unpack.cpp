@@ -22,8 +22,8 @@ template <int i>
 constexpr auto x = detail::minimal::comparable<>(i);
 
 int main() {
-    BOOST_HANA_CONSTEXPR_ASSERT(unpack(f, list()) == f());
-    BOOST_HANA_CONSTEXPR_ASSERT(unpack(f, list(x<0>)) == f(x<0>));
-    BOOST_HANA_CONSTEXPR_ASSERT(unpack(f, list(x<0>, x<1>)) == f(x<0>, x<1>));
-    BOOST_HANA_CONSTEXPR_ASSERT(unpack(f, list(x<0>, x<1>, x<2>)) == f(x<0>, x<1>, x<2>));
+    BOOST_HANA_CONSTEXPR_ASSERT(unpack(list(), f) == f());
+    BOOST_HANA_CONSTEXPR_ASSERT(unpack(list(x<0>), f) == f(x<0>));
+    BOOST_HANA_CONSTEXPR_ASSERT(unpack(list(x<0>, x<1>), f) == f(x<0>, x<1>));
+    BOOST_HANA_CONSTEXPR_ASSERT(unpack(list(x<0>, x<1>, x<2>), f) == f(x<0>, x<1>, x<2>));
 }

@@ -90,32 +90,32 @@ namespace boost { namespace hana {
     struct Foldable::instance<FusionNonAssociativeForwardSequence>
         : detail::FoldableFromIterable
     {
-        template <typename F, typename State, typename Xs>
-        static constexpr decltype(auto) foldl_impl(F f, State s, Xs&& xs) {
+        template <typename Xs, typename State, typename F>
+        static constexpr decltype(auto) foldl_impl(Xs&& xs, State s, F f) {
             return boost::fusion::fold(std::forward<Xs>(xs), s, f);
         }
 
-        template <typename F, typename State, typename Xs, typename =
+        template <typename Xs, typename State, typename F, typename =
             std::enable_if_t<
                 fusion_detail::is_bidirectional_sequence<
                     std::remove_reference_t<Xs>
                 >::value
             >
         >
-        static constexpr decltype(auto) foldr_impl(F f, State s, Xs&& xs) {
+        static constexpr decltype(auto) foldr_impl(Xs&& xs, State s, F f) {
             auto g = [=](auto state, auto x) { return f(x, state); };
             return boost::fusion::reverse_fold(std::forward<Xs>(xs), s, g);
         }
 
-        template <typename F, typename State, typename Xs, typename =
+        template <typename Xs, typename State, typename F, typename =
             std::enable_if_t<
                 !fusion_detail::is_bidirectional_sequence<
                     std::remove_reference_t<Xs>
                 >::value
             >
         >
-        static constexpr decltype(auto) foldr_impl(F f, State s, Xs&& xs, ...) {
-            return detail::FoldableFromIterable::foldr_impl(f, s, std::forward<Xs>(xs));
+        static constexpr decltype(auto) foldr_impl(Xs&& xs, State s, F f, ...) {
+            return detail::FoldableFromIterable::foldr_impl(std::forward<Xs>(xs), s, f);
         }
 
         template <typename Xs>
@@ -140,8 +140,8 @@ namespace boost { namespace hana {
             return boost::fusion::none(std::forward<Xs>(xs), p);
         }
 
-        template <typename Pred, typename Xs>
-        static constexpr auto count_impl(Pred p, Xs&& xs) {
+        template <typename Xs, typename Pred>
+        static constexpr auto count_impl(Xs&& xs, Pred p) {
             return boost::fusion::count_if(std::forward<Xs>(xs), p);
         }
     };

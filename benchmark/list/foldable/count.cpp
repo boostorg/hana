@@ -11,10 +11,11 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto is_odd = [](auto x) {
 };
 
 int main() {
-    auto go = boost::hana::count(is_odd,
+    auto go = boost::hana::count(
         <%= list(
             (0..x).map { |i| "decltype(boost::hana::int_<#{i}>)" },
             (0..x).map { |i| "boost::hana::int_<#{i}>" }
-        ) %>
+        ) %>,
+        is_odd
     );
 }

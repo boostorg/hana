@@ -113,12 +113,12 @@ namespace boost { namespace hana {
     struct Foldable::instance<Maybe, Nothing...>
         : detail::dependent_on_t<(bool)sizeof...(Nothing), Foldable::mcd>
     {
-        template <typename F, typename S, typename M>
-        static constexpr auto foldr_impl(F f, S s, M m)
+        template <typename M, typename S, typename F>
+        static constexpr auto foldr_impl(M m, S s, F f)
         { return maybe(s, [=](auto x) { return f(x, s); }, m); }
 
-        template <typename F, typename S, typename M>
-        static constexpr auto foldl_impl(F f, S s, M m)
+        template <typename M, typename S, typename F>
+        static constexpr auto foldl_impl(M m, S s, F f)
         { return maybe(s, [=](auto x) { return f(s, x); }, m); }
     };
 

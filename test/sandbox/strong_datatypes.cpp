@@ -113,7 +113,7 @@ auto ap_impl<List<Function<X, Y>>, List<X>> = [](auto fs, auto xs) {
     auto hana_xs = hana::detail::unwrap(xs)(hana::list);
     auto hana_result = hana::ap(hana_fs, hana_xs);
 
-    return hana::unpack(list<Y>, hana_result);
+    return hana::unpack(hana_result, list<Y>);
 };
 
 

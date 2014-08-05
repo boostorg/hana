@@ -44,7 +44,7 @@ namespace boost { namespace hana {
         static constexpr auto tail_impl(std::array<T, N> arr)  {
             auto make_array = [=](auto ...indices) -> std::array<T, N - 1>
             { return {{arr[indices]...}}; };
-            return unpack(make_array, range(size_t<1>, size_t<N>));
+            return unpack(range(size_t<1>, size_t<N>), make_array);
         }
 
         template <typename T, std::size_t N>
@@ -64,7 +64,7 @@ namespace boost { namespace hana {
         static constexpr auto cons_impl(X x, std::array<T, N> arr) {
             auto make_array = [=](auto ...indices) -> std::array<T, N + 1>
             { return {{x, arr[indices]...}}; };
-            return unpack(make_array, range(size_t<0>, size_t<N>));
+            return unpack(range(size_t<0>, size_t<N>), make_array);
         }
 
         template <typename X>

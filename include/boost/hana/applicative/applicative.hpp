@@ -91,7 +91,7 @@ namespace boost { namespace hana {
     //! `ap` can be called with two arguments or more. Specifically,
     //! `ap(f, x1, ..., xN)` is equivalent to
     //! @code
-    //!     foldl(ap, fmap(curry<N>, f), list(x1, ..., xN));
+    //!     foldl(list(x1, ..., xN), fmap(curry<N>, f), ap);
     //! @endcode
     //! where `ap(f, x)` (called with two arguments only) dispatches to the
     //! implementation in the type class. This basically means that applying

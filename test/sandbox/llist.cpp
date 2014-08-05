@@ -46,12 +46,12 @@ struct llist {
         return llist{x, &xs};
     }
 
-    template <typename F, typename State>
-    friend constexpr auto foldr(F f, State s, llist xs) {
+    template <typename State, typename F>
+    friend constexpr auto foldr(llist xs, State s, F f) {
         if (is_empty(xs))
             return s;
         else
-            return f(head(xs), foldr(f, s, tail(xs)));
+            return f(head(xs), foldr(tail(xs), s, f));
     }
 };
 
@@ -68,7 +68,7 @@ static_assert(head(cons(1, xs)) == 1, "");
 static_assert(head(cons(0, cons(1, xs))) == 0, "");
 static_assert(head(tail(cons(0, cons(1, xs)))) == 1, "");
 
-static_assert(foldr(std::plus<>{}, 0, cons(1, cons(2, cons(3, llist<int>{})))) == 1 + 2 + 3 + 0, "");
+static_assert(foldr(cons(1, cons(2, cons(3, llist<int>{}))), 0, std::plus<>{}) == 1 + 2 + 3 + 0, "");
 
 
 int main() {

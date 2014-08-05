@@ -99,7 +99,7 @@ namespace boost { namespace hana {
     BOOST_HANA_CONSTEXPR_LAMBDA auto hash_map = [](auto ...pairs) {
         hash_map_detail::map<decltype(list())> empty_map{list()};
         auto ins = [](auto map, auto pair) { return insert(first(pair), second(pair), map); };
-        return foldl(ins, empty_map, list(pairs...));
+        return foldl(list(pairs...), empty_map, ins);
     };
 
     template <>
@@ -126,20 +126,20 @@ namespace boost { namespace hana {
 
     template <>
     struct Foldable::instance<HashMap> : Foldable::mcd {
-        template <typename F, typename State, typename Map>
-        static constexpr auto foldr_impl(F f, State s, Map m) {
+        template <typename Map, typename State, typename F>
+        static constexpr auto foldr_impl(Map m, State s, F f) {
             auto f_ = [=](auto bucket, auto s) {
-                return foldr(f, s, fmap(second, bucket.pairs));
+                return foldr(fmap(second, bucket.pairs), s, f);
             };
-            return foldr(f_, s, m.buckets);
+            return foldr(m.buckets, s, f_);
         }
 
-        template <typename F, typename State, typename Map>
-        static constexpr auto foldl_impl(F f, State s, Map m) {
+        template <typename Map, typename State, typename F>
+        static constexpr auto foldl_impl(Map m, State s, F f) {
             auto f_ = [=](auto s, auto bucket) {
-                return foldl(f, s, fmap(second, bucket.pairs));
+                return foldl(fmap(second, bucket.pairs), s, f);
             };
-            return foldl(f_, s, m.buckets);
+            return foldl(m.buckets, s, f_);
         }
     };
 }} // end namespace boost::hana

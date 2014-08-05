@@ -35,46 +35,46 @@ namespace boost { namespace hana {
     //! @relates Foldable
     //!
     //!
-    //! @param f
-    //! A binary function called as `f(state, x)`, where `state` is the
-    //! result accumulated so far and `x` is an element in the structure.
+    //! @param foldable
+    //! The structure to fold.
     //!
     //! @param state
     //! The initial value used for folding.
     //!
-    //! @param foldable
-    //! The structure to fold.
+    //! @param f
+    //! A binary function called as `f(state, x)`, where `state` is the
+    //! result accumulated so far and `x` is an element in the structure.
     //!
     //!
     //! ### Example
     //! @snippet example/foldable/foldl.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto foldl = [](auto f, auto state, auto foldable) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto foldl = [](auto foldable, auto state, auto f) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
-        >::foldl_impl(f, state, foldable);
+        >::foldl_impl(foldable, state, f);
     };
 
     //! Right-associative fold of a structure using a binary operation.
     //! @relates Foldable
     //!
     //!
-    //! @param f
-    //! A binary function called as `f(x, state)`, where `state` is the
-    //! result accumulated so far and `x` is an element in the structure.
+    //! @param foldable
+    //! The structure to fold.
     //!
     //! @param state
     //! The initial value used for folding.
     //!
-    //! @param foldable
-    //! The structure to fold.
+    //! @param f
+    //! A binary function called as `f(x, state)`, where `state` is the
+    //! result accumulated so far and `x` is an element in the structure.
     //!
     //!
     //! ### Example
     //! @snippet example/foldable/foldr.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto foldr = [](auto f, auto state, auto foldable) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto foldr = [](auto foldable, auto state, auto f) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
-        >::foldr_impl(f, state, foldable);
+        >::foldr_impl(foldable, state, f);
     };
 
     //! Variant of `foldr` that has no base case, and thus may only be
@@ -82,20 +82,20 @@ namespace boost { namespace hana {
     //! @relates Foldable
     //!
     //!
+    //! @param foldable
+    //! The structure to fold.
+    //!
     //! @param f
     //! A binary function called as `f(x, state)`, where `state` is the
     //! result accumulated so far and `x` is an element in the structure.
     //!
-    //! @param foldable
-    //! The structure to fold.
-    //!
     //!
     //! ### Example
     //! @snippet example/foldable/foldr1.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto foldr1 = [](auto f, auto foldable) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto foldr1 = [](auto foldable, auto f) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
-        >::foldr1_impl(f, foldable);
+        >::foldr1_impl(foldable, f);
     };
 
     //! Variant of `foldl` that has no base case, and thus may only be
@@ -103,20 +103,20 @@ namespace boost { namespace hana {
     //! @relates Foldable
     //!
     //!
+    //! @param foldable
+    //! The structure to fold.
+    //!
     //! @param f
     //! A binary function called as `f(state, x)`, where `state` is the
     //! result accumulated so far and `x` is an element in the structure.
     //!
-    //! @param foldable
-    //! The structure to fold.
-    //!
     //!
     //! ### Example
     //! @snippet example/foldable/foldl1.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto foldl1 = [](auto f, auto foldable) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto foldl1 = [](auto foldable, auto f) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
-        >::foldl1_impl(f, foldable);
+        >::foldl1_impl(foldable, f);
     };
 
     //! Return the number of elements in a finite structure.
@@ -233,33 +233,33 @@ namespace boost { namespace hana {
     //! @relates Foldable
     //!
     //!
+    //! @param foldable
+    //! The structure whose elements are counted.
+    //!
     //! @param predicate
     //! A function called as `predicate(x)`, where `x` is an element of the
     //! structure, and returning a `Logical` representing whether `x` should
     //! add `1` to the overall result.
     //!
-    //! @param foldable
-    //! The structure whose elements are counted.
-    //!
     //!
     //! ### Example
     //! @snippet example/foldable/count.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto count = [](auto predicate, auto foldable) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto count = [](auto foldable, auto predicate) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
-        >::count_impl(predicate, foldable);
+        >::count_impl(foldable, predicate);
     };
 
     //! Invoke a function with the elements of a structure as arguments.
     //! @relates Foldable
     //!
     //!
+    //! @param foldable
+    //! The structure to expand into the function.
+    //!
     //! @param f
     //! A function to be invoked as `f(x...)`, where `x...` are the elements
     //! of the structure as-if they had been linearized with `to<List>`.
-    //!
-    //! @param foldable
-    //! The structure to expand into the function.
     //!
     //!
     //! @note
@@ -272,10 +272,10 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/foldable/unpack.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto unpack = [](auto f, auto foldable) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto unpack = [](auto foldable, auto f) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
-        >::unpack_impl(f, foldable);
+        >::unpack_impl(foldable, f);
     };
 }} // end namespace boost::hana
 

@@ -17,7 +17,7 @@ using namespace boost::hana;
 
 BOOST_HANA_CONSTEXPR_LAMBDA auto check_fold = [](auto ...pairs) {
     auto values = fmap(second, list(pairs...));
-    auto result = foldr(cons, list(), hash_map(pairs...));
+    auto result = foldr(hash_map(pairs...), list(), cons);
     BOOST_HANA_CONSTANT_ASSERT(elem(permutations(values), result));
 };
 

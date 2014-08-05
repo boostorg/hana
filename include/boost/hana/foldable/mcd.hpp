@@ -22,8 +22,8 @@ namespace boost { namespace hana {
     //! @details
     //! Minimal complete definition: `foldl` and `foldr`
     struct Foldable::mcd {
-        template <typename F, typename Foldable_>
-        static constexpr auto foldr1_impl(F f, Foldable_ foldable) {
+        template <typename Foldable_, typename F>
+        static constexpr auto foldr1_impl(Foldable_ foldable, F f) {
             auto g = [=](auto x, auto mstate) {
                 return just(maybe(
                     x,
@@ -31,11 +31,11 @@ namespace boost { namespace hana {
                     mstate
                 ));
             };
-            return from_just(foldr(g, nothing, foldable));
+            return from_just(foldr(foldable, nothing, g));
         }
 
-        template <typename F, typename Foldable_>
-        static constexpr auto foldl1_impl(F f, Foldable_ foldable) {
+        template <typename Foldable_, typename F>
+        static constexpr auto foldl1_impl(Foldable_ foldable, F f) {
             auto g = [=](auto mstate, auto x) {
                 return maybe(
                     just(x),
@@ -43,13 +43,13 @@ namespace boost { namespace hana {
                     mstate
                 );
             };
-            return from_just(foldl(g, nothing, foldable));
+            return from_just(foldl(foldable, nothing, g));
         }
 
         template <typename Foldable_>
         static constexpr auto length_impl(Foldable_ foldable) {
             auto plus1 = [](auto n, auto _) { return n + size_t<1>; };
-            return foldl(plus1, size_t<0>, foldable);
+            return foldl(foldable, size_t<0>, plus1);
         }
 
         template <typename Foldable_>
@@ -62,46 +62,44 @@ namespace boost { namespace hana {
 
         template <typename Pred, typename Foldable_>
         static constexpr auto minimum_by_impl(Pred pred, Foldable_ foldable) {
-            return foldl1(
-                [=](auto x, auto y) { return if_(pred(x, y), x, y); },
-                foldable
-            );
+            return foldl1(foldable, [=](auto x, auto y) {
+                return if_(pred(x, y), x, y);
+            });
         }
 
         template <typename Pred, typename Foldable_>
         static constexpr auto maximum_by_impl(Pred pred, Foldable_ foldable) {
-            return foldl1(
-                [=](auto x, auto y) { return if_(pred(x, y), y, x); },
-                foldable
-            );
+            return foldl1(foldable, [=](auto x, auto y) {
+                return if_(pred(x, y), y, x);
+            });
         }
 
         template <typename Foldable_>
         static constexpr auto sum_impl(Foldable_ foldable) {
-            auto add = [](auto x, auto y) { return x + y; };
-            return foldl(add, int_<0>, foldable);
+            return foldl(foldable, int_<0>, [](auto x, auto y) {
+                return x + y;
+            });
         }
 
         template <typename Foldable_>
         static constexpr auto product_impl(Foldable_ foldable) {
-            auto mul = [](auto x, auto y) { return x * y; };
-            return foldl(mul, int_<1>, foldable);
+            return foldl(foldable, int_<1>, [](auto x, auto y) {
+                return x * y;
+            });
         }
 
-        template <typename Pred, typename Foldable_>
-        static constexpr auto count_impl(Pred pred, Foldable_ foldable) {
-            auto inc = [=](auto counter, auto x) {
+        template <typename Foldable_, typename Pred>
+        static constexpr auto count_impl(Foldable_ foldable, Pred pred) {
+            return foldl(foldable, size_t<0>, [=](auto counter, auto x) {
                 return if_(pred(x), counter + size_t<1>, counter);
-            };
-            return foldl(inc, size_t<0>, foldable);
+            });
         }
 
-        template <typename F, typename Foldable_>
-        static constexpr auto unpack_impl(F f, Foldable_ foldable) {
-            auto partial = [](auto f, auto ...x) {
-                return [=](auto ...y) { return f(x..., y...); };
-            };
-            return foldl(partial, f, foldable)();
+        template <typename Foldable_, typename F>
+        static constexpr auto unpack_impl(Foldable_ foldable, F f) {
+            return foldl(foldable, f, [](auto g, auto x) {
+                return [=](auto ...y) { return g(x, y...); };
+            })();
         }
     };
 }} // end namespace boost::hana

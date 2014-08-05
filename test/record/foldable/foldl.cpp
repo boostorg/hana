@@ -18,5 +18,5 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto s, auto x) {
 
 int main() {
     constexpr auto s = 3.3;
-    BOOST_HANA_CONSTEXPR_ASSERT(foldl(f, s, udt{0, '0'}) == f(f(s, 0), '0'));
+    BOOST_HANA_CONSTEXPR_ASSERT(foldl(udt{0, '0'}, s, f) == f(f(s, 0), '0'));
 }

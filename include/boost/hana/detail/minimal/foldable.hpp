@@ -45,8 +45,8 @@ struct Foldable::instance<detail::minimal::Foldable<Foldable::mcd>>
     static constexpr auto foldr_helper(F f, S s)
     { return s; }
 
-    template <typename F, typename S, typename Xs>
-    static constexpr auto foldr_impl(F f, S s, Xs xs) {
+    template <typename Xs, typename S, typename F>
+    static constexpr auto foldr_impl(Xs xs, S s, F f) {
         return detail::unwrap(xs)([=](auto ...xs) {
             return foldr_helper(f, s, xs...);
         });
@@ -60,8 +60,8 @@ struct Foldable::instance<detail::minimal::Foldable<Foldable::mcd>>
     static constexpr auto foldl_helper(F f, S s)
     { return s; }
 
-    template <typename F, typename S, typename Xs>
-    static constexpr auto foldl_impl(F f, S s, Xs xs) {
+    template <typename Xs, typename S, typename F>
+    static constexpr auto foldl_impl(Xs xs, S s, F f) {
         return detail::unwrap(xs)([=](auto ...xs) {
             return foldl_helper(f, s, xs...);
         });

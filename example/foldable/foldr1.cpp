@@ -20,6 +20,6 @@ int main() {
         return "(" + to_string(x) + " + " + to_string(y) + ")";
     };
 
-    assert(foldr1(show, list(1, "2", '3')) == "(1 + (2 + 3))");
+    assert(foldr1(list(1, "2", '3'), show) == "(1 + (2 + 3))");
     //! [main]
 }

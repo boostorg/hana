@@ -47,20 +47,18 @@ namespace boost { namespace hana {
     struct Foldable::instance<R, when<is_a<Record, R>()>>
         : Foldable::mcd
     {
-        template <typename F, typename S, typename X>
-        static constexpr auto foldl_impl(F f, S s, X x) {
-            auto g = [=](auto s, auto k_f) {
+        template <typename X, typename S, typename F>
+        static constexpr auto foldl_impl(X x, S s, F f) {
+            return foldl(members<R>, s, [=](auto s, auto k_f) {
                 return f(s, second(k_f)(x));
-            };
-            return foldl(g, s, members<R>);
+            });
         }
 
-        template <typename F, typename S, typename X>
-        static constexpr auto foldr_impl(F f, S s, X x) {
-            auto g = [=](auto k_f, auto s) {
+        template <typename X, typename S, typename F>
+        static constexpr auto foldr_impl(X x, S s, F f) {
+            return foldr(members<R>, s, [=](auto k_f, auto s) {
                 return f(second(k_f)(x), s);
-            };
-            return foldr(g, s, members<R>);
+            });
         }
     };
 

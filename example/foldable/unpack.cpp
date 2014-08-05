@@ -14,7 +14,7 @@ using namespace boost::hana;
 int main() {
     //! [main]
     auto cheap_tie = [](auto& ...vars) {
-        return partial(unpack, [&vars...](auto ...values) {
+        return partial(flip(unpack), [&vars...](auto ...values) {
             // Using an initializer list sequences the assignments.
             int dummy[] = {((vars = values), 0)...};
             (void)dummy;

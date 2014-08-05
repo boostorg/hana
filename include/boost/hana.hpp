@@ -26,14 +26,6 @@ libraries.
   Boost.Hana.
 - Write runtime benchmarks.
 - Setup a BJam build system.
-- Consider making function objects automatically curriable. This could allow
-  _super sexy_ stuff like:
-  @code
-    template <>
-    struct Iterable<List> {
-        static constexpr auto length_impl = foldl(some_lambda, size_t<0>);
-    };
-  @endcode
 
 @copyright Louis Dionne 2014
 Distributed under the Boost Software License, Version 1.0.

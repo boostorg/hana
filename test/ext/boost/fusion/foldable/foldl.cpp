@@ -21,10 +21,10 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto xs, auto x) {
 int main() {
     constexpr std::tuple<> s;
     with_nonassociative_forward_sequences([=](auto container) {
-        assert(foldl(f, s, container()) == s);
-        assert(foldl(f, s, container(1)) == f(s, 1));
-        assert(foldl(f, s, container(1, '2')) == f(f(s, 1), '2'));
-        assert(foldl(f, s, container(1, '2', 3.3)) == f(f(f(s, 1), '2'), 3.3));
-        assert(foldl(f, s, container(1, '2', 3.3, 4.4f)) == f(f(f(f(s, 1), '2'), 3.3), 4.4f));
+        assert(foldl(container(), s, f) == s);
+        assert(foldl(container(1), s, f) == f(s, 1));
+        assert(foldl(container(1, '2'), s, f) == f(f(s, 1), '2'));
+        assert(foldl(container(1, '2', 3.3), s, f) == f(f(f(s, 1), '2'), 3.3));
+        assert(foldl(container(1, '2', 3.3, 4.4f), s, f) == f(f(f(f(s, 1), '2'), 3.3), 4.4f));
     });
 }

@@ -36,7 +36,7 @@ namespace boost { namespace hana {
     struct List::mcd {
         template <typename Xs, typename Ys>
         static constexpr auto concat_impl(Xs xs, Ys ys)
-        { return foldr(cons, ys, xs); }
+        { return foldr(xs, ys, cons); }
 
         template <typename Xs, typename Pred>
         static constexpr auto filter_impl(Xs xs, Pred pred) {
@@ -46,7 +46,7 @@ namespace boost { namespace hana {
                     [=](auto _) { return xs; }
                 );
             };
-            return foldr(go, nil<T>, xs);
+            return foldr(xs, nil<T>, go);
         }
 
         template <typename Xs>
@@ -70,7 +70,7 @@ namespace boost { namespace hana {
                     [=](auto _) { return pair(first(parts), _(snoc)(second(parts), x)); }
                 );
             };
-            return foldl(go, pair(nil<T>, nil<T>), xs);
+            return foldl(xs, pair(nil<T>, nil<T>), go);
         }
 
     private:
@@ -105,8 +105,9 @@ namespace boost { namespace hana {
 
         template <typename Xs>
         static constexpr auto reverse_impl(Xs xs) {
-            auto flip_cons = [](auto xs, auto x) { return cons(x, xs); };
-            return foldl(flip_cons, nil<T>, xs);
+            return foldl(xs, nil<T>, [](auto xs, auto x) {
+                return cons(x, xs);
+            });
         }
 
         template <typename Xs, typename S, typename F>
@@ -158,7 +159,7 @@ namespace boost { namespace hana {
 
         template <typename Xs, typename X>
         static constexpr auto snoc_impl(Xs xs, X x) {
-            return foldr(cons, lift<T>(x), xs);
+            return foldr(xs, lift<T>(x), cons);
         }
 
         template <typename Xs>
@@ -238,7 +239,7 @@ namespace boost { namespace hana {
 
         template <typename Xs>
         static constexpr auto unzip_impl(Xs xs)
-        { return unpack(zip, xs); }
+        { return unpack(xs, zip); }
 
         template <typename ...Xss>
         static constexpr auto zip_impl(Xss ...xss)
@@ -275,8 +276,9 @@ namespace boost { namespace hana {
     {
         template <typename F, typename Xs>
         static constexpr auto fmap_impl(F f, Xs xs) {
-            auto cons_f = [=](auto x, auto xs) { return cons(f(x), xs); };
-            return foldr(cons_f, nil<T>, xs);
+            return foldr(xs, nil<T>, [=](auto x, auto xs) {
+                return cons(f(x), xs);
+            });
         }
     };
 
@@ -315,7 +317,7 @@ namespace boost { namespace hana {
     {
         template <typename Xss>
         static constexpr auto flatten_impl(Xss xss)
-        { return foldl(concat, nil<T>, xss); }
+        { return foldl(xss, nil<T>, concat); }
     };
 
     //! `Traversable` instance for `List` instances.
@@ -334,10 +336,9 @@ namespace boost { namespace hana {
             auto curried_cons = [](auto x) {
                 return [=](auto xs) { return cons(x, xs); };
             };
-            auto cons_f = [=](auto x, auto ys) {
+            return foldr(xs, lift<A>(nil<T>), [=](auto x, auto ys) {
                 return ap(fmap(curried_cons, f(x)), ys);
-            };
-            return foldr(cons_f, lift<A>(nil<T>), xs);
+            });
         }
     };
 
@@ -409,7 +410,7 @@ namespace boost { namespace hana {
     >> {
         template <typename Xs>
         static constexpr auto apply(Xs xs)
-        { return foldr(cons, nil<L>, xs); }
+        { return foldr(xs, nil<L>, cons); }
     };
 }} // end namespace boost::hana
 

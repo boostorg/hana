@@ -38,7 +38,7 @@ struct matrix_type {
 };
 
 auto transpose = [](auto m) {
-    auto new_storage = unpack(zip, m.rows_);
+    auto new_storage = unpack(m.rows_, zip);
     return matrix_type<decltype(new_storage)>{new_storage};
 };
 
@@ -70,7 +70,7 @@ auto scalar_prod = [](auto v1, auto v2) {
     return sum(zip_with(_*_, v1, v2));
 };
 auto repeat_n = [](auto n, auto x) {
-    return unpack(on(list, always(x)), range(int_<0>, n));
+    return unpack(range(int_<0>, n), on(list, always(x)));
 };
 
 template <typename S1, typename S2>
@@ -134,9 +134,9 @@ struct _det {
         return eval_if(m.size() == int_<1>,
             always(m.at(int_<0>, int_<0>)),
             [=](auto _) {
-                auto cofactors_1st_row = unpack(
-                    on(list, partial(cofactor, m, int_<0>)),
-                    _(range)(int_<0>, m.ncolumns()));
+                auto cofactors_1st_row = unpack(_(range)(int_<0>, m.ncolumns()),
+                    on(list, partial(cofactor, m, int_<0>))
+                );
                 return scalar_prod(head(rows(m)), cofactors_1st_row);
             }
         );

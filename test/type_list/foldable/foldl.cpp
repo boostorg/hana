@@ -25,13 +25,13 @@ constexpr auto g = template_<G>;
 
 int main() {
     constexpr auto s = type<x0>;
-    BOOST_HANA_CONSTANT_ASSERT(foldl(f, s, type_list<>) == s);
-    BOOST_HANA_CONSTEXPR_ASSERT(foldl(f, s, type_list<x1>) == f(s, type<x1>));
-    BOOST_HANA_CONSTEXPR_ASSERT(foldl(f, s, type_list<x1, x2>) == f(f(s, type<x1>), type<x2>));
-    BOOST_HANA_CONSTEXPR_ASSERT(foldl(f, s, type_list<x1, x2, x3>) == f(f(f(s, type<x1>), type<x2>), type<x3>));
+    BOOST_HANA_CONSTANT_ASSERT( foldl(type_list<>, s, f) == s);
+    BOOST_HANA_CONSTEXPR_ASSERT(foldl(type_list<x1>, s, f) == f(s, type<x1>));
+    BOOST_HANA_CONSTEXPR_ASSERT(foldl(type_list<x1, x2>, s, f) == f(f(s, type<x1>), type<x2>));
+    BOOST_HANA_CONSTEXPR_ASSERT(foldl(type_list<x1, x2, x3>, s, f) == f(f(f(s, type<x1>), type<x2>), type<x3>));
 
-    BOOST_HANA_CONSTANT_ASSERT(foldl(g, s, type_list<>) == s);
-    BOOST_HANA_CONSTANT_ASSERT(foldl(g, s, type_list<x1>) == g(s, type<x1>));
-    BOOST_HANA_CONSTANT_ASSERT(foldl(g, s, type_list<x1, x2>) == g(g(s, type<x1>), type<x2>));
-    BOOST_HANA_CONSTANT_ASSERT(foldl(g, s, type_list<x1, x2, x3>) == g(g(g(s, type<x1>), type<x2>), type<x3>));
+    BOOST_HANA_CONSTANT_ASSERT(foldl(type_list<>, s, g) == s);
+    BOOST_HANA_CONSTANT_ASSERT(foldl(type_list<x1>, s, g) == g(s, type<x1>));
+    BOOST_HANA_CONSTANT_ASSERT(foldl(type_list<x1, x2>, s, g) == g(g(s, type<x1>), type<x2>));
+    BOOST_HANA_CONSTANT_ASSERT(foldl(type_list<x1, x2, x3>, s, g) == g(g(g(s, type<x1>), type<x2>), type<x3>));
 }

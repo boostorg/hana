@@ -27,10 +27,10 @@ int main() {
     constexpr auto types = type_list<int, char, long, short, char, double>;
     constexpr auto ints = integer_list<int, 1, 2, 3>;
 
-    BOOST_HANA_CONSTANT_ASSERT(count(odd, ints) == 2_c);
+    BOOST_HANA_CONSTANT_ASSERT(count(ints, odd) == 2_c);
 
-    BOOST_HANA_CONSTANT_ASSERT(count(trait<std::is_floating_point>, types) == 1_c);
-    BOOST_HANA_CONSTANT_ASSERT(count(_ == type<char>, types) == 2_c);
-    BOOST_HANA_CONSTANT_ASSERT(count(_ == type<void>, types) == 0_c);
+    BOOST_HANA_CONSTANT_ASSERT(count(types, trait<std::is_floating_point>) == 1_c);
+    BOOST_HANA_CONSTANT_ASSERT(count(types, _ == type<char>) == 2_c);
+    BOOST_HANA_CONSTANT_ASSERT(count(types, _ == type<void>) == 0_c);
     //! [main]
 }

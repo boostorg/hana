@@ -78,31 +78,37 @@ namespace boost { namespace hana {
 
     namespace detail {
         struct FoldableFromIterable : Foldable::mcd {
-            template <typename F, typename State, typename Iterable>
-            static constexpr auto foldl_impl(F f, State s, Iterable xs) {
+            template <typename Xs, typename State, typename F>
+            static constexpr auto foldl_impl(Xs xs, State s, F f) {
                 return eval_if(is_empty(xs),
                     [=](auto) { return s; },
-                    [=](auto _) { return foldl_impl(f, f(s, head(_(xs))), tail(_(xs))); }
+                    [=](auto _) {
+                        return foldl_impl(tail(_(xs)), f(s, head(_(xs))), f);
+                    }
                 );
             }
 
-            template <typename F, typename Iterable>
-            static constexpr auto foldl1_impl(F f, Iterable xs)
-            { return foldl(f, head(xs), tail(xs)); }
+            template <typename Xs, typename F>
+            static constexpr auto foldl1_impl(Xs xs, F f)
+            { return foldl(tail(xs), head(xs), f); }
 
-            template <typename F, typename Iterable>
-            static constexpr auto foldr1_impl(F f, Iterable xs) {
+            template <typename Xs, typename F>
+            static constexpr auto foldr1_impl(Xs xs, F f) {
                 return eval_if(is_empty(tail(xs)),
                     [=](auto) { return head(xs); },
-                    [=](auto _) { return f(head(xs), foldr1_impl(f, tail(_(xs)))); }
+                    [=](auto _) {
+                        return f(head(xs), foldr1_impl(tail(_(xs)), f));
+                    }
                 );
             }
 
-            template <typename F, typename State, typename Iterable>
-            static constexpr auto foldr_impl(F f, State s, Iterable xs) {
+            template <typename Xs, typename State, typename F>
+            static constexpr auto foldr_impl(Xs xs, State s, F f) {
                 return eval_if(is_empty(xs),
                     [=](auto) { return s; },
-                    [=](auto _) { return f(head(_(xs)), foldr_impl(f, s, tail(_(xs)))); }
+                    [=](auto _) {
+                        return f(head(_(xs)), foldr_impl(tail(_(xs)), s, f));
+                    }
                 );
             }
         };

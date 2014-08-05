@@ -18,10 +18,10 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto ...xs) {
 };
 
 int main() {
-    BOOST_HANA_CONSTEXPR_ASSERT(unpack(f, range(int_<0>, int_<0>)) == f());
-    BOOST_HANA_CONSTEXPR_ASSERT(unpack(f, range(int_<0>, int_<1>)) == f(int_<0>));
-    BOOST_HANA_CONSTEXPR_ASSERT(unpack(f, range(int_<0>, int_<2>)) == f(int_<0>, int_<1>));
-    BOOST_HANA_CONSTEXPR_ASSERT(unpack(f, range(int_<0>, int_<3>)) == f(int_<0>, int_<1>, int_<2>));
+    BOOST_HANA_CONSTEXPR_ASSERT(unpack(range(int_<0>, int_<0>), f) == f());
+    BOOST_HANA_CONSTEXPR_ASSERT(unpack(range(int_<0>, int_<1>), f) == f(int_<0>));
+    BOOST_HANA_CONSTEXPR_ASSERT(unpack(range(int_<0>, int_<2>), f) == f(int_<0>, int_<1>));
+    BOOST_HANA_CONSTEXPR_ASSERT(unpack(range(int_<0>, int_<3>), f) == f(int_<0>, int_<1>, int_<2>));
 
     BOOST_HANA_CONSTANT_ASSERT(length(range(int_<0>, int_<0>)) == int_<0>);
     BOOST_HANA_CONSTANT_ASSERT(length(range(int_<0>, int_<1>)) == int_<1>);

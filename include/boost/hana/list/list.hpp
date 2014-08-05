@@ -506,7 +506,7 @@ namespace boost { namespace hana {
     //! list from a seed value and a function. In some cases, `unfoldl` can
     //! undo a `foldl` operation:
     //! @code
-    //!     unfoldl(g, foldl(f, z, xs))
+    //!     unfoldl(g, foldl(xs, z, f))
     //! @endcode
     //!
     //! if the following holds
@@ -549,7 +549,7 @@ namespace boost { namespace hana {
     //! list from a seed value and a function. In some cases, `unfoldr` can
     //! undo a `foldr` operation:
     //! @code
-    //!     unfoldr(g, foldr(f, z, xs))
+    //!     unfoldr(g, foldr(xs, z, f))
     //! @endcode
     //!
     //! if the following holds

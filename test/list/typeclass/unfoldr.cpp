@@ -69,7 +69,7 @@ void test_revert() {
         list(), list(x<0>), list(x<0>, x<1>), list(x<0>, x<1>, x<2>)
     );
     for_each(lists, [=](auto xs) {
-        BOOST_HANA_CONSTANT_ASSERT(unfoldr<L>(g, foldr(f, z, xs)) == xs);
+        BOOST_HANA_CONSTANT_ASSERT(unfoldr<L>(g, foldr(xs, z, f)) == xs);
     });
 }
 
