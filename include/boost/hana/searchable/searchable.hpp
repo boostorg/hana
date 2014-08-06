@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/typeclass.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/functional/infix.hpp>
 
 
 namespace boost { namespace hana {
@@ -222,6 +223,28 @@ namespace boost { namespace hana {
             datatype_t<decltype(searchable)>
         >::lookup_impl(searchable, key);
     };
+
+    //! Return whether the key occurs in the structure.
+    //! @relates Searchable
+    //!
+    //! Specifically, this is equivalent to `flip(elem)`, except that `in`
+    //! can also be used in infix notation for increased expressiveness.
+    //! This function is not a method that can be overriden; it is just a
+    //! convenience function provided with the type class.
+    //!
+    //! @param searchable
+    //! The structure to search.
+    //!
+    //! @param key
+    //! A key to be searched for in the structure. The key has to be
+    //! `Comparable` with the other keys of the structure.
+    //!
+    //!
+    //! ### Example
+    //! @snippet example/searchable/in.cpp main
+    BOOST_HANA_CONSTEXPR_LAMBDA auto in = infix([](auto key, auto searchable) {
+        return elem(searchable, key);
+    });
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_SEARCHABLE_SEARCHABLE_HPP
