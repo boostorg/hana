@@ -29,6 +29,7 @@ namespace boost { namespace hana {
     struct Foldable {
         BOOST_HANA_TYPECLASS(Foldable);
         struct mcd;
+        struct unpack_mcd;
     };
 
     //! Left-associative fold of a structure using a binary operation.

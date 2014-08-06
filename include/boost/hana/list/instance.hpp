@@ -16,10 +16,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/list/list.hpp>
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/detail/at_index/best.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/left_folds/variadic.hpp>
-#include <boost/hana/detail/right_folds/variadic_unrolled.hpp>
+#include <boost/hana/detail/variadic/at.hpp>
+#include <boost/hana/foldable/unpack_mcd.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/functor/fmap_mcd.hpp>
 #include <boost/hana/integral.hpp>
@@ -56,31 +55,10 @@ namespace boost { namespace hana {
 
     //! @cond
     template <>
-    struct Foldable::instance<List> : detail::FoldableFromIterable {
-        template <typename Xs, typename State, typename F>
-        static constexpr auto foldl_impl(Xs xs, State s, F f) {
-            return xs.storage([=](auto ...xs) {
-                return detail::left_folds::variadic(f, s, xs...);
-            });
-        }
-
-        template <typename Xs, typename State, typename F>
-        static constexpr auto foldr_impl(Xs xs, State s, F f) {
-            return xs.storage([=](auto ...xs) {
-                return detail::right_folds::variadic_unrolled(f, s, xs...);
-            });
-        }
-
+    struct Foldable::instance<List> : Foldable::unpack_mcd {
         template <typename Xs, typename F>
         static constexpr auto unpack_impl(Xs xs, F f) {
             return xs.storage(f);
-        }
-
-        template <typename Xs>
-        static constexpr auto length_impl(Xs xs) {
-            return xs.storage([](auto ...xs) {
-                return size_t<sizeof...(xs)>;
-            });
         }
     };
     //! @endcond

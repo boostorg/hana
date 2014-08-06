@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/wrap.hpp>
 #include <boost/hana/foldable/mcd.hpp>
+#include <boost/hana/foldable/unpack_mcd.hpp>
 
 
 namespace boost { namespace hana {
@@ -32,6 +33,15 @@ namespace detail { namespace minimal {
     template <typename mcd = hana::Foldable::mcd>
     constexpr make_foldable_impl<mcd> foldable{};
 }} // end namespace detail::minimal
+
+template <>
+struct Foldable::instance<detail::minimal::Foldable<Foldable::unpack_mcd>>
+    : Foldable::unpack_mcd
+{
+    template <typename Xs, typename F>
+    static constexpr auto unpack_impl(Xs xs, F f)
+    { return detail::unwrap(xs)(f); }
+};
 
 template <>
 struct Foldable::instance<detail::minimal::Foldable<Foldable::mcd>>

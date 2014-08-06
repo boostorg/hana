@@ -60,4 +60,5 @@ void test() {
 
 int main() {
     test<Foldable::mcd>();
+    test<Foldable::unpack_mcd>();
 }
