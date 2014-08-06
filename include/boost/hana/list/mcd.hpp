@@ -49,6 +49,26 @@ namespace boost { namespace hana {
             return foldr(xs, nil<T>, go);
         }
 
+        template <typename Pred, typename Xs>
+        static constexpr auto group_by_impl(Pred pred, Xs xs_) {
+            return eval_if(is_empty(xs_),
+                [](auto) { return nil<T>; },
+                [=](auto _) {
+                    auto x = _(head)(xs_);
+                    auto xs = _(tail)(xs_);
+                    auto ys_zs = span(xs, [=](auto y) { return pred(x, y); });
+                    auto ys = first(ys_zs);
+                    auto zs = second(ys_zs);
+                    return cons(cons(x, ys), group_by_impl(pred, zs));
+                }
+            );
+        }
+
+        template <typename Xs>
+        static constexpr auto group_impl(Xs xs) {
+            return group_by(equal, xs);
+        }
+
         template <typename Xs>
         static constexpr auto init_impl(Xs xs) {
             return eval_if(is_empty(tail(xs)),
@@ -182,6 +202,28 @@ namespace boost { namespace hana {
                                 sort_by_impl(pred, first(parts)),
                                 cons(pivot, sort_by_impl(pred, second(parts)))
                             );
+                        }
+                    );
+                }
+            );
+        }
+
+        template <typename Xs, typename Pred>
+        static constexpr auto span_impl(Xs xs, Pred pred) {
+            return eval_if(is_empty(xs),
+                [=](auto _) { return pair(nil<T>, nil<T>); },
+                [=](auto _) {
+                    auto x = _(head)(xs);
+                    auto xs_ = _(tail)(xs);
+                    return eval_if(pred(x),
+                        [=](auto _) {
+                            auto ys_zs = span_impl(xs_, _(pred));
+                            auto ys = first(ys_zs);
+                            auto zs = second(ys_zs);
+                            return pair(cons(x, ys), zs);
+                        },
+                        [=](auto _) {
+                            return pair(nil<T>, xs);
                         }
                     );
                 }

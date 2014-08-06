@@ -44,7 +44,7 @@ namespace boost { namespace hana {
     //!   Actually, they might be just the same. Check this out.
     //! - Implement the following methods:
     //!     - `intersperse`, `intercalate`, `transpose`, `subsequences`
-    //!     - `split_at`, `span`, `break`, `group_by`, `group`, `inits`, `tails`
+    //!     - `split_at`, `break`, `inits`, `tails`
     //! - Consider implementing the following methods:
     //!     - `nub_by`, `nub`, `delete_by`, `insert`
     //!     - `set_difference_by`, `set_union_by`, `set_intersection_by`
@@ -114,6 +114,55 @@ namespace boost { namespace hana {
         return List::instance<
             datatype_t<decltype(xs)>
         >::filter_impl(xs, predicate);
+    };
+
+    //! Group the elements of a list into subgroups of adjacent elements that
+    //! are "equal" with respect to a predicate.
+    //! @relates List
+    //!
+    //! Specifically, `group_by` takes a list and returns a list of lists
+    //! such that the concatenation of the result is equal to the argument.
+    //! Moreover, each sublist contains only elements for which the predicate
+    //! is satisfied when applied to two adjacent elements.
+    //!
+    //!
+    //! @param predicate
+    //! A binary function called as `predicate(x, y)`, where `x` and `y`
+    //! are _adjacent_ elements in the list, and returning a `Logical`
+    //! representing whether both elements should be in the same group
+    //! (sublist) of the result. The result returned by `predicate` has
+    //! to be a [compile-time](@ref Logical_terminology) `Logical`. Also,
+    //! `predicate` has to define an [equivalence relation]
+    //! (@ref equivalence_relation) as defined by the `Comparable` type class.
+    //!
+    //! @param xs
+    //! The list to split into groups.
+    //!
+    //!
+    //! ### Example
+    //! @snippet example/list/group_by.cpp main
+    BOOST_HANA_CONSTEXPR_LAMBDA auto group_by = [](auto predicate, auto xs) {
+        return List::instance<
+            datatype_t<decltype(xs)>
+        >::group_by_impl(predicate, xs);
+    };
+
+    //! Group the elements of a list into subgroups of adjacent equal elements.
+    //! @relates List
+    //!
+    //! Specifically, `group(xs)` is equivalent to `group_by(equal, xs)`.
+    //! For this method to work, comparing adjacent elements have to return
+    //! a [compile-time](@ref Logical_terminology) `Logical`.
+    //!
+    //! @param xs
+    //! The list to split into groups.
+    //!
+    //! ### Example
+    //! @snippet example/list/group.cpp main
+    BOOST_HANA_CONSTEXPR_LAMBDA auto group = [](auto xs) {
+        return List::instance<
+            datatype_t<decltype(xs)>
+        >::group_impl(xs);
     };
 
     //! Remove the last element of a non-empty list.
@@ -407,6 +456,42 @@ namespace boost { namespace hana {
         return List::instance<
             datatype_t<decltype(xs)>
         >::sort_by_impl(predicate, xs);
+    };
+
+    //! Return a `Product` containing the longest prefix of a list satisfying
+    //! a predicate, and the rest of the list.
+    //! @relates List
+    //!
+    //! The first element of the returned `Product` is a list for which all
+    //! elements satisfy the given predicate. The second element of the
+    //! returned `Product` is a list containing the remainder of the argument.
+    //! Both or either lists may be empty, depending on the input argument.
+    //! Specifically, `span(xs, predicate)` is equivalent to
+    //! @code
+    //!     span(xs, predicate) == pair(
+    //!                             take_while(predicate, xs),
+    //!                             drop_while(predicate, xs)
+    //!                            )
+    //! @endcode
+    //! except that `pair` may be an arbitrary `Product`.
+    //!
+    //!
+    //! @param xs
+    //! The list to break into two parts.
+    //!
+    //! @param predicate
+    //! A function called as `predicate(x)`, where `x` is an element of the
+    //! list, and returning a `Logical. In the current implementation of the
+    //! library, `predicate` has to return a [compile-time]
+    //! (@ref Logical_terminology) `Logical`.
+    //!
+    //!
+    //! ### Example
+    //! @snippet example/list/span.cpp main
+    BOOST_HANA_CONSTEXPR_LAMBDA auto span = [](auto xs, auto predicate) {
+        return List::instance<
+            datatype_t<decltype(xs)>
+        >::span_impl(xs, predicate);
     };
 
     //! Return a list containing the first `n` elements of a list.

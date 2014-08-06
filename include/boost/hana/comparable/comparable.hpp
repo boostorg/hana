@@ -20,6 +20,7 @@ namespace boost { namespace hana {
     //! @ingroup group-typeclasses
     //! The `Comparable` type class defines equality and inequality.
     //!
+    //! @anchor equivalence_relation
     //! ### Laws
     //! `equal` must define an equivalence relation. In other words, for all
     //! `a`, `b`, `c` of comparable data types,
