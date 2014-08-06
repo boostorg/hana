@@ -115,9 +115,11 @@ namespace boost { namespace hana {
     //! to both arguments.
     //! @relates Orderable
     //!
-    //! @note
     //! This is not a method of the `Orderable` type class, but just a
-    //! convenience function provided with it.
+    //! convenience function provided with it. Also note that
+    //! @code
+    //!     ordering(f) == less ^on^ f
+    //! @endcode
     //!
     //! ### Example
     //! @snippet example/orderable/ordering.cpp main

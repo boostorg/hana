@@ -80,6 +80,24 @@ namespace boost { namespace hana {
         >::not_equal_impl(x, y);
     };
 
+    //! Returns a function performing `equal` after applying a transformation
+    //! to both arguments.
+    //! @relates Comparable
+    //!
+    //! This is not a method of the `Comparable` type class, but just a
+    //! convenience function provided with it. Also note that
+    //! @code
+    //!     comparing(f) == equal ^on^ f
+    //! @endcode
+    //!
+    //! ### Example
+    //! @snippet example/comparable/comparing.cpp main
+    BOOST_HANA_CONSTEXPR_LAMBDA auto comparing = [](auto f) {
+        return [=](auto x, auto y) {
+            return equal(f(x), f(y));
+        };
+    };
+
     //! Minimal complete definition : `equal`
     struct Comparable::equal_mcd {
         template <typename X, typename Y>
