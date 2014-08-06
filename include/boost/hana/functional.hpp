@@ -15,6 +15,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/left_folds/variadic_unrolled.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
 
+#include <boost/hana/detail/functional/curry.hpp>
+#include <boost/hana/detail/functional/infix.hpp>
+
 
 namespace boost { namespace hana {
     //! @defgroup group-functional Functional
@@ -169,24 +172,6 @@ namespace boost { namespace hana {
     };
 #endif
 
-    //! Partially apply a function to some arguments.
-    //!
-    //! Specifically, `partial(f, x...)` is a function such that
-    //! @code
-    //!     partial(f, x...)(y...) == f(x..., y...)
-    //! @endcode
-    //!
-    //! Given the semantics, the arity of `f` must match the number of
-    //! arguments passed in total, i.e. `sizeof...(x) + sizeof...(y)`.
-    //!
-    //! ### Example
-    //! @snippet example/functional/partial.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto partial = [](auto f, auto ...x) {
-        return [=](auto ...y) {
-            return f(x..., y...);
-        };
-    };
-
     //! Curry a function up to the given number of arguments.
     //!
     //! [Currying][Wikipedia.currying] is a technique in which we consider a
@@ -255,38 +240,6 @@ namespace boost { namespace hana {
     template <std::size_t arity>
     constexpr auto curry = [](auto f) {
         return unspecified;
-    };
-#else
-    namespace functional_detail {
-        template <typename F, detail::std::size_t arity>
-        struct curry {
-            F f;
-
-            template <typename ...X>
-            constexpr auto operator()(X ...x) const {
-                static_assert(arity >= sizeof...(x),
-                "too many arguments provided to boost::hana::curry");
-
-                auto g = partial(f, x...);
-                return curry<decltype(g), arity - sizeof...(x)>{g}();
-            }
-
-            constexpr auto operator()() const
-            { return *this; }
-        };
-
-        template <typename F>
-        struct curry<F, 0> {
-            F f;
-
-            constexpr auto operator()() const
-            { return f(); }
-        };
-    }
-
-    template <detail::std::size_t arity>
-    BOOST_HANA_CONSTEXPR_LAMBDA auto curry = [](auto f) {
-        return functional_detail::curry<decltype(f), arity>{f};
     };
 #endif
 
@@ -402,6 +355,66 @@ namespace boost { namespace hana {
         };
     };
 
+    //! Return an equivalent function that can also be applied in infix
+    //! notation.
+    //!
+    //! Specifically, `infix(f)` is an object such that:
+    //! @code
+    //!     infix(f)(x1, ..., xn) == f(x1, ..., xn)
+    //!     x ^infix(f)^ y == f(x, y)
+    //! @endcode
+    //!
+    //! Hence, the returned function can still be applied using the usual
+    //! function call syntax, but it also gains the ability to be applied in
+    //! infix notation. The infix syntax allows a great deal of expressiveness,
+    //! especially when used in combination with some higher order algorithms.
+    //! Since `operator^` is left-associative, `x ^infix(f)^ y` is actually
+    //! parsed as `(x ^infix(f))^ y`. However, for flexibility, the order in
+    //! which both arguments are applied in infix notation does not matter.
+    //! Hence, it is always the case that
+    //! @code
+    //!     (x ^ infix(f)) ^ y == x ^ (infix(f) ^ y)
+    //! @endcode
+    //!
+    //! However, note that applying more than one argument in infix
+    //! notation to the same side of the operator will result in a
+    //! compile-time assertion:
+    //! @code
+    //!     (infix(f) ^ x) ^ y; // compile-time assertion
+    //!     y ^ (x ^ infix(f)); // compile-time assertion
+    //! @endcode
+    //!
+    //! Additionally, a function created with `infix` may be partially applied
+    //! in infix notation. Specifically,
+    //! @code
+    //!     (x ^ infix(f))(y1, ..., yn) == f(x, y1, ..., yn)
+    //!     (infix(f) ^ y)(x1, ..., xn) == f(x1, ..., xn, y)
+    //! @endcode
+    //!
+    //! @internal
+    //! ### Rationales
+    //! 1. The `^` operator was chosen because it is left-associative and
+    //!    has a low enough priority so that most expressions will render
+    //!    the expected behavior.
+    //! 2. The operator can't be customimzed because that would require more
+    //!    sophistication in the implementation; I want to keep it as simple
+    //!    as possible. There is also an advantage in having a uniform syntax
+    //!    for infix application.
+    //! @endinternal
+    //!
+    //! @param f
+    //! The function which gains the ability to be applied in infix notation.
+    //! The function must be at least binary; a compile-time error will be
+    //! triggered otherwise.
+    //!
+    //! ### Example
+    //! @snippet example/functional/infix.cpp main
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto infix = [](auto f) {
+        return unspecified;
+    };
+#endif
+
     //! Invoke a function with the result of invoking other functions on its
     //! arguments, in lockstep.
     //!
@@ -432,21 +445,9 @@ namespace boost { namespace hana {
     //!     on(f, g)(x...) == f(g(x)...)
     //! @endcode
     //!
-    //! For convenience, `on` also supports an equivalent infix syntax
-    //! @code
-    //!     f /on/ g == on(f, g)
-    //! @endcode
-    //!
-    //! The infix syntax allows a great deal of expressiveness, especially
-    //! when used in combination with some higher order algorithms:
+    //! For convenience, `on` also supports infix application as provided
+    //! by `infix`.
     //! @snippet example/functional/on/infix.cpp main
-    //!
-    //! The infix syntax is very naive and it requires the usual left-to-right
-    //! associativity of the `/` operator. Hence, only `f /on/ g`, which is
-    //! parsed as `(f / on) / g`, will work, and more clever parenthesizing
-    //! like `f / (on / g)` will fail. This is on purpose; the goal here is
-    //! not to provide a full-blown expression template engine, but simply
-    //! to make some common idioms easier to write.
     //!
     //! @note
     //! `on` is associative, i.e. `on(f, on(g, h))` is equivalent to
@@ -469,37 +470,29 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/functional/on/plus.cpp main
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    BOOST_HANA_CONSTEXPR_LAMBDA auto on = [](auto f, auto g) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto on = infix([](auto f, auto g) {
         return [=](auto ...x) {
             return f(g(x)...);
         };
-    };
-#else
-    namespace functional_detail {
-        struct on {
-            template <typename F, typename G>
-            constexpr auto operator()(F f, G g) const {
-                return [=](auto ...x) {
-                    return f(g(x)...);
-                };
-            }
+    });
+
+    //! Partially apply a function to some arguments.
+    //!
+    //! Specifically, `partial(f, x...)` is a function such that
+    //! @code
+    //!     partial(f, x...)(y...) == f(x..., y...)
+    //! @endcode
+    //!
+    //! Given the semantics, the arity of `f` must match the number of
+    //! arguments passed in total, i.e. `sizeof...(x) + sizeof...(y)`.
+    //!
+    //! ### Example
+    //! @snippet example/functional/partial.cpp main
+    BOOST_HANA_CONSTEXPR_LAMBDA auto partial = [](auto f, auto ...x) {
+        return [=](auto ...y) {
+            return f(x..., y...);
         };
-
-        template <typename F>
-        struct left_ok { F function; };
-
-        template <typename F, typename G>
-        constexpr auto operator/(left_ok<F> f, G g)
-        { return on{}(f.function, g); }
-
-        template <typename F>
-        constexpr auto operator/(F f, on)
-        { return left_ok<F>{f}; }
-    }
-
-    constexpr functional_detail::on on{};
-#endif
+    };
 
     //! Create simple functions representing C++ operators inline.
     //!

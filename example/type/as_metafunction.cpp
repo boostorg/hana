@@ -14,7 +14,7 @@ using namespace boost::hana;
 
 //! [main]
 template <typename ...T>
-using largest = decltype(maximum_by(less /on/ sizeof_, type_list<T...>));
+using largest = decltype(maximum_by(less ^on^ sizeof_, type_list<T...>));
 
 template <int size>
 struct storage { char s[size]; };

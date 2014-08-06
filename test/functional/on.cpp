@@ -33,9 +33,9 @@ int main() {
     BOOST_HANA_CONSTEXPR_ASSERT(on(f, g)(x<0>, x<1>, x<2>, x<3>) == f(g(x<0>), g(x<1>), g(x<2>), g(x<3>)));
 
     // check the infix version
-    BOOST_HANA_CONSTEXPR_ASSERT((f /on/ g)() == f());
-    BOOST_HANA_CONSTEXPR_ASSERT((f /on/ g)(x<0>) == f(g(x<0>)));
-    BOOST_HANA_CONSTEXPR_ASSERT((f /on/ g)(x<0>, x<1>) == f(g(x<0>), g(x<1>)));
-    BOOST_HANA_CONSTEXPR_ASSERT((f /on/ g)(x<0>, x<1>, x<2>) == f(g(x<0>), g(x<1>), g(x<2>)));
-    BOOST_HANA_CONSTEXPR_ASSERT((f /on/ g)(x<0>, x<1>, x<2>, x<3>) == f(g(x<0>), g(x<1>), g(x<2>), g(x<3>)));
+    BOOST_HANA_CONSTEXPR_ASSERT((f ^on^ g)() == f());
+    BOOST_HANA_CONSTEXPR_ASSERT((f ^on^ g)(x<0>) == f(g(x<0>)));
+    BOOST_HANA_CONSTEXPR_ASSERT((f ^on^ g)(x<0>, x<1>) == f(g(x<0>), g(x<1>)));
+    BOOST_HANA_CONSTEXPR_ASSERT((f ^on^ g)(x<0>, x<1>, x<2>) == f(g(x<0>), g(x<1>), g(x<2>)));
+    BOOST_HANA_CONSTEXPR_ASSERT((f ^on^ g)(x<0>, x<1>, x<2>, x<3>) == f(g(x<0>), g(x<1>), g(x<2>), g(x<3>)));
 }

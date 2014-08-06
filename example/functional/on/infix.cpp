@@ -16,7 +16,7 @@ using namespace boost::hana;
 
 int main() {
     //! [main]
-    BOOST_HANA_CONSTEXPR_LAMBDA auto sorted = sort_by(less /on/ first, list(
+    BOOST_HANA_CONSTEXPR_LAMBDA auto sorted = sort_by(less ^on^ first, list(
         pair(int_<3>, 'x'),
         pair(int_<1>, type<void>),
         pair(int_<2>, 9876)
