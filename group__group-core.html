@@ -152,6 +152,11 @@ template&lt;typename Typeclass , typename... Datatypes&gt; </td></tr>
 <tr class="memitem:ga7fdbde52f5fe384a816c6f39ff272df9"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-core.html#ga7fdbde52f5fe384a816c6f39ff272df9">boost::hana::is_an</a> = is_a&lt;Typeclass, Datatypes...&gt;</td></tr>
 <tr class="memdesc:ga7fdbde52f5fe384a816c6f39ff272df9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>is_a</code>; provided for consistency with the rules of the English language. <br /></td></tr>
 <tr class="separator:ga7fdbde52f5fe384a816c6f39ff272df9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga91ddd2ea55eca559a681c8e3e1003ba6"><td class="memTemplParams" colspan="2"><a class="anchor" id="ga91ddd2ea55eca559a681c8e3e1003ba6"></a>
+template&lt;typename Typeclass , typename... Datatypes&gt; </td></tr>
+<tr class="memitem:ga91ddd2ea55eca559a681c8e3e1003ba6"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-core.html#ga91ddd2ea55eca559a681c8e3e1003ba6">boost::hana::are</a> = is_a&lt;Typeclass, Datatypes...&gt;</td></tr>
+<tr class="memdesc:ga91ddd2ea55eca559a681c8e3e1003ba6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>is_a</code>; provided for consistency with the rules of the English language when several data types are provided. <br /></td></tr>
+<tr class="separator:ga91ddd2ea55eca559a681c8e3e1003ba6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a class="anchor" id="gac072d4434777cd5ee841a7766d41f1d8"></a>
@@ -410,7 +415,7 @@ template&lt;typename To &gt; </div>
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> x) {</div>
 <div class="line">        <span class="keywordflow">return</span> convert&lt;To, datatype_t&lt;decltype(x)&gt;&gt;<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">::apply</a>(x);</div>
 <div class="line">    }</div>
-<div class="ttc" id="group__group-functional_html_ga30027c383676084be151ef3c6cf2829f"><div class="ttname"><a href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">boost::hana::apply</a></div><div class="ttdeci">constexpr auto apply</div><div class="ttdoc">Invoke f with x... as arguments. </div><div class="ttdef"><b>Definition:</b> functional.hpp:67</div></div>
+<div class="ttc" id="group__group-functional_html_ga30027c383676084be151ef3c6cf2829f"><div class="ttname"><a href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">boost::hana::apply</a></div><div class="ttdeci">constexpr auto apply</div><div class="ttdoc">Invoke f with x... as arguments. </div><div class="ttdef"><b>Definition:</b> functional.hpp:70</div></div>
 </div><!-- fragment -->
 <p>Create an object of a data type from an object of another data type. </p>
 <p>See <code>convert</code> to specify <em>how</em> to convert from a data type to another.</p>
@@ -460,7 +465,7 @@ template&lt;typename Typeclass , typename... Datatypes&gt; </div>
 <div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>( is_a&lt;Foldable, Maybe&gt;);</div>
 <div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(!is_a&lt;Logical, Maybe&gt;);</div>
 <div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(!is_a&lt;Foldable, int&gt;);</div>
-<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>( is_a&lt;Comparable, int, long&gt;);</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>( are&lt;Comparable, int, long&gt;);</div>
 </div><!-- fragment --><p> An alternate syntax is provided for convenience. <code>is_a</code> can also be used as a function returning whether the data types of its arguments together define an instance of the given type class. In other words, </p><div class="fragment"><div class="line">is_a&lt;Typeclass&gt;(x1, ..., xn) == is_a&lt;Typeclass, D1, ..., Dn&gt;</div>
 </div><!-- fragment --><p> where <code>xi</code> is an arbitrary object and <code>Di</code> is the data type of the corresponding <code>xi</code>.</p>
 <h3>Example</h3>
@@ -470,7 +475,7 @@ template&lt;typename Typeclass , typename... Datatypes&gt; </div>
 <div class="line">            <span class="keyword">auto</span> row_is_correct = [=](<span class="keyword">auto</span> row) {</div>
 <div class="line">                <span class="keywordflow">return</span> list(headers(head(row))...) == tail(row);</div>
 <div class="line">            };</div>
-<div class="line">            <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(all(row_is_correct, list(rows...)));</div>
+<div class="line">            <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(all(list(rows...), row_is_correct));</div>
 <div class="line">        };</div>
 <div class="line">    };</div>
 <div class="line"></div>

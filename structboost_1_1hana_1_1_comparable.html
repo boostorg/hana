@@ -192,7 +192,7 @@ Instances and minimal complete definitions</h2></td></tr>
 <li>It was not shown to be useful so far in the MPL11.</li>
 <li>It does not make sense for <code>not_equal</code> to have an arity of more than 2, so only <code>equal</code> could maybe have those semantics.</li>
 <li>Having a binary <code>equal</code> makes it possible to use currying.</li>
-<li><code>equal(x, y...)</code> can be implemented as <code>all(x == _, list(y...))</code>, which is pretty straightforward anyway. </li>
+<li><code>equal(x, y...)</code> can be implemented as <code>all(list(y...), x == _)</code>, which is pretty straightforward anyway. </li>
 </ul>
 
 </div>

@@ -3,7 +3,7 @@ var structboost_1_1hana_1_1_foldable =
     [ "instance< Maybe, Nothing...>", "structboost_1_1hana_1_1_foldable_1_1instance_3_01_maybe_00_01_nothing_8_8_8_4.html", null ],
     [ "instance< R, when< is_a< Record, R >()> >", "structboost_1_1hana_1_1_foldable_1_1instance_3_01_r_00_01when_3_01is__a_3_01_record_00_01_r_01_4_07_08_4_01_4.html", null ],
     [ "instance< Range >", "structboost_1_1hana_1_1_foldable_1_1instance_3_01_range_01_4.html", null ],
-    [ "instance< T, when< is_a< Iterable, T >()> >", "structboost_1_1hana_1_1_foldable_1_1instance_3_01_t_00_01when_3_01is__a_3_01_iterable_00_01_t_01_4_07_08_4_01_4.html", null ],
+    [ "instance< T, when< is_an< Iterable, T >()> >", "structboost_1_1hana_1_1_foldable_1_1instance_3_01_t_00_01when_3_01is__an_3_01_iterable_00_01_t_01_4_07_08_4_01_4.html", null ],
     [ "mcd", "structboost_1_1hana_1_1_foldable_1_1mcd.html", null ],
     [ "foldl", "structboost_1_1hana_1_1_foldable.html#a0a5d375abcde2ceed89662df491a2c43", null ],
     [ "foldr", "structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d", null ],

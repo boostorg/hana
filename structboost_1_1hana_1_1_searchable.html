@@ -162,18 +162,18 @@ Instances and minimal complete definitions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> predicate, <span class="keyword">auto</span> searchable) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> searchable, <span class="keyword">auto</span> predicate) {</div>
 <div class="line">        <span class="keywordflow">return</span> Searchable::instance&lt;</div>
 <div class="line">            datatype_t&lt;decltype(searchable)&gt;</div>
-<div class="line">        &gt;::any_impl(predicate, searchable);</div>
+<div class="line">        &gt;::any_impl(searchable, predicate);</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Return whether any key of the structure satisfies the <code>predicate</code>. </p>
 <p>If the structure is not finite, <code>predicate</code> has to be satisfied after looking at a finite number of keys for this method to finish.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">predicate</td><td>A function called as <code>predicate(k)</code>, where <code>k</code> is a key of the structure, and returning a <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code>.</td></tr>
     <tr><td class="paramname">searchable</td><td>The structure to search.</td></tr>
+    <tr><td class="paramname">predicate</td><td>A function called as <code>predicate(k)</code>, where <code>k</code> is a key of the structure, and returning a <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code>.</td></tr>
   </table>
   </dd>
 </dl>
@@ -182,14 +182,14 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">        <span class="keywordflow">return</span> x % 2_c != 0_c;</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a67dd29f7921b76f7d2bd372605f73f7c">any</a>(odd, list(1, 2)));</div>
-<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(!<a class="code" href="structboost_1_1hana_1_1_searchable.html#a67dd29f7921b76f7d2bd372605f73f7c">any</a>(odd, list(2_c, 4_c)));</div>
+<div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a67dd29f7921b76f7d2bd372605f73f7c">any</a>(list(1, 2), odd));</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(!<a class="code" href="structboost_1_1hana_1_1_searchable.html#a67dd29f7921b76f7d2bd372605f73f7c">any</a>(list(2_c, 4_c), odd));</div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(</div>
-<div class="line">        <a class="code" href="structboost_1_1hana_1_1_searchable.html#a67dd29f7921b76f7d2bd372605f73f7c">any</a>(trait&lt;std::is_void&gt;, list(type&lt;void&gt;, type&lt;char&amp;&gt;))</div>
+<div class="line">        <a class="code" href="structboost_1_1hana_1_1_searchable.html#a67dd29f7921b76f7d2bd372605f73f7c">any</a>(list(type&lt;void&gt;, type&lt;char&amp;&gt;), trait&lt;std::is_void&gt;)</div>
 <div class="line">    );</div>
 <div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(</div>
-<div class="line">        !<a class="code" href="structboost_1_1hana_1_1_searchable.html#a67dd29f7921b76f7d2bd372605f73f7c">any</a>(trait&lt;std::is_integral&gt;, list(type&lt;void&gt;, type&lt;char&amp;&gt;))</div>
+<div class="line">        !<a class="code" href="structboost_1_1hana_1_1_searchable.html#a67dd29f7921b76f7d2bd372605f73f7c">any</a>(list(type&lt;void&gt;, type&lt;char&amp;&gt;), trait&lt;std::is_integral&gt;)</div>
 <div class="line">    );</div>
 </div><!-- fragment -->
 </div>
@@ -243,18 +243,18 @@ Instances and minimal complete definitions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> predicate, <span class="keyword">auto</span> searchable) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> searchable, <span class="keyword">auto</span> predicate) {</div>
 <div class="line">        <span class="keywordflow">return</span> Searchable::instance&lt;</div>
 <div class="line">            datatype_t&lt;decltype(searchable)&gt;</div>
-<div class="line">        &gt;::all_impl(predicate, searchable);</div>
+<div class="line">        &gt;::all_impl(searchable, predicate);</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Return whether all the keys of the structure satisfy the <code>predicate</code>. </p>
 <p>If the structure is not finite, <code>predicate</code> has to return a false- valued <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code> after looking at a finite number of keys for this method to finish.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">predicate</td><td>A function called as <code>predicate(k)</code>, where <code>k</code> is a key of the structure, and returning a <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code>.</td></tr>
     <tr><td class="paramname">searchable</td><td>The structure to search.</td></tr>
+    <tr><td class="paramname">predicate</td><td>A function called as <code>predicate(k)</code>, where <code>k</code> is a key of the structure, and returning a <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code>.</td></tr>
   </table>
   </dd>
 </dl>
@@ -263,14 +263,14 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">        <span class="keywordflow">return</span> x % 2_c != 0_c;</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a695907e4a3ef7d0e9ab34f5afff709b2">all</a>(odd, list(1, 3)));</div>
-<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(!<a class="code" href="structboost_1_1hana_1_1_searchable.html#a695907e4a3ef7d0e9ab34f5afff709b2">all</a>(odd, list(3_c, 4_c)));</div>
+<div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a695907e4a3ef7d0e9ab34f5afff709b2">all</a>(list(1, 3), odd));</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(!<a class="code" href="structboost_1_1hana_1_1_searchable.html#a695907e4a3ef7d0e9ab34f5afff709b2">all</a>(list(3_c, 4_c), odd));</div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(</div>
-<div class="line">        !<a class="code" href="structboost_1_1hana_1_1_searchable.html#a695907e4a3ef7d0e9ab34f5afff709b2">all</a>(trait&lt;std::is_void&gt;, list(type&lt;void&gt;, type&lt;char&amp;&gt;))</div>
+<div class="line">        !<a class="code" href="structboost_1_1hana_1_1_searchable.html#a695907e4a3ef7d0e9ab34f5afff709b2">all</a>(list(type&lt;void&gt;, type&lt;char&amp;&gt;), trait&lt;std::is_void&gt;)</div>
 <div class="line">    );</div>
 <div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(</div>
-<div class="line">        <a class="code" href="structboost_1_1hana_1_1_searchable.html#a695907e4a3ef7d0e9ab34f5afff709b2">all</a>(trait&lt;std::is_integral&gt;, list(type&lt;int&gt;, type&lt;char&gt;))</div>
+<div class="line">        <a class="code" href="structboost_1_1hana_1_1_searchable.html#a695907e4a3ef7d0e9ab34f5afff709b2">all</a>(list(type&lt;int&gt;, type&lt;char&gt;), trait&lt;std::is_integral&gt;)</div>
 <div class="line">    );</div>
 </div><!-- fragment -->
 </div>
@@ -323,18 +323,18 @@ Instances and minimal complete definitions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> predicate, <span class="keyword">auto</span> searchable) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> searchable, <span class="keyword">auto</span> predicate) {</div>
 <div class="line">        <span class="keywordflow">return</span> Searchable::instance&lt;</div>
 <div class="line">            datatype_t&lt;decltype(searchable)&gt;</div>
-<div class="line">        &gt;::none_impl(predicate, searchable);</div>
+<div class="line">        &gt;::none_impl(searchable, predicate);</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Return whether none of the keys of the structure satisfy the <code>predicate</code>. </p>
 <p>If the structure is not finite, <code>predicate</code> has to return a true- valued <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code> after looking at a finite number of keys for this method to finish.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">predicate</td><td>A function called as <code>predicate(k)</code>, where <code>k</code> is a key of the structure, and returning a <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code>.</td></tr>
     <tr><td class="paramname">searchable</td><td>The structure to search.</td></tr>
+    <tr><td class="paramname">predicate</td><td>A function called as <code>predicate(k)</code>, where <code>k</code> is a key of the structure, and returning a <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code>.</td></tr>
   </table>
   </dd>
 </dl>
@@ -343,14 +343,14 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">        <span class="keywordflow">return</span> x % 2_c != 0_c;</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a9365b793fe547271e48fa719a7f4854d">none</a>(odd, list(2_c, 4_c)));</div>
-<div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(!<a class="code" href="structboost_1_1hana_1_1_searchable.html#a9365b793fe547271e48fa719a7f4854d">none</a>(odd, list(1, 2)));</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a9365b793fe547271e48fa719a7f4854d">none</a>(list(2_c, 4_c), odd));</div>
+<div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(!<a class="code" href="structboost_1_1hana_1_1_searchable.html#a9365b793fe547271e48fa719a7f4854d">none</a>(list(1, 2), odd));</div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(</div>
-<div class="line">        !<a class="code" href="structboost_1_1hana_1_1_searchable.html#a9365b793fe547271e48fa719a7f4854d">none</a>(trait&lt;std::is_void&gt;, list(type&lt;void&gt;, type&lt;char&amp;&gt;))</div>
+<div class="line">        !<a class="code" href="structboost_1_1hana_1_1_searchable.html#a9365b793fe547271e48fa719a7f4854d">none</a>(list(type&lt;void&gt;, type&lt;char&amp;&gt;), trait&lt;std::is_void&gt;)</div>
 <div class="line">    );</div>
 <div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(</div>
-<div class="line">        <a class="code" href="structboost_1_1hana_1_1_searchable.html#a9365b793fe547271e48fa719a7f4854d">none</a>(trait&lt;std::is_integral&gt;, list(type&lt;void&gt;, type&lt;char&amp;&gt;))</div>
+<div class="line">        <a class="code" href="structboost_1_1hana_1_1_searchable.html#a9365b793fe547271e48fa719a7f4854d">none</a>(list(type&lt;void&gt;, type&lt;char&amp;&gt;), trait&lt;std::is_integral&gt;)</div>
 <div class="line">    );</div>
 </div><!-- fragment -->
 </div>
@@ -404,24 +404,24 @@ Instances and minimal complete definitions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> key, <span class="keyword">auto</span> searchable) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> searchable, <span class="keyword">auto</span> key) {</div>
 <div class="line">        <span class="keywordflow">return</span> Searchable::instance&lt;</div>
 <div class="line">            datatype_t&lt;decltype(searchable)&gt;</div>
-<div class="line">        &gt;::elem_impl(key, searchable);</div>
+<div class="line">        &gt;::elem_impl(searchable, key);</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Return whether the key occurs in the structure. </p>
 <p>Specifically, returns whether any of the keys of the structure is equal to the given <code>key</code>. If the structure is not finite, an equal key has to appear at a finite "index" in the structure for this method to finish.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">key</td><td>A key to be searched for in the structure. The key has to be <code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable type class defines equality and inequality. ">Comparable</a></code> with the other keys of the structure.</td></tr>
     <tr><td class="paramname">searchable</td><td>The structure to search.</td></tr>
+    <tr><td class="paramname">key</td><td>A key to be searched for in the structure. The key has to be <code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable type class defines equality and inequality. ">Comparable</a></code> with the other keys of the structure.</td></tr>
   </table>
   </dd>
 </dl>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a04e413e4acd1dac89e442df2f30f3e2d">elem</a>(int_&lt;3&gt;, list(2, int_&lt;2&gt;, int_&lt;3&gt;, <span class="charliteral">&#39;x&#39;</span>)));</div>
-<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a04e413e4acd1dac89e442df2f30f3e2d">elem</a>(type&lt;int&gt;, set(1, <span class="charliteral">&#39;2&#39;</span>, type&lt;int&gt;, <span class="stringliteral">&quot;foobar&quot;</span>)));</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a04e413e4acd1dac89e442df2f30f3e2d">elem</a>(list(2, int_&lt;2&gt;, int_&lt;3&gt;, <span class="charliteral">&#39;x&#39;</span>), int_&lt;3&gt;));</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a04e413e4acd1dac89e442df2f30f3e2d">elem</a>(set(1, <span class="charliteral">&#39;2&#39;</span>, type&lt;int&gt;, <span class="stringliteral">&quot;foobar&quot;</span>), type&lt;int&gt;));</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -442,28 +442,28 @@ Instances and minimal complete definitions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> predicate, <span class="keyword">auto</span> searchable) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> searchable, <span class="keyword">auto</span> predicate) {</div>
 <div class="line">        <span class="keywordflow">return</span> Searchable::instance&lt;</div>
 <div class="line">            datatype_t&lt;decltype(searchable)&gt;</div>
-<div class="line">        &gt;::find_impl(predicate, searchable);</div>
+<div class="line">        &gt;::find_impl(searchable, predicate);</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Find the value associated to the first key satisfying a predicate. </p>
 <p>Specifically, returns <code>just</code> the first value whose key satisfies the <code>predicate</code>, or <code>nothing</code> if there is no such key.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">predicate</td><td>A function called as <code>predicate(k)</code>, where <code>k</code> is a key of the structure, and returning a <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code>. Note that in the current version of the library, the <code>predicate</code> has to return a compile-time <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code>, i.e. one allowing values of different types in <code>if_</code>. This is because <code>find</code> returns a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code>, which is an heterogeneous data type.</td></tr>
     <tr><td class="paramname">searchable</td><td>The structure to be searched.</td></tr>
+    <tr><td class="paramname">predicate</td><td>A function called as <code>predicate(k)</code>, where <code>k</code> is a key of the structure, and returning a <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code>. Note that in the current version of the library, the <code>predicate</code> has to return a compile-time <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code>, i.e. one allowing values of different types in <code>if_</code>. This is because <code>find</code> returns a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code>, which is an heterogeneous data type.</td></tr>
   </table>
   </dd>
 </dl>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a2772d97163d2e2ca3f51b2d16d13ff66">find</a>(trait_&lt;std::is_integral&gt;, list(1.0, 2, <span class="charliteral">&#39;3&#39;</span>)) == just(2));</div>
-<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a2772d97163d2e2ca3f51b2d16d13ff66">find</a>(trait_&lt;std::is_class&gt;, list(1.0, 2, <span class="charliteral">&#39;3&#39;</span>)) == nothing);</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a2772d97163d2e2ca3f51b2d16d13ff66">find</a>(list(1.0, 2, <span class="charliteral">&#39;3&#39;</span>), trait_&lt;std::is_integral&gt;) == just(2));</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a2772d97163d2e2ca3f51b2d16d13ff66">find</a>(list(1.0, 2, <span class="charliteral">&#39;3&#39;</span>), trait_&lt;std::is_class&gt;) == nothing);</div>
 <div class="line"></div>
 <div class="line">    constexpr <span class="keyword">auto</span> types = type_list&lt;char, int, unsigned, long, unsigned long&gt;;</div>
-<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a2772d97163d2e2ca3f51b2d16d13ff66">find</a>(<a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> == type&lt;unsigned&gt;, types) == just(type&lt;unsigned&gt;));</div>
-<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a2772d97163d2e2ca3f51b2d16d13ff66">find</a>(<a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> == type&lt;void&gt;, types) == nothing);</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a2772d97163d2e2ca3f51b2d16d13ff66">find</a>(types, <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> == type&lt;unsigned&gt;) == just(type&lt;unsigned&gt;));</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a2772d97163d2e2ca3f51b2d16d13ff66">find</a>(types, <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> == type&lt;void&gt;) == nothing);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -484,30 +484,31 @@ Instances and minimal complete definitions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> key, <span class="keyword">auto</span> searchable) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> searchable, <span class="keyword">auto</span> key) {</div>
 <div class="line">        <span class="keywordflow">return</span> Searchable::instance&lt;</div>
 <div class="line">            datatype_t&lt;decltype(searchable)&gt;</div>
-<div class="line">        &gt;::lookup_impl(key, searchable);</div>
+<div class="line">        &gt;::lookup_impl(searchable, key);</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Find the value associated to the given key in a structure. </p>
 <p>Specifically, returns <code>just</code> the first value whose key is equal to the given <code>key</code>, or <code>nothing</code> if there is no such key. Comparison is done with <code>equal</code>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">key</td><td>A key to be searched for in the structure. The key has to be <code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable type class defines equality and inequality. ">Comparable</a></code> with the other keys of the structure. In the current version of the library, the comparison of <code>key</code> with any other key of the structure must return a compile-time <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code>, i.e. one allowing values of different types in <code>if_</code>. This is because <code>lookup</code> returns a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code>, which is an heterogeneous data type.</td></tr>
     <tr><td class="paramname">searchable</td><td>The structure to be searched.</td></tr>
+    <tr><td class="paramname">key</td><td>A key to be searched for in the structure. The key has to be <code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable type class defines equality and inequality. ">Comparable</a></code> with the other keys of the structure. In the current version of the library, the comparison of <code>key</code> with any other key of the structure must return a compile-time <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code>, i.e. one allowing values of different types in <code>if_</code>. This is because <code>lookup</code> returns a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code>, which is an heterogeneous data type.</td></tr>
   </table>
   </dd>
 </dl>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a82e67ada9561f5e1176faab8eb94a064">lookup</a>(type&lt;int&gt;, list(int_&lt;1&gt;, type&lt;int&gt;, <span class="charliteral">&#39;3&#39;</span>)) == just(type&lt;int&gt;));</div>
-<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a82e67ada9561f5e1176faab8eb94a064">lookup</a>(type&lt;void&gt;, list(int_&lt;1&gt;, type&lt;int&gt;, <span class="charliteral">&#39;3&#39;</span>)) == nothing);</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a82e67ada9561f5e1176faab8eb94a064">lookup</a>(list(int_&lt;1&gt;, type&lt;int&gt;, <span class="charliteral">&#39;3&#39;</span>), type&lt;int&gt;) == just(type&lt;int&gt;));</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a82e67ada9561f5e1176faab8eb94a064">lookup</a>(list(int_&lt;1&gt;, type&lt;int&gt;, <span class="charliteral">&#39;3&#39;</span>), type&lt;void&gt;) == nothing);</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a82e67ada9561f5e1176faab8eb94a064">lookup</a>(type&lt;float&gt;, map(</div>
+<div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> m = map(</div>
 <div class="line">        pair(1, <span class="charliteral">&#39;x&#39;</span>),</div>
 <div class="line">        pair(type&lt;float&gt;, 3.3),</div>
 <div class="line">        pair(type&lt;char&gt;, type&lt;int&gt;)</div>
-<div class="line">    )) == just(3.3));</div>
+<div class="line">    );</div>
+<div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a82e67ada9561f5e1176faab8eb94a064">lookup</a>(m, type&lt;float&gt;) == just(3.3));</div>
 </div><!-- fragment -->
 </div>
 </div>

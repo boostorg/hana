@@ -126,7 +126,7 @@ struct boost::hana::List::instance&lt; MplVector &gt;</h3>
 <div class="line"><span class="comment">// cons(1, mpl::vector&lt;int&gt;{});</span></div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1_list.html#a929370eddd43bb1a4a11b00a7880eadb">filter</a>(trait&lt;std::is_integral&gt;, mpl::vector&lt;int, float, char, void&gt;{})</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_list.html#a929370eddd43bb1a4a11b00a7880eadb">filter</a>(mpl::vector&lt;int, float, char, void&gt;{}, trait&lt;std::is_integral&gt;)</div>
 <div class="line">    ==</div>
 <div class="line">    mpl::vector&lt;int, char&gt;{}</div>
 <div class="line">);</div>

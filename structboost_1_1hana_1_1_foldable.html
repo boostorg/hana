@@ -170,18 +170,18 @@ Instances and minimal complete definitions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> state, <span class="keyword">auto</span> foldable) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> foldable, <span class="keyword">auto</span> state, <span class="keyword">auto</span> f) {</div>
 <div class="line">        <span class="keywordflow">return</span> Foldable::instance&lt;</div>
 <div class="line">            datatype_t&lt;decltype(foldable)&gt;</div>
-<div class="line">        &gt;::foldl_impl(f, state, foldable);</div>
+<div class="line">        &gt;::foldl_impl(foldable, state, f);</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Left-associative fold of a structure using a binary operation. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">f</td><td>A binary function called as <code>f(state, x)</code>, where <code>state</code> is the result accumulated so far and <code>x</code> is an element in the structure.</td></tr>
-    <tr><td class="paramname">state</td><td>The initial value used for folding.</td></tr>
     <tr><td class="paramname">foldable</td><td>The structure to fold.</td></tr>
+    <tr><td class="paramname">state</td><td>The initial value used for folding.</td></tr>
+    <tr><td class="paramname">f</td><td>A binary function called as <code>f(state, x)</code>, where <code>state</code> is the result accumulated so far and <code>x</code> is an element in the structure.</td></tr>
   </table>
   </dd>
 </dl>
@@ -192,7 +192,7 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">        <span class="keywordflow">return</span> <span class="stringliteral">&quot;(&quot;</span> + to_string(x) + <span class="stringliteral">&quot; + &quot;</span> + to_string(y) + <span class="stringliteral">&quot;)&quot;</span>;</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    assert(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a0a5d375abcde2ceed89662df491a2c43">foldl</a>(show, <span class="stringliteral">&quot;1&quot;</span>, list(2, <span class="stringliteral">&quot;3&quot;</span>, <span class="charliteral">&#39;4&#39;</span>)) == <span class="stringliteral">&quot;(((1 + 2) + 3) + 4)&quot;</span>);</div>
+<div class="line">    assert(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a0a5d375abcde2ceed89662df491a2c43">foldl</a>(list(2, <span class="stringliteral">&quot;3&quot;</span>, <span class="charliteral">&#39;4&#39;</span>), <span class="stringliteral">&quot;1&quot;</span>, show) == <span class="stringliteral">&quot;(((1 + 2) + 3) + 4)&quot;</span>);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -213,18 +213,18 @@ Instances and minimal complete definitions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> state, <span class="keyword">auto</span> foldable) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> foldable, <span class="keyword">auto</span> state, <span class="keyword">auto</span> f) {</div>
 <div class="line">        <span class="keywordflow">return</span> Foldable::instance&lt;</div>
 <div class="line">            datatype_t&lt;decltype(foldable)&gt;</div>
-<div class="line">        &gt;::foldr_impl(f, state, foldable);</div>
+<div class="line">        &gt;::foldr_impl(foldable, state, f);</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Right-associative fold of a structure using a binary operation. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">f</td><td>A binary function called as <code>f(x, state)</code>, where <code>state</code> is the result accumulated so far and <code>x</code> is an element in the structure.</td></tr>
-    <tr><td class="paramname">state</td><td>The initial value used for folding.</td></tr>
     <tr><td class="paramname">foldable</td><td>The structure to fold.</td></tr>
+    <tr><td class="paramname">state</td><td>The initial value used for folding.</td></tr>
+    <tr><td class="paramname">f</td><td>A binary function called as <code>f(x, state)</code>, where <code>state</code> is the result accumulated so far and <code>x</code> is an element in the structure.</td></tr>
   </table>
   </dd>
 </dl>
@@ -235,7 +235,7 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">        <span class="keywordflow">return</span> <span class="stringliteral">&quot;(&quot;</span> + to_string(x) + <span class="stringliteral">&quot; + &quot;</span> + to_string(y) + <span class="stringliteral">&quot;)&quot;</span>;</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    assert(<a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>(show, <span class="stringliteral">&quot;4&quot;</span>, list(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>)) == <span class="stringliteral">&quot;(1 + (2 + (3 + 4)))&quot;</span>);</div>
+<div class="line">    assert(<a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>(list(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>), <span class="stringliteral">&quot;4&quot;</span>, show) == <span class="stringliteral">&quot;(1 + (2 + (3 + 4)))&quot;</span>);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -256,17 +256,17 @@ Instances and minimal complete definitions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> foldable) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> foldable, <span class="keyword">auto</span> f) {</div>
 <div class="line">        <span class="keywordflow">return</span> Foldable::instance&lt;</div>
 <div class="line">            datatype_t&lt;decltype(foldable)&gt;</div>
-<div class="line">        &gt;::foldr1_impl(f, foldable);</div>
+<div class="line">        &gt;::foldr1_impl(foldable, f);</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Variant of <code>foldr</code> that has no base case, and thus may only be applied to non-empty structures. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">f</td><td>A binary function called as <code>f(x, state)</code>, where <code>state</code> is the result accumulated so far and <code>x</code> is an element in the structure.</td></tr>
     <tr><td class="paramname">foldable</td><td>The structure to fold.</td></tr>
+    <tr><td class="paramname">f</td><td>A binary function called as <code>f(x, state)</code>, where <code>state</code> is the result accumulated so far and <code>x</code> is an element in the structure.</td></tr>
   </table>
   </dd>
 </dl>
@@ -277,7 +277,7 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">        <span class="keywordflow">return</span> <span class="stringliteral">&quot;(&quot;</span> + to_string(x) + <span class="stringliteral">&quot; + &quot;</span> + to_string(y) + <span class="stringliteral">&quot;)&quot;</span>;</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    assert(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a03b3683b885c27b5c607fe6f0d2f7356">foldr1</a>(show, list(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>)) == <span class="stringliteral">&quot;(1 + (2 + 3))&quot;</span>);</div>
+<div class="line">    assert(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a03b3683b885c27b5c607fe6f0d2f7356">foldr1</a>(list(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>), show) == <span class="stringliteral">&quot;(1 + (2 + 3))&quot;</span>);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -298,17 +298,17 @@ Instances and minimal complete definitions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> foldable) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> foldable, <span class="keyword">auto</span> f) {</div>
 <div class="line">        <span class="keywordflow">return</span> Foldable::instance&lt;</div>
 <div class="line">            datatype_t&lt;decltype(foldable)&gt;</div>
-<div class="line">        &gt;::foldl1_impl(f, foldable);</div>
+<div class="line">        &gt;::foldl1_impl(foldable, f);</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Variant of <code>foldl</code> that has no base case, and thus may only be applied to non-empty structures. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">f</td><td>A binary function called as <code>f(state, x)</code>, where <code>state</code> is the result accumulated so far and <code>x</code> is an element in the structure.</td></tr>
     <tr><td class="paramname">foldable</td><td>The structure to fold.</td></tr>
+    <tr><td class="paramname">f</td><td>A binary function called as <code>f(state, x)</code>, where <code>state</code> is the result accumulated so far and <code>x</code> is an element in the structure.</td></tr>
   </table>
   </dd>
 </dl>
@@ -319,7 +319,7 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">        <span class="keywordflow">return</span> <span class="stringliteral">&quot;(&quot;</span> + to_string(x) + <span class="stringliteral">&quot; + &quot;</span> + to_string(y) + <span class="stringliteral">&quot;)&quot;</span>;</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    assert(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a8ca4972e61b7ad36ff9fcca9e6131da6">foldl1</a>(show, list(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>)) == <span class="stringliteral">&quot;((1 + 2) + 3)&quot;</span>);</div>
+<div class="line">    assert(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a8ca4972e61b7ad36ff9fcca9e6131da6">foldl1</a>(list(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>), show) == <span class="stringliteral">&quot;((1 + 2) + 3)&quot;</span>);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -603,17 +603,17 @@ Instances and minimal complete definitions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> predicate, <span class="keyword">auto</span> foldable) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> foldable, <span class="keyword">auto</span> predicate) {</div>
 <div class="line">        <span class="keywordflow">return</span> Foldable::instance&lt;</div>
 <div class="line">            datatype_t&lt;decltype(foldable)&gt;</div>
-<div class="line">        &gt;::count_impl(predicate, foldable);</div>
+<div class="line">        &gt;::count_impl(foldable, predicate);</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Return the number of elements in the structure for which the <code>predicate</code> is satisfied. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">predicate</td><td>A function called as <code>predicate(x)</code>, where <code>x</code> is an element of the structure, and returning a <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code> representing whether <code>x</code> should add <code>1</code> to the overall result.</td></tr>
     <tr><td class="paramname">foldable</td><td>The structure whose elements are counted.</td></tr>
+    <tr><td class="paramname">predicate</td><td>A function called as <code>predicate(x)</code>, where <code>x</code> is an element of the structure, and returning a <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code> representing whether <code>x</code> should add <code>1</code> to the overall result.</td></tr>
   </table>
   </dd>
 </dl>
@@ -625,11 +625,11 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">    constexpr <span class="keyword">auto</span> types = type_list&lt;int, char, long, short, char, double&gt;;</div>
 <div class="line">    constexpr <span class="keyword">auto</span> ints = integer_list&lt;int, 1, 2, 3&gt;;</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#ae0a55dd7eb4bd4f587f51ffd8c923e53">count</a>(odd, ints) == 2_c);</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#ae0a55dd7eb4bd4f587f51ffd8c923e53">count</a>(ints, odd) == 2_c);</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#ae0a55dd7eb4bd4f587f51ffd8c923e53">count</a>(trait&lt;std::is_floating_point&gt;, types) == 1_c);</div>
-<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#ae0a55dd7eb4bd4f587f51ffd8c923e53">count</a>(<a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> == type&lt;char&gt;, types) == 2_c);</div>
-<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#ae0a55dd7eb4bd4f587f51ffd8c923e53">count</a>(<a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> == type&lt;void&gt;, types) == 0_c);</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#ae0a55dd7eb4bd4f587f51ffd8c923e53">count</a>(types, trait&lt;std::is_floating_point&gt;) == 1_c);</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#ae0a55dd7eb4bd4f587f51ffd8c923e53">count</a>(types, <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> == type&lt;char&gt;) == 2_c);</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#ae0a55dd7eb4bd4f587f51ffd8c923e53">count</a>(types, <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> == type&lt;void&gt;) == 0_c);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -650,17 +650,17 @@ Instances and minimal complete definitions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> foldable) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> foldable, <span class="keyword">auto</span> f) {</div>
 <div class="line">        <span class="keywordflow">return</span> Foldable::instance&lt;</div>
 <div class="line">            datatype_t&lt;decltype(foldable)&gt;</div>
-<div class="line">        &gt;::unpack_impl(f, foldable);</div>
+<div class="line">        &gt;::unpack_impl(foldable, f);</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Invoke a function with the elements of a structure as arguments. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">f</td><td>A function to be invoked as <code>f(x...)</code>, where <code>x...</code> are the elements of the structure as-if they had been linearized with <code>to&lt;<a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose index-based sequence. ">List</a>&gt;</code>.</td></tr>
     <tr><td class="paramname">foldable</td><td>The structure to expand into the function.</td></tr>
+    <tr><td class="paramname">f</td><td>A function to be invoked as <code>f(x...)</code>, where <code>x...</code> are the elements of the structure as-if they had been linearized with <code>to&lt;<a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose index-based sequence. ">List</a>&gt;</code>.</td></tr>
   </table>
   </dd>
 </dl>
@@ -669,13 +669,13 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">    };</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// Would be `boost::fusion::make_fused(add)` in Boost.Fusion.</span></div>
-<div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> add_seq = <a class="code" href="group__group-functional.html#ga778b2daa27882e71d28b6f2b38982ddf">partial</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a0e3e724580e826eaa39a934eefa2b328">unpack</a>, add);</div>
+<div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> add_seq = <a class="code" href="group__group-functional.html#ga778b2daa27882e71d28b6f2b38982ddf">partial</a>(<a class="code" href="group__group-functional.html#ga004f884cdbb85c2efe3383c1db450094">flip</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a0e3e724580e826eaa39a934eefa2b328">unpack</a>), add);</div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(add_seq(list(1, 2)) == add(1, 2));</div>
 </div><!-- fragment -->This idiom serves the role of <code>boost::fusion::make_fused</code> and related utilities in the Boost.Fusion library.</dd></dl>
 <h3>Example</h3>
 <div class="fragment"><div class="line">    <span class="keyword">auto</span> cheap_tie = [](<span class="keyword">auto</span>&amp; ...vars) {</div>
-<div class="line">        <span class="keywordflow">return</span> <a class="code" href="group__group-functional.html#ga778b2daa27882e71d28b6f2b38982ddf">partial</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a0e3e724580e826eaa39a934eefa2b328">unpack</a>, [&amp;vars...](auto ...values) {</div>
+<div class="line">        <span class="keywordflow">return</span> <a class="code" href="group__group-functional.html#ga778b2daa27882e71d28b6f2b38982ddf">partial</a>(<a class="code" href="group__group-functional.html#ga004f884cdbb85c2efe3383c1db450094">flip</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a0e3e724580e826eaa39a934eefa2b328">unpack</a>), [&amp;vars...](auto ...values) {</div>
 <div class="line">            <span class="comment">// Using an initializer list sequences the assignments.</span></div>
 <div class="line">            int dummy[] = {((vars = values), 0)...};</div>
 <div class="line">            (<span class="keywordtype">void</span>)dummy;</div>

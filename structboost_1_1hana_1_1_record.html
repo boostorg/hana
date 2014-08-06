@@ -143,9 +143,9 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_record.html','
 <div class="line">    assert(equal(john, john));</div>
 <div class="line">    assert(not_equal(john, bob));</div>
 <div class="line"></div>
-<div class="line">    assert(lookup(name, john) == just(<span class="stringliteral">&quot;John&quot;</span>));</div>
-<div class="line">    assert(lookup(age, john) == just(30));</div>
-<div class="line">    assert(lookup(<span class="stringliteral">&quot;clearly not a member&quot;</span>, john) == nothing);</div>
+<div class="line">    assert(lookup(john, name) == just(<span class="stringliteral">&quot;John&quot;</span>));</div>
+<div class="line">    assert(lookup(john, age) == just(30));</div>
+<div class="line">    assert(lookup(john, <span class="stringliteral">&quot;clearly not a member&quot;</span>) == nothing);</div>
 <div class="line"></div>
 <div class="line">    assert(to&lt;List&gt;(john) == list(<span class="stringliteral">&quot;John&quot;</span>, 30));</div>
 <div class="line">    assert(to&lt;Map&gt;(john) == map(</div>

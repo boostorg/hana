@@ -111,17 +111,17 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_mpl_vector.htm
 <div class="line">static_assert(number_of_floats::value == 3, <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment --><div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> types = hana::type_list&lt;long, float, short, float, long, long double&gt;;</div>
 <div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> number_of_floats = hana::foldl(</div>
+<div class="line">    types,</div>
+<div class="line">    hana::int_&lt;0&gt;,</div>
 <div class="line">    [](<span class="keyword">auto</span> count, <span class="keyword">auto</span> t) {</div>
 <div class="line">        <span class="keywordflow">return</span> hana::if_(hana::trait&lt;std::is_floating_point&gt;(t),</div>
 <div class="line">            count + hana::int_&lt;1&gt;,</div>
 <div class="line">            count</div>
 <div class="line">        );</div>
-<div class="line">    },</div>
-<div class="line">    hana::int_&lt;0&gt;,</div>
-<div class="line">    types</div>
+<div class="line">    }</div>
 <div class="line">);</div>
-<div class="line">static_assert(decltype(number_of_floats == hana::int_&lt;3&gt;){}, <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000009">Todo:</a></b></dt><dd><ul>
+<div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(number_of_floats == hana::int_&lt;3&gt;);</div>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000010">Todo:</a></b></dt><dd><ul>
 <li>Finish the cheat sheet.</li>
 <li>Remove the <a class="el" href="instance_8hpp.html" title="Defines the boost::hana::List instance. ">list/instance.hpp</a> include </li>
 </ul>

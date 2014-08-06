@@ -2,6 +2,8 @@ var searchData=
 [
   ['id',['id',['../group__group-functional.html#gaef38cf34324c8edbd3597ae71811d00d',1,'boost::hana']]],
   ['if_5f',['if_',['../structboost_1_1hana_1_1_logical.html#a06927a2badb729e1522b9030d18234df',1,'boost::hana::Logical']]],
+  ['infix',['infix',['../group__group-functional.html#ga7bdafba6dc801f1d2d83731ad9714557',1,'boost::hana']]],
+  ['infix_2ehpp',['infix.hpp',['../infix_8hpp.html',1,'']]],
   ['init',['init',['../structboost_1_1hana_1_1_list.html#a733fdb2e8686033466beea8323e53a26',1,'boost::hana::List']]],
   ['instance_2ehpp',['instance.hpp',['../instance_8hpp.html',1,'']]],
   ['instance_3c_20c1_2c_20c2_2c_20when_3c_20is_5fa_3c_20constant_2c_20c1_20_3e_28_29_26_26is_5fa_3c_20constant_2c_20c2_20_3e_28_29_20_3e_20_3e',['instance&lt; C1, C2, when&lt; is_a&lt; Constant, C1 &gt;()&amp;&amp;is_a&lt; Constant, C2 &gt;() &gt; &gt;',['../structboost_1_1hana_1_1_comparable_1_1instance_3_01_c1_00_01_c2_00_01when_3_01is__a_3_01_constan85318e661b3a9ce58e8642527d0e96ff.html',1,'boost::hana::Comparable']]],
@@ -42,12 +44,12 @@ var searchData=
   ['instance_3c_20stdtuple_20_3e',['instance&lt; StdTuple &gt;',['../structboost_1_1hana_1_1_applicative_1_1instance_3_01_std_tuple_01_4.html',1,'boost::hana::Applicative']]],
   ['instance_3c_20t_2c_20u_2c_20when_3c_20is_5fa_3c_20list_2c_20t_20_3e_28_29_26_26is_5fa_3c_20list_2c_20u_20_3e_28_29_20_3e_20_3e',['instance&lt; T, U, when&lt; is_a&lt; List, T &gt;()&amp;&amp;is_a&lt; List, U &gt;() &gt; &gt;',['../structboost_1_1hana_1_1_comparable_1_1instance_3_01_t_00_01_u_00_01when_3_01is__a_3_01_list_00_03427c89578a48db3863d73ebe0ef141a.html',1,'boost::hana::Comparable']]],
   ['instance_3c_20t_2c_20u_2c_20when_3c_20is_5fa_3c_20product_2c_20t_20_3e_28_29_26_26is_5fa_3c_20product_2c_20u_20_3e_28_29_20_3e_20_3e',['instance&lt; T, U, when&lt; is_a&lt; Product, T &gt;()&amp;&amp;is_a&lt; Product, U &gt;() &gt; &gt;',['../structboost_1_1hana_1_1_comparable_1_1instance_3_01_t_00_01_u_00_01when_3_01is__a_3_01_product_013c6594e5695e2dfb196782c211bc867.html',1,'boost::hana::Comparable']]],
-  ['instance_3c_20t_2c_20when_3c_20is_5fa_3c_20iterable_2c_20t_20_3e_28_29_3e_20_3e',['instance&lt; T, when&lt; is_a&lt; Iterable, T &gt;()&gt; &gt;',['../structboost_1_1hana_1_1_foldable_1_1instance_3_01_t_00_01when_3_01is__a_3_01_iterable_00_01_t_01_4_07_08_4_01_4.html',1,'boost::hana::Foldable']]],
   ['instance_3c_20t_2c_20when_3c_20is_5fa_3c_20list_2c_20t_20_3e_28_29_3e_20_3e',['instance&lt; T, when&lt; is_a&lt; List, T &gt;()&gt; &gt;',['../structboost_1_1hana_1_1_applicative_1_1instance_3_01_t_00_01when_3_01is__a_3_01_list_00_01_t_01_4_07_08_4_01_4.html',1,'boost::hana::Applicative']]],
   ['instance_3c_20t_2c_20when_3c_20is_5fa_3c_20list_2c_20t_20_3e_28_29_3e_20_3e',['instance&lt; T, when&lt; is_a&lt; List, T &gt;()&gt; &gt;',['../structboost_1_1hana_1_1_functor_1_1instance_3_01_t_00_01when_3_01is__a_3_01_list_00_01_t_01_4_07_08_4_01_4.html',1,'boost::hana::Functor']]],
   ['instance_3c_20t_2c_20when_3c_20is_5fa_3c_20list_2c_20t_20_3e_28_29_3e_20_3e',['instance&lt; T, when&lt; is_a&lt; List, T &gt;()&gt; &gt;',['../structboost_1_1hana_1_1_monad_1_1instance_3_01_t_00_01when_3_01is__a_3_01_list_00_01_t_01_4_07_08_4_01_4.html',1,'boost::hana::Monad']]],
   ['instance_3c_20t_2c_20when_3c_20is_5fa_3c_20list_2c_20t_20_3e_28_29_3e_20_3e',['instance&lt; T, when&lt; is_a&lt; List, T &gt;()&gt; &gt;',['../structboost_1_1hana_1_1_searchable_1_1instance_3_01_t_00_01when_3_01is__a_3_01_list_00_01_t_01_4_07_08_4_01_4.html',1,'boost::hana::Searchable']]],
   ['instance_3c_20t_2c_20when_3c_20is_5fa_3c_20list_2c_20t_20_3e_28_29_3e_20_3e',['instance&lt; T, when&lt; is_a&lt; List, T &gt;()&gt; &gt;',['../structboost_1_1hana_1_1_traversable_1_1instance_3_01_t_00_01when_3_01is__a_3_01_list_00_01_t_01_4_07_08_4_01_4.html',1,'boost::hana::Traversable']]],
+  ['instance_3c_20t_2c_20when_3c_20is_5fan_3c_20iterable_2c_20t_20_3e_28_29_3e_20_3e',['instance&lt; T, when&lt; is_an&lt; Iterable, T &gt;()&gt; &gt;',['../structboost_1_1hana_1_1_foldable_1_1instance_3_01_t_00_01when_3_01is__an_3_01_iterable_00_01_t_01_4_07_08_4_01_4.html',1,'boost::hana::Foldable']]],
   ['instance_3c_20t_2c_20when_5fvalid_3c_20decltype_28_2a_28t_20_2a_29_200_3f_28void_29_200_3a_28void_29_200_29_3e_20_3e',['instance&lt; T, when_valid&lt; decltype(*(T *) 0?(void) 0:(void) 0)&gt; &gt;',['../structboost_1_1hana_1_1_logical_1_1instance_3_01_t_00_01when__valid_3_01decltype_07_5_07_t_01_5_27918e8b9c0dfd8a60d8528ab5eb2aa9.html',1,'boost::hana::Logical']]],
   ['instance_3c_20type_2c_20type_20_3e',['instance&lt; Type, Type &gt;',['../structboost_1_1hana_1_1_comparable_1_1instance_3_01_type_00_01_type_01_4.html',1,'boost::hana::Comparable']]],
   ['instance_3c_20typelist_20_3e',['instance&lt; TypeList &gt;',['../structboost_1_1hana_1_1_iterable_1_1instance_3_01_type_list_01_4.html',1,'boost::hana::Iterable']]],
@@ -73,7 +75,7 @@ var searchData=
   ['is_5fjust',['is_just',['../structboost_1_1hana_1_1_maybe.html#a1047a69893a62cd36eb0d2934f85e0e7',1,'boost::hana::Maybe']]],
   ['is_5fnothing',['is_nothing',['../structboost_1_1hana_1_1_maybe.html#a4eb266d123883c23853f7731a6c5953f',1,'boost::hana::Maybe']]],
   ['iterable',['Iterable',['../structboost_1_1hana_1_1_iterable.html',1,'boost::hana']]],
-  ['iterable_2ehpp',['iterable.hpp',['../iterable_8hpp.html',1,'']]],
   ['iterable_2ehpp',['iterable.hpp',['../iterable_2iterable_8hpp.html',1,'']]],
-  ['iterable_2ehpp',['iterable.hpp',['../detail_2minimal_2iterable_8hpp.html',1,'']]]
+  ['iterable_2ehpp',['iterable.hpp',['../detail_2minimal_2iterable_8hpp.html',1,'']]],
+  ['iterable_2ehpp',['iterable.hpp',['../iterable_8hpp.html',1,'']]]
 ];

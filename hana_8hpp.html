@@ -96,7 +96,7 @@ $(document).ready(function(){initNavTree('hana_8hpp.html','');});
 <a href="#details">More...</a></p>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Includes all the library components except the adapters for external libraries. </p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000028">Todo:</a></b></dt><dd><ul>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000029">Todo:</a></b></dt><dd><ul>
 <li>When we have functions with several variants, consider naming versions with the following scheme: <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>.lazy</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>.strict</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a> == <a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>.strict</div>
@@ -107,11 +107,6 @@ $(document).ready(function(){initNavTree('hana_8hpp.html','');});
 <li>Document how to write common Boost.Fusion and Boost.MPL idioms with Boost.Hana.</li>
 <li>Write runtime benchmarks.</li>
 <li>Setup a BJam build system.</li>
-<li>Consider making function objects automatically curriable. This could allow <em>super sexy</em> stuff like: <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;&gt;</div>
-<div class="line"><span class="keyword">struct </span>Iterable&lt;List&gt; {</div>
-<div class="line">    <span class="keyword">static</span> constexpr <span class="keyword">auto</span> length_impl = foldl(some_lambda, size_t&lt;0&gt;);</div>
-<div class="line">};</div>
-</div><!-- fragment --></li>
 </ul>
 </dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>Louis Dionne 2014 Distributed under the Boost Software License, Version 1.0. (See accompanying file LICENSE.md or copy at <a href="http://boost.org/LICENSE_1_0.txt">http://boost.org/LICENSE_1_0.txt</a>) </dd></dl>

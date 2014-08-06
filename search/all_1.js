@@ -15,6 +15,7 @@ var searchData=
   ['applicative_2ehpp',['applicative.hpp',['../detail_2minimal_2applicative_8hpp.html',1,'']]],
   ['applicative_2ehpp',['applicative.hpp',['../applicative_2applicative_8hpp.html',1,'']]],
   ['apply',['apply',['../group__group-functional.html#ga30027c383676084be151ef3c6cf2829f',1,'boost::hana']]],
+  ['are',['are',['../group__group-core.html#ga91ddd2ea55eca559a681c8e3e1003ba6',1,'boost::hana']]],
   ['arg',['arg',['../group__group-functional.html#ga6acc765a35c4dc85f0deab4785831a3d',1,'boost::hana']]],
   ['array_2ehpp',['array.hpp',['../array_8hpp.html',1,'']]],
   ['assert_2ehpp',['assert.hpp',['../assert_8hpp.html',1,'']]],

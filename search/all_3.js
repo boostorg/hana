@@ -24,5 +24,6 @@ var searchData=
   ['core_2ehpp',['core.hpp',['../core_8hpp.html',1,'']]],
   ['count',['count',['../structboost_1_1hana_1_1_foldable.html#ae0a55dd7eb4bd4f587f51ffd8c923e53',1,'boost::hana::Foldable']]],
   ['curry',['curry',['../group__group-functional.html#ga49ea872ade5ac8f6c10052c495302e89',1,'boost::hana']]],
+  ['curry_2ehpp',['curry.hpp',['../curry_8hpp.html',1,'']]],
   ['core',['Core',['../group__group-core.html',1,'']]]
 ];

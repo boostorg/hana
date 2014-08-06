@@ -156,7 +156,7 @@ Instances and minimal complete definitions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Lifted application. </p>
-<p><code>ap</code> can be called with two arguments or more. Specifically, <code>ap(f, x1, ..., xN)</code> is equivalent to </p><div class="fragment"><div class="line">foldl(<a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>, fmap(curry&lt;N&gt;, f), list(x1, ..., xN));</div>
+<p><code>ap</code> can be called with two arguments or more. Specifically, <code>ap(f, x1, ..., xN)</code> is equivalent to </p><div class="fragment"><div class="line">foldl(list(x1, ..., xN), fmap(curry&lt;N&gt;, f), <a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>);</div>
 </div><!-- fragment --><p> where <code>ap(f, x)</code> (called with two arguments only) dispatches to the implementation in the type class. This basically means that applying a <code>N</code>-ary function with <code>ap</code> is equivalent to applying a curried binary function to each argument starting from the left with the <code>ap</code> provided in the type class.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">

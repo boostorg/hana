@@ -101,7 +101,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_list.html','')
 <p>For any two <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose index-based sequence. ">List</a></code>s <code>xs</code> and <code>ys</code>, the following statement must hold:</p>
 <div class="fragment"><div class="line">xs == ys <span class="keywordflow">if</span> and only <span class="keywordflow">if</span> to&lt;List&gt;(xs) == to&lt;List&gt;(ys)</div>
 </div><!-- fragment --><p>This is basically saying that all <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose index-based sequence. ">List</a></code> instances are isomorphic to the instance defined by the <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose index-based sequence. ">List</a></code> data type, and it therefore makes sense to define comparison for any two instances of <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose index-based sequence. ">List</a></code>.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000020">Todo:</a></b></dt><dd><ul>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000021">Todo:</a></b></dt><dd><ul>
 <li>It might be possible to optimize the implementation of homogeneous lists using an array.</li>
 <li>How to implement iterate and repeat?</li>
 <li>We could provide automatic unit testing for any instance because we have the isomorphisms.</li>
@@ -243,7 +243,7 @@ Instances and minimal complete definitions</h2></td></tr>
 </div><!-- fragment -->
 <p>Creates a <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose index-based sequence. ">List</a></code> containing <code>xs...</code>. </p>
 <p>The <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose index-based sequence. ">List</a></code> data type is a general purpose compile-time heterogeneous sequence.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000019">Todo:</a></b></dt><dd>Consider having <code>list_of&lt;<a class="el" href="structboost_1_1hana_1_1_type.html" title="Object representing a C++ type. ">Type</a>&gt;</code>, <code>list_of&lt;<a class="el" href="structboost_1_1hana_1_1_integral.html" title="Represents a compile-time value of an integral type. ">Integral</a>&gt;</code>, ..., <code>list_of&lt;Anything&gt;</code>, with <code>list == list_of&lt;Anything&gt;</code>. It does not fix the problem of partial type classes (e.g. <code><a class="el" href="structboost_1_1hana_1_1_mpl_vector.html" title="Data type representing Boost.MPL vectors. ">MplVector</a></code> is not <em>actually</em> a <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose index-based sequence. ">List</a></code>), but at least we remove <code><a class="el" href="structboost_1_1hana_1_1_type_list.html" title="List containing Types only. ">TypeList</a></code> and <code><a class="el" href="structboost_1_1hana_1_1_integer_list.html" title="List containing Integrals of the same underlying type only. ">IntegerList</a></code>, which are arguably ugly. </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000020">Todo:</a></b></dt><dd>Consider having <code>list_of&lt;<a class="el" href="structboost_1_1hana_1_1_type.html" title="Object representing a C++ type. ">Type</a>&gt;</code>, <code>list_of&lt;<a class="el" href="structboost_1_1hana_1_1_integral.html" title="Represents a compile-time value of an integral type. ">Integral</a>&gt;</code>, ..., <code>list_of&lt;Anything&gt;</code>, with <code>list == list_of&lt;Anything&gt;</code>. It does not fix the problem of partial type classes (e.g. <code><a class="el" href="structboost_1_1hana_1_1_mpl_vector.html" title="Data type representing Boost.MPL vectors. ">MplVector</a></code> is not <em>actually</em> a <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose index-based sequence. ">List</a></code>), but at least we remove <code><a class="el" href="structboost_1_1hana_1_1_type_list.html" title="List containing Types only. ">TypeList</a></code> and <code><a class="el" href="structboost_1_1hana_1_1_integer_list.html" title="List containing Integrals of the same underlying type only. ">IntegerList</a></code>, which are arguably ugly. </dd></dl>
 
 </div>
 </div>
@@ -343,22 +343,22 @@ Instances and minimal complete definitions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> predicate, <span class="keyword">auto</span> xs) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> xs, <span class="keyword">auto</span> predicate) {</div>
 <div class="line">        <span class="keywordflow">return</span> List::instance&lt;</div>
 <div class="line">            datatype_t&lt;decltype(xs)&gt;</div>
-<div class="line">        &gt;::filter_impl(predicate, xs);</div>
+<div class="line">        &gt;::filter_impl(xs, predicate);</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Return a list containing only the elements satisfying a <code>predicate</code>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">predicate</td><td>A function called as <code>predicate(x)</code> for each element <code>x</code> in the list and returning a <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code> representing whether that element should be <b>kept</b> in the resulting list. In the current version of the library, the <code>predicate</code> has to return a <a class="el" href="structboost_1_1hana_1_1_logical.html#Logical_terminology">compile-time</a> <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code>.</td></tr>
     <tr><td class="paramname">xs</td><td>The list to filter.</td></tr>
+    <tr><td class="paramname">predicate</td><td>A function called as <code>predicate(x)</code> for each element <code>x</code> in the list and returning a <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code> representing whether that element should be <b>kept</b> in the resulting list. In the current version of the library, the <code>predicate</code> has to return a <a class="el" href="structboost_1_1hana_1_1_logical.html#Logical_terminology">compile-time</a> <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code>.</td></tr>
   </table>
   </dd>
 </dl>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a929370eddd43bb1a4a11b00a7880eadb">filter</a>(trait_&lt;std::is_integral&gt;, <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, 2.0, 3, 4.0)) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, 3));</div>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a929370eddd43bb1a4a11b00a7880eadb">filter</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, 2.0, 3, 4.0), trait_&lt;std::is_integral&gt;) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, 3));</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -483,18 +483,18 @@ template&lt;typename L &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> predicate, <span class="keyword">auto</span> xs) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> xs, <span class="keyword">auto</span> predicate) {</div>
 <div class="line">        <span class="keywordflow">return</span> List::instance&lt;</div>
 <div class="line">            datatype_t&lt;decltype(xs)&gt;</div>
-<div class="line">        &gt;::partition_impl(predicate, xs);</div>
+<div class="line">        &gt;::partition_impl(xs, predicate);</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Partition a list based on a <code>predicate</code>. </p>
 <p>Specifically, returns an unspecified <code><a class="el" href="structboost_1_1hana_1_1_product.html" title="Represents types that are generic containers of two elements. ">Product</a></code> whose first element is a list of the elements satisfying the predicate, and whose second element is a list of the elements that do not satisfy the predicate.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">predicate</td><td>A function called as <code>predicate(x)</code> for each element <code>x</code> in the list and returning a <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code>. If the result of <code>predicate</code> is true-valued, then <code>x</code> is added to the list in the first component of the resulting <code><a class="el" href="structboost_1_1hana_1_1_product.html" title="Represents types that are generic containers of two elements. ">Product</a></code>. Otherwise, <code>x</code> is added to the list in the second component. In the current version of the library, the <code>predicate</code> has to return a <a class="el" href="structboost_1_1hana_1_1_logical.html#Logical_terminology">compile-time</a> <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code>.</td></tr>
     <tr><td class="paramname">xs</td><td>The list to be partitioned.</td></tr>
+    <tr><td class="paramname">predicate</td><td>A function called as <code>predicate(x)</code> for each element <code>x</code> in the list and returning a <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code>. If the result of <code>predicate</code> is true-valued, then <code>x</code> is added to the list in the first component of the resulting <code><a class="el" href="structboost_1_1hana_1_1_product.html" title="Represents types that are generic containers of two elements. ">Product</a></code>. Otherwise, <code>x</code> is added to the list in the second component. In the current version of the library, the <code>predicate</code> has to return a <a class="el" href="structboost_1_1hana_1_1_logical.html#Logical_terminology">compile-time</a> <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code>.</td></tr>
   </table>
   </dd>
 </dl>
@@ -504,7 +504,7 @@ template&lt;typename L &gt; </div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1_list.html#a788b65dd69bb016d647801718e840816">partition</a>(odd, integer_list&lt;int, 1, 2, 3, 4, 5, 6, 7&gt;)</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_list.html#a788b65dd69bb016d647801718e840816">partition</a>(integer_list&lt;int, 1, 2, 3, 4, 5, 6, 7&gt;, odd)</div>
 <div class="line">    ==</div>
 <div class="line">    pair(</div>
 <div class="line">        integer_list&lt;int, 1, 3, 5, 7&gt;,</div>
@@ -513,7 +513,7 @@ template&lt;typename L &gt; </div>
 <div class="line">);</div>
 </div><!-- fragment --> <h3>Example</h3>
 <div class="fragment"><div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1_list.html#a788b65dd69bb016d647801718e840816">partition</a>(trait&lt;std::is_floating_point&gt;, type_list&lt;void, int, float, char, double&gt;)</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_list.html#a788b65dd69bb016d647801718e840816">partition</a>(type_list&lt;void, int, float, char, double&gt;, trait&lt;std::is_floating_point&gt;)</div>
 <div class="line">    ==</div>
 <div class="line">    pair(</div>
 <div class="line">        type_list&lt;float, double&gt;,</div>
@@ -551,11 +551,11 @@ template&lt;typename L &gt; </div>
 <dl class="section note"><dt>Note</dt><dd>Implementation taken from <a href="http://stackoverflow.com/a/2184129/627587">http://stackoverflow.com/a/2184129/627587</a>.</dd></dl>
 <h3>Example</h3>
 <div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> is_permutation_of = curry&lt;2&gt;([](<span class="keyword">auto</span> xs, <span class="keyword">auto</span> perm) {</div>
-<div class="line">        <span class="keywordflow">return</span> elem(perm, <a class="code" href="structboost_1_1hana_1_1_list.html#a45ec7767d19eb7eaabb71ead3796a7f1">permutations</a>(xs));</div>
+<div class="line">        <span class="keywordflow">return</span> elem(<a class="code" href="structboost_1_1hana_1_1_list.html#a45ec7767d19eb7eaabb71ead3796a7f1">permutations</a>(xs), perm);</div>
 <div class="line">    });</div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(</div>
-<div class="line">        all(is_permutation_of(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(<span class="charliteral">&#39;1&#39;</span>, 2, 3.0)),</div>
+<div class="line">        all(</div>
 <div class="line">            <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(</div>
 <div class="line">                <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(<span class="charliteral">&#39;1&#39;</span>, 2, 3.0),</div>
 <div class="line">                <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(<span class="charliteral">&#39;1&#39;</span>, 3.0, 2),</div>
@@ -563,7 +563,8 @@ template&lt;typename L &gt; </div>
 <div class="line">                <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(2, 3.0, <span class="charliteral">&#39;1&#39;</span>),</div>
 <div class="line">                <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(3.0, <span class="charliteral">&#39;1&#39;</span>, 2),</div>
 <div class="line">                <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(3.0, 2, <span class="charliteral">&#39;1&#39;</span>)</div>
-<div class="line">            )</div>
+<div class="line">            ),</div>
+<div class="line">            is_permutation_of(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(<span class="charliteral">&#39;1&#39;</span>, 2, 3.0))</div>
 <div class="line">        )</div>
 <div class="line">    );</div>
 </div><!-- fragment --> <h3>Benchmarks</h3>
@@ -620,18 +621,18 @@ template&lt;typename L &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> state, <span class="keyword">auto</span> xs) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> xs, <span class="keyword">auto</span> state, <span class="keyword">auto</span> f) {</div>
 <div class="line">        <span class="keywordflow">return</span> List::instance&lt;</div>
 <div class="line">            datatype_t&lt;decltype(xs)&gt;</div>
-<div class="line">        &gt;::scanl_impl(f, state, xs);</div>
+<div class="line">        &gt;::scanl_impl(xs, state, f);</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Similar to <code>foldl</code>, but returns a list of reduced values from the left. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">f</td><td>A binary function called as <code>f(state, x)</code>, where <code>state</code> is the result accumulated so far and <code>x</code> is an element in the list.</td></tr>
-    <tr><td class="paramname">state</td><td>The initial value used for folding. This will always be the first element of the resulting list.</td></tr>
     <tr><td class="paramname">xs</td><td>The list to scan.</td></tr>
+    <tr><td class="paramname">state</td><td>The initial value used for folding. This will always be the first element of the resulting list.</td></tr>
+    <tr><td class="paramname">f</td><td>A binary function called as <code>f(state, x)</code>, where <code>state</code> is the result accumulated so far and <code>x</code> is an element in the list.</td></tr>
   </table>
   </dd>
 </dl>
@@ -642,7 +643,7 @@ template&lt;typename L &gt; </div>
 <div class="line">        <span class="keywordflow">return</span> <span class="stringliteral">&quot;(&quot;</span> + to_string(x) + <span class="stringliteral">&quot; + &quot;</span> + to_string(y) + <span class="stringliteral">&quot;)&quot;</span>;</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    assert(<a class="code" href="structboost_1_1hana_1_1_list.html#adfb039a3d46931ef17fef56c77d8256c">scanl</a>(show, 1, <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(2, <span class="stringliteral">&quot;3&quot;</span>, <span class="charliteral">&#39;4&#39;</span>)) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(</div>
+<div class="line">    assert(<a class="code" href="structboost_1_1hana_1_1_list.html#adfb039a3d46931ef17fef56c77d8256c">scanl</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(2, <span class="stringliteral">&quot;3&quot;</span>, <span class="charliteral">&#39;4&#39;</span>), 1, show) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(</div>
 <div class="line">        1,</div>
 <div class="line">        <span class="stringliteral">&quot;(1 + 2)&quot;</span>,</div>
 <div class="line">        <span class="stringliteral">&quot;((1 + 2) + 3)&quot;</span>,</div>
@@ -672,18 +673,18 @@ template&lt;typename L &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> xs) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> xs, <span class="keyword">auto</span> f) {</div>
 <div class="line">        <span class="keywordflow">return</span> List::instance&lt;</div>
 <div class="line">            datatype_t&lt;decltype(xs)&gt;</div>
-<div class="line">        &gt;::scanl1_impl(f, xs);</div>
+<div class="line">        &gt;::scanl1_impl(xs, f);</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Variant of <code>scanl</code> that has no starting value argument. </p>
 <p>While <code>foldl1</code> may not be called with an empty structure, <code>scanl1</code> can be called with an empty list, in which case it will simply return an empty list.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">f</td><td>A binary function called as <code>f(state, x)</code>, where <code>state</code> is the result accumulated so far and <code>x</code> is an element in the list.</td></tr>
     <tr><td class="paramname">xs</td><td>The list to scan.</td></tr>
+    <tr><td class="paramname">f</td><td>A binary function called as <code>f(state, x)</code>, where <code>state</code> is the result accumulated so far and <code>x</code> is an element in the list.</td></tr>
   </table>
   </dd>
 </dl>
@@ -694,7 +695,7 @@ template&lt;typename L &gt; </div>
 <div class="line">        <span class="keywordflow">return</span> <span class="stringliteral">&quot;(&quot;</span> + to_string(x) + <span class="stringliteral">&quot; + &quot;</span> + to_string(y) + <span class="stringliteral">&quot;)&quot;</span>;</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    assert(<a class="code" href="structboost_1_1hana_1_1_list.html#a62411eb57e86f3cb7394f22fd3651355">scanl1</a>(show, <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>)) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(</div>
+<div class="line">    assert(<a class="code" href="structboost_1_1hana_1_1_list.html#a62411eb57e86f3cb7394f22fd3651355">scanl1</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>), show) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(</div>
 <div class="line">        1,</div>
 <div class="line">        <span class="stringliteral">&quot;(1 + 2)&quot;</span>,</div>
 <div class="line">        <span class="stringliteral">&quot;((1 + 2) + 3)&quot;</span></div>
@@ -723,18 +724,18 @@ template&lt;typename L &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> state, <span class="keyword">auto</span> xs) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> xs, <span class="keyword">auto</span> state, <span class="keyword">auto</span> f) {</div>
 <div class="line">        <span class="keywordflow">return</span> List::instance&lt;</div>
 <div class="line">            datatype_t&lt;decltype(xs)&gt;</div>
-<div class="line">        &gt;::scanr_impl(f, state, xs);</div>
+<div class="line">        &gt;::scanr_impl(xs, state, f);</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Similar to <code>foldr</code>, but returns a list of reduced values from the right. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">f</td><td>A binary function called as <code>f(x, state)</code>, where <code>state</code> is the result accumulated so far and <code>x</code> is an element in the list.</td></tr>
-    <tr><td class="paramname">state</td><td>The initial value used for folding. This will always be the last element of the resulting list.</td></tr>
     <tr><td class="paramname">xs</td><td>The list to scan.</td></tr>
+    <tr><td class="paramname">state</td><td>The initial value used for folding. This will always be the last element of the resulting list.</td></tr>
+    <tr><td class="paramname">f</td><td>A binary function called as <code>f(x, state)</code>, where <code>state</code> is the result accumulated so far and <code>x</code> is an element in the list.</td></tr>
   </table>
   </dd>
 </dl>
@@ -745,7 +746,7 @@ template&lt;typename L &gt; </div>
 <div class="line">        <span class="keywordflow">return</span> <span class="stringliteral">&quot;(&quot;</span> + to_string(x) + <span class="stringliteral">&quot; + &quot;</span> + to_string(y) + <span class="stringliteral">&quot;)&quot;</span>;</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    assert(<a class="code" href="structboost_1_1hana_1_1_list.html#abb725e66aedc0c19c38b38a00302abf4">scanr</a>(show, 4, <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>)) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(</div>
+<div class="line">    assert(<a class="code" href="structboost_1_1hana_1_1_list.html#abb725e66aedc0c19c38b38a00302abf4">scanr</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>), 4, show) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(</div>
 <div class="line">        <span class="stringliteral">&quot;(1 + (2 + (3 + 4)))&quot;</span>,</div>
 <div class="line">        <span class="stringliteral">&quot;(2 + (3 + 4))&quot;</span>,</div>
 <div class="line">        <span class="stringliteral">&quot;(3 + 4)&quot;</span>,</div>
@@ -775,18 +776,18 @@ template&lt;typename L &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> xs) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> xs, <span class="keyword">auto</span> f) {</div>
 <div class="line">        <span class="keywordflow">return</span> List::instance&lt;</div>
 <div class="line">            datatype_t&lt;decltype(xs)&gt;</div>
-<div class="line">        &gt;::scanr1_impl(f, xs);</div>
+<div class="line">        &gt;::scanr1_impl(xs, f);</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Variant of <code>scanr</code> that has no starting value argument. </p>
 <p>While <code>foldr1</code> may not be called with an empty structure, <code>scanr1</code> can be called with an empty list, in which case it will simply return an empty list.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">f</td><td>A binary function called as <code>f(x, state)</code>, where <code>state</code> is the result accumulated so far and <code>x</code> is an element in the list.</td></tr>
     <tr><td class="paramname">xs</td><td>The list to scan.</td></tr>
+    <tr><td class="paramname">f</td><td>A binary function called as <code>f(x, state)</code>, where <code>state</code> is the result accumulated so far and <code>x</code> is an element in the list.</td></tr>
   </table>
   </dd>
 </dl>
@@ -797,7 +798,7 @@ template&lt;typename L &gt; </div>
 <div class="line">        <span class="keywordflow">return</span> <span class="stringliteral">&quot;(&quot;</span> + to_string(x) + <span class="stringliteral">&quot; + &quot;</span> + to_string(y) + <span class="stringliteral">&quot;)&quot;</span>;</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    assert(<a class="code" href="structboost_1_1hana_1_1_list.html#a5948df39fe904d509f1bb073d53e3965">scanr1</a>(show, <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>)) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(</div>
+<div class="line">    assert(<a class="code" href="structboost_1_1hana_1_1_list.html#a5948df39fe904d509f1bb073d53e3965">scanr1</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>), show) == <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(</div>
 <div class="line">        <span class="stringliteral">&quot;(1 + (2 + 3))&quot;</span>,</div>
 <div class="line">        <span class="stringliteral">&quot;(2 + 3)&quot;</span>,</div>
 <div class="line">        <span class="charliteral">&#39;3&#39;</span></div>
@@ -1060,7 +1061,7 @@ template&lt;typename L &gt; </div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Dual to <code>foldl</code> for lists. </p>
-<p>While <code>foldl</code> reduces a list to a summary value, <code>unfoldl</code> builds a list from a seed value and a function. In some cases, <code>unfoldl</code> can undo a <code>foldl</code> operation: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_list.html#a2c8c7ea5db04febb890469a024fcd58b">unfoldl</a>(g, foldl(f, z, xs))</div>
+<p>While <code>foldl</code> reduces a list to a summary value, <code>unfoldl</code> builds a list from a seed value and a function. In some cases, <code>unfoldl</code> can undo a <code>foldl</code> operation: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_list.html#a2c8c7ea5db04febb890469a024fcd58b">unfoldl</a>(g, foldl(xs, z, f))</div>
 </div><!-- fragment --><p>if the following holds </p><div class="fragment"><div class="line">g(f(y, x)) == just(pair(y, x))</div>
 <div class="line">g(z) == nothing</div>
 </div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
@@ -1109,7 +1110,7 @@ template&lt;typename L &gt; </div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Dual to <code>foldr</code> for lists. </p>
-<p>While <code>foldr</code> reduces a list to a summary value, <code>unfoldr</code> builds a list from a seed value and a function. In some cases, <code>unfoldr</code> can undo a <code>foldr</code> operation: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_list.html#ab8e70b7be1022d132ff5369d7b1b6c2c">unfoldr</a>(g, foldr(f, z, xs))</div>
+<p>While <code>foldr</code> reduces a list to a summary value, <code>unfoldr</code> builds a list from a seed value and a function. In some cases, <code>unfoldr</code> can undo a <code>foldr</code> operation: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_list.html#ab8e70b7be1022d132ff5369d7b1b6c2c">unfoldr</a>(g, foldr(xs, z, f))</div>
 </div><!-- fragment --><p>if the following holds </p><div class="fragment"><div class="line">g(f(x, y)) == just(pair(x, y))</div>
 <div class="line">g(z) == nothing</div>
 </div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
@@ -1270,7 +1271,7 @@ template&lt;typename L &gt; </div>
 <div class="line">        ==</div>
 <div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(5, 12, 21, 32)</div>
 <div class="line">    );</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000021">Todo:</a></b></dt><dd>Consider allowing only two lists and achieving the variadic behavior in some other way. This would make it possible to automatically curry <code>zip_with</code>. It might be possible to achieve the variadic behavior with e.g. <a class="el" href="structboost_1_1hana_1_1_applicative.html" title="Applicatives are Functors with the ability to lift values and combine computations. ">Applicative</a> Functors? </dd></dl>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000022">Todo:</a></b></dt><dd>Consider allowing only two lists and achieving the variadic behavior in some other way. This would make it possible to automatically curry <code>zip_with</code>. It might be possible to achieve the variadic behavior with e.g. <a class="el" href="structboost_1_1hana_1_1_applicative.html" title="Applicatives are Functors with the ability to lift values and combine computations. ">Applicative</a> Functors? </dd></dl>
 
 </div>
 </div>
