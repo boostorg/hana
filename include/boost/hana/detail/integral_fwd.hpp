@@ -139,6 +139,10 @@ namespace boost { namespace hana {
     //! @todo
     //! Do we want `char_<1> + char_<2> == char_<3>` or
     //! `char_<1> + char_<2> == int_<3>`?
+    //!
+    //! @todo
+    //! Consider specifying the type of `integral<...>` to allow overloading
+    //! on its type. Not sure yet whether that's desirable or not.
     template <typename T, T v>
     constexpr integral_detail::integral<
         typename detail::std::remove_cv<T>::type, v
