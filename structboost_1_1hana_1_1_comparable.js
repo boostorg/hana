@@ -17,6 +17,7 @@ var structboost_1_1hana_1_1_comparable =
     [ "not_equal_mcd", "structboost_1_1hana_1_1_comparable_1_1not__equal__mcd.html", null ],
     [ "equal", "structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627", null ],
     [ "not_equal", "structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925", null ],
+    [ "comparing", "structboost_1_1hana_1_1_comparable.html#a350ae6cc37fa971f203065bb628a7948", null ],
     [ "operator==", "structboost_1_1hana_1_1_comparable.html#aeaf55eb75a556b3a05bab60cd6812765", null ],
     [ "operator!=", "structboost_1_1hana_1_1_comparable.html#aae66dcc2f25a479af62d1ec8f88af5be", null ]
 ];

@@ -363,8 +363,8 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Returns a function performing <code>less</code> after applying a transformation to both arguments. </p>
-<dl class="section note"><dt>Note</dt><dd>This is not a method of the <code><a class="el" href="structboost_1_1hana_1_1_orderable.html" title="The Orderable type class is used for data types defining a strict weak ordering. ">Orderable</a></code> type class, but just a convenience function provided with it.</dd></dl>
-<h3>Example</h3>
+<p>This is not a method of the <code><a class="el" href="structboost_1_1hana_1_1_orderable.html" title="The Orderable type class is used for data types defining a strict weak ordering. ">Orderable</a></code> type class, but just a convenience function provided with it. Also note that </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_orderable.html#aaeb89edbf804237ca6710cba8cab9c37">ordering</a>(f) == <a class="code" href="structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a> ^<a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>^ f</div>
+</div><!-- fragment --><h3>Example</h3>
 <div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> sorted = sort_by(<a class="code" href="structboost_1_1hana_1_1_orderable.html#aaeb89edbf804237ca6710cba8cab9c37">ordering</a>(sizeof_), list(</div>
 <div class="line">        type&lt;<span class="keywordtype">char</span>[3]&gt;,</div>
 <div class="line">        type&lt;<span class="keywordtype">char</span>[1]&gt;,</div>

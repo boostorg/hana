@@ -27,6 +27,7 @@ var group__group_typeclasses =
       [ "not_equal_mcd", "structboost_1_1hana_1_1_comparable_1_1not__equal__mcd.html", null ],
       [ "equal", "structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627", null ],
       [ "not_equal", "structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925", null ],
+      [ "comparing", "structboost_1_1hana_1_1_comparable.html#a350ae6cc37fa971f203065bb628a7948", null ],
       [ "operator==", "structboost_1_1hana_1_1_comparable.html#aeaf55eb75a556b3a05bab60cd6812765", null ],
       [ "operator!=", "structboost_1_1hana_1_1_comparable.html#aae66dcc2f25a479af62d1ec8f88af5be", null ]
     ] ],
@@ -94,6 +95,8 @@ var group__group_typeclasses =
       [ "concat", "structboost_1_1hana_1_1_list.html#a30a6926751dfcafbe2bb67738e2da3c4", null ],
       [ "cons", "structboost_1_1hana_1_1_list.html#a51732ddadf982e47f5757b092294df12", null ],
       [ "filter", "structboost_1_1hana_1_1_list.html#a929370eddd43bb1a4a11b00a7880eadb", null ],
+      [ "group_by", "structboost_1_1hana_1_1_list.html#ad855f1d86e9bf0d31d67c191412a9082", null ],
+      [ "group", "structboost_1_1hana_1_1_list.html#a83d9b8f0f293c6fe7cfccd2359dec330", null ],
       [ "init", "structboost_1_1hana_1_1_list.html#a733fdb2e8686033466beea8323e53a26", null ],
       [ "into", "structboost_1_1hana_1_1_list.html#a4be44386cd598bf9e725a0b6ebe82105", null ],
       [ "nil", "structboost_1_1hana_1_1_list.html#a04e654b583265053e4dde63fff0c0aea", null ],
@@ -107,6 +110,7 @@ var group__group_typeclasses =
       [ "snoc", "structboost_1_1hana_1_1_list.html#a95183c155c6180b31d4965aa203957d0", null ],
       [ "sort", "structboost_1_1hana_1_1_list.html#a58c1454689bf6d2264bc428dc1d039db", null ],
       [ "sort_by", "structboost_1_1hana_1_1_list.html#a6ed2907b48fcba3dd1059b4b0bfde624", null ],
+      [ "span", "structboost_1_1hana_1_1_list.html#ab663fc84c23656a41d4dfcb586f0085c", null ],
       [ "take", "structboost_1_1hana_1_1_list.html#a2c20028c5115dcf38063d322f27b4ee1", null ],
       [ "take_until", "structboost_1_1hana_1_1_list.html#a27aa67fa9ffc3d89b23a6dce018013d4", null ],
       [ "take_while", "structboost_1_1hana_1_1_list.html#a86916c5c62a42f01f85450b366ef6eff", null ],
@@ -183,7 +187,8 @@ var group__group_typeclasses =
       [ "none_of", "structboost_1_1hana_1_1_searchable.html#abf1dbf83a1d98c62994e207ea18eea8a", null ],
       [ "elem", "structboost_1_1hana_1_1_searchable.html#a04e413e4acd1dac89e442df2f30f3e2d", null ],
       [ "find", "structboost_1_1hana_1_1_searchable.html#a2772d97163d2e2ca3f51b2d16d13ff66", null ],
-      [ "lookup", "structboost_1_1hana_1_1_searchable.html#a82e67ada9561f5e1176faab8eb94a064", null ]
+      [ "lookup", "structboost_1_1hana_1_1_searchable.html#a82e67ada9561f5e1176faab8eb94a064", null ],
+      [ "in", "structboost_1_1hana_1_1_searchable.html#a234e4ee0bd5e0e9e604d6140fde24074", null ]
     ] ],
     [ "Traversable", "structboost_1_1hana_1_1_traversable.html", [
       [ "instance< Maybe >", "structboost_1_1hana_1_1_traversable_1_1instance_3_01_maybe_01_4.html", null ],

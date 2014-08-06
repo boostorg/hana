@@ -207,7 +207,8 @@ template&lt;typename T , T v&gt; </div>
 <div class="line">    decltype_(integral&lt;bool const, false&gt;)</div>
 <div class="line">, <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment --><p> Since there does not seem to be a lot of use cases for keeping cv-qualifiers in the integral type, we just remove them.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000008">Todo:</a></b></dt><dd>Do we want <code>char_&lt;1&gt; + char_&lt;2&gt; == char_&lt;3&gt;</code> or <code>char_&lt;1&gt; + char_&lt;2&gt; == int_&lt;3&gt;</code>? </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000008">Todo:</a></b></dt><dd>Do we want <code>char_&lt;1&gt; + char_&lt;2&gt; == char_&lt;3&gt;</code> or <code>char_&lt;1&gt; + char_&lt;2&gt; == int_&lt;3&gt;</code>?</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000009">Todo:</a></b></dt><dd>Consider specifying the type of <code>integral&lt;...&gt;</code> to allow overloading on its type. Not sure yet whether that's desirable or not. </dd></dl>
 
 </div>
 </div>
@@ -525,7 +526,7 @@ template&lt;char... c&gt; </div>
 <div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(1234_c == llong&lt;1234&gt;);</div>
 <div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(-1234_c == llong&lt;-1234&gt;);</div>
 <div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(sum(list(1_c, 2_c, 3_c, 4_c)) == 10_c);</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000017">Todo:</a></b></dt><dd>Add support for stuff like <code>0x1234_c</code>. </dd></dl>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000018">Todo:</a></b></dt><dd>Add support for stuff like <code>0x1234_c</code>. </dd></dl>
 
 </div>
 </div>

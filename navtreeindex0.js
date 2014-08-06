@@ -242,12 +242,12 @@ var NAVTREEINDEX0 =
 "structboost_1_1hana_1_1_applicative_1_1instance_3_01_t_00_01when_3_01is__a_3_01_list_00_01_t_01_4_07_08_4_01_4.html":[1,1,0,3],
 "structboost_1_1hana_1_1_applicative_1_1mcd.html":[1,1,0,4],
 "structboost_1_1hana_1_1_comparable.html":[1,1,1],
+"structboost_1_1hana_1_1_comparable.html#a350ae6cc37fa971f203065bb628a7948":[1,1,1,17],
 "structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925":[1,1,1,16],
 "structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627":[1,1,1,15],
-"structboost_1_1hana_1_1_comparable.html#aae66dcc2f25a479af62d1ec8f88af5be":[1,1,1,18],
-"structboost_1_1hana_1_1_comparable.html#aeaf55eb75a556b3a05bab60cd6812765":[1,1,1,17],
+"structboost_1_1hana_1_1_comparable.html#aae66dcc2f25a479af62d1ec8f88af5be":[1,1,1,19],
+"structboost_1_1hana_1_1_comparable.html#aeaf55eb75a556b3a05bab60cd6812765":[1,1,1,18],
 "structboost_1_1hana_1_1_comparable_1_1default__instance.html":[1,1,1,0],
 "structboost_1_1hana_1_1_comparable_1_1equal__mcd.html":[1,1,1,1],
-"structboost_1_1hana_1_1_comparable_1_1instance_3_01_c1_00_01_c2_00_01when_3_01is__a_3_01_constan85318e661b3a9ce58e8642527d0e96ff.html":[1,1,1,2],
-"structboost_1_1hana_1_1_comparable_1_1instance_3_01_integral_00_01_t_00_01when_3_01detail_1_1std769acac9d2a8bf45726ba3b0f7ff9bbe.html":[1,1,1,3]
+"structboost_1_1hana_1_1_comparable_1_1instance_3_01_c1_00_01_c2_00_01when_3_01is__a_3_01_constan85318e661b3a9ce58e8642527d0e96ff.html":[1,1,1,2]
 };

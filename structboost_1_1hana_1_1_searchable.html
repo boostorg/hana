@@ -128,6 +128,9 @@ Synopsis of methods</h2></td></tr>
 <tr class="memitem:a82e67ada9561f5e1176faab8eb94a064"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_searchable.html#a82e67ada9561f5e1176faab8eb94a064">lookup</a></td></tr>
 <tr class="memdesc:a82e67ada9561f5e1176faab8eb94a064"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find the value associated to the given key in a structure.  <a href="#a82e67ada9561f5e1176faab8eb94a064">More...</a><br /></td></tr>
 <tr class="separator:a82e67ada9561f5e1176faab8eb94a064"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a234e4ee0bd5e0e9e604d6140fde24074"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_searchable.html#a234e4ee0bd5e0e9e604d6140fde24074">in</a></td></tr>
+<tr class="memdesc:a234e4ee0bd5e0e9e604d6140fde24074"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return whether the key occurs in the structure.  <a href="#a234e4ee0bd5e0e9e604d6140fde24074">More...</a><br /></td></tr>
+<tr class="separator:a234e4ee0bd5e0e9e604d6140fde24074"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Instances and minimal complete definitions</h2></td></tr>
@@ -509,6 +512,48 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">        pair(type&lt;char&gt;, type&lt;int&gt;)</div>
 <div class="line">    );</div>
 <div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a82e67ada9561f5e1176faab8eb94a064">lookup</a>(m, type&lt;float&gt;) == just(3.3));</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="a234e4ee0bd5e0e9e604d6140fde24074"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto in</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= <a class="code" href="group__group-functional.html#ga7bdafba6dc801f1d2d83731ad9714557">infix</a>([](<span class="keyword">auto</span> key, <span class="keyword">auto</span> searchable) {</div>
+<div class="line">        <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_searchable.html#a04e413e4acd1dac89e442df2f30f3e2d">elem</a>(searchable, key);</div>
+<div class="line">    })</div>
+</div><!-- fragment -->
+<p>Return whether the key occurs in the structure. </p>
+<p>Specifically, this is equivalent to <code>flip(elem)</code>, except that <code>in</code> can also be used in infix notation for increased expressiveness. This function is not a method that can be overriden; it is just a convenience function provided with the type class.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">searchable</td><td>The structure to search.</td></tr>
+    <tr><td class="paramname">key</td><td>A key to be searched for in the structure. The key has to be <code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable type class defines equality and inequality. ">Comparable</a></code> with the other keys of the structure.</td></tr>
+  </table>
+  </dd>
+</dl>
+<h3>Example</h3>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> xs = list(</div>
+<div class="line">        int_&lt;1&gt;, type&lt;int&gt;, int_&lt;2&gt;, type&lt;float&gt;, int_&lt;3&gt;, type&lt;void&gt;, type&lt;char&gt;</div>
+<div class="line">    );</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(</div>
+<div class="line">        filter(xs, <a class="code" href="structboost_1_1hana_1_1_searchable.html#a234e4ee0bd5e0e9e604d6140fde24074">in</a> ^ list(int_&lt;3&gt;, type&lt;int&gt;, type&lt;void&gt;))</div>
+<div class="line">        ==</div>
+<div class="line">        list(type&lt;int&gt;, int_&lt;3&gt;, type&lt;void&gt;)</div>
+<div class="line">    );</div>
 </div><!-- fragment -->
 </div>
 </div>

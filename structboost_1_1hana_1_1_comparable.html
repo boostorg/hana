@@ -97,7 +97,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_comparable.htm
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
 <div class="textblock"><p>The <code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable type class defines equality and inequality. ">Comparable</a></code> type class defines equality and inequality. </p>
-<h3>Laws</h3>
+<p><a class="anchor" id="equivalence_relation"></a></p><h3>Laws</h3>
 <p><code>equal</code> must define an equivalence relation. In other words, for all <code>a</code>, <code>b</code>, <code>c</code> of comparable data types, </p><div class="fragment"><div class="line">a == a                          <span class="comment">// Reflexivity</span></div>
 <div class="line"><span class="keywordflow">if</span> a == b then b == a           <span class="comment">// Symmetry</span></div>
 <div class="line"><span class="keywordflow">if</span> a == b &amp;&amp; b == c then a == c <span class="comment">// Transitivity</span></div>
@@ -110,6 +110,9 @@ Synopsis of methods</h2></td></tr>
 <tr class="memitem:a6983538356aab75eddf1a7aace6c7925"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925">not_equal</a></td></tr>
 <tr class="memdesc:a6983538356aab75eddf1a7aace6c7925"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code> representing whether <code>x</code> is not equal to <code>y</code>.  <a href="#a6983538356aab75eddf1a7aace6c7925">More...</a><br /></td></tr>
 <tr class="separator:a6983538356aab75eddf1a7aace6c7925"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a350ae6cc37fa971f203065bb628a7948"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_comparable.html#a350ae6cc37fa971f203065bb628a7948">comparing</a></td></tr>
+<tr class="memdesc:a350ae6cc37fa971f203065bb628a7948"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a function performing <code>equal</code> after applying a transformation to both arguments.  <a href="#a350ae6cc37fa971f203065bb628a7948">More...</a><br /></td></tr>
+<tr class="separator:a350ae6cc37fa971f203065bb628a7948"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeaf55eb75a556b3a05bab60cd6812765"><td class="memTemplParams" colspan="2">template&lt;typename T , typename U &gt; </td></tr>
 <tr class="memitem:aeaf55eb75a556b3a05bab60cd6812765"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_comparable.html#aeaf55eb75a556b3a05bab60cd6812765">operator==</a> (T t, U u)</td></tr>
 <tr class="memdesc:aeaf55eb75a556b3a05bab60cd6812765"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>equal</code>.  <a href="#aeaf55eb75a556b3a05bab60cd6812765">More...</a><br /></td></tr>
@@ -231,6 +234,58 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925">not_equal</a>(list(1, 2), list(3)));</div>
 <div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925">not_equal</a>(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>));</div>
 <div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925">not_equal</a>(list(1, 2), <span class="charliteral">&#39;y&#39;</span>));</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="a350ae6cc37fa971f203065bb628a7948"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto comparing</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> f) {</div>
+<div class="line">        <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
+<div class="line">            <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>(f(x), f(y));</div>
+<div class="line">        };</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Returns a function performing <code>equal</code> after applying a transformation to both arguments. </p>
+<p>This is not a method of the <code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable type class defines equality and inequality. ">Comparable</a></code> type class, but just a convenience function provided with it. Also note that </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_comparable.html#a350ae6cc37fa971f203065bb628a7948">comparing</a>(f) == <a class="code" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a> ^<a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>^ f</div>
+</div><!-- fragment --><h3>Example</h3>
+<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> grouped = group_by(<a class="code" href="structboost_1_1hana_1_1_comparable.html#a350ae6cc37fa971f203065bb628a7948">comparing</a>(length), list(</div>
+<div class="line">        list(1, 2, 3),</div>
+<div class="line">        list(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>, <span class="charliteral">&#39;z&#39;</span>),</div>
+<div class="line">        range_c&lt;long, 0, 1&gt;,</div>
+<div class="line">        type_list&lt;char, int&gt;,</div>
+<div class="line">        range_c&lt;int, 0, 2&gt;,</div>
+<div class="line">        list(123.4, <span class="keyword">nullptr</span>)</div>
+<div class="line">    ));</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(grouped == list(</div>
+<div class="line">        list(</div>
+<div class="line">            list(1, 2, 3),</div>
+<div class="line">            list(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>, <span class="charliteral">&#39;z&#39;</span>)</div>
+<div class="line">        ),</div>
+<div class="line">        list(</div>
+<div class="line">            range_c&lt;long, 0, 1&gt;</div>
+<div class="line">        ),</div>
+<div class="line">        list(</div>
+<div class="line">            type_list&lt;char, int&gt;,</div>
+<div class="line">            range_c&lt;int, 0, 2&gt;,</div>
+<div class="line">            list(123.4, <span class="keyword">nullptr</span>)</div>
+<div class="line">        )</div>
+<div class="line">    ));</div>
 </div><!-- fragment -->
 </div>
 </div>

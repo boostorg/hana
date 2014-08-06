@@ -358,7 +358,7 @@ template&lt;std::size_t arity&gt; </div>
 <div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(curry&lt;3&gt;(add)(1)(2)(3) == 1 + 2 + 3);</div>
 <div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(curry&lt;3&gt;(add)(1)(2, 3) == curry&lt;3&gt;(add)(1)(2)(3));</div>
 <div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(curry&lt;3&gt;(add)(1, 2, 3) == curry&lt;3&gt;(add)(1)(2)(3));</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000014">Todo:</a></b></dt><dd>Consider making <code>curry&lt;0&gt;(f)</code> equivalent to <code>f</code>. It might be more general or less useful if it creates subtle pitfalls.</dd></dl>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000015">Todo:</a></b></dt><dd>Consider making <code>curry&lt;0&gt;(f)</code> equivalent to <code>f</code>. It might be more general or less useful if it creates subtle pitfalls.</dd></dl>
 
 </div>
 </div>
@@ -398,7 +398,7 @@ template&lt;std::size_t arity&gt; </div>
 <div class="line">        ==</div>
 <div class="line">        make_tuple(10 + 4, 10 - 4, 10 * 4, 10 / 4)</div>
 <div class="line">    );</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000015">Todo:</a></b></dt><dd>I think this is equivalent to <code>fmap . fmap</code>. See <a href="http://stackoverflow.com/q/5821089/627587">http://stackoverflow.com/q/5821089/627587</a> </dd></dl>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000016">Todo:</a></b></dt><dd>I think this is equivalent to <code>fmap . fmap</code>. See <a href="http://stackoverflow.com/q/5821089/627587">http://stackoverflow.com/q/5821089/627587</a> </dd></dl>
 
 </div>
 </div>
@@ -564,7 +564,7 @@ template&lt;std::size_t arity&gt; </div>
 <div class="line">    };</div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(<a class="code" href="group__group-functional.html#gafca60c09e1f7a32a2b52baaf6515c279">lockstep</a>(plus, to_int, inc)(<span class="charliteral">&#39;3&#39;</span>, 4) == 3 + 5);</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000016">Todo:</a></b></dt><dd>I think this is equivalent to <code>&lt;*&gt;</code> for <code>((-&gt;) r)</code>. </dd></dl>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000017">Todo:</a></b></dt><dd>I think this is equivalent to <code>&lt;*&gt;</code> for <code>((-&gt;) r)</code>. </dd></dl>
 
 </div>
 </div>

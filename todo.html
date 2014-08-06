@@ -94,17 +94,17 @@ $(document).ready(function(){initNavTree('todo.html','');});
 <div class="textblock"><dl class="reflist">
 <dt><a class="anchor" id="_todo000001"></a>Member <a class="el" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>  </dt>
 <dd>Consider giving access to all the arguments to the type class implementation for performance purposes.  </dd>
-<dt><a class="anchor" id="_todo000013"></a>Class <a class="el" href="structboost_1_1hana_1_1_applicative_1_1instance_3_01_std_tuple_01_4.html">boost::hana::Applicative::instance&lt; StdTuple &gt;</a>  </dt>
+<dt><a class="anchor" id="_todo000014"></a>Class <a class="el" href="structboost_1_1hana_1_1_applicative_1_1instance_3_01_std_tuple_01_4.html">boost::hana::Applicative::instance&lt; StdTuple &gt;</a>  </dt>
 <dd>Get rid of this redundant instance once <a href="http://llvm.org/bugs/show_bug.cgi?id=19616">http://llvm.org/bugs/show_bug.cgi?id=19616</a> is fixed.  </dd>
 <dt><a class="anchor" id="_todo000002"></a>Class <a class="el" href="structboost_1_1hana_1_1_constant.html">boost::hana::Constant</a>  </dt>
 <dd>Consider renaming this to <code>UniversalConstant</code>.  </dd>
-<dt><a class="anchor" id="_todo000014"></a>Member <a class="el" href="group__group-functional.html#ga49ea872ade5ac8f6c10052c495302e89">boost::hana::curry</a>  </dt>
+<dt><a class="anchor" id="_todo000015"></a>Member <a class="el" href="group__group-functional.html#ga49ea872ade5ac8f6c10052c495302e89">boost::hana::curry</a>  </dt>
 <dd>Consider making <code>curry&lt;0&gt;(f)</code> equivalent to <code>f</code>. It might be more general or less useful if it creates subtle pitfalls. </dd>
 <dt><a class="anchor" id="_todo000003"></a>Class <a class="el" href="structboost_1_1hana_1_1datatype.html">boost::hana::datatype&lt; T, &gt;</a>  </dt>
 <dd>Could this be related to <code>decltype_</code>? If so, how? It is a valid question whether <code>decltype_(list(...))</code> should be <code>List</code> or <code>&lt;garbage&gt;</code>.  </dd>
-<dt><a class="anchor" id="_todo000015"></a>Member <a class="el" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">boost::hana::demux</a>  </dt>
+<dt><a class="anchor" id="_todo000016"></a>Member <a class="el" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">boost::hana::demux</a>  </dt>
 <dd>I think this is equivalent to <code>fmap . fmap</code>. See <a href="http://stackoverflow.com/q/5821089/627587">http://stackoverflow.com/q/5821089/627587</a>  </dd>
-<dt><a class="anchor" id="_todo000011"></a>Class <a class="el" href="structboost_1_1hana_1_1_functor_1_1instance_3_01_mpl_vector_01_4.html">boost::hana::Functor::instance&lt; MplVector &gt;</a>  </dt>
+<dt><a class="anchor" id="_todo000012"></a>Class <a class="el" href="structboost_1_1hana_1_1_functor_1_1instance_3_01_mpl_vector_01_4.html">boost::hana::Functor::instance&lt; MplVector &gt;</a>  </dt>
 <dd>In the case where <code>f</code> is not a metafunction class, don't use <code>List</code> to do the mapping.  </dd>
 <dt><a class="anchor" id="_todo000007"></a>Class <a class="el" href="structboost_1_1hana_1_1_integral.html">boost::hana::Integral</a>  </dt>
 <dd>Implicit conversions to the underlying integral type can be problematic: <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> odd = [](<span class="keyword">auto</span> x) {</div>
@@ -113,7 +113,7 @@ $(document).ready(function(){initNavTree('todo.html','');});
 <div class="line"></div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1_logical.html#a06927a2badb729e1522b9030d18234df">if_</a>(odd(int_&lt;1&gt;), something_of_type_A, something_of_type_B)</div>
 </div><!-- fragment --> This will fail because <code>odd(int_&lt;1&gt;)</code> has type <code>Int&lt;1 % 2&gt;</code>, which is convertible to <code>bool</code> but not to <code>Bool&lt;...&gt;</code>. Because of this, the runtime <code>if_</code> is used and compilation fails.  </dd>
-<dt><a class="anchor" id="_todo000021"></a>Class <a class="el" href="structboost_1_1hana_1_1_list.html">boost::hana::List</a>  </dt>
+<dt><a class="anchor" id="_todo000022"></a>Class <a class="el" href="structboost_1_1hana_1_1_list.html">boost::hana::List</a>  </dt>
 <dd><ul>
 <li>It might be possible to optimize the implementation of homogeneous lists using an array.</li>
 <li>How to implement iterate and repeat?</li>
@@ -121,7 +121,7 @@ $(document).ready(function(){initNavTree('todo.html','');});
 <li>There is a strong relationship between this and <code>MonadPlus</code>. Actually, they might be just the same. Check this out.</li>
 <li>Implement the following methods:<ul>
 <li><code>intersperse</code>, <code>intercalate</code>, <code>transpose</code>, <code>subsequences</code></li>
-<li><code>split_at</code>, <code>span</code>, <code>break</code>, <code>group_by</code>, <code>group</code>, <code>inits</code>, <code>tails</code></li>
+<li><code>split_at</code>, <code>break</code>, <code>inits</code>, <code>tails</code></li>
 </ul>
 </li>
 <li>Consider implementing the following methods:<ul>
@@ -132,11 +132,11 @@ $(document).ready(function(){initNavTree('todo.html','');});
 <li>Since we can benchmark the isomorphic instances, put the benchmarks in the documentation.  </li>
 </ul>
 </dd>
-<dt><a class="anchor" id="_todo000016"></a>Member <a class="el" href="group__group-functional.html#gafca60c09e1f7a32a2b52baaf6515c279">boost::hana::lockstep</a>  </dt>
+<dt><a class="anchor" id="_todo000017"></a>Member <a class="el" href="group__group-functional.html#gafca60c09e1f7a32a2b52baaf6515c279">boost::hana::lockstep</a>  </dt>
 <dd>I think this is equivalent to <code>&lt;*&gt;</code> for <code>((-&gt;) r)</code>.  </dd>
-<dt><a class="anchor" id="_todo000024"></a>Class <a class="el" href="structboost_1_1hana_1_1_logical.html">boost::hana::Logical</a>  </dt>
+<dt><a class="anchor" id="_todo000025"></a>Class <a class="el" href="structboost_1_1hana_1_1_logical.html">boost::hana::Logical</a>  </dt>
 <dd>Consider making this a real boolean algebra.  </dd>
-<dt><a class="anchor" id="_todo000010"></a>Class <a class="el" href="structboost_1_1hana_1_1_mpl_vector.html">boost::hana::MplVector</a>  </dt>
+<dt><a class="anchor" id="_todo000011"></a>Class <a class="el" href="structboost_1_1hana_1_1_mpl_vector.html">boost::hana::MplVector</a>  </dt>
 <dd><ul>
 <li>Finish the cheat sheet.</li>
 <li>Remove the <a class="el" href="instance_8hpp.html" title="Defines the boost::hana::List instance. ">list/instance.hpp</a> include  </li>
@@ -152,24 +152,24 @@ $(document).ready(function(){initNavTree('todo.html','');});
 <div class="line">nothing_to_do_with_hana&lt;something_to_do_with_hana&lt;int&gt;&gt; x{};</div>
 <div class="line">x == x; <span class="comment">// tries to use Comparable::equal_impl</span></div>
 </div><!-- fragment -->  </dd>
-<dt><a class="anchor" id="_todo000023"></a>Class <a class="el" href="structboost_1_1hana_1_1_searchable_1_1instance_3_01_t_00_01when_3_01is__a_3_01_list_00_01_t_01_4_07_08_4_01_4.html">boost::hana::Searchable::instance&lt; T, when&lt; is_a&lt; List, T &gt;()&gt; &gt;</a>  </dt>
+<dt><a class="anchor" id="_todo000024"></a>Class <a class="el" href="structboost_1_1hana_1_1_searchable_1_1instance_3_01_t_00_01when_3_01is__a_3_01_list_00_01_t_01_4_07_08_4_01_4.html">boost::hana::Searchable::instance&lt; T, when&lt; is_a&lt; List, T &gt;()&gt; &gt;</a>  </dt>
 <dd>Technically, this can be implemented in <code>Iterable</code>. Should it? </dd>
-<dt><a class="anchor" id="_todo000025"></a>Class <a class="el" href="structboost_1_1hana_1_1_traversable.html">boost::hana::Traversable</a>  </dt>
+<dt><a class="anchor" id="_todo000026"></a>Class <a class="el" href="structboost_1_1hana_1_1_traversable.html">boost::hana::Traversable</a>  </dt>
 <dd>Define these functors in the library. </dd>
-<dt><a class="anchor" id="_todo000026"></a>Class <a class="el" href="structboost_1_1hana_1_1_type.html">boost::hana::Type</a>  </dt>
+<dt><a class="anchor" id="_todo000027"></a>Class <a class="el" href="structboost_1_1hana_1_1_type.html">boost::hana::Type</a>  </dt>
 <dd><ul>
 <li>Completely figure out and document the category theoretical foundation of this data type.</li>
 <li>Consider instantiating <code>Functor</code>, <code>Applicative</code> and <code>Monad</code> if that's possible.</li>
 <li>Consider having a <code>.name()</code> method that would return the (demangled?) <code>typeid(T).name()</code>. </li>
 </ul>
 </dd>
-<dt><a class="anchor" id="_todo000028"></a>Class <a class="el" href="structboost_1_1hana_1_1_type_list.html">boost::hana::TypeList</a>  </dt>
+<dt><a class="anchor" id="_todo000029"></a>Class <a class="el" href="structboost_1_1hana_1_1_type_list.html">boost::hana::TypeList</a>  </dt>
 <dd><ul>
 <li>Efficient membership testing is possible.</li>
 <li><code>TypeList</code> is not really a <code>Functor</code> because the function must map from <code>Type</code>s to <code>Type</code>s. Should it be modified so that <code>TypeList</code> becomes <code>List</code> if we try to store something else than <code>Type</code>s? The same issue goes for <code>IntegerList</code>.  </li>
 </ul>
 </dd>
-<dt><a class="anchor" id="_todo000018"></a>Member <a class="el" href="structboost_1_1hana_1_1_iterable.html#a80176fbdfbccc09e902263557eb0984d">for_each</a>  </dt>
+<dt><a class="anchor" id="_todo000019"></a>Member <a class="el" href="structboost_1_1hana_1_1_iterable.html#a80176fbdfbccc09e902263557eb0984d">for_each</a>  </dt>
 <dd>The presence of implicit side effects in this function might be a smell that it should be moved to a different type class and handled through <code>Monad</code>s.  </dd>
 <dt><a class="anchor" id="_todo000005"></a>Group <a class="el" href="group__group-typeclasses.html">group-typeclasses</a>  </dt>
 <dd><ul>
@@ -180,7 +180,7 @@ $(document).ready(function(){initNavTree('todo.html','');});
 <li>Document the purpose of minimal instances; they are meant to provide an easy to use archetype for testing and their tests are meant to exercise the basic dispatching code of type classes (hence it makes sense to test even the mcd of a minimal instance). In particular, they are not meant to be <em>the</em> minimal instance, which does not exist in general (what does it even mean to be a <em>minimal</em> instance?)  </li>
 </ul>
 </dd>
-<dt><a class="anchor" id="_todo000029"></a>File <a class="el" href="hana_8hpp.html">hana.hpp</a>  </dt>
+<dt><a class="anchor" id="_todo000030"></a>File <a class="el" href="hana_8hpp.html">hana.hpp</a>  </dt>
 <dd><ul>
 <li>When we have functions with several variants, consider naming versions with the following scheme: <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>.lazy</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>.strict</div>
@@ -194,17 +194,19 @@ $(document).ready(function(){initNavTree('todo.html','');});
 <li>Setup a BJam build system. </li>
 </ul>
 </dd>
-<dt><a class="anchor" id="_todo000019"></a>File <a class="el" href="instance_8hpp.html">instance.hpp</a>  </dt>
+<dt><a class="anchor" id="_todo000020"></a>File <a class="el" href="instance_8hpp.html">instance.hpp</a>  </dt>
 <dd>Find a way to get rid of this header. </dd>
 <dt><a class="anchor" id="_todo000008"></a>Member <a class="el" href="structboost_1_1hana_1_1_integral.html#a9fdcfeb2aec3af66ec8e83d02960d947">integral</a>  </dt>
-<dd>Do we want <code>char_&lt;1&gt; + char_&lt;2&gt; == char_&lt;3&gt;</code> or <code>char_&lt;1&gt; + char_&lt;2&gt; == int_&lt;3&gt;</code>?  </dd>
-<dt><a class="anchor" id="_todo000020"></a>Member <a class="el" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>  </dt>
+<dd><p class="startdd">Do we want <code>char_&lt;1&gt; + char_&lt;2&gt; == char_&lt;3&gt;</code> or <code>char_&lt;1&gt; + char_&lt;2&gt; == int_&lt;3&gt;</code>?</p>
+<p class="enddd">Consider specifying the type of <code>integral&lt;...&gt;</code> to allow overloading on its type. Not sure yet whether that's desirable or not.  </p>
+</dd>
+<dt><a class="anchor" id="_todo000021"></a>Member <a class="el" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>  </dt>
 <dd>Consider having <code>list_of&lt;Type&gt;</code>, <code>list_of&lt;Integral&gt;</code>, ..., <code>list_of&lt;Anything&gt;</code>, with <code>list == list_of&lt;Anything&gt;</code>. It does not fix the problem of partial type classes (e.g. <code>MplVector</code> is not <em>actually</em> a <code>List</code>), but at least we remove <code>TypeList</code> and <code>IntegerList</code>, which are arguably ugly.  </dd>
-<dt><a class="anchor" id="_todo000017"></a>Member <a class="el" href="structboost_1_1hana_1_1_integral.html#a1c078fd00db48686ca9e0aa17f47344e">operator</a> "_c" </dt>
+<dt><a class="anchor" id="_todo000018"></a>Member <a class="el" href="structboost_1_1hana_1_1_integral.html#a1c078fd00db48686ca9e0aa17f47344e">operator</a> "_c" </dt>
 <dd>Add support for stuff like <code>0x1234_c</code>.  </dd>
-<dt><a class="anchor" id="_todo000027"></a>Member <a class="el" href="structboost_1_1hana_1_1_type.html#a5286be1cfdaca72680089a7d15a5c14c">sizeof_</a>  </dt>
+<dt><a class="anchor" id="_todo000028"></a>Member <a class="el" href="structboost_1_1hana_1_1_type.html#a5286be1cfdaca72680089a7d15a5c14c">sizeof_</a>  </dt>
 <dd>Should we also support non-<code>Type</code>s? That could definitely be useful.  </dd>
-<dt><a class="anchor" id="_todo000030"></a>page <a class="el" href="index.html">User Manual</a>  </dt>
+<dt><a class="anchor" id="_todo000031"></a>page <a class="el" href="index.html">User Manual</a>  </dt>
 <dd><p class="startdd">Write this, but how to avoid duplicating the reference documentation?</p>
 <p>Use Type and List (both compile-time and runtime).</p>
 <p>Use Maybe and List.</p>
@@ -221,7 +223,7 @@ $(document).ready(function(){initNavTree('todo.html','');});
 <p></p>
 <p class="enddd">Document type classes with operators. </p>
 </dd>
-<dt><a class="anchor" id="_todo000022"></a>Member <a class="el" href="structboost_1_1hana_1_1_list.html#a5eadaf63535ebb8cdd8d9e4c16b9bacd">zip_with</a>  </dt>
+<dt><a class="anchor" id="_todo000023"></a>Member <a class="el" href="structboost_1_1hana_1_1_list.html#a5eadaf63535ebb8cdd8d9e4c16b9bacd">zip_with</a>  </dt>
 <dd>Consider allowing only two lists and achieving the variadic behavior in some other way. This would make it possible to automatically curry <code>zip_with</code>. It might be possible to achieve the variadic behavior with e.g. Applicative Functors? </dd>
 </dl>
 </div></div><!-- contents -->

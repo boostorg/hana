@@ -5,6 +5,7 @@ var searchData=
   ['comparable_2ehpp',['comparable.hpp',['../comparable_2comparable_8hpp.html',1,'']]],
   ['comparable_2ehpp',['comparable.hpp',['../comparable_8hpp.html',1,'']]],
   ['comparable_2ehpp',['comparable.hpp',['../detail_2minimal_2comparable_8hpp.html',1,'']]],
+  ['comparing',['comparing',['../structboost_1_1hana_1_1_comparable.html#a350ae6cc37fa971f203065bb628a7948',1,'boost::hana::Comparable']]],
   ['compose',['compose',['../group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b',1,'boost::hana']]],
   ['concat',['concat',['../structboost_1_1hana_1_1_list.html#a30a6926751dfcafbe2bb67738e2da3c4',1,'boost::hana::List']]],
   ['cons',['cons',['../structboost_1_1hana_1_1_list.html#a51732ddadf982e47f5757b092294df12',1,'boost::hana::List']]],

@@ -2,6 +2,7 @@ var searchData=
 [
   ['id',['id',['../group__group-functional.html#gaef38cf34324c8edbd3597ae71811d00d',1,'boost::hana']]],
   ['if_5f',['if_',['../structboost_1_1hana_1_1_logical.html#a06927a2badb729e1522b9030d18234df',1,'boost::hana::Logical']]],
+  ['in',['in',['../structboost_1_1hana_1_1_searchable.html#a234e4ee0bd5e0e9e604d6140fde24074',1,'boost::hana::Searchable']]],
   ['infix',['infix',['../group__group-functional.html#ga7bdafba6dc801f1d2d83731ad9714557',1,'boost::hana']]],
   ['infix_2ehpp',['infix.hpp',['../infix_8hpp.html',1,'']]],
   ['init',['init',['../structboost_1_1hana_1_1_list.html#a733fdb2e8686033466beea8323e53a26',1,'boost::hana::List']]],
