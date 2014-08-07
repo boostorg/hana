@@ -32,14 +32,13 @@ namespace boost { namespace hana {
     //!     traverse(f, x) == sequence(fmap(f, x))
     //! @endcode
     //!
-    //! where [Identity][] and [Compose][] are the identity functor and the
-    //! composition of functors, respectively. Note that these functors are
-    //! not provided with the library right now.
+    //! where `Identity` and [Compose][] are the identity functor and the
+    //! composition of functors, respectively. Note that Compose is not
+    //! provided with the library right now.
     //!
     //! @todo
-    //! Define these functors in the library.
+    //! Define Compose in the library.
     //!
-    //! [Identity]: http://hackage.haskell.org/package/transformers-0.4.1.0/docs/Data-Functor-Identity.html
     //! [Compose]: http://hackage.haskell.org/package/transformers-0.4.1.0/docs/Data-Functor-Compose.html
     struct Traversable {
         BOOST_HANA_TYPECLASS(Traversable);
