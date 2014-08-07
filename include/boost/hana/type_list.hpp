@@ -12,7 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable/equal_mcd.hpp>
-#include <boost/hana/foldable/mcd.hpp>
+#include <boost/hana/foldable/unpack_mcd.hpp>
 #include <boost/hana/iterable/mcd.hpp>
 #include <boost/hana/list/mcd.hpp>
 #include <boost/hana/type.hpp>
@@ -34,22 +34,15 @@ namespace boost { namespace hana {
     //!   than `Type`s? The same issue goes for `IntegerList`.
     struct TypeList { };
 
-    namespace tlist_detail {
+    namespace detail { namespace repr {
         template <typename ...xs>
         struct type_list {
-            struct type : operators::enable {
+            struct _ : operators::enable {
                 using hana_datatype = TypeList;
-
-                template <template <typename ...> class f>
-                using storage = f<xs...>;
-
-                template <typename F>
-                static constexpr auto storage_(F f) {
-                    return f.template apply<xs...>();
-                }
+                using storage = type_list<xs...>;
             };
         };
-    }
+    }}
 
     //! Creates a list containing the given types.
     //! @relates TypeList
@@ -59,91 +52,72 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/type_list/type_list.cpp main
     template <typename ...xs>
-    constexpr typename tlist_detail::type_list<xs...>::type type_list{};
+    constexpr typename detail::repr::type_list<xs...>::_ type_list{};
 
-    //! @details
-    //! The head of `type_list<x, xs...>` is `type<x>`, its tail is
-    //! `type_list<xs...>` and a type list is empty if and only if
-    //! it contains no types at all.
     template <>
     struct Iterable::instance<TypeList> : Iterable::mcd {
-    private:
-        template <typename x, typename ...xs>
-        struct head_helper {
-            static constexpr auto value = type<x>;
-        };
-
-        template <typename ...xs>
-        struct is_empty_helper {
-            static constexpr auto value = bool_<sizeof...(xs) == 0>;
-        };
-
-        template <typename x, typename ...xs>
-        struct tail_helper {
-            static constexpr auto value = type_list<xs...>;
-        };
-
-    public:
         template <typename Xs>
-        static constexpr auto head_impl(Xs) {
-            return Xs::template storage<head_helper>::value;
-        }
+        static constexpr auto head_impl(Xs)
+        { return head_impl(typename Xs::storage{}); }
+
+        template <typename X, typename ...Xs>
+        static constexpr auto head_impl(detail::repr::type_list<X, Xs...>)
+        { return type<X>; }
+
 
         template <typename Xs>
-        static constexpr auto tail_impl(Xs) {
-            return Xs::template storage<tail_helper>::value;
-        }
+        static constexpr auto tail_impl(Xs)
+        { return tail_impl(typename Xs::storage{}); }
+
+        template <typename X, typename ...Xs>
+        static constexpr auto tail_impl(detail::repr::type_list<X, Xs...>)
+        { return type_list<Xs...>; }
+
 
         template <typename Xs>
-        static constexpr auto is_empty_impl(Xs) {
-            return Xs::template storage<is_empty_helper>::value;
-        }
+        static constexpr auto is_empty_impl(Xs)
+        { return is_empty_impl(typename Xs::storage{}); }
+
+        template <typename ...Xs>
+        static constexpr auto is_empty_impl(detail::repr::type_list<Xs...>)
+        { return bool_<sizeof...(Xs) == 0>; }
     };
 
-    //! @details
-    //! `cons(type<x>, type_list<xs...>)` is equivalent to
-    //! `type_list<x, xs...>` and `nil<TypeList>` is equivalent
-    //! to `type_list<>`.
     template <>
     struct List::instance<TypeList> : List::mcd<TypeList> {
-    private:
-        template <typename ...xs>
-        struct cons_helper {
-            template <typename x>
-            static constexpr auto value = type_list<x, xs...>;
-        };
+        template <typename X, typename ...Xs>
+        static constexpr auto cons_impl(X, detail::repr::type_list<Xs...>)
+        { return type_list<typename X::type, Xs...>; }
 
-    public:
         template <typename X, typename Xs>
-        static constexpr auto cons_impl(X x, Xs xs) {
-            return Xs::template storage<cons_helper>::template value<typename X::type>;
-        }
+        static constexpr auto cons_impl(X x, Xs xs)
+        { return cons_impl(x, typename Xs::storage{}); }
 
-        static constexpr auto nil_impl() {
-            return type_list<>;
-        }
+        static constexpr auto nil_impl()
+        { return type_list<>; }
     };
 
     template <>
-    struct Foldable::instance<TypeList> : detail::FoldableFromIterable {
-        template <typename S, typename F>
-        struct helper {
-            S s;
-            F f;
-            template <typename ...xs>
-            constexpr auto apply() const
-            { return detail::left_folds::variadic_t<xs...>(f, s); }
-        };
-        template <typename Xs, typename S, typename F>
-        static constexpr auto foldl_impl(Xs xs, S s, F f)
-        { return xs.storage_(helper<S, F>{s, f}); }
+    struct Foldable::instance<TypeList> : Foldable::unpack_mcd {
+        //! @todo Fix the lost optimization caused by unpacking with `Type`s.
+        template <typename ...Xs, typename F>
+        static constexpr auto unpack_impl(detail::repr::type_list<Xs...>, F f)
+        { return f(type<Xs>...); }
+
+        template <typename Xs, typename F>
+        static constexpr auto unpack_impl(Xs, F f)
+        { return unpack_impl(typename Xs::storage{}, f); }
     };
 
     template <>
     struct Comparable::instance<TypeList, TypeList> : Comparable::equal_mcd {
         template <typename Xs, typename Ys>
         static constexpr auto equal_impl(Xs, Ys)
-        { return equal(type<Xs>, type<Ys>); }
+        { return false_; }
+
+        template <typename Xs>
+        static constexpr auto equal_impl(Xs, Xs)
+        { return true_; }
     };
 }} // end namespace boost::hana
 

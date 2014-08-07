@@ -12,19 +12,10 @@ Distributed under the Boost Software License, Version 1.0.
 using namespace boost::hana;
 
 
-template <int i>
-struct x;
-
-template <int ...i>
-constexpr auto tlist = type_list<x<i>...>;
+struct x0; struct x1; struct x2;
 
 BOOST_HANA_CONSTANT_ASSERT(Comparable::laws::check(
-    list(
-        tlist<>,
-        tlist<0>,
-        tlist<0, 1>,
-        tlist<0, 1, 2>
-    )
+    list(type_list<>, type_list<x0>, type_list<x0, x1>, type_list<x0, x1, x2>)
 ));
 
 int main() { }
