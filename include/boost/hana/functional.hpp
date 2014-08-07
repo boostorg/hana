@@ -10,10 +10,10 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FUNCTIONAL_HPP
 #define BOOST_HANA_FUNCTIONAL_HPP
 
-#include <boost/hana/detail/at_index/best.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/left_folds/variadic_unrolled.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
+#include <boost/hana/detail/variadic/at.hpp>
+#include <boost/hana/detail/variadic/foldl.hpp>
 
 #include <boost/hana/detail/functional/curry.hpp>
 #include <boost/hana/detail/functional/infix.hpp>
@@ -121,7 +121,7 @@ namespace boost { namespace hana {
         // Since compilers will typically try to continue for a bit after
         // an error/static assertion, we must avoid sending the compiler in
         // a very long computation if n == 0.
-        return detail::at_index::best<n == 0 ? 0 : n - 1>(x...);
+        return detail::variadic::at<n == 0 ? 0 : n - 1>(x...);
     };
 #endif
 
@@ -166,9 +166,7 @@ namespace boost { namespace hana {
     };
 #else
     BOOST_HANA_CONSTEXPR_LAMBDA auto compose = [](auto f, auto g, auto ...h) {
-        return detail::left_folds::variadic_unrolled(
-            functional_detail::compose2, f, g, h...
-        );
+        return detail::variadic::foldl(functional_detail::compose2, f, g, h...);
     };
 #endif
 

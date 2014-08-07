@@ -98,7 +98,7 @@ namespace boost { namespace hana {
         template <typename Index, typename Xs>
         static constexpr auto at_impl(Index n, Xs xs) {
             return xs.storage([=](auto ...xs) {
-                return detail::at_index::best<n()>(xs...);
+                return detail::variadic::at<n()>(xs...);
             });
         }
     };

@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/is_a.hpp>
-#include <boost/hana/detail/right_folds/variadic_unrolled.hpp>
+#include <boost/hana/detail/variadic/foldr.hpp>
 #include <boost/hana/foldable/foldable.hpp>
 #include <boost/hana/functor/fmap_mcd.hpp>
 #include <boost/hana/group/group.hpp>
@@ -80,7 +80,7 @@ namespace boost { namespace hana {
 
         template <typename ...Xs>
         static constexpr auto into_impl(Xs ...xs) {
-            return detail::right_folds::variadic_unrolled(cons, nil<T>, xs...);
+            return detail::variadic::foldr(cons, nil<T>, xs...);
         }
 
         template <typename Xs, typename Pred>

@@ -12,7 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/typeclass.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/left_folds/variadic_unrolled.hpp>
+#include <boost/hana/detail/variadic/foldl.hpp>
 
 
 namespace boost { namespace hana {
@@ -140,7 +140,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/logical/and.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto and_ = [](auto x, auto ...y) {
-        return detail::left_folds::variadic_unrolled(logical_detail::and2, x, y...);
+        return detail::variadic::foldl(logical_detail::and2, x, y...);
     };
 
     //! Return whether any of the arguments is true-valued.
@@ -157,7 +157,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/logical/or.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto or_ = [](auto x, auto ...y) {
-        return detail::left_folds::variadic_unrolled(logical_detail::or2, x, y...);
+        return detail::variadic::foldl(logical_detail::or2, x, y...);
     };
 
     namespace operators {

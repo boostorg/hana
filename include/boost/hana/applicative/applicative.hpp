@@ -12,7 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/typeclass.hpp>
 #include <boost/hana/detail/functional/curry.hpp>
-#include <boost/hana/detail/left_folds/variadic.hpp>
+#include <boost/hana/detail/variadic/foldl.hpp>
 #include <boost/hana/functor/functor.hpp>
 
 
@@ -76,7 +76,7 @@ namespace boost { namespace hana {
             constexpr auto operator()(F f, Xs ...xs) const {
                 static_assert(sizeof...(xs) >= 1,
                 "boost::hana::ap must be called with two arguments or more");
-                return detail::left_folds::variadic(
+                return detail::variadic::foldl(
                     *this,
                     fmap(curry<sizeof...(xs)>, f),
                     xs...
