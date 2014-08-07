@@ -1145,6 +1145,7 @@ I hope you enjoy using the library as much as I enjoyed writing it!
 #include <boost/hana/map.hpp>
 #include <boost/hana/maybe.hpp>
 #include <boost/hana/monad.hpp>
+#include <boost/hana/monoid.hpp>
 #include <boost/hana/orderable.hpp>
 #include <boost/hana/pair.hpp>
 #include <boost/hana/product.hpp>

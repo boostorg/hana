@@ -85,7 +85,6 @@ namespace boost { namespace hana {
         // Arithmetic
         BOOST_HANA_INTEGRAL_UNARY_OP(+)
         BOOST_HANA_INTEGRAL_UNARY_OP(-)
-        BOOST_HANA_INTEGRAL_BINARY_OP(+)
         BOOST_HANA_INTEGRAL_BINARY_OP(-)
         BOOST_HANA_INTEGRAL_BINARY_OP(*)
         BOOST_HANA_INTEGRAL_BINARY_OP(/)

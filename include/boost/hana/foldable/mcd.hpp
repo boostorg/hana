@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/integral.hpp>
 #include <boost/hana/logical/logical.hpp>
 #include <boost/hana/maybe.hpp>
+#include <boost/hana/monoid/monoid.hpp>
 #include <boost/hana/orderable/orderable.hpp>
 
 
@@ -74,11 +75,12 @@ namespace boost { namespace hana {
             });
         }
 
-        template <typename Foldable_>
-        static constexpr auto sum_impl(Foldable_ foldable) {
-            return foldl(foldable, int_<0>, [](auto x, auto y) {
-                return x + y;
-            });
+        //! @todo
+        //! The base case can't be `int_<0>`, it should be the identity of
+        //! a given `Monoid`?
+        template <typename Xs>
+        static constexpr auto sum_impl(Xs xs) {
+            return foldl(xs, int_<0>, plus);
         }
 
         template <typename Foldable_>
@@ -91,7 +93,7 @@ namespace boost { namespace hana {
         template <typename Foldable_, typename Pred>
         static constexpr auto count_impl(Foldable_ foldable, Pred pred) {
             return foldl(foldable, size_t<0>, [=](auto counter, auto x) {
-                return if_(pred(x), counter + size_t<1>, counter);
+                return if_(pred(x), plus(counter, size_t<1>), counter);
             });
         }
 

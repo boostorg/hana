@@ -16,6 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/detail/std/type_traits.hpp>
 #include <boost/hana/logical/mcd.hpp>
+#include <boost/hana/monoid/mcd.hpp>
 #include <boost/hana/orderable/less_mcd.hpp>
 
 
@@ -104,6 +105,35 @@ namespace boost { namespace hana {
         template <typename Cond>
         static constexpr auto not_impl(Cond c)
         { return bool_<!c()>; }
+    };
+
+    //! Additive `Monoid` of `Integral`s.
+    template <>
+    struct Monoid::instance<Integral, Integral> : Monoid::mcd {
+        template <typename X, typename Y>
+        static constexpr auto plus_impl(X x, Y y)
+        { return integral<decltype(value(x) + value(y)), value(x) + value(y)>; }
+
+        static constexpr auto zero_impl()
+        { return int_<0>; }
+    };
+
+    template <typename T>
+    struct Monoid::instance<Integral, T, when<detail::std::is_arithmetic<T>{}>>
+        : Monoid::mcd
+    {
+        template <typename X, typename Y>
+        static constexpr auto plus_impl(X x, Y y)
+        { return value(x) + y; }
+    };
+
+    template <typename T>
+    struct Monoid::instance<T, Integral, when<detail::std::is_arithmetic<T>{}>>
+        : Monoid::mcd
+    {
+        template <typename X, typename Y>
+        static constexpr auto plus_impl(X x, Y y)
+        { return x + value(y); }
     };
 
     namespace integral_detail {
