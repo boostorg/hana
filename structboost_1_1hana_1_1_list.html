@@ -101,7 +101,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_list.html','')
 <p>For any two <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose index-based sequence. ">List</a></code>s <code>xs</code> and <code>ys</code>, the following statement must hold:</p>
 <div class="fragment"><div class="line">xs == ys <span class="keywordflow">if</span> and only <span class="keywordflow">if</span> to&lt;List&gt;(xs) == to&lt;List&gt;(ys)</div>
 </div><!-- fragment --><p>This is basically saying that all <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose index-based sequence. ">List</a></code> instances are isomorphic to the instance defined by the <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose index-based sequence. ">List</a></code> data type, and it therefore makes sense to define comparison for any two instances of <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose index-based sequence. ">List</a></code>.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000022">Todo:</a></b></dt><dd><ul>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000023">Todo:</a></b></dt><dd><ul>
 <li>It might be possible to optimize the implementation of homogeneous lists using an array.</li>
 <li>How to implement iterate and repeat?</li>
 <li>We could provide automatic unit testing for any instance because we have the isomorphisms.</li>
@@ -221,8 +221,6 @@ Instances and minimal complete definitions</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list_1_1instance_3_01_mpl_vector_01_4.html">instance&lt; MplVector &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose index-based sequence. ">List</a></code> instance for Boost.MPL vectors.  <a href="structboost_1_1hana_1_1_list_1_1instance_3_01_mpl_vector_01_4.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list_1_1instance_3_01_type_list_01_4.html">instance&lt; TypeList &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list_1_1mcd.html">mcd</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Minimal complete definition: <code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="Iterable represents data structures supporting external iteration. ">Iterable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="Data structures that can be folded, i.e. summarized into a single value. ">Foldable</a></code>, <code>cons</code>, and <code>nil</code>  <a href="structboost_1_1hana_1_1_list_1_1mcd.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -252,7 +250,7 @@ Instances and minimal complete definitions</h2></td></tr>
 </div><!-- fragment -->
 <p>Creates a <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose index-based sequence. ">List</a></code> containing <code>xs...</code>. </p>
 <p>The <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose index-based sequence. ">List</a></code> data type is a general purpose compile-time heterogeneous sequence.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000021">Todo:</a></b></dt><dd>Consider having <code>list_of&lt;<a class="el" href="structboost_1_1hana_1_1_type.html" title="Object representing a C++ type. ">Type</a>&gt;</code>, <code>list_of&lt;<a class="el" href="structboost_1_1hana_1_1_integral.html" title="Represents a compile-time value of an integral type. ">Integral</a>&gt;</code>, ..., <code>list_of&lt;Anything&gt;</code>, with <code>list == list_of&lt;Anything&gt;</code>. It does not fix the problem of partial type classes (e.g. <code><a class="el" href="structboost_1_1hana_1_1_mpl_vector.html" title="Data type representing Boost.MPL vectors. ">MplVector</a></code> is not <em>actually</em> a <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose index-based sequence. ">List</a></code>), but at least we remove <code><a class="el" href="structboost_1_1hana_1_1_type_list.html" title="List containing Types only. ">TypeList</a></code> and <code><a class="el" href="structboost_1_1hana_1_1_integer_list.html" title="List containing Integrals of the same underlying type only. ">IntegerList</a></code>, which are arguably ugly. </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000022">Todo:</a></b></dt><dd>Consider having <code>list_of&lt;<a class="el" href="structboost_1_1hana_1_1_type.html" title="Object representing a C++ type. ">Type</a>&gt;</code>, <code>list_of&lt;<a class="el" href="structboost_1_1hana_1_1_integral.html" title="Represents a compile-time value of an integral type. ">Integral</a>&gt;</code>, ..., <code>list_of&lt;Anything&gt;</code>, with <code>list == list_of&lt;Anything&gt;</code>. It does not fix the problem of partial type classes (e.g. <code><a class="el" href="structboost_1_1hana_1_1_mpl_vector.html" title="Data type representing Boost.MPL vectors. ">MplVector</a></code> is not <em>actually</em> a <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose index-based sequence. ">List</a></code>), but at least we remove <code><a class="el" href="structboost_1_1hana_1_1_type_list.html" title="List containing Types only. ">TypeList</a></code> and <code><a class="el" href="structboost_1_1hana_1_1_integer_list.html" title="List containing Integrals of the same underlying type only. ">IntegerList</a></code>, which are arguably ugly. </dd></dl>
 
 </div>
 </div>
@@ -670,7 +668,7 @@ template&lt;typename L &gt; </div>
 <div class="image">
 <img src="benchmark.list.permutations.time.png" alt="benchmark.list.permutations.time.png"/>
 </div>
-<dl class="bug"><dt><b><a class="el" href="bug.html#_bug000001">Bug:</a></b></dt><dd>We got a performance problem here. Generating the permutations of a list of more than 3 elements takes a long time (&gt;6s). </dd></dl>
+<dl class="bug"><dt><b><a class="el" href="bug.html#_bug000002">Bug:</a></b></dt><dd>We got a performance problem here. Generating the permutations of a list of more than 3 elements takes a long time (&gt;6s). </dd></dl>
 
 </div>
 </div>
@@ -1428,7 +1426,7 @@ template&lt;typename L &gt; </div>
 <div class="line">        ==</div>
 <div class="line">        <a class="code" href="structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225">list</a>(5, 12, 21, 32)</div>
 <div class="line">    );</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000023">Todo:</a></b></dt><dd>Consider allowing only two lists and achieving the variadic behavior in some other way. This would make it possible to automatically curry <code>zip_with</code>. It might be possible to achieve the variadic behavior with e.g. <a class="el" href="structboost_1_1hana_1_1_applicative.html" title="Applicatives are Functors with the ability to lift values and combine computations. ">Applicative</a> Functors? </dd></dl>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000024">Todo:</a></b></dt><dd>Consider allowing only two lists and achieving the variadic behavior in some other way. This would make it possible to automatically curry <code>zip_with</code>. It might be possible to achieve the variadic behavior with e.g. <a class="el" href="structboost_1_1hana_1_1_applicative.html" title="Applicatives are Functors with the ability to lift values and combine computations. ">Applicative</a> Functors? </dd></dl>
 
 </div>
 </div>

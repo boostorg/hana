@@ -58,8 +58,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"structboost_1_1hana_1_1_comparable_1_1instance_3_01_integral_00_01_t_00_01when_3_01detail_1_1std769acac9d2a8bf45726ba3b0f7ff9bbe.html",
-"structboost_1_1hana_1_1_type.html#acf4f287f903e6a0a75e53b86da1cbae8"
+"structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627",
+"structboost_1_1hana_1_1_type.html#a5286be1cfdaca72680089a7d15a5c14c"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

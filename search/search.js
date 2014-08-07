@@ -8,8 +8,8 @@
 var indexSectionsWithContent =
 {
   0: "_abcdefghijklmnoprstuvwz",
-  1: "abcdefilmnoprstw",
-  2: "abcdefhilmnoprstvw",
+  1: "abcdefilmnoprstuw",
+  2: "abcdefhilmnoprstuvw",
   3: "o",
   4: "_abcdefghijklmnoprstuvz",
   5: "dvw",

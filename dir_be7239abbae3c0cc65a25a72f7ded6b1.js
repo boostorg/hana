@@ -76,8 +76,5 @@ var dir_be7239abbae3c0cc65a25a72f7ded6b1 =
     [ "type.hpp", "type_8hpp.html", [
       [ "instance< Type, Type >", "structboost_1_1hana_1_1_comparable_1_1instance_3_01_type_00_01_type_01_4.html", null ]
     ] ],
-    [ "type_list.hpp", "type__list_8hpp.html", [
-      [ "instance< TypeList >", "structboost_1_1hana_1_1_iterable_1_1instance_3_01_type_list_01_4.html", null ],
-      [ "instance< TypeList >", "structboost_1_1hana_1_1_list_1_1instance_3_01_type_list_01_4.html", null ]
-    ] ]
+    [ "type_list.hpp", "type__list_8hpp.html", null ]
 ];

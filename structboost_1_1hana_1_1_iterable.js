@@ -4,7 +4,6 @@ var structboost_1_1hana_1_1_iterable =
     [ "instance< List >", "structboost_1_1hana_1_1_iterable_1_1instance_3_01_list_01_4.html", null ],
     [ "instance< MplVector >", "structboost_1_1hana_1_1_iterable_1_1instance_3_01_mpl_vector_01_4.html", null ],
     [ "instance< Range >", "structboost_1_1hana_1_1_iterable_1_1instance_3_01_range_01_4.html", null ],
-    [ "instance< TypeList >", "structboost_1_1hana_1_1_iterable_1_1instance_3_01_type_list_01_4.html", null ],
     [ "mcd", "structboost_1_1hana_1_1_iterable_1_1mcd.html", null ],
     [ "head", "structboost_1_1hana_1_1_iterable.html#adc2675aeee1174a9b337e94f39506bec", null ],
     [ "tail", "structboost_1_1hana_1_1_iterable.html#ab15783aae10d4373e2399abe728f3f96", null ],

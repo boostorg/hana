@@ -101,13 +101,13 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_type.html','')
 <p>So far, we're only able to pass wrapped types around, which isn't very useful. For <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="Object representing a C++ type. ">Type</a></code>s to be of some use, they have to give us a way of getting that wrapped type out. Hence, for any <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="Object representing a C++ type. ">Type</a></code> <code>t</code>, <code>decltype(t)<a class="el" href="structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c" title="Creates an object representing the C++ type T. ">type</a></code> is an alias to the type it wraps. In Boost.MPL parlance, <code>decltype(t)</code> is a nullary metafunction returning the C++ type <code>t</code> represents.</p>
 <h2>Instance of</h2>
 <p><code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable type class defines equality and inequality. ">Comparable</a></code></p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000027">Todo:</a></b></dt><dd><ul>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000010">Todo:</a></b></dt><dd><ul>
 <li>Completely figure out and document the category theoretical foundation of this data type.</li>
 <li>Consider instantiating <code><a class="el" href="structboost_1_1hana_1_1_functor.html" title="Functor represents types that can be mapped over. ">Functor</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="Applicatives are Functors with the ability to lift values and combine computations. ">Applicative</a></code> and <code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="Monads are Applicatives with the ability to flatten values that were lifted more than once...">Monad</a></code> if that's possible.</li>
 <li>Consider having a <code>.name()</code> method that would return the (demangled?) <code>typeid(T).name()</code>.</li>
 </ul>
 </dd></dl>
-<dl class="bug"><dt><b><a class="el" href="bug.html#_bug000003">Bug:</a></b></dt><dd><code>metafunction</code> and friends are not SFINAE-friendly right now. See <a href="http://gcc.gnu.org/bugzilla/show_bug.cgi?id=59498">this</a> GCC bug and also <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/cwg_active.html#1430">Core 1430</a> issue. Once this issue is resolved, look at the unit tests for those utilities and either uncomment or remove the relevant test section. </dd></dl>
+<dl class="bug"><dt><b><a class="el" href="bug.html#_bug000001">Bug:</a></b></dt><dd><code>metafunction</code> and friends are not SFINAE-friendly right now. See <a href="http://gcc.gnu.org/bugzilla/show_bug.cgi?id=59498">this</a> GCC bug and also <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/cwg_active.html#1430">Core 1430</a> issue. Once this issue is resolved, look at the unit tests for those utilities and either uncomment or remove the relevant test section. </dd></dl>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of methods</h2></td></tr>

@@ -27,6 +27,16 @@ var group__group_datatypes =
       [ "from_maybe", "structboost_1_1hana_1_1_maybe.html#afb98884a58d911687bf2aa64a411d623", null ],
       [ "from_just", "structboost_1_1hana_1_1_maybe.html#a2ebdc9b916940e038e6f2e3043e4f796", null ]
     ] ],
+    [ "Type", "structboost_1_1hana_1_1_type.html", [
+      [ "type", "structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c", null ],
+      [ "decltype_", "structboost_1_1hana_1_1_type.html#a81f30da3c8d927156d17ec09b8a2a4de", null ],
+      [ "sizeof_", "structboost_1_1hana_1_1_type.html#a5286be1cfdaca72680089a7d15a5c14c", null ],
+      [ "template_", "structboost_1_1hana_1_1_type.html#a503dafb950079297ba2ec206ed8d5c36", null ],
+      [ "metafunction", "structboost_1_1hana_1_1_type.html#ae9bfabe7d39900f3ac536b008ef2ad39", null ],
+      [ "metafunction_class", "structboost_1_1hana_1_1_type.html#a58734f5a67f0a7bfbc5351896934610b", null ],
+      [ "trait", "structboost_1_1hana_1_1_type.html#acf4f287f903e6a0a75e53b86da1cbae8", null ],
+      [ "trait_", "structboost_1_1hana_1_1_type.html#a5157ade103ca188ea16e378e2d528fb7", null ]
+    ] ],
     [ "MplIntegralConstant", "structboost_1_1hana_1_1_mpl_integral_constant.html", null ],
     [ "MplVector", "structboost_1_1hana_1_1_mpl_vector.html", null ],
     [ "IntegerList", "structboost_1_1hana_1_1_integer_list.html", [
@@ -40,7 +50,6 @@ var group__group_datatypes =
       [ "instance< IntegerList >", "structboost_1_1hana_1_1_list_1_1instance_3_01_integer_list_01_4.html", null ],
       [ "instance< List >", "structboost_1_1hana_1_1_list_1_1instance_3_01_list_01_4.html", null ],
       [ "instance< MplVector >", "structboost_1_1hana_1_1_list_1_1instance_3_01_mpl_vector_01_4.html", null ],
-      [ "instance< TypeList >", "structboost_1_1hana_1_1_list_1_1instance_3_01_type_list_01_4.html", null ],
       [ "mcd", "structboost_1_1hana_1_1_list_1_1mcd.html", null ],
       [ "list", "structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225", null ],
       [ "concat", "structboost_1_1hana_1_1_list.html#a30a6926751dfcafbe2bb67738e2da3c4", null ],
@@ -86,17 +95,7 @@ var group__group_datatypes =
     [ "Set", "structboost_1_1hana_1_1_set.html", [
       [ "set", "structboost_1_1hana_1_1_set.html#a7c6caacd6df4a89e8b62b369007d9602", null ]
     ] ],
-    [ "Type", "structboost_1_1hana_1_1_type.html", [
-      [ "type", "structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c", null ],
-      [ "decltype_", "structboost_1_1hana_1_1_type.html#a81f30da3c8d927156d17ec09b8a2a4de", null ],
-      [ "sizeof_", "structboost_1_1hana_1_1_type.html#a5286be1cfdaca72680089a7d15a5c14c", null ],
-      [ "template_", "structboost_1_1hana_1_1_type.html#a503dafb950079297ba2ec206ed8d5c36", null ],
-      [ "metafunction", "structboost_1_1hana_1_1_type.html#ae9bfabe7d39900f3ac536b008ef2ad39", null ],
-      [ "metafunction_class", "structboost_1_1hana_1_1_type.html#a58734f5a67f0a7bfbc5351896934610b", null ],
-      [ "trait", "structboost_1_1hana_1_1_type.html#acf4f287f903e6a0a75e53b86da1cbae8", null ],
-      [ "trait_", "structboost_1_1hana_1_1_type.html#a5157ade103ca188ea16e378e2d528fb7", null ]
-    ] ],
     [ "TypeList", "structboost_1_1hana_1_1_type_list.html", [
-      [ "type_list", "structboost_1_1hana_1_1_type_list.html#acfe56da5da5e9e8ed2c3d47197ab754e", null ]
+      [ "type_list", "structboost_1_1hana_1_1_type_list.html#a53ad7cdd289901a95df78208c752f60e", null ]
     ] ]
 ];

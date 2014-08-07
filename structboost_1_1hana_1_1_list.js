@@ -3,7 +3,6 @@ var structboost_1_1hana_1_1_list =
     [ "instance< IntegerList >", "structboost_1_1hana_1_1_list_1_1instance_3_01_integer_list_01_4.html", null ],
     [ "instance< List >", "structboost_1_1hana_1_1_list_1_1instance_3_01_list_01_4.html", null ],
     [ "instance< MplVector >", "structboost_1_1hana_1_1_list_1_1instance_3_01_mpl_vector_01_4.html", null ],
-    [ "instance< TypeList >", "structboost_1_1hana_1_1_list_1_1instance_3_01_type_list_01_4.html", null ],
     [ "mcd", "structboost_1_1hana_1_1_list_1_1mcd.html", null ],
     [ "list", "structboost_1_1hana_1_1_list.html#a7d7c9b8e94dfcac46c7427a9b82e3225", null ],
     [ "concat", "structboost_1_1hana_1_1_list.html#a30a6926751dfcafbe2bb67738e2da3c4", null ],
