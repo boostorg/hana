@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable/comparable.hpp>
 #include <boost/hana/core/is_a.hpp>
 #include <boost/hana/foldable/mcd.hpp>
+#include <boost/hana/group/group.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/logical/logical.hpp>
 
@@ -26,7 +27,7 @@ namespace boost { namespace hana {
         static constexpr auto at_impl(Index n, Iterable_ iterable) {
             return eval_if(equal(n, size_t<0>),
                 [=](auto _) { return head(_(iterable)); },
-                [=](auto _) { return at_impl(_(n) - size_t<1>, tail(_(iterable))); }
+                [=](auto _) { return at_impl(_(minus)(n, size_t<1>), tail(_(iterable))); }
             );
         }
 
@@ -42,7 +43,7 @@ namespace boost { namespace hana {
         static constexpr auto drop_impl(N n, Iterable_ iterable) {
             return eval_if(or_(equal(n, size_t<0>), is_empty(iterable)),
                 [=](auto) { return iterable; },
-                [=](auto _) { return drop_impl(_(n) - size_t<1>, tail(_(iterable))); }
+                [=](auto _) { return drop_impl(_(minus)(n, size_t<1>), tail(_(iterable))); }
             );
         }
 

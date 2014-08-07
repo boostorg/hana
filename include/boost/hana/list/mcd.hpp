@@ -19,6 +19,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/right_folds/variadic_unrolled.hpp>
 #include <boost/hana/foldable/foldable.hpp>
 #include <boost/hana/functor/fmap_mcd.hpp>
+#include <boost/hana/group/group.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/iterable/iterable.hpp>
 #include <boost/hana/logical/logical.hpp>
@@ -235,7 +236,7 @@ namespace boost { namespace hana {
             return eval_if(or_(is_empty(xs), equal(n, int_<0>)),
                 [](auto _) { return nil<T>; },
                 [=](auto _) {
-                    return cons(_(head)(xs), take_impl(n - int_<1>, _(tail)(xs)));
+                    return cons(_(head)(xs), take_impl(minus(n, int_<1>), _(tail)(xs)));
                 }
             );
         }

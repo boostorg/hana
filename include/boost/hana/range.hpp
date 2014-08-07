@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/detail/std/integer_sequence.hpp>
 #include <boost/hana/foldable/foldable.hpp>
+#include <boost/hana/group/group.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/iterable/mcd.hpp>
 #include <boost/hana/logical/logical.hpp>
@@ -98,7 +99,7 @@ namespace boost { namespace hana {
 
         template <typename R>
         static constexpr auto tail_impl(R r)
-        { return range(r.from + int_<1>, r.to); }
+        { return range(plus(r.from, int_<1>), r.to); }
 
         template <typename R>
         static constexpr auto is_empty_impl(R r)
@@ -106,15 +107,15 @@ namespace boost { namespace hana {
 
         template <typename N, typename R>
         static constexpr auto at_impl(N n, R r)
-        { return r.from + n; }
+        { return plus(r.from, n); }
 
         template <typename R>
         static constexpr auto last_impl(R r)
-        { return r.to - int_<1>; }
+        { return minus(r.to, int_<1>); }
 
         template <typename N, typename R>
         static constexpr auto drop_impl(N n, R r) {
-            auto size = r.to - r.from;
+            auto size = minus(r.to, r.from);
             return range(if_(greater(n, size), r.to, plus(r.from, n)), r.to);
         }
     };
@@ -129,14 +130,14 @@ namespace boost { namespace hana {
 
         template <typename R, typename F>
         static constexpr auto unpack_impl(R r, F f) {
-            auto size = r.to - r.from;
+            auto size = minus(r.to, r.from);
             return unpack_helper(f, r.from,
                 detail::std::make_integer_sequence<decltype(r.from()), size()>{});
         }
 
         template <typename R>
         static constexpr auto length_impl(R r)
-        { return r.to - r.from; }
+        { return minus(r.to, r.from); }
     };
 
     //! @details

@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/integral_fwd.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/detail/std/type_traits.hpp>
+#include <boost/hana/group/minus_mcd.hpp>
 #include <boost/hana/logical/mcd.hpp>
 #include <boost/hana/monoid/mcd.hpp>
 #include <boost/hana/orderable/less_mcd.hpp>
@@ -134,6 +135,34 @@ namespace boost { namespace hana {
         template <typename X, typename Y>
         static constexpr auto plus_impl(X x, Y y)
         { return x + value(y); }
+    };
+
+    //! Additive `Group` of `Integral`s.
+    template <>
+    struct Group::instance<Integral, Integral>
+        : Group::minus_mcd<Integral, Integral>
+    {
+        template <typename X, typename Y>
+        static constexpr auto minus_impl(X x, Y y)
+        { return integral<decltype(value(x) - value(y)), value(x) - value(y)>; }
+    };
+
+    template <typename T>
+    struct Group::instance<Integral, T, when<detail::std::is_arithmetic<T>{}>>
+        : Group::minus_mcd<Integral, T>
+    {
+        template <typename X, typename Y>
+        static constexpr auto minus_impl(X x, Y y)
+        { return value(x) - y; }
+    };
+
+    template <typename T>
+    struct Group::instance<T, Integral, when<detail::std::is_arithmetic<T>{}>>
+        : Group::minus_mcd<T, Integral>
+    {
+        template <typename X, typename Y>
+        static constexpr auto minus_impl(X x, Y y)
+        { return x - value(y); }
     };
 
     namespace integral_detail {

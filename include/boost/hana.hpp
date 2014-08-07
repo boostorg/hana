@@ -1130,6 +1130,7 @@ I hope you enjoy using the library as much as I enjoyed writing it!
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/functor.hpp>
+#include <boost/hana/group.hpp>
 #include <boost/hana/identity.hpp>
 #include <boost/hana/integer_list.hpp>
 #include <boost/hana/integral.hpp>
