@@ -1025,12 +1025,6 @@ library, the header structure should feel intuitive.
     is possible for a type class to have several minimal complete definitions,
     in which case there are several such headers with a proper name.
 
-  - `boost/hana/[typeclass]/laws.hpp`\n
-    This file defines the laws associated to a type class. Not all type
-    classes have laws associated to them and some type classes have laws
-    which are too hard to check automatically, in which case this header
-    is not provided.
-
   - `boost/hana/[typeclass]/instance.hpp`\n
     Some type classes are such that all instances are forced to be isomorphic.
     In that case, it sometimes makes sense to provide an implementation of the
