@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_DETAIL_MINIMAL_GROUP_HPP
 
 #include <boost/hana/comparable/equal_mcd.hpp>
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/group/minus_mcd.hpp>
 #include <boost/hana/group/negate_mcd.hpp>
 #include <boost/hana/monoid/mcd.hpp>
@@ -21,7 +22,8 @@ namespace detail { namespace minimal {
     template <template <typename ...> class mcd = hana::Group::minus_mcd>
     struct Group { };
 
-    template <template <typename ...> class mcd, typename = operators::enable>
+    template <template <typename ...> class mcd,
+        typename = operators<hana::Group, hana::Monoid, hana::Comparable>>
     struct group_impl {
         int value;
         using hana_datatype = Group<mcd>;

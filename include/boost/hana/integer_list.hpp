@@ -11,8 +11,11 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_INTEGER_LIST_HPP
 
 #include <boost/hana/bool.hpp>
+#include <boost/hana/comparable/comparable.hpp>
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/iterable/mcd.hpp>
 #include <boost/hana/list/mcd.hpp>
+#include <boost/hana/monad/monad.hpp>
 
 
 namespace boost { namespace hana {
@@ -26,7 +29,7 @@ namespace boost { namespace hana {
 
     namespace ilist_detail {
         template <typename T, T ...xs>
-        struct integer_list : operators::enable {
+        struct integer_list : operators<Comparable, Monad> {
             using hana_datatype = IntegerList;
         };
     }

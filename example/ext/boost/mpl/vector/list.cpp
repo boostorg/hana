@@ -12,22 +12,21 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/mpl/vector.hpp>
 #include <type_traits>
 using namespace boost::hana;
-using namespace operators; // required to be able to == MPL vectors
 namespace mpl = boost::mpl;
 
 
-BOOST_HANA_CONSTANT_ASSERT(
-    cons(type<int>, mpl::vector<char>{}) == mpl::vector<int, char>{}
-);
+BOOST_HANA_CONSTANT_ASSERT(equal(
+    cons(type<int>, mpl::vector<char>{}),
+    mpl::vector<int, char>{}
+));
 
 // error: only Types can go in a MPL vector
 // cons(1, mpl::vector<int>{});
 
-BOOST_HANA_CONSTANT_ASSERT(
-    filter(mpl::vector<int, float, char, void>{}, trait<std::is_integral>)
-    ==
+BOOST_HANA_CONSTANT_ASSERT(equal(
+    filter(mpl::vector<int, float, char, void>{}, trait<std::is_integral>),
     mpl::vector<int, char>{}
-);
+));
 
 
 int main() { }

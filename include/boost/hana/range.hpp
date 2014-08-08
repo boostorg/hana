@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_RANGE_HPP
 
 #include <boost/hana/comparable/equal_mcd.hpp>
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/detail/std/integer_sequence.hpp>
 #include <boost/hana/foldable/foldable.hpp>
 #include <boost/hana/group/group.hpp>
@@ -30,7 +31,7 @@ namespace boost { namespace hana {
     struct Range { };
 
     namespace range_detail {
-        template <typename From, typename To, typename = operators::enable>
+        template <typename From, typename To, typename = operators<Comparable>>
         struct range {
             From from;
             To to;

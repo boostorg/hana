@@ -17,7 +17,9 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     struct Function;
 
-    template <typename Domain, typename Codomain, typename F, typename = operators::enable>
+    template <typename Domain, typename Codomain, typename F,
+        typename = operators<Comparable>
+    >
     struct function_type {
         using hana_datatype = Function;
 

@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/applicative/mcd.hpp>
 #include <boost/hana/comparable/equal_mcd.hpp>
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/functor/fmap_mcd.hpp>
 
 
@@ -20,7 +21,7 @@ namespace detail { namespace minimal {
     template <typename mcd = hana::Applicative::mcd>
     struct Applicative { };
 
-    template <typename T, typename mcd, typename = operators::enable>
+    template <typename T, typename mcd, typename = operators<hana::Comparable>>
     struct applicative_type {
         T value;
         using hana_datatype = Applicative<mcd>;

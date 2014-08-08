@@ -14,6 +14,12 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/detail/std/type_traits.hpp>
 
+#include <boost/hana/comparable/detail/comparable_fwd.hpp>
+#include <boost/hana/group/detail/group_fwd.hpp>
+#include <boost/hana/logical/detail/logical_fwd.hpp>
+#include <boost/hana/monoid/detail/monoid_fwd.hpp>
+#include <boost/hana/orderable/detail/orderable_fwd.hpp>
+
 
 namespace boost { namespace hana {
     //! @ingroup group-datatypes
@@ -40,7 +46,7 @@ namespace boost { namespace hana {
     //! @snippet example/integral/operators.cpp main
     //!
     //! ## Instance of
-    //! `Comparable`, `Logical`
+    //! `Comparable`, `Logical`, `Orderable`, `Monoid`, `Group`
     //!
     //! @todo
     //! Implicit conversions to the underlying integral type can be problematic:
@@ -58,7 +64,9 @@ namespace boost { namespace hana {
 
     namespace integral_detail {
         template <typename T, T v>
-        struct integral : operators::enable {
+        struct integral
+            : operators<Comparable, Orderable, Monoid, Group, Logical>
+        {
             using type = integral;
             using value_type = T;
             static constexpr value_type value = v;

@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/iterable/mcd.hpp>
 #include <boost/hana/list/instance.hpp>
 
@@ -22,7 +23,9 @@ namespace detail { namespace minimal {
     template <typename mcd = hana::Iterable::mcd>
     struct Iterable { };
 
-    template <typename Storage, typename mcd, typename = operators::enable>
+    template <typename Storage, typename mcd,
+        typename = operators<hana::Comparable>
+    >
     struct iterable_type {
         Storage storage;
         using hana_datatype = Iterable<mcd>;

@@ -11,9 +11,12 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_DETAIL_MINIMAL_LIST_HPP
 
 #include <boost/hana/bool.hpp>
+#include <boost/hana/comparable/comparable.hpp>
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/foldable/foldable.hpp>
 #include <boost/hana/iterable/mcd.hpp>
 #include <boost/hana/list/mcd.hpp>
+#include <boost/hana/monad/monad.hpp>
 
 
 namespace boost { namespace hana {
@@ -21,7 +24,9 @@ namespace detail { namespace minimal {
     template <typename mcd = hana::List::mcd<void>>
     struct List { };
 
-    template <typename Storage, typename mcd, typename = operators::enable>
+    template <typename Storage, typename mcd,
+        typename = operators<hana::Comparable, hana::Monad>
+    >
     struct list_type {
         Storage storage;
         using hana_datatype = List<mcd>;

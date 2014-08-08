@@ -21,7 +21,6 @@ void test() {
     BOOST_HANA_CONSTEXPR_ASSERT(not_(greater_equal(orderable(0), orderable(1))));
 
     // operators
-    using operators::operator>=;
     BOOST_HANA_CONSTEXPR_ASSERT(orderable(1) >= orderable(0));
     BOOST_HANA_CONSTEXPR_ASSERT(orderable(0) >= orderable(0));
     BOOST_HANA_CONSTEXPR_ASSERT(not_(orderable(0) >= orderable(1)));

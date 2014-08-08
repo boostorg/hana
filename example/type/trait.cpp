@@ -16,10 +16,8 @@ using namespace boost::hana;
 
 int main() {
     //! [liftable]
-    using operators::operator!; // required to negate the result of std::is_integral
-
     BOOST_HANA_CONSTANT_ASSERT(trait<std::is_integral>(type<int>));
-    BOOST_HANA_CONSTANT_ASSERT(!trait<std::is_integral>(type<float>));
+    BOOST_HANA_CONSTANT_ASSERT(not_(trait<std::is_integral>(type<float>)));
     //! [liftable]
 
     //! [nonliftable]

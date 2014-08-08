@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_TYPE_FWD_HPP
 #define BOOST_HANA_DETAIL_TYPE_FWD_HPP
 
+#include <boost/hana/comparable/detail/comparable_fwd.hpp>
 #include <boost/hana/core/datatype.hpp>
 
 
@@ -72,9 +73,9 @@ namespace boost { namespace hana {
     struct Metafunction { };
 
     namespace type_detail {
-        template <typename T>
+        template <typename T, typename ...Nothing>
         struct make_type {
-            struct type_ : operators::enable {
+            struct hidden : operators<Comparable> {
                 using hana_datatype = Type;
                 using type = T;
 
@@ -92,7 +93,6 @@ namespace boost { namespace hana {
                 constexpr auto operator()(Args ...args) const
                 { return construct(int{0}, args...); }
             };
-            using type = type_;
         };
     }
 
@@ -111,7 +111,7 @@ namespace boost { namespace hana {
     //! Hence, it can be used as a metafunction returning `T`:
     //! @snippet example/type/as_metafunction.cpp main
     template <typename T>
-    constexpr typename type_detail::make_type<T>::type type{};
+    constexpr typename type_detail::make_type<T>::hidden type{};
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_DETAIL_TYPE_FWD_HPP

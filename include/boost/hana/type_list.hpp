@@ -12,9 +12,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable/equal_mcd.hpp>
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/foldable/unpack_mcd.hpp>
 #include <boost/hana/iterable/mcd.hpp>
 #include <boost/hana/list/mcd.hpp>
+#include <boost/hana/monad/monad.hpp>
 #include <boost/hana/type.hpp>
 
 
@@ -37,7 +39,7 @@ namespace boost { namespace hana {
     namespace detail { namespace repr {
         template <typename ...xs>
         struct type_list {
-            struct _ : operators::enable {
+            struct hidden : operators<Comparable, Monad> {
                 using hana_datatype = TypeList;
                 using storage = type_list<xs...>;
             };
@@ -52,7 +54,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/type_list/type_list.cpp main
     template <typename ...xs>
-    constexpr typename detail::repr::type_list<xs...>::_ type_list{};
+    constexpr typename detail::repr::type_list<xs...>::hidden type_list{};
 
     template <>
     struct Iterable::instance<TypeList> : Iterable::mcd {

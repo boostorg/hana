@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/applicative/mcd.hpp>
 #include <boost/hana/comparable/equal_mcd.hpp>
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/functor/fmap_mcd.hpp>
 #include <boost/hana/logical/logical.hpp>
@@ -26,7 +27,7 @@ namespace boost { namespace hana {
     //! Taken from http://math.andrej.com/2008/11/21/a-haskell-monad-for-infinite-search-in-finite-time/.
     struct SearchableSet;
 
-    template <typename Find, typename = operators::enable>
+    template <typename Find, typename = operators<Comparable, Monad>>
     struct _sset {
         Find find;
         using hana_datatype = SearchableSet;

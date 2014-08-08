@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_DETAIL_MINIMAL_MONOID_HPP
 
 #include <boost/hana/comparable/equal_mcd.hpp>
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/monoid/mcd.hpp>
 
 
@@ -19,7 +20,7 @@ namespace detail { namespace minimal {
     template <typename mcd = hana::Monoid::mcd>
     struct Monoid { };
 
-    template <typename mcd, typename = operators::enable>
+    template <typename mcd, typename = operators<hana::Monoid, hana::Comparable>>
     struct monoid_impl {
         int value;
         using hana_datatype = Monoid<mcd>;

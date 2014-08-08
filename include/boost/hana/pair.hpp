@@ -10,6 +10,8 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_PAIR_HPP
 #define BOOST_HANA_PAIR_HPP
 
+#include <boost/hana/comparable/comparable.hpp>
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/product/mcd.hpp>
 
@@ -20,7 +22,7 @@ namespace boost { namespace hana {
     struct Pair { };
 
     namespace pair_detail {
-        template <typename First, typename Second, typename = operators::enable>
+        template <typename First, typename Second, typename = operators<Comparable>>
         struct pair {
             First first;
             Second second;

@@ -19,10 +19,10 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto x) {
 };
 
 int main() {
-    BOOST_HANA_CONSTEXPR_ASSERT(fmap(f, lazy(1)) == lazy(f(1)));
-    BOOST_HANA_CONSTEXPR_ASSERT(fmap(f, lazy(2.2)) == lazy(f(2.2)));
+    BOOST_HANA_CONSTEXPR_ASSERT(equal(fmap(f, lazy(1)), lazy(f(1))));
+    BOOST_HANA_CONSTEXPR_ASSERT(equal(fmap(f, lazy(2.2)), lazy(f(2.2))));
 
-    BOOST_HANA_CONSTEXPR_ASSERT(fmap(id, lazy(1)) == lazy(1));
-    BOOST_HANA_CONSTEXPR_ASSERT(fmap(id, lazy('2')) == lazy('2'));
-    BOOST_HANA_CONSTEXPR_ASSERT(fmap(id, lazy(3.3)) == lazy(3.3));
+    BOOST_HANA_CONSTEXPR_ASSERT(equal(fmap(id, lazy(1)), lazy(1)));
+    BOOST_HANA_CONSTEXPR_ASSERT(equal(fmap(id, lazy('2')), lazy('2')));
+    BOOST_HANA_CONSTEXPR_ASSERT(equal(fmap(id, lazy(3.3)), lazy(3.3)));
 }

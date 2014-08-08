@@ -18,7 +18,7 @@ using namespace boost::hana;
 
 struct Matrix;
 
-template <typename Storage, typename = operators::enable>
+template <typename Storage, typename = operators<Comparable>>
 struct matrix_type {
     using hana_datatype = Matrix;
 

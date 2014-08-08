@@ -23,6 +23,6 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto x) {
 };
 
 int main() {
-    BOOST_HANA_CONSTEXPR_ASSERT(bind(lazy(x<0>), f) == f(x<0>));
-    BOOST_HANA_CONSTEXPR_ASSERT(bind(lazy(x<1>), f) == f(x<1>));
+    BOOST_HANA_CONSTEXPR_ASSERT(equal(bind(lazy(x<0>), f), f(x<0>)));
+    BOOST_HANA_CONSTEXPR_ASSERT(equal(bind(lazy(x<1>), f), f(x<1>)));
 }

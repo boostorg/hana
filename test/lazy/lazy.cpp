@@ -27,10 +27,10 @@ template <int i>
 constexpr auto x = detail::minimal::comparable<>(i);
 
 int main() {
-    BOOST_HANA_CONSTEXPR_ASSERT(lazy(f)() == lazy(f()));
-    BOOST_HANA_CONSTEXPR_ASSERT(lazy(f)(x<0>) == lazy(f(x<0>)));
-    BOOST_HANA_CONSTEXPR_ASSERT(lazy(f)(x<0>, x<1>) == lazy(f(x<0>, x<1>)));
-    BOOST_HANA_CONSTEXPR_ASSERT(lazy(f)(x<0>, x<1>, x<2>) == lazy(f(x<0>, x<1>, x<2>)));
+    BOOST_HANA_CONSTEXPR_ASSERT(equal(lazy(f)(), lazy(f())));
+    BOOST_HANA_CONSTEXPR_ASSERT(equal(lazy(f)(x<0>), lazy(f(x<0>))));
+    BOOST_HANA_CONSTEXPR_ASSERT(equal(lazy(f)(x<0>, x<1>), lazy(f(x<0>, x<1>))));
+    BOOST_HANA_CONSTEXPR_ASSERT(equal(lazy(f)(x<0>, x<1>, x<2>), lazy(f(x<0>, x<1>, x<2>))));
 
     // The function is not applied.
     lazy(invalid)();

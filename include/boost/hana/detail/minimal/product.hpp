@@ -10,12 +10,15 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_MINIMAL_PRODUCT_HPP
 #define BOOST_HANA_DETAIL_MINIMAL_PRODUCT_HPP
 
+#include <boost/hana/comparable/comparable.hpp>
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/product/mcd.hpp>
 
 
 namespace boost { namespace hana {
 namespace detail { namespace minimal {
-    template <typename X, typename Y, typename mcd, typename = operators::enable>
+    template <typename X, typename Y, typename mcd,
+        typename = operators<hana::Comparable>>
     struct product_type {
         X fst;
         Y snd;

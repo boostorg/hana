@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/applicative/applicative.hpp>
 #include <boost/hana/comparable/equal_mcd.hpp>
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/traversable/traverse_mcd.hpp>
 
 
@@ -20,7 +21,7 @@ namespace detail { namespace minimal {
     template <typename mcd = hana::Traversable::traverse_mcd>
     struct Traversable { };
 
-    template <typename X, typename mcd, typename = operators::enable>
+    template <typename X, typename mcd, typename = operators<hana::Comparable>>
     struct traversable_type {
         X value;
         using hana_datatype = Traversable<mcd>;

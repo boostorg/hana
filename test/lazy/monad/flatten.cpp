@@ -18,7 +18,7 @@ template <int i>
 constexpr auto x = detail::minimal::comparable<>(i);
 
 int main() {
-    BOOST_HANA_CONSTEXPR_ASSERT(flatten(lazy(lazy(x<0>))) == lazy(x<0>));
-    BOOST_HANA_CONSTEXPR_ASSERT(flatten(lazy(lazy(x<1>))) == lazy(x<1>));
-    BOOST_HANA_CONSTEXPR_ASSERT(flatten(lazy(lazy(lazy(x<1>)))) == lazy(lazy(x<1>)));
+    BOOST_HANA_CONSTEXPR_ASSERT(equal(flatten(lazy(lazy(x<0>))), lazy(x<0>)));
+    BOOST_HANA_CONSTEXPR_ASSERT(equal(flatten(lazy(lazy(x<1>))), lazy(x<1>)));
+    BOOST_HANA_CONSTEXPR_ASSERT(equal(flatten(lazy(lazy(lazy(x<1>)))), lazy(lazy(x<1>))));
 }

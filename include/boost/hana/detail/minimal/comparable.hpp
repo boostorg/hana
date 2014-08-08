@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/comparable/not_equal_mcd.hpp>
+#include <boost/hana/core/datatype.hpp>
 
 
 namespace boost { namespace hana {
@@ -19,7 +20,7 @@ namespace detail { namespace minimal {
     template <typename mcd = hana::Comparable::equal_mcd>
     struct Comparable { };
 
-    template <typename mcd, typename = operators::enable>
+    template <typename mcd, typename = operators<hana::Comparable>>
     struct comparable_impl {
         int value;
         using hana_datatype = Comparable<mcd>;

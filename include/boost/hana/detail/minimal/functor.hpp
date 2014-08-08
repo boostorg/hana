@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_DETAIL_MINIMAL_FUNCTOR_HPP
 
 #include <boost/hana/comparable/equal_mcd.hpp>
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/functor/adjust_mcd.hpp>
 #include <boost/hana/functor/fmap_mcd.hpp>
 
@@ -20,7 +21,7 @@ namespace detail { namespace minimal {
     template <typename mcd = hana::Functor::fmap_mcd>
     struct Functor { };
 
-    template <typename T, typename mcd, typename = operators::enable>
+    template <typename T, typename mcd, typename = operators<hana::Comparable>>
     struct functor_type {
         T value;
         using hana_datatype = Functor<mcd>;

@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_DETAIL_MINIMAL_SEARCHABLE_HPP
 
 #include <boost/hana/comparable/equal_mcd.hpp>
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/logical/logical.hpp>
 #include <boost/hana/maybe.hpp>
 #include <boost/hana/searchable/mcd.hpp>
@@ -21,7 +22,7 @@ namespace detail { namespace minimal {
     template <typename mcd = hana::Searchable::mcd>
     struct Searchable { };
 
-    template <typename X, typename mcd, typename = operators::enable>
+    template <typename X, typename mcd, typename = operators<hana::Comparable>>
     struct searchable_type {
         X value;
         using hana_datatype = Searchable<mcd>;

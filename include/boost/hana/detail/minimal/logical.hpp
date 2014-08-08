@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_DETAIL_MINIMAL_LOGICAL_HPP
 
 #include <boost/hana/comparable/equal_mcd.hpp>
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/logical/mcd.hpp>
 
 
@@ -19,7 +20,7 @@ namespace detail { namespace minimal {
     template <typename mcd = hana::Logical::mcd>
     struct Logical { };
 
-    template <typename mcd, typename = operators::enable>
+    template <typename mcd, typename = operators<hana::Logical, hana::Comparable>>
     struct logical_impl {
         bool value;
         using hana_datatype = Logical<mcd>;

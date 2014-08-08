@@ -20,8 +20,8 @@ void test() {
     constexpr auto applicative = detail::minimal::applicative<mcd>;
     using A = detail::minimal::Applicative<mcd>;
 
-    BOOST_HANA_CONSTEXPR_ASSERT(lift<A>(x<0>) == applicative(x<0>));
-    BOOST_HANA_CONSTEXPR_ASSERT(lift<A>(x<1>) == applicative(x<1>));
+    BOOST_HANA_CONSTEXPR_ASSERT(equal(lift<A>(x<0>), applicative(x<0>)));
+    BOOST_HANA_CONSTEXPR_ASSERT(equal(lift<A>(x<1>), applicative(x<1>)));
 }
 
 int main() {

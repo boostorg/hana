@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_DETAIL_MINIMAL_ORDERABLE_HPP
 
 #include <boost/hana/comparable/equal_mcd.hpp>
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/orderable/less_mcd.hpp>
 
 
@@ -19,7 +20,7 @@ namespace detail { namespace minimal {
     template <typename mcd = hana::Orderable::less_mcd>
     struct Orderable { };
 
-    template <typename mcd, typename = operators::enable>
+    template <typename mcd, typename = operators<hana::Orderable, hana::Comparable>>
     struct orderable_impl {
         int value;
         using hana_datatype = Orderable<mcd>;

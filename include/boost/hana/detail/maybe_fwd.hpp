@@ -13,6 +13,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/logical/logical.hpp>
 
+#include <boost/hana/comparable/comparable.hpp>
+#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/monad/monad.hpp>
+
 
 namespace boost { namespace hana {
     //! @ingroup group-datatypes
@@ -27,7 +31,8 @@ namespace boost { namespace hana {
     struct Maybe { };
 
     namespace maybe_detail {
-        template <bool is_valid, typename T, typename = operators::enable>
+        template <bool is_valid, typename T,
+            typename = operators<Comparable, Monad>>
         struct maybe {
             using hana_datatype = Maybe;
 

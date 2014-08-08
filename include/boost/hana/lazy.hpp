@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_LAZY_HPP
 
 #include <boost/hana/applicative/mcd.hpp>
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/wrap.hpp>
 #include <boost/hana/functor/fmap_mcd.hpp>
@@ -45,7 +46,7 @@ namespace boost { namespace hana {
     };
 
     namespace lazy_detail {
-        template <typename Storage, typename = operators::enable>
+        template <typename Storage, typename = operators<Monad>>
         struct lazy {
             Storage storage;
             using hana_datatype = Lazy;

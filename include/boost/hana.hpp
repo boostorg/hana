@@ -986,11 +986,11 @@ library, the header structure should feel intuitive.
   - `boost/hana/core/`
 
     - `boost/hana/core/datatype.hpp`\n
-      This file defines everything required to define a new data type. This
-      includes the `datatype` metafunction, `when`, `when_valid` and
-      `operators::enable`. By contract, all the other files in
-      `boost/hana/core/` include this one, so there is no need to include
-      it when something else in `boost/hana/core/` is already included.
+      This file defines everything required to define a new data type.
+      This includes the `datatype` metafunction, `when`, `when_valid` and
+      `operators`. By contract, all the other files in `boost/hana/core/`
+      include this one, so there is no need to include it when something
+      else in `boost/hana/core/` is already included.
 
     - `boost/hana/core/typeclass.hpp`\n
       This file defines everything required to define a new type class. This

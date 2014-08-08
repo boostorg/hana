@@ -16,6 +16,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
+    namespace monad_detail { namespace operators { struct enable { }; }}
+
     //! @ingroup group-typeclasses
     //! `Monad`s are `Applicative`s with the ability to flatten values that
     //! were lifted more than once.
@@ -38,6 +40,8 @@ namespace boost { namespace hana {
         template <typename M>
         struct flatten_mcd;
         struct laws;
+
+        using operators = monad_detail::operators::enable;
     };
 
     //! Apply a function returning a monad to the value(s) inside a monad.
@@ -141,7 +145,7 @@ namespace boost { namespace hana {
     constexpr monad_detail::tap<M> tap{};
 #endif
 
-    namespace operators {
+    namespace monad_detail { namespace operators {
         //! Equivalent to `bind`.
         //! @relates boost::hana::Monad
         //!
@@ -151,7 +155,7 @@ namespace boost { namespace hana {
         template <typename M, typename F>
         constexpr auto operator|(M m, F f)
         { return bind(m, f); }
-    }
+    }}
 
     namespace monad_detail {
         template <typename M>

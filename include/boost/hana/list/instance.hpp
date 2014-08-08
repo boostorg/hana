@@ -16,6 +16,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/list/list.hpp>
 
 #include <boost/hana/bool.hpp>
+#include <boost/hana/comparable/comparable.hpp>
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/variadic/at.hpp>
 #include <boost/hana/foldable/unpack_mcd.hpp>
@@ -24,12 +26,13 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/integral.hpp>
 #include <boost/hana/iterable/mcd.hpp>
 #include <boost/hana/list/mcd.hpp>
+#include <boost/hana/monad/monad.hpp>
 #include <boost/hana/range.hpp>
 
 
 namespace boost { namespace hana {
     namespace list_detail {
-        template <typename Storage, typename = operators::enable>
+        template <typename Storage, typename = operators<Monad, Comparable>>
         struct list {
             using hana_datatype = List;
             Storage storage;

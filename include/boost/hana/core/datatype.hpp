@@ -101,36 +101,66 @@ namespace boost { namespace hana {
     template <typename T>
     using datatype_t = typename datatype<T>::type;
 
-    namespace operators {
-        //! @ingroup group-core
-        //! Allows operators in the `boost::hana::operators` namespace to be
-        //! found by ADL.
-        //!
-        //! Use this as a dummy template parameter or base class to make
-        //! operators in the `boost::hana::operators` namespace ADL-findable
-        //! for a type.
-        //!
-        //! @note
-        //! Nothing except operators should be defined in this namespace;
-        //! otherwise, ambiguities can arise when `using namespace operators`.
-        //!
-        //! @todo
-        //! Is ADL really the best way of providing custom operators? This has
-        //! (at least) the problem that templated types which have nothing to
-        //! do with Boost.Hana could have their set of associated namespaces
-        //! augmented with `boost::hana::operators` in an undesirable way:
-        //! @code
-        //!     template <typename T>
-        //!     struct nothing_to_do_with_hana { };
-        //!
-        //!     template <typename T, typename = operators::enable>
-        //!     struct something_to_do_with_hana { };
-        //!
-        //!     nothing_to_do_with_hana<something_to_do_with_hana<int>> x{};
-        //!     x == x; // tries to use Comparable::equal_impl
-        //! @endcode
-        struct enable { };
+    //! @ingroup group-core
+    //! Allows the operators associated to the given type classes to be
+    //! found by ADL.
+    //!
+    //! Specifically, `operators` takes zero or more type classes providing
+    //! custom operators and makes them findable by argument-dependent lookup
+    //! for any class `C` such that:
+    //! 1. `operators<...>` is a base class of `C`
+    //! 2. `C` is a template specialization and `operators<...>` appears in
+    //!    its template argument list.
+    //!
+    //! In other words, either inherit from `operators<T1, ..., Tn>` or use
+    //! it as a dummy template parameter to make the custom operators defined
+    //! by the type classes `T1`, ..., `Tn` available to objects of that type.
+    //!
+    //! @attention
+    //! A data type using `operators` __may not__ rely on the instance
+    //! provided by some type classes which rely on the presence of
+    //! specific operators to implement a method. For example, one may
+    //! not use `operators` and then rely on the instance of `Comparable`
+    //! for all objects that can be compared using `==`, because that is
+    //! redundant. Failure to respect this will result in undefined behavior.
+    //!
+    //! @tparam Typeclasses...
+    //! Type classes whose custom operators should be made visible to ADL.
+    //! Note that all the type classes must provide custom operators; a
+    //! compile-time error is triggered otherwise.
+    //!
+    //! ### Example
+    //! @include example/core/operators.cpp
+    //!
+    //! @todo
+    //! Is ADL really the best way of providing custom operators? This has
+    //! (at least) the problem that templated types which have nothing to
+    //! do with Boost.Hana could have their set of associated namespaces
+    //! augmented with `boost::hana::operators` in an undesirable way:
+    //! @code
+    //!     template <typename T>
+    //!     struct nothing_to_do_with_hana { };
+    //!
+    //!     template <typename T, typename = operators<Comparable>>
+    //!     struct something_to_do_with_hana { };
+    //!
+    //!     nothing_to_do_with_hana<something_to_do_with_hana<int>> x{};
+    //!     x == x; // tries to use Comparable::equal_impl
+    //! @endcode
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    template <typename ...Typeclasses>
+    using operators = unspecified;
+#else
+    namespace core_detail {
+        template <typename ...T>
+        struct enable_adl : T... { };
     }
+
+    template <typename ...Typeclasses>
+    using operators = core_detail::enable_adl<
+        typename Typeclasses::operators...
+    >;
+#endif
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_CORE_DATATYPE_HPP
