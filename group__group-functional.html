@@ -358,7 +358,7 @@ template&lt;std::size_t arity&gt; </div>
 <div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(curry&lt;3&gt;(add)(1)(2)(3) == 1 + 2 + 3);</div>
 <div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(curry&lt;3&gt;(add)(1)(2, 3) == curry&lt;3&gt;(add)(1)(2)(3));</div>
 <div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(curry&lt;3&gt;(add)(1, 2, 3) == curry&lt;3&gt;(add)(1)(2)(3));</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000016">Todo:</a></b></dt><dd>Consider making <code>curry&lt;0&gt;(f)</code> equivalent to <code>f</code>. It might be more general or less useful if it creates subtle pitfalls.</dd></dl>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000017">Todo:</a></b></dt><dd>Consider making <code>curry&lt;0&gt;(f)</code> equivalent to <code>f</code>. It might be more general or less useful if it creates subtle pitfalls.</dd></dl>
 
 </div>
 </div>
@@ -398,7 +398,7 @@ template&lt;std::size_t arity&gt; </div>
 <div class="line">        ==</div>
 <div class="line">        make_tuple(10 + 4, 10 - 4, 10 * 4, 10 / 4)</div>
 <div class="line">    );</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000017">Todo:</a></b></dt><dd>I think this is equivalent to <code>fmap . fmap</code>. See <a href="http://stackoverflow.com/q/5821089/627587">http://stackoverflow.com/q/5821089/627587</a> </dd></dl>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000018">Todo:</a></b></dt><dd>I think this is equivalent to <code>fmap . fmap</code>. See <a href="http://stackoverflow.com/q/5821089/627587">http://stackoverflow.com/q/5821089/627587</a> </dd></dl>
 
 </div>
 </div>
@@ -418,7 +418,7 @@ template&lt;std::size_t arity&gt; </div>
 <div class="line">            <span class="keywordflow">return</span> f(<a class="code" href="group__group-functional.html#ga1393f40da2e8da6e0c12fce953e56a6c">fix</a>(f), x...);</div>
 <div class="line">        };</div>
 <div class="line">    }</div>
-<div class="ttc" id="group__group-functional_html_ga1393f40da2e8da6e0c12fce953e56a6c"><div class="ttname"><a href="group__group-functional.html#ga1393f40da2e8da6e0c12fce953e56a6c">boost::hana::fix</a></div><div class="ttdeci">constexpr auto fix</div><div class="ttdoc">Return a function computing the fixed point of a function. </div><div class="ttdef"><b>Definition:</b> functional.hpp:323</div></div>
+<div class="ttc" id="group__group-functional_html_ga1393f40da2e8da6e0c12fce953e56a6c"><div class="ttname"><a href="group__group-functional.html#ga1393f40da2e8da6e0c12fce953e56a6c">boost::hana::fix</a></div><div class="ttdeci">constexpr auto fix</div><div class="ttdoc">Return a function computing the fixed point of a function. </div><div class="ttdef"><b>Definition:</b> functional.hpp:321</div></div>
 </div><!-- fragment -->
 <p>Return a function computing the fixed point of a function. </p>
 <p><code>fix</code> is an implementation of the <a href="http://en.wikipedia.org/wiki/Fixed-point_combinator">Y-combinator</a>, also called the fixed-point combinator. It encodes the idea of recursion, and in fact any recursive function can be written in terms of it.</p>
@@ -564,7 +564,7 @@ template&lt;std::size_t arity&gt; </div>
 <div class="line">    };</div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(<a class="code" href="group__group-functional.html#gafca60c09e1f7a32a2b52baaf6515c279">lockstep</a>(plus, to_int, inc)(<span class="charliteral">&#39;3&#39;</span>, 4) == 3 + 5);</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000018">Todo:</a></b></dt><dd>I think this is equivalent to <code>&lt;*&gt;</code> for <code>((-&gt;) r)</code>. </dd></dl>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000019">Todo:</a></b></dt><dd>I think this is equivalent to <code>&lt;*&gt;</code> for <code>((-&gt;) r)</code>. </dd></dl>
 
 </div>
 </div>
@@ -584,7 +584,7 @@ template&lt;std::size_t arity&gt; </div>
 <div class="line">            <span class="keywordflow">return</span> f(g(x)...);</div>
 <div class="line">        };</div>
 <div class="line">    })</div>
-<div class="ttc" id="group__group-functional_html_ga7bdafba6dc801f1d2d83731ad9714557"><div class="ttname"><a href="group__group-functional.html#ga7bdafba6dc801f1d2d83731ad9714557">boost::hana::infix</a></div><div class="ttdeci">constexpr auto infix</div><div class="ttdoc">Return an equivalent function that can also be applied in infix notation. </div><div class="ttdef"><b>Definition:</b> functional.hpp:413</div></div>
+<div class="ttc" id="group__group-functional_html_ga7bdafba6dc801f1d2d83731ad9714557"><div class="ttname"><a href="group__group-functional.html#ga7bdafba6dc801f1d2d83731ad9714557">boost::hana::infix</a></div><div class="ttdeci">constexpr auto infix</div><div class="ttdoc">Return an equivalent function that can also be applied in infix notation. </div><div class="ttdef"><b>Definition:</b> functional.hpp:411</div></div>
 </div><!-- fragment -->
 <p>Invoke a function with the result of invoking another function on each argument. </p>
 <p>Specifically, <code>on(f, g)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>(f, g)(x...) == f(g(x)...)</div>

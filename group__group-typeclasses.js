@@ -23,7 +23,7 @@ var group__group_typeclasses =
       [ "instance< T, U, when< is_a< List, T >()&&is_a< List, U >() > >", "structboost_1_1hana_1_1_comparable_1_1instance_3_01_t_00_01_u_00_01when_3_01is__a_3_01_list_00_03427c89578a48db3863d73ebe0ef141a.html", null ],
       [ "instance< T, U, when< is_a< Product, T >()&&is_a< Product, U >() > >", "structboost_1_1hana_1_1_comparable_1_1instance_3_01_t_00_01_u_00_01when_3_01is__a_3_01_product_013c6594e5695e2dfb196782c211bc867.html", null ],
       [ "instance< Type, Type >", "structboost_1_1hana_1_1_comparable_1_1instance_3_01_type_00_01_type_01_4.html", null ],
-      [ "instance< X, Y, when_valid< decltype((void)(*(X *) 0==*(Y *) 0))> >", "structboost_1_1hana_1_1_comparable_1_1instance_3_01_x_00_01_y_00_01when__valid_3_01decltype_07_0b9c7edd68038220b64adea74b77b79b1.html", null ],
+      [ "instance< X, Y, when< is_valid< decltype((void)(*(X *) 0==*(Y *) 0))> > >", "structboost_1_1hana_1_1_comparable_1_1instance_3_01_x_00_01_y_00_01when_3_01is__valid_3_01declty98d972ca3ff5025ab4e3a4e8910bc5c8.html", null ],
       [ "not_equal_mcd", "structboost_1_1hana_1_1_comparable_1_1not__equal__mcd.html", null ],
       [ "equal", "structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627", null ],
       [ "not_equal", "structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925", null ],
@@ -68,6 +68,16 @@ var group__group_typeclasses =
       [ "adjust", "structboost_1_1hana_1_1_functor.html#ac27a1807b60b8fa59e6c618cb8ca749f", null ],
       [ "replace", "structboost_1_1hana_1_1_functor.html#a72e73dcc09699c619bcfb006029a8967", null ],
       [ "fill", "structboost_1_1hana_1_1_functor.html#a35025921d0fb75c28c2411d207a0da5e", null ]
+    ] ],
+    [ "Group", "structboost_1_1hana_1_1_group.html", [
+      [ "instance< Integral, Integral >", "structboost_1_1hana_1_1_group_1_1instance_3_01_integral_00_01_integral_01_4.html", null ],
+      [ "instance< X, Y, when< are< Monoid, X, Y >()&&is_valid< decltype((void)(*(X *) 0-*(Y *) 0))> > >", "structboost_1_1hana_1_1_group_1_1instance_3_01_x_00_01_y_00_01when_3_01are_3_01_monoid_00_01_x_0152a83eaf10d9937bbc3642e697c4ed8.html", null ],
+      [ "minus_mcd", "structboost_1_1hana_1_1_group_1_1minus__mcd.html", null ],
+      [ "negate_mcd", "structboost_1_1hana_1_1_group_1_1negate__mcd.html", null ],
+      [ "minus", "structboost_1_1hana_1_1_group.html#a866303b4a7433e5320efc6b961a04238", null ],
+      [ "negate", "structboost_1_1hana_1_1_group.html#a69e56a0004a93e0745ee178ce0b80e65", null ],
+      [ "operator-", "structboost_1_1hana_1_1_group.html#ae04cfdbd493019d194eef2e4f1c45edf", null ],
+      [ "operator-", "structboost_1_1hana_1_1_group.html#a3295c42aca4e68e28a3cab713161ec8b", null ]
     ] ],
     [ "Iterable", "structboost_1_1hana_1_1_iterable.html", [
       [ "instance< IntegerList >", "structboost_1_1hana_1_1_iterable_1_1instance_3_01_integer_list_01_4.html", null ],
@@ -121,7 +131,7 @@ var group__group_typeclasses =
     ] ],
     [ "Logical", "structboost_1_1hana_1_1_logical.html", [
       [ "instance< Integral >", "structboost_1_1hana_1_1_logical_1_1instance_3_01_integral_01_4.html", null ],
-      [ "instance< T, when_valid< decltype(*(T *) 0?(void) 0:(void) 0)> >", "structboost_1_1hana_1_1_logical_1_1instance_3_01_t_00_01when__valid_3_01decltype_07_5_07_t_01_5_27918e8b9c0dfd8a60d8528ab5eb2aa9.html", null ],
+      [ "instance< T, when< is_valid< decltype(*(T *) 0?(void) 0:(void) 0)> > >", "structboost_1_1hana_1_1_logical_1_1instance_3_01_t_00_01when_3_01is__valid_3_01decltype_07_5_07_ae1dbc29ae5be1bd3a6a524e60510c5a.html", null ],
       [ "mcd", "structboost_1_1hana_1_1_logical_1_1mcd.html", null ],
       [ "if_", "structboost_1_1hana_1_1_logical.html#a06927a2badb729e1522b9030d18234df", null ],
       [ "eval_if", "structboost_1_1hana_1_1_logical.html#a97f92ff5d73f8ebd7e9eb61142b2e68e", null ],
@@ -143,6 +153,14 @@ var group__group_typeclasses =
       [ "flatten", "structboost_1_1hana_1_1_monad.html#a45985423d0658e88f0403773146af110", null ],
       [ "tap", "structboost_1_1hana_1_1_monad.html#a17ea859a2702ea45ea4999a8a0d2cc63", null ],
       [ "operator|", "structboost_1_1hana_1_1_monad.html#a25d5e6959ae78bd0ac649e2d955e378e", null ]
+    ] ],
+    [ "Monoid", "structboost_1_1hana_1_1_monoid.html", [
+      [ "instance< Integral, Integral >", "structboost_1_1hana_1_1_monoid_1_1instance_3_01_integral_00_01_integral_01_4.html", null ],
+      [ "instance< X, Y, when< is_valid< decltype((void)(static_cast< X >(0), static_cast< Y >(0),*(X *) 0+*(Y *) 0))> > >", "structboost_1_1hana_1_1_monoid_1_1instance_3_01_x_00_01_y_00_01when_3_01is__valid_3_01decltype_0123ad1ff7fa910c8a3957ac719a3b1df.html", null ],
+      [ "mcd", "structboost_1_1hana_1_1_monoid_1_1mcd.html", null ],
+      [ "plus", "structboost_1_1hana_1_1_monoid.html#a98d9ffdd62fe8226c726ae4ce8e6cf97", null ],
+      [ "zero", "structboost_1_1hana_1_1_monoid.html#a52bd77cbc25ea1180fcbb2c10c61e988", null ],
+      [ "operator+", "structboost_1_1hana_1_1_monoid.html#aef6309fe4fdbdea74e16a82e4e4b5546", null ]
     ] ],
     [ "Orderable", "structboost_1_1hana_1_1_orderable.html", [
       [ "instance< Integral, Integral >", "structboost_1_1hana_1_1_orderable_1_1instance_3_01_integral_00_01_integral_01_4.html", null ],

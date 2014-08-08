@@ -12,6 +12,6 @@ var searchData=
   ['trait_5f',['trait_',['../structboost_1_1hana_1_1_type.html#a5157ade103ca188ea16e378e2d528fb7',1,'boost::hana::Type']]],
   ['traverse',['traverse',['../structboost_1_1hana_1_1_traversable.html#a15f448955bcfe5b536c94a76b0c007fb',1,'boost::hana::Traversable']]],
   ['true_5f',['true_',['../structboost_1_1hana_1_1_integral.html#ae6096d56dd1b76bb9d37e4121eb5b33c',1,'boost::hana::Integral']]],
-  ['type',['type',['../structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c',1,'boost::hana::Type']]],
-  ['type_5flist',['type_list',['../structboost_1_1hana_1_1_type_list.html#a53ad7cdd289901a95df78208c752f60e',1,'boost::hana::TypeList']]]
+  ['type',['type',['../structboost_1_1hana_1_1_type.html#a38a0f9e2d8df802d1a0a0d835d39b709',1,'boost::hana::Type']]],
+  ['type_5flist',['type_list',['../structboost_1_1hana_1_1_type_list.html#ab5789c6e700de00f298aa1f34dd10898',1,'boost::hana::TypeList']]]
 ];

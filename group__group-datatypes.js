@@ -28,7 +28,7 @@ var group__group_datatypes =
       [ "from_just", "structboost_1_1hana_1_1_maybe.html#a2ebdc9b916940e038e6f2e3043e4f796", null ]
     ] ],
     [ "Type", "structboost_1_1hana_1_1_type.html", [
-      [ "type", "structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c", null ],
+      [ "type", "structboost_1_1hana_1_1_type.html#a38a0f9e2d8df802d1a0a0d835d39b709", null ],
       [ "decltype_", "structboost_1_1hana_1_1_type.html#a81f30da3c8d927156d17ec09b8a2a4de", null ],
       [ "sizeof_", "structboost_1_1hana_1_1_type.html#a5286be1cfdaca72680089a7d15a5c14c", null ],
       [ "template_", "structboost_1_1hana_1_1_type.html#a503dafb950079297ba2ec206ed8d5c36", null ],
@@ -39,6 +39,7 @@ var group__group_datatypes =
     ] ],
     [ "MplIntegralConstant", "structboost_1_1hana_1_1_mpl_integral_constant.html", null ],
     [ "MplVector", "structboost_1_1hana_1_1_mpl_vector.html", null ],
+    [ "Identity", "structboost_1_1hana_1_1_identity.html", null ],
     [ "IntegerList", "structboost_1_1hana_1_1_integer_list.html", [
       [ "integer_list", "structboost_1_1hana_1_1_integer_list.html#ac11fe3aa29fccdcad358f085a643b4be", null ]
     ] ],
@@ -96,6 +97,6 @@ var group__group_datatypes =
       [ "set", "structboost_1_1hana_1_1_set.html#a7c6caacd6df4a89e8b62b369007d9602", null ]
     ] ],
     [ "TypeList", "structboost_1_1hana_1_1_type_list.html", [
-      [ "type_list", "structboost_1_1hana_1_1_type_list.html#a53ad7cdd289901a95df78208c752f60e", null ]
+      [ "type_list", "structboost_1_1hana_1_1_type_list.html#ab5789c6e700de00f298aa1f34dd10898", null ]
     ] ]
 ];

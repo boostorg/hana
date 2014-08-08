@@ -2,9 +2,6 @@ var annotated =
 [
     [ "boost", null, [
       [ "hana", null, [
-        [ "operators", null, [
-          [ "enable", "structboost_1_1hana_1_1operators_1_1enable.html", null ]
-        ] ],
         [ "Applicative", "structboost_1_1hana_1_1_applicative.html", "structboost_1_1hana_1_1_applicative" ],
         [ "Comparable", "structboost_1_1hana_1_1_comparable.html", "structboost_1_1hana_1_1_comparable" ],
         [ "Constant", "structboost_1_1hana_1_1_constant.html", "structboost_1_1hana_1_1_constant" ],
@@ -19,6 +16,8 @@ var annotated =
         [ "disable", "structboost_1_1hana_1_1disable.html", null ],
         [ "Foldable", "structboost_1_1hana_1_1_foldable.html", "structboost_1_1hana_1_1_foldable" ],
         [ "Functor", "structboost_1_1hana_1_1_functor.html", "structboost_1_1hana_1_1_functor" ],
+        [ "Group", "structboost_1_1hana_1_1_group.html", "structboost_1_1hana_1_1_group" ],
+        [ "Identity", "structboost_1_1hana_1_1_identity.html", null ],
         [ "IntegerList", "structboost_1_1hana_1_1_integer_list.html", "structboost_1_1hana_1_1_integer_list" ],
         [ "Integral", "structboost_1_1hana_1_1_integral.html", "structboost_1_1hana_1_1_integral" ],
         [ "Iterable", "structboost_1_1hana_1_1_iterable.html", "structboost_1_1hana_1_1_iterable" ],
@@ -28,6 +27,7 @@ var annotated =
         [ "Map", "structboost_1_1hana_1_1_map.html", "structboost_1_1hana_1_1_map" ],
         [ "Maybe", "structboost_1_1hana_1_1_maybe.html", "structboost_1_1hana_1_1_maybe" ],
         [ "Monad", "structboost_1_1hana_1_1_monad.html", "structboost_1_1hana_1_1_monad" ],
+        [ "Monoid", "structboost_1_1hana_1_1_monoid.html", "structboost_1_1hana_1_1_monoid" ],
         [ "MplIntegralConstant", "structboost_1_1hana_1_1_mpl_integral_constant.html", null ],
         [ "MplVector", "structboost_1_1hana_1_1_mpl_vector.html", null ],
         [ "Orderable", "structboost_1_1hana_1_1_orderable.html", "structboost_1_1hana_1_1_orderable" ],

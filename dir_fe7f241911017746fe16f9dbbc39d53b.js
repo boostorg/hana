@@ -1,10 +1,10 @@
 var dir_fe7f241911017746fe16f9dbbc39d53b =
 [
+    [ "detail", "dir_21a2bd058c9834b2ef142d95a86c2956.html", "dir_21a2bd058c9834b2ef142d95a86c2956" ],
     [ "comparable.hpp", "comparable_2comparable_8hpp.html", [
-      [ "default_instance", "structboost_1_1hana_1_1_comparable_1_1default__instance.html", null ],
       [ "equal_mcd", "structboost_1_1hana_1_1_comparable_1_1equal__mcd.html", null ],
       [ "default_instance", "structboost_1_1hana_1_1_comparable_1_1default__instance.html", null ],
-      [ "instance< X, Y, when_valid< decltype((void)(*(X *) 0==*(Y *) 0))> >", "structboost_1_1hana_1_1_comparable_1_1instance_3_01_x_00_01_y_00_01when__valid_3_01decltype_07_0b9c7edd68038220b64adea74b77b79b1.html", null ]
+      [ "instance< X, Y, when< is_valid< decltype((void)(*(X *) 0==*(Y *) 0))> > >", "structboost_1_1hana_1_1_comparable_1_1instance_3_01_x_00_01_y_00_01when_3_01is__valid_3_01declty98d972ca3ff5025ab4e3a4e8910bc5c8.html", null ]
     ] ],
     [ "equal_mcd.hpp", "equal__mcd_8hpp.html", null ],
     [ "laws.hpp", "comparable_2laws_8hpp.html", null ],

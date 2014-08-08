@@ -113,7 +113,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_integral.html'
 <div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(size_t&lt;3&gt; * ushort&lt;5&gt; == size_t&lt;15&gt;);</div>
 <div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(size_t&lt;15&gt; == int_&lt;15&gt;);</div>
 </div><!-- fragment --> <h2>Instance of</h2>
-<p><code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable type class defines equality and inequality. ">Comparable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code></p>
+<p><code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable type class defines equality and inequality. ">Comparable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_orderable.html" title="The Orderable type class is used for data types defining a strict weak ordering. ">Orderable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_monoid.html" title="The Monoid type class is used for data types with an associative binary operation that has an identit...">Monoid</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_group.html" title="The Group type class is used for Monoids where all objects have an inverse w.r.t. the Monoid&#39;s binary...">Group</a></code></p>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000007">Todo:</a></b></dt><dd>Implicit conversions to the underlying integral type can be problematic: <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> odd = [](<span class="keyword">auto</span> x) {</div>
 <div class="line">    <span class="keywordflow">return</span> x % int_&lt;2&gt;;</div>
 <div class="line">};</div>
@@ -526,7 +526,7 @@ template&lt;char... c&gt; </div>
 <div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(1234_c == llong&lt;1234&gt;);</div>
 <div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(-1234_c == llong&lt;-1234&gt;);</div>
 <div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(sum(list(1_c, 2_c, 3_c, 4_c)) == 10_c);</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000019">Todo:</a></b></dt><dd>Add support for stuff like <code>0x1234_c</code>. </dd></dl>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000020">Todo:</a></b></dt><dd>Add support for stuff like <code>0x1234_c</code>. </dd></dl>
 
 </div>
 </div>

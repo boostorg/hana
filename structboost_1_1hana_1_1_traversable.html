@@ -105,8 +105,8 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_traversable.ht
 <div class="line"><a class="code" href="structboost_1_1hana_1_1_traversable.html#ad2bcf2a65d198953b1690b02f9425419">sequence</a>(fmap(Identity, x)) == Identity(x)                          <span class="comment">// identity</span></div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1_traversable.html#ad2bcf2a65d198953b1690b02f9425419">sequence</a>(fmap(Compose, x)) == Compose(fmap(<a class="code" href="structboost_1_1hana_1_1_traversable.html#ad2bcf2a65d198953b1690b02f9425419">sequence</a>, sequence(x)))  <span class="comment">// composition</span></div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1_traversable.html#a15f448955bcfe5b536c94a76b0c007fb">traverse</a>(f, x) == sequence(fmap(f, x))</div>
-</div><!-- fragment --><p>where <a href="http://hackage.haskell.org/package/transformers-0.4.1.0/docs/Data-Functor-Identity.html">Identity</a> and <a href="http://hackage.haskell.org/package/transformers-0.4.1.0/docs/Data-Functor-Compose.html">Compose</a> are the identity functor and the composition of functors, respectively. Note that these functors are not provided with the library right now.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000027">Todo:</a></b></dt><dd>Define these functors in the library.</dd></dl>
+</div><!-- fragment --><p>where <code><a class="el" href="structboost_1_1hana_1_1_identity.html" title="The identity data type. ">Identity</a></code> and <a href="http://hackage.haskell.org/package/transformers-0.4.1.0/docs/Data-Functor-Compose.html">Compose</a> are the identity functor and the composition of functors, respectively. Note that Compose is not provided with the library right now.</p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000028">Todo:</a></b></dt><dd>Define Compose in the library.</dd></dl>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of methods</h2></td></tr>

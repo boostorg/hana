@@ -1,4 +1,25 @@
 var searchData=
 [
-  ['not_5fequal_5fmcd_2ehpp',['not_equal_mcd.hpp',['../not__equal__mcd_8hpp.html',1,'']]]
+  ['map_2ehpp',['map.hpp',['../map_8hpp.html',1,'']]],
+  ['maybe_2ehpp',['maybe.hpp',['../maybe_8hpp.html',1,'']]],
+  ['maybe_5ffwd_2ehpp',['maybe_fwd.hpp',['../maybe__fwd_8hpp.html',1,'']]],
+  ['mcd_2ehpp',['mcd.hpp',['../constant_2mcd_8hpp.html',1,'']]],
+  ['mcd_2ehpp',['mcd.hpp',['../iterable_2mcd_8hpp.html',1,'']]],
+  ['mcd_2ehpp',['mcd.hpp',['../product_2mcd_8hpp.html',1,'']]],
+  ['mcd_2ehpp',['mcd.hpp',['../record_2mcd_8hpp.html',1,'']]],
+  ['mcd_2ehpp',['mcd.hpp',['../applicative_2mcd_8hpp.html',1,'']]],
+  ['mcd_2ehpp',['mcd.hpp',['../searchable_2mcd_8hpp.html',1,'']]],
+  ['mcd_2ehpp',['mcd.hpp',['../list_2mcd_8hpp.html',1,'']]],
+  ['mcd_2ehpp',['mcd.hpp',['../foldable_2mcd_8hpp.html',1,'']]],
+  ['mcd_2ehpp',['mcd.hpp',['../logical_2mcd_8hpp.html',1,'']]],
+  ['mcd_2ehpp',['mcd.hpp',['../monoid_2mcd_8hpp.html',1,'']]],
+  ['minus_5fmcd_2ehpp',['minus_mcd.hpp',['../minus__mcd_8hpp.html',1,'']]],
+  ['monad_2ehpp',['monad.hpp',['../monad_8hpp.html',1,'']]],
+  ['monad_2ehpp',['monad.hpp',['../monad_2monad_8hpp.html',1,'']]],
+  ['monad_2ehpp',['monad.hpp',['../detail_2minimal_2monad_8hpp.html',1,'']]],
+  ['monoid_2ehpp',['monoid.hpp',['../monoid_8hpp.html',1,'']]],
+  ['monoid_2ehpp',['monoid.hpp',['../detail_2minimal_2monoid_8hpp.html',1,'']]],
+  ['monoid_2ehpp',['monoid.hpp',['../monoid_2monoid_8hpp.html',1,'']]],
+  ['monoid_5ffwd_2ehpp',['monoid_fwd.hpp',['../monoid__fwd_8hpp.html',1,'']]],
+  ['mpl_2ehpp',['mpl.hpp',['../mpl_8hpp.html',1,'']]]
 ];

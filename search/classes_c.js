@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['range',['Range',['../structboost_1_1hana_1_1_range.html',1,'boost::hana']]],
-  ['record',['Record',['../structboost_1_1hana_1_1_record.html',1,'boost::hana']]]
+  ['pair',['Pair',['../structboost_1_1hana_1_1_pair.html',1,'boost::hana']]],
+  ['product',['Product',['../structboost_1_1hana_1_1_product.html',1,'boost::hana']]]
 ];

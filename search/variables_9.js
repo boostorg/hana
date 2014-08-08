@@ -13,5 +13,6 @@ var searchData=
   ['is_5fan',['is_an',['../group__group-core.html#ga7fdbde52f5fe384a816c6f39ff272df9',1,'boost::hana']]],
   ['is_5fempty',['is_empty',['../structboost_1_1hana_1_1_iterable.html#a4193ecf811f29479c60022564afa512a',1,'boost::hana::Iterable']]],
   ['is_5fjust',['is_just',['../structboost_1_1hana_1_1_maybe.html#a1047a69893a62cd36eb0d2934f85e0e7',1,'boost::hana::Maybe']]],
-  ['is_5fnothing',['is_nothing',['../structboost_1_1hana_1_1_maybe.html#a4eb266d123883c23853f7731a6c5953f',1,'boost::hana::Maybe']]]
+  ['is_5fnothing',['is_nothing',['../structboost_1_1hana_1_1_maybe.html#a4eb266d123883c23853f7731a6c5953f',1,'boost::hana::Maybe']]],
+  ['is_5fvalid',['is_valid',['../group__group-core.html#ga2ffb2ad0341b5ec4e6fd83431e2a81ae',1,'boost::hana']]]
 ];

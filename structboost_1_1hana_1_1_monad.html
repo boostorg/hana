@@ -188,7 +188,7 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line"><span class="comment">// and `nothing` otherwise.</span></div>
 <div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> sfinae = [](<span class="keyword">auto</span> f) {</div>
 <div class="line">    <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> ...x) {</div>
-<div class="line">        <span class="keywordflow">return</span> eval_if(detail::is_valid(f)(x...),</div>
+<div class="line">        <span class="keywordflow">return</span> eval_if(<a class="code" href="group__group-core.html#ga2ffb2ad0341b5ec4e6fd83431e2a81ae">detail::is_valid</a>(f)(x...),</div>
 <div class="line">            [=](<span class="keyword">auto</span> <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>) { return just(_(f)(x...)); },</div>
 <div class="line">            [](<span class="keyword">auto</span> <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>) { return nothing; }</div>
 <div class="line">        );</div>

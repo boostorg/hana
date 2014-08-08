@@ -97,7 +97,7 @@ struct boost::hana::datatype&lt; T, &gt;</h3>
 
 <p>Metafunction returning the data type associated to <code>T</code>. </p>
 <p>Specifically, let's denote by <code>U</code> the type <code>T</code> after being stripped of all references and cv-qualifiers. Then, this metafunction returns </p><div class="fragment"><div class="line">U::hana_datatype</div>
-</div><!-- fragment --><p> if that expression is valid, and <code>U</code> otherwise. It can also be specialized to customize the data type of <code>T</code> without requiring <code>T</code> to have a nested <code>hana_datatype</code> type. Finally, it is also possible to use <code>when</code> and <code>when_valid</code> to enable the a <code>datatype</code> specialization only when some boolean condition is true or when some expression is well-formed.</p>
+</div><!-- fragment --><p> if that expression is valid, and <code>U</code> otherwise. It can also be specialized to customize the data type of <code>T</code> without requiring <code>T</code> to have a nested <code>hana_datatype</code> type. Finally, it is also possible to use <code>when</code> to enable the a <code>datatype</code> specialization only when some boolean condition is true or when some expression is well-formed with <code>is_valid</code>.</p>
 <h3>Example</h3>
 <div class="fragment"><div class="line">static_assert(std::is_same&lt;datatype&lt;int&gt;::type, <span class="keywordtype">int</span>&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">static_assert(std::is_same&lt;datatype&lt;int&amp;&gt;::type, <span class="keywordtype">int</span>&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>

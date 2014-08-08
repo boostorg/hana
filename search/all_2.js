@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['best_2ehpp',['best.hpp',['../best_8hpp.html',1,'']]],
   ['bind',['bind',['../structboost_1_1hana_1_1_monad.html#a4df7d83b8aeb3bcf99e5675f69af4090',1,'boost::hana::Monad']]],
   ['bind_5fmcd',['bind_mcd',['../structboost_1_1hana_1_1_monad_1_1bind__mcd.html',1,'boost::hana::Monad']]],
   ['bind_5fmcd_2ehpp',['bind_mcd.hpp',['../bind__mcd_8hpp.html',1,'']]],

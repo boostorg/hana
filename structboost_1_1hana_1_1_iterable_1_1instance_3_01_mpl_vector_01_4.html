@@ -114,19 +114,20 @@ struct boost::hana::Iterable::instance&lt; MplVector &gt;</h3>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="vector_8hpp.html">boost/mpl/vector.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
 <div class="line"><span class="keyword">using namespace </span>boost::hana;</div>
-<div class="line"><span class="keyword">using namespace </span>operators; <span class="comment">// required to be able to == MPL vectors</span></div>
 <div class="line"><span class="keyword">namespace </span>mpl = boost::mpl;</div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_iterable.html#adc2675aeee1174a9b337e94f39506bec">head</a>(mpl::vector&lt;int, char, void&gt;{}) == type&lt;int&gt;);</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_iterable.html#ab15783aae10d4373e2399abe728f3f96">tail</a>(mpl::vector&lt;int, char, void&gt;{}) == mpl::vector&lt;char, void&gt;{});</div>
+<div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(equal(</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_iterable.html#ab15783aae10d4373e2399abe728f3f96">tail</a>(mpl::vector&lt;int, char, void&gt;{}),</div>
+<div class="line">    mpl::vector&lt;char, void&gt;{}</div>
+<div class="line">));</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1_iterable.html#aab3e80f4ae219afb61b12201738d28b8">drop_while</a>(trait&lt;std::is_floating_point&gt;, mpl::vector&lt;float, double const, int, float&amp;&gt;{})</div>
-<div class="line">    ==</div>
+<div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(equal(</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_iterable.html#aab3e80f4ae219afb61b12201738d28b8">drop_while</a>(trait&lt;std::is_floating_point&gt;, mpl::vector&lt;float, double const, int, float&amp;&gt;{}),</div>
 <div class="line">    mpl::vector&lt;int, float&amp;&gt;{}</div>
-<div class="line">);</div>
+<div class="line">));</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> </div><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">

@@ -110,9 +110,6 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1datatype.html">boost::hana::datatype&lt; T, &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Metafunction returning the data type associated to <code>T</code>.  <a href="structboost_1_1hana_1_1datatype.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1operators_1_1enable.html">boost::hana::operators::enable</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows operators in the <code>boost::hana::operators</code> namespace to be found by ADL.  <a href="structboost_1_1hana_1_1operators_1_1enable.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1disable.html">boost::hana::disable</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Explicitly disable a type class instance.  <a href="structboost_1_1hana_1_1disable.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -128,15 +125,15 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:ga0f5d717bbf6646619bb6219b104384dc"><td class="memTemplParams" colspan="2">template&lt;typename... &gt; </td></tr>
-<tr class="memitem:ga0f5d717bbf6646619bb6219b104384dc"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-core.html#ga0f5d717bbf6646619bb6219b104384dc">boost::hana::when_valid</a> = when&lt; true &gt;</td></tr>
-<tr class="memdesc:ga0f5d717bbf6646619bb6219b104384dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable a type class instance or a data type specialization only if an expression is well-formed.  <a href="#ga0f5d717bbf6646619bb6219b104384dc">More...</a><br /></td></tr>
-<tr class="separator:ga0f5d717bbf6646619bb6219b104384dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gae3cedd3772d00ac7c4de9dc3d719f321"><td class="memTemplParams" colspan="2"><a class="anchor" id="gae3cedd3772d00ac7c4de9dc3d719f321"></a>
 template&lt;typename T &gt; </td></tr>
-<tr class="memitem:gae3cedd3772d00ac7c4de9dc3d719f321"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-core.html#gae3cedd3772d00ac7c4de9dc3d719f321">boost::hana::datatype_t</a> = typename datatype&lt; T &gt;::<a class="el" href="structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c">type</a></td></tr>
+<tr class="memitem:gae3cedd3772d00ac7c4de9dc3d719f321"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-core.html#gae3cedd3772d00ac7c4de9dc3d719f321">boost::hana::datatype_t</a> = typename datatype&lt; T &gt;::<a class="el" href="structboost_1_1hana_1_1_type.html#a38a0f9e2d8df802d1a0a0d835d39b709">type</a></td></tr>
 <tr class="memdesc:gae3cedd3772d00ac7c4de9dc3d719f321"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias to <code>datatype&lt;T&gt;::type</code>. <br /></td></tr>
 <tr class="separator:gae3cedd3772d00ac7c4de9dc3d719f321"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaff169c5a64425dc07a507e4596f718f5"><td class="memTemplParams" colspan="2">template&lt;typename... Typeclasses&gt; </td></tr>
+<tr class="memitem:gaff169c5a64425dc07a507e4596f718f5"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-core.html#gaff169c5a64425dc07a507e4596f718f5">boost::hana::operators</a> = unspecified</td></tr>
+<tr class="memdesc:gaff169c5a64425dc07a507e4596f718f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows the operators associated to the given type classes to be found by ADL.  <a href="#gaff169c5a64425dc07a507e4596f718f5">More...</a><br /></td></tr>
+<tr class="separator:gaff169c5a64425dc07a507e4596f718f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -144,6 +141,10 @@ Variables</h2></td></tr>
 <tr class="memitem:gadc70755c1d059139297814fb3bfeb91e"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">boost::hana::to</a></td></tr>
 <tr class="memdesc:gadc70755c1d059139297814fb3bfeb91e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an object of a data type from an object of another data type.  <a href="#gadc70755c1d059139297814fb3bfeb91e">More...</a><br /></td></tr>
 <tr class="separator:gadc70755c1d059139297814fb3bfeb91e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2ffb2ad0341b5ec4e6fd83431e2a81ae"><td class="memTemplParams" colspan="2">template&lt;typename... &gt; </td></tr>
+<tr class="memitem:ga2ffb2ad0341b5ec4e6fd83431e2a81ae"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-core.html#ga2ffb2ad0341b5ec4e6fd83431e2a81ae">boost::hana::is_valid</a> = true</td></tr>
+<tr class="memdesc:ga2ffb2ad0341b5ec4e6fd83431e2a81ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used in conjunction with <code>when</code> to enable a type class instance or a data type specialization only if an expression is well-formed.  <a href="#ga2ffb2ad0341b5ec4e6fd83431e2a81ae">More...</a><br /></td></tr>
+<tr class="separator:ga2ffb2ad0341b5ec4e6fd83431e2a81ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga38cf78e1e3e262f7f1c71ddd9ca70cd9"><td class="memTemplParams" colspan="2">template&lt;typename Typeclass , typename... Datatypes&gt; </td></tr>
 <tr class="memitem:ga38cf78e1e3e262f7f1c71ddd9ca70cd9"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-core.html#ga38cf78e1e3e262f7f1c71ddd9ca70cd9">boost::hana::is_a</a> = unspecified</td></tr>
 <tr class="separator:ga38cf78e1e3e262f7f1c71ddd9ca70cd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -320,10 +321,10 @@ template&lt;typename Typeclass , typename... Datatypes&gt; </td></tr>
 <div class="line"></div>
 <div class="line"><span class="comment">// Two STL containers are similar if they are std::equal</span></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> X, <span class="keyword">typename</span> Y&gt;</div>
-<div class="line"><span class="keyword">struct </span>Similar::instance&lt;X, Y, hana::<a class="code" href="group__group-core.html#ga0f5d717bbf6646619bb6219b104384dc">when_valid</a>&lt;</div>
+<div class="line"><span class="keyword">struct </span>Similar::instance&lt;X, Y, hana::when&lt;hana::is_valid&lt;</div>
 <div class="line">    decltype((void)std::declval&lt;X&gt;().begin()),</div>
 <div class="line">    decltype((void)std::declval&lt;Y&gt;().begin())</div>
-<div class="line">&gt;&gt; : Similar::mcd {</div>
+<div class="line">&gt;&gt;&gt; : Similar::mcd {</div>
 <div class="line">    <span class="keyword">static</span> constexpr <span class="keyword">auto</span> similar_impl(X x, Y y)</div>
 <div class="line">    { <span class="keywordflow">return</span> std::equal(x.begin(), x.end(), y.begin(), y.end()); }</div>
 <div class="line">};</div>
@@ -343,22 +344,33 @@ template&lt;typename Typeclass , typename... Datatypes&gt; </td></tr>
 </div>
 </div>
 <h2 class="groupheader">Typedef Documentation</h2>
-<a class="anchor" id="ga0f5d717bbf6646619bb6219b104384dc"></a>
+<a class="anchor" id="gaff169c5a64425dc07a507e4596f718f5"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename... &gt; </div>
+template&lt;typename... Typeclasses&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="group__group-core.html#ga0f5d717bbf6646619bb6219b104384dc">boost::hana::when_valid</a> = typedef when&lt;true&gt;</td>
+          <td class="memname">using <a class="el" href="group__group-core.html#gaff169c5a64425dc07a507e4596f718f5">boost::hana::operators</a> = typedef unspecified</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p><code>#include &lt;<a class="el" href="datatype_8hpp.html">boost/hana/core/datatype.hpp</a>&gt;</code></p>
 
-<p>Enable a type class instance or a data type specialization only if an expression is well-formed. </p>
-<p>Specifically, this is equivalent to <code>when&lt;true&gt;</code>, but SFINAE will cause the partial specialization to fail when the expression is ill-formed.</p>
+<p>Allows the operators associated to the given type classes to be found by ADL. </p>
+<p>Specifically, <code>operators</code> takes zero or more type classes providing custom operators and makes them findable by argument-dependent lookup for any class <code>C</code> such that:</p><ol type="1">
+<li><code>operators&lt;...&gt;</code> is a base class of <code>C</code></li>
+<li><code>C</code> is a template specialization and <code>operators&lt;...&gt;</code> appears in its template argument list.</li>
+</ol>
+<p>In other words, either inherit from <code>operators&lt;T1, ..., Tn&gt;</code> or use it as a dummy template parameter to make the custom operators defined by the type classes <code>T1</code>, ..., <code>Tn</code> available to objects of that type.</p>
+<dl class="section attention"><dt>Attention</dt><dd>A data type using <code>operators</code> <b>may not</b> rely on the instance provided by some type classes which rely on the presence of specific operators to implement a method. For example, one may not use <code>operators</code> and then rely on the instance of <code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable type class defines equality and inequality. ">Comparable</a></code> for all objects that can be compared using <code>==</code>, because that is redundant. Failure to respect this will result in undefined behavior.</dd></dl>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Typeclasses...</td><td><a class="el" href="structboost_1_1hana_1_1_type.html" title="Object representing a C++ type. ">Type</a> classes whose custom operators should be made visible to ADL. Note that all the type classes must provide custom operators; a compile-time error is triggered otherwise.</td></tr>
+  </table>
+  </dd>
+</dl>
 <h3>Example</h3>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2014</span></div>
@@ -366,36 +378,61 @@ template&lt;typename... &gt; </div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="typeclass_8hpp.html">boost/hana/core/typeclass.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal__mcd_8hpp.html">boost/hana/comparable/equal_mcd.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="datatype_8hpp.html">boost/hana/core/datatype.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/detail/assert.hpp</a>&gt;</span></div>
 <div class="line"></div>
-<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;utility&gt;</span></div>
 <div class="line"><span class="keyword">using namespace </span>boost::hana;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line"><span class="keyword">struct </span>Printable {</div>
-<div class="line">    <a class="code" href="group__group-core.html#gac072d4434777cd5ee841a7766d41f1d8">BOOST_HANA_TYPECLASS</a>(Printable);</div>
+<div class="line"><span class="comment">// Provided via a template parameter.</span></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> = operators&lt;Comparable&gt;&gt;</div>
+<div class="line"><span class="keyword">struct </span>Person_ {</div>
+<div class="line">    std::string name;</div>
+<div class="line">};</div>
+<div class="line"><span class="keyword">using</span> Person = Person_&lt;&gt;;</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// Provided via inheritance. Unfortunately, we lose PODness even though</span></div>
+<div class="line"><span class="comment">// `operators&lt;...&gt;` is empty.</span></div>
+<div class="line"><span class="keyword">struct </span>Employee : <a class="code" href="group__group-core.html#gaff169c5a64425dc07a507e4596f718f5">operators</a>&lt;Comparable&gt; {</div>
+<div class="line">    <span class="keyword">explicit</span> Employee(std::string n) : name{n} { }</div>
+<div class="line">    std::string name;</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><span class="keyword">auto</span> print = [](std::ostream&amp; os, <span class="keyword">auto</span> x) {</div>
-<div class="line">  <span class="keywordflow">return</span> Printable::instance&lt;datatype_t&lt;decltype(x)&gt;&gt;::print_impl(os, x);</div>
-<div class="line">};</div>
+<div class="line"><span class="keyword">namespace </span>boost { <span class="keyword">namespace </span>hana {</div>
+<div class="line">    <span class="keyword">template</span> &lt;&gt;</div>
+<div class="line">    <span class="keyword">struct </span>Comparable::instance&lt;Person, Person&gt; : <a class="code" href="structboost_1_1hana_1_1_comparable_1_1equal__mcd.html">Comparable::equal_mcd</a> {</div>
+<div class="line">        <span class="keyword">static</span> <span class="keywordtype">bool</span> equal_impl(Person x, Person y) {</div>
+<div class="line">            <span class="keywordflow">return</span> x.name == y.name;</div>
+<div class="line">        }</div>
+<div class="line">    };</div>
 <div class="line"></div>
-<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><span class="keyword">struct </span>Printable::instance&lt;T, <a class="code" href="structboost_1_1hana_1_1when.html">when_valid</a>&lt;</div>
-<div class="line">    decltype(std::declval&lt;std::ostream&amp;&gt;() &lt;&lt; std::declval&lt;T&gt;())</div>
-<div class="line">&gt;&gt; {</div>
-<div class="line">    <span class="keyword">static</span> <span class="keywordtype">void</span> print_impl(std::ostream&amp; os, T x) {</div>
-<div class="line">        os &lt;&lt; x;</div>
-<div class="line">    }</div>
-<div class="line">};</div>
+<div class="line">    <span class="keyword">template</span> &lt;&gt;</div>
+<div class="line">    <span class="keyword">struct </span>Comparable::instance&lt;Employee, Employee&gt; : <a class="code" href="structboost_1_1hana_1_1_comparable_1_1equal__mcd.html">Comparable::equal_mcd</a> {</div>
+<div class="line">        <span class="keyword">static</span> <span class="keywordtype">bool</span> equal_impl(Employee x, Employee y) {</div>
+<div class="line">            <span class="keywordflow">return</span> x.name == y.name;</div>
+<div class="line">        }</div>
+<div class="line">    };</div>
+<div class="line">}}</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    print(std::cout, 2);</div>
-<div class="line">    print(std::cout, std::string{<span class="stringliteral">&quot;foo&quot;</span>});</div>
+<div class="line">    Person john{<span class="stringliteral">&quot;John&quot;</span>}, bill{<span class="stringliteral">&quot;Bill&quot;</span>};</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga7ad5b8e5cb988d185dffa511b50cebd2">BOOST_HANA_RUNTIME_ASSERT</a>(john == john &amp;&amp; john != bill);</div>
+<div class="line"></div>
+<div class="line">    Employee bob{<span class="stringliteral">&quot;Bob&quot;</span>}, alice{<span class="stringliteral">&quot;Alice&quot;</span>};</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga7ad5b8e5cb988d185dffa511b50cebd2">BOOST_HANA_RUNTIME_ASSERT</a>(bob != alice);</div>
 <div class="line">}</div>
-</div><!-- fragment --> 
+</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000004">Todo:</a></b></dt><dd>Is ADL really the best way of providing custom operators? This has (at least) the problem that templated types which have nothing to do with Boost.Hana could have their set of associated namespaces augmented with <code>boost::hana::operators</code> in an undesirable way: <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><span class="keyword">struct </span>nothing_to_do_with_hana { };</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> = operators&lt;Comparable&gt;&gt;</div>
+<div class="line"><span class="keyword">struct </span>something_to_do_with_hana { };</div>
+<div class="line"></div>
+<div class="line">nothing_to_do_with_hana&lt;something_to_do_with_hana&lt;int&gt;&gt; x{};</div>
+<div class="line">x == x; <span class="comment">// tries to use Comparable::equal_impl</span></div>
+</div><!-- fragment --> </dd></dl>
+
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
@@ -444,6 +481,61 @@ template&lt;typename To &gt; </div>
 <div class="line">        to&lt;List&gt;(std::array&lt;int, 3&gt;{{1, 2, 3}}) == list(1, 2, 3)</div>
 <div class="line">    );</div>
 </div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="ga2ffb2ad0341b5ec4e6fd83431e2a81ae"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr bool boost::hana::is_valid = true</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="datatype_8hpp.html">boost/hana/core/datatype.hpp</a>&gt;</code></p>
+
+<p>Used in conjunction with <code>when</code> to enable a type class instance or a data type specialization only if an expression is well-formed. </p>
+<p>Specifically, <code>is_valid&lt;...&gt;</code> is always equivalent to the constant expression <code>true</code>. When used as <code>when&lt;is_valid&lt;...&gt;&gt;</code> inside a type class or data type specialization, SFINAE will cause the partial specialization to fail when the expression is ill-formed.</p>
+<h3>Example</h3>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2014</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="typeclass_8hpp.html">boost/hana/core/typeclass.hpp</a>&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;utility&gt;</span></div>
+<div class="line"><span class="keyword">using namespace </span>boost::hana;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keyword">struct </span>Printable {</div>
+<div class="line">    <a class="code" href="group__group-core.html#gac072d4434777cd5ee841a7766d41f1d8">BOOST_HANA_TYPECLASS</a>(Printable);</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">auto</span> print = [](std::ostream&amp; os, <span class="keyword">auto</span> x) {</div>
+<div class="line">  <span class="keywordflow">return</span> Printable::instance&lt;datatype_t&lt;decltype(x)&gt;&gt;::print_impl(os, x);</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><span class="keyword">struct </span>Printable::instance&lt;T, <a class="code" href="structboost_1_1hana_1_1when.html">when</a>&lt;<a class="code" href="group__group-core.html#ga2ffb2ad0341b5ec4e6fd83431e2a81ae">is_valid</a>&lt;</div>
+<div class="line">    decltype(std::declval&lt;std::ostream&amp;&gt;() &lt;&lt; std::declval&lt;T&gt;())</div>
+<div class="line">&gt;&gt;&gt; {</div>
+<div class="line">    <span class="keyword">static</span> <span class="keywordtype">void</span> print_impl(std::ostream&amp; os, T x) {</div>
+<div class="line">        os &lt;&lt; x;</div>
+<div class="line">    }</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    print(std::cout, 2);</div>
+<div class="line">    print(std::cout, std::string{<span class="stringliteral">&quot;foo&quot;</span>});</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="ga38cf78e1e3e262f7f1c71ddd9ca70cd9"></a>

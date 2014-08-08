@@ -13,7 +13,7 @@ var structboost_1_1hana_1_1_comparable =
     [ "instance< T, U, when< is_a< List, T >()&&is_a< List, U >() > >", "structboost_1_1hana_1_1_comparable_1_1instance_3_01_t_00_01_u_00_01when_3_01is__a_3_01_list_00_03427c89578a48db3863d73ebe0ef141a.html", null ],
     [ "instance< T, U, when< is_a< Product, T >()&&is_a< Product, U >() > >", "structboost_1_1hana_1_1_comparable_1_1instance_3_01_t_00_01_u_00_01when_3_01is__a_3_01_product_013c6594e5695e2dfb196782c211bc867.html", null ],
     [ "instance< Type, Type >", "structboost_1_1hana_1_1_comparable_1_1instance_3_01_type_00_01_type_01_4.html", null ],
-    [ "instance< X, Y, when_valid< decltype((void)(*(X *) 0==*(Y *) 0))> >", "structboost_1_1hana_1_1_comparable_1_1instance_3_01_x_00_01_y_00_01when__valid_3_01decltype_07_0b9c7edd68038220b64adea74b77b79b1.html", null ],
+    [ "instance< X, Y, when< is_valid< decltype((void)(*(X *) 0==*(Y *) 0))> > >", "structboost_1_1hana_1_1_comparable_1_1instance_3_01_x_00_01_y_00_01when_3_01is__valid_3_01declty98d972ca3ff5025ab4e3a4e8910bc5c8.html", null ],
     [ "not_equal_mcd", "structboost_1_1hana_1_1_comparable_1_1not__equal__mcd.html", null ],
     [ "equal", "structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627", null ],
     [ "not_equal", "structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925", null ],

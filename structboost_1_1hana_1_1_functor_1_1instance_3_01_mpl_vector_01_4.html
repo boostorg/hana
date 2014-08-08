@@ -114,23 +114,20 @@ struct boost::hana::Functor::instance&lt; MplVector &gt;</h3>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="vector_8hpp.html">boost/mpl/vector.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
 <div class="line"><span class="keyword">using namespace </span>boost::hana;</div>
-<div class="line"><span class="keyword">using namespace </span>operators; <span class="comment">// required to be able to == MPL vectors</span></div>
 <div class="line"><span class="keyword">namespace </span>mpl = boost::mpl;</div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line">constexpr mpl::vector&lt;int, char, float&gt; types{};</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1_functor.html#a84bb505c8405a5cd3003db49f652faa2">fmap</a>(metafunction&lt;std::add_pointer&gt;, types)</div>
-<div class="line">    ==</div>
+<div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(equal(</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_functor.html#a84bb505c8405a5cd3003db49f652faa2">fmap</a>(metafunction&lt;std::add_pointer&gt;, types),</div>
 <div class="line">    mpl::vector&lt;int*, char*, float*&gt;{}</div>
-<div class="line">);</div>
+<div class="line">));</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1_functor.html#a72e73dcc09699c619bcfb006029a8967">replace</a>(trait&lt;std::is_floating_point&gt;, type&lt;void&gt;, types)</div>
-<div class="line">    ==</div>
+<div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(equal(</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_functor.html#a72e73dcc09699c619bcfb006029a8967">replace</a>(trait&lt;std::is_floating_point&gt;, type&lt;void&gt;, types),</div>
 <div class="line">    mpl::vector&lt;int, char, void&gt;{}</div>
-<div class="line">);</div>
+<div class="line">));</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000013">Todo:</a></b></dt><dd>In the case where <code>f</code> is not a metafunction class, don't use <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose index-based sequence. ">List</a></code> to do the mapping. </dd></dl>

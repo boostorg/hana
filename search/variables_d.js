@@ -11,5 +11,6 @@ var searchData=
   ['metafunction_5fclass',['metafunction_class',['../structboost_1_1hana_1_1_type.html#a58734f5a67f0a7bfbc5351896934610b',1,'boost::hana::Type']]],
   ['min',['min',['../structboost_1_1hana_1_1_orderable.html#af10ea2fee24c0a780758f67721bb5bfa',1,'boost::hana::Orderable']]],
   ['minimum',['minimum',['../structboost_1_1hana_1_1_foldable.html#aead74d4a75dd467873fcc9124d06b5f4',1,'boost::hana::Foldable']]],
-  ['minimum_5fby',['minimum_by',['../structboost_1_1hana_1_1_foldable.html#a11341a0d825e7898572c1d22d1efe8f4',1,'boost::hana::Foldable']]]
+  ['minimum_5fby',['minimum_by',['../structboost_1_1hana_1_1_foldable.html#a11341a0d825e7898572c1d22d1efe8f4',1,'boost::hana::Foldable']]],
+  ['minus',['minus',['../structboost_1_1hana_1_1_group.html#a866303b4a7433e5320efc6b961a04238',1,'boost::hana::Group']]]
 ];

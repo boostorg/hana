@@ -4,6 +4,8 @@ var searchData=
   ['operator_21_3d',['operator!=',['../structboost_1_1hana_1_1_comparable.html#aae66dcc2f25a479af62d1ec8f88af5be',1,'boost::hana::Comparable']]],
   ['operator_22_22_5fc',['operator&quot;&quot;_c',['../structboost_1_1hana_1_1_integral.html#a1c078fd00db48686ca9e0aa17f47344e',1,'boost::hana::Integral']]],
   ['operator_26_26',['operator&amp;&amp;',['../structboost_1_1hana_1_1_logical.html#a468ed0f009350af247fe55f999d66bb9',1,'boost::hana::Logical']]],
+  ['operator_2b',['operator+',['../structboost_1_1hana_1_1_monoid.html#aef6309fe4fdbdea74e16a82e4e4b5546',1,'boost::hana::Monoid']]],
+  ['operator_2d',['operator-',['../structboost_1_1hana_1_1_group.html#ae04cfdbd493019d194eef2e4f1c45edf',1,'boost::hana::Group::operator-(C1 c1, C2 c2)'],['../structboost_1_1hana_1_1_group.html#a3295c42aca4e68e28a3cab713161ec8b',1,'boost::hana::Group::operator-(C1 c1)']]],
   ['operator_3c',['operator&lt;',['../structboost_1_1hana_1_1_orderable.html#a5fc67793cc0d776d85d2d72135c5147d',1,'boost::hana::Orderable']]],
   ['operator_3c_3d',['operator&lt;=',['../structboost_1_1hana_1_1_orderable.html#ac27d042f4f5809c447204b1781f67255',1,'boost::hana::Orderable']]],
   ['operator_3d_3d',['operator==',['../structboost_1_1hana_1_1_comparable.html#aeaf55eb75a556b3a05bab60cd6812765',1,'boost::hana::Comparable']]],

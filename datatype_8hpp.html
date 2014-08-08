@@ -89,7 +89,8 @@ $(document).ready(function(){initNavTree('datatype_8hpp.html','');});
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#typedef-members">Typedefs</a>  </div>
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">datatype.hpp File Reference</div>  </div>
 </div><!--header-->
@@ -106,21 +107,25 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1datatype.html">boost::hana::datatype&lt; T, &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Metafunction returning the data type associated to <code>T</code>.  <a href="structboost_1_1hana_1_1datatype.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1operators_1_1enable.html">boost::hana::operators::enable</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows operators in the <code>boost::hana::operators</code> namespace to be found by ADL.  <a href="structboost_1_1hana_1_1operators_1_1enable.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:ga0f5d717bbf6646619bb6219b104384dc"><td class="memTemplParams" colspan="2">template&lt;typename... &gt; </td></tr>
-<tr class="memitem:ga0f5d717bbf6646619bb6219b104384dc"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-core.html#ga0f5d717bbf6646619bb6219b104384dc">boost::hana::when_valid</a> = when&lt; true &gt;</td></tr>
-<tr class="memdesc:ga0f5d717bbf6646619bb6219b104384dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable a type class instance or a data type specialization only if an expression is well-formed.  <a href="group__group-core.html#ga0f5d717bbf6646619bb6219b104384dc">More...</a><br /></td></tr>
-<tr class="separator:ga0f5d717bbf6646619bb6219b104384dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gae3cedd3772d00ac7c4de9dc3d719f321"><td class="memTemplParams" colspan="2"><a class="anchor" id="gae3cedd3772d00ac7c4de9dc3d719f321"></a>
 template&lt;typename T &gt; </td></tr>
-<tr class="memitem:gae3cedd3772d00ac7c4de9dc3d719f321"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-core.html#gae3cedd3772d00ac7c4de9dc3d719f321">boost::hana::datatype_t</a> = typename datatype&lt; T &gt;::<a class="el" href="structboost_1_1hana_1_1_type.html#ab66de88586706cb474453dd937d13f8c">type</a></td></tr>
+<tr class="memitem:gae3cedd3772d00ac7c4de9dc3d719f321"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-core.html#gae3cedd3772d00ac7c4de9dc3d719f321">boost::hana::datatype_t</a> = typename datatype&lt; T &gt;::<a class="el" href="structboost_1_1hana_1_1_type.html#a38a0f9e2d8df802d1a0a0d835d39b709">type</a></td></tr>
 <tr class="memdesc:gae3cedd3772d00ac7c4de9dc3d719f321"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias to <code>datatype&lt;T&gt;::type</code>. <br /></td></tr>
 <tr class="separator:gae3cedd3772d00ac7c4de9dc3d719f321"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaff169c5a64425dc07a507e4596f718f5"><td class="memTemplParams" colspan="2">template&lt;typename... Typeclasses&gt; </td></tr>
+<tr class="memitem:gaff169c5a64425dc07a507e4596f718f5"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-core.html#gaff169c5a64425dc07a507e4596f718f5">boost::hana::operators</a> = unspecified</td></tr>
+<tr class="memdesc:gaff169c5a64425dc07a507e4596f718f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows the operators associated to the given type classes to be found by ADL.  <a href="group__group-core.html#gaff169c5a64425dc07a507e4596f718f5">More...</a><br /></td></tr>
+<tr class="separator:gaff169c5a64425dc07a507e4596f718f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:ga2ffb2ad0341b5ec4e6fd83431e2a81ae"><td class="memTemplParams" colspan="2">template&lt;typename... &gt; </td></tr>
+<tr class="memitem:ga2ffb2ad0341b5ec4e6fd83431e2a81ae"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-core.html#ga2ffb2ad0341b5ec4e6fd83431e2a81ae">boost::hana::is_valid</a> = true</td></tr>
+<tr class="memdesc:ga2ffb2ad0341b5ec4e6fd83431e2a81ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used in conjunction with <code>when</code> to enable a type class instance or a data type specialization only if an expression is well-formed.  <a href="group__group-core.html#ga2ffb2ad0341b5ec4e6fd83431e2a81ae">More...</a><br /></td></tr>
+<tr class="separator:ga2ffb2ad0341b5ec4e6fd83431e2a81ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Defines utilities to create data types. </p>

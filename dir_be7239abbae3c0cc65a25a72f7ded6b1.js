@@ -8,10 +8,12 @@ var dir_be7239abbae3c0cc65a25a72f7ded6b1 =
     [ "ext", "dir_a196ff861fb16c2c614c3d50357c20c8.html", "dir_a196ff861fb16c2c614c3d50357c20c8" ],
     [ "foldable", "dir_2b0e799f14df86ec22cacecc212c0d4f.html", "dir_2b0e799f14df86ec22cacecc212c0d4f" ],
     [ "functor", "dir_c83dfb0c433c3afb8c102d3c77c29134.html", "dir_c83dfb0c433c3afb8c102d3c77c29134" ],
+    [ "group", "dir_82c7424d48e7edd3d0736e036145daa1.html", "dir_82c7424d48e7edd3d0736e036145daa1" ],
     [ "iterable", "dir_63e8d5f788fb7707a56f112376eb4605.html", "dir_63e8d5f788fb7707a56f112376eb4605" ],
     [ "list", "dir_34980a2f8bdf649a068e530d2ec7fd37.html", "dir_34980a2f8bdf649a068e530d2ec7fd37" ],
     [ "logical", "dir_7baba9cc193cc03f3a7fa7e9e00391ac.html", "dir_7baba9cc193cc03f3a7fa7e9e00391ac" ],
     [ "monad", "dir_7fdf7ea7d04067410bc7c7629e4431b1.html", "dir_7fdf7ea7d04067410bc7c7629e4431b1" ],
+    [ "monoid", "dir_825f27ec4272a9bac8be7dcacb1a79d9.html", "dir_825f27ec4272a9bac8be7dcacb1a79d9" ],
     [ "orderable", "dir_4fe6caca64f7b6ab8fe64a7b8a107ce4.html", "dir_4fe6caca64f7b6ab8fe64a7b8a107ce4" ],
     [ "product", "dir_e83dfeb3ae3aed77569c444b1e40f733.html", "dir_e83dfeb3ae3aed77569c444b1e40f733" ],
     [ "record", "dir_c534d8e0a6b8a8e5d1e59aac9c968d93.html", "dir_c534d8e0a6b8a8e5d1e59aac9c968d93" ],
@@ -25,6 +27,8 @@ var dir_be7239abbae3c0cc65a25a72f7ded6b1 =
     [ "foldable.hpp", "foldable_8hpp.html", null ],
     [ "functional.hpp", "functional_8hpp.html", "functional_8hpp" ],
     [ "functor.hpp", "functor_8hpp.html", null ],
+    [ "group.hpp", "group_8hpp.html", null ],
+    [ "identity.hpp", "identity_8hpp.html", "identity_8hpp" ],
     [ "integer_list.hpp", "integer__list_8hpp.html", [
       [ "instance< IntegerList >", "structboost_1_1hana_1_1_iterable_1_1instance_3_01_integer_list_01_4.html", null ],
       [ "instance< IntegerList >", "structboost_1_1hana_1_1_list_1_1instance_3_01_integer_list_01_4.html", null ]
@@ -54,6 +58,7 @@ var dir_be7239abbae3c0cc65a25a72f7ded6b1 =
       [ "instance< Maybe >", "structboost_1_1hana_1_1_searchable_1_1instance_3_01_maybe_01_4.html", null ]
     ] ],
     [ "monad.hpp", "monad_8hpp.html", null ],
+    [ "monoid.hpp", "monoid_8hpp.html", null ],
     [ "orderable.hpp", "orderable_8hpp.html", null ],
     [ "pair.hpp", "pair_8hpp.html", [
       [ "instance< Pair >", "structboost_1_1hana_1_1_product_1_1instance_3_01_pair_01_4.html", null ]

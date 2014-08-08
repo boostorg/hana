@@ -22,5 +22,6 @@ var searchData=
   ['sort_5fby',['sort_by',['../structboost_1_1hana_1_1_list.html#a6ed2907b48fcba3dd1059b4b0bfde624',1,'boost::hana::List']]],
   ['span',['span',['../structboost_1_1hana_1_1_list.html#ab663fc84c23656a41d4dfcb586f0085c',1,'boost::hana::List']]],
   ['std_2ehpp',['std.hpp',['../std_8hpp.html',1,'']]],
-  ['sum',['sum',['../structboost_1_1hana_1_1_foldable.html#ae99a05a203907d1381a00d9e05425ab7',1,'boost::hana::Foldable']]]
+  ['sum',['sum',['../structboost_1_1hana_1_1_foldable.html#ae99a05a203907d1381a00d9e05425ab7',1,'boost::hana::Foldable']]],
+  ['sum_5fimpl',['sum_impl',['../structboost_1_1hana_1_1_foldable_1_1mcd.html#a78ba016f4f4f10840879cc2327b2f536',1,'boost::hana::Foldable::mcd']]]
 ];

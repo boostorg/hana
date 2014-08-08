@@ -112,15 +112,14 @@ struct boost::hana::Constant::instance&lt; MplIntegralConstant &gt;</h3>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__c_8hpp.html">boost/mpl/integral_c.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;boost/mpl/long.hpp&gt;</span></div>
 <div class="line"><span class="keyword">using namespace </span>boost::hana;</div>
-<div class="line"><span class="keyword">using namespace </span>operators; <span class="comment">// required to be able to == mpl::integral_c</span></div>
 <div class="line"><span class="keyword">namespace </span>mpl = boost::mpl;</div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1_constant.html#a615a7728e2278acb2cab50854079d7fc">value</a>(mpl::integral_c&lt;int, 3&gt;{}) == 3, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(mpl::integral_c&lt;int, 3&gt;{} == mpl::int_&lt;3&gt;{});</div>
-<div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(mpl::integral_c&lt;int, 3&gt;{} == mpl::long_&lt;3&gt;{});</div>
-<div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(mpl::integral_c&lt;int, 3&gt;{} != mpl::int_&lt;0&gt;{});</div>
+<div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(equal(mpl::integral_c&lt;int, 3&gt;{}, mpl::int_&lt;3&gt;{}));</div>
+<div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(equal(mpl::integral_c&lt;int, 3&gt;{}, mpl::long_&lt;3&gt;{}));</div>
+<div class="line"><a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(not_equal(mpl::integral_c&lt;int, 3&gt;{}, mpl::int_&lt;0&gt;{}));</div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
