@@ -61,9 +61,9 @@ struct Printable {
 //! [Printable]
 
 template <typename T>
-struct Printable::instance<T, when_valid<
+struct Printable::instance<T, when<is_valid<
     decltype(std::declval<std::ostream&>() << std::declval<T>())
->> : Printable::print_mcd {
+>>> : Printable::print_mcd {
     static void print_impl(std::ostream& os, T x)
     { os << x; }
 };

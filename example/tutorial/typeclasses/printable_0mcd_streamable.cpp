@@ -32,9 +32,9 @@ auto to_string = [](auto x) {
 
 //! [streamable_instance]
 template <typename T>
-struct Printable::instance<T, when_valid<
+struct Printable::instance<T, when<is_valid<
     decltype(std::declval<std::ostream&>() << std::declval<T>())
->> {
+>>> {
     static void print_impl(std::ostream& os, T x) {
         os << x;
     }

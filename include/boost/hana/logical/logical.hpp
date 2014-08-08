@@ -44,7 +44,7 @@ namespace boost { namespace hana {
     //! an instance of `Logical` by converting that object to `bool` and then
     //! using the obvious instance for `bool`.
     template <typename T>
-    struct Logical::instance<T, when_valid<decltype(*(T*)0 ? (void)0 : (void)0)>>
+    struct Logical::instance<T, when<is_valid<decltype(*(T*)0 ? (void)0 : (void)0)>>>
         : Logical::mcd
     {
         template <typename Then, typename Else>

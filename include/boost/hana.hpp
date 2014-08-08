@@ -859,21 +859,21 @@ well-formed (think SFINAE):
 
 @snippet example/tutorial/typeclasses/printable_0mcd_streamable.cpp streamable_instance
 
-`when_valid` is actually an alias to `when<true>`, but it takes an arbitrary
-number of types and relies on the fact that SFINAE will kick in and remove
-the specialization if any of the types is not well-formed. Note that
-`when_valid` can also be used to specialize the `datatype` metafunction.
-As expected, we can now write
+`is_valid` is always equivalent to `true`, but it takes an arbitrary number
+of types and relies on the fact that SFINAE will kick in and remove the
+specialization if any of the types is not well-formed. Note that `is_valid`
+can also be used when specializing the `datatype` metafunction. As expected,
+we can now write
 
 @snippet example/tutorial/typeclasses/printable_0mcd_streamable.cpp print_string
 
-Note that instances provided without `when`/`when_valid` (i.e. an explicit or
-partial specialization in the case of a parametric data type) have the
-priority over instances provided with it. This is to allow types to
-instantiate a type class even if an instance for the same type class is
-provided through a predicate. This design choice was made assuming that a
-specialization (even partial) is usually meant to be more specific than a
-catch-all instance enabled by a predicate.
+Note that instances provided without `when` (i.e. an explicit or partial
+specialization in the case of a parametric data type) have the priority over
+instances provided with it. This is to allow types to instantiate a type class
+even if an instance for the same type class is provided through a predicate.
+This design choice was made assuming that a specialization (even partial)
+is usually meant to be more specific than a catch-all instance enabled by
+a predicate.
 
 All is good so far, but notice how we have to write an implementation for
 `to_string` every time, and how the implementation is always the same. It
@@ -987,7 +987,7 @@ library, the header structure should feel intuitive.
 
     - `boost/hana/core/datatype.hpp`\n
       This file defines everything required to define a new data type.
-      This includes the `datatype` metafunction, `when`, `when_valid` and
+      This includes the `datatype` metafunction, `when`, `is_valid` and
       `operators`. By contract, all the other files in `boost/hana/core/`
       include this one, so there is no need to include it when something
       else in `boost/hana/core/` is already included.

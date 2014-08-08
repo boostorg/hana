@@ -43,7 +43,7 @@ struct Typeclass::instance<T, when<predicate<T>::value>> {
 };
 
 template <typename T>
-struct Typeclass::instance<T, when_valid<typename T::is_valid_expr>> {
+struct Typeclass::instance<T, when<is_valid<typename T::is_valid_expr>>> {
     using which = valid_expr_instance<T>;
 };
 

@@ -34,17 +34,18 @@ namespace boost { namespace hana {
     struct when;
 
     //! @ingroup group-core
-    //! Enable a type class instance or a data type specialization only if an
-    //! expression is well-formed.
+    //! Used in conjunction with `when` to enable a type class instance or a
+    //! data type specialization only if an expression is well-formed.
     //!
-    //! Specifically, this is equivalent to `when<true>`, but SFINAE will
-    //! cause the partial specialization to fail when the expression is
-    //! ill-formed.
+    //! Specifically, `is_valid<...>` is always equivalent to the constant
+    //! expression `true`. When used as `when<is_valid<...>>` inside a type
+    //! class or data type specialization, SFINAE will cause the partial
+    //! specialization to fail when the expression is ill-formed.
     //!
     //! ### Example
-    //! @include example/core/when_valid.cpp
+    //! @include example/core/is_valid.cpp
     template <typename ...>
-    using when_valid = when<true>;
+    constexpr bool is_valid = true;
 
     namespace core_detail {
         template <typename T, typename Enable = void>
@@ -67,9 +68,9 @@ namespace boost { namespace hana {
     //! if that expression is valid, and `U` otherwise. It can also be
     //! specialized to customize the data type of `T` without requiring `T`
     //! to have a nested `hana_datatype` type. Finally, it is also possible
-    //! to use `when` and `when_valid` to enable the a `datatype`
-    //! specialization only when some boolean condition is true or when some
-    //! expression is well-formed.
+    //! to use `when` to enable the a `datatype` specialization only when some
+    //! boolean condition is true or when some expression is well-formed with
+    //! `is_valid`.
     //!
     //! ### Example
     //! @snippet example/core/datatype.cpp main

@@ -49,7 +49,7 @@ namespace boost { namespace hana {
     //! Any two objects whose data types can be compared using `operator==`
     //! are automatically instances of `Comparable` by using that comparison.
     template <typename X, typename Y>
-    struct Comparable::instance<X, Y, when_valid<decltype((void)(*(X*)0 == *(Y*)0))>>
+    struct Comparable::instance<X, Y, when<is_valid<decltype((void)(*(X*)0 == *(Y*)0))>>>
         : Comparable::equal_mcd
     {
         static constexpr auto equal_impl(X x, Y y)

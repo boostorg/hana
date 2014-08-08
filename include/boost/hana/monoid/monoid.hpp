@@ -25,11 +25,11 @@ namespace boost { namespace hana {
     //! `0` being the identity and the usual `operator+` being the
     //! associative operation.
     template <typename X, typename Y>
-    struct Monoid::instance<X, Y, when_valid<decltype((void)(
+    struct Monoid::instance<X, Y, when<is_valid<decltype((void)(
         static_cast<X>(0),
         static_cast<Y>(0),
         *(X*)0 + *(Y*)0
-    ))>> : Monoid::mcd {
+    ))>>> : Monoid::mcd {
         static constexpr auto plus_impl(X x, Y y)
         { return x + y; }
 

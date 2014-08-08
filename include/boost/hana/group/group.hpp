@@ -44,12 +44,7 @@ namespace boost { namespace hana {
     //! the group subtraction being that usual `operator-`.
     template <typename X, typename Y>
     struct Group::instance<X, Y, when<
-        are<Monoid, X, Y>()
-        &&
-        (
-            decltype((void)(*(X*)0 - *(Y*)0), 1){}, true
-
-        )
+        are<Monoid, X, Y>() && is_valid<decltype((void)(*(X*)0 - *(Y*)0))>
     >>
         : Group::minus_mcd<X, Y>
     {

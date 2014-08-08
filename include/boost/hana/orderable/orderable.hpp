@@ -47,7 +47,7 @@ namespace boost { namespace hana {
     //! Any two objects whose data types can be compared using `operator<`
     //! are automatically instances of `Orderable` by using that comparison.
     template <typename X, typename Y>
-    struct Orderable::instance<X, Y, when_valid<decltype((void)(*(X*)0 < *(Y*)0))>>
+    struct Orderable::instance<X, Y, when<is_valid<decltype((void)(*(X*)0 < *(Y*)0))>>>
         : Orderable::less_mcd
     {
         static constexpr auto less_impl(X x, Y y)
