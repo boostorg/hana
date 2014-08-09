@@ -18,7 +18,6 @@ using namespace boost::hana;
 template <typename Mcd>
 void test() {
     constexpr auto n = detail::number<Mcd>;
-    using N = detail::Number<Mcd>;
 
     // minus
     {

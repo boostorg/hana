@@ -6,7 +6,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/group/group.hpp>
 
-#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/detail/assert.hpp>
 using namespace boost::hana;
 
@@ -45,9 +44,6 @@ constexpr auto operator-(integer a, integer2 b)
 
 constexpr auto operator-(integer2 a, integer2 b)
 { return integer2{a.value - b.value}; }
-
-using Integer = datatype_t<integer>;
-using Integer2 = datatype_t<integer2>;
 
 int main() {
     BOOST_HANA_CONSTEXPR_ASSERT(negate(integer{3}).value == -3);

@@ -16,6 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/detail/std/type_traits.hpp>
 #include <boost/hana/group/minus_mcd.hpp>
+#include <boost/hana/integral_domain/mcd.hpp>
 #include <boost/hana/logical/mcd.hpp>
 #include <boost/hana/monoid/mcd.hpp>
 #include <boost/hana/orderable/less_mcd.hpp>
@@ -196,6 +197,47 @@ namespace boost { namespace hana {
         template <typename X, typename Y>
         static constexpr auto mult_impl(X x, Y y)
         { return x * value(y); }
+    };
+
+
+    //! Integral domain of `Integral`s.
+    template <>
+    struct IntegralDomain::instance<Integral, Integral>
+        : IntegralDomain::mcd
+    {
+        template <typename X, typename Y>
+        static constexpr auto quot_impl(X x, Y y)
+        { return integral<decltype(value(x) / value(y)), value(x) / value(y)>; }
+
+        template <typename X, typename Y>
+        static constexpr auto mod_impl(X x, Y y)
+        { return integral<decltype(value(x) % value(y)), value(x) % value(y)>; }
+    };
+
+    template <typename T>
+    struct IntegralDomain::instance<Integral, T, when<detail::std::is_arithmetic<T>{}>>
+        : IntegralDomain::mcd
+    {
+        template <typename X, typename Y>
+        static constexpr auto quot_impl(X x, Y y)
+        { return value(x) / y; }
+
+        template <typename X, typename Y>
+        static constexpr auto mod_impl(X x, Y y)
+        { return value(x) % y; }
+    };
+
+    template <typename T>
+    struct IntegralDomain::instance<T, Integral, when<detail::std::is_arithmetic<T>{}>>
+        : IntegralDomain::mcd
+    {
+        template <typename X, typename Y>
+        static constexpr auto quot_impl(X x, Y y)
+        { return x / value(y); }
+
+        template <typename X, typename Y>
+        static constexpr auto mod_impl(X x, Y y)
+        { return x % value(y); }
     };
 
     namespace integral_detail {

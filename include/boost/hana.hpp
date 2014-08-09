@@ -1133,6 +1133,7 @@ I hope you enjoy using the library as much as I enjoyed writing it!
 #include <boost/hana/group.hpp>
 #include <boost/hana/integer_list.hpp>
 #include <boost/hana/integral.hpp>
+#include <boost/hana/integral_domain.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/lazy.hpp>
 #include <boost/hana/list.hpp>
