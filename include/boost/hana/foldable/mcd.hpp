@@ -75,19 +75,18 @@ namespace boost { namespace hana {
             });
         }
 
-        //! @todo
-        //! The base case can't be `int_<0>`, it should be the identity of
-        //! a given `Monoid`?
+        //! @todo Make it possible to specify the Monoid that's used?
         template <typename Xs>
         static constexpr auto sum_impl(Xs xs) {
-            return foldl(xs, int_<0>, plus);
+            using M = Integral;
+            return foldl(xs, zero<M>, plus);
         }
 
+        //! @todo Make it possible to specify the Ring that's used?
         template <typename Foldable_>
         static constexpr auto product_impl(Foldable_ foldable) {
-            return foldl(foldable, int_<1>, [](auto x, auto y) {
-                return x * y;
-            });
+            using R = Integral;
+            return foldl(foldable, one<R>, mult);
         }
 
         template <typename Foldable_, typename Pred>

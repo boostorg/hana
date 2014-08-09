@@ -1147,6 +1147,7 @@ I hope you enjoy using the library as much as I enjoyed writing it!
 #include <boost/hana/product.hpp>
 #include <boost/hana/range.hpp>
 #include <boost/hana/record.hpp>
+#include <boost/hana/ring.hpp>
 #include <boost/hana/searchable.hpp>
 #include <boost/hana/set.hpp>
 #include <boost/hana/traversable.hpp>

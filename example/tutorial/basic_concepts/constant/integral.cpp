@@ -12,27 +12,27 @@ using namespace boost::hana;
 
 
 //! [integral_create]
-auto one = integral<int, 1>;
+auto two = integral<int, 2>;
 auto yes = integral<bool, true>;
 //! [integral_create]
 
 //! [integral_api]
-using One = decltype(one);
+using Two = decltype(two);
 
-static_assert(std::is_same<One::type, One>{}, "");
+static_assert(std::is_same<Two::type, Two>{}, "");
 
-static_assert(std::is_same<One::value_type, int>{}, "");
+static_assert(std::is_same<Two::value_type, int>{}, "");
 
-static_assert(One::value == 1               &&
-              static_cast<int>(one) == 1    &&
-              one() == 1                    &&
-              value(one) == 1
+static_assert(Two::value == 2               &&
+              static_cast<int>(two) == 2    &&
+              two() == 2                    &&
+              value(two) == 2
 , "these are all constant expressions");
 //! [integral_api]
 
 namespace anon1 {
 //! [integral_shorthands]
-auto one = int_<1>;
+auto two = int_<2>;
 auto yes = bool_<true>;
 //! [integral_shorthands]
 }

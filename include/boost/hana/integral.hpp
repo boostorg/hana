@@ -19,6 +19,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/logical/mcd.hpp>
 #include <boost/hana/monoid/mcd.hpp>
 #include <boost/hana/orderable/less_mcd.hpp>
+#include <boost/hana/ring/mcd.hpp>
 
 
 namespace boost { namespace hana {
@@ -163,6 +164,38 @@ namespace boost { namespace hana {
         template <typename X, typename Y>
         static constexpr auto minus_impl(X x, Y y)
         { return x - value(y); }
+    };
+
+
+    //! Multiplicative `Ring` of `Integral`s.
+    template <>
+    struct Ring::instance<Integral, Integral>
+        : Ring::mcd
+    {
+        template <typename X, typename Y>
+        static constexpr auto mult_impl(X x, Y y)
+        { return integral<decltype(value(x) * value(y)), value(x) * value(y)>; }
+
+        static constexpr auto one_impl()
+        { return int_<1>; }
+    };
+
+    template <typename T>
+    struct Ring::instance<Integral, T, when<detail::std::is_arithmetic<T>{}>>
+        : Ring::mcd
+    {
+        template <typename X, typename Y>
+        static constexpr auto mult_impl(X x, Y y)
+        { return value(x) * y; }
+    };
+
+    template <typename T>
+    struct Ring::instance<T, Integral, when<detail::std::is_arithmetic<T>{}>>
+        : Ring::mcd
+    {
+        template <typename X, typename Y>
+        static constexpr auto mult_impl(X x, Y y)
+        { return x * value(y); }
     };
 
     namespace integral_detail {
