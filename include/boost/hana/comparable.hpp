@@ -12,7 +12,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/comparable/comparable.hpp>
 #include <boost/hana/comparable/equal_mcd.hpp>
-#include <boost/hana/comparable/laws.hpp>
 #include <boost/hana/comparable/not_equal_mcd.hpp>
 
 #endif // !BOOST_HANA_COMPARABLE_HPP

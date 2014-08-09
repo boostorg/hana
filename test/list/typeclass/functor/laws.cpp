@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/minimal/comparable.hpp>
 #include <boost/hana/detail/minimal/list.hpp>
-#include <boost/hana/functor/laws.hpp>
+#include <boost/hana/functor/detail/laws.hpp>
 
 #include <tuple>
 using namespace boost::hana;

@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/ext/boost/fusion.hpp>
 
 #include <boost/hana/detail/minimal/comparable.hpp>
-#include <boost/hana/functor/laws.hpp>
+#include <boost/hana/functor/detail/laws.hpp>
 #include <boost/hana/list/instance.hpp>
 
 #include "../helper.hpp"

@@ -10,7 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_ORDERABLE_HPP
 #define BOOST_HANA_ORDERABLE_HPP
 
-#include <boost/hana/orderable/laws.hpp>
 #include <boost/hana/orderable/less_mcd.hpp>
 #include <boost/hana/orderable/orderable.hpp>
 

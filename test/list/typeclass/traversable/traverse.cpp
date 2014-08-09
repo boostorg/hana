@@ -8,7 +8,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/minimal/applicative.hpp>
+#include <boost/hana/detail/identity/applicative.hpp>
 #include <boost/hana/detail/minimal/comparable.hpp>
 #include <boost/hana/detail/minimal/list.hpp>
 
@@ -16,7 +16,8 @@ Distributed under the Boost Software License, Version 1.0.
 using namespace boost::hana;
 
 
-constexpr auto applicative = detail::minimal::applicative<>;
+constexpr auto applicative = detail::identity<>;
+using A = detail::Identity<>;
 
 BOOST_HANA_CONSTEXPR_LAMBDA auto g = [](auto x) {
     return std::make_tuple(x);
@@ -32,13 +33,26 @@ constexpr auto x = detail::minimal::comparable<>(i);
 template <typename mcd>
 void test() {
     BOOST_HANA_CONSTEXPR_LAMBDA auto list = detail::minimal::list<mcd>;
-    using A = detail::minimal::Applicative<>;
-
-    BOOST_HANA_CONSTANT_ASSERT(traverse<A>(f, list()) == applicative(list()));
-    BOOST_HANA_CONSTEXPR_ASSERT(traverse<A>(f, list(x<0>)) == applicative(list(g(x<0>))));
-    BOOST_HANA_CONSTEXPR_ASSERT(traverse<A>(f, list(x<0>, x<1>)) == applicative(list(g(x<0>), g(x<1>))));
-    BOOST_HANA_CONSTEXPR_ASSERT(traverse<A>(f, list(x<0>, x<1>, x<2>)) == applicative(list(g(x<0>), g(x<1>), g(x<2>))));
-    BOOST_HANA_CONSTEXPR_ASSERT(traverse<A>(f, list(x<0>, x<1>, x<2>, x<3>)) == applicative(list(g(x<0>), g(x<1>), g(x<2>), g(x<3>))));
+    BOOST_HANA_CONSTANT_ASSERT(
+        equal(traverse<A>(f, list()),
+        applicative(list())
+    ));
+    BOOST_HANA_CONSTEXPR_ASSERT(
+        equal(traverse<A>(f, list(x<0>)),
+        applicative(list(g(x<0>)))
+    ));
+    BOOST_HANA_CONSTEXPR_ASSERT(
+        equal(traverse<A>(f, list(x<0>, x<1>)),
+        applicative(list(g(x<0>), g(x<1>)))
+    ));
+    BOOST_HANA_CONSTEXPR_ASSERT(
+        equal(traverse<A>(f, list(x<0>, x<1>, x<2>)),
+        applicative(list(g(x<0>), g(x<1>), g(x<2>)))
+    ));
+    BOOST_HANA_CONSTEXPR_ASSERT(
+        equal(traverse<A>(f, list(x<0>, x<1>, x<2>, x<3>)),
+        applicative(list(g(x<0>), g(x<1>), g(x<2>), g(x<3>)))
+    ));
 }
 
 int main() {

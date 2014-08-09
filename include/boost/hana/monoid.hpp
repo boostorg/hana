@@ -10,7 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_MONOID_HPP
 #define BOOST_HANA_MONOID_HPP
 
-#include <boost/hana/monoid/laws.hpp>
 #include <boost/hana/monoid/mcd.hpp>
 #include <boost/hana/monoid/monoid.hpp>
 

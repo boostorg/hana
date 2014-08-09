@@ -13,6 +13,5 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functor/adjust_mcd.hpp>
 #include <boost/hana/functor/fmap_mcd.hpp>
 #include <boost/hana/functor/functor.hpp>
-#include <boost/hana/functor/laws.hpp>
 
 #endif // !BOOST_HANA_FUNCTOR_HPP

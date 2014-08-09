@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/identity.hpp>
 
 #include <boost/hana/detail/assert.hpp>
-#include <boost/hana/detail/minimal/applicative.hpp>
+#include <boost/hana/detail/identity/applicative.hpp>
 #include <boost/hana/functional.hpp>
 
 #include "unique_comparable.hpp"
@@ -16,9 +16,9 @@ using namespace boost::hana;
 
 
 auto x = unique_comparable([]{});
-auto a = detail::minimal::applicative<>;
+constexpr auto a = detail::identity<>;
+using A = detail::Identity<>;
 auto f = compose(a, unique_function([]{}));
-using A = detail::minimal::Applicative<>;
 
 BOOST_HANA_CONSTANT_ASSERT(equal(
     traverse<A>(f, identity(x)),

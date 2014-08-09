@@ -8,7 +8,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/functional.hpp>
-#include <boost/hana/monad/laws.hpp>
+#include <boost/hana/monad/detail/laws.hpp>
 
 #include "unique_comparable.hpp"
 #include "unique_function.hpp"

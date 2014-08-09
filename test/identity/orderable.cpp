@@ -7,11 +7,11 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/identity.hpp>
 
 #include <boost/hana/detail/assert.hpp>
-#include <boost/hana/detail/minimal/orderable.hpp>
+#include <boost/hana/detail/number/orderable.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/list/instance.hpp>
 #include <boost/hana/logical/logical.hpp>
-#include <boost/hana/orderable/laws.hpp>
+#include <boost/hana/orderable/detail/laws.hpp>
 using namespace boost::hana;
 
 
@@ -28,9 +28,9 @@ auto check = [](auto x, auto y) {
 };
 
 int main() {
-    constexpr auto x = detail::minimal::orderable<>(1);
-    constexpr auto y = detail::minimal::orderable<>(2);
-    constexpr auto z = detail::minimal::orderable<>(3);
+    constexpr auto x = detail::number<>(1);
+    constexpr auto y = detail::number<>(2);
+    constexpr auto z = detail::number<>(3);
 
     BOOST_HANA_CONSTEXPR_ASSERT(
         all_of(ap(list(check), list(x, y, z), list(x, y, z)))

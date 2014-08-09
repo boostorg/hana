@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_CONSTANT_HPP
 
 #include <boost/hana/constant/constant.hpp>
-#include <boost/hana/constant/laws.hpp>
 #include <boost/hana/constant/mcd.hpp>
 
 #endif // !BOOST_HANA_CONSTANT_HPP

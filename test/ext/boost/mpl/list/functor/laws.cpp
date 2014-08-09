@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/ext/boost/mpl/list.hpp>
 
 #include <boost/hana/detail/assert.hpp>
-#include <boost/hana/functor/laws.hpp>
+#include <boost/hana/functor/detail/laws.hpp>
 #include <boost/hana/list/instance.hpp>
 #include <boost/hana/type.hpp>
 

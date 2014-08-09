@@ -6,7 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/ext/boost/mpl/integral_c.hpp>
 
-#include <boost/hana/constant/laws.hpp>
+#include <boost/hana/constant/detail/laws.hpp>
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/list/instance.hpp>
 
