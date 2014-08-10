@@ -17,6 +17,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/integral.hpp>
 #include <boost/hana/iterable/mcd.hpp>
 #include <boost/hana/list/mcd.hpp>
+#include <boost/hana/logical/logical.hpp>
+#include <boost/hana/maybe.hpp>
+#include <boost/hana/searchable/mcd.hpp>
 
 #include <boost/fusion/algorithm/iteration/fold.hpp>
 #include <boost/fusion/algorithm/iteration/for_each.hpp>
@@ -123,27 +126,6 @@ namespace boost { namespace hana {
             using Size = decltype(boost::fusion::size(std::forward<Xs>(xs)));
             return size_t<Size::value>;
         }
-
-        //! @todo Move these to a `Searchable` instance.
-        template <typename Xs, typename Pred>
-        static constexpr auto any_impl(Xs&& xs, Pred p) {
-            return boost::fusion::any(std::forward<Xs>(xs), p);
-        }
-
-        template <typename Xs, typename Pred>
-        static constexpr auto all_impl(Xs&& xs, Pred p) {
-            return boost::fusion::all(std::forward<Xs>(xs), p);
-        }
-
-        template <typename Xs, typename Pred>
-        static constexpr auto none_impl(Xs&& xs, Pred p) {
-            return boost::fusion::none(std::forward<Xs>(xs), p);
-        }
-
-        template <typename Xs, typename Pred>
-        static constexpr auto count_impl(Xs&& xs, Pred p) {
-            return boost::fusion::count_if(std::forward<Xs>(xs), p);
-        }
     };
 
     template <>
@@ -205,6 +187,40 @@ namespace boost { namespace hana {
         template <typename Xs, typename F>
         static constexpr decltype(auto) for_each_impl(Xs&& xs, F&& f) {
             return boost::fusion::for_each(std::forward<Xs>(xs), std::forward<F>(f));
+        }
+
+        template <typename Xs, typename Pred>
+        static constexpr auto count_impl(Xs&& xs, Pred&& p) {
+            return boost::fusion::count_if(std::forward<Xs>(xs), std::forward<Pred>(p));
+        }
+    };
+
+    template <>
+    struct Searchable::instance<FusionNonAssociativeForwardSequence>
+        : Searchable::mcd
+    {
+        template <typename Xs, typename Pred>
+        static constexpr auto find_impl(Xs xs, Pred p) {
+            auto e = drop_until(p, xs);
+            return eval_if(is_empty(e),
+                [](auto) { return nothing; },
+                [=](auto _) { return just(_(head)(e)); }
+            );
+        }
+
+        template <typename Xs, typename Pred>
+        static constexpr auto any_impl(Xs&& xs, Pred&& p) {
+            return boost::fusion::any(std::forward<Xs>(xs), std::forward<Pred>(p));
+        }
+
+        template <typename Xs, typename Pred>
+        static constexpr auto all_impl(Xs&& xs, Pred&& p) {
+            return boost::fusion::all(std::forward<Xs>(xs), std::forward<Pred>(p));
+        }
+
+        template <typename Xs, typename Pred>
+        static constexpr auto none_impl(Xs&& xs, Pred&& p) {
+            return boost::fusion::none(std::forward<Xs>(xs), std::forward<Pred>(p));
         }
     };
 

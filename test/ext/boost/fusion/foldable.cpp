@@ -16,45 +16,14 @@ Distributed under the Boost Software License, Version 1.0.
 using namespace boost::hana;
 
 
-BOOST_HANA_CONSTEXPR_LAMBDA auto is_even = [](auto x) {
-    return x % 2 == 0;
-};
-
 int main() {
     with_nonassociative_forward_sequences([=](auto container) {
-        // all
-        {
-            BOOST_HANA_CONSTANT_ASSERT(all(container(), is_even));
-            BOOST_HANA_RUNTIME_ASSERT(!all(container(1), is_even));
-            BOOST_HANA_RUNTIME_ASSERT( all(container(2), is_even));
-            BOOST_HANA_RUNTIME_ASSERT( all(container(2, 4), is_even));
-            BOOST_HANA_RUNTIME_ASSERT(!all(container(1, 2), is_even));
-            BOOST_HANA_RUNTIME_ASSERT(!all(container(1, 3), is_even));
-            BOOST_HANA_RUNTIME_ASSERT(!all(container(1, 3, 4), is_even));
-        }
-
-        // any
-        {
-            BOOST_HANA_CONSTANT_ASSERT(!any(container(), is_even));
-            BOOST_HANA_RUNTIME_ASSERT( !any(container(1), is_even));
-            BOOST_HANA_RUNTIME_ASSERT(  any(container(2), is_even));
-            BOOST_HANA_RUNTIME_ASSERT(  any(container(1, 2), is_even));
-            BOOST_HANA_RUNTIME_ASSERT( !any(container(1, 3), is_even));
-            BOOST_HANA_RUNTIME_ASSERT(  any(container(1, 3, 4), is_even));
-        }
-
-        // none
-        {
-            BOOST_HANA_CONSTANT_ASSERT(none(container(), is_even));
-            BOOST_HANA_RUNTIME_ASSERT( none(container(1), is_even));
-            BOOST_HANA_RUNTIME_ASSERT(!none(container(2), is_even));
-            BOOST_HANA_RUNTIME_ASSERT(!none(container(1, 2), is_even));
-            BOOST_HANA_RUNTIME_ASSERT( none(container(1, 3), is_even));
-            BOOST_HANA_RUNTIME_ASSERT(!none(container(1, 3, 4), is_even));
-        }
-
         // count
         {
+            BOOST_HANA_CONSTEXPR_LAMBDA auto is_even = [](auto x) {
+                return x % 2 == 0;
+            };
+
             BOOST_HANA_RUNTIME_ASSERT(count(container(), is_even) == 0);
             BOOST_HANA_RUNTIME_ASSERT(count(container(1), is_even) == 0);
             BOOST_HANA_RUNTIME_ASSERT(count(container(2), is_even) == 1);
