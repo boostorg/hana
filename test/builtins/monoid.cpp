@@ -8,30 +8,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/detail/assert.hpp>
+
+#define BOOST_HANA_TEST_MONOID
+#include "integer.hpp"
 using namespace boost::hana;
 
-
-struct integer {
-    int value;
-    constexpr explicit integer(int i) : value{i} { }
-};
-
-struct integer2 {
-    int value;
-    constexpr explicit integer2(int i) : value{i} { }
-};
-
-constexpr auto operator+(integer a, integer b)
-{ return integer{a.value + b.value}; }
-
-constexpr auto operator+(integer2 a, integer b)
-{ return integer{a.value + b.value}; }
-
-constexpr auto operator+(integer a, integer2 b)
-{ return integer{a.value + b.value}; }
-
-constexpr auto operator+(integer2 a, integer2 b)
-{ return integer2{a.value + b.value}; }
 
 using Integer = datatype_t<integer>;
 using Integer2 = datatype_t<integer2>;

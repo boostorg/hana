@@ -6,9 +6,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/iterable/mcd.hpp>
 
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/minimal/iterable.hpp>
 
-#include <cassert>
 #include <vector>
 using namespace boost::hana;
 
@@ -22,7 +22,7 @@ void test() {
         for_each(iterable(xs...), [&](int x) {
             seen.push_back(x);
         });
-        assert(seen == std::vector<int>{xs...});
+        BOOST_HANA_RUNTIME_ASSERT(seen == std::vector<int>{xs...});
     };
     check();
     check(0);

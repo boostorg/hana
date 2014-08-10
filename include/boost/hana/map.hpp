@@ -56,7 +56,7 @@ namespace boost { namespace hana {
     //! to equal values.
     //!
     //! ### Example
-    //! @snippet example/map/comparable.cpp main
+    //! @snippet example/map.cpp comparable
     template <>
     struct Comparable::instance<Map, Map> : Comparable::equal_mcd {
         template <typename M1, typename M2>
@@ -74,7 +74,7 @@ namespace boost { namespace hana {
     //! `Integral`.
     //!
     //! ### Example
-    //! @snippet example/map/searchable.cpp main
+    //! @snippet example/map.cpp searchable
     template <>
     struct Searchable::instance<Map> : Searchable::mcd {
         template <typename M, typename Pred>

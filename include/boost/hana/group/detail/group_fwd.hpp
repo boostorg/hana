@@ -54,7 +54,7 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //! ### Example
-    //! @snippet example/group/minus.cpp main
+    //! @snippet example/group.cpp minus
     BOOST_HANA_CONSTEXPR_LAMBDA auto minus = [](auto x, auto y) {
         return Group::instance<
             datatype_t<decltype(x)>, datatype_t<decltype(y)>
@@ -69,7 +69,7 @@ namespace boost { namespace hana {
     //! i.e. `Group::instance<G, G>`, where `G` is the data type of `x`.
     //!
     //! ### Example
-    //! @snippet example/group/negate.cpp main
+    //! @snippet example/group.cpp negate
     BOOST_HANA_CONSTEXPR_LAMBDA auto negate = [](auto x) {
         return Group::instance<
             datatype_t<decltype(x)>, datatype_t<decltype(x)>

@@ -48,7 +48,7 @@ namespace boost { namespace hana {
     //! @relates Ring
     //!
     //! ### Example
-    //! @snippet example/ring/mult.cpp main
+    //! @snippet example/ring.cpp mult
     BOOST_HANA_CONSTEXPR_LAMBDA auto mult = [](auto x, auto y) {
         return Ring::instance<
             datatype_t<decltype(x)>, datatype_t<decltype(y)>
@@ -66,7 +66,7 @@ namespace boost { namespace hana {
     //! The data type (a `Ring`) of the returned identity.
     //!
     //! ### Example
-    //! @snippet example/ring/one.cpp main
+    //! @snippet example/ring.cpp one
     template <typename R>
     constexpr auto one = Ring::instance<R, R>::one_impl();
 

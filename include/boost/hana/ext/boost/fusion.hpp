@@ -202,9 +202,9 @@ namespace boost { namespace hana {
             return Iterable::mcd::at_impl(n, std::forward<Xs>(xs));
         }
 
-        template <typename F, typename Xs>
-        static constexpr decltype(auto) for_each_impl(Xs&& xs, F f) {
-            return boost::fusion::for_each(std::forward<Xs>(xs), f);
+        template <typename Xs, typename F>
+        static constexpr decltype(auto) for_each_impl(Xs&& xs, F&& f) {
+            return boost::fusion::for_each(std::forward<Xs>(xs), std::forward<F>(f));
         }
     };
 
@@ -251,8 +251,9 @@ namespace boost { namespace hana {
         }
 
         template <typename Xs, typename X>
-        static constexpr decltype(auto) snoc_impl(Xs&& xs, X x) {
-            return boost::fusion::push_back(std::forward<Xs>(xs), x);
+        static constexpr decltype(auto) snoc_impl(Xs&& xs, X&& x) {
+            return boost::fusion::push_back(
+                    std::forward<Xs>(xs), std::forward<X>(x));
         }
     };
 
@@ -266,8 +267,9 @@ namespace boost { namespace hana {
         }
 
         template <typename Pred, typename X, typename Xs>
-        static constexpr decltype(auto) replace_impl(Pred p, X x, Xs&& xs) {
-            return boost::fusion::replace_if(std::forward<Xs>(xs), p, x);
+        static constexpr decltype(auto) replace_impl(Pred&& p, X&& x, Xs&& xs) {
+            return boost::fusion::replace_if(
+                    std::forward<Xs>(xs), std::forward<Pred>(p), std::forward<X>(x));
         }
     };
 }} // end namespace boost::hana

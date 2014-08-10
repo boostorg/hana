@@ -48,7 +48,7 @@ namespace boost { namespace hana {
     //! Two objects to compare for equality.
     //!
     //! ### Example
-    //! @snippet example/comparable/equal.cpp main
+    //! @snippet example/comparable.cpp equal
     //!
     //! @internal
     //! ### Rationale for the arity of `equal`
@@ -76,7 +76,7 @@ namespace boost { namespace hana {
     //! Two objects to compare for inequality.
     //!
     //! ### Example
-    //! @snippet example/comparable/not_equal.cpp main
+    //! @snippet example/comparable.cpp not_equal
     BOOST_HANA_CONSTEXPR_LAMBDA auto not_equal = [](auto x, auto y) {
         return Comparable::instance<
             datatype_t<decltype(x)>, datatype_t<decltype(y)>
@@ -94,7 +94,7 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //! ### Example
-    //! @snippet example/comparable/comparing.cpp main
+    //! @snippet example/comparable.cpp comparing
     BOOST_HANA_CONSTEXPR_LAMBDA auto comparing = [](auto f) {
         return [=](auto x, auto y) {
             return equal(f(x), f(y));

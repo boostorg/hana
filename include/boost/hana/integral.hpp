@@ -49,7 +49,7 @@ namespace boost { namespace hana {
     //! An `Integral` is less than another if and only if its underlying
     //! integral value is less than the other's.
     //!
-    //! @snippet example/integral/orderable.cpp main
+    //! @snippet example/integral.cpp orderable
     template <>
     struct Orderable::instance<Integral, Integral> : Orderable::less_mcd {
         template <typename T, typename U>
@@ -269,7 +269,7 @@ namespace boost { namespace hana {
         //! like `ullong<-1>` which is actually `ullong<something huge>`.
         //!
         //! ### Example
-        //! @snippet example/integral/literals.cpp main
+        //! @snippet example/integral.cpp literals
         //!
         //! @todo Add support for stuff like `0x1234_c`.
         template <char ...c>

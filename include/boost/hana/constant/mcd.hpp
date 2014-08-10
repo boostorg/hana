@@ -27,7 +27,7 @@ namespace boost { namespace hana {
     //! can be compared and are equal.
     //!
     //! ### Example
-    //! @snippet example/constant/comparable.cpp main
+    //! @snippet example/constant.cpp comparable
     template <typename C1, typename C2>
     struct Comparable::instance<C1, C2, when<
         is_a<Constant, C1>() && is_a<Constant, C2>()

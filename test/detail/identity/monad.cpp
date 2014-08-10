@@ -72,7 +72,7 @@ void test() {
 
     // laws
     {
-        BOOST_HANA_CONSTEXPR_ASSERT(Monad::laws::check2(
+        BOOST_HANA_CONSTEXPR_ASSERT(Monad::laws::check(
             list(
                 monad(comparable(0)),
                 monad(comparable(1)),

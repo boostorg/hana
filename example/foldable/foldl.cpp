@@ -6,7 +6,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/list/instance.hpp>
 
-#include <cassert>
+#include <boost/hana/detail/assert.hpp>
+
 #include <sstream>
 #include <string>
 using namespace boost::hana;
@@ -20,6 +21,6 @@ int main() {
         return "(" + to_string(x) + " + " + to_string(y) + ")";
     };
 
-    assert(foldl(list(2, "3", '4'), "1", show) == "(((1 + 2) + 3) + 4)");
+    BOOST_HANA_RUNTIME_ASSERT(foldl(list(2, "3", '4'), "1", show) == "(((1 + 2) + 3) + 4)");
     //! [main]
 }

@@ -312,7 +312,7 @@ namespace boost { namespace hana {
     //! @snippet example/list/functor/fmap.cpp main
     //!
     //! ### Example 2
-    //! @snippet example/type_list/functor/fmap.cpp main
+    //! @snippet example/type_list/functor.cpp fmap
     template <typename T>
     struct Functor::instance<T, when<is_a<List, T>()>>
         : Functor::fmap_mcd

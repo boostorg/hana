@@ -24,7 +24,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     struct Monad::laws {
         template <typename Monads, typename Xs, typename Fs, typename Gs>
-        static constexpr auto check2(Monads ms, Xs xs, Fs fs, Gs gs) {
+        static constexpr auto check(Monads ms, Xs xs, Fs fs, Gs gs) {
             return all(ms, [=](auto m) {
                 return all(xs, [=](auto x) {
                     return all(fs, [=](auto f) {
@@ -43,17 +43,6 @@ namespace boost { namespace hana {
                     });
                 });
             });
-        }
-
-        template <typename Monad_, typename A, typename F, typename G>
-        static constexpr auto check(Monad_ monad, A a, F f, G g) {
-            auto lift_ = lift<datatype_t<decltype(monad)>>;
-            return and_(
-                equal(bind(lift_(a), f), f(a)),
-                equal(bind(monad, lift_), monad),
-                equal(bind(monad, [=](auto x) { return bind(f(x), g); }), bind(bind(monad, f), g)),
-                equal(fmap(f, monad), bind(monad, compose(lift_, f)))
-            );
         }
     };
 }} // end namespace boost::hana

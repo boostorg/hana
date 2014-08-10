@@ -43,7 +43,7 @@ namespace boost { namespace hana {
     //! - Member access: `*` (dereference)
     //!
     //! ## Example
-    //! @snippet example/integral/operators.cpp main
+    //! @snippet example/integral.cpp operators
     //!
     //! ## Instance of
     //! `Comparable`, `Logical`, `Orderable`, `Monoid`, `Group`

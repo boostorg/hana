@@ -49,7 +49,7 @@ namespace boost { namespace hana {
     //! @relates Monoid
     //!
     //! ### Example
-    //! @snippet example/monoid/plus.cpp main
+    //! @snippet example/monoid.cpp plus
     BOOST_HANA_CONSTEXPR_LAMBDA auto plus = [](auto x, auto y) {
         return Monoid::instance<
             datatype_t<decltype(x)>, datatype_t<decltype(y)>
@@ -67,7 +67,7 @@ namespace boost { namespace hana {
     //! The data type (a `Monoid`) of the returned identity.
     //!
     //! ### Example
-    //! @snippet example/monoid/zero.cpp main
+    //! @snippet example/monoid.cpp zero
     template <typename M>
     constexpr auto zero = Monoid::instance<M, M>::zero_impl();
 

@@ -146,7 +146,7 @@ namespace boost { namespace hana {
     //! @snippet example/list/foldable/foldl.cpp main
     //!
     //! ### Example 2
-    //! @snippet example/integer_list/foldable/foldr.cpp main
+    //! @snippet example/integer_list/foldable.cpp foldr
     template <typename T>
     struct Foldable::instance<T, when<is_an<Iterable, T>()>>
         : detail::FoldableFromIterable

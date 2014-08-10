@@ -6,7 +6,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/type.hpp>
 
-#include <cassert>
+#include <boost/hana/detail/assert.hpp>
+
 #include <initializer_list>
 #include <vector>
 using namespace boost::hana;
@@ -16,6 +17,6 @@ int main() {
     //! [main]
     std::vector<int> v{1, 2, 3};
     auto u = type<std::vector<int>>(std::initializer_list<int>{1, 2, 3});
-    assert(u == v);
+    BOOST_HANA_RUNTIME_ASSERT(u == v);
     //! [main]
 }

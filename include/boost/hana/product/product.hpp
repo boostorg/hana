@@ -59,7 +59,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/product/make_product.cpp main
+    //! @snippet example/product.cpp make_product
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename P>
     constexpr auto make_product = [](auto fst, auto snd) {
@@ -88,7 +88,7 @@ namespace boost { namespace hana {
     //! @relates Product
     //!
     //! ### Example
-    //! @snippet example/product/first.cpp main
+    //! @snippet example/product.cpp first
     BOOST_HANA_CONSTEXPR_LAMBDA auto first = [](auto product) {
         return Product::instance<
             datatype_t<decltype(product)>
@@ -99,7 +99,7 @@ namespace boost { namespace hana {
     //! @relates Product
     //!
     //! ### Example
-    //! @snippet example/product/second.cpp main
+    //! @snippet example/product.cpp second
     BOOST_HANA_CONSTEXPR_LAMBDA auto second = [](auto product) {
         return Product::instance<
             datatype_t<decltype(product)>

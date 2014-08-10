@@ -56,7 +56,7 @@ namespace boost { namespace hana {
     //! its argument at all.
     //!
     //! ### Example
-    //! @snippet example/constant/value.cpp main
+    //! @snippet example/constant.cpp value
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto value = [](auto const& c) {
         return Constant::instance<

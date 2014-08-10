@@ -108,7 +108,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/applicative/ap.cpp main
+    //! @snippet example/applicative.cpp ap
     //!
     //! @todo
     //! Consider giving access to all the arguments to the type class
@@ -131,7 +131,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/applicative/lift.cpp main
+    //! @snippet example/applicative.cpp lift
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename A>
     constexpr auto lift = [](auto x) { ... };

@@ -30,7 +30,7 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //! ### Example
-    //! @snippet example/product/comparable.cpp main
+    //! @snippet example/product.cpp comparable
     template <typename T, typename U>
     struct Comparable::instance<T, U, when<
         is_a<Product, T>() && is_a<Product, U>()

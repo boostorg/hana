@@ -39,7 +39,7 @@ namespace boost { namespace hana {
     //! the order.
     //!
     //! ### Example
-    //! example/set/comparable.cpp main
+    //! example/set.cpp comparable
     template <>
     struct Comparable::instance<Set, Set> : Comparable::equal_mcd {
         template <typename S1, typename S2>
@@ -57,7 +57,7 @@ namespace boost { namespace hana {
     //! instance follows naturally from that.
     //!
     //! ### Example
-    //! example/set/searchable.cpp main
+    //! example/set.cpp searchable
     template <>
     struct Searchable::instance<Set> : Searchable::mcd {
         template <typename Set, typename Pred>

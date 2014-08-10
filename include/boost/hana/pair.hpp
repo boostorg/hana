@@ -34,7 +34,7 @@ namespace boost { namespace hana {
     //! @relates Pair
     //!
     //! ### Example
-    //! @snippet example/pair/pair.cpp main
+    //! @snippet example/pair.cpp pair
     BOOST_HANA_CONSTEXPR_LAMBDA auto pair = [](auto first, auto second) {
         return pair_detail::pair<
             decltype(first), decltype(second)
@@ -44,7 +44,7 @@ namespace boost { namespace hana {
     //! Instance of `Product` for `Pair`s.
     //!
     //! ### Example
-    //! @snippet example/pair/product.cpp main
+    //! @snippet example/pair.cpp product
     template <>
     struct Product::instance<Pair> : Product::mcd {
         template <typename X, typename Y>

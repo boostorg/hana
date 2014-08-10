@@ -27,7 +27,7 @@ namespace boost { namespace hana {
     template <>
     struct Product::instance<StdPair> : Product::mcd {
         template <typename X, typename Y>
-        static auto first_impl(X x, Y y)
+        static auto make_product_impl(X x, Y y)
         { return std::make_pair(x, y); }
 
         template <typename P>
