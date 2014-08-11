@@ -44,9 +44,8 @@ namespace boost { namespace hana {
     //! Implements conversions between data types.
     //!
     //! To specify a conversion between two data types, one must specialize
-    //! `convert` for the corresponding data types. A dummy template parameter
-    //! is also provided for SFINAE. This allows conversions to be specified
-    //! for all data types satisfying a predicate.
+    //! `convert` for the corresponding data types. `when` can be used to
+    //! specify conversions between all data types satisfying some predicate.
     //!
     //! By default, `convert` has the following behavior:
     //! If the `To` and `From` data types are the same, nothing is done.
@@ -61,8 +60,15 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @include example/core/convert.cpp
-    template <typename To, typename From, typename Enable = void>
+    template <typename To, typename From, typename ...>
     struct convert
+    //! @cond
+        : convert<To, From, when<true>>
+    //! @endcond
+    { };
+
+    template <typename To, typename From, bool condition>
+    struct convert<To, From, when<condition>>
         : core_detail::default_convert<To, From>
     { };
 

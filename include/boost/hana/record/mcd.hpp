@@ -15,7 +15,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/is_a.hpp>
-#include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/foldable/mcd.hpp>
 #include <boost/hana/map.hpp>
 #include <boost/hana/product/product.hpp>
@@ -85,7 +84,7 @@ namespace boost { namespace hana {
     //! `members<R>` to a `Map`, except the values are replaced by the actual
     //! members of the object instead of accessors.
     template <typename R>
-    struct convert<Map, R, detail::std::enable_if_t<is_a<Record, R>()>> {
+    struct convert<Map, R, when<is_a<Record, R>()>> {
         template <typename X>
         static constexpr auto apply(X x) {
             auto extract = [=](auto k_f) {

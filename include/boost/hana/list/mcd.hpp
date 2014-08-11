@@ -16,7 +16,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/is_a.hpp>
-#include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/variadic/foldr.hpp>
 #include <boost/hana/foldable/foldable.hpp>
 #include <boost/hana/functor/fmap_mcd.hpp>
@@ -449,9 +448,7 @@ namespace boost { namespace hana {
 
     //! Converts a `Foldable` to a `List`.
     template <typename L, typename T>
-    struct convert<L, T, detail::std::enable_if_t<
-        is_a<List, L>() && is_a<Foldable, T>()
-    >> {
+    struct convert<L, T, when<is_a<List, L>() && is_a<Foldable, T>()>> {
         template <typename Xs>
         static constexpr auto apply(Xs xs)
         { return foldr(xs, nil<L>, cons); }
