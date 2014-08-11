@@ -7,12 +7,12 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/sandbox/searchable_set.hpp>
 
 #include <boost/hana/detail/assert.hpp>
-#include <boost/hana/detail/minimal/comparable.hpp>
+#include <boost/hana/detail/number/comparable.hpp>
 using namespace boost::hana;
 
 
 template <int i>
-constexpr auto x = detail::minimal::comparable<>(i);
+constexpr auto x = detail::number<>(i);
 
 int main() {
     BOOST_HANA_CONSTEXPR_ASSERT( subset(singleton(x<0>), singleton(x<0>)));

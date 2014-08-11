@@ -52,6 +52,10 @@ namespace boost { namespace hana {
         template <typename Srch, typename Key>
         static constexpr auto lookup_impl(Srch srch, Key key)
         { return find(srch, [=](auto k) { return equal(key, k); }); }
+
+        template <typename Xs, typename Ys>
+        static constexpr auto subset_impl(Xs xs, Ys ys)
+        { return all(xs, [=](auto x) { return elem(ys, x); }); }
     };
 }} // end namespace boost::hana
 

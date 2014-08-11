@@ -141,6 +141,12 @@ void test() {
             comparable(1) ^in^ searchable(comparable(0))
         ));
     }
+
+    // subset
+    {
+        BOOST_HANA_CONSTEXPR_ASSERT( subset(searchable(comparable(0)), searchable(comparable(0))));
+        BOOST_HANA_CONSTEXPR_ASSERT(not_(subset(searchable(comparable(0)), searchable(comparable(1)))));
+    }
 }
 
 int main() {

@@ -20,9 +20,21 @@ namespace boost { namespace hana {
     //! @ingroup group-typeclasses
     //! Data structures that can be searched.
     //!
-    //! `Searchable`s have a concept of keys and values. Searching is always
-    //! done on the keys and the result is always the associated value. There
-    //! is no requirement that the keys and values be different.
+    //! `Searchable`s are structures associating keys to values. Some methods
+    //! like `any`, `all` and `none` allow simple queries to be performed
+    //! on the keys of the structure, while other methods like `lookup` and
+    //! `find` make it possible to find the value associated to a key. Unlike
+    //! usual associative containers, `Searchable` does not require the
+    //! structure to be finite; its specification is voluntarily left very
+    //! general to allow infinite data structures. Also, there is no
+    //! requirement that the keys and values be different, and indeed it
+    //! is often useful to have identical keys and values.
+    //!
+    //! Also note that the most specific method should always be used if one
+    //! cares about performance. For example, an associative data structure
+    //! implemented as a hash table will be much faster to access using
+    //! `lookup` than `find`. Similarly, using `elem` will likely be much
+    //! faster than `any` with an equivalent predicate.
     struct Searchable {
         BOOST_HANA_TYPECLASS(Searchable);
         struct mcd;
@@ -44,7 +56,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/searchable/any.cpp main
+    //! @snippet example/searchable.cpp any
     BOOST_HANA_CONSTEXPR_LAMBDA auto any = [](auto&& searchable, auto&& predicate) -> decltype(auto) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
@@ -62,7 +74,7 @@ namespace boost { namespace hana {
     //! this method to finish.
     //!
     //! ### Example
-    //! @snippet example/searchable/any_of.cpp main
+    //! @snippet example/searchable.cpp any_of
     BOOST_HANA_CONSTEXPR_LAMBDA auto any_of = [](auto&& searchable) -> decltype(auto) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
@@ -86,7 +98,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/searchable/all.cpp main
+    //! @snippet example/searchable.cpp all
     BOOST_HANA_CONSTEXPR_LAMBDA auto all = [](auto&& searchable, auto&& predicate) -> decltype(auto) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
@@ -104,7 +116,7 @@ namespace boost { namespace hana {
     //! for this method to finish.
     //!
     //! ### Example
-    //! @snippet example/searchable/all_of.cpp main
+    //! @snippet example/searchable.cpp all_of
     BOOST_HANA_CONSTEXPR_LAMBDA auto all_of = [](auto&& searchable) -> decltype(auto) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
@@ -129,7 +141,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/searchable/none.cpp main
+    //! @snippet example/searchable.cpp none
     BOOST_HANA_CONSTEXPR_LAMBDA auto none = [](auto&& searchable, auto&& predicate) -> decltype(auto) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
@@ -147,7 +159,7 @@ namespace boost { namespace hana {
     //! for this method to finish.
     //!
     //! ### Example
-    //! @snippet example/searchable/none_of.cpp main
+    //! @snippet example/searchable.cpp none_of
     BOOST_HANA_CONSTEXPR_LAMBDA auto none_of = [](auto&& searchable) -> decltype(auto) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
@@ -172,7 +184,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/searchable/elem.cpp main
+    //! @snippet example/searchable.cpp elem
     BOOST_HANA_CONSTEXPR_LAMBDA auto elem = [](auto&& searchable, auto&& key) -> decltype(auto) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
@@ -202,7 +214,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/searchable/find.cpp main
+    //! @snippet example/searchable.cpp find
     BOOST_HANA_CONSTEXPR_LAMBDA auto find = [](auto&& searchable, auto&& predicate) -> decltype(auto) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
@@ -233,7 +245,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/searchable/lookup.cpp main
+    //! @snippet example/searchable.cpp lookup
     BOOST_HANA_CONSTEXPR_LAMBDA auto lookup = [](auto&& searchable, auto&& key) -> decltype(auto) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
@@ -260,13 +272,43 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/searchable/in.cpp main
+    //! @snippet example/searchable.cpp in
     BOOST_HANA_CONSTEXPR_LAMBDA auto in = infix([](auto&& key, auto&& searchable) -> decltype(auto) {
         return elem(
             detail::std::forward<decltype(searchable)>(searchable),
             detail::std::forward<decltype(key)>(key)
         );
     });
+
+    //! Return whether a structure contains a subset of the keys of
+    //! another structure.
+    //! @relates Searchable
+    //!
+    //! Specifically, `subset(xs, ys)` is a `Logical` representing whether all
+    //! of the keys of `xs` are also keys of `ys`. In particular, this method
+    //! does _not_ check whether `xs` is a strict subset of `ys`, i.e. a
+    //! subset that is not equal. Both arguments may have different data
+    //! types, but only the data type of the first argument is used for
+    //! method dispatching.
+    //!
+    //!
+    //! @param xs
+    //! The structure to check whether it is a subset of `ys`.
+    //!
+    //! @param ys
+    //! The structure to check whether it is a superset of `xs`.
+    //!
+    //!
+    //! ### Example
+    //! @snippet example/searchable.cpp subset
+    BOOST_HANA_CONSTEXPR_LAMBDA auto subset = [](auto&& xs, auto&& ys) -> decltype(auto) {
+        return Searchable::instance<
+            datatype_t<decltype(xs)>
+        >::subset_impl(
+            detail::std::forward<decltype(xs)>(xs),
+            detail::std::forward<decltype(ys)>(ys)
+        );
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_SEARCHABLE_SEARCHABLE_HPP

@@ -13,13 +13,16 @@ Distributed under the Boost Software License, Version 1.0.
 using namespace boost::hana;
 
 
-BOOST_HANA_CONSTEXPR_LAMBDA auto f = detail::injection([]{});
-
 template <int i>
 constexpr auto x = detail::number<>(i);
 
 int main() {
-    BOOST_HANA_CONSTEXPR_ASSERT(fmap(f, singleton(x<0>)) == singleton(f(x<0>)));
-    BOOST_HANA_CONSTEXPR_ASSERT(fmap(f, doubleton(x<0>, x<1>)) == doubleton(f(x<0>), f(x<1>)));
-    BOOST_HANA_CONSTEXPR_ASSERT(fmap(f, doubleton(x<0>, x<0>)) == singleton(f(x<0>)));
+    BOOST_HANA_CONSTEXPR_LAMBDA auto f = detail::injection([]{});
+
+    // fmap
+    {
+        BOOST_HANA_CONSTEXPR_ASSERT(fmap(f, singleton(x<0>)) == singleton(f(x<0>)));
+        BOOST_HANA_CONSTEXPR_ASSERT(fmap(f, doubleton(x<0>, x<1>)) == doubleton(f(x<0>), f(x<1>)));
+        BOOST_HANA_CONSTEXPR_ASSERT(fmap(f, doubleton(x<0>, x<0>)) == singleton(f(x<0>)));
+    }
 }

@@ -18,6 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/logical/logical.hpp>
 #include <boost/hana/maybe.hpp>
 #include <boost/hana/monad/flatten_mcd.hpp>
+#include <boost/hana/searchable/mcd.hpp>
 
 
 namespace boost { namespace hana {
@@ -37,28 +38,6 @@ namespace boost { namespace hana {
         return _sset<decltype(pred)>{pred};
     };
 
-    BOOST_HANA_CONSTEXPR_LAMBDA auto search = [](auto set, auto pred) {
-        auto x = set.find(pred);
-        return if_(pred(x), just(x), nothing);
-    };
-
-    BOOST_HANA_CONSTEXPR_LAMBDA auto forsome = [](auto set, auto pred) {
-        return pred(set.find(pred));
-    };
-
-    BOOST_HANA_CONSTEXPR_LAMBDA auto forall = [](auto set, auto pred) {
-        return not_(forsome(set, [=](auto x) { return not_(pred(x)); }));
-    };
-
-    BOOST_HANA_CONSTEXPR_LAMBDA auto contains = [](auto element, auto set) {
-        return forsome(set, [=](auto x) { return equal(x, element); });
-    };
-
-    // Whether xs is a subset of ys.
-    BOOST_HANA_CONSTEXPR_LAMBDA auto subset = [](auto xs, auto ys) {
-        return forall(xs, [=](auto x) { return contains(x, ys); });
-    };
-
     BOOST_HANA_CONSTEXPR_LAMBDA auto singleton = [](auto x) {
         return searchable_set([=](auto p) { return x; });
     };
@@ -66,12 +45,6 @@ namespace boost { namespace hana {
     BOOST_HANA_CONSTEXPR_LAMBDA auto doubleton = [](auto x, auto y) {
         return searchable_set([=](auto p) {
             return if_(p(x), x, y);
-        });
-    };
-
-    BOOST_HANA_CONSTEXPR_LAMBDA auto image = [](auto f, auto set) {
-        return searchable_set([=](auto q) {
-            return f(set.find([=](auto x) { return q(f(x)); }));
         });
     };
 
@@ -91,8 +64,11 @@ namespace boost { namespace hana {
     template <>
     struct Functor::instance<SearchableSet> : Functor::fmap_mcd {
         template <typename F, typename Set>
-        static constexpr auto fmap_impl(F f, Set set)
-        { return image(f, set); }
+        static constexpr auto fmap_impl(F f, Set set) {
+            return searchable_set([=](auto q) {
+                return f(set.find([=](auto x) { return q(f(x)); }));
+            });
+        }
     };
 
     template <>
@@ -103,8 +79,8 @@ namespace boost { namespace hana {
 
         template <typename F, typename Set>
         static constexpr auto ap_impl(F fset, Set set) {
-            return flatten(image(
-                [=](auto f) { return image(f, set); },
+            return flatten(fmap(
+                [=](auto f) { return fmap(f, set); },
                 fset
             ));
         }
@@ -112,13 +88,27 @@ namespace boost { namespace hana {
 
     template <>
     struct Monad::instance<SearchableSet> : Monad::flatten_mcd<SearchableSet> {
-        template <typename SSet>
-        static constexpr auto flatten_impl(SSet sset) {
+        template <typename Set>
+        static constexpr auto flatten_impl(Set set) {
             return searchable_set([=](auto p) {
-                return sset.find([=](auto set) {
-                    return forsome(set, p);
+                return set.find([=](auto set) {
+                    return any(set, p);
                 }).find(p);
             });
+        }
+    };
+
+    template <>
+    struct Searchable::instance<SearchableSet> : Searchable::mcd {
+        template <typename Set, typename Pred>
+        static constexpr auto find_impl(Set set, Pred p) {
+            auto x = set.find(p);
+            return if_(p(x), just(x), nothing);
+        }
+
+        template <typename Set, typename Pred>
+        static constexpr auto any_impl(Set set, Pred p) {
+            return p(set.find(p));
         }
     };
 }} // end namespace boost::hana

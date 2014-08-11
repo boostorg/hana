@@ -15,19 +15,22 @@ Distributed under the Boost Software License, Version 1.0.
 using namespace boost::hana;
 
 
-BOOST_HANA_CONSTEXPR_LAMBDA auto check_fold = [](auto ...pairs) {
-    auto values = fmap(second, list(pairs...));
-    auto result = foldr(hash_map(pairs...), list(), cons);
-    BOOST_HANA_CONSTANT_ASSERT(elem(permutations(values), result));
-};
-
 template <int k, int v>
 BOOST_HANA_CONSTEXPR_LAMBDA auto p = pair(int_<k>, int_<v>);
 
 int main() {
-    check_fold();
-    check_fold(p<1, 1>);
-    check_fold(p<1, 1>, p<2, 2>);
-    check_fold(p<1, 1>, p<2, 2>, p<3, 3>);
-    check_fold(p<1, 1>, p<2, 2>, p<3, 3>, p<4, 4>);
+    // foldr
+    {
+        BOOST_HANA_CONSTEXPR_LAMBDA auto check_fold = [](auto ...pairs) {
+            auto values = fmap(second, list(pairs...));
+            auto result = foldr(hash_map(pairs...), list(), cons);
+            BOOST_HANA_CONSTANT_ASSERT(elem(permutations(values), result));
+        };
+
+        check_fold();
+        check_fold(p<1, 1>);
+        check_fold(p<1, 1>, p<2, 2>);
+        check_fold(p<1, 1>, p<2, 2>, p<3, 3>);
+        check_fold(p<1, 1>, p<2, 2>, p<3, 3>, p<4, 4>);
+    }
 }
