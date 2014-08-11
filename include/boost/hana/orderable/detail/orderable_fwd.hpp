@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/typeclass.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 
 
 namespace boost { namespace hana {
@@ -50,10 +51,13 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/orderable.cpp less
-    BOOST_HANA_CONSTEXPR_LAMBDA auto less = [](auto x, auto y) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto less = [](auto&& x, auto&& y) -> decltype(auto) {
         return Orderable::instance<
             datatype_t<decltype(x)>, datatype_t<decltype(y)>
-        >::less_impl(x, y);
+        >::less_impl(
+            detail::std::forward<decltype(x)>(x),
+            detail::std::forward<decltype(y)>(y)
+        );
     };
 
     //! Returns a `Logical` representing whether `x` is less than or
@@ -62,10 +66,13 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/orderable.cpp less_equal
-    BOOST_HANA_CONSTEXPR_LAMBDA auto less_equal = [](auto x, auto y) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto less_equal = [](auto&& x, auto&& y) -> decltype(auto) {
         return Orderable::instance<
             datatype_t<decltype(x)>, datatype_t<decltype(y)>
-        >::less_equal_impl(x, y);
+        >::less_equal_impl(
+            detail::std::forward<decltype(x)>(x),
+            detail::std::forward<decltype(y)>(y)
+        );
     };
 
     //! Returns a `Logical` representing whether `x` is greater than `y`.
@@ -73,10 +80,13 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/orderable.cpp greater
-    BOOST_HANA_CONSTEXPR_LAMBDA auto greater = [](auto x, auto y) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto greater = [](auto&& x, auto&& y) -> decltype(auto) {
         return Orderable::instance<
             datatype_t<decltype(x)>, datatype_t<decltype(y)>
-        >::greater_impl(x, y);
+        >::greater_impl(
+            detail::std::forward<decltype(x)>(x),
+            detail::std::forward<decltype(y)>(y)
+        );
     };
 
     //! Returns a `Logical` representing whether `x` is greater than or
@@ -85,10 +95,13 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/orderable.cpp greater_equal
-    BOOST_HANA_CONSTEXPR_LAMBDA auto greater_equal = [](auto x, auto y) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto greater_equal = [](auto&& x, auto&& y) -> decltype(auto) {
         return Orderable::instance<
             datatype_t<decltype(x)>, datatype_t<decltype(y)>
-        >::greater_equal_impl(x, y);
+        >::greater_equal_impl(
+            detail::std::forward<decltype(x)>(x),
+            detail::std::forward<decltype(y)>(y)
+        );
     };
 
     //! Returns the smallest of its arguments according to the `less` ordering.
@@ -96,10 +109,13 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/orderable.cpp min
-    BOOST_HANA_CONSTEXPR_LAMBDA auto min = [](auto x, auto y) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto min = [](auto&& x, auto&& y) -> decltype(auto) {
         return Orderable::instance<
             datatype_t<decltype(x)>, datatype_t<decltype(y)>
-        >::min_impl(x, y);
+        >::min_impl(
+            detail::std::forward<decltype(x)>(x),
+            detail::std::forward<decltype(y)>(y)
+        );
     };
 
     //! Returns the greatest of its arguments according to the `less` ordering.
@@ -107,10 +123,13 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/orderable.cpp max
-    BOOST_HANA_CONSTEXPR_LAMBDA auto max = [](auto x, auto y) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto max = [](auto&& x, auto&& y) -> decltype(auto) {
         return Orderable::instance<
             datatype_t<decltype(x)>, datatype_t<decltype(y)>
-        >::max_impl(x, y);
+        >::max_impl(
+            detail::std::forward<decltype(x)>(x),
+            detail::std::forward<decltype(y)>(y)
+        );
     };
 
     //! Returns a function performing `less` after applying a transformation
@@ -125,36 +144,55 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/orderable.cpp ordering
-    BOOST_HANA_CONSTEXPR_LAMBDA auto ordering = [](auto f) {
-        return [=](auto x, auto y) {
-            return less(f(x), f(y));
+    BOOST_HANA_CONSTEXPR_LAMBDA auto ordering = [](auto&& f) -> decltype(auto) {
+        return [f(detail::std::forward<decltype(f)>(f))](auto&& x, auto&& y) -> decltype(auto) {
+            return less(
+                f(detail::std::forward<decltype(x)>(x)),
+                f(detail::std::forward<decltype(y)>(y))
+            );
         };
     };
 
     namespace orderable_detail { namespace operators {
         //! Equivalent to `less`.
         //! @relates boost::hana::Orderable
-        template <typename T, typename U>
-        constexpr auto operator<(T t, U u)
-        { return less(t, u); }
+        template <typename X, typename Y>
+        constexpr decltype(auto) operator<(X&& x, Y&& y) {
+            return less(
+                detail::std::forward<decltype(x)>(x),
+                detail::std::forward<decltype(y)>(y)
+            );
+        }
 
         //! Equivalent to `less_equal`.
         //! @relates boost::hana::Orderable
-        template <typename T, typename U>
-        constexpr auto operator<=(T t, U u)
-        { return less_equal(t, u); }
+        template <typename X, typename Y>
+        constexpr decltype(auto) operator<=(X&& x, Y&& y) {
+            return less_equal(
+                detail::std::forward<decltype(x)>(x),
+                detail::std::forward<decltype(y)>(y)
+            );
+        }
 
         //! Equivalent to `greater`.
         //! @relates boost::hana::Orderable
-        template <typename T, typename U>
-        constexpr auto operator>(T t, U u)
-        { return greater(t, u); }
+        template <typename X, typename Y>
+        constexpr decltype(auto) operator>(X&& x, Y&& y) {
+            return greater(
+                detail::std::forward<decltype(x)>(x),
+                detail::std::forward<decltype(y)>(y)
+            );
+        }
 
         //! Equivalent to `greater_equal`.
         //! @relates boost::hana::Orderable
-        template <typename T, typename U>
-        constexpr auto operator>=(T t, U u)
-        { return greater_equal(t, u); }
+        template <typename X, typename Y>
+        constexpr decltype(auto) operator>=(X&& x, Y&& y) {
+            return greater_equal(
+                detail::std::forward<decltype(x)>(x),
+                detail::std::forward<decltype(y)>(y)
+            );
+        }
     }}
 }} // end namespace boost::hana
 

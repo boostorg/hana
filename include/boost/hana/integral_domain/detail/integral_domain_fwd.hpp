@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/typeclass.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 
 
 namespace boost { namespace hana {
@@ -56,10 +57,13 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/integral_domain.cpp mod
-    BOOST_HANA_CONSTEXPR_LAMBDA auto mod = [](auto a, auto b) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto mod = [](auto&& a, auto&& b) -> decltype(auto) {
         return IntegralDomain::instance<
             datatype_t<decltype(a)>, datatype_t<decltype(b)>
-        >::mod_impl(a, b);
+        >::mod_impl(
+            detail::std::forward<decltype(a)>(a),
+            detail::std::forward<decltype(b)>(b)
+        );
     };
 
     //! Generalized integer quotient.
@@ -67,24 +71,27 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/integral_domain.cpp quot
-    BOOST_HANA_CONSTEXPR_LAMBDA auto quot = [](auto a, auto b) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto quot = [](auto&& a, auto&& b) -> decltype(auto) {
         return IntegralDomain::instance<
             datatype_t<decltype(a)>, datatype_t<decltype(b)>
-        >::quot_impl(a, b);
+        >::quot_impl(
+            detail::std::forward<decltype(a)>(a),
+            detail::std::forward<decltype(b)>(b)
+        );
     };
 
     namespace integral_domain_detail { namespace operators {
         //! Equivalent to `mod`.
         //! @relates boost::hana::Ring
-        template <typename C1, typename C2>
-        constexpr auto operator%(C1 c1, C2 c2)
-        { return mod(c1, c2); }
+        template <typename X, typename Y>
+        constexpr decltype(auto) operator%(X&& x, Y&& y)
+        { return mod(detail::std::forward<X>(x), detail::std::forward<Y>(y)); }
 
         //! Equivalent to `quot`.
         //! @relates boost::hana::Ring
-        template <typename C1, typename C2>
-        constexpr auto operator/(C1 c1, C2 c2)
-        { return quot(c1, c2); }
+        template <typename X, typename Y>
+        constexpr decltype(auto) operator/(X&& x, Y&& y)
+        { return quot(detail::std::forward<X>(x), detail::std::forward<Y>(y)); }
     }}
 }} // end namespace boost::hana
 

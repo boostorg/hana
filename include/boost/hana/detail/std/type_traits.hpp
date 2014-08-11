@@ -11,18 +11,12 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_STD_TYPE_TRAITS_HPP
 #define BOOST_HANA_DETAIL_STD_TYPE_TRAITS_HPP
 
+#include <boost/hana/detail/std/integral_constant.hpp>
+#include <boost/hana/detail/std/is_lvalue_reference.hpp>
+#include <boost/hana/detail/std/remove_reference.hpp>
+
+
 namespace boost { namespace hana { namespace detail { namespace std {
-    // integral_constant
-    template <typename T, T v>
-    struct integral_constant {
-        using value_type = T;
-        static constexpr value_type value = v;
-        using type = integral_constant;
-        constexpr operator value_type() const { return value; }
-        constexpr value_type operator()() const { return value; }
-    };
-
-
     // enable_if
     template <bool Cond, typename T = void>
     struct enable_if { using type = T; };

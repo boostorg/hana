@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/typeclass.hpp>
 #include <boost/hana/detail/functional/curry.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/variadic/foldl.hpp>
 #include <boost/hana/functor/functor.hpp>
 
@@ -62,24 +63,29 @@ namespace boost { namespace hana {
         template <typename A>
         struct lift {
             template <typename X>
-            constexpr auto operator()(X x) const
-            { return Applicative::instance<A>::lift_impl(x); }
+            constexpr decltype(auto) operator()(X&& x) const {
+                return Applicative::instance<
+                    A
+                >::lift_impl(detail::std::forward<X>(x));
+            }
         };
 
         struct ap {
             template <typename F, typename X>
-            constexpr auto operator()(F f, X x) const {
-                return Applicative::instance<datatype_t<F>>::ap_impl(f, x);
+            constexpr decltype(auto) operator()(F&& f, X&& x) const {
+                return Applicative::instance<
+                    datatype_t<F>
+                >::ap_impl(detail::std::forward<F>(f), detail::std::forward<X>(x));
             }
 
             template <typename F, typename ...Xs>
-            constexpr auto operator()(F f, Xs ...xs) const {
+            constexpr decltype(auto) operator()(F&& f, Xs&& ...xs) const {
                 static_assert(sizeof...(xs) >= 1,
                 "boost::hana::ap must be called with two arguments or more");
                 return detail::variadic::foldl(
                     *this,
-                    fmap(curry<sizeof...(xs)>, f),
-                    xs...
+                    fmap(curry<sizeof...(xs)>, detail::std::forward<F>(f)),
+                    detail::std::forward<Xs>(xs)...
                 );
             }
         };
@@ -114,7 +120,9 @@ namespace boost { namespace hana {
     //! Consider giving access to all the arguments to the type class
     //! implementation for performance purposes.
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto ap = [](auto f, auto ...x) { ... };
+    constexpr auto ap = [](auto&& f, auto&& ...x) -> decltype(auto) {
+        unspecified
+    };
 #else
     constexpr applicative_detail::ap ap{};
 #endif
@@ -134,7 +142,9 @@ namespace boost { namespace hana {
     //! @snippet example/applicative.cpp lift
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename A>
-    constexpr auto lift = [](auto x) { ... };
+    constexpr auto lift = [](auto&& x) -> decltype(auto) {
+        unspecified
+    };
 #else
     template <typename A>
     constexpr applicative_detail::lift<A> lift{};

@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/typeclass.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 
 
 namespace boost { namespace hana {
@@ -49,10 +50,13 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/functor/fmap.cpp add_pointer
-    BOOST_HANA_CONSTEXPR_LAMBDA auto fmap = [](auto f, auto functor) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto fmap = [](auto&& f, auto&& functor) -> decltype(auto) {
         return Functor::instance<
             datatype_t<decltype(functor)>
-        >::fmap_impl(f, functor);
+        >::fmap_impl(
+            detail::std::forward<decltype(f)>(f),
+            detail::std::forward<decltype(functor)>(functor)
+        );
     };
 
     //! Apply a function on all the elements of a structure satisfying a
@@ -75,10 +79,14 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/functor/adjust.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto adjust = [](auto predicate, auto f, auto functor) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto adjust = [](auto&& predicate, auto&& f, auto&& functor) -> decltype(auto) {
         return Functor::instance<
             datatype_t<decltype(functor)>
-        >::adjust_impl(predicate, f, functor);
+        >::adjust_impl(
+            detail::std::forward<decltype(predicate)>(predicate),
+            detail::std::forward<decltype(f)>(f),
+            detail::std::forward<decltype(functor)>(functor)
+        );
     };
 
     //! Replace all the elements of a structure satisfying a `predicate`
@@ -101,10 +109,14 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/functor/replace.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto replace = [](auto predicate, auto value, auto functor) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto replace = [](auto&& predicate, auto&& value, auto&& functor) -> decltype(auto) {
         return Functor::instance<
             datatype_t<decltype(functor)>
-        >::replace_impl(predicate, value, functor);
+        >::replace_impl(
+            detail::std::forward<decltype(predicate)>(predicate),
+            detail::std::forward<decltype(value)>(value),
+            detail::std::forward<decltype(functor)>(functor)
+        );
     };
 
     //! Replace all the elements of a structure with a fixed value.
@@ -121,10 +133,13 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/functor/fill.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto fill = [](auto value, auto functor) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto fill = [](auto&& value, auto&& functor) -> decltype(auto) {
         return Functor::instance<
             datatype_t<decltype(functor)>
-        >::fill_impl(value, functor);
+        >::fill_impl(
+            detail::std::forward<decltype(value)>(value),
+            detail::std::forward<decltype(functor)>(functor)
+        );
     };
 
     namespace functor_detail {

@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/applicative/applicative.hpp>
 #include <boost/hana/core/typeclass.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 
 
 namespace boost { namespace hana {
@@ -59,10 +60,13 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @include example/monad/bind.cpp
-    BOOST_HANA_CONSTEXPR_LAMBDA auto bind = [](auto monad, auto f) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto bind = [](auto&& monad, auto&& f) -> decltype(auto) {
         return Monad::instance<
             datatype_t<decltype(monad)>
-        >::bind_impl(monad, f);
+        >::bind_impl(
+            detail::std::forward<decltype(monad)>(monad),
+            detail::std::forward<decltype(f)>(f)
+        );
     };
 
     //! Sequentially compose two monadic actions, discarding any value
@@ -84,10 +88,13 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/monad/then.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto then = [](auto before, auto monad) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto then = [](auto&& before, auto&& monad) -> decltype(auto) {
         return Monad::instance<
             datatype_t<decltype(before)>
-        >::then_impl(before, monad);
+        >::then_impl(
+            detail::std::forward<decltype(before)>(before),
+            detail::std::forward<decltype(monad)>(monad)
+        );
     };
 
     //! Flatten two levels of monadic wrapping into a single level.
@@ -98,18 +105,21 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/monad/flatten.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto flatten = [](auto monad) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto flatten = [](auto&& monad) -> decltype(auto) {
         return Monad::instance<
             datatype_t<decltype(monad)>
-        >::flatten_impl(monad);
+        >::flatten_impl(detail::std::forward<decltype(monad)>(monad));
     };
 
     namespace monad_detail {
         template <typename M>
         struct tap {
             template <typename F>
-            constexpr auto operator()(F f) const
-            { return Monad::instance<M>::tap_impl(f); }
+            constexpr decltype(auto) operator()(F&& f) const {
+                return Monad::instance<M>::tap_impl(
+                    detail::std::forward<decltype(f)>(f)
+                );
+            }
         };
     }
 
@@ -137,8 +147,8 @@ namespace boost { namespace hana {
     //! @snippet example/monad/tap.cpp main
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename M>
-    constexpr auto tap = [](auto f) {
-        return Monad::instance<M>::tap_impl(f);
+    constexpr auto tap = [](auto&& f) -> decltype(auto) {
+        return Monad::instance<M>::tap_impl(std::forward<decltype(f)>(f));
     };
 #else
     template <typename M>
@@ -153,8 +163,12 @@ namespace boost { namespace hana {
         //! This was preferred over `>>=` because `>>=` is right associative
         //! in C++, which makes it impossible to chain computations.
         template <typename M, typename F>
-        constexpr auto operator|(M m, F f)
-        { return bind(m, f); }
+        constexpr decltype(auto) operator|(M&& m, F&& f) {
+            return bind(
+                detail::std::forward<decltype(m)>(m),
+                detail::std::forward<decltype(f)>(f)
+            );
+        }
     }}
 
     namespace monad_detail {

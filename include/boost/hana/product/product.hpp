@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/typeclass.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 
 
 namespace boost { namespace hana {
@@ -62,20 +63,26 @@ namespace boost { namespace hana {
     //! @snippet example/product.cpp make_product
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename P>
-    constexpr auto make_product = [](auto fst, auto snd) {
+    constexpr auto make_product = [](auto&& fst, auto&& snd) -> decltype(auto) {
         return Product::instance<
             datatype_t<P>
-        >::make_product_impl(fst, snd);
+        >::make_product_impl(
+            std::forward<decltype(fst)>(fst),
+            std::forward<decltype(snd)>(snd)
+        );
     };
 #else
     namespace product_detail {
         template <typename P>
         struct make_product {
             template <typename Fst, typename Snd>
-            constexpr auto operator()(Fst fst, Snd snd) const {
+            constexpr decltype(auto) operator()(Fst&& fst, Snd&& snd) const {
                 return Product::instance<
                     datatype_t<P>
-                >::make_product_impl(fst, snd);
+                >::make_product_impl(
+                    detail::std::forward<Fst>(fst),
+                    detail::std::forward<Snd>(snd)
+                );
             }
         };
     }
@@ -89,10 +96,10 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/product.cpp first
-    BOOST_HANA_CONSTEXPR_LAMBDA auto first = [](auto product) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto first = [](auto&& product) -> decltype(auto) {
         return Product::instance<
             datatype_t<decltype(product)>
-        >::first_impl(product);
+        >::first_impl(detail::std::forward<decltype(product)>(product));
     };
 
     //! Return the second element of a product.
@@ -100,10 +107,10 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/product.cpp second
-    BOOST_HANA_CONSTEXPR_LAMBDA auto second = [](auto product) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto second = [](auto&& product) -> decltype(auto) {
         return Product::instance<
             datatype_t<decltype(product)>
-        >::second_impl(product);
+        >::second_impl(detail::std::forward<decltype(product)>(product));
     };
 }} // end namespace boost::hana
 

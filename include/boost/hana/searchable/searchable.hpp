@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/typeclass.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/functional/infix.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 
 
 namespace boost { namespace hana {
@@ -44,10 +45,13 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/searchable/any.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto any = [](auto searchable, auto predicate) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto any = [](auto&& searchable, auto&& predicate) -> decltype(auto) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
-        >::any_impl(searchable, predicate);
+        >::any_impl(
+            detail::std::forward<decltype(searchable)>(searchable),
+            detail::std::forward<decltype(predicate)>(predicate)
+        );
     };
 
     //! Return whether any key of the structure is true-valued.
@@ -59,10 +63,10 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/searchable/any_of.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto any_of = [](auto searchable) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto any_of = [](auto&& searchable) -> decltype(auto) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
-        >::any_of_impl(searchable);
+        >::any_of_impl(detail::std::forward<decltype(searchable)>(searchable));
     };
 
     //! Return whether all the keys of the structure satisfy the `predicate`.
@@ -83,10 +87,13 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/searchable/all.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto all = [](auto searchable, auto predicate) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto all = [](auto&& searchable, auto&& predicate) -> decltype(auto) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
-        >::all_impl(searchable, predicate);
+        >::all_impl(
+            detail::std::forward<decltype(searchable)>(searchable),
+            detail::std::forward<decltype(predicate)>(predicate)
+        );
     };
 
     //! Return whether all the keys of the structure are true-valued.
@@ -98,10 +105,10 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/searchable/all_of.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto all_of = [](auto searchable) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto all_of = [](auto&& searchable) -> decltype(auto) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
-        >::all_of_impl(searchable);
+        >::all_of_impl(detail::std::forward<decltype(searchable)>(searchable));
     };
 
     //! Return whether none of the keys of the structure satisfy the
@@ -123,10 +130,13 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/searchable/none.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto none = [](auto searchable, auto predicate) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto none = [](auto&& searchable, auto&& predicate) -> decltype(auto) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
-        >::none_impl(searchable, predicate);
+        >::none_impl(
+            detail::std::forward<decltype(searchable)>(searchable),
+            detail::std::forward<decltype(predicate)>(predicate)
+        );
     };
 
     //! Return whether all of the keys of the structure are false-valued.
@@ -138,10 +148,10 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/searchable/none_of.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto none_of = [](auto searchable) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto none_of = [](auto&& searchable) -> decltype(auto) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
-        >::none_of_impl(searchable);
+        >::none_of_impl(detail::std::forward<decltype(searchable)>(searchable));
     };
 
     //! Return whether the key occurs in the structure.
@@ -163,10 +173,13 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/searchable/elem.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto elem = [](auto searchable, auto key) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto elem = [](auto&& searchable, auto&& key) -> decltype(auto) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
-        >::elem_impl(searchable, key);
+        >::elem_impl(
+            detail::std::forward<decltype(searchable)>(searchable),
+            detail::std::forward<decltype(key)>(key)
+        );
     };
 
     //! Find the value associated to the first key satisfying a predicate.
@@ -190,10 +203,13 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/searchable/find.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto find = [](auto searchable, auto predicate) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto find = [](auto&& searchable, auto&& predicate) -> decltype(auto) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
-        >::find_impl(searchable, predicate);
+        >::find_impl(
+            detail::std::forward<decltype(searchable)>(searchable),
+            detail::std::forward<decltype(predicate)>(predicate)
+        );
     };
 
     //! Find the value associated to the given key in a structure.
@@ -218,10 +234,13 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/searchable/lookup.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto lookup = [](auto searchable, auto key) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto lookup = [](auto&& searchable, auto&& key) -> decltype(auto) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
-        >::lookup_impl(searchable, key);
+        >::lookup_impl(
+            detail::std::forward<decltype(searchable)>(searchable),
+            detail::std::forward<decltype(key)>(key)
+        );
     };
 
     //! Return whether the key occurs in the structure.
@@ -242,8 +261,11 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/searchable/in.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto in = infix([](auto key, auto searchable) {
-        return elem(searchable, key);
+    BOOST_HANA_CONSTEXPR_LAMBDA auto in = infix([](auto&& key, auto&& searchable) -> decltype(auto) {
+        return elem(
+            detail::std::forward<decltype(searchable)>(searchable),
+            detail::std::forward<decltype(key)>(key)
+        );
     });
 }} // end namespace boost::hana
 

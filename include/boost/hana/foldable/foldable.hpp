@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/typeclass.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 
 
 namespace boost { namespace hana {
@@ -49,10 +50,14 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/foldable/foldl.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto foldl = [](auto foldable, auto state, auto f) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto foldl = [](auto&& foldable, auto&& state, auto&& f) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
-        >::foldl_impl(foldable, state, f);
+        >::foldl_impl(
+            detail::std::forward<decltype(foldable)>(foldable),
+            detail::std::forward<decltype(state)>(state),
+            detail::std::forward<decltype(f)>(f)
+        );
     };
 
     //! Right-associative fold of a structure using a binary operation.
@@ -72,10 +77,14 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/foldable/foldr.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto foldr = [](auto foldable, auto state, auto f) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto foldr = [](auto&& foldable, auto&& state, auto&& f) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
-        >::foldr_impl(foldable, state, f);
+        >::foldr_impl(
+            detail::std::forward<decltype(foldable)>(foldable),
+            detail::std::forward<decltype(state)>(state),
+            detail::std::forward<decltype(f)>(f)
+        );
     };
 
     //! Variant of `foldr` that has no base case, and thus may only be
@@ -93,10 +102,13 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/foldable/foldr1.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto foldr1 = [](auto foldable, auto f) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto foldr1 = [](auto&& foldable, auto&& f) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
-        >::foldr1_impl(foldable, f);
+        >::foldr1_impl(
+            detail::std::forward<decltype(foldable)>(foldable),
+            detail::std::forward<decltype(f)>(f)
+        );
     };
 
     //! Variant of `foldl` that has no base case, and thus may only be
@@ -114,10 +126,13 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/foldable/foldl1.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto foldl1 = [](auto foldable, auto f) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto foldl1 = [](auto&& foldable, auto&& f) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
-        >::foldl1_impl(foldable, f);
+        >::foldl1_impl(
+            detail::std::forward<decltype(foldable)>(foldable),
+            detail::std::forward<decltype(f)>(f)
+        );
     };
 
     //! Return the number of elements in a finite structure.
@@ -125,10 +140,10 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/foldable/length.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto length = [](auto foldable) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto length = [](auto&& foldable) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
-        >::length_impl(foldable);
+        >::length_impl(detail::std::forward<decltype(foldable)>(foldable));
     };
 
     //! Return the least element of a non-empty structure with respect to
@@ -147,10 +162,13 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/foldable/minimum_by.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto minimum_by = [](auto predicate, auto foldable) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto minimum_by = [](auto&& predicate, auto&& foldable) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
-        >::minimum_by_impl(predicate, foldable);
+        >::minimum_by_impl(
+            detail::std::forward<decltype(predicate)>(predicate),
+            detail::std::forward<decltype(foldable)>(foldable)
+        );
     };
 
     //! Return the least element of a non-empty structure.
@@ -158,10 +176,10 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/foldable/minimum.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto minimum = [](auto foldable) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto minimum = [](auto&& foldable) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
-        >::minimum_impl(foldable);
+        >::minimum_impl(detail::std::forward<decltype(foldable)>(foldable));
     };
 
     //! Return the greatest element of a non-empty structure with respect to
@@ -180,10 +198,13 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/foldable/maximum_by.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto maximum_by = [](auto predicate, auto foldable) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto maximum_by = [](auto&& predicate, auto&& foldable) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
-        >::maximum_by_impl(predicate, foldable);
+        >::maximum_by_impl(
+            detail::std::forward<decltype(predicate)>(predicate),
+            detail::std::forward<decltype(foldable)>(foldable)
+        );
     };
 
     //! Return the greatest element of a non-empty structure.
@@ -191,10 +212,10 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/foldable/maximum.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto maximum = [](auto foldable) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto maximum = [](auto&& foldable) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
-        >::maximum_impl(foldable);
+        >::maximum_impl(detail::std::forward<decltype(foldable)>(foldable));
     };
 
     //! Compute the sum of the numbers of a structure.
@@ -207,10 +228,10 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/foldable/sum.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto sum = [](auto foldable) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto sum = [](auto&& foldable) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
-        >::sum_impl(foldable);
+        >::sum_impl(detail::std::forward<decltype(foldable)>(foldable));
     };
 
     //! Compute the product of the numbers of a structure.
@@ -223,10 +244,10 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/foldable/product.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto product = [](auto foldable) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto product = [](auto&& foldable) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
-        >::product_impl(foldable);
+        >::product_impl(detail::std::forward<decltype(foldable)>(foldable));
     };
 
     //! Return the number of elements in the structure for which the
@@ -245,10 +266,13 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/foldable/count.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto count = [](auto foldable, auto predicate) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto count = [](auto&& foldable, auto&& predicate) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
-        >::count_impl(foldable, predicate);
+        >::count_impl(
+            detail::std::forward<decltype(foldable)>(foldable),
+            detail::std::forward<decltype(predicate)>(predicate)
+        );
     };
 
     //! Invoke a function with the elements of a structure as arguments.
@@ -273,10 +297,13 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/foldable/unpack.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto unpack = [](auto foldable, auto f) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto unpack = [](auto&& foldable, auto&& f) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
-        >::unpack_impl(foldable, f);
+        >::unpack_impl(
+            detail::std::forward<decltype(foldable)>(foldable),
+            detail::std::forward<decltype(f)>(f)
+        );
     };
 }} // end namespace boost::hana
 

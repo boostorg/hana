@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/typeclass.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 
 
 namespace boost { namespace hana {
@@ -63,10 +64,13 @@ namespace boost { namespace hana {
     //! - `equal(x, y...)` can be implemented as `all(list(y...), x == _)`,
     //!   which is pretty straightforward anyway.
     //! @endinternal
-    BOOST_HANA_CONSTEXPR_LAMBDA auto equal = [](auto x, auto y) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto equal = [](auto&& x, auto&& y) -> decltype(auto) {
         return Comparable::instance<
             datatype_t<decltype(x)>, datatype_t<decltype(y)>
-        >::equal_impl(x, y);
+        >::equal_impl(
+            detail::std::forward<decltype(x)>(x),
+            detail::std::forward<decltype(y)>(y)
+        );
     };
 
     //! Returns a `Logical` representing whether `x` is not equal to `y`.
@@ -77,10 +81,13 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/comparable.cpp not_equal
-    BOOST_HANA_CONSTEXPR_LAMBDA auto not_equal = [](auto x, auto y) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto not_equal = [](auto&& x, auto&& y) -> decltype(auto) {
         return Comparable::instance<
             datatype_t<decltype(x)>, datatype_t<decltype(y)>
-        >::not_equal_impl(x, y);
+        >::not_equal_impl(
+            detail::std::forward<decltype(x)>(x),
+            detail::std::forward<decltype(y)>(y)
+        );
     };
 
     //! Returns a function performing `equal` after applying a transformation
@@ -95,27 +102,32 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/comparable.cpp comparing
-    BOOST_HANA_CONSTEXPR_LAMBDA auto comparing = [](auto f) {
-        return [=](auto x, auto y) {
-            return equal(f(x), f(y));
+    BOOST_HANA_CONSTEXPR_LAMBDA auto comparing = [](auto&& f) -> decltype(auto) {
+        return [f(detail::std::forward<decltype(f)>(f))](auto&& x, auto&& y) -> decltype(auto) {
+            return equal(
+                f(detail::std::forward<decltype(x)>(x)),
+                f(detail::std::forward<decltype(y)>(y))
+            );
         };
     };
 
-    namespace comparable_detail {
-        namespace operators {
+    namespace comparable_detail { namespace operators {
             //! Equivalent to `equal`.
             //! @relates boost::hana::Comparable
             template <typename T, typename U>
-            constexpr auto operator==(T t, U u)
-            { return equal(t, u); }
+            constexpr decltype(auto) operator==(T&& t, U&& u) {
+                return equal(detail::std::forward<T>(t),
+                             detail::std::forward<U>(u));
+            }
 
             //! Equivalent to `not_equal`.
             //! @relates boost::hana::Comparable
             template <typename T, typename U>
-            constexpr auto operator!=(T t, U u)
-            { return not_equal(t, u); }
-        }
-    }
+            constexpr decltype(auto) operator!=(T&& t, U&& u) {
+                return not_equal(detail::std::forward<T>(t),
+                                 detail::std::forward<U>(u));
+            }
+    }}
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_COMPARABLE_DETAIL_COMPARABLE_FWD_HPP

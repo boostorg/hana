@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_CONSTANT_CONSTANT_HPP
 
 #include <boost/hana/core/typeclass.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 
 
 namespace boost { namespace hana {
@@ -58,19 +59,19 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/constant.cpp value
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto value = [](auto const& c) {
+    constexpr auto value = [](auto&& constant) -> decltype(auto) {
         return Constant::instance<
-            datatype_t<decltype(c)>
-        >::value_impl(c);
+            datatype_t<decltype(constant)>
+        >::value_impl(detail::std::forward<decltype(constant)>(constant));
     };
 #else
     namespace constant_detail {
         struct value {
             template <typename C>
-            constexpr auto operator()(C const& c) const {
+            constexpr decltype(auto) operator()(C&& constant) const {
                 return Constant::instance<
                     datatype_t<C>
-                >::value_impl(c);
+                >::value_impl(detail::std::forward<C>(constant));
             }
         };
     }

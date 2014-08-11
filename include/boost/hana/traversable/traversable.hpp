@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/typeclass.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 
 
 namespace boost { namespace hana {
@@ -47,20 +48,25 @@ namespace boost { namespace hana {
         template <typename A>
         struct sequence {
             template <typename T>
-            constexpr auto operator()(T traversable) const {
+            constexpr decltype(auto) operator()(T&& traversable) const {
                 return Traversable::instance<
                     datatype_t<decltype(traversable)>
-                >::template sequence_impl<A>(traversable);
+                >::template sequence_impl<A>(
+                    detail::std::forward<T>(traversable)
+                );
             }
         };
 
         template <typename A>
         struct traverse {
             template <typename F, typename T>
-            constexpr auto operator()(F f, T traversable) const {
+            constexpr decltype(auto) operator()(F&& f, T&& traversable) const {
                 return Traversable::instance<
                     datatype_t<decltype(traversable)>
-                >::template traverse_impl<A>(f, traversable);
+                >::template traverse_impl<A>(
+                    detail::std::forward<F>(f),
+                    detail::std::forward<T>(traversable)
+                );
             }
         };
     }
@@ -84,10 +90,10 @@ namespace boost { namespace hana {
     //! @snippet example/traversable/sequence.cpp main
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename A>
-    constexpr auto sequence = [](auto traversable) {
+    constexpr auto sequence = [](auto&& traversable) -> decltype(auto) {
         return Traversable::instance<
             datatype_t<decltype(traversable)>
-        >::template sequence_impl<A>(traversable);
+        >::template sequence_impl<A>(std::forward<decltype(traversable)>(traversable));
     };
 #else
     template <typename A>
@@ -120,10 +126,13 @@ namespace boost { namespace hana {
     //! @snippet example/traversable/traverse.cpp maybe
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename A>
-    constexpr auto traverse = [](auto f, auto traversable) {
+    constexpr auto traverse = [](auto&& f, auto&& traversable) -> decltype(auto) {
         return Traversable::instance<
             datatype_t<decltype(traversable)>
-        >::template traverse_impl<A>(f, traversable);
+        >::template traverse_impl<A>(
+            std::forward<decltype(f)>(f),
+            std::forward<decltype(traversable)>(traversable)
+        );
     };
 #else
     template <typename A>

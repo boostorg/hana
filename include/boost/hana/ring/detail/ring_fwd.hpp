@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/typeclass.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 
 
 namespace boost { namespace hana {
@@ -49,10 +50,13 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/ring.cpp mult
-    BOOST_HANA_CONSTEXPR_LAMBDA auto mult = [](auto x, auto y) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto mult = [](auto&& x, auto&& y) -> decltype(auto) {
         return Ring::instance<
             datatype_t<decltype(x)>, datatype_t<decltype(y)>
-        >::mult_impl(x, y);
+        >::mult_impl(
+            detail::std::forward<decltype(x)>(x),
+            detail::std::forward<decltype(y)>(y)
+        );
     };
 
     //! Identity of `mult`.
@@ -73,9 +77,13 @@ namespace boost { namespace hana {
     namespace ring_detail { namespace operators {
         //! Equivalent to `mult`.
         //! @relates boost::hana::Ring
-        template <typename C1, typename C2>
-        constexpr auto operator*(C1 c1, C2 c2)
-        { return mult(c1, c2); }
+        template <typename X, typename Y>
+        constexpr decltype(auto) operator*(X&& x, Y&& y) {
+            return mult(
+                detail::std::forward<decltype(x)>(x),
+                detail::std::forward<decltype(y)>(y)
+            );
+        }
     }}
 }} // end namespace boost::hana
 

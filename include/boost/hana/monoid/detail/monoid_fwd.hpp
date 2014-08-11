@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/typeclass.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 
 
 namespace boost { namespace hana {
@@ -50,10 +51,13 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/monoid.cpp plus
-    BOOST_HANA_CONSTEXPR_LAMBDA auto plus = [](auto x, auto y) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto plus = [](auto&& x, auto&& y) -> decltype(auto) {
         return Monoid::instance<
             datatype_t<decltype(x)>, datatype_t<decltype(y)>
-        >::plus_impl(x, y);
+        >::plus_impl(
+            detail::std::forward<decltype(x)>(x),
+            detail::std::forward<decltype(y)>(y)
+        );
     };
 
     //! Identity of `plus`.
@@ -74,9 +78,13 @@ namespace boost { namespace hana {
     namespace monoid_detail { namespace operators {
         //! Equivalent to `plus`.
         //! @relates boost::hana::Monoid
-        template <typename C1, typename C2>
-        constexpr auto operator+(C1 c1, C2 c2)
-        { return plus(c1, c2); }
+        template <typename X, typename Y>
+        constexpr decltype(auto) operator+(X&& x, Y&& y) {
+            return plus(
+                detail::std::forward<decltype(x)>(x),
+                detail::std::forward<decltype(y)>(y)
+            );
+        }
     }}
 }} // end namespace boost::hana
 

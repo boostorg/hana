@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/typeclass.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/variadic/foldl.hpp>
 
 
@@ -66,10 +67,14 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/logical/if.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto if_ = [](auto logical, auto then_, auto else_) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto if_ = [](auto&& logical, auto&& then_, auto&& else_) -> decltype(auto) {
         return Logical::instance<
             datatype_t<decltype(logical)>
-        >::if_impl(logical, then_, else_);
+        >::if_impl(
+            detail::std::forward<decltype(logical)>(logical),
+            detail::std::forward<decltype(then_)>(then_),
+            detail::std::forward<decltype(else_)>(else_)
+        );
     };
 
     //! Conditionally execute one of two branches based on a condition.
@@ -99,10 +104,14 @@ namespace boost { namespace hana {
     //!
     //! ### Example (runtime or `constexpr` condition)
     //! @snippet example/logical/eval_if.cpp homogeneous
-    BOOST_HANA_CONSTEXPR_LAMBDA auto eval_if = [](auto logical, auto then_branch, auto else_branch) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto eval_if = [](auto&& logical, auto&& then_branch, auto&& else_branch) -> decltype(auto) {
         return Logical::instance<
             datatype_t<decltype(logical)>
-        >::eval_if_impl(logical, then_branch, else_branch);
+        >::eval_if_impl(
+            detail::std::forward<decltype(logical)>(logical),
+            detail::std::forward<decltype(then_branch)>(then_branch),
+            detail::std::forward<decltype(else_branch)>(else_branch)
+        );
     };
 
     //! Negates a `Logical`.
@@ -113,19 +122,25 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/logical/not.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto not_ = [](auto logical) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto not_ = [](auto&& logical) -> decltype(auto) {
         return Logical::instance<
             datatype_t<decltype(logical)>
-        >::not_impl(logical);
+        >::not_impl(detail::std::forward<decltype(logical)>(logical));
     };
 
     namespace logical_detail {
-        BOOST_HANA_CONSTEXPR_LAMBDA auto and2 = [](auto x, auto y) {
-            return Logical::instance<datatype_t<decltype(x)>>::and_impl(x, y);
+        BOOST_HANA_CONSTEXPR_LAMBDA auto and2 = [](auto&& x, auto&& y) -> decltype(auto) {
+            return Logical::instance<datatype_t<decltype(x)>>::and_impl(
+                detail::std::forward<decltype(x)>(x),
+                detail::std::forward<decltype(y)>(y)
+            );
         };
 
-        BOOST_HANA_CONSTEXPR_LAMBDA auto or2 = [](auto x, auto y) {
-            return Logical::instance<datatype_t<decltype(x)>>::or_impl(x, y);
+        BOOST_HANA_CONSTEXPR_LAMBDA auto or2 = [](auto&& x, auto&& y) -> decltype(auto) {
+            return Logical::instance<datatype_t<decltype(x)>>::or_impl(
+                detail::std::forward<decltype(x)>(x),
+                detail::std::forward<decltype(y)>(y)
+            );
         };
     }
 
@@ -142,8 +157,12 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/logical/and.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto and_ = [](auto x, auto ...y) {
-        return detail::variadic::foldl(logical_detail::and2, x, y...);
+    BOOST_HANA_CONSTEXPR_LAMBDA auto and_ = [](auto&& x, auto&& ...y) -> decltype(auto) {
+        return detail::variadic::foldl(
+            logical_detail::and2,
+            detail::std::forward<decltype(x)>(x),
+            detail::std::forward<decltype(y)>(y)...
+        );
     };
 
     //! Return whether any of the arguments is true-valued.
@@ -159,28 +178,41 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/logical/or.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto or_ = [](auto x, auto ...y) {
-        return detail::variadic::foldl(logical_detail::or2, x, y...);
+    BOOST_HANA_CONSTEXPR_LAMBDA auto or_ = [](auto&& x, auto&& ...y) -> decltype(auto) {
+        return detail::variadic::foldl(
+            logical_detail::or2,
+            detail::std::forward<decltype(x)>(x),
+            detail::std::forward<decltype(y)>(y)...
+        );
     };
 
     namespace logical_detail { namespace operators {
         //! Equivalent to `and_`.
         //! @relates boost::hana::Logical
         template <typename X, typename Y>
-        constexpr auto operator&&(X x, Y y)
-        { return and_(x, y); }
+        constexpr decltype(auto) operator&&(X&& x, Y&& y) {
+            return and_(
+                detail::std::forward<X>(x),
+                detail::std::forward<Y>(y)
+            );
+        }
 
         //! Equivalent to `or_`.
         //! @relates boost::hana::Logical
         template <typename X, typename Y>
-        constexpr auto operator||(X x, Y y)
-        { return or_(x, y); }
+        constexpr decltype(auto) operator||(X&& x, Y&& y) {
+            return or_(
+                detail::std::forward<X>(x),
+                detail::std::forward<Y>(y)
+            );
+        }
 
         //! Equivalent to `not_`.
         //! @relates boost::hana::Logical
         template <typename X>
-        constexpr auto operator!(X x)
-        { return not_(x); }
+        constexpr decltype(auto) operator!(X&& x) {
+            return not_(detail::std::forward<X>(x));
+        }
     }}
 }} // end namespace boost::hana
 

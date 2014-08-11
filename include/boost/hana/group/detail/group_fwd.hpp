@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/typeclass.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 
 
 namespace boost { namespace hana {
@@ -55,10 +56,13 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/group.cpp minus
-    BOOST_HANA_CONSTEXPR_LAMBDA auto minus = [](auto x, auto y) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto minus = [](auto&& x, auto&& y) -> decltype(auto) {
         return Group::instance<
             datatype_t<decltype(x)>, datatype_t<decltype(y)>
-        >::minus_impl(x, y);
+        >::minus_impl(
+            detail::std::forward<decltype(x)>(x),
+            detail::std::forward<decltype(y)>(y)
+        );
     };
 
     //! Return the inverse of an element of a group.
@@ -70,24 +74,24 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/group.cpp negate
-    BOOST_HANA_CONSTEXPR_LAMBDA auto negate = [](auto x) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto negate = [](auto&& x) -> decltype(auto) {
         return Group::instance<
             datatype_t<decltype(x)>, datatype_t<decltype(x)>
-        >::negate_impl(x);
+        >::negate_impl(detail::std::forward<decltype(x)>(x));
     };
 
     namespace group_detail { namespace operators {
         //! Equivalent to `minus`.
         //! @relates boost::hana::Group
-        template <typename C1, typename C2>
-        constexpr auto operator-(C1 c1, C2 c2)
-        { return minus(c1, c2); }
+        template <typename X, typename Y>
+        constexpr decltype(auto) operator-(X&& x, Y&& y)
+        { return minus(detail::std::forward<X>(x), detail::std::forward<Y>(y)); }
 
         //! Equivalent to `negate`.
         //! @relates boost::hana::Group
-        template <typename C1>
-        constexpr auto operator-(C1 c1)
-        { return negate(c1); }
+        template <typename X>
+        constexpr decltype(auto) operator-(X&& x)
+        { return negate(detail::std::forward<X>(x)); }
     }}
 }} // end namespace boost::hana
 
