@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/typeclass.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/detail/std/type_traits.hpp>
+#include <boost/hana/detail/std/is_same.hpp>
 
 
 namespace boost { namespace hana {

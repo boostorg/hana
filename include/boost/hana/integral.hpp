@@ -13,8 +13,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/constant/mcd.hpp>
 #include <boost/hana/detail/integral_fwd.hpp>
+#include <boost/hana/detail/std/is_arithmetic.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
-#include <boost/hana/detail/std/type_traits.hpp>
 #include <boost/hana/group/minus_mcd.hpp>
 #include <boost/hana/integral_domain/mcd.hpp>
 #include <boost/hana/logical/mcd.hpp>

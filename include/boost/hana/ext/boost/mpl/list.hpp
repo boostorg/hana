@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/detail/std/type_traits.hpp>
+#include <boost/hana/detail/std/is_same.hpp>
 #include <boost/hana/functor/fmap_mcd.hpp>
 #include <boost/hana/type.hpp>
 

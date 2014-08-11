@@ -12,7 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/constant/mcd.hpp>
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/detail/std/type_traits.hpp>
+#include <boost/hana/detail/std/is_same.hpp>
 
 #include <boost/mpl/integral_c_tag.hpp>
 

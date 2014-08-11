@@ -11,8 +11,8 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_DETAIL_INTEGRAL_FWD_HPP
 
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/detail/std/remove_cv.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
-#include <boost/hana/detail/std/type_traits.hpp>
 
 #include <boost/hana/comparable/detail/comparable_fwd.hpp>
 #include <boost/hana/group/detail/group_fwd.hpp>

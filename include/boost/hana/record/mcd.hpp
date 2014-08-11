@@ -15,7 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/is_a.hpp>
-#include <boost/hana/detail/std/type_traits.hpp>
+#include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/foldable/mcd.hpp>
 #include <boost/hana/map.hpp>
 #include <boost/hana/product/product.hpp>
