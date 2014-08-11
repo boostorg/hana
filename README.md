@@ -105,8 +105,6 @@ generation to update the list of available targets.
 
 > #### Tip
 > You can use the `help` target to get a list of all the available targets.
-> Don't worry, the list is very long because each unit test and example is a
-> different target.
 
 If you want to add unit tests or examples, just add a source file in `test/`
 or `example/` and then re-run the CMake generation step so the new source

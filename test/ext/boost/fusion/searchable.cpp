@@ -23,7 +23,7 @@ int main() {
     with_nonassociative_forward_sequences([=](auto container) {
         // all
         {
-            BOOST_HANA_RUNTIME_ASSERT(all(container(), is_even));
+            BOOST_HANA_RUNTIME_ASSERT( all(container(), is_even));
             BOOST_HANA_RUNTIME_ASSERT(!all(container(1), is_even));
             BOOST_HANA_RUNTIME_ASSERT( all(container(2), is_even));
             BOOST_HANA_RUNTIME_ASSERT( all(container(2, 4), is_even));
@@ -35,16 +35,16 @@ int main() {
         // any
         {
             BOOST_HANA_RUNTIME_ASSERT(!any(container(), is_even));
-            BOOST_HANA_RUNTIME_ASSERT( !any(container(1), is_even));
-            BOOST_HANA_RUNTIME_ASSERT(  any(container(2), is_even));
-            BOOST_HANA_RUNTIME_ASSERT(  any(container(1, 2), is_even));
-            BOOST_HANA_RUNTIME_ASSERT( !any(container(1, 3), is_even));
-            BOOST_HANA_RUNTIME_ASSERT(  any(container(1, 3, 4), is_even));
+            BOOST_HANA_RUNTIME_ASSERT(!any(container(1), is_even));
+            BOOST_HANA_RUNTIME_ASSERT( any(container(2), is_even));
+            BOOST_HANA_RUNTIME_ASSERT( any(container(1, 2), is_even));
+            BOOST_HANA_RUNTIME_ASSERT(!any(container(1, 3), is_even));
+            BOOST_HANA_RUNTIME_ASSERT( any(container(1, 3, 4), is_even));
         }
 
         // none
         {
-            BOOST_HANA_RUNTIME_ASSERT(none(container(), is_even));
+            BOOST_HANA_RUNTIME_ASSERT( none(container(), is_even));
             BOOST_HANA_RUNTIME_ASSERT( none(container(1), is_even));
             BOOST_HANA_RUNTIME_ASSERT(!none(container(2), is_even));
             BOOST_HANA_RUNTIME_ASSERT(!none(container(1, 2), is_even));

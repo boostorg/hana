@@ -6,8 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/detail/assert.hpp>
-
-#include <tuple>
+#include <boost/hana/list/instance.hpp>
 using namespace boost::hana;
 
 
@@ -18,11 +17,11 @@ int main() {
 
     BOOST_HANA_CONSTEXPR_ASSERT(
         if_(true_,
-            std::make_tuple('t', 'r', 'u', 'e'),
-            std::make_tuple('f', 'a', 'l', 's', 'e')
+            list('t', 'r', 'u', 'e'),
+            list('f', 'a', 'l', 's', 'e')
         )
         ==
-        std::make_tuple('t', 'r', 'u', 'e')
+        list('t', 'r', 'u', 'e')
     );
     //! [main]
 }

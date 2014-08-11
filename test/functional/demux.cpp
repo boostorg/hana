@@ -8,26 +8,22 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-
-#include <tuple>
+#include <boost/hana/detail/injection.hpp>
 using namespace boost::hana;
 
 
-BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto ...x) {
-    return std::make_tuple(x...);
-};
-
-BOOST_HANA_CONSTEXPR_LAMBDA auto g = f;
-BOOST_HANA_CONSTEXPR_LAMBDA auto h = f;
+BOOST_HANA_CONSTEXPR_LAMBDA auto f = detail::injection([]{});
+BOOST_HANA_CONSTEXPR_LAMBDA auto g = detail::injection([]{});
+BOOST_HANA_CONSTEXPR_LAMBDA auto h = detail::injection([]{});
 
 int main() {
-    BOOST_HANA_CONSTEXPR_ASSERT(demux(f)() == f());
+    BOOST_HANA_CONSTANT_ASSERT(equal(demux(f)(), f()));
 
-    BOOST_HANA_CONSTEXPR_ASSERT(demux(f, g)(1) == f(g(1)));
-    BOOST_HANA_CONSTEXPR_ASSERT(demux(f, g)(1, '2') == f(g(1, '2')));
-    BOOST_HANA_CONSTEXPR_ASSERT(demux(f, g)(1, '2', 3.3) == f(g(1, '2', 3.3)));
+    BOOST_HANA_CONSTEXPR_ASSERT(equal(demux(f, g)(1), f(g(1))));
+    BOOST_HANA_CONSTEXPR_ASSERT(equal(demux(f, g)(1, '2'), f(g(1, '2'))));
+    BOOST_HANA_CONSTEXPR_ASSERT(equal(demux(f, g)(1, '2', 3.3), f(g(1, '2', 3.3))));
 
-    BOOST_HANA_CONSTEXPR_ASSERT(demux(f, g, h)(1) == f(g(1), h(1)));
-    BOOST_HANA_CONSTEXPR_ASSERT(demux(f, g, h)(1, '2') == f(g(1, '2'), h(1, '2')));
-    BOOST_HANA_CONSTEXPR_ASSERT(demux(f, g, h)(1, '2', 3.3) == f(g(1, '2', 3.3), h(1, '2', 3.3)));
+    BOOST_HANA_CONSTEXPR_ASSERT(equal(demux(f, g, h)(1), f(g(1), h(1))));
+    BOOST_HANA_CONSTEXPR_ASSERT(equal(demux(f, g, h)(1, '2'), f(g(1, '2'), h(1, '2'))));
+    BOOST_HANA_CONSTEXPR_ASSERT(equal(demux(f, g, h)(1, '2', 3.3), f(g(1, '2', 3.3), h(1, '2', 3.3))));
 }

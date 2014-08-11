@@ -8,20 +8,22 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/injection.hpp>
 using namespace boost::hana;
 
 
-BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto ...xs) {
-    return sizeof...(xs);
+BOOST_HANA_CONSTEXPR_LAMBDA auto f = detail::injection([]{});
+
+struct nonpod {
+    virtual ~nonpod() { }
+    friend bool operator==(nonpod, nonpod) { return true; }
 };
 
-struct nonpod { virtual ~nonpod() { } };
-
 int main() {
-    BOOST_HANA_CONSTEXPR_ASSERT(apply(f) == 0);
-    BOOST_HANA_CONSTEXPR_ASSERT(apply(f, 1) == 1);
-    BOOST_HANA_CONSTEXPR_ASSERT(apply(f, 1, '2') == 2);
-    BOOST_HANA_CONSTEXPR_ASSERT(apply(f, 1, '2', "3") == 3);
-    BOOST_HANA_CONSTEXPR_ASSERT(apply(f, 1, '2', "3", 4.4) == 4);
-    BOOST_HANA_RUNTIME_ASSERT(apply(f, 1, '2', "3", 4.4, nonpod{}) == 5);
+    BOOST_HANA_CONSTANT_ASSERT(equal(apply(f), f()));
+    BOOST_HANA_CONSTEXPR_ASSERT(equal(apply(f, 1), f(1)));
+    BOOST_HANA_CONSTEXPR_ASSERT(equal(apply(f, 1, '2'), f(1, '2')));
+    BOOST_HANA_CONSTEXPR_ASSERT(equal(apply(f, 1, '2', 3.3), f(1, '2', 3.3)));
+    BOOST_HANA_CONSTEXPR_ASSERT(equal(apply(f, 1, '2', 3.3, nullptr), f(1, '2', 3.3, nullptr)));
+    BOOST_HANA_RUNTIME_ASSERT(equal(apply(f, 1, '2', 3.3, nullptr, nonpod{}), f(1, '2', 3.3, nullptr, nonpod{})));
 }

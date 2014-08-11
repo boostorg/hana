@@ -20,8 +20,6 @@ libraries.
 - Document the library's stance on perfect forwarding and move semantics.
   Make compile-time tests with non-copyable types and runtime tests with
   expensive-to-copy types.
-- In the unit tests, we might want to use an injective function on
-  `Comparable`s instead of `std::make_tuple`.
 - Document how to write common Boost.Fusion and Boost.MPL idioms with
   Boost.Hana.
 - Write runtime benchmarks.

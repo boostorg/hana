@@ -133,7 +133,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @include example/core/operators.cpp
     //!
-    //! @todo
+    //! @bug
     //! Is ADL really the best way of providing custom operators? This has
     //! (at least) the problem that templated types which have nothing to
     //! do with Boost.Hana could have their set of associated namespaces
@@ -148,6 +148,13 @@ namespace boost { namespace hana {
     //!     nothing_to_do_with_hana<something_to_do_with_hana<int>> x{};
     //!     x == x; // tries to use Comparable::equal_impl
     //! @endcode
+    //! This is _very_ problematic because it causes Hana operators to be
+    //! considered when doing stuff like
+    //! @code
+    //!     std::make_tuple(hana_stuff) == std::make_tuple(hana_stuff)
+    //! @endcode
+    //! and this will recurse the hell out in Comparable's instance for
+    //! EqualityComparables.
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename ...Typeclasses>
     using operators = unspecified;

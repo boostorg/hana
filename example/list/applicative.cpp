@@ -18,7 +18,7 @@ using namespace boost::hana;
 int main() {
     //! [main]
     BOOST_HANA_CONSTEXPR_ASSERT(lift<List>('x') == list('x'));
-    BOOST_HANA_CONSTEXPR_ASSERT(lift<StdTuple>('x') == std::make_tuple('x'));
+    BOOST_HANA_CONSTEXPR_ASSERT(equal(lift<StdTuple>('x'), std::make_tuple('x')));
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto f = pair;
     BOOST_HANA_CONSTEXPR_LAMBDA auto g = flip(pair);

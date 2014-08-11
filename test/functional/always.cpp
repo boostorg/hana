@@ -16,7 +16,7 @@ int main() {
     BOOST_HANA_CONSTEXPR_ASSERT(always('a')() == 'a');
     BOOST_HANA_CONSTEXPR_ASSERT(always('a')(1) == 'a');
     BOOST_HANA_CONSTEXPR_ASSERT(always('a')(1, '2') == 'a');
-    BOOST_HANA_CONSTEXPR_ASSERT(always('a')(1, '2', "3") == 'a');
-    BOOST_HANA_CONSTEXPR_ASSERT(always('a')(1, '2', "3", 4.4f) == 'a');
-    BOOST_HANA_RUNTIME_ASSERT(always('a')(1, '2', "3", 4.4f, nonpod{}) == 'a');
+    BOOST_HANA_CONSTEXPR_ASSERT(always('a')(1, '2', 3.3) == 'a');
+    BOOST_HANA_CONSTEXPR_ASSERT(always('a')(1, '2', 3.3, nullptr) == 'a');
+    BOOST_HANA_RUNTIME_ASSERT(always('a')(1, '2', 3.3, nullptr, nonpod{}) == 'a');
 }
