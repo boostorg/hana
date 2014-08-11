@@ -88,13 +88,11 @@ namespace boost { namespace hana {
     struct convert<Map, R, detail::std::enable_if_t<is_a<Record, R>()>> {
         template <typename X>
         static constexpr auto apply(X x) {
-            return to<Map>(fmap(
-                [=](auto k_f) {
-                    using P = datatype_t<decltype(k_f)>;
-                    return make_product<P>(first(k_f), second(k_f)(x));
-                },
-                members<R>
-            ));
+            auto extract = [=](auto k_f) {
+                using P = datatype_t<decltype(k_f)>;
+                return make_product<P>(first(k_f), second(k_f)(x));
+            };
+            return to<Map>(fmap(extract, members<R>));
         }
     };
 }} // end namespace boost::hana
