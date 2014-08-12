@@ -10,8 +10,33 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_ORDERABLE_LESS_MCD_HPP
 #define BOOST_HANA_ORDERABLE_LESS_MCD_HPP
 
-// This mcd is defined in the forward declaration header because we
-// need it to instantiate `Orderable` for builtins.
+#include <boost/hana/logical/logical.hpp>
 #include <boost/hana/orderable/orderable.hpp>
+
+
+namespace boost { namespace hana {
+    //! Minimal complete definition: `less`
+    struct Orderable::less_mcd {
+        template <typename X, typename Y>
+        static constexpr auto less_equal_impl(X x, Y y)
+        { return not_(less(y, x)); }
+
+        template <typename X, typename Y>
+        static constexpr auto greater_impl(X x, Y y)
+        { return less(y, x); }
+
+        template <typename X, typename Y>
+        static constexpr auto greater_equal_impl(X x, Y y)
+        { return not_(less(x, y)); }
+
+        template <typename X, typename Y>
+        static constexpr auto min_impl(X x, Y y)
+        { return if_(less(x, y), x, y); }
+
+        template <typename X, typename Y>
+        static constexpr auto max_impl(X x, Y y)
+        { return if_(less(x, y), y, x); }
+    };
+}}
 
 #endif // !BOOST_HANA_ORDERABLE_LESS_MCD_HPP

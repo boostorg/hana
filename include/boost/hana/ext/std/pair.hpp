@@ -1,6 +1,6 @@
 /*!
 @file
-Adapts `std::pair`.
+Defines `boost::hana::StdPair`.
 
 @copyright Louis Dionne 2014
 Distributed under the Boost Software License, Version 1.0.
@@ -10,34 +10,10 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EXT_STD_PAIR_HPP
 #define BOOST_HANA_EXT_STD_PAIR_HPP
 
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/product/mcd.hpp>
+#include <boost/hana/ext/std/pair/pair.hpp>
 
-#include <utility>
-
-
-namespace boost { namespace hana {
-    struct StdPair;
-
-    template <typename First, typename Second>
-    struct datatype<std::pair<First, Second>> {
-        using type = StdPair;
-    };
-
-    template <>
-    struct Product::instance<StdPair> : Product::mcd {
-        template <typename X, typename Y>
-        static auto make_product_impl(X x, Y y)
-        { return std::make_pair(x, y); }
-
-        template <typename P>
-        static auto first_impl(P p)
-        { return p.first; }
-
-        template <typename P>
-        static auto second_impl(P p)
-        { return p.second; }
-    };
-}} // end namespace boost::hana
+// Instances
+#include <boost/hana/ext/std/pair/comparable.hpp>
+#include <boost/hana/ext/std/pair/product.hpp>
 
 #endif // !BOOST_HANA_EXT_STD_PAIR_HPP

@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_ITERABLE_ITERABLE_HPP
 #define BOOST_HANA_ITERABLE_ITERABLE_HPP
 
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/typeclass.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/forward.hpp>
@@ -30,9 +31,9 @@ namespace boost { namespace hana {
     //! instances. Hence, for any finite `Iterable` _and_ `Foldable` `it`,
     //! the following laws must be satisfied:
     //! @code
-    //!     head(it) == head(to<List>(it))
-    //!     to<List>(tail(it)) == tail(to<List>(it))
-    //!     is_empty(it) if and only if is_empty(to<List>(it))
+    //!     head(it) == head(to<Tuple>(it))
+    //!     to<Tuple>(tail(it)) == tail(to<Tuple>(it))
+    //!     is_empty(it) if and only if is_empty(to<Tuple>(it))
     //! @endcode
     //!
     //! This is basically saying that linearizing a `Foldable` and then

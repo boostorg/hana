@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_RING_HPP
 
 #include <boost/hana/ring/mcd.hpp>
+#include <boost/hana/ring/operators.hpp>
 #include <boost/hana/ring/ring.hpp>
 
 #endif // !BOOST_HANA_RING_HPP

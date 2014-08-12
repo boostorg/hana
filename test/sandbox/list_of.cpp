@@ -8,7 +8,7 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/integer_list.hpp>
-#include <boost/hana/list/instance.hpp>
+#include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
 #include <boost/hana/type_list.hpp>
 
@@ -42,7 +42,7 @@ template <typename T, typename Enable = void>
 struct list_of {
     template <typename ...X>
     constexpr auto operator()(X ...x) const
-    { return hana::list(x...); }
+    { return hana::tuple(x...); }
 };
 
 template <>
@@ -56,7 +56,7 @@ template <typename T>
 struct list_of<T, std::enable_if_t<is_homogeneous<T>::value>> {
     template <typename ...X>
     constexpr auto operator()(X ...x) const
-    { return hana::list(x...); } // would use an array
+    { return hana::tuple(x...); } // would use an array
 };
 
 

@@ -5,12 +5,12 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/detail/assert.hpp>
-#include <boost/hana/list/instance.hpp>
+#include <boost/hana/tuple.hpp>
 using namespace boost::hana;
 
 
 int main() {
     //! [main]
-    BOOST_HANA_CONSTANT_ASSERT(nil<List> == list());
+    BOOST_HANA_CONSTANT_ASSERT(nil<Tuple> == tuple());
     //! [main]
 }

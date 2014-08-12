@@ -13,5 +13,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/group/group.hpp>
 #include <boost/hana/group/minus_mcd.hpp>
 #include <boost/hana/group/negate_mcd.hpp>
+#include <boost/hana/group/operators.hpp>
 
 #endif // !BOOST_HANA_GROUP_HPP

@@ -6,7 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/ext/std/integral_constant.hpp>
-#include <boost/hana/list/instance.hpp>
+#include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
 
 #include <type_traits>

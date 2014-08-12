@@ -7,18 +7,66 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/integral.hpp>
 
 #include <boost/hana/detail/assert.hpp>
-#include <boost/hana/list/instance.hpp>
-#include <boost/hana/ring/detail/laws.hpp>
+#include <boost/hana/foreign.hpp>
+
+#include <test/laws/ring.hpp>
+#include <type_traits>
 using namespace boost::hana;
 
 
-int main() {
-    BOOST_HANA_CONSTANT_ASSERT(one<Integral> == int_<1>);
-    BOOST_HANA_CONSTANT_ASSERT(mult(int_<3>, int_<4>) == int_<3 * 4>);
-    BOOST_HANA_CONSTEXPR_ASSERT(mult(int_<3>, 4) == 3 * 4);
-    BOOST_HANA_CONSTEXPR_ASSERT(mult(3, int_<4>) == 3 * 4);
+template <typename T, typename U>
+void tests() {
+    using C = std::common_type_t<T, U>;
 
-    BOOST_HANA_CONSTEXPR_ASSERT(Ring::laws::check(list(
-        int_<1>, short_<2>, long_<3>, ullong<4>, 5, 6ull
-    )));
+    // one
+    {
+        BOOST_HANA_CONSTANT_ASSERT(equal(one<Integral>, integral<T, 1>));
+        BOOST_HANA_CONSTANT_ASSERT(equal(one<Integral>, integral<U, 1>));
+    }
+
+    // mult
+    {
+        constexpr T x = 6;
+        constexpr U y = 4;
+
+        // Integral + Integral
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            mult(integral<T, x>, integral<U, y>),
+            integral<C, x * y>
+        ));
+
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            mult(integral<T, x>, integral<U, y>),
+            integral<C, x * y>
+        ));
+
+        // Integral * arithmetic
+        BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            mult(integral<T, x>, U{y}),
+            C{x * y}
+        ));
+
+        // arithmetic * Integral
+        BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            mult(T{x}, integral<U, y>),
+            C{x * y}
+        ));
+    }
+
+    // laws
+    {
+        BOOST_HANA_CONSTANT_ASSERT(Ring_laws<Integral>(
+            integral<T, 0>, integral<T, 1>, integral<U, 2>, integral<U, 3>
+        ));
+
+        BOOST_HANA_CONSTEXPR_ASSERT(Ring_laws<Integral>(
+            integral<T, 0>, integral<T, 1>, U{2}, U{3}
+        ));
+    }
+}
+
+int main() {
+    tests<int, short>();
+    tests<int, int>();
+    tests<int, long>();
 }

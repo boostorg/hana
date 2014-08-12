@@ -8,26 +8,24 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/identity/applicative.hpp>
-#include <boost/hana/detail/injection.hpp>
-#include <boost/hana/detail/number/comparable.hpp>
-#include <boost/hana/functional.hpp>
+#include <boost/hana/functional/compose.hpp>
+
+#include <test/identity/applicative.hpp>
+#include <test/identity/comparable.hpp>
+#include <test/injection.hpp>
 using namespace boost::hana;
 
 
-template <int i>
-constexpr auto x = detail::number<>(i);
-
 int main() {
-    constexpr auto applicative = detail::identity<>;
-    using A = detail::Identity<>;
+    BOOST_HANA_CONSTEXPR_LAMBDA auto applicative = test::identity;
+    using A = test::Identity;
+    using test::x;
 
-    BOOST_HANA_CONSTEXPR_LAMBDA auto f = detail::injection([]{});
-
+    BOOST_HANA_CONSTEXPR_LAMBDA auto f = test::injection([]{});
 
     // traverse
     {
-        BOOST_HANA_CONSTEXPR_ASSERT(equal(
+        BOOST_HANA_CONSTANT_ASSERT(equal(
             traverse<A>(compose(applicative, f), just(x<0>)),
             applicative(just(f(x<0>)))
         ));

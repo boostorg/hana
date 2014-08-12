@@ -10,15 +10,13 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_MONAD_MONAD_HPP
 #define BOOST_HANA_MONAD_MONAD_HPP
 
-#include <boost/hana/applicative/applicative.hpp>
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/typeclass.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
 namespace boost { namespace hana {
-    namespace monad_detail { namespace operators { struct enable { }; }}
-
     //! @ingroup group-typeclasses
     //! `Monad`s are `Applicative`s with the ability to flatten values that
     //! were lifted more than once.
@@ -40,9 +38,9 @@ namespace boost { namespace hana {
 
         template <typename M>
         struct flatten_mcd;
-        struct laws;
 
-        using operators = monad_detail::operators::enable;
+        template <typename M>
+        struct list_mcd;
     };
 
     //! Apply a function returning a monad to the value(s) inside a monad.
@@ -154,39 +152,6 @@ namespace boost { namespace hana {
     template <typename M>
     constexpr monad_detail::tap<M> tap{};
 #endif
-
-    namespace monad_detail { namespace operators {
-        //! Equivalent to `bind`.
-        //! @relates boost::hana::Monad
-        //!
-        //! @note
-        //! This was preferred over `>>=` because `>>=` is right associative
-        //! in C++, which makes it impossible to chain computations.
-        template <typename M, typename F>
-        constexpr decltype(auto) operator|(M&& m, F&& f) {
-            return bind(
-                detail::std::forward<decltype(m)>(m),
-                detail::std::forward<decltype(f)>(f)
-            );
-        }
-    }}
-
-    namespace monad_detail {
-        template <typename M>
-        struct common {
-            template <typename M1, typename M2>
-            static constexpr auto then_impl(M1 m1, M2 m2)
-            { return bind(m1, [=](auto) { return m2; }); }
-
-            template <typename F>
-            static constexpr auto tap_impl(F f) {
-                return [=](auto x) {
-                    f(x);
-                    return lift<M>(x);
-                };
-            }
-        };
-    }
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_MONAD_MONAD_HPP

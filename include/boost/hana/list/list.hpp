@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_LIST_LIST_HPP
 #define BOOST_HANA_LIST_LIST_HPP
 
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/typeclass.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/forward.hpp>
@@ -18,8 +19,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //! @ingroup group-typeclasses
-    //! @ingroup group-datatypes
-    //!
     //! General purpose index-based sequence.
     //!
     //!
@@ -27,11 +26,11 @@ namespace boost { namespace hana {
     //! For any two `List`s `xs` and `ys`, the following statement must hold:
     //!
     //! @code
-    //!     xs == ys if and only if to<List>(xs) == to<List>(ys)
+    //!     xs == ys if and only if to<Tuple>(xs) == to<Tuple>(ys)
     //! @endcode
     //!
     //! This is basically saying that all `List` instances are isomorphic to
-    //! the instance defined by the `List` data type, and it therefore makes
+    //! the instance defined by the `Tuple` data type, and it therefore makes
     //! sense to define comparison for any two instances of `List`.
     //!
     //!

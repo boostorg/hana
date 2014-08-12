@@ -6,7 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/integral.hpp>
-#include <boost/hana/list/instance.hpp>
+#include <boost/hana/tuple.hpp>
 using namespace boost::hana;
 
 
@@ -17,6 +17,16 @@ int main() {
 
     BOOST_HANA_CONSTANT_ASSERT(equal(int_<1>, long_<1>));
     BOOST_HANA_CONSTANT_ASSERT(not_equal(int_<1>, long_<2>));
+
+    // Incomparable integrals are considered unequal.
+    struct Person {
+        int age;
+        // ...
+    };
+    BOOST_HANA_CONSTANT_ASSERT(not_equal(
+        integral<int, 1>,
+        integral<int Person::*, &Person::age>
+    ));
     //! [comparable]
 
     //! [literals]

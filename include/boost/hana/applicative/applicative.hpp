@@ -10,10 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_APPLICATIVE_APPLICATIVE_HPP
 #define BOOST_HANA_APPLICATIVE_APPLICATIVE_HPP
 
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/typeclass.hpp>
-#include <boost/hana/detail/functional/curry.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/variadic/foldl.hpp>
+#include <boost/hana/functional/curry.hpp>
 #include <boost/hana/functor/functor.hpp>
 
 
@@ -57,6 +58,8 @@ namespace boost { namespace hana {
     struct Applicative {
         BOOST_HANA_TYPECLASS(Applicative);
         struct mcd;
+        template <typename T>
+        struct list_mcd;
     };
 
     namespace applicative_detail {

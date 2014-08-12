@@ -10,8 +10,12 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_MONOID_MCD_HPP
 #define BOOST_HANA_MONOID_MCD_HPP
 
-// The mcd is defined in the forward declaration header because it is
-// required by the instance for builtins.
 #include <boost/hana/monoid/monoid.hpp>
+
+
+namespace boost { namespace hana {
+    //! Minimal complete definition : `zero` and `plus`
+    struct Monoid::mcd { };
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_MONOID_MCD_HPP

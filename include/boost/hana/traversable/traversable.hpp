@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TRAVERSABLE_TRAVERSABLE_HPP
 #define BOOST_HANA_TRAVERSABLE_TRAVERSABLE_HPP
 
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/typeclass.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/forward.hpp>
@@ -42,6 +43,8 @@ namespace boost { namespace hana {
     struct Traversable {
         BOOST_HANA_TYPECLASS(Traversable);
         struct traverse_mcd;
+        template <typename T>
+        struct list_mcd;
     };
 
     namespace traversable_detail {
@@ -120,7 +123,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/traversable/traverse.cpp list
+    //! @snippet example/traversable/traverse.cpp tuple
     //!
     //! ### Example
     //! @snippet example/traversable/traverse.cpp maybe

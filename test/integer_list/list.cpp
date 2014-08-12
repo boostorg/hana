@@ -8,31 +8,53 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/integral.hpp>
+
+#include <test/laws/list.hpp>
 using namespace boost::hana;
 
 
 template <typename T, typename U>
-void test() {
+void tests() {
     // cons
     {
-        BOOST_HANA_CONSTANT_ASSERT(cons(integral<T, 0>, integer_list<U>) == integer_list<U, 0>);
-        BOOST_HANA_CONSTANT_ASSERT(cons(integral<T, 0>, integer_list<U, 1>) == integer_list<U, 0, 1>);
-        BOOST_HANA_CONSTANT_ASSERT(cons(integral<T, 0>, integer_list<U, 1, 2>) == integer_list<U, 0, 1, 2>);
-        BOOST_HANA_CONSTANT_ASSERT(cons(integral<T, 0>, integer_list<U, 1, 2, 3>) == integer_list<U, 0, 1, 2, 3>);
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            cons(integral<T, 0>, integer_list<U>),
+            integer_list<U, 0>
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            cons(integral<T, 0>, integer_list<U, 1>),
+            integer_list<U, 0, 1>
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            cons(integral<T, 0>, integer_list<U, 1, 2>),
+            integer_list<U, 0, 1, 2>
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            cons(integral<T, 0>, integer_list<U, 1, 2, 3>),
+            integer_list<U, 0, 1, 2, 3>
+        ));
     }
 
     // nil
     {
-        BOOST_HANA_CONSTANT_ASSERT(nil<IntegerList> == integer_list<int>);
-        BOOST_HANA_CONSTANT_ASSERT(nil<IntegerList> == integer_list<void>);
-        BOOST_HANA_CONSTANT_ASSERT(nil<IntegerList> == integer_list<char>);
+        BOOST_HANA_CONSTANT_ASSERT(equal(nil<IntegerList>, integer_list<T>));
+        BOOST_HANA_CONSTANT_ASSERT(equal(nil<IntegerList>, integer_list<U>));
+        BOOST_HANA_CONSTANT_ASSERT(equal(nil<IntegerList>, integer_list<void>));
+    }
+
+    // laws
+    {
+        BOOST_HANA_CONSTANT_ASSERT(List_laws(
+            integer_list<T>, integer_list<T, 0>, integer_list<T, 0, 1>,
+            integer_list<U>, integer_list<U, 0>, integer_list<U, 0, 1>
+        ));
     }
 }
 
 int main() {
-    test<int, int>();
-    test<int, unsigned int>();
+    tests<int, int>();
+    tests<int, unsigned int>();
 
-    test<int, long>();
-    test<int, unsigned long>();
+    tests<int, long>();
+    tests<int, unsigned long>();
 }

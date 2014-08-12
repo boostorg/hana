@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_GROUP_NEGATE_MCD_HPP
 
 #include <boost/hana/group/group.hpp>
-
 #include <boost/hana/monoid/monoid.hpp>
 
 

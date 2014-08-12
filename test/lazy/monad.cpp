@@ -8,33 +8,47 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/injection.hpp>
-#include <boost/hana/detail/number/comparable.hpp>
-#include <boost/hana/functional.hpp>
+#include <boost/hana/functional/compose.hpp>
 
-#include "comparable.hpp"
+#include <test/injection.hpp>
+#include <test/laws/monad.hpp>
+#include <test/lazy_comparable.hpp>
+
 #include <array>
 #include <iostream>
 using namespace boost::hana;
 
 
-template <int i>
-constexpr auto x = detail::number<>(i);
-
-BOOST_HANA_CONSTEXPR_LAMBDA auto f = compose(lazy, detail::injection([]{}));
-
 int main() {
+    using test::x;
+    BOOST_HANA_CONSTEXPR_LAMBDA auto f = compose(lazy, test::injection([]{}));
+
     // bind
     {
-        BOOST_HANA_CONSTEXPR_ASSERT(equal(bind(lazy(x<0>), f), f(x<0>)));
-        BOOST_HANA_CONSTEXPR_ASSERT(equal(bind(lazy(x<1>), f), f(x<1>)));
+        BOOST_HANA_CONSTANT_ASSERT(equal(bind(lazy(x<0>), f), f(x<0>)));
+        BOOST_HANA_CONSTANT_ASSERT(equal(bind(lazy(x<1>), f), f(x<1>)));
     }
 
     // flatten
     {
-        BOOST_HANA_CONSTEXPR_ASSERT(equal(flatten(lazy(lazy(x<0>))), lazy(x<0>)));
-        BOOST_HANA_CONSTEXPR_ASSERT(equal(flatten(lazy(lazy(x<1>))), lazy(x<1>)));
-        BOOST_HANA_CONSTEXPR_ASSERT(equal(flatten(lazy(lazy(lazy(x<1>)))), lazy(lazy(x<1>))));
+        BOOST_HANA_CONSTANT_ASSERT(equal(flatten(lazy(lazy(x<0>))), lazy(x<0>)));
+        BOOST_HANA_CONSTANT_ASSERT(equal(flatten(lazy(lazy(x<1>))), lazy(x<1>)));
+        BOOST_HANA_CONSTANT_ASSERT(equal(flatten(lazy(lazy(lazy(x<1>)))), lazy(lazy(x<1>))));
+    }
+
+    // laws
+    {
+        BOOST_HANA_CONSTANT_ASSERT(Monad_laws<Lazy>
+            // monads
+            (
+                lazy(x<0>), lazy(x<1>), lazy(x<2>)
+            )
+
+            // objects
+            (
+                x<0>, x<1>, x<2>, x<3>
+            )
+        );
     }
 
     // Make sure the monadic chain is evaluated in the right order.

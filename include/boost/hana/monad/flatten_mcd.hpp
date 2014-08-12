@@ -10,9 +10,9 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_MONAD_FLATTEN_MCD_HPP
 #define BOOST_HANA_MONAD_FLATTEN_MCD_HPP
 
-#include <boost/hana/monad/monad.hpp>
-
 #include <boost/hana/functor/functor.hpp>
+#include <boost/hana/monad/detail/common.hpp>
+#include <boost/hana/monad/monad.hpp>
 
 
 namespace boost { namespace hana {

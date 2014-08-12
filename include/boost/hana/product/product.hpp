@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_PRODUCT_PRODUCT_HPP
 #define BOOST_HANA_PRODUCT_PRODUCT_HPP
 
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/typeclass.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/forward.hpp>
@@ -64,9 +65,7 @@ namespace boost { namespace hana {
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename P>
     constexpr auto make_product = [](auto&& fst, auto&& snd) -> decltype(auto) {
-        return Product::instance<
-            datatype_t<P>
-        >::make_product_impl(
+        return Product::instance<P>::make_product_impl(
             std::forward<decltype(fst)>(fst),
             std::forward<decltype(snd)>(snd)
         );
@@ -77,9 +76,7 @@ namespace boost { namespace hana {
         struct make_product {
             template <typename Fst, typename Snd>
             constexpr decltype(auto) operator()(Fst&& fst, Snd&& snd) const {
-                return Product::instance<
-                    datatype_t<P>
-                >::make_product_impl(
+                return Product::instance<P>::make_product_impl(
                     detail::std::forward<Fst>(fst),
                     detail::std::forward<Snd>(snd)
                 );

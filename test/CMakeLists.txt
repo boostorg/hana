@@ -13,6 +13,10 @@ function(boost_hana_add_test name)
     add_dependencies(tests test.${name})
 endfunction()
 
+# Allows putting stuff that's only relevant to the unit tests in the test/
+# subdirectory and including those headers as:
+#   #include <test/something.hpp>
+include_directories(${CMAKE_CURRENT_LIST_DIR})
 
 file(GLOB_RECURSE BOOST_HANA_TEST_SOURCES
      RELATIVE ${CMAKE_CURRENT_LIST_DIR}

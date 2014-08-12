@@ -16,8 +16,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/is_same.hpp>
 #include <boost/hana/functor/fmap_mcd.hpp>
 #include <boost/hana/iterable/mcd.hpp>
-#include <boost/hana/list/instance.hpp>
 #include <boost/hana/list/mcd.hpp>
+#include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
 
 #include <boost/mpl/empty.hpp>
@@ -48,7 +48,7 @@ namespace boost { namespace hana {
     //!
     //! @todo
     //! - Finish the cheat sheet.
-    //! - Remove the list/instance.hpp include
+    //! - Remove the tuple.hpp include
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     struct MplVector { };
 #else
@@ -76,7 +76,7 @@ namespace boost { namespace hana {
     //!
     //! @todo
     //! In the case where `f` is not a metafunction class, don't use
-    //! `List` to do the mapping.
+    //! `Tuple` to do the mapping.
     template <>
     struct Functor::instance<MplVector> : Functor::fmap_mcd {
         template <bool mfc, typename Dummy = void>
@@ -91,7 +91,7 @@ namespace boost { namespace hana {
         struct helper<false, Dummy> {
             template <typename F, typename Xs>
             static constexpr auto apply(F f, Xs xs) {
-                return fmap(f, to<List>(xs));
+                return fmap(f, to<Tuple>(xs));
             }
         };
 

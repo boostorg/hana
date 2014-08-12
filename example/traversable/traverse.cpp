@@ -6,13 +6,13 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/integral.hpp>
-#include <boost/hana/list/instance.hpp>
 #include <boost/hana/maybe.hpp>
+#include <boost/hana/tuple.hpp>
 using namespace boost::hana;
 
 
 int main() {
-    //! [list]
+    //! [tuple]
     BOOST_HANA_CONSTEXPR_LAMBDA auto half = [](auto x) {
         return if_(x % int_<2> == int_<0>,
             just(x / int_<2>),
@@ -21,29 +21,29 @@ int main() {
     };
 
     BOOST_HANA_CONSTANT_ASSERT(
-        traverse<Maybe>(half, list(int_<2>, int_<4>, int_<6>))
+        traverse<Maybe>(half, tuple(int_<2>, int_<4>, int_<6>))
         ==
-        just(list(int_<1>, int_<2>, int_<3>))
+        just(tuple(int_<1>, int_<2>, int_<3>))
     );
 
     BOOST_HANA_CONSTANT_ASSERT(
-        traverse<Maybe>(half, list(int_<2>, int_<3>, int_<6>))
+        traverse<Maybe>(half, tuple(int_<2>, int_<3>, int_<6>))
         ==
         nothing
     );
-    //! [list]
+    //! [tuple]
 
     //! [maybe]
     BOOST_HANA_CONSTEXPR_LAMBDA auto twice = [](auto x) {
-        return list(x, x);
+        return tuple(x, x);
     };
 
     BOOST_HANA_CONSTEXPR_ASSERT(
-        traverse<List>(twice, just('x')) == list(just('x'), just('x'))
+        traverse<Tuple>(twice, just('x')) == tuple(just('x'), just('x'))
     );
 
     BOOST_HANA_CONSTANT_ASSERT(
-        traverse<List>(twice, nothing) == list(nothing)
+        traverse<Tuple>(twice, nothing) == tuple(nothing)
     );
     //! [maybe]
 }

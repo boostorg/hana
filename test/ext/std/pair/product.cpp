@@ -8,26 +8,35 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/assert.hpp>
 
+#include <test/injection.hpp>
 #include <utility>
 using namespace boost::hana;
 
 
 int main() {
+    using test::x;
+
     // first
     {
-        BOOST_HANA_CONSTEXPR_ASSERT(first(std::make_pair(1, '2')) == 1);
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            first(std::make_pair(x<0>, x<1>)),
+            x<0>
+        ));
     }
 
     // second
     {
-        BOOST_HANA_CONSTEXPR_ASSERT(second(std::make_pair(1, '2')) == '2');
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            second(std::make_pair(x<0>, x<1>)),
+            x<1>
+        ));
     }
 
     // make_product
     {
-        BOOST_HANA_CONSTEXPR_ASSERT(equal(
-            std::make_pair(1, '2'),
-            make_product<StdPair>(1, '2')
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            std::make_pair(x<0>, x<1>),
+            make_product<StdPair>(x<0>, x<1>)
         ));
     }
 }

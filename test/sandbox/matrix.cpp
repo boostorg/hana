@@ -5,20 +5,23 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/comparable/equal_mcd.hpp>
-#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/assert.hpp>
+#include <boost/hana/foreign.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/functor/fmap_mcd.hpp>
 #include <boost/hana/integral.hpp>
-#include <boost/hana/list/instance.hpp>
 #include <boost/hana/range.hpp>
+#include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
 using namespace boost::hana;
 
 
-struct Matrix;
+struct Matrix {
+    struct hana_enabled_operators : Comparable { };
+};
 
-template <typename Storage, typename = operators<Comparable>>
+template <typename Storage, typename = operators::enable_adl>
 struct matrix_type {
     using hana_datatype = Matrix;
 
@@ -70,7 +73,7 @@ auto scalar_prod = [](auto v1, auto v2) {
     return sum(zip_with(_*_, v1, v2));
 };
 auto repeat_n = [](auto n, auto x) {
-    return unpack(range(int_<0>, n), on(list, always(x)));
+    return unpack(range(int_<0>, n), on(tuple, always(x)));
 };
 
 template <typename S1, typename S2>
@@ -87,11 +90,11 @@ constexpr auto operator*(matrix_type<S1> m1, matrix_type<S2> m2) {
 }
 
 auto row = [](auto ...entries) {
-    return list(entries...);
+    return tuple(entries...);
 };
 
 auto matrix = [](auto ...rows) {
-    auto storage = list(rows...);
+    auto storage = tuple(rows...);
     auto all_same_length = all(tail(storage), [=](auto row) {
         return length(row) == length(head(storage));
     });
@@ -135,7 +138,7 @@ struct _det {
             always(m.at(int_<0>, int_<0>)),
             [=](auto _) {
                 auto cofactors_1st_row = unpack(_(range)(int_<0>, m.ncolumns()),
-                    on(list, partial(cofactor, m, int_<0>))
+                    on(tuple, partial(cofactor, m, int_<0>))
                 );
                 return scalar_prod(head(rows(m)), cofactors_1st_row);
             }
@@ -272,11 +275,11 @@ void test_transpose() {
 
 void test_repeat_n() {
     struct T;
-    BOOST_HANA_CONSTANT_ASSERT(repeat_n(int_<0>, type<T>) == list());
-    BOOST_HANA_CONSTANT_ASSERT(repeat_n(int_<1>, type<T>) == list(type<T>));
-    BOOST_HANA_CONSTANT_ASSERT(repeat_n(int_<2>, type<T>) == list(type<T>, type<T>));
-    BOOST_HANA_CONSTANT_ASSERT(repeat_n(int_<3>, type<T>) == list(type<T>, type<T>, type<T>));
-    BOOST_HANA_CONSTANT_ASSERT(repeat_n(int_<4>, type<T>) == list(type<T>, type<T>, type<T>, type<T>));
+    BOOST_HANA_CONSTANT_ASSERT(repeat_n(int_<0>, type<T>) == tuple());
+    BOOST_HANA_CONSTANT_ASSERT(repeat_n(int_<1>, type<T>) == tuple(type<T>));
+    BOOST_HANA_CONSTANT_ASSERT(repeat_n(int_<2>, type<T>) == tuple(type<T>, type<T>));
+    BOOST_HANA_CONSTANT_ASSERT(repeat_n(int_<3>, type<T>) == tuple(type<T>, type<T>, type<T>));
+    BOOST_HANA_CONSTANT_ASSERT(repeat_n(int_<4>, type<T>) == tuple(type<T>, type<T>, type<T>, type<T>));
 }
 
 void test_determinant() {
@@ -315,14 +318,14 @@ void test_determinant() {
 }
 
 void test_remove_at() {
-    BOOST_HANA_CONSTANT_ASSERT(remove_at(int_<0>, list(1)) == list());
-    BOOST_HANA_CONSTEXPR_ASSERT(remove_at(int_<0>, list(1, '2')) == list('2'));
-    BOOST_HANA_CONSTEXPR_ASSERT(remove_at(int_<0>, list(1, '2', 3.3)) == list('2', 3.3));
+    BOOST_HANA_CONSTANT_ASSERT(remove_at(int_<0>, tuple(1)) == tuple());
+    BOOST_HANA_CONSTEXPR_ASSERT(remove_at(int_<0>, tuple(1, '2')) == tuple('2'));
+    BOOST_HANA_CONSTEXPR_ASSERT(remove_at(int_<0>, tuple(1, '2', 3.3)) == tuple('2', 3.3));
 
-    BOOST_HANA_CONSTEXPR_ASSERT(remove_at(int_<1>, list(1, '2')) == list(1));
-    BOOST_HANA_CONSTEXPR_ASSERT(remove_at(int_<1>, list(1, '2', 3.3)) == list(1, 3.3));
+    BOOST_HANA_CONSTEXPR_ASSERT(remove_at(int_<1>, tuple(1, '2')) == tuple(1));
+    BOOST_HANA_CONSTEXPR_ASSERT(remove_at(int_<1>, tuple(1, '2', 3.3)) == tuple(1, 3.3));
 
-    BOOST_HANA_CONSTEXPR_ASSERT(remove_at(int_<2>, list(1, '2', 3.3)) == list(1, '2'));
+    BOOST_HANA_CONSTEXPR_ASSERT(remove_at(int_<2>, tuple(1, '2', 3.3)) == tuple(1, '2'));
 }
 
 void test_exponent() {

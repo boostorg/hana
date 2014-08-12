@@ -12,6 +12,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/monad/bind_mcd.hpp>
 #include <boost/hana/monad/flatten_mcd.hpp>
+#include <boost/hana/monad/list_mcd.hpp>
 #include <boost/hana/monad/monad.hpp>
+#include <boost/hana/monad/operators.hpp>
 
 #endif // !BOOST_HANA_MONAD_HPP

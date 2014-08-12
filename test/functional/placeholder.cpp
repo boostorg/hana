@@ -4,7 +4,7 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/functional.hpp>
+#include <boost/hana/functional/placeholder.hpp>
 
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
@@ -15,23 +15,23 @@ struct _extra { virtual ~_extra() { } };
 _extra extra{};
 
 #define BOOST_HANA_TEST_BINARY_OP(op, x, y)                                 \
-    BOOST_HANA_CONSTEXPR_ASSERT((_ op _)(x, y) == (x op y));                \
-    BOOST_HANA_RUNTIME_ASSERT((_ op _)(x, y, extra) == (x op y));           \
-    BOOST_HANA_RUNTIME_ASSERT((_ op _)(x, y, extra, extra) == (x op y));    \
+    {BOOST_HANA_CONSTEXPR_ASSERT((_ op _)(x, y) == (x op y));}              \
+    {BOOST_HANA_RUNTIME_ASSERT((_ op _)(x, y, extra) == (x op y));}         \
+    {BOOST_HANA_RUNTIME_ASSERT((_ op _)(x, y, extra, extra) == (x op y));}  \
                                                                             \
-    BOOST_HANA_CONSTEXPR_ASSERT((_ op y)(x) == (x op y));                   \
-    BOOST_HANA_RUNTIME_ASSERT((_ op y)(x, extra) == (x op y));              \
-    BOOST_HANA_RUNTIME_ASSERT((_ op y)(x, extra, extra) == (x op y));       \
+    {BOOST_HANA_CONSTEXPR_ASSERT((_ op y)(x) == (x op y));}                 \
+    {BOOST_HANA_RUNTIME_ASSERT((_ op y)(x, extra) == (x op y));}            \
+    {BOOST_HANA_RUNTIME_ASSERT((_ op y)(x, extra, extra) == (x op y));}     \
                                                                             \
-    BOOST_HANA_CONSTEXPR_ASSERT((x op _)(y) == (x op y));                   \
-    BOOST_HANA_RUNTIME_ASSERT((x op _)(y, extra) == (x op y));              \
-    BOOST_HANA_RUNTIME_ASSERT((x op _)(y, extra, extra) == (x op y));       \
+    {BOOST_HANA_CONSTEXPR_ASSERT((x op _)(y) == (x op y));}                 \
+    {BOOST_HANA_RUNTIME_ASSERT((x op _)(y, extra) == (x op y));}            \
+    {BOOST_HANA_RUNTIME_ASSERT((x op _)(y, extra, extra) == (x op y));}     \
 /**/
 
 #define BOOST_HANA_TEST_UNARY_OP(op, x)                                     \
-    BOOST_HANA_CONSTEXPR_ASSERT((op _)(x) == (op x));                       \
-    BOOST_HANA_RUNTIME_ASSERT((op _)(x, extra) == (op x));                  \
-    BOOST_HANA_RUNTIME_ASSERT((op _)(x, extra, extra) == (op x));           \
+    {BOOST_HANA_CONSTEXPR_ASSERT((op _)(x) == (op x));}                     \
+    {BOOST_HANA_RUNTIME_ASSERT((op _)(x, extra) == (op x));}                \
+    {BOOST_HANA_RUNTIME_ASSERT((op _)(x, extra, extra) == (op x));}         \
 /**/
 
 int main() {

@@ -6,8 +6,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/detail/wrap.hpp>
-#include <boost/hana/list.hpp>
+#include <boost/hana/tuple.hpp>
 namespace hana = boost::hana;
+using hana::Foreign;
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -108,9 +109,9 @@ auto lift_impl<List<X>> = [](auto x) {
 template <typename X, typename Y>
 auto ap_impl<List<Function<X, Y>>, List<X>> = [](auto fs, auto xs) {
     auto hana_fs = hana::detail::unwrap(fs)([](auto ...fs) {
-        return hana::list([fs](auto x) { return apply(fs, x); }...);
+        return hana::tuple([fs](auto x) { return apply(fs, x); }...);
     });
-    auto hana_xs = hana::detail::unwrap(xs)(hana::list);
+    auto hana_xs = hana::detail::unwrap(xs)(hana::tuple);
     auto hana_result = hana::ap(hana_fs, hana_xs);
 
     return hana::unpack(hana_result, list<Y>);
@@ -128,14 +129,14 @@ auto any = [](auto x) {
 
 
 int main() {
-    auto f = function<int, int>([](auto x) { return x + 1; });
-    auto xs = list<int>(1, 2, 3, 4);
+    auto f = function<Foreign<int>, Foreign<int>>([](auto x) { return x + 1; });
+    auto xs = list<Foreign<int>>(1, 2, 3, 4);
     fmap(f, xs);
 
     lift<List>(2);
-    ap(list<Function<int, int>>(f, f), list<int>(1, 2));
+    ap(list<Function<Foreign<int>, Foreign<int>>>(f, f), list<Foreign<int>>(1, 2));
 
-    auto g = function<Any, int>([](auto x) {
+    auto g = function<Any, Foreign<int>>([](auto x) {
         // We can't do anything with an Any, so there's not much choice here.
         return 1;
     });

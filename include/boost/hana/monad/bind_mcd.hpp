@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_MONAD_BIND_MCD_HPP
 #define BOOST_HANA_MONAD_BIND_MCD_HPP
 
+#include <boost/hana/monad/detail/common.hpp>
 #include <boost/hana/monad/monad.hpp>
 
 

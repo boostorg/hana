@@ -7,13 +7,15 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/ext/std/array.hpp>
 
 #include <boost/hana/detail/assert.hpp>
+#include <boost/hana/foreign.hpp>
 
 #include <array>
+#include <test/laws/list.hpp>
 using namespace boost::hana;
 
 
 template <int ...i>
-auto array = std::array<int, sizeof...(i)>{{i...}};
+constexpr auto array = std::array<int, sizeof...(i)>{{i...}};
 
 int main() {
     // nil
@@ -31,5 +33,15 @@ int main() {
         BOOST_HANA_CONSTEXPR_ASSERT(equal(cons(0, array<1, 2, 3>), array<0, 1, 2, 3>));
 
         BOOST_HANA_CONSTEXPR_ASSERT(equal(cons(0, nil<StdArray>), array<0>));
+    }
+
+    // laws
+    {
+        BOOST_HANA_CONSTEXPR_ASSERT(List_laws(
+            array<>,
+            array<0>,
+            array<0, 1>,
+            array<0, 1, 2>
+        ));
     }
 }

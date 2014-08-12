@@ -5,13 +5,13 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/detail/assert.hpp>
-#include <boost/hana/list/instance.hpp>
+#include <boost/hana/tuple.hpp>
 using namespace boost::hana;
 
 
 int main() {
     //! [main]
-    BOOST_HANA_CONSTANT_ASSERT(into<List>() == list());
-    BOOST_HANA_CONSTEXPR_ASSERT(into<List>(1, '2', 3.3) == list(1, '2', 3.3));
+    BOOST_HANA_CONSTANT_ASSERT(into<Tuple>() == tuple());
+    BOOST_HANA_CONSTEXPR_ASSERT(into<Tuple>(1, '2', 3.3) == tuple(1, '2', 3.3));
     //! [main]
 }

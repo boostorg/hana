@@ -12,5 +12,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/logical/logical.hpp>
 #include <boost/hana/logical/mcd.hpp>
+#include <boost/hana/logical/operators.hpp>
 
 #endif // !BOOST_HANA_LOGICAL_HPP

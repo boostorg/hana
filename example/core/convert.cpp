@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/list/instance.hpp>
+#include <boost/hana/tuple.hpp>
 using namespace boost::hana;
 
 
@@ -24,13 +24,13 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto triple = [](auto x, auto y, auto z) {
 
 namespace boost { namespace hana {
     template <typename X, typename Y, typename Z>
-    struct convert<List, Triple<X, Y, Z>> {
+    struct convert<Tuple, Triple<X, Y, Z>> {
         static constexpr auto apply(Triple<X, Y, Z> xs) {
-            return list(xs.first, xs.second, xs.third);
+            return tuple(xs.first, xs.second, xs.third);
         }
     };
 }}
 
 int main() {
-    BOOST_HANA_CONSTEXPR_ASSERT(to<List>(triple(1, '2', 3.3)) == list(1, '2', 3.3));
+    BOOST_HANA_CONSTEXPR_ASSERT(to<Tuple>(triple(1, '2', 3.3)) == tuple(1, '2', 3.3));
 }

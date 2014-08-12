@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/integral.hpp>
-#include <boost/hana/list/instance.hpp>
+#include <boost/hana/tuple.hpp>
 using namespace boost::hana;
 using namespace literals;
 

@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FOLDABLE_FOLDABLE_HPP
 #define BOOST_HANA_FOLDABLE_FOLDABLE_HPP
 
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/typeclass.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/forward.hpp>
@@ -21,16 +22,40 @@ namespace boost { namespace hana {
     //! a single value.
     //!
     //! Another way of seeing `Foldable`s is as data structures supporting
-    //! internal iteration with the ability to accumulate a result. However,
-    //! because C++ only supports eager evaluation, all instances of `Foldable`
-    //! must represent finite data structures. While this may seem overly
-    //! restrictive in comparison to the Haskell definition of `Foldable`,
-    //! a finer grained separation of type classes (see `Iterable` and
-    //! `Searchable`) should mitigate the issue.
+    //! internal iteration with the ability to accumulate a result. Also
+    //! note that since C++ only supports eager evaluation, all instances of
+    //! `Foldable` must represent finite data structures.
+    //!
+    //! Additionally, only structures whose total size is known at
+    //! compile-time can be made  instances of `Foldable`. This is
+    //! because of the `unpack` method, whose return _type_ depends
+    //! on the number and types of the objects in the structure.
+    //!
+    //! @note
+    //! While the fact that `Foldable` only works for finite structures may
+    //! seem overly restrictive in comparison to the Haskell definition of
+    //! `Foldable`, a finer grained separation of type classes (see `Iterable`
+    //!  and `Searchable`) should mitigate the issue.
+    //!
+    //!
+    //! ### Laws
+    //! For any `Foldable xs`, the following laws must be satisfied:
+    //! @code
+    //!     foldl(xs, s, f) == foldl(to<Tuple>(xs), s, f)
+    //!     foldr(xs, s, f) == foldr(to<Tuple>(xs), s, f)
+    //! @endcode
+    //!
+    //! where `s` and `f` are an arbitrary state and function that can be
+    //! used for folding, respectively. Intuitively, these laws say that
+    //! `Foldable` respects the left-to-right order of elements within a
+    //! structure.
     struct Foldable {
         BOOST_HANA_TYPECLASS(Foldable);
-        struct mcd;
+        struct folds_mcd;
         struct unpack_mcd;
+        struct iterable_mcd;
+        template <typename R>
+        struct record_mcd;
     };
 
     //! Left-associative fold of a structure using a binary operation.
@@ -221,10 +246,10 @@ namespace boost { namespace hana {
     //! Compute the sum of the numbers of a structure.
     //! @relates Foldable
     //!
-    //! It must be possible to perform `operator+` on any two adjacent
-    //! elements of the structure. The meaning of "adjacent" as used here
-    //! is that two elements of the structure `x` and `y` are adjacent if
-    //! and only if they are adjacent in `to<List>(foldable)`.
+    //! It must be possible to perform `plus` on any two adjacent elements of
+    //! the structure. The meaning of "adjacent" as used here is that two
+    //! elements of the structure `x` and `y` are adjacent if and only if
+    //! they are adjacent in `to<Tuple>(foldable)`.
     //!
     //! ### Example
     //! @snippet example/foldable/sum.cpp main
@@ -237,10 +262,10 @@ namespace boost { namespace hana {
     //! Compute the product of the numbers of a structure.
     //! @relates Foldable
     //!
-    //! It must be possible to perform `operator*` on any two adjacent
-    //! elements of the structure. The meaning of "adjacent" as used here
-    //! is that two elements of the structure `x` and `y` are adjacent if
-    //! and only if they are adjacent in `to<List>(foldable)`.
+    //! It must be possible to perform `mult` on any two adjacent elements of
+    //! the structure. The meaning of "adjacent" as used here is that two
+    //! elements of the structure `x` and `y` are adjacent if and only if
+    //! they are adjacent in `to<Tuple>(foldable)`.
     //!
     //! ### Example
     //! @snippet example/foldable/product.cpp main

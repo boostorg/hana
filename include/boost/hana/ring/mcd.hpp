@@ -10,8 +10,12 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_RING_MCD_HPP
 #define BOOST_HANA_RING_MCD_HPP
 
-// The mcd is defined in the forward declaration header because it is
-// required by the instance for builtins.
 #include <boost/hana/ring/ring.hpp>
+
+
+namespace boost { namespace hana {
+    //! Minimal complete definition : `one` and `mult`
+    struct Ring::mcd { };
+}}
 
 #endif // !BOOST_HANA_RING_MCD_HPP

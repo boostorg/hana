@@ -1,6 +1,6 @@
 /*!
 @file
-Adapts `std::array`.
+Defines `boost::hana::StdArray`.
 
 @copyright Louis Dionne 2014
 Distributed under the Boost Software License, Version 1.0.
@@ -10,68 +10,19 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EXT_STD_ARRAY_HPP
 #define BOOST_HANA_EXT_STD_ARRAY_HPP
 
-#include <boost/hana/bool.hpp>
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/integral.hpp>
-#include <boost/hana/iterable/mcd.hpp>
-#include <boost/hana/list/mcd.hpp>
-#include <boost/hana/range.hpp>
+#include <boost/hana/ext/std/array/array.hpp>
 
-#include <array>
-#include <cstddef>
+// Instances
+#include <boost/hana/ext/std/array/comparable.hpp>
 
+#include <boost/hana/ext/std/array/functor.hpp>
+#include <boost/hana/ext/std/array/applicative.hpp>
+#include <boost/hana/ext/std/array/monad.hpp>
+#include <boost/hana/ext/std/array/traversable.hpp>
 
-namespace boost { namespace hana {
-    struct StdArray;
-
-    template <typename T, std::size_t N>
-    struct datatype<std::array<T, N>> {
-        using type = StdArray;
-    };
-
-    template <>
-    struct Iterable::instance<StdArray> : Iterable::mcd {
-        template <typename T, std::size_t N>
-        static constexpr T head_impl(std::array<T, N> arr)
-        { return arr[0]; }
-
-        //! @todo
-        //! We needlessly create a ton of `size_t<indices>...` when we
-        //! unpack the range. We should be able to unpack the range and
-        //! get straight `std::size_t`s instead of `size_t<...>`s when
-        //! we don't need them.
-        template <typename T, std::size_t N>
-        static constexpr auto tail_impl(std::array<T, N> arr)  {
-            auto make_array = [=](auto ...indices) -> std::array<T, N - 1>
-            { return {{arr[indices]...}}; };
-            return unpack(range(size_t<1>, size_t<N>), make_array);
-        }
-
-        template <typename T, std::size_t N>
-        static constexpr auto is_empty_impl(std::array<T, N> arr)
-        { return bool_<N == 0>; }
-    };
-
-    template <>
-    struct List::instance<StdArray> : List::mcd<StdArray> {
-        struct anything { };
-
-        static constexpr auto nil_impl() {
-            return std::array<anything, 0>{};
-        }
-
-        template <typename X, typename T, std::size_t N>
-        static constexpr auto cons_impl(X x, std::array<T, N> arr) {
-            auto make_array = [=](auto ...indices) -> std::array<T, N + 1>
-            { return {{x, arr[indices]...}}; };
-            return unpack(range(size_t<0>, size_t<N>), make_array);
-        }
-
-        template <typename X>
-        static constexpr auto cons_impl(X x, std::array<anything, 0>) {
-            return cons_impl(x, std::array<X, 0>{});
-        }
-    };
-}} // end namespace boost::hana
+#include <boost/hana/ext/std/array/foldable.hpp>
+#include <boost/hana/ext/std/array/iterable.hpp>
+#include <boost/hana/ext/std/array/list.hpp>
+#include <boost/hana/ext/std/array/searchable.hpp>
 
 #endif // !BOOST_HANA_EXT_STD_ARRAY_HPP

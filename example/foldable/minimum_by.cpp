@@ -6,7 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/list/instance.hpp>
+#include <boost/hana/tuple.hpp>
 
 #include <type_traits>
 using namespace boost::hana;

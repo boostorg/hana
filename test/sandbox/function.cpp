@@ -5,21 +5,22 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/comparable/equal_mcd.hpp>
-#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/functional.hpp>
-#include <boost/hana/list/instance.hpp>
+#include <boost/hana/foreign.hpp>
 #include <boost/hana/logical/logical.hpp>
+#include <boost/hana/tuple.hpp>
 
 #include <stdexcept>
 
 
 namespace boost { namespace hana {
-    struct Function;
+    struct Function {
+        struct hana_enabled_operators : Comparable { };
+    };
 
-    template <typename Domain, typename Codomain, typename F,
-        typename = operators<Comparable>
-    >
+    template <typename Domain, typename Codomain, typename F, typename = operators::enable_adl>
     struct function_type {
         using hana_datatype = Function;
 
@@ -52,7 +53,7 @@ namespace boost { namespace hana {
     BOOST_HANA_CONSTEXPR_LAMBDA auto frange = [](auto f) {
         // Note: that would be better handled by a set data structure, but
         // whatever for now.
-        return foldl(fmap(f, domain(f)), list(), [](auto xs, auto x) {
+        return foldl(fmap(f, domain(f)), tuple(), [](auto xs, auto x) {
             return if_(elem(xs, x), xs, cons(x, xs));
         });
     };
@@ -82,22 +83,22 @@ namespace boost { namespace hana {
 
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/integral.hpp>
-#include <boost/hana/list/instance.hpp>
 #include <boost/hana/range.hpp>
+#include <boost/hana/tuple.hpp>
 using namespace boost::hana;
 using namespace literals;
 
 
 int main() {
-    auto f = function(list(1_c, 2_c, 3_c), list(1_c, 2_c, 3_c, 4_c, 5_c, 6_c))(
+    auto f = function(tuple(1_c, 2_c, 3_c), tuple(1_c, 2_c, 3_c, 4_c, 5_c, 6_c))(
         [](auto x) { return x + 1_c; }
     );
 
-    auto g = function(list(1_c, 2_c, 3_c), list(2_c, 3_c, 4_c))(
+    auto g = function(tuple(1_c, 2_c, 3_c), tuple(2_c, 3_c, 4_c))(
         [](auto x) { return x + 1_c; }
     );
 
-    auto h = function(list(1_c, 2_c, 3_c), list(0_c, 1_c, 2_c))(
+    auto h = function(tuple(1_c, 2_c, 3_c), tuple(0_c, 1_c, 2_c))(
         [](auto x) { return x - 1_c; }
     );
 
@@ -107,6 +108,6 @@ int main() {
     try { f(6); throw; } catch (std::domain_error) { }
 
 
-    BOOST_HANA_CONSTANT_ASSERT(frange(f) == list(4_c, 3_c, 2_c));
+    BOOST_HANA_CONSTANT_ASSERT(frange(f) == tuple(4_c, 3_c, 2_c));
     (void)frange;
 }

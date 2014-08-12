@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_COMPARABLE_NOT_EQUAL_MCD_HPP
 
 #include <boost/hana/comparable/comparable.hpp>
-
 #include <boost/hana/logical/logical.hpp>
 
 
@@ -25,3 +24,5 @@ namespace boost { namespace hana {
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_COMPARABLE_NOT_EQUAL_MCD_HPP
+
+#include <boost/hana/comparable/default.hpp> //! @todo remove this include

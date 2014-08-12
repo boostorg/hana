@@ -10,17 +10,6 @@ using namespace boost::hana;
 
 
 int main() {
-    //! [comparable]
-    struct Person {
-        int age;
-        // ...
-    };
-
-    BOOST_HANA_CONSTANT_ASSERT(integral<int, 1> == integral<long, 1>);
-    BOOST_HANA_CONSTANT_ASSERT(integral<int, 1> != integral<int, 2>);
-    BOOST_HANA_CONSTANT_ASSERT(integral<int, 1> != integral<int Person::*, &Person::age>);
-    //! [comparable]
-
     //! [value]
     auto i = integral<int, 3>; // notice no constexpr
     static_assert(value(i) == 3, "value(i) is always a constant expression!");

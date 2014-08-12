@@ -8,21 +8,32 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/injection.hpp>
-#include <boost/hana/detail/number/comparable.hpp>
+#include <boost/hana/foreign.hpp> //! @todo find a way to remove this
+
+#include <test/injection.hpp>
+#include <test/numeric/comparable.hpp>
 using namespace boost::hana;
 
 
 template <int i>
-constexpr auto x = detail::number<>(i);
+BOOST_HANA_CONSTEXPR_LAMBDA auto x = test::numeric(i);
 
 int main() {
-    BOOST_HANA_CONSTEXPR_LAMBDA auto f = detail::injection([]{});
+    BOOST_HANA_CONSTEXPR_LAMBDA auto f = test::injection([]{});
 
     // fmap
     {
-        BOOST_HANA_CONSTEXPR_ASSERT(fmap(f, singleton(x<0>)) == singleton(f(x<0>)));
-        BOOST_HANA_CONSTEXPR_ASSERT(fmap(f, doubleton(x<0>, x<1>)) == doubleton(f(x<0>), f(x<1>)));
-        BOOST_HANA_CONSTEXPR_ASSERT(fmap(f, doubleton(x<0>, x<0>)) == singleton(f(x<0>)));
+        BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            fmap(f, singleton(x<0>)),
+            singleton(f(x<0>))
+        ));
+        BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            fmap(f, doubleton(x<0>, x<1>)),
+            doubleton(f(x<0>), f(x<1>))
+        ));
+        BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            fmap(f, doubleton(x<0>, x<0>)),
+            singleton(f(x<0>))
+        ));
     }
 }

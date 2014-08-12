@@ -7,19 +7,16 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/sandbox/searchable_set.hpp>
 
 #include <boost/hana/detail/assert.hpp>
-#include <boost/hana/detail/cnumber/constant.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/injection.hpp>
+
+#include <test/injection.hpp>
 using namespace boost::hana;
 
 
-// We need the comparison to be compile-time.
-template <int i>
-constexpr auto x = detail::cnumber<int, i>;
-
 int main() {
-    BOOST_HANA_CONSTEXPR_LAMBDA auto f = detail::injection([]{});
-    BOOST_HANA_CONSTEXPR_LAMBDA auto g = detail::injection([]{});
+    using test::x;
+    BOOST_HANA_CONSTEXPR_LAMBDA auto f = test::injection([]{});
+    BOOST_HANA_CONSTEXPR_LAMBDA auto g = test::injection([]{});
 
     // ap
     {

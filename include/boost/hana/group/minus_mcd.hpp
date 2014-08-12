@@ -10,8 +10,19 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_GROUP_MINUS_MCD_HPP
 #define BOOST_HANA_GROUP_MINUS_MCD_HPP
 
-// minus_mcd is in the forward declaration header because it is required by
-// the instance for builtins
 #include <boost/hana/group/group.hpp>
+#include <boost/hana/monoid/monoid.hpp>
+
+
+namespace boost { namespace hana {
+    //! Minimal complete definition: `minus`
+    template <typename G1, typename G2>
+    struct Group::minus_mcd {
+        template <typename X>
+        static constexpr auto negate_impl(X x) {
+            return minus(zero<G1>, x);
+        }
+    };
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_GROUP_MINUS_MCD_HPP

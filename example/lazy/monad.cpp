@@ -13,21 +13,21 @@ Distributed under the Boost Software License, Version 1.0.
 using namespace boost::hana;
 
 
+//! [main]
 template <typename T>
-auto read = lazy([](std::istream& stream) {
+auto read = [](std::istream& stream) {
     T x;
     stream >> x;
     std::cout << "read " << x << " from the stream\n";
     return x;
-});
+};
 
 int main() {
-    //! [main]
     std::stringstream ss;
     int in = 123;
 
     std::cout << "creating the monadic chain...\n";
-    auto out = read<int>(std::ref(ss))
+    auto out = lazy(read<int>)(std::ref(ss))
         | [](auto x) {
             std::cout << "performing x + 1...\n";
             return lazy(x + 1);
@@ -45,5 +45,5 @@ int main() {
 
     std::cout << "the result of the monadic chain is " << eout << "\n";
     assert(eout == (in + 1) / 2);
-    //! [main]
 }
+//! [main]

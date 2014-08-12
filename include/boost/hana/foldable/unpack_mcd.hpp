@@ -16,13 +16,13 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/variadic/foldl1.hpp>
 #include <boost/hana/detail/variadic/foldr.hpp>
 #include <boost/hana/detail/variadic/foldr1.hpp>
-#include <boost/hana/foldable/mcd.hpp>
+#include <boost/hana/foldable/folds_mcd.hpp>
 #include <boost/hana/integral.hpp>
 
 
 namespace boost { namespace hana {
     //! Minimal complete definition: `unpack`
-    struct Foldable::unpack_mcd : Foldable::mcd {
+    struct Foldable::unpack_mcd : Foldable::folds_mcd {
         template <typename Xs, typename S, typename F>
         static constexpr auto foldl_impl(Xs xs, S s, F f) {
             return unpack(xs, [=](auto ...xs) {

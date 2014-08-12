@@ -6,8 +6,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/integral.hpp>
-#include <boost/hana/list/instance.hpp>
 #include <boost/hana/maybe.hpp>
+#include <boost/hana/tuple.hpp>
 using namespace boost::hana;
 
 
@@ -21,13 +21,13 @@ int main() {
     };
 
     BOOST_HANA_CONSTANT_ASSERT(
-        traverse<Maybe>(half, list(int_<2>, int_<4>, int_<6>))
+        traverse<Maybe>(half, tuple(int_<2>, int_<4>, int_<6>))
         ==
-        just(list(int_<1>, int_<2>, int_<3>))
+        just(tuple(int_<1>, int_<2>, int_<3>))
     );
 
     BOOST_HANA_CONSTANT_ASSERT(
-        traverse<Maybe>(half, list(int_<2>, int_<3>, int_<6>))
+        traverse<Maybe>(half, tuple(int_<2>, int_<3>, int_<6>))
         ==
         nothing
     );

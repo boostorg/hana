@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/variadic/foldl1.hpp>
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/detail/type_fwd.hpp>
+#include <boost/hana/type/type.hpp>
 
 
 namespace boost { namespace hana { namespace detail { namespace variadic {

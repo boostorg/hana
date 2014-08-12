@@ -5,7 +5,7 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/detail/assert.hpp>
-#include <boost/hana/list/instance.hpp>
+#include <boost/hana/tuple.hpp>
 using namespace boost::hana;
 
 
@@ -14,7 +14,7 @@ struct undefined { };
 int main() {
     //! [main]
     BOOST_HANA_CONSTEXPR_ASSERT(
-        then(list(undefined{}, undefined{}), list(1, 2, 3)) == list(
+        then(tuple(undefined{}, undefined{}), tuple(1, 2, 3)) == tuple(
             1, 2, 3,
             1, 2, 3
         )

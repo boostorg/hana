@@ -10,10 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_SEARCHABLE_SEARCHABLE_HPP
 #define BOOST_HANA_SEARCHABLE_SEARCHABLE_HPP
 
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/typeclass.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/functional/infix.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/functional/infix.hpp>
 
 
 namespace boost { namespace hana {
@@ -38,6 +39,9 @@ namespace boost { namespace hana {
     struct Searchable {
         BOOST_HANA_TYPECLASS(Searchable);
         struct mcd;
+        template <typename R>
+        struct record_mcd;
+        struct list_mcd;
     };
 
     //! Return whether any key of the structure satisfies the `predicate`.

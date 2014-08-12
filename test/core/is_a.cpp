@@ -9,11 +9,12 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/foldable/foldable.hpp>
+#include <boost/hana/foreign.hpp>
 #include <boost/hana/iterable/iterable.hpp>
-#include <boost/hana/list/instance.hpp>
 #include <boost/hana/maybe.hpp>
 #include <boost/hana/monad/monad.hpp>
 #include <boost/hana/orderable/orderable.hpp>
+#include <boost/hana/tuple.hpp>
 
 #include <type_traits>
 using namespace boost::hana;
@@ -64,9 +65,9 @@ int main() {
     BOOST_HANA_CONSTANT_ASSERT(!is_an<Typeclass>('2'));
 
     // check with a couple of "real" instances
-    BOOST_HANA_CONSTANT_ASSERT(is_an<Iterable>(list(1, '2', 3)));
-    BOOST_HANA_CONSTANT_ASSERT(is_a<Monad>(list(1, '2', 3)));
-    BOOST_HANA_CONSTANT_ASSERT(is_a<Foldable>(list(1, '2', 3)));
+    BOOST_HANA_CONSTANT_ASSERT(is_an<Iterable>(tuple(1, '2', 3)));
+    BOOST_HANA_CONSTANT_ASSERT(is_a<Monad>(tuple(1, '2', 3)));
+    BOOST_HANA_CONSTANT_ASSERT(is_a<Foldable>(tuple(1, '2', 3)));
 
     BOOST_HANA_CONSTANT_ASSERT(!is_an<Iterable>(just(1)));
     BOOST_HANA_CONSTANT_ASSERT(!is_an<Iterable>(nothing));

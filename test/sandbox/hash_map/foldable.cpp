@@ -4,14 +4,15 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/detail/sandbox/hash_map.hpp>
+#include <boost/hana/sandbox/hash_map.hpp>
 
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/integral.hpp>
-#include <boost/hana/list/instance.hpp>
 #include <boost/hana/pair.hpp>
+
+#include <boost/hana/tuple.hpp>
 using namespace boost::hana;
 
 
@@ -22,8 +23,8 @@ int main() {
     // foldr
     {
         BOOST_HANA_CONSTEXPR_LAMBDA auto check_fold = [](auto ...pairs) {
-            auto values = fmap(second, list(pairs...));
-            auto result = foldr(hash_map(pairs...), list(), cons);
+            auto values = fmap(second, tuple(pairs...));
+            auto result = foldr(hash_map(pairs...), tuple(), cons);
             BOOST_HANA_CONSTANT_ASSERT(elem(permutations(values), result));
         };
 

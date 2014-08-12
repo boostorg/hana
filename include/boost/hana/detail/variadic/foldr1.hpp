@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_DETAIL_VARIADIC_FOLDR1_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/detail/type_fwd.hpp>
+#include <boost/hana/type/type.hpp>
 
 
 namespace boost { namespace hana { namespace detail { namespace variadic {

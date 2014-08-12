@@ -12,7 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/ext/std/tuple.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/iterable/iterable.hpp>
-#include <boost/hana/list/instance.hpp>
+#include <boost/hana/tuple.hpp>
 #include <boost/hana/logical/logical.hpp>
 #include <boost/hana/maybe.hpp>
 #include <boost/hana/monad/monad.hpp>

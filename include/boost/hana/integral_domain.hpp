@@ -12,5 +12,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/integral_domain/integral_domain.hpp>
 #include <boost/hana/integral_domain/mcd.hpp>
+#include <boost/hana/integral_domain/operators.hpp>
 
 #endif // !BOOST_HANA_INTEGRAL_DOMAIN_HPP

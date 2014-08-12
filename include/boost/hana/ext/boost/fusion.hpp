@@ -12,7 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/foldable/foldable.hpp>
+#include <boost/hana/foldable/iterable_mcd.hpp>
 #include <boost/hana/functor/fmap_mcd.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/iterable/mcd.hpp>
@@ -91,7 +91,7 @@ namespace boost { namespace hana {
 
     template <>
     struct Foldable::instance<FusionNonAssociativeForwardSequence>
-        : detail::FoldableFromIterable
+        : Foldable::iterable_mcd
     {
         template <typename Xs, typename State, typename F>
         static constexpr decltype(auto) foldl_impl(Xs&& xs, State s, F f) {
@@ -118,7 +118,7 @@ namespace boost { namespace hana {
             >
         >
         static constexpr decltype(auto) foldr_impl(Xs&& xs, State s, F f, ...) {
-            return detail::FoldableFromIterable::foldr_impl(std::forward<Xs>(xs), s, f);
+            return Foldable::iterable_mcd::foldr_impl(std::forward<Xs>(xs), s, f);
         }
 
         template <typename Xs>

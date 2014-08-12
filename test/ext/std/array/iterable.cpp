@@ -7,20 +7,22 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/ext/std/array.hpp>
 
 #include <boost/hana/detail/assert.hpp>
+#include <boost/hana/foreign.hpp>
 
 #include <array>
+#include <test/laws/iterable.hpp>
 using namespace boost::hana;
 
 
 template <int ...i>
-auto array = std::array<int, sizeof...(i)>{{i...}};
+constexpr auto array = std::array<int, sizeof...(i)>{{i...}};
 
 int main() {
     // is_empty
     {
         BOOST_HANA_CONSTANT_ASSERT(is_empty(array<>));
-        BOOST_HANA_CONSTANT_ASSERT(!is_empty(array<0>));
-        BOOST_HANA_CONSTANT_ASSERT(!is_empty(array<0, 1>));
+        BOOST_HANA_CONSTANT_ASSERT(not_(is_empty(array<0>)));
+        BOOST_HANA_CONSTANT_ASSERT(not_(is_empty(array<0, 1>)));
     }
 
     // head
@@ -36,5 +38,15 @@ int main() {
         BOOST_HANA_CONSTEXPR_ASSERT(equal(tail(array<0, 1>), array<1>));
         BOOST_HANA_CONSTEXPR_ASSERT(equal(tail(array<0, 1, 2>), array<1, 2>));
         BOOST_HANA_CONSTEXPR_ASSERT(equal(tail(array<0, 1, 2, 3>), array<1, 2, 3>));
+    }
+
+    // laws
+    {
+        BOOST_HANA_CONSTEXPR_ASSERT(Iterable_laws(
+            array<>,
+            array<0>,
+            array<0, 1>,
+            array<0, 1, 2>
+        ));
     }
 }

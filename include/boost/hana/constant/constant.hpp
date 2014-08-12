@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_CONSTANT_CONSTANT_HPP
 #define BOOST_HANA_CONSTANT_CONSTANT_HPP
 
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/typeclass.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
@@ -39,11 +40,7 @@ namespace boost { namespace hana {
     //! @todo Consider renaming this to `UniversalConstant`.
     struct Constant {
         BOOST_HANA_TYPECLASS(Constant);
-
-        //! Minimal complete definition: `value`
-        struct mcd { };
-
-        struct laws;
+        struct mcd;
     };
 
     //! Return the compile-time value of a constant.

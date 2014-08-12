@@ -10,29 +10,26 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_LIST_MCD_HPP
 #define BOOST_HANA_LIST_MCD_HPP
 
-#include <boost/hana/list/list.hpp>
-
-#include <boost/hana/applicative/mcd.hpp>
-#include <boost/hana/comparable/equal_mcd.hpp>
-#include <boost/hana/core/convert.hpp>
-#include <boost/hana/core/is_a.hpp>
+#include <boost/hana/applicative/applicative.hpp>
+#include <boost/hana/comparable/comparable.hpp>
 #include <boost/hana/detail/variadic/foldr.hpp>
 #include <boost/hana/foldable/foldable.hpp>
-#include <boost/hana/functor/fmap_mcd.hpp>
+#include <boost/hana/functor/functor.hpp>
 #include <boost/hana/group/group.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/iterable/iterable.hpp>
+#include <boost/hana/list/list.hpp>
 #include <boost/hana/logical/logical.hpp>
 #include <boost/hana/maybe.hpp>
-#include <boost/hana/monad/flatten_mcd.hpp>
+#include <boost/hana/monad/monad.hpp>
 #include <boost/hana/orderable/orderable.hpp>
 #include <boost/hana/pair.hpp>
-#include <boost/hana/searchable/mcd.hpp>
-#include <boost/hana/traversable/traverse_mcd.hpp>
+#include <boost/hana/product/product.hpp>
 
 
 namespace boost { namespace hana {
-    //! Minimal complete definition: `Iterable`, `Foldable`, `cons`, and `nil`
+    //! Minimal complete definition:
+    //! `Monad`, `Iterable`, `Foldable`, `cons`, and `nil`
     template <typename T>
     struct List::mcd {
         template <typename Xs, typename Ys>
@@ -300,158 +297,6 @@ namespace boost { namespace hana {
                 }
             );
         }
-    };
-
-    //! @details
-    //! `List`s implement `fmap` as the mapping of a function over each
-    //! element of the list. This is somewhat equivalent to `std::transform`.
-    //! Mapping a function over an empty list returns an empty list and never
-    //! applies the function.
-    //!
-    //! ### Example 1
-    //! @snippet example/list/functor/fmap.cpp main
-    //!
-    //! ### Example 2
-    //! @snippet example/type_list/functor.cpp fmap
-    template <typename T>
-    struct Functor::instance<T, when<is_a<List, T>()>>
-        : Functor::fmap_mcd
-    {
-        template <typename F, typename Xs>
-        static constexpr auto fmap_impl(F f, Xs xs) {
-            return foldr(xs, nil<T>, [=](auto x, auto xs) {
-                return cons(f(x), xs);
-            });
-        }
-    };
-
-    //! `Applicative` instance for instances of the `List` type class.
-    //!
-    //! A value can be lifted into a singleton list with `lift`. `ap(fs, xs)`
-    //! applies each function in the list `fs` to each value in the list `xs`,
-    //! and returns a list containing all the results.
-    //!
-    //! ### Example
-    //! @snippet example/list/applicative.cpp main
-    template <typename T>
-    struct Applicative::instance<T, when<is_a<List, T>()>>
-        : Applicative::mcd
-    {
-        template <typename X>
-        static constexpr auto lift_impl(X x)
-        { return cons(x, nil<T>); }
-
-        template <typename Fs, typename Xs>
-        static constexpr auto ap_impl(Fs fs, Xs xs)
-        { return bind(fs, [=](auto f) { return fmap(f, xs); }); }
-    };
-
-    //! `Monad` instance for instances of the `List` type class.
-    //!
-    //! A function returning a list of results can be mapped over all the
-    //! elements of a list and have all the results concatenated using `bind`.
-    //! Also, a list of lists can be flattened one level with `flatten`.
-    //!
-    //! ### Example
-    //! @snippet example/list/monad.cpp main
-    template <typename T>
-    struct Monad::instance<T, when<is_a<List, T>()>>
-        : Monad::flatten_mcd<T>
-    {
-        template <typename Xss>
-        static constexpr auto flatten_impl(Xss xss)
-        { return foldl(xss, nil<T>, concat); }
-    };
-
-    //! `Traversable` instance for `List` instances.
-    //!
-    //! ### Example
-    //! @snippet example/list/traversable/traverse.cpp main
-    //!
-    //! ### Example
-    //! @snippet example/list/traversable/sequence.cpp main
-    template <typename T>
-    struct Traversable::instance<T, when<is_a<List, T>()>>
-        : Traversable::traverse_mcd
-    {
-        template <typename A, typename F, typename Xs>
-        static constexpr auto traverse_impl(F f, Xs xs) {
-            auto curried_cons = [](auto x) {
-                return [=](auto xs) { return cons(x, xs); };
-            };
-            return foldr(xs, lift<A>(nil<T>), [=](auto x, auto ys) {
-                return ap(fmap(curried_cons, f(x)), ys);
-            });
-        }
-    };
-
-    //! @details
-    //! Two `List`s are equal if and only if they contain the same number
-    //! of elements and their elements at any given index are equal.
-    //!
-    //! ### Example
-    //! @snippet example/list/comparable.cpp main
-    template <typename T, typename U>
-    struct Comparable::instance<T, U, when<
-        is_a<List, T>() && is_a<List, U>()
-    >> : Comparable::equal_mcd
-    {
-        template <typename Xs, typename Ys>
-        static constexpr auto equal_impl(Xs xs, Ys ys) {
-            return eval_if(or_(is_empty(xs), is_empty(ys)),
-                [=](auto _) {
-                    return and_(_(is_empty)(xs), _(is_empty)(ys));
-                },
-                [=](auto _) {
-                    return and_(equal(_(head)(xs), _(head)(ys)),
-                                equal_impl(_(tail)(xs), _(tail)(ys)));
-                }
-            );
-        }
-    };
-
-    //! @details
-    //! A `List` can be searched by doing a linear search in the elements,
-    //! with the keys and values being both the elements in the list.
-    //!
-    //! @todo
-    //! Technically, this can be implemented in `Iterable`. Should it?
-    //!
-    //! ### Example
-    //! @snippet example/list/searchable/find.cpp main
-    template <typename T>
-    struct Searchable::instance<T, when<is_a<List, T>()>>
-        : Searchable::mcd
-    {
-        template <typename Xs, typename Pred>
-        static constexpr auto find_impl(Xs xs, Pred pred) {
-            auto e = drop_until(pred, xs);
-            return eval_if(is_empty(e),
-                [](auto) { return nothing; },
-                [=](auto _) { return just(_(head)(e)); }
-            );
-        }
-
-        template <typename Xs, typename Pred>
-        static constexpr auto any_impl(Xs xs, Pred pred) {
-            return eval_if(is_empty(xs),
-                [](auto _) { return false_; },
-                [=](auto _) {
-                    return eval_if(pred(_(head)(xs)),
-                        [=](auto _) { return true_; },
-                        [=](auto _) { return any_impl(_(tail)(xs), pred); }
-                    );
-                }
-            );
-        }
-    };
-
-    //! Converts a `Foldable` to a `List`.
-    template <typename L, typename T>
-    struct convert<L, T, when<is_a<List, L>() && is_a<Foldable, T>()>> {
-        template <typename Xs>
-        static constexpr auto apply(Xs xs)
-        { return foldr(xs, nil<L>, cons); }
     };
 }} // end namespace boost::hana
 

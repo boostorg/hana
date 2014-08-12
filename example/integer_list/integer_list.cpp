@@ -7,13 +7,17 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/integer_list.hpp>
 #include <boost/hana/integral.hpp>
-#include <boost/hana/list/instance.hpp>
+#include <boost/hana/tuple.hpp>
 using namespace boost::hana;
 
 
 int main() {
     //! [main]
-    BOOST_HANA_CONSTANT_ASSERT(to<List>(integer_list<int, 0, 1, 2>) == list(int_<0>, int_<1>, int_<2>));
+    BOOST_HANA_CONSTANT_ASSERT(
+        to<Tuple>(integer_list<int, 0, 1, 2>)
+        ==
+        tuple(int_<0>, int_<1>, int_<2>)
+    );
     BOOST_HANA_CONSTANT_ASSERT(head(integer_list<int, 0, 1, 2>) == int_<0>);
     //! [main]
 }

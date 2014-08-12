@@ -6,30 +6,30 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/maybe.hpp>
 
-#include <boost/hana/comparable/detail/laws.hpp>
 #include <boost/hana/detail/assert.hpp>
-#include <boost/hana/detail/number/comparable.hpp>
-#include <boost/hana/list/instance.hpp>
+
+#include <test/injection.hpp>
+#include <test/laws/comparable.hpp>
 using namespace boost::hana;
 
 
-constexpr auto x = detail::number<>(0);
-constexpr auto y = detail::number<>(1);
-
 int main() {
+    auto x = test::x<0>;
+    auto y = test::x<1>;
+
     // equal
     {
-        BOOST_HANA_CONSTANT_ASSERT( equal(nothing, nothing));
-        BOOST_HANA_CONSTANT_ASSERT(!equal(nothing, just(x)));
-        BOOST_HANA_CONSTANT_ASSERT(!equal(just(x), nothing));
-        BOOST_HANA_CONSTEXPR_ASSERT( equal(just(x), just(x)));
-        BOOST_HANA_CONSTEXPR_ASSERT(!equal(just(x), just(y)));
+        BOOST_HANA_CONSTANT_ASSERT(equal(nothing, nothing));
+        BOOST_HANA_CONSTANT_ASSERT(not_(equal(nothing, just(x))));
+        BOOST_HANA_CONSTANT_ASSERT(not_(equal(just(x), nothing)));
+        BOOST_HANA_CONSTANT_ASSERT(equal(just(x), just(x)));
+        BOOST_HANA_CONSTANT_ASSERT(not_(equal(just(x), just(y))));
     }
 
     // laws
     {
-        BOOST_HANA_CONSTEXPR_ASSERT(Comparable::laws::check(
-            list(nothing, just(x), just(y))
+        BOOST_HANA_CONSTANT_ASSERT(Comparable_laws(
+            nothing, just(x), just(y)
         ));
     }
 }
