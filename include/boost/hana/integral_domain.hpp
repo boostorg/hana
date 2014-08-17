@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_INTEGRAL_DOMAIN_HPP
 #define BOOST_HANA_INTEGRAL_DOMAIN_HPP
 
+#include <boost/hana/integral_domain/integral_constant_mcd.hpp>
 #include <boost/hana/integral_domain/integral_domain.hpp>
 #include <boost/hana/integral_domain/mcd.hpp>
 #include <boost/hana/integral_domain/operators.hpp>

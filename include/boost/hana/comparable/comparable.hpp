@@ -37,6 +37,8 @@ namespace boost { namespace hana {
         template <typename R>
         struct record_mcd;
         struct product_mcd;
+        template <typename I1, typename I2>
+        struct integral_constant_mcd;
         template <typename T, typename U>
         struct default_instance;
     };

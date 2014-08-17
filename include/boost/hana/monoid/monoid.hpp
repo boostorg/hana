@@ -37,6 +37,8 @@ namespace boost { namespace hana {
     struct Monoid {
         BOOST_HANA_BINARY_TYPECLASS(Monoid);
         struct mcd;
+        template <typename I1, typename I2>
+        struct integral_constant_mcd;
     };
 
     //! Associative operation on a `Monoid`.

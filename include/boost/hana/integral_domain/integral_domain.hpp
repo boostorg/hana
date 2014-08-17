@@ -40,6 +40,8 @@ namespace boost { namespace hana {
     struct IntegralDomain {
         BOOST_HANA_BINARY_TYPECLASS(IntegralDomain);
         struct mcd;
+        template <typename I1, typename I2>
+        struct integral_constant_mcd;
     };
 
     //! Generalized integer remainder.

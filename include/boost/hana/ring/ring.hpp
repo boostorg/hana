@@ -38,6 +38,8 @@ namespace boost { namespace hana {
     struct Ring {
         BOOST_HANA_BINARY_TYPECLASS(Ring);
         struct mcd;
+        template <typename I1, typename I2>
+        struct integral_constant_mcd;
     };
 
     //! Associative operation of a `Ring`.

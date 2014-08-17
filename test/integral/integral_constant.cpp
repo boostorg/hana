@@ -6,12 +6,16 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/integral.hpp>
 
-#include <test/iso/integral_constant/monoid.hpp>
+#include <boost/hana/detail/assert.hpp>
 using namespace boost::hana;
 
 
+using T = int;
+constexpr T x = 3;
+
 int main() {
-    IntegralConstant_monoid<Integral, int, short>();
-    IntegralConstant_monoid<Integral, int, int>();
-    IntegralConstant_monoid<Integral, int, long>();
+    BOOST_HANA_CONSTANT_ASSERT(equal(
+        integral_constant<Integral, T, x>,
+        integral<T, x>
+    ));
 }

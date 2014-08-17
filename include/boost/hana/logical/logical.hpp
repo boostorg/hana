@@ -42,6 +42,8 @@ namespace boost { namespace hana {
     struct Logical {
         BOOST_HANA_TYPECLASS(Logical);
         struct mcd;
+        template <typename I>
+        struct integral_constant_mcd;
     };
 
     //! Conditionally return one of two values based on a condition.

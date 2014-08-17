@@ -41,6 +41,8 @@ namespace boost { namespace hana {
     struct Orderable {
         BOOST_HANA_BINARY_TYPECLASS(Orderable);
         struct less_mcd;
+        template <typename I1, typename I2>
+        struct integral_constant_mcd;
     };
 
     //! Returns a `Logical` representing whether `x` is less than `y`.

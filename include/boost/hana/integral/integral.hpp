@@ -48,7 +48,7 @@ namespace boost { namespace hana {
     //!
     //! ## Instance of
     //! `Comparable`, `Orderable`, `Constant`, `Logical`, `Monoid`, `Group`,
-    //! `Ring` and `IntegralDomain`.
+    //! `Ring`, `IntegralDomain`, and `IntegralConstant`.
     //!
     //! @todo
     //! Implicit conversions to the underlying integral type can be problematic:

@@ -39,6 +39,8 @@ namespace boost { namespace hana {
         struct negate_mcd;
         template <typename G1, typename  G2>
         struct minus_mcd;
+        template <typename I1, typename I2>
+        struct integral_constant_mcd;
     };
 
     //! Subtract two elements of a group.

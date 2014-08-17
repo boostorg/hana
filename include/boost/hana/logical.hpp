@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_LOGICAL_HPP
 #define BOOST_HANA_LOGICAL_HPP
 
+#include <boost/hana/logical/integral_constant_mcd.hpp>
 #include <boost/hana/logical/logical.hpp>
 #include <boost/hana/logical/mcd.hpp>
 #include <boost/hana/logical/operators.hpp>
