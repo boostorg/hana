@@ -29,7 +29,7 @@ constexpr auto Orderable_laws(Orderables ...x) {
             return and_([=](auto c) {
 
                 return and_(
-                    not(less(a, a)),
+                    not_(less(a, a)),
                     less(a, b) ^implies^ not_(less(b, a)),
                     and_(less(a, b), less(b, c)) ^implies^ less(a, c),
 

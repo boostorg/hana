@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_EXT_BOOST_MPL_HPP
 
 #include <boost/hana/ext/boost/mpl/integral_c.hpp>
-#include <boost/hana/ext/boost/mpl/list.hpp>
 #include <boost/hana/ext/boost/mpl/vector.hpp>
 
 #endif // !BOOST_HANA_EXT_BOOST_MPL_HPP
