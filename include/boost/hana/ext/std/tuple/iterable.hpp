@@ -28,8 +28,16 @@ namespace boost { namespace hana {
 
         template <typename ...Xs, std::size_t ...Index>
         static constexpr auto
-        tail_helper(std::tuple<Xs...> tuple, std::index_sequence<Index...>)
-        { return std::make_tuple(std::get<Index + 1>(tuple)...); }
+        tail_helper(std::tuple<Xs...> tuple, std::index_sequence<Index...>) {
+            //! @todo
+            //! Use `std::make_tuple` when this bug is fixed:
+            //! http://llvm.org/bugs/show_bug.cgi?id=19793
+            using T = std::tuple<
+                std::tuple_element_t<Index + 1, std::tuple<Xs...>>...
+            >;
+            T tmp{std::get<Index + 1>(tuple)...};
+            return tmp;
+        }
 
         template <typename ...Xs>
         static constexpr auto tail_impl(std::tuple<Xs...> tuple)

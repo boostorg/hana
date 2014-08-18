@@ -24,8 +24,13 @@ namespace boost { namespace hana {
         { return std::tuple<>{}; }
 
         template <typename X, typename Xs>
-        static constexpr auto cons_impl(X x, Xs xs)
-        { return std::tuple_cat(std::make_tuple(x), xs); }
+        static constexpr auto cons_impl(X x, Xs xs) {
+            //! @todo
+            //! Remove the temporary variable when this is fixed:
+            //! http://llvm.org/bugs/show_bug.cgi?id=19616
+            auto unit = std::make_tuple(x);
+            return std::tuple_cat(unit, xs);
+        }
     };
 }} // end namespace boost::hana
 
