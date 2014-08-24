@@ -8,7 +8,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/wrap.hpp>
 #include <boost/hana/tuple.hpp>
 namespace hana = boost::hana;
-using hana::Foreign;
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -129,14 +128,14 @@ auto any = [](auto x) {
 
 
 int main() {
-    auto f = function<Foreign<int>, Foreign<int>>([](auto x) { return x + 1; });
-    auto xs = list<Foreign<int>>(1, 2, 3, 4);
+    auto f = function<int, int>([](auto x) { return x + 1; });
+    auto xs = list<int>(1, 2, 3, 4);
     fmap(f, xs);
 
     lift<List>(2);
-    ap(list<Function<Foreign<int>, Foreign<int>>>(f, f), list<Foreign<int>>(1, 2));
+    ap(list<Function<int, int>>(f, f), list<int>(1, 2));
 
-    auto g = function<Any, Foreign<int>>([](auto x) {
+    auto g = function<Any, int>([](auto x) {
         // We can't do anything with an Any, so there's not much choice here.
         return 1;
     });

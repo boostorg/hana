@@ -15,7 +15,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/is_integral.hpp>
-#include <boost/hana/foreign/foreign.hpp>
 #include <boost/hana/integral_constant/integral_constant.hpp>
 #include <boost/hana/ring/mcd.hpp>
 
@@ -35,7 +34,7 @@ namespace boost { namespace hana {
     };
 
     template <typename I, typename T>
-    struct Ring::instance<I, Foreign<T>, when<
+    struct Ring::instance<I, T, when<
         is_an<IntegralConstant, I>() &&
         detail::std::is_integral<T>{}
     >>
@@ -47,7 +46,7 @@ namespace boost { namespace hana {
     };
 
     template <typename T, typename I>
-    struct Ring::instance<Foreign<T>, I, when<
+    struct Ring::instance<T, I, when<
         detail::std::is_integral<T>{} &&
         is_an<IntegralConstant, I>()
     >>

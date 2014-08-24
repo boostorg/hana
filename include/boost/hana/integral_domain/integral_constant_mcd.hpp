@@ -14,7 +14,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/is_integral.hpp>
-#include <boost/hana/foreign/foreign.hpp>
 #include <boost/hana/integral_constant/integral_constant.hpp>
 #include <boost/hana/integral_domain/mcd.hpp>
 
@@ -37,7 +36,7 @@ namespace boost { namespace hana {
     };
 
     template <typename I, typename T>
-    struct IntegralDomain::instance<I, Foreign<T>, when<
+    struct IntegralDomain::instance<I, T, when<
         is_an<IntegralConstant, I>() &&
         detail::std::is_integral<T>{}
     >>
@@ -53,7 +52,7 @@ namespace boost { namespace hana {
     };
 
     template <typename T, typename I>
-    struct IntegralDomain::instance<Foreign<T>, I, when<
+    struct IntegralDomain::instance<T, I, when<
         detail::std::is_integral<T>{} &&
         is_an<IntegralConstant, I>()
     >>

@@ -1,6 +1,6 @@
 /*!
 @file
-Defines the `boost::hana::Foreign` data type.
+Defines type class instances for foreign data types.
 
 @copyright Louis Dionne 2014
 Distributed under the Boost Software License, Version 1.0.
@@ -9,8 +9,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #ifndef BOOST_HANA_FOREIGN_HPP
 #define BOOST_HANA_FOREIGN_HPP
-
-#include <boost/hana/foreign/foreign.hpp>
 
 // Instances
 #include <boost/hana/foreign/comparable.hpp>

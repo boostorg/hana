@@ -1,6 +1,6 @@
 /*!
 @file
-Defines the instance of `boost::hana::IntegralDomain` for `boost::hana::Foreign`.
+Defines the instance of `boost::hana::IntegralDomain` for foreign types.
 
 @copyright Louis Dionne 2014
 Distributed under the Boost Software License, Version 1.0.
@@ -12,7 +12,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/foreign/foreign.hpp>
 #include <boost/hana/integral_domain/mcd.hpp>
 
 // Mcd
@@ -20,14 +19,14 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! Instance of `IntegralDomain` for `Foreign` objects with numeric types.
+    //! Instance of `IntegralDomain` for objects of foreign numeric types.
     //!
-    //! Any two `Foreign` objects that are `Rings`s, that can be divided
+    //! Any two foreign objects that are `Rings`s, that can be divided
     //! and moded with the usual operators (`/` and `%`) naturally form
     //! an integral domain with those operations.
     template <typename T, typename U>
-    struct IntegralDomain::instance<Foreign<T>, Foreign<U>, when<
-        are<Ring, Foreign<T>, Foreign<U>>() &&
+    struct IntegralDomain::instance<T, U, when<
+        are<Ring, T, U>() &&
         is_valid<decltype((void)(
             *(T*)1 % *(U*)1,
             *(T*)1 / *(U*)1

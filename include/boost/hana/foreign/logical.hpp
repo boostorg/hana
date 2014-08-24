@@ -1,6 +1,6 @@
 /*!
 @file
-Defines the instance of `boost::hana::Logical` for `boost::hana::Foreign`.
+Defines the instance of `boost::hana::Logical` for foreign types.
 
 @copyright Louis Dionne 2014
 Distributed under the Boost Software License, Version 1.0.
@@ -11,19 +11,18 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FOREIGN_LOGICAL_HPP
 
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/foreign/foreign.hpp>
 #include <boost/hana/logical/mcd.hpp>
 
 
 namespace boost { namespace hana {
-    //! Instance of `Logical` for `Foreign` objects that can be implicitly
-    //! converted to `bool`.
+    //! Instance of `Logical` for objects of foreign types that can be
+    //! implicitly converted to `bool`.
     //!
-    //! Any `Foreign` object that can be converted to `bool` implicitly is an
+    //! Any foreign object that can be converted to `bool` implicitly is an
     //! instance of `Logical` by converting that object to `bool` and then
     //! using the obvious instance for `bool`.
     template <typename T>
-    struct Logical::instance<Foreign<T>,
+    struct Logical::instance<T,
         when<is_valid<decltype(*(T*)0 ? (void)0 : (void)0)>>
     >
         : Logical::mcd

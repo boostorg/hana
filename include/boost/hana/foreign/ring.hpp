@@ -1,6 +1,6 @@
 /*!
 @file
-Defines the instance of `boost::hana::Ring` for `boost::hana::Foreign`.
+Defines the instance of `boost::hana::Ring` for foreign types.
 
 @copyright Louis Dionne 2014
 Distributed under the Boost Software License, Version 1.0.
@@ -12,7 +12,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/foreign/foreign.hpp>
 #include <boost/hana/ring/mcd.hpp>
 
 // Mcd
@@ -20,15 +19,15 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! Instance of `Ring` for `Foreign` objects with numeric types.
+    //! Instance of `Ring` for foreign objects with numeric types.
     //!
-    //! Any two `Foreign` objects that are `Group`s, that can be multiplied
+    //! Any two foreign objects that are `Group`s, that can be multiplied
     //! with the usual `operator*` and for which a valid conversion from `int`
     //! exists (for both) naturally form a multiplicative `Ring`, with `1`
     //! being the identity and the usual `operator*` being the ring operation.
     template <typename T, typename U>
-    struct Ring::instance<Foreign<T>, Foreign<U>, when<
-        are<Group, Foreign<T>, Foreign<U>>() &&
+    struct Ring::instance<T, U, when<
+        are<Group, T, U>() &&
         is_valid<decltype((void)(
             static_cast<T>(1),
             static_cast<U>(1),

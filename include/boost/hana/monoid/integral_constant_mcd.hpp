@@ -15,7 +15,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/is_integral.hpp>
-#include <boost/hana/foreign/foreign.hpp>
 #include <boost/hana/integral_constant/integral_constant.hpp>
 #include <boost/hana/monoid/mcd.hpp>
 
@@ -35,7 +34,7 @@ namespace boost { namespace hana {
     };
 
     template <typename I, typename T>
-    struct Monoid::instance<I, Foreign<T>, when<
+    struct Monoid::instance<I, T, when<
         is_an<IntegralConstant, I>() &&
         detail::std::is_integral<T>{}
     >>
@@ -47,7 +46,7 @@ namespace boost { namespace hana {
     };
 
     template <typename T, typename I>
-    struct Monoid::instance<Foreign<T>, I, when<
+    struct Monoid::instance<T, I, when<
         detail::std::is_integral<T>{} &&
         is_an<IntegralConstant, I>()
     >>

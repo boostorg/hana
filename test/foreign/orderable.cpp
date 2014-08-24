@@ -23,13 +23,13 @@ int main() {
         BOOST_HANA_CONSTEXPR_ASSERT(less(integer{0}, integer{1}));
         BOOST_HANA_CONSTEXPR_ASSERT(not_(less(integer{0}, integer{0})));
         BOOST_HANA_CONSTEXPR_ASSERT(not_(less(integer{1}, integer{0})));
-        BOOST_HANA_CONSTANT_ASSERT(are<Orderable, Foreign<integer>, Foreign<integer>>);
+        BOOST_HANA_CONSTANT_ASSERT(are<Orderable, integer, integer>);
 
         // mixed types
         BOOST_HANA_CONSTEXPR_ASSERT(less(integer{0}, integer2{1}));
         BOOST_HANA_CONSTEXPR_ASSERT(not_(less(integer{0}, integer2{0})));
         BOOST_HANA_CONSTEXPR_ASSERT(not_(less(integer{1}, integer2{0})));
-        BOOST_HANA_CONSTANT_ASSERT(are<Orderable, Foreign<integer>, Foreign<integer2>>);
+        BOOST_HANA_CONSTANT_ASSERT(are<Orderable, integer, integer2>);
     }
 
     // laws

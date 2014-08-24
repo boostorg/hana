@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_CORE_DATATYPE_HPP
 
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/foreign/foreign.hpp>
 
 
 namespace boost { namespace hana {
@@ -20,7 +19,7 @@ namespace boost { namespace hana {
 
     namespace core_detail {
         template <typename T, typename Enable = void>
-        struct default_datatype { using type = Foreign<T>; };
+        struct default_datatype { using type = T; };
 
         template <typename T>
         struct default_datatype<T, decltype((void)(typename T::hana_datatype*)0)> {
@@ -37,8 +36,8 @@ namespace boost { namespace hana {
     //! @code
     //!     U::hana_datatype
     //! @endcode
-    //! if that expression is valid, and `Foreign<U>` otherwise. It can also
-    //! be specialized to customize the data type of `U` without requiring `U`
+    //! if that expression is valid, and `U` otherwise. It can also be
+    //! specialized to customize the data type of `U` without requiring `U`
     //! to have a nested `hana_datatype` type. Finally, it is also possible
     //! to use `when` to enable the a `datatype` specialization only when some
     //! boolean condition is true or when some expression is well-formed with

@@ -38,7 +38,7 @@ int main() {
 
     // laws
     {
-        BOOST_HANA_CONSTEXPR_ASSERT(IntegralDomain_laws<Foreign<integer>>(
+        BOOST_HANA_CONSTEXPR_ASSERT(IntegralDomain_laws<integer>(
             integer{0}, integer{1}, integer{2},
             integer2{0}, integer2{1}, integer2{2}
         ));

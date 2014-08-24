@@ -1,6 +1,6 @@
 /*!
 @file
-Defines the instance of `boost::hana::Monoid` for `boost::hana::Foreign`.
+Defines the instance of `boost::hana::Monoid` for foreign types.
 
 @copyright Louis Dionne 2014
 Distributed under the Boost Software License, Version 1.0.
@@ -11,19 +11,18 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FOREIGN_MONOID_HPP
 
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/foreign/foreign.hpp>
 #include <boost/hana/monoid/mcd.hpp>
 
 
 namespace boost { namespace hana {
-    //! Instance of `Monoid` for `Foreign` objects with numeric types.
+    //! Instance of `Monoid` for foreign objects with numeric types.
     //!
-    //! Any two `Foreign` objects that can be added with the usual `operator+`
+    //! Any two foreign objects that can be added with the usual `operator+`
     //! and for which a valid conversion from `int` exists (for both)
     //! naturally form an additive `Monoid`, with `0` being the identity
     //! and the usual `operator+` being the associative operation.
     template <typename T, typename U>
-    struct Monoid::instance<Foreign<T>, Foreign<U>, when<is_valid<decltype((void)(
+    struct Monoid::instance<T, U, when<is_valid<decltype((void)(
         static_cast<T>(0),
         static_cast<U>(0),
         *(T*)0 + *(U*)0

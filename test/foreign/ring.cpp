@@ -20,7 +20,7 @@ int main() {
 
     // one
     {
-        BOOST_HANA_CONSTEXPR_ASSERT(one<Foreign<integer>>.value == 1);
+        BOOST_HANA_CONSTEXPR_ASSERT(one<integer>.value == 1);
     }
 
     // mult
@@ -35,7 +35,7 @@ int main() {
 
     // laws
     {
-        BOOST_HANA_CONSTEXPR_ASSERT(Ring_laws<Foreign<integer>>(
+        BOOST_HANA_CONSTEXPR_ASSERT(Ring_laws<integer>(
             integer{0}, integer{1}, integer{2},
             integer2{0}, integer2{1}, integer2{2}
         ));

@@ -1,6 +1,6 @@
 /*!
 @file
-Defines the instance of `boost::hana::Group` for `boost::hana::Foreign`.
+Defines the instance of `boost::hana::Group` for foreign types.
 
 @copyright Louis Dionne 2014
 Distributed under the Boost Software License, Version 1.0.
@@ -12,7 +12,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/foreign/foreign.hpp>
 #include <boost/hana/group/minus_mcd.hpp>
 
 // Mcd
@@ -20,17 +19,17 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! Instance of `Group` for `Foreign` objects with numeric types.
+    //! Instance of `Group` for objects of foreign numeric types.
     //!
-    //! Any two `Foreign` objects forming a `Monoid` and that can be
+    //! Any two foreign objects forming a `Monoid` and that can be
     //! subtracted with the usual `operator-` naturally form an additive
     //! group, with the group subtraction being that usual `operator-`.
     template <typename T, typename U>
-    struct Group::instance<Foreign<T>, Foreign<U>, when<
-        are<Monoid, Foreign<T>, Foreign<U>>() &&
+    struct Group::instance<T, U, when<
+        are<Monoid, T, U>() &&
         is_valid<decltype((void)(*(T*)0 - *(U*)0))>
     >>
-        : Group::minus_mcd<Foreign<T>, Foreign<U>>
+        : Group::minus_mcd<T, U>
     {
         template <typename X, typename Y>
         static constexpr auto minus_impl(X x, Y y)

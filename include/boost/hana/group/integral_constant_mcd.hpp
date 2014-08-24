@@ -14,7 +14,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/is_integral.hpp>
-#include <boost/hana/foreign/foreign.hpp>
 #include <boost/hana/group/minus_mcd.hpp>
 #include <boost/hana/integral_constant/integral_constant.hpp>
 
@@ -31,11 +30,11 @@ namespace boost { namespace hana {
     };
 
     template <typename I, typename T>
-    struct Group::instance<I, Foreign<T>, when<
+    struct Group::instance<I, T, when<
         is_an<IntegralConstant, I>() &&
         detail::std::is_integral<T>{}
     >>
-        : Group::minus_mcd<I, Foreign<T>>
+        : Group::minus_mcd<I, T>
     {
         template <typename X, typename Y>
         static constexpr auto minus_impl(X x, Y y)
@@ -43,11 +42,11 @@ namespace boost { namespace hana {
     };
 
     template <typename T, typename I>
-    struct Group::instance<Foreign<T>, I, when<
+    struct Group::instance<T, I, when<
         detail::std::is_integral<T>{} &&
         is_an<IntegralConstant, I>()
     >>
-        : Group::minus_mcd<Foreign<T>, I>
+        : Group::minus_mcd<T, I>
     {
         template <typename X, typename Y>
         static constexpr auto minus_impl(X x, Y y)

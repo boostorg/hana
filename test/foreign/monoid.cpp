@@ -20,7 +20,7 @@ int main() {
 
     // zero
     {
-        BOOST_HANA_CONSTEXPR_ASSERT(zero<Foreign<integer>>.value == 0);
+        BOOST_HANA_CONSTEXPR_ASSERT(zero<integer>.value == 0);
     }
 
     // plus
@@ -35,7 +35,7 @@ int main() {
 
     // laws
     {
-        BOOST_HANA_CONSTEXPR_ASSERT(Monoid_laws<Foreign<integer>>(
+        BOOST_HANA_CONSTEXPR_ASSERT(Monoid_laws<integer>(
             integer{0}, integer{1}, integer{2},
             integer2{0}, integer2{1}, integer2{2}
         ));

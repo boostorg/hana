@@ -6,8 +6,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/datatype.hpp>
 
-#include <boost/hana/foreign/foreign.hpp>
-
 #include <type_traits>
 using namespace boost::hana;
 
@@ -36,7 +34,7 @@ template struct test<Nested, NestedDatatype>;
 
 
 struct NoNested { };
-template struct test<NoNested, Foreign<NoNested>>;
+template struct test<NoNested, NoNested>;
 
 
 struct FullySpecializedDatatype;
