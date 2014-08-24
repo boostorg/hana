@@ -103,6 +103,7 @@ int main() {
 
     // operators
     {
+        using namespace boost::hana::operators;
         BOOST_HANA_CONSTEXPR_ASSERT(equal(
             ord(0) < ord(1),
             less(ord(0), ord(1))

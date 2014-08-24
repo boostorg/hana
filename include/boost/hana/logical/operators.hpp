@@ -18,47 +18,41 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/forward.hpp>
 
 
-namespace boost { namespace hana {
-    namespace operators {
-        //! Equivalent to `and_`.
-        //! @relates boost::hana::Logical
-        template <typename X, typename Y, typename = detail::std::enable_if_t<
-            enable_operators<Logical, datatype_t<X>>::value ||
-            enable_operators<Logical, datatype_t<Y>>::value
-        >>
-        constexpr decltype(auto) operator&&(X&& x, Y&& y) {
-            return and_(
-                detail::std::forward<X>(x),
-                detail::std::forward<Y>(y)
-            );
-        }
-
-        //! Equivalent to `or_`.
-        //! @relates boost::hana::Logical
-        template <typename X, typename Y, typename = detail::std::enable_if_t<
-            enable_operators<Logical, datatype_t<X>>::value ||
-            enable_operators<Logical, datatype_t<Y>>::value
-        >>
-        constexpr decltype(auto) operator||(X&& x, Y&& y) {
-            return or_(
-                detail::std::forward<X>(x),
-                detail::std::forward<Y>(y)
-            );
-        }
-
-        //! Equivalent to `not_`.
-        //! @relates boost::hana::Logical
-        template <typename X, typename = detail::std::enable_if_t<
-            enable_operators<Logical, datatype_t<X>>::value
-        >>
-        constexpr decltype(auto) operator!(X&& x) {
-            return not_(detail::std::forward<X>(x));
-        }
+namespace boost { namespace hana { namespace operators {
+    //! Equivalent to `and_`.
+    //! @relates boost::hana::Logical
+    template <typename X, typename Y, typename = detail::std::enable_if_t<
+        enable_operators<Logical, datatype_t<X>>::value ||
+        enable_operators<Logical, datatype_t<Y>>::value
+    >>
+    constexpr decltype(auto) operator&&(X&& x, Y&& y) {
+        return and_(
+            detail::std::forward<X>(x),
+            detail::std::forward<Y>(y)
+        );
     }
 
-    using operators::operator!;
-    using operators::operator&&;
-    using operators::operator||;
-}} // end namespace boost::hana
+    //! Equivalent to `or_`.
+    //! @relates boost::hana::Logical
+    template <typename X, typename Y, typename = detail::std::enable_if_t<
+        enable_operators<Logical, datatype_t<X>>::value ||
+        enable_operators<Logical, datatype_t<Y>>::value
+    >>
+    constexpr decltype(auto) operator||(X&& x, Y&& y) {
+        return or_(
+            detail::std::forward<X>(x),
+            detail::std::forward<Y>(y)
+        );
+    }
+
+    //! Equivalent to `not_`.
+    //! @relates boost::hana::Logical
+    template <typename X, typename = detail::std::enable_if_t<
+        enable_operators<Logical, datatype_t<X>>::value
+    >>
+    constexpr decltype(auto) operator!(X&& x) {
+        return not_(detail::std::forward<X>(x));
+    }
+}}} // end namespace boost::hana::operators
 
 #endif // !BOOST_HANA_LOGICAL_OPERATORS_HPP

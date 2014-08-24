@@ -49,6 +49,7 @@ int main() {
 
     // operators
     {
+        using namespace boost::hana::operators;
         BOOST_HANA_CONSTEXPR_ASSERT(equal(
             test::numeric(x) % test::numeric(y),
             mod(test::numeric(x), test::numeric(y))

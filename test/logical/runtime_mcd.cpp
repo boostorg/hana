@@ -156,6 +156,7 @@ int main() {
 
     // operators
     {
+        using namespace boost::hana::operators;
         BOOST_HANA_CONSTEXPR_ASSERT(equal(
             !logical(true),
             not_(logical(true))

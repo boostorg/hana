@@ -57,6 +57,7 @@ int main() {
 
     // operators
     {
+        using namespace boost::hana::operators;
         BOOST_HANA_CONSTEXPR_LAMBDA auto f = compose(monad, test::injection([]{}));
         BOOST_HANA_CONSTEXPR_LAMBDA auto g = compose(monad, test::injection([]{}));
 

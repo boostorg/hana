@@ -18,29 +18,25 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/forward.hpp>
 
 
-namespace boost { namespace hana {
-    namespace operators {
-        //! Equivalent to `minus`.
-        //! @relates boost::hana::Group
-        template <typename X, typename Y, typename = detail::std::enable_if_t<
-            enable_operators<Group, datatype_t<X>>::value ||
-            enable_operators<Group, datatype_t<Y>>::value
-        >>
-        constexpr decltype(auto) operator-(X&& x, Y&& y) {
-            return minus(detail::std::forward<X>(x),
-                         detail::std::forward<Y>(y));
-        }
-
-        //! Equivalent to `negate`.
-        //! @relates boost::hana::Group
-        template <typename X, typename = detail::std::enable_if_t<
-            enable_operators<Group, datatype_t<X>>::value
-        >>
-        constexpr decltype(auto) operator-(X&& x)
-        { return negate(detail::std::forward<X>(x)); }
+namespace boost { namespace hana { namespace operators {
+    //! Equivalent to `minus`.
+    //! @relates boost::hana::Group
+    template <typename X, typename Y, typename = detail::std::enable_if_t<
+        enable_operators<Group, datatype_t<X>>::value ||
+        enable_operators<Group, datatype_t<Y>>::value
+    >>
+    constexpr decltype(auto) operator-(X&& x, Y&& y) {
+        return minus(detail::std::forward<X>(x),
+                     detail::std::forward<Y>(y));
     }
 
-    using operators::operator-;
-}} // end namespace boost::hana
+    //! Equivalent to `negate`.
+    //! @relates boost::hana::Group
+    template <typename X, typename = detail::std::enable_if_t<
+        enable_operators<Group, datatype_t<X>>::value
+    >>
+    constexpr decltype(auto) operator-(X&& x)
+    { return negate(detail::std::forward<X>(x)); }
+}}} // end namespace boost::hana::operators
 
 #endif // !BOOST_HANA_GROUP_OPERATORS_HPP

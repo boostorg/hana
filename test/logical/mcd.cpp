@@ -142,6 +142,7 @@ int main() {
 
     // operators
     {
+        using namespace boost::hana::operators;
         BOOST_HANA_CONSTANT_ASSERT(equal(
             !true_,
             not_(true_)

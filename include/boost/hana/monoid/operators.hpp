@@ -18,23 +18,19 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/forward.hpp>
 
 
-namespace boost { namespace hana {
-    namespace operators {
-        //! Equivalent to `plus`.
-        //! @relates boost::hana::Monoid
-        template <typename X, typename Y, typename = detail::std::enable_if_t<
-            enable_operators<Monoid, datatype_t<X>>::value ||
-            enable_operators<Monoid, datatype_t<Y>>::value
-        >>
-        constexpr decltype(auto) operator+(X&& x, Y&& y) {
-            return plus(
-                detail::std::forward<decltype(x)>(x),
-                detail::std::forward<decltype(y)>(y)
-            );
-        }
+namespace boost { namespace hana { namespace operators {
+    //! Equivalent to `plus`.
+    //! @relates boost::hana::Monoid
+    template <typename X, typename Y, typename = detail::std::enable_if_t<
+        enable_operators<Monoid, datatype_t<X>>::value ||
+        enable_operators<Monoid, datatype_t<Y>>::value
+    >>
+    constexpr decltype(auto) operator+(X&& x, Y&& y) {
+        return plus(
+            detail::std::forward<decltype(x)>(x),
+            detail::std::forward<decltype(y)>(y)
+        );
     }
-
-    using operators::operator+;
-}} // end namespace boost::hana
+}}} // end namespace boost::hana::operators
 
 #endif // !BOOST_HANA_MONOID_OPERATORS_HPP

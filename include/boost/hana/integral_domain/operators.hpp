@@ -18,29 +18,24 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/forward.hpp>
 
 
-namespace boost { namespace hana {
-    namespace operators {
-        //! Equivalent to `mod`.
-        //! @relates boost::hana::IntegralDomain
-        template <typename X, typename Y, typename = detail::std::enable_if_t<
-            enable_operators<IntegralDomain, datatype_t<X>>::value ||
-            enable_operators<IntegralDomain, datatype_t<Y>>::value
-        >>
-        constexpr decltype(auto) operator%(X&& x, Y&& y)
-        { return mod(detail::std::forward<X>(x), detail::std::forward<Y>(y)); }
+namespace boost { namespace hana { namespace operators {
+    //! Equivalent to `mod`.
+    //! @relates boost::hana::IntegralDomain
+    template <typename X, typename Y, typename = detail::std::enable_if_t<
+        enable_operators<IntegralDomain, datatype_t<X>>::value ||
+        enable_operators<IntegralDomain, datatype_t<Y>>::value
+    >>
+    constexpr decltype(auto) operator%(X&& x, Y&& y)
+    { return mod(detail::std::forward<X>(x), detail::std::forward<Y>(y)); }
 
-        //! Equivalent to `quot`.
-        //! @relates boost::hana::IntegralDomain
-        template <typename X, typename Y, typename = detail::std::enable_if_t<
-            enable_operators<IntegralDomain, datatype_t<X>>::value ||
-            enable_operators<IntegralDomain, datatype_t<Y>>::value
-        >>
-        constexpr decltype(auto) operator/(X&& x, Y&& y)
-        { return quot(detail::std::forward<X>(x), detail::std::forward<Y>(y)); }
-    }
-
-    using operators::operator/;
-    using operators::operator%;
-}} // end namespace boost::hana
+    //! Equivalent to `quot`.
+    //! @relates boost::hana::IntegralDomain
+    template <typename X, typename Y, typename = detail::std::enable_if_t<
+        enable_operators<IntegralDomain, datatype_t<X>>::value ||
+        enable_operators<IntegralDomain, datatype_t<Y>>::value
+    >>
+    constexpr decltype(auto) operator/(X&& x, Y&& y)
+    { return quot(detail::std::forward<X>(x), detail::std::forward<Y>(y)); }
+}}} // end namespace boost::hana::operators
 
 #endif // !BOOST_HANA_INTEGRAL_DOMAIN_OPERATORS_HPP

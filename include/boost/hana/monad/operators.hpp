@@ -18,26 +18,22 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/forward.hpp>
 
 
-namespace boost { namespace hana {
-    namespace operators {
-        //! Equivalent to `bind`.
-        //! @relates boost::hana::Monad
-        //!
-        //! @note
-        //! This was preferred over `>>=` because `>>=` is right associative
-        //! in C++, which makes it impossible to chain computations.
-        template <typename M, typename F, typename = detail::std::enable_if_t<
-            enable_operators<Monad, datatype_t<M>>::value
-        >>
-        constexpr decltype(auto) operator|(M&& m, F&& f) {
-            return bind(
-                detail::std::forward<decltype(m)>(m),
-                detail::std::forward<decltype(f)>(f)
-            );
-        }
+namespace boost { namespace hana { namespace operators {
+    //! Equivalent to `bind`.
+    //! @relates boost::hana::Monad
+    //!
+    //! @note
+    //! This was preferred over `>>=` because `>>=` is right associative
+    //! in C++, which makes it impossible to chain computations.
+    template <typename M, typename F, typename = detail::std::enable_if_t<
+        enable_operators<Monad, datatype_t<M>>::value
+    >>
+    constexpr decltype(auto) operator|(M&& m, F&& f) {
+        return bind(
+            detail::std::forward<decltype(m)>(m),
+            detail::std::forward<decltype(f)>(f)
+        );
     }
-
-    using operators::operator|;
-}} // end namespace boost::hana
+}}} // end namespace boost::hana::operators
 
 #endif // !BOOST_HANA_MONAD_OPERATORS_HPP
