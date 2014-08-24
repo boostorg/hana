@@ -159,6 +159,54 @@ void List_methods() {
         ));
     }
 
+    // slice
+    {
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            slice(list(), int_<0>, int_<0>),
+            list()
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            slice(list(undefined), int_<0>, int_<0>),
+            list()
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            slice(list(undefined, undefined), int_<0>, int_<0>),
+            list()
+        ));
+
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            slice(list(x<0>), int_<0>, int_<1>),
+            list(x<0>)
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            slice(list(x<0>, undefined), int_<0>, int_<1>),
+            list(x<0>)
+        ));
+
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            slice(list(undefined, x<1>), int_<1>, int_<2>),
+            list(x<1>)
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            slice(list(undefined, x<1>, undefined), int_<1>, int_<2>),
+            list(x<1>)
+        ));
+
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            slice(list(x<0>, x<1>), int_<0>, int_<2>),
+            list(x<0>, x<1>)
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            slice(list(x<0>, x<1>, undefined), int_<0>, int_<2>),
+            list(x<0>, x<1>)
+        ));
+
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            slice(list(undefined, x<1>, x<2>), int_<1>, int_<3>),
+            list(x<1>, x<2>)
+        ));
+    }
+
     // snoc
     {
         BOOST_HANA_CONSTANT_ASSERT(equal(

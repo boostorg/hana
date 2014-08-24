@@ -175,6 +175,11 @@ namespace boost { namespace hana {
             );
         }
 
+        template <typename Xs, typename From, typename To>
+        static constexpr auto slice_impl(Xs xs, From from, To to) {
+            return take(minus(to, from), drop(from, xs));
+        }
+
         template <typename Xs, typename X>
         static constexpr auto snoc_impl(Xs xs, X x) {
             return foldr(xs, lift<T>(x), cons);

@@ -426,6 +426,43 @@ namespace boost { namespace hana {
         );
     };
 
+    //! Extract a sublist delimited by the given indices.
+    //! @relates List
+    //!
+    //! Specifically, `slice(xs, from, to)` is a list containing all the
+    //! elements of `xs` at indices in the half-open interval delimited by
+    //! [`from`, `to`). Note that the indices are 0-based. For this operation
+    //! to be valid, `xs` must contain at least `to + 1` elements, and it must
+    //! be true that `from <= to`.
+    //!
+    //!
+    //! @param xs
+    //! The list to slice.
+    //!
+    //! @param from
+    //! The index of the first element in the slice. `from` must be a
+    //! non-negative `IntegralConstant`.
+    //!
+    //! @param to
+    //! One-past the index of the last element in the slice. `to` must be
+    //! a non-negative `IntegralConstant` such that `from <= to`.
+    //!
+    //!
+    //! ### Example
+    //! @snippet example/list/slice.cpp main
+    //!
+    //! @todo
+    //! Should this be `slice(xs, from, length)` instead?
+    BOOST_HANA_CONSTEXPR_LAMBDA auto slice = [](auto&& xs, auto&& from, auto&& to) -> decltype(auto) {
+        return List::instance<
+            datatype_t<decltype(xs)>
+        >::slice_impl(
+            detail::std::forward<decltype(xs)>(xs),
+            detail::std::forward<decltype(from)>(from),
+            detail::std::forward<decltype(to)>(to)
+        );
+    };
+
     //! Append an element to the end of a list.
     //! @relates List
     //!
