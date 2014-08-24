@@ -20,6 +20,6 @@ int main() {
     // Would be `boost::fusion::make_fused(add)` in Boost.Fusion.
     BOOST_HANA_CONSTEXPR_LAMBDA auto add_seq = partial(flip(unpack), add);
 
-    BOOST_HANA_CONSTEXPR_ASSERT(add_seq(list(1, 2)) == add(1, 2));
+    BOOST_HANA_CONSTEXPR_ASSERT(add_seq(tuple(1, 2)) == add(1, 2));
     //! [main]
 }

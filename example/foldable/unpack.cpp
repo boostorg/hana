@@ -24,7 +24,7 @@ int main() {
     char b = '\0';
     double c = 0;
 
-    cheap_tie(a, b, c)(list(1, '2', 3.3));
+    cheap_tie(a, b, c)(tuple(1, '2', 3.3));
     assert(a == 1 && b == '2' && c == 3.3);
     //! [main]
 }

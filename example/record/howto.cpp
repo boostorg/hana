@@ -6,11 +6,16 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/foreign.hpp>
 #include <boost/hana/map.hpp>
 #include <boost/hana/pair.hpp>
-#include <boost/hana/record/mcd.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
+
+#include <boost/hana/record/mcd.hpp>
+#include <boost/hana/comparable/record_mcd.hpp>
+#include <boost/hana/foldable/record_mcd.hpp>
+#include <boost/hana/searchable/record_mcd.hpp>
 
 #include <string>
 using namespace boost::hana;

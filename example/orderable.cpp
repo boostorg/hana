@@ -6,6 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/foreign.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
@@ -46,13 +47,13 @@ int main() {
     //! [min]
 
     //! [ordering]
-    BOOST_HANA_CONSTEXPR_LAMBDA auto sorted = sort_by(ordering(sizeof_), list(
+    BOOST_HANA_CONSTEXPR_LAMBDA auto sorted = sort_by(ordering(sizeof_), tuple(
         type<char[3]>,
         type<char[1]>,
         type<char[2]>,
         type<char[15]>
     ));
-    BOOST_HANA_CONSTANT_ASSERT(sorted == list(
+    BOOST_HANA_CONSTANT_ASSERT(sorted == tuple(
         type<char[1]>,
         type<char[2]>,
         type<char[3]>,

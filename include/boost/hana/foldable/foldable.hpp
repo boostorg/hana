@@ -74,7 +74,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/foldable/foldl.cpp main
+    //! @snippet example/foldable.cpp foldl
     BOOST_HANA_CONSTEXPR_LAMBDA auto foldl = [](auto&& foldable, auto&& state, auto&& f) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
@@ -101,7 +101,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/foldable/foldr.cpp main
+    //! @snippet example/foldable.cpp foldr
     BOOST_HANA_CONSTEXPR_LAMBDA auto foldr = [](auto&& foldable, auto&& state, auto&& f) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
@@ -126,7 +126,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/foldable/foldr1.cpp main
+    //! @snippet example/foldable.cpp foldr1
     BOOST_HANA_CONSTEXPR_LAMBDA auto foldr1 = [](auto&& foldable, auto&& f) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
@@ -150,7 +150,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/foldable/foldl1.cpp main
+    //! @snippet example/foldable.cpp foldl1
     BOOST_HANA_CONSTEXPR_LAMBDA auto foldl1 = [](auto&& foldable, auto&& f) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
@@ -164,7 +164,7 @@ namespace boost { namespace hana {
     //! @relates Foldable
     //!
     //! ### Example
-    //! @snippet example/foldable/length.cpp main
+    //! @snippet example/foldable.cpp length
     BOOST_HANA_CONSTEXPR_LAMBDA auto length = [](auto&& foldable) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>

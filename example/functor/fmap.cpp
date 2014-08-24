@@ -5,8 +5,9 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/detail/assert.hpp>
-#include <boost/hana/tuple.hpp>
+#include <boost/hana/foreign.hpp>
 #include <boost/hana/maybe.hpp>
+#include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
 #include <boost/hana/type_list.hpp>
 
@@ -23,9 +24,9 @@ int main() {
     };
 
     BOOST_HANA_RUNTIME_ASSERT(
-        fmap(to_string, list(1, '2', "345", std::string{"67"}))
+        fmap(to_string, tuple(1, '2', "345", std::string{"67"}))
         ==
-        list("1", "2", "345", "67")
+        tuple("1", "2", "345", "67")
     );
 
     BOOST_HANA_CONSTANT_ASSERT(fmap(to_string, nothing) == nothing);

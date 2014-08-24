@@ -5,15 +5,16 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/detail/assert.hpp>
-#include <boost/hana/integral.hpp>
+#include <boost/hana/foreign.hpp>
 #include <boost/hana/tuple.hpp>
 using namespace boost::hana;
 
 
 int main() {
     //! [main]
-    BOOST_HANA_CONSTEXPR_ASSERT(at(int_<0>, list(0, '1', 2.0)) == 0);
-    BOOST_HANA_CONSTEXPR_ASSERT(at(int_<1>, list(0, '1', 2.0)) == '1');
-    BOOST_HANA_CONSTEXPR_ASSERT(at(int_<2>, list(0, '1', 2.0)) == 2.0);
+    BOOST_HANA_CONSTEXPR_ASSERT(head(tuple(1, '2', 3.3)) == 1);
+    BOOST_HANA_CONSTEXPR_ASSERT(tail(tuple(1, '2', 3.3)) == tuple('2', 3.3));
+    BOOST_HANA_CONSTANT_ASSERT(!is_empty(tuple(1, '2', 3.3)));
+    BOOST_HANA_CONSTANT_ASSERT(is_empty(tuple()));
     //! [main]
 }

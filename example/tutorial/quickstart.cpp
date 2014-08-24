@@ -21,13 +21,13 @@ using namespace boost::hana;
 int main() {
 
 //! [xs]
-auto xs = list(1, '2', std::string{"345"});
+auto xs = tuple(1, '2', std::string{"345"});
 //! [xs]
 
 //! [value_operations]
 assert(last(xs) == "345");
 
-assert(tail(xs) == list('2', std::string{"345"}));
+assert(tail(xs) == tuple('2', std::string{"345"}));
 
 BOOST_HANA_CONSTANT_ASSERT(!is_empty(xs));
 
@@ -50,13 +50,13 @@ using wow_that_is_so_useless = decltype(xs);
 
 
 //! [ts]
-auto ts = list(type<int*>, type<void>, type<char const>);
+auto ts = tuple(type<int*>, type<void>, type<char const>);
 //! [ts]
 
 //! [type_operations]
 BOOST_HANA_CONSTANT_ASSERT(last(ts) == type<char const>);
 
-BOOST_HANA_CONSTANT_ASSERT(tail(ts) == list(type<void>, type<char const>));
+BOOST_HANA_CONSTANT_ASSERT(tail(ts) == tuple(type<void>, type<char const>));
 //! [type_operations]
 
 //! [type_out]

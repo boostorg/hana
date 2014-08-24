@@ -5,19 +5,18 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/detail/assert.hpp>
+#include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/ext/std/integral_constant.hpp>
 #include <boost/hana/foreign.hpp>
-#include <boost/hana/integral.hpp>
+#include <boost/hana/maybe.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
 using namespace boost::hana;
 
 
 int main() {
-    //! [main]
-    BOOST_HANA_CONSTEXPR_ASSERT(
-        slice(tuple(1, '2', 3.3, type<float>), int_<1>, int_<3>)
-        ==
-        tuple('2', 3.3)
-    );
-    //! [main]
+    //! [find]
+    BOOST_HANA_CONSTEXPR_ASSERT(find(tuple(1.0, 2, '3'), trait_<std::is_integral>) == just(2));
+    BOOST_HANA_CONSTANT_ASSERT(find(tuple(1.0, 2, '3'), trait_<std::is_class>) == nothing);
+    //! [find]
 }

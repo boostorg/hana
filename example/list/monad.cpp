@@ -5,18 +5,23 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/detail/assert.hpp>
+#include <boost/hana/foreign.hpp>
 #include <boost/hana/tuple.hpp>
 using namespace boost::hana;
 
 
 int main() {
     //! [main]
-    BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto x) { return list(x, -x); };
+    BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto x) {
+        return tuple(x, -x);
+    };
 
-    BOOST_HANA_CONSTEXPR_ASSERT((list(1, 2, 3) | f) == list(1, -1, 2, -2, 3, -3));
+    BOOST_HANA_CONSTEXPR_ASSERT((tuple(1, 2, 3) | f) == tuple(1, -1, 2, -2, 3, -3));
 
     BOOST_HANA_CONSTEXPR_ASSERT(
-        flatten(list(list(1, 2), list(3, 4), list(list(5, 6)))) == list(1, 2, 3, 4, list(5, 6))
+        flatten(tuple(tuple(1, 2), tuple(3, 4), tuple(tuple(5, 6))))
+        ==
+        tuple(1, 2, 3, 4, tuple(5, 6))
     );
     //! [main]
 }

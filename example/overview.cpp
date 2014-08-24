@@ -9,12 +9,12 @@ Distributed under the Boost Software License, Version 1.0.
 //////////////////////////////////////////////////////////////////////////////
 
 #include <boost/hana/detail/assert.hpp>
+#include <boost/hana/foreign.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
 
-#include <cassert>
 #include <string>
 #include <type_traits>
 using namespace boost::hana;
@@ -28,7 +28,10 @@ auto name = [](auto x) { return x.name; };
 int main() {
     // Heterogeneous sequences for value-level metaprogramming.
     auto stuff = tuple(President{"Obama"}, Car{"Toyota"}, City{"Quebec"});
-    assert(reverse(fmap(name, stuff)) == tuple("Quebec", "Toyota", "Obama"));
+    BOOST_HANA_RUNTIME_ASSERT(reverse(fmap(name, stuff)) == tuple("Quebec", "Toyota", "Obama"));
+
+    // No compile-time information is lost (the assertion is done at compile-time).
+    BOOST_HANA_CONSTANT_ASSERT(length(stuff) == int_<3>);
 
     // Type-level metaprogramming works too.
     auto types = fmap(compose(metafunction<std::add_pointer>, decltype_), stuff);
@@ -44,7 +47,4 @@ int main() {
     static_assert(std::is_same<
         decltype(last(types))::type, City*
     >{}, "");
-
-    // No compile-time information is lost (the assertion is done at compile-time).
-    BOOST_HANA_CONSTANT_ASSERT(length(permutations(stuff)) == int_<3 * 2 * 1>);
 }

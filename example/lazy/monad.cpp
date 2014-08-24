@@ -4,9 +4,9 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/lazy.hpp>
 
-#include <cassert>
 #include <functional>
 #include <iostream>
 #include <sstream>
@@ -44,6 +44,6 @@ int main() {
     auto eout = eval(out);
 
     std::cout << "the result of the monadic chain is " << eout << "\n";
-    assert(eout == (in + 1) / 2);
+    BOOST_HANA_RUNTIME_ASSERT(eout == (in + 1) / 2);
 }
 //! [main]

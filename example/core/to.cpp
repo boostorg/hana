@@ -7,9 +7,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/ext/std/array.hpp>
 #include <boost/hana/ext/std/tuple.hpp>
+#include <boost/hana/foreign.hpp>
 #include <boost/hana/integral.hpp>
-#include <boost/hana/tuple.hpp>
 #include <boost/hana/range.hpp>
+#include <boost/hana/tuple.hpp>
 
 #include <array>
 #include <tuple>

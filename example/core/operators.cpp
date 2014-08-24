@@ -7,23 +7,28 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/assert.hpp>
+#include <boost/hana/foreign.hpp>
 
 #include <string>
 using namespace boost::hana;
 
 
 // Provided via a template parameter.
-template <typename = operators<Comparable>>
+template <typename = operators::enable_adl>
 struct Person_ {
     std::string name;
+
+    struct hana_enabled_operators : Comparable { };
 };
 using Person = Person_<>;
 
 // Provided via inheritance. Unfortunately, we lose PODness even though
-// `operators<...>` is empty.
-struct Employee : operators<Comparable> {
+// `operators::enable_adl` is empty.
+struct Employee : operators::enable_adl {
     explicit Employee(std::string n) : name{n} { }
     std::string name;
+
+    struct hana_enabled_operators : Comparable { };
 };
 
 namespace boost { namespace hana {

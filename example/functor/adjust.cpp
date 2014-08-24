@@ -6,6 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/foreign.hpp>
 #include <boost/hana/tuple.hpp>
 using namespace boost::hana;
 
@@ -21,9 +22,9 @@ int main() {
     };
 
     BOOST_HANA_CONSTEXPR_ASSERT(
-        adjust(negative, negate, list(-3, -2, -1, 0, 1, 2, 3))
+        adjust(negative, negate, tuple(-3, -2, -1, 0, 1, 2, 3))
         ==
-        list(3, 2, 1, 0, 1, 2, 3)
+        tuple(3, 2, 1, 0, 1, 2, 3)
     );
     //! [main]
 }

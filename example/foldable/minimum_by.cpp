@@ -23,7 +23,7 @@ int main() {
         return bool_<(sizeof(x) < sizeof(y))>;
     };
 
-    auto min = minimum_by(size, list(storage<1>{}, storage<3>{}, storage<2>{}));
+    auto min = minimum_by(size, tuple(storage<1>{}, storage<3>{}, storage<2>{}));
     static_assert(std::is_same<decltype(min), storage<1>>::value, "");
 }
 //! [main]

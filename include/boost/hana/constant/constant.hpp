@@ -37,7 +37,9 @@ namespace boost { namespace hana {
     //! This is basically saying that all of `c`'s information used in the
     //! call to `value` must be stored in its type.
     //!
-    //! @todo Consider renaming this to `UniversalConstant`.
+    //! @todo
+    //! - Consider renaming this to `UniversalConstant`.
+    //! - Should we provide a `Comparable::constant_mcd` like we used to?
     struct Constant {
         BOOST_HANA_TYPECLASS(Constant);
         struct mcd;

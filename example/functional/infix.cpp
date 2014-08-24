@@ -6,6 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/foreign.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/tuple.hpp>
 using namespace boost::hana;
@@ -16,21 +17,21 @@ int main() {
     BOOST_HANA_CONSTEXPR_LAMBDA auto contains = infix(elem);
 
     BOOST_HANA_CONSTEXPR_ASSERT(
-        flip(all)(list(1, '2', 3.3) ^ contains,
-            list(1, '2', 3.3)
+        flip(all)(tuple(1, '2', 3.3) ^ contains,
+            tuple(1, '2', 3.3)
         )
     );
 
     BOOST_HANA_CONSTEXPR_ASSERT(
         flip(all)(contains ^ '2',
-            list(
-                list(1, '2'),
-                list('2'),
-                list('2', 3.3)
+            tuple(
+                tuple(1, '2'),
+                tuple('2'),
+                tuple('2', 3.3)
             )
         )
     );
 
-    BOOST_HANA_CONSTEXPR_ASSERT(list(1, '2', 3.3) ^contains^ 3.3);
+    BOOST_HANA_CONSTEXPR_ASSERT(tuple(1, '2', 3.3) ^contains^ 3.3);
     //! [main]
 }

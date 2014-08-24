@@ -23,7 +23,7 @@ int main() {
         return bool_<(sizeof(x) < sizeof(y))>;
     };
 
-    auto max = maximum_by(size, list(storage<1>{}, storage<3>{}, storage<2>{}));
+    auto max = maximum_by(size, tuple(storage<1>{}, storage<3>{}, storage<2>{}));
     static_assert(std::is_same<decltype(max), storage<3>>::value, "");
 }
 //! [main]

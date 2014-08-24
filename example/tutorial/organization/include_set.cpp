@@ -8,6 +8,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/constexpr.hpp>
 
 //! [main]
+#include <boost/hana/foreign.hpp> // for comparing builtin types
 #include <boost/hana/set.hpp>
 using namespace boost::hana;
 
