@@ -45,7 +45,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/core/datatype.cpp main
-    template <typename T, typename ...>
+    template <typename T, typename = void>
     struct datatype
     //! @cond
         : datatype<T, when<true>>

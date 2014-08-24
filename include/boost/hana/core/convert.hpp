@@ -61,7 +61,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @include example/core/convert.cpp
-    template <typename To, typename From, typename ...>
+    template <typename To, typename From, typename = void>
     struct convert
     //! @cond
         : convert<To, From, when<true>>

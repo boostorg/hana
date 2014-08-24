@@ -51,7 +51,7 @@ namespace boost { namespace hana {
     //! @include example/core/unary_typeclass.cpp
     #define BOOST_HANA_TYPECLASS(NAME)                                      \
         /** @cond */                                                        \
-        template <typename T, typename ...>                                 \
+        template <typename T, typename = void>                              \
         struct instance                                                     \
             : instance<T, ::boost::hana::when<true>>                        \
         { };                                                                \
@@ -78,7 +78,7 @@ namespace boost { namespace hana {
     //! @include example/core/binary_typeclass.cpp
     #define BOOST_HANA_BINARY_TYPECLASS(NAME)                               \
         /** @cond */                                                        \
-        template <typename T, typename U, typename ...>                     \
+        template <typename T, typename U, typename = void>                  \
         struct instance                                                     \
             : instance<T, U, ::boost::hana::when<true>>                     \
         { };                                                                \
