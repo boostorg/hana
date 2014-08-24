@@ -20,4 +20,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/foreign/ring.hpp>
 #include <boost/hana/foreign/integral_domain.hpp>
 
+#include <boost/hana/foreign/foldable.hpp>
+
 #endif // !BOOST_HANA_FOREIGN_HPP
