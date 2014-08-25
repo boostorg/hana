@@ -21,7 +21,7 @@ template <typename L>
 void List_functor() {
     using namespace boost::hana;
 
-    BOOST_HANA_CONSTEXPR_LAMBDA auto list = into<L>;
+    BOOST_HANA_CONSTEXPR_LAMBDA auto list = make<L>;
     using test::x;
     BOOST_HANA_CONSTEXPR_LAMBDA auto f = test::injection([]{});
 

@@ -11,7 +11,10 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_LIST_LIST_HPP
 
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/is_a.hpp>
+#include <boost/hana/core/make.hpp>
 #include <boost/hana/core/typeclass.hpp>
+#include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/is_same.hpp>
@@ -35,11 +38,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! @todo
-    //! - It might be possible to optimize the implementation of homogeneous
-    //!   lists using an array.
     //! - How to implement iterate and repeat?
-    //! - We could provide automatic unit testing for any instance because we
-    //!   have the isomorphisms.
     //! - There is a strong relationship between this and `MonadPlus`.
     //!   Actually, they might be just the same. Check this out.
     //! - Implement the following methods:
@@ -189,11 +188,13 @@ namespace boost { namespace hana {
     };
 
     namespace list_detail {
-        template <typename T>
-        struct into {
+        template <typename L>
+        struct make {
             template <typename ...Xs>
             constexpr decltype(auto) operator()(Xs&& ...xs) const {
-                return List::instance<T>::into_impl(detail::std::forward<Xs>(xs)...);
+                return List::instance<L>::make_impl(
+                    detail::std::forward<Xs>(xs)...
+                );
             }
         };
     }
@@ -208,19 +209,21 @@ namespace boost { namespace hana {
     //!
     //! @param xs...
     //! The elements to put in the constructed list. The elements will appear
-    //! in the resulting list in the same order as passed to `into`.
+    //! in the resulting list in the same order as passed to `make`.
     //!
     //!
     //! ### Example
-    //! @snippet example/list/into.cpp main
+    //! @snippet example/list/make.cpp main
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename L>
-    constexpr auto into = [](auto&& ...xs) -> decltype(auto) {
-        return List::instance<L>::into_impl(std::forward<decltype(xs)>(xs)...);
+    constexpr auto make<L, when<is_a<List, L>()>> = [](auto&& ...xs) -> decltype(auto) {
+        return List::instance<L>::make_impl(
+            std::forward<decltype(xs)>(xs)...
+        );
     };
 #else
     template <typename L>
-    constexpr list_detail::into<L> into{};
+    constexpr list_detail::make<L> make<L, when<is_a<List, L>()>>{};
 #endif
 
     //! `nil<L>` is an empty list of data type `L`.
@@ -796,7 +799,7 @@ namespace boost { namespace hana {
     //! Zip one list or more.
     //! @relates List
     //!
-    //! This is equivalent to `zip_with(into<L>, xs, ys...)`, where `L` is
+    //! This is equivalent to `zip_with(make<L>, xs, ys...)`, where `L` is
     //! the data type of `xs`.
     //!
     //! @param xs, ys...

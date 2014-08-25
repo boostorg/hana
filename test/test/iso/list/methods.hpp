@@ -34,7 +34,7 @@ void List_methods() {
 
     constexpr struct { } undefined{};
 
-    auto list = into<L>;
+    auto list = make<L>;
 
     auto prod = test::minimal_product<>;
 
@@ -46,26 +46,26 @@ void List_methods() {
         return [=](auto y) { return not_equal(x, y); };
     };
 
-    // into (that's tautological given our definition of `list`, but w/e)
+    // make (that's tautological given our definition of `list`, but w/e)
     {
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            into<L>(),
+            make<L>(),
             list()
         ));
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            into<L>(x<0>),
+            make<L>(x<0>),
             list(x<0>)
         ));
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            into<L>(x<0>, x<1>),
+            make<L>(x<0>, x<1>),
             list(x<0>, x<1>)
         ));
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            into<L>(x<0>, x<1>, x<2>),
+            make<L>(x<0>, x<1>, x<2>),
             list(x<0>, x<1>, x<2>)
         ));
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            into<L>(x<0>, x<1>, x<2>, x<3>),
+            make<L>(x<0>, x<1>, x<2>, x<3>),
             list(x<0>, x<1>, x<2>, x<3>)
         ));
     }

@@ -37,7 +37,7 @@ void List_iterable() {
     using namespace iterable_detail;
     using namespace boost::hana;
 
-    BOOST_HANA_CONSTEXPR_LAMBDA auto list = into<L>;
+    BOOST_HANA_CONSTEXPR_LAMBDA auto list = make<L>;
     using test::x;
 
     // head

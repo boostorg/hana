@@ -38,10 +38,10 @@ int main() {
     );
     //! [filter]
 
-    //! [into]
-    BOOST_HANA_CONSTANT_ASSERT(into<Tuple>() == tuple());
-    BOOST_HANA_CONSTEXPR_ASSERT(into<Tuple>(1, '2', 3.3) == tuple(1, '2', 3.3));
-    //! [into]
+    //! [make]
+    BOOST_HANA_CONSTANT_ASSERT(make<Tuple>() == tuple());
+    BOOST_HANA_CONSTEXPR_ASSERT(make<Tuple>(1, '2', 3.3) == tuple(1, '2', 3.3));
+    //! [make]
 
     {
         //! [init]

@@ -76,7 +76,7 @@ namespace boost { namespace hana {
         }
 
         template <typename ...Xs>
-        static constexpr auto into_impl(Xs ...xs) {
+        static constexpr auto make_impl(Xs ...xs) {
             return detail::variadic::foldr(cons, nil<T>, xs...);
         }
 
@@ -288,11 +288,11 @@ namespace boost { namespace hana {
 
         template <typename ...Xss>
         static constexpr auto zip_impl(Xss ...xss)
-        { return zip_with(into<T>, xss...); }
+        { return zip_with(make<T>, xss...); }
 
         template <typename F, typename ...Xss>
         static constexpr auto zip_with_impl(F f, Xss ...xss) {
-            return eval_if(any_of(into<T>(is_empty(xss)...)),
+            return eval_if(any_of(make<T>(is_empty(xss)...)),
                 [](auto _) { return nil<T>; },
                 [=](auto _) {
                     return cons(

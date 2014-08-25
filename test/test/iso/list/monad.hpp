@@ -21,7 +21,7 @@ template <typename L>
 void List_monad() {
     using namespace boost::hana;
 
-    BOOST_HANA_CONSTEXPR_LAMBDA auto list = into<L>;
+    BOOST_HANA_CONSTEXPR_LAMBDA auto list = make<L>;
     using test::x;
 
     // flatten
