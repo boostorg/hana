@@ -22,7 +22,7 @@ namespace boost { namespace hana {
     template <>
     struct Product::instance<Pair> : Product::mcd {
         template <typename X, typename Y>
-        static constexpr auto make_product_impl(X x, Y y)
+        static constexpr auto make_impl(X x, Y y)
         { return pair(x, y); }
 
         template <typename P>

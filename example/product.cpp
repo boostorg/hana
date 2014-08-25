@@ -26,7 +26,7 @@ int main() {
     BOOST_HANA_CONSTEXPR_ASSERT(second(pair(1, 'x')) == 'x');
     //! [second]
 
-    //! [make_product]
-    BOOST_HANA_CONSTEXPR_ASSERT(make_product<Pair>(1, 'x') == pair(1, 'x'));
-    //! [make_product]
+    //! [make]
+    BOOST_HANA_CONSTEXPR_ASSERT(make<Pair>(1, 'x') == pair(1, 'x'));
+    //! [make]
 }

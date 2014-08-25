@@ -11,7 +11,10 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_PRODUCT_PRODUCT_HPP
 
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/is_a.hpp>
+#include <boost/hana/core/make.hpp>
 #include <boost/hana/core/typeclass.hpp>
+#include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
@@ -37,7 +40,7 @@ namespace boost { namespace hana {
     //! This is basically saying that a `Product` must be the most general
     //! object able to contain a pair of objects `(P1, P2)`, but nothing
     //! more. Since the categorical product is defined by a universal
-    //! property, all instances are unique up to isomorphism.
+    //! property, all instances are isomorphic.
     //!
     //!
     //! [Wikipedia.Product]: http://en.wikipedia.org/wiki/Product_(category_theory)
@@ -61,11 +64,11 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/product.cpp make_product
+    //! @snippet example/product.cpp make
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename P>
-    constexpr auto make_product = [](auto&& fst, auto&& snd) -> decltype(auto) {
-        return Product::instance<P>::make_product_impl(
+    BOOST_HANA_CONSTEXPR_LAMBDA auto make<P, when<is_a<Product, P>()>> = [](auto&& fst, auto&& snd) -> decltype(auto) {
+        return Product::instance<P>::make_impl(
             std::forward<decltype(fst)>(fst),
             std::forward<decltype(snd)>(snd)
         );
@@ -76,7 +79,7 @@ namespace boost { namespace hana {
         struct make_product {
             template <typename Fst, typename Snd>
             constexpr decltype(auto) operator()(Fst&& fst, Snd&& snd) const {
-                return Product::instance<P>::make_product_impl(
+                return Product::instance<P>::make_impl(
                     detail::std::forward<Fst>(fst),
                     detail::std::forward<Snd>(snd)
                 );
@@ -85,7 +88,7 @@ namespace boost { namespace hana {
     }
 
     template <typename P>
-    constexpr product_detail::make_product<P> make_product{};
+    constexpr product_detail::make_product<P> make<P, when<is_a<Product, P>()>>{};
 #endif
 
     //! Return the first element of a product.

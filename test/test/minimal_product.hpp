@@ -38,7 +38,7 @@ namespace boost { namespace hana {
         : Product::mcd
     {
         template <typename X, typename Y>
-        static constexpr auto make_product_impl(X x, Y y)
+        static constexpr auto make_impl(X x, Y y)
         { return test::minimal_product<Product::mcd>(x, y); }
 
         template <typename P>

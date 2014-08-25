@@ -29,10 +29,10 @@ void tests() {
         BOOST_HANA_CONSTANT_ASSERT(equal(second(prod(x<0>, x<1>)), x<1>));
     }
 
-    // make_product
+    // make
     {
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            make_product<Prod>(x<0>, x<1>),
+            make<Prod>(x<0>, x<1>),
             prod(x<0>, x<1>)
         ));
     }

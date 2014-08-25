@@ -24,10 +24,10 @@ int main() {
         BOOST_HANA_CONSTANT_ASSERT(equal(second(pair(x<1>, x<2>)), x<2>));
     }
 
-    // make_product
+    // make
     {
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            make_product<Pair>(x<1>, x<2>),
+            make<Pair>(x<1>, x<2>),
             pair(x<1>, x<2>)
         ));
     }

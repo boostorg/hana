@@ -31,7 +31,7 @@ namespace boost { namespace hana {
         static constexpr auto apply(X x) {
             auto extract = [=](auto k_f) {
                 using P = datatype_t<decltype(k_f)>;
-                return make_product<P>(first(k_f), second(k_f)(x));
+                return make<P>(first(k_f), second(k_f)(x));
             };
             return to<Map>(fmap(extract, members<R>));
         }

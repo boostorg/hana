@@ -14,7 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! Minimal complete definition: `first`, `second` and `make_product`.
+    //! Minimal complete definition: `first`, `second` and `make`.
     struct Product::mcd { };
 }} // end namespace boost::hana
 

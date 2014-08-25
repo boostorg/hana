@@ -32,11 +32,11 @@ int main() {
         ));
     }
 
-    // make_product
+    // make
     {
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            std::make_pair(x<0>, x<1>),
-            make_product<StdPair>(x<0>, x<1>)
+            make<StdPair>(x<0>, x<1>),
+            std::make_pair(x<0>, x<1>)
         ));
     }
 }
