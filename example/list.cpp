@@ -24,24 +24,30 @@ using namespace boost::hana;
 
 
 int main() {
-    //! [cons]
-    BOOST_HANA_CONSTEXPR_ASSERT(cons(1, tuple()) == tuple(1));
-    BOOST_HANA_CONSTEXPR_ASSERT(cons(1, tuple('2', 3.3)) == tuple(1, '2', 3.3));
-    BOOST_HANA_CONSTEXPR_ASSERT(cons(1, cons('2', cons(3.3, tuple()))) == tuple(1, '2', 3.3));
-    //! [cons]
+    {
+        //! [cons]
+        BOOST_HANA_CONSTEXPR_ASSERT(cons(1, tuple()) == tuple(1));
+        BOOST_HANA_CONSTEXPR_ASSERT(cons(1, tuple('2', 3.3)) == tuple(1, '2', 3.3));
+        BOOST_HANA_CONSTEXPR_ASSERT(cons(1, cons('2', cons(3.3, tuple()))) == tuple(1, '2', 3.3));
+        //! [cons]
+    }
 
-    //! [filter]
-    BOOST_HANA_CONSTEXPR_ASSERT(
-        filter(tuple(1, 2.0, 3, 4.0), trait_<std::is_integral>)
-        ==
-        tuple(1, 3)
-    );
-    //! [filter]
+    {
+        //! [filter]
+        BOOST_HANA_CONSTEXPR_ASSERT(
+            filter(tuple(1, 2.0, 3, 4.0), trait_<std::is_integral>)
+            ==
+            tuple(1, 3)
+        );
+        //! [filter]
+    }
 
-    //! [make]
-    BOOST_HANA_CONSTANT_ASSERT(make<Tuple>() == tuple());
-    BOOST_HANA_CONSTEXPR_ASSERT(make<Tuple>(1, '2', 3.3) == tuple(1, '2', 3.3));
-    //! [make]
+    {
+        //! [make]
+        BOOST_HANA_CONSTANT_ASSERT(make<Tuple>() == tuple());
+        BOOST_HANA_CONSTEXPR_ASSERT(make<Tuple>(1, '2', 3.3) == tuple(1, '2', 3.3));
+        //! [make]
+    }
 
     {
         //! [init]
@@ -51,9 +57,11 @@ int main() {
         //! [init]
     }
 
-    //! [reverse]
-    BOOST_HANA_CONSTEXPR_ASSERT(reverse(tuple(1, '2', 3.3)) == tuple(3.3, '2', 1));
-    //! [reverse]
+    {
+        //! [reverse]
+        BOOST_HANA_CONSTEXPR_ASSERT(reverse(tuple(1, '2', 3.3)) == tuple(3.3, '2', 1));
+        //! [reverse]
+    }
 
     {
         //! [concat]
@@ -64,66 +72,76 @@ int main() {
         //! [concat]
     }
 
-    //! [group_by]
-    BOOST_HANA_CONSTEXPR_ASSERT(
-        group_by(equal ^on^ decltype_,
-            tuple(1, 2, 3, 'x', 'y', 4.4, 5.5)
-        )
-        == tuple(
-            tuple(1, 2, 3),
-            tuple('x', 'y'),
-            tuple(4.4, 5.5)
-        )
-    );
-    //! [group_by]
+    {
+        //! [group_by]
+        BOOST_HANA_CONSTEXPR_ASSERT(
+            group_by(equal ^on^ decltype_,
+                tuple(1, 2, 3, 'x', 'y', 4.4, 5.5)
+            )
+            == tuple(
+                tuple(1, 2, 3),
+                tuple('x', 'y'),
+                tuple(4.4, 5.5)
+            )
+        );
+        //! [group_by]
+    }
 
-    //! [group]
-    BOOST_HANA_CONSTANT_ASSERT(
-        group(tuple(int_<1>, long_<1>, type<int>, char_<'x'>, char_<'x'>))
-        ==
-        tuple(
-            tuple(int_<1>, long_<1>),
-            tuple(type<int>),
-            tuple(char_<'x'>, char_<'x'>)
-        )
-    );
-    //! [group]
+    {
+        //! [group]
+        BOOST_HANA_CONSTANT_ASSERT(
+            group(tuple(int_<1>, long_<1>, type<int>, char_<'x'>, char_<'x'>))
+            ==
+            tuple(
+                tuple(int_<1>, long_<1>),
+                tuple(type<int>),
+                tuple(char_<'x'>, char_<'x'>)
+            )
+        );
+        //! [group]
+    }
 
-    //! [zip]
-    BOOST_HANA_CONSTEXPR_ASSERT(
-        zip(tuple(1, 'a'), tuple(2, 3.3))
-        ==
-        tuple(tuple(1, 2), tuple('a', 3.3))
-    );
+    {
+        //! [zip]
+        BOOST_HANA_CONSTEXPR_ASSERT(
+            zip(tuple(1, 'a'), tuple(2, 3.3))
+            ==
+            tuple(tuple(1, 2), tuple('a', 3.3))
+        );
 
-    BOOST_HANA_CONSTEXPR_ASSERT(
-        zip(tuple(1, 'a'), tuple(2, 3.3), tuple(3, 'c', "ignored"))
-        ==
-        tuple(tuple(1, 2, 3), tuple('a', 3.3, 'c'))
-    );
-    //! [zip]
+        BOOST_HANA_CONSTEXPR_ASSERT(
+            zip(tuple(1, 'a'), tuple(2, 3.3), tuple(3, 'c', "ignored"))
+            ==
+            tuple(tuple(1, 2, 3), tuple('a', 3.3, 'c'))
+        );
+        //! [zip]
+    }
 
-    //! [zip_with]
-    BOOST_HANA_CONSTEXPR_ASSERT(
-        zip_with(_ * _, tuple(1, 2, 3, 4), tuple(5, 6, 7, 8, "ignored"))
-        ==
-        tuple(5, 12, 21, 32)
-    );
-    //! [zip_with]
+    {
+        //! [zip_with]
+        BOOST_HANA_CONSTEXPR_ASSERT(
+            zip_with(_ * _, tuple(1, 2, 3, 4), tuple(5, 6, 7, 8, "ignored"))
+            ==
+            tuple(5, 12, 21, 32)
+        );
+        //! [zip_with]
+    }
 
-    //! [unzip]
-    BOOST_HANA_CONSTEXPR_ASSERT(
-        unzip(tuple(tuple(1, '2', 3.3), tuple('4', 5.5, 6)))
-        ==
-        tuple(tuple(1, '4'), tuple('2', 5.5), tuple(3.3, 6))
-    );
+    {
+        //! [unzip]
+        BOOST_HANA_CONSTEXPR_ASSERT(
+            unzip(tuple(tuple(1, '2', 3.3), tuple('4', 5.5, 6)))
+            ==
+            tuple(tuple(1, '4'), tuple('2', 5.5), tuple(3.3, 6))
+        );
 
-    BOOST_HANA_CONSTEXPR_ASSERT(
-        unzip(tuple(tuple(1, '2', 3.3), tuple('4', 5.5, 6, "ignored")))
-        ==
-        tuple(tuple(1, '4'), tuple('2', 5.5), tuple(3.3, 6))
-    );
-    //! [unzip]
+        BOOST_HANA_CONSTEXPR_ASSERT(
+            unzip(tuple(tuple(1, '2', 3.3), tuple('4', 5.5, 6, "ignored")))
+            ==
+            tuple(tuple(1, '4'), tuple('2', 5.5), tuple(3.3, 6))
+        );
+        //! [unzip]
+    }
 
     {
         //! [take_while]
@@ -158,11 +176,19 @@ int main() {
         //! [take]
     }
 
-    //! [snoc]
-    BOOST_HANA_CONSTEXPR_ASSERT(snoc(tuple(), 1) == tuple(1));
-    BOOST_HANA_CONSTEXPR_ASSERT(snoc(tuple(1, '2'), 3.3) == tuple(1, '2', 3.3));
-    BOOST_HANA_CONSTEXPR_ASSERT(snoc(snoc(snoc(tuple(), 1), '2'), 3.3) == tuple(1, '2', 3.3));
-    //! [snoc]
+    {
+        //! [take_c]
+        BOOST_HANA_CONSTEXPR_ASSERT(take_c<2>(tuple(1, '2', 3.3)) == tuple(1, '2'));
+        //! [take_c]
+    }
+
+    {
+        //! [snoc]
+        BOOST_HANA_CONSTEXPR_ASSERT(snoc(tuple(), 1) == tuple(1));
+        BOOST_HANA_CONSTEXPR_ASSERT(snoc(tuple(1, '2'), 3.3) == tuple(1, '2', 3.3));
+        BOOST_HANA_CONSTEXPR_ASSERT(snoc(snoc(snoc(tuple(), 1), '2'), 3.3) == tuple(1, '2', 3.3));
+        //! [snoc]
+    }
 
     {
         //! [span]
@@ -207,17 +233,31 @@ int main() {
         //! [sort_by]
     }
 
-    //! [nil]
-    BOOST_HANA_CONSTANT_ASSERT(nil<Tuple> == tuple());
-    //! [nil]
+    {
+        //! [nil]
+        BOOST_HANA_CONSTANT_ASSERT(nil<Tuple> == tuple());
+        //! [nil]
+    }
 
-    //! [slice]
-    BOOST_HANA_CONSTEXPR_ASSERT(
-        slice(tuple(1, '2', 3.3, type<float>), int_<1>, int_<3>)
-        ==
-        tuple('2', 3.3)
-    );
-    //! [slice]
+    {
+        //! [slice]
+        BOOST_HANA_CONSTEXPR_ASSERT(
+            slice(tuple(1, '2', 3.3, type<float>), int_<1>, int_<3>)
+            ==
+            tuple('2', 3.3)
+        );
+        //! [slice]
+    }
+
+    {
+        //! [slice_c]
+        BOOST_HANA_CONSTEXPR_ASSERT(
+            slice_c<1, 3>(tuple(1, '2', 3.3, type<float>))
+            ==
+            tuple('2', 3.3)
+        );
+        //! [slice_c]
+    }
 
     {
         //! [permutations]

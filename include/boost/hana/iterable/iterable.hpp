@@ -14,6 +14,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/typeclass.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/size_t.hpp>
+#include <boost/hana/integral.hpp>
 
 
 namespace boost { namespace hana {
@@ -48,7 +50,7 @@ namespace boost { namespace hana {
     //! @relates Iterable
     //!
     //! ### Example
-    //! @snippet example/iterable/head.cpp main
+    //! @snippet example/iterable.cpp head
     BOOST_HANA_CONSTEXPR_LAMBDA auto head = [](auto&& iterable) -> decltype(auto) {
         return Iterable::instance<
             datatype_t<decltype(iterable)>
@@ -60,7 +62,7 @@ namespace boost { namespace hana {
     //! @relates Iterable
     //!
     //! ### Example
-    //! @snippet example/iterable/tail.cpp main
+    //! @snippet example/iterable.cpp tail
     BOOST_HANA_CONSTEXPR_LAMBDA auto tail = [](auto&& iterable) -> decltype(auto) {
         return Iterable::instance<
             datatype_t<decltype(iterable)>
@@ -75,7 +77,7 @@ namespace boost { namespace hana {
     //! whether the iterable is empty.
     //!
     //! ### Example
-    //! @snippet example/iterable/is_empty.cpp main
+    //! @snippet example/iterable.cpp is_empty
     BOOST_HANA_CONSTEXPR_LAMBDA auto is_empty = [](auto&& iterable) -> decltype(auto) {
         return Iterable::instance<
             datatype_t<decltype(iterable)>
@@ -96,7 +98,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/iterable/at.cpp main
+    //! @snippet example/iterable.cpp at
     BOOST_HANA_CONSTEXPR_LAMBDA auto at = [](auto&& n, auto&& iterable) -> decltype(auto) {
         return Iterable::instance<
             datatype_t<decltype(iterable)>
@@ -106,11 +108,35 @@ namespace boost { namespace hana {
         );
     };
 
+    //! Equivalent to `at`; provided for convenience.
+    //! @relates Iterable
+    //!
+    //! ### Example
+    //! @snippet example/iterable.cpp at_c
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    template <std::size_t n>
+    constexpr auto at_c = [](auto&& iterable) -> decltype(auto) {
+        return at(size_t<n>, std::forward<decltype(iterable)>(iterable));
+    };
+#else
+    namespace iterable_detail {
+        template <detail::std::size_t n>
+        struct at_c {
+            template <typename Xs>
+            constexpr decltype(auto) operator()(Xs&& xs) const
+            { return at(size_t<n>, detail::std::forward<Xs>(xs)); }
+        };
+    }
+
+    template <detail::std::size_t n>
+    constexpr iterable_detail::at_c<n> at_c{};
+#endif
+
     //! Return the last element of a non-empty and finite iterable.
     //! @relates Iterable
     //!
     //! ### Example
-    //! @snippet example/iterable/last.cpp main
+    //! @snippet example/iterable.cpp last
     BOOST_HANA_CONSTEXPR_LAMBDA auto last = [](auto&& iterable) -> decltype(auto) {
         return Iterable::instance<
             datatype_t<decltype(iterable)>
@@ -131,7 +157,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/iterable/drop.cpp main
+    //! @snippet example/iterable.cpp drop
     BOOST_HANA_CONSTEXPR_LAMBDA auto drop = [](auto&& n, auto&& iterable) -> decltype(auto) {
         return Iterable::instance<
             datatype_t<decltype(iterable)>
@@ -140,6 +166,30 @@ namespace boost { namespace hana {
             detail::std::forward<decltype(iterable)>(iterable)
         );
     };
+
+    //! Equivalent to `drop`; provided for convenience.
+    //! @relates Iterable
+    //!
+    //! ### Example
+    //! @snippet example/iterable.cpp drop_c
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    template <std::size_t n>
+    constexpr auto drop_c = [](auto&& iterable) -> decltype(auto) {
+        return drop(size_t<n>, std::forward<decltype(iterable)>(iterable));
+    };
+#else
+    namespace iterable_detail {
+        template <detail::std::size_t n>
+        struct drop_c {
+            template <typename Xs>
+            constexpr decltype(auto) operator()(Xs&& xs) const
+            { return drop(size_t<n>, detail::std::forward<Xs>(xs)); }
+        };
+    }
+
+    template <detail::std::size_t n>
+    constexpr iterable_detail::drop_c<n> drop_c{};
+#endif
 
     //! Drop elements from an iterable up to, but excluding, the first
     //! element for which the `predicate` is not satisfied.
@@ -165,7 +215,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/iterable/drop_while.cpp main
+    //! @snippet example/iterable.cpp drop_while
     BOOST_HANA_CONSTEXPR_LAMBDA auto drop_while = [](auto&& predicate, auto&& iterable) -> decltype(auto) {
         return Iterable::instance<
             datatype_t<decltype(iterable)>
@@ -203,7 +253,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/iterable/drop_until.cpp main
+    //! @snippet example/iterable.cpp drop_until
     BOOST_HANA_CONSTEXPR_LAMBDA auto drop_until = [](auto&& predicate, auto&& iterable) -> decltype(auto) {
         return Iterable::instance<
             datatype_t<decltype(iterable)>
@@ -231,7 +281,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/iterable/for_each.cpp main
+    //! @snippet example/iterable.cpp for_each
     //!
     //! @todo
     //! The presence of implicit side effects in this function might be a

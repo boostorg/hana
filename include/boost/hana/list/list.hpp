@@ -18,6 +18,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/is_same.hpp>
+#include <boost/hana/detail/std/size_t.hpp>
+#include <boost/hana/integral.hpp>
 
 
 namespace boost { namespace hana {
@@ -466,6 +468,35 @@ namespace boost { namespace hana {
         );
     };
 
+    //! Equivalent to `slice`; provided for convenience.
+    //! @relates List
+    //!
+    //! ### Example
+    //! @snippet example/list.cpp slice_c
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    template <std::size_t from, std::size_t to>
+    constexpr auto slice_c = [](auto&& xs) -> decltype(auto) {
+        return slice(std::forward<decltype(xs)>(xs), size_t<from>, size_t<to>);
+    };
+#else
+    namespace list_detail {
+        template <detail::std::size_t from, detail::std::size_t to>
+        struct slice_c {
+            template <typename Xs>
+            constexpr decltype(auto) operator()(Xs&& xs) const {
+                return slice(
+                    detail::std::forward<Xs>(xs),
+                    size_t<from>,
+                    size_t<to>
+                );
+            }
+        };
+    }
+
+    template <detail::std::size_t from, detail::std::size_t to>
+    constexpr list_detail::slice_c<from, to> slice_c{};
+#endif
+
     //! Append an element to the end of a list.
     //! @relates List
     //!
@@ -596,6 +627,31 @@ namespace boost { namespace hana {
             detail::std::forward<decltype(xs)>(xs)
         );
     };
+
+    //! Equivalent to `take`; provided for convenience.
+    //! @relates List
+    //!
+    //! ### Example
+    //! @snippet example/list.cpp take_c
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    template <std::size_t n>
+    constexpr auto take_c = [](auto&& xs) -> decltype(auto) {
+        return take(size_t<n>, std::forward<decltype(xs)>(xs));
+    };
+#else
+    namespace list_detail {
+        template <detail::std::size_t n>
+        struct take_c {
+            template <typename Xs>
+            constexpr decltype(auto) operator()(Xs&& xs) const {
+                return take(size_t<n>, detail::std::forward<Xs>(xs));
+            }
+        };
+    }
+
+    template <detail::std::size_t n>
+    constexpr list_detail::take_c<n> take_c{};
+#endif
 
     //! Take elements until the `predicate` is satisfied.
     //! @relates List
