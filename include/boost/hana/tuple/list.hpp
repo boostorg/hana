@@ -43,6 +43,11 @@ namespace boost { namespace hana {
             });
         }
 
+        template <typename ...Xs>
+        static constexpr auto make_impl(Xs ...xs) {
+            return tuple(xs...);
+        }
+
         template <typename Xs, typename Ys>
         static constexpr auto concat_impl(Xs xs, Ys ys) {
             return xs.storage([=](auto ...xs) {
