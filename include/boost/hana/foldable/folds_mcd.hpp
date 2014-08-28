@@ -117,6 +117,15 @@ namespace boost { namespace hana {
                 return [=](auto ...y) { return g(x, y...); };
             })();
         }
+
+        template <typename Xs, typename F>
+        static constexpr auto for_each_impl(Xs xs, F f) {
+            // we ignore the state all the way
+            foldl(xs, 0, [=](auto, auto x) {
+                f(x);
+                return 0;
+            });
+        }
     };
 }} // end namespace boost::hana
 

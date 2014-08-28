@@ -13,6 +13,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include "helper.hpp"
 #include <test/injection.hpp>
+
+#include <vector>
 using namespace boost::hana;
 
 
@@ -52,6 +54,23 @@ int main() {
             BOOST_HANA_RUNTIME_ASSERT(equal(foldr(container(1, '2'), s, f), f(1, f('2', s))));
             BOOST_HANA_RUNTIME_ASSERT(equal(foldr(container(1, '2', 3.3), s, f), f(1, f('2', f(3.3, s)))));
             BOOST_HANA_RUNTIME_ASSERT(equal(foldr(container(1, '2', 3.3, 4.4f), s, f), f(1, f('2', f(3.3, f(4.4f, s))))));
+        }
+
+        // for_each
+        {
+            auto check_with = [=](auto ...xs) {
+                std::vector<int> seen{};
+                for_each(container(xs...), [&](int x) {
+                    seen.push_back(x);
+                });
+                BOOST_HANA_RUNTIME_ASSERT(seen == std::vector<int>{xs...});
+            };
+            check_with();
+            check_with(0);
+            check_with(0, 1);
+            check_with(0, 1, 2);
+            check_with(0, 1, 2, 3);
+            check_with(0, 1, 2, 3, 4);
         }
 
         // length

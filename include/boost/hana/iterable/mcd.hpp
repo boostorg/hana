@@ -63,17 +63,6 @@ namespace boost { namespace hana {
         static constexpr auto drop_until_impl(Pred pred, Iterable_ iterable) {
             return drop_while([=](auto x) { return not_(pred(x)); }, iterable);
         }
-
-        template <typename It, typename F>
-        static constexpr auto for_each_impl(It it, F f) {
-            return eval_if(is_empty(it),
-                [](auto) { },
-                [=](auto _) {
-                    f(_(head)(it));
-                    for_each_impl(_(tail)(it), f);
-                }
-            );
-        }
     };
 }} // end namespace boost::hana
 

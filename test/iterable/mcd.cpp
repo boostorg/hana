@@ -166,23 +166,6 @@ int main() {
         ));
     }
 
-    // for_each
-    {
-        auto check = [=](auto ...xs) {
-            std::vector<int> seen{};
-            for_each(iterable(xs...), [&](int x) {
-                seen.push_back(x);
-            });
-            BOOST_HANA_RUNTIME_ASSERT(seen == std::vector<int>{xs...});
-        };
-        check();
-        check(0);
-        check(0, 1);
-        check(0, 1, 2);
-        check(0, 1, 2, 3);
-        check(0, 1, 2, 3, 4);
-    }
-
     // last
     {
         BOOST_HANA_CONSTANT_ASSERT(equal(last(iterable(x<0>)), x<0>));

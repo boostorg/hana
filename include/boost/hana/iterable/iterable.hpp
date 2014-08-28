@@ -262,39 +262,6 @@ namespace boost { namespace hana {
             detail::std::forward<decltype(iterable)>(iterable)
         );
     };
-
-    //! Perform an action on each element of an iterable, discarding
-    //! the result each time.
-    //! @relates Iterable
-    //!
-    //! Iteration is done in the same order as per repeatedly applying
-    //! `tail` to the iterable. If the iterable is not finite, this method
-    //! will not terminate.
-    //!
-    //!
-    //! @param iterable
-    //! The structure on which iteration is done.
-    //!
-    //! @param f
-    //! A function called as `f(x)` for each element `x` of the iterable.
-    //! The result of `f(x)`, whatever it is, is ignored.
-    //!
-    //!
-    //! ### Example
-    //! @snippet example/iterable.cpp for_each
-    //!
-    //! @todo
-    //! The presence of implicit side effects in this function might be a
-    //! smell that it should be moved to a different type class and handled
-    //! through `Monad`s.
-    BOOST_HANA_CONSTEXPR_LAMBDA auto for_each = [](auto&& iterable, auto&& f) -> decltype(auto) {
-        return Iterable::instance<
-            datatype_t<decltype(iterable)>
-        >::for_each_impl(
-            detail::std::forward<decltype(iterable)>(iterable),
-            detail::std::forward<decltype(f)>(f)
-        );
-    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_ITERABLE_ITERABLE_HPP

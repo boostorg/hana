@@ -16,6 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/variadic/foldl1.hpp>
 #include <boost/hana/detail/variadic/foldr.hpp>
 #include <boost/hana/detail/variadic/foldr1.hpp>
+#include <boost/hana/detail/variadic/for_each.hpp>
 #include <boost/hana/foldable/folds_mcd.hpp>
 #include <boost/hana/integral.hpp>
 
@@ -48,6 +49,13 @@ namespace boost { namespace hana {
         static constexpr auto foldr1_impl(Xs xs, F f) {
             return unpack(xs, [=](auto ...xs) {
                 return detail::variadic::foldr1(f, xs...);
+            });
+        }
+
+        template <typename Xs, typename F>
+        static constexpr auto for_each_impl(Xs xs, F f) {
+            return unpack(xs, [=](auto ...xs) {
+                return detail::variadic::for_each(f, xs...);
             });
         }
 

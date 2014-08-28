@@ -11,8 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/integral.hpp>
 #include <boost/hana/logical/logical.hpp>
 
-#include <vector>
-
 #include "helper.hpp"
 using namespace boost::hana;
 
@@ -58,23 +56,6 @@ int main() {
             BOOST_HANA_CONSTANT_ASSERT(equal(tail(container(1)), container()));
             BOOST_HANA_RUNTIME_ASSERT(equal(tail(container(1, '2')), container('2')));
             BOOST_HANA_RUNTIME_ASSERT(equal(tail(container(1, '2', 3.3)), container('2', 3.3)));
-        }
-
-        // for_each
-        {
-            auto check_with = [=](auto ...xs) {
-                std::vector<int> seen{};
-                for_each(container(xs...), [&](int x) {
-                    seen.push_back(x);
-                });
-                BOOST_HANA_RUNTIME_ASSERT(seen == std::vector<int>{xs...});
-            };
-            check_with();
-            check_with(0);
-            check_with(0, 1);
-            check_with(0, 1, 2);
-            check_with(0, 1, 2, 3);
-            check_with(0, 1, 2, 3, 4);
         }
     });
 }

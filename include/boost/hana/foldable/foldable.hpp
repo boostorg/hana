@@ -160,6 +160,39 @@ namespace boost { namespace hana {
         );
     };
 
+    //! Perform an action on each element of a foldable, discarding
+    //! the result each time.
+    //! @relates Foldable
+    //!
+    //! Iteration is done from left to right, i.e. in the same order as when
+    //! using `foldl`. If the structure is not finite, this method will not
+    //! terminate.
+    //!
+    //!
+    //! @param foldable
+    //! The structure to iterate over.
+    //!
+    //! @param f
+    //! A function called as `f(x)` for each element `x` of the structure.
+    //! The result of `f(x)`, whatever it is, is ignored.
+    //!
+    //!
+    //! ### Example
+    //! @snippet example/foldable.cpp for_each
+    //!
+    //! @todo
+    //! The presence of implicit side effects in this function might be a
+    //! smell that it should be moved to a different type class and handled
+    //! through `Monad`s.
+    BOOST_HANA_CONSTEXPR_LAMBDA auto for_each = [](auto&& foldable, auto&& f) -> decltype(auto) {
+        return Foldable::instance<
+            datatype_t<decltype(foldable)>
+        >::for_each_impl(
+            detail::std::forward<decltype(foldable)>(foldable),
+            detail::std::forward<decltype(f)>(f)
+        );
+    };
+
     //! Return the number of elements in a finite structure.
     //! @relates Foldable
     //!

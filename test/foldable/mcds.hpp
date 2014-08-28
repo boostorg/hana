@@ -12,6 +12,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <test/injection.hpp>
 #include <test/laws/foldable.hpp>
 #include <test/seq/foldable.hpp>
+
+#include <vector>
 using namespace boost::hana;
 
 
@@ -55,6 +57,23 @@ int main() {
         BOOST_HANA_CONSTANT_ASSERT(equal(foldr1(foldable(x<1>, s), f), f(x<1>, s)));
         BOOST_HANA_CONSTANT_ASSERT(equal(foldr1(foldable(x<1>, x<2>, s), f), f(x<1>, f(x<2>, s))));
         BOOST_HANA_CONSTANT_ASSERT(equal(foldr1(foldable(x<1>, x<2>, x<3>, s), f), f(x<1>, f(x<2>, f(x<3>, s)))));
+    }
+
+    // for_each
+    {
+        auto check = [=](auto ...xs) {
+            std::vector<int> seen{};
+            for_each(foldable(xs...), [&](int x) {
+                seen.push_back(x);
+            });
+            BOOST_HANA_RUNTIME_ASSERT(seen == std::vector<int>{xs...});
+        };
+        check();
+        check(0);
+        check(0, 1);
+        check(0, 1, 2);
+        check(0, 1, 2, 3);
+        check(0, 1, 2, 3, 4);
     }
 
     // length

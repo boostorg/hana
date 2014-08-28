@@ -90,17 +90,6 @@ int main() {
     }
 
     {
-        //! [for_each]
-        std::stringstream ss;
-        for_each(tuple(0, '1', "234", 5.5), [&](auto x) {
-            ss << x << ' ';
-        });
-
-        BOOST_HANA_RUNTIME_ASSERT(ss.str() == "0 1 234 5.5 ");
-        //! [for_each]
-    }
-
-    {
         //! [is_empty]
         BOOST_HANA_CONSTANT_ASSERT(!is_empty(tuple(1, '2')));
         BOOST_HANA_CONSTANT_ASSERT( is_empty(tuple()));
