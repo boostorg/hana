@@ -23,7 +23,7 @@ int main() {
     // foldr
     {
         BOOST_HANA_CONSTEXPR_LAMBDA auto check_fold = [](auto ...pairs) {
-            auto values = fmap(second, tuple(pairs...));
+            auto values = tuple(second(pairs)...);
             auto result = foldr(hash_map(pairs...), tuple(), cons);
             BOOST_HANA_CONSTANT_ASSERT(elem(permutations(values), result));
         };

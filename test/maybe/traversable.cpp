@@ -26,12 +26,12 @@ int main() {
     // traverse
     {
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            traverse<A>(compose(applicative, f), just(x<0>)),
+            traverse<A>(just(x<0>), compose(applicative, f)),
             applicative(just(f(x<0>)))
         ));
 
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            traverse<A>(compose(applicative, f), nothing),
+            traverse<A>(nothing, compose(applicative, f)),
             applicative(nothing)
         ));
     }

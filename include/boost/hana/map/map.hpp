@@ -52,13 +52,13 @@ namespace boost { namespace hana {
     //! Returns a list of the keys of the map, in unspecified order.
     //! @relates Map
     BOOST_HANA_CONSTEXPR_LAMBDA auto keys = [](auto map) {
-        return fmap(first, map.storage);
+        return fmap(map.storage, first);
     };
 
     //! Returns a list of the values of the map, in unspecified order.
     //! @relates Map
     BOOST_HANA_CONSTEXPR_LAMBDA auto values = [](auto map) {
-        return fmap(second, map.storage);
+        return fmap(map.storage, second);
     };
 
 #if 0
@@ -72,7 +72,7 @@ namespace boost { namespace hana {
         auto iskey = [=](auto p) { return equal(first(p), key); };
         auto replace_existing = [=](auto _) {
             return detail::wrap<Map>(
-                _(replace)(iskey, pair(key, value), detail::unwrap(map))
+                _(replace)(detail::unwrap(map), iskey, pair(key, value))
             );
         };
         return eval_if(elem(keys(map), key), replace_existing, add_new);
@@ -97,12 +97,12 @@ namespace boost { namespace hana {
 
     template <>
     struct Functor::instance<Map> : Functor::fmap_mcd {
-        template <typename F, typename M>
-        static constexpr auto fmap_impl(F f, M m) {
+        template <typename M, typename F>
+        static constexpr auto fmap_impl(M m, F f) {
             auto on_values = [=](auto p) {
                 return pair(first(p), f(second(p)));
             };
-            return detail::wrap<Map>(fmap(on_values, detail::unwrap(m)));
+            return detail::wrap<Map>(fmap(detail::unwrap(m), on_values));
         }
     };
 #endif

@@ -23,7 +23,7 @@ BOOST_HANA_CONSTANT_ASSERT(equal(
 ));
 
 BOOST_HANA_CONSTANT_ASSERT(equal(
-    drop_while(trait<std::is_floating_point>, mpl::vector<float, double const, int, float&>{}),
+    drop_while(mpl::vector<float, double const, int, float&>{}, trait<std::is_floating_point>),
     mpl::vector<int, float&>{}
 ));
 

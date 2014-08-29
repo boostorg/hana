@@ -21,8 +21,8 @@ int main() {
 
     // fmap
     {
-        BOOST_HANA_CONSTANT_ASSERT(equal(fmap(f, nothing), nothing));
-        BOOST_HANA_CONSTANT_ASSERT(equal(fmap(f, just(x<0>)), just(f(x<0>))));
+        BOOST_HANA_CONSTANT_ASSERT(equal(fmap(nothing,f), nothing));
+        BOOST_HANA_CONSTANT_ASSERT(equal(fmap(just(x<0>), f), just(f(x<0>))));
     }
 
     // laws

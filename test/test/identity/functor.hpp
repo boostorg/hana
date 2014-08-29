@@ -25,8 +25,8 @@ namespace boost { namespace hana {
     struct Functor::instance<test::Identity>
         : Functor::fmap_mcd
     {
-        template <typename F, typename Id>
-        static constexpr auto fmap_impl(F f, Id self) {
+        template <typename Id, typename F>
+        static constexpr auto fmap_impl(Id self, F f) {
             return test::identity(f(self.value));
         }
     };
@@ -44,8 +44,8 @@ namespace boost { namespace hana {
     struct Functor::instance<test::Identity>
         : Functor::adjust_mcd
     {
-        template <typename P, typename F, typename Id>
-        static constexpr auto adjust_impl(P p, F f, Id self) {
+        template <typename Id, typename P, typename F>
+        static constexpr auto adjust_impl(Id self, P p, F f) {
             auto x = eval_if(p(self.value),
                 [=](auto _) { return _(f)(self.value); },
                 [=](auto _) { return self.value; }

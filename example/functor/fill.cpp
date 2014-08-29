@@ -14,10 +14,10 @@ using namespace boost::hana;
 int main() {
     //! [main]
     BOOST_HANA_CONSTEXPR_ASSERT(
-        fill('x', tuple(1, '2', 3.3, nullptr)) == tuple('x', 'x', 'x', 'x')
+        fill(tuple(1, '2', 3.3, nullptr), 'x') == tuple('x', 'x', 'x', 'x')
     );
 
-    BOOST_HANA_CONSTANT_ASSERT(fill('x', nothing) == nothing);
-    BOOST_HANA_CONSTEXPR_ASSERT(fill('x', just('y')) == just('x'));
+    BOOST_HANA_CONSTANT_ASSERT(fill(nothing, 'x') == nothing);
+    BOOST_HANA_CONSTEXPR_ASSERT(fill(just('y'), 'x') == just('x'));
     //! [main]
 }

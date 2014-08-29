@@ -19,13 +19,13 @@ int main() {
     };
 
     BOOST_HANA_CONSTEXPR_ASSERT(
-        traverse<Tuple>(replicate3, just(1))
+        traverse<Tuple>(just(1), replicate3)
         ==
         tuple(just(1), just(1), just(1))
     );
 
     BOOST_HANA_CONSTANT_ASSERT(
-        traverse<Tuple>(replicate3, nothing)
+        traverse<Tuple>(nothing, replicate3)
         ==
         tuple(nothing)
     );

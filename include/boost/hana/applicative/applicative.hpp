@@ -53,7 +53,7 @@ namespace boost { namespace hana {
     //! satisfy
     //!
     //! @code
-    //!     fmap(f, x) == ap(lift<A>(f), x)
+    //!     fmap(x, f) == ap(lift<A>(f), x)
     //! @endcode
     struct Applicative {
         BOOST_HANA_TYPECLASS(Applicative);
@@ -87,7 +87,7 @@ namespace boost { namespace hana {
                 "boost::hana::ap must be called with two arguments or more");
                 return detail::variadic::foldl(
                     *this,
-                    fmap(curry<sizeof...(xs)>, detail::std::forward<F>(f)),
+                    fmap(detail::std::forward<F>(f), curry<sizeof...(xs)>),
                     detail::std::forward<Xs>(xs)...
                 );
             }
@@ -100,7 +100,7 @@ namespace boost { namespace hana {
     //! `ap` can be called with two arguments or more. Specifically,
     //! `ap(f, x1, ..., xN)` is equivalent to
     //! @code
-    //!     foldl(list(x1, ..., xN), fmap(curry<N>, f), ap);
+    //!     foldl(list(x1, ..., xN), fmap(f, curry<N>), ap);
     //! @endcode
     //! where `ap(f, x)` (called with two arguments only) dispatches to the
     //! implementation in the type class. This basically means that applying

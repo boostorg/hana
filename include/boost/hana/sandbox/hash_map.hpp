@@ -45,7 +45,7 @@ namespace boost { namespace hana {
                 auto iskey = [=](auto pair) { return first(pair) == k; };
                 return eval_if(any(pairs, iskey),
                     [=](auto _) {
-                        auto new_pairs = _(replace)(iskey, pair(k, v), pairs);
+                        auto new_pairs = _(replace)(pairs, iskey, pair(k, v));
                         return make_bucket(hash, new_pairs);
                     },
                     [=](auto _) {
@@ -57,8 +57,8 @@ namespace boost { namespace hana {
             template <typename Key>
             constexpr auto lookup(Key key) const {
                 return fmap(
-                    second,
-                    find(pairs, [=](auto p) { return first(p) == key; })
+                    find(pairs, [=](auto p) { return first(p) == key; }),
+                    second
                 );
             }
         };
@@ -81,7 +81,7 @@ namespace boost { namespace hana {
         auto bucket = find(map.buckets, [=](auto b) { return b.hash == h; });
 
         auto insert_in_bucket = [=](auto bucket) {
-            auto new_buckets = replace(_ == bucket, bucket.insert(key, value), map.buckets);
+            auto new_buckets = replace(map.buckets, _ == bucket, bucket.insert(key, value));
             hash_map_detail::map<decltype(new_buckets)> new_map{new_buckets};
             return new_map;
         };
@@ -130,7 +130,7 @@ namespace boost { namespace hana {
         template <typename Map, typename State, typename F>
         static constexpr auto foldr_impl(Map m, State s, F f) {
             auto f_ = [=](auto bucket, auto s) {
-                return foldr(fmap(second, bucket.pairs), s, f);
+                return foldr(fmap(bucket.pairs, second), s, f);
             };
             return foldr(m.buckets, s, f_);
         }
@@ -138,7 +138,7 @@ namespace boost { namespace hana {
         template <typename Map, typename State, typename F>
         static constexpr auto foldl_impl(Map m, State s, F f) {
             auto f_ = [=](auto s, auto bucket) {
-                return foldl(fmap(second, bucket.pairs), s, f);
+                return foldl(fmap(bucket.pairs, second), s, f);
             };
             return foldl(m.buckets, s, f_);
         }

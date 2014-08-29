@@ -17,8 +17,8 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     template <>
     struct Functor::instance<Tuple> : Functor::fmap_mcd {
-        template <typename F, typename Xs>
-        static constexpr auto fmap_impl(F f, Xs xs) {
+        template <typename Xs, typename F>
+        static constexpr auto fmap_impl(Xs xs, F f) {
             return xs.storage([=](auto ...xs) {
                 return tuple(f(xs)...);
             });

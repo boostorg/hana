@@ -39,7 +39,7 @@ namespace boost { namespace hana {
 
         template <typename Mf, typename Mx>
         static constexpr auto ap_impl(Mf mf, Mx mx)
-        { return maybe(nothing, [=](auto f) { return fmap(f, mx); }, mf); }
+        { return maybe(nothing, [=](auto f) { return fmap(mx, f); }, mf); }
     };
 }} // end namespace boost::hana
 

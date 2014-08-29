@@ -23,10 +23,22 @@ int main() {
         {
             BOOST_HANA_CONSTEXPR_LAMBDA auto f = test::injection([]{});
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(fmap(f, container()), container()));
-            BOOST_HANA_RUNTIME_ASSERT(equal(fmap(f, container(1)), container(f(1))));
-            BOOST_HANA_RUNTIME_ASSERT(equal(fmap(f, container(1, '2')), container(f(1), f('2'))));
-            BOOST_HANA_RUNTIME_ASSERT(equal(fmap(f, container(1, '2', 3.3)), container(f(1), f('2'), f(3.3))));
+            BOOST_HANA_CONSTANT_ASSERT(equal(
+                fmap(container(), f),
+                container()
+            ));
+            BOOST_HANA_RUNTIME_ASSERT(equal(
+                fmap(container(1), f),
+                container(f(1))
+            ));
+            BOOST_HANA_RUNTIME_ASSERT(equal(
+                fmap(container(1, '2'), f),
+                container(f(1), f('2'))
+            ));
+            BOOST_HANA_RUNTIME_ASSERT(equal(
+                fmap(container(1, '2', 3.3), f),
+                container(f(1), f('2'), f(3.3))
+            ));
         }
 
         // replace
@@ -35,11 +47,26 @@ int main() {
                 return x % 2 == 0;
             };
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(replace(is_even, 'x', container()), container()));
-            BOOST_HANA_RUNTIME_ASSERT( equal(replace(is_even, 'x', container(0)), container('x')));
-            BOOST_HANA_RUNTIME_ASSERT( equal(replace(is_even, 'x', container(0, 1)), container('x', 1)));
-            BOOST_HANA_RUNTIME_ASSERT( equal(replace(is_even, 'x', container(0, 1, 2)), container('x', 1, 'x')));
-            BOOST_HANA_RUNTIME_ASSERT( equal(replace(is_even, 'x', container(0, 1, 2, 3)), container('x', 1, 'x', 3)));
+            BOOST_HANA_CONSTANT_ASSERT(equal(
+                replace(container(), is_even, 'x'),
+                container()
+            ));
+            BOOST_HANA_RUNTIME_ASSERT( equal(
+                replace(container(0), is_even, 'x'),
+                container('x')
+            ));
+            BOOST_HANA_RUNTIME_ASSERT( equal(
+                replace(container(0, 1), is_even, 'x'),
+                container('x', 1)
+            ));
+            BOOST_HANA_RUNTIME_ASSERT( equal(
+                replace(container(0, 1, 2), is_even, 'x'),
+                container('x', 1, 'x')
+            ));
+            BOOST_HANA_RUNTIME_ASSERT( equal(
+                replace(container(0, 1, 2, 3), is_even, 'x'),
+                container('x', 1, 'x', 3)
+            ));
         }
 
         // laws

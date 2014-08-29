@@ -28,27 +28,27 @@ void List_functor() {
     // fmap
     {
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            fmap(f, list()),
+            fmap(list(), f),
             list()
         ));
 
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            fmap(f, list(x<1>)),
+            fmap(list(x<1>), f),
             list(f(x<1>))
         ));
 
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            fmap(f, list(x<1>, x<2>)),
+            fmap(list(x<1>, x<2>), f),
             list(f(x<1>), f(x<2>))
         ));
 
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            fmap(f, list(x<1>, x<2>, x<3>)),
+            fmap(list(x<1>, x<2>, x<3>), f),
             list(f(x<1>), f(x<2>), f(x<3>))
         ));
 
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            fmap(f, list(x<1>, x<2>, x<3>, x<4>)),
+            fmap(list(x<1>, x<2>, x<3>, x<4>), f),
             list(f(x<1>), f(x<2>), f(x<3>), f(x<4>))
         ));
     }

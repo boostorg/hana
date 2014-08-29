@@ -101,33 +101,33 @@ int main() {
     // drop_until
     {
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            drop_until(id, iterable()),
+            drop_until(iterable(), id),
             iterable()
         ));
 
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            drop_until(id, iterable(true_)),
+            drop_until(iterable(true_), id),
             iterable(true_)
         ));
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            drop_until(id, iterable(false_)),
+            drop_until(iterable(false_), id),
             iterable()
         ));
 
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            drop_until(id, iterable(true_, true_)),
+            drop_until(iterable(true_, true_), id),
             iterable(true_, true_)
         ));
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            drop_until(id, iterable(true_, false_)),
+            drop_until(iterable(true_, false_), id),
             iterable(true_, false_)
         ));
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            drop_until(id, iterable(false_, true_)),
+            drop_until(iterable(false_, true_), id),
             iterable(true_)
         ));
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            drop_until(id, iterable(false_, false_)),
+            drop_until(iterable(false_, false_), id),
             iterable()
         ));
     }
@@ -135,33 +135,33 @@ int main() {
     // drop_while
     {
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            drop_while(id, iterable()),
+            drop_while(iterable(), id),
             iterable()
         ));
 
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            drop_while(id, iterable(true_)),
+            drop_while(iterable(true_), id),
             iterable()
         ));
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            drop_while(id, iterable(false_)),
+            drop_while(iterable(false_), id),
             iterable(false_)
         ));
 
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            drop_while(id, iterable(true_, true_)),
+            drop_while(iterable(true_, true_), id),
             iterable()
         ));
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            drop_while(id, iterable(true_, false_)),
+            drop_while(iterable(true_, false_), id),
             iterable(false_)
         ));
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            drop_while(id, iterable(false_, true_)),
+            drop_while(iterable(false_, true_), id),
             iterable(false_, true_)
         ));
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            drop_while(id, iterable(false_, false_)),
+            drop_while(iterable(false_, false_), id),
             iterable(false_, false_)
         ));
     }

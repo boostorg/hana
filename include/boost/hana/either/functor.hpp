@@ -24,20 +24,20 @@ namespace boost { namespace hana {
     //! does nothing if `e` contains a left value, and it applies the function
     //! if `e` contains a right value. In other words:
     //! @code
-    //!     fmap(f, left(x)) == left(x)
-    //!     fmap(f, right(x)) == right(f(x))
+    //!     fmap(left(x), f) == left(x)
+    //!     fmap(right(x), f) == right(f(x))
     //! @endcode
     //!
     //! ### Example
     //! @snippet example/either.cpp functor
     template <>
     struct Functor::instance<Either> : Functor::fmap_mcd {
-        template <typename F, typename X>
-        static constexpr auto fmap_impl(F f, either_detail::right<X> x)
+        template <typename X, typename F>
+        static constexpr auto fmap_impl(either_detail::right<X> x, F f)
         { return right(f(x.value)); }
 
-        template <typename F, typename E>
-        static constexpr auto fmap_impl(F f, E e)
+        template <typename E, typename F>
+        static constexpr auto fmap_impl(E e, F f)
         { return e; }
     };
 }} // end namespace boost::hana

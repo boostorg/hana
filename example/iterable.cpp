@@ -63,11 +63,11 @@ int main() {
         };
 
         BOOST_HANA_CONSTANT_ASSERT(
-            drop_until(positive, range(int_<-3>, int_<6>)) == range(int_<1>, int_<6>)
+            drop_until(range(int_<-3>, int_<6>), positive) == range(int_<1>, int_<6>)
         );
 
         BOOST_HANA_CONSTANT_ASSERT(
-            drop_until(positive, tuple(1_c, -2_c, 4_c, 5_c)) == tuple(1_c, -2_c, 4_c, 5_c)
+            drop_until(tuple(1_c, -2_c, 4_c, 5_c), positive) == tuple(1_c, -2_c, 4_c, 5_c)
         );
         //! [drop_until]
     }
@@ -80,11 +80,11 @@ int main() {
         };
 
         BOOST_HANA_CONSTANT_ASSERT(
-            drop_while(negative, range(int_<-3>, int_<6>)) == range(int_<0>, int_<6>)
+            drop_while(range(int_<-3>, int_<6>), negative) == range(int_<0>, int_<6>)
         );
 
         BOOST_HANA_CONSTANT_ASSERT(
-            drop_while(negative, tuple(1_c, -2_c, 4_c, 5_c)) == tuple(1_c, -2_c, 4_c, 5_c)
+            drop_while(tuple(1_c, -2_c, 4_c, 5_c), negative) == tuple(1_c, -2_c, 4_c, 5_c)
         );
         //! [drop_while]
     }

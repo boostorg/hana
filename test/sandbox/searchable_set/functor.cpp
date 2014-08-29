@@ -24,15 +24,15 @@ int main() {
     // fmap
     {
         BOOST_HANA_CONSTEXPR_ASSERT(equal(
-            fmap(f, singleton(x<0>)),
+            fmap(singleton(x<0>), f),
             singleton(f(x<0>))
         ));
         BOOST_HANA_CONSTEXPR_ASSERT(equal(
-            fmap(f, doubleton(x<0>, x<1>)),
+            fmap(doubleton(x<0>, x<1>), f),
             doubleton(f(x<0>), f(x<1>))
         ));
         BOOST_HANA_CONSTEXPR_ASSERT(equal(
-            fmap(f, doubleton(x<0>, x<0>)),
+            fmap(doubleton(x<0>, x<0>), f),
             singleton(f(x<0>))
         ));
     }

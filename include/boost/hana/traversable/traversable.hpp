@@ -28,10 +28,10 @@ namespace boost { namespace hana {
     //! [applicative transformation](@ref Applicative_terminology) `t`,
     //!
     //! @code
-    //!     t(sequence(x)) == sequence(fmap(t, x))                              // naturality
-    //!     sequence(fmap(Identity, x)) == Identity(x)                          // identity
-    //!     sequence(fmap(Compose, x)) == Compose(fmap(sequence, sequence(x)))  // composition
-    //!     traverse(f, x) == sequence(fmap(f, x))
+    //!     t(sequence(x)) == sequence(fmap(x, t))                              // naturality
+    //!     sequence(fmap(x, Identity)) == Identity(x)                          // identity
+    //!     sequence(fmap(x, Compose)) == Compose(fmap(sequence(x), sequence))  // composition
+    //!     traverse(x, f) == sequence(fmap(x, f))
     //! @endcode
     //!
     //! where [Identity][] and [Compose][] are the identity functor and the
@@ -62,13 +62,13 @@ namespace boost { namespace hana {
 
         template <typename A>
         struct traverse {
-            template <typename F, typename T>
-            constexpr decltype(auto) operator()(F&& f, T&& traversable) const {
+            template <typename T, typename F>
+            constexpr decltype(auto) operator()(T&& traversable, F&& f) const {
                 return Traversable::instance<
                     datatype_t<decltype(traversable)>
                 >::template traverse_impl<A>(
-                    detail::std::forward<F>(f),
-                    detail::std::forward<T>(traversable)
+                    detail::std::forward<T>(traversable),
+                    detail::std::forward<F>(f)
                 );
             }
         };
@@ -113,13 +113,13 @@ namespace boost { namespace hana {
     //! type explicitly because the current data type system is not powerful
     //! enough to let us peek into the data type returned by `f`.
     //!
+    //! @param traversable
+    //! The structure to be mapped over and then `sequence`d.
+    //!
     //! @param f
     //! A function called as `f(x)` for each element `x` of the structure
     //! and returning an `Applicative` that will then be combined as per
     //! `sequence`.
-    //!
-    //! @param traversable
-    //! The structure to be mapped over than then `sequence`d.
     //!
     //!
     //! ### Example
@@ -129,12 +129,12 @@ namespace boost { namespace hana {
     //! @snippet example/traversable/traverse.cpp maybe
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename A>
-    constexpr auto traverse = [](auto&& f, auto&& traversable) -> decltype(auto) {
+    constexpr auto traverse = [](auto&& traversable, auto&& f) -> decltype(auto) {
         return Traversable::instance<
             datatype_t<decltype(traversable)>
         >::template traverse_impl<A>(
-            std::forward<decltype(f)>(f),
-            std::forward<decltype(traversable)>(traversable)
+            std::forward<decltype(traversable)>(traversable),
+            std::forward<decltype(f)>(f)
         );
     };
 #else

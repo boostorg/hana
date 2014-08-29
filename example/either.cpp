@@ -36,11 +36,11 @@ int main() {
 
         auto inc = partial(plus, int_<1>);
         BOOST_HANA_CONSTANT_ASSERT(
-            fmap(inc, int_<6> ^safediv^ int_<3>) == right(int_<3>)
+            fmap(int_<6> ^safediv^ int_<3>, inc) == right(int_<3>)
         );
 
         BOOST_HANA_RUNTIME_ASSERT(
-            fmap(inc, int_<6> ^safediv^ int_<0>) == left("division by zero")
+            fmap(int_<6> ^safediv^ int_<0>, inc) == left("division by zero")
         );
         //! [functor]
     }

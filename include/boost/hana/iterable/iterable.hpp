@@ -203,6 +203,9 @@ namespace boost { namespace hana {
     //! valued `Logical` at a finite index for this method to return.
     //!
     //!
+    //! @param iterable
+    //! The iterable from which elements are dropped.
+    //!
     //! @param predicate
     //! A function called as `predicate(x)`, where `x` is an element of the
     //! structure, and returning a `Logical` representing whether `x` should
@@ -210,18 +213,15 @@ namespace boost { namespace hana {
     //! `predicate` should return a [compile-time](@ref Logical_terminology)
     //! `Logical`.
     //!
-    //! @param iterable
-    //! The iterable from which elements are dropped.
-    //!
     //!
     //! ### Example
     //! @snippet example/iterable.cpp drop_while
-    BOOST_HANA_CONSTEXPR_LAMBDA auto drop_while = [](auto&& predicate, auto&& iterable) -> decltype(auto) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto drop_while = [](auto&& iterable, auto&& predicate) -> decltype(auto) {
         return Iterable::instance<
             datatype_t<decltype(iterable)>
         >::drop_while_impl(
-            detail::std::forward<decltype(predicate)>(predicate),
-            detail::std::forward<decltype(iterable)>(iterable)
+            detail::std::forward<decltype(iterable)>(iterable),
+            detail::std::forward<decltype(predicate)>(predicate)
         );
     };
 
@@ -241,6 +241,9 @@ namespace boost { namespace hana {
     //! `predicate`.
     //!
     //!
+    //! @param iterable
+    //! The iterable from which elements are dropped.
+    //!
     //! @param predicate
     //! A function called as `predicate(x)`, where `x` is an element of the
     //! structure, and returning a `Logical` representing whether `x` and
@@ -248,18 +251,15 @@ namespace boost { namespace hana {
     //! version of the library, `predicate` should return a
     //! [compile-time](@ref Logical_terminology) `Logical`.
     //!
-    //! @param iterable
-    //! The iterable from which elements are dropped.
-    //!
     //!
     //! ### Example
     //! @snippet example/iterable.cpp drop_until
-    BOOST_HANA_CONSTEXPR_LAMBDA auto drop_until = [](auto&& predicate, auto&& iterable) -> decltype(auto) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto drop_until = [](auto&& iterable, auto&& predicate) -> decltype(auto) {
         return Iterable::instance<
             datatype_t<decltype(iterable)>
         >::drop_until_impl(
-            detail::std::forward<decltype(predicate)>(predicate),
-            detail::std::forward<decltype(iterable)>(iterable)
+            detail::std::forward<decltype(iterable)>(iterable),
+            detail::std::forward<decltype(predicate)>(predicate)
         );
     };
 }} // end namespace boost::hana

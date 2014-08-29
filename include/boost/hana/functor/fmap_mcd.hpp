@@ -18,15 +18,15 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     //! Minimal complete definition: `fmap`
     struct Functor::fmap_mcd : functor_detail::common {
-        template <typename Pred, typename F, typename Functor_>
-        static constexpr auto adjust_impl(Pred pred, F f, Functor_ functor) {
+        template <typename Xs, typename Pred, typename F>
+        static constexpr auto adjust_impl(Xs xs, Pred pred, F f) {
             auto go = [=](auto x) {
                 return eval_if(pred(x),
                     [=](auto _) { return _(f)(x); },
                     [=](auto) { return x; }
                 );
             };
-            return fmap(go, functor);
+            return fmap(xs, go);
         }
     };
 }} // end namespace boost::hana

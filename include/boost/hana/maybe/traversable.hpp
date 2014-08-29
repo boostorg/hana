@@ -27,11 +27,11 @@ namespace boost { namespace hana {
     //! @snippet example/maybe/traversable.cpp main
     template <>
     struct Traversable::instance<Maybe> : Traversable::traverse_mcd {
-        template <typename A, typename F, typename M>
-        static constexpr auto traverse_impl(F f, M mx) {
+        template <typename A, typename M, typename F>
+        static constexpr auto traverse_impl(M mx, F f) {
             return maybe(
                 lift<A>(nothing),
-                [=](auto x) { return fmap(just, f(x)); },
+                [=](auto x) { return fmap(f(x), just); },
                 mx
             );
         }

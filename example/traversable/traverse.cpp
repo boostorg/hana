@@ -22,13 +22,13 @@ int main() {
     };
 
     BOOST_HANA_CONSTANT_ASSERT(
-        traverse<Maybe>(half, tuple(int_<2>, int_<4>, int_<6>))
+        traverse<Maybe>(tuple(int_<2>, int_<4>, int_<6>), half)
         ==
         just(tuple(int_<1>, int_<2>, int_<3>))
     );
 
     BOOST_HANA_CONSTANT_ASSERT(
-        traverse<Maybe>(half, tuple(int_<2>, int_<3>, int_<6>))
+        traverse<Maybe>(tuple(int_<2>, int_<3>, int_<6>), half)
         ==
         nothing
     );
@@ -40,11 +40,11 @@ int main() {
     };
 
     BOOST_HANA_CONSTEXPR_ASSERT(
-        traverse<Tuple>(twice, just('x')) == tuple(just('x'), just('x'))
+        traverse<Tuple>(just('x'), twice) == tuple(just('x'), just('x'))
     );
 
     BOOST_HANA_CONSTANT_ASSERT(
-        traverse<Tuple>(twice, nothing) == tuple(nothing)
+        traverse<Tuple>(nothing, twice) == tuple(nothing)
     );
     //! [maybe]
 }

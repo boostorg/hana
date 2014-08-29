@@ -22,13 +22,13 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     template <typename T>
     struct Traversable::list_mcd : Traversable::traverse_mcd {
-        template <typename A, typename F, typename Xs>
-        static constexpr auto traverse_impl(F f, Xs xs) {
+        template <typename A, typename Xs, typename F>
+        static constexpr auto traverse_impl(Xs xs, F f) {
             auto curried_cons = [](auto x) {
                 return [=](auto xs) { return cons(x, xs); };
             };
             return foldr(xs, lift<A>(nil<T>), [=](auto x, auto ys) {
-                return ap(fmap(curried_cons, f(x)), ys);
+                return ap(fmap(f(x), curried_cons), ys);
             });
         }
     };

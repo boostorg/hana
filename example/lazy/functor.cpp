@@ -20,8 +20,8 @@ int main() {
         return 1 / x;
     };
 
-    BOOST_HANA_CONSTEXPR_ASSERT(eval(fmap(double_, lazy(one_over)(4))) == 1 / 2);
+    BOOST_HANA_CONSTEXPR_ASSERT(eval(fmap(lazy(one_over)(4), double_)) == 1 / 2);
 
-    fmap(double_, lazy(one_over)(0)); // never evaluated
+    fmap(lazy(one_over)(0), double_); // never evaluated
     //! [fmap]
 }

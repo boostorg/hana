@@ -583,46 +583,46 @@ void List_methods() {
     {
         auto z = x<999>;
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            take_while(isnt(z), list()),
+            take_while(list(), isnt(z)),
             list()
         ));
 
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            take_while(isnt(z), list(x<1>)),
+            take_while(list(x<1>), isnt(z)),
             list(x<1>)
         ));
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            take_while(isnt(z), list(z)),
+            take_while(list(z), isnt(z)),
             list()
         ));
 
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            take_while(isnt(z), list(x<1>, x<2>)),
+            take_while(list(x<1>, x<2>), isnt(z)),
             list(x<1>, x<2>)
         ));
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            take_while(isnt(z), list(x<1>, z)),
+            take_while(list(x<1>, z), isnt(z)),
             list(x<1>)
         ));
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            take_while(isnt(z), list(z, x<2>)),
+            take_while(list(z, x<2>), isnt(z)),
             list()
         ));
 
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            take_while(isnt(z), list(x<1>, x<2>, x<3>)),
+            take_while(list(x<1>, x<2>, x<3>), isnt(z)),
             list(x<1>, x<2>, x<3>)
         ));
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            take_while(isnt(z), list(x<1>, x<2>, z)),
+            take_while(list(x<1>, x<2>, z), isnt(z)),
             list(x<1>, x<2>)
         ));
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            take_while(isnt(z), list(x<1>, z, x<3>)),
+            take_while(list(x<1>, z, x<3>), isnt(z)),
             list(x<1>)
         ));
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            take_while(isnt(z), list(z, x<2>, x<3>)),
+            take_while(list(z, x<2>, x<3>), isnt(z)),
             list()
         ));
     }
@@ -632,46 +632,46 @@ void List_methods() {
         auto z = x<999>;
 
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            take_until(is(z), list()),
+            take_until(list(), is(z)),
             list()
         ));
 
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            take_until(is(z), list(x<1>)),
+            take_until(list(x<1>), is(z)),
             list(x<1>)
         ));
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            take_until(is(z), list(z)),
+            take_until(list(z), is(z)),
             list()
         ));
 
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            take_until(is(z), list(x<1>, x<2>)),
+            take_until(list(x<1>, x<2>), is(z)),
             list(x<1>, x<2>)
         ));
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            take_until(is(z), list(x<1>, z)),
+            take_until(list(x<1>, z), is(z)),
             list(x<1>)
         ));
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            take_until(is(z), list(z, x<2>)),
+            take_until(list(z, x<2>), is(z)),
             list()
         ));
 
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            take_until(is(z), list(x<1>, x<2>, x<3>)),
+            take_until(list(x<1>, x<2>, x<3>), is(z)),
             list(x<1>, x<2>, x<3>)
         ));
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            take_until(is(z), list(x<1>, x<2>, z)),
+            take_until(list(x<1>, x<2>, z), is(z)),
             list(x<1>, x<2>)
         ));
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            take_until(is(z), list(x<1>, z, x<3>)),
+            take_until(list(x<1>, z, x<3>), is(z)),
             list(x<1>)
         ));
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            take_until(is(z), list(z, x<2>, x<3>)),
+            take_until(list(z, x<2>, x<3>), is(z)),
             list()
         ));
     }
@@ -993,8 +993,8 @@ void List_methods() {
 
         BOOST_HANA_CONSTEXPR_LAMBDA auto check = [=](auto ...sorted) {
             auto perms = fmap(
-                partial(sort_by, pred),
-                permutations(list(a(sorted)...))
+                permutations(list(a(sorted)...)),
+                partial(sort_by, pred)
             );
             BOOST_HANA_CONSTANT_ASSERT(all(perms, [=](auto xs) {
                 return equal(xs, list(a(sorted)...));

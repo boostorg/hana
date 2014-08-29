@@ -15,7 +15,8 @@ struct f {
 template <int> struct x { };
 
 int main() {
-    auto go = boost::hana::fmap(f{},
-        <%= list((0..x).map { |i| "x<#{i}>" }, (0..x).map { |i| "x<#{i}>{}" }) %>
+    auto go = boost::hana::fmap(
+        <%= list((0..x).map { |i| "x<#{i}>" }, (0..x).map { |i| "x<#{i}>{}" }) %>,
+        f{}
     );
 }

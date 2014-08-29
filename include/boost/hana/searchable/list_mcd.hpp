@@ -25,7 +25,7 @@ namespace boost { namespace hana {
     struct Searchable::list_mcd : Searchable::mcd {
         template <typename Xs, typename Pred>
         static constexpr auto find_impl(Xs xs, Pred pred) {
-            auto e = drop_until(pred, xs);
+            auto e = drop_until(xs, pred);
             return eval_if(is_empty(e),
                 [](auto) { return nothing; },
                 [=](auto _) { return just(_(head)(e)); }

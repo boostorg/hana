@@ -33,7 +33,7 @@ namespace boost { namespace hana {
                 using P = datatype_t<decltype(k_f)>;
                 return make<P>(first(k_f), second(k_f)(x));
             };
-            return to<Map>(fmap(extract, members<R>));
+            return to<Map>(fmap(members<R>, extract));
         }
     };
 

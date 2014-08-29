@@ -65,8 +65,8 @@ namespace boost { namespace hana {
 
     template <>
     struct Functor::instance<SearchableSet> : Functor::fmap_mcd {
-        template <typename F, typename Set>
-        static constexpr auto fmap_impl(F f, Set set) {
+        template <typename Set, typename F>
+        static constexpr auto fmap_impl(Set set, F f) {
             return searchable_set([=](auto q) {
                 return f(set.find([=](auto x) { return q(f(x)); }));
             });
@@ -81,10 +81,9 @@ namespace boost { namespace hana {
 
         template <typename F, typename Set>
         static constexpr auto ap_impl(F fset, Set set) {
-            return flatten(fmap(
-                [=](auto f) { return fmap(f, set); },
-                fset
-            ));
+            return flatten(fmap(fset, [=](auto f) {
+                return fmap(set, f);
+            }));
         }
     };
 

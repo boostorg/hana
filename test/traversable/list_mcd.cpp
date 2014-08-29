@@ -28,23 +28,23 @@ void tests() {
     // traverse
     {
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            traverse<A>(compose(applicative, f), list()),
+            traverse<A>(list(), compose(applicative, f)),
             applicative(list())
         ));
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            traverse<A>(compose(applicative, f), list(x<0>)),
+            traverse<A>(list(x<0>), compose(applicative, f)),
             applicative(list(f(x<0>)))
         ));
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            traverse<A>(compose(applicative, f), list(x<0>, x<1>)),
+            traverse<A>(list(x<0>, x<1>), compose(applicative, f)),
             applicative(list(f(x<0>), f(x<1>)))
         ));
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            traverse<A>(compose(applicative, f), list(x<0>, x<1>, x<2>)),
+            traverse<A>(list(x<0>, x<1>, x<2>), compose(applicative, f)),
             applicative(list(f(x<0>), f(x<1>), f(x<2>)))
         ));
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            traverse<A>(compose(applicative, f), list(x<0>, x<1>, x<2>, x<3>)),
+            traverse<A>(list(x<0>, x<1>, x<2>, x<3>), compose(applicative, f)),
             applicative(list(f(x<0>), f(x<1>), f(x<2>), f(x<3>)))
         ));
     }

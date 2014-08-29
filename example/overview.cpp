@@ -28,13 +28,13 @@ auto name = [](auto x) { return x.name; };
 int main() {
     // Heterogeneous sequences for value-level metaprogramming.
     auto stuff = tuple(President{"Obama"}, Car{"Toyota"}, City{"Quebec"});
-    BOOST_HANA_RUNTIME_ASSERT(reverse(fmap(name, stuff)) == tuple("Quebec", "Toyota", "Obama"));
+    BOOST_HANA_RUNTIME_ASSERT(reverse(fmap(stuff, name)) == tuple("Quebec", "Toyota", "Obama"));
 
     // No compile-time information is lost (the assertion is done at compile-time).
     BOOST_HANA_CONSTANT_ASSERT(length(stuff) == int_<3>);
 
     // Type-level metaprogramming works too.
-    auto types = fmap(compose(metafunction<std::add_pointer>, decltype_), stuff);
+    auto types = fmap(stuff, compose(metafunction<std::add_pointer>, decltype_));
 
     static_assert(std::is_same<
         decltype(head(types))::type, President*

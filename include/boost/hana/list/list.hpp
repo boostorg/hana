@@ -576,8 +576,8 @@ namespace boost { namespace hana {
     //! Specifically, `span(xs, predicate)` is equivalent to
     //! @code
     //!     span(xs, predicate) == pair(
-    //!                             take_while(predicate, xs),
-    //!                             drop_while(predicate, xs)
+    //!                             take_while(xs, predicate),
+    //!                             drop_while(xs, predicate)
     //!                            )
     //! @endcode
     //! except that `pair` may be an arbitrary `Product`.
@@ -661,6 +661,9 @@ namespace boost { namespace hana {
     //! to `take_while` with a negated predicate.
     //!
     //!
+    //! @param xs
+    //! The list to take the elements from.
+    //!
     //! @param predicate
     //! A function called as `predicate(x)`, where `x` is an element of the
     //! list, and returning a `Logical` representing whether the resulting
@@ -668,18 +671,15 @@ namespace boost { namespace hana {
     //! of the library, `predicate` has to return a
     //! [compile-time](@ref Logical_terminology) `Logical`.
     //!
-    //! @param xs
-    //! The list to take the elements from.
-    //!
     //!
     //! ### Example
     //! @snippet example/list/take_until.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto take_until = [](auto&& predicate, auto&& xs) -> decltype(auto) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto take_until = [](auto&& xs, auto&& predicate) -> decltype(auto) {
         return List::instance<
             datatype_t<decltype(xs)>
         >::take_until_impl(
-            detail::std::forward<decltype(predicate)>(predicate),
-            detail::std::forward<decltype(xs)>(xs)
+            detail::std::forward<decltype(xs)>(xs),
+            detail::std::forward<decltype(predicate)>(predicate)
         );
     };
 
@@ -690,6 +690,9 @@ namespace boost { namespace hana {
     //! elements satisfy the given predicate.
     //!
     //!
+    //! @param xs
+    //! The list to take elements from.
+    //!
     //! @param predicate
     //! A function called as `predicate(x)`, where `x` is an element of the
     //! list, and returning a `Logical` representing whether `x` should be
@@ -697,18 +700,15 @@ namespace boost { namespace hana {
     //! `predicate` has to return a [compile-time](@ref Logical_terminology)
     //! `Logical`.
     //!
-    //! @param xs
-    //! The list to take elements from.
-    //!
     //!
     //! ### Example
     //! @snippet example/list/take_while.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto take_while = [](auto&& predicate, auto&& xs) -> decltype(auto) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto take_while = [](auto&& xs, auto&& predicate) -> decltype(auto) {
         return List::instance<
             datatype_t<decltype(xs)>
         >::take_while_impl(
-            detail::std::forward<decltype(predicate)>(predicate),
-            detail::std::forward<decltype(xs)>(xs)
+            detail::std::forward<decltype(xs)>(xs),
+            detail::std::forward<decltype(predicate)>(predicate)
         );
     };
 

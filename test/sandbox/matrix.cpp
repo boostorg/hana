@@ -78,14 +78,12 @@ auto repeat_n = [](auto n, auto x) {
 
 template <typename S1, typename S2>
 constexpr auto operator*(matrix_type<S1> m1, matrix_type<S2> m2) {
-    auto storage = fmap(
-        [=](auto row) {
-            return zip_with(
-                    scalar_prod,
-                    repeat_n(m2.ncolumns(), row),
-                    columns(m2));
-        }
-    , rows(m1));
+    auto storage = fmap(rows(m1), [=](auto row) {
+        return zip_with(
+            scalar_prod,
+            repeat_n(m2.ncolumns(), row),
+            columns(m2));
+    });
     return matrix_type<decltype(storage)>{storage};
 }
 
@@ -114,14 +112,14 @@ constexpr int exponent(int x, unsigned int n) {
 auto remove_at = [](auto n, auto xs) {
     auto with_indices = zip(xs, range(int_<0>, length(xs)));
     auto removed = filter(with_indices, compose(n != _, last));
-    return fmap(head, removed);
+    return fmap(removed, head);
 };
 
 template <typename Matrix>
 struct _det; // remove circular dependency between matrix_minor and det
 
 auto matrix_minor = [](auto m, auto i, auto j) {
-    auto submatrix_storage = fmap(partial(remove_at, j), remove_at(i, rows(m)));
+    auto submatrix_storage = fmap(remove_at(i, rows(m)), partial(remove_at, j));
     matrix_type<decltype(submatrix_storage)> submatrix{submatrix_storage};
     return _det<decltype(submatrix)>{}(submatrix);
 };
@@ -153,9 +151,9 @@ auto det = [](auto m) {
 namespace boost { namespace hana {
     template <>
     struct Functor::instance<Matrix> : Functor::fmap_mcd {
-        template <typename F, typename M>
-        static constexpr auto fmap_impl(F f, M mat) {
-            auto new_storage = fmap(partial(fmap, f), mat.rows_);
+        template <typename M, typename F>
+        static constexpr auto fmap_impl(M mat, F f) {
+            auto new_storage = fmap(mat.rows_, partial(flip(fmap), f));
             return matrix_type<decltype(new_storage)>{new_storage};
         }
     };
@@ -219,7 +217,7 @@ void test_functor() {
         row(int_<4>, 5, 6),
         row(7, 8, int_<9>)
     );
-    BOOST_HANA_CONSTEXPR_ASSERT(fmap(_ + int_<1>, m) ==
+    BOOST_HANA_CONSTEXPR_ASSERT(fmap(m, _ + int_<1>) ==
         matrix(
             row(2, int_<3>, 4),
             row(int_<5>, 6, 7),

@@ -24,18 +24,18 @@ int main() {
     };
 
     BOOST_HANA_RUNTIME_ASSERT(
-        fmap(to_string, tuple(1, '2', "345", std::string{"67"}))
+        fmap(tuple(1, '2', "345", std::string{"67"}), to_string)
         ==
         tuple("1", "2", "345", "67")
     );
 
-    BOOST_HANA_CONSTANT_ASSERT(fmap(to_string, nothing) == nothing);
-    BOOST_HANA_RUNTIME_ASSERT(fmap(to_string, just(123)) == just("123"));
+    BOOST_HANA_CONSTANT_ASSERT(fmap(nothing, to_string) == nothing);
+    BOOST_HANA_RUNTIME_ASSERT(fmap(just(123), to_string) == just("123"));
     //! [to_string]
 
     //! [add_pointer]
     BOOST_HANA_CONSTANT_ASSERT(
-        fmap(template_<std::add_pointer_t>, type_list<void, int(), char[10]>)
+        fmap(type_list<void, int(), char[10]>, template_<std::add_pointer_t>)
                 ==
         type_list<void*, int(*)(), char(*)[10]>
     );

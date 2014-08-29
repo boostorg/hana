@@ -31,7 +31,7 @@ constexpr auto Monad_laws(Monads ...m) {
                     bind(m, [=](auto x) { return bind(f(x), g); }),
                     bind(bind(m, f), g)
                 ),
-                equal(fmap(f, m), bind(m, compose(lift<M>, f)))
+                equal(fmap(m, f), bind(m, compose(lift<M>, f)))
             )...
         );
     };

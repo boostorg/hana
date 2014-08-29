@@ -26,8 +26,8 @@ namespace boost { namespace hana {
         helper(F f, std::tuple<Xs...> tuple, std::index_sequence<Index...>)
         { return std::make_tuple(f(std::get<Index>(tuple))...); }
 
-        template <typename F, typename ...Xs>
-        static constexpr auto fmap_impl(F f, std::tuple<Xs...> tuple)
+        template <typename ...Xs, typename F>
+        static constexpr auto fmap_impl(std::tuple<Xs...> tuple, F f)
         { return helper(f, tuple, std::index_sequence_for<Xs...>{}); }
     };
 }} // end namespace boost::hana

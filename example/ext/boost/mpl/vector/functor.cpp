@@ -18,12 +18,12 @@ namespace mpl = boost::mpl;
 constexpr mpl::vector<int, char, float> types{};
 
 BOOST_HANA_CONSTANT_ASSERT(equal(
-    fmap(metafunction<std::add_pointer>, types),
+    fmap(types, metafunction<std::add_pointer>),
     mpl::vector<int*, char*, float*>{}
 ));
 
 BOOST_HANA_CONSTANT_ASSERT(equal(
-    replace(trait<std::is_floating_point>, type<void>, types),
+    replace(types, trait<std::is_floating_point>, type<void>),
     mpl::vector<int, char, void>{}
 ));
 

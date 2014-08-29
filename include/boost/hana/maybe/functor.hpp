@@ -26,8 +26,8 @@ namespace boost { namespace hana {
     //! @snippet example/maybe/functor.cpp main
     template <>
     struct Functor::instance<Maybe> : Functor::fmap_mcd {
-        template <typename F, typename M>
-        static constexpr auto fmap_impl(F f, M m)
+        template <typename M, typename F>
+        static constexpr auto fmap_impl(M m, F f)
         { return maybe(nothing, [=](auto x) { return just(f(x)); }, m); }
     };
 }} // end namespace boost::hana

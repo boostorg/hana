@@ -21,7 +21,7 @@ namespace boost { namespace hana {
     struct Monad::flatten_mcd : monad_detail::common<M> {
         template <typename Mon, typename F>
         static constexpr auto bind_impl(Mon monad, F f)
-        { return flatten(fmap(f, monad)); }
+        { return flatten(fmap(monad, f)); }
     };
 }} // end namespace boost::hana
 

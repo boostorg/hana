@@ -21,8 +21,14 @@ int main() {
 
     // fmap
     {
-        BOOST_HANA_CONSTANT_ASSERT(equal(fmap(f, lazy(x<0>)), lazy(f(x<0>))));
-        BOOST_HANA_CONSTANT_ASSERT(equal(fmap(f, lazy(x<1>)), lazy(f(x<1>))));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            fmap(lazy(x<0>), f),
+            lazy(f(x<0>))
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            fmap(lazy(x<1>), f),
+            lazy(f(x<1>))
+        ));
     }
 
     // laws

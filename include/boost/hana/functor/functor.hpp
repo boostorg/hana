@@ -24,8 +24,8 @@ namespace boost { namespace hana {
     //! `Functor` `x` and functions with matching domains/codomains `f`
     //! and `g`,
     //! @code
-    //!     fmap(id, x) == x
-    //!     fmap(compose(f, g), x) == fmap(f, fmap(g, x))
+    //!     fmap(x, id) == x
+    //!     fmap(x, compose(f, g)) == fmap(fmap(x, g), f)
     //! @endcode
     struct Functor {
         BOOST_HANA_TYPECLASS(Functor);
@@ -35,16 +35,16 @@ namespace boost { namespace hana {
         struct list_mcd;
     };
 
-    //! Map `f` over a `Functor`.
+    //! Map a function over a `Functor`.
     //! @relates Functor
     //!
+    //!
+    //! @param functor
+    //! The structure to map `f` over.
     //!
     //! @param f
     //! A function called as `f(x)` on each element `x` of the structure,
     //! and returning a new value to replace `x` in the structure.
-    //!
-    //! @param functor
-    //! The structure to map `f` over.
     //!
     //!
     //! ### Example
@@ -52,12 +52,12 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/functor/fmap.cpp add_pointer
-    BOOST_HANA_CONSTEXPR_LAMBDA auto fmap = [](auto&& f, auto&& functor) -> decltype(auto) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto fmap = [](auto&& functor, auto&& f) -> decltype(auto) {
         return Functor::instance<
             datatype_t<decltype(functor)>
         >::fmap_impl(
-            detail::std::forward<decltype(f)>(f),
-            detail::std::forward<decltype(functor)>(functor)
+            detail::std::forward<decltype(functor)>(functor),
+            detail::std::forward<decltype(f)>(f)
         );
     };
 
@@ -65,6 +65,9 @@ namespace boost { namespace hana {
     //! `predicate`.
     //! @relates Functor
     //!
+    //!
+    //! @param functor
+    //! The structure to map `f` over.
     //!
     //! @param predicate
     //! A function called as `predicate(x)` for each element `x` of the
@@ -75,19 +78,16 @@ namespace boost { namespace hana {
     //! A function called as `f(x)` on each element for which the `predicate`
     //! returns a true-valued `Logical`.
     //!
-    //! @param functor
-    //! The structure to map `f` over.
-    //!
     //!
     //! ### Example
     //! @snippet example/functor/adjust.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto adjust = [](auto&& predicate, auto&& f, auto&& functor) -> decltype(auto) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto adjust = [](auto&& functor, auto&& predicate, auto&& f) -> decltype(auto) {
         return Functor::instance<
             datatype_t<decltype(functor)>
         >::adjust_impl(
+            detail::std::forward<decltype(functor)>(functor),
             detail::std::forward<decltype(predicate)>(predicate),
-            detail::std::forward<decltype(f)>(f),
-            detail::std::forward<decltype(functor)>(functor)
+            detail::std::forward<decltype(f)>(f)
         );
     };
 
@@ -95,6 +95,9 @@ namespace boost { namespace hana {
     //! with a fixed value.
     //! @relates Functor
     //!
+    //!
+    //! @param functor
+    //! The structure to replace elements of.
     //!
     //! @param predicate
     //! A function called as `predicate(x)` for each element `x` of the
@@ -105,19 +108,16 @@ namespace boost { namespace hana {
     //! A value by which every element `x` of the structure for which
     //! `predicate` returns a true-valued `Logical` is replaced.
     //!
-    //! @param functor
-    //! The structure to replace elements of.
-    //!
     //!
     //! ### Example
     //! @snippet example/functor/replace.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto replace = [](auto&& predicate, auto&& value, auto&& functor) -> decltype(auto) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto replace = [](auto&& functor, auto&& predicate, auto&& value) -> decltype(auto) {
         return Functor::instance<
             datatype_t<decltype(functor)>
         >::replace_impl(
+            detail::std::forward<decltype(functor)>(functor),
             detail::std::forward<decltype(predicate)>(predicate),
-            detail::std::forward<decltype(value)>(value),
-            detail::std::forward<decltype(functor)>(functor)
+            detail::std::forward<decltype(value)>(value)
         );
     };
 
@@ -125,34 +125,34 @@ namespace boost { namespace hana {
     //! @relates Functor
     //!
     //!
+    //! @param functor
+    //! The structure to fill with `value`.
+    //!
     //! @param value
     //! A value by which every element `x` of the structure is replaced,
     //! unconditionally.
     //!
-    //! @param functor
-    //! The structure to fill with `value`.
-    //!
     //!
     //! ### Example
     //! @snippet example/functor/fill.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto fill = [](auto&& value, auto&& functor) -> decltype(auto) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto fill = [](auto&& functor, auto&& value) -> decltype(auto) {
         return Functor::instance<
             datatype_t<decltype(functor)>
         >::fill_impl(
-            detail::std::forward<decltype(value)>(value),
-            detail::std::forward<decltype(functor)>(functor)
+            detail::std::forward<decltype(functor)>(functor),
+            detail::std::forward<decltype(value)>(value)
         );
     };
 
     namespace functor_detail {
         struct common {
-            template <typename Pred, typename Value, typename F>
-            static constexpr auto replace_impl(Pred pred, Value v, F functor)
-            { return adjust(pred, [=](auto) { return v; }, functor); }
+            template <typename F, typename Pred, typename Value>
+            static constexpr auto replace_impl(F functor, Pred pred, Value v)
+            { return adjust(functor, pred, [=](auto) { return v; }); }
 
-            template <typename Value, typename F>
-            static constexpr auto fill_impl(Value v, F functor)
-            { return fmap([=](auto) { return v; }, functor); }
+            template <typename F, typename Value>
+            static constexpr auto fill_impl(F functor, Value v)
+            { return fmap(functor, [=](auto) { return v; }); }
         };
     }
 }} // end namespace boost::hana

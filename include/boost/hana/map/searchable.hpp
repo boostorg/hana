@@ -27,10 +27,10 @@ namespace boost { namespace hana {
         template <typename M, typename Pred>
         static constexpr auto find_impl(M map, Pred pred) {
             return fmap(
-                second,
                 find(map.storage, [=](auto p) {
                     return pred(first(p));
-                })
+                }),
+                second
             );
         }
 

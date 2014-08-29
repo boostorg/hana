@@ -43,7 +43,7 @@ namespace boost { namespace hana {
 
         template <typename F, typename X>
         static constexpr auto ap_impl(either_detail::right<F> f, X x)
-        { return fmap(f.value, x); }
+        { return fmap(x, f.value); }
     };
 }} // end namespace boost::hana
 

@@ -20,8 +20,8 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     template <typename T>
     struct Functor::list_mcd : Functor::fmap_mcd {
-        template <typename F, typename Xs>
-        static constexpr auto fmap_impl(F f, Xs xs) {
+        template <typename Xs, typename F>
+        static constexpr auto fmap_impl(Xs xs, F f) {
             return foldr(xs, nil<T>, [=](auto x, auto xs) {
                 return cons(f(x), xs);
             });

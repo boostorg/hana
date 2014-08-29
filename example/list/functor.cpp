@@ -20,7 +20,7 @@ int main() {
     };
 
     BOOST_HANA_RUNTIME_ASSERT(
-        fmap(to_string, tuple(1, '2', "345", std::string{"67"})) ==
+        fmap(tuple(1, '2', "345", std::string{"67"}), to_string) ==
         tuple("1", "2", "345", "67")
     );
     //! [fmap]

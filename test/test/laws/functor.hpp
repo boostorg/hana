@@ -24,10 +24,10 @@ constexpr auto Functor_laws(Functors ...x) {
 
     return and_(
         and_(
-            equal(fmap(id, x), x),
+            equal(fmap(x, id), x),
             equal(
-                fmap(compose(f, g), x),
-                fmap(f, fmap(g, x))
+                fmap(x, compose(f, g)),
+                fmap(fmap(x, g), f)
             )
         )...
     );

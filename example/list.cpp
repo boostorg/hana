@@ -147,7 +147,7 @@ int main() {
         //! [take_while]
         using namespace literals;
         BOOST_HANA_CONSTANT_ASSERT(
-            take_while(_ < 2_c, integer_list<int, 0, 1, 2, 3>)
+            take_while(integer_list<int, 0, 1, 2, 3>, _ < 2_c)
             ==
             integer_list<int, 0, 1>
         );
@@ -158,7 +158,7 @@ int main() {
         //! [take_until]
         using namespace literals;
         BOOST_HANA_CONSTANT_ASSERT(
-            take_until(_ < 2_c, integer_list<int, 3, 2, 1, 0>)
+            take_until(integer_list<int, 3, 2, 1, 0>, _ < 2_c)
             ==
             integer_list<int, 3, 2>
         );

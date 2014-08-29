@@ -18,7 +18,7 @@ int main() {
     };
 
     BOOST_HANA_CONSTEXPR_ASSERT(
-        replace(negative, 0, tuple(-3, -2, -1, 0, 1, 2, 3))
+        replace(tuple(-3, -2, -1, 0, 1, 2, 3), negative, 0)
         ==
         tuple(0, 0, 0, 0, 1, 2, 3)
     );

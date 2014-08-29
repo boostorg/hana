@@ -26,8 +26,8 @@ namespace boost { namespace hana {
         template <typename X, typename Pred>
         static constexpr auto find_impl(X x, Pred pred) {
             return fmap(
-                [=](auto k_f) { return second(k_f)(x); },
-                find(members<R>, [=](auto k_f) { return pred(first(k_f)); })
+                find(members<R>, [=](auto k_f) { return pred(first(k_f)); }),
+                [=](auto k_f) { return second(k_f)(x); }
             );
         }
 

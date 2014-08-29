@@ -14,7 +14,7 @@ using namespace boost::hana;
 int main() {
     //! [main]
     BOOST_HANA_CONSTEXPR_LAMBDA auto inc = [](auto x) { return x + 1; };
-    BOOST_HANA_CONSTANT_ASSERT(fmap(inc, nothing) == nothing);
-    BOOST_HANA_CONSTEXPR_ASSERT(fmap(inc, just(1)) == just(2));
+    BOOST_HANA_CONSTANT_ASSERT(fmap(nothing, inc) == nothing);
+    BOOST_HANA_CONSTEXPR_ASSERT(fmap(just(1), inc) == just(2));
     //! [main]
 }

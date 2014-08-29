@@ -24,8 +24,8 @@ namespace boost { namespace hana {
     //! @snippet example/lazy/functor/fmap.cpp main
     template <>
     struct Functor::instance<Lazy> : Functor::fmap_mcd {
-        template <typename F, typename LX>
-        static constexpr auto fmap_impl(F f, LX lx) {
+        template <typename LX, typename F>
+        static constexpr auto fmap_impl(LX lx, F f) {
             auto storage = [=](auto _) { return f(_(eval)(lx)); };
             return lazy_detail::lazy<decltype(storage)>{storage};
         }

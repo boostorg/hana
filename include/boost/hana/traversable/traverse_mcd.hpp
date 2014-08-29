@@ -18,7 +18,7 @@ namespace boost { namespace hana {
     struct Traversable::traverse_mcd {
         template <typename A, typename T>
         static constexpr auto sequence_impl(T traversable)
-        { return traverse<A>([](auto x) { return x; }, traversable); }
+        { return traverse<A>(traversable, [](auto x) { return x; }); }
     };
 }} // end namespace boost::hana
 

@@ -46,22 +46,22 @@ namespace boost { namespace hana {
             );
         }
 
-        template <typename Pred, typename Iterable_>
-        static constexpr auto drop_while_impl(Pred pred, Iterable_ iterable) {
-            return eval_if(is_empty(iterable),
-                [=](auto) { return iterable; },
+        template <typename Xs, typename Pred>
+        static constexpr auto drop_while_impl(Xs xs, Pred pred) {
+            return eval_if(is_empty(xs),
+                [=](auto) { return xs; },
                 [=](auto _) {
-                    return eval_if(pred(_(head)(iterable)),
-                        [=](auto _) { return drop_while_impl(pred, _(tail)(iterable)); },
-                        [=](auto) { return iterable; }
+                    return eval_if(pred(_(head)(xs)),
+                        [=](auto _) { return drop_while_impl(_(tail)(xs), pred); },
+                        [=](auto) { return xs; }
                     );
                 }
             );
         }
 
-        template <typename Pred, typename Iterable_>
-        static constexpr auto drop_until_impl(Pred pred, Iterable_ iterable) {
-            return drop_while([=](auto x) { return not_(pred(x)); }, iterable);
+        template <typename Xs, typename Pred>
+        static constexpr auto drop_until_impl(Xs xs, Pred pred) {
+            return drop_while(xs, [=](auto x) { return not_(pred(x)); });
         }
     };
 }} // end namespace boost::hana

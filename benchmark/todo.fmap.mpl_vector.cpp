@@ -14,7 +14,7 @@ template <int> struct x;
 
 int main() {
     auto go = boost::hana::fmap(
-        boost::hana::metafunction_class<f>,
-        <%= vector %>{}
+        <%= vector %>{},
+        boost::hana::metafunction_class<f>
     );
 }

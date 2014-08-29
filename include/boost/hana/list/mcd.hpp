@@ -101,7 +101,9 @@ namespace boost { namespace hana {
                     auto ys = _(tail)(l);
                     return cons(
                         _(cons)(x, l),
-                        fmap([=](auto zs) { return cons(y, zs); }, insertions(x, ys))
+                        fmap(insertions(x, ys), [=](auto zs) {
+                            return cons(y, zs);
+                        })
                     );
                 }
             );
@@ -113,10 +115,9 @@ namespace boost { namespace hana {
             return eval_if(is_empty(xs),
                 [](auto _) { return lift<T>(nil<T>); },
                 [=](auto _) {
-                    return flatten(fmap(
-                        [=](auto ys) { return insertions(_(head)(xs), ys); },
-                        permutations_impl(_(tail)(xs))
-                    ));
+                    return flatten(fmap(permutations_impl(_(tail)(xs)), [=](auto ys) {
+                        return insertions(_(head)(xs), ys);
+                    }));
                 }
             );
         }
@@ -243,13 +244,13 @@ namespace boost { namespace hana {
             );
         }
 
-        template <typename Pred, typename Xs>
-        static constexpr auto take_until_impl(Pred pred, Xs xs) {
-            return take_while([=](auto x) { return not_(pred(x)); }, xs);
+        template <typename Xs, typename Pred>
+        static constexpr auto take_until_impl(Xs xs, Pred pred) {
+            return take_while(xs, [=](auto x) { return not_(pred(x)); });
         }
 
-        template <typename Pred, typename Xs>
-        static constexpr auto take_while_impl(Pred pred, Xs xs) {
+        template <typename Xs, typename Pred>
+        static constexpr auto take_while_impl(Xs xs, Pred pred) {
             return eval_if(is_empty(xs),
                 [=](auto _) { return nil<T>; },
                 [=](auto _) {
@@ -257,7 +258,7 @@ namespace boost { namespace hana {
                         [=](auto _) {
                             return cons(
                                 _(head)(xs),
-                                take_while_impl(pred, _(tail)(xs))
+                                take_while_impl(_(tail)(xs), pred)
                             );
                         },
                         [=](auto _) { return nil<T>; }

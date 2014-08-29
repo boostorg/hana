@@ -29,7 +29,7 @@ namespace boost { namespace hana {
 
         template <typename Fs, typename Xs>
         static constexpr auto ap_impl(Fs fs, Xs xs)
-        { return bind(fs, [=](auto f) { return fmap(f, xs); }); }
+        { return bind(fs, [=](auto f) { return fmap(xs, f); }); }
     };
 
     //! `Applicative` instance for instances of the `List` type class.

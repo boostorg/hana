@@ -26,12 +26,12 @@ int main() {
     // adjust
     {
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            adjust(always(cnumeric<bool, true>), f, functor(x<0>)),
+            adjust(functor(x<0>), always(cnumeric<bool, true>), f),
             functor(f(x<0>))
         ));
 
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            adjust(always(cnumeric<bool, false>), f, functor(x<0>)),
+            adjust(functor(x<0>), always(cnumeric<bool, false>), f),
             functor(x<0>)
         ));
     }
@@ -39,7 +39,7 @@ int main() {
     // fill
     {
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            fill(x<1>, functor(x<0>)),
+            fill(functor(x<0>), x<1>),
             functor(x<1>)
         ));
     }
@@ -47,7 +47,7 @@ int main() {
     // fmap
     {
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            fmap(f, functor(x<0>)),
+            fmap(functor(x<0>), f),
             functor(f(x<0>))
         ));
     }
@@ -55,12 +55,12 @@ int main() {
     // replace
     {
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            replace(always(cnumeric<bool, true>), x<1>, functor(x<0>)),
+            replace(functor(x<0>), always(cnumeric<bool, true>), x<1>),
             functor(x<1>)
         ));
 
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            replace(always(cnumeric<bool, false>), x<1>, functor(x<0>)),
+            replace(functor(x<0>), always(cnumeric<bool, false>), x<1>),
             functor(x<0>)
         ));
     }

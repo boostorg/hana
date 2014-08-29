@@ -53,7 +53,7 @@ namespace boost { namespace hana {
     //! @param f
     //! A function taking a value inside the `monad` and returning a `Monad`.
     //! It will be called as `f(x)`, where `x` is the same argument as `f`
-    //! would be called with when doing `fmap(f, monad)`.
+    //! would be called with when doing `fmap(monad, f)`.
     //!
     //!
     //! ### Example

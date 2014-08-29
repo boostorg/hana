@@ -36,7 +36,7 @@ int main() {
     // traverse
     {
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            traverse<A>(compose(lift<A>, f), traversable(x<0>)),
+            traverse<A>(traversable(x<0>), compose(lift<A>, f)),
             applicative(traversable(f(x<0>)))
         ));
     }

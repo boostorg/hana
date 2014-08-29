@@ -18,9 +18,9 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     //! Minimal complete definition: `adjust`
     struct Functor::adjust_mcd : functor_detail::common {
-        template <typename F, typename Functor_>
-        static constexpr auto fmap_impl(F f, Functor_ functor)
-        { return adjust([](auto) { return true_; }, f, functor); }
+        template <typename Xs, typename F>
+        static constexpr auto fmap_impl(Xs xs, F f)
+        { return adjust(xs, [](auto) { return true_; }, f); }
     };
 }} // end namespace boost::hana
 

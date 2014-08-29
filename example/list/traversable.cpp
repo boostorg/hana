@@ -44,13 +44,13 @@ int main() {
         };
 
         BOOST_HANA_CONSTANT_ASSERT(
-            traverse<Maybe>(half, tuple(int_<2>, int_<4>, int_<6>))
+            traverse<Maybe>(tuple(int_<2>, int_<4>, int_<6>), half)
             ==
             just(tuple(int_<1>, int_<2>, int_<3>))
         );
 
         BOOST_HANA_CONSTANT_ASSERT(
-            traverse<Maybe>(half, tuple(int_<2>, int_<3>, int_<6>))
+            traverse<Maybe>(tuple(int_<2>, int_<3>, int_<6>), half)
             ==
             nothing
         );
