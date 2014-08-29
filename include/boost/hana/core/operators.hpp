@@ -10,42 +10,42 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_CORE_OPERATORS_HPP
 #define BOOST_HANA_CORE_OPERATORS_HPP
 
+#include <boost/hana/core/when.hpp>
+
+
 namespace boost { namespace hana {
-    //! @namespace
-    //! @todo document me:
-    //! - this contains all the custom operators.
-    //! - each operator is only enabled when explicitly asked for.
-    //! - Each operator is also brought into hana's namespace via `using operators::xx`
+    //! @ingroup group-core
+    //! Namespace containing custom operators provided by some type classes.
+    //!
+    //! Operators in this namespace are enabled only when explicitly asked
+    //! for with the `enabled_operators` trait. To use the operators in this
+    //! namespace, one may either use `operators::enable_adl` or make them
+    //! visible to name lookup by importing them all explicitly
+    //! @code
+    //!     using namespace boost::hana::operators;
+    //! @endcode
+    //!
+    //! or by importing them selectively
+    //! @code
+    //!     using boost::hana::operators::operator+;
+    //! @endcode
+    //!
+    //!
+    //! ### Example
+    //! @include example/core/operators.cpp
     namespace operators {
         //! @ingroup group-core
-        //! Allows custom Hana operators to be used with a type.
+        //! Allows custom Hana operators to be used with objects of a type.
         //!
         //! Specifically, by inheriting from `enable_adl` or by using it as a
         //! template parameter, one makes the custom operators defined in the
         //! `operators` namespace accessible via argument-dependent lookup for
-        //! that type. However, this does not change the fact that only the
-        //! operators that were explicitly enabled with `enable_operators`
-        //! will be usable.
+        //! objects of that type.
         //!
-        //! @todo
-        //! We could use some reformulation here.
-        //!
-        //! ### Example
-        //! @include example/core/enable_adl.cpp
+        //! Then, operators enabled for the data type of those objects can be
+        //! used without importing the operators explicitly in the scope of
+        //! usage.
         struct enable_adl { };
-
-        //! @ingroup group-core
-        //! @todo
-        //! document me:
-        //! makes the derived class ADL-findable for operators _and_ enable
-        //! the operators for the given type classes at the same time. This
-        //! only works when the data type is the same as the C++ type. this
-        //! must be inherited; using this as a template parameter won't
-        //! enable the operators (it will make them ADL-findable, but w/e).
-        template <typename ...Typeclasses>
-        struct enable : enable_adl {
-            struct hana_enabled_operators : Typeclasses... { };
-        };
     }
 
     namespace core_detail {
@@ -67,18 +67,41 @@ namespace boost { namespace hana {
     }
 
     //! @ingroup group-core
-    //! @todo document me:
-    //! you specialize this struct with your data type and inherit from the
-    //! type classes for which you want the operators to be enabled. you still
-    //! need to make the operators accessible, but for that you can use
-    //! `enable_adl` or another trick if you wish.
+    //! Trait describing the custom operators enabled for a data type.
     //!
-    //! @todo add support for when<>
-    template <typename Datatype>
+    //! Specifically, `enabled_operators<T>` inherits from all the type
+    //! classes for which custom operators (in namespace `operators`)
+    //! should be provided for objects of data type `T`.
+    //!
+    //! The trait may be specialized for user-defined data types. Note that
+    //! specializations may use `when` to provide flexible specializations.
+    //! If the trait is not specialized, it is equivalent to
+    //! `T::hana_enabled_operators` if that expression is valid,
+    //! and to an empty struct otherwise.
+    //!
+    //! This trait only controls which operators are enabled when they are
+    //! found by name lookup. To make the operators findable, one should use
+    //! `operators::enable_adl` or import the operators from the `operators`
+    //! namespace explicitly.
+    template <typename Datatype, typename = void>
     struct enabled_operators
+        //! @cond
+        : enabled_operators<Datatype, when<true>>
+        //! @endcond
+    { };
+
+    template <typename Datatype, bool condition>
+    struct enabled_operators<Datatype, when<condition>>
         : core_detail::default_enabled_operators<Datatype>
     { };
 
+    //! @ingroup group-core
+    //! Return whether the custom operators of a type class are enabled for
+    //! the given data type.
+    //!
+    //! Specifically, `enable_operators<Typeclass, Datatype>` provides a
+    //! nested `static constexpr bool value` member representing whether
+    //! `enabled_operators<Datatype>` inherits from `Typeclass`.
     template <typename Typeclass, typename Datatype>
     struct enable_operators {
         static constexpr bool value = core_detail::enable_operators_impl<Typeclass>(
