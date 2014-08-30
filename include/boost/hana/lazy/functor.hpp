@@ -21,7 +21,7 @@ namespace boost { namespace hana {
     //! the function as a lazy value.
     //!
     //! ### Example
-    //! @snippet example/lazy/functor/fmap.cpp main
+    //! @snippet example/lazy/functor.cpp fmap
     template <>
     struct Functor::instance<Lazy> : Functor::fmap_mcd {
         template <typename LX, typename F>

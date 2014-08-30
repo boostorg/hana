@@ -64,7 +64,7 @@ namespace boost { namespace hana {
     //! Two instances of `List` with _the same data type_.
     //!
     //! ### Example
-    //! @snippet example/list/concat.cpp main
+    //! @snippet example/list.cpp concat
     BOOST_HANA_CONSTEXPR_LAMBDA auto concat = [](auto&& xs, auto&& ys) -> decltype(auto) {
         static_assert(detail::std::is_same<
             datatype_t<decltype(xs)>, datatype_t<decltype(ys)>
@@ -90,7 +90,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/list/cons.cpp main
+    //! @snippet example/list.cpp cons
     BOOST_HANA_CONSTEXPR_LAMBDA auto cons = [](auto&& x, auto&& xs) -> decltype(auto) {
         return List::instance<
             datatype_t<decltype(xs)>
@@ -116,7 +116,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/list/filter.cpp main
+    //! @snippet example/list.cpp filter
     BOOST_HANA_CONSTEXPR_LAMBDA auto filter = [](auto&& xs, auto&& predicate) -> decltype(auto) {
         return List::instance<
             datatype_t<decltype(xs)>
@@ -150,7 +150,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/list/group_by.cpp main
+    //! @snippet example/list.cpp group_by
     BOOST_HANA_CONSTEXPR_LAMBDA auto group_by = [](auto&& predicate, auto&& xs) -> decltype(auto) {
         return List::instance<
             datatype_t<decltype(xs)>
@@ -171,7 +171,7 @@ namespace boost { namespace hana {
     //! The list to split into groups.
     //!
     //! ### Example
-    //! @snippet example/list/group.cpp main
+    //! @snippet example/list.cpp group
     BOOST_HANA_CONSTEXPR_LAMBDA auto group = [](auto&& xs) -> decltype(auto) {
         return List::instance<
             datatype_t<decltype(xs)>
@@ -182,7 +182,7 @@ namespace boost { namespace hana {
     //! @relates List
     //!
     //! ### Example
-    //! @snippet example/list/init.cpp main
+    //! @snippet example/list.cpp init
     BOOST_HANA_CONSTEXPR_LAMBDA auto init = [](auto&& xs) -> decltype(auto) {
         return List::instance<
             datatype_t<decltype(xs)>
@@ -215,7 +215,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/list/make.cpp main
+    //! @snippet example/list.cpp make
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename L>
     constexpr auto make<L, when<is_a<List, L>()>> = [](auto&& ...xs) -> decltype(auto) {
@@ -237,7 +237,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/list/nil.cpp main
+    //! @snippet example/list.cpp nil
     template <typename L>
     BOOST_HANA_CONSTEXPR_LAMBDA auto nil = List::instance<L>::nil_impl();
 
@@ -262,10 +262,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/list/partition.cpp ints
-    //!
-    //! ### Example
-    //! @snippet example/list/partition.cpp types
+    //! @snippet example/list.cpp partition
     BOOST_HANA_CONSTEXPR_LAMBDA auto partition = [](auto&& xs, auto&& predicate) -> decltype(auto) {
         return List::instance<
             datatype_t<decltype(xs)>
@@ -284,7 +281,7 @@ namespace boost { namespace hana {
     //! Implementation taken from http://stackoverflow.com/a/2184129/627587.
     //!
     //! ### Example
-    //! @snippet example/list/permutations.cpp main
+    //! @snippet example/list.cpp permutations
     //!
     //! ### Benchmarks
     //! @image html benchmark.list.permutations.time.png
@@ -302,7 +299,7 @@ namespace boost { namespace hana {
     //! @relates List
     //!
     //! ### Example
-    //! @snippet example/list/reverse.cpp main
+    //! @snippet example/list.cpp reverse
     BOOST_HANA_CONSTEXPR_LAMBDA auto reverse = [](auto&& xs) -> decltype(auto) {
         return List::instance<
             datatype_t<decltype(xs)>
@@ -326,7 +323,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/list/scanl.cpp main
+    //! @snippet example/list.cpp scanl
     //!
     //! ### Benchmarks
     //! @image html benchmark.list.scanl.time.png
@@ -357,7 +354,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/list/scanl1.cpp main
+    //! @snippet example/list.cpp scanl1
     //!
     //! ### Benchmarks
     //! @image html benchmark.list.scanl1.time.png
@@ -387,7 +384,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/list/scanr.cpp main
+    //! @snippet example/list.cpp scanr
     //!
     //! ### Benchmarks
     //! @image html benchmark.list.scanr.time.png
@@ -418,7 +415,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/list/scanr1.cpp main
+    //! @snippet example/list.cpp scanr1
     //!
     //! ### Benchmarks
     //! @image html benchmark.list.scanr1.time.png
@@ -454,7 +451,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/list/slice.cpp main
+    //! @snippet example/list.cpp slice
     //!
     //! @todo
     //! Should this be `slice(xs, from, length)` instead?
@@ -509,7 +506,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/list/snoc.cpp main
+    //! @snippet example/list.cpp snoc
     BOOST_HANA_CONSTEXPR_LAMBDA auto snoc = [](auto&& xs, auto&& x) -> decltype(auto) {
         return List::instance<
             datatype_t<decltype(xs)>
@@ -528,7 +525,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/list/sort.cpp main
+    //! @snippet example/list.cpp sort
     BOOST_HANA_CONSTEXPR_LAMBDA auto sort = [](auto&& xs) -> decltype(auto) {
         return List::instance<
             datatype_t<decltype(xs)>
@@ -555,7 +552,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/list/sort_by.cpp main
+    //! @snippet example/list.cpp sort_by
     BOOST_HANA_CONSTEXPR_LAMBDA auto sort_by = [](auto&& predicate, auto&& xs) -> decltype(auto) {
         return List::instance<
             datatype_t<decltype(xs)>
@@ -594,7 +591,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/list/span.cpp main
+    //! @snippet example/list.cpp span
     BOOST_HANA_CONSTEXPR_LAMBDA auto span = [](auto&& xs, auto&& predicate) -> decltype(auto) {
         return List::instance<
             datatype_t<decltype(xs)>
@@ -618,7 +615,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/list/take.cpp main
+    //! @snippet example/list.cpp take
     BOOST_HANA_CONSTEXPR_LAMBDA auto take = [](auto&& n, auto&& xs) -> decltype(auto) {
         return List::instance<
             datatype_t<decltype(xs)>
@@ -673,7 +670,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/list/take_until.cpp main
+    //! @snippet example/list.cpp take_until
     BOOST_HANA_CONSTEXPR_LAMBDA auto take_until = [](auto&& xs, auto&& predicate) -> decltype(auto) {
         return List::instance<
             datatype_t<decltype(xs)>
@@ -702,7 +699,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/list/take_while.cpp main
+    //! @snippet example/list.cpp take_while
     BOOST_HANA_CONSTEXPR_LAMBDA auto take_while = [](auto&& xs, auto&& predicate) -> decltype(auto) {
         return List::instance<
             datatype_t<decltype(xs)>
@@ -768,7 +765,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/list/unfoldl.cpp main
+    //! @snippet example/list.cpp unfoldl
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename L>
     constexpr auto unfoldl = [](auto&& f, auto&& init) -> decltype(auto) {
@@ -814,7 +811,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/list/unfoldr.cpp main
+    //! @snippet example/list.cpp unfoldr
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename L>
     constexpr auto unfoldr = [](auto&& f, auto&& init) -> decltype(auto) {
@@ -845,7 +842,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/list/unzip.cpp main
+    //! @snippet example/list.cpp unzip
     BOOST_HANA_CONSTEXPR_LAMBDA auto unzip = [](auto&& xs) -> decltype(auto) {
         return List::instance<
             datatype_t<decltype(xs)>
@@ -862,7 +859,7 @@ namespace boost { namespace hana {
     //! The lists to zip together.
     //!
     //! ### Example
-    //! @snippet example/list/zip.cpp main
+    //! @snippet example/list.cpp zip
     BOOST_HANA_CONSTEXPR_LAMBDA auto zip = [](auto&& xs, auto&& ...ys) -> decltype(auto) {
         return List::instance<
             datatype_t<decltype(xs)>
@@ -899,7 +896,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/list/zip_with.cpp main
+    //! @snippet example/list.cpp zip_with
     //!
     //! @todo
     //! Consider allowing only two lists and achieving the variadic behavior

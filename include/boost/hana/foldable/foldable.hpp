@@ -219,7 +219,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/foldable/minimum_by.cpp main
+    //! @snippet example/foldable.cpp minimum_by
     BOOST_HANA_CONSTEXPR_LAMBDA auto minimum_by = [](auto&& predicate, auto&& foldable) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
@@ -233,7 +233,7 @@ namespace boost { namespace hana {
     //! @relates Foldable
     //!
     //! ### Example
-    //! @snippet example/foldable/minimum.cpp main
+    //! @snippet example/foldable.cpp minimum
     BOOST_HANA_CONSTEXPR_LAMBDA auto minimum = [](auto&& foldable) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
@@ -255,7 +255,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/foldable/maximum_by.cpp main
+    //! @snippet example/foldable.cpp maximum_by
     BOOST_HANA_CONSTEXPR_LAMBDA auto maximum_by = [](auto&& predicate, auto&& foldable) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
@@ -269,7 +269,7 @@ namespace boost { namespace hana {
     //! @relates Foldable
     //!
     //! ### Example
-    //! @snippet example/foldable/maximum.cpp main
+    //! @snippet example/foldable.cpp maximum
     BOOST_HANA_CONSTEXPR_LAMBDA auto maximum = [](auto&& foldable) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
@@ -285,7 +285,7 @@ namespace boost { namespace hana {
     //! they are adjacent in `to<Tuple>(foldable)`.
     //!
     //! ### Example
-    //! @snippet example/foldable/sum.cpp main
+    //! @snippet example/foldable.cpp sum
     BOOST_HANA_CONSTEXPR_LAMBDA auto sum = [](auto&& foldable) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
@@ -301,7 +301,7 @@ namespace boost { namespace hana {
     //! they are adjacent in `to<Tuple>(foldable)`.
     //!
     //! ### Example
-    //! @snippet example/foldable/product.cpp main
+    //! @snippet example/foldable.cpp product
     BOOST_HANA_CONSTEXPR_LAMBDA auto product = [](auto&& foldable) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
@@ -323,7 +323,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/foldable/count.cpp main
+    //! @snippet example/foldable.cpp count
     BOOST_HANA_CONSTEXPR_LAMBDA auto count = [](auto&& foldable, auto&& predicate) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
@@ -348,13 +348,13 @@ namespace boost { namespace hana {
     //! @note
     //! This can be used to transform a function taking multiple arguments
     //! to a function taking a `Foldable` by partially applying `unpack`:
-    //! @snippet example/foldable/unpack_idiom.cpp main
+    //! @snippet example/foldable.cpp unpack_idiom
     //! This idiom serves the role of `boost::fusion::make_fused` and
     //! related utilities in the Boost.Fusion library.
     //!
     //!
     //! ### Example
-    //! @snippet example/foldable/unpack.cpp main
+    //! @snippet example/foldable.cpp unpack
     BOOST_HANA_CONSTEXPR_LAMBDA auto unpack = [](auto&& foldable, auto&& f) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>

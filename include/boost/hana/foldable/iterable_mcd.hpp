@@ -85,7 +85,7 @@ namespace boost { namespace hana {
     //! initial state are implemented in an analogous way.
     //!
     //! ### Example 1
-    //! @snippet example/list/foldable/foldl.cpp main
+    //! @snippet example/list/foldable.cpp foldl
     //!
     //! ### Example 2
     //! @snippet example/integer_list/foldable.cpp foldr

@@ -21,22 +21,28 @@ int main() {
         //! [maybe]
     }
 
-    //! [is_just]
-    BOOST_HANA_CONSTANT_ASSERT( is_just(just('x')));
-    BOOST_HANA_CONSTANT_ASSERT( is_just(just(nothing)));
-    BOOST_HANA_CONSTANT_ASSERT(!is_just(nothing));
-    //! [is_just]
+    {
+        //! [is_just]
+        BOOST_HANA_CONSTANT_ASSERT( is_just(just('x')));
+        BOOST_HANA_CONSTANT_ASSERT( is_just(just(nothing)));
+        BOOST_HANA_CONSTANT_ASSERT(!is_just(nothing));
+        //! [is_just]
+    }
 
-    //! [is_nothing]
-    BOOST_HANA_CONSTANT_ASSERT( is_nothing(nothing));
-    BOOST_HANA_CONSTANT_ASSERT(!is_nothing(just('x')));
-    BOOST_HANA_CONSTANT_ASSERT(!is_nothing(just(nothing)));
-    //! [is_nothing]
+    {
+        //! [is_nothing]
+        BOOST_HANA_CONSTANT_ASSERT( is_nothing(nothing));
+        BOOST_HANA_CONSTANT_ASSERT(!is_nothing(just('x')));
+        BOOST_HANA_CONSTANT_ASSERT(!is_nothing(just(nothing)));
+        //! [is_nothing]
+    }
 
-    //! [from_maybe]
-    BOOST_HANA_CONSTEXPR_ASSERT(from_maybe('x', just(1)) == 1);
-    BOOST_HANA_CONSTEXPR_ASSERT(from_maybe('x', nothing) == 'x');
-    //! [from_maybe]
+    {
+        //! [from_maybe]
+        BOOST_HANA_CONSTEXPR_ASSERT(from_maybe('x', just(1)) == 1);
+        BOOST_HANA_CONSTEXPR_ASSERT(from_maybe('x', nothing) == 'x');
+        //! [from_maybe]
+    }
 
     {
         //! [only_when]
@@ -53,10 +59,12 @@ int main() {
         //! [only_when]
     }
 
-    //! [from_just]
-    BOOST_HANA_CONSTEXPR_ASSERT(from_just(just('x')) == 'x');
-    // from_just(nothing); // compile-time static assertion
-    // ! [from_just]
+    {
+        //! [from_just]
+        BOOST_HANA_CONSTEXPR_ASSERT(from_just(just('x')) == 'x');
+        // from_just(nothing); // compile-time static assertion
+        // ! [from_just]
+    }
 
     {
         //! [nothing]

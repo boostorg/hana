@@ -90,7 +90,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/traversable/sequence.cpp main
+    //! @snippet example/traversable.cpp sequence
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename A>
     constexpr auto sequence = [](auto&& traversable) -> decltype(auto) {
@@ -106,6 +106,7 @@ namespace boost { namespace hana {
     //! Map each element of a structure to an `Applicative`, and then do
     //! the same as `sequence`.
     //! @relates Traversable
+    //!
     //!
     //! @tparam A
     //! The data type (an `Applicative`) of an object returned by `f` when
@@ -123,10 +124,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/traversable/traverse.cpp tuple
-    //!
-    //! ### Example
-    //! @snippet example/traversable/traverse.cpp maybe
+    //! @snippet example/traversable.cpp traverse
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename A>
     constexpr auto traverse = [](auto&& traversable, auto&& f) -> decltype(auto) {

@@ -36,10 +36,7 @@ namespace boost { namespace hana {
     //! `Traversable` instance for `List` instances.
     //!
     //! ### Example
-    //! @snippet example/list/traversable/traverse.cpp main
-    //!
-    //! ### Example
-    //! @snippet example/list/traversable/sequence.cpp main
+    //! @snippet example/list/traversable.cpp main
     template <typename T>
     struct Traversable::instance<T, when<is_a<List, T>()>>
         : Traversable::list_mcd<T>

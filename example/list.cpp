@@ -386,12 +386,10 @@ int main() {
 
     {
         //! [partition]
-        BOOST_HANA_CONSTEXPR_LAMBDA auto odd = [](auto x) {
-            return x % int_<2> != int_<0>;
-        };
-
         BOOST_HANA_CONSTANT_ASSERT(
-            partition(integer_list<int, 1, 2, 3, 4, 5, 6, 7>, odd)
+            partition(integer_list<int, 1, 2, 3, 4, 5, 6, 7>, [](auto x) {
+                return x % int_<2> != int_<0>;
+            })
             ==
             pair(
                 integer_list<int, 1, 3, 5, 7>,

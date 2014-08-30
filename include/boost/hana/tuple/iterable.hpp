@@ -25,7 +25,7 @@ namespace boost { namespace hana {
     //! it has no elements in it.
     //!
     //! ### Example
-    //! @snippet example/list/iterable/overview.cpp main
+    //! @snippet example/list/iterable.cpp main
     template <>
     struct Iterable::instance<Tuple> : Iterable::mcd {
         template <typename Xs>

@@ -14,14 +14,16 @@ using namespace boost::hana;
 
 
 int main() {
-    //! [fmap]
-    auto to_string = [](auto x) {
-        return (std::ostringstream{} << x).str();
-    };
+    {
+        //! [fmap]
+        auto to_string = [](auto x) {
+            return (std::ostringstream{} << x).str();
+        };
 
-    BOOST_HANA_RUNTIME_ASSERT(
-        fmap(tuple(1, '2', "345", std::string{"67"}), to_string) ==
-        tuple("1", "2", "345", "67")
-    );
-    //! [fmap]
+        BOOST_HANA_RUNTIME_ASSERT(
+            fmap(tuple(1, '2', "345", std::string{"67"}), to_string) ==
+            tuple("1", "2", "345", "67")
+        );
+        //! [fmap]
+    }
 }

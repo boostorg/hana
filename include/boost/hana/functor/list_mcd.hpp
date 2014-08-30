@@ -35,11 +35,8 @@ namespace boost { namespace hana {
     //! Mapping a function over an empty list returns an empty list and never
     //! applies the function.
     //!
-    //! ### Example 1
-    //! @snippet example/list/functor/fmap.cpp main
-    //!
-    //! ### Example 2
-    //! @snippet example/type_list/functor.cpp fmap
+    //! ### Example
+    //! @snippet example/list/functor.cpp fmap
     template <typename T>
     struct Functor::instance<T, when<is_a<List, T>()>>
         : Functor::list_mcd<T>

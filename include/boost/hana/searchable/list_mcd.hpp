@@ -55,7 +55,7 @@ namespace boost { namespace hana {
     //! Technically, this can be implemented in `Iterable`. Should it?
     //!
     //! ### Example
-    //! @snippet example/list/searchable/find.cpp main
+    //! @snippet example/list/searchable.cpp find
     template <typename T>
     struct Searchable::instance<T, when<is_a<List, T>()>>
         : Searchable::list_mcd
