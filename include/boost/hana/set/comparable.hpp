@@ -29,9 +29,7 @@ namespace boost { namespace hana {
         static constexpr auto equal_impl(S1 s1, S2 s2) {
             return and_(
                 equal(length(s1.storage), length(s2.storage)),
-                all(s1.storage, [=](auto k) {
-                    return equal(lookup(s1, k), lookup(s2, k));
-                })
+                subset(s1, s2)
             );
         }
     };
