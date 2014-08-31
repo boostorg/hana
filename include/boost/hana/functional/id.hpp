@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FUNCTIONAL_ID_HPP
 
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 
 
 namespace boost { namespace hana {
@@ -19,8 +20,8 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/functional/id.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto id = [](auto x) {
-        return x;
+    BOOST_HANA_CONSTEXPR_LAMBDA auto id = [](auto&& x) -> decltype(auto) {
+        return detail::std::forward<decltype(x)>(x);
     };
 }} // end namespace boost::hana
 

@@ -44,4 +44,8 @@ int main() {
     // make sure we can use non-pods on both side of the fetched object
     vd::at<0>(x<0>, non_pod{});
     vd::at<1>(non_pod{}, x<1>);
+
+    // make sure it works with const objects
+    int const i = 1;
+    vd::at<0>(i);
 }

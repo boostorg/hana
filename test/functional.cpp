@@ -25,6 +25,9 @@ struct _undefined { };
 template <int i = 0>
 constexpr _undefined<i> undefined{};
 
+struct nocopy { nocopy(nocopy const&) = delete; };
+
+
 int main() {
     BOOST_HANA_CONSTEXPR_LAMBDA auto f = test::injection([]{});
     BOOST_HANA_CONSTEXPR_LAMBDA auto g = test::injection([]{});
@@ -196,6 +199,8 @@ int main() {
     {
         BOOST_HANA_CONSTANT_ASSERT(equal(id(x<0>), x<0>));
         BOOST_HANA_CONSTANT_ASSERT(equal(id(x<1>), x<1>));
+
+        (void)id(nocopy{});
     }
 
     // lockstep
