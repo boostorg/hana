@@ -1,16 +1,20 @@
-<% render(instance) %>
-<%= includes((0..x).size) %>
+/*
+@copyright Louis Dionne 2014
+Distributed under the Boost Software License, Version 1.0.
+(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
+ */
 
 #include <boost/hana/list/list.hpp>
 
+#include <boost/hana/benchmark/measure.hpp>
 
-template <int i> struct x { };
+<%= setup %>
+
 
 int main() {
-    auto go = boost::hana::permutations(
-        <%= list(
-            (0..x).map { |i| "x<#{i}>" },
-            (0..x).map { |i| "x<#{i}>{}" }
-        ) %>
-    );
+    auto list = <%= list %>;
+
+    boost::hana::benchmark::measure([=] {
+        boost::hana::permutations(list);
+    });
 }

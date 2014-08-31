@@ -5,7 +5,7 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/list/list.hpp>
+#include <boost/hana/functor/functor.hpp>
 
 #include <boost/hana/benchmark/measure.hpp>
 
@@ -13,12 +13,12 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 int main() {
-    auto list = <%= list %>;
-    auto f = [](auto&& x, auto&& s) -> decltype(auto) {
+    auto f = [](auto&& x) -> decltype(auto) {
         return boost::hana::detail::std::forward<decltype(x)>(x);
     };
+    auto functor = <%= functor %>;
 
     boost::hana::benchmark::measure([=] {
-        boost::hana::scanr1(list, f);
+        boost::hana::fmap(functor, f);
     });
 }

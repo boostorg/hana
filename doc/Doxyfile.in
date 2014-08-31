@@ -20,10 +20,7 @@ EXCLUDE                 = @Boost.Hana_SOURCE_DIR@/include/boost/hana/sandbox \
 EXAMPLE_PATH            = @Boost.Hana_SOURCE_DIR@/example \
                           @Boost.Hana_SOURCE_DIR@/test
 EXAMPLE_RECURSIVE       = YES
-IMAGE_PATH              = @Boost.Hana_BINARY_DIR@/benchmark             \
-                          @Boost.Hana_BINARY_DIR@/benchmark/list        \
-                          @Boost.Hana_BINARY_DIR@/benchmark/core        \
-                          @Boost.Hana_BINARY_DIR@/benchmark/techniques
+IMAGE_PATH              = @Boost.Hana_BINARY_DIR@/benchmark
 WARN_IF_UNDOCUMENTED    = NO
 
 SHOW_GROUPED_MEMB_INC   = YES

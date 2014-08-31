@@ -19,10 +19,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    namespace detail {
-        struct FoldableFromIterable;
-    }
-
     //! @ingroup group-typeclasses
     //! `Iterable` represents data structures supporting external iteration.
     //!
@@ -99,6 +95,9 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/iterable.cpp at
+    //!
+    //! ### Benchmarks
+    //! @image html benchmark/iterable/at.time.png
     BOOST_HANA_CONSTEXPR_LAMBDA auto at = [](auto&& n, auto&& iterable) -> decltype(auto) {
         return Iterable::instance<
             datatype_t<decltype(iterable)>
@@ -137,6 +136,9 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/iterable.cpp last
+    //!
+    //! ### Benchmarks
+    //! @image html benchmark/iterable/last.time.png
     BOOST_HANA_CONSTEXPR_LAMBDA auto last = [](auto&& iterable) -> decltype(auto) {
         return Iterable::instance<
             datatype_t<decltype(iterable)>
@@ -158,6 +160,9 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/iterable.cpp drop
+    //!
+    //! ### Benchmarks
+    //! @image html benchmark/iterable/drop.time.png
     BOOST_HANA_CONSTEXPR_LAMBDA auto drop = [](auto&& n, auto&& iterable) -> decltype(auto) {
         return Iterable::instance<
             datatype_t<decltype(iterable)>
@@ -216,6 +221,9 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/iterable.cpp drop_while
+    //!
+    //! ### Benchmarks
+    //! @image html benchmark/iterable/drop_while.time.png
     BOOST_HANA_CONSTEXPR_LAMBDA auto drop_while = [](auto&& iterable, auto&& predicate) -> decltype(auto) {
         return Iterable::instance<
             datatype_t<decltype(iterable)>
@@ -254,6 +262,9 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/iterable.cpp drop_until
+    //!
+    //! ### Benchmarks
+    //! @image html benchmark/iterable/drop_until.time.png
     BOOST_HANA_CONSTEXPR_LAMBDA auto drop_until = [](auto&& iterable, auto&& predicate) -> decltype(auto) {
         return Iterable::instance<
             datatype_t<decltype(iterable)>

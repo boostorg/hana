@@ -117,6 +117,9 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/list.cpp filter
+    //!
+    //! ### Benchmarks
+    //! @image html benchmark/list/filter.time.png
     BOOST_HANA_CONSTEXPR_LAMBDA auto filter = [](auto&& xs, auto&& predicate) -> decltype(auto) {
         return List::instance<
             datatype_t<decltype(xs)>
@@ -216,6 +219,9 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/list.cpp make
+    //!
+    //! ### Benchmarks
+    //! @image html benchmark/list/make.time.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename L>
     constexpr auto make<L, when<is_a<List, L>()>> = [](auto&& ...xs) -> decltype(auto) {
@@ -284,7 +290,7 @@ namespace boost { namespace hana {
     //! @snippet example/list.cpp permutations
     //!
     //! ### Benchmarks
-    //! @image html benchmark.list.permutations.time.png
+    //! @image html benchmark/list/permutations.time.png
     //!
     //! @bug
     //! We got a performance problem here. Generating the permutations of
@@ -326,7 +332,7 @@ namespace boost { namespace hana {
     //! @snippet example/list.cpp scanl
     //!
     //! ### Benchmarks
-    //! @image html benchmark.list.scanl.time.png
+    //! @image html benchmark/list/scanl.time.png
     BOOST_HANA_CONSTEXPR_LAMBDA auto scanl = [](auto&& xs, auto&& state, auto&& f) -> decltype(auto) {
         return List::instance<
             datatype_t<decltype(xs)>
@@ -357,7 +363,7 @@ namespace boost { namespace hana {
     //! @snippet example/list.cpp scanl1
     //!
     //! ### Benchmarks
-    //! @image html benchmark.list.scanl1.time.png
+    //! @image html benchmark/list/scanl1.time.png
     BOOST_HANA_CONSTEXPR_LAMBDA auto scanl1 = [](auto&& xs, auto&& f) -> decltype(auto) {
         return List::instance<
             datatype_t<decltype(xs)>
@@ -387,7 +393,7 @@ namespace boost { namespace hana {
     //! @snippet example/list.cpp scanr
     //!
     //! ### Benchmarks
-    //! @image html benchmark.list.scanr.time.png
+    //! @image html benchmark/list/scanr.time.png
     BOOST_HANA_CONSTEXPR_LAMBDA auto scanr = [](auto&& xs, auto&& state, auto&& f) -> decltype(auto) {
         return List::instance<
             datatype_t<decltype(xs)>
@@ -418,7 +424,7 @@ namespace boost { namespace hana {
     //! @snippet example/list.cpp scanr1
     //!
     //! ### Benchmarks
-    //! @image html benchmark.list.scanr1.time.png
+    //! @image html benchmark/list/scanr1.time.png
     BOOST_HANA_CONSTEXPR_LAMBDA auto scanr1 = [](auto&& xs, auto&& f) -> decltype(auto) {
         return List::instance<
             datatype_t<decltype(xs)>
@@ -526,6 +532,9 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/list.cpp sort
+    //!
+    //! ### Benchmarks
+    //! @image html benchmark/list/sort.time.png
     BOOST_HANA_CONSTEXPR_LAMBDA auto sort = [](auto&& xs) -> decltype(auto) {
         return List::instance<
             datatype_t<decltype(xs)>
@@ -616,6 +625,9 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/list.cpp take
+    //!
+    //! ### Benchmarks
+    //! @image html benchmark/list/take.time.png
     BOOST_HANA_CONSTEXPR_LAMBDA auto take = [](auto&& n, auto&& xs) -> decltype(auto) {
         return List::instance<
             datatype_t<decltype(xs)>
@@ -671,6 +683,9 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/list.cpp take_until
+    //!
+    //! ### Benchmarks
+    //! @image html benchmark/list/take_until.time.png
     BOOST_HANA_CONSTEXPR_LAMBDA auto take_until = [](auto&& xs, auto&& predicate) -> decltype(auto) {
         return List::instance<
             datatype_t<decltype(xs)>
@@ -700,6 +715,9 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/list.cpp take_while
+    //!
+    //! ### Benchmarks
+    //! @image html benchmark/list/take_while.time.png
     BOOST_HANA_CONSTEXPR_LAMBDA auto take_while = [](auto&& xs, auto&& predicate) -> decltype(auto) {
         return List::instance<
             datatype_t<decltype(xs)>
@@ -897,6 +915,9 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/list.cpp zip_with
+    //!
+    //! ### Benchmarks
+    //! @image html benchmark/list/zip_with.time.png
     //!
     //! @todo
     //! Consider allowing only two lists and achieving the variadic behavior

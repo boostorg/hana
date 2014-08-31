@@ -1,25 +1,24 @@
-<% render(instance) %>
-<%= includes((1..x+1).size) %>
+/*
+@copyright Louis Dionne 2014
+Distributed under the Boost Software License, Version 1.0.
+(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
+ */
 
+#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/list/list.hpp>
 
+#include <boost/hana/benchmark/measure.hpp>
 
-template <typename ...>
-struct result { };
+<%= setup %>
 
-struct f {
-    template <typename State, typename X>
-    constexpr result<State, X> operator()(State, X) const { return {}; }
-};
-
-template <int> struct x { };
 
 int main() {
-    auto go = boost::hana::scanl1(
-        <%= list(
-            (1..x+1).map { |i| "x<#{i}>" },
-            (1..x+1).map { |i| "x<#{i}>{}" }
-        ) %>,
-        f{}
-    );
+    auto list = <%= list %>;
+    auto f = [](auto&& s, auto&& x) -> decltype(auto) {
+        return boost::hana::detail::std::forward<decltype(x)>(x);
+    };
+
+    boost::hana::benchmark::measure([=] {
+        boost::hana::scanl1(list, f);
+    });
 }

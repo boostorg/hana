@@ -49,6 +49,9 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/functor.cpp fmap
+    //!
+    //! ### Benchmarks
+    //! @image html benchmark/functor/fmap.time.png
     BOOST_HANA_CONSTEXPR_LAMBDA auto fmap = [](auto&& functor, auto&& f) -> decltype(auto) {
         return Functor::instance<
             datatype_t<decltype(functor)>
@@ -78,6 +81,9 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/functor.cpp adjust
+    //!
+    //! ### Benchmarks
+    //! @image html benchmark/functor/adjust.time.png
     BOOST_HANA_CONSTEXPR_LAMBDA auto adjust = [](auto&& functor, auto&& predicate, auto&& f) -> decltype(auto) {
         return Functor::instance<
             datatype_t<decltype(functor)>
@@ -108,6 +114,9 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/functor.cpp replace
+    //!
+    //! ### Benchmarks
+    //! @image html benchmark/functor/replace.time.png
     BOOST_HANA_CONSTEXPR_LAMBDA auto replace = [](auto&& functor, auto&& predicate, auto&& value) -> decltype(auto) {
         return Functor::instance<
             datatype_t<decltype(functor)>
@@ -132,6 +141,9 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/functor.cpp fill
+    //!
+    //! ### Benchmarks
+    //! @image html benchmark/functor/fill.time.png
     BOOST_HANA_CONSTEXPR_LAMBDA auto fill = [](auto&& functor, auto&& value) -> decltype(auto) {
         return Functor::instance<
             datatype_t<decltype(functor)>

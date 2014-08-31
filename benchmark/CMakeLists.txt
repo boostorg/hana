@@ -1,3 +1,7 @@
+# Copyright Louis Dionne 2014
+# Distributed under the Boost Software License, Version 1.0.
+# (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
+
 #=============================================================================
 # Setup benchmarks
 #=============================================================================
@@ -39,10 +43,11 @@ add_custom_target(benchmarks COMMENT "Build all the benchmark plots.")
 #   A string of Ruby code generating an Array of Hashes to be used as
 #   the environments when generating the ERB templates.
 function(boost_hana_add_dataset dataset_name cpp_file envs)
+    file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/${dataset_name}.envs "${envs}")
     add_custom_command(OUTPUT ${dataset_name}
         COMMAND ${RUBY_EXECUTABLE} --
                 ${BOOST_HANA_BENCHMARK_SCRIPT}
-                ${envs}
+                ${CMAKE_CURRENT_BINARY_DIR}/${dataset_name}.envs
                 ${dataset_name}
                 ${CMAKE_CURRENT_SOURCE_DIR}/${cpp_file}
         DEPENDS ${BOOST_HANA_BENCHMARK_SCRIPT}
@@ -53,24 +58,30 @@ function(boost_hana_add_dataset dataset_name cpp_file envs)
     add_custom_target(__${dataset_name} DEPENDS ${dataset_name}) # hack
 endfunction()
 
-
 # Creates a target representing a plot to which curves may be added later.
 #
 # Building a target created with this function will first build all the
 # datasets it needs and then draw the plot using Gnuplot.
 #
+# plot_target:
+#   The name of the target referring to the plot. To construct the plot, one
+#   will have to build the `plot_target` target.
+#
 # plot_name:
-#   The name of the target referring to the plot. This will create plots
-#   called plot_name.time.png and plot_name.memusg.png containing timing
-#   and memory usage information, respectively.
-function(boost_hana_add_plot plot_name)
+#   The name of the file(s) containing the generated plot(s). This will create
+#   plots called `plot_name.time.png` and `plot_name.memusg.png` containing
+#   timing and memory usage information, respectively. The plots will be
+#   created in the binary directory associated to the source directory where
+#   the function is called.
+function(boost_hana_add_plot_with_name plot_target plot_name)
     add_custom_command(
-        OUTPUT ${plot_name}.time.png ${plot_name}.memusg.png
+        OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${plot_name}.time.png
+               ${CMAKE_CURRENT_BINARY_DIR}/${plot_name}.memusg.png
         COMMAND ${RUBY_EXECUTABLE} --
                 ${BOOST_HANA_PLOT_SCRIPT}
-                ${plot_name}.time.png
-                ${plot_name}.memusg.png
-                $<TARGET_PROPERTY:${plot_name},boost_hana_datasets>
+                ${CMAKE_CURRENT_BINARY_DIR}/${plot_name}.time.png
+                ${CMAKE_CURRENT_BINARY_DIR}/${plot_name}.memusg.png
+                $<TARGET_PROPERTY:${plot_target},boost_hana_datasets>
 
         DEPENDS ${BOOST_HANA_PLOT_SCRIPT}
 
@@ -79,13 +90,20 @@ function(boost_hana_add_plot plot_name)
         # `add_custom_target(_${dataset_name} ...)` in `boost_hana_add_dataset`
         # and the `add_dependencies` in `boost_hana_add_curve_from_dataset`.
 
-        # DEPENDS $<TARGET_PROPERTY:${plot_name},boost_hana_datasets>
+        # DEPENDS $<TARGET_PROPERTY:${plot_target},boost_hana_datasets>
 
         VERBATIM
     )
-    add_custom_target(${plot_name} DEPENDS ${plot_name}.time.png ${plot_name}.memusg.png)
-    set_target_properties(${plot_name} PROPERTIES boost_hana_datasets "")
-    add_dependencies(benchmarks ${plot_name})
+    add_custom_target(${plot_target}
+            DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${plot_name}.time.png
+                    ${CMAKE_CURRENT_BINARY_DIR}/${plot_name}.memusg.png
+    )
+    set_target_properties(${plot_target} PROPERTIES boost_hana_datasets "")
+    add_dependencies(benchmarks ${plot_target})
+endfunction()
+
+function(boost_hana_add_plot plot_target)
+    boost_hana_add_plot_with_name(${plot_target} ${plot_target})
 endfunction()
 
 # Add a curve on a plot.
@@ -103,7 +121,7 @@ endfunction()
 # envs:
 #   Same as for `boost_hana_add_dataset`.
 function(boost_hana_add_curve_from_source plot_name curve_name cpp_file envs)
-    boost_hana_add_dataset(${plot_name}.${curve_name} ${cpp_file} ${envs})
+    boost_hana_add_dataset(${plot_name}.${curve_name} ${cpp_file} "${envs}")
     boost_hana_add_curve_from_dataset(${plot_name} ${plot_name}.${curve_name})
 endfunction()
 
@@ -128,5 +146,10 @@ function(boost_hana_add_curve_from_dataset plot_name dataset_name)
 endfunction()
 
 add_subdirectory(core)
-add_subdirectory(list)
 add_subdirectory(techniques)
+
+add_subdirectory(foldable)
+add_subdirectory(functor)
+add_subdirectory(iterable)
+add_subdirectory(list)
+add_subdirectory(searchable)

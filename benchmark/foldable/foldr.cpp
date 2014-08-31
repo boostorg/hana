@@ -5,7 +5,7 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/list/list.hpp>
+#include <boost/hana/foldable/foldable.hpp>
 
 #include <boost/hana/benchmark/measure.hpp>
 
@@ -13,12 +13,13 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 int main() {
-    auto list = <%= list %>;
+    struct state { };
     auto f = [](auto&& x, auto&& s) -> decltype(auto) {
         return boost::hana::detail::std::forward<decltype(x)>(x);
     };
+    auto foldable = <%= foldable %>;
 
     boost::hana::benchmark::measure([=] {
-        boost::hana::scanr1(list, f);
+        boost::hana::foldr(foldable, state{}, f);
     });
 }

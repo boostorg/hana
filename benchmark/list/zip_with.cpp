@@ -13,12 +13,13 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 int main() {
-    auto list = <%= list %>;
-    auto f = [](auto&& x, auto&& s) -> decltype(auto) {
+    auto xs = <%= list %>;
+    auto ys = xs;
+    auto f = [](auto&& x, auto&& y) -> decltype(auto) {
         return boost::hana::detail::std::forward<decltype(x)>(x);
     };
 
     boost::hana::benchmark::measure([=] {
-        boost::hana::scanr1(list, f);
+        boost::hana::zip_with(f, xs, ys);
     });
 }
