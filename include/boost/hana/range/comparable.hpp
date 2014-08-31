@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/iterable/iterable.hpp>
 #include <boost/hana/logical/logical.hpp>
+#include <boost/hana/range/iterable.hpp>
 #include <boost/hana/range/range.hpp>
 
 
