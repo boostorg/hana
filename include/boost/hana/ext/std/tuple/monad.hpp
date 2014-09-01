@@ -13,6 +13,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/ext/std/tuple/tuple.hpp>
 #include <boost/hana/monad/flatten_mcd.hpp>
 
+// Mcd
+#include <boost/hana/ext/std/tuple/applicative.hpp>
+
 #include <cstddef>
 #include <tuple>
 #include <utility>

@@ -10,9 +10,13 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EXT_STD_TUPLE_LIST_HPP
 #define BOOST_HANA_EXT_STD_TUPLE_LIST_HPP
 
-#include <boost/hana/ext/std/tuple/monad.hpp>
 #include <boost/hana/ext/std/tuple/tuple.hpp>
 #include <boost/hana/list/mcd.hpp>
+
+// Mcd
+#include <boost/hana/ext/std/tuple/foldable.hpp>
+#include <boost/hana/ext/std/tuple/iterable.hpp>
+#include <boost/hana/ext/std/tuple/monad.hpp>
 
 #include <tuple>
 
