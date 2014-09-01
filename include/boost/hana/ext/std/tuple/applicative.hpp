@@ -10,8 +10,9 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EXT_STD_TUPLE_APPLICATIVE_HPP
 #define BOOST_HANA_EXT_STD_TUPLE_APPLICATIVE_HPP
 
+#include <boost/hana/applicative/list_mcd.hpp>
+#include <boost/hana/ext/std/tuple/functor.hpp>
 #include <boost/hana/ext/std/tuple/list.hpp>
 #include <boost/hana/ext/std/tuple/monad.hpp>
-#include <boost/hana/applicative/list_mcd.hpp>
 
 #endif // !BOOST_HANA_EXT_STD_TUPLE_APPLICATIVE_HPP

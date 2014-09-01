@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/foldable/foldable.hpp>
 #include <boost/hana/logical/logical.hpp>
-#include <boost/hana/searchable/searchable.hpp>
+#include <boost/hana/set/searchable.hpp>
 #include <boost/hana/set/set.hpp>
 
 
