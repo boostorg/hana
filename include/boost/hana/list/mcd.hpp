@@ -293,7 +293,7 @@ namespace boost { namespace hana {
 
         template <typename F, typename ...Xss>
         static constexpr auto zip_with_impl(F f, Xss ...xss) {
-            return eval_if(any_of(make<T>(is_empty(xss)...)),
+            return eval_if(or_(is_empty(xss)...),
                 [](auto _) { return nil<T>; },
                 [=](auto _) {
                     return cons(
