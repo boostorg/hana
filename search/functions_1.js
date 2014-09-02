@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['sum_5fimpl',['sum_impl',['../structboost_1_1hana_1_1_foldable_1_1mcd.html#a78ba016f4f4f10840879cc2327b2f536',1,'boost::hana::Foldable::mcd']]]
+  ['operator_22_22_5fc',['operator&quot;&quot;_c',['../structboost_1_1hana_1_1_integral.html#a1c078fd00db48686ca9e0aa17f47344e',1,'boost::hana::Integral']]]
 ];

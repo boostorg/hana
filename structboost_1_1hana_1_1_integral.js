@@ -1,9 +1,6 @@
 var structboost_1_1hana_1_1_integral =
 [
     [ "integral", "structboost_1_1hana_1_1_integral.html#a9fdcfeb2aec3af66ec8e83d02960d947", null ],
-    [ "bool_", "structboost_1_1hana_1_1_integral.html#acf0a8576fc56fe55152b2478f190561f", null ],
-    [ "true_", "structboost_1_1hana_1_1_integral.html#ae6096d56dd1b76bb9d37e4121eb5b33c", null ],
-    [ "false_", "structboost_1_1hana_1_1_integral.html#a1fb33fb686dbbe3e9718071ba2630641", null ],
     [ "char_", "structboost_1_1hana_1_1_integral.html#ad2fa34981b7b50cbbb75482e3b95745c", null ],
     [ "short_", "structboost_1_1hana_1_1_integral.html#a84287b99d47602c48157098aa1beb529", null ],
     [ "ushort", "structboost_1_1hana_1_1_integral.html#a22e80ee14529e7c6549266c51b2b953b", null ],

@@ -5,8 +5,8 @@ var searchData=
   ['group',['group',['../structboost_1_1hana_1_1_list.html#a83d9b8f0f293c6fe7cfccd2359dec330',1,'boost::hana::List']]],
   ['group',['Group',['../structboost_1_1hana_1_1_group.html',1,'boost::hana']]],
   ['group_2ehpp',['group.hpp',['../group_8hpp.html',1,'']]],
-  ['group_2ehpp',['group.hpp',['../detail_2minimal_2group_8hpp.html',1,'']]],
+  ['group_2ehpp',['group.hpp',['../integral_2group_8hpp.html',1,'']]],
+  ['group_2ehpp',['group.hpp',['../foreign_2group_8hpp.html',1,'']]],
   ['group_2ehpp',['group.hpp',['../group_2group_8hpp.html',1,'']]],
-  ['group_5fby',['group_by',['../structboost_1_1hana_1_1_list.html#ad855f1d86e9bf0d31d67c191412a9082',1,'boost::hana::List']]],
-  ['group_5ffwd_2ehpp',['group_fwd.hpp',['../group__fwd_8hpp.html',1,'']]]
+  ['group_5fby',['group_by',['../structboost_1_1hana_1_1_list.html#ad855f1d86e9bf0d31d67c191412a9082',1,'boost::hana::List']]]
 ];

@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['zero',['zero',['../structboost_1_1hana_1_1_monoid.html#a52bd77cbc25ea1180fcbb2c10c61e988',1,'boost::hana::Monoid']]],
-  ['zip',['zip',['../structboost_1_1hana_1_1_list.html#a23b6ac9e78577d70b9108a80e6b1534c',1,'boost::hana::List']]],
-  ['zip_5fwith',['zip_with',['../structboost_1_1hana_1_1_list.html#a5eadaf63535ebb8cdd8d9e4c16b9bacd',1,'boost::hana::List']]]
+  ['value',['value',['../structboost_1_1hana_1_1_constant.html#a615a7728e2278acb2cab50854079d7fc',1,'boost::hana::Constant']]],
+  ['values',['values',['../structboost_1_1hana_1_1_map.html#a2e016a68e3ec6eb25868fadb7ce80132',1,'boost::hana::Map']]]
 ];
