@@ -64,6 +64,10 @@ int main() {
     BOOST_HANA_CONSTANT_ASSERT(!is_a<Typeclass>('2'));
     BOOST_HANA_CONSTANT_ASSERT(!is_an<Typeclass>('2'));
 
+    BOOST_HANA_CONSTANT_ASSERT(is_a<Instance>(an_instance{}));
+    BOOST_HANA_CONSTANT_ASSERT(is_an<Instance>(an_instance{}));
+    BOOST_HANA_CONSTANT_ASSERT(is_a<NotInstance>(not_instance{}));
+
     // check with a couple of "real" instances
     BOOST_HANA_CONSTANT_ASSERT(is_an<Iterable>(tuple(1, '2', 3)));
     BOOST_HANA_CONSTANT_ASSERT(is_a<Monad>(tuple(1, '2', 3)));
@@ -77,4 +81,7 @@ int main() {
     BOOST_HANA_CONSTANT_ASSERT(is_a<Monad>(nothing));
 
     BOOST_HANA_CONSTANT_ASSERT(are<Orderable>(1, 2));
+
+    BOOST_HANA_CONSTANT_ASSERT(is_a<Tuple>(tuple(1, '2', 3)));
+    BOOST_HANA_CONSTANT_ASSERT(is_an<int>(1));
 }

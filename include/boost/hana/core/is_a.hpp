@@ -44,6 +44,20 @@ namespace boost { namespace hana {
     //! where `xi` is an arbitrary object and `Di` is the data type of the
     //! corresponding `xi`.
     //!
+    //! With this alternate syntax, if a data type `D` is provided instead of
+    //! a type class, and if a single object is passed, it returns whether the
+    //! passed object has `D` as a data type. In other words,
+    //! @code
+    //!     is_a<Datatype>(x)
+    //! @endcode
+    //! is true if and only if `x` has a data type of `Datatype`.
+    //!
+    //! @note
+    //! This relies on the fact that data types do not coincide with type
+    //! classes. Otherwise, it would be impossible to differentiate between
+    //! `is_a<Datatype>` and `is_a<Typeclass>` without introducing additional
+    //! machinery.
+    //!
     //! ### Example
     //! @snippet example/core/is_a.cpp alternate
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
@@ -61,6 +75,12 @@ namespace boost { namespace hana {
     );
 
     namespace core_detail {
+        template <typename Datatype, typename ...D>
+        constexpr auto is_a_for_datatype = is_a<Datatype, D...>;
+
+        template <typename Datatype>
+        constexpr auto is_a_for_datatype<Datatype, Datatype> = true_;
+
         template <typename Typeclass>
         struct is_a_helper {
             template <typename ...X>
@@ -73,7 +93,7 @@ namespace boost { namespace hana {
                 "invalid usage of is_a<Typeclass> with more than two "
                 "arguments; it requires either one or two arguments");
 
-                return is_a<Typeclass, typename datatype<X>::type...>;
+                return is_a_for_datatype<Typeclass, typename datatype<X>::type...>;
             }
         };
     }
