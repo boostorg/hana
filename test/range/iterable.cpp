@@ -130,6 +130,14 @@ int main() {
         ));
     }
 
+    // operators
+    {
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            range(int_<0>, int_<10>)[int_<3>],
+            int_<3>
+        ));
+    }
+
     // laws
     {
         BOOST_HANA_CONSTANT_ASSERT(Iterable_laws(

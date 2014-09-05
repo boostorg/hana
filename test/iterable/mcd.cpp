@@ -168,8 +168,56 @@ int main() {
 
     // last
     {
-        BOOST_HANA_CONSTANT_ASSERT(equal(last(iterable(x<0>)), x<0>));
-        BOOST_HANA_CONSTANT_ASSERT(equal(last(iterable(undefined, x<1>)), x<1>));
-        BOOST_HANA_CONSTANT_ASSERT(equal(last(iterable(undefined, undefined, x<2>)), x<2>));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            last(iterable(x<0>)),
+            x<0>
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            last(iterable(undefined, x<1>)),
+            x<1>
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            last(iterable(undefined, undefined, x<2>)),
+            x<2>
+        ));
+    }
+
+    // operators
+    {
+        auto const const_lvalue = iterable(x<0>);
+        auto lvalue = iterable(x<0>);
+        auto rvalue = [=] { return iterable(x<0>); };
+        auto const_rvalue = [=]() -> decltype(iterable(x<0>)) const { return iterable(x<0>); };
+
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            lvalue[size_t<0>],
+            at(size_t<0>, lvalue)
+        ));
+
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            const_lvalue[size_t<0>],
+            at(size_t<0>, const_lvalue)
+        ));
+
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            rvalue()[size_t<0>],
+            at(size_t<0>, rvalue())
+        ));
+
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            const_rvalue()[size_t<0>],
+            at(size_t<0>, const_rvalue())
+        ));
+    }
+
+    // laws
+    {
+        BOOST_HANA_CONSTANT_ASSERT(Iterable_laws(
+            iterable(),
+            iterable(x<0>),
+            iterable(x<0>, x<1>),
+            iterable(x<0>, x<1>, x<2>),
+            iterable(x<0>, x<1>, x<2>, x<3>)
+        ));
     }
 }

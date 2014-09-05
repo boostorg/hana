@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable/operators.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/iterable/operators.hpp>
 #include <boost/hana/monad/operators.hpp>
 
 
@@ -23,11 +24,17 @@ namespace boost { namespace hana {
     //! ### Instance of
     //! `Comparable`, `Functor`, `Applicative`, `Monad`, `Traversable`,
     //! `Foldable`, `Iterable`, `List` and `Searchable`.
-    struct Tuple { struct hana_enabled_operators : Monad, Comparable { }; };
+    struct Tuple {
+        struct hana_enabled_operators
+            : Comparable, Monad, Iterable
+        { };
+    };
 
     namespace detail { namespace repr {
         template <typename Storage, typename = operators::enable_adl>
-        struct tuple {
+        struct tuple : operators::Iterable_ops<tuple<Storage>> {
+            explicit constexpr tuple(Storage s) : storage(s) { }
+
             using hana_datatype = Tuple;
             Storage storage;
         };

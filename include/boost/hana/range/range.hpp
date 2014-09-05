@@ -14,6 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/integral.hpp>
+#include <boost/hana/iterable/operators.hpp>
 #include <boost/hana/orderable/orderable.hpp>
 
 
@@ -27,11 +28,16 @@ namespace boost { namespace hana {
     //! @todo
     //! Remove the requirement that the range contains `Integral`s, and allow
     //! any `Orderable` and `Comparable` `Ring`, or something similar.
-    struct Range { struct hana_enabled_operators : Comparable { }; };
+    struct Range {
+        struct hana_enabled_operators
+            : Comparable, Iterable
+        { };
+    };
 
     namespace range_detail {
         template <typename From, typename To, typename = operators::enable_adl>
-        struct range {
+        struct range : operators::Iterable_ops<range<From, To>> {
+            constexpr range(From f, To t) : from(f), to(t) { }
             From from;
             To to;
             using hana_datatype = Range;

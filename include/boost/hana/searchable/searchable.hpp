@@ -36,6 +36,9 @@ namespace boost { namespace hana {
     //! implemented as a hash table will be much faster to access using
     //! `lookup` than `find`. Similarly, using `elem` will likely be much
     //! faster than `any` with an equivalent predicate.
+    //!
+    //! @todo
+    //! We should provide a member `operator[]` equivalent to `lookup`.
     struct Searchable {
         BOOST_HANA_TYPECLASS(Searchable);
         struct mcd;
