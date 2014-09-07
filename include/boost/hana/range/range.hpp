@@ -53,7 +53,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/range.cpp range
-    BOOST_HANA_CONSTEXPR_LAMBDA auto range = [](auto from, auto to) {
+    constexpr auto range = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto from, auto to) {
         // For some reason, Clang 3.5 requires that we create an intermediate
         // variable whose type is dependent so we can use `valid_range` as a
         // constant expression below.
@@ -86,9 +86,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/range.cpp range_c
     template <typename T, T from, T to>
-    BOOST_HANA_CONSTEXPR_LAMBDA auto range_c = range(
-        integral<T, from>, integral<T, to>
-    );
+    BOOST_HANA_CONSTEXPR_LAMBDA auto range_c = range(integral<T, from>, integral<T, to>);
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_RANGE_RANGE_HPP

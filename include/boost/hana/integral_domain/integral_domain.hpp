@@ -52,7 +52,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/integral_domain.cpp mod
-    BOOST_HANA_CONSTEXPR_LAMBDA auto mod = [](auto&& a, auto&& b) -> decltype(auto) {
+    constexpr auto mod = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& a, auto&& b) -> decltype(auto) {
         return IntegralDomain::instance<
             datatype_t<decltype(a)>, datatype_t<decltype(b)>
         >::mod_impl(
@@ -66,7 +66,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/integral_domain.cpp quot
-    BOOST_HANA_CONSTEXPR_LAMBDA auto quot = [](auto&& a, auto&& b) -> decltype(auto) {
+    constexpr auto quot = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& a, auto&& b) -> decltype(auto) {
         return IntegralDomain::instance<
             datatype_t<decltype(a)>, datatype_t<decltype(b)>
         >::quot_impl(

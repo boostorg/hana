@@ -34,7 +34,7 @@ namespace boost { namespace hana {
     //!
     //! @note
     //! There must not be duplicate elements.
-    BOOST_HANA_CONSTEXPR_LAMBDA auto set = [](auto ...elements) {
+    constexpr auto set = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto ...elements) {
         auto storage = tuple(elements...);
         return set_detail::set<decltype(storage)>{storage};
     };

@@ -67,7 +67,7 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/searchable/any.time.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto any = [](auto&& searchable, auto&& predicate) -> decltype(auto) {
+    constexpr auto any = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& searchable, auto&& predicate) -> decltype(auto) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
         >::any_impl(
@@ -85,7 +85,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/searchable.cpp any_of
-    BOOST_HANA_CONSTEXPR_LAMBDA auto any_of = [](auto&& searchable) -> decltype(auto) {
+    constexpr auto any_of = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& searchable) -> decltype(auto) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
         >::any_of_impl(detail::std::forward<decltype(searchable)>(searchable));
@@ -112,7 +112,7 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/searchable/all.time.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto all = [](auto&& searchable, auto&& predicate) -> decltype(auto) {
+    constexpr auto all = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& searchable, auto&& predicate) -> decltype(auto) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
         >::all_impl(
@@ -130,7 +130,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/searchable.cpp all_of
-    BOOST_HANA_CONSTEXPR_LAMBDA auto all_of = [](auto&& searchable) -> decltype(auto) {
+    constexpr auto all_of = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& searchable) -> decltype(auto) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
         >::all_of_impl(detail::std::forward<decltype(searchable)>(searchable));
@@ -158,7 +158,7 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/searchable/none.time.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto none = [](auto&& searchable, auto&& predicate) -> decltype(auto) {
+    constexpr auto none = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& searchable, auto&& predicate) -> decltype(auto) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
         >::none_impl(
@@ -176,7 +176,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/searchable.cpp none_of
-    BOOST_HANA_CONSTEXPR_LAMBDA auto none_of = [](auto&& searchable) -> decltype(auto) {
+    constexpr auto none_of = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& searchable) -> decltype(auto) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
         >::none_of_impl(detail::std::forward<decltype(searchable)>(searchable));
@@ -204,7 +204,7 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/searchable/elem.time.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto elem = [](auto&& searchable, auto&& key) -> decltype(auto) {
+    constexpr auto elem = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& searchable, auto&& key) -> decltype(auto) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
         >::elem_impl(
@@ -237,7 +237,7 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/searchable/find.time.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto find = [](auto&& searchable, auto&& predicate) -> decltype(auto) {
+    constexpr auto find = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& searchable, auto&& predicate) -> decltype(auto) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
         >::find_impl(
@@ -271,7 +271,7 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/searchable/lookup.time.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto lookup = [](auto&& searchable, auto&& key) -> decltype(auto) {
+    constexpr auto lookup = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& searchable, auto&& key) -> decltype(auto) {
         return Searchable::instance<
             datatype_t<decltype(searchable)>
         >::lookup_impl(
@@ -329,7 +329,7 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/searchable/subset.time.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto subset = [](auto&& xs, auto&& ys) -> decltype(auto) {
+    constexpr auto subset = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& xs, auto&& ys) -> decltype(auto) {
         return Searchable::instance<
             datatype_t<decltype(xs)>
         >::subset_impl(

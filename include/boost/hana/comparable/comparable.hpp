@@ -65,7 +65,7 @@ namespace boost { namespace hana {
     //! - `equal(x, y...)` can be implemented as `all(list(y...), x == _)`,
     //!   which is pretty straightforward anyway.
     //! @endinternal
-    BOOST_HANA_CONSTEXPR_LAMBDA auto equal = [](auto&& x, auto&& y) -> decltype(auto) {
+    constexpr auto equal = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& x, auto&& y) -> decltype(auto) {
         return Comparable::instance<
             datatype_t<decltype(x)>, datatype_t<decltype(y)>
         >::equal_impl(
@@ -82,7 +82,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/comparable.cpp not_equal
-    BOOST_HANA_CONSTEXPR_LAMBDA auto not_equal = [](auto&& x, auto&& y) -> decltype(auto) {
+    constexpr auto not_equal = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& x, auto&& y) -> decltype(auto) {
         return Comparable::instance<
             datatype_t<decltype(x)>, datatype_t<decltype(y)>
         >::not_equal_impl(
@@ -103,7 +103,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/comparable.cpp comparing
-    BOOST_HANA_CONSTEXPR_LAMBDA auto comparing = [](auto&& f) -> decltype(auto) {
+    constexpr auto comparing = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& f) -> decltype(auto) {
         return [f(detail::std::forward<decltype(f)>(f))](auto&& x, auto&& y) -> decltype(auto) {
             return equal(
                 f(detail::std::forward<decltype(x)>(x)),

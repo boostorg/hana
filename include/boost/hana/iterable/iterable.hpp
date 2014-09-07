@@ -47,7 +47,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/iterable.cpp head
-    BOOST_HANA_CONSTEXPR_LAMBDA auto head = [](auto&& iterable) -> decltype(auto) {
+    constexpr auto head = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& iterable) -> decltype(auto) {
         return Iterable::instance<
             datatype_t<decltype(iterable)>
         >::head_impl(detail::std::forward<decltype(iterable)>(iterable));
@@ -59,7 +59,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/iterable.cpp tail
-    BOOST_HANA_CONSTEXPR_LAMBDA auto tail = [](auto&& iterable) -> decltype(auto) {
+    constexpr auto tail = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& iterable) -> decltype(auto) {
         return Iterable::instance<
             datatype_t<decltype(iterable)>
         >::tail_impl(detail::std::forward<decltype(iterable)>(iterable));
@@ -74,7 +74,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/iterable.cpp is_empty
-    BOOST_HANA_CONSTEXPR_LAMBDA auto is_empty = [](auto&& iterable) -> decltype(auto) {
+    constexpr auto is_empty = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& iterable) -> decltype(auto) {
         return Iterable::instance<
             datatype_t<decltype(iterable)>
         >::is_empty_impl(detail::std::forward<decltype(iterable)>(iterable));
@@ -98,7 +98,7 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/iterable/at.time.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto at = [](auto&& n, auto&& iterable) -> decltype(auto) {
+    constexpr auto at = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& n, auto&& iterable) -> decltype(auto) {
         return Iterable::instance<
             datatype_t<decltype(iterable)>
         >::at_impl(
@@ -139,7 +139,7 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/iterable/last.time.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto last = [](auto&& iterable) -> decltype(auto) {
+    constexpr auto last = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& iterable) -> decltype(auto) {
         return Iterable::instance<
             datatype_t<decltype(iterable)>
         >::last_impl(detail::std::forward<decltype(iterable)>(iterable));
@@ -163,7 +163,7 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/iterable/drop.time.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto drop = [](auto&& n, auto&& iterable) -> decltype(auto) {
+    constexpr auto drop = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& n, auto&& iterable) -> decltype(auto) {
         return Iterable::instance<
             datatype_t<decltype(iterable)>
         >::drop_impl(
@@ -224,7 +224,7 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/iterable/drop_while.time.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto drop_while = [](auto&& iterable, auto&& predicate) -> decltype(auto) {
+    constexpr auto drop_while = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& iterable, auto&& predicate) -> decltype(auto) {
         return Iterable::instance<
             datatype_t<decltype(iterable)>
         >::drop_while_impl(
@@ -265,7 +265,7 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/iterable/drop_until.time.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto drop_until = [](auto&& iterable, auto&& predicate) -> decltype(auto) {
+    constexpr auto drop_until = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& iterable, auto&& predicate) -> decltype(auto) {
         return Iterable::instance<
             datatype_t<decltype(iterable)>
         >::drop_until_impl(

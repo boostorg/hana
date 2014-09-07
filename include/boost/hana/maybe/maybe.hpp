@@ -72,7 +72,7 @@ namespace boost { namespace hana {
     //! @snippet example/maybe/maybe.cpp nothing
     constexpr unspecified nothing{};
 #else
-    BOOST_HANA_CONSTEXPR_LAMBDA auto just = [](auto x) {
+    constexpr auto just = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto x) {
         return maybe_detail::just<decltype(x)>{x};
     };
 
@@ -106,7 +106,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/maybe/maybe.cpp only_when
-    BOOST_HANA_CONSTEXPR_LAMBDA auto only_when = [](auto predicate, auto f, auto x) {
+    constexpr auto only_when = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto predicate, auto f, auto x) {
         return eval_if(predicate(x),
             [=](auto _) { return just(_(f)(x)); },
             [](auto _) { return nothing; }
@@ -142,7 +142,7 @@ namespace boost { namespace hana {
         unspecified;
     };
 #else
-    BOOST_HANA_CONSTEXPR_LAMBDA auto maybe = [](auto default_, auto f, auto m) {
+    constexpr auto maybe = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto default_, auto f, auto m) {
         return m.maybe_impl(default_, f);
     };
 #endif
@@ -156,7 +156,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/maybe/maybe.cpp is_just
-    BOOST_HANA_CONSTEXPR_LAMBDA auto is_just = [](auto m) {
+    constexpr auto is_just = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto m) {
         return maybe(false_, [](auto) { return true_; }, m);
     };
 
@@ -169,7 +169,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/maybe/maybe.cpp is_nothing
-    BOOST_HANA_CONSTEXPR_LAMBDA auto is_nothing = [](auto m) {
+    constexpr auto is_nothing = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto m) {
         return maybe(true_, [](auto) { return false_; }, m);
     };
 
@@ -189,7 +189,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/maybe/maybe.cpp from_maybe
-    BOOST_HANA_CONSTEXPR_LAMBDA auto from_maybe = [](auto default_, auto m) {
+    constexpr auto from_maybe = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto default_, auto m) {
         return maybe(default_, [](auto x) { return x; }, m);
     };
 
@@ -201,7 +201,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/maybe/maybe.cpp from_just
-    BOOST_HANA_CONSTEXPR_LAMBDA auto from_just = [](auto m) {
+    constexpr auto from_just = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto m) {
         auto err = [](auto ...dum) {
             constexpr bool always_false = sizeof...(dum) != 0;
             static_assert(always_false,

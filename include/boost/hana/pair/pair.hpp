@@ -37,7 +37,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/pair.cpp pair
-    BOOST_HANA_CONSTEXPR_LAMBDA auto pair = [](auto first, auto second) {
+    constexpr auto pair = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto first, auto second) {
         return pair_detail::pair<
             decltype(first), decltype(second)
         >{first, second};

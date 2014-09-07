@@ -48,7 +48,7 @@ namespace boost { namespace hana {
     //! It does not fix the problem of partial type classes (e.g. `MplVector`
     //! is not _actually_ a `List`), but at least we remove `TypeList` and
     //! `IntegerList`, which are arguably ugly.
-    BOOST_HANA_CONSTEXPR_LAMBDA auto tuple = [](auto ...xs) {
+    constexpr auto tuple = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto ...xs) {
         auto storage = [=](auto f) { return f(xs...); };
         return detail::repr::tuple<decltype(storage)>{storage};
     };

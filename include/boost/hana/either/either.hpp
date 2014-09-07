@@ -60,11 +60,11 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/either.cpp left
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    BOOST_HANA_CONSTEXPR_LAMBDA auto left = [](auto x) {
+    constexpr auto left = [](auto x) {
         unspecified
     };
 #else
-    BOOST_HANA_CONSTEXPR_LAMBDA auto left = [](auto x) {
+    constexpr auto left = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto x) {
         return either_detail::left<decltype(x)>{x};
     };
 #endif
@@ -75,11 +75,11 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/either.cpp right
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    BOOST_HANA_CONSTEXPR_LAMBDA auto right = [](auto x) {
+    constexpr auto right = [](auto x) {
         unspecified
     };
 #else
-    BOOST_HANA_CONSTEXPR_LAMBDA auto right = [](auto x) {
+    constexpr auto right = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto x) {
         return either_detail::right<decltype(x)>{x};
     };
 #endif
@@ -106,13 +106,15 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/either.cpp either
-    BOOST_HANA_CONSTEXPR_LAMBDA auto either = [](auto f, auto g, auto e) {
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto either = [](auto f, auto g, auto e) {
         unspecified
-#else
-        return e.go(f, g);
-#endif
     };
+#else
+    constexpr auto either = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto f, auto g, auto e) {
+        return e.go(f, g);
+    };
+#endif
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_EITHER_EITHER_HPP

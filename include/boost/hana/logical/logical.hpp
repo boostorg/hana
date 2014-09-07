@@ -67,7 +67,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/logical/if.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto if_ = [](auto&& logical, auto&& then_, auto&& else_) -> decltype(auto) {
+    constexpr auto if_ = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& logical, auto&& then_, auto&& else_) -> decltype(auto) {
         return Logical::instance<
             datatype_t<decltype(logical)>
         >::if_impl(
@@ -104,7 +104,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example (runtime or `constexpr` condition)
     //! @snippet example/logical/eval_if.cpp homogeneous
-    BOOST_HANA_CONSTEXPR_LAMBDA auto eval_if = [](auto&& logical, auto&& then_branch, auto&& else_branch) -> decltype(auto) {
+    constexpr auto eval_if = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& logical, auto&& then_branch, auto&& else_branch) -> decltype(auto) {
         return Logical::instance<
             datatype_t<decltype(logical)>
         >::eval_if_impl(
@@ -122,21 +122,21 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/logical/not.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto not_ = [](auto&& logical) -> decltype(auto) {
+    constexpr auto not_ = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& logical) -> decltype(auto) {
         return Logical::instance<
             datatype_t<decltype(logical)>
         >::not_impl(detail::std::forward<decltype(logical)>(logical));
     };
 
     namespace logical_detail {
-        BOOST_HANA_CONSTEXPR_LAMBDA auto and2 = [](auto&& x, auto&& y) -> decltype(auto) {
+        constexpr auto and2 = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& x, auto&& y) -> decltype(auto) {
             return Logical::instance<datatype_t<decltype(x)>>::and_impl(
                 detail::std::forward<decltype(x)>(x),
                 detail::std::forward<decltype(y)>(y)
             );
         };
 
-        BOOST_HANA_CONSTEXPR_LAMBDA auto or2 = [](auto&& x, auto&& y) -> decltype(auto) {
+        constexpr auto or2 = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& x, auto&& y) -> decltype(auto) {
             return Logical::instance<datatype_t<decltype(x)>>::or_impl(
                 detail::std::forward<decltype(x)>(x),
                 detail::std::forward<decltype(y)>(y)
@@ -157,7 +157,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/logical/and.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto and_ = [](auto&& x, auto&& ...y) -> decltype(auto) {
+    constexpr auto and_ = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& x, auto&& ...y) -> decltype(auto) {
         return detail::variadic::foldl(
             logical_detail::and2,
             detail::std::forward<decltype(x)>(x),
@@ -178,7 +178,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/logical/or.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto or_ = [](auto&& x, auto&& ...y) -> decltype(auto) {
+    constexpr auto or_ = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& x, auto&& ...y) -> decltype(auto) {
         return detail::variadic::foldl(
             logical_detail::or2,
             detail::std::forward<decltype(x)>(x),

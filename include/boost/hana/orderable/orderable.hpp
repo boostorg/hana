@@ -50,7 +50,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/orderable.cpp less
-    BOOST_HANA_CONSTEXPR_LAMBDA auto less = [](auto&& x, auto&& y) -> decltype(auto) {
+    constexpr auto less = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& x, auto&& y) -> decltype(auto) {
         return Orderable::instance<
             datatype_t<decltype(x)>, datatype_t<decltype(y)>
         >::less_impl(
@@ -65,7 +65,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/orderable.cpp less_equal
-    BOOST_HANA_CONSTEXPR_LAMBDA auto less_equal = [](auto&& x, auto&& y) -> decltype(auto) {
+    constexpr auto less_equal = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& x, auto&& y) -> decltype(auto) {
         return Orderable::instance<
             datatype_t<decltype(x)>, datatype_t<decltype(y)>
         >::less_equal_impl(
@@ -79,7 +79,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/orderable.cpp greater
-    BOOST_HANA_CONSTEXPR_LAMBDA auto greater = [](auto&& x, auto&& y) -> decltype(auto) {
+    constexpr auto greater = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& x, auto&& y) -> decltype(auto) {
         return Orderable::instance<
             datatype_t<decltype(x)>, datatype_t<decltype(y)>
         >::greater_impl(
@@ -94,7 +94,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/orderable.cpp greater_equal
-    BOOST_HANA_CONSTEXPR_LAMBDA auto greater_equal = [](auto&& x, auto&& y) -> decltype(auto) {
+    constexpr auto greater_equal = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& x, auto&& y) -> decltype(auto) {
         return Orderable::instance<
             datatype_t<decltype(x)>, datatype_t<decltype(y)>
         >::greater_equal_impl(
@@ -108,7 +108,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/orderable.cpp min
-    BOOST_HANA_CONSTEXPR_LAMBDA auto min = [](auto&& x, auto&& y) -> decltype(auto) {
+    constexpr auto min = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& x, auto&& y) -> decltype(auto) {
         return Orderable::instance<
             datatype_t<decltype(x)>, datatype_t<decltype(y)>
         >::min_impl(
@@ -122,7 +122,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/orderable.cpp max
-    BOOST_HANA_CONSTEXPR_LAMBDA auto max = [](auto&& x, auto&& y) -> decltype(auto) {
+    constexpr auto max = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& x, auto&& y) -> decltype(auto) {
         return Orderable::instance<
             datatype_t<decltype(x)>, datatype_t<decltype(y)>
         >::max_impl(
@@ -143,7 +143,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/orderable.cpp ordering
-    BOOST_HANA_CONSTEXPR_LAMBDA auto ordering = [](auto&& f) -> decltype(auto) {
+    constexpr auto ordering = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& f) -> decltype(auto) {
         return [f(detail::std::forward<decltype(f)>(f))](auto&& x, auto&& y) -> decltype(auto) {
             return less(
                 f(detail::std::forward<decltype(x)>(x)),

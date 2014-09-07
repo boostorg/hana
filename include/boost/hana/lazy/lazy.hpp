@@ -38,7 +38,7 @@ namespace boost { namespace hana {
 
     //! Evaluate a lazy value and return it.
     //! @relates Lazy
-    BOOST_HANA_CONSTEXPR_LAMBDA auto eval = [](auto lx) {
+    constexpr auto eval = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto lx) {
         return lx.storage([](auto x) { return x; });
     };
 
@@ -72,7 +72,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/lazy/lazy.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto lazy = [](auto x) {
+    constexpr auto lazy = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto x) {
         auto storage = [=](auto _) { return x; };
         return lazy_detail::lazy<decltype(storage)>{storage};
     };

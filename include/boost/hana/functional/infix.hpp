@@ -121,7 +121,7 @@ namespace boost { namespace hana {
         }
     } // end namespace infix_detail
 
-    BOOST_HANA_CONSTEXPR_LAMBDA auto infix = [](auto f) {
+    constexpr auto infix = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto f) {
         return infix_detail::infix<decltype(f)>{f};
     };
 #endif
