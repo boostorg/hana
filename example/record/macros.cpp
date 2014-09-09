@@ -4,6 +4,7 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
+#define BOOST_PP_VARIADICS 1
 #include <boost/hana/record/macros.hpp>
 #include <boost/hana/type.hpp>
 
@@ -18,8 +19,8 @@ struct age_tag;
 
 struct Person {
     BOOST_HANA_DEFINE_RECORD_INTRUSIVE(Person,
-        ((type<name_tag>)(std::string)(name))
-        ((type<age_tag>)(int)(age))
+        (type<name_tag>, (std::string, name)),
+        (type<age_tag>, (int, age))
     );
 };
 //! [intrusive]
@@ -37,8 +38,8 @@ namespace ns {
 }
 
 BOOST_HANA_DEFINE_RECORD(ns::Person,
-    ((type<name_tag>)(std::string)(name))
-    ((type<age_tag>)(int)(age))
+    (type<name_tag>, (std::string, name)),
+    (type<age_tag>, (int, age))
 );
 //! [adhoc]
 

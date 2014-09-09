@@ -4,6 +4,7 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
+#define BOOST_PP_VARIADICS 1
 #include <boost/hana/foldable/record_mcd.hpp>
 #include <boost/hana/record/macros.hpp>
 
@@ -22,8 +23,8 @@ namespace ns {
 
     struct Intrusive {
         BOOST_HANA_DEFINE_RECORD_INTRUSIVE(Intrusive,
-            ((test::x<1>)(Member1)(member1))
-            ((test::x<2>)(Member2)(member2))
+            (test::x<1>, (Member1, member1)),
+            (test::x<2>, (Member2, member2))
         );
     };
 
@@ -37,15 +38,15 @@ namespace ns {
     void intrusive_in_local_function() {
         struct Local {
             BOOST_HANA_DEFINE_RECORD_INTRUSIVE(Local,
-                ((test::x<1>)(Member1)(member1))
+                (test::x<1>, (Member1, member1))
             );
         };
     }
 }
 
 BOOST_HANA_DEFINE_RECORD(ns::AdHoc,
-    ((test::x<1>)(ns::Member1)(member1))
-    ((test::x<2>)(ns::Member1)(member2))
+    (test::x<1>, (ns::Member1, member1)),
+    (test::x<2>, (ns::Member2, member2))
 );
 
 
