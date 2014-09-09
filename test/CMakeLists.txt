@@ -33,6 +33,9 @@ if (NOT Boost_FOUND)
     file(GLOB_RECURSE BOOST_HANA_TESTS_DEPENDING_ON_BOOST
          RELATIVE ${CMAKE_CURRENT_LIST_DIR}
          "ext/boost/*.cpp")
+    list(APPEND BOOST_HANA_TESTS_DEPENDING_ON_BOOST
+        "record/macros.cpp"
+    )
     list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${BOOST_HANA_TESTS_DEPENDING_ON_BOOST})
 endif()
 

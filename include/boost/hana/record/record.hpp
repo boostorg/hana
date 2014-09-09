@@ -21,7 +21,12 @@ namespace boost { namespace hana {
     //! A record-like type is any type which is fundamentally a `struct`,
     //! regardless of the implementation of its accessors and other similar
     //! details. Hence, `Record`s can be seen as `Map`s in which keys can't
-    //! be added, which as several useful use cases.
+    //! be added.
+    //!
+    //! @note
+    //! The @ref BOOST_HANA_DEFINE_RECORD and
+    //! @ref BOOST_HANA_DEFINE_RECORD_INTRUSIVE macros can
+    //! also be used to define instances of `Record`.
     //!
     //! ### Example
     //! @include example/record/howto.cpp
