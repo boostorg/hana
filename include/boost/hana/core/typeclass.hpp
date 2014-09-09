@@ -56,6 +56,11 @@ namespace boost { namespace hana {
             : instance<T, ::boost::hana::when<true>>                        \
         { };                                                                \
                                                                             \
+        template <typename T>                                               \
+        struct instance<T, decltype((void)(typename T::hana_ ## NAME*)0)>   \
+            : T::hana_ ## NAME                                              \
+        { };                                                                \
+                                                                            \
         template <typename T, bool condition>                               \
         struct instance<T, ::boost::hana::when<condition>>                  \
             : ::boost::hana::core_detail::default_instance<                 \

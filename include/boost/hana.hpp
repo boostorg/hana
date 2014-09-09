@@ -1003,7 +1003,8 @@ compile-time error.
 
 
 @todo
-Document type classes with operators.
+- Document type classes with operators.
+- Document how to instantiate _unary_ type classes from inside a data type.
 
 
 @section tutorial-header_organization Header organization
