@@ -31,6 +31,16 @@ namespace ns {
         Member1 member1;
         Member2 member2;
     };
+
+    // Make sure BOOST_HANA_DEFINE_RECORD_INTRUSIVE can be used inside local
+    // functions.
+    void intrusive_in_local_function() {
+        struct Local {
+            BOOST_HANA_DEFINE_RECORD_INTRUSIVE(Local,
+                ((test::x<1>)(Member1)(member1))
+            );
+        };
+    }
 }
 
 BOOST_HANA_DEFINE_RECORD(ns::AdHoc,

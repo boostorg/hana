@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_RECORD_MACROS_HPP
 #define BOOST_HANA_RECORD_MACROS_HPP
 
+#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/pair.hpp>
 #include <boost/hana/record/mcd.hpp>
@@ -39,8 +40,7 @@ Distributed under the Boost Software License, Version 1.0.
     BOOST_PP_SEQ_ELEM(1, MEMBER) BOOST_PP_SEQ_ELEM(2, MEMBER);
 
 #define BOOST_HANA_RECORD_DEFINE_INSTANCE_IMPL(MEMBERS)                     \
-    template <typename ...>                                                 \
-    static constexpr auto members_impl() {                                  \
+    static BOOST_HANA_CONSTEXPR_LAMBDA auto members_impl() {                \
         return ::boost::hana::tuple(                                        \
             BOOST_PP_SEQ_ENUM(                                              \
                 BOOST_PP_SEQ_TRANSFORM(                                     \
