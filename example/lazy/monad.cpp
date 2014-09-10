@@ -15,7 +15,7 @@ using namespace boost::hana;
 
 //! [main]
 template <typename T>
-auto read = [](std::istream& stream) {
+auto read_ = [](std::istream& stream) {
     T x;
     stream >> x;
     std::cout << "read " << x << " from the stream\n";
@@ -27,7 +27,7 @@ int main() {
     int in = 123;
 
     std::cout << "creating the monadic chain...\n";
-    auto out = lazy(read<int>)(std::ref(ss))
+    auto out = lazy(read_<int>)(std::ref(ss))
         | [](auto x) {
             std::cout << "performing x + 1...\n";
             return lazy(x + 1);

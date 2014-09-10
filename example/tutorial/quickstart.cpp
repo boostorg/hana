@@ -47,6 +47,7 @@ static_assert(std::tuple_size<decltype(ys)>::value != 0, "");
 //! [useless]
 using wow_that_is_so_useless = decltype(xs);
 //! [useless]
+(void)sizeof(wow_that_is_so_useless); // remove unused variable warning
 
 
 //! [ts]
