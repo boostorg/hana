@@ -191,6 +191,12 @@ int main() {
     }
 
     {
+        //! [repeat]
+        BOOST_HANA_CONSTEXPR_ASSERT(repeat<Tuple>(int_<2>, 'x') == tuple('x', 'x'));
+        //! [repeat]
+    }
+
+    {
         //! [span]
         BOOST_HANA_CONSTEXPR_LAMBDA auto xs = tuple(int_<1>, int_<2>, int_<3>, int_<4>);
         BOOST_HANA_CONSTANT_ASSERT(

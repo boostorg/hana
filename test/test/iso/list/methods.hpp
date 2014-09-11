@@ -273,151 +273,36 @@ void List_methods() {
         ));
     }
 
-    // zip_with
+    // repeat
     {
-        auto f = test::injection([]{});
-
-        // zip 1
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            zip_with(undefined, list()),
-            list()
-        ));
-        BOOST_HANA_CONSTANT_ASSERT(equal(
-            zip_with(f, list(x<0>)),
-            list(f(x<0>))
-        ));
-        BOOST_HANA_CONSTANT_ASSERT(equal(
-            zip_with(f, list(x<0>, x<1>)),
-            list(f(x<0>), f(x<1>))
-        ));
-        BOOST_HANA_CONSTANT_ASSERT(equal(
-            zip_with(f, list(x<0>, x<1>, x<2>)),
-            list(f(x<0>), f(x<1>), f(x<2>))
-        ));
-
-        // zip 2
-        BOOST_HANA_CONSTANT_ASSERT(equal(
-            zip_with(undefined, list(), list()),
-            list()
-        ));
-        BOOST_HANA_CONSTANT_ASSERT(equal(
-            zip_with(undefined, list(undefined), list()),
-            list()
-        ));
-        BOOST_HANA_CONSTANT_ASSERT(equal(
-            zip_with(undefined, list(), list(undefined)),
-            list()
-        ));
-        BOOST_HANA_CONSTANT_ASSERT(equal(
-            zip_with(f, list(x<1>), list(x<-1>)),
-            list(f(x<1>, x<-1>))
-        ));
-        BOOST_HANA_CONSTANT_ASSERT(equal(
-            zip_with(f, list(x<1>, x<2>), list(x<-1>)),
-            list(f(x<1>, x<-1>))
-        ));
-        BOOST_HANA_CONSTANT_ASSERT(equal(
-            zip_with(f, list(x<1>), list(x<-1>, x<-2>)),
-            list(f(x<1>, x<-1>))
-        ));
-        BOOST_HANA_CONSTANT_ASSERT(equal(
-            zip_with(f, list(x<1>, x<2>), list(x<-1>, x<-2>)),
-            list(f(x<1>, x<-1>), f(x<2>, x<-2>))
-        ));
-        BOOST_HANA_CONSTANT_ASSERT(equal(
-            zip_with(f, list(x<1>, x<2>, x<3>, x<4>), list(x<-1>, x<-2>, x<-3>)),
-            list(f(x<1>, x<-1>), f(x<2>, x<-2>), f(x<3>, x<-3>))
-        ));
-
-        // zip 3
-        BOOST_HANA_CONSTANT_ASSERT(equal(
-            zip_with(undefined, list(),          list(),          list()),
+            repeat<L>(int_<0>, x<0>),
             list()
         ));
 
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            zip_with(undefined, list(undefined), list(),          list()),
-            list()
-        ));
-        BOOST_HANA_CONSTANT_ASSERT(equal(
-            zip_with(undefined, list(),          list(undefined), list()),
-            list()
-        ));
-        BOOST_HANA_CONSTANT_ASSERT(equal(
-            zip_with(undefined, list(),          list(),          list(undefined)),
-            list()
+            repeat<L>(int_<1>, x<0>),
+            list(x<0>)
         ));
 
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            zip_with(undefined, list(),          list(undefined), list(undefined)),
-            list()
-        ));
-        BOOST_HANA_CONSTANT_ASSERT(equal(
-            zip_with(undefined, list(undefined), list(),          list(undefined)),
-            list()
-        ));
-        BOOST_HANA_CONSTANT_ASSERT(equal(
-            zip_with(undefined, list(undefined), list(undefined), list()),
-            list()
+            repeat<L>(int_<2>, x<0>),
+            list(x<0>, x<0>)
         ));
 
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            zip_with(f, list(x<0>), list(x<1>), list(x<2>)),
-            list(f(x<0>, x<1>, x<2>))
-        ));
-
-        // zip 4
-        BOOST_HANA_CONSTANT_ASSERT(equal(
-            zip_with(f,
-                list(x<11>, x<12>, x<13>, x<14>),
-                list(x<21>, x<22>, x<23>),
-                list(x<31>, x<32>, x<33>, x<34>),
-                list(x<41>, x<42>, x<43>, x<44>, x<45>)
-            ),
-            list(
-                f(x<11>, x<21>, x<31>, x<41>),
-                f(x<12>, x<22>, x<32>, x<42>),
-                f(x<13>, x<23>, x<33>, x<43>)
-            )
-        ));
-    }
-
-    // zip
-    {
-        auto t = list; // tests are unreadable otherwise. mnemonic: tuple
-        BOOST_HANA_CONSTANT_ASSERT(equal(
-            zip(list()),
-            list()
-        ));
-        BOOST_HANA_CONSTANT_ASSERT(equal(
-            zip(list(x<0>)),
-            list(t(x<0>))
-        ));
-        BOOST_HANA_CONSTANT_ASSERT(equal(
-            zip(list(x<0>, x<1>)),
-            list(t(x<0>), t(x<1>))
-        ));
-        BOOST_HANA_CONSTANT_ASSERT(equal(
-            zip(list(x<0>, x<1>, x<2>)),
-            list(t(x<0>), t(x<1>), t(x<2>))
+            repeat<L>(int_<3>, x<0>),
+            list(x<0>, x<0>, x<0>)
         ));
 
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            zip(list(), list()),
-            list()
-        ));
-        BOOST_HANA_CONSTANT_ASSERT(equal(
-            zip(list(x<0>), list(x<1>)),
-            list(t(x<0>, x<1>))
+            repeat<L>(int_<4>, x<0>),
+            list(x<0>, x<0>, x<0>, x<0>)
         ));
 
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            zip(list(x<0>), list(x<1>), list(x<2>)),
-            list(t(x<0>, x<1>, x<2>))
-        ));
-        BOOST_HANA_CONSTANT_ASSERT(equal(
-            zip(list(x<0>, x<3>), list(x<1>, x<4>), list(x<2>, x<5>, x<8>)),
-            list(t(x<0>, x<1>, x<2>), t(x<3>, x<4>, x<5>))
+            repeat<L>(int_<5>, x<0>),
+            list(x<0>, x<0>, x<0>, x<0>, x<0>)
         ));
     }
 
@@ -1072,6 +957,154 @@ void List_methods() {
         BOOST_HANA_CONSTANT_ASSERT(equal(
             group_by(pred, list(a(x<0>), b(x<0>), a(x<1>), b(x<1>), b(x<0>))),
             list(list(a(x<0>), b(x<0>)), list(a(x<1>), b(x<1>)), list(b(x<0>)))
+        ));
+    }
+
+    // zip
+    {
+        auto t = list; // tests are unreadable otherwise. mnemonic: tuple
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            zip(list()),
+            list()
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            zip(list(x<0>)),
+            list(t(x<0>))
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            zip(list(x<0>, x<1>)),
+            list(t(x<0>), t(x<1>))
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            zip(list(x<0>, x<1>, x<2>)),
+            list(t(x<0>), t(x<1>), t(x<2>))
+        ));
+
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            zip(list(), list()),
+            list()
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            zip(list(x<0>), list(x<1>)),
+            list(t(x<0>, x<1>))
+        ));
+
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            zip(list(x<0>), list(x<1>), list(x<2>)),
+            list(t(x<0>, x<1>, x<2>))
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            zip(list(x<0>, x<3>), list(x<1>, x<4>), list(x<2>, x<5>, x<8>)),
+            list(t(x<0>, x<1>, x<2>), t(x<3>, x<4>, x<5>))
+        ));
+    }
+
+    // zip_with
+    {
+        auto f = test::injection([]{});
+
+        // zip 1
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            zip_with(undefined, list()),
+            list()
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            zip_with(f, list(x<0>)),
+            list(f(x<0>))
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            zip_with(f, list(x<0>, x<1>)),
+            list(f(x<0>), f(x<1>))
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            zip_with(f, list(x<0>, x<1>, x<2>)),
+            list(f(x<0>), f(x<1>), f(x<2>))
+        ));
+
+        // zip 2
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            zip_with(undefined, list(), list()),
+            list()
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            zip_with(undefined, list(undefined), list()),
+            list()
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            zip_with(undefined, list(), list(undefined)),
+            list()
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            zip_with(f, list(x<1>), list(x<-1>)),
+            list(f(x<1>, x<-1>))
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            zip_with(f, list(x<1>, x<2>), list(x<-1>)),
+            list(f(x<1>, x<-1>))
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            zip_with(f, list(x<1>), list(x<-1>, x<-2>)),
+            list(f(x<1>, x<-1>))
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            zip_with(f, list(x<1>, x<2>), list(x<-1>, x<-2>)),
+            list(f(x<1>, x<-1>), f(x<2>, x<-2>))
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            zip_with(f, list(x<1>, x<2>, x<3>, x<4>), list(x<-1>, x<-2>, x<-3>)),
+            list(f(x<1>, x<-1>), f(x<2>, x<-2>), f(x<3>, x<-3>))
+        ));
+
+        // zip 3
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            zip_with(undefined, list(),          list(),          list()),
+            list()
+        ));
+
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            zip_with(undefined, list(undefined), list(),          list()),
+            list()
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            zip_with(undefined, list(),          list(undefined), list()),
+            list()
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            zip_with(undefined, list(),          list(),          list(undefined)),
+            list()
+        ));
+
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            zip_with(undefined, list(),          list(undefined), list(undefined)),
+            list()
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            zip_with(undefined, list(undefined), list(),          list(undefined)),
+            list()
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            zip_with(undefined, list(undefined), list(undefined), list()),
+            list()
+        ));
+
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            zip_with(f, list(x<0>), list(x<1>), list(x<2>)),
+            list(f(x<0>, x<1>, x<2>))
+        ));
+
+        // zip 4
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            zip_with(f,
+                list(x<11>, x<12>, x<13>, x<14>),
+                list(x<21>, x<22>, x<23>),
+                list(x<31>, x<32>, x<33>, x<34>),
+                list(x<41>, x<42>, x<43>, x<44>, x<45>)
+            ),
+            list(
+                f(x<11>, x<21>, x<31>, x<41>),
+                f(x<12>, x<22>, x<32>, x<42>),
+                f(x<13>, x<23>, x<33>, x<43>)
+            )
         ));
     }
 

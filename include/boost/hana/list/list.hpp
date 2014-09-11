@@ -301,6 +301,53 @@ namespace boost { namespace hana {
         >::permutations_impl(detail::std::forward<decltype(xs)>(xs));
     };
 
+    //! Create a list containing `n` copies of a value.
+    //! @relates List
+    //!
+    //! Specifically, `repeat<L>(n, x)` is a list of data type `L` containing
+    //! `n` copies of `x`.
+    //!
+    //!
+    //! @tparam L
+    //! The data type of the list to create. It must be an instance of `List`.
+    //!
+    //! @param n
+    //! An `IntegralConstant` representing the number of copies of `x` to
+    //! shove into the returned list.
+    //!
+    //! @param x
+    //! The value to fill the list with.
+    //!
+    //!
+    //! ### Example
+    //! @snippet example/list.cpp repeat
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    template <typename L>
+    BOOST_HANA_CONSTEXPR_LAMBDA auto repeat = [](auto&& n, auto&& x) -> decltype(auto) {
+        return List::instance<L>::repeat_impl(
+            detail::std::forward<decltype(n)>(n),
+            detail::std::forward<decltype(x)>(x)
+        );
+    };
+#else
+    namespace list_detail {
+        template <typename L>
+        struct repeat {
+            template <typename N, typename X>
+            constexpr decltype(auto) operator()(N&& n, X&& x) const {
+                return List::instance<L>::repeat_impl(
+                    detail::std::forward<decltype(n)>(n),
+                    detail::std::forward<decltype(x)>(x)
+                );
+            }
+        };
+    }
+
+    template <typename L>
+    constexpr list_detail::repeat<L> repeat{};
+#endif
+
+
     //! Reverse a list.
     //! @relates List
     //!

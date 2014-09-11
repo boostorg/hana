@@ -33,7 +33,7 @@ struct lazy_nil_type { using hana_datatype = LazyList; };
 
 constexpr lazy_nil_type lazy_nil{};
 
-auto repeat = fix([](auto repeat, auto x) {
+auto repeat_ = fix([](auto repeat, auto x) {
     return lazy_cons(x, lazy(repeat)(x));
 });
 
@@ -69,9 +69,9 @@ namespace boost { namespace hana {
 
 
 int main() {
-    BOOST_HANA_CONSTANT_ASSERT(!is_empty(repeat(1)));
-    BOOST_HANA_CONSTEXPR_ASSERT(head(repeat(1)) == 1);
-    BOOST_HANA_CONSTEXPR_ASSERT(at(int_<10>, repeat(1)) == 1);
+    BOOST_HANA_CONSTANT_ASSERT(!is_empty(repeat_(1)));
+    BOOST_HANA_CONSTEXPR_ASSERT(head(repeat_(1)) == 1);
+    BOOST_HANA_CONSTEXPR_ASSERT(at(int_<10>, repeat_(1)) == 1);
 
-    BOOST_HANA_CONSTEXPR_ASSERT(take(int_<2>, repeat('x')) == tuple('x', 'x'));
+    BOOST_HANA_CONSTEXPR_ASSERT(take(int_<2>, repeat_('x')) == tuple('x', 'x'));
 }

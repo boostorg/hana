@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include "matrix.hpp"
 
 #include <boost/hana/integral.hpp>
+#include <boost/hana/list/list.hpp>
 #include <boost/hana/monoid/mcd.hpp>
 #include <boost/hana/range/foldable.hpp>
 
@@ -28,12 +29,8 @@ namespace boost { namespace hana {
         }
 
         static constexpr decltype(auto) zero_impl() {
-            auto zero_row = unpack(range_c<int, 0, Columns>, [](auto ...x) {
-                return cppcon::row((x, int_<0>)...);
-            });
-            return unpack(range_c<int, 0, Rows>, [=](auto ...x) {
-                return cppcon::matrix((x, zero_row)...);
-            });
+            auto zeros = repeat(int_<Columns>, int_<0>);
+            return unpack(repeat(int_<Rows>, zeros), cppcon::matrix);
         }
     };
 }}
