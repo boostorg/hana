@@ -151,6 +151,10 @@ Want to contribute? Great!
 7. Open a pull request
 
 
+## Related material
+I presented a [talk on Hana][Hana-cppcon] at [CppCon 2014][CppCon].
+
+
 ## License
 Please see [LICENSE.md](LICENSE.md).
 
@@ -158,5 +162,7 @@ Please see [LICENSE.md](LICENSE.md).
 <!-- Links -->
 [Benchcc]: http://github.com/ldionne/benchcc
 [CMake]: http://www.cmake.org
+[CppCon]: http://cppcon.org
 [Doxygen]: http://www.doxygen.org
 [eRuby]: http://en.wikipedia.org/wiki/ERuby
+[Hana-cppcon]: http://ldionne.github.io/hana-cppcon-2014
