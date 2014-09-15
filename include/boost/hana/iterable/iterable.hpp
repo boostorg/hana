@@ -98,6 +98,8 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/iterable/at.time.png
+    //!
+    //! @todo Only require `IntegralConstant`, not `Integral`.
     constexpr auto at = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& n, auto&& iterable) -> decltype(auto) {
         return Iterable::instance<
             datatype_t<decltype(iterable)>

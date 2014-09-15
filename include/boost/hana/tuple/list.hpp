@@ -11,6 +11,8 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_TUPLE_LIST_HPP
 
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/foldable/foldable.hpp>
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/functional/on.hpp>
@@ -30,51 +32,77 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //! Instance of `List` for the `Tuple` data type.
+    //!
+    //! @todo
+    //! Use perfect forwarding everywhere possible.
     template <>
     struct List::instance<Tuple> : List::mcd<Tuple> {
-        static BOOST_HANA_CONSTEXPR_LAMBDA auto nil_impl() {
+        static BOOST_HANA_CONSTEXPR_LAMBDA decltype(auto) nil_impl() {
             return tuple();
         }
 
         template <typename X, typename Xs>
-        static constexpr auto cons_impl(X x, Xs xs) {
-            return xs.storage([=](auto ...xs) {
-                return tuple(x, xs...);
-            });
+        static constexpr decltype(auto) cons_impl(X&& x, Xs&& xs) {
+            return detail::std::forward<Xs>(xs).storage(
+                [x(detail::std::forward<X>(x))](auto&& ...xs) -> decltype(auto) {
+                    return tuple(
+                        detail::std::move(x),
+                        detail::std::forward<decltype(xs)>(xs)...
+                    );
+                }
+            );
         }
 
         template <typename ...Xs>
-        static constexpr auto make_impl(Xs ...xs) {
-            return tuple(xs...);
+        static constexpr decltype(auto) make_impl(Xs&& ...xs) {
+            return tuple(detail::std::forward<Xs>(xs)...);
         }
 
         template <typename Xs, typename Ys>
-        static constexpr auto concat_impl(Xs xs, Ys ys) {
-            return xs.storage([=](auto ...xs) {
-                return ys.storage([=](auto ...ys) {
-                    return tuple(xs..., ys...);
-                });
-            });
+        static constexpr decltype(auto) concat_impl(Xs&& xs, Ys&& ys) {
+            return detail::std::forward<Xs>(xs).storage(
+                [ys(detail::std::forward<Ys>(ys))](auto&& ...xs) -> decltype(auto) {
+                    return detail::std::move(ys).storage(
+                        //! @todo Initialize the capture with perfect
+                        //! forwarding once that's supported by the language.
+                        [=](auto&& ...ys) -> decltype(auto) {
+                            return tuple(
+                                detail::std::move(xs)...,
+                                detail::std::forward<decltype(ys)>(ys)...
+                            );
+                        }
+                    );
+                }
+            );
         }
 
         template <typename Xs>
-        static constexpr auto init_impl(Xs xs) {
+        static constexpr decltype(auto) init_impl(Xs&& xs) {
             return unpack(range(size_t<0>, minus(length(xs), size_t<1>)),
-                on(tuple, [=](auto index) { return at(index, xs); })
+                on(tuple, [&xs](auto index) -> decltype(auto) {
+                    return at(index, detail::std::forward<Xs>(xs));
+                })
             );
         }
 
         template <typename Xs, typename X>
-        static constexpr auto snoc_impl(Xs xs, X x) {
-            return xs.storage([=](auto ...xs) {
-                return tuple(xs..., x);
-            });
+        static constexpr decltype(auto) snoc_impl(Xs&& xs, X&& x) {
+            return detail::std::forward<Xs>(xs).storage(
+                [x(detail::std::forward<X>(x))](auto&& ...xs) -> decltype(auto) {
+                    return tuple(
+                        detail::std::forward<decltype(xs)>(xs)...,
+                        detail::std::move(x)
+                    );
+                }
+            );
         }
 
         template <typename N, typename Xs>
-        static constexpr auto take_impl(N n, Xs xs) {
+        static constexpr decltype(auto) take_impl(N n, Xs&& xs) {
             return unpack(range(size_t<0>, min(n, length(xs))),
-                on(tuple, [=](auto index) { return at(index, xs); })
+                on(tuple, [&xs](auto index) -> decltype(auto) {
+                    return at(index, detail::std::forward<Xs>(xs));
+                })
             );
         }
 

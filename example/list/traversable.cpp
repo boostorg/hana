@@ -20,7 +20,7 @@ int main() {
 
     BOOST_HANA_RUNTIME_ASSERT(
         sequence<Tuple>(
-            tuple(tuple("a1"s, "a2"s), tuple("b1"s), tuple("c1", "c2", "c3"))
+            tuple(tuple("a1"s, "a2"s), tuple("b1"s), tuple("c1"s, "c2"s, "c3"s))
         )
         ==
         tuple(

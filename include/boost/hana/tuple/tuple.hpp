@@ -13,6 +13,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable/operators.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/iterable/operators.hpp>
 #include <boost/hana/monad/operators.hpp>
 
@@ -31,9 +33,14 @@ namespace boost { namespace hana {
     };
 
     namespace detail { namespace repr {
-        template <typename Storage, typename = operators::enable_adl>
-        struct tuple : operators::Iterable_ops<tuple<Storage>> {
-            explicit constexpr tuple(Storage s) : storage(s) { }
+        template <typename Storage>
+        struct tuple
+            : operators::enable_adl,
+              operators::Iterable_ops<tuple<Storage>>
+        {
+            explicit constexpr tuple(Storage&& s)
+                : storage(detail::std::move(s))
+            { }
 
             using hana_datatype = Tuple;
             Storage storage;
@@ -44,13 +51,16 @@ namespace boost { namespace hana {
     //! @relates Tuple
     //!
     //! @todo
-    //! Consider having specialized tuples to hold types, integers, etc...
-    //! It does not fix the problem of partial type classes (e.g. `MplVector`
-    //! is not _actually_ a `List`), but at least we remove `TypeList` and
-    //! `IntegerList`, which are arguably ugly.
-    constexpr auto tuple = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto ...xs) {
-        auto storage = [=](auto f) { return f(xs...); };
-        return detail::repr::tuple<decltype(storage)>{storage};
+    //! - Consider having specialized tuples to hold types, integers, etc...
+    //!   It does not fix the problem of partial type classes (e.g. `MplVector`
+    //!   is not _actually_ a `List`), but at least we remove `TypeList` and
+    //!   `IntegerList`, which are arguably ugly.
+    //! - Use perfect forwarding to construct the inner lambda capture when
+    //!   this is supported and this bug is resolved: http://llvm.org/bugs/show_bug.cgi?id=20939
+    //! - Enable the test in tuple/tuple.cpp once the above is resolved.
+    constexpr auto tuple = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto ...xs) -> decltype(auto) {
+        auto storage = [=](auto f) -> decltype(auto) { return f(xs...); };
+        return detail::repr::tuple<decltype(storage)>{detail::std::move(storage)};
     };
 }} // end namespace boost::hana
 
