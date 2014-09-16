@@ -40,7 +40,9 @@ struct Printable::instance<T, when<is_valid<
     }
 
     static std::string to_string_impl(T x) {
-        return (std::ostringstream{} << x).str();
+        std::ostringstream os;
+        os << x;
+        return os.str();
     }
 };
 //! [streamable_instance]

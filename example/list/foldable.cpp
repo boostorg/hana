@@ -15,7 +15,7 @@ using namespace boost::hana;
 int main() {
     //! [foldl]
     auto to_string = [](auto x) {
-        return (std::ostringstream{} << x).str();
+        return static_cast<std::ostringstream const&>(std::ostringstream{} << x).str();
     };
 
     auto show = [=](auto x, auto y) {

@@ -319,7 +319,7 @@ int main() {
     {
         //! [scanl]
         auto to_string = [](auto x) {
-            return (std::ostringstream{} << x).str();
+            return static_cast<std::ostringstream const&>(std::ostringstream{} << x).str();
         };
 
         auto show = [=](auto x, auto y) {
@@ -338,7 +338,7 @@ int main() {
     {
         //! [scanl1]
         auto to_string = [](auto x) {
-            return (std::ostringstream{} << x).str();
+            return static_cast<std::ostringstream const&>(std::ostringstream{} << x).str();
         };
 
         auto show = [=](auto x, auto y) {
@@ -356,7 +356,7 @@ int main() {
     {
         //! [scanr]
         auto to_string = [](auto x) {
-            return (std::ostringstream{} << x).str();
+            return static_cast<std::ostringstream const&>(std::ostringstream{} << x).str();
         };
 
         auto show = [=](auto x, auto y) {
@@ -375,7 +375,7 @@ int main() {
     {
         //! [scanr1]
         auto to_string = [](auto x) {
-            return (std::ostringstream{} << x).str();
+            return static_cast<std::ostringstream const&>(std::ostringstream{} << x).str();
         };
 
         auto show = [=](auto x, auto y) {

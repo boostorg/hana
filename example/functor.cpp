@@ -51,7 +51,7 @@ int main() {
     {
         //! [fmap]
         auto to_string = [](auto x) {
-            return (std::ostringstream{} << x).str();
+            return static_cast<std::ostringstream const&>(std::ostringstream{} << x).str();
         };
 
         BOOST_HANA_RUNTIME_ASSERT(

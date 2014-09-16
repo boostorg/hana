@@ -27,7 +27,7 @@ int main() {
     {
         //! [foldl1]
         auto to_string = [](auto x) {
-            return (std::ostringstream{} << x).str();
+            return static_cast<std::ostringstream const&>(std::ostringstream{} << x).str();
         };
 
         auto show = [=](auto x, auto y) {
@@ -41,7 +41,7 @@ int main() {
     {
         //! [foldl]
         auto to_string = [](auto x) {
-            return (std::ostringstream{} << x).str();
+            return static_cast<std::ostringstream const&>(std::ostringstream{} << x).str();
         };
 
         auto show = [=](auto x, auto y) {
@@ -52,11 +52,10 @@ int main() {
         //! [foldl]
     }
 
-
     {
         //! [foldr]
         auto to_string = [](auto x) {
-            return (std::ostringstream{} << x).str();
+            return static_cast<std::ostringstream const&>(std::ostringstream{} << x).str();
         };
 
         auto show = [=](auto x, auto y) {
@@ -70,7 +69,7 @@ int main() {
     {
         //! [foldr1]
         auto to_string = [](auto x) {
-            return (std::ostringstream{} << x).str();
+            return static_cast<std::ostringstream const&>(std::ostringstream{} << x).str();
         };
 
         auto show = [=](auto x, auto y) {

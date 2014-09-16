@@ -53,7 +53,9 @@ struct Printable::instance<T, when<std::is_arithmetic<T>::value>> {
     }
 
     static std::string to_string_impl(T x) {
-        return (std::ostringstream{} << x).str();
+        std::ostringstream os;
+        os << x;
+        return os.str();
     }
 };
 //! [arithmetic_instance]
