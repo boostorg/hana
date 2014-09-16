@@ -128,6 +128,8 @@ The project is organized in a couple of subdirectories.
   benchmarks are driven by CMake files. Note that currently the benchmarks
   will only work with Clang because of the [gem used][Benchcc] to drive the
   compiler and gather the statistics.
+- The [cmake](cmake) directory contains additional CMake modules used by the
+  build system.
 - The [doc](doc) directory contains configuration files needed to generate
   the documentation. Also, the [doc/gh-pages](doc/gh-pages) directory is
   a submodule tracking the `gh-pages` branch of the official repository at

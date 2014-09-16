@@ -7,6 +7,7 @@
 #=============================================================================
 project(Boost.Hana CXX)
 cmake_minimum_required(VERSION 3.0)
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 
 #=============================================================================
@@ -74,6 +75,52 @@ find_package(Doxygen)
 find_package(Git)
 find_package(Gnuplot)
 find_package(Ruby 2.1)
+
+
+#=============================================================================
+# Setup a function to register executables
+#=============================================================================
+enable_testing()
+include(ListUtils)
+
+if (NOT Boost_FOUND)
+    message(STATUS
+    "The Boost library headers were not found; targets depending "
+    "on Boost won't be available.")
+endif()
+
+# Internal list of files depending on Boost headers.
+# The files in this list are in absolute path.
+set(BOOST_HANA_FILES_REQUIRING_BOOST)
+
+#   boost_hana_add_executable(<target name> <source files>...)
+#
+# Add an executable with the given name and source files. If any of the source
+# files depend on Boost (as indicated by BOOST_HANA_FILES_REQUIRING_BOOST) but
+# Boost was not found, no executable is created. Hence, one should always
+# check whether a target was created before using it:
+#
+#   boost_hana_add_executable(target file1 ... fileN)
+#   if (TARGET target)
+#       use it
+#   endif()
+function(boost_hana_add_executable target_name)
+    set(_depends FALSE)
+    foreach(source_file IN LISTS ARGN)
+        list_contains(BOOST_HANA_FILES_REQUIRING_BOOST "${source_file}" _d)
+        if(${_d})
+            set(_depends TRUE)
+        endif()
+    endforeach()
+
+    if (NOT ${_depends})
+        add_executable(${target_name} EXCLUDE_FROM_ALL ${ARGN})
+    elseif (${_depends} AND Boost_FOUND)
+        add_executable(${target_name} EXCLUDE_FROM_ALL ${ARGN})
+        set_property(TARGET ${target_name}
+            APPEND PROPERTY INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIRS})
+    endif()
+endfunction()
 
 
 #=============================================================================
