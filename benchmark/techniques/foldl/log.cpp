@@ -1,5 +1,5 @@
-<% render('techniques/foldl/functions.rb') %>
+<% render('foldl/functions.rb') %>
 
 <%= unroll_log(unroll) %>
 
-<%= render('techniques/foldl/main.cpp') %>
+<%= render('foldl/main.cpp') %>

@@ -56,9 +56,9 @@ if (BOOST_HANA_ENABLE_LIBCXX)
     boost_hana_append_flag(BOOST_HANA_CXX_FEATURE_FLAGS BOOST_HANA_HAS_STDLIB_LIBCXX_FLAG -stdlib=libc++)
 endif()
 
-# This is the only place where add_definitions is called. Other properties
-# are set on a per-target basis.
-add_definitions(
+# This is the only place where `add_compile_options` is called.
+# Other properties are set on a per-target basis.
+add_compile_options(
     ${BOOST_HANA_CXX_WARNING_FLAGS}
     ${BOOST_HANA_CXX_FEATURE_FLAGS}
 )
@@ -73,15 +73,12 @@ add_definitions(
 find_package(Boost)
 find_package(Doxygen)
 find_package(Git)
-find_package(Gnuplot)
-find_package(Ruby 2.1)
 
 
 #=============================================================================
 # Setup a function to register executables
 #=============================================================================
 enable_testing()
-include(ListUtils)
 
 if (NOT Boost_FOUND)
     message(STATUS
@@ -107,15 +104,15 @@ set(BOOST_HANA_FILES_REQUIRING_BOOST)
 function(boost_hana_add_executable target_name)
     set(_depends FALSE)
     foreach(source_file IN LISTS ARGN)
-        list_contains(BOOST_HANA_FILES_REQUIRING_BOOST "${source_file}" _d)
-        if(${_d})
+        list(FIND BOOST_HANA_FILES_REQUIRING_BOOST "${source_file}" _reqs)
+        if(NOT ${reqs} EQUAL -1)
             set(_depends TRUE)
         endif()
     endforeach()
 
-    if (NOT ${_depends})
+    if(NOT ${_depends})
         add_executable(${target_name} EXCLUDE_FROM_ALL ${ARGN})
-    elseif (${_depends} AND Boost_FOUND)
+    elseif(${_depends} AND Boost_FOUND)
         add_executable(${target_name} EXCLUDE_FROM_ALL ${ARGN})
         set_property(TARGET ${target_name}
             APPEND PROPERTY INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIRS})

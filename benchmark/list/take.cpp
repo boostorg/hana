@@ -11,10 +11,12 @@ Distributed under the Boost Software License, Version 1.0.
 
 <%= setup %>
 
+template <int i> struct x { };
+
 
 int main() {
     auto list = <%= list %>;
-    auto n = boost::hana::int_< <%= n / 2 %> >;
+    auto n = boost::hana::int_< <%= input_size / 2 %> >;
 
     boost::hana::benchmark::measure([=] {
         boost::hana::take(n, list);

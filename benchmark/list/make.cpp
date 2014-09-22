@@ -18,7 +18,7 @@ int main() {
 
     boost::hana::benchmark::measure([] {
         boost::hana::make<L>(
-            <%= (1..n).to_a.map { |i| "x<#{i}>{}" }.join(', ') %>
+            <%= (1..input_size).to_a.map { |i| "x<#{i}>{}" }.join(', ') %>
         );
     });
 }

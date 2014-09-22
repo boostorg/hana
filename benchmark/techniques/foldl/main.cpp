@@ -13,6 +13,6 @@ template <int> struct x { };
 
 int main() {
     auto go = foldl(
-        <%= (['f', 'state'] + (0...x).map { |n| "x<#{n}>{}" }).join(', ') %>
+        <%= (['f', 'state'] + (0...input_size).map { |n| "x<#{n}>{}" }).join(', ') %>
     );
 }
