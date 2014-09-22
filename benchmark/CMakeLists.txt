@@ -10,10 +10,10 @@ if(TARGET BENCHMARK_ALL_PLOTS)
 endif()
 
 add_subdirectory(core)
-add_subdirectory(techniques)
-
+add_subdirectory(detail)
 add_subdirectory(foldable)
 add_subdirectory(functor)
 add_subdirectory(iterable)
 add_subdirectory(list)
 add_subdirectory(searchable)
+add_subdirectory(techniques)
