@@ -17,6 +17,8 @@
 # return to the calling CMake file. Once the required dependencies are
 # installed properly, you can use the functions of the public API which
 # are documented below.
+#
+# Also note that this module will only work with Clang for the moment.
 
 # Tutorial
 # --------
@@ -75,7 +77,7 @@
 # to render the file with. When we build the CMake target representing that
 # data set, it renders the file for each environment we provided and gathers
 # statistics about that file. The statistics that are currently supported are
-# the compilation time, the running time of the generated program and the
+# the compilation time, the execution time of the generated program and the
 # compile-time memory usage. We call these statistics 'features'. To create
 # a data set in your CMake file, simply use the Benchmark_add_dataset function
 # provided by this module:
@@ -134,6 +136,12 @@
 # the file takes longer than that, compilation is simply aborted and
 # gathering of the benchmark data is stopped there. This defaults to
 # 30 seconds.
+#
+#   BENCHMARK_EXECUTION_TIMEOUT
+# The default timeout (in seconds) when executing a program. If executing
+# a generated program takes longer than that, execution is simply aborted
+# and gathering of the benchmark data is stopped there. This defaults to
+# 30 seconds.
 
 # Global targets added by this module
 # -----------------------------------
@@ -182,7 +190,12 @@ endif()
 ##############################################################################
 if(NOT DEFINED BENCHMARK_COMPILATION_TIMEOUT)
     set(BENCHMARK_COMPILATION_TIMEOUT 30 CACHE STRING
-        "Default timeout when benchmarking the compile-time of a file (in sec).")
+        "Default timeout when benchmarking the compilation time of a file (in sec).")
+endif()
+
+if(NOT DEFINED BENCHMARK_EXECUTION_TIMEOUT)
+    set(BENCHMARK_EXECUTION_TIMEOUT 30 CACHE STRING
+        "Default timeout when benchmarking the execution time of a generated program (in sec).")
 endif()
 
 add_custom_target(BENCHMARK_ALL_PLOTS COMMENT "Drawing all out-of-date plots.")
@@ -198,6 +211,7 @@ add_custom_target(BENCHMARK_ALL_DATASETS COMMENT "Gathering all out-of-date data
 #       ENV <ERB environments>
 #       [OUTPUT <file name>]
 #       [COMPILATION_TIMEOUT <duration>]
+#       [EXECUTION_TIMEOUT <duration>]
 #   )
 #
 # Create a named target for gathering the specified benchmark data from
@@ -213,7 +227,7 @@ add_custom_target(BENCHMARK_ALL_DATASETS COMMENT "Gathering all out-of-date data
 #
 #   FEATURES <feature1> [features...]
 # A list of features to measure. At least one feature must be measured.
-# Supported features are "COMPILATION_TIME", "RUN_TIME" and "MEMORY_USAGE".
+# Supported features are "COMPILATION_TIME", "EXECUTION_TIME" and "MEMORY_USAGE".
 #
 #   ENV <ERB environments>
 # A string of Ruby code generating an Array of Hashes to be used as the
@@ -232,6 +246,12 @@ add_custom_target(BENCHMARK_ALL_DATASETS COMMENT "Gathering all out-of-date data
 # simply aborted and the data set stops there. This defaults to the global
 # configuration option BENCHMARK_COMPILATION_TIMEOUT.
 #
+#   [EXECUTION_TIMEOUT <duration>]
+# The execution timeout (in seconds) when gathering data for this data set.
+# If executing a generated program takes longer than <duration> seconds,
+# execution is simply aborted and the data set stops there. This defaults
+# to the global configuration option BENCHMARK_EXECUTION_TIMEOUT.
+#
 #   [COMPILER_FLAGS <flags>...]
 # A list of flags to pass to the compiler. If this is not given, it defaults
 # to the concatenation of the COMPILE_OPTIONS, COMPILE_DEFINITIONS and
@@ -239,9 +259,9 @@ add_custom_target(BENCHMARK_ALL_DATASETS COMMENT "Gathering all out-of-date data
 function(Benchmark_add_dataset target_name)
     # Parse arguments
     cmake_parse_arguments(my ""                                     # options
-                             "FILE;OUTPUT;ENV;COMPILATION_TIMEOUT"  # 1 value args
-                             "FEATURES;COMPILER_FLAGS"              # multi-valued args
-                             ${ARGN})
+           "FILE;OUTPUT;ENV;COMPILATION_TIMEOUT;EXECUTION_TIMEOUT"  # 1 value args
+           "FEATURES;COMPILER_FLAGS"                                # multi-valued args
+           ${ARGN})
 
     # Sanitize arguments
     if(NOT my_FILE OR NOT my_FEATURES OR NOT my_ENV)
@@ -255,6 +275,9 @@ function(Benchmark_add_dataset target_name)
     endif()
     if(NOT my_COMPILATION_TIMEOUT)
         set(my_COMPILATION_TIMEOUT ${BENCHMARK_COMPILATION_TIMEOUT})
+    endif()
+    if(NOT my_EXECUTION_TIMEOUT)
+        set(my_EXECUTION_TIMEOUT ${BENCHMARK_EXECUTION_TIMEOUT})
     endif()
     if(NOT my_COMPILER_FLAGS)
         get_directory_property(_options DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} COMPILE_OPTIONS)
@@ -274,23 +297,24 @@ function(Benchmark_add_dataset target_name)
     add_custom_command(
         OUTPUT "${my_OUTPUT}"
         COMMAND ${RUBY_EXECUTABLE}
-        -e "require 'benchcc'                                                       "
-        -e "require 'pathname'                                                      "
-        -e "                                                                        "
-        -e "ENVIRONMENTS = eval(File.read('${_env_file}'))                          "
-        -e "OUTPUT_FILE = Pathname.new('${my_OUTPUT}')                              "
-        -e "COMPILER_OPTIONS = '${my_COMPILER_FLAGS}'.split(';')                    "
-        -e "COMPILER = Benchcc::Compiler.guess_from_binary('${CMAKE_CXX_COMPILER}') "
-        -e "                                                                        "
-        -e "csv = Benchcc::benchmark('${my_FILE}', ENVIRONMENTS,                    "
-        -e "  timeout: ${my_COMPILATION_TIMEOUT},                                   "
-        -e "  evaluate_erb_relative_to: '${CMAKE_CURRENT_SOURCE_DIR}'               "
-        -e ") do |file, env|                                                        "
-        -e "  COMPILER.compile(file, *COMPILER_OPTIONS)                             "
-        -e "end                                                                     "
-        -e "                                                                        "
-        -e "OUTPUT_FILE.dirname.mkpath                                              "
-        -e "OUTPUT_FILE.write(csv)                                                  "
+        -e "require 'benchcc'                                                           "
+        -e "require 'pathname'                                                          "
+        -e "                                                                            "
+        -e "csv = Benchcc::benchmark(                                                   "
+        -e "  erb_file: '${my_FILE}',                                                   "
+        -e "  environments: eval(File.read('${_env_file}')),                            "
+        -e "  compilation_timeout: ${my_COMPILATION_TIMEOUT},                           "
+        -e "  execution_timeout: ${my_EXECUTION_TIMEOUT},                               "
+        -e "  evaluate_erb_relative_to: '${CMAKE_CURRENT_SOURCE_DIR}',                  "
+        -e "  features: '${my_FEATURES}'.split(';').map { |f| f.downcase.to_sym },      "
+        -e "  compiler_executable: '${CMAKE_CXX_COMPILER}',                             "
+        -e "  compiler_id: '${CMAKE_CXX_COMPILER_ID}',                                  "
+        -e "  compiler_options: '${my_COMPILER_FLAGS}'.split(';')                       "
+        -e ")                                                                           "
+        -e "                                                                            "
+        -e "OUTPUT_FILE = Pathname.new('${my_OUTPUT}')                                  "
+        -e "OUTPUT_FILE.dirname.mkpath                                                  "
+        -e "OUTPUT_FILE.write(csv)                                                      "
         DEPENDS "${my_FILE}" "${_env_file}"
         VERBATIM)
     add_custom_target(${target_name} DEPENDS ${my_OUTPUT}
@@ -515,10 +539,10 @@ endfunction()
 ##############################################################################
 function(__Benchmark_validate_features_impl)
     foreach(f IN LISTS ARGN)
-        if(NOT "${f}" MATCHES "MEMORY_USAGE|COMPILATION_TIME|RUN_TIME")
+        if(NOT "${f}" MATCHES "MEMORY_USAGE|COMPILATION_TIME|EXECUTION_TIME")
             message(FATAL_ERROR
                 "Invalid feature ${f}. Available features are MEMORY_USAGE, "
-                "COMPILATION_TIME and RUN_TIME.")
+                "COMPILATION_TIME and EXECUTION_TIME.")
         endif()
     endforeach()
 endfunction()

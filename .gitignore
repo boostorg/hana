@@ -1,2 +1,4 @@
 build/
+debug/
+release/
 test/worksheet.cpp
