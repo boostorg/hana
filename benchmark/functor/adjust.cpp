@@ -12,8 +12,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 <%= setup %>
 
-template <int i> struct x { };
-
 
 int main() {
     auto f = [](auto&& x) -> decltype(auto) {

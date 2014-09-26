@@ -11,8 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 <%= setup %>
 
-template <int i> struct x { };
-
 
 int main() {
     struct any { };
