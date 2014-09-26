@@ -27,10 +27,10 @@ struct x1; struct x2; struct x3; struct x4; struct x5; struct x6;
 
 template <typename ...Ts, typename S, typename R>
 void test_impl(S s, R result) {
-    BOOST_HANA_CONSTANT_ASSERT(variadic::foldl<Ts...>(mf, s) == result);
-    BOOST_HANA_CONSTANT_ASSERT(variadic::foldl<Ts...>(f, s) == result);
-    BOOST_HANA_CONSTANT_ASSERT(variadic::foldl(mf, s, type<Ts>...) == result);
-    BOOST_HANA_CONSTANT_ASSERT(variadic::foldl(f, s, type<Ts>...) == result);
+    BOOST_HANA_CONSTANT_ASSERT(equal(variadic::foldl<Ts...>(mf, s), result));
+    BOOST_HANA_CONSTANT_ASSERT(equal(variadic::foldl<Ts...>(f, s), result));
+    BOOST_HANA_CONSTANT_ASSERT(equal(variadic::foldl(mf, s, type<Ts>...), result));
+    BOOST_HANA_CONSTANT_ASSERT(equal(variadic::foldl(f, s, type<Ts>...), result));
 }
 
 template <typename ...Ts, typename R>

@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_DETAIL_VARIADIC_FOLDL1_HPP
 
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/type/type.hpp>
 
 
@@ -24,8 +25,9 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
         using apply_t = X1;
 
         template <typename F, typename X1>
-        static constexpr auto apply(F, X1 x1)
-        { return x1; }
+        static constexpr decltype(auto) apply(F&&, X1&& x1) {
+            return detail::std::forward<X1>(x1);
+        }
     };
 
     template <>
@@ -34,8 +36,12 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
         using apply_t = typename F<X1, X2>::type;
 
         template <typename F, typename X1, typename X2>
-        static constexpr auto apply(F f, X1 x1, X2 x2)
-        { return f(x1, x2); }
+        static constexpr decltype(auto) apply(F&& f, X1&& x1, X2&& x2) {
+            return detail::std::forward<F>(f)(
+                detail::std::forward<X1>(x1),
+                detail::std::forward<X2>(x2)
+            );
+        }
     };
 
     template <>
@@ -44,8 +50,15 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
         using apply_t = typename F<typename F<X1, X2>::type, X3>::type;
 
         template <typename F, typename X1, typename X2, typename X3>
-        static constexpr auto apply(F f, X1 x1, X2 x2, X3 x3)
-        { return f(f(x1, x2), x3); }
+        static constexpr decltype(auto) apply(F&& f, X1&& x1, X2&& x2, X3&& x3) {
+            return f(
+                f(
+                    detail::std::forward<X1>(x1),
+                    detail::std::forward<X2>(x2)
+                ),
+                detail::std::forward<X3>(x3)
+            );
+        }
     };
 
     // Given a number of arguments left to process, returns the number with
@@ -60,15 +73,29 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
                         template apply_t<F, typename F<typename F<typename F<X1, X2>::type, X3>::type, X4>::type, Xs...>;
 
         template <typename F, typename X1, typename X2, typename X3, typename X4, typename ...Xs>
-        static constexpr auto apply(F f, X1 x1, X2 x2, X3 x3, X4 x4, Xs ...xs) {
+        static constexpr decltype(auto) apply(F&& f, X1&& x1, X2&& x2, X3&& x3, X4&& x4, Xs&& ...xs) {
             return foldl1_impl<foldl1_next(sizeof...(Xs) + 1)>::
-                   apply(f, f(f(f(x1, x2), x3), x4), xs...);
+                   apply(f,
+                    f(
+                        f(
+                            f(
+                                detail::std::forward<X1>(x1),
+                                detail::std::forward<X2>(x2)
+                            ),
+                            detail::std::forward<X3>(x3)
+                        ),
+                        detail::std::forward<X4>(x4)
+                    ),
+                    detail::std::forward<Xs>(xs)...
+                );
         }
     };
 
     template <typename ...Xs, typename F>
-    constexpr auto foldl1_helper(F f, ...) {
-        return foldl1_impl<foldl1_next(sizeof...(Xs))>::apply(f, type<Xs>...);
+    constexpr decltype(auto) foldl1_helper(F&& f, ...) {
+        return foldl1_impl<foldl1_next(sizeof...(Xs))>::apply(
+            detail::std::forward<F>(f), type<Xs>...
+        );
     }
 
     template <typename ...Xs, typename F>
@@ -80,36 +107,19 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
     }
 
     template <typename ...Xs, typename F>
-    constexpr auto foldl1(F f) {
-        return foldl1_helper<Xs...>(f, (datatype_t<F>*)0);
+    constexpr decltype(auto) foldl1(F&& f) {
+        return foldl1_helper<Xs...>(
+            detail::std::forward<F>(f), (datatype_t<F>*)nullptr
+        );
     }
 
     template <typename F, typename ...Xs>
-    constexpr auto foldl1(F f, Xs ...xs) {
-        return foldl1_impl<foldl1_next(sizeof...(Xs))>::apply(f, xs...);
+    constexpr decltype(auto) foldl1(F&& f, Xs&& ...xs) {
+        return foldl1_impl<foldl1_next(sizeof...(Xs))>::apply(
+            detail::std::forward<F>(f),
+            detail::std::forward<Xs>(xs)...
+        );
     }
-
-#if 0
-    template <typename F, typename X0>
-    constexpr auto foldl1_impl(F, X0 x0)
-    { return x0; }
-
-    template <typename F, typename X0, typename X1>
-    constexpr auto foldl1_impl(F f, X0 x0, X1 x1)
-    { return f(x0, x1); }
-
-    template <typename F, typename X0, typename X1, typename X2>
-    constexpr auto foldl1_impl(F f, X0 x0, X1 x1, X2 x2)
-    { return f(f(x0, x1), x2); }
-
-    template <typename F, typename X0, typename X1, typename X2, typename X3>
-    constexpr auto foldl1_impl(F f, X0 x0, X1 x1, X2 x2, X3 x3)
-    { return f(f(f(x0, x1), x2), x3); }
-
-    template <typename F, typename X0, typename X1, typename X2, typename X3, typename ...Xs>
-    constexpr auto foldl1_impl(F f, X0 x0, X1 x1, X2 x2, X3 x3, Xs ...xs)
-    { return foldl1_impl(f, f(f(f(x0, x1), x2), x3), xs...); }
-#endif
 }}}} // end namespace boost::hana::detail::variadic
 
 #endif // !BOOST_HANA_DETAIL_VARIADIC_FOLDL1_HPP

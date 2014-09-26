@@ -13,28 +13,43 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/variadic/foldr1.hpp>
 
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/type/type.hpp>
 
 
 namespace boost { namespace hana { namespace detail { namespace variadic {
     template <typename ...Xs, typename F, typename S>
-    constexpr auto foldr_impl(F f, S s, ...) {
-        return foldr1(f, type<Xs>..., s);
+    constexpr decltype(auto) foldr_impl(F&& f, S&& s, ...) {
+        return foldr1(
+            detail::std::forward<F>(f),
+            type<Xs>...,
+            detail::std::forward<S>(s)
+        );
     }
 
     template <typename ...Xs, typename F, typename S>
-    constexpr auto foldr_impl(F f, S, Type*) {
-        return foldr1<Xs..., typename S::type>(f);
+    constexpr decltype(auto) foldr_impl(F&& f, S, Type*) {
+        return foldr1<Xs..., typename S::type>(
+            detail::std::forward<F>(f)
+        );
     }
 
     template <typename ...Xs, typename F, typename S>
-    constexpr auto foldr(F f, S s) {
-        return foldr_impl<Xs...>(f, s, (datatype_t<S>*)0);
+    constexpr decltype(auto) foldr(F&& f, S&& s) {
+        return foldr_impl<Xs...>(
+            detail::std::forward<F>(f),
+            detail::std::forward<S>(s),
+            (datatype_t<S>*)nullptr
+        );
     }
 
     template <typename F, typename S, typename ...Xs>
-    constexpr auto foldr(F f, S s, Xs ...xs) {
-        return foldr1(f, xs..., s);
+    constexpr decltype(auto) foldr(F&& f, S&& s, Xs&& ...xs) {
+        return foldr1(
+            detail::std::forward<F>(f),
+            detail::std::forward<Xs>(xs)...,
+            detail::std::forward<S>(s)
+        );
     }
 }}}} // end namespace boost::hana::detail::variadic
 
