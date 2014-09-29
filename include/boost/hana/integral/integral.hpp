@@ -12,6 +12,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/comparable/operators.hpp>
 #include <boost/hana/core/operators.hpp>
+#include <boost/hana/detail/n_times.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/remove_cv.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/group/operators.hpp>
@@ -31,6 +33,9 @@ namespace boost { namespace hana {
     //! are `constexpr`-convertible to their underlying type, they have a
     //! nested static constant named `value` holding their underlying value,
     //! and so on.
+    //!
+    //! `Integral`s also have a member function named `times`, which allows a
+    //! nullary function to be invoked `n` times.
     //!
     //! For convenience, common operators are overloaded to return the result
     //! of the corresponding operator as an `integral<...>`.
@@ -62,6 +67,11 @@ namespace boost { namespace hana {
     //! This will fail because `odd(int_<1>)` has type `Int<1 % 2>`, which is
     //! convertible to `bool` but not to `Bool<...>`. Because of this, the
     //! runtime `if_` is used and compilation fails.
+    //!
+    //! @todo
+    //! `times` should be a shortcut to some type class method. Specifically,
+    //! anything that can be incremented, decremented and compared to some
+    //! "zero" value can implement a `times` method with the same semantics.
     struct Integral {
         struct hana_enabled_operators
             : Comparable, Orderable,
@@ -80,6 +90,11 @@ namespace boost { namespace hana {
             constexpr value_type operator()() const noexcept { return value; }
 
             using hana_datatype = Integral;
+
+            template <typename F>
+            constexpr void times(F&& f) const {
+                detail::n_times<v>(detail::std::forward<F>(f));
+            }
         };
 
 #define BOOST_HANA_INTEGRAL_BINARY_OP(op)                                   \

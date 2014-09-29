@@ -42,4 +42,13 @@ static_assert(std::is_same<
 // nested ::value_type
 static_assert(std::is_same<decltype(int_<1>)::value_type, int>{}, "");
 
-int main() { }
+int main() {
+    // times member function
+    {
+        int counter = 0;
+        int_<3>.times([&] {
+            ++counter;
+        });
+        BOOST_HANA_RUNTIME_ASSERT(counter == 3);
+    }
+}
