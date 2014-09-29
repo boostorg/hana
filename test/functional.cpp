@@ -25,7 +25,10 @@ struct _undefined { };
 template <int i = 0>
 constexpr _undefined<i> undefined{};
 
-struct nocopy { nocopy(nocopy const&) = delete; };
+struct move_only {
+    move_only(move_only&&) = default;
+    move_only(move_only const&) = delete;
+};
 
 
 int main() {
@@ -200,7 +203,7 @@ int main() {
         BOOST_HANA_CONSTANT_ASSERT(equal(id(x<0>), x<0>));
         BOOST_HANA_CONSTANT_ASSERT(equal(id(x<1>), x<1>));
 
-        (void)id(nocopy{});
+        (void)id(move_only{});
     }
 
     // lockstep

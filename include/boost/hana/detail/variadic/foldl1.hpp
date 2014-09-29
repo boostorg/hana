@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/functional/id.hpp>
 #include <boost/hana/type/type.hpp>
 
 
@@ -26,7 +27,8 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
 
         template <typename F, typename X1>
         static constexpr decltype(auto) apply(F&&, X1&& x1) {
-            return detail::std::forward<X1>(x1);
+            // id handles rvalue-ness properly
+            return id(detail::std::forward<X1>(x1));
         }
     };
 
