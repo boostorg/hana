@@ -11,8 +11,20 @@
 #
 #   include(Benchmarks)
 #
-# When this module is included, it checks for Ruby, Gnuplot and a Ruby gem
-# called Benchcc. Those programs are required to perform the benchmarks. If
+# This module has the following dependencies:
+#   - Ruby >= 2.1
+#     For driving the benchmarks
+#
+#   - the Benchcc gem
+#     For driving the benchmarks
+#
+#   - Gnuplot
+#     For drawing the plots
+#
+#   - A file called benchmark.hpp, downloaded automatically from GitHub.
+#     This file is required to perform runtime benchmarks.
+#
+# When the module is included, it checks for the above dependencies. If
 # they are not available, a STATUS message is printed and we immediately
 # return to the calling CMake file. Once the required dependencies are
 # installed properly, you can use the functions of the public API which
@@ -125,6 +137,47 @@
 # like creating a plot with curves and data sets in a single command, but
 # this is documented in the reference below.
 
+# Runtime benchmarks
+# ------------------
+# Performing runtime benchmarks require the file that is being benchmarked to
+# follow a couple of rules. Basically, the benchmarked code has to output some
+# statistics about its execution so they can be picked up by this module. To do
+# this, a special "benchmark.hpp" header is made available to the benchmarked
+# code by modifying the include path of the compiler. The header can be
+# included as follows in the benchmarked code:
+#
+#   #include "benchmark.hpp"
+#
+#   int main() {
+#       ...
+#   }
+#
+# This header provides a function called `boost::hana::benchmark::measure`,
+# which is used to measure the execution time of a piece of code. When using
+# the EXECUTION_TIME feature, only the execution time of the `measure`d piece
+# of code is actually taken into account:
+#
+#   #include "benchmark.hpp"
+#
+#   int main() {
+#       // possibly some initialization
+#
+#       boost::hana::benchmark::measure([]{
+#           // only the code in there is taken into account for execution time
+#       });
+#   }
+#
+# Specifically, `measure` takes a nullary function object, calls it several
+# times and then looks at the average execution time for that function. Note
+# that the function should not perform side effects, since it is called several
+# times and we expect each call to do the same amount of work.
+#
+# Internally, `measure` will actually use `std::cout` to report the execution
+# time of the piece of code. Then, this module will run the program, look at
+# the standard output and interpret it as the execution time. Hence, the
+# program should not output any other information to stdout, because that
+# would confuse the module.
+
 # Globally-configurable options
 # -----------------------------
 # This module can be globally configured through several options. Those
@@ -158,22 +211,25 @@
 # See below before each function definition.
 
 ##############################################################################
-# Required modules and packages
+# Required modules and initial setup
 ##############################################################################
 include(CMakeParseArguments)
 
+# check for Gnuplot
 find_package(Gnuplot)
 if(NOT ${GNUPLOT_FOUND})
     message(STATUS "Gnuplot was not found; the Benchmarks module can't be used.")
     return()
 endif()
 
+# check for Ruby
 find_package(Ruby 2.1)
 if(NOT ${RUBY_FOUND})
     message(STATUS "Ruby 2.1+ was not found; the Benchmarks module can't be used.")
     return()
 endif()
 
+# check for Benchcc
 execute_process(COMMAND ${RUBY_EXECUTABLE} -r benchcc -e ""
                 RESULT_VARIABLE __BENCHMARK_BENCHCC_NOT_FOUND
                 OUTPUT_QUIET ERROR_QUIET)
@@ -184,6 +240,26 @@ if(${__BENCHMARK_BENCHCC_NOT_FOUND})
     return()
 endif()
 
+# setup support directories
+set(__BENCHMARK_SUPPORT_DIR "${CMAKE_CURRENT_BINARY_DIR}/Benchmarks_support")
+file(MAKE_DIRECTORY
+    "${__BENCHMARK_SUPPORT_DIR}"
+    "${__BENCHMARK_SUPPORT_DIR}/include"
+    "${__BENCHMARK_SUPPORT_DIR}/envs")
+
+# download the benchmark.hpp header
+file(DOWNLOAD
+    "https://gist.githubusercontent.com/ldionne/ae1ddf95e7a064d3d27f/raw/c6950de64ab9f3c4aa6a6f46d71d21c5b4a10315/benchmark.hpp"
+    "${__BENCHMARK_SUPPORT_DIR}/include/benchmark.hpp"
+    STATUS __BENCHMARK_HEADER_DOWNLOAD_STATUS)
+list(GET __BENCHMARK_HEADER_DOWNLOAD_STATUS 0 __BENCHMARK_HEADER_DOWNLOAD_ERROR)
+if(${__BENCHMARK_HEADER_DOWNLOAD_ERROR})
+    list(GET __BENCHMARK_HEADER_DOWNLOAD_STATUS 1 __BENCHMARK_HEADER_DOWNLOAD_ERROR_STR)
+    message(STATUS
+        "The benchmark.hpp header file could not be downloaded; the Benchmarks "
+        "module can't be used. Error was ${__BENCHMARK_HEADER_DOWNLOAD_ERROR_STR}.")
+    return()
+endif()
 
 ##############################################################################
 # Configurable module-wide options and global targets
@@ -290,9 +366,12 @@ function(Benchmark_add_dataset target_name)
         endforeach()
     endif()
 
+    # TODO: Make this portable.
+    list(APPEND my_COMPILER_FLAGS "-I${__BENCHMARK_SUPPORT_DIR}/include")
+
     # We need to write the environment to a file because they are often
     # on several lines, which messes up when it appears inside a Makefile.
-    set(_env_file "${CMAKE_CURRENT_BINARY_DIR}/${target_name}.env")
+    set(_env_file "${__BENCHMARK_SUPPORT_DIR}/envs/${target_name}")
     file(WRITE ${_env_file} "${my_ENV}")
     add_custom_command(
         OUTPUT "${my_OUTPUT}"

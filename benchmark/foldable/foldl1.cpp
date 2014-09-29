@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/foldable/foldable.hpp>
 
-#include <boost/hana/benchmark/measure.hpp>
+#include "benchmark.hpp"
 
 <%= setup %>
 
