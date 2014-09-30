@@ -66,6 +66,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/pair.hpp>
 #include <boost/hana/range.hpp>
 #include <boost/hana/set.hpp>
+#include <boost/hana/string.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
 #include <boost/hana/type_list.hpp>
