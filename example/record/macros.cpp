@@ -14,22 +14,16 @@ using namespace boost::hana;
 
 namespace intrusive {
 //! [intrusive]
-struct name_tag;
-struct age_tag;
-
 struct Person {
     BOOST_HANA_DEFINE_RECORD_INTRUSIVE(Person,
-        (type<name_tag>, (std::string, name)),
-        (type<age_tag>, (int, age))
+        (std::string, name),
+        (int, age)
     );
 };
 //! [intrusive]
 }
 
 //! [adhoc]
-struct name_tag;
-struct age_tag;
-
 namespace ns {
     struct Person {
         std::string name;
@@ -38,8 +32,8 @@ namespace ns {
 }
 
 BOOST_HANA_DEFINE_RECORD(ns::Person,
-    (type<name_tag>, (std::string, name)),
-    (type<age_tag>, (int, age))
+    (std::string, name),
+    (int, age)
 );
 //! [adhoc]
 

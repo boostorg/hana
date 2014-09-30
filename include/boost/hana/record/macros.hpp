@@ -19,6 +19,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/pair.hpp>
 #include <boost/hana/record/mcd.hpp>
+#include <boost/hana/string.hpp>
 #include <boost/hana/tuple.hpp>
 
 #include <boost/preprocessor/config/config.hpp>
@@ -35,18 +36,22 @@ Distributed under the Boost Software License, Version 1.0.
 #   error "BOOST_PP_VARIADICS must be defined in order to use the functionality provided by this header"
 #endif
 
-#define BOOST_HANA_PP_RECORD_MEMBER_KEY(MEMBER) \
-    BOOST_PP_TUPLE_ELEM(2, 0, MEMBER)
+#define BOOST_HANA_PP_STRINGIZE_PRIMITIVE(token) #token
+
+#define BOOST_HANA_PP_STRINGIZE(token) \
+    BOOST_HANA_PP_STRINGIZE_PRIMITIVE(token)
 
 #define BOOST_HANA_PP_RECORD_MEMBER_TYPE(MEMBER) \
-    BOOST_PP_TUPLE_ELEM(2, 0, BOOST_PP_TUPLE_ELEM(2, 1, MEMBER))
+    BOOST_PP_TUPLE_ELEM(2, 0, MEMBER)
 
 #define BOOST_HANA_PP_RECORD_MEMBER_NAME(MEMBER) \
-    BOOST_PP_TUPLE_ELEM(2, 1, BOOST_PP_TUPLE_ELEM(2, 1, MEMBER))
+    BOOST_PP_TUPLE_ELEM(2, 1, MEMBER)
 
 #define BOOST_HANA_PP_RECORD_TUPLE_MEMBER_IMPL(_, __, MEMBER)               \
     ::boost::hana::pair(                                                    \
-        BOOST_HANA_PP_RECORD_MEMBER_KEY(MEMBER),                            \
+        BOOST_HANA_STRING(BOOST_HANA_PP_STRINGIZE(                          \
+            BOOST_HANA_PP_RECORD_MEMBER_NAME(MEMBER)                        \
+        )),                                                                 \
         [](auto&& x) -> decltype(auto) {                                    \
         return ::boost::hana::detail::std::forward<decltype(x)>(x).         \
             BOOST_HANA_PP_RECORD_MEMBER_NAME(MEMBER);                       \

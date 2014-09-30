@@ -7,10 +7,13 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_PP_VARIADICS 1
 #include <boost/hana/foldable/record_mcd.hpp>
 #include <boost/hana/record/macros.hpp>
+#include <boost/hana/searchable/record_mcd.hpp>
 
 #include <boost/hana/core/is_a.hpp>
 #include <boost/hana/detail/assert.hpp>
+#include <boost/hana/maybe.hpp>
 #include <boost/hana/pair.hpp>
+#include <boost/hana/string.hpp>
 #include <boost/hana/tuple.hpp>
 
 #include <test/injection.hpp>
@@ -23,8 +26,8 @@ namespace ns {
 
     struct Intrusive {
         BOOST_HANA_DEFINE_RECORD_INTRUSIVE(Intrusive,
-            (test::x<1>, (Member1, member1)),
-            (test::x<2>, (Member2, member2))
+            (Member1, member1),
+            (Member2, member2)
         );
     };
 
@@ -38,15 +41,15 @@ namespace ns {
     void intrusive_in_local_function() {
         struct Local {
             BOOST_HANA_DEFINE_RECORD_INTRUSIVE(Local,
-                (test::x<1>, (Member1, member1))
+                (Member1, member1)
             );
         };
     }
 }
 
 BOOST_HANA_DEFINE_RECORD(ns::AdHoc,
-    (test::x<1>, (ns::Member1, member1)),
-    (test::x<2>, (ns::Member2, member2))
+    (ns::Member1, member1),
+    (ns::Member2, member2)
 );
 
 
@@ -62,6 +65,21 @@ int main() {
             to<Tuple>(intrusive),
             tuple(intrusive.member1, intrusive.member2)
         ));
+
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            lookup(intrusive, BOOST_HANA_STRING("member1")),
+            just(intrusive.member1)
+        ));
+
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            lookup(intrusive, BOOST_HANA_STRING("member2")),
+            just(intrusive.member2)
+        ));
+
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            lookup(intrusive, BOOST_HANA_STRING("inexistant")),
+            nothing
+        ));
     }
 
     // AdHoc
@@ -71,6 +89,21 @@ int main() {
         BOOST_HANA_CONSTANT_ASSERT(equal(
             to<Tuple>(adhoc),
             tuple(adhoc.member1, adhoc.member2)
+        ));
+
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            lookup(adhoc, BOOST_HANA_STRING("member1")),
+            just(adhoc.member1)
+        ));
+
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            lookup(adhoc, BOOST_HANA_STRING("member2")),
+            just(adhoc.member2)
+        ));
+
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            lookup(adhoc, BOOST_HANA_STRING("inexistant")),
+            nothing
         ));
     }
 }
