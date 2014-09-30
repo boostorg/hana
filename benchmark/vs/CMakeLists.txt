@@ -25,10 +25,14 @@ Benchmark_add_plot(benchmark.vs.foldl
         FILE "foldl/hana.cpp"
         ENV "${_env}"
         ADDITIONAL_COMPILER_FLAGS -O3
+)
 
-    CURVE
+if(Boost_FOUND)
+    Benchmark_add_curve(
+        PLOT benchmark.vs.foldl
         TITLE "fusion"
         FILE "foldl/fusion.cpp"
         ENV "${_env}"
-        ADDITIONAL_COMPILER_FLAGS -O3
-)
+        ADDITIONAL_COMPILER_FLAGS -O3 -I"${Boost_INCLUDE_DIRS}"
+    )
+endif()
