@@ -24,9 +24,11 @@ Benchmark_add_plot(benchmark.vs.foldl
         TITLE "hana"
         FILE "foldl/hana.cpp"
         ENV "${_env}"
+        ADDITIONAL_COMPILER_FLAGS -O3
 
     CURVE
         TITLE "fusion"
         FILE "foldl/fusion.cpp"
         ENV "${_env}"
+        ADDITIONAL_COMPILER_FLAGS -O3
 )

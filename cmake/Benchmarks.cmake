@@ -332,11 +332,15 @@ add_custom_target(BENCHMARK_ALL_DATASETS COMMENT "Gathering all out-of-date data
 # A list of flags to pass to the compiler. If this is not given, it defaults
 # to the concatenation of the COMPILE_OPTIONS, COMPILE_DEFINITIONS and
 # INCLUDE_DIRECTORIES properties of the directory calling the function.
+#
+#   [ADDITIONAL_COMPILER_FLAGS <flags>...]
+# A list of additional flags to pass to the compiler. Use this when you do
+# not want to override all the COMPILER_FLAGS, but only add some flags.
 function(Benchmark_add_dataset target_name)
     # Parse arguments
     cmake_parse_arguments(my ""                                     # options
            "FILE;OUTPUT;ENV;COMPILATION_TIMEOUT;EXECUTION_TIMEOUT"  # 1 value args
-           "FEATURES;COMPILER_FLAGS"                                # multi-valued args
+           "FEATURES;COMPILER_FLAGS;ADDITIONAL_COMPILER_FLAGS"      # multi-valued args
            ${ARGN})
 
     # Sanitize arguments
@@ -355,6 +359,9 @@ function(Benchmark_add_dataset target_name)
     if(NOT my_EXECUTION_TIMEOUT)
         set(my_EXECUTION_TIMEOUT ${BENCHMARK_EXECUTION_TIMEOUT})
     endif()
+    if(NOT my_ADDITIONAL_COMPILER_FLAGS)
+        set(my_ADDITIONAL_COMPILER_FLAGS "")
+    endif()
     if(NOT my_COMPILER_FLAGS)
         get_directory_property(_options DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} COMPILE_OPTIONS)
         get_directory_property(_defs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} COMPILE_DEFINITIONS)
@@ -367,7 +374,10 @@ function(Benchmark_add_dataset target_name)
     endif()
 
     # TODO: Make this portable.
-    list(APPEND my_COMPILER_FLAGS "-I${__BENCHMARK_SUPPORT_DIR}/include")
+    list(APPEND my_COMPILER_FLAGS
+        "-I${__BENCHMARK_SUPPORT_DIR}/include"
+        ${my_ADDITIONAL_COMPILER_FLAGS}
+    )
 
     # We need to write the environment to a file because they are often
     # on several lines, which messes up when it appears inside a Makefile.
