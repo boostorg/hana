@@ -13,14 +13,20 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functor/functor.hpp>
 
 #include <boost/hana/bool.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 
 
 namespace boost { namespace hana {
     //! Minimal complete definition: `adjust`
     struct Functor::adjust_mcd : functor_detail::common {
         template <typename Xs, typename F>
-        static constexpr auto fmap_impl(Xs xs, F f)
-        { return adjust(xs, [](auto) { return true_; }, f); }
+        static constexpr decltype(auto) fmap_impl(Xs&& xs, F&& f) {
+            return adjust(
+                detail::std::forward<Xs>(xs),
+                [](auto) { return true_; },
+                detail::std::forward<F>(f)
+            );
+        }
     };
 }} // end namespace boost::hana
 

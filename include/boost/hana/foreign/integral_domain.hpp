@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/integral_domain/mcd.hpp>
 
 // Mcd
@@ -33,12 +34,14 @@ namespace boost { namespace hana {
         ))>
     >> : IntegralDomain::mcd {
         template <typename X, typename Y>
-        static constexpr auto quot_impl(X x, Y y)
-        { return x / y; }
+        static constexpr decltype(auto) quot_impl(X&& x, Y&& y) {
+            return detail::std::forward<X>(x) / detail::std::forward<Y>(y);
+        }
 
         template <typename X, typename Y>
-        static constexpr auto mod_impl(X x, Y y)
-        { return x % y; }
+        static constexpr decltype(auto) mod_impl(X&& x, Y&& y) {
+            return detail::std::forward<X>(x) % detail::std::forward<Y>(y);
+        }
     };
 }} // end namespace boost::hana
 

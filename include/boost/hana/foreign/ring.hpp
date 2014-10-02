@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/ring/mcd.hpp>
 
 // Mcd
@@ -35,8 +36,9 @@ namespace boost { namespace hana {
         ))>
     >> : Ring::mcd {
         template <typename X, typename Y>
-        static constexpr auto mult_impl(X x, Y y)
-        { return x * y; }
+        static constexpr auto mult_impl(X&& x, Y&& y) {
+            return detail::std::forward<X>(x) * detail::std::forward<Y>(y);
+        }
 
         // Will never be used with two different `T` and `U` anyway.
         static constexpr auto one_impl()

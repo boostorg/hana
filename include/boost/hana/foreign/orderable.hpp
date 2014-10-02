@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FOREIGN_ORDERABLE_HPP
 
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/orderable/less_mcd.hpp>
 #include <boost/hana/orderable/orderable.hpp>
 
@@ -27,8 +28,9 @@ namespace boost { namespace hana {
         : Orderable::less_mcd
     {
         template <typename X, typename Y>
-        static constexpr auto less_impl(X x, Y y)
-        { return x < y; }
+        static constexpr auto less_impl(X&& x, Y&& y) {
+            return detail::std::forward<X>(x) < detail::std::forward<Y>(y);
+        }
     };
 }} // end namespace boost::hana
 

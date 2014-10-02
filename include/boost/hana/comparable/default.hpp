@@ -27,7 +27,7 @@ namespace boost { namespace hana {
     template <typename T, typename U>
     struct Comparable::default_instance : Comparable::equal_mcd {
         template <typename X, typename Y>
-        static constexpr auto equal_impl(X, Y)
+        static constexpr auto equal_impl(X const&, Y const&)
         { return false_; }
     };
 

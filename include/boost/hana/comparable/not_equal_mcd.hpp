@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_COMPARABLE_NOT_EQUAL_MCD_HPP
 
 #include <boost/hana/comparable/comparable.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/logical/logical.hpp>
 
 
@@ -18,8 +19,12 @@ namespace boost { namespace hana {
     //! Minimal complete definition : `not_equal`
     struct Comparable::not_equal_mcd {
         template <typename X, typename Y>
-        static constexpr auto equal_impl(X x, Y y)
-        { return not_(not_equal(x, y)); }
+        static constexpr auto equal_impl(X&& x, Y&& y) {
+            return not_(not_equal(
+                detail::std::forward<X>(x),
+                detail::std::forward<Y>(y)
+            ));
+        }
     };
 }} // end namespace boost::hana
 

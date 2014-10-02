@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/comparable/equal_mcd.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 
 
 namespace boost { namespace hana {
@@ -27,8 +28,9 @@ namespace boost { namespace hana {
         : Comparable::equal_mcd
     {
         template <typename X, typename Y>
-        static constexpr auto equal_impl(X x, Y y)
-        { return x == y; }
+        static constexpr decltype(auto) equal_impl(X&& x, Y&& y) {
+            return detail::std::forward<X>(x) == detail::std::forward<Y>(y);
+        }
     };
 }} // end namespace boost::hana
 
