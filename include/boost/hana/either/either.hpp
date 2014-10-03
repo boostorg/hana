@@ -13,6 +13,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable/operators.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/monad/operators.hpp>
 
 
@@ -40,8 +42,20 @@ namespace boost { namespace hana {
             X value;
             using hana_datatype = Either;
 
+            //! @bug
+            //! We can't use perfect forwarding because of this bug:
+            //! http://llvm.org/bugs/show_bug.cgi?id=20619
             template <typename F, typename G>
-            constexpr auto go(F f, G g) const { return f(value); }
+            constexpr decltype(auto) go(F f, G) const&
+            { return f(value); }
+
+            template <typename F, typename G>
+            constexpr decltype(auto) go(F f, G) &
+            { return f(value); }
+
+            template <typename F, typename G>
+            constexpr decltype(auto) go(F f, G) &&
+            { return f(detail::std::move(value)); }
         };
 
         template <typename X, typename = operators::enable_adl>
@@ -49,8 +63,20 @@ namespace boost { namespace hana {
             X value;
             using hana_datatype = Either;
 
+            //! @bug
+            //! We can't use perfect forwarding because of this bug:
+            //! http://llvm.org/bugs/show_bug.cgi?id=20619
             template <typename F, typename G>
-            constexpr auto go(F f, G g) const { return g(value); }
+            constexpr decltype(auto) go(F, G g) const&
+            { return g(value); }
+
+            template <typename F, typename G>
+            constexpr decltype(auto) go(F, G g) &
+            { return g(value); }
+
+            template <typename F, typename G>
+            constexpr decltype(auto) go(F, G g) &&
+            { return g(detail::std::move(value)); }
         };
     }
 
@@ -65,7 +91,7 @@ namespace boost { namespace hana {
     };
 #else
     constexpr auto left = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto x) {
-        return either_detail::left<decltype(x)>{x};
+        return either_detail::left<decltype(x)>{detail::std::move(x)};
     };
 #endif
 
@@ -80,7 +106,7 @@ namespace boost { namespace hana {
     };
 #else
     constexpr auto right = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto x) {
-        return either_detail::right<decltype(x)>{x};
+        return either_detail::right<decltype(x)>{detail::std::move(x)};
     };
 #endif
 
@@ -107,12 +133,15 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/either.cpp either
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto either = [](auto f, auto g, auto e) {
+    constexpr auto either = [](auto&& f, auto&& g, auto&& e) -> decltype(auto) {
         unspecified
     };
 #else
-    constexpr auto either = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto f, auto g, auto e) {
-        return e.go(f, g);
+    constexpr auto either = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& f, auto&& g, auto&& e) -> decltype(auto) {
+        return detail::std::forward<decltype(e)>(e).go(
+            detail::std::forward<decltype(f)>(f),
+            detail::std::forward<decltype(g)>(g)
+        );
     };
 #endif
 }} // end namespace boost::hana

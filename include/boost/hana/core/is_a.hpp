@@ -50,7 +50,7 @@ namespace boost { namespace hana {
     //! @code
     //!     is_a<Datatype>(x)
     //! @endcode
-    //! is true if and only if `x` has a data type of `Datatype`.
+    //! is true if `x` has a data type of `Datatype`.
     //!
     //! @note
     //! This relies on the fact that data types do not coincide with type

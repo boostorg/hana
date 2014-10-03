@@ -6,6 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/convert.hpp>
 
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/detail/assert.hpp>
 
 #include <string>
@@ -13,10 +14,32 @@ Distributed under the Boost Software License, Version 1.0.
 using namespace boost::hana;
 
 
-template <typename ToDatatype, typename From, typename To>
-void check_convert(From from, To to_) {
-    BOOST_HANA_RUNTIME_ASSERT(to<ToDatatype>(from) == to_);
-    static_assert(std::is_same<decltype(to<To>(from)), To>{}, "");
+template <bool b, typename ...Ts>
+struct showme {
+    static_assert(b, "");
+};
+
+template <typename F, typename T>
+void check_convert(F f, T t) {
+    using From = datatype_t<F>;
+    using To = datatype_t<T>;
+
+    // Check From -> To conversion
+    BOOST_HANA_RUNTIME_ASSERT(to<To>(f) == t);
+    static_assert(std::is_same<
+        datatype_t<decltype(to<To>(f))>, To
+    >{}, "");
+
+    // Make sure From -> From and To -> To are the identity.
+    BOOST_HANA_RUNTIME_ASSERT(to<From>(f) == f);
+    static_assert(std::is_same<
+        datatype_t<decltype(to<From>(f))>, From
+    >{}, "");
+
+    BOOST_HANA_RUNTIME_ASSERT(to<To>(t) == t);
+    static_assert(std::is_same<
+        datatype_t<decltype(to<To>(t))>, To
+    >{}, "");
 }
 
 struct Datatype {
@@ -34,11 +57,11 @@ struct other_ctor {
 };
 
 int main() {
-    check_convert<std::string>("abcdef", std::string{"abcdef"});
-    check_convert<double>(int{1}, double{1});
-    check_convert<int>(double{1}, int{1});
-    check_convert<int>(std::true_type{}, int{1});
-    check_convert<int>(std::false_type{}, int{0});
-    check_convert<Datatype>(Datatype{1}, Datatype{1});
-    check_convert<Datatype>(other_ctor{1}, other_ctor{1});
+    check_convert("abcdef", std::string{"abcdef"});
+    check_convert(int{1}, double{1});
+    check_convert(double{1}, int{1});
+    check_convert(std::true_type{}, int{1});
+    check_convert(std::false_type{}, int{0});
+    check_convert(Datatype{1}, Datatype{1});
+    check_convert(other_ctor{1}, other_ctor{1});
 }

@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EXT_STD_TUPLE_LIST_HPP
 #define BOOST_HANA_EXT_STD_TUPLE_LIST_HPP
 
+#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/ext/std/tuple/tuple.hpp>
 #include <boost/hana/list/mcd.hpp>
 
@@ -28,12 +29,12 @@ namespace boost { namespace hana {
         { return std::tuple<>{}; }
 
         template <typename X, typename Xs>
-        static constexpr auto cons_impl(X x, Xs xs) {
+        static constexpr decltype(auto) cons_impl(X&& x, Xs&& xs) {
             //! @todo
             //! Remove the temporary variable when this is fixed:
             //! http://llvm.org/bugs/show_bug.cgi?id=19616
-            auto unit = std::make_tuple(x);
-            return std::tuple_cat(unit, xs);
+            auto unit = std::make_tuple(detail::std::forward<X>(x));
+            return std::tuple_cat(unit, detail::std::forward<Xs>(xs));
         }
     };
 }} // end namespace boost::hana

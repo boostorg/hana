@@ -18,7 +18,20 @@ namespace boost { namespace hana {
     //! @ingroup group-core
     //! Create an object of the given data type with the given arguments.
     //!
-    //! @todo Document me.
+    //! This function serves the same purpose as constructors in usual C++.
+    //! However, instead of creating an object of a specific C++ type, it
+    //! creates an object of a specific data type, with a C++ type that is
+    //! left unspecified in the general case.
+    //!
+    //! This variable template may be customized by specializing it for a
+    //! specific data type. When left unspecialized, `make<Datatype>(args...)`
+    //! defaults to `Datatype(args...)` if that expression is valid, which is
+    //! useful because it makes foreign C++ types constructible with `make`
+    //! out-of-the-box. When the `Datatype(args...)` is invalid and no
+    //! specialization is provided, a static assertion is triggered.
+    //!
+    //! ### Example
+    //! @snippet example/core/make.cpp alternate
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename Datatype, typename = optional when-based enabler>
     constexpr auto make = [](auto&& ...x) -> decltype(auto) {

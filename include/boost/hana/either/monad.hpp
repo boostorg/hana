@@ -10,8 +10,10 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EITHER_MONAD_HPP
 #define BOOST_HANA_EITHER_MONAD_HPP
 
-#include <boost/hana/monad/flatten_mcd.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/either/either.hpp>
+#include <boost/hana/functional/id.hpp>
+#include <boost/hana/monad/flatten_mcd.hpp>
 
 // Mcd
 #include <boost/hana/either/applicative.hpp>
@@ -31,13 +33,10 @@ namespace boost { namespace hana {
     //! @snippet example/either.cpp monad
     template <>
     struct Monad::instance<Either> : Monad::flatten_mcd<Either> {
-        template <typename X>
-        static constexpr auto flatten_impl(either_detail::right<X> x)
-        { return x.value; }
-
-        template <typename X>
-        static constexpr auto flatten_impl(X x)
-        { return x; }
+        template <typename E>
+        static constexpr decltype(auto) flatten_impl(E&& e) {
+            return either(left, id, detail::std::forward<E>(e));
+        }
     };
 }} // end namespace boost::hana
 

@@ -19,7 +19,7 @@ namespace boost { namespace hana {
     //! Minimal complete definition : `not_equal`
     struct Comparable::not_equal_mcd {
         template <typename X, typename Y>
-        static constexpr auto equal_impl(X&& x, Y&& y) {
+        static constexpr decltype(auto) equal_impl(X&& x, Y&& y) {
             return not_(not_equal(
                 detail::std::forward<X>(x),
                 detail::std::forward<Y>(y)

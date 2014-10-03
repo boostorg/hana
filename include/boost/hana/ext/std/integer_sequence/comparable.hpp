@@ -12,9 +12,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable/equal_mcd.hpp>
+#include <boost/hana/detail/std/is_same.hpp>
 #include <boost/hana/ext/std/integer_sequence/integer_sequence.hpp>
 
-#include <type_traits>
 #include <utility>
 
 
@@ -31,7 +31,7 @@ namespace boost { namespace hana {
             // sizeof...(xs) != sizeof...(ys)
             char(*)[sizeof...(xs) == sizeof...(ys)] = 0)
         {
-            return bool_<std::is_same<
+            return bool_<detail::std::is_same<
                 std::integer_sequence<bool, (xs == ys)...>,
                 std::integer_sequence<bool, (xs, true)...>
             >::value>;

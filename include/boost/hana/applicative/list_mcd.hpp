@@ -14,6 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/functor/functor.hpp>
 #include <boost/hana/list/list.hpp>
 #include <boost/hana/monad/monad.hpp>
@@ -24,12 +25,18 @@ namespace boost { namespace hana {
     template <typename T>
     struct Applicative::list_mcd {
         template <typename X>
-        static constexpr auto lift_impl(X x)
-        { return cons(x, nil<T>); }
+        static constexpr decltype(auto) lift_impl(X&& x)
+        { return cons(detail::std::forward<X>(x), nil<T>); }
 
         template <typename Fs, typename Xs>
-        static constexpr auto ap_impl(Fs fs, Xs xs)
-        { return bind(fs, [=](auto f) { return fmap(xs, f); }); }
+        static constexpr decltype(auto) ap_impl(Fs&& fs, Xs&& xs) {
+            return bind(
+                detail::std::forward<Fs>(fs),
+                [xs(detail::std::forward<Xs>(xs))](auto&& f) -> decltype(auto) {
+                    return fmap(xs, detail::std::forward<decltype(f)>(f));
+                }
+            );
+        }
     };
 
     //! `Applicative` instance for instances of the `List` type class.

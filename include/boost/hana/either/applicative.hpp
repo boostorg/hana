@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_EITHER_APPLICATIVE_HPP
 
 #include <boost/hana/applicative/mcd.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/either/either.hpp>
 
 // Mcd
@@ -34,16 +35,19 @@ namespace boost { namespace hana {
     template <>
     struct Applicative::instance<Either> : Applicative::mcd {
         template <typename X>
-        static constexpr auto lift_impl(X x)
-        { return right(x); }
+        static constexpr decltype(auto) lift_impl(X&& x)
+        { return right(detail::std::forward<X>(x)); }
 
-        template <typename E, typename _>
-        static constexpr auto ap_impl(either_detail::left<E> e, _)
-        { return e; }
-
-        template <typename F, typename X>
-        static constexpr auto ap_impl(either_detail::right<F> f, X x)
-        { return fmap(x, f.value); }
+        template <typename E, typename X>
+        static constexpr decltype(auto) ap_impl(E&& e, X&& x) {
+            return either(
+                left,
+                [x(detail::std::forward<X>(x))](auto&& f) -> decltype(auto) {
+                    return fmap(x, detail::std::forward<decltype(f)>(f));
+                },
+                detail::std::forward<E>(e)
+            );
+        }
     };
 }} // end namespace boost::hana
 

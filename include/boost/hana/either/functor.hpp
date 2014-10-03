@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EITHER_FUNCTOR_HPP
 #define BOOST_HANA_EITHER_FUNCTOR_HPP
 
+#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/either/either.hpp>
 #include <boost/hana/functor/fmap_mcd.hpp>
 
@@ -32,13 +33,16 @@ namespace boost { namespace hana {
     //! @snippet example/either.cpp functor
     template <>
     struct Functor::instance<Either> : Functor::fmap_mcd {
-        template <typename X, typename F>
-        static constexpr auto fmap_impl(either_detail::right<X> x, F f)
-        { return right(f(x.value)); }
-
         template <typename E, typename F>
-        static constexpr auto fmap_impl(E e, F f)
-        { return e; }
+        static constexpr decltype(auto) fmap_impl(E&& e, F&& f) {
+            return either(
+                left,
+                [f(detail::std::forward<F>(f))](auto&& x) -> decltype(auto) {
+                    return right(f(detail::std::forward<decltype(x)>(x)));
+                },
+                detail::std::forward<E>(e)
+            );
+        }
     };
 }} // end namespace boost::hana
 

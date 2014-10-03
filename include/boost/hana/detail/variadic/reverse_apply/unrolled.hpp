@@ -66,7 +66,7 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
     }
 
     template <typename F, typename X1, typename X2, typename X3, typename X4, typename X5, typename X6, typename ...Xn>
-    constexpr decltype(auto) reverse_apply_unrolled(F&& f, X1&& x1, X2&& x2, X3&& x3, X4&& x4, X5&& x5, X6 x6, Xn&& ...xn) {
+    constexpr decltype(auto) reverse_apply_unrolled(F&& f, X1&& x1, X2&& x2, X3&& x3, X4&& x4, X5&& x5, X6&& x6, Xn&& ...xn) {
         return reverse_apply_unrolled([
             f(detail::std::forward<F>(f)),
             x1(detail::std::forward<X1>(x1)),
@@ -76,14 +76,9 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
             x5(detail::std::forward<X5>(x5)),
             x6(detail::std::forward<X6>(x6))
         ](auto&& ...xn) -> decltype(auto) {
-            return detail::std::move(f)(
+            return f(
                 detail::std::forward<decltype(xn)>(xn)...,
-                detail::std::move(x6),
-                detail::std::move(x5),
-                detail::std::move(x4),
-                detail::std::move(x3),
-                detail::std::move(x2),
-                detail::std::move(x1)
+                x6, x5, x4, x3, x2, x1
             );
         }, detail::std::forward<Xn>(xn)...);
     }

@@ -12,6 +12,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/functional/id.hpp>
 
 
 namespace boost { namespace hana {
@@ -19,25 +21,28 @@ namespace boost { namespace hana {
         template <typename To, typename From>
         struct default_convert {
             template <typename X>
-            static constexpr auto apply_impl(X x, int)
-                -> decltype(static_cast<To>(x))
-            { return static_cast<To>(x); }
+            static constexpr auto apply_impl(X&& x, int)
+                -> decltype(static_cast<To>(detail::std::forward<X>(x)))
+            { return static_cast<To>(detail::std::forward<X>(x)); }
 
             template <typename X>
-            static constexpr auto apply_impl(X x, ...) {
+            static constexpr auto apply_impl(X const&, ...) {
                 static_assert((sizeof(X), false),
                 "there exists no conversion between the given data types");
             }
 
             template <typename X>
-            static constexpr auto apply(X x)
-            { return apply_impl(x, int{0}); }
+            static constexpr decltype(auto) apply(X&& x)
+            { return apply_impl(detail::std::forward<X>(x), int{}); }
         };
 
         template <typename To>
         struct default_convert<To, To> {
             template <typename X>
-            static constexpr auto apply(X x) { return x; }
+            static constexpr decltype(auto) apply(X&& x) {
+                // id handles rvalues correctly
+                return id(detail::std::forward<X>(x));
+            }
         };
     }
 
@@ -77,8 +82,11 @@ namespace boost { namespace hana {
         template <typename To>
         struct to {
             template <typename X>
-            constexpr auto operator()(X x) const
-            { return convert<To, datatype_t<X>>::apply(x); }
+            constexpr decltype(auto) operator()(X&& x) const {
+                return convert<To, datatype_t<X>>::apply(
+                    detail::std::forward<X>(x)
+                );
+            }
         };
     }
 
@@ -99,8 +107,10 @@ namespace boost { namespace hana {
     //! @snippet example/core/to.cpp main
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename To>
-    constexpr auto to = [](auto x) {
-        return convert<To, datatype_t<decltype(x)>>::apply(x);
+    constexpr auto to = [](auto&& x) -> decltype(auto) {
+        return convert<To, datatype_t<decltype(x)>>::apply(
+            std::forward<decltype(x)>(x)
+        );
     };
 #else
     template <typename To>

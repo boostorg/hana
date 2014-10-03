@@ -18,8 +18,8 @@ namespace boost { namespace hana {
     template <>
     struct Comparable::instance<Bool, Bool> : Comparable::equal_mcd {
         template <typename X, typename Y>
-        static constexpr auto equal_impl(X x, Y y)
-        { return bool_<x() == y()>; }
+        static constexpr auto equal_impl(X const&, Y const&)
+        { return bool_<X::value == Y::value>; }
     };
 }}
 

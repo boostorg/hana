@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_EXT_BOOST_TUPLE_ITERABLE_HPP
 
 #include <boost/hana/bool.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/ext/boost/tuple/tuple.hpp>
 #include <boost/hana/iterable/mcd.hpp>
 
@@ -21,12 +22,12 @@ namespace boost { namespace hana {
     template <>
     struct Iterable::instance<BoostTuple> : Iterable::mcd {
         template <typename Xs>
-        static constexpr auto head_impl(Xs tuple)
-        { return tuple.get_head(); }
+        static constexpr decltype(auto) head_impl(Xs&& tuple)
+        { return detail::std::forward<Xs>(tuple).get_head(); }
 
         template <typename Xs>
-        static constexpr auto tail_impl(Xs tuple)
-        { return tuple.get_tail(); }
+        static constexpr decltype(auto) tail_impl(Xs&& tuple)
+        { return detail::std::forward<Xs>(tuple).get_tail(); }
 
         static constexpr auto is_empty_impl(boost::tuples::null_type const&)
         { return true_; }

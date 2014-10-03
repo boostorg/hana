@@ -26,12 +26,13 @@ namespace boost { namespace hana {
     template <>
     struct Comparable::instance<Either, Either> : Comparable::equal_mcd {
         template <template <typename ...> class E, typename T, typename U>
-        static constexpr auto equal_impl(E<T> x, E<U> y)
-        { return equal(x.value, y.value); }
+        static constexpr decltype(auto) equal_impl(E<T> const& x, E<U> const& y) {
+            return equal(x.value, y.value);
+        }
 
         template <template <typename ...> class E1,
                   template <typename ...> class E2, typename T, typename U>
-        static constexpr auto equal_impl(E1<T> x, E2<U> y)
+        static constexpr auto equal_impl(E1<T> const&, E2<U> const&)
         { return false_; }
     };
 }} // end namespace boost::hana

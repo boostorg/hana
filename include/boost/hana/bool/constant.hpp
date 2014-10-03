@@ -18,8 +18,8 @@ namespace boost { namespace hana {
     template <>
     struct Constant::instance<Bool> : Constant::mcd {
         template <typename C>
-        static constexpr auto value_impl(C const& c)
-        { return c(); }
+        static constexpr auto value_impl(C const&)
+        { return C::value; }
     };
 }}
 

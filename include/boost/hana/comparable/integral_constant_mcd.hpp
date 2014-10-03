@@ -14,6 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/constant/constant.hpp>
 #include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/is_integral.hpp>
 #include <boost/hana/integral_constant/integral_constant.hpp>
 #include <boost/hana/logical/integral_constant_mcd.hpp>
@@ -23,7 +24,7 @@ namespace boost { namespace hana {
     template <typename I1, typename I2>
     struct Comparable::integral_constant_mcd : Comparable::equal_mcd {
         template <typename X, typename Y>
-        static constexpr auto equal_impl(X x, Y y) {
+        static constexpr decltype(auto) equal_impl(X x, Y y) {
             constexpr auto eq = value(x) == value(y);
             return integral_constant<I1, decltype(eq), eq>;
         }
@@ -37,8 +38,10 @@ namespace boost { namespace hana {
         : Comparable::equal_mcd
     {
         template <typename X, typename Y>
-        static constexpr auto equal_impl(X x, Y y)
-        { return value(x) == y; }
+        static constexpr decltype(auto) equal_impl(X&& x, Y&& y) {
+            return value(detail::std::forward<X>(x)) ==
+                   detail::std::forward<Y>(y);
+        }
     };
 
     template <typename T, typename I>
@@ -49,8 +52,10 @@ namespace boost { namespace hana {
         : Comparable::equal_mcd
     {
         template <typename X, typename Y>
-        static constexpr auto equal_impl(X x, Y y)
-        { return x == value(y); }
+        static constexpr decltype(auto) equal_impl(X&& x, Y&& y) {
+            return detail::std::forward<X>(x) ==
+                   value(detail::std::forward<Y>(y));
+        }
     };
 
     template <typename I1, typename I2>

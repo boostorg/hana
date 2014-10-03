@@ -21,7 +21,7 @@ namespace boost { namespace hana {
     //! Mininal complete definition: `Product`
     struct Comparable::product_mcd : Comparable::equal_mcd {
         template <typename X, typename Y>
-        static constexpr auto equal_impl(X x, Y y) {
+        static constexpr decltype(auto) equal_impl(X const& x, Y const& y) {
             return and_(
                 equal(first(x), first(y)),
                 equal(second(x), second(y))

@@ -10,14 +10,17 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EXT_STD_ARRAY_LIST_HPP
 #define BOOST_HANA_EXT_STD_ARRAY_LIST_HPP
 
+#include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/integer_sequence.hpp>
+#include <boost/hana/detail/std/move.hpp>
+#include <boost/hana/detail/std/remove_reference.hpp>
+#include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/ext/std/array/foldable.hpp>
 #include <boost/hana/ext/std/array/iterable.hpp>
 #include <boost/hana/ext/std/array/monad.hpp>
 #include <boost/hana/list/mcd.hpp>
 
 #include <array>
-#include <cstddef>
-#include <utility>
 
 
 namespace boost { namespace hana {
@@ -28,20 +31,30 @@ namespace boost { namespace hana {
         static constexpr auto nil_impl()
         { return std::array<anything, 0>{}; }
 
+        template <typename T, detail::std::size_t N, typename X, typename Xs, detail::std::size_t ...index>
+        static constexpr auto
+        cons_helper(X&& x, Xs&& xs, detail::std::index_sequence<index...>) {
+            return std::array<T, N + 1>{{
+                detail::std::forward<X>(x),
+                detail::std::forward<Xs>(xs)[index]...
+            }};
+        }
 
-        template <typename X, typename T, std::size_t N, std::size_t ...index>
-        static constexpr auto cons_helper(
-            X x, std::array<T, N> arr, std::index_sequence<index...>
-        )
-        { return std::array<T, N + 1>{{x, arr[index]...}}; }
-
-        template <typename X, typename T, std::size_t N>
-        static constexpr auto cons_impl(X x, std::array<T, N> arr)
-        { return cons_helper(x, arr, std::make_index_sequence<N>{}); }
+        template <typename X, typename Xs>
+        static constexpr decltype(auto) cons_impl(X&& x, Xs&& xs) {
+            using RawArray = typename detail::std::remove_reference<Xs>::type;
+            constexpr auto N = std::tuple_size<RawArray>::value;
+            using T = typename RawArray::value_type;
+            return cons_helper<T, N>(
+                detail::std::forward<X>(x),
+                detail::std::forward<Xs>(xs),
+                detail::std::make_index_sequence<N>{}
+            );
+        }
 
         template <typename X>
         static constexpr auto cons_impl(X x, std::array<anything, 0>)
-        { return cons_impl(x, std::array<X, 0>{}); }
+        { return std::array<X, 1>{{detail::std::move(x)}}; }
     };
 }} // end namespace boost::hana
 

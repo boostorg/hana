@@ -22,9 +22,10 @@ namespace boost { namespace hana {
     template <typename R>
     struct Comparable::record_mcd : Comparable::equal_mcd {
         template <typename X, typename Y>
-        static constexpr auto equal_impl(X x, Y y) {
-            return all(members<R>, [=](auto k_f) {
-                return equal(second(k_f)(x), second(k_f)(y));
+        static constexpr decltype(auto) equal_impl(X const& x, Y const& y) {
+            return all(members<R>, [&x, &y](auto&& member) -> decltype(auto) {
+                auto accessor = second(detail::std::forward<decltype(member)>(member));
+                return equal(accessor(x), accessor(y));
             });
         }
     };

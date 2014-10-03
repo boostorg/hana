@@ -24,12 +24,12 @@ namespace boost { namespace hana {
         : Comparable::equal_mcd
     {
         template <typename Xs, typename Ys>
-        static constexpr auto equal_impl(Xs xs, Ys ys) {
+        static constexpr decltype(auto) equal_impl(Xs const& xs, Ys const& ys) {
             return eval_if(or_(is_empty(xs), is_empty(ys)),
-                [=](auto _) {
+                [&xs, &ys](auto _) -> decltype(auto) {
                     return and_(_(is_empty)(xs), _(is_empty)(ys));
                 },
-                [=](auto _) {
+                [&xs, &ys](auto _) -> decltype(auto) {
                     return and_(equal(_(head)(xs), _(head)(ys)),
                                 equal_impl(_(tail)(xs), _(tail)(ys)));
                 }
