@@ -21,6 +21,9 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     //! @details
     //! Minimal complete definition: `Iterable`
+    //!
+    //! @todo Add perfect forwarding where possible. This is _not_ obvious
+    //! to me because of all those branches.
     struct Foldable::iterable_mcd : Foldable::folds_mcd {
         template <typename Xs, typename State, typename F>
         static constexpr auto foldl_impl(Xs xs, State s, F f) {

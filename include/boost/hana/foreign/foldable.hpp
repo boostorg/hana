@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FOREIGN_FOLDABLE_HPP
 #define BOOST_HANA_FOREIGN_FOLDABLE_HPP
 
+#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integer_sequence.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/foldable/unpack_mcd.hpp>
@@ -30,13 +31,20 @@ namespace boost { namespace hana {
         : Foldable::unpack_mcd
     {
         template <typename Xs, typename F, detail::std::size_t ...i>
-        static constexpr auto unpack_helper(Xs xs, F f, detail::std::index_sequence<i...>) {
-            return f(xs[i]...);
+        static constexpr decltype(auto)
+        unpack_helper(Xs&& xs, F&& f, detail::std::index_sequence<i...>) {
+            return detail::std::forward<F>(f)(
+                detail::std::forward<T>(xs[i])...
+            );
         }
 
         template <typename Xs, typename F>
-        static constexpr auto unpack_impl(Xs xs, F f) {
-            return unpack_helper(xs, f, detail::std::make_index_sequence<N>{});
+        static constexpr decltype(auto) unpack_impl(Xs&& xs, F&& f) {
+            return unpack_helper(
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<F>(f),
+                detail::std::make_index_sequence<N>{}
+            );
         }
     };
 }} // end namespace boost::hana

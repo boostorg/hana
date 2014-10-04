@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/foldable/folds_mcd.hpp>
 #include <boost/hana/product/product.hpp>
 #include <boost/hana/record/record.hpp>
@@ -20,18 +21,30 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     template <typename R>
     struct Foldable::record_mcd : Foldable::folds_mcd {
-        template <typename X, typename S, typename F>
-        static constexpr auto foldl_impl(X x, S s, F f) {
-            return foldl(members<R>, s, [=](auto s, auto k_f) {
-                return f(s, second(k_f)(x));
-            });
+        template <typename Udt, typename S, typename F>
+        static constexpr decltype(auto) foldl_impl(Udt&& udt, S&& s, F&& f) {
+            return foldl(members<R>, detail::std::forward<S>(s),
+                [udt(detail::std::forward<Udt>(udt)), f(detail::std::forward<F>(f))]
+                (auto&& s, auto&& member) -> decltype(auto) {
+                    return f(
+                        detail::std::forward<decltype(s)>(s),
+                        second(detail::std::forward<decltype(member)>(member))(udt)
+                    );
+                }
+            );
         }
 
-        template <typename X, typename S, typename F>
-        static constexpr auto foldr_impl(X x, S s, F f) {
-            return foldr(members<R>, s, [=](auto k_f, auto s) {
-                return f(second(k_f)(x), s);
-            });
+        template <typename Udt, typename S, typename F>
+        static constexpr decltype(auto) foldr_impl(Udt&& udt, S&& s, F&& f) {
+            return foldr(members<R>, detail::std::forward<S>(s),
+                [udt(detail::std::forward<Udt>(udt)), f(detail::std::forward<F>(f))]
+                (auto&& member, auto&& s) -> decltype(auto) {
+                    return f(
+                        second(detail::std::forward<decltype(member)>(member))(udt),
+                        detail::std::forward<decltype(s)>(s)
+                    );
+                }
+            );
         }
     };
 

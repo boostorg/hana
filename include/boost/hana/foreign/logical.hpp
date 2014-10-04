@@ -22,15 +22,17 @@ namespace boost { namespace hana {
     //! Any foreign object that can be converted to `bool` implicitly is an
     //! instance of `Logical` by converting that object to `bool` and then
     //! using the obvious instance for `bool`.
+    //!
+    //! @bug
+    //! We can't use perfect forwarding because of this bug:
+    //! http://llvm.org/bugs/show_bug.cgi?id=20619
     template <typename L>
     struct Logical::instance<L,
         when<is_valid<decltype(*(L*)0 ? (void)0 : (void)0)>>
     >
         : Logical::mcd
     {
-        //! @bug
-        //! We can't use perfect forwarding because of this bug:
-        //! http://llvm.org/bugs/show_bug.cgi?id=20619
+
         template <typename T, typename E>
         static constexpr auto eval_if_impl(bool cond, T t, E e) {
             return cond ? t(id) : e(id);
