@@ -20,16 +20,4 @@ int main() {
         lift<StdTuple>(std::make_tuple(1)),
         std::make_tuple(std::make_tuple(1))
     ));
-
-    // The following shows the actual bug:
-#if 0
-    static_assert(
-        std::tuple_cat(
-            std::make_tuple(std::make_tuple(1)),
-            std::make_tuple()
-        )
-        ==
-        std::make_tuple(std::make_tuple(1))
-    , "");
-#endif
 }

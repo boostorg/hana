@@ -12,9 +12,5 @@ using namespace boost::hana;
 
 
 int main() {
-    //! @todo Re-enable the tests once this is fixed:
-    //! http://llvm.org/bugs/show_bug.cgi?id=19793
-#if 0
     List_methods<StdTuple>();
-#endif
 }

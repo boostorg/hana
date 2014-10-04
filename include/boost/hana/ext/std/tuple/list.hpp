@@ -30,11 +30,10 @@ namespace boost { namespace hana {
 
         template <typename X, typename Xs>
         static constexpr decltype(auto) cons_impl(X&& x, Xs&& xs) {
-            //! @todo
-            //! Remove the temporary variable when this is fixed:
-            //! http://llvm.org/bugs/show_bug.cgi?id=19616
-            auto unit = std::make_tuple(detail::std::forward<X>(x));
-            return std::tuple_cat(unit, detail::std::forward<Xs>(xs));
+            return std::tuple_cat(
+                std::make_tuple(detail::std::forward<X>(x)),
+                detail::std::forward<Xs>(xs)
+            );
         }
     };
 }} // end namespace boost::hana

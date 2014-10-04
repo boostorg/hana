@@ -13,7 +13,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integer_sequence.hpp>
-#include <boost/hana/detail/std/remove_reference.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/ext/std/tuple/tuple.hpp>
 #include <boost/hana/iterable/mcd.hpp>
@@ -32,13 +31,9 @@ namespace boost { namespace hana {
         template <typename Xs, detail::std::size_t ...index>
         static constexpr decltype(auto)
         tail_helper(Xs&& xs, detail::std::index_sequence<index...>) {
-            //! @todo
-            //! Use `std::make_tuple` when this bug is fixed:
-            //! http://llvm.org/bugs/show_bug.cgi?id=19793
-            using Raw = typename detail::std::remove_reference<Xs>::type;
-            using T = std::tuple<std::tuple_element_t<index + 1, Raw>...>;
-            T tmp{std::get<index + 1>(detail::std::forward<Xs>(xs))...};
-            return tmp;
+            return std::make_tuple(
+                std::get<index + 1>(detail::std::forward<Xs>(xs))...
+            );
         }
 
         template <typename Xs>
