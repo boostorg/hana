@@ -23,12 +23,16 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/string.hpp>
 #include <boost/hana/tuple.hpp>
 
+#include <boost/preprocessor/arithmetic/dec.hpp>
 #include <boost/preprocessor/config/config.hpp>
 #include <boost/preprocessor/seq/enum.hpp>
 #include <boost/preprocessor/seq/for_each.hpp>
 #include <boost/preprocessor/seq/seq.hpp>
 #include <boost/preprocessor/seq/transform.hpp>
 #include <boost/preprocessor/tuple/elem.hpp>
+#include <boost/preprocessor/tuple/pop_back.hpp>
+#include <boost/preprocessor/tuple/rem.hpp>
+#include <boost/preprocessor/tuple/size.hpp>
 #include <boost/preprocessor/variadic/elem.hpp>
 #include <boost/preprocessor/variadic/to_seq.hpp>
 
@@ -43,10 +47,10 @@ Distributed under the Boost Software License, Version 1.0.
     BOOST_HANA_PP_STRINGIZE_PRIMITIVE(token)
 
 #define BOOST_HANA_PP_RECORD_MEMBER_TYPE(MEMBER) \
-    BOOST_PP_TUPLE_ELEM(2, 0, MEMBER)
+    BOOST_PP_TUPLE_REM_CTOR(BOOST_PP_TUPLE_POP_BACK(MEMBER))
 
 #define BOOST_HANA_PP_RECORD_MEMBER_NAME(MEMBER) \
-    BOOST_PP_TUPLE_ELEM(2, 1, MEMBER)
+    BOOST_PP_TUPLE_ELEM(BOOST_PP_DEC(BOOST_PP_TUPLE_SIZE(MEMBER)), MEMBER)
 
 #define BOOST_HANA_PP_RECORD_TUPLE_MEMBER_IMPL(_, __, MEMBER)               \
     ::boost::hana::pair(                                                    \

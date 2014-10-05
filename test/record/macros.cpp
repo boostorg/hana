@@ -22,18 +22,22 @@ using namespace boost::hana;
 
 namespace ns {
     using Member1 = decltype(test::x<7>);
+
+    // Parametric so we can use multiple template arguments inside the
+    // macros, just to make sure it works as expected.
+    template <typename ...>
     using Member2 = decltype(test::x<8>);
 
     struct Intrusive {
         BOOST_HANA_DEFINE_RECORD_INTRUSIVE(Intrusive,
             (Member1, member1),
-            (Member2, member2)
+            (Member2<void, void>, member2)
         );
     };
 
     struct AdHoc {
         Member1 member1;
-        Member2 member2;
+        Member2<void, void> member2;
     };
 
     // Make sure BOOST_HANA_DEFINE_RECORD_INTRUSIVE can be used inside local
@@ -49,7 +53,7 @@ namespace ns {
 
 BOOST_HANA_DEFINE_RECORD(ns::AdHoc,
     (ns::Member1, member1),
-    (ns::Member2, member2)
+    (ns::Member2<void, void>, member2)
 );
 
 
