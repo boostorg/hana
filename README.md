@@ -4,7 +4,8 @@
 
 ## Disclaimers
 This is not an official Boost library. However, a formal review will be asked
-for shortly. The library is unstable at the moment; do not use for production.
+for shortly. The library is fairly stable, but no effort will be made to stay
+backward compatible.
 
 
 ## Overview
