@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_MAYBE_APPLICATIVE_HPP
 
 #include <boost/hana/applicative/mcd.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/functor/functor.hpp>
 #include <boost/hana/maybe/maybe.hpp>
 
@@ -33,13 +34,23 @@ namespace boost { namespace hana {
     //! @include example/maybe/applicative.cpp
     template <>
     struct Applicative::instance<Maybe> : Applicative::mcd {
-        template <typename T>
-        static constexpr auto lift_impl(T x)
-        { return just(x); }
+        template <typename X>
+        static constexpr decltype(auto) lift_impl(X&& x)
+        { return just(detail::std::forward<X>(x)); }
 
         template <typename Mf, typename Mx>
-        static constexpr auto ap_impl(Mf mf, Mx mx)
-        { return maybe(nothing, [=](auto f) { return fmap(mx, f); }, mf); }
+        static constexpr decltype(auto) ap_impl(Mf&& mf, Mx&& mx) {
+            return maybe(
+                nothing,
+                [&mx](auto&& f) -> decltype(auto) {
+                    return fmap(
+                        detail::std::forward<Mx>(mx),
+                        detail::std::forward<decltype(f)>(f)
+                    );
+                },
+                detail::std::forward<Mf>(mf)
+            );
+        }
     };
 }} // end namespace boost::hana
 

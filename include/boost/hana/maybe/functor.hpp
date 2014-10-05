@@ -10,6 +10,8 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_MAYBE_FUNCTOR_HPP
 #define BOOST_HANA_MAYBE_FUNCTOR_HPP
 
+#include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functor/fmap_mcd.hpp>
 #include <boost/hana/maybe/maybe.hpp>
 
@@ -27,8 +29,13 @@ namespace boost { namespace hana {
     template <>
     struct Functor::instance<Maybe> : Functor::fmap_mcd {
         template <typename M, typename F>
-        static constexpr auto fmap_impl(M m, F f)
-        { return maybe(nothing, [=](auto x) { return just(f(x)); }, m); }
+        static constexpr decltype(auto) fmap_impl(M&& m, F&& f) {
+            return maybe(
+                nothing,
+                compose(just, detail::std::forward<F>(f)),
+                detail::std::forward<M>(m)
+            );
+        }
     };
 }} // end namespace boost::hana
 

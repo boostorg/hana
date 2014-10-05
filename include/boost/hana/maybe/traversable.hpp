@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_MAYBE_TRAVERSABLE_HPP
 
 #include <boost/hana/applicative/applicative.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/functor/functor.hpp>
 #include <boost/hana/maybe/maybe.hpp>
 #include <boost/hana/traversable/traverse_mcd.hpp>
@@ -27,12 +28,19 @@ namespace boost { namespace hana {
     //! @snippet example/maybe/traversable.cpp main
     template <>
     struct Traversable::instance<Maybe> : Traversable::traverse_mcd {
-        template <typename A, typename M, typename F>
-        static constexpr auto traverse_impl(M mx, F f) {
+        template <typename A, typename Mx, typename F>
+        static constexpr decltype(auto) traverse_impl(Mx&& mx, F&& f) {
             return maybe(
                 lift<A>(nothing),
-                [=](auto x) { return fmap(f(x), just); },
-                mx
+                [&f](auto&& x) -> decltype(auto) {
+                    return fmap(
+                        detail::std::forward<F>(f)(
+                            detail::std::forward<decltype(x)>(x)
+                        ),
+                        just
+                    );
+                },
+                detail::std::forward<Mx>(mx)
             );
         }
     };

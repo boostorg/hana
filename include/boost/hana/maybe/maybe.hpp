@@ -14,6 +14,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable/operators.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/move.hpp>
+#include <boost/hana/functional/id.hpp>
 #include <boost/hana/logical/logical.hpp>
 #include <boost/hana/monad/operators.hpp>
 
@@ -32,22 +35,12 @@ namespace boost { namespace hana {
 
     namespace maybe_detail {
         template <bool is_valid, typename T, typename = operators::enable_adl>
-        struct maybe {
-            using hana_datatype = Maybe;
-
-            template <typename Default, typename F>
-            constexpr auto maybe_impl(Default d, F) const
-            { return d; }
-        };
+        struct maybe { using hana_datatype = Maybe; };
 
         template <typename T>
         struct maybe<true, T> {
             using hana_datatype = Maybe;
             T val;
-
-            template <typename Default, typename F>
-            constexpr auto maybe_impl(Default, F f) const
-            { return f(val); }
         };
 
         template <typename T>
@@ -73,7 +66,7 @@ namespace boost { namespace hana {
     constexpr unspecified nothing{};
 #else
     constexpr auto just = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto x) {
-        return maybe_detail::just<decltype(x)>{x};
+        return maybe_detail::just<decltype(x)>{detail::std::move(x)};
     };
 
     constexpr maybe_detail::nothing nothing{};
@@ -106,9 +99,13 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/maybe/maybe.cpp only_when
-    constexpr auto only_when = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto predicate, auto f, auto x) {
-        return eval_if(predicate(x),
-            [=](auto _) { return just(_(f)(x)); },
+    constexpr auto only_when = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& predicate, auto&& f, auto&& x) -> decltype(auto) {
+        return eval_if(detail::std::forward<decltype(predicate)>(predicate)(x),
+            [&f, &x](auto _) -> decltype(auto) {
+                return just(detail::std::forward<decltype(f)>(f)(
+                    _(detail::std::forward<decltype(x)>(x))
+                ));
+            },
             [](auto _) { return nothing; }
         );
     };
@@ -138,13 +135,30 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/maybe/maybe.cpp maybe
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto maybe = [](auto default_, auto f, auto m) {
+    constexpr auto maybe = [](auto&& default_, auto&& f, auto&& m) -> decltype(auto) {
         unspecified;
     };
 #else
-    constexpr auto maybe = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto default_, auto f, auto m) {
-        return m.maybe_impl(default_, f);
-    };
+    namespace maybe_detail {
+        struct maybe_func {
+            template <typename Def, typename F, typename T>
+            constexpr decltype(auto) operator()(Def&& def, F&& f, just<T> const& m) const
+            { return detail::std::forward<F>(f)(m.val); }
+
+            template <typename Def, typename F, typename T>
+            constexpr decltype(auto) operator()(Def&& def, F&& f, just<T>& m) const
+            { return detail::std::forward<F>(f)(m.val); }
+
+            template <typename Def, typename F, typename T>
+            constexpr decltype(auto) operator()(Def&& def, F&& f, just<T>&& m) const
+            { return detail::std::forward<F>(f)(detail::std::move(m).val); }
+
+            template <typename Def, typename F>
+            constexpr decltype(auto) operator()(Def&& def, F&& f, nothing m) const
+            { return id(detail::std::forward<Def>(def)); }
+        };
+    }
+    constexpr maybe_detail::maybe_func maybe{};
 #endif
 
     //! Return whether a `Maybe` contains a value.
@@ -156,7 +170,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/maybe/maybe.cpp is_just
-    constexpr auto is_just = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto m) {
+    constexpr auto is_just = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto const& m) {
         return maybe(false_, [](auto) { return true_; }, m);
     };
 
@@ -169,7 +183,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/maybe/maybe.cpp is_nothing
-    constexpr auto is_nothing = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto m) {
+    constexpr auto is_nothing = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto const& m) {
         return maybe(true_, [](auto) { return false_; }, m);
     };
 
@@ -189,8 +203,12 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/maybe/maybe.cpp from_maybe
-    constexpr auto from_maybe = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto default_, auto m) {
-        return maybe(default_, [](auto x) { return x; }, m);
+    constexpr auto from_maybe = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& default_, auto&& m) -> decltype(auto) {
+        return maybe(
+            detail::std::forward<decltype(default_)>(default_),
+            id,
+            detail::std::forward<decltype(m)>(m)
+        );
     };
 
     //! Extract the content of a `Maybe` or fail at compile-time.
@@ -201,14 +219,22 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/maybe/maybe.cpp from_just
-    constexpr auto from_just = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto m) {
+    constexpr auto from_just = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& m) -> decltype(auto) {
         auto err = [](auto ...dum) {
             constexpr bool always_false = sizeof...(dum) != 0;
             static_assert(always_false,
             "trying to extract the value inside a boost::hana::nothing "
             "with boost::hana::from_just");
         };
-        return maybe(err, [](auto x) { return [=] { return x; }; }, m)();
+        return maybe(
+            err,
+            [](auto&& x) -> decltype(auto) {
+                return [&]() -> decltype(auto) {
+                    return id(detail::std::forward<decltype(x)>(x));
+                };
+            },
+            detail::std::forward<decltype(m)>(m)
+        )();
     };
 }} // end namespace boost::hana
 

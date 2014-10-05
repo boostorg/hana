@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_MAYBE_SEARCHABLE_HPP
 
 #include <boost/hana/bool.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/logical/logical.hpp>
 #include <boost/hana/maybe/maybe.hpp>
 #include <boost/hana/searchable/mcd.hpp>
@@ -27,17 +28,27 @@ namespace boost { namespace hana {
     template <>
     struct Searchable::instance<Maybe> : Searchable::mcd {
         template <typename M, typename Pred>
-        static constexpr auto find_impl(M m, Pred p) {
-            return maybe(
-                nothing,
-                [=](auto x) { return if_(p(x), just(x), nothing); },
-                m
+        static constexpr decltype(auto) find_impl(M&& m, Pred&& p) {
+            return maybe(nothing,
+                [&p](auto&& x) -> decltype(auto) {
+                    return eval_if(detail::std::forward<Pred>(p)(x),
+                        [&x](auto _) -> decltype(auto) {
+                            return just(detail::std::forward<decltype(x)>(x));
+                        },
+                        [](auto) { return nothing; }
+                    );
+                },
+                detail::std::forward<M>(m)
             );
         }
 
         template <typename M, typename Pred>
-        static constexpr auto any_impl(M m, Pred p)
-        { return maybe(false_, p, m); }
+        static constexpr decltype(auto) any_impl(M&& m, Pred&& p) {
+            return maybe(false_,
+                detail::std::forward<Pred>(p),
+                detail::std::forward<M>(m)
+            );
+        }
     };
 }} // end namespace boost::hana
 

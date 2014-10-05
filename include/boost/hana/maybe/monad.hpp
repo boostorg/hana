@@ -10,6 +10,8 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_MAYBE_MONAD_HPP
 #define BOOST_HANA_MAYBE_MONAD_HPP
 
+#include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/functional/id.hpp>
 #include <boost/hana/maybe/maybe.hpp>
 #include <boost/hana/monad/flatten_mcd.hpp>
 
@@ -31,8 +33,9 @@ namespace boost { namespace hana {
     template <>
     struct Monad::instance<Maybe> : Monad::flatten_mcd<Maybe> {
         template <typename MMX>
-        static constexpr auto flatten_impl(MMX mmx)
-        { return maybe(nothing, [](auto mx) { return mx; }, mmx); }
+        static constexpr decltype(auto) flatten_impl(MMX&& mmx) {
+            return maybe(nothing, id, detail::std::forward<MMX>(mmx));
+        }
     };
 }} // end namespace boost::hana
 
