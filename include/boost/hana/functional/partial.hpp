@@ -11,6 +11,8 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FUNCTIONAL_PARTIAL_HPP
 
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/move.hpp>
 
 
 namespace boost { namespace hana {
@@ -28,8 +30,8 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/functional/partial.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto partial = [](auto f, auto ...x) {
-        return [=](auto ...y) {
-            return f(x..., y...);
+        return [f(detail::std::move(f)), x...](auto&& ...y) -> decltype(auto) {
+            return f(x..., detail::std::forward<decltype(y)>(y)...);
         };
     };
 }} // end namespace boost::hana

@@ -11,6 +11,8 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FUNCTIONAL_ON_HPP
 
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/functional/infix.hpp>
 
 
@@ -50,8 +52,9 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/functional/on/plus.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto on = infix([](auto f, auto g) {
-        return [=](auto ...x) {
-            return f(g(x)...);
+        return [f(detail::std::move(f)), g(detail::std::move(g))]
+               (auto&& ...x) -> decltype(auto) {
+            return f(g(detail::std::forward<decltype(x)>(x))...);
         };
     });
 }} // end namespace boost::hana

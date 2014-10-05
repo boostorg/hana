@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FUNCTIONAL_DEMUX_HPP
 
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/std/move.hpp>
 
 
 namespace boost { namespace hana {
@@ -57,7 +58,10 @@ namespace boost { namespace hana {
     //! I think this is equivalent to `fmap . fmap`.
     //! See http://stackoverflow.com/q/5821089/627587
     BOOST_HANA_CONSTEXPR_LAMBDA auto demux = [](auto f, auto ...g) {
-        return [=](auto ...x) { return f(g(x...)...); };
+        return [f(detail::std::move(f)), g...](auto&& ...x) -> decltype(auto) {
+            // Can't forward, because that could cause double-moves.
+            return f(g(x...)...);
+        };
     };
 }} // end namespace boost::hana
 

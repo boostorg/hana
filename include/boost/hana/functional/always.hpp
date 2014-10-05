@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FUNCTIONAL_ALWAYS_HPP
 
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/std/move.hpp>
 
 
 namespace boost { namespace hana {
@@ -22,7 +23,10 @@ namespace boost { namespace hana {
     //! @code
     //!     always(x)(y...) == x
     //! @endcode
-    //! for any `y...`.
+    //! for any `y...`. A copy of `x` is made and it is owned by the
+    //! `always(x)` function. When `always(x)` is called, it will return
+    //! a reference to the `x` it owns. This reference is valid as long
+    //! as `always(x)` is in scope.
     //!
     //! @note
     //! This can be useful to make an expression dependent in order to delay
@@ -33,7 +37,9 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/functional/always/basic.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto always = [](auto x) {
-        return [=](auto ...y) { return x; };
+        return [x(detail::std::move(x))](auto const& ...y) -> decltype(x) {
+            return x;
+        };
     };
 }} // end namespace boost::hana
 

@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FUNCTIONAL_APPLY_HPP
 
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 
 
 namespace boost { namespace hana {
@@ -29,8 +30,10 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/functional/apply.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto apply = [](auto f, auto ...x) {
-        return f(x...);
+    BOOST_HANA_CONSTEXPR_LAMBDA auto apply = [](auto&& f, auto&& ...x) -> decltype(auto) {
+        return detail::std::forward<decltype(f)>(f)(
+            detail::std::forward<decltype(x)>(x)...
+        );
     };
 }} // end namespace boost::hana
 

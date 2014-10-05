@@ -10,7 +10,12 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FUNCTIONAL_CURRY_HPP
 #define BOOST_HANA_FUNCTIONAL_CURRY_HPP
 
+#include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
+#include <boost/hana/functional/apply.hpp>
+#include <boost/hana/functional/partial.hpp>
 
 
 namespace boost { namespace hana {
@@ -86,41 +91,40 @@ namespace boost { namespace hana {
     };
 #else
     namespace curry_detail {
-        template <typename F, detail::std::size_t arity>
-        struct curry {
-            F f;
-
-            template <typename ...X>
-            constexpr auto operator()(X ...x) const {
-                static_assert(arity >= sizeof...(x),
-                "too many arguments provided to boost::hana::curry");
-
-                auto g = [f = f, x...](auto ...y) { return f(x..., y...); };
-                return curry<decltype(g), arity - sizeof...(x)>{g}();
-            }
-
-            constexpr auto operator()() const
-            { return *this; }
-        };
-
-        template <typename F>
-        struct curry<F, 0> {
-            F f;
-
-            constexpr auto operator()() const
-            { return f(); }
-        };
-
         template <detail::std::size_t arity>
-        struct make_curry {
-            template <typename F>
-            constexpr auto operator()(F f) const
-            { return curry<F, arity>{f}; }
-        };
-    } // end namespace curry_detail
+        struct curry_impl;
+    }
 
     template <detail::std::size_t arity>
-    constexpr curry_detail::make_curry<arity> curry{};
+    constexpr curry_detail::curry_impl<arity> curry{};
+
+    template <>
+    BOOST_HANA_CONSTEXPR_LAMBDA auto curry<0> = [](auto f) {
+        return [f(detail::std::move(f))]() -> decltype(auto) { return f(); };
+    };
+
+    namespace curry_detail {
+        template <detail::std::size_t arity>
+        BOOST_HANA_CONSTEXPR_LAMBDA auto curry_or_call = curry<arity>;
+
+        template <>
+        BOOST_HANA_CONSTEXPR_LAMBDA auto curry_or_call<0> = apply;
+
+        template <detail::std::size_t arity>
+        struct curry_impl {
+            template <typename F>
+            constexpr auto operator()(F f) const {
+                return [f(detail::std::move(f))](auto&& ...x) {
+                    static_assert(sizeof...(x) <= arity,
+                    "too many arguments provided to boost::hana::curry");
+
+                    return curry_or_call<arity - sizeof...(x)>(
+                        partial(f, detail::std::forward<decltype(x)>(x)...)
+                    );
+                };
+            };
+        };
+    }
 #endif
 }} // end namespace boost::hana
 

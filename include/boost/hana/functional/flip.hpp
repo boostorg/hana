@@ -11,6 +11,8 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FUNCTIONAL_FLIP_HPP
 
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/move.hpp>
 
 
 namespace boost { namespace hana {
@@ -25,8 +27,12 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/functional/flip.cpp main
     BOOST_HANA_CONSTEXPR_LAMBDA auto flip = [](auto f) {
-        return [=](auto x, auto y, auto ...z) {
-            return f(y, x, z...);
+        return [f(detail::std::move(f))](auto&& x, auto&& y, auto&& ...z) -> decltype(auto) {
+            return f(
+                detail::std::forward<decltype(y)>(y),
+                detail::std::forward<decltype(x)>(x),
+                detail::std::forward<decltype(z)>(z)...
+            );
         };
     };
 }} // end namespace boost::hana

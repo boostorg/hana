@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FUNCTIONAL_ARG_HPP
 
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/detail/variadic/at.hpp>
 
@@ -52,12 +53,12 @@ namespace boost { namespace hana {
     //! @snippet example/functional/arg.cpp main
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <std::size_t n>
-    constexpr auto arg = [](auto ...x) {
+    constexpr auto arg = [](auto&& ...x) -> decltype(auto) {
         unspecified
     };
 #else
     template <detail::std::size_t n>
-    BOOST_HANA_CONSTEXPR_LAMBDA auto arg = [](auto ...x) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto arg = [](auto&& ...x) -> decltype(auto) {
         static_assert(n > 0,
         "invalid usage of arg with n == 0");
 
@@ -67,7 +68,9 @@ namespace boost { namespace hana {
         // Since compilers will typically try to continue for a bit after
         // an error/static assertion, we must avoid sending the compiler in
         // a very long computation if n == 0.
-        return detail::variadic::at<n == 0 ? 0 : n - 1>(x...);
+        return detail::variadic::at<n == 0 ? 0 : n - 1>(
+            detail::std::forward<decltype(x)>(x)...
+        );
     };
 #endif
 }} // end namespace boost::hana

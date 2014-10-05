@@ -10,6 +10,8 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FUNCTIONAL_FIX_HPP
 #define BOOST_HANA_FUNCTIONAL_FIX_HPP
 
+#include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/functional/always.hpp>
 
 
@@ -48,8 +50,8 @@ namespace boost { namespace hana {
     //! [Y-combinator]: http://en.wikipedia.org/wiki/Fixed-point_combinator
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto fix = [](auto f) {
-        return [=](auto ...x) {
-            return f(fix(f), x...);
+        return [f(std::move(f))](auto&& ...x) -> decltype(auto) {
+            return f(fix(f), std::forward<decltype(x)>(x)...);
         };
     };
 #else
@@ -57,8 +59,14 @@ namespace boost { namespace hana {
         struct fix {
             template <typename F>
             constexpr auto operator()(F f) const {
-                return [=](auto ...x) {
-                    return f((*this)(always(f)(x...)), x...);
+                return [f(detail::std::move(f))](auto&& ...x) -> decltype(auto) {
+                    // always is used to make the expression dependent on x.
+                    // Otherwise, we recursively instantiate fix::operator()
+                    // too soon and it blows up.
+                    return f(
+                        fix{}(always(f)(&x...)),
+                        detail::std::forward<decltype(x)>(x)...
+                    );
                 };
             }
         };

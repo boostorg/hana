@@ -10,6 +10,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/constexpr.hpp>
 
 #include <test/injection.hpp>
+
+#include <utility>
 using namespace boost::hana;
 
 
@@ -139,6 +141,10 @@ int main() {
             compose(f, g, h)(x<0>, x<1>, x<2>),
             f(g(h(x<0>)), x<1>, x<2>)
         ));
+
+        auto h = [capture = move_only{}](int dummy) { return 1; };
+        auto i = [](int dummy) { return 1; };
+        compose(std::move(h), i)(1);
     }
 
     // curry

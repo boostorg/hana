@@ -11,6 +11,8 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FUNCTIONAL_PLACEHOLDER_HPP
 
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/move.hpp>
 
 
 namespace boost { namespace hana {
@@ -66,30 +68,49 @@ namespace boost { namespace hana {
     namespace functional_detail {
         struct placeholder {
             template <typename X>
-            constexpr auto operator[](X x) const
-            { return [=](auto c, auto ...z) { return c[x]; }; }
+            constexpr auto operator[](X x) const {
+                return [x(detail::std::move(x))](auto&& c, auto&& ...z) -> decltype(auto) {
+                    return detail::std::forward<decltype(c)>(c)[x];
+                };
+            }
 
             template <typename ...X>
-            constexpr auto operator()(X ...x) const
-            { return [=](auto f, auto ...z) { return f(x...); }; }
+            constexpr auto operator()(X ...x) const {
+                return [x...](auto&& f, auto&& ...z) -> decltype(auto) {
+                    return detail::std::forward<decltype(f)>(f)(x...);
+                };
+            }
         };
 
-#define BOOST_HANA_PLACEHOLDER_BINARY_OP(op)                                \
-    template <typename X>                                                   \
-    constexpr auto operator op (X x, placeholder)                           \
-    { return [=](auto y, auto ...z) { return x op y; }; }                   \
-                                                                            \
-    template <typename Y>                                                   \
-    constexpr auto operator op (placeholder, Y y)                           \
-    { return [=](auto x, auto ...z) { return x op y; }; }                   \
-                                                                            \
-    BOOST_HANA_CONSTEXPR_LAMBDA auto operator op (placeholder, placeholder) \
-    { return [](auto x, auto y, auto ...z) { return x op y; }; }            \
+#define BOOST_HANA_PLACEHOLDER_BINARY_OP(op)                                            \
+    template <typename X>                                                               \
+    constexpr auto operator op (X x, placeholder) {                                     \
+        return [x(detail::std::move(x))](auto&& y, auto&& ...z) -> decltype(auto) {     \
+            return x op detail::std::forward<decltype(y)>(y);                           \
+        };                                                                              \
+    }                                                                                   \
+                                                                                        \
+    template <typename Y>                                                               \
+    constexpr auto operator op (placeholder, Y y) {                                     \
+        return [y(detail::std::move(y))](auto&& x, auto&& ...z) -> decltype(auto) {     \
+            return detail::std::forward<decltype(x)>(x) op y;                           \
+        };                                                                              \
+    }                                                                                   \
+                                                                                        \
+    BOOST_HANA_CONSTEXPR_LAMBDA auto operator op (placeholder, placeholder) {           \
+        return [](auto&& x, auto&& y, auto&& ...z) -> decltype(auto) {                  \
+            return detail::std::forward<decltype(x)>(x) op                              \
+                   detail::std::forward<decltype(y)>(y);                                \
+        };                                                                              \
+    }                                                                                   \
 /**/
 
-#define BOOST_HANA_PLACEHOLDER_UNARY_OP(op)                                 \
-    BOOST_HANA_CONSTEXPR_LAMBDA auto operator op (placeholder)              \
-    { return [](auto x, auto ...z) { return op x; }; }                      \
+#define BOOST_HANA_PLACEHOLDER_UNARY_OP(op)                                             \
+    BOOST_HANA_CONSTEXPR_LAMBDA auto operator op (placeholder) {                        \
+        return [](auto&& x, auto&& ...z) -> decltype(auto) {                            \
+            return op detail::std::forward<decltype(x)>(x);                             \
+        };                                                                              \
+    }                                                                                   \
 /**/
             // Arithmetic
             BOOST_HANA_PLACEHOLDER_UNARY_OP(+)

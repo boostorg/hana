@@ -11,6 +11,8 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FUNCTIONAL_LOCKSTEP_HPP
 
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/move.hpp>
 
 
 namespace boost { namespace hana {
@@ -32,8 +34,8 @@ namespace boost { namespace hana {
     //! @todo
     //! I think this is equivalent to `<*>` for `((->) r)`.
     BOOST_HANA_CONSTEXPR_LAMBDA auto lockstep = [](auto f, auto ...g) {
-        return [f, g...](auto ...x) {
-            return f(g(x)...);
+        return [f(detail::std::move(f)), g...](auto&& ...x) -> decltype(auto) {
+            return f(g(detail::std::forward<decltype(x)>(x))...);
         };
     };
 }} // end namespace boost::hana
