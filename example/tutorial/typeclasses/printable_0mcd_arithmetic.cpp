@@ -5,8 +5,8 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/core/typeclass.hpp>
+#include <boost/hana/detail/assert.hpp>
 
-#include <cassert>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -64,11 +64,11 @@ struct Printable::instance<T, when<std::is_arithmetic<T>::value>> {
 int main() {
     //! [print_int]
 print(std::cout, 2);
-assert(to_string(2) == "2");
+BOOST_HANA_RUNTIME_ASSERT(to_string(2) == "2");
     //! [print_int]
 
     //! [print_double]
 print(std::cout, 2.2);
-assert(to_string(2.2) == "2.2");
+BOOST_HANA_RUNTIME_ASSERT(to_string(2.2) == "2.2");
     //! [print_double]
 }

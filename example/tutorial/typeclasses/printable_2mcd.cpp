@@ -6,9 +6,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/typeclass.hpp>
+#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/dependent_on.hpp>
 
-#include <cassert>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -108,7 +108,7 @@ print(std::cout, v); // prints "[[1, 2, 3], [3, 4, 5]]"
 
     std::stringstream ss;
     print(ss, v);
-    assert(ss.str() == "[[1, 2, 3], [3, 4, 5]]");
+    BOOST_HANA_RUNTIME_ASSERT(ss.str() == "[[1, 2, 3], [3, 4, 5]]");
 
-    assert(to_string(v) == "[[1, 2, 3], [3, 4, 5]]");
+    BOOST_HANA_RUNTIME_ASSERT(to_string(v) == "[[1, 2, 3], [3, 4, 5]]");
 }
