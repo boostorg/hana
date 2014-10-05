@@ -17,6 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/functional/id.hpp>
 #include <boost/hana/pair.hpp>
 #include <boost/hana/record/mcd.hpp>
 #include <boost/hana/string.hpp>
@@ -53,13 +54,14 @@ Distributed under the Boost Software License, Version 1.0.
             BOOST_HANA_PP_RECORD_MEMBER_NAME(MEMBER)                        \
         )),                                                                 \
         [](auto&& x) -> decltype(auto) {                                    \
-        return ::boost::hana::detail::std::forward<decltype(x)>(x).         \
-            BOOST_HANA_PP_RECORD_MEMBER_NAME(MEMBER);                       \
+        return ::boost::hana::id(                                           \
+            ::boost::hana::detail::std::forward<decltype(x)>(x).            \
+                BOOST_HANA_PP_RECORD_MEMBER_NAME(MEMBER));                  \
     })                                                                      \
 /**/
 
 #define BOOST_HANA_PP_RECORD_DEFINE_INSTANCE_IMPL(MEMBERS)                  \
-    static BOOST_HANA_CONSTEXPR_LAMBDA auto members_impl() {                \
+    static BOOST_HANA_CONSTEXPR_LAMBDA decltype(auto) members_impl() {      \
         return ::boost::hana::tuple(                                        \
             BOOST_PP_SEQ_ENUM(                                              \
                 BOOST_PP_SEQ_TRANSFORM(                                     \

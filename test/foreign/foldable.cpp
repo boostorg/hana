@@ -50,14 +50,8 @@ int main() {
 
     // laws
     {
-        //! @todo
-        //! Currently, arrays will decay to pointers because we don't have
-        //! perfect forwarding. Check these laws when perfect forwarding
-        //! is used everywhere.
-#if 0
         BOOST_HANA_CONSTEXPR_ASSERT(Foldable_laws(
             a, b, c, d
         ));
-#endif
     }
 }

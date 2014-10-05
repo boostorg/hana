@@ -11,9 +11,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/constexpr.hpp>
 
 #include <test/injection.hpp>
-#include <test/minimal_list.hpp>
 #include <test/minimal_product.hpp>
 #include <test/minimal_record.hpp>
+#include <test/seq/foldable.hpp>
+#include <test/seq/list.hpp>
 using namespace boost::hana;
 
 
@@ -27,9 +28,10 @@ template <int i, int j>
 BOOST_HANA_CONSTEXPR_LAMBDA auto p = test::minimal_product<>(key<i>, value<j>);
 
 int main() {
-    constexpr auto list = test::minimal_list<>;
+    BOOST_HANA_CONSTEXPR_LAMBDA auto foldable = test::seq;
+    BOOST_HANA_CONSTEXPR_LAMBDA auto list = test::seq;
     BOOST_HANA_CONSTEXPR_LAMBDA auto record = test::minimal_record<>;
-    using L = test::List<>;
+    using L = test::Seq;
     using test::x;
 
     // Record -> Map
@@ -41,22 +43,22 @@ int main() {
         ));
     }
 
-    // List -> Map
+    // Foldable -> Map
     {
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            to<Map>(list()),
+            to<Map>(foldable()),
             map()
         ));
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            to<Map>(list(p<1, 1>)),
+            to<Map>(foldable(p<1, 1>)),
             map(p<1, 1>)
         ));
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            to<Map>(list(p<1, 1>, p<2, 2>)),
+            to<Map>(foldable(p<1, 1>, p<2, 2>)),
             map(p<1, 1>, p<2, 2>)
         ));
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            to<Map>(list(p<1, 1>, p<2, 2>, p<3, 3>)),
+            to<Map>(foldable(p<1, 1>, p<2, 2>, p<3, 3>)),
             map(p<1, 1>, p<2, 2>, p<3, 3>)
         ));
     }

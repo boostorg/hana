@@ -14,6 +14,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/foldable/foldable.hpp>
 #include <boost/hana/functor/functor.hpp>
 #include <boost/hana/map/map.hpp>
@@ -28,30 +30,32 @@ namespace boost { namespace hana {
     template <typename R>
     struct convert<Map, R, when<is_a<Record, R>()>> {
         template <typename X>
-        static constexpr auto apply(X x) {
-            auto extract = [=](auto k_f) {
-                using P = datatype_t<decltype(k_f)>;
-                return make<P>(first(k_f), second(k_f)(x));
+        static constexpr decltype(auto) apply(X&& x) {
+            auto extract = [x(detail::std::forward<X>(x))](auto&& member) -> decltype(auto) {
+                using P = datatype_t<decltype(member)>;
+                return make<P>(
+                    first(detail::std::forward<decltype(member)>(member)),
+                    second(detail::std::forward<decltype(member)>(member))(x)
+                );
             };
-            return to<Map>(fmap(members<R>, extract));
+            return to<Map>(fmap(members<R>, detail::std::move(extract)));
         }
     };
 
-    //! Converts a `List` of `Product`s to a `Map`.
+    //! Converts a `Foldable` of `Product`s to a `Map`.
     //! @relates Map
     //!
     //! @note
-    //! The list must not contain duplicate keys.
+    //! The foldable structure must not contain duplicate keys.
     //!
     //! @todo
-    //! - We should actually convert from any `Foldable`
-    //! - We should allow duplicate keys, with a documented policy (e.g. we
-    //!   keep the last one)
-    template <typename L>
-    struct convert<Map, L, when<is_a<List, L>()>> {
+    //! We should allow duplicate keys, with a documented policy (e.g. we
+    //! keep the last one).
+    template <typename F>
+    struct convert<Map, F, when<is_a<Foldable, F>() && !is_a<Record, F>()>> {
         template <typename Xs>
-        static constexpr auto apply(Xs xs)
-        { return unpack(xs, map); }
+        static constexpr decltype(auto) apply(Xs&& xs)
+        { return unpack(detail::std::forward<Xs>(xs), map); }
     };
 
     //! Converts a `Map` to a `List` of `Product`s.
@@ -59,8 +63,8 @@ namespace boost { namespace hana {
     template <typename L>
     struct convert<L, Map, when<is_a<List, L>()>> {
         template <typename M>
-        static constexpr auto apply(M m)
-        { return to<L>(m.storage); }
+        static constexpr decltype(auto) apply(M&& m)
+        { return to<L>(detail::std::forward<M>(m).storage); }
     };
 }} // end namespace boost::hana
 

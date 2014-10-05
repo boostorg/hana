@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 template <typename ...Foldables>
-constexpr auto Foldable_laws(Foldables ...xs) {
+constexpr auto Foldable_laws(Foldables&& ...xs) {
     using namespace boost::hana;
     auto f = test::injection([]{});
     auto s = test::injection([]{})();

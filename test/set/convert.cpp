@@ -11,13 +11,15 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/constexpr.hpp>
 
 #include <test/injection.hpp>
-#include <test/minimal_list.hpp>
+#include <test/seq/foldable.hpp>
+#include <test/seq/list.hpp>
 using namespace boost::hana;
 
 
 int main() {
-    BOOST_HANA_CONSTEXPR_LAMBDA auto list = test::minimal_list<>;
-    using L = test::List<>;
+    BOOST_HANA_CONSTEXPR_LAMBDA auto list = test::seq;
+    BOOST_HANA_CONSTEXPR_LAMBDA auto foldable = test::seq;
+    using L = test::Seq;
     using test::x;
 
     // Set -> List
@@ -34,22 +36,22 @@ int main() {
         check(x<1>, x<2>, x<3>, x<4>);
     }
 
-    // List -> Set
+    // Foldable -> Set
     {
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            to<Set>(list()),
+            to<Set>(foldable()),
             set()
         ));
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            to<Set>(list(x<1>)),
+            to<Set>(foldable(x<1>)),
             set(x<1>)
         ));
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            to<Set>(list(x<1>, x<2>)),
+            to<Set>(foldable(x<1>, x<2>)),
             set(x<1>, x<2>)
         ));
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            to<Set>(list(x<1>, x<2>, x<3>)),
+            to<Set>(foldable(x<1>, x<2>, x<3>)),
             set(x<1>, x<2>, x<3>)
         ));
     }
