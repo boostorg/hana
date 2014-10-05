@@ -13,7 +13,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/constant/constant.hpp>
 #include <boost/hana/core/is_a.hpp>
 
-#include <cassert>
+#include <cstdio>
+#include <cstdlib>
 
 
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
@@ -24,6 +25,13 @@ Distributed under the Boost Software License, Version 1.0.
     //! explicitly convertible to a boolean and its data type must not be a
     //! `Constant`. If the expression is a `Constant`, a static assertion is
     //! triggered; use `BOOST_HANA_CONSTANT_ASSERT` instead.
+    //!
+    //! @note
+    //! This macro is meant to be used in the unit tests only.
+    //!
+    //! @todo
+    //! Create another set of macros for unit tests, and use these macros
+    //! inside the library.
 #   define BOOST_HANA_RUNTIME_ASSERT(...) unspecified
 
     //! @ingroup group-details
@@ -53,22 +61,24 @@ Distributed under the Boost Software License, Version 1.0.
 #   define BOOST_HANA_PP_CAT_IMPL(x, y) x ## y
 #   define BOOST_HANA_PP_CAT(x, y) BOOST_HANA_PP_CAT_IMPL(x, y)
 
-#   define BOOST_HANA_RUNTIME_ASSERT_IMPL(tmpvar, expr)                     \
-        auto tmpvar = expr;                                                 \
-        static_assert(!::boost::hana::value(                                \
-            ::boost::hana::is_a< ::boost::hana::Constant>(tmpvar)           \
-        ),                                                                  \
-        "the expression " # expr " yields a Constant; "                     \
-        "use BOOST_HANA_CONSTANT_ASSERT instead");                          \
-                                                                            \
-        assert(# expr && static_cast<bool>(tmpvar))                         \
-    /**/
-
 #   define BOOST_HANA_RUNTIME_ASSERT(...)                                   \
-        BOOST_HANA_RUNTIME_ASSERT_IMPL(                                     \
-            BOOST_HANA_PP_CAT(boost_hana_tmp_, __LINE__),                   \
-            (__VA_ARGS__)                                                   \
-        )                                                                   \
+        do {                                                                \
+            auto _boost_hana_tmp_var = (__VA_ARGS__);                       \
+            static_assert(!::boost::hana::value(                            \
+                ::boost::hana::is_a< ::boost::hana::Constant>(              \
+                    _boost_hana_tmp_var                                     \
+                )                                                           \
+            ),                                                              \
+            "the expression (" # __VA_ARGS__ ") yields a Constant; "        \
+            "use BOOST_HANA_CONSTANT_ASSERT instead");                      \
+                                                                            \
+            if (!static_cast<bool>(_boost_hana_tmp_var)) {                  \
+                ::std::printf("Assertion failed: "                          \
+                    "(%s), function %s, file %s, line %i.\n",               \
+                    # __VA_ARGS__, __func__, __FILE__, __LINE__);           \
+                ::std::abort();                                             \
+            }                                                               \
+        } while (false)                                                     \
     /**/
 
 #   define BOOST_HANA_CONSTANT_ASSERT_IMPL(tmpvar, expr)                    \
