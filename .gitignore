@@ -1,4 +1,5 @@
-build/
-debug/
-release/
-test/worksheet.cpp
+/build/
+/build
+/debug/
+/release/
+/test/worksheet.cpp
