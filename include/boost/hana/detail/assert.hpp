@@ -73,7 +73,7 @@ Distributed under the Boost Software License, Version 1.0.
             "use BOOST_HANA_CONSTANT_ASSERT instead");                      \
                                                                             \
             if (!static_cast<bool>(_boost_hana_tmp_var)) {                  \
-                ::std::printf("Assertion failed: "                          \
+                ::std::fprintf(stderr, "Assertion failed: "                 \
                     "(%s), function %s, file %s, line %i.\n",               \
                     # __VA_ARGS__, __func__, __FILE__, __LINE__);           \
                 ::std::abort();                                             \
