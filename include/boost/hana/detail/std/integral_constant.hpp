@@ -19,6 +19,9 @@ namespace boost { namespace hana { namespace detail { namespace std {
         constexpr operator value_type() const { return value; }
         constexpr value_type operator()() const { return value; }
     };
+
+    using true_type = integral_constant<bool, true>;
+    using false_type = integral_constant<bool, false>;
 }}}} // end namespace boost::hana::detail::std
 
 #endif // !BOOST_HANA_DETAIL_STD_INTEGRAL_CONSTANT_HPP

@@ -20,12 +20,12 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     namespace id_detail {
         template <typename X>
-        decltype(auto) id_impl(X&& x, detail::std::integral_constant<bool, false>)
+        decltype(auto) id_impl(X&& x, detail::std::false_type)
         { return detail::std::forward<X>(x); }
 
         template <typename X>
         typename detail::std::remove_reference<X>::type
-        id_impl(X&& x, detail::std::integral_constant<bool, true>)
+        id_impl(X&& x, detail::std::true_type)
         { return detail::std::forward<X>(x); }
     }
 
