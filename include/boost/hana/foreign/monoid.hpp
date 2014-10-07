@@ -29,12 +29,12 @@ namespace boost { namespace hana {
         *(T*)0 + *(U*)0
     ))>>> : Monoid::mcd {
         template <typename X, typename Y>
-        static constexpr auto plus_impl(X&& x, Y&& y) {
+        static constexpr decltype(auto) plus_impl(X&& x, Y&& y) {
             return detail::std::forward<X>(x) + detail::std::forward<Y>(y);
         }
 
         // Will never be used with two different `T` and `U` anyway.
-        static constexpr auto zero_impl()
+        static constexpr decltype(auto) zero_impl()
         { return static_cast<T>(0); }
     };
 }} // end namespace boost::hana

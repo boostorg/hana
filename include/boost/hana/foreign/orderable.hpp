@@ -28,7 +28,7 @@ namespace boost { namespace hana {
         : Orderable::less_mcd
     {
         template <typename X, typename Y>
-        static constexpr auto less_impl(X&& x, Y&& y) {
+        static constexpr decltype(auto) less_impl(X&& x, Y&& y) {
             return detail::std::forward<X>(x) < detail::std::forward<Y>(y);
         }
     };

@@ -36,7 +36,7 @@ namespace boost { namespace hana {
         ))>
     >> : Ring::mcd {
         template <typename X, typename Y>
-        static constexpr auto mult_impl(X&& x, Y&& y) {
+        static constexpr decltype(auto) mult_impl(X&& x, Y&& y) {
             return detail::std::forward<X>(x) * detail::std::forward<Y>(y);
         }
 
