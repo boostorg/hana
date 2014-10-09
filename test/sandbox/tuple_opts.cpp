@@ -134,7 +134,7 @@ namespace boost { namespace hana {
 
 
         template <typename X>
-        static constexpr auto cons_helper(X x, decltype(::tuple()), Integral)
+        static constexpr auto cons_helper(X x, decltype(::tuple()) const&, Integral)
         { return tuple_c<decltype(value(x)), value(x)>; }
 
         template <typename X, typename T, T ...vs>
@@ -143,7 +143,7 @@ namespace boost { namespace hana {
 
 
         template <typename X>
-        static constexpr auto cons_helper(X x, decltype(::tuple()), Type)
+        static constexpr auto cons_helper(X x, decltype(::tuple()) const&, Type)
         { return tuple_t<typename X::type>; }
 
         template <typename X, typename ...ts>

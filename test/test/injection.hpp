@@ -96,11 +96,12 @@ namespace boost { namespace hana {
         ) {
             return x.storage([=](auto x, auto ...xs) {
                 return y.storage([=](auto y, auto ...ys) {
+                    auto token = []{};
                     return and_(
                         equal(x, y),
                         equal(
-                            test::injection(Token{})(xs...),
-                            test::injection(Token{})(ys...)
+                            test::injection(token)(xs...),
+                            test::injection(token)(ys...)
                         )
                     );
                 });

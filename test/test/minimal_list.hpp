@@ -9,6 +9,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable/comparable.hpp>
+#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/iterable/mcd.hpp>
 #include <boost/hana/list/mcd.hpp>
 #include <boost/hana/monad/monad.hpp>
@@ -90,7 +91,7 @@ namespace boost { namespace hana {
             });
         }
 
-        static constexpr auto nil_impl() {
+        static BOOST_HANA_CONSTEXPR_LAMBDA auto nil_impl() {
             return test::list<List::mcd<void>>();
         }
     };

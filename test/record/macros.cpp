@@ -11,22 +11,21 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/is_a.hpp>
 #include <boost/hana/detail/assert.hpp>
+#include <boost/hana/integral.hpp>
 #include <boost/hana/maybe.hpp>
 #include <boost/hana/pair.hpp>
 #include <boost/hana/string.hpp>
 #include <boost/hana/tuple.hpp>
-
-#include <test/injection.hpp>
 using namespace boost::hana;
 
 
 namespace ns {
-    using Member1 = decltype(test::x<7>);
+    using Member1 = decltype(int_<1>);
 
     // Parametric so we can use multiple template arguments inside the
     // macros, just to make sure it works as expected.
     template <typename ...>
-    using Member2 = decltype(test::x<8>);
+    using Member2 = decltype(int_<2>);
 
     struct Intrusive {
         BOOST_HANA_DEFINE_RECORD_INTRUSIVE(Intrusive,

@@ -58,10 +58,11 @@ Distributed under the Boost Software License, Version 1.0.
             BOOST_HANA_PP_RECORD_MEMBER_NAME(MEMBER)                        \
         )),                                                                 \
         [](auto&& x) -> decltype(auto) {                                    \
-        return ::boost::hana::id(                                           \
-            ::boost::hana::detail::std::forward<decltype(x)>(x).            \
-                BOOST_HANA_PP_RECORD_MEMBER_NAME(MEMBER));                  \
-    })                                                                      \
+            return ::boost::hana::id(                                       \
+                ::boost::hana::detail::std::forward<decltype(x)>(x).        \
+                    BOOST_HANA_PP_RECORD_MEMBER_NAME(MEMBER));              \
+        }                                                                   \
+    )                                                                       \
 /**/
 
 #define BOOST_HANA_PP_RECORD_DEFINE_INSTANCE_IMPL(MEMBERS)                  \
