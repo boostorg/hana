@@ -24,6 +24,11 @@ namespace boost { namespace hana {
     //! then reduce the MCD to `find`. However, this is not done because that
     //! implementation requires the predicate to be compile-time, which is
     //! more restrictive than the original `any` in `Foldable`.
+    //!
+    //! @todo
+    //! Use perfect forwarding once bug
+    //! http://llvm.org/bugs/show_bug.cgi?id=20619
+    //! is fixed.
     struct Searchable::mcd {
         template <typename Srch, typename X>
         static constexpr auto elem_impl(Srch srch, X x)

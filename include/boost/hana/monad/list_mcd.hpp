@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/foldable/foldable.hpp>
 #include <boost/hana/list/list.hpp>
 #include <boost/hana/monad/flatten_mcd.hpp>
@@ -21,8 +22,9 @@ namespace boost { namespace hana {
     template <typename T>
     struct Monad::list_mcd : Monad::flatten_mcd<T> {
         template <typename Xss>
-        static constexpr auto flatten_impl(Xss xss)
-        { return foldl(xss, nil<T>, concat); }
+        static constexpr decltype(auto) flatten_impl(Xss&& xss) {
+            return foldl(detail::std::forward<Xss>(xss), nil<T>, concat);
+        }
     };
 
     //! `Monad` instance for instances of the `List` type class.

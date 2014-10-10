@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_PAIR_PRODUCT_HPP
 #define BOOST_HANA_PAIR_PRODUCT_HPP
 
+#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/pair/pair.hpp>
 #include <boost/hana/product/mcd.hpp>
 
@@ -19,11 +20,15 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/pair.cpp product
+    //!
+    //! @todo
+    //! Use perfect forwarding in `first_impl` and `second_impl` once
+    //! bug http://llvm.org/bugs/show_bug.cgi?id=20619 is fixed.
     template <>
     struct Product::instance<Pair> : Product::mcd {
-        template <typename X, typename Y>
-        static constexpr auto make_impl(X x, Y y)
-        { return pair(x, y); }
+        template <typename F, typename S>
+        static constexpr decltype(auto) make_impl(F&& f, S&& s)
+        { return pair(detail::std::forward<F>(f), detail::std::forward<S>(s)); }
 
         template <typename P>
         static constexpr auto first_impl(P p)

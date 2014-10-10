@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable/operators.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/tuple.hpp>
 
 
@@ -35,8 +36,8 @@ namespace boost { namespace hana {
     //! @note
     //! There must not be duplicate elements.
     constexpr auto set = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto ...elements) {
-        auto storage = tuple(elements...);
-        return set_detail::set<decltype(storage)>{storage};
+        auto storage = tuple(detail::std::move(elements)...);
+        return set_detail::set<decltype(storage)>{detail::std::move(storage)};
     };
 
 #if 0

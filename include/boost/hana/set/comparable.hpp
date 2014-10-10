@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_SET_COMPARABLE_HPP
 
 #include <boost/hana/comparable/equal_mcd.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/foldable/foldable.hpp>
 #include <boost/hana/logical/logical.hpp>
 #include <boost/hana/set/searchable.hpp>
@@ -26,10 +27,10 @@ namespace boost { namespace hana {
     template <>
     struct Comparable::instance<Set, Set> : Comparable::equal_mcd {
         template <typename S1, typename S2>
-        static constexpr auto equal_impl(S1 s1, S2 s2) {
+        static constexpr decltype(auto) equal_impl(S1&& s1, S2&& s2) {
             return and_(
                 equal(length(s1.storage), length(s2.storage)),
-                subset(s1, s2)
+                subset(detail::std::forward<S1>(s1), detail::std::forward<S2>(s2))
             );
         }
     };

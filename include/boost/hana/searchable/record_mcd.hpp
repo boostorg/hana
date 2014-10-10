@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/functor/functor.hpp>
 #include <boost/hana/product/product.hpp>
 #include <boost/hana/record/record.hpp>
@@ -24,16 +25,24 @@ namespace boost { namespace hana {
     template <typename R>
     struct Searchable::record_mcd : Searchable::mcd {
         template <typename X, typename Pred>
-        static constexpr auto find_impl(X x, Pred pred) {
+        static constexpr decltype(auto) find_impl(X&& x, Pred&& pred) {
             return fmap(
-                find(members<R>, [=](auto k_f) { return pred(first(k_f)); }),
-                [=](auto k_f) { return second(k_f)(x); }
+                find(members<R>, [&pred](auto&& member) -> decltype(auto) {
+                    return pred(first(detail::std::forward<decltype(member)>(member)));
+                }),
+                [&x](auto&& member) -> decltype(auto) {
+                    return second(detail::std::forward<decltype(member)>(member))(
+                        detail::std::forward<X>(x)
+                    );
+                }
             );
         }
 
         template <typename X, typename Pred>
-        static constexpr auto any_impl(X x, Pred pred) {
-            return any(members<R>, [=](auto k_f) { return pred(first(k_f)); });
+        static constexpr decltype(auto) any_impl(X const&, Pred&& pred) {
+            return any(members<R>, [&pred](auto&& member) -> decltype(auto) {
+                return pred(first(detail::std::forward<decltype(member)>(member)));
+            });
         }
     };
 

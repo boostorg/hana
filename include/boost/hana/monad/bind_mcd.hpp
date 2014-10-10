@@ -10,6 +10,8 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_MONAD_BIND_MCD_HPP
 #define BOOST_HANA_MONAD_BIND_MCD_HPP
 
+#include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/functional/id.hpp>
 #include <boost/hana/monad/detail/common.hpp>
 #include <boost/hana/monad/monad.hpp>
 
@@ -19,8 +21,8 @@ namespace boost { namespace hana {
     template <typename M>
     struct Monad::bind_mcd : monad_detail::common<M> {
         template <typename MM>
-        static constexpr auto flatten_impl(MM monad)
-        { return bind(monad, [](auto x) { return x; }); }
+        static constexpr decltype(auto) flatten_impl(MM&& monad)
+        { return bind(detail::std::forward<MM>(monad), id); }
     };
 }} // end namespace boost::hana
 

@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_SET_SEARCHABLE_HPP
 #define BOOST_HANA_SET_SEARCHABLE_HPP
 
+#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/searchable/mcd.hpp>
 #include <boost/hana/set/set.hpp>
 
@@ -23,12 +24,20 @@ namespace boost { namespace hana {
     template <>
     struct Searchable::instance<Set> : Searchable::mcd {
         template <typename Set, typename Pred>
-        static constexpr auto find_impl(Set set, Pred pred)
-        { return find(set.storage, pred); }
+        static constexpr decltype(auto) find_impl(Set&& set, Pred&& pred) {
+            return find(
+                detail::std::forward<Set>(set).storage,
+                detail::std::forward<Pred>(pred)
+            );
+        }
 
         template <typename Set, typename Pred>
-        static constexpr auto any_impl(Set set, Pred pred)
-        { return any(set.storage, pred); }
+        static constexpr decltype(auto) any_impl(Set&& set, Pred&& pred) {
+            return any(
+                detail::std::forward<Set>(set).storage,
+                detail::std::forward<Pred>(pred)
+            );
+        }
     };
 }} // end namespace boost::hana
 

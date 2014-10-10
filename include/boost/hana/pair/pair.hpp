@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable/operators.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/std/move.hpp>
 
 
 namespace boost { namespace hana {
@@ -40,7 +41,7 @@ namespace boost { namespace hana {
     constexpr auto pair = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto first, auto second) {
         return pair_detail::pair<
             decltype(first), decltype(second)
-        >{first, second};
+        >{detail::std::move(first), detail::std::move(second)};
     };
 }} // end namespace boost::hana
 

@@ -22,6 +22,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //! Minimal complete definition: `List`
+    //!
+    //! @todo
+    //! Use perfect forwarding once bug
+    //! http://llvm.org/bugs/show_bug.cgi?id=20619
+    //! is fixed.
     struct Searchable::list_mcd : Searchable::mcd {
         template <typename Xs, typename Pred>
         static constexpr auto find_impl(Xs xs, Pred pred) {

@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/constant.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integer_sequence.hpp>
 #include <boost/hana/foldable/unpack_mcd.hpp>
 #include <boost/hana/group/group.hpp>
@@ -26,15 +27,16 @@ namespace boost { namespace hana {
     template <>
     struct Foldable::instance<Range> : Foldable::unpack_mcd {
         template <typename F, typename From, typename T, T ...vs>
-        static constexpr auto unpack_helper(F f, From from,
-            detail::std::integer_sequence<T, vs...>)
-        { return f(integral<T, from() + vs>...); }
+        static constexpr decltype(auto)
+        unpack_helper(F&& f, From from, detail::std::integer_sequence<T, vs...>) {
+            return detail::std::forward<F>(f)(integral<T, from() + vs>...);
+        }
 
         template <typename R, typename F>
-        static constexpr auto unpack_impl(R r, F f) {
+        static constexpr decltype(auto) unpack_impl(R r, F&& f) {
             auto size = minus(r.to, r.from);
-            return unpack_helper(f, r.from,
-                detail::std::make_integer_sequence<decltype(r.from()), size()>{});
+            return unpack_helper(detail::std::forward<F>(f), r.from,
+                detail::std::make_index_sequence<size()>{});
         }
 
         template <typename R>
