@@ -24,11 +24,13 @@ namespace boost { namespace hana {
         template <typename Udt, typename S, typename F>
         static constexpr decltype(auto) foldl_impl(Udt&& udt, S&& s, F&& f) {
             return foldl(members<R>, detail::std::forward<S>(s),
-                [udt(detail::std::forward<Udt>(udt)), f(detail::std::forward<F>(f))]
+                [&udt, f(detail::std::forward<F>(f))]
                 (auto&& s, auto&& member) -> decltype(auto) {
                     return f(
                         detail::std::forward<decltype(s)>(s),
-                        second(detail::std::forward<decltype(member)>(member))(udt)
+                        second(detail::std::forward<decltype(member)>(member))(
+                            detail::std::forward<Udt>(udt)
+                        )
                     );
                 }
             );
@@ -37,10 +39,12 @@ namespace boost { namespace hana {
         template <typename Udt, typename S, typename F>
         static constexpr decltype(auto) foldr_impl(Udt&& udt, S&& s, F&& f) {
             return foldr(members<R>, detail::std::forward<S>(s),
-                [udt(detail::std::forward<Udt>(udt)), f(detail::std::forward<F>(f))]
+                [&udt, f(detail::std::forward<F>(f))]
                 (auto&& member, auto&& s) -> decltype(auto) {
                     return f(
-                        second(detail::std::forward<decltype(member)>(member))(udt),
+                        second(detail::std::forward<decltype(member)>(member))(
+                            detail::std::forward<Udt>(udt)
+                        ),
                         detail::std::forward<decltype(s)>(s)
                     );
                 }

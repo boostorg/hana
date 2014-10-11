@@ -7,6 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/foreign.hpp>
+#include <boost/hana/functional/id.hpp>
 #include <boost/hana/map.hpp>
 #include <boost/hana/pair.hpp>
 #include <boost/hana/tuple.hpp>
@@ -18,6 +19,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/searchable/record_mcd.hpp>
 
 #include <string>
+#include <utility>
 using namespace boost::hana;
 
 
@@ -35,8 +37,12 @@ namespace boost { namespace hana {
     struct Record::instance<Person> : Record::mcd {
         static BOOST_HANA_CONSTEXPR_LAMBDA auto members_impl() {
             return tuple(
-                pair(name, [](auto p) { return p.name; }),
-                pair(age, [](auto p) { return p.age; })
+                pair(name, [](auto&& p) -> decltype(auto) {
+                    return id(std::forward<decltype(p)>(p).name);
+                }),
+                pair(age, [](auto&& p) -> decltype(auto) {
+                    return id(std::forward<decltype(p)>(p).age);
+                })
             );
         }
     };

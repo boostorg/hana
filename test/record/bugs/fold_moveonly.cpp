@@ -7,6 +7,8 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_PP_VARIADICS 1
 #include <boost/hana/foldable/record_mcd.hpp>
 #include <boost/hana/record/macros.hpp>
+
+#include <utility>
 using namespace boost::hana;
 
 
@@ -24,9 +26,11 @@ struct T {
 };
 
 int f(int, moveonly) { return 1; }
+int g(moveonly, int) { return 1; }
 
 int main() {
     // Folding a Record with move-only members should work when the
     // Record is an rvalue.
     foldl(T{}, 0, f);
+    foldr(T{}, 0, g);
 }
