@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_LIST_HPP
 #define BOOST_HANA_LIST_HPP
 
+#include <boost/hana/list/convert.hpp>
 #include <boost/hana/list/list.hpp>
 #include <boost/hana/list/mcd.hpp>
 

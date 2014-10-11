@@ -11,6 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_INTEGER_LIST_CONVERT_HPP
 
 #include <boost/hana/integer_list/list.hpp>
-#include <boost/hana/list/free/convert.hpp>
+#include <boost/hana/list/convert.hpp>
 
 #endif // !BOOST_HANA_INTEGER_LIST_CONVERT_HPP

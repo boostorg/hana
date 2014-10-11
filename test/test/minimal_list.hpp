@@ -24,7 +24,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/traversable/list_mcd.hpp>
 
 // Conversions
-#include <boost/hana/list/free/convert.hpp>
+#include <boost/hana/list/convert.hpp>
 
 
 namespace test {
