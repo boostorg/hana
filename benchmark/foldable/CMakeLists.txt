@@ -3,26 +3,9 @@
 # (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
 foreach(method IN ITEMS count foldl foldl1 foldr foldr1 for_each length maximum maximum_by minimum minimum_by product sum unpack)
-    Benchmark_add_plot(benchmark.foldable.${method}
-        TITLE "${method}"
-        FEATURE COMPILATION_TIME
-        OUTPUT "${method}.png"
-
-        CURVE
-            TITLE "Range"
-            FILE "${method}.cpp"
-            ENV "((1..50).to_a + (51..500).step(25).to_a).map { |n|
-                {
-                    setup: '#include <boost/hana/range/foldable.hpp>',
-                    foldable: \"boost::hana::range_c<int, 0, #{n}>\",
-                    input_size: n
-                }
-            }"
-    )
-
     # Methods requiring `Integral` elements in the `Foldable`.
     if(${method} MATCHES "maximum|minimum|product|sum")
-        set(tuple_env "
+        set(hana_tuple_env "
             ((1..50).to_a + (51..500).step(25).to_a).map { |n|
                 xs = (1..n).to_a.map { |i|
                     \"boost::hana::integral<int, #{i}>\"
@@ -57,7 +40,7 @@ foreach(method IN ITEMS count foldl foldl1 foldr foldr1 for_each length maximum 
             }
         ")
     else()
-        set(tuple_env "
+        set(hana_tuple_env "
             ((1..50).to_a + (51..500).step(25).to_a).map { |n|
                 xs = (1..n).to_a.map { |i| \"x<#{i}>{}\" }.join(', ')
                 {
@@ -83,16 +66,57 @@ foreach(method IN ITEMS count foldl foldl1 foldr foldr1 for_each length maximum 
         ")
     endif()
 
-    Benchmark_add_curves(
-        PLOT benchmark.foldable.${method}
-        CURVE
-            TITLE "Tuple"
-            FILE "${method}.cpp"
-            ENV "${tuple_env}"
-
-        CURVE
-            TITLE "StdTuple"
-            FILE "${method}.cpp"
-            ENV "${std_tuple_env}"
+    Benchmark_add_dataset(dataset.foldable.range.${method}
+        FILE "${method}.cpp"
+        FEATURES COMPILATION_TIME EXECUTION_TIME MEMORY_USAGE
+        ENV "((1..50).to_a + (51..500).step(25).to_a).map { |n|
+            {
+                setup: '#include <boost/hana/range/foldable.hpp>',
+                foldable: \"boost::hana::range_c<int, 0, #{n}>\",
+                input_size: n
+            }
+        }"
     )
+
+    Benchmark_add_dataset(dataset.foldable.hana_tuple.${method}
+        FILE "${method}.cpp"
+        FEATURES COMPILATION_TIME EXECUTION_TIME MEMORY_USAGE
+        ENV "${hana_tuple_env}"
+    )
+
+    Benchmark_add_dataset(dataset.foldable.std_tuple.${method}
+        FILE "${method}.cpp"
+        FEATURES COMPILATION_TIME EXECUTION_TIME MEMORY_USAGE
+        ENV "${std_tuple_env}"
+    )
+
+    set(_feature_plot_suffix_EXECUTION_TIME "etime")
+    set(_feature_plot_suffix_COMPILATION_TIME "ctime")
+    set(_feature_plot_suffix_MEMORY_USAGE "mem")
+    foreach(_feature IN ITEMS EXECUTION_TIME COMPILATION_TIME MEMORY_USAGE)
+        set(_suffix "${_feature_plot_suffix_${_feature}}")
+        Benchmark_add_plot(benchmark.foldable.${method}.${_suffix}
+            TITLE "${method}"
+            FEATURE "${_feature}"
+            OUTPUT "${method}.${_suffix}.png"
+
+            CURVE
+                TITLE "hana::tuple"
+                DATASET dataset.foldable.hana_tuple.${method}
+
+            CURVE
+                TITLE "std::tuple"
+                DATASET dataset.foldable.std_tuple.${method}
+
+            CURVE
+                TITLE "hana::range"
+                DATASET dataset.foldable.range.${method}
+        )
+    endforeach()
+
+    add_custom_target(benchmark.foldable.${method}
+        DEPENDS benchmark.foldable.${method}.etime
+                benchmark.foldable.${method}.ctime
+                benchmark.foldable.${method}.mem)
+
 endforeach()

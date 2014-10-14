@@ -100,18 +100,40 @@ foreach(method IN ITEMS filter make permutations reverse scanl scanl1 scanr scan
         )
     endif()
 
-    Benchmark_add_plot(benchmark.list.${method}
-        TITLE "${method}"
-        OUTPUT "${method}.png"
-        FEATURE COMPILATION_TIME
-        CURVE
-            TITLE "hana::tuple"
-            FILE "${method}.cpp"
-            ENV "${hana_tuple_env}"
-        CURVE
-            TITLE "std::tuple"
-            FILE "${method}.cpp"
-            ENV "${hana_tuple_env}"
-
+    Benchmark_add_dataset(dataset.list.hana_tuple.${method}
+        FEATURES COMPILATION_TIME EXECUTION_TIME MEMORY_USAGE
+        FILE "${method}.cpp"
+        ENV "${hana_tuple_env}"
     )
+
+    Benchmark_add_dataset(dataset.list.std_tuple.${method}
+        FEATURES COMPILATION_TIME EXECUTION_TIME MEMORY_USAGE
+        FILE "${method}.cpp"
+        ENV "${std_tuple_env}"
+    )
+
+    set(_feature_plot_suffix_EXECUTION_TIME "etime")
+    set(_feature_plot_suffix_COMPILATION_TIME "ctime")
+    set(_feature_plot_suffix_MEMORY_USAGE "mem")
+    foreach(_feature IN ITEMS EXECUTION_TIME COMPILATION_TIME MEMORY_USAGE)
+        set(_suffix "${_feature_plot_suffix_${_feature}}")
+        Benchmark_add_plot(benchmark.list.${method}.${_suffix}
+            TITLE "${method}"
+            FEATURE "${_feature}"
+            OUTPUT "${method}.${_suffix}.png"
+
+            CURVE
+                TITLE "hana::tuple"
+                DATASET dataset.list.hana_tuple.${method}
+
+            CURVE
+                TITLE "std::tuple"
+                DATASET dataset.list.std_tuple.${method}
+        )
+    endforeach()
+
+    add_custom_target(benchmark.list.${method}
+        DEPENDS benchmark.list.${method}.etime
+                benchmark.list.${method}.ctime
+                benchmark.list.${method}.mem)
 endforeach()
