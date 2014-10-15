@@ -97,7 +97,7 @@ namespace boost { namespace hana {
         };                                                                              \
     }                                                                                   \
                                                                                         \
-    BOOST_HANA_CONSTEXPR_LAMBDA auto operator op (placeholder, placeholder) {           \
+    inline BOOST_HANA_CONSTEXPR_LAMBDA auto operator op (placeholder, placeholder) {    \
         return [](auto&& x, auto&& y, auto&& ...z) -> decltype(auto) {                  \
             return detail::std::forward<decltype(x)>(x) op                              \
                    detail::std::forward<decltype(y)>(y);                                \
@@ -106,7 +106,7 @@ namespace boost { namespace hana {
 /**/
 
 #define BOOST_HANA_PLACEHOLDER_UNARY_OP(op)                                             \
-    BOOST_HANA_CONSTEXPR_LAMBDA auto operator op (placeholder) {                        \
+    inline BOOST_HANA_CONSTEXPR_LAMBDA auto operator op (placeholder) {                 \
         return [](auto&& x, auto&& ...z) -> decltype(auto) {                            \
             return op detail::std::forward<decltype(x)>(x);                             \
         };                                                                              \
