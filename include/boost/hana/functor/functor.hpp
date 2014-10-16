@@ -52,7 +52,7 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/functor/fmap.ctime.png
-    constexpr auto fmap = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& functor, auto&& f) -> decltype(auto) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto fmap = [](auto&& functor, auto&& f) -> decltype(auto) {
         return Functor::instance<
             datatype_t<decltype(functor)>
         >::fmap_impl(
@@ -84,7 +84,7 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/functor/adjust.ctime.png
-    constexpr auto adjust = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& functor, auto&& predicate, auto&& f) -> decltype(auto) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto adjust = [](auto&& functor, auto&& predicate, auto&& f) -> decltype(auto) {
         return Functor::instance<
             datatype_t<decltype(functor)>
         >::adjust_impl(
@@ -117,7 +117,7 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/functor/replace.ctime.png
-    constexpr auto replace = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& functor, auto&& predicate, auto&& value) -> decltype(auto) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto replace = [](auto&& functor, auto&& predicate, auto&& value) -> decltype(auto) {
         return Functor::instance<
             datatype_t<decltype(functor)>
         >::replace_impl(
@@ -144,7 +144,7 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/functor/fill.ctime.png
-    constexpr auto fill = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& functor, auto&& value) -> decltype(auto) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto fill = [](auto&& functor, auto&& value) -> decltype(auto) {
         return Functor::instance<
             datatype_t<decltype(functor)>
         >::fill_impl(

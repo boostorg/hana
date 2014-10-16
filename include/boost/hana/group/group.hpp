@@ -55,7 +55,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/group.cpp minus
-    constexpr auto minus = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& x, auto&& y) -> decltype(auto) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto minus = [](auto&& x, auto&& y) -> decltype(auto) {
         return Group::instance<
             datatype_t<decltype(x)>, datatype_t<decltype(y)>
         >::minus_impl(
@@ -73,7 +73,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/group.cpp negate
-    constexpr auto negate = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& x) -> decltype(auto) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto negate = [](auto&& x) -> decltype(auto) {
         return Group::instance<
             datatype_t<decltype(x)>, datatype_t<decltype(x)>
         >::negate_impl(detail::std::forward<decltype(x)>(x));

@@ -58,7 +58,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @include example/monad/bind.cpp
-    constexpr auto bind = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& monad, auto&& f) -> decltype(auto) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto bind = [](auto&& monad, auto&& f) -> decltype(auto) {
         return Monad::instance<
             datatype_t<decltype(monad)>
         >::bind_impl(
@@ -86,7 +86,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/monad/then.cpp main
-    constexpr auto then = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& before, auto&& monad) -> decltype(auto) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto then = [](auto&& before, auto&& monad) -> decltype(auto) {
         return Monad::instance<
             datatype_t<decltype(before)>
         >::then_impl(
@@ -103,7 +103,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/monad/flatten.cpp main
-    constexpr auto flatten = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& monad) -> decltype(auto) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto flatten = [](auto&& monad) -> decltype(auto) {
         return Monad::instance<
             datatype_t<decltype(monad)>
         >::flatten_impl(detail::std::forward<decltype(monad)>(monad));

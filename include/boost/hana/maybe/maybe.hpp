@@ -65,7 +65,7 @@ namespace boost { namespace hana {
     //! @snippet example/maybe/maybe.cpp nothing
     constexpr unspecified nothing{};
 #else
-    constexpr auto just = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto x) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto just = [](auto x) {
         return maybe_detail::just<decltype(x)>{detail::std::move(x)};
     };
 
@@ -99,7 +99,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/maybe/maybe.cpp only_when
-    constexpr auto only_when = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& predicate, auto&& f, auto&& x) -> decltype(auto) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto only_when = [](auto&& predicate, auto&& f, auto&& x) -> decltype(auto) {
         return eval_if(detail::std::forward<decltype(predicate)>(predicate)(x),
             [&f, &x](auto _) -> decltype(auto) {
                 return just(detail::std::forward<decltype(f)>(f)(
@@ -170,7 +170,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/maybe/maybe.cpp is_just
-    constexpr auto is_just = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto const& m) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto is_just = [](auto const& m) {
         return maybe(false_, [](auto) { return true_; }, m);
     };
 
@@ -183,7 +183,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/maybe/maybe.cpp is_nothing
-    constexpr auto is_nothing = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto const& m) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto is_nothing = [](auto const& m) {
         return maybe(true_, [](auto) { return false_; }, m);
     };
 
@@ -203,7 +203,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/maybe/maybe.cpp from_maybe
-    constexpr auto from_maybe = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& default_, auto&& m) -> decltype(auto) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto from_maybe = [](auto&& default_, auto&& m) -> decltype(auto) {
         return maybe(
             detail::std::forward<decltype(default_)>(default_),
             id,
@@ -219,7 +219,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/maybe/maybe.cpp from_just
-    constexpr auto from_just = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& m) -> decltype(auto) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto from_just = [](auto&& m) -> decltype(auto) {
         auto err = [](auto ...dum) {
             constexpr bool always_false = sizeof...(dum) != 0;
             static_assert(always_false,

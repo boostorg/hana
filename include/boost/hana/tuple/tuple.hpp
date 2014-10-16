@@ -58,7 +58,7 @@ namespace boost { namespace hana {
     //! - Use perfect forwarding to construct the inner lambda capture when
     //!   this is supported and this bug is resolved: http://llvm.org/bugs/show_bug.cgi?id=20939
     //! - Enable the test in tuple/tuple.cpp once the above is resolved.
-    constexpr auto tuple = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto ...xs) -> decltype(auto) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto tuple = [](auto ...xs) -> decltype(auto) {
         auto storage = [=](auto f) -> decltype(auto) { return f(xs...); };
         return detail::repr::tuple<decltype(storage)>{detail::std::move(storage)};
     };

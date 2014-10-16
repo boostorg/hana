@@ -90,7 +90,7 @@ namespace boost { namespace hana {
         unspecified
     };
 #else
-    constexpr auto left = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto x) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto left = [](auto x) {
         return either_detail::left<decltype(x)>{detail::std::move(x)};
     };
 #endif
@@ -105,7 +105,7 @@ namespace boost { namespace hana {
         unspecified
     };
 #else
-    constexpr auto right = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto x) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto right = [](auto x) {
         return either_detail::right<decltype(x)>{detail::std::move(x)};
     };
 #endif
@@ -137,7 +137,7 @@ namespace boost { namespace hana {
         unspecified
     };
 #else
-    constexpr auto either = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& f, auto&& g, auto&& e) -> decltype(auto) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto either = [](auto&& f, auto&& g, auto&& e) -> decltype(auto) {
         return detail::std::forward<decltype(e)>(e).go(
             detail::std::forward<decltype(f)>(f),
             detail::std::forward<decltype(g)>(g)

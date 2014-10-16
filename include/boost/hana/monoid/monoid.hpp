@@ -46,7 +46,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/monoid.cpp plus
-    constexpr auto plus = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& x, auto&& y) -> decltype(auto) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto plus = [](auto&& x, auto&& y) -> decltype(auto) {
         return Monoid::instance<
             datatype_t<decltype(x)>, datatype_t<decltype(y)>
         >::plus_impl(

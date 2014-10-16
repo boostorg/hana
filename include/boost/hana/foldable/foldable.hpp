@@ -79,7 +79,7 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/foldable/foldl.time.png
-    constexpr auto foldl = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& foldable, auto&& state, auto&& f) -> decltype(auto) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto foldl = [](auto&& foldable, auto&& state, auto&& f) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
         >::foldl_impl(
@@ -109,7 +109,7 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/foldable/foldr.time.png
-    constexpr auto foldr = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& foldable, auto&& state, auto&& f) -> decltype(auto) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto foldr = [](auto&& foldable, auto&& state, auto&& f) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
         >::foldr_impl(
@@ -137,7 +137,7 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/foldable/foldr1.time.png
-    constexpr auto foldr1 = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& foldable, auto&& f) -> decltype(auto) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto foldr1 = [](auto&& foldable, auto&& f) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
         >::foldr1_impl(
@@ -164,7 +164,7 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/foldable/foldl1.time.png
-    constexpr auto foldl1 = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& foldable, auto&& f) -> decltype(auto) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto foldl1 = [](auto&& foldable, auto&& f) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
         >::foldl1_impl(
@@ -200,7 +200,7 @@ namespace boost { namespace hana {
     //! The presence of implicit side effects in this function might be a
     //! smell that it should be moved to a different type class and handled
     //! through `Monad`s.
-    constexpr auto for_each = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& foldable, auto&& f) -> decltype(auto) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto for_each = [](auto&& foldable, auto&& f) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
         >::for_each_impl(
@@ -217,7 +217,7 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/foldable/length.time.png
-    constexpr auto length = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& foldable) -> decltype(auto) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto length = [](auto&& foldable) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
         >::length_impl(detail::std::forward<decltype(foldable)>(foldable));
@@ -242,7 +242,7 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/foldable/minimum_by.time.png
-    constexpr auto minimum_by = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& predicate, auto&& foldable) -> decltype(auto) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto minimum_by = [](auto&& predicate, auto&& foldable) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
         >::minimum_by_impl(
@@ -259,7 +259,7 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/foldable/minimum.time.png
-    constexpr auto minimum = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& foldable) -> decltype(auto) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto minimum = [](auto&& foldable) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
         >::minimum_impl(detail::std::forward<decltype(foldable)>(foldable));
@@ -284,7 +284,7 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/foldable/maximum_by.time.png
-    constexpr auto maximum_by = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& predicate, auto&& foldable) -> decltype(auto) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto maximum_by = [](auto&& predicate, auto&& foldable) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
         >::maximum_by_impl(
@@ -301,7 +301,7 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/foldable/maximum.time.png
-    constexpr auto maximum = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& foldable) -> decltype(auto) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto maximum = [](auto&& foldable) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
         >::maximum_impl(detail::std::forward<decltype(foldable)>(foldable));
@@ -320,7 +320,7 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/foldable/sum.time.png
-    constexpr auto sum = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& foldable) -> decltype(auto) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto sum = [](auto&& foldable) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
         >::sum_impl(detail::std::forward<decltype(foldable)>(foldable));
@@ -339,7 +339,7 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/foldable/product.time.png
-    constexpr auto product = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& foldable) -> decltype(auto) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto product = [](auto&& foldable) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
         >::product_impl(detail::std::forward<decltype(foldable)>(foldable));
@@ -364,7 +364,7 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/foldable/count.time.png
-    constexpr auto count = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& foldable, auto&& predicate) -> decltype(auto) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto count = [](auto&& foldable, auto&& predicate) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
         >::count_impl(
@@ -398,7 +398,7 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/foldable/unpack.time.png
-    constexpr auto unpack = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& foldable, auto&& f) -> decltype(auto) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto unpack = [](auto&& foldable, auto&& f) -> decltype(auto) {
         return Foldable::instance<
             datatype_t<decltype(foldable)>
         >::unpack_impl(

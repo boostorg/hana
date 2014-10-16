@@ -137,7 +137,7 @@ namespace boost { namespace hana {
         }
     } // end namespace infix_detail
 
-    constexpr auto infix = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto f) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto infix = [](auto f) {
         return infix_detail::infix<decltype(f)>{detail::std::move(f)};
     };
 #endif

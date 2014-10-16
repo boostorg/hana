@@ -47,7 +47,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/ring.cpp mult
-    constexpr auto mult = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& x, auto&& y) -> decltype(auto) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto mult = [](auto&& x, auto&& y) -> decltype(auto) {
         return Ring::instance<
             datatype_t<decltype(x)>, datatype_t<decltype(y)>
         >::mult_impl(

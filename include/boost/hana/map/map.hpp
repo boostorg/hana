@@ -44,20 +44,20 @@ namespace boost { namespace hana {
     //!
     //! @note
     //! The keys must all be unique.
-    constexpr auto map = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto ...pairs) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto map = [](auto ...pairs) {
         auto storage = tuple(pairs...);
         return map_detail::map<decltype(storage)>{storage};
     };
 
     //! Returns a list of the keys of the map, in unspecified order.
     //! @relates Map
-    constexpr auto keys = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto map) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto keys = [](auto map) {
         return fmap(map.storage, first);
     };
 
     //! Returns a list of the values of the map, in unspecified order.
     //! @relates Map
-    constexpr auto values = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto map) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto values = [](auto map) {
         return fmap(map.storage, second);
     };
 
