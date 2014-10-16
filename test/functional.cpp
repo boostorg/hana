@@ -180,15 +180,15 @@ int main() {
 
     // demux
     {
-        BOOST_HANA_CONSTANT_ASSERT(equal(demux(f)(), f()));
+        BOOST_HANA_CONSTANT_ASSERT(equal(demux(f)()(), f()));
 
-        BOOST_HANA_CONSTANT_ASSERT(equal(demux(f, g)(x<1>), f(g(x<1>))));
-        BOOST_HANA_CONSTANT_ASSERT(equal(demux(f, g)(x<1>, x<2>), f(g(x<1>, x<2>))));
-        BOOST_HANA_CONSTANT_ASSERT(equal(demux(f, g)(x<1>, x<2>, x<3>), f(g(x<1>, x<2>, x<3>))));
+        BOOST_HANA_CONSTANT_ASSERT(equal(demux(f)(g)(x<1>), f(g(x<1>))));
+        BOOST_HANA_CONSTANT_ASSERT(equal(demux(f)(g)(x<1>, x<2>), f(g(x<1>, x<2>))));
+        BOOST_HANA_CONSTANT_ASSERT(equal(demux(f)(g)(x<1>, x<2>, x<3>), f(g(x<1>, x<2>, x<3>))));
 
-        BOOST_HANA_CONSTANT_ASSERT(equal(demux(f, g, h)(x<1>), f(g(x<1>), h(x<1>))));
-        BOOST_HANA_CONSTANT_ASSERT(equal(demux(f, g, h)(x<1>, x<2>), f(g(x<1>, x<2>), h(x<1>, x<2>))));
-        BOOST_HANA_CONSTANT_ASSERT(equal(demux(f, g, h)(x<1>, x<2>, x<3>), f(g(x<1>, x<2>, x<3>), h(x<1>, x<2>, x<3>))));
+        BOOST_HANA_CONSTANT_ASSERT(equal(demux(f)(g, h)(x<1>), f(g(x<1>), h(x<1>))));
+        BOOST_HANA_CONSTANT_ASSERT(equal(demux(f)(g, h)(x<1>, x<2>), f(g(x<1>, x<2>), h(x<1>, x<2>))));
+        BOOST_HANA_CONSTANT_ASSERT(equal(demux(f)(g, h)(x<1>, x<2>, x<3>), f(g(x<1>, x<2>, x<3>), h(x<1>, x<2>, x<3>))));
     }
 
     // fix (tested separately)

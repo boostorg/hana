@@ -32,7 +32,9 @@ namespace boost { namespace hana {
     //! @snippet example/functional/lockstep.cpp main
     //!
     //! @todo
-    //! I think this is equivalent to `<*>` for `((->) r)`.
+    //! - I think this is equivalent to `<*>` for `((->) r)`.
+    //! - Change the syntax to be the same as `demux`. Impossible right now
+    //!   because Clang blows up.
     BOOST_HANA_CONSTEXPR_LAMBDA auto lockstep = [](auto f, auto ...g) {
         return [f(detail::std::move(f)), g...](auto&& ...x) -> decltype(auto) {
             return f(g(detail::std::forward<decltype(x)>(x))...);

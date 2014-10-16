@@ -15,7 +15,12 @@ using namespace boost::hana;
 int main() {
     //! [main]
     BOOST_HANA_CONSTEXPR_ASSERT(
-        demux(tuple, _ + _, _ - _, _ * _, _ / _)(10, 4)
+        demux(tuple)(
+            _ + _,
+            _ - _,
+            _ * _,
+            _ / _
+        )(10, 4)
         ==
         tuple(10 + 4, 10 - 4, 10 * 4, 10 / 4)
     );
