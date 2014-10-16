@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/move.hpp>
+#include <boost/hana/detail/variadic/take.hpp>
 #include <boost/hana/foldable/foldable.hpp>
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/functional/on.hpp>
@@ -99,11 +100,10 @@ namespace boost { namespace hana {
 
         template <typename N, typename Xs>
         static constexpr decltype(auto) take_impl(N n, Xs&& xs) {
-            return unpack(range(size_t<0>, min(n, length(xs))),
-                on(tuple, [&xs](auto index) -> decltype(auto) {
-                    return at(index, detail::std::forward<Xs>(xs));
-                })
-            );
+            auto m = min(n, length(xs));
+            return detail::std::forward<Xs>(xs).storage(
+                detail::variadic::take<value(m)>
+            )(tuple);
         }
 
         template <typename F, typename ...Xss>

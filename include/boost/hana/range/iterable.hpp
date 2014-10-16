@@ -14,7 +14,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/group/group.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/iterable/mcd.hpp>
-#include <boost/hana/logical/logical.hpp>
 #include <boost/hana/monoid/monoid.hpp>
 #include <boost/hana/orderable/orderable.hpp>
 #include <boost/hana/range/range.hpp>
@@ -60,8 +59,7 @@ namespace boost { namespace hana {
 
         template <typename N, typename R>
         static constexpr auto drop_impl(N n, R r) {
-            auto size = minus(r.to, r.from);
-            return range(if_(greater(n, size), r.to, plus(r.from, n)), r.to);
+            return range(min(r.to, plus(r.from, n)), r.to);
         }
     };
 }} // end namespace boost::hana

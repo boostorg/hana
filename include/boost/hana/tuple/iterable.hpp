@@ -13,8 +13,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/variadic/at.hpp>
+#include <boost/hana/detail/variadic/drop_into.hpp>
 #include <boost/hana/functional/id.hpp>
 #include <boost/hana/iterable/mcd.hpp>
+#include <boost/hana/tuple/foldable.hpp>
 #include <boost/hana/tuple/tuple.hpp>
 
 
@@ -62,10 +64,18 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) at_impl(Index n, Xs&& xs) {
             return detail::std::forward<Xs>(xs).storage(
                 [n](auto&& ...xs) -> decltype(auto) {
-                    return detail::variadic::at<n()>(
+                    return detail::variadic::at<value(n)>(
                         detail::std::forward<decltype(xs)>(xs)...
                     );
                 }
+            );
+        }
+
+        template <typename Index, typename Xs>
+        static constexpr decltype(auto) drop_impl(Index n, Xs&& xs) {
+            auto m = min(n, length(xs));
+            return detail::std::forward<Xs>(xs).storage(
+                detail::variadic::drop_into<value(m)>(tuple)
             );
         }
     };
