@@ -14,6 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 // Instances
 #include <boost/hana/ext/std/pair/comparable.hpp>
+#include <boost/hana/ext/std/pair/foldable.hpp>
 #include <boost/hana/ext/std/pair/product.hpp>
 
 #endif // !BOOST_HANA_EXT_STD_PAIR_HPP

@@ -21,7 +21,7 @@ namespace boost { namespace hana {
     //! Generic container of two elements.
     //!
     //! ### Instance of
-    //! `Comparable`, `Product`
+    //! `Comparable`, `Product`, `Foldable`
     struct Pair { struct hana_enabled_operators : Comparable { }; };
 
     namespace pair_detail {

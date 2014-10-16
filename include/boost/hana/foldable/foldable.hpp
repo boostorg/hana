@@ -54,6 +54,7 @@ namespace boost { namespace hana {
         struct folds_mcd;
         struct unpack_mcd;
         struct iterable_mcd;
+        struct product_mcd;
         template <typename R>
         struct record_mcd;
     };
