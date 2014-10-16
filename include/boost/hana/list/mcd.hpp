@@ -13,9 +13,11 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/applicative/applicative.hpp>
 #include <boost/hana/comparable/comparable.hpp>
 #include <boost/hana/constant/constant.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integer_sequence.hpp>
 #include <boost/hana/detail/variadic/foldr.hpp>
 #include <boost/hana/foldable/foldable.hpp>
+#include <boost/hana/functional/id.hpp>
 #include <boost/hana/functor/functor.hpp>
 #include <boost/hana/group/group.hpp>
 #include <boost/hana/integral.hpp>
@@ -74,6 +76,40 @@ namespace boost { namespace hana {
             return eval_if(is_empty(tail(xs)),
                 [](auto _) { return nil<L>; },
                 [=](auto _) { return cons(_(head)(xs), init_impl(_(tail)(xs))); }
+            );
+        }
+
+    private:
+        template <typename Prefix, typename Xs>
+        static constexpr decltype(auto) prepend_to_all(Prefix&& prefix, Xs&& xs) {
+            return foldr(detail::std::forward<Xs>(xs), nil<L>,
+                [pfx(detail::std::forward<Prefix>(prefix))](auto&& x, auto&& xs) -> decltype(auto) {
+                    return cons(pfx,
+                        cons(
+                            detail::std::forward<decltype(x)>(x),
+                            detail::std::forward<decltype(xs)>(xs)
+                        )
+                    );
+                }
+            );
+        }
+
+    public:
+        template <typename Xs, typename Z>
+        static constexpr decltype(auto) intersperse_impl(Xs&& xs, Z&& z) {
+            return eval_if(is_empty(xs),
+                [&xs](auto _) -> decltype(auto) {
+                    return id(detail::std::forward<Xs>(xs));
+                },
+                [&xs, &z](auto _) -> decltype(auto) {
+                    return cons(
+                        _(head)(xs),
+                        prepend_to_all(
+                            detail::std::forward<Z>(z),
+                            _(tail)(xs)
+                        )
+                    );
+                }
             );
         }
 

@@ -44,7 +44,7 @@ namespace boost { namespace hana {
     //! - There is a strong relationship between this and `MonadPlus`.
     //!   Actually, they might be just the same. Check this out.
     //! - Implement the following methods:
-    //!     - `intersperse`, `intercalate`, `transpose`, `subsequences`
+    //!     - `intercalate`, `transpose`, `subsequences`
     //!     - `split_at`, `break`, `inits`, `tails`
     //! - Consider implementing the following methods:
     //!     - `nub_by`, `nub`, `delete_by`, `insert`
@@ -190,6 +190,32 @@ namespace boost { namespace hana {
         return List::instance<
             datatype_t<decltype(xs)>
         >::init_impl(detail::std::forward<decltype(xs)>(xs));
+    };
+
+    //! Insert a value between each pair of elements in a list.
+    //! @relates List
+    //!
+    //! Specifically, `intersperse([x1, x2, ..., xn], z)` is a list equivalent
+    //! to `[x1, z, x2, z, x3, ..., xn-1, z, xn]`. If the list is empty or has
+    //! a single element, then `intersperse` returns the list as is.
+    //!
+    //!
+    //! @param xs
+    //! The list in which a value is interspersed.
+    //!
+    //! @param z
+    //! The value to be interspersed in the list.
+    //!
+    //!
+    //! ### Example
+    //! @snippet example/list.cpp intersperse
+    constexpr auto intersperse = BOOST_HANA_MAKE_CONSTEXPR_LAMBDA(auto&& xs, auto&& z) -> decltype(auto) {
+        return List::instance<
+            datatype_t<decltype(xs)>
+        >::intersperse_impl(
+            detail::std::forward<decltype(xs)>(xs),
+            detail::std::forward<decltype(z)>(z)
+        );
     };
 
     namespace list_detail {

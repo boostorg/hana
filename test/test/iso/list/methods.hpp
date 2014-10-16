@@ -159,6 +159,39 @@ void List_methods() {
         ));
     }
 
+    // intersperse
+    {
+        auto z = x<999>;
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            intersperse(list(), undefined),
+            list()
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            intersperse(list(x<0>), undefined),
+            list(x<0>)
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            intersperse(list(x<0>, x<1>), z),
+            list(x<0>, z, x<1>)
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            intersperse(list(x<0>, x<1>, x<2>), z),
+            list(x<0>, z, x<1>, z, x<2>)
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            intersperse(list(x<0>, x<1>, x<2>, x<3>), z),
+            list(x<0>, z, x<1>, z, x<2>, z, x<3>)
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            intersperse(list(x<0>, x<1>, x<2>, x<3>, x<4>), z),
+            list(x<0>, z, x<1>, z, x<2>, z, x<3>, z, x<4>)
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            intersperse(list(x<0>, x<1>, x<2>, x<3>, x<4>, x<5>), z),
+            list(x<0>, z, x<1>, z, x<2>, z, x<3>, z, x<4>, z, x<5>)
+        ));
+    }
+
     // slice
     {
         BOOST_HANA_CONSTANT_ASSERT(equal(

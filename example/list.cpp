@@ -58,6 +58,13 @@ int main() {
     }
 
     {
+        //! [intersperse]
+        BOOST_HANA_CONSTEXPR_ASSERT(intersperse(tuple(1, '2', 3.3), 'x') == tuple(1, 'x', '2', 'x', 3.3));
+        BOOST_HANA_CONSTANT_ASSERT(intersperse(tuple(), 'x') == tuple());
+        //! [intersperse]
+    }
+
+    {
         //! [reverse]
         BOOST_HANA_CONSTEXPR_ASSERT(reverse(tuple(1, '2', 3.3)) == tuple(3.3, '2', 1));
         //! [reverse]
