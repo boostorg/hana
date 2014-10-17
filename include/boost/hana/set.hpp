@@ -10,8 +10,9 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_SET_HPP
 #define BOOST_HANA_SET_HPP
 
-#include <boost/hana/set/set.hpp>
 #include <boost/hana/set/convert.hpp>
+#include <boost/hana/set/insert.hpp>
+#include <boost/hana/set/set.hpp>
 
 // Instances
 #include <boost/hana/set/comparable.hpp>

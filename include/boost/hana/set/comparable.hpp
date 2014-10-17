@@ -23,7 +23,7 @@ namespace boost { namespace hana {
     //! the order.
     //!
     //! ### Example
-    //! example/set.cpp comparable
+    //! @snippet example/set.cpp comparable
     template <>
     struct Comparable::instance<Set, Set> : Comparable::equal_mcd {
         template <typename S1, typename S2>

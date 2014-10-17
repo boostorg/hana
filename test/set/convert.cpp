@@ -42,16 +42,35 @@ int main() {
             to<Set>(foldable()),
             set()
         ));
+
         BOOST_HANA_CONSTANT_ASSERT(equal(
             to<Set>(foldable(x<1>)),
             set(x<1>)
         ));
         BOOST_HANA_CONSTANT_ASSERT(equal(
+            to<Set>(foldable(x<1>, x<1>)),
+            set(x<1>)
+        ));
+
+        BOOST_HANA_CONSTANT_ASSERT(equal(
             to<Set>(foldable(x<1>, x<2>)),
             set(x<1>, x<2>)
         ));
         BOOST_HANA_CONSTANT_ASSERT(equal(
+            to<Set>(foldable(x<1>, x<2>, x<1>)),
+            set(x<1>, x<2>)
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            to<Set>(foldable(x<1>, x<2>, x<2>)),
+            set(x<1>, x<2>)
+        ));
+
+        BOOST_HANA_CONSTANT_ASSERT(equal(
             to<Set>(foldable(x<1>, x<2>, x<3>)),
+            set(x<1>, x<2>, x<3>)
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            to<Set>(foldable(x<1>, x<2>, x<3>, x<2>, x<1>)),
             set(x<1>, x<2>, x<3>)
         ));
     }

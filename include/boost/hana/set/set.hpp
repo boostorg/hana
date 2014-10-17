@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_SET_SET_HPP
 
 #include <boost/hana/comparable/operators.hpp>
+#include <boost/hana/core/make.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/move.hpp>
@@ -35,20 +36,41 @@ namespace boost { namespace hana {
     //!
     //! @note
     //! There must not be duplicate elements.
+    //!
+    //! @todo Consider allowing duplicates elements in this constructor.
     BOOST_HANA_CONSTEXPR_LAMBDA auto set = [](auto ...elements) {
         auto storage = tuple(detail::std::move(elements)...);
         return set_detail::set<decltype(storage)>{detail::std::move(storage)};
     };
 
-#if 0
-    // insert the given element in the set, or do nothing if it is already there
-    BOOST_HANA_CONSTEXPR_LAMBDA auto insert = [](auto e, auto set) {
-        return eval_if(elem(set, e),
-            [=](auto) { return set; },
-            [=](auto _) { return detail::wrap<Set>(_(cons)(e, detail::unwrap(set))); }
-        );
-    };
+    //! Equivalent to `set`, provided for consistency.
+    //! @relates Set
+    template <>
+    BOOST_HANA_CONSTEXPR_LAMBDA auto make<Set> = set;
 
+    //! Insert an element in a `Set`.
+    //! @relates Set
+    //!
+    //! If the set already contains an element that compares equal, then
+    //! nothing is done and the set is returned as is.
+    //!
+    //!
+    //! @param set
+    //! The set in which to insert a value.
+    //!
+    //! @param x
+    //! The value to insert.
+    //!
+    //!
+    //! ### Example
+    //! @snippet example/set.cpp insert
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    BOOST_HANA_CONSTEXPR_LAMBDA auto insert = [](auto&& set, auto&& x) -> decltype(auto) {
+        return unspecified;
+    };
+#endif
+
+#if 0
     template <>
     struct Foldable::instance<Set> : Foldable::mcd {
         template <typename Set, typename State, typename F>
