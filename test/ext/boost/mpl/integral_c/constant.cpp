@@ -14,15 +14,21 @@ namespace mpl = boost::mpl;
 
 template <typename T>
 void tests() {
-    static_assert(value(mpl::integral_c<T, 0>{}) == 0, "");
-    static_assert(value(mpl::integral_c<T, 1>{}) == 1, "");
+    // value
+    {
+        static_assert(value(mpl::integral_c<T, 0>{}) == 0, "");
+        static_assert(value(mpl::integral_c<T, 1>{}) == 1, "");
+    }
 
-    Constant_laws(
-        mpl::integral_c<T, 0>{},
-        mpl::integral_c<T, 1>{},
-        mpl::integral_c<T, 2>{},
-        mpl::integral_c<T, 3>{}
-    );
+    // laws
+    {
+        Constant_laws(
+            mpl::integral_c<T, 0>{},
+            mpl::integral_c<T, 1>{},
+            mpl::integral_c<T, 2>{},
+            mpl::integral_c<T, 3>{}
+        );
+    }
 }
 
 int main() {

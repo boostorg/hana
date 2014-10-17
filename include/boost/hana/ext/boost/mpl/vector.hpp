@@ -1,6 +1,6 @@
 /*!
 @file
-Defined `boost::hana::BoostMplVector`.
+Defines `boost::hana::BoostMplVector`.
 
 @copyright Louis Dionne 2014
 Distributed under the Boost Software License, Version 1.0.
