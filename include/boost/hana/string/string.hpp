@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/comparable/operators.hpp>
 #include <boost/hana/core/operators.hpp>
+#include <boost/hana/orderable/operators.hpp>
 
 
 namespace boost { namespace hana {
@@ -19,8 +20,8 @@ namespace boost { namespace hana {
     //! Represents a compile-time string.
     //!
     //! ## Instance of
-    //! `Comparable`, `Constant`
-    struct String { struct hana_enabled_operators : Comparable { }; };
+    //! `Comparable`, `Orderable`, `Constant`, `Foldable`
+    struct String { struct hana_enabled_operators : Comparable, Orderable { }; };
 
     //! Create a compile-time string from a string literal `s`.
     //! @relates String

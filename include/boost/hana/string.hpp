@@ -15,5 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 // Instances
 #include <boost/hana/string/comparable.hpp>
 #include <boost/hana/string/constant.hpp>
+#include <boost/hana/string/foldable.hpp>
+#include <boost/hana/string/orderable.hpp>
 
 #endif // !BOOST_HANA_STRING_HPP
