@@ -13,6 +13,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable/operators.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/functor/functor.hpp>
 #include <boost/hana/list/list.hpp>
 #include <boost/hana/product/product.hpp>
@@ -45,20 +47,20 @@ namespace boost { namespace hana {
     //! @note
     //! The keys must all be unique.
     BOOST_HANA_CONSTEXPR_LAMBDA auto map = [](auto ...pairs) {
-        auto storage = tuple(pairs...);
-        return map_detail::map<decltype(storage)>{storage};
+        auto storage = tuple(detail::std::move(pairs)...);
+        return map_detail::map<decltype(storage)>{detail::std::move(storage)};
     };
 
     //! Returns a list of the keys of the map, in unspecified order.
     //! @relates Map
-    BOOST_HANA_CONSTEXPR_LAMBDA auto keys = [](auto map) {
-        return fmap(map.storage, first);
+    BOOST_HANA_CONSTEXPR_LAMBDA auto keys = [](auto&& map) -> decltype(auto) {
+        return fmap(detail::std::forward<decltype(map)>(map).storage, first);
     };
 
     //! Returns a list of the values of the map, in unspecified order.
     //! @relates Map
-    BOOST_HANA_CONSTEXPR_LAMBDA auto values = [](auto map) {
-        return fmap(map.storage, second);
+    BOOST_HANA_CONSTEXPR_LAMBDA auto values = [](auto map) -> decltype(auto) {
+        return fmap(detail::std::forward<decltype(map)>(map).storage, second);
     };
 
 #if 0
