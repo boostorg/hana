@@ -18,6 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/integral/logical.hpp>
 #include <boost/hana/integral/constant.hpp>
 #include <boost/hana/integral/integral_constant.hpp>
+#include <boost/hana/integral/enumerable.hpp>
 
 #include <boost/hana/integral/monoid.hpp>
 #include <boost/hana/integral/group.hpp>

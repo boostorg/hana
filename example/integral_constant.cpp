@@ -25,4 +25,19 @@ int main() {
         ));
         //! [integral_constant]
     }
+    {
+        //! [enumerable]
+        BOOST_HANA_CONSTANT_ASSERT(
+            succ(integral_constant<Integral, int, 2>)
+            ==
+            integral_constant<Integral, int, 3>
+        );
+
+        BOOST_HANA_CONSTANT_ASSERT(
+            pred(integral_constant<Integral, int, 2>)
+            ==
+            integral_constant<Integral, int, 1>
+        );
+        //! [enumerable]
+    }
 }

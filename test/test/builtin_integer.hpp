@@ -27,11 +27,21 @@ Distributed under the Boost Software License, Version 1.0.
 struct integer {
     int value;
     constexpr explicit integer(int i) : value{i} { }
+
+    #ifdef BOOST_HANA_TEST_ENUMERABLE
+        constexpr auto operator++() const { return integer{value + 1}; }
+        constexpr auto operator--() const { return integer{value - 1}; }
+    #endif
 };
 
 struct integer2 {
     int value;
     constexpr explicit integer2(int i) : value{i} { }
+
+    #ifdef BOOST_HANA_TEST_ENUMERABLE
+        constexpr auto operator++() const { return integer2{value + 1}; }
+        constexpr auto operator--() const { return integer2{value - 1}; }
+    #endif
 };
 
 #ifdef BOOST_HANA_TEST_COMPARABLE

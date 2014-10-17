@@ -10,6 +10,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <test/numeric/numeric.hpp>
 
 // Instances
+#include <test/numeric/enumerable.hpp>
+
 #include <test/numeric/monoid.hpp>
 #include <test/numeric/group.hpp>
 #include <test/numeric/ring.hpp>
