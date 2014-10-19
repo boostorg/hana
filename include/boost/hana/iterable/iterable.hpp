@@ -97,7 +97,7 @@ namespace boost { namespace hana {
     //! @snippet example/iterable.cpp at
     //!
     //! ### Benchmarks
-    //! @image html benchmark/iterable/at.time.png
+    //! @image html benchmark/iterable/at.ctime.png
     //!
     //! @todo Only require `IntegralConstant`, not `Integral`.
     BOOST_HANA_CONSTEXPR_LAMBDA auto at = [](auto&& n, auto&& iterable) -> decltype(auto) {
@@ -140,7 +140,7 @@ namespace boost { namespace hana {
     //! @snippet example/iterable.cpp last
     //!
     //! ### Benchmarks
-    //! @image html benchmark/iterable/last.time.png
+    //! @image html benchmark/iterable/last.ctime.png
     BOOST_HANA_CONSTEXPR_LAMBDA auto last = [](auto&& iterable) -> decltype(auto) {
         return Iterable::instance<
             datatype_t<decltype(iterable)>
@@ -164,7 +164,7 @@ namespace boost { namespace hana {
     //! @snippet example/iterable.cpp drop
     //!
     //! ### Benchmarks
-    //! @image html benchmark/iterable/drop.time.png
+    //! @image html benchmark/iterable/drop.ctime.png
     BOOST_HANA_CONSTEXPR_LAMBDA auto drop = [](auto&& n, auto&& iterable) -> decltype(auto) {
         return Iterable::instance<
             datatype_t<decltype(iterable)>
@@ -225,7 +225,7 @@ namespace boost { namespace hana {
     //! @snippet example/iterable.cpp drop_while
     //!
     //! ### Benchmarks
-    //! @image html benchmark/iterable/drop_while.time.png
+    //! @image html benchmark/iterable/drop_while.ctime.png
     BOOST_HANA_CONSTEXPR_LAMBDA auto drop_while = [](auto&& iterable, auto&& predicate) -> decltype(auto) {
         return Iterable::instance<
             datatype_t<decltype(iterable)>
@@ -266,7 +266,7 @@ namespace boost { namespace hana {
     //! @snippet example/iterable.cpp drop_until
     //!
     //! ### Benchmarks
-    //! @image html benchmark/iterable/drop_until.time.png
+    //! @image html benchmark/iterable/drop_until.ctime.png
     BOOST_HANA_CONSTEXPR_LAMBDA auto drop_until = [](auto&& iterable, auto&& predicate) -> decltype(auto) {
         return Iterable::instance<
             datatype_t<decltype(iterable)>

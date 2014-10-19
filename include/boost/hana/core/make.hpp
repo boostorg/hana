@@ -31,7 +31,7 @@ namespace boost { namespace hana {
     //! specialization is provided, a static assertion is triggered.
     //!
     //! ### Example
-    //! @snippet example/core/make.cpp alternate
+    //! @snippet example/core/make.cpp main
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename Datatype, typename = optional when-based enabler>
     constexpr auto make = [](auto&& ...x) -> decltype(auto) {
