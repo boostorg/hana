@@ -77,7 +77,7 @@ $(document).ready(function(){initNavTree('group__group-functional.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Modules</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Modules</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -156,12 +156,15 @@ Variables</h2></td></tr>
 
 <p><code>#include &lt;<a class="el" href="always_8hpp.html">boost/hana/functional/always.hpp</a>&gt;</code></p>
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> x) {</div>
-<div class="line">        <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> ...y) { <span class="keywordflow">return</span> x; };</div>
+<div class="line">        <span class="keywordflow">return</span> [x(detail::std::move(x))](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; ...y) -&gt; <a class="code" href="structboost_1_1hana_1_1_comparable.html#a94e26804d5b410086b0230b5aa0c11a5">decltype</a>(x) {</div>
+<div class="line">            <span class="keywordflow">return</span> x;</div>
+<div class="line">        };</div>
 <div class="line">    }</div>
+<div class="ttc" id="structboost_1_1hana_1_1_comparable_html_a94e26804d5b410086b0230b5aa0c11a5"><div class="ttname"><a href="structboost_1_1hana_1_1_comparable.html#a94e26804d5b410086b0230b5aa0c11a5">boost::hana::Comparable::decltype</a></div><div class="ttdeci">decltype(auto) constexpr boost::hana::operators::operator==(X &amp;&amp;x, Y &amp;&amp;y)</div><div class="ttdoc">Equivalent to equal. </div><div class="ttdef"><b>Definition:</b> operators.hpp:28</div></div>
 </div><!-- fragment -->
 <p>Return a constant function returning <code>x</code> regardless of the argument(s) it is invoked with. </p>
 <p>Specifically, <code>always(x)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga835970cb25a0c8dc200f1e5f8943538b">always</a>(x)(y...) == x</div>
-</div><!-- fragment --><p> for any <code>y...</code>.</p>
+</div><!-- fragment --><p> for any <code>y...</code>. A copy of <code>x</code> is made and it is owned by the <code>always(x)</code> function. When <code>always(x)</code> is called, it will return a reference to the <code>x</code> it owns. This reference is valid as long as <code>always(x)</code> is in scope.</p>
 <dl class="section note"><dt>Note</dt><dd>This can be useful to make an expression dependent in order to delay the instantiation of its type by the compiler. <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line">constexpr <span class="keyword">auto</span> f(T t) {</div>
 <div class="line">    <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> ...xs) {</div>
@@ -194,9 +197,12 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p><code>#include &lt;<a class="el" href="apply_8hpp.html">boost/hana/functional/apply.hpp</a>&gt;</code></p>
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> ...x) {</div>
-<div class="line">        <span class="keywordflow">return</span> f(x...);</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; f, <span class="keyword">auto</span>&amp;&amp; ...x) -&gt; <a class="code" href="structboost_1_1hana_1_1_comparable.html#a94e26804d5b410086b0230b5aa0c11a5">decltype</a>(<span class="keyword">auto</span>) {</div>
+<div class="line">        <span class="keywordflow">return</span> detail::std::forward&lt;decltype(f)&gt;(f)(</div>
+<div class="line">            detail::std::forward&lt;<a class="code" href="structboost_1_1hana_1_1_comparable.html#a94e26804d5b410086b0230b5aa0c11a5">decltype</a>(x)&gt;(x)...</div>
+<div class="line">        );</div>
 <div class="line">    }</div>
+<div class="ttc" id="structboost_1_1hana_1_1_comparable_html_a94e26804d5b410086b0230b5aa0c11a5"><div class="ttname"><a href="structboost_1_1hana_1_1_comparable.html#a94e26804d5b410086b0230b5aa0c11a5">boost::hana::Comparable::decltype</a></div><div class="ttdeci">decltype(auto) constexpr boost::hana::operators::operator==(X &amp;&amp;x, Y &amp;&amp;y)</div><div class="ttdoc">Equivalent to equal. </div><div class="ttdef"><b>Definition:</b> operators.hpp:28</div></div>
 </div><!-- fragment -->
 <p>Invoke <code>f</code> with <code>x...</code> as arguments. </p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -228,9 +234,10 @@ template&lt;std::size_t n&gt; </div>
 </div><div class="memdoc">
 
 <p><code>#include &lt;<a class="el" href="arg_8hpp.html">boost/hana/functional/arg.hpp</a>&gt;</code></p>
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> ...x) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; ...x) -&gt; <a class="code" href="structboost_1_1hana_1_1_comparable.html#a94e26804d5b410086b0230b5aa0c11a5">decltype</a>(<span class="keyword">auto</span>) {</div>
 <div class="line">        unspecified</div>
 <div class="line">    }</div>
+<div class="ttc" id="structboost_1_1hana_1_1_comparable_html_a94e26804d5b410086b0230b5aa0c11a5"><div class="ttname"><a href="structboost_1_1hana_1_1_comparable.html#a94e26804d5b410086b0230b5aa0c11a5">boost::hana::Comparable::decltype</a></div><div class="ttdeci">decltype(auto) constexpr boost::hana::operators::operator==(X &amp;&amp;x, Y &amp;&amp;y)</div><div class="ttdoc">Equivalent to equal. </div><div class="ttdef"><b>Definition:</b> operators.hpp:28</div></div>
 </div><!-- fragment -->
 <p>Return the <code>n</code>th passed argument. </p>
 <p>Specifically, <code>arg&lt;n&gt;(x1, ..., xn, ..., xm)</code> is equivalent to <code>xn</code>. Note that indexing starts at 1, so <code>arg&lt;1&gt;</code> returns the 1st argument, <code>arg&lt;2&gt;</code> the 2nd and so on. Using <code>arg&lt;0&gt;</code> is an error. Passing less than <code>n</code> arguments to <code>arg&lt;n&gt;</code> is also an error.</p>
@@ -270,9 +277,10 @@ template&lt;std::size_t n&gt; </div>
 </div><div class="memdoc">
 
 <p><code>#include &lt;<a class="el" href="compose_8hpp.html">boost/hana/functional/compose.hpp</a>&gt;</code></p>
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> g, <span class="keyword">auto</span> ...h) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> g, <span class="keyword">auto</span> ...h) -&gt; <a class="code" href="structboost_1_1hana_1_1_comparable.html#a94e26804d5b410086b0230b5aa0c11a5">decltype</a>(<span class="keyword">auto</span>) {</div>
 <div class="line">        unspecified</div>
 <div class="line">    }</div>
+<div class="ttc" id="structboost_1_1hana_1_1_comparable_html_a94e26804d5b410086b0230b5aa0c11a5"><div class="ttname"><a href="structboost_1_1hana_1_1_comparable.html#a94e26804d5b410086b0230b5aa0c11a5">boost::hana::Comparable::decltype</a></div><div class="ttdeci">decltype(auto) constexpr boost::hana::operators::operator==(X &amp;&amp;x, Y &amp;&amp;y)</div><div class="ttdoc">Equivalent to equal. </div><div class="ttdef"><b>Definition:</b> operators.hpp:28</div></div>
 </div><!-- fragment -->
 <p>Return the composition of two functions or more. </p>
 <p><code>compose</code> is defined inductively. When given more than two functions, <code>compose(f, g, h...)</code> is equivalent to <code>compose(f, compose(g, h...))</code>. When given two functions, <code>compose(f, g)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>(f, g)(x, y...) == f(g(x), y...)</div>
@@ -336,7 +344,7 @@ template&lt;std::size_t arity&gt; </div>
 <div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(curry&lt;3&gt;(add)(1)(2)(3) == 1 + 2 + 3);</div>
 <div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(curry&lt;3&gt;(add)(1)(2, 3) == curry&lt;3&gt;(add)(1)(2)(3));</div>
 <div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(curry&lt;3&gt;(add)(1, 2, 3) == curry&lt;3&gt;(add)(1)(2)(3));</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000015">Todo:</a></b></dt><dd>Consider making <code>curry&lt;0&gt;(f)</code> equivalent to <code>f</code>. It might be more general or less useful if it creates subtle pitfalls.</dd></dl>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000014">Todo:</a></b></dt><dd>Consider making <code>curry&lt;0&gt;(f)</code> equivalent to <code>f</code>. It might be more general or less useful if it creates subtle pitfalls.</dd></dl>
 
 </div>
 </div>
@@ -351,28 +359,39 @@ template&lt;std::size_t arity&gt; </div>
 </div><div class="memdoc">
 
 <p><code>#include &lt;<a class="el" href="demux_8hpp.html">boost/hana/functional/demux.hpp</a>&gt;</code></p>
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> ...g) {</div>
-<div class="line">        <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> ...x) { <span class="keywordflow">return</span> f(g(x...)...); };</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> f) {</div>
+<div class="line">        <span class="keywordflow">return</span> [f(detail::std::move(f))](<span class="keyword">auto</span> ...g) {</div>
+<div class="line">            <span class="keywordflow">return</span> [=](<span class="keyword">auto</span>&amp;&amp; ...x) -&gt; <a class="code" href="structboost_1_1hana_1_1_comparable.html#a94e26804d5b410086b0230b5aa0c11a5">decltype</a>(<span class="keyword">auto</span>) {</div>
+<div class="line">                </div>
+<div class="line">                <span class="keywordflow">return</span> f(g(x...)...);</div>
+<div class="line">            };</div>
+<div class="line">        };</div>
 <div class="line">    }</div>
+<div class="ttc" id="structboost_1_1hana_1_1_comparable_html_a94e26804d5b410086b0230b5aa0c11a5"><div class="ttname"><a href="structboost_1_1hana_1_1_comparable.html#a94e26804d5b410086b0230b5aa0c11a5">boost::hana::Comparable::decltype</a></div><div class="ttdeci">decltype(auto) constexpr boost::hana::operators::operator==(X &amp;&amp;x, Y &amp;&amp;y)</div><div class="ttdoc">Equivalent to equal. </div><div class="ttdef"><b>Definition:</b> operators.hpp:28</div></div>
 </div><!-- fragment -->
 <p>Invoke a function with the results of invoking other functions on its arguments. </p>
-<p>Specifically, <code>demux(f, g...)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(f, g...)(x...) == f(g(x...)...)</div>
+<p>Specifically, <code>demux(f)(g...)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(f)(g...)(x...) == f(g(x...)...)</div>
 </div><!-- fragment --><p>Each <code>g</code> is called with all the arguments, and then <code>f</code> is called with the result of each <code>g</code>. Hence, the arity of <code>f</code> must match the number of <code>g</code>s.</p>
 <p>This is called <code>demux</code> because of a vague similarity between this device and a demultiplexer in signal processing. <code>demux</code> takes what can be seen as a continuation (<code>f</code>), a bunch of functions to split a signal (<code>g...</code>) and zero or more arguments representing the signal (<code>x...</code>). Then, it calls the continuation with the result of splitting the signal with whatever functions where given.</p>
-<dl class="section note"><dt>Note</dt><dd>When used with two functions only, <code>demux</code> is associative. In other words, <code>demux(f, demux(g, h))</code> is equivalent to <code>demux(demux(f, g), h)</code>.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>When used with two functions only, <code>demux</code> is associative. In other words, <code>demux(f)(demux(g)(h))</code> is equivalent to <code>demux(demux(f)(g))(h)</code>.</dd></dl>
 <h3>Proof of associativity in the binary case</h3>
-<div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(f, <a class="code" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(g, h))(x...) == f(<a class="code" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(g, h)(x...))</div>
+<div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(f)(<a class="code" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(g)(h))(x...) == f(<a class="code" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(g)(h)(x...))</div>
 <div class="line">                            == f(g(h(x...)))</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(<a class="code" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(f, g), h)(x...) == <a class="code" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(f, g)(h(x...))</div>
+<div class="line"><a class="code" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(<a class="code" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(f)(g))(h)(x...) == <a class="code" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(f)(g)(h(x...))</div>
 <div class="line">                            == f(g(h(x...)))</div>
 </div><!-- fragment --> <h3>Example</h3>
 <div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(</div>
-<div class="line">        <a class="code" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(tuple, <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> + <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>, <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> - <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>, <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> * <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>, _ / _)(10, 4)</div>
+<div class="line">        <a class="code" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(tuple)(</div>
+<div class="line">            <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> + <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>,</div>
+<div class="line">            <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> - <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>,</div>
+<div class="line">            <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> * <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>,</div>
+<div class="line">            _ / _</div>
+<div class="line">        )(10, 4)</div>
 <div class="line">        ==</div>
 <div class="line">        tuple(10 + 4, 10 - 4, 10 * 4, 10 / 4)</div>
 <div class="line">    );</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000016">Todo:</a></b></dt><dd>I think this is equivalent to <code>fmap . fmap</code>. See <a href="http://stackoverflow.com/q/5821089/627587">http://stackoverflow.com/q/5821089/627587</a> </dd></dl>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000015">Todo:</a></b></dt><dd>I think this is equivalent to <code>fmap . fmap</code>. See <a href="http://stackoverflow.com/q/5821089/627587">http://stackoverflow.com/q/5821089/627587</a> </dd></dl>
 
 </div>
 </div>
@@ -388,11 +407,12 @@ template&lt;std::size_t arity&gt; </div>
 
 <p><code>#include &lt;<a class="el" href="fix_8hpp.html">boost/hana/functional/fix.hpp</a>&gt;</code></p>
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> f) {</div>
-<div class="line">        <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> ...x) {</div>
-<div class="line">            <span class="keywordflow">return</span> f(<a class="code" href="group__group-functional.html#ga1393f40da2e8da6e0c12fce953e56a6c">fix</a>(f), x...);</div>
+<div class="line">        <span class="keywordflow">return</span> [f(std::move(f))](<span class="keyword">auto</span>&amp;&amp; ...x) -&gt; <a class="code" href="structboost_1_1hana_1_1_comparable.html#a94e26804d5b410086b0230b5aa0c11a5">decltype</a>(<span class="keyword">auto</span>) {</div>
+<div class="line">            <span class="keywordflow">return</span> f(<a class="code" href="group__group-functional.html#ga1393f40da2e8da6e0c12fce953e56a6c">fix</a>(f), std::forward&lt;<a class="code" href="structboost_1_1hana_1_1_comparable.html#a94e26804d5b410086b0230b5aa0c11a5">decltype</a>(x)&gt;(x)...);</div>
 <div class="line">        };</div>
 <div class="line">    }</div>
-<div class="ttc" id="group__group-functional_html_ga1393f40da2e8da6e0c12fce953e56a6c"><div class="ttname"><a href="group__group-functional.html#ga1393f40da2e8da6e0c12fce953e56a6c">boost::hana::fix</a></div><div class="ttdeci">constexpr auto fix</div><div class="ttdoc">Return a function computing the fixed point of a function. </div><div class="ttdef"><b>Definition:</b> fix.hpp:50</div></div>
+<div class="ttc" id="structboost_1_1hana_1_1_comparable_html_a94e26804d5b410086b0230b5aa0c11a5"><div class="ttname"><a href="structboost_1_1hana_1_1_comparable.html#a94e26804d5b410086b0230b5aa0c11a5">boost::hana::Comparable::decltype</a></div><div class="ttdeci">decltype(auto) constexpr boost::hana::operators::operator==(X &amp;&amp;x, Y &amp;&amp;y)</div><div class="ttdoc">Equivalent to equal. </div><div class="ttdef"><b>Definition:</b> operators.hpp:28</div></div>
+<div class="ttc" id="group__group-functional_html_ga1393f40da2e8da6e0c12fce953e56a6c"><div class="ttname"><a href="group__group-functional.html#ga1393f40da2e8da6e0c12fce953e56a6c">boost::hana::fix</a></div><div class="ttdeci">constexpr auto fix</div><div class="ttdoc">Return a function computing the fixed point of a function. </div><div class="ttdef"><b>Definition:</b> fix.hpp:52</div></div>
 </div><!-- fragment -->
 <p>Return a function computing the fixed point of a function. </p>
 <p><code>fix</code> is an implementation of the <a href="http://en.wikipedia.org/wiki/Fixed-point_combinator">Y-combinator</a>, also called the fixed-point combinator. It encodes the idea of recursion, and in fact any recursive function can be written in terms of it.</p>
@@ -427,10 +447,15 @@ template&lt;std::size_t arity&gt; </div>
 
 <p><code>#include &lt;<a class="el" href="flip_8hpp.html">boost/hana/functional/flip.hpp</a>&gt;</code></p>
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> f) {</div>
-<div class="line">        <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y, <span class="keyword">auto</span> ...z) {</div>
-<div class="line">            <span class="keywordflow">return</span> f(y, x, z...);</div>
+<div class="line">        <span class="keywordflow">return</span> [f(detail::std::move(f))](<span class="keyword">auto</span>&amp;&amp; x, <span class="keyword">auto</span>&amp;&amp; y, <span class="keyword">auto</span>&amp;&amp; ...z) -&gt; <a class="code" href="structboost_1_1hana_1_1_comparable.html#a94e26804d5b410086b0230b5aa0c11a5">decltype</a>(<span class="keyword">auto</span>) {</div>
+<div class="line">            <span class="keywordflow">return</span> f(</div>
+<div class="line">                detail::std::forward&lt;<a class="code" href="structboost_1_1hana_1_1_comparable.html#a94e26804d5b410086b0230b5aa0c11a5">decltype</a>(y)&gt;(y),</div>
+<div class="line">                detail::std::forward&lt;<a class="code" href="structboost_1_1hana_1_1_comparable.html#a94e26804d5b410086b0230b5aa0c11a5">decltype</a>(x)&gt;(x),</div>
+<div class="line">                detail::std::forward&lt;<a class="code" href="structboost_1_1hana_1_1_comparable.html#a94e26804d5b410086b0230b5aa0c11a5">decltype</a>(z)&gt;(z)...</div>
+<div class="line">            );</div>
 <div class="line">        };</div>
 <div class="line">    }</div>
+<div class="ttc" id="structboost_1_1hana_1_1_comparable_html_a94e26804d5b410086b0230b5aa0c11a5"><div class="ttname"><a href="structboost_1_1hana_1_1_comparable.html#a94e26804d5b410086b0230b5aa0c11a5">boost::hana::Comparable::decltype</a></div><div class="ttdeci">decltype(auto) constexpr boost::hana::operators::operator==(X &amp;&amp;x, Y &amp;&amp;y)</div><div class="ttdoc">Equivalent to equal. </div><div class="ttdef"><b>Definition:</b> operators.hpp:28</div></div>
 </div><!-- fragment -->
 <p>Invoke a function with its two first arguments reversed. </p>
 <p>Specifically, <code>flip(f)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga004f884cdbb85c2efe3383c1db450094">flip</a>(f)(x, y, z...) == f(y, x, z...)</div>
@@ -459,7 +484,7 @@ template&lt;std::size_t arity&gt; </div>
 
 <p><code>#include &lt;<a class="el" href="id_8hpp.html">boost/hana/functional/id.hpp</a>&gt;</code></p>
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; x) -&gt; <a class="code" href="structboost_1_1hana_1_1_comparable.html#a94e26804d5b410086b0230b5aa0c11a5">decltype</a>(<span class="keyword">auto</span>) {</div>
-<div class="line">        <span class="keywordflow">return</span> detail::std::forward&lt;decltype(x)&gt;(x);</div>
+<div class="line">        <span class="keywordflow">return</span> std::forward&lt;decltype(x)&gt;(x);</div>
 <div class="line">    }</div>
 <div class="ttc" id="structboost_1_1hana_1_1_comparable_html_a94e26804d5b410086b0230b5aa0c11a5"><div class="ttname"><a href="structboost_1_1hana_1_1_comparable.html#a94e26804d5b410086b0230b5aa0c11a5">boost::hana::Comparable::decltype</a></div><div class="ttdeci">decltype(auto) constexpr boost::hana::operators::operator==(X &amp;&amp;x, Y &amp;&amp;y)</div><div class="ttdoc">Equivalent to equal. </div><div class="ttdef"><b>Definition:</b> operators.hpp:28</div></div>
 </div><!-- fragment -->
@@ -539,10 +564,11 @@ template&lt;std::size_t arity&gt; </div>
 
 <p><code>#include &lt;<a class="el" href="lockstep_8hpp.html">boost/hana/functional/lockstep.hpp</a>&gt;</code></p>
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> ...g) {</div>
-<div class="line">        <span class="keywordflow">return</span> [f, g...](<span class="keyword">auto</span> ...x) {</div>
-<div class="line">            <span class="keywordflow">return</span> f(g(x)...);</div>
+<div class="line">        <span class="keywordflow">return</span> [f(detail::std::move(f)), g...](<span class="keyword">auto</span>&amp;&amp; ...x) -&gt; <a class="code" href="structboost_1_1hana_1_1_comparable.html#a94e26804d5b410086b0230b5aa0c11a5">decltype</a>(<span class="keyword">auto</span>) {</div>
+<div class="line">            <span class="keywordflow">return</span> f(g(detail::std::forward&lt;<a class="code" href="structboost_1_1hana_1_1_comparable.html#a94e26804d5b410086b0230b5aa0c11a5">decltype</a>(x)&gt;(x))...);</div>
 <div class="line">        };</div>
 <div class="line">    }</div>
+<div class="ttc" id="structboost_1_1hana_1_1_comparable_html_a94e26804d5b410086b0230b5aa0c11a5"><div class="ttname"><a href="structboost_1_1hana_1_1_comparable.html#a94e26804d5b410086b0230b5aa0c11a5">boost::hana::Comparable::decltype</a></div><div class="ttdeci">decltype(auto) constexpr boost::hana::operators::operator==(X &amp;&amp;x, Y &amp;&amp;y)</div><div class="ttdoc">Equivalent to equal. </div><div class="ttdef"><b>Definition:</b> operators.hpp:28</div></div>
 </div><!-- fragment -->
 <p>Invoke a function with the result of invoking other functions on its arguments, in lockstep. </p>
 <p>Specifically, <code>lockstep(f, g1, ..., gN)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#gafca60c09e1f7a32a2b52baaf6515c279">lockstep</a>(f, g1, ..., gN)(x1, ..., xN) == f(g1(x1), ..., gN(xN))</div>
@@ -561,7 +587,11 @@ template&lt;std::size_t arity&gt; </div>
 <div class="line">    };</div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(<a class="code" href="group__group-functional.html#gafca60c09e1f7a32a2b52baaf6515c279">lockstep</a>(plus, to_int, inc)(<span class="charliteral">&#39;3&#39;</span>, 4) == 3 + 5);</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000017">Todo:</a></b></dt><dd>I think this is equivalent to <code>&lt;*&gt;</code> for <code>((-&gt;) r)</code>. </dd></dl>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000016">Todo:</a></b></dt><dd><ul>
+<li>I think this is equivalent to <code>&lt;*&gt;</code> for <code>((-&gt;) r)</code>.</li>
+<li>Change the syntax to be the same as <code>demux</code>. Impossible right now because Clang blows up. </li>
+</ul>
+</dd></dl>
 
 </div>
 </div>
@@ -577,11 +607,13 @@ template&lt;std::size_t arity&gt; </div>
 
 <p><code>#include &lt;<a class="el" href="on_8hpp.html">boost/hana/functional/on.hpp</a>&gt;</code></p>
 <b>Initial value:</b><div class="fragment"><div class="line">= <a class="code" href="group__group-functional.html#ga7bdafba6dc801f1d2d83731ad9714557">infix</a>([](<span class="keyword">auto</span> f, <span class="keyword">auto</span> g) {</div>
-<div class="line">        <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> ...x) {</div>
-<div class="line">            <span class="keywordflow">return</span> f(g(x)...);</div>
+<div class="line">        <span class="keywordflow">return</span> [f(detail::std::move(f)), g(detail::std::move(g))]</div>
+<div class="line">               (<span class="keyword">auto</span>&amp;&amp; ...x) -&gt; <a class="code" href="structboost_1_1hana_1_1_comparable.html#a94e26804d5b410086b0230b5aa0c11a5">decltype</a>(<span class="keyword">auto</span>) {</div>
+<div class="line">            <span class="keywordflow">return</span> f(g(detail::std::forward&lt;<a class="code" href="structboost_1_1hana_1_1_comparable.html#a94e26804d5b410086b0230b5aa0c11a5">decltype</a>(x)&gt;(x))...);</div>
 <div class="line">        };</div>
 <div class="line">    })</div>
-<div class="ttc" id="group__group-functional_html_ga7bdafba6dc801f1d2d83731ad9714557"><div class="ttname"><a href="group__group-functional.html#ga7bdafba6dc801f1d2d83731ad9714557">boost::hana::infix</a></div><div class="ttdeci">constexpr auto infix</div><div class="ttdoc">Return an equivalent function that can also be applied in infix notation. </div><div class="ttdef"><b>Definition:</b> infix.hpp:73</div></div>
+<div class="ttc" id="structboost_1_1hana_1_1_comparable_html_a94e26804d5b410086b0230b5aa0c11a5"><div class="ttname"><a href="structboost_1_1hana_1_1_comparable.html#a94e26804d5b410086b0230b5aa0c11a5">boost::hana::Comparable::decltype</a></div><div class="ttdeci">decltype(auto) constexpr boost::hana::operators::operator==(X &amp;&amp;x, Y &amp;&amp;y)</div><div class="ttdoc">Equivalent to equal. </div><div class="ttdef"><b>Definition:</b> operators.hpp:28</div></div>
+<div class="ttc" id="group__group-functional_html_ga7bdafba6dc801f1d2d83731ad9714557"><div class="ttname"><a href="group__group-functional.html#ga7bdafba6dc801f1d2d83731ad9714557">boost::hana::infix</a></div><div class="ttdeci">constexpr auto infix</div><div class="ttdoc">Return an equivalent function that can also be applied in infix notation. </div><div class="ttdef"><b>Definition:</b> infix.hpp:75</div></div>
 </div><!-- fragment -->
 <p>Invoke a function with the result of invoking another function on each argument. </p>
 <p>Specifically, <code>on(f, g)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>(f, g)(x...) == f(g(x)...)</div>
@@ -636,10 +668,11 @@ template&lt;std::size_t arity&gt; </div>
 
 <p><code>#include &lt;<a class="el" href="partial_8hpp.html">boost/hana/functional/partial.hpp</a>&gt;</code></p>
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> f, <span class="keyword">auto</span> ...x) {</div>
-<div class="line">        <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> ...y) {</div>
-<div class="line">            <span class="keywordflow">return</span> f(x..., y...);</div>
+<div class="line">        <span class="keywordflow">return</span> [f(detail::std::move(f)), x...](<span class="keyword">auto</span>&amp;&amp; ...y) -&gt; <a class="code" href="structboost_1_1hana_1_1_comparable.html#a94e26804d5b410086b0230b5aa0c11a5">decltype</a>(<span class="keyword">auto</span>) {</div>
+<div class="line">            <span class="keywordflow">return</span> f(x..., detail::std::forward&lt;<a class="code" href="structboost_1_1hana_1_1_comparable.html#a94e26804d5b410086b0230b5aa0c11a5">decltype</a>(y)&gt;(y)...);</div>
 <div class="line">        };</div>
 <div class="line">    }</div>
+<div class="ttc" id="structboost_1_1hana_1_1_comparable_html_a94e26804d5b410086b0230b5aa0c11a5"><div class="ttname"><a href="structboost_1_1hana_1_1_comparable.html#a94e26804d5b410086b0230b5aa0c11a5">boost::hana::Comparable::decltype</a></div><div class="ttdeci">decltype(auto) constexpr boost::hana::operators::operator==(X &amp;&amp;x, Y &amp;&amp;y)</div><div class="ttdoc">Equivalent to equal. </div><div class="ttdef"><b>Definition:</b> operators.hpp:28</div></div>
 </div><!-- fragment -->
 <p>Partially apply a function to some arguments. </p>
 <p>Specifically, <code>partial(f, x...)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga778b2daa27882e71d28b6f2b38982ddf">partial</a>(f, x...)(y...) == f(x..., y...)</div>

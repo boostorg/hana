@@ -3,6 +3,7 @@ var searchData=
   ['make',['make',['../group__group-core.html#gae60eae11766d96f803ec954f9f521936',1,'boost::hana']]],
   ['make_3c_20l_2c_20when_3c_20is_5fa_3c_20list_2c_20l_20_3e_29_3e_20_3e',['make&lt; L, when&lt; is_a&lt; List, L &gt;)&gt; &gt;',['../structboost_1_1hana_1_1_list.html#a711e061315d04d18ef407084906ffba4',1,'boost::hana::List']]],
   ['make_3c_20p_2c_20when_3c_20is_5fa_3c_20product_2c_20p_20_3e_29_3e_20_3e',['make&lt; P, when&lt; is_a&lt; Product, P &gt;)&gt; &gt;',['../structboost_1_1hana_1_1_product.html#acb4b1d31fa7c0274b04ab1031afcc83d',1,'boost::hana::Product']]],
+  ['make_3c_20set_20_3e',['make&lt; Set &gt;',['../structboost_1_1hana_1_1_set.html#ade2be766c8daa85306a8d9c29bf75dfe',1,'boost::hana::Set']]],
   ['map',['map',['../structboost_1_1hana_1_1_map.html#a56ec5fd28fa8659b89fc526c89bdea6b',1,'boost::hana::Map']]],
   ['max',['max',['../structboost_1_1hana_1_1_orderable.html#a9fb8718f43756efef3953635f34fd67e',1,'boost::hana::Orderable']]],
   ['maximum',['maximum',['../structboost_1_1hana_1_1_foldable.html#ac49a8fde2d3de61959c99e755a81c0a1',1,'boost::hana::Foldable']]],

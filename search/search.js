@@ -11,11 +11,12 @@ var indexSectionsWithContent =
   1: "abcdefgilmnoprstuw",
   2: "b",
   3: "abcdefghilmnoprstuvw",
-  4: "dopst",
+  4: "cdopst",
   5: "_abcdefghijklmnopqrstuvz",
   6: "d",
-  7: "cdft",
-  8: "btu"
+  7: "b",
+  8: "cdft",
+  9: "btu"
 };
 
 var indexSectionNames =
@@ -27,8 +28,9 @@ var indexSectionNames =
   4: "functions",
   5: "variables",
   6: "typedefs",
-  7: "groups",
-  8: "pages"
+  7: "defines",
+  8: "groups",
+  9: "pages"
 };
 
 function convertToId(search)

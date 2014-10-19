@@ -77,7 +77,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_list.html','')
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Modules</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Modules</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -105,7 +105,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_list.html','')
 <li>How to implement iterate and repeat?</li>
 <li>There is a strong relationship between this and <code>MonadPlus</code>. Actually, they might be just the same. Check this out.</li>
 <li>Implement the following methods:<ul>
-<li><code>intersperse</code>, <code>intercalate</code>, <code>transpose</code>, <code>subsequences</code></li>
+<li><code>intercalate</code>, <code>transpose</code>, <code>subsequences</code></li>
 <li><code>split_at</code>, <code>break</code>, <code>inits</code>, <code>tails</code></li>
 </ul>
 </li>
@@ -138,6 +138,9 @@ Synopsis of methods</h2></td></tr>
 <tr class="memitem:a733fdb2e8686033466beea8323e53a26"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#a733fdb2e8686033466beea8323e53a26">init</a></td></tr>
 <tr class="memdesc:a733fdb2e8686033466beea8323e53a26"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove the last element of a non-empty list.  <a href="#a733fdb2e8686033466beea8323e53a26">More...</a><br /></td></tr>
 <tr class="separator:a733fdb2e8686033466beea8323e53a26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6e88c5dd3f638a60c0a451ad6db95ec"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#ab6e88c5dd3f638a60c0a451ad6db95ec">intersperse</a></td></tr>
+<tr class="memdesc:ab6e88c5dd3f638a60c0a451ad6db95ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert a value between each pair of elements in a list.  <a href="#ab6e88c5dd3f638a60c0a451ad6db95ec">More...</a><br /></td></tr>
+<tr class="separator:ab6e88c5dd3f638a60c0a451ad6db95ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a711e061315d04d18ef407084906ffba4"><td class="memTemplParams" colspan="2">template&lt;typename L &gt; </td></tr>
 <tr class="memitem:a711e061315d04d18ef407084906ffba4"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#a711e061315d04d18ef407084906ffba4">make&lt; L, when&lt; is_a&lt; List, L &gt;)&gt; &gt;</a></td></tr>
 <tr class="memdesc:a711e061315d04d18ef407084906ffba4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose index-based sequence. ">List</a></code> with the given elements in it.  <a href="#a711e061315d04d18ef407084906ffba4">More...</a><br /></td></tr>
@@ -152,6 +155,10 @@ Synopsis of methods</h2></td></tr>
 <tr class="memitem:a45ec7767d19eb7eaabb71ead3796a7f1"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#a45ec7767d19eb7eaabb71ead3796a7f1">permutations</a></td></tr>
 <tr class="memdesc:a45ec7767d19eb7eaabb71ead3796a7f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a list of all the permutations of the given list.  <a href="#a45ec7767d19eb7eaabb71ead3796a7f1">More...</a><br /></td></tr>
 <tr class="separator:a45ec7767d19eb7eaabb71ead3796a7f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acbf4797cf95bb19dfe33a16cf86fe3c9"><td class="memTemplParams" colspan="2">template&lt;typename L &gt; </td></tr>
+<tr class="memitem:acbf4797cf95bb19dfe33a16cf86fe3c9"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#acbf4797cf95bb19dfe33a16cf86fe3c9">repeat</a></td></tr>
+<tr class="memdesc:acbf4797cf95bb19dfe33a16cf86fe3c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a list containing <code>n</code> copies of a value.  <a href="#acbf4797cf95bb19dfe33a16cf86fe3c9">More...</a><br /></td></tr>
+<tr class="separator:acbf4797cf95bb19dfe33a16cf86fe3c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4471413ccc3835db5e48658683b8aba0"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_list.html#a4471413ccc3835db5e48658683b8aba0">reverse</a></td></tr>
 <tr class="memdesc:a4471413ccc3835db5e48658683b8aba0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reverse a list.  <a href="#a4471413ccc3835db5e48658683b8aba0">More...</a><br /></td></tr>
 <tr class="separator:a4471413ccc3835db5e48658683b8aba0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -360,7 +367,7 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">        );</div>
 </div><!-- fragment --> <h3>Benchmarks</h3>
 <div class="image">
-<img src="filter.time.png" alt="filter.time.png"/>
+<img src="filter.ctime.png" alt="filter.ctime.png"/>
 </div>
  
 </div>
@@ -489,6 +496,47 @@ Instances and minimal complete definitions</h2></td></tr>
 </div><!-- fragment -->
 </div>
 </div>
+<a class="anchor" id="ab6e88c5dd3f638a60c0a451ad6db95ec"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto intersperse</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs, <span class="keyword">auto</span>&amp;&amp; z) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">        <span class="keywordflow">return</span> List::instance&lt;</div>
+<div class="line">            datatype_t&lt;decltype(xs)&gt;</div>
+<div class="line">        &gt;::intersperse_impl(</div>
+<div class="line">            detail::std::forward&lt;decltype(xs)&gt;(xs),</div>
+<div class="line">            detail::std::forward&lt;decltype(z)&gt;(z)</div>
+<div class="line">        );</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Insert a value between each pair of elements in a list. </p>
+<p>Specifically, <code>intersperse([x1, x2, ..., xn], z)</code> is a list equivalent to <code>[x1, z, x2, z, x3, ..., xn-1, z, xn]</code>. If the list is empty or has a single element, then <code>intersperse</code> returns the list as is.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">xs</td><td>The list in which a value is interspersed.</td></tr>
+    <tr><td class="paramname">z</td><td>The value to be interspersed in the list.</td></tr>
+  </table>
+  </dd>
+</dl>
+<h3>Example</h3>
+<div class="fragment"><div class="line">        <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#ab6e88c5dd3f638a60c0a451ad6db95ec">intersperse</a>(tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3), <span class="charliteral">&#39;x&#39;</span>) == tuple(1, <span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;2&#39;</span>, <span class="charliteral">&#39;x&#39;</span>, 3.3));</div>
+<div class="line">        <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#ab6e88c5dd3f638a60c0a451ad6db95ec">intersperse</a>(tuple(), <span class="charliteral">&#39;x&#39;</span>) == tuple());</div>
+</div><!-- fragment -->
+</div>
+</div>
 <a class="anchor" id="a711e061315d04d18ef407084906ffba4"></a>
 <div class="memitem">
 <div class="memproto">
@@ -532,7 +580,7 @@ template&lt;typename L &gt; </div>
 <div class="line">        <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3) == tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3));</div>
 </div><!-- fragment --> <h3>Benchmarks</h3>
 <div class="image">
-<img src="make.time.png" alt="make.time.png"/>
+<img src="make.ctime.png" alt="make.ctime.png"/>
 </div>
  
 </div>
@@ -673,10 +721,56 @@ template&lt;typename L &gt; </div>
 <div class="line">        );</div>
 </div><!-- fragment --> <h3>Benchmarks</h3>
 <div class="image">
-<img src="permutations.time.png" alt="permutations.time.png"/>
+<img src="permutations.ctime.png" alt="permutations.ctime.png"/>
 </div>
-<dl class="bug"><dt><b><a class="el" href="bug.html#_bug000001">Bug:</a></b></dt><dd>We got a performance problem here. Generating the permutations of a list of more than 3 elements takes a long time (&gt;6s). </dd></dl>
+<dl class="bug"><dt><b><a class="el" href="bug.html#_bug000007">Bug:</a></b></dt><dd>We got a performance problem here. Generating the permutations of a list of more than 3 elements takes a long time (&gt;6s). </dd></dl>
 
+</div>
+</div>
+<a class="anchor" id="acbf4797cf95bb19dfe33a16cf86fe3c9"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename L &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto repeat</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; n, <span class="keyword">auto</span>&amp;&amp; x) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">        <span class="keywordflow">return</span> List::instance&lt;L&gt;::repeat_impl(</div>
+<div class="line">            detail::std::forward&lt;decltype(n)&gt;(n),</div>
+<div class="line">            detail::std::forward&lt;decltype(x)&gt;(x)</div>
+<div class="line">        );</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Create a list containing <code>n</code> copies of a value. </p>
+<p>Specifically, <code>repeat&lt;L&gt;(n, x)</code> is a list of data type <code>L</code> containing <code>n</code> copies of <code>x</code>.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">L</td><td>The data type of the list to create. It must be an instance of <code><a class="el" href="structboost_1_1hana_1_1_list.html" title="General purpose index-based sequence. ">List</a></code>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">n</td><td>An <code><a class="el" href="structboost_1_1hana_1_1_integral_constant.html" title="The IntegralConstant type class is used for Constants holding a compile-time value of an integral typ...">IntegralConstant</a></code> representing the number of copies of <code>x</code> to shove into the returned list.</td></tr>
+    <tr><td class="paramname">x</td><td>The value to fill the list with.</td></tr>
+  </table>
+  </dd>
+</dl>
+<h3>Example</h3>
+<div class="fragment"><div class="line">        <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(repeat&lt;Tuple&gt;(int_&lt;2&gt;, <span class="charliteral">&#39;x&#39;</span>) == tuple(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;x&#39;</span>));</div>
+</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a4471413ccc3835db5e48658683b8aba0"></a>
@@ -746,7 +840,7 @@ template&lt;typename L &gt; </div>
 </dl>
 <h3>Example</h3>
 <div class="fragment"><div class="line">        <span class="keyword">auto</span> to_string = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">            <span class="keywordflow">return</span> (std::ostringstream{} &lt;&lt; x).str();</div>
+<div class="line">            <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>std::ostringstream const&amp;<span class="keyword">&gt;</span>(std::ostringstream{} &lt;&lt; x).str();</div>
 <div class="line">        };</div>
 <div class="line"></div>
 <div class="line">        <span class="keyword">auto</span> show = [=](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
@@ -761,7 +855,7 @@ template&lt;typename L &gt; </div>
 <div class="line">        ));</div>
 </div><!-- fragment --> <h3>Benchmarks</h3>
 <div class="image">
-<img src="scanl.time.png" alt="scanl.time.png"/>
+<img src="scanl.ctime.png" alt="scanl.ctime.png"/>
 </div>
  
 </div>
@@ -803,7 +897,7 @@ template&lt;typename L &gt; </div>
 </dl>
 <h3>Example</h3>
 <div class="fragment"><div class="line">        <span class="keyword">auto</span> to_string = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">            <span class="keywordflow">return</span> (std::ostringstream{} &lt;&lt; x).str();</div>
+<div class="line">            <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>std::ostringstream const&amp;<span class="keyword">&gt;</span>(std::ostringstream{} &lt;&lt; x).str();</div>
 <div class="line">        };</div>
 <div class="line"></div>
 <div class="line">        <span class="keyword">auto</span> show = [=](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
@@ -817,7 +911,7 @@ template&lt;typename L &gt; </div>
 <div class="line">        ));</div>
 </div><!-- fragment --> <h3>Benchmarks</h3>
 <div class="image">
-<img src="scanl1.time.png" alt="scanl1.time.png"/>
+<img src="scanl1.ctime.png" alt="scanl1.ctime.png"/>
 </div>
  
 </div>
@@ -860,7 +954,7 @@ template&lt;typename L &gt; </div>
 </dl>
 <h3>Example</h3>
 <div class="fragment"><div class="line">        <span class="keyword">auto</span> to_string = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">            <span class="keywordflow">return</span> (std::ostringstream{} &lt;&lt; x).str();</div>
+<div class="line">            <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>std::ostringstream const&amp;<span class="keyword">&gt;</span>(std::ostringstream{} &lt;&lt; x).str();</div>
 <div class="line">        };</div>
 <div class="line"></div>
 <div class="line">        <span class="keyword">auto</span> show = [=](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
@@ -875,7 +969,7 @@ template&lt;typename L &gt; </div>
 <div class="line">        ));</div>
 </div><!-- fragment --> <h3>Benchmarks</h3>
 <div class="image">
-<img src="scanr.time.png" alt="scanr.time.png"/>
+<img src="scanr.ctime.png" alt="scanr.ctime.png"/>
 </div>
  
 </div>
@@ -917,7 +1011,7 @@ template&lt;typename L &gt; </div>
 </dl>
 <h3>Example</h3>
 <div class="fragment"><div class="line">        <span class="keyword">auto</span> to_string = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">            <span class="keywordflow">return</span> (std::ostringstream{} &lt;&lt; x).str();</div>
+<div class="line">            <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>std::ostringstream const&amp;<span class="keyword">&gt;</span>(std::ostringstream{} &lt;&lt; x).str();</div>
 <div class="line">        };</div>
 <div class="line"></div>
 <div class="line">        <span class="keyword">auto</span> show = [=](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
@@ -931,7 +1025,7 @@ template&lt;typename L &gt; </div>
 <div class="line">        ));</div>
 </div><!-- fragment --> <h3>Benchmarks</h3>
 <div class="image">
-<img src="scanr1.time.png" alt="scanr1.time.png"/>
+<img src="scanr1.ctime.png" alt="scanr1.ctime.png"/>
 </div>
  
 </div>
@@ -1089,7 +1183,7 @@ template&lt;std::size_t from, std::size_t to&gt; </div>
 <div class="line">        );</div>
 </div><!-- fragment --> <h3>Benchmarks</h3>
 <div class="image">
-<img src="sort.time.png" alt="sort.time.png"/>
+<img src="sort.ctime.png" alt="sort.ctime.png"/>
 </div>
  
 </div>
@@ -1243,7 +1337,7 @@ template&lt;std::size_t from, std::size_t to&gt; </div>
 <div class="line">        <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_list.html#a2c20028c5115dcf38063d322f27b4ee1">take</a>(4_c, tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)) == tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3));</div>
 </div><!-- fragment --> <h3>Benchmarks</h3>
 <div class="image">
-<img src="take.time.png" alt="take.time.png"/>
+<img src="take.ctime.png" alt="take.ctime.png"/>
 </div>
  
 </div>
@@ -1321,7 +1415,7 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">        );</div>
 </div><!-- fragment --> <h3>Benchmarks</h3>
 <div class="image">
-<img src="take_until.time.png" alt="take_until.time.png"/>
+<img src="take_until.ctime.png" alt="take_until.ctime.png"/>
 </div>
  
 </div>
@@ -1370,7 +1464,7 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">        );</div>
 </div><!-- fragment --> <h3>Benchmarks</h3>
 <div class="image">
-<img src="take_while.time.png" alt="take_while.time.png"/>
+<img src="take_while.ctime.png" alt="take_while.ctime.png"/>
 </div>
  
 </div>
@@ -1628,7 +1722,7 @@ template&lt;typename L &gt; </div>
 <div class="line">        );</div>
 </div><!-- fragment --> <h3>Benchmarks</h3>
 <div class="image">
-<img src="zip_with.time.png" alt="zip_with.time.png"/>
+<img src="zip_with.ctime.png" alt="zip_with.ctime.png"/>
 </div>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000026">Todo:</a></b></dt><dd>Consider allowing only two lists and achieving the variadic behavior in some other way. This would make it possible to automatically curry <code>zip_with</code>. It might be possible to achieve the variadic behavior with e.g. <a class="el" href="structboost_1_1hana_1_1_applicative.html" title="Applicatives are Functors with the ability to lift values and combine computations. ">Applicative</a> Functors? </dd></dl>
 

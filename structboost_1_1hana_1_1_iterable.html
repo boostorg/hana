@@ -77,7 +77,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_iterable.html'
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Modules</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Modules</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -102,7 +102,9 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_iterable.html'
 <div class="line"><a class="code" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>&lt;Tuple&gt;(<a class="code" href="structboost_1_1hana_1_1_iterable.html#ab15783aae10d4373e2399abe728f3f96">tail</a>(it)) == <a class="code" href="structboost_1_1hana_1_1_iterable.html#ab15783aae10d4373e2399abe728f3f96">tail</a>(<a class="code" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>&lt;Tuple&gt;(it))</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1_iterable.html#a4193ecf811f29479c60022564afa512a">is_empty</a>(it) if and only if <a class="code" href="structboost_1_1hana_1_1_iterable.html#a4193ecf811f29479c60022564afa512a">is_empty</a>(<a class="code" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>&lt;Tuple&gt;(it))</div>
 </div><!-- fragment --><p>This is basically saying that linearizing a <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="Data structures that can be folded, i.e. summarized into a single value. ">Foldable</a></code> and then iterating through it should be equivalent to iterating through it in the first place. </p>
-</div><table class="memberdecls">
+</div>
+<p>Inherited by boost::hana::Range::hana_enabled_operators, and boost::hana::Tuple::hana_enabled_operators.</p>
+<table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of methods</h2></td></tr>
 <tr class="memitem:adc2675aeee1174a9b337e94f39506bec"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_iterable.html#adc2675aeee1174a9b337e94f39506bec">head</a></td></tr>
@@ -150,6 +152,7 @@ Instances and minimal complete definitions</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Instance of <code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="Iterable represents data structures supporting external iteration. ">Iterable</a></code> for <code><a class="el" href="structboost_1_1hana_1_1_range.html" title="Compile-time half-open interval of Integrals. ">Range</a></code>s.  <a href="structboost_1_1hana_1_1_iterable_1_1instance_3_01_range_01_4.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_iterable_1_1instance_3_01_tuple_01_4.html">instance&lt; Tuple &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Instance of <code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="Iterable represents data structures supporting external iteration. ">Iterable</a></code> for <code><a class="el" href="structboost_1_1hana_1_1_tuple.html" title="General purpose index-based heterogeneous sequence. ">Tuple</a></code>s.  <a href="structboost_1_1hana_1_1_iterable_1_1instance_3_01_tuple_01_4.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_iterable_1_1mcd.html">mcd</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Minimal complete definition: <code>head</code>, <code>tail</code> and <code>is_empty</code>  <a href="structboost_1_1hana_1_1_iterable_1_1mcd.html#details">More...</a><br /></td></tr>
@@ -287,9 +290,10 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">        <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_iterable.html#af4e91486be10ef3a19495cb3d3652721">at</a>(int_&lt;2&gt;, tuple(0, <span class="charliteral">&#39;1&#39;</span>, 2.0)) == 2.0);</div>
 </div><!-- fragment --> <h3>Benchmarks</h3>
 <div class="image">
-<img src="at.time.png" alt="at.time.png"/>
+<img src="at.ctime.png" alt="at.ctime.png"/>
 </div>
- 
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000022">Todo:</a></b></dt><dd>Only require <code><a class="el" href="structboost_1_1hana_1_1_integral_constant.html" title="The IntegralConstant type class is used for Constants holding a compile-time value of an integral typ...">IntegralConstant</a></code>, not <code><a class="el" href="structboost_1_1hana_1_1_integral.html" title="Represents a compile-time value of an integral type. ">Integral</a></code>. </dd></dl>
+
 </div>
 </div>
 <a class="anchor" id="a1005463b688fed01eb1d292398ce8202"></a>
@@ -351,7 +355,7 @@ template&lt;std::size_t n&gt; </div>
 <div class="fragment"><div class="line">        <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_iterable.html#a5379264e83af65af8802eeec0d49e5f0">last</a>(tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, <span class="keyword">nullptr</span>)) == <span class="keyword">nullptr</span>);</div>
 </div><!-- fragment --> <h3>Benchmarks</h3>
 <div class="image">
-<img src="last.time.png" alt="last.time.png"/>
+<img src="last.ctime.png" alt="last.ctime.png"/>
 </div>
  
 </div>
@@ -399,7 +403,7 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">        <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>(int_&lt;4&gt;, xs) == tuple());</div>
 </div><!-- fragment --> <h3>Benchmarks</h3>
 <div class="image">
-<img src="drop.time.png" alt="drop.time.png"/>
+<img src="drop.ctime.png" alt="drop.ctime.png"/>
 </div>
  
 </div>
@@ -483,7 +487,7 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">        );</div>
 </div><!-- fragment --> <h3>Benchmarks</h3>
 <div class="image">
-<img src="drop_while.time.png" alt="drop_while.time.png"/>
+<img src="drop_while.ctime.png" alt="drop_while.ctime.png"/>
 </div>
  
 </div>
@@ -539,7 +543,7 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">        );</div>
 </div><!-- fragment --> <h3>Benchmarks</h3>
 <div class="image">
-<img src="drop_until.time.png" alt="drop_until.time.png"/>
+<img src="drop_until.ctime.png" alt="drop_until.ctime.png"/>
 </div>
  
 </div>

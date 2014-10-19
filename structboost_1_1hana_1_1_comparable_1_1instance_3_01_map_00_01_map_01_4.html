@@ -77,7 +77,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_comparable_1_1
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Modules</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Modules</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -99,17 +99,17 @@ struct boost::hana::Comparable::instance&lt; Map, Map &gt;</h3>
 
 <p>Two maps are equal iff all their keys are equal and are associated to equal values. </p>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#ga7ad5b8e5cb988d185dffa511b50cebd2">BOOST_HANA_RUNTIME_ASSERT</a>(</div>
-<div class="line">        map(</div>
-<div class="line">            pair(char_&lt;&#39;a&#39;&gt;, std::string{<span class="stringliteral">&quot;foobar&quot;</span>}),</div>
-<div class="line">            pair(type&lt;int&amp;&amp;&gt;, <span class="keyword">nullptr</span>)</div>
-<div class="line">        )</div>
-<div class="line">        ==</div>
-<div class="line">        map(</div>
-<div class="line">            pair(type&lt;int&amp;&amp;&gt;, (<span class="keywordtype">void</span>*)0),</div>
-<div class="line">            pair(char_&lt;&#39;a&#39;&gt;, <span class="stringliteral">&quot;foobar&quot;</span>)</div>
-<div class="line">        )</div>
-<div class="line">    );</div>
+<div class="fragment"><div class="line">        <a class="code" href="group__group-details.html#ga7ad5b8e5cb988d185dffa511b50cebd2">BOOST_HANA_RUNTIME_ASSERT</a>(</div>
+<div class="line">            map(</div>
+<div class="line">                pair(char_&lt;&#39;a&#39;&gt;, std::string{<span class="stringliteral">&quot;foobar&quot;</span>}),</div>
+<div class="line">                pair(type&lt;int&amp;&amp;&gt;, <span class="keyword">nullptr</span>)</div>
+<div class="line">            )</div>
+<div class="line">            ==</div>
+<div class="line">            map(</div>
+<div class="line">                pair(type&lt;int&amp;&amp;&gt;, (<span class="keywordtype">void</span>*)0),</div>
+<div class="line">                pair(char_&lt;&#39;a&#39;&gt;, <span class="stringliteral">&quot;foobar&quot;</span>)</div>
+<div class="line">            )</div>
+<div class="line">        );</div>
 </div><!-- fragment --></div><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Inheritance diagram for boost::hana::Comparable::instance&lt; Map, Map &gt;:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">

@@ -1,5 +1,6 @@
 var structboost_1_1hana_1_1_orderable =
 [
+    [ "instance< String, String >", "structboost_1_1hana_1_1_orderable_1_1instance_3_01_string_00_01_string_01_4.html", null ],
     [ "less_mcd", "structboost_1_1hana_1_1_orderable_1_1less__mcd.html", null ],
     [ "less", "structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5", null ],
     [ "less_equal", "structboost_1_1hana_1_1_orderable.html#a8012cbd416c2067be764046dcd0c2a23", null ],

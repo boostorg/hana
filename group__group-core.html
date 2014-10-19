@@ -77,7 +77,7 @@ $(document).ready(function(){initNavTree('group__group-core.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Modules</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Modules</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -99,7 +99,7 @@ $(document).ready(function(){initNavTree('group__group-core.html','');});
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
 <p>Core utilities of the library. </p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000008">Todo:</a></b></dt><dd>Update the documentation about the organization of the Core module. </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000007">Todo:</a></b></dt><dd>Update the documentation about the organization of the Core module. </dd></dl>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
@@ -374,10 +374,13 @@ template&lt;typename To &gt; </div>
 </div><div class="memdoc">
 
 <p><code>#include &lt;<a class="el" href="core_2convert_8hpp.html">boost/hana/core/convert.hpp</a>&gt;</code></p>
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> x) {</div>
-<div class="line">        <span class="keywordflow">return</span> convert&lt;To, datatype_t&lt;decltype(x)&gt;&gt;<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">::apply</a>(x);</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; x) -&gt; <a class="code" href="structboost_1_1hana_1_1_comparable.html#a94e26804d5b410086b0230b5aa0c11a5">decltype</a>(<span class="keyword">auto</span>) {</div>
+<div class="line">        <span class="keywordflow">return</span> convert&lt;To, datatype_t&lt;decltype(x)&gt;&gt;<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">::apply</a>(</div>
+<div class="line">            std::forward&lt;<a class="code" href="structboost_1_1hana_1_1_comparable.html#a94e26804d5b410086b0230b5aa0c11a5">decltype</a>(x)&gt;(x)</div>
+<div class="line">        );</div>
 <div class="line">    }</div>
-<div class="ttc" id="group__group-functional_html_ga30027c383676084be151ef3c6cf2829f"><div class="ttname"><a href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">boost::hana::apply</a></div><div class="ttdeci">constexpr auto apply</div><div class="ttdoc">Invoke f with x... as arguments. </div><div class="ttdef"><b>Definition:</b> apply.hpp:32</div></div>
+<div class="ttc" id="group__group-functional_html_ga30027c383676084be151ef3c6cf2829f"><div class="ttname"><a href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">boost::hana::apply</a></div><div class="ttdeci">constexpr auto apply</div><div class="ttdoc">Invoke f with x... as arguments. </div><div class="ttdef"><b>Definition:</b> apply.hpp:33</div></div>
+<div class="ttc" id="structboost_1_1hana_1_1_comparable_html_a94e26804d5b410086b0230b5aa0c11a5"><div class="ttname"><a href="structboost_1_1hana_1_1_comparable.html#a94e26804d5b410086b0230b5aa0c11a5">boost::hana::Comparable::decltype</a></div><div class="ttdeci">decltype(auto) constexpr boost::hana::operators::operator==(X &amp;&amp;x, Y &amp;&amp;y)</div><div class="ttdoc">Equivalent to equal. </div><div class="ttdef"><b>Definition:</b> operators.hpp:28</div></div>
 </div><!-- fragment -->
 <p>Create an object of a data type from an object of another data type. </p>
 <p>See <code>convert</code> to specify <em>how</em> to convert from a data type to another.</p>
@@ -430,6 +433,9 @@ template&lt;typename Typeclass , typename... Datatypes&gt; </div>
 <div class="line">    <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>( are&lt;Comparable, int, long&gt;);</div>
 </div><!-- fragment --><p> An alternate syntax is provided for convenience. <code>is_a</code> can also be used as a function returning whether the data types of its arguments together define an instance of the given type class. In other words, </p><div class="fragment"><div class="line">is_a&lt;Typeclass&gt;(x1, ..., xn) == is_a&lt;Typeclass, D1, ..., Dn&gt;</div>
 </div><!-- fragment --><p> where <code>xi</code> is an arbitrary object and <code>Di</code> is the data type of the corresponding <code>xi</code>.</p>
+<p>With this alternate syntax, if a data type <code>D</code> is provided instead of a type class, and if a single object is passed, it returns whether the passed object has <code>D</code> as a data type. In other words, </p><div class="fragment"><div class="line">is_a&lt;Datatype&gt;(x)</div>
+</div><!-- fragment --><p> is true if <code>x</code> has a data type of <code>Datatype</code>.</p>
+<dl class="section note"><dt>Note</dt><dd>This relies on the fact that data types do not coincide with type classes. Otherwise, it would be impossible to differentiate between <code>is_a&lt;Datatype&gt;</code> and <code>is_a&lt;Typeclass&gt;</code> without introducing additional machinery.</dd></dl>
 <h3>Example</h3>
 <div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> row = tuple;</div>
 <div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> check_table = [](<span class="keyword">auto</span> ...headers) {</div>
@@ -469,12 +475,19 @@ template&lt;typename Datatype , typename  = optional when-based enabler&gt; </di
 <div class="line">            std::forward&lt;<a class="code" href="structboost_1_1hana_1_1_comparable.html#a94e26804d5b410086b0230b5aa0c11a5">decltype</a>(x)&gt;(x)...</div>
 <div class="line">        );</div>
 <div class="line">    }</div>
-<div class="ttc" id="group__group-functional_html_ga30027c383676084be151ef3c6cf2829f"><div class="ttname"><a href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">boost::hana::apply</a></div><div class="ttdeci">constexpr auto apply</div><div class="ttdoc">Invoke f with x... as arguments. </div><div class="ttdef"><b>Definition:</b> apply.hpp:32</div></div>
+<div class="ttc" id="group__group-functional_html_ga30027c383676084be151ef3c6cf2829f"><div class="ttname"><a href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">boost::hana::apply</a></div><div class="ttdeci">constexpr auto apply</div><div class="ttdoc">Invoke f with x... as arguments. </div><div class="ttdef"><b>Definition:</b> apply.hpp:33</div></div>
 <div class="ttc" id="structboost_1_1hana_1_1_comparable_html_a94e26804d5b410086b0230b5aa0c11a5"><div class="ttname"><a href="structboost_1_1hana_1_1_comparable.html#a94e26804d5b410086b0230b5aa0c11a5">boost::hana::Comparable::decltype</a></div><div class="ttdeci">decltype(auto) constexpr boost::hana::operators::operator==(X &amp;&amp;x, Y &amp;&amp;y)</div><div class="ttdoc">Equivalent to equal. </div><div class="ttdef"><b>Definition:</b> operators.hpp:28</div></div>
 </div><!-- fragment -->
 <p>Create an object of the given data type with the given arguments. </p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000006">Todo:</a></b></dt><dd>Document me. </dd></dl>
-
+<p>This function serves the same purpose as constructors in usual C++. However, instead of creating an object of a specific C++ type, it creates an object of a specific data type, with a C++ type that is left unspecified in the general case.</p>
+<p>This variable template may be customized by specializing it for a specific data type. When left unspecialized, <code>make&lt;Datatype&gt;(args...)</code> defaults to <code>Datatype(args...)</code> if that expression is valid, which is useful because it makes foreign C++ types constructible with <code>make</code> out-of-the-box. When the <code>Datatype(args...)</code> is invalid and no specialization is provided, a static assertion is triggered.</p>
+<h3>Example</h3>
+<div class="fragment"><div class="line">    <span class="keyword">auto</span> foo = make&lt;std::string&gt;(<span class="stringliteral">&quot;foo&quot;</span>);</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga7ad5b8e5cb988d185dffa511b50cebd2">BOOST_HANA_RUNTIME_ASSERT</a>(foo == <span class="stringliteral">&quot;foo&quot;</span>);</div>
+<div class="line"></div>
+<div class="line">    <span class="keyword">auto</span> ts = make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, std::string{<span class="stringliteral">&quot;abcd&quot;</span>});</div>
+<div class="line">    <a class="code" href="group__group-details.html#ga7ad5b8e5cb988d185dffa511b50cebd2">BOOST_HANA_RUNTIME_ASSERT</a>(ts == tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, std::string{<span class="stringliteral">&quot;abcd&quot;</span>}));</div>
+</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="ga2ffb2ad0341b5ec4e6fd83431e2a81ae"></a>

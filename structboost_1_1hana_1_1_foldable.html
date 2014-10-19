@@ -77,7 +77,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_foldable.html'
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Modules</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Modules</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -160,6 +160,9 @@ Instances and minimal complete definitions</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_foldable_1_1instance_3_01_range_01_4.html">instance&lt; Range &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Instance of <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="Data structures that can be folded, i.e. summarized into a single value. ">Foldable</a></code> for <code><a class="el" href="structboost_1_1hana_1_1_range.html" title="Compile-time half-open interval of Integrals. ">Range</a></code>s.  <a href="structboost_1_1hana_1_1_foldable_1_1instance_3_01_range_01_4.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_foldable_1_1instance_3_01_string_01_4.html">instance&lt; String &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Instance of <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="Data structures that can be folded, i.e. summarized into a single value. ">Foldable</a></code> for <code><a class="el" href="structboost_1_1hana_1_1_string.html" title="Represents a compile-time string. ">String</a></code>s.  <a href="structboost_1_1hana_1_1_foldable_1_1instance_3_01_string_01_4.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_foldable_1_1instance_3_01_t[_n]_4.html">instance&lt; T[N]&gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Instance of <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="Data structures that can be folded, i.e. summarized into a single value. ">Foldable</a></code> for array types.  <a href="structboost_1_1hana_1_1_foldable_1_1instance_3_01_t[_n]_4.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -208,7 +211,7 @@ Instances and minimal complete definitions</h2></td></tr>
 </dl>
 <h3>Example</h3>
 <div class="fragment"><div class="line">        <span class="keyword">auto</span> to_string = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">            <span class="keywordflow">return</span> (std::ostringstream{} &lt;&lt; x).str();</div>
+<div class="line">            <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>std::ostringstream const&amp;<span class="keyword">&gt;</span>(std::ostringstream{} &lt;&lt; x).str();</div>
 <div class="line">        };</div>
 <div class="line"></div>
 <div class="line">        <span class="keyword">auto</span> show = [=](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
@@ -218,10 +221,10 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">        <a class="code" href="group__group-details.html#ga7ad5b8e5cb988d185dffa511b50cebd2">BOOST_HANA_RUNTIME_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a0a5d375abcde2ceed89662df491a2c43">foldl</a>(tuple(2, <span class="stringliteral">&quot;3&quot;</span>, <span class="charliteral">&#39;4&#39;</span>), <span class="stringliteral">&quot;1&quot;</span>, show) == <span class="stringliteral">&quot;(((1 + 2) + 3) + 4)&quot;</span>);</div>
 </div><!-- fragment --> <h3>Benchmarks</h3>
 <div class="image">
-<img src="foldl.time.png" alt="foldl.time.png"/>
+<img src="foldl.ctime.png" alt="foldl.ctime.png"/>
 </div>
  
-<p>Referenced by <a class="el" href="structboost_1_1hana_1_1_foldable_1_1folds__mcd.html#ace65db3f4b4c3e5a7220318072bb1b2b">boost::hana::Foldable::folds_mcd::product_impl()</a>, and <a class="el" href="structboost_1_1hana_1_1_foldable_1_1folds__mcd.html#a068d40f61952fe5a1bc7776057a2398a">boost::hana::Foldable::folds_mcd::sum_impl()</a>.</p>
+<p>Referenced by <a class="el" href="structboost_1_1hana_1_1_foldable_1_1folds__mcd.html#ac6063310ae0628703de2ca1a20cbd1cc">boost::hana::Foldable::folds_mcd::product_impl()</a>, and <a class="el" href="structboost_1_1hana_1_1_foldable_1_1folds__mcd.html#a97a270f5598f2916010c4aec8129b6e1">boost::hana::Foldable::folds_mcd::sum_impl()</a>.</p>
 
 </div>
 </div>
@@ -263,7 +266,7 @@ Instances and minimal complete definitions</h2></td></tr>
 </dl>
 <h3>Example</h3>
 <div class="fragment"><div class="line">        <span class="keyword">auto</span> to_string = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">            <span class="keywordflow">return</span> (std::ostringstream{} &lt;&lt; x).str();</div>
+<div class="line">            <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>std::ostringstream const&amp;<span class="keyword">&gt;</span>(std::ostringstream{} &lt;&lt; x).str();</div>
 <div class="line">        };</div>
 <div class="line"></div>
 <div class="line">        <span class="keyword">auto</span> show = [=](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
@@ -273,7 +276,7 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">        <a class="code" href="group__group-details.html#ga7ad5b8e5cb988d185dffa511b50cebd2">BOOST_HANA_RUNTIME_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>(tuple(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>), <span class="stringliteral">&quot;4&quot;</span>, show) == <span class="stringliteral">&quot;(1 + (2 + (3 + 4)))&quot;</span>);</div>
 </div><!-- fragment --> <h3>Benchmarks</h3>
 <div class="image">
-<img src="foldr.time.png" alt="foldr.time.png"/>
+<img src="foldr.ctime.png" alt="foldr.ctime.png"/>
 </div>
  
 </div>
@@ -314,7 +317,7 @@ Instances and minimal complete definitions</h2></td></tr>
 </dl>
 <h3>Example</h3>
 <div class="fragment"><div class="line">        <span class="keyword">auto</span> to_string = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">            <span class="keywordflow">return</span> (std::ostringstream{} &lt;&lt; x).str();</div>
+<div class="line">            <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>std::ostringstream const&amp;<span class="keyword">&gt;</span>(std::ostringstream{} &lt;&lt; x).str();</div>
 <div class="line">        };</div>
 <div class="line"></div>
 <div class="line">        <span class="keyword">auto</span> show = [=](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
@@ -324,7 +327,7 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">        <a class="code" href="group__group-details.html#ga7ad5b8e5cb988d185dffa511b50cebd2">BOOST_HANA_RUNTIME_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a03b3683b885c27b5c607fe6f0d2f7356">foldr1</a>(tuple(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>), show) == <span class="stringliteral">&quot;(1 + (2 + 3))&quot;</span>);</div>
 </div><!-- fragment --> <h3>Benchmarks</h3>
 <div class="image">
-<img src="foldr1.time.png" alt="foldr1.time.png"/>
+<img src="foldr1.ctime.png" alt="foldr1.ctime.png"/>
 </div>
  
 </div>
@@ -365,7 +368,7 @@ Instances and minimal complete definitions</h2></td></tr>
 </dl>
 <h3>Example</h3>
 <div class="fragment"><div class="line">        <span class="keyword">auto</span> to_string = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">            <span class="keywordflow">return</span> (std::ostringstream{} &lt;&lt; x).str();</div>
+<div class="line">            <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>std::ostringstream const&amp;<span class="keyword">&gt;</span>(std::ostringstream{} &lt;&lt; x).str();</div>
 <div class="line">        };</div>
 <div class="line"></div>
 <div class="line">        <span class="keyword">auto</span> show = [=](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
@@ -375,7 +378,7 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">        <a class="code" href="group__group-details.html#ga7ad5b8e5cb988d185dffa511b50cebd2">BOOST_HANA_RUNTIME_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a8ca4972e61b7ad36ff9fcca9e6131da6">foldl1</a>(tuple(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>), show) == <span class="stringliteral">&quot;((1 + 2) + 3)&quot;</span>);</div>
 </div><!-- fragment --> <h3>Benchmarks</h3>
 <div class="image">
-<img src="foldl1.time.png" alt="foldl1.time.png"/>
+<img src="foldl1.ctime.png" alt="foldl1.ctime.png"/>
 </div>
  
 </div>
@@ -424,9 +427,9 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">        <a class="code" href="group__group-details.html#ga7ad5b8e5cb988d185dffa511b50cebd2">BOOST_HANA_RUNTIME_ASSERT</a>(ss.str() == <span class="stringliteral">&quot;0 1 234 5.5 &quot;</span>);</div>
 </div><!-- fragment --> <h3>Benchmarks</h3>
 <div class="image">
-<img src="for_each.time.png" alt="for_each.time.png"/>
+<img src="for_each.ctime.png" alt="for_each.ctime.png"/>
 </div>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000012">Todo:</a></b></dt><dd>The presence of implicit side effects in this function might be a smell that it should be moved to a different type class and handled through <code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="Monads are Applicatives with the ability to flatten values that were lifted more than once...">Monad</a></code>s. </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000010">Todo:</a></b></dt><dd>The presence of implicit side effects in this function might be a smell that it should be moved to a different type class and handled through <code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="Monads are Applicatives with the ability to flatten values that were lifted more than once...">Monad</a></code>s. </dd></dl>
 
 </div>
 </div>
@@ -462,7 +465,7 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">        <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a5fb377e43aa7753bb77aa346c67fae0d">length</a>(just(<span class="charliteral">&#39;x&#39;</span>)) == int_&lt;1&gt;);</div>
 </div><!-- fragment --> <h3>Benchmarks</h3>
 <div class="image">
-<img src="length.time.png" alt="length.time.png"/>
+<img src="length.ctime.png" alt="length.ctime.png"/>
 </div>
  
 </div>
@@ -513,7 +516,7 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">        );</div>
 </div><!-- fragment --> <h3>Benchmarks</h3>
 <div class="image">
-<img src="minimum_by.time.png" alt="minimum_by.time.png"/>
+<img src="minimum_by.ctime.png" alt="minimum_by.ctime.png"/>
 </div>
  
 </div>
@@ -548,7 +551,7 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">        );</div>
 </div><!-- fragment --> <h3>Benchmarks</h3>
 <div class="image">
-<img src="minimum.time.png" alt="minimum.time.png"/>
+<img src="minimum.ctime.png" alt="minimum.ctime.png"/>
 </div>
  
 </div>
@@ -599,7 +602,7 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">        );</div>
 </div><!-- fragment --> <h3>Benchmarks</h3>
 <div class="image">
-<img src="maximum_by.time.png" alt="maximum_by.time.png"/>
+<img src="maximum_by.ctime.png" alt="maximum_by.ctime.png"/>
 </div>
  
 </div>
@@ -634,7 +637,7 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">        );</div>
 </div><!-- fragment --> <h3>Benchmarks</h3>
 <div class="image">
-<img src="maximum.time.png" alt="maximum.time.png"/>
+<img src="maximum.ctime.png" alt="maximum.ctime.png"/>
 </div>
  
 </div>
@@ -674,7 +677,7 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">        );</div>
 </div><!-- fragment --> <h3>Benchmarks</h3>
 <div class="image">
-<img src="sum.time.png" alt="sum.time.png"/>
+<img src="sum.ctime.png" alt="sum.ctime.png"/>
 </div>
  
 </div>
@@ -714,7 +717,7 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">        );</div>
 </div><!-- fragment --> <h3>Benchmarks</h3>
 <div class="image">
-<img src="product.time.png" alt="product.time.png"/>
+<img src="product.ctime.png" alt="product.ctime.png"/>
 </div>
  
 </div>
@@ -769,7 +772,7 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">        <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#ae0a55dd7eb4bd4f587f51ffd8c923e53">count</a>(types, <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> == type&lt;void&gt;) == 0_c);</div>
 </div><!-- fragment --> <h3>Benchmarks</h3>
 <div class="image">
-<img src="count.time.png" alt="count.time.png"/>
+<img src="count.ctime.png" alt="count.ctime.png"/>
 </div>
  
 </div>
@@ -833,7 +836,7 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">        <a class="code" href="group__group-details.html#ga7ad5b8e5cb988d185dffa511b50cebd2">BOOST_HANA_RUNTIME_ASSERT</a>(a == 1 &amp;&amp; b == <span class="charliteral">&#39;2&#39;</span> &amp;&amp; c == 3.3);</div>
 </div><!-- fragment --> <h3>Benchmarks</h3>
 <div class="image">
-<img src="unpack.time.png" alt="unpack.time.png"/>
+<img src="unpack.ctime.png" alt="unpack.ctime.png"/>
 </div>
  
 </div>

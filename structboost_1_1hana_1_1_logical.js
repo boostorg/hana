@@ -1,6 +1,6 @@
 var structboost_1_1hana_1_1_logical =
 [
-    [ "instance< T, when< is_valid< decltype(*(T *) 0?(void) 0:(void) 0)> > >", "structboost_1_1hana_1_1_logical_1_1instance_3_01_t_00_01when_3_01is__valid_3_01decltype_07_5_07_ae1dbc29ae5be1bd3a6a524e60510c5a.html", null ],
+    [ "instance< L, when< is_valid< decltype(*(L *) 0?(void) 0:(void) 0)> > >", "structboost_1_1hana_1_1_logical_1_1instance_3_01_l_00_01when_3_01is__valid_3_01decltype_07_5_07_46d73931b151c4c1417aa0dc089efecd.html", null ],
     [ "integral_constant_mcd", "structboost_1_1hana_1_1_logical_1_1integral__constant__mcd.html", null ],
     [ "mcd", "structboost_1_1hana_1_1_logical_1_1mcd.html", null ],
     [ "if_", "structboost_1_1hana_1_1_logical.html#a06927a2badb729e1522b9030d18234df", null ],

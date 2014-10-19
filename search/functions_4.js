@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['tail_5fimpl',['tail_impl',['../structboost_1_1hana_1_1_iterable_1_1instance_3_01_range_01_4.html#a0cf28847f199dcf61a424ed07f16283d',1,'boost::hana::Iterable::instance&lt; Range &gt;']]]
+  ['sum_5fimpl',['sum_impl',['../structboost_1_1hana_1_1_foldable_1_1folds__mcd.html#a97a270f5598f2916010c4aec8129b6e1',1,'boost::hana::Foldable::folds_mcd']]]
 ];

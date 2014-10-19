@@ -77,7 +77,7 @@ $(document).ready(function(){initNavTree('bug.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Modules</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Modules</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -92,11 +92,17 @@ $(document).ready(function(){initNavTree('bug.html','');});
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><dl class="reflist">
-<dt><a class="anchor" id="_bug000002"></a>Class <a class="el" href="structboost_1_1hana_1_1_logical.html">boost::hana::Logical</a>  </dt>
+<dt><a class="anchor" id="_bug000004"></a>Class <a class="el" href="structboost_1_1hana_1_1_foldable_1_1folds__mcd.html">boost::hana::Foldable::folds_mcd</a>  </dt>
+<dd>The functions in this class do not perfectly forward their captures when it would be possible to do so, because the language does not make it possible.  </dd>
+<dt><a class="anchor" id="_bug000005"></a>Class <a class="el" href="structboost_1_1hana_1_1_foldable_1_1unpack__mcd.html">boost::hana::Foldable::unpack_mcd</a>  </dt>
+<dd>The functions in this class do not perfectly forward their captures when it would be possible to do so, because the language does not make it possible.  </dd>
+<dt><a class="anchor" id="_bug000008"></a>Class <a class="el" href="structboost_1_1hana_1_1_logical.html">boost::hana::Logical</a>  </dt>
 <dd>We don't short-circuit right now. Don't forget to change the examples and unit tests when that's implemented. </dd>
-<dt><a class="anchor" id="_bug000003"></a>Class <a class="el" href="structboost_1_1hana_1_1_type.html">boost::hana::Type</a>  </dt>
+<dt><a class="anchor" id="_bug000006"></a>Class <a class="el" href="structboost_1_1hana_1_1_logical_1_1instance_3_01_l_00_01when_3_01is__valid_3_01decltype_07_5_07_46d73931b151c4c1417aa0dc089efecd.html">boost::hana::Logical::instance&lt; L, when&lt; is_valid&lt; decltype(*(L *) 0?(void) 0:(void) 0)&gt; &gt; &gt;</a>  </dt>
+<dd>We can't use perfect forwarding because of this bug: <a href="http://llvm.org/bugs/show_bug.cgi?id=20619">http://llvm.org/bugs/show_bug.cgi?id=20619</a>  </dd>
+<dt><a class="anchor" id="_bug000009"></a>Class <a class="el" href="structboost_1_1hana_1_1_type.html">boost::hana::Type</a>  </dt>
 <dd><code>metafunction</code> and friends are not SFINAE-friendly right now. See <a href="http://gcc.gnu.org/bugzilla/show_bug.cgi?id=59498">this</a> GCC bug and also <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/cwg_active.html#1430">Core 1430</a> issue. Once this issue is resolved, look at the unit tests for those utilities and either uncomment or remove the relevant test section.  </dd>
-<dt><a class="anchor" id="_bug000001"></a>Member <a class="el" href="structboost_1_1hana_1_1_list.html#a45ec7767d19eb7eaabb71ead3796a7f1">permutations</a>  </dt>
+<dt><a class="anchor" id="_bug000007"></a>Member <a class="el" href="structboost_1_1hana_1_1_list.html#a45ec7767d19eb7eaabb71ead3796a7f1">permutations</a>  </dt>
 <dd>We got a performance problem here. Generating the permutations of a list of more than 3 elements takes a long time (&gt;6s). </dd>
 </dl>
 </div></div><!-- contents -->

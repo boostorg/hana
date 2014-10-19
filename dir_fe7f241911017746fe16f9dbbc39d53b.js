@@ -18,7 +18,7 @@ var dir_fe7f241911017746fe16f9dbbc39d53b =
       [ "not_equal_mcd", "structboost_1_1hana_1_1_comparable_1_1not__equal__mcd.html", null ]
     ] ],
     [ "operators.hpp", "comparable_2operators_8hpp.html", null ],
-    [ "product_mcd.hpp", "product__mcd_8hpp.html", [
+    [ "product_mcd.hpp", "comparable_2product__mcd_8hpp.html", [
       [ "product_mcd", "structboost_1_1hana_1_1_comparable_1_1product__mcd.html", null ],
       [ "instance< T, U, when< is_a< Product, T >()&&is_a< Product, U >() > >", "structboost_1_1hana_1_1_comparable_1_1instance_3_01_t_00_01_u_00_01when_3_01is__a_3_01_product_013c6594e5695e2dfb196782c211bc867.html", null ]
     ] ],

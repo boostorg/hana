@@ -77,7 +77,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_foldable_1_1fo
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Modules</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Modules</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -95,7 +95,8 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_foldable_1_1fo
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
-<div class="textblock"><p>Minimal complete definition: <code>foldl</code> and <code>foldr</code> </p>
+<div class="textblock"><p>Minimal complete definition: <code>foldl</code> and <code>foldr</code></p>
+<dl class="bug"><dt><b><a class="el" href="bug.html#_bug000004">Bug:</a></b></dt><dd>The functions in this class do not perfectly forward their captures when it would be possible to do so, because the language does not make it possible. </dd></dl>
 </div><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Inheritance diagram for boost::hana::Foldable::folds_mcd:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
@@ -106,24 +107,25 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_foldable_1_1fo
   <map id="boost::hana::Foldable::folds_mcd_map" name="boost::hana::Foldable::folds_mcd_map">
 <area href="structboost_1_1hana_1_1_foldable_1_1instance_3_01_maybe_01_4.html" title="Instance of Foldable for Maybes. " alt="boost::hana::Foldable::instance&lt; Maybe &gt;" shape="rect" coords="0,56,393,80"/>
 <area href="structboost_1_1hana_1_1_foldable_1_1iterable__mcd.html" alt="boost::hana::Foldable::iterable_mcd" shape="rect" coords="403,56,796,80"/>
-<area href="structboost_1_1hana_1_1_foldable_1_1unpack__mcd.html" title="Minimal complete definition: unpack " alt="boost::hana::Foldable::unpack_mcd" shape="rect" coords="1007,56,1400,80"/>
+<area href="structboost_1_1hana_1_1_foldable_1_1unpack__mcd.html" title="Minimal complete definition: unpack " alt="boost::hana::Foldable::unpack_mcd" shape="rect" coords="1209,56,1602,80"/>
 <area href="structboost_1_1hana_1_1_foldable_1_1instance_3_01_t_00_01when_3_01is__an_3_01_iterable_00_01_t_01_4_07_08_4_01_4.html" title="Every Iterable instance gives rise to an instance of Foldable, which is valid for all finite such Ite..." alt="boost::hana::Foldable::instance&lt; T, when&lt; is_an&lt; Iterable, T &gt;()&gt; &gt;" shape="rect" coords="403,112,796,136"/>
 <area href="structboost_1_1hana_1_1_foldable_1_1instance_3_01_range_01_4.html" title="Instance of Foldable for Ranges. " alt="boost::hana::Foldable::instance&lt; Range &gt;" shape="rect" coords="806,112,1199,136"/>
-<area href="structboost_1_1hana_1_1_foldable_1_1instance_3_01_t[_n]_4.html" title="Instance of Foldable for array types. " alt="boost::hana::Foldable::instance&lt; T[N]&gt;" shape="rect" coords="1209,112,1602,136"/>
+<area href="structboost_1_1hana_1_1_foldable_1_1instance_3_01_string_01_4.html" title="Instance of Foldable for Strings. " alt="boost::hana::Foldable::instance&lt; String &gt;" shape="rect" coords="1209,112,1602,136"/>
+<area href="structboost_1_1hana_1_1_foldable_1_1instance_3_01_t[_n]_4.html" title="Instance of Foldable for array types. " alt="boost::hana::Foldable::instance&lt; T[N]&gt;" shape="rect" coords="1612,112,2005,136"/>
 </map>
  </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a068d40f61952fe5a1bc7776057a2398a"><td class="memTemplParams" colspan="2">template&lt;typename Xs &gt; </td></tr>
-<tr class="memitem:a068d40f61952fe5a1bc7776057a2398a"><td class="memTemplItemLeft" align="right" valign="top">static constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_foldable_1_1folds__mcd.html#a068d40f61952fe5a1bc7776057a2398a">sum_impl</a> (Xs xs)</td></tr>
-<tr class="separator:a068d40f61952fe5a1bc7776057a2398a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ace65db3f4b4c3e5a7220318072bb1b2b"><td class="memTemplParams" colspan="2">template&lt;typename Xs &gt; </td></tr>
-<tr class="memitem:ace65db3f4b4c3e5a7220318072bb1b2b"><td class="memTemplItemLeft" align="right" valign="top">static constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_foldable_1_1folds__mcd.html#ace65db3f4b4c3e5a7220318072bb1b2b">product_impl</a> (Xs xs)</td></tr>
-<tr class="separator:ace65db3f4b4c3e5a7220318072bb1b2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97a270f5598f2916010c4aec8129b6e1"><td class="memTemplParams" colspan="2">template&lt;typename Xs &gt; </td></tr>
+<tr class="memitem:a97a270f5598f2916010c4aec8129b6e1"><td class="memTemplItemLeft" align="right" valign="top">static decltype(auto) constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_foldable_1_1folds__mcd.html#a97a270f5598f2916010c4aec8129b6e1">sum_impl</a> (Xs &amp;&amp;xs)</td></tr>
+<tr class="separator:a97a270f5598f2916010c4aec8129b6e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6063310ae0628703de2ca1a20cbd1cc"><td class="memTemplParams" colspan="2">template&lt;typename Xs &gt; </td></tr>
+<tr class="memitem:ac6063310ae0628703de2ca1a20cbd1cc"><td class="memTemplItemLeft" align="right" valign="top">static decltype(auto) constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_foldable_1_1folds__mcd.html#ac6063310ae0628703de2ca1a20cbd1cc">product_impl</a> (Xs &amp;&amp;xs)</td></tr>
+<tr class="separator:ac6063310ae0628703de2ca1a20cbd1cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a068d40f61952fe5a1bc7776057a2398a"></a>
+<a class="anchor" id="a97a270f5598f2916010c4aec8129b6e1"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -133,9 +135,9 @@ template&lt;typename Xs &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static constexpr auto boost::hana::Foldable::folds_mcd::sum_impl </td>
+          <td class="memname">static decltype(auto) constexpr boost::hana::Foldable::folds_mcd::sum_impl </td>
           <td>(</td>
-          <td class="paramtype">Xs&#160;</td>
+          <td class="paramtype">Xs &amp;&amp;&#160;</td>
           <td class="paramname"><em>xs</em></td><td>)</td>
           <td></td>
         </tr>
@@ -146,13 +148,13 @@ template&lt;typename Xs &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000013">Todo:</a></b></dt><dd>Make it possible to specify the <a class="el" href="structboost_1_1hana_1_1_monoid.html" title="The Monoid type class is used for data types with an associative binary operation that has an identit...">Monoid</a> that's used? </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000011">Todo:</a></b></dt><dd>Make it possible to specify the <a class="el" href="structboost_1_1hana_1_1_monoid.html" title="The Monoid type class is used for data types with an associative binary operation that has an identit...">Monoid</a> that's used? </dd></dl>
 
 <p>References <a class="el" href="structboost_1_1hana_1_1_foldable.html#a0a5d375abcde2ceed89662df491a2c43">boost::hana::Foldable::foldl</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ace65db3f4b4c3e5a7220318072bb1b2b"></a>
+<a class="anchor" id="ac6063310ae0628703de2ca1a20cbd1cc"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -162,9 +164,9 @@ template&lt;typename Xs &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static constexpr auto boost::hana::Foldable::folds_mcd::product_impl </td>
+          <td class="memname">static decltype(auto) constexpr boost::hana::Foldable::folds_mcd::product_impl </td>
           <td>(</td>
-          <td class="paramtype">Xs&#160;</td>
+          <td class="paramtype">Xs &amp;&amp;&#160;</td>
           <td class="paramname"><em>xs</em></td><td>)</td>
           <td></td>
         </tr>
@@ -175,7 +177,7 @@ template&lt;typename Xs &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000014">Todo:</a></b></dt><dd>Make it possible to specify the <a class="el" href="structboost_1_1hana_1_1_ring.html" title="The Ring type class is used for Groups that also form a Monoid under a second binary operation that d...">Ring</a> that's used? </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000012">Todo:</a></b></dt><dd>Make it possible to specify the <a class="el" href="structboost_1_1hana_1_1_ring.html" title="The Ring type class is used for Groups that also form a Monoid under a second binary operation that d...">Ring</a> that's used? </dd></dl>
 
 <p>References <a class="el" href="structboost_1_1hana_1_1_foldable.html#a0a5d375abcde2ceed89662df491a2c43">boost::hana::Foldable::foldl</a>.</p>
 

@@ -77,7 +77,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_integral_const
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Modules</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Modules</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -97,7 +97,13 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_integral_const
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
 <div class="textblock"><p>The <code><a class="el" href="structboost_1_1hana_1_1_integral_constant.html" title="The IntegralConstant type class is used for Constants holding a compile-time value of an integral typ...">IntegralConstant</a></code> type class is used for <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class is used for data types representing compile-time constants. ">Constant</a></code>s holding a compile-time value of an integral type. </p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000022">Todo:</a></b></dt><dd>Explain how all IntegralConstants instances are isomorphic. </dd></dl>
+<h3>Requires</h3>
+<p><code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class is used for data types representing compile-time constants. ">Constant</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable type class defines equality and inequality. ">Comparable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_orderable.html" title="The Orderable type class is used for data types defining a strict weak ordering. ">Orderable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical type class is for data types acting like a boolean. ">Logical</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_monoid.html" title="The Monoid type class is used for data types with an associative binary operation that has an identit...">Monoid</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_group.html" title="The Group type class is used for Monoids where all objects have an inverse w.r.t. the Monoid&#39;s binary...">Group</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_ring.html" title="The Ring type class is used for Groups that also form a Monoid under a second binary operation that d...">Ring</a></code>, and <code><a class="el" href="structboost_1_1hana_1_1_integral_domain.html" title="IntegralDomains are commutative Rings with only zero as a zero divisor. ">IntegralDomain</a></code></p>
+<h3>Laws</h3>
+<p>For any two <code><a class="el" href="structboost_1_1hana_1_1_integral_constant.html" title="The IntegralConstant type class is used for Constants holding a compile-time value of an integral typ...">IntegralConstant</a></code>s <code>x</code> and <code>y</code> of data types <code>X</code> and <code>Y</code> respectively, the following must hold: </p><div class="fragment"><div class="line">x == y</div>
+<div class="line"><span class="keywordflow">if</span> and only <span class="keywordflow">if</span></div>
+<div class="line">integral_constant&lt;X, decltype(value(x)), value(x)&gt; == integral_constant&lt;Y, decltype(value(y)), value(y)&gt;</div>
+</div><!-- fragment --><p>This law ensures that an <code><a class="el" href="structboost_1_1hana_1_1_integral_constant.html" title="The IntegralConstant type class is used for Constants holding a compile-time value of an integral typ...">IntegralConstant</a></code> can't carry more information than what can be passed to <code>integral_constant</code>. Additionally, all superclass instances are required to be isomorphic to the instances for the <code><a class="el" href="structboost_1_1hana_1_1_integral.html" title="Represents a compile-time value of an integral type. ">Integral</a></code> data type. Together, these requirements ensure that all <code><a class="el" href="structboost_1_1hana_1_1_integral_constant.html" title="The IntegralConstant type class is used for Constants holding a compile-time value of an integral typ...">IntegralConstant</a></code>s are pretty unsurprising and are basically equivalent to the <code><a class="el" href="structboost_1_1hana_1_1_integral.html" title="Represents a compile-time value of an integral type. ">Integral</a></code> data type, except perhaps with a different implementation. </p>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of methods</h2></td></tr>
@@ -137,8 +143,27 @@ template&lt;typename I , typename T , T v&gt; </div>
 <div class="line">        template integral_constant_impl&lt;T, v&gt;()</div>
 </div><!-- fragment -->
 <p>Create an <code><a class="el" href="structboost_1_1hana_1_1_integral_constant.html" title="The IntegralConstant type class is used for Constants holding a compile-time value of an integral typ...">IntegralConstant</a></code> of the given data type and holding a value of the given integral type. </p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000023">Todo:</a></b></dt><dd>Document this </dd></dl>
-
+<p>Specifically, <code>integral_constant&lt;I, T, v&gt;</code> is an <code><a class="el" href="structboost_1_1hana_1_1_integral_constant.html" title="The IntegralConstant type class is used for Constants holding a compile-time value of an integral typ...">IntegralConstant</a></code> of data type <code>I</code> with an underlying value <code>v</code> of the integral type <code>T</code>.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">I</td><td>The data type of the created <code><a class="el" href="structboost_1_1hana_1_1_integral_constant.html" title="The IntegralConstant type class is used for Constants holding a compile-time value of an integral typ...">IntegralConstant</a></code>.</td></tr>
+    <tr><td class="paramname">T</td><td>The integral type of the value held in the <code><a class="el" href="structboost_1_1hana_1_1_integral_constant.html" title="The IntegralConstant type class is used for Constants holding a compile-time value of an integral typ...">IntegralConstant</a></code>.</td></tr>
+    <tr><td class="paramname">v</td><td>The integral value held in the <code><a class="el" href="structboost_1_1hana_1_1_integral_constant.html" title="The IntegralConstant type class is used for Constants holding a compile-time value of an integral typ...">IntegralConstant</a></code>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<h3>Example</h3>
+<div class="fragment"><div class="line">        <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(</div>
+<div class="line">            integral_constant&lt;Integral, int, 2&gt;</div>
+<div class="line">            ==</div>
+<div class="line">            int_&lt;2&gt;</div>
+<div class="line">        );</div>
+<div class="line"></div>
+<div class="line">        <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(equal(</div>
+<div class="line">            integral_constant&lt;StdIntegralConstant, bool, true&gt;,</div>
+<div class="line">            std::true_type{}</div>
+<div class="line">        ));</div>
+</div><!-- fragment -->
 </div>
 </div>
 </div><!-- contents -->

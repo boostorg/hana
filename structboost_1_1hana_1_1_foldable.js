@@ -2,8 +2,10 @@ var structboost_1_1hana_1_1_foldable =
 [
     [ "folds_mcd", "structboost_1_1hana_1_1_foldable_1_1folds__mcd.html", null ],
     [ "instance< Maybe >", "structboost_1_1hana_1_1_foldable_1_1instance_3_01_maybe_01_4.html", null ],
+    [ "instance< P, when< is_a< Product, P >()> >", "structboost_1_1hana_1_1_foldable_1_1instance_3_01_p_00_01when_3_01is__a_3_01_product_00_01_p_01_4_07_08_4_01_4.html", null ],
     [ "instance< R, when< is_a< Record, R >()> >", "structboost_1_1hana_1_1_foldable_1_1instance_3_01_r_00_01when_3_01is__a_3_01_record_00_01_r_01_4_07_08_4_01_4.html", null ],
     [ "instance< Range >", "structboost_1_1hana_1_1_foldable_1_1instance_3_01_range_01_4.html", null ],
+    [ "instance< String >", "structboost_1_1hana_1_1_foldable_1_1instance_3_01_string_01_4.html", null ],
     [ "instance< T, when< is_an< Iterable, T >()> >", "structboost_1_1hana_1_1_foldable_1_1instance_3_01_t_00_01when_3_01is__an_3_01_iterable_00_01_t_01_4_07_08_4_01_4.html", null ],
     [ "instance< T[N]>", "structboost_1_1hana_1_1_foldable_1_1instance_3_01_t[_n]_4.html", null ],
     [ "iterable_mcd", "structboost_1_1hana_1_1_foldable_1_1iterable__mcd.html", null ],

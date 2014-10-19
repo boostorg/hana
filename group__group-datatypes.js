@@ -55,8 +55,11 @@ var group__group_datatypes =
       [ "range_c", "structboost_1_1hana_1_1_range.html#a899b7a0c065ff64cd747fe1671753d3f", null ]
     ] ],
     [ "Set", "structboost_1_1hana_1_1_set.html", [
-      [ "set", "structboost_1_1hana_1_1_set.html#a7c6caacd6df4a89e8b62b369007d9602", null ]
+      [ "set", "structboost_1_1hana_1_1_set.html#a7c6caacd6df4a89e8b62b369007d9602", null ],
+      [ "make< Set >", "structboost_1_1hana_1_1_set.html#ade2be766c8daa85306a8d9c29bf75dfe", null ],
+      [ "insert", "structboost_1_1hana_1_1_set.html#a5791e6dc0e27d8e3a113e4d94482550f", null ]
     ] ],
+    [ "String", "structboost_1_1hana_1_1_string.html", null ],
     [ "Tuple", "structboost_1_1hana_1_1_tuple.html", [
       [ "tuple", "structboost_1_1hana_1_1_tuple.html#a6607b420b861d7abc8df34cb6900da19", null ]
     ] ],

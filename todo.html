@@ -77,7 +77,7 @@ $(document).ready(function(){initNavTree('todo.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Modules</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Modules</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -94,6 +94,8 @@ $(document).ready(function(){initNavTree('todo.html','');});
 <div class="textblock"><dl class="reflist">
 <dt><a class="anchor" id="_todo000001"></a>Member <a class="el" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>  </dt>
 <dd>Consider giving access to all the arguments to the type class implementation for performance purposes.  </dd>
+<dt><a class="anchor" id="_todo000022"></a>Member <a class="el" href="structboost_1_1hana_1_1_iterable.html#af4e91486be10ef3a19495cb3d3652721">at</a>  </dt>
+<dd>Only require <code>IntegralConstant</code>, not <code>Integral</code>.  </dd>
 <dt><a class="anchor" id="_todo000009"></a>Class <a class="el" href="structboost_1_1hana_1_1_boost_mpl_vector.html">boost::hana::BoostMplVector</a>  </dt>
 <dd><ul>
 <li>Finish the cheat sheet.</li>
@@ -107,41 +109,37 @@ $(document).ready(function(){initNavTree('todo.html','');});
 <li>Should we provide a <code>Comparable::constant_mcd</code> like we used to?  </li>
 </ul>
 </dd>
-<dt><a class="anchor" id="_todo000028"></a>Class <a class="el" href="structboost_1_1hana_1_1convert_3_01_map_00_01_l_00_01when_3_01is__a_3_01_list_00_01_l_01_4_07_08_4_01_4.html">boost::hana::convert&lt; Map, L, when&lt; is_a&lt; List, L &gt;()&gt; &gt;</a>  </dt>
-<dd><ul>
-<li>We should actually convert from any <code>Foldable</code></li>
-<li>We should allow duplicate keys, with a documented policy (e.g. we keep the last one)  </li>
-</ul>
-</dd>
-<dt><a class="anchor" id="_todo000033"></a>Class <a class="el" href="structboost_1_1hana_1_1convert_3_01_set_00_01_l_00_01when_3_01is__a_3_01_list_00_01_l_01_4_07_08_4_01_4.html">boost::hana::convert&lt; Set, L, when&lt; is_a&lt; List, L &gt;()&gt; &gt;</a>  </dt>
-<dd>Convert from an arbitrary <code>Foldable</code>, and allow duplicate keys.  </dd>
-<dt><a class="anchor" id="_todo000015"></a>Member <a class="el" href="group__group-functional.html#ga49ea872ade5ac8f6c10052c495302e89">boost::hana::curry</a>  </dt>
+<dt><a class="anchor" id="_todo000028"></a>Class <a class="el" href="structboost_1_1hana_1_1convert_3_01_map_00_01_f_00_01when_3_01is__a_3_01_foldable_00_01_f_01_4_0d4677498bba488a6d32a4e64fb512193.html">boost::hana::convert&lt; Map, F, when&lt; is_a&lt; Foldable, F &gt;()&amp;&amp;!is_a&lt; Record, F &gt;()&gt; &gt;</a>  </dt>
+<dd>We should allow duplicate keys, with a documented policy (e.g. we keep the last one).  </dd>
+<dt><a class="anchor" id="_todo000014"></a>Member <a class="el" href="group__group-functional.html#ga49ea872ade5ac8f6c10052c495302e89">boost::hana::curry</a>  </dt>
 <dd>Consider making <code>curry&lt;0&gt;(f)</code> equivalent to <code>f</code>. It might be more general or less useful if it creates subtle pitfalls. </dd>
-<dt><a class="anchor" id="_todo000016"></a>Member <a class="el" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">boost::hana::demux</a>  </dt>
+<dt><a class="anchor" id="_todo000015"></a>Member <a class="el" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">boost::hana::demux</a>  </dt>
 <dd>I think this is equivalent to <code>fmap . fmap</code>. See <a href="http://stackoverflow.com/q/5821089/627587">http://stackoverflow.com/q/5821089/627587</a>  </dd>
-<dt><a class="anchor" id="_todo000014"></a>Member <a class="el" href="structboost_1_1hana_1_1_foldable_1_1folds__mcd.html#ace65db3f4b4c3e5a7220318072bb1b2b">boost::hana::Foldable::folds_mcd::product_impl</a>  (Xs xs)</dt>
+<dt><a class="anchor" id="_todo000012"></a>Member <a class="el" href="structboost_1_1hana_1_1_foldable_1_1folds__mcd.html#ac6063310ae0628703de2ca1a20cbd1cc">boost::hana::Foldable::folds_mcd::product_impl</a>  (Xs &amp;&amp;xs)</dt>
 <dd>Make it possible to specify the Ring that's used?  </dd>
-<dt><a class="anchor" id="_todo000013"></a>Member <a class="el" href="structboost_1_1hana_1_1_foldable_1_1folds__mcd.html#a068d40f61952fe5a1bc7776057a2398a">boost::hana::Foldable::folds_mcd::sum_impl</a>  (Xs xs)</dt>
+<dt><a class="anchor" id="_todo000011"></a>Member <a class="el" href="structboost_1_1hana_1_1_foldable_1_1folds__mcd.html#a97a270f5598f2916010c4aec8129b6e1">boost::hana::Foldable::folds_mcd::sum_impl</a>  (Xs &amp;&amp;xs)</dt>
 <dd>Make it possible to specify the Monoid that's used?  </dd>
-<dt><a class="anchor" id="_todo000018"></a>Class <a class="el" href="structboost_1_1hana_1_1_integral.html">boost::hana::Integral</a>  </dt>
-<dd>Implicit conversions to the underlying integral type can be problematic: <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;constexpr auto odd = [](auto x) {</div>
+<dt><a class="anchor" id="_todo000013"></a>Class <a class="el" href="structboost_1_1hana_1_1_foldable_1_1iterable__mcd.html">boost::hana::Foldable::iterable_mcd</a>  </dt>
+<dd>Add perfect forwarding where possible. This is <em>not</em> obvious to me because of all those branches.  </dd>
+<dt><a class="anchor" id="_todo000017"></a>Class <a class="el" href="structboost_1_1hana_1_1_integral.html">boost::hana::Integral</a>  </dt>
+<dd><p class="startdd">Implicit conversions to the underlying integral type can be problematic: </p><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;constexpr auto odd = [](auto x) {</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;    return x % int_&lt;2&gt;;</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;};</div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;if_(odd(int_&lt;1&gt;), something_of_type_A, something_of_type_B)</div>
-</div><!-- fragment --> This will fail because <code>odd(int_&lt;1&gt;)</code> has type <code>Int&lt;1 % 2&gt;</code>, which is convertible to <code>bool</code> but not to <code>Bool&lt;...&gt;</code>. Because of this, the runtime <code>if_</code> is used and compilation fails.  </dd>
-<dt><a class="anchor" id="_todo000022"></a>Class <a class="el" href="structboost_1_1hana_1_1_integral_constant.html">boost::hana::IntegralConstant</a>  </dt>
-<dd>Explain how all IntegralConstants instances are isomorphic.  </dd>
-<dt><a class="anchor" id="_todo000029"></a>Class <a class="el" href="structboost_1_1hana_1_1_iterable_1_1instance_3_01_range_01_4.html">boost::hana::Iterable::instance&lt; Range &gt;</a>  </dt>
+</div><!-- fragment --><p> This will fail because <code>odd(int_&lt;1&gt;)</code> has type <code>Int&lt;1 % 2&gt;</code>, which is convertible to <code>bool</code> but not to <code>Bool&lt;...&gt;</code>. Because of this, the runtime <code>if_</code> is used and compilation fails.</p>
+<p class="enddd"><code>times</code> should be a shortcut to some type class method. Specifically, anything that can be incremented, decremented and compared to some "zero" value can implement a <code>times</code> method with the same semantics.  </p>
+</dd>
+<dt><a class="anchor" id="_todo000030"></a>Class <a class="el" href="structboost_1_1hana_1_1_iterable_1_1instance_3_01_range_01_4.html">boost::hana::Iterable::instance&lt; Range &gt;</a>  </dt>
 <dd>Consider allowing the elements of the range to be any <code>Group</code>, since we don't use much more than that (except <code>Comparable</code> and <code>Orderable</code>).  </dd>
-<dt><a class="anchor" id="_todo000030"></a>Member <a class="el" href="structboost_1_1hana_1_1_iterable_1_1instance_3_01_range_01_4.html#a0cf28847f199dcf61a424ed07f16283d">boost::hana::Iterable::instance&lt; Range &gt;::tail_impl</a>  (R r)</dt>
+<dt><a class="anchor" id="_todo000031"></a>Member <a class="el" href="structboost_1_1hana_1_1_iterable_1_1instance_3_01_range_01_4.html#a0cf28847f199dcf61a424ed07f16283d">boost::hana::Iterable::instance&lt; Range &gt;::tail_impl</a>  (R r)</dt>
 <dd>We need a type class to express the concept of incrementing and decrementing.  </dd>
 <dt><a class="anchor" id="_todo000024"></a>Class <a class="el" href="structboost_1_1hana_1_1_list.html">boost::hana::List</a>  </dt>
 <dd><ul>
 <li>How to implement iterate and repeat?</li>
 <li>There is a strong relationship between this and <code>MonadPlus</code>. Actually, they might be just the same. Check this out.</li>
 <li>Implement the following methods:<ul>
-<li><code>intersperse</code>, <code>intercalate</code>, <code>transpose</code>, <code>subsequences</code></li>
+<li><code>intercalate</code>, <code>transpose</code>, <code>subsequences</code></li>
 <li><code>split_at</code>, <code>break</code>, <code>inits</code>, <code>tails</code></li>
 </ul>
 </li>
@@ -153,40 +151,62 @@ $(document).ready(function(){initNavTree('todo.html','');});
 <li>Since we can benchmark the isomorphic instances, put the benchmarks in the documentation.  </li>
 </ul>
 </dd>
-<dt><a class="anchor" id="_todo000017"></a>Member <a class="el" href="group__group-functional.html#gafca60c09e1f7a32a2b52baaf6515c279">boost::hana::lockstep</a>  </dt>
-<dd>I think this is equivalent to <code>&lt;*&gt;</code> for <code>((-&gt;) r)</code>.  </dd>
+<dt><a class="anchor" id="_todo000040"></a>Class <a class="el" href="structboost_1_1hana_1_1_list_1_1instance_3_01_tuple_01_4.html">boost::hana::List::instance&lt; Tuple &gt;</a>  </dt>
+<dd>Use perfect forwarding everywhere possible.  </dd>
+<dt><a class="anchor" id="_todo000041"></a>Member <a class="el" href="structboost_1_1hana_1_1_list_1_1instance_3_01_tuple_01_4.html#ae6a3d6b900479ea9caf1d009beda5101">boost::hana::List::instance&lt; Tuple &gt;::concat_impl</a>  (Xs &amp;&amp;xs, Ys &amp;&amp;ys)</dt>
+<dd>Initialize the capture with perfect forwarding once that's supported by the language.  </dd>
+<dt><a class="anchor" id="_todo000016"></a>Member <a class="el" href="group__group-functional.html#gafca60c09e1f7a32a2b52baaf6515c279">boost::hana::lockstep</a>  </dt>
+<dd><ul>
+<li>I think this is equivalent to <code>&lt;*&gt;</code> for <code>((-&gt;) r)</code>.</li>
+<li>Change the syntax to be the same as <code>demux</code>. Impossible right now because Clang blows up.  </li>
+</ul>
+</dd>
 <dt><a class="anchor" id="_todo000027"></a>Class <a class="el" href="structboost_1_1hana_1_1_logical.html">boost::hana::Logical</a>  </dt>
 <dd>Consider making this a real boolean algebra.  </dd>
-<dt><a class="anchor" id="_todo000006"></a>Member <a class="el" href="group__group-core.html#gae60eae11766d96f803ec954f9f521936">boost::hana::make</a>  </dt>
-<dd>Document me.  </dd>
-<dt><a class="anchor" id="_todo000031"></a>Class <a class="el" href="structboost_1_1hana_1_1_range.html">boost::hana::Range</a>  </dt>
+<dt><a class="anchor" id="_todo000023"></a>Class <a class="el" href="structboost_1_1hana_1_1operators_1_1_iterable__ops.html">boost::hana::operators::Iterable_ops&lt; Derived &gt;</a>  </dt>
+<dd>Find a proper way to provide member operators.  </dd>
+<dt><a class="anchor" id="_todo000029"></a>Class <a class="el" href="structboost_1_1hana_1_1_product_1_1instance_3_01_pair_01_4.html">boost::hana::Product::instance&lt; Pair &gt;</a>  </dt>
+<dd>Use perfect forwarding in <code>first_impl</code> and <code>second_impl</code> once bug <a href="http://llvm.org/bugs/show_bug.cgi?id=20619">http://llvm.org/bugs/show_bug.cgi?id=20619</a> is fixed.  </dd>
+<dt><a class="anchor" id="_todo000032"></a>Class <a class="el" href="structboost_1_1hana_1_1_range.html">boost::hana::Range</a>  </dt>
 <dd>Remove the requirement that the range contains <code>Integral</code>s, and allow any <code>Orderable</code> and <code>Comparable</code> <code>Ring</code>, or something similar.  </dd>
-<dt><a class="anchor" id="_todo000032"></a>Class <a class="el" href="structboost_1_1hana_1_1_searchable_1_1instance_3_01_t_00_01when_3_01is__a_3_01_list_00_01_t_01_4_07_08_4_01_4.html">boost::hana::Searchable::instance&lt; T, when&lt; is_a&lt; List, T &gt;()&gt; &gt;</a>  </dt>
+<dt><a class="anchor" id="_todo000033"></a>Class <a class="el" href="structboost_1_1hana_1_1_record.html">boost::hana::Record</a>  </dt>
+<dd>The restrictions on what constitutes an accessor are pretty fierce, and using <code>std::move</code> on the same object twice feels completely wrong. Is there a better way to allow an object to be decomposed optimally into its subobjects without resorting to such hacks? </dd>
+<dt><a class="anchor" id="_todo000037"></a>Class <a class="el" href="structboost_1_1hana_1_1_searchable.html">boost::hana::Searchable</a>  </dt>
+<dd>We should provide a member <code>operator[]</code> equivalent to <code>lookup</code>.  </dd>
+<dt><a class="anchor" id="_todo000035"></a>Class <a class="el" href="structboost_1_1hana_1_1_searchable_1_1instance_3_01_t_00_01when_3_01is__a_3_01_list_00_01_t_01_4_07_08_4_01_4.html">boost::hana::Searchable::instance&lt; T, when&lt; is_a&lt; List, T &gt;()&gt; &gt;</a>  </dt>
 <dd>Technically, this can be implemented in <code>Iterable</code>. Should it? </dd>
-<dt><a class="anchor" id="_todo000035"></a>Class <a class="el" href="structboost_1_1hana_1_1_type.html">boost::hana::Type</a>  </dt>
+<dt><a class="anchor" id="_todo000034"></a>Class <a class="el" href="structboost_1_1hana_1_1_searchable_1_1list__mcd.html">boost::hana::Searchable::list_mcd</a>  </dt>
+<dd>Use perfect forwarding once bug <a href="http://llvm.org/bugs/show_bug.cgi?id=20619">http://llvm.org/bugs/show_bug.cgi?id=20619</a> is fixed.  </dd>
+<dt><a class="anchor" id="_todo000036"></a>Class <a class="el" href="structboost_1_1hana_1_1_searchable_1_1mcd.html">boost::hana::Searchable::mcd</a>  </dt>
+<dd>Use perfect forwarding once bug <a href="http://llvm.org/bugs/show_bug.cgi?id=20619">http://llvm.org/bugs/show_bug.cgi?id=20619</a> is fixed.  </dd>
+<dt><a class="anchor" id="_todo000043"></a>Class <a class="el" href="structboost_1_1hana_1_1_type.html">boost::hana::Type</a>  </dt>
 <dd><ul>
 <li>Completely figure out and document the category theoretical foundation of this data type.</li>
 <li>Consider instantiating <code>Functor</code>, <code>Applicative</code> and <code>Monad</code> if that's possible.</li>
 <li>Consider having a <code>.name()</code> method that would return the (demangled?) <code>typeid(T).name()</code>. </li>
 </ul>
 </dd>
-<dt><a class="anchor" id="_todo000038"></a>Class <a class="el" href="structboost_1_1hana_1_1_type_list.html">boost::hana::TypeList</a>  </dt>
+<dt><a class="anchor" id="_todo000046"></a>Class <a class="el" href="structboost_1_1hana_1_1_type_list.html">boost::hana::TypeList</a>  </dt>
 <dd><ul>
 <li>Efficient membership testing is possible.</li>
 <li><code>TypeList</code> is not really a <code>Functor</code> because the function must map from <code>Type</code>s to <code>Type</code>s. Should it be modified so that <code>TypeList</code> becomes <code>List</code> if we try to store something else than <code>Type</code>s? The same issue goes for <code>IntegerList</code>.  </li>
 </ul>
 </dd>
-<dt><a class="anchor" id="_todo000012"></a>Member <a class="el" href="structboost_1_1hana_1_1_foldable.html#a80176fbdfbccc09e902263557eb0984d">for_each</a>  </dt>
+<dt><a class="anchor" id="_todo000008"></a>Member <a class="el" href="group__group-details.html#ga7ad5b8e5cb988d185dffa511b50cebd2">BOOST_HANA_RUNTIME_ASSERT</a>  (...)</dt>
+<dd>Create another set of macros for unit tests, and use these macros inside the library.  </dd>
+<dt><a class="anchor" id="_todo000039"></a>Member <a class="el" href="string_2string_8hpp.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>  (s)</dt>
+<dd>This could be generalized to arbitrary objects. This is basically a way to create a <code>Constant</code> from any <code>constexpr</code> object.  </dd>
+<dt><a class="anchor" id="_todo000010"></a>Member <a class="el" href="structboost_1_1hana_1_1_foldable.html#a80176fbdfbccc09e902263557eb0984d">for_each</a>  </dt>
 <dd>The presence of implicit side effects in this function might be a smell that it should be moved to a different type class and handled through <code>Monad</code>s.  </dd>
-<dt><a class="anchor" id="_todo000008"></a>Module <a class="el" href="group__group-core.html">group-core</a>  </dt>
+<dt><a class="anchor" id="_todo000007"></a>Module <a class="el" href="group__group-core.html">group-core</a>  </dt>
 <dd>Update the documentation about the organization of the Core module.  </dd>
-<dt><a class="anchor" id="_todo000007"></a>Module <a class="el" href="group__group-typeclasses.html">group-typeclasses</a>  </dt>
+<dt><a class="anchor" id="_todo000006"></a>Module <a class="el" href="group__group-typeclasses.html">group-typeclasses</a>  </dt>
 <dd><ul>
 <li>Provide a way to check type class requirements like <code>Functor f =&gt; Applicative f</code>.</li>
 <li>Consider inheriting from a base class even when no mcd is required. That would allow us to <em>not</em> include a useless mcd.  </li>
 </ul>
 </dd>
-<dt><a class="anchor" id="_todo000039"></a>File <a class="el" href="hana_8hpp.html">hana.hpp</a>  </dt>
+<dt><a class="anchor" id="_todo000047"></a>File <a class="el" href="hana_8hpp.html">hana.hpp</a>  </dt>
 <dd><ul>
 <li>When we have functions with several variants, consider naming versions with the following scheme: <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;foldr.lazy</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;foldr.strict</div>
@@ -203,17 +223,22 @@ $(document).ready(function(){initNavTree('todo.html','');});
 <dd><p class="startdd">Do we want <code>char_&lt;1&gt; + char_&lt;2&gt; == char_&lt;3&gt;</code> or <code>char_&lt;1&gt; + char_&lt;2&gt; == int_&lt;3&gt;</code>?</p>
 <p class="enddd">Consider specifying the type of <code>integral&lt;...&gt;</code> to allow overloading on its type. Not sure yet whether that's desirable or not.  </p>
 </dd>
-<dt><a class="anchor" id="_todo000023"></a>Member <a class="el" href="structboost_1_1hana_1_1_integral_constant.html#a06df10b1b2a71c21f85115243f6d04f5">integral_constant</a>  </dt>
-<dd>Document this  </dd>
 <dt><a class="anchor" id="_todo000021"></a>Member <a class="el" href="structboost_1_1hana_1_1_integral.html#a1c078fd00db48686ca9e0aa17f47344e">operator</a> "_c" </dt>
 <dd>Add support for stuff like <code>0x1234_c</code>.  </dd>
-<dt><a class="anchor" id="_todo000036"></a>Member <a class="el" href="structboost_1_1hana_1_1_type.html#a5286be1cfdaca72680089a7d15a5c14c">sizeof_</a>  </dt>
+<dt><a class="anchor" id="_todo000038"></a>Member <a class="el" href="structboost_1_1hana_1_1_set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>  </dt>
+<dd>Consider allowing duplicates elements in this constructor.  </dd>
+<dt><a class="anchor" id="_todo000044"></a>Member <a class="el" href="structboost_1_1hana_1_1_type.html#a5286be1cfdaca72680089a7d15a5c14c">sizeof_</a>  </dt>
 <dd>Should we also support non-<code>Type</code>s? That could definitely be useful.  </dd>
 <dt><a class="anchor" id="_todo000025"></a>Member <a class="el" href="structboost_1_1hana_1_1_list.html#a18968c488a8b0cdc2697296024da9293">slice</a>  </dt>
 <dd>Should this be <code>slice(xs, from, length)</code> instead?  </dd>
-<dt><a class="anchor" id="_todo000034"></a>Member <a class="el" href="structboost_1_1hana_1_1_tuple.html#a6607b420b861d7abc8df34cb6900da19">tuple</a>  </dt>
-<dd>Consider having specialized tuples to hold types, integers, etc... It does not fix the problem of partial type classes (e.g. <code>MplVector</code> is not <em>actually</em> a <code>List</code>), but at least we remove <code>TypeList</code> and <code>IntegerList</code>, which are arguably ugly.  </dd>
-<dt><a class="anchor" id="_todo000040"></a>page <a class="el" href="index.html">User Manual</a>  </dt>
+<dt><a class="anchor" id="_todo000042"></a>Member <a class="el" href="structboost_1_1hana_1_1_tuple.html#a6607b420b861d7abc8df34cb6900da19">tuple</a>  </dt>
+<dd><ul>
+<li>Consider having specialized tuples to hold types, integers, etc... It does not fix the problem of partial type classes (e.g. <code>MplVector</code> is not <em>actually</em> a <code>List</code>), but at least we remove <code>TypeList</code> and <code>IntegerList</code>, which are arguably ugly.</li>
+<li>Use perfect forwarding to construct the inner lambda capture when this is supported and this bug is resolved: <a href="http://llvm.org/bugs/show_bug.cgi?id=20939">http://llvm.org/bugs/show_bug.cgi?id=20939</a></li>
+<li>Enable the test in tuple/tuple.cpp once the above is resolved.  </li>
+</ul>
+</dd>
+<dt><a class="anchor" id="_todo000048"></a>page <a class="el" href="index.html">User Manual</a>  </dt>
 <dd><p class="startdd">Write this, but how to avoid duplicating the reference documentation?</p>
 <p>Use Type and List (both compile-time and runtime).</p>
 <p>Use Maybe and List.</p>
@@ -228,7 +253,10 @@ $(document).ready(function(){initNavTree('todo.html','');});
 <p></p>
 <p></p>
 <p></p>
-<p>Document type classes with operators.</p>
+<ul>
+<li>Document type classes with operators.</li>
+<li>Document how to instantiate <em>unary</em> type classes from inside a data type.</li>
+</ul>
 <p class="enddd">Update this for the new core/ hierarchy and try to merge this with the file list generated by Doxygen. </p>
 </dd>
 <dt><a class="anchor" id="_todo000026"></a>Member <a class="el" href="structboost_1_1hana_1_1_list.html#a5eadaf63535ebb8cdd8d9e4c16b9bacd">zip_with</a>  </dt>

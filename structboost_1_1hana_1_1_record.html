@@ -77,7 +77,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_record.html','
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Modules</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Modules</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -97,7 +97,16 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_record.html','
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
 <div class="textblock"><p>Represents record-like user-defined types. </p>
-<p>A record-like type is any type which is fundamentally a <code>struct</code>, regardless of the implementation of its accessors and other similar details. Hence, <code><a class="el" href="structboost_1_1hana_1_1_record.html" title="Represents record-like user-defined types. ">Record</a></code>s can be seen as <code><a class="el" href="structboost_1_1hana_1_1_map.html" title="A basic associative array requiring unique and Comparable keys. ">Map</a></code>s in which keys can't be added, which as several useful use cases.</p>
+<p>A record-like type is any type which is fundamentally a <code>struct</code>, regardless of the implementation of its accessors and other similar details. Hence, <code><a class="el" href="structboost_1_1hana_1_1_record.html" title="Represents record-like user-defined types. ">Record</a></code>s can be seen as <code><a class="el" href="structboost_1_1hana_1_1_map.html" title="A basic associative array requiring unique and Comparable keys. ">Map</a></code>s to which keys can't be added.</p>
+<p>Instances of <code><a class="el" href="structboost_1_1hana_1_1_record.html" title="Represents record-like user-defined types. ">Record</a></code> are created by specifying an ordered mapping from keys to accessors, where keys are objects playing the role of member names, and accessors allow individual members to be retrieved from an object. Specifically, an accessor <code>A</code> for a subobject <code>sub</code> of type <code>T</code> inside an object of type <code>Obj</code> is a function such that </p><div class="fragment"><div class="line">A(Obj&amp;)       -&gt; T&amp;</div>
+<div class="line">A(Obj <span class="keyword">const</span>&amp;) -&gt; T <span class="keyword">const</span>&amp;</div>
+<div class="line">A(Obj&amp;&amp;)      -&gt; T</div>
+</div><!-- fragment --><p>where <code>F(X) -&gt; Y</code> means that the return type of <code>F</code> when called with an object of type <code>X</code> is exactly <code>Y</code>. Moreover, <code>A</code> may only access and/or modify the subobject <code>sub</code>. This restriction exists so that </p><div class="fragment"><div class="line">Obj obj = {...};</div>
+<div class="line"><span class="keyword">auto</span> subobject_1 = accessor_1(std::move(obj));</div>
+<div class="line"><span class="keyword">auto</span> subobject_2 = accessor_2(std::move(obj));</div>
+</div><!-- fragment --><p>is valid code which extracts two subobjects of <code>obj</code> while (perhaps) moving from them. If <code>accessor_1</code> was allowed to modify arbitrary subobjects of <code>obj</code>, we could end up accessing a moved-from object with <code>accessor_2</code> (if <code>accessor_1</code> had moved from it). Similarly, if <code>accessor_2</code> was allowed to access arbitrary subobjects of <code>obj</code>, it could end up accessing the moved-from subobject that was moved-from with <code>accessor_1</code>.</p>
+<dl class="section note"><dt>Note</dt><dd>The <a class="el" href="macros_8hpp.html#a8b4b7796bad58bc18683d99ca90a0034">BOOST_HANA_DEFINE_RECORD</a> and <a class="el" href="macros_8hpp.html#ac0c49e26841cde4895d867e2e479e085">BOOST_HANA_DEFINE_RECORD_INTRUSIVE</a> macros can also be used to define instances of <code><a class="el" href="structboost_1_1hana_1_1_record.html" title="Represents record-like user-defined types. ">Record</a></code>.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000033">Todo:</a></b></dt><dd>The restrictions on what constitutes an accessor are pretty fierce, and using <code>std::move</code> on the same object twice feels completely wrong. Is there a better way to allow an object to be decomposed optimally into its subobjects without resorting to such hacks?</dd></dl>
 <h3>Example</h3>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2014</span></div>
@@ -108,6 +117,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_record.html','
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/detail/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="constexpr_8hpp.html">boost/hana/detail/constexpr.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="foreign_8hpp.html">boost/hana/foreign.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="id_8hpp.html">boost/hana/functional/id.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="map_8hpp.html">boost/hana/map.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="pair_8hpp.html">boost/hana/pair.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
@@ -119,6 +129,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_record.html','
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="searchable_2record__mcd_8hpp.html">boost/hana/searchable/record_mcd.hpp</a>&gt;</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;utility&gt;</span></div>
 <div class="line"><span class="keyword">using namespace </span><a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
@@ -136,8 +147,12 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_record.html','
 <div class="line">    <span class="keyword">struct </span>Record::instance&lt;Person&gt; : <a class="code" href="structboost_1_1hana_1_1_record_1_1mcd.html">Record::mcd</a> {</div>
 <div class="line">        <span class="keyword">static</span> <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> members_impl() {</div>
 <div class="line">            <span class="keywordflow">return</span> tuple(</div>
-<div class="line">                pair(name, [](<span class="keyword">auto</span> p) { <span class="keywordflow">return</span> p.name; }),</div>
-<div class="line">                pair(age, [](<span class="keyword">auto</span> p) { <span class="keywordflow">return</span> p.age; })</div>
+<div class="line">                pair(name, [](<span class="keyword">auto</span>&amp;&amp; p) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">                    <span class="keywordflow">return</span> <a class="code" href="group__group-functional.html#gaef38cf34324c8edbd3597ae71811d00d">id</a>(std::forward&lt;decltype(p)&gt;(p).name);</div>
+<div class="line">                }),</div>
+<div class="line">                pair(age, [](<span class="keyword">auto</span>&amp;&amp; p) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">                    <span class="keywordflow">return</span> <a class="code" href="group__group-functional.html#gaef38cf34324c8edbd3597ae71811d00d">id</a>(std::forward&lt;decltype(p)&gt;(p).age);</div>
+<div class="line">                })</div>
 <div class="line">            );</div>
 <div class="line">        }</div>
 <div class="line">    };</div>

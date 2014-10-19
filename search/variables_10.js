@@ -5,5 +5,6 @@ var searchData=
   ['partition',['partition',['../structboost_1_1hana_1_1_list.html#a788b65dd69bb016d647801718e840816',1,'boost::hana::List']]],
   ['permutations',['permutations',['../structboost_1_1hana_1_1_list.html#a45ec7767d19eb7eaabb71ead3796a7f1',1,'boost::hana::List']]],
   ['plus',['plus',['../structboost_1_1hana_1_1_monoid.html#a98d9ffdd62fe8226c726ae4ce8e6cf97',1,'boost::hana::Monoid']]],
+  ['pred',['pred',['../structboost_1_1hana_1_1_enumerable.html#a283eaffe2c556e841a84a2e03d6b95f9',1,'boost::hana::Enumerable']]],
   ['product',['product',['../structboost_1_1hana_1_1_foldable.html#aa37fd8d56461f749d49423c711e4c67a',1,'boost::hana::Foldable']]]
 ];

@@ -77,7 +77,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_searchable.htm
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Modules</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Modules</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -98,7 +98,8 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_searchable.htm
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
 <div class="textblock"><p>Data structures that can be searched. </p>
 <p><code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="Data structures that can be searched. ">Searchable</a></code>s are structures associating keys to values. Some methods like <code>any</code>, <code>all</code> and <code>none</code> allow simple queries to be performed on the keys of the structure, while other methods like <code>lookup</code> and <code>find</code> make it possible to find the value associated to a key. Unlike usual associative containers, <code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="Data structures that can be searched. ">Searchable</a></code> does not require the structure to be finite; its specification is voluntarily left very general to allow infinite data structures. Also, there is no requirement that the keys and values be different, and indeed it is often useful to have identical keys and values.</p>
-<p>Also note that the most specific method should always be used if one cares about performance. For example, an associative data structure implemented as a hash table will be much faster to access using <code>lookup</code> than <code>find</code>. Similarly, using <code>elem</code> will likely be much faster than <code>any</code> with an equivalent predicate. </p>
+<p>Also note that the most specific method should always be used if one cares about performance. For example, an associative data structure implemented as a hash table will be much faster to access using <code>lookup</code> than <code>find</code>. Similarly, using <code>elem</code> will likely be much faster than <code>any</code> with an equivalent predicate.</p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000037">Todo:</a></b></dt><dd>We should provide a member <code>operator[]</code> equivalent to <code>lookup</code>. </dd></dl>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of methods</h2></td></tr>
@@ -211,7 +212,7 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">        );</div>
 </div><!-- fragment --> <h3>Benchmarks</h3>
 <div class="image">
-<img src="any.time.png" alt="any.time.png"/>
+<img src="any.ctime.png" alt="any.ctime.png"/>
 </div>
  
 </div>
@@ -301,7 +302,7 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">        );</div>
 </div><!-- fragment --> <h3>Benchmarks</h3>
 <div class="image">
-<img src="all.time.png" alt="all.time.png"/>
+<img src="all.ctime.png" alt="all.ctime.png"/>
 </div>
  
 </div>
@@ -390,7 +391,7 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">        );</div>
 </div><!-- fragment --> <h3>Benchmarks</h3>
 <div class="image">
-<img src="none.time.png" alt="none.time.png"/>
+<img src="none.ctime.png" alt="none.ctime.png"/>
 </div>
  
 </div>
@@ -467,7 +468,7 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">        <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a04e413e4acd1dac89e442df2f30f3e2d">elem</a>(set(1, <span class="charliteral">&#39;2&#39;</span>, type&lt;int&gt;, <span class="stringliteral">&quot;foobar&quot;</span>), type&lt;int&gt;));</div>
 </div><!-- fragment --> <h3>Benchmarks</h3>
 <div class="image">
-<img src="elem.time.png" alt="elem.time.png"/>
+<img src="elem.ctime.png" alt="elem.ctime.png"/>
 </div>
  
 </div>
@@ -516,7 +517,7 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">        <a class="code" href="group__group-details.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a2772d97163d2e2ca3f51b2d16d13ff66">find</a>(types, <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> == type&lt;void&gt;) == nothing);</div>
 </div><!-- fragment --> <h3>Benchmarks</h3>
 <div class="image">
-<img src="find.time.png" alt="find.time.png"/>
+<img src="find.ctime.png" alt="find.ctime.png"/>
 </div>
  
 </div>
@@ -568,7 +569,7 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="line">        <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a82e67ada9561f5e1176faab8eb94a064">lookup</a>(m, type&lt;float&gt;) == just(3.3));</div>
 </div><!-- fragment --> <h3>Benchmarks</h3>
 <div class="image">
-<img src="lookup.time.png" alt="lookup.time.png"/>
+<img src="lookup.ctime.png" alt="lookup.ctime.png"/>
 </div>
  
 </div>
@@ -657,7 +658,7 @@ Instances and minimal complete definitions</h2></td></tr>
 <div class="fragment"><div class="line">        <a class="code" href="group__group-details.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#aa713b34e28603ea39c8873609fd24801">subset</a>(tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3), tuple(3.3, 1, <span class="charliteral">&#39;2&#39;</span>, <span class="keyword">nullptr</span>)));</div>
 </div><!-- fragment --> <h3>Benchmarks</h3>
 <div class="image">
-<img src="subset.time.png" alt="subset.time.png"/>
+<img src="subset.ctime.png" alt="subset.ctime.png"/>
 </div>
  
 </div>

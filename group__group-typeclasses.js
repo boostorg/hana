@@ -19,6 +19,7 @@ var group__group_typeclasses =
       [ "instance< R, R, when< is_a< Record, R >()> >", "structboost_1_1hana_1_1_comparable_1_1instance_3_01_r_00_01_r_00_01when_3_01is__a_3_01_record_00_01_r_01_4_07_08_4_01_4.html", null ],
       [ "instance< Range, Range >", "structboost_1_1hana_1_1_comparable_1_1instance_3_01_range_00_01_range_01_4.html", null ],
       [ "instance< Set, Set >", "structboost_1_1hana_1_1_comparable_1_1instance_3_01_set_00_01_set_01_4.html", null ],
+      [ "instance< String, String >", "structboost_1_1hana_1_1_comparable_1_1instance_3_01_string_00_01_string_01_4.html", null ],
       [ "instance< T, U, when< is_a< List, T >()&&is_a< List, U >() > >", "structboost_1_1hana_1_1_comparable_1_1instance_3_01_t_00_01_u_00_01when_3_01is__a_3_01_list_00_03427c89578a48db3863d73ebe0ef141a.html", null ],
       [ "instance< T, U, when< is_a< Product, T >()&&is_a< Product, U >() > >", "structboost_1_1hana_1_1_comparable_1_1instance_3_01_t_00_01_u_00_01when_3_01is__a_3_01_product_013c6594e5695e2dfb196782c211bc867.html", null ],
       [ "instance< T, U, when< is_valid< decltype((void)(*(T *) 0==*(U *) 0))> > >", "structboost_1_1hana_1_1_comparable_1_1instance_3_01_t_00_01_u_00_01when_3_01is__valid_3_01decltyafaa9a039a940e3990551b88deb96f3b.html", null ],
@@ -34,14 +35,24 @@ var group__group_typeclasses =
     ] ],
     [ "Constant", "structboost_1_1hana_1_1_constant.html", [
       [ "instance< BoostMplIntegralConstant >", "structboost_1_1hana_1_1_constant_1_1instance_3_01_boost_mpl_integral_constant_01_4.html", null ],
+      [ "instance< String >", "structboost_1_1hana_1_1_constant_1_1instance_3_01_string_01_4.html", null ],
       [ "mcd", "structboost_1_1hana_1_1_constant_1_1mcd.html", null ],
       [ "value", "structboost_1_1hana_1_1_constant.html#a615a7728e2278acb2cab50854079d7fc", null ]
+    ] ],
+    [ "Enumerable", "structboost_1_1hana_1_1_enumerable.html", [
+      [ "instance< I, when< is_an< IntegralConstant, I >()> >", "structboost_1_1hana_1_1_enumerable_1_1instance_3_01_i_00_01when_3_01is__an_3_01_integral_constant_00_01_i_01_4_07_08_4_01_4.html", null ],
+      [ "instance< T, when< is_valid< decltype((void)(++*(T *) 0)), decltype((void)(--*(T *) 0)) > > >", "structboost_1_1hana_1_1_enumerable_1_1instance_3_01_t_00_01when_3_01is__valid_3_01decltype_07_07050ce0fa239ebf36d2a038e55068d0c6.html", null ],
+      [ "mcd", "structboost_1_1hana_1_1_enumerable_1_1mcd.html", null ],
+      [ "succ", "structboost_1_1hana_1_1_enumerable.html#a09bc77dab527650793cab53fce2c14b0", null ],
+      [ "pred", "structboost_1_1hana_1_1_enumerable.html#a283eaffe2c556e841a84a2e03d6b95f9", null ]
     ] ],
     [ "Foldable", "structboost_1_1hana_1_1_foldable.html", [
       [ "folds_mcd", "structboost_1_1hana_1_1_foldable_1_1folds__mcd.html", null ],
       [ "instance< Maybe >", "structboost_1_1hana_1_1_foldable_1_1instance_3_01_maybe_01_4.html", null ],
+      [ "instance< P, when< is_a< Product, P >()> >", "structboost_1_1hana_1_1_foldable_1_1instance_3_01_p_00_01when_3_01is__a_3_01_product_00_01_p_01_4_07_08_4_01_4.html", null ],
       [ "instance< R, when< is_a< Record, R >()> >", "structboost_1_1hana_1_1_foldable_1_1instance_3_01_r_00_01when_3_01is__a_3_01_record_00_01_r_01_4_07_08_4_01_4.html", null ],
       [ "instance< Range >", "structboost_1_1hana_1_1_foldable_1_1instance_3_01_range_01_4.html", null ],
+      [ "instance< String >", "structboost_1_1hana_1_1_foldable_1_1instance_3_01_string_01_4.html", null ],
       [ "instance< T, when< is_an< Iterable, T >()> >", "structboost_1_1hana_1_1_foldable_1_1instance_3_01_t_00_01when_3_01is__an_3_01_iterable_00_01_t_01_4_07_08_4_01_4.html", null ],
       [ "instance< T[N]>", "structboost_1_1hana_1_1_foldable_1_1instance_3_01_t[_n]_4.html", null ],
       [ "iterable_mcd", "structboost_1_1hana_1_1_foldable_1_1iterable__mcd.html", null ],
@@ -124,10 +135,12 @@ var group__group_typeclasses =
       [ "group_by", "structboost_1_1hana_1_1_list.html#ad855f1d86e9bf0d31d67c191412a9082", null ],
       [ "group", "structboost_1_1hana_1_1_list.html#a83d9b8f0f293c6fe7cfccd2359dec330", null ],
       [ "init", "structboost_1_1hana_1_1_list.html#a733fdb2e8686033466beea8323e53a26", null ],
+      [ "intersperse", "structboost_1_1hana_1_1_list.html#ab6e88c5dd3f638a60c0a451ad6db95ec", null ],
       [ "make< L, when< is_a< List, L >)> >", "structboost_1_1hana_1_1_list.html#a711e061315d04d18ef407084906ffba4", null ],
       [ "nil", "structboost_1_1hana_1_1_list.html#a04e654b583265053e4dde63fff0c0aea", null ],
       [ "partition", "structboost_1_1hana_1_1_list.html#a788b65dd69bb016d647801718e840816", null ],
       [ "permutations", "structboost_1_1hana_1_1_list.html#a45ec7767d19eb7eaabb71ead3796a7f1", null ],
+      [ "repeat", "structboost_1_1hana_1_1_list.html#acbf4797cf95bb19dfe33a16cf86fe3c9", null ],
       [ "reverse", "structboost_1_1hana_1_1_list.html#a4471413ccc3835db5e48658683b8aba0", null ],
       [ "scanl", "structboost_1_1hana_1_1_list.html#adfb039a3d46931ef17fef56c77d8256c", null ],
       [ "scanl1", "structboost_1_1hana_1_1_list.html#a62411eb57e86f3cb7394f22fd3651355", null ],
@@ -150,7 +163,7 @@ var group__group_typeclasses =
       [ "zip_with", "structboost_1_1hana_1_1_list.html#a5eadaf63535ebb8cdd8d9e4c16b9bacd", null ]
     ] ],
     [ "Logical", "structboost_1_1hana_1_1_logical.html", [
-      [ "instance< T, when< is_valid< decltype(*(T *) 0?(void) 0:(void) 0)> > >", "structboost_1_1hana_1_1_logical_1_1instance_3_01_t_00_01when_3_01is__valid_3_01decltype_07_5_07_ae1dbc29ae5be1bd3a6a524e60510c5a.html", null ],
+      [ "instance< L, when< is_valid< decltype(*(L *) 0?(void) 0:(void) 0)> > >", "structboost_1_1hana_1_1_logical_1_1instance_3_01_l_00_01when_3_01is__valid_3_01decltype_07_5_07_46d73931b151c4c1417aa0dc089efecd.html", null ],
       [ "integral_constant_mcd", "structboost_1_1hana_1_1_logical_1_1integral__constant__mcd.html", null ],
       [ "mcd", "structboost_1_1hana_1_1_logical_1_1mcd.html", null ],
       [ "if_", "structboost_1_1hana_1_1_logical.html#a06927a2badb729e1522b9030d18234df", null ],
@@ -184,6 +197,7 @@ var group__group_typeclasses =
       [ "decltype", "structboost_1_1hana_1_1_monoid.html#a5c358be98b264e441eb1d27e86c89b93", null ]
     ] ],
     [ "Orderable", "structboost_1_1hana_1_1_orderable.html", [
+      [ "instance< String, String >", "structboost_1_1hana_1_1_orderable_1_1instance_3_01_string_00_01_string_01_4.html", null ],
       [ "less_mcd", "structboost_1_1hana_1_1_orderable_1_1less__mcd.html", null ],
       [ "less", "structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5", null ],
       [ "less_equal", "structboost_1_1hana_1_1_orderable.html#a8012cbd416c2067be764046dcd0c2a23", null ],
