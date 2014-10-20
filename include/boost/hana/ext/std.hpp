@@ -14,6 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/ext/std/integer_sequence.hpp>
 #include <boost/hana/ext/std/integral_constant.hpp>
 #include <boost/hana/ext/std/pair.hpp>
+#include <boost/hana/ext/std/ratio.hpp>
 #include <boost/hana/ext/std/tuple.hpp>
 
 #endif // !BOOST_HANA_EXT_STD_HPP

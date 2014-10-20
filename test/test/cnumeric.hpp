@@ -15,5 +15,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <test/cnumeric/logical.hpp>
 #include <test/cnumeric/constant.hpp>
+#include <test/cnumeric/integral_constant.hpp>
 
 #endif // !BOOST_HANA_TEST_TEST_CNUMERIC_HPP
