@@ -4,17 +4,19 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/applicative/mcd.hpp>
-#include <boost/hana/comparable/equal_mcd.hpp>
-#include <boost/hana/foldable/folds_mcd.hpp>
 #include <boost/hana/functional/curry.hpp>
 #include <boost/hana/functional/flip.hpp>
 #include <boost/hana/functional/partial.hpp>
-#include <boost/hana/functor/fmap_mcd.hpp>
-#include <boost/hana/list/list.hpp>
-#include <boost/hana/monad/flatten_mcd.hpp>
-#include <boost/hana/traversable/traverse_mcd.hpp>
 #include <boost/hana/tuple.hpp>
+
+// instances
+#include <boost/hana/applicative.hpp>
+#include <boost/hana/comparable.hpp>
+#include <boost/hana/foldable.hpp>
+#include <boost/hana/functor.hpp>
+#include <boost/hana/list.hpp>
+#include <boost/hana/monad.hpp>
+#include <boost/hana/traversable.hpp>
 
 #include <utility>
 

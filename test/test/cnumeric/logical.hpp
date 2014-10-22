@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TEST_TEST_CNUMERIC_LOGICAL_HPP
 #define BOOST_HANA_TEST_TEST_CNUMERIC_LOGICAL_HPP
 
-#include <boost/hana/logical/mcd.hpp>
+#include <boost/hana/logical.hpp>
 #include <test/cnumeric/cnumeric.hpp>
 
 

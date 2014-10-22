@@ -4,11 +4,11 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/comparable/operators.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/foreign.hpp> //! @todo Find a way to remove this
+#include <boost/hana/fwd/comparable.hpp>
 
 #include <test/injection.hpp>
 #include <test/laws/comparable.hpp>

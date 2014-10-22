@@ -7,9 +7,9 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TEST_TEST_LAWS_FOLDABLE_HPP
 #define BOOST_HANA_TEST_TEST_LAWS_FOLDABLE_HPP
 
-#include <boost/hana/comparable/comparable.hpp>
-#include <boost/hana/foldable/foldable.hpp>
-#include <boost/hana/logical/logical.hpp>
+#include <boost/hana/comparable.hpp>
+#include <boost/hana/foldable.hpp>
+#include <boost/hana/logical.hpp>
 #include <boost/hana/tuple.hpp>
 
 #include <test/injection.hpp>

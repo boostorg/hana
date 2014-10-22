@@ -14,7 +14,7 @@ foreach(method IN ITEMS filter make permutations reverse scanl scanl1 scanr scan
                 {
                     setup: '
                         #include <boost/hana/integral.hpp>
-                        #include <boost/hana/tuple/list.hpp>
+                        #include <boost/hana/tuple.hpp>
                     ',
                     list: \"boost::hana::tuple(#{xs})\",
                     input_size: n
@@ -31,7 +31,7 @@ foreach(method IN ITEMS filter make permutations reverse scanl scanl1 scanr scan
                 }.join(', ')
                 {
                     setup: '
-                        #include <boost/hana/ext/std/tuple/list.hpp>
+                        #include <boost/hana/ext/std/tuple.hpp>
                         #include <boost/hana/integral.hpp>
                         #include <tuple>
                     ',
@@ -46,7 +46,7 @@ foreach(method IN ITEMS filter make permutations reverse scanl scanl1 scanr scan
         set(hana_tuple_env
             "((1..50).to_a + (51..500).step(25).to_a).map { |n|
                 {
-                    setup: '#include <boost/hana/tuple/list.hpp>',
+                    setup: '#include <boost/hana/tuple.hpp>',
                     datatype: 'boost::hana::Tuple',
                     input_size: n
                 }
@@ -59,10 +59,10 @@ foreach(method IN ITEMS filter make permutations reverse scanl scanl1 scanr scan
             "((1..50).to_a + (51..500).step(25).to_a).map { |n|
                 {
                     setup: '
-                        #include <boost/hana/ext/std/tuple/list.hpp>
+                        #include <boost/hana/ext/std/tuple.hpp>
                         #include <tuple>
                     ',
-                    datatype: 'boost::hana::StdTuple',
+                    datatype: 'boost::hana::ext::std::Tuple',
                     input_size: n
                 }
             }
@@ -74,7 +74,7 @@ foreach(method IN ITEMS filter make permutations reverse scanl scanl1 scanr scan
             "((1..50).to_a + (51..500).step(25).to_a).map { |n|
                 xs = (1..n).to_a.map { |i| \"x<#{i}>{}\" }.join(', ')
                 {
-                    setup: '#include <boost/hana/tuple/list.hpp>',
+                    setup: '#include <boost/hana/tuple.hpp>',
                     list: \"boost::hana::tuple(#{xs})\",
                     input_size: n
                 }
@@ -89,7 +89,7 @@ foreach(method IN ITEMS filter make permutations reverse scanl scanl1 scanr scan
                 xs = (1..n).to_a.map { |i| \"x<#{i}>{}\" }.join(', ')
                 {
                     setup: '
-                        #include <boost/hana/ext/std/tuple/list.hpp>
+                        #include <boost/hana/ext/std/tuple.hpp>
                         #include <tuple>
                     ',
                     list: \"std::make_tuple(#{xs})\",

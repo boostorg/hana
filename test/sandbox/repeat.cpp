@@ -9,9 +9,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/foreign.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/integral.hpp>
-#include <boost/hana/iterable/mcd.hpp>
+#include <boost/hana/iterable.hpp>
 #include <boost/hana/lazy.hpp>
-#include <boost/hana/list/mcd.hpp>
+#include <boost/hana/list.hpp>
 #include <boost/hana/tuple.hpp>
 using namespace boost::hana;
 

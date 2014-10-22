@@ -5,7 +5,7 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/functor/functor.hpp>
+#include <boost/hana/fwd/functor.hpp>
 
 #include "benchmark.hpp"
 

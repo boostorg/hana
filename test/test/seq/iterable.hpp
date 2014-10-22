@@ -8,7 +8,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_TEST_TEST_SEQ_ITERABLE_HPP
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/iterable/mcd.hpp>
+#include <boost/hana/iterable.hpp>
 #include <test/seq/seq.hpp>
 
 

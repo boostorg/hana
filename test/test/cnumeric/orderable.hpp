@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TEST_TEST_CNUMERIC_ORDERABLE_HPP
 #define BOOST_HANA_TEST_TEST_CNUMERIC_ORDERABLE_HPP
 
-#include <boost/hana/orderable/less_mcd.hpp>
+#include <boost/hana/orderable.hpp>
 #include <test/cnumeric/cnumeric.hpp>
 #include <test/cnumeric/logical.hpp>
 

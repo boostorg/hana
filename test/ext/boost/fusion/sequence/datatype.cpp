@@ -18,28 +18,28 @@ template <bool should>
 auto test = [](auto container) {
     static_assert(std::is_same<
         datatype_t<decltype(container())>,
-        BoostFusionSequence
+        ext::boost::fusion::sequence
     >::value == should, "");
 
     static_assert(std::is_same<
         datatype_t<decltype(container(1))>,
-        BoostFusionSequence
+        ext::boost::fusion::sequence
     >::value == should, "");
 
     static_assert(std::is_same<
         datatype_t<decltype(container(1, '2'))>,
-        BoostFusionSequence
+        ext::boost::fusion::sequence
     >::value == should, "");
 
     static_assert(std::is_same<
         datatype_t<decltype(container(1, '2', 3.3))>,
-        BoostFusionSequence
+        ext::boost::fusion::sequence
     >::value == should, "");
 };
 
 int main() {
     with_nonassociative_forward_sequences(test<true>);
-    test<false>([](auto ...xs) { return boost::fusion::make_set(xs...); });
+    test<false>([](auto ...xs) { return ::boost::fusion::make_set(xs...); });
     test<false>([](auto ...xs) { return int{1}; });
     test<false>([](auto ...xs) { return; });
 }

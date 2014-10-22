@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/logical/operators.hpp>
+#include <boost/hana/logical.hpp>
 
 #include <test/cnumeric/comparable.hpp>
 #include <test/cnumeric/constant.hpp>

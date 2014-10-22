@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TEST_TEST_NUMERIC_ENUMERABLE_HPP
 #define BOOST_HANA_TEST_TEST_NUMERIC_ENUMERABLE_HPP
 
-#include <boost/hana/enumerable/mcd.hpp>
+#include <boost/hana/enumerable.hpp>
 #include <test/numeric/numeric.hpp>
 
 

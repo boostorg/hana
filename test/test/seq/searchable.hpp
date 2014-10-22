@@ -8,6 +8,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_TEST_TEST_SEQ_SEARCHABLE_HPP
 
 #include <test/seq/list.hpp>
-#include <boost/hana/searchable/list_mcd.hpp>
+#include <boost/hana/searchable.hpp>
 
 #endif //! BOOST_HANA_TEST_TEST_SEQ_SEARCHABLE_HPP

@@ -8,12 +8,12 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/typeclass.hpp>
 
 #include <boost/hana/detail/assert.hpp>
-#include <boost/hana/foldable/foldable.hpp>
+#include <boost/hana/foldable.hpp>
 #include <boost/hana/foreign.hpp>
-#include <boost/hana/iterable/iterable.hpp>
+#include <boost/hana/iterable.hpp>
 #include <boost/hana/maybe.hpp>
-#include <boost/hana/monad/monad.hpp>
-#include <boost/hana/orderable/orderable.hpp>
+#include <boost/hana/monad.hpp>
+#include <boost/hana/orderable.hpp>
 #include <boost/hana/tuple.hpp>
 
 #include <type_traits>

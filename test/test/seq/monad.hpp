@@ -10,6 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <test/seq/list.hpp>
 #include <test/seq/functor.hpp>
 #include <test/seq/applicative.hpp>
-#include <boost/hana/monad/list_mcd.hpp>
+#include <boost/hana/monad.hpp>
 
 #endif //! BOOST_HANA_TEST_TEST_SEQ_MONAD_HPP

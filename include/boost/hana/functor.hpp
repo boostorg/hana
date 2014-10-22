@@ -10,9 +10,39 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FUNCTOR_HPP
 #define BOOST_HANA_FUNCTOR_HPP
 
-#include <boost/hana/functor/adjust_mcd.hpp>
-#include <boost/hana/functor/fmap_mcd.hpp>
-#include <boost/hana/functor/functor.hpp>
-#include <boost/hana/functor/list_mcd.hpp>
+#include <boost/hana/fwd/functor.hpp>
+
+#include <boost/hana/bool.hpp>
+#include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/logical.hpp>
+
+
+namespace boost { namespace hana {
+    //! Minimal complete definition: `fmap`
+    struct Functor::fmap_mcd : functor_detail::common {
+        template <typename Xs, typename Pred, typename F>
+        static constexpr auto adjust_impl(Xs xs, Pred pred, F f) {
+            auto go = [=](auto x) {
+                return eval_if(pred(x),
+                    [=](auto _) { return _(f)(x); },
+                    [=](auto) { return x; }
+                );
+            };
+            return fmap(xs, go);
+        }
+    };
+
+    //! Minimal complete definition: `adjust`
+    struct Functor::adjust_mcd : functor_detail::common {
+        template <typename Xs, typename F>
+        static constexpr decltype(auto) fmap_impl(Xs&& xs, F&& f) {
+            return adjust(
+                detail::std::forward<Xs>(xs),
+                [](auto) { return true_; },
+                detail::std::forward<F>(f)
+            );
+        }
+    };
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FUNCTOR_HPP

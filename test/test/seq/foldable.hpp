@@ -17,7 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #if defined(BOOST_HANA_TEST_FOLDABLE_FOLDS_MCD)
 
-#include <boost/hana/foldable/folds_mcd.hpp>
+#include <boost/hana/foldable.hpp>
 #include <test/seq/seq.hpp>
 
 
@@ -60,7 +60,7 @@ namespace boost { namespace hana {
 
 #elif defined(BOOST_HANA_TEST_FOLDABLE_UNPACK_MCD)
 
-#include <boost/hana/foldable/unpack_mcd.hpp>
+#include <boost/hana/foldable.hpp>
 #include <test/seq/seq.hpp>
 
 
@@ -78,7 +78,7 @@ namespace boost { namespace hana {
 #else
 
 #include <test/seq/iterable.hpp>
-#include <boost/hana/foldable/iterable_mcd.hpp>
+#include <boost/hana/foldable.hpp>
 
 #endif
 

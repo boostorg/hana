@@ -20,9 +20,9 @@ constexpr auto array = std::array<int, sizeof...(i)>{{i...}};
 int main() {
     // nil
     {
-        BOOST_HANA_CONSTANT_ASSERT(equal(nil<StdArray>, std::array<char, 0>{}));
-        BOOST_HANA_CONSTANT_ASSERT(equal(nil<StdArray>, std::array<int, 0>{}));
-        BOOST_HANA_CONSTANT_ASSERT(equal(nil<StdArray>, std::array<long, 0>{}));
+        BOOST_HANA_CONSTANT_ASSERT(equal(nil<ext::std::Array>, std::array<char, 0>{}));
+        BOOST_HANA_CONSTANT_ASSERT(equal(nil<ext::std::Array>, std::array<int, 0>{}));
+        BOOST_HANA_CONSTANT_ASSERT(equal(nil<ext::std::Array>, std::array<long, 0>{}));
     }
 
     // cons
@@ -32,7 +32,7 @@ int main() {
         BOOST_HANA_CONSTEXPR_ASSERT(equal(cons(0, array<1, 2>), array<0, 1, 2>));
         BOOST_HANA_CONSTEXPR_ASSERT(equal(cons(0, array<1, 2, 3>), array<0, 1, 2, 3>));
 
-        BOOST_HANA_CONSTEXPR_ASSERT(equal(cons(0, nil<StdArray>), array<0>));
+        BOOST_HANA_CONSTEXPR_ASSERT(equal(cons(0, nil<ext::std::Array>), array<0>));
     }
 
     // laws

@@ -12,7 +12,7 @@ foreach(method IN ITEMS adjust fill fmap replace)
                 \"boost::hana::benchmark::object<#{i}>{}\"
             }.join(', ')
             {
-                setup: '#include <boost/hana/tuple/functor.hpp>',
+                setup: '#include <boost/hana/tuple.hpp>',
                 functor: \"boost::hana::tuple(#{xs})\",
                 input_size: n
             }
@@ -28,7 +28,7 @@ foreach(method IN ITEMS adjust fill fmap replace)
             }.join(', ')
             {
                 setup: '
-                    #include <boost/hana/ext/std/tuple/functor.hpp>
+                    #include <boost/hana/ext/std/tuple.hpp>
                     #include <tuple>
                 ',
                 functor: \"std::make_tuple(#{xs})\",

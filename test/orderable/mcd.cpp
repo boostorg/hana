@@ -8,8 +8,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/foreign.hpp> //! @todo Find a way to get rid of this
-#include <boost/hana/logical/logical.hpp>
-#include <boost/hana/orderable/operators.hpp>
+#include <boost/hana/logical.hpp>
+#include <boost/hana/orderable.hpp>
 
 #include <test/laws/orderable.hpp>
 #include <test/injection.hpp>

@@ -4,10 +4,10 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/foldable/product_mcd.hpp>
-#include <boost/hana/product/mcd.hpp>
+#include <boost/hana/foldable.hpp>
 
 #include <boost/hana/detail/assert.hpp>
+#include <boost/hana/product.hpp>
 
 #include <test/injection.hpp>
 #include <test/laws/foldable.hpp>

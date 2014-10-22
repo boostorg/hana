@@ -1,6 +1,6 @@
 /*!
 @file
-Defines `boost::hana::BoostMplVector`.
+Defines `boost::hana::ext::boost::mpl::Vector`.
 
 @copyright Louis Dionne 2014
 Distributed under the Boost Software License, Version 1.0.
@@ -10,19 +10,68 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EXT_BOOST_MPL_VECTOR_HPP
 #define BOOST_HANA_EXT_BOOST_MPL_VECTOR_HPP
 
-#include <boost/hana/ext/boost/mpl/vector/vector.hpp>
+#include <boost/hana/fwd/ext/boost/mpl/vector.hpp>
 
-// Instances
-#include <boost/hana/ext/boost/mpl/vector/comparable.hpp>
+#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/detail/std/is_same.hpp>
+#include <boost/hana/ext/boost/mpl/integral_c.hpp>
+#include <boost/hana/type.hpp>
 
-#include <boost/hana/ext/boost/mpl/vector/functor.hpp>
-#include <boost/hana/ext/boost/mpl/vector/applicative.hpp>
-#include <boost/hana/ext/boost/mpl/vector/monad.hpp>
-#include <boost/hana/ext/boost/mpl/vector/traversable.hpp>
+// instances
+#include <boost/hana/iterable.hpp>
+#include <boost/hana/list.hpp>
 
-#include <boost/hana/ext/boost/mpl/vector/foldable.hpp>
-#include <boost/hana/ext/boost/mpl/vector/iterable.hpp>
-#include <boost/hana/ext/boost/mpl/vector/list.hpp>
-#include <boost/hana/ext/boost/mpl/vector/searchable.hpp>
+#include <boost/mpl/empty.hpp>
+#include <boost/mpl/front.hpp>
+#include <boost/mpl/pop_front.hpp>
+#include <boost/mpl/push_front.hpp>
+#include <boost/mpl/vector/vector0.hpp>
+
+
+namespace boost { namespace hana {
+    //! `Iterable` instance for Boost.MPL vectors.
+    //!
+    //! ### Example
+    //! @include example/ext/boost/mpl/vector/iterable.cpp
+    template <>
+    struct Iterable::instance<ext::boost::mpl::Vector> : Iterable::mcd {
+        template <typename xs>
+        static constexpr auto head_impl(xs)
+        { return type<typename ::boost::mpl::front<xs>::type>; }
+
+        template <typename xs>
+        static constexpr auto tail_impl(xs)
+        { return typename ::boost::mpl::pop_front<xs>::type{}; }
+
+        template <typename xs>
+        static constexpr auto is_empty_impl(xs)
+        { return typename ::boost::mpl::empty<xs>::type{}; }
+    };
+
+    //! `List` instance for Boost.MPL vectors.
+    //!
+    //! Note that since Boost.MPL vectors can only hold types,
+    //! only `Type`s can be used with `cons`.
+    //!
+    //! ### Example
+    //! @include example/ext/boost/mpl/vector/list.cpp
+    template <>
+    struct List::instance<ext::boost::mpl::Vector>
+        : List::mcd<ext::boost::mpl::Vector>
+    {
+        template <typename x, typename xs>
+        static constexpr auto cons_impl(x, xs) {
+            static_assert(detail::std::is_same<datatype_t<x>, Type>::value,
+            "Only Types may be prepended to a Boost.MPL vector.");
+
+            return typename ::boost::mpl::push_front<
+                xs, typename x::type
+            >::type{};
+        }
+
+        static constexpr auto nil_impl()
+        { return ::boost::mpl::vector0<>{}; }
+    };
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_EXT_BOOST_MPL_VECTOR_HPP

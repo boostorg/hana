@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TEST_TEST_IDENTITY_APPLICATIVE_HPP
 #define BOOST_HANA_TEST_TEST_IDENTITY_APPLICATIVE_HPP
 
-#include <boost/hana/applicative/mcd.hpp>
+#include <boost/hana/applicative.hpp>
 #include <test/identity/identity.hpp>
 
 // Mcd

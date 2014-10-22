@@ -10,9 +10,32 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_MONOID_HPP
 #define BOOST_HANA_MONOID_HPP
 
-#include <boost/hana/monoid/integral_constant_mcd.hpp>
-#include <boost/hana/monoid/mcd.hpp>
-#include <boost/hana/monoid/monoid.hpp>
-#include <boost/hana/monoid/operators.hpp>
+#include <boost/hana/fwd/monoid.hpp>
+
+#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/operators.hpp>
+#include <boost/hana/detail/std/enable_if.hpp>
+#include <boost/hana/detail/std/forward.hpp>
+
+
+namespace boost { namespace hana {
+    //! Minimal complete definition : `zero` and `plus`
+    struct Monoid::mcd { };
+
+    namespace operators {
+        //! Equivalent to `plus`.
+        //! @relates boost::hana::Monoid
+        template <typename X, typename Y, typename = typename detail::std::enable_if<
+            enable_operators<Monoid, datatype_t<X>>::value ||
+            enable_operators<Monoid, datatype_t<Y>>::value
+        >::type>
+        constexpr decltype(auto) operator+(X&& x, Y&& y) {
+            return plus(
+                detail::std::forward<decltype(x)>(x),
+                detail::std::forward<decltype(y)>(y)
+            );
+        }
+    }
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_MONOID_HPP

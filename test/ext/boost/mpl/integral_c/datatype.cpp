@@ -19,33 +19,33 @@ using namespace boost::hana;
 
 
 static_assert(std::is_same<
-    datatype_t<boost::mpl::bool_<true>>,
-    BoostMplIntegralConstant
+    datatype_t< ::boost::mpl::bool_<true>>,
+    ext::boost::mpl::IntegralC
 >::value, "");
 
 static_assert(std::is_same<
-    datatype_t<boost::mpl::int_<0>>,
-    BoostMplIntegralConstant
+    datatype_t< ::boost::mpl::int_<0>>,
+    ext::boost::mpl::IntegralC
 >::value, "");
 
 static_assert(std::is_same<
-    datatype_t<boost::mpl::long_<0>>,
-    BoostMplIntegralConstant
+    datatype_t< ::boost::mpl::long_<0>>,
+    ext::boost::mpl::IntegralC
 >::value, "");
 
 static_assert(std::is_same<
-    datatype_t<boost::mpl::size_t<0>>,
-    BoostMplIntegralConstant
+    datatype_t< ::boost::mpl::size_t<0>>,
+    ext::boost::mpl::IntegralC
 >::value, "");
 
 static_assert(std::is_same<
-    datatype_t<boost::mpl::integral_c<int, 0>>,
-    BoostMplIntegralConstant
+    datatype_t< ::boost::mpl::integral_c<int, 0>>,
+    ext::boost::mpl::IntegralC
 >::value, "");
 
 static_assert(std::is_same<
-    datatype_t<boost::mpl::char_<0>>,
-    BoostMplIntegralConstant
+    datatype_t< ::boost::mpl::char_<0>>,
+    ext::boost::mpl::IntegralC
 >::value, "");
 
 int main() { }

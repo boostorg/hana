@@ -8,23 +8,11 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_TEST_TEST_MINIMAL_LIST_HPP
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/comparable/comparable.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/iterable/mcd.hpp>
-#include <boost/hana/list/mcd.hpp>
-#include <boost/hana/monad/monad.hpp>
 
-// Provided instances
-#include <boost/hana/applicative/list_mcd.hpp>
-#include <boost/hana/comparable/list_mcd.hpp>
-#include <boost/hana/foldable/iterable_mcd.hpp>
-#include <boost/hana/functor/list_mcd.hpp>
-#include <boost/hana/monad/list_mcd.hpp>
-#include <boost/hana/searchable/list_mcd.hpp>
-#include <boost/hana/traversable/list_mcd.hpp>
-
-// Conversions
-#include <boost/hana/list/convert.hpp>
+// instances
+#include <boost/hana/iterable.hpp>
+#include <boost/hana/list.hpp>
 
 
 namespace test {

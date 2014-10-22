@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #if defined(BOOST_HANA_TEST_MONAD_FLATTEN_MCD)
 
-#include <boost/hana/monad/flatten_mcd.hpp>
+#include <boost/hana/monad.hpp>
 #include <test/identity/identity.hpp>
 
 // Mcd
@@ -37,7 +37,7 @@ namespace boost { namespace hana {
 
 #else
 
-#include <boost/hana/monad/bind_mcd.hpp>
+#include <boost/hana/monad.hpp>
 #include <test/identity/identity.hpp>
 
 // Mcd

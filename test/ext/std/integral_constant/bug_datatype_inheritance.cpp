@@ -22,12 +22,12 @@ struct empty { };
 struct non_pod { virtual ~non_pod() { } };
 
 int main() {
-    static_assert(std::is_same<datatype_t<inherit_simple>, StdIntegralConstant>{}, "");
-    static_assert(std::is_same<datatype_t<inherit_no_default>, StdIntegralConstant>{}, "");
-    static_assert(std::is_same<datatype_t<std::is_pointer<int*>>, StdIntegralConstant>{}, "");
+    static_assert(std::is_same<datatype_t<inherit_simple>, ext::std::IntegralConstant>{}, "");
+    static_assert(std::is_same<datatype_t<inherit_no_default>, ext::std::IntegralConstant>{}, "");
+    static_assert(std::is_same<datatype_t<std::is_pointer<int*>>, ext::std::IntegralConstant>{}, "");
 
-    static_assert(!std::is_same<datatype_t<incomplete>, StdIntegralConstant>{}, "");
-    static_assert(!std::is_same<datatype_t<empty>, StdIntegralConstant>{}, "");
-    static_assert(!std::is_same<datatype_t<non_pod>, StdIntegralConstant>{}, "");
-    static_assert(!std::is_same<datatype_t<void>, StdIntegralConstant>{}, "");
+    static_assert(!std::is_same<datatype_t<incomplete>, ext::std::IntegralConstant>{}, "");
+    static_assert(!std::is_same<datatype_t<empty>, ext::std::IntegralConstant>{}, "");
+    static_assert(!std::is_same<datatype_t<non_pod>, ext::std::IntegralConstant>{}, "");
+    static_assert(!std::is_same<datatype_t<void>, ext::std::IntegralConstant>{}, "");
 }

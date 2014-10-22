@@ -10,9 +10,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/functional/partial.hpp>
-#include <boost/hana/functor/functor.hpp>
+#include <boost/hana/functor.hpp>
 #include <boost/hana/integral.hpp>
-#include <boost/hana/list/list.hpp>
+#include <boost/hana/list.hpp>
 #include <boost/hana/maybe.hpp>
 
 #include <test/cnumeric/comparable.hpp>

@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/mpl/vector.hpp>
 using namespace boost::hana;
-namespace mpl = boost::mpl;
 
 
 struct x1; struct x2; struct x3;
@@ -19,14 +18,29 @@ struct x1; struct x2; struct x3;
 int main() {
     // cons
     {
-        BOOST_HANA_CONSTANT_ASSERT(equal(cons(type<x1>, mpl::vector<>{}), mpl::vector<x1>{}));
-        BOOST_HANA_CONSTANT_ASSERT(equal(cons(type<x1>, mpl::vector<x2>{}), mpl::vector<x1, x2>{}));
-        BOOST_HANA_CONSTANT_ASSERT(equal(cons(type<x1>, mpl::vector<x2, x3>{}), mpl::vector<x1, x2, x3>{}));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            cons(type<x1>, ::boost::mpl::vector<>{}),
+            ::boost::mpl::vector<x1>{}
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            cons(type<x1>, ::boost::mpl::vector<x2>{}),
+            ::boost::mpl::vector<x1, x2>{}
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            cons(type<x1>, ::boost::mpl::vector<x2, x3>{}),
+            ::boost::mpl::vector<x1, x2, x3>{}
+        ));
     }
 
     // nil
     {
-        BOOST_HANA_CONSTANT_ASSERT(equal(nil<BoostMplVector>, mpl::vector<>{}));
-        BOOST_HANA_CONSTANT_ASSERT(equal(nil<BoostMplVector>, mpl::vector0<>{}));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            nil<ext::boost::mpl::Vector>,
+            ::boost::mpl::vector<>{}
+        ));
+        BOOST_HANA_CONSTANT_ASSERT(equal(
+            nil<ext::boost::mpl::Vector>,
+            ::boost::mpl::vector0<>{}
+        ));
     }
 }

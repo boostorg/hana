@@ -10,19 +10,27 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_INTEGRAL_HPP
 #define BOOST_HANA_INTEGRAL_HPP
 
-#include <boost/hana/integral/integral.hpp>
+#include <boost/hana/fwd/integral.hpp>
 
-// Instances
-#include <boost/hana/integral/comparable.hpp>
-#include <boost/hana/integral/orderable.hpp>
-#include <boost/hana/integral/logical.hpp>
-#include <boost/hana/integral/constant.hpp>
-#include <boost/hana/integral/integral_constant.hpp>
-#include <boost/hana/integral/enumerable.hpp>
+// instances
+#include <boost/hana/constant.hpp>
+#include <boost/hana/integral_constant.hpp>
 
-#include <boost/hana/integral/monoid.hpp>
-#include <boost/hana/integral/group.hpp>
-#include <boost/hana/integral/ring.hpp>
-#include <boost/hana/integral/integral_domain.hpp>
+
+namespace boost { namespace hana {
+    template <>
+    struct Constant::instance<Integral> : Constant::mcd {
+        template <typename C>
+        static constexpr auto value_impl(C const&)
+        { return C::value; }
+    };
+
+    template <>
+    struct IntegralConstant::instance<Integral> : IntegralConstant::mcd {
+        template <typename T, T v>
+        static constexpr auto integral_constant_impl()
+        { return integral<T, v>; }
+    };
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_INTEGRAL_HPP

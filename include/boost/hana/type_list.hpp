@@ -10,20 +10,84 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TYPE_LIST_HPP
 #define BOOST_HANA_TYPE_LIST_HPP
 
-#include <boost/hana/type_list/type_list.hpp>
-#include <boost/hana/type_list/convert.hpp>
+#include <boost/hana/fwd/type_list.hpp>
 
-// Instances
-#include <boost/hana/type_list/functor.hpp>
-#include <boost/hana/type_list/applicative.hpp>
-#include <boost/hana/type_list/monad.hpp>
-#include <boost/hana/type_list/traversable.hpp>
+#include <boost/hana/bool.hpp>
+#include <boost/hana/type.hpp>
 
-#include <boost/hana/type_list/foldable.hpp>
-#include <boost/hana/type_list/iterable.hpp>
-#include <boost/hana/type_list/list.hpp>
-#include <boost/hana/type_list/searchable.hpp>
+// instances
+#include <boost/hana/comparable.hpp>
+#include <boost/hana/foldable.hpp>
+#include <boost/hana/iterable.hpp>
+#include <boost/hana/list.hpp>
 
-#include <boost/hana/type_list/comparable.hpp>
+
+namespace boost { namespace hana {
+    template <>
+    struct Comparable::instance<TypeList, TypeList> : Comparable::equal_mcd {
+        template <typename Xs, typename Ys>
+        static constexpr auto equal_impl(Xs, Ys)
+        { return false_; }
+
+        template <typename Xs>
+        static constexpr auto equal_impl(Xs, Xs)
+        { return true_; }
+    };
+
+    template <>
+    struct Foldable::instance<TypeList> : Foldable::unpack_mcd {
+        //! @todo Fix the lost optimization caused by unpacking with `Type`s.
+        template <typename ...Xs, typename F>
+        static constexpr auto unpack_impl(detail::repr::type_list<Xs...>, F f)
+        { return f(type<Xs>...); }
+
+        template <typename Xs, typename F>
+        static constexpr auto unpack_impl(Xs, F f)
+        { return unpack_impl(typename Xs::storage{}, f); }
+    };
+
+    template <>
+    struct Iterable::instance<TypeList> : Iterable::mcd {
+        template <typename Xs>
+        static constexpr auto head_impl(Xs)
+        { return head_impl(typename Xs::storage{}); }
+
+        template <typename X, typename ...Xs>
+        static constexpr auto head_impl(detail::repr::type_list<X, Xs...>)
+        { return type<X>; }
+
+
+        template <typename Xs>
+        static constexpr auto tail_impl(Xs)
+        { return tail_impl(typename Xs::storage{}); }
+
+        template <typename X, typename ...Xs>
+        static constexpr auto tail_impl(detail::repr::type_list<X, Xs...>)
+        { return type_list<Xs...>; }
+
+
+        template <typename Xs>
+        static constexpr auto is_empty_impl(Xs)
+        { return is_empty_impl(typename Xs::storage{}); }
+
+        template <typename ...Xs>
+        static constexpr auto is_empty_impl(detail::repr::type_list<Xs...>)
+        { return bool_<sizeof...(Xs) == 0>; }
+    };
+
+    template <>
+    struct List::instance<TypeList> : List::mcd<TypeList> {
+        template <typename X, typename ...Xs>
+        static constexpr auto cons_impl(X, detail::repr::type_list<Xs...>)
+        { return type_list<typename X::type, Xs...>; }
+
+        template <typename X, typename Xs>
+        static constexpr auto cons_impl(X x, Xs xs)
+        { return cons_impl(x, typename Xs::storage{}); }
+
+        static constexpr auto nil_impl()
+        { return type_list<>; }
+    };
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_TYPE_LIST_HPP

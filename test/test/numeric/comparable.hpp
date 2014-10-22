@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #if defined(BOOST_HANA_TEST_COMPARABLE_EQUAL_MCD)
 
-#include <boost/hana/comparable/equal_mcd.hpp>
+#include <boost/hana/comparable.hpp>
 #include <test/numeric/logical.hpp>
 #include <test/numeric/numeric.hpp>
 
@@ -34,7 +34,7 @@ namespace boost { namespace hana {
 
 #else
 
-#include <boost/hana/comparable/not_equal_mcd.hpp>
+#include <boost/hana/comparable.hpp>
 #include <test/numeric/logical.hpp>
 #include <test/numeric/numeric.hpp>
 

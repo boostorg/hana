@@ -8,7 +8,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/functional/compose.hpp>
-#include <boost/hana/monad/operators.hpp>
+#include <boost/hana/monad.hpp>
 
 #include <test/laws/monad.hpp>
 #include <test/identity/comparable.hpp>

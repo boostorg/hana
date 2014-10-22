@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/functional/id.hpp>
-#include <boost/hana/type/type.hpp>
+#include <boost/hana/fwd/type.hpp>
 
 
 namespace boost { namespace hana { namespace detail { namespace variadic {

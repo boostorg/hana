@@ -4,13 +4,7 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/string/comparable.hpp>
-#include <boost/hana/string/iterable.hpp>
-
-//! @todo Either make it a requirement of Iterable to be convertible to a
-//! Tuple (since it's used in the laws), or require something strictly more
-//! general. Then, remove this include.
-#include <boost/hana/string/convert.hpp>
+#include <boost/hana/string.hpp>
 
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/integral.hpp>

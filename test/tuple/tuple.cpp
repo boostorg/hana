@@ -4,7 +4,7 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/tuple/tuple.hpp>
+#include <boost/hana/tuple.hpp>
 
 #include <utility>
 using namespace boost::hana;
@@ -17,7 +17,9 @@ struct movable {
 };
 
 int main() {
-#if 0 // disabled until c++17; see tuple/tuple.hpp for details
+    // disabled until c++17; see the comment on the definition of hana::tuple
+    // for details
+#if 0
     // movable only
     {
         auto x = tuple(movable{});

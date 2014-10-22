@@ -9,6 +9,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <test/seq/list.hpp>
 #include <test/seq/functor.hpp>
-#include <boost/hana/applicative/list_mcd.hpp>
+#include <boost/hana/applicative.hpp>
 
 #endif //! BOOST_HANA_TEST_TEST_SEQ_APPLICATIVE_HPP

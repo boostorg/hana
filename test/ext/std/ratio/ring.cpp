@@ -4,8 +4,7 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/ext/std/ratio/ring.hpp>
-#include <boost/hana/ext/std/ratio/comparable.hpp>
+#include <boost/hana/ext/std/ratio.hpp>
 
 #include <boost/hana/detail/assert.hpp>
 
@@ -26,19 +25,19 @@ int main() {
     // one
     {
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            one<StdRatio>,
+            one<ext::std::Ratio>,
             std::ratio<1, 1>{}
         ));
 
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            one<StdRatio>,
+            one<ext::std::Ratio>,
             std::ratio<2, 2>{}
         ));
     }
 
     // laws
     {
-        BOOST_HANA_CONSTANT_ASSERT(Ring_laws<StdRatio>(
+        BOOST_HANA_CONSTANT_ASSERT(Ring_laws<ext::std::Ratio>(
             std::ratio<0>{},
             std::ratio<1, 2>{},
             std::ratio<1, 3>{},

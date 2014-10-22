@@ -7,11 +7,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TEST_TEST_LAWS_MONAD_HPP
 #define BOOST_HANA_TEST_TEST_LAWS_MONAD_HPP
 
-#include <boost/hana/applicative/applicative.hpp>
-#include <boost/hana/comparable/comparable.hpp>
+#include <boost/hana/applicative.hpp>
+#include <boost/hana/comparable.hpp>
 #include <boost/hana/functional/compose.hpp>
-#include <boost/hana/logical/logical.hpp>
-#include <boost/hana/monad/monad.hpp>
+#include <boost/hana/logical.hpp>
+#include <boost/hana/monad.hpp>
 
 #include <test/injection.hpp>
 

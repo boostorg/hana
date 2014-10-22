@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TEST_TEST_CNUMERIC_INTEGRAL_CONSTANT_HPP
 #define BOOST_HANA_TEST_TEST_CNUMERIC_INTEGRAL_CONSTANT_HPP
 
-#include <boost/hana/integral_constant/mcd.hpp>
+#include <boost/hana/integral_constant.hpp>
 #include <test/cnumeric/cnumeric.hpp>
 
 // Mcd

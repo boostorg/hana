@@ -13,10 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
 
-#include <boost/hana/record/mcd.hpp>
-#include <boost/hana/comparable/record_mcd.hpp>
-#include <boost/hana/foldable/record_mcd.hpp>
-#include <boost/hana/searchable/record_mcd.hpp>
+#include <boost/hana/record.hpp>
 
 #include <string>
 #include <utility>

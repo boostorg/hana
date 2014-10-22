@@ -9,7 +9,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include "matrix.hpp"
 
-#include <boost/hana/group/minus_mcd.hpp>
+#include <boost/hana/group.hpp>
 
 #include <utility>
 

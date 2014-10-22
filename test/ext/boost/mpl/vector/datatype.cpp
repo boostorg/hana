@@ -17,19 +17,19 @@ using namespace boost::hana;
 template <typename ...xs>
 struct check_datatype {
     static_assert(std::is_same<
-        datatype_t<boost::mpl::vector<xs...>>,
-        BoostMplVector
+        datatype_t< ::boost::mpl::vector<xs...>>,
+        ext::boost::mpl::Vector
     >{}, "");
 
     static_assert(std::is_same<
-        datatype_t<typename boost::mpl::vector<xs...>::type>,
-        BoostMplVector
+        datatype_t<typename ::boost::mpl::vector<xs...>::type>,
+        ext::boost::mpl::Vector
     >{}, "");
 
     struct mpl_id { template <typename x> struct apply { using type = x; }; };
     static_assert(std::is_same<
-        datatype_t<typename boost::mpl::transform<boost::mpl::vector<xs...>, mpl_id>::type>,
-        BoostMplVector
+        datatype_t<typename ::boost::mpl::transform< ::boost::mpl::vector<xs...>, mpl_id>::type>,
+        ext::boost::mpl::Vector
     >{}, "");
 };
 

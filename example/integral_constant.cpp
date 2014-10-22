@@ -20,7 +20,7 @@ int main() {
         );
 
         BOOST_HANA_CONSTANT_ASSERT(equal(
-            integral_constant<StdIntegralConstant, bool, true>,
+            integral_constant<ext::std::IntegralConstant, bool, true>,
             std::true_type{}
         ));
         //! [integral_constant]

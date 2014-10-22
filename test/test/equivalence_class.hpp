@@ -23,7 +23,7 @@ namespace test {
 } // end namespace test
 
 
-#include <boost/hana/comparable/equal_mcd.hpp>
+#include <boost/hana/comparable.hpp>
 
 
 namespace boost { namespace hana {

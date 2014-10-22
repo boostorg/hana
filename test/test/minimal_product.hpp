@@ -7,10 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TEST_TEST_MINIMAL_PRODUCT_HPP
 #define BOOST_HANA_TEST_TEST_MINIMAL_PRODUCT_HPP
 
-#include <boost/hana/product/mcd.hpp>
-
-// Provided instances
-#include <boost/hana/comparable/product_mcd.hpp>
+#include <boost/hana/product.hpp>
 
 
 namespace test {

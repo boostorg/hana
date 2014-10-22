@@ -76,10 +76,10 @@ namespace test {
 
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/comparable/equal_mcd.hpp>
+#include <boost/hana/comparable.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
-#include <boost/hana/logical/logical.hpp>
-#include <boost/hana/orderable/less_mcd.hpp>
+#include <boost/hana/logical.hpp>
+#include <boost/hana/orderable.hpp>
 
 
 namespace boost { namespace hana {

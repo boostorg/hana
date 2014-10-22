@@ -8,11 +8,11 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_TEST_TEST_LAWS_ITERABLE_HPP
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/comparable/comparable.hpp>
+#include <boost/hana/comparable.hpp>
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/functional/infix.hpp>
-#include <boost/hana/iterable/iterable.hpp>
-#include <boost/hana/logical/logical.hpp>
+#include <boost/hana/iterable.hpp>
+#include <boost/hana/logical.hpp>
 #include <boost/hana/tuple.hpp>
 
 

@@ -5,7 +5,7 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/foldable/foldable.hpp>
+#include <boost/hana/fwd/foldable.hpp>
 
 #include "benchmark.hpp"
 

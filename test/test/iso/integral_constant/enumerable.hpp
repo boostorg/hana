@@ -7,10 +7,10 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TEST_TEST_ISO_INTEGRAL_CONSTANT_ENUMERABLE_HPP
 #define BOOST_HANA_TEST_TEST_ISO_INTEGRAL_CONSTANT_ENUMERABLE_HPP
 
-#include <boost/hana/comparable/comparable.hpp>
+#include <boost/hana/comparable.hpp>
 #include <boost/hana/detail/assert.hpp>
-#include <boost/hana/enumerable/enumerable.hpp>
-#include <boost/hana/integral_constant/integral_constant.hpp>
+#include <boost/hana/enumerable.hpp>
+#include <boost/hana/integral_constant.hpp>
 
 
 template <typename I, typename T>

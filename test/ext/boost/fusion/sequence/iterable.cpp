@@ -9,7 +9,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/foreign.hpp>
 #include <boost/hana/integral.hpp>
-#include <boost/hana/logical/logical.hpp>
+#include <boost/hana/logical.hpp>
 
 #include "helper.hpp"
 using namespace boost::hana;

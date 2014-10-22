@@ -12,8 +12,8 @@ foreach(method IN ITEMS all any elem find lookup none subset)
                 }.join(', ')
                 {
                     setup: '
-                        #include <boost/hana/integral/comparable.hpp>
-                        #include <boost/hana/tuple/searchable.hpp>
+                        #include <boost/hana/integral.hpp>
+                        #include <boost/hana/tuple.hpp>
                     ',
                     searchable: \"boost::hana::tuple(#{xs})\",
                     input_size: n
@@ -28,8 +28,8 @@ foreach(method IN ITEMS all any elem find lookup none subset)
                 }.join(', ')
                 {
                     setup: '
-                        #include <boost/hana/ext/std/tuple/searchable.hpp>
-                        #include <boost/hana/integral/comparable.hpp>
+                        #include <boost/hana/ext/std/tuple.hpp>
+                        #include <boost/hana/integral.hpp>
                         #include <tuple>
                     ',
                     searchable: \"std::make_tuple(#{xs})\",
@@ -42,7 +42,7 @@ foreach(method IN ITEMS all any elem find lookup none subset)
             "((1..50).to_a + (51..500).step(25).to_a).map { |n|
                 xs = (1..n).to_a.map { |i| \"x<#{i}>{}\" }.join(', ')
                 {
-                    setup: '#include <boost/hana/tuple/searchable.hpp>',
+                    setup: '#include <boost/hana/tuple.hpp>',
                     searchable: \"boost::hana::tuple(#{xs})\",
                     input_size: n
                 }
@@ -54,7 +54,7 @@ foreach(method IN ITEMS all any elem find lookup none subset)
                 xs = (1..n).to_a.map { |i| \"x<#{i}>{}\" }.join(', ')
                 {
                     setup: '
-                        #include <boost/hana/ext/std/tuple/searchable.hpp>
+                        #include <boost/hana/ext/std/tuple.hpp>
                         #include <tuple>
                     ',
                     searchable: \"std::make_tuple(#{xs})\",

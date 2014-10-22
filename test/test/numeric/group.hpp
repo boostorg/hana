@@ -17,7 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 #if defined(BOOST_HANA_TEST_GROUP_NEGATE_MCD)
 
 #include <test/numeric/numeric.hpp>
-#include <boost/hana/group/negate_mcd.hpp>
+#include <boost/hana/group.hpp>
 #include <test/numeric/monoid.hpp>
 
 namespace boost { namespace hana {
@@ -34,7 +34,7 @@ namespace boost { namespace hana {
 #else
 
 #include <test/numeric/numeric.hpp>
-#include <boost/hana/group/minus_mcd.hpp>
+#include <boost/hana/group.hpp>
 #include <test/numeric/monoid.hpp>
 
 namespace boost { namespace hana {

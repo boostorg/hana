@@ -4,8 +4,8 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#ifndef BOOST_HANA_TEST_EXT_BOOST_FUSION_HELPER_HPP
-#define BOOST_HANA_TEST_EXT_BOOST_FUSION_HELPER_HPP
+#ifndef BOOST_HANA_TEST_EXT_FUSION_HELPER_HPP
+#define BOOST_HANA_TEST_EXT_FUSION_HELPER_HPP
 
 #include <boost/hana/tuple.hpp>
 
@@ -36,4 +36,4 @@ auto with_nonassociative_forward_sequences = [](auto test) {
 #endif
 };
 
-#endif // !BOOST_HANA_TEST_EXT_BOOST_FUSION_HELPER_HPP
+#endif // !BOOST_HANA_TEST_EXT_FUSION_HELPER_HPP

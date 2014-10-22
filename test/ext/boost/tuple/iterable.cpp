@@ -11,5 +11,5 @@ using namespace boost::hana;
 
 
 int main() {
-    List_iterable<BoostTuple>();
+    List_iterable<ext::boost::tuple>();
 }

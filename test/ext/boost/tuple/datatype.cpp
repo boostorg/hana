@@ -20,41 +20,41 @@ int main() {
 
     static_assert(std::is_same<
         datatype_t<decltype(boost::make_tuple())>,
-        BoostTuple
+        ext::boost::tuple
     >::value, "");
 
     static_assert(std::is_same<
         datatype_t<decltype(boost::make_tuple(1))>,
-        BoostTuple
+        ext::boost::tuple
     >::value, "");
 
     static_assert(std::is_same<
         datatype_t<decltype(boost::make_tuple(1, '2'))>,
-        BoostTuple
+        ext::boost::tuple
     >::value, "");
 
     static_assert(std::is_same<
         datatype_t<decltype(boost::make_tuple(1, '2', 3.3))>,
-        BoostTuple
+        ext::boost::tuple
     >::value, "");
 
     static_assert(std::is_same<
         datatype_t<decltype(make_cons(1, boost::tuples::null_type{}))>,
-        BoostTuple
+        ext::boost::tuple
     >::value, "");
 
     static_assert(std::is_same<
         datatype_t<decltype(make_cons(1, make_cons('2', boost::tuples::null_type{})))>,
-        BoostTuple
+        ext::boost::tuple
     >::value, "");
 
     static_assert(std::is_same<
         datatype_t<decltype(make_cons(1, boost::make_tuple('2', 3.3)))>,
-        BoostTuple
+        ext::boost::tuple
     >::value, "");
 
     static_assert(std::is_same<
         datatype_t<boost::tuples::null_type>,
-        BoostTuple
+        ext::boost::tuple
     >::value, "");
 }

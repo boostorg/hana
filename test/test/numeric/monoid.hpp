@@ -8,7 +8,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_TEST_TEST_NUMERIC_MONOID_HPP
 
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/monoid/mcd.hpp>
+#include <boost/hana/monoid.hpp>
 #include <test/numeric/numeric.hpp>
 
 

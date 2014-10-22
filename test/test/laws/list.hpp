@@ -7,10 +7,10 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TEST_TEST_LAWS_LIST_HPP
 #define BOOST_HANA_TEST_TEST_LAWS_LIST_HPP
 
-#include <boost/hana/comparable/comparable.hpp>
+#include <boost/hana/comparable.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/functional/infix.hpp>
-#include <boost/hana/logical/logical.hpp>
+#include <boost/hana/logical.hpp>
 #include <boost/hana/tuple.hpp>
 
 

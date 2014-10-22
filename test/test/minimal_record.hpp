@@ -7,16 +7,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TEST_TEST_MINIMAL_RECORD_HPP
 #define BOOST_HANA_TEST_TEST_MINIMAL_RECORD_HPP
 
-#include <boost/hana/record/mcd.hpp>
+#include <boost/hana/record.hpp>
 
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/pair.hpp>
 #include <boost/hana/tuple.hpp>
-
-// Provided instances
-#include <boost/hana/comparable/record_mcd.hpp>
-#include <boost/hana/foldable/record_mcd.hpp>
-#include <boost/hana/searchable/record_mcd.hpp>
 
 #include <test/injection.hpp>
 

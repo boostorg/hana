@@ -17,7 +17,7 @@ int main() {
     // Make sure we workaround the bug at:
     // http://llvm.org/bugs/show_bug.cgi?id=19616
     BOOST_HANA_CONSTEXPR_ASSERT(equal(
-        lift<StdTuple>(std::make_tuple(1)),
+        lift<ext::std::Tuple>(std::make_tuple(1)),
         std::make_tuple(std::make_tuple(1))
     ));
 }

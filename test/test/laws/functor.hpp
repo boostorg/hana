@@ -8,12 +8,12 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_TEST_TEST_LAWS_FUNCTOR_HPP
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/comparable/comparable.hpp>
+#include <boost/hana/comparable.hpp>
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/id.hpp>
-#include <boost/hana/functor/functor.hpp>
-#include <boost/hana/logical/logical.hpp>
+#include <boost/hana/functor.hpp>
+#include <boost/hana/logical.hpp>
 
 #include <test/injection.hpp>
 

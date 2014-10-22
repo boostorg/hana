@@ -7,11 +7,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TEST_TEST_ISO_LIST_ITERABLE_HPP
 #define BOOST_HANA_TEST_TEST_ISO_LIST_ITERABLE_HPP
 
-#include <boost/hana/comparable/comparable.hpp>
+#include <boost/hana/comparable.hpp>
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/iterable/iterable.hpp>
-#include <boost/hana/list/list.hpp>
+#include <boost/hana/iterable.hpp>
+#include <boost/hana/list.hpp>
 
 #include <test/injection.hpp>
 #include <test/laws/iterable.hpp>

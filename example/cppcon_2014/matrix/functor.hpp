@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/functional/flip.hpp>
 #include <boost/hana/functional/partial.hpp>
-#include <boost/hana/functor/fmap_mcd.hpp>
+#include <boost/hana/functor.hpp>
 
 #include <utility>
 

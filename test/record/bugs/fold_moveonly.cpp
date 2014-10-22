@@ -5,8 +5,8 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #define BOOST_PP_VARIADICS 1
-#include <boost/hana/foldable/record_mcd.hpp>
-#include <boost/hana/record/macros.hpp>
+#include <boost/hana/foldable.hpp>
+#include <boost/hana/record_macros.hpp>
 
 #include <utility>
 using namespace boost::hana;

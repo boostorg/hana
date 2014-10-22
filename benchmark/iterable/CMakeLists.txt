@@ -9,7 +9,7 @@ foreach(method IN ITEMS at drop drop_until drop_while last)
         ENV "((1..50).to_a + (51..500).step(25).to_a).map { |n|
             xs = (1..n).to_a.map { |i| \"x<#{i}>{}\" }.join(', ')
             {
-                setup: '#include <boost/hana/tuple/iterable.hpp>',
+                setup: '#include <boost/hana/tuple.hpp>',
                 iterable: \"boost::hana::tuple(#{xs})\",
                 input_size: n
             }
@@ -23,7 +23,7 @@ foreach(method IN ITEMS at drop drop_until drop_while last)
             xs = (1..n).to_a.map { |i| \"x<#{i}>{}\" }.join(', ')
             {
                 setup: '
-                    #include <boost/hana/ext/std/tuple/iterable.hpp>
+                    #include <boost/hana/ext/std/tuple.hpp>
                     #include <tuple>
                 ',
                 iterable: \"std::make_tuple(#{xs})\",
@@ -37,7 +37,7 @@ foreach(method IN ITEMS at drop drop_until drop_while last)
         FILE "${method}.cpp"
         ENV "((1..50).to_a + (51..500).step(25).to_a).map { |n|
             {
-                setup: '#include <boost/hana/range/iterable.hpp>',
+                setup: '#include <boost/hana/range.hpp>',
                 iterable: \"::boost::hana::range_c<unsigned long, 0, #{n}>\",
                 input_size: n
             }

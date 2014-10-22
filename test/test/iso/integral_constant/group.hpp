@@ -7,11 +7,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TEST_TEST_ISO_INTEGRAL_CONSTANT_GROUP_HPP
 #define BOOST_HANA_TEST_TEST_ISO_INTEGRAL_CONSTANT_GROUP_HPP
 
-#include <boost/hana/comparable/comparable.hpp>
+#include <boost/hana/comparable.hpp>
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/foreign.hpp> // for Group_laws with foreign types
-#include <boost/hana/group/group.hpp>
-#include <boost/hana/integral_constant/integral_constant.hpp>
+#include <boost/hana/group.hpp>
+#include <boost/hana/integral_constant.hpp>
 
 #include <test/laws/group.hpp>
 #include <type_traits>

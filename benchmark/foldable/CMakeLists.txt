@@ -14,7 +14,7 @@ foreach(method IN ITEMS count foldl foldl1 foldr foldr1 for_each length maximum 
                 {
                     setup: '
                         #include <boost/hana/integral.hpp>
-                        #include <boost/hana/tuple/foldable.hpp>
+                        #include <boost/hana/tuple.hpp>
                     ',
                     foldable: \"boost::hana::tuple(#{xs})\",
                     input_size: n
@@ -30,7 +30,7 @@ foreach(method IN ITEMS count foldl foldl1 foldr foldr1 for_each length maximum 
 
                 {
                     setup: '
-                        #include <boost/hana/ext/std/tuple/foldable.hpp>
+                        #include <boost/hana/ext/std/tuple.hpp>
                         #include <boost/hana/integral.hpp>
                         #include <tuple>
                     ',
@@ -44,7 +44,7 @@ foreach(method IN ITEMS count foldl foldl1 foldr foldr1 for_each length maximum 
             ((1..50).to_a + (51..500).step(25).to_a).map { |n|
                 xs = (1..n).to_a.map { |i| \"x<#{i}>{}\" }.join(', ')
                 {
-                    setup: '#include <boost/hana/tuple/foldable.hpp>',
+                    setup: '#include <boost/hana/tuple.hpp>',
                     foldable: \"boost::hana::tuple(#{xs})\",
                     input_size: n
                 }
@@ -56,7 +56,7 @@ foreach(method IN ITEMS count foldl foldl1 foldr foldr1 for_each length maximum 
                 xs = (1..n).to_a.map { |i| \"x<#{i}>{}\" }.join(', ')
                 {
                     setup: '
-                        #include <boost/hana/ext/std/tuple/foldable.hpp>
+                        #include <boost/hana/ext/std/tuple.hpp>
                         #include <tuple>
                     ',
                     foldable: \"std::make_tuple(#{xs})\",
@@ -71,7 +71,7 @@ foreach(method IN ITEMS count foldl foldl1 foldr foldr1 for_each length maximum 
         FEATURES COMPILATION_TIME EXECUTION_TIME MEMORY_USAGE
         ENV "((1..50).to_a + (51..500).step(25).to_a).map { |n|
             {
-                setup: '#include <boost/hana/range/foldable.hpp>',
+                setup: '#include <boost/hana/range.hpp>',
                 foldable: \"boost::hana::range_c<int, 0, #{n}>\",
                 input_size: n
             }

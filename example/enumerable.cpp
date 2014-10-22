@@ -5,10 +5,8 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/detail/assert.hpp>
-#include <boost/hana/foreign/comparable.hpp>
-#include <boost/hana/foreign/enumerable.hpp>
-#include <boost/hana/integral/comparable.hpp>
-#include <boost/hana/integral/enumerable.hpp>
+#include <boost/hana/foreign.hpp>
+#include <boost/hana/integral.hpp>
 using namespace boost::hana;
 
 

@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TEST_TEST_LAWS_CONSTANT_HPP
 #define BOOST_HANA_TEST_TEST_LAWS_CONSTANT_HPP
 
-#include <boost/hana/constant/constant.hpp>
+#include <boost/hana/constant.hpp>
 
 
 template <typename ...Constants>

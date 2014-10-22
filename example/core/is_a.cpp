@@ -5,17 +5,17 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/comparable/comparable.hpp>
+#include <boost/hana/comparable.hpp>
 #include <boost/hana/core/is_a.hpp>
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/ext/std/tuple.hpp>
 #include <boost/hana/foreign.hpp>
 #include <boost/hana/integral.hpp>
-#include <boost/hana/iterable/iterable.hpp>
-#include <boost/hana/logical/logical.hpp>
+#include <boost/hana/iterable.hpp>
+#include <boost/hana/logical.hpp>
 #include <boost/hana/maybe.hpp>
-#include <boost/hana/monad/monad.hpp>
+#include <boost/hana/monad.hpp>
 #include <boost/hana/range.hpp>
 #include <boost/hana/tuple.hpp>
 

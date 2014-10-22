@@ -7,11 +7,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TEST_TEST_ISO_INTEGRAL_CONSTANT_INTEGRAL_DOMAIN_HPP
 #define BOOST_HANA_TEST_TEST_ISO_INTEGRAL_CONSTANT_INTEGRAL_DOMAIN_HPP
 
-#include <boost/hana/comparable/comparable.hpp>
+#include <boost/hana/comparable.hpp>
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/foreign.hpp> // for IntegralDomain_laws with foreign types
-#include <boost/hana/integral_constant/integral_constant.hpp>
-#include <boost/hana/integral_domain/integral_domain.hpp>
+#include <boost/hana/integral_constant.hpp>
+#include <boost/hana/integral_domain.hpp>
 
 #include <test/laws/integral_domain.hpp>
 #include <type_traits>

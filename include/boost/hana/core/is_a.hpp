@@ -10,9 +10,9 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_CORE_IS_A_HPP
 #define BOOST_HANA_CORE_IS_A_HPP
 
-#include <boost/hana/bool/bool.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/disable.hpp>
+#include <boost/hana/fwd/bool.hpp>
 
 
 namespace boost { namespace hana {

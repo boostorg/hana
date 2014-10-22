@@ -1,6 +1,6 @@
 /*!
 @file
-Defines `boost::hana::BoostMplIntegralConstant`.
+Defines `boost::hana::ext::boost::mpl::IntegralC`.
 
 @copyright Louis Dionne 2014
 Distributed under the Boost Software License, Version 1.0.
@@ -10,20 +10,35 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EXT_BOOST_MPL_INTEGRAL_C_HPP
 #define BOOST_HANA_EXT_BOOST_MPL_INTEGRAL_C_HPP
 
-#include <boost/hana/ext/boost/mpl/integral_c/integral_c.hpp>
+#include <boost/hana/fwd/ext/boost/mpl/integral_c.hpp>
 
-// Instances
-#include <boost/hana/ext/boost/mpl/integral_c/constant.hpp>
-#include <boost/hana/ext/boost/mpl/integral_c/integral_constant.hpp>
+// instances
+#include <boost/hana/constant.hpp>
+#include <boost/hana/integral_constant.hpp>
 
-#include <boost/hana/ext/boost/mpl/integral_c/comparable.hpp>
-#include <boost/hana/ext/boost/mpl/integral_c/orderable.hpp>
-#include <boost/hana/ext/boost/mpl/integral_c/logical.hpp>
-#include <boost/hana/ext/boost/mpl/integral_c/enumerable.hpp>
+#include <boost/mpl/integral_c.hpp>
 
-#include <boost/hana/ext/boost/mpl/integral_c/monoid.hpp>
-#include <boost/hana/ext/boost/mpl/integral_c/group.hpp>
-#include <boost/hana/ext/boost/mpl/integral_c/ring.hpp>
-#include <boost/hana/ext/boost/mpl/integral_c/integral_domain.hpp>
+
+namespace boost { namespace hana {
+    //! `Constant` instance for Boost.MPL IntegralConstants.
+    //!
+    //! ### Example
+    //! @include example/ext/boost/mpl/integral_c/constant.cpp
+    template <>
+    struct Constant::instance<ext::boost::mpl::IntegralC> : Constant::mcd {
+        template <typename C>
+        static constexpr auto value_impl(C const&)
+        { return C::value; }
+    };
+
+    template <>
+    struct IntegralConstant::instance<ext::boost::mpl::IntegralC>
+        : IntegralConstant::mcd
+    {
+        template <typename T, T v>
+        static constexpr auto integral_constant_impl()
+        { return ::boost::mpl::integral_c<T, v>{}; }
+    };
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_EXT_BOOST_MPL_INTEGRAL_C_HPP

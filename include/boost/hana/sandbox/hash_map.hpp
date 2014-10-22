@@ -11,12 +11,12 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_HASH_MAP_HPP
 
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/foldable/folds_mcd.hpp>
+#include <boost/hana/foldable.hpp>
 #include <boost/hana/functional.hpp>
-#include <boost/hana/logical/logical.hpp>
+#include <boost/hana/logical.hpp>
 #include <boost/hana/maybe.hpp>
 #include <boost/hana/pair.hpp>
-#include <boost/hana/searchable/mcd.hpp>
+#include <boost/hana/searchable.hpp>
 #include <boost/hana/tuple.hpp>
 
 

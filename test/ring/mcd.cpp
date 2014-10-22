@@ -6,7 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/assert.hpp>
-#include <boost/hana/ring/operators.hpp>
+#include <boost/hana/ring.hpp>
 
 #include <test/laws/ring.hpp>
 #include <test/numeric/comparable.hpp>

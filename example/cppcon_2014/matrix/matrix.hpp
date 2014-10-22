@@ -7,14 +7,14 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EXAMPLE_CPPCON_2014_MATRIX_MATRIX_HPP
 #define BOOST_HANA_EXAMPLE_CPPCON_2014_MATRIX_MATRIX_HPP
 
-#include <boost/hana/comparable/operators.hpp>
-#include <boost/hana/constant/constant.hpp>
+#include <boost/hana/constant.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/functional/on.hpp>
 #include <boost/hana/functional/partial.hpp>
-#include <boost/hana/group/operators.hpp>
-#include <boost/hana/monoid/operators.hpp>
-#include <boost/hana/ring/operators.hpp>
+#include <boost/hana/fwd/comparable.hpp>
+#include <boost/hana/fwd/group.hpp>
+#include <boost/hana/fwd/monoid.hpp>
+#include <boost/hana/fwd/ring.hpp>
 #include <boost/hana/tuple.hpp>
 
 #include <utility>

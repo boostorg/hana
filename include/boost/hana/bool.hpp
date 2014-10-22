@@ -10,11 +10,48 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_BOOL_HPP
 #define BOOST_HANA_BOOL_HPP
 
-#include <boost/hana/bool/bool.hpp>
+#include <boost/hana/fwd/bool.hpp>
 
-// Instances
-#include <boost/hana/bool/comparable.hpp>
-#include <boost/hana/bool/constant.hpp>
-#include <boost/hana/bool/logical.hpp>
+#include <boost/hana/functional/id.hpp>
+
+// instances
+#include <boost/hana/comparable.hpp>
+#include <boost/hana/constant.hpp>
+#include <boost/hana/logical.hpp>
+
+
+namespace boost { namespace hana {
+    template <>
+    struct Comparable::instance<Bool, Bool> : Comparable::equal_mcd {
+        template <typename X, typename Y>
+        static constexpr auto equal_impl(X const&, Y const&)
+        { return bool_<X::value == Y::value>; }
+    };
+
+    template <>
+    struct Constant::instance<Bool> : Constant::mcd {
+        template <typename C>
+        static constexpr auto value_impl(C const&)
+        { return C::value; }
+    };
+
+    template <>
+    struct Logical::instance<Bool> : Logical::mcd {
+        //! @bug
+        //! We can't use perfect forwarding because of this bug:
+        //! http://llvm.org/bugs/show_bug.cgi?id=20619
+        template <typename T, typename E>
+        static constexpr auto eval_if_impl(decltype(true_), T t, E)
+        { return t(id); }
+
+        template <typename T, typename E>
+        static constexpr auto eval_if_impl(decltype(false_), T, E e)
+        { return e(id); }
+
+        template <typename C>
+        static constexpr auto not_impl(C const&)
+        { return bool_<!C::value>; }
+    };
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_BOOL_HPP

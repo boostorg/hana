@@ -10,11 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_MONAD_ZERO_HPP
 #define BOOST_HANA_MONAD_ZERO_HPP
 
-#include <boost/hana/applicative/applicative.hpp>
+#include <boost/hana/applicative.hpp>
 #include <boost/hana/core/typeclass.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/logical/logical.hpp>
-#include <boost/hana/monad/monad.hpp>
+#include <boost/hana/logical.hpp>
+#include <boost/hana/monad.hpp>
 
 
 namespace boost { namespace hana {

@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #if defined(BOOST_HANA_TEST_FUNCTOR_FMAP_MCD)
 
-#include <boost/hana/functor/fmap_mcd.hpp>
+#include <boost/hana/functor.hpp>
 #include <test/identity/identity.hpp>
 
 
@@ -34,8 +34,8 @@ namespace boost { namespace hana {
 
 #else
 
-#include <boost/hana/functor/adjust_mcd.hpp>
-#include <boost/hana/logical/logical.hpp>
+#include <boost/hana/functor.hpp>
+#include <boost/hana/logical.hpp>
 #include <test/identity/identity.hpp>
 
 

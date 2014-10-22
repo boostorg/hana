@@ -7,13 +7,13 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TEST_TEST_LAWS_INTEGRAL_DOMAIN_HPP
 #define BOOST_HANA_TEST_TEST_LAWS_INTEGRAL_DOMAIN_HPP
 
-#include <boost/hana/comparable/comparable.hpp>
+#include <boost/hana/comparable.hpp>
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/functional/infix.hpp>
-#include <boost/hana/integral_domain/integral_domain.hpp>
-#include <boost/hana/logical/logical.hpp>
-#include <boost/hana/monoid/monoid.hpp>
-#include <boost/hana/ring/ring.hpp>
+#include <boost/hana/integral_domain.hpp>
+#include <boost/hana/logical.hpp>
+#include <boost/hana/monoid.hpp>
+#include <boost/hana/ring.hpp>
 
 
 template <typename D, typename ...Domain>

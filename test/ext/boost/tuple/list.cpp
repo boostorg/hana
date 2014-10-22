@@ -11,5 +11,5 @@ using namespace boost::hana;
 
 
 int main() {
-    List_methods<BoostTuple>();
+    List_methods<ext::boost::tuple>();
 }
