@@ -73,25 +73,11 @@ namespace boost { namespace hana {
     struct Metafunction { };
 
     namespace type_detail {
-        template <typename T, typename ...Nothing>
+        template <typename T>
         struct make_type {
             struct hidden : operators::enable_adl {
                 using hana_datatype = Type;
                 using type = T;
-
-                template <typename ...Args>
-                static constexpr auto construct(int, Args ...args)
-                    -> decltype(T{args...})
-                { return T{args...}; }
-
-                template <typename ...Args>
-                static constexpr auto construct(long, Args ...args)
-                    -> decltype(T(args...))
-                { return T(args...); }
-
-                template <typename ...Args>
-                constexpr auto operator()(Args ...args) const
-                { return construct(int{0}, args...); }
             };
         };
     }
@@ -100,15 +86,10 @@ namespace boost { namespace hana {
     //! @relates Type
     //! @hideinitializer
     //!
-    //! `type<T>` is a function returning an object of type `T` constructed
-    //! with the arguments passed to it:
-    //! @snippet example/type/construct.cpp main
-    //!
-    //! To use an initializer list, one should construct it explicitly:
-    //! @snippet example/type/initializer_list.cpp main
-    //!
-    //! `decltype(type<T>)` also has a nested alias to `T` named `type`.
-    //! Hence, it can be used as a metafunction returning `T`:
+    //! `type<T>` is an object of an unspecified type such that
+    //! `decltype(type<T>)` has a nested alias to `T` named `type`.
+    //! In other words `decltype(type<T>)` is a Boost.MPL nullary
+    //! metafunction returning `T`:
     //! @snippet example/type/as_metafunction.cpp main
     template <typename T>
     constexpr typename type_detail::make_type<T>::hidden type{};
@@ -194,37 +175,6 @@ namespace boost { namespace hana {
             template <typename ...xs>
             constexpr auto operator()(xs...) const
             { return f<xs...>{}; }
-        };
-    }
-
-    namespace detail {
-        template <typename f>
-        struct is_metafunction_class {
-            static constexpr bool value = false;
-        };
-
-        template <typename f, bool = is_metafunction_class<f>::value>
-        struct type_function {
-            template <typename ...x>
-            using apply = decltype((*(f*)0)(type<x>...));
-        };
-
-        template <typename f>
-        struct type_function<f, true> : f { };
-
-        template <template <typename ...> class f>
-        struct is_metafunction_class<type_detail::template_<f>> {
-            static constexpr bool value = true;
-        };
-
-        template <template <typename ...> class f>
-        struct is_metafunction_class<type_detail::metafunction<f>> {
-            static constexpr bool value = true;
-        };
-
-        template <typename f>
-        struct is_metafunction_class<type_detail::metafunction_class<f>> {
-            static constexpr bool value = true;
         };
     }
 
