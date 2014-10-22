@@ -12,15 +12,16 @@ using namespace boost::hana;
 
 int main() {
     //! [main]
-    auto sum_string = [](auto str) {
-        return foldl(str, int_<0>, [](auto sum, auto c) {
-            constexpr int i = value(c) - 48; // convert character to decimal
-            return sum + int_<i>;
-        });
-    };
+    BOOST_HANA_CONSTANT_ASSERT(!is_empty(BOOST_HANA_STRING("abcd")));
+    BOOST_HANA_CONSTANT_ASSERT(is_empty(BOOST_HANA_STRING("")));
 
+    BOOST_HANA_CONSTANT_ASSERT(BOOST_HANA_STRING("abcd")[int_<2>] == char_<'c'>);
+
+    auto is_vowel = [](auto c) {
+        return c ^in^ BOOST_HANA_STRING("aeiouy");
+    };
     BOOST_HANA_CONSTANT_ASSERT(
-        sum_string(BOOST_HANA_STRING("1234")) == int_<1 + 2 + 3 + 4>
+        drop_while(BOOST_HANA_STRING("aioubcd"), is_vowel) == BOOST_HANA_STRING("bcd")
     );
     //! [main]
 }

@@ -6,21 +6,18 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/integral.hpp>
+#include <boost/hana/maybe.hpp>
 #include <boost/hana/string.hpp>
 using namespace boost::hana;
 
 
 int main() {
     //! [main]
-    auto sum_string = [](auto str) {
-        return foldl(str, int_<0>, [](auto sum, auto c) {
-            constexpr int i = value(c) - 48; // convert character to decimal
-            return sum + int_<i>;
-        });
-    };
+    BOOST_HANA_CONSTANT_ASSERT(char_<'c'> ^in^ BOOST_HANA_STRING("abcde"));
+    BOOST_HANA_CONSTANT_ASSERT(!(char_<'z'> ^in^ BOOST_HANA_STRING("abcde")));
 
     BOOST_HANA_CONSTANT_ASSERT(
-        sum_string(BOOST_HANA_STRING("1234")) == int_<1 + 2 + 3 + 4>
+        lookup(BOOST_HANA_STRING("abcxefg"), char_<'x'>) == just(char_<'x'>)
     );
     //! [main]
 }
