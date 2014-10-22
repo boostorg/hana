@@ -24,11 +24,11 @@
 #   - A file called benchmark.hpp, downloaded automatically from GitHub.
 #     This file is required to perform runtime benchmarks.
 #
-# When the module is included, it checks for the above dependencies. If
-# they are not available, a STATUS message is printed and we immediately
-# return to the calling CMake file. Once the required dependencies are
-# installed properly, you can use the functions of the public API which
-# are documented below.
+# When the module is included, it checks for the above dependencies. If they
+# are not available, a STATUS message is printed, the BENCHMARK_AVAILABLE
+# variable is set to false and and we immediately return to the calling CMake
+# file. Once the required dependencies are installed properly, you can use the
+# functions of the public API which are documented below.
 #
 # Also note that this module will only work with Clang for the moment.
 
@@ -196,8 +196,15 @@
 # and gathering of the benchmark data is stopped there. This defaults to
 # 30 seconds.
 
-# Global targets added by this module
-# -----------------------------------
+# Global targets and variables created by this module
+# ---------------------------------------------------
+#   BENCHMARK_AVAILABLE
+# A boolean representing whether the functionality provided by this module is
+# available. Reasons for the module being unavailable include missing
+# dependencies and other errors. Note that if this variable is set to false,
+# then functions, targets and variables usually created by this module are
+# not defined.
+#
 #   BENCHMARK_ALL_PLOTS
 # Target used to draw all the plots. Note that plots that are up to date won't
 # be redrawn.
@@ -214,6 +221,8 @@
 # Required modules and initial setup
 ##############################################################################
 include(CMakeParseArguments)
+
+set(BENCHMARK_AVAILABLE false)
 
 # check for Gnuplot
 find_package(Gnuplot)
@@ -260,6 +269,8 @@ if(${__BENCHMARK_HEADER_DOWNLOAD_ERROR})
         "module can't be used. Error was ${__BENCHMARK_HEADER_DOWNLOAD_ERROR_STR}.")
     return()
 endif()
+
+set(BENCHMARK_AVAILABLE true)
 
 ##############################################################################
 # Configurable module-wide options and global targets
