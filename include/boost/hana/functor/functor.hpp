@@ -21,11 +21,19 @@ namespace boost { namespace hana {
     //! `Functor` represents types that can be mapped over.
     //!
     //! Instances of `Functor` must satisfy the following laws. For any
-    //! `Functor` `x` and functions with matching domains/codomains `f`
-    //! and `g`,
+    //! `Functor` `xs`,
     //! @code
-    //!     fmap(x, id) == x
-    //!     fmap(x, compose(f, g)) == fmap(fmap(x, g), f)
+    //!     fmap(xs, id) == xs
+    //!     fmap(xs, compose(f, g)) == fmap(fmap(xs, g), f)
+    //!
+    //!     adjust(xs, pred, f) == fmap(xs, [](auto x) {
+    //!         if(pred(x)) return f(x);
+    //!         else        return x;
+    //!     })
+    //!
+    //!     replace(xs, pred, v) == adjust(xs, pred, always(v))
+    //!
+    //!     fill(xs, v) == replace(xs, always(true_), v)
     //! @endcode
     struct Functor {
         BOOST_HANA_TYPECLASS(Functor);
