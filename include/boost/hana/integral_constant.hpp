@@ -18,6 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/is_integral.hpp>
+#include <boost/hana/functional/id.hpp>
 
 // provided instances
 #include <boost/hana/comparable.hpp>
@@ -224,11 +225,11 @@ namespace boost { namespace hana {
 
         template <typename Then, typename Else>
         static constexpr auto eval_if_impl(tval<true>, Then t, Else e)
-        { return t([](auto x) { return x; }); }
+        { return t(id); }
 
         template <typename Then, typename Else>
         static constexpr auto eval_if_impl(tval<false>, Then t, Else e)
-        { return e([](auto x) { return x; }); }
+        { return e(id); }
 
         template <typename Cond, typename Then, typename Else>
         static constexpr auto eval_if_impl(Cond c, Then t, Else e)

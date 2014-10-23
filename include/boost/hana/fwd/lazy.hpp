@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/functional/id.hpp>
 #include <boost/hana/fwd/monad.hpp>
 
 
@@ -39,7 +40,7 @@ namespace boost { namespace hana {
     //! Evaluate a lazy value and return it.
     //! @relates Lazy
     BOOST_HANA_CONSTEXPR_LAMBDA auto eval = [](auto lx) {
-        return lx.storage([](auto x) { return x; });
+        return lx.storage(id);
     };
 
     namespace lazy_detail {

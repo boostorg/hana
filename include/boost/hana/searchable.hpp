@@ -13,6 +13,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/searchable.hpp>
 
 #include <boost/hana/comparable.hpp>
+#include <boost/hana/functional/compose.hpp>
+#include <boost/hana/functional/id.hpp>
+#include <boost/hana/functional/partial.hpp>
 #include <boost/hana/logical.hpp>
 
 
@@ -32,11 +35,11 @@ namespace boost { namespace hana {
     struct Searchable::mcd {
         template <typename Srch, typename X>
         static constexpr auto elem_impl(Srch srch, X x)
-        { return any(srch, [=](auto y) { return equal(x, y); }); }
+        { return any(srch, partial(equal, x)); }
 
         template <typename Srch, typename Pred>
         static constexpr auto all_impl(Srch srch, Pred pred)
-        { return not_(any(srch, [=](auto x) { return not_(pred(x)); })); }
+        { return not_(any(srch, compose(not_, pred))); }
 
         template <typename Srch, typename Pred>
         static constexpr auto none_impl(Srch srch, Pred pred)
@@ -44,23 +47,23 @@ namespace boost { namespace hana {
 
         template <typename Srch>
         static constexpr auto any_of_impl(Srch srch)
-        { return any(srch, [](auto x) { return x; }); }
+        { return any(srch, id); }
 
         template <typename Srch>
         static constexpr auto all_of_impl(Srch srch)
-        { return all(srch, [](auto x) { return x; }); }
+        { return all(srch, id); }
 
         template <typename Srch>
         static constexpr auto none_of_impl(Srch srch)
-        { return none(srch, [](auto x) { return x; }); }
+        { return none(srch, id); }
 
         template <typename Srch, typename Key>
         static constexpr auto lookup_impl(Srch srch, Key key)
-        { return find(srch, [=](auto k) { return equal(key, k); }); }
+        { return find(srch, partial(equal, key)); }
 
         template <typename Xs, typename Ys>
         static constexpr auto subset_impl(Xs xs, Ys ys)
-        { return all(xs, [=](auto x) { return elem(ys, x); }); }
+        { return all(xs, partial(elem, ys)); }
     };
 }} // end namespace boost::hana
 
