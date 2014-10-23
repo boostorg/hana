@@ -28,3 +28,28 @@ foreach(i IN ITEMS 1 8 32 64 128 255)
         ENV "(0..1000).step(25).map { |n| { input_size: n, unroll: ${i} }}"
     )
 endforeach()
+
+Benchmark_add_plot(benchmark.techniques.closure
+    TITLE "Closure implementations"
+    FEATURE COMPILATION_TIME
+    CURVE
+        TITLE "linked list of smaller tuples"
+        FILE "closure/linked_list.cpp"
+        ENV "((1..50).to_a + (51..1000).step(25).to_a).map { |n|
+            {input_size: n}
+        }"
+
+    CURVE
+        TITLE "multiple inheritance"
+        FILE "closure/multiple.cpp"
+        ENV "((1..50).to_a + (51..1000).step(25).to_a).map { |n|
+            {input_size: n}
+        }"
+
+    CURVE
+        TITLE "lambda based"
+        FILE "closure/lambda.cpp"
+        ENV "((1..50).to_a + (51..1000).step(25).to_a).map { |n|
+            {input_size: n}
+        }"
+)
