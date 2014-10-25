@@ -12,21 +12,16 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
-#include <boost/hana/detail/std/is_rvalue_reference.hpp>
-#include <boost/hana/detail/std/remove_reference.hpp>
 
 
 namespace boost { namespace hana {
     namespace id_detail {
-        template <typename X>
-        decltype(auto) id_impl(X&& x, detail::std::false_type)
-        { return detail::std::forward<X>(x); }
-
-        template <typename X>
-        typename detail::std::remove_reference<X>::type
-        id_impl(X&& x, detail::std::true_type)
-        { return detail::std::forward<X>(x); }
+        struct id_impl {
+            template <typename T>
+            constexpr T operator()(T&& t) const {
+                return detail::std::forward<T>(t);
+            }
+        };
     }
 
     //! @ingroup group-functional
@@ -39,12 +34,7 @@ namespace boost { namespace hana {
         return std::forward<decltype(x)>(x);
     };
 #else
-    BOOST_HANA_CONSTEXPR_LAMBDA auto id = [](auto&& x) -> decltype(auto) {
-        return id_detail::id_impl(
-            detail::std::forward<decltype(x)>(x),
-            detail::std::is_rvalue_reference<decltype(x)>{}
-        );
-    };
+    constexpr id_detail::id_impl id{};
 #endif
 }} // end namespace boost::hana
 
