@@ -98,11 +98,7 @@ namespace boost { namespace hana {
         template <typename Index, typename Xs>
         static constexpr decltype(auto) at_impl(Index n, Xs&& xs) {
             return detail::std::forward<Xs>(xs).storage(
-                [n](auto&& ...xs) -> decltype(auto) {
-                    return detail::variadic::at<value(n)>(
-                        detail::std::forward<decltype(xs)>(xs)...
-                    );
-                }
+                detail::variadic::at<value(n)>
             );
         }
 
