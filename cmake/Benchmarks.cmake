@@ -610,8 +610,16 @@ function(Benchmark_add_plot target_name)
         set(my_OUTPUT "${target_name}.png")
     endif()
 
+    add_custom_target(${target_name} COMMENT "Drawing plot at ${my_OUTPUT}.")
+    set_target_properties(${target_name} PROPERTIES
+        curve_titles ""
+        dataset_files ""
+        unique_id 0
+        feature "${my_FEATURE}")
+    add_dependencies(BENCHMARK_ALL_PLOTS ${target_name})
+
     add_custom_command(
-        OUTPUT ${my_OUTPUT}
+        TARGET ${target_name}
         COMMAND ${RUBY_EXECUTABLE} -r benchcc
             -e "require 'benchcc'                                                       "
             -e "                                                                        "
@@ -622,14 +630,6 @@ function(Benchmark_add_plot target_name)
             -e "    y_feature: '${my_FEATURE}'.downcase                                 "
             -e ")                                                                       "
         VERBATIM)
-    add_custom_target(${target_name} DEPENDS ${my_OUTPUT}
-        COMMENT "Drawing plot at ${my_OUTPUT}.")
-    set_target_properties(${target_name} PROPERTIES
-        curve_titles ""
-        dataset_files ""
-        unique_id 0
-        feature "${my_FEATURE}")
-    add_dependencies(BENCHMARK_ALL_PLOTS ${target_name})
 
     Benchmark_add_curves(PLOT ${target_name} ${_curves})
 endfunction()
