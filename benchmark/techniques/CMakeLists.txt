@@ -29,27 +29,32 @@ foreach(i IN ITEMS 1 8 32 64 128 255)
     )
 endforeach()
 
-Benchmark_add_plot(benchmark.techniques.closure
-    TITLE "Closure implementations"
-    FEATURE COMPILATION_TIME
-    CURVE
-        TITLE "linked list of smaller tuples"
-        FILE "closure/linked_list.cpp"
-        ENV "((1..50).to_a + (51..1000).step(25).to_a).map { |n|
-            {input_size: n}
-        }"
+foreach(operation IN ITEMS get make)
+    Benchmark_add_plot(benchmark.techniques.closure.${operation}
+        TITLE "Closure implementations"
+        FEATURE COMPILATION_TIME
+        CURVE
+            TITLE "linked list of smaller tuples"
+            FILE "closure/${operation}/linked_list.cpp"
+            ENV "((1..50).to_a + (51..1000).step(25).to_a).map { |n|
+                {input_size: n}
+            }"
+            COMPILATION_TIMEOUT 5
 
-    CURVE
-        TITLE "multiple inheritance"
-        FILE "closure/multiple.cpp"
-        ENV "((1..50).to_a + (51..1000).step(25).to_a).map { |n|
-            {input_size: n}
-        }"
+        CURVE
+            TITLE "multiple inheritance"
+            FILE "closure/${operation}/multiple.cpp"
+            ENV "((1..50).to_a + (51..1000).step(25).to_a).map { |n|
+                {input_size: n}
+            }"
+            COMPILATION_TIMEOUT 5
 
-    CURVE
-        TITLE "lambda based"
-        FILE "closure/lambda.cpp"
-        ENV "((1..50).to_a + (51..1000).step(25).to_a).map { |n|
-            {input_size: n}
-        }"
-)
+        CURVE
+            TITLE "lambda based"
+            FILE "closure/${operation}/lambda.cpp"
+            ENV "((1..50).to_a + (51..1000).step(25).to_a).map { |n|
+                {input_size: n}
+            }"
+            COMPILATION_TIMEOUT 5
+    )
+endforeach()
