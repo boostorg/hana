@@ -416,9 +416,9 @@ function(Benchmark_add_dataset target_name)
         -e "OUTPUT_FILE.dirname.mkpath                                                  "
         -e "OUTPUT_FILE.write(csv)                                                      "
         DEPENDS "${my_FILE}" "${_env_file}"
-        VERBATIM)
-    add_custom_target(${target_name} DEPENDS ${my_OUTPUT}
+        VERBATIM
         COMMENT "Gathering data set at ${my_OUTPUT} from ${my_FILE}.")
+    add_custom_target(${target_name} DEPENDS ${my_OUTPUT})
     set_target_properties(${target_name} PROPERTIES
         features "${my_FEATURES}"
         output "${my_OUTPUT}")
