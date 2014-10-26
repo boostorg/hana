@@ -11,7 +11,10 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_LAZY_HPP
 
 #include <boost/hana/core/operators.hpp>
-#include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/closure.hpp>
+#include <boost/hana/detail/create.hpp>
+#include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/functional/id.hpp>
 #include <boost/hana/fwd/monad.hpp>
 
@@ -39,25 +42,20 @@ namespace boost { namespace hana {
 
     //! Evaluate a lazy value and return it.
     //! @relates Lazy
-    BOOST_HANA_CONSTEXPR_LAMBDA auto eval = [](auto lx) {
-        return lx.storage(id);
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto eval = [](auto&& lx) -> decltype(auto) {
+        return unspecified;
+    };
+#else
+    struct _eval {
+        template <typename Lx>
+        constexpr decltype(auto) operator()(Lx&& lx) const {
+            return detail::std::forward<Lx>(lx).eval_impl(id);
+        }
     };
 
-    namespace lazy_detail {
-        template <typename Storage, typename = operators::enable_adl>
-        struct lazy {
-            Storage storage;
-            struct hana { using datatype = Lazy; };
-
-            template <typename ...Xs>
-            constexpr auto operator()(Xs ...xs) const {
-                auto new_storage = [=](auto _) {
-                    return _(eval)(*this)(xs...);
-                };
-                return lazy<decltype(new_storage)>{new_storage};
-            }
-        };
-    }
+    constexpr _eval eval{};
+#endif
 
     //! Lifts a normal value to a lazy one.
     //! @relates Lazy
@@ -73,10 +71,81 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/lazy/lazy.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto lazy = [](auto x) {
-        auto storage = [=](auto _) { return x; };
-        return lazy_detail::lazy<decltype(storage)>{storage};
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto lazy = [](auto&& x) {
+        return unspecified-type;
     };
+#else
+    template <typename F, typename X, typename = operators::enable_adl>
+    struct _lazy_call;
+
+    template <typename F, typename ...X>
+    struct _lazy_call<F, detail::closure<X...>> {
+        F f;
+        detail::closure<X...> x;
+        struct hana { using datatype = Lazy; };
+
+        template <typename Id>
+        constexpr decltype(auto) eval_impl(Id _) const&
+        { return _(f)(static_cast<X const&>(x).get...); }
+
+        template <typename Id>
+        constexpr decltype(auto) eval_impl(Id _) &
+        { return _(f)(static_cast<X&>(x).get...); }
+
+        template <typename Id>
+        constexpr decltype(auto) eval_impl(Id _) &&
+        { return _(detail::std::move(f))(static_cast<X&&>(x).get...); }
+    };
+
+    template <typename X, typename = operators::enable_adl>
+    struct _lazy {
+        X x;
+        struct hana { using datatype = Lazy; };
+
+        template <typename Id>
+        constexpr decltype(auto) eval_impl(Id const&) const&
+        { return x; }
+
+        template <typename Id>
+        constexpr decltype(auto) eval_impl(Id const&) &
+        { return x; }
+
+        template <typename Id>
+        constexpr decltype(auto) eval_impl(Id const&) &&
+        { return detail::std::move(x); }
+
+
+        template <typename ...Xs>
+        constexpr decltype(auto) operator()(Xs&& ...xs) const& {
+            return detail::create<_lazy_call>{}(
+                x, detail::create<detail::closure_t>{}(
+                    detail::std::forward<Xs>(xs)...
+                )
+            );
+        }
+
+        template <typename ...Xs>
+        constexpr decltype(auto) operator()(Xs&& ...xs) & {
+            return detail::create<_lazy_call>{}(
+                x, detail::create<detail::closure_t>{}(
+                    detail::std::forward<Xs>(xs)...
+                )
+            );
+        }
+
+        template <typename ...Xs>
+        constexpr decltype(auto) operator()(Xs&& ...xs) && {
+            return detail::create<_lazy_call>{}(
+                detail::std::move(x), detail::create<detail::closure_t>{}(
+                    detail::std::forward<Xs>(xs)...
+                )
+            );
+        }
+    };
+
+    constexpr detail::create<_lazy> lazy{};
+#endif
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_LAZY_HPP

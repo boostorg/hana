@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_DETAIL_INSERT_FWD_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -19,14 +18,19 @@ namespace boost { namespace hana {
     template <typename T>
     struct insert_impl;
 
-    BOOST_HANA_CONSTEXPR_LAMBDA auto insert = [](auto&& set, auto&& x) -> decltype(auto) {
-        return insert_impl<
-            datatype_t<decltype(set)>
-        >::apply(
-            detail::std::forward<decltype(set)>(set),
-            detail::std::forward<decltype(x)>(x)
-        );
+    struct _insert {
+        template <typename Set, typename X>
+        constexpr decltype(auto) operator()(Set&& set, X&& x) const {
+            return insert_impl<
+                datatype_t<Set>
+            >::apply(
+                detail::std::forward<Set>(set),
+                detail::std::forward<X>(x)
+            );
+        }
     };
+
+    constexpr _insert insert{};
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_DETAIL_INSERT_FWD_HPP

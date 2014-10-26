@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_EITHER_HPP
 
 #include <boost/hana/core/operators.hpp>
-#include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/fwd/comparable.hpp>
@@ -40,63 +40,35 @@ namespace boost { namespace hana {
         };
     };
 
-    namespace either_detail {
-        template <typename X, typename = operators::enable_adl>
-        struct left {
-            X value;
-            struct hana { using datatype = Either; };
-
-            //! @bug
-            //! We can't use perfect forwarding because of this bug:
-            //! http://llvm.org/bugs/show_bug.cgi?id=20619
-            template <typename F, typename G>
-            constexpr decltype(auto) go(F f, G) const&
-            { return f(value); }
-
-            template <typename F, typename G>
-            constexpr decltype(auto) go(F f, G) &
-            { return f(value); }
-
-            template <typename F, typename G>
-            constexpr decltype(auto) go(F f, G) &&
-            { return f(detail::std::move(value)); }
-        };
-
-        template <typename X, typename = operators::enable_adl>
-        struct right {
-            X value;
-            struct hana { using datatype = Either; };
-
-            //! @bug
-            //! We can't use perfect forwarding because of this bug:
-            //! http://llvm.org/bugs/show_bug.cgi?id=20619
-            template <typename F, typename G>
-            constexpr decltype(auto) go(F, G g) const&
-            { return g(value); }
-
-            template <typename F, typename G>
-            constexpr decltype(auto) go(F, G g) &
-            { return g(value); }
-
-            template <typename F, typename G>
-            constexpr decltype(auto) go(F, G g) &&
-            { return g(detail::std::move(value)); }
-        };
-    }
-
     //! Create an `Either` containing the given left value.
     //! @relates Either
     //!
     //! ### Example
     //! @snippet example/either.cpp left
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto left = [](auto x) {
-        unspecified
+    constexpr auto left = [](auto&& x) {
+        return unspecified-type;
     };
 #else
-    BOOST_HANA_CONSTEXPR_LAMBDA auto left = [](auto x) {
-        return either_detail::left<decltype(x)>{detail::std::move(x)};
+    template <typename X, typename = operators::enable_adl>
+    struct _left {
+        X value;
+        struct hana { using datatype = Either; };
+
+        template <typename F, typename G>
+        constexpr decltype(auto) go(F&& f, G const&) const&
+        { return detail::std::forward<F>(f)(value); }
+
+        template <typename F, typename G>
+        constexpr decltype(auto) go(F f, G const&) &
+        { return detail::std::forward<F>(f)(value); }
+
+        template <typename F, typename G>
+        constexpr decltype(auto) go(F&& f, G const&) &&
+        { return detail::std::forward<F>(f)(detail::std::move(value)); }
     };
+
+    constexpr detail::create<_left> left{};
 #endif
 
     //! Create an `Either` containing the given right value.
@@ -105,13 +77,29 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/either.cpp right
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto right = [](auto x) {
-        unspecified
+    constexpr auto right = [](auto&& x) {
+        return unspecified-type;
     };
 #else
-    BOOST_HANA_CONSTEXPR_LAMBDA auto right = [](auto x) {
-        return either_detail::right<decltype(x)>{detail::std::move(x)};
+    template <typename X, typename = operators::enable_adl>
+    struct _right {
+        X value;
+        struct hana { using datatype = Either; };
+
+        template <typename F, typename G>
+        constexpr decltype(auto) go(F const&, G&& g) const&
+        { return detail::std::forward<G>(g)(value); }
+
+        template <typename F, typename G>
+        constexpr decltype(auto) go(F const&, G&& g) &
+        { return detail::std::forward<G>(g)(value); }
+
+        template <typename F, typename G>
+        constexpr decltype(auto) go(F const&, G&& g) &&
+        { return detail::std::forward<G>(g)(detail::std::move(value)); }
     };
+
+    constexpr detail::create<_right> right{};
 #endif
 
     //! Apply one of two functions to the value inside an `Either`.
@@ -138,15 +126,23 @@ namespace boost { namespace hana {
     //! @snippet example/either.cpp either
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto either = [](auto&& f, auto&& g, auto&& e) -> decltype(auto) {
-        unspecified
+        if (e is a left(x))
+            return forwarded(f)(forwarded(x));
+        else if (e is a right(y))
+            return forwarded(g)(forwarded(y));
     };
 #else
-    BOOST_HANA_CONSTEXPR_LAMBDA auto either = [](auto&& f, auto&& g, auto&& e) -> decltype(auto) {
-        return detail::std::forward<decltype(e)>(e).go(
-            detail::std::forward<decltype(f)>(f),
-            detail::std::forward<decltype(g)>(g)
-        );
+    struct _either {
+        template <typename F, typename G, typename E>
+        constexpr decltype(auto) operator()(F&& f, G&& g, E&& e) const {
+            return detail::std::forward<E>(e).go(
+                detail::std::forward<F>(f),
+                detail::std::forward<G>(g)
+            );
+        }
     };
+
+    constexpr _either either{};
 #endif
 }} // end namespace boost::hana
 

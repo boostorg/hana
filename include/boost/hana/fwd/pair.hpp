@@ -11,8 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_PAIR_HPP
 
 #include <boost/hana/core/operators.hpp>
-#include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/std/move.hpp>
+#include <boost/hana/detail/create.hpp>
 #include <boost/hana/fwd/comparable.hpp>
 
 
@@ -24,25 +23,25 @@ namespace boost { namespace hana {
     //! `Comparable`, `Product`, `Foldable`
     struct Pair { struct hana { struct enabled_operators : Comparable { }; }; };
 
-    namespace pair_detail {
-        template <typename First, typename Second, typename = operators::enable_adl>
-        struct pair {
-            First first;
-            Second second;
-            struct hana { using datatype = Pair; };
-        };
-    }
-
     //! Creates a `Pair` with the given elements.
     //! @relates Pair
     //!
     //! ### Example
     //! @snippet example/pair.cpp pair
-    BOOST_HANA_CONSTEXPR_LAMBDA auto pair = [](auto first, auto second) {
-        return pair_detail::pair<
-            decltype(first), decltype(second)
-        >{detail::std::move(first), detail::std::move(second)};
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto pair = [](auto&& first, auto&& second) {
+        return unspecified-type;
     };
+#else
+    template <typename First, typename Second, typename = operators::enable_adl>
+    struct _pair {
+        First first;
+        Second second;
+        struct hana { using datatype = Pair; };
+    };
+
+    constexpr detail::create<_pair> pair{};
+#endif
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_PAIR_HPP

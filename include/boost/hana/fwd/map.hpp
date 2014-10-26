@@ -11,9 +11,8 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_MAP_HPP
 
 #include <boost/hana/core/operators.hpp>
-#include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/fwd/comparable.hpp>
 #include <boost/hana/fwd/functor.hpp>
 #include <boost/hana/fwd/list.hpp>
@@ -35,35 +34,65 @@ namespace boost { namespace hana {
         struct hana { struct enabled_operators : Comparable { }; };
     };
 
-    namespace map_detail {
-        template <typename T, typename = operators::enable_adl>
-        struct map {
-            T storage;
-            struct hana { using datatype = Map; };
-        };
-    }
-
     //! Creates a `Map` with the given key/value associations.
     //! @relates Map
     //!
     //! @note
     //! The keys must all be unique.
-    BOOST_HANA_CONSTEXPR_LAMBDA auto map = [](auto ...pairs) {
-        auto storage = tuple(detail::std::move(pairs)...);
-        return map_detail::map<decltype(storage)>{detail::std::move(storage)};
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto map = [](auto&& ...pairs) {
+        return unspecified-type;
     };
+#else
+    template <typename Storage, typename = operators::enable_adl>
+    struct _map {
+        Storage storage;
+        struct hana { using datatype = Map; };
+    };
+
+    struct _make_map {
+        template <typename ...Pairs>
+        constexpr decltype(auto) operator()(Pairs&& ...pairs) const {
+            return detail::create<_map>{}(tuple(detail::std::forward<Pairs>(pairs)...));
+        }
+    };
+
+    constexpr _make_map map{};
+#endif
 
     //! Returns a list of the keys of the map, in unspecified order.
     //! @relates Map
-    BOOST_HANA_CONSTEXPR_LAMBDA auto keys = [](auto&& map) -> decltype(auto) {
-        return fmap(detail::std::forward<decltype(map)>(map).storage, first);
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto keys = [](auto&& map) -> decltype(auto) {
+        return unspecified-type;
     };
+#else
+    struct _keys {
+        template <typename Map>
+        constexpr decltype(auto) operator()(Map&& map) const {
+            return fmap(detail::std::forward<Map>(map).storage, first);
+        }
+    };
+
+    constexpr _keys keys{};
+#endif
 
     //! Returns a list of the values of the map, in unspecified order.
     //! @relates Map
-    BOOST_HANA_CONSTEXPR_LAMBDA auto values = [](auto map) -> decltype(auto) {
-        return fmap(detail::std::forward<decltype(map)>(map).storage, second);
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto values = [](auto&& map) -> decltype(auto) {
+        return unspecified-type;
     };
+#else
+    struct _values {
+        template <typename Map>
+        constexpr decltype(auto) operator()(Map&& map) const {
+            return fmap(detail::std::forward<Map>(map).storage, second);
+        }
+    };
+
+    constexpr _values values{};
+#endif
 
 #if 0
     // insert the given (key, value) pair, or replace the value associated to the key

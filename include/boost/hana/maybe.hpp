@@ -42,14 +42,15 @@ namespace boost { namespace hana {
     struct Comparable::instance<Maybe, Maybe> : Comparable::equal_mcd {
         template <typename T, typename U>
         static constexpr decltype(auto)
-        equal_impl(maybe_detail::just<T> const& t, maybe_detail::just<U> const& u)
+        equal_impl(_just<T> const& t, _just<U> const& u)
         { return equal(t.val, u.val); }
 
-        template <bool tv, typename T, bool uv, typename U>
-        static constexpr auto
-        equal_impl(maybe_detail::maybe<tv, T> const&,
-                   maybe_detail::maybe<uv, U> const&)
-        { return bool_<tv == uv>; }
+        static constexpr auto equal_impl(_nothing const&, _nothing const&)
+        { return true_; }
+
+        template <typename T, typename U>
+        static constexpr auto equal_impl(T const&, U const&)
+        { return false_; }
     };
 
     //! Instance of `Functor` for `Maybe`s.

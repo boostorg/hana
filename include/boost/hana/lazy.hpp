@@ -12,6 +12,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/lazy.hpp>
 
+#include <boost/hana/detail/create.hpp>
+#include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/move.hpp>
+#include <boost/hana/functional/compose.hpp>
+
 // instances
 #include <boost/hana/applicative.hpp>
 #include <boost/hana/functor.hpp>
@@ -25,17 +30,30 @@ namespace boost { namespace hana {
     //! A lazy function can be lazily applied to a lazy value by using `ap`.
     template <>
     struct Applicative::instance<Lazy> : Applicative::mcd {
-        template <typename X>
-        static constexpr auto lift_impl(X x) {
-            auto storage = [=](auto) { return x; };
-            return lazy_detail::lazy<decltype(storage)>{storage};
-        }
+        static constexpr auto lift_impl = lazy;
 
-        template <typename LF, typename LX>
-        static constexpr auto ap_impl(LF lf, LX lx) {
-            auto storage = [=](auto _) { return _(eval)(lf)(_(eval)(lx)); };
-            return lazy_detail::lazy<decltype(storage)>{storage};
-        }
+        template <typename Lf, typename Lx>
+        struct ap_result {
+            Lf lf; Lx lx;
+            struct hana { using datatype = Lazy; };
+
+            template <typename Id>
+            constexpr decltype(auto) eval_impl(Id _) const&
+            { return _(eval)(lf)(_(eval)(lx)); }
+
+            template <typename Id>
+            constexpr decltype(auto) eval_impl(Id _) &
+            { return _(eval)(lf)(_(eval)(lx)); }
+
+            template <typename Id>
+            constexpr decltype(auto) eval_impl(Id _) && {
+                return _(eval)(detail::std::move(lf))(
+                    _(eval)(detail::std::move(lx))
+                );
+            }
+        };
+
+        static constexpr detail::create<ap_result> ap_impl{};
     };
 
     //! Instance of `Functor` for `Lazy`.
@@ -48,9 +66,9 @@ namespace boost { namespace hana {
     template <>
     struct Functor::instance<Lazy> : Functor::fmap_mcd {
         template <typename LX, typename F>
-        static constexpr auto fmap_impl(LX lx, F f) {
-            auto storage = [=](auto _) { return f(_(eval)(lx)); };
-            return lazy_detail::lazy<decltype(storage)>{storage};
+        static constexpr decltype(auto) fmap_impl(LX&& lx, F&& f) {
+            return ap(lazy(detail::std::forward<F>(f)),
+                      detail::std::forward<LX>(lx));
         }
     };
 
@@ -63,21 +81,7 @@ namespace boost { namespace hana {
     //! @snippet example/lazy/monad.cpp main
     template <>
     struct Monad::instance<Lazy> : Monad::flatten_mcd<Lazy> {
-        template <typename LLX>
-        static constexpr auto flatten_impl(LLX llx) {
-            auto storage = [=](auto _) {
-                return eval(_(eval)(llx));
-            };
-            return lazy_detail::lazy<decltype(storage)>{storage};
-        }
-
-        template <typename LX, typename F>
-        static constexpr auto bind_impl(LX lx, F f) {
-            auto storage = [=](auto _) {
-                return eval(f(_(eval)(lx)));
-            };
-            return lazy_detail::lazy<decltype(storage)>{storage};
-        }
+        static constexpr auto flatten_impl = lazy(compose(eval, eval));
     };
 }} // end namespace boost::hana
 
