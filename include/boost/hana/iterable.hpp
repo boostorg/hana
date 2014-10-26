@@ -17,6 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/enumerable.hpp>
+#include <boost/hana/functional/always.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/logical.hpp>
 
@@ -78,16 +79,16 @@ namespace boost { namespace hana {
         template <typename Iterable_>
         static constexpr auto last_impl(Iterable_ iterable) {
             return eval_if(is_empty(tail(iterable)),
-                [=](auto _) { return head(_(iterable)); },
-                [=](auto _) { return last_impl(tail(_(iterable))); }
+                [=](auto _) { return _(head)(iterable); },
+                [=](auto _) { return last_impl(_(tail)(iterable)); }
             );
         }
 
         template <typename N, typename Iterable_>
         static constexpr auto drop_impl(N n, Iterable_ iterable) {
             return eval_if(or_(equal(n, size_t<0>), is_empty(iterable)),
-                [=](auto) { return iterable; },
-                [=](auto _) { return drop_impl(_(pred)(n), tail(_(iterable))); }
+                always(iterable),
+                [=](auto _) { return drop_impl(_(pred)(n), _(tail)(iterable)); }
             );
         }
 
@@ -134,7 +135,7 @@ namespace boost { namespace hana {
             return eval_if(is_empty(tail(xs)),
                 [=](auto) { return head(xs); },
                 [=](auto _) {
-                    return f(head(xs), foldr1_impl(tail(_(xs)), f));
+                    return f(head(xs), foldr1_impl(_(tail)(xs), f));
                 }
             );
         }
@@ -142,9 +143,9 @@ namespace boost { namespace hana {
         template <typename Xs, typename State, typename F>
         static constexpr auto foldr_impl(Xs xs, State s, F f) {
             return eval_if(is_empty(xs),
-                [=](auto) { return s; },
+                always(s),
                 [=](auto _) {
-                    return f(head(_(xs)), foldr_impl(tail(_(xs)), s, f));
+                    return f(_(head)(xs), foldr_impl(_(tail)(xs), s, f));
                 }
             );
         }

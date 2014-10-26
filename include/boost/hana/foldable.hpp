@@ -19,7 +19,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/variadic/foldr.hpp>
 #include <boost/hana/detail/variadic/foldr1.hpp>
 #include <boost/hana/detail/variadic/for_each.hpp>
+#include <boost/hana/enumerable.hpp>
 #include <boost/hana/functional/id.hpp>
+#include <boost/hana/functional/partial.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/monoid.hpp>
@@ -47,12 +49,12 @@ namespace boost { namespace hana {
             { return f(detail::std::forward<X>(x), detail::std::forward<Y>(y)); }
 
             template <typename X>
-            constexpr decltype(auto) operator()(X&& x, end) const
-            { return id(detail::std::forward<X>(x)); }
+            constexpr X operator()(X&& x, end) const
+            { return detail::std::forward<X>(x); }
 
             template <typename Y>
-            constexpr decltype(auto) operator()(end, Y&& y) const
-            { return id(detail::std::forward<Y>(y)); }
+            constexpr Y operator()(end, Y&& y) const
+            { return detail::std::forward<Y>(y); }
         };
 
     public:
@@ -85,7 +87,7 @@ namespace boost { namespace hana {
         template <typename Xs>
         static constexpr decltype(auto) length_impl(Xs&& xs) {
             auto plus1 = [](auto&& n, auto const&) -> decltype(auto) {
-                return plus(detail::std::forward<decltype(n)>(n), size_t<1>);
+                return succ(detail::std::forward<decltype(n)>(n));
             };
             return foldl(detail::std::forward<Xs>(xs), size_t<0>, plus1);
         }
@@ -147,7 +149,7 @@ namespace boost { namespace hana {
             return foldl(detail::std::forward<Xs>(xs), size_t<0>,
                 [pred(detail::std::forward<Pred>(pred))](auto&& counter, auto&& x) -> decltype(auto) {
                     return if_(pred(detail::std::forward<decltype(x)>(x)),
-                        plus(counter, size_t<1>),
+                        succ(counter),
                         counter
                     );
                 }
@@ -156,16 +158,7 @@ namespace boost { namespace hana {
 
         template <typename Xs, typename F>
         static constexpr decltype(auto) unpack_impl(Xs&& xs, F&& f) {
-            return foldl(detail::std::forward<Xs>(xs), detail::std::forward<F>(f),
-                [](auto&& g, auto&& x) -> decltype(auto) {
-                    return [
-                        g(detail::std::forward<decltype(g)>(g)),
-                        x(detail::std::forward<decltype(x)>(x))
-                    ](auto&& ...y) -> decltype(auto) {
-                        return g(x, detail::std::forward<decltype(y)>(y)...);
-                    };
-                }
-            )();
+            return foldl(detail::std::forward<Xs>(xs), detail::std::forward<F>(f), partial)();
         }
 
         template <typename Xs, typename F>
@@ -236,11 +229,7 @@ namespace boost { namespace hana {
         template <typename Xs, typename F>
         static constexpr decltype(auto) for_each_impl(Xs&& xs, F&& f) {
             return unpack(detail::std::forward<Xs>(xs),
-                [f(detail::std::forward<F>(f))](auto&& ...xs) -> decltype(auto) {
-                    return detail::variadic::for_each(f,
-                        detail::std::forward<decltype(xs)>(xs)...
-                    );
-                }
+                partial(detail::variadic::for_each, detail::std::forward<F>(f))
             );
         }
 

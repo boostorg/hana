@@ -14,6 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/id.hpp>
 
 // instances
@@ -63,11 +64,8 @@ namespace boost { namespace hana {
     struct Functor::instance<Either> : Functor::fmap_mcd {
         template <typename E, typename F>
         static constexpr decltype(auto) fmap_impl(E&& e, F&& f) {
-            return either(
-                left,
-                [f(detail::std::forward<F>(f))](auto&& x) -> decltype(auto) {
-                    return right(f(detail::std::forward<decltype(x)>(x)));
-                },
+            return either(left,
+                compose(right, detail::std::forward<F>(f)),
                 detail::std::forward<E>(e)
             );
         }
@@ -94,11 +92,8 @@ namespace boost { namespace hana {
 
         template <typename E, typename X>
         static constexpr decltype(auto) ap_impl(E&& e, X&& x) {
-            return either(
-                left,
-                [x(detail::std::forward<X>(x))](auto&& f) -> decltype(auto) {
-                    return fmap(x, detail::std::forward<decltype(f)>(f));
-                },
+            return either(left,
+                partial(fmap, detail::std::forward<X>(x)),
                 detail::std::forward<E>(e)
             );
         }

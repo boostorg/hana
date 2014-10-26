@@ -14,6 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/functional/always.hpp>
 #include <boost/hana/logical.hpp>
 
 
@@ -24,8 +25,8 @@ namespace boost { namespace hana {
         static constexpr auto adjust_impl(Xs xs, Pred pred, F f) {
             auto go = [=](auto x) {
                 return eval_if(pred(x),
-                    [=](auto _) { return _(f)(x); },
-                    [=](auto) { return x; }
+                    [=](auto _) -> decltype(auto) { return _(f)(x); },
+                    always(x)
                 );
             };
             return fmap(xs, go);
@@ -38,7 +39,7 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) fmap_impl(Xs&& xs, F&& f) {
             return adjust(
                 detail::std::forward<Xs>(xs),
-                [](auto) { return true_; },
+                always(true_),
                 detail::std::forward<F>(f)
             );
         }
