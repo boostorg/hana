@@ -61,12 +61,12 @@ namespace boost { namespace hana {
         : Enumerable::mcd
     {
         template <typename X>
-        static constexpr decltype(auto) succ_impl(X /* by value */ x) {
+        static constexpr auto succ_impl(X /* by value */ x) {
             return ++x;
         }
 
         template <typename X>
-        static constexpr decltype(auto) pred_impl(X /* by value */ x) {
+        static constexpr auto pred_impl(X /* by value */ x) {
             return --x;
         }
     };
