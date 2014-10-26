@@ -46,14 +46,25 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/monoid.cpp plus
-    BOOST_HANA_CONSTEXPR_LAMBDA auto plus = [](auto&& x, auto&& y) -> decltype(auto) {
-        return Monoid::instance<
-            datatype_t<decltype(x)>, datatype_t<decltype(y)>
-        >::plus_impl(
-            detail::std::forward<decltype(x)>(x),
-            detail::std::forward<decltype(y)>(y)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto plus = [](auto&& x, auto&& y) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _plus {
+        template <typename X, typename Y>
+        constexpr decltype(auto) operator()(X&& x, Y&& y) const {
+            return Monoid::instance<
+                datatype_t<X>, datatype_t<Y>
+            >::plus_impl(
+                detail::std::forward<X>(x),
+                detail::std::forward<Y>(y)
+            );
+        }
+    };
+
+    constexpr _plus plus{};
+#endif
 
     //! Identity of `plus`.
     //! @relates Monoid
@@ -68,7 +79,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/monoid.cpp zero
     template <typename M>
-    BOOST_HANA_CONSTEXPR_LAMBDA auto zero = Monoid::instance<M, M>::zero_impl();
+    constexpr auto zero = Monoid::instance<M, M>::zero_impl();
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_MONOID_HPP

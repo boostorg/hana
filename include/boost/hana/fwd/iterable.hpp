@@ -12,7 +12,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/typeclass.hpp>
-#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/integral.hpp>
@@ -56,11 +55,24 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/iterable.cpp head
-    BOOST_HANA_CONSTEXPR_LAMBDA auto head = [](auto&& iterable) -> decltype(auto) {
-        return Iterable::instance<
-            datatype_t<decltype(iterable)>
-        >::head_impl(detail::std::forward<decltype(iterable)>(iterable));
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto head = [](auto&& iterable) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _head {
+        template <typename Xs>
+        constexpr decltype(auto) operator()(Xs&& xs) const {
+            return Iterable::instance<
+                datatype_t<Xs>
+            >::head_impl(
+                detail::std::forward<Xs>(xs)
+            );
+        }
+    };
+
+    constexpr _head head{};
+#endif
 
     //! Return a new iterable containing all but the first element of a
     //! non-empty iterable.
@@ -68,11 +80,24 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/iterable.cpp tail
-    BOOST_HANA_CONSTEXPR_LAMBDA auto tail = [](auto&& iterable) -> decltype(auto) {
-        return Iterable::instance<
-            datatype_t<decltype(iterable)>
-        >::tail_impl(detail::std::forward<decltype(iterable)>(iterable));
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto tail = [](auto&& iterable) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _tail {
+        template <typename Xs>
+        constexpr decltype(auto) operator()(Xs&& xs) const {
+            return Iterable::instance<
+                datatype_t<Xs>
+            >::tail_impl(
+                detail::std::forward<Xs>(xs)
+            );
+        }
+    };
+
+    constexpr _tail tail{};
+#endif
 
     //! Return whether the iterable is empty.
     //! @relates Iterable
@@ -83,11 +108,24 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/iterable.cpp is_empty
-    BOOST_HANA_CONSTEXPR_LAMBDA auto is_empty = [](auto&& iterable) -> decltype(auto) {
-        return Iterable::instance<
-            datatype_t<decltype(iterable)>
-        >::is_empty_impl(detail::std::forward<decltype(iterable)>(iterable));
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto is_empty = [](auto&& iterable) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _is_empty {
+        template <typename Xs>
+        constexpr decltype(auto) operator()(Xs&& xs) const {
+            return Iterable::instance<
+                datatype_t<Xs>
+            >::is_empty_impl(
+                detail::std::forward<Xs>(xs)
+            );
+        }
+    };
+
+    constexpr _is_empty is_empty{};
+#endif
 
     //! Return the `n`th element of an iterable.
     //! @relates Iterable
@@ -107,14 +145,25 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/iterable/at.ctime.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto at = [](auto&& n, auto&& iterable) -> decltype(auto) {
-        return Iterable::instance<
-            datatype_t<decltype(iterable)>
-        >::at_impl(
-            detail::std::forward<decltype(n)>(n),
-            detail::std::forward<decltype(iterable)>(iterable)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto at = [](auto&& n, auto&& iterable) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _at {
+        template <typename N, typename Xs>
+        constexpr decltype(auto) operator()(N&& n, Xs&& xs) const {
+            return Iterable::instance<
+                datatype_t<Xs>
+            >::at_impl(
+                detail::std::forward<N>(n),
+                detail::std::forward<Xs>(xs)
+            );
+        }
+    };
+
+    constexpr _at at{};
+#endif
 
     //! Equivalent to `at`; provided for convenience.
     //! @relates Iterable
@@ -124,20 +173,18 @@ namespace boost { namespace hana {
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <std::size_t n>
     constexpr auto at_c = [](auto&& iterable) -> decltype(auto) {
-        return at(size_t<n>, std::forward<decltype(iterable)>(iterable));
+        return at(size_t<n>, forwarded(iterable));
     };
 #else
-    namespace iterable_detail {
-        template <detail::std::size_t n>
-        struct at_c {
-            template <typename Xs>
-            constexpr decltype(auto) operator()(Xs&& xs) const
-            { return at(size_t<n>, detail::std::forward<Xs>(xs)); }
-        };
-    }
+    template <detail::std::size_t n>
+    struct _at_c {
+        template <typename Xs>
+        constexpr decltype(auto) operator()(Xs&& xs) const
+        { return at(size_t<n>, detail::std::forward<Xs>(xs)); }
+    };
 
     template <detail::std::size_t n>
-    constexpr iterable_detail::at_c<n> at_c{};
+    constexpr _at_c<n> at_c{};
 #endif
 
     //! Return the last element of a non-empty and finite iterable.
@@ -148,11 +195,24 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/iterable/last.ctime.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto last = [](auto&& iterable) -> decltype(auto) {
-        return Iterable::instance<
-            datatype_t<decltype(iterable)>
-        >::last_impl(detail::std::forward<decltype(iterable)>(iterable));
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto last = [](auto&& iterable) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _last {
+        template <typename Xs>
+        constexpr decltype(auto) operator()(Xs&& xs) const {
+            return Iterable::instance<
+                datatype_t<Xs>
+            >::last_impl(
+                detail::std::forward<Xs>(xs)
+            );
+        }
+    };
+
+    constexpr _last last{};
+#endif
 
     //! Drop the first `n` elements of an iterable and return the rest.
     //! @relates Iterable
@@ -172,14 +232,25 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/iterable/drop.ctime.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto drop = [](auto&& n, auto&& iterable) -> decltype(auto) {
-        return Iterable::instance<
-            datatype_t<decltype(iterable)>
-        >::drop_impl(
-            detail::std::forward<decltype(n)>(n),
-            detail::std::forward<decltype(iterable)>(iterable)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto drop = [](auto&& n, auto&& iterable) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _drop {
+        template <typename N, typename Xs>
+        constexpr decltype(auto) operator()(N&& n, Xs&& xs) const {
+            return Iterable::instance<
+                datatype_t<Xs>
+            >::drop_impl(
+                detail::std::forward<N>(n),
+                detail::std::forward<Xs>(xs)
+            );
+        }
+    };
+
+    constexpr _drop drop{};
+#endif
 
     //! Equivalent to `drop`; provided for convenience.
     //! @relates Iterable
@@ -189,20 +260,18 @@ namespace boost { namespace hana {
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <std::size_t n>
     constexpr auto drop_c = [](auto&& iterable) -> decltype(auto) {
-        return drop(size_t<n>, std::forward<decltype(iterable)>(iterable));
+        return drop(size_t<n>, forwarded(iterable));
     };
 #else
-    namespace iterable_detail {
-        template <detail::std::size_t n>
-        struct drop_c {
-            template <typename Xs>
-            constexpr decltype(auto) operator()(Xs&& xs) const
-            { return drop(size_t<n>, detail::std::forward<Xs>(xs)); }
-        };
-    }
+    template <detail::std::size_t n>
+    struct _drop_c {
+        template <typename Xs>
+        constexpr decltype(auto) operator()(Xs&& xs) const
+        { return drop(size_t<n>, detail::std::forward<Xs>(xs)); }
+    };
 
     template <detail::std::size_t n>
-    constexpr iterable_detail::drop_c<n> drop_c{};
+    constexpr _drop_c<n> drop_c{};
 #endif
 
     //! Drop elements from an iterable up to, but excluding, the first
@@ -233,14 +302,25 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/iterable/drop_while.ctime.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto drop_while = [](auto&& iterable, auto&& predicate) -> decltype(auto) {
-        return Iterable::instance<
-            datatype_t<decltype(iterable)>
-        >::drop_while_impl(
-            detail::std::forward<decltype(iterable)>(iterable),
-            detail::std::forward<decltype(predicate)>(predicate)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto drop_while = [](auto&& iterable, auto&& predicate) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _drop_while {
+        template <typename Xs, typename Pred>
+        constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
+            return Iterable::instance<
+                datatype_t<Xs>
+            >::drop_while_impl(
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<Pred>(pred)
+            );
+        }
+    };
+
+    constexpr _drop_while drop_while{};
+#endif
 
     //! Drop elements from an iterable up to, but excluding, the first
     //! element for which the `predicate` is satisfied.
@@ -274,14 +354,25 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/iterable/drop_until.ctime.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto drop_until = [](auto&& iterable, auto&& predicate) -> decltype(auto) {
-        return Iterable::instance<
-            datatype_t<decltype(iterable)>
-        >::drop_until_impl(
-            detail::std::forward<decltype(iterable)>(iterable),
-            detail::std::forward<decltype(predicate)>(predicate)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto drop_until = [](auto&& iterable, auto&& predicate) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _drop_until {
+        template <typename Xs, typename Pred>
+        constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
+            return Iterable::instance<
+                datatype_t<Xs>
+            >::drop_until_impl(
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<Pred>(pred)
+            );
+        }
+    };
+
+    constexpr _drop_until drop_until{};
+#endif
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_ITERABLE_HPP

@@ -65,18 +65,29 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/list.cpp concat
-    BOOST_HANA_CONSTEXPR_LAMBDA auto concat = [](auto&& xs, auto&& ys) -> decltype(auto) {
-        static_assert(detail::std::is_same<
-            datatype_t<decltype(xs)>, datatype_t<decltype(ys)>
-        >::value,
-        "boost::hana::concat: both arguments must have the same data type");
-        return List::instance<
-            datatype_t<decltype(xs)>
-        >::concat_impl(
-            detail::std::forward<decltype(xs)>(xs),
-            detail::std::forward<decltype(ys)>(ys)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto concat = [](auto&& xs, auto&& ys) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _concat {
+        template <typename Xs, typename Ys>
+        constexpr decltype(auto) operator()(Xs&& xs, Ys&& ys) const {
+            static_assert(detail::std::is_same<
+                datatype_t<Xs>, datatype_t<Ys>
+            >::value,
+            "boost::hana::concat: both arguments must have the same data type");
+            return List::instance<
+                datatype_t<Xs>
+            >::concat_impl(
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<Ys>(ys)
+            );
+        }
+    };
+
+    constexpr _concat concat{};
+#endif
 
     //! Prepend an element to the head of a list.
     //! @relates List
@@ -91,14 +102,25 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/list.cpp cons
-    BOOST_HANA_CONSTEXPR_LAMBDA auto cons = [](auto&& x, auto&& xs) -> decltype(auto) {
-        return List::instance<
-            datatype_t<decltype(xs)>
-        >::cons_impl(
-            detail::std::forward<decltype(x)>(x),
-            detail::std::forward<decltype(xs)>(xs)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto cons = [](auto&& x, auto&& xs) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _cons {
+        template <typename X, typename Xs>
+        constexpr decltype(auto) operator()(X&& x, Xs&& xs) const {
+            return List::instance<
+                datatype_t<Xs>
+            >::cons_impl(
+                detail::std::forward<X>(x),
+                detail::std::forward<Xs>(xs)
+            );
+        }
+    };
+
+    constexpr _cons cons{};
+#endif
 
     //! Return a list containing only the elements satisfying a `predicate`.
     //! @relates List
@@ -120,14 +142,25 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/list/filter.ctime.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto filter = [](auto&& xs, auto&& predicate) -> decltype(auto) {
-        return List::instance<
-            datatype_t<decltype(xs)>
-        >::filter_impl(
-            detail::std::forward<decltype(xs)>(xs),
-            detail::std::forward<decltype(predicate)>(predicate)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto filter = [](auto&& xs, auto&& predicate) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _filter {
+        template <typename Xs, typename Pred>
+        constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
+            return List::instance<
+                datatype_t<Xs>
+            >::filter_impl(
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<Pred>(pred)
+            );
+        }
+    };
+
+    constexpr _filter filter{};
+#endif
 
     //! Group the elements of a list into subgroups of adjacent elements that
     //! are "equal" with respect to a predicate.
@@ -154,14 +187,25 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/list.cpp group_by
-    BOOST_HANA_CONSTEXPR_LAMBDA auto group_by = [](auto&& predicate, auto&& xs) -> decltype(auto) {
-        return List::instance<
-            datatype_t<decltype(xs)>
-        >::group_by_impl(
-            detail::std::forward<decltype(predicate)>(predicate),
-            detail::std::forward<decltype(xs)>(xs)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto group_by = [](auto&& predicate, auto&& xs) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _group_by {
+        template <typename Pred, typename Xs>
+        constexpr decltype(auto) operator()(Pred&& pred, Xs&& xs) const {
+            return List::instance<
+                datatype_t<Xs>
+            >::group_by_impl(
+                detail::std::forward<Pred>(pred),
+                detail::std::forward<Xs>(xs)
+            );
+        }
+    };
+
+    constexpr _group_by group_by{};
+#endif
 
     //! Group the elements of a list into subgroups of adjacent equal elements.
     //! @relates List
@@ -175,22 +219,48 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/list.cpp group
-    BOOST_HANA_CONSTEXPR_LAMBDA auto group = [](auto&& xs) -> decltype(auto) {
-        return List::instance<
-            datatype_t<decltype(xs)>
-        >::group_impl(detail::std::forward<decltype(xs)>(xs));
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto group = [](auto&& xs) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _group {
+        template <typename Xs>
+        constexpr decltype(auto) operator()(Xs&& xs) const {
+            return List::instance<
+                datatype_t<Xs>
+            >::group_impl(
+                detail::std::forward<Xs>(xs)
+            );
+        }
+    };
+
+    constexpr _group group{};
+#endif
 
     //! Remove the last element of a non-empty list.
     //! @relates List
     //!
     //! ### Example
     //! @snippet example/list.cpp init
-    BOOST_HANA_CONSTEXPR_LAMBDA auto init = [](auto&& xs) -> decltype(auto) {
-        return List::instance<
-            datatype_t<decltype(xs)>
-        >::init_impl(detail::std::forward<decltype(xs)>(xs));
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto init = [](auto&& xs) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _init {
+        template <typename Xs>
+        constexpr decltype(auto) operator()(Xs&& xs) const {
+            return List::instance<
+                datatype_t<Xs>
+            >::init_impl(
+                detail::std::forward<Xs>(xs)
+            );
+        }
+    };
+
+    constexpr _init init{};
+#endif
 
     //! Insert a value between each pair of elements in a list.
     //! @relates List
@@ -209,14 +279,25 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/list.cpp intersperse
-    BOOST_HANA_CONSTEXPR_LAMBDA auto intersperse = [](auto&& xs, auto&& z) -> decltype(auto) {
-        return List::instance<
-            datatype_t<decltype(xs)>
-        >::intersperse_impl(
-            detail::std::forward<decltype(xs)>(xs),
-            detail::std::forward<decltype(z)>(z)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto intersperse = [](auto&& xs, auto&& z) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _intersperse {
+        template <typename Xs, typename Z>
+        constexpr decltype(auto) operator()(Xs&& xs, Z&& z) const {
+            return List::instance<
+                datatype_t<Xs>
+            >::intersperse_impl(
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<Z>(z)
+            );
+        }
+    };
+
+    constexpr _intersperse intersperse{};
+#endif
 
     namespace list_detail {
         template <typename L>
@@ -251,9 +332,7 @@ namespace boost { namespace hana {
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename L>
     constexpr auto make<L, when<is_a<List, L>()>> = [](auto&& ...xs) -> decltype(auto) {
-        return List::instance<L>::make_impl(
-            std::forward<decltype(xs)>(xs)...
-        );
+        return tag-dispatched;
     };
 #else
     template <typename L>
@@ -295,14 +374,25 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/list.cpp partition
-    BOOST_HANA_CONSTEXPR_LAMBDA auto partition = [](auto&& xs, auto&& predicate) -> decltype(auto) {
-        return List::instance<
-            datatype_t<decltype(xs)>
-        >::partition_impl(
-            detail::std::forward<decltype(xs)>(xs),
-            detail::std::forward<decltype(predicate)>(predicate)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto partition = [](auto&& xs, auto&& predicate) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _partition {
+        template <typename Xs, typename Pred>
+        constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
+            return List::instance<
+                datatype_t<Xs>
+            >::partition_impl(
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<Pred>(pred)
+            );
+        }
+    };
+
+    constexpr _partition partition{};
+#endif
 
     //! Return a list of all the permutations of the given list.
     //! @relates List
@@ -321,11 +411,24 @@ namespace boost { namespace hana {
     //! @bug
     //! We got a performance problem here. Generating the permutations of
     //! a list of more than 3 elements takes a long time (>6s).
-    BOOST_HANA_CONSTEXPR_LAMBDA auto permutations = [](auto&& xs) -> decltype(auto) {
-        return List::instance<
-            datatype_t<decltype(xs)>
-        >::permutations_impl(detail::std::forward<decltype(xs)>(xs));
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto permutations = [](auto&& xs) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _permutations {
+        template <typename Xs>
+        constexpr decltype(auto) operator()(Xs&& xs) const {
+            return List::instance<
+                datatype_t<Xs>
+            >::permutations_impl(
+                detail::std::forward<Xs>(xs)
+            );
+        }
+    };
+
+    constexpr _permutations permutations{};
+#endif
 
     //! Create a list containing `n` copies of a value.
     //! @relates List
@@ -349,28 +452,23 @@ namespace boost { namespace hana {
     //! @snippet example/list.cpp repeat
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename L>
-    BOOST_HANA_CONSTEXPR_LAMBDA auto repeat = [](auto&& n, auto&& x) -> decltype(auto) {
-        return List::instance<L>::repeat_impl(
-            detail::std::forward<decltype(n)>(n),
-            detail::std::forward<decltype(x)>(x)
-        );
+    constexpr auto repeat = [](auto&& n, auto&& x) -> decltype(auto) {
+        return tag-dispatched;
     };
 #else
-    namespace list_detail {
-        template <typename L>
-        struct repeat {
-            template <typename N, typename X>
-            constexpr decltype(auto) operator()(N&& n, X&& x) const {
-                return List::instance<L>::repeat_impl(
-                    detail::std::forward<decltype(n)>(n),
-                    detail::std::forward<decltype(x)>(x)
-                );
-            }
-        };
-    }
+    template <typename L>
+    struct _repeat {
+        template <typename N, typename X>
+        constexpr decltype(auto) operator()(N&& n, X&& x) const {
+            return List::instance<L>::repeat_impl(
+                detail::std::forward<decltype(n)>(n),
+                detail::std::forward<decltype(x)>(x)
+            );
+        }
+    };
 
     template <typename L>
-    constexpr list_detail::repeat<L> repeat{};
+    constexpr _repeat<L> repeat{};
 #endif
 
 
@@ -379,11 +477,24 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/list.cpp reverse
-    BOOST_HANA_CONSTEXPR_LAMBDA auto reverse = [](auto&& xs) -> decltype(auto) {
-        return List::instance<
-            datatype_t<decltype(xs)>
-        >::reverse_impl(detail::std::forward<decltype(xs)>(xs));
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto reverse = [](auto&& xs) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _reverse {
+        template <typename Xs>
+        constexpr decltype(auto) operator()(Xs&& xs) const {
+            return List::instance<
+                datatype_t<Xs>
+            >::reverse_impl(
+                detail::std::forward<Xs>(xs)
+            );
+        }
+    };
+
+    constexpr _reverse reverse{};
+#endif
 
     //! Similar to `foldl`, but returns a list of reduced values from the left.
     //! @relates List
@@ -406,15 +517,26 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/list/scanl.ctime.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto scanl = [](auto&& xs, auto&& state, auto&& f) -> decltype(auto) {
-        return List::instance<
-            datatype_t<decltype(xs)>
-        >::scanl_impl(
-            detail::std::forward<decltype(xs)>(xs),
-            detail::std::forward<decltype(state)>(state),
-            detail::std::forward<decltype(f)>(f)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto scanl = [](auto&& xs, auto&& state, auto&& f) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _scanl {
+        template <typename Xs, typename State, typename F>
+        constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
+            return List::instance<
+                datatype_t<Xs>
+            >::scanl_impl(
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<State>(state),
+                detail::std::forward<F>(f)
+            );
+        }
+    };
+
+    constexpr _scanl scanl{};
+#endif
 
     //! Variant of `scanl` that has no starting value argument.
     //! @relates List
@@ -437,14 +559,25 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/list/scanl1.ctime.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto scanl1 = [](auto&& xs, auto&& f) -> decltype(auto) {
-        return List::instance<
-            datatype_t<decltype(xs)>
-        >::scanl1_impl(
-            detail::std::forward<decltype(xs)>(xs),
-            detail::std::forward<decltype(f)>(f)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto scanl1 = [](auto&& xs, auto&& f) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _scanl1 {
+        template <typename Xs, typename F>
+        constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
+            return List::instance<
+                datatype_t<Xs>
+            >::scanl1_impl(
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<F>(f)
+            );
+        }
+    };
+
+    constexpr _scanl1 scanl1{};
+#endif
 
     //! Similar to `foldr`, but returns a list of reduced values from the right.
     //! @relates List
@@ -467,15 +600,26 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/list/scanr.ctime.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto scanr = [](auto&& xs, auto&& state, auto&& f) -> decltype(auto) {
-        return List::instance<
-            datatype_t<decltype(xs)>
-        >::scanr_impl(
-            detail::std::forward<decltype(xs)>(xs),
-            detail::std::forward<decltype(state)>(state),
-            detail::std::forward<decltype(f)>(f)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto scanr = [](auto&& xs, auto&& state, auto&& f) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _scanr {
+        template <typename Xs, typename State, typename F>
+        constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
+            return List::instance<
+                datatype_t<Xs>
+            >::scanr_impl(
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<State>(state),
+                detail::std::forward<F>(f)
+            );
+        }
+    };
+
+    constexpr _scanr scanr{};
+#endif
 
     //! Variant of `scanr` that has no starting value argument.
     //! @relates List
@@ -498,14 +642,25 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/list/scanr1.ctime.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto scanr1 = [](auto&& xs, auto&& f) -> decltype(auto) {
-        return List::instance<
-            datatype_t<decltype(xs)>
-        >::scanr1_impl(
-            detail::std::forward<decltype(xs)>(xs),
-            detail::std::forward<decltype(f)>(f)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto scanr1 = [](auto&& xs, auto&& f) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _scanr1 {
+        template <typename Xs, typename F>
+        constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
+            return List::instance<
+                datatype_t<Xs>
+            >::scanr1_impl(
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<F>(f)
+            );
+        }
+    };
+
+    constexpr _scanr1 scanr1{};
+#endif
 
     //! Extract a sublist delimited by the given indices.
     //! @relates List
@@ -534,15 +689,26 @@ namespace boost { namespace hana {
     //!
     //! @todo
     //! Should this be `slice(xs, from, length)` instead?
-    BOOST_HANA_CONSTEXPR_LAMBDA auto slice = [](auto&& xs, auto&& from, auto&& to) -> decltype(auto) {
-        return List::instance<
-            datatype_t<decltype(xs)>
-        >::slice_impl(
-            detail::std::forward<decltype(xs)>(xs),
-            detail::std::forward<decltype(from)>(from),
-            detail::std::forward<decltype(to)>(to)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto slice = [](auto&& xs, auto&& from, auto&& to) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _slice {
+        template <typename Xs, typename From, typename To>
+        constexpr decltype(auto) operator()(Xs&& xs, From&& from, To&& to) const {
+            return List::instance<
+                datatype_t<Xs>
+            >::slice_impl(
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<From>(from),
+                detail::std::forward<To>(to)
+            );
+        }
+    };
+
+    constexpr _slice slice{};
+#endif
 
     //! Equivalent to `slice`; provided for convenience.
     //! @relates List
@@ -552,25 +718,19 @@ namespace boost { namespace hana {
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <std::size_t from, std::size_t to>
     constexpr auto slice_c = [](auto&& xs) -> decltype(auto) {
-        return slice(std::forward<decltype(xs)>(xs), size_t<from>, size_t<to>);
+        return slice(forwarded(xs), size_t<from>, size_t<to>);
     };
 #else
-    namespace list_detail {
-        template <detail::std::size_t from, detail::std::size_t to>
-        struct slice_c {
-            template <typename Xs>
-            constexpr decltype(auto) operator()(Xs&& xs) const {
-                return slice(
-                    detail::std::forward<Xs>(xs),
-                    size_t<from>,
-                    size_t<to>
-                );
-            }
-        };
-    }
+    template <detail::std::size_t from, detail::std::size_t to>
+    struct _slice_c {
+        template <typename Xs>
+        constexpr decltype(auto) operator()(Xs&& xs) const {
+            return slice(detail::std::forward<Xs>(xs), size_t<from>, size_t<to>);
+        }
+    };
 
     template <detail::std::size_t from, detail::std::size_t to>
-    constexpr list_detail::slice_c<from, to> slice_c{};
+    constexpr _slice_c<from, to> slice_c{};
 #endif
 
     //! Append an element to the end of a list.
@@ -586,14 +746,25 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/list.cpp snoc
-    BOOST_HANA_CONSTEXPR_LAMBDA auto snoc = [](auto&& xs, auto&& x) -> decltype(auto) {
-        return List::instance<
-            datatype_t<decltype(xs)>
-        >::snoc_impl(
-            detail::std::forward<decltype(xs)>(xs),
-            detail::std::forward<decltype(x)>(x)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto snoc = [](auto&& xs, auto&& x) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _snoc {
+        template <typename Xs, typename X>
+        constexpr decltype(auto) operator()(Xs&& xs, X&& x) const {
+            return List::instance<
+                datatype_t<Xs>
+            >::snoc_impl(
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<X>(x)
+            );
+        }
+    };
+
+    constexpr _snoc snoc{};
+#endif
 
     //! Sort a list based on the `less` [strict weak ordering](@ref strict_weak_ordering).
     //! @relates List
@@ -608,11 +779,24 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/list/sort.ctime.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto sort = [](auto&& xs) -> decltype(auto) {
-        return List::instance<
-            datatype_t<decltype(xs)>
-        >::sort_impl(detail::std::forward<decltype(xs)>(xs));
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto sort = [](auto&& xs) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _sort {
+        template <typename Xs>
+        constexpr decltype(auto) operator()(Xs&& xs) const {
+            return List::instance<
+                datatype_t<Xs>
+            >::sort_impl(
+                detail::std::forward<Xs>(xs)
+            );
+        }
+    };
+
+    constexpr _sort sort{};
+#endif
 
     //! Sort a list based on the given `predicate`.
     //! @relates List
@@ -635,14 +819,25 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/list.cpp sort_by
-    BOOST_HANA_CONSTEXPR_LAMBDA auto sort_by = [](auto&& predicate, auto&& xs) -> decltype(auto) {
-        return List::instance<
-            datatype_t<decltype(xs)>
-        >::sort_by_impl(
-            detail::std::forward<decltype(predicate)>(predicate),
-            detail::std::forward<decltype(xs)>(xs)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto sort_by = [](auto&& predicate, auto&& xs) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _sort_by {
+        template <typename Pred, typename Xs>
+        constexpr decltype(auto) operator()(Pred&& pred, Xs&& xs) const {
+            return List::instance<
+                datatype_t<Xs>
+            >::sort_by_impl(
+                detail::std::forward<Pred>(pred),
+                detail::std::forward<Xs>(xs)
+            );
+        }
+    };
+
+    constexpr _sort_by sort_by{};
+#endif
 
     //! Return a `Product` containing the longest prefix of a list satisfying
     //! a predicate, and the rest of the list.
@@ -674,14 +869,25 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/list.cpp span
-    BOOST_HANA_CONSTEXPR_LAMBDA auto span = [](auto&& xs, auto&& predicate) -> decltype(auto) {
-        return List::instance<
-            datatype_t<decltype(xs)>
-        >::span_impl(
-            detail::std::forward<decltype(xs)>(xs),
-            detail::std::forward<decltype(predicate)>(predicate)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto span = [](auto&& xs, auto&& predicate) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _span {
+        template <typename Xs, typename Pred>
+        constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
+            return List::instance<
+                datatype_t<Xs>
+            >::span_impl(
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<Pred>(pred)
+            );
+        }
+    };
+
+    constexpr _span span{};
+#endif
 
     //! Return a list containing the first `n` elements of a list.
     //! @relates List
@@ -701,14 +907,25 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/list/take.ctime.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto take = [](auto&& n, auto&& xs) -> decltype(auto) {
-        return List::instance<
-            datatype_t<decltype(xs)>
-        >::take_impl(
-            detail::std::forward<decltype(n)>(n),
-            detail::std::forward<decltype(xs)>(xs)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto take = [](auto&& n, auto&& xs) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _take {
+        template <typename N, typename Xs>
+        constexpr decltype(auto) operator()(N&& n, Xs&& xs) const {
+            return List::instance<
+                datatype_t<Xs>
+            >::take_impl(
+                detail::std::forward<N>(n),
+                detail::std::forward<Xs>(xs)
+            );
+        }
+    };
+
+    constexpr _take take{};
+#endif
 
     //! Equivalent to `take`; provided for convenience.
     //! @relates List
@@ -718,21 +935,19 @@ namespace boost { namespace hana {
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <std::size_t n>
     constexpr auto take_c = [](auto&& xs) -> decltype(auto) {
-        return take(size_t<n>, std::forward<decltype(xs)>(xs));
+        return take(size_t<n>, forwarded(xs));
     };
 #else
-    namespace list_detail {
-        template <detail::std::size_t n>
-        struct take_c {
-            template <typename Xs>
-            constexpr decltype(auto) operator()(Xs&& xs) const {
-                return take(size_t<n>, detail::std::forward<Xs>(xs));
-            }
-        };
-    }
+    template <detail::std::size_t n>
+    struct _take_c {
+        template <typename Xs>
+        constexpr decltype(auto) operator()(Xs&& xs) const {
+            return take(size_t<n>, detail::std::forward<Xs>(xs));
+        }
+    };
 
     template <detail::std::size_t n>
-    constexpr list_detail::take_c<n> take_c{};
+    constexpr _take_c<n> take_c{};
 #endif
 
     //! Take elements until the `predicate` is satisfied.
@@ -759,14 +974,25 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/list/take_until.ctime.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto take_until = [](auto&& xs, auto&& predicate) -> decltype(auto) {
-        return List::instance<
-            datatype_t<decltype(xs)>
-        >::take_until_impl(
-            detail::std::forward<decltype(xs)>(xs),
-            detail::std::forward<decltype(predicate)>(predicate)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto take_until = [](auto&& xs, auto&& predicate) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _take_until {
+        template <typename Xs, typename Pred>
+        constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
+            return List::instance<
+                datatype_t<Xs>
+            >::take_until_impl(
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<Pred>(pred)
+            );
+        }
+    };
+
+    constexpr _take_until take_until{};
+#endif
 
     //! Take elements while the `predicate` is satisfied.
     //! @relates List
@@ -791,38 +1017,25 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/list/take_while.ctime.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto take_while = [](auto&& xs, auto&& predicate) -> decltype(auto) {
-        return List::instance<
-            datatype_t<decltype(xs)>
-        >::take_while_impl(
-            detail::std::forward<decltype(xs)>(xs),
-            detail::std::forward<decltype(predicate)>(predicate)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto take_while = [](auto&& xs, auto&& predicate) -> decltype(auto) {
+        return tag-dispatched;
+    };
+#else
+    struct _take_while {
+        template <typename Xs, typename Pred>
+        constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
+            return List::instance<
+                datatype_t<Xs>
+            >::take_while_impl(
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<Pred>(pred)
+            );
+        }
     };
 
-    namespace list_detail {
-        template <typename L>
-        struct unfoldr {
-            template <typename F, typename Initial>
-            constexpr decltype(auto) operator()(F&& f, Initial&& initial) const {
-                return List::instance<L>::unfoldr_impl(
-                    detail::std::forward<decltype(f)>(f),
-                    detail::std::forward<decltype(initial)>(initial)
-                );
-            }
-        };
-
-        template <typename L>
-        struct unfoldl {
-            template <typename F, typename Initial>
-            constexpr decltype(auto) operator()(F&& f, Initial&& initial) const {
-                return List::instance<L>::unfoldl_impl(
-                    detail::std::forward<decltype(f)>(f),
-                    detail::std::forward<decltype(initial)>(initial)
-                );
-            }
-        };
-    }
+    constexpr _take_while take_while{};
+#endif
 
     //! Dual to `foldl` for lists.
     //! @relates List
@@ -860,14 +1073,22 @@ namespace boost { namespace hana {
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename L>
     constexpr auto unfoldl = [](auto&& f, auto&& init) -> decltype(auto) {
-        return List::instance<L>::unfoldl_impl(
-            std::forward<decltype(f)>(f),
-            std::forward<decltype(init)>(init)
-        );
+        return tag-dispatched;
     };
 #else
     template <typename L>
-    constexpr list_detail::unfoldl<L> unfoldl{};
+    struct _unfoldl {
+        template <typename F, typename Initial>
+        constexpr decltype(auto) operator()(F&& f, Initial&& initial) const {
+            return List::instance<L>::unfoldl_impl(
+                detail::std::forward<decltype(f)>(f),
+                detail::std::forward<decltype(initial)>(initial)
+            );
+        }
+    };
+
+    template <typename L>
+    constexpr _unfoldl<L> unfoldl{};
 #endif
 
     //! Dual to `foldr` for lists.
@@ -906,14 +1127,22 @@ namespace boost { namespace hana {
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename L>
     constexpr auto unfoldr = [](auto&& f, auto&& init) -> decltype(auto) {
-        return List::instance<L>::unfoldr_impl(
-            std::forward<decltype(f)>(f),
-            std::forward<decltype(init)>(init)
-        );
+        return tag-dispatched;
     };
 #else
     template <typename L>
-    constexpr list_detail::unfoldr<L> unfoldr{};
+    struct _unfoldr {
+        template <typename F, typename Initial>
+        constexpr decltype(auto) operator()(F&& f, Initial&& initial) const {
+            return List::instance<L>::unfoldr_impl(
+                detail::std::forward<decltype(f)>(f),
+                detail::std::forward<decltype(initial)>(initial)
+            );
+        }
+    };
+
+    template <typename L>
+    constexpr _unfoldr<L> unfoldr{};
 #endif
 
 
@@ -934,11 +1163,24 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/list.cpp unzip
-    BOOST_HANA_CONSTEXPR_LAMBDA auto unzip = [](auto&& xs) -> decltype(auto) {
-        return List::instance<
-            datatype_t<decltype(xs)>
-        >::unzip_impl(detail::std::forward<decltype(xs)>(xs));
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto unzip = [](auto&& xs) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _unzip {
+        template <typename Xs>
+        constexpr decltype(auto) operator()(Xs&& xs) const {
+            return List::instance<
+                datatype_t<Xs>
+            >::unzip_impl(
+                detail::std::forward<Xs>(xs)
+            );
+        }
+    };
+
+    constexpr _unzip unzip{};
+#endif
 
     //! Zip one list or more.
     //! @relates List
@@ -951,14 +1193,25 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/list.cpp zip
-    BOOST_HANA_CONSTEXPR_LAMBDA auto zip = [](auto&& xs, auto&& ...ys) -> decltype(auto) {
-        return List::instance<
-            datatype_t<decltype(xs)>
-        >::zip_impl(
-            detail::std::forward<decltype(xs)>(xs),
-            detail::std::forward<decltype(ys)>(ys)...
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto zip = [](auto&& xs, auto&& ...ys) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _zip {
+        template <typename Xs, typename ...Ys>
+        constexpr decltype(auto) operator()(Xs&& xs, Ys&& ...ys) const {
+            return List::instance<
+                datatype_t<Xs>
+            >::zip_impl(
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<Ys>(ys)...
+            );
+        }
+    };
+
+    constexpr _zip zip{};
+#endif
 
     //! Zip one list or more with a given function.
     //! @relates List
@@ -997,15 +1250,26 @@ namespace boost { namespace hana {
     //! in some other way. This would make it possible to automatically curry
     //! `zip_with`. It might be possible to achieve the variadic behavior with
     //! e.g. Applicative Functors?
-    BOOST_HANA_CONSTEXPR_LAMBDA auto zip_with = [](auto&& f, auto&& xs, auto&& ...ys) -> decltype(auto) {
-        return List::instance<
-            datatype_t<decltype(xs)>
-        >::zip_with_impl(
-            detail::std::forward<decltype(f)>(f),
-            detail::std::forward<decltype(xs)>(xs),
-            detail::std::forward<decltype(ys)>(ys)...
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto zip_with = [](auto&& f, auto&& xs, auto&& ...ys) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _zip_with {
+        template <typename F, typename Xs, typename ...Ys>
+        constexpr decltype(auto) operator()(F&& f, Xs&& xs, Ys&& ...ys) const {
+            return List::instance<
+                datatype_t<Xs>
+            >::zip_with_impl(
+                detail::std::forward<F>(f),
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<Ys>(ys)...
+            );
+        }
+    };
+
+    constexpr _zip_with zip_with{};
+#endif
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_LIST_HPP

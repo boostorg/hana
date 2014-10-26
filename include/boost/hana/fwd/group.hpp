@@ -12,7 +12,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/typeclass.hpp>
-#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -55,14 +54,25 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/group.cpp minus
-    BOOST_HANA_CONSTEXPR_LAMBDA auto minus = [](auto&& x, auto&& y) -> decltype(auto) {
-        return Group::instance<
-            datatype_t<decltype(x)>, datatype_t<decltype(y)>
-        >::minus_impl(
-            detail::std::forward<decltype(x)>(x),
-            detail::std::forward<decltype(y)>(y)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto minus = [](auto&& x, auto&& y) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _minus {
+        template <typename X, typename Y>
+        constexpr decltype(auto) operator()(X&& x, Y&& y) const {
+            return Group::instance<
+                datatype_t<X>, datatype_t<Y>
+            >::minus_impl(
+                detail::std::forward<X>(x),
+                detail::std::forward<Y>(y)
+            );
+        }
+    };
+
+    constexpr _minus minus{};
+#endif
 
     //! Return the inverse of an element of a group.
     //! @relates Group
@@ -73,11 +83,24 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/group.cpp negate
-    BOOST_HANA_CONSTEXPR_LAMBDA auto negate = [](auto&& x) -> decltype(auto) {
-        return Group::instance<
-            datatype_t<decltype(x)>, datatype_t<decltype(x)>
-        >::negate_impl(detail::std::forward<decltype(x)>(x));
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto negate = [](auto&& x) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _negate {
+        template <typename X>
+        constexpr decltype(auto) operator()(X&& x) const {
+            return Group::instance<
+                datatype_t<X>, datatype_t<X>
+            >::negate_impl(
+                detail::std::forward<X>(x)
+            );
+        }
+    };
+
+    constexpr _negate negate{};
+#endif
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_GROUP_HPP

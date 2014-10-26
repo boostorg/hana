@@ -16,24 +16,32 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/functional/always.hpp>
 
 
 namespace boost { namespace hana {
     //! Minimal complete definition: `eval_if` and `not_`
     struct Logical::mcd {
+        //! @todo How to forward `x` here? Since the arguments to `if_` can be
+        //! evaluated in any order, we have to be careful not to use `x` in
+        //! a moved-from state.
         template <typename X, typename Y>
-        static constexpr auto or_impl(X x, Y y)
-        { return if_(x, x, y); }
+        static constexpr decltype(auto) or_impl(X&& x, Y&& y) {
+            return if_(x, x, detail::std::forward<Y>(y));
+        }
 
         template <typename X, typename Y>
-        static constexpr auto and_impl(X x, Y y)
-        { return if_(x, y, x); }
+        static constexpr decltype(auto) and_impl(X&& x, Y&& y) {
+            return if_(x, detail::std::forward<Y>(y), x);
+        }
 
+        //! @todo By using `always` here, we create a copy of both `t` and `e`,
+        //! which is not very smart.
         template <typename C, typename T, typename E>
-        static constexpr auto if_impl(C c, T t, E e) {
-            return eval_if(c,
-                [=](auto) { return t; },
-                [=](auto) { return e; }
+        static constexpr decltype(auto) if_impl(C&& c, T&& t, E&& e) {
+            return eval_if(detail::std::forward<C>(c),
+                always(detail::std::forward<T>(t)),
+                always(detail::std::forward<E>(e))
             );
         }
     };

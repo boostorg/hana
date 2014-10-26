@@ -12,7 +12,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/typeclass.hpp>
-#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -60,14 +59,23 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/functor/fmap.ctime.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto fmap = [](auto&& functor, auto&& f) -> decltype(auto) {
-        return Functor::instance<
-            datatype_t<decltype(functor)>
-        >::fmap_impl(
-            detail::std::forward<decltype(functor)>(functor),
-            detail::std::forward<decltype(f)>(f)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto fmap = [](auto&& functor, auto&& f) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _fmap {
+        template <typename Xs, typename F>
+        constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
+            return Functor::instance<datatype_t<Xs>>::fmap_impl(
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<F>(f)
+            );
+        }
+    };
+
+    constexpr _fmap fmap{};
+#endif
 
     //! Apply a function on all the elements of a structure satisfying a
     //! `predicate`.
@@ -92,15 +100,24 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/functor/adjust.ctime.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto adjust = [](auto&& functor, auto&& predicate, auto&& f) -> decltype(auto) {
-        return Functor::instance<
-            datatype_t<decltype(functor)>
-        >::adjust_impl(
-            detail::std::forward<decltype(functor)>(functor),
-            detail::std::forward<decltype(predicate)>(predicate),
-            detail::std::forward<decltype(f)>(f)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto adjust = [](auto&& functor, auto&& predicate, auto&& f) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _adjust {
+        template <typename Xs, typename Pred, typename F>
+        constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred, F&& f) const {
+            return Functor::instance<datatype_t<Xs>>::adjust_impl(
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<Pred>(pred),
+                detail::std::forward<F>(f)
+            );
+        }
+    };
+
+    constexpr _adjust adjust{};
+#endif
 
     //! Replace all the elements of a structure satisfying a `predicate`
     //! with a fixed value.
@@ -125,15 +142,24 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/functor/replace.ctime.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto replace = [](auto&& functor, auto&& predicate, auto&& value) -> decltype(auto) {
-        return Functor::instance<
-            datatype_t<decltype(functor)>
-        >::replace_impl(
-            detail::std::forward<decltype(functor)>(functor),
-            detail::std::forward<decltype(predicate)>(predicate),
-            detail::std::forward<decltype(value)>(value)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto replace = [](auto&& functor, auto&& predicate, auto&& value) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _replace {
+        template <typename Xs, typename Pred, typename Value>
+        constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred, Value&& value) const {
+            return Functor::instance<datatype_t<Xs>>::replace_impl(
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<Pred>(pred),
+                detail::std::forward<Value>(value)
+            );
+        }
+    };
+
+    constexpr _replace replace{};
+#endif
 
     //! Replace all the elements of a structure with a fixed value.
     //! @relates Functor
@@ -152,26 +178,23 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/functor/fill.ctime.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto fill = [](auto&& functor, auto&& value) -> decltype(auto) {
-        return Functor::instance<
-            datatype_t<decltype(functor)>
-        >::fill_impl(
-            detail::std::forward<decltype(functor)>(functor),
-            detail::std::forward<decltype(value)>(value)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto fill = [](auto&& functor, auto&& value) -> decltype(auto) {
+        return tag-dispatched;
+    };
+#else
+    struct _fill {
+        template <typename Xs, typename Value>
+        constexpr decltype(auto) operator()(Xs&& xs, Value&& value) const {
+            return Functor::instance<datatype_t<Xs>>::fill_impl(
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<Value>(value)
+            );
+        }
     };
 
-    namespace functor_detail {
-        struct common {
-            template <typename F, typename Pred, typename Value>
-            static constexpr auto replace_impl(F functor, Pred pred, Value v)
-            { return adjust(functor, pred, [=](auto) { return v; }); }
-
-            template <typename F, typename Value>
-            static constexpr auto fill_impl(F functor, Value v)
-            { return fmap(functor, [=](auto) { return v; }); }
-        };
-    }
+    constexpr _fill fill{};
+#endif
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_FUNCTOR_HPP

@@ -12,7 +12,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/typeclass.hpp>
-#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -47,14 +46,25 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/ring.cpp mult
-    BOOST_HANA_CONSTEXPR_LAMBDA auto mult = [](auto&& x, auto&& y) -> decltype(auto) {
-        return Ring::instance<
-            datatype_t<decltype(x)>, datatype_t<decltype(y)>
-        >::mult_impl(
-            detail::std::forward<decltype(x)>(x),
-            detail::std::forward<decltype(y)>(y)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto mult = [](auto&& x, auto&& y) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _mult {
+        template <typename X, typename Y>
+        constexpr decltype(auto) operator()(X&& x, Y&& y) const {
+            return Ring::instance<
+                datatype_t<X>, datatype_t<Y>
+            >::mult_impl(
+                detail::std::forward<X>(x),
+                detail::std::forward<Y>(y)
+            );
+        }
+    };
+
+    constexpr _mult mult{};
+#endif
 
     //! Identity of `mult`.
     //! @relates Ring
@@ -69,7 +79,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/ring.cpp one
     template <typename R>
-    BOOST_HANA_CONSTEXPR_LAMBDA auto one = Ring::instance<R, R>::one_impl();
+    constexpr auto one = Ring::instance<R, R>::one_impl();
 
     //! Power of a `Ring` element.
     //! @relates Ring
@@ -92,14 +102,25 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/ring.cpp power
-    BOOST_HANA_CONSTEXPR_LAMBDA auto power = [](auto&& r, auto&& p) -> decltype(auto) {
-        return Ring::instance<
-            datatype_t<decltype(r)>, datatype_t<decltype(r)>
-        >::power_impl(
-            detail::std::forward<decltype(r)>(r),
-            detail::std::forward<decltype(p)>(p)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto power = [](auto&& r, auto&& p) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _power {
+        template <typename R, typename P>
+        constexpr decltype(auto) operator()(R&& r, P&& p) const {
+            return Ring::instance<
+                datatype_t<R>, datatype_t<R>
+            >::power_impl(
+                detail::std::forward<R>(r),
+                detail::std::forward<P>(p)
+            );
+        }
+    };
+
+    constexpr _power power{};
+#endif
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_RING_HPP

@@ -14,6 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/typeclass.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/functional/flip.hpp>
 #include <boost/hana/functional/infix.hpp>
 
 
@@ -67,14 +68,25 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/searchable/any.ctime.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto any = [](auto&& searchable, auto&& predicate) -> decltype(auto) {
-        return Searchable::instance<
-            datatype_t<decltype(searchable)>
-        >::any_impl(
-            detail::std::forward<decltype(searchable)>(searchable),
-            detail::std::forward<decltype(predicate)>(predicate)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto any = [](auto&& searchable, auto&& predicate) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _any {
+        template <typename S, typename Pred>
+        constexpr decltype(auto) operator()(S&& searchable, Pred&& pred) const {
+            return Searchable::instance<
+                datatype_t<S>
+            >::any_impl(
+                detail::std::forward<S>(searchable),
+                detail::std::forward<Pred>(pred)
+            );
+        }
+    };
+
+    constexpr _any any{};
+#endif
 
     //! Return whether any key of the structure is true-valued.
     //! @relates Searchable
@@ -85,11 +97,24 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/searchable.cpp any_of
-    BOOST_HANA_CONSTEXPR_LAMBDA auto any_of = [](auto&& searchable) -> decltype(auto) {
-        return Searchable::instance<
-            datatype_t<decltype(searchable)>
-        >::any_of_impl(detail::std::forward<decltype(searchable)>(searchable));
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto any_of = [](auto&& searchable) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _any_of {
+        template <typename S>
+        constexpr decltype(auto) operator()(S&& searchable) const {
+            return Searchable::instance<
+                datatype_t<S>
+            >::any_of_impl(
+                detail::std::forward<S>(searchable)
+            );
+        }
+    };
+
+    constexpr _any_of any_of{};
+#endif
 
     //! Return whether all the keys of the structure satisfy the `predicate`.
     //! @relates Searchable
@@ -112,14 +137,25 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/searchable/all.ctime.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto all = [](auto&& searchable, auto&& predicate) -> decltype(auto) {
-        return Searchable::instance<
-            datatype_t<decltype(searchable)>
-        >::all_impl(
-            detail::std::forward<decltype(searchable)>(searchable),
-            detail::std::forward<decltype(predicate)>(predicate)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto all = [](auto&& searchable, auto&& predicate) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _all {
+        template <typename S, typename Pred>
+        constexpr decltype(auto) operator()(S&& searchable, Pred&& pred) const {
+            return Searchable::instance<
+                datatype_t<S>
+            >::all_impl(
+                detail::std::forward<S>(searchable),
+                detail::std::forward<Pred>(pred)
+            );
+        }
+    };
+
+    constexpr _all all{};
+#endif
 
     //! Return whether all the keys of the structure are true-valued.
     //! @relates Searchable
@@ -130,11 +166,24 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/searchable.cpp all_of
-    BOOST_HANA_CONSTEXPR_LAMBDA auto all_of = [](auto&& searchable) -> decltype(auto) {
-        return Searchable::instance<
-            datatype_t<decltype(searchable)>
-        >::all_of_impl(detail::std::forward<decltype(searchable)>(searchable));
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto all_of = [](auto&& searchable) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _all_of {
+        template <typename S>
+        constexpr decltype(auto) operator()(S&& searchable) const {
+            return Searchable::instance<
+                datatype_t<S>
+            >::all_of_impl(
+                detail::std::forward<S>(searchable)
+            );
+        }
+    };
+
+    constexpr _all_of all_of{};
+#endif
 
     //! Return whether none of the keys of the structure satisfy the
     //! `predicate`.
@@ -158,14 +207,25 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/searchable/none.ctime.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto none = [](auto&& searchable, auto&& predicate) -> decltype(auto) {
-        return Searchable::instance<
-            datatype_t<decltype(searchable)>
-        >::none_impl(
-            detail::std::forward<decltype(searchable)>(searchable),
-            detail::std::forward<decltype(predicate)>(predicate)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto none = [](auto&& searchable, auto&& predicate) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _none {
+        template <typename S, typename Pred>
+        constexpr decltype(auto) operator()(S&& searchable, Pred&& pred) const {
+            return Searchable::instance<
+                datatype_t<S>
+            >::none_impl(
+                detail::std::forward<S>(searchable),
+                detail::std::forward<Pred>(pred)
+            );
+        }
+    };
+
+    constexpr _none none{};
+#endif
 
     //! Return whether all of the keys of the structure are false-valued.
     //! @relates Searchable
@@ -176,11 +236,24 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/searchable.cpp none_of
-    BOOST_HANA_CONSTEXPR_LAMBDA auto none_of = [](auto&& searchable) -> decltype(auto) {
-        return Searchable::instance<
-            datatype_t<decltype(searchable)>
-        >::none_of_impl(detail::std::forward<decltype(searchable)>(searchable));
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto none_of = [](auto&& searchable) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _none_of {
+        template <typename S>
+        constexpr decltype(auto) operator()(S&& searchable) const {
+            return Searchable::instance<
+                datatype_t<S>
+            >::none_of_impl(
+                detail::std::forward<S>(searchable)
+            );
+        }
+    };
+
+    constexpr _none_of none_of{};
+#endif
 
     //! Return whether the key occurs in the structure.
     //! @relates Searchable
@@ -204,14 +277,25 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/searchable/elem.ctime.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto elem = [](auto&& searchable, auto&& key) -> decltype(auto) {
-        return Searchable::instance<
-            datatype_t<decltype(searchable)>
-        >::elem_impl(
-            detail::std::forward<decltype(searchable)>(searchable),
-            detail::std::forward<decltype(key)>(key)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto elem = [](auto&& searchable, auto&& key) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _elem {
+        template <typename S, typename Key>
+        constexpr decltype(auto) operator()(S&& searchable, Key&& key) const {
+            return Searchable::instance<
+                datatype_t<S>
+            >::elem_impl(
+                detail::std::forward<S>(searchable),
+                detail::std::forward<Key>(key)
+            );
+        }
+    };
+
+    constexpr _elem elem{};
+#endif
 
     //! Find the value associated to the first key satisfying a predicate.
     //! @relates Searchable
@@ -237,14 +321,25 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/searchable/find.ctime.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto find = [](auto&& searchable, auto&& predicate) -> decltype(auto) {
-        return Searchable::instance<
-            datatype_t<decltype(searchable)>
-        >::find_impl(
-            detail::std::forward<decltype(searchable)>(searchable),
-            detail::std::forward<decltype(predicate)>(predicate)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto find = [](auto&& searchable, auto&& predicate) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _find {
+        template <typename S, typename Pred>
+        constexpr decltype(auto) operator()(S&& searchable, Pred&& pred) const {
+            return Searchable::instance<
+                datatype_t<S>
+            >::find_impl(
+                detail::std::forward<S>(searchable),
+                detail::std::forward<Pred>(pred)
+            );
+        }
+    };
+
+    constexpr _find find{};
+#endif
 
     //! Find the value associated to the given key in a structure.
     //! @relates Searchable
@@ -271,14 +366,25 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/searchable/lookup.ctime.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto lookup = [](auto&& searchable, auto&& key) -> decltype(auto) {
-        return Searchable::instance<
-            datatype_t<decltype(searchable)>
-        >::lookup_impl(
-            detail::std::forward<decltype(searchable)>(searchable),
-            detail::std::forward<decltype(key)>(key)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto lookup = [](auto&& searchable, auto&& key) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _lookup {
+        template <typename S, typename Key>
+        constexpr decltype(auto) operator()(S&& searchable, Key&& key) const {
+            return Searchable::instance<
+                datatype_t<S>
+            >::lookup_impl(
+                detail::std::forward<S>(searchable),
+                detail::std::forward<Key>(key)
+            );
+        }
+    };
+
+    constexpr _lookup lookup{};
+#endif
 
     //! Return whether the key occurs in the structure.
     //! @relates Searchable
@@ -288,22 +394,9 @@ namespace boost { namespace hana {
     //! This function is not a method that can be overriden; it is just a
     //! convenience function provided with the type class.
     //!
-    //! @param searchable
-    //! The structure to search.
-    //!
-    //! @param key
-    //! A key to be searched for in the structure. The key has to be
-    //! `Comparable` with the other keys of the structure.
-    //!
-    //!
     //! ### Example
     //! @snippet example/searchable.cpp in
-    BOOST_HANA_CONSTEXPR_LAMBDA auto in = infix([](auto&& key, auto&& searchable) -> decltype(auto) {
-        return elem(
-            detail::std::forward<decltype(searchable)>(searchable),
-            detail::std::forward<decltype(key)>(key)
-        );
-    });
+    constexpr auto in = infix(flip(elem));
 
     //! Return whether a structure contains a subset of the keys of
     //! another structure.
@@ -329,14 +422,25 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/searchable/subset.ctime.png
-    BOOST_HANA_CONSTEXPR_LAMBDA auto subset = [](auto&& xs, auto&& ys) -> decltype(auto) {
-        return Searchable::instance<
-            datatype_t<decltype(xs)>
-        >::subset_impl(
-            detail::std::forward<decltype(xs)>(xs),
-            detail::std::forward<decltype(ys)>(ys)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto subset = [](auto&& xs, auto&& ys) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _subset {
+        template <typename Xs, typename Ys>
+        constexpr decltype(auto) operator()(Xs&& xs, Ys&& ys) const {
+            return Searchable::instance<
+                datatype_t<Xs>
+            >::subset_impl(
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<Ys>(ys)
+            );
+        }
+    };
+
+    constexpr _subset subset{};
+#endif
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_SEARCHABLE_HPP

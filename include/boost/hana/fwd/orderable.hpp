@@ -12,7 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/typeclass.hpp>
-#include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -50,14 +50,25 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/orderable.cpp less
-    BOOST_HANA_CONSTEXPR_LAMBDA auto less = [](auto&& x, auto&& y) -> decltype(auto) {
-        return Orderable::instance<
-            datatype_t<decltype(x)>, datatype_t<decltype(y)>
-        >::less_impl(
-            detail::std::forward<decltype(x)>(x),
-            detail::std::forward<decltype(y)>(y)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto less = [](auto&& x, auto&& y) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _less {
+        template <typename X, typename Y>
+        constexpr decltype(auto) operator()(X&& x, Y&& y) const {
+            return Orderable::instance<
+                datatype_t<X>, datatype_t<Y>
+            >::less_impl(
+                detail::std::forward<X>(x),
+                detail::std::forward<Y>(y)
+            );
+        }
+    };
+
+    constexpr _less less{};
+#endif
 
     //! Returns a `Logical` representing whether `x` is less than or
     //! equal to `y`.
@@ -65,28 +76,50 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/orderable.cpp less_equal
-    BOOST_HANA_CONSTEXPR_LAMBDA auto less_equal = [](auto&& x, auto&& y) -> decltype(auto) {
-        return Orderable::instance<
-            datatype_t<decltype(x)>, datatype_t<decltype(y)>
-        >::less_equal_impl(
-            detail::std::forward<decltype(x)>(x),
-            detail::std::forward<decltype(y)>(y)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto less_equal = [](auto&& x, auto&& y) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _less_equal {
+        template <typename X, typename Y>
+        constexpr decltype(auto) operator()(X&& x, Y&& y) const {
+            return Orderable::instance<
+                datatype_t<X>, datatype_t<Y>
+            >::less_equal_impl(
+                detail::std::forward<X>(x),
+                detail::std::forward<Y>(y)
+            );
+        }
+    };
+
+    constexpr _less_equal less_equal{};
+#endif
 
     //! Returns a `Logical` representing whether `x` is greater than `y`.
     //! @relates Orderable
     //!
     //! ### Example
     //! @snippet example/orderable.cpp greater
-    BOOST_HANA_CONSTEXPR_LAMBDA auto greater = [](auto&& x, auto&& y) -> decltype(auto) {
-        return Orderable::instance<
-            datatype_t<decltype(x)>, datatype_t<decltype(y)>
-        >::greater_impl(
-            detail::std::forward<decltype(x)>(x),
-            detail::std::forward<decltype(y)>(y)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto greater = [](auto&& x, auto&& y) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _greater {
+        template <typename X, typename Y>
+        constexpr decltype(auto) operator()(X&& x, Y&& y) const {
+            return Orderable::instance<
+                datatype_t<X>, datatype_t<Y>
+            >::greater_impl(
+                detail::std::forward<X>(x),
+                detail::std::forward<Y>(y)
+            );
+        }
+    };
+
+    constexpr _greater greater{};
+#endif
 
     //! Returns a `Logical` representing whether `x` is greater than or
     //! equal to `y`.
@@ -94,42 +127,75 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/orderable.cpp greater_equal
-    BOOST_HANA_CONSTEXPR_LAMBDA auto greater_equal = [](auto&& x, auto&& y) -> decltype(auto) {
-        return Orderable::instance<
-            datatype_t<decltype(x)>, datatype_t<decltype(y)>
-        >::greater_equal_impl(
-            detail::std::forward<decltype(x)>(x),
-            detail::std::forward<decltype(y)>(y)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto greater_equal = [](auto&& x, auto&& y) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _greater_equal {
+        template <typename X, typename Y>
+        constexpr decltype(auto) operator()(X&& x, Y&& y) const {
+            return Orderable::instance<
+                datatype_t<X>, datatype_t<Y>
+            >::greater_equal_impl(
+                detail::std::forward<X>(x),
+                detail::std::forward<Y>(y)
+            );
+        }
+    };
+
+    constexpr _greater_equal greater_equal{};
+#endif
 
     //! Returns the smallest of its arguments according to the `less` ordering.
     //! @relates Orderable
     //!
     //! ### Example
     //! @snippet example/orderable.cpp min
-    BOOST_HANA_CONSTEXPR_LAMBDA auto min = [](auto&& x, auto&& y) -> decltype(auto) {
-        return Orderable::instance<
-            datatype_t<decltype(x)>, datatype_t<decltype(y)>
-        >::min_impl(
-            detail::std::forward<decltype(x)>(x),
-            detail::std::forward<decltype(y)>(y)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto min = [](auto&& x, auto&& y) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _min {
+        template <typename X, typename Y>
+        constexpr decltype(auto) operator()(X&& x, Y&& y) const {
+            return Orderable::instance<
+                datatype_t<X>, datatype_t<Y>
+            >::min_impl(
+                detail::std::forward<X>(x),
+                detail::std::forward<Y>(y)
+            );
+        }
+    };
+
+    constexpr _min min{};
+#endif
 
     //! Returns the greatest of its arguments according to the `less` ordering.
     //! @relates Orderable
     //!
     //! ### Example
     //! @snippet example/orderable.cpp max
-    BOOST_HANA_CONSTEXPR_LAMBDA auto max = [](auto&& x, auto&& y) -> decltype(auto) {
-        return Orderable::instance<
-            datatype_t<decltype(x)>, datatype_t<decltype(y)>
-        >::max_impl(
-            detail::std::forward<decltype(x)>(x),
-            detail::std::forward<decltype(y)>(y)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto max = [](auto&& x, auto&& y) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _max {
+        template <typename X, typename Y>
+        constexpr decltype(auto) operator()(X&& x, Y&& y) const {
+            return Orderable::instance<
+                datatype_t<X>, datatype_t<Y>
+            >::max_impl(
+                detail::std::forward<X>(x),
+                detail::std::forward<Y>(y)
+            );
+        }
+    };
+
+    constexpr _max max{};
+#endif
 
     //! Returns a function performing `less` after applying a transformation
     //! to both arguments.
@@ -143,14 +209,34 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/orderable.cpp ordering
-    BOOST_HANA_CONSTEXPR_LAMBDA auto ordering = [](auto&& f) -> decltype(auto) {
-        return [f(detail::std::forward<decltype(f)>(f))](auto&& x, auto&& y) -> decltype(auto) {
-            return less(
-                f(detail::std::forward<decltype(x)>(x)),
-                f(detail::std::forward<decltype(y)>(y))
-            );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto ordering = [](auto&& f) {
+        return [perfect-capture](auto&& x, auto&& y) -> decltype(auto) {
+            return less(f(forwarded(x)), f(forwarded(y)));
         };
     };
+#else
+    template <typename F>
+    struct _ordering {
+        F f;
+        template <typename X, typename Y>
+        constexpr decltype(auto) operator()(X&& x, Y&& y) const& {
+            return less(
+                f(detail::std::forward<X>(x)),
+                f(detail::std::forward<Y>(y))
+            );
+        }
+        template <typename X, typename Y>
+        constexpr decltype(auto) operator()(X&& x, Y&& y) & {
+            return less(
+                f(detail::std::forward<X>(x)),
+                f(detail::std::forward<Y>(y))
+            );
+        }
+    };
+
+    constexpr detail::create<_ordering> ordering{};
+#endif
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_ORDERABLE_HPP

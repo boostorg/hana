@@ -59,9 +59,7 @@ namespace boost { namespace hana {
     //! @snippet example/constant.cpp value
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto value = [](auto&& constant) -> decltype(auto) {
-        return Constant::instance<
-            datatype_t<decltype(constant)>
-        >::value_impl(detail::std::forward<decltype(constant)>(constant));
+        return tag-dispatched;
     };
 #else
     namespace constant_detail {

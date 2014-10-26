@@ -47,33 +47,6 @@ namespace boost { namespace hana {
         struct list_mcd;
     };
 
-    namespace traversable_detail {
-        template <typename A>
-        struct sequence {
-            template <typename T>
-            constexpr decltype(auto) operator()(T&& traversable) const {
-                return Traversable::instance<
-                    datatype_t<decltype(traversable)>
-                >::template sequence_impl<A>(
-                    detail::std::forward<T>(traversable)
-                );
-            }
-        };
-
-        template <typename A>
-        struct traverse {
-            template <typename T, typename F>
-            constexpr decltype(auto) operator()(T&& traversable, F&& f) const {
-                return Traversable::instance<
-                    datatype_t<decltype(traversable)>
-                >::template traverse_impl<A>(
-                    detail::std::forward<T>(traversable),
-                    detail::std::forward<F>(f)
-                );
-            }
-        };
-    }
-
     //! Combine the applicatives in a structure from left to right and
     //! collect the results.
     //! @relates Traversable
@@ -94,13 +67,23 @@ namespace boost { namespace hana {
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename A>
     constexpr auto sequence = [](auto&& traversable) -> decltype(auto) {
-        return Traversable::instance<
-            datatype_t<decltype(traversable)>
-        >::template sequence_impl<A>(std::forward<decltype(traversable)>(traversable));
+        return tag-dispatched;
     };
 #else
     template <typename A>
-    constexpr traversable_detail::sequence<A> sequence{};
+    struct _sequence {
+        template <typename T>
+        constexpr decltype(auto) operator()(T&& traversable) const {
+            return Traversable::instance<
+                datatype_t<decltype(traversable)>
+            >::template sequence_impl<A>(
+                detail::std::forward<T>(traversable)
+            );
+        }
+    };
+
+    template <typename A>
+    constexpr _sequence<A> sequence{};
 #endif
 
     //! Map each element of a structure to an `Applicative`, and then do
@@ -128,16 +111,24 @@ namespace boost { namespace hana {
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename A>
     constexpr auto traverse = [](auto&& traversable, auto&& f) -> decltype(auto) {
-        return Traversable::instance<
-            datatype_t<decltype(traversable)>
-        >::template traverse_impl<A>(
-            std::forward<decltype(traversable)>(traversable),
-            std::forward<decltype(f)>(f)
-        );
+        return tag-dispatched;
     };
 #else
     template <typename A>
-    constexpr traversable_detail::traverse<A> traverse{};
+    struct _traverse {
+        template <typename T, typename F>
+        constexpr decltype(auto) operator()(T&& traversable, F&& f) const {
+            return Traversable::instance<
+                datatype_t<decltype(traversable)>
+            >::template traverse_impl<A>(
+                detail::std::forward<T>(traversable),
+                detail::std::forward<F>(f)
+            );
+        }
+    };
+
+    template <typename A>
+    constexpr _traverse<A> traverse{};
 #endif
 }} // end namespace boost::hana
 

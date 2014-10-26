@@ -19,6 +19,27 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
+    namespace functor_detail {
+        struct common {
+            template <typename F, typename Pred, typename Value>
+            static constexpr decltype(auto) replace_impl(F&& functor, Pred&& pred, Value&& v) {
+                return adjust(
+                    detail::std::forward<F>(functor),
+                    detail::std::forward<Pred>(pred),
+                    always(detail::std::forward<Value>(v))
+                );
+            }
+
+            template <typename F, typename Value>
+            static constexpr decltype(auto) fill_impl(F&& functor, Value&& v) {
+                return fmap(
+                    detail::std::forward<F>(functor),
+                    always(detail::std::forward<Value>(v))
+                );
+            }
+        };
+    }
+
     //! Minimal complete definition: `fmap`
     struct Functor::fmap_mcd : functor_detail::common {
         template <typename Xs, typename Pred, typename F>

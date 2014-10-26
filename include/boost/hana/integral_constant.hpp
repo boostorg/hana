@@ -15,7 +15,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/constant.hpp>
 #include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/is_integral.hpp>
 #include <boost/hana/functional/id.hpp>
@@ -256,7 +255,7 @@ namespace boost { namespace hana {
             return integral_constant<I1, decltype(sum), sum>;
         }
 
-        static BOOST_HANA_CONSTEXPR_LAMBDA auto zero_impl()
+        static constexpr auto zero_impl()
         { return integral_constant<I1, int, 0>; }
     };
 
@@ -342,7 +341,7 @@ namespace boost { namespace hana {
             return integral_constant<I1, decltype(prod), prod>;
         }
 
-        static BOOST_HANA_CONSTEXPR_LAMBDA auto one_impl()
+        static constexpr auto one_impl()
         { return integral_constant<I1, int, 1>; }
     };
 

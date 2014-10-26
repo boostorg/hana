@@ -12,7 +12,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/typeclass.hpp>
-#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -42,22 +41,44 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/enumerable.cpp succ
-    BOOST_HANA_CONSTEXPR_LAMBDA auto succ = [](auto&& num) -> decltype(auto) {
-        return Enumerable::instance<
-            datatype_t<decltype(num)>
-        >::succ_impl(detail::std::forward<decltype(num)>(num));
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto succ = [](auto&& num) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _succ {
+        template <typename Num>
+        constexpr decltype(auto) operator()(Num&& num) const {
+            return Enumerable::instance<
+                datatype_t<Num>
+            >::succ_impl(detail::std::forward<Num>(num));
+        }
+    };
+
+    constexpr _succ succ{};
+#endif
 
     //! Returns the predecessor of a value.
     //! @relates Enumerable
     //!
     //! ### Example
     //! @snippet example/enumerable.cpp pred
-    BOOST_HANA_CONSTEXPR_LAMBDA auto pred = [](auto&& num) -> decltype(auto) {
-        return Enumerable::instance<
-            datatype_t<decltype(num)>
-        >::pred_impl(detail::std::forward<decltype(num)>(num));
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto pred = [](auto&& num) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _pred {
+        template <typename Num>
+        constexpr decltype(auto) operator()(Num&& num) const {
+            return Enumerable::instance<
+                datatype_t<Num>
+            >::pred_impl(detail::std::forward<Num>(num));
+        }
+    };
+
+    constexpr _pred pred{};
+#endif
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_ENUMERABLE_HPP

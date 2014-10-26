@@ -66,7 +66,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/integral_constant.cpp integral_constant
     template <typename I, typename T, T v>
-    BOOST_HANA_CONSTEXPR_LAMBDA auto integral_constant =
+    constexpr auto integral_constant =
         IntegralConstant::instance<I>::
         template integral_constant_impl<T, v>();
 }} // end namespace boost::hana

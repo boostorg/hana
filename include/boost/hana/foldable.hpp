@@ -12,8 +12,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/foldable.hpp>
 
+#include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/is_same.hpp>
+#include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/detail/variadic/foldl.hpp>
 #include <boost/hana/detail/variadic/foldl1.hpp>
 #include <boost/hana/detail/variadic/foldr.hpp>
@@ -84,13 +86,16 @@ namespace boost { namespace hana {
             return result;
         }
 
+        struct inc {
+            template <typename N, typename Ignore>
+            constexpr decltype(auto) operator()(N&& n, Ignore const&) const {
+                return succ(detail::std::forward<N>(n));
+            }
+        };
+        
         template <typename Xs>
-        static constexpr decltype(auto) length_impl(Xs&& xs) {
-            auto plus1 = [](auto&& n, auto const&) -> decltype(auto) {
-                return succ(detail::std::forward<decltype(n)>(n));
-            };
-            return foldl(detail::std::forward<Xs>(xs), size_t<0>, plus1);
-        }
+        static constexpr decltype(auto) length_impl(Xs&& xs) 
+        { return foldl(detail::std::forward<Xs>(xs), size_t<0>, inc{}); }
 
         template <typename Xs>
         static constexpr decltype(auto) minimum_impl(Xs&& xs)
@@ -100,33 +105,75 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) maximum_impl(Xs&& xs)
         { return maximum_by(less, detail::std::forward<Xs>(xs)); }
 
+        template <typename Pred>
+        struct minpred {
+            Pred pred;
+            template <typename X, typename Y>
+            constexpr decltype(auto) operator()(X&& x, Y&& y) const& {
+                decltype(auto) r = pred(x, y);
+                return if_(detail::std::forward<decltype(r)>(r),
+                    detail::std::forward<X>(x),
+                    detail::std::forward<Y>(y)
+                );
+            }
+            template <typename X, typename Y>
+            constexpr decltype(auto) operator()(X&& x, Y&& y) & {
+                decltype(auto) r = pred(x, y);
+                return if_(detail::std::forward<decltype(r)>(r),
+                    detail::std::forward<X>(x),
+                    detail::std::forward<Y>(y)
+                );
+            }
+            template <typename X, typename Y>
+            constexpr decltype(auto) operator()(X&& x, Y&& y) && {
+                decltype(auto) r = detail::std::move(pred)(x, y);
+                return if_(detail::std::forward<decltype(r)>(r),
+                    detail::std::forward<X>(x),
+                    detail::std::forward<Y>(y)
+                );
+            }
+        };
+
         template <typename Pred, typename Xs>
         static constexpr decltype(auto) minimum_by_impl(Pred&& pred, Xs&& xs) {
             return foldl1(detail::std::forward<Xs>(xs),
-                [pred(detail::std::forward<Pred>(pred))](auto&& x, auto&& y) -> decltype(auto) {
-                    // Make sure that pred(x, y) is evaluated before the other
-                    // arguments so we can safely std::forward them.
-                    decltype(auto) r = pred(x, y);
-                    return if_(detail::std::forward<decltype(r)>(r),
-                        detail::std::forward<decltype(x)>(x),
-                        detail::std::forward<decltype(y)>(y)
-                    );
-                }
+                detail::create<minpred>{}(detail::std::forward<Pred>(pred))
             );
         }
+
+        template <typename Pred>
+        struct maxpred {
+            Pred pred;
+            template <typename X, typename Y>
+            constexpr decltype(auto) operator()(X&& x, Y&& y) const& {
+                decltype(auto) r = pred(x, y);
+                return if_(detail::std::forward<decltype(r)>(r),
+                    detail::std::forward<Y>(y),
+                    detail::std::forward<X>(x)
+                );
+            }
+            template <typename X, typename Y>
+            constexpr decltype(auto) operator()(X&& x, Y&& y) & {
+                decltype(auto) r = pred(x, y);
+                return if_(detail::std::forward<decltype(r)>(r),
+                    detail::std::forward<Y>(y),
+                    detail::std::forward<X>(x)
+                );
+            }
+            template <typename X, typename Y>
+            constexpr decltype(auto) operator()(X&& x, Y&& y) && {
+                decltype(auto) r = detail::std::move(pred)(x, y);
+                return if_(detail::std::forward<decltype(r)>(r),
+                    detail::std::forward<Y>(y),
+                    detail::std::forward<X>(x)
+                );
+            }
+        };
 
         template <typename Pred, typename Xs>
         static constexpr decltype(auto) maximum_by_impl(Pred&& pred, Xs&& xs) {
             return foldl1(detail::std::forward<Xs>(xs),
-                [pred(detail::std::forward<Pred>(pred))](auto&& x, auto&& y) -> decltype(auto) {
-                    // Make sure that pred(x, y) is evaluated before the other
-                    // arguments so we can safely std::forward them.
-                    decltype(auto) r = pred(x, y);
-                    return if_(detail::std::forward<decltype(r)>(r),
-                        detail::std::forward<decltype(y)>(y),
-                        detail::std::forward<decltype(x)>(x)
-                    );
-                }
+                detail::create<maxpred>{}(detail::std::forward<Pred>(pred))
             );
         }
 
@@ -144,15 +191,36 @@ namespace boost { namespace hana {
             return foldl(detail::std::forward<Xs>(xs), one<R>, mult);
         }
 
+        template <typename Pred>
+        struct countpred {
+            Pred pred;
+            template <typename Counter, typename X>
+            constexpr decltype(auto) operator()(Counter&& counter, X&& x) const& {
+                return if_(pred(detail::std::forward<X>(x)),
+                    succ(counter),
+                    counter
+                );
+            }
+            template <typename Counter, typename X>
+            constexpr decltype(auto) operator()(Counter&& counter, X&& x) & {
+                return if_(pred(detail::std::forward<X>(x)),
+                    succ(counter),
+                    counter
+                );
+            }
+            template <typename Counter, typename X>
+            constexpr decltype(auto) operator()(Counter&& counter, X&& x) && {
+                return if_(detail::std::move(pred)(detail::std::forward<X>(x)),
+                    succ(counter),
+                    counter
+                );
+            }
+        };
+
         template <typename Xs, typename Pred>
         static constexpr decltype(auto) count_impl(Xs&& xs, Pred&& pred) {
             return foldl(detail::std::forward<Xs>(xs), size_t<0>,
-                [pred(detail::std::forward<Pred>(pred))](auto&& counter, auto&& x) -> decltype(auto) {
-                    return if_(pred(detail::std::forward<decltype(x)>(x)),
-                        succ(counter),
-                        counter
-                    );
-                }
+                detail::create<countpred>{}(detail::std::forward<Pred>(pred))
             );
         }
 
@@ -161,14 +229,31 @@ namespace boost { namespace hana {
             return foldl(detail::std::forward<Xs>(xs), detail::std::forward<F>(f), partial)();
         }
 
+        template <typename F>
+        struct for_each_helper {
+            F f;
+            template <typename X>
+            constexpr int operator()(int ignore, X&& x) const& {
+                f(detail::std::forward<X>(x));
+                return 0;
+            }
+            template <typename X>
+            constexpr int operator()(int ignore, X&& x) & {
+                f(detail::std::forward<X>(x));
+                return 0;
+            }
+            template <typename X>
+            constexpr int operator()(int ignore, X&& x) && {
+                detail::std::move(f)(detail::std::forward<X>(x));
+                return 0;
+            }
+        };
+
         template <typename Xs, typename F>
         static constexpr decltype(auto) for_each_impl(Xs&& xs, F&& f) {
             // we ignore the state all the way
             foldl(detail::std::forward<Xs>(xs), 0,
-                [f(detail::std::forward<F>(f))](int ignore, auto&& x) {
-                    f(detail::std::forward<decltype(x)>(x));
-                    return 0;
-                }
+                detail::create<for_each_helper>{}(detail::std::forward<F>(f))
             );
         }
     };
@@ -183,46 +268,36 @@ namespace boost { namespace hana {
         template <typename Xs, typename S, typename F>
         static constexpr decltype(auto) foldl_impl(Xs&& xs, S&& s, F&& f) {
             return unpack(detail::std::forward<Xs>(xs),
-                [s(detail::std::forward<S>(s)), f(detail::std::forward<F>(f))]
-                (auto&& ...xs) -> decltype(auto) {
-                    return detail::variadic::foldl(f, s,
-                        detail::std::forward<decltype(xs)>(xs)...
-                    );
-                }
+                partial(
+                    detail::variadic::foldl, 
+                    detail::std::forward<F>(f), 
+                    detail::std::forward<S>(s)
+                )
             );
         }
 
         template <typename Xs, typename F>
         static constexpr decltype(auto) foldl1_impl(Xs&& xs, F&& f) {
             return unpack(detail::std::forward<Xs>(xs),
-                [f(detail::std::forward<F>(f))](auto&& ...xs) -> decltype(auto) {
-                    return detail::variadic::foldl1(f,
-                        detail::std::forward<decltype(xs)>(xs)...
-                    );
-                }
+                partial(detail::variadic::foldl1, detail::std::forward<F>(f))
             );
         }
 
         template <typename Xs, typename S, typename F>
         static constexpr decltype(auto) foldr_impl(Xs&& xs, S&& s, F&& f) {
             return unpack(detail::std::forward<Xs>(xs),
-                [s(detail::std::forward<S>(s)), f(detail::std::forward<F>(f))]
-                (auto&& ...xs) -> decltype(auto) {
-                    return detail::variadic::foldr(f, s,
-                        detail::std::forward<decltype(xs)>(xs)...
-                    );
-                }
+                partial(
+                    detail::variadic::foldr, 
+                    detail::std::forward<F>(f), 
+                    detail::std::forward<S>(s)
+                )
             );
         }
 
         template <typename Xs, typename F>
         static constexpr decltype(auto) foldr1_impl(Xs&& xs, F&& f) {
             return unpack(detail::std::forward<Xs>(xs),
-                [f(detail::std::forward<F>(f))](auto&& ...xs) -> decltype(auto) {
-                    return detail::variadic::foldr1(f,
-                        detail::std::forward<decltype(xs)>(xs)...
-                    );
-                }
+                partial(detail::variadic::foldr1, detail::std::forward<F>(f))
             );
         }
 
@@ -233,11 +308,15 @@ namespace boost { namespace hana {
             );
         }
 
+        struct length_helper {
+            template <typename ...Xs>
+            constexpr auto operator()(Xs const& ...) const {
+                return size_t<sizeof...(Xs)>;
+            }
+        };
         template <typename Xs>
         static constexpr decltype(auto) length_impl(Xs&& xs) {
-            return unpack(detail::std::forward<Xs>(xs), [](auto const& ...xs) {
-                return size_t<sizeof...(xs)>;
-            });
+            return unpack(detail::std::forward<Xs>(xs), length_helper{});
         }
     };
 }} // end namespace boost::hana

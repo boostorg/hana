@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/typeclass.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -65,14 +66,25 @@ namespace boost { namespace hana {
     //! - `equal(x, y...)` can be implemented as `all(list(y...), x == _)`,
     //!   which is pretty straightforward anyway.
     //! @endinternal
-    BOOST_HANA_CONSTEXPR_LAMBDA auto equal = [](auto&& x, auto&& y) -> decltype(auto) {
-        return Comparable::instance<
-            datatype_t<decltype(x)>, datatype_t<decltype(y)>
-        >::equal_impl(
-            detail::std::forward<decltype(x)>(x),
-            detail::std::forward<decltype(y)>(y)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto equal = [](auto&& x, auto&& y) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _equal {
+        template <typename X, typename Y>
+        constexpr decltype(auto) operator()(X&& x, Y&& y) const {
+            return Comparable::instance<
+                datatype_t<X>, datatype_t<Y>
+            >::equal_impl(
+                detail::std::forward<X>(x),
+                detail::std::forward<Y>(y)
+            );
+        }
+    };
+
+    constexpr _equal equal{};
+#endif
 
     //! Returns a `Logical` representing whether `x` is not equal to `y`.
     //! @relates Comparable
@@ -82,14 +94,25 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/comparable.cpp not_equal
-    BOOST_HANA_CONSTEXPR_LAMBDA auto not_equal = [](auto&& x, auto&& y) -> decltype(auto) {
-        return Comparable::instance<
-            datatype_t<decltype(x)>, datatype_t<decltype(y)>
-        >::not_equal_impl(
-            detail::std::forward<decltype(x)>(x),
-            detail::std::forward<decltype(y)>(y)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto not_equal = [](auto&& x, auto&& y) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _not_equal {
+        template <typename X, typename Y>
+        constexpr decltype(auto) operator()(X&& x, Y&& y) const {
+            return Comparable::instance<
+                datatype_t<X>, datatype_t<Y>
+            >::not_equal_impl(
+                detail::std::forward<X>(x),
+                detail::std::forward<Y>(y)
+            );
+        }
+    };
+
+    constexpr _not_equal not_equal{};
+#endif
 
     //! Returns a function performing `equal` after applying a transformation
     //! to both arguments.
@@ -103,14 +126,36 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/comparable.cpp comparing
-    BOOST_HANA_CONSTEXPR_LAMBDA auto comparing = [](auto&& f) -> decltype(auto) {
-        return [f(detail::std::forward<decltype(f)>(f))](auto&& x, auto&& y) -> decltype(auto) {
-            return equal(
-                f(detail::std::forward<decltype(x)>(x)),
-                f(detail::std::forward<decltype(y)>(y))
-            );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto comparing = [](auto&& f) {
+        return [perfect-capture](auto&& x, auto&& y) -> decltype(auto) {
+            return equal(f(forwarded(x)), f(forwarded(y)));
         };
     };
+#else
+    template <typename F>
+    struct _comparing {
+        F f;
+
+        template <typename X, typename Y>
+        constexpr decltype(auto) operator()(X&& x, Y&& y) const& {
+            return equal(
+                f(detail::std::forward<X>(x)),
+                f(detail::std::forward<Y>(y))
+            );
+        }
+
+        template <typename X, typename Y>
+        constexpr decltype(auto) operator()(X&& x, Y&& y) & {
+            return equal(
+                f(detail::std::forward<X>(x)),
+                f(detail::std::forward<Y>(y))
+            );
+        }
+    };
+
+    constexpr detail::create<_comparing> comparing{};
+#endif
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_COMPARABLE_HPP

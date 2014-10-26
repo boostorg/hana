@@ -12,7 +12,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/typeclass.hpp>
-#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/variadic/foldl.hpp>
 
@@ -67,15 +66,26 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/logical/if.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto if_ = [](auto&& logical, auto&& then_, auto&& else_) -> decltype(auto) {
-        return Logical::instance<
-            datatype_t<decltype(logical)>
-        >::if_impl(
-            detail::std::forward<decltype(logical)>(logical),
-            detail::std::forward<decltype(then_)>(then_),
-            detail::std::forward<decltype(else_)>(else_)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto if_ = [](auto&& logical, auto&& then_, auto&& else_) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _if {
+        template <typename L, typename T, typename E>
+        constexpr decltype(auto) operator()(L&& l, T&& t, E&& e) const {
+            return Logical::instance<
+                datatype_t<L>
+            >::if_impl(
+                detail::std::forward<L>(l),
+                detail::std::forward<T>(t),
+                detail::std::forward<E>(e)
+            );
+        }
+    };
+
+    constexpr _if if_{};
+#endif
 
     //! Conditionally execute one of two branches based on a condition.
     //! @relates Logical
@@ -104,15 +114,26 @@ namespace boost { namespace hana {
     //!
     //! ### Example (runtime or `constexpr` condition)
     //! @snippet example/logical/eval_if.cpp homogeneous
-    BOOST_HANA_CONSTEXPR_LAMBDA auto eval_if = [](auto&& logical, auto&& then_branch, auto&& else_branch) -> decltype(auto) {
-        return Logical::instance<
-            datatype_t<decltype(logical)>
-        >::eval_if_impl(
-            detail::std::forward<decltype(logical)>(logical),
-            detail::std::forward<decltype(then_branch)>(then_branch),
-            detail::std::forward<decltype(else_branch)>(else_branch)
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto eval_if = [](auto&& logical, auto&& then_branch, auto&& else_branch) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _eval_if {
+        template <typename L, typename T, typename E>
+        constexpr decltype(auto) operator()(L&& l, T&& t, E&& e) const {
+            return Logical::instance<
+                datatype_t<L>
+            >::eval_if_impl(
+                detail::std::forward<L>(l),
+                detail::std::forward<T>(t),
+                detail::std::forward<E>(e)
+            );
+        }
+    };
+
+    constexpr _eval_if eval_if{};
+#endif
 
     //! Negates a `Logical`.
     //! @relates Logical
@@ -122,27 +143,24 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/logical/not.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto not_ = [](auto&& logical) -> decltype(auto) {
-        return Logical::instance<
-            datatype_t<decltype(logical)>
-        >::not_impl(detail::std::forward<decltype(logical)>(logical));
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto not_ = [](auto&& logical) -> decltype(auto) {
+        return tag-dispatched;
+    };
+#else
+    struct _not {
+        template <typename L>
+        constexpr decltype(auto) operator()(L&& l) const {
+            return Logical::instance<
+                datatype_t<L>
+            >::not_impl(
+                detail::std::forward<L>(l)
+            );
+        }
     };
 
-    namespace logical_detail {
-        BOOST_HANA_CONSTEXPR_LAMBDA auto and2 = [](auto&& x, auto&& y) -> decltype(auto) {
-            return Logical::instance<datatype_t<decltype(x)>>::and_impl(
-                detail::std::forward<decltype(x)>(x),
-                detail::std::forward<decltype(y)>(y)
-            );
-        };
-
-        BOOST_HANA_CONSTEXPR_LAMBDA auto or2 = [](auto&& x, auto&& y) -> decltype(auto) {
-            return Logical::instance<datatype_t<decltype(x)>>::or_impl(
-                detail::std::forward<decltype(x)>(x),
-                detail::std::forward<decltype(y)>(y)
-            );
-        };
-    }
+    constexpr _not not_{};
+#endif
 
     //! Return whether all the arguments are true-valued.
     //! @relates Logical
@@ -157,13 +175,32 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/logical/and.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto and_ = [](auto&& x, auto&& ...y) -> decltype(auto) {
-        return detail::variadic::foldl(
-            logical_detail::and2,
-            detail::std::forward<decltype(x)>(x),
-            detail::std::forward<decltype(y)>(y)...
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto and_ = [](auto&& x, auto&& ...y) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _and {
+        template <typename X, typename Y>
+        constexpr decltype(auto) operator()(X&& x, Y&& y) const {
+            return Logical::instance<datatype_t<X>>::and_impl(
+                detail::std::forward<X>(x),
+                detail::std::forward<Y>(y)
+            );
+        }
+
+        template <typename X, typename ...Y>
+        constexpr decltype(auto) operator()(X&& x, Y&& ...y) const {
+            return detail::variadic::foldl(
+                *this,
+                detail::std::forward<X>(x),
+                detail::std::forward<Y>(y)...
+            );
+        }
+    };
+
+    constexpr _and and_{};
+#endif
 
     //! Return whether any of the arguments is true-valued.
     //! @relates Logical
@@ -178,13 +215,32 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/logical/or.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto or_ = [](auto&& x, auto&& ...y) -> decltype(auto) {
-        return detail::variadic::foldl(
-            logical_detail::or2,
-            detail::std::forward<decltype(x)>(x),
-            detail::std::forward<decltype(y)>(y)...
-        );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto or_ = [](auto&& x, auto&& ...y) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _or {
+        template <typename X, typename Y>
+        constexpr decltype(auto) operator()(X&& x, Y&& y) const {
+            return Logical::instance<datatype_t<X>>::or_impl(
+                detail::std::forward<X>(x),
+                detail::std::forward<Y>(y)
+            );
+        }
+
+        template <typename X, typename ...Y>
+        constexpr decltype(auto) operator()(X&& x, Y&& ...y) const {
+            return detail::variadic::foldl(
+                *this,
+                detail::std::forward<X>(x),
+                detail::std::forward<Y>(y)...
+            );
+        }
+    };
+
+    constexpr _or or_{};
+#endif
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_LOGICAL_HPP

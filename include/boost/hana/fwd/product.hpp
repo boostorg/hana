@@ -15,7 +15,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/core/typeclass.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -67,11 +66,8 @@ namespace boost { namespace hana {
     //! @snippet example/product.cpp make
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename P>
-    BOOST_HANA_CONSTEXPR_LAMBDA auto make<P, when<is_a<Product, P>()>> = [](auto&& fst, auto&& snd) -> decltype(auto) {
-        return Product::instance<P>::make_impl(
-            std::forward<decltype(fst)>(fst),
-            std::forward<decltype(snd)>(snd)
-        );
+    constexpr auto make<P, when<is_a<Product, P>()>> = [](auto&& fst, auto&& snd) -> decltype(auto) {
+        return tag-dispatched;
     };
 #else
     namespace product_detail {
@@ -96,22 +92,44 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/product.cpp first
-    BOOST_HANA_CONSTEXPR_LAMBDA auto first = [](auto&& product) -> decltype(auto) {
-        return Product::instance<
-            datatype_t<decltype(product)>
-        >::first_impl(detail::std::forward<decltype(product)>(product));
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto first = [](auto&& product) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _first {
+        template <typename P>
+        constexpr decltype(auto) operator()(P&& p) const {
+            return Product::instance<
+                datatype_t<P>
+            >::first_impl(detail::std::forward<P>(p));
+        }
+    };
+
+    constexpr _first first{};
+#endif
 
     //! Return the second element of a product.
     //! @relates Product
     //!
     //! ### Example
     //! @snippet example/product.cpp second
-    BOOST_HANA_CONSTEXPR_LAMBDA auto second = [](auto&& product) -> decltype(auto) {
-        return Product::instance<
-            datatype_t<decltype(product)>
-        >::second_impl(detail::std::forward<decltype(product)>(product));
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto second = [](auto&& product) -> decltype(auto) {
+        return tag-dispatched;
     };
+#else
+    struct _second {
+        template <typename P>
+        constexpr decltype(auto) operator()(P&& p) const {
+            return Product::instance<
+                datatype_t<P>
+            >::second_impl(detail::std::forward<P>(p));
+        }
+    };
+
+    constexpr _second second{};
+#endif
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_PRODUCT_HPP
