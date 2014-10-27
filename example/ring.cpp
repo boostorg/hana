@@ -11,13 +11,22 @@ using namespace boost::hana;
 
 
 int main() {
-    //! [mult]
-    BOOST_HANA_CONSTANT_ASSERT(mult(int_<3>, int_<5>) == int_<15>);
-    BOOST_HANA_CONSTEXPR_ASSERT(mult(4, 2) == 8);
-    //! [mult]
-
-    //! [one]
-    BOOST_HANA_CONSTANT_ASSERT(one<Integral> == int_<1>);
-    BOOST_HANA_CONSTEXPR_ASSERT(one<long> == 1l);
-    //! [one]
+    {
+        //! [mult]
+        BOOST_HANA_CONSTANT_ASSERT(mult(int_<3>, int_<5>) == int_<15>);
+        BOOST_HANA_CONSTEXPR_ASSERT(mult(4, 2) == 8);
+        //! [mult]
+    }
+    {
+        //! [one]
+        BOOST_HANA_CONSTANT_ASSERT(one<Integral> == int_<1>);
+        BOOST_HANA_CONSTEXPR_ASSERT(one<long> == 1l);
+        //! [one]
+    }
+    {
+        //! [power]
+        BOOST_HANA_CONSTANT_ASSERT(power(int_<3>, int_<2>) == int_<3 * 3>);
+        BOOST_HANA_CONSTEXPR_ASSERT(power(2, int_<4>) == 16);
+        //! [power]
+    }
 }

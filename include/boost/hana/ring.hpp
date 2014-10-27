@@ -12,15 +12,34 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/ring.hpp>
 
+#include <boost/hana/comparable.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/enumerable.hpp>
+#include <boost/hana/functional/always.hpp>
+#include <boost/hana/logical.hpp>
+#include <boost/hana/monoid.hpp>
 
 
 namespace boost { namespace hana {
     //! Minimal complete definition : `one` and `mult`
-    struct Ring::mcd { };
+    struct Ring::mcd {
+        template <typename X, typename P>
+        static constexpr decltype(auto) power_impl(X&& x, P&& p) {
+            using R = datatype_t<X>;
+            using E = datatype_t<P>;
+            return eval_if(equal(p, zero<E>),
+                always(one<R>),
+                [&p, &x](auto _) -> decltype(auto) {
+                    return mult(
+                        x, power_impl(x, _(pred)(detail::std::forward<P>(p)))
+                    );
+                }
+            );
+        }
+    };
 
     namespace operators {
         //! Equivalent to `mult`.

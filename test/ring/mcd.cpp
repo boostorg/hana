@@ -8,9 +8,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/ring.hpp>
 
+#include <test/cnumeric.hpp>
 #include <test/laws/ring.hpp>
-#include <test/numeric/comparable.hpp>
-#include <test/numeric/ring.hpp>
+#include <test/numeric.hpp>
 using namespace boost::hana;
 
 
@@ -34,6 +34,29 @@ int main() {
         BOOST_HANA_CONSTEXPR_ASSERT(equal(
             mult(test::numeric(x), test::numeric(y)),
             test::numeric(x * y)
+        ));
+    }
+
+    // power
+    {
+        BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            power(test::numeric(x), zero<test::CNumeric>),
+            one<test::Numeric>
+        ));
+
+        BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            power(test::numeric(x), one<test::CNumeric>),
+            test::numeric(x)
+        ));
+
+        BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            power(test::numeric(x), test::cnumeric<int, 2>),
+            mult(test::numeric(x), test::numeric(x))
+        ));
+
+        BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            power(test::numeric(x), test::cnumeric<int, 3>),
+            mult(mult(test::numeric(x), test::numeric(x)), test::numeric(x))
         ));
     }
 

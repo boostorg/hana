@@ -70,6 +70,36 @@ namespace boost { namespace hana {
     //! @snippet example/ring.cpp one
     template <typename R>
     BOOST_HANA_CONSTEXPR_LAMBDA auto one = Ring::instance<R, R>::one_impl();
+
+    //! Power of a `Ring` element.
+    //! @relates Ring
+    //!
+    //! Specifically, `power(r, p)`, is equivalent to multiplying `r` with
+    //! itself `p` times, by decrementing `p` until it is equal to `zero`
+    //! If `p` is equal to `zero` from the beginning, `one` is returned.
+    //!
+    //! @note
+    //! Dispatching for this method is done on the data type of `r` only.
+    //!
+    //!
+    //! @param r
+    //! A `Ring` element that is multiplied with itself `p` times.
+    //!
+    //! @param p
+    //! An `IntegralConstant` representing the number of times `r` should be
+    //! multiplied by itself.
+    //!
+    //!
+    //! ### Example
+    //! @snippet example/ring.cpp power
+    BOOST_HANA_CONSTEXPR_LAMBDA auto power = [](auto&& r, auto&& p) -> decltype(auto) {
+        return Ring::instance<
+            datatype_t<decltype(r)>, datatype_t<decltype(r)>
+        >::power_impl(
+            detail::std::forward<decltype(r)>(r),
+            detail::std::forward<decltype(p)>(p)
+        );
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_RING_HPP
