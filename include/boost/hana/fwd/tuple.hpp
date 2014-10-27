@@ -42,7 +42,7 @@ namespace boost { namespace hana {
                 : storage(detail::std::move(s))
             { }
 
-            using hana_datatype = Tuple;
+            struct hana { using datatype = Tuple; };
             Storage storage;
         };
     }}

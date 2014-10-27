@@ -40,7 +40,7 @@ namespace boost { namespace hana {
             constexpr range(From f, To t) : from(f), to(t) { }
             From from;
             To to;
-            using hana_datatype = Range;
+            struct hana { using datatype = Range; };
         };
     }
 

@@ -13,7 +13,7 @@ namespace test {
     template <typename T, T v>
     struct cnumeric_type {
         static constexpr T value = v;
-        using hana_datatype = CNumeric;
+        struct hana { using datatype = CNumeric; };
 
         //! @todo Find a way to make this explicit.
         constexpr operator bool() const { return value; }

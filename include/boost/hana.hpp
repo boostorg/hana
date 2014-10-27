@@ -746,7 +746,7 @@ user-defined type, one can define a nested `hana_dataype` alias inside of it:
 
 @code
     struct MyUserDefinedType {
-        using hana_datatype = MyDatatype;
+        struct hana { using datatype = MyDatatype; };
     };
 @endcode
 

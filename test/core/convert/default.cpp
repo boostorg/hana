@@ -44,14 +44,14 @@ void check_convert(F f, T t) {
 
 struct Datatype {
     int value;
-    using hana_datatype = Datatype;
+    struct hana { using datatype = Datatype; };
     constexpr bool operator==(Datatype x)
     { return value == x.value; }
 };
 
 struct other_ctor {
     int value;
-    using hana_datatype = Datatype;
+    struct hana { using datatype = Datatype; };
     constexpr bool operator==(other_ctor x)
     { return value == x.value; }
 };

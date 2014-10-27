@@ -22,14 +22,14 @@ template <typename X, typename Xs>
 struct lazy_cons_type {
     X x;
     Xs xs;
-    using hana_datatype = LazyList;
+    struct hana { using datatype = LazyList; };
 };
 
 auto lazy_cons = [](auto x, auto xs) {
     return lazy_cons_type<decltype(x), decltype(xs)>{x, xs};
 };
 
-struct lazy_nil_type { using hana_datatype = LazyList; };
+struct lazy_nil_type { struct hana { using datatype = LazyList; }; };
 
 constexpr lazy_nil_type lazy_nil{};
 

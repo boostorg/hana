@@ -47,7 +47,7 @@ namespace boost { namespace hana {
         template <typename Storage, typename = operators::enable_adl>
         struct lazy {
             Storage storage;
-            using hana_datatype = Lazy;
+            struct hana { using datatype = Lazy; };
 
             template <typename ...Xs>
             constexpr auto operator()(Xs ...xs) const {

@@ -16,18 +16,18 @@ struct Tuple;
 
 namespace detail {
     template <typename T, T ...vs>
-    struct tuple_c { using hana_datatype = Tuple; };
+    struct tuple_c { struct hana { using datatype = Tuple; }; };
 
     template <typename ...ts>
     struct tuple_t {
         struct hidden : tuple_t { };
-        using hana_datatype = Tuple;
+        struct hana { using datatype = Tuple; };
     };
 
     template <typename Storage>
     struct tuple {
         Storage storage;
-        using hana_datatype = Tuple;
+        struct hana { using datatype = Tuple; };
     };
 }
 

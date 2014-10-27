@@ -22,7 +22,7 @@ namespace test {
     struct seq_type : boost::hana::operators::Iterable_ops<seq_type<Storage>> {
         explicit constexpr seq_type(Storage s) : storage(s) { }
         Storage storage;
-        using hana_datatype = Seq;
+        struct hana { using datatype = Seq; };
     };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto seq = [](auto ...xs) {

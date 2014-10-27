@@ -31,7 +31,7 @@ namespace boost { namespace hana {
     namespace ilist_detail {
         template <typename T, T ...xs>
         struct integer_list : operators::enable_adl {
-            using hana_datatype = IntegerList;
+            struct hana { using datatype = IntegerList; };
         };
     }
 

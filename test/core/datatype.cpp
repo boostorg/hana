@@ -29,12 +29,14 @@ struct test {
 };
 
 struct NestedDatatype;
-struct Nested { using hana_datatype = NestedDatatype; };
-template struct test<Nested, NestedDatatype>;
+struct Nested { struct hana { struct datatype; }; };
+template struct test<Nested, Nested::hana::datatype>;
 
+struct NoNestedDatatype { };
+template struct test<NoNestedDatatype, NoNestedDatatype>;
 
-struct NoNested { };
-template struct test<NoNested, NoNested>;
+struct NoNestedHana { };
+template struct test<NoNestedHana, NoNestedHana>;
 
 
 struct FullySpecializedDatatype;

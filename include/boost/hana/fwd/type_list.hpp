@@ -39,7 +39,7 @@ namespace boost { namespace hana {
         template <typename ...xs>
         struct type_list {
             struct hidden : operators::enable_adl {
-                using hana_datatype = TypeList;
+                struct hana { using datatype = TypeList; };
                 using storage = type_list<xs...>;
             };
         };

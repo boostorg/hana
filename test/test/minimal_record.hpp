@@ -24,7 +24,7 @@ namespace test {
     struct record_type {
         X member1;
         Y member2;
-        using hana_datatype = MinimalRecord<Mcd>;
+        struct hana { using datatype = MinimalRecord<Mcd>; };
     };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto member1 = injection([]{})();

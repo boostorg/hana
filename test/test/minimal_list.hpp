@@ -22,7 +22,7 @@ namespace test {
     template <typename Storage, typename mcd>
     struct list_type {
         Storage storage;
-        using hana_datatype = List<mcd>;
+        struct hana { using datatype = List<mcd>; };
     };
 
     template <typename mcd>

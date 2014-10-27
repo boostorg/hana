@@ -22,7 +22,7 @@ namespace boost { namespace hana {
 
     template <typename Domain, typename Codomain, typename F, typename = operators::enable_adl>
     struct function_type {
-        using hana_datatype = Function;
+        struct hana { using datatype = Function; };
 
         Domain dom;
         Codomain cod;

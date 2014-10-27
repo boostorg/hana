@@ -40,7 +40,7 @@ namespace boost { namespace hana {
         template <typename X, typename = operators::enable_adl>
         struct left {
             X value;
-            using hana_datatype = Either;
+            struct hana { using datatype = Either; };
 
             //! @bug
             //! We can't use perfect forwarding because of this bug:
@@ -61,7 +61,7 @@ namespace boost { namespace hana {
         template <typename X, typename = operators::enable_adl>
         struct right {
             X value;
-            using hana_datatype = Either;
+            struct hana { using datatype = Either; };
 
             //! @bug
             //! We can't use perfect forwarding because of this bug:

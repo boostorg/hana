@@ -29,7 +29,7 @@ namespace boost { namespace hana {
         struct pair {
             First first;
             Second second;
-            using hana_datatype = Pair;
+            struct hana { using datatype = Pair; };
         };
     }
 

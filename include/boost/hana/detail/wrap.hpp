@@ -18,7 +18,7 @@ namespace boost { namespace hana { namespace detail {
         template <typename Datatype, typename X>
         struct wrapper {
             X unwrap;
-            using hana_datatype = Datatype;
+            struct hana { using datatype = Datatype; };
         };
 
         template <typename Datatype>

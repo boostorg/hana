@@ -16,7 +16,7 @@ static_assert(std::is_same<datatype<int&>::type, int>{}, "");
 static_assert(std::is_same<datatype<int const&>::type, int>{}, "");
 
 struct Datatype;
-struct Person { using hana_datatype = Datatype; };
+struct Person { struct hana { using datatype = Datatype; }; };
 static_assert(std::is_same<datatype<Person>::type, Datatype>{}, "");
 static_assert(std::is_same<datatype<Person volatile&&>::type, Datatype>{}, "");
 //! [main]

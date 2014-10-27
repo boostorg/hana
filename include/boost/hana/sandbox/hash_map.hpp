@@ -66,7 +66,7 @@ namespace boost { namespace hana {
         template <typename Buckets>
         struct map {
             Buckets buckets; // a list of buckets
-            using hana_datatype = HashMap;
+            struct hana { using datatype = HashMap; };
         };
     }
 

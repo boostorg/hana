@@ -32,7 +32,7 @@ namespace boost { namespace hana {
             constexpr operator value_type() const noexcept { return value; }
             constexpr value_type operator()() const noexcept { return value; }
 
-            using hana_datatype = Bool;
+            struct hana { using datatype = Bool; };
         };
     }
 

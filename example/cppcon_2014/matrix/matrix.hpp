@@ -35,7 +35,7 @@ namespace cppcon {
         typename = boost::hana::operators::enable_adl
     >
     struct matrix_type {
-        using hana_datatype = Matrix<Rows, Columns>;
+        struct hana { using datatype = Matrix<Rows, Columns>; };
 
         Storage rows_;
         constexpr auto ncolumns() const

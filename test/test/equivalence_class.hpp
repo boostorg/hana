@@ -14,7 +14,7 @@ namespace test {
     struct equivalence_class_impl {
         Token equivalence_class;
         T unwrap;
-        using hana_datatype = EquivalenceClass;
+        struct hana { using datatype = EquivalenceClass; };
     };
 
     auto tag = [](auto token, auto x) {

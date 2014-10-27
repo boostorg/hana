@@ -76,7 +76,7 @@ namespace boost { namespace hana {
         template <typename T>
         struct make_type {
             struct hidden : operators::enable_adl {
-                using hana_datatype = Type;
+                struct hana { using datatype = Type; };
                 using type = T;
             };
         };
@@ -127,7 +127,7 @@ namespace boost { namespace hana {
     namespace type_detail {
         template <template <typename ...> class f>
         struct template_ {
-            using hana_datatype = Metafunction;
+            struct hana { using datatype = Metafunction; };
 
             template <typename ...xs>
             struct apply {
@@ -141,7 +141,7 @@ namespace boost { namespace hana {
 
         template <template <typename ...> class f>
         struct metafunction {
-            using hana_datatype = Metafunction;
+            struct hana { using datatype = Metafunction; };
 
             template <typename ...xs>
             using apply = f<xs...>;
@@ -153,7 +153,7 @@ namespace boost { namespace hana {
 
         template <typename f>
         struct metafunction_class {
-            using hana_datatype = Metafunction;
+            struct hana { using datatype = Metafunction; };
 
             template <typename ...xs>
             using apply = typename f::template apply<xs...>;

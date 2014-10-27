@@ -16,7 +16,7 @@ namespace test {
     template <typename T>
     struct identity_type {
         T value;
-        using hana_datatype = Identity;
+        struct hana { using datatype = Identity; };
     };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto identity = [](auto x) {

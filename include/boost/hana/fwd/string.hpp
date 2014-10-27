@@ -47,7 +47,7 @@ namespace boost { namespace hana {
         {
             static constexpr char const storage[sizeof...(s)+1] = {s..., '\0'};
             static constexpr char const* get() { return storage; }
-            using hana_datatype = String;
+            struct hana { using datatype = String; };
         };
     }
 

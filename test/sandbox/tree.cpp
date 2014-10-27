@@ -25,7 +25,7 @@ struct Tree;
 
 template <typename X, typename Subforest>
 struct node_type {
-    using hana_datatype = Tree;
+    struct hana { using datatype = Tree; };
     X value;
     Subforest subforest;
 };

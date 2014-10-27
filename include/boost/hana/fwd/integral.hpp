@@ -89,7 +89,7 @@ namespace boost { namespace hana {
             constexpr operator value_type() const noexcept { return value; }
             constexpr value_type operator()() const noexcept { return value; }
 
-            using hana_datatype = Integral;
+            struct hana { using datatype = Integral; };
 
             template <typename F>
             constexpr void times(F&& f) const {

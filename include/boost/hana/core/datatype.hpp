@@ -22,8 +22,8 @@ namespace boost { namespace hana {
         struct default_datatype { using type = T; };
 
         template <typename T>
-        struct default_datatype<T, decltype((void)(typename T::hana_datatype*)0)> {
-            using type = typename T::hana_datatype;
+        struct default_datatype<T, decltype((void)(typename T::hana::datatype*)0)> {
+            using type = typename T::hana::datatype;
         };
     }
 
@@ -34,14 +34,20 @@ namespace boost { namespace hana {
     //! where `U` is the type `T` after being stripped of all references and
     //! cv-qualifiers. Then, `datatype<U>` returns
     //! @code
-    //!     U::hana_datatype
+    //!     U::hana::datatype
     //! @endcode
     //! if that expression is valid, and `U` otherwise. It can also be
     //! specialized to customize the data type of `U` without requiring `U`
-    //! to have a nested `hana_datatype` type. Finally, it is also possible
-    //! to use `when` to enable the a `datatype` specialization only when some
+    //! to have a nested `hana::datatype` type. Finally, it is also possible
+    //! to use `when` to enable a `datatype` specialization only when some
     //! boolean condition is true or when some expression is well-formed with
     //! `is_valid`.
+    //!
+    //! ### Tip
+    //! If compile-time performance is a serious concern, consider specializing
+    //! the `datatype` metafunction in Hana's namespace. When unspecialized,
+    //! the metafunction has to use SFINAE, which tends to incur a larger
+    //! compile-time overhead.
     //!
     //! ### Example
     //! @snippet example/core/datatype.cpp main

@@ -27,7 +27,7 @@ namespace boost { namespace hana {
         template <typename Storage, typename = operators::enable_adl>
         struct set {
             Storage storage;
-            using hana_datatype = Set;
+            struct hana { using datatype = Set; };
         };
     }
 

@@ -16,7 +16,7 @@ using namespace boost::hana;
 struct Datatype;
 
 struct Anything;
-struct anything { using hana_datatype = Anything; };
+struct anything { struct hana { using datatype = Anything; }; };
 
 static_assert(std::is_same<
     datatype_t<decltype(detail::wrap<Datatype>(anything{}))>,

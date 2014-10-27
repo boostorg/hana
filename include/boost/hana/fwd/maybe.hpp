@@ -35,11 +35,11 @@ namespace boost { namespace hana {
 
     namespace maybe_detail {
         template <bool is_valid, typename T, typename = operators::enable_adl>
-        struct maybe { using hana_datatype = Maybe; };
+        struct maybe { struct hana { using datatype = Maybe; }; };
 
         template <typename T>
         struct maybe<true, T> {
-            using hana_datatype = Maybe;
+            struct hana { using datatype = Maybe; };
             T val;
         };
 

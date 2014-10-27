@@ -32,8 +32,8 @@ template <> struct Typeclass::instance<Instance> { };
 template <typename T>
 struct Typeclass::instance<T, when<std::is_same<T, PredicatedInstance>{}>> { };
 
-struct an_instance { using hana_datatype = Instance; };
-struct not_instance { using hana_datatype = NotInstance; };
+struct an_instance { struct hana { using datatype = Instance; }; };
+struct not_instance { struct hana { using datatype = NotInstance; }; };
 
 
 int main() {

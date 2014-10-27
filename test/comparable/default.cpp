@@ -12,8 +12,8 @@ using namespace boost::hana;
 
 
 int main() {
-    struct X { using hana_datatype = X; };
-    struct Y { using hana_datatype = Y; };
+    struct X { struct hana { using datatype = X; }; };
+    struct Y { struct hana { using datatype = Y; }; };
     constexpr X x{};
     constexpr Y y{};
 

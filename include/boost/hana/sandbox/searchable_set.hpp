@@ -33,7 +33,7 @@ namespace boost { namespace hana {
     template <typename Find, typename = operators::enable_adl>
     struct _sset {
         Find find;
-        using hana_datatype = SearchableSet;
+        struct hana { using datatype = SearchableSet; };
     };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto searchable_set = [](auto pred) {

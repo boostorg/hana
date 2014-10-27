@@ -29,7 +29,7 @@ namespace test {
         template <unsigned long n, typename Storage, typename Token>
         struct injection_impl {
             Storage storage;
-            using hana_datatype = Injection;
+            struct hana { using datatype = Injection; };
         };
     }
 

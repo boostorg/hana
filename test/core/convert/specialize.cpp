@@ -14,13 +14,13 @@ using namespace boost::hana;
 struct Datatype1;
 struct datatype1 {
     int value;
-    using hana_datatype = Datatype1;
+    struct hana { using datatype = Datatype1; };
 };
 
 struct Datatype2;
 struct datatype2 {
     int value;
-    using hana_datatype = Datatype2;
+    struct hana { using datatype = Datatype2; };
 };
 
 namespace boost { namespace hana {

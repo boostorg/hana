@@ -15,7 +15,7 @@ namespace test {
     struct product_type {
         X fst;
         Y snd;
-        using hana_datatype = Mcd;
+        struct hana { using datatype = Mcd; };
     };
 
     template <typename Mcd>

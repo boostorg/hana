@@ -37,7 +37,7 @@ namespace boost { namespace hana {
         template <typename T, typename = operators::enable_adl>
         struct map {
             T storage;
-            using hana_datatype = Map;
+            struct hana { using datatype = Map; };
         };
     }
 
