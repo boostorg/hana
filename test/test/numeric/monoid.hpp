@@ -7,7 +7,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TEST_TEST_NUMERIC_MONOID_HPP
 #define BOOST_HANA_TEST_TEST_NUMERIC_MONOID_HPP
 
-#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/monoid.hpp>
 #include <test/numeric/numeric.hpp>
 
@@ -19,7 +18,7 @@ namespace boost { namespace hana {
         static constexpr auto plus_impl(X x, Y y)
         { return test::numeric(x.value + y.value); }
 
-        static BOOST_HANA_CONSTEXPR_LAMBDA auto zero_impl()
+        static constexpr auto zero_impl()
         { return test::numeric(0); }
     };
 }}

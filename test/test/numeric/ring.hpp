@@ -7,7 +7,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TEST_TEST_NUMERIC_RING_HPP
 #define BOOST_HANA_TEST_TEST_NUMERIC_RING_HPP
 
-#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/ring.hpp>
 #include <test/numeric/numeric.hpp>
 
@@ -22,7 +21,7 @@ namespace boost { namespace hana {
         static constexpr auto mult_impl(X x, Y y)
         { return test::numeric(x.value * y.value); }
 
-        static BOOST_HANA_CONSTEXPR_LAMBDA auto one_impl()
+        static constexpr auto one_impl()
         { return test::numeric(1); }
     };
 }}

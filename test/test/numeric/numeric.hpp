@@ -8,7 +8,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_TEST_TEST_NUMERIC_NUMERIC_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/detail/constexpr.hpp>
 
 
 namespace test {
@@ -20,9 +19,12 @@ namespace test {
 
     using Numeric = boost::hana::datatype_t<numeric_type>;
 
-    BOOST_HANA_CONSTEXPR_LAMBDA auto numeric = [](auto x) {
-        return numeric_type{x};
+    struct _numeric {
+        constexpr numeric_type operator()(int x) const {
+            return {x};
+        }
     };
+    constexpr _numeric numeric{};
 }
 
 #endif //! BOOST_HANA_TEST_TEST_NUMERIC_NUMERIC_HPP
