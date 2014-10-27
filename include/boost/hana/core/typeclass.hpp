@@ -57,8 +57,8 @@ namespace boost { namespace hana {
         { };                                                                \
                                                                             \
         template <typename T>                                               \
-        struct instance<T, decltype((void)(typename T::hana_ ## NAME*)0)>   \
-            : T::hana_ ## NAME                                              \
+        struct instance<T, decltype((void)(typename T::hana::NAME*)0)>      \
+            : T::hana::NAME                                                 \
         { };                                                                \
                                                                             \
         template <typename T, bool condition>                               \

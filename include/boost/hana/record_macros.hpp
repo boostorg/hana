@@ -78,7 +78,7 @@ Distributed under the Boost Software License, Version 1.0.
 /**/
 
 //! Defines an instance of `Record` with the given members.
-//! @relates bost::hana::Record
+//! @relates boost::hana::Record
 //!
 //! Specifically, use this macro in the public section of a user-defined type
 //! `T` to define an instance of the `Record` type class for `T`. Note that
@@ -101,13 +101,13 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_PP_DEFINE_RECORD_INTRUSIVE_IMPL(DATATYPE, MEMBERS)       \
     BOOST_PP_SEQ_FOR_EACH(BOOST_HANA_PP_RECORD_DECLARE_MEMBER_IMPL, ~, MEMBERS)\
                                                                             \
-    struct hana_Record : ::boost::hana::Record::mcd {                       \
+    struct hana { struct Record : ::boost::hana::Record::mcd {              \
         BOOST_HANA_PP_RECORD_DEFINE_INSTANCE_IMPL(MEMBERS)                  \
-    }                                                                       \
+    }; }                                                                    \
 /**/
 
 //! Defines an instance of `Record` with the given members.
-//! @relates bost::hana::Record
+//! @relates boost::hana::Record
 //!
 //! Specifically, use this macro at __global scope__ to define an instance of
 //! the `Record` type class for a given data type.

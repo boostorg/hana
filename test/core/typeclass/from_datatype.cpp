@@ -15,12 +15,12 @@ struct Typeclass {
 };
 
 struct Datatype {
-    struct hana_Typeclass { using dispatch = hana_Typeclass; };
+    struct hana { struct Typeclass { struct dispatch; }; };
 };
 
 static_assert(std::is_same<
     Typeclass::instance<Datatype>::dispatch,
-    Datatype::hana_Typeclass
+    Datatype::hana::Typeclass::dispatch
 >::value, "");
 
 int main() { }
