@@ -17,12 +17,8 @@ libraries.
 - To consider: is it possible/desirable to eliminate partial functions?
   For example, removing `head` and `tail`, which can fail, and replace
   them by a function which returns a `Maybe`.
-- Document the library's stance on perfect forwarding and move semantics.
-  Make compile-time tests with non-copyable types and runtime tests with
-  expensive-to-copy types.
 - Document how to write common Boost.Fusion and Boost.MPL idioms with
   Boost.Hana.
-- Write runtime benchmarks.
 - Setup a BJam build system.
 
 @copyright Louis Dionne 2014
