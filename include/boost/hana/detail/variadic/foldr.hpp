@@ -29,13 +29,13 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
 
     template <typename ...Xs, typename F, typename S>
     constexpr decltype(auto) foldr_impl(F&& f, S, Type*) {
-        return foldr1<Xs..., typename S::type>(
+        return foldr1_t<Xs..., typename S::type>(
             detail::std::forward<F>(f)
         );
     }
 
     template <typename ...Xs, typename F, typename S>
-    constexpr decltype(auto) foldr(F&& f, S&& s) {
+    constexpr decltype(auto) foldr_t(F&& f, S&& s) {
         return foldr_impl<Xs...>(
             detail::std::forward<F>(f),
             detail::std::forward<S>(s),
@@ -43,14 +43,18 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
         );
     }
 
-    template <typename F, typename S, typename ...Xs>
-    constexpr decltype(auto) foldr(F&& f, S&& s, Xs&& ...xs) {
-        return foldr1(
-            detail::std::forward<F>(f),
-            detail::std::forward<Xs>(xs)...,
-            detail::std::forward<S>(s)
-        );
-    }
+    struct _foldr {
+        template <typename F, typename S, typename ...Xs>
+        constexpr decltype(auto) operator()(F&& f, S&& s, Xs&& ...xs) const {
+            return foldr1(
+                detail::std::forward<F>(f),
+                detail::std::forward<Xs>(xs)...,
+                detail::std::forward<S>(s)
+            );
+        }
+    };
+
+    constexpr _foldr foldr{};
 }}}} // end namespace boost::hana::detail::variadic
 
 #endif // !BOOST_HANA_DETAIL_VARIADIC_FOLDR_HPP

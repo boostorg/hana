@@ -25,8 +25,8 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto x, auto y) { return mf(x, y); };
 template <typename ...Ts, typename R>
 void test(R result) {
     static_assert(sizeof...(Ts) >= 1, "foldl1 requires at least 1 element");
-    BOOST_HANA_CONSTANT_ASSERT(equal(variadic::foldl1<Ts...>(mf), result));
-    BOOST_HANA_CONSTANT_ASSERT(equal(variadic::foldl1<Ts...>(f), result));
+    BOOST_HANA_CONSTANT_ASSERT(equal(variadic::foldl1_t<Ts...>(mf), result));
+    BOOST_HANA_CONSTANT_ASSERT(equal(variadic::foldl1_t<Ts...>(f), result));
     BOOST_HANA_CONSTANT_ASSERT(equal(variadic::foldl1(mf, type<Ts>...), result));
     BOOST_HANA_CONSTANT_ASSERT(equal(variadic::foldl1(f, type<Ts>...), result));
 }
