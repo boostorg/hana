@@ -20,7 +20,7 @@ namespace boost { namespace hana {
         : IntegralConstant::mcd
     {
         template <typename T, T v>
-        static constexpr auto integral_contant_impl() {
+        static constexpr auto integral_constant_impl() {
             return test::cnumeric<T, v>;
         }
     };
