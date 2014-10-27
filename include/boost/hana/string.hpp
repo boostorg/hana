@@ -20,8 +20,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 //! @todo
 //! This enables conversion from any Foldable to a List, so String -> List
-//! works. It also contains Searchable::list_mcd, which is used as a hack
-//! below.
+//! works.
 #include <boost/hana/list.hpp>
 
 // instances
@@ -184,12 +183,9 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/string/searchable.cpp main
-    //!
-    //! @todo
-    //! Don't use the `list_mcd`, or make it an `iterable_mcd`.
     template <>
     struct Searchable::instance<String>
-        : Searchable::list_mcd
+        : Searchable::iterable_mcd
     { };
 }} // end namespace boost::hana
 

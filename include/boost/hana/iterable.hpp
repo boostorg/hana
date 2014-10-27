@@ -20,6 +20,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/enumerable.hpp>
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/logical.hpp>
+#include <boost/hana/maybe.hpp>
 #include <boost/hana/monoid.hpp>
 
 // provided instances
@@ -67,6 +68,7 @@ namespace boost { namespace hana {
             }
         };
     }
+
     //! Minimal complete definition: `head`, `tail` and `is_empty`
     struct Iterable::mcd {
         template <typename Index, typename Iterable_>
@@ -189,6 +191,48 @@ namespace boost { namespace hana {
     template <typename T>
     struct Foldable::instance<T, when<is_an<Iterable, T>()>>
         : Foldable::iterable_mcd
+    { };
+
+    //! Minimal complete definition: `Iterable`
+    //!
+    //! @todo
+    //! Use perfect forwarding once bug
+    //! http://llvm.org/bugs/show_bug.cgi?id=20619
+    //! is fixed.
+    struct Searchable::iterable_mcd : Searchable::mcd {
+        template <typename Xs, typename Pred>
+        static constexpr auto find_impl(Xs xs, Pred pred) {
+            auto e = drop_until(xs, pred);
+            return eval_if(is_empty(e),
+                always(nothing),
+                [=](auto _) { return just(_(head)(e)); }
+            );
+        }
+
+        template <typename Xs, typename Pred>
+        static constexpr auto any_impl(Xs xs, Pred pred) {
+            return eval_if(is_empty(xs),
+                always(false_),
+                [=](auto _) {
+                    return eval_if(pred(_(head)(xs)),
+                        always(true_),
+                        [=](auto _) { return any_impl(_(tail)(xs), pred); }
+                    );
+                }
+            );
+        }
+    };
+
+    //! Instance of `Searchable` for `Iterable`s.
+    //!
+    //! An `Iterable` can be searched by doing a linear search in the elements,
+    //! with the keys and values both being the elements in the iterable.
+    //!
+    //! ### Example
+    //! @snippet example/iterable/searchable.cpp find
+    template <typename T>
+    struct Searchable::instance<T, when<is_an<Iterable, T>()>>
+        : Searchable::iterable_mcd
     { };
 }} // end namespace boost::hana
 

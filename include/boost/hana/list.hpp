@@ -482,51 +482,6 @@ namespace boost { namespace hana {
         : Monad::list_mcd<T>
     { };
 
-    //! Minimal complete definition: `List`
-    //!
-    //! @todo
-    //! Use perfect forwarding once bug
-    //! http://llvm.org/bugs/show_bug.cgi?id=20619
-    //! is fixed.
-    struct Searchable::list_mcd : Searchable::mcd {
-        template <typename Xs, typename Pred>
-        static constexpr auto find_impl(Xs xs, Pred pred) {
-            auto e = drop_until(xs, pred);
-            return eval_if(is_empty(e),
-                [](auto) { return nothing; },
-                [=](auto _) { return just(_(head)(e)); }
-            );
-        }
-
-        template <typename Xs, typename Pred>
-        static constexpr auto any_impl(Xs xs, Pred pred) {
-            return eval_if(is_empty(xs),
-                [](auto _) { return false_; },
-                [=](auto _) {
-                    return eval_if(pred(_(head)(xs)),
-                        [=](auto _) { return true_; },
-                        [=](auto _) { return any_impl(_(tail)(xs), pred); }
-                    );
-                }
-            );
-        }
-    };
-
-    //! Instance of `Searchable` for `List`s.
-    //!
-    //! A `List` can be searched by doing a linear search in the elements,
-    //! with the keys and values being both the elements in the list.
-    //!
-    //! @todo
-    //! Technically, this can be implemented in `Iterable`. Should it?
-    //!
-    //! ### Example
-    //! @snippet example/list/searchable.cpp find
-    template <typename T>
-    struct Searchable::instance<T, when<is_a<List, T>()>>
-        : Searchable::list_mcd
-    { };
-
     template <typename T>
     struct Traversable::list_mcd : Traversable::traverse_mcd {
         template <typename A, typename Xs, typename F>

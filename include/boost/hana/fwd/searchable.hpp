@@ -44,7 +44,7 @@ namespace boost { namespace hana {
         struct mcd;
         template <typename R>
         struct record_mcd;
-        struct list_mcd;
+        struct iterable_mcd;
     };
 
     //! Return whether any key of the structure satisfies the `predicate`.
