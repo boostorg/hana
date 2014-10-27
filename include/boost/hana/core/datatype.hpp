@@ -17,16 +17,6 @@ namespace boost { namespace hana {
     //! @defgroup group-datatypes Data types
     //! General purpose data types provided by the library.
 
-    namespace core_detail {
-        template <typename T, typename Enable = void>
-        struct default_datatype { using type = T; };
-
-        template <typename T>
-        struct default_datatype<T, decltype((void)(typename T::hana::datatype*)0)> {
-            using type = typename T::hana::datatype;
-        };
-    }
-
     //! @ingroup group-core
     //! Metafunction returning the data type associated to `T`.
     //!
@@ -36,18 +26,17 @@ namespace boost { namespace hana {
     //! @code
     //!     U::hana::datatype
     //! @endcode
-    //! if that expression is valid, and `U` otherwise. It can also be
-    //! specialized to customize the data type of `U` without requiring `U`
-    //! to have a nested `hana::datatype` type. Finally, it is also possible
-    //! to use `when` to enable a `datatype` specialization only when some
-    //! boolean condition is true or when some expression is well-formed with
-    //! `is_valid`.
+    //! if that expression is valid, and `U` otherwise. If `U` does not
+    //! have a nested `hana::datatype` type, the metafunction can also be
+    //! specialized in the `boost::hana` namespace, optionally using `when`
+    //! to allow flexible specializations.
     //!
     //! ### Tip
     //! If compile-time performance is a serious concern, consider specializing
     //! the `datatype` metafunction in Hana's namespace. When unspecialized,
     //! the metafunction has to use SFINAE, which tends to incur a larger
-    //! compile-time overhead.
+    //! compile-time overhead. For heavily used templated types, this can
+    //! potentially make a difference.
     //!
     //! ### Example
     //! @snippet example/core/datatype.cpp main
@@ -60,7 +49,12 @@ namespace boost { namespace hana {
 
     template <typename T, bool condition>
     struct datatype<T, when<condition>> {
-        using type = typename core_detail::default_datatype<T>::type;
+        using type = T;
+    };
+
+    template <typename T>
+    struct datatype<T, when<is_valid<typename T::hana::datatype>>> {
+        using type = typename T::hana::datatype;
     };
 
     template <typename T> struct datatype<T const> : datatype<T> { };

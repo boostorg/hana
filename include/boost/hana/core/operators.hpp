@@ -48,24 +48,6 @@ namespace boost { namespace hana {
         struct enable_adl { };
     }
 
-    namespace core_detail {
-        template <typename Datatype, typename = void*>
-        struct default_enabled_operators { };
-
-        template <typename Datatype>
-        struct default_enabled_operators<Datatype, decltype((void*)(
-            (typename Datatype::hana::enabled_operators*)0
-        ))>
-            : Datatype::hana::enabled_operators
-        { };
-
-        template <typename Typeclass>
-        constexpr bool enable_operators_impl(Typeclass*) { return true; }
-
-        template <typename Typeclass>
-        constexpr bool enable_operators_impl(...) { return false; }
-    }
-
     //! @ingroup group-core
     //! Trait describing the custom operators enabled for a data type.
     //!
@@ -73,16 +55,16 @@ namespace boost { namespace hana {
     //! classes for which custom operators (in namespace `operators`)
     //! should be provided for objects of data type `T`.
     //!
-    //! The trait may be specialized for user-defined data types. Note that
-    //! specializations may use `when` to provide flexible specializations.
-    //! If the trait is not specialized, it is equivalent to
-    //! `T::hana::enabled_operators` if that expression is valid,
-    //! and to an empty struct otherwise.
+    //! If the `T::hana::enabled_operators` type exists, the trait uses that.
+    //! Otherwise, the trait may be specialized in the `boost::hana` namespace,
+    //! optionally using `when` to allow flexible specializations. If the trait
+    //! is not specialized and `T::hana::enable_operators` is not a valid type,
+    //! it defaults to an empty struct.
     //!
-    //! This trait only controls which operators are enabled when they are
-    //! found by name lookup. To make the operators findable, one should use
-    //! `operators::enable_adl` or import the operators from the `operators`
-    //! namespace explicitly.
+    //! Note that this trait only controls which operators are enabled when
+    //! they are found by name lookup. To make the operators findable, one
+    //! should use `operators::enable_adl` or import the operators from the
+    //! `operators` namespace explicitly.
     template <typename Datatype, typename = void>
     struct enabled_operators
         //! @cond
@@ -90,10 +72,25 @@ namespace boost { namespace hana {
         //! @endcond
     { };
 
-    template <typename Datatype, bool condition>
-    struct enabled_operators<Datatype, when<condition>>
-        : core_detail::default_enabled_operators<Datatype>
+    template <typename Datatype>
+    struct enabled_operators<Datatype,
+        when<is_valid<typename Datatype::hana::enabled_operators>>
+    >
+        : Datatype::hana::enabled_operators
     { };
+
+    template <typename Datatype, bool condition>
+    struct enabled_operators<Datatype, when<condition>> {
+        // empty
+    };
+
+    namespace core_detail {
+        template <typename Typeclass>
+        constexpr bool enable_operators_impl(Typeclass*) { return true; }
+
+        template <typename Typeclass>
+        constexpr bool enable_operators_impl(...) { return false; }
+    }
 
     //! @ingroup group-core
     //! Return whether the custom operators of a type class are enabled for
