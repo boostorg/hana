@@ -94,8 +94,8 @@ namespace boost { namespace hana {
     //!
     //!
     //! @param n
-    //! A non-negative `Integral` representing the 0-based index of the
-    //! element to return. The iterable must contain at least `n + 1`
+    //! A non-negative `IntegralConstant` representing the 0-based index of
+    //! the element to return. The iterable must contain at least `n + 1`
     //! elements.
     //!
     //! @param iterable
@@ -107,8 +107,6 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/iterable/at.ctime.png
-    //!
-    //! @todo Only require `IntegralConstant`, not `Integral`.
     BOOST_HANA_CONSTEXPR_LAMBDA auto at = [](auto&& n, auto&& iterable) -> decltype(auto) {
         return Iterable::instance<
             datatype_t<decltype(iterable)>
@@ -161,8 +159,8 @@ namespace boost { namespace hana {
     //!
     //!
     //! @param n
-    //! A non-negative `Integral` representing the number of elements to be
-    //! dropped from the iterable. If `n` is greater than the number of
+    //! A non-negative `IntegralConstant` representing the number of elements
+    //! to be dropped from the iterable. If `n` is greater than the number of
     //! elements in the iterable, the returned iterable is empty.
     //!
     //! @param iterable
