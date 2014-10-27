@@ -73,11 +73,13 @@ namespace boost { namespace hana {
     //! anything that can be incremented, decremented and compared to some
     //! "zero" value can implement a `times` method with the same semantics.
     struct Integral {
-        struct hana_enabled_operators
-            : Comparable, Orderable,
-              Logical,
-              Monoid, Group, Ring, IntegralDomain
-        { };
+        struct hana {
+            struct enabled_operators
+                : Comparable, Orderable,
+                  Logical,
+                  Monoid, Group, Ring, IntegralDomain
+            { };
+        };
     };
 
     namespace integral_detail {

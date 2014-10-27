@@ -27,7 +27,7 @@ namespace boost { namespace hana {
     //!
     //! Taken from http://math.andrej.com/2008/11/21/a-haskell-monad-for-infinite-search-in-finite-time/.
     struct SearchableSet {
-        struct hana_enabled_operators : Comparable, Monad { };
+        struct hana { struct enabled_operators : Comparable, Monad { }; };
     };
 
     template <typename Find, typename = operators::enable_adl>

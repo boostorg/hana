@@ -29,9 +29,7 @@ namespace boost { namespace hana {
     //! Remove the requirement that the range contains `Integral`s, and allow
     //! any `Orderable` and `Comparable` `Ring`, or something similar.
     struct Range {
-        struct hana_enabled_operators
-            : Comparable, Iterable
-        { };
+        struct hana { struct enabled_operators : Comparable, Iterable { }; };
     };
 
     namespace range_detail {

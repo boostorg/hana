@@ -22,7 +22,7 @@ namespace boost { namespace hana {
     //!
     //! ### Instance of
     //! `Comparable`, `Product`, `Foldable`
-    struct Pair { struct hana_enabled_operators : Comparable { }; };
+    struct Pair { struct hana { struct enabled_operators : Comparable { }; }; };
 
     namespace pair_detail {
         template <typename First, typename Second, typename = operators::enable_adl>

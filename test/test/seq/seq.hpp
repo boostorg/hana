@@ -15,7 +15,7 @@ namespace test {
     //! @todo Find a way not to enable operators here, but to only enable them
     //! in the unit tests where they are needed.
     struct Seq {
-        struct hana_enabled_operators : boost::hana::Iterable { };
+        struct hana { struct enabled_operators :  boost::hana::Iterable { }; };
     };
 
     template <typename Storage>

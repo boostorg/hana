@@ -54,9 +54,9 @@ namespace boost { namespace hana {
 
         template <typename Datatype>
         struct default_enabled_operators<Datatype, decltype((void*)(
-            (typename Datatype::hana_enabled_operators*)0
+            (typename Datatype::hana::enabled_operators*)0
         ))>
-            : Datatype::hana_enabled_operators
+            : Datatype::hana::enabled_operators
         { };
 
         template <typename Typeclass>
@@ -76,7 +76,7 @@ namespace boost { namespace hana {
     //! The trait may be specialized for user-defined data types. Note that
     //! specializations may use `when` to provide flexible specializations.
     //! If the trait is not specialized, it is equivalent to
-    //! `T::hana_enabled_operators` if that expression is valid,
+    //! `T::hana::enabled_operators` if that expression is valid,
     //! and to an empty struct otherwise.
     //!
     //! This trait only controls which operators are enabled when they are

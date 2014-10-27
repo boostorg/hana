@@ -27,9 +27,9 @@ namespace boost { namespace hana {
     //! `Comparable`, `Functor`, `Applicative`, `Monad`, `Traversable`,
     //! `Foldable`, `Iterable`, `List` and `Searchable`.
     struct Tuple {
-        struct hana_enabled_operators
-            : Comparable, Monad, Iterable
-        { };
+        struct hana {
+            struct enabled_operators : Comparable, Monad, Iterable { };
+        };
     };
 
     namespace detail { namespace repr {

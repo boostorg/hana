@@ -35,7 +35,7 @@ namespace boost { namespace hana {
     //! functionality would require evaluating the lazy values in most cases.
     //! Since this raises some issues such as side effects and memoization,
     //! the data type is kept simple.
-    struct Lazy { struct hana_enabled_operators : Monad { }; };
+    struct Lazy { struct hana { struct enabled_operators : Monad { }; }; };
 
     //! Evaluate a lazy value and return it.
     //! @relates Lazy

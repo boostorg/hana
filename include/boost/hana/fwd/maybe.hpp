@@ -31,7 +31,11 @@ namespace boost { namespace hana {
     //! ## Instance of
     //! `Comparable`, `Functor`, `Applicative`, `Monad`, `Foldable`,
     //! `Searchable` and `Traversable`.
-    struct Maybe { struct hana_enabled_operators : Comparable, Monad { }; };
+    struct Maybe {
+        struct hana {
+            struct enabled_operators : Comparable, Monad { };
+        };
+    };
 
     namespace maybe_detail {
         template <bool is_valid, typename T, typename = operators::enable_adl>

@@ -33,7 +33,9 @@ namespace boost { namespace hana {
     //!   map from `Type`s to `Type`s. Should it be modified so that
     //!   `TypeList` becomes `List` if we try to store something else
     //!   than `Type`s? The same issue goes for `IntegerList`.
-    struct TypeList { struct hana_enabled_operators : Comparable, Monad { }; };
+    struct TypeList {
+        struct hana { struct enabled_operators : Comparable, Monad { }; };
+    };
 
     namespace detail { namespace repr {
         template <typename ...xs>

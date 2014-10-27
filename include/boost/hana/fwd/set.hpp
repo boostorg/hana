@@ -21,7 +21,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     //! @ingroup group-datatypes
     //! A basic unordered container requiring `Comparable` elements.
-    struct Set { struct hana_enabled_operators : Comparable { }; };
+    struct Set { struct hana { struct enabled_operators : Comparable { }; }; };
 
     namespace set_detail {
         template <typename Storage, typename = operators::enable_adl>

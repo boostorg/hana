@@ -23,12 +23,14 @@ Distributed under the Boost Software License, Version 1.0.
 namespace cppcon {
     template <unsigned Rows, unsigned Columns>
     struct Matrix {
-        struct hana_enabled_operators
-            : boost::hana::Comparable
-            , boost::hana::Monoid
-            , boost::hana::Group
-            , boost::hana::Ring
-        { };
+        struct hana {
+            struct enabled_operators
+                : boost::hana::Comparable
+                , boost::hana::Monoid
+                , boost::hana::Group
+                , boost::hana::Ring
+            { };
+        };
     };
 
     template <unsigned Rows, unsigned Columns, typename Storage,

@@ -17,7 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     struct Function {
-        struct hana_enabled_operators : Comparable { };
+        struct hana { struct enabled_operators :  Comparable { }; };
     };
 
     template <typename Domain, typename Codomain, typename F, typename = operators::enable_adl>

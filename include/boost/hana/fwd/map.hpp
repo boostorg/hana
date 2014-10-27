@@ -31,7 +31,9 @@ namespace boost { namespace hana {
     //!
     //! ### Instance of
     //! `Comparable` and `Searchable`
-    struct Map { struct hana_enabled_operators : Comparable { }; };
+    struct Map {
+        struct hana { struct enabled_operators : Comparable { }; };
+    };
 
     namespace map_detail {
         template <typename T, typename = operators::enable_adl>

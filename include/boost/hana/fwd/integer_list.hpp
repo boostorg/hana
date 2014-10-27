@@ -26,7 +26,11 @@ namespace boost { namespace hana {
     //! @note
     //! `IntegerList` may be more efficient than `Tuple` because of
     //! optimizations. When possible, it should be preferred.
-    struct IntegerList { struct hana_enabled_operators : Comparable, Monad { }; };
+    struct IntegerList {
+        struct hana {
+            struct enabled_operators : Comparable, Monad { };
+        };
+    };
 
     namespace ilist_detail {
         template <typename T, T ...xs>

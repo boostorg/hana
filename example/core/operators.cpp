@@ -18,7 +18,7 @@ template <typename = operators::enable_adl>
 struct Person_ {
     std::string name;
 
-    struct hana_enabled_operators : Comparable { };
+    struct hana { struct enabled_operators : Comparable { }; };
 };
 using Person = Person_<>;
 
@@ -28,7 +28,7 @@ struct Employee : operators::enable_adl {
     explicit Employee(std::string n) : name{n} { }
     std::string name;
 
-    struct hana_enabled_operators : Comparable { };
+    struct hana { struct enabled_operators : Comparable { }; };
 };
 
 namespace boost { namespace hana {

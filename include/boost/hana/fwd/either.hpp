@@ -34,7 +34,11 @@ namespace boost { namespace hana {
     //!
     //! ## Instance of
     //! `Comparable`, `Functor`, `Applicative` and `Monad`.
-    struct Either { struct hana_enabled_operators : Comparable, Monad { }; };
+    struct Either {
+        struct hana {
+            struct enabled_operators : Comparable, Monad { };
+        };
+    };
 
     namespace either_detail {
         template <typename X, typename = operators::enable_adl>

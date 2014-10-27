@@ -68,7 +68,7 @@ namespace boost { namespace hana {
     //! and also [Core 1430](http://www.open-std.org/jtc1/sc22/wg21/docs/cwg_active.html#1430)
     //! issue. Once this issue is resolved, look at the unit tests for those
     //! utilities and either uncomment or remove the relevant test section.
-    struct Type { struct hana_enabled_operators : Comparable { }; };
+    struct Type { struct hana { struct enabled_operators : Comparable { }; }; };
 
     struct Metafunction { };
 

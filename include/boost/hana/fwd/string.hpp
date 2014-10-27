@@ -34,9 +34,9 @@ namespace boost { namespace hana {
     //! Using an anonymous type could have compile-time performance benefits,
     //! so this avenue should be explored once the bug is fixed.
     struct String {
-        struct hana_enabled_operators
-            : Comparable, Orderable, Iterable
-        { };
+        struct hana {
+            struct enabled_operators : Comparable, Orderable, Iterable { };
+        };
     };
 
     namespace string_detail {

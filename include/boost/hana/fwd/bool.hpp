@@ -21,7 +21,11 @@ namespace boost { namespace hana {
     //!
     //! ### Instance of
     //! `Comparable`, `Constant` and `Logical`
-    struct Bool { struct hana_enabled_operators : Comparable, Logical { }; };
+    struct Bool {
+        struct hana {
+            struct enabled_operators : Comparable, Logical { };
+        };
+    };
 
     namespace bool_detail {
         template <bool v>
