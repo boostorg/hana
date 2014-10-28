@@ -10,9 +10,13 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FUNCTIONAL_INFIX_HPP
 #define BOOST_HANA_FUNCTIONAL_INFIX_HPP
 
-#include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/reverse_partial.hpp>
+#include <boost/hana/detail/std/decay.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/move.hpp>
+#include <boost/hana/detail/std/remove_cv.hpp>
+#include <boost/hana/detail/std/remove_reference.hpp>
+#include <boost/hana/functional/partial.hpp>
 
 
 namespace boost { namespace hana {
@@ -77,8 +81,10 @@ namespace boost { namespace hana {
     };
 #else
     namespace infix_detail {
-        template <typename F, bool left = false, bool right = false>
-        struct infix {
+        // This needs to be in the same namespace as `operator^` so it can be
+        // found by ADL.
+        template <bool left, bool right, typename F>
+        struct _infix {
             F f;
 
             template <typename ...X>
@@ -94,52 +100,85 @@ namespace boost { namespace hana {
             { return detail::std::move(f)(detail::std::forward<X>(x)...); }
         };
 
+        template <bool left, bool right>
+        struct make_infix {
+            template <typename F>
+            constexpr _infix<left, right, typename detail::std::decay<F>::type>
+            operator()(F&& f) const { return {detail::std::forward<F>(f)}; }
+        };
+
+        template <bool left, bool right>
+        struct Infix;
+        struct Object;
+
+        template <typename T>
+        struct dispatch { using type = Object; };
+
+        template <bool left, bool right, typename F>
+        struct dispatch<_infix<left, right, F>> {
+            using type = Infix<left, right>;
+        };
+
+        template <typename, typename>
+        struct bind_infix;
+
         // infix(f) ^ y
-        template <typename F, bool left, bool right, typename Y>
-        constexpr auto operator^(infix<F, left, right> f, Y y) {
-            static_assert(!right,
-            "invalid usage of boost::hana::infix with a double right operand");
+        template <>
+        struct bind_infix<Infix<false, false>, Object> {
+            template <typename F, typename Y>
+            static constexpr decltype(auto) apply(F&& f, Y&& y) {
+                return make_infix<false, true>{}(
+                    detail::reverse_partial(
+                        detail::std::forward<F>(f), detail::std::forward<Y>(y)
+                    )
+                );
+            }
+        };
 
-            auto g = [f(detail::std::move(f)), y(detail::std::move(y))]
-                     (auto&& ...x) -> decltype(auto) {
-                return f(detail::std::forward<decltype(x)>(x)..., y);
-            };
-            return infix<decltype(g), left, true>{detail::std::move(g)};
-        }
-
-        template <typename F, bool right, typename Y>
-        constexpr decltype(auto) operator^(infix<F, true, right> f, Y&& y) {
-            static_assert(!right,
-            "invalid usage of boost::hana::infix with a double right operand");
-
-            return detail::std::move(f)(detail::std::forward<Y>(y));
-        }
+        // (x^infix(f)) ^ y
+        template <>
+        struct bind_infix<Infix<true, false>, Object> {
+            template <typename F, typename Y>
+            static constexpr decltype(auto) apply(F&& f, Y&& y) {
+                return detail::std::forward<F>(f)(detail::std::forward<Y>(y));
+            }
+        };
 
         // x ^ infix(f)
-        template <typename X, typename F, bool left, bool right>
-        constexpr auto operator^(X x, infix<F, left, right> f) {
-            static_assert(!left,
-            "invalid usage of boost::hana::infix with a double left operand");
+        template <>
+        struct bind_infix<Object, Infix<false, false>> {
+            template <typename X, typename F>
+            static constexpr decltype(auto) apply(X&& x, F&& f) {
+                return make_infix<true, false>{}(
+                    partial(detail::std::forward<F>(f), detail::std::forward<X>(x))
+                );
+            }
+        };
 
-            auto g = [f(detail::std::move(f)), x(detail::std::move(x))]
-                     (auto&& ...y) -> decltype(auto) {
-                return f(x, detail::std::forward<decltype(y)>(y)...);
-            };
-            return infix<decltype(g), true, right>{detail::std::move(g)};
-        }
+        // x ^ (infix(f)^y)
+        template <>
+        struct bind_infix<Object, Infix<false, true>> {
+            template <typename X, typename F>
+            static constexpr decltype(auto) apply(X&& x, F&& f) {
+                return detail::std::forward<F>(f)(detail::std::forward<X>(x));
+            }
+        };
 
-        template <typename X, typename F, bool left>
-        constexpr decltype(auto) operator^(X&& x, infix<F, left, true> f) {
-            static_assert(!left,
-            "invalid usage of boost::hana::infix with a double left operand");
+        template <typename T>
+        using strip = typename detail::std::remove_cv<
+            typename detail::std::remove_reference<T>::type
+        >::type;
 
-            return detail::std::move(f)(detail::std::forward<X>(x));
+        template <typename X, typename Y>
+        constexpr decltype(auto) operator^(X&& x, Y&& y) {
+            return bind_infix<
+                typename dispatch<strip<X>>::type,
+                typename dispatch<strip<Y>>::type
+            >::apply(detail::std::forward<X>(x), detail::std::forward<Y>(y));
         }
     } // end namespace infix_detail
 
-    BOOST_HANA_CONSTEXPR_LAMBDA auto infix = [](auto f) {
-        return infix_detail::infix<decltype(f)>{detail::std::move(f)};
-    };
+    constexpr infix_detail::make_infix<false, false> infix{};
 #endif
 }} // end namespace boost::hana
 

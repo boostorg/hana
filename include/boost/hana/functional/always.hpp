@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FUNCTIONAL_ALWAYS_HPP
 #define BOOST_HANA_FUNCTIONAL_ALWAYS_HPP
 
-#include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/std/move.hpp>
 
 
@@ -36,11 +36,32 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/functional/always/basic.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto always = [](auto x) {
-        return [x(detail::std::move(x))](auto const& ...y) -> decltype(x) {
-            return x;
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto always = [](auto&& x) {
+        return [perfect-capture](auto const& ...y) -> decltype(auto) {
+            return forwarded(x);
         };
     };
+#else
+    template <typename T>
+    struct _always {
+        T val_;
+
+        template <typename ...Args>
+        constexpr T const& operator()(Args const& ...) const&
+        { return val_; }
+
+        template <typename ...Args>
+        constexpr T& operator()(Args const& ...) &
+        { return val_; }
+
+        template <typename ...Args>
+        constexpr T&& operator()(Args const& ...) &&
+        { return detail::std::move(val_); }
+    };
+
+    constexpr detail::create<_always> always{};
+#endif
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FUNCTIONAL_ALWAYS_HPP

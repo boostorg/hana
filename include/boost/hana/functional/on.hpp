@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FUNCTIONAL_ON_HPP
 #define BOOST_HANA_FUNCTIONAL_ON_HPP
 
-#include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/functional/infix.hpp>
@@ -51,12 +51,34 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/functional/on/plus.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto on = infix([](auto f, auto g) {
-        return [f(detail::std::move(f)), g(detail::std::move(g))]
-               (auto&& ...x) -> decltype(auto) {
-            return f(g(detail::std::forward<decltype(x)>(x))...);
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto on = infix([](auto&& f, auto&& g) {
+        return [perfect-capture](auto&& ...x) -> decltype(auto) {
+            return forwarded(f)(g(forwarded(x))...);
         };
     });
+#else
+    template <typename F, typename G>
+    struct _on {
+        F f; G g;
+        template <typename ...X>
+        constexpr decltype(auto) operator()(X&& ...x) const& {
+            return f(g(detail::std::forward<X>(x))...);
+        }
+
+        template <typename ...X>
+        constexpr decltype(auto) operator()(X&& ...x) & {
+            return f(g(detail::std::forward<X>(x))...);
+        }
+
+        template <typename ...X>
+        constexpr decltype(auto) operator()(X&& ...x) && {
+            return detail::std::move(f)(g(detail::std::forward<X>(x))...);
+        }
+    };
+
+    constexpr auto on = infix(detail::create<_on>{});
+#endif
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FUNCTIONAL_ON_HPP

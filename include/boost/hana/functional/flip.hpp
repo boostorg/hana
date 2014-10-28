@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FUNCTIONAL_FLIP_HPP
 #define BOOST_HANA_FUNCTIONAL_FLIP_HPP
 
-#include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/move.hpp>
 
@@ -26,15 +26,47 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/functional/flip.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto flip = [](auto f) {
-        return [f(detail::std::move(f))](auto&& x, auto&& y, auto&& ...z) -> decltype(auto) {
-            return f(
-                detail::std::forward<decltype(y)>(y),
-                detail::std::forward<decltype(x)>(x),
-                detail::std::forward<decltype(z)>(z)...
-            );
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto flip = [](auto&& f) {
+        return [perfect-capture](auto&& x, auto&& y, auto&& ...z) -> decltype(auto) {
+            return forwarded(f)(forwarded(y), forwarded(x), forwarded(z)...);
         };
     };
+#else
+    template <typename F>
+    struct _flip {
+        F f;
+
+        template <typename X, typename Y, typename ...Z>
+        constexpr decltype(auto) operator()(X&& x, Y&& y, Z&& ...z) const& {
+            return f(
+                detail::std::forward<Y>(y),
+                detail::std::forward<X>(x),
+                detail::std::forward<Z>(z)...
+            );
+        }
+
+        template <typename X, typename Y, typename ...Z>
+        constexpr decltype(auto) operator()(X&& x, Y&& y, Z&& ...z) & {
+            return f(
+                detail::std::forward<Y>(y),
+                detail::std::forward<X>(x),
+                detail::std::forward<Z>(z)...
+            );
+        }
+
+        template <typename X, typename Y, typename ...Z>
+        constexpr decltype(auto) operator()(X&& x, Y&& y, Z&& ...z) && {
+            return detail::std::move(f)(
+                detail::std::forward<Y>(y),
+                detail::std::forward<X>(x),
+                detail::std::forward<Z>(z)...
+            );
+        }
+    };
+
+    constexpr detail::create<_flip> flip{};
+#endif
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FUNCTIONAL_FLIP_HPP

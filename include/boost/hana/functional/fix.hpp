@@ -10,9 +10,9 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FUNCTIONAL_FIX_HPP
 #define BOOST_HANA_FUNCTIONAL_FIX_HPP
 
+#include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/move.hpp>
-#include <boost/hana/functional/always.hpp>
 
 
 namespace boost { namespace hana {
@@ -49,30 +49,33 @@ namespace boost { namespace hana {
     //!
     //! [Y-combinator]: http://en.wikipedia.org/wiki/Fixed-point_combinator
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto fix = [](auto f) {
-        return [f(std::move(f))](auto&& ...x) -> decltype(auto) {
-            return f(fix(f), std::forward<decltype(x)>(x)...);
+    constexpr auto fix = [](auto&& f) {
+        return [perfect-capture](auto&& ...x) -> decltype(auto) {
+            return forwarded(f)(fix(f), forwarded(x)...);
         };
     };
 #else
-    namespace functional_detail {
-        struct fix {
-            template <typename F>
-            constexpr auto operator()(F f) const {
-                return [f(detail::std::move(f))](auto&& ...x) -> decltype(auto) {
-                    // always is used to make the expression dependent on x.
-                    // Otherwise, we recursively instantiate fix::operator()
-                    // too soon and it blows up.
-                    return f(
-                        fix{}(always(f)(&x...)),
-                        detail::std::forward<decltype(x)>(x)...
-                    );
-                };
-            }
-        };
-    }
+    template <typename F>
+    struct _fix;
 
-    constexpr functional_detail::fix fix{};
+    constexpr detail::create<_fix> fix{};
+
+    template <typename F>
+    struct _fix {
+        F f;
+
+        template <typename ...X>
+        constexpr decltype(auto) operator()(X&& ...x) const&
+        { return f(fix(f), detail::std::forward<X>(x)...); }
+
+        template <typename ...X>
+        constexpr decltype(auto) operator()(X&& ...x) &
+        { return f(fix(f), detail::std::forward<X>(x)...); }
+
+        template <typename ...X>
+        constexpr decltype(auto) operator()(X&& ...x) &&
+        { return detail::std::move(f)(fix(f), detail::std::forward<X>(x)...); }
+    };
 #endif
 }} // end namespace boost::hana
 

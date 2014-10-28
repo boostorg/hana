@@ -10,7 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FUNCTIONAL_ARG_HPP
 #define BOOST_HANA_FUNCTIONAL_ARG_HPP
 
-#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/detail/variadic/at.hpp>
@@ -30,7 +29,7 @@ namespace boost { namespace hana {
     //! An unsigned integer representing the argument to return. `n` must be
     //! positive (meaning nonzero).
     //!
-    //! @param x...
+    //! @param x1, ..., xm
     //! A variadic pack of arguments from which the `n`th one is returned.
     //!
     //!
@@ -53,25 +52,31 @@ namespace boost { namespace hana {
     //! @snippet example/functional/arg.cpp main
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <std::size_t n>
-    constexpr auto arg = [](auto&& ...x) -> decltype(auto) {
-        unspecified
+    constexpr auto arg = [](auto&& x1, ..., auto&& xm) -> decltype(auto) {
+        return forwarded(xn);
     };
 #else
     template <detail::std::size_t n>
-    BOOST_HANA_CONSTEXPR_LAMBDA auto arg = [](auto&& ...x) -> decltype(auto) {
+    struct _arg {
         static_assert(n > 0,
-        "invalid usage of arg with n == 0");
+        "invalid usage of boost::hana::arg<n> with n == 0");
 
-        static_assert(sizeof...(x) >= n,
-        "invalid usage of arg with too few arguments");
+        template <typename ...X>
+        constexpr decltype(auto) operator()(X&& ...x) const {
+            static_assert(sizeof...(x) >= n,
+            "invalid usage of boost::hana::arg<n> with too few arguments");
 
-        // Since compilers will typically try to continue for a bit after
-        // an error/static assertion, we must avoid sending the compiler in
-        // a very long computation if n == 0.
-        return detail::variadic::at<n == 0 ? 0 : n - 1>(
-            detail::std::forward<decltype(x)>(x)...
-        );
+            // Since compilers will typically try to continue for a bit after
+            // an error/static assertion, we must avoid sending the compiler
+            // in a very long computation if n == 0.
+            return detail::variadic::at<n == 0 ? 0 : n - 1>(
+                detail::std::forward<X>(x)...
+            );
+        }
     };
+
+    template <detail::std::size_t n>
+    constexpr _arg<n> arg{};
 #endif
 }} // end namespace boost::hana
 

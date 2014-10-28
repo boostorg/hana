@@ -10,7 +10,8 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FUNCTIONAL_PARTIAL_HPP
 #define BOOST_HANA_FUNCTIONAL_PARTIAL_HPP
 
-#include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/closure.hpp>
+#include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/move.hpp>
 
@@ -29,11 +30,51 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/functional/partial.cpp main
-    BOOST_HANA_CONSTEXPR_LAMBDA auto partial = [](auto f, auto ...x) {
-        return [f(detail::std::move(f)), x...](auto&& ...y) -> decltype(auto) {
-            return f(x..., detail::std::forward<decltype(y)>(y)...);
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto partial = [](auto&& f, auto&& ...x) {
+        return [perfect-capture](auto&& ...y) -> decltype(auto) {
+            return forwarded(f)(forwarded(x)..., forwarded(y)...);
         };
     };
+#else
+    template <typename F, typename X>
+    struct _partial;
+
+    template <typename F, typename ...X>
+    struct _partial<F, detail::closure<X...>> {
+        F f;
+        detail::closure<X...> x;
+
+        template <typename ...Y>
+        constexpr decltype(auto) operator()(Y&& ...y) const& {
+            return f(static_cast<X const&>(x).get..., detail::std::forward<Y>(y)...);
+        }
+
+        template <typename ...Y>
+        constexpr decltype(auto) operator()(Y&& ...y) & {
+            return f(static_cast<X&>(x).get..., detail::std::forward<Y>(y)...);
+        }
+
+        template <typename ...Y>
+        constexpr decltype(auto) operator()(Y&& ...y) && {
+            return detail::std::move(f)(
+                static_cast<X&&>(x).get..., detail::std::forward<Y>(y)...
+            );
+        }
+    };
+
+    struct _make_partial {
+        template <typename F, typename ...X>
+        constexpr decltype(auto) operator()(F&& f, X&& ...x) const {
+            return detail::create<_partial>{}(
+                detail::std::forward<F>(f),
+                detail::create<detail::closure_t>{}(detail::std::forward<X>(x)...)
+            );
+        }
+    };
+
+    constexpr _make_partial partial{};
+#endif
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FUNCTIONAL_PARTIAL_HPP

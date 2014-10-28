@@ -60,6 +60,7 @@ int main() {
         ));
 
         always(z)(nonpod<>);
+        auto m = always(move_only{})(undefined<1>); (void)m;
     }
 
     // apply
@@ -145,6 +146,13 @@ int main() {
         auto h = [capture = move_only{}](int dummy) { return 1; };
         auto i = [](int dummy) { return 1; };
         compose(std::move(h), i)(1);
+
+        {
+            // Compose move-only functions.
+            auto f = [capture = move_only{}] (int) { return 1; };
+            auto g = [capture = move_only{}] (int) { return 1; };
+            auto c = compose(std::move(f), std::move(g)); (void)c;
+        }
     }
 
     // curry

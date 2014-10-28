@@ -10,7 +10,8 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FUNCTIONAL_PLACEHOLDER_HPP
 #define BOOST_HANA_FUNCTIONAL_PLACEHOLDER_HPP
 
-#include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/closure.hpp>
+#include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/move.hpp>
 
@@ -65,93 +66,163 @@ namespace boost { namespace hana {
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr unspecified _{};
 #else
-    namespace functional_detail {
+    namespace placeholder_detail {
+        template <typename I>
+        struct subscript {
+            I i;
+
+            template <typename Xs, typename ...Z>
+            constexpr decltype(auto) operator()(Xs&& xs, Z const& ...) const&
+            { return detail::std::forward<Xs>(xs)[i]; }
+
+            template <typename Xs, typename ...Z>
+            constexpr decltype(auto) operator()(Xs&& xs, Z const& ...) &
+            { return detail::std::forward<Xs>(xs)[i]; }
+
+            template <typename Xs, typename ...Z>
+            constexpr decltype(auto) operator()(Xs&& xs, Z const& ...) &&
+            { return detail::std::forward<Xs>(xs)[detail::std::move(i)]; }
+        };
+
+        template <typename X>
+        struct invoke;
+
+        template <typename ...X>
+        struct invoke<detail::closure<X...>> {
+            detail::closure<X...> x;
+
+            template <typename F, typename ...Z>
+            constexpr decltype(auto) operator()(F&& f, Z const& ...) const&
+            { return detail::std::forward<F>(f)(static_cast<X const&>(x).get...); }
+
+            template <typename F, typename ...Z>
+            constexpr decltype(auto) operator()(F&& f, Z const& ...) &
+            { return detail::std::forward<F>(f)(static_cast<X&>(x).get...); }
+
+            template <typename F, typename ...Z>
+            constexpr decltype(auto) operator()(F&& f, Z const& ...) &&
+            { return detail::std::forward<F>(f)(static_cast<X&&>(x).get...); }
+        };
+
         struct placeholder {
             template <typename X>
-            constexpr auto operator[](X x) const {
-                return [x(detail::std::move(x))](auto&& c, auto&& ...z) -> decltype(auto) {
-                    return detail::std::forward<decltype(c)>(c)[x];
-                };
-            }
+            constexpr decltype(auto) operator[](X&& x) const
+            { return detail::create<subscript>{}(detail::std::forward<X>(x)); }
 
             template <typename ...X>
-            constexpr auto operator()(X ...x) const {
-                return [x...](auto&& f, auto&& ...z) -> decltype(auto) {
-                    return detail::std::forward<decltype(f)>(f)(x...);
-                };
+            constexpr decltype(auto) operator()(X&& ...x) const {
+                return detail::create<invoke>{}(
+                    detail::create<detail::closure_t>{}(
+                        detail::std::forward<X>(x)...
+                    )
+                );
             }
         };
 
-#define BOOST_HANA_PLACEHOLDER_BINARY_OP(op)                                            \
-    template <typename X>                                                               \
-    constexpr auto operator op (X x, placeholder) {                                     \
-        return [x(detail::std::move(x))](auto&& y, auto&& ...z) -> decltype(auto) {     \
-            return x op detail::std::forward<decltype(y)>(y);                           \
-        };                                                                              \
-    }                                                                                   \
-                                                                                        \
-    template <typename Y>                                                               \
-    constexpr auto operator op (placeholder, Y y) {                                     \
-        return [y(detail::std::move(y))](auto&& x, auto&& ...z) -> decltype(auto) {     \
-            return detail::std::forward<decltype(x)>(x) op y;                           \
-        };                                                                              \
-    }                                                                                   \
-                                                                                        \
-    inline BOOST_HANA_CONSTEXPR_LAMBDA auto operator op (placeholder, placeholder) {    \
-        return [](auto&& x, auto&& y, auto&& ...z) -> decltype(auto) {                  \
-            return detail::std::forward<decltype(x)>(x) op                              \
-                   detail::std::forward<decltype(y)>(y);                                \
-        };                                                                              \
-    }                                                                                   \
+#define BOOST_HANA_PLACEHOLDER_BINARY_OP(op, op_name)                           \
+    template <typename X>                                                       \
+    struct op_name ## _left {                                                   \
+        X x;                                                                    \
+                                                                                \
+        template <typename Y, typename ...Z>                                    \
+        constexpr decltype(auto) operator()(Y&& y, Z const& ...) const&         \
+        { return x op detail::std::forward<Y>(y); }                             \
+                                                                                \
+        template <typename Y, typename ...Z>                                    \
+        constexpr decltype(auto) operator()(Y&& y, Z const& ...) &              \
+        { return x op detail::std::forward<Y>(y); }                             \
+                                                                                \
+        template <typename Y, typename ...Z>                                    \
+        constexpr decltype(auto) operator()(Y&& y, Z const& ...) &&             \
+        { return detail::std::move(x) op detail::std::forward<Y>(y); }          \
+    };                                                                          \
+                                                                                \
+    template <typename Y>                                                       \
+    struct op_name ## _right {                                                  \
+        Y y;                                                                    \
+                                                                                \
+        template <typename X, typename ...Z>                                    \
+        constexpr decltype(auto) operator()(X&& x, Z const& ...) const&         \
+        { return detail::std::forward<X>(x) op y; }                             \
+                                                                                \
+        template <typename X, typename ...Z>                                    \
+        constexpr decltype(auto) operator()(X&& x, Z const& ...) &              \
+        { return detail::std::forward<X>(x) op y; }                             \
+                                                                                \
+        template <typename X, typename ...Z>                                    \
+        constexpr decltype(auto) operator()(X&& x, Z const& ...) &&             \
+        { return detail::std::forward<X>(x) op detail::std::move(y); }          \
+    };                                                                          \
+                                                                                \
+    struct op_name {                                                            \
+        template <typename X, typename Y, typename ...Z>                        \
+        constexpr decltype(auto) operator()(X&& x, Y&& y, Z const& ...) const   \
+        { return detail::std::forward<X>(x) op detail::std::forward<Y>(y); }    \
+    };                                                                          \
+                                                                                \
+    template <typename X>                                                       \
+    constexpr decltype(auto) operator op (X&& x, placeholder)                   \
+    { return detail::create<op_name ## _left>{}(detail::std::forward<X>(x)); }  \
+                                                                                \
+    template <typename Y>                                                       \
+    constexpr decltype(auto) operator op (placeholder, Y&& y)                   \
+    { return detail::create<op_name ## _right>{}(detail::std::forward<Y>(y)); } \
+                                                                                \
+    inline constexpr decltype(auto) operator op (placeholder, placeholder)      \
+    { return op_name{}; }                                                       \
 /**/
 
-#define BOOST_HANA_PLACEHOLDER_UNARY_OP(op)                                             \
-    inline BOOST_HANA_CONSTEXPR_LAMBDA auto operator op (placeholder) {                 \
-        return [](auto&& x, auto&& ...z) -> decltype(auto) {                            \
-            return op detail::std::forward<decltype(x)>(x);                             \
-        };                                                                              \
-    }                                                                                   \
+#define BOOST_HANA_PLACEHOLDER_UNARY_OP(op, op_name)                        \
+    struct op_name {                                                        \
+        template <typename X, typename ...Z>                                \
+        constexpr decltype(auto) operator()(X&& x, Z const& ...) const {    \
+            return op detail::std::forward<X>(x);                           \
+        }                                                                   \
+    };                                                                      \
+                                                                            \
+    inline constexpr decltype(auto) operator op (placeholder)               \
+    { return op_name{}; }                                                   \
 /**/
             // Arithmetic
-            BOOST_HANA_PLACEHOLDER_UNARY_OP(+)
-            BOOST_HANA_PLACEHOLDER_UNARY_OP(-)
-            BOOST_HANA_PLACEHOLDER_BINARY_OP(+)
-            BOOST_HANA_PLACEHOLDER_BINARY_OP(-)
-            BOOST_HANA_PLACEHOLDER_BINARY_OP(*)
-            BOOST_HANA_PLACEHOLDER_BINARY_OP(/)
-            BOOST_HANA_PLACEHOLDER_BINARY_OP(%)
+            BOOST_HANA_PLACEHOLDER_UNARY_OP(+, unary_plus)
+            BOOST_HANA_PLACEHOLDER_UNARY_OP(-, unary_minus)
+            BOOST_HANA_PLACEHOLDER_BINARY_OP(+, plus)
+            BOOST_HANA_PLACEHOLDER_BINARY_OP(-, minus)
+            BOOST_HANA_PLACEHOLDER_BINARY_OP(*, times)
+            BOOST_HANA_PLACEHOLDER_BINARY_OP(/, divide)
+            BOOST_HANA_PLACEHOLDER_BINARY_OP(%, modulo)
 
             // Bitwise
-            BOOST_HANA_PLACEHOLDER_UNARY_OP(~)
-            BOOST_HANA_PLACEHOLDER_BINARY_OP(&)
-            BOOST_HANA_PLACEHOLDER_BINARY_OP(|)
-            BOOST_HANA_PLACEHOLDER_BINARY_OP(^)
-            BOOST_HANA_PLACEHOLDER_BINARY_OP(<<)
-            BOOST_HANA_PLACEHOLDER_BINARY_OP(>>)
+            BOOST_HANA_PLACEHOLDER_UNARY_OP(~, bitwise_not)
+            BOOST_HANA_PLACEHOLDER_BINARY_OP(&, bitwise_and)
+            BOOST_HANA_PLACEHOLDER_BINARY_OP(|, bitwise_or)
+            BOOST_HANA_PLACEHOLDER_BINARY_OP(^, bitwise_xor)
+            BOOST_HANA_PLACEHOLDER_BINARY_OP(<<, left_shift)
+            BOOST_HANA_PLACEHOLDER_BINARY_OP(>>, right_shift)
 
             // Comparison
-            BOOST_HANA_PLACEHOLDER_BINARY_OP(==)
-            BOOST_HANA_PLACEHOLDER_BINARY_OP(!=)
-            BOOST_HANA_PLACEHOLDER_BINARY_OP(<)
-            BOOST_HANA_PLACEHOLDER_BINARY_OP(<=)
-            BOOST_HANA_PLACEHOLDER_BINARY_OP(>)
-            BOOST_HANA_PLACEHOLDER_BINARY_OP(>=)
+            BOOST_HANA_PLACEHOLDER_BINARY_OP(==, equal)
+            BOOST_HANA_PLACEHOLDER_BINARY_OP(!=, not_equal)
+            BOOST_HANA_PLACEHOLDER_BINARY_OP(<, less)
+            BOOST_HANA_PLACEHOLDER_BINARY_OP(<=, less_equal)
+            BOOST_HANA_PLACEHOLDER_BINARY_OP(>, greater)
+            BOOST_HANA_PLACEHOLDER_BINARY_OP(>=, greater_equal)
 
             // Logical
-            BOOST_HANA_PLACEHOLDER_BINARY_OP(||)
-            BOOST_HANA_PLACEHOLDER_BINARY_OP(&&)
-            BOOST_HANA_PLACEHOLDER_UNARY_OP(!)
+            BOOST_HANA_PLACEHOLDER_BINARY_OP(||, logical_or)
+            BOOST_HANA_PLACEHOLDER_BINARY_OP(&&, logical_and)
+            BOOST_HANA_PLACEHOLDER_UNARY_OP(!, logical_not)
 
             // Member access (array subscript is a member function)
-            BOOST_HANA_PLACEHOLDER_UNARY_OP(*)
+            BOOST_HANA_PLACEHOLDER_UNARY_OP(*, dereference)
 
             // Other (function call is a member function)
 
 #undef BOOST_HANA_PREFIX_PLACEHOLDER_OP
 #undef BOOST_HANA_BINARY_PLACEHOLDER_OP
-    }
+    } // end namespace placeholder_detail
 
-    constexpr functional_detail::placeholder _{};
+    constexpr placeholder_detail::placeholder _{};
 #endif
 }} // end namespace boost::hana
 

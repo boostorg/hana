@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FUNCTIONAL_CURRY_HPP
 #define BOOST_HANA_FUNCTIONAL_CURRY_HPP
 
-#include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/std/decay.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
@@ -85,46 +85,86 @@ namespace boost { namespace hana {
     //!
     //! [Wikipedia.currying]: http://en.wikipedia.org/wiki/Currying
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    template <std::size_t arity>
-    constexpr auto curry = [](auto f) {
-        return unspecified;
-    };
-#else
-    namespace curry_detail {
-        template <detail::std::size_t arity>
-        struct curry_impl;
-    }
-
-    template <detail::std::size_t arity>
-    constexpr curry_detail::curry_impl<arity> curry{};
-
-    template <>
-    BOOST_HANA_CONSTEXPR_LAMBDA auto curry<0> = [](auto f) {
-        return [f(detail::std::move(f))]() -> decltype(auto) { return f(); };
-    };
-
-    namespace curry_detail {
-        template <detail::std::size_t arity>
-        BOOST_HANA_CONSTEXPR_LAMBDA auto curry_or_call = curry<arity>;
-
-        template <>
-        BOOST_HANA_CONSTEXPR_LAMBDA auto curry_or_call<0> = apply;
-
-        template <detail::std::size_t arity>
-        struct curry_impl {
-            template <typename F>
-            constexpr auto operator()(F f) const {
-                return [f(detail::std::move(f))](auto&& ...x) {
-                    static_assert(sizeof...(x) <= arity,
-                    "too many arguments provided to boost::hana::curry");
-
-                    return curry_or_call<arity - sizeof...(x)>(
-                        partial(f, detail::std::forward<decltype(x)>(x)...)
-                    );
-                };
+    template <std::size_t n>
+    constexpr auto curry = [](auto&& f) {
+        return [perfect-capture](auto&& x1) {
+            return [perfect-capture](auto&& x2) {
+                ...
+                    return [perfect-capture](auto&& xn) -> decltype(auto) {
+                        return forwarded(f)(
+                            forwarded(x1), forwarded(x2), ..., forwarded(xn)
+                        );
+                    };
             };
         };
+    };
+#else
+    template <detail::std::size_t n, typename F>
+    struct _curry;
+
+    template <detail::std::size_t n>
+    struct _make_curry {
+        template <typename F>
+        constexpr _curry<n, typename detail::std::decay<F>::type>
+        operator()(F&& f) const { return {detail::std::forward<F>(f)}; }
+    };
+
+    template <detail::std::size_t n>
+    constexpr _make_curry<n> curry{};
+
+    namespace curry_detail {
+        template <detail::std::size_t n>
+        constexpr auto curry_or_call = curry<n>;
+
+        template <>
+        constexpr auto curry_or_call<0> = apply;
     }
+
+    template <detail::std::size_t n, typename F>
+    struct _curry {
+        F f;
+
+        template <typename ...X>
+        constexpr decltype(auto) operator()(X&& ...x) const& {
+            static_assert(sizeof...(x) <= n,
+            "too many arguments provided to boost::hana::curry");
+            return curry_detail::curry_or_call<n - sizeof...(x)>(
+                partial(f, detail::std::forward<X>(x)...)
+            );
+        }
+
+        template <typename ...X>
+        constexpr decltype(auto) operator()(X&& ...x) & {
+            static_assert(sizeof...(x) <= n,
+            "too many arguments provided to boost::hana::curry");
+            return curry_detail::curry_or_call<n - sizeof...(x)>(
+                partial(f, detail::std::forward<X>(x)...)
+            );
+        }
+
+        template <typename ...X>
+        constexpr decltype(auto) operator()(X&& ...x) && {
+            static_assert(sizeof...(x) <= n,
+            "too many arguments provided to boost::hana::curry");
+            return curry_detail::curry_or_call<n - sizeof...(x)>(
+                partial(detail::std::move(f), detail::std::forward<X>(x)...)
+            );
+        }
+    };
+
+    template <typename F>
+    struct _curry<0, F> {
+        F f;
+
+        constexpr decltype(auto) operator()() const&
+        { return f(); }
+
+        constexpr decltype(auto) operator()() &
+        { return f(); }
+
+        constexpr decltype(auto) operator()() &&
+        { return detail::std::move(f)(); }
+    };
 #endif
 }} // end namespace boost::hana
 

@@ -10,25 +10,13 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FUNCTIONAL_COMPOSE_HPP
 #define BOOST_HANA_FUNCTIONAL_COMPOSE_HPP
 
-#include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/detail/variadic/foldl.hpp>
 
 
 namespace boost { namespace hana {
-    namespace functional_detail {
-        BOOST_HANA_CONSTEXPR_LAMBDA auto compose2 = [](auto f, auto g) -> decltype(auto) {
-            return [f(detail::std::move(f)), g(detail::std::move(g))]
-                   (auto&& x, auto&& ...xs) -> decltype(auto) {
-                return f(
-                    g(detail::std::forward<decltype(x)>(x)),
-                    detail::std::forward<decltype(xs)>(xs)...
-                );
-            };
-        };
-    }
-
     //! @ingroup group-functional
     //! Return the composition of two functions or more.
     //!
@@ -60,18 +48,59 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/functional/compose.cpp main
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto compose = [](auto f, auto g, auto ...h) -> decltype(auto) {
-        unspecified
+    constexpr auto compose = [](auto&& f1, auto&& f2, ..., auto&& fn) {
+        return [perfect-capture](auto&& x, auto&& ...xs) -> decltype(auto) {
+            return forwarded(f1)(
+                    forwarded(f2)(
+                     ...
+                      forwarded(fn)(forwarded(x))
+                    ),
+                    forwarded(xs)...
+                );
+        }
     };
 #else
-    BOOST_HANA_CONSTEXPR_LAMBDA auto compose = [](auto&& f, auto&& g, auto&& ...h) -> decltype(auto) {
-        return detail::variadic::foldl(
-            functional_detail::compose2,
-            detail::std::forward<decltype(f)>(f),
-            detail::std::forward<decltype(g)>(g),
-            detail::std::forward<decltype(h)>(h)...
-        );
+    template <typename F, typename G>
+    struct _compose {
+        F f; G g;
+
+        template <typename X, typename ...Xs>
+        constexpr decltype(auto) operator()(X&& x, Xs&& ...xs) const& {
+            return f(
+                g(detail::std::forward<X>(x)),
+                detail::std::forward<Xs>(xs)...
+            );
+        }
+
+        template <typename X, typename ...Xs>
+        constexpr decltype(auto) operator()(X&& x, Xs&& ...xs) & {
+            return f(
+                g(detail::std::forward<X>(x)),
+                detail::std::forward<Xs>(xs)...
+            );
+        }
+
+        template <typename X, typename ...Xs>
+        constexpr decltype(auto) operator()(X&& x, Xs&& ...xs) && {
+            return detail::std::move(f)(
+                detail::std::move(g)(detail::std::forward<X>(x)),
+                detail::std::forward<Xs>(xs)...
+            );
+        }
     };
+
+    struct _make_compose {
+        template <typename F, typename G, typename ...H>
+        constexpr decltype(auto) operator()(F&& f, G&& g, H&& ...h) const {
+            return detail::variadic::foldl(detail::create<_compose>{},
+                detail::std::forward<F>(f),
+                detail::std::forward<G>(g),
+                detail::std::forward<H>(h)...
+            );
+        }
+    };
+
+    constexpr _make_compose compose{};
 #endif
 }} // end namespace boost::hana
 
