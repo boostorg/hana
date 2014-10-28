@@ -78,22 +78,22 @@ namespace boost { namespace hana {
         template <typename ...G>
         constexpr decltype(auto) operator()(G&& ...g) const& {
             return detail::create<_demux>{}(f,
-                detail::create<detail::closure_t>{}(detail::std::forward<G>(g)...)
+                detail::create<detail::closure>{}(detail::std::forward<G>(g)...)
             );
         }
 
         template <typename ...G>
         constexpr decltype(auto) operator()(G&& ...g) && {
             return detail::create<_demux>{}(detail::std::move(f),
-                detail::create<detail::closure_t>{}(detail::std::forward<G>(g)...)
+                detail::create<detail::closure>{}(detail::std::forward<G>(g)...)
             );
         }
     };
 
     template <typename F, typename ...G>
-    struct _demux<F, detail::closure<G...>> {
+    struct _demux<F, detail::closure_impl<G...>> {
         F f;
-        detail::closure<G...> g;
+        detail::closure_impl<G...> g;
 
         template <typename ...X>
         constexpr decltype(auto) operator()(X&& ...x) const& {

@@ -88,8 +88,8 @@ namespace boost { namespace hana {
         struct invoke;
 
         template <typename ...X>
-        struct invoke<detail::closure<X...>> {
-            detail::closure<X...> x;
+        struct invoke<detail::closure_impl<X...>> {
+            detail::closure_impl<X...> x;
 
             template <typename F, typename ...Z>
             constexpr decltype(auto) operator()(F&& f, Z const& ...) const&
@@ -112,7 +112,7 @@ namespace boost { namespace hana {
             template <typename ...X>
             constexpr decltype(auto) operator()(X&& ...x) const {
                 return detail::create<invoke>{}(
-                    detail::create<detail::closure_t>{}(
+                    detail::create<detail::closure>{}(
                         detail::std::forward<X>(x)...
                     )
                 );

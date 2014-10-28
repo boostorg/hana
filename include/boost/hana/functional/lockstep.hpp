@@ -47,9 +47,9 @@ namespace boost { namespace hana {
     struct _lockstep;
 
     template <typename F, typename ...G>
-    struct _lockstep<F, detail::closure<G...>> {
+    struct _lockstep<F, detail::closure_impl<G...>> {
         F f;
-        detail::closure<G...> g;
+        detail::closure_impl<G...> g;
 
         template <typename ...X>
         constexpr decltype(auto) operator()(X&& ...x) const& {
@@ -72,7 +72,7 @@ namespace boost { namespace hana {
         constexpr decltype(auto) operator()(F&& f, G&& ...g) const {
             return detail::create<_lockstep>{}(
                 detail::std::forward<F>(f),
-                detail::create<detail::closure_t>{}(detail::std::forward<G>(g)...)
+                detail::create<detail::closure>{}(detail::std::forward<G>(g)...)
             );
         }
     };

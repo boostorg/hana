@@ -80,9 +80,9 @@ namespace boost { namespace hana {
     struct _lazy_call;
 
     template <typename F, typename ...X>
-    struct _lazy_call<F, detail::closure<X...>> {
+    struct _lazy_call<F, detail::closure_impl<X...>> {
         F f;
-        detail::closure<X...> x;
+        detail::closure_impl<X...> x;
         struct hana { using datatype = Lazy; };
 
         template <typename Id>
@@ -119,7 +119,7 @@ namespace boost { namespace hana {
         template <typename ...Xs>
         constexpr decltype(auto) operator()(Xs&& ...xs) const& {
             return detail::create<_lazy_call>{}(
-                x, detail::create<detail::closure_t>{}(
+                x, detail::create<detail::closure>{}(
                     detail::std::forward<Xs>(xs)...
                 )
             );
@@ -128,7 +128,7 @@ namespace boost { namespace hana {
         template <typename ...Xs>
         constexpr decltype(auto) operator()(Xs&& ...xs) & {
             return detail::create<_lazy_call>{}(
-                x, detail::create<detail::closure_t>{}(
+                x, detail::create<detail::closure>{}(
                     detail::std::forward<Xs>(xs)...
                 )
             );
@@ -137,7 +137,7 @@ namespace boost { namespace hana {
         template <typename ...Xs>
         constexpr decltype(auto) operator()(Xs&& ...xs) && {
             return detail::create<_lazy_call>{}(
-                detail::std::move(x), detail::create<detail::closure_t>{}(
+                detail::std::move(x), detail::create<detail::closure>{}(
                     detail::std::forward<Xs>(xs)...
                 )
             );

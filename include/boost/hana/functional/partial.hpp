@@ -41,9 +41,9 @@ namespace boost { namespace hana {
     struct _partial;
 
     template <typename F, typename ...X>
-    struct _partial<F, detail::closure<X...>> {
+    struct _partial<F, detail::closure_impl<X...>> {
         F f;
-        detail::closure<X...> x;
+        detail::closure_impl<X...> x;
 
         template <typename ...Y>
         constexpr decltype(auto) operator()(Y&& ...y) const& {
@@ -68,7 +68,7 @@ namespace boost { namespace hana {
         constexpr decltype(auto) operator()(F&& f, X&& ...x) const {
             return detail::create<_partial>{}(
                 detail::std::forward<F>(f),
-                detail::create<detail::closure_t>{}(detail::std::forward<X>(x)...)
+                detail::create<detail::closure>{}(detail::std::forward<X>(x)...)
             );
         }
     };

@@ -28,41 +28,41 @@ int main() {
         constexpr U u{};
         constexpr V v{};
 
-        constexpr detail::closure_t<> x0{}; (void)x0;
-        constexpr detail::closure_t<T> x1{t}; (void)x1;
-        constexpr detail::closure_t<T, U> x2{t, u}; (void)x2;
-        constexpr detail::closure_t<T, U, V> x3{t, u, v}; (void)x3;
+        constexpr detail::closure<> x0{}; (void)x0;
+        constexpr detail::closure<T> x1{t}; (void)x1;
+        constexpr detail::closure<T, U> x2{t, u}; (void)x2;
+        constexpr detail::closure<T, U, V> x3{t, u, v}; (void)x3;
 
-        constexpr detail::closure_t<> copy1(x0); (void) copy1;
-        constexpr detail::closure_t<T, U> copy2(x2); (void)copy2;
+        constexpr detail::closure<> copy1(x0); (void) copy1;
+        constexpr detail::closure<T, U> copy2(x2); (void)copy2;
     }
 
     // non-copyable friendliness
     {
-        detail::closure_t<nocopy, nocopy, nocopy> xs{};
+        detail::closure<nocopy, nocopy, nocopy> xs{};
         auto ys = std::move(xs); (void)ys;
     }
 
     // SFINAE-friendliness of the constructor
     {
         static_assert(!std::is_copy_constructible<
-            detail::closure_t<nocopy>
+            detail::closure<nocopy>
         >{}, "");
 
         static_assert(!std::is_constructible<
-            detail::closure_t<T, U>, T
+            detail::closure<T, U>, T
         >{}, "");
 
         static_assert(!std::is_constructible<
-            detail::closure_t<T, U>, U, T
+            detail::closure<T, U>, U, T
         >{}, "");
 
         static_assert(!std::is_constructible<
-            detail::closure_t<T, U>, T, U, V
+            detail::closure<T, U>, T, U, V
         >{}, "");
 
         static_assert(!std::is_constructible<
-            detail::closure_t<float>, double
+            detail::closure<float>, double
         >{}, "");
     }
 }

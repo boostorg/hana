@@ -17,40 +17,61 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana { namespace detail {
-    template <detail::std::size_t Index, typename X>
-    struct closure_element { X get; };
+    template <detail::std::size_t n, typename Xn>
+    struct element { Xn get; using get_type = Xn; };
 
     void swallow(...);
 
     // This type is only used for pattern matching.
-    template <typename ...Xn>
-    struct closure
-        : Xn...
-    {
-        closure() = default;
+    template <typename ...Xs>
+    struct closure_impl : Xs... {
+        closure_impl() = default;
 
         // Make sure the constructor is SFINAE-friendly.
-        template <typename ...Yn, typename = decltype(swallow(
-            (Xn{detail::std::declval<Yn>()}, 0)...
+        template <typename ...Ys, typename = decltype(swallow(
+            (Xs{detail::std::declval<Ys>()}, void(), 0)...
         ))>
-        explicit constexpr closure(Yn&& ...yn)
-            : Xn{detail::std::forward<Yn>(yn)}...
+        constexpr closure_impl(Ys&& ...y)
+            : Xs{detail::std::forward<Ys>(y)}...
         { }
     };
 
-    template <typename Indices, typename ...Xn>
+    template <typename Indices, typename ...Xs>
     struct make_closure_impl;
 
-    template <detail::std::size_t ...Indices, typename ...Xn>
-    struct make_closure_impl<detail::std::index_sequence<Indices...>, Xn...> {
-        using type = closure<closure_element<Indices, Xn>...>;
+    template <detail::std::size_t ...n, typename ...Xn>
+    struct make_closure_impl<detail::std::index_sequence<n...>, Xn...> {
+        using type = closure_impl<element<n, Xn>...>;
     };
 
-    // This alias creates the type of a closure containing `Xn...`.
-    template <typename ...Xn>
-    using closure_t = typename make_closure_impl<
-        detail::std::make_index_sequence<sizeof...(Xn)>,
-        Xn...
+    //! @ingroup group-details
+    //! Minimalistic closure implemented through multiple inheritance.
+    //!
+    //! This is intended to be used as a building block for other more complex
+    //! data structures. The following is guaranteed by a `closure`:
+    //! `closure<X1, ..., Xn>` is a type representing a closure holding
+    //! objects of types `X1, ..., Xn` (basically a tuple). More specifically,
+    //! `closure<X1, ..., Xn>` is an alias to
+    //!
+    //! @code
+    //!     closure_impl<
+    //!         element<0, X0>,
+    //!         element<1, X1>,
+    //!         ...,
+    //!         element<n, Xn>
+    //!     >
+    //! @endcode
+    //!
+    //! Note that this makes `closure<X1, ..., Xn>` a dependent type, which
+    //! means that pattern matching is not allowed on it. `closure_impl`
+    //! inherits publicly from each of these `element`s, which makes it
+    //! possible to retrieve an object from the closure based on its index.
+    //! Also note that `element<n, Xn>` is guaranteed to have a nested
+    //! `get_type` alias equivalent to `Xn`, which is handy to retrieve
+    //! that `Xn` without having to do pattern matching.
+    template <typename ...Xs>
+    using closure = typename make_closure_impl<
+        detail::std::make_index_sequence<sizeof...(Xs)>, Xs...
     >::type;
 }}} // end namespace boost::hana::detail
 
