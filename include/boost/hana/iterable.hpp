@@ -229,7 +229,7 @@ namespace boost { namespace hana {
     //! with the keys and values both being the elements in the iterable.
     //!
     //! ### Example
-    //! @snippet example/iterable/searchable.cpp find
+    //! @snippet example/iterable.cpp find
     template <typename T>
     struct Searchable::instance<T, when<is_an<Iterable, T>()>>
         : Searchable::iterable_mcd
