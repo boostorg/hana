@@ -8,15 +8,16 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/functional/always.hpp>
 #include <boost/hana/integral.hpp>
 using namespace boost::hana;
 
 
 BOOST_HANA_CONSTEXPR_LAMBDA auto fact = fix(
     [](auto fact, auto n) {
-        return eval_if(n == int_<0>,
+        return eval_if(equal(n, int_<0>),
             always(int_<1>),
-            [=](auto id) { return n * fact(n - id(int_<1>)); }
+            [=](auto _) { return mult(n, fact(_(pred)(n))); }
         );
     }
 );
@@ -26,7 +27,7 @@ constexpr unsigned long long reference(unsigned long long n)
 
 template <int n>
 constexpr void test() {
-    BOOST_HANA_CONSTANT_ASSERT(fact(ullong<n>) == ullong<reference(n)>);
+    BOOST_HANA_CONSTANT_ASSERT(equal(fact(ullong<n>), ullong<reference(n)>));
     test<n - 1>();
 }
 
