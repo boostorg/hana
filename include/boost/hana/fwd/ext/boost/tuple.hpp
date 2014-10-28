@@ -1,6 +1,6 @@
 /*!
 @file
-Forward declares `boost::hana::ext::boost::tuple`.
+Forward declares `boost::hana::ext::boost::Tuple`.
 
 @copyright Louis Dionne 2014
 Distributed under the Boost Software License, Version 1.0.
@@ -16,21 +16,21 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    namespace ext { namespace boost { struct tuple; }}
+    namespace ext { namespace boost { struct Tuple; }}
 
     template <typename ...Xs>
     struct datatype< ::boost::tuple<Xs...>> {
-        using type = ext::boost::tuple;
+        using type = ext::boost::Tuple;
     };
 
     template <typename H, typename T>
     struct datatype< ::boost::tuples::cons<H, T>> {
-        using type = ext::boost::tuple;
+        using type = ext::boost::Tuple;
     };
 
     template <>
     struct datatype< ::boost::tuples::null_type> {
-        using type = ext::boost::tuple;
+        using type = ext::boost::Tuple;
     };
 }} // end namespace boost::hana
 

@@ -29,6 +29,7 @@ namespace boost { namespace hana {
     //!     a == a                          // Reflexivity
     //!     if a == b then b == a           // Symmetry
     //!     if a == b && b == c then a == c // Transitivity
+    //!     a != b is equivalent to !(a == b)
     //! @endcode
     struct Comparable {
         BOOST_HANA_BINARY_TYPECLASS(Comparable);

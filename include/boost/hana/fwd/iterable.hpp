@@ -78,6 +78,9 @@ namespace boost { namespace hana {
     //! non-empty iterable.
     //! @relates Iterable
     //!
+    //! In particular, `tail(iterable)` is functionally equivalent to
+    //! `drop(int_<1>, iterable)`.
+    //!
     //! ### Example
     //! @snippet example/iterable.cpp tail
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
@@ -129,6 +132,8 @@ namespace boost { namespace hana {
 
     //! Return the `n`th element of an iterable.
     //! @relates Iterable
+    //!
+    //! This is functionally equivalent to `head(drop(n, iterable))`.
     //!
     //!
     //! @param n
@@ -189,6 +194,11 @@ namespace boost { namespace hana {
 
     //! Return the last element of a non-empty and finite iterable.
     //! @relates Iterable
+    //!
+    //! This is functionally equivalent to
+    //! @code
+    //!     at(pred(length(iterable)), iterable)
+    //! @endcode
     //!
     //! ### Example
     //! @snippet example/iterable.cpp last

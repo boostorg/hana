@@ -18,22 +18,22 @@ template <bool should>
 auto test = [](auto container) {
     static_assert(std::is_same<
         datatype_t<decltype(container())>,
-        ext::boost::fusion::sequence
+        ext::boost::fusion::Sequence
     >::value == should, "");
 
     static_assert(std::is_same<
         datatype_t<decltype(container(1))>,
-        ext::boost::fusion::sequence
+        ext::boost::fusion::Sequence
     >::value == should, "");
 
     static_assert(std::is_same<
         datatype_t<decltype(container(1, '2'))>,
-        ext::boost::fusion::sequence
+        ext::boost::fusion::Sequence
     >::value == should, "");
 
     static_assert(std::is_same<
         datatype_t<decltype(container(1, '2', 3.3))>,
-        ext::boost::fusion::sequence
+        ext::boost::fusion::Sequence
     >::value == should, "");
 };
 

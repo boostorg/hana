@@ -28,7 +28,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     template <>
-    struct Iterable::instance<ext::boost::fusion::sequence>
+    struct Iterable::instance<ext::boost::fusion::Sequence>
         : Iterable::mcd
     {
         template <typename Xs>
@@ -49,8 +49,8 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct List::instance<ext::boost::fusion::sequence>
-        : List::mcd<ext::boost::fusion::sequence>
+    struct List::instance<ext::boost::fusion::Sequence>
+        : List::mcd<ext::boost::fusion::Sequence>
     {
         template <typename X, typename Xs>
         static constexpr decltype(auto) cons_impl(X&& x, Xs&& xs) {

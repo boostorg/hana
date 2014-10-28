@@ -40,7 +40,7 @@ int main() {
 
         // nil
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(nil<ext::boost::fusion::sequence>, container()));
+            BOOST_HANA_CONSTANT_ASSERT(equal(nil<ext::boost::fusion::Sequence>, container()));
         }
 
         // reverse

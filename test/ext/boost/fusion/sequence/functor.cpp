@@ -12,8 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include "helper.hpp"
 #include <test/injection.hpp>
-#include <test/laws/functor.hpp>
-#include <test/numeric/comparable.hpp>
+#include <test/numeric.hpp>
 using namespace boost::hana;
 
 
@@ -66,17 +65,6 @@ int main() {
             BOOST_HANA_RUNTIME_ASSERT( equal(
                 replace(container(0, 1, 2, 3), is_even, 'x'),
                 container('x', 1, 'x', 3)
-            ));
-        }
-
-        // laws
-        {
-            BOOST_HANA_CONSTEXPR_LAMBDA auto x = test::numeric;
-            BOOST_HANA_RUNTIME_ASSERT(Functor_laws(
-                container(),
-                container(x(0)),
-                container(x(0), x(1)),
-                container(x(0), x(1), x(2))
             ));
         }
     });

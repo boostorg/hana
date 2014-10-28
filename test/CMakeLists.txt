@@ -5,10 +5,10 @@
 #=============================================================================
 # Setup unit tests
 #=============================================================================
-# Allows putting stuff that's only relevant to the unit tests in the test/
-# subdirectory and including those headers as:
-#   #include <test/something.hpp>
-include_directories(${CMAKE_CURRENT_LIST_DIR})
+
+# Allows putting stuff that's only relevant to the unit tests in the
+# test/include subdirectory.
+include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
 
 add_custom_target(tests ALL
     COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure -R "test.+"
@@ -17,7 +17,7 @@ add_custom_target(tests ALL
 file(GLOB_RECURSE BOOST_HANA_TESTS_REQUIRING_BOOST
     "ext/boost/*.cpp"
     "record/macros.cpp"
-    "record/bugs/fold_moveonly.cpp")
+    "bugs/fold_move_only_record.cpp")
 
 list(APPEND BOOST_HANA_FILES_REQUIRING_BOOST ${BOOST_HANA_TESTS_REQUIRING_BOOST})
 

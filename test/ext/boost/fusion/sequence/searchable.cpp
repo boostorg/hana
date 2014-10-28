@@ -12,8 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/maybe.hpp>
 
 #include "helper.hpp"
-#include <test/cnumeric/comparable.hpp>
-#include <test/cnumeric/constant.hpp>
+#include <test/cnumeric.hpp>
 using namespace boost::hana;
 
 

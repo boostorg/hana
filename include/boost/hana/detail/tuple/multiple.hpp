@@ -186,24 +186,22 @@ namespace boost { namespace hana {
 
         // drop
         ///////////////
-        #define BOOST_HANA_PP_DROP(REF)                                             \
-            template <detail::std::size_t ...n, typename ...Xn, typename ...Rest>   \
-            static constexpr detail::multiple::tuple<typename Rest::get_type...>    \
-            drop_helper(detail::std::index_sequence<n...>,                          \
-                detail::closure_impl<                                               \
-                    detail::element<n, Xn>..., /* [0, n) */                         \
-                    Rest...                    /* rest */                           \
-                > REF xs                                                            \
-            ) { return {static_cast<Rest REF>(xs).get...}; }                        \
-        /**/
-        BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_DROP)
-        #undef BOOST_HANA_PP_DROP
+        template <detail::std::size_t n, detail::std::size_t ...i, typename Xs>
+        static constexpr decltype(auto)
+        drop_helper(detail::std::index_sequence<i...>, Xs&& xs) {
+            return detail::multiple::make_tuple(
+                get_element<n + i>(detail::std::forward<Xs>(xs))...
+            );
+        }
 
         template <typename N, typename Xs>
         static constexpr decltype(auto) drop_impl(N n_, Xs&& xs) {
             constexpr detail::std::size_t n = value(n_);
-            return drop_helper(detail::std::make_index_sequence<n>{},
-                               detail::std::forward<Xs>(xs));
+            constexpr detail::std::size_t size = get_size(decltype(&xs){});
+            constexpr detail::std::size_t drop_size = n > size ? size : n;
+            return drop_helper<drop_size>(
+                detail::std::make_index_sequence<size - drop_size>{},
+                detail::std::forward<Xs>(xs));
         }
     };
 

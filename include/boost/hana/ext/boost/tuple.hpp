@@ -1,6 +1,6 @@
 /*!
 @file
-Defines `boost::hana::ext::boost::tuple`.
+Defines `boost::hana::ext::boost::Tuple`.
 
 @copyright Louis Dionne 2014
 Distributed under the Boost Software License, Version 1.0.
@@ -25,7 +25,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     template <>
-    struct Iterable::instance<ext::boost::tuple> : Iterable::mcd {
+    struct Iterable::instance<ext::boost::Tuple> : Iterable::mcd {
         template <typename Xs>
         static constexpr decltype(auto) head_impl(Xs&& tuple)
         { return detail::std::forward<Xs>(tuple).get_head(); }
@@ -43,7 +43,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct List::instance<ext::boost::tuple> : List::mcd<ext::boost::tuple> {
+    struct List::instance<ext::boost::Tuple> : List::mcd<ext::boost::Tuple> {
         template <typename X, typename Xs>
         static constexpr auto cons_impl(X x, Xs xs) {
             return ::boost::tuples::cons<X, Xs>{

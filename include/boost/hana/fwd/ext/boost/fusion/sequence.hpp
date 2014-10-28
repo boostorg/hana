@@ -35,14 +35,14 @@ namespace boost { namespace hana {
     }
 
     namespace ext { namespace boost { namespace fusion {
-        struct sequence;
+        struct Sequence;
     }}}
 
     template <typename T>
     struct datatype<T, when<
         fusion_detail::is_nonassociative_forward_sequence<T>::value
     >> {
-        using type = ext::boost::fusion::sequence;
+        using type = ext::boost::fusion::Sequence;
     };
 }} // end namespace boost::hana
 
