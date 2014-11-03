@@ -222,10 +222,10 @@ int main() {
 
     // lockstep
     {
-        BOOST_HANA_CONSTANT_ASSERT(equal(lockstep(f)(), f()));
-        BOOST_HANA_CONSTANT_ASSERT(equal(lockstep(f, g)(x<1>), f(g(x<1>))));
-        BOOST_HANA_CONSTANT_ASSERT(equal(lockstep(f, g, h)(x<1>, x<2>), f(g(x<1>), h(x<2>))));
-        BOOST_HANA_CONSTANT_ASSERT(equal(lockstep(f, g, h, i)(x<1>, x<2>, x<3>), f(g(x<1>), h(x<2>), i(x<3>))));
+        BOOST_HANA_CONSTANT_ASSERT(equal(lockstep(f)()(), f()));
+        BOOST_HANA_CONSTANT_ASSERT(equal(lockstep(f)(g)(x<1>), f(g(x<1>))));
+        BOOST_HANA_CONSTANT_ASSERT(equal(lockstep(f)(g, h)(x<1>, x<2>), f(g(x<1>), h(x<2>))));
+        BOOST_HANA_CONSTANT_ASSERT(equal(lockstep(f)(g, h, i)(x<1>, x<2>, x<3>), f(g(x<1>), h(x<2>), i(x<3>))));
     }
 
     // infix

@@ -21,9 +21,9 @@ namespace boost { namespace hana {
     //! Invoke a function with the result of invoking other functions on its
     //! arguments, in lockstep.
     //!
-    //! Specifically, `lockstep(f, g1, ..., gN)` is a function such that
+    //! Specifically, `lockstep(f)(g1, ..., gN)` is a function such that
     //! @code
-    //!     lockstep(f, g1, ..., gN)(x1, ..., xN) == f(g1(x1), ..., gN(xN))
+    //!     lockstep(f)(g1, ..., gN)(x1, ..., xN) == f(g1(x1), ..., gN(xN))
     //! @endcode
     //!
     //! Since each `g` is invoked on its corresponding argument in lockstep,
@@ -33,9 +33,7 @@ namespace boost { namespace hana {
     //! @snippet example/functional/lockstep.cpp main
     //!
     //! @todo
-    //! - I think this is equivalent to `<*>` for `((->) r)`.
-    //! - Change the syntax to be the same as `demux`. Impossible right now
-    //!   because Clang blows up.
+    //! I think this is equivalent to `<*>` for `((->) r)`.
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto lockstep = [](auto&& f, auto&& ...g) {
         return [perfect-capture](auto&& ...x) -> decltype(auto) {
@@ -67,17 +65,25 @@ namespace boost { namespace hana {
         }
     };
 
-    struct _make_lockstep {
-        template <typename F, typename ...G>
-        constexpr decltype(auto) operator()(F&& f, G&& ...g) const {
-            return detail::create<_lockstep>{}(
-                detail::std::forward<F>(f),
+    template <typename F>
+    struct _pre_lockstep {
+        F f;
+        template <typename ...G>
+        constexpr decltype(auto) operator()(G&& ...g) const& {
+            return detail::create<_lockstep>{}(f,
+                detail::create<detail::closure>{}(detail::std::forward<G>(g)...)
+            );
+        }
+
+        template <typename ...G>
+        constexpr decltype(auto) operator()(G&& ...g) && {
+            return detail::create<_lockstep>{}(detail::std::move(f),
                 detail::create<detail::closure>{}(detail::std::forward<G>(g)...)
             );
         }
     };
 
-    constexpr _make_lockstep lockstep{};
+    constexpr detail::create<_pre_lockstep> lockstep{};
 #endif
 }} // end namespace boost::hana
 

@@ -24,6 +24,6 @@ int main() {
         return x + 1;
     };
 
-    BOOST_HANA_CONSTEXPR_ASSERT(lockstep(plus, to_int, inc)('3', 4) == 3 + 5);
+    BOOST_HANA_CONSTEXPR_ASSERT(lockstep(plus)(to_int, inc)('3', 4) == 3 + 5);
     //! [main]
 }
