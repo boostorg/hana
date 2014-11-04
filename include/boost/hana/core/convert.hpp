@@ -13,7 +13,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/functional/id.hpp>
 
 
 namespace boost { namespace hana {
@@ -39,9 +38,8 @@ namespace boost { namespace hana {
         template <typename To>
         struct default_convert<To, To> {
             template <typename X>
-            static constexpr decltype(auto) apply(X&& x) {
-                // id handles rvalues correctly
-                return id(detail::std::forward<X>(x));
+            static constexpr X apply(X&& x) {
+                return detail::std::forward<X>(x);
             }
         };
     }
