@@ -6,7 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/sandbox/searchable_set.hpp>
 
-#include <boost/hana/detail/assert.hpp>
+#include <boost/hana/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/foreign.hpp> //! @todo Why is this required?
 #include <boost/hana/tuple.hpp>

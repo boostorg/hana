@@ -6,7 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/ext/boost/fusion/sequence.hpp>
 
-#include <boost/hana/detail/assert.hpp>
+#include <boost/hana/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/foreign.hpp>
 #include <boost/hana/integral.hpp>

@@ -8,7 +8,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/variadic/reverse_apply/flat.hpp>
 #include <boost/hana/detail/variadic/reverse_apply/unrolled.hpp>
 
-#include <boost/hana/detail/assert.hpp>
+#include <boost/hana/assert.hpp>
 
 #include <test/injection.hpp>
 using namespace boost::hana;

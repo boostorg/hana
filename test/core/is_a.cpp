@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/typeclass.hpp>
 
-#include <boost/hana/detail/assert.hpp>
+#include <boost/hana/assert.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/foreign.hpp>
 #include <boost/hana/iterable.hpp>

@@ -6,8 +6,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <test/builtin.hpp>
 
+#include <boost/hana/assert.hpp>
 #include <boost/hana/core/is_a.hpp>
-#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>

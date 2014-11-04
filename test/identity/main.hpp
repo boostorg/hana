@@ -6,8 +6,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <test/identity.hpp>
 
+#include <boost/hana/assert.hpp>
 #include <boost/hana/core/operators.hpp>
-#include <boost/hana/detail/assert.hpp>
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/tuple.hpp>

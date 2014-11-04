@@ -8,7 +8,7 @@ Distributed under the Boost Software License, Version 1.0.
 // Important: Keep this file in sync with the Overview in the README
 //////////////////////////////////////////////////////////////////////////////
 
-#include <boost/hana/detail/assert.hpp>
+#include <boost/hana/assert.hpp>
 #include <boost/hana/foreign.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>

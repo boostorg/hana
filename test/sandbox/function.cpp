@@ -81,7 +81,7 @@ namespace boost { namespace hana {
 // };
 
 
-#include <boost/hana/detail/assert.hpp>
+#include <boost/hana/assert.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/range.hpp>
 #include <boost/hana/tuple.hpp>

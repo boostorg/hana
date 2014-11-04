@@ -69,6 +69,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/type_list.hpp>
 
 // Misc
+#include <boost/hana/assert.hpp>
 #include <boost/hana/core.hpp>
 #include <boost/hana/functional.hpp>
 

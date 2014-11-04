@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <tuple>
 #include <type_traits>
 
-#include <boost/hana/detail/assert.hpp>
+#include <boost/hana/assert.hpp>
 
 //! [includes]
 #include <boost/hana.hpp>

@@ -6,8 +6,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/wrap.hpp>
 
+#include <boost/hana/assert.hpp>
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/detail/assert.hpp>
 
 #include <type_traits>
 using namespace boost::hana;

@@ -11,7 +11,7 @@ backward compatible.
 ## Overview
 <!-- Important: keep this in sync with example/overview.cpp -->
 ```cpp
-#include <boost/hana/detail/assert.hpp>
+#include <boost/hana/assert.hpp>
 #include <boost/hana/foreign.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>

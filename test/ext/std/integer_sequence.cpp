@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/ext/std/integer_sequence.hpp>
 #include <boost/hana/ext/std/integral_constant.hpp>
 
-#include <boost/hana/detail/assert.hpp>
+#include <boost/hana/assert.hpp>
 #include <boost/hana/type.hpp>
 #include <boost/hana/tuple.hpp>
 
