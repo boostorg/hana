@@ -10,12 +10,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/assert.hpp>
 #include <boost/hana/foreign.hpp>
-#include <boost/hana/integral.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
 
 #include <string>
-#include <type_traits>
 using namespace boost::hana;
 
 
@@ -30,12 +28,13 @@ int main() {
     auto names = fmap(stuff, [](auto thing) { return thing.name; });
     BOOST_HANA_RUNTIME_ASSERT(reverse(names) == tuple("Quebec", "Toyota", "Obama"));
 
-    // No compile-time information is lost (the assertion is done at compile-time).
-    BOOST_HANA_CONSTANT_ASSERT(length(stuff) == int_<3>);
+    // No compile-time information is lost:
+    // `stuff` wasn't constexpr but its length is!
+    static_assert(length(stuff) == 3u, "");
 
     // Type-level metaprogramming works too.
     auto types = fmap(stuff, [](auto thing) {
-        return metafunction<std::add_pointer>(decltype_(thing));
+        return type<decltype(thing)*>;
     });
 
     BOOST_HANA_CONSTANT_ASSERT(
