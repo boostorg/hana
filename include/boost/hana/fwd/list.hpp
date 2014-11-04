@@ -1188,6 +1188,10 @@ namespace boost { namespace hana {
     //! This is equivalent to `zip_with(make<L>, xs, ys...)`, where `L` is
     //! the data type of `xs`.
     //!
+    //! @note
+    //! All the lists must have the same data type, and only the data type
+    //! of the first list is used for dispatching the method.
+    //!
     //! @param xs, ys...
     //! The lists to zip together.
     //!
@@ -1229,6 +1233,10 @@ namespace boost { namespace hana {
     //!     f(s1[k], ..., sn[k])
     //! @endcode
     //! where `k` is the length of the shortest list.
+    //!
+    //! @note
+    //! All the lists must have the same data type, and only the data type
+    //! of the first list is used for dispatching the method.
     //!
     //!
     //! @param f

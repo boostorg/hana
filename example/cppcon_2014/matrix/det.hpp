@@ -38,7 +38,8 @@ namespace cppcon {
 
         auto remove_at = [](auto n, auto xs) {
             using namespace boost::hana;
-            auto with_indices = zip(xs, range(int_<0>, length(xs)));
+            using L = datatype_t<decltype(xs)>;
+            auto with_indices = zip(xs, to<L>(range(int_<0>, length(xs))));
             auto removed = filter(with_indices, compose(n != _, last));
             return fmap(removed, head);
         };
