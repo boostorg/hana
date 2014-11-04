@@ -24,13 +24,17 @@ namespace boost { namespace hana { namespace test {
           , tuple(x<0>)
           , tuple(x<0>, x<1>)
           , tuple(x<0>, x<1>, x<2>)
+          , tuple(x<0>, x<1>, x<2>, x<3>)
+          , tuple(x<0>, x<1>, x<2>, x<3>, x<4>)
+          , tuple(x<0>, x<1>, x<2>, x<3>, x<4>, x<5>)
     );
 
     template <>
     auto instances<Tuple> = tuple(
-        type<Iterable>,
-        type<List>,
-        type<Foldable>
+          type<List>
+        , type<Functor>
+        , type<Foldable>
+        , type<Iterable>
     );
 }}}
 
@@ -39,7 +43,7 @@ int main() {
     test::check_datatype<Tuple>();
     using test::x;
 
-    // move-only friendlyness
+    // move-only friendlyness and reference semantics
     {
         struct movable {
             movable() = default;
@@ -47,12 +51,35 @@ int main() {
             movable(movable&&) = default;
         };
 
-        // disabled until c++17; see the comment on the definition of
-        // hana::tuple for details
-    #if 0
-        auto x = tuple(movable{});
-        auto z = std::move(x); (void)z;
-    #endif
+        {
+            auto xs = tuple(movable{});
+            auto by_val = [](auto) { };
+
+            by_val(std::move(xs));
+            by_val(head(std::move(xs)));
+            by_val(at_c<0>(std::move(xs)));
+            by_val(last(std::move(xs)));
+        }
+
+        {
+            auto const& xs = tuple(movable{});
+            auto by_const_ref = [](auto const&) { };
+
+            by_const_ref(xs);
+            by_const_ref(head(xs));
+            by_const_ref(at_c<0>(xs));
+            by_const_ref(last(xs));
+        }
+
+        {
+            auto xs = tuple(movable{});
+            auto by_ref = [](auto&) { };
+
+            by_ref(xs);
+            by_ref(head(xs));
+            by_ref(at_c<0>(xs));
+            by_ref(last(xs));
+        }
     }
 
     // Foldable

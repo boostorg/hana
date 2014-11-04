@@ -11,9 +11,8 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_TUPLE_HPP
 
 #include <boost/hana/core/operators.hpp>
-#include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/detail/std/move.hpp>
+#include <boost/hana/detail/closure.hpp>
+#include <boost/hana/detail/create.hpp>
 #include <boost/hana/fwd/comparable.hpp>
 #include <boost/hana/fwd/iterable.hpp>
 #include <boost/hana/fwd/monad.hpp>
@@ -32,21 +31,6 @@ namespace boost { namespace hana {
         };
     };
 
-    namespace detail { namespace repr {
-        template <typename Storage>
-        struct tuple
-            : operators::enable_adl,
-              operators::Iterable_ops<tuple<Storage>>
-        {
-            explicit constexpr tuple(Storage&& s)
-                : storage(detail::std::move(s))
-            { }
-
-            struct hana { using datatype = Tuple; };
-            Storage storage;
-        };
-    }}
-
     //! Create a `Tuple` containing `xs...`.
     //! @relates Tuple
     //!
@@ -55,13 +39,23 @@ namespace boost { namespace hana {
     //!   It does not fix the problem of partial type classes (e.g. `MplVector`
     //!   is not _actually_ a `List`), but at least we remove `TypeList` and
     //!   `IntegerList`, which are arguably ugly.
-    //! - Use perfect forwarding to construct the inner lambda capture when
-    //!   this is supported and this bug is resolved: http://llvm.org/bugs/show_bug.cgi?id=20939
-    //! - Enable the test in tuple/tuple.cpp once the above is resolved.
-    BOOST_HANA_CONSTEXPR_LAMBDA auto tuple = [](auto ...xs) -> decltype(auto) {
-        auto storage = [=](auto f) -> decltype(auto) { return f(xs...); };
-        return detail::repr::tuple<decltype(storage)>{detail::std::move(storage)};
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto tuple = [](auto&& ...xs) {
+        return unspecified-type;
     };
+#else
+    template <typename ...Xs>
+    struct _tuple
+        : detail::closure<Xs...>
+        , operators::enable_adl
+        , operators::Iterable_ops<_tuple<Xs...>>
+    {
+        using detail::closure<Xs...>::closure; // inherit constructor
+        struct hana { using datatype = Tuple; };
+    };
+
+    constexpr detail::create<_tuple> tuple{};
+#endif
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_TUPLE_HPP
