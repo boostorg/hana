@@ -19,6 +19,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/enumerable.hpp>
 #include <boost/hana/functional/always.hpp>
+#include <boost/hana/functional/compose.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/maybe.hpp>
 #include <boost/hana/monoid.hpp>
@@ -100,7 +101,7 @@ namespace boost { namespace hana {
         template <typename Xs, typename Pred>
         static constexpr auto drop_while_impl(Xs xs, Pred pred) {
             return eval_if(is_empty(xs),
-                [=](auto) { return xs; },
+                always(xs),
                 [=](auto _) {
                     return eval_if(pred(_(head)(xs)),
                         [=](auto _) { return drop_while_impl(_(tail)(xs), pred); },
@@ -111,8 +112,11 @@ namespace boost { namespace hana {
         }
 
         template <typename Xs, typename Pred>
-        static constexpr auto drop_until_impl(Xs xs, Pred pred) {
-            return drop_while(xs, [=](auto x) { return not_(pred(x)); });
+        static constexpr decltype(auto) drop_until_impl(Xs&& xs, Pred&& pred) {
+            return drop_while(
+                detail::std::forward<Xs>(xs),
+                compose(not_, detail::std::forward<Pred>(pred))
+            );
         }
     };
 
@@ -124,8 +128,8 @@ namespace boost { namespace hana {
         template <typename Xs, typename State, typename F>
         static constexpr auto foldl_impl(Xs xs, State s, F f) {
             return eval_if(is_empty(xs),
-                [=](auto) { return s; },
-                [=](auto _) {
+                always(s),
+                [xs, s, f](auto _) {
                     return foldl_impl(tail(_(xs)), f(s, head(_(xs))), f);
                 }
             );
@@ -138,8 +142,8 @@ namespace boost { namespace hana {
         template <typename Xs, typename F>
         static constexpr auto foldr1_impl(Xs xs, F f) {
             return eval_if(is_empty(tail(xs)),
-                [=](auto) { return head(xs); },
-                [=](auto _) {
+                [xs](auto) { return head(xs); },
+                [xs, f](auto _) {
                     return f(head(xs), foldr1_impl(_(tail)(xs), f));
                 }
             );
@@ -149,7 +153,7 @@ namespace boost { namespace hana {
         static constexpr auto foldr_impl(Xs xs, State s, F f) {
             return eval_if(is_empty(xs),
                 always(s),
-                [=](auto _) {
+                [xs, s, f](auto _) {
                     return f(_(head)(xs), foldr_impl(_(tail)(xs), s, f));
                 }
             );
