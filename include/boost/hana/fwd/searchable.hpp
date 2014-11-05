@@ -30,13 +30,39 @@ namespace boost { namespace hana {
     //! structure to be finite; its specification is voluntarily left very
     //! general to allow infinite data structures. Also, there is no
     //! requirement that the keys and values be different, and indeed it
-    //! is often useful to have identical keys and values.
+    //! can be useful to have identical keys and values.
     //!
     //! Also note that the most specific method should always be used if one
     //! cares about performance. For example, an associative data structure
     //! implemented as a hash table will be much faster to access using
     //! `lookup` than `find`. Similarly, using `elem` will likely be much
     //! faster than `any` with an equivalent predicate.
+    //!
+    //!
+    //! ### Laws
+    //! For any `Searchable xs, ys` and predicate `p`, the following laws
+    //! should be satisfied:
+    //! @code
+    //!     any(xs, p) <=> !all(xs, negated p)
+    //!                <=> !none(xs, p)
+    //!
+    //!     elem(xs, x) <=> any(xs, [](auto y) { return y == x; })
+    //!
+    //!     lookup(xs, x) == find(xs, [](auto y) { return y == x; })
+    //!     find(xs, always(false_)) == nothing
+    //!
+    //!     subset(xs, ys) <=> all(xs, [](auto x) { return elem(ys, x); })
+    //! @endcode
+    //!
+    //! Additionally, if all the elements of the `Searchable` are `Logical`s,
+    //! the following law should be satisfied:
+    //! @code
+    //!     {any,all,none}_of(xs) <=> {any,all,none}(xs, id)
+    //! @endcode
+    //!
+    //! These laws make sure that `Searchable` instances are unsurprising
+    //! and they also provide a default implementation in terms of the `any`
+    //! and `find` methods.
     //!
     //! @todo
     //! We should provide a member `operator[]` equivalent to `lookup`.
