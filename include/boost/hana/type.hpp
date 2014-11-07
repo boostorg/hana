@@ -37,9 +37,11 @@ namespace boost { namespace hana {
         { return true_; }
     };
 
+#ifndef BOOST_HANA_DOXYGEN_INVOKED
     template <typename T>
     constexpr auto _sizeof::operator()(T) const
     { return size_t<sizeof(typename T::type)>; }
+#endif
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_TYPE_HPP

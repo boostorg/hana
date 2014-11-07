@@ -18,7 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana { namespace detail {
     //! @ingroup group-details
-    //! Reverse version of `partial` from the @ref Functional utilities.
+    //! Reverse version of `partial` from the Functional utilities.
     //!
     //! Specifically, `reverse_partial(f, x...)(y...)` is equivalent to
     //! `f(y..., x...)`.
