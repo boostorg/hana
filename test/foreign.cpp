@@ -74,6 +74,12 @@ int main() {
             BOOST_HANA_CONSTEXPR_ASSERT(pred(integer{2}) == integer{1});
             BOOST_HANA_CONSTEXPR_ASSERT(pred(integer{1}) == integer{0});
         }
+
+        // make sure pred and succ works with fundamental types
+        {
+            BOOST_HANA_CONSTEXPR_ASSERT(pred(3) == 2);
+            BOOST_HANA_CONSTEXPR_ASSERT(succ(3) == 4);
+        }
     }
 
     // Comparable

@@ -27,6 +27,15 @@ namespace boost { namespace hana {
     //! `pred` and `succ` can be implemented as long as the infinity is
     //! [countable][2] (in its mathematical sense).
     //!
+    //!
+    //! ### Laws
+    //! For any `Enumerable x`, the following laws must be satisfied:
+    //! @code
+    //!     succ(pred(x)) == x
+    //!     pred(succ(x)) == x
+    //! @endcode
+    //!
+    //!
     //! [1]: http://en.wikipedia.org/wiki/Successor_function
     //! [2]: http://en.wikipedia.org/wiki/Countable_set
     struct Enumerable {

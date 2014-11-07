@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/enumerable.hpp>
 
 #include <boost/hana/assert.hpp>
+#include <boost/hana/comparable.hpp>
 
 #include <test/auto/base.hpp>
 
@@ -17,13 +18,17 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana { namespace test {
     template <typename E>
     auto laws<Enumerable, E> = [] {
-        //! @todo
-        //! Enumerable should probably have the following laws:
-        //! For all enumerable `x`,
-        //! @code
-        //!     succ(pred(x)) == x
-        //!     pred(succ(x)) == x
-        //! @endcode
+        for_each(objects<E>, [](auto x) {
+            BOOST_HANA_ASSERT(equal(
+                succ(pred(x)),
+                x
+            ));
+
+            BOOST_HANA_ASSERT(equal(
+                pred(succ(x)),
+                x
+            ));
+        });
     };
 }}} // end namespace boost::hana::test
 

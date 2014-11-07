@@ -82,6 +82,11 @@ namespace boost { namespace hana {
     template <typename I>
     struct Enumerable::integral_constant_mcd : Enumerable::mcd {
     private:
+        //! @todo What should happen when we go out of bounds? Probably not
+        //! overflow like it does currently. Also, `succ(false_)` should
+        //! probably not be `int_<1>`, but rather `true_`.
+        static constexpr auto inc(bool x) { return static_cast<int>(x)+1; }
+        static constexpr auto dec(bool x) { return static_cast<int>(x)-1; }
         template <typename X> static constexpr auto inc(X x) { return ++x; }
         template <typename X> static constexpr auto dec(X x) { return --x; }
 
