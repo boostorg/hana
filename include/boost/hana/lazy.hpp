@@ -30,7 +30,10 @@ namespace boost { namespace hana {
     //! A lazy function can be lazily applied to a lazy value by using `ap`.
     template <>
     struct Applicative::instance<Lazy> : Applicative::mcd {
-        static constexpr auto lift_impl = lazy;
+        template <typename X>
+        static constexpr decltype(auto) lift_impl(X&& x) {
+            return lazy(detail::std::forward<X>(x));
+        }
 
         template <typename Lf, typename Lx>
         struct ap_result {
@@ -53,7 +56,12 @@ namespace boost { namespace hana {
             }
         };
 
-        static constexpr detail::create<ap_result> ap_impl{};
+        template <typename F, typename X>
+        static constexpr decltype(auto) ap_impl(F&& f, X&& x) {
+            return detail::create<ap_result>{}(
+                detail::std::forward<F>(f), detail::std::forward<X>(x)
+            );
+        }
     };
 
     //! Instance of `Functor` for `Lazy`.
@@ -81,7 +89,10 @@ namespace boost { namespace hana {
     //! @snippet example/lazy/monad.cpp main
     template <>
     struct Monad::instance<Lazy> : Monad::flatten_mcd<Lazy> {
-        static constexpr auto flatten_impl = lazy(compose(eval, eval));
+        template <typename LLX>
+        static constexpr decltype(auto) flatten_impl(LLX&& llx) {
+            return lazy(compose(eval, eval))(detail::std::forward<LLX>(llx));
+        }
     };
 }} // end namespace boost::hana
 

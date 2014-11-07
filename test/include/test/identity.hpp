@@ -86,7 +86,8 @@ namespace boost { namespace hana {
     struct Applicative::instance<test::Identity>
         : Applicative::mcd
     {
-        static constexpr auto lift_impl = test::identity;
+        template <typename X>
+        static constexpr auto lift_impl(X x) { return test::identity(x); }
 
         template <typename F, typename X>
         static constexpr auto ap_impl(F f, X x) {

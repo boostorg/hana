@@ -106,13 +106,13 @@ namespace boost { namespace hana {
     //! Equivalent to `is_a`; provided for consistency with the rules of the
     //! English language.
     template <typename Typeclass, typename ...Datatypes>
-    constexpr auto is_an = is_a<Typeclass, Datatypes...>;
+    constexpr auto is_an = decltype(is_a<Typeclass, Datatypes...>){};
 
     //! @ingroup group-core
     //! Equivalent to `is_a`; provided for consistency with the rules of the
     //! English language when several data types are provided.
     template <typename Typeclass, typename ...Datatypes>
-    constexpr auto are = is_a<Typeclass, Datatypes...>;
+    constexpr auto are = decltype(is_a<Typeclass, Datatypes...>){};
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_CORE_IS_A_HPP

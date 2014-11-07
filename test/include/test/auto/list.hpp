@@ -52,7 +52,7 @@ namespace boost { namespace hana { namespace test {
         constexpr _invalid<i> invalid{};
 
         template <int i>
-        constexpr auto ord = cnumeric<int, i>;
+        constexpr decltype(cnumeric<int, i>) ord = cnumeric<int, i>;
     }
 
     template <typename L>

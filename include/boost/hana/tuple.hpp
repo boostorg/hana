@@ -311,7 +311,10 @@ namespace boost { namespace hana {
 
         // make and nil
         ///////////////
-        static constexpr auto make_impl = tuple;
+        template <typename ...Xs>
+        static constexpr decltype(auto) make_impl(Xs&& ...xs) {
+            return tuple(detail::std::forward<Xs>(xs)...);
+        }
         static constexpr _tuple<> nil_impl() { return {}; }
 
 
