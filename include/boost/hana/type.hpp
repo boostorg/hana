@@ -37,11 +37,9 @@ namespace boost { namespace hana {
         { return true_; }
     };
 
-    namespace type_detail {
-        template <typename T>
-        constexpr auto sizeof_::operator()(T) const
-        { return size_t<sizeof(typename T::type)>; }
-    }
+    template <typename T>
+    constexpr auto _sizeof::operator()(T) const
+    { return size_t<sizeof(typename T::type)>; }
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_TYPE_HPP

@@ -32,25 +32,46 @@ namespace boost { namespace hana {
     //! code duplication. In comparison, previous metaprogramming libraries
     //! like [Boost.MPL][] or [MPL11][] used struct-based metafunctions that
     //! worked at the type level only, were less expressive due to the lack
-    //! of anonymous functions and forced the programmer to use an awkward
-    //! syntax.
+    //! of anonymous functions and forced one to use an awkward syntax.
     //!
     //! Of course, since each object of data type `Type` has an unspecified
     //! (and hence possibly different) C++ type, manipulating these guys
     //! requires being able to manipulate heterogeneous objects. Fortunately,
     //! this is exactly what this library was built for, so we're good.
     //!
-    //! So far, we're only able to pass wrapped types around, which isn't
-    //! very useful. For `Type`s to be of some use, they have to give us
-    //! a way of getting that wrapped type out. Hence, for any `Type` `t`,
-    //! `decltype(t)::type` is an alias to the type it wraps. In Boost.MPL
-    //! parlance, `decltype(t)` is a nullary metafunction returning the C++
-    //! type `t` represents.
+    //! By wrapping C++ types into `Type` objects, we're only able to pass
+    //! wrapped types around, which isn't very useful. For `Type`s to be of
+    //! some use, they have to give us a way of getting that wrapped type out.
+    //! Hence, for any `Type` `t`, `decltype(t)::type` is an alias to the type
+    //! it wraps. In Boost.MPL parlance, `decltype(t)` is a nullary metafunction
+    //! returning the C++ type `t` represents:
     //!
-    //! [Boost.MPL]: http://www.boost.org/doc/libs/release/libs/mpl/doc/index.html
-    //! [MPL11]: http://github.com/ldionne/mpl11
+    //! @snippet example/type/as_metafunction.cpp main
     //!
-    //! ## Instance of
+    //!
+    //! ### Lvalues and rvalues
+    //!
+    //! When storing `Type`s in heterogeneous containers, some algorithms will
+    //! return references to those objects. Since we are primarily interested
+    //! in accessing the `::type` inside of these objects, receiving a
+    //! reference is undesirable; we would end up trying to fetch the nested
+    //! `::type` inside a reference type, which is a compilation error:
+    //! @code
+    //!     // Error; decltype(...) is a reference!
+    //!     using T = decltype(at_c<1>(tuple(type<int>, type<char>)))::type;
+    //! @endcode
+    //!
+    //! For this reason, `Type`s provide an overload of the unary `+` operator
+    //! that can be used to turn a lvalue into a rvalue. So when using a result
+    //! which might be a reference to a `Type` object, one can use `+` to make
+    //! sure a rvalue is obtained before fetching its nested `::type`:
+    //! @code
+    //!     // Good; decltype(+...) is an rvalue.
+    //!     using T = decltype(+at_c<1>(tuple(type<int>, type<char>)))::type;
+    //! @endcode
+    //!
+    //!
+    //! ### Instance of
     //! `Comparable`
     //!
     //!
@@ -63,56 +84,64 @@ namespace boost { namespace hana {
     //!   (demangled?) `typeid(T).name()`.
     //!
     //! @bug
-    //! `metafunction` and friends are not SFINAE-friendly right now.
-    //! See [this](http://gcc.gnu.org/bugzilla/show_bug.cgi?id=59498) GCC bug
-    //! and also [Core 1430](http://www.open-std.org/jtc1/sc22/wg21/docs/cwg_active.html#1430)
-    //! issue. Once this issue is resolved, look at the unit tests for those
-    //! utilities and either uncomment or remove the relevant test section.
-    struct Type { struct hana { struct enabled_operators : Comparable { }; }; };
+    //! `metafunction` and friends are not SFINAE-friendly right now. See
+    //! [this GCC bug][GCC_58498] and also [Core 1430 issue][Core_1430] issue.
+    //! Once this issue is resolved, look at the unit tests for those utilities
+    //! and either uncomment or remove the relevant test section.
+    //!
+    //!
+    //! [Boost.MPL]: http://www.boost.org/doc/libs/release/libs/mpl/doc/index.html
+    //! [MPL11]: http://github.com/ldionne/mpl11
+    //! [Core_1430]: http://www.open-std.org/jtc1/sc22/wg21/docs/cwg_active.html#1430
+    //! [GCC_58498]: http://gcc.gnu.org/bugzilla/show_bug.cgi?id=59498
+    struct Type {
+        struct hana {
+            struct enabled_operators
+                : Comparable
+            { };
+        };
+    };
 
     struct Metafunction { };
 
-    namespace type_detail {
-        template <typename T>
-        struct make_type {
-            struct hidden : operators::enable_adl {
-                struct hana { using datatype = Type; };
-                using type = T;
-            };
+    template <typename T>
+    struct _type {
+        struct _ : operators::enable_adl {
+            struct hana { using datatype = Type; };
+            using type = T;
+
+            constexpr _ operator+() const { return *this; }
         };
-    }
+    };
 
     //! Creates an object representing the C++ type `T`.
     //! @relates Type
-    //! @hideinitializer
-    //!
-    //! `type<T>` is an object of an unspecified type such that
-    //! `decltype(type<T>)` has a nested alias to `T` named `type`.
-    //! In other words `decltype(type<T>)` is a Boost.MPL nullary
-    //! metafunction returning `T`:
-    //! @snippet example/type/as_metafunction.cpp main
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename T>
-    constexpr typename type_detail::make_type<T>::hidden type{};
-
-    namespace type_detail {
-        struct decltype_ {
-            template <typename T>
-            constexpr auto operator()(T) const
-            { return type<T>; }
-        };
-
-        struct sizeof_ {
-            template <typename T>
-            constexpr auto operator()(T) const;
-        };
-    }
+    constexpr unspecified-type type{};
+#else
+    template <typename T>
+    constexpr typename _type<T>::_ type{};
+#endif
 
     //! Returns the type of an object as a `Type`.
     //! @relates Type
     //!
     //! ### Example
     //! @snippet example/type/decltype.cpp main
-    constexpr type_detail::decltype_ decltype_{};
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto decltype_ = [](auto x) {
+        return type<decltype(x)>;
+    };
+#else
+    struct _decltype {
+        template <typename T>
+        constexpr auto operator()(T) const
+        { return type<T>; }
+    };
+
+    constexpr _decltype decltype_{};
+#endif
 
     //! Returns the size of the C++ type represented by a `Type`.
     //! @relates Type
@@ -122,61 +151,19 @@ namespace boost { namespace hana {
     //!
     //! @todo
     //! Should we also support non-`Type`s? That could definitely be useful.
-    constexpr type_detail::sizeof_ sizeof_{};
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto sizeof_ = [](auto t) {
+        using T = typename decltype(t)::type;
+        return size_t<sizeof(T)>;
+    };
+#else
+    struct _sizeof {
+        template <typename T>
+        constexpr auto operator()(T) const;
+    };
 
-    namespace type_detail {
-        template <template <typename ...> class f>
-        struct template_ {
-            struct hana { using datatype = Metafunction; };
-
-            template <typename ...xs>
-            struct apply {
-                using type = f<xs...>;
-            };
-
-            template <typename ...xs>
-            constexpr auto operator()(xs...) const
-            { return type<f<typename xs::type...>>; }
-        };
-
-        template <template <typename ...> class f>
-        struct metafunction {
-            struct hana { using datatype = Metafunction; };
-
-            template <typename ...xs>
-            using apply = f<xs...>;
-
-            template <typename ...xs>
-            constexpr auto operator()(xs...) const
-            { return type<typename f<typename xs::type...>::type>; }
-        };
-
-        template <typename f>
-        struct metafunction_class {
-            struct hana { using datatype = Metafunction; };
-
-            template <typename ...xs>
-            using apply = typename f::template apply<xs...>;
-
-            template <typename ...xs>
-            constexpr auto operator()(xs...) const
-            { return type<typename f::template apply<typename xs::type...>::type>; }
-        };
-
-        template <template <typename ...> class f>
-        struct trait {
-            template <typename ...xs>
-            constexpr auto operator()(xs...) const
-            { return f<typename xs::type...>{}; }
-        };
-
-        template <template <typename ...> class f>
-        struct trait_ {
-            template <typename ...xs>
-            constexpr auto operator()(xs...) const
-            { return f<xs...>{}; }
-        };
-    }
+    constexpr _sizeof sizeof_{};
+#endif
 
     //! Lift a template to a function on `Type`s.
     //! @relates Type
@@ -193,8 +180,31 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/type/template.cpp main
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <template <typename ...> class f>
-    constexpr type_detail::template_<f> template_{};
+    constexpr auto template_ = [](auto ...ts) {
+        return type<
+            f<typename decltype(ts)::type...>
+        >;
+    };
+#else
+    template <template <typename ...> class f>
+    struct _template {
+        struct hana { using datatype = Metafunction; };
+
+        template <typename ...xs>
+        struct apply {
+            using type = f<xs...>;
+        };
+
+        template <typename ...xs>
+        constexpr auto operator()(xs...) const
+        { return type<f<typename xs::type...>>; }
+    };
+
+    template <template <typename ...> class f>
+    constexpr _template<f> template_{};
+#endif
 
     //! Lift a metafunction to a function on `Type`s.
     //! @relates Type
@@ -208,8 +218,29 @@ namespace boost { namespace hana {
     //! @code
     //!     decltype(metafunction<f>)::apply<x1, ..., xN> == f<x1, ..., xN>
     //! @endcode
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <template <typename ...> class f>
-    constexpr type_detail::metafunction<f> metafunction{};
+    constexpr auto metafunction = [](auto ...ts) {
+        return type<
+            typename f<typename decltype(ts)::type...>::type
+        >;
+    };
+#else
+    template <template <typename ...> class f>
+    struct _metafunction {
+        struct hana { using datatype = Metafunction; };
+
+        template <typename ...xs>
+        using apply = f<xs...>;
+
+        template <typename ...xs>
+        constexpr auto operator()(xs...) const
+        { return type<typename f<typename xs::type...>::type>; }
+    };
+
+    template <template <typename ...> class f>
+    constexpr _metafunction<f> metafunction{};
+#endif
 
     //! Lift a metafunction class to a function on `Type`s.
     //! @relates Type
@@ -224,8 +255,34 @@ namespace boost { namespace hana {
     //! @code
     //!     decltype(metafunction_class<f>)::apply<x1, ..., xN> == f::apply<x1, ..., xN>
     //! @endcode
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename f>
-    constexpr type_detail::metafunction_class<f> metafunction_class{};
+    constexpr auto metafunction_class = [](auto ...ts) {
+        return type<
+            typename f::template apply<
+                typename decltype(ts)::type...
+            >::type
+        >;
+    };
+#else
+    template <typename f>
+    struct _metafunction_class {
+        struct hana { using datatype = Metafunction; };
+
+        template <typename ...xs>
+        using apply = typename f::template apply<xs...>;
+
+        template <typename ...xs>
+        constexpr auto operator()(xs...) const {
+            return type<
+                typename f::template apply<typename xs::type...>::type
+            >;
+        }
+    };
+
+    template <typename f>
+    constexpr _metafunction_class<f> metafunction_class{};
+#endif
 
     //! Lift a metafunction to a function taking `Type`s and returning a
     //! default-constructed object.
@@ -262,8 +319,22 @@ namespace boost { namespace hana {
     //! Since `trait<f>` does not return a `Type`, it does not really make
     //! sense to make `decltype(trait<f>)` a metafunction class, which
     //! explains the omission.
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <template <typename ...> class f>
-    constexpr type_detail::trait<f> trait{};
+    constexpr auto trait = [](auto ...ts) {
+        return f<typename decltype(ts)::type...>{};
+    };
+#else
+    template <template <typename ...> class f>
+    struct _trait {
+        template <typename ...xs>
+        constexpr auto operator()(xs...) const
+        { return f<typename xs::type...>{}; }
+    };
+
+    template <template <typename ...> class f>
+    constexpr _trait<f> trait{};
+#endif
 
     //! Equivalent to `compose(trait<f>, decltype_)`; provided for convenience.
     //! @relates Type
@@ -275,8 +346,22 @@ namespace boost { namespace hana {
     //! Since `trait_<f>` does not return a `Type`, it does not really make
     //! sense to make `decltype(trait_<f>)` a metafunction class, which
     //! explains the omission.
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <template <typename ...> class f>
-    constexpr type_detail::trait_<f> trait_{};
+    constexpr auto trait_ = [](auto ...xs) {
+        return f<decltype(xs)...>{};
+    };
+#else
+    template <template <typename ...> class f>
+    struct _trait_ {
+        template <typename ...xs>
+        constexpr auto operator()(xs...) const
+        { return f<xs...>{}; }
+    };
+
+    template <template <typename ...> class f>
+    constexpr _trait_<f> trait_{};
+#endif
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_TYPE_HPP

@@ -62,6 +62,29 @@ int main() {
         {
             static_assert(std::is_same<decltype(type<T>)::type, T>{}, "");
         }
+
+        // unary +
+        {
+            auto& ref = type<T>;
+            auto const& cref = type<T>;
+            auto&& rref = type<T>;
+            auto val = type<T>;
+
+            BOOST_HANA_CONSTANT_ASSERT(equal(val, +val));
+            BOOST_HANA_CONSTANT_ASSERT(equal(val, +ref));
+            BOOST_HANA_CONSTANT_ASSERT(equal(val, +cref));
+            BOOST_HANA_CONSTANT_ASSERT(equal(val, +rref));
+
+            static_assert(!std::is_reference<decltype(+val)>{}, "");
+            static_assert(!std::is_reference<decltype(+ref)>{}, "");
+            static_assert(!std::is_reference<decltype(+cref)>{}, "");
+            static_assert(!std::is_reference<decltype(+rref)>{}, "");
+
+            using T1 = decltype(+val)::type;
+            using T2 = decltype(+ref)::type;
+            using T3 = decltype(+cref)::type;
+            using T4 = decltype(+rref)::type;
+        }
     }
 
     // Comparable

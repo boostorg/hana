@@ -13,11 +13,10 @@ using namespace boost::hana;
 
 
 // The fact that a reference to `type<...>` is returned from `head(types)` &
-// friends makes it impossible to use the `decltype(head(types))::type`
-// pattern, because we would be trying to fetch `::type` inside a reference.
-//
-// While this is not a bug strictly speaking, it is a major annoyance that
-// ought to be fixed, hence this test case.
+// friends used to break the `decltype(head(types))::type` pattern, because
+// we would be trying to fetch `::type` inside a reference. To work around
+// this, a unary `operator+` turning a lvalue `Type` into a rvalue `Type`
+// was added.
 
 struct T; struct U; struct V;
 
@@ -25,14 +24,14 @@ int main() {
     auto types = tuple(type<T>, type<U>, type<V>);
 
     static_assert(std::is_same<
-        decltype(head(types))::type, T
+        decltype(+head(types))::type, T
     >{}, "");
 
     static_assert(std::is_same<
-        decltype(at(int_<1>, types))::type, U
+        decltype(+at(int_<1>, types))::type, U
     >{}, "");
 
     static_assert(std::is_same<
-        decltype(last(types))::type, V
+        decltype(+last(types))::type, V
     >{}, "");
 }
