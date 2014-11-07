@@ -58,6 +58,11 @@ namespace boost { namespace hana {
     //! `is_a<Datatype>` and `is_a<Typeclass>` without introducing additional
     //! machinery.
     //!
+    //! @todo
+    //! The extension of `is_a` to data types is inconsistent, because one
+    //! would expect `is_a<D, decltype(some object of data type D)>` to be
+    //! true, while it gives an error.
+    //!
     //! ### Example
     //! @snippet example/core/is_a.cpp alternate
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
