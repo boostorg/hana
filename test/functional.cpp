@@ -269,6 +269,75 @@ int main() {
         BOOST_HANA_CONSTANT_ASSERT(equal((f ^on^ g)(x<0>, x<1>, x<2>, x<3>), f(g(x<0>), g(x<1>), g(x<2>), g(x<3>))));
     }
 
+    // overload
+    {
+        // 1 function
+        {
+            auto f = overload([](int) { return x<1>; });
+            BOOST_HANA_CONSTANT_ASSERT(equal(f(int{}), x<1>));
+        }
+
+        // 2 functions
+        {
+            auto f = overload(
+                [](int) { return x<1>; },
+                [](float) { return x<2>; }
+            );
+            BOOST_HANA_CONSTANT_ASSERT(equal(f(int{}), x<1>));
+            BOOST_HANA_CONSTANT_ASSERT(equal(f(float{}), x<2>));
+        }
+
+        // 3 functions
+        {
+            auto f = overload(
+                [](int) { return x<1>; },
+                [](float) { return x<2>; },
+                static_cast<decltype(x<3>)(*)(char)>([](char) { return x<3>; })
+            );
+            BOOST_HANA_CONSTANT_ASSERT(equal(f(int{}), x<1>));
+            BOOST_HANA_CONSTANT_ASSERT(equal(f(float{}), x<2>));
+            BOOST_HANA_CONSTANT_ASSERT(equal(f(char{}), x<3>));
+        }
+
+        // 4 functions
+        {
+            auto f = overload(
+                [](int) { return x<1>; },
+                [](float) { return x<2>; },
+                static_cast<decltype(x<3>)(*)(char)>([](char) { return x<3>; }),
+                [](auto) { return x<4>; }
+            );
+
+            struct otherwise { };
+            BOOST_HANA_CONSTANT_ASSERT(equal(f(int{}), x<1>));
+            BOOST_HANA_CONSTANT_ASSERT(equal(f(float{}), x<2>));
+            BOOST_HANA_CONSTANT_ASSERT(equal(f(char{}), x<3>));
+            BOOST_HANA_CONSTANT_ASSERT(equal(f(otherwise{}), x<4>));
+        }
+
+        // check move-only friendlyness for bare functions
+        {
+            void (*g)(move_only) = [](move_only) { };
+            overload(g)(move_only{});
+        }
+
+        // check non-strict matches which require a conversion
+        {
+            struct convertible_to_int { operator int() const { return 1; } };
+            auto f = [](int) { return x<0>; };
+
+            BOOST_HANA_CONSTANT_ASSERT(equal(
+                overload(f)(convertible_to_int{}),
+                x<0>
+            ));
+
+            BOOST_HANA_CONSTANT_ASSERT(equal(
+                overload(static_cast<decltype(x<0>)(*)(int)>(f))(convertible_to_int{}),
+                x<0>
+            ));
+        }
+    }
+
     // partial
     {
         BOOST_HANA_CONSTANT_ASSERT(equal(partial(f)(), f()));
