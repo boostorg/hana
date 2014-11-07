@@ -74,7 +74,7 @@ namespace boost { namespace hana {
 
     template <typename Datatype>
     struct enabled_operators<Datatype,
-        when<is_valid<typename Datatype::hana::enabled_operators>>
+        when_valid<typename Datatype::hana::enabled_operators>
     >
         : Datatype::hana::enabled_operators
     { };

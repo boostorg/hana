@@ -41,10 +41,10 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto similar = [](auto x, auto y) {
 
 // Two STL containers are similar if they are std::equal
 template <typename X, typename Y>
-struct Similar::instance<X, Y, hana::when<hana::is_valid<
+struct Similar::instance<X, Y, hana::when_valid<
     decltype((void)std::declval<X>().begin()),
     decltype((void)std::declval<Y>().begin())
->>> : Similar::mcd {
+>> : Similar::mcd {
     static constexpr auto similar_impl(X x, Y y)
     { return std::equal(x.begin(), x.end(), y.begin(), y.end()); }
 };

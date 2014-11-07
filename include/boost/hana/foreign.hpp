@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/std/declval.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integer_sequence.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
@@ -37,9 +38,9 @@ namespace boost { namespace hana {
     //! `operator==` are automatically instances of `Comparable` by
     //! using that comparison.
     template <typename T, typename U>
-    struct Comparable::instance<T, U,
-        when<is_valid<decltype((void)(*(T*)0 == *(U*)0))>>
-    >
+    struct Comparable::instance<T, U, when_valid<
+        decltype(detail::std::declval<T>() == detail::std::declval<U>())
+    >>
         : Comparable::equal_mcd
     {
         template <typename X, typename Y>
@@ -54,21 +55,19 @@ namespace boost { namespace hana {
     //! decremented using `operator--` is `Enumerable` using those operations
     //! for `succ` and `pred` respectively.
     template <typename T>
-    struct Enumerable::instance<T, when<is_valid<
-        decltype((void)(++*(T*)0)),
-        decltype((void)(--*(T*)0))
-    >>>
+    struct Enumerable::instance<T, when_valid<
+        decltype(++detail::std::declval<T&>()),
+        decltype(--detail::std::declval<T&>())
+    >>
         : Enumerable::mcd
     {
         template <typename X>
-        static constexpr auto succ_impl(X /* by value */ x) {
-            return ++x;
-        }
+        static constexpr auto succ_impl(X /* by value */ x)
+        { return ++x; }
 
         template <typename X>
-        static constexpr auto pred_impl(X /* by value */ x) {
-            return --x;
-        }
+        static constexpr auto pred_impl(X /* by value */ x)
+        { return --x; }
     };
 
     //! Instance of `Foldable` for array types.
@@ -108,9 +107,9 @@ namespace boost { namespace hana {
     //! subtracted with the usual `operator-` naturally form an additive
     //! group, with the group subtraction being that usual `operator-`.
     template <typename T, typename U>
-    struct Group::instance<T, U, when<
-        are<Monoid, T, U>() &&
-        is_valid<decltype((void)(*(T*)0 - *(U*)0))>
+    struct Group::instance<T, U, when_valid<
+        decltype(detail::std::declval<T>() - detail::std::declval<U>()),
+        char[are<Monoid, T, U>()]
     >>
         : Group::minus_mcd<T, U>
     {
@@ -126,12 +125,10 @@ namespace boost { namespace hana {
     //! and moded with the usual operators (`/` and `%`) naturally form
     //! an integral domain with those operations.
     template <typename T, typename U>
-    struct IntegralDomain::instance<T, U, when<
-        are<Ring, T, U>() &&
-        is_valid<decltype((void)(
-            *(T*)1 % *(U*)1,
-            *(T*)1 / *(U*)1
-        ))>
+    struct IntegralDomain::instance<T, U, when_valid<
+        decltype(detail::std::declval<T>() / detail::std::declval<U>()),
+        decltype(detail::std::declval<T>() % detail::std::declval<U>()),
+        char[are<Ring, T, U>()]
     >> : IntegralDomain::mcd {
         template <typename X, typename Y>
         static constexpr decltype(auto) quot_impl(X&& x, Y&& y) {
@@ -155,18 +152,17 @@ namespace boost { namespace hana {
     //! We can't use perfect forwarding because of this bug:
     //! http://llvm.org/bugs/show_bug.cgi?id=20619
     template <typename L>
-    struct Logical::instance<L,
-        when<is_valid<decltype(*(L*)0 ? (void)0 : (void)0)>>
-    >
+    struct Logical::instance<L, when_valid<
+        decltype(detail::std::declval<L>() ? void() : void())
+    >>
         : Logical::mcd
     {
-
         template <typename T, typename E>
         static constexpr auto eval_if_impl(bool cond, T t, E e) {
             return cond ? t(id) : e(id);
         }
 
-        static constexpr auto not_impl(bool cond)
+        static constexpr bool not_impl(bool cond)
         { return !cond; }
     };
 
@@ -177,11 +173,11 @@ namespace boost { namespace hana {
     //! naturally form an additive `Monoid`, with `0` being the identity
     //! and the usual `operator+` being the associative operation.
     template <typename T, typename U>
-    struct Monoid::instance<T, U, when<is_valid<decltype((void)(
-        static_cast<T>(0),
-        static_cast<U>(0),
-        *(T*)0 + *(U*)0
-    ))>>> : Monoid::mcd {
+    struct Monoid::instance<T, U, when_valid<
+        decltype(static_cast<T>(0)),
+        decltype(static_cast<U>(0)),
+        decltype(detail::std::declval<T>() + detail::std::declval<U>())
+    >> : Monoid::mcd {
         template <typename X, typename Y>
         static constexpr decltype(auto) plus_impl(X&& x, Y&& y) {
             return detail::std::forward<X>(x) + detail::std::forward<Y>(y);
@@ -197,9 +193,9 @@ namespace boost { namespace hana {
     //! Any two foreign objects whose types can be compared using `operator<`
     //! are automatically instances of `Orderable` by using that comparison.
     template <typename T, typename U>
-    struct Orderable::instance<T, U,
-        when<is_valid<decltype((void)(*(T*)0 < *(U*)0))>>
-    >
+    struct Orderable::instance<T, U, when_valid<
+        decltype(detail::std::declval<T>() < detail::std::declval<U>())
+    >>
         : Orderable::less_mcd
     {
         template <typename X, typename Y>
@@ -215,13 +211,11 @@ namespace boost { namespace hana {
     //! exists (for both) naturally form a multiplicative `Ring`, with `1`
     //! being the identity and the usual `operator*` being the ring operation.
     template <typename T, typename U>
-    struct Ring::instance<T, U, when<
-        are<Group, T, U>() &&
-        is_valid<decltype((void)(
-            static_cast<T>(1),
-            static_cast<U>(1),
-            *(T*)1 * *(U*)1
-        ))>
+    struct Ring::instance<T, U, when_valid<
+        decltype(static_cast<T>(1)),
+        decltype(static_cast<U>(1)),
+        decltype(detail::std::declval<T>() * detail::std::declval<U>()),
+        char[are<Group, T, U>()]
     >> : Ring::mcd {
         template <typename X, typename Y>
         static constexpr decltype(auto) mult_impl(X&& x, Y&& y) {

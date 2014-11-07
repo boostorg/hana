@@ -897,11 +897,11 @@ well-formed (think SFINAE):
 
 @snippet example/tutorial/typeclasses/printable_0mcd_streamable.cpp streamable_instance
 
-`is_valid` is always equivalent to `true`, but it takes an arbitrary number
-of types and relies on the fact that SFINAE will kick in and remove the
-specialization if any of the types is not well-formed. Note that `is_valid`
-can also be used when specializing the `datatype` metafunction. As expected,
-we can now write
+`when_valid` is always equivalent to `when<true>`, but it takes an arbitrary
+number of types and relies on the fact that SFINAE will kick in and remove the
+specialization if any of the types is not well-formed. Note that `when_valid`
+can be used when specializing arbitrary metafunctions supporting the `when`
+specialization protocol. As expected, we can now write
 
 @snippet example/tutorial/typeclasses/printable_0mcd_streamable.cpp print_string
 

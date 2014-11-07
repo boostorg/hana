@@ -53,7 +53,7 @@ namespace boost { namespace hana {
     };
 
     template <typename T>
-    struct datatype<T, when<is_valid<typename T::hana::datatype>>> {
+    struct datatype<T, when_valid<typename T::hana::datatype>> {
         using type = typename T::hana::datatype;
     };
 

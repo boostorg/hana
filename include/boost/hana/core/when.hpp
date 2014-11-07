@@ -1,6 +1,6 @@
 /*!
 @file
-Defines `boost::hana::when` and `boost::hana::is_valid`.
+Defines `boost::hana::when` and `boost::hana::when_valid`.
 
 @copyright Louis Dionne 2014
 Distributed under the Boost Software License, Version 1.0.
@@ -12,8 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //! @ingroup group-core
-    //! Enable a type class instance or a data type specialization only if a
-    //! boolean condition is true.
+    //! Enable a partial specialization only if a boolean condition is true.
     //!
     //! @internal
     //! ### Rationale for using `when` instead of `std::enable_if`
@@ -31,18 +30,17 @@ namespace boost { namespace hana {
     struct when;
 
     //! @ingroup group-core
-    //! Used in conjunction with `when` to enable a type class instance or a
-    //! data type specialization only if an expression is well-formed.
+    //! Variant of `when` allowing specializations to be enabled only if an
+    //! expression is well-formed.
     //!
-    //! Specifically, `is_valid<...>` is always equivalent to the constant
-    //! expression `true`. When used as `when<is_valid<...>>` inside a type
-    //! class or data type specialization, SFINAE will cause the partial
-    //! specialization to fail when the expression is ill-formed.
+    //! `when_valid<...>` is always equivalent to `when<true>`. However, when
+    //! used inside a partial specialization, SFINAE will cause the partial
+    //! specialization to be ignored when the expression is ill-formed.
     //!
     //! ### Example
-    //! @include example/core/is_valid.cpp
+    //! @include example/core/when_valid.cpp
     template <typename ...>
-    constexpr bool is_valid = true;
+    using when_valid = when<true>;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_CORE_WHEN_HPP

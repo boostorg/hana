@@ -21,9 +21,9 @@ auto print = [](std::ostream& os, auto x) {
 };
 
 template <typename T>
-struct Printable::instance<T, when<is_valid<
+struct Printable::instance<T, when_valid<
     decltype(std::declval<std::ostream&>() << std::declval<T>())
->>> {
+>> {
     static void print_impl(std::ostream& os, T x) {
         os << x;
     }
