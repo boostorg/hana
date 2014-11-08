@@ -15,7 +15,11 @@ template <int i> struct x { };
 
 
 int main() {
-    auto list = <%= list %>;
+    using L = <%= datatype %>;
+    auto list = boost::hana::make<L>(
+        <%= (1..input_size).to_a.map { |i| "x<#{i}>{}" }.join(', ') %>
+    );
+
     auto pred = [](auto&& x) { return boost::hana::true_; };
 
     boost::hana::benchmark::measure([=] {

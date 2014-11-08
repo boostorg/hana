@@ -13,12 +13,20 @@ Distributed under the Boost Software License, Version 1.0.
 
 template <int i> struct x { };
 
+struct pred {
+    template <int i>
+    constexpr decltype(auto) operator()(x<i> const&) const {
+        return boost::hana::bool_<i ==  <%= input_size / 2 %>   >;
+    }
+};
 
 int main() {
-    auto list = <%= list %>;
-    auto pred = [](auto&& x) { return boost::hana::true_; };
+    using L = <%= datatype %>;
+    auto list = boost::hana::make<L>(
+        <%= (1..input_size).to_a.map { |i| "x<#{i}>{}" }.join(', ') %>
+    );
 
     boost::hana::benchmark::measure([=] {
-        boost::hana::take_while(list, pred);
+        boost::hana::take_while(list, pred{});
     });
 }

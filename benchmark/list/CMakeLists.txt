@@ -2,114 +2,38 @@
 # Distributed under the Boost Software License, Version 1.0.
 # (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
-foreach(method IN ITEMS filter make permutations reverse scanl scanl1 scanr scanr1 sort take take_until take_while zip_with intersperse)
-    # Methods requiring the contents of the List to be Integrals.
-    if (${method} MATCHES "sort")
-        # Tuple
-        set(hana_tuple_env
-            "((1..50).to_a + (51..500).step(25).to_a).map { |n|
-                xs = (1..n).to_a.map { |i|
-                    \"boost::hana::integral<int, #{i}>\"
-                }.join(', ')
-                {
-                    setup: '
-                        #include <boost/hana/integral.hpp>
-                        #include <boost/hana/tuple.hpp>
-                    ',
-                    list: \"boost::hana::tuple(#{xs})\",
-                    input_size: n
-                }
-            }
-            "
-        )
-
-        # StdTuple
-        set(std_tuple_env
-            "((1..50).to_a + (51..500).step(25).to_a).map { |n|
-                xs = (1..n).to_a.map { |i|
-                    \"boost::hana::integral<int, #{i}>\"
-                }.join(', ')
-                {
-                    setup: '
-                        #include <boost/hana/ext/std/tuple.hpp>
-                        #include <boost/hana/integral.hpp>
-                        #include <tuple>
-                    ',
-                    list: \"std::make_tuple(#{xs})\",
-                    input_size: n
-                }
-            }
-            "
-        )
-    elseif(${method} MATCHES "make")
-        # Tuple
-        set(hana_tuple_env
-            "((1..50).to_a + (51..500).step(25).to_a).map { |n|
-                {
-                    setup: '#include <boost/hana/tuple.hpp>',
-                    datatype: 'boost::hana::Tuple',
-                    input_size: n
-                }
-            }
-            "
-        )
-
-        # StdTuple
-        set(std_tuple_env
-            "((1..50).to_a + (51..500).step(25).to_a).map { |n|
-                {
-                    setup: '
-                        #include <boost/hana/ext/std/tuple.hpp>
-                        #include <tuple>
-                    ',
-                    datatype: 'boost::hana::ext::std::Tuple',
-                    input_size: n
-                }
-            }
-            "
-        )
-    else()
-        # Tuple
-        set(hana_tuple_env
-            "((1..50).to_a + (51..500).step(25).to_a).map { |n|
-                xs = (1..n).to_a.map { |i| \"x<#{i}>{}\" }.join(', ')
-                {
-                    setup: '#include <boost/hana/tuple.hpp>',
-                    list: \"boost::hana::tuple(#{xs})\",
-                    input_size: n
-                }
-            }
-            "
-        )
-
-        # StdTuple
-        set(std_tuple_env
-            "
-            ((1..50).to_a + (51..500).step(25).to_a).map { |n|
-                xs = (1..n).to_a.map { |i| \"x<#{i}>{}\" }.join(', ')
-                {
-                    setup: '
-                        #include <boost/hana/ext/std/tuple.hpp>
-                        #include <tuple>
-                    ',
-                    list: \"std::make_tuple(#{xs})\",
-                    input_size: n
-                }
-            }
-            "
-        )
-    endif()
+foreach(method IN ITEMS filter make permutations reverse
+                        scanl scanl1 scanr scanr1 sort
+                        take take_until take_while zip_with
+                        group_by intersperse)
 
     Benchmark_add_dataset(dataset.list.hana_tuple.${method}
         FEATURES COMPILATION_TIME EXECUTION_TIME MEMORY_USAGE
         FILE "${method}.cpp"
-        ENV "${hana_tuple_env}"
+        ENV "((1..50).to_a + (51..500).step(25).to_a).map { |n|
+            {
+                setup: '#include <boost/hana/tuple.hpp>',
+                datatype: 'boost::hana::Tuple',
+                input_size: n
+            }
+        }
+        "
     )
 
     Benchmark_add_dataset(dataset.list.std_tuple.${method}
         FEATURES COMPILATION_TIME EXECUTION_TIME MEMORY_USAGE
         FILE "${method}.cpp"
-        ENV "${std_tuple_env}"
+        ENV "((1..50).to_a + (51..500).step(25).to_a).map { |n|
+            {
+                setup: '
+                    #include <boost/hana/ext/std/tuple.hpp>
+                    #include <tuple>
+                ',
+                datatype: 'boost::hana::ext::std::Tuple',
+                input_size: n
+            }
+        }
+        "
     )
 
     set(_feature_plot_suffix_EXECUTION_TIME "etime")

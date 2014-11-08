@@ -15,8 +15,13 @@ template <int i> struct x { };
 
 
 int main() {
-    auto xs = <%= list %>;
+    using L = <%= datatype %>;
+    auto xs = boost::hana::make<L>(
+        <%= (1..input_size).to_a.map { |i| "x<#{i}>{}" }.join(', ') %>
+    );
+
     auto ys = xs;
+
     auto f = [](auto&& x, auto&& y) -> decltype(auto) {
         return boost::hana::detail::std::forward<decltype(x)>(x);
     };

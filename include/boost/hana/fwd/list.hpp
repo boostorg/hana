@@ -187,6 +187,9 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/list.cpp group_by
+    //!
+    //! ### Benchmarks
+    //! @image html benchmark/list/group_by.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto group_by = [](auto&& predicate, auto&& xs) -> decltype(auto) {
         return tag-dispatched;

@@ -14,7 +14,10 @@ template <int i> struct x { };
 
 
 int main() {
-    auto list = <%= list %>;
+    using L = <%= datatype %>;
+    auto list = boost::hana::make<L>(
+        <%= (1..input_size).to_a.map { |i| "x<#{i}>{}" }.join(', ') %>
+    );
 
     boost::hana::benchmark::measure([=] {
         boost::hana::reverse(list);

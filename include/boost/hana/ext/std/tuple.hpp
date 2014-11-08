@@ -78,6 +78,12 @@ namespace boost { namespace hana {
         template <typename ...Xs>
         static constexpr auto is_empty_impl(::std::tuple<Xs...> const&)
         { return bool_<sizeof...(Xs) == 0>; }
+
+        template <typename N, typename Xs>
+        static constexpr decltype(auto) at_impl(N n, Xs&& xs) {
+            constexpr detail::std::size_t index = value(n);
+            return ::std::get<index>(detail::std::forward<Xs>(xs));
+        }
     };
 
     template <>
@@ -91,6 +97,11 @@ namespace boost { namespace hana {
                 ::std::make_tuple(detail::std::forward<X>(x)),
                 detail::std::forward<Xs>(xs)
             );
+        }
+
+        template <typename ...Xs>
+        static constexpr decltype(auto) make_impl(Xs&& ...xs) {
+            return ::std::make_tuple(detail::std::forward<Xs>(xs)...);
         }
     };
 
