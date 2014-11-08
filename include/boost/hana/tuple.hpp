@@ -318,6 +318,33 @@ namespace boost { namespace hana {
         static constexpr _tuple<> nil_impl() { return {}; }
 
 
+        // remove_at
+        ///////////////
+        template <typename Xs, detail::std::size_t ...before,
+                               detail::std::size_t ...after>
+        static constexpr decltype(auto)
+        remove_at_helper(Xs&& xs, detail::std::index_sequence<before...>,
+                                  detail::std::index_sequence<after...>) {
+            return tuple(
+                get_element<before>(detail::std::forward<Xs>(xs))...,
+                get_element<sizeof...(before) + after + 1>(
+                    detail::std::forward<Xs>(xs)
+                )...
+            );
+        }
+
+        template <typename N, typename Xs>
+        static constexpr decltype(auto) remove_at_impl(N n, Xs&& xs) {
+            constexpr detail::std::size_t index = value(n);
+            constexpr detail::std::size_t size = get_size(decltype(&xs){});
+            return remove_at_helper(
+                detail::std::forward<Xs>(xs),
+                detail::std::make_index_sequence<index>{},
+                detail::std::make_index_sequence<size - index - 1>{}
+            );
+        }
+
+
         // repeat
         ///////////////
         template <typename X>

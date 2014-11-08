@@ -2,10 +2,10 @@
 # Distributed under the Boost Software License, Version 1.0.
 # (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
-foreach(method IN ITEMS filter make permutations reverse
+foreach(method IN ITEMS filter group_by intersperse
+                        make permutations remove_at reverse
                         scanl scanl1 scanr scanr1 sort
-                        take take_until take_while zip_with
-                        group_by intersperse)
+                        take take_until take_while zip_with)
 
     Benchmark_add_dataset(dataset.list.hana_tuple.${method}
         FEATURES COMPILATION_TIME EXECUTION_TIME MEMORY_USAGE

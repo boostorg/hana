@@ -413,7 +413,7 @@ namespace boost { namespace hana {
     //!
     //! @bug
     //! We got a performance problem here. Generating the permutations of
-    //! a list of more than 3 elements takes a long time (>6s).
+    //! a list of more than 3 elements takes a long time.
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto permutations = [](auto&& xs) -> decltype(auto) {
         return tag-dispatched;
@@ -431,6 +431,68 @@ namespace boost { namespace hana {
     };
 
     constexpr _permutations permutations{};
+#endif
+
+    //! Remove the element at a given index from a list.
+    //! @relates List
+    //!
+    //! Specifically, `remove_at(n, [x0, ..., xn-1, xn, xn+1, ..., xm])` is
+    //! a new list equivalent to the list `[x0, ..., xn-1, xn+1, ..., xm]`.
+    //!
+    //!
+    //! @param n
+    //! An `IntegralConstant` representing the index of the element to be
+    //! removed from the list.
+    //!
+    //! @param xs
+    //! A list from which an element is to be removed.
+    //!
+    //!
+    //! ### Example
+    //! @snippet example/list.cpp remove_at
+    //!
+    //! ### Benchmarks
+    //! @image html benchmark/list/remove_at.ctime.png
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto remove_at = [](auto&& n, auto&& xs) -> decltype(auto) {
+        return tag-dispatched;
+    };
+#else
+    struct _remove_at {
+        template <typename N, typename Xs>
+        constexpr decltype(auto) operator()(N&& n, Xs&& xs) const {
+            return List::instance<
+                datatype_t<Xs>
+            >::remove_at_impl(
+                detail::std::forward<N>(n),
+                detail::std::forward<Xs>(xs)
+            );
+        }
+    };
+
+    constexpr _remove_at remove_at{};
+#endif
+
+    //! Equivalent to `remove_at`; provided for convenience.
+    //! @relates List
+    //!
+    //! ### Example
+    //! @snippet example/list.cpp remove_at_c
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    template <std::size_t n>
+    constexpr auto remove_at_c = [](auto&& list) -> decltype(auto) {
+        return remove_at(size_t<n>, forwarded(list));
+    };
+#else
+    template <detail::std::size_t n>
+    struct _remove_at_c {
+        template <typename Xs>
+        constexpr decltype(auto) operator()(Xs&& xs) const
+        { return remove_at(size_t<n>, detail::std::forward<Xs>(xs)); }
+    };
+
+    template <detail::std::size_t n>
+    constexpr _remove_at_c<n> remove_at_c{};
 #endif
 
     //! Create a list containing `n` copies of a value.

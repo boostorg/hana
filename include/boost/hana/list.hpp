@@ -183,6 +183,22 @@ namespace boost { namespace hana {
             );
         }
 
+        template <typename N, typename Xs>
+        static constexpr decltype(auto) remove_at_impl(N&& n, Xs&& xs) {
+            using I = typename datatype<N>::type;
+            return eval_if(equal(n, zero<I>),
+                [&xs](auto _) -> decltype(auto) {
+                    return _(tail)(detail::std::forward<Xs>(xs));
+                },
+                [&xs, &n](auto _) -> decltype(auto) {
+                    return cons(
+                        _(head)(xs),
+                        remove_at_impl(_(pred)(n), _(tail)(xs))
+                    );
+                }
+            );
+        }
+
         template <typename X, int ...i>
         static constexpr decltype(auto)
         repeat_helper(X&& x, detail::std::integer_sequence<int, i...>) {

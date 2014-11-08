@@ -65,6 +65,22 @@ int main() {
     }
 
     {
+        //! [remove_at]
+        BOOST_HANA_CONSTEXPR_ASSERT(
+            remove_at(int_<2>, tuple(0, '1', 2.2, 3u)) == tuple(0, '1', 3u)
+        );
+        //! [remove_at]
+    }
+
+    {
+        //! [remove_at_c]
+        BOOST_HANA_CONSTEXPR_ASSERT(
+            remove_at_c<2>(tuple(0, '1', 2.2, 3u)) == tuple(0, '1', 3u)
+        );
+        //! [remove_at_c]
+    }
+
+    {
         //! [reverse]
         BOOST_HANA_CONSTEXPR_ASSERT(reverse(tuple(1, '2', 3.3)) == tuple(3.3, '2', 1));
         //! [reverse]

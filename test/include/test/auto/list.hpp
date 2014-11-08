@@ -379,6 +379,104 @@ namespace boost { namespace hana { namespace test {
                 ));
             }
 
+            // remove_at
+            {
+                BOOST_HANA_CONSTANT_ASSERT(equal(
+                    remove_at(int_<0>, list(x<0>)),
+                    list()
+                ));
+
+                BOOST_HANA_CONSTANT_ASSERT(equal(
+                    remove_at(int_<0>, list(x<0>, x<1>)),
+                    list(x<1>)
+                ));
+                BOOST_HANA_CONSTANT_ASSERT(equal(
+                    remove_at(int_<1>, list(x<0>, x<1>)),
+                    list(x<0>)
+                ));
+
+                BOOST_HANA_CONSTANT_ASSERT(equal(
+                    remove_at(int_<0>, list(x<0>, x<1>, x<2>)),
+                    list(x<1>, x<2>)
+                ));
+                BOOST_HANA_CONSTANT_ASSERT(equal(
+                    remove_at(int_<1>, list(x<0>, x<1>, x<2>)),
+                    list(x<0>, x<2>)
+                ));
+                BOOST_HANA_CONSTANT_ASSERT(equal(
+                    remove_at(int_<2>, list(x<0>, x<1>, x<2>)),
+                    list(x<0>, x<1>)
+                ));
+
+                BOOST_HANA_CONSTANT_ASSERT(equal(
+                    remove_at(int_<0>, list(x<0>, x<1>, x<2>, x<3>)),
+                    list(x<1>, x<2>, x<3>)
+                ));
+                BOOST_HANA_CONSTANT_ASSERT(equal(
+                    remove_at(int_<1>, list(x<0>, x<1>, x<2>, x<3>)),
+                    list(x<0>, x<2>, x<3>)
+                ));
+                BOOST_HANA_CONSTANT_ASSERT(equal(
+                    remove_at(int_<2>, list(x<0>, x<1>, x<2>, x<3>)),
+                    list(x<0>, x<1>, x<3>)
+                ));
+                BOOST_HANA_CONSTANT_ASSERT(equal(
+                    remove_at(int_<3>, list(x<0>, x<1>, x<2>, x<3>)),
+                    list(x<0>, x<1>, x<2>)
+                ));
+
+                BOOST_HANA_CONSTANT_ASSERT(equal(
+                    remove_at(int_<0>, list(x<0>, x<1>, x<2>, x<3>, x<4>)),
+                    list(x<1>, x<2>, x<3>, x<4>)
+                ));
+                BOOST_HANA_CONSTANT_ASSERT(equal(
+                    remove_at(int_<1>, list(x<0>, x<1>, x<2>, x<3>, x<4>)),
+                    list(x<0>, x<2>, x<3>, x<4>)
+                ));
+                BOOST_HANA_CONSTANT_ASSERT(equal(
+                    remove_at(int_<2>, list(x<0>, x<1>, x<2>, x<3>, x<4>)),
+                    list(x<0>, x<1>, x<3>, x<4>)
+                ));
+                BOOST_HANA_CONSTANT_ASSERT(equal(
+                    remove_at(int_<3>, list(x<0>, x<1>, x<2>, x<3>, x<4>)),
+                    list(x<0>, x<1>, x<2>, x<4>)
+                ));
+                BOOST_HANA_CONSTANT_ASSERT(equal(
+                    remove_at(int_<4>, list(x<0>, x<1>, x<2>, x<3>, x<4>)),
+                    list(x<0>, x<1>, x<2>, x<3>)
+                ));
+            }
+
+            // remove_at_c
+            {
+                BOOST_HANA_CONSTANT_ASSERT(equal(
+                    remove_at_c<0>(list(x<0>)),
+                    list()
+                ));
+
+                BOOST_HANA_CONSTANT_ASSERT(equal(
+                    remove_at_c<0>(list(x<0>, x<1>)),
+                    list(x<1>)
+                ));
+                BOOST_HANA_CONSTANT_ASSERT(equal(
+                    remove_at_c<1>(list(x<0>, x<1>)),
+                    list(x<0>)
+                ));
+
+                BOOST_HANA_CONSTANT_ASSERT(equal(
+                    remove_at_c<0>(list(x<0>, x<1>, x<2>)),
+                    list(x<1>, x<2>)
+                ));
+                BOOST_HANA_CONSTANT_ASSERT(equal(
+                    remove_at_c<1>(list(x<0>, x<1>, x<2>)),
+                    list(x<0>, x<2>)
+                ));
+                BOOST_HANA_CONSTANT_ASSERT(equal(
+                    remove_at_c<2>(list(x<0>, x<1>, x<2>)),
+                    list(x<0>, x<1>)
+                ));
+            }
+
             // repeat
             {
                 BOOST_HANA_CONSTANT_ASSERT(equal(
@@ -1524,6 +1622,8 @@ namespace boost { namespace hana { namespace test {
         // Foldable is actually provided by Iterable, but it is very easy for
         // us to check that instance.
         {
+            laws<Foldable, L>();
+
             auto f = test::injection([]{});
             using test::x;
             constexpr struct { } undefined{};
