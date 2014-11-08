@@ -35,37 +35,42 @@ namespace boost { namespace hana {
     //! so this avenue should be explored once the bug is fixed.
     struct String {
         struct hana {
-            struct enabled_operators : Comparable, Orderable, Iterable { };
+            struct enabled_operators
+                : Comparable
+                , Orderable
+                , Iterable
+            { };
         };
     };
 
-    namespace string_detail {
-        template <char ...s>
-        struct string
-            : operators::enable_adl
-            , operators::Iterable_ops<string<s...>>
-        {
-            static constexpr char const storage[sizeof...(s)+1] = {s..., '\0'};
-            static constexpr char const* get() { return storage; }
-            struct hana { using datatype = String; };
-        };
-    }
-
     //! Create a compile-time string from a parameter pack of characters.
     //! @relates String
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <char ...s>
-    constexpr string_detail::string<s...> string{};
+    constexpr unspecified-type string{};
+#else
+    template <char ...s>
+    struct _string
+        : operators::enable_adl
+        , operators::Iterable_ops<_string<s...>>
+    {
+        struct hana { using datatype = String; };
+    };
+
+    template <char ...s>
+    constexpr _string<s...> string{};
+#endif
 
     namespace string_detail {
         template <typename S, detail::std::size_t ...N>
-        constexpr decltype(auto) prepare_impl(S, detail::std::index_sequence<N...>)
-        { return hana::string<S::storage()[N]...>; }
+        constexpr decltype(auto)
+        prepare_impl(S, detail::std::index_sequence<N...>)
+        { return string<S::storage()[N]...>; }
 
         template <typename S>
         constexpr decltype(auto) prepare(S s) {
-            return prepare_impl(
-                s, detail::std::make_index_sequence<sizeof(S::storage()) - 1>{}
-            );
+            return prepare_impl(s,
+                detail::std::make_index_sequence<sizeof(S::storage()) - 1>{});
         }
     }
 

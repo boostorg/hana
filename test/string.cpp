@@ -7,6 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/string.hpp>
 
 #include <boost/hana/assert.hpp>
+#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/maybe.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
@@ -21,6 +22,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <test/auto/iterable.hpp>
 #include <test/auto/orderable.hpp>
 #include <test/auto/searchable.hpp>
+
+#include <type_traits>
 using namespace boost::hana;
 
 
@@ -54,13 +57,12 @@ int main() {
 
     // string and BOOST_HANA_STRING
     {
-        auto s1 = BOOST_HANA_STRING("abcd");
-        auto s2 = string<'a', 'b', 'c', 'd'>;
+        BOOST_HANA_CONSTEXPR_LAMBDA auto const s1 = BOOST_HANA_STRING("abcd");
+        constexpr auto s2 = string<'a', 'b', 'c', 'd'>;
 
-        BOOST_HANA_CONSTEXPR_ASSERT(s1.get()[0] == s2.get()[0]);
-        BOOST_HANA_CONSTEXPR_ASSERT(s1.get()[1] == s2.get()[1]);
-        BOOST_HANA_CONSTEXPR_ASSERT(s1.get()[2] == s2.get()[2]);
-        BOOST_HANA_CONSTEXPR_ASSERT(s1.get()[3] == s2.get()[3]);
+        static_assert(std::is_same<
+            decltype(s1), decltype(s2)
+        >::value, "");
     }
 
     // Comparable
@@ -91,6 +93,17 @@ int main() {
                 BOOST_HANA_STRING(""),
                 BOOST_HANA_STRING("")
             ));
+        }
+
+        // operators
+        {
+            BOOST_HANA_CONSTANT_ASSERT(
+                BOOST_HANA_STRING("abc") == BOOST_HANA_STRING("abc")
+            );
+
+            BOOST_HANA_CONSTANT_ASSERT(
+                BOOST_HANA_STRING("abc") != BOOST_HANA_STRING("fgh")
+            );
         }
     }
 
@@ -132,6 +145,25 @@ int main() {
                 BOOST_HANA_STRING("abcde"),
                 BOOST_HANA_STRING("abfde")
             ));
+        }
+
+        // operators
+        {
+            BOOST_HANA_CONSTANT_ASSERT(
+                BOOST_HANA_STRING("abc") < BOOST_HANA_STRING("abcde")
+            );
+
+            BOOST_HANA_CONSTANT_ASSERT(
+                BOOST_HANA_STRING("abd") > BOOST_HANA_STRING("abc")
+            );
+
+            BOOST_HANA_CONSTANT_ASSERT(
+                BOOST_HANA_STRING("abc") <= BOOST_HANA_STRING("abc")
+            );
+
+            BOOST_HANA_CONSTANT_ASSERT(
+                BOOST_HANA_STRING("abc") >= BOOST_HANA_STRING("abc")
+            );
         }
     }
 
@@ -281,6 +313,14 @@ int main() {
             ));
             BOOST_HANA_CONSTANT_ASSERT(equal(
                 at(int_<2>, BOOST_HANA_STRING("abcd")),
+                char_<'c'>
+            ));
+        }
+
+        // operators
+        {
+            BOOST_HANA_CONSTANT_ASSERT(equal(
+                BOOST_HANA_STRING("abcde")[int_<2>],
                 char_<'c'>
             ));
         }
