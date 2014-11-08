@@ -14,7 +14,26 @@ using namespace boost::hana;
 constexpr detail::create<std::tuple> make_tuple{};
 constexpr detail::create<std::pair> make_pair{};
 
+template <typename ...>
+struct empty { };
+
+template <typename T>
+struct single_holder { T x; };
+
+template <typename T>
+struct identity { using type = T; };
+
+template <typename ...T>
+using identity_t = typename identity<T...>::type;
+
 int main() {
     static_assert(make_tuple(1, '2', 3.3) == std::make_tuple(1, '2', 3.3), "");
     static_assert(make_pair(1, '2') == std::make_pair(1, '2'), "");
+
+    // should work
+    detail::create<empty>{}();
+    detail::create<single_holder>{}(1);
+    detail::create<single_holder>{}([]{});
+    detail::create<identity_t>{}(1);
+    detail::create<identity_t>{}([]{});
 }
