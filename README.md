@@ -52,11 +52,15 @@ Boost.Hana is a header only library. To use it in your own project, just add
 the [include](include) directory to your compiler's header search path and
 you are done.
 
-The library relies on a full-featured C++14 compiler and standard library, but
-nothing else is required. As of October 2014, the only compiler known to compile
-the test suite is Clang 3.6.0 (trunk) with libc++ (trunk too). While Clang 3.5
-has full support for C++14, it has several C++14-related bugs that are fixed
-in the trunk and make it incapable of compiling Hana.
+The library relies on a full-featured C++14 compiler and standard library,
+but nothing else is required. As of November 2014, the only compiler known to
+compile the full test suite is Clang 3.6.0 (trunk) with libc++ (trunk too).
+While Clang 3.5 is advertised as having full support for C++14, it has several
+C++14-related bugs that are fixed in the trunk and make it incapable of
+compiling the full test suite. However, efforts were made to make the library
+usable with Clang 3.5 and the libc++ that's shipped with it; you should expect
+a couple of compiler bugs to pop up here and there, but most functionality
+should be available.
 
 
 ## Documentation
@@ -115,13 +119,13 @@ the  project to the new source file is `path/to/file.cpp`, a target named
 
 ## Project organization
 The project is organized in a couple of subdirectories.
-- The [benchmark](benchmark) directory contains compile-time benchmarks to
-  make sure we're freakin' fast. The benchmark code is written mostly in the
-  form of [eRuby][] templates. The templates are used to generate C++ files
-  which are then compiled while gathering compilation statistics. The
-  benchmarks are driven by CMake files. Note that currently the benchmarks
-  will only work with Clang because of the [gem used][Benchcc] to drive the
-  compiler and gather the statistics.
+- The [benchmark](benchmark) directory contains compile-time and runtime
+  benchmarks to make sure the library is as fast as advertised. The benchmark
+  code is written mostly in the form of [eRuby][] templates. The templates
+  are used to generate C++ files which are then compiled while gathering
+  compilation statistics. The benchmarks are driven by CMake files. Note that
+  currently the benchmarks will only work with Clang because of the
+  [gem used][Benchcc] to drive the compiler and gather the statistics.
 - The [cmake](cmake) directory contains additional CMake modules used by the
   build system.
 - The [doc](doc) directory contains configuration files needed to generate
@@ -148,7 +152,10 @@ Want to contribute? Great!
 
 
 ## Related material
-I presented a [talk on Hana][Hana-cppcon] at [CppCon 2014][CppCon].
+I presented a [talk on Hana][Hana-CppCon] at [CppCon 2014][CppCon].
+If you are interested in metaprogramming, you may also take a look at the
+[MPL11][], which is how Hana started out, and [this talk][MPL11-C++Now] about
+the MPL11 at [C++Now 2014][C++Now].
 
 
 ## License
@@ -157,8 +164,11 @@ Please see [LICENSE.md](LICENSE.md).
 
 <!-- Links -->
 [Benchcc]: http://github.com/ldionne/benchcc
+[C++Now]: http://cppnow.org
 [CMake]: http://www.cmake.org
 [CppCon]: http://cppcon.org
 [Doxygen]: http://www.doxygen.org
 [eRuby]: http://en.wikipedia.org/wiki/ERuby
-[Hana-cppcon]: http://ldionne.github.io/hana-cppcon-2014
+[Hana-CppCon]: http://ldionne.github.io/hana-cppcon-2014
+[MPL11-C++Now]: http://ldionne.github.io/mpl11-cppnow-2014
+[MPL11]: http://github.com/ldionne/mpl11
