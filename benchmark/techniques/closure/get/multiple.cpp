@@ -12,15 +12,15 @@ using namespace boost::hana;
 
 
 template <detail::std::size_t n, typename Xn>
-constexpr decltype(auto) get(detail::closure_element<n, Xn> const& elt)
+constexpr decltype(auto) get(detail::element<n, Xn> const& elt)
 { return elt.get; }
 
 template <detail::std::size_t n, typename Xn>
-constexpr decltype(auto) get(detail::closure_element<n, Xn>& elt)
+constexpr decltype(auto) get(detail::element<n, Xn>& elt)
 { return elt.get; }
 
 template <detail::std::size_t n, typename Xn>
-constexpr decltype(auto) get(detail::closure_element<n, Xn>&& elt)
+constexpr decltype(auto) get(detail::element<n, Xn>&& elt)
 { return detail::std::move(elt.get); }
 
 

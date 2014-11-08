@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/closure.hpp>
 
 
-using boost::hana::detail::closure_t;
+using boost::hana::detail::closure;
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -16,7 +16,7 @@ template <int> struct x { };
 int main() {
     <% (0..input_size).step(2).each do |n| %>
         {
-            closure_t<
+            closure<
                 <%= (0..n).to_a.reverse.map { |i| "x<#{i}>" }.join(', ') %>
             > c;
         }
