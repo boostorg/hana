@@ -19,19 +19,19 @@ namespace boost { namespace hana { namespace test {
     template <typename M>
     auto laws<Monoid, M> = [] {
         for_each(objects<M>, [](auto x) {
-            BOOST_HANA_ASSERT(equal(
+            BOOST_HANA_CHECK(equal(
                 x,
                 plus(zero<M>, x)
             ));
 
-            BOOST_HANA_ASSERT(equal(
+            BOOST_HANA_CHECK(equal(
                 x,
                 plus(x, zero<M>)
             ));
 
             for_each(objects<M>, [=](auto y) {
                 for_each(objects<M>, [=](auto z) {
-                    BOOST_HANA_ASSERT(equal(
+                    BOOST_HANA_CHECK(equal(
                         plus(x, plus(y, z)),
                         plus(plus(x, y), z)
                     ));

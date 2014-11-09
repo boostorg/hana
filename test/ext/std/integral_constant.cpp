@@ -44,10 +44,10 @@ int main() {
 
     // interoperation with Integral
     {
-        BOOST_HANA_CONSTANT_ASSERT(std::integral_constant<int, 1>{} == int_<1>);
-        BOOST_HANA_CONSTANT_ASSERT(std::integral_constant<int, 1>{} == long_<1>);
+        BOOST_HANA_CONSTANT_CHECK(std::integral_constant<int, 1>{} == int_<1>);
+        BOOST_HANA_CONSTANT_CHECK(std::integral_constant<int, 1>{} == long_<1>);
 
-        BOOST_HANA_CONSTANT_ASSERT(std::integral_constant<int, 2>{} != int_<3>);
+        BOOST_HANA_CONSTANT_CHECK(std::integral_constant<int, 2>{} != int_<3>);
     }
 
     // Constant

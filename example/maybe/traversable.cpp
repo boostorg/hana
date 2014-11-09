@@ -18,13 +18,13 @@ int main() {
         return tuple(x, x, x);
     };
 
-    BOOST_HANA_CONSTEXPR_ASSERT(
+    BOOST_HANA_CONSTEXPR_CHECK(
         traverse<Tuple>(just(1), replicate3)
         ==
         tuple(just(1), just(1), just(1))
     );
 
-    BOOST_HANA_CONSTANT_ASSERT(
+    BOOST_HANA_CONSTANT_CHECK(
         traverse<Tuple>(nothing, replicate3)
         ==
         tuple(nothing)

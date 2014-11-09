@@ -11,11 +11,11 @@ using namespace boost::hana;
 
 int main() {
     //! [main]
-    BOOST_HANA_CONSTANT_ASSERT(
+    BOOST_HANA_CONSTANT_CHECK(
         BOOST_HANA_STRING("abcdef") == BOOST_HANA_STRING("abcdef")
     );
 
-    BOOST_HANA_CONSTANT_ASSERT(
+    BOOST_HANA_CONSTANT_CHECK(
         BOOST_HANA_STRING("abcdef") != BOOST_HANA_STRING("abef")
     );
     //! [main]

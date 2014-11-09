@@ -14,8 +14,8 @@ using namespace boost::hana;
 
 int main() {
     //! [main]
-    BOOST_HANA_CONSTANT_ASSERT(trait_<std::is_integral>(2));
-    BOOST_HANA_CONSTANT_ASSERT(trait_<std::is_integral>(2ll));
-    BOOST_HANA_CONSTANT_ASSERT(not_(trait_<std::is_integral>(2.2)));
+    BOOST_HANA_CONSTANT_CHECK(trait_<std::is_integral>(2));
+    BOOST_HANA_CONSTANT_CHECK(trait_<std::is_integral>(2ll));
+    BOOST_HANA_CONSTANT_CHECK(not_(trait_<std::is_integral>(2.2)));
     //! [main]
 }

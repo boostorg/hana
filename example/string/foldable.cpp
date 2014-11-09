@@ -19,7 +19,7 @@ int main() {
         });
     };
 
-    BOOST_HANA_CONSTANT_ASSERT(
+    BOOST_HANA_CONSTANT_CHECK(
         sum_string(BOOST_HANA_STRING("1234")) == int_<1 + 2 + 3 + 4>
     );
     //! [main]

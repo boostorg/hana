@@ -19,14 +19,14 @@ int main() {
 
     // Two objects of different data types are unequal by default.
     {
-        BOOST_HANA_CONSTANT_ASSERT(are<Comparable, X, Y>);
-        BOOST_HANA_CONSTANT_ASSERT(not_(equal(x, y)));
+        BOOST_HANA_CONSTANT_CHECK(are<Comparable, X, Y>);
+        BOOST_HANA_CONSTANT_CHECK(not_(equal(x, y)));
     }
 
     // No instance is provided when the two objects are of the same data type.
     {
-        BOOST_HANA_CONSTANT_ASSERT(not_(are<Comparable, X, X>));
-        BOOST_HANA_CONSTANT_ASSERT(not_(are<Comparable, Y, Y>));
+        BOOST_HANA_CONSTANT_CHECK(not_(are<Comparable, X, X>));
+        BOOST_HANA_CONSTANT_CHECK(not_(are<Comparable, Y, Y>));
     }
 
     // laws

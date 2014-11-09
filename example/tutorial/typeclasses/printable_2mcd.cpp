@@ -108,7 +108,7 @@ print(std::cout, v); // prints "[[1, 2, 3], [3, 4, 5]]"
 
     std::stringstream ss;
     print(ss, v);
-    BOOST_HANA_RUNTIME_ASSERT(ss.str() == "[[1, 2, 3], [3, 4, 5]]");
+    BOOST_HANA_RUNTIME_CHECK(ss.str() == "[[1, 2, 3], [3, 4, 5]]");
 
-    BOOST_HANA_RUNTIME_ASSERT(to_string(v) == "[[1, 2, 3], [3, 4, 5]]");
+    BOOST_HANA_RUNTIME_CHECK(to_string(v) == "[[1, 2, 3], [3, 4, 5]]");
 }

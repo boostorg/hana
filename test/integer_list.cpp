@@ -47,32 +47,32 @@ int main() {
     {
         // head
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(head(integer_list<int, 0>), int_<0>));
-            BOOST_HANA_CONSTANT_ASSERT(equal(head(integer_list<int, 0, 1>), int_<0>));
-            BOOST_HANA_CONSTANT_ASSERT(equal(head(integer_list<int, 0, 1, 2>), int_<0>));
+            BOOST_HANA_CONSTANT_CHECK(equal(head(integer_list<int, 0>), int_<0>));
+            BOOST_HANA_CONSTANT_CHECK(equal(head(integer_list<int, 0, 1>), int_<0>));
+            BOOST_HANA_CONSTANT_CHECK(equal(head(integer_list<int, 0, 1, 2>), int_<0>));
         }
 
         // is_empty
         {
-            BOOST_HANA_CONSTANT_ASSERT(is_empty(integer_list<int>));
-            BOOST_HANA_CONSTANT_ASSERT(not_(is_empty(integer_list<int, 0>)));
-            BOOST_HANA_CONSTANT_ASSERT(not_(is_empty(integer_list<int, 0, 1>)));
-            BOOST_HANA_CONSTANT_ASSERT(not_(is_empty(integer_list<int, 0, 1, 2>)));
+            BOOST_HANA_CONSTANT_CHECK(is_empty(integer_list<int>));
+            BOOST_HANA_CONSTANT_CHECK(not_(is_empty(integer_list<int, 0>)));
+            BOOST_HANA_CONSTANT_CHECK(not_(is_empty(integer_list<int, 0, 1>)));
+            BOOST_HANA_CONSTANT_CHECK(not_(is_empty(integer_list<int, 0, 1, 2>)));
         }
 
         // tail
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 tail(integer_list<int, 0>),
                 integer_list<int>
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 tail(integer_list<int, 0, 1>),
                 integer_list<int, 1>
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 tail(integer_list<int, 0, 1, 2>),
                 integer_list<int, 1, 2>
             ));
@@ -83,19 +83,19 @@ int main() {
     {
         // cons
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 cons(integral<int, 0>, integer_list<long>),
                 integer_list<long, 0>
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 cons(integral<int, 0>, integer_list<unsigned int, 1>),
                 integer_list<unsigned int, 0, 1>
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 cons(integral<long, 0>, integer_list<long long, 1, 2>),
                 integer_list<long long, 0, 1, 2>
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 cons(integral<unsigned long, 0>, integer_list<unsigned long, 1, 2, 3>),
                 integer_list<unsigned long, 0, 1, 2, 3>
             ));
@@ -103,15 +103,15 @@ int main() {
 
         // nil
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 nil<IntegerList>,
                 integer_list<int>
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 nil<IntegerList>,
                 integer_list<long>
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 nil<IntegerList>,
                 integer_list<void>
             ));

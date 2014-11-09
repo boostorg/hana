@@ -12,9 +12,9 @@ using namespace boost::hana;
 
 int main() {
     //! [main]
-    BOOST_HANA_CONSTANT_ASSERT(nothing == nothing);
-    BOOST_HANA_CONSTEXPR_ASSERT(just('x') == just('x'));
-    BOOST_HANA_CONSTEXPR_ASSERT(just('x') != just(3));
-    BOOST_HANA_CONSTANT_ASSERT(just('x') != nothing);
+    BOOST_HANA_CONSTANT_CHECK(nothing == nothing);
+    BOOST_HANA_CONSTEXPR_CHECK(just('x') == just('x'));
+    BOOST_HANA_CONSTEXPR_CHECK(just('x') != just(3));
+    BOOST_HANA_CONSTANT_CHECK(just('x') != nothing);
     //! [main]
 }

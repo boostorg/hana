@@ -33,5 +33,5 @@ namespace boost { namespace hana {
 }}
 
 int main() {
-    BOOST_HANA_CONSTEXPR_ASSERT(to<Tuple>(triple(1, '2', 3.3)) == tuple(1, '2', 3.3));
+    BOOST_HANA_CONSTEXPR_CHECK(to<Tuple>(triple(1, '2', 3.3)) == tuple(1, '2', 3.3));
 }

@@ -29,7 +29,7 @@ int main() {
             return -x;
         };
 
-        BOOST_HANA_CONSTEXPR_ASSERT(
+        BOOST_HANA_CONSTEXPR_CHECK(
             adjust(tuple(-3, -2, -1, 0, 1, 2, 3), negative, negate)
             ==
             tuple(3, 2, 1, 0, 1, 2, 3)
@@ -39,12 +39,12 @@ int main() {
 
     {
         //! [fill]
-        BOOST_HANA_CONSTEXPR_ASSERT(
+        BOOST_HANA_CONSTEXPR_CHECK(
             fill(tuple(1, '2', 3.3, nullptr), 'x') == tuple('x', 'x', 'x', 'x')
         );
 
-        BOOST_HANA_CONSTANT_ASSERT(fill(nothing, 'x') == nothing);
-        BOOST_HANA_CONSTEXPR_ASSERT(fill(just('y'), 'x') == just('x'));
+        BOOST_HANA_CONSTANT_CHECK(fill(nothing, 'x') == nothing);
+        BOOST_HANA_CONSTEXPR_CHECK(fill(just('y'), 'x') == just('x'));
         //! [fill]
     }
 
@@ -54,16 +54,16 @@ int main() {
             return static_cast<std::ostringstream const&>(std::ostringstream{} << x).str();
         };
 
-        BOOST_HANA_RUNTIME_ASSERT(
+        BOOST_HANA_RUNTIME_CHECK(
             fmap(tuple(1, '2', "345", std::string{"67"}), to_string)
             ==
             tuple("1", "2", "345", "67")
         );
 
-        BOOST_HANA_CONSTANT_ASSERT(fmap(nothing, to_string) == nothing);
-        BOOST_HANA_RUNTIME_ASSERT(fmap(just(123), to_string) == just("123"));
+        BOOST_HANA_CONSTANT_CHECK(fmap(nothing, to_string) == nothing);
+        BOOST_HANA_RUNTIME_CHECK(fmap(just(123), to_string) == just("123"));
 
-        BOOST_HANA_CONSTANT_ASSERT(
+        BOOST_HANA_CONSTANT_CHECK(
             fmap(type_list<void, int(), char[10]>, template_<std::add_pointer_t>)
                     ==
             type_list<void*, int(*)(), char(*)[10]>
@@ -77,7 +77,7 @@ int main() {
             return x < 0;
         };
 
-        BOOST_HANA_CONSTEXPR_ASSERT(
+        BOOST_HANA_CONSTEXPR_CHECK(
             replace(tuple(-3, -2, -1, 0, 1, 2, 3), negative, 0)
             ==
             tuple(0, 0, 0, 0, 1, 2, 3)

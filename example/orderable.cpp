@@ -15,35 +15,35 @@ using namespace boost::hana;
 
 int main() {
     //! [greater]
-    BOOST_HANA_CONSTEXPR_ASSERT(greater(4, 1));
-    BOOST_HANA_CONSTANT_ASSERT(!greater(int_<1>, int_<3>));
+    BOOST_HANA_CONSTEXPR_CHECK(greater(4, 1));
+    BOOST_HANA_CONSTANT_CHECK(!greater(int_<1>, int_<3>));
     //! [greater]
 
     //! [greater_equal]
-    BOOST_HANA_CONSTEXPR_ASSERT(greater_equal(4, 1));
-    BOOST_HANA_CONSTEXPR_ASSERT(greater_equal(1, 1));
-    BOOST_HANA_CONSTANT_ASSERT(!greater_equal(int_<1>, int_<2>));
+    BOOST_HANA_CONSTEXPR_CHECK(greater_equal(4, 1));
+    BOOST_HANA_CONSTEXPR_CHECK(greater_equal(1, 1));
+    BOOST_HANA_CONSTANT_CHECK(!greater_equal(int_<1>, int_<2>));
     //! [greater_equal]
 
     //! [less]
-    BOOST_HANA_CONSTEXPR_ASSERT(less(1, 4));
-    BOOST_HANA_CONSTANT_ASSERT(!less(int_<3>, int_<2>));
+    BOOST_HANA_CONSTEXPR_CHECK(less(1, 4));
+    BOOST_HANA_CONSTANT_CHECK(!less(int_<3>, int_<2>));
     //! [less]
 
     //! [less_equal]
-    BOOST_HANA_CONSTEXPR_ASSERT(less_equal(1, 4));
-    BOOST_HANA_CONSTEXPR_ASSERT(less_equal(1, 1));
-    BOOST_HANA_CONSTANT_ASSERT(!less_equal(int_<3>, int_<2>));
+    BOOST_HANA_CONSTEXPR_CHECK(less_equal(1, 4));
+    BOOST_HANA_CONSTEXPR_CHECK(less_equal(1, 1));
+    BOOST_HANA_CONSTANT_CHECK(!less_equal(int_<3>, int_<2>));
     //! [less_equal]
 
     //! [max]
-    BOOST_HANA_CONSTEXPR_ASSERT(max(1, 4) == 4);
-    BOOST_HANA_CONSTANT_ASSERT(max(int_<7>, int_<5>) == int_<7>);
+    BOOST_HANA_CONSTEXPR_CHECK(max(1, 4) == 4);
+    BOOST_HANA_CONSTANT_CHECK(max(int_<7>, int_<5>) == int_<7>);
     //! [max]
 
     //! [min]
-    BOOST_HANA_CONSTEXPR_ASSERT(min(1, 4) == 1);
-    BOOST_HANA_CONSTANT_ASSERT(min(int_<7>, int_<5>) == int_<5>);
+    BOOST_HANA_CONSTEXPR_CHECK(min(1, 4) == 1);
+    BOOST_HANA_CONSTANT_CHECK(min(int_<7>, int_<5>) == int_<5>);
     //! [min]
 
     //! [ordering]
@@ -53,7 +53,7 @@ int main() {
         type<char[2]>,
         type<char[15]>
     ));
-    BOOST_HANA_CONSTANT_ASSERT(sorted == tuple(
+    BOOST_HANA_CONSTANT_CHECK(sorted == tuple(
         type<char[1]>,
         type<char[2]>,
         type<char[3]>,

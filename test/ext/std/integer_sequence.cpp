@@ -55,37 +55,37 @@ int main() {
     {
         // equal
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 std::integer_sequence<T>{},
                 std::integer_sequence<U>{}
             ));
-            BOOST_HANA_CONSTANT_ASSERT(not_(equal(
+            BOOST_HANA_CONSTANT_CHECK(not_(equal(
                 std::integer_sequence<T, 0>{},
                 std::integer_sequence<U>{}
             )));
-            BOOST_HANA_CONSTANT_ASSERT(not_(equal(
+            BOOST_HANA_CONSTANT_CHECK(not_(equal(
                 std::integer_sequence<T>{},
                 std::integer_sequence<U, 0>{}
             )));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 std::integer_sequence<T, 0>{},
                 std::integer_sequence<U, 0>{}
             ));
-            BOOST_HANA_CONSTANT_ASSERT(not_(equal(
+            BOOST_HANA_CONSTANT_CHECK(not_(equal(
                 std::integer_sequence<T, 0>{},
                 std::integer_sequence<U, 0, 1>{}
             )));
-            BOOST_HANA_CONSTANT_ASSERT(not_(equal(
+            BOOST_HANA_CONSTANT_CHECK(not_(equal(
                 std::integer_sequence<T, 0, 2>{},
                 std::integer_sequence<U, 0, 1>{}
             )));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 std::integer_sequence<T, 0, 1, 2, 3>{},
                 std::integer_sequence<U, 0, 1, 2, 3>{}
             ));
-            BOOST_HANA_CONSTANT_ASSERT(not_(equal(
+            BOOST_HANA_CONSTANT_CHECK(not_(equal(
                 std::integer_sequence<T, 0, 1, 2, 3, 5>{},
                 std::integer_sequence<U, 0, 1, 2, 3>{}
             )));
@@ -96,11 +96,11 @@ int main() {
     {
         // head
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 head(std::index_sequence<0>{}),
                 std::integral_constant<int, 0>{}
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 head(std::index_sequence<0, 1>{}),
                 std::integral_constant<int, 0>{}
             ));
@@ -108,22 +108,22 @@ int main() {
 
         // is_empty
         {
-            BOOST_HANA_CONSTANT_ASSERT(is_empty(std::index_sequence<>{}));
-            BOOST_HANA_CONSTANT_ASSERT(not_(is_empty(std::index_sequence<0>{})));
-            BOOST_HANA_CONSTANT_ASSERT(not_(is_empty(std::index_sequence<1>{})));
+            BOOST_HANA_CONSTANT_CHECK(is_empty(std::index_sequence<>{}));
+            BOOST_HANA_CONSTANT_CHECK(not_(is_empty(std::index_sequence<0>{})));
+            BOOST_HANA_CONSTANT_CHECK(not_(is_empty(std::index_sequence<1>{})));
         }
 
         // tail
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 tail(std::index_sequence<0>{}),
                 std::index_sequence<>{}
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 tail(std::index_sequence<0, 1>{}),
                 std::index_sequence<1>{}
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 tail(std::index_sequence<0, 1, 2>{}),
                 std::index_sequence<1, 2>{}
             ));

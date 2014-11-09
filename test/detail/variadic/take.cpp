@@ -16,7 +16,7 @@ using namespace boost::hana;
 auto check = [](auto take) {
     auto result = take(tuple);
     return [=](auto ...xs) {
-        BOOST_HANA_CONSTANT_ASSERT(equal(tuple(xs...), result));
+        BOOST_HANA_CONSTANT_CHECK(equal(tuple(xs...), result));
     };
 };
 

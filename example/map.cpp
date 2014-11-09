@@ -20,7 +20,7 @@ using namespace boost::hana;
 int main() {
     {
         //! [comparable]
-        BOOST_HANA_RUNTIME_ASSERT(
+        BOOST_HANA_RUNTIME_CHECK(
             map(
                 pair(char_<'a'>, std::string{"foobar"}),
                 pair(type<int&&>, nullptr)
@@ -40,10 +40,10 @@ int main() {
             pair(type<int>, 'i'),
             pair(type<float>, 'f')
         );
-        BOOST_HANA_CONSTEXPR_ASSERT(lookup(m, type<int>) == just('i'));
-        BOOST_HANA_CONSTEXPR_ASSERT(lookup(m, type<float>) == just('f'));
-        BOOST_HANA_CONSTANT_ASSERT(lookup(m, type<void>) == nothing);
-        BOOST_HANA_CONSTANT_ASSERT(lookup(m, int_<3>) == nothing);
+        BOOST_HANA_CONSTEXPR_CHECK(lookup(m, type<int>) == just('i'));
+        BOOST_HANA_CONSTEXPR_CHECK(lookup(m, type<float>) == just('f'));
+        BOOST_HANA_CONSTANT_CHECK(lookup(m, type<void>) == nothing);
+        BOOST_HANA_CONSTANT_CHECK(lookup(m, int_<3>) == nothing);
         //! [searchable]
     }
 }

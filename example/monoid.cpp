@@ -12,12 +12,12 @@ using namespace boost::hana;
 
 int main() {
     //! [zero]
-    BOOST_HANA_CONSTANT_ASSERT(zero<Integral> == int_<0>);
-    BOOST_HANA_CONSTEXPR_ASSERT(zero<long> == 0l);
+    BOOST_HANA_CONSTANT_CHECK(zero<Integral> == int_<0>);
+    BOOST_HANA_CONSTEXPR_CHECK(zero<long> == 0l);
     //! [zero]
 
     //! [plus]
-    BOOST_HANA_CONSTANT_ASSERT(plus(int_<3>, int_<5>) == int_<8>);
-    BOOST_HANA_CONSTEXPR_ASSERT(plus(1, 2) == 3);
+    BOOST_HANA_CONSTANT_CHECK(plus(int_<3>, int_<5>) == int_<8>);
+    BOOST_HANA_CONSTEXPR_CHECK(plus(1, 2) == 3);
     //! [plus]
 }

@@ -17,10 +17,10 @@ struct x1; struct x2; struct x3;
 
 template <template <typename ...> class f>
 void test() {
-    BOOST_HANA_CONSTANT_ASSERT(template_<f>() == type<f<>>);
-    BOOST_HANA_CONSTANT_ASSERT(template_<f>(type<x1>) == type<f<x1>>);
-    BOOST_HANA_CONSTANT_ASSERT(template_<f>(type<x1>, type<x2>) == type<f<x1, x2>>);
-    BOOST_HANA_CONSTANT_ASSERT(template_<f>(type<x1>, type<x2>, type<x3>) == type<f<x1, x2, x3>>);
+    BOOST_HANA_CONSTANT_CHECK(template_<f>() == type<f<>>);
+    BOOST_HANA_CONSTANT_CHECK(template_<f>(type<x1>) == type<f<x1>>);
+    BOOST_HANA_CONSTANT_CHECK(template_<f>(type<x1>, type<x2>) == type<f<x1, x2>>);
+    BOOST_HANA_CONSTANT_CHECK(template_<f>(type<x1>, type<x2>, type<x3>) == type<f<x1, x2, x3>>);
 
     using F = decltype(template_<f>);
     static_assert(std::is_same<typename F::template apply<>::type, f<>>::value, "");
@@ -40,6 +40,6 @@ using alias = f<x, y, z>;
 int main() {
     test<f>();
 
-    // BOOST_HANA_CONSTANT_ASSERT(!detail::is_valid(template_<invalid>)(type<x1>));
+    // BOOST_HANA_CONSTANT_CHECK(!detail::is_valid(template_<invalid>)(type<x1>));
     // test<alias>();
 }

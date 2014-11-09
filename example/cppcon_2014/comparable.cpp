@@ -13,41 +13,41 @@ using namespace cppcon;
 
 
 int main() {
-    BOOST_HANA_CONSTEXPR_ASSERT(equal(
+    BOOST_HANA_CONSTEXPR_CHECK(equal(
         matrix(row(1, 2)),
         matrix(row(1, 2))
     ));
-    BOOST_HANA_CONSTEXPR_ASSERT(not_(equal(
+    BOOST_HANA_CONSTEXPR_CHECK(not_(equal(
         matrix(row(1, 2)),
         matrix(row(1, 5))
     )));
 
-    BOOST_HANA_CONSTEXPR_ASSERT(equal(
+    BOOST_HANA_CONSTEXPR_CHECK(equal(
         matrix(row(1, 2),
                row(3, 4)),
         matrix(row(1, 2),
                row(3, 4))
     ));
-    BOOST_HANA_CONSTEXPR_ASSERT(not_(equal(
+    BOOST_HANA_CONSTEXPR_CHECK(not_(equal(
         matrix(row(1, 2),
                row(3, 4)),
         matrix(row(1, 2),
                row(0, 4))
     )));
-    BOOST_HANA_CONSTEXPR_ASSERT(not_(equal(
+    BOOST_HANA_CONSTEXPR_CHECK(not_(equal(
         matrix(row(1, 2),
                row(3, 4)),
         matrix(row(0, 2),
                row(3, 4))
     )));
 
-    BOOST_HANA_CONSTANT_ASSERT(not_(equal(
+    BOOST_HANA_CONSTANT_CHECK(not_(equal(
         matrix(row(1),
                row(2)),
         matrix(row(3, 4),
                row(5, 6))
     )));
-    BOOST_HANA_CONSTANT_ASSERT(not_(equal(
+    BOOST_HANA_CONSTANT_CHECK(not_(equal(
         matrix(row(1),
                row(2)),
         matrix(row(3, 4))

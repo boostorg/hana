@@ -14,7 +14,7 @@ using namespace boost::hana;
 
 int main() {
     //! [main]
-    BOOST_HANA_CONSTEXPR_ASSERT(
+    BOOST_HANA_CONSTEXPR_CHECK(
         demux(tuple)(
             _ + _,
             _ - _,

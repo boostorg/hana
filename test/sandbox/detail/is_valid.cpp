@@ -13,12 +13,12 @@ using namespace boost::hana;
 constexpr struct { } invalid{};
 
 auto add = [](auto x, auto y) -> decltype(x + y) { };
-BOOST_HANA_CONSTANT_ASSERT(detail::is_valid(add)(1, 2));
-BOOST_HANA_CONSTANT_ASSERT(!detail::is_valid(add)(1, invalid));
-BOOST_HANA_CONSTANT_ASSERT(!detail::is_valid(add)(invalid, 1));
+BOOST_HANA_CONSTANT_CHECK(detail::is_valid(add)(1, 2));
+BOOST_HANA_CONSTANT_CHECK(!detail::is_valid(add)(1, invalid));
+BOOST_HANA_CONSTANT_CHECK(!detail::is_valid(add)(invalid, 1));
 
 auto f = []() -> void { };
-BOOST_HANA_CONSTANT_ASSERT(detail::is_valid(f)());
-BOOST_HANA_CONSTANT_ASSERT(!detail::is_valid(f)(1));
+BOOST_HANA_CONSTANT_CHECK(detail::is_valid(f)());
+BOOST_HANA_CONSTANT_CHECK(!detail::is_valid(f)(1));
 
 int main() { (void)add; (void)f; }

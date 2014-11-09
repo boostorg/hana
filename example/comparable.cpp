@@ -24,7 +24,7 @@ int main() {
         tuple(123.4, nullptr)
     ));
 
-    BOOST_HANA_CONSTEXPR_ASSERT(grouped == tuple(
+    BOOST_HANA_CONSTEXPR_CHECK(grouped == tuple(
         tuple(
             tuple(1, 2, 3),
             tuple('x', 'y', 'z')
@@ -41,14 +41,14 @@ int main() {
     //! [comparing]
 
     //! [equal]
-    BOOST_HANA_CONSTEXPR_ASSERT(equal(tuple(1, 2), tuple(1, 2)));
-    BOOST_HANA_CONSTEXPR_ASSERT(!equal('x', 'y'));
-    BOOST_HANA_CONSTANT_ASSERT(!equal(tuple(1, 2), 'y'));
+    BOOST_HANA_CONSTEXPR_CHECK(equal(tuple(1, 2), tuple(1, 2)));
+    BOOST_HANA_CONSTEXPR_CHECK(!equal('x', 'y'));
+    BOOST_HANA_CONSTANT_CHECK(!equal(tuple(1, 2), 'y'));
     //! [equal]
 
     //! [not_equal]
-    BOOST_HANA_CONSTEXPR_ASSERT(not_equal(tuple(1, 2), tuple(3)));
-    BOOST_HANA_CONSTEXPR_ASSERT(not_equal('x', 'y'));
-    BOOST_HANA_CONSTANT_ASSERT(not_equal(tuple(1, 2), 'y'));
+    BOOST_HANA_CONSTEXPR_CHECK(not_equal(tuple(1, 2), tuple(3)));
+    BOOST_HANA_CONSTEXPR_CHECK(not_equal('x', 'y'));
+    BOOST_HANA_CONSTANT_CHECK(not_equal(tuple(1, 2), 'y'));
     //! [not_equal]
 }

@@ -18,12 +18,12 @@ using namespace boost::hana;
 
 int main() {
     //! [main]
-    BOOST_HANA_CONSTEXPR_ASSERT(lift<Tuple>('x') == tuple('x'));
-    BOOST_HANA_CONSTEXPR_ASSERT(equal(lift<ext::std::Tuple>('x'), std::make_tuple('x')));
+    BOOST_HANA_CONSTEXPR_CHECK(lift<Tuple>('x') == tuple('x'));
+    BOOST_HANA_CONSTEXPR_CHECK(equal(lift<ext::std::Tuple>('x'), std::make_tuple('x')));
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto f = pair;
     BOOST_HANA_CONSTEXPR_LAMBDA auto g = flip(pair);
-    BOOST_HANA_CONSTEXPR_ASSERT(
+    BOOST_HANA_CONSTEXPR_CHECK(
         ap(tuple(f, g), tuple(1, 2, 3), tuple('a', 'b'))
             ==
         tuple(

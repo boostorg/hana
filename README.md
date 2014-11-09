@@ -29,7 +29,7 @@ int main() {
     auto stuff = tuple(President{"Obama"}, Car{"Toyota"}, City{"Quebec"});
 
     auto names = fmap(stuff, [](auto thing) { return thing.name; });
-    BOOST_HANA_RUNTIME_ASSERT(reverse(names) == tuple("Quebec", "Toyota", "Obama"));
+    BOOST_HANA_RUNTIME_CHECK(reverse(names) == tuple("Quebec", "Toyota", "Obama"));
 
     // No compile-time information is lost:
     // `stuff` wasn't constexpr but its length is!
@@ -40,7 +40,7 @@ int main() {
         return type<decltype(thing)*>;
     });
 
-    BOOST_HANA_CONSTANT_ASSERT(
+    BOOST_HANA_CONSTANT_CHECK(
         types == tuple(type<President*>, type<Car*>, type<City*>)
     );
 }

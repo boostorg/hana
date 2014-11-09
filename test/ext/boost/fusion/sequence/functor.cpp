@@ -22,19 +22,19 @@ int main() {
         {
             BOOST_HANA_CONSTEXPR_LAMBDA auto f = test::injection([]{});
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 fmap(container(), f),
                 container()
             ));
-            BOOST_HANA_RUNTIME_ASSERT(equal(
+            BOOST_HANA_RUNTIME_CHECK(equal(
                 fmap(container(1), f),
                 container(f(1))
             ));
-            BOOST_HANA_RUNTIME_ASSERT(equal(
+            BOOST_HANA_RUNTIME_CHECK(equal(
                 fmap(container(1, '2'), f),
                 container(f(1), f('2'))
             ));
-            BOOST_HANA_RUNTIME_ASSERT(equal(
+            BOOST_HANA_RUNTIME_CHECK(equal(
                 fmap(container(1, '2', 3.3), f),
                 container(f(1), f('2'), f(3.3))
             ));
@@ -46,23 +46,23 @@ int main() {
                 return x % 2 == 0;
             };
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 replace(container(), is_even, 'x'),
                 container()
             ));
-            BOOST_HANA_RUNTIME_ASSERT( equal(
+            BOOST_HANA_RUNTIME_CHECK( equal(
                 replace(container(0), is_even, 'x'),
                 container('x')
             ));
-            BOOST_HANA_RUNTIME_ASSERT( equal(
+            BOOST_HANA_RUNTIME_CHECK( equal(
                 replace(container(0, 1), is_even, 'x'),
                 container('x', 1)
             ));
-            BOOST_HANA_RUNTIME_ASSERT( equal(
+            BOOST_HANA_RUNTIME_CHECK( equal(
                 replace(container(0, 1, 2), is_even, 'x'),
                 container('x', 1, 'x')
             ));
-            BOOST_HANA_RUNTIME_ASSERT( equal(
+            BOOST_HANA_RUNTIME_CHECK( equal(
                 replace(container(0, 1, 2, 3), is_even, 'x'),
                 container('x', 1, 'x', 3)
             ));

@@ -20,6 +20,6 @@ int main() {
         return x + 1;
     };
 
-    BOOST_HANA_CONSTEXPR_ASSERT(compose(to_char, increment)(3) == '4');
+    BOOST_HANA_CONSTEXPR_CHECK(compose(to_char, increment)(3) == '4');
     //! [main]
 }

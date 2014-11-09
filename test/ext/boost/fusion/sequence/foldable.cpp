@@ -26,34 +26,34 @@ int main() {
                 return x % 2 == 0;
             };
 
-            BOOST_HANA_RUNTIME_ASSERT(count(container(), is_even) == 0);
-            BOOST_HANA_RUNTIME_ASSERT(count(container(1), is_even) == 0);
-            BOOST_HANA_RUNTIME_ASSERT(count(container(2), is_even) == 1);
-            BOOST_HANA_RUNTIME_ASSERT(count(container(1, 2), is_even) == 1);
-            BOOST_HANA_RUNTIME_ASSERT(count(container(1, 2, 3), is_even) == 1);
-            BOOST_HANA_RUNTIME_ASSERT(count(container(1, 2, 3, 4), is_even) == 2);
+            BOOST_HANA_RUNTIME_CHECK(count(container(), is_even) == 0);
+            BOOST_HANA_RUNTIME_CHECK(count(container(1), is_even) == 0);
+            BOOST_HANA_RUNTIME_CHECK(count(container(2), is_even) == 1);
+            BOOST_HANA_RUNTIME_CHECK(count(container(1, 2), is_even) == 1);
+            BOOST_HANA_RUNTIME_CHECK(count(container(1, 2, 3), is_even) == 1);
+            BOOST_HANA_RUNTIME_CHECK(count(container(1, 2, 3, 4), is_even) == 2);
         }
 
         // foldl
         {
             BOOST_HANA_CONSTEXPR_LAMBDA auto f = test::injection([]{});
             constexpr auto s = 0;
-            BOOST_HANA_RUNTIME_ASSERT(equal(foldl(container(), s, f), s));
-            BOOST_HANA_RUNTIME_ASSERT(equal(foldl(container(1), s, f), f(s, 1)));
-            BOOST_HANA_RUNTIME_ASSERT(equal(foldl(container(1, '2'), s, f), f(f(s, 1), '2')));
-            BOOST_HANA_RUNTIME_ASSERT(equal(foldl(container(1, '2', 3.3), s, f), f(f(f(s, 1), '2'), 3.3)));
-            BOOST_HANA_RUNTIME_ASSERT(equal(foldl(container(1, '2', 3.3, 4.4f), s, f), f(f(f(f(s, 1), '2'), 3.3), 4.4f)));
+            BOOST_HANA_RUNTIME_CHECK(equal(foldl(container(), s, f), s));
+            BOOST_HANA_RUNTIME_CHECK(equal(foldl(container(1), s, f), f(s, 1)));
+            BOOST_HANA_RUNTIME_CHECK(equal(foldl(container(1, '2'), s, f), f(f(s, 1), '2')));
+            BOOST_HANA_RUNTIME_CHECK(equal(foldl(container(1, '2', 3.3), s, f), f(f(f(s, 1), '2'), 3.3)));
+            BOOST_HANA_RUNTIME_CHECK(equal(foldl(container(1, '2', 3.3, 4.4f), s, f), f(f(f(f(s, 1), '2'), 3.3), 4.4f)));
         }
 
         // foldr
         {
             BOOST_HANA_CONSTEXPR_LAMBDA auto f = test::injection([]{});
             constexpr auto s = 0;
-            BOOST_HANA_RUNTIME_ASSERT(equal(foldr(container(), s, f), s));
-            BOOST_HANA_RUNTIME_ASSERT(equal(foldr(container(1), s, f), f(1, s)));
-            BOOST_HANA_RUNTIME_ASSERT(equal(foldr(container(1, '2'), s, f), f(1, f('2', s))));
-            BOOST_HANA_RUNTIME_ASSERT(equal(foldr(container(1, '2', 3.3), s, f), f(1, f('2', f(3.3, s)))));
-            BOOST_HANA_RUNTIME_ASSERT(equal(foldr(container(1, '2', 3.3, 4.4f), s, f), f(1, f('2', f(3.3, f(4.4f, s))))));
+            BOOST_HANA_RUNTIME_CHECK(equal(foldr(container(), s, f), s));
+            BOOST_HANA_RUNTIME_CHECK(equal(foldr(container(1), s, f), f(1, s)));
+            BOOST_HANA_RUNTIME_CHECK(equal(foldr(container(1, '2'), s, f), f(1, f('2', s))));
+            BOOST_HANA_RUNTIME_CHECK(equal(foldr(container(1, '2', 3.3), s, f), f(1, f('2', f(3.3, s)))));
+            BOOST_HANA_RUNTIME_CHECK(equal(foldr(container(1, '2', 3.3, 4.4f), s, f), f(1, f('2', f(3.3, f(4.4f, s))))));
         }
 
         // for_each
@@ -63,7 +63,7 @@ int main() {
                 for_each(container(xs...), [&](int x) {
                     seen.push_back(x);
                 });
-                BOOST_HANA_RUNTIME_ASSERT(seen == std::vector<int>{xs...});
+                BOOST_HANA_RUNTIME_CHECK(seen == std::vector<int>{xs...});
             };
             check_with();
             check_with(0);
@@ -75,10 +75,10 @@ int main() {
 
         // length
         {
-            BOOST_HANA_CONSTANT_ASSERT(length(container()) == size_t<0>);
-            BOOST_HANA_CONSTANT_ASSERT(length(container(1)) == size_t<1>);
-            BOOST_HANA_CONSTANT_ASSERT(length(container(1, '2')) == size_t<2>);
-            BOOST_HANA_CONSTANT_ASSERT(length(container(1, '2', 3.3)) == size_t<3>);
+            BOOST_HANA_CONSTANT_CHECK(length(container()) == size_t<0>);
+            BOOST_HANA_CONSTANT_CHECK(length(container(1)) == size_t<1>);
+            BOOST_HANA_CONSTANT_CHECK(length(container(1, '2')) == size_t<2>);
+            BOOST_HANA_CONSTANT_CHECK(length(container(1, '2', 3.3)) == size_t<3>);
         }
     });
 }

@@ -22,7 +22,7 @@ int main() {
         return if_(n < 0_c, cons(n, acc), acc);
     };
 
-    BOOST_HANA_CONSTANT_ASSERT(
+    BOOST_HANA_CONSTANT_CHECK(
         foldr(numbers, integer_list<int>, keep_negatives) == negatives
     );
     //! [foldr]

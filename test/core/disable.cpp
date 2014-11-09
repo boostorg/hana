@@ -25,6 +25,6 @@ template <> struct Typeclass::instance<Disabled> : disable { };
 
 
 int main() {
-    BOOST_HANA_CONSTANT_ASSERT(is_a<Typeclass, struct AnythingElse>);
-    BOOST_HANA_CONSTANT_ASSERT(!is_a<Typeclass, Disabled>);
+    BOOST_HANA_CONSTANT_CHECK(is_a<Typeclass, struct AnythingElse>);
+    BOOST_HANA_CONSTANT_CHECK(!is_a<Typeclass, Disabled>);
 }

@@ -18,10 +18,10 @@ using namespace boost::hana;
 int main() {
     {
         //! [comparable]
-        BOOST_HANA_CONSTEXPR_ASSERT(left('x') == left('x'));
-        BOOST_HANA_CONSTANT_ASSERT(right('x') != left('x'));
-        BOOST_HANA_CONSTEXPR_ASSERT(right('x') == right('x'));
-        BOOST_HANA_CONSTEXPR_ASSERT(right('x') != right('y'));
+        BOOST_HANA_CONSTEXPR_CHECK(left('x') == left('x'));
+        BOOST_HANA_CONSTANT_CHECK(right('x') != left('x'));
+        BOOST_HANA_CONSTEXPR_CHECK(right('x') == right('x'));
+        BOOST_HANA_CONSTEXPR_CHECK(right('x') != right('y'));
         //! [comparable]
     }
 
@@ -35,11 +35,11 @@ int main() {
         });
 
         auto inc = partial(plus, int_<1>);
-        BOOST_HANA_CONSTANT_ASSERT(
+        BOOST_HANA_CONSTANT_CHECK(
             fmap(int_<6> ^safediv^ int_<3>, inc) == right(int_<3>)
         );
 
-        BOOST_HANA_RUNTIME_ASSERT(
+        BOOST_HANA_RUNTIME_CHECK(
             fmap(int_<6> ^safediv^ int_<0>, inc) == left("division by zero")
         );
         //! [functor]
@@ -61,15 +61,15 @@ int main() {
             );
         };
 
-        BOOST_HANA_RUNTIME_ASSERT(
+        BOOST_HANA_RUNTIME_CHECK(
             (safe_div(int_<4>, int_<0>) | safe_dec) == left("division by zero")
         );
 
-        BOOST_HANA_RUNTIME_ASSERT(
+        BOOST_HANA_RUNTIME_CHECK(
             (safe_div(int_<0>, int_<2>) | safe_dec) == left("negative value")
         );
 
-        BOOST_HANA_CONSTANT_ASSERT(
+        BOOST_HANA_CONSTANT_CHECK(
             (safe_div(int_<4>, int_<2>) | safe_dec) == right(int_<1>)
         );
         //! [monad]
@@ -79,8 +79,8 @@ int main() {
         //! [either]
         BOOST_HANA_CONSTEXPR_LAMBDA auto inc = [](auto x) { return x + 1; };
         BOOST_HANA_CONSTEXPR_LAMBDA auto dec = [](auto x) { return x - 1; };
-        BOOST_HANA_CONSTEXPR_ASSERT(either(inc, dec, left(1)) == 2);
-        BOOST_HANA_CONSTEXPR_ASSERT(either(inc, dec, right(1)) == 0);
+        BOOST_HANA_CONSTEXPR_CHECK(either(inc, dec, left(1)) == 2);
+        BOOST_HANA_CONSTEXPR_CHECK(either(inc, dec, right(1)) == 0);
         //! [either]
     }
 

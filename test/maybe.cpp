@@ -55,45 +55,45 @@ int main() {
 
         // maybe
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(maybe(x, undefined, nothing), x));
-            BOOST_HANA_CONSTANT_ASSERT(equal(maybe(undefined, f, just(x)), f(x)));
+            BOOST_HANA_CONSTANT_CHECK(equal(maybe(x, undefined, nothing), x));
+            BOOST_HANA_CONSTANT_CHECK(equal(maybe(undefined, f, just(x)), f(x)));
         }
 
         // is_nothing
         {
-            BOOST_HANA_CONSTANT_ASSERT(is_nothing(nothing));
-            BOOST_HANA_CONSTANT_ASSERT(not_(is_nothing(just(undefined))));
+            BOOST_HANA_CONSTANT_CHECK(is_nothing(nothing));
+            BOOST_HANA_CONSTANT_CHECK(not_(is_nothing(just(undefined))));
         }
 
         // is_just
         {
-            BOOST_HANA_CONSTANT_ASSERT(is_just(just(undefined)));
-            BOOST_HANA_CONSTANT_ASSERT(not_(is_just(nothing)));
+            BOOST_HANA_CONSTANT_CHECK(is_just(just(undefined)));
+            BOOST_HANA_CONSTANT_CHECK(not_(is_just(nothing)));
         }
 
         // from_just
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(from_just(just(x)), x));
+            BOOST_HANA_CONSTANT_CHECK(equal(from_just(just(x)), x));
             // from_just(nothing);
         }
 
         // from_maybe
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(from_maybe(x, nothing), x));
-            BOOST_HANA_CONSTANT_ASSERT(equal(from_maybe(undefined, just(y)), y));
+            BOOST_HANA_CONSTANT_CHECK(equal(from_maybe(x, nothing), x));
+            BOOST_HANA_CONSTANT_CHECK(equal(from_maybe(undefined, just(y)), y));
         }
 
         // only_when
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 only_when(always(true_), f, x),
                 just(f(x))
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 only_when(always(false_), f, x),
                 nothing
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 only_when(always(false_), undefined, x),
                 nothing
             ));
@@ -107,11 +107,11 @@ int main() {
             auto x = test::injection([]{})();
             auto y = test::injection([]{})();
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(nothing, nothing));
-            BOOST_HANA_CONSTANT_ASSERT(not_(equal(nothing, just(x))));
-            BOOST_HANA_CONSTANT_ASSERT(not_(equal(just(x), nothing)));
-            BOOST_HANA_CONSTANT_ASSERT(equal(just(x), just(x)));
-            BOOST_HANA_CONSTANT_ASSERT(not_(equal(just(x), just(y))));
+            BOOST_HANA_CONSTANT_CHECK(equal(nothing, nothing));
+            BOOST_HANA_CONSTANT_CHECK(not_(equal(nothing, just(x))));
+            BOOST_HANA_CONSTANT_CHECK(not_(equal(just(x), nothing)));
+            BOOST_HANA_CONSTANT_CHECK(equal(just(x), just(x)));
+            BOOST_HANA_CONSTANT_CHECK(not_(equal(just(x), just(y))));
         }
     }
 
@@ -122,8 +122,8 @@ int main() {
             auto f = test::injection([]{});
             auto x = test::injection([]{})();
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(fmap(nothing, f), nothing));
-            BOOST_HANA_CONSTANT_ASSERT(equal(fmap(just(x), f), just(f(x))));
+            BOOST_HANA_CONSTANT_CHECK(equal(fmap(nothing, f), nothing));
+            BOOST_HANA_CONSTANT_CHECK(equal(fmap(just(x), f), just(f(x))));
         }
     }
 
@@ -134,15 +134,15 @@ int main() {
 
         // ap
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(ap(nothing, nothing), nothing));
-            BOOST_HANA_CONSTANT_ASSERT(equal(ap(just(f), nothing), nothing));
-            BOOST_HANA_CONSTANT_ASSERT(equal(ap(nothing, just(x)), nothing));
-            BOOST_HANA_CONSTANT_ASSERT(equal(ap(just(f), just(x)), just(f(x))));
+            BOOST_HANA_CONSTANT_CHECK(equal(ap(nothing, nothing), nothing));
+            BOOST_HANA_CONSTANT_CHECK(equal(ap(just(f), nothing), nothing));
+            BOOST_HANA_CONSTANT_CHECK(equal(ap(nothing, just(x)), nothing));
+            BOOST_HANA_CONSTANT_CHECK(equal(ap(just(f), just(x)), just(f(x))));
         }
 
         // lift
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(lift<Maybe>(x), just(x)));
+            BOOST_HANA_CONSTANT_CHECK(equal(lift<Maybe>(x), just(x)));
         }
     }
 
@@ -152,9 +152,9 @@ int main() {
         {
             auto x = test::injection([]{})();
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(flatten(nothing), nothing));
-            BOOST_HANA_CONSTANT_ASSERT(equal(flatten(just(nothing)), nothing));
-            BOOST_HANA_CONSTANT_ASSERT(equal(flatten(just(just(x))), just(x)));
+            BOOST_HANA_CONSTANT_CHECK(equal(flatten(nothing), nothing));
+            BOOST_HANA_CONSTANT_CHECK(equal(flatten(just(nothing)), nothing));
+            BOOST_HANA_CONSTANT_CHECK(equal(flatten(just(just(x))), just(x)));
         }
     }
 
@@ -168,12 +168,12 @@ int main() {
 
         // traverse
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 traverse<A>(just(x), compose(applicative, f)),
                 applicative(just(f(x)))
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 traverse<A>(nothing, compose(applicative, f)),
                 applicative(nothing)
             ));
@@ -190,15 +190,15 @@ int main() {
 
         // find
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 find(just(x), is(x)),
                 just(x)
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 find(just(x), is(y)),
                 nothing
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 find(nothing, is(x)),
                 nothing
             ));
@@ -206,9 +206,9 @@ int main() {
 
         // any
         {
-            BOOST_HANA_CONSTANT_ASSERT(any(just(x), is(x)));
-            BOOST_HANA_CONSTANT_ASSERT(not_(any(just(x), is(y))));
-            BOOST_HANA_CONSTANT_ASSERT(not_(any(nothing, is(x))));
+            BOOST_HANA_CONSTANT_CHECK(any(just(x), is(x)));
+            BOOST_HANA_CONSTANT_CHECK(not_(any(just(x), is(y))));
+            BOOST_HANA_CONSTANT_CHECK(not_(any(nothing, is(x))));
         }
     }
 
@@ -220,14 +220,14 @@ int main() {
 
         // foldl
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(foldl(just(x), s, f), f(s, x)));
-            BOOST_HANA_CONSTANT_ASSERT(equal(foldl(nothing, s, f), s));
+            BOOST_HANA_CONSTANT_CHECK(equal(foldl(just(x), s, f), f(s, x)));
+            BOOST_HANA_CONSTANT_CHECK(equal(foldl(nothing, s, f), s));
         }
 
         // foldr
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(foldr(just(x), s, f), f(x, s)));
-            BOOST_HANA_CONSTANT_ASSERT(equal(foldr(nothing, s, f), s));
+            BOOST_HANA_CONSTANT_CHECK(equal(foldr(just(x), s, f), f(x, s)));
+            BOOST_HANA_CONSTANT_CHECK(equal(foldr(nothing, s, f), s));
         }
     }
 }

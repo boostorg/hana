@@ -52,24 +52,24 @@ int main() {
     {
         // is_empty
         {
-            BOOST_HANA_CONSTANT_ASSERT(is_empty(array<>));
-            BOOST_HANA_CONSTANT_ASSERT(not_(is_empty(array<0>)));
-            BOOST_HANA_CONSTANT_ASSERT(not_(is_empty(array<0, 1>)));
+            BOOST_HANA_CONSTANT_CHECK(is_empty(array<>));
+            BOOST_HANA_CONSTANT_CHECK(not_(is_empty(array<0>)));
+            BOOST_HANA_CONSTANT_CHECK(not_(is_empty(array<0, 1>)));
         }
 
         // head
         {
-            BOOST_HANA_CONSTEXPR_ASSERT(head(array<0>) == 0);
-            BOOST_HANA_CONSTEXPR_ASSERT(head(array<0, 1>) == 0);
-            BOOST_HANA_CONSTEXPR_ASSERT(head(array<0, 1, 2>) == 0);
+            BOOST_HANA_CONSTEXPR_CHECK(head(array<0>) == 0);
+            BOOST_HANA_CONSTEXPR_CHECK(head(array<0, 1>) == 0);
+            BOOST_HANA_CONSTEXPR_CHECK(head(array<0, 1, 2>) == 0);
         }
 
         // tail
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(tail(array<0>), array<>));
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(tail(array<0, 1>), array<1>));
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(tail(array<0, 1, 2>), array<1, 2>));
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(tail(array<0, 1, 2, 3>), array<1, 2, 3>));
+            BOOST_HANA_CONSTANT_CHECK(equal(tail(array<0>), array<>));
+            BOOST_HANA_CONSTEXPR_CHECK(equal(tail(array<0, 1>), array<1>));
+            BOOST_HANA_CONSTEXPR_CHECK(equal(tail(array<0, 1, 2>), array<1, 2>));
+            BOOST_HANA_CONSTEXPR_CHECK(equal(tail(array<0, 1, 2, 3>), array<1, 2, 3>));
         }
     }
 
@@ -77,19 +77,19 @@ int main() {
     {
         // nil
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(nil<ext::std::Array>, std::array<char, 0>{}));
-            BOOST_HANA_CONSTANT_ASSERT(equal(nil<ext::std::Array>, std::array<int, 0>{}));
-            BOOST_HANA_CONSTANT_ASSERT(equal(nil<ext::std::Array>, std::array<long, 0>{}));
+            BOOST_HANA_CONSTANT_CHECK(equal(nil<ext::std::Array>, std::array<char, 0>{}));
+            BOOST_HANA_CONSTANT_CHECK(equal(nil<ext::std::Array>, std::array<int, 0>{}));
+            BOOST_HANA_CONSTANT_CHECK(equal(nil<ext::std::Array>, std::array<long, 0>{}));
         }
 
         // cons
         {
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(cons(0, array<>), array<0>));
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(cons(0, array<1>), array<0, 1>));
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(cons(0, array<1, 2>), array<0, 1, 2>));
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(cons(0, array<1, 2, 3>), array<0, 1, 2, 3>));
+            BOOST_HANA_CONSTEXPR_CHECK(equal(cons(0, array<>), array<0>));
+            BOOST_HANA_CONSTEXPR_CHECK(equal(cons(0, array<1>), array<0, 1>));
+            BOOST_HANA_CONSTEXPR_CHECK(equal(cons(0, array<1, 2>), array<0, 1, 2>));
+            BOOST_HANA_CONSTEXPR_CHECK(equal(cons(0, array<1, 2, 3>), array<0, 1, 2, 3>));
 
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(cons(0, nil<ext::std::Array>), array<0>));
+            BOOST_HANA_CONSTEXPR_CHECK(equal(cons(0, nil<ext::std::Array>), array<0>));
         }
     }
 }

@@ -21,7 +21,7 @@ int main() {
         auto check_with = [=](auto ...xs) {
             std::vector<int> seen{};
             vd::for_each([&](int x) { seen.push_back(x); }, xs...);
-            BOOST_HANA_RUNTIME_ASSERT(seen == std::vector<int>{xs...});
+            BOOST_HANA_RUNTIME_CHECK(seen == std::vector<int>{xs...});
         };
         check_with();
         check_with(0);

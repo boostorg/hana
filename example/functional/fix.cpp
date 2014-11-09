@@ -17,6 +17,6 @@ int main() {
         else        return n * fact(n - 1);
     });
 
-    BOOST_HANA_CONSTEXPR_ASSERT(factorial(5) == 120);
+    BOOST_HANA_CONSTEXPR_CHECK(factorial(5) == 120);
     //! [main]
 }

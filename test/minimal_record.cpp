@@ -56,19 +56,19 @@ int main() {
     {
         // equal
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 record(x<0>, x<1>), record(x<0>, x<1>)
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(not_(equal(
+            BOOST_HANA_CONSTANT_CHECK(not_(equal(
                 record(x<1>, x<0>), record(x<0>, x<1>)
             )));
 
-            BOOST_HANA_CONSTANT_ASSERT(not_(equal(
+            BOOST_HANA_CONSTANT_CHECK(not_(equal(
                 record(x<0>, x<99>), record(x<0>, x<1>)
             )));
 
-            BOOST_HANA_CONSTANT_ASSERT(not_(equal(
+            BOOST_HANA_CONSTANT_CHECK(not_(equal(
                 record(x<99>, x<1>), record(x<0>, x<1>)
             )));
         }
@@ -81,7 +81,7 @@ int main() {
 
         // foldl
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 foldl(record(x<0>, x<1>), s, f),
                 f(f(s, x<0>), x<1>)
             ));
@@ -89,7 +89,7 @@ int main() {
 
         // foldr
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 foldr(record(x<0>, x<1>), s, f),
                 f(x<0>, f(x<1>, s))
             ));
@@ -104,30 +104,30 @@ int main() {
 
         // any
         {
-            BOOST_HANA_CONSTANT_ASSERT(
+            BOOST_HANA_CONSTANT_CHECK(
                 any(record(undefined<1>, undefined<2>), is(test::member1))
             );
-            BOOST_HANA_CONSTANT_ASSERT(
+            BOOST_HANA_CONSTANT_CHECK(
                 any(record(undefined<1>, undefined<2>), is(test::member2))
             );
-            BOOST_HANA_CONSTANT_ASSERT(not_(
+            BOOST_HANA_CONSTANT_CHECK(not_(
                 any(record(undefined<1>, undefined<2>), is(undefined<>))
             ));
         }
 
         // find
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 find(record(x<0>, x<1>), is(test::member1)),
                 just(x<0>)
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 find(record(x<0>, x<1>), is(test::member2)),
                 just(x<1>)
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 find(record(x<0>, x<1>), is(undefined<>)),
                 nothing
             ));

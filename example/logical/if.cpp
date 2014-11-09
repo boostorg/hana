@@ -13,10 +13,10 @@ using namespace boost::hana;
 
 int main() {
     //! [main]
-    BOOST_HANA_CONSTEXPR_ASSERT(if_(true, 1, 2) == 1);
-    BOOST_HANA_CONSTEXPR_ASSERT(if_(false, 1, 2) == 2);
+    BOOST_HANA_CONSTEXPR_CHECK(if_(true, 1, 2) == 1);
+    BOOST_HANA_CONSTEXPR_CHECK(if_(false, 1, 2) == 2);
 
-    BOOST_HANA_CONSTEXPR_ASSERT(
+    BOOST_HANA_CONSTEXPR_CHECK(
         if_(true_,
             tuple('t', 'r', 'u', 'e'),
             tuple('f', 'a', 'l', 's', 'e')

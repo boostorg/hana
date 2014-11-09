@@ -20,6 +20,6 @@ int main() {
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto x = pair(1, 2);
     BOOST_HANA_CONSTEXPR_LAMBDA auto y = pair(10, 20);
-    BOOST_HANA_CONSTEXPR_ASSERT(on(plus, first)(x, y) == 1 + 10);
+    BOOST_HANA_CONSTEXPR_CHECK(on(plus, first)(x, y) == 1 + 10);
     //! [main]
 }

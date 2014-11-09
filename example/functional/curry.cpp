@@ -16,9 +16,9 @@ int main() {
         return x + y + z;
     };
 
-    BOOST_HANA_CONSTEXPR_ASSERT(curry<3>(add)(1)(2)(3) == 1 + 2 + 3);
-    BOOST_HANA_CONSTEXPR_ASSERT(curry<3>(add)(1)(2, 3) == curry<3>(add)(1)(2)(3));
-    BOOST_HANA_CONSTEXPR_ASSERT(curry<3>(add)(1, 2, 3) == curry<3>(add)(1)(2)(3));
+    BOOST_HANA_CONSTEXPR_CHECK(curry<3>(add)(1)(2)(3) == 1 + 2 + 3);
+    BOOST_HANA_CONSTEXPR_CHECK(curry<3>(add)(1)(2, 3) == curry<3>(add)(1)(2)(3));
+    BOOST_HANA_CONSTEXPR_CHECK(curry<3>(add)(1, 2, 3) == curry<3>(add)(1)(2)(3));
     //! [main]
 
 
@@ -27,6 +27,6 @@ int main() {
         return 2;
     };
 
-    BOOST_HANA_CONSTEXPR_ASSERT(curry<0>(two)() == two());
+    BOOST_HANA_CONSTEXPR_CHECK(curry<0>(two)() == two());
     //! [curry0]
 }

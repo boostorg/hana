@@ -23,19 +23,19 @@ namespace boost { namespace hana { namespace test {
         };
 
         for_each(objects<Ord>, [=](auto a) {
-            BOOST_HANA_ASSERT(not_(less(a, a)));
+            BOOST_HANA_CHECK(not_(less(a, a)));
 
             for_each(objects<Ord>, [=](auto b) {
-                BOOST_HANA_ASSERT(
+                BOOST_HANA_CHECK(
                     less(a, b) ^implies^ not_(less(b, a))
                 );
 
                 for_each(objects<Ord>, [=](auto c) {
-                    BOOST_HANA_ASSERT(
+                    BOOST_HANA_CHECK(
                         and_(less(a, b), less(b, c)) ^implies^ less(a, c)
                     );
 
-                    BOOST_HANA_ASSERT(
+                    BOOST_HANA_CHECK(
                         and_(incomparable(a, b), incomparable(b, c))
                         ^implies^ incomparable(a, c)
                     );

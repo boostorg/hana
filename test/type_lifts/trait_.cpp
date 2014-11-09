@@ -39,5 +39,5 @@ int main() {
     test<f>();
 
     // test<alias>();
-    // BOOST_HANA_CONSTANT_ASSERT(!detail::is_valid(trait_<invalid>)(x1{}));
+    // BOOST_HANA_CONSTANT_CHECK(!detail::is_valid(trait_<invalid>)(x1{}));
 }

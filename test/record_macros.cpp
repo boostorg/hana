@@ -62,23 +62,23 @@ int main() {
         (void)intrusive.member1;
         (void)intrusive.member2;
 
-        BOOST_HANA_CONSTANT_ASSERT(is_a<Record, ns::Intrusive>);
-        BOOST_HANA_CONSTANT_ASSERT(equal(
+        BOOST_HANA_CONSTANT_CHECK(is_a<Record, ns::Intrusive>);
+        BOOST_HANA_CONSTANT_CHECK(equal(
             to<Tuple>(intrusive),
             tuple(intrusive.member1, intrusive.member2)
         ));
 
-        BOOST_HANA_CONSTANT_ASSERT(equal(
+        BOOST_HANA_CONSTANT_CHECK(equal(
             lookup(intrusive, BOOST_HANA_STRING("member1")),
             just(intrusive.member1)
         ));
 
-        BOOST_HANA_CONSTANT_ASSERT(equal(
+        BOOST_HANA_CONSTANT_CHECK(equal(
             lookup(intrusive, BOOST_HANA_STRING("member2")),
             just(intrusive.member2)
         ));
 
-        BOOST_HANA_CONSTANT_ASSERT(equal(
+        BOOST_HANA_CONSTANT_CHECK(equal(
             lookup(intrusive, BOOST_HANA_STRING("inexistant")),
             nothing
         ));
@@ -87,23 +87,23 @@ int main() {
     // AdHoc
     {
         ns::AdHoc adhoc{};
-        BOOST_HANA_CONSTANT_ASSERT(is_a<Record, ns::AdHoc>);
-        BOOST_HANA_CONSTANT_ASSERT(equal(
+        BOOST_HANA_CONSTANT_CHECK(is_a<Record, ns::AdHoc>);
+        BOOST_HANA_CONSTANT_CHECK(equal(
             to<Tuple>(adhoc),
             tuple(adhoc.member1, adhoc.member2)
         ));
 
-        BOOST_HANA_CONSTANT_ASSERT(equal(
+        BOOST_HANA_CONSTANT_CHECK(equal(
             lookup(adhoc, BOOST_HANA_STRING("member1")),
             just(adhoc.member1)
         ));
 
-        BOOST_HANA_CONSTANT_ASSERT(equal(
+        BOOST_HANA_CONSTANT_CHECK(equal(
             lookup(adhoc, BOOST_HANA_STRING("member2")),
             just(adhoc.member2)
         ));
 
-        BOOST_HANA_CONSTANT_ASSERT(equal(
+        BOOST_HANA_CONSTANT_CHECK(equal(
             lookup(adhoc, BOOST_HANA_STRING("inexistant")),
             nothing
         ));

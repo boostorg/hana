@@ -51,6 +51,6 @@ struct Printable::instance<T, when_valid<
 int main() {
     //! [print_string]
 print(std::cout, std::string{"foo"});
-BOOST_HANA_RUNTIME_ASSERT(to_string(std::string{"foo"}) == "foo");
+BOOST_HANA_RUNTIME_CHECK(to_string(std::string{"foo"}) == "foo");
     //! [print_string]
 }

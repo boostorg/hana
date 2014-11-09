@@ -23,7 +23,7 @@ int main() {
         pair(int_<2>, 9876)
     ));
 
-    BOOST_HANA_CONSTEXPR_ASSERT(sorted == tuple(
+    BOOST_HANA_CONSTEXPR_CHECK(sorted == tuple(
         pair(int_<1>, type<void>),
         pair(int_<2>, 9876),
         pair(int_<3>, 'x')

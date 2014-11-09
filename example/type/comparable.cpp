@@ -12,8 +12,8 @@ using namespace boost::hana;
 //! [main]
 struct T;
 struct U;
-BOOST_HANA_CONSTANT_ASSERT(type<T> == type<T>);
-BOOST_HANA_CONSTANT_ASSERT(type<T> != type<U>);
+BOOST_HANA_CONSTANT_CHECK(type<T> == type<T>);
+BOOST_HANA_CONSTANT_CHECK(type<T> != type<U>);
 //! [main]
 
 int main() { }

@@ -15,12 +15,12 @@ using namespace cppcon;
 int main() {
     // det
     {
-        BOOST_HANA_CONSTEXPR_ASSERT(det(matrix(row(1))) == 1);
-        BOOST_HANA_CONSTEXPR_ASSERT(det(matrix(row(2))) == 2);
+        BOOST_HANA_CONSTEXPR_CHECK(det(matrix(row(1))) == 1);
+        BOOST_HANA_CONSTEXPR_CHECK(det(matrix(row(2))) == 2);
 
-        BOOST_HANA_CONSTEXPR_ASSERT(det(matrix(row(1, 2), row(3, 4))) == -2);
+        BOOST_HANA_CONSTEXPR_CHECK(det(matrix(row(1, 2), row(3, 4))) == -2);
 
-        BOOST_HANA_CONSTEXPR_ASSERT(
+        BOOST_HANA_CONSTEXPR_CHECK(
             det(matrix(
                 row(1, 5, 6),
                 row(3, 2, 4),
@@ -29,7 +29,7 @@ int main() {
             == 51
         );
 
-        BOOST_HANA_CONSTEXPR_ASSERT(
+        BOOST_HANA_CONSTEXPR_CHECK(
             det(matrix(
                 row(1, 5, 6, -3),
                 row(3, 2, 4, -5),
@@ -38,7 +38,7 @@ int main() {
             )) == 214
         );
 
-        BOOST_HANA_CONSTEXPR_ASSERT(
+        BOOST_HANA_CONSTEXPR_CHECK(
             det(matrix(
                 row(1,  5,  6, -3, 92),
                 row(3,  2,  4, -5, 13),

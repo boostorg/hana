@@ -36,12 +36,12 @@ template <char x, char op, char y>
 BOOST_HANA_CONSTEXPR_LAMBDA auto evaluate = ap(function<op>, digit<x>, digit<y>);
 
 int main() {
-    BOOST_HANA_CONSTEXPR_ASSERT(evaluate<'1', '+', '2'> == just(1 + 2));
+    BOOST_HANA_CONSTEXPR_CHECK(evaluate<'1', '+', '2'> == just(1 + 2));
 
-    BOOST_HANA_CONSTANT_ASSERT(evaluate<'?', '+', '2'> == nothing);
-    BOOST_HANA_CONSTANT_ASSERT(evaluate<'1', '?', '2'> == nothing);
-    BOOST_HANA_CONSTANT_ASSERT(evaluate<'1', '+', '?'> == nothing);
-    BOOST_HANA_CONSTANT_ASSERT(evaluate<'?', '?', '?'> == nothing);
+    BOOST_HANA_CONSTANT_CHECK(evaluate<'?', '+', '2'> == nothing);
+    BOOST_HANA_CONSTANT_CHECK(evaluate<'1', '?', '2'> == nothing);
+    BOOST_HANA_CONSTANT_CHECK(evaluate<'1', '+', '?'> == nothing);
+    BOOST_HANA_CONSTANT_CHECK(evaluate<'?', '?', '?'> == nothing);
 
-    BOOST_HANA_CONSTEXPR_ASSERT(lift<Maybe>(123) == just(123));
+    BOOST_HANA_CONSTEXPR_CHECK(lift<Maybe>(123) == just(123));
 }

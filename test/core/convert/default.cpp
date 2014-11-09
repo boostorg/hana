@@ -25,18 +25,18 @@ void check_convert(F f, T t) {
     using To = datatype_t<T>;
 
     // Check From -> To conversion
-    BOOST_HANA_RUNTIME_ASSERT(to<To>(f) == t);
+    BOOST_HANA_RUNTIME_CHECK(to<To>(f) == t);
     static_assert(std::is_same<
         datatype_t<decltype(to<To>(f))>, To
     >{}, "");
 
     // Make sure From -> From and To -> To are the identity.
-    BOOST_HANA_RUNTIME_ASSERT(to<From>(f) == f);
+    BOOST_HANA_RUNTIME_CHECK(to<From>(f) == f);
     static_assert(std::is_same<
         datatype_t<decltype(to<From>(f))>, From
     >{}, "");
 
-    BOOST_HANA_RUNTIME_ASSERT(to<To>(t) == t);
+    BOOST_HANA_RUNTIME_CHECK(to<To>(t) == t);
     static_assert(std::is_same<
         datatype_t<decltype(to<To>(t))>, To
     >{}, "");

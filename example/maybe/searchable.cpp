@@ -17,11 +17,11 @@ int main() {
         return x % int_<2> != int_<0>;
     };
 
-    BOOST_HANA_CONSTANT_ASSERT(find(just(int_<3>), odd) == just(int_<3>));
-    BOOST_HANA_CONSTANT_ASSERT(find(just(int_<2>), odd) == nothing);
-    BOOST_HANA_CONSTANT_ASSERT(find(nothing, odd) == nothing);
+    BOOST_HANA_CONSTANT_CHECK(find(just(int_<3>), odd) == just(int_<3>));
+    BOOST_HANA_CONSTANT_CHECK(find(just(int_<2>), odd) == nothing);
+    BOOST_HANA_CONSTANT_CHECK(find(nothing, odd) == nothing);
 
-    BOOST_HANA_CONSTANT_ASSERT(all(just(int_<3>), odd));
-    BOOST_HANA_CONSTANT_ASSERT(all(nothing, odd));
+    BOOST_HANA_CONSTANT_CHECK(all(just(int_<3>), odd));
+    BOOST_HANA_CONSTANT_CHECK(all(nothing, odd));
     //! [main]
 }

@@ -44,11 +44,11 @@ int main() {
     Person john{30};
 
     // Can't dereference a non-pointer.
-    BOOST_HANA_CONSTANT_ASSERT(f(john) == nothing);
+    BOOST_HANA_CONSTANT_CHECK(f(john) == nothing);
 
     // `int` has no member named `age`.
-    BOOST_HANA_CONSTANT_ASSERT(f(1) == nothing);
+    BOOST_HANA_CONSTANT_CHECK(f(1) == nothing);
 
     // All is good.
-    BOOST_HANA_CONSTEXPR_ASSERT(f(&john) == just(30u));
+    BOOST_HANA_CONSTEXPR_CHECK(f(&john) == just(30u));
 }

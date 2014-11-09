@@ -16,6 +16,6 @@ int main() {
         return x + y;
     };
 
-    BOOST_HANA_CONSTEXPR_ASSERT(apply(plus, 1, 3) == 4);
+    BOOST_HANA_CONSTEXPR_CHECK(apply(plus, 1, 3) == 4);
     //! [main]
 }

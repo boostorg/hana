@@ -15,16 +15,16 @@ using namespace boost::hana;
 int main() {
     {
         //! [sequence]
-        BOOST_HANA_CONSTEXPR_ASSERT(
+        BOOST_HANA_CONSTEXPR_CHECK(
             sequence<Maybe>(tuple(just(1), just('2'), just(3.3))) == just(tuple(1, '2', 3.3))
         );
 
-        BOOST_HANA_CONSTANT_ASSERT(
+        BOOST_HANA_CONSTANT_CHECK(
             sequence<Maybe>(tuple(just(1), nothing, just(3.3))) == nothing
         );
 
         // This is a generalized Cartesian product.
-        BOOST_HANA_CONSTEXPR_ASSERT(
+        BOOST_HANA_CONSTEXPR_CHECK(
             sequence<Tuple>(tuple(tuple(1, 2, 3), tuple(4), tuple(5, 6)))
             ==
             tuple(
@@ -45,13 +45,13 @@ int main() {
             );
         };
 
-        BOOST_HANA_CONSTANT_ASSERT(
+        BOOST_HANA_CONSTANT_CHECK(
             traverse<Maybe>(tuple(int_<2>, int_<4>, int_<6>), half)
             ==
             just(tuple(int_<1>, int_<2>, int_<3>))
         );
 
-        BOOST_HANA_CONSTANT_ASSERT(
+        BOOST_HANA_CONSTANT_CHECK(
             traverse<Maybe>(tuple(int_<2>, int_<3>, int_<6>), half)
             ==
             nothing
@@ -61,11 +61,11 @@ int main() {
             return tuple(x, x);
         };
 
-        BOOST_HANA_CONSTEXPR_ASSERT(
+        BOOST_HANA_CONSTEXPR_CHECK(
             traverse<Tuple>(just('x'), twice) == tuple(just('x'), just('x'))
         );
 
-        BOOST_HANA_CONSTANT_ASSERT(
+        BOOST_HANA_CONSTANT_CHECK(
             traverse<Tuple>(nothing, twice) == tuple(nothing)
         );
         //! [traverse]

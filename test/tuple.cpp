@@ -88,19 +88,19 @@ int main() {
         {
             auto f = test::injection([]{});
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 unpack(tuple(), f),
                 f()
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 unpack(tuple(x<0>), f),
                 f(x<0>)
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 unpack(tuple(x<0>, x<1>), f),
                 f(x<0>, x<1>)
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 unpack(tuple(x<0>, x<1>, x<2>), f),
                 f(x<0>, x<1>, x<2>)
             ));
@@ -111,7 +111,7 @@ int main() {
     {
         // operators
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 tuple(x<0>, x<1>)[int_<0>],
                 x<0>
             ));

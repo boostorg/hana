@@ -13,24 +13,24 @@ using namespace boost::hana;
 
 int main() {
     //! [range_c]
-    BOOST_HANA_CONSTANT_ASSERT(head(range_c<int, 0, 5>) == int_<0>);
-    BOOST_HANA_CONSTANT_ASSERT(last(range_c<unsigned long, 0, 5>) == ulong<4>);
-    BOOST_HANA_CONSTANT_ASSERT(tail(range_c<int, 0, 5>) == range(int_<1>, int_<5>));
+    BOOST_HANA_CONSTANT_CHECK(head(range_c<int, 0, 5>) == int_<0>);
+    BOOST_HANA_CONSTANT_CHECK(last(range_c<unsigned long, 0, 5>) == ulong<4>);
+    BOOST_HANA_CONSTANT_CHECK(tail(range_c<int, 0, 5>) == range(int_<1>, int_<5>));
     //! [range_c]
 
     //! [iterable]
     BOOST_HANA_CONSTEXPR_LAMBDA auto r = range(int_<0>, int_<1000>);
-    BOOST_HANA_CONSTANT_ASSERT(head(r) == int_<0>);
-    BOOST_HANA_CONSTANT_ASSERT(last(r) == int_<999>);
-    BOOST_HANA_CONSTANT_ASSERT(!is_empty(r));
-    BOOST_HANA_CONSTANT_ASSERT(is_empty(range(int_<3>, int_<3>)));
+    BOOST_HANA_CONSTANT_CHECK(head(r) == int_<0>);
+    BOOST_HANA_CONSTANT_CHECK(last(r) == int_<999>);
+    BOOST_HANA_CONSTANT_CHECK(!is_empty(r));
+    BOOST_HANA_CONSTANT_CHECK(is_empty(range(int_<3>, int_<3>)));
     //! [iterable]
 
     //! [range]
     using namespace literals;
 
-    BOOST_HANA_CONSTANT_ASSERT(head(range(0_c, 5_c)) == 0_c);
-    BOOST_HANA_CONSTANT_ASSERT(last(range(0_c, 5_c)) == 4_c);
-    BOOST_HANA_CONSTANT_ASSERT(tail(range(0_c, 5_c)) == range(1_c, 5_c));
+    BOOST_HANA_CONSTANT_CHECK(head(range(0_c, 5_c)) == 0_c);
+    BOOST_HANA_CONSTANT_CHECK(last(range(0_c, 5_c)) == 4_c);
+    BOOST_HANA_CONSTANT_CHECK(tail(range(0_c, 5_c)) == range(1_c, 5_c));
     //! [range]
 }

@@ -20,6 +20,6 @@ int main() {
         return x + 1;
     });
 
-    BOOST_HANA_CONSTEXPR_ASSERT(eval(if_(false_, f(0), g(0))) == 0 + 1);
+    BOOST_HANA_CONSTEXPR_CHECK(eval(if_(false_, f(0), g(0))) == 0 + 1);
     //! [main]
 }

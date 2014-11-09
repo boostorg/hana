@@ -18,6 +18,6 @@ int main() {
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto increment = partial(plus, 1);
 
-    BOOST_HANA_CONSTEXPR_ASSERT(increment(2) == 3);
+    BOOST_HANA_CONSTEXPR_CHECK(increment(2) == 3);
     //! [main]
 }

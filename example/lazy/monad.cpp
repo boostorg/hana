@@ -44,6 +44,6 @@ int main() {
     auto eout = eval(out);
 
     std::cout << "the result of the monadic chain is " << eout << "\n";
-    BOOST_HANA_RUNTIME_ASSERT(eout == (in + 1) / 2);
+    BOOST_HANA_RUNTIME_CHECK(eout == (in + 1) / 2);
 }
 //! [main]

@@ -24,8 +24,8 @@ int main() {
         );
     };
 
-    BOOST_HANA_CONSTANT_ASSERT(safe_make_unsigned(type<void>) == type<void>);
-    BOOST_HANA_CONSTANT_ASSERT(safe_make_unsigned(type<int>) == type<unsigned int>);
+    BOOST_HANA_CONSTANT_CHECK(safe_make_unsigned(type<void>) == type<void>);
+    BOOST_HANA_CONSTANT_CHECK(safe_make_unsigned(type<int>) == type<unsigned int>);
     //! [heterogeneous]
     (void)safe_make_unsigned;
 
@@ -37,7 +37,7 @@ int main() {
         );
     };
 
-    BOOST_HANA_CONSTEXPR_ASSERT(safe_divide(6, 3) == 2);
-    BOOST_HANA_CONSTEXPR_ASSERT(safe_divide(6, 0) == 0);
+    BOOST_HANA_CONSTEXPR_CHECK(safe_divide(6, 3) == 2);
+    BOOST_HANA_CONSTEXPR_CHECK(safe_divide(6, 0) == 0);
     //! [homogeneous]
 }

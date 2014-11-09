@@ -10,14 +10,15 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_VARIADIC_FOLDL_HPP
 #define BOOST_HANA_DETAIL_VARIADIC_FOLDL_HPP
 
-#include <boost/hana/detail/variadic/foldl1.hpp>
-
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/variadic/foldl1.hpp>
 #include <boost/hana/fwd/type.hpp>
 
 
 namespace boost { namespace hana { namespace detail { namespace variadic {
+#ifndef BOOST_HANA_CONFIG_HAS_CXX1Z_FOLD_EXPRESSIONS
     template <typename ...Xs, typename F, typename S>
     constexpr decltype(auto) foldl_impl(F&& f, S&& s, ...) {
         return foldl1(
@@ -56,9 +57,10 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
 
     constexpr _foldl foldl{};
 
+#else
+
     // Experiment with fold expressions; see N4191 at
     // http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n4191.html
-#if 0
     template <typename F, typename State>
     struct accumulator {
         F f;
@@ -109,6 +111,8 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
             ).get();
         }
     };
+
+    constexpr _foldl foldl{};
 #endif
 }}}} // end namespace boost::hana::detail::variadic
 

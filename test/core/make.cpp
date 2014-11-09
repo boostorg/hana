@@ -15,5 +15,5 @@ struct udt {
 };
 
 int main() {
-    BOOST_HANA_CONSTEXPR_ASSERT(make<udt>(1).value == 1);
+    BOOST_HANA_CONSTEXPR_CHECK(make<udt>(1).value == 1);
 }

@@ -16,9 +16,9 @@ int main() {
         return tuple(x, -x);
     };
 
-    BOOST_HANA_CONSTEXPR_ASSERT((tuple(1, 2, 3) | f) == tuple(1, -1, 2, -2, 3, -3));
+    BOOST_HANA_CONSTEXPR_CHECK((tuple(1, 2, 3) | f) == tuple(1, -1, 2, -2, 3, -3));
 
-    BOOST_HANA_CONSTEXPR_ASSERT(
+    BOOST_HANA_CONSTEXPR_CHECK(
         flatten(tuple(tuple(1, 2), tuple(3, 4), tuple(tuple(5, 6))))
         ==
         tuple(1, 2, 3, 4, tuple(5, 6))

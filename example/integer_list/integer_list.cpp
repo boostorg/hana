@@ -13,11 +13,11 @@ using namespace boost::hana;
 
 int main() {
     //! [main]
-    BOOST_HANA_CONSTANT_ASSERT(
+    BOOST_HANA_CONSTANT_CHECK(
         to<Tuple>(integer_list<int, 0, 1, 2>)
         ==
         tuple(int_<0>, int_<1>, int_<2>)
     );
-    BOOST_HANA_CONSTANT_ASSERT(head(integer_list<int, 0, 1, 2>) == int_<0>);
+    BOOST_HANA_CONSTANT_CHECK(head(integer_list<int, 0, 1, 2>) == int_<0>);
     //! [main]
 }

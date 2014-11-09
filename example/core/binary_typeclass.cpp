@@ -55,8 +55,8 @@ int main() {
 
     // We can now compare arbitrary containers
     // (not that it's brilliant to do so)
-    BOOST_HANA_RUNTIME_ASSERT(similar(foo_vec, foo_str));
+    BOOST_HANA_RUNTIME_CHECK(similar(foo_vec, foo_str));
 
     // And arbitrary stuff now compare unequal.
-    BOOST_HANA_CONSTANT_ASSERT(!similar(1, foo_str));
+    BOOST_HANA_CONSTANT_CHECK(!similar(1, foo_str));
 }

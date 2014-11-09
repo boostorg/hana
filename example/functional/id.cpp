@@ -11,7 +11,7 @@ using namespace boost::hana;
 
 int main() {
     //! [main]
-    BOOST_HANA_CONSTEXPR_ASSERT(id(1) == 1);
-    BOOST_HANA_CONSTEXPR_ASSERT(id('1') == '1');
+    BOOST_HANA_CONSTEXPR_CHECK(id(1) == 1);
+    BOOST_HANA_CONSTEXPR_CHECK(id('1') == '1');
     //! [main]
 }

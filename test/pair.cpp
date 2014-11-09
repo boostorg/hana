@@ -39,21 +39,21 @@ int main() {
 
         // first
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 first(pair(x<1>, x<2>)), x<1>
             ));
         }
 
         // second
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 second(pair(x<1>, x<2>)), x<2>
             ));
         }
 
         // make
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 make<Pair>(x<1>, x<2>),
                 pair(x<1>, x<2>)
             ));

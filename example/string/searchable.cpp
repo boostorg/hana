@@ -13,10 +13,10 @@ using namespace boost::hana;
 
 int main() {
     //! [main]
-    BOOST_HANA_CONSTANT_ASSERT(char_<'c'> ^in^ BOOST_HANA_STRING("abcde"));
-    BOOST_HANA_CONSTANT_ASSERT(!(char_<'z'> ^in^ BOOST_HANA_STRING("abcde")));
+    BOOST_HANA_CONSTANT_CHECK(char_<'c'> ^in^ BOOST_HANA_STRING("abcde"));
+    BOOST_HANA_CONSTANT_CHECK(!(char_<'z'> ^in^ BOOST_HANA_STRING("abcde")));
 
-    BOOST_HANA_CONSTANT_ASSERT(
+    BOOST_HANA_CONSTANT_CHECK(
         lookup(BOOST_HANA_STRING("abcxefg"), char_<'x'>) == just(char_<'x'>)
     );
     //! [main]

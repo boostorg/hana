@@ -15,14 +15,14 @@ using namespace boost::hana;
 namespace mpl = boost::mpl;
 
 
-BOOST_HANA_CONSTANT_ASSERT(head(mpl::vector<int, char, void>{}) == type<int>);
+BOOST_HANA_CONSTANT_CHECK(head(mpl::vector<int, char, void>{}) == type<int>);
 
-BOOST_HANA_CONSTANT_ASSERT(equal(
+BOOST_HANA_CONSTANT_CHECK(equal(
     tail(mpl::vector<int, char, void>{}),
     mpl::vector<char, void>{}
 ));
 
-BOOST_HANA_CONSTANT_ASSERT(equal(
+BOOST_HANA_CONSTANT_CHECK(equal(
     drop_while(mpl::vector<float, double const, int, float&>{}, trait<std::is_floating_point>),
     mpl::vector<int, float&>{}
 ));

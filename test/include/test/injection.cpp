@@ -29,7 +29,7 @@ int main() {
             return equal(f(x), f(y)) ^implies^ equal(x, y);
         };
 
-        BOOST_HANA_CONSTANT_ASSERT(all_of(
+        BOOST_HANA_CONSTANT_CHECK(all_of(
             ap(tuple(is_injection),
                 tuple(x<0>, x<1>, x<2>, x<3>),
                 tuple(x<0>, x<1>, x<2>, x<3>))
@@ -38,30 +38,30 @@ int main() {
 
     // various number of arguments
     {
-        BOOST_HANA_CONSTANT_ASSERT(not_equal(
+        BOOST_HANA_CONSTANT_CHECK(not_equal(
             f(), g()
         ));
 
-        BOOST_HANA_CONSTANT_ASSERT(equal(
+        BOOST_HANA_CONSTANT_CHECK(equal(
             f(), f()
         ));
 
-        BOOST_HANA_CONSTANT_ASSERT(not_equal(
+        BOOST_HANA_CONSTANT_CHECK(not_equal(
             f(x<0>),
             g(x<0>)
         ));
 
-        BOOST_HANA_CONSTANT_ASSERT(not_equal(
+        BOOST_HANA_CONSTANT_CHECK(not_equal(
             f(x<0>, x<1>),
             f(x<0>)
         ));
 
-        BOOST_HANA_CONSTANT_ASSERT(equal(
+        BOOST_HANA_CONSTANT_CHECK(equal(
             f(x<0>, x<1>),
             f(x<0>, x<1>)
         ));
 
-        BOOST_HANA_CONSTANT_ASSERT(not_equal(
+        BOOST_HANA_CONSTANT_CHECK(not_equal(
             f(x<0>, x<1>),
             f(x<1>, x<0>)
         ));

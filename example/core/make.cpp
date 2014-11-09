@@ -16,9 +16,9 @@ using namespace boost::hana;
 int main() {
     //! [main]
     auto foo = make<std::string>("foo");
-    BOOST_HANA_RUNTIME_ASSERT(foo == "foo");
+    BOOST_HANA_RUNTIME_CHECK(foo == "foo");
 
     auto ts = make<Tuple>(1, '2', 3.3, std::string{"abcd"});
-    BOOST_HANA_RUNTIME_ASSERT(ts == tuple(1, '2', 3.3, std::string{"abcd"}));
+    BOOST_HANA_RUNTIME_CHECK(ts == tuple(1, '2', 3.3, std::string{"abcd"}));
     //! [main]
 }

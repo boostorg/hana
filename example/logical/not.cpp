@@ -12,7 +12,7 @@ using namespace boost::hana;
 
 int main() {
     //! [main]
-    BOOST_HANA_CONSTANT_ASSERT(not_(true_) == false_);
-    BOOST_HANA_CONSTEXPR_ASSERT(not_(false) == true);
+    BOOST_HANA_CONSTANT_CHECK(not_(true_) == false_);
+    BOOST_HANA_CONSTEXPR_CHECK(not_(false) == true);
     //! [main]
 }

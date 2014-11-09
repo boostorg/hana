@@ -60,19 +60,19 @@ int main() {
 
         // lazy
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 lazy(f)(),
                 lazy(f())
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 lazy(f)(x<0>),
                 lazy(f(x<0>))
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 lazy(f)(x<0>, x<1>),
                 lazy(f(x<0>, x<1>))
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 lazy(f)(x<0>, x<1>, x<2>),
                 lazy(f(x<0>, x<1>, x<2>))
             ));
@@ -86,8 +86,8 @@ int main() {
 
         // eval
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(eval(lazy(x<0>)), x<0>));
-            BOOST_HANA_CONSTANT_ASSERT(equal(eval(lazy(x<1>)), x<1>));
+            BOOST_HANA_CONSTANT_CHECK(equal(eval(lazy(x<0>)), x<0>));
+            BOOST_HANA_CONSTANT_CHECK(equal(eval(lazy(x<1>)), x<1>));
         }
     }
 
@@ -98,7 +98,7 @@ int main() {
 
         // fmap
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 fmap(lazy(x), f),
                 lazy(f(x))
             ));
@@ -112,15 +112,15 @@ int main() {
 
         // ap
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 ap(lazy(f), lazy(x<0>)),
                 lazy(f(x<0>))
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 ap(lazy(f), lazy(x<0>), lazy(x<1>)),
                 lazy(f(x<0>, x<1>))
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 ap(lazy(f), lazy(x<0>), lazy(x<1>), lazy(x<2>)),
                 lazy(f(x<0>, x<1>, x<2>))
             ));
@@ -133,8 +133,8 @@ int main() {
 
         // lift
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(lift<Lazy>(x<0>), lazy(x<0>)));
-            BOOST_HANA_CONSTANT_ASSERT(equal(lift<Lazy>(x<1>), lazy(x<1>)));
+            BOOST_HANA_CONSTANT_CHECK(equal(lift<Lazy>(x<0>), lazy(x<0>)));
+            BOOST_HANA_CONSTANT_CHECK(equal(lift<Lazy>(x<1>), lazy(x<1>)));
         }
     }
 
@@ -145,21 +145,21 @@ int main() {
 
         // bind
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(bind(lazy(x<0>), f), f(x<0>)));
-            BOOST_HANA_CONSTANT_ASSERT(equal(bind(lazy(x<1>), f), f(x<1>)));
+            BOOST_HANA_CONSTANT_CHECK(equal(bind(lazy(x<0>), f), f(x<0>)));
+            BOOST_HANA_CONSTANT_CHECK(equal(bind(lazy(x<1>), f), f(x<1>)));
         }
 
         // flatten
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 flatten(lazy(lazy(x<0>))),
                 lazy(x<0>)
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 flatten(lazy(lazy(x<1>))),
                 lazy(x<1>)
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 flatten(lazy(lazy(lazy(x<1>)))),
                 lazy(lazy(x<1>))
             ));
@@ -175,7 +175,7 @@ int main() {
                 | [&](int dummy) {
                     std::cerr << "executing the first computation...\n";
                     executed[0] = true;
-                    BOOST_HANA_RUNTIME_ASSERT(
+                    BOOST_HANA_RUNTIME_CHECK(
                         executed == std::array<bool, 3>{{true, false, false}}
                     );
                     return lazy(dummy);
@@ -183,7 +183,7 @@ int main() {
                 | [&](int dummy) {
                     std::cerr << "executing the second computation...\n";
                     executed[1] = true;
-                    BOOST_HANA_RUNTIME_ASSERT(
+                    BOOST_HANA_RUNTIME_CHECK(
                         executed == std::array<bool, 3>{{true, true, false}}
                     );
                     return lazy(dummy);
@@ -191,13 +191,13 @@ int main() {
                 | [&](int dummy) {
                     std::cerr << "executing the third computation...\n";
                     executed[2] = true;
-                    BOOST_HANA_RUNTIME_ASSERT(
+                    BOOST_HANA_RUNTIME_CHECK(
                         executed == std::array<bool, 3>{{true, true, true}}
                     );
                     return lazy(dummy);
                 };
 
-            BOOST_HANA_RUNTIME_ASSERT(
+            BOOST_HANA_RUNTIME_CHECK(
                 executed == std::array<bool, 3>{{false, false, false}}
             );
 

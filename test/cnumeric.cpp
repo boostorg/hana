@@ -65,46 +65,46 @@ int main() {
 
         // not_
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(not_(true_), false_));
+            BOOST_HANA_CONSTANT_CHECK(equal(not_(true_), false_));
         }
 
         // and_
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 and_(true_),
                 true_
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 and_(false_),
                 false_
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 and_(true_, true_),
                 true_
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 and_(true_, false_),
                 false_
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 and_(false_, invalid{}),
                 false_
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 and_(true_, true_, true_),
                 true_
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 and_(true_, true_, false_),
                 false_
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 and_(true_, false_, invalid{}),
                 false_
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 and_(false_, invalid{}, invalid{}),
                 false_
             ));
@@ -112,41 +112,41 @@ int main() {
 
         // or_
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 or_(true_),
                 true_
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 or_(false_),
                 false_
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 or_(false_, false_),
                 false_
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 or_(false_, true_),
                 true_
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 or_(true_, invalid{}),
                 true_
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 or_(false_, false_, false_),
                 false_
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 or_(false_, false_, true_),
                 true_
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 or_(false_, true_, invalid{}),
                 true_
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 or_(true_, invalid{}, invalid{}),
                 true_
             ));
@@ -154,11 +154,11 @@ int main() {
 
         // if_
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 if_(true_, x, y), x
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 if_(false_, x, y), y
             ));
         }
@@ -168,11 +168,11 @@ int main() {
             auto t = [=](auto) { return x; };
             auto e = [=](auto) { return y; };
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 eval_if(true_, t, invalid{}), x
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 eval_if(false_, invalid{}, e), y
             ));
         }
@@ -180,17 +180,17 @@ int main() {
         // operators
         {
             using namespace boost::hana::operators;
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 !true_,
                 not_(true_)
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 true_ && true_,
                 and_(true_, true_)
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 false_ || false_,
                 or_(false_, false_)
             ));

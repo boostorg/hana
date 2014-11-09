@@ -22,9 +22,9 @@ auto check = [](auto split) {
     });
 
     return [=](auto ...xs) {
-        BOOST_HANA_CONSTANT_ASSERT(equal(tuple(xs...), first(result)));
+        BOOST_HANA_CONSTANT_CHECK(equal(tuple(xs...), first(result)));
         return [=](auto ...ys) {
-            BOOST_HANA_CONSTANT_ASSERT(equal(tuple(ys...), second(result)));
+            BOOST_HANA_CONSTANT_CHECK(equal(tuple(ys...), second(result)));
         };
     };
 };

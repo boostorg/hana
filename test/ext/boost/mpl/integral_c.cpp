@@ -89,10 +89,10 @@ int main() {
 
     // interoperation with Integral
     {
-        BOOST_HANA_CONSTANT_ASSERT(::boost::mpl::integral_c<int, 1>{} == int_<1>);
-        BOOST_HANA_CONSTANT_ASSERT(::boost::mpl::integral_c<int, 1>{} == long_<1>);
+        BOOST_HANA_CONSTANT_CHECK(::boost::mpl::integral_c<int, 1>{} == int_<1>);
+        BOOST_HANA_CONSTANT_CHECK(::boost::mpl::integral_c<int, 1>{} == long_<1>);
 
-        BOOST_HANA_CONSTANT_ASSERT(::boost::mpl::integral_c<int, 2>{} != int_<3>);
+        BOOST_HANA_CONSTANT_CHECK(::boost::mpl::integral_c<int, 2>{} != int_<3>);
     }
 
     // Constant

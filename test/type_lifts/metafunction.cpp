@@ -17,10 +17,10 @@ struct x1; struct x2; struct x3;
 
 template <template <typename ...> class f>
 void test() {
-    BOOST_HANA_CONSTANT_ASSERT(metafunction<f>() == type<typename f<>::type>);
-    BOOST_HANA_CONSTANT_ASSERT(metafunction<f>(type<x1>) == type<typename f<x1>::type>);
-    BOOST_HANA_CONSTANT_ASSERT(metafunction<f>(type<x1>, type<x2>) == type<typename f<x1, x2>::type>);
-    BOOST_HANA_CONSTANT_ASSERT(metafunction<f>(type<x1>, type<x2>, type<x3>) == type<typename f<x1, x2, x3>::type>);
+    BOOST_HANA_CONSTANT_CHECK(metafunction<f>() == type<typename f<>::type>);
+    BOOST_HANA_CONSTANT_CHECK(metafunction<f>(type<x1>) == type<typename f<x1>::type>);
+    BOOST_HANA_CONSTANT_CHECK(metafunction<f>(type<x1>, type<x2>) == type<typename f<x1, x2>::type>);
+    BOOST_HANA_CONSTANT_CHECK(metafunction<f>(type<x1>, type<x2>, type<x3>) == type<typename f<x1, x2, x3>::type>);
 
     using F = decltype(metafunction<f>);
     static_assert(std::is_same<typename F::template apply<>, f<>>::value, "");
@@ -38,6 +38,6 @@ using alias = f<x, y, z>;
 int main() {
     test<f>();
 
-    // BOOST_HANA_CONSTANT_ASSERT(!detail::is_valid(metafunction<invalid>)(type<x1>));
+    // BOOST_HANA_CONSTANT_CHECK(!detail::is_valid(metafunction<invalid>)(type<x1>));
     // test<alias>();
 }

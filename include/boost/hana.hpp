@@ -70,6 +70,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 // Misc
 #include <boost/hana/assert.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core.hpp>
 #include <boost/hana/functional.hpp>
 
@@ -169,7 +170,7 @@ so you get the feeling:
 @snippet example/tutorial/quickstart.cpp value_operations
 
 > __Note__\n
-> `BOOST_HANA_CONSTANT_ASSERT` is a compile-time assertion; the details are
+> `BOOST_HANA_CONSTANT_CHECK` is a compile-time assertion; the details are
 > explained later in the tutorial.
 
 You have probably observed how the `auto` keyword is used when defining `xs` 
@@ -1108,6 +1109,12 @@ follow:
       - The type classes it instantiates, and how it does so
       - Methods tied to the data type but not to any type class
       - Any data type specific information
+
+  - @ref group-config\n
+    Macros that can be used to tweak the global behavior of the library.
+
+  - @ref group-assertions\n
+    Macros to perform various types of assertions.
 
   - @ref group-details\n
     Why did I document implementation details? That's a good question.

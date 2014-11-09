@@ -27,7 +27,7 @@ constexpr unsigned long long reference(unsigned long long n)
 
 template <int n>
 constexpr void test() {
-    BOOST_HANA_CONSTANT_ASSERT(equal(fact(ullong<n>), ullong<reference(n)>));
+    BOOST_HANA_CONSTANT_CHECK(equal(fact(ullong<n>), ullong<reference(n)>));
     test<n - 1>();
 }
 

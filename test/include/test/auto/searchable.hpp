@@ -30,26 +30,26 @@ namespace boost { namespace hana { namespace test {
 
             auto predicates = tuple(always(true_), always(false_));
             for_each(predicates, [=](auto p) {
-                BOOST_HANA_ASSERT(
+                BOOST_HANA_CHECK(
                     any(xs, p) ^iff^ not_(all(xs, compose(not_, p)))
                 );
 
-                BOOST_HANA_ASSERT(
+                BOOST_HANA_CHECK(
                     any(xs, p) ^iff^ not_(none(xs, p))
                 );
             });
 
             eval_if(all(xs, is_a<Logical>),
                 [=](auto _) {
-                    BOOST_HANA_ASSERT(
+                    BOOST_HANA_CHECK(
                         _(any_of)(xs) ^iff^ _(any)(xs, id)
                     );
 
-                    BOOST_HANA_ASSERT(
+                    BOOST_HANA_CHECK(
                         _(all_of)(xs) ^iff^ _(all)(xs, id)
                     );
 
-                    BOOST_HANA_ASSERT(
+                    BOOST_HANA_CHECK(
                         _(none_of)(xs) ^iff^ _(none)(xs, id)
                     );
                 },
@@ -73,7 +73,7 @@ namespace boost { namespace hana { namespace test {
                     };
                     eval_if(all(xs, compile_time_comparable),
                         [=](auto _) {
-                            BOOST_HANA_ASSERT(equal(
+                            BOOST_HANA_CHECK(equal(
                                 _(lookup)(xs, x),
                                 _(find)(xs, [=](auto y) { return equal(y, x); })
                             ));
@@ -84,13 +84,13 @@ namespace boost { namespace hana { namespace test {
                 find(xs, always(true_))
             );
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 find(xs, always(false_)),
                 nothing
             ));
 
             for_each(objects<S>, [=](auto ys) {
-                BOOST_HANA_ASSERT(
+                BOOST_HANA_CHECK(
                     subset(xs, ys) ^iff^ all(xs, [=](auto x) {
                         return elem(ys, x);
                     })

@@ -12,9 +12,9 @@ using namespace boost::hana;
 
 int main() {
     //! [main]
-    BOOST_HANA_CONSTEXPR_ASSERT(head(tuple(1, '2', 3.3)) == 1);
-    BOOST_HANA_CONSTEXPR_ASSERT(tail(tuple(1, '2', 3.3)) == tuple('2', 3.3));
-    BOOST_HANA_CONSTANT_ASSERT(!is_empty(tuple(1, '2', 3.3)));
-    BOOST_HANA_CONSTANT_ASSERT(is_empty(tuple()));
+    BOOST_HANA_CONSTEXPR_CHECK(head(tuple(1, '2', 3.3)) == 1);
+    BOOST_HANA_CONSTEXPR_CHECK(tail(tuple(1, '2', 3.3)) == tuple('2', 3.3));
+    BOOST_HANA_CONSTANT_CHECK(!is_empty(tuple(1, '2', 3.3)));
+    BOOST_HANA_CONSTANT_CHECK(is_empty(tuple()));
     //! [main]
 }

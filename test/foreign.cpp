@@ -63,22 +63,22 @@ int main() {
     {
         // succ
         {
-            BOOST_HANA_CONSTEXPR_ASSERT(succ(integer{0}) == integer{1});
-            BOOST_HANA_CONSTEXPR_ASSERT(succ(integer{1}) == integer{2});
-            BOOST_HANA_CONSTEXPR_ASSERT(succ(integer{2}) == integer{3});
+            BOOST_HANA_CONSTEXPR_CHECK(succ(integer{0}) == integer{1});
+            BOOST_HANA_CONSTEXPR_CHECK(succ(integer{1}) == integer{2});
+            BOOST_HANA_CONSTEXPR_CHECK(succ(integer{2}) == integer{3});
         }
 
         // pred
         {
-            BOOST_HANA_CONSTEXPR_ASSERT(pred(integer{3}) == integer{2});
-            BOOST_HANA_CONSTEXPR_ASSERT(pred(integer{2}) == integer{1});
-            BOOST_HANA_CONSTEXPR_ASSERT(pred(integer{1}) == integer{0});
+            BOOST_HANA_CONSTEXPR_CHECK(pred(integer{3}) == integer{2});
+            BOOST_HANA_CONSTEXPR_CHECK(pred(integer{2}) == integer{1});
+            BOOST_HANA_CONSTEXPR_CHECK(pred(integer{1}) == integer{0});
         }
 
         // make sure pred and succ works with fundamental types
         {
-            BOOST_HANA_CONSTEXPR_ASSERT(pred(3) == 2);
-            BOOST_HANA_CONSTEXPR_ASSERT(succ(3) == 4);
+            BOOST_HANA_CONSTEXPR_CHECK(pred(3) == 2);
+            BOOST_HANA_CONSTEXPR_CHECK(succ(3) == 4);
         }
     }
 
@@ -87,14 +87,14 @@ int main() {
         // equal
         {
             // same type
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(integer{0}, integer{0}));
-            BOOST_HANA_CONSTEXPR_ASSERT(not_(equal(integer{0}, integer{1})));
-            BOOST_HANA_CONSTANT_ASSERT(are<Comparable>(integer{0}, integer{0}));
+            BOOST_HANA_CONSTEXPR_CHECK(equal(integer{0}, integer{0}));
+            BOOST_HANA_CONSTEXPR_CHECK(not_(equal(integer{0}, integer{1})));
+            BOOST_HANA_CONSTANT_CHECK(are<Comparable>(integer{0}, integer{0}));
 
             // mixed types
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(integer{0}, integer2{0}));
-            BOOST_HANA_CONSTEXPR_ASSERT(not_(equal(integer{0}, integer2{1})));
-            BOOST_HANA_CONSTANT_ASSERT(are<Comparable>(integer{0}, integer2{0}));
+            BOOST_HANA_CONSTEXPR_CHECK(equal(integer{0}, integer2{0}));
+            BOOST_HANA_CONSTEXPR_CHECK(not_(equal(integer{0}, integer2{1})));
+            BOOST_HANA_CONSTANT_CHECK(are<Comparable>(integer{0}, integer2{0}));
         }
     }
 
@@ -103,16 +103,16 @@ int main() {
         // less
         {
             // same type
-            BOOST_HANA_CONSTEXPR_ASSERT(less(integer{0}, integer{1}));
-            BOOST_HANA_CONSTEXPR_ASSERT(not_(less(integer{0}, integer{0})));
-            BOOST_HANA_CONSTEXPR_ASSERT(not_(less(integer{1}, integer{0})));
-            BOOST_HANA_CONSTANT_ASSERT(are<Orderable, integer, integer>);
+            BOOST_HANA_CONSTEXPR_CHECK(less(integer{0}, integer{1}));
+            BOOST_HANA_CONSTEXPR_CHECK(not_(less(integer{0}, integer{0})));
+            BOOST_HANA_CONSTEXPR_CHECK(not_(less(integer{1}, integer{0})));
+            BOOST_HANA_CONSTANT_CHECK(are<Orderable, integer, integer>);
 
             // mixed types
-            BOOST_HANA_CONSTEXPR_ASSERT(less(integer{0}, integer2{1}));
-            BOOST_HANA_CONSTEXPR_ASSERT(not_(less(integer{0}, integer2{0})));
-            BOOST_HANA_CONSTEXPR_ASSERT(not_(less(integer{1}, integer2{0})));
-            BOOST_HANA_CONSTANT_ASSERT(are<Orderable, integer, integer2>);
+            BOOST_HANA_CONSTEXPR_CHECK(less(integer{0}, integer2{1}));
+            BOOST_HANA_CONSTEXPR_CHECK(not_(less(integer{0}, integer2{0})));
+            BOOST_HANA_CONSTEXPR_CHECK(not_(less(integer{1}, integer2{0})));
+            BOOST_HANA_CONSTANT_CHECK(are<Orderable, integer, integer2>);
         }
     }
 
@@ -122,17 +122,17 @@ int main() {
 
         // zero
         {
-            BOOST_HANA_CONSTEXPR_ASSERT(zero<integer>.value == 0);
+            BOOST_HANA_CONSTEXPR_CHECK(zero<integer>.value == 0);
         }
 
         // plus
         {
             // same type
-            BOOST_HANA_CONSTEXPR_ASSERT(plus(integer{x}, integer{y}).value == x + y);
+            BOOST_HANA_CONSTEXPR_CHECK(plus(integer{x}, integer{y}).value == x + y);
 
             // mixed types
-            BOOST_HANA_CONSTEXPR_ASSERT(plus(integer{x}, integer2{y}).value == x + y);
-            BOOST_HANA_CONSTEXPR_ASSERT(plus(integer2{x}, integer{y}).value == x + y);
+            BOOST_HANA_CONSTEXPR_CHECK(plus(integer{x}, integer2{y}).value == x + y);
+            BOOST_HANA_CONSTEXPR_CHECK(plus(integer2{x}, integer{y}).value == x + y);
         }
     }
 
@@ -140,17 +140,17 @@ int main() {
     {
         // negate
         {
-            BOOST_HANA_CONSTEXPR_ASSERT(negate(integer{1}).value == -1);
+            BOOST_HANA_CONSTEXPR_CHECK(negate(integer{1}).value == -1);
         }
 
         // minus
         {
             // same type
-            BOOST_HANA_CONSTEXPR_ASSERT(minus(integer{1}, integer{3}).value == 1 - 3);
+            BOOST_HANA_CONSTEXPR_CHECK(minus(integer{1}, integer{3}).value == 1 - 3);
 
             // mixed types
-            BOOST_HANA_CONSTEXPR_ASSERT(minus(integer{1}, integer2{3}).value == 1 - 3);
-            BOOST_HANA_CONSTEXPR_ASSERT(minus(integer2{1}, integer{3}).value == 1 - 3);
+            BOOST_HANA_CONSTEXPR_CHECK(minus(integer{1}, integer2{3}).value == 1 - 3);
+            BOOST_HANA_CONSTEXPR_CHECK(minus(integer2{1}, integer{3}).value == 1 - 3);
         }
     }
 
@@ -160,17 +160,17 @@ int main() {
 
         // one
         {
-            BOOST_HANA_CONSTEXPR_ASSERT(one<integer>.value == 1);
+            BOOST_HANA_CONSTEXPR_CHECK(one<integer>.value == 1);
         }
 
         // mult
         {
             // same type
-            BOOST_HANA_CONSTEXPR_ASSERT(mult(integer{x}, integer{y}).value == x * y);
+            BOOST_HANA_CONSTEXPR_CHECK(mult(integer{x}, integer{y}).value == x * y);
 
             // mixed types
-            BOOST_HANA_CONSTEXPR_ASSERT(mult(integer{x}, integer2{y}).value == x * y);
-            BOOST_HANA_CONSTEXPR_ASSERT(mult(integer2{x}, integer{y}).value == x * y);
+            BOOST_HANA_CONSTEXPR_CHECK(mult(integer{x}, integer2{y}).value == x * y);
+            BOOST_HANA_CONSTEXPR_CHECK(mult(integer2{x}, integer{y}).value == x * y);
         }
     }
 
@@ -179,21 +179,21 @@ int main() {
         // quot
         {
             // same type
-            BOOST_HANA_CONSTEXPR_ASSERT(quot(integer{6}, integer{3}).value == 6 / 3);
+            BOOST_HANA_CONSTEXPR_CHECK(quot(integer{6}, integer{3}).value == 6 / 3);
 
             // mixed types
-            BOOST_HANA_CONSTEXPR_ASSERT(quot(integer{6}, integer2{3}).value == 6 / 3);
-            BOOST_HANA_CONSTEXPR_ASSERT(quot(integer2{6}, integer{3}).value == 6 / 3);
+            BOOST_HANA_CONSTEXPR_CHECK(quot(integer{6}, integer2{3}).value == 6 / 3);
+            BOOST_HANA_CONSTEXPR_CHECK(quot(integer2{6}, integer{3}).value == 6 / 3);
         }
 
         // mod
         {
             // same type
-            BOOST_HANA_CONSTEXPR_ASSERT(mod(integer{6}, integer{4}).value == 6 % 4);
+            BOOST_HANA_CONSTEXPR_CHECK(mod(integer{6}, integer{4}).value == 6 % 4);
 
             // mixed types
-            BOOST_HANA_CONSTEXPR_ASSERT(mod(integer{6}, integer2{4}).value == 6 % 4);
-            BOOST_HANA_CONSTEXPR_ASSERT(mod(integer2{6}, integer{4}).value == 6 % 4);
+            BOOST_HANA_CONSTEXPR_CHECK(mod(integer{6}, integer2{4}).value == 6 % 4);
+            BOOST_HANA_CONSTEXPR_CHECK(mod(integer2{6}, integer{4}).value == 6 % 4);
         }
     }
 
@@ -206,19 +206,19 @@ int main() {
 
         // eval_if
         {
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 eval_if(integer{true}, t, e), x
             ));
 
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 eval_if(integer{false}, t, e), y
             ));
         }
 
         // not_
         {
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(not_(integer{true}), false));
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(not_(integer{false}), true));
+            BOOST_HANA_CONSTEXPR_CHECK(equal(not_(integer{true}), false));
+            BOOST_HANA_CONSTEXPR_CHECK(equal(not_(integer{false}), true));
         }
     }
 
@@ -234,22 +234,22 @@ int main() {
             BOOST_HANA_CONSTEXPR_LAMBDA auto f = test::injection([]{});
 
 
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 unpack(a, f),
                 f(1)
             ));
 
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 unpack(b, f),
                 f(1, 2)
             ));
 
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 unpack(c, f),
                 f(1, 2, 3)
             ));
 
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 unpack(d, f),
                 f(1, 2, 3, 4)
             ));

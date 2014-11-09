@@ -29,7 +29,7 @@ struct tracked {
 
     ~tracked() {
         std::cout << "destructing tracked{" << i << "}\n";
-        BOOST_HANA_RUNTIME_ASSERT(i == 1 || i == 2 || i == -1 || i == -2);
+        BOOST_HANA_RUNTIME_CHECK(i == 1 || i == 2 || i == -1 || i == -2);
     }
 };
 

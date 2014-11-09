@@ -61,22 +61,22 @@ int main() {
                 return iterable(x<0>);
             };
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 lvalue[size_t<0>],
                 at(size_t<0>, lvalue)
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 const_lvalue[size_t<0>],
                 at(size_t<0>, const_lvalue)
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 rvalue()[size_t<0>],
                 at(size_t<0>, rvalue())
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 const_rvalue()[size_t<0>],
                 at(size_t<0>, const_rvalue())
             ));

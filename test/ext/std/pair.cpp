@@ -43,7 +43,7 @@ int main() {
     {
         // first
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 first(std::make_pair(x<0>, x<1>)),
                 x<0>
             ));
@@ -51,7 +51,7 @@ int main() {
 
         // second
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 second(std::make_pair(x<0>, x<1>)),
                 x<1>
             ));
@@ -59,7 +59,7 @@ int main() {
 
         // make
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 make<ext::std::Pair>(x<0>, x<1>),
                 std::make_pair(x<0>, x<1>)
             ));

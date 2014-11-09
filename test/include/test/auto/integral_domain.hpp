@@ -28,14 +28,14 @@ namespace boost { namespace hana { namespace test {
         {
             for_each(objects<D>, [](auto a) {
                 for_each(objects<D>, [=](auto b) {
-                    BOOST_HANA_ASSERT(equal(
+                    BOOST_HANA_CHECK(equal(
                         mult(a, b),
                         mult(b, a)
                     ));
 
                     eval_if(equal(b, zero<D>), [](auto){}, [=](auto _) {
 
-                        BOOST_HANA_ASSERT(equal(
+                        BOOST_HANA_CHECK(equal(
                             a,
                             plus(
                                 mult(_(quot)(a, b), b),
@@ -43,13 +43,13 @@ namespace boost { namespace hana { namespace test {
                             )
                         ));
 
-                        BOOST_HANA_ASSERT(equal(
+                        BOOST_HANA_CHECK(equal(
                             _(mod)(zero<D>, b),
                             zero<D>
                         ));
 
                         for_each(objects<D>, [=](auto k) {
-                            BOOST_HANA_ASSERT(equal(
+                            BOOST_HANA_CHECK(equal(
                                 _(mod)(a, b),
                                 mod(plus(a, _(mult)(k, b)), b)
                             ));

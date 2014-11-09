@@ -49,8 +49,8 @@ namespace boost { namespace hana {
 
 int main() {
     Person john{"John"}, bill{"Bill"};
-    BOOST_HANA_RUNTIME_ASSERT(john == john && john != bill);
+    BOOST_HANA_RUNTIME_CHECK(john == john && john != bill);
 
     Employee bob{"Bob"}, alice{"Alice"};
-    BOOST_HANA_RUNTIME_ASSERT(bob != alice);
+    BOOST_HANA_RUNTIME_CHECK(bob != alice);
 }

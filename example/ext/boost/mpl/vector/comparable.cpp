@@ -12,7 +12,7 @@ using namespace boost::hana;
 namespace mpl = boost::mpl;
 
 
-BOOST_HANA_CONSTANT_ASSERT(equal(mpl::vector2<int, char>{}, mpl::vector<int, char>{}));
-BOOST_HANA_CONSTANT_ASSERT(not_equal(mpl::vector2<int, char>{}, mpl::vector<int, char, float>{}));
+BOOST_HANA_CONSTANT_CHECK(equal(mpl::vector2<int, char>{}, mpl::vector<int, char>{}));
+BOOST_HANA_CONSTANT_CHECK(not_equal(mpl::vector2<int, char>{}, mpl::vector<int, char, float>{}));
 
 int main() { }

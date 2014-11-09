@@ -29,7 +29,7 @@ assert(last(xs) == "345");
 
 assert(tail(xs) == tuple('2', std::string{"345"}));
 
-BOOST_HANA_CONSTANT_ASSERT(!is_empty(xs));
+BOOST_HANA_CONSTANT_CHECK(!is_empty(xs));
 
 for_each(xs, [](auto x) {
     std::cout << x;
@@ -55,9 +55,9 @@ auto ts = tuple(type<int*>, type<void>, type<char const>);
 //! [ts]
 
 //! [type_operations]
-BOOST_HANA_CONSTANT_ASSERT(last(ts) == type<char const>);
+BOOST_HANA_CONSTANT_CHECK(last(ts) == type<char const>);
 
-BOOST_HANA_CONSTANT_ASSERT(tail(ts) == tuple(type<void>, type<char const>));
+BOOST_HANA_CONSTANT_CHECK(tail(ts) == tuple(type<void>, type<char const>));
 //! [type_operations]
 
 //! [type_out]

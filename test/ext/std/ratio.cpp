@@ -57,17 +57,17 @@ int main() {
     {
         // IntegralConstant -> Ratio
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 to<ext::std::Ratio>(test::cnumeric<int, 0>),
                 std::ratio<0>{}
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 to<ext::std::Ratio>(test::cnumeric<int, 1>),
                 std::ratio<1>{}
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 to<ext::std::Ratio>(test::cnumeric<int, 3>),
                 std::ratio<3>{}
             ));
@@ -78,17 +78,17 @@ int main() {
     {
         // equal
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 std::ratio<0>{},
                 std::ratio<0>{}
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 std::ratio<3, 5>{},
                 std::ratio<6, 10>{}
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(not_(equal(
+            BOOST_HANA_CONSTANT_CHECK(not_(equal(
                 std::ratio<4, 5>{},
                 std::ratio<6, 10>{}
             )));
@@ -99,17 +99,17 @@ int main() {
     {
         // less
         {
-            BOOST_HANA_CONSTANT_ASSERT(less(
+            BOOST_HANA_CONSTANT_CHECK(less(
                 std::ratio<1>{},
                 std::ratio<3>{}
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(less(
+            BOOST_HANA_CONSTANT_CHECK(less(
                 std::ratio<4, 10>{},
                 std::ratio<3, 5>{}
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(not_(less(
+            BOOST_HANA_CONSTANT_CHECK(not_(less(
                 std::ratio<3, 5>{},
                 std::ratio<4, 10>{}
             )));
@@ -120,7 +120,7 @@ int main() {
     {
         // plus
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 plus(std::ratio<3, 4>{}, std::ratio<5, 10>{}),
                 std::ratio<3*10 + 5*4, 4*10>{}
             ));
@@ -128,12 +128,12 @@ int main() {
 
         // zero
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 zero<ext::std::Ratio>,
                 std::ratio<0, 1>{}
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 zero<ext::std::Ratio>,
                 std::ratio<0, 2>{}
             ));
@@ -144,7 +144,7 @@ int main() {
     {
         // minus
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 minus(std::ratio<3, 4>{}, std::ratio<5, 10>{}),
                 std::ratio<3*10 - 5*4, 4*10>{}
             ));
@@ -155,7 +155,7 @@ int main() {
     {
         // mult
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 mult(std::ratio<3, 4>{}, std::ratio<5, 10>{}),
                 std::ratio<3*5, 4*10>{}
             ));
@@ -163,12 +163,12 @@ int main() {
 
         // one
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 one<ext::std::Ratio>,
                 std::ratio<1, 1>{}
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 one<ext::std::Ratio>,
                 std::ratio<2, 2>{}
             ));
@@ -179,12 +179,12 @@ int main() {
     {
         // quot
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 quot(std::ratio<6>{}, std::ratio<4>{}),
                 std::ratio<6, 4>{}
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 quot(std::ratio<3, 4>{}, std::ratio<5, 10>{}),
                 std::ratio<3*10, 4*5>{}
             ));
@@ -192,12 +192,12 @@ int main() {
 
         // mod
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 mod(std::ratio<6>{}, std::ratio<4>{}),
                 std::ratio<0>{}
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 mod(std::ratio<3, 4>{}, std::ratio<5, 10>{}),
                 std::ratio<0>{}
             ));

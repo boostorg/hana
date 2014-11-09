@@ -22,6 +22,6 @@ int main() {
         return "(" + to_string(x) + " + " + to_string(y) + ")";
     };
 
-    BOOST_HANA_RUNTIME_ASSERT(foldl(tuple(2, "3", '4'), "1", show) == "(((1 + 2) + 3) + 4)");
+    BOOST_HANA_RUNTIME_CHECK(foldl(tuple(2, "3", '4'), "1", show) == "(((1 + 2) + 3) + 4)");
     //! [foldl]
 }

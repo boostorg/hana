@@ -51,7 +51,7 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto number_of_floats = hana::foldl(
         );
     }
 );
-BOOST_HANA_CONSTANT_ASSERT(number_of_floats == hana::int_<3>);
+BOOST_HANA_CONSTANT_CHECK(number_of_floats == hana::int_<3>);
 //! [hana]
 }
 

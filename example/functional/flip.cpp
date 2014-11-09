@@ -16,10 +16,10 @@ int main() {
         return x - y - z;
     };
 
-    BOOST_HANA_CONSTEXPR_ASSERT(minus(3, 0) == 3 - 0);
-    BOOST_HANA_CONSTEXPR_ASSERT(flip(minus)(3, 0) == 0 - 3);
+    BOOST_HANA_CONSTEXPR_CHECK(minus(3, 0) == 3 - 0);
+    BOOST_HANA_CONSTEXPR_CHECK(flip(minus)(3, 0) == 0 - 3);
 
-    BOOST_HANA_CONSTEXPR_ASSERT(minus(3, 0, 1) == 3 - 0 - 1);
-    BOOST_HANA_CONSTEXPR_ASSERT(flip(minus)(3, 0, 1) == 0 - 3 - 1);
+    BOOST_HANA_CONSTEXPR_CHECK(minus(3, 0, 1) == 3 - 0 - 1);
+    BOOST_HANA_CONSTEXPR_CHECK(flip(minus)(3, 0, 1) == 0 - 3 - 1);
     //! [main]
 }

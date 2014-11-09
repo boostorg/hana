@@ -17,9 +17,9 @@ int main() {
         return x + 1; // next letter
     };
 
-    BOOST_HANA_CONSTEXPR_ASSERT(ap(just(f), just('x')) == just(f('x')));
-    BOOST_HANA_CONSTANT_ASSERT(ap(nothing, just('x')) == nothing);
-    BOOST_HANA_CONSTANT_ASSERT(ap(just(f), nothing) == nothing);
-    BOOST_HANA_CONSTANT_ASSERT(ap(nothing, nothing) == nothing);
+    BOOST_HANA_CONSTEXPR_CHECK(ap(just(f), just('x')) == just(f('x')));
+    BOOST_HANA_CONSTANT_CHECK(ap(nothing, just('x')) == nothing);
+    BOOST_HANA_CONSTANT_CHECK(ap(just(f), nothing) == nothing);
+    BOOST_HANA_CONSTANT_CHECK(ap(nothing, nothing) == nothing);
     //! [main]
 }

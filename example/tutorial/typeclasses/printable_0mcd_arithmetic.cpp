@@ -64,11 +64,11 @@ struct Printable::instance<T, when<std::is_arithmetic<T>::value>> {
 int main() {
     //! [print_int]
 print(std::cout, 2);
-BOOST_HANA_RUNTIME_ASSERT(to_string(2) == "2");
+BOOST_HANA_RUNTIME_CHECK(to_string(2) == "2");
     //! [print_int]
 
     //! [print_double]
 print(std::cout, 2.2);
-BOOST_HANA_RUNTIME_ASSERT(to_string(2.2) == "2.2");
+BOOST_HANA_RUNTIME_CHECK(to_string(2.2) == "2.2");
     //! [print_double]
 }

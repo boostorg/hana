@@ -78,24 +78,24 @@ int main() {
 
         // equal
         {
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(x, x));
-            BOOST_HANA_CONSTEXPR_ASSERT(not_(equal(x, y)));
+            BOOST_HANA_CONSTEXPR_CHECK(equal(x, x));
+            BOOST_HANA_CONSTEXPR_CHECK(not_(equal(x, y)));
         }
 
         // not_equal
         {
-            BOOST_HANA_CONSTEXPR_ASSERT(not_equal(x, y));
-            BOOST_HANA_CONSTEXPR_ASSERT(not_(not_equal(x, x)));
+            BOOST_HANA_CONSTEXPR_CHECK(not_equal(x, y));
+            BOOST_HANA_CONSTEXPR_CHECK(not_(not_equal(x, x)));
         }
 
         // comparing
         {
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 comparing(f)(x, x),
                 equal(f(x), f(x))
             ));
 
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 comparing(f)(x, y),
                 equal(f(x), f(y))
             ));
@@ -104,12 +104,12 @@ int main() {
         // operators
         {
             using namespace boost::hana::operators;
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 x == y,
                 equal(x, y)
             ));
 
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 x != y,
                 not_equal(x, y)
             ));
@@ -125,56 +125,56 @@ int main() {
 
         // less
         {
-            BOOST_HANA_CONSTEXPR_ASSERT(less(ord(0), ord(1)));
-            BOOST_HANA_CONSTEXPR_ASSERT(not_(less(ord(0), ord(0))));
-            BOOST_HANA_CONSTEXPR_ASSERT(not_(less(ord(1), ord(0))));
+            BOOST_HANA_CONSTEXPR_CHECK(less(ord(0), ord(1)));
+            BOOST_HANA_CONSTEXPR_CHECK(not_(less(ord(0), ord(0))));
+            BOOST_HANA_CONSTEXPR_CHECK(not_(less(ord(1), ord(0))));
         }
 
         // less_equal
         {
-            BOOST_HANA_CONSTEXPR_ASSERT(less_equal(ord(0), ord(1)));
-            BOOST_HANA_CONSTEXPR_ASSERT(less_equal(ord(0), ord(0)));
-            BOOST_HANA_CONSTEXPR_ASSERT(not_(less_equal(ord(1), ord(0))));
+            BOOST_HANA_CONSTEXPR_CHECK(less_equal(ord(0), ord(1)));
+            BOOST_HANA_CONSTEXPR_CHECK(less_equal(ord(0), ord(0)));
+            BOOST_HANA_CONSTEXPR_CHECK(not_(less_equal(ord(1), ord(0))));
         }
 
         // greater_equal
         {
-            BOOST_HANA_CONSTEXPR_ASSERT(greater_equal(ord(1), ord(0)));
-            BOOST_HANA_CONSTEXPR_ASSERT(greater_equal(ord(0), ord(0)));
-            BOOST_HANA_CONSTEXPR_ASSERT(not_(greater_equal(ord(0), ord(1))));
+            BOOST_HANA_CONSTEXPR_CHECK(greater_equal(ord(1), ord(0)));
+            BOOST_HANA_CONSTEXPR_CHECK(greater_equal(ord(0), ord(0)));
+            BOOST_HANA_CONSTEXPR_CHECK(not_(greater_equal(ord(0), ord(1))));
         }
 
         // greater
         {
-            BOOST_HANA_CONSTEXPR_ASSERT(greater(ord(1), ord(0)));
-            BOOST_HANA_CONSTEXPR_ASSERT(not_(greater(ord(0), ord(0))));
-            BOOST_HANA_CONSTEXPR_ASSERT(not_(greater(ord(0), ord(1))));
+            BOOST_HANA_CONSTEXPR_CHECK(greater(ord(1), ord(0)));
+            BOOST_HANA_CONSTEXPR_CHECK(not_(greater(ord(0), ord(0))));
+            BOOST_HANA_CONSTEXPR_CHECK(not_(greater(ord(0), ord(1))));
         }
 
         // max
         {
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 max(ord(0), ord(0)), ord(0)
             ));
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 max(ord(1), ord(0)), ord(1)
             ));
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 max(ord(0), ord(1)), ord(1)
             ));
         }
 
         // min
         {
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 min(ord(0), ord(0)),
                 ord(0)
             ));
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 min(ord(1), ord(0)),
                 ord(0)
             ));
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 min(ord(0), ord(1)),
                 ord(0)
             ));
@@ -182,17 +182,17 @@ int main() {
 
         // ordering
         {
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 ordering(f)(ord(1), ord(0)),
                 less(f(ord(1)), f(ord(0)))
             ));
 
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 ordering(f)(ord(0), ord(1)),
                 less(f(ord(0)), f(ord(1)))
             ));
 
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 ordering(f)(ord(0), ord(0)),
                 less(f(ord(0)), f(ord(0)))
             ));
@@ -201,22 +201,22 @@ int main() {
         // operators
         {
             using namespace boost::hana::operators;
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 ord(0) < ord(1),
                 less(ord(0), ord(1))
             ));
 
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 ord(0) <= ord(1),
                 less_equal(ord(0), ord(1))
             ));
 
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 ord(0) > ord(1),
                 greater(ord(0), ord(1))
             ));
 
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 ord(0) >= ord(1),
                 greater_equal(ord(0), ord(1))
             ));
@@ -227,12 +227,12 @@ int main() {
     {
         // succ
         {
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 succ(test::numeric(0)),
                 test::numeric(1)
             ));
 
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 succ(test::numeric(1)),
                 test::numeric(2)
             ));
@@ -240,12 +240,12 @@ int main() {
 
         // pred
         {
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 pred(test::numeric(1)),
                 test::numeric(0)
             ));
 
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 pred(test::numeric(2)),
                 test::numeric(1)
             ));
@@ -258,14 +258,14 @@ int main() {
 
         // zero
         {
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 zero<test::Numeric>, test::numeric(0)
             ));
         }
 
         // plus
         {
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 plus(test::numeric(x), test::numeric(y)),
                 test::numeric(x + y)
             ));
@@ -274,7 +274,7 @@ int main() {
         // operators
         {
             using namespace boost::hana::operators;
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 test::numeric(x) + test::numeric(y),
                 plus(test::numeric(x), test::numeric(y))
             ));
@@ -287,7 +287,7 @@ int main() {
 
         // minus
         {
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 minus(test::numeric(x), test::numeric(y)),
                 test::numeric(x - y)
             ));
@@ -295,7 +295,7 @@ int main() {
 
         // negate
         {
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 negate(test::numeric(x)),
                 test::numeric(-x)
             ));
@@ -304,12 +304,12 @@ int main() {
         // operators
         {
             using namespace boost::hana::operators;
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 test::numeric(x) - test::numeric(y),
                 minus(test::numeric(x), test::numeric(y))
             ));
 
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 -test::numeric(x),
                 negate(test::numeric(x))
             ));
@@ -322,7 +322,7 @@ int main() {
 
         // one
         {
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 one<test::Numeric>,
                 test::numeric(1)
             ));
@@ -330,7 +330,7 @@ int main() {
 
         // mult
         {
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 mult(test::numeric(x), test::numeric(y)),
                 test::numeric(x * y)
             ));
@@ -338,22 +338,22 @@ int main() {
 
         // power
         {
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 power(test::numeric(x), zero<test::CNumeric>),
                 one<test::Numeric>
             ));
 
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 power(test::numeric(x), one<test::CNumeric>),
                 test::numeric(x)
             ));
 
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 power(test::numeric(x), test::cnumeric<int, 2>),
                 mult(test::numeric(x), test::numeric(x))
             ));
 
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 power(test::numeric(x), test::cnumeric<int, 3>),
                 mult(mult(test::numeric(x), test::numeric(x)), test::numeric(x))
             ));
@@ -362,7 +362,7 @@ int main() {
         // operators
         {
             using namespace boost::hana::operators;
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 test::numeric(x) * test::numeric(y),
                 mult(test::numeric(x), test::numeric(y))
             ));
@@ -375,12 +375,12 @@ int main() {
 
         // quot
         {
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 quot(test::numeric(x), test::numeric(y)),
                 test::numeric(x / y)
             ));
 
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 quot(test::numeric(x), test::numeric(z)),
                  test::numeric(x/ z)
             ));
@@ -388,12 +388,12 @@ int main() {
 
         // mod
         {
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 mod(test::numeric(x), test::numeric(y)),
                 test::numeric(x % y)
             ));
 
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 mod(test::numeric(x), test::numeric(z)),
                 test::numeric(x % z)
             ));
@@ -402,12 +402,12 @@ int main() {
         // operators
         {
             using namespace boost::hana::operators;
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 test::numeric(x) % test::numeric(y),
                 mod(test::numeric(x), test::numeric(y))
             ));
 
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 test::numeric(x) / test::numeric(y),
                 quot(test::numeric(x), test::numeric(y))
             ));
@@ -421,7 +421,7 @@ int main() {
 
         // not_
         {
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 not_(logical(true)),
                 logical(false)
             ));
@@ -429,41 +429,41 @@ int main() {
 
         // and_
         {
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 and_(logical(true)),
                 logical(true)
             ));
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 and_(logical(false)),
                 logical(false)
             ));
 
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 and_(logical(true), logical(true)),
                 logical(true)
             ));
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 and_(logical(true), logical(false)),
                 logical(false)
             ));
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 and_(logical(false), invalid{}),
                 logical(false)
             ));
 
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 and_(logical(true), logical(true), logical(true)),
                 logical(true)
             ));
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 and_(logical(true), logical(true), logical(false)),
                 logical(false)
             ));
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 and_(logical(true), logical(false), invalid{}),
                 logical(false)
             ));
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 and_(logical(false), invalid{}, invalid{}),
                 logical(false)
             ));
@@ -471,41 +471,41 @@ int main() {
 
         // or_
         {
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 or_(logical(true)),
                 logical(true)
             ));
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 or_(logical(false)),
                 logical(false)
             ));
 
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 or_(logical(false), logical(false)),
                 logical(false)
             ));
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 or_(logical(false), logical(true)),
                 logical(true)
             ));
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 or_(logical(true), invalid{}),
                 logical(true)
             ));
 
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 or_(logical(false), logical(false), logical(false)),
                 logical(false)
             ));
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 or_(logical(false), logical(false), logical(true)),
                 logical(true)
             ));
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 or_(logical(false), logical(true), invalid{}),
                 logical(true)
             ));
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 or_(logical(true), invalid{}, invalid{}),
                 logical(true)
             ));
@@ -513,12 +513,12 @@ int main() {
 
         // if_
         {
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 if_(logical(true), comparable(0), comparable(1)),
                 comparable(0)
             ));
 
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 if_(logical(false), comparable(0), comparable(1)),
                 comparable(1)
             ));
@@ -529,12 +529,12 @@ int main() {
             auto t = [=](auto) { return comparable(0); };
             auto e = [=](auto) { return comparable(1); };
 
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 eval_if(logical(true), t, e),
                 comparable(0)
             ));
 
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 eval_if(logical(false), t, e),
                 comparable(1)
             ));
@@ -543,17 +543,17 @@ int main() {
         // operators
         {
             using namespace boost::hana::operators;
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 !logical(true),
                 not_(logical(true))
             ));
 
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 logical(true) && logical(true),
                 and_(logical(true), logical(true))
             ));
 
-            BOOST_HANA_CONSTEXPR_ASSERT(equal(
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
                 logical(false) || logical(false),
                 or_(logical(false), logical(false))
             ));

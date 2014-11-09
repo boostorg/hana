@@ -58,12 +58,12 @@ int main() {
         auto functor = test::identity;
         // adjust
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 adjust(functor(x<0>), always(cnumeric<bool, true>), f),
                 functor(f(x<0>))
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 adjust(functor(x<0>), always(cnumeric<bool, false>), f),
                 functor(x<0>)
             ));
@@ -71,7 +71,7 @@ int main() {
 
         // fill
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 fill(functor(x<0>), x<1>),
                 functor(x<1>)
             ));
@@ -79,7 +79,7 @@ int main() {
 
         // fmap
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 fmap(functor(x<0>), f),
                 functor(f(x<0>))
             ));
@@ -87,12 +87,12 @@ int main() {
 
         // replace
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 replace(functor(x<0>), always(cnumeric<bool, true>), x<1>),
                 functor(x<1>)
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 replace(functor(x<0>), always(cnumeric<bool, false>), x<1>),
                 functor(x<0>)
             ));
@@ -106,22 +106,22 @@ int main() {
 
         // ap
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 ap(a(f), a(x<0>)),
                 a(f(x<0>))
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 ap(a(f), a(x<0>), a(x<1>)),
                 a(f(x<0>, x<1>))
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 ap(a(f), a(x<0>), a(x<1>), a(x<2>)),
                 a(f(x<0>, x<1>, x<2>))
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 ap(a(f), a(x<0>), a(x<1>), a(x<2>), a(x<3>)),
                 a(f(x<0>, x<1>, x<2>, x<3>))
             ));
@@ -129,7 +129,7 @@ int main() {
 
         // lift
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 lift<A>(x<0>),
                 a(x<0>)
             ));
@@ -145,7 +145,7 @@ int main() {
 
         // bind
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 bind(monad(x<1>), f),
                 f(x<1>)
             ));
@@ -155,17 +155,17 @@ int main() {
         {
             bool executed = false;
             auto exec = [&](auto) { executed = true; };
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 bind(monad(x<0>), tap<M>(exec)),
                 monad(x<0>)
             ));
-            BOOST_HANA_RUNTIME_ASSERT(executed);
+            BOOST_HANA_RUNTIME_CHECK(executed);
         }
 
         // then
         {
             struct invalid { };
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 then(monad(invalid{}), monad(x<0>)),
                 monad(x<0>)
             ));
@@ -175,12 +175,12 @@ int main() {
         {
             using namespace boost::hana::operators;
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 monad(x<1>) | f,
                 bind(monad(x<1>), f)
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 monad(x<1>) | f | g,
                 bind(bind(monad(x<1>), f), g)
             ));

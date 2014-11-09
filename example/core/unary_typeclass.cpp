@@ -66,12 +66,12 @@ struct Incrementable::instance<T, hana::when<std::is_floating_point<T>{}>>
 };
 
 int main() {
-    BOOST_HANA_CONSTEXPR_ASSERT(next(1) == 2);
-    BOOST_HANA_CONSTEXPR_ASSERT(next_n(1, 3) == 4);
+    BOOST_HANA_CONSTEXPR_CHECK(next(1) == 2);
+    BOOST_HANA_CONSTEXPR_CHECK(next_n(1, 3) == 4);
 
-    BOOST_HANA_CONSTEXPR_ASSERT(next(1l) == 2l);
-    BOOST_HANA_CONSTEXPR_ASSERT(next_n(1l, 3) == 4l);
+    BOOST_HANA_CONSTEXPR_CHECK(next(1l) == 2l);
+    BOOST_HANA_CONSTEXPR_CHECK(next_n(1l, 3) == 4l);
 
-    BOOST_HANA_CONSTEXPR_ASSERT(next(1.0) == 2.0);
-    BOOST_HANA_CONSTEXPR_ASSERT(next_n(1.0, 3) == 4.0);
+    BOOST_HANA_CONSTEXPR_CHECK(next(1.0) == 2.0);
+    BOOST_HANA_CONSTEXPR_CHECK(next_n(1.0, 3) == 4.0);
 }

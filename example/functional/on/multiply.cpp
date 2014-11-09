@@ -21,6 +21,6 @@ int main() {
         return x * y;
     };
 
-    BOOST_HANA_CONSTEXPR_ASSERT(on(multiply, increment)(2, 4) == 3 * 5);
+    BOOST_HANA_CONSTEXPR_CHECK(on(multiply, increment)(2, 4) == 3 * 5);
     //! [main]
 }

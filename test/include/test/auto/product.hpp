@@ -29,21 +29,21 @@ namespace boost { namespace hana { namespace test {
         {
             // first
             {
-                BOOST_HANA_CONSTANT_ASSERT(equal(
+                BOOST_HANA_CONSTANT_CHECK(equal(
                     first(prod(x<0>, x<1>)), x<0>
                 ));
             }
 
             // second
             {
-                BOOST_HANA_CONSTANT_ASSERT(equal(
+                BOOST_HANA_CONSTANT_CHECK(equal(
                     second(prod(x<0>, x<1>)), x<1>
                 ));
             }
 
             // make
             {
-                BOOST_HANA_CONSTANT_ASSERT(equal(
+                BOOST_HANA_CONSTANT_CHECK(equal(
                     prod(x<0>, x<1>),
                     make<P>(x<0>, x<1>)
                 ));
@@ -56,16 +56,16 @@ namespace boost { namespace hana { namespace test {
 
             // equal
             {
-                BOOST_HANA_CONSTANT_ASSERT(equal(
+                BOOST_HANA_CONSTANT_CHECK(equal(
                     prod(x<0>, x<1>), prod(x<0>, x<1>)
                 ));
-                BOOST_HANA_CONSTANT_ASSERT(not_(equal(
+                BOOST_HANA_CONSTANT_CHECK(not_(equal(
                     prod(x<0>, x<1>), prod(x<9>, x<1>)
                 )));
-                BOOST_HANA_CONSTANT_ASSERT(not_(equal(
+                BOOST_HANA_CONSTANT_CHECK(not_(equal(
                     prod(x<0>, x<1>), prod(x<0>, x<9>)
                 )));
-                BOOST_HANA_CONSTANT_ASSERT(not_(equal(
+                BOOST_HANA_CONSTANT_CHECK(not_(equal(
                     prod(x<0>, x<1>), prod(x<9>, x<9>)
                 )));
             }
@@ -78,7 +78,7 @@ namespace boost { namespace hana { namespace test {
 
             // unpack
             {
-                BOOST_HANA_CONSTANT_ASSERT(equal(
+                BOOST_HANA_CONSTANT_CHECK(equal(
                     unpack(prod(x<0>, x<1>), f),
                     f(x<0>, x<1>)
                 ));

@@ -25,12 +25,12 @@ namespace boost { namespace hana { namespace test {
         auto s = injection([]{})();
 
         for_each(objects<T>, [=](auto xs) {
-            BOOST_HANA_ASSERT(equal(
+            BOOST_HANA_CHECK(equal(
                 foldl(xs, s, f),
                 foldl(to<Tuple>(xs), s, f)
             ));
 
-            BOOST_HANA_ASSERT(equal(
+            BOOST_HANA_CHECK(equal(
                 foldr(xs, s, f),
                 foldr(to<Tuple>(xs), s, f)
             ));

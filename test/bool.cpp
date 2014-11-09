@@ -38,11 +38,11 @@ int main() {
     {
         // equal
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(true_, true_));
-            BOOST_HANA_CONSTANT_ASSERT(equal(false_, false_));
+            BOOST_HANA_CONSTANT_CHECK(equal(true_, true_));
+            BOOST_HANA_CONSTANT_CHECK(equal(false_, false_));
 
-            BOOST_HANA_CONSTANT_ASSERT(not_(equal(false_, true_)));
-            BOOST_HANA_CONSTANT_ASSERT(not_(equal(true_, false_)));
+            BOOST_HANA_CONSTANT_CHECK(not_(equal(false_, true_)));
+            BOOST_HANA_CONSTANT_CHECK(not_(equal(true_, false_)));
         }
     }
 
@@ -63,19 +63,19 @@ int main() {
 
         // eval_if
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 eval_if(true_, t, e), x<0>
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 eval_if(false_, t, e), x<1>
             ));
         }
 
         // not_
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(not_(true_), false_));
-            BOOST_HANA_CONSTANT_ASSERT(equal(not_(false_), true_));
+            BOOST_HANA_CONSTANT_CHECK(equal(not_(true_), false_));
+            BOOST_HANA_CONSTANT_CHECK(equal(not_(false_), true_));
         }
     }
 }

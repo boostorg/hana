@@ -14,6 +14,6 @@ using namespace boost::hana;
 
 int main() {
     constexpr std::tuple<int, char, float> xs{1, '2', 3.0f};
-    BOOST_HANA_CONSTEXPR_ASSERT(head(xs) == 1);
+    BOOST_HANA_CONSTEXPR_CHECK(head(xs) == 1);
 }
 //! [main]

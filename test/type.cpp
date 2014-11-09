@@ -47,15 +47,15 @@ int main() {
     {
         // decltype_
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(decltype_(1), type<int>));
-            BOOST_HANA_CONSTANT_ASSERT(equal(decltype_('1'), type<char>));
-            BOOST_HANA_CONSTANT_ASSERT(equal(decltype_(T{}), type<T>));
+            BOOST_HANA_CONSTANT_CHECK(equal(decltype_(1), type<int>));
+            BOOST_HANA_CONSTANT_CHECK(equal(decltype_('1'), type<char>));
+            BOOST_HANA_CONSTANT_CHECK(equal(decltype_(T{}), type<T>));
         }
 
         // sizeof_
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(sizeof_(type<int>), size_t<sizeof(int)>));
-            BOOST_HANA_CONSTANT_ASSERT(equal(sizeof_(type<T>), size_t<sizeof(T)>));
+            BOOST_HANA_CONSTANT_CHECK(equal(sizeof_(type<int>), size_t<sizeof(int)>));
+            BOOST_HANA_CONSTANT_CHECK(equal(sizeof_(type<T>), size_t<sizeof(T)>));
         }
 
         // nested ::type
@@ -70,10 +70,10 @@ int main() {
             auto&& rref = type<T>;
             auto val = type<T>;
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(val, +val));
-            BOOST_HANA_CONSTANT_ASSERT(equal(val, +ref));
-            BOOST_HANA_CONSTANT_ASSERT(equal(val, +cref));
-            BOOST_HANA_CONSTANT_ASSERT(equal(val, +rref));
+            BOOST_HANA_CONSTANT_CHECK(equal(val, +val));
+            BOOST_HANA_CONSTANT_CHECK(equal(val, +ref));
+            BOOST_HANA_CONSTANT_CHECK(equal(val, +cref));
+            BOOST_HANA_CONSTANT_CHECK(equal(val, +rref));
 
             static_assert(!std::is_reference<decltype(+val)>{}, "");
             static_assert(!std::is_reference<decltype(+ref)>{}, "");
@@ -91,16 +91,16 @@ int main() {
     {
         // equal
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(type<T>, type<T>));
-            BOOST_HANA_CONSTANT_ASSERT(not_(equal(type<T>, type<U>)));
-            BOOST_HANA_CONSTANT_ASSERT(not_(equal(type<void>, type<U>)));
-            BOOST_HANA_CONSTANT_ASSERT(not_(equal(type<T>, type<void>)));
-            BOOST_HANA_CONSTANT_ASSERT(equal(type<void>, type<void>));
+            BOOST_HANA_CONSTANT_CHECK(equal(type<T>, type<T>));
+            BOOST_HANA_CONSTANT_CHECK(not_(equal(type<T>, type<U>)));
+            BOOST_HANA_CONSTANT_CHECK(not_(equal(type<void>, type<U>)));
+            BOOST_HANA_CONSTANT_CHECK(not_(equal(type<T>, type<void>)));
+            BOOST_HANA_CONSTANT_CHECK(equal(type<void>, type<void>));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(type<T&>, type<T&>));
-            BOOST_HANA_CONSTANT_ASSERT(not_(equal(type<T&>, type<T&&>)));
-            BOOST_HANA_CONSTANT_ASSERT(not_(equal(type<T const>, type<T>)));
-            BOOST_HANA_CONSTANT_ASSERT(equal(type<T const>, type<T const>));
+            BOOST_HANA_CONSTANT_CHECK(equal(type<T&>, type<T&>));
+            BOOST_HANA_CONSTANT_CHECK(not_(equal(type<T&>, type<T&&>)));
+            BOOST_HANA_CONSTANT_CHECK(not_(equal(type<T const>, type<T>)));
+            BOOST_HANA_CONSTANT_CHECK(equal(type<T const>, type<T const>));
         }
     }
 }

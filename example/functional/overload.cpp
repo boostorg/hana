@@ -27,9 +27,9 @@ int main() {
     auto f = overload(on_int, on_string);
 
     // prints "matched int: 1"
-    BOOST_HANA_ASSERT(f(1) == 1);
+    BOOST_HANA_CHECK(f(1) == 1);
 
     // prints "matched std::string: abcdef"
-    BOOST_HANA_ASSERT(f("abcdef") == std::string{"abcdef"});
+    BOOST_HANA_CHECK(f("abcdef") == std::string{"abcdef"});
 }
 //! [main]

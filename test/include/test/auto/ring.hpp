@@ -26,22 +26,22 @@ namespace boost { namespace hana { namespace test {
         laws<Group, R>();
 
         for_each(objects<R>, [](auto x) {
-            BOOST_HANA_ASSERT(equal(
+            BOOST_HANA_CHECK(equal(
                 mult(one<R>, x), x
             ));
 
-            BOOST_HANA_ASSERT(equal(
+            BOOST_HANA_CHECK(equal(
                 mult(x, one<R>), x
             ));
 
             for_each(objects<R>, [=](auto y) {
                 for_each(objects<R>, [=](auto z) {
-                    BOOST_HANA_ASSERT(equal(
+                    BOOST_HANA_CHECK(equal(
                         mult(x, mult(y, z)),
                         mult(mult(x, y), z)
                     ));
 
-                    BOOST_HANA_ASSERT(equal(
+                    BOOST_HANA_CHECK(equal(
                         mult(x, plus(y, z)),
                         plus(mult(x, y), mult(x, z))
                     ));

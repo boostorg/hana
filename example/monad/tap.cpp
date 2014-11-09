@@ -21,8 +21,8 @@ int main() {
         | [](auto x) { return tuple(x, -x); }
         | tap<Tuple>([&](auto x) { after << x << ' '; });
 
-    BOOST_HANA_RUNTIME_ASSERT(before.str() == "1 2 3 ");
-    BOOST_HANA_RUNTIME_ASSERT(after.str() == "1 -1 2 -2 3 -3 ");
-    BOOST_HANA_RUNTIME_ASSERT(xs == tuple(1, -1, 2, -2, 3, -3));
+    BOOST_HANA_RUNTIME_CHECK(before.str() == "1 2 3 ");
+    BOOST_HANA_RUNTIME_CHECK(after.str() == "1 -1 2 -2 3 -3 ");
+    BOOST_HANA_RUNTIME_CHECK(xs == tuple(1, -1, 2, -2, 3, -3));
     //! [main]
 }

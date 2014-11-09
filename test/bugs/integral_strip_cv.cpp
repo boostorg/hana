@@ -13,15 +13,15 @@ using namespace boost::hana;
 
 template <typename T>
 constexpr void test_for() {
-    BOOST_HANA_CONSTANT_ASSERT(equal(
+    BOOST_HANA_CONSTANT_CHECK(equal(
         decltype_(integral<T const, 0>),
         decltype_(integral<T, 0>)
     ));
-    BOOST_HANA_CONSTANT_ASSERT(equal(
+    BOOST_HANA_CONSTANT_CHECK(equal(
         decltype_(integral<T volatile, 0>),
         decltype_(integral<T, 0>)
     ));
-    BOOST_HANA_CONSTANT_ASSERT(equal(
+    BOOST_HANA_CONSTANT_CHECK(equal(
         decltype_(integral<T const volatile, 0>),
         decltype_(integral<T, 0>)
     ));

@@ -99,15 +99,15 @@ int main() {
     {
         // head
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 head(::boost::mpl::vector<x1>{}),
                 type<x1>
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 head(::boost::mpl::vector<x1, x2>{}),
                 type<x1>
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 head(::boost::mpl::vector<x1, x2, x3>{}),
                 type<x1>
             ));
@@ -115,15 +115,15 @@ int main() {
 
         // tail
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 tail(::boost::mpl::vector<x1>{}),
                 ::boost::mpl::vector<>{}
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 tail(::boost::mpl::vector<x1, x2>{}),
                 ::boost::mpl::vector<x2>{}
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 tail(::boost::mpl::vector<x1, x2, x3>{}),
                 ::boost::mpl::vector<x2, x3>{}
             ));
@@ -131,14 +131,14 @@ int main() {
 
         // is_empty
         {
-            BOOST_HANA_CONSTANT_ASSERT(is_empty(::boost::mpl::vector<>{}));
-            BOOST_HANA_CONSTANT_ASSERT(is_empty(::boost::mpl::vector0<>{}));
+            BOOST_HANA_CONSTANT_CHECK(is_empty(::boost::mpl::vector<>{}));
+            BOOST_HANA_CONSTANT_CHECK(is_empty(::boost::mpl::vector0<>{}));
 
-            BOOST_HANA_CONSTANT_ASSERT(not_(is_empty(::boost::mpl::vector<x1>{})));
-            BOOST_HANA_CONSTANT_ASSERT(not_(is_empty(::boost::mpl::vector1<x1>{})));
+            BOOST_HANA_CONSTANT_CHECK(not_(is_empty(::boost::mpl::vector<x1>{})));
+            BOOST_HANA_CONSTANT_CHECK(not_(is_empty(::boost::mpl::vector1<x1>{})));
 
-            BOOST_HANA_CONSTANT_ASSERT(not_(is_empty(::boost::mpl::vector<x1, x2>{})));
-            BOOST_HANA_CONSTANT_ASSERT(not_(is_empty(::boost::mpl::vector2<x1, x2>{})));
+            BOOST_HANA_CONSTANT_CHECK(not_(is_empty(::boost::mpl::vector<x1, x2>{})));
+            BOOST_HANA_CONSTANT_CHECK(not_(is_empty(::boost::mpl::vector2<x1, x2>{})));
         }
     }
 
@@ -146,15 +146,15 @@ int main() {
     {
         // cons
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 cons(type<x1>, ::boost::mpl::vector<>{}),
                 ::boost::mpl::vector<x1>{}
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 cons(type<x1>, ::boost::mpl::vector<x2>{}),
                 ::boost::mpl::vector<x1, x2>{}
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 cons(type<x1>, ::boost::mpl::vector<x2, x3>{}),
                 ::boost::mpl::vector<x1, x2, x3>{}
             ));
@@ -162,11 +162,11 @@ int main() {
 
         // nil
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 nil<ext::boost::mpl::Vector>,
                 ::boost::mpl::vector<>{}
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 nil<ext::boost::mpl::Vector>,
                 ::boost::mpl::vector0<>{}
             ));

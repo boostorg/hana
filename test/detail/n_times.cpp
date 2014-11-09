@@ -16,7 +16,7 @@ void check() {
     detail::n_times<n>([&] {
         ++counter;
     });
-    BOOST_HANA_RUNTIME_ASSERT(counter == n);
+    BOOST_HANA_RUNTIME_CHECK(counter == n);
 }
 
 int main() {

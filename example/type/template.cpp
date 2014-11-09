@@ -16,9 +16,9 @@ template <typename ...> struct f;
 struct x;
 struct y;
 
-BOOST_HANA_CONSTANT_ASSERT(template_<f>() == type<f<>>);
-BOOST_HANA_CONSTANT_ASSERT(template_<f>(type<x>) == type<f<x>>);
-BOOST_HANA_CONSTANT_ASSERT(template_<f>(type<x>, type<y>) == type<f<x, y>>);
+BOOST_HANA_CONSTANT_CHECK(template_<f>() == type<f<>>);
+BOOST_HANA_CONSTANT_CHECK(template_<f>(type<x>) == type<f<x>>);
+BOOST_HANA_CONSTANT_CHECK(template_<f>(type<x>, type<y>) == type<f<x, y>>);
 
 static_assert(std::is_same<
     decltype(template_<f>)::apply<x, y>::type,

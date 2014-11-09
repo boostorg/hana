@@ -18,43 +18,43 @@ auto check = [](auto reverse_apply) {
     using test::x;
     auto f = test::injection([]{});
 
-    BOOST_HANA_CONSTANT_ASSERT(equal(
+    BOOST_HANA_CONSTANT_CHECK(equal(
         reverse_apply(f),
         f()
     ));
-    BOOST_HANA_CONSTANT_ASSERT(equal(
+    BOOST_HANA_CONSTANT_CHECK(equal(
         reverse_apply(f, x<0>),
         f(x<0>)
     ));
-    BOOST_HANA_CONSTANT_ASSERT(equal(
+    BOOST_HANA_CONSTANT_CHECK(equal(
         reverse_apply(f, x<0>, x<1>),
         f(x<1>, x<0>)
     ));
-    BOOST_HANA_CONSTANT_ASSERT(equal(
+    BOOST_HANA_CONSTANT_CHECK(equal(
         reverse_apply(f, x<0>, x<1>, x<2>),
         f(x<2>, x<1>, x<0>)
     ));
-    BOOST_HANA_CONSTANT_ASSERT(equal(
+    BOOST_HANA_CONSTANT_CHECK(equal(
         reverse_apply(f, x<0>, x<1>, x<2>, x<3>),
         f(x<3>, x<2>, x<1>, x<0>)
     ));
-    BOOST_HANA_CONSTANT_ASSERT(equal(
+    BOOST_HANA_CONSTANT_CHECK(equal(
         reverse_apply(f, x<0>, x<1>, x<2>, x<3>, x<4>),
         f(x<4>, x<3>, x<2>, x<1>, x<0>)
     ));
-    BOOST_HANA_CONSTANT_ASSERT(equal(
+    BOOST_HANA_CONSTANT_CHECK(equal(
         reverse_apply(f, x<0>, x<1>, x<2>, x<3>, x<4>, x<5>),
         f(x<5>, x<4>, x<3>, x<2>, x<1>, x<0>)
     ));
-    BOOST_HANA_CONSTANT_ASSERT(equal(
+    BOOST_HANA_CONSTANT_CHECK(equal(
         reverse_apply(f, x<0>, x<1>, x<2>, x<3>, x<4>, x<5>, x<6>),
         f(x<6>, x<5>, x<4>, x<3>, x<2>, x<1>, x<0>)
     ));
-    BOOST_HANA_CONSTANT_ASSERT(equal(
+    BOOST_HANA_CONSTANT_CHECK(equal(
         reverse_apply(f, x<0>, x<1>, x<2>, x<3>, x<4>, x<5>, x<6>, x<7>),
         f(x<7>, x<6>, x<5>, x<4>, x<3>, x<2>, x<1>, x<0>)
     ));
-    BOOST_HANA_CONSTANT_ASSERT(equal(
+    BOOST_HANA_CONSTANT_CHECK(equal(
         reverse_apply(f, x<0>, x<1>, x<2>, x<3>, x<4>, x<5>, x<6>, x<7>, x<8>),
         f(x<8>, x<7>, x<6>, x<5>, x<4>, x<3>, x<2>, x<1>, x<0>)
     ));

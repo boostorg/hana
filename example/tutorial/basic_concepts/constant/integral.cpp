@@ -41,15 +41,15 @@ namespace anon2 {
 //! [literals]
 using namespace literals; // <-- mandatory to use the _c suffix!
 
-BOOST_HANA_CONSTANT_ASSERT(1234_c == llong<1234>);
-BOOST_HANA_CONSTANT_ASSERT(-1234_c == llong<-1234>);
+BOOST_HANA_CONSTANT_CHECK(1234_c == llong<1234>);
+BOOST_HANA_CONSTANT_CHECK(-1234_c == llong<-1234>);
 //! [literals]
 }
 
 //! [integral_operators]
-BOOST_HANA_CONSTANT_ASSERT(int_<1> == integral<int, 1>);
-BOOST_HANA_CONSTANT_ASSERT(int_<1> + long_<2> == long_<3>);
-BOOST_HANA_CONSTANT_ASSERT(!(bool_<true> && bool_<false>));
+BOOST_HANA_CONSTANT_CHECK(int_<1> == integral<int, 1>);
+BOOST_HANA_CONSTANT_CHECK(int_<1> + long_<2> == long_<3>);
+BOOST_HANA_CONSTANT_CHECK(!(bool_<true> && bool_<false>));
 //! [integral_operators]
 
 int main() { }

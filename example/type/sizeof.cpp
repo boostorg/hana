@@ -12,7 +12,7 @@ using namespace boost::hana;
 int main() {
     //! [main]
     struct X { };
-    BOOST_HANA_CONSTEXPR_ASSERT(sizeof_(type<X>) == sizeof(X));
-    BOOST_HANA_CONSTEXPR_ASSERT(sizeof_(type<int>) == sizeof(int));
+    BOOST_HANA_CONSTEXPR_CHECK(sizeof_(type<X>) == sizeof(X));
+    BOOST_HANA_CONSTEXPR_CHECK(sizeof_(type<int>) == sizeof(int));
     //! [main]
 }

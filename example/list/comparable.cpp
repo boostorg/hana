@@ -12,7 +12,7 @@ using namespace boost::hana;
 
 int main() {
     //! [main]
-    BOOST_HANA_CONSTEXPR_ASSERT(tuple(1, 2, 3) == tuple(1, 2, 3));
-    BOOST_HANA_CONSTEXPR_ASSERT(tuple(1, 2, 3) != tuple(1, 2, 3, 4));
+    BOOST_HANA_CONSTEXPR_CHECK(tuple(1, 2, 3) == tuple(1, 2, 3));
+    BOOST_HANA_CONSTEXPR_CHECK(tuple(1, 2, 3) != tuple(1, 2, 3, 4));
     //! [main]
 }

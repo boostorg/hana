@@ -25,10 +25,10 @@ using namespace boost::hana;
 
 int main() {
     //! [standard]
-    BOOST_HANA_CONSTANT_ASSERT( is_a<Foldable, Maybe>);
-    BOOST_HANA_CONSTANT_ASSERT(!is_a<Logical, Maybe>);
-    BOOST_HANA_CONSTANT_ASSERT(!is_a<Foldable, int>);
-    BOOST_HANA_CONSTANT_ASSERT( are<Comparable, int, long>);
+    BOOST_HANA_CONSTANT_CHECK( is_a<Foldable, Maybe>);
+    BOOST_HANA_CONSTANT_CHECK(!is_a<Logical, Maybe>);
+    BOOST_HANA_CONSTANT_CHECK(!is_a<Foldable, int>);
+    BOOST_HANA_CONSTANT_CHECK( are<Comparable, int, long>);
     //! [standard]
 
     //! [alternate]
@@ -38,7 +38,7 @@ int main() {
             auto row_is_correct = [=](auto row) {
                 return tuple(headers(head(row))...) == tail(row);
             };
-            BOOST_HANA_CONSTANT_ASSERT(all(tuple(rows...), row_is_correct));
+            BOOST_HANA_CONSTANT_CHECK(all(tuple(rows...), row_is_correct));
         };
     };
 

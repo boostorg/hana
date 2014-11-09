@@ -21,25 +21,25 @@ template <int i> constexpr invalid<i> y{};
 using test::x;
 
 int main() {
-    BOOST_HANA_CONSTANT_ASSERT(equal(vd::at<0>(x<0>),    x<0>));
+    BOOST_HANA_CONSTANT_CHECK(equal(vd::at<0>(x<0>),    x<0>));
 
-    BOOST_HANA_CONSTANT_ASSERT(equal(vd::at<0>(x<0>, x<1>),    x<0>));
-    BOOST_HANA_CONSTANT_ASSERT(equal(vd::at<1>(y<0>, x<1>),    x<1>));
+    BOOST_HANA_CONSTANT_CHECK(equal(vd::at<0>(x<0>, x<1>),    x<0>));
+    BOOST_HANA_CONSTANT_CHECK(equal(vd::at<1>(y<0>, x<1>),    x<1>));
 
-    BOOST_HANA_CONSTANT_ASSERT(equal(vd::at<0>(x<0>, y<1>, y<2>),    x<0>));
-    BOOST_HANA_CONSTANT_ASSERT(equal(vd::at<1>(y<0>, x<1>, y<2>),    x<1>));
-    BOOST_HANA_CONSTANT_ASSERT(equal(vd::at<2>(y<0>, y<1>, x<2>),    x<2>));
+    BOOST_HANA_CONSTANT_CHECK(equal(vd::at<0>(x<0>, y<1>, y<2>),    x<0>));
+    BOOST_HANA_CONSTANT_CHECK(equal(vd::at<1>(y<0>, x<1>, y<2>),    x<1>));
+    BOOST_HANA_CONSTANT_CHECK(equal(vd::at<2>(y<0>, y<1>, x<2>),    x<2>));
 
-    BOOST_HANA_CONSTANT_ASSERT(equal(vd::at<0>(x<0>, y<1>, y<2>, y<3>),    x<0>));
-    BOOST_HANA_CONSTANT_ASSERT(equal(vd::at<1>(y<0>, x<1>, y<2>, y<3>),    x<1>));
-    BOOST_HANA_CONSTANT_ASSERT(equal(vd::at<2>(y<0>, y<1>, x<2>, y<3>),    x<2>));
-    BOOST_HANA_CONSTANT_ASSERT(equal(vd::at<3>(y<0>, y<1>, y<2>, x<3>),    x<3>));
+    BOOST_HANA_CONSTANT_CHECK(equal(vd::at<0>(x<0>, y<1>, y<2>, y<3>),    x<0>));
+    BOOST_HANA_CONSTANT_CHECK(equal(vd::at<1>(y<0>, x<1>, y<2>, y<3>),    x<1>));
+    BOOST_HANA_CONSTANT_CHECK(equal(vd::at<2>(y<0>, y<1>, x<2>, y<3>),    x<2>));
+    BOOST_HANA_CONSTANT_CHECK(equal(vd::at<3>(y<0>, y<1>, y<2>, x<3>),    x<3>));
 
-    BOOST_HANA_CONSTANT_ASSERT(equal(vd::at<0>(x<0>, y<1>, y<2>, y<3>, y<4>),    x<0>));
-    BOOST_HANA_CONSTANT_ASSERT(equal(vd::at<1>(y<0>, x<1>, y<2>, y<3>, y<4>),    x<1>));
-    BOOST_HANA_CONSTANT_ASSERT(equal(vd::at<2>(y<0>, y<1>, x<2>, y<3>, y<4>),    x<2>));
-    BOOST_HANA_CONSTANT_ASSERT(equal(vd::at<3>(y<0>, y<1>, y<2>, x<3>, y<4>),    x<3>));
-    BOOST_HANA_CONSTANT_ASSERT(equal(vd::at<4>(y<0>, y<1>, y<2>, y<3>, x<4>),    x<4>));
+    BOOST_HANA_CONSTANT_CHECK(equal(vd::at<0>(x<0>, y<1>, y<2>, y<3>, y<4>),    x<0>));
+    BOOST_HANA_CONSTANT_CHECK(equal(vd::at<1>(y<0>, x<1>, y<2>, y<3>, y<4>),    x<1>));
+    BOOST_HANA_CONSTANT_CHECK(equal(vd::at<2>(y<0>, y<1>, x<2>, y<3>, y<4>),    x<2>));
+    BOOST_HANA_CONSTANT_CHECK(equal(vd::at<3>(y<0>, y<1>, y<2>, x<3>, y<4>),    x<3>));
+    BOOST_HANA_CONSTANT_CHECK(equal(vd::at<4>(y<0>, y<1>, y<2>, y<3>, x<4>),    x<4>));
 
     // make sure we can use non-pods on both side of the fetched object
     vd::at<0>(x<0>, non_pod{});

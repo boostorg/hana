@@ -38,10 +38,10 @@ template <char x, char op, char y>
 auto evaluate = ap(function<op>, digit<x>, digit<y>);
 
 int main() {
-    BOOST_HANA_RUNTIME_ASSERT(evaluate<'1', '+', '2'> == right(1 + 2));
+    BOOST_HANA_RUNTIME_CHECK(evaluate<'1', '+', '2'> == right(1 + 2));
 
-    BOOST_HANA_RUNTIME_ASSERT(evaluate<'?', '+', '2'> == left("? is not a valid digit"));
-    BOOST_HANA_RUNTIME_ASSERT(evaluate<'1', '?', '2'> == left("? is not a valid operation"));
-    BOOST_HANA_RUNTIME_ASSERT(evaluate<'1', '+', '?'> == left("? is not a valid digit"));
-    BOOST_HANA_RUNTIME_ASSERT(evaluate<'?', '?', '?'> == left("? is not a valid operation"));
+    BOOST_HANA_RUNTIME_CHECK(evaluate<'?', '+', '2'> == left("? is not a valid digit"));
+    BOOST_HANA_RUNTIME_CHECK(evaluate<'1', '?', '2'> == left("? is not a valid operation"));
+    BOOST_HANA_RUNTIME_CHECK(evaluate<'1', '+', '?'> == left("? is not a valid digit"));
+    BOOST_HANA_RUNTIME_CHECK(evaluate<'?', '?', '?'> == left("? is not a valid operation"));
 }

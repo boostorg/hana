@@ -24,33 +24,33 @@ int main() {
     with_nonassociative_forward_sequences([=](auto container) {
         // all
         {
-            BOOST_HANA_CONSTANT_ASSERT(all(container(), is_even));
-            BOOST_HANA_RUNTIME_ASSERT(not_(all(container(1), is_even)));
-            BOOST_HANA_RUNTIME_ASSERT(all(container(2), is_even));
-            BOOST_HANA_RUNTIME_ASSERT(all(container(2, 4), is_even));
-            BOOST_HANA_RUNTIME_ASSERT(not_(all(container(1, 2), is_even)));
-            BOOST_HANA_RUNTIME_ASSERT(not_(all(container(1, 3), is_even)));
-            BOOST_HANA_RUNTIME_ASSERT(not_(all(container(1, 3, 4), is_even)));
+            BOOST_HANA_CONSTANT_CHECK(all(container(), is_even));
+            BOOST_HANA_RUNTIME_CHECK(not_(all(container(1), is_even)));
+            BOOST_HANA_RUNTIME_CHECK(all(container(2), is_even));
+            BOOST_HANA_RUNTIME_CHECK(all(container(2, 4), is_even));
+            BOOST_HANA_RUNTIME_CHECK(not_(all(container(1, 2), is_even)));
+            BOOST_HANA_RUNTIME_CHECK(not_(all(container(1, 3), is_even)));
+            BOOST_HANA_RUNTIME_CHECK(not_(all(container(1, 3, 4), is_even)));
         }
 
         // any
         {
-            BOOST_HANA_CONSTANT_ASSERT(not_(any(container(), is_even)));
-            BOOST_HANA_RUNTIME_ASSERT(not_(any(container(1), is_even)));
-            BOOST_HANA_RUNTIME_ASSERT(any(container(2), is_even));
-            BOOST_HANA_RUNTIME_ASSERT(any(container(1, 2), is_even));
-            BOOST_HANA_RUNTIME_ASSERT(not_(any(container(1, 3), is_even)));
-            BOOST_HANA_RUNTIME_ASSERT(any(container(1, 3, 4), is_even));
+            BOOST_HANA_CONSTANT_CHECK(not_(any(container(), is_even)));
+            BOOST_HANA_RUNTIME_CHECK(not_(any(container(1), is_even)));
+            BOOST_HANA_RUNTIME_CHECK(any(container(2), is_even));
+            BOOST_HANA_RUNTIME_CHECK(any(container(1, 2), is_even));
+            BOOST_HANA_RUNTIME_CHECK(not_(any(container(1, 3), is_even)));
+            BOOST_HANA_RUNTIME_CHECK(any(container(1, 3, 4), is_even));
         }
 
         // none
         {
-            BOOST_HANA_CONSTANT_ASSERT(none(container(), is_even));
-            BOOST_HANA_RUNTIME_ASSERT(none(container(1), is_even));
-            BOOST_HANA_RUNTIME_ASSERT(not_(none(container(2), is_even)));
-            BOOST_HANA_RUNTIME_ASSERT(not_(none(container(1, 2), is_even)));
-            BOOST_HANA_RUNTIME_ASSERT(none(container(1, 3), is_even));
-            BOOST_HANA_RUNTIME_ASSERT(not_(none(container(1, 3, 4), is_even)));
+            BOOST_HANA_CONSTANT_CHECK(none(container(), is_even));
+            BOOST_HANA_RUNTIME_CHECK(none(container(1), is_even));
+            BOOST_HANA_RUNTIME_CHECK(not_(none(container(2), is_even)));
+            BOOST_HANA_RUNTIME_CHECK(not_(none(container(1, 2), is_even)));
+            BOOST_HANA_RUNTIME_CHECK(none(container(1, 3), is_even));
+            BOOST_HANA_RUNTIME_CHECK(not_(none(container(1, 3, 4), is_even)));
         }
 
         // find
@@ -61,14 +61,14 @@ int main() {
             constexpr auto x = test::cnumeric<int, 0>;
             constexpr auto y = test::cnumeric<int, 1>;
             constexpr auto z = test::cnumeric<int, 2>;
-            BOOST_HANA_CONSTANT_ASSERT(find(container(), is(z)) == nothing);
+            BOOST_HANA_CONSTANT_CHECK(find(container(), is(z)) == nothing);
 
-            BOOST_HANA_CONSTANT_ASSERT(find(container(x), is(x)) == just(x));
-            BOOST_HANA_CONSTANT_ASSERT(find(container(x), is(z)) == nothing);
+            BOOST_HANA_CONSTANT_CHECK(find(container(x), is(x)) == just(x));
+            BOOST_HANA_CONSTANT_CHECK(find(container(x), is(z)) == nothing);
 
-            BOOST_HANA_CONSTANT_ASSERT(find(container(x, y), is(x)) == just(x));
-            BOOST_HANA_CONSTANT_ASSERT(find(container(x, y), is(y)) == just(y));
-            BOOST_HANA_CONSTANT_ASSERT(find(container(x, y), is(z)) == nothing);
+            BOOST_HANA_CONSTANT_CHECK(find(container(x, y), is(x)) == just(x));
+            BOOST_HANA_CONSTANT_CHECK(find(container(x, y), is(y)) == just(y));
+            BOOST_HANA_CONSTANT_CHECK(find(container(x, y), is(z)) == nothing);
         }
     });
 }

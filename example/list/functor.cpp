@@ -20,7 +20,7 @@ int main() {
             return static_cast<std::ostringstream const&>(std::ostringstream{} << x).str();
         };
 
-        BOOST_HANA_RUNTIME_ASSERT(
+        BOOST_HANA_RUNTIME_CHECK(
             fmap(tuple(1, '2', "345", std::string{"67"}), to_string) ==
             tuple("1", "2", "345", "67")
         );

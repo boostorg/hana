@@ -12,13 +12,13 @@ using namespace boost::hana;
 
 int main() {
     //! [pair]
-    BOOST_HANA_CONSTEXPR_ASSERT(first(pair(1, 'x')) == 1);
-    BOOST_HANA_CONSTEXPR_ASSERT(second(pair(1, 'x')) == 'x');
+    BOOST_HANA_CONSTEXPR_CHECK(first(pair(1, 'x')) == 1);
+    BOOST_HANA_CONSTEXPR_CHECK(second(pair(1, 'x')) == 'x');
     //! [pair]
 
     //! [product]
-    BOOST_HANA_CONSTEXPR_ASSERT(make<Pair>(1, 'x') == pair(1, 'x'));
-    BOOST_HANA_CONSTEXPR_ASSERT(first(pair(1, 'x')) == 1);
-    BOOST_HANA_CONSTEXPR_ASSERT(second(pair(1, 'x')) == 'x');
+    BOOST_HANA_CONSTEXPR_CHECK(make<Pair>(1, 'x') == pair(1, 'x'));
+    BOOST_HANA_CONSTEXPR_CHECK(first(pair(1, 'x')) == 1);
+    BOOST_HANA_CONSTEXPR_CHECK(second(pair(1, 'x')) == 'x');
     //! [product]
 }

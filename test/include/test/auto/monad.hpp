@@ -32,22 +32,22 @@ namespace boost { namespace hana { namespace test {
             auto x = injection([]{})();
 
             for_each(objects<M>, [=](auto m) {
-                BOOST_HANA_ASSERT(equal(
+                BOOST_HANA_CHECK(equal(
                     bind(lift<M>(x), f),
                     f(x)
                 ));
 
-                BOOST_HANA_ASSERT(equal(
+                BOOST_HANA_CHECK(equal(
                     bind(m, lift<M>),
                     m
                 ));
 
-                BOOST_HANA_ASSERT(equal(
+                BOOST_HANA_CHECK(equal(
                     bind(m, [=](auto x) { return bind(f(x), g); }),
                     bind(bind(m, f), g)
                 ));
 
-                BOOST_HANA_ASSERT(equal(
+                BOOST_HANA_CHECK(equal(
                     fmap(m, f),
                     bind(m, compose(lift<M>, f))
                 ));

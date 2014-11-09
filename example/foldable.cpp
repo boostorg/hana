@@ -34,7 +34,7 @@ int main() {
             return "(" + to_string(x) + " + " + to_string(y) + ")";
         };
 
-        BOOST_HANA_RUNTIME_ASSERT(foldl1(tuple(1, "2", '3'), show) == "((1 + 2) + 3)");
+        BOOST_HANA_RUNTIME_CHECK(foldl1(tuple(1, "2", '3'), show) == "((1 + 2) + 3)");
         //! [foldl1]
     }
 
@@ -48,7 +48,7 @@ int main() {
             return "(" + to_string(x) + " + " + to_string(y) + ")";
         };
 
-        BOOST_HANA_RUNTIME_ASSERT(foldl(tuple(2, "3", '4'), "1", show) == "(((1 + 2) + 3) + 4)");
+        BOOST_HANA_RUNTIME_CHECK(foldl(tuple(2, "3", '4'), "1", show) == "(((1 + 2) + 3) + 4)");
         //! [foldl]
     }
 
@@ -62,7 +62,7 @@ int main() {
             return "(" + to_string(x) + " + " + to_string(y) + ")";
         };
 
-        BOOST_HANA_RUNTIME_ASSERT(foldr(tuple(1, "2", '3'), "4", show) == "(1 + (2 + (3 + 4)))");
+        BOOST_HANA_RUNTIME_CHECK(foldr(tuple(1, "2", '3'), "4", show) == "(1 + (2 + (3 + 4)))");
         //! [foldr]
     }
 
@@ -76,7 +76,7 @@ int main() {
             return "(" + to_string(x) + " + " + to_string(y) + ")";
         };
 
-        BOOST_HANA_RUNTIME_ASSERT(foldr1(tuple(1, "2", '3'), show) == "(1 + (2 + 3))");
+        BOOST_HANA_RUNTIME_CHECK(foldr1(tuple(1, "2", '3'), show) == "(1 + (2 + 3))");
         //! [foldr1]
     }
 
@@ -87,23 +87,23 @@ int main() {
             ss << x << ' ';
         });
 
-        BOOST_HANA_RUNTIME_ASSERT(ss.str() == "0 1 234 5.5 ");
+        BOOST_HANA_RUNTIME_CHECK(ss.str() == "0 1 234 5.5 ");
         //! [for_each]
     }
 
     {
         //! [length]
-        BOOST_HANA_CONSTANT_ASSERT(length(tuple()) == int_<0>);
-        BOOST_HANA_CONSTANT_ASSERT(length(tuple(1, '2', 3.0)) == int_<3>);
+        BOOST_HANA_CONSTANT_CHECK(length(tuple()) == int_<0>);
+        BOOST_HANA_CONSTANT_CHECK(length(tuple(1, '2', 3.0)) == int_<3>);
 
-        BOOST_HANA_CONSTANT_ASSERT(length(nothing) == int_<0>);
-        BOOST_HANA_CONSTANT_ASSERT(length(just('x')) == int_<1>);
+        BOOST_HANA_CONSTANT_CHECK(length(nothing) == int_<0>);
+        BOOST_HANA_CONSTANT_CHECK(length(just('x')) == int_<1>);
         //! [length]
     }
 
     {
         //! [maximum]
-        BOOST_HANA_CONSTANT_ASSERT(
+        BOOST_HANA_CONSTANT_CHECK(
             maximum(integer_list<int, -1, 0, 2, -4, 6, 9>) == int_<9>
         );
         //! [maximum]
@@ -111,7 +111,7 @@ int main() {
 
     {
         //! [minimum]
-        BOOST_HANA_CONSTANT_ASSERT(
+        BOOST_HANA_CONSTANT_CHECK(
             minimum(integer_list<int, -1, 0, 2, -4, 6, 9>) == int_<-4>
         );
         //! [minimum]
@@ -119,11 +119,11 @@ int main() {
 
     {
         //! [product]
-        BOOST_HANA_CONSTANT_ASSERT(
+        BOOST_HANA_CONSTANT_CHECK(
             product(range(int_<1>, int_<6>)) == int_<1 * 2 * 3 * 4 * 5>
         );
 
-        BOOST_HANA_CONSTEXPR_ASSERT(
+        BOOST_HANA_CONSTEXPR_CHECK(
             product(tuple(1, int_<3>, long_<-5>, 9)) == 1 * 3 * -5 * 9
         );
         //! [product]
@@ -131,11 +131,11 @@ int main() {
 
     {
         //! [sum]
-        BOOST_HANA_CONSTANT_ASSERT(
+        BOOST_HANA_CONSTANT_CHECK(
             sum(range(int_<1>, int_<6>)) == int_<1 + 2 + 3 + 4 + 5>
         );
 
-        BOOST_HANA_CONSTEXPR_ASSERT(
+        BOOST_HANA_CONSTEXPR_CHECK(
             sum(tuple(1, int_<3>, long_<-5>, 9)) == 1 + 3 - 5 + 9
         );
         //! [sum]
@@ -155,7 +155,7 @@ int main() {
         double c = 0;
 
         cheap_tie(a, b, c)(tuple(1, '2', 3.3));
-        BOOST_HANA_RUNTIME_ASSERT(a == 1 && b == '2' && c == 3.3);
+        BOOST_HANA_RUNTIME_CHECK(a == 1 && b == '2' && c == 3.3);
         //! [unpack]
     }
 
@@ -168,7 +168,7 @@ int main() {
         // Would be `boost::fusion::make_fused(add)` in Boost.Fusion.
         BOOST_HANA_CONSTEXPR_LAMBDA auto add_seq = partial(flip(unpack), add);
 
-        BOOST_HANA_CONSTEXPR_ASSERT(add_seq(tuple(1, 2)) == add(1, 2));
+        BOOST_HANA_CONSTEXPR_CHECK(add_seq(tuple(1, 2)) == add(1, 2));
         //! [unpack_idiom]
     }
 
@@ -182,11 +182,11 @@ int main() {
         constexpr auto types = type_list<int, char, long, short, char, double>;
         constexpr auto ints = integer_list<int, 1, 2, 3>;
 
-        BOOST_HANA_CONSTANT_ASSERT(count(ints, odd) == 2_c);
+        BOOST_HANA_CONSTANT_CHECK(count(ints, odd) == 2_c);
 
-        BOOST_HANA_CONSTANT_ASSERT(count(types, trait<std::is_floating_point>) == 1_c);
-        BOOST_HANA_CONSTANT_ASSERT(count(types, _ == type<char>) == 2_c);
-        BOOST_HANA_CONSTANT_ASSERT(count(types, _ == type<void>) == 0_c);
+        BOOST_HANA_CONSTANT_CHECK(count(types, trait<std::is_floating_point>) == 1_c);
+        BOOST_HANA_CONSTANT_CHECK(count(types, _ == type<char>) == 2_c);
+        BOOST_HANA_CONSTANT_CHECK(count(types, _ == type<void>) == 0_c);
         //! [count]
     }
 
@@ -196,7 +196,7 @@ int main() {
             return length(xs) < length(ys);
         };
 
-        BOOST_HANA_CONSTEXPR_ASSERT(
+        BOOST_HANA_CONSTEXPR_CHECK(
             maximum_by(size, tuple(tuple(), tuple(1, '2'), tuple(3.3, nullptr, 4)))
             ==
             tuple(3.3, nullptr, 4)
@@ -210,7 +210,7 @@ int main() {
             return length(xs) < length(ys);
         };
 
-        BOOST_HANA_CONSTANT_ASSERT(
+        BOOST_HANA_CONSTANT_CHECK(
             minimum_by(size, tuple(tuple(), tuple(1, '2'), tuple(3.3, nullptr, 4)))
             ==
             tuple()

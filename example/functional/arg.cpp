@@ -12,9 +12,9 @@ using namespace boost::hana;
 int main() {
     //! [main]
     // arg<0>(1, '2', 3.3); // static assertion (regardless of the number of arguments)
-    BOOST_HANA_CONSTEXPR_ASSERT(arg<1>(1, '2', 3.3) == 1);
-    BOOST_HANA_CONSTEXPR_ASSERT(arg<2>(1, '2', 3.3) == '2');
-    BOOST_HANA_CONSTEXPR_ASSERT(arg<3>(1, '2', 3.3) == 3.3);
+    BOOST_HANA_CONSTEXPR_CHECK(arg<1>(1, '2', 3.3) == 1);
+    BOOST_HANA_CONSTEXPR_CHECK(arg<2>(1, '2', 3.3) == '2');
+    BOOST_HANA_CONSTEXPR_CHECK(arg<3>(1, '2', 3.3) == 3.3);
     // arg<4>(1, '2', 3.3); // static assertion
     //! [main]
 }

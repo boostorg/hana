@@ -21,7 +21,7 @@ int main() {
             row(4, '5', 6)
         );
 
-        BOOST_HANA_CONSTEXPR_ASSERT(transpose(m) ==
+        BOOST_HANA_CONSTEXPR_CHECK(transpose(m) ==
             matrix(
                 row(1, 4),
                 row(2.2, '5'),
@@ -33,9 +33,9 @@ int main() {
     // vector
     {
         auto v = vector(1, '2', int_<3>, 4.2f);
-        BOOST_HANA_CONSTEXPR_ASSERT(v.size() == 4ul);
-        BOOST_HANA_CONSTEXPR_ASSERT(v.nrows() == 4ul);
-        BOOST_HANA_CONSTEXPR_ASSERT(v.ncolumns() == 1ul);
+        BOOST_HANA_CONSTEXPR_CHECK(v.size() == 4ul);
+        BOOST_HANA_CONSTEXPR_CHECK(v.nrows() == 4ul);
+        BOOST_HANA_CONSTEXPR_CHECK(v.ncolumns() == 1ul);
     }
 
     // matrix.at
@@ -45,17 +45,17 @@ int main() {
             row('4', char_<'5'>, 6),
             row(int_<7>, '8', 9.3)
         );
-        BOOST_HANA_CONSTEXPR_ASSERT(m.at(int_<0>, int_<0>) == 1);
-        BOOST_HANA_CONSTEXPR_ASSERT(m.at(int_<0>, int_<1>) == '2');
-        BOOST_HANA_CONSTEXPR_ASSERT(m.at(int_<0>, int_<2>) == 3);
+        BOOST_HANA_CONSTEXPR_CHECK(m.at(int_<0>, int_<0>) == 1);
+        BOOST_HANA_CONSTEXPR_CHECK(m.at(int_<0>, int_<1>) == '2');
+        BOOST_HANA_CONSTEXPR_CHECK(m.at(int_<0>, int_<2>) == 3);
 
-        BOOST_HANA_CONSTEXPR_ASSERT(m.at(int_<1>, int_<0>) == '4');
-        BOOST_HANA_CONSTANT_ASSERT(m.at(int_<1>, int_<1>) == char_<'5'>);
-        BOOST_HANA_CONSTEXPR_ASSERT(m.at(int_<1>, int_<2>) == 6);
+        BOOST_HANA_CONSTEXPR_CHECK(m.at(int_<1>, int_<0>) == '4');
+        BOOST_HANA_CONSTANT_CHECK(m.at(int_<1>, int_<1>) == char_<'5'>);
+        BOOST_HANA_CONSTEXPR_CHECK(m.at(int_<1>, int_<2>) == 6);
 
-        BOOST_HANA_CONSTANT_ASSERT(m.at(int_<2>, int_<0>) == int_<7>);
-        BOOST_HANA_CONSTEXPR_ASSERT(m.at(int_<2>, int_<1>) == '8');
-        BOOST_HANA_CONSTEXPR_ASSERT(m.at(int_<2>, int_<2>) == 9.3);
+        BOOST_HANA_CONSTANT_CHECK(m.at(int_<2>, int_<0>) == int_<7>);
+        BOOST_HANA_CONSTEXPR_CHECK(m.at(int_<2>, int_<1>) == '8');
+        BOOST_HANA_CONSTEXPR_CHECK(m.at(int_<2>, int_<2>) == 9.3);
     }
 
     // size, ncolumns, nrows
@@ -64,8 +64,8 @@ int main() {
             row(1, '2', 3),
             row('4', char_<'5'>, 6)
         );
-        BOOST_HANA_CONSTEXPR_ASSERT(m.size() == 6ul);
-        BOOST_HANA_CONSTEXPR_ASSERT(m.ncolumns() == 3ul);
-        BOOST_HANA_CONSTEXPR_ASSERT(m.nrows() == 2ul);
+        BOOST_HANA_CONSTEXPR_CHECK(m.size() == 6ul);
+        BOOST_HANA_CONSTEXPR_CHECK(m.ncolumns() == 3ul);
+        BOOST_HANA_CONSTEXPR_CHECK(m.nrows() == 2ul);
     }
 }

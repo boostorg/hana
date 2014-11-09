@@ -27,12 +27,12 @@ namespace boost { namespace hana { namespace test {
         // Instance laws
         {
             for_each(objects<G>, [](auto x) {
-                BOOST_HANA_ASSERT(equal(
+                BOOST_HANA_CHECK(equal(
                     plus(x, negate(x)),
                     zero<G>
                 ));
 
-                BOOST_HANA_ASSERT(equal(
+                BOOST_HANA_CHECK(equal(
                     plus(negate(x), x),
                     zero<G>
                 ));
@@ -43,12 +43,12 @@ namespace boost { namespace hana { namespace test {
         {
             for_each(objects<G>, [](auto x) {
                 for_each(objects<G>, [=](auto y) {
-                    BOOST_HANA_ASSERT(equal(
+                    BOOST_HANA_CHECK(equal(
                         minus(x, y),
                         plus(x, negate(y))
                     ));
 
-                    BOOST_HANA_ASSERT(equal(
+                    BOOST_HANA_CHECK(equal(
                         minus(y, x),
                         plus(y, negate(x))
                     ));
@@ -59,7 +59,7 @@ namespace boost { namespace hana { namespace test {
         // negate
         {
             for_each(objects<G>, [](auto x) {
-                BOOST_HANA_ASSERT(equal(
+                BOOST_HANA_CHECK(equal(
                     negate(negate(x)),
                     x
                 ));

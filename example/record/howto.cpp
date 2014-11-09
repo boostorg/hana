@@ -47,15 +47,15 @@ namespace boost { namespace hana {
 
 int main() {
     Person john{"John", 30}, bob{"Bob", 40};
-    BOOST_HANA_RUNTIME_ASSERT(equal(john, john));
-    BOOST_HANA_RUNTIME_ASSERT(not_equal(john, bob));
+    BOOST_HANA_RUNTIME_CHECK(equal(john, john));
+    BOOST_HANA_RUNTIME_CHECK(not_equal(john, bob));
 
-    BOOST_HANA_RUNTIME_ASSERT(lookup(john, name) == just("John"));
-    BOOST_HANA_RUNTIME_ASSERT(lookup(john, age) == just(30));
-    BOOST_HANA_CONSTANT_ASSERT(lookup(john, "clearly not a member") == nothing);
+    BOOST_HANA_RUNTIME_CHECK(lookup(john, name) == just("John"));
+    BOOST_HANA_RUNTIME_CHECK(lookup(john, age) == just(30));
+    BOOST_HANA_CONSTANT_CHECK(lookup(john, "clearly not a member") == nothing);
 
-    BOOST_HANA_RUNTIME_ASSERT(to<Tuple>(john) == tuple("John", 30));
-    BOOST_HANA_RUNTIME_ASSERT(to<Map>(john) == map(
+    BOOST_HANA_RUNTIME_CHECK(to<Tuple>(john) == tuple("John", 30));
+    BOOST_HANA_RUNTIME_CHECK(to<Map>(john) == map(
         pair(name, "John"),
         pair(age, 30)
     ));

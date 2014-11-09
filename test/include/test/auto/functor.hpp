@@ -30,16 +30,16 @@ namespace boost { namespace hana { namespace test {
         auto pred = always(true_);
 
         for_each(objects<F>, [=](auto xs) {
-            BOOST_HANA_ASSERT(
+            BOOST_HANA_CHECK(
                 equal(fmap(xs, id), xs)
             );
 
-            BOOST_HANA_ASSERT(equal(
+            BOOST_HANA_CHECK(equal(
                 fmap(xs, compose(f, g)),
                 fmap(fmap(xs, g), f)
             ));
 
-            BOOST_HANA_ASSERT(equal(
+            BOOST_HANA_CHECK(equal(
                 adjust(xs, pred, f),
                 fmap(xs, [=](auto x) {
                     return eval_if(pred(x),
@@ -49,12 +49,12 @@ namespace boost { namespace hana { namespace test {
                 })
             ));
 
-            BOOST_HANA_ASSERT(equal(
+            BOOST_HANA_CHECK(equal(
                 replace(xs, pred, v),
                 adjust(xs, pred, always(v))
             ));
 
-            BOOST_HANA_ASSERT(equal(
+            BOOST_HANA_CHECK(equal(
                 fill(xs, v),
                 replace(xs, always(true_), v)
             ));

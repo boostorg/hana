@@ -19,15 +19,15 @@ using namespace boost::hana;
 
 int main() {
     //! [main]
-    BOOST_HANA_CONSTEXPR_ASSERT(
+    BOOST_HANA_CONSTEXPR_CHECK(
         to<Tuple>(std::make_tuple(1, '2', 3.3)) == tuple(1, '2', 3.3)
     );
 
-    BOOST_HANA_CONSTANT_ASSERT(
+    BOOST_HANA_CONSTANT_CHECK(
         to<Tuple>(range(int_<1>, int_<4>)) == tuple(int_<1>, int_<2>, int_<3>)
     );
 
-    BOOST_HANA_CONSTEXPR_ASSERT(
+    BOOST_HANA_CONSTEXPR_CHECK(
         to<Tuple>(std::array<int, 3>{{1, 2, 3}}) == tuple(1, 2, 3)
     );
     //! [main]

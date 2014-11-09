@@ -17,7 +17,7 @@ int main() {
     //! [fmap]
     BOOST_HANA_CONSTEXPR_LAMBDA auto types = type_list<void, int(), char[10]>;
     BOOST_HANA_CONSTEXPR_LAMBDA auto pointers = fmap(types, template_<std::add_pointer_t>);
-    BOOST_HANA_CONSTANT_ASSERT(pointers == type_list<void*, int(*)(), char(*)[10]>);
-    BOOST_HANA_CONSTANT_ASSERT(head(pointers) == type<void*>);
+    BOOST_HANA_CONSTANT_CHECK(pointers == type_list<void*, int(*)(), char(*)[10]>);
+    BOOST_HANA_CONSTANT_CHECK(head(pointers) == type<void*>);
     //! [fmap]
 }

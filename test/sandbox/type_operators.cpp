@@ -96,22 +96,22 @@ int main() {
     auto deref = [](auto x) { return *x; };
     auto deref3 = compose(deref, deref, deref);
 
-    BOOST_HANA_CONSTANT_ASSERT(equal(
+    BOOST_HANA_CONSTANT_CHECK(equal(
         *type<char*>,
         type<char&>
     ));
 
-    BOOST_HANA_CONSTANT_ASSERT(equal(
+    BOOST_HANA_CONSTANT_CHECK(equal(
         deref(type<int*>),
         type<int&>
     ));
 
-    BOOST_HANA_CONSTANT_ASSERT(equal(
+    BOOST_HANA_CONSTANT_CHECK(equal(
         deref3(type<int***>),
         type<int&>
     ));
 
-    BOOST_HANA_CONSTANT_ASSERT(equal(
+    BOOST_HANA_CONSTANT_CHECK(equal(
         type<int> + type<float>,
         type<float>
     ));

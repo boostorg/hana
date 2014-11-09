@@ -31,5 +31,5 @@ static_assert(std::is_same<
 >::value, "");
 
 int main() {
-    BOOST_HANA_CONSTEXPR_ASSERT(detail::unwrap(detail::wrap<Datatype>(2.2)) == 2.2);
+    BOOST_HANA_CONSTEXPR_CHECK(detail::unwrap(detail::wrap<Datatype>(2.2)) == 2.2);
 }

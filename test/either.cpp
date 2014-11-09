@@ -70,12 +70,12 @@ int main() {
 
         // either
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 either(f, g, left(x)),
                 f(x)
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 either(f, g, right(x)),
                 g(x)
             ));
@@ -86,18 +86,18 @@ int main() {
     {
         // equal
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(left(x), left(x)));
-            BOOST_HANA_CONSTANT_ASSERT(not_(equal(left(x), left(y))));
+            BOOST_HANA_CONSTANT_CHECK(equal(left(x), left(x)));
+            BOOST_HANA_CONSTANT_CHECK(not_(equal(left(x), left(y))));
 
-            BOOST_HANA_CONSTANT_ASSERT(not_(equal(
+            BOOST_HANA_CONSTANT_CHECK(not_(equal(
                 left(undefined), right(undefined)
             )));
-            BOOST_HANA_CONSTANT_ASSERT(not_(equal(
+            BOOST_HANA_CONSTANT_CHECK(not_(equal(
                 right(undefined), left(undefined)
             )));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(right(x), right(x)));
-            BOOST_HANA_CONSTANT_ASSERT(not_(equal(right(x), right(y))));
+            BOOST_HANA_CONSTANT_CHECK(equal(right(x), right(x)));
+            BOOST_HANA_CONSTANT_CHECK(not_(equal(right(x), right(y))));
         }
     }
 
@@ -105,10 +105,10 @@ int main() {
     {
         // fmap
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 fmap(left(x), undefined), left(x)
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 fmap(right(x), f), right(f(x))
             ));
         }
@@ -118,22 +118,22 @@ int main() {
     {
         // ap
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 ap(left(x), left(undefined)),
                 left(x)
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 ap(left(x), right(undefined)),
                 left(x)
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 ap(right(undefined), left(x)),
                 left(x)
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 ap(right(f), right(x)),
                 right(f(x))
             ));
@@ -141,7 +141,7 @@ int main() {
 
         // lift
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(lift<Either>(x), right(x)));
+            BOOST_HANA_CONSTANT_CHECK(equal(lift<Either>(x), right(x)));
         }
     }
 
@@ -149,22 +149,22 @@ int main() {
     {
         // flatten
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 flatten(left(left(x))),
                 left(left(x))
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 flatten(left(right(x))),
                 left(right(x))
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 flatten(right(left(x))),
                 left(x)
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 flatten(right(right(x))),
                 right(x)
             ));

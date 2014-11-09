@@ -16,7 +16,7 @@ int main() {
         return x + y;
     };
 
-    BOOST_HANA_CONSTEXPR_ASSERT(foldr(nothing, 1, plus) == 1);
-    BOOST_HANA_CONSTEXPR_ASSERT(foldr(just(4), 1, plus) == 5);
+    BOOST_HANA_CONSTEXPR_CHECK(foldr(nothing, 1, plus) == 1);
+    BOOST_HANA_CONSTEXPR_CHECK(foldr(just(4), 1, plus) == 5);
     //! [main]
 }

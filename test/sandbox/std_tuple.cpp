@@ -80,7 +80,7 @@ int main() {
     make_tuple(1, '2', 3.3);
 
     // get
-    BOOST_HANA_RUNTIME_ASSERT(get<0>(ts) == 1);
-    BOOST_HANA_RUNTIME_ASSERT(get<1>(ts) == '2');
-    BOOST_HANA_RUNTIME_ASSERT(get<2>(ts) == 3.3);
+    BOOST_HANA_RUNTIME_CHECK(get<0>(ts) == 1);
+    BOOST_HANA_RUNTIME_CHECK(get<1>(ts) == '2');
+    BOOST_HANA_RUNTIME_CHECK(get<2>(ts) == 3.3);
 }

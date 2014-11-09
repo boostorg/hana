@@ -18,7 +18,7 @@ int main() {
     //! [main]
     using namespace std::string_literals;
 
-    BOOST_HANA_RUNTIME_ASSERT(
+    BOOST_HANA_RUNTIME_CHECK(
         sequence<Tuple>(
             tuple(tuple("a1"s, "a2"s), tuple("b1"s), tuple("c1"s, "c2"s, "c3"s))
         )
@@ -41,13 +41,13 @@ int main() {
         );
     };
 
-    BOOST_HANA_CONSTANT_ASSERT(
+    BOOST_HANA_CONSTANT_CHECK(
         traverse<Maybe>(tuple(int_<2>, int_<4>, int_<6>), half)
         ==
         just(tuple(int_<1>, int_<2>, int_<3>))
     );
 
-    BOOST_HANA_CONSTANT_ASSERT(
+    BOOST_HANA_CONSTANT_CHECK(
         traverse<Maybe>(tuple(int_<2>, int_<3>, int_<6>), half)
         ==
         nothing

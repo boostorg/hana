@@ -12,11 +12,11 @@ using namespace boost::hana;
 
 int main() {
     //! [main]
-    BOOST_HANA_CONSTANT_ASSERT(and_(true_, true_, true_, true_));
-    BOOST_HANA_CONSTEXPR_ASSERT(!and_(true_, false, true_, true_));
+    BOOST_HANA_CONSTANT_CHECK(and_(true_, true_, true_, true_));
+    BOOST_HANA_CONSTEXPR_CHECK(!and_(true_, false, true_, true_));
     //! [main]
 
     // Not supported right now.
     // struct invalid { };
-    // BOOST_HANA_STATIC_ASSERT(!and_(false_, invalid{}));
+    // BOOST_HANA_STATIC_CHECK(!and_(false_, invalid{}));
 }

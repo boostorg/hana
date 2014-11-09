@@ -41,8 +41,8 @@ int main() {
         return x + 1;
     });
 
-    BOOST_HANA_CONSTEXPR_ASSERT(f(1) == just(2));
-    BOOST_HANA_CONSTANT_ASSERT(f(std::string{"abc"}) == nothing);
+    BOOST_HANA_CONSTEXPR_CHECK(f(1) == just(2));
+    BOOST_HANA_CONSTANT_CHECK(f(std::string{"abc"}) == nothing);
 
-    BOOST_HANA_CONSTEXPR_ASSERT(bind(just(1), f) == just(2));
+    BOOST_HANA_CONSTEXPR_CHECK(bind(just(1), f) == just(2));
 }

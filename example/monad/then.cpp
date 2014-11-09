@@ -14,7 +14,7 @@ struct undefined { };
 
 int main() {
     //! [main]
-    BOOST_HANA_CONSTEXPR_ASSERT(
+    BOOST_HANA_CONSTEXPR_CHECK(
         then(tuple(undefined{}, undefined{}), tuple(1, 2, 3)) == tuple(
             1, 2, 3,
             1, 2, 3

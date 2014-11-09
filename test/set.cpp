@@ -46,22 +46,22 @@ int main() {
     {
         using test::x;
 
-        BOOST_HANA_CONSTANT_ASSERT(equal(
+        BOOST_HANA_CONSTANT_CHECK(equal(
             make<Set>(),
             set()
         ));
 
-        BOOST_HANA_CONSTANT_ASSERT(equal(
+        BOOST_HANA_CONSTANT_CHECK(equal(
             make<Set>(x<0>),
             set(x<0>)
         ));
 
-        BOOST_HANA_CONSTANT_ASSERT(equal(
+        BOOST_HANA_CONSTANT_CHECK(equal(
             make<Set>(x<0>, x<1>),
             set(x<0>, x<1>)
         ));
 
-        BOOST_HANA_CONSTANT_ASSERT(equal(
+        BOOST_HANA_CONSTANT_CHECK(equal(
             make<Set>(x<0>, x<1>, x<2>),
             set(x<0>, x<1>, x<2>)
         ));
@@ -71,32 +71,32 @@ int main() {
     {
         using test::x;
 
-        BOOST_HANA_CONSTANT_ASSERT(equal(
+        BOOST_HANA_CONSTANT_CHECK(equal(
             insert(set(), x<0>),
             set(x<0>)
         ));
 
-        BOOST_HANA_CONSTANT_ASSERT(equal(
+        BOOST_HANA_CONSTANT_CHECK(equal(
             insert(set(x<0>), x<0>),
             set(x<0>)
         ));
 
-        BOOST_HANA_CONSTANT_ASSERT(equal(
+        BOOST_HANA_CONSTANT_CHECK(equal(
             insert(set(x<0>), x<1>),
             set(x<0>, x<1>)
         ));
 
-        BOOST_HANA_CONSTANT_ASSERT(equal(
+        BOOST_HANA_CONSTANT_CHECK(equal(
             insert(set(x<0>, x<1>), x<1>),
             set(x<0>, x<1>)
         ));
 
-        BOOST_HANA_CONSTANT_ASSERT(equal(
+        BOOST_HANA_CONSTANT_CHECK(equal(
             insert(set(x<0>, x<1>), x<2>),
             set(x<0>, x<1>, x<2>)
         ));
 
-        BOOST_HANA_CONSTANT_ASSERT(equal(
+        BOOST_HANA_CONSTANT_CHECK(equal(
             insert(set(x<0>, x<1>, x<2>), x<3>),
             set(x<0>, x<1>, x<2>, x<3>)
         ));
@@ -112,7 +112,7 @@ int main() {
         // Set -> List
         {
             auto check = [=](auto ...xs) {
-                BOOST_HANA_CONSTANT_ASSERT(
+                BOOST_HANA_CONSTANT_CHECK(
                     elem(permutations(list(xs...)), to<L>(set(xs...)))
                 );
             };
@@ -125,38 +125,38 @@ int main() {
 
         // Foldable -> Set
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 to<Set>(foldable()),
                 set()
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 to<Set>(foldable(x<1>)),
                 set(x<1>)
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 to<Set>(foldable(x<1>, x<1>)),
                 set(x<1>)
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 to<Set>(foldable(x<1>, x<2>)),
                 set(x<1>, x<2>)
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 to<Set>(foldable(x<1>, x<2>, x<1>)),
                 set(x<1>, x<2>)
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 to<Set>(foldable(x<1>, x<2>, x<2>)),
                 set(x<1>, x<2>)
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 to<Set>(foldable(x<1>, x<2>, x<3>)),
                 set(x<1>, x<2>, x<3>)
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 to<Set>(foldable(x<1>, x<2>, x<3>, x<2>, x<1>)),
                 set(x<1>, x<2>, x<3>)
             ));
@@ -178,10 +178,10 @@ int main() {
                 );
             };
 
-            BOOST_HANA_CONSTANT_ASSERT(check());
-            BOOST_HANA_CONSTANT_ASSERT(check(x<0>));
-            BOOST_HANA_CONSTANT_ASSERT(check(x<0>, x<1>));
-            BOOST_HANA_CONSTANT_ASSERT(check(x<0>, x<1>, x<2>));
+            BOOST_HANA_CONSTANT_CHECK(check());
+            BOOST_HANA_CONSTANT_CHECK(check(x<0>));
+            BOOST_HANA_CONSTANT_CHECK(check(x<0>, x<1>));
+            BOOST_HANA_CONSTANT_CHECK(check(x<0>, x<1>, x<2>));
         }
     }
 
@@ -194,41 +194,41 @@ int main() {
 
         // any
         {
-            BOOST_HANA_CONSTANT_ASSERT(not_(any(set(), is(x<1>))));
+            BOOST_HANA_CONSTANT_CHECK(not_(any(set(), is(x<1>))));
 
-            BOOST_HANA_CONSTANT_ASSERT(any(set(x<1>), is(x<1>)));
-            BOOST_HANA_CONSTANT_ASSERT(not_(any(set(x<1>), is(x<2>))));
+            BOOST_HANA_CONSTANT_CHECK(any(set(x<1>), is(x<1>)));
+            BOOST_HANA_CONSTANT_CHECK(not_(any(set(x<1>), is(x<2>))));
 
-            BOOST_HANA_CONSTANT_ASSERT(any(set(x<1>, x<2>), is(x<1>)));
-            BOOST_HANA_CONSTANT_ASSERT(any(set(x<1>, x<2>), is(x<2>)));
-            BOOST_HANA_CONSTANT_ASSERT(not_(any(set(x<1>, x<2>), is(x<3>))));
+            BOOST_HANA_CONSTANT_CHECK(any(set(x<1>, x<2>), is(x<1>)));
+            BOOST_HANA_CONSTANT_CHECK(any(set(x<1>, x<2>), is(x<2>)));
+            BOOST_HANA_CONSTANT_CHECK(not_(any(set(x<1>, x<2>), is(x<3>))));
         }
 
         // find
         {
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 find(set(), is(x<1>)),
                 nothing
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 find(set(x<1>), is(x<1>)),
                 just(x<1>)
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 find(set(x<1>), is(x<2>)),
                 nothing
             ));
 
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 find(set(x<1>, x<2>), is(x<1>)),
                 just(x<1>)
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 find(set(x<1>, x<2>), is(x<2>)),
                 just(x<2>)
             ));
-            BOOST_HANA_CONSTANT_ASSERT(equal(
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 find(set(x<1>, x<2>), is(x<3>)),
                 nothing
             ));

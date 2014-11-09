@@ -13,13 +13,13 @@ using namespace boost::hana;
 int main() {
     {
         //! [integral_constant]
-        BOOST_HANA_CONSTANT_ASSERT(
+        BOOST_HANA_CONSTANT_CHECK(
             integral_constant<Integral, int, 2>
             ==
             int_<2>
         );
 
-        BOOST_HANA_CONSTANT_ASSERT(equal(
+        BOOST_HANA_CONSTANT_CHECK(equal(
             integral_constant<ext::std::IntegralConstant, bool, true>,
             std::true_type{}
         ));
@@ -27,13 +27,13 @@ int main() {
     }
     {
         //! [enumerable]
-        BOOST_HANA_CONSTANT_ASSERT(
+        BOOST_HANA_CONSTANT_CHECK(
             succ(integral_constant<Integral, int, 2>)
             ==
             integral_constant<Integral, int, 3>
         );
 
-        BOOST_HANA_CONSTANT_ASSERT(
+        BOOST_HANA_CONSTANT_CHECK(
             pred(integral_constant<Integral, int, 2>)
             ==
             integral_constant<Integral, int, 1>

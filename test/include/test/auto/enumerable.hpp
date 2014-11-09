@@ -19,12 +19,12 @@ namespace boost { namespace hana { namespace test {
     template <typename E>
     auto laws<Enumerable, E> = [] {
         for_each(objects<E>, [](auto x) {
-            BOOST_HANA_ASSERT(equal(
+            BOOST_HANA_CHECK(equal(
                 succ(pred(x)),
                 x
             ));
 
-            BOOST_HANA_ASSERT(equal(
+            BOOST_HANA_CHECK(equal(
                 pred(succ(x)),
                 x
             ));

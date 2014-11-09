@@ -17,9 +17,9 @@ int main() {
         return just(x + 1);
     };
 
-    BOOST_HANA_CONSTEXPR_ASSERT(bind(just(1), inc) == just(2));
-    BOOST_HANA_CONSTANT_ASSERT(bind(nothing, inc) == nothing);
+    BOOST_HANA_CONSTEXPR_CHECK(bind(just(1), inc) == just(2));
+    BOOST_HANA_CONSTANT_CHECK(bind(nothing, inc) == nothing);
 
-    BOOST_HANA_CONSTEXPR_ASSERT(flatten(just(just(2))) == just(2));
+    BOOST_HANA_CONSTEXPR_CHECK(flatten(just(just(2))) == just(2));
     //! [main]
 }

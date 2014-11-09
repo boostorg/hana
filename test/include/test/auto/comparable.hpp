@@ -19,19 +19,19 @@ namespace boost { namespace hana { namespace test {
     template <typename T>
     auto laws<Comparable, T> = [] {
         for_each(objects<T>, [](auto a) {
-            BOOST_HANA_ASSERT(equal(a, a));
+            BOOST_HANA_CHECK(equal(a, a));
 
             for_each(objects<T>, [=](auto b) {
-                BOOST_HANA_ASSERT(
+                BOOST_HANA_CHECK(
                     not_equal(a, b) ^iff^ not_(equal(a, b))
                 );
 
-                BOOST_HANA_ASSERT(
+                BOOST_HANA_CHECK(
                     equal(a, b) ^implies^ equal(b, a)
                 );
 
                 for_each(objects<T>, [=](auto c) {
-                    BOOST_HANA_ASSERT(
+                    BOOST_HANA_CHECK(
                         and_(equal(a, b), equal(b, c)) ^implies^ equal(a, c)
                     );
                 });

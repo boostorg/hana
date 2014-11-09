@@ -16,15 +16,15 @@ using namespace boost::hana;
 
 int main() {
     //! [liftable]
-    BOOST_HANA_CONSTANT_ASSERT(trait<std::is_integral>(type<int>));
-    BOOST_HANA_CONSTANT_ASSERT(not_(trait<std::is_integral>(type<float>)));
+    BOOST_HANA_CONSTANT_CHECK(trait<std::is_integral>(type<int>));
+    BOOST_HANA_CONSTANT_CHECK(not_(trait<std::is_integral>(type<float>)));
     //! [liftable]
 
     //! [nonliftable]
     BOOST_HANA_CONSTEXPR_LAMBDA auto extent = [](auto t, auto n) {
         return std::extent<typename decltype(t)::type, n()>{};
     };
-    BOOST_HANA_CONSTANT_ASSERT(extent(type<char>, int_<1>) == int_<0>);
-    BOOST_HANA_CONSTANT_ASSERT(extent(type<char[1][2]>, int_<1>) == int_<2>);
+    BOOST_HANA_CONSTANT_CHECK(extent(type<char>, int_<1>) == int_<0>);
+    BOOST_HANA_CONSTANT_CHECK(extent(type<char[1][2]>, int_<1>) == int_<2>);
     //! [nonliftable]
 }

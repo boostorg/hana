@@ -34,17 +34,17 @@ namespace boost { namespace hana { namespace test {
         // Instance-wide laws
         {
             for_each(objects<It>, [](auto xs) {
-                BOOST_HANA_CONSTANT_ASSERT(
+                BOOST_HANA_CONSTANT_CHECK(
                     is_empty(xs) ^iff^ is_empty(to<Tuple>(xs))
                 );
 
                 eval_if(is_empty(xs), [](auto ) {}, [=](auto _) {
-                    BOOST_HANA_ASSERT(equal(
+                    BOOST_HANA_CHECK(equal(
                         _(head)(xs),
                         head(_(to<Tuple>)(xs))
                     ));
 
-                    BOOST_HANA_ASSERT(equal(
+                    BOOST_HANA_CHECK(equal(
                         to<Tuple>(_(tail)(xs)),
                         tail(_(to<Tuple>)(xs))
                     ));
@@ -56,14 +56,14 @@ namespace boost { namespace hana { namespace test {
         {
             for_each(objects<It>, [](auto iterable) {
                 // drop(0, xs) == xs
-                BOOST_HANA_ASSERT(equal(
+                BOOST_HANA_CHECK(equal(
                     drop(int_<0>, iterable),
                     iterable
                 ));
 
                 // drop(1, xs) == tail(xs) unless xs is empty
                 eval_if(is_empty(iterable), [](auto) { }, [=](auto _) {
-                    BOOST_HANA_ASSERT(equal(
+                    BOOST_HANA_CHECK(equal(
                         _(drop)(int_<1>, iterable),
                         _(tail)(iterable)
                     ));
@@ -71,7 +71,7 @@ namespace boost { namespace hana { namespace test {
 
                 // at(n, xs) == head(drop(n, xs))
                 for_each(range(int_<0>, length(iterable)), [=](auto n) {
-                    BOOST_HANA_ASSERT(equal(
+                    BOOST_HANA_CHECK(equal(
                         at(n, iterable),
                         head(drop(n, iterable))
                     ));
@@ -79,7 +79,7 @@ namespace boost { namespace hana { namespace test {
 
                 // last(xs) == at(length(xs)-1, xs)
                 eval_if(is_empty(iterable), [](auto) {}, [=](auto _) {
-                    BOOST_HANA_ASSERT(equal(
+                    BOOST_HANA_CHECK(equal(
                         _(last)(iterable),
                         at(pred(_(length)(iterable)), iterable)
                     ));
@@ -97,12 +97,12 @@ namespace boost { namespace hana { namespace test {
             auto check = map(
                 // when length == 0
                 pair(int_<0>, [=](auto xs) {
-                    BOOST_HANA_CONSTANT_ASSERT(equal(
+                    BOOST_HANA_CONSTANT_CHECK(equal(
                         foldl(xs, state, f),
                         state
                     ));
 
-                    BOOST_HANA_CONSTANT_ASSERT(equal(
+                    BOOST_HANA_CONSTANT_CHECK(equal(
                         foldr(xs, state, f),
                         state
                     ));
@@ -110,22 +110,22 @@ namespace boost { namespace hana { namespace test {
 
                 // when length == 1
                 pair(int_<1>, [=](auto xs) {
-                    BOOST_HANA_ASSERT(equal(
+                    BOOST_HANA_CHECK(equal(
                         foldl(xs, state, f),
                         f(state, at(int_<0>, xs))
                     ));
 
-                    BOOST_HANA_ASSERT(equal(
+                    BOOST_HANA_CHECK(equal(
                         foldr(xs, state, f),
                         f(at(int_<0>, xs), state)
                     ));
 
-                    BOOST_HANA_ASSERT(equal(
+                    BOOST_HANA_CHECK(equal(
                         foldl1(xs, f),
                         at(int_<0>, xs)
                     ));
 
-                    BOOST_HANA_ASSERT(equal(
+                    BOOST_HANA_CHECK(equal(
                         foldr1(xs, f),
                         at(int_<0>, xs)
                     ));
@@ -133,22 +133,22 @@ namespace boost { namespace hana { namespace test {
 
                 // when length == 2
                 pair(int_<2>, [=](auto xs) {
-                    BOOST_HANA_ASSERT(equal(
+                    BOOST_HANA_CHECK(equal(
                         foldl(xs, state, f),
                         f(f(state, at(int_<0>, xs)), at(int_<1>, xs))
                     ));
 
-                    BOOST_HANA_ASSERT(equal(
+                    BOOST_HANA_CHECK(equal(
                         foldr(xs, state, f),
                         f(at(int_<0>, xs), f(at(int_<1>, xs), state))
                     ));
 
-                    BOOST_HANA_ASSERT(equal(
+                    BOOST_HANA_CHECK(equal(
                         foldl1(xs, f),
                         f(at(int_<0>, xs), at(int_<1>, xs))
                     ));
 
-                    BOOST_HANA_ASSERT(equal(
+                    BOOST_HANA_CHECK(equal(
                         foldr1(xs, f),
                         f(at(int_<0>, xs), at(int_<1>, xs))
                     ));
@@ -156,22 +156,22 @@ namespace boost { namespace hana { namespace test {
 
                 // when length == 3
                 pair(int_<3>, [=](auto xs) {
-                    BOOST_HANA_ASSERT(equal(
+                    BOOST_HANA_CHECK(equal(
                         foldl(xs, state, f),
                         f(f(f(state, at(int_<0>, xs)), at(int_<1>, xs)), at(int_<2>, xs))
                     ));
 
-                    BOOST_HANA_ASSERT(equal(
+                    BOOST_HANA_CHECK(equal(
                         foldr(xs, state, f),
                         f(at(int_<0>, xs), f(at(int_<1>, xs), f(at(int_<2>, xs), state)))
                     ));
 
-                    BOOST_HANA_ASSERT(equal(
+                    BOOST_HANA_CHECK(equal(
                         foldl1(xs, f),
                         f(f(at(int_<0>, xs), at(int_<1>, xs)), at(int_<2>, xs))
                     ));
 
-                    BOOST_HANA_ASSERT(equal(
+                    BOOST_HANA_CHECK(equal(
                         foldr1(xs, f),
                         f(at(int_<0>, xs), f(at(int_<1>, xs), at(int_<2>, xs)))
                     ));
@@ -195,23 +195,23 @@ namespace boost { namespace hana { namespace test {
             for_each(objects<It>, [=](auto xs) {
                 eval_if(is_empty(xs),
                     [=](auto _) {
-                        BOOST_HANA_CONSTANT_ASSERT(not_(_(any)(xs, always(true_))));
+                        BOOST_HANA_CONSTANT_CHECK(not_(_(any)(xs, always(true_))));
 
-                        BOOST_HANA_CONSTANT_ASSERT(equal(
+                        BOOST_HANA_CONSTANT_CHECK(equal(
                             _(find)(xs, always(true_)),
                             nothing
                         ));
                     },
                     [=](auto _) {
-                        BOOST_HANA_ASSERT(_(any)(xs, always(true_)));
-                        BOOST_HANA_ASSERT(not_(_(any)(xs, always(false_))));
+                        BOOST_HANA_CHECK(_(any)(xs, always(true_)));
+                        BOOST_HANA_CHECK(not_(_(any)(xs, always(false_))));
 
-                        BOOST_HANA_ASSERT(equal(
+                        BOOST_HANA_CHECK(equal(
                             _(find)(xs, always(true_)),
                             just(_(head)(xs))
                         ));
 
-                        BOOST_HANA_ASSERT(equal(
+                        BOOST_HANA_CHECK(equal(
                             _(find)(xs, always(false_)),
                             nothing
                         ));

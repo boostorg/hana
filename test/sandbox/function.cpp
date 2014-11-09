@@ -102,12 +102,12 @@ int main() {
         [](auto x) { return x - 1_c; }
     );
 
-    BOOST_HANA_CONSTANT_ASSERT(f == g);
-    BOOST_HANA_CONSTANT_ASSERT(f != h);
-    BOOST_HANA_CONSTEXPR_ASSERT(f(1) == 2);
+    BOOST_HANA_CONSTANT_CHECK(f == g);
+    BOOST_HANA_CONSTANT_CHECK(f != h);
+    BOOST_HANA_CONSTEXPR_CHECK(f(1) == 2);
     try { f(6); throw; } catch (std::domain_error) { }
 
 
-    BOOST_HANA_CONSTANT_ASSERT(frange(f) == tuple(4_c, 3_c, 2_c));
+    BOOST_HANA_CONSTANT_CHECK(frange(f) == tuple(4_c, 3_c, 2_c));
     (void)frange;
 }

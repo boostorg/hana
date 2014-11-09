@@ -19,7 +19,7 @@ namespace boost { namespace hana {
 }}
 
 // Usually, List should provide Foldable.
-BOOST_HANA_CONSTANT_ASSERT(is_a<List, ext::std::Tuple>);
-BOOST_HANA_CONSTANT_ASSERT(!is_a<Foldable, ext::std::Tuple>);
+BOOST_HANA_CONSTANT_CHECK(is_a<List, ext::std::Tuple>);
+BOOST_HANA_CONSTANT_CHECK(!is_a<Foldable, ext::std::Tuple>);
 
 int main() { }
