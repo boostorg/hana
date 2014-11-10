@@ -1,16 +1,16 @@
 /*!
 @file
-Defines `boost::hana::ext::boost::fusion::sequence`.
+Defines `boost::hana::ext::boost::fusion::Deque`.
 
 @copyright Louis Dionne 2014
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#ifndef BOOST_HANA_EXT_BOOST_FUSION_SEQUENCE_HPP
-#define BOOST_HANA_EXT_BOOST_FUSION_SEQUENCE_HPP
+#ifndef BOOST_HANA_EXT_BOOST_FUSION_DEQUE_HPP
+#define BOOST_HANA_EXT_BOOST_FUSION_DEQUE_HPP
 
-#include <boost/hana/fwd/ext/boost/fusion/sequence.hpp>
+#include <boost/hana/fwd/ext/boost/fusion/deque.hpp>
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/detail/std/forward.hpp>
@@ -21,14 +21,16 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/fusion/algorithm/transformation/pop_front.hpp>
 #include <boost/fusion/algorithm/transformation/push_front.hpp>
-#include <boost/fusion/container/list/cons.hpp>
+#include <boost/fusion/container/deque.hpp>
+#include <boost/fusion/container/deque/convert.hpp>
+#include <boost/fusion/container/generation/make_deque.hpp>
 #include <boost/fusion/sequence/intrinsic/empty.hpp>
 #include <boost/fusion/sequence/intrinsic/front.hpp>
 
 
 namespace boost { namespace hana {
     template <>
-    struct Iterable::instance<ext::boost::fusion::Sequence>
+    struct Iterable::instance<ext::boost::fusion::Deque>
         : Iterable::mcd
     {
         template <typename Xs>
@@ -44,24 +46,26 @@ namespace boost { namespace hana {
 
         template <typename Xs>
         static constexpr decltype(auto) tail_impl(Xs&& xs) {
-            return ::boost::fusion::pop_front(detail::std::forward<Xs>(xs));
+            return ::boost::fusion::as_deque(
+                ::boost::fusion::pop_front(detail::std::forward<Xs>(xs)));
         }
     };
 
     template <>
-    struct List::instance<ext::boost::fusion::Sequence>
-        : List::mcd<ext::boost::fusion::Sequence>
+    struct List::instance<ext::boost::fusion::Deque>
+        : List::mcd<ext::boost::fusion::Deque>
     {
         template <typename X, typename Xs>
         static constexpr decltype(auto) cons_impl(X&& x, Xs&& xs) {
-            return ::boost::fusion::push_front(
+            return ::boost::fusion::as_deque(
+                ::boost::fusion::push_front(
                     detail::std::forward<Xs>(xs),
-                    detail::std::forward<X>(x));
+                    detail::std::forward<X>(x)));
         }
 
         static auto nil_impl()
-        { return ::boost::fusion::nil{}; }
+        { return ::boost::fusion::deque<>{}; }
     };
 }} // end namespace boost::hana
 
-#endif // !BOOST_HANA_EXT_BOOST_FUSION_SEQUENCE_HPP
+#endif // !BOOST_HANA_EXT_BOOST_FUSION_DEQUE_HPP

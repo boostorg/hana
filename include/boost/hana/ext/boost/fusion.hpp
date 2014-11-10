@@ -10,6 +10,9 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EXT_BOOST_FUSION_HPP
 #define BOOST_HANA_EXT_BOOST_FUSION_HPP
 
-#include <boost/hana/ext/boost/fusion/sequence.hpp>
+#include <boost/hana/ext/boost/fusion/deque.hpp>
+#include <boost/hana/ext/boost/fusion/list.hpp>
+#include <boost/hana/ext/boost/fusion/tuple.hpp>
+#include <boost/hana/ext/boost/fusion/vector.hpp>
 
 #endif // !BOOST_HANA_EXT_BOOST_FUSION_HPP
