@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/list.hpp>
 
 #include <boost/hana/assert.hpp>
+#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/foreign.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/id.hpp>
@@ -33,6 +34,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <test/minimal_product.hpp>
 #include <test/numeric.hpp>
 #include <test/seq.hpp>
+
+#include <type_traits>
 #include <vector>
 
 
@@ -62,6 +65,36 @@ namespace boost { namespace hana { namespace test {
         using list_detail::ord;
         using list_detail::invalid;
         constexpr struct { } undefined{};
+
+        // Check for basic data type consistency
+        {
+            for_each(objects<L>, [](auto xs) {
+                static_assert(std::is_same<
+                    datatype_t<decltype(xs)>, L
+                >::value, "");
+            });
+
+            static_assert(std::is_same<
+                datatype_t<decltype(list())>, L
+            >::value, "");
+
+            static_assert(std::is_same<
+                datatype_t<decltype(list(1))>, L
+            >::value, "");
+
+            static_assert(std::is_same<
+                datatype_t<decltype(list(1, '2'))>, L
+            >::value, "");
+
+            static_assert(std::is_same<
+                datatype_t<decltype(list(1, '2', 3.3))>, L
+            >::value, "");
+
+            struct Random;
+            static_assert(!std::is_same<
+                datatype_t<Random>, L
+            >::value, "");
+        }
 
         // Instance-wide laws
         {
@@ -140,22 +173,36 @@ namespace boost { namespace hana { namespace test {
 
             // cons
             {
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    cons(x<0>, list()),
-                    list(x<0>)
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    cons(x<0>, list(x<1>)),
-                    list(x<0>, x<1>)
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    cons(x<0>, list(x<1>, x<2>)),
-                    list(x<0>, x<1>, x<2>)
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    cons(x<0>, list(x<1>, x<2>, x<3>)),
-                    list(x<0>, x<1>, x<2>, x<3>)
-                ));
+                {
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        cons(x<0>, list()),
+                        list(x<0>)
+                    ));
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        cons(x<0>, list(x<1>)),
+                        list(x<0>, x<1>)
+                    ));
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        cons(x<0>, list(x<1>, x<2>)),
+                        list(x<0>, x<1>, x<2>)
+                    ));
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        cons(x<0>, list(x<1>, x<2>, x<3>)),
+                        list(x<0>, x<1>, x<2>, x<3>)
+                    ));
+                }
+
+                {
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        cons(1, list()), list(1)
+                    ));
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        cons(1, list('2')), list(1, '2')
+                    ));
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        cons(1, list('2', 3.3)), list(1, '2', 3.3)
+                    ));
+                }
             }
 
             // nil
@@ -167,64 +214,95 @@ namespace boost { namespace hana { namespace test {
 
             // concat
             {
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    concat(list(), list()),
-                    list()
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    concat(list(), list(x<0>)),
-                    list(x<0>)
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    concat(list(), list(x<0>, x<1>)),
-                    list(x<0>, x<1>)
-                ));
+                {
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        concat(list(), list()),
+                        list()
+                    ));
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        concat(list(), list(x<0>)),
+                        list(x<0>)
+                    ));
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        concat(list(), list(x<0>, x<1>)),
+                        list(x<0>, x<1>)
+                    ));
 
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    concat(list(x<0>), list()),
-                    list(x<0>)
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    concat(list(x<0>), list(x<1>)),
-                    list(x<0>, x<1>)
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    concat(list(x<0>), list(x<1>, x<2>)),
-                    list(x<0>, x<1>, x<2>)
-                ));
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        concat(list(x<0>), list()),
+                        list(x<0>)
+                    ));
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        concat(list(x<0>), list(x<1>)),
+                        list(x<0>, x<1>)
+                    ));
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        concat(list(x<0>), list(x<1>, x<2>)),
+                        list(x<0>, x<1>, x<2>)
+                    ));
 
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    concat(list(x<0>, x<1>), list()),
-                    list(x<0>, x<1>)
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    concat(list(x<0>, x<1>), list(x<2>)),
-                    list(x<0>, x<1>, x<2>)
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    concat(list(x<0>, x<1>), list(x<2>, x<3>)),
-                    list(x<0>, x<1>, x<2>, x<3>)
-                ));
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        concat(list(x<0>, x<1>), list()),
+                        list(x<0>, x<1>)
+                    ));
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        concat(list(x<0>, x<1>), list(x<2>)),
+                        list(x<0>, x<1>, x<2>)
+                    ));
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        concat(list(x<0>, x<1>), list(x<2>, x<3>)),
+                        list(x<0>, x<1>, x<2>, x<3>)
+                    ));
+                }
+
+                {
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        concat(list(), list()), list()
+                    ));
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        concat(list(1), list()), list(1)
+                    ));
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        concat(list(), list(1)), list(1)
+                    ));
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        concat(list(1), list('2')), list(1, '2')
+                    ));
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        concat(list(1, '2'), list(3.3)), list(1, '2', 3.3)
+                    ));
+                }
             }
 
             // init
             {
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    init(list(undefined)),
-                    list()
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    init(list(x<0>, undefined)),
-                    list(x<0>)
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    init(list(x<0>, x<1>, undefined)),
-                    list(x<0>, x<1>)
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    init(list(x<0>, x<1>, x<2>, undefined)),
-                    list(x<0>, x<1>, x<2>)
-                ));
+                {
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        init(list(undefined)),
+                        list()
+                    ));
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        init(list(x<0>, undefined)),
+                        list(x<0>)
+                    ));
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        init(list(x<0>, x<1>, undefined)),
+                        list(x<0>, x<1>)
+                    ));
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        init(list(x<0>, x<1>, x<2>, undefined)),
+                        list(x<0>, x<1>, x<2>)
+                    ));
+                }
+
+                {
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        init(list(1, '2')), list(1)
+                    ));
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        init(list(1, '2', 3.3)), list(1, '2')
+                    ));
+                }
             }
 
             // intersperse
@@ -310,18 +388,32 @@ namespace boost { namespace hana { namespace test {
 
             // snoc
             {
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    snoc(list(), x<0>),
-                    list(x<0>)
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    snoc(list(x<0>), x<1>),
-                    list(x<0>, x<1>)
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    snoc(list(x<0>, x<1>), x<2>),
-                    list(x<0>, x<1>, x<2>)
-                ));
+                {
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        snoc(list(), x<0>),
+                        list(x<0>)
+                    ));
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        snoc(list(x<0>), x<1>),
+                        list(x<0>, x<1>)
+                    ));
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        snoc(list(x<0>, x<1>), x<2>),
+                        list(x<0>, x<1>, x<2>)
+                    ));
+                }
+
+                {
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        snoc(list(), 1), list(1)
+                    ));
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        snoc(list(1), '2'), list(1, '2')
+                    ));
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        snoc(list(1, '2'), 3.3), list(1, '2', 3.3)
+                    ));
+                }
             }
 
             // take
@@ -512,22 +604,36 @@ namespace boost { namespace hana { namespace test {
 
             // reverse
             {
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    reverse(list()),
-                    list()
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    reverse(list(x<0>)),
-                    list(x<0>)
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    reverse(list(x<0>, x<1>)),
-                    list(x<1>, x<0>)
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    reverse(list(x<0>, x<1>, x<2>)),
-                    list(x<2>, x<1>, x<0>)
-                ));
+                {
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        reverse(list()),
+                        list()
+                    ));
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        reverse(list(x<0>)),
+                        list(x<0>)
+                    ));
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        reverse(list(x<0>, x<1>)),
+                        list(x<1>, x<0>)
+                    ));
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        reverse(list(x<0>, x<1>, x<2>)),
+                        list(x<2>, x<1>, x<0>)
+                    ));
+                }
+
+                {
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        reverse(list(1)), list(1)
+                    ));
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        reverse(list(1, '2')), list('2', 1)
+                    ));
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        reverse(list(1, '2', 3.3)), list(3.3, '2', 1)
+                    ));
+                }
             }
 
             // sort
@@ -1391,29 +1497,78 @@ namespace boost { namespace hana { namespace test {
 
             // fmap
             {
+                {
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        fmap(list(), f),
+                        list()
+                    ));
+
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        fmap(list(x<1>), f),
+                        list(f(x<1>))
+                    ));
+
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        fmap(list(x<1>, x<2>), f),
+                        list(f(x<1>), f(x<2>))
+                    ));
+
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        fmap(list(x<1>, x<2>, x<3>), f),
+                        list(f(x<1>), f(x<2>), f(x<3>))
+                    ));
+
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        fmap(list(x<1>, x<2>, x<3>, x<4>), f),
+                        list(f(x<1>), f(x<2>), f(x<3>), f(x<4>))
+                    ));
+                }
+
+                {
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        fmap(list(), f),
+                        list()
+                    ));
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        fmap(list(1), f),
+                        list(f(1))
+                    ));
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        fmap(list(1, '2'), f),
+                        list(f(1), f('2'))
+                    ));
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        fmap(list(1, '2', 3.3f), f),
+                        list(f(1), f('2'), f(3.3f))
+                    ));
+                }
+            }
+
+            // replace
+            {
+                BOOST_HANA_CONSTEXPR_LAMBDA auto is_even = [](auto x) {
+                    return x % 2 == 0;
+                };
+
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    fmap(list(), f),
+                    replace(list(), is_even, 'x'),
                     list()
                 ));
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    fmap(list(x<1>), f),
-                    list(f(x<1>))
+                BOOST_HANA_CONSTEXPR_CHECK(equal(
+                    replace(list(0), is_even, 'x'),
+                    list('x')
                 ));
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    fmap(list(x<1>, x<2>), f),
-                    list(f(x<1>), f(x<2>))
+                BOOST_HANA_CONSTEXPR_CHECK(equal(
+                    replace(list(0, 1), is_even, 'x'),
+                    list('x', 1)
                 ));
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    fmap(list(x<1>, x<2>, x<3>), f),
-                    list(f(x<1>), f(x<2>), f(x<3>))
+                BOOST_HANA_CONSTEXPR_CHECK(equal(
+                    replace(list(0, 1, 2), is_even, 'x'),
+                    list('x', 1, 'x')
                 ));
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    fmap(list(x<1>, x<2>, x<3>, x<4>), f),
-                    list(f(x<1>), f(x<2>), f(x<3>), f(x<4>))
+                BOOST_HANA_CONSTEXPR_CHECK(equal(
+                    replace(list(0, 1, 2, 3), is_even, 'x'),
+                    list('x', 1, 'x', 3)
                 ));
             }
         }
@@ -1630,23 +1785,49 @@ namespace boost { namespace hana { namespace test {
 
             // foldl
             {
-                auto s = x<999>;
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    foldl(list(x<1>), s, f),
-                    f(s, x<1>)
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    foldl(list(x<1>, x<2>), s, f),
-                    f(f(s, x<1>), x<2>)
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    foldl(list(x<1>, x<2>, x<3>), s, f),
-                    f(f(f(s, x<1>), x<2>), x<3>)
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    foldl(list(x<1>, x<2>, x<3>, x<4>), s, f),
-                    f(f(f(f(s, x<1>), x<2>), x<3>), x<4>)
-                ));
+                {
+                    auto s = x<999>;
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        foldl(list(x<1>), s, f),
+                        f(s, x<1>)
+                    ));
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        foldl(list(x<1>, x<2>), s, f),
+                        f(f(s, x<1>), x<2>)
+                    ));
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        foldl(list(x<1>, x<2>, x<3>), s, f),
+                        f(f(f(s, x<1>), x<2>), x<3>)
+                    ));
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        foldl(list(x<1>, x<2>, x<3>, x<4>), s, f),
+                        f(f(f(f(s, x<1>), x<2>), x<3>), x<4>)
+                    ));
+                }
+
+                {
+                    constexpr auto s = 0;
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        foldl(list(), s, f),
+                        s
+                    ));
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        foldl(list(1), s, f),
+                        f(s, 1)
+                    ));
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        foldl(list(1, '2'), s, f),
+                        f(f(s, 1), '2')
+                    ));
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        foldl(list(1, '2', 3.3), s, f),
+                        f(f(f(s, 1), '2'), 3.3)
+                    ));
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        foldl(list(1, '2', 3.3, 4.4f), s, f),
+                        f(f(f(f(s, 1), '2'), 3.3), 4.4f)
+                    ));
+                }
             }
 
             // foldl1
@@ -1672,23 +1853,49 @@ namespace boost { namespace hana { namespace test {
 
             // foldr
             {
-                auto s = x<999>;
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    foldr(list(x<0>), s, f),
-                    f(x<0>, s)
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    foldr(list(x<0>, x<1>), s, f),
-                    f(x<0>, f(x<1>, s))
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    foldr(list(x<0>, x<1>, x<2>), s, f),
-                    f(x<0>, f(x<1>, f(x<2>, s)))
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    foldr(list(x<0>, x<1>, x<2>, x<3>), s, f),
-                    f(x<0>, f(x<1>, f(x<2>, f(x<3>, s))))
-                ));
+                {
+                    auto s = x<999>;
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        foldr(list(x<0>), s, f),
+                        f(x<0>, s)
+                    ));
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        foldr(list(x<0>, x<1>), s, f),
+                        f(x<0>, f(x<1>, s))
+                    ));
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        foldr(list(x<0>, x<1>, x<2>), s, f),
+                        f(x<0>, f(x<1>, f(x<2>, s)))
+                    ));
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        foldr(list(x<0>, x<1>, x<2>, x<3>), s, f),
+                        f(x<0>, f(x<1>, f(x<2>, f(x<3>, s))))
+                    ));
+                }
+
+                {
+                    constexpr auto s = 0;
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        foldr(list(), s, f),
+                        s
+                    ));
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        foldr(list(1), s, f),
+                        f(1, s)
+                    ));
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        foldr(list(1, '2'), s, f),
+                        f(1, f('2', s))
+                    ));
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        foldr(list(1, '2', 3.3), s, f),
+                        f(1, f('2', f(3.3, s)))
+                    ));
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        foldr(list(1, '2', 3.3, 4.4f), s, f),
+                        f(1, f('2', f(3.3, f(4.4f, s))))
+                    ));
+                }
             }
 
             // foldr1
@@ -1742,6 +1949,12 @@ namespace boost { namespace hana { namespace test {
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
                     length(list(undefined, undefined, undefined)), size_t<3>
+                ));
+
+                int i = 0; // non-constexpr
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    length(list(i, i)),
+                    size_t<2>
                 ));
             }
 
@@ -2214,6 +2427,29 @@ namespace boost { namespace hana { namespace test {
                 BOOST_HANA_CONSTEXPR_CHECK(equal(
                     count(list(int{0}, char{0}, double{0}), f), 0u
                 ));
+
+
+                BOOST_HANA_CONSTEXPR_LAMBDA auto is_even = [](auto x) {
+                    return x % 2 == 0;
+                };
+                BOOST_HANA_CONSTEXPR_CHECK(equal(
+                    count(list(), is_even), 0u
+                ));
+                BOOST_HANA_CONSTEXPR_CHECK(equal(
+                    count(list(1), is_even), 0u
+                ));
+                BOOST_HANA_CONSTEXPR_CHECK(equal(
+                    count(list(2), is_even), 1u
+                ));
+                BOOST_HANA_CONSTEXPR_CHECK(equal(
+                    count(list(1, 2), is_even), 1u
+                ));
+                BOOST_HANA_CONSTEXPR_CHECK(equal(
+                    count(list(1, 2, 3), is_even), 1u
+                ));
+                BOOST_HANA_CONSTEXPR_CHECK(equal(
+                    count(list(1, 2, 3, 4), is_even), 2u
+                ));
             }
 
             // product
@@ -2331,8 +2567,14 @@ namespace boost { namespace hana { namespace test {
         // Searchable is actually provided by Iterable, but it is very easy
         // for us to check that instance.
         {
-            auto is = [](auto x) {
+            laws<Searchable, L>();
+
+            BOOST_HANA_CONSTEXPR_LAMBDA auto is = [](auto x) {
                 return [=](auto y) { return equal(x, y); };
+            };
+
+            BOOST_HANA_CONSTEXPR_LAMBDA auto is_even = [](auto x) {
+                return x % 2 == 0;
             };
 
             auto c = test::numeric; // a minimal comparable
@@ -2340,7 +2582,6 @@ namespace boost { namespace hana { namespace test {
 
             // any
             {
-                // compile-time
                 {
                     BOOST_HANA_CONSTANT_CHECK(not_(any(list(), is(x<9>))));
 
@@ -2360,7 +2601,6 @@ namespace boost { namespace hana { namespace test {
                     BOOST_HANA_CONSTANT_CHECK(any(list(x<0>, x<1>, x<2>, nothing, nothing), is(x<2>)));
                 }
 
-                // runtime
                 {
                     BOOST_HANA_CONSTANT_CHECK(not_(
                         any(list(), undefined)
@@ -2373,12 +2613,17 @@ namespace boost { namespace hana { namespace test {
                     BOOST_HANA_CONSTEXPR_CHECK(
                         not_(any(list(c(0)), is(c(1))))
                     );
+
+                    BOOST_HANA_CONSTEXPR_CHECK(not_(any(list(1), is_even)));
+                    BOOST_HANA_CONSTEXPR_CHECK(any(list(2), is_even));
+                    BOOST_HANA_CONSTEXPR_CHECK(any(list(1, 2), is_even));
+                    BOOST_HANA_CONSTEXPR_CHECK(not_(any(list(1, 3), is_even)));
+                    BOOST_HANA_CONSTEXPR_CHECK(any(list(1, 3, 4), is_even));
                 }
             }
 
             // any_of
             {
-                // runtime
                 {
                     BOOST_HANA_CONSTANT_CHECK(not_(
                         any_of(list())
@@ -2396,25 +2641,27 @@ namespace boost { namespace hana { namespace test {
 
             // all
             {
-                // runtime
                 {
                     BOOST_HANA_CONSTANT_CHECK(all(list(), undefined));
-
                     BOOST_HANA_CONSTEXPR_CHECK(
                         all(list(c(0)), is(c(0)))
                     );
-
                     BOOST_HANA_CONSTEXPR_CHECK(
                         not_(all(list(c(0)), is(c(1))))
                     );
-
                     BOOST_HANA_CONSTEXPR_CHECK(not_(
                         all(list(c(0), c(1)), is(c(0)))
                     ));
-
                     BOOST_HANA_CONSTEXPR_CHECK(
                         all(list(c(0), c(0)), is(c(0)))
                     );
+
+                    BOOST_HANA_CONSTEXPR_CHECK(not_(all(list(1), is_even)));
+                    BOOST_HANA_CONSTEXPR_CHECK(all(list(2), is_even));
+                    BOOST_HANA_CONSTEXPR_CHECK(all(list(2, 4), is_even));
+                    BOOST_HANA_CONSTEXPR_CHECK(not_(all(list(1, 2), is_even)));
+                    BOOST_HANA_CONSTEXPR_CHECK(not_(all(list(1, 3), is_even)));
+                    BOOST_HANA_CONSTEXPR_CHECK(not_(all(list(1, 3, 4), is_even)));
                 }
             }
 
@@ -2443,7 +2690,6 @@ namespace boost { namespace hana { namespace test {
 
             // none
             {
-                // runtime
                 {
                     BOOST_HANA_CONSTANT_CHECK(none(list(), undefined));
 
@@ -2454,6 +2700,12 @@ namespace boost { namespace hana { namespace test {
                     BOOST_HANA_CONSTEXPR_CHECK(
                         not_(none(list(c(0)), is(c(0))))
                     );
+
+                    BOOST_HANA_CONSTEXPR_CHECK(none(list(1), is_even));
+                    BOOST_HANA_CONSTEXPR_CHECK(not_(none(list(2), is_even)));
+                    BOOST_HANA_CONSTEXPR_CHECK(not_(none(list(1, 2), is_even)));
+                    BOOST_HANA_CONSTEXPR_CHECK(none(list(1, 3), is_even));
+                    BOOST_HANA_CONSTEXPR_CHECK(not_(none(list(1, 3, 4), is_even)));
                 }
             }
 
@@ -2598,18 +2850,32 @@ namespace boost { namespace hana { namespace test {
 
             // head
             {
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    head(list(x<0>)),
-                    x<0>
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    head(list(x<0>, invalid<>)),
-                    x<0>
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    head(list(x<0>, invalid<1>, invalid<2>)),
-                    x<0>
-                ));
+                {
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        head(list(x<0>)),
+                        x<0>
+                    ));
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        head(list(x<0>, invalid<>)),
+                        x<0>
+                    ));
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        head(list(x<0>, invalid<1>, invalid<2>)),
+                        x<0>
+                    ));
+                }
+
+                {
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        head(list(1)), 1
+                    ));
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        head(list(1, '2')), 1
+                    ));
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        head(list(1, '2', 3.3)), 1
+                    ));
+                }
             }
 
             // is_empty
@@ -2617,62 +2883,119 @@ namespace boost { namespace hana { namespace test {
                 BOOST_HANA_CONSTANT_CHECK(is_empty(list()));
                 BOOST_HANA_CONSTANT_CHECK(not_(is_empty(list(invalid<>))));
                 BOOST_HANA_CONSTANT_CHECK(not_(is_empty(list(invalid<0>, invalid<1>))));
+
+                int i = 0; // non-constexpr
+                BOOST_HANA_CONSTANT_CHECK(not_(is_empty(list(i))));
+                BOOST_HANA_CONSTANT_CHECK(not_(is_empty(list(i, i))));
             }
 
             // tail
             {
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    tail(list(invalid<>, x<0>)), list(x<0>)
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    tail(list(invalid<>, x<0>, x<1>)), list(x<0>, x<1>)
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    tail(list(invalid<>, x<0>, x<1>, x<2>)), list(x<0>, x<1>, x<2>)
-                ));
+                {
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        tail(list(invalid<>, x<0>)), list(x<0>)
+                    ));
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        tail(list(invalid<>, x<0>, x<1>)), list(x<0>, x<1>)
+                    ));
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        tail(list(invalid<>, x<0>, x<1>, x<2>)), list(x<0>, x<1>, x<2>)
+                    ));
+                }
+
+                {
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        tail(list(1)), list()
+                    ));
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        tail(list(1, '2')), list('2')
+                    ));
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        tail(list(1, '2', 3.3)), list('2', 3.3)
+                    ));
+                }
             }
 
             // at
             {
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    at(size_t<0>, list(x<0>)), x<0>
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    at(size_t<0>, list(x<0>, invalid<>)), x<0>
-                ));
+                {
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        at(size_t<0>, list(x<0>)), x<0>
+                    ));
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        at(size_t<0>, list(x<0>, invalid<>)), x<0>
+                    ));
 
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    at(size_t<1>, list(invalid<>, x<1>)), x<1>
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    at(size_t<1>, list(invalid<0>, x<1>, invalid<2>)), x<1>
-                ));
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        at(size_t<1>, list(invalid<>, x<1>)), x<1>
+                    ));
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        at(size_t<1>, list(invalid<0>, x<1>, invalid<2>)), x<1>
+                    ));
 
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    at(size_t<2>, list(invalid<0>, invalid<1>, x<2>)), x<2>
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    at(size_t<2>, list(invalid<0>, invalid<1>, x<2>, invalid<3>)), x<2>
-                ));
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        at(size_t<2>, list(invalid<0>, invalid<1>, x<2>)), x<2>
+                    ));
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        at(size_t<2>, list(invalid<0>, invalid<1>, x<2>, invalid<3>)), x<2>
+                    ));
+                }
 
                 // make sure we can use non-pods on both sides
                 at(size_t<1>, list(non_pod<0>, x<1>, non_pod<2>));
+
+                {
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        at(size_t<0>, list(1)), 1
+                    ));
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        at(size_t<0>, list(1, '2')), 1
+                    ));
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        at(size_t<0>, list(1, '2', 3.3)), 1
+                    ));
+
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        at(size_t<1>, list(1, '2')), '2'
+                    ));
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        at(size_t<1>, list(1, '2', 3.3)), '2'
+                    ));
+
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        at(size_t<2>, list(1, '2', 3.3)), 3.3
+                    ));
+                }
             }
 
             // last
             {
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    last(list(x<0>)),
-                    x<0>
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    last(list(invalid<0>, x<1>)),
-                    x<1>
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    last(list(invalid<0>, invalid<1>, x<2>)),
-                    x<2>
-                ));
+                {
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        last(list(x<0>)),
+                        x<0>
+                    ));
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        last(list(invalid<0>, x<1>)),
+                        x<1>
+                    ));
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        last(list(invalid<0>, invalid<1>, x<2>)),
+                        x<2>
+                    ));
+                }
+
+                {
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        last(list(1)), 1
+                    ));
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        last(list(1, '2')), '2'
+                    ));
+                    BOOST_HANA_CONSTEXPR_CHECK(equal(
+                        last(list(1, '2', 3.3)), 3.3
+                    ));
+                }
             }
 
             // drop
