@@ -76,7 +76,7 @@ find_package(Git)
 
 
 #=============================================================================
-# Setup a function to register executables
+# Setup functions to register executables and tests
 #=============================================================================
 enable_testing()
 
@@ -116,6 +116,35 @@ function(boost_hana_add_executable target_name)
         add_executable(${target_name} EXCLUDE_FROM_ALL ${ARGN})
         set_property(TARGET ${target_name}
             APPEND PROPERTY INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIRS})
+    endif()
+endfunction()
+
+#   boost_hana_add_test(<source file> [<target name>])
+#
+# Add a unit test whose source is the file specified as an argument.
+# If the path of the source file relative from the root of Hana is
+# `path/to/source/file.cpp`, the target associated to the unit test
+# is `path.to.source.file`. The second argument, if provided, is a
+# variable that will be set to the created target.
+#
+# Note that if the source file has unsatisfied dependencies, no target is
+# created and so one should always check whether a target was created before
+# using it:
+#
+#   boost_hana_add_test(file target)
+#   if (TARGET target)
+#       use it
+#   endif()
+function(boost_hana_add_test file)
+    file(RELATIVE_PATH _relative ${CMAKE_SOURCE_DIR} ${file})
+    string(REGEX REPLACE "\\.cpp$" "" _name ${_relative})
+    string(REGEX REPLACE "/" "." _name ${_name})
+    boost_hana_add_executable(${_name} "${file}")
+    if (TARGET ${_name})
+        add_test(NAME ${_name} COMMAND ${_name})
+        if (ARGC EQUAL 2)
+            set(${ARGV1} "${_name}" PARENT_SCOPE)
+        endif()
     endif()
 endfunction()
 
