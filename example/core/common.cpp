@@ -18,7 +18,11 @@ int main() {
     >{}, "");
 
     static_assert(std::is_same<
-        common_t<int, Integral>, int
+        common_t<int, Integral<int>>, int
+    >{}, "");
+
+    static_assert(std::is_same<
+        common_t<int, Integral<long>>, long
     >{}, "");
     //! [main]
 }

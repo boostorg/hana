@@ -102,13 +102,21 @@ namespace boost { namespace hana {
                 return -sum_helper(-n, -m);
         }
 
+        template <typename C, typename U>
+        struct rebind;
+
+        template <template <typename ...> class C, typename T, typename U>
+        struct rebind<C<T>, U> { using type = C<U>; };
+
         template <typename R>
         static constexpr auto sum_impl(R r) {
-            using I = datatype_t<decltype(r.from)>;
+            using C = datatype_t<decltype(r.from)>;
             constexpr auto from = value(r.from);
             constexpr auto to = value(r.to);
             constexpr auto s = from == to ? 0 : sum_helper(from, to-1);
-            return integral_constant<I, decltype(s), s>;
+            return integral_constant<
+                typename rebind<C, decltype(s)>::type, s
+            >;
         }
 
         // Returns the product of `[m, n)`, where `m <= n` always hold.
@@ -126,11 +134,13 @@ namespace boost { namespace hana {
 
         template <typename R>
         static constexpr auto product_impl(R r) {
-            using I = datatype_t<decltype(r.from)>;
+            using C = datatype_t<decltype(r.from)>;
             constexpr auto from = value(r.from);
             constexpr auto to = value(r.to);
             constexpr auto s = product_helper(from, to);
-            return integral_constant<I, decltype(s), s>;
+            return integral_constant<
+                typename rebind<C, decltype(s)>::type, s
+            >;
         }
     };
 

@@ -72,6 +72,7 @@ namespace boost { namespace hana {
     //! `times` should be a shortcut to some type class method. Specifically,
     //! anything that can be incremented, decremented and compared to some
     //! "zero" value can implement a `times` method with the same semantics.
+    template <typename T>
     struct Integral {
         struct hana {
             struct enabled_operators
@@ -91,7 +92,7 @@ namespace boost { namespace hana {
             constexpr operator value_type() const noexcept { return value; }
             constexpr value_type operator()() const noexcept { return value; }
 
-            struct hana { using datatype = Integral; };
+            struct hana { using datatype = Integral<T>; };
 
             template <typename F>
             constexpr void times(F&& f) const {

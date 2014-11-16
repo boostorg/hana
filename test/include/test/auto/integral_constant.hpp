@@ -29,153 +29,199 @@ Distributed under the Boost Software License, Version 1.0.
 #include <test/auto/constant.hpp>
 
 #include <test/auto/base.hpp>
+#include <test/cnumeric.hpp>
 #include <test/injection.hpp>
 
 #include <type_traits>
 
 
 namespace boost { namespace hana { namespace test {
-    template <typename I, typename T, typename U>
+    template <template <typename ...> class C, typename T, typename U>
     void IntegralConstant_laws() {
+        using Common = std::common_type_t<T, U>;
+
+        // laws
+        {
+            for_each(objects<C<T>>, [](auto x) {
+                constexpr auto v = value(x);
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    x, to<C<T>>(cnumeric<T, v>)
+                ));
+
+                for_each(objects<C<T>>, [=](auto y) {
+                    constexpr auto vx = value(x);
+                    constexpr auto vy = value(y);
+
+                    BOOST_HANA_CONSTANT_CHECK(
+                        equal(x, y)
+                            ^iff^
+                        equal(integral_constant<C<T>, vx>, integral_constant<C<T>, vy>)
+                    );
+                });
+            });
+        }
+
+        // common
+        {
+            static_assert(::std::is_same<
+                common_t<C<T>, T>, T
+            >{}, "");
+
+            static_assert(::std::is_same<
+                common_t<T, C<T>>, T
+            >{}, "");
+
+            static_assert(::std::is_same<
+                common_t<C<T>, U>, ::std::common_type_t<T, U>
+            >{}, "");
+
+            static_assert(::std::is_same<
+                common_t<U, C<T>>, ::std::common_type_t<T, U>
+            >{}, "");
+
+            static_assert(::std::is_same<
+                common_t<C<T>, C<U>>, C< ::std::common_type_t<T, U>>
+            >{}, "");
+        }
+
         // conversions
         {
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                to<T>(integral_constant<I, T, 1>),
+                to<T>(integral_constant<C<T>, 1>),
                 T{1}
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                to<T>(integral_constant<I, T, 0>),
+                to<T>(integral_constant<C<T>, 0>),
                 T{0}
             ));
 
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                to<U>(integral_constant<I, U, 1>),
+                to<U>(integral_constant<C<U>, 1>),
                 U{1}
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                to<U>(integral_constant<I, U, 0>),
+                to<U>(integral_constant<C<U>, 0>),
                 U{0}
             ));
         }
 
         // Comparable
         {
-            laws<Comparable, I>();
+            laws<Comparable, C<T>>();
 
             // equal
             {
                 // IntegralConstant == IntegralConstant
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    integral_constant<I, T, 0>,
-                    integral_constant<I, U, 0>
+                    integral_constant<C<T>, 0>,
+                    integral_constant<C<U>, 0>
                 ));
                 BOOST_HANA_CONSTANT_CHECK(not_(equal(
-                    integral_constant<I, T, 0>,
-                    integral_constant<I, U, 1>
+                    integral_constant<C<T>, 0>,
+                    integral_constant<C<U>, 1>
                 )));
 
 
                 // IntegralConstant == other
                 BOOST_HANA_CONSTEXPR_CHECK(equal(
-                    integral_constant<I, T, 0>, U{0}
+                    integral_constant<C<T>, 0>, U{0}
                 ));
                 BOOST_HANA_CONSTEXPR_CHECK(not_(equal(
-                    integral_constant<I, T, 0>, U{1}
+                    integral_constant<C<T>, 0>, U{1}
                 )));
 
 
                 // other == IntegralConstant
                 BOOST_HANA_CONSTEXPR_CHECK(equal(
-                    U{0}, integral_constant<I, T, 0>
+                    U{0}, integral_constant<C<T>, 0>
                 ));
                 BOOST_HANA_CONSTEXPR_CHECK(not_(equal(
-                    U{1}, integral_constant<I, T, 0>
+                    U{1}, integral_constant<C<T>, 0>
                 )));
             }
         }
 
         // Orderable
         {
-            laws<Orderable, I>();
+            laws<Orderable, C<T>>();
 
             // less
             {
                 // IntegralConstant < IntegralConstant
                 BOOST_HANA_CONSTANT_CHECK(less(
-                    integral_constant<I, T, 0>,
-                    integral_constant<I, U, 1>
+                    integral_constant<C<T>, 0>,
+                    integral_constant<C<U>, 1>
                 ));
                 BOOST_HANA_CONSTANT_CHECK(not_(less(
-                    integral_constant<I, T, 0>,
-                    integral_constant<I, U, 0>
+                    integral_constant<C<T>, 0>,
+                    integral_constant<C<U>, 0>
                 )));
                 BOOST_HANA_CONSTANT_CHECK(not_(less(
-                    integral_constant<I, T, 1>,
-                    integral_constant<I, U, 0>
+                    integral_constant<C<T>, 1>,
+                    integral_constant<C<U>, 0>
                 )));
 
                 // IntegralConstant < other
-                BOOST_HANA_CONSTEXPR_CHECK(less(integral_constant<I, T, 0>, U{1}));
-                BOOST_HANA_CONSTEXPR_CHECK(not_(less(integral_constant<I, T, 0>, U{0})));
-                BOOST_HANA_CONSTEXPR_CHECK(not_(less(integral_constant<I, T, 1>, U{0})));
+                BOOST_HANA_CONSTEXPR_CHECK(less(integral_constant<C<T>, 0>, U{1}));
+                BOOST_HANA_CONSTEXPR_CHECK(not_(less(integral_constant<C<T>, 0>, U{0})));
+                BOOST_HANA_CONSTEXPR_CHECK(not_(less(integral_constant<C<T>, 1>, U{0})));
 
                 // other < IntegralConstant
-                BOOST_HANA_CONSTEXPR_CHECK(less(T{0}, integral_constant<I, U, 1>));
-                BOOST_HANA_CONSTEXPR_CHECK(not_(less(T{0}, integral_constant<I, U, 0>)));
-                BOOST_HANA_CONSTEXPR_CHECK(not_(less(T{1}, integral_constant<I, U, 0>)));
+                BOOST_HANA_CONSTEXPR_CHECK(less(T{0}, integral_constant<C<U>, 1>));
+                BOOST_HANA_CONSTEXPR_CHECK(not_(less(T{0}, integral_constant<C<U>, 0>)));
+                BOOST_HANA_CONSTEXPR_CHECK(not_(less(T{1}, integral_constant<C<U>, 0>)));
             }
         }
 
         // Enumerable
         {
-            laws<Enumerable, I>();
+            laws<Enumerable, C<T>>();
 
             // succ
             {
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    succ(integral_constant<I, T, 0>),
-                    integral_constant<I, T, 1>
+                    succ(integral_constant<C<T>, 0>),
+                    integral_constant<C<T>, 1>
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    succ(integral_constant<I, T, 1>),
-                    integral_constant<I, T, 2>
+                    succ(integral_constant<C<T>, 1>),
+                    integral_constant<C<T>, 2>
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    succ(integral_constant<I, T, 2>),
-                    integral_constant<I, T, 3>
+                    succ(integral_constant<C<T>, 2>),
+                    integral_constant<C<T>, 3>
                 ));
             }
 
             // pred
             {
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    pred(integral_constant<I, T, 1>),
-                    integral_constant<I, T, 0>
+                    pred(integral_constant<C<T>, 1>),
+                    integral_constant<C<T>, 0>
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    pred(integral_constant<I, T, 2>),
-                    integral_constant<I, T, 1>
+                    pred(integral_constant<C<T>, 2>),
+                    integral_constant<C<T>, 1>
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    pred(integral_constant<I, T, 3>),
-                    integral_constant<I, T, 2>
+                    pred(integral_constant<C<T>, 3>),
+                    integral_constant<C<T>, 2>
                 ));
             }
         }
 
         // Monoid
         {
-            laws<Monoid, I>();
-            using C = std::common_type_t<T, U>;
+            laws<Monoid, C<T>>();
 
             // zero
             {
-                BOOST_HANA_CONSTANT_CHECK(equal(zero<I>, integral_constant<I, T, 0>));
-                BOOST_HANA_CONSTANT_CHECK(equal(zero<I>, integral_constant<I, U, 0>));
+                BOOST_HANA_CONSTANT_CHECK(equal(zero<C<T>>, integral_constant<C<T>, 0>));
+                BOOST_HANA_CONSTANT_CHECK(equal(zero<C<T>>, integral_constant<C<U>, 0>));
             }
 
             // plus
@@ -185,84 +231,81 @@ namespace boost { namespace hana { namespace test {
 
                 // IntegralConstant + IntegralConstant
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    plus(integral_constant<I, T, x>, integral_constant<I, U, y>),
-                    integral_constant<I, C, x + y>
+                    plus(integral_constant<C<T>, x>, integral_constant<C<U>, y>),
+                    integral_constant<C<Common>, x + y>
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    plus(integral_constant<I, T, x>, integral_constant<I, U, y>),
-                    integral_constant<I, C, x + y>
+                    plus(integral_constant<C<T>, x>, integral_constant<C<U>, y>),
+                    integral_constant<C<Common>, x + y>
                 ));
 
                 // IntegralConstant + other
                 BOOST_HANA_CONSTEXPR_CHECK(equal(
-                    plus(integral_constant<I, T, x>, U{y}),
-                    C{x + y}
+                    plus(integral_constant<C<T>, x>, U{y}),
+                    Common{x + y}
                 ));
 
                 // other + IntegralConstant
                 BOOST_HANA_CONSTEXPR_CHECK(equal(
-                    plus(T{x}, integral_constant<I, U, y>),
-                    C{x + y}
+                    plus(T{x}, integral_constant<C<U>, y>),
+                    Common{x + y}
                 ));
             }
         }
 
         // Group
         {
-            laws<Group, I>();
+            laws<Group, C<T>>();
 
             // negate
             {
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    negate(integral_constant<I, T, 1>),
-                    integral_constant<I, T, -1>
+                    negate(integral_constant<C<T>, 1>),
+                    integral_constant<C<T>, T{-1}>
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    negate(integral_constant<I, U, 3>),
-                    integral_constant<I, U, -3>
+                    negate(integral_constant<C<U>, 3>),
+                    integral_constant<C<U>, U{-3}>
                 ));
             }
 
             // minus
             {
-                using C = std::common_type_t<T, U>;
-
                 // IntegralConstant - IntegralConstant
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    minus(integral_constant<I, T, 1>, integral_constant<I, U, 3>),
-                    integral_constant<I, C, 1 - 3>
+                    minus(integral_constant<C<T>, 1>, integral_constant<C<U>, 3>),
+                    integral_constant<C<Common>, Common{1 - 3}>
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    minus(integral_constant<I, T, 4>, integral_constant<I, U, 2>),
-                    integral_constant<I, C, 4 - 2>
+                    minus(integral_constant<C<T>, 4>, integral_constant<C<U>, 2>),
+                    integral_constant<C<Common>, Common{4 - 2}>
                 ));
 
                 // IntegralConstant - other
                 BOOST_HANA_CONSTEXPR_CHECK(equal(
-                    minus(integral_constant<I, T, 1>, U{3}),
-                    C{1 - 3}
+                    minus(integral_constant<C<T>, 1>, U{3}),
+                    Common{1 - 3}
                 ));
 
                 // other - IntegralConstant
                 BOOST_HANA_CONSTEXPR_CHECK(equal(
-                    minus(T{1}, integral_constant<I, U, 3>),
-                    C{1 - 3}
+                    minus(T{1}, integral_constant<C<U>, 3>),
+                    Common{1 - 3}
                 ));
             }
         }
 
         // Ring
         {
-            laws<Ring, I>();
-            using C = std::common_type_t<T, U>;
+            laws<Ring, C<T>>();
 
             // one
             {
-                BOOST_HANA_CONSTANT_CHECK(equal(one<I>, integral_constant<I, T, 1>));
-                BOOST_HANA_CONSTANT_CHECK(equal(one<I>, integral_constant<I, U, 1>));
+                BOOST_HANA_CONSTANT_CHECK(equal(one<C<T>>, integral_constant<C<T>, 1>));
+                BOOST_HANA_CONSTANT_CHECK(equal(one<C<T>>, integral_constant<C<U>, 1>));
             }
 
             // mult
@@ -272,57 +315,56 @@ namespace boost { namespace hana { namespace test {
 
                 // IntegralConstant + IntegralConstant
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    mult(integral_constant<I, T, x>, integral_constant<I, U, y>),
-                    integral_constant<I, C, x * y>
+                    mult(integral_constant<C<T>, x>, integral_constant<C<U>, y>),
+                    integral_constant<C<Common>, x * y>
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    mult(integral_constant<I, T, x>, integral_constant<I, U, y>),
-                    integral_constant<I, C, x * y>
+                    mult(integral_constant<C<T>, x>, integral_constant<C<U>, y>),
+                    integral_constant<C<Common>, x * y>
                 ));
 
                 // IntegralConstant * other
                 BOOST_HANA_CONSTEXPR_CHECK(equal(
-                    mult(integral_constant<I, T, x>, U{y}),
-                    C{x * y}
+                    mult(integral_constant<C<T>, x>, U{y}),
+                    Common{x * y}
                 ));
 
                 // other * IntegralConstant
                 BOOST_HANA_CONSTEXPR_CHECK(equal(
-                    mult(T{x}, integral_constant<I, U, y>),
-                    C{x * y}
+                    mult(T{x}, integral_constant<C<U>, y>),
+                    Common{x * y}
                 ));
             }
         }
 
         // IntegralDomain
         {
-            laws<IntegralDomain, I>();
-            using C = std::common_type_t<T, U>;
+            laws<IntegralDomain, C<T>>();
 
             // quot
             {
                 // IntegralConstant / IntegralConstant
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    quot(integral_constant<I, T, 6>, integral_constant<I, U, 3>),
-                    integral_constant<I, C, 6 / 3>
+                    quot(integral_constant<C<T>, 6>, integral_constant<C<U>, 3>),
+                    integral_constant<C<Common>, 6 / 3>
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    quot(integral_constant<I, T, 4>, integral_constant<I, U, 3>),
-                    integral_constant<I, C, 4 / 3>
+                    quot(integral_constant<C<T>, 4>, integral_constant<C<U>, 3>),
+                    integral_constant<C<Common>, 4 / 3>
                 ));
 
                 // IntegralConstant / other
                 BOOST_HANA_CONSTEXPR_CHECK(equal(
-                    quot(integral_constant<I, T, 6>, U{3}),
-                    C{6 / 3}
+                    quot(integral_constant<C<T>, 6>, U{3}),
+                    Common{6 / 3}
                 ));
 
                 // other / IntegralConstant
                 BOOST_HANA_CONSTEXPR_CHECK(equal(
-                    quot(T{6}, integral_constant<I, U, 3>),
-                    C{6 / 3}
+                    quot(T{6}, integral_constant<C<U>, 3>),
+                    Common{6 / 3}
                 ));
             }
 
@@ -330,64 +372,64 @@ namespace boost { namespace hana { namespace test {
             {
                 // IntegralConstant % IntegralConstant
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    mod(integral_constant<I, T, 6>, integral_constant<I, U, 4>),
-                    integral_constant<I, C, 6 % 4>
+                    mod(integral_constant<C<T>, 6>, integral_constant<C<U>, 4>),
+                    integral_constant<C<Common>, 6 % 4>
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    mod(integral_constant<I, T, 6>, integral_constant<I, U, 4>),
-                    integral_constant<I, C, 6 % 4>
+                    mod(integral_constant<C<T>, 6>, integral_constant<C<U>, 4>),
+                    integral_constant<C<Common>, 6 % 4>
                 ));
 
                 // IntegralConstant % other
                 BOOST_HANA_CONSTEXPR_CHECK(equal(
-                    mod(integral_constant<I, T, 6>, U{4}),
-                    C{6 % 4}
+                    mod(integral_constant<C<T>, 6>, U{4}),
+                    Common{6 % 4}
                 ));
 
                 // other % IntegralConstant
                 BOOST_HANA_CONSTEXPR_CHECK(equal(
-                    mod(T{6}, integral_constant<I, U, 4>),
-                    C{6 % 4}
+                    mod(T{6}, integral_constant<C<U>, 4>),
+                    Common{6 % 4}
                 ));
             }
         }
 
         // Logical
         {
-            laws<Logical, I>();
+            laws<Logical, C<T>>();
             auto t = always(x<0>);
             auto e = always(x<1>);
 
             // eval_if
             {
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    eval_if(integral_constant<I, bool, true>, t, e), x<0>
+                    eval_if(integral_constant<C<bool>, true>, t, e), x<0>
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    eval_if(integral_constant<I, bool, false>, t, e), x<1>
+                    eval_if(integral_constant<C<bool>, false>, t, e), x<1>
                 ));
             }
 
             // not_
             {
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    not_(integral_constant<I, bool, true>),
-                    integral_constant<I, bool, false>
+                    not_(integral_constant<C<bool>, true>),
+                    integral_constant<C<bool>, false>
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    not_(integral_constant<I, bool, false>),
-                    not_(not_(integral_constant<I, bool, true>))
+                    not_(integral_constant<C<bool>, false>),
+                    not_(not_(integral_constant<C<bool>, true>))
                 ));
             }
         }
     }
 
-    template <typename I>
-    auto laws<IntegralConstant, I> = [] {
-        IntegralConstant_laws<I, int, int>();
+    template <template <typename ...> class C, typename T>
+    auto laws<IntegralConstant, C<T>> = [] {
+        IntegralConstant_laws<C, T, T>();
     };
 }}} // end namespace boost::hana::test
 

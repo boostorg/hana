@@ -7,6 +7,10 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TEST_TEST_CNUMERIC_HPP
 #define BOOST_HANA_TEST_TEST_CNUMERIC_HPP
 
+#include <boost/hana/core/convert.hpp>
+#include <boost/hana/core/is_a.hpp>
+#include <boost/hana/core/when.hpp>
+
 // instances
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/constant.hpp>
@@ -17,12 +21,13 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     namespace test {
+        template <typename T>
         struct CNumeric { };
 
         template <typename T, T v>
         struct cnumeric_type {
             static constexpr T value = v;
-            struct hana { using datatype = CNumeric; };
+            struct hana { using datatype = CNumeric<T>; };
 
             //! @todo Find a way to make this explicit.
             constexpr operator bool() const { return value; }
@@ -32,8 +37,19 @@ namespace boost { namespace hana {
         constexpr cnumeric_type<T, v> cnumeric{};
     }
 
-    template <>
-    struct Constant::instance<test::CNumeric>
+    template <typename T, typename C>
+    struct convert<test::CNumeric<T>, C,
+        when<is_an<IntegralConstant, C>()>
+    > {
+        template <typename X>
+        static constexpr decltype(auto) apply(X x) {
+            constexpr auto v = value(x);
+            return test::cnumeric<T, v>;
+        }
+    };
+
+    template <typename T>
+    struct Constant::instance<test::CNumeric<T>>
         : Constant::mcd
     {
         template <typename X>
@@ -42,36 +58,36 @@ namespace boost { namespace hana {
         }
     };
 
-    template <>
-    struct IntegralConstant::instance<test::CNumeric>
+    template <typename T>
+    struct IntegralConstant::instance<test::CNumeric<T>>
         : IntegralConstant::mcd
     {
-        template <typename T, T v>
+        template <T v>
         static constexpr auto integral_constant_impl() {
             return test::cnumeric<T, v>;
         }
     };
 
-    template <>
-    struct Logical::instance<test::CNumeric> : Logical::mcd {
-        template <typename T, typename E>
+    template <typename T>
+    struct Logical::instance<test::CNumeric<T>> : Logical::mcd {
+        template <typename Then, typename Else>
         static constexpr auto
-        eval_if_impl(decltype(test::cnumeric<bool, true>), T t, E e) {
+        eval_if_impl(decltype(test::cnumeric<bool, true>), Then t, Else e) {
             auto id = [](auto x) { return x; };
             return t(id);
         }
 
-        template <typename T, typename E>
+        template <typename Then, typename Else>
         static constexpr auto
-        eval_if_impl(decltype(test::cnumeric<bool, false>), T t, E e) {
+        eval_if_impl(decltype(test::cnumeric<bool, false>), Then t, Else e) {
             auto id = [](auto x) { return x; };
             return e(id);
         }
 
-        template <typename C, typename T, typename E>
-        static constexpr auto eval_if_impl(C c, T t, E e) {
+        template <typename Cond, typename Then, typename Else>
+        static constexpr auto eval_if_impl(Cond c, Then t, Else e) {
             return eval_if_impl(
-                test::cnumeric<bool, static_cast<bool>(C::value)>, t, e
+                test::cnumeric<bool, static_cast<bool>(Cond::value)>, t, e
             );
         }
 
@@ -80,8 +96,8 @@ namespace boost { namespace hana {
         { return test::cnumeric<bool, !X::value>; }
     };
 
-    template <>
-    struct Orderable::instance<test::CNumeric, test::CNumeric>
+    template <typename T, typename U>
+    struct Orderable::instance<test::CNumeric<T>, test::CNumeric<U>>
         : Orderable::less_mcd
     {
         template <typename X, typename Y>
@@ -96,8 +112,8 @@ namespace boost { namespace hana {
     //
     // If neither is defined, the MCD used is unspecified.
 #ifdef BOOST_HANA_TEST_COMPARABLE_EQUAL_MCD
-    template <>
-    struct Comparable::instance<test::CNumeric, test::CNumeric>
+    template <typename T, typename U>
+    struct Comparable::instance<test::CNumeric<T>, test::CNumeric<U>>
         : Comparable::equal_mcd
     {
         template <typename X, typename Y>
@@ -105,8 +121,8 @@ namespace boost { namespace hana {
         { return test::cnumeric<bool, X::value == Y::value>; }
     };
 #else
-    template <>
-    struct Comparable::instance<test::CNumeric, test::CNumeric>
+    template <typename T, typename U>
+    struct Comparable::instance<test::CNumeric<T>, test::CNumeric<U>>
         : Comparable::not_equal_mcd
     {
         template <typename X, typename Y>

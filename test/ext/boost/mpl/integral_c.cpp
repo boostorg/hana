@@ -24,66 +24,61 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/mpl/integral_c.hpp>
 #include <boost/mpl/long.hpp>
 #include <boost/mpl/size_t.hpp>
+#include <cstddef>
 #include <type_traits>
 using namespace boost::hana;
 
 
 namespace boost { namespace hana { namespace test {
-    template <>
-    auto instances<ext::boost::mpl::IntegralC> = tuple(
+    template <typename T>
+    auto instances<ext::boost::mpl::IntegralC<T>> = tuple(
         type<Constant>,
         type<IntegralConstant>
     );
 
-    template <>
-    auto objects<ext::boost::mpl::IntegralC> = tuple(
-        ::boost::mpl::integral_c<int, 0>{},
-        ::boost::mpl::integral_c<int, 1>{},
-        ::boost::mpl::integral_c<int, 2>{},
-        ::boost::mpl::integral_c<int, 3>{},
-
-        ::boost::mpl::true_{},
-        ::boost::mpl::false_{},
-
-        ::boost::mpl::long_<10>{},
-        ::boost::mpl::char_<'c'>{}
+    template <typename T>
+    auto objects<ext::boost::mpl::IntegralC<T>> = tuple(
+        ::boost::mpl::integral_c<T, 0>{},
+        ::boost::mpl::integral_c<T, 1>{},
+        ::boost::mpl::integral_c<T, 2>{},
+        ::boost::mpl::integral_c<T, 3>{}
     );
 }}}
 
 
 int main() {
-    test::check_datatype<ext::boost::mpl::IntegralC>();
+    test::check_datatype<ext::boost::mpl::IntegralC<int>>();
 
     // make sure the datatype is correct
     {
         static_assert(std::is_same<
             datatype_t< ::boost::mpl::bool_<true>>,
-            ext::boost::mpl::IntegralC
+            ext::boost::mpl::IntegralC<bool>
         >::value, "");
 
         static_assert(std::is_same<
             datatype_t< ::boost::mpl::int_<0>>,
-            ext::boost::mpl::IntegralC
+            ext::boost::mpl::IntegralC<int>
         >::value, "");
 
         static_assert(std::is_same<
             datatype_t< ::boost::mpl::long_<0>>,
-            ext::boost::mpl::IntegralC
+            ext::boost::mpl::IntegralC<long>
         >::value, "");
 
         static_assert(std::is_same<
             datatype_t< ::boost::mpl::size_t<0>>,
-            ext::boost::mpl::IntegralC
+            ext::boost::mpl::IntegralC<std::size_t>
         >::value, "");
 
         static_assert(std::is_same<
             datatype_t< ::boost::mpl::integral_c<int, 0>>,
-            ext::boost::mpl::IntegralC
+            ext::boost::mpl::IntegralC<int>
         >::value, "");
 
         static_assert(std::is_same<
             datatype_t< ::boost::mpl::char_<0>>,
-            ext::boost::mpl::IntegralC
+            ext::boost::mpl::IntegralC<char>
         >::value, "");
     }
 

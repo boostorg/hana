@@ -20,18 +20,12 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     namespace ext { namespace boost { namespace mpl {
         //! @ingroup group-datatypes
-        //! Data type representing Boost.MPL IntegralConstants
-        //!
-        //! Note that while the documentation does not present it that way,
-        //! this type is the same as `boost::mpl::integral_c_tag`.
+        //! Data type representing Boost.MPL IntegralConstants.
         //!
         //! ### Instance of
         //! `Constant`, `IntegralConstant`
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
+        template <typename T>
         struct IntegralC;
-#else
-        using IntegralC = ::boost::mpl::integral_c_tag;
-#endif
     }}}
 
     template <typename T>
@@ -41,7 +35,9 @@ namespace boost { namespace hana {
             ::boost::mpl::integral_c_tag
         >::value
     >> {
-        using type = ext::boost::mpl::IntegralC;
+        using type = ext::boost::mpl::IntegralC<
+            typename T::value_type
+        >;
     };
 }} // end namespace boost::hana
 

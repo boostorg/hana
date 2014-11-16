@@ -12,7 +12,7 @@ using namespace boost::hana;
 
 int main() {
     //! [zero]
-    BOOST_HANA_CONSTANT_CHECK(zero<Integral> == int_<0>);
+    BOOST_HANA_CONSTANT_CHECK(zero<Integral<int>> == int_<0>);
     BOOST_HANA_CONSTEXPR_CHECK(zero<long> == 0l);
     //! [zero]
 

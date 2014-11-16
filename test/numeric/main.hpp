@@ -339,12 +339,12 @@ int main() {
         // power
         {
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                power(test::numeric(x), zero<test::CNumeric>),
+                power(test::numeric(x), zero<test::CNumeric<int>>),
                 one<test::Numeric>
             ));
 
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                power(test::numeric(x), one<test::CNumeric>),
+                power(test::numeric(x), one<test::CNumeric<int>>),
                 test::numeric(x)
             ));
 

@@ -20,27 +20,24 @@ using namespace boost::hana;
 
 
 namespace boost { namespace hana { namespace test {
-    template <>
-    auto instances<ext::std::IntegralConstant> = tuple(
+    template <typename T>
+    auto instances<ext::std::IntegralConstant<T>> = tuple(
         type<Constant>,
         type<IntegralConstant>
     );
 
-    template <>
-    auto objects<ext::std::IntegralConstant> = tuple(
-        ::std::integral_constant<int, 0>{},
-        ::std::integral_constant<int, 1>{},
-        ::std::integral_constant<int, 2>{},
-        ::std::integral_constant<int, 3>{},
-
-        ::std::true_type{},
-        ::std::false_type{}
+    template <typename T>
+    auto objects<ext::std::IntegralConstant<T>> = tuple(
+        ::std::integral_constant<T, 0>{},
+        ::std::integral_constant<T, 1>{},
+        ::std::integral_constant<T, 2>{},
+        ::std::integral_constant<T, 3>{}
     );
 }}}
 
 
 int main() {
-    test::check_datatype<ext::std::IntegralConstant>();
+    test::check_datatype<ext::std::IntegralConstant<int>>();
 
     // interoperation with Integral
     {

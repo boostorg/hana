@@ -18,21 +18,16 @@ using namespace boost::hana;
 
 
 namespace boost { namespace hana { namespace test {
-    template <>
-    auto objects<Integral> = tuple(
-        integral<int, 0>,
-        integral<int, 1>,
-        integral<int, 2>,
-        integral<int, 3>,
-
-        integral<unsigned long, 0>,
-        integral<unsigned long, 1>,
-        integral<unsigned long, 2>,
-        integral<unsigned long, 3>
+    template <typename T>
+    auto objects<Integral<T>> = tuple(
+        integral<T, 0>,
+        integral<T, 1>,
+        integral<T, 2>,
+        integral<T, 3>
     );
 
-    template <>
-    auto instances<Integral> = tuple(
+    template <typename T>
+    auto instances<Integral<T>> = tuple(
         type<Constant>,
         type<IntegralConstant>
     );
@@ -40,7 +35,7 @@ namespace boost { namespace hana { namespace test {
 
 
 int main() {
-    test::check_datatype<Integral>();
+    test::check_datatype<Integral<int>>();
 
     // Integral's API (like std::integral_constant)
     {
@@ -149,7 +144,7 @@ int main() {
         // integral_constant
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                integral_constant<Integral, int, 3>,
+                integral_constant<Integral<int>, 3>,
                 integral<int, 3>
             ));
         }

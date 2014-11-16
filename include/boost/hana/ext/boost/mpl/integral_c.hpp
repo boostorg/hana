@@ -12,6 +12,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/ext/boost/mpl/integral_c.hpp>
 
+#include <boost/hana/core/convert.hpp>
+#include <boost/hana/core/is_a.hpp>
+#include <boost/hana/core/when.hpp>
+
 // instances
 #include <boost/hana/constant.hpp>
 #include <boost/hana/integral_constant.hpp>
@@ -24,20 +28,31 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @include example/ext/boost/mpl/integral_c/constant.cpp
-    template <>
-    struct Constant::instance<ext::boost::mpl::IntegralC> : Constant::mcd {
+    template <typename T>
+    struct Constant::instance<ext::boost::mpl::IntegralC<T>> : Constant::mcd {
         template <typename C>
         static constexpr auto value_impl(C const&)
         { return C::value; }
     };
 
-    template <>
-    struct IntegralConstant::instance<ext::boost::mpl::IntegralC>
+    template <typename T>
+    struct IntegralConstant::instance<ext::boost::mpl::IntegralC<T>>
         : IntegralConstant::mcd
     {
-        template <typename T, T v>
+        template <T v>
         static constexpr auto integral_constant_impl()
         { return ::boost::mpl::integral_c<T, v>{}; }
+    };
+
+    template <typename T, typename C>
+    struct convert<ext::boost::mpl::IntegralC<T>, C,
+        when<is_an<IntegralConstant, C>()>
+    > {
+        template <typename X>
+        static constexpr decltype(auto) apply(X x) {
+            constexpr auto v = value(x);
+            return ::boost::mpl::integral_c<T, v>{};
+        }
     };
 }} // end namespace boost::hana
 

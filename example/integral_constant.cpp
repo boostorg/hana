@@ -14,13 +14,13 @@ int main() {
     {
         //! [integral_constant]
         BOOST_HANA_CONSTANT_CHECK(
-            integral_constant<Integral, int, 2>
+            integral_constant<Integral<int>, 2>
             ==
             int_<2>
         );
 
         BOOST_HANA_CONSTANT_CHECK(equal(
-            integral_constant<ext::std::IntegralConstant, bool, true>,
+            integral_constant<ext::std::IntegralConstant<bool>, true>,
             std::true_type{}
         ));
         //! [integral_constant]
@@ -28,15 +28,15 @@ int main() {
     {
         //! [enumerable]
         BOOST_HANA_CONSTANT_CHECK(
-            succ(integral_constant<Integral, int, 2>)
+            succ(integral_constant<Integral<int>, 2>)
             ==
-            integral_constant<Integral, int, 3>
+            integral_constant<Integral<int>, 3>
         );
 
         BOOST_HANA_CONSTANT_CHECK(
-            pred(integral_constant<Integral, int, 2>)
+            pred(integral_constant<Integral<int>, 2>)
             ==
-            integral_constant<Integral, int, 1>
+            integral_constant<Integral<int>, 1>
         );
         //! [enumerable]
     }

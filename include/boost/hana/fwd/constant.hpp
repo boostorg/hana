@@ -34,23 +34,34 @@ namespace boost { namespace hana {
     //!     }
     //! @endcode
     //!
-    //! This is basically saying that all of `c`'s information used in the
-    //! call to `value` must be stored in its type.
+    //! This means that the `value` function must return an object that can
+    //! be constructed at compile-time. It is important to note that since the
+    //!
+    //! @code
+    //!     constexpr auto t = value(x);
+    //! @endcode
+    //!
+    //! expression appears in a context where `x` is _not_ a constant
+    //! expression, this law also means that `value` must be able to return
+    //! a constant expression even when called with something that isn't one.
+    //! This requirement is the core of a `Constant`; it basically means that
+    //! all of the information stored inside the `c` object that's used in a
+    //! call to `value` must actually be stored inside its type.
+    //!
     //!
     //! @todo
-    //! - Consider renaming this to `UniversalConstant`.
-    //! - Should we provide a `Comparable::constant_mcd` like we used to?
+    //! Should we provide a `Comparable::constant_mcd` like we used to?
     struct Constant {
         BOOST_HANA_TYPECLASS(Constant);
         struct mcd;
     };
 
-    //! Return the compile-time value of a constant.
+    //! Return the compile-time value associated to a constant.
     //! @relates Constant
     //!
     //! This function returns a value which is always a constant expression,
     //! and this function can always be called inside a constant expression.
-    //! This poses some rather heavy restrictions on the implementation;
+    //! This imposes some rather heavy restrictions on the implementation;
     //! specifically, it means that the implementation is fully determined
     //! by the type of its argument, and that it does not use the value of
     //! its argument at all.

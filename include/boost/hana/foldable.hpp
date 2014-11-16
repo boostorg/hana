@@ -92,9 +92,9 @@ namespace boost { namespace hana {
                 return succ(detail::std::forward<N>(n));
             }
         };
-        
+
         template <typename Xs>
-        static constexpr decltype(auto) length_impl(Xs&& xs) 
+        static constexpr decltype(auto) length_impl(Xs&& xs)
         { return foldl(detail::std::forward<Xs>(xs), size_t<0>, inc{}); }
 
         template <typename Xs>
@@ -180,14 +180,14 @@ namespace boost { namespace hana {
         //! @todo Make it possible to specify the Monoid that's used?
         template <typename Xs>
         static constexpr decltype(auto) sum_impl(Xs&& xs) {
-            using M = Integral;
+            using M = Integral<int>;
             return foldl(detail::std::forward<Xs>(xs), zero<M>, plus);
         }
 
         //! @todo Make it possible to specify the Ring that's used?
         template <typename Xs>
         static constexpr decltype(auto) product_impl(Xs&& xs) {
-            using R = Integral;
+            using R = Integral<int>;
             return foldl(detail::std::forward<Xs>(xs), one<R>, mult);
         }
 
@@ -269,8 +269,8 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) foldl_impl(Xs&& xs, S&& s, F&& f) {
             return unpack(detail::std::forward<Xs>(xs),
                 partial(
-                    detail::variadic::foldl, 
-                    detail::std::forward<F>(f), 
+                    detail::variadic::foldl,
+                    detail::std::forward<F>(f),
                     detail::std::forward<S>(s)
                 )
             );
@@ -287,8 +287,8 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) foldr_impl(Xs&& xs, S&& s, F&& f) {
             return unpack(detail::std::forward<Xs>(xs),
                 partial(
-                    detail::variadic::foldr, 
-                    detail::std::forward<F>(f), 
+                    detail::variadic::foldr,
+                    detail::std::forward<F>(f),
                     detail::std::forward<S>(s)
                 )
             );

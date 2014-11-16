@@ -20,31 +20,31 @@ using namespace boost::hana;
 
 
 namespace boost { namespace hana { namespace test {
-    template <>
-    auto instances<CNumeric> = tuple(
+    template <typename T>
+    auto instances<CNumeric<T>> = tuple(
         type<Constant>,
         type<Logical>
     );
 
-    template <>
-    auto objects<CNumeric> = tuple(
-        cnumeric<int, 0>,
-        cnumeric<int, 1>,
-        cnumeric<int, 2>,
-        cnumeric<int, 3>
+    template <typename T>
+    auto objects<CNumeric<T>> = tuple(
+        cnumeric<T, 0>,
+        cnumeric<T, 1>,
+        cnumeric<T, 2>,
+        cnumeric<T, 3>
     );
 }}}
 
 namespace boost { namespace hana {
-    template <>
-    struct enabled_operators<test::CNumeric>
+    template <typename T>
+    struct enabled_operators<test::CNumeric<T>>
         : Logical
     { };
 }}
 
 
 int main() {
-    test::check_datatype<test::CNumeric>();
+    test::check_datatype<test::CNumeric<int>>();
 
     // Constant
     {

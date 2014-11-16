@@ -24,31 +24,31 @@ struct non_pod { virtual ~non_pod() { } };
 int main() {
     static_assert(std::is_same<
         datatype_t<inherit_simple>,
-        ext::std::IntegralConstant
+        ext::std::IntegralConstant<int>
     >{}, "");
     static_assert(std::is_same<
         datatype_t<inherit_no_default>,
-        ext::std::IntegralConstant
+        ext::std::IntegralConstant<int>
     >{}, "");
     static_assert(std::is_same<
         datatype_t<std::is_pointer<int*>>,
-        ext::std::IntegralConstant
+        ext::std::IntegralConstant<bool>
     >{}, "");
 
     static_assert(!std::is_same<
         datatype_t<incomplete>,
-        ext::std::IntegralConstant
+        ext::std::IntegralConstant<int>
     >{}, "");
     static_assert(!std::is_same<
         datatype_t<empty>,
-        ext::std::IntegralConstant
+        ext::std::IntegralConstant<int>
     >{}, "");
     static_assert(!std::is_same<
         datatype_t<non_pod>,
-        ext::std::IntegralConstant
+        ext::std::IntegralConstant<int>
     >{}, "");
     static_assert(!std::is_same<
         datatype_t<void>,
-        ext::std::IntegralConstant
+        ext::std::IntegralConstant<int>
     >{}, "");
 }
