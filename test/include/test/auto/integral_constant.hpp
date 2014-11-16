@@ -37,6 +37,27 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana { namespace test {
     template <typename I, typename T, typename U>
     void IntegralConstant_laws() {
+        // conversions
+        {
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
+                to<T>(integral_constant<I, T, 1>),
+                T{1}
+            ));
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
+                to<T>(integral_constant<I, T, 0>),
+                T{0}
+            ));
+
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
+                to<U>(integral_constant<I, U, 1>),
+                U{1}
+            ));
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
+                to<U>(integral_constant<I, U, 0>),
+                U{0}
+            ));
+        }
+
         // Comparable
         {
             laws<Comparable, I>();

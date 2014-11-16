@@ -13,6 +13,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/integral_constant.hpp>
 
 #include <boost/hana/constant.hpp>
+#include <boost/hana/core/common.hpp>
+#include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
@@ -33,6 +35,34 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     //! Minimal complete definition: `Constant` and `integral_constant`.
     struct IntegralConstant::mcd { };
+
+    //! Provides a conversion from any `IntegralConstant` to a runtime object
+    //! of any integral type.
+    template <typename To, typename I>
+    struct convert<To, I,
+        when<detail::std::is_integral<To>::value && is_an<IntegralConstant, I>()>
+    > {
+        template <typename X>
+        static constexpr To apply(X x) {
+            return static_cast<To>(value(x));
+        }
+    };
+
+    //! Provides a common type between an `IntegralConstant` and any integral
+    //! type.
+    //!
+    //! @todo The common type between `T` and `Integral<U>` should be the
+    //! common type between `T` and `U`, not `T`. We need to parameterize
+    //! `Integral` for this.
+    template <typename T, typename I>
+    struct common<T, I,
+        when<detail::std::is_integral<T>::value && is_an<IntegralConstant, I>()>
+    > { using type = T; };
+
+    template <typename I, typename T>
+    struct common<I, T,
+        when<detail::std::is_integral<T>::value && is_an<IntegralConstant, I>()>
+    > { using type = T; };
 
     template <typename I1, typename I2>
     struct Comparable::integral_constant_mcd : Comparable::equal_mcd {

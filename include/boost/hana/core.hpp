@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 //! @defgroup group-core Core
 //! Core utilities of the library.
 
+#include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/disable.hpp>
