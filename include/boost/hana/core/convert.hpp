@@ -48,15 +48,15 @@ namespace boost { namespace hana {
     //! Implements conversions between data types.
     //!
     //! To specify a conversion between two data types, one must specialize
-    //! `convert` for the corresponding data types. `when` can be used to
-    //! specify conversions between all data types satisfying some predicate.
+    //! `convert` in the `boost::hana` namespace for the corresponding data
+    //! types. `when` can be used to perform flexible specialization.
     //!
     //! By default, `convert` has the following behavior:
-    //! If the `To` and `From` data types are the same, nothing is done.
-    //! Otherwise, if the type of the converted-from object -- its actual
-    //! type, not its data type -- is convertible to the `To` data type with
-    //! `static_cast`, that conversion is used. Otherwise, a static assertion
-    //! is triggered.
+    //! If the `To` and `From` data types are the same, the object is
+    //! forwarded as-is. Otherwise, if the type of the converted-from object
+    //! -- its actual type, not its hana data type -- is convertible to the
+    //! `To` data type with `static_cast`, that conversion is used. Otherwise,
+    //! calling `convert<To, From>::apply` triggers a static assertion.
     //!
     //! @note
     //! `convert` is only used to provide the conversions; to actually
@@ -64,29 +64,20 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @include example/core/convert.cpp
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    template <typename To, typename From, typename optional when-based enabler>
+    struct convert { };
+#else
     template <typename To, typename From, typename = void>
     struct convert
-    //! @cond
         : convert<To, From, when<true>>
-    //! @endcond
     { };
 
     template <typename To, typename From, bool condition>
     struct convert<To, From, when<condition>>
         : core_detail::default_convert<To, From>
     { };
-
-    namespace core_detail {
-        template <typename To>
-        struct to {
-            template <typename X>
-            constexpr decltype(auto) operator()(X&& x) const {
-                return convert<To, datatype_t<X>>::apply(
-                    detail::std::forward<X>(x)
-                );
-            }
-        };
-    }
+#endif
 
     //! @ingroup group-core
     //! Create an object of a data type from an object of another data type.
@@ -112,7 +103,17 @@ namespace boost { namespace hana {
     };
 #else
     template <typename To>
-    constexpr core_detail::to<To> to{};
+    struct _to {
+        template <typename X>
+        constexpr decltype(auto) operator()(X&& x) const {
+            return convert<To, typename datatype<X>::type>::apply(
+                detail::std::forward<X>(x)
+            );
+        }
+    };
+
+    template <typename To>
+    constexpr _to<To> to{};
 #endif
 }} // end namespace boost::hana
 

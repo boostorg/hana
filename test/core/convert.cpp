@@ -14,10 +14,40 @@ Distributed under the Boost Software License, Version 1.0.
 using namespace boost::hana;
 
 
-template <bool b, typename ...Ts>
-struct showme {
-    static_assert(b, "");
+template <typename X, typename Y>
+constexpr auto operator==(X x, Y y)
+{ return x.value == y.value; }
+
+struct Datatype {
+    int value;
+    struct hana { using datatype = Datatype; };
 };
+
+struct Other {
+    int value;
+    struct hana { using datatype = Datatype; };
+};
+
+struct SpecializedFrom;
+struct specialized_from {
+    int value;
+    struct hana { using datatype = SpecializedFrom; };
+};
+
+struct SpecializedTo;
+struct specialized_to {
+    int value;
+    struct hana { using datatype = SpecializedTo; };
+};
+
+namespace boost { namespace hana {
+    template <>
+    struct convert<SpecializedTo, SpecializedFrom> {
+        template <typename T>
+        static constexpr auto apply(T t)
+        { return specialized_to{t.value}; }
+    };
+}}
 
 template <typename F, typename T>
 void check_convert(F f, T t) {
@@ -42,20 +72,6 @@ void check_convert(F f, T t) {
     >{}, "");
 }
 
-struct Datatype {
-    int value;
-    struct hana { using datatype = Datatype; };
-    constexpr bool operator==(Datatype x)
-    { return value == x.value; }
-};
-
-struct other_ctor {
-    int value;
-    struct hana { using datatype = Datatype; };
-    constexpr bool operator==(other_ctor x)
-    { return value == x.value; }
-};
-
 int main() {
     check_convert("abcdef", std::string{"abcdef"});
     check_convert(int{1}, double{1});
@@ -63,5 +79,6 @@ int main() {
     check_convert(std::true_type{}, int{1});
     check_convert(std::false_type{}, int{0});
     check_convert(Datatype{1}, Datatype{1});
-    check_convert(other_ctor{1}, other_ctor{1});
+    check_convert(Other{1}, Other{1});
+    check_convert(specialized_from{1}, specialized_to{1});
 }
