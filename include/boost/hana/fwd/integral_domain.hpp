@@ -41,6 +41,8 @@ namespace boost { namespace hana {
         struct mcd;
         template <typename I1, typename I2>
         struct integral_constant_mcd;
+        template <typename T, typename U>
+        struct default_instance;
     };
 
     //! Generalized integer remainder.

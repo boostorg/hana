@@ -33,8 +33,8 @@ namespace boost { namespace hana {
     //! The role of this metafunction is to provide an alias to the common
     //! type of two given data types. In other words, if `T` and `U` have a
     //! common data type `C`, `common<T, U>::type` is an alias to `C`.
-    //! Otherwise, instantiating `common<T, U>` triggers a compile-time
-    //! assertion.
+    //! Otherwise, `common<T, U>` has no nested `type` and can be used
+    //! in dependent contexts to trigger SFINAE.
     //!
     //! In order for `common` to work properly, it must be specified for
     //! pairs of custom data types by specializing the metafunction in the
@@ -67,10 +67,7 @@ namespace boost { namespace hana {
     { };
 
     template <typename T, typename U, bool condition>
-    struct common<T, U, when<condition>> {
-        static_assert(condition && false,
-        "Unable to find a common data type between both data types.");
-    };
+    struct common<T, U, when<condition>> { };
 
     template <typename T>
     struct common<T, T> { using type = T; };

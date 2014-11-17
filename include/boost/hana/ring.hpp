@@ -13,6 +13,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/ring.hpp>
 
 #include <boost/hana/comparable.hpp>
+#include <boost/hana/core/common.hpp>
+#include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
@@ -55,6 +57,20 @@ namespace boost { namespace hana {
             );
         }
     }
+
+    template <typename T, typename U>
+    struct Ring::default_instance
+        : Ring::instance<common_t<T, U>, common_t<T, U>>
+    {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) mult_impl(X&& x, Y&& y) {
+            using C = common_t<T, U>;
+            return mult(
+                to<C>(detail::std::forward<X>(x)),
+                to<C>(detail::std::forward<Y>(y))
+            );
+        }
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_RING_HPP

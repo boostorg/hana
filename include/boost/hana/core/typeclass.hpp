@@ -24,6 +24,7 @@ namespace boost { namespace hana {
     //!   `Functor f => Applicative f`.
     //! - Consider inheriting from a base class even when no mcd is required.
     //!   That would allow us to _not_ include a useless mcd.
+    //! - Document how `common` is used for some binary methods.
 
     namespace core_detail {
         template <typename Void, typename Typeclass, typename ...Args>

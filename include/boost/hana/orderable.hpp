@@ -12,6 +12,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/orderable.hpp>
 
+#include <boost/hana/core/common.hpp>
+#include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
@@ -115,6 +117,20 @@ namespace boost { namespace hana {
             return if_(detail::std::forward<decltype(cond)>(cond),
                 detail::std::forward<Y>(y),
                 detail::std::forward<X>(x)
+            );
+        }
+    };
+
+    template <typename T, typename U>
+    struct Orderable::default_instance
+        : Orderable::instance<common_t<T, U>, common_t<T, U>>
+    {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) less_impl(X&& x, Y&& y) {
+            using C = common_t<T, U>;
+            return less(
+                to<C>(detail::std::forward<X>(x)),
+                to<C>(detail::std::forward<Y>(y))
             );
         }
     };

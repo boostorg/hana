@@ -84,34 +84,6 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename I, typename T>
-    struct Comparable::instance<I, T, when<
-        is_an<IntegralConstant, I>() &&
-        detail::std::is_integral<T>{}
-    >>
-        : Comparable::equal_mcd
-    {
-        template <typename X, typename Y>
-        static constexpr decltype(auto) equal_impl(X&& x, Y&& y) {
-            return value(detail::std::forward<X>(x)) ==
-                   detail::std::forward<Y>(y);
-        }
-    };
-
-    template <typename T, typename I>
-    struct Comparable::instance<T, I, when<
-        detail::std::is_integral<T>{} &&
-        is_an<IntegralConstant, I>()
-    >>
-        : Comparable::equal_mcd
-    {
-        template <typename X, typename Y>
-        static constexpr decltype(auto) equal_impl(X&& x, Y&& y) {
-            return detail::std::forward<X>(x) ==
-                   value(detail::std::forward<Y>(y));
-        }
-    };
-
     template <typename I1, typename I2>
     struct Comparable::instance<I1, I2, when<
         is_an<IntegralConstant, I1>() &&
@@ -172,30 +144,6 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename I, typename T>
-    struct Group::instance<I, T, when<
-        is_an<IntegralConstant, I>() &&
-        detail::std::is_integral<T>{}
-    >>
-        : Group::minus_mcd<I, T>
-    {
-        template <typename X, typename Y>
-        static constexpr auto minus_impl(X x, Y y)
-        { return value(x) - y; }
-    };
-
-    template <typename T, typename I>
-    struct Group::instance<T, I, when<
-        detail::std::is_integral<T>{} &&
-        is_an<IntegralConstant, I>()
-    >>
-        : Group::minus_mcd<T, I>
-    {
-        template <typename X, typename Y>
-        static constexpr auto minus_impl(X x, Y y)
-        { return x - value(y); }
-    };
-
     template <typename I1, typename I2>
     struct Group::instance<I1, I2, when<
         is_an<IntegralConstant, I1>() &&
@@ -221,38 +169,6 @@ namespace boost { namespace hana {
             constexpr auto modulus = value(x) % value(y);
             return integral_constant<C1<decltype(modulus)>, modulus>;
         }
-    };
-
-    template <typename I, typename T>
-    struct IntegralDomain::instance<I, T, when<
-        is_an<IntegralConstant, I>() &&
-        detail::std::is_integral<T>{}
-    >>
-        : IntegralDomain::mcd
-    {
-        template <typename X, typename Y>
-        static constexpr auto quot_impl(X x, Y y)
-        { return value(x) / y; }
-
-        template <typename X, typename Y>
-        static constexpr auto mod_impl(X x, Y y)
-        { return value(x) % y; }
-    };
-
-    template <typename T, typename I>
-    struct IntegralDomain::instance<T, I, when<
-        detail::std::is_integral<T>{} &&
-        is_an<IntegralConstant, I>()
-    >>
-        : IntegralDomain::mcd
-    {
-        template <typename X, typename Y>
-        static constexpr auto quot_impl(X x, Y y)
-        { return x / value(y); }
-
-        template <typename X, typename Y>
-        static constexpr auto mod_impl(X x, Y y)
-        { return x % value(y); }
     };
 
     template <typename I1, typename I2>
@@ -312,30 +228,6 @@ namespace boost { namespace hana {
         { return integral_constant<C1<T>, 0>; }
     };
 
-    template <typename I, typename T>
-    struct Monoid::instance<I, T, when<
-        is_an<IntegralConstant, I>() &&
-        detail::std::is_integral<T>{}
-    >>
-        : Monoid::mcd
-    {
-        template <typename X, typename Y>
-        static constexpr auto plus_impl(X x, Y y)
-        { return value(x) + y; }
-    };
-
-    template <typename T, typename I>
-    struct Monoid::instance<T, I, when<
-        detail::std::is_integral<T>{} &&
-        is_an<IntegralConstant, I>()
-    >>
-        : Monoid::mcd
-    {
-        template <typename X, typename Y>
-        static constexpr auto plus_impl(X x, Y y)
-        { return x + value(y); }
-    };
-
     template <typename I1, typename I2>
     struct Monoid::instance<I1, I2, when<
         is_an<IntegralConstant, I1>() &&
@@ -354,30 +246,6 @@ namespace boost { namespace hana {
             constexpr auto ord = value(x) < value(y);
             return integral_constant<C1<decltype(ord)>, ord>;
         }
-    };
-
-    template <typename I, typename T>
-    struct Orderable::instance<I, T, when<
-        is_an<IntegralConstant, I>() &&
-        detail::std::is_integral<T>{}
-    >>
-        : Orderable::less_mcd
-    {
-        template <typename X, typename Y>
-        static constexpr auto less_impl(X x, Y y)
-        { return value(x) < y; }
-    };
-
-    template <typename T, typename I>
-    struct Orderable::instance<T, I, when<
-        detail::std::is_integral<T>{} &&
-        is_an<IntegralConstant, I>()
-    >>
-        : Orderable::less_mcd
-    {
-        template <typename X, typename Y>
-        static constexpr auto less_impl(X x, Y y)
-        { return x < value(y); }
     };
 
     template <typename I1, typename I2>
@@ -400,30 +268,6 @@ namespace boost { namespace hana {
 
         static constexpr auto one_impl()
         { return integral_constant<C1<T>, 1>; }
-    };
-
-    template <typename I, typename T>
-    struct Ring::instance<I, T, when<
-        is_an<IntegralConstant, I>() &&
-        detail::std::is_integral<T>{}
-    >>
-        : Ring::mcd
-    {
-        template <typename X, typename Y>
-        static constexpr auto mult_impl(X x, Y y)
-        { return value(x) * y; }
-    };
-
-    template <typename T, typename I>
-    struct Ring::instance<T, I, when<
-        detail::std::is_integral<T>{} &&
-        is_an<IntegralConstant, I>()
-    >>
-        : Ring::mcd
-    {
-        template <typename X, typename Y>
-        static constexpr auto mult_impl(X x, Y y)
-        { return x * value(y); }
     };
 
     template <typename I1, typename I2>

@@ -67,10 +67,20 @@ namespace boost { namespace hana {
     };
 }} // end namespace boost::hana
 
+
 #include <boost/hana/bool.hpp>
+#include <boost/hana/core/common.hpp>
+#include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/disable.hpp>
+#include <boost/hana/core/when.hpp>
+
 
 namespace boost { namespace hana {
+    template <typename T, typename U, typename>
+    struct Comparable::default_instance
+        : Comparable::default_instance<T, U, when<true>>
+    { };
+
     //! Default instance for the `Comparable` type class.
     //!
     //! Objects of different data types that do not define a `Comparable`
@@ -79,11 +89,27 @@ namespace boost { namespace hana {
     //! not implicitly `Comparable`, and trying to compare two objects of
     //! the same data type that do not define a `Comparable` instance will
     //! result in a compile-time error.
-    template <typename T, typename U>
-    struct Comparable::default_instance : Comparable::equal_mcd {
+    template <typename T, typename U, bool condition>
+    struct Comparable::default_instance<T, U, when<condition>>
+        : Comparable::equal_mcd
+    {
         template <typename X, typename Y>
         static constexpr auto equal_impl(X const&, Y const&)
         { return false_; }
+    };
+
+    template <typename T, typename U>
+    struct Comparable::default_instance<T, U, when_valid<common_t<T, U>>>
+        : Comparable::equal_mcd
+    {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) equal_impl(X&& x, Y&& y) {
+            using C = common_t<T, U>;
+            return equal(
+                to<C>(detail::std::forward<X>(x)),
+                to<C>(detail::std::forward<Y>(y))
+            );
+        }
     };
 
     template <typename T>

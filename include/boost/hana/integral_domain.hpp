@@ -12,6 +12,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/integral_domain.hpp>
 
+#include <boost/hana/core/common.hpp>
+#include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
@@ -41,6 +43,29 @@ namespace boost { namespace hana {
         constexpr decltype(auto) operator/(X&& x, Y&& y)
         { return quot(detail::std::forward<X>(x), detail::std::forward<Y>(y)); }
     }
+
+    template <typename T, typename U>
+    struct IntegralDomain::default_instance
+        : IntegralDomain::instance<common_t<T, U>, common_t<T, U>>
+    {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) quot_impl(X&& x, Y&& y) {
+            using C = common_t<T, U>;
+            return quot(
+                to<C>(detail::std::forward<X>(x)),
+                to<C>(detail::std::forward<Y>(y))
+            );
+        }
+
+        template <typename X, typename Y>
+        static constexpr decltype(auto) mod_impl(X&& x, Y&& y) {
+            using C = common_t<T, U>;
+            return mod(
+                to<C>(detail::std::forward<X>(x)),
+                to<C>(detail::std::forward<Y>(y))
+            );
+        }
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_INTEGRAL_DOMAIN_HPP

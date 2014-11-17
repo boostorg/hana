@@ -41,7 +41,7 @@ namespace boost { namespace hana {
         struct product_mcd;
         template <typename I1, typename I2>
         struct integral_constant_mcd;
-        template <typename T, typename U>
+        template <typename T, typename U, typename = void>
         struct default_instance;
     };
 
