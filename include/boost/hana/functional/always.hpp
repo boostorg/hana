@@ -56,7 +56,7 @@ namespace boost { namespace hana {
         { return val_; }
 
         template <typename ...Args>
-        constexpr T&& operator()(Args const& ...) &&
+        constexpr T operator()(Args const& ...) &&
         { return detail::std::move(val_); }
     };
 
