@@ -19,6 +19,8 @@ namespace boost { namespace hana {
     //! @ingroup group-typeclasses
     //! `Functor` represents types that can be mapped over.
     //!
+    //!
+    //! ### Laws
     //! Instances of `Functor` must satisfy the following laws. For any
     //! `Functor` `xs`,
     //! @code
