@@ -10,11 +10,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include "matrix.hpp"
 
 #include <boost/hana/foldable.hpp>
-#include <boost/hana/functional/always.hpp>
-#include <boost/hana/functional/on.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/list.hpp>
-#include <boost/hana/range.hpp>
 #include <boost/hana/ring.hpp>
 #include <boost/hana/tuple.hpp>
 
@@ -28,19 +25,12 @@ namespace boost { namespace hana {
     > : Ring::mcd {
         template <typename M1, typename M2>
         static constexpr decltype(auto) mult_impl(M1&& m1, M2&& m2) {
-            auto repeat_n = [](auto n, auto&& x) -> decltype(auto) {
-                return unpack(
-                    range(int_<0>, n),
-                    tuple ^on^ always(std::forward<decltype(x)>(x))
-                );
-            };
-
             auto cols = cppcon::columns(std::forward<M2>(m2));
             return unpack(
                 fmap(cppcon::rows(std::forward<M1>(m1)),
                     [&](auto&& row) -> decltype(auto) {
                         return zip_with(cppcon::detail::tuple_scalar_product,
-                            repeat_n(uint<R1>, std::forward<decltype(row)>(row)),
+                            repeat<Tuple>(uint<R1>, std::forward<decltype(row)>(row)),
                             cols
                         );
                     }
