@@ -27,11 +27,11 @@ namespace boost { namespace hana { namespace test {
 
         for_each(objects<R>, [](auto x) {
             BOOST_HANA_CHECK(equal(
-                mult(one<R>, x), x
+                mult(one<R>(), x), x
             ));
 
             BOOST_HANA_CHECK(equal(
-                mult(x, one<R>), x
+                mult(x, one<R>()), x
             ));
 
             for_each(objects<R>, [=](auto y) {

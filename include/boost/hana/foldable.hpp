@@ -181,14 +181,14 @@ namespace boost { namespace hana {
         template <typename Xs>
         static constexpr decltype(auto) sum_impl(Xs&& xs) {
             using M = Integral<int>;
-            return foldl(detail::std::forward<Xs>(xs), zero<M>, plus);
+            return foldl(detail::std::forward<Xs>(xs), zero<M>(), plus);
         }
 
         //! @todo Make it possible to specify the Ring that's used?
         template <typename Xs>
         static constexpr decltype(auto) product_impl(Xs&& xs) {
             using R = Integral<int>;
-            return foldl(detail::std::forward<Xs>(xs), one<R>, mult);
+            return foldl(detail::std::forward<Xs>(xs), one<R>(), mult);
         }
 
         template <typename Pred>

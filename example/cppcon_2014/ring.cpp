@@ -36,20 +36,20 @@ int main() {
     // one
     {
         BOOST_HANA_CONSTEXPR_CHECK(
-            one<Matrix<1, 1>> == matrix(
+            one<Matrix<1, 1>>() == matrix(
                 row(1)
             )
         );
 
         BOOST_HANA_CONSTEXPR_CHECK(
-            one<Matrix<2, 2>> == matrix(
+            one<Matrix<2, 2>>() == matrix(
                 row(1, 0),
                 row(0, 1)
             )
         );
 
         BOOST_HANA_CONSTEXPR_CHECK(
-            one<Matrix<3, 3>> == matrix(
+            one<Matrix<3, 3>>() == matrix(
                 row(1, 0, 0),
                 row(0, 1, 0),
                 row(0, 0, 1)
@@ -57,7 +57,7 @@ int main() {
         );
 
         BOOST_HANA_CONSTEXPR_CHECK(
-            one<Matrix<4, 4>> == matrix(
+            one<Matrix<4, 4>>() == matrix(
                 row(1, 0, 0, 0),
                 row(0, 1, 0, 0),
                 row(0, 0, 1, 0),
@@ -66,7 +66,7 @@ int main() {
         );
 
         BOOST_HANA_CONSTEXPR_CHECK(
-            one<Matrix<4, 5>> == matrix(
+            one<Matrix<4, 5>>() == matrix(
                 row(1, 0, 0, 0, 0),
                 row(0, 1, 0, 0, 0),
                 row(0, 0, 1, 0, 0),
@@ -75,7 +75,7 @@ int main() {
         );
 
         BOOST_HANA_CONSTEXPR_CHECK(
-            one<Matrix<5, 4>> == matrix(
+            one<Matrix<5, 4>>() == matrix(
                 row(1, 0, 0, 0),
                 row(0, 1, 0, 0),
                 row(0, 0, 1, 0),

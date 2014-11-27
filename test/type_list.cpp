@@ -138,7 +138,7 @@ int main() {
 
         // nil
         {
-            BOOST_HANA_CONSTANT_CHECK(equal(nil<TypeList>, type_list<>));
+            BOOST_HANA_CONSTANT_CHECK(equal(nil<TypeList>(), type_list<>));
         }
     }
 }

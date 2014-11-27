@@ -75,7 +75,7 @@ namespace boost { namespace hana {
         template <typename Index, typename Iterable_>
         static constexpr auto at_impl(Index n, Iterable_ iterable) {
             using I = datatype_t<Index>;
-            return eval_if(equal(n, zero<I>),
+            return eval_if(equal(n, zero<I>()),
                 [=](auto _) { return _(head)(iterable); },
                 [=](auto _) { return at_impl(_(pred)(n), _(tail)(iterable)); }
             );
@@ -92,7 +92,7 @@ namespace boost { namespace hana {
         template <typename N, typename Iterable_>
         static constexpr auto drop_impl(N n, Iterable_ iterable) {
             using I = datatype_t<N>;
-            return eval_if(or_(equal(n, zero<I>), is_empty(iterable)),
+            return eval_if(or_(equal(n, zero<I>()), is_empty(iterable)),
                 always(iterable),
                 [=](auto _) { return drop_impl(_(pred)(n), _(tail)(iterable)); }
             );

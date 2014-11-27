@@ -33,7 +33,7 @@ namespace boost { namespace hana { namespace test {
                         mult(b, a)
                     ));
 
-                    eval_if(equal(b, zero<D>), [](auto){}, [=](auto _) {
+                    eval_if(equal(b, zero<D>()), [](auto){}, [=](auto _) {
 
                         BOOST_HANA_CHECK(equal(
                             a,
@@ -44,8 +44,8 @@ namespace boost { namespace hana { namespace test {
                         ));
 
                         BOOST_HANA_CHECK(equal(
-                            _(mod)(zero<D>, b),
-                            zero<D>
+                            _(mod)(zero<D>(), b),
+                            zero<D>()
                         ));
 
                         for_each(objects<D>, [=](auto k) {

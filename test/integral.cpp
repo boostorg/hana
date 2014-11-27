@@ -144,7 +144,7 @@ int main() {
         // integral_constant
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                integral_constant<Integral<int>, 3>,
+                integral_constant<Integral<int>, 3>(),
                 integral<int, 3>
             ));
         }

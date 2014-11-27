@@ -19,8 +19,8 @@ int main() {
     }
     {
         //! [one]
-        BOOST_HANA_CONSTANT_CHECK(one<Integral<int>> == int_<1>);
-        BOOST_HANA_CONSTEXPR_CHECK(one<long> == 1l);
+        BOOST_HANA_CONSTANT_CHECK(one<Integral<int>>() == int_<1>);
+        BOOST_HANA_CONSTEXPR_CHECK(one<long>() == 1l);
         //! [one]
     }
     {

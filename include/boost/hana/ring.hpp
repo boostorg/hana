@@ -32,8 +32,8 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) power_impl(X&& x, P&& p) {
             using R = datatype_t<X>;
             using E = datatype_t<P>;
-            return eval_if(equal(p, zero<E>),
-                always(one<R>),
+            return eval_if(equal(p, zero<E>()),
+                always(one<R>()),
                 [&p, &x](auto _) -> decltype(auto) {
                     return mult(
                         x, power_impl(x, _(pred)(detail::std::forward<P>(p)))

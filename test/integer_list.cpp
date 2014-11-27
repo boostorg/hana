@@ -104,15 +104,15 @@ int main() {
         // nil
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                nil<IntegerList>,
+                nil<IntegerList>(),
                 integer_list<int>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                nil<IntegerList>,
+                nil<IntegerList>(),
                 integer_list<long>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                nil<IntegerList>,
+                nil<IntegerList>(),
                 integer_list<void>
             ));
         }

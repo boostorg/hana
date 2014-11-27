@@ -80,7 +80,7 @@ namespace boost { namespace hana {
         template <typename X, typename Y>
         static constexpr decltype(auto) equal_impl(X x, Y y) {
             constexpr auto eq = value(x) == value(y);
-            return integral_constant<C1<decltype(eq)>, eq>;
+            return integral_constant<C1<decltype(eq)>, eq>();
         }
     };
 
@@ -107,13 +107,13 @@ namespace boost { namespace hana {
         template <typename X>
         static constexpr decltype(auto) succ_impl(X x) {
             constexpr auto n = value(x);
-            return integral_constant<C<decltype(inc(n))>, inc(n)>;
+            return integral_constant<C<decltype(inc(n))>, inc(n)>();
         }
 
         template <typename X>
         static constexpr decltype(auto) pred_impl(X x) {
             constexpr auto n = value(x);
-            return integral_constant<C<decltype(dec(n))>, dec(n)>;
+            return integral_constant<C<decltype(dec(n))>, dec(n)>();
         }
     };
 
@@ -140,7 +140,7 @@ namespace boost { namespace hana {
         template <typename X, typename Y>
         static constexpr auto minus_impl(X x, Y y) {
             constexpr auto sub = value(x) - value(y);
-            return integral_constant<C1<decltype(sub)>, sub>;
+            return integral_constant<C1<decltype(sub)>, sub>();
         }
     };
 
@@ -161,13 +161,13 @@ namespace boost { namespace hana {
         template <typename X, typename Y>
         static constexpr auto quot_impl(X x, Y y) {
             constexpr auto quotient = value(x) / value(y);
-            return integral_constant<C1<decltype(quotient)>, quotient>;
+            return integral_constant<C1<decltype(quotient)>, quotient>();
         }
 
         template <typename X, typename Y>
         static constexpr auto mod_impl(X x, Y y) {
             constexpr auto modulus = value(x) % value(y);
-            return integral_constant<C1<decltype(modulus)>, modulus>;
+            return integral_constant<C1<decltype(modulus)>, modulus>();
         }
     };
 
@@ -205,7 +205,7 @@ namespace boost { namespace hana {
         template <typename Cond>
         static constexpr auto not_impl(Cond c) {
             constexpr auto nc = !value(c);
-            return integral_constant<C<decltype(nc)>, nc>;
+            return integral_constant<C<decltype(nc)>, nc>();
         }
     };
 
@@ -221,11 +221,11 @@ namespace boost { namespace hana {
         template <typename X, typename Y>
         static constexpr auto plus_impl(X x, Y y) {
             constexpr auto sum = value(x) + value(y);
-            return integral_constant<C1<decltype(sum)>, sum>;
+            return integral_constant<C1<decltype(sum)>, sum>();
         }
 
         static constexpr auto zero_impl()
-        { return integral_constant<C1<T>, 0>; }
+        { return integral_constant<C1<T>, 0>(); }
     };
 
     template <typename I1, typename I2>
@@ -244,7 +244,7 @@ namespace boost { namespace hana {
         template <typename X, typename Y>
         static constexpr auto less_impl(X x, Y y) {
             constexpr auto ord = value(x) < value(y);
-            return integral_constant<C1<decltype(ord)>, ord>;
+            return integral_constant<C1<decltype(ord)>, ord>();
         }
     };
 
@@ -263,11 +263,11 @@ namespace boost { namespace hana {
         template <typename X, typename Y>
         static constexpr auto mult_impl(X x, Y y) {
             constexpr auto prod = value(x) * value(y);
-            return integral_constant<C1<decltype(prod)>, prod>;
+            return integral_constant<C1<decltype(prod)>, prod>();
         }
 
         static constexpr auto one_impl()
-        { return integral_constant<C1<T>, 1>; }
+        { return integral_constant<C1<T>, 1>(); }
     };
 
     template <typename I1, typename I2>

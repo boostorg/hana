@@ -30,8 +30,8 @@ namespace boost { namespace hana {
     //! be satisfied:
     //! @code
     //!     mult(x, mult(y, z)) == mult(mult(x, y), z)          // associativity
-    //!     mult(x, one<R>) == x                                // right identity
-    //!     mult(one<R>, x) == x                                // left identity
+    //!     mult(x, one<R>()) == x                              // right identity
+    //!     mult(one<R>(), x) == x                              // left identity
     //!     mult(x, plus(y, z)) == plus(mult(x, y), mult(x, z)) // distributivity
     //! @endcode
     struct Ring {
@@ -72,7 +72,7 @@ namespace boost { namespace hana {
     //! @relates Ring
     //!
     //! Since `Ring` is a binary type class and `one` is a nullary method,
-    //! `one<R>` is dispatched to the type class instance for `R` and `R`,
+    //! `one<R>()` is dispatched to the type class instance for `R` and `R`,
     //! i.e. `Ring::instance<R, R>`.
     //!
     //! @tparam R
@@ -80,8 +80,22 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/ring.cpp one
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename R>
-    constexpr auto one = Ring::instance<R, R>::one_impl();
+    constexpr auto one = []() -> decltype(auto) {
+        return tag-dispatched;
+    };
+#else
+    template <typename R>
+    struct _one {
+        constexpr decltype(auto) operator()() const {
+            return Ring::instance<R, R>::one_impl();
+        }
+    };
+
+    template <typename R>
+    constexpr _one<R> one{};
+#endif
 
     //! Power of a `Ring` element.
     //! @relates Ring

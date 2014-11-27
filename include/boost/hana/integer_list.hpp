@@ -49,8 +49,8 @@ namespace boost { namespace hana {
     //! An `Integral` can be prepended to an `IntegerList` by using `cons`;
     //! however the `cons`ed value has to be convertible to the type of the
     //! integers in the list. An empty `IntegerList` can be created with
-    //! `nil<IntegerList>`; the type of the `Integral`s it contains will be
-    //! set when an element is added to the list.
+    //! `nil<IntegerList>()`; the type of the `Integral`s it contains will
+    //! be set when an element is added to the list.
     template <>
     struct List::instance<IntegerList> : List::mcd<IntegerList> {
         template <typename X, typename T, T ...xs>

@@ -27,7 +27,7 @@ namespace boost { namespace hana {
     struct Group::minus_mcd {
         template <typename X>
         static constexpr auto negate_impl(X x) {
-            return minus(zero<G1>, x);
+            return minus(zero<G1>(), x);
         }
     };
 

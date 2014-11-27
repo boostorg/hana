@@ -29,8 +29,8 @@ namespace boost { namespace hana {
     //! For all objects `x` of a `Group` `G`, the following laws must be
     //! satisfied:
     //! @code
-    //!     plus(x, negate(x)) == zero<G> // right inverse
-    //!     plus(negate(x), x) == zero<G> // left inverse
+    //!     plus(x, negate(x)) == zero<G>() // right inverse
+    //!     plus(negate(x), x) == zero<G>() // left inverse
     //! @endcode
     struct Group {
         BOOST_HANA_BINARY_TYPECLASS(Group);

@@ -116,7 +116,7 @@ namespace boost { namespace hana {
             constexpr auto s = from == to ? 0 : sum_helper(from, to-1);
             return integral_constant<
                 typename rebind<C, decltype(s)>::type, s
-            >;
+            >();
         }
 
         // Returns the product of `[m, n)`, where `m <= n` always hold.
@@ -140,7 +140,7 @@ namespace boost { namespace hana {
             constexpr auto s = product_helper(from, to);
             return integral_constant<
                 typename rebind<C, decltype(s)>::type, s
-            >;
+            >();
         }
     };
 

@@ -69,13 +69,13 @@ namespace boost { namespace hana {
                     always(xs)
                 );
             };
-            return foldr(xs, nil<L>, go);
+            return foldr(xs, nil<L>(), go);
         }
 
         template <typename Pred, typename Xs>
         static constexpr auto group_by_impl(Pred pred, Xs xs_) {
             return eval_if(is_empty(xs_),
-                [](auto) { return nil<L>; },
+                [](auto) { return nil<L>(); },
                 [=](auto _) {
                     auto x = _(head)(xs_);
                     auto xs = _(tail)(xs_);
@@ -95,7 +95,7 @@ namespace boost { namespace hana {
         template <typename Xs>
         static constexpr auto init_impl(Xs xs) {
             return eval_if(is_empty(tail(xs)),
-                always(nil<L>),
+                always(nil<L>()),
                 [=](auto _) { return cons(_(head)(xs), init_impl(_(tail)(xs))); }
             );
         }
@@ -103,7 +103,7 @@ namespace boost { namespace hana {
     private:
         template <typename Prefix, typename Xs>
         static constexpr decltype(auto) prepend_to_all(Prefix&& prefix, Xs&& xs) {
-            return foldr(detail::std::forward<Xs>(xs), nil<L>,
+            return foldr(detail::std::forward<Xs>(xs), nil<L>(),
                 [pfx(detail::std::forward<Prefix>(prefix))](auto&& x, auto&& xs) -> decltype(auto) {
                     return cons(pfx,
                         cons(
@@ -136,7 +136,7 @@ namespace boost { namespace hana {
 
         template <typename ...Xs>
         static constexpr decltype(auto) make_impl(Xs&& ...xs) {
-            return detail::variadic::foldr(cons, nil<L>,
+            return detail::variadic::foldr(cons, nil<L>(),
                 detail::std::forward<Xs>(xs)...
             );
         }
@@ -149,7 +149,7 @@ namespace boost { namespace hana {
                     [=](auto _) { return pair(first(parts), _(snoc)(second(parts), x)); }
                 );
             };
-            return foldl(xs, pair(nil<L>, nil<L>), go);
+            return foldl(xs, pair(nil<L>(), nil<L>()), go);
         }
 
     private:
@@ -174,7 +174,7 @@ namespace boost { namespace hana {
         template <typename Xs>
         static constexpr auto permutations_impl(Xs xs) {
             return eval_if(is_empty(xs),
-                [](auto _) { return lift<L>(nil<L>); },
+                [](auto _) { return lift<L>(nil<L>()); },
                 [=](auto _) {
                     return flatten(fmap(permutations_impl(_(tail)(xs)), [=](auto ys) {
                         return insertions(_(head)(xs), ys);
@@ -186,7 +186,7 @@ namespace boost { namespace hana {
         template <typename N, typename Xs>
         static constexpr decltype(auto) remove_at_impl(N&& n, Xs&& xs) {
             using I = typename datatype<N>::type;
-            return eval_if(equal(n, zero<I>),
+            return eval_if(equal(n, zero<I>()),
                 [&xs](auto _) -> decltype(auto) {
                     return _(tail)(detail::std::forward<Xs>(xs));
                 },
@@ -213,7 +213,7 @@ namespace boost { namespace hana {
 
         template <typename Xs>
         static constexpr decltype(auto) reverse_impl(Xs&& xs) {
-            return foldl(detail::std::forward<Xs>(xs), nil<L>, flip(cons));
+            return foldl(detail::std::forward<Xs>(xs), nil<L>(), flip(cons));
         }
 
         template <typename Xs, typename S, typename F>
@@ -229,7 +229,7 @@ namespace boost { namespace hana {
         template <typename Xs, typename F>
         static constexpr auto scanl1_impl(Xs xs, F f) {
             return eval_if(is_empty(xs),
-                always(nil<L>),
+                always(nil<L>()),
                 [=](auto _) { return scanl(_(tail)(xs), _(head)(xs), f); }
             );
         }
@@ -248,7 +248,7 @@ namespace boost { namespace hana {
         template <typename Lst, typename F>
         static constexpr auto scanr1_impl(Lst lst, F f) {
             return eval_if(is_empty(lst),
-                always(nil<L>),
+                always(nil<L>()),
                 [=](auto _) {
                     auto x = _(head)(lst);
                     auto xs = _(tail)(lst);
@@ -306,7 +306,7 @@ namespace boost { namespace hana {
         template <typename Xs, typename Pred>
         static constexpr auto span_impl(Xs xs, Pred pred) {
             return eval_if(is_empty(xs),
-                [=](auto _) { return pair(nil<L>, nil<L>); },
+                [=](auto _) { return pair(nil<L>(), nil<L>()); },
                 [=](auto _) {
                     auto x = _(head)(xs);
                     auto xs_ = _(tail)(xs);
@@ -318,7 +318,7 @@ namespace boost { namespace hana {
                             return pair(cons(x, ys), zs);
                         },
                         [=](auto _) {
-                            return _(pair)(nil<L>, xs);
+                            return _(pair)(nil<L>(), xs);
                         }
                     );
                 }
@@ -328,7 +328,7 @@ namespace boost { namespace hana {
         template <typename N, typename Xs>
         static constexpr auto take_impl(N n, Xs xs) {
             return eval_if(or_(is_empty(xs), equal(n, int_<0>)),
-                always(nil<L>),
+                always(nil<L>()),
                 [=](auto _) {
                     return cons(_(head)(xs), take_impl(minus(n, int_<1>), _(tail)(xs)));
                 }
@@ -346,7 +346,7 @@ namespace boost { namespace hana {
         template <typename Xs, typename Pred>
         static constexpr auto take_while_impl(Xs xs, Pred pred) {
             return eval_if(is_empty(xs),
-                always(nil<L>),
+                always(nil<L>()),
                 [=](auto _) {
                     return eval_if(pred(_(head)(xs)),
                         [=](auto _) {
@@ -355,7 +355,7 @@ namespace boost { namespace hana {
                                 take_while_impl(_(tail)(xs), pred)
                             );
                         },
-                        always(nil<L>)
+                        always(nil<L>())
                     );
                 }
             );
@@ -366,7 +366,7 @@ namespace boost { namespace hana {
             auto g = [=](auto a_b) {
                 return cons(first(a_b), unfoldr_impl(f, second(a_b)));
             };
-            return maybe(nil<L>, g, f(init));
+            return maybe(nil<L>(), g, f(init));
         }
 
         template <typename F, typename Init>
@@ -374,7 +374,7 @@ namespace boost { namespace hana {
             auto g = [=](auto b_a) {
                 return snoc(unfoldl_impl(f, first(b_a)), second(b_a));
             };
-            return maybe(nil<L>, g, f(init));
+            return maybe(nil<L>(), g, f(init));
         }
 
         template <typename Xs>
@@ -388,7 +388,7 @@ namespace boost { namespace hana {
         template <typename F, typename ...Xss>
         static constexpr auto zip_with_impl(F f, Xss ...xss) {
             return eval_if(or_(is_empty(xss)...),
-                [](auto _) { return nil<L>; },
+                [](auto _) { return nil<L>(); },
                 [=](auto _) {
                     return cons(
                         f(_(head)(xss)...),
@@ -404,15 +404,15 @@ namespace boost { namespace hana {
     struct convert<L, T, when<is_a<List, L>() && is_a<Foldable, T>()>> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs)
-        { return foldr(detail::std::forward<Xs>(xs), nil<L>, cons); }
+        { return foldr(detail::std::forward<Xs>(xs), nil<L>(), cons); }
     };
 
     //! Minimal complete definition: `Functor` and `List`
-    template <typename T>
+    template <typename L>
     struct Applicative::list_mcd {
         template <typename X>
         static constexpr decltype(auto) lift_impl(X&& x)
-        { return cons(detail::std::forward<X>(x), nil<T>); }
+        { return cons(detail::std::forward<X>(x), nil<L>()); }
 
         template <typename Fs, typename Xs>
         static constexpr decltype(auto) ap_impl(Fs&& fs, Xs&& xs) {
@@ -474,7 +474,7 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) fmap_impl(Xs&& xs, F&& f) {
             return foldr(
                 detail::std::forward<Xs>(xs),
-                nil<T>,
+                nil<T>(),
                 compose(cons, detail::std::forward<F>(f))
             );
         }
@@ -498,7 +498,7 @@ namespace boost { namespace hana {
     struct Monad::list_mcd : Monad::flatten_mcd<T> {
         template <typename Xss>
         static constexpr decltype(auto) flatten_impl(Xss&& xss) {
-            return foldl(detail::std::forward<Xss>(xss), nil<T>, concat);
+            return foldl(detail::std::forward<Xss>(xss), nil<T>(), concat);
         }
     };
 
@@ -519,7 +519,7 @@ namespace boost { namespace hana {
     struct Traversable::list_mcd : Traversable::traverse_mcd {
         template <typename A, typename Xs, typename F>
         static constexpr decltype(auto) traverse_impl(Xs&& xs, F&& f) {
-            return foldr(detail::std::forward<Xs>(xs), lift<A>(nil<T>),
+            return foldr(detail::std::forward<Xs>(xs), lift<A>(nil<T>()),
             [f(detail::std::forward<F>(f))](auto&& x, auto&& ys) -> decltype(auto) {
                 return ap(
                     fmap(

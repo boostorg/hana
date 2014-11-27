@@ -34,7 +34,7 @@ namespace boost { namespace hana {
     //!     mult(a, b) == mult(b, a)                                  // commutativity
     //!     plus(mult(quot(a, b), b), mod(a, b)) == a if b is non-zero
     //!     mod(plus(a, mult(k, b)), b) == mod(a, b)  if b is non-zero // canonicity
-    //!     mod(zero<D>, b) == zero<D>                if b is non-zero
+    //!     mod(zero<D>(), b) == zero<D>()            if b is non-zero
     //! @endcode
     struct IntegralDomain {
         BOOST_HANA_BINARY_TYPECLASS(IntegralDomain);

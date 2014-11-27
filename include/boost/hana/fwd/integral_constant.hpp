@@ -36,7 +36,7 @@ namespace boost { namespace hana {
     //! @code
     //!     x == y
     //!     if and only if
-    //!     integral_constant<X<T>, value(x)> == integral_constant<Y<U>, value(y)>
+    //!     integral_constant<X<T>, value(x)>() == integral_constant<Y<U>, value(y)>()
     //! @endcode
     //!
     //! This law ensures that an `IntegralConstant` can't carry more information
@@ -67,7 +67,7 @@ namespace boost { namespace hana {
     //! value of the given integral type.
     //! @relates IntegralConstant
     //!
-    //! Specifically, `integral_constant<C<T>, v>` is an `IntegralConstant`
+    //! Specifically, `integral_constant<C<T>, v>()` is an `IntegralConstant`
     //! of data type `C<T>` with an underlying value `v` of the integral
     //! type `T`.
     //!
@@ -84,7 +84,9 @@ namespace boost { namespace hana {
     //! @snippet example/integral_constant.cpp integral_constant
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <template <typename ...> class C, typename T, T v>
-    constexpr auto integral_constant<C<T>, v> = tag-dispatched;
+    constexpr auto integral_constant<C<T>, v> = []() -> decltype(auto) {
+        return tag-dispatched;
+    };
 #else
     namespace ic_detail {
         template <typename C>
@@ -95,8 +97,15 @@ namespace boost { namespace hana {
     }
 
     template <typename C, typename ic_detail::param<C>::type v>
-    constexpr auto integral_constant = IntegralConstant::instance<C>::
-                                       template integral_constant_impl<v>();
+    struct _integral_constant {
+        constexpr decltype(auto) operator()() const {
+            return IntegralConstant::instance<C>::
+                   template integral_constant_impl<v>();
+        }
+    };
+
+    template <typename C, typename ic_detail::param<C>::type v>
+    constexpr _integral_constant<C, v> integral_constant{};
 #endif
 }} // end namespace boost::hana
 

@@ -208,7 +208,7 @@ namespace boost { namespace hana { namespace test {
             // nil
             {
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    nil<L>, list()
+                    nil<L>(), list()
                 ));
             }
 

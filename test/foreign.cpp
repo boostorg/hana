@@ -122,7 +122,7 @@ int main() {
 
         // zero
         {
-            BOOST_HANA_CONSTEXPR_CHECK(zero<integer>.value == 0);
+            BOOST_HANA_CONSTEXPR_CHECK(zero<integer>().value == 0);
         }
 
         // plus
@@ -160,7 +160,7 @@ int main() {
 
         // one
         {
-            BOOST_HANA_CONSTEXPR_CHECK(one<integer>.value == 1);
+            BOOST_HANA_CONSTEXPR_CHECK(one<integer>().value == 1);
         }
 
         // mult

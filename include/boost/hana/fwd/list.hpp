@@ -342,7 +342,7 @@ namespace boost { namespace hana {
     constexpr list_detail::make<L> make<L, when<is_a<List, L>()>>{};
 #endif
 
-    //! `nil<L>` is an empty list of data type `L`.
+    //! `nil<L>()` is an empty list of data type `L`.
     //! @relates List
     //!
     //! @tparam L
@@ -352,8 +352,22 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/list.cpp nil
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename L>
-    BOOST_HANA_CONSTEXPR_LAMBDA auto nil = List::instance<L>::nil_impl();
+    constexpr auto nil = []() -> decltype(auto) {
+        return tag-dispatched;
+    };
+#else
+    template <typename L>
+    struct _nil {
+        constexpr decltype(auto) operator()() const {
+            return List::instance<L>::nil_impl();
+        }
+    };
+
+    template <typename L>
+    constexpr _nil<L> nil{};
+#endif
 
     //! Partition a list based on a `predicate`.
     //! @relates List

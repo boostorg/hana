@@ -129,12 +129,12 @@ int main() {
         // zero
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                zero<ext::std::Ratio>,
+                zero<ext::std::Ratio>(),
                 std::ratio<0, 1>{}
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                zero<ext::std::Ratio>,
+                zero<ext::std::Ratio>(),
                 std::ratio<0, 2>{}
             ));
         }
@@ -164,12 +164,12 @@ int main() {
         // one
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                one<ext::std::Ratio>,
+                one<ext::std::Ratio>(),
                 std::ratio<1, 1>{}
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                one<ext::std::Ratio>,
+                one<ext::std::Ratio>(),
                 std::ratio<2, 2>{}
             ));
         }

@@ -259,7 +259,7 @@ int main() {
         // zero
         {
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                zero<test::Numeric>, test::numeric(0)
+                zero<test::Numeric>(), test::numeric(0)
             ));
         }
 
@@ -323,7 +323,7 @@ int main() {
         // one
         {
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                one<test::Numeric>,
+                one<test::Numeric>(),
                 test::numeric(1)
             ));
         }
@@ -339,12 +339,12 @@ int main() {
         // power
         {
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                power(test::numeric(x), zero<test::CNumeric<int>>),
-                one<test::Numeric>
+                power(test::numeric(x), zero<test::CNumeric<int>>()),
+                one<test::Numeric>()
             ));
 
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                power(test::numeric(x), one<test::CNumeric<int>>),
+                power(test::numeric(x), one<test::CNumeric<int>>()),
                 test::numeric(x)
             ));
 

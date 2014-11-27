@@ -12,7 +12,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/typeclass.hpp>
-#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -30,8 +29,8 @@ namespace boost { namespace hana {
     //! For all objects `x`, `y` and `z` whose data type `M` is a `Monoid`,
     //! the following laws must be satisfied:
     //! @code
-    //!     plus(zero<M>, x) == x                      // left zero
-    //!     plus(x, zero<M>) == x                      // right zero
+    //!     plus(zero<M>(), x) == x                    // left zero
+    //!     plus(x, zero<M>()) == x                    // right zero
     //!     plus(x, plus(y, z)) == plus(plus(x, y), z) // associativity
     //! @endcode
     struct Monoid {
@@ -72,7 +71,7 @@ namespace boost { namespace hana {
     //! @relates Monoid
     //!
     //! Since `Monoid` is a binary type class and `zero` is a nullary method,
-    //! `zero<M>` is dispatched to the type class instance for `M` and `M`,
+    //! `zero<M>()` is dispatched to the type class instance for `M` and `M`,
     //! i.e. `Monoid::instance<M, M>`.
     //!
     //! @tparam M
@@ -80,8 +79,22 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/monoid.cpp zero
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename M>
-    constexpr auto zero = Monoid::instance<M, M>::zero_impl();
+    constexpr auto zero = []() -> decltype(auto) {
+        return tag-dispatched;
+    };
+#else
+    template <typename M>
+    struct _zero {
+        constexpr decltype(auto) operator()() const {
+            return Monoid::instance<M, M>::zero_impl();
+        }
+    };
+
+    template <typename M>
+    constexpr _zero<M> zero{};
+#endif
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_MONOID_HPP

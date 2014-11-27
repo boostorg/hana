@@ -29,12 +29,12 @@ namespace boost { namespace hana { namespace test {
             for_each(objects<G>, [](auto x) {
                 BOOST_HANA_CHECK(equal(
                     plus(x, negate(x)),
-                    zero<G>
+                    zero<G>()
                 ));
 
                 BOOST_HANA_CHECK(equal(
                     plus(negate(x), x),
-                    zero<G>
+                    zero<G>()
                 ));
             });
         }

@@ -53,7 +53,7 @@ namespace boost { namespace hana {
             return bind(m, [=](auto x) {
                 return eval_if(pred(x),
                     [=](auto _) { return _(lift<M>)(x); },
-                    [=](auto) { return zero<M>; }
+                    [=](auto) { return zero<M>(); }
                 );
             });
         }

@@ -264,7 +264,7 @@ int main() {
 
     {
         //! [nil]
-        BOOST_HANA_CONSTANT_CHECK(nil<Tuple> == tuple());
+        BOOST_HANA_CONSTANT_CHECK(nil<Tuple>() == tuple());
         //! [nil]
     }
 
