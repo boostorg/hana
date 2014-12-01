@@ -16,12 +16,12 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana { namespace detail { namespace std {
     template <typename T>
     struct is_rvalue_reference
-        : integral_constant<bool, false>
+        : false_type
     { };
 
     template <typename T>
     struct is_rvalue_reference<T&&>
-        : integral_constant<bool, true>
+        : true_type
     { };
 }}}} // end namespace boost::hana::detail::std
 

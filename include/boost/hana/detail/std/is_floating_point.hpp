@@ -14,13 +14,13 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana { namespace detail { namespace std {
-    template <typename T> struct is_floating_point : integral_constant<bool, false> { };
+    template <typename T> struct is_floating_point : false_type { };
     template <typename T> struct is_floating_point<T const> : is_floating_point<T> { };
     template <typename T> struct is_floating_point<T volatile> : is_floating_point<T> { };
     template <typename T> struct is_floating_point<T const volatile> : is_floating_point<T> { };
-    template <> struct is_floating_point<float> : integral_constant<bool, true> { };
-    template <> struct is_floating_point<double> : integral_constant<bool, true> { };
-    template <> struct is_floating_point<long double> : integral_constant<bool, true> { };
+    template <> struct is_floating_point<float> : true_type { };
+    template <> struct is_floating_point<double> : true_type { };
+    template <> struct is_floating_point<long double> : true_type { };
 }}}} // end namespace boost::hana::detail::std
 
 #endif // !BOOST_HANA_DETAIL_STD_IS_FLOATING_POINT_HPP
