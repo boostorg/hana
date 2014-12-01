@@ -56,7 +56,7 @@ namespace boost { namespace hana {
     //! forwarded as-is. Otherwise, if the type of the converted-from object
     //! -- its actual type, not its hana data type -- is convertible to the
     //! `To` data type with `static_cast`, that conversion is used. Otherwise,
-    //! calling `convert<To, From>::apply` triggers a static assertion.
+    //! calling `convert<To, From>::%apply` triggers a static assertion.
     //!
     //! @note
     //! `convert` is only used to provide the conversions; to actually

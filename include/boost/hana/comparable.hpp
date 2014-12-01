@@ -78,7 +78,9 @@ namespace boost { namespace hana {
 namespace boost { namespace hana {
     template <typename T, typename U, typename>
     struct Comparable::default_instance
+        //! @cond
         : Comparable::default_instance<T, U, when<true>>
+        //! @endcond
     { };
 
     //! Default instance for the `Comparable` type class.
