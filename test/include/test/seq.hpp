@@ -18,11 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     namespace test {
-        //! @todo Find a way not to enable operators here, but to only enable
-        //! them in the unit tests where they are needed.
-        struct Seq {
-            struct hana { struct enabled_operators : Iterable { }; };
-        };
+        struct Seq;
 
         template <typename Storage>
         struct seq_type : operators::Iterable_ops<seq_type<Storage>> {
