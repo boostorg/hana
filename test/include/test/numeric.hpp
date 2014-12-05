@@ -96,6 +96,16 @@ namespace boost { namespace hana {
         template <typename X>
         static constexpr auto not_impl(X x)
         { return test::numeric(!x.value); }
+
+        template <typename Pred, typename State, typename F>
+        static auto while_impl(Pred pred, State state, F f)
+            -> decltype(true ? f(state) : state)
+        {
+            if (pred(state))
+                return while_(pred, f(state), f);
+            else
+                return state;
+        }
     };
 
     template <>

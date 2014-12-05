@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/bool.hpp>
 
+#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/functional/id.hpp>
 
 // instances
@@ -51,6 +52,31 @@ namespace boost { namespace hana {
         template <typename C>
         static constexpr auto not_impl(C const&)
         { return bool_<!C::value>; }
+
+        template <typename Pred, typename State, typename F>
+        static constexpr State
+        while_helper(decltype(false_), Pred&& pred, State&& state, F&& f) {
+            return detail::std::forward<State>(state);
+        }
+
+        template <typename Pred, typename State, typename F>
+        static constexpr decltype(auto)
+        while_helper(decltype(true_), Pred&& pred, State&& state, F&& f) {
+            decltype(auto) r = f(detail::std::forward<State>(state));
+            return while_(detail::std::forward<Pred>(pred),
+                          detail::std::forward<decltype(r)>(r),
+                          detail::std::forward<F>(f));
+        }
+
+        template <typename Pred, typename State, typename F>
+        static constexpr decltype(auto)
+        while_impl(Pred&& pred, State&& state, F&& f) {
+            auto cond = pred(state);
+            return while_helper(cond,
+                                detail::std::forward<Pred>(pred),
+                                detail::std::forward<State>(state),
+                                detail::std::forward<F>(f));
+        }
     };
 }} // end namespace boost::hana
 

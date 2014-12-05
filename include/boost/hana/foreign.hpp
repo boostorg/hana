@@ -164,6 +164,24 @@ namespace boost { namespace hana {
 
         static constexpr bool not_impl(bool cond)
         { return !cond; }
+
+        template <typename Pred, typename State, typename F>
+        static auto while_impl(Pred&& pred, State&& state, F&& f)
+            -> decltype(
+                true ? f(detail::std::forward<State>(state))
+                     : detail::std::forward<State>(state)
+            )
+        {
+            if (pred(state)) {
+                decltype(auto) r = f(detail::std::forward<State>(state));
+                return while_(detail::std::forward<Pred>(pred),
+                              detail::std::forward<decltype(r)>(r),
+                              detail::std::forward<F>(f));
+            }
+            else {
+                return detail::std::forward<State>(state);
+            }
+        }
     };
 
     //! Instance of `Monoid` for foreign objects with numeric types.

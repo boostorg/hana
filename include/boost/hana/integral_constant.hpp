@@ -207,6 +207,31 @@ namespace boost { namespace hana {
             constexpr auto nc = !value(c);
             return integral_constant<C<decltype(nc)>, nc>();
         }
+
+        template <typename Pred, typename State, typename F>
+        static constexpr State
+        while_helper(tval<false>, Pred&& pred, State&& state, F&& f) {
+            return detail::std::forward<State>(state);
+        }
+
+        template <typename Pred, typename State, typename F>
+        static constexpr decltype(auto)
+        while_helper(tval<true>, Pred&& pred, State&& state, F&& f) {
+            decltype(auto) r = f(detail::std::forward<State>(state));
+            return while_(detail::std::forward<Pred>(pred),
+                          detail::std::forward<decltype(r)>(r),
+                          detail::std::forward<F>(f));
+        }
+
+        template <typename Pred, typename State, typename F>
+        static constexpr decltype(auto)
+        while_impl(Pred&& pred, State&& state, F&& f) {
+            auto cond = pred(state);
+            return while_helper(tval<static_cast<bool>(value(cond))>{},
+                                detail::std::forward<Pred>(pred),
+                                detail::std::forward<State>(state),
+                                detail::std::forward<F>(f));
+        }
     };
 
     template <typename I>

@@ -32,6 +32,11 @@ namespace boost { namespace hana {
     //! method.
     //!
     //!
+    //! Minimal complete definition
+    //! ----------------------------
+    //! `eval_if`, `not_` and `while_`
+    //!
+    //!
     //! @bug
     //! We don't short-circuit right now. Don't forget to change the examples
     //! and unit tests when that's implemented.
@@ -133,6 +138,111 @@ namespace boost { namespace hana {
     };
 
     constexpr _eval_if eval_if{};
+#endif
+
+    //! Apply a function to an initial state while some predicate is satisfied.
+    //! @relates Logical
+    //!
+    //! Specifically, `while_(pred, state, f)` is equivalent to
+    //! @code
+    //!     f(...f(f(state)))
+    //! @endcode
+    //! where `f` is iterated as long as `pred(f(...))` is a true-valued
+    //! `Logical`.
+    //!
+    //!
+    //! @param pred
+    //! A predicate called on the state or on the result of applying `f` a
+    //! certain number of times to the state, and returning whether `f`
+    //! should be applied one more time.
+    //!
+    //! @param state
+    //! The initial state on which `f` is applied.
+    //!
+    //! @param f
+    //! A function that is iterated on the initial state. Note that the
+    //! return type of `f` may change from one iteration to the other,
+    //! but only while `pred` returns a compile-time `Logical`. In other
+    //! words, `decltype(f(stateN))` may differ from `decltype(f(stateN+1))`,
+    //! but only if `pred(f(stateN))` returns a compile-time Logical.
+    //!
+    //!
+    //! ### Example (purely compile-time condition)
+    //! @snippet example/logical/while.cpp heterogeneous
+    //!
+    //! ### Example (runtime or `constexpr` condition)
+    //! @snippet example/logical/while.cpp homogeneous
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto while_ = [](auto&& pred, auto&& state, auto&& f) -> decltype(auto) {
+        return tag-dispatched;
+    };
+#else
+    struct _while {
+        template <typename Pred, typename State, typename F>
+        constexpr decltype(auto) operator()(Pred&& pred, State&& state, F&& f) const {
+            return Logical::instance<
+                typename datatype<decltype(pred(state))>::type
+            >::while_impl(
+                detail::std::forward<Pred>(pred),
+                detail::std::forward<State>(state),
+                detail::std::forward<F>(f)
+            );
+        }
+    };
+
+    constexpr _while while_{};
+#endif
+
+    //! Apply a function to an initial state until some predicate is satisfied.
+    //! @relates Logical
+    //!
+    //! Specifically, `until(pred, state, f)` is equivalent to
+    //! @code
+    //!     f(...f(f(state)))
+    //! @endcode
+    //! where `f` is iterated until `pred(f(...))` is a true-valued `Logical`.
+    //!
+    //!
+    //! @param pred
+    //! A predicate called on the state or on the result of applying `f` a
+    //! certain number of times to the state, and returning whether `f`
+    //! should stop being applied.
+    //!
+    //! @param state
+    //! The initial state on which `f` is applied.
+    //!
+    //! @param f
+    //! A function that is iterated on the initial state. Note that the
+    //! return type of `f` may change from one iteration to the other,
+    //! but only while `pred` returns a compile-time `Logical`. In other
+    //! words, `decltype(f(stateN))` may differ from `decltype(f(stateN+1))`,
+    //! but only if `pred(f(stateN))` returns a compile-time Logical.
+    //!
+    //!
+    //! ### Example (purely compile-time condition)
+    //! @snippet example/logical/until.cpp heterogeneous
+    //!
+    //! ### Example (runtime or `constexpr` condition)
+    //! @snippet example/logical/until.cpp homogeneous
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto until = [](auto&& pred, auto&& state, auto&& f) -> decltype(auto) {
+        return tag-dispatched;
+    };
+#else
+    struct _until {
+        template <typename Pred, typename State, typename F>
+        constexpr decltype(auto) operator()(Pred&& pred, State&& state, F&& f) const {
+            return Logical::instance<
+                typename datatype<decltype(pred(state))>::type
+            >::until_impl(
+                detail::std::forward<Pred>(pred),
+                detail::std::forward<State>(state),
+                detail::std::forward<F>(f)
+            );
+        }
+    };
+
+    constexpr _until until{};
 #endif
 
     //! Negates a `Logical`.

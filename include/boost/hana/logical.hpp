@@ -17,10 +17,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/functional/always.hpp>
+#include <boost/hana/functional/compose.hpp>
 
 
 namespace boost { namespace hana {
-    //! Minimal complete definition: `eval_if` and `not_`
     struct Logical::mcd {
         //! @todo How to forward `x` here? Since the arguments to `if_` can be
         //! evaluated in any order, we have to be careful not to use `x` in
@@ -43,6 +43,14 @@ namespace boost { namespace hana {
                 always(detail::std::forward<T>(t)),
                 always(detail::std::forward<E>(e))
             );
+        }
+
+        template <typename Pred, typename State, typename F>
+        static constexpr decltype(auto)
+        until_impl(Pred&& pred, State&& state, F&& f) {
+            return while_(compose(not_, detail::std::forward<Pred>(pred)),
+                          detail::std::forward<State>(state),
+                          detail::std::forward<F>(f));
         }
     };
 

@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <test/auto/base.hpp>
 #include <test/cnumeric.hpp>
 #include <test/injection.hpp>
+#include <vector>
 
 // tested instances
 #include <test/auto/comparable.hpp>
@@ -537,6 +538,54 @@ int main() {
             BOOST_HANA_CONSTEXPR_CHECK(equal(
                 eval_if(logical(false), t, e),
                 comparable(1)
+            ));
+        }
+
+        // while_
+        {
+            //! @todo Implement this
+        }
+
+        // until
+        {
+            auto has_length = [](auto n) {
+                return [n](auto v) { return v.size() == n; };
+            };
+            auto f = [](auto v) {
+                v.push_back(v.size());
+                return v;
+            };
+
+            BOOST_HANA_RUNTIME_CHECK(equal(
+                until(has_length(0u), std::vector<int>{}, f),
+                std::vector<int>{}
+            ));
+
+            BOOST_HANA_RUNTIME_CHECK(equal(
+                until(has_length(1u), std::vector<int>{}, f),
+                std::vector<int>{0}
+            ));
+
+            BOOST_HANA_RUNTIME_CHECK(equal(
+                until(has_length(2u), std::vector<int>{}, f),
+                std::vector<int>{0, 1}
+            ));
+
+            BOOST_HANA_RUNTIME_CHECK(equal(
+                until(has_length(3u), std::vector<int>{}, f),
+                std::vector<int>{0, 1, 2}
+            ));
+
+            BOOST_HANA_RUNTIME_CHECK(equal(
+                until(has_length(4u), std::vector<int>{}, f),
+                std::vector<int>{0, 1, 2, 3}
+            ));
+
+            // Make sure it can be called with an lvalue state:
+            std::vector<int> v{};
+            BOOST_HANA_RUNTIME_CHECK(equal(
+                until(has_length(4u), v, f),
+                std::vector<int>{0, 1, 2, 3}
             ));
         }
 
