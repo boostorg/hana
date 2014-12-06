@@ -8,7 +8,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/foreign.hpp> //! @todo Why is this required?
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
 

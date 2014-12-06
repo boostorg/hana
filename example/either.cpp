@@ -7,7 +7,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/either.hpp>
-#include <boost/hana/foreign.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/integral.hpp>
 

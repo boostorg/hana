@@ -7,7 +7,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/ext/std/array.hpp>
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/foreign.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
 

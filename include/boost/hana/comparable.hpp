@@ -14,6 +14,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/operators.hpp>
+#include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/std/declval.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/logical.hpp>
@@ -63,6 +65,23 @@ namespace boost { namespace hana {
                 detail::std::forward<X>(x),
                 detail::std::forward<Y>(y)
             ));
+        }
+    };
+
+    //! Instance of `Comparable` for objects of foreign types.
+    //!
+    //! Any two foreign objects whose types can be compared using
+    //! `operator==` are automatically instances of `Comparable` by
+    //! using that comparison.
+    template <typename T, typename U>
+    struct Comparable::instance<T, U, when_valid<
+        decltype(detail::std::declval<T>() == detail::std::declval<U>())
+    >>
+        : Comparable::equal_mcd
+    {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) equal_impl(X&& x, Y&& y) {
+            return detail::std::forward<X>(x) == detail::std::forward<Y>(y);
         }
     };
 }} // end namespace boost::hana

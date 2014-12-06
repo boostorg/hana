@@ -9,7 +9,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/foldable.hpp>
-#include <boost/hana/foreign.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/maybe.hpp>
 #include <boost/hana/monad.hpp>

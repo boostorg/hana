@@ -14,8 +14,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/integer_sequence.hpp>
 #include <boost/hana/detail/std/is_same.hpp>
 #include <boost/hana/detail/std/move.hpp>
+#include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/detail/variadic/foldl.hpp>
 #include <boost/hana/detail/variadic/foldl1.hpp>
 #include <boost/hana/detail/variadic/foldr.hpp>
@@ -317,6 +319,37 @@ namespace boost { namespace hana {
         template <typename Xs>
         static constexpr decltype(auto) length_impl(Xs&& xs) {
             return unpack(detail::std::forward<Xs>(xs), length_helper{});
+        }
+    };
+
+    //! Instance of `Foldable` for array types.
+    //!
+    //! Builtin arrays whose size is known can be folded as-if they were
+    //! homogeneous tuples.
+    //!
+    //! @note
+    //! Builtin arrays can't be made more than `Foldable` (e.g. `Iterable`)
+    //! because they can't be empty and they also can't be returned from
+    //! functions.
+    template <typename T, detail::std::size_t N>
+    struct Foldable::instance<T[N]>
+        : Foldable::unpack_mcd
+    {
+        template <typename Xs, typename F, detail::std::size_t ...i>
+        static constexpr decltype(auto)
+        unpack_helper(Xs&& xs, F&& f, detail::std::index_sequence<i...>) {
+            return detail::std::forward<F>(f)(
+                detail::std::forward<T>(xs[i])...
+            );
+        }
+
+        template <typename Xs, typename F>
+        static constexpr decltype(auto) unpack_impl(Xs&& xs, F&& f) {
+            return unpack_helper(
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<F>(f),
+                detail::std::make_index_sequence<N>{}
+            );
         }
     };
 }} // end namespace boost::hana

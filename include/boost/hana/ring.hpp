@@ -16,11 +16,15 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/operators.hpp>
+#include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/std/declval.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/enumerable.hpp>
 #include <boost/hana/functional/always.hpp>
+#include <boost/hana/group.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/monoid.hpp>
 
@@ -70,6 +74,29 @@ namespace boost { namespace hana {
                 to<C>(detail::std::forward<Y>(y))
             );
         }
+    };
+
+    //! Instance of `Ring` for foreign objects with numeric types.
+    //!
+    //! Any two foreign objects that are `Group`s, that can be multiplied
+    //! with the usual `operator*` and for which a valid conversion from `int`
+    //! exists (for both) naturally form a multiplicative `Ring`, with `1`
+    //! being the identity and the usual `operator*` being the ring operation.
+    template <typename T, typename U>
+    struct Ring::instance<T, U, when_valid<
+        decltype(static_cast<T>(1)),
+        decltype(static_cast<U>(1)),
+        decltype(detail::std::declval<T>() * detail::std::declval<U>()),
+        char[are<Group, T, U>()]
+    >> : Ring::mcd {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) mult_impl(X&& x, Y&& y) {
+            return detail::std::forward<X>(x) * detail::std::forward<Y>(y);
+        }
+
+        // Will never be used with two different `T` and `U` anyway.
+        static constexpr auto one_impl()
+        { return static_cast<T>(1); }
     };
 }} // end namespace boost::hana
 

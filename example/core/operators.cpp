@@ -7,7 +7,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/assert.hpp>
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core/operators.hpp>
-#include <boost/hana/foreign.hpp>
 
 #include <string>
 using namespace boost::hana;

@@ -5,7 +5,6 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/foreign.hpp>
 
 #include "matrix/comparable.hpp"
 using namespace boost::hana;

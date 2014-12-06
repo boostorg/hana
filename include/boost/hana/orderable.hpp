@@ -16,6 +16,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/operators.hpp>
+#include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/std/declval.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/logical.hpp>
@@ -132,6 +134,22 @@ namespace boost { namespace hana {
                 to<C>(detail::std::forward<X>(x)),
                 to<C>(detail::std::forward<Y>(y))
             );
+        }
+    };
+
+    //! Instance of `Orderable` for foreign but `LessThanComparable` objects.
+    //!
+    //! Any two foreign objects whose types can be compared using `operator<`
+    //! are automatically instances of `Orderable` by using that comparison.
+    template <typename T, typename U>
+    struct Orderable::instance<T, U, when_valid<
+        decltype(detail::std::declval<T>() < detail::std::declval<U>())
+    >>
+        : Orderable::less_mcd
+    {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) less_impl(X&& x, Y&& y) {
+            return detail::std::forward<X>(x) < detail::std::forward<Y>(y);
         }
     };
 }} // end namespace boost::hana

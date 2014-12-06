@@ -7,7 +7,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/ext/std/tuple.hpp>
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/foreign.hpp>
 
 #include <tuple>
 using namespace boost::hana;

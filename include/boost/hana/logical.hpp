@@ -14,10 +14,13 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/operators.hpp>
+#include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/std/declval.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/functional/compose.hpp>
+#include <boost/hana/functional/id.hpp>
 
 
 namespace boost { namespace hana {
@@ -90,6 +93,49 @@ namespace boost { namespace hana {
             return not_(detail::std::forward<X>(x));
         }
     }
+
+    //! Instance of `Logical` for objects of foreign types that can be
+    //! implicitly converted to `bool`.
+    //!
+    //! Any foreign object that can be converted to `bool` implicitly is an
+    //! instance of `Logical` by converting that object to `bool` and then
+    //! using the obvious instance for `bool`.
+    //!
+    //! @bug
+    //! We can't use perfect forwarding because of this bug:
+    //! http://llvm.org/bugs/show_bug.cgi?id=20619
+    template <typename L>
+    struct Logical::instance<L, when_valid<
+        decltype(detail::std::declval<L>() ? void() : void())
+    >>
+        : Logical::mcd
+    {
+        template <typename T, typename E>
+        static constexpr auto eval_if_impl(bool cond, T t, E e) {
+            return cond ? t(id) : e(id);
+        }
+
+        static constexpr bool not_impl(bool cond)
+        { return !cond; }
+
+        template <typename Pred, typename State, typename F>
+        static auto while_impl(Pred&& pred, State&& state, F&& f)
+            -> decltype(
+                true ? f(detail::std::forward<State>(state))
+                     : detail::std::forward<State>(state)
+            )
+        {
+            if (pred(state)) {
+                decltype(auto) r = f(detail::std::forward<State>(state));
+                return while_(detail::std::forward<Pred>(pred),
+                              detail::std::forward<decltype(r)>(r),
+                              detail::std::forward<F>(f));
+            }
+            else {
+                return detail::std::forward<State>(state);
+            }
+        }
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_LOGICAL_HPP

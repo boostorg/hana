@@ -8,7 +8,15 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_TEST_TEST_BUILTIN_HPP
 
 // instances
-#include <boost/hana/foreign.hpp>
+#include <boost/hana/comparable.hpp>
+#include <boost/hana/enumerable.hpp>
+#include <boost/hana/foldable.hpp>
+#include <boost/hana/group.hpp>
+#include <boost/hana/integral_domain.hpp>
+#include <boost/hana/logical.hpp>
+#include <boost/hana/monoid.hpp>
+#include <boost/hana/orderable.hpp>
+#include <boost/hana/ring.hpp>
 
 
 namespace boost { namespace hana { namespace test {
