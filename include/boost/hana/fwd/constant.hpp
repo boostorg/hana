@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_CONSTANT_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/typeclass.hpp>
+#include <boost/hana/core/method.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -21,7 +21,8 @@ namespace boost { namespace hana {
     //! compile-time constants.
     //!
     //!
-    //! ### Laws
+    //! Laws
+    //! ----
     //! For any `Constant` `c`, the following program must be well-formed:
     //! @code
     //!     template <typename X>
@@ -49,12 +50,14 @@ namespace boost { namespace hana {
     //! call to `value` must actually be stored inside its type.
     //!
     //!
+    //! Minimal complete definition
+    //! ---------------------------
+    //! `value`, satisfying the laws above.
+    //!
+    //!
     //! @todo
     //! Should we provide a `Comparable::constant_mcd` like we used to?
-    struct Constant {
-        BOOST_HANA_TYPECLASS(Constant);
-        struct mcd;
-    };
+    struct Constant { };
 
     //! Return the compile-time value associated to a constant.
     //! @relates Constant
@@ -73,18 +76,18 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    namespace constant_detail {
-        struct value {
-            template <typename C>
-            constexpr decltype(auto) operator()(C&& constant) const {
-                return Constant::instance<
-                    datatype_t<C>
-                >::value_impl(detail::std::forward<C>(constant));
-            }
-        };
-    }
+    BOOST_HANA_METHOD(value_impl);
 
-    constexpr constant_detail::value value{};
+    struct _value {
+        template <typename C>
+        constexpr decltype(auto) operator()(C&& constant) const {
+            return value_impl<typename datatype<C>::type>::apply(
+                detail::std::forward<C>(constant)
+            );
+        }
+    };
+
+    constexpr _value value{};
 #endif
 }} // end namespace boost::hana
 

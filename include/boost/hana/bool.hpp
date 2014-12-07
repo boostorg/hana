@@ -29,10 +29,10 @@ namespace boost { namespace hana {
         { return bool_<X::value == Y::value>; }
     };
 
-    template <>
-    struct Constant::instance<Bool> : Constant::mcd {
+    template <typename _>
+    struct value_impl<Bool, _> {
         template <typename C>
-        static constexpr auto value_impl(C const&)
+        static constexpr auto apply(C const&)
         { return C::value; }
     };
 

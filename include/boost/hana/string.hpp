@@ -62,10 +62,10 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/string/constant.cpp main
-    template <>
-    struct Constant::instance<String> : Constant::mcd {
+    template <typename _>
+    struct value_impl<String, _> {
         template <char ...s>
-        static constexpr char const* value_impl(_string<s...> const&)
+        static constexpr char const* apply(_string<s...> const&)
         { return string_detail::store<s...>; }
     };
 

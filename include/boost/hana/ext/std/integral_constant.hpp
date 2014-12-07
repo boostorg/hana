@@ -24,10 +24,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    template <typename T>
-    struct Constant::instance<ext::std::IntegralConstant<T>> : Constant::mcd {
+    template <typename T, typename _>
+    struct value_impl<ext::std::IntegralConstant<T>, _> {
         template <typename C>
-        static constexpr auto value_impl(C const&)
+        static constexpr auto apply(C const&)
         { return C::value; }
     };
 

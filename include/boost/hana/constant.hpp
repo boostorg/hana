@@ -12,10 +12,16 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/constant.hpp>
 
+#include <boost/hana/bool.hpp>
+#include <boost/hana/core/is_a.hpp>
+#include <boost/hana/core/method.hpp>
+
 
 namespace boost { namespace hana {
-    //! Minimal complete definition: `value`
-    struct Constant::mcd { };
+    template <typename C>
+    constexpr auto is_a<Constant, C> = bool_<
+        is_implemented<value_impl<C>>
+    >;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_CONSTANT_HPP
