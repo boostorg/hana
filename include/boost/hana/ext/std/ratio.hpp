@@ -30,12 +30,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    template <>
-    struct Comparable::instance<ext::std::Ratio, ext::std::Ratio>
-        : Comparable::equal_mcd
-    {
+    template <typename _>
+    struct equal_impl<ext::std::Ratio, ext::std::Ratio, _> {
         template <typename R1, typename R2>
-        static constexpr decltype(auto) equal_impl(R1, R2) {
+        static constexpr decltype(auto) apply(R1, R2) {
             return bool_<::std::ratio_equal<R1, R2>::value>;
         }
     };

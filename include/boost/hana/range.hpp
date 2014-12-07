@@ -37,10 +37,10 @@ namespace boost { namespace hana {
     //!
     //! Two ranges are equal if and only if they are both empty or they have
     //! the same `head` and the same length.
-    template <>
-    struct Comparable::instance<Range, Range> : Comparable::equal_mcd {
+    template <typename _>
+    struct equal_impl<Range, Range, _> {
         template <typename R1, typename R2>
-        static constexpr auto equal_impl(R1 r1, R2 r2) {
+        static constexpr auto apply(R1 r1, R2 r2) {
             return or_(
                 and_(is_empty(r1), is_empty(r2)),
                 and_(

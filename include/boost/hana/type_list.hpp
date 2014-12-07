@@ -23,14 +23,14 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    template <>
-    struct Comparable::instance<TypeList, TypeList> : Comparable::equal_mcd {
+    template <typename _>
+    struct equal_impl<TypeList, TypeList, _> {
         template <typename Xs, typename Ys>
-        static constexpr auto equal_impl(Xs, Ys)
+        static constexpr auto apply(Xs, Ys)
         { return false_; }
 
         template <typename Xs>
-        static constexpr auto equal_impl(Xs, Xs)
+        static constexpr auto apply(Xs, Xs)
         { return true_; }
     };
 

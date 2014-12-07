@@ -73,24 +73,16 @@ namespace boost { namespace hana {
     };
 
     template <template <typename ...> class C1, typename T,
-              template <typename ...> class C2, typename U>
-    struct Comparable::integral_constant_mcd<C1<T>, C2<U>>
-        : Comparable::equal_mcd
-    {
+              template <typename ...> class C2, typename U, typename _>
+    struct equal_impl<C1<T>, C2<U>, _, when<
+        is_an<IntegralConstant, C1<T>>() && is_an<IntegralConstant, C2<U>>()
+    >> {
         template <typename X, typename Y>
-        static constexpr decltype(auto) equal_impl(X x, Y y) {
+        static constexpr decltype(auto) apply(X x, Y y) {
             constexpr auto eq = value(x) == value(y);
             return integral_constant<C1<decltype(eq)>, eq>();
         }
     };
-
-    template <typename I1, typename I2>
-    struct Comparable::instance<I1, I2, when<
-        is_an<IntegralConstant, I1>() &&
-        is_an<IntegralConstant, I2>()
-    >>
-        : Comparable::integral_constant_mcd<I1, I2>
-    { };
 
     template <template <typename ...> class C, typename T>
     struct Enumerable::integral_constant_mcd<C<T>> : Enumerable::mcd {

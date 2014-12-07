@@ -38,18 +38,17 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/maybe/comparable.cpp main
-    template <>
-    struct Comparable::instance<Maybe, Maybe> : Comparable::equal_mcd {
+    template <typename _>
+    struct equal_impl<Maybe, Maybe, _> {
         template <typename T, typename U>
-        static constexpr decltype(auto)
-        equal_impl(_just<T> const& t, _just<U> const& u)
+        static constexpr decltype(auto) apply(_just<T> const& t, _just<U> const& u)
         { return equal(t.val, u.val); }
 
-        static constexpr auto equal_impl(_nothing const&, _nothing const&)
+        static constexpr auto apply(_nothing const&, _nothing const&)
         { return true_; }
 
         template <typename T, typename U>
-        static constexpr auto equal_impl(T const&, U const&)
+        static constexpr auto apply(T const&, U const&)
         { return false_; }
     };
 

@@ -22,10 +22,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    template <>
-    struct Comparable::instance<Bool, Bool> : Comparable::equal_mcd {
+    template <typename _>
+    struct equal_impl<Bool, Bool, _> {
         template <typename X, typename Y>
-        static constexpr auto equal_impl(X const&, Y const&)
+        static constexpr auto apply(X const&, Y const&)
         { return bool_<X::value == Y::value>; }
     };
 

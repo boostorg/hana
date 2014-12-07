@@ -54,12 +54,10 @@ namespace boost { namespace hana {
         return flatten(doubleton(xs, ys));
     };
 
-    template <>
-    struct Comparable::instance<SearchableSet, SearchableSet>
-        : Comparable::equal_mcd
-    {
+    template <typename _>
+    struct equal_impl<SearchableSet, SearchableSet, _> {
         template <typename Xs, typename Ys>
-        static constexpr auto equal_impl(Xs xs, Ys ys)
+        static constexpr auto apply(Xs xs, Ys ys)
         { return and_(subset(xs, ys), subset(ys, xs)); }
     };
 

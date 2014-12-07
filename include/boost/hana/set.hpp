@@ -34,10 +34,10 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/set.cpp comparable
-    template <>
-    struct Comparable::instance<Set, Set> : Comparable::equal_mcd {
+    template <typename _>
+    struct equal_impl<Set, Set, _> {
         template <typename S1, typename S2>
-        static constexpr decltype(auto) equal_impl(S1&& s1, S2&& s2) {
+        static constexpr decltype(auto) apply(S1&& s1, S2&& s2) {
             return and_(
                 equal(length(s1.storage), length(s2.storage)),
                 subset(detail::std::forward<S1>(s1), detail::std::forward<S2>(s2))

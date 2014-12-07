@@ -44,21 +44,17 @@ namespace boost { namespace hana {
     //
     // If neither is defined, the MCD used is unspecified.
 #if defined(BOOST_HANA_TEST_COMPARABLE_EQUAL_MCD)
-    template <>
-    struct Comparable::instance<test::Numeric, test::Numeric>
-        : Comparable::equal_mcd
-    {
+    template <typename _>
+    struct equal_impl<test::Numeric, test::Numeric, _> {
         template <typename X, typename Y>
-        static constexpr auto equal_impl(X x, Y y)
+        static constexpr auto apply(X x, Y y)
         { return test::numeric(x.value == y.value); }
     };
 #else
-    template <>
-    struct Comparable::instance<test::Numeric, test::Numeric>
-        : Comparable::not_equal_mcd
-    {
+    template <typename _>
+    struct not_equal_impl<test::Numeric, test::Numeric, _> {
         template <typename X, typename Y>
-        static constexpr auto not_equal_impl(X x, Y y)
+        static constexpr auto apply(X x, Y y)
         { return test::numeric(x.value != y.value); }
     };
 #endif

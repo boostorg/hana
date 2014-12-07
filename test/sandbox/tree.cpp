@@ -37,10 +37,10 @@ auto node = [](auto x, auto subforest) {
 };
 
 namespace boost { namespace hana {
-    template <>
-    struct Comparable::instance<Tree, Tree> : Comparable::equal_mcd {
+    template <typename _>
+    struct equal_impl<Tree, Tree, _> {
         template <typename N1, typename N2>
-        static constexpr decltype(auto) equal_impl(N1&& n1, N2&& n2) {
+        static constexpr decltype(auto) apply(N1&& n1, N2&& n2) {
             return and_(
                 equal(std::forward<N1>(n1).value, std::forward<N2>(n2).value),
                 equal(std::forward<N1>(n1).subforest, std::forward<N2>(n2).subforest)

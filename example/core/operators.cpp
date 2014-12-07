@@ -31,18 +31,16 @@ struct Employee : operators::enable_adl {
 };
 
 namespace boost { namespace hana {
-    template <>
-    struct Comparable::instance<Person, Person> : Comparable::equal_mcd {
-        static bool equal_impl(Person x, Person y) {
-            return x.name == y.name;
-        }
+    template <typename _>
+    struct equal_impl<Person, Person, _> {
+        static bool apply(Person x, Person y)
+        { return x.name == y.name; }
     };
 
-    template <>
-    struct Comparable::instance<Employee, Employee> : Comparable::equal_mcd {
-        static bool equal_impl(Employee x, Employee y) {
-            return x.name == y.name;
-        }
+    template <typename _>
+    struct equal_impl<Employee, Employee, _> {
+        static bool apply(Employee x, Employee y)
+        { return x.name == y.name; }
     };
 }}
 

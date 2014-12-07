@@ -11,39 +11,78 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_COMPARABLE_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/typeclass.hpp>
-#include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/core/method.hpp>
 #include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
 namespace boost { namespace hana {
     //! @ingroup group-typeclasses
-    //! The `Comparable` type class defines equality and inequality.
+    //! The `Comparable` concept defines equality and inequality.
     //!
-    //! @anchor equivalence_relation
-    //! ### Laws
-    //! `equal` must define an equivalence relation. In other words, for all
-    //! `a`, `b`, `c` of comparable data types,
+    //!
+    //! Laws
+    //! ----
+    //! `equal` must define an [equivalence relation][1], and `not_equal` must
+    //! be its negation. In other words, for all `a`, `b`, `c` of comparable
+    //! data types,
     //! @code
     //!     a == a                          // Reflexivity
     //!     if a == b then b == a           // Symmetry
     //!     if a == b && b == c then a == c // Transitivity
     //!     a != b is equivalent to !(a == b)
     //! @endcode
-    struct Comparable {
-        BOOST_HANA_BINARY_TYPECLASS(Comparable);
-        struct equal_mcd;
-        struct not_equal_mcd;
-        struct list_mcd;
-        template <typename R>
-        struct record_mcd;
-        struct product_mcd;
-        template <typename I1, typename I2>
-        struct integral_constant_mcd;
-        template <typename T, typename U, typename = void>
-        struct default_instance;
-    };
+    //!
+    //!
+    //! Minimal complete definitions
+    //! ----------------------------
+    //! 1. `equal` or `not_equal`
+    //! If either `equal` or `not_equal` is defined for two data types `T`
+    //! and `U`, then those data types together model `Comparable`.
+    //! The default implementation for `equal` and `not_equal` are:
+    //! @code
+    //!     equal(x, y) == not_(not_equal(x, y))
+    //!     not_equal(x, y) == not_(equal(x, y))
+    //! @endcode
+    //!
+    //! 2. `operator==`
+    //! Any two objects whose __data types__ can be compared using `operator==`
+    //! are taken to model `Comparable` using that comparison as a basis for
+    //! the `equal` method.
+    //!
+    //! 3. A common data type that is `Comparable`
+    //! If `T` and `U` are two _distinct_ data types with a common data type
+    //! `C` (as determined by the `common` metafunction) that is `Comparable`,
+    //! then comparison is done by converting both objects to `C` and then
+    //! performing the comparison on the new objects.
+    //!
+    //!
+    //! Important note: special behavior of `equal`
+    //! -------------------------------------------
+    //! In the context of programming with heterogeneous values, it is useful
+    //! to have unrelated objects compare `false` instead of triggering an
+    //! error. For this reason, `equal` adopts a special behavior when no
+    //! minimal complete definition is provided at all for two data types
+    //! `T` and `U`: When `T` and `U` are unrelated (i.e. they do not share
+    //! a common data type), comparing objects of `T` and `U` yields a
+    //! compile-time false value. However, when `T` is the same as `U`, a
+    //! compile-time error is triggered instead. This design choice aims to
+    //! make `equal` more widely useful, while still rejecting usage patterns
+    //! that are most likely programming errors.
+    //!
+    //!
+    //! Operators
+    //! ---------
+    //! For convenience, the following operators are provided as an
+    //! equivalent way of calling the corresponding method:
+    //! @code
+    //!     == -> equal
+    //!     != -> not_equal
+    //! @endcode
+    //!
+    //!
+    //! [1]: http://en.wikipedia.org/wiki/Equivalence_relation#Definition
+    struct Comparable { };
 
     //! Returns a `Logical` representing whether `x` is equal to `y`.
     //! @relates Comparable
@@ -72,12 +111,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_BINARY_METHOD(equal_impl);
+
     struct _equal {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
-            return Comparable::instance<
-                datatype_t<X>, datatype_t<Y>
-            >::equal_impl(
+            return equal_impl<datatype_t<X>, datatype_t<Y>>::apply(
                 detail::std::forward<X>(x),
                 detail::std::forward<Y>(y)
             );
@@ -100,12 +139,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_BINARY_METHOD(not_equal_impl);
+
     struct _not_equal {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
-            return Comparable::instance<
-                datatype_t<X>, datatype_t<Y>
-            >::not_equal_impl(
+            return not_equal_impl<datatype_t<X>, datatype_t<Y>>::apply(
                 detail::std::forward<X>(x),
                 detail::std::forward<Y>(y)
             );

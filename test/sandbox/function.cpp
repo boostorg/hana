@@ -58,10 +58,10 @@ namespace boost { namespace hana {
     };
 
 
-    template <>
-    struct Comparable::instance<Function, Function> : Comparable::equal_mcd {
+    template <typename _>
+    struct equal_impl<Function, Function, _> {
         template <typename F, typename G>
-        static constexpr auto equal_impl(F f, G g) {
+        static constexpr auto apply(F f, G g) {
             return domain(f) == domain(g) && all(domain(f), demux(equal)(f, g));
         }
     };

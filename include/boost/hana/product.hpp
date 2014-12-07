@@ -26,17 +26,6 @@ namespace boost { namespace hana {
     //! Minimal complete definition: `first`, `second` and `make`.
     struct Product::mcd { };
 
-    //! Mininal complete definition: `Product`
-    struct Comparable::product_mcd : Comparable::equal_mcd {
-        template <typename X, typename Y>
-        static constexpr decltype(auto) equal_impl(X const& x, Y const& y) {
-            return and_(
-                equal(first(x), first(y)),
-                equal(second(x), second(y))
-            );
-        }
-    };
-
     //! Instance of `Comparable` for `Product`s.
     //!
     //! Two products `x` and `y` are equal iff they are equal element-wise,
@@ -47,10 +36,16 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/product.cpp comparable
-    template <typename T, typename U>
-    struct Comparable::instance<T, U, when<
-        is_a<Product, T>() && is_a<Product, U>()
-    >> : Comparable::product_mcd { };
+    template <typename T, typename U, typename _>
+    struct equal_impl<T, U, _, when<is_a<Product, T>() && is_a<Product, U>()>> {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X const& x, Y const& y) {
+            return and_(
+                equal(first(x), first(y)),
+                equal(second(x), second(y))
+            );
+        }
+    };
 
     struct Foldable::product_mcd : Foldable::unpack_mcd {
         template <typename P, typename F>

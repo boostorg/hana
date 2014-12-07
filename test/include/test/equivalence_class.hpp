@@ -26,12 +26,10 @@ namespace boost { namespace hana {
         };
     }
 
-    template <>
-    struct Comparable::instance<test::EquivalenceClass, test::EquivalenceClass>
-        : Comparable::equal_mcd
-    {
+    template <typename _>
+    struct equal_impl<test::EquivalenceClass, test::EquivalenceClass, _> {
         template <typename X, typename Y>
-        static constexpr auto equal_impl(X x, Y y) {
+        static constexpr auto apply(X x, Y y) {
             return equal(x.equivalence_class, y.equivalence_class);
         }
     };

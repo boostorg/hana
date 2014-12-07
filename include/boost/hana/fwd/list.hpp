@@ -178,8 +178,8 @@ namespace boost { namespace hana {
     //! representing whether both elements should be in the same group
     //! (sublist) of the result. The result returned by `predicate` has
     //! to be a [compile-time](@ref Logical_terminology) `Logical`. Also,
-    //! `predicate` has to define an [equivalence relation]
-    //! (@ref equivalence_relation) as defined by the `Comparable` type class.
+    //! `predicate` has to define an equivalence relation as defined by the
+    //! `Comparable` type class.
     //!
     //! @param xs
     //! The list to split into groups.

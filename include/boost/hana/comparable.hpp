@@ -12,13 +12,18 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/comparable.hpp>
 
+#include <boost/hana/core/common.hpp>
+#include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/is_a.hpp>
+#include <boost/hana/core/method.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/declval.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/logical.hpp>
+#include <boost/hana/detail/std/is_same.hpp>
+#include <boost/hana/fwd/bool.hpp>
 
 
 namespace boost { namespace hana {
@@ -46,21 +51,35 @@ namespace boost { namespace hana {
         }
     }
 
-    //! Minimal complete definition : `equal`
-    struct Comparable::equal_mcd {
-        template <typename X, typename Y>
-        static constexpr decltype(auto) not_equal_impl(X&& x, Y&& y) {
-            return not_(equal(
-                detail::std::forward<X>(x),
-                detail::std::forward<Y>(y)
-            ));
-        }
-    };
+    // equal
+    /////////////////
+    namespace comparable_detail {
+        template <typename T, typename U, typename _, typename ...Nothing>
+        constexpr bool has_Comparable_common(Nothing ...) { return false; }
+        template <typename T, typename U, typename _, typename C = typename common<T, U>::type>
+        constexpr bool has_Comparable_common()
+        { return is_implemented<equal_impl<C, C>, _>; }
 
-    //! Minimal complete definition : `not_equal`
-    struct Comparable::not_equal_mcd {
+        template <typename T, typename U, typename ...Nothing>
+        constexpr bool has_common(Nothing ...) { return false; }
+        template <typename T, typename U, typename = typename common<T, U>::type>
+        constexpr bool has_common() { return true; }
+
+        template <typename T, typename U, typename ...Nothing>
+        constexpr bool has_operator_equal(Nothing ...) { return false; }
+        template <typename T, typename U, typename = decltype(
+            detail::std::declval<T>() == detail::std::declval<U>()
+        )>
+        constexpr bool has_operator_equal() { return true; }
+    }
+
+    // 1. If `not_equal` is implemented, use that.
+    template <typename T, typename U, typename _>
+    struct equal_impl<T, U, _, when<
+        is_implemented<not_equal_impl<T, U>, _>
+    >> {
         template <typename X, typename Y>
-        static constexpr decltype(auto) equal_impl(X&& x, Y&& y) {
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
             return not_(not_equal(
                 detail::std::forward<X>(x),
                 detail::std::forward<Y>(y)
@@ -68,64 +87,31 @@ namespace boost { namespace hana {
         }
     };
 
-    //! Instance of `Comparable` for objects of foreign types.
-    //!
-    //! Any two foreign objects whose types can be compared using
-    //! `operator==` are automatically instances of `Comparable` by
-    //! using that comparison.
-    template <typename T, typename U>
-    struct Comparable::instance<T, U, when_valid<
-        decltype(detail::std::declval<T>() == detail::std::declval<U>())
-    >>
-        : Comparable::equal_mcd
-    {
+    // 2. Otherwise, if `T` and `U` can be compared using `==`, use that.
+    template <typename T, typename U, typename _>
+    struct equal_impl<T, U, _, when<
+        !is_implemented<not_equal_impl<T, U>, _> &&
+        comparable_detail::has_operator_equal<T, U>()
+    >> {
         template <typename X, typename Y>
-        static constexpr decltype(auto) equal_impl(X&& x, Y&& y) {
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
             return detail::std::forward<X>(x) == detail::std::forward<Y>(y);
         }
     };
-}} // end namespace boost::hana
 
-
-#include <boost/hana/bool.hpp>
-#include <boost/hana/core/common.hpp>
-#include <boost/hana/core/convert.hpp>
-#include <boost/hana/core/disable.hpp>
-#include <boost/hana/core/when.hpp>
-
-
-namespace boost { namespace hana {
-    template <typename T, typename U, typename>
-    struct Comparable::default_instance
-        //! @cond
-        : Comparable::default_instance<T, U, when<true>>
-        //! @endcond
-    { };
-
-    //! Default instance for the `Comparable` type class.
-    //!
-    //! Objects of different data types that do not define a `Comparable`
-    //! instance are implicitly `Comparable` by letting any two such objects
-    //! always compare unequal. However, objects of the same data type are
-    //! not implicitly `Comparable`, and trying to compare two objects of
-    //! the same data type that do not define a `Comparable` instance will
-    //! result in a compile-time error.
-    template <typename T, typename U, bool condition>
-    struct Comparable::default_instance<T, U, when<condition>>
-        : Comparable::equal_mcd
-    {
+    // 3. Otherwise, if `T` and `U` are distinct and there exists a
+    //    `common_t<T, U>` that is Comparable, perform the comparison
+    //    in that data type.
+    template <typename T, typename U, typename _>
+    struct equal_impl<T, U, _, when<
+        !is_implemented<not_equal_impl<T, U>, _> &&
+        !comparable_detail::has_operator_equal<T, U>() &&
+        !detail::std::is_same<T, U>::value &&
+        comparable_detail::has_Comparable_common<T, U, _>()
+    >> {
         template <typename X, typename Y>
-        static constexpr auto equal_impl(X const&, Y const&)
-        { return false_; }
-    };
-
-    template <typename T, typename U>
-    struct Comparable::default_instance<T, U, when_valid<common_t<T, U>>>
-        : Comparable::equal_mcd
-    {
-        template <typename X, typename Y>
-        static constexpr decltype(auto) equal_impl(X&& x, Y&& y) {
-            using C = common_t<T, U>;
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
+            using C = typename common<T, U>::type;
             return equal(
                 to<C>(detail::std::forward<X>(x)),
                 to<C>(detail::std::forward<Y>(y))
@@ -133,10 +119,45 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename T>
-    struct Comparable::default_instance<T, T> : disable {
-        // We let it fail if T is not comparable with itself.
+    // 4. Otherwise, if `T` and `U` are distinct and there is no
+    //    common data type at all, return `false_`.
+    template <typename T, typename U, typename _>
+    struct equal_impl<T, U, _, when<
+        !is_implemented<not_equal_impl<T, U>, _> &&
+        !comparable_detail::has_operator_equal<T, U>() &&
+        !detail::std::is_same<T, U>::value &&
+        !comparable_detail::has_common<T, U>()
+    >> {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X&&, Y&&)
+        { return false_; }
     };
+
+
+    // not_equal
+    /////////////////
+    template <typename T, typename U, typename _>
+    struct not_equal_impl<T, U, _, when<
+        is_implemented<equal_impl<T, U>, _>
+    >> {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
+            return not_(equal(
+                detail::std::forward<X>(x),
+                detail::std::forward<Y>(y)
+            ));
+        }
+    };
+
+    // is_a
+    /////////////////
+    template <typename T, typename U>
+    constexpr auto is_a<Comparable, T, U> = bool_<
+        is_implemented<equal_impl<T, U>> ||
+        is_implemented<not_equal_impl<T, U>>
+    >;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_COMPARABLE_HPP
+
+#include <boost/hana/bool.hpp>

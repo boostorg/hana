@@ -16,12 +16,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    template <unsigned R1, unsigned C1, unsigned R2, unsigned C2>
-    struct Comparable::instance<cppcon::Matrix<R1, C1>, cppcon::Matrix<R2, C2>>
-        : Comparable::equal_mcd
-    {
+    template <unsigned R1, unsigned C1, unsigned R2, unsigned C2, typename _>
+    struct equal_impl<cppcon::Matrix<R1, C1>, cppcon::Matrix<R2, C2>, _> {
         template <typename M1, typename M2>
-        static constexpr auto equal_impl(M1 const& m1, M2 const& m2) {
+        static constexpr auto apply(M1 const& m1, M2 const& m2) {
             return bool_<R1 == R2 && C1 == C2> &&
                    all_of(zip_with(equal, cppcon::rows(m1), cppcon::rows(m2)));
         }

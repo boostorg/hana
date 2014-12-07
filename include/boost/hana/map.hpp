@@ -35,10 +35,10 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/map.cpp comparable
-    template <>
-    struct Comparable::instance<Map, Map> : Comparable::equal_mcd {
+    template <typename _>
+    struct equal_impl<Map, Map, _> {
         template <typename M1, typename M2>
-        static constexpr auto equal_impl(M1 m1, M2 m2) {
+        static constexpr auto apply(M1 m1, M2 m2) {
             return and_(
                 equal(length(m1.storage), length(m2.storage)),
                 all(keys(m1), [=](auto k) {

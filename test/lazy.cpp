@@ -24,10 +24,10 @@ namespace boost { namespace hana {
     // We provide this instance for unit tests only because it is _so_ much
     // more convenient, but this instance is too dangerous for general usage.
     // See the documentation of `Lazy` for more info.
-    template <>
-    struct Comparable::instance<Lazy, Lazy> : Comparable::equal_mcd {
+    template <typename _>
+    struct equal_impl<Lazy, Lazy, _> {
         template <typename X, typename Y>
-        static constexpr auto equal_impl(X x, Y y)
+        static constexpr auto apply(X x, Y y)
         { return equal(eval(x), eval(y)); }
     };
 

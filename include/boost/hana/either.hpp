@@ -32,16 +32,15 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/either.cpp comparable
-    template <>
-    struct Comparable::instance<Either, Either> : Comparable::equal_mcd {
-        template <template <typename ...> class E, typename T, typename U>
-        static constexpr decltype(auto) equal_impl(E<T> const& x, E<U> const& y) {
-            return equal(x.value, y.value);
-        }
+    template <typename _>
+    struct equal_impl<Either, Either, _> {
+        template <template <typename ...> class E, typename T1, typename T2>
+        static constexpr decltype(auto) apply(E<T1> const& x, E<T2> const& y)
+        { return equal(x.value, y.value); }
 
-        template <template <typename ...> class E1,
-                  template <typename ...> class E2, typename T, typename U>
-        static constexpr auto equal_impl(E1<T> const&, E2<U> const&)
+        template <template <typename ...> class E1, typename T1,
+                  template <typename ...> class E2, typename T2>
+        static constexpr auto apply(E1<T1> const&, E2<T2> const&)
         { return false_; }
     };
 
