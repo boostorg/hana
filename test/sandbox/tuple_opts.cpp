@@ -62,18 +62,17 @@ constexpr auto transform_tuple_c(detail::tuple_c<T, vs...> xs) {
 
 namespace boost { namespace hana {
     template <>
-    struct Foldable::instance< ::Tuple> : Foldable::unpack_mcd {
-        // unpack
+    struct unpack_impl< ::Tuple> {
         template <typename Storage, typename F>
-        static constexpr auto unpack_impl(::detail::tuple<Storage> xs, F f)
+        static constexpr auto apply(::detail::tuple<Storage> xs, F f)
         { return xs.storage(f); }
 
         template <typename T, T ...vs, typename F>
-        static constexpr auto unpack_impl(::detail::tuple_c<T, vs...>, F f)
+        static constexpr auto apply(::detail::tuple_c<T, vs...>, F f)
         { return f(::constant<T, vs>...); }
 
         template <typename ...ts, typename F>
-        static constexpr auto unpack_impl(::detail::tuple_t<ts...>, F f)
+        static constexpr auto apply(::detail::tuple_t<ts...>, F f)
         { return f(type<ts>...); }
     };
 

@@ -154,20 +154,11 @@ namespace boost { namespace hana {
         }
     };
 
-    //! Instance of `Foldable` for `Maybe`s.
-    //!
-    //! Folding a `Maybe` is equivalent to folding a `List` containing either
-    //! no elements (for `nothing`) or `x` (for `just(x)`). The `Foldable`
-    //! instance follows from that.
-    //!
-    //! ### Example
-    //! @snippet example/maybe/foldable.cpp main
+    //! @todo We could implement `unpack_impl` instead.
     template <>
-    struct Foldable::instance<Maybe>
-        : Foldable::folds_mcd
-    {
+    struct foldr_impl<Maybe> {
         template <typename M, typename S, typename F>
-        static constexpr decltype(auto) foldr_impl(M&& m, S&& s, F&& f) {
+        static constexpr decltype(auto) apply(M&& m, S&& s, F&& f) {
             // While it _seems_ like we're forwarding `s` twice, `s` may be
             // moved from in only the branch which is actually executed.
             return maybe(
@@ -181,9 +172,12 @@ namespace boost { namespace hana {
                 detail::std::forward<M>(m)
             );
         }
+    };
 
+    template <>
+    struct foldl_impl<Maybe> {
         template <typename M, typename S, typename F>
-        static constexpr decltype(auto) foldl_impl(M&& m, S&& s, F&& f) {
+        static constexpr decltype(auto) apply(M&& m, S&& s, F&& f) {
             // The same comment as above applies for the forwarding of `s`.
             return maybe(
                 detail::std::forward<S>(s),

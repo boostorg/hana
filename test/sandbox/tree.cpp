@@ -63,9 +63,9 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Foldable::instance<Tree> : Foldable::folds_mcd {
+    struct foldl_impl<Tree> {
         template <typename N, typename S, typename F>
-        static constexpr decltype(auto) foldl_impl(N&& n, S&& s, F f) {
+        static constexpr decltype(auto) apply(N&& n, S&& s, F f) {
             return foldl(
                 std::forward<N>(n).subforest,
                 f(std::forward<S>(s), std::forward<N>(n).value),
@@ -78,9 +78,12 @@ namespace boost { namespace hana {
                 }
             );
         }
+    };
 
+    template <>
+    struct foldr_impl<Tree> {
         template <typename N, typename S, typename F>
-        static constexpr decltype(auto) foldr_impl(N&& n, S&& s, F f) {
+        static constexpr decltype(auto) apply(N&& n, S&& s, F f) {
             return f(
                 std::forward<N>(n).value,
                 foldr(std::forward<N>(n).subforest, std::forward<S>(s),

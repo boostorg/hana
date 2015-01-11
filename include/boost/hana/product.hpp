@@ -47,24 +47,20 @@ namespace boost { namespace hana {
         }
     };
 
-    struct Foldable::product_mcd : Foldable::unpack_mcd {
+    //! Minimal complete definition of `Foldable` for `Product`s.
+    //!
+    //! Folding a `Product` `p` is equivalent to folding a list containing
+    //! `first(p)` and `second(p)`, in that order.
+    template <typename Prod>
+    struct unpack_impl<Prod, when<is_a<Product, Prod>()>> {
         template <typename P, typename F>
-        static constexpr decltype(auto) unpack_impl(P&& p, F&& f) {
+        static constexpr decltype(auto) apply(P&& p, F&& f) {
             return detail::std::forward<F>(f)(
                 first(detail::std::forward<P>(p)),
                 second(detail::std::forward<P>(p))
             );
         }
     };
-
-    //! Minimal complete definition of `Foldable` for `Product`s.
-    //!
-    //! Folding a `Product` `p` is equivalent to folding a list containing
-    //! `first(p)` and `second(p)`, in that order.
-    template <typename P>
-    struct Foldable::instance<P, when<is_a<Product, P>()>>
-        : Foldable::product_mcd
-    { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_PRODUCT_HPP

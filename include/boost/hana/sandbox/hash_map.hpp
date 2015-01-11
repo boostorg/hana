@@ -116,17 +116,20 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Foldable::instance<HashMap> : Foldable::folds_mcd {
+    struct foldr_impl<HashMap> {
         template <typename Map, typename State, typename F>
-        static constexpr auto foldr_impl(Map m, State s, F f) {
+        static constexpr auto apply(Map m, State s, F f) {
             auto f_ = [=](auto bucket, auto s) {
                 return foldr(fmap(bucket.pairs, second), s, f);
             };
             return foldr(m.buckets, s, f_);
         }
+    };
 
+    template <>
+    struct foldl_impl<HashMap> {
         template <typename Map, typename State, typename F>
-        static constexpr auto foldl_impl(Map m, State s, F f) {
+        static constexpr auto apply(Map m, State s, F f) {
             auto f_ = [=](auto s, auto bucket) {
                 return foldl(fmap(bucket.pairs, second), s, f);
             };

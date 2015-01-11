@@ -92,9 +92,9 @@ namespace boost { namespace hana { namespace sandbox {
 
 namespace boost { namespace hana {
     template <>
-    struct Foldable::instance<sandbox::LambdaTuple> : Foldable::unpack_mcd {
+    struct unpack_impl<sandbox::LambdaTuple> {
         template <typename Xs, typename F>
-        static constexpr decltype(auto) unpack_impl(Xs&& xs, F&& f) {
+        static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
             return detail::std::forward<Xs>(xs)
                     .storage(detail::std::forward<F>(f));
         }

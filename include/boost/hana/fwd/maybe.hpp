@@ -31,6 +31,17 @@ namespace boost { namespace hana {
     //! A `Maybe` either contains a value (represented as `just(x)`), or it
     //! is empty (represented as `nothing`).
     //!
+    //! Model of
+    //! --------
+    //! 1. `Foldable`
+    //! Folding a `Maybe` is equivalent to folding a `List` containing either
+    //! no elements (for `nothing`) or `x` (for `just(x)`). The `Foldable`
+    //! instance follows from that.
+    //!
+    //! ### Example
+    //! @snippet example/maybe/foldable.cpp main
+    //!
+    //!
     //! ## Instance of
     //! `Comparable`, `Functor`, `Applicative`, `Monad`, `Foldable`,
     //! `Searchable` and `Traversable`.

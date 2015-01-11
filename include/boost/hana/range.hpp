@@ -53,7 +53,7 @@ namespace boost { namespace hana {
 
     //! Instance of `Foldable` for `Range`s.
     template <>
-    struct Foldable::instance<Range> : Foldable::unpack_mcd {
+    struct unpack_impl<Range> {
         template <typename F, typename From, typename T, T ...vs>
         static constexpr decltype(auto)
         unpack_helper(F&& f, From from, detail::std::integer_sequence<T, vs...>) {
@@ -61,24 +61,45 @@ namespace boost { namespace hana {
         }
 
         template <typename R, typename F>
-        static constexpr decltype(auto) unpack_impl(R r, F&& f) {
+        static constexpr decltype(auto) apply(R r, F&& f) {
             auto size = minus(r.to, r.from);
             return unpack_helper(detail::std::forward<F>(f), r.from,
                 detail::std::make_index_sequence<size()>{});
         }
+    };
 
+
+    template <>
+    struct length_impl<Range> {
         template <typename R>
-        static constexpr auto length_impl(R r)
+        static constexpr auto apply(R r)
         { return minus(r.to, r.from); }
+    };
 
+    template <>
+    struct minimum_impl<Range> {
         template <typename R>
-        static constexpr auto minimum_impl(R r)
+        static constexpr auto apply(R r)
         { return r.from; }
+    };
 
+    template <>
+    struct maximum_impl<Range> {
         template <typename R>
-        static constexpr auto maximum_impl(R r)
+        static constexpr auto apply(R r)
         { return pred(r.to); }
+    };
 
+    namespace range_detail {
+        template <typename C, typename U>
+        struct rebind;
+
+        template <template <typename ...> class C, typename T, typename U>
+        struct rebind<C<T>, U> { using type = C<U>; };
+    }
+
+    template <>
+    struct sum_impl<Range> {
         // Returns the sum of `[m, n]`, where `m <= n` always hold.
         template <typename I>
         static constexpr I sum_helper(I m, I n) {
@@ -102,23 +123,20 @@ namespace boost { namespace hana {
                 return -sum_helper(-n, -m);
         }
 
-        template <typename C, typename U>
-        struct rebind;
-
-        template <template <typename ...> class C, typename T, typename U>
-        struct rebind<C<T>, U> { using type = C<U>; };
-
         template <typename R>
-        static constexpr auto sum_impl(R r) {
+        static constexpr auto apply(R r) {
             using C = datatype_t<decltype(r.from)>;
             constexpr auto from = value(r.from);
             constexpr auto to = value(r.to);
             constexpr auto s = from == to ? 0 : sum_helper(from, to-1);
             return integral_constant<
-                typename rebind<C, decltype(s)>::type, s
+                typename range_detail::rebind<C, decltype(s)>::type, s
             >();
         }
+    };
 
+    template <>
+    struct product_impl<Range> {
         // Returns the product of `[m, n)`, where `m <= n` always hold.
         template <typename I>
         static constexpr I product_helper(I m, I n) {
@@ -133,13 +151,13 @@ namespace boost { namespace hana {
         }
 
         template <typename R>
-        static constexpr auto product_impl(R r) {
+        static constexpr auto apply(R r) {
             using C = datatype_t<decltype(r.from)>;
             constexpr auto from = value(r.from);
             constexpr auto to = value(r.to);
             constexpr auto s = product_helper(from, to);
             return integral_constant<
-                typename rebind<C, decltype(s)>::type, s
+                typename range_detail::rebind<C, decltype(s)>::type, s
             >();
         }
     };

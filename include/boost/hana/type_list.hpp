@@ -35,15 +35,15 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Foldable::instance<TypeList> : Foldable::unpack_mcd {
+    struct unpack_impl<TypeList> {
         //! @todo Fix the lost optimization caused by unpacking with `Type`s.
         template <typename ...Xs, typename F>
-        static constexpr auto unpack_impl(detail::repr::type_list<Xs...>, F f)
+        static constexpr auto apply(detail::repr::type_list<Xs...>, F f)
         { return f(type<Xs>...); }
 
         template <typename Xs, typename F>
-        static constexpr auto unpack_impl(Xs, F f)
-        { return unpack_impl(typename Xs::storage{}, f); }
+        static constexpr auto apply(Xs, F f)
+        { return apply(typename Xs::storage{}, f); }
     };
 
     template <>

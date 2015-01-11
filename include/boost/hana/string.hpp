@@ -78,14 +78,16 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/string/foldable.cpp main
     template <>
-    struct Foldable::instance<String> : Foldable::unpack_mcd {
+    struct unpack_impl<String> {
         template <char ...s, typename F>
-        static constexpr decltype(auto)
-        unpack_impl(_string<s...> const&, F&& f)
+        static constexpr decltype(auto) apply(_string<s...> const&, F&& f)
         { return detail::std::forward<F>(f)(char_<s>...); }
+    };
 
+    template <>
+    struct length_impl<String> {
         template <char ...s>
-        static constexpr auto length_impl(_string<s...> const&)
+        static constexpr auto apply(_string<s...> const&)
         { return size_t<sizeof...(s)>; }
     };
 

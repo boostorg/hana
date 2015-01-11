@@ -41,24 +41,7 @@ namespace boost { namespace hana {
     // If neither is defined, the MCD used is unspecified.
 #ifdef BOOST_HANA_TEST_FOLDABLE_FOLDS_MCD
     template <>
-    struct Foldable::instance<test::Seq>
-        : Foldable::folds_mcd
-    {
-        template <typename F, typename S, typename X, typename ...Xs>
-        static constexpr auto foldr_helper(F f, S s, X x, Xs ...xs)
-        { return f(x, foldr_helper(f, s, xs...)); }
-
-        template <typename F, typename S>
-        static constexpr auto foldr_helper(F f, S s)
-        { return s; }
-
-        template <typename Xs, typename S, typename F>
-        static constexpr auto foldr_impl(Xs xs, S s, F f) {
-            return xs.storage([=](auto ...xs) {
-                return foldr_helper(f, s, xs...);
-            });
-        }
-
+    struct foldl_impl<test::Seq> {
         template <typename F, typename S, typename X, typename ...Xs>
         static constexpr auto foldl_helper(F f, S s, X x, Xs ...xs)
         { return foldl_helper(f, f(s, x), xs...); }
@@ -68,19 +51,35 @@ namespace boost { namespace hana {
         { return s; }
 
         template <typename Xs, typename S, typename F>
-        static constexpr auto foldl_impl(Xs xs, S s, F f) {
+        static constexpr auto apply(Xs xs, S s, F f) {
             return xs.storage([=](auto ...xs) {
                 return foldl_helper(f, s, xs...);
             });
         }
     };
+
+    template <>
+    struct foldr_impl<test::Seq> {
+        template <typename F, typename S, typename X, typename ...Xs>
+        static constexpr auto foldr_helper(F f, S s, X x, Xs ...xs)
+        { return f(x, foldr_helper(f, s, xs...)); }
+
+        template <typename F, typename S>
+        static constexpr auto foldr_helper(F f, S s)
+        { return s; }
+
+        template <typename Xs, typename S, typename F>
+        static constexpr auto apply(Xs xs, S s, F f) {
+            return xs.storage([=](auto ...xs) {
+                return foldr_helper(f, s, xs...);
+            });
+        }
+    };
 #elif defined(BOOST_HANA_TEST_FOLDABLE_UNPACK_MCD)
     template <>
-    struct Foldable::instance<test::Seq>
-        : Foldable::unpack_mcd
-    {
+    struct unpack_impl<test::Seq> {
         template <typename Xs, typename F>
-        static constexpr auto unpack_impl(Xs xs, F f)
+        static constexpr auto apply(Xs xs, F f)
         { return xs.storage(f); }
     };
 #else

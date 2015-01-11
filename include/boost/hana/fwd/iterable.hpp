@@ -50,6 +50,42 @@ namespace boost { namespace hana {
     //! `head`, `tail` and `is_empty`
     //!
     //!
+    //! Provided models
+    //! ---------------
+    //! 1. `Foldable`
+    //! Every finite `Iterable` instance gives rise to an instance of
+    //! `Foldable`.
+    //!
+    //! Let `xs` be an `Iterable` and let `xi` denote its `i`-th element. In
+    //! other words, `xs` can be folded into a list containing `[x1, ..., xN]`,
+    //! where `N` is the number of elements. Right-folding `xs` with a binary
+    //! operation `*` (in infix notation for legibility) is equivalent to
+    //! @code
+    //!     x1 * (x2 * ( ... * (xN-1 * xN)))
+    //! @endcode
+    //!
+    //! Similarly, left-folding `xs` is equivalent to
+    //! @code
+    //!     (((x1 * x2) * x3) * ...) * xN
+    //! @endcode
+    //!
+    //! In both cases, notice the side of the parentheses. Left-folding
+    //! applies `*` in a left-associative manner, whereas right-folding
+    //! applies it in a right-associative manner. For associative operations,
+    //! i.e. operations such that for all `a`, `b` and `c`,
+    //! @code
+    //!     (a * b) * c = a * (b * c)
+    //! @endcode
+    //! this makes no difference. Also note that lazy folds and folds with an
+    //! initial state are implemented in an analogous way.
+    //!
+    //! ### Example 1
+    //! @snippet example/list/foldable.cpp foldl
+    //!
+    //! ### Example 2
+    //! @snippet example/integer_list/foldable.cpp foldr
+    //!
+    //!
     //! @todo Either make it a requirement of Iterable to be convertible to a
     //! Tuple (since it's used in the laws), or require something strictly
     //! more general.
