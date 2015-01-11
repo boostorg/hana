@@ -186,129 +186,148 @@ namespace detail {
     using if_t = typename if_<C, T, E>::type;
 }
 
-// note: `is_O1` implies `is_implemented`, so `is_implemented && is_O1 === is_O1`.
+
 struct not_implemented {
-    static constexpr bool is_implemented = false;
-    static constexpr bool is_O1 = false;
     template <typename ...X>
     static constexpr auto apply(X ...)
     { static_assert(sizeof...(X) && false, "not implemented"); }
 };
 
-template <template <typename ...> class f>
-struct quote {
-    template <typename ...x>
-    using unquote = f<x...>;
-};
+template <template <typename ...> class f, typename ...t>
+struct quote;
 
-template <typename This, typename T, typename AlreadyVisited>
-struct method_info {
-private:
-    template <typename Method>
-    using wrap = detail::if_t<detail::elem<typename Method::tag, AlreadyVisited>,
+constexpr bool is_implemented_impl(not_implemented) { return false; }
+constexpr bool is_implemented_impl(...) { return true; }
+
+template <typename Method, typename Dependencies>
+struct is_implemented_impl2;
+
+// Unary methods
+template <template <typename ...> class Method, typename T, typename ..._, typename ...Dependencies>
+struct is_implemented_impl2<Method<T, detail::types<quote<Method, T>>, _...>, detail::types<Dependencies...>> {
+    using type = detail::if_t<detail::elem<quote<Method, T>, detail::types<Dependencies...>>,
         not_implemented,
-        typename Method::template impl<T, method_info<typename Method::tag, T, detail::append_t<AlreadyVisited, This>>>
+        Method<T, detail::types<quote<Method, T>, Dependencies...>, _...>
     >;
-
-public:
-    template <typename M>
-    constexpr auto operator()(M const&) const
-    { return wrap<M>{}; }
+    static constexpr bool value = is_implemented_impl(type{});
 };
 
-namespace detail {
-    template <template <typename ...> class Impl, typename M>
-    struct method_impl : M {
-        constexpr method_impl(M m) : M(m) { }
-        template <typename ...x>
-        using impl = Impl<x...>;
-        using tag = quote<Impl>;
-    };
+// Binary methods
+template <template <typename ...> class Method, typename T, typename U, typename ..._, typename ...Dependencies>
+struct is_implemented_impl2<Method<T, U, detail::types<quote<Method, T, U>>, _...>, detail::types<Dependencies...>> {
+    using type = detail::if_t<detail::elem<quote<Method, T, U>, detail::types<Dependencies...>>,
+        not_implemented,
+        Method<T, U, detail::types<quote<Method, T, U>, Dependencies...>, _...>
+    >;
+    static constexpr bool value = is_implemented_impl(type{});
+};
 
-    template <template <typename ...> class impl>
-    struct make_method {
-        template <typename M>
-        constexpr auto operator()(M m) const
-        { return method_impl<impl, M>{m}; }
-    };
-}
+template <typename Method, typename Dependencies = detail::types<>>
+constexpr bool is_implemented = is_implemented_impl2<Method, Dependencies>::value;
 
-template <template <typename ...> class impl>
-constexpr detail::make_method<impl> method{};
 
-#define BOOST_HANA_METHOD_IMPL(name)                                                                            \
-    template <typename, typename, typename> struct name ## _impl;                                               \
-    template <typename T, typename Info = method_info<quote<name ## _impl>, T, detail::types<>>, typename = void>\
-    struct name ## _impl : name ## _impl<T, Info, hana::when<true>> { };                                        \
-                                                                                                                \
-    template <typename T, typename Info, bool condition>                                                        \
-    struct name ## _impl<T, Info, hana::when<condition>> : not_implemented { }                                  \
+#define BOOST_HANA_METHOD_IMPL(name)                                                        \
+    template <typename, typename, typename> struct name ## _impl;                           \
+    template <typename T, typename _ = detail::types<quote<name ## _impl, T>>, typename = void>  \
+    struct name ## _impl : name ## _impl<T, _, hana::when<true>> { };                       \
+                                                                                            \
+    template <typename T, typename _, bool condition>                                       \
+    struct name ## _impl<T, _, hana::when<condition>> : not_implemented { }                 \
+/**/
+
+#define BOOST_HANA_BINARY_METHOD_IMPL(name)                                     \
+    template <typename, typename, typename, typename> struct name ## _impl;     \
+    template <typename T, typename U, typename _ = detail::types<quote<name ## _impl, T, U>>, typename = void>  \
+    struct name ## _impl : name ## _impl<T, U, _, hana::when<true>> { };        \
+                                                                                \
+    template <typename T, typename U, typename _, bool condition>               \
+    struct name ## _impl<T, U, _, hana::when<condition>> : not_implemented { }  \
 /**/
 
 
+
 //////////////////////////////////////////////////////////////////////////////
-// foldable/foldable.hpp
+// Foldable
+//////////////////////////////////////////////////////////////////////////////
 
 // foldl
 BOOST_HANA_METHOD_IMPL(foldl);
-auto foldl = method<foldl_impl>([](auto xs, auto s, auto f) {
+auto foldl = [](auto xs, auto s, auto f) {
     return foldl_impl<hana::datatype_t<decltype(xs)>>::apply(xs, s, f);
-});
-
-// foldr
-BOOST_HANA_METHOD_IMPL(foldr);
-auto foldr = method<foldr_impl>([](auto xs, auto s, auto f) {
-    return foldr_impl<hana::datatype_t<decltype(xs)>>::apply(xs, s, f);
-});
+};
 
 // unpack
 BOOST_HANA_METHOD_IMPL(unpack);
-auto unpack = method<unpack_impl>([](auto xs, auto f) {
+auto unpack = [](auto xs, auto f) {
     return unpack_impl<hana::datatype_t<decltype(xs)>>::apply(xs, f);
-});
+};
 
-// length
-BOOST_HANA_METHOD_IMPL(length);
-auto length = method<length_impl>([](auto xs) {
-    return length_impl<hana::datatype_t<decltype(xs)>>::apply(xs);
-});
+template <typename T, typename _>
+struct foldl_impl<T, _, hana::when<
+    is_implemented<unpack_impl<T>, _>
+>> {
+    template <typename Xs, typename S, typename F>
+    static constexpr auto apply(Xs xs, S s, F f) {
+        return unpack(xs, [=](auto ...xs) {
+            return hana::detail::variadic::foldl(f, s, xs...);
+        });
+    }
+};
 
-// count
-BOOST_HANA_METHOD_IMPL(count);
-auto count = method<count_impl>([](auto xs, auto pred) {
-    return count_impl<hana::datatype_t<decltype(xs)>>::apply(xs, pred);
-});
+template <typename T, typename _>
+struct unpack_impl<T, _, hana::when<
+    is_implemented<foldl_impl<T>, _>
+>> {
+    template <typename Xs, typename F>
+    static constexpr auto apply(Xs xs, F f) {
+        return foldl(xs, f, hana::partial)();
+    }
+};
 
 
 //////////////////////////////////////////////////////////////////////////////
-// functor/functor.hpp
+// Functor
+//////////////////////////////////////////////////////////////////////////////
 
 // fmap
 BOOST_HANA_METHOD_IMPL(fmap);
-auto fmap = method<fmap_impl>([](auto xs, auto f) {
+auto fmap = [](auto xs, auto f) {
     return fmap_impl<hana::datatype_t<decltype(xs)>>::apply(xs, f);
-});
+};
 
 // adjust
 BOOST_HANA_METHOD_IMPL(adjust);
-auto adjust = method<adjust_impl>([](auto xs, auto pred, auto f) {
+auto adjust = [](auto xs, auto pred, auto f) {
     return adjust_impl<hana::datatype_t<decltype(xs)>>::apply(xs, pred, f);
-});
+};
 
-// replace
-BOOST_HANA_METHOD_IMPL(replace);
-auto replace = method<replace_impl>([](auto xs, auto pred, auto value) {
-    return replace_impl<hana::datatype_t<decltype(xs)>>::apply(xs, pred, value);
-});
 
-// fill
-BOOST_HANA_METHOD_IMPL(fill);
-auto fill = method<fill_impl>([](auto xs, auto value) {
-    return fill_impl<hana::datatype_t<decltype(xs)>>::apply(xs, value);
-});
+template <typename T, typename _>
+struct fmap_impl<T, _, hana::when<
+    is_implemented<adjust_impl<T>, _>
+>> {
+    template <typename Xs, typename F>
+    static constexpr auto apply(Xs xs, F f) {
+        return adjust(xs, hana::always(hana::true_), f);
+    }
+};
+
+template <typename T, typename _>
+struct adjust_impl<T, _, hana::when<
+    is_implemented<fmap_impl<T>, _>
+>> {
+    template <typename Xs, typename Pred, typename F>
+    static constexpr auto apply(Xs xs, Pred pred, F f) {
+        return fmap(xs, [=](auto x) {
+            return hana::if_(pred(x), f(x), x);
+        });
+    }
+};
+
 
 //////////////////////////////////////////////////////////////////////////////
-// applicative/applicative.hpp
+// Applicative
+//////////////////////////////////////////////////////////////////////////////
 
 // lift
 BOOST_HANA_METHOD_IMPL(lift);
@@ -321,208 +340,24 @@ namespace detail {
     };
 }
 template <typename T>
-constexpr auto lift = method<lift_impl>(detail::lift<T>{});
+constexpr auto lift = detail::lift<T>{};
 
 // ap
 BOOST_HANA_METHOD_IMPL(ap);
-auto ap = method<ap_impl>([](auto f, auto x) {
+auto ap = [](auto f, auto x) {
     using F = hana::datatype_t<decltype(f)>;
     using X = hana::datatype_t<decltype(x)>;
     static_assert(std::is_same<F, X>::value,
     "ap must be called with two arguments in the same Applicative");
     return ap_impl<F>::apply(f, x);
-});
-
-//////////////////////////////////////////////////////////////////////////////
-// monad/monad.hpp
-
-// flatten
-BOOST_HANA_METHOD_IMPL(flatten);
-auto flatten = method<flatten_impl>([](auto m) {
-    return flatten_impl<hana::datatype_t<decltype(m)>>::apply(m);
-});
-
-
-//////////////////////////////////////////////////////////////////////////////
-// foldable/provided.hpp
-template <typename T, typename Info>
-struct foldr_impl<T, Info, hana::when<
-    Info{}(unpack).is_implemented
->> {
-    static constexpr bool is_implemented = true;
-    static constexpr bool is_O1 = false; // variadic::foldr is O(n)
-    template <typename Xs, typename S, typename F>
-    static constexpr auto apply(Xs xs, S s, F f) {
-        return unpack(xs, [=](auto ...xs) {
-            return hana::detail::variadic::foldr(f, s, xs...);
-        });
-    }
-};
-
-template <typename T, typename Info>
-struct foldl_impl<T, Info, hana::when<
-    Info{}(unpack).is_implemented
->> {
-    static constexpr bool is_implemented = true;
-    static constexpr bool is_O1 = false; // variadic::foldl is O(n)
-    template <typename Xs, typename S, typename F>
-    static constexpr auto apply(Xs xs, S s, F f) {
-        return unpack(xs, [=](auto ...xs) {
-            return hana::detail::variadic::foldl(f, s, xs...);
-        });
-    }
-};
-
-template <typename T, typename Info>
-struct unpack_impl<T, Info, hana::when<
-    Info{}(foldl).is_implemented
->> {
-    static constexpr bool is_implemented = true;
-    static constexpr bool is_O1 = Info{}(foldl).is_O1;
-    template <typename Xs, typename F>
-    static constexpr auto apply(Xs xs, F f) {
-        return foldl(xs, f, hana::partial)();
-    }
-};
-
-template <typename T, typename Info>
-struct length_impl<T, Info, hana::when<
-    Info{}(foldl).is_implemented &&
-    !Info{}(unpack).is_O1
->> {
-    static constexpr bool is_implemented = true;
-    static constexpr bool is_O1 = Info{}(foldl).is_O1;
-    template <typename Xs>
-    static constexpr auto apply(Xs xs) {
-        return foldl(xs, hana::int_<0>, [](auto n, auto _) {
-            return hana::plus(n, hana::int_<1>);
-        });
-    }
-};
-
-template <typename T, typename Info>
-struct length_impl<T, Info, hana::when<
-    Info{}(unpack).is_O1
->> {
-    static constexpr bool is_implemented = true;
-    static constexpr bool is_O1 = Info{}(unpack).is_O1;
-    template <typename Xs>
-    static constexpr auto apply(Xs xs) {
-        return unpack(xs, [](auto ...xs) {
-            return hana::size_t<sizeof...(xs)>;
-        });
-    }
-};
-
-template <typename T, typename Info>
-struct count_impl<T, Info, hana::when<
-    Info{}(foldl).is_implemented &&
-    !Info{}(unpack).is_O1
->> {
-    static constexpr bool is_implemented = true;
-    static constexpr bool is_O1 = Info{}(foldl).is_O1;
-    template <typename Xs, typename Pred>
-    static constexpr auto apply(Xs xs, Pred pred) {
-        return foldl(xs, hana::size_t<0>, [=](auto counter, auto x) {
-            return hana::if_(pred(x),
-                hana::plus(counter, hana::size_t<1>),
-                counter
-            );
-        });
-    }
-};
-
-template <typename T, typename Info>
-struct count_impl<T, Info, hana::when<
-    Info{}(unpack).is_O1
->> {
-    static constexpr bool is_implemented = true;
-    static constexpr bool is_O1 = false; // this implementation is still O(n)
-    template <typename Xs, typename Pred>
-    static constexpr auto apply(Xs xs, Pred pred) {
-        // The optimization is not applied right now, but we could do
-        // something like:
-#if 0
-        // This is valid assuming a correct definition of Boolean which
-        // requires instances to be convertible to `bool`.
-        return unpack(xs, [](auto ...xs) {
-            constexpr bool cs[] = {false, to<bool>(pred(xs))...};
-            return size_t<count(cs)>;
-        });
-#endif
-        return foldl(xs, hana::size_t<0>, [=](auto counter, auto x) {
-            return hana::if_(pred(x),
-                hana::plus(counter, hana::size_t<1>),
-                counter
-            );
-        });
-    }
-};
-
-//////////////////////////////////////////////////////////////////////////////
-// functor/provided.hpp
-
-template <typename T, typename Info>
-struct fmap_impl<T, Info, hana::when<
-    Info{}(adjust).is_implemented
->> {
-    static constexpr bool is_implemented = true;
-    static constexpr bool is_O1 = Info{}(adjust).is_O1;
-    template <typename Xs, typename F>
-    static constexpr auto apply(Xs xs, F f) {
-        return adjust(xs, hana::always(hana::true_), f);
-    }
-};
-
-template <typename T, typename Info>
-struct adjust_impl<T, Info, hana::when<
-    Info{}(fmap).is_implemented
->> {
-    static constexpr bool is_implemented = true;
-    static constexpr bool is_O1 = Info{}(fmap).is_O1;
-    template <typename Xs, typename Pred, typename F>
-    static constexpr auto apply(Xs xs, Pred pred, F f) {
-        return fmap(xs, [=](auto x) {
-            return hana::if_(pred(x), f(x), x);
-        });
-    }
-};
-
-template <typename T, typename Info>
-struct fill_impl<T, Info, hana::when<
-    Info{}(fmap).is_implemented
->> {
-    static constexpr bool is_implemented = true;
-    static constexpr bool is_O1 = Info{}(fmap).is_O1;
-    template <typename Xs, typename V>
-    static constexpr auto apply(Xs xs, V value) {
-        return fmap(xs, hana::always(value));
-    }
-};
-
-template <typename T, typename Info>
-struct replace_impl<T, Info, hana::when<
-    Info{}(adjust).is_implemented
->> {
-    static constexpr bool is_implemented = true;
-    static constexpr bool is_O1 = Info{}(adjust).is_O1;
-    template <typename Xs, typename Pred, typename V>
-    static constexpr auto apply(Xs xs, Pred pred, V value) {
-        return adjust(xs, pred, hana::always(value));
-    }
 };
 
 
-//////////////////////////////////////////////////////////////////////////////
-// applicative/provided.hpp
-
-template <typename T, typename Info>
-struct fmap_impl<T, Info, hana::when<
-    Info{}(lift<T>).is_implemented &&
-    Info{}(ap).is_implemented
+template <typename T, typename _>
+struct fmap_impl<T, _, hana::when<
+    is_implemented<lift_impl<T>, _> &&
+    is_implemented<ap_impl<T>, _>
 >> {
-    static constexpr bool is_implemented = true;
-    static constexpr bool is_O1 = Info{}(lift<T>).is_O1 && Info{}(ap).is_O1;
     template <typename X, typename F>
     static constexpr auto apply(X x, F f) {
         return ap(lift<T>(f), x);
@@ -531,62 +366,56 @@ struct fmap_impl<T, Info, hana::when<
 
 
 //////////////////////////////////////////////////////////////////////////////
-// tuple/foldable.hpp
+// Monad
+//////////////////////////////////////////////////////////////////////////////
 
+// flatten
+BOOST_HANA_METHOD_IMPL(flatten);
+auto flatten = [](auto m) {
+    return flatten_impl<hana::datatype_t<decltype(m)>>::apply(m);
+};
+
+
+
+//////////////////////////////////////////////////////////////////////////////
+// Tuple
+//////////////////////////////////////////////////////////////////////////////
+
+// Foldable
+#if 0
 template <typename Info>
 struct unpack_impl<hana::Tuple, Info> {
-    static constexpr bool is_implemented = true;
-    static constexpr bool is_O1 = true;
     template <typename Xs, typename F>
     static constexpr auto apply(Xs xs, F f) {
         return hana::unpack(xs, f);
     }
 };
-
-template <typename Info>
-struct foldr_impl<hana::Tuple, Info> {
-    static constexpr bool is_implemented = true;
-    static constexpr bool is_O1 = false;
-    template <typename Xs, typename S, typename F>
-    static constexpr auto apply(Xs xs, S s, F f) {
-        return hana::foldr(xs, s, f);
-    }
-};
-
+#else
 template <typename Info>
 struct foldl_impl<hana::Tuple, Info> {
-    static constexpr bool is_implemented = true;
-    static constexpr bool is_O1 = false;
     template <typename Xs, typename S, typename F>
     static constexpr auto apply(Xs xs, S s, F f) {
         return hana::foldl(xs, s, f);
     }
 };
+#endif
 
 
-//////////////////////////////////////////////////////////////////////////////
-// tuple/functor.hpp
-
-// redundant given the Applicative instance
+// Functor (redundant given the Applicative instance)
 #if 0
 template <typename Info>
 struct fmap_impl<hana::Tuple, Info> {
-    static constexpr bool is_implemented = true;
-    static constexpr bool is_O1 = false;
     template <typename Xs, typename F>
     static constexpr auto apply(Xs xs, F f) {
-        return hana::fmap(f, xs);
+        return hana::fmap(xs, f);
     }
 };
 #endif
 
-//////////////////////////////////////////////////////////////////////////////
-// tuple/applicative.hpp
 
+// Applicative
 template <typename Info>
 struct lift_impl<hana::Tuple, Info> {
-    static constexpr bool is_implemented = true;
-    static constexpr bool is_O1 = true;
     template <typename X>
     static constexpr auto apply(X x) {
         return hana::tuple(x);
@@ -595,28 +424,161 @@ struct lift_impl<hana::Tuple, Info> {
 
 template <typename Info>
 struct ap_impl<hana::Tuple, Info> {
-    static constexpr bool is_implemented = true;
-    static constexpr bool is_O1 = false;
     template <typename Fs, typename Xs>
     static constexpr auto apply(Fs fs, Xs xs) {
         return hana::ap(fs, xs);
     }
 };
 
-//////////////////////////////////////////////////////////////////////////////
-// tuple/monad.hpp
-
+// Monad
 template <typename Info>
 struct flatten_impl<hana::Tuple, Info> {
-    static constexpr bool is_implemented = true;
-    static constexpr bool is_O1 = false;
     template <typename Xs>
     static constexpr auto apply(Xs xs) {
         return hana::flatten(xs);
     }
 };
 
+
 //////////////////////////////////////////////////////////////////////////////
+
+
+namespace test_case_1 {
+    // Le cas de base qu'on essaie de gérer est:
+    //  a(T) implémenté par b(T)
+    //  b(T) implémenté par a(T) ou par c(T)
+    //  c(mytype) implémenté
+    //  ------
+    //  a(mytype) doit utiliser c(mytype) au lieu de récurser
+
+    BOOST_HANA_METHOD_IMPL(a);
+    BOOST_HANA_METHOD_IMPL(b);
+    BOOST_HANA_METHOD_IMPL(c);
+
+
+    template <typename T, typename _>
+    struct a_impl<T, _, hana::when<
+        is_implemented<b_impl<T>, _>
+    >> { static constexpr bool dispatches_correctly = true; };
+
+
+    template <typename T, typename _>
+    struct b_impl<T, _, hana::when<
+        is_implemented<a_impl<T>, _>
+    >> { };
+
+    template <typename T, typename _>
+    struct b_impl<T, _, hana::when<
+        is_implemented<c_impl<T>, _>
+    >> { static constexpr bool dispatches_correctly = true; };
+
+
+    struct MyType;
+    template <typename _>
+    struct c_impl<MyType, _>
+    { static constexpr bool dispatches_correctly = true; };
+
+    static_assert(a_impl<MyType>::dispatches_correctly, "");
+    static_assert(b_impl<MyType>::dispatches_correctly, "");
+    static_assert(c_impl<MyType>::dispatches_correctly, "");
+
+    static_assert(is_implemented<a_impl<MyType>>, "");
+    static_assert(is_implemented<b_impl<MyType>>, "");
+    static_assert(is_implemented<c_impl<MyType>>, "");
+}
+
+namespace test_case_2 {
+    // Version dégénérée du cas de base:
+    //  a(T) implémenté par a(T) ou b(T)
+    //  b(mytype) implémenté
+    //  ------
+    //  a(mytype) doit utiliser b(mytype) au lieu de récurser
+
+    BOOST_HANA_METHOD_IMPL(a);
+    BOOST_HANA_METHOD_IMPL(b);
+
+
+    template <typename T, typename _>
+    struct a_impl<T, _, hana::when<
+        is_implemented<a_impl<T>, _>
+    >> { };
+
+    template <typename T, typename _>
+    struct a_impl<T, _, hana::when<
+        is_implemented<b_impl<T>, _>
+    >> { static constexpr bool dispatches_correctly = true; };
+
+
+    struct MyType;
+    template <typename _>
+    struct b_impl<MyType, _>
+    { static constexpr bool dispatches_correctly = true; };
+
+    static_assert(a_impl<MyType>::dispatches_correctly, "");
+    static_assert(b_impl<MyType>::dispatches_correctly, "");
+}
+
+namespace test_case_2_bin {
+    // Version dégénérée du cas de base avec des méthodes binaires:
+    //  a(T, U) implémenté par a(T, U) ou b(T, U)
+    //  b(mytype, mytype) implémenté
+    //  ------
+    //  a(mytype, mytype) doit utiliser b(mytype, mytype) au lieu de récurser
+
+    BOOST_HANA_BINARY_METHOD_IMPL(a);
+    BOOST_HANA_BINARY_METHOD_IMPL(b);
+
+
+    template <typename T, typename U, typename _>
+    struct a_impl<T, U, _, hana::when<
+        is_implemented<a_impl<T, U>, _>
+    >> { };
+
+    template <typename T, typename U, typename _>
+    struct a_impl<T, U, _, hana::when<
+        is_implemented<b_impl<T, U>, _>
+    >> { static constexpr bool dispatches_correctly = true; };
+
+
+    struct MyType;
+    template <typename _>
+    struct b_impl<MyType, MyType, _>
+    { static constexpr bool dispatches_correctly = true; };
+
+    static_assert(a_impl<MyType, MyType>::dispatches_correctly, "");
+    static_assert(b_impl<MyType, MyType>::dispatches_correctly, "");
+}
+
+namespace test_case_3 {
+    // S'assure que la priorité de la spécialisation sans `when` est
+    // respectée même pour les types paramétriques. Ça pourrait chier
+    // parce qu'on a rajouté le template parameter `_`.
+    BOOST_HANA_METHOD_IMPL(a);
+
+    template <typename T, typename _>
+    struct a_impl<T, _, hana::when<true>> { };
+
+    template <typename T> struct MyType;
+    template <typename T, typename _>
+    struct a_impl<MyType<T>, _>
+    { static constexpr bool dispatches_correctly = true; };
+
+    static_assert(a_impl<MyType<void>>::dispatches_correctly, "");
+}
+
+namespace test_case_4 {
+    // Expérimente avec des méthodes binaires.
+    BOOST_HANA_BINARY_METHOD_IMPL(a);
+
+    struct MyType;
+    template <typename _>
+    struct a_impl<MyType, MyType, _>
+    { static constexpr bool dispatches_correctly = true; };
+
+    static_assert(a_impl<MyType, MyType>::dispatches_correctly, "");
+}
+
+
 
 
 int main() {
@@ -624,17 +586,12 @@ int main() {
 
     // Foldable
     unpack(xs, [](auto ...xs) { });
-    foldr(xs, 1, [](auto x, auto s) { return s; });
     foldl(xs, 1, [](auto s, auto x) { return s; });
-    length(xs);
-    count(xs, [](auto) { return hana::true_; });
 
 
     // Functor
     fmap(xs, [](auto x) { return 1; });
-    replace(xs, [](auto x) { return hana::true_; }, 1);
     adjust(xs, [](auto x) { return hana::true_; }, [](auto x) { return x; });
-    fill(xs, 1);
 
     // Applicative
     lift<hana::Tuple>(1);
