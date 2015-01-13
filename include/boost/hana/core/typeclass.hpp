@@ -16,16 +16,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! @defgroup group-typeclasses Type classes
-    //! General purpose type classes provided by the library.
-    //!
-    //! @todo
-    //! - Provide a way to check type class requirements like
-    //!   `Functor f => Applicative f`.
-    //! - Consider inheriting from a base class even when no mcd is required.
-    //!   That would allow us to _not_ include a useless mcd.
-    //! - Document how `common` is used for some binary methods.
-
     namespace core_detail {
         template <typename Void, typename Typeclass, typename ...Args>
         struct default_instance {
