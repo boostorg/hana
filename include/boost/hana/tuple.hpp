@@ -16,7 +16,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/constant.hpp> // value
 #include <boost/hana/detail/closure.hpp>
 #include <boost/hana/detail/create.hpp>
+#include <boost/hana/detail/generate_integer_sequence.hpp>
 #include <boost/hana/detail/std/decay.hpp>
+#include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integer_sequence.hpp>
 #include <boost/hana/detail/std/integral_constant.hpp>
@@ -70,6 +72,14 @@ namespace boost { namespace hana {
                     if (array[i] < m)
                         m = array[i];
                 return m;
+            }
+
+            template <typename T, detail::std::size_t N>
+            static constexpr T homogeneous_sum(T const (&array)[N]) {
+                T s = 0;
+                for (detail::std::size_t i = 0; i < N; ++i)
+                    s += array[i];
+                return s;
             }
         };
     }
@@ -232,6 +242,40 @@ namespace boost { namespace hana {
         /**/
         BOOST_HANA_PP_FOR_EACH_REF3(BOOST_HANA_PP_CONCAT3)
         #undef BOOST_HANA_PP_CONCAT3
+
+        template <int Which, detail::std::size_t ...Lengths>
+        struct generate_concat_indices {
+            template <typename Array>
+            constexpr auto operator()(Array outer) const {
+                constexpr detail::std::size_t lengths[] = {Lengths...};
+                Array inner = outer;
+                for (detail::std::size_t index = 0, i = 0; i < sizeof...(Lengths); ++i) {
+                    for (detail::std::size_t j = 0; j < lengths[i]; ++j, ++index) {
+                        inner[index] = i;
+                        outer[index] = j;
+                    }
+                }
+                return get_element<Which>(tuple(outer, inner));
+            }
+        };
+
+        template <typename Tuples, detail::std::size_t ...outer, detail::std::size_t ...inner>
+        static constexpr decltype(auto) concat_helper(Tuples&& tuples, detail::std::index_sequence<outer...>, detail::std::index_sequence<inner...>) {
+            return tuple(get_element<outer>(get_element<inner>(detail::std::forward<Tuples>(tuples)))...);
+        }
+
+        // The other overloads are more efficient and we prefer them when there
+        // are only 2 or 3 tuples to concatenate.
+        template <typename ...Tuples, typename = detail::std::enable_if_t<(sizeof...(Tuples) > 3)>>
+        static constexpr decltype(auto) concat_impl(Tuples&& ...tuples) {
+            constexpr detail::std::size_t lengths[] = {get_size(decltype(&tuples){})...};
+            constexpr detail::std::size_t total_length = homogeneous_sum(lengths);
+            using Outer = generate_concat_indices<0, get_size(decltype(&tuples){})...>;
+            using Inner = generate_concat_indices<1, get_size(decltype(&tuples){})...>;
+            return concat_helper(tuple(detail::std::forward<Tuples>(tuples)...),
+                detail::generate_index_sequence<total_length, Outer>{},
+                detail::generate_index_sequence<total_length, Inner>{});
+        }
 
 
         // cons
