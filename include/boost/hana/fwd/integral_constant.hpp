@@ -58,6 +58,19 @@ namespace boost { namespace hana {
     //! which in turn requires the instances of `IntegralConstant` to be
     //! the same up to implementation differences. This allows the library
     //! to provide several type class instances for free.
+    //!
+    //!
+    //! Provided instances
+    //! ------------------
+    //! 1. `Enumerable`
+    //! Any `IntegralConstant` is also an `Enumerable` via the usual definition
+    //! of `succ` and `pred` for natural numbers. Specifically, `succ(n)` is
+    //! an `IntegralConstant` holding `value(n) + 1`, and `pred(n)` is an
+    //! `IntegralConstant` holding `value(n) - 1`.
+    //!
+    //!
+    //! ### Example
+    //! @snippet example/integral_constant.cpp enumerable
     struct IntegralConstant {
         BOOST_HANA_TYPECLASS(IntegralConstant);
         struct mcd;

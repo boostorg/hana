@@ -68,18 +68,21 @@ namespace boost { namespace hana {
         { return test::numeric(x.value < y.value); }
     };
 
-    template <>
-    struct Enumerable::instance<test::Numeric> : Enumerable::mcd {
-        template <typename N>
-        static constexpr auto succ_impl(N n) {
-            return test::numeric(n.value + 1);
-        }
 
+    template <>
+    struct pred_impl<test::Numeric> {
         template <typename N>
-        static constexpr auto pred_impl(N n) {
-            return test::numeric(n.value - 1);
-        }
+        static constexpr auto apply(N n)
+        { return test::numeric(n.value - 1); }
     };
+
+    template <>
+    struct succ_impl<test::Numeric> {
+        template <typename N>
+        static constexpr auto apply(N n)
+        { return test::numeric(n.value + 1); }
+    };
+
 
     template <>
     struct Logical::instance<test::Numeric> : Logical::mcd {

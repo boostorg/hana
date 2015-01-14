@@ -84,44 +84,34 @@ namespace boost { namespace hana {
         }
     };
 
+    ///////////////////////
+    // Enumerable
     template <template <typename ...> class C, typename T>
-    struct Enumerable::integral_constant_mcd<C<T>> : Enumerable::mcd {
-    private:
-        //! @todo What should happen when we go out of bounds? Probably not
-        //! overflow like it does currently. Also, `succ(false_)` should
-        //! probably not be `int_<1>`, but rather `true_`.
-        static constexpr auto inc(bool x) { return static_cast<int>(x)+1; }
+    struct pred_impl<C<T>, when<is_an<IntegralConstant, C<T>>()>> {
         static constexpr auto dec(bool x) { return static_cast<int>(x)-1; }
-        template <typename X> static constexpr auto inc(X x) { return ++x; }
         template <typename X> static constexpr auto dec(X x) { return --x; }
 
-    public:
         template <typename X>
-        static constexpr decltype(auto) succ_impl(X x) {
-            constexpr auto n = value(x);
-            return integral_constant<C<decltype(inc(n))>, inc(n)>();
-        }
-
-        template <typename X>
-        static constexpr decltype(auto) pred_impl(X x) {
+        static constexpr decltype(auto) apply(X x) {
             constexpr auto n = value(x);
             return integral_constant<C<decltype(dec(n))>, dec(n)>();
         }
     };
 
-    //! Instance of `Enumerable` for `IntegralConstant`s.
-    //!
-    //! This instance of `Enumerable` reflects the usual definition of
-    //! `succ` and `pred` for natural numbers. Specifically, `succ(n)`
-    //! is an `IntegralConstant` holding `++value(n)`, and `pred(n)` is
-    //! an `IntegralConstant` holding `--value(n)`.
-    //!
-    //! ### Example
-    //! @snippet example/integral_constant.cpp enumerable
-    template <typename I>
-    struct Enumerable::instance<I, when<is_an<IntegralConstant, I>()>>
-        : Enumerable::integral_constant_mcd<I>
-    { };
+    template <template <typename ...> class C, typename T>
+    struct succ_impl<C<T>, when<is_an<IntegralConstant, C<T>>()>> {
+        //! @todo What should happen when we go out of bounds? Probably not
+        //! overflow like it does currently. Also, `succ(false_)` should
+        //! probably not be `int_<1>`, but rather `true_`.
+        static constexpr auto inc(bool x) { return static_cast<int>(x)+1; }
+        template <typename X> static constexpr auto inc(X x) { return ++x; }
+
+        template <typename X>
+        static constexpr decltype(auto) apply(X x) {
+            constexpr auto n = value(x);
+            return integral_constant<C<decltype(inc(n))>, inc(n)>();
+        }
+    };
 
     //! Any two `IntegralConstant`s form an additive `Group`.
     template <template <typename ...> class C1, typename T,
