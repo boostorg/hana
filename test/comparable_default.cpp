@@ -68,8 +68,8 @@ namespace boost { namespace hana {
         static constexpr tc4::C apply(tc4::U) { return {}; }
     };
 
-    template <typename _>
-    struct equal_impl<tc4::C, tc4::C, _>
+    template <>
+    struct equal_impl<tc4::C, tc4::C>
     { static constexpr bool apply(tc4::C, tc4::C) { return true; } };
 }}
 BOOST_HANA_CONSTANT_CHECK(are<Comparable, tc4::T, tc4::U>);

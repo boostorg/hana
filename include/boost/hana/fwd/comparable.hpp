@@ -116,7 +116,9 @@ namespace boost { namespace hana {
     struct _equal {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
-            return equal_impl<datatype_t<X>, datatype_t<Y>>::apply(
+            return dispatch<equal_impl<
+                typename datatype<X>::type, typename datatype<Y>::type
+            >>::apply(
                 detail::std::forward<X>(x),
                 detail::std::forward<Y>(y)
             );
@@ -144,7 +146,9 @@ namespace boost { namespace hana {
     struct _not_equal {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
-            return not_equal_impl<datatype_t<X>, datatype_t<Y>>::apply(
+            return dispatch<not_equal_impl<
+                typename datatype<X>::type, typename datatype<Y>::type
+            >>::apply(
                 detail::std::forward<X>(x),
                 detail::std::forward<Y>(y)
             );

@@ -32,8 +32,8 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/either.cpp comparable
-    template <typename _>
-    struct equal_impl<Either, Either, _> {
+    template <>
+    struct equal_impl<Either, Either> {
         template <template <typename ...> class E, typename T1, typename T2>
         static constexpr decltype(auto) apply(E<T1> const& x, E<T2> const& y)
         { return equal(x.value, y.value); }

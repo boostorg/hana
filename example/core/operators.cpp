@@ -31,14 +31,14 @@ struct Employee : operators::enable_adl {
 };
 
 namespace boost { namespace hana {
-    template <typename _>
-    struct equal_impl<Person, Person, _> {
+    template <>
+    struct equal_impl<Person, Person> {
         static bool apply(Person x, Person y)
         { return x.name == y.name; }
     };
 
-    template <typename _>
-    struct equal_impl<Employee, Employee, _> {
+    template <>
+    struct equal_impl<Employee, Employee> {
         static bool apply(Employee x, Employee y)
         { return x.name == y.name; }
     };

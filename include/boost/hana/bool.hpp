@@ -22,15 +22,15 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    template <typename _>
-    struct equal_impl<Bool, Bool, _> {
+    template <>
+    struct equal_impl<Bool, Bool> {
         template <typename X, typename Y>
         static constexpr auto apply(X const&, Y const&)
         { return bool_<X::value == Y::value>; }
     };
 
-    template <typename _>
-    struct value_impl<Bool, _> {
+    template <>
+    struct value_impl<Bool> {
         template <typename C>
         static constexpr auto apply(C const&)
         { return C::value; }

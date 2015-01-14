@@ -81,8 +81,8 @@ namespace boost { namespace hana {
     } // end namespace test
 
     // Comparable
-    template <typename _>
-    struct equal_impl<test::Injection,test::Injection, _> {
+    template <>
+    struct equal_impl<test::Injection,test::Injection> {
         template <unsigned long n, typename X, typename Y, typename Token,
             typename = detail::std::enable_if_t<(n > 0)>>
         static constexpr auto apply(

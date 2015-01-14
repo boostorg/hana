@@ -34,8 +34,8 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/set.cpp comparable
-    template <typename _>
-    struct equal_impl<Set, Set, _> {
+    template <>
+    struct equal_impl<Set, Set> {
         template <typename S1, typename S2>
         static constexpr decltype(auto) apply(S1&& s1, S2&& s2) {
             return and_(

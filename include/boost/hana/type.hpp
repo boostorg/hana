@@ -26,8 +26,8 @@ namespace boost { namespace hana {
     //! Hence, equality is equivalent to the `std::is_same` type trait.
     //!
     //! @snippet example/type/comparable.cpp main
-    template <typename _>
-    struct equal_impl<Type, Type, _> {
+    template <>
+    struct equal_impl<Type, Type> {
         template <typename T, typename U>
         static constexpr auto apply(T, U)
         { return false_; }

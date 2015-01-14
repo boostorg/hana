@@ -73,8 +73,8 @@ namespace boost { namespace hana {
     };
 
     template <template <typename ...> class C1, typename T,
-              template <typename ...> class C2, typename U, typename _>
-    struct equal_impl<C1<T>, C2<U>, _, when<
+              template <typename ...> class C2, typename U>
+    struct equal_impl<C1<T>, C2<U>, when<
         is_an<IntegralConstant, C1<T>>() && is_an<IntegralConstant, C2<U>>()
     >> {
         template <typename X, typename Y>

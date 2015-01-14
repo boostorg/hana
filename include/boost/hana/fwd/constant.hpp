@@ -81,7 +81,7 @@ namespace boost { namespace hana {
     struct _value {
         template <typename C>
         constexpr decltype(auto) operator()(C&& constant) const {
-            return value_impl<typename datatype<C>::type>::apply(
+            return dispatch<value_impl<typename datatype<C>::type>>::apply(
                 detail::std::forward<C>(constant)
             );
         }

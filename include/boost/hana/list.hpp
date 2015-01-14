@@ -443,8 +443,8 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/list/comparable.cpp main
-    template <typename T, typename U, typename __>
-    struct equal_impl<T, U, __, when<is_a<List, T>() && is_a<List, U>()>> {
+    template <typename T, typename U>
+    struct equal_impl<T, U, when<is_a<List, T>() && is_a<List, U>()>> {
         template <typename Xs, typename Ys>
         static constexpr decltype(auto) apply(Xs const& xs, Ys const& ys) {
             return eval_if(or_(is_empty(xs), is_empty(ys)),

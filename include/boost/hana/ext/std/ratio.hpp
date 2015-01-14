@@ -30,8 +30,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    template <typename _>
-    struct equal_impl<ext::std::Ratio, ext::std::Ratio, _> {
+    template <>
+    struct equal_impl<ext::std::Ratio, ext::std::Ratio> {
         template <typename R1, typename R2>
         static constexpr decltype(auto) apply(R1, R2) {
             return bool_<::std::ratio_equal<R1, R2>::value>;

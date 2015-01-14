@@ -26,8 +26,8 @@ namespace boost { namespace hana {
         };
     }
 
-    template <typename _>
-    struct equal_impl<test::EquivalenceClass, test::EquivalenceClass, _> {
+    template <>
+    struct equal_impl<test::EquivalenceClass, test::EquivalenceClass> {
         template <typename X, typename Y>
         static constexpr auto apply(X x, Y y) {
             return equal(x.equivalence_class, y.equivalence_class);

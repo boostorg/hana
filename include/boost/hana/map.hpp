@@ -35,8 +35,8 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/map.cpp comparable
-    template <typename _>
-    struct equal_impl<Map, Map, _> {
+    template <>
+    struct equal_impl<Map, Map> {
         template <typename M1, typename M2>
         static constexpr auto apply(M1 m1, M2 m2) {
             return and_(

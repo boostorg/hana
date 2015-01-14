@@ -31,8 +31,8 @@ namespace boost { namespace hana {
         constexpr detail::create<_identity> identity{};
     }
 
-    template <typename _>
-    struct equal_impl<test::Identity, test::Identity, _> {
+    template <>
+    struct equal_impl<test::Identity, test::Identity> {
         template <typename Id1, typename Id2>
         static constexpr auto apply(Id1 x, Id2 y) {
             return equal(x.value, y.value);

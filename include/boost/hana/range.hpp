@@ -37,8 +37,8 @@ namespace boost { namespace hana {
     //!
     //! Two ranges are equal if and only if they are both empty or they have
     //! the same `head` and the same length.
-    template <typename _>
-    struct equal_impl<Range, Range, _> {
+    template <>
+    struct equal_impl<Range, Range> {
         template <typename R1, typename R2>
         static constexpr auto apply(R1 r1, R2 r2) {
             return or_(

@@ -75,9 +75,7 @@ namespace boost { namespace hana {
 
     // 1. If `not_equal` is implemented, use that.
     template <typename T, typename U, typename _>
-    struct equal_impl<T, U, _, when<
-        is_implemented<not_equal_impl<T, U>, _>
-    >> {
+    struct equal_impl<T, U, when<is_implemented<not_equal_impl<T, U>, _>>, _> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
             return not_(not_equal(
@@ -89,10 +87,10 @@ namespace boost { namespace hana {
 
     // 2. Otherwise, if `T` and `U` can be compared using `==`, use that.
     template <typename T, typename U, typename _>
-    struct equal_impl<T, U, _, when<
+    struct equal_impl<T, U, when<
         !is_implemented<not_equal_impl<T, U>, _> &&
         comparable_detail::has_operator_equal<T, U>()
-    >> {
+    >, _> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
             return detail::std::forward<X>(x) == detail::std::forward<Y>(y);
@@ -103,12 +101,12 @@ namespace boost { namespace hana {
     //    `common_t<T, U>` that is Comparable, perform the comparison
     //    in that data type.
     template <typename T, typename U, typename _>
-    struct equal_impl<T, U, _, when<
+    struct equal_impl<T, U, when<
         !is_implemented<not_equal_impl<T, U>, _> &&
         !comparable_detail::has_operator_equal<T, U>() &&
         !detail::std::is_same<T, U>::value &&
         comparable_detail::has_Comparable_common<T, U, _>()
-    >> {
+    >, _> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
             using C = typename common<T, U>::type;
@@ -122,12 +120,12 @@ namespace boost { namespace hana {
     // 4. Otherwise, if `T` and `U` are distinct and there is no
     //    common data type at all, return `false_`.
     template <typename T, typename U, typename _>
-    struct equal_impl<T, U, _, when<
+    struct equal_impl<T, U, when<
         !is_implemented<not_equal_impl<T, U>, _> &&
         !comparable_detail::has_operator_equal<T, U>() &&
         !detail::std::is_same<T, U>::value &&
         !comparable_detail::has_common<T, U>()
-    >> {
+    >, _> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&&, Y&&)
         { return false_; }
@@ -137,9 +135,9 @@ namespace boost { namespace hana {
     // not_equal
     /////////////////
     template <typename T, typename U, typename _>
-    struct not_equal_impl<T, U, _, when<
+    struct not_equal_impl<T, U, when<
         is_implemented<equal_impl<T, U>, _>
-    >> {
+    >, _> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
             return not_(equal(

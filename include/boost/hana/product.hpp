@@ -36,8 +36,8 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/product.cpp comparable
-    template <typename T, typename U, typename _>
-    struct equal_impl<T, U, _, when<is_a<Product, T>() && is_a<Product, U>()>> {
+    template <typename T, typename U>
+    struct equal_impl<T, U, when<is_a<Product, T>() && is_a<Product, U>()>> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X const& x, Y const& y) {
             return and_(

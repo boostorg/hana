@@ -23,8 +23,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    template <typename _>
-    struct equal_impl<TypeList, TypeList, _> {
+    template <>
+    struct equal_impl<TypeList, TypeList> {
         template <typename Xs, typename Ys>
         static constexpr auto apply(Xs, Ys)
         { return false_; }

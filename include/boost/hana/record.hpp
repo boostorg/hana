@@ -72,8 +72,8 @@ namespace boost { namespace hana {
     //! Two `Records` of the same data type `R` are equal if and only if
     //! all their members are equal. The members are compared in the
     //! same order as they appear in `members<R>`.
-    template <typename R, typename _>
-    struct equal_impl<R, R, _, when<is_a<Record, R>()>> {
+    template <typename R>
+    struct equal_impl<R, R, when<is_a<Record, R>()>> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X const& x, Y const& y) {
             return all(members<R>, [&x, &y](auto&& member) -> decltype(auto) {

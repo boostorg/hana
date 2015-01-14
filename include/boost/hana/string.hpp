@@ -39,8 +39,8 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/string/comparable.cpp main
-    template <typename _>
-    struct equal_impl<String, String, _> {
+    template <>
+    struct equal_impl<String, String> {
         template <typename S>
         static constexpr auto apply(S const&, S const&)
         { return true_; }

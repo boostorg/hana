@@ -37,8 +37,8 @@ auto node = [](auto x, auto subforest) {
 };
 
 namespace boost { namespace hana {
-    template <typename _>
-    struct equal_impl<Tree, Tree, _> {
+    template <>
+    struct equal_impl<Tree, Tree> {
         template <typename N1, typename N2>
         static constexpr decltype(auto) apply(N1&& n1, N2&& n2) {
             return and_(

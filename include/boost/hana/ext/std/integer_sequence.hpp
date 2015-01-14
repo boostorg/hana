@@ -25,8 +25,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    template <typename _>
-    struct equal_impl<ext::std::IntegerSequence, ext::std::IntegerSequence, _> {
+    template <>
+    struct equal_impl<ext::std::IntegerSequence, ext::std::IntegerSequence> {
         template <typename X, X ...xs, typename Y, Y ...ys>
         static constexpr auto apply(
             ::std::integer_sequence<X, xs...>,
