@@ -72,26 +72,39 @@ namespace boost { namespace hana {
         template <typename M>
         constexpr bool inherits_not_implemented(not_implemented<M>) { return true; }
         constexpr bool inherits_not_implemented(...) { return false; }
-
-        /////////// dispatching
-        template <template <typename ...> class MethodImpl, typename Unavailable, typename ...T>
-        struct dispatch3
-            : either<MethodImpl<T..., when<true>, Unavailable>>::template
-              or_<not_implemented<MethodImpl<T...>>>
-        { };
-
-        template <template <typename ...> class MethodImpl, typename Unavailable, typename ...T>
-        struct dispatch2
-            : either<MethodImpl<T..., when<true>>>::template
-              lazy_or<dispatch3<MethodImpl, Unavailable, T...>>
-        { };
-
-        template <template <typename ...> class MethodImpl, typename Unavailable, typename ...T>
-        struct dispatch1
-            : either<MethodImpl<T...>>::template
-              lazy_or<dispatch2<MethodImpl, Unavailable, T...>>
-        { };
     }
+
+    //! @ingroup group-core
+    //! ...
+    //!
+    //! @todo
+    //! Explain the multi-level dispatching, how it can be customized and
+    //! what is the Context.
+    template <unsigned Level, typename Method, typename Context>
+    struct dispatch_impl;
+
+    template <template <typename ...> class Method, typename ...T, typename Context>
+    struct dispatch_impl<1, Method<T...>, Context>
+        : dispatch_detail::either<Method<T...>>::template
+          lazy_or<dispatch_impl<2, Method<T...>, Context>>
+    { };
+
+    template <template <typename ...> class Method, typename ...T, typename Context>
+    struct dispatch_impl<2, Method<T...>, Context>
+        : dispatch_detail::either<Method<T..., when<true>>>::template
+          lazy_or<dispatch_impl<3, Method<T...>, Context>>
+    { };
+
+    template <template <typename ...> class Method, typename ...T, typename Context>
+    struct dispatch_impl<3, Method<T...>, Context>
+        : dispatch_detail::either<Method<T..., when<true>, Context>>::template
+          lazy_or<dispatch_impl<4, Method<T...>, Context>>
+    { };
+
+    template <template <typename ...> class Method, typename ...T, typename Context>
+    struct dispatch_impl<4, Method<T...>, Context> {
+        using type = not_implemented<Method<T...>>;
+    };
 
     //! @ingroup group-core
     //! ...
@@ -107,7 +120,10 @@ namespace boost { namespace hana {
 
     template <template <typename ...> class MethodImpl, typename ...T, typename ...Unavailable>
     struct dispatch<MethodImpl<T...>, unavailable<Unavailable...>, false>
-        : dispatch_detail::dispatch1<MethodImpl, unavailable<MethodImpl<T...>, Unavailable...>, T...>::type
+        : dispatch_impl<1,
+            MethodImpl<T...>,
+            unavailable<MethodImpl<T...>, Unavailable...>
+        >::type
     { };
 
     template <typename MethodImpl, typename Unavailable>

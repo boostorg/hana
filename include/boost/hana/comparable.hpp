@@ -22,7 +22,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/declval.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/detail/std/is_same.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/fwd/bool.hpp>
 
 
@@ -53,27 +53,6 @@ namespace boost { namespace hana {
 
     // equal
     /////////////////
-    namespace comparable_detail {
-        template <typename T, typename U, typename _, typename ...Nothing>
-        constexpr bool has_Comparable_common(Nothing ...) { return false; }
-        template <typename T, typename U, typename _, typename C = typename common<T, U>::type>
-        constexpr bool has_Comparable_common()
-        { return is_implemented<equal_impl<C, C>, _>; }
-
-        template <typename T, typename U, typename ...Nothing>
-        constexpr bool has_common(Nothing ...) { return false; }
-        template <typename T, typename U, typename = typename common<T, U>::type>
-        constexpr bool has_common() { return true; }
-
-        template <typename T, typename U, typename ...Nothing>
-        constexpr bool has_operator_equal(Nothing ...) { return false; }
-        template <typename T, typename U, typename = decltype(
-            detail::std::declval<T>() == detail::std::declval<U>()
-        )>
-        constexpr bool has_operator_equal() { return true; }
-    }
-
-    // 1. If `not_equal` is implemented, use that.
     template <typename T, typename U, typename _>
     struct equal_impl<T, U, when<is_implemented<not_equal_impl<T, U>, _>>, _> {
         template <typename X, typename Y>
@@ -85,52 +64,76 @@ namespace boost { namespace hana {
         }
     };
 
-    // 2. Otherwise, if `T` and `U` can be compared using `==`, use that.
-    template <typename T, typename U, typename _>
-    struct equal_impl<T, U, when<
-        !is_implemented<not_equal_impl<T, U>, _> &&
-        comparable_detail::has_operator_equal<T, U>()
-    >, _> {
-        template <typename X, typename Y>
-        static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            return detail::std::forward<X>(x) == detail::std::forward<Y>(y);
-        }
+    // Additional tag-dispatching for `equal_impl`:
+    //
+    // 4. If `T` and `U` can be compared using `==`, use that.
+    template <typename T, typename U, typename Context>
+    struct dispatch_impl<4, equal_impl<T, U>, Context> {
+        template <typename T_ = T, typename U_ = U, typename = void>
+        struct impl : dispatch_impl<5, equal_impl<T_, U_>, Context>::type { };
+
+        template <typename T_, typename U_>
+        struct impl<T_, U_, decltype((void)(
+            detail::std::declval<T_>() == detail::std::declval<U_>()
+        ))> {
+            template <typename X, typename Y>
+            static constexpr decltype(auto) apply(X&& x, Y&& y)
+            { return detail::std::forward<X>(x) == detail::std::forward<Y>(y); }
+        };
+
+        using type = impl<>;
     };
 
-    // 3. Otherwise, if `T` and `U` are distinct and there exists a
-    //    `common_t<T, U>` that is Comparable, perform the comparison
-    //    in that data type.
-    template <typename T, typename U, typename _>
-    struct equal_impl<T, U, when<
-        !is_implemented<not_equal_impl<T, U>, _> &&
-        !comparable_detail::has_operator_equal<T, U>() &&
-        !detail::std::is_same<T, U>::value &&
-        comparable_detail::has_Comparable_common<T, U, _>()
-    >, _> {
-        template <typename X, typename Y>
-        static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            using C = typename common<T, U>::type;
-            return equal(
-                to<C>(detail::std::forward<X>(x)),
-                to<C>(detail::std::forward<Y>(y))
-            );
-        }
+    // 5.1 If `T` and `U` are the same data type, then fail.
+    template <typename T, typename Context>
+    struct dispatch_impl<5, equal_impl<T, T>, Context> {
+        using type = not_implemented<equal_impl<T, T>>;
     };
 
-    // 4. Otherwise, if `T` and `U` are distinct and there is no
-    //    common data type at all, return `false_`.
-    template <typename T, typename U, typename _>
-    struct equal_impl<T, U, when<
-        !is_implemented<not_equal_impl<T, U>, _> &&
-        !comparable_detail::has_operator_equal<T, U>() &&
-        !detail::std::is_same<T, U>::value &&
-        !comparable_detail::has_common<T, U>()
-    >, _> {
-        template <typename X, typename Y>
-        static constexpr decltype(auto) apply(X&&, Y&&)
-        { return false_; }
+    // 5.2 If `T` and `U` are distinct and have a Comparable common type,
+    //     then perform the comparison in that data type.
+    template <typename T, typename U, typename Context>
+    struct dispatch_impl<5, equal_impl<T, U>, Context> {
+        template <typename C>
+        struct impl {
+            template <typename X, typename Y>
+            static constexpr decltype(auto) apply(X&& x, Y&& y) {
+                return equal(to<C>(detail::std::forward<X>(x)),
+                             to<C>(detail::std::forward<Y>(y)));
+            }
+        };
+
+        template <typename T_, typename U_,
+                  typename C = typename common<T_, U_>::type>
+        static impl<C> check(detail::std::integral_constant<bool,
+            is_implemented<equal_impl<C, C>, Context>
+        >);
+
+        template <typename T_, typename U_>
+        static typename dispatch_impl<6, equal_impl<T_, U_>, Context>::type check(...);
+
+        using type = decltype(check<T, U>(detail::std::true_type{}));
     };
 
+    // 6. Otherwise, if `T` and `U` are unrelated, i.e. they don't have a
+    //    common type, always return `false_`.
+    template <typename T, typename U, typename Context>
+    struct dispatch_impl<6, equal_impl<T, U>, Context> {
+        template <typename T_, typename U_,
+                  typename C = typename common<T_, U_>::type>
+        static not_implemented<equal_impl<T, U>> check(void*);
+
+        struct impl {
+            template <typename X, typename Y>
+            static constexpr decltype(auto) apply(X&&, Y&&)
+            { return false_; }
+        };
+
+        template <typename T_, typename U_>
+        static impl check(...);
+
+        using type = decltype(check<T, U>(nullptr));
+    };
 
     // not_equal
     /////////////////
