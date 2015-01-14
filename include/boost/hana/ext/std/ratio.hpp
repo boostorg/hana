@@ -73,15 +73,16 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Monoid::instance<ext::std::Ratio, ext::std::Ratio> : Monoid::mcd {
+    struct plus_impl<ext::std::Ratio, ext::std::Ratio> {
         template <typename R1, typename R2>
-        static constexpr decltype(auto) plus_impl(R1, R2) {
-            return ::std::ratio_add<R1, R2>{};
-        }
+        static constexpr ::std::ratio_add<R1, R2> apply(R1, R2)
+        { return {}; }
+    };
 
-        static constexpr decltype(auto) zero_impl() {
-            return ::std::ratio<0>{};
-        }
+    template <>
+    struct zero_impl<ext::std::Ratio> {
+        static constexpr ::std::ratio<0> apply()
+        { return {}; }
     };
 
     template <>

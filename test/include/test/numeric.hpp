@@ -114,12 +114,15 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Monoid::instance<test::Numeric, test::Numeric> : Monoid::mcd {
+    struct plus_impl<test::Numeric, test::Numeric> {
         template <typename X, typename Y>
-        static constexpr auto plus_impl(X x, Y y)
+        static constexpr auto apply(X x, Y y)
         { return test::numeric(x.value + y.value); }
+    };
 
-        static constexpr auto zero_impl()
+    template <>
+    struct zero_impl<test::Numeric> {
+        static constexpr auto apply()
         { return test::numeric(0); }
     };
 

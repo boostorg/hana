@@ -218,24 +218,21 @@ namespace boost { namespace hana {
 
     template <template <typename ...> class C1, typename T,
               template <typename ...> class C2, typename U>
-    struct Monoid::integral_constant_mcd<C1<T>, C2<U>> : Monoid::mcd {
+    struct plus_impl<C1<T>, C2<U>, when<
+        is_an<IntegralConstant, C1<T>>() && is_an<IntegralConstant, C2<U>>()
+    >> {
         template <typename X, typename Y>
-        static constexpr auto plus_impl(X x, Y y) {
+        static constexpr auto apply(X x, Y y) {
             constexpr auto sum = value(x) + value(y);
             return integral_constant<C1<decltype(sum)>, sum>();
         }
-
-        static constexpr auto zero_impl()
-        { return integral_constant<C1<T>, 0>(); }
     };
 
-    template <typename I1, typename I2>
-    struct Monoid::instance<I1, I2, when<
-        is_an<IntegralConstant, I1>() &&
-        is_an<IntegralConstant, I2>()
-    >>
-        : Monoid::integral_constant_mcd<I1, I2>
-    { };
+    template <template <typename ...> class C, typename T>
+    struct zero_impl<C<T>, when<is_an<IntegralConstant, C<T>>()>> {
+        static constexpr auto apply()
+        { return integral_constant<C<T>, 0>(); }
+    };
 
     template <template <typename ...> class C1, typename T,
               template <typename ...> class C2, typename U>

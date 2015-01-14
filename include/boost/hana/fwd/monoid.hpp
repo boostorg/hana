@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_MONOID_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/typeclass.hpp>
+#include <boost/hana/core/method.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -25,7 +25,9 @@ namespace boost { namespace hana {
     //! Some datatypes can be viewed as a monoid in more than one way, e.g.
     //! both addition and multiplication on numbers.
     //!
-    //! ### Laws
+    //!
+    //! Laws
+    //! ----
     //! For all objects `x`, `y` and `z` whose data type `M` is a `Monoid`,
     //! the following laws must be satisfied:
     //! @code
@@ -33,14 +35,22 @@ namespace boost { namespace hana {
     //!     plus(x, zero<M>()) == x                    // right zero
     //!     plus(x, plus(y, z)) == plus(plus(x, y), z) // associativity
     //! @endcode
-    struct Monoid {
-        BOOST_HANA_BINARY_TYPECLASS(Monoid);
-        struct mcd;
-        template <typename I1, typename I2>
-        struct integral_constant_mcd;
-        template <typename T, typename U>
-        struct default_instance;
-    };
+    //!
+    //!
+    //! Minimal complete definitions
+    //! ----------------------------
+    //! 1. `plus` and `zero`
+    //! @todo
+    //!
+    //! 2. `operator+` and `static_cast`ability to 0
+    //! Any two objects whose data types that can be added with the usual
+    //! `operator+` have a definition of `plus` using this addition. Any
+    //! data type `T` with a valid conversion (using `static_cast`) from
+    //! `int` has a definition of `zero` equivalent to `static_cast<T>(0)`.
+    //!
+    //! @todo
+    //! Use `to` instead of `static_cast` to provide the `zero` method.
+    struct Monoid { };
 
     //! Associative operation on a `Monoid`.
     //! @relates Monoid
@@ -52,12 +62,14 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_BINARY_METHOD(plus_impl);
+
     struct _plus {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
-            return Monoid::instance<
-                datatype_t<X>, datatype_t<Y>
-            >::plus_impl(
+            return dispatch<plus_impl<
+                typename datatype<X>::type, typename datatype<Y>::type
+            >>::apply(
                 detail::std::forward<X>(x),
                 detail::std::forward<Y>(y)
             );
@@ -70,10 +82,6 @@ namespace boost { namespace hana {
     //! Identity of `plus`.
     //! @relates Monoid
     //!
-    //! Since `Monoid` is a binary type class and `zero` is a nullary method,
-    //! `zero<M>()` is dispatched to the type class instance for `M` and `M`,
-    //! i.e. `Monoid::instance<M, M>`.
-    //!
     //! @tparam M
     //! The data type (a `Monoid`) of the returned identity.
     //!
@@ -85,11 +93,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(zero_impl);
+
     template <typename M>
     struct _zero {
-        constexpr decltype(auto) operator()() const {
-            return Monoid::instance<M, M>::zero_impl();
-        }
+        constexpr decltype(auto) operator()() const
+        { return dispatch<zero_impl<M>>::apply(); }
     };
 
     template <typename M>
