@@ -12,10 +12,12 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/integral_constant.hpp>
 
+#include <boost/hana/bool.hpp>
 #include <boost/hana/constant.hpp>
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/is_a.hpp>
+#include <boost/hana/core/method.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/common_type.hpp>
 #include <boost/hana/detail/std/forward.hpp>
@@ -34,19 +36,15 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! Minimal complete definition: `Constant` and `integral_constant`.
-    struct IntegralConstant::mcd { };
-
-    //! Provides a conversion from any `IntegralConstant` to a runtime object
-    //! of any integral type.
-    template <typename To, typename I>
-    struct convert<To, I,
-        when<detail::std::is_integral<To>::value && is_an<IntegralConstant, I>()>
-    > {
+    template <typename U, template <typename ...> class C, typename T>
+    struct convert<U, C<T>, when<
+        is_an<IntegralConstant, C<T>>() &&
+        detail::std::is_integral<U>::value &&
+        ((decltype(static_cast<U>(detail::std::declval<T>()))*)0, true)
+    >> {
         template <typename X>
-        static constexpr To apply(X x) {
-            return static_cast<To>(value(x));
-        }
+        static constexpr U apply(X x)
+        { return static_cast<U>(value(x)); }
     };
 
     //! Provides a common type between an `IntegralConstant` and any integral
@@ -113,7 +111,7 @@ namespace boost { namespace hana {
         }
     };
 
-    //! Any two `IntegralConstant`s form an additive `Group`.
+
     template <template <typename ...> class C1, typename T,
               template <typename ...> class C2, typename U>
     struct Group::integral_constant_mcd<C1<T>, C2<U>>
@@ -134,7 +132,6 @@ namespace boost { namespace hana {
         : Group::integral_constant_mcd<I1, I2>
     { };
 
-    //! Any two `IntegralConstant`s form a multiplicative `IntegralDomain`.
     template <template <typename ...> class C1, typename T,
               template <typename ...> class C2, typename U>
     struct IntegralDomain::integral_constant_mcd<C1<T>, C2<U>>
@@ -221,7 +218,6 @@ namespace boost { namespace hana {
         : Logical::integral_constant_mcd<I>
     { };
 
-    //! Any two `IntegralConstant`s form an additive `Monoid`.
     template <template <typename ...> class C1, typename T,
               template <typename ...> class C2, typename U>
     struct Monoid::integral_constant_mcd<C1<T>, C2<U>> : Monoid::mcd {
@@ -263,7 +259,6 @@ namespace boost { namespace hana {
         : Orderable::integral_constant_mcd<I1, I2>
     { };
 
-    //! Any two `IntegralConstant`s form a multiplicative `Ring`.
     template <template <typename ...> class C1, typename T,
               template <typename ...> class C2, typename U>
     struct Ring::integral_constant_mcd<C1<T>, C2<U>> : Ring::mcd {
@@ -284,6 +279,12 @@ namespace boost { namespace hana {
     >>
         : Ring::integral_constant_mcd<I1, I2>
     { };
+
+    template <typename C>
+    constexpr auto is_a<IntegralConstant, C> = bool_<
+        is_a<Constant, C>() &&
+        is_implemented<integral_constant_impl<C>>
+    >;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_INTEGRAL_CONSTANT_HPP

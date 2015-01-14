@@ -35,6 +35,14 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana { namespace test {
+    template <typename T>
+    struct ConstructibleFrom {
+        constexpr explicit ConstructibleFrom(T v) : val(v) { }
+        T val;
+        constexpr auto operator==(ConstructibleFrom other) const
+        { return equal(val, other.val); }
+    };
+
     template <template <typename ...> class C, typename T, typename U>
     void IntegralConstant_laws() {
         using Common = std::common_type_t<T, U>;
@@ -102,6 +110,11 @@ namespace boost { namespace hana { namespace test {
             BOOST_HANA_CONSTEXPR_CHECK(equal(
                 to<U>(integral_constant<C<U>, 0>()),
                 U{0}
+            ));
+
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
+                to<ConstructibleFrom<T>>(integral_constant<C<T>, 1>()),
+                ConstructibleFrom<T>{T{1}}
             ));
         }
 

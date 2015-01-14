@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_INTEGRAL_CONSTANT_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/typeclass.hpp>
+#include <boost/hana/core/method.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 
 
@@ -26,11 +26,16 @@ namespace boost { namespace hana {
     //! held in an object of data type `D`. In other words, `D` must actually
     //! be a specialization of the form `D<T>`.
     //!
-    //! ### Requires
-    //! `Constant`, `Comparable`, `Orderable`, `Logical`,
-    //! `Monoid`, `Group`, `Ring`, and `IntegralDomain`
     //!
-    //! ### Laws
+    //! Minimal complete definition
+    //! ---------------------------
+    //! The minimal complete definition for `IntegralConstant` is being a
+    //! model of the `Constant` concept and also providing the
+    //! `integral_constant` method.
+    //!
+    //!
+    //! Laws
+    //! ----
     //! For any two `IntegralConstant`s `x` and `y` of data types `X<T>` and
     //! `Y<U>` respectively, the following must hold:
     //! @code
@@ -62,19 +67,45 @@ namespace boost { namespace hana {
     //!
     //! Provided instances
     //! ------------------
-    //! 1. `Enumerable`
+    //! 1. `Comparable` and `Orderable`
+    //! `IntegralConstant`s are `Comparable` and `Orderable` in the same way
+    //! the natural numbers are so.
+    //!
+    //! 2. `Enumerable`
     //! Any `IntegralConstant` is also an `Enumerable` via the usual definition
     //! of `succ` and `pred` for natural numbers. Specifically, `succ(n)` is
     //! an `IntegralConstant` holding `value(n) + 1`, and `pred(n)` is an
     //! `IntegralConstant` holding `value(n) - 1`.
     //!
+    //! 3. `Monoid`, `Group`, `Ring` and `IntegralDomain`
+    //! `IntegralConstant`s are models of the usual algebraic hierarchy
+    //! modeled by the natural numbers.
+    //!
+    //! 4. `Logical`
+    //! `IntegralConstant`s are models of `Logical` in the same way integral
+    //! types are converted to boolean values in C++. In other words, the
+    //! truth value of an `IntegralConstant` `x` is determined by the truth
+    //! value of `static_cast<bool>(value(x))`.
+    //!
+    //!
+    //! Provided conversions
+    //! --------------------
+    //! 1. To some integral types
+    //! An `IntegralConstant` holding a compile-time value of type `T` is
+    //! convertible to any integral type `U` such that `T` can be
+    //! `static_cast`ed to `U`.
+    //!
+    //! 2. To any other `IntegralConstant`
+    //! Due to the laws of `IntegralConstant`, all models of `IntegralConstant`
+    //! must carry exactly the same information, and may only differ in
+    //! representation. Hence, all `IntegralConstant`s are convertible
+    //! between each other.
+    //! @todo Provide this conversion.
+    //!
     //!
     //! ### Example
     //! @snippet example/integral_constant.cpp enumerable
-    struct IntegralConstant {
-        BOOST_HANA_TYPECLASS(IntegralConstant);
-        struct mcd;
-    };
+    struct IntegralConstant { };
 
     //! Create an `IntegralConstant` of the given data type and holding a
     //! value of the given integral type.
@@ -101,6 +132,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(integral_constant_impl);
+
     namespace ic_detail {
         template <typename C>
         struct param;
@@ -112,8 +145,7 @@ namespace boost { namespace hana {
     template <typename C, typename ic_detail::param<C>::type v>
     struct _integral_constant {
         constexpr decltype(auto) operator()() const {
-            return IntegralConstant::instance<C>::
-                   template integral_constant_impl<v>();
+            return dispatch<integral_constant_impl<C>>::template apply<v>();
         }
     };
 

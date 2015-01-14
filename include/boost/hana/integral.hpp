@@ -30,9 +30,9 @@ namespace boost { namespace hana {
     };
 
     template <typename T>
-    struct IntegralConstant::instance<Integral<T>> : IntegralConstant::mcd {
+    struct integral_constant_impl<Integral<T>> {
         template <T v>
-        static constexpr auto integral_constant_impl()
+        static constexpr auto apply()
         { return integral<T, v>; }
     };
 
