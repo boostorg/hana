@@ -4,6 +4,7 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/method.hpp>
 #include <boost/hana/core/when.hpp>
 using namespace boost::hana;
@@ -186,6 +187,168 @@ namespace priority_over_when_with_parametric_type {
 
     static_assert(a_impl<MyType<void>>::dispatches_correctly, "");
     static_assert(is_implemented<a_impl<MyType<void>>>, "");
+}
+
+namespace fictive_Foldable {
+    // foldl
+    BOOST_HANA_METHOD(foldl_impl);
+    auto foldl = [](auto xs, auto s, auto f) {
+        return foldl_impl<datatype_t<decltype(xs)>>::apply(xs, s, f);
+    };
+
+    // unpack
+    BOOST_HANA_METHOD(unpack_impl);
+    auto unpack = [](auto xs, auto f) {
+        return unpack_impl<datatype_t<decltype(xs)>>::apply(xs, f);
+    };
+
+    template <typename T, typename _>
+    struct foldl_impl<T, _, when<
+        is_implemented<unpack_impl<T>, _>
+    >> {
+        template <typename Xs, typename S, typename F>
+        static constexpr auto apply(Xs xs, S s, F f) { }
+    };
+
+    template <typename T, typename _>
+    struct unpack_impl<T, _, when<
+        is_implemented<foldl_impl<T>, _>
+    >> {
+        template <typename Xs, typename F>
+        static constexpr auto apply(Xs xs, F f) { }
+    };
+
+    struct MyType1 { };
+    struct MyType2 { };
+
+    template <typename _>
+    struct unpack_impl<MyType1, _> {
+        template <typename Xs, typename F>
+        static constexpr auto apply(Xs xs, F f) { }
+    };
+
+    template <typename _>
+    struct foldl_impl<MyType2, _> {
+        template <typename Xs, typename S, typename F>
+        static constexpr auto apply(Xs xs, S s, F f) { }
+    };
+
+    void test() {
+        unpack(MyType1{}, [](auto ...xs) { });
+        foldl(MyType1{}, 1, [](auto s, auto x) { return s; });
+
+        unpack(MyType2{}, [](auto ...xs) { });
+        foldl(MyType2{}, 1, [](auto s, auto x) { return s; });
+    }
+}
+
+namespace fictive_Functor_Applicative {
+    ////////////////////
+    // Functor
+
+    // fmap
+    BOOST_HANA_METHOD(fmap_impl);
+    auto fmap = [](auto xs, auto f) {
+        return fmap_impl<datatype_t<decltype(xs)>>::apply(xs, f);
+    };
+
+    // adjust
+    BOOST_HANA_METHOD(adjust_impl);
+    auto adjust = [](auto xs, auto pred, auto f) {
+        return adjust_impl<datatype_t<decltype(xs)>>::apply(xs, pred, f);
+    };
+
+
+    template <typename T, typename _>
+    struct fmap_impl<T, _, when<
+        is_implemented<adjust_impl<T>, _>
+    >> {
+        template <typename Xs, typename F>
+        static constexpr auto apply(Xs xs, F f) { }
+    };
+
+    template <typename T, typename _>
+    struct adjust_impl<T, _, when<
+        is_implemented<fmap_impl<T>, _>
+    >> {
+        template <typename Xs, typename Pred, typename F>
+        static constexpr auto apply(Xs xs, Pred pred, F f) { }
+    };
+
+    ////////////////////
+    // Applicative
+
+    // lift
+    BOOST_HANA_METHOD(lift_impl);
+    namespace detail {
+        template <typename T>
+        struct lift {
+            template <typename X>
+            constexpr auto operator()(X x) const
+            { return lift_impl<T>::apply(x); }
+        };
+    }
+    template <typename T>
+    constexpr auto lift = detail::lift<T>{};
+
+    // ap
+    BOOST_HANA_METHOD(ap_impl);
+    auto ap = [](auto f, auto x) {
+        return ap_impl<datatype_t<decltype(f)>>::apply(f, x);
+    };
+
+
+    template <typename T, typename _>
+    struct fmap_impl<T, _, when<
+        is_implemented<lift_impl<T>, _> &&
+        is_implemented<ap_impl<T>, _>
+    >> {
+        template <typename X, typename F>
+        static constexpr auto apply(X x, F f) { }
+    };
+
+
+
+    struct MyType1 { };
+    template <typename _>
+    struct fmap_impl<MyType1, _> {
+        template <typename Xs, typename F>
+        static constexpr auto apply(Xs xs, F f) { }
+    };
+
+    struct MyType3 { };
+    template <typename _>
+    struct adjust_impl<MyType3, _> {
+        template <typename Xs, typename Pred, typename F>
+        static constexpr auto apply(Xs xs, Pred pred, F f) { }
+    };
+
+
+    struct MyType2 { };
+    template <typename _>
+    struct lift_impl<MyType2, _> {
+        template <typename X>
+        static constexpr auto apply(X x) { }
+    };
+    template <typename _>
+    struct ap_impl<MyType2, _> {
+        template <typename Fs, typename Xs>
+        static constexpr auto apply(Fs fs, Xs xs) { }
+    };
+
+
+    void test() {
+        fmap(MyType1{}, [](auto x) { return 1; });
+        adjust(MyType1{}, [](auto x) { return true; }, [](auto x) { return 1; });
+
+        fmap(MyType3{}, [](auto x) { return 1; });
+        adjust(MyType3{}, [](auto x) { return true; }, [](auto x) { return 1; });
+
+        fmap(MyType2{}, [](auto x) { return 1; });
+        adjust(MyType2{}, [](auto x) { return true; }, [](auto x) { return 1; });
+        lift<MyType2>(1);
+        ap(MyType2{}, MyType2{});
+    }
 }
 
 int main() { }
