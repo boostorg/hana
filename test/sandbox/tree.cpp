@@ -97,13 +97,16 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Applicative::instance<Tree> : Applicative::mcd {
+    struct lift_impl<Tree> {
         template <typename X>
-        static constexpr decltype(auto) lift_impl(X&& x)
+        static constexpr decltype(auto) apply(X&& x)
         { return node(std::forward<X>(x), forest()); }
+    };
 
+    template <>
+    struct ap_impl<Tree> {
         template <typename F, typename X>
-        static constexpr decltype(auto) ap_impl(F&& f, X&& x) {
+        static constexpr decltype(auto) apply(F&& f, X&& x) {
             return node(
                 f.value(x.value),
                 concat(

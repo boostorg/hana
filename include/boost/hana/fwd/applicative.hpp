@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_APPLICATIVE_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/typeclass.hpp>
+#include <boost/hana/core/method.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/variadic/foldl.hpp>
 #include <boost/hana/functional/curry.hpp>
@@ -23,14 +23,16 @@ namespace boost { namespace hana {
     //! `Applicative`s are `Functor`s with the ability to lift values and
     //! combine computations.
     //!
-    //! ### Requires
+    //! Superclass
+    //! ----------
     //! `Functor`
     //!
+    //!
     //! @anchor Applicative_terminology
-    //! ### Terminology
+    //! Terminology
+    //! -----------
     //! An _applicative transformation_ `t` is a function from an `Applicative`
     //! `F` to an `Applicative` `G` preserving the `Applicative` operations:
-    //!
     //! @code
     //!     t(lift<F>(x)) == lift<G>(x)
     //!     t(ap(x, y)) == ap(t(x), t(y))
@@ -39,9 +41,10 @@ namespace boost { namespace hana {
     //! This term is defined here but used elsewhere (at least in the laws
     //! of `Traversable`).
     //!
-    //! ### Laws
-    //! For any `Applicative` `A`, the following laws must be satisfied:
     //!
+    //! Laws
+    //! ----
+    //! For any `Applicative` `A`, the following laws must be satisfied:
     //! @code
     //!     ap(lift<A>(id), u) == u                          // identity
     //!     ap(lift<A>(compose), u, v, w) == ap(u, ap(v, w)) // composition
@@ -51,48 +54,25 @@ namespace boost { namespace hana {
     //!
     //! As a consequence of these laws, the `Functor` instance for `A` will
     //! satisfy
-    //!
     //! @code
     //!     fmap(x, f) == ap(lift<A>(f), x)
     //! @endcode
-    struct Applicative {
-        BOOST_HANA_TYPECLASS(Applicative);
-        struct mcd;
-        template <typename T>
-        struct list_mcd;
-    };
-
-    namespace applicative_detail {
-        template <typename A>
-        struct lift {
-            template <typename X>
-            constexpr decltype(auto) operator()(X&& x) const {
-                return Applicative::instance<
-                    A
-                >::lift_impl(detail::std::forward<X>(x));
-            }
-        };
-
-        struct ap {
-            template <typename F, typename X>
-            constexpr decltype(auto) operator()(F&& f, X&& x) const {
-                return Applicative::instance<
-                    datatype_t<F>
-                >::ap_impl(detail::std::forward<F>(f), detail::std::forward<X>(x));
-            }
-
-            template <typename F, typename ...Xs>
-            constexpr decltype(auto) operator()(F&& f, Xs&& ...xs) const {
-                static_assert(sizeof...(xs) >= 1,
-                "boost::hana::ap must be called with two arguments or more");
-                return detail::variadic::foldl(
-                    *this,
-                    fmap(detail::std::forward<F>(f), curry<sizeof...(xs)>),
-                    detail::std::forward<Xs>(xs)...
-                );
-            }
-        };
-    }
+    //!
+    //!
+    //! Minimal complete definition
+    //! ---------------------------
+    //! 1. `lift` and `ap`
+    //! @todo
+    //!
+    //! 2. `Monad`
+    //! @todo Implement this one
+    //!
+    //!
+    //! Provided instances
+    //! ------------------
+    //! 1. `Functor`
+    //! @todo Implement this one
+    struct Applicative { };
 
     //! Lifted application.
     //! @relates Applicative
@@ -127,6 +107,30 @@ namespace boost { namespace hana {
         unspecified
     };
 #else
+    BOOST_HANA_METHOD(ap_impl);
+
+    namespace applicative_detail {
+        struct ap {
+            template <typename F, typename X>
+            constexpr decltype(auto) operator()(F&& f, X&& x) const {
+                return dispatch<ap_impl<typename datatype<F>::type>>::apply(
+                    detail::std::forward<F>(f), detail::std::forward<X>(x)
+                );
+            }
+
+            template <typename F, typename ...Xs>
+            constexpr decltype(auto) operator()(F&& f, Xs&& ...xs) const {
+                static_assert(sizeof...(xs) >= 1,
+                "boost::hana::ap must be called with two arguments or more");
+                return detail::variadic::foldl(
+                    *this,
+                    fmap(detail::std::forward<F>(f), curry<sizeof...(xs)>),
+                    detail::std::forward<Xs>(xs)...
+                );
+            }
+        };
+    }
+
     constexpr applicative_detail::ap ap{};
 #endif
 
@@ -149,6 +153,18 @@ namespace boost { namespace hana {
         unspecified
     };
 #else
+    BOOST_HANA_METHOD(lift_impl);
+
+    namespace applicative_detail {
+        template <typename A>
+        struct lift {
+            template <typename X>
+            constexpr decltype(auto) operator()(X&& x) const {
+                return dispatch<lift_impl<A>>::apply(detail::std::forward<X>(x));
+            }
+        };
+    }
+
     template <typename A>
     constexpr applicative_detail::lift<A> lift{};
 #endif

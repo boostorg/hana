@@ -86,13 +86,16 @@ namespace boost { namespace hana {
     //! ### Example
     //! @include example/maybe/applicative.cpp
     template <>
-    struct Applicative::instance<Maybe> : Applicative::mcd {
+    struct lift_impl<Maybe> {
         template <typename X>
-        static constexpr decltype(auto) lift_impl(X&& x)
+        static constexpr decltype(auto) apply(X&& x)
         { return just(detail::std::forward<X>(x)); }
+    };
 
+    template <>
+    struct ap_impl<Maybe> {
         template <typename Mf, typename Mx>
-        static constexpr decltype(auto) ap_impl(Mf&& mf, Mx&& mx) {
+        static constexpr decltype(auto) apply(Mf&& mf, Mx&& mx) {
             return maybe(
                 nothing,
                 [&mx](auto&& f) -> decltype(auto) {

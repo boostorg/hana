@@ -29,12 +29,15 @@ namespace boost { namespace hana {
     //! A normal value can be lifted into a lazy value by using `lift<Lazy>`.
     //! A lazy function can be lazily applied to a lazy value by using `ap`.
     template <>
-    struct Applicative::instance<Lazy> : Applicative::mcd {
+    struct lift_impl<Lazy> {
         template <typename X>
-        static constexpr decltype(auto) lift_impl(X&& x) {
+        static constexpr decltype(auto) apply(X&& x) {
             return lazy(detail::std::forward<X>(x));
         }
+    };
 
+    template <>
+    struct ap_impl<Lazy> {
         template <typename Lf, typename Lx>
         struct ap_result {
             Lf lf; Lx lx;
@@ -57,7 +60,7 @@ namespace boost { namespace hana {
         };
 
         template <typename F, typename X>
-        static constexpr decltype(auto) ap_impl(F&& f, X&& x) {
+        static constexpr decltype(auto) apply(F&& f, X&& x) {
             return detail::create<ap_result>{}(
                 detail::std::forward<F>(f), detail::std::forward<X>(x)
             );
