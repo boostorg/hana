@@ -37,22 +37,28 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Logical::instance<Bool> : Logical::mcd {
+    struct eval_if_impl<Bool> {
         //! @bug
         //! We can't use perfect forwarding because of this bug:
         //! http://llvm.org/bugs/show_bug.cgi?id=20619
         template <typename T, typename E>
-        static constexpr auto eval_if_impl(decltype(true_), T t, E)
+        static constexpr auto apply(decltype(true_), T t, E)
         { return t(id); }
 
         template <typename T, typename E>
-        static constexpr auto eval_if_impl(decltype(false_), T, E e)
+        static constexpr auto apply(decltype(false_), T, E e)
         { return e(id); }
+    };
 
+    template <>
+    struct not_impl<Bool> {
         template <typename C>
-        static constexpr auto not_impl(C const&)
+        static constexpr auto apply(C const&)
         { return bool_<!C::value>; }
+    };
 
+    template <>
+    struct while_impl<Bool> {
         template <typename Pred, typename State, typename F>
         static constexpr State
         while_helper(decltype(false_), Pred&& pred, State&& state, F&& f) {
@@ -70,7 +76,7 @@ namespace boost { namespace hana {
 
         template <typename Pred, typename State, typename F>
         static constexpr decltype(auto)
-        while_impl(Pred&& pred, State&& state, F&& f) {
+        apply(Pred&& pred, State&& state, F&& f) {
             auto cond = pred(state);
             return while_helper(cond,
                                 detail::std::forward<Pred>(pred),

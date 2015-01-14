@@ -85,19 +85,25 @@ namespace boost { namespace hana {
 
 
     template <>
-    struct Logical::instance<test::Numeric> : Logical::mcd {
+    struct eval_if_impl<test::Numeric> {
         template <typename C, typename T, typename E>
-        static constexpr auto eval_if_impl(C c, T t, E e) {
+        static constexpr auto apply(C c, T t, E e) {
             auto id = [](auto x) { return x; };
             return c.value ? t(id) : e(id);
         }
+    };
 
+    template <>
+    struct not_impl<test::Numeric> {
         template <typename X>
-        static constexpr auto not_impl(X x)
+        static constexpr auto apply(X x)
         { return test::numeric(!x.value); }
+    };
 
+    template <>
+    struct while_impl<test::Numeric> {
         template <typename Pred, typename State, typename F>
-        static auto while_impl(Pred pred, State state, F f)
+        static auto apply(Pred pred, State state, F f)
             -> decltype(true ? f(state) : state)
         {
             if (pred(state))

@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_LOGICAL_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/typeclass.hpp>
+#include <boost/hana/core/method.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/variadic/foldl.hpp>
 
@@ -20,8 +20,10 @@ namespace boost { namespace hana {
     //! @ingroup group-typeclasses
     //! The `Logical` type class is for data types acting like a boolean.
     //!
+    //!
     //! @anchor Logical_terminology
-    //! ### Terminology
+    //! Terminology
+    //! -----------
     //! Let `x` be a `Logical`. Then, we say that `x` is true-valued if and
     //! only if `or_(x, y) == x` for all `Logical`s `y`. Conversely, we say
     //! that `x` is false-valued if and only if `and_(x, y) == y` for all
@@ -32,23 +34,26 @@ namespace boost { namespace hana {
     //! method.
     //!
     //!
-    //! Minimal complete definition
+    //! Minimal complete definitions
     //! ----------------------------
-    //! `eval_if`, `not_` and `while_`
+    //! 1. `eval_if`, `not_` and `while_`
     //!
+    //! 2. Data types implicitly convertible to `bool`
+    //! Any object whose data type can be converted to `bool` implicitly is an
+    //! instance of `Logical` by converting that object to `bool` and then
+    //! using that truth value.
     //!
     //! @bug
-    //! We don't short-circuit right now. Don't forget to change the examples
-    //! and unit tests when that's implemented.
+    //! We can't use perfect forwarding in that MCD because of this bug:
+    //! http://llvm.org/bugs/show_bug.cgi?id=20619
+    //!
+    //! @bug
+    //! The methods don't short-circuit right now. Don't forget to change the
+    //! examples and unit tests when that's implemented.
     //!
     //! @todo
     //! Consider making this a real boolean algebra.
-    struct Logical {
-        BOOST_HANA_TYPECLASS(Logical);
-        struct mcd;
-        template <typename I>
-        struct integral_constant_mcd;
-    };
+    struct Logical { };
 
     //! Conditionally return one of two values based on a condition.
     //! @relates Logical
@@ -76,12 +81,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(if_impl);
+
     struct _if {
         template <typename L, typename T, typename E>
         constexpr decltype(auto) operator()(L&& l, T&& t, E&& e) const {
-            return Logical::instance<
-                datatype_t<L>
-            >::if_impl(
+            return dispatch<if_impl<typename datatype<L>::type>>::apply(
                 detail::std::forward<L>(l),
                 detail::std::forward<T>(t),
                 detail::std::forward<E>(e)
@@ -124,12 +129,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(eval_if_impl);
+
     struct _eval_if {
         template <typename L, typename T, typename E>
         constexpr decltype(auto) operator()(L&& l, T&& t, E&& e) const {
-            return Logical::instance<
-                datatype_t<L>
-            >::eval_if_impl(
+            return dispatch<eval_if_impl<typename datatype<L>::type>>::apply(
                 detail::std::forward<L>(l),
                 detail::std::forward<T>(t),
                 detail::std::forward<E>(e)
@@ -177,12 +182,14 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(while_impl);
+
     struct _while {
         template <typename Pred, typename State, typename F>
         constexpr decltype(auto) operator()(Pred&& pred, State&& state, F&& f) const {
-            return Logical::instance<
+            return dispatch<while_impl<
                 typename datatype<decltype(pred(state))>::type
-            >::while_impl(
+            >>::apply(
                 detail::std::forward<Pred>(pred),
                 detail::std::forward<State>(state),
                 detail::std::forward<F>(f)
@@ -229,12 +236,14 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(until_impl);
+
     struct _until {
         template <typename Pred, typename State, typename F>
         constexpr decltype(auto) operator()(Pred&& pred, State&& state, F&& f) const {
-            return Logical::instance<
+            return dispatch<until_impl<
                 typename datatype<decltype(pred(state))>::type
-            >::until_impl(
+            >>::apply(
                 detail::std::forward<Pred>(pred),
                 detail::std::forward<State>(state),
                 detail::std::forward<F>(f)
@@ -258,12 +267,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(not_impl);
+
     struct _not {
         template <typename L>
         constexpr decltype(auto) operator()(L&& l) const {
-            return Logical::instance<
-                datatype_t<L>
-            >::not_impl(
+            return dispatch<not_impl<typename datatype<L>::type>>::apply(
                 detail::std::forward<L>(l)
             );
         }
@@ -290,10 +299,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(and_impl);
+
     struct _and {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
-            return Logical::instance<datatype_t<X>>::and_impl(
+            return dispatch<and_impl<typename datatype<X>::type>>::apply(
                 detail::std::forward<X>(x),
                 detail::std::forward<Y>(y)
             );
@@ -330,10 +341,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(or_impl);
+
     struct _or {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
-            return Logical::instance<datatype_t<X>>::or_impl(
+            return dispatch<or_impl<typename datatype<X>::type>>::apply(
                 detail::std::forward<X>(x),
                 detail::std::forward<Y>(y)
             );

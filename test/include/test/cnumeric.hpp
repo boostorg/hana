@@ -62,33 +62,40 @@ namespace boost { namespace hana {
         { return test::cnumeric<T, v>; }
     };
 
+
     template <typename T>
-    struct Logical::instance<test::CNumeric<T>> : Logical::mcd {
+    struct eval_if_impl<test::CNumeric<T>> {
         template <typename Then, typename Else>
         static constexpr auto
-        eval_if_impl(decltype(test::cnumeric<bool, true>), Then t, Else e) {
+        apply(decltype(test::cnumeric<bool, true>), Then t, Else e) {
             auto id = [](auto x) { return x; };
             return t(id);
         }
 
         template <typename Then, typename Else>
         static constexpr auto
-        eval_if_impl(decltype(test::cnumeric<bool, false>), Then t, Else e) {
+        apply(decltype(test::cnumeric<bool, false>), Then t, Else e) {
             auto id = [](auto x) { return x; };
             return e(id);
         }
 
         template <typename Cond, typename Then, typename Else>
-        static constexpr auto eval_if_impl(Cond c, Then t, Else e) {
-            return eval_if_impl(
+        static constexpr auto apply(Cond c, Then t, Else e) {
+            return apply(
                 test::cnumeric<bool, static_cast<bool>(Cond::value)>, t, e
             );
         }
+    };
 
+    template <typename T>
+    struct not_impl<test::CNumeric<T>> {
         template <typename X>
-        static constexpr auto not_impl(X x)
+        static constexpr auto apply(X x)
         { return test::cnumeric<bool, !X::value>; }
+    };
 
+    template <typename T>
+    struct while_impl<test::CNumeric<T>> {
         template <typename Pred, typename State, typename F>
         static constexpr auto
         while_helper(decltype(test::cnumeric<bool, false>), Pred pred, State state, F f)
@@ -101,7 +108,7 @@ namespace boost { namespace hana {
 
         template <typename Pred, typename State, typename F>
         static constexpr auto
-        while_impl(Pred pred, State state, F f) {
+        apply(Pred pred, State state, F f) {
             return while_helper(
                 test::cnumeric<bool, static_cast<bool>(value(pred(state)))>,
                 pred, state, f
