@@ -22,8 +22,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    template <typename T, typename _>
-    struct value_impl<Integral<T>, _> {
+    template <typename T>
+    struct value_impl<Integral<T>> {
         template <typename C>
         static constexpr auto apply(C const&)
         { return C::value; }

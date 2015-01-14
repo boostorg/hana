@@ -48,8 +48,8 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename T, typename _>
-    struct value_impl<test::CNumeric<T>, _> {
+    template <typename T>
+    struct value_impl<test::CNumeric<T>> {
         template <typename X>
         static constexpr auto apply(X const&)
         { return X::value; }

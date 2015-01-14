@@ -28,8 +28,8 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @include example/ext/boost/mpl/integral_c/constant.cpp
-    template <typename T, typename _>
-    struct value_impl<ext::boost::mpl::IntegralC<T>, _> {
+    template <typename T>
+    struct value_impl<ext::boost::mpl::IntegralC<T>> {
         template <typename C>
         static constexpr auto apply(C const&)
         { return C::value; }

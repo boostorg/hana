@@ -62,8 +62,8 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/string/constant.cpp main
-    template <typename _>
-    struct value_impl<String, _> {
+    template <>
+    struct value_impl<String> {
         template <char ...s>
         static constexpr char const* apply(_string<s...> const&)
         { return string_detail::store<s...>; }
