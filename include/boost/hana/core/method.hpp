@@ -32,7 +32,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @include example/core/method.cpp not_implemented
-    template <template <typename ...> class Method, typename ...T>
+    template <typename Method>
     struct not_implemented {
         template <typename ...X>
         static constexpr void apply(X const& ...) {
@@ -41,29 +41,8 @@ namespace boost { namespace hana {
         }
     };
 
-    namespace core_detail {
-        template <template <typename ...> class M, typename ...T>
-        struct method;
-
-        template <typename Method>
-        struct methodify;
-
-        template <template <typename ...> class M, typename T, typename Unavailable, typename When>
-        struct methodify<M<T, Unavailable, When>> {
-            using type = method<M, T>;
-        };
-
-        template <template <typename ...> class M, typename T, typename U, typename Unavailable, typename When>
-        struct methodify<M<T, U, Unavailable, When>> {
-            using type = method<M, T, U>;
-        };
-
-
-        template <template <typename ...> class M, typename ...T>
-        constexpr bool inherits_not_implemented(not_implemented<M, T...>) { return true; }
-        constexpr bool inherits_not_implemented(...) { return false; }
-
-        /////////// Temporary and naive implementation
+    namespace dispatch_detail {
+        /////////// is_in
         template <typename Method, typename Unavailable>
         struct is_in { static constexpr bool value = false; };
 
@@ -75,23 +54,66 @@ namespace boost { namespace hana {
         template <typename Method, typename ...Us>
         struct is_in<Method, unavailable<Method, Us...>>
         { static constexpr bool value = true; };
-        //////////////////////////////////////////////////////////////////////
 
-        template <typename Method, typename Unavailable, bool = is_in<Method, Unavailable>::value>
-        struct is_implemented_impl;
-
-        template <template <typename ...> class M, typename ...T, typename ...Unavailable>
-        struct is_implemented_impl<method<M, T...>, unavailable<Unavailable...>, true> {
-            static constexpr bool value = false;
+        /////////// either
+        template <typename T, typename = void>
+        struct either {
+            template <typename U> using lazy_or = U;
+            template <typename U> struct or_ { using type = U; };
         };
 
-        template <template <typename ...> class M, typename ...T, typename ...Unavailable>
-        struct is_implemented_impl<method<M, T...>, unavailable<Unavailable...>, false> {
-            static constexpr bool value = !inherits_not_implemented(
-                M<T..., unavailable<method<M, T...>, Unavailable...>, void>{}
-            );
+        template <typename T>
+        struct either<T, decltype((void)sizeof(T))> {
+            template <typename U> struct lazy_or { using type = T; };
+            template <typename U> struct or_ { using type = T; };
         };
-    } // end namespace core_detail
+
+        /////////// inherits_not_implemented
+        template <typename M>
+        constexpr bool inherits_not_implemented(not_implemented<M>) { return true; }
+        constexpr bool inherits_not_implemented(...) { return false; }
+
+        /////////// dispatching
+        template <template <typename ...> class MethodImpl, typename Unavailable, typename ...T>
+        struct dispatch3
+            : either<MethodImpl<T..., when<true>, Unavailable>>::template
+              or_<not_implemented<MethodImpl<T...>>>
+        { };
+
+        template <template <typename ...> class MethodImpl, typename Unavailable, typename ...T>
+        struct dispatch2
+            : either<MethodImpl<T..., when<true>>>::template
+              lazy_or<dispatch3<MethodImpl, Unavailable, T...>>
+        { };
+
+        template <template <typename ...> class MethodImpl, typename Unavailable, typename ...T>
+        struct dispatch1
+            : either<MethodImpl<T...>>::template
+              lazy_or<dispatch2<MethodImpl, Unavailable, T...>>
+        { };
+    }
+
+    //! @ingroup group-core
+    //! ...
+    //!
+    //! ...
+    //!
+    //! ### Example
+    //! @include example/core/method.cpp dispatch
+    //!
+    //! @todo Perhaps rename this to `method`?
+    template <typename MethodImpl, typename Unavailable = unavailable<>, bool = dispatch_detail::is_in<MethodImpl, Unavailable>::value>
+    struct dispatch;
+
+    template <template <typename ...> class MethodImpl, typename ...T, typename ...Unavailable>
+    struct dispatch<MethodImpl<T...>, unavailable<Unavailable...>, false>
+        : dispatch_detail::dispatch1<MethodImpl, unavailable<MethodImpl<T...>, Unavailable...>, T...>::type
+    { };
+
+    template <typename MethodImpl, typename Unavailable>
+    struct dispatch<MethodImpl, Unavailable, true>
+        : not_implemented<MethodImpl>
+    { };
 
     //! @ingroup group-core
     //! Returns whether a method is implemented for the given data type(s).
@@ -105,9 +127,9 @@ namespace boost { namespace hana {
     constexpr bool is_implemented = whether Method has an implementation that does not require any of the Unavailable methods;
 #else
     template <typename Method, typename Unavailable = unavailable<>>
-    constexpr bool is_implemented = core_detail::is_implemented_impl<
-        typename core_detail::methodify<Method>::type, Unavailable
-    >::value;
+    constexpr bool is_implemented = !dispatch_detail::inherits_not_implemented(
+        dispatch<Method, Unavailable>{}
+    );
 #endif
 
     //! @ingroup group-core
@@ -117,25 +139,9 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @include example/core/method.cpp unary_method
-    #define BOOST_HANA_METHOD(NAME)                                         \
-        /** @cond */                                                        \
-        template <typename, typename, typename>                             \
-        struct NAME;                                                        \
-                                                                            \
-        template <                                                          \
-            typename T,                                                     \
-            typename _ = ::boost::hana::unavailable<                        \
-                            ::boost::hana::core_detail::method<NAME, T>>,   \
-            typename = void>                                                \
-        struct NAME                                                         \
-            : NAME<T, _, ::boost::hana::when<true>>                         \
-        { };                                                                \
-                                                                            \
-        template <typename T, typename _, bool condition>                   \
-        struct NAME<T, _, ::boost::hana::when<condition>>                   \
-            : ::boost::hana::not_implemented<NAME, T>                       \
-        { }                                                                 \
-        /** @endcond */                                                     \
+    #define BOOST_HANA_METHOD(NAME_IMPL)                                    \
+        template <typename T, typename ...>                                 \
+        struct NAME_IMPL                                                    \
     /**/
 
     //! @ingroup group-core
@@ -146,25 +152,9 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @include example/core/method.cpp binary_method
-    #define BOOST_HANA_BINARY_METHOD(NAME)                                  \
-        /** @cond */                                                        \
-        template <typename, typename, typename, typename>                   \
-        struct NAME;                                                        \
-                                                                            \
-        template <                                                          \
-            typename T, typename U,                                         \
-            typename _ = ::boost::hana::unavailable<                        \
-                            ::boost::hana::core_detail::method<NAME, T, U>>,\
-            typename = void>                                                \
-        struct NAME                                                         \
-            : NAME<T, U, _, ::boost::hana::when<true>>                      \
-        { };                                                                \
-                                                                            \
-        template <typename T, typename U, typename _, bool condition>       \
-        struct NAME<T, U, _, ::boost::hana::when<condition>>                \
-            : ::boost::hana::not_implemented<NAME, T, U>                    \
-        { }                                                                 \
-        /** @endcond */                                                     \
+    #define BOOST_HANA_BINARY_METHOD(NAME_IMPL)                             \
+        template <typename T, typename U, typename ...>                     \
+        struct NAME_IMPL                                                    \
     /**/
 }} // end namespace boost::hana
 
