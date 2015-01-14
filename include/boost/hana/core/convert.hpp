@@ -62,6 +62,10 @@ namespace boost { namespace hana {
     //! `convert` is only used to provide the conversions; to actually
     //! perform conversions, use `to`.
     //!
+    //! @todo
+    //! Use more clever dispatching for this so it is possible to ask whether
+    //! a conversion exists, and then use this to implement `common`.
+    //!
     //! ### Example
     //! @include example/core/convert.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
