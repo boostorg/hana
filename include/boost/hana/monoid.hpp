@@ -50,8 +50,9 @@ namespace boost { namespace hana {
         using type = not_implemented<plus_impl<T, T>>;
     };
 
-    // 4.2 If `T` and `U` have a common type which is a Monoid, then use
-    //     that `plus` instead.
+    // 4.2 If `T` and `U` are both Monoids, and if they have a common type
+    //     which is also a Monoid, then we use the `plus` of the common type
+    //     instead.
     template <typename T, typename U, typename Context>
     struct dispatch_impl<4, plus_impl<T, U>, Context> {
         template <typename C>
@@ -65,7 +66,9 @@ namespace boost { namespace hana {
 
         template <typename T_, typename U_,
                   typename C = typename common<T_, U_>::type>
-        static impl<C> check(detail::std::integral_constant<bool, is_a<Monoid, C, C>()>);
+        static impl<C> check(detail::std::integral_constant<bool,
+            is_a<Monoid, T_>() && is_a<Monoid, U_>() && is_a<Monoid, C>()
+        >);
 
         template <typename ...>
         static not_implemented<plus_impl<T, U>> check(...);
@@ -73,9 +76,9 @@ namespace boost { namespace hana {
         using type = decltype(check<T, U>(detail::std::true_type{}));
     };
 
-    template <typename T, typename U>
-    struct plus_impl<T, U, when_valid<
-        decltype(detail::std::declval<T>() + detail::std::declval<U>())
+    template <typename T>
+    struct plus_impl<T, T, when_valid<
+        decltype(detail::std::declval<T>() + detail::std::declval<T>())
     >> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
@@ -89,15 +92,10 @@ namespace boost { namespace hana {
         { return static_cast<T>(0); }
     };
 
-    //! @todo
-    //! This definition is super disturbing; Monoid is really a unary type
-    //! class (what's a binary type class by the way??) with a binary method.
-    //! Find a proper way to express this.
-    template <typename T, typename U>
-    constexpr auto is_a<Monoid, T, U> = bool_<
-        is_implemented<plus_impl<T, U>> &&
-        is_implemented<zero_impl<T>> &&
-        is_implemented<zero_impl<U>>
+    template <typename T>
+    constexpr auto is_a<Monoid, T> = bool_<
+        is_implemented<plus_impl<T, T>> &&
+        is_implemented<zero_impl<T>>
     >;
 }} // end namespace boost::hana
 
