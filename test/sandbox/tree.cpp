@@ -49,9 +49,9 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Functor::instance<Tree> : Functor::fmap_mcd {
+    struct fmap_impl<Tree> {
         template <typename N, typename F>
-        static constexpr decltype(auto) fmap_impl(N&& n, F f) {
+        static constexpr decltype(auto) apply(N&& n, F f) {
             auto g = [=](auto&& subtree) -> decltype(auto) {
                 return fmap(std::forward<decltype(subtree)>(subtree), f);
             };

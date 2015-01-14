@@ -56,21 +56,17 @@ namespace boost { namespace hana {
     // If neither is defined, the MCD used is unspecified.
 #ifdef BOOST_HANA_TEST_FUNCTOR_FMAP_MCD
     template <>
-    struct Functor::instance<test::Identity>
-        : Functor::fmap_mcd
-    {
+    struct fmap_impl<test::Identity> {
         template <typename Id, typename F>
-        static constexpr auto fmap_impl(Id self, F f) {
+        static constexpr auto apply(Id self, F f) {
             return test::identity(f(self.value));
         }
     };
 #else
     template <>
-    struct Functor::instance<test::Identity>
-        : Functor::adjust_mcd
-    {
+    struct adjust_impl<test::Identity> {
         template <typename Id, typename P, typename F>
-        static constexpr auto adjust_impl(Id self, P p, F f) {
+        static constexpr auto apply(Id self, P p, F f) {
             auto x = eval_if(p(self.value),
                 [=](auto _) { return _(f)(self.value); },
                 [=](auto _) { return self.value; }

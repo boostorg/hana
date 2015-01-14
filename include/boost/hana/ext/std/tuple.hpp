@@ -29,7 +29,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     template <>
-    struct Functor::instance<ext::std::Tuple> : Functor::fmap_mcd {
+    struct fmap_impl<ext::std::Tuple> {
         template <typename Xs, typename F, detail::std::size_t ...index>
         static constexpr decltype(auto)
         helper(Xs&& xs, F&& f, detail::std::index_sequence<index...>) {
@@ -39,7 +39,7 @@ namespace boost { namespace hana {
         }
 
         template <typename Xs, typename F>
-        static constexpr decltype(auto) fmap_impl(Xs&& xs, F&& f) {
+        static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
             using Raw = typename detail::std::remove_reference<Xs>::type;
             constexpr auto N = ::std::tuple_size<Raw>::value;
             return helper(

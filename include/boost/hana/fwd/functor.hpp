@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_FUNCTOR_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/typeclass.hpp>
+#include <boost/hana/core/method.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -20,7 +20,8 @@ namespace boost { namespace hana {
     //! `Functor` represents types that can be mapped over.
     //!
     //!
-    //! ### Laws
+    //! Laws
+    //! ----
     //! Instances of `Functor` must satisfy the following laws. For any
     //! `Functor` `xs`,
     //! @code
@@ -36,13 +37,17 @@ namespace boost { namespace hana {
     //!
     //!     fill(xs, v) == replace(xs, always(true_), v)
     //! @endcode
-    struct Functor {
-        BOOST_HANA_TYPECLASS(Functor);
-        struct fmap_mcd;
-        struct adjust_mcd;
-        template <typename T>
-        struct list_mcd;
-    };
+    //!
+    //!
+    //! Minimal complete definitions
+    //! ----------------------------
+    //! 1. `fmap`
+    //! @todo
+    //!
+    //! 2. `adjust`
+    //! @todo
+    //!
+    struct Functor { };
 
     //! Map a function over a `Functor`.
     //! @relates Functor
@@ -66,10 +71,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(fmap_impl);
+
     struct _fmap {
         template <typename Xs, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
-            return Functor::instance<datatype_t<Xs>>::fmap_impl(
+            return dispatch<fmap_impl<typename datatype<Xs>::type>>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<F>(f)
             );
@@ -107,10 +114,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(adjust_impl);
+
     struct _adjust {
         template <typename Xs, typename Pred, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred, F&& f) const {
-            return Functor::instance<datatype_t<Xs>>::adjust_impl(
+            return dispatch<adjust_impl<typename datatype<Xs>::type>>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred),
                 detail::std::forward<F>(f)
@@ -149,10 +158,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(replace_impl);
+
     struct _replace {
         template <typename Xs, typename Pred, typename Value>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred, Value&& value) const {
-            return Functor::instance<datatype_t<Xs>>::replace_impl(
+            return dispatch<replace_impl<typename datatype<Xs>::type>>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred),
                 detail::std::forward<Value>(value)
@@ -185,10 +196,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(fill_impl);
+
     struct _fill {
         template <typename Xs, typename Value>
         constexpr decltype(auto) operator()(Xs&& xs, Value&& value) const {
-            return Functor::instance<datatype_t<Xs>>::fill_impl(
+            return dispatch<fill_impl<typename datatype<Xs>::type>>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Value>(value)
             );

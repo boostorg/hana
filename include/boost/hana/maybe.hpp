@@ -62,9 +62,9 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/maybe/functor.cpp main
     template <>
-    struct Functor::instance<Maybe> : Functor::fmap_mcd {
+    struct fmap_impl<Maybe> {
         template <typename M, typename F>
-        static constexpr decltype(auto) fmap_impl(M&& m, F&& f) {
+        static constexpr decltype(auto) apply(M&& m, F&& f) {
             return maybe(
                 nothing,
                 compose(just, detail::std::forward<F>(f)),

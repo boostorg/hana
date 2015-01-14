@@ -72,9 +72,9 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/lazy/functor.cpp fmap
     template <>
-    struct Functor::instance<Lazy> : Functor::fmap_mcd {
+    struct fmap_impl<Lazy> {
         template <typename LX, typename F>
-        static constexpr decltype(auto) fmap_impl(LX&& lx, F&& f) {
+        static constexpr decltype(auto) apply(LX&& lx, F&& f) {
             return ap(lazy(detail::std::forward<F>(f)),
                       detail::std::forward<LX>(lx));
         }

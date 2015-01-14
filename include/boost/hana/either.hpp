@@ -60,9 +60,9 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/either.cpp functor
     template <>
-    struct Functor::instance<Either> : Functor::fmap_mcd {
+    struct fmap_impl<Either> {
         template <typename E, typename F>
-        static constexpr decltype(auto) fmap_impl(E&& e, F&& f) {
+        static constexpr decltype(auto) apply(E&& e, F&& f) {
             return either(left,
                 compose(right, detail::std::forward<F>(f)),
                 detail::std::forward<E>(e)

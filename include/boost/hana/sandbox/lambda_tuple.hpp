@@ -101,9 +101,9 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Functor::instance<sandbox::LambdaTuple> : Functor::fmap_mcd {
+    struct fmap_impl<sandbox::LambdaTuple> {
         template <typename Xs, typename F>
-        static constexpr decltype(auto) fmap_impl(Xs&& xs, F f) {
+        static constexpr decltype(auto) apply(Xs&& xs, F f) {
             return detail::std::forward<Xs>(xs).storage(
                 [f(detail::std::move(f))](auto&& ...xs) -> decltype(auto) {
                     return sandbox::lambda_tuple(f(detail::std::forward<decltype(xs)>(xs))...);
