@@ -48,8 +48,8 @@ namespace boost { namespace hana {
         { return static_cast<U>(value(x)); }
     };
 
-    //! Provides a common type between an `IntegralConstant` and any integral
-    //! type.
+    // Provides a common type between an `IntegralConstant` and
+    // any integral type.
     template <template <typename ...> class C, typename T, typename U>
     struct common<C<T>, U, when<
         is_an<IntegralConstant, C<T>>() &&
@@ -83,8 +83,6 @@ namespace boost { namespace hana {
         }
     };
 
-    ///////////////////////
-    // Enumerable
     template <template <typename ...> class C, typename T>
     struct pred_impl<C<T>, when<is_an<IntegralConstant, C<T>>()>> {
         static constexpr auto dec(bool x) { return static_cast<int>(x)-1; }
@@ -112,54 +110,41 @@ namespace boost { namespace hana {
         }
     };
 
-
     template <template <typename ...> class C1, typename T,
               template <typename ...> class C2, typename U>
-    struct Group::integral_constant_mcd<C1<T>, C2<U>>
-        : Group::minus_mcd<C1<T>, C2<U>>
-    {
+    struct minus_impl<C1<T>, C2<U>, when<
+        is_an<IntegralConstant, C1<T>>() && is_an<IntegralConstant, C2<U>>()
+    >> {
         template <typename X, typename Y>
-        static constexpr auto minus_impl(X x, Y y) {
+        static constexpr auto apply(X x, Y y) {
             constexpr auto sub = value(x) - value(y);
             return integral_constant<C1<decltype(sub)>, sub>();
         }
     };
 
-    template <typename I1, typename I2>
-    struct Group::instance<I1, I2, when<
-        is_an<IntegralConstant, I1>() &&
-        is_an<IntegralConstant, I2>()
-    >>
-        : Group::integral_constant_mcd<I1, I2>
-    { };
-
     template <template <typename ...> class C1, typename T,
               template <typename ...> class C2, typename U>
-    struct IntegralDomain::integral_constant_mcd<C1<T>, C2<U>>
-        : IntegralDomain::mcd
-    {
+    struct quot_impl<C1<T>, C2<U>, when<
+        is_an<IntegralConstant, C1<T>>() && is_an<IntegralConstant, C2<U>>()
+    >> {
         template <typename X, typename Y>
-        static constexpr auto quot_impl(X x, Y y) {
+        static constexpr auto apply(X x, Y y) {
             constexpr auto quotient = value(x) / value(y);
             return integral_constant<C1<decltype(quotient)>, quotient>();
         }
+    };
 
+    template <template <typename ...> class C1, typename T,
+              template <typename ...> class C2, typename U>
+    struct mod_impl<C1<T>, C2<U>, when<
+        is_an<IntegralConstant, C1<T>>() && is_an<IntegralConstant, C2<U>>()
+    >> {
         template <typename X, typename Y>
-        static constexpr auto mod_impl(X x, Y y) {
+        static constexpr auto apply(X x, Y y) {
             constexpr auto modulus = value(x) % value(y);
             return integral_constant<C1<decltype(modulus)>, modulus>();
         }
     };
-
-    template <typename I1, typename I2>
-    struct IntegralDomain::instance<I1, I2, when<
-        is_an<IntegralConstant, I1>() &&
-        is_an<IntegralConstant, I2>()
-    >>
-        : IntegralDomain::integral_constant_mcd<I1, I2>
-    { };
-
-
 
     template <template <typename ...> class C, typename T>
     struct eval_if_impl<C<T>, when<is_an<IntegralConstant, C<T>>()>> {
@@ -256,24 +241,21 @@ namespace boost { namespace hana {
 
     template <template <typename ...> class C1, typename T,
               template <typename ...> class C2, typename U>
-    struct Ring::integral_constant_mcd<C1<T>, C2<U>> : Ring::mcd {
+    struct mult_impl<C1<T>, C2<U>, when<
+        is_an<IntegralConstant, C1<T>>() && is_an<IntegralConstant, C2<U>>()
+    >> {
         template <typename X, typename Y>
-        static constexpr auto mult_impl(X x, Y y) {
+        static constexpr auto apply(X x, Y y) {
             constexpr auto prod = value(x) * value(y);
             return integral_constant<C1<decltype(prod)>, prod>();
         }
-
-        static constexpr auto one_impl()
-        { return integral_constant<C1<T>, 1>(); }
     };
 
-    template <typename I1, typename I2>
-    struct Ring::instance<I1, I2, when<
-        is_an<IntegralConstant, I1>() &&
-        is_an<IntegralConstant, I2>()
-    >>
-        : Ring::integral_constant_mcd<I1, I2>
-    { };
+    template <template <typename ...> class C, typename T>
+    struct one_impl<C<T>, when<is_an<IntegralConstant, C<T>>()>> {
+        static constexpr auto apply()
+        { return integral_constant<C<T>, 1>(); }
+    };
 
     template <typename C>
     constexpr auto is_a<IntegralConstant, C> = bool_<

@@ -12,12 +12,15 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/integral_domain.hpp>
 
+#include <boost/hana/bool.hpp>
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/is_a.hpp>
+#include <boost/hana/core/method.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/dispatch_common.hpp>
 #include <boost/hana/detail/std/declval.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
@@ -25,9 +28,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! Minimal complete definition : `quot` and `mod`
-    struct IntegralDomain::mcd { };
-
     namespace operators {
         //! Equivalent to `mod`.
         //! @relates boost::hana::IntegralDomain
@@ -48,50 +48,33 @@ namespace boost { namespace hana {
         { return quot(detail::std::forward<X>(x), detail::std::forward<Y>(y)); }
     }
 
-    template <typename T, typename U>
-    struct IntegralDomain::default_instance
-        : IntegralDomain::instance<common_t<T, U>, common_t<T, U>>
-    {
-        template <typename X, typename Y>
-        static constexpr decltype(auto) quot_impl(X&& x, Y&& y) {
-            using C = common_t<T, U>;
-            return quot(
-                to<C>(detail::std::forward<X>(x)),
-                to<C>(detail::std::forward<Y>(y))
-            );
-        }
+    BOOST_HANA_DISPATCH_COMMON(quot, quot_impl, IntegralDomain);
+    BOOST_HANA_DISPATCH_COMMON(mod, mod_impl, IntegralDomain);
 
+    template <typename T>
+    struct quot_impl<T, T, when_valid<
+        decltype(detail::std::declval<T>() / detail::std::declval<T>())
+    >> {
         template <typename X, typename Y>
-        static constexpr decltype(auto) mod_impl(X&& x, Y&& y) {
-            using C = common_t<T, U>;
-            return mod(
-                to<C>(detail::std::forward<X>(x)),
-                to<C>(detail::std::forward<Y>(y))
-            );
-        }
+        static constexpr decltype(auto) apply(X&& x, Y&& y)
+        { return detail::std::forward<X>(x) / detail::std::forward<Y>(y); }
     };
 
-    //! Instance of `IntegralDomain` for objects of foreign numeric types.
-    //!
-    //! Any two foreign objects that are `Rings`s, that can be divided
-    //! and moded with the usual operators (`/` and `%`) naturally form
-    //! an integral domain with those operations.
-    template <typename T, typename U>
-    struct IntegralDomain::instance<T, U, when_valid<
-        decltype(detail::std::declval<T>() / detail::std::declval<U>()),
-        decltype(detail::std::declval<T>() % detail::std::declval<U>()),
-        char[are<Ring, T, U>()]
-    >> : IntegralDomain::mcd {
+    template <typename T>
+    struct mod_impl<T, T, when_valid<
+        decltype(detail::std::declval<T>() % detail::std::declval<T>())
+    >> {
         template <typename X, typename Y>
-        static constexpr decltype(auto) quot_impl(X&& x, Y&& y) {
-            return detail::std::forward<X>(x) / detail::std::forward<Y>(y);
-        }
-
-        template <typename X, typename Y>
-        static constexpr decltype(auto) mod_impl(X&& x, Y&& y) {
-            return detail::std::forward<X>(x) % detail::std::forward<Y>(y);
-        }
+        static constexpr decltype(auto) apply(X&& x, Y&& y)
+        { return detail::std::forward<X>(x) % detail::std::forward<Y>(y); }
     };
+
+    template <typename D>
+    constexpr auto is_a<IntegralDomain, D> = bool_<
+        is_a<Ring, D>() &&
+        is_implemented<quot_impl<D, D>> &&
+        is_implemented<mod_impl<D, D>>
+    >;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_INTEGRAL_DOMAIN_HPP

@@ -20,6 +20,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/method.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/dispatch_common.hpp>
 #include <boost/hana/detail/std/declval.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
@@ -42,39 +43,7 @@ namespace boost { namespace hana {
         }
     }
 
-    // Additional dispatching for `plus_impl`:
-    //
-    // 4.1 If `T` and `U` are the same data type, then fail.
-    template <typename T, typename Context>
-    struct dispatch_impl<4, plus_impl<T, T>, Context> {
-        using type = not_implemented<plus_impl<T, T>>;
-    };
-
-    // 4.2 If `T` and `U` are both Monoids, and if they have a common type
-    //     which is also a Monoid, then we use the `plus` of the common type
-    //     instead.
-    template <typename T, typename U, typename Context>
-    struct dispatch_impl<4, plus_impl<T, U>, Context> {
-        template <typename C>
-        struct impl {
-            template <typename X, typename Y>
-            static constexpr decltype(auto) apply(X&& x, Y&& y) {
-                return plus(to<C>(detail::std::forward<X>(x)),
-                            to<C>(detail::std::forward<Y>(y)));
-            }
-        };
-
-        template <typename T_, typename U_,
-                  typename C = typename common<T_, U_>::type>
-        static impl<C> check(detail::std::integral_constant<bool,
-            is_a<Monoid, T_>() && is_a<Monoid, U_>() && is_a<Monoid, C>()
-        >);
-
-        template <typename ...>
-        static not_implemented<plus_impl<T, U>> check(...);
-
-        using type = decltype(check<T, U>(detail::std::true_type{}));
-    };
+    BOOST_HANA_DISPATCH_COMMON(plus, plus_impl, Monoid);
 
     template <typename T>
     struct plus_impl<T, T, when_valid<

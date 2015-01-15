@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_RING_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/typeclass.hpp>
+#include <boost/hana/core/method.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -22,10 +22,14 @@ namespace boost { namespace hana {
     //!
     //! The method names refer to the ring of numbers under multiplication.
     //!
-    //! ### Requires
+    //!
+    //! Superclass
+    //! ----------
     //! `Group`
     //!
-    //! ### Laws
+    //!
+    //! Laws
+    //! ----
     //! For all objects `x`, `y`, `z` of a `Ring` `R`, the following laws must
     //! be satisfied:
     //! @code
@@ -34,14 +38,18 @@ namespace boost { namespace hana {
     //!     mult(one<R>(), x) == x                              // left identity
     //!     mult(x, plus(y, z)) == plus(mult(x, y), mult(x, z)) // distributivity
     //! @endcode
-    struct Ring {
-        BOOST_HANA_BINARY_TYPECLASS(Ring);
-        struct mcd;
-        template <typename I1, typename I2>
-        struct integral_constant_mcd;
-        template <typename T, typename U>
-        struct default_instance;
-    };
+    //!
+    //!
+    //! Minimal complete definintions
+    //! -----------------------------
+    //! 1. `one` and `mult`
+    //! @todo
+    //!
+    //! 2. `operator*` and `static_cast`ability to 1
+    //! Any data type whose objects can be multiplied with the usual
+    //! `operator*` is given the `mult` method using this multiplication.
+    //! The `one` method is implemented as `static_cast<T>(1)`.
+    struct Ring { };
 
     //! Associative operation of a `Ring`.
     //! @relates Ring
@@ -53,12 +61,14 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_BINARY_METHOD(mult_impl);
+
     struct _mult {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
-            return Ring::instance<
-                datatype_t<X>, datatype_t<Y>
-            >::mult_impl(
+            return dispatch<mult_impl<
+                typename datatype<X>::type, typename datatype<Y>::type
+            >>::apply(
                 detail::std::forward<X>(x),
                 detail::std::forward<Y>(y)
             );
@@ -71,10 +81,6 @@ namespace boost { namespace hana {
     //! Identity of `mult`.
     //! @relates Ring
     //!
-    //! Since `Ring` is a binary type class and `one` is a nullary method,
-    //! `one<R>()` is dispatched to the type class instance for `R` and `R`,
-    //! i.e. `Ring::instance<R, R>`.
-    //!
     //! @tparam R
     //! The data type (a `Ring`) of the returned identity.
     //!
@@ -86,10 +92,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(one_impl);
+
     template <typename R>
     struct _one {
         constexpr decltype(auto) operator()() const {
-            return Ring::instance<R, R>::one_impl();
+            return dispatch<one_impl<R>>::apply();
         }
     };
 
@@ -123,12 +131,14 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(power_impl);
+
     struct _power {
         template <typename R, typename P>
         constexpr decltype(auto) operator()(R&& r, P&& p) const {
-            return Ring::instance<
-                datatype_t<R>, datatype_t<R>
-            >::power_impl(
+            return dispatch<power_impl<
+                typename datatype<R>::type
+            >>::apply(
                 detail::std::forward<R>(r),
                 detail::std::forward<P>(p)
             );

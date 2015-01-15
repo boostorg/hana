@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_INTEGRAL_DOMAIN_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/typeclass.hpp>
+#include <boost/hana/core/method.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -24,10 +24,14 @@ namespace boost { namespace hana {
     //! over a field. The method names refer to the integral domain of
     //! integers under addition and multiplication.
     //!
-    //! ### Requires
+    //!
+    //! Superclass
+    //! ----------
     //! `Ring`
     //!
-    //! ### Laws
+    //!
+    //! Laws
+    //! ----
     //! For all objects `a`, `b` and `k` of an `IntegralDomain` `D`, the
     //! following laws must be satisfied:
     //! @code
@@ -36,14 +40,18 @@ namespace boost { namespace hana {
     //!     mod(plus(a, mult(k, b)), b) == mod(a, b)  if b is non-zero // canonicity
     //!     mod(zero<D>(), b) == zero<D>()            if b is non-zero
     //! @endcode
-    struct IntegralDomain {
-        BOOST_HANA_BINARY_TYPECLASS(IntegralDomain);
-        struct mcd;
-        template <typename I1, typename I2>
-        struct integral_constant_mcd;
-        template <typename T, typename U>
-        struct default_instance;
-    };
+    //!
+    //!
+    //! Minimal complete definitions
+    //! ----------------------------
+    //! 1. `mod` and `quot`
+    //! @todo
+    //!
+    //! 2. `operator%` and `operator/`
+    //! Any data type whose objects can be divided and moded with the usual
+    //! operators (`/` and `%`) naturally form an integral domain with those
+    //! operations.
+    struct IntegralDomain { };
 
     //! Generalized integer remainder.
     //! @relates IntegralDomain
@@ -58,12 +66,14 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_BINARY_METHOD(mod_impl);
+
     struct _mod {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
-            return IntegralDomain::instance<
-                datatype_t<X>, datatype_t<Y>
-            >::mod_impl(
+            return dispatch<mod_impl<
+                typename datatype<X>::type, typename datatype<Y>::type
+            >>::apply(
                 detail::std::forward<X>(x),
                 detail::std::forward<Y>(y)
             );
@@ -83,12 +93,14 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_BINARY_METHOD(quot_impl);
+
     struct _quot {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
-            return IntegralDomain::instance<
-                datatype_t<X>, datatype_t<Y>
-            >::quot_impl(
+            return dispatch<quot_impl<
+                typename datatype<X>::type, typename datatype<Y>::type
+            >>::apply(
                 detail::std::forward<X>(x),
                 detail::std::forward<Y>(y)
             );

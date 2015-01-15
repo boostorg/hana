@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_GROUP_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/typeclass.hpp>
+#include <boost/hana/core/method.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -22,27 +22,33 @@ namespace boost { namespace hana {
     //!
     //! The method names refer to the group of numbers under addition.
     //!
-    //! ### Requires
+    //!
+    //! Superclass
+    //! ----------
     //! `Monoid`
     //!
-    //! ### Laws
+    //!
+    //! Laws
+    //! ----
     //! For all objects `x` of a `Group` `G`, the following laws must be
     //! satisfied:
     //! @code
     //!     plus(x, negate(x)) == zero<G>() // right inverse
     //!     plus(negate(x), x) == zero<G>() // left inverse
     //! @endcode
-    struct Group {
-        BOOST_HANA_BINARY_TYPECLASS(Group);
-        template <typename G1, typename G2>
-        struct negate_mcd;
-        template <typename G1, typename  G2>
-        struct minus_mcd;
-        template <typename I1, typename I2>
-        struct integral_constant_mcd;
-        template <typename T, typename U>
-        struct default_instance;
-    };
+    //!
+    //!
+    //! Minimal complete definitions
+    //! ----------------------------
+    //! 1. `minus`
+    //! @todo
+    //!
+    //! 2. `negate`
+    //! @todo
+    //!
+    //! 3. `operator-`
+    //! @todo
+    struct Group { };
 
     //! Subtract two elements of a group.
     //! @relates Group
@@ -61,12 +67,14 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_BINARY_METHOD(minus_impl);
+
     struct _minus {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
-            return Group::instance<
-                datatype_t<X>, datatype_t<Y>
-            >::minus_impl(
+            return dispatch<minus_impl<
+                typename datatype<X>::type, typename datatype<Y>::type
+            >>::apply(
                 detail::std::forward<X>(x),
                 detail::std::forward<Y>(y)
             );
@@ -79,10 +87,6 @@ namespace boost { namespace hana {
     //! Return the inverse of an element of a group.
     //! @relates Group
     //!
-    //! Since `Group` is a binary type class and `negate` is a unary method,
-    //! `negate(x)` is dispatched to the type class instance for `G` and `G`,
-    //! i.e. `Group::instance<G, G>`, where `G` is the data type of `x`.
-    //!
     //! ### Example
     //! @snippet example/group.cpp negate
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
@@ -90,12 +94,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(negate_impl);
+
     struct _negate {
         template <typename X>
         constexpr decltype(auto) operator()(X&& x) const {
-            return Group::instance<
-                datatype_t<X>, datatype_t<X>
-            >::negate_impl(
+            return dispatch<negate_impl<typename datatype<X>::type>>::apply(
                 detail::std::forward<X>(x)
             );
         }

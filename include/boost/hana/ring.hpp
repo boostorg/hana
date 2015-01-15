@@ -12,13 +12,16 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/ring.hpp>
 
+#include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/is_a.hpp>
+#include <boost/hana/core/method.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/dispatch_common.hpp>
 #include <boost/hana/detail/std/declval.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
@@ -30,23 +33,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! Minimal complete definition : `one` and `mult`
-    struct Ring::mcd {
-        template <typename X, typename P>
-        static constexpr decltype(auto) power_impl(X&& x, P&& p) {
-            using R = datatype_t<X>;
-            using E = datatype_t<P>;
-            return eval_if(equal(p, zero<E>()),
-                always(one<R>()),
-                [&p, &x](auto _) -> decltype(auto) {
-                    return mult(
-                        x, power_impl(x, _(pred)(detail::std::forward<P>(p)))
-                    );
-                }
-            );
-        }
-    };
-
     namespace operators {
         //! Equivalent to `mult`.
         //! @relates boost::hana::Ring
@@ -62,42 +48,49 @@ namespace boost { namespace hana {
         }
     }
 
-    template <typename T, typename U>
-    struct Ring::default_instance
-        : Ring::instance<common_t<T, U>, common_t<T, U>>
-    {
-        template <typename X, typename Y>
-        static constexpr decltype(auto) mult_impl(X&& x, Y&& y) {
-            using C = common_t<T, U>;
-            return mult(
-                to<C>(detail::std::forward<X>(x)),
-                to<C>(detail::std::forward<Y>(y))
+    template <typename R, typename Context>
+    struct power_impl<R, when<
+        is_implemented<mult_impl<R, R>, Context> &&
+        is_implemented<one_impl<R>, Context>
+    >, Context> {
+        template <typename X, typename P>
+        static constexpr decltype(auto) apply(X&& x, P&& p) {
+            using Exp = datatype_t<P>;
+            return eval_if(equal(p, zero<Exp>()),
+                always(one<R>()),
+                [&p, &x](auto _) -> decltype(auto) {
+                    return mult(
+                        x, apply(x, _(pred)(detail::std::forward<P>(p)))
+                    );
+                }
             );
         }
     };
 
-    //! Instance of `Ring` for foreign objects with numeric types.
-    //!
-    //! Any two foreign objects that are `Group`s, that can be multiplied
-    //! with the usual `operator*` and for which a valid conversion from `int`
-    //! exists (for both) naturally form a multiplicative `Ring`, with `1`
-    //! being the identity and the usual `operator*` being the ring operation.
-    template <typename T, typename U>
-    struct Ring::instance<T, U, when_valid<
-        decltype(static_cast<T>(1)),
-        decltype(static_cast<U>(1)),
-        decltype(detail::std::declval<T>() * detail::std::declval<U>()),
-        char[are<Group, T, U>()]
-    >> : Ring::mcd {
+    template <typename T>
+    struct mult_impl<T, T, when_valid<
+        decltype(detail::std::declval<T>() * detail::std::declval<T>())
+    >> {
         template <typename X, typename Y>
-        static constexpr decltype(auto) mult_impl(X&& x, Y&& y) {
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
             return detail::std::forward<X>(x) * detail::std::forward<Y>(y);
         }
+    };
 
-        // Will never be used with two different `T` and `U` anyway.
-        static constexpr auto one_impl()
+    template <typename T>
+    struct one_impl<T, when_valid<decltype(static_cast<T>(1))>> {
+        static constexpr T apply()
         { return static_cast<T>(1); }
     };
+
+    BOOST_HANA_DISPATCH_COMMON(mult, mult_impl, Ring);
+
+    template <typename R>
+    constexpr auto is_a<Ring, R> = bool_<
+        is_a<Group, R>() &&
+        is_implemented<mult_impl<R, R>> &&
+        is_implemented<one_impl<R>>
+    >;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_RING_HPP

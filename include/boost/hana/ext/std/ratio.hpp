@@ -48,28 +48,24 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Group::instance<ext::std::Ratio, ext::std::Ratio>
-        : Group::minus_mcd<ext::std::Ratio, ext::std::Ratio>
-    {
+    struct minus_impl<ext::std::Ratio, ext::std::Ratio> {
         template <typename R1, typename R2>
-        static constexpr decltype(auto) minus_impl(R1, R2) {
-            return ::std::ratio_subtract<R1, R2>{};
-        }
+        static constexpr ::std::ratio_subtract<R1, R2> apply(R1, R2)
+        { return {}; }
     };
 
     template <>
-    struct IntegralDomain::instance<ext::std::Ratio, ext::std::Ratio>
-        : IntegralDomain::mcd
-    {
+    struct quot_impl<ext::std::Ratio, ext::std::Ratio> {
         template <typename R1, typename R2>
-        static constexpr decltype(auto) quot_impl(R1, R2) {
-            return ::std::ratio_divide<R1, R2>{};
-        }
+        static constexpr ::std::ratio_divide<R1, R2> apply(R1, R2)
+        { return {}; }
+    };
 
+    template <>
+    struct mod_impl<ext::std::Ratio, ext::std::Ratio> {
         template <typename R1, typename R2>
-        static constexpr decltype(auto) mod_impl(R1, R2) {
-            return ::std::ratio<0>{};
-        }
+        static constexpr ::std::ratio<0> apply(R1, R2)
+        { return {}; }
     };
 
     template <>
@@ -96,15 +92,16 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Ring::instance<ext::std::Ratio, ext::std::Ratio> : Ring::mcd {
+    struct mult_impl<ext::std::Ratio, ext::std::Ratio> {
         template <typename R1, typename R2>
-        static constexpr decltype(auto) mult_impl(R1, R2) {
-            return ::std::ratio_multiply<R1, R2>{};
-        }
+        static constexpr ::std::ratio_multiply<R1, R2> apply(R1, R2)
+        { return {}; }
+    };
 
-        static constexpr decltype(auto) one_impl() {
-            return ::std::ratio<1>{};
-        }
+    template <>
+    struct one_impl<ext::std::Ratio> {
+        static constexpr ::std::ratio<1> apply()
+        { return {}; }
     };
 }} // end namespace boost::hana
 

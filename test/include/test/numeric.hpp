@@ -133,44 +133,44 @@ namespace boost { namespace hana {
     // If neither is defined, the MCD used is unspecified.
 #if defined(BOOST_HANA_TEST_GROUP_NEGATE_MCD)
     template <>
-    struct Group::instance<test::Numeric, test::Numeric>
-        : Group::negate_mcd<test::Numeric, test::Numeric>
-    {
+    struct negate_impl<test::Numeric> {
         template <typename X>
-        static constexpr auto negate_impl(X x)
+        static constexpr auto apply(X x)
         { return test::numeric(-x.value); }
     };
 #else
     template <>
-    struct Group::instance<test::Numeric, test::Numeric>
-        : Group::minus_mcd<test::Numeric, test::Numeric>
-    {
+    struct minus_impl<test::Numeric, test::Numeric> {
         template <typename X, typename Y>
-        static constexpr auto minus_impl(X x, Y y)
+        static constexpr auto apply(X x, Y y)
         { return test::numeric(x.value - y.value); }
     };
 #endif
 
     template <>
-    struct Ring::instance<test::Numeric, test::Numeric> : Ring::mcd {
+    struct mult_impl<test::Numeric, test::Numeric> {
         template <typename X, typename Y>
-        static constexpr auto mult_impl(X x, Y y)
+        static constexpr auto apply(X x, Y y)
         { return test::numeric(x.value * y.value); }
+    };
 
-        static constexpr auto one_impl()
+    template <>
+    struct one_impl<test::Numeric> {
+        static constexpr auto apply()
         { return test::numeric(1); }
     };
 
     template <>
-    struct IntegralDomain::instance<test::Numeric, test::Numeric>
-        : IntegralDomain::mcd
-    {
+    struct quot_impl<test::Numeric, test::Numeric> {
         template <typename X, typename Y>
-        static constexpr auto quot_impl(X x, Y y)
+        static constexpr auto apply(X x, Y y)
         { return test::numeric(x.value / y.value); }
+    };
 
+    template <>
+    struct mod_impl<test::Numeric, test::Numeric> {
         template <typename X, typename Y>
-        static constexpr auto mod_impl(X x, Y y)
+        static constexpr auto apply(X x, Y y)
         { return test::numeric(x.value % y.value); }
     };
 }} // end namespace boost::hana
