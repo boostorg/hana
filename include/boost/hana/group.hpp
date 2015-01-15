@@ -79,7 +79,10 @@ namespace boost { namespace hana {
         }
     };
 
-    BOOST_HANA_DISPATCH_COMMON(minus, minus_impl, Group);
+    template <typename T, typename U, typename Context>
+    struct dispatch_impl<4, minus_impl<T, U>, Context>
+        : detail::dispatch_common<minus_impl<T, U>, Group, Context>
+    { };
 
     template <typename G>
     constexpr auto is_a<Group, G> = bool_<

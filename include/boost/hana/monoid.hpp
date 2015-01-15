@@ -43,7 +43,10 @@ namespace boost { namespace hana {
         }
     }
 
-    BOOST_HANA_DISPATCH_COMMON(plus, plus_impl, Monoid);
+    template <typename T, typename U, typename Context>
+    struct dispatch_impl<4, plus_impl<T, U>, Context>
+        : detail::dispatch_common<plus_impl<T, U>, Monoid, Context>
+    { };
 
     template <typename T>
     struct plus_impl<T, T, when_valid<

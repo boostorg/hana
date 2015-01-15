@@ -48,8 +48,15 @@ namespace boost { namespace hana {
         { return quot(detail::std::forward<X>(x), detail::std::forward<Y>(y)); }
     }
 
-    BOOST_HANA_DISPATCH_COMMON(quot, quot_impl, IntegralDomain);
-    BOOST_HANA_DISPATCH_COMMON(mod, mod_impl, IntegralDomain);
+    template <typename T, typename U, typename Context>
+    struct dispatch_impl<4, quot_impl<T, U>, Context>
+        : detail::dispatch_common<quot_impl<T, U>, IntegralDomain, Context>
+    { };
+
+    template <typename T, typename U, typename Context>
+    struct dispatch_impl<4, mod_impl<T, U>, Context>
+        : detail::dispatch_common<mod_impl<T, U>, IntegralDomain, Context>
+    { };
 
     template <typename T>
     struct quot_impl<T, T, when_valid<

@@ -139,7 +139,10 @@ namespace boost { namespace hana {
         }
     };
 
-    BOOST_HANA_DISPATCH_COMMON(less, less_impl, Orderable);
+    template <typename T, typename U, typename Context>
+    struct dispatch_impl<4, less_impl<T, U>, Context>
+        : detail::dispatch_common<less_impl<T, U>, Orderable, Context>
+    { };
 
     template <typename T>
     struct less_impl<T, T, when_valid<

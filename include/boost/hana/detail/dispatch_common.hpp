@@ -1,6 +1,6 @@
 /*!
 @file
-Defines the `BOOST_HANA_DISPATCH_COMMON` macro.
+Defines `boost::hana::detail::dispatch_common`.
 
 @copyright Louis Dionne 2014
 Distributed under the Boost Software License, Version 1.0.
@@ -10,47 +10,54 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_DISPATCH_COMMON_HPP
 #define BOOST_HANA_DETAIL_DISPATCH_COMMON_HPP
 
-// Additional dispatching for binary methods:
-//
-// 4.1 If `T` and `U` are the same data type, then fail.
-//
-// 4.2 If `T` and `U` are both a TYPECLASS, and if they have a common type
-//     which is also a TYPECLASS, then we use the METHOD of the common type
-//     instead.
-#define BOOST_HANA_DISPATCH_COMMON(NAME, NAME_IMPL, TYPECLASS)                      \
-    template <typename T, typename Context>                                         \
-    struct dispatch_impl<4, NAME_IMPL<T, T>, Context> {                             \
-        using type = ::boost::hana::not_implemented<NAME_IMPL<T, T>>;               \
-    };                                                                              \
-                                                                                    \
-    template <typename T, typename U, typename Context>                             \
-    struct dispatch_impl<4, NAME_IMPL<T, U>, Context> {                             \
-        template <typename C>                                                       \
-        struct impl {                                                               \
-            template <typename X, typename Y>                                       \
-            static constexpr decltype(auto) apply(X&& x, Y&& y) {                   \
-                return NAME(                                                        \
-                    ::boost::hana::to<C>(::boost::hana::detail::std::forward<X>(x)),\
-                    ::boost::hana::to<C>(::boost::hana::detail::std::forward<Y>(y)) \
-                );                                                                  \
-            }                                                                       \
-        };                                                                          \
-                                                                                    \
-        template <typename T_, typename U_,                                         \
-                  typename C = typename ::boost::hana::common<T_, U_>::type>        \
-        static impl<C> check(::boost::hana::detail::std::integral_constant<bool,    \
-            ::boost::hana::is_a<TYPECLASS, T_>() &&                                 \
-            ::boost::hana::is_a<TYPECLASS, U_>() &&                                 \
-            ::boost::hana::is_a<TYPECLASS, C>()                                     \
-        >);                                                                         \
-                                                                                    \
-        template <typename ...>                                                     \
-        static ::boost::hana::not_implemented<NAME_IMPL<T, U>> check(...);          \
-                                                                                    \
-        using type = decltype(check<T, U>(                                          \
-            ::boost::hana::detail::std::true_type{}                                 \
-        ));                                                                         \
-    }                                                                               \
-/**/
+#include <boost/hana/core/common.hpp>
+#include <boost/hana/core/convert.hpp>
+#include <boost/hana/core/is_a.hpp>
+#include <boost/hana/core/method.hpp>
+#include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
+
+
+namespace boost { namespace hana { namespace detail {
+    //! @ingroup group-details
+    //! Dispatching plugin for binary methods.
+    //!
+    //! Specifically, if `T` and `U` are the same data type, then fail.
+    //! Otherwise, if `T` and `U` are both models of `Typeclass`, and if
+    //! they have a common type which is also a model of `Typeclass`, then
+    //! dispatch the `Method` to that common type instead.
+    template <typename Method, typename Typeclass, typename Context>
+    struct dispatch_common;
+
+    template <template <typename ...> class Method, typename T, typename U, typename Typeclass, typename Context>
+    struct dispatch_common<Method<T, U>, Typeclass, Context> {
+        template <typename C>
+        struct impl {
+            template <typename X, typename Y>
+            static constexpr decltype(auto) apply(X&& x, Y&& y) {
+                return dispatch<Method<C, C>>::apply(
+                    to<C>(detail::std::forward<X>(x)),
+                    to<C>(detail::std::forward<Y>(y))
+                );
+            }
+        };
+
+        template <typename T_, typename U_,
+                  typename C = typename common<T_, U_>::type>
+        static impl<C> check(detail::std::integral_constant<bool,
+            is_a<Typeclass, T_>() && is_a<Typeclass, U_>() && is_a<Typeclass, C>()
+        >);
+
+        template <typename ...>
+        static not_implemented<Method<T, U>> check(...);
+
+        using type = decltype(check<T, U>(detail::std::true_type{}));
+    };
+
+    template <template <typename ...> class Method, typename T, typename Typeclass, typename Context>
+    struct dispatch_common<Method<T, T>, Typeclass, Context> {
+        using type = not_implemented<Method<T, T>>;
+    };
+}}}
 
 #endif // !BOOST_HANA_DETAIL_DISPATCH_COMMON_HPP

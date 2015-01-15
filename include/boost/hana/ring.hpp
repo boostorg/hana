@@ -83,7 +83,10 @@ namespace boost { namespace hana {
         { return static_cast<T>(1); }
     };
 
-    BOOST_HANA_DISPATCH_COMMON(mult, mult_impl, Ring);
+    template <typename T, typename U, typename Context>
+    struct dispatch_impl<4, mult_impl<T, U>, Context>
+        : detail::dispatch_common<mult_impl<T, U>, Ring, Context>
+    { };
 
     template <typename R>
     constexpr auto is_a<Ring, R> = bool_<
