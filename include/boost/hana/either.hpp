@@ -114,11 +114,10 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/either.cpp monad
     template <>
-    struct Monad::instance<Either> : Monad::flatten_mcd<Either> {
+    struct flatten_impl<Either> {
         template <typename E>
-        static constexpr decltype(auto) flatten_impl(E&& e) {
-            return either(left, id, detail::std::forward<E>(e));
-        }
+        static constexpr decltype(auto) apply(E&& e)
+        { return either(left, id, detail::std::forward<E>(e)); }
     };
 }} // end namespace boost::hana
 

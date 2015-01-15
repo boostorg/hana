@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_MONAD_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/typeclass.hpp>
+#include <boost/hana/core/method.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -20,27 +20,30 @@ namespace boost { namespace hana {
     //! `Monad`s are `Applicative`s with the ability to flatten values that
     //! were lifted more than once.
     //!
-    //! ### Requires
-    //! `Functor`, `Applicative`
     //!
-    //! ### Laws
-    //! Instances of `Monad` must satisfy the following laws:
+    //!  Superclasses
+    //! ------------
+    //! `Functor` and `Applicative`
+    //!
+    //!
+    //! Laws
+    //! ----
+    //! Models of `Monad` must satisfy the following laws:
     //! @code
     //!     bind(lift<M>(x), f) == f(x)
     //!     bind(m, lift<M>) == m
     //!     bind(m, [](auto x){ return bind(f(x), g); }) == bind(bind(m, f), g)
     //! @endcode
-    struct Monad {
-        BOOST_HANA_TYPECLASS(Monad);
-        template <typename M>
-        struct bind_mcd;
-
-        template <typename M>
-        struct flatten_mcd;
-
-        template <typename M>
-        struct list_mcd;
-    };
+    //!
+    //!
+    //! Minimal complete definitions
+    //! ----------------------------
+    //! 1. `bind`
+    //! @todo
+    //!
+    //! 2. `flatten`
+    //! @todo
+    struct Monad { };
 
     //! Apply a function returning a monad to the value(s) inside a monad.
     //! @relates Monad
@@ -62,12 +65,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(bind_impl);
+
     struct _bind {
         template <typename M, typename F>
         constexpr decltype(auto) operator()(M&& m, F&& f) const {
-            return Monad::instance<
-                datatype_t<M>
-            >::bind_impl(
+            return dispatch<bind_impl<typename datatype<M>::type>>::apply(
                 detail::std::forward<M>(m),
                 detail::std::forward<F>(f)
             );
@@ -101,12 +104,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(then_impl);
+
     struct _then {
         template <typename Before, typename M>
         constexpr decltype(auto) operator()(Before&& before, M&& m) const {
-            return Monad::instance<
-                datatype_t<Before>
-            >::then_impl(
+            return dispatch<then_impl<typename datatype<Before>::type>>::apply(
                 detail::std::forward<Before>(before),
                 detail::std::forward<M>(m)
             );
@@ -129,12 +132,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(flatten_impl);
+
     struct _flatten {
         template <typename M>
         constexpr decltype(auto) operator()(M&& m) const {
-            return Monad::instance<
-                datatype_t<M>
-            >::flatten_impl(
+            return dispatch<flatten_impl<typename datatype<M>::type>>::apply(
                 detail::std::forward<M>(m)
             );
         }
@@ -171,11 +174,13 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(tap_impl);
+
     template <typename M>
     struct _tap {
         template <typename F>
         constexpr decltype(auto) operator()(F&& f) const {
-            return Monad::instance<M>::tap_impl(
+            return dispatch<tap_impl<M>>::apply(
                 detail::std::forward<decltype(f)>(f)
             );
         }

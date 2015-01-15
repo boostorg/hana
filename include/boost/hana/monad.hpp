@@ -13,7 +13,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/monad.hpp>
 
 #include <boost/hana/applicative.hpp>
+#include <boost/hana/bool.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/is_a.hpp>
+#include <boost/hana/core/method.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
@@ -41,40 +44,42 @@ namespace boost { namespace hana {
         }
     }
 
-    namespace monad_detail {
-        template <typename M>
-        struct common {
-            template <typename M1, typename M2>
-            static constexpr decltype(auto) then_impl(M1&& m1, M2&& m2) {
-                return bind(
-                    detail::std::forward<M1>(m1),
-                    always(detail::std::forward<M2>(m2))
-                );
-            }
+    template <typename M, typename _>
+    struct then_impl<M, when<is_implemented<bind_impl<M>, _>>, _> {
+        template <typename M1, typename M2>
+        static constexpr decltype(auto) apply(M1&& m1, M2&& m2) {
+            return bind(
+                detail::std::forward<M1>(m1),
+                always(detail::std::forward<M2>(m2))
+            );
+        }
+    };
 
-            template <typename F>
-            static constexpr auto tap_impl(F&& f) {
-                return [f(detail::std::forward<F>(f))](auto&& x) -> decltype(auto) {
-                    f(x);
-                    return lift<M>(detail::std::forward<decltype(x)>(x));
-                };
-            }
-        };
-    }
+    template <typename M, typename _>
+    struct tap_impl<M, when<is_implemented<lift_impl<M>, _>>, _> {
+        template <typename F>
+        static constexpr auto apply(F&& f) {
+            return [f(detail::std::forward<F>(f))](auto&& x) -> decltype(auto) {
+                f(x);
+                return lift<M>(detail::std::forward<decltype(x)>(x));
+            };
+        }
+    };
 
-    //! Minimal complete definition: `bind`
-    template <typename M>
-    struct Monad::bind_mcd : monad_detail::common<M> {
+    template <typename M, typename _>
+    struct flatten_impl<M, when<is_implemented<bind_impl<M>, _>>, _> {
         template <typename MM>
-        static constexpr decltype(auto) flatten_impl(MM&& monad)
+        static constexpr decltype(auto) apply(MM&& monad)
         { return bind(detail::std::forward<MM>(monad), id); }
     };
 
-    //! Minimal complete definition: `flatten`
-    template <typename M>
-    struct Monad::flatten_mcd : monad_detail::common<M> {
+    template <typename M, typename _>
+    struct bind_impl<M, when<
+        is_implemented<flatten_impl<M>, _> &&
+        is_implemented<fmap_impl<M>, _>
+    >, _> {
         template <typename Mon, typename F>
-        static constexpr decltype(auto) bind_impl(Mon&& monad, F&& f) {
+        static constexpr decltype(auto) apply(Mon&& monad, F&& f) {
             return flatten(
                 fmap(
                     detail::std::forward<Mon>(monad),
@@ -83,6 +88,12 @@ namespace boost { namespace hana {
             );
         }
     };
+
+    template <typename M>
+    constexpr auto is_a<Monad, M> = bool_<
+        is_an<Applicative, M>() &&
+        is_implemented<flatten_impl<M>>
+    >;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_MONAD_HPP

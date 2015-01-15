@@ -89,9 +89,9 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Monad::instance<SearchableSet> : Monad::flatten_mcd<SearchableSet> {
+    struct flatten_impl<SearchableSet> {
         template <typename Set>
-        static constexpr auto flatten_impl(Set set) {
+        static constexpr auto apply(Set set) {
             return searchable_set([=](auto p) {
                 return set.find([=](auto set) {
                     return any(set, p);

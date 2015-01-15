@@ -97,23 +97,17 @@ namespace boost { namespace hana {
     // If neither is defined, the MCD used is unspecified.
 #ifdef BOOST_HANA_TEST_MONAD_FLATTEN_MCD
     template <>
-    struct Monad::instance<test::Identity>
-        : Monad::flatten_mcd<test::Identity>
-    {
+    struct flatten_impl<test::Identity> {
         template <typename Id>
-        static constexpr auto flatten_impl(Id self) {
-            return self.value;
-        }
+        static constexpr auto apply(Id self)
+        { return self.value; }
     };
 #else
     template <>
-    struct Monad::instance<test::Identity>
-        : Monad::bind_mcd<test::Identity>
-    {
+    struct bind_impl<test::Identity> {
         template <typename X, typename F>
-        static constexpr auto bind_impl(X x, F f) {
-            return f(x.value);
-        }
+        static constexpr auto apply(X x, F f)
+        { return f(x.value); }
     };
 #endif
 }} // end namespace boost::hana

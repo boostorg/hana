@@ -91,9 +91,9 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/lazy/monad.cpp main
     template <>
-    struct Monad::instance<Lazy> : Monad::flatten_mcd<Lazy> {
+    struct flatten_impl<Lazy> {
         template <typename LLX>
-        static constexpr decltype(auto) flatten_impl(LLX&& llx) {
+        static constexpr decltype(auto) apply(LLX&& llx) {
             return lazy(compose(eval, eval))(detail::std::forward<LLX>(llx));
         }
     };

@@ -118,9 +118,9 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Monad::instance<Tree> : Monad::flatten_mcd<Tree> {
+    struct flatten_impl<Tree> {
         template <typename N>
-        static constexpr decltype(auto) flatten_impl(N&& n) {
+        static constexpr decltype(auto) apply(N&& n) {
             return node(
                 std::forward<N>(n).value.value,
                 concat(
