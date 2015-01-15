@@ -493,10 +493,14 @@ namespace boost { namespace hana {
         }
     };
 
+    //! `Traversable` instance for `List` instances.
+    //!
+    //! ### Example
+    //! @snippet example/list/traversable.cpp main
     template <typename T>
-    struct Traversable::list_mcd : Traversable::traverse_mcd {
+    struct traverse_impl<T, when<is_a<List, T>()>> {
         template <typename A, typename Xs, typename F>
-        static constexpr decltype(auto) traverse_impl(Xs&& xs, F&& f) {
+        static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
             return foldr(detail::std::forward<Xs>(xs), lift<A>(nil<T>()),
             [f(detail::std::forward<F>(f))](auto&& x, auto&& ys) -> decltype(auto) {
                 return ap(
@@ -509,15 +513,6 @@ namespace boost { namespace hana {
             });
         }
     };
-
-    //! `Traversable` instance for `List` instances.
-    //!
-    //! ### Example
-    //! @snippet example/list/traversable.cpp main
-    template <typename T>
-    struct Traversable::instance<T, when<is_a<List, T>()>>
-        : Traversable::list_mcd<T>
-    { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_LIST_HPP

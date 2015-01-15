@@ -136,9 +136,9 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/maybe/traversable.cpp main
     template <>
-    struct Traversable::instance<Maybe> : Traversable::traverse_mcd {
+    struct traverse_impl<Maybe> {
         template <typename A, typename Mx, typename F>
-        static constexpr decltype(auto) traverse_impl(Mx&& mx, F&& f) {
+        static constexpr decltype(auto) apply(Mx&& mx, F&& f) {
             return maybe(
                 lift<A>(nothing),
                 [&f](auto&& x) -> decltype(auto) {

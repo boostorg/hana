@@ -132,9 +132,9 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Traversable::instance<Tree> : Traversable::traverse_mcd {
+    struct traverse_impl<Tree> {
         template <typename A, typename N, typename F>
-        static constexpr decltype(auto) traverse_impl(N&& n, F&& f) {
+        static constexpr decltype(auto) apply(N&& n, F&& f) {
             return ap(
                 fmap(f(std::forward<N>(n).value), curry<2>(node)),
                 traverse<A>(
