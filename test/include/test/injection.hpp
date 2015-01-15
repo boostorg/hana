@@ -117,11 +117,9 @@ namespace boost { namespace hana {
 
     // Orderable
     template <>
-    struct Orderable::instance<test::Injection, test::Injection>
-        : Orderable::less_mcd
-    {
+    struct less_impl<test::Injection, test::Injection> {
         template <typename X, typename Y, typename Token>
-        static constexpr auto less_impl(
+        static constexpr auto apply(
             test::injection_detail::injection_impl<1, X, Token> x,
             test::injection_detail::injection_impl<1, Y, Token> y
         ) {

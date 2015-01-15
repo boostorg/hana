@@ -12,11 +12,15 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/orderable.hpp>
 
+#include <boost/hana/bool.hpp>
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/is_a.hpp>
+#include <boost/hana/core/method.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/dispatch_common.hpp>
 #include <boost/hana/detail/std/declval.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
@@ -78,43 +82,55 @@ namespace boost { namespace hana {
         }
     }
 
-    //! Minimal complete definition: `less`
-    struct Orderable::less_mcd {
+    template <typename T, typename U, typename _>
+    struct less_equal_impl<T, U, when<is_implemented<less_impl<T, U>, _>>, _> {
         template <typename X, typename Y>
-        static constexpr decltype(auto) less_equal_impl(X&& x, Y&& y) {
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
             return not_(less(
                 detail::std::forward<Y>(y),
                 detail::std::forward<X>(x)
             ));
         }
+    };
 
+    template <typename T, typename U, typename _>
+    struct greater_impl<T, U, when<is_implemented<less_impl<T, U>, _>>, _> {
         template <typename X, typename Y>
-        static constexpr decltype(auto) greater_impl(X&& x, Y&& y) {
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
             return less(
                 detail::std::forward<Y>(y),
                 detail::std::forward<X>(x)
             );
         }
+    };
 
+    template <typename T, typename U, typename _>
+    struct greater_equal_impl<T, U, when<is_implemented<less_impl<T, U>, _>>, _> {
         template <typename X, typename Y>
-        static constexpr decltype(auto) greater_equal_impl(X x, Y y) {
+        static constexpr decltype(auto) apply(X x, Y y) {
             return not_(less(
                 detail::std::forward<X>(x),
                 detail::std::forward<Y>(y)
             ));
         }
+    };
 
+    template <typename T, typename U, typename _>
+    struct min_impl<T, U, when<is_implemented<less_impl<T, U>, _>>, _> {
         template <typename X, typename Y>
-        static constexpr decltype(auto) min_impl(X&& x, Y&& y) {
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
             decltype(auto) cond = less(x, y);
             return if_(detail::std::forward<decltype(cond)>(cond),
                 detail::std::forward<X>(x),
                 detail::std::forward<Y>(y)
             );
         }
+    };
 
+    template <typename T, typename U, typename _>
+    struct max_impl<T, U, when<is_implemented<less_impl<T, U>, _>>, _> {
         template <typename X, typename Y>
-        static constexpr decltype(auto) max_impl(X&& x, Y&& y) {
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
             decltype(auto) cond = less(x, y);
             return if_(detail::std::forward<decltype(cond)>(cond),
                 detail::std::forward<Y>(y),
@@ -123,35 +139,22 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename T, typename U>
-    struct Orderable::default_instance
-        : Orderable::instance<common_t<T, U>, common_t<T, U>>
-    {
-        template <typename X, typename Y>
-        static constexpr decltype(auto) less_impl(X&& x, Y&& y) {
-            using C = common_t<T, U>;
-            return less(
-                to<C>(detail::std::forward<X>(x)),
-                to<C>(detail::std::forward<Y>(y))
-            );
-        }
-    };
+    BOOST_HANA_DISPATCH_COMMON(less, less_impl, Orderable);
 
-    //! Instance of `Orderable` for foreign but `LessThanComparable` objects.
-    //!
-    //! Any two foreign objects whose types can be compared using `operator<`
-    //! are automatically instances of `Orderable` by using that comparison.
-    template <typename T, typename U>
-    struct Orderable::instance<T, U, when_valid<
-        decltype(detail::std::declval<T>() < detail::std::declval<U>())
-    >>
-        : Orderable::less_mcd
-    {
+    template <typename T>
+    struct less_impl<T, T, when_valid<
+        decltype(detail::std::declval<T>() < detail::std::declval<T>())
+    >> {
         template <typename X, typename Y>
-        static constexpr decltype(auto) less_impl(X&& x, Y&& y) {
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
             return detail::std::forward<X>(x) < detail::std::forward<Y>(y);
         }
     };
+
+    template <typename Ord>
+    constexpr auto is_a<Orderable, Ord> = bool_<
+        is_implemented<less_impl<Ord, Ord>>
+    >;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_ORDERABLE_HPP

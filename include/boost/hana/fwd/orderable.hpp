@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_ORDERABLE_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/typeclass.hpp>
+#include <boost/hana/core/method.hpp>
 #include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
@@ -21,31 +21,33 @@ namespace boost { namespace hana {
     //! The `Orderable` type class is used for data types defining a
     //! [strict weak ordering](http://en.wikipedia.org/wiki/Strict_weak_ordering).
     //!
-    //! @anchor strict_weak_ordering
-    //! ### Laws
-    //! `less` must define a strict weak ordering. Formally, let
     //!
+    //! @anchor strict_weak_ordering
+    //! Laws
+    //! ----
+    //! `less` must define a strict weak ordering. Formally, let
     //! @code
     //!     x ~ y if and only if !(x < y) && !(y < x)
     //! @endcode
     //!
     //! be the incomparability relation. Then, for all `a`, `b`, `c` of an
     //! orderable data type,
-    //!
     //! @code
     //!     !(a < a)                     // Irreflexivity
     //!     if a < b then !(b < a)       // Asymmetry
     //!     if a < b && b < c then a < c // Transitivity
     //!     if a ~ b && b ~ c then a ~ c // Transitivity of incomparability
     //! @endcode
-    struct Orderable {
-        BOOST_HANA_BINARY_TYPECLASS(Orderable);
-        struct less_mcd;
-        template <typename I1, typename I2>
-        struct integral_constant_mcd;
-        template <typename T, typename U>
-        struct default_instance;
-    };
+    //!
+    //!
+    //! Minimal complete definition
+    //! ---------------------------
+    //! 1. `less`
+    //! @todo
+    //!
+    //! 2. `LessThanComparable`
+    //! `LessThanComparable` data types are `Orderable` using `operator<`.
+    struct Orderable { };
 
     //! Returns a `Logical` representing whether `x` is less than `y`.
     //! @relates Orderable
@@ -57,12 +59,14 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_BINARY_METHOD(less_impl);
+
     struct _less {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
-            return Orderable::instance<
-                datatype_t<X>, datatype_t<Y>
-            >::less_impl(
+            return dispatch<less_impl<
+                typename datatype<X>::type, typename datatype<Y>::type
+            >>::apply(
                 detail::std::forward<X>(x),
                 detail::std::forward<Y>(y)
             );
@@ -83,12 +87,14 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_BINARY_METHOD(less_equal_impl);
+
     struct _less_equal {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
-            return Orderable::instance<
-                datatype_t<X>, datatype_t<Y>
-            >::less_equal_impl(
+            return dispatch<less_equal_impl<
+                typename datatype<X>::type, typename datatype<Y>::type
+            >>::apply(
                 detail::std::forward<X>(x),
                 detail::std::forward<Y>(y)
             );
@@ -108,12 +114,14 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_BINARY_METHOD(greater_impl);
+
     struct _greater {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
-            return Orderable::instance<
-                datatype_t<X>, datatype_t<Y>
-            >::greater_impl(
+            return dispatch<greater_impl<
+                typename datatype<X>::type, typename datatype<Y>::type
+            >>::apply(
                 detail::std::forward<X>(x),
                 detail::std::forward<Y>(y)
             );
@@ -134,12 +142,14 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_BINARY_METHOD(greater_equal_impl);
+
     struct _greater_equal {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
-            return Orderable::instance<
-                datatype_t<X>, datatype_t<Y>
-            >::greater_equal_impl(
+            return dispatch<greater_equal_impl<
+                typename datatype<X>::type, typename datatype<Y>::type
+            >>::apply(
                 detail::std::forward<X>(x),
                 detail::std::forward<Y>(y)
             );
@@ -159,12 +169,14 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_BINARY_METHOD(min_impl);
+
     struct _min {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
-            return Orderable::instance<
-                datatype_t<X>, datatype_t<Y>
-            >::min_impl(
+            return dispatch<min_impl<
+                typename datatype<X>::type, typename datatype<Y>::type
+            >>::apply(
                 detail::std::forward<X>(x),
                 detail::std::forward<Y>(y)
             );
@@ -184,12 +196,14 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_BINARY_METHOD(max_impl);
+
     struct _max {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
-            return Orderable::instance<
-                datatype_t<X>, datatype_t<Y>
-            >::max_impl(
+            return dispatch<max_impl<
+                typename datatype<X>::type, typename datatype<Y>::type
+            >>::apply(
                 detail::std::forward<X>(x),
                 detail::std::forward<Y>(y)
             );

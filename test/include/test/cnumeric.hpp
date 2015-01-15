@@ -117,11 +117,9 @@ namespace boost { namespace hana {
     };
 
     template <typename T, typename U>
-    struct Orderable::instance<test::CNumeric<T>, test::CNumeric<U>>
-        : Orderable::less_mcd
-    {
+    struct less_impl<test::CNumeric<T>, test::CNumeric<U>> {
         template <typename X, typename Y>
-        static constexpr auto less_impl(X x, Y y) {
+        static constexpr auto apply(X x, Y y) {
             return test::cnumeric<bool, (X::value < Y::value)>;
         }
     };

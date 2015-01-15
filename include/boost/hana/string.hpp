@@ -127,7 +127,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/string/orderable.cpp main
     template <>
-    struct Orderable::instance<String, String> : Orderable::less_mcd {
+    struct less_impl<String, String> {
         static constexpr bool less_helper(char const* s1, char const* s2) {
             while (*s1 != '\0' && *s2 != '\0' && *s1 == *s2)
                 ++s1, ++s2;
@@ -138,7 +138,7 @@ namespace boost { namespace hana {
 
         template <char ...s1, char ...s2>
         static constexpr auto
-        less_impl(_string<s1...> const&, _string<s2...> const&) {
+        apply(_string<s1...> const&, _string<s2...> const&) {
             constexpr char const c_str1[] = {s1..., '\0'};
             constexpr char const c_str2[] = {s2..., '\0'};
             return bool_<less_helper(c_str1, c_str2)>;

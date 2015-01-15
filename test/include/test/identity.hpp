@@ -40,11 +40,9 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Orderable::instance<test::Identity, test::Identity>
-        : Orderable::less_mcd
-    {
+    struct less_impl<test::Identity, test::Identity> {
         template <typename Id1, typename Id2>
-        static constexpr auto less_impl(Id1 x, Id2 y) {
+        static constexpr auto apply(Id1 x, Id2 y) {
             return less(x.value, y.value);
         }
     };
