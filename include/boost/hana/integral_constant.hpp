@@ -71,18 +71,6 @@ namespace boost { namespace hana {
         using type = C1<typename detail::std::common_type<T, U>::type>;
     };
 
-    template <template <typename ...> class C1, typename T,
-              template <typename ...> class C2, typename U>
-    struct equal_impl<C1<T>, C2<U>, when<
-        is_an<IntegralConstant, C1<T>>() && is_an<IntegralConstant, C2<U>>()
-    >> {
-        template <typename X, typename Y>
-        static constexpr decltype(auto) apply(X x, Y y) {
-            constexpr auto eq = value(x) == value(y);
-            return integral_constant<C1<decltype(eq)>, eq>();
-        }
-    };
-
     template <template <typename ...> class C, typename T>
     struct pred_impl<C<T>, when<is_an<IntegralConstant, C<T>>()>> {
         static constexpr auto dec(bool x) { return static_cast<int>(x)-1; }
@@ -110,41 +98,27 @@ namespace boost { namespace hana {
         }
     };
 
-    template <template <typename ...> class C1, typename T,
-              template <typename ...> class C2, typename U>
-    struct minus_impl<C1<T>, C2<U>, when<
-        is_an<IntegralConstant, C1<T>>() && is_an<IntegralConstant, C2<U>>()
-    >> {
-        template <typename X, typename Y>
-        static constexpr auto apply(X x, Y y) {
-            constexpr auto sub = value(x) - value(y);
-            return integral_constant<C1<decltype(sub)>, sub>();
-        }
-    };
-
-    template <template <typename ...> class C1, typename T,
-              template <typename ...> class C2, typename U>
-    struct quot_impl<C1<T>, C2<U>, when<
-        is_an<IntegralConstant, C1<T>>() && is_an<IntegralConstant, C2<U>>()
-    >> {
-        template <typename X, typename Y>
-        static constexpr auto apply(X x, Y y) {
-            constexpr auto quotient = value(x) / value(y);
-            return integral_constant<C1<decltype(quotient)>, quotient>();
-        }
-    };
-
-    template <template <typename ...> class C1, typename T,
-              template <typename ...> class C2, typename U>
-    struct mod_impl<C1<T>, C2<U>, when<
-        is_an<IntegralConstant, C1<T>>() && is_an<IntegralConstant, C2<U>>()
-    >> {
-        template <typename X, typename Y>
-        static constexpr auto apply(X x, Y y) {
-            constexpr auto modulus = value(x) % value(y);
-            return integral_constant<C1<decltype(modulus)>, modulus>();
-        }
-    };
+#define BOOST_HANA_INTEGRAL_CONSTANT_OP(METHOD_IMPL, OP)                    \
+    template <template <typename ...> class C1, typename T,                 \
+              template <typename ...> class C2, typename U>                 \
+    struct METHOD_IMPL<C1<T>, C2<U>, when<                                  \
+        is_an<IntegralConstant, C1<T>>() && is_an<IntegralConstant, C2<U>>()\
+    >> {                                                                    \
+        template <typename X, typename Y>                                   \
+        static constexpr auto apply(X x, Y y) {                             \
+            constexpr auto tmp = value(x) OP value(y);                      \
+            return integral_constant<C1<decltype(tmp)>, tmp>();             \
+        }                                                                   \
+    }                                                                       \
+/**/
+    BOOST_HANA_INTEGRAL_CONSTANT_OP(minus_impl, -);
+    BOOST_HANA_INTEGRAL_CONSTANT_OP(quot_impl, /);
+    BOOST_HANA_INTEGRAL_CONSTANT_OP(mod_impl, %);
+    BOOST_HANA_INTEGRAL_CONSTANT_OP(equal_impl, ==);
+    BOOST_HANA_INTEGRAL_CONSTANT_OP(less_impl, <);
+    BOOST_HANA_INTEGRAL_CONSTANT_OP(plus_impl, +);
+    BOOST_HANA_INTEGRAL_CONSTANT_OP(mult_impl, *);
+#undef BOOST_HANA_INTEGRAL_CONSTANT_OP
 
     template <template <typename ...> class C, typename T>
     struct eval_if_impl<C<T>, when<is_an<IntegralConstant, C<T>>()>> {
@@ -201,47 +175,10 @@ namespace boost { namespace hana {
         }
     };
 
-    template <template <typename ...> class C1, typename T,
-              template <typename ...> class C2, typename U>
-    struct plus_impl<C1<T>, C2<U>, when<
-        is_an<IntegralConstant, C1<T>>() && is_an<IntegralConstant, C2<U>>()
-    >> {
-        template <typename X, typename Y>
-        static constexpr auto apply(X x, Y y) {
-            constexpr auto sum = value(x) + value(y);
-            return integral_constant<C1<decltype(sum)>, sum>();
-        }
-    };
-
     template <template <typename ...> class C, typename T>
     struct zero_impl<C<T>, when<is_an<IntegralConstant, C<T>>()>> {
         static constexpr auto apply()
         { return integral_constant<C<T>, 0>(); }
-    };
-
-    template <template <typename ...> class C1, typename T,
-              template <typename ...> class C2, typename U>
-    struct less_impl<C1<T>, C2<U>, when<
-        is_an<IntegralConstant, C1<T>>() &&
-        is_an<IntegralConstant, C2<U>>()
-    >> {
-        template <typename X, typename Y>
-        static constexpr auto apply(X x, Y y) {
-            constexpr auto ord = value(x) < value(y);
-            return integral_constant<C1<decltype(ord)>, ord>();
-        }
-    };
-
-    template <template <typename ...> class C1, typename T,
-              template <typename ...> class C2, typename U>
-    struct mult_impl<C1<T>, C2<U>, when<
-        is_an<IntegralConstant, C1<T>>() && is_an<IntegralConstant, C2<U>>()
-    >> {
-        template <typename X, typename Y>
-        static constexpr auto apply(X x, Y y) {
-            constexpr auto prod = value(x) * value(y);
-            return integral_constant<C1<decltype(prod)>, prod>();
-        }
     };
 
     template <template <typename ...> class C, typename T>
