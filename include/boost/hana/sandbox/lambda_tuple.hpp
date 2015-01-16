@@ -123,43 +123,55 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/list/iterable.cpp main
     template <>
-    struct Iterable::instance<sandbox::LambdaTuple> : Iterable::mcd {
+    struct head_impl<sandbox::LambdaTuple> {
         template <typename Xs>
-        static constexpr decltype(auto) head_impl(Xs&& xs) {
+        static constexpr decltype(auto) apply(Xs&& xs) {
             return detail::std::forward<Xs>(xs).storage(
                 [](auto&& x, auto&& ...rest) -> decltype(auto) {
                     return id(detail::std::forward<decltype(x)>(x));
                 }
             );
         }
+    };
 
+    template <>
+    struct tail_impl<sandbox::LambdaTuple> {
         template <typename Xs>
-        static constexpr decltype(auto) tail_impl(Xs&& xs) {
+        static constexpr decltype(auto) apply(Xs&& xs) {
             return detail::std::forward<Xs>(xs).storage(
                 [](auto&& x, auto&& ...rest) -> decltype(auto) {
                     return sandbox::lambda_tuple(detail::std::forward<decltype(rest)>(rest)...);
                 }
             );
         }
+    };
 
+    template <>
+    struct is_empty_impl<sandbox::LambdaTuple> {
         template <typename Xs>
-        static constexpr decltype(auto) is_empty_impl(Xs&& xs) {
+        static constexpr decltype(auto) apply(Xs&& xs) {
             return detail::std::forward<Xs>(xs).storage(
                 [](auto const& ...xs) -> decltype(auto) {
                     return bool_<sizeof...(xs) == 0>;
                 }
             );
         }
+    };
 
+    template <>
+    struct at_impl<sandbox::LambdaTuple> {
         template <typename Index, typename Xs>
-        static constexpr decltype(auto) at_impl(Index n, Xs&& xs) {
+        static constexpr decltype(auto) apply(Index n, Xs&& xs) {
             return detail::std::forward<Xs>(xs).storage(
                 detail::variadic::at<value(n)>
             );
         }
+    };
 
+    template <>
+    struct drop_impl<sandbox::LambdaTuple> {
         template <typename Index, typename Xs>
-        static constexpr decltype(auto) drop_impl(Index n, Xs&& xs) {
+        static constexpr decltype(auto) apply(Index n, Xs&& xs) {
             auto m = min(n, length(xs));
             return detail::std::forward<Xs>(xs).storage(
                 detail::variadic::drop_into<value(m)>(sandbox::lambda_tuple)

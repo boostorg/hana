@@ -98,21 +98,30 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/string/iterable.cpp main
     template <>
-    struct Iterable::instance<String> : Iterable::mcd {
+    struct head_impl<String> {
         template <char x, char ...xs>
-        static constexpr auto head_impl(_string<x, xs...> const&)
+        static constexpr auto apply(_string<x, xs...> const&)
         { return char_<x>; }
+    };
 
+    template <>
+    struct tail_impl<String> {
         template <char x, char ...xs>
-        static constexpr auto tail_impl(_string<x, xs...> const&)
+        static constexpr auto apply(_string<x, xs...> const&)
         { return string<xs...>; }
+    };
 
+    template <>
+    struct is_empty_impl<String> {
         template <char ...s>
-        static constexpr auto is_empty_impl(_string<s...> const&)
+        static constexpr auto apply(_string<s...> const&)
         { return bool_<sizeof...(s) == 0>; }
+    };
 
+    template <>
+    struct at_impl<String> {
         template <typename I, char ...s>
-        static constexpr auto at_impl(I index, _string<s...> const&) {
+        static constexpr auto apply(I index, _string<s...> const&) {
             constexpr char characters[] = {s...};
             constexpr auto i = value(index);
             return char_<characters[i]>;

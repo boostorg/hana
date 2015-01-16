@@ -25,20 +25,26 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     template <>
-    struct Iterable::instance<ext::boost::Tuple> : Iterable::mcd {
+    struct head_impl<ext::boost::Tuple> {
         template <typename Xs>
-        static constexpr decltype(auto) head_impl(Xs&& tuple)
+        static constexpr decltype(auto) apply(Xs&& tuple)
         { return detail::std::forward<Xs>(tuple).get_head(); }
+    };
 
+    template <>
+    struct tail_impl<ext::boost::Tuple> {
         template <typename Xs>
-        static constexpr decltype(auto) tail_impl(Xs&& tuple)
+        static constexpr decltype(auto) apply(Xs&& tuple)
         { return detail::std::forward<Xs>(tuple).get_tail(); }
+    };
 
-        static constexpr auto is_empty_impl(::boost::tuples::null_type const&)
+    template <>
+    struct is_empty_impl<ext::boost::Tuple> {
+        static constexpr auto apply(::boost::tuples::null_type const&)
         { return true_; }
 
         template <typename H, typename T>
-        static constexpr auto is_empty_impl(::boost::tuples::cons<H, T> const&)
+        static constexpr auto apply(::boost::tuples::cons<H, T> const&)
         { return false_; }
     };
 

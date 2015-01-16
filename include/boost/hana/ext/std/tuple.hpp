@@ -51,12 +51,15 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Iterable::instance<ext::std::Tuple> : Iterable::mcd {
+    struct head_impl<ext::std::Tuple> {
         template <typename Xs>
-        static constexpr decltype(auto) head_impl(Xs&& xs) {
-            return ::std::get<0>(detail::std::forward<Xs>(xs));
-        }
+        static constexpr decltype(auto) apply(Xs&& xs)
+        { return ::std::get<0>(detail::std::forward<Xs>(xs)); }
+    };
 
+
+    template <>
+    struct tail_impl<ext::std::Tuple> {
         template <typename Xs, detail::std::size_t ...index>
         static constexpr decltype(auto)
         tail_helper(Xs&& xs, detail::std::index_sequence<index...>) {
@@ -66,7 +69,7 @@ namespace boost { namespace hana {
         }
 
         template <typename Xs>
-        static constexpr decltype(auto) tail_impl(Xs&& xs) {
+        static constexpr decltype(auto) apply(Xs&& xs) {
             using Raw = typename detail::std::remove_reference<Xs>::type;
             constexpr auto N = ::std::tuple_size<Raw>::value;
             return tail_helper(
@@ -74,13 +77,19 @@ namespace boost { namespace hana {
                 detail::std::make_index_sequence<N - 1>{}
             );
         }
+    };
 
+    template <>
+    struct is_empty_impl<ext::std::Tuple> {
         template <typename ...Xs>
-        static constexpr auto is_empty_impl(::std::tuple<Xs...> const&)
+        static constexpr auto apply(::std::tuple<Xs...> const&)
         { return bool_<sizeof...(Xs) == 0>; }
+    };
 
+    template <>
+    struct at_impl<ext::std::Tuple> {
         template <typename N, typename Xs>
-        static constexpr decltype(auto) at_impl(N n, Xs&& xs) {
+        static constexpr decltype(auto) apply(N n, Xs&& xs) {
             constexpr detail::std::size_t index = value(n);
             return ::std::get<index>(detail::std::forward<Xs>(xs));
         }

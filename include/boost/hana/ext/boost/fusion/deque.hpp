@@ -30,22 +30,26 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     template <>
-    struct Iterable::instance<ext::boost::fusion::Deque>
-        : Iterable::mcd
-    {
+    struct is_empty_impl<ext::boost::fusion::Deque> {
         template <typename Xs>
-        static constexpr auto is_empty_impl(Xs&& xs) {
+        static constexpr auto apply(Xs&& xs) {
             using R = decltype(::boost::fusion::empty(detail::std::forward<Xs>(xs)));
             return bool_<R::value>;
         }
+    };
 
+    template <>
+    struct head_impl<ext::boost::fusion::Deque> {
         template <typename Xs>
-        static constexpr decltype(auto) head_impl(Xs&& xs) {
+        static constexpr decltype(auto) apply(Xs&& xs) {
             return ::boost::fusion::front(detail::std::forward<Xs>(xs));
         }
+    };
 
+    template <>
+    struct tail_impl<ext::boost::fusion::Deque> {
         template <typename Xs>
-        static constexpr decltype(auto) tail_impl(Xs&& xs) {
+        static constexpr decltype(auto) apply(Xs&& xs) {
             return ::boost::fusion::as_deque(
                 ::boost::fusion::pop_front(detail::std::forward<Xs>(xs)));
         }

@@ -47,31 +47,35 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Iterable::instance<TypeList> : Iterable::mcd {
+    struct head_impl<TypeList> {
         template <typename Xs>
-        static constexpr auto head_impl(Xs)
-        { return head_impl(typename Xs::storage{}); }
+        static constexpr auto apply(Xs)
+        { return apply(typename Xs::storage{}); }
 
         template <typename X, typename ...Xs>
-        static constexpr auto head_impl(detail::repr::type_list<X, Xs...>)
+        static constexpr auto apply(detail::repr::type_list<X, Xs...>)
         { return type<X>; }
+    };
 
-
+    template <>
+    struct tail_impl<TypeList> {
         template <typename Xs>
-        static constexpr auto tail_impl(Xs)
-        { return tail_impl(typename Xs::storage{}); }
+        static constexpr auto apply(Xs)
+        { return apply(typename Xs::storage{}); }
 
         template <typename X, typename ...Xs>
-        static constexpr auto tail_impl(detail::repr::type_list<X, Xs...>)
+        static constexpr auto apply(detail::repr::type_list<X, Xs...>)
         { return type_list<Xs...>; }
+    };
 
-
+    template <>
+    struct is_empty_impl<TypeList> {
         template <typename Xs>
-        static constexpr auto is_empty_impl(Xs)
-        { return is_empty_impl(typename Xs::storage{}); }
+        static constexpr auto apply(Xs)
+        { return apply(typename Xs::storage{}); }
 
         template <typename ...Xs>
-        static constexpr auto is_empty_impl(detail::repr::type_list<Xs...>)
+        static constexpr auto apply(detail::repr::type_list<Xs...>)
         { return bool_<sizeof...(Xs) == 0>; }
     };
 

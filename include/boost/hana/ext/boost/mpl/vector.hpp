@@ -34,17 +34,23 @@ namespace boost { namespace hana {
     //! ### Example
     //! @include example/ext/boost/mpl/vector/iterable.cpp
     template <>
-    struct Iterable::instance<ext::boost::mpl::Vector> : Iterable::mcd {
+    struct head_impl<ext::boost::mpl::Vector> {
         template <typename xs>
-        static constexpr auto head_impl(xs)
+        static constexpr auto apply(xs)
         { return type<typename ::boost::mpl::front<xs>::type>; }
+    };
 
+    template <>
+    struct tail_impl<ext::boost::mpl::Vector> {
         template <typename xs>
-        static constexpr auto tail_impl(xs)
+        static constexpr auto apply(xs)
         { return typename ::boost::mpl::pop_front<xs>::type{}; }
+    };
 
+    template <>
+    struct is_empty_impl<ext::boost::mpl::Vector> {
         template <typename xs>
-        static constexpr auto is_empty_impl(xs)
+        static constexpr auto apply(xs)
         { return typename ::boost::mpl::empty<xs>::type{}; }
     };
 

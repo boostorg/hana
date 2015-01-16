@@ -28,11 +28,14 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     template <>
-    struct Iterable::instance<ext::std::Array> : Iterable::mcd {
+    struct head_impl<ext::std::Array> {
         template <typename Xs>
-        static constexpr decltype(auto) head_impl(Xs&& xs)
+        static constexpr decltype(auto) apply(Xs&& xs)
         { return detail::std::forward<Xs>(xs)[0]; }
+    };
 
+    template <>
+    struct tail_impl<ext::std::Array> {
         template <typename T, detail::std::size_t N, typename Xs, detail::std::size_t ...index>
         static constexpr auto tail_helper(Xs&& xs, detail::std::index_sequence<index...>) {
             return ::std::array<T, N - 1>{{
@@ -41,7 +44,7 @@ namespace boost { namespace hana {
         }
 
         template <typename Xs>
-        static constexpr decltype(auto) tail_impl(Xs&& xs) {
+        static constexpr decltype(auto) apply(Xs&& xs) {
             using RawArray = typename detail::std::remove_reference<Xs>::type;
             constexpr auto N = ::std::tuple_size<RawArray>::value;
             using T = typename RawArray::value_type;
@@ -50,9 +53,12 @@ namespace boost { namespace hana {
                 detail::std::make_index_sequence<N - 1>{}
             );
         }
+    };
 
+    template <>
+    struct is_empty_impl<ext::std::Array> {
         template <typename T, detail::std::size_t N>
-        static constexpr auto is_empty_impl(::std::array<T, N> const&)
+        static constexpr auto apply(::std::array<T, N> const&)
         { return bool_<N == 0>; }
     };
 

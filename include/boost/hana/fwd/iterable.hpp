@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_ITERABLE_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/typeclass.hpp>
+#include <boost/hana/core/method.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/integral.hpp>
@@ -26,7 +26,9 @@ namespace boost { namespace hana {
     //! @ingroup group-typeclasses
     //! `Iterable` represents data structures supporting external iteration.
     //!
-    //! ### Laws
+    //!
+    //! Laws
+    //! ----
     //! In a sense, `Foldable` represents data structures supporting internal
     //! iteration with the ability to accumulate a result. We request that
     //! instances of both `Iterable` and `Foldable` provide consistent
@@ -42,13 +44,16 @@ namespace boost { namespace hana {
     //! iterating through it should be equivalent to iterating through it
     //! in the first place.
     //!
+    //!
+    //! Minimal complete definition
+    //! ---------------------------
+    //! `head`, `tail` and `is_empty`
+    //!
+    //!
     //! @todo Either make it a requirement of Iterable to be convertible to a
     //! Tuple (since it's used in the laws), or require something strictly
     //! more general.
-    struct Iterable {
-        BOOST_HANA_TYPECLASS(Iterable);
-        struct mcd;
-    };
+    struct Iterable { };
 
     //! Return the first element of a non-empty iterable.
     //! @relates Iterable
@@ -60,12 +65,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(head_impl);
+
     struct _head {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-            return Iterable::instance<
-                datatype_t<Xs>
-            >::head_impl(
+            return dispatch<head_impl<typename datatype<Xs>::type>>::apply(
                 detail::std::forward<Xs>(xs)
             );
         }
@@ -88,12 +93,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(tail_impl);
+
     struct _tail {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-            return Iterable::instance<
-                datatype_t<Xs>
-            >::tail_impl(
+            return dispatch<tail_impl<typename datatype<Xs>::type>>::apply(
                 detail::std::forward<Xs>(xs)
             );
         }
@@ -116,12 +121,11 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(is_empty_impl);
     struct _is_empty {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-            return Iterable::instance<
-                datatype_t<Xs>
-            >::is_empty_impl(
+            return dispatch<is_empty_impl<typename datatype<Xs>::type>>::apply(
                 detail::std::forward<Xs>(xs)
             );
         }
@@ -155,12 +159,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(at_impl);
+
     struct _at {
         template <typename N, typename Xs>
         constexpr decltype(auto) operator()(N&& n, Xs&& xs) const {
-            return Iterable::instance<
-                datatype_t<Xs>
-            >::at_impl(
+            return dispatch<at_impl<typename datatype<Xs>::type>>::apply(
                 detail::std::forward<N>(n),
                 detail::std::forward<Xs>(xs)
             );
@@ -210,12 +214,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(last_impl);
+
     struct _last {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-            return Iterable::instance<
-                datatype_t<Xs>
-            >::last_impl(
+            return dispatch<last_impl<typename datatype<Xs>::type>>::apply(
                 detail::std::forward<Xs>(xs)
             );
         }
@@ -247,12 +251,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(drop_impl);
+
     struct _drop {
         template <typename N, typename Xs>
         constexpr decltype(auto) operator()(N&& n, Xs&& xs) const {
-            return Iterable::instance<
-                datatype_t<Xs>
-            >::drop_impl(
+            return dispatch<drop_impl<typename datatype<Xs>::type>>::apply(
                 detail::std::forward<N>(n),
                 detail::std::forward<Xs>(xs)
             );
@@ -317,12 +321,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(drop_while_impl);
+
     struct _drop_while {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
-            return Iterable::instance<
-                datatype_t<Xs>
-            >::drop_while_impl(
+            return dispatch<drop_while_impl<typename datatype<Xs>::type>>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred)
             );
@@ -369,12 +373,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(drop_until_impl);
+
     struct _drop_until {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
-            return Iterable::instance<
-                datatype_t<Xs>
-            >::drop_until_impl(
+            return dispatch<drop_until_impl<typename datatype<Xs>::type>>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred)
             );

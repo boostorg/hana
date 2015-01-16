@@ -157,34 +157,45 @@ namespace boost { namespace hana {
     //! Consider allowing the elements of the range to be any `Group`, since
     //! we don't use much more than that (except `Comparable` and `Orderable`).
     template <>
-    struct Iterable::instance<Range> : Iterable::mcd {
+    struct head_impl<Range> {
         template <typename R>
-        static constexpr auto head_impl(R r)
+        static constexpr auto apply(R r)
         { return r.from; }
+    };
 
-        //! @todo
-        //! We need a type class to express the concept of
-        //! incrementing and decrementing.
+    template <>
+    struct tail_impl<Range> {
         template <typename R>
-        static constexpr auto tail_impl(R r)
+        static constexpr auto apply(R r)
         { return range(succ(r.from), r.to); }
+    };
 
+    template <>
+    struct is_empty_impl<Range> {
         template <typename R>
-        static constexpr auto is_empty_impl(R r)
+        static constexpr auto apply(R r)
         { return equal(r.from, r.to); }
+    };
 
+    template <>
+    struct at_impl<Range> {
         template <typename N, typename R>
-        static constexpr auto at_impl(N n, R r)
+        static constexpr auto apply(N n, R r)
         { return plus(r.from, n); }
+    };
 
+    template <>
+    struct last_impl<Range> {
         template <typename R>
-        static constexpr auto last_impl(R r)
+        static constexpr auto apply(R r)
         { return pred(r.to); }
+    };
 
+    template <>
+    struct drop_impl<Range> {
         template <typename N, typename R>
-        static constexpr auto drop_impl(N n, R r) {
-            return range(min(r.to, plus(r.from, n)), r.to);
-        }
+        static constexpr auto apply(N n, R r)
+        { return range(min(r.to, plus(r.from, n)), r.to); }
     };
 }} // end namespace boost::hana
 

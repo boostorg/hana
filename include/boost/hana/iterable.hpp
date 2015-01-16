@@ -12,9 +12,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/iterable.hpp>
 
+#include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/is_a.hpp>
+#include <boost/hana/core/method.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/enumerable.hpp>
@@ -70,49 +72,77 @@ namespace boost { namespace hana {
         };
     }
 
-    //! Minimal complete definition: `head`, `tail` and `is_empty`
-    struct Iterable::mcd {
+    template <typename Xs, typename Context>
+    struct at_impl<Xs, when<
+        is_implemented<head_impl<Xs>, Context> &&
+        is_implemented<tail_impl<Xs>, Context>
+    >, Context> {
         template <typename Index, typename Iterable_>
-        static constexpr auto at_impl(Index n, Iterable_ iterable) {
+        static constexpr auto apply(Index n, Iterable_ iterable) {
             using I = datatype_t<Index>;
             return eval_if(equal(n, zero<I>()),
                 [=](auto _) { return _(head)(iterable); },
-                [=](auto _) { return at_impl(_(pred)(n), _(tail)(iterable)); }
+                [=](auto _) { return apply(_(pred)(n), _(tail)(iterable)); }
             );
         }
+    };
 
+    template <typename Xs, typename Context>
+    struct last_impl<Xs, when<
+        is_implemented<head_impl<Xs>, Context> &&
+        is_implemented<tail_impl<Xs>, Context> &&
+        is_implemented<is_empty_impl<Xs>, Context>
+    >, Context> {
         template <typename Iterable_>
-        static constexpr auto last_impl(Iterable_ iterable) {
+        static constexpr auto apply(Iterable_ iterable) {
             return eval_if(is_empty(tail(iterable)),
                 [=](auto _) { return _(head)(iterable); },
-                [=](auto _) { return last_impl(_(tail)(iterable)); }
+                [=](auto _) { return apply(_(tail)(iterable)); }
             );
         }
+    };
 
+    template <typename Xs, typename Context>
+    struct drop_impl<Xs, when<
+        is_implemented<tail_impl<Xs>, Context> &&
+        is_implemented<is_empty_impl<Xs>, Context>
+    >, Context> {
         template <typename N, typename Iterable_>
-        static constexpr auto drop_impl(N n, Iterable_ iterable) {
+        static constexpr auto apply(N n, Iterable_ iterable) {
             using I = datatype_t<N>;
             return eval_if(or_(equal(n, zero<I>()), is_empty(iterable)),
                 always(iterable),
-                [=](auto _) { return drop_impl(_(pred)(n), _(tail)(iterable)); }
+                [=](auto _) { return apply(_(pred)(n), _(tail)(iterable)); }
             );
         }
+    };
 
+    template <typename It, typename Context>
+    struct drop_while_impl<It, when<
+        is_implemented<head_impl<It>, Context> &&
+        is_implemented<tail_impl<It>, Context> &&
+        is_implemented<is_empty_impl<It>, Context>
+    >, Context> {
         template <typename Xs, typename Pred>
-        static constexpr auto drop_while_impl(Xs xs, Pred pred) {
+        static constexpr auto apply(Xs xs, Pred pred) {
             return eval_if(is_empty(xs),
                 always(xs),
                 [=](auto _) {
                     return eval_if(pred(_(head)(xs)),
-                        [=](auto _) { return drop_while_impl(_(tail)(xs), pred); },
+                        [=](auto _) { return apply(_(tail)(xs), pred); },
                         [=](auto) { return xs; }
                     );
                 }
             );
         }
+    };
 
+    template <typename It, typename Context>
+    struct drop_until_impl<It, when<
+        is_implemented<drop_while_impl<It>, Context>
+    >, Context> {
         template <typename Xs, typename Pred>
-        static constexpr decltype(auto) drop_until_impl(Xs&& xs, Pred&& pred) {
+        static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
             return drop_while(
                 detail::std::forward<Xs>(xs),
                 compose(not_, detail::std::forward<Pred>(pred))
@@ -234,6 +264,13 @@ namespace boost { namespace hana {
             );
         }
     };
+
+    template <typename It>
+    constexpr auto is_a<Iterable, It> = bool_<
+        is_implemented<head_impl<It>> &&
+        is_implemented<tail_impl<It>> &&
+        is_implemented<is_empty_impl<It>>
+    >;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_ITERABLE_HPP

@@ -27,21 +27,24 @@ namespace boost { namespace hana {
     //! is `integer_list<T, xs...>` and an integer list is empty if and only
     //! if it contains no integers at all.
     template <>
-    struct Iterable::instance<IntegerList> : Iterable::mcd {
+    struct head_impl<IntegerList> {
         template <typename T, T x, T ...xs>
-        static constexpr auto head_impl(ilist_detail::integer_list<T, x, xs...>) {
-            return integral<T, x>;
-        }
+        static constexpr auto apply(ilist_detail::integer_list<T, x, xs...>)
+        { return integral<T, x>; }
+    };
 
+    template <>
+    struct tail_impl<IntegerList> {
         template <typename T, T x, T ...xs>
-        static constexpr auto tail_impl(ilist_detail::integer_list<T, x, xs...>) {
-            return integer_list<T, xs...>;
-        }
+        static constexpr auto apply(ilist_detail::integer_list<T, x, xs...>)
+        { return integer_list<T, xs...>; }
+    };
 
+    template <>
+    struct is_empty_impl<IntegerList> {
         template <typename T, T ...xs>
-        static constexpr auto is_empty_impl(ilist_detail::integer_list<T, xs...>) {
-            return bool_<sizeof...(xs) == 0>;
-        }
+        static constexpr auto apply(ilist_detail::integer_list<T, xs...>)
+        { return bool_<sizeof...(xs) == 0>; }
     };
 
     //! Instance of `List` for `IntegerList`s.
