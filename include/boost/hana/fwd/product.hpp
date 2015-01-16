@@ -11,10 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_PRODUCT_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/is_a.hpp>
-#include <boost/hana/core/make.hpp>
-#include <boost/hana/core/typeclass.hpp>
-#include <boost/hana/core/when.hpp>
+#include <boost/hana/core/method.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -25,7 +22,9 @@ namespace boost { namespace hana {
     //! Specifically, the `Product` type class represents types that are
     //! [category theoretical products][Wikipedia.Product].
     //!
-    //! ### Laws
+    //!
+    //! Laws
+    //! ----
     //! For an instance `P` of `Product`, the following laws must be satisfied,
     //! which is equivalent to satisfying the universal property exposed in
     //! the article linked above. For every data types `X`, `P1`, `P2` and
@@ -42,50 +41,38 @@ namespace boost { namespace hana {
     //! property, all instances are isomorphic.
     //!
     //!
-    //! [Wikipedia.Product]: http://en.wikipedia.org/wiki/Product_(category_theory)
-    struct Product {
-        BOOST_HANA_TYPECLASS(Product);
-        struct mcd;
-    };
-
-    //! Creates a `Product` of the two given elements.
-    //! @relates Product
-    //!
-    //!
-    //! @tparam P
-    //! The data type (an instance of `Product`) of the product to create.
-    //!
-    //! @param fst
-    //! The first element of the resulting product.
-    //!
-    //! @param snd
-    //! The second element of the resulting product.
-    //!
+    //! Minimal complete definition
+    //! ---------------------------
+    //! 1. `first`, `second` and `make`
+    //! `first` and `second` must obviously return the first and the second
+    //! element of the pair, respectively. `make` must take two arguments `x`
+    //! and `y` representing the first and the second element of the pair,
+    //! and return a pair `p` such that `first(p) == x` and `second(p) == y`.
     //!
     //! ### Example
     //! @snippet example/product.cpp make
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    template <typename P>
-    constexpr auto make<P, when<is_a<Product, P>()>> = [](auto&& fst, auto&& snd) -> decltype(auto) {
-        return tag-dispatched;
-    };
-#else
-    namespace product_detail {
-        template <typename P>
-        struct make_product {
-            template <typename Fst, typename Snd>
-            constexpr decltype(auto) operator()(Fst&& fst, Snd&& snd) const {
-                return Product::instance<P>::make_impl(
-                    detail::std::forward<Fst>(fst),
-                    detail::std::forward<Snd>(snd)
-                );
-            }
-        };
-    }
-
-    template <typename P>
-    constexpr product_detail::make_product<P> make<P, when<is_a<Product, P>()>>{};
-#endif
+    //!
+    //!
+    //! Provided models
+    //! ---------------
+    //! 1. `Comparable`
+    //! Two products `x` and `y` are equal iff they are equal element-wise,
+    //! i.e. iff
+    //! @code
+    //!     first(x) == first(y) && second(x) == second(y)
+    //! @endcode
+    //!
+    //! ### Example
+    //! @snippet example/product.cpp comparable
+    //!
+    //!
+    //! 2. `Foldable`
+    //! Folding a `Product` `p` is equivalent to folding a list containing
+    //! `first(p)` and `second(p)`, in that order.
+    //!
+    //!
+    //! [Wikipedia.Product]: http://en.wikipedia.org/wiki/Product_(category_theory)
+    struct Product { };
 
     //! Return the first element of a product.
     //! @relates Product
@@ -97,12 +84,14 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(first_impl);
+
     struct _first {
         template <typename P>
         constexpr decltype(auto) operator()(P&& p) const {
-            return Product::instance<
-                datatype_t<P>
-            >::first_impl(detail::std::forward<P>(p));
+            return dispatch<first_impl<typename datatype<P>::type>>::apply(
+                detail::std::forward<P>(p)
+            );
         }
     };
 
@@ -119,12 +108,14 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(second_impl);
+
     struct _second {
         template <typename P>
         constexpr decltype(auto) operator()(P&& p) const {
-            return Product::instance<
-                datatype_t<P>
-            >::second_impl(detail::std::forward<P>(p));
+            return dispatch<second_impl<typename datatype<P>::type>>::apply(
+                detail::std::forward<P>(p)
+            );
         }
     };
 

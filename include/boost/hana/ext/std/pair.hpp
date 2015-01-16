@@ -13,8 +13,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/ext/std/pair.hpp>
 
 #include <boost/hana/detail/std/forward.hpp>
-
-// instances
 #include <boost/hana/product.hpp>
 
 #include <utility>
@@ -22,24 +20,28 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     template <>
-    struct Product::instance<ext::std::Pair> : Product::mcd {
+    struct make_impl<ext::std::Pair> {
         template <typename X, typename Y>
-        static decltype(auto) make_impl(X&& x, Y&& y) {
+        static decltype(auto) apply(X&& x, Y&& y) {
             return ::std::make_pair(
                 detail::std::forward<X>(x),
                 detail::std::forward<Y>(y)
             );
         }
+    };
 
+    template <>
+    struct first_impl<ext::std::Pair> {
         template <typename P>
-        static decltype(auto) first_impl(P&& p) {
-            return detail::std::forward<P>(p).first;
-        }
+        static decltype(auto) apply(P&& p)
+        { return detail::std::forward<P>(p).first; }
+    };
 
+    template <>
+    struct second_impl<ext::std::Pair> {
         template <typename P>
-        static decltype(auto) second_impl(P&& p) {
-            return detail::std::forward<P>(p).second;
-        }
+        static decltype(auto) apply(P&& p)
+        { return detail::std::forward<P>(p).second; }
     };
 }} // end namespace boost::hana
 

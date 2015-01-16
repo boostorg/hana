@@ -18,6 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/constant.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/is_a.hpp>
+#include <boost/hana/core/make.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integer_sequence.hpp>
@@ -48,6 +49,16 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
+    template <typename L>
+    struct make_impl<L, when<is_a<List, L>()>> {
+        template <typename ...Xs>
+        static constexpr decltype(auto) apply(Xs&& ...xs) {
+            return detail::variadic::foldr(cons, nil<L>(),
+                detail::std::forward<Xs>(xs)...
+            );
+        }
+    };
+
     //! Minimal complete definition:
     //! `Monad`, `Iterable`, `Foldable`, `cons`, and `nil`
     template <typename L>
@@ -131,13 +142,6 @@ namespace boost { namespace hana {
                         )
                     );
                 }
-            );
-        }
-
-        template <typename ...Xs>
-        static constexpr decltype(auto) make_impl(Xs&& ...xs) {
-            return detail::variadic::foldr(cons, nil<L>(),
-                detail::std::forward<Xs>(xs)...
             );
         }
 

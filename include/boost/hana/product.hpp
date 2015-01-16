@@ -12,7 +12,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/product.hpp>
 
+#include <boost/hana/bool.hpp>
 #include <boost/hana/core/is_a.hpp>
+#include <boost/hana/core/make.hpp>
+#include <boost/hana/core/method.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/logical.hpp>
@@ -23,19 +26,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! Minimal complete definition: `first`, `second` and `make`.
-    struct Product::mcd { };
-
-    //! Instance of `Comparable` for `Product`s.
-    //!
-    //! Two products `x` and `y` are equal iff they are equal element-wise,
-    //! i.e. iff
-    //! @code
-    //!     first(x) == first(y) && second(x) == second(y)
-    //! @endcode
-    //!
-    //! ### Example
-    //! @snippet example/product.cpp comparable
     template <typename T, typename U>
     struct equal_impl<T, U, when<is_a<Product, T>() && is_a<Product, U>()>> {
         template <typename X, typename Y>
@@ -47,10 +37,6 @@ namespace boost { namespace hana {
         }
     };
 
-    //! Minimal complete definition of `Foldable` for `Product`s.
-    //!
-    //! Folding a `Product` `p` is equivalent to folding a list containing
-    //! `first(p)` and `second(p)`, in that order.
     template <typename Prod>
     struct unpack_impl<Prod, when<is_a<Product, Prod>()>> {
         template <typename P, typename F>
@@ -61,6 +47,13 @@ namespace boost { namespace hana {
             );
         }
     };
+
+    template <typename P>
+    constexpr auto is_a<Product, P> = bool_<
+        is_implemented<first_impl<P>> &&
+        is_implemented<second_impl<P>> &&
+        is_implemented<make_impl<P>>
+    >;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_PRODUCT_HPP

@@ -54,7 +54,12 @@ namespace boost { namespace hana {
     //! Equivalent to `set`, provided for consistency.
     //! @relates Set
     template <>
-    constexpr auto make<Set> = set;
+    struct make_impl<Set> {
+        template <typename ...Xs>
+        static constexpr decltype(auto) apply(Xs&& ...xs) {
+            return set(detail::std::forward<Xs>(xs)...);
+        }
+    };
 
     //! Insert an element in a `Set`.
     //! @relates Set

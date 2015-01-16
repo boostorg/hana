@@ -11,11 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_LIST_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/is_a.hpp>
-#include <boost/hana/core/make.hpp>
 #include <boost/hana/core/typeclass.hpp>
-#include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/is_same.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
@@ -37,6 +33,26 @@ namespace boost { namespace hana {
     //! This is basically saying that all `List` instances are isomorphic to
     //! the instance defined by the `Tuple` data type, and it therefore makes
     //! sense to define comparison for any two instances of `List`.
+    //!
+    //!
+    //! `make` for `List`s
+    //! ------------------
+    //! Create a `List` with the given elements in it.
+    //!
+    //! @tparam L
+    //! The data type representing the `List` to create. This can be any
+    //! instance of the `List` type class.
+    //!
+    //! @param xs...
+    //! The elements to put in the constructed list. The elements will appear
+    //! in the resulting list in the same order as passed to `make`.
+    //!
+    //! ### Example
+    //! @snippet example/list.cpp make
+    //!
+    //! ### Benchmarks
+    //! @image html benchmark/list/make.ctime.png
+    //!
     //!
     //!
     //! @todo
@@ -300,46 +316,6 @@ namespace boost { namespace hana {
     };
 
     constexpr _intersperse intersperse{};
-#endif
-
-    namespace list_detail {
-        template <typename L>
-        struct make {
-            template <typename ...Xs>
-            constexpr decltype(auto) operator()(Xs&& ...xs) const {
-                return List::instance<L>::make_impl(
-                    detail::std::forward<Xs>(xs)...
-                );
-            }
-        };
-    }
-
-    //! Create a `List` with the given elements in it.
-    //! @relates List
-    //!
-    //!
-    //! @tparam L
-    //! The data type representing the `List` to create. This can be any
-    //! instance of the `List` type class.
-    //!
-    //! @param xs...
-    //! The elements to put in the constructed list. The elements will appear
-    //! in the resulting list in the same order as passed to `make`.
-    //!
-    //!
-    //! ### Example
-    //! @snippet example/list.cpp make
-    //!
-    //! ### Benchmarks
-    //! @image html benchmark/list/make.ctime.png
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    template <typename L>
-    constexpr auto make<L, when<is_a<List, L>()>> = [](auto&& ...xs) -> decltype(auto) {
-        return tag-dispatched;
-    };
-#else
-    template <typename L>
-    constexpr list_detail::make<L> make<L, when<is_a<List, L>()>>{};
 #endif
 
     //! `nil<L>()` is an empty list of data type `L`.

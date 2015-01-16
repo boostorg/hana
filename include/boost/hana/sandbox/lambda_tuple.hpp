@@ -179,6 +179,14 @@ namespace boost { namespace hana {
         }
     };
 
+    template <>
+    struct make_impl<sandbox::LambdaTuple> {
+        template <typename ...Xs>
+        static constexpr decltype(auto) apply(Xs&& ...xs) {
+            return sandbox::lambda_tuple(detail::std::forward<Xs>(xs)...);
+        }
+    };
+
     //! Instance of `List` for the `Tuple` data type.
     //!
     //! @todo
@@ -199,11 +207,6 @@ namespace boost { namespace hana {
                     );
                 }
             );
-        }
-
-        template <typename ...Xs>
-        static constexpr decltype(auto) make_impl(Xs&& ...xs) {
-            return sandbox::lambda_tuple(detail::std::forward<Xs>(xs)...);
         }
 
         template <typename Xs, typename Ys>
