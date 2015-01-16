@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_SEARCHABLE_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/typeclass.hpp>
+#include <boost/hana/core/method.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/functional/flip.hpp>
@@ -39,7 +39,8 @@ namespace boost { namespace hana {
     //! faster than `any` with an equivalent predicate.
     //!
     //!
-    //! ### Laws
+    //! Laws
+    //! ----
     //! For any `Searchable xs, ys` and predicate `p`, the following laws
     //! should be satisfied:
     //! @code
@@ -64,15 +65,21 @@ namespace boost { namespace hana {
     //! and they also provide a default implementation in terms of the `any`
     //! and `find` methods.
     //!
+    //!
+    //! Minimal complete definition
+    //! ---------------------------
+    //! 1. `find` and `any`
+    //! @note
+    //! We could implement `any(pred, xs)` as `is_just(find(pred, xs))`, and
+    //! then reduce the MCD to `find`. However, this is not done because that
+    //! implementation requires the predicate to be compile-time, which is
+    //! more restrictive than the original `any` in `Foldable`.
+    //!
+    //!
     //! @todo
-    //! We should provide a member `operator[]` equivalent to `lookup`.
-    struct Searchable {
-        BOOST_HANA_TYPECLASS(Searchable);
-        struct mcd;
-        template <typename R>
-        struct record_mcd;
-        struct iterable_mcd;
-    };
+    //! - We should provide a member `operator[]` equivalent to `lookup`.
+    //! - Use perfect forwarding in the MCD once Clang bug #20619 is fixed.
+    struct Searchable { };
 
     //! Return whether any key of the structure satisfies the `predicate`.
     //! @relates Searchable
@@ -99,12 +106,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(any_impl);
+
     struct _any {
         template <typename S, typename Pred>
         constexpr decltype(auto) operator()(S&& searchable, Pred&& pred) const {
-            return Searchable::instance<
-                datatype_t<S>
-            >::any_impl(
+            return dispatch<any_impl<typename datatype<S>::type>>::apply(
                 detail::std::forward<S>(searchable),
                 detail::std::forward<Pred>(pred)
             );
@@ -128,12 +135,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(any_of_impl);
+
     struct _any_of {
         template <typename S>
         constexpr decltype(auto) operator()(S&& searchable) const {
-            return Searchable::instance<
-                datatype_t<S>
-            >::any_of_impl(
+            return dispatch<any_of_impl<typename datatype<S>::type>>::apply(
                 detail::std::forward<S>(searchable)
             );
         }
@@ -168,12 +175,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(all_impl);
+
     struct _all {
         template <typename S, typename Pred>
         constexpr decltype(auto) operator()(S&& searchable, Pred&& pred) const {
-            return Searchable::instance<
-                datatype_t<S>
-            >::all_impl(
+            return dispatch<all_impl<typename datatype<S>::type>>::apply(
                 detail::std::forward<S>(searchable),
                 detail::std::forward<Pred>(pred)
             );
@@ -197,12 +204,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(all_of_impl);
+
     struct _all_of {
         template <typename S>
         constexpr decltype(auto) operator()(S&& searchable) const {
-            return Searchable::instance<
-                datatype_t<S>
-            >::all_of_impl(
+            return dispatch<all_of_impl<typename datatype<S>::type>>::apply(
                 detail::std::forward<S>(searchable)
             );
         }
@@ -238,12 +245,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(none_impl);
+
     struct _none {
         template <typename S, typename Pred>
         constexpr decltype(auto) operator()(S&& searchable, Pred&& pred) const {
-            return Searchable::instance<
-                datatype_t<S>
-            >::none_impl(
+            return dispatch<none_impl<typename datatype<S>::type>>::apply(
                 detail::std::forward<S>(searchable),
                 detail::std::forward<Pred>(pred)
             );
@@ -267,12 +274,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(none_of_impl);
+
     struct _none_of {
         template <typename S>
         constexpr decltype(auto) operator()(S&& searchable) const {
-            return Searchable::instance<
-                datatype_t<S>
-            >::none_of_impl(
+            return dispatch<none_of_impl<typename datatype<S>::type>>::apply(
                 detail::std::forward<S>(searchable)
             );
         }
@@ -308,12 +315,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(elem_impl);
+
     struct _elem {
         template <typename S, typename Key>
         constexpr decltype(auto) operator()(S&& searchable, Key&& key) const {
-            return Searchable::instance<
-                datatype_t<S>
-            >::elem_impl(
+            return dispatch<elem_impl<typename datatype<S>::type>>::apply(
                 detail::std::forward<S>(searchable),
                 detail::std::forward<Key>(key)
             );
@@ -352,12 +359,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(find_impl);
+
     struct _find {
         template <typename S, typename Pred>
         constexpr decltype(auto) operator()(S&& searchable, Pred&& pred) const {
-            return Searchable::instance<
-                datatype_t<S>
-            >::find_impl(
+            return dispatch<find_impl<typename datatype<S>::type>>::apply(
                 detail::std::forward<S>(searchable),
                 detail::std::forward<Pred>(pred)
             );
@@ -397,12 +404,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(lookup_impl);
+
     struct _lookup {
         template <typename S, typename Key>
         constexpr decltype(auto) operator()(S&& searchable, Key&& key) const {
-            return Searchable::instance<
-                datatype_t<S>
-            >::lookup_impl(
+            return dispatch<lookup_impl<typename datatype<S>::type>>::apply(
                 detail::std::forward<S>(searchable),
                 detail::std::forward<Key>(key)
             );
@@ -448,17 +455,20 @@ namespace boost { namespace hana {
     //!
     //! ### Benchmarks
     //! @image html benchmark/searchable/subset.ctime.png
+    //!
+    //! @todo
+    //! Make this a binary tag-dispatched method?
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto subset = [](auto&& xs, auto&& ys) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(subset_impl);
+
     struct _subset {
         template <typename Xs, typename Ys>
         constexpr decltype(auto) operator()(Xs&& xs, Ys&& ys) const {
-            return Searchable::instance<
-                datatype_t<Xs>
-            >::subset_impl(
+            return dispatch<subset_impl<typename datatype<Xs>::type>>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Ys>(ys)
             );

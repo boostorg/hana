@@ -144,18 +144,6 @@ namespace boost { namespace hana {
             return bool_<less_helper(c_str1, c_str2)>;
         }
     };
-
-    //! Instance of `Searchable` for `String`s.
-    //!
-    //! For the purpose of being searched, `String`s are basically equivalent
-    //! to a tuple of `IntegralConstant`s of underlying type `char`.
-    //!
-    //! ### Example
-    //! @snippet example/string/searchable.cpp main
-    template <>
-    struct Searchable::instance<String>
-        : Searchable::iterable_mcd
-    { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_STRING_HPP

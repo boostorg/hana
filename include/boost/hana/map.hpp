@@ -97,9 +97,9 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/map.cpp searchable
     template <>
-    struct Searchable::instance<Map> : Searchable::mcd {
+    struct find_impl<Map> {
         template <typename M, typename Pred>
-        static constexpr auto find_impl(M map, Pred pred) {
+        static constexpr auto apply(M map, Pred pred) {
             return fmap(
                 find(map.storage, [=](auto p) {
                     return pred(first(p));
@@ -107,9 +107,12 @@ namespace boost { namespace hana {
                 second
             );
         }
+    };
 
+    template <>
+    struct any_impl<Map> {
         template <typename M, typename Pred>
-        static constexpr auto any_impl(M map, Pred pred)
+        static constexpr auto apply(M map, Pred pred)
         { return any(keys(map), pred); }
     };
 }} // end namespace boost::hana

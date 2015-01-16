@@ -96,17 +96,20 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/set.cpp searchable
     template <>
-    struct Searchable::instance<Set> : Searchable::mcd {
+    struct find_impl<Set> {
         template <typename Set, typename Pred>
-        static constexpr decltype(auto) find_impl(Set&& set, Pred&& pred) {
+        static constexpr decltype(auto) apply(Set&& set, Pred&& pred) {
             return find(
                 detail::std::forward<Set>(set).storage,
                 detail::std::forward<Pred>(pred)
             );
         }
+    };
 
+    template <>
+    struct any_impl<Set> {
         template <typename Set, typename Pred>
-        static constexpr decltype(auto) any_impl(Set&& set, Pred&& pred) {
+        static constexpr decltype(auto) apply(Set&& set, Pred&& pred) {
             return any(
                 detail::std::forward<Set>(set).storage,
                 detail::std::forward<Pred>(pred)

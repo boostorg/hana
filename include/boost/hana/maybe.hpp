@@ -206,9 +206,9 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/maybe/searchable.cpp main
     template <>
-    struct Searchable::instance<Maybe> : Searchable::mcd {
+    struct find_impl<Maybe> {
         template <typename M, typename Pred>
-        static constexpr decltype(auto) find_impl(M&& m, Pred&& p) {
+        static constexpr decltype(auto) apply(M&& m, Pred&& p) {
             return maybe(nothing,
                 [&p](auto&& x) -> decltype(auto) {
                     return eval_if(detail::std::forward<Pred>(p)(x),
@@ -221,9 +221,12 @@ namespace boost { namespace hana {
                 detail::std::forward<M>(m)
             );
         }
+    };
 
+    template <>
+    struct any_impl<Maybe> {
         template <typename M, typename Pred>
-        static constexpr decltype(auto) any_impl(M&& m, Pred&& p) {
+        static constexpr decltype(auto) apply(M&& m, Pred&& p) {
             return maybe(false_,
                 detail::std::forward<Pred>(p),
                 detail::std::forward<M>(m)

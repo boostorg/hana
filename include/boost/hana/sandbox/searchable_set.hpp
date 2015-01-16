@@ -101,15 +101,18 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Searchable::instance<SearchableSet> : Searchable::mcd {
+    struct find_impl<SearchableSet> {
         template <typename Set, typename Pred>
-        static constexpr auto find_impl(Set set, Pred p) {
+        static constexpr auto apply(Set set, Pred p) {
             auto x = set.find(p);
             return if_(p(x), just(x), nothing);
         }
+    };
 
+    template <>
+    struct any_impl<SearchableSet> {
         template <typename Set, typename Pred>
-        static constexpr auto any_impl(Set set, Pred p) {
+        static constexpr auto apply(Set set, Pred p) {
             return p(set.find(p));
         }
     };

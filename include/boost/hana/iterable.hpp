@@ -197,36 +197,6 @@ namespace boost { namespace hana {
         : Foldable::iterable_mcd
     { };
 
-    //! Minimal complete definition: `Iterable`
-    //!
-    //! @todo
-    //! Use perfect forwarding once bug
-    //! http://llvm.org/bugs/show_bug.cgi?id=20619
-    //! is fixed.
-    struct Searchable::iterable_mcd : Searchable::mcd {
-        template <typename Xs, typename Pred>
-        static constexpr auto find_impl(Xs xs, Pred pred) {
-            auto e = drop_until(xs, pred);
-            return eval_if(is_empty(e),
-                always(nothing),
-                [=](auto _) { return just(_(head)(e)); }
-            );
-        }
-
-        template <typename Xs, typename Pred>
-        static constexpr auto any_impl(Xs xs, Pred pred) {
-            return eval_if(is_empty(xs),
-                always(false_),
-                [=](auto _) {
-                    return eval_if(pred(_(head)(xs)),
-                        always(true_),
-                        [=](auto _) { return any_impl(_(tail)(xs), pred); }
-                    );
-                }
-            );
-        }
-    };
-
     //! Instance of `Searchable` for `Iterable`s.
     //!
     //! An `Iterable` can be searched by doing a linear search in the elements,
@@ -234,10 +204,36 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/iterable.cpp find
+    //!
+    //! @todo
+    //! Use perfect forwarding once Clang bug #20619 is fixed.
     template <typename T>
-    struct Searchable::instance<T, when<is_an<Iterable, T>()>>
-        : Searchable::iterable_mcd
-    { };
+    struct find_impl<T, when<is_an<Iterable, T>()>> {
+        template <typename Xs, typename Pred>
+        static constexpr auto apply(Xs xs, Pred pred) {
+            auto e = drop_until(xs, pred);
+            return eval_if(is_empty(e),
+                always(nothing),
+                [=](auto _) { return just(_(head)(e)); }
+            );
+        }
+    };
+
+    template <typename T>
+    struct any_impl<T, when<is_an<Iterable, T>()>> {
+        template <typename Xs, typename Pred>
+        static constexpr auto apply(Xs xs, Pred pred) {
+            return eval_if(is_empty(xs),
+                always(false_),
+                [=](auto _) {
+                    return eval_if(pred(_(head)(xs)),
+                        always(true_),
+                        [=](auto _) { return apply(_(tail)(xs), pred); }
+                    );
+                }
+            );
+        }
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_ITERABLE_HPP

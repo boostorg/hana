@@ -104,19 +104,9 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Searchable::instance<HashMap> : Searchable::mcd {
-        template <typename Map, typename Pred>
-        static constexpr auto find_impl(Map map, Pred pred) {
-            return; // not implemented
-        }
-
-        template <typename Map, typename Pred>
-        static constexpr auto any_impl(Map map, Pred pred) {
-            return; // not implemented
-        }
-
+    struct lookup_impl<HashMap> {
         template <typename Map, typename Key>
-        static constexpr auto lookup_impl(Map map, Key key) {
+        static constexpr auto apply(Map map, Key key) {
             auto h = hash(key);
             auto bucket = find(map.buckets, [=](auto b) { return b.hash == h; });
             return maybe(nothing,

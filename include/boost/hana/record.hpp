@@ -84,10 +84,12 @@ namespace boost { namespace hana {
     };
 
     //! Minimal complete definition: `Record`
+    //!
+    //! Searching a `Record` `r` is equivalent to searching `to<Map>(r)`.
     template <typename R>
-    struct Searchable::record_mcd : Searchable::mcd {
+    struct find_impl<R, when<is_a<Record, R>()>> {
         template <typename X, typename Pred>
-        static constexpr decltype(auto) find_impl(X&& x, Pred&& pred) {
+        static constexpr decltype(auto) apply(X&& x, Pred&& pred) {
             return fmap(
                 find(members<R>, [&pred](auto&& member) -> decltype(auto) {
                     return pred(first(detail::std::forward<decltype(member)>(member)));
@@ -99,20 +101,17 @@ namespace boost { namespace hana {
                 }
             );
         }
+    };
 
+    template <typename R>
+    struct any_impl<R, when<is_a<Record, R>()>> {
         template <typename X, typename Pred>
-        static constexpr decltype(auto) any_impl(X const&, Pred&& pred) {
+        static constexpr decltype(auto) apply(X const&, Pred&& pred) {
             return any(members<R>, [&pred](auto&& member) -> decltype(auto) {
                 return pred(first(detail::std::forward<decltype(member)>(member)));
             });
         }
     };
-
-    //! Searching a `Record` `r` is equivalent to searching `to<Map>(r)`.
-    template <typename R>
-    struct Searchable::instance<R, when<is_a<Record, R>()>>
-        : Searchable::record_mcd<R>
-    { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_RECORD_HPP

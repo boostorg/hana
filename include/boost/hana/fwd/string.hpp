@@ -22,9 +22,6 @@ namespace boost { namespace hana {
     //! @ingroup group-datatypes
     //! Represents a compile-time string.
     //!
-    //! ## Instance of
-    //! `Comparable`, `Orderable`, `Constant`, `Foldable`, `Iterable`, and
-    //! `Searchable`
     //!
     //! @todo
     //! Right now, we use a different template specialization to store each
@@ -33,6 +30,33 @@ namespace boost { namespace hana {
     //! in some circumstances: http://llvm.org/bugs/show_bug.cgi?id=20625.
     //! Using an anonymous type could have compile-time performance benefits,
     //! so this avenue should be explored once the bug is fixed.
+    //!
+    //!
+    //! Modeled concepts
+    //! ----------------
+    //! 1. `Searchable`
+    //! For the purpose of being searched, `String`s are basically equivalent
+    //! to a tuple of `IntegralConstant`s of underlying type `char`.
+    //!
+    //! ### Example
+    //! @snippet example/string/searchable.cpp main
+    //!
+    //!
+    //! 2. `Comparable`
+    //! @todo
+    //!
+    //! 3. `Orderable`
+    //! @todo
+    //!
+    //! 4. `Constant`
+    //! @todo
+    //!
+    //!
+    //! 5. `Foldable`
+    //! @todo
+    //!
+    //! 6. `Iterable`
+    //! @todo
     struct String {
         struct hana {
             struct enabled_operators
