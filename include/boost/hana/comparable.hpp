@@ -152,10 +152,9 @@ namespace boost { namespace hana {
 
     // is_a
     /////////////////
-    template <typename T, typename U>
-    constexpr auto is_a<Comparable, T, U> = bool_<
-        is_implemented<equal_impl<T, U>> ||
-        is_implemented<not_equal_impl<T, U>>
+    template <typename T>
+    constexpr auto is_a<Comparable, T> = bool_<
+        is_implemented<equal_impl<T, T>>
     >;
 }} // end namespace boost::hana
 
