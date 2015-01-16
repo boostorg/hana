@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_LIST_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/typeclass.hpp>
+#include <boost/hana/core/method.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/is_same.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
@@ -23,7 +23,8 @@ namespace boost { namespace hana {
     //! General purpose index-based sequence.
     //!
     //!
-    //! ### Laws
+    //! Laws
+    //! ----
     //! For any two `List`s `xs` and `ys`, the following statement must hold:
     //!
     //! @code
@@ -54,6 +55,21 @@ namespace boost { namespace hana {
     //! @image html benchmark/list/make.ctime.png
     //!
     //!
+    //! Minimal complete definition
+    //! ---------------------------
+    //! 1. `Monad`, `Iterable`, `Foldable`, `cons`, and `nil`
+    //! @todo
+    //!
+    //!
+    //! Provided methods and concepts
+    //! -----------------------------
+    //! 1. `make`
+    //! @todo
+    //!
+    //! 2. `Comparable`
+    //! @todo
+    //!
+    //!
     //!
     //! @todo
     //! - How to implement iterate and repeat?
@@ -67,11 +83,7 @@ namespace boost { namespace hana {
     //!     - `set_difference_by`, `set_union_by`, `set_intersection_by`
     //! - Since we can benchmark the isomorphic instances, put the benchmarks
     //!   in the documentation.
-    struct List {
-        BOOST_HANA_TYPECLASS(List);
-        template <typename T>
-        struct mcd;
-    };
+    struct List { };
 
     //! Concatenate two lists together.
     //! @relates List
@@ -86,16 +98,16 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(concat_impl);
+
     struct _concat {
         template <typename Xs, typename Ys>
         constexpr decltype(auto) operator()(Xs&& xs, Ys&& ys) const {
             static_assert(detail::std::is_same<
-                datatype_t<Xs>, datatype_t<Ys>
+                typename datatype<Xs>::type, typename datatype<Ys>::type
             >::value,
             "boost::hana::concat: both arguments must have the same data type");
-            return List::instance<
-                datatype_t<Xs>
-            >::concat_impl(
+            return dispatch<concat_impl<typename datatype<Xs>::type>>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Ys>(ys)
             );
@@ -123,12 +135,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(cons_impl);
+
     struct _cons {
         template <typename X, typename Xs>
         constexpr decltype(auto) operator()(X&& x, Xs&& xs) const {
-            return List::instance<
-                datatype_t<Xs>
-            >::cons_impl(
+            return dispatch<cons_impl<typename datatype<Xs>::type>>::apply(
                 detail::std::forward<X>(x),
                 detail::std::forward<Xs>(xs)
             );
@@ -163,12 +175,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(filter_impl);
+
     struct _filter {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
-            return List::instance<
-                datatype_t<Xs>
-            >::filter_impl(
+            return dispatch<filter_impl<typename datatype<Xs>::type>>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred)
             );
@@ -211,12 +223,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(group_by_impl);
+
     struct _group_by {
         template <typename Pred, typename Xs>
         constexpr decltype(auto) operator()(Pred&& pred, Xs&& xs) const {
-            return List::instance<
-                datatype_t<Xs>
-            >::group_by_impl(
+            return dispatch<group_by_impl<typename datatype<Xs>::type>>::apply(
                 detail::std::forward<Pred>(pred),
                 detail::std::forward<Xs>(xs)
             );
@@ -243,12 +255,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(group_impl);
+
     struct _group {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-            return List::instance<
-                datatype_t<Xs>
-            >::group_impl(
+            return dispatch<group_impl<typename datatype<Xs>::type>>::apply(
                 detail::std::forward<Xs>(xs)
             );
         }
@@ -267,12 +279,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(init_impl);
+
     struct _init {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-            return List::instance<
-                datatype_t<Xs>
-            >::init_impl(
+            return dispatch<init_impl<typename datatype<Xs>::type>>::apply(
                 detail::std::forward<Xs>(xs)
             );
         }
@@ -303,12 +315,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(intersperse_impl);
+
     struct _intersperse {
         template <typename Xs, typename Z>
         constexpr decltype(auto) operator()(Xs&& xs, Z&& z) const {
-            return List::instance<
-                datatype_t<Xs>
-            >::intersperse_impl(
+            return dispatch<intersperse_impl<typename datatype<Xs>::type>>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Z>(z)
             );
@@ -334,10 +346,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(nil_impl);
+
     template <typename L>
     struct _nil {
         constexpr decltype(auto) operator()() const {
-            return List::instance<L>::nil_impl();
+            return dispatch<nil_impl<L>>::apply();
         }
     };
 
@@ -372,12 +386,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(partition_impl);
+
     struct _partition {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
-            return List::instance<
-                datatype_t<Xs>
-            >::partition_impl(
+            return dispatch<partition_impl<typename datatype<Xs>::type>>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred)
             );
@@ -409,12 +423,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(permutations_impl);
+
     struct _permutations {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-            return List::instance<
-                datatype_t<Xs>
-            >::permutations_impl(
+            return dispatch<permutations_impl<typename datatype<Xs>::type>>::apply(
                 detail::std::forward<Xs>(xs)
             );
         }
@@ -448,12 +462,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(remove_at_impl);
+
     struct _remove_at {
         template <typename N, typename Xs>
         constexpr decltype(auto) operator()(N&& n, Xs&& xs) const {
-            return List::instance<
-                datatype_t<Xs>
-            >::remove_at_impl(
+            return dispatch<remove_at_impl<typename datatype<Xs>::type>>::apply(
                 detail::std::forward<N>(n),
                 detail::std::forward<Xs>(xs)
             );
@@ -511,11 +525,13 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(repeat_impl);
+
     template <typename L>
     struct _repeat {
         template <typename N, typename X>
         constexpr decltype(auto) operator()(N&& n, X&& x) const {
-            return List::instance<L>::repeat_impl(
+            return dispatch<repeat_impl<L>>::apply(
                 detail::std::forward<decltype(n)>(n),
                 detail::std::forward<decltype(x)>(x)
             );
@@ -537,12 +553,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(reverse_impl);
+
     struct _reverse {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-            return List::instance<
-                datatype_t<Xs>
-            >::reverse_impl(
+            return dispatch<reverse_impl<typename datatype<Xs>::type>>::apply(
                 detail::std::forward<Xs>(xs)
             );
         }
@@ -577,12 +593,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(scanl_impl);
+
     struct _scanl {
         template <typename Xs, typename State, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
-            return List::instance<
-                datatype_t<Xs>
-            >::scanl_impl(
+            return dispatch<scanl_impl<typename datatype<Xs>::type>>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<State>(state),
                 detail::std::forward<F>(f)
@@ -619,12 +635,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(scanl1_impl);
+
     struct _scanl1 {
         template <typename Xs, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
-            return List::instance<
-                datatype_t<Xs>
-            >::scanl1_impl(
+            return dispatch<scanl1_impl<typename datatype<Xs>::type>>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<F>(f)
             );
@@ -660,12 +676,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(scanr_impl);
+
     struct _scanr {
         template <typename Xs, typename State, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
-            return List::instance<
-                datatype_t<Xs>
-            >::scanr_impl(
+            return dispatch<scanr_impl<typename datatype<Xs>::type>>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<State>(state),
                 detail::std::forward<F>(f)
@@ -702,12 +718,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(scanr1_impl);
+
     struct _scanr1 {
         template <typename Xs, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
-            return List::instance<
-                datatype_t<Xs>
-            >::scanr1_impl(
+            return dispatch<scanr1_impl<typename datatype<Xs>::type>>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<F>(f)
             );
@@ -749,12 +765,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(slice_impl);
+
     struct _slice {
         template <typename Xs, typename From, typename To>
         constexpr decltype(auto) operator()(Xs&& xs, From&& from, To&& to) const {
-            return List::instance<
-                datatype_t<Xs>
-            >::slice_impl(
+            return dispatch<slice_impl<typename datatype<Xs>::type>>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<From>(from),
                 detail::std::forward<To>(to)
@@ -806,12 +822,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(snoc_impl);
+
     struct _snoc {
         template <typename Xs, typename X>
         constexpr decltype(auto) operator()(Xs&& xs, X&& x) const {
-            return List::instance<
-                datatype_t<Xs>
-            >::snoc_impl(
+            return dispatch<snoc_impl<typename datatype<Xs>::type>>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<X>(x)
             );
@@ -839,12 +855,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(sort_impl);
+
     struct _sort {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-            return List::instance<
-                datatype_t<Xs>
-            >::sort_impl(
+            return dispatch<sort_impl<typename datatype<Xs>::type>>::apply(
                 detail::std::forward<Xs>(xs)
             );
         }
@@ -879,12 +895,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(sort_by_impl);
+
     struct _sort_by {
         template <typename Pred, typename Xs>
         constexpr decltype(auto) operator()(Pred&& pred, Xs&& xs) const {
-            return List::instance<
-                datatype_t<Xs>
-            >::sort_by_impl(
+            return dispatch<sort_by_impl<typename datatype<Xs>::type>>::apply(
                 detail::std::forward<Pred>(pred),
                 detail::std::forward<Xs>(xs)
             );
@@ -929,12 +945,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(span_impl);
+
     struct _span {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
-            return List::instance<
-                datatype_t<Xs>
-            >::span_impl(
+            return dispatch<span_impl<typename datatype<Xs>::type>>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred)
             );
@@ -967,12 +983,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(take_impl);
+
     struct _take {
         template <typename N, typename Xs>
         constexpr decltype(auto) operator()(N&& n, Xs&& xs) const {
-            return List::instance<
-                datatype_t<Xs>
-            >::take_impl(
+            return dispatch<take_impl<typename datatype<Xs>::type>>::apply(
                 detail::std::forward<N>(n),
                 detail::std::forward<Xs>(xs)
             );
@@ -1034,12 +1050,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(take_until_impl);
+
     struct _take_until {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
-            return List::instance<
-                datatype_t<Xs>
-            >::take_until_impl(
+            return dispatch<take_until_impl<typename datatype<Xs>::type>>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred)
             );
@@ -1077,12 +1093,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(take_while_impl);
+
     struct _take_while {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
-            return List::instance<
-                datatype_t<Xs>
-            >::take_while_impl(
+            return dispatch<take_while_impl<typename datatype<Xs>::type>>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred)
             );
@@ -1131,11 +1147,13 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(unfoldl_impl);
+
     template <typename L>
     struct _unfoldl {
         template <typename F, typename Initial>
         constexpr decltype(auto) operator()(F&& f, Initial&& initial) const {
-            return List::instance<L>::unfoldl_impl(
+            return dispatch<unfoldl_impl<L>>::apply(
                 detail::std::forward<decltype(f)>(f),
                 detail::std::forward<decltype(initial)>(initial)
             );
@@ -1185,11 +1203,13 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(unfoldr_impl);
+
     template <typename L>
     struct _unfoldr {
         template <typename F, typename Initial>
         constexpr decltype(auto) operator()(F&& f, Initial&& initial) const {
-            return List::instance<L>::unfoldr_impl(
+            return dispatch<unfoldr_impl<L>>::apply(
                 detail::std::forward<decltype(f)>(f),
                 detail::std::forward<decltype(initial)>(initial)
             );
@@ -1223,12 +1243,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(unzip_impl);
+
     struct _unzip {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-            return List::instance<
-                datatype_t<Xs>
-            >::unzip_impl(
+            return dispatch<unzip_impl<typename datatype<Xs>::type>>::apply(
                 detail::std::forward<Xs>(xs)
             );
         }
@@ -1257,12 +1277,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(zip_impl);
+
     struct _zip {
         template <typename Xs, typename ...Ys>
         constexpr decltype(auto) operator()(Xs&& xs, Ys&& ...ys) const {
-            return List::instance<
-                datatype_t<Xs>
-            >::zip_impl(
+            return dispatch<zip_impl<typename datatype<Xs>::type>>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Ys>(ys)...
             );
@@ -1318,12 +1338,12 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    BOOST_HANA_METHOD(zip_with_impl);
+
     struct _zip_with {
         template <typename F, typename Xs, typename ...Ys>
         constexpr decltype(auto) operator()(F&& f, Xs&& xs, Ys&& ...ys) const {
-            return List::instance<
-                datatype_t<Xs>
-            >::zip_with_impl(
+            return dispatch<zip_with_impl<typename datatype<Xs>::type>>::apply(
                 detail::std::forward<F>(f),
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Ys>(ys)...

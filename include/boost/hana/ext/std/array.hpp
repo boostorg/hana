@@ -62,13 +62,17 @@ namespace boost { namespace hana {
         { return bool_<N == 0>; }
     };
 
+    namespace array_detail { struct anything { }; }
+
     template <>
-    struct List::instance<ext::std::Array> : List::mcd<ext::std::Array> {
-        struct anything { };
+    struct nil_impl<ext::std::Array> {
+        static constexpr auto apply()
+        { return ::std::array<array_detail::anything, 0>{}; }
 
-        static constexpr auto nil_impl()
-        { return ::std::array<anything, 0>{}; }
+    };
 
+    template <>
+    struct cons_impl<ext::std::Array> {
         template <typename T, detail::std::size_t N, typename X, typename Xs, detail::std::size_t ...index>
         static constexpr auto
         cons_helper(X&& x, Xs&& xs, detail::std::index_sequence<index...>) {
@@ -79,7 +83,7 @@ namespace boost { namespace hana {
         }
 
         template <typename X, typename Xs>
-        static constexpr decltype(auto) cons_impl(X&& x, Xs&& xs) {
+        static constexpr decltype(auto) apply(X&& x, Xs&& xs) {
             using RawArray = typename detail::std::remove_reference<Xs>::type;
             constexpr auto N = ::std::tuple_size<RawArray>::value;
             using T = typename RawArray::value_type;
@@ -91,7 +95,7 @@ namespace boost { namespace hana {
         }
 
         template <typename X>
-        static constexpr auto cons_impl(X x, ::std::array<anything, 0>)
+        static constexpr auto apply(X x, ::std::array<array_detail::anything, 0>)
         { return ::std::array<X, 1>{{detail::std::move(x)}}; }
     };
 }} // end namespace boost::hana

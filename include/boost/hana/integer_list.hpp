@@ -55,20 +55,20 @@ namespace boost { namespace hana {
     //! `nil<IntegerList>()`; the type of the `Integral`s it contains will
     //! be set when an element is added to the list.
     template <>
-    struct List::instance<IntegerList> : List::mcd<IntegerList> {
+    struct cons_impl<IntegerList> {
         template <typename X, typename T, T ...xs>
-        static constexpr auto cons_impl(X x, ilist_detail::integer_list<T, xs...>) {
-            return integer_list<T, static_cast<T>(x), xs...>;
-        }
+        static constexpr auto apply(X x, ilist_detail::integer_list<T, xs...>)
+        { return integer_list<T, static_cast<T>(x), xs...>; }
 
         template <typename X>
-        static constexpr auto cons_impl(X x, ilist_detail::integer_list<void>) {
-            return integer_list<decltype(x()), x()>;
-        }
+        static constexpr auto apply(X x, ilist_detail::integer_list<void>)
+        { return integer_list<decltype(x()), x()>; }
+    };
 
-        static constexpr auto nil_impl() {
-            return integer_list<void>;
-        }
+    template <>
+    struct nil_impl<IntegerList> {
+        static constexpr auto apply()
+        { return integer_list<void>; }
     };
 }} // end namespace boost::hana
 

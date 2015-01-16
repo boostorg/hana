@@ -56,18 +56,19 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct List::instance<ext::boost::fusion::Vector>
-        : List::mcd<ext::boost::fusion::Vector>
-    {
+    struct cons_impl<ext::boost::fusion::Vector> {
         template <typename X, typename Xs>
-        static constexpr decltype(auto) cons_impl(X&& x, Xs&& xs) {
+        static constexpr decltype(auto) apply(X&& x, Xs&& xs) {
             return ::boost::fusion::as_vector(
                 ::boost::fusion::push_front(
                     detail::std::forward<Xs>(xs),
                     detail::std::forward<X>(x)));
         }
+    };
 
-        static auto nil_impl()
+    template <>
+    struct nil_impl<ext::boost::fusion::Vector> {
+        static auto apply()
         { return ::boost::fusion::vector<>{}; }
     };
 }} // end namespace boost::hana

@@ -192,13 +192,15 @@ namespace boost { namespace hana {
     //! @todo
     //! Use perfect forwarding everywhere possible.
     template <>
-    struct List::instance<sandbox::LambdaTuple> : List::mcd<sandbox::LambdaTuple> {
-        static BOOST_HANA_CONSTEXPR_LAMBDA decltype(auto) nil_impl() {
-            return sandbox::lambda_tuple();
-        }
+    struct nil_impl<sandbox::LambdaTuple> {
+        static BOOST_HANA_CONSTEXPR_LAMBDA decltype(auto) apply()
+        { return sandbox::lambda_tuple(); }
+    };
 
+    template <>
+    struct cons_impl<sandbox::LambdaTuple> {
         template <typename X, typename Xs>
-        static constexpr decltype(auto) cons_impl(X&& x, Xs&& xs) {
+        static constexpr decltype(auto) apply(X&& x, Xs&& xs) {
             return detail::std::forward<Xs>(xs).storage(
                 [x(detail::std::forward<X>(x))](auto&& ...xs) -> decltype(auto) {
                     return sandbox::lambda_tuple(
@@ -208,9 +210,12 @@ namespace boost { namespace hana {
                 }
             );
         }
+    };
 
+    template <>
+    struct concat_impl<sandbox::LambdaTuple> {
         template <typename Xs, typename Ys>
-        static constexpr decltype(auto) concat_impl(Xs&& xs, Ys&& ys) {
+        static constexpr decltype(auto) apply(Xs&& xs, Ys&& ys) {
             return detail::std::forward<Xs>(xs).storage(
                 [ys(detail::std::forward<Ys>(ys))](auto&& ...xs) -> decltype(auto) {
                     return detail::std::move(ys).storage(
@@ -226,18 +231,24 @@ namespace boost { namespace hana {
                 }
             );
         }
+    };
 
+    template <>
+    struct init_impl<sandbox::LambdaTuple> {
         template <typename Xs>
-        static constexpr decltype(auto) init_impl(Xs&& xs) {
+        static constexpr decltype(auto) apply(Xs&& xs) {
             return unpack(range(size_t<0>, pred(length(xs))),
                 on(sandbox::lambda_tuple, [&xs](auto index) -> decltype(auto) {
                     return at(index, detail::std::forward<Xs>(xs));
                 })
             );
         }
+    };
 
+    template <>
+    struct snoc_impl<sandbox::LambdaTuple> {
         template <typename Xs, typename X>
-        static constexpr decltype(auto) snoc_impl(Xs&& xs, X&& x) {
+        static constexpr decltype(auto) apply(Xs&& xs, X&& x) {
             return detail::std::forward<Xs>(xs).storage(
                 [x(detail::std::forward<X>(x))](auto&& ...xs) -> decltype(auto) {
                     return sandbox::lambda_tuple(
@@ -247,17 +258,23 @@ namespace boost { namespace hana {
                 }
             );
         }
+    };
 
+    template <>
+    struct take_impl<sandbox::LambdaTuple> {
         template <typename N, typename Xs>
-        static constexpr decltype(auto) take_impl(N n, Xs&& xs) {
+        static constexpr decltype(auto) apply(N n, Xs&& xs) {
             auto m = min(n, length(xs));
             return detail::std::forward<Xs>(xs).storage(
                 detail::variadic::take<value(m)>
             )(sandbox::lambda_tuple);
         }
+    };
 
+    template <>
+    struct zip_with_impl<sandbox::LambdaTuple> {
         template <typename F, typename ...Xss>
-        static constexpr auto zip_with_impl(F f, Xss ...tuples) {
+        static constexpr auto apply(F f, Xss ...tuples) {
             auto go = [=](auto index, auto ...nothing) {
                 return always(f)(nothing...)(at(index, tuples)...);
             };

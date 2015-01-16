@@ -122,12 +122,13 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct List::instance< ::Tuple> : List::mcd< ::Tuple> {
-        // nil
-        static BOOST_HANA_CONSTEXPR_LAMBDA auto nil_impl()
+    struct nil_impl< ::Tuple> {
+        static BOOST_HANA_CONSTEXPR_LAMBDA auto apply()
         { return ::tuple(); }
+    };
 
-        // cons
+    template <>
+    struct cons_impl< ::Tuple> {
         template <typename X, typename Xs, typename Datatype>
         static constexpr auto cons_helper(X x, Xs xs, Datatype)
         { return unpack(xs, [=](auto ...xs) { return ::tuple(x, xs...); }); }
@@ -152,15 +153,12 @@ namespace boost { namespace hana {
 
 
         template <typename X, typename Xs>
-        static constexpr auto cons_impl(X x, Xs xs)
+        static constexpr auto apply(X x, Xs xs)
         { return cons_helper(x, xs, datatype_t<X>{}); }
+    };
 
-
-        // sort
-        template <typename Xs>
-        static constexpr auto sort_impl(Xs xs)
-        { return List::mcd< ::Tuple>::sort_impl(xs); }
-
+    template <>
+    struct sort_impl< ::Tuple> {
         struct insertion_sort {
             template <typename T, std::size_t N>
             constexpr auto operator()(sandbox::array<T, N> a) const {
@@ -179,9 +177,11 @@ namespace boost { namespace hana {
         };
 
         template <typename T, T ...vs>
-        static constexpr auto sort_impl(::detail::tuple_c<T, vs...> xs) {
+        static constexpr auto apply(::detail::tuple_c<T, vs...> xs) {
             return transform_tuple_c<insertion_sort>(xs);
         }
+
+        // sort not implemented for other types of tuple due to laziness
     };
 }}
 

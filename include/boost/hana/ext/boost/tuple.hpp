@@ -49,16 +49,19 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct List::instance<ext::boost::Tuple> : List::mcd<ext::boost::Tuple> {
+    struct cons_impl<ext::boost::Tuple> {
         template <typename X, typename Xs>
-        static constexpr auto cons_impl(X x, Xs xs) {
+        static constexpr auto apply(X x, Xs xs) {
             return ::boost::tuples::cons<X, Xs>{
                 detail::std::move(x),
                 detail::std::move(xs)
             };
         }
+    };
 
-        static constexpr auto nil_impl()
+    template <>
+    struct nil_impl<ext::boost::Tuple> {
+        static constexpr auto apply()
         { return ::boost::tuples::null_type{}; }
     };
 }} // end namespace boost::hana

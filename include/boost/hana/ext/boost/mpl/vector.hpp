@@ -62,11 +62,9 @@ namespace boost { namespace hana {
     //! ### Example
     //! @include example/ext/boost/mpl/vector/list.cpp
     template <>
-    struct List::instance<ext::boost::mpl::Vector>
-        : List::mcd<ext::boost::mpl::Vector>
-    {
+    struct cons_impl<ext::boost::mpl::Vector> {
         template <typename x, typename xs>
-        static constexpr auto cons_impl(x, xs) {
+        static constexpr auto apply(x, xs) {
             static_assert(detail::std::is_same<datatype_t<x>, Type>::value,
             "Only Types may be prepended to a Boost.MPL vector.");
 
@@ -74,8 +72,11 @@ namespace boost { namespace hana {
                 xs, typename x::type
             >::type{};
         }
+    };
 
-        static constexpr auto nil_impl()
+    template <>
+    struct nil_impl<ext::boost::mpl::Vector> {
+        static constexpr auto apply()
         { return ::boost::mpl::vector0<>{}; }
     };
 }} // end namespace boost::hana

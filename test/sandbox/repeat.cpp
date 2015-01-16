@@ -62,13 +62,16 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct List::instance<LazyList> : List::mcd<LazyList> {
-        static constexpr auto nil_impl()
-        { return lazy_nil; }
-
+    struct cons_impl<LazyList> {
         template <typename X, typename Xs>
-        static constexpr auto cons_impl(X x, Xs xs)
+        static constexpr auto apply(X x, Xs xs)
         { return lazy_cons(x, lazy(xs)); }
+    };
+
+    template <>
+    struct nil_impl<LazyList> {
+        static constexpr auto apply()
+        { return lazy_nil; }
     };
 }}
 

@@ -19,6 +19,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/make.hpp>
+#include <boost/hana/core/method.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integer_sequence.hpp>
@@ -59,21 +60,29 @@ namespace boost { namespace hana {
         }
     };
 
-    //! Minimal complete definition:
-    //! `Monad`, `Iterable`, `Foldable`, `cons`, and `nil`
-    template <typename L>
-    struct List::mcd {
+    template <typename L, typename Context>
+    struct concat_impl<L, when<
+        is_implemented<foldr_impl<L>, Context> &&
+        is_implemented<cons_impl<L>, Context>
+    >, Context> {
         template <typename Xs, typename Ys>
-        static constexpr decltype(auto) concat_impl(Xs&& xs, Ys&& ys) {
+        static constexpr decltype(auto) apply(Xs&& xs, Ys&& ys) {
             return foldr(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Ys>(ys),
                 cons
             );
         }
+    };
 
+    template <typename L, typename Context>
+    struct filter_impl<L, when<
+        is_implemented<foldr_impl<L>, Context> &&
+        is_implemented<nil_impl<L>, Context> &&
+        is_implemented<cons_impl<L>, Context>
+    >, Context> {
         template <typename Xs, typename Pred>
-        static constexpr auto filter_impl(Xs xs, Pred pred) {
+        static constexpr auto apply(Xs xs, Pred pred) {
             auto go = [=](auto x, auto xs) {
                 return eval_if(pred(x),
                     [=](auto _) { return _(cons)(x, xs); },
@@ -82,9 +91,16 @@ namespace boost { namespace hana {
             };
             return foldr(xs, nil<L>(), go);
         }
+    };
 
+    template <typename L, typename Context>
+    struct group_by_impl<L, when<
+        is_an<Iterable, L>() &&
+        is_implemented<span_impl<L>, Context> &&
+        is_implemented<cons_impl<L>, Context>
+    >, Context> {
         template <typename Pred, typename Xs>
-        static constexpr auto group_by_impl(Pred pred, Xs xs_) {
+        static constexpr auto apply(Pred pred, Xs xs_) {
             return eval_if(is_empty(xs_),
                 [](auto) { return nil<L>(); },
                 [=](auto _) {
@@ -93,25 +109,44 @@ namespace boost { namespace hana {
                     auto ys_zs = span(xs, [=](auto y) { return pred(x, y); });
                     auto ys = first(ys_zs);
                     auto zs = second(ys_zs);
-                    return cons(cons(x, ys), group_by_impl(pred, zs));
+                    return cons(cons(x, ys), apply(pred, zs));
                 }
             );
         }
+    };
 
+    template <typename L, typename Context>
+    struct group_impl<L, when<
+        is_implemented<group_by_impl<L>, Context>
+    >, Context> {
         template <typename Xs>
-        static constexpr decltype(auto) group_impl(Xs&& xs) {
+        static constexpr decltype(auto) apply(Xs&& xs) {
             return group_by(equal, detail::std::forward<Xs>(xs));
         }
+    };
 
+    template <typename L, typename Context>
+    struct init_impl<L, when<
+        is_an<Iterable, L>() &&
+        is_implemented<nil_impl<L>, Context> &&
+        is_implemented<cons_impl<L>, Context>
+    >, Context> {
         template <typename Xs>
-        static constexpr auto init_impl(Xs xs) {
+        static constexpr auto apply(Xs xs) {
             return eval_if(is_empty(tail(xs)),
                 always(nil<L>()),
-                [=](auto _) { return cons(_(head)(xs), init_impl(_(tail)(xs))); }
+                [=](auto _) { return cons(_(head)(xs), apply(_(tail)(xs))); }
             );
         }
+    };
 
-    private:
+    template <typename L, typename Context>
+    struct intersperse_impl<L, when<
+        is_an<Iterable, L>() &&
+        is_a<Foldable, L>() &&
+        is_implemented<cons_impl<L>, Context> &&
+        is_implemented<nil_impl<L>, Context>
+    >, Context> {
         template <typename Prefix, typename Xs>
         static constexpr decltype(auto) prepend_to_all(Prefix&& prefix, Xs&& xs) {
             return foldr(detail::std::forward<Xs>(xs), nil<L>(),
@@ -126,9 +161,8 @@ namespace boost { namespace hana {
             );
         }
 
-    public:
         template <typename Xs, typename Z>
-        static constexpr decltype(auto) intersperse_impl(Xs&& xs, Z&& z) {
+        static constexpr decltype(auto) apply(Xs&& xs, Z&& z) {
             return eval_if(is_empty(xs),
                 [&xs](auto _) -> decltype(auto) {
                     return id(detail::std::forward<Xs>(xs));
@@ -144,9 +178,16 @@ namespace boost { namespace hana {
                 }
             );
         }
+    };
 
+    template <typename L, typename Context>
+    struct partition_impl<L, when<
+        is_a<Foldable, L>() &&
+        is_implemented<snoc_impl<L>, Context> &&
+        is_implemented<nil_impl<L>, Context>
+    >, Context> {
         template <typename Xs, typename Pred>
-        static constexpr auto partition_impl(Xs xs, Pred pred) {
+        static constexpr auto apply(Xs xs, Pred pred) {
             auto go = [=](auto parts, auto x) {
                 return eval_if(pred(x),
                     [=](auto _) { return pair(_(snoc)(first(parts), x), second(parts)); },
@@ -155,8 +196,15 @@ namespace boost { namespace hana {
             };
             return foldl(xs, pair(nil<L>(), nil<L>()), go);
         }
+    };
 
-    private:
+    template <typename L, typename Context>
+    struct permutations_impl<L, when<
+        is_an<Iterable, L>() &&
+        is_a<Monad, L>() &&
+        is_implemented<nil_impl<L>, Context> &&
+        is_implemented<cons_impl<L>, Context>
+    >, Context> {
         template <typename X, typename Xs>
         static constexpr auto insertions(X x, Xs l) {
             return eval_if(is_empty(l),
@@ -174,21 +222,26 @@ namespace boost { namespace hana {
             );
         }
 
-    public:
         template <typename Xs>
-        static constexpr auto permutations_impl(Xs xs) {
+        static constexpr auto apply(Xs xs) {
             return eval_if(is_empty(xs),
                 [](auto _) { return lift<L>(nil<L>()); },
                 [=](auto _) {
-                    return flatten(fmap(permutations_impl(_(tail)(xs)), [=](auto ys) {
+                    return flatten(fmap(apply(_(tail)(xs)), [=](auto ys) {
                         return insertions(_(head)(xs), ys);
                     }));
                 }
             );
         }
+    };
 
+    template <typename L, typename Context>
+    struct remove_at_impl<L, when<
+        is_an<Iterable, L>() &&
+        is_implemented<cons_impl<L>, Context>
+    >, Context> {
         template <typename N, typename Xs>
-        static constexpr decltype(auto) remove_at_impl(N&& n, Xs&& xs) {
+        static constexpr decltype(auto) apply(N&& n, Xs&& xs) {
             using I = typename datatype<N>::type;
             return eval_if(equal(n, zero<I>()),
                 [&xs](auto _) -> decltype(auto) {
@@ -197,60 +250,104 @@ namespace boost { namespace hana {
                 [&xs, &n](auto _) -> decltype(auto) {
                     return cons(
                         _(head)(xs),
-                        remove_at_impl(_(pred)(n), _(tail)(xs))
+                        apply(_(pred)(n), _(tail)(xs))
                     );
                 }
             );
         }
+    };
 
+    //! @todo
+    //! Here, we syntactically only need `make`, but we _actually_ need
+    //! `make` to behave properly. With this definition, it is possible
+    //! to call `repeat<Pair>(...)`, which is wrong.
+    template <typename L, typename Context>
+    struct repeat_impl<L, when<
+        is_implemented<make_impl<L>, Context>
+    >, Context> {
         template <typename X, int ...i>
         static constexpr decltype(auto)
-        repeat_helper(X&& x, detail::std::integer_sequence<int, i...>) {
-            return make<L>(((void)i, x)...);
-        }
+        repeat_helper(X&& x, detail::std::integer_sequence<int, i...>)
+        { return make<L>(((void)i, x)...); }
 
         template <typename N, typename X>
-        static constexpr auto repeat_impl(N n, X x) {
+        static constexpr auto apply(N n, X x) {
             constexpr auto m = value(n);
             return repeat_helper(x, detail::std::make_integer_sequence<int, m>{});
         }
+    };
 
+    template <typename L, typename Context>
+    struct reverse_impl<L, when<
+        is_a<Foldable, L>() &&
+        is_implemented<cons_impl<L>, Context> &&
+        is_implemented<nil_impl<L>, Context>
+    >, Context> {
         template <typename Xs>
-        static constexpr decltype(auto) reverse_impl(Xs&& xs) {
+        static constexpr decltype(auto) apply(Xs&& xs) {
             return foldl(detail::std::forward<Xs>(xs), nil<L>(), flip(cons));
         }
+    };
 
+    template <typename L, typename Context>
+    struct scanl_impl<L, when<
+        is_an<Iterable, L>() &&
+        is_an<Applicative, L>() &&
+        is_implemented<cons_impl<L>, Context>
+    >, Context> {
         template <typename Xs, typename S, typename F>
-        static constexpr auto scanl_impl(Xs xs, S s, F f) {
+        static constexpr auto apply(Xs xs, S s, F f) {
             return eval_if(is_empty(xs),
                 [=](auto _) { return lift<L>(s); },
                 [=](auto _) {
-                    return cons(s, scanl_impl(_(tail)(xs), f(s, _(head)(xs)), f));
+                    return cons(s, apply(_(tail)(xs), f(s, _(head)(xs)), f));
                 }
             );
         }
+    };
 
+    template <typename L, typename Context>
+    struct scanl1_impl<L, when<
+        is_an<Iterable, L>() &&
+        is_implemented<scanl_impl<L>, Context> &&
+        is_implemented<nil_impl<L>, Context>
+    >, Context> {
         template <typename Xs, typename F>
-        static constexpr auto scanl1_impl(Xs xs, F f) {
+        static constexpr auto apply(Xs xs, F f) {
             return eval_if(is_empty(xs),
                 always(nil<L>()),
                 [=](auto _) { return scanl(_(tail)(xs), _(head)(xs), f); }
             );
         }
+    };
 
+    template <typename L, typename Context>
+    struct scanr_impl<L, when<
+        is_an<Iterable, L>() &&
+        is_an<Applicative, L>() &&
+        is_implemented<cons_impl<L>, Context>
+    >, Context> {
         template <typename Xs, typename S, typename F>
-        static constexpr auto scanr_impl(Xs xs, S s, F f) {
+        static constexpr auto apply(Xs xs, S s, F f) {
             return eval_if(is_empty(xs),
                 [=](auto _) { return lift<L>(s); },
                 [=](auto _) {
-                    auto rest = scanr_impl(_(tail)(xs), s, f);
+                    auto rest = apply(_(tail)(xs), s, f);
                     return cons(f(_(head)(xs), head(rest)), rest);
                 }
             );
         }
+    };
 
+    template <typename L, typename Context>
+    struct scanr1_impl<L, when<
+        is_an<Iterable, L>() &&
+        is_an<Applicative, L>() &&
+        is_implemented<cons_impl<L>, Context> &&
+        is_implemented<nil_impl<L>, Context>
+    >, Context> {
         template <typename Lst, typename F>
-        static constexpr auto scanr1_impl(Lst lst, F f) {
+        static constexpr auto apply(Lst lst, F f) {
             return eval_if(is_empty(lst),
                 always(nil<L>()),
                 [=](auto _) {
@@ -259,35 +356,60 @@ namespace boost { namespace hana {
                     return eval_if(is_empty(xs),
                         [=](auto _) { return lift<L>(x); },
                         [=](auto _) {
-                            auto rest = scanr1_impl(xs, _(f));
+                            auto rest = apply(xs, _(f));
                             return cons(f(x, head(rest)), rest);
                         }
                     );
                 }
             );
         }
+    };
 
+    template <typename L, typename Context>
+    struct slice_impl<L, when<
+        is_an<Iterable, L>() &&
+        is_implemented<take_impl<L>, Context>
+    >, Context> {
         template <typename Xs, typename From, typename To>
-        static constexpr auto slice_impl(Xs&& xs, From const& from, To const& to) {
+        static constexpr auto apply(Xs&& xs, From const& from, To const& to) {
             return take(minus(to, from), drop(from, detail::std::forward<Xs>(xs)));
         }
+    };
 
+    template <typename L, typename Context>
+    struct snoc_impl<L, when<
+        is_a<Foldable, L>() &&
+        is_an<Applicative, L>() &&
+        is_implemented<cons_impl<L>, Context>
+    >, Context> {
         template <typename Xs, typename X>
-        static constexpr decltype(auto) snoc_impl(Xs&& xs, X&& x) {
+        static constexpr decltype(auto) apply(Xs&& xs, X&& x) {
             return foldr(
                 detail::std::forward<Xs>(xs),
                 lift<L>(detail::std::forward<X>(x)),
                 cons
             );
         }
+    };
 
+    template <typename L, typename Context>
+    struct sort_impl<L, when<
+        is_implemented<sort_by_impl<L>, Context>
+    >, Context> {
         template <typename Xs>
-        static constexpr decltype(auto) sort_impl(Xs&& xs) {
-            return sort_by(less, detail::std::forward<Xs>(xs));
-        }
+        static constexpr decltype(auto) apply(Xs&& xs)
+        { return sort_by(less, detail::std::forward<Xs>(xs)); }
+    };
 
+    template <typename L, typename Context>
+    struct sort_by_impl<L, when<
+        is_an<Iterable, L>() &&
+        is_implemented<partition_impl<L>, Context> &&
+        is_implemented<concat_impl<L>, Context> &&
+        is_implemented<cons_impl<L>, Context>
+    >, Context> {
         template <typename Pred, typename Xs>
-        static constexpr auto sort_by_impl(Pred pred, Xs xs) {
+        static constexpr auto apply(Pred pred, Xs xs) {
             return eval_if(is_empty(xs),
                 always(xs),
                 [=](auto _) {
@@ -298,17 +420,24 @@ namespace boost { namespace hana {
                             auto rest = _(tail)(xs);
                             auto parts = partition(rest, [=](auto x) { return pred(x, pivot); });
                             return concat(
-                                sort_by_impl(pred, first(parts)),
-                                cons(pivot, sort_by_impl(pred, second(parts)))
+                                apply(pred, first(parts)),
+                                cons(pivot, apply(pred, second(parts)))
                             );
                         }
                     );
                 }
             );
         }
+    };
 
+    template <typename L, typename Context>
+    struct span_impl<L, when<
+        is_an<Iterable, L>() &&
+        is_implemented<nil_impl<L>, Context> &&
+        is_implemented<cons_impl<L>, Context>
+    >, Context> {
         template <typename Xs, typename Pred>
-        static constexpr auto span_impl(Xs xs, Pred pred) {
+        static constexpr auto apply(Xs xs, Pred pred) {
             return eval_if(is_empty(xs),
                 [=](auto _) { return pair(nil<L>(), nil<L>()); },
                 [=](auto _) {
@@ -316,7 +445,7 @@ namespace boost { namespace hana {
                     auto xs_ = _(tail)(xs);
                     return eval_if(pred(x),
                         [=](auto _) {
-                            auto ys_zs = span_impl(xs_, _(pred));
+                            auto ys_zs = apply(xs_, _(pred));
                             auto ys = first(ys_zs);
                             auto zs = second(ys_zs);
                             return pair(cons(x, ys), zs);
@@ -328,27 +457,46 @@ namespace boost { namespace hana {
                 }
             );
         }
+    };
 
+    template <typename L, typename Context>
+    struct take_impl<L, when<
+        is_an<Iterable, L>() &&
+        is_implemented<nil_impl<L>, Context> &&
+        is_implemented<cons_impl<L>, Context>
+    >, Context> {
         template <typename N, typename Xs>
-        static constexpr auto take_impl(N n, Xs xs) {
+        static constexpr auto apply(N n, Xs xs) {
             return eval_if(or_(is_empty(xs), equal(n, int_<0>)),
                 always(nil<L>()),
                 [=](auto _) {
-                    return cons(_(head)(xs), take_impl(minus(n, int_<1>), _(tail)(xs)));
+                    return cons(_(head)(xs), apply(minus(n, int_<1>), _(tail)(xs)));
                 }
             );
         }
+    };
 
+    template <typename L, typename Context>
+    struct take_until_impl<L, when<
+        is_implemented<take_while_impl<L>, Context>
+    >, Context> {
         template <typename Xs, typename Pred>
-        static constexpr decltype(auto) take_until_impl(Xs&& xs, Pred&& pred) {
+        static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
             return take_while(
                 detail::std::forward<Xs>(xs),
                 compose(not_, detail::std::forward<Pred>(pred))
             );
         }
+    };
 
+    template <typename L, typename Context>
+    struct take_while_impl<L, when<
+        is_an<Iterable, L>() &&
+        is_implemented<nil_impl<L>, Context> &&
+        is_implemented<cons_impl<L>, Context>
+    >, Context> {
         template <typename Xs, typename Pred>
-        static constexpr auto take_while_impl(Xs xs, Pred pred) {
+        static constexpr auto apply(Xs xs, Pred pred) {
             return eval_if(is_empty(xs),
                 always(nil<L>()),
                 [=](auto _) {
@@ -356,7 +504,7 @@ namespace boost { namespace hana {
                         [=](auto _) {
                             return cons(
                                 _(head)(xs),
-                                take_while_impl(_(tail)(xs), pred)
+                                apply(_(tail)(xs), pred)
                             );
                         },
                         always(nil<L>())
@@ -364,39 +512,70 @@ namespace boost { namespace hana {
                 }
             );
         }
+    };
 
+    template <typename L, typename Context>
+    struct unfoldr_impl<L, when<
+        is_implemented<nil_impl<L>, Context> &&
+        is_implemented<cons_impl<L>, Context>
+    >, Context> {
         template <typename F, typename Init>
-        static constexpr auto unfoldr_impl(F f, Init init) {
+        static constexpr auto apply(F f, Init init) {
             auto g = [=](auto a_b) {
-                return cons(first(a_b), unfoldr_impl(f, second(a_b)));
+                return cons(first(a_b), apply(f, second(a_b)));
             };
             return maybe(nil<L>(), g, f(init));
         }
+    };
 
+    template <typename L, typename Context>
+    struct unfoldl_impl<L, when<
+        is_implemented<nil_impl<L>, Context> &&
+        is_implemented<snoc_impl<L>, Context>
+    >, Context> {
         template <typename F, typename Init>
-        static constexpr auto unfoldl_impl(F f, Init init) {
+        static constexpr auto apply(F f, Init init) {
             auto g = [=](auto b_a) {
-                return snoc(unfoldl_impl(f, first(b_a)), second(b_a));
+                return snoc(apply(f, first(b_a)), second(b_a));
             };
             return maybe(nil<L>(), g, f(init));
         }
+    };
 
+    template <typename L, typename Context>
+    struct unzip_impl<L, when<
+        is_a<Foldable, L>() &&
+        is_implemented<zip_impl<L>, Context>
+    >, Context> {
         template <typename Xs>
-        static constexpr decltype(auto) unzip_impl(Xs&& xs)
+        static constexpr decltype(auto) apply(Xs&& xs)
         { return unpack(detail::std::forward<Xs>(xs), zip); }
+    };
 
+    template <typename L, typename Context>
+    struct zip_impl<L, when<
+        is_implemented<zip_with_impl<L>, Context> &&
+        is_implemented<make_impl<L>, Context>
+    >, Context> {
         template <typename ...Xss>
-        static constexpr decltype(auto) zip_impl(Xss&& ...xss)
+        static constexpr decltype(auto) apply(Xss&& ...xss)
         { return zip_with(make<L>, detail::std::forward<Xss>(xss)...); }
+    };
 
+    template <typename L, typename Context>
+    struct zip_with_impl<L, when<
+        is_an<Iterable, L>() &&
+        is_implemented<nil_impl<L>, Context> &&
+        is_implemented<cons_impl<L>, Context>
+    >, Context> {
         template <typename F, typename ...Xss>
-        static constexpr auto zip_with_impl(F f, Xss ...xss) {
+        static constexpr auto apply(F f, Xss ...xss) {
             return eval_if(or_(is_empty(xss)...),
                 [](auto _) { return nil<L>(); },
                 [=](auto _) {
                     return cons(
                         f(_(head)(xss)...),
-                        zip_with_impl(f, _(tail)(xss)...)
+                        apply(f, _(tail)(xss)...)
                     );
                 }
             );
@@ -517,6 +696,16 @@ namespace boost { namespace hana {
             });
         }
     };
+
+    //! @bug Checking for `Monad` checks `Functor`, which checks for `fmap`,
+    //! which in turns checks for `List` because of the `fmap` for lists.
+    template <typename L>
+    constexpr auto is_a<List, L> = bool_<
+        // is_an<Iterable, L>() &&
+        // is_a<Monad, L>() &&
+        is_implemented<nil_impl<L>> &&
+        is_implemented<cons_impl<L>>
+    >;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_LIST_HPP

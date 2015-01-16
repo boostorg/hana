@@ -80,16 +80,19 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct List::instance<TypeList> : List::mcd<TypeList> {
+    struct cons_impl<TypeList> {
         template <typename X, typename ...Xs>
-        static constexpr auto cons_impl(X, detail::repr::type_list<Xs...>)
+        static constexpr auto apply(X, detail::repr::type_list<Xs...>)
         { return type_list<typename X::type, Xs...>; }
 
         template <typename X, typename Xs>
-        static constexpr auto cons_impl(X x, Xs xs)
-        { return cons_impl(x, typename Xs::storage{}); }
+        static constexpr auto apply(X x, Xs xs)
+        { return apply(x, typename Xs::storage{}); }
+    };
 
-        static constexpr auto nil_impl()
+    template <>
+    struct nil_impl<TypeList> {
+        static constexpr auto apply()
         { return type_list<>; }
     };
 }} // end namespace boost::hana

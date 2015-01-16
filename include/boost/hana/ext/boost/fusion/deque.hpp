@@ -56,18 +56,19 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct List::instance<ext::boost::fusion::Deque>
-        : List::mcd<ext::boost::fusion::Deque>
-    {
+    struct cons_impl<ext::boost::fusion::Deque> {
         template <typename X, typename Xs>
-        static constexpr decltype(auto) cons_impl(X&& x, Xs&& xs) {
+        static constexpr decltype(auto) apply(X&& x, Xs&& xs) {
             return ::boost::fusion::as_deque(
                 ::boost::fusion::push_front(
                     detail::std::forward<Xs>(xs),
                     detail::std::forward<X>(x)));
         }
+    };
 
-        static auto nil_impl()
+    template <>
+    struct nil_impl<ext::boost::fusion::Deque> {
+        static auto apply()
         { return ::boost::fusion::deque<>{}; }
     };
 }} // end namespace boost::hana

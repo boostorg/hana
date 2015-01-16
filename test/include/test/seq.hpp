@@ -117,17 +117,19 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct List::instance<test::Seq> : List::mcd<test::Seq> {
+    struct cons_impl<test::Seq> {
         template <typename X, typename Xs>
-        static constexpr auto cons_impl(X x, Xs xs) {
+        static constexpr auto apply(X x, Xs xs) {
             return xs.storage([=](auto ...xs) {
                 return test::seq(x, xs...);
             });
         }
+    };
 
-        static BOOST_HANA_CONSTEXPR_LAMBDA auto nil_impl() {
-            return test::seq();
-        }
+    template <>
+    struct nil_impl<test::Seq> {
+        static BOOST_HANA_CONSTEXPR_LAMBDA auto apply()
+        { return test::seq(); }
     };
 }} // end namespace boost::hana
 

@@ -103,17 +103,20 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct List::instance<ext::std::Tuple> : List::mcd<ext::std::Tuple> {
-        static constexpr auto nil_impl()
-        { return ::std::tuple<>{}; }
-
+    struct cons_impl<ext::std::Tuple> {
         template <typename X, typename Xs>
-        static constexpr decltype(auto) cons_impl(X&& x, Xs&& xs) {
+        static constexpr decltype(auto) apply(X&& x, Xs&& xs) {
             return ::std::tuple_cat(
                 ::std::make_tuple(detail::std::forward<X>(x)),
                 detail::std::forward<Xs>(xs)
             );
         }
+    };
+
+    template <>
+    struct nil_impl<ext::std::Tuple> {
+        static constexpr auto apply()
+        { return ::std::tuple<>{}; }
     };
 
     template <>
