@@ -10,8 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_RECORD_HPP
 #define BOOST_HANA_FWD_RECORD_HPP
 
-#include <boost/hana/core/typeclass.hpp>
-#include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/core/method.hpp>
 
 
 namespace boost { namespace hana {
@@ -64,22 +63,35 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @include example/record/howto.cpp
-    struct Record {
-        BOOST_HANA_TYPECLASS(Record);
-        struct mcd;
-    };
+    struct Record { };
 
-    //! A list of pairs representing the data structure.
+    //! Returns a list of pairs representing the data structure.
     //! @relates Record
     //!
-    //! Specifically, `members<R>` is a `List` of `Product`s associating keys
+    //! Specifically, `members<R>()` is a `List` of `Product`s associating keys
     //! to functions, where a pair `(k, f)` means that the member represented
     //! by the key `k` can be accessed by calling the function `f` on an object
     //! of data type `R`.
+    //!
+    //! ### Example
+    //! @snippet example/record.cpp members
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    template <typename M>
+    constexpr auto members = []() -> decltype(auto) {
+        return tag-dispatched;
+    };
+#else
+    BOOST_HANA_METHOD(members_impl);
+
     template <typename R>
-    BOOST_HANA_CONSTEXPR_LAMBDA auto members = Record::instance<
-        R
-    >::members_impl();
+    struct _members {
+        constexpr decltype(auto) operator()() const
+        { return dispatch<members_impl<R>>::apply(); }
+    };
+
+    template <typename R>
+    constexpr _members<R> members{};
+#endif
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_RECORD_HPP

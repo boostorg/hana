@@ -66,7 +66,7 @@ Distributed under the Boost Software License, Version 1.0.
 /**/
 
 #define BOOST_HANA_PP_RECORD_DEFINE_INSTANCE_IMPL(MEMBERS)                  \
-    static BOOST_HANA_CONSTEXPR_LAMBDA decltype(auto) members_impl() {      \
+    static BOOST_HANA_CONSTEXPR_LAMBDA decltype(auto) apply() {             \
         return ::boost::hana::tuple(                                        \
             BOOST_PP_SEQ_ENUM(                                              \
                 BOOST_PP_SEQ_TRANSFORM(                                     \
@@ -101,7 +101,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_PP_DEFINE_RECORD_INTRUSIVE_IMPL(DATATYPE, MEMBERS)       \
     BOOST_PP_SEQ_FOR_EACH(BOOST_HANA_PP_RECORD_DECLARE_MEMBER_IMPL, ~, MEMBERS)\
                                                                             \
-    struct hana { struct Record : ::boost::hana::Record::mcd {              \
+    struct hana { struct members_impl {                                     \
         BOOST_HANA_PP_RECORD_DEFINE_INSTANCE_IMPL(MEMBERS)                  \
     }; }                                                                    \
 /**/
@@ -124,9 +124,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_PP_DEFINE_RECORD_IMPL(DATATYPE, MEMBERS)                 \
     namespace boost { namespace hana {                                      \
         template <>                                                         \
-        struct Record::instance<DATATYPE>                                   \
-            : Record::mcd                                                   \
-        {                                                                   \
+        struct members_impl<DATATYPE> {                                     \
             BOOST_HANA_PP_RECORD_DEFINE_INSTANCE_IMPL(MEMBERS)              \
         };                                                                  \
     }}                                                                      \

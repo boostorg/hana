@@ -30,8 +30,8 @@ constexpr auto age = decltype_(&Person::age);
 
 namespace boost { namespace hana {
     template <>
-    struct Record::instance<Person> : Record::mcd {
-        static BOOST_HANA_CONSTEXPR_LAMBDA auto members_impl() {
+    struct members_impl<Person> {
+        static BOOST_HANA_CONSTEXPR_LAMBDA auto apply() {
             return tuple(
                 pair(name, [](auto&& p) -> decltype(auto) {
                     return id(std::forward<decltype(p)>(p).name);

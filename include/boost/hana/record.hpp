@@ -12,7 +12,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/record.hpp>
 
+#include <boost/hana/bool.hpp>
 #include <boost/hana/core/is_a.hpp>
+#include <boost/hana/core/method.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/functor.hpp>
@@ -26,14 +28,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! Minimal complete definition: `members`
-    struct Record::mcd { };
-
     template <typename R>
     struct Foldable::record_mcd : Foldable::folds_mcd {
         template <typename Udt, typename S, typename F>
         static constexpr decltype(auto) foldl_impl(Udt&& udt, S&& s, F&& f) {
-            return foldl(members<R>, detail::std::forward<S>(s),
+            return foldl(members<R>(), detail::std::forward<S>(s),
                 [&udt, f(detail::std::forward<F>(f))]
                 (auto&& s, auto&& member) -> decltype(auto) {
                     return f(
@@ -48,7 +47,7 @@ namespace boost { namespace hana {
 
         template <typename Udt, typename S, typename F>
         static constexpr decltype(auto) foldr_impl(Udt&& udt, S&& s, F&& f) {
-            return foldr(members<R>, detail::std::forward<S>(s),
+            return foldr(members<R>(), detail::std::forward<S>(s),
                 [&udt, f(detail::std::forward<F>(f))]
                 (auto&& member, auto&& s) -> decltype(auto) {
                     return f(
@@ -63,7 +62,7 @@ namespace boost { namespace hana {
     };
 
     //! Folding a `Record` `R` is equivalent to folding a list of its members,
-    //! in the same order as they appear in `members<R>`.
+    //! in the same order as they appear in `members<R>()`.
     template <typename R>
     struct Foldable::instance<R, when<is_a<Record, R>()>>
         : Foldable::record_mcd<R>
@@ -71,12 +70,12 @@ namespace boost { namespace hana {
 
     //! Two `Records` of the same data type `R` are equal if and only if
     //! all their members are equal. The members are compared in the
-    //! same order as they appear in `members<R>`.
+    //! same order as they appear in `members<R>()`.
     template <typename R>
     struct equal_impl<R, R, when<is_a<Record, R>()>> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X const& x, Y const& y) {
-            return all(members<R>, [&x, &y](auto&& member) -> decltype(auto) {
+            return all(members<R>(), [&x, &y](auto&& member) -> decltype(auto) {
                 auto accessor = second(detail::std::forward<decltype(member)>(member));
                 return equal(accessor(x), accessor(y));
             });
@@ -91,7 +90,7 @@ namespace boost { namespace hana {
         template <typename X, typename Pred>
         static constexpr decltype(auto) apply(X&& x, Pred&& pred) {
             return fmap(
-                find(members<R>, [&pred](auto&& member) -> decltype(auto) {
+                find(members<R>(), [&pred](auto&& member) -> decltype(auto) {
                     return pred(first(detail::std::forward<decltype(member)>(member)));
                 }),
                 [&x](auto&& member) -> decltype(auto) {
@@ -107,10 +106,29 @@ namespace boost { namespace hana {
     struct any_impl<R, when<is_a<Record, R>()>> {
         template <typename X, typename Pred>
         static constexpr decltype(auto) apply(X const&, Pred&& pred) {
-            return any(members<R>, [&pred](auto&& member) -> decltype(auto) {
+            return any(members<R>(), [&pred](auto&& member) -> decltype(auto) {
                 return pred(first(detail::std::forward<decltype(member)>(member)));
             });
         }
+    };
+
+    template <typename R>
+    constexpr auto is_a<Record, R> = bool_<
+        is_implemented<members_impl<R>>
+    >;
+
+    //! @todo
+    //! Document and test the additional dispatching. Also consider making
+    //! this the default for unary methods.
+    template <typename R, typename Context>
+    struct dispatch_impl<4, members_impl<R>, Context> {
+        template <typename R_>
+        static typename R_::hana::members_impl check(int);
+
+        template <typename R_>
+        static not_implemented<members_impl<R>> check(...);
+
+        using type = decltype(check<R>(int{}));
     };
 }} // end namespace boost::hana
 

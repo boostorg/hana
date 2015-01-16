@@ -49,7 +49,7 @@ namespace boost { namespace hana {
     };
 
     //! Converting a `Record` `R` to a `Map` is equivalent to converting its
-    //! `members<R>` to a `Map`, except the values are replaced by the actual
+    //! `members<R>()` to a `Map`, except the values are replaced by the actual
     //! members of the object instead of accessors.
     template <typename R>
     struct convert<Map, R, when<is_a<Record, R>()>> {
@@ -62,7 +62,7 @@ namespace boost { namespace hana {
                     second(detail::std::forward<decltype(member)>(member))(x)
                 );
             };
-            return to<Map>(fmap(members<R>, detail::std::move(extract)));
+            return to<Map>(fmap(members<R>(), detail::std::move(extract)));
         }
     };
 
