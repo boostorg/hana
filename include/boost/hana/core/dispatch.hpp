@@ -87,25 +87,19 @@ namespace boost { namespace hana {
     struct dispatch_impl<2, Method<T...>, Context, decltype((void)sizeof(Method<T..., when<true>>))> {
         using type = Method<T..., when<true>>;
     };
-    template <template <typename ...> class Method, typename ...T, typename Context, typename Otherwise>
-    struct dispatch_impl<2, Method<T...>, Context, Otherwise>
-        : dispatch_impl<3, Method<T...>, Context>
-    { };
-
-
     template <template <typename ...> class Method, typename ...T, typename Context>
-    struct dispatch_impl<3, Method<T...>, Context, decltype((void)sizeof(Method<T..., when<true>, Context>))> {
+    struct dispatch_impl<2, Method<T...>, Context, decltype((void)sizeof(Method<T..., when<true>, Context>))> {
         using type = Method<T..., when<true>, Context>;
     };
-    template <template <typename ...> class Method, typename ...T, typename Context, typename Otherwise>
-    struct dispatch_impl<3, Method<T...>, Context, Otherwise>
-        : dispatch_impl<4, Method<T...>, Context>
+    template <typename Method, typename Context, typename Otherwise>
+    struct dispatch_impl<2, Method, Context, Otherwise>
+        : dispatch_impl<4, Method, Context>
     { };
 
 
-    template <template <typename ...> class Method, typename ...T, typename Context>
-    struct dispatch_impl<4, Method<T...>, Context> {
-        using type = not_implemented<Method<T...>>;
+    template <typename Method, typename Context>
+    struct dispatch_impl<4, Method, Context> {
+        using type = not_implemented<Method>;
     };
 
 
