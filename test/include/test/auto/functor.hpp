@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/assert.hpp>
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/id.hpp>
@@ -24,6 +25,8 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana { namespace test {
     template <typename F>
     auto laws<Functor, F> = [] {
+        BOOST_HANA_CONSTANT_CHECK(models<Functor, F>);
+
         auto f = injection([]{});
         auto g = injection([]{});
         auto v = injection([]{})();

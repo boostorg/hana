@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/comparable.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/ring.hpp>
 
 #include <test/auto/base.hpp>
@@ -22,6 +23,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana { namespace test {
     template <typename D>
     auto laws<IntegralDomain, D> = [] {
+        BOOST_HANA_CONSTANT_CHECK(models<IntegralDomain, D>);
         laws<Ring, D>();
 
         // Instance laws

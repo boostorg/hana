@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/comparable.hpp>
+#include <boost/hana/core/models.hpp>
 
 #include <test/auto/base.hpp>
 
@@ -18,6 +19,8 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana { namespace test {
     template <typename E>
     auto laws<Enumerable, E> = [] {
+        BOOST_HANA_CONSTANT_CHECK(models<Enumerable, E>);
+
         for_each(objects<E>, [](auto x) {
             BOOST_HANA_CHECK(equal(
                 succ(pred(x)),

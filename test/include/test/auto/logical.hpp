@@ -9,13 +9,16 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/logical.hpp>
 
+#include <boost/hana/assert.hpp>
+#include <boost/hana/core/models.hpp>
+
 #include <test/auto/base.hpp>
 
 
 namespace boost { namespace hana { namespace test {
     template <typename L>
     auto laws<Logical, L> = [] {
-
+        BOOST_HANA_CONSTANT_CHECK(models<Logical, L>);
     };
 }}} // end namespace boost::hana::test
 

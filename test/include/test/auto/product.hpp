@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/product.hpp>
 
 #include <boost/hana/assert.hpp>
+#include <boost/hana/core/models.hpp>
 
 #include <test/auto/base.hpp>
 #include <test/injection.hpp>
@@ -22,6 +23,8 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana { namespace test {
     template <typename P>
     auto laws<Product, P> = [] {
+        BOOST_HANA_CONSTANT_CHECK(models<Product, P>);
+
         auto prod = make<P>;
         using test::x;
 

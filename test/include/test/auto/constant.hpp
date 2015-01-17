@@ -9,12 +9,17 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/constant.hpp>
 
+#include <boost/hana/assert.hpp>
+#include <boost/hana/core/models.hpp>
+
 #include <test/auto/base.hpp>
 
 
 namespace boost { namespace hana { namespace test {
     template <typename C>
     auto laws<Constant, C> = [] {
+        BOOST_HANA_CONSTANT_CHECK(models<Constant, C>);
+
         for_each(objects<C>, [](auto c) {
             constexpr auto must_be_constexpr = value(c);
             (void)must_be_constexpr;

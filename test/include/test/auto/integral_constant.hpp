@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/comparable.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/logical.hpp>
 
@@ -43,8 +44,11 @@ namespace boost { namespace hana { namespace test {
         { return equal(val, other.val); }
     };
 
-    template <template <typename ...> class C, typename T, typename U>
-    void IntegralConstant_laws() {
+    template <template <typename ...> class C, typename T>
+    auto laws<IntegralConstant, C<T>> = [] {
+        BOOST_HANA_CONSTANT_CHECK(models<IntegralConstant, C<T>>);
+
+        using U = T;
         using Common = std::common_type_t<T, U>;
 
         // laws
@@ -438,11 +442,6 @@ namespace boost { namespace hana { namespace test {
                 ));
             }
         }
-    }
-
-    template <template <typename ...> class C, typename T>
-    auto laws<IntegralConstant, C<T>> = [] {
-        IntegralConstant_laws<C, T, T>();
     };
 }}} // end namespace boost::hana::test
 

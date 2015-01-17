@@ -9,6 +9,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/applicative.hpp>
 
+#include <boost/hana/assert.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/functor.hpp>
 
 // required instances
@@ -20,6 +22,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana { namespace test {
     template <typename A>
     auto laws<Applicative, A> = [] {
+        BOOST_HANA_CONSTANT_CHECK(models<Applicative, A>);
         laws<Functor, A>();
 
         //! @todo Write Applicative laws

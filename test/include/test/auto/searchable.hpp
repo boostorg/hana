@@ -26,6 +26,8 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana { namespace test {
     template <typename S>
     auto laws<Searchable, S> = [] {
+        BOOST_HANA_CONSTANT_CHECK(models<Searchable, S>);
+
         for_each(objects<S>, [](auto xs) {
 
             auto predicates = tuple(always(true_), always(false_));
