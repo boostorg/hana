@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/assert.hpp>
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
-#include <boost/hana/core/is_a.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/ext/std/tuple.hpp>
 #include <boost/hana/integral.hpp>
@@ -24,14 +24,14 @@ using namespace boost::hana;
 
 int main() {
     //! [standard]
-    BOOST_HANA_CONSTANT_CHECK( is_a<Foldable, Maybe>);
-    BOOST_HANA_CONSTANT_CHECK(!is_a<Logical, Maybe>);
-    BOOST_HANA_CONSTANT_CHECK(!is_a<Foldable, int>);
-    BOOST_HANA_CONSTANT_CHECK( are<Comparable, int, long>);
+    BOOST_HANA_CONSTANT_CHECK( is<Foldable, Maybe>);
+    BOOST_HANA_CONSTANT_CHECK(!is<Logical, Maybe>);
+    BOOST_HANA_CONSTANT_CHECK(!is<Foldable, int>);
+    BOOST_HANA_CONSTANT_CHECK( is<Comparable, int>);
     //! [standard]
 
     //! [alternate]
-    BOOST_HANA_CONSTEXPR_LAMBDA auto row = tuple;
+    constexpr auto row = tuple;
     BOOST_HANA_CONSTEXPR_LAMBDA auto check_table = [](auto ...headers) {
         return [=](auto ...rows) {
             auto row_is_correct = [=](auto row) {
@@ -41,7 +41,7 @@ int main() {
         };
     };
 
-    check_table(                      is_a<Logical>, is_an<Iterable>, is_a<Monad>   )(
+    check_table(                       is<Logical>,   is<Iterable>,   is_a<Monad>   )(
     row(just(1),                         false_,         false_,         true_      ),
     row(tuple(1, '2', 3.3),              false_,         true_,          true_      ),
     row(std::make_tuple("abc", 'd'),     false_,         true_,          true_      ),

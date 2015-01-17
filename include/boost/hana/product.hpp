@@ -12,10 +12,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/product.hpp>
 
-#include <boost/hana/bool.hpp>
-#include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/core/method.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/logical.hpp>
@@ -48,12 +47,15 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename P>
-    constexpr auto is_a<Product, P> = bool_<
-        is_implemented<first_impl<P>> &&
-        is_implemented<second_impl<P>> &&
-        is_implemented<make_impl<P>>
-    >;
+    template <>
+    struct models_impl<Product> {
+        template <typename P, typename Context>
+        static constexpr auto apply =
+            is_implemented<first_impl<P>, Context> &&
+            is_implemented<second_impl<P>, Context> &&
+            is_implemented<make_impl<P>, Context>
+        ;
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_PRODUCT_HPP

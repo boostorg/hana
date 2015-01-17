@@ -15,8 +15,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/method.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/enumerable.hpp>
@@ -236,12 +236,15 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename It>
-    constexpr auto is_a<Iterable, It> = bool_<
-        is_implemented<head_impl<It>> &&
-        is_implemented<tail_impl<It>> &&
-        is_implemented<is_empty_impl<It>>
-    >;
+    template <>
+    struct models_impl<Iterable> {
+        template <typename It, typename Context>
+        static constexpr bool apply =
+            is_implemented<head_impl<It>, Context> &&
+            is_implemented<tail_impl<It>, Context> &&
+            is_implemented<is_empty_impl<It>, Context>
+        ;
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_ITERABLE_HPP

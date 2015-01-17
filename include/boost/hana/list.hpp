@@ -17,9 +17,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/constant.hpp>
 #include <boost/hana/core/convert.hpp>
-#include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/core/method.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integer_sequence.hpp>
@@ -699,13 +699,16 @@ namespace boost { namespace hana {
 
     //! @bug Checking for `Monad` checks `Functor`, which checks for `fmap`,
     //! which in turns checks for `List` because of the `fmap` for lists.
-    template <typename L>
-    constexpr auto is_a<List, L> = bool_<
-        // is_an<Iterable, L>() &&
-        // is_a<Monad, L>() &&
-        is_implemented<nil_impl<L>> &&
-        is_implemented<cons_impl<L>>
-    >;
+    template <>
+    struct models_impl<List> {
+        template <typename L, typename Context>
+        static constexpr bool apply =
+            // is_an<Iterable, L>() &&
+            // is_a<Monad, L>() &&
+            is_implemented<nil_impl<L>, Context> &&
+            is_implemented<cons_impl<L>, Context>
+        ;
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_LIST_HPP

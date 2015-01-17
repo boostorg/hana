@@ -5,20 +5,17 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/core/convert.hpp>
-#include <boost/hana/core/is_a.hpp>
-#include <boost/hana/core/typeclass.hpp>
+#include <boost/hana/core/models.hpp>
 using namespace boost::hana;
 
-
-struct Typeclass {
-    BOOST_HANA_TYPECLASS(Typeclass);
-};
 
 template <typename X>
 void test(X x) {
     to<int>(x);
-    is_a<Typeclass>(x);
-    is_an<Typeclass>(x);
+    is_a<int>(x);
+    is_an<int>(x);
+    is<int>(x);
+    models<int>(x);
 }
 
 int main() {

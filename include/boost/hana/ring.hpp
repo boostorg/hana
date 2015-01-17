@@ -12,13 +12,12 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/ring.hpp>
 
-#include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/method.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/dispatch_common.hpp>
@@ -88,12 +87,15 @@ namespace boost { namespace hana {
         : detail::dispatch_common<mult_impl<T, U>, Ring, Context>
     { };
 
-    template <typename R>
-    constexpr auto is_a<Ring, R> = bool_<
-        is_a<Group, R>() &&
-        is_implemented<mult_impl<R, R>> &&
-        is_implemented<one_impl<R>>
-    >;
+    template <>
+    struct models_impl<Ring> {
+        template <typename R, typename Context>
+        static constexpr auto apply =
+            is_a<Group, R, Context> &&
+            is_implemented<mult_impl<R, R>, Context> &&
+            is_implemented<one_impl<R>, Context>
+        ;
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_RING_HPP

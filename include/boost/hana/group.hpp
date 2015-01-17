@@ -12,11 +12,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/group.hpp>
 
-#include <boost/hana/bool.hpp>
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/is_a.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/method.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
@@ -84,12 +83,15 @@ namespace boost { namespace hana {
         : detail::dispatch_common<minus_impl<T, U>, Group, Context>
     { };
 
-    template <typename G>
-    constexpr auto is_a<Group, G> = bool_<
-        is_a<Monoid, G>() &&
-        is_implemented<negate_impl<G>> &&
-        is_implemented<minus_impl<G, G>>
-    >;
+    template <>
+    struct models_impl<Group> {
+        template <typename G, typename Context>
+        static constexpr bool apply =
+            models<Monoid, G, Context> &&
+            is_implemented<negate_impl<G>, Context> &&
+            is_implemented<minus_impl<G, G>, Context>
+        ;
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_GROUP_HPP

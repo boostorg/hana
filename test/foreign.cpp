@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <test/builtin.hpp>
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/core/is_a.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
@@ -89,12 +89,12 @@ int main() {
             // same type
             BOOST_HANA_CONSTEXPR_CHECK(equal(integer{0}, integer{0}));
             BOOST_HANA_CONSTEXPR_CHECK(not_(equal(integer{0}, integer{1})));
-            BOOST_HANA_CONSTANT_CHECK(are<Comparable>(integer{0}, integer{0}));
+            BOOST_HANA_CONSTANT_CHECK(is<Comparable, integer>);
 
             // mixed types
             BOOST_HANA_CONSTEXPR_CHECK(equal(integer{0}, integer2{0}));
             BOOST_HANA_CONSTEXPR_CHECK(not_(equal(integer{0}, integer2{1})));
-            BOOST_HANA_CONSTANT_CHECK(are<Comparable>(integer{0}, integer2{0}));
+            BOOST_HANA_CONSTANT_CHECK(is_implemented<equal_impl<integer, integer2>>);
         }
     }
 
@@ -106,13 +106,13 @@ int main() {
             BOOST_HANA_CONSTEXPR_CHECK(less(integer{0}, integer{1}));
             BOOST_HANA_CONSTEXPR_CHECK(not_(less(integer{0}, integer{0})));
             BOOST_HANA_CONSTEXPR_CHECK(not_(less(integer{1}, integer{0})));
-            BOOST_HANA_CONSTANT_CHECK(are<Orderable, integer, integer>);
+            BOOST_HANA_CONSTANT_CHECK(is<Orderable, integer>);
 
             // mixed types
             BOOST_HANA_CONSTEXPR_CHECK(less(integer{0}, integer2{1}));
             BOOST_HANA_CONSTEXPR_CHECK(not_(less(integer{0}, integer2{0})));
             BOOST_HANA_CONSTEXPR_CHECK(not_(less(integer{1}, integer2{0})));
-            BOOST_HANA_CONSTANT_CHECK(are<Orderable, integer, integer2>);
+            BOOST_HANA_CONSTANT_CHECK(is_implemented<less_impl<integer, integer2>>);
         }
     }
 

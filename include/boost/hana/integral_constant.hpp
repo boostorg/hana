@@ -12,12 +12,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/integral_constant.hpp>
 
-#include <boost/hana/bool.hpp>
 #include <boost/hana/constant.hpp>
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
-#include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/method.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/common_type.hpp>
 #include <boost/hana/detail/std/forward.hpp>
@@ -187,11 +186,14 @@ namespace boost { namespace hana {
         { return integral_constant<C<T>, 1>(); }
     };
 
-    template <typename C>
-    constexpr auto is_a<IntegralConstant, C> = bool_<
-        is_a<Constant, C>() &&
-        is_implemented<integral_constant_impl<C>>
-    >;
+    template <>
+    struct models_impl<IntegralConstant> {
+        template <typename C, typename Context>
+        static constexpr bool apply =
+            models<Constant, C, Context> &&
+            is_implemented<integral_constant_impl<C>, Context>
+        ;
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_INTEGRAL_CONSTANT_HPP

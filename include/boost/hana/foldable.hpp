@@ -12,8 +12,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/foldable.hpp>
 
-#include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/method.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/std/forward.hpp>
@@ -369,10 +369,11 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename T>
-    constexpr auto is_a<Foldable, T> = bool_<
-        is_implemented<unpack_impl<T>>
-    >;
+    template <>
+    struct models_impl<Foldable> {
+        template <typename T, typename Context>
+        static constexpr bool apply = is_implemented<unpack_impl<T>, Context>;
+    };
 
     template <typename T, detail::std::size_t N>
     struct unpack_impl<T[N]> {

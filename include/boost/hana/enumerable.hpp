@@ -12,8 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/enumerable.hpp>
 
-#include <boost/hana/bool.hpp>
-#include <boost/hana/core/is_a.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/declval.hpp>
 #include <boost/hana/detail/std/forward.hpp>
@@ -38,11 +37,14 @@ namespace boost { namespace hana {
         { return --x; }
     };
 
-    template <typename T>
-    constexpr auto is_a<Enumerable, T> = bool_<
-        is_implemented<succ_impl<T>> &&
-        is_implemented<pred_impl<T>>
-    >;
+    template <>
+    struct models_impl<Enumerable> {
+        template <typename T, typename Context>
+        static constexpr bool apply =
+            is_implemented<succ_impl<T>, Context> &&
+            is_implemented<pred_impl<T>, Context>
+        ;
+    };
 }}
 
 #endif // !BOOST_HANA_ENUMERABLE_HPP

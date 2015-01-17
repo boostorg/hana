@@ -7,15 +7,15 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable.hpp>
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/core/is_a.hpp>
+#include <boost/hana/core/models.hpp>
 using namespace boost::hana;
 
 
-namespace tc1 {
-    // No instance is provided when the objects share a common type but
-    // that common type isn't Comparable
-    struct T { }; struct U { }; struct C { };
-}
+//////////////////////////////////////////////////////////////////////////////
+// 1. `equal_impl` is not provided when the objects share a common type but
+//    that common type isn't Comparable
+//////////////////////////////////////////////////////////////////////////////
+namespace tc1 { struct T { }; struct U { }; struct C { }; }
 namespace boost { namespace hana {
     template <>
     struct common<tc1::T, tc1::U> {
@@ -30,29 +30,38 @@ namespace boost { namespace hana {
     struct convert<tc1::C, tc1::U> {
         static constexpr tc1::C apply(tc1::U) { return {}; }
     };
+
+    template <>
+    struct equal_impl<tc1::T, tc1::T>
+    { static constexpr bool apply(tc1::T, tc1::T) { return true; } };
+    template <>
+    struct equal_impl<tc1::U, tc1::U>
+    { static constexpr bool apply(tc1::U, tc1::U) { return true; } };
 }}
-BOOST_HANA_CONSTANT_CHECK(not_(are<Comparable, tc1::T, tc1::U>));
+BOOST_HANA_CONSTANT_CHECK(not_(is_implemented<equal_impl<tc1::T, tc1::U>>));
 
 
+//////////////////////////////////////////////////////////////////////////////
+// 2. Two objects of unrelated data types are unequal by default.
+//////////////////////////////////////////////////////////////////////////////
 namespace tc2 {
     struct T { }; struct U { };
-
-    // Two objects of unrelated data types are unequal by default.
-    BOOST_HANA_CONSTANT_CHECK(are<Comparable, T, U>);
+    BOOST_HANA_CONSTANT_CHECK(is_implemented<equal_impl<T, U>>);
     BOOST_HANA_CONSTANT_CHECK(not_(equal(T{}, U{})));
 }
 
+//////////////////////////////////////////////////////////////////////////////
+// 3. Two objects of the same data type are not comparable by default.
+//////////////////////////////////////////////////////////////////////////////
 namespace tc3 {
     struct T { };
-
-    // Two objects of the same data type are not comparable by default.
-    BOOST_HANA_CONSTANT_CHECK(not_(are<Comparable, T, T>));
+    BOOST_HANA_CONSTANT_CHECK(not_(is_implemented<equal_impl<T, T>>));
 }
 
-namespace tc4 {
-    // Objects sharing a Comparable common type are Comparable.
-    struct T { }; struct U { }; struct C { };
-}
+//////////////////////////////////////////////////////////////////////////////
+// 4. Comparable objects sharing a Comparable common type can be compared.
+//////////////////////////////////////////////////////////////////////////////
+namespace tc4 { struct T { }; struct U { }; struct C { }; }
 namespace boost { namespace hana {
     template <>
     struct common<tc4::T, tc4::U> {
@@ -71,8 +80,14 @@ namespace boost { namespace hana {
     template <>
     struct equal_impl<tc4::C, tc4::C>
     { static constexpr bool apply(tc4::C, tc4::C) { return true; } };
+    template <>
+    struct equal_impl<tc4::T, tc4::T>
+    { static constexpr bool apply(tc4::T, tc4::T) { return true; } };
+    template <>
+    struct equal_impl<tc4::U, tc4::U>
+    { static constexpr bool apply(tc4::U, tc4::U) { return true; } };
 }}
-BOOST_HANA_CONSTANT_CHECK(are<Comparable, tc4::T, tc4::U>);
+BOOST_HANA_CONSTANT_CHECK(is_implemented<equal_impl<tc4::T, tc4::U>>);
 
 
 int main() { }

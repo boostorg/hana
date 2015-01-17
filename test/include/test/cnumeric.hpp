@@ -8,7 +8,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_TEST_TEST_CNUMERIC_HPP
 
 #include <boost/hana/core/convert.hpp>
-#include <boost/hana/core/is_a.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 
 // instances

@@ -5,13 +5,10 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/core/operators.hpp>
-#include <boost/hana/core/typeclass.hpp>
 using namespace boost::hana;
 
 
-struct Typeclass {
-    BOOST_HANA_TYPECLASS(Typeclass);
-};
+struct Typeclass { };
 
 struct NestedOperators {
     struct hana { struct enabled_operators : Typeclass { }; };

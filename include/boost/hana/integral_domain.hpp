@@ -12,12 +12,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/integral_domain.hpp>
 
-#include <boost/hana/bool.hpp>
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/method.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/dispatch_common.hpp>
@@ -76,12 +75,15 @@ namespace boost { namespace hana {
         { return detail::std::forward<X>(x) % detail::std::forward<Y>(y); }
     };
 
-    template <typename D>
-    constexpr auto is_a<IntegralDomain, D> = bool_<
-        is_a<Ring, D>() &&
-        is_implemented<quot_impl<D, D>> &&
-        is_implemented<mod_impl<D, D>>
-    >;
+    template <>
+    struct models_impl<IntegralDomain> {
+        template <typename D, typename Context>
+        static constexpr bool apply =
+            models<Ring, D, Context> &&
+            is_implemented<quot_impl<D, D>, Context> &&
+            is_implemented<mod_impl<D, D>, Context>
+        ;
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_INTEGRAL_DOMAIN_HPP

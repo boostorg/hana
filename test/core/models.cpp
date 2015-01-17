@@ -4,8 +4,7 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/core/is_a.hpp>
-#include <boost/hana/core/typeclass.hpp>
+#include <boost/hana/core/models.hpp>
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/foldable.hpp>
@@ -19,17 +18,16 @@ Distributed under the Boost Software License, Version 1.0.
 using namespace boost::hana;
 
 
-struct Typeclass {
-    BOOST_HANA_TYPECLASS(Typeclass);
-};
-
+struct Typeclass;
 struct NotInstance;
 struct Instance;
-struct PredicatedInstance;
-
-template <> struct Typeclass::instance<Instance> { };
-template <typename T>
-struct Typeclass::instance<T, when<std::is_same<T, PredicatedInstance>{}>> { };
+namespace boost { namespace hana {
+    template <>
+    struct models_impl< ::Typeclass> {
+        template <typename T, typename Context>
+        static constexpr bool apply = std::is_same<T, ::Instance>::value;
+    };
+}}
 
 struct an_instance { struct hana { using datatype = Instance; }; };
 struct not_instance { struct hana { using datatype = NotInstance; }; };
@@ -37,18 +35,9 @@ struct not_instance { struct hana { using datatype = NotInstance; }; };
 
 int main() {
     // standard syntax
-    BOOST_HANA_CONSTANT_CHECK(is_a<Typeclass, Instance>);
-    BOOST_HANA_CONSTANT_CHECK(is_an<Typeclass, Instance>);
-
-    BOOST_HANA_CONSTANT_CHECK(!is_a<Typeclass, void>);
-    BOOST_HANA_CONSTANT_CHECK(!is_an<Typeclass, void>);
-
-    BOOST_HANA_CONSTANT_CHECK(!is_a<Typeclass, NotInstance>);
-    BOOST_HANA_CONSTANT_CHECK(!is_an<Typeclass, NotInstance>);
-
-    BOOST_HANA_CONSTANT_CHECK(is_a<Typeclass, PredicatedInstance>);
-    BOOST_HANA_CONSTANT_CHECK(is_an<Typeclass, PredicatedInstance>);
-
+    BOOST_HANA_CONSTANT_CHECK(models<Typeclass, Instance>);
+    BOOST_HANA_CONSTANT_CHECK(!models<Typeclass, NotInstance>);
+    BOOST_HANA_CONSTANT_CHECK(!models<Typeclass, void>);
 
     // alternate syntax
     BOOST_HANA_CONSTANT_CHECK(is_a<Typeclass>(an_instance{}));
@@ -79,7 +68,7 @@ int main() {
     BOOST_HANA_CONSTANT_CHECK(is_a<Monad>(just("abcd")));
     BOOST_HANA_CONSTANT_CHECK(is_a<Monad>(nothing));
 
-    BOOST_HANA_CONSTANT_CHECK(are<Orderable>(1, 2));
+    BOOST_HANA_CONSTANT_CHECK(is<Orderable>(1));
 
     BOOST_HANA_CONSTANT_CHECK(is_a<Tuple>(tuple(1, '2', 3)));
     BOOST_HANA_CONSTANT_CHECK(is_an<int>(1));

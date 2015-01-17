@@ -12,12 +12,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/orderable.hpp>
 
-#include <boost/hana/bool.hpp>
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/method.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/dispatch_common.hpp>
@@ -154,10 +153,13 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename Ord>
-    constexpr auto is_a<Orderable, Ord> = bool_<
-        is_implemented<less_impl<Ord, Ord>>
-    >;
+    template <>
+    struct models_impl<Orderable> {
+        template <typename T, typename Context>
+        static constexpr auto apply =
+            is_implemented<less_impl<T, T>, Context>
+        ;
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_ORDERABLE_HPP

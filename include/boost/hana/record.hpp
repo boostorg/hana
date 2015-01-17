@@ -12,9 +12,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/record.hpp>
 
-#include <boost/hana/bool.hpp>
-#include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/method.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/functor.hpp>
@@ -110,10 +109,13 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename R>
-    constexpr auto is_a<Record, R> = bool_<
-        is_implemented<members_impl<R>>
-    >;
+    template <>
+    struct models_impl<Record> {
+        template <typename R, typename Context>
+        static constexpr auto apply =
+            is_implemented<members_impl<R>, Context>
+        ;
+    };
 
     //! @todo
     //! Document and test the additional dispatching. Also consider making

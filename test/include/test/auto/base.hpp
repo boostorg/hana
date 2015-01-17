@@ -8,7 +8,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_TEST_TEST_AUTO_BASE_HPP
 
 #include <boost/hana/constant.hpp>
-#include <boost/hana/core/is_a.hpp>
 #include <boost/hana/functional/infix.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/tuple.hpp>

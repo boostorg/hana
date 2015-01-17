@@ -25,7 +25,8 @@ namespace boost { namespace hana {
     //! representing whether the data type of `T` is a model of `Concept`.
     //! Note that in the case where `Concept` has semantic requirements
     //! (e.g. laws), those are not checked; only the syntactic requirements
-    //! are checked.
+    //! are checked. A dispatching context can optionally be passed to `models`
+    //! as a third argument: `models<Concept, T, Context>`.
     //!
     //! Also note that a data type `D` can be seen as a concept whose models
     //! are exactly the C++ types `T` such that `datatype<T>::type` is `D`.
@@ -34,49 +35,63 @@ namespace boost { namespace hana {
     //! whether `datatype<T>::type` is `D` when `D` is a data type.
     //!
     //! ### Example
-    //! @snippet example/core/models.cpp main
+    //! @snippet example/core/models.cpp models
     //!
     //!
-    //! For convenience, `models<DatatypeOrConcept>` (note the lack of a
-    //! second template argument) is a function object applying `models`
-    //! to the type of its argument. In other words,
+    //! For convenience, `models<Concept>` (note the lack of a second template
+    //! argument) is a function object applying `models` to the type of its
+    //! argument. In other words,
     //! @code
     //!     models<Concept>(x) == models<Concept, decltype(x)>
+    //! @endcode
+    //!
+    //! It is also possible to pass a dispatching context when this syntax is
+    //! used; the dispatching context should then appear as the second
+    //! template argument:
+    //! @code
+    //!     models<Concept, Context>(x) == models<Concept, decltype(x), Context>
     //! @endcode
     //!
     //! ### Example
     //! @snippet example/core/models.cpp as_function
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    template <typename Concept [, typename T]>
+    template <typename Concept [, typename T] [, typename Context]>
     constexpr auto models = tag-dispatched;
 #else
     BOOST_HANA_METHOD(models_impl);
 
     template <typename D, typename ...T>
-    constexpr auto models = sizeof...(T) > 1 ?
+    constexpr auto models = sizeof...(T) > 2 ?
         throw "too many template arguments to hana::models" : 0;
 
-    template <typename D, typename T>
-    constexpr auto models<D, T> = bool_<
+    template <typename D, typename T, typename ...Ctx>
+    constexpr auto models<D, T, context<Ctx...>> = bool_<
         dispatch<models_impl<D>>::template apply<
-            typename datatype<T>::type
+            typename datatype<T>::type, context<Ctx...>
         >
     >;
 
-    template <typename D>
+    template <typename D, typename T>
+    constexpr auto models<D, T> = models<D, T, context<>>;
+
+
+    template <typename D, typename Context>
     struct _models {
         template <typename T>
         constexpr auto operator()(T const&) const
-        { return models<D, T>; }
+        { return models<D, T, Context>; }
     };
 
+    template <typename D, typename ...Ctx>
+    constexpr auto models<D, context<Ctx...>> = _models<D, context<Ctx...>>{};
+
     template <typename D>
-    constexpr _models<D> models<D>{};
+    constexpr auto models<D> = models<D, context<>>;
 
     template <typename D, typename Context>
     struct dispatch_impl<4, models_impl<D>, Context> {
         using type = dispatch_impl;
-        template <typename T>
+        template <typename T, typename Ctx>
         static constexpr bool apply = detail::std::is_same<D, T>::value;
     };
 #endif

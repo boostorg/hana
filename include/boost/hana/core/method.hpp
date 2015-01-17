@@ -25,6 +25,9 @@ namespace boost { namespace hana {
     template <typename ...Methods>
     struct unavailable;
 
+    template <typename ...Methods>
+    using context = unavailable<Methods...>;
+
     //! @ingroup group-core
     //! Use this as a base class of a method to mark it as disabled.
     //!
@@ -43,16 +46,16 @@ namespace boost { namespace hana {
 
     namespace dispatch_detail {
         /////////// is_in
-        template <typename Method, typename Unavailable>
+        template <typename Method, typename Context>
         struct is_in { static constexpr bool value = false; };
 
         template <typename Method, typename U, typename ...Us>
-        struct is_in<Method, unavailable<U, Us...>>
-            : is_in<Method, unavailable<Us...>>
+        struct is_in<Method, context<U, Us...>>
+            : is_in<Method, context<Us...>>
         { };
 
         template <typename Method, typename ...Us>
-        struct is_in<Method, unavailable<Method, Us...>>
+        struct is_in<Method, context<Method, Us...>>
         { static constexpr bool value = true; };
 
         /////////// either
@@ -115,14 +118,14 @@ namespace boost { namespace hana {
     //! @include example/core/method.cpp dispatch
     //!
     //! @todo Perhaps rename this to `method`?
-    template <typename MethodImpl, typename Unavailable = unavailable<>, bool = dispatch_detail::is_in<MethodImpl, Unavailable>::value>
+    template <typename MethodImpl, typename Context = context<>, bool = dispatch_detail::is_in<MethodImpl, Context>::value>
     struct dispatch;
 
     template <template <typename ...> class MethodImpl, typename ...T, typename ...Unavailable>
-    struct dispatch<MethodImpl<T...>, unavailable<Unavailable...>, false>
+    struct dispatch<MethodImpl<T...>, context<Unavailable...>, false>
         : dispatch_impl<1,
             MethodImpl<T...>,
-            unavailable<MethodImpl<T...>, Unavailable...>
+            context<MethodImpl<T...>, Unavailable...>
         >::type
     { };
 
@@ -139,13 +142,15 @@ namespace boost { namespace hana {
     //! ### Example
     //! @include example/core/method.cpp is_implemented
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    template <typename Method, typename Unavailable = unavailable<>>
-    constexpr bool is_implemented = whether Method has an implementation that does not require any of the Unavailable methods;
+    template <typename Method, typename Unavailable = context<>>
+    constexpr auto is_implemented = whether Method has an implementation that does not require any of the Unavailable methods;
 #else
-    template <typename Method, typename Unavailable = unavailable<>>
-    constexpr bool is_implemented = !dispatch_detail::inherits_not_implemented(
-        dispatch<Method, Unavailable>{}
-    );
+    template <typename Method, typename Unavailable = context<>>
+    constexpr auto is_implemented =
+        !dispatch_detail::inherits_not_implemented(
+            dispatch<Method, Unavailable>{}
+        )
+    ;
 #endif
 
     //! @ingroup group-core

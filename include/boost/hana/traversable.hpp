@@ -12,9 +12,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/traversable.hpp>
 
-#include <boost/hana/bool.hpp>
-#include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/method.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/functional/id.hpp>
 #include <boost/hana/functor.hpp>
@@ -28,11 +27,14 @@ namespace boost { namespace hana {
         { return traverse<A>(traversable, id); }
     };
 
-    template <typename T>
-    constexpr auto is_a<Traversable, T> = bool_<
-        is_a<Functor, T>() &&
-        is_implemented<traverse_impl<T>>
-    >;
+    template <>
+    struct models_impl<Traversable> {
+        template <typename T, typename Context>
+        static constexpr auto apply =
+            is_a<Functor, T, Context> &&
+            is_implemented<traverse_impl<T>, Context>
+        ;
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_TRAVERSABLE_HPP

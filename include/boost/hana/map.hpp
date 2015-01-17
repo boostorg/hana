@@ -14,7 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/is_a.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/move.hpp>

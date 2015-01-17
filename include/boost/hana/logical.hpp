@@ -12,10 +12,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/logical.hpp>
 
-#include <boost/hana/bool.hpp>
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/method.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/declval.hpp>
@@ -167,12 +166,15 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename L>
-    constexpr auto is_a<Logical, L> = bool_<
-        is_implemented<eval_if_impl<L>> &&
-        is_implemented<not_impl<L>> &&
-        is_implemented<while_impl<L>>
-    >;
+    template <>
+    struct models_impl<Logical> {
+        template <typename L, typename Context>
+        static constexpr bool apply =
+            is_implemented<eval_if_impl<L>, Context> &&
+            is_implemented<not_impl<L>, Context> &&
+            is_implemented<while_impl<L>, Context>
+        ;
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_LOGICAL_HPP

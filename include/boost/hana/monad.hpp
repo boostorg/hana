@@ -13,10 +13,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/monad.hpp>
 
 #include <boost/hana/applicative.hpp>
-#include <boost/hana/bool.hpp>
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/method.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
@@ -89,11 +88,14 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename M>
-    constexpr auto is_a<Monad, M> = bool_<
-        is_an<Applicative, M>() &&
-        is_implemented<flatten_impl<M>>
-    >;
+    template <>
+    struct models_impl<Monad> {
+        template <typename M, typename Context>
+        static constexpr auto apply =
+            is_an<Applicative, M, Context> &&
+            is_implemented<flatten_impl<M>, Context>
+        ;
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_MONAD_HPP

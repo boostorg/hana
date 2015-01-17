@@ -12,16 +12,16 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/constant.hpp>
 
-#include <boost/hana/bool.hpp>
-#include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/method.hpp>
+#include <boost/hana/core/models.hpp>
 
 
 namespace boost { namespace hana {
-    template <typename C>
-    constexpr auto is_a<Constant, C> = bool_<
-        is_implemented<value_impl<C>>
-    >;
+    template <>
+    struct models_impl<Constant> {
+        template <typename C, typename Context>
+        static constexpr bool apply = is_implemented<value_impl<C>, Context>;
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_CONSTANT_HPP

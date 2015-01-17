@@ -6,7 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/is_a.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/type.hpp>
 
@@ -14,40 +14,23 @@ Distributed under the Boost Software License, Version 1.0.
 using namespace boost::hana;
 
 
-template <typename D, typename T>
-constexpr auto has_datatype = bool_<
-    std::is_same<
-        datatype_t<T>,
-        D
-    >::value
->;
-
-
 #define BOOST_HANA_TYPE_UNARY_PREFIX_OPERATOR(OP)                           \
-    template <typename T, typename = std::enable_if_t<                      \
-        has_datatype<Type, T>()                                             \
-    >>                                                                      \
+    template <typename T, typename = std::enable_if_t<is_a<Type, T>>>       \
     constexpr auto operator OP (T t) {                                      \
-        return type<decltype(                                               \
-            OP std::declval<typename T::type>()                             \
-        )>;                                                                 \
+        return type<decltype(OP std::declval<typename T::type>())>;         \
     }                                                                       \
 /**/
 
 #define BOOST_HANA_TYPE_UNARY_POSTFIX_OPERATOR(OP)                          \
-    template <typename T, typename = std::enable_if_t<                      \
-        has_datatype<Type, T>()                                             \
-    >>                                                                      \
+    template <typename T, typename = std::enable_if_t<is_a<Type, T>>>       \
     constexpr auto operator OP (T t, int) {                                 \
-        return type<decltype(                                               \
-            std::declval<typename T::type>() OP                             \
-        )>;                                                                 \
+        return type<decltype(std::declval<typename T::type>() OP)>;         \
     }                                                                       \
 /**/
 
 #define BOOST_HANA_TYPE_BINARY_OPERATOR(OP)                                 \
     template <typename T, typename U, typename = std::enable_if_t<          \
-        has_datatype<Type, T>() && has_datatype<Type, U>()                  \
+        is_a<Type, T> && is_a<Type, U>                                      \
     >>                                                                      \
     constexpr auto operator OP (T t, U u) {                                 \
         return type<decltype(                                               \

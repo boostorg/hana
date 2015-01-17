@@ -15,8 +15,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/method.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/declval.hpp>
@@ -106,7 +106,7 @@ namespace boost { namespace hana {
         template <typename T_, typename U_,
                   typename C = typename common<T_, U_>::type>
         static impl<C> check(detail::std::integral_constant<bool,
-            is_implemented<equal_impl<C, C>, Context>
+            models<Comparable, C, Context>
         >);
 
         template <typename T_, typename U_>
@@ -150,12 +150,11 @@ namespace boost { namespace hana {
         }
     };
 
-    // is_a
-    /////////////////
-    template <typename T>
-    constexpr auto is_a<Comparable, T> = bool_<
-        is_implemented<equal_impl<T, T>>
-    >;
+    template <>
+    struct models_impl<Comparable> {
+        template <typename T, typename Context>
+        static constexpr bool apply = is_implemented<equal_impl<T, T>, Context>;
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_COMPARABLE_HPP

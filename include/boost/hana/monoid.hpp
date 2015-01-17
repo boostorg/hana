@@ -12,12 +12,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/monoid.hpp>
 
-#include <boost/hana/bool.hpp>
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/method.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/dispatch_common.hpp>
@@ -64,11 +63,14 @@ namespace boost { namespace hana {
         { return static_cast<T>(0); }
     };
 
-    template <typename T>
-    constexpr auto is_a<Monoid, T> = bool_<
-        is_implemented<plus_impl<T, T>> &&
-        is_implemented<zero_impl<T>>
-    >;
+    template <>
+    struct models_impl<Monoid> {
+        template <typename T, typename Context>
+        static constexpr auto apply =
+            is_implemented<plus_impl<T, T>, Context> &&
+            is_implemented<zero_impl<T>, Context>
+        ;
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_MONOID_HPP

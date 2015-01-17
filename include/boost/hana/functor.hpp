@@ -13,8 +13,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/functor.hpp>
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/method.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/functional/always.hpp>
@@ -22,8 +22,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    template <typename Functor, typename _>
-    struct fmap_impl<Functor, when<is_implemented<adjust_impl<Functor>, _>>, _> {
+    template <typename Functor, typename Context>
+    struct fmap_impl<Functor, when<
+        is_implemented<adjust_impl<Functor>, Context>
+    >, Context> {
         template <typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
             return adjust(
@@ -73,10 +75,11 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename F>
-    constexpr auto is_a<Functor, F> = bool_<
-        is_implemented<fmap_impl<F>>
-    >;
+    template <>
+    struct models_impl<Functor> {
+        template <typename F, typename Context>
+        static constexpr bool apply = is_implemented<fmap_impl<F>, Context>;
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FUNCTOR_HPP
