@@ -1,6 +1,6 @@
 /*!
 @file
-Defines the `boost::hana::Type` data type.
+Defines `boost::hana::Type` and `boost::hana::Metafunction`.
 
 @copyright Louis Dionne 2014
 Distributed under the Boost Software License, Version 1.0.
@@ -13,19 +13,11 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/type.hpp>
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/integral.hpp>
-
-// instances
 #include <boost/hana/comparable.hpp>
+#include <boost/hana/integral.hpp>
 
 
 namespace boost { namespace hana {
-    //! Instance of `Comparable` for `Type`s.
-    //!
-    //! Two `Type`s are equal if and only if they represent the same C++ type.
-    //! Hence, equality is equivalent to the `std::is_same` type trait.
-    //!
-    //! @snippet example/type/comparable.cpp main
     template <>
     struct equal_impl<Type, Type> {
         template <typename T, typename U>
