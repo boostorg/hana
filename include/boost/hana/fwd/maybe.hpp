@@ -10,18 +10,17 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_MAYBE_HPP
 #define BOOST_HANA_FWD_MAYBE_HPP
 
-#include <boost/hana/bool.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/move.hpp>
-#include <boost/hana/functional/always.hpp>
-#include <boost/hana/functional/compose.hpp>
+#include <boost/hana/detail/std/remove_reference.hpp>
 #include <boost/hana/functional/id.hpp>
-#include <boost/hana/functional/partial.hpp>
+#include <boost/hana/fwd/bool.hpp>
 #include <boost/hana/fwd/comparable.hpp>
 #include <boost/hana/fwd/logical.hpp>
 #include <boost/hana/fwd/monad.hpp>
+#include <boost/hana/fwd/orderable.hpp>
 
 
 namespace boost { namespace hana {
@@ -29,26 +28,96 @@ namespace boost { namespace hana {
     //! Represents an optional value.
     //!
     //! A `Maybe` either contains a value (represented as `just(x)`), or it
-    //! is empty (represented as `nothing`).
+    //! is empty (represented as `nothing`). In essence, `Maybe` is pretty
+    //! much like a `boost::optional` or the upcoming `std::optional`. This
+    //! can be particularly useful for returning from a function that might
+    //! fail, when the reason of failure is unimportant. However, there is
+    //! an important distinction to make between `Maybe` and `std::optional`:
+    //! `just(x)` and `nothing` do not share the same type. Hence whether a
+    //! `just` or a `nothing` will be returned from a function has to be
+    //! known at compile-time for the return type to be computable at
+    //! compile-time. This makes `Maybe` well suited for static
+    //! metaprogramming tasks but very poor for anything dynamic.
     //!
-    //! Model of
-    //! --------
-    //! 1. `Foldable`
+    //!
+    //! Modeled concepts
+    //! ----------------
+    //! 1. `Comparable` (operators provided)\n
+    //! Two `Maybe`s are equal if and only if they are both empty or they
+    //! both contain a value and those values are equal.
+    //! @snippet example/maybe.cpp comparable
+    //!
+    //! 2. `Orderable` (operators provided)\n
+    //! `Maybe`s can be ordered by considering the value they are holding,
+    //! if any. To handle the case of an empty `Maybe`, we arbitrarily set
+    //! `nothing` as being less than any other `just`. Hence,
+    //! @code
+    //!     just(x) < just(y) if and only if x < y
+    //!     nothing < just(anything)
+    //! @endcode
+    //! Example:
+    //! @snippet example/maybe.cpp orderable
+    //!
+    //! 3. `Functor`\n
+    //! A `Maybe` can be seen as a `List` containing either one element
+    //! (`just(x)`) or no elements at all (`nothing`). As such, mapping
+    //! a function over a `Maybe` is equivalent to applying it to its value
+    //! if there is one and to `nothing` otherwise:
+    //! @code
+    //!     fmap(just(x), f) == just(f(x))
+    //!     fmap(nothing, f) == nothing
+    //! @endcode
+    //! Example:
+    //! @snippet example/maybe.cpp functor
+    //!
+    //! 4. `Applicative`\n
+    //! First, a value can be made optional with `lift<Maybe>`, which is
+    //! equivalent to `just`. Second, one can feed an optional value to an
+    //! optional function with `ap`, which will return `just(f(x))` if there
+    //! is both a function _and_ a value, and `nothing` otherwise:
+    //! @code
+    //!     ap(just(f), just(x)) == just(f(x))
+    //!     ap(nothing, just(x)) == nothing
+    //!     ap(just(f), nothing) == nothing
+    //!     ap(nothing, nothing) == nothing
+    //! @endcode
+    //! A simple example:
+    //! @snippet example/maybe.cpp applicative_simple
+    //! A more complex example:
+    //! @snippet example/maybe.cpp applicative_complex
+    //!
+    //! 5. `Monad` (operators provided)\n
+    //! The `Maybe` `Monad` makes it easy to compose actions that might fail.
+    //! One can feed an optional value if there is one into a function with
+    //! `bind`, which will return `nothing` if there is no value. Finally,
+    //! optional-optional values can have their redundant level of
+    //! `Maybe`ness removed with `flatten`.
+    //! Example:
+    //! @snippet example/maybe.cpp monad
+    //!
+    //! 6. `Traversable`\n
+    //! Traversing `nothing` yields `nothing` in the new applicative, and
+    //! traversing `just(x)` applies the function and maps `just` inside
+    //! the resulting applicative.
+    //! Example:
+    //! @snippet example/maybe.cpp traversable
+    //!
+    //! 7. `Foldable`\n
     //! Folding a `Maybe` is equivalent to folding a `List` containing either
-    //! no elements (for `nothing`) or `x` (for `just(x)`). The `Foldable`
-    //! instance follows from that.
+    //! no elements (for `nothing`) or `x` (for `just(x)`).
+    //! Example:
+    //! @snippet example/maybe.cpp foldable
     //!
-    //! ### Example
-    //! @snippet example/maybe/foldable.cpp main
-    //!
-    //!
-    //! ## Instance of
-    //! `Comparable`, `Functor`, `Applicative`, `Monad`, `Foldable`,
-    //! `Searchable` and `Traversable`.
+    //! 8. `Searchable`\n
+    //! Searching a `Maybe` is equivalent to searching a list containing
+    //! `x` for `just(x)` and an empty list for `nothing`.
+    //! Example:
+    //! @snippet example/maybe.cpp searchable
     struct Maybe {
         struct hana {
             struct enabled_operators
                 : Comparable
+                , Orderable
                 , Monad
             { };
         };
@@ -58,7 +127,7 @@ namespace boost { namespace hana {
     //! @relates Maybe
     //!
     //! ### Example
-    //! @snippet example/maybe/maybe.cpp just
+    //! @snippet example/maybe.cpp just
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto just = [](auto&& x) {
         return unspecified-type;
@@ -67,6 +136,7 @@ namespace boost { namespace hana {
     template <typename T, typename = operators::enable_adl>
     struct _just {
         T val;
+        static constexpr bool is_just = true;
         struct hana { using datatype = Maybe; };
     };
 
@@ -77,11 +147,12 @@ namespace boost { namespace hana {
     //! @relates Maybe
     //!
     //! ### Example
-    //! @snippet example/maybe/maybe.cpp nothing
+    //! @snippet example/maybe.cpp nothing
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr unspecified-type nothing{};
 #else
     struct _nothing : operators::enable_adl {
+        static constexpr bool is_just = false;
         struct hana { using datatype = Maybe; };
     };
 
@@ -100,8 +171,9 @@ namespace boost { namespace hana {
     //! A function called as `predicate(x)` and returning a true-valued
     //! `Logical` if `just(f(x))` should be the resulting value, and a
     //! false-valued one if `nothing` should be the resulting value.
-    //! In the current version of the library, the result of `predicate`
-    //! has to be a [compile-time](@ref Logical_terminology) `Logical`.
+    //! Since the type of `just` and `nothing` differ, the result of
+    //! `predicate` has to be a [compile-time](@ref Logical_terminology)
+    //! `Logical`.
     //!
     //! @param f
     //! A function called as `f(x)` if the `predicate` returns a true-valued
@@ -114,7 +186,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/maybe/maybe.cpp only_when
+    //! @snippet example/maybe.cpp only_when
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto only_when = [](auto&& predicate, auto&& f, auto&& x) -> decltype(auto) {
         if (forwarded(predicate)(x))
@@ -124,31 +196,8 @@ namespace boost { namespace hana {
     };
 #else
     struct _only_when {
-        template <typename F, typename X>
-        struct just_f_x {
-            F f; X x;
-            template <typename Id>
-            constexpr decltype(auto) operator()(Id _) && {
-                return just(_(detail::std::forward<F>(f))(
-                    detail::std::forward<X>(x)
-                ));
-            }
-
-            template <typename Id>
-            constexpr decltype(auto) operator()(Id _) &
-            { return just(_(f)(x)); }
-
-            template <typename Id>
-            constexpr decltype(auto) operator()(Id _) const&
-            { return just(_(f)(x)); }
-        };
         template <typename Pred, typename F, typename X>
-        constexpr decltype(auto) operator()(Pred&& pred, F&& f, X&& x) const {
-            return eval_if(detail::std::forward<Pred>(pred)(x),
-                just_f_x<F, X>{detail::std::forward<F>(f), detail::std::forward<X>(x)},
-                always(nothing)
-            );
-        }
+        constexpr decltype(auto) operator()(Pred&& pred, F&& f, X&& x) const;
     };
 
     constexpr _only_when only_when{};
@@ -177,7 +226,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/maybe/maybe.cpp maybe
+    //! @snippet example/maybe.cpp maybe
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto maybe = [](auto&& default_, auto&& f, auto&& m) -> decltype(auto) {
         if (m is a just(x)) {
@@ -216,13 +265,19 @@ namespace boost { namespace hana {
     //! and a false-valued one otherwise.
     //!
     //! ### Example
-    //! @snippet example/maybe/maybe.cpp is_just
+    //! @snippet example/maybe.cpp is_just
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto is_just = [](auto const& m) {
         return m is a just(x);
     };
 #else
-    constexpr auto is_just = partial(maybe, false_, always(true_));
+    struct _is_just {
+        template <typename M>
+        constexpr decltype(auto) operator()(M const&) const
+        { return bool_<M::is_just>; }
+    };
+
+    constexpr _is_just is_just{};
 #endif
 
     //! Return whether a `Maybe` is empty.
@@ -233,20 +288,26 @@ namespace boost { namespace hana {
     //! false-valued one otherwise.
     //!
     //! ### Example
-    //! @snippet example/maybe/maybe.cpp is_nothing
+    //! @snippet example/maybe.cpp is_nothing
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto is_nothing = [](auto const& m) {
         return m is a nothing;
     };
 #else
-    constexpr auto is_nothing = partial(maybe, true_, always(false_));
+    struct _is_nothing {
+        template <typename M>
+        constexpr decltype(auto) operator()(M const&) const
+        { return bool_<!M::is_just>; }
+    };
+
+    constexpr _is_nothing is_nothing{};
 #endif
 
     //! Return the contents of a `Maybe`, with a fallback result.
     //! @relates Maybe
     //!
-    //! Specifically, returns `x` if `m` of the form `just(x)`, and `default_`
-    //! if `m` is of the form `nothing`.
+    //! Specifically, returns `x` if `m` is `just(x)`, and `default_`
+    //! otherwise.
     //!
     //!
     //! @param default_
@@ -257,7 +318,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/maybe/maybe.cpp from_maybe
+    //! @snippet example/maybe.cpp from_maybe
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto from_maybe = [](auto&& default_, auto&& m) -> decltype(auto) {
         return maybe(forwarded(default_), id, forwarded(m));
@@ -266,11 +327,8 @@ namespace boost { namespace hana {
     struct _from_maybe {
         template <typename Default, typename M>
         constexpr decltype(auto) operator()(Default&& default_, M&& m) const {
-            return maybe(
-                detail::std::forward<Default>(default_),
-                id,
-                detail::std::forward<M>(m)
-            );
+            return maybe(detail::std::forward<Default>(default_), id,
+                                                detail::std::forward<M>(m));
         }
     };
 
@@ -280,11 +338,11 @@ namespace boost { namespace hana {
     //! Extract the content of a `Maybe` or fail at compile-time.
     //! @relates Maybe
     //!
-    //! Specifically, returns `x` if the optional value is of the form
-    //! `just(x)`, and triggers a static assertion otherwise.
+    //! Specifically, returns `x` if the optional value is `just(x)`, and
+    //! triggers a static assertion otherwise.
     //!
     //! ### Example
-    //! @snippet example/maybe/maybe.cpp from_just
+    //! @snippet example/maybe.cpp from_just
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto from_just = [](auto&& m) -> decltype(auto) {
         static_assert(m is a just(x),
@@ -293,21 +351,12 @@ namespace boost { namespace hana {
     };
 #else
     struct _from_just {
-        struct error {
-            template <typename ...Dummy>
-            constexpr void operator()(Dummy ...) const {
-                constexpr bool always_false = sizeof...(Dummy) != 0;
-                static_assert(always_false,
-                "trying to extract the value inside a boost::hana::nothing "
-                "with boost::hana::from_just");
-            }
-        };
-
         template <typename M>
         constexpr decltype(auto) operator()(M&& m) const {
-            return maybe(
-                error{}, compose(id, always), detail::std::forward<M>(m)
-            )();
+            static_assert(detail::std::remove_reference<M>::type::is_just,
+            "trying to extract the value inside a boost::hana::nothing "
+            "with boost::hana::from_just");
+            return id(detail::std::forward<M>(m).val);
         }
     };
 
