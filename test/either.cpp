@@ -12,31 +12,46 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/type.hpp>
 
 #include <test/auto/base.hpp>
+#include <test/cnumeric.hpp>
+#include <test/identity.hpp>
 #include <test/injection.hpp>
 
 // instances
 #include <test/auto/applicative.hpp>
 #include <test/auto/comparable.hpp>
+#include <test/auto/foldable.hpp>
 #include <test/auto/functor.hpp>
 #include <test/auto/monad.hpp>
+#include <test/auto/orderable.hpp>
+#include <test/auto/traversable.hpp>
 
 #include <type_traits>
 using namespace boost::hana;
 
 
+template <int i>
+constexpr auto ord = test::cnumeric<int, i>;
+
 namespace boost { namespace hana { namespace test {
     template <>
     auto instances<Either> = tuple(
-        type<Applicative>,
+        type<Comparable>,
+        type<Orderable>,
+
         type<Functor>,
+        type<Applicative>,
         type<Monad>,
-        type<Comparable>
+
+        type<Foldable>,
+        type<Traversable>
     );
 
     template <>
     auto objects<Either> = tuple(
-        right(x<0>), left(x<0>),
-        right(x<1>), left(x<1>)
+        right(ord<0>), left(ord<0>),
+        right(ord<1>), left(ord<1>),
+        right(ord<2>), left(ord<2>),
+        right(ord<3>), left(ord<3>)
     );
 }}}
 
@@ -98,6 +113,24 @@ int main() {
 
             BOOST_HANA_CONSTANT_CHECK(equal(right(x), right(x)));
             BOOST_HANA_CONSTANT_CHECK(not_(equal(right(x), right(y))));
+        }
+    }
+
+    // Orderable
+    {
+        // less
+        {
+            BOOST_HANA_CONSTANT_CHECK(less(left(ord<0>), left(ord<1>)));
+            BOOST_HANA_CONSTANT_CHECK(not_(less(left(ord<0>), left(ord<0>))));
+            BOOST_HANA_CONSTANT_CHECK(not_(less(left(ord<1>), left(ord<0>))));
+
+            BOOST_HANA_CONSTANT_CHECK(less(right(ord<0>), right(ord<1>)));
+            BOOST_HANA_CONSTANT_CHECK(not_(less(right(ord<0>), right(ord<0>))));
+            BOOST_HANA_CONSTANT_CHECK(not_(less(right(ord<1>), right(ord<0>))));
+
+            BOOST_HANA_CONSTANT_CHECK(less(left(ord<0>), right(ord<1>)));
+            BOOST_HANA_CONSTANT_CHECK(less(left(ord<0>), right(ord<0>)));
+            BOOST_HANA_CONSTANT_CHECK(less(left(ord<1>), right(ord<0>)));
         }
     }
 
@@ -169,5 +202,33 @@ int main() {
                 right(x)
             ));
         }
+    }
+
+    // Foldable
+    {
+        // unpack
+        {
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                unpack(left(x), f),
+                f()
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                unpack(right(x), f),
+                f(x)
+            ));
+        }
+    }
+
+    // Traversable
+    {
+        auto f_ = compose(lift<test::Identity>, f);
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            traverse<test::Identity>(left(x), f_), test::identity(left(x))
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            traverse<test::Identity>(right(x), f_), test::identity(right(f(x)))
+        ));
     }
 }
