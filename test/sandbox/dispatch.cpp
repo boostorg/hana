@@ -243,14 +243,6 @@ struct Iterable {
 #include <iostream>
 #include <type_traits>
 
-template <typename F> struct return_of;
-template <typename R, typename ...A> struct return_of<R(A...)> { using type = R; };
-
-template <typename Concept, typename = void>
-struct via_operators : return_of<Concept>::type { };
-
-template <typename Concept, typename = void>
-struct via_subclass : via_operators<Concept> { };
 
 template <typename F>
 struct meta_not : std::integral_constant<bool, !F::value> { };
@@ -267,6 +259,54 @@ template <typename T, typename ...U>
 struct is_one_of
     : any_of_c<std::is_same<T, U>::value...>
 { };
+
+template <typename ...>
+using void_t = void;
+
+template <typename ...>
+constexpr bool valid = true;
+
+
+template <typename F> struct return_of;
+template <typename R, typename ...A> struct return_of<R(A...)> { using type = R; };
+
+// Cross-type dispatching algorithm
+// --------------------------------
+// if (T == U) {
+//     stuff<Comparable(T)>::template equal_impl<T, U>
+// }
+// else if (T is Comparable && U is Comparable &&
+//          T and U have a common type C &&
+//          C is Comparable)
+// {
+//     convert to the common type and try again there
+// }
+// else {
+//     the method is not implemented
+// }
+template <typename Concept, typename = void>
+struct via_common : return_of<Concept>::type { };
+
+template <typename Concept, typename = void>
+struct has_cross_type { static constexpr bool value = false; };
+
+template <typename Concept, typename T, typename U>
+struct has_cross_type<Concept(T, U), std::enable_if_t<
+    !std::is_same<T, U>::value &&
+    valid<std::common_type_t<T, U>>
+>> {
+    using C = std::common_type_t<T, U>;
+    static constexpr bool value = true;
+        // is<Concept, T> && is<Concept, U> && is<Concept, C>;
+};
+
+
+
+template <typename Concept, typename = void>
+struct via_operators : via_common<Concept> { };
+
+template <typename Concept, typename = void>
+struct via_subclass : via_operators<Concept> { };
 
 /////////////////////////////////////////
 // Comparable
@@ -289,86 +329,6 @@ struct Comparable {
     };
 };
 
-#if 0
-template <typename Concept, typename = void>
-struct has_cross_type { static constexpr bool value = false; };
-
-template <typename Concept, typename T, typename U>
-struct has_cross_type<Concept(T, U), void_t<common_t<T, U>>> {
-    // assert is not same T, U
-    using C = common_t<T, U>;
-    static constexpr bool value = is<Concept, T> && is<Concept, U> && is<Concept, C>;
-};
-
-template <typename T, typename U, typename F>
-struct cross_type_dispatch
-    : if_<is_same<T, U>,
-        typename F::template normal<T, U>,
-        if_<has_cross_type<T, U>,
-            typename F::template via_common<T, U>,
-            the method is not implemented
-        >
-    >
-{ };
-
-struct equal_impl_cross_type {
-    template <typename T, typename U>
-    struct normal : stuff<Comparable(T)>::template equal_impl<T, U> { };
-
-    template <typename T, typename U>
-    struct via_common {
-        template <typename X, typename Y>
-        static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            return equal(to<C>(detail::std::forward<X>(x)),
-                         to<C>(detail::std::forward<Y>(y)));
-        }
-    };
-
-    template <typename Stuff, typename X, typename Y>
-    using otherwise = typename Stuff::template equal_impl<X, Y>;
-};
-
-// Cross-type dispatching algorithm
-// --------------------------------
-// if (T == U) {
-//     stuff<Comparable(T)>::template equal_impl<T, U>
-// }
-// else if (T is Comparable && U is Comparable &&
-//          T and U have a common type C &&
-//          C is Comparable)
-// {
-//     convert to the common type and try again there
-// }
-// else {
-//     the method is not implemented
-// }
-template <typename T, typename U>
-struct equal_impl
-    : cross_type_dispatch<T, U, equal_impl_cross_type>
-{ };
-#endif
-
-template <typename _>
-struct via_operators<Comparable(_)> : Comparable {
-    template <typename T, typename U, typename = void>
-    struct equal_impl : Comparable::equal_impl<T, U> { };
-    template <typename T, typename U>
-    struct equal_impl<T, U, decltype((void)(std::declval<T>() == std::declval<U>()))> {
-        template <typename X, typename Y>
-        static constexpr decltype(auto) apply(X&& x, Y&& y)
-        { return std::forward<X>(x) == std::forward<Y>(y); }
-    };
-
-    template <typename T, typename U, typename = void>
-    struct not_equal_impl : Comparable::not_equal_impl<T, U> { };
-    template <typename T, typename U>
-    struct not_equal_impl<T, U, decltype((void)(std::declval<T>() != std::declval<U>()))> {
-        template <typename X, typename Y>
-        static constexpr decltype(auto) apply(X&& x, Y&& y)
-        { return std::forward<X>(x) != std::forward<Y>(y); }
-    };
-};
-
 template <typename T, typename U>
 struct equal_impl : via_subclass<Comparable(T)>::template equal_impl<T, U> {
     // static_assert(T is the same as U);
@@ -377,6 +337,69 @@ struct equal_impl : via_subclass<Comparable(T)>::template equal_impl<T, U> {
 template <typename T, typename U>
 struct not_equal_impl : via_subclass<Comparable(T)>::template not_equal_impl<T, U> {
     // static_assert(T is the same as U);
+};
+
+
+template <typename _>
+struct via_common<Comparable(_)> : Comparable {
+    template <typename T, typename U, bool = has_cross_type<Comparable(T, U)>::value>
+    struct equal_impl : Comparable::equal_impl<T, U> { };
+
+    template <typename T, typename U>
+    struct equal_impl<T, U, true> {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
+            std::cerr << "cross-type dispatching of equal_impl: ";
+            using C = std::common_type_t<T, U>;
+            return ::equal_impl<C, C>::apply((C)x, (C)y);
+        }
+    };
+
+
+    template <typename T, typename U, bool = has_cross_type<Comparable(T, U)>::value>
+    struct not_equal_impl : Comparable::not_equal_impl<T, U> { };
+
+    template <typename T, typename U>
+    struct not_equal_impl<T, U, true> {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
+            std::cerr << "cross-type dispatching of not_equal_impl: ";
+            using C = std::common_type_t<T, U>;
+            return ::not_equal_impl<C, C>::apply((C)x, (C)y);
+        }
+    };
+};
+
+template <typename _>
+struct via_operators<Comparable(_)> : via_common<Comparable(_)> {
+    template <typename T, typename U, typename = void>
+    struct equal_impl
+        : via_common<Comparable(_)>::template equal_impl<T, U>
+    { };
+
+    template <typename T, typename U>
+    struct equal_impl<T, U, decltype((void)(std::declval<T>() == std::declval<U>()))> {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
+            std::cerr << "equal_impl via operator==: ";
+            (void)(x == y);
+        }
+    };
+
+
+    template <typename T, typename U, typename = void>
+    struct not_equal_impl
+        : via_common<Comparable(_)>::template not_equal_impl<T, U>
+    { };
+
+    template <typename T, typename U>
+    struct not_equal_impl<T, U, decltype((void)(std::declval<T>() != std::declval<U>()))> {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
+            std::cerr << "not_equal_impl via operator!=: ";
+            (void)(x != y);
+        }
+    };
 };
 
 
@@ -559,10 +582,17 @@ struct via_subclass<Concept(MPLIntegralC), std::enable_if_t<
 struct Employee {
     std::string name;
 
-    friend void operator==(Employee, Employee) {
+    template <typename E, typename = std::enable_if_t<std::is_same<E, Employee>::value>>
+    friend void operator==(E, E) {
         std::cerr << "operator==(Employee, Employee)\n";
     }
 };
+
+
+/////////////////////////////////////////
+// Manager
+/////////////////////////////////////////
+struct Manager : Employee { };
 
 
 
@@ -572,7 +602,7 @@ struct Employee {
 // 1. Explicit/partial specialization
 // 2. Implementation provided by subclass
 // 3. Implementation provided by operators
-// 4. Implementation via common type if it applies (todo)
+// 4. Implementation via common type if it applies
 // 5. Default implementation
 
 
@@ -591,4 +621,7 @@ int main() {
 
     equal_impl<Employee, Employee>::apply(Employee{}, Employee{});
     not_equal_impl<Employee, Employee>::apply(Employee{}, Employee{});
+
+    equal_impl<Employee, Manager>::apply(Employee{}, Manager{});
+    not_equal_impl<Employee, Manager>::apply(Employee{}, Manager{});
 }
