@@ -8,11 +8,6 @@
 template <typename ...>
 struct wrong { static constexpr bool value = false; };
 
-template <typename, typename T>
-struct snd { using type = T; };
-template <typename _, typename T>
-using snd_t = typename snd<_, T>::type;
-
 
 #if 0
 /////////////////////////////////////////
@@ -248,7 +243,7 @@ struct Iterable {
 #include <iostream>
 
 template <typename Concept, typename T>
-struct stuff : Concept::template stuff<T> { };
+struct stuff : Concept { };
 
 /////////////////////////////////////////
 // Comparable
@@ -269,9 +264,6 @@ struct Comparable {
             std::cerr << "default not_equal_impl\n";
         }
     };
-
-    template <typename T>
-    struct stuff : snd_t<T, Comparable> { };
 };
 
 template <typename T, typename U>
@@ -300,9 +292,6 @@ struct Enumerable {
         static_assert(wrong<pred_impl<E>>::value,
         "no definition of boost::hana::pred for the given data type");
     };
-
-    template <typename E>
-    struct stuff : snd_t<E, Enumerable> { };
 };
 
 template <typename E>
@@ -324,9 +313,6 @@ struct Constant {
         static_assert(wrong<value_impl<C>>::value,
         "no definition of boost::hana::value for the given data type");
     };
-
-    template <typename C>
-    struct stuff : snd_t<C, Constant> { };
 };
 
 template <typename C>
@@ -350,9 +336,6 @@ struct Monoid {
         static_assert(wrong<zero_impl<M>>::value,
         "no definition of boost::hana::zero for the given data type");
     };
-
-    template <typename M>
-    struct stuff : snd_t<M, Monoid> { };
 };
 
 template <typename T, typename U>
@@ -381,9 +364,6 @@ struct IntegralConstant
     , Comparable
     , Monoid
 {
-    template <typename C>
-    struct stuff : snd_t<C, IntegralConstant> { };
-
     template <typename C>
     struct integral_constant_impl {
         static_assert(wrong<integral_constant_impl<C>>::value,
@@ -463,27 +443,27 @@ struct integral_constant_impl<MPLIntegralC> {
 };
 
 // Comparable
-#if 0
+#if 1
 template <>
 struct equal_impl<MPLIntegralC, MPLIntegralC>
     : IntegralConstant::equal_impl<MPLIntegralC, MPLIntegralC>
 { };
 #else
 template <>
-struct Comparable::stuff<MPLIntegralC>
+struct stuff<Comparable, MPLIntegralC>
     : IntegralConstant
 { };
 #endif
 
 // Enumerable
 template <>
-struct Enumerable::stuff<MPLIntegralC>
+struct stuff<Enumerable, MPLIntegralC>
     : IntegralConstant
 { };
 
 // Monoid
 template <>
-struct Monoid::stuff<MPLIntegralC>
+struct stuff<Monoid, MPLIntegralC>
     : IntegralConstant
 { };
 
