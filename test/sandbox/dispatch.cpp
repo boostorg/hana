@@ -286,6 +286,65 @@ struct Comparable {
     };
 };
 
+#if 0
+template <typename Concept, typename = void>
+struct has_cross_type { static constexpr bool value = false; };
+
+template <typename Concept, typename T, typename U>
+struct has_cross_type<Concept(T, U), void_t<common_t<T, U>>> {
+    // assert is not same T, U
+    using C = common_t<T, U>;
+    static constexpr bool value = is<Concept, T> && is<Concept, U> && is<Concept, C>;
+};
+
+template <typename T, typename U, typename F>
+struct cross_type_dispatch
+    : if_<is_same<T, U>,
+        typename F::template normal<T, U>,
+        if_<has_cross_type<T, U>,
+            typename F::template via_common<T, U>,
+            the method is not implemented
+        >
+    >
+{ };
+
+struct equal_impl_cross_type {
+    template <typename T, typename U>
+    struct normal : stuff<Comparable(T)>::template equal_impl<T, U> { };
+
+    template <typename T, typename U>
+    struct via_common {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
+            return equal(to<C>(detail::std::forward<X>(x)),
+                         to<C>(detail::std::forward<Y>(y)));
+        }
+    };
+
+    template <typename Stuff, typename X, typename Y>
+    using otherwise = typename Stuff::template equal_impl<X, Y>;
+};
+
+// Cross-type dispatching algorithm
+// --------------------------------
+// if (T == U) {
+//     stuff<Comparable(T)>::template equal_impl<T, U>
+// }
+// else if (T is Comparable && U is Comparable &&
+//          T and U have a common type C &&
+//          C is Comparable)
+// {
+//     convert to the common type and try again there
+// }
+// else {
+//     the method is not implemented
+// }
+template <typename T, typename U>
+struct equal_impl
+    : cross_type_dispatch<T, U, equal_impl_cross_type>
+{ };
+#endif
+
 template <typename T, typename U>
 struct equal_impl : stuff<Comparable(T)>::template equal_impl<T, U> {
     // static_assert(T is the same as U);
@@ -340,7 +399,6 @@ struct value_impl : stuff<Constant(C)>::template value_impl<C> {
 
 };
 
-#if 1
 /////////////////////////////////////////
 // Monoid
 /////////////////////////////////////////
@@ -367,7 +425,6 @@ template <typename M>
 struct zero_impl : stuff<Monoid(M)>::template zero_impl<M> {
 
 };
-#endif
 
 /////////////////////////////////////////
 // IntegralConstant
