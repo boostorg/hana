@@ -241,9 +241,27 @@ struct Iterable {
 #endif
 
 #include <iostream>
+#include <type_traits>
 
-template <typename Concept, typename T>
+
+template <typename Concept, typename T, typename = void>
 struct stuff : Concept { };
+
+template <typename F>
+struct meta_not : std::integral_constant<bool, !F::value> { };
+
+template <bool ...b>
+struct any_of_c
+    : meta_not<std::is_same<
+        any_of_c<b...>,
+        any_of_c<(b, false)...>
+    >>
+{ };
+
+template <typename T, typename ...U>
+struct is_one_of
+    : any_of_c<std::is_same<T, U>::value...>
+{ };
 
 /////////////////////////////////////////
 // Comparable
@@ -442,28 +460,11 @@ struct integral_constant_impl<MPLIntegralC> {
     }
 };
 
-// Comparable
-#if 1
-template <>
-struct equal_impl<MPLIntegralC, MPLIntegralC>
-    : IntegralConstant::equal_impl<MPLIntegralC, MPLIntegralC>
-{ };
-#else
-template <>
-struct stuff<Comparable, MPLIntegralC>
-    : IntegralConstant
-{ };
-#endif
-
-// Enumerable
-template <>
-struct stuff<Enumerable, MPLIntegralC>
-    : IntegralConstant
-{ };
-
-// Monoid
-template <>
-struct stuff<Monoid, MPLIntegralC>
+// Comparable, Enumerable, Monoid
+template <typename Concept>
+struct stuff<Concept, MPLIntegralC, std::enable_if_t<
+    is_one_of<Concept, Comparable, Enumerable, Monoid>::value
+>>
     : IntegralConstant
 { };
 
