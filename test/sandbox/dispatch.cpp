@@ -247,7 +247,10 @@ template <typename F> struct return_of;
 template <typename R, typename ...A> struct return_of<R(A...)> { using type = R; };
 
 template <typename Concept, typename = void>
-struct stuff : return_of<Concept>::type { };
+struct via_operators : return_of<Concept>::type { };
+
+template <typename Concept, typename = void>
+struct stuff : via_operators<Concept> { };
 
 template <typename F>
 struct meta_not : std::integral_constant<bool, !F::value> { };
@@ -344,6 +347,27 @@ struct equal_impl
     : cross_type_dispatch<T, U, equal_impl_cross_type>
 { };
 #endif
+
+template <typename _>
+struct via_operators<Comparable(_)> : Comparable {
+    template <typename T, typename U, typename = void>
+    struct equal_impl : Comparable::equal_impl<T, U> { };
+    template <typename T, typename U>
+    struct equal_impl<T, U, decltype((void)(std::declval<T>() == std::declval<U>()))> {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X&& x, Y&& y)
+        { return std::forward<X>(x) == std::forward<Y>(y); }
+    };
+
+    template <typename T, typename U, typename = void>
+    struct not_equal_impl : Comparable::not_equal_impl<T, U> { };
+    template <typename T, typename U>
+    struct not_equal_impl<T, U, decltype((void)(std::declval<T>() != std::declval<U>()))> {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X&& x, Y&& y)
+        { return std::forward<X>(x) != std::forward<Y>(y); }
+    };
+};
 
 template <typename T, typename U>
 struct equal_impl : stuff<Comparable(T)>::template equal_impl<T, U> {
@@ -529,15 +553,15 @@ struct stuff<Concept(MPLIntegralC), std::enable_if_t<
 
 // etc...
 
-#if 0
+#if 1
 /////////////////////////////////////////
 // Employee
 /////////////////////////////////////////
 struct Employee {
     std::string name;
 
-    friend bool operator==(Employee, Employee) {
-        // ...
+    friend void operator==(Employee, Employee) {
+        std::cerr << "operator==(Employee, Employee)\n";
     }
 };
 
@@ -552,7 +576,8 @@ struct Employee {
 // 1. Explicit/partial specialization
 // 2. Implementation provided by subclass
 // 3. Implementation provided by operators
-// 4. Default implementation
+// 4. Implementation via common type if it applies (todo)
+// 5. Default implementation
 
 
 int main() {
@@ -567,4 +592,7 @@ int main() {
 
     zero_impl<MPLIntegralC>::apply();
     plus_impl<MPLIntegralC, MPLIntegralC>::apply(0, 0);
+
+    equal_impl<Employee, Employee>::apply(Employee{}, Employee{});
+    not_equal_impl<Employee, Employee>::apply(Employee{}, Employee{});
 }
