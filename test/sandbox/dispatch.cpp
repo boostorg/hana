@@ -595,6 +595,38 @@ struct Employee {
 struct Manager : Employee { };
 
 
+/////////////////////////////////////////
+// MyType
+//
+// Usually, Hana types have some operators that forward back to the methods.
+// However, the methods are at least partly implemented.
+//
+// We have a problem right now, because the via_operators will call != before
+// it can get to the default implementation (the desired path), which will
+// cause infinite recursion because != for MyType calls not_equal.
+/////////////////////////////////////////
+struct MyType;
+
+template <>
+struct equal_impl<MyType, MyType> {
+    template <typename X, typename Y>
+    static auto apply(X x, Y y) {
+        std::cerr << "equal_impl<MyType, MyType>\n";
+    }
+};
+
+struct MyType {
+    friend void operator==(MyType a, MyType b) {
+        std::cerr << "operator==(MyType, MyType): ";
+        equal_impl<MyType, MyType>::apply(a, b);
+    }
+    friend void operator!=(MyType a, MyType b) {
+        std::cerr << "operator!=(MyType, MyType): ";
+        not_equal_impl<MyType, MyType>::apply(a, b);
+    }
+};
+
+
 
 
 
@@ -624,4 +656,9 @@ int main() {
 
     equal_impl<Employee, Manager>::apply(Employee{}, Manager{});
     not_equal_impl<Employee, Manager>::apply(Employee{}, Manager{});
+
+    equal_impl<MyType, MyType>::apply(MyType{}, MyType{});
+    not_equal_impl<MyType, MyType>::apply(MyType{}, MyType{});
+    (void)(MyType{} == MyType{});
+    (void)(MyType{} != MyType{});
 }
