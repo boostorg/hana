@@ -250,7 +250,7 @@ template <typename Concept, typename = void>
 struct via_operators : return_of<Concept>::type { };
 
 template <typename Concept, typename = void>
-struct stuff : via_operators<Concept> { };
+struct via_subclass : via_operators<Concept> { };
 
 template <typename F>
 struct meta_not : std::integral_constant<bool, !F::value> { };
@@ -370,12 +370,12 @@ struct via_operators<Comparable(_)> : Comparable {
 };
 
 template <typename T, typename U>
-struct equal_impl : stuff<Comparable(T)>::template equal_impl<T, U> {
+struct equal_impl : via_subclass<Comparable(T)>::template equal_impl<T, U> {
     // static_assert(T is the same as U);
 };
 
 template <typename T, typename U>
-struct not_equal_impl : stuff<Comparable(T)>::template not_equal_impl<T, U> {
+struct not_equal_impl : via_subclass<Comparable(T)>::template not_equal_impl<T, U> {
     // static_assert(T is the same as U);
 };
 
@@ -398,12 +398,12 @@ struct Enumerable {
 };
 
 template <typename E>
-struct succ_impl : stuff<Enumerable(E)>::template succ_impl<E> {
+struct succ_impl : via_subclass<Enumerable(E)>::template succ_impl<E> {
 
 };
 
 template <typename E>
-struct pred_impl : stuff<Enumerable(E)>::template pred_impl<E> {
+struct pred_impl : via_subclass<Enumerable(E)>::template pred_impl<E> {
 
 };
 
@@ -419,7 +419,7 @@ struct Constant {
 };
 
 template <typename C>
-struct value_impl : stuff<Constant(C)>::template value_impl<C> {
+struct value_impl : via_subclass<Constant(C)>::template value_impl<C> {
 
 };
 
@@ -441,12 +441,12 @@ struct Monoid {
 };
 
 template <typename T, typename U>
-struct plus_impl : stuff<Monoid(T)>::template plus_impl<T, U> {
+struct plus_impl : via_subclass<Monoid(T)>::template plus_impl<T, U> {
     // static_assert(T is the same as U);
 };
 
 template <typename M>
-struct zero_impl : stuff<Monoid(M)>::template zero_impl<M> {
+struct zero_impl : via_subclass<Monoid(M)>::template zero_impl<M> {
 
 };
 
@@ -515,7 +515,7 @@ struct IntegralConstant
 };
 
 template <typename C>
-struct integral_constant_impl : stuff<IntegralConstant(C)>::template integral_constant_impl<C> {
+struct integral_constant_impl : via_subclass<IntegralConstant(C)>::template integral_constant_impl<C> {
 
 };
 
@@ -545,7 +545,7 @@ struct integral_constant_impl<MPLIntegralC> {
 
 // Comparable, Enumerable, Monoid
 template <typename Concept>
-struct stuff<Concept(MPLIntegralC), std::enable_if_t<
+struct via_subclass<Concept(MPLIntegralC), std::enable_if_t<
     std::is_base_of<Concept, IntegralConstant>::value
 >>
     : IntegralConstant
@@ -553,7 +553,6 @@ struct stuff<Concept(MPLIntegralC), std::enable_if_t<
 
 // etc...
 
-#if 1
 /////////////////////////////////////////
 // Employee
 /////////////////////////////////////////
@@ -565,9 +564,6 @@ struct Employee {
     }
 };
 
-
-// We must be able to call `equal(Employee, Employee)`.
-#endif
 
 
 
