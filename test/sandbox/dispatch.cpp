@@ -264,7 +264,7 @@ template <typename ...>
 using void_t = void;
 
 template <typename ...>
-constexpr bool valid = true;
+struct valid : std::true_type { };
 
 
 template <typename F> struct return_of;
@@ -293,7 +293,7 @@ struct has_cross_type { static constexpr bool value = false; };
 template <typename Concept, typename T, typename U>
 struct has_cross_type<Concept(T, U), std::enable_if_t<
     !std::is_same<T, U>::value &&
-    valid<std::common_type_t<T, U>>
+    valid<std::common_type_t<T, U>>{}
 >> {
     using C = std::common_type_t<T, U>;
     static constexpr bool value = true;
@@ -301,6 +301,8 @@ struct has_cross_type<Concept(T, U), std::enable_if_t<
 };
 
 
+template <typename T, typename Concept, typename = void>
+struct has_operators : std::false_type { };
 
 template <typename Concept, typename = void>
 struct via_operators : via_common<Concept> { };
@@ -378,7 +380,8 @@ struct via_operators<Comparable(_)> : via_common<Comparable(_)> {
     { };
 
     template <typename T, typename U>
-    struct equal_impl<T, U, decltype((void)(std::declval<T>() == std::declval<U>()))> {
+    struct equal_impl<T, U, std::enable_if_t<!has_operators<T, Comparable>::value,
+        decltype((void)(std::declval<T>() == std::declval<U>()))>> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
             std::cerr << "equal_impl via operator==: ";
@@ -393,7 +396,8 @@ struct via_operators<Comparable(_)> : via_common<Comparable(_)> {
     { };
 
     template <typename T, typename U>
-    struct not_equal_impl<T, U, decltype((void)(std::declval<T>() != std::declval<U>()))> {
+    struct not_equal_impl<T, U, std::enable_if_t<!has_operators<T, Comparable>::value,
+        decltype((void)(std::declval<T>() != std::declval<U>()))>> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
             std::cerr << "not_equal_impl via operator!=: ";
@@ -580,8 +584,6 @@ struct via_subclass<Concept(MPLIntegralC), std::enable_if_t<
 // Employee
 /////////////////////////////////////////
 struct Employee {
-    std::string name;
-
     template <typename E, typename = std::enable_if_t<std::is_same<E, Employee>::value>>
     friend void operator==(E, E) {
         std::cerr << "operator==(Employee, Employee)\n";
@@ -599,11 +601,13 @@ struct Manager : Employee { };
 // MyType
 //
 // Usually, Hana types have some operators that forward back to the methods.
-// However, the methods are at least partly implemented.
-//
-// We have a problem right now, because the via_operators will call != before
-// it can get to the default implementation (the desired path), which will
-// cause infinite recursion because != for MyType calls not_equal.
+// However, the methods are at least partly implemented. Normally, we would
+// have a problem because the via_operators would call != before it can get
+// to the default implementation (the desired path), which would cause
+// infinite recursion because != for MyType calls not_equal. The workaround
+// is to provide a has_operators trait that is specialized when the != is
+// an alias to not_equal, and we only check the operators in `via_operators`
+// if that is not the case.
 /////////////////////////////////////////
 struct MyType;
 
@@ -614,6 +618,9 @@ struct equal_impl<MyType, MyType> {
         std::cerr << "equal_impl<MyType, MyType>\n";
     }
 };
+
+template <>
+struct has_operators<MyType, Comparable> : std::true_type { };
 
 struct MyType {
     friend void operator==(MyType a, MyType b) {
