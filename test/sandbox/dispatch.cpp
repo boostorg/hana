@@ -243,9 +243,11 @@ struct Iterable {
 #include <iostream>
 #include <type_traits>
 
+template <typename F> struct return_of;
+template <typename R, typename ...A> struct return_of<R(A...)> { using type = R; };
 
-template <typename Concept, typename T, typename = void>
-struct stuff : Concept { };
+template <typename Concept, typename = void>
+struct stuff : return_of<Concept>::type { };
 
 template <typename F>
 struct meta_not : std::integral_constant<bool, !F::value> { };
@@ -285,12 +287,12 @@ struct Comparable {
 };
 
 template <typename T, typename U>
-struct equal_impl : stuff<Comparable, T>::template equal_impl<T, U> {
+struct equal_impl : stuff<Comparable(T)>::template equal_impl<T, U> {
     // static_assert(T is the same as U);
 };
 
 template <typename T, typename U>
-struct not_equal_impl : stuff<Comparable, T>::template not_equal_impl<T, U> {
+struct not_equal_impl : stuff<Comparable(T)>::template not_equal_impl<T, U> {
     // static_assert(T is the same as U);
 };
 
@@ -313,12 +315,12 @@ struct Enumerable {
 };
 
 template <typename E>
-struct succ_impl : stuff<Enumerable, E>::template succ_impl<E> {
+struct succ_impl : stuff<Enumerable(E)>::template succ_impl<E> {
 
 };
 
 template <typename E>
-struct pred_impl : stuff<Enumerable, E>::template pred_impl<E> {
+struct pred_impl : stuff<Enumerable(E)>::template pred_impl<E> {
 
 };
 
@@ -334,7 +336,7 @@ struct Constant {
 };
 
 template <typename C>
-struct value_impl : stuff<Constant, C>::template value_impl<C> {
+struct value_impl : stuff<Constant(C)>::template value_impl<C> {
 
 };
 
@@ -357,12 +359,12 @@ struct Monoid {
 };
 
 template <typename T, typename U>
-struct plus_impl : stuff<Monoid, T>::template plus_impl<T, U> {
+struct plus_impl : stuff<Monoid(T)>::template plus_impl<T, U> {
     // static_assert(T is the same as U);
 };
 
 template <typename M>
-struct zero_impl : stuff<Monoid, M>::template zero_impl<M> {
+struct zero_impl : stuff<Monoid(M)>::template zero_impl<M> {
 
 };
 #endif
@@ -432,7 +434,7 @@ struct IntegralConstant
 };
 
 template <typename C>
-struct integral_constant_impl : stuff<IntegralConstant, C>::template integral_constant_impl<C> {
+struct integral_constant_impl : stuff<IntegralConstant(C)>::template integral_constant_impl<C> {
 
 };
 
@@ -462,8 +464,8 @@ struct integral_constant_impl<MPLIntegralC> {
 
 // Comparable, Enumerable, Monoid
 template <typename Concept>
-struct stuff<Concept, MPLIntegralC, std::enable_if_t<
-    is_one_of<Concept, Comparable, Enumerable, Monoid>::value
+struct stuff<Concept(MPLIntegralC), std::enable_if_t<
+    std::is_base_of<Concept, IntegralConstant>::value
 >>
     : IntegralConstant
 { };
