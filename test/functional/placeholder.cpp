@@ -8,30 +8,51 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+
+#include <type_traits>
 using namespace boost::hana;
 
 
 struct _extra { virtual ~_extra() { } };
 _extra extra{};
 
+constexpr struct { } invalid{};
+
+template <typename ...> using bool_t = bool;
+constexpr bool valid_call(...) { return false; }
+template <typename F, typename ...Args>
+constexpr auto valid_call(F&& f, Args&& ...args)
+    -> bool_t<decltype(std::forward<F>(f)(std::forward<Args>(args)...))>
+{ return true; }
+
 #define BOOST_HANA_TEST_BINARY_OP(op, x, y)                                 \
-    {BOOST_HANA_CONSTEXPR_CHECK((_ op _)(x, y) == (x op y));}              \
-    {BOOST_HANA_RUNTIME_CHECK((_ op _)(x, y, extra) == (x op y));}         \
-    {BOOST_HANA_RUNTIME_CHECK((_ op _)(x, y, extra, extra) == (x op y));}  \
+    BOOST_HANA_CONSTEXPR_CHECK((_ op _)(x, y) == (x op y));                 \
+    BOOST_HANA_RUNTIME_CHECK((_ op _)(x, y, extra) == (x op y));            \
+    BOOST_HANA_RUNTIME_CHECK((_ op _)(x, y, extra, extra) == (x op y));     \
+    static_assert(!valid_call(_ op _), "");                                 \
+    static_assert(!valid_call(_ op _, invalid), "");                        \
+    static_assert(!valid_call(_ op _, invalid, invalid), "");               \
                                                                             \
-    {BOOST_HANA_CONSTEXPR_CHECK((_ op y)(x) == (x op y));}                 \
-    {BOOST_HANA_RUNTIME_CHECK((_ op y)(x, extra) == (x op y));}            \
-    {BOOST_HANA_RUNTIME_CHECK((_ op y)(x, extra, extra) == (x op y));}     \
+    BOOST_HANA_CONSTEXPR_CHECK((_ op y)(x) == (x op y));                    \
+    BOOST_HANA_RUNTIME_CHECK((_ op y)(x, extra) == (x op y));               \
+    BOOST_HANA_RUNTIME_CHECK((_ op y)(x, extra, extra) == (x op y));        \
+    static_assert(!valid_call(_ op y), "");                                 \
+    static_assert(!valid_call(_ op y, invalid), "");                        \
                                                                             \
-    {BOOST_HANA_CONSTEXPR_CHECK((x op _)(y) == (x op y));}                 \
-    {BOOST_HANA_RUNTIME_CHECK((x op _)(y, extra) == (x op y));}            \
-    {BOOST_HANA_RUNTIME_CHECK((x op _)(y, extra, extra) == (x op y));}     \
+    BOOST_HANA_CONSTEXPR_CHECK((x op _)(y) == (x op y));                    \
+    BOOST_HANA_RUNTIME_CHECK((x op _)(y, extra) == (x op y));               \
+    BOOST_HANA_RUNTIME_CHECK((x op _)(y, extra, extra) == (x op y));        \
+    static_assert(!valid_call(x op _), "");                                 \
+    static_assert(!valid_call(x op _, invalid), "");                        \
+    static_assert(!valid_call(x op _, invalid), "");                        \
 /**/
 
 #define BOOST_HANA_TEST_UNARY_OP(op, x)                                     \
-    {BOOST_HANA_CONSTEXPR_CHECK((op _)(x) == (op x));}                     \
-    {BOOST_HANA_RUNTIME_CHECK((op _)(x, extra) == (op x));}                \
-    {BOOST_HANA_RUNTIME_CHECK((op _)(x, extra, extra) == (op x));}         \
+    BOOST_HANA_CONSTEXPR_CHECK((op _)(x) == (op x));                        \
+    BOOST_HANA_RUNTIME_CHECK((op _)(x, extra) == (op x));                   \
+    BOOST_HANA_RUNTIME_CHECK((op _)(x, extra, extra) == (op x));            \
+    static_assert(!valid_call(op _), "");                                   \
+    static_assert(!valid_call(op _, invalid), "");                          \
 /**/
 
 int main() {
@@ -76,12 +97,22 @@ int main() {
     BOOST_HANA_CONSTEXPR_CHECK(_[1](array) == array[1]);
     BOOST_HANA_CONSTEXPR_CHECK(_[1](array) == array[1]);
     BOOST_HANA_CONSTEXPR_CHECK(_[2](array) == array[2]);
+    static_assert(!valid_call(_[invalid]), "");
+    static_assert(!valid_call(_[invalid], array), "");
+    static_assert(!valid_call(_[invalid], invalid), "");
+    static_assert(!valid_call(_[0], invalid), "");
 
-    // Other
-    BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto x) { return x + 1; };
+    // Call operator
+    BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto x) -> decltype(x+1) {
+        return x + 1;
+    };
     BOOST_HANA_CONSTEXPR_CHECK(_(1)(f) == f(1));
     BOOST_HANA_RUNTIME_CHECK(_(1)(f, extra) == f(1));
     BOOST_HANA_RUNTIME_CHECK(_(1)(f, extra, extra) == f(1));
     BOOST_HANA_CONSTEXPR_CHECK(_(2)(f) == f(2));
     BOOST_HANA_CONSTEXPR_CHECK(_(3)(f) == f(3));
+    static_assert(!valid_call(_(invalid)), "");
+    static_assert(!valid_call(_(invalid), f), "");
+    static_assert(!valid_call(_(invalid), invalid), "");
+    static_assert(!valid_call(_(1), invalid), "");
 }
