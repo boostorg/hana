@@ -639,11 +639,56 @@ struct MyType {
 
 // Priorities:
 // 1. Explicit/partial specialization
-// 2. Implementation provided by subclass
+// 2. Implementation provided by subclass (this one makes no sense for binary methods with T != U)
 // 3. Implementation provided by operators
 // 4. Implementation via common type if it applies
 // 5. Default implementation
 
+// When you create a dispatching plugin:
+// 1. Todo
+
+
+// When you create a type class:
+// 0. Each method should by default call `via_subclass<Typeclass(...)>::method_impl<...>`
+// 1. Inherit from superclasses
+// 2. Place the default method implementations in the body of the type class
+// 3. Place any provided superclass methods in the body of the type class
+// 4. Place any operator-based method implementation in the `via_operators<Typeclass(...)>`
+//      - Do not forget to inherit via_common in your via_operators
+//      - ...
+// 5. Place any method using common types to dispatch in the `via_common<Typeclass(...)>`
+//      - Do not forget to inherit from `Typeclass` in your via_common
+//      - ...
+
+
+// NOTE: In a lazy context, Foldable and Searchable collapse!!
+
+
+template <typename Concept, typename Next>
+struct via_common2 : Next { };
+
+template <typename Concept, typename Next>
+struct via_operators2 : Next { };
+
+template <typename Concept, typename Next>
+struct via_subclass2 : Next { };
+
+template <typename Concept, template <typename ...> class ...Plugins>
+struct dispatch;
+
+template <typename Concept, template <typename ...> class Step, template <typename ...> class ...Rest>
+struct dispatch<Concept, Step, Rest...>
+    : Step<Concept, dispatch<Concept, Rest...>>
+{ };
+
+template <typename T, typename U>
+struct equal2_impl
+    : dispatch<Comparable(T),
+        via_subclass2,
+        via_operators2,
+        via_common2
+    >::template equal_impl<T, U>
+{ };
 
 int main() {
     succ_impl<MPLIntegralC>::apply(0);
