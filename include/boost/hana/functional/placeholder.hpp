@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/closure.hpp>
 #include <boost/hana/detail/create.hpp>
+#include <boost/hana/detail/std/declval.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/move.hpp>
 
@@ -72,15 +73,18 @@ namespace boost { namespace hana {
             I i;
 
             template <typename Xs, typename ...Z>
-            constexpr decltype(auto) operator()(Xs&& xs, Z const& ...) const&
+            constexpr auto operator()(Xs&& xs, Z const& ...) const&
+                -> decltype(detail::std::forward<Xs>(xs)[i])
             { return detail::std::forward<Xs>(xs)[i]; }
 
             template <typename Xs, typename ...Z>
-            constexpr decltype(auto) operator()(Xs&& xs, Z const& ...) &
+            constexpr auto operator()(Xs&& xs, Z const& ...) &
+                -> decltype(detail::std::forward<Xs>(xs)[i])
             { return detail::std::forward<Xs>(xs)[i]; }
 
             template <typename Xs, typename ...Z>
-            constexpr decltype(auto) operator()(Xs&& xs, Z const& ...) &&
+            constexpr auto operator()(Xs&& xs, Z const& ...) &&
+                -> decltype(detail::std::forward<Xs>(xs)[detail::std::declval<I>()])
             { return detail::std::forward<Xs>(xs)[detail::std::move(i)]; }
         };
 
@@ -92,15 +96,24 @@ namespace boost { namespace hana {
             detail::closure_impl<X...> x;
 
             template <typename F, typename ...Z>
-            constexpr decltype(auto) operator()(F&& f, Z const& ...) const&
+            constexpr auto operator()(F&& f, Z const& ...) const&
+                -> decltype(detail::std::forward<F>(f)(static_cast<X const&>(
+                    detail::std::declval<detail::closure_impl<X...>>()
+                ).get...))
             { return detail::std::forward<F>(f)(static_cast<X const&>(x).get...); }
 
             template <typename F, typename ...Z>
-            constexpr decltype(auto) operator()(F&& f, Z const& ...) &
+            constexpr auto operator()(F&& f, Z const& ...) &
+                -> decltype(detail::std::forward<F>(f)(static_cast<X&>(
+                    detail::std::declval<detail::closure_impl<X...>&>()
+                ).get...))
             { return detail::std::forward<F>(f)(static_cast<X&>(x).get...); }
 
             template <typename F, typename ...Z>
-            constexpr decltype(auto) operator()(F&& f, Z const& ...) &&
+            constexpr auto operator()(F&& f, Z const& ...) &&
+                -> decltype(detail::std::forward<F>(f)(static_cast<X&&>(
+                    detail::std::declval<detail::closure_impl<X...>>()
+                ).get...))
             { return detail::std::forward<F>(f)(static_cast<X&&>(x).get...); }
         };
 
@@ -125,15 +138,18 @@ namespace boost { namespace hana {
         X x;                                                                    \
                                                                                 \
         template <typename Y, typename ...Z>                                    \
-        constexpr decltype(auto) operator()(Y&& y, Z const& ...) const&         \
+        constexpr auto operator()(Y&& y, Z const& ...) const& -> decltype(      \
+            detail::std::declval<X const&>() op detail::std::forward<Y>(y))     \
         { return x op detail::std::forward<Y>(y); }                             \
                                                                                 \
         template <typename Y, typename ...Z>                                    \
-        constexpr decltype(auto) operator()(Y&& y, Z const& ...) &              \
+        constexpr auto operator()(Y&& y, Z const& ...) & -> decltype(           \
+            detail::std::declval<X&>() op detail::std::forward<Y>(y))           \
         { return x op detail::std::forward<Y>(y); }                             \
                                                                                 \
         template <typename Y, typename ...Z>                                    \
-        constexpr decltype(auto) operator()(Y&& y, Z const& ...) &&             \
+        constexpr auto operator()(Y&& y, Z const& ...) && -> decltype(          \
+            detail::std::declval<X>() op detail::std::forward<Y>(y))            \
         { return detail::std::move(x) op detail::std::forward<Y>(y); }          \
     };                                                                          \
                                                                                 \
@@ -142,21 +158,25 @@ namespace boost { namespace hana {
         Y y;                                                                    \
                                                                                 \
         template <typename X, typename ...Z>                                    \
-        constexpr decltype(auto) operator()(X&& x, Z const& ...) const&         \
+        constexpr auto operator()(X&& x, Z const& ...) const& -> decltype(      \
+            detail::std::forward<X>(x) op detail::std::declval<Y const&>())     \
         { return detail::std::forward<X>(x) op y; }                             \
                                                                                 \
         template <typename X, typename ...Z>                                    \
-        constexpr decltype(auto) operator()(X&& x, Z const& ...) &              \
+        constexpr auto operator()(X&& x, Z const& ...) & -> decltype(           \
+            detail::std::forward<X>(x) op detail::std::declval<Y&>())           \
         { return detail::std::forward<X>(x) op y; }                             \
                                                                                 \
         template <typename X, typename ...Z>                                    \
-        constexpr decltype(auto) operator()(X&& x, Z const& ...) &&             \
+        constexpr auto operator()(X&& x, Z const& ...) && -> decltype(          \
+            detail::std::forward<X>(x) op detail::std::declval<Y>())            \
         { return detail::std::forward<X>(x) op detail::std::move(y); }          \
     };                                                                          \
                                                                                 \
     struct op_name {                                                            \
         template <typename X, typename Y, typename ...Z>                        \
-        constexpr decltype(auto) operator()(X&& x, Y&& y, Z const& ...) const   \
+        constexpr auto operator()(X&& x, Y&& y, Z const& ...) const -> decltype(\
+            detail::std::forward<X>(x) op detail::std::forward<Y>(y))           \
         { return detail::std::forward<X>(x) op detail::std::forward<Y>(y); }    \
     };                                                                          \
                                                                                 \
@@ -175,9 +195,9 @@ namespace boost { namespace hana {
 #define BOOST_HANA_PLACEHOLDER_UNARY_OP(op, op_name)                        \
     struct op_name {                                                        \
         template <typename X, typename ...Z>                                \
-        constexpr decltype(auto) operator()(X&& x, Z const& ...) const {    \
-            return op detail::std::forward<X>(x);                           \
-        }                                                                   \
+        constexpr auto operator()(X&& x, Z const& ...) const                \
+            -> decltype(op detail::std::forward<X>(x))                      \
+        { return op detail::std::forward<X>(x); }                           \
     };                                                                      \
                                                                             \
     inline constexpr decltype(auto) operator op (placeholder)               \
