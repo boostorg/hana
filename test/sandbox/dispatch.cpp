@@ -242,23 +242,20 @@ struct Iterable {
 
 #include <iostream>
 #include <type_traits>
+#include <boost/hana/functional/placeholder.hpp>
+using boost::hana::_;
 
 
-template <typename F>
-struct meta_not : std::integral_constant<bool, !F::value> { };
+//////////////////////////////////////////////////////////////////////////////
+// base
+//////////////////////////////////////////////////////////////////////////////
+struct not_implemented { };
 
-template <bool ...b>
-struct any_of_c
-    : meta_not<std::is_same<
-        any_of_c<b...>,
-        any_of_c<(b, false)...>
-    >>
-{ };
+template <typename Concept, typename Next = not_implemented, typename = void>
+struct default_ : Next { };
 
-template <typename T, typename ...U>
-struct is_one_of
-    : any_of_c<std::is_same<T, U>::value...>
-{ };
+template <typename Method, typename Concept, typename Next = not_implemented>
+struct provided : Next { };
 
 template <typename ...>
 using void_t = void;
@@ -266,27 +263,33 @@ using void_t = void;
 template <typename ...>
 struct valid : std::true_type { };
 
+template <typename To>
+auto to = [](auto x) { return static_cast<To>(x); };
 
-template <typename F> struct return_of;
-template <typename R, typename ...A> struct return_of<R(A...)> { using type = R; };
 
-// Cross-type dispatching algorithm
-// --------------------------------
-// if (T == U) {
-//     stuff<Comparable(T)>::template equal_impl<T, U>
-// }
-// else if (T is Comparable && U is Comparable &&
-//          T and U have a common type C &&
-//          C is Comparable)
-// {
-//     convert to the common type and try again there
-// }
-// else {
-//     the method is not implemented
-// }
-template <typename Concept, typename = void>
-struct via_common : return_of<Concept>::type { };
 
+//////////////////////////////////////////////////////////////////////////////
+// operators.hpp
+//////////////////////////////////////////////////////////////////////////////
+template <typename Method, typename = void>
+struct has_operator : std::false_type { };
+
+template <typename Method, typename Op, typename Next = not_implemented, typename = void>
+struct operator_ : Next { };
+
+template <template <typename ...> class Method, typename T, typename U, typename Op, typename Next>
+struct operator_<Method<T, U>, Op, Next, std::enable_if_t<
+    !has_operator<Method<T, U>>::value,
+    decltype((void)(Op{}(std::declval<T>(), std::declval<U>())))
+>> {
+    template <typename X, typename Y>
+    static constexpr decltype(auto) apply(X&& x, Y&& y)
+    { return Op{}(std::forward<X>(x), std::forward<Y>(y)); }
+};
+
+//////////////////////////////////////////////////////////////////////////////
+// cross_type.hpp
+//////////////////////////////////////////////////////////////////////////////
 template <typename Concept, typename = void>
 struct has_cross_type { static constexpr bool value = false; };
 
@@ -300,182 +303,148 @@ struct has_cross_type<Concept(T, U), std::enable_if_t<
         // is<Concept, T> && is<Concept, U> && is<Concept, C>;
 };
 
+template <typename Concept, typename Method, typename Next = not_implemented,
+    bool = has_cross_type<Concept>::value>
+struct cross_type : Next { };
 
-template <typename T, typename Concept, typename = void>
-struct has_operators : std::false_type { };
+template <typename Concept, typename T, typename U, typename Method, typename Next>
+struct cross_type<Concept(T, U), Method, Next, true> {
+    template <typename X, typename Y>
+    static constexpr decltype(auto) apply(X&& x, Y&& y) {
+        using Common = std::common_type_t<X, Y>;
+        std::cerr << "cross-type dispatching: ";
+        return Method{}(to<Common>(std::forward<X>(x)),
+                        to<Common>(std::forward<Y>(y)));
+    }
+};
 
-template <typename Concept, typename = void>
-struct via_operators : via_common<Concept> { };
-
-template <typename Concept, typename = void>
-struct via_subclass : via_operators<Concept> { };
 
 /////////////////////////////////////////
 // Comparable
 /////////////////////////////////////////
-struct Comparable {
-    template <typename T, typename U>
-    struct equal_impl {
-        template <typename X, typename Y>
-        static void apply(X x, Y y) {
-            std::cerr << "default equal_impl\n";
-        }
-    };
+struct Comparable { };
 
-    template <typename T, typename U>
-    struct not_equal_impl {
-        template <typename X, typename Y>
-        static void apply(X x, Y y) {
-            std::cerr << "default not_equal_impl\n";
-        }
-    };
-};
-
+template <typename T, typename U> struct equal_impl;
+constexpr struct {
+    template <typename X, typename Y>
+    constexpr decltype(auto) operator()(X x, Y y) const
+    { return equal_impl<decltype(x), decltype(y)>::apply(x, y); }
+} equal{};
 template <typename T, typename U>
-struct equal_impl : via_subclass<Comparable(T)>::template equal_impl<T, U> {
-    // static_assert(T is the same as U);
-};
+struct equal_impl
+    : provided<equal_impl<T, U>, Comparable,
+        operator_<equal_impl<T, U>, decltype(_==_),
+            cross_type<Comparable(T, U), decltype(equal),
+                default_<equal_impl<T, U>>
+            >
+        >
+    >
+{ };
 
+template <typename T, typename U> struct not_equal_impl;
+constexpr struct {
+    template <typename X, typename Y>
+    constexpr decltype(auto) operator()(X x, Y y) const
+    { return not_equal_impl<decltype(x), decltype(y)>::apply(x, y); }
+} not_equal{};
 template <typename T, typename U>
-struct not_equal_impl : via_subclass<Comparable(T)>::template not_equal_impl<T, U> {
-    // static_assert(T is the same as U);
+struct not_equal_impl
+    : provided<not_equal_impl<T, U>, Comparable,
+        operator_<not_equal_impl<T, U>, decltype(_!=_),
+            cross_type<Comparable(T, U), decltype(not_equal),
+                default_<not_equal_impl<T, U>>
+            >
+        >
+    >
+{ };
+
+template <typename T, typename U, typename Next>
+struct default_<equal_impl<T, U>, Next> {
+    template <typename X, typename Y>
+    static void apply(X x, Y y)
+    { std::cerr << "default equal_impl\n"; }
 };
 
-
-template <typename _>
-struct via_common<Comparable(_)> : Comparable {
-    template <typename T, typename U, bool = has_cross_type<Comparable(T, U)>::value>
-    struct equal_impl : Comparable::equal_impl<T, U> { };
-
-    template <typename T, typename U>
-    struct equal_impl<T, U, true> {
-        template <typename X, typename Y>
-        static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            std::cerr << "cross-type dispatching of equal_impl: ";
-            using C = std::common_type_t<T, U>;
-            return ::equal_impl<C, C>::apply((C)x, (C)y);
-        }
-    };
-
-
-    template <typename T, typename U, bool = has_cross_type<Comparable(T, U)>::value>
-    struct not_equal_impl : Comparable::not_equal_impl<T, U> { };
-
-    template <typename T, typename U>
-    struct not_equal_impl<T, U, true> {
-        template <typename X, typename Y>
-        static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            std::cerr << "cross-type dispatching of not_equal_impl: ";
-            using C = std::common_type_t<T, U>;
-            return ::not_equal_impl<C, C>::apply((C)x, (C)y);
-        }
-    };
-};
-
-template <typename _>
-struct via_operators<Comparable(_)> : via_common<Comparable(_)> {
-    template <typename T, typename U, typename = void>
-    struct equal_impl
-        : via_common<Comparable(_)>::template equal_impl<T, U>
-    { };
-
-    template <typename T, typename U>
-    struct equal_impl<T, U, std::enable_if_t<!has_operators<T, Comparable>::value,
-        decltype((void)(std::declval<T>() == std::declval<U>()))>> {
-        template <typename X, typename Y>
-        static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            std::cerr << "equal_impl via operator==: ";
-            (void)(x == y);
-        }
-    };
-
-
-    template <typename T, typename U, typename = void>
-    struct not_equal_impl
-        : via_common<Comparable(_)>::template not_equal_impl<T, U>
-    { };
-
-    template <typename T, typename U>
-    struct not_equal_impl<T, U, std::enable_if_t<!has_operators<T, Comparable>::value,
-        decltype((void)(std::declval<T>() != std::declval<U>()))>> {
-        template <typename X, typename Y>
-        static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            std::cerr << "not_equal_impl via operator!=: ";
-            (void)(x != y);
-        }
-    };
+template <typename T, typename U, typename Next>
+struct default_<not_equal_impl<T, U>, Next> {
+    template <typename X, typename Y>
+    static void apply(X x, Y y)
+    { std::cerr << "default not_equal_impl\n"; }
 };
 
 
 /////////////////////////////////////////
 // Enumerable
 /////////////////////////////////////////
-struct Enumerable {
-    template <typename E>
-    struct succ_impl {
-        static_assert(wrong<succ_impl<E>>::value,
-        "no definition of boost::hana::succ for the given data type");
-    };
+struct Enumerable { };
 
-    template <typename E>
-    struct pred_impl {
-        static_assert(wrong<pred_impl<E>>::value,
-        "no definition of boost::hana::pred for the given data type");
-    };
-};
-
+template <typename E> struct succ_impl;
+constexpr struct {
+    template <typename X>
+    constexpr decltype(auto) operator()(X x) const
+    { return succ_impl<X>::apply(x); }
+} succ{};
 template <typename E>
-struct succ_impl : via_subclass<Enumerable(E)>::template succ_impl<E> {
-
-};
-
-template <typename E>
-struct pred_impl : via_subclass<Enumerable(E)>::template pred_impl<E> {
-
-};
+struct succ_impl
+    : provided<succ_impl<E>, Enumerable,
+        default_<succ_impl<E>>
+    >
+{ };
 
 /////////////////////////////////////////
 // Constant
 /////////////////////////////////////////
-struct Constant {
+struct Constant { };
+
+template <typename C> struct value_impl;
+constexpr struct {
     template <typename C>
-    struct value_impl {
-        static_assert(wrong<value_impl<C>>::value,
-        "no definition of boost::hana::value for the given data type");
-    };
-};
-
+    constexpr decltype(auto) operator()(C x) const
+    { return value_impl<C>::apply(x); }
+} value{};
 template <typename C>
-struct value_impl : via_subclass<Constant(C)>::template value_impl<C> {
-
-};
+struct value_impl
+    : provided<value_impl<C>, Constant,
+        default_<value_impl<C>>
+    >
+{ };
 
 /////////////////////////////////////////
 // Monoid
 /////////////////////////////////////////
-struct Monoid {
-    template <typename T, typename U>
-    struct plus_impl {
-        static_assert(wrong<plus_impl<T, U>>::value,
-        "no definition of boost::hana::plus for the given data type");
-    };
+struct Monoid { };
 
-    template <typename M>
-    struct zero_impl {
-        static_assert(wrong<zero_impl<M>>::value,
-        "no definition of boost::hana::zero for the given data type");
-    };
-};
-
+template <typename T, typename U> struct plus_impl;
+constexpr struct {
+    template <typename X, typename Y>
+    constexpr decltype(auto) operator()(X x, Y y) const
+    { return plus_impl<decltype(x), decltype(y)>::apply(x, y); }
+} plus{};
 template <typename T, typename U>
-struct plus_impl : via_subclass<Monoid(T)>::template plus_impl<T, U> {
-    // static_assert(T is the same as U);
-};
+struct plus_impl
+    : provided<plus_impl<T, U>, Monoid,
+        operator_<plus_impl<T, U>, decltype(_+_),
+            cross_type<Monoid(T, U), decltype(plus),
+                default_<plus_impl<T, U>>
+            >
+        >
+    >
+{ };
 
+template <typename M> struct zero_impl;
 template <typename M>
-struct zero_impl : via_subclass<Monoid(M)>::template zero_impl<M> {
-
+struct _zero {
+    constexpr decltype(auto) operator()() const
+    { return zero_impl<M>::apply(); }
 };
+template <typename M>
+constexpr _zero<M> zero{};
+template <typename M>
+struct zero_impl
+    : provided<zero_impl<M>, Monoid,
+        default_<zero_impl<M>>
+    >
+{ };
 
 /////////////////////////////////////////
 // IntegralConstant
@@ -491,61 +460,61 @@ struct IntegralConstant
     , Enumerable
     , Comparable
     , Monoid
-{
-    template <typename C>
-    struct integral_constant_impl {
-        static_assert(wrong<integral_constant_impl<C>>::value,
-        "no definition of boost::hana::integral_constant for the given data type");
-    };
+{ };
 
-    // Enumerable
-    template <typename C>
-    struct succ_impl {
-        template <typename X>
-        static void apply(X x) {
-            std::cerr << "succ_impl via IntegralConstant\n";
-        }
-    };
+template <typename Method, typename Concept>
+struct for_free;
 
-    template <typename C>
-    struct pred_impl {
-        template <typename X>
-        static void apply(X x) {
-            std::cerr << "pred_impl via IntegralConstant\n";
-        }
-    };
+// Comparable
+template <typename T, typename U>
+struct for_free<equal_impl<T, U>, IntegralConstant> {
+    template <typename X, typename Y>
+    static void apply(X x, Y y) {
+        std::cerr << "equal_impl via IntegralConstant\n";
+    }
+};
 
-    // Comparable
-    template <typename T, typename U>
-    struct equal_impl {
-        template <typename X, typename Y>
-        static void apply(X x, Y y) {
-            std::cerr << "equal_impl via IntegralConstant\n";
-        }
-    };
+// Enumerable
+template <typename C>
+struct for_free<succ_impl<C>, IntegralConstant> {
+    template <typename X>
+    static void apply(X x) {
+        std::cerr << "succ_impl via IntegralConstant\n";
+    }
+};
 
-    // Monoid
-    template <typename T, typename U>
-    struct plus_impl {
-        template <typename X, typename Y>
-        static void apply(X x, Y y) {
-            std::cerr << "plus_impl via IntegralConstant\n";
-        }
-    };
-
-    template <typename C>
-    struct zero_impl {
-        static void apply() {
-            std::cerr << "zero_impl via IntegralConstant\n";
-        }
-    };
+// Monoid
+template <typename T, typename U>
+struct for_free<plus_impl<T, U>, IntegralConstant> {
+    template <typename X, typename Y>
+    static void apply(X x, Y y) {
+        std::cerr << "plus_impl via IntegralConstant\n";
+    }
 };
 
 template <typename C>
-struct integral_constant_impl : via_subclass<IntegralConstant(C)>::template integral_constant_impl<C> {
-
+struct for_free<zero_impl<C>, IntegralConstant> {
+    static void apply() {
+        std::cerr << "zero_impl via IntegralConstant\n";
+    }
 };
 
+
+template <typename C> struct integral_constant_impl;
+template <typename C>
+struct _integral_constant {
+    template <typename T, T v>
+    constexpr decltype(auto) operator()() const
+    { return integral_constant_impl<C>::template apply<T, v>(); }
+};
+template <typename C>
+constexpr _integral_constant<C> integral_constant{};
+template <typename C>
+struct integral_constant_impl
+    : provided<integral_constant_impl<C>, IntegralConstant,
+        default_<integral_constant_impl<C>>
+    >
+{ };
 
 /////////////////////////////////////////
 // MPLIntegralC
@@ -564,19 +533,35 @@ struct value_impl<MPLIntegralC> {
 // IntegralConstant
 template <>
 struct integral_constant_impl<MPLIntegralC> {
-    template <typename X>
-    static void apply(X x) {
+    template <typename T, T v>
+    static void apply() {
         std::cerr << "integral_constant_impl<MPLIntegralC>\n";
     }
 };
 
-// Comparable, Enumerable, Monoid
-template <typename Concept>
-struct via_subclass<Concept(MPLIntegralC), std::enable_if_t<
-    std::is_base_of<Concept, IntegralConstant>::value
->>
-    : IntegralConstant
+// Comparable
+template <typename Next>
+struct provided<equal_impl<MPLIntegralC, MPLIntegralC>, Comparable, Next>
+    : for_free<equal_impl<MPLIntegralC, MPLIntegralC>, IntegralConstant>
 { };
+
+// Enumerable
+template <typename Next>
+struct provided<succ_impl<MPLIntegralC>, Enumerable, Next>
+    : for_free<succ_impl<MPLIntegralC>, IntegralConstant>
+{ };
+
+// Monoid
+template <typename Next>
+struct provided<plus_impl<MPLIntegralC, MPLIntegralC>, Monoid, Next>
+    : for_free<plus_impl<MPLIntegralC, MPLIntegralC>, IntegralConstant>
+{ };
+
+template <typename Next>
+struct provided<zero_impl<MPLIntegralC>, Monoid, Next>
+    : for_free<zero_impl<MPLIntegralC>, IntegralConstant>
+{ };
+
 
 // etc...
 
@@ -584,9 +569,9 @@ struct via_subclass<Concept(MPLIntegralC), std::enable_if_t<
 // Employee
 /////////////////////////////////////////
 struct Employee {
-    template <typename E, typename = std::enable_if_t<std::is_same<E, Employee>::value>>
-    friend void operator==(E, E) {
-        std::cerr << "operator==(Employee, Employee)\n";
+    template <typename E, typename Y, typename = std::enable_if_t<std::is_same<E, Employee>::value>>
+    friend void operator==(E, Y) {
+        std::cerr << "operator==(" << typeid(E).name() << ", " << typeid(Y).name() << ")\n";
     }
 };
 
@@ -620,7 +605,9 @@ struct equal_impl<MyType, MyType> {
 };
 
 template <>
-struct has_operators<MyType, Comparable> : std::true_type { };
+struct has_operator<equal_impl<MyType, MyType>> : std::true_type { };
+template <>
+struct has_operator<not_equal_impl<MyType, MyType>> : std::true_type { };
 
 struct MyType {
     friend void operator==(MyType a, MyType b) {
@@ -632,8 +619,6 @@ struct MyType {
         not_equal_impl<MyType, MyType>::apply(a, b);
     }
 };
-
-
 
 
 
@@ -663,42 +648,14 @@ struct MyType {
 
 // NOTE: In a lazy context, Foldable and Searchable collapse!!
 
-
-template <typename Concept, typename Next>
-struct via_common2 : Next { };
-
-template <typename Concept, typename Next>
-struct via_operators2 : Next { };
-
-template <typename Concept, typename Next>
-struct via_subclass2 : Next { };
-
-template <typename Concept, template <typename ...> class ...Plugins>
-struct dispatch;
-
-template <typename Concept, template <typename ...> class Step, template <typename ...> class ...Rest>
-struct dispatch<Concept, Step, Rest...>
-    : Step<Concept, dispatch<Concept, Rest...>>
-{ };
-
-template <typename T, typename U>
-struct equal2_impl
-    : dispatch<Comparable(T),
-        via_subclass2,
-        via_operators2,
-        via_common2
-    >::template equal_impl<T, U>
-{ };
-
 int main() {
     succ_impl<MPLIntegralC>::apply(0);
-    pred_impl<MPLIntegralC>::apply(0);
 
     equal_impl<MPLIntegralC, MPLIntegralC>::apply(0, 0);
     not_equal_impl<MPLIntegralC, MPLIntegralC>::apply(0, 0);
 
     value_impl<MPLIntegralC>::apply(0);
-    integral_constant_impl<MPLIntegralC>::apply(0);
+    integral_constant_impl<MPLIntegralC>::apply<int, 0>();
 
     zero_impl<MPLIntegralC>::apply();
     plus_impl<MPLIntegralC, MPLIntegralC>::apply(0, 0);
@@ -713,4 +670,8 @@ int main() {
     not_equal_impl<MyType, MyType>::apply(MyType{}, MyType{});
     (void)(MyType{} == MyType{});
     (void)(MyType{} != MyType{});
+
+
+
+    (void)value; (void)succ;
 }
