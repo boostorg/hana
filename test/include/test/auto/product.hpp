@@ -13,11 +13,13 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/models.hpp>
 
 #include <test/auto/base.hpp>
+#include <test/cnumeric.hpp>
 #include <test/injection.hpp>
 
 // provided instances
 #include <test/auto/comparable.hpp>
 #include <test/auto/foldable.hpp>
+#include <test/auto/orderable.hpp>
 
 
 namespace boost { namespace hana { namespace test {
@@ -70,6 +72,49 @@ namespace boost { namespace hana { namespace test {
                 )));
                 BOOST_HANA_CONSTANT_CHECK(not_(equal(
                     prod(x<0>, x<1>), prod(x<9>, x<9>)
+                )));
+            }
+        }
+
+        // Orderable
+        {
+            laws<Orderable, P>();
+
+            // less
+            {
+                BOOST_HANA_CONSTANT_CHECK(not_(less(
+                    prod(cnumeric<int, 0>, cnumeric<int, 0>),
+                    prod(cnumeric<int, 0>, cnumeric<int, 0>)
+                )));
+
+                BOOST_HANA_CONSTANT_CHECK(less(
+                    prod(cnumeric<int, 0>, cnumeric<int, 0>),
+                    prod(cnumeric<int, 0>, cnumeric<int, 1>)
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(less(
+                    prod(cnumeric<int, 0>, cnumeric<int, 0>),
+                    prod(cnumeric<int, 1>, cnumeric<int, 0>)
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(not_(less(
+                    prod(cnumeric<int, 0>, cnumeric<int, 1>),
+                    prod(cnumeric<int, 0>, cnumeric<int, 0>)
+                )));
+
+                BOOST_HANA_CONSTANT_CHECK(not_(less(
+                    prod(cnumeric<int, 1>, cnumeric<int, 0>),
+                    prod(cnumeric<int, 0>, cnumeric<int, 0>)
+                )));
+
+                BOOST_HANA_CONSTANT_CHECK(less(
+                    prod(cnumeric<int, 0>, cnumeric<int, 1>),
+                    prod(cnumeric<int, 1>, cnumeric<int, 0>)
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(not_(less(
+                    prod(cnumeric<int, 1>, cnumeric<int, 0>),
+                    prod(cnumeric<int, 0>, cnumeric<int, 1>)
                 )));
             }
         }

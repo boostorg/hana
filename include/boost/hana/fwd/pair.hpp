@@ -13,15 +13,53 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/create.hpp>
 #include <boost/hana/fwd/comparable.hpp>
+#include <boost/hana/fwd/orderable.hpp>
 
 
 namespace boost { namespace hana {
     //! @ingroup group-datatypes
     //! Generic container of two elements.
     //!
-    //! ### Instance of
-    //! `Comparable`, `Product`, `Foldable`
-    struct Pair { struct hana { struct enabled_operators : Comparable { }; }; };
+    //! A `Pair` is essentially equivalent to a `std::pair`, which can also
+    //! be seen as a 2-element tuple. `Pair`s are useful in some contexts
+    //! where a tuple would be too much, like returning two elements from a
+    //! function.
+    //!
+    //!
+    //! Modeled concepts
+    //! ----------------
+    //! 1. `Comparable` (operators provided)\n
+    //! Two pairs `(x, y)` and `(x', y')` are equal if and only if both
+    //! `x == x'` and `y == y'`.
+    //! @snippet example/pair.cpp comparable
+    //!
+    //! 2. `Orderable` (operators provided)\n
+    //! Pairs are ordered as-if they were 2-element tuples, using a
+    //! lexicographical ordering.
+    //! @snippet example/pair.cpp orderable
+    //!
+    //! 3. `Foldable`\n
+    //! Folding a `Pair` is equivalent to folding a 2-element tuple. In other
+    //! words:
+    //! @code
+    //!     foldl(pair(x, y), s, f) == f(f(s, x), y)
+    //!     foldr(pair(x, y), s, f) == f(x, f(y, s))
+    //! @endcode
+    //! Example:
+    //! @snippet example/pair.cpp foldable
+    //!
+    //! 4. `Product`\n
+    //! The model of `Product` is the simplest one possible; the first element
+    //! of a pair `(x, y)` is `x`, and its second element is `y`.
+    //! @snippet example/pair.cpp product
+    struct Pair {
+        struct hana {
+            struct enabled_operators
+                : Comparable
+                , Orderable
+            { };
+        };
+    };
 
     //! Creates a `Pair` with the given elements.
     //! @relates Pair

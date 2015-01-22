@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <test/auto/base.hpp>
 #include <test/auto/product.hpp>
+#include <test/cnumeric.hpp>
 #include <test/injection.hpp>
 using namespace boost::hana;
 
@@ -22,10 +23,10 @@ namespace boost { namespace hana { namespace test {
 
     template <>
     auto objects<Pair> = tuple(
-          pair(x<0>, x<0>)
-        , pair(x<0>, x<1>)
-        , pair(x<1>, x<0>)
-        , pair(x<1>, x<1>)
+          pair(cnumeric<int, 0>, cnumeric<int, 0>)
+        , pair(cnumeric<int, 0>, cnumeric<int, 1>)
+        , pair(cnumeric<int, 1>, cnumeric<int, 0>)
+        , pair(cnumeric<int, 1>, cnumeric<int, 1>)
     );
 }}}
 

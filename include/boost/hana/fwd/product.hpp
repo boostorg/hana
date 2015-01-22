@@ -55,7 +55,7 @@ namespace boost { namespace hana {
     //!
     //! Provided models
     //! ---------------
-    //! 1. `Comparable`
+    //! 1. `Comparable`\n
     //! Two products `x` and `y` are equal iff they are equal element-wise,
     //! i.e. iff
     //! @code
@@ -66,9 +66,13 @@ namespace boost { namespace hana {
     //! @snippet example/product.cpp comparable
     //!
     //!
-    //! 2. `Foldable`
+    //! 2. `Foldable`\n
     //! Folding a `Product` `p` is equivalent to folding a list containing
     //! `first(p)` and `second(p)`, in that order.
+    //!
+    //! 3. `Orderable`\n
+    //! Products are ordered using a lexicographical ordering as-if they
+    //! were 2-element tuples.
     //!
     //!
     //! [Wikipedia.Product]: http://en.wikipedia.org/wiki/Product_(category_theory)

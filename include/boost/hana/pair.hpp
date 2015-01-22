@@ -13,15 +13,19 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/pair.hpp>
 
 #include <boost/hana/core/make.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/product.hpp>
 
 
 namespace boost { namespace hana {
-    //! Instance of `Product` for `Pair`s.
-    //!
-    //! ### Example
-    //! @snippet example/pair.cpp product
+    // Product
+    template <>
+    struct models<Product(Pair)>
+        : detail::std::true_type
+    { };
+
     template <>
     struct make_impl<Pair> {
         template <typename F, typename S>

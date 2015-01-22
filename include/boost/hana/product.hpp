@@ -22,6 +22,7 @@ Distributed under the Boost Software License, Version 1.0.
 // provided instances
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/foldable.hpp>
+#include <boost/hana/orderable.hpp>
 
 
 namespace boost { namespace hana {
@@ -32,6 +33,20 @@ namespace boost { namespace hana {
             return and_(
                 equal(first(x), first(y)),
                 equal(second(x), second(y))
+            );
+        }
+    };
+
+    template <typename T, typename U>
+    struct less_impl<T, U, when<is_a<Product, T>() && is_a<Product, U>()>> {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X const& x, Y const& y) {
+            return or_(
+                less(first(x), first(y)),
+                and_(
+                    less_equal(first(x), first(y)),
+                    less(second(x), second(y))
+                )
             );
         }
     };

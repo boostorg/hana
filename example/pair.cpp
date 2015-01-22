@@ -10,14 +10,45 @@ using namespace boost::hana;
 
 
 int main() {
-    //! [pair]
-    BOOST_HANA_CONSTEXPR_CHECK(first(pair(1, 'x')) == 1);
-    BOOST_HANA_CONSTEXPR_CHECK(second(pair(1, 'x')) == 'x');
-    //! [pair]
 
-    //! [product]
-    BOOST_HANA_CONSTEXPR_CHECK(make<Pair>(1, 'x') == pair(1, 'x'));
-    BOOST_HANA_CONSTEXPR_CHECK(first(pair(1, 'x')) == 1);
-    BOOST_HANA_CONSTEXPR_CHECK(second(pair(1, 'x')) == 'x');
-    //! [product]
+{
+
+//! [pair]
+BOOST_HANA_CONSTEXPR_CHECK(first(pair(1, 'x')) == 1);
+BOOST_HANA_CONSTEXPR_CHECK(second(pair(1, 'x')) == 'x');
+//! [pair]
+
+}{
+
+//! [comparable]
+BOOST_HANA_CONSTEXPR_CHECK(pair(1, 'x') == pair(1, 'x'));
+BOOST_HANA_CONSTEXPR_CHECK(pair(2, 'x') != pair(1, 'x'));
+BOOST_HANA_CONSTEXPR_CHECK(pair(1, 'y') != pair(1, 'x'));
+//! [comparable]
+
+}{
+
+//! [orderable]
+BOOST_HANA_CONSTEXPR_CHECK(pair(1, 'x') < pair(1, 'y'));
+BOOST_HANA_CONSTEXPR_CHECK(pair(1, 'x') < pair(10, 'x'));
+BOOST_HANA_CONSTEXPR_CHECK(pair(1, 'y') < pair(10, 'x'));
+//! [orderable]
+
+}{
+
+//! [foldable]
+BOOST_HANA_CONSTEXPR_CHECK(foldl(pair(1, 3), 0, plus) == 4);
+BOOST_HANA_CONSTEXPR_CHECK(foldr(pair(1, 3), 0, minus) == -2);
+//! [foldable]
+
+}{
+
+//! [product]
+BOOST_HANA_CONSTEXPR_CHECK(make<Pair>(1, 'x') == pair(1, 'x'));
+BOOST_HANA_CONSTEXPR_CHECK(first(pair(1, 'x')) == 1);
+BOOST_HANA_CONSTEXPR_CHECK(second(pair(1, 'x')) == 'x');
+//! [product]
+
+}
+
 }
