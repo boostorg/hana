@@ -11,13 +11,17 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_CORE_COMMON_HPP
 
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/std/decay.hpp>
-#include <boost/hana/detail/std/declval.hpp>
+#include <boost/hana/detail/std/common_type.hpp>
 
 
 namespace boost { namespace hana {
     //! @ingroup group-core
     //! Metafunction returning the common data type between two data types.
+    //!
+    //!
+    //!
+    //! @todo UPDATE THIS DOCUMENTATION
+    //! ----------------------------------------------------------------------
     //!
     //! We say that two data types `T` and `U` have a common data type `C`
     //! if both objects of data type `T` and objects of data type `U` may be
@@ -56,30 +60,16 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/core/common.cpp main
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    template <typename T, typename U, typename optional when-based enabler>
+    template <typename T, typename U, optional when-based enabler>
     struct common { };
 #else
     template <typename T, typename U, typename = void>
-    struct common
-    //! @cond
-        : common<T, U, when<true>>
-    //! @endcond
-    { };
+    struct common : common<T, U, when<true>> { };
 
     template <typename T, typename U, bool condition>
-    struct common<T, U, when<condition>> { };
-
-    template <typename T>
-    struct common<T, T> { using type = T; };
-
-    template <typename T, typename U>
-    struct common<T, U, when_valid<decltype(
-        true ? detail::std::declval<T>() : detail::std::declval<U>()
-    )>> {
-        using type = typename detail::std::decay<decltype(
-            true ? detail::std::declval<T>() : detail::std::declval<U>()
-        )>::type;
-    };
+    struct common<T, U, when<condition>>
+        : detail::std::common_type<T, U>
+    { };
 #endif
 
     //! @ingroup group-core

@@ -10,13 +10,29 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_CORE_MODELS_HPP
 #define BOOST_HANA_CORE_MODELS_HPP
 
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/method.hpp>
+#include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/is_same.hpp>
-#include <boost/hana/fwd/bool.hpp>
 
 
 namespace boost { namespace hana {
+    template <typename Concept, typename = when<true>>
+    struct models : detail::std::false_type { };
+
+    template <typename Datatype, typename T, typename = when<true>>
+    struct isomorphic_to : detail::std::is_same<Datatype, T> { };
+
+    template <typename Concept, typename T>
+    using is_a = models<Concept(T)>;
+
+    template <typename Concept, typename T>
+    using is_an = is_a<Concept, T>;
+
+    template <typename Concept, typename T>
+    using is = is_a<Concept, T>;
+
+
+#if 0
     //! @anchor group-core-models
     //! @ingroup group-core
     //! Return whether a C++ type is a model of the given concept.
@@ -110,8 +126,7 @@ namespace boost { namespace hana {
     //! Syntactic sugar; equivalent to `models`.
     template <typename D, typename ...T>
     constexpr auto is = models<D, T...>;
+#endif
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_CORE_MODELS_HPP
-
-#include <boost/hana/bool.hpp>

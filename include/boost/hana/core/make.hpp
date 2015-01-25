@@ -10,7 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_CORE_MAKE_HPP
 #define BOOST_HANA_CORE_MAKE_HPP
 
-#include <boost/hana/core/method.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
@@ -38,13 +37,19 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(make_impl);
+    template <typename Datatype, typename = when<true>>
+    struct make_impl {
+        template <typename ...X>
+        static constexpr auto apply(X&& ...x)
+            -> decltype(Datatype(detail::std::forward<X>(x)...))
+        { return Datatype(detail::std::forward<X>(x)...); }
+    };
 
     template <typename Datatype>
     struct _make {
         template <typename ...Args>
         constexpr decltype(auto) operator()(Args&& ...args) const {
-            return dispatch<make_impl<Datatype>>::apply(
+            return make_impl<Datatype>::apply(
                 detail::std::forward<Args>(args)...
             );
         }
@@ -52,15 +57,6 @@ namespace boost { namespace hana {
 
     template <typename Datatype>
     constexpr _make<Datatype> make{};
-
-    template <typename Datatype, typename Context>
-    struct dispatch_impl<4, make_impl<Datatype>, Context> {
-        using type = dispatch_impl;
-        template <typename ...X>
-        static constexpr auto apply(X&& ...x)
-            -> decltype(Datatype(detail::std::forward<X>(x)...))
-        { return Datatype(detail::std::forward<X>(x)...); }
-    };
 #endif
 }} // end namespace boost::hana
 

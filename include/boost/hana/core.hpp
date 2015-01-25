@@ -22,12 +22,11 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/dispatch.hpp>
-#include <boost/hana/core/is_implemented.hpp>
+#include <boost/hana/core/default.hpp>
 #include <boost/hana/core/make.hpp>
-#include <boost/hana/core/method.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/core/wrong.hpp>
 
 #endif // !BOOST_HANA_CORE_HPP
