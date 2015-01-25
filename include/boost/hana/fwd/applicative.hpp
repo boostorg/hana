@@ -10,36 +10,23 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_APPLICATIVE_HPP
 #define BOOST_HANA_FWD_APPLICATIVE_HPP
 
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/method.hpp>
 #include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/detail/variadic/foldl.hpp>
-#include <boost/hana/functional/curry.hpp>
-#include <boost/hana/fwd/functor.hpp>
 
 
 namespace boost { namespace hana {
     //! @ingroup group-typeclasses
-    //! `Applicative`s are `Functor`s with the ability to lift values and
-    //! combine computations.
+    //! The `Applicative` concept represents `Functor`s with the ability
+    //! to lift values and combine computations.
     //!
-    //! Superclass
-    //! ----------
-    //! `Functor`
-    //!
-    //!
-    //! @anchor Applicative_terminology
-    //! Terminology
-    //! -----------
-    //! An _applicative transformation_ `t` is a function from an `Applicative`
-    //! `F` to an `Applicative` `G` preserving the `Applicative` operations:
-    //! @code
-    //!     t(lift<F>(x)) == lift<G>(x)
-    //!     t(ap(x, y)) == ap(t(x), t(y))
-    //! @endcode
-    //!
-    //! This term is defined here but used elsewhere (at least in the laws
-    //! of `Traversable`).
+    //! A `Functor` can only take a normal function and map it over a
+    //! structure containing values to obtain a new structure containing
+    //! values. Intuitively, an `Applicative` can also take a value and
+    //! lift it into the structure. In addition, an `Applicative` can take
+    //! a structure containing functions and apply it to a structure
+    //! containing values to obtain a new structure containing values.
+    //! By currying the function(s) inside the structure, it is then
+    //! also possible to apply n-ary functions to n structures containing
+    //! values.
     //!
     //!
     //! Laws
@@ -52,51 +39,83 @@ namespace boost { namespace hana {
     //!     ap(u, lift<A>(y)) == ap(lift<A>(apply(y)), u)    // interchange
     //! @endcode
     //!
-    //! As a consequence of these laws, the `Functor` instance for `A` will
+    //! As a consequence of these laws, the model of `Functor` for `A` will
     //! satisfy
     //! @code
     //!     fmap(x, f) == ap(lift<A>(f), x)
     //! @endcode
     //!
     //!
+    //! Superclass
+    //! ----------
+    //! 1. `Functor` (model provided)\n
+    //! As a consequence of the above laws, any `Applicative A` can be made a
+    //! `Functor` by setting
+    //! @code
+    //!     fmap(x, f) = ap(lift<A>(f), x)
+    //! @endcode
+    //! This implementation of `fmap` is provided as `Applicative::fmap_impl`.
+    //! To use it, simply inherit `Applicative::fmap_impl` in your definition
+    //! of `fmap_impl`:
+    //! @code
+    //!     template <>
+    //!     struct fmap_impl<YourApplicative>
+    //!         : Applicative::fmap_impl<YourApplicative>
+    //!     { };
+    //! @endcode
+    //!
+    //!
     //! Minimal complete definition
     //! ---------------------------
-    //! 1. `lift` and `ap`
-    //! @todo
-    //!
-    //! 2. `Monad`
-    //! @todo Implement this one
+    //! `lift` and `ap` satisfying the above laws
     //!
     //!
-    //! Provided instances
-    //! ------------------
-    //! 1. `Functor`
-    //! @todo Implement this one
-    struct Applicative { };
+    //! Structure-preserving functions
+    //! ------------------------------
+    //! An _applicative transformation_ is a function `f : A -> B` from an
+    //! `Applicative A` to an `Applicative B`, which preserves the operations
+    //! of an `Applicative`:
+    //! @code
+    //!     f(lift<A>(x)) == lift<B>(x)
+    //!     f(ap(x, y)) == ap(f(x), f(y))
+    //! @endcode
+    struct Applicative {
+        template <typename A>
+        struct fmap_impl;
+    };
 
     //! Lifted application.
     //! @relates Applicative
     //!
-    //! `ap` can be called with two arguments or more. Specifically,
-    //! `ap(f, x1, ..., xN)` is equivalent to
+    //! Specifically, `ap` applies a structure containing functions to a
+    //! structure containing values, and returns a new structure containing
+    //! values. The exact way in which the functions are applied to the values
+    //! depends on the `Applicative`.
+    //!
+    //! `ap` can be called with two arguments or more; the functions in the `f`
+    //! structure are curried and then applied to the values in each `x...`
+    //! structure using the binary form of `ap`. Note that this requires the
+    //! number of `x...` must match the arity of the functions in the `f`
+    //! structure. In other words, `ap(f, x1, ..., xN)` is equivalent to
     //! @code
-    //!     foldl(list(x1, ..., xN), fmap(f, curry<N>), ap);
+    //!     ((f' <ap> x1) <ap> x2) ... <ap> xN
     //! @endcode
-    //! where `ap(f, x)` (called with two arguments only) dispatches to the
-    //! implementation in the type class. This basically means that applying
-    //! a `N`-ary function with `ap` is equivalent to applying a curried
-    //! binary function to each argument starting from the left with the
-    //! `ap` provided in the type class.
+    //! where `f'` is `f` but containing curried functions instead and
+    //! `x <ap> y` is just `ap(x, y)` written in infix notation to emphasize
+    //! the left associativity.
     //!
     //!
     //! @param f
-    //! An applicative containing function(s).
+    //! A structure containing function(s).
     //!
     //! @param x...
-    //! Applicative(s) on which `f` is applied.
+    //! Structure(s) containing value(s) and on which `f` is applied. The
+    //! number of structures must match the arity of the functions in the
+    //! `f` structure.
     //!
     //!
-    //! ### Example
+    //! Example
+    //! -------
     //! @snippet example/applicative.cpp ap
     //!
     //! @todo
@@ -104,69 +123,61 @@ namespace boost { namespace hana {
     //! implementation for performance purposes.
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto ap = [](auto&& f, auto&& ...x) -> decltype(auto) {
-        unspecified
+        return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(ap_impl);
+    template <typename A, typename = void>
+    struct ap_impl;
 
-    namespace applicative_detail {
-        struct ap {
-            template <typename F, typename X>
-            constexpr decltype(auto) operator()(F&& f, X&& x) const {
-                return dispatch<ap_impl<typename datatype<F>::type>>::apply(
-                    detail::std::forward<F>(f), detail::std::forward<X>(x)
-                );
-            }
+    struct _ap {
+        template <typename F, typename X>
+        constexpr decltype(auto) operator()(F&& f, X&& x) const;
 
-            template <typename F, typename ...Xs>
-            constexpr decltype(auto) operator()(F&& f, Xs&& ...xs) const {
-                static_assert(sizeof...(xs) >= 1,
-                "boost::hana::ap must be called with two arguments or more");
-                return detail::variadic::foldl(
-                    *this,
-                    fmap(detail::std::forward<F>(f), curry<sizeof...(xs)>),
-                    detail::std::forward<Xs>(xs)...
-                );
-            }
-        };
-    }
+        template <typename F, typename ...Xs>
+        constexpr decltype(auto) operator()(F&& f, Xs&& ...xs) const;
+    };
 
-    constexpr applicative_detail::ap ap{};
+    constexpr _ap ap{};
 #endif
 
-    //! Lift a value into the functor.
+    //! Lift a value into an `Applicative` structure.
     //! @relates Applicative
+    //!
+    //! `lift<A>` takes a normal value and embeds it into a structure whose
+    //! shape is represented by the `A` `Applicative`. Note that the value
+    //! may be a function, in which case the created structure may be
+    //! `ap`plied to another `Applicative` structure containing values.
     //!
     //!
     //! @param x
     //! The value to lift into the applicative.
     //!
     //! @tparam A
-    //! The data type (an `Applicative`) to which the value is lifted.
+    //! The data type (an `Applicative`) into which the value is lifted.
     //!
     //!
-    //! ### Example
+    //! Example
+    //! -------
     //! @snippet example/applicative.cpp lift
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename A>
     constexpr auto lift = [](auto&& x) -> decltype(auto) {
-        unspecified
+        return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(lift_impl);
-
-    namespace applicative_detail {
-        template <typename A>
-        struct lift {
-            template <typename X>
-            constexpr decltype(auto) operator()(X&& x) const {
-                return dispatch<lift_impl<A>>::apply(detail::std::forward<X>(x));
-            }
-        };
-    }
+    template <typename A, typename = void>
+    struct lift_impl;
 
     template <typename A>
-    constexpr applicative_detail::lift<A> lift{};
+    struct _lift {
+        template <typename X>
+        constexpr decltype(auto) operator()(X&& x) const {
+            return lift_impl<A>::apply(detail::std::forward<X>(x));
+        }
+    };
+
+    template <typename A>
+    constexpr _lift<A> lift{};
 #endif
 }} // end namespace boost::hana
 

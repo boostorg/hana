@@ -50,6 +50,7 @@ namespace boost { namespace hana {
     // Define either one to select which MCD is used:
     //  BOOST_HANA_TEST_FUNCTOR_FMAP_MCD
     //  BOOST_HANA_TEST_FUNCTOR_ADJUST_MCD_MCD
+    //  BOOST_HANA_TEST_FUNCTOR_APPLICATIVE_MCD
     //
     // If neither is defined, the MCD used is unspecified.
 #ifdef BOOST_HANA_TEST_FUNCTOR_FMAP_MCD
@@ -60,7 +61,7 @@ namespace boost { namespace hana {
             return test::identity(f(self.value));
         }
     };
-#else
+#elif defined(BOOST_HANA_TEST_FUNCTOR_ADJUST_MCD_MCD)
     template <>
     struct adjust_impl<test::Identity> {
         template <typename Id, typename P, typename F>
@@ -72,6 +73,11 @@ namespace boost { namespace hana {
             return test::identity(x);
         }
     };
+#else
+    template <>
+    struct fmap_impl<test::Identity>
+        : Applicative::fmap_impl<test::Identity>
+    { };
 #endif
 
     template <>
