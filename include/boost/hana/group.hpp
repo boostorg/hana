@@ -15,18 +15,23 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
-#include <boost/hana/core/method.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/dispatch_common.hpp>
-#include <boost/hana/detail/std/declval.hpp>
+#include <boost/hana/core/wrong.hpp>
+#include <boost/hana/detail/has_common_embedding.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
+#include <boost/hana/detail/std/is_arithmetic.hpp>
 #include <boost/hana/monoid.hpp>
 
 
 namespace boost { namespace hana {
+    //////////////////////////////////////////////////////////////////////////
+    // Operators
+    //////////////////////////////////////////////////////////////////////////
     namespace operators {
         //! Equivalent to `minus`.
         //! @relates boost::hana::Group
@@ -35,8 +40,8 @@ namespace boost { namespace hana {
             enable_operators<Group, datatype_t<Y>>::value
         >>
         constexpr decltype(auto) operator-(X&& x, Y&& y) {
-            return minus(detail::std::forward<X>(x),
-                         detail::std::forward<Y>(y));
+            return hana::minus(detail::std::forward<X>(x),
+                               detail::std::forward<Y>(y));
         }
 
         //! Equivalent to `negate`.
@@ -45,52 +50,80 @@ namespace boost { namespace hana {
             enable_operators<Group, datatype_t<X>>::value
         >>
         constexpr decltype(auto) operator-(X&& x)
-        { return negate(detail::std::forward<X>(x)); }
+        { return hana::negate(detail::std::forward<X>(x)); }
     }
 
-    template <typename T, typename _>
-    struct negate_impl<T, when<
-        is_implemented<minus_impl<T, T>, _> &&
-        is_implemented<zero_impl<T>, _>
-    >, _> {
-        template <typename X>
-        static constexpr auto apply(X x)
-        { return minus(zero<T>(), x); }
+    //////////////////////////////////////////////////////////////////////////
+    // minus
+    //////////////////////////////////////////////////////////////////////////
+    template <typename T, typename U, typename>
+    struct minus_impl : minus_impl<T, U, when<true>> { };
+
+    template <typename T, typename U, bool condition>
+    struct minus_impl<T, U, when<condition>> {
+        static_assert(wrong<minus_impl<T, U>>{},
+        "no definition of boost::hana::minus for the given data types");
     };
 
-    template <typename T, typename _>
-    struct minus_impl<T, T, when<
-        is_implemented<negate_impl<T>, _> &&
-        is_implemented<plus_impl<T, T>, _>
-    >, _> {
-        template <typename X, typename Y>
-        static constexpr auto apply(X x, Y y)
-        { return plus(x, negate(y)); }
-    };
+    template <typename T, bool condition>
+    struct minus_impl<T, T, when<condition>> : default_ {
+        static_assert(!is_default<negate_impl<T>>{},
+        "no definition of boost::hana::minus for the given data type");
 
-    template <typename T>
-    struct minus_impl<T, T, when_valid<
-        decltype(detail::std::declval<T>() - detail::std::declval<T>())
-    >> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            return detail::std::forward<X>(x) - detail::std::forward<Y>(y);
+            return hana::plus(detail::std::forward<X>(x),
+                              hana::negate(detail::std::forward<Y>(y)));
         }
     };
 
-    template <typename T, typename U, typename Context>
-    struct dispatch_impl<4, minus_impl<T, U>, Context>
-        : detail::dispatch_common<minus_impl<T, U>, Group, Context>
+    // Cross-type overload
+    template <typename T, typename U>
+    struct minus_impl<T, U, when<detail::has_common_embedding<Group, T, U>{}>> {
+        using C = typename common<T, U>::type;
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
+            return hana::minus(to<C>(detail::std::forward<X>(x)),
+                               to<C>(detail::std::forward<Y>(y)));
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // negate
+    //////////////////////////////////////////////////////////////////////////
+    template <typename T, typename>
+    struct negate_impl : negate_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct negate_impl<T, when<condition>> : default_ {
+        static_assert(!is_default<minus_impl<T, T>>{},
+        "no definition of boost::hana::negate for the given data type");
+
+        template <typename X>
+        static constexpr decltype(auto) apply(X&& x)
+        { return hana::minus(zero<T>(), detail::std::forward<X>(x)); }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Model for arithmetic data types
+    //////////////////////////////////////////////////////////////////////////
+    template <typename T>
+    struct models<Group(T), when<detail::std::is_arithmetic<T>{}>>
+        : detail::std::true_type
     { };
 
-    template <>
-    struct models_impl<Group> {
-        template <typename G, typename Context>
-        static constexpr bool apply =
-            models<Monoid, G, Context> &&
-            is_implemented<negate_impl<G>, Context> &&
-            is_implemented<minus_impl<G, G>, Context>
-        ;
+    template <typename T>
+    struct minus_impl<T, T, when<detail::std::is_arithmetic<T>{}>> {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X&& x, Y&& y)
+        { return detail::std::forward<X>(x) - detail::std::forward<Y>(y); }
+    };
+
+    template <typename T>
+    struct negate_impl<T, when<detail::std::is_arithmetic<T>{}>> {
+        template <typename X>
+        static constexpr decltype(auto) apply(X&& x)
+        { return -detail::std::forward<X>(x); }
     };
 }} // end namespace boost::hana
 

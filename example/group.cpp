@@ -10,13 +10,21 @@ using namespace boost::hana;
 
 
 int main() {
-    //! [minus]
-    BOOST_HANA_CONSTANT_CHECK(minus(int_<3>, int_<5>) == int_<-2>);
-    BOOST_HANA_CONSTEXPR_CHECK(minus(1, 2) == -1);
-    //! [minus]
 
-    //! [negate]
-    BOOST_HANA_CONSTANT_CHECK(negate(int_<3>) == int_<-3>);
-    BOOST_HANA_CONSTEXPR_CHECK(negate(2) == -2);
-    //! [negate]
+{
+
+//! [minus]
+BOOST_HANA_CONSTANT_CHECK(minus(int_<3>, int_<5>) == int_<-2>);
+BOOST_HANA_CONSTEXPR_CHECK(minus(1, 2) == -1);
+//! [minus]
+
+}{
+
+//! [negate]
+BOOST_HANA_CONSTANT_CHECK(negate(int_<3>) == int_<-3>);
+BOOST_HANA_CONSTEXPR_CHECK(negate(2) == -2);
+//! [negate]
+
+}
+
 }
