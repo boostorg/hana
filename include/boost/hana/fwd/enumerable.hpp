@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_ENUMERABLE_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/method.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -37,11 +36,14 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //!
-    //! Minimal complete definintions
-    //! -----------------------------
-    //! 1. `succ` and `pred`
+    //! Minimal complete definition
+    //! ---------------------------
+    //! `succ` and `pred` satisfying the above laws
     //!
-    //! 2. Data type with a valid `operator++` and `operator--`
+    //!
+    //! Provided models
+    //! ---------------
+    //! 1. for incrementable and decrementable data types\n
     //! Any object with a _data type_ that can be incremented using `operator++`
     //! and decremented using `operator--` is `Enumerable` using those
     //! operations for `succ` and `pred` respectively. If the data type of
@@ -64,14 +66,15 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(succ_impl);
+    template <typename E, typename = void>
+    struct succ_impl;
 
     struct _succ {
-        template <typename Num>
-        constexpr decltype(auto) operator()(Num&& num) const {
-            return dispatch<succ_impl<
-                typename datatype<Num>::type
-            >>::apply(detail::std::forward<Num>(num));
+        template <typename E>
+        constexpr decltype(auto) operator()(E&& num) const {
+            return succ_impl<
+                typename datatype<E>::type
+            >::apply(detail::std::forward<E>(num));
         }
     };
 
@@ -88,14 +91,15 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(pred_impl);
+    template <typename E, typename = void>
+    struct pred_impl;
 
     struct _pred {
-        template <typename Num>
-        constexpr decltype(auto) operator()(Num&& num) const {
-            return dispatch<pred_impl<
-                typename datatype<Num>::type
-            >>::apply(detail::std::forward<Num>(num));
+        template <typename E>
+        constexpr decltype(auto) operator()(E&& num) const {
+            return pred_impl<
+                typename datatype<E>::type
+            >::apply(detail::std::forward<E>(num));
         }
     };
 
