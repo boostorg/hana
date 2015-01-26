@@ -12,15 +12,21 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/constant.hpp>
 
-#include <boost/hana/core/method.hpp>
-#include <boost/hana/core/models.hpp>
+#include <boost/hana/core/when.hpp>
+#include <boost/hana/core/wrong.hpp>
 
 
 namespace boost { namespace hana {
-    template <>
-    struct models_impl<Constant> {
-        template <typename C, typename Context>
-        static constexpr bool apply = is_implemented<value_impl<C>, Context>;
+    //////////////////////////////////////////////////////////////////////////
+    // value
+    //////////////////////////////////////////////////////////////////////////
+    template <typename C, typename>
+    struct value_impl : value_impl<C, when<true>> { };
+
+    template <typename C, bool condition>
+    struct value_impl<C, when<condition>> {
+        static_assert(wrong<value_impl<C>>{},
+        "no definition of boost::hana::value for the given data type");
     };
 }} // end namespace boost::hana
 

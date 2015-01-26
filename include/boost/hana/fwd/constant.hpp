@@ -11,14 +11,39 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_CONSTANT_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/method.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
 namespace boost { namespace hana {
     //! @ingroup group-typeclasses
-    //! The `Constant` type class is used for data types representing
-    //! compile-time constants.
+    //! The `Constant` type class represents data that can be manipulated at
+    //! compile-time.
+    //!
+    //! At its core, `Constant` is simply a generalization of the principle
+    //! behind `std::integral_constant` to all types that can be constructed
+    //! at compile-time, i.e. to all types with a `constexpr` constructor.
+    //! A `Constant` is an object from which a `constexpr` value may be obtained
+    //! (through the `value` method) regardless of the `constexpr`ness of
+    //! the object itself. For this to be possible, the type of that object
+    //! must look somewhat like
+    //! @code
+    //!     struct Something {
+    //!         static constexpr auto the_constexpr_value = ...;
+    //!     };
+    //! @endcode
+    //!
+    //! Then, the `value` method can be implemented as
+    //! @code
+    //!     constexpr auto value(Something) {
+    //!         return Something::the_constexpr_value;
+    //!     }
+    //! @endcode
+    //!
+    //! Holding the value as a static constant makes it possible to obtain a
+    //! `constexpr` result even when calling `value` on a non-constexpr object
+    //! of type `Something`. Of course, other implementations may be possible,
+    //! but this gives the idea. The requirement that a `constexpr` value can
+    //! be obtained from any object is embodied by the following laws.
     //!
     //!
     //! Laws
@@ -36,16 +61,15 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //! This means that the `value` function must return an object that can
-    //! be constructed at compile-time. It is important to note that since the
-    //!
+    //! be constructed at compile-time. It is important to note that since
     //! @code
     //!     constexpr auto t = value(x);
     //! @endcode
     //!
-    //! expression appears in a context where `x` is _not_ a constant
-    //! expression, this law also means that `value` must be able to return
-    //! a constant expression even when called with something that isn't one.
-    //! This requirement is the core of a `Constant`; it basically means that
+    //! appears in a context where `x` is _not_ a constant expression,
+    //! this law also means that `value` must be able to return a constant
+    //! expression even when called with something that isn't one. This
+    //! requirement is the core of a `Constant`; it basically means that
     //! all of the information stored inside the `c` object that's used in a
     //! call to `value` must actually be stored inside its type.
     //!
@@ -53,10 +77,6 @@ namespace boost { namespace hana {
     //! Minimal complete definition
     //! ---------------------------
     //! `value`, satisfying the laws above.
-    //!
-    //!
-    //! @todo
-    //! Should we provide a `Comparable::constant_mcd` like we used to?
     struct Constant { };
 
     //! Return the compile-time value associated to a constant.
@@ -76,12 +96,13 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(value_impl);
+    template <typename C, typename = void>
+    struct value_impl;
 
     struct _value {
         template <typename C>
         constexpr decltype(auto) operator()(C&& constant) const {
-            return dispatch<value_impl<typename datatype<C>::type>>::apply(
+            return value_impl<typename datatype<C>::type>::apply(
                 detail::std::forward<C>(constant)
             );
         }
