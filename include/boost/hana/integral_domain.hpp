@@ -15,18 +15,21 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/method.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/dispatch_common.hpp>
-#include <boost/hana/detail/std/declval.hpp>
+#include <boost/hana/core/wrong.hpp>
+#include <boost/hana/detail/has_common_embedding.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/ring.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
+#include <boost/hana/detail/std/is_integral.hpp>
 
 
 namespace boost { namespace hana {
+    //////////////////////////////////////////////////////////////////////////
+    // Operators
+    //////////////////////////////////////////////////////////////////////////
     namespace operators {
         //! Equivalent to `mod`.
         //! @relates boost::hana::IntegralDomain
@@ -34,8 +37,10 @@ namespace boost { namespace hana {
             enable_operators<IntegralDomain, datatype_t<X>>::value ||
             enable_operators<IntegralDomain, datatype_t<Y>>::value
         >::type>
-        constexpr decltype(auto) operator%(X&& x, Y&& y)
-        { return mod(detail::std::forward<X>(x), detail::std::forward<Y>(y)); }
+        constexpr decltype(auto) operator%(X&& x, Y&& y) {
+            return hana::mod(detail::std::forward<X>(x),
+                             detail::std::forward<Y>(y));
+        }
 
         //! Equivalent to `quot`.
         //! @relates boost::hana::IntegralDomain
@@ -43,46 +48,78 @@ namespace boost { namespace hana {
             enable_operators<IntegralDomain, datatype_t<X>>::value ||
             enable_operators<IntegralDomain, datatype_t<Y>>::value
         >::type>
-        constexpr decltype(auto) operator/(X&& x, Y&& y)
-        { return quot(detail::std::forward<X>(x), detail::std::forward<Y>(y)); }
+        constexpr decltype(auto) operator/(X&& x, Y&& y) {
+            return hana::quot(detail::std::forward<X>(x),
+                              detail::std::forward<Y>(y));
+        }
     }
 
-    template <typename T, typename U, typename Context>
-    struct dispatch_impl<4, quot_impl<T, U>, Context>
-        : detail::dispatch_common<quot_impl<T, U>, IntegralDomain, Context>
-    { };
+    //////////////////////////////////////////////////////////////////////////
+    // quot
+    //////////////////////////////////////////////////////////////////////////
+    template <typename T, typename U, typename>
+    struct quot_impl : quot_impl<T, U, when<true>> { };
 
-    template <typename T, typename U, typename Context>
-    struct dispatch_impl<4, mod_impl<T, U>, Context>
-        : detail::dispatch_common<mod_impl<T, U>, IntegralDomain, Context>
+    template <typename T, typename U, bool condition>
+    struct quot_impl<T, U, when<condition>> {
+        static_assert(wrong<quot_impl<T, U>>{},
+        "no definition of boost::hana::quot for the given data types");
+    };
+
+    // Cross-type overload
+    template <typename T, typename U>
+    struct quot_impl<T, U, when<detail::has_common_embedding<IntegralDomain, T, U>{}>> {
+        using C = typename common<T, U>::type;
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
+            return hana::quot(to<C>(detail::std::forward<X>(x)),
+                              to<C>(detail::std::forward<Y>(y)));
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // mod
+    //////////////////////////////////////////////////////////////////////////
+    template <typename T, typename U, typename>
+    struct mod_impl : mod_impl<T, U, when<true>> { };
+
+    template <typename T, typename U, bool condition>
+    struct mod_impl<T, U, when<condition>> {
+        static_assert(wrong<mod_impl<T, U>>{},
+        "no definition of boost::hana::mod for the given data types");
+    };
+
+    // Cross-type overload
+    template <typename T, typename U>
+    struct mod_impl<T, U, when<detail::has_common_embedding<IntegralDomain, T, U>{}>> {
+        using C = typename common<T, U>::type;
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
+            return hana::mod(to<C>(detail::std::forward<X>(x)),
+                             to<C>(detail::std::forward<Y>(y)));
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Model for integral data types
+    //////////////////////////////////////////////////////////////////////////
+    template <typename T>
+    struct models<IntegralDomain(T), when<detail::std::is_integral<T>{}>>
+        : detail::std::true_type
     { };
 
     template <typename T>
-    struct quot_impl<T, T, when_valid<
-        decltype(detail::std::declval<T>() / detail::std::declval<T>())
-    >> {
+    struct quot_impl<T, T, when<detail::std::is_integral<T>{}>> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y)
         { return detail::std::forward<X>(x) / detail::std::forward<Y>(y); }
     };
 
     template <typename T>
-    struct mod_impl<T, T, when_valid<
-        decltype(detail::std::declval<T>() % detail::std::declval<T>())
-    >> {
+    struct mod_impl<T, T, when<detail::std::is_integral<T>{}>> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y)
         { return detail::std::forward<X>(x) % detail::std::forward<Y>(y); }
-    };
-
-    template <>
-    struct models_impl<IntegralDomain> {
-        template <typename D, typename Context>
-        static constexpr bool apply =
-            models<Ring, D, Context> &&
-            is_implemented<quot_impl<D, D>, Context> &&
-            is_implemented<mod_impl<D, D>, Context>
-        ;
     };
 }} // end namespace boost::hana
 
