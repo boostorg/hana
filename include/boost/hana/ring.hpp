@@ -12,26 +12,31 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/ring.hpp>
 
-#include <boost/hana/comparable.hpp>
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/method.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/dispatch_common.hpp>
-#include <boost/hana/detail/std/declval.hpp>
+#include <boost/hana/core/wrong.hpp>
+#include <boost/hana/detail/has_common_embedding.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
+#include <boost/hana/detail/std/is_arithmetic.hpp>
+
+// for default power
+#include <boost/hana/comparable.hpp>
 #include <boost/hana/enumerable.hpp>
 #include <boost/hana/functional/always.hpp>
-#include <boost/hana/group.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/monoid.hpp>
 
 
 namespace boost { namespace hana {
+    //////////////////////////////////////////////////////////////////////////
+    // Operators
+    //////////////////////////////////////////////////////////////////////////
     namespace operators {
         //! Equivalent to `mult`.
         //! @relates boost::hana::Ring
@@ -40,61 +45,87 @@ namespace boost { namespace hana {
             enable_operators<Ring, datatype_t<Y>>::value
         >::type>
         constexpr decltype(auto) operator*(X&& x, Y&& y) {
-            return mult(
-                detail::std::forward<decltype(x)>(x),
-                detail::std::forward<decltype(y)>(y)
-            );
+            return hana::mult(detail::std::forward<X>(x),
+                              detail::std::forward<Y>(y));
         }
     }
 
-    template <typename R, typename Context>
-    struct power_impl<R, when<
-        is_implemented<mult_impl<R, R>, Context> &&
-        is_implemented<one_impl<R>, Context>
-    >, Context> {
-        template <typename X, typename P>
-        static constexpr decltype(auto) apply(X&& x, P&& p) {
-            using Exp = datatype_t<P>;
-            return eval_if(equal(p, zero<Exp>()),
+    //////////////////////////////////////////////////////////////////////////
+    // mult
+    //////////////////////////////////////////////////////////////////////////
+    template <typename T, typename U, typename>
+    struct mult_impl : mult_impl<T, U, when<true>> { };
+
+    template <typename T, typename U, bool condition>
+    struct mult_impl<T, U, when<condition>> {
+        static_assert(wrong<mult_impl<T, U>>{},
+        "no definition of boost::hana::mult for the given data types");
+    };
+
+    // Cross-type overload
+    template <typename T, typename U>
+    struct mult_impl<T, U, when<detail::has_common_embedding<Ring, T, U>{}>> {
+        using C = typename common<T, U>::type;
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
+            return hana::mult(to<C>(detail::std::forward<X>(x)),
+                              to<C>(detail::std::forward<Y>(y)));
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // one
+    //////////////////////////////////////////////////////////////////////////
+    template <typename R, typename>
+    struct one_impl : one_impl<R, when<true>> { };
+
+    template <typename R, bool condition>
+    struct one_impl<R, when<condition>> {
+        static_assert(wrong<one_impl<R>>{},
+        "no definition of boost::hana::one for the given data type");
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // power
+    //////////////////////////////////////////////////////////////////////////
+    template <typename R, typename>
+    struct power_impl : power_impl<R, when<true>> { };
+
+    template <typename R, bool condition>
+    struct power_impl<R, when<condition>> {
+        template <typename X, typename N>
+        static constexpr decltype(auto) apply(X&& x, N&& n) {
+            using Exp = typename datatype<N>::type;
+            return eval_if(equal(n, zero<Exp>()),
                 always(one<R>()),
-                [&p, &x](auto _) -> decltype(auto) {
+                [&n, &x](auto _) -> decltype(auto) {
                     return mult(
-                        x, apply(x, _(pred)(detail::std::forward<P>(p)))
+                        x, apply(x, _(pred)(detail::std::forward<N>(n)))
                     );
                 }
             );
         }
     };
 
+    //////////////////////////////////////////////////////////////////////////
+    // Model for arithmetic data types
+    //////////////////////////////////////////////////////////////////////////
     template <typename T>
-    struct mult_impl<T, T, when_valid<
-        decltype(detail::std::declval<T>() * detail::std::declval<T>())
-    >> {
-        template <typename X, typename Y>
-        static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            return detail::std::forward<X>(x) * detail::std::forward<Y>(y);
-        }
-    };
-
-    template <typename T>
-    struct one_impl<T, when_valid<decltype(static_cast<T>(1))>> {
-        static constexpr T apply()
-        { return static_cast<T>(1); }
-    };
-
-    template <typename T, typename U, typename Context>
-    struct dispatch_impl<4, mult_impl<T, U>, Context>
-        : detail::dispatch_common<mult_impl<T, U>, Ring, Context>
+    struct models<Ring(T), when<detail::std::is_arithmetic<T>{}>>
+        : detail::std::true_type
     { };
 
-    template <>
-    struct models_impl<Ring> {
-        template <typename R, typename Context>
-        static constexpr auto apply =
-            is_a<Group, R, Context> &&
-            is_implemented<mult_impl<R, R>, Context> &&
-            is_implemented<one_impl<R>, Context>
-        ;
+    template <typename T>
+    struct mult_impl<T, T, when<detail::std::is_arithmetic<T>{}>> {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X&& x, Y&& y)
+        { return detail::std::forward<X>(x) * detail::std::forward<Y>(y); }
+    };
+
+    template <typename T>
+    struct one_impl<T, when<detail::std::is_arithmetic<T>{}>> {
+        static constexpr T apply()
+        { return static_cast<T>(1); }
     };
 }} // end namespace boost::hana
 
