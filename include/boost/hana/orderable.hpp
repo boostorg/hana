@@ -15,18 +15,22 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/method.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/dispatch_common.hpp>
-#include <boost/hana/detail/std/declval.hpp>
+#include <boost/hana/core/wrong.hpp>
+#include <boost/hana/detail/has_common_embedding.hpp>
+#include <boost/hana/detail/less_than_comparable.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/logical.hpp>
 
 
 namespace boost { namespace hana {
+    //////////////////////////////////////////////////////////////////////////
+    // Operators
+    //////////////////////////////////////////////////////////////////////////
     namespace operators {
         //! Equivalent to `less`.
         //! @relates boost::hana::Orderable
@@ -35,10 +39,8 @@ namespace boost { namespace hana {
             enable_operators<Orderable, datatype_t<Y>>::value
         >>
         constexpr decltype(auto) operator<(X&& x, Y&& y) {
-            return less(
-                detail::std::forward<decltype(x)>(x),
-                detail::std::forward<decltype(y)>(y)
-            );
+            return hana::less(detail::std::forward<X>(x),
+                              detail::std::forward<Y>(y));
         }
 
         //! Equivalent to `less_equal`.
@@ -48,10 +50,8 @@ namespace boost { namespace hana {
             enable_operators<Orderable, datatype_t<Y>>::value
         >>
         constexpr decltype(auto) operator<=(X&& x, Y&& y) {
-            return less_equal(
-                detail::std::forward<decltype(x)>(x),
-                detail::std::forward<decltype(y)>(y)
-            );
+            return hana::less_equal(detail::std::forward<X>(x),
+                                    detail::std::forward<Y>(y));
         }
 
         //! Equivalent to `greater`.
@@ -61,10 +61,8 @@ namespace boost { namespace hana {
             enable_operators<Orderable, datatype_t<Y>>::value
         >>
         constexpr decltype(auto) operator>(X&& x, Y&& y) {
-            return greater(
-                detail::std::forward<decltype(x)>(x),
-                detail::std::forward<decltype(y)>(y)
-            );
+            return hana::greater(detail::std::forward<X>(x),
+                                 detail::std::forward<Y>(y));
         }
 
         //! Equivalent to `greater_equal`.
@@ -74,91 +72,173 @@ namespace boost { namespace hana {
             enable_operators<Orderable, datatype_t<Y>>::value
         >>
         constexpr decltype(auto) operator>=(X&& x, Y&& y) {
-            return greater_equal(
-                detail::std::forward<decltype(x)>(x),
-                detail::std::forward<decltype(y)>(y)
-            );
+            return hana::greater_equal(detail::std::forward<X>(x),
+                                       detail::std::forward<Y>(y));
         }
     }
 
-    template <typename T, typename U, typename _>
-    struct less_equal_impl<T, U, when<is_implemented<less_impl<T, U>, _>>, _> {
+    //////////////////////////////////////////////////////////////////////////
+    // less
+    //////////////////////////////////////////////////////////////////////////
+    template <typename T, typename U, typename>
+    struct less_impl : less_impl<T, U, when<true>> { };
+
+    template <typename T, typename U, bool condition>
+    struct less_impl<T, U, when<condition>> {
+        static_assert(wrong<less_impl<T, U>>{},
+        "no definition of boost::hana::less for the given data types");
+    };
+
+    // Cross-type overload
+    template <typename T, typename U>
+    struct less_impl<T, U, when<detail::has_common_embedding<Orderable, T, U>{}>> {
+        using C = typename common<T, U>::type;
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            return not_(less(
-                detail::std::forward<Y>(y),
-                detail::std::forward<X>(x)
-            ));
+            return hana::less(to<C>(detail::std::forward<X>(x)),
+                              to<C>(detail::std::forward<Y>(y)));
         }
     };
 
-    template <typename T, typename U, typename _>
-    struct greater_impl<T, U, when<is_implemented<less_impl<T, U>, _>>, _> {
+    //////////////////////////////////////////////////////////////////////////
+    // less_equal
+    //////////////////////////////////////////////////////////////////////////
+    template <typename T, typename U, typename>
+    struct less_equal_impl : less_equal_impl<T, U, when<true>> { };
+
+    template <typename T, typename U, bool condition>
+    struct less_equal_impl<T, U, when<condition>> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            return less(
-                detail::std::forward<Y>(y),
-                detail::std::forward<X>(x)
-            );
+            return hana::not_(hana::less(detail::std::forward<Y>(y),
+                                         detail::std::forward<X>(x)));
         }
     };
 
-    template <typename T, typename U, typename _>
-    struct greater_equal_impl<T, U, when<is_implemented<less_impl<T, U>, _>>, _> {
+    // Cross-type overload
+    template <typename T, typename U>
+    struct less_equal_impl<T, U, when<detail::has_common_embedding<Orderable, T, U>{}>> {
+        using C = typename common<T, U>::type;
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
+            return hana::less_equal(to<C>(detail::std::forward<X>(x)),
+                                    to<C>(detail::std::forward<Y>(y)));
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // greater
+    //////////////////////////////////////////////////////////////////////////
+    template <typename T, typename U, typename>
+    struct greater_impl : greater_impl<T, U, when<true>> { };
+
+    template <typename T, typename U, bool condition>
+    struct greater_impl<T, U, when<condition>> {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
+            return hana::less(detail::std::forward<Y>(y),
+                              detail::std::forward<X>(x));
+        }
+    };
+
+    // Cross-type overload
+    template <typename T, typename U>
+    struct greater_impl<T, U, when<detail::has_common_embedding<Orderable, T, U>{}>> {
+        using C = typename common<T, U>::type;
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
+            return hana::greater(to<C>(detail::std::forward<X>(x)),
+                                 to<C>(detail::std::forward<Y>(y)));
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // greater_equal
+    //////////////////////////////////////////////////////////////////////////
+    template <typename T, typename U, typename>
+    struct greater_equal_impl : greater_equal_impl<T, U, when<true>> { };
+
+    template <typename T, typename U, bool condition>
+    struct greater_equal_impl<T, U, when<condition>> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X x, Y y) {
-            return not_(less(
-                detail::std::forward<X>(x),
-                detail::std::forward<Y>(y)
-            ));
+            return hana::not_(hana::less(detail::std::forward<X>(x),
+                                         detail::std::forward<Y>(y)));
         }
     };
 
-    template <typename T, typename U, typename _>
-    struct min_impl<T, U, when<is_implemented<less_impl<T, U>, _>>, _> {
+    // Cross-type overload
+    template <typename T, typename U>
+    struct greater_equal_impl<T, U, when<detail::has_common_embedding<Orderable, T, U>{}>> {
+        using C = typename common<T, U>::type;
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            decltype(auto) cond = less(x, y);
-            return if_(detail::std::forward<decltype(cond)>(cond),
+            return hana::greater_equal(to<C>(detail::std::forward<X>(x)),
+                                       to<C>(detail::std::forward<Y>(y)));
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // min
+    //////////////////////////////////////////////////////////////////////////
+    template <typename T, typename U, typename>
+    struct min_impl : min_impl<T, U, when<true>> { };
+
+    template <typename T, typename U, bool condition>
+    struct min_impl<T, U, when<condition>> {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
+            decltype(auto) cond = hana::less(x, y);
+            return hana::if_(detail::std::forward<decltype(cond)>(cond),
                 detail::std::forward<X>(x),
                 detail::std::forward<Y>(y)
             );
         }
     };
 
-    template <typename T, typename U, typename _>
-    struct max_impl<T, U, when<is_implemented<less_impl<T, U>, _>>, _> {
+    //////////////////////////////////////////////////////////////////////////
+    // max
+    //////////////////////////////////////////////////////////////////////////
+    template <typename T, typename U, typename>
+    struct max_impl : max_impl<T, U, when<true>> { };
+
+    template <typename T, typename U, bool condition>
+    struct max_impl<T, U, when<condition>> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            decltype(auto) cond = less(x, y);
-            return if_(detail::std::forward<decltype(cond)>(cond),
+            decltype(auto) cond = hana::less(x, y);
+            return hana::if_(detail::std::forward<decltype(cond)>(cond),
                 detail::std::forward<Y>(y),
                 detail::std::forward<X>(x)
             );
         }
     };
 
-    template <typename T, typename U, typename Context>
-    struct dispatch_impl<4, less_impl<T, U>, Context>
-        : detail::dispatch_common<less_impl<T, U>, Orderable, Context>
+    //////////////////////////////////////////////////////////////////////////
+    // Model for LessThanComparable data types
+    //////////////////////////////////////////////////////////////////////////
+    template <typename T>
+    struct models<Orderable(T), when<detail::concept::LessThanComparable<T>{}>>
+        : detail::std::true_type
     { };
 
     template <typename T>
-    struct less_impl<T, T, when_valid<
-        decltype(detail::std::declval<T>() < detail::std::declval<T>())
-    >> {
+    struct less_impl<T, T, when<detail::concept::LessThanComparable<T>{}>> {
         template <typename X, typename Y>
-        static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            return detail::std::forward<X>(x) < detail::std::forward<Y>(y);
-        }
+        static constexpr decltype(auto) apply(X&& x, Y&& y)
+        { return detail::std::forward<X>(x) < detail::std::forward<Y>(y); }
     };
 
-    template <>
-    struct models_impl<Orderable> {
-        template <typename T, typename Context>
-        static constexpr auto apply =
-            is_implemented<less_impl<T, T>, Context>
-        ;
+    //////////////////////////////////////////////////////////////////////////
+    // Orderable::equal_impl
+    //////////////////////////////////////////////////////////////////////////
+    template <typename T, typename U>
+    struct Orderable::equal_impl {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X const& x, Y const& y) {
+            return hana::and_(hana::not_(hana::less(x, y)),
+                              hana::not_(hana::less(y, x)));
+        }
     };
 }} // end namespace boost::hana
 

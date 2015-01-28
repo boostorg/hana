@@ -41,6 +41,7 @@ namespace boost { namespace hana {
     // Define either one to select which MCD is used:
     //  BOOST_HANA_TEST_COMPARABLE_EQUAL_MCD
     //  BOOST_HANA_TEST_COMPARABLE_NOT_EQUAL_MCD
+    //  BOOST_HANA_TEST_COMPARABLE_ORDERABLE_MCD
     //
     // If neither is defined, the MCD used is unspecified.
 #if defined(BOOST_HANA_TEST_COMPARABLE_EQUAL_MCD)
@@ -50,13 +51,18 @@ namespace boost { namespace hana {
         static constexpr auto apply(X x, Y y)
         { return test::numeric(x.value == y.value); }
     };
-#else
+#elif defined(BOOST_HANA_TEST_COMPARABLE_NOT_EQUAL_MCD)
     template <>
     struct not_equal_impl<test::Numeric, test::Numeric> {
         template <typename X, typename Y>
         static constexpr auto apply(X x, Y y)
         { return test::numeric(x.value != y.value); }
     };
+#else
+    template <>
+    struct equal_impl<test::Numeric, test::Numeric>
+        : Orderable::equal_impl<test::Numeric, test::Numeric>
+    { };
 #endif
 
     template <>
