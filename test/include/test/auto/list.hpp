@@ -1242,7 +1242,7 @@ namespace boost { namespace hana { namespace test {
                 auto b = [](auto z) { return test::tag(x<888>, z); };
 
                 auto check = [=](auto ...sorted) {
-                    auto perms = fmap(
+                    auto perms = transform(
                         permutations(list(a(sorted)...)),
                         partial(sort_by, pred)
                     );
@@ -1497,50 +1497,50 @@ namespace boost { namespace hana { namespace test {
 
             auto f = injection([]{});
 
-            // fmap
+            // transform
             {
                 {
                     BOOST_HANA_CONSTANT_CHECK(equal(
-                        fmap(list(), f),
+                        transform(list(), f),
                         list()
                     ));
 
                     BOOST_HANA_CONSTANT_CHECK(equal(
-                        fmap(list(x<1>), f),
+                        transform(list(x<1>), f),
                         list(f(x<1>))
                     ));
 
                     BOOST_HANA_CONSTANT_CHECK(equal(
-                        fmap(list(x<1>, x<2>), f),
+                        transform(list(x<1>, x<2>), f),
                         list(f(x<1>), f(x<2>))
                     ));
 
                     BOOST_HANA_CONSTANT_CHECK(equal(
-                        fmap(list(x<1>, x<2>, x<3>), f),
+                        transform(list(x<1>, x<2>, x<3>), f),
                         list(f(x<1>), f(x<2>), f(x<3>))
                     ));
 
                     BOOST_HANA_CONSTANT_CHECK(equal(
-                        fmap(list(x<1>, x<2>, x<3>, x<4>), f),
+                        transform(list(x<1>, x<2>, x<3>, x<4>), f),
                         list(f(x<1>), f(x<2>), f(x<3>), f(x<4>))
                     ));
                 }
 
                 {
                     BOOST_HANA_CONSTANT_CHECK(equal(
-                        fmap(list(), f),
+                        transform(list(), f),
                         list()
                     ));
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        fmap(list(1), f),
+                        transform(list(1), f),
                         list(f(1))
                     ));
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        fmap(list(1, '2'), f),
+                        transform(list(1, '2'), f),
                         list(f(1), f('2'))
                     ));
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        fmap(list(1, '2', 3.3f), f),
+                        transform(list(1, '2', 3.3f), f),
                         list(f(1), f('2'), f(3.3f))
                     ));
                 }

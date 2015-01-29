@@ -47,7 +47,7 @@ struct Orderable {
 // Functor
 /////////////////////////////////////////
 template <typename T>
-struct fmap_impl {
+struct transform_impl {
     template <typename X, typename F>
     static constexpr auto apply(X x, F f) {
         return adjust(x, always(true_), f);
@@ -58,7 +58,7 @@ template <typename T>
 struct adjust_impl {
     template <typename X, typename Pred, typename F>
     static constexpr auto apply(X x, Pred pred, F f) {
-        return fmap(x, demux(if_)(pred, f, id));
+        return transform(x, demux(if_)(pred, f, id));
     }
 };
 
@@ -83,7 +83,7 @@ struct ap_impl {
 
 struct Applicative {
     template <typename A>
-    struct fmap_impl {
+    struct transform_impl {
         template <typename X, typename F>
         static constexpr auto apply(X x, F f) {
             return ap(lift<A>(f), x);
@@ -130,7 +130,7 @@ struct nil_impl {
 struct List {
     // Functor: Foldable, nil, cons
     template <typename L>
-    struct fmap_impl {
+    struct transform_impl {
         template <typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs xs, F f) {
             return foldr(xs, nil<L>(), compose(cons, f));
@@ -149,7 +149,7 @@ struct List {
     struct ap_impl {
         template <typename Fs, typename Xs>
         static constexpr auto apply(Fs fs, Xs xs) {
-            return bind(fs, partial(fmap, xs));
+            return bind(fs, partial(transform, xs));
         }
     };
 
@@ -168,7 +168,7 @@ struct List {
         template <typename A, typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs xs, F f) {
             return foldr(xs, lift<A>(nil<L>()), [=](auto x, auto ys) {
-                return ap(fmap(f(x), curry<2>(cons)), ys);
+                return ap(transform(f(x), curry<2>(cons)), ys);
             });
         }
     };

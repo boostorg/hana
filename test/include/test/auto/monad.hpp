@@ -51,7 +51,7 @@ namespace boost { namespace hana { namespace test {
                 ));
 
                 BOOST_HANA_CHECK(equal(
-                    fmap(m, f),
+                    transform(m, f),
                     bind(m, compose(lift<M>, f))
                 ));
             });

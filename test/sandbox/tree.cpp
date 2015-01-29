@@ -49,15 +49,15 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct fmap_impl<Tree> {
+    struct transform_impl<Tree> {
         template <typename N, typename F>
         static constexpr decltype(auto) apply(N&& n, F f) {
             auto g = [=](auto&& subtree) -> decltype(auto) {
-                return fmap(std::forward<decltype(subtree)>(subtree), f);
+                return transform(std::forward<decltype(subtree)>(subtree), f);
             };
             return node(
                 f(std::forward<N>(n).value),
-                fmap(std::forward<N>(n).subforest, g)
+                transform(std::forward<N>(n).subforest, g)
             );
         }
     };
@@ -113,8 +113,8 @@ namespace boost { namespace hana {
             return node(
                 f.value(x.value),
                 concat(
-                    fmap(x.subforest, partial(flip(fmap), f.value)),
-                    fmap(f.subforest, partial(flip(ap), x))
+                    transform(x.subforest, partial(flip(transform), f.value)),
+                    transform(f.subforest, partial(flip(ap), x))
                 )
             );
         }
@@ -128,7 +128,7 @@ namespace boost { namespace hana {
                 std::forward<N>(n).value.value,
                 concat(
                     std::forward<N>(n).value.subforest,
-                    fmap(std::forward<N>(n).subforest, flatten)
+                    transform(std::forward<N>(n).subforest, flatten)
                 )
             );
         }
@@ -139,7 +139,7 @@ namespace boost { namespace hana {
         template <typename A, typename N, typename F>
         static constexpr decltype(auto) apply(N&& n, F&& f) {
             return ap(
-                fmap(f(std::forward<N>(n).value), curry<2>(node)),
+                transform(f(std::forward<N>(n).value), curry<2>(node)),
                 traverse<A>(
                     std::forward<N>(n).subforest,
                     partial(flip(traverse<A>), f)

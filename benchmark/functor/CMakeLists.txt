@@ -3,7 +3,7 @@
 # (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
 
-foreach(method IN ITEMS adjust fill fmap replace)
+foreach(method IN ITEMS adjust fill transform replace)
     Benchmark_add_dataset(dataset.functor.hana_tuple.${method}
         FILE "${method}.cpp"
         FEATURES COMPILATION_TIME EXECUTION_TIME MEMORY_USAGE

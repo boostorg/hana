@@ -195,15 +195,15 @@ int main() {
         >>;
     });
 
-    fmap(tuple_t<int, char, float>, [](auto t) {
+    transform(tuple_t<int, char, float>, [](auto t) {
         return typeid(t).name();
     });
 
-    fmap(tuple_c<int, 1, 2, 3>, [](auto i) {
+    transform(tuple_c<int, 1, 2, 3>, [](auto i) {
         return std::array<int, value(i)>{};
     });
 
-    fmap(tuple_c<int, 1, 2, 3>, [](auto i) {
+    transform(tuple_c<int, 1, 2, 3>, [](auto i) {
         return i + int_<4>;
     });
 }

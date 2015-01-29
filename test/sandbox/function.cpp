@@ -52,7 +52,7 @@ namespace boost { namespace hana {
     BOOST_HANA_CONSTEXPR_LAMBDA auto frange = [](auto f) {
         // Note: that would be better handled by a set data structure, but
         // whatever for now.
-        return foldl(fmap(domain(f), f), tuple(), [](auto xs, auto x) {
+        return foldl(transform(domain(f), f), tuple(), [](auto xs, auto x) {
             return if_(elem(xs, x), xs, cons(x, xs));
         });
     };

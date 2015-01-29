@@ -77,10 +77,10 @@ int main() {
             ));
         }
 
-        // fmap
+        // transform
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                fmap(functor(x<0>), f),
+                transform(functor(x<0>), f),
                 functor(f(x<0>))
             ));
         }

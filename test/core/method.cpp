@@ -267,48 +267,48 @@ namespace circular_MCD {
 
 namespace Functor_Applicative_MCD {
     // Make sure this case works as expected:
-    // fmap(T) implemented by adjust(T)
-    // adjust(T) implemented by fmap(T)
+    // transform(T) implemented by adjust(T)
+    // adjust(T) implemented by transform(T)
     //
-    // fmap(T) also implemented by [lift(T) and ap(T)]
+    // transform(T) also implemented by [lift(T) and ap(T)]
     //
-    // fmap(mytype1) implemented
+    // transform(mytype1) implemented
     // adjust(mytype2) implemented
     // lift(mytype3) and ap(mytype3) implemented
     // ------
-    // fmap(mytype1) and adjust(mytype1) should use the implemented fmap(mytype1)
+    // transform(mytype1) and adjust(mytype1) should use the implemented transform(mytype1)
     // lift(mytype1) and ap(mytype1) should not be implemented
     //
-    // fmap(mytype2) and adjust(mytype2) should use the implemented adjust(mytype2)
+    // transform(mytype2) and adjust(mytype2) should use the implemented adjust(mytype2)
     // lift(mytype2) and ap(mytype2) should not be implemented
     //
-    // fmap(mytype3) and adjust(mytype3) should use the implemented lift(mytype3) and ap(mytype3)
-    BOOST_HANA_METHOD(fmap_impl);
+    // transform(mytype3) and adjust(mytype3) should use the implemented lift(mytype3) and ap(mytype3)
+    BOOST_HANA_METHOD(transform_impl);
     BOOST_HANA_METHOD(adjust_impl);
     BOOST_HANA_METHOD(lift_impl);
     BOOST_HANA_METHOD(ap_impl);
 
     template <typename T, typename _>
-    struct fmap_impl<T, when<is_implemented<adjust_impl<T>, _>>, _> {
-        static constexpr bool fmap_from_adjust = true;
+    struct transform_impl<T, when<is_implemented<adjust_impl<T>, _>>, _> {
+        static constexpr bool transform_from_adjust = true;
     };
 
     template <typename T, typename _>
-    struct adjust_impl<T, when<is_implemented<fmap_impl<T>, _>>, _> {
-        static constexpr bool adjust_from_fmap = true;
+    struct adjust_impl<T, when<is_implemented<transform_impl<T>, _>>, _> {
+        static constexpr bool adjust_from_transform = true;
     };
 
     template <typename T, typename _>
-    struct fmap_impl<T, when<
+    struct transform_impl<T, when<
         is_implemented<lift_impl<T>, _> && is_implemented<ap_impl<T>, _>
     >, _> {
-        static constexpr bool fmap_from_lift_and_ap = true;
+        static constexpr bool transform_from_lift_and_ap = true;
     };
 
     struct MyType1;
     template <>
-    struct fmap_impl<MyType1> {
-        static constexpr bool fmap_MyType1 = true;
+    struct transform_impl<MyType1> {
+        static constexpr bool transform_MyType1 = true;
     };
 
     struct MyType2;
@@ -327,18 +327,18 @@ namespace Functor_Applicative_MCD {
         static constexpr bool ap_MyType3 = true;
     };
 
-    static_assert(dispatch<fmap_impl<MyType1>>::fmap_MyType1, "");
-    static_assert(dispatch<adjust_impl<MyType1>>::adjust_from_fmap, "");
+    static_assert(dispatch<transform_impl<MyType1>>::transform_MyType1, "");
+    static_assert(dispatch<adjust_impl<MyType1>>::adjust_from_transform, "");
     static_assert(!is_implemented<lift_impl<MyType1>>, "");
     static_assert(!is_implemented<ap_impl<MyType1>>, "");
 
-    static_assert(dispatch<fmap_impl<MyType2>>::fmap_from_adjust, "");
+    static_assert(dispatch<transform_impl<MyType2>>::transform_from_adjust, "");
     static_assert(dispatch<adjust_impl<MyType2>>::adjust_MyType2, "");
     static_assert(!is_implemented<lift_impl<MyType2>>, "");
     static_assert(!is_implemented<ap_impl<MyType2>>, "");
 
-    static_assert(dispatch<fmap_impl<MyType3>>::fmap_from_lift_and_ap, "");
-    static_assert(dispatch<adjust_impl<MyType3>>::adjust_from_fmap, "");
+    static_assert(dispatch<transform_impl<MyType3>>::transform_from_lift_and_ap, "");
+    static_assert(dispatch<adjust_impl<MyType3>>::adjust_from_transform, "");
     static_assert(dispatch<lift_impl<MyType3>>::lift_MyType3, "");
     static_assert(dispatch<ap_impl<MyType3>>::ap_MyType3, "");
 }

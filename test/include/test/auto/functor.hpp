@@ -34,17 +34,17 @@ namespace boost { namespace hana { namespace test {
 
         for_each(objects<F>, [=](auto xs) {
             BOOST_HANA_CHECK(
-                equal(fmap(xs, id), xs)
+                equal(transform(xs, id), xs)
             );
 
             BOOST_HANA_CHECK(equal(
-                fmap(xs, compose(f, g)),
-                fmap(fmap(xs, g), f)
+                transform(xs, compose(f, g)),
+                transform(transform(xs, g), f)
             ));
 
             BOOST_HANA_CHECK(equal(
                 adjust(xs, pred, f),
-                fmap(xs, [=](auto x) {
+                transform(xs, [=](auto x) {
                     return eval_if(pred(x),
                         [=](auto _) { return _(f)(x); },
                         [=](auto) { return x; }

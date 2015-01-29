@@ -21,10 +21,10 @@ struct not_implemented;
 // Functor
 //////////////////////////////////////////////////////////////////////////////
 template <typename X, typename F, typename Enable = void>
-not_implemented<X, F> fmap_impl{};
+not_implemented<X, F> transform_impl{};
 
-auto fmap = [](auto x, auto f) {
-    return fmap_impl<
+auto transform = [](auto x, auto f) {
+    return transform_impl<
         hana::datatype_t<decltype(x)>,
         hana::datatype_t<decltype(f)>
     >(x, f);
@@ -94,7 +94,7 @@ auto list = [](auto ...xs) {
 };
 
 template <typename X, typename Y>
-auto fmap_impl<List<X>, Function<X, Y>> = [](auto xs, auto f) {
+auto transform_impl<List<X>, Function<X, Y>> = [](auto xs, auto f) {
     return hana::detail::unwrap(xs)([=](auto ...xs) {
         return list<Y>(apply(f, xs)...);
     });
@@ -130,7 +130,7 @@ auto any = [](auto x) {
 int main() {
     auto f = function<int, int>([](auto x) { return x + 1; });
     auto xs = list<int>(1, 2, 3, 4);
-    fmap(xs, f);
+    transform(xs, f);
 
     lift<List>(2);
     ap(list<Function<int, int>>(f, f), list<int>(1, 2));
@@ -139,5 +139,5 @@ int main() {
         // We can't do anything with an Any, so there's not much choice here.
         return 1;
     });
-    fmap(list<Any>(any(1), any('2'), any("345")), g);
+    transform(list<Any>(any(1), any('2'), any("345")), g);
 }

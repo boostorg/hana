@@ -94,18 +94,18 @@ int main() {
 
     // Functor
     {
-        // fmap
+        // transform
         {
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                fmap(singleton(n<0>), f),
+                transform(singleton(n<0>), f),
                 singleton(f(n<0>))
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                fmap(doubleton(n<0>, n<1>), f),
+                transform(doubleton(n<0>, n<1>), f),
                 doubleton(f(n<0>), f(n<1>))
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                fmap(doubleton(n<0>, n<0>), f),
+                transform(doubleton(n<0>, n<0>), f),
                 singleton(f(n<0>))
             ));
         }

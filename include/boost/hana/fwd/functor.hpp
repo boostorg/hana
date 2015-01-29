@@ -11,79 +11,127 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_FUNCTOR_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/method.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
 namespace boost { namespace hana {
     //! @ingroup group-typeclasses
-    //! `Functor` represents types that can be mapped over.
+    //! The `Functor` concept represents types that can be mapped over.
+    //!
+    //! Intuitively, a [Functor][1] is some kind of box that can hold generic
+    //! data and map a function over this data to create a new, transformed
+    //! box. Because we are only interested in mapping a function over the
+    //! contents of a black box, the only real requirement for being a functor
+    //! is to provide a function which can do the mapping, along with a couple
+    //! of guarantees that the mapping is well-behaved. Those requirements are
+    //! made precise in the laws below. The pattern captured by `Functor` is
+    //! very general, which makes it widely useful. A lot of objects can be
+    //! made `Functor`s in one way or another, the most obvious example being
+    //! sequences with the usual mapping of the function on each element.
+    //!
+    //! In this library, the mapping function is called `transform` after the
+    //! `std::transform` algorithm, but other programming languages have given
+    //! it different names (usually `map`).
+    //!
+    //! @note
+    //! The word `Functor` comes from functional programming, where the
+    //! concept has been used for a while, notably in the Haskell programming
+    //! language. Haskell people borrowed the term from [category theory][2],
+    //! which, broadly speaking, is a field of mathematics dealing with
+    //! abstract structures and transformations between those structures.
     //!
     //!
     //! Laws
     //! ----
-    //! Instances of `Functor` must satisfy the following laws. For any
-    //! `Functor` `xs`,
+    //! For any object `xs` whose data type is a `Functor`, the following
+    //! must be satisfied:
     //! @code
-    //!     fmap(xs, id) == xs
-    //!     fmap(xs, compose(f, g)) == fmap(fmap(xs, g), f)
-    //!
-    //!     adjust(xs, pred, f) == fmap(xs, [](auto x) {
-    //!         if(pred(x)) return f(x);
-    //!         else        return x;
-    //!     })
-    //!
-    //!     replace(xs, pred, v) == adjust(xs, pred, always(v))
-    //!
-    //!     fill(xs, v) == replace(xs, always(true_), v)
+    //!     transform(xs, id) == xs
+    //!     transform(xs, compose(f, g)) == transform(transform(xs, g), f)
     //! @endcode
+    //! The first line says that mapping the identity function should not do
+    //! anything, which precludes the functor from doing something nasty
+    //! behind the scenes. The second line states that mapping the composition
+    //! of two functions is the same as mapping the first function, and then
+    //! the second on the result. While the usual functor laws are usually
+    //! restricted to the above, this library includes other convenience
+    //! methods and they should satisfy the following equations
+    //! @code
+    //!     adjust(xs, pred, f)  == transform(xs, [](x){ if pred(x) then f(x) else x })
+    //!     replace(xs, pred, v) == adjust(xs, pred, always(v))
+    //!     fill(xs, v)          == replace(xs, always(true), v)
+    //! @endcode
+    //! The default definition of the methods will satisfy these equations.
     //!
     //!
     //! Minimal complete definitions
     //! ----------------------------
-    //! 1. `fmap`
-    //! @todo
+    //! 1. `transform`\n
+    //! When `transform` is specified, `adjust` is defined as
+    //! @code
+    //!     adjust(xs, pred, f) = transform(xs, [](x){ if pred(x) then f(x) else x })
+    //! @endcode
     //!
-    //! 2. `adjust`
-    //! @todo
+    //! 2. `adjust`\n
+    //! When `adjust` is specified, `transform` is defined as
+    //! @code
+    //!     transform(xs, f) = adjust(xs, always(true), f)
+    //! @endcode
     //!
+    //!
+    //! Structure-preserving functions for Functors
+    //! -------------------------------------------
+    //! A mapping between two functors which also preserves the functor
+    //! laws is called a natural transformation (the term comes from
+    //! category theory).
+    //!
+    //! @todo
+    //! Grok and then document natural transformations.
+    //!
+    //!
+    //! [1]: http://en.wikipedia.org/wiki/Functor
+    //! [2]: http://en.wikipedia.org/wiki/Category_theory
     struct Functor { };
 
     //! Map a function over a `Functor`.
     //! @relates Functor
     //!
     //!
-    //! @param functor
+    //! @param xs
     //! The structure to map `f` over.
     //!
     //! @param f
-    //! A function called as `f(x)` on each element `x` of the structure,
+    //! A function called as `f(x)` on element(s) `x` of the structure,
     //! and returning a new value to replace `x` in the structure.
     //!
     //!
-    //! ### Example
-    //! @snippet example/functor.cpp fmap
+    //! Example
+    //! -------
+    //! @snippet example/functor.cpp transform
     //!
-    //! ### Benchmarks
-    //! @image html benchmark/functor/fmap.ctime.png
+    //!
+    //! Benchmarks
+    //! ----------
+    //! @image html benchmark/functor/transform.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto fmap = [](auto&& functor, auto&& f) -> decltype(auto) {
+    constexpr auto transform = [](auto&& xs, auto&& f) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(fmap_impl);
+    template <typename Xs, typename = void>
+    struct transform_impl;
 
-    struct _fmap {
+    struct _transform {
         template <typename Xs, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
-            return dispatch<fmap_impl<typename datatype<Xs>::type>>::apply(
+            return transform_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<F>(f)
             );
         }
     };
 
-    constexpr _fmap fmap{};
+    constexpr _transform transform{};
 #endif
 
     //! Apply a function on all the elements of a structure satisfying a
@@ -91,35 +139,39 @@ namespace boost { namespace hana {
     //! @relates Functor
     //!
     //!
-    //! @param functor
+    //! @param xs
     //! The structure to map `f` over.
     //!
     //! @param predicate
-    //! A function called as `predicate(x)` for each element `x` of the
-    //! structure and returning a `Logical` representing whether `f` should
-    //! be applied to `x`.
+    //! A function called as `predicate(x)` for element(s) `x` of the
+    //! structure and returning a `Logical` representing whether `f`
+    //! should be applied to `x`.
     //!
     //! @param f
-    //! A function called as `f(x)` on each element for which the `predicate`
-    //! returns a true-valued `Logical`.
+    //! A function called as `f(x)` on element(s) of the structure for which
+    //! the `predicate` returns a true-valued `Logical`.
     //!
     //!
-    //! ### Example
+    //! Example
+    //! -------
     //! @snippet example/functor.cpp adjust
     //!
-    //! ### Benchmarks
+    //!
+    //! Benchmarks
+    //! ----------
     //! @image html benchmark/functor/adjust.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto adjust = [](auto&& functor, auto&& predicate, auto&& f) -> decltype(auto) {
+    constexpr auto adjust = [](auto&& xs, auto&& predicate, auto&& f) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(adjust_impl);
+    template <typename Xs, typename = void>
+    struct adjust_impl;
 
     struct _adjust {
         template <typename Xs, typename Pred, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred, F&& f) const {
-            return dispatch<adjust_impl<typename datatype<Xs>::type>>::apply(
+            return adjust_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred),
                 detail::std::forward<F>(f)
@@ -135,35 +187,39 @@ namespace boost { namespace hana {
     //! @relates Functor
     //!
     //!
-    //! @param functor
+    //! @param xs
     //! The structure to replace elements of.
     //!
     //! @param predicate
-    //! A function called as `predicate(x)` for each element `x` of the
-    //! structure and returning a `Logical` representing whether `x` should
-    //! be replaced by `value`.
+    //! A function called as `predicate(x)` for element(s) `x` of the
+    //! structure and returning a `Logical` representing whether `x`
+    //! should be replaced by `value`.
     //!
     //! @param value
     //! A value by which every element `x` of the structure for which
     //! `predicate` returns a true-valued `Logical` is replaced.
     //!
     //!
-    //! ### Example
+    //! Example
+    //! -------
     //! @snippet example/functor.cpp replace
     //!
-    //! ### Benchmarks
+    //!
+    //! Benchmarks
+    //! ----------
     //! @image html benchmark/functor/replace.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto replace = [](auto&& functor, auto&& predicate, auto&& value) -> decltype(auto) {
+    constexpr auto replace = [](auto&& xs, auto&& predicate, auto&& value) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(replace_impl);
+    template <typename Xs, typename = void>
+    struct replace_impl;
 
     struct _replace {
         template <typename Xs, typename Pred, typename Value>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred, Value&& value) const {
-            return dispatch<replace_impl<typename datatype<Xs>::type>>::apply(
+            return replace_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred),
                 detail::std::forward<Value>(value)
@@ -178,7 +234,7 @@ namespace boost { namespace hana {
     //! @relates Functor
     //!
     //!
-    //! @param functor
+    //! @param xs
     //! The structure to fill with `value`.
     //!
     //! @param value
@@ -186,22 +242,26 @@ namespace boost { namespace hana {
     //! unconditionally.
     //!
     //!
-    //! ### Example
+    //! Example
+    //! -------
     //! @snippet example/functor.cpp fill
     //!
-    //! ### Benchmarks
+    //!
+    //! Benchmarks
+    //! ----------
     //! @image html benchmark/functor/fill.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto fill = [](auto&& functor, auto&& value) -> decltype(auto) {
+    constexpr auto fill = [](auto&& xs, auto&& value) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(fill_impl);
+    template <typename Xs, typename = void>
+    struct fill_impl;
 
     struct _fill {
         template <typename Xs, typename Value>
         constexpr decltype(auto) operator()(Xs&& xs, Value&& value) const {
-            return dispatch<fill_impl<typename datatype<Xs>::type>>::apply(
+            return fill_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Value>(value)
             );
