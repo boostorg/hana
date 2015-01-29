@@ -70,7 +70,7 @@ namespace boost { namespace hana {
     struct _bind {
         template <typename M, typename F>
         constexpr decltype(auto) operator()(M&& m, F&& f) const {
-            return dispatch<bind_impl<typename datatype<M>::type>>::apply(
+            return bind_impl<typename datatype<M>::type>::apply(
                 detail::std::forward<M>(m),
                 detail::std::forward<F>(f)
             );
@@ -109,7 +109,7 @@ namespace boost { namespace hana {
     struct _then {
         template <typename Before, typename M>
         constexpr decltype(auto) operator()(Before&& before, M&& m) const {
-            return dispatch<then_impl<typename datatype<Before>::type>>::apply(
+            return then_impl<typename datatype<Before>::type>::apply(
                 detail::std::forward<Before>(before),
                 detail::std::forward<M>(m)
             );
@@ -137,7 +137,7 @@ namespace boost { namespace hana {
     struct _flatten {
         template <typename M>
         constexpr decltype(auto) operator()(M&& m) const {
-            return dispatch<flatten_impl<typename datatype<M>::type>>::apply(
+            return flatten_impl<typename datatype<M>::type>::apply(
                 detail::std::forward<M>(m)
             );
         }
@@ -180,7 +180,7 @@ namespace boost { namespace hana {
     struct _tap {
         template <typename F>
         constexpr decltype(auto) operator()(F&& f) const {
-            return dispatch<tap_impl<M>>::apply(
+            return tap_impl<M>::apply(
                 detail::std::forward<decltype(f)>(f)
             );
         }

@@ -86,7 +86,7 @@ namespace boost { namespace hana {
     template <typename R>
     struct _members {
         constexpr decltype(auto) operator()() const
-        { return dispatch<members_impl<R>>::apply(); }
+        { return members_impl<R>::apply(); }
     };
 
     template <typename R>

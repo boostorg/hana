@@ -107,7 +107,7 @@ namespace boost { namespace hana {
                 typename datatype<Xs>::type, typename datatype<Ys>::type
             >::value,
             "boost::hana::concat: both arguments must have the same data type");
-            return dispatch<concat_impl<typename datatype<Xs>::type>>::apply(
+            return concat_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Ys>(ys)
             );
@@ -140,7 +140,7 @@ namespace boost { namespace hana {
     struct _cons {
         template <typename X, typename Xs>
         constexpr decltype(auto) operator()(X&& x, Xs&& xs) const {
-            return dispatch<cons_impl<typename datatype<Xs>::type>>::apply(
+            return cons_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<X>(x),
                 detail::std::forward<Xs>(xs)
             );
@@ -180,7 +180,7 @@ namespace boost { namespace hana {
     struct _filter {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
-            return dispatch<filter_impl<typename datatype<Xs>::type>>::apply(
+            return filter_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred)
             );
@@ -228,7 +228,7 @@ namespace boost { namespace hana {
     struct _group_by {
         template <typename Pred, typename Xs>
         constexpr decltype(auto) operator()(Pred&& pred, Xs&& xs) const {
-            return dispatch<group_by_impl<typename datatype<Xs>::type>>::apply(
+            return group_by_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Pred>(pred),
                 detail::std::forward<Xs>(xs)
             );
@@ -260,7 +260,7 @@ namespace boost { namespace hana {
     struct _group {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-            return dispatch<group_impl<typename datatype<Xs>::type>>::apply(
+            return group_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs)
             );
         }
@@ -284,7 +284,7 @@ namespace boost { namespace hana {
     struct _init {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-            return dispatch<init_impl<typename datatype<Xs>::type>>::apply(
+            return init_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs)
             );
         }
@@ -320,7 +320,7 @@ namespace boost { namespace hana {
     struct _intersperse {
         template <typename Xs, typename Z>
         constexpr decltype(auto) operator()(Xs&& xs, Z&& z) const {
-            return dispatch<intersperse_impl<typename datatype<Xs>::type>>::apply(
+            return intersperse_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Z>(z)
             );
@@ -351,7 +351,7 @@ namespace boost { namespace hana {
     template <typename L>
     struct _nil {
         constexpr decltype(auto) operator()() const {
-            return dispatch<nil_impl<L>>::apply();
+            return nil_impl<L>::apply();
         }
     };
 
@@ -391,7 +391,7 @@ namespace boost { namespace hana {
     struct _partition {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
-            return dispatch<partition_impl<typename datatype<Xs>::type>>::apply(
+            return partition_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred)
             );
@@ -428,7 +428,7 @@ namespace boost { namespace hana {
     struct _permutations {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-            return dispatch<permutations_impl<typename datatype<Xs>::type>>::apply(
+            return permutations_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs)
             );
         }
@@ -467,7 +467,7 @@ namespace boost { namespace hana {
     struct _remove_at {
         template <typename N, typename Xs>
         constexpr decltype(auto) operator()(N&& n, Xs&& xs) const {
-            return dispatch<remove_at_impl<typename datatype<Xs>::type>>::apply(
+            return remove_at_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<N>(n),
                 detail::std::forward<Xs>(xs)
             );
@@ -531,7 +531,7 @@ namespace boost { namespace hana {
     struct _repeat {
         template <typename N, typename X>
         constexpr decltype(auto) operator()(N&& n, X&& x) const {
-            return dispatch<repeat_impl<L>>::apply(
+            return repeat_impl<L>::apply(
                 detail::std::forward<decltype(n)>(n),
                 detail::std::forward<decltype(x)>(x)
             );
@@ -558,7 +558,7 @@ namespace boost { namespace hana {
     struct _reverse {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-            return dispatch<reverse_impl<typename datatype<Xs>::type>>::apply(
+            return reverse_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs)
             );
         }
@@ -598,7 +598,7 @@ namespace boost { namespace hana {
     struct _scanl {
         template <typename Xs, typename State, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
-            return dispatch<scanl_impl<typename datatype<Xs>::type>>::apply(
+            return scanl_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<State>(state),
                 detail::std::forward<F>(f)
@@ -640,7 +640,7 @@ namespace boost { namespace hana {
     struct _scanl1 {
         template <typename Xs, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
-            return dispatch<scanl1_impl<typename datatype<Xs>::type>>::apply(
+            return scanl1_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<F>(f)
             );
@@ -681,7 +681,7 @@ namespace boost { namespace hana {
     struct _scanr {
         template <typename Xs, typename State, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
-            return dispatch<scanr_impl<typename datatype<Xs>::type>>::apply(
+            return scanr_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<State>(state),
                 detail::std::forward<F>(f)
@@ -723,7 +723,7 @@ namespace boost { namespace hana {
     struct _scanr1 {
         template <typename Xs, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
-            return dispatch<scanr1_impl<typename datatype<Xs>::type>>::apply(
+            return scanr1_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<F>(f)
             );
@@ -770,7 +770,7 @@ namespace boost { namespace hana {
     struct _slice {
         template <typename Xs, typename From, typename To>
         constexpr decltype(auto) operator()(Xs&& xs, From&& from, To&& to) const {
-            return dispatch<slice_impl<typename datatype<Xs>::type>>::apply(
+            return slice_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<From>(from),
                 detail::std::forward<To>(to)
@@ -827,7 +827,7 @@ namespace boost { namespace hana {
     struct _snoc {
         template <typename Xs, typename X>
         constexpr decltype(auto) operator()(Xs&& xs, X&& x) const {
-            return dispatch<snoc_impl<typename datatype<Xs>::type>>::apply(
+            return snoc_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<X>(x)
             );
@@ -860,7 +860,7 @@ namespace boost { namespace hana {
     struct _sort {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-            return dispatch<sort_impl<typename datatype<Xs>::type>>::apply(
+            return sort_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs)
             );
         }
@@ -900,7 +900,7 @@ namespace boost { namespace hana {
     struct _sort_by {
         template <typename Pred, typename Xs>
         constexpr decltype(auto) operator()(Pred&& pred, Xs&& xs) const {
-            return dispatch<sort_by_impl<typename datatype<Xs>::type>>::apply(
+            return sort_by_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Pred>(pred),
                 detail::std::forward<Xs>(xs)
             );
@@ -950,7 +950,7 @@ namespace boost { namespace hana {
     struct _span {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
-            return dispatch<span_impl<typename datatype<Xs>::type>>::apply(
+            return span_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred)
             );
@@ -988,7 +988,7 @@ namespace boost { namespace hana {
     struct _take {
         template <typename N, typename Xs>
         constexpr decltype(auto) operator()(N&& n, Xs&& xs) const {
-            return dispatch<take_impl<typename datatype<Xs>::type>>::apply(
+            return take_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<N>(n),
                 detail::std::forward<Xs>(xs)
             );
@@ -1055,7 +1055,7 @@ namespace boost { namespace hana {
     struct _take_until {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
-            return dispatch<take_until_impl<typename datatype<Xs>::type>>::apply(
+            return take_until_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred)
             );
@@ -1098,7 +1098,7 @@ namespace boost { namespace hana {
     struct _take_while {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
-            return dispatch<take_while_impl<typename datatype<Xs>::type>>::apply(
+            return take_while_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred)
             );
@@ -1153,7 +1153,7 @@ namespace boost { namespace hana {
     struct _unfoldl {
         template <typename F, typename Initial>
         constexpr decltype(auto) operator()(F&& f, Initial&& initial) const {
-            return dispatch<unfoldl_impl<L>>::apply(
+            return unfoldl_impl<L>::apply(
                 detail::std::forward<decltype(f)>(f),
                 detail::std::forward<decltype(initial)>(initial)
             );
@@ -1209,7 +1209,7 @@ namespace boost { namespace hana {
     struct _unfoldr {
         template <typename F, typename Initial>
         constexpr decltype(auto) operator()(F&& f, Initial&& initial) const {
-            return dispatch<unfoldr_impl<L>>::apply(
+            return unfoldr_impl<L>::apply(
                 detail::std::forward<decltype(f)>(f),
                 detail::std::forward<decltype(initial)>(initial)
             );
@@ -1248,7 +1248,7 @@ namespace boost { namespace hana {
     struct _unzip {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-            return dispatch<unzip_impl<typename datatype<Xs>::type>>::apply(
+            return unzip_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs)
             );
         }
@@ -1282,7 +1282,7 @@ namespace boost { namespace hana {
     struct _zip {
         template <typename Xs, typename ...Ys>
         constexpr decltype(auto) operator()(Xs&& xs, Ys&& ...ys) const {
-            return dispatch<zip_impl<typename datatype<Xs>::type>>::apply(
+            return zip_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Ys>(ys)...
             );
@@ -1343,7 +1343,7 @@ namespace boost { namespace hana {
     struct _zip_with {
         template <typename F, typename Xs, typename ...Ys>
         constexpr decltype(auto) operator()(F&& f, Xs&& xs, Ys&& ...ys) const {
-            return dispatch<zip_with_impl<typename datatype<Xs>::type>>::apply(
+            return zip_with_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<F>(f),
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Ys>(ys)...

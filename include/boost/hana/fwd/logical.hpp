@@ -86,7 +86,7 @@ namespace boost { namespace hana {
     struct _if {
         template <typename L, typename T, typename E>
         constexpr decltype(auto) operator()(L&& l, T&& t, E&& e) const {
-            return dispatch<if_impl<typename datatype<L>::type>>::apply(
+            return if_impl<typename datatype<L>::type>::apply(
                 detail::std::forward<L>(l),
                 detail::std::forward<T>(t),
                 detail::std::forward<E>(e)
@@ -134,7 +134,7 @@ namespace boost { namespace hana {
     struct _eval_if {
         template <typename L, typename T, typename E>
         constexpr decltype(auto) operator()(L&& l, T&& t, E&& e) const {
-            return dispatch<eval_if_impl<typename datatype<L>::type>>::apply(
+            return eval_if_impl<typename datatype<L>::type>::apply(
                 detail::std::forward<L>(l),
                 detail::std::forward<T>(t),
                 detail::std::forward<E>(e)
@@ -272,7 +272,7 @@ namespace boost { namespace hana {
     struct _not {
         template <typename L>
         constexpr decltype(auto) operator()(L&& l) const {
-            return dispatch<not_impl<typename datatype<L>::type>>::apply(
+            return not_impl<typename datatype<L>::type>::apply(
                 detail::std::forward<L>(l)
             );
         }
@@ -304,7 +304,7 @@ namespace boost { namespace hana {
     struct _and {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
-            return dispatch<and_impl<typename datatype<X>::type>>::apply(
+            return and_impl<typename datatype<X>::type>::apply(
                 detail::std::forward<X>(x),
                 detail::std::forward<Y>(y)
             );
@@ -346,7 +346,7 @@ namespace boost { namespace hana {
     struct _or {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
-            return dispatch<or_impl<typename datatype<X>::type>>::apply(
+            return or_impl<typename datatype<X>::type>::apply(
                 detail::std::forward<X>(x),
                 detail::std::forward<Y>(y)
             );

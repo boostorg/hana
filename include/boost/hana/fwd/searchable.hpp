@@ -111,7 +111,7 @@ namespace boost { namespace hana {
     struct _any {
         template <typename S, typename Pred>
         constexpr decltype(auto) operator()(S&& searchable, Pred&& pred) const {
-            return dispatch<any_impl<typename datatype<S>::type>>::apply(
+            return any_impl<typename datatype<S>::type>::apply(
                 detail::std::forward<S>(searchable),
                 detail::std::forward<Pred>(pred)
             );
@@ -140,7 +140,7 @@ namespace boost { namespace hana {
     struct _any_of {
         template <typename S>
         constexpr decltype(auto) operator()(S&& searchable) const {
-            return dispatch<any_of_impl<typename datatype<S>::type>>::apply(
+            return any_of_impl<typename datatype<S>::type>::apply(
                 detail::std::forward<S>(searchable)
             );
         }
@@ -180,7 +180,7 @@ namespace boost { namespace hana {
     struct _all {
         template <typename S, typename Pred>
         constexpr decltype(auto) operator()(S&& searchable, Pred&& pred) const {
-            return dispatch<all_impl<typename datatype<S>::type>>::apply(
+            return all_impl<typename datatype<S>::type>::apply(
                 detail::std::forward<S>(searchable),
                 detail::std::forward<Pred>(pred)
             );
@@ -209,7 +209,7 @@ namespace boost { namespace hana {
     struct _all_of {
         template <typename S>
         constexpr decltype(auto) operator()(S&& searchable) const {
-            return dispatch<all_of_impl<typename datatype<S>::type>>::apply(
+            return all_of_impl<typename datatype<S>::type>::apply(
                 detail::std::forward<S>(searchable)
             );
         }
@@ -250,7 +250,7 @@ namespace boost { namespace hana {
     struct _none {
         template <typename S, typename Pred>
         constexpr decltype(auto) operator()(S&& searchable, Pred&& pred) const {
-            return dispatch<none_impl<typename datatype<S>::type>>::apply(
+            return none_impl<typename datatype<S>::type>::apply(
                 detail::std::forward<S>(searchable),
                 detail::std::forward<Pred>(pred)
             );
@@ -279,7 +279,7 @@ namespace boost { namespace hana {
     struct _none_of {
         template <typename S>
         constexpr decltype(auto) operator()(S&& searchable) const {
-            return dispatch<none_of_impl<typename datatype<S>::type>>::apply(
+            return none_of_impl<typename datatype<S>::type>::apply(
                 detail::std::forward<S>(searchable)
             );
         }
@@ -320,7 +320,7 @@ namespace boost { namespace hana {
     struct _elem {
         template <typename S, typename Key>
         constexpr decltype(auto) operator()(S&& searchable, Key&& key) const {
-            return dispatch<elem_impl<typename datatype<S>::type>>::apply(
+            return elem_impl<typename datatype<S>::type>::apply(
                 detail::std::forward<S>(searchable),
                 detail::std::forward<Key>(key)
             );
@@ -364,7 +364,7 @@ namespace boost { namespace hana {
     struct _find {
         template <typename S, typename Pred>
         constexpr decltype(auto) operator()(S&& searchable, Pred&& pred) const {
-            return dispatch<find_impl<typename datatype<S>::type>>::apply(
+            return find_impl<typename datatype<S>::type>::apply(
                 detail::std::forward<S>(searchable),
                 detail::std::forward<Pred>(pred)
             );
@@ -409,7 +409,7 @@ namespace boost { namespace hana {
     struct _lookup {
         template <typename S, typename Key>
         constexpr decltype(auto) operator()(S&& searchable, Key&& key) const {
-            return dispatch<lookup_impl<typename datatype<S>::type>>::apply(
+            return lookup_impl<typename datatype<S>::type>::apply(
                 detail::std::forward<S>(searchable),
                 detail::std::forward<Key>(key)
             );
@@ -468,7 +468,7 @@ namespace boost { namespace hana {
     struct _subset {
         template <typename Xs, typename Ys>
         constexpr decltype(auto) operator()(Xs&& xs, Ys&& ys) const {
-            return dispatch<subset_impl<typename datatype<Xs>::type>>::apply(
+            return subset_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Ys>(ys)
             );

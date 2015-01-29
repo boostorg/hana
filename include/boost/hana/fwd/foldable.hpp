@@ -95,7 +95,7 @@ namespace boost { namespace hana {
     struct _foldl {
         template <typename Xs, typename State, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
-            return dispatch<foldl_impl<typename datatype<Xs>::type>>::apply(
+            return foldl_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<State>(state),
                 detail::std::forward<F>(f)
@@ -136,7 +136,7 @@ namespace boost { namespace hana {
     struct _foldr {
         template <typename Xs, typename State, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
-            return dispatch<foldr_impl<typename datatype<Xs>::type>>::apply(
+            return foldr_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<State>(state),
                 detail::std::forward<F>(f)
@@ -175,7 +175,7 @@ namespace boost { namespace hana {
     struct _foldr1 {
         template <typename Xs, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
-            return dispatch<foldr1_impl<typename datatype<Xs>::type>>::apply(
+            return foldr1_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<F>(f)
             );
@@ -213,7 +213,7 @@ namespace boost { namespace hana {
     struct _foldl1 {
         template <typename Xs, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
-            return dispatch<foldl1_impl<typename datatype<Xs>::type>>::apply(
+            return foldl1_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<F>(f)
             );
@@ -260,7 +260,7 @@ namespace boost { namespace hana {
     struct _for_each {
         template <typename Xs, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
-            return dispatch<for_each_impl<typename datatype<Xs>::type>>::apply(
+            return for_each_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<F>(f)
             );
@@ -288,7 +288,7 @@ namespace boost { namespace hana {
     struct _length {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-            return dispatch<length_impl<typename datatype<Xs>::type>>::apply(
+            return length_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs)
             );
         }
@@ -326,7 +326,7 @@ namespace boost { namespace hana {
     struct _minimum_by {
         template <typename Pred, typename Xs>
         constexpr decltype(auto) operator()(Pred&& pred, Xs&& xs) const {
-            return dispatch<minimum_by_impl<typename datatype<Xs>::type>>::apply(
+            return minimum_by_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Pred>(pred),
                 detail::std::forward<Xs>(xs)
             );
@@ -354,7 +354,7 @@ namespace boost { namespace hana {
     struct _minimum {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-            return dispatch<minimum_impl<typename datatype<Xs>::type>>::apply(
+            return minimum_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs)
             );
         }
@@ -392,7 +392,7 @@ namespace boost { namespace hana {
     struct _maximum_by {
         template <typename Pred, typename Xs>
         constexpr decltype(auto) operator()(Pred&& pred, Xs&& xs) const {
-            return dispatch<maximum_by_impl<typename datatype<Xs>::type>>::apply(
+            return maximum_by_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Pred>(pred),
                 detail::std::forward<Xs>(xs)
             );
@@ -420,7 +420,7 @@ namespace boost { namespace hana {
     struct _maximum {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-            return dispatch<maximum_impl<typename datatype<Xs>::type>>::apply(
+            return maximum_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs)
             );
         }
@@ -452,7 +452,7 @@ namespace boost { namespace hana {
     struct _sum {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-            return dispatch<sum_impl<typename datatype<Xs>::type>>::apply(
+            return sum_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs)
             );
         }
@@ -484,7 +484,7 @@ namespace boost { namespace hana {
     struct _product {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-            return dispatch<product_impl<typename datatype<Xs>::type>>::apply(
+            return product_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs)
             );
         }
@@ -522,7 +522,7 @@ namespace boost { namespace hana {
     struct _count {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
-            return dispatch<count_impl<typename datatype<Xs>::type>>::apply(
+            return count_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred)
             );
@@ -567,7 +567,7 @@ namespace boost { namespace hana {
     struct _unpack {
         template <typename Xs, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
-            return dispatch<unpack_impl<typename datatype<Xs>::type>>::apply(
+            return unpack_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<F>(f)
             );

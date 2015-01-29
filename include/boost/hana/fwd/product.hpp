@@ -93,7 +93,7 @@ namespace boost { namespace hana {
     struct _first {
         template <typename P>
         constexpr decltype(auto) operator()(P&& p) const {
-            return dispatch<first_impl<typename datatype<P>::type>>::apply(
+            return first_impl<typename datatype<P>::type>::apply(
                 detail::std::forward<P>(p)
             );
         }
@@ -117,7 +117,7 @@ namespace boost { namespace hana {
     struct _second {
         template <typename P>
         constexpr decltype(auto) operator()(P&& p) const {
-            return dispatch<second_impl<typename datatype<P>::type>>::apply(
+            return second_impl<typename datatype<P>::type>::apply(
                 detail::std::forward<P>(p)
             );
         }
