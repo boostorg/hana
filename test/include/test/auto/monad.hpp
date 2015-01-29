@@ -35,6 +35,9 @@ namespace boost { namespace hana { namespace test {
             auto x = injection([]{})();
 
             for_each(objects<M>, [=](auto m) {
+                // The laws formulated with `bind` are equivalent but easier
+                // to check because we don't have to check for the equality
+                // of functions.
                 BOOST_HANA_CHECK(equal(
                     bind(lift<M>(x), f),
                     f(x)
