@@ -18,6 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integer_sequence.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/is_same.hpp>
 #include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
@@ -131,8 +132,8 @@ namespace boost { namespace hana {
 #endif
     } // end namespace foldable_detail
 
-    template <typename T, typename Context>
-    struct foldl_impl<T, when<is_implemented<unpack_impl<T>, Context>>, Context> {
+    template <typename T>
+    struct foldl_impl<T, when<models<Foldable(T)>{}>> {
         template <typename Xs, typename S, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, S&& s, F&& f) {
             return unpack(detail::std::forward<Xs>(xs),
@@ -145,8 +146,8 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename T, typename Context>
-    struct foldr_impl<T, when<is_implemented<unpack_impl<T>, Context>>, Context> {
+    template <typename T>
+    struct foldr_impl<T, when<models<Foldable(T)>{}>> {
         template <typename Xs, typename S, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, S&& s, F&& f) {
             return unpack(detail::std::forward<Xs>(xs),
@@ -159,8 +160,8 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename T, typename Context>
-    struct foldr1_impl<T, when<is_implemented<unpack_impl<T>, Context>>, Context> {
+    template <typename T, typename>
+    struct foldr1_impl {
         template <typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
             return unpack(detail::std::forward<Xs>(xs),
@@ -169,8 +170,8 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename T, typename Context>
-    struct foldl1_impl<T, when<is_implemented<unpack_impl<T>, Context>>, Context> {
+    template <typename T, typename>
+    struct foldl1_impl {
         template <typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
             return unpack(detail::std::forward<Xs>(xs),
@@ -179,22 +180,22 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename T, typename Context>
-    struct length_impl<T, when<is_implemented<unpack_impl<T>, Context>>, Context> {
+    template <typename T, typename>
+    struct length_impl {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs const& xs)
         { return unpack(xs, foldable_detail::length_helper{}); }
     };
 
-    template <typename T, typename Context>
-    struct minimum_impl<T, when<is_implemented<minimum_by_impl<T>, Context>>, Context> {
+    template <typename T, typename>
+    struct minimum_impl {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs)
         { return minimum_by(less, detail::std::forward<Xs>(xs)); }
     };
 
-    template <typename T, typename Context>
-    struct maximum_impl<T, when<is_implemented<maximum_by_impl<T>, Context>>, Context> {
+    template <typename T, typename>
+    struct maximum_impl {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs)
         { return maximum_by(less, detail::std::forward<Xs>(xs)); }
@@ -260,8 +261,8 @@ namespace boost { namespace hana {
         };
     }
 
-    template <typename T, typename Context>
-    struct minimum_by_impl<T, when<is_implemented<foldl1_impl<T>, Context>>, Context> {
+    template <typename T, typename>
+    struct minimum_by_impl {
         template <typename Pred, typename Xs>
         static constexpr decltype(auto) apply(Pred&& pred, Xs&& xs) {
             return foldl1(detail::std::forward<Xs>(xs),
@@ -272,8 +273,8 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename T, typename Context>
-    struct maximum_by_impl<T, when<is_implemented<foldl1_impl<T>, Context>>, Context> {
+    template <typename T, typename>
+    struct maximum_by_impl {
         template <typename Pred, typename Xs>
         static constexpr decltype(auto) apply(Pred&& pred, Xs&& xs) {
             return foldl1(detail::std::forward<Xs>(xs),
@@ -285,8 +286,8 @@ namespace boost { namespace hana {
     };
 
 
-    template <typename T, typename Context>
-    struct sum_impl<T, when<is_implemented<foldl_impl<T>, Context>>, Context> {
+    template <typename T, typename>
+    struct sum_impl {
         //! @todo Make it possible to specify the Monoid that's used?
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
@@ -296,8 +297,8 @@ namespace boost { namespace hana {
     };
 
 
-    template <typename T, typename Context>
-    struct product_impl<T, when<is_implemented<foldl_impl<T>, Context>>, Context> {
+    template <typename T, typename>
+    struct product_impl {
         //! @todo Make it possible to specify the Ring that's used?
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
@@ -335,8 +336,8 @@ namespace boost { namespace hana {
         };
     }
 
-    template <typename T, typename Context>
-    struct count_impl<T, when<is_implemented<foldl_impl<T>, Context>>, Context> {
+    template <typename T, typename>
+    struct count_impl {
         template <typename Xs, typename Pred>
         static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
             return foldl(detail::std::forward<Xs>(xs), size_t<0>,
@@ -347,8 +348,8 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename T, typename Context>
-    struct unpack_impl<T, when<is_implemented<foldl_impl<T>, Context>>, Context> {
+    template <typename T>
+    struct unpack_impl<T, when<models<Foldable(T)>{}>> {
         template <typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
             return foldl(
@@ -359,20 +360,14 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename T, typename Context>
-    struct for_each_impl<T, when<is_implemented<unpack_impl<T>, Context>>, Context> {
+    template <typename T, typename>
+    struct for_each_impl {
         template <typename Xs, typename F>
         static constexpr void apply(Xs&& xs, F&& f) {
             unpack(detail::std::forward<Xs>(xs),
                 partial(detail::variadic::for_each, detail::std::forward<F>(f))
             );
         }
-    };
-
-    template <>
-    struct models_impl<Foldable> {
-        template <typename T, typename Context>
-        static constexpr bool apply = is_implemented<unpack_impl<T>, Context>;
     };
 
     template <typename T, detail::std::size_t N>
@@ -394,6 +389,9 @@ namespace boost { namespace hana {
             );
         }
     };
+
+    template <typename T, detail::std::size_t N>
+    struct models<Foldable(T[N])> : detail::std::true_type { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FOLDABLE_HPP

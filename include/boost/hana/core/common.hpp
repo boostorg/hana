@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/common_type.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 
 
 namespace boost { namespace hana {
@@ -69,6 +70,23 @@ namespace boost { namespace hana {
     template <typename T, typename U, bool condition>
     struct common<T, U, when<condition>>
         : detail::std::common_type<T, U>
+    { };
+#endif
+
+    //! @ingroup group-core
+    //!
+    //!
+    //! @todo Document
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    template <typename T, typename U>
+    struct has_common : whether common<T, U>::type is well-formed { };
+#else
+    template <typename T, typename U, typename = when<true>>
+    struct has_common : detail::std::false_type { };
+
+    template <typename T, typename U>
+    struct has_common<T, U, when_valid<typename common<T, U>::type>>
+        : detail::std::true_type
     { };
 #endif
 

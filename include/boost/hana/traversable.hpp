@@ -20,20 +20,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    template <typename T, typename _>
-    struct sequence_impl<T, when<is_implemented<traverse_impl<T>, _>>, _> {
+    template <typename T>
+    struct default_<sequence_impl<T>> {
         template <typename A, typename Trav>
         static constexpr auto apply(Trav traversable)
         { return traverse<A>(traversable, id); }
-    };
-
-    template <>
-    struct models_impl<Traversable> {
-        template <typename T, typename Context>
-        static constexpr auto apply =
-            is_a<Functor, T, Context> &&
-            is_implemented<traverse_impl<T>, Context>
-        ;
     };
 }} // end namespace boost::hana
 

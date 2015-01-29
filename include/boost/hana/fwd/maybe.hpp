@@ -64,8 +64,8 @@ namespace boost { namespace hana {
     //! a function over a `Maybe` is equivalent to applying it to its value
     //! if there is one and to `nothing` otherwise:
     //! @code
-    //!     fmap(just(x), f) == just(f(x))
-    //!     fmap(nothing, f) == nothing
+    //!     transform(just(x), f) == just(f(x))
+    //!     transform(nothing, f) == nothing
     //! @endcode
     //! Example:
     //! @snippet example/maybe.cpp functor

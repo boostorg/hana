@@ -650,16 +650,16 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct fmap_impl<Tuple> {
-        #define BOOST_HANA_PP_FMAP(REF)                                     \
+    struct transform_impl<Tuple> {
+        #define BOOST_HANA_PP_TRANSFORM(REF)                                \
             template <typename ...Xs, typename F>                           \
             static constexpr decltype(auto)                                 \
             apply(detail::closure_impl<Xs...> REF xs, F&& f) {              \
                 return tuple(f(static_cast<Xs REF>(xs).get)...);            \
             }                                                               \
         /**/
-        BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_FMAP)
-        #undef BOOST_HANA_PP_FMAP
+        BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_TRANSFORM)
+        #undef BOOST_HANA_PP_TRANSFORM
     };
 
     template <>

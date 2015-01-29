@@ -27,7 +27,7 @@ int main() {
     // Heterogeneous sequences for value-level metaprogramming.
     auto stuff = tuple(President{"Obama"}, Car{"Toyota"}, City{"Quebec"});
 
-    auto names = fmap(stuff, [](auto thing) { return thing.name; });
+    auto names = transform(stuff, [](auto thing) { return thing.name; });
     BOOST_HANA_RUNTIME_CHECK(reverse(names) == tuple("Quebec", "Toyota", "Obama"));
 
     // No compile-time information is lost:
@@ -35,7 +35,7 @@ int main() {
     static_assert(length(stuff) == 3u, "");
 
     // Type-level metaprogramming works too.
-    auto types = fmap(stuff, [](auto thing) {
+    auto types = transform(stuff, [](auto thing) {
         return type<decltype(thing)*>;
     });
 

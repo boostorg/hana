@@ -56,7 +56,7 @@ namespace boost { namespace hana {
 
             template <typename Key>
             constexpr auto lookup(Key key) const {
-                return fmap(
+                return transform(
                     find(pairs, [=](auto p) { return first(p) == key; }),
                     second
                 );
@@ -120,7 +120,7 @@ namespace boost { namespace hana {
         template <typename Map, typename State, typename F>
         static constexpr auto apply(Map m, State s, F f) {
             auto f_ = [=](auto bucket, auto s) {
-                return foldr(fmap(bucket.pairs, second), s, f);
+                return foldr(transform(bucket.pairs, second), s, f);
             };
             return foldr(m.buckets, s, f_);
         }
@@ -131,7 +131,7 @@ namespace boost { namespace hana {
         template <typename Map, typename State, typename F>
         static constexpr auto apply(Map m, State s, F f) {
             auto f_ = [=](auto s, auto bucket) {
-                return foldl(fmap(bucket.pairs, second), s, f);
+                return foldl(transform(bucket.pairs, second), s, f);
             };
             return foldl(m.buckets, s, f_);
         }

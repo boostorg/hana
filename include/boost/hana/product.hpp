@@ -27,7 +27,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     template <typename T, typename U>
-    struct equal_impl<T, U, when<is_a<Product, T>() && is_a<Product, U>()>> {
+    struct equal_impl<T, U, when<is_a<Product, T>{} && is_a<Product, U>{}>> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X const& x, Y const& y) {
             return and_(
@@ -38,7 +38,7 @@ namespace boost { namespace hana {
     };
 
     template <typename T, typename U>
-    struct less_impl<T, U, when<is_a<Product, T>() && is_a<Product, U>()>> {
+    struct less_impl<T, U, when<is_a<Product, T>{} && is_a<Product, U>{}>> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X const& x, Y const& y) {
             return or_(
@@ -52,7 +52,7 @@ namespace boost { namespace hana {
     };
 
     template <typename Prod>
-    struct unpack_impl<Prod, when<is_a<Product, Prod>()>> {
+    struct unpack_impl<Prod, when<is_a<Product, Prod>{}>> {
         template <typename P, typename F>
         static constexpr decltype(auto) apply(P&& p, F&& f) {
             return detail::std::forward<F>(f)(
@@ -60,16 +60,6 @@ namespace boost { namespace hana {
                 second(detail::std::forward<P>(p))
             );
         }
-    };
-
-    template <>
-    struct models_impl<Product> {
-        template <typename P, typename Context>
-        static constexpr auto apply =
-            is_implemented<first_impl<P>, Context> &&
-            is_implemented<second_impl<P>, Context> &&
-            is_implemented<make_impl<P>, Context>
-        ;
     };
 }} // end namespace boost::hana
 

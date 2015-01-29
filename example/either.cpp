@@ -86,11 +86,11 @@ auto safediv = infix([](auto x, auto y) {
 
 auto inc = partial(plus, int_<1>);
 BOOST_HANA_CONSTANT_CHECK(
-    fmap(int_<6> ^safediv^ int_<3>, inc) == right(int_<3>)
+    transform(int_<6> ^safediv^ int_<3>, inc) == right(int_<3>)
 );
 
 BOOST_HANA_RUNTIME_CHECK(
-    fmap(int_<6> ^safediv^ int_<0>, inc) == left("division by zero")
+    transform(int_<6> ^safediv^ int_<0>, inc) == left("division by zero")
 );
 //! [functor]
 

@@ -52,7 +52,7 @@ namespace boost { namespace hana {
     //! `members<R>()` to a `Map`, except the values are replaced by the actual
     //! members of the object instead of accessors.
     template <typename R>
-    struct convert<Map, R, when<is_a<Record, R>()>> {
+    struct convert<Map, R, when<is_a<Record, R>{}>> {
         template <typename X>
         static constexpr decltype(auto) apply(X&& x) {
             auto extract = [x(detail::std::forward<X>(x))](auto&& member) -> decltype(auto) {
@@ -62,7 +62,7 @@ namespace boost { namespace hana {
                     second(detail::std::forward<decltype(member)>(member))(x)
                 );
             };
-            return to<Map>(fmap(members<R>(), detail::std::move(extract)));
+            return to<Map>(transform(members<R>(), detail::std::move(extract)));
         }
     };
 
@@ -76,7 +76,7 @@ namespace boost { namespace hana {
     //! We should allow duplicate keys, with a documented policy (e.g. we
     //! keep the last one).
     template <typename F>
-    struct convert<Map, F, when<is_a<Foldable, F>() && !is_a<Record, F>()>> {
+    struct convert<Map, F, when<is_a<Foldable, F>{} && !is_a<Record, F>{}>> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs)
         { return unpack(detail::std::forward<Xs>(xs), map); }
@@ -85,7 +85,7 @@ namespace boost { namespace hana {
     //! Converts a `Map` to a `List` of `Product`s.
     //! @relates Map
     template <typename L>
-    struct convert<L, Map, when<is_a<List, L>()>> {
+    struct convert<L, Map, when<is_a<List, L>{}>> {
         template <typename M>
         static constexpr decltype(auto) apply(M&& m)
         { return to<L>(detail::std::forward<M>(m).storage); }
@@ -100,7 +100,7 @@ namespace boost { namespace hana {
     struct find_impl<Map> {
         template <typename M, typename Pred>
         static constexpr auto apply(M map, Pred pred) {
-            return fmap(
+            return transform(
                 find(map.storage, [=](auto p) {
                     return pred(first(p));
                 }),

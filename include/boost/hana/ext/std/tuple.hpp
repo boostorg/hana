@@ -29,7 +29,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     template <>
-    struct fmap_impl<ext::std::Tuple> {
+    struct transform_impl<ext::std::Tuple> {
         template <typename Xs, typename F, detail::std::size_t ...index>
         static constexpr decltype(auto)
         helper(Xs&& xs, F&& f, detail::std::index_sequence<index...>) {

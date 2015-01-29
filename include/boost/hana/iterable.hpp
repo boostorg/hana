@@ -72,57 +72,43 @@ namespace boost { namespace hana {
         };
     }
 
-    template <typename Xs, typename Context>
-    struct at_impl<Xs, when<
-        is_implemented<head_impl<Xs>, Context> &&
-        is_implemented<tail_impl<Xs>, Context>
-    >, Context> {
-        template <typename Index, typename Iterable_>
-        static constexpr auto apply(Index n, Iterable_ iterable) {
-            using I = datatype_t<Index>;
+    template <typename It>
+    struct default_<at_impl<It>> {
+        template <typename Index, typename Xs>
+        static constexpr auto apply(Index n, Xs xs) {
+            using I = typename datatype<Index>::type;
             return eval_if(equal(n, zero<I>()),
-                [=](auto _) { return _(head)(iterable); },
-                [=](auto _) { return apply(_(pred)(n), _(tail)(iterable)); }
+                [=](auto _) { return _(head)(xs); },
+                [=](auto _) { return apply(_(pred)(n), _(tail)(xs)); }
             );
         }
     };
 
-    template <typename Xs, typename Context>
-    struct last_impl<Xs, when<
-        is_implemented<head_impl<Xs>, Context> &&
-        is_implemented<tail_impl<Xs>, Context> &&
-        is_implemented<is_empty_impl<Xs>, Context>
-    >, Context> {
-        template <typename Iterable_>
-        static constexpr auto apply(Iterable_ iterable) {
-            return eval_if(is_empty(tail(iterable)),
-                [=](auto _) { return _(head)(iterable); },
-                [=](auto _) { return apply(_(tail)(iterable)); }
+    template <typename It>
+    struct default_<last_impl<It>> {
+        template <typename Xs>
+        static constexpr auto apply(Xs xs) {
+            return eval_if(is_empty(tail(xs)),
+                [=](auto _) { return _(head)(xs); },
+                [=](auto _) { return apply(_(tail)(xs)); }
             );
         }
     };
 
-    template <typename Xs, typename Context>
-    struct drop_impl<Xs, when<
-        is_implemented<tail_impl<Xs>, Context> &&
-        is_implemented<is_empty_impl<Xs>, Context>
-    >, Context> {
-        template <typename N, typename Iterable_>
-        static constexpr auto apply(N n, Iterable_ iterable) {
-            using I = datatype_t<N>;
-            return eval_if(or_(equal(n, zero<I>()), is_empty(iterable)),
-                always(iterable),
-                [=](auto _) { return apply(_(pred)(n), _(tail)(iterable)); }
+    template <typename It>
+    struct default_<drop_impl<It>> {
+        template <typename N, typename Xs>
+        static constexpr auto apply(N n, Xs xs) {
+            using I = typename datatype<N>::type;
+            return eval_if(or_(equal(n, zero<I>()), is_empty(xs)),
+                always(xs),
+                [=](auto _) { return apply(_(pred)(n), _(tail)(xs)); }
             );
         }
     };
 
-    template <typename It, typename Context>
-    struct drop_while_impl<It, when<
-        is_implemented<head_impl<It>, Context> &&
-        is_implemented<tail_impl<It>, Context> &&
-        is_implemented<is_empty_impl<It>, Context>
-    >, Context> {
+    template <typename It>
+    struct default_<drop_while_impl<It>> {
         template <typename Xs, typename Pred>
         static constexpr auto apply(Xs xs, Pred pred) {
             return eval_if(is_empty(xs),
@@ -137,10 +123,8 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename It, typename Context>
-    struct drop_until_impl<It, when<
-        is_implemented<drop_while_impl<It>, Context>
-    >, Context> {
+    template <typename It>
+    struct default_<drop_until_impl<It>> {
         template <typename Xs, typename Pred>
         static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
             return drop_while(
@@ -152,8 +136,8 @@ namespace boost { namespace hana {
 
     //! @todo Add perfect forwarding where possible. This is _not_ obvious
     //! to me because of all those branches.
-    template <typename T>
-    struct foldl_impl<T, when<is_an<Iterable, T>()>> {
+    template <typename It>
+    struct foldl_impl<It, when<is_an<Iterable, It>{}>> {
         template <typename Xs, typename State, typename F>
         static constexpr auto apply(Xs xs, State s, F f) {
             return eval_if(is_empty(xs),
@@ -165,8 +149,8 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename T>
-    struct foldr_impl<T, when<is_an<Iterable, T>()>> {
+    template <typename It>
+    struct foldr_impl<It, when<is_an<Iterable, It>{}>> {
         template <typename Xs, typename State, typename F>
         static constexpr auto apply(Xs xs, State s, F f) {
             return eval_if(is_empty(xs),
@@ -178,8 +162,8 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename T>
-    struct foldr1_impl<T, when<is_an<Iterable, T>()>> {
+    template <typename It>
+    struct foldr1_impl<It, when<is_an<Iterable, It>{}>> {
         template <typename Xs, typename F>
         static constexpr auto apply(Xs xs, F f) {
             return eval_if(is_empty(tail(xs)),
@@ -191,8 +175,8 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename T>
-    struct foldl1_impl<T, when<is_an<Iterable, T>()>> {
+    template <typename It>
+    struct foldl1_impl<It, when<is_an<Iterable, It>{}>> {
         template <typename Xs, typename F>
         static constexpr auto apply(Xs xs, F f)
         { return foldl(tail(xs), head(xs), f); }
@@ -208,8 +192,8 @@ namespace boost { namespace hana {
     //!
     //! @todo
     //! Use perfect forwarding once Clang bug #20619 is fixed.
-    template <typename T>
-    struct find_impl<T, when<is_an<Iterable, T>()>> {
+    template <typename It>
+    struct find_impl<It, when<is_an<Iterable, It>{}>> {
         template <typename Xs, typename Pred>
         static constexpr auto apply(Xs xs, Pred pred) {
             auto e = drop_until(xs, pred);
@@ -220,8 +204,8 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename T>
-    struct any_impl<T, when<is_an<Iterable, T>()>> {
+    template <typename It>
+    struct any_impl<It, when<is_an<Iterable, It>{}>> {
         template <typename Xs, typename Pred>
         static constexpr auto apply(Xs xs, Pred pred) {
             return eval_if(is_empty(xs),
@@ -234,16 +218,6 @@ namespace boost { namespace hana {
                 }
             );
         }
-    };
-
-    template <>
-    struct models_impl<Iterable> {
-        template <typename It, typename Context>
-        static constexpr bool apply =
-            is_implemented<head_impl<It>, Context> &&
-            is_implemented<tail_impl<It>, Context> &&
-            is_implemented<is_empty_impl<It>, Context>
-        ;
     };
 }} // end namespace boost::hana
 

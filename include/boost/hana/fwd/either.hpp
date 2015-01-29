@@ -55,14 +55,14 @@ namespace boost { namespace hana {
     //!
     //! 3. `Functor`\n
     //! Since `Either` can contain one of two possible values of different
-    //! data types and `fmap` accepts a single function, `Either`'s instance
+    //! data types and `transform` accepts a single function, `Either`'s instance
     //! of `Functor` can only map the function over one arbitrarily-defined
     //! side of the `Either`. Hence, mapping a function over an `Either e`
     //! does nothing if `e` contains a left value, and it applies the function
     //! if `e` contains a right value. In other words:
     //! @code
-    //!     fmap(left(x), f) == left(x)
-    //!     fmap(right(x), f) == right(f(x))
+    //!     transform(left(x), f) == left(x)
+    //!     transform(right(x), f) == right(f(x))
     //! @endcode
     //! Example:
     //! @snippet example/either.cpp functor
@@ -100,10 +100,10 @@ namespace boost { namespace hana {
     //! the `Applicative`. Traversing a `right` will apply the function to the
     //! value inside the `right`, which effectively lifts the value into the
     //! `Applicative`, and then put back the value inside an `right` with
-    //! `fmap`. In other words,
+    //! `transform`. In other words,
     //! @code
     //!     traverse<A>(left(x), f) == lift<A>(left(x))
-    //!     traverse<A>(right(y), f) == fmap(f(y), right)
+    //!     traverse<A>(right(y), f) == transform(f(y), right)
     //! @endcode
     //! Example:
     //! @snippet example/either.cpp traversable

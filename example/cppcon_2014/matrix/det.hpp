@@ -41,7 +41,7 @@ namespace cppcon {
             using L = datatype_t<decltype(xs)>;
             auto with_indices = zip(xs, to<L>(range(int_<0>, length(xs))));
             auto removed = filter(with_indices, compose(n != _, last));
-            return fmap(removed, head);
+            return transform(removed, head);
         };
     }
 
@@ -49,7 +49,7 @@ namespace cppcon {
         using namespace boost::hana;
         auto matrix_minor = [=](auto&& m, auto i, auto j) -> decltype(auto) {
             return det(unpack(
-                fmap(
+                transform(
                     detail::remove_at(i, rows(std::forward<decltype(m)>(m))),
                     partial(detail::remove_at, j)
                 ),

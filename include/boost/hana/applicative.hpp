@@ -47,7 +47,7 @@ namespace boost { namespace hana {
         "boost::hana::ap must be called with at least two arguments");
         return detail::variadic::foldl(
             *this,
-            hana::fmap(detail::std::forward<F>(f), curry<sizeof...(xs)>),
+            hana::transform(detail::std::forward<F>(f), curry<sizeof...(xs)>),
             detail::std::forward<Xs>(xs)...
         );
     }
@@ -65,10 +65,10 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // Applicative::fmap_impl
+    // Applicative::transform_impl
     //////////////////////////////////////////////////////////////////////////
     template <typename A>
-    struct Applicative::fmap_impl {
+    struct Applicative::transform_impl {
         template <typename X, typename F>
         static constexpr decltype(auto) apply(X&& x, F&& f) {
             return hana::ap(lift<A>(detail::std::forward<F>(f)),

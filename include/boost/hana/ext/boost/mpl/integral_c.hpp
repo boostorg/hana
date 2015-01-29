@@ -44,7 +44,7 @@ namespace boost { namespace hana {
 
     template <typename T, typename C>
     struct convert<ext::boost::mpl::IntegralC<T>, C,
-        when<is_an<IntegralConstant, C>()>
+        when<is_an<IntegralConstant, C>{}>
     > {
         template <typename X>
         static constexpr decltype(auto) apply(X x) {

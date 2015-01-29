@@ -22,6 +22,18 @@ namespace boost { namespace hana {
     //! @ingroup group-core
     //!
     //!
+    //! embeddings:
+    //! It is often useful to embed a smaller algebraic structure into a bigger one, for
+    //! example by taking an integer to an equivalent floating point number.
+    //! For the conversion to be well-behaved, it is necessary that this coversion
+    //! is lossless
+    //!
+    //!    However, note that the semantics associated with `to<C>` are
+    //!    not checked and the only requirement for compilation to succeed
+    //!    is that `to<C>` be defined. That being said, you should ensure
+    //!    that the semantics are respected unless you want to shoot yourself
+    //!    in the foot.
+    //!
     //! @todo Document
     struct embedding { };
 

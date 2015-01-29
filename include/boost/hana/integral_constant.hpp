@@ -38,7 +38,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     template <typename U, template <typename ...> class C, typename T>
     struct convert<U, C<T>, when<
-        is_an<IntegralConstant, C<T>>() &&
+        is_an<IntegralConstant, C<T>>{} &&
         detail::std::is_integral<U>::value &&
         ((decltype(static_cast<U>(detail::std::declval<T>()))*)0, true)
     >> {
@@ -51,27 +51,27 @@ namespace boost { namespace hana {
     // any integral type.
     template <template <typename ...> class C, typename T, typename U>
     struct common<C<T>, U, when<
-        is_an<IntegralConstant, C<T>>() &&
+        is_an<IntegralConstant, C<T>>{} &&
         detail::std::is_integral<U>::value
     >> { using type = typename detail::std::common_type<T, U>::type; };
 
     template <template <typename ...> class C, typename T, typename U>
     struct common<U, C<T>, when<
-        is_an<IntegralConstant, C<T>>() &&
+        is_an<IntegralConstant, C<T>>{} &&
         detail::std::is_integral<U>::value
     >> { using type = typename detail::std::common_type<T, U>::type; };
 
     template <template <typename ...> class C1, typename T,
               template <typename ...> class C2, typename U>
     struct common<C1<T>, C2<U>, when<
-        is_an<IntegralConstant, C1<T>>() &&
-        is_an<IntegralConstant, C2<U>>()
+        is_an<IntegralConstant, C1<T>>{} &&
+        is_an<IntegralConstant, C2<U>>{}
     >> {
         using type = C1<typename detail::std::common_type<T, U>::type>;
     };
 
     template <template <typename ...> class C, typename T>
-    struct pred_impl<C<T>, when<is_an<IntegralConstant, C<T>>()>> {
+    struct pred_impl<C<T>, when<is_an<IntegralConstant, C<T>>{}>> {
         static constexpr auto dec(bool x) { return static_cast<int>(x)-1; }
         template <typename X> static constexpr auto dec(X x) { return --x; }
 
@@ -83,7 +83,7 @@ namespace boost { namespace hana {
     };
 
     template <template <typename ...> class C, typename T>
-    struct succ_impl<C<T>, when<is_an<IntegralConstant, C<T>>()>> {
+    struct succ_impl<C<T>, when<is_an<IntegralConstant, C<T>>{}>> {
         //! @todo What should happen when we go out of bounds? Probably not
         //! overflow like it does currently. Also, `succ(false_)` should
         //! probably not be `int_<1>`, but rather `true_`.
@@ -101,7 +101,7 @@ namespace boost { namespace hana {
     template <template <typename ...> class C1, typename T,                 \
               template <typename ...> class C2, typename U>                 \
     struct METHOD_IMPL<C1<T>, C2<U>, when<                                  \
-        is_an<IntegralConstant, C1<T>>() && is_an<IntegralConstant, C2<U>>()\
+        is_an<IntegralConstant, C1<T>>{} && is_an<IntegralConstant, C2<U>>{}\
     >> {                                                                    \
         template <typename X, typename Y>                                   \
         static constexpr auto apply(X x, Y y) {                             \
@@ -120,7 +120,7 @@ namespace boost { namespace hana {
 #undef BOOST_HANA_INTEGRAL_CONSTANT_OP
 
     template <template <typename ...> class C, typename T>
-    struct eval_if_impl<C<T>, when<is_an<IntegralConstant, C<T>>()>> {
+    struct eval_if_impl<C<T>, when<is_an<IntegralConstant, C<T>>{}>> {
         template <typename Then, typename Else>
         static constexpr auto apply(detail::std::true_type, Then t, Else e)
         { return t(id); }
@@ -137,7 +137,7 @@ namespace boost { namespace hana {
     };
 
     template <template <typename ...> class C, typename T>
-    struct not_impl<C<T>, when<is_an<IntegralConstant, C<T>>()>> {
+    struct not_impl<C<T>, when<is_an<IntegralConstant, C<T>>{}>> {
         template <typename Cond>
         static constexpr auto apply(Cond c) {
             constexpr auto nc = !value(c);
@@ -146,7 +146,7 @@ namespace boost { namespace hana {
     };
 
     template <template <typename ...> class C, typename T>
-    struct while_impl<C<T>, when<is_an<IntegralConstant, C<T>>()>> {
+    struct while_impl<C<T>, when<is_an<IntegralConstant, C<T>>{}>> {
         template <typename Pred, typename State, typename F>
         static constexpr State
         while_helper(detail::std::false_type, Pred&& pred, State&& state, F&& f) {
@@ -175,24 +175,15 @@ namespace boost { namespace hana {
     };
 
     template <template <typename ...> class C, typename T>
-    struct zero_impl<C<T>, when<is_an<IntegralConstant, C<T>>()>> {
+    struct zero_impl<C<T>, when<is_an<IntegralConstant, C<T>>{}>> {
         static constexpr auto apply()
         { return integral_constant<C<T>, 0>(); }
     };
 
     template <template <typename ...> class C, typename T>
-    struct one_impl<C<T>, when<is_an<IntegralConstant, C<T>>()>> {
+    struct one_impl<C<T>, when<is_an<IntegralConstant, C<T>>{}>> {
         static constexpr auto apply()
         { return integral_constant<C<T>, 1>(); }
-    };
-
-    template <>
-    struct models_impl<IntegralConstant> {
-        template <typename C, typename Context>
-        static constexpr bool apply =
-            models<Constant, C, Context> &&
-            is_implemented<integral_constant_impl<C>, Context>
-        ;
     };
 }} // end namespace boost::hana
 

@@ -18,13 +18,13 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     template <unsigned Rows, unsigned Columns>
-    struct fmap_impl<cppcon::Matrix<Rows, Columns>> {
+    struct transform_impl<cppcon::Matrix<Rows, Columns>> {
         template <typename M, typename F>
         static constexpr decltype(auto) apply(M&& m, F&& f) {
             return unpack(
-                fmap(
+                transform(
                     cppcon::rows(std::forward<M>(m)),
-                    partial(flip(fmap), std::forward<F>(f))
+                    partial(flip(transform), std::forward<F>(f))
                 ),
                 cppcon::matrix
             );

@@ -30,10 +30,10 @@ namespace boost { namespace hana {
     //! Instances of `Traversable` must satisfy the following laws. For any
     //! [applicative transformation](@ref Applicative_terminology) `t`,
     //! @code
-    //!     t(sequence(x)) == sequence(fmap(x, t))                              // naturality
-    //!     sequence(fmap(x, Identity)) == Identity(x)                          // identity
-    //!     sequence(fmap(x, Compose)) == Compose(fmap(sequence(x), sequence))  // composition
-    //!     traverse(x, f) == sequence(fmap(x, f))
+    //!     t(sequence(x)) == sequence(transform(x, t))                              // naturality
+    //!     sequence(transform(x, Identity)) == Identity(x)                          // identity
+    //!     sequence(transform(x, Compose)) == Compose(transform(sequence(x), sequence))  // composition
+    //!     traverse(x, f) == sequence(transform(x, f))
     //! @endcode
     //!
     //! where [Identity][] and [Compose][] are the identity functor and the

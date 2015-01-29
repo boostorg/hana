@@ -43,8 +43,8 @@ namespace boost { namespace hana {
         }
     }
 
-    template <typename M, typename _>
-    struct then_impl<M, when<is_implemented<bind_impl<M>, _>>, _> {
+    template <typename M>
+    struct default_<then_impl<M>> {
         template <typename M1, typename M2>
         static constexpr decltype(auto) apply(M1&& m1, M2&& m2) {
             return bind(
@@ -54,8 +54,8 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename M, typename _>
-    struct tap_impl<M, when<is_implemented<lift_impl<M>, _>>, _> {
+    template <typename M>
+    struct default_<tap_impl<M>> {
         template <typename F>
         static constexpr auto apply(F&& f) {
             return [f(detail::std::forward<F>(f))](auto&& x) -> decltype(auto) {
@@ -65,36 +65,24 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename M, typename _>
-    struct flatten_impl<M, when<is_implemented<bind_impl<M>, _>>, _> {
+    template <typename M>
+    struct default_<flatten_impl<M>> {
         template <typename MM>
         static constexpr decltype(auto) apply(MM&& monad)
         { return bind(detail::std::forward<MM>(monad), id); }
     };
 
-    template <typename M, typename _>
-    struct bind_impl<M, when<
-        is_implemented<flatten_impl<M>, _> &&
-        is_implemented<fmap_impl<M>, _>
-    >, _> {
+    template <typename M>
+    struct default_<bind_impl<M>> {
         template <typename Mon, typename F>
         static constexpr decltype(auto) apply(Mon&& monad, F&& f) {
             return flatten(
-                fmap(
+                transform(
                     detail::std::forward<Mon>(monad),
                     detail::std::forward<F>(f)
                 )
             );
         }
-    };
-
-    template <>
-    struct models_impl<Monad> {
-        template <typename M, typename Context>
-        static constexpr auto apply =
-            is_an<Applicative, M, Context> &&
-            is_implemented<flatten_impl<M>, Context>
-        ;
     };
 }} // end namespace boost::hana
 

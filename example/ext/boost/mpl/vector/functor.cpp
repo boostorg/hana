@@ -18,7 +18,7 @@ namespace mpl = boost::mpl;
 constexpr mpl::vector<int, char, float> types{};
 
 BOOST_HANA_CONSTANT_CHECK(equal(
-    fmap(types, metafunction<std::add_pointer>),
+    transform(types, metafunction<std::add_pointer>),
     mpl::vector<int*, char*, float*>{}
 ));
 

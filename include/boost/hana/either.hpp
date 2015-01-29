@@ -63,7 +63,7 @@ namespace boost { namespace hana {
     // Functor
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct fmap_impl<Either> {
+    struct transform_impl<Either> {
         template <typename E, typename F>
         static constexpr decltype(auto) apply(E&& e, F&& f) {
             return either(left,
@@ -88,7 +88,7 @@ namespace boost { namespace hana {
         template <typename E, typename X>
         static constexpr decltype(auto) apply(E&& e, X&& x) {
             return either(left,
-                partial(fmap, detail::std::forward<X>(x)),
+                partial(transform, detail::std::forward<X>(x)),
                 detail::std::forward<E>(e)
             );
         }
@@ -144,13 +144,13 @@ namespace boost { namespace hana {
 
         template <typename A, typename T, typename F>
         static constexpr decltype(auto) apply(_right<T> const& e, F&& f)
-        { return fmap(detail::std::forward<F>(f)(e.value), right); }
+        { return transform(detail::std::forward<F>(f)(e.value), right); }
         template <typename A, typename T, typename F>
         static constexpr decltype(auto) apply(_right<T>& e, F&& f)
-        { return fmap(detail::std::forward<F>(f)(e.value), right); }
+        { return transform(detail::std::forward<F>(f)(e.value), right); }
         template <typename A, typename T, typename F>
         static constexpr decltype(auto) apply(_right<T>&& e, F&& f)
-        { return fmap(detail::std::forward<F>(f)(detail::std::move(e.value)), right); }
+        { return transform(detail::std::forward<F>(f)(detail::std::move(e.value)), right); }
     };
 }} // end namespace boost::hana
 

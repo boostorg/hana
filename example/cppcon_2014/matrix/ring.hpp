@@ -26,7 +26,7 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(A&& a, B&& b) {
             auto cols = cppcon::columns(std::forward<B>(b));
             return unpack(
-                fmap(cppcon::rows(std::forward<A>(a)),
+                transform(cppcon::rows(std::forward<A>(a)),
                     [&](auto&& row) -> decltype(auto) {
                         return zip_with(cppcon::detail::tuple_scalar_product,
                             repeat<Tuple>(uint<M>, std::forward<decltype(row)>(row)),

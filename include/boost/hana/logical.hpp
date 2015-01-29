@@ -66,12 +66,8 @@ namespace boost { namespace hana {
     // Minimal complete definitions
     // ----------------------------
     // 1. `eval_if`, `not_` and `while_`
-    template <typename L, typename _>
-    struct or_impl<L, when<
-        is_implemented<eval_if_impl<L>, _> &&
-        is_implemented<not_impl<L>, _> &&
-        is_implemented<while_impl<L>, _>
-    >, _> {
+    template <typename L>
+    struct default_<or_impl<L>> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
             //! @todo How to forward `x` here? Since the arguments to `if_` can be
@@ -81,24 +77,16 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename L, typename _>
-    struct and_impl<L, when<
-        is_implemented<eval_if_impl<L>, _> &&
-        is_implemented<not_impl<L>, _> &&
-        is_implemented<while_impl<L>, _>
-    >, _> {
+    template <typename L>
+    struct default_<and_impl<L>> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
             return if_(x, detail::std::forward<Y>(y), x);
         }
     };
 
-    template <typename L, typename _>
-    struct if_impl<L, when<
-        is_implemented<eval_if_impl<L>, _> &&
-        is_implemented<not_impl<L>, _> &&
-        is_implemented<while_impl<L>, _>
-    >, _> {
+    template <typename L>
+    struct default_<if_impl<L>> {
         //! @todo By using `always` here, we create a copy of both `t` and `e`,
         //! which is not very smart.
         template <typename C, typename T, typename E>
@@ -110,12 +98,8 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename L, typename _>
-    struct until_impl<L, when<
-        is_implemented<eval_if_impl<L>, _> &&
-        is_implemented<not_impl<L>, _> &&
-        is_implemented<while_impl<L>, _>
-    >, _> {
+    template <typename L>
+    struct default_<until_impl<L>> {
         template <typename Pred, typename State, typename F>
         static constexpr decltype(auto) apply(Pred&& pred, State&& state, F&& f) {
             return while_(compose(not_, detail::std::forward<Pred>(pred)),
@@ -166,15 +150,10 @@ namespace boost { namespace hana {
         }
     };
 
-    template <>
-    struct models_impl<Logical> {
-        template <typename L, typename Context>
-        static constexpr bool apply =
-            is_implemented<eval_if_impl<L>, Context> &&
-            is_implemented<not_impl<L>, Context> &&
-            is_implemented<while_impl<L>, Context>
-        ;
-    };
+    template <typename L>
+    struct models<Logical(L), when_valid<decltype(detail::std::declval<L>() ? void() : void())>>
+        : detail::std::true_type
+    { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_LOGICAL_HPP

@@ -11,7 +11,7 @@ using namespace boost::hana;
 
 
 int main() {
-    //! [fmap]
+    //! [transform]
     BOOST_HANA_CONSTEXPR_LAMBDA auto double_ = [](auto x) {
         return x * 2;
     };
@@ -20,8 +20,8 @@ int main() {
         return 1 / x;
     };
 
-    BOOST_HANA_CONSTEXPR_CHECK(eval(fmap(lazy(one_over)(4), double_)) == 1 / 2);
+    BOOST_HANA_CONSTEXPR_CHECK(eval(transform(lazy(one_over)(4), double_)) == 1 / 2);
 
-    fmap(lazy(one_over)(0), double_); // never evaluated
-    //! [fmap]
+    transform(lazy(one_over)(0), double_); // never evaluated
+    //! [transform]
 }

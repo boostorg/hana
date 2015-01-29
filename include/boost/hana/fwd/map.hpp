@@ -70,7 +70,7 @@ namespace boost { namespace hana {
     struct _keys {
         template <typename Map>
         constexpr decltype(auto) operator()(Map&& map) const {
-            return fmap(detail::std::forward<Map>(map).storage, first);
+            return transform(detail::std::forward<Map>(map).storage, first);
         }
     };
 
@@ -87,7 +87,7 @@ namespace boost { namespace hana {
     struct _values {
         template <typename Map>
         constexpr decltype(auto) operator()(Map&& map) const {
-            return fmap(detail::std::forward<Map>(map).storage, second);
+            return transform(detail::std::forward<Map>(map).storage, second);
         }
     };
 
@@ -129,13 +129,13 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Functor::instance<Map> : Functor::fmap_mcd {
+    struct Functor::instance<Map> : Functor::transform_mcd {
         template <typename M, typename F>
-        static constexpr auto fmap_impl(M m, F f) {
+        static constexpr auto transform_impl(M m, F f) {
             auto on_values = [=](auto p) {
                 return pair(first(p), f(second(p)));
             };
-            return detail::wrap<Map>(fmap(detail::unwrap(m), on_values));
+            return detail::wrap<Map>(transform(detail::unwrap(m), on_values));
         }
     };
 #endif

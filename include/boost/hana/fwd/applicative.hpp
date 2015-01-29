@@ -42,7 +42,7 @@ namespace boost { namespace hana {
     //! As a consequence of these laws, the model of `Functor` for `A` will
     //! satisfy
     //! @code
-    //!     fmap(x, f) == ap(lift<A>(f), x)
+    //!     transform(x, f) == ap(lift<A>(f), x)
     //! @endcode
     //!
     //!
@@ -52,15 +52,15 @@ namespace boost { namespace hana {
     //! As a consequence of the above laws, any `Applicative A` can be made a
     //! `Functor` by setting
     //! @code
-    //!     fmap(x, f) = ap(lift<A>(f), x)
+    //!     transform(x, f) = ap(lift<A>(f), x)
     //! @endcode
-    //! This implementation of `fmap` is provided as `Applicative::fmap_impl`.
-    //! To use it, simply inherit `Applicative::fmap_impl` in your definition
-    //! of `fmap_impl`:
+    //! This implementation of `transform` is provided as
+    //! `Applicative::transform_impl`. To use it, simply inherit
+    //! `Applicative::transform_impl` in your definition of `transform_impl`:
     //! @code
     //!     template <>
-    //!     struct fmap_impl<YourApplicative>
-    //!         : Applicative::fmap_impl<YourApplicative>
+    //!     struct transform_impl<YourApplicative>
+    //!         : Applicative::transform_impl<YourApplicative>
     //!     { };
     //! @endcode
     //!
@@ -81,7 +81,7 @@ namespace boost { namespace hana {
     //! @endcode
     struct Applicative {
         template <typename A>
-        struct fmap_impl;
+        struct transform_impl;
     };
 
     //! Lifted application.

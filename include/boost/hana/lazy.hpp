@@ -69,13 +69,13 @@ namespace boost { namespace hana {
 
     //! Instance of `Functor` for `Lazy`.
     //!
-    //! `fmap`ing a function to a lazy value returns the result of applying
-    //! the function as a lazy value.
+    //! `transform`ing a lazy value with a function returns the result of
+    //! applying the function as a lazy value.
     //!
     //! ### Example
-    //! @snippet example/lazy/functor.cpp fmap
+    //! @snippet example/lazy/functor.cpp transform
     template <>
-    struct fmap_impl<Lazy> {
+    struct transform_impl<Lazy> {
         template <typename LX, typename F>
         static constexpr decltype(auto) apply(LX&& lx, F&& f) {
             return ap(lazy(detail::std::forward<F>(f)),
