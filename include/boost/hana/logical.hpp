@@ -13,10 +13,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/logical.hpp>
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/method.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/core/wrong.hpp>
 #include <boost/hana/detail/std/declval.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
@@ -26,6 +26,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
+    //////////////////////////////////////////////////////////////////////////
+    // Operators
+    //////////////////////////////////////////////////////////////////////////
     namespace operators {
         //! Equivalent to `and_`.
         //! @relates boost::hana::Logical
@@ -34,10 +37,8 @@ namespace boost { namespace hana {
             enable_operators<Logical, datatype_t<Y>>::value
         >::type>
         constexpr decltype(auto) operator&&(X&& x, Y&& y) {
-            return and_(
-                detail::std::forward<X>(x),
-                detail::std::forward<Y>(y)
-            );
+            return hana::and_(detail::std::forward<X>(x),
+                              detail::std::forward<Y>(y));
         }
 
         //! Equivalent to `or_`.
@@ -47,10 +48,8 @@ namespace boost { namespace hana {
             enable_operators<Logical, datatype_t<Y>>::value
         >::type>
         constexpr decltype(auto) operator||(X&& x, Y&& y) {
-            return or_(
-                detail::std::forward<X>(x),
-                detail::std::forward<Y>(y)
-            );
+            return hana::or_(detail::std::forward<X>(x),
+                             detail::std::forward<Y>(y));
         }
 
         //! Equivalent to `not_`.
@@ -59,47 +58,61 @@ namespace boost { namespace hana {
             enable_operators<Logical, datatype_t<X>>::value
         >::type>
         constexpr decltype(auto) operator!(X&& x) {
-            return not_(detail::std::forward<X>(x));
+            return hana::not_(detail::std::forward<X>(x));
         }
     }
 
-    // Minimal complete definitions
-    // ----------------------------
-    // 1. `eval_if`, `not_` and `while_`
-    template <typename L>
-    struct default_<or_impl<L>> {
-        template <typename X, typename Y>
-        static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            //! @todo How to forward `x` here? Since the arguments to `if_` can be
-            //! evaluated in any order, we have to be careful not to use `x` in
-            //! a moved-from state.
-            return if_(x, x, detail::std::forward<Y>(y));
-        }
-    };
+    //////////////////////////////////////////////////////////////////////////
+    // if_
+    //////////////////////////////////////////////////////////////////////////
+    template <typename L, typename>
+    struct if_impl : if_impl<L, when<true>> { };
 
-    template <typename L>
-    struct default_<and_impl<L>> {
-        template <typename X, typename Y>
-        static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            return if_(x, detail::std::forward<Y>(y), x);
-        }
-    };
-
-    template <typename L>
-    struct default_<if_impl<L>> {
+    template <typename L, bool condition>
+    struct if_impl<L, when<condition>> {
         //! @todo By using `always` here, we create a copy of both `t` and `e`,
         //! which is not very smart.
         template <typename C, typename T, typename E>
         static constexpr decltype(auto) apply(C&& c, T&& t, E&& e) {
-            return eval_if(detail::std::forward<C>(c),
-                always(detail::std::forward<T>(t)),
-                always(detail::std::forward<E>(e))
+            return hana::eval_if(detail::std::forward<C>(c),
+                hana::always(detail::std::forward<T>(t)),
+                hana::always(detail::std::forward<E>(e))
             );
         }
     };
 
-    template <typename L>
-    struct default_<until_impl<L>> {
+    //////////////////////////////////////////////////////////////////////////
+    // eval_if
+    //////////////////////////////////////////////////////////////////////////
+    template <typename L, typename>
+    struct eval_if_impl : eval_if_impl<L, when<true>> { };
+
+    template <typename L, bool condition>
+    struct eval_if_impl<L, when<condition>> {
+        static_assert(wrong<eval_if_impl<L>>{},
+        "no definition of boost::hana::eval_if for the given data type");
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // while_
+    //////////////////////////////////////////////////////////////////////////
+    template <typename L, typename>
+    struct while_impl : while_impl<L, when<true>> { };
+
+    template <typename L, bool condition>
+    struct while_impl<L, when<condition>> {
+        static_assert(wrong<while_impl<L>>{},
+        "no definition of boost::hana::while_ for the given data type");
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // until
+    //////////////////////////////////////////////////////////////////////////
+    template <typename L, typename>
+    struct until_impl : until_impl<L, when<true>> { };
+
+    template <typename L, bool condition>
+    struct until_impl<L, when<condition>> {
         template <typename Pred, typename State, typename F>
         static constexpr decltype(auto) apply(Pred&& pred, State&& state, F&& f) {
             return while_(compose(not_, detail::std::forward<Pred>(pred)),
@@ -108,8 +121,59 @@ namespace boost { namespace hana {
         }
     };
 
+    //////////////////////////////////////////////////////////////////////////
+    // not_
+    //////////////////////////////////////////////////////////////////////////
+    template <typename L, typename>
+    struct not_impl : not_impl<L, when<true>> { };
 
-    // 2. Data types implicitly convertible to `bool`
+    template <typename L, bool condition>
+    struct not_impl<L, when<condition>> {
+        static_assert(wrong<not_impl<L>>{},
+        "no definition of boost::hana::not_ for the given data type");
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // and_
+    //////////////////////////////////////////////////////////////////////////
+    template <typename L, typename>
+    struct and_impl : and_impl<L, when<true>> { };
+
+    template <typename L, bool condition>
+    struct and_impl<L, when<condition>> {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
+            return hana::if_(x, detail::std::forward<Y>(y), x);
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // or_
+    //////////////////////////////////////////////////////////////////////////
+    template <typename L, typename>
+    struct or_impl : or_impl<L, when<true>> { };
+
+    template <typename L, bool condition>
+    struct or_impl<L, when<condition>> {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
+            //! @todo How to forward `x` here? Since the arguments to `if_` can be
+            //! evaluated in any order, we have to be careful not to use `x` in
+            //! a moved-from state.
+            return hana::if_(x, x, detail::std::forward<Y>(y));
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Model for "implicitly convertible-to-bool" data types
+    //////////////////////////////////////////////////////////////////////////
+    template <typename L>
+    struct models<Logical(L), when_valid<
+        decltype(detail::std::declval<L>() ? void() : void())
+    >>
+        : detail::std::true_type
+    { };
+
     template <typename L>
     struct eval_if_impl<L, when_valid<
         decltype(detail::std::declval<L>() ? void() : void())
@@ -149,11 +213,6 @@ namespace boost { namespace hana {
             }
         }
     };
-
-    template <typename L>
-    struct models<Logical(L), when_valid<decltype(detail::std::declval<L>() ? void() : void())>>
-        : detail::std::true_type
-    { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_LOGICAL_HPP

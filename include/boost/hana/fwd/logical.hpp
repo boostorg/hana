@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_LOGICAL_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/method.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/variadic/foldl.hpp>
 
@@ -75,13 +74,14 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/logical/if.cpp main
+    //! @snippet example/logical.cpp if_
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto if_ = [](auto&& logical, auto&& then_, auto&& else_) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(if_impl);
+    template <typename L, typename = void>
+    struct if_impl;
 
     struct _if {
         template <typename L, typename T, typename E>
@@ -120,16 +120,17 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example (purely compile-time condition)
-    //! @snippet example/logical/eval_if.cpp heterogeneous
+    //! @snippet example/logical.cpp heterogeneous_eval_if
     //!
     //! ### Example (runtime or `constexpr` condition)
-    //! @snippet example/logical/eval_if.cpp homogeneous
+    //! @snippet example/logical.cpp homogeneous_eval_if
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto eval_if = [](auto&& logical, auto&& then_branch, auto&& else_branch) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(eval_if_impl);
+    template <typename L, typename = void>
+    struct eval_if_impl;
 
     struct _eval_if {
         template <typename L, typename T, typename E>
@@ -173,23 +174,24 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example (purely compile-time condition)
-    //! @snippet example/logical/while.cpp heterogeneous
+    //! @snippet example/logical.cpp heterogeneous_while
     //!
     //! ### Example (runtime or `constexpr` condition)
-    //! @snippet example/logical/while.cpp homogeneous
+    //! @snippet example/logical.cpp homogeneous_while
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto while_ = [](auto&& pred, auto&& state, auto&& f) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(while_impl);
+    template <typename L, typename = void>
+    struct while_impl;
 
     struct _while {
         template <typename Pred, typename State, typename F>
         constexpr decltype(auto) operator()(Pred&& pred, State&& state, F&& f) const {
-            return dispatch<while_impl<
+            return while_impl<
                 typename datatype<decltype(pred(state))>::type
-            >>::apply(
+            >::apply(
                 detail::std::forward<Pred>(pred),
                 detail::std::forward<State>(state),
                 detail::std::forward<F>(f)
@@ -227,23 +229,24 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example (purely compile-time condition)
-    //! @snippet example/logical/until.cpp heterogeneous
+    //! @snippet example/logical.cpp heterogeneous_until
     //!
     //! ### Example (runtime or `constexpr` condition)
-    //! @snippet example/logical/until.cpp homogeneous
+    //! @snippet example/logical.cpp homogeneous_until
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto until = [](auto&& pred, auto&& state, auto&& f) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(until_impl);
+    template <typename L, typename = void>
+    struct until_impl;
 
     struct _until {
         template <typename Pred, typename State, typename F>
         constexpr decltype(auto) operator()(Pred&& pred, State&& state, F&& f) const {
-            return dispatch<until_impl<
+            return until_impl<
                 typename datatype<decltype(pred(state))>::type
-            >>::apply(
+            >::apply(
                 detail::std::forward<Pred>(pred),
                 detail::std::forward<State>(state),
                 detail::std::forward<F>(f)
@@ -261,13 +264,14 @@ namespace boost { namespace hana {
     //! is a true-valued `Logical`, and a true-valued one otherwise.
     //!
     //! ### Example
-    //! @snippet example/logical/not.cpp main
+    //! @snippet example/logical.cpp not_
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto not_ = [](auto&& logical) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(not_impl);
+    template <typename L, typename = void>
+    struct not_impl;
 
     struct _not {
         template <typename L>
@@ -293,13 +297,14 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //! ### Example
-    //! @snippet example/logical/and.cpp main
+    //! @snippet example/logical.cpp and_
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto and_ = [](auto&& x, auto&& ...y) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(and_impl);
+    template <typename L, typename = void>
+    struct and_impl;
 
     struct _and {
         template <typename X, typename Y>
@@ -335,13 +340,14 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //! ### Example
-    //! @snippet example/logical/or.cpp main
+    //! @snippet example/logical.cpp or_
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto or_ = [](auto&& x, auto&& ...y) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(or_impl);
+    template <typename L, typename = void>
+    struct or_impl;
 
     struct _or {
         template <typename X, typename Y>
