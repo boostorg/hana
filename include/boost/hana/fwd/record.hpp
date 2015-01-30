@@ -10,9 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_RECORD_HPP
 #define BOOST_HANA_FWD_RECORD_HPP
 
-#include <boost/hana/core/method.hpp>
-
-
 namespace boost { namespace hana {
     //! @ingroup group-typeclasses
     //! Represents record-like user-defined types.
@@ -55,13 +52,31 @@ namespace boost { namespace hana {
     //! @ref BOOST_HANA_DEFINE_RECORD_INTRUSIVE macros can
     //! also be used to define instances of `Record`.
     //!
+    //!
+    //! Provided superclass models
+    //! --------------------------
+    //! 1. `Comparable`\n
+    //! Two `Records` of the same data type `R` are equal if and only if
+    //! all their members are equal. The members are compared in the
+    //! same order as they appear in `members<R>()`.
+    //!
+    //! 2. `Foldable`\n
+    //! Folding a `Record` `R` is equivalent to folding a list of its members,
+    //! in the same order as they appear in `members<R>()`.
+    //!
+    //! 3. `Searchable`\n
+    //! Searching a `Record` `r` is equivalent to searching `to<Map>(r)`.
+    //!
+    //!
     //! @todo
     //! The restrictions on what constitutes an accessor are pretty fierce,
     //! and using `std::move` on the same object twice feels completely wrong.
     //! Is there a better way to allow an object to be decomposed optimally
     //! into its subobjects without resorting to such hacks?
     //!
-    //! ### Example
+    //!
+    //! Example
+    //! -------
     //! @include example/record/howto.cpp
     struct Record { };
 
@@ -73,7 +88,9 @@ namespace boost { namespace hana {
     //! by the key `k` can be accessed by calling the function `f` on an object
     //! of data type `R`.
     //!
-    //! ### Example
+    //!
+    //! Example
+    //! -------
     //! @snippet example/record.cpp members
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename M>
@@ -81,7 +98,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(members_impl);
+    template <typename R, typename = void>
+    struct members_impl;
 
     template <typename R>
     struct _members {

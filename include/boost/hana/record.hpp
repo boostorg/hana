@@ -12,62 +12,45 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/record.hpp>
 
-#include <boost/hana/core/method.hpp>
+#include <boost/hana/comparable.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/core/wrong.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
+#include <boost/hana/foldable.hpp>
+#include <boost/hana/functional/partial.hpp>
 #include <boost/hana/functor.hpp>
 #include <boost/hana/product.hpp>
 #include <boost/hana/searchable.hpp>
 
-// provided instances
-#include <boost/hana/comparable.hpp>
-#include <boost/hana/foldable.hpp>
-#include <boost/hana/searchable.hpp>
-
 
 namespace boost { namespace hana {
-    //! Folding a `Record` `R` is equivalent to folding a list of its members,
-    //! in the same order as they appear in `members<R>()`.
-    template <typename R>
-    struct foldl_impl<R, when<is_a<Record, R>{}>> {
-        template <typename Udt, typename S, typename F>
-        static constexpr decltype(auto) apply(Udt&& udt, S&& s, F&& f) {
-            return foldl(members<R>(), detail::std::forward<S>(s),
-                [&udt, f(detail::std::forward<F>(f))]
-                (auto&& s, auto&& member) -> decltype(auto) {
-                    return f(
-                        detail::std::forward<decltype(s)>(s),
-                        second(detail::std::forward<decltype(member)>(member))(
-                            detail::std::forward<Udt>(udt)
-                        )
-                    );
-                }
-            );
-        }
+    //////////////////////////////////////////////////////////////////////////
+    // members
+    //////////////////////////////////////////////////////////////////////////
+    template <typename R, typename>
+    struct members_impl : members_impl<R, when<true>> { };
+
+    template <typename R, bool condition>
+    struct members_impl<R, when<condition>> {
+        static_assert(wrong<members_impl<R>>{},
+        "no definition of boost::hana::members for the given data type");
     };
 
     template <typename R>
-    struct foldr_impl<R, when<is_a<Record, R>{}>> {
-        template <typename Udt, typename S, typename F>
-        static constexpr decltype(auto) apply(Udt&& udt, S&& s, F&& f) {
-            return foldr(members<R>(), detail::std::forward<S>(s),
-                [&udt, f(detail::std::forward<F>(f))]
-                (auto&& member, auto&& s) -> decltype(auto) {
-                    return f(
-                        second(detail::std::forward<decltype(member)>(member))(
-                            detail::std::forward<Udt>(udt)
-                        ),
-                        detail::std::forward<decltype(s)>(s)
-                    );
-                }
-            );
-        }
-    };
+    struct members_impl<R, when_valid<typename R::hana::members_impl>>
+        : R::hana::members_impl
+    { };
 
-    //! Two `Records` of the same data type `R` are equal if and only if
-    //! all their members are equal. The members are compared in the
-    //! same order as they appear in `members<R>()`.
+    //////////////////////////////////////////////////////////////////////////
+    // Model of Comparable
+    //////////////////////////////////////////////////////////////////////////
+    template <typename R>
+    struct models<Comparable(R), when<is_a<Record, R>{}>>
+        : detail::std::true_type
+    { };
+
     template <typename R>
     struct equal_impl<R, R, when<is_a<Record, R>{}>> {
         template <typename X, typename Y>
@@ -79,9 +62,50 @@ namespace boost { namespace hana {
         }
     };
 
-    //! Minimal complete definition: `Record`
-    //!
-    //! Searching a `Record` `r` is equivalent to searching `to<Map>(r)`.
+    //////////////////////////////////////////////////////////////////////////
+    // Model of Foldable
+    //////////////////////////////////////////////////////////////////////////
+    template <typename R>
+    struct models<Foldable(R), when<is_a<Record, R>{}>>
+        : detail::std::true_type
+    { };
+
+    namespace record_detail {
+        // This is equivalent to `demux`, except that `demux` can't forward
+        // the `udt` because it does not know the `g`s are accessors. Hence,
+        // this can result in faster code.
+        struct almost_demux {
+            template <typename F, typename Udt, typename ...Accessor>
+            constexpr decltype(auto)
+            operator()(F&& f, Udt&& udt, Accessor& ...g) const {
+                return detail::std::forward<F>(f)(
+                    detail::std::forward<Accessor>(g)(
+                        detail::std::forward<Udt>(udt)
+                    )...
+                );
+            }
+        };
+    }
+
+    template <typename R>
+    struct unpack_impl<R, when<is_a<Record, R>{}>> {
+        template <typename Udt, typename F>
+        static constexpr decltype(auto) apply(Udt&& udt, F&& f) {
+            return hana::unpack(hana::members<R>(udt),
+                hana::partial(record_detail::almost_demux{},
+                              detail::std::forward<F>(f),
+                              detail::std::forward<Udt>(udt)));
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Model of Searchable
+    //////////////////////////////////////////////////////////////////////////
+    template <typename R>
+    struct models<Searchable(R), when<is_a<Record, R>{}>>
+        : detail::std::true_type
+    { };
+
     template <typename R>
     struct find_impl<R, when<is_a<Record, R>{}>> {
         template <typename X, typename Pred>
@@ -108,11 +132,6 @@ namespace boost { namespace hana {
             });
         }
     };
-
-    template <typename R>
-    struct members_impl<R, when_valid<typename R::hana::members_impl>>
-        : R::hana::members_impl
-    { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_RECORD_HPP
