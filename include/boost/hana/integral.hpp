@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 
 // instances
 #include <boost/hana/constant.hpp>
@@ -22,12 +23,28 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
+    //////////////////////////////////////////////////////////////////////////
+    // Constant
+    //////////////////////////////////////////////////////////////////////////
+    template <typename T>
+    struct models<Constant(Integral<T>)>
+        : detail::std::true_type
+    { };
+
     template <typename T>
     struct value_impl<Integral<T>> {
         template <typename C>
         static constexpr auto apply(C const&)
         { return C::value; }
     };
+
+    //////////////////////////////////////////////////////////////////////////
+    // IntegralConstant
+    //////////////////////////////////////////////////////////////////////////
+    template <typename T>
+    struct models<IntegralConstant(Integral<T>)>
+        : detail::std::true_type
+    { };
 
     template <typename T>
     struct integral_constant_impl<Integral<T>> {
