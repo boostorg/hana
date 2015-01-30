@@ -11,8 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_SEARCHABLE_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/method.hpp>
-#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/functional/flip.hpp>
 #include <boost/hana/functional/infix.hpp>
@@ -106,7 +104,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(any_impl);
+    template <typename S, typename = void>
+    struct any_impl;
 
     struct _any {
         template <typename S, typename Pred>
@@ -135,7 +134,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(any_of_impl);
+    template <typename S, typename = void>
+    struct any_of_impl;
 
     struct _any_of {
         template <typename S>
@@ -175,7 +175,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(all_impl);
+    template <typename S, typename = void>
+    struct all_impl;
 
     struct _all {
         template <typename S, typename Pred>
@@ -204,7 +205,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(all_of_impl);
+    template <typename S, typename = void>
+    struct all_of_impl;
 
     struct _all_of {
         template <typename S>
@@ -245,7 +247,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(none_impl);
+    template <typename S, typename = void>
+    struct none_impl;
 
     struct _none {
         template <typename S, typename Pred>
@@ -274,7 +277,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(none_of_impl);
+    template <typename S, typename = void>
+    struct none_of_impl;
 
     struct _none_of {
         template <typename S>
@@ -315,7 +319,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(elem_impl);
+    template <typename S, typename = void>
+    struct elem_impl;
 
     struct _elem {
         template <typename S, typename Key>
@@ -359,7 +364,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(find_impl);
+    template <typename S, typename = void>
+    struct find_impl;
 
     struct _find {
         template <typename S, typename Pred>
@@ -404,7 +410,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(lookup_impl);
+    template <typename S, typename = void>
+    struct lookup_impl;
 
     struct _lookup {
         template <typename S, typename Key>
@@ -463,7 +470,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(subset_impl);
+    template <typename S, typename = void>
+    struct subset_impl;
 
     struct _subset {
         template <typename Xs, typename Ys>
