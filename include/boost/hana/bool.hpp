@@ -12,16 +12,24 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/bool.hpp>
 
-#include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/functional/id.hpp>
-
-// instances
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/constant.hpp>
+#include <boost/hana/core/models.hpp>
+#include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
+#include <boost/hana/functional/id.hpp>
 #include <boost/hana/logical.hpp>
 
 
 namespace boost { namespace hana {
+    //////////////////////////////////////////////////////////////////////////
+    // Comparable
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Comparable(Bool)>
+        : detail::std::true_type
+    { };
+
     template <>
     struct equal_impl<Bool, Bool> {
         template <typename X, typename Y>
@@ -29,12 +37,28 @@ namespace boost { namespace hana {
         { return bool_<X::value == Y::value>; }
     };
 
+    //////////////////////////////////////////////////////////////////////////
+    // Constant
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Constant(Bool)>
+        : detail::std::true_type
+    { };
+
     template <>
     struct value_impl<Bool> {
         template <typename C>
         static constexpr auto apply(C const&)
         { return C::value; }
     };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Logical
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Logical(Bool)>
+        : detail::std::true_type
+    { };
 
     template <>
     struct eval_if_impl<Bool> {
