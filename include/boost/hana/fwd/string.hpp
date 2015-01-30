@@ -71,6 +71,7 @@ namespace boost { namespace hana {
     //! The `BOOST_HANA_STRING` macro does not appear near `String` in the
     //! documentation.
     struct String {
+#ifndef BOOST_HANA_DOXYGEN_INVOKED
         struct hana {
             struct enabled_operators
                 : Comparable
@@ -78,12 +79,15 @@ namespace boost { namespace hana {
                 , Iterable
             { };
         };
+#endif
     };
 
     //! Create a compile-time string from a parameter pack of characters.
     //! @relates String
     //!
-    //! ### Example
+    //!
+    //! Example
+    //! -------
     //! @snippet example/string.cpp string
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <char ...s>
@@ -108,7 +112,8 @@ namespace boost { namespace hana {
     //! compile-time strings. However, since this macro uses a lambda
     //! internally, it can't be used in an unevaluated context.
     //!
-    //! ### Example
+    //! Example
+    //! -------
     //! @snippet example/string.cpp BOOST_HANA_STRING
     //!
     //! @todo
