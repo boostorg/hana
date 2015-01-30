@@ -11,14 +11,13 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_FOLDABLE_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/method.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
 namespace boost { namespace hana {
     //! @ingroup group-typeclasses
-    //! Data structures that can be folded, i.e. summarized into
-    //! a single value.
+    //! The `Foldable` concept represents data structures that can be folded,
+    //! i.e. summarized into a single value.
     //!
     //! Another way of seeing `Foldable`s is as data structures supporting
     //! internal iteration with the ability to accumulate a result. Also
@@ -63,6 +62,9 @@ namespace boost { namespace hana {
     //! homogeneous tuples. However, note that builtin arrays can't be made
     //! more than `Foldable` (e.g. `Iterable`) because they can't be empty
     //! and they also can't be returned from functions.
+    //!
+    //! @todo
+    //! Make it possible to specify the Monoid used for `sum` and `product`?
     struct Foldable { };
 
     //! Left-associative fold of a structure using a binary operation.
@@ -90,7 +92,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(foldl_impl);
+    template <typename Xs, typename = void>
+    struct foldl_impl;
 
     struct _foldl {
         template <typename Xs, typename State, typename F>
@@ -131,7 +134,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(foldr_impl);
+    template <typename Xs, typename = void>
+    struct foldr_impl;
 
     struct _foldr {
         template <typename Xs, typename State, typename F>
@@ -170,7 +174,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(foldr1_impl);
+    template <typename Xs, typename = void>
+    struct foldr1_impl;
 
     struct _foldr1 {
         template <typename Xs, typename F>
@@ -208,7 +213,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(foldl1_impl);
+    template <typename Xs, typename = void>
+    struct foldl1_impl;
 
     struct _foldl1 {
         template <typename Xs, typename F>
@@ -255,7 +261,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(for_each_impl);
+    template <typename Xs, typename = void>
+    struct for_each_impl;
 
     struct _for_each {
         template <typename Xs, typename F>
@@ -283,7 +290,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(length_impl);
+    template <typename Xs, typename = void>
+    struct length_impl;
 
     struct _length {
         template <typename Xs>
@@ -321,7 +329,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(minimum_by_impl);
+    template <typename Xs, typename = void>
+    struct minimum_by_impl;
 
     struct _minimum_by {
         template <typename Pred, typename Xs>
@@ -349,7 +358,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(minimum_impl);
+    template <typename Xs, typename = void>
+    struct minimum_impl;
 
     struct _minimum {
         template <typename Xs>
@@ -387,7 +397,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(maximum_by_impl);
+    template <typename Xs, typename = void>
+    struct maximum_by_impl;
 
     struct _maximum_by {
         template <typename Pred, typename Xs>
@@ -415,7 +426,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(maximum_impl);
+    template <typename Xs, typename = void>
+    struct maximum_impl;
 
     struct _maximum {
         template <typename Xs>
@@ -447,7 +459,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(sum_impl);
+    template <typename Xs, typename = void>
+    struct sum_impl;
 
     struct _sum {
         template <typename Xs>
@@ -479,7 +492,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(product_impl);
+    template <typename Xs, typename = void>
+    struct product_impl;
 
     struct _product {
         template <typename Xs>
@@ -517,7 +531,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(count_impl);
+    template <typename Xs, typename = void>
+    struct count_impl;
 
     struct _count {
         template <typename Xs, typename Pred>
@@ -562,7 +577,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(unpack_impl);
+    template <typename Xs, typename = void>
+    struct unpack_impl;
 
     struct _unpack {
         template <typename Xs, typename F>
