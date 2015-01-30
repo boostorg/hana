@@ -28,17 +28,38 @@ namespace boost { namespace hana {
     //! is only superficial; only function applications made inside the `Lazy`
     //! monad can be made lazy, not all their subexpressions.
     //!
-    //! ----------------------------------------------------------------------
+    //! Modeled concepts
+    //! ----------------
+    //! 1. `Functor`\n
+    //! `transform`ing a lazy value with a function returns the result of
+    //! applying the function as a lazy value.
+    //! @snippet example/lazy.cpp functor
     //!
-    //! ## Instance of
-    //! `Functor`, `Applicative` and `Monad`
+    //! 2. `Applicative`\n
+    //! A normal value can be lifted into a lazy value by using `lift<Lazy>`.
+    //! A lazy function can be lazily applied to a lazy value by using `ap`.
+    //!
+    //! 3. `Monad`\n
+    //! The `Lazy` monad allows combining lazy computations into larger
+    //! lazy computations.
+    //! @snippet example/lazy.cpp monad
+    //!
+    //! ----------------------------------------------------------------------
     //!
     //! @note
     //! `Lazy` only instantiates a few type classes because providing more
     //! functionality would require evaluating the lazy values in most cases.
     //! Since this raises some issues such as side effects and memoization,
     //! the data type is kept simple.
-    struct Lazy { struct hana { struct enabled_operators : Monad { }; }; };
+    struct Lazy {
+#ifndef BOOST_HANA_DOXYGEN_INVOKED
+        struct hana {
+            struct enabled_operators
+                : Monad
+            { };
+        };
+#endif
+    };
 
     //! Evaluate a lazy value and return it.
     //! @relates Lazy
@@ -70,7 +91,7 @@ namespace boost { namespace hana {
     //! arguments or more.
     //!
     //! ### Example
-    //! @snippet example/lazy/lazy.cpp main
+    //! @snippet example/lazy.cpp lazy
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto lazy = [](auto&& x) {
         return unspecified-type;

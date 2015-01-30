@@ -12,27 +12,48 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/lazy.hpp>
 
+#include <boost/hana/applicative.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/functional/compose.hpp>
-
-// instances
-#include <boost/hana/applicative.hpp>
 #include <boost/hana/functor.hpp>
 #include <boost/hana/monad.hpp>
 
 
 namespace boost { namespace hana {
-    //! Instance of `Applicative` for `Lazy`.
-    //!
-    //! A normal value can be lifted into a lazy value by using `lift<Lazy>`.
-    //! A lazy function can be lazily applied to a lazy value by using `ap`.
+    //////////////////////////////////////////////////////////////////////////
+    // Functor
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Functor(Lazy)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct transform_impl<Lazy> {
+        template <typename LX, typename F>
+        static constexpr decltype(auto) apply(LX&& lx, F&& f) {
+            return hana::ap(hana::lazy(detail::std::forward<F>(f)),
+                                       detail::std::forward<LX>(lx));
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Applicative
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Applicative(Lazy)>
+        : detail::std::true_type
+    { };
+
     template <>
     struct lift_impl<Lazy> {
         template <typename X>
         static constexpr decltype(auto) apply(X&& x) {
-            return lazy(detail::std::forward<X>(x));
+            return hana::lazy(detail::std::forward<X>(x));
         }
     };
 
@@ -67,34 +88,21 @@ namespace boost { namespace hana {
         }
     };
 
-    //! Instance of `Functor` for `Lazy`.
-    //!
-    //! `transform`ing a lazy value with a function returns the result of
-    //! applying the function as a lazy value.
-    //!
-    //! ### Example
-    //! @snippet example/lazy/functor.cpp transform
+    //////////////////////////////////////////////////////////////////////////
+    // Monad
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct transform_impl<Lazy> {
-        template <typename LX, typename F>
-        static constexpr decltype(auto) apply(LX&& lx, F&& f) {
-            return ap(lazy(detail::std::forward<F>(f)),
-                      detail::std::forward<LX>(lx));
-        }
-    };
+    struct models<Monad(Lazy)>
+        : detail::std::true_type
+    { };
 
-    //! Instance of `Monad` for `Lazy`.
-    //!
-    //! The `Lazy` monad allows combining lazy computations into larger
-    //! lazy computations.
-    //!
-    //! ### Example
-    //! @snippet example/lazy/monad.cpp main
     template <>
     struct flatten_impl<Lazy> {
         template <typename LLX>
         static constexpr decltype(auto) apply(LLX&& llx) {
-            return lazy(compose(eval, eval))(detail::std::forward<LLX>(llx));
+            return hana::lazy(hana::compose(eval, eval))(
+                detail::std::forward<LLX>(llx)
+            );
         }
     };
 }} // end namespace boost::hana

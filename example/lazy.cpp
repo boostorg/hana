@@ -5,6 +5,8 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/assert.hpp>
+#include <boost/hana/bool.hpp>
+#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/lazy.hpp>
 
 #include <functional>
@@ -13,7 +15,8 @@ Distributed under the Boost Software License, Version 1.0.
 using namespace boost::hana;
 
 
-//! [main]
+namespace monad_example {
+//! [monad]
 template <typename T>
 auto read_ = [](std::istream& stream) {
     T x;
@@ -22,7 +25,7 @@ auto read_ = [](std::istream& stream) {
     return x;
 };
 
-int main() {
+void main() {
     std::stringstream ss;
     int in = 123;
 
@@ -46,4 +49,43 @@ int main() {
     std::cout << "the result of the monadic chain is " << eout << "\n";
     BOOST_HANA_RUNTIME_CHECK(eout == (in + 1) / 2);
 }
-//! [main]
+//! [monad]
+}
+
+
+int main() {
+
+    monad_example::main();
+
+{
+
+//! [lazy]
+BOOST_HANA_CONSTEXPR_LAMBDA auto f = lazy([](auto x) {
+    return 1 / x;
+});
+BOOST_HANA_CONSTEXPR_LAMBDA auto g = lazy([](auto x) {
+    return x + 1;
+});
+
+BOOST_HANA_CONSTEXPR_CHECK(eval(if_(false_, f(0), g(0))) == 0 + 1);
+//! [lazy]
+
+}{
+
+//! [functor]
+BOOST_HANA_CONSTEXPR_LAMBDA auto double_ = [](auto x) {
+    return x * 2;
+};
+
+BOOST_HANA_CONSTEXPR_LAMBDA auto one_over = [](auto x) {
+    return 1 / x;
+};
+
+BOOST_HANA_CONSTEXPR_CHECK(eval(transform(lazy(one_over)(4), double_)) == 1 / 2);
+
+transform(lazy(one_over)(0), double_); // never evaluated
+//! [functor]
+
+}
+
+}
