@@ -10,8 +10,10 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_ASSERT_HPP
 #define BOOST_HANA_ASSERT_HPP
 
+#include <boost/hana/bool.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/constant.hpp>
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/logical.hpp>
 
@@ -103,9 +105,11 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_RUNTIME_CHECK_IMPL(assert_or_check, tmpvar, expr)        \
     do {                                                                    \
         auto tmpvar = expr;                                                 \
-        static_assert(!::boost::hana::value(                                \
-            ::boost::hana::models< ::boost::hana::Constant>(tmpvar)         \
-        ),                                                                  \
+        static_assert(!::boost::hana::models<                               \
+            ::boost::hana::Constant(                                        \
+                ::boost::hana::datatype_t<decltype(tmpvar)>                 \
+            )                                                               \
+        >{},                                                                \
         "the expression (" # expr ") yields a Constant; "                   \
         "use BOOST_HANA_CONSTANT_" # assert_or_check " instead");           \
                                                                             \
@@ -129,9 +133,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 #define BOOST_HANA_CONSTANT_CHECK_IMPL(tmpvar, expr)                        \
     auto tmpvar = expr;                                                     \
-    static_assert(::boost::hana::value(                                     \
-        ::boost::hana::models< ::boost::hana::Constant>(tmpvar)             \
-    ),                                                                      \
+    static_assert(::boost::hana::models<                                    \
+        ::boost::hana::Constant(                                            \
+            ::boost::hana::datatype_t<decltype(tmpvar)>                     \
+        )                                                                   \
+    >{},                                                                    \
     "the expression " # expr " does not yield a Constant");                 \
                                                                             \
     static_assert(::boost::hana::value(tmpvar), # expr)                     \
@@ -149,7 +155,13 @@ Distributed under the Boost Software License, Version 1.0.
     do {                                                                    \
         auto tmpvar = expr;                                                 \
         ::boost::hana::eval_if(                                             \
-            ::boost::hana::models< ::boost::hana::Constant>(tmpvar),        \
+            ::boost::hana::bool_<                                           \
+                ::boost::hana::models<                                      \
+                    ::boost::hana::Constant(                                \
+                        ::boost::hana::datatype_t<decltype(tmpvar)>         \
+                    )                                                       \
+                >{}                                                         \
+            >,                                                              \
             [=](auto _) {                                                   \
                 auto copy = _(tmpvar);                                      \
                 static_assert(::boost::hana::value(copy), # expr);          \
@@ -178,9 +190,11 @@ Distributed under the Boost Software License, Version 1.0.
 #if defined(BOOST_HANA_CONFIG_HAS_CONSTEXPR_LAMBDA)
 #   define BOOST_HANA_CONSTEXPR_CHECK_IMPL(assert_or_check, tmpvar, expr)   \
         constexpr auto tmpvar = expr;                                       \
-        static_assert(!::boost::hana::value(                                \
-            ::boost::hana::models< ::boost::hana::Constant>(tmpvar)         \
-        ),                                                                  \
+        static_assert(!::boost::hana::models<                               \
+            ::boost::hana::Constant>(                                       \
+                ::boost::hana::datatype_t<decltype(tmpvar)>                 \
+            )                                                               \
+        >{},                                                                \
         "the expression " # expr " yields a Constant; "                     \
         "use BOOST_HANA_CONSTANT_" #assert_or_check " instead");            \
                                                                             \
