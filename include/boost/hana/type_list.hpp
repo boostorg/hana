@@ -13,16 +13,24 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/type_list.hpp>
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/type.hpp>
-
-// instances
 #include <boost/hana/comparable.hpp>
+#include <boost/hana/core/models.hpp>
+#include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/iterable.hpp>
-#include <boost/hana/list.hpp>
+#include <boost/hana/type.hpp>
 
 
 namespace boost { namespace hana {
+    //////////////////////////////////////////////////////////////////////////
+    // Comparable
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Comparable(TypeList)>
+        : detail::std::true_type
+    { };
+
     template <>
     struct equal_impl<TypeList, TypeList> {
         template <typename Xs, typename Ys>
@@ -34,66 +42,49 @@ namespace boost { namespace hana {
         { return true_; }
     };
 
+    //////////////////////////////////////////////////////////////////////////
+    // Foldable
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Foldable(TypeList)>
+        : detail::std::true_type
+    { };
+
     template <>
     struct unpack_impl<TypeList> {
         //! @todo Fix the lost optimization caused by unpacking with `Type`s.
         template <typename ...Xs, typename F>
-        static constexpr auto apply(detail::repr::type_list<Xs...>, F f)
-        { return f(type<Xs>...); }
-
-        template <typename Xs, typename F>
-        static constexpr auto apply(Xs, F f)
-        { return apply(typename Xs::storage{}, f); }
+        static constexpr auto apply(_type_list<Xs...>, F&& f)
+        { return detail::std::forward<F>(f)(type<Xs>...); }
     };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Iterable
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Iterable(TypeList)>
+        : detail::std::true_type
+    { };
 
     template <>
     struct head_impl<TypeList> {
-        template <typename Xs>
-        static constexpr auto apply(Xs)
-        { return apply(typename Xs::storage{}); }
-
         template <typename X, typename ...Xs>
-        static constexpr auto apply(detail::repr::type_list<X, Xs...>)
+        static constexpr auto apply(_type_list<X, Xs...>)
         { return type<X>; }
     };
 
     template <>
     struct tail_impl<TypeList> {
-        template <typename Xs>
-        static constexpr auto apply(Xs)
-        { return apply(typename Xs::storage{}); }
-
         template <typename X, typename ...Xs>
-        static constexpr auto apply(detail::repr::type_list<X, Xs...>)
+        static constexpr auto apply(_type_list<X, Xs...>)
         { return type_list<Xs...>; }
     };
 
     template <>
     struct is_empty_impl<TypeList> {
-        template <typename Xs>
-        static constexpr auto apply(Xs)
-        { return apply(typename Xs::storage{}); }
-
         template <typename ...Xs>
-        static constexpr auto apply(detail::repr::type_list<Xs...>)
+        static constexpr auto apply(_type_list<Xs...>)
         { return bool_<sizeof...(Xs) == 0>; }
-    };
-
-    template <>
-    struct cons_impl<TypeList> {
-        template <typename X, typename ...Xs>
-        static constexpr auto apply(X, detail::repr::type_list<Xs...>)
-        { return type_list<typename X::type, Xs...>; }
-
-        template <typename X, typename Xs>
-        static constexpr auto apply(X x, Xs xs)
-        { return apply(x, typename Xs::storage{}); }
-    };
-
-    template <>
-    struct nil_impl<TypeList> {
-        static constexpr auto apply()
-        { return type_list<>; }
     };
 }} // end namespace boost::hana
 

@@ -12,13 +12,19 @@ using namespace boost::hana;
 
 
 int main() {
-    //! [main]
-    BOOST_HANA_CONSTANT_CHECK(
-        to<Tuple>(type_list<void, int, float>)
-        ==
-        tuple(type<void>, type<int>, type<float>)
-    );
 
-    BOOST_HANA_CONSTANT_CHECK(head(type_list<void, int, float>) == type<void>);
-    //! [main]
+{
+
+//! [type_list]
+BOOST_HANA_CONSTANT_CHECK(
+    to<Tuple>(type_list<void, int, float>)
+    ==
+    tuple(type<void>, type<int>, type<float>)
+);
+
+BOOST_HANA_CONSTANT_CHECK(head(type_list<void, int, float>) == type<void>);
+//! [type_list]
+
+}
+
 }

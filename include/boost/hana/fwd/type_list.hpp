@@ -12,16 +12,24 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/fwd/comparable.hpp>
-#include <boost/hana/fwd/monad.hpp>
 
 
 namespace boost { namespace hana {
     //! @ingroup group-datatypes
     //! `List` containing `Type`s only.
     //!
-    //! ### Instance of
-    //! `Comparable`, `Functor`, `Applicative`, `Monad`, `Iterable`,
-    //! `Foldable`, `List`, `Traversable` and `Searchable`
+    //!
+    //! Modeled concepts
+    //! ----------------
+    //! 1. `Comparable` (operators provided)\n
+    //! @todo
+    //!
+    //! 2. `Foldable`\n
+    //! @todo
+    //!
+    //! 3. `Iterable` (operators provided)\n
+    //! @todo
+    //!
     //!
     //! @note
     //! `TypeList` may be more efficient than `List` because of
@@ -34,28 +42,38 @@ namespace boost { namespace hana {
     //!   `TypeList` becomes `List` if we try to store something else
     //!   than `Type`s? The same issue goes for `IntegerList`.
     struct TypeList {
-        struct hana { struct enabled_operators : Comparable, Monad { }; };
-    };
-
-    namespace detail { namespace repr {
-        template <typename ...xs>
-        struct type_list {
-            struct hidden : operators::enable_adl {
-                struct hana { using datatype = TypeList; };
-                using storage = type_list<xs...>;
-            };
+#ifndef BOOST_HANA_DOXYGEN_INVOKED
+        struct hana {
+            struct enabled_operators
+                : Comparable
+            { };
         };
-    }}
+#endif
+    };
 
     //! Creates a list containing the given types.
     //! @relates TypeList
     //!
     //! This is functionally equivalent to `list(type<xs>...)`.
     //!
-    //! ### Example
-    //! @snippet example/type_list/type_list.cpp main
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/type_list.cpp type_list
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    template <typename ...T>
+    constexpr unspecified-dependent-type type_list{};
+#else
     template <typename ...xs>
-    constexpr typename detail::repr::type_list<xs...>::hidden type_list{};
+    struct _type_list {
+        struct hidden : _type_list<xs...>, operators::enable_adl {
+            struct hana { using datatype = TypeList; };
+        };
+    };
+
+    template <typename ...xs>
+    constexpr typename _type_list<xs...>::hidden type_list{};
+#endif
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_TYPE_LIST_HPP

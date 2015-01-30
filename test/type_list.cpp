@@ -17,7 +17,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <test/auto/comparable.hpp>
 #include <test/auto/foldable.hpp>
 #include <test/auto/iterable.hpp>
-#include <test/auto/list.hpp>
 using namespace boost::hana;
 
 
@@ -37,11 +36,6 @@ namespace boost { namespace hana { namespace test {
     auto instances<TypeList> = tuple(
         type<Comparable>,
         type<Foldable>,
-        //! @todo TypeList does not satisfy the laws for List, since it can
-        //! only hold Types.
-#if 0
-        type<List>,
-#endif
         type<Iterable>
     );
 }}}
@@ -115,30 +109,6 @@ int main() {
                 unpack(type_list<x0, x1, x2, x3>, f),
                 f(type<x0>, type<x1>, type<x2>, type<x3>)
             ));
-        }
-    }
-
-    // List
-    {
-        // cons
-        {
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                cons(type<x0>, type_list<>),
-                type_list<x0>
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                cons(type<x0>, type_list<x1>),
-                type_list<x0, x1>
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                cons(type<x0>, type_list<x1, x2>),
-                type_list<x0, x1, x2>
-            ));
-        }
-
-        // nil
-        {
-            BOOST_HANA_CONSTANT_CHECK(equal(nil<TypeList>(), type_list<>));
         }
     }
 }
