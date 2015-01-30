@@ -15,7 +15,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/applicative.hpp>
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional/compose.hpp>
@@ -31,6 +33,11 @@ namespace boost { namespace hana {
     // Comparable
     //////////////////////////////////////////////////////////////////////////
     template <>
+    struct models<Comparable(Either)>
+        : detail::std::true_type
+    { };
+
+    template <>
     struct equal_impl<Either, Either> {
         template <template <typename ...> class E, typename T, typename U>
         static constexpr decltype(auto) apply(E<T> const& x, E<U> const& y)
@@ -44,6 +51,11 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Orderable
     //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Orderable(Either)>
+        : detail::std::true_type
+    { };
+
     template <>
     struct less_impl<Either, Either> {
         template <template <typename ...> class E, typename T, typename U>
@@ -63,6 +75,11 @@ namespace boost { namespace hana {
     // Functor
     //////////////////////////////////////////////////////////////////////////
     template <>
+    struct models<Functor(Either)>
+        : detail::std::true_type
+    { };
+
+    template <>
     struct transform_impl<Either> {
         template <typename E, typename F>
         static constexpr decltype(auto) apply(E&& e, F&& f) {
@@ -76,6 +93,11 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Applicative
     //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Applicative(Either)>
+        : detail::std::true_type
+    { };
+
     template <>
     struct lift_impl<Either> {
         template <typename X>
@@ -98,6 +120,11 @@ namespace boost { namespace hana {
     // Monad
     //////////////////////////////////////////////////////////////////////////
     template <>
+    struct models<Monad(Either)>
+        : detail::std::true_type
+    { };
+
+    template <>
     struct flatten_impl<Either> {
         template <typename E>
         static constexpr decltype(auto) apply(E&& e)
@@ -107,6 +134,11 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Foldable
     //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Foldable(Either)>
+        : detail::std::true_type
+    { };
+
     template <>
     struct unpack_impl<Either> {
         template <typename T, typename F>
@@ -130,6 +162,11 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Traversable
     //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Traversable(Either)>
+        : detail::std::true_type
+    { };
+
     template <>
     struct traverse_impl<Either> {
         template <typename A, typename T, typename F>
