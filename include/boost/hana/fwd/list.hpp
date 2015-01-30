@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_LIST_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/method.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/is_same.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
@@ -98,7 +97,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(concat_impl);
+    template <typename Xs, typename = void>
+    struct concat_impl;
 
     struct _concat {
         template <typename Xs, typename Ys>
@@ -135,7 +135,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(cons_impl);
+    template <typename Xs, typename = void>
+    struct cons_impl;
 
     struct _cons {
         template <typename X, typename Xs>
@@ -175,7 +176,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(filter_impl);
+    template <typename Xs, typename = void>
+    struct filter_impl;
 
     struct _filter {
         template <typename Xs, typename Pred>
@@ -223,7 +225,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(group_by_impl);
+    template <typename Xs, typename = void>
+    struct group_by_impl;
 
     struct _group_by {
         template <typename Pred, typename Xs>
@@ -255,7 +258,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(group_impl);
+    template <typename Xs, typename = void>
+    struct group_impl;
 
     struct _group {
         template <typename Xs>
@@ -279,7 +283,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(init_impl);
+    template <typename Xs, typename = void>
+    struct init_impl;
 
     struct _init {
         template <typename Xs>
@@ -315,7 +320,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(intersperse_impl);
+    template <typename Xs, typename = void>
+    struct intersperse_impl;
 
     struct _intersperse {
         template <typename Xs, typename Z>
@@ -346,7 +352,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(nil_impl);
+    template <typename Xs, typename = void>
+    struct nil_impl;
 
     template <typename L>
     struct _nil {
@@ -386,7 +393,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(partition_impl);
+    template <typename Xs, typename = void>
+    struct partition_impl;
 
     struct _partition {
         template <typename Xs, typename Pred>
@@ -423,7 +431,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(permutations_impl);
+    template <typename Xs, typename = void>
+    struct permutations_impl;
 
     struct _permutations {
         template <typename Xs>
@@ -462,7 +471,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(remove_at_impl);
+    template <typename Xs, typename = void>
+    struct remove_at_impl;
 
     struct _remove_at {
         template <typename N, typename Xs>
@@ -525,7 +535,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(repeat_impl);
+    template <typename Xs, typename = void>
+    struct repeat_impl;
 
     template <typename L>
     struct _repeat {
@@ -553,7 +564,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(reverse_impl);
+    template <typename Xs, typename = void>
+    struct reverse_impl;
 
     struct _reverse {
         template <typename Xs>
@@ -593,7 +605,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(scanl_impl);
+    template <typename Xs, typename = void>
+    struct scanl_impl;
 
     struct _scanl {
         template <typename Xs, typename State, typename F>
@@ -635,7 +648,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(scanl1_impl);
+    template <typename Xs, typename = void>
+    struct scanl1_impl;
 
     struct _scanl1 {
         template <typename Xs, typename F>
@@ -676,7 +690,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(scanr_impl);
+    template <typename Xs, typename = void>
+    struct scanr_impl;
 
     struct _scanr {
         template <typename Xs, typename State, typename F>
@@ -718,7 +733,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(scanr1_impl);
+    template <typename Xs, typename = void>
+    struct scanr1_impl;
 
     struct _scanr1 {
         template <typename Xs, typename F>
@@ -765,7 +781,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(slice_impl);
+    template <typename Xs, typename = void>
+    struct slice_impl;
 
     struct _slice {
         template <typename Xs, typename From, typename To>
@@ -822,7 +839,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(snoc_impl);
+    template <typename Xs, typename = void>
+    struct snoc_impl;
 
     struct _snoc {
         template <typename Xs, typename X>
@@ -855,7 +873,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(sort_impl);
+    template <typename Xs, typename = void>
+    struct sort_impl;
 
     struct _sort {
         template <typename Xs>
@@ -895,7 +914,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(sort_by_impl);
+    template <typename Xs, typename = void>
+    struct sort_by_impl;
 
     struct _sort_by {
         template <typename Pred, typename Xs>
@@ -945,7 +965,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(span_impl);
+    template <typename Xs, typename = void>
+    struct span_impl;
 
     struct _span {
         template <typename Xs, typename Pred>
@@ -983,7 +1004,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(take_impl);
+    template <typename Xs, typename = void>
+    struct take_impl;
 
     struct _take {
         template <typename N, typename Xs>
@@ -1050,7 +1072,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(take_until_impl);
+    template <typename Xs, typename = void>
+    struct take_until_impl;
 
     struct _take_until {
         template <typename Xs, typename Pred>
@@ -1093,7 +1116,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(take_while_impl);
+    template <typename Xs, typename = void>
+    struct take_while_impl;
 
     struct _take_while {
         template <typename Xs, typename Pred>
@@ -1147,7 +1171,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(unfoldl_impl);
+    template <typename Xs, typename = void>
+    struct unfoldl_impl;
 
     template <typename L>
     struct _unfoldl {
@@ -1203,7 +1228,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(unfoldr_impl);
+    template <typename Xs, typename = void>
+    struct unfoldr_impl;
 
     template <typename L>
     struct _unfoldr {
@@ -1243,7 +1269,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(unzip_impl);
+    template <typename Xs, typename = void>
+    struct unzip_impl;
 
     struct _unzip {
         template <typename Xs>
@@ -1277,7 +1304,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(zip_impl);
+    template <typename Xs, typename = void>
+    struct zip_impl;
 
     struct _zip {
         template <typename Xs, typename ...Ys>
@@ -1338,7 +1366,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(zip_with_impl);
+    template <typename Xs, typename = void>
+    struct zip_with_impl;
 
     struct _zip_with {
         template <typename F, typename Xs, typename ...Ys>

@@ -18,7 +18,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/constant.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/make.hpp>
-#include <boost/hana/core/method.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
@@ -60,8 +59,11 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename L>
-    struct default_<concat_impl<L>> {
+    template <typename Xs, typename>
+    struct concat_impl : concat_impl<Xs, when<true>> { };
+
+    template <typename L, bool condition>
+    struct concat_impl<L, when<condition>> {
         template <typename Xs, typename Ys>
         static constexpr decltype(auto) apply(Xs&& xs, Ys&& ys) {
             return foldr(
@@ -72,8 +74,11 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename L>
-    struct default_<filter_impl<L>> {
+    template <typename Xs, typename>
+    struct filter_impl : filter_impl<Xs, when<true>> { };
+
+    template <typename L, bool condition>
+    struct filter_impl<L, when<condition>> {
         template <typename Xs, typename Pred>
         static constexpr auto apply(Xs xs, Pred pred) {
             auto go = [=](auto x, auto xs) {
@@ -86,8 +91,11 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename L>
-    struct default_<group_by_impl<L>> {
+    template <typename Xs, typename>
+    struct group_by_impl : group_by_impl<Xs, when<true>> { };
+
+    template <typename L, bool condition>
+    struct group_by_impl<L, when<condition>> {
         template <typename Pred, typename Xs>
         static constexpr auto apply(Pred pred, Xs xs_) {
             return eval_if(is_empty(xs_),
@@ -104,16 +112,22 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename L>
-    struct default_<group_impl<L>> {
+    template <typename Xs, typename>
+    struct group_impl : group_impl<Xs, when<true>> { };
+
+    template <typename L, bool condition>
+    struct group_impl<L, when<condition>> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
             return group_by(equal, detail::std::forward<Xs>(xs));
         }
     };
 
-    template <typename L>
-    struct default_<init_impl<L>> {
+    template <typename Xs, typename>
+    struct init_impl : init_impl<Xs, when<true>> { };
+
+    template <typename L, bool condition>
+    struct init_impl<L, when<condition>> {
         template <typename Xs>
         static constexpr auto apply(Xs xs) {
             return eval_if(is_empty(tail(xs)),
@@ -123,8 +137,11 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename L>
-    struct default_<intersperse_impl<L>> {
+    template <typename Xs, typename>
+    struct intersperse_impl : intersperse_impl<Xs, when<true>> { };
+
+    template <typename L, bool condition>
+    struct intersperse_impl<L, when<condition>> {
         template <typename Prefix, typename Xs>
         static constexpr decltype(auto) prepend_to_all(Prefix&& prefix, Xs&& xs) {
             return foldr(detail::std::forward<Xs>(xs), nil<L>(),
@@ -158,8 +175,11 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename L>
-    struct default_<partition_impl<L>> {
+    template <typename Xs, typename>
+    struct partition_impl : partition_impl<Xs, when<true>> { };
+
+    template <typename L, bool condition>
+    struct partition_impl<L, when<condition>> {
         template <typename Xs, typename Pred>
         static constexpr auto apply(Xs xs, Pred pred) {
             auto go = [=](auto parts, auto x) {
@@ -172,8 +192,11 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename L>
-    struct default_<permutations_impl<L>> {
+    template <typename Xs, typename>
+    struct permutations_impl : permutations_impl<Xs, when<true>> { };
+
+    template <typename L, bool condition>
+    struct permutations_impl<L, when<condition>> {
         template <typename X, typename Xs>
         static constexpr auto insertions(X x, Xs l) {
             return eval_if(is_empty(l),
@@ -204,8 +227,11 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename L>
-    struct default_<remove_at_impl<L>> {
+    template <typename Xs, typename>
+    struct remove_at_impl : remove_at_impl<Xs, when<true>> { };
+
+    template <typename L, bool condition>
+    struct remove_at_impl<L, when<condition>> {
         template <typename N, typename Xs>
         static constexpr decltype(auto) apply(N&& n, Xs&& xs) {
             using I = typename datatype<N>::type;
@@ -227,8 +253,11 @@ namespace boost { namespace hana {
     //! Here, we syntactically only need `make`, but we _actually_ need
     //! `make` to behave properly. With this definition, it is possible
     //! to call `repeat<Pair>(...)`, which is wrong.
-    template <typename L>
-    struct default_<repeat_impl<L>> {
+    template <typename Xs, typename>
+    struct repeat_impl : repeat_impl<Xs, when<true>> { };
+
+    template <typename L, bool condition>
+    struct repeat_impl<L, when<condition>> {
         template <typename X, int ...i>
         static constexpr decltype(auto)
         repeat_helper(X&& x, detail::std::integer_sequence<int, i...>)
@@ -241,16 +270,22 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename L>
-    struct default_<reverse_impl<L>> {
+    template <typename Xs, typename>
+    struct reverse_impl : reverse_impl<Xs, when<true>> { };
+
+    template <typename L, bool condition>
+    struct reverse_impl<L, when<condition>> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
             return foldl(detail::std::forward<Xs>(xs), nil<L>(), flip(cons));
         }
     };
 
-    template <typename L>
-    struct default_<scanl_impl<L>> {
+    template <typename Xs, typename>
+    struct scanl_impl : scanl_impl<Xs, when<true>> { };
+
+    template <typename L, bool condition>
+    struct scanl_impl<L, when<condition>> {
         template <typename Xs, typename S, typename F>
         static constexpr auto apply(Xs xs, S s, F f) {
             return eval_if(is_empty(xs),
@@ -262,8 +297,11 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename L>
-    struct default_<scanl1_impl<L>> {
+    template <typename Xs, typename>
+    struct scanl1_impl : scanl1_impl<Xs, when<true>> { };
+
+    template <typename L, bool condition>
+    struct scanl1_impl<L, when<condition>> {
         template <typename Xs, typename F>
         static constexpr auto apply(Xs xs, F f) {
             return eval_if(is_empty(xs),
@@ -273,8 +311,11 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename L>
-    struct default_<scanr_impl<L>> {
+    template <typename Xs, typename>
+    struct scanr_impl : scanr_impl<Xs, when<true>> { };
+
+    template <typename L, bool condition>
+    struct scanr_impl<L, when<condition>> {
         template <typename Xs, typename S, typename F>
         static constexpr auto apply(Xs xs, S s, F f) {
             return eval_if(is_empty(xs),
@@ -287,8 +328,11 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename L>
-    struct default_<scanr1_impl<L>> {
+    template <typename Xs, typename>
+    struct scanr1_impl : scanr1_impl<Xs, when<true>> { };
+
+    template <typename L, bool condition>
+    struct scanr1_impl<L, when<condition>> {
         template <typename Lst, typename F>
         static constexpr auto apply(Lst lst, F f) {
             return eval_if(is_empty(lst),
@@ -308,16 +352,22 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename L>
-    struct default_<slice_impl<L>> {
+    template <typename Xs, typename>
+    struct slice_impl : slice_impl<Xs, when<true>> { };
+
+    template <typename L, bool condition>
+    struct slice_impl<L, when<condition>> {
         template <typename Xs, typename From, typename To>
         static constexpr auto apply(Xs&& xs, From const& from, To const& to) {
             return take(minus(to, from), drop(from, detail::std::forward<Xs>(xs)));
         }
     };
 
-    template <typename L>
-    struct default_<snoc_impl<L>> {
+    template <typename Xs, typename>
+    struct snoc_impl : snoc_impl<Xs, when<true>> { };
+
+    template <typename L, bool condition>
+    struct snoc_impl<L, when<condition>> {
         template <typename Xs, typename X>
         static constexpr decltype(auto) apply(Xs&& xs, X&& x) {
             return foldr(
@@ -328,15 +378,21 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename L>
-    struct default_<sort_impl<L>> {
+    template <typename Xs, typename>
+    struct sort_impl : sort_impl<Xs, when<true>> { };
+
+    template <typename L, bool condition>
+    struct sort_impl<L, when<condition>> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs)
         { return sort_by(less, detail::std::forward<Xs>(xs)); }
     };
 
-    template <typename L>
-    struct default_<sort_by_impl<L>> {
+    template <typename Xs, typename>
+    struct sort_by_impl : sort_by_impl<Xs, when<true>> { };
+
+    template <typename L, bool condition>
+    struct sort_by_impl<L, when<condition>> {
         template <typename Pred, typename Xs>
         static constexpr auto apply(Pred pred, Xs xs) {
             return eval_if(is_empty(xs),
@@ -359,8 +415,11 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename L>
-    struct default_<span_impl<L>> {
+    template <typename Xs, typename>
+    struct span_impl : span_impl<Xs, when<true>> { };
+
+    template <typename L, bool condition>
+    struct span_impl<L, when<condition>> {
         template <typename Xs, typename Pred>
         static constexpr auto apply(Xs xs, Pred pred) {
             return eval_if(is_empty(xs),
@@ -384,8 +443,11 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename L>
-    struct default_<take_impl<L>> {
+    template <typename Xs, typename>
+    struct take_impl : take_impl<Xs, when<true>> { };
+
+    template <typename L, bool condition>
+    struct take_impl<L, when<condition>> {
         template <typename N, typename Xs>
         static constexpr auto apply(N n, Xs xs) {
             return eval_if(or_(is_empty(xs), equal(n, int_<0>)),
@@ -397,8 +459,11 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename L>
-    struct default_<take_until_impl<L>> {
+    template <typename Xs, typename>
+    struct take_until_impl : take_until_impl<Xs, when<true>> { };
+
+    template <typename L, bool condition>
+    struct take_until_impl<L, when<condition>> {
         template <typename Xs, typename Pred>
         static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
             return take_while(
@@ -408,8 +473,11 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename L>
-    struct default_<take_while_impl<L>> {
+    template <typename Xs, typename>
+    struct take_while_impl : take_while_impl<Xs, when<true>> { };
+
+    template <typename L, bool condition>
+    struct take_while_impl<L, when<condition>> {
         template <typename Xs, typename Pred>
         static constexpr auto apply(Xs xs, Pred pred) {
             return eval_if(is_empty(xs),
@@ -429,8 +497,11 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename L>
-    struct default_<unfoldr_impl<L>> {
+    template <typename Xs, typename>
+    struct unfoldr_impl : unfoldr_impl<Xs, when<true>> { };
+
+    template <typename L, bool condition>
+    struct unfoldr_impl<L, when<condition>> {
         template <typename F, typename Init>
         static constexpr auto apply(F f, Init init) {
             auto g = [=](auto a_b) {
@@ -440,8 +511,11 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename L>
-    struct default_<unfoldl_impl<L>> {
+    template <typename Xs, typename>
+    struct unfoldl_impl : unfoldl_impl<Xs, when<true>> { };
+
+    template <typename L, bool condition>
+    struct unfoldl_impl<L, when<condition>> {
         template <typename F, typename Init>
         static constexpr auto apply(F f, Init init) {
             auto g = [=](auto b_a) {
@@ -451,22 +525,31 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename L>
-    struct default_<unzip_impl<L>> {
+    template <typename Xs, typename>
+    struct unzip_impl : unzip_impl<Xs, when<true>> { };
+
+    template <typename L, bool condition>
+    struct unzip_impl<L, when<condition>> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs)
         { return unpack(detail::std::forward<Xs>(xs), zip); }
     };
 
-    template <typename L>
-    struct default_<zip_impl<L>> {
+    template <typename Xs, typename>
+    struct zip_impl : zip_impl<Xs, when<true>> { };
+
+    template <typename L, bool condition>
+    struct zip_impl<L, when<condition>> {
         template <typename ...Xss>
         static constexpr decltype(auto) apply(Xss&& ...xss)
         { return zip_with(make<L>, detail::std::forward<Xss>(xss)...); }
     };
 
-    template <typename L>
-    struct default_<zip_with_impl<L>> {
+    template <typename Xs, typename>
+    struct zip_with_impl : zip_with_impl<Xs, when<true>> { };
+
+    template <typename L, bool condition>
+    struct zip_with_impl<L, when<condition>> {
         template <typename F, typename ...Xss>
         static constexpr auto apply(F f, Xss ...xss) {
             return eval_if(or_(is_empty(xss)...),
