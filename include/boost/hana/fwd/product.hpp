@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_PRODUCT_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/method.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -88,7 +87,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(first_impl);
+    template <typename P, typename = void>
+    struct first_impl;
 
     struct _first {
         template <typename P>
@@ -112,7 +112,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(second_impl);
+    template <typename P, typename = void>
+    struct second_impl;
 
     struct _second {
         template <typename P>

@@ -12,20 +12,43 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/product.hpp>
 
+#include <boost/hana/comparable.hpp>
 #include <boost/hana/core/make.hpp>
-#include <boost/hana/core/method.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/core/wrong.hpp>
 #include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/logical.hpp>
-
-// provided instances
-#include <boost/hana/comparable.hpp>
 #include <boost/hana/foldable.hpp>
+#include <boost/hana/logical.hpp>
 #include <boost/hana/orderable.hpp>
 
 
 namespace boost { namespace hana {
+    //////////////////////////////////////////////////////////////////////////
+    // first
+    //////////////////////////////////////////////////////////////////////////
+    template <typename P, typename>
+    struct first_impl : first_impl<P, when<true>> { };
+
+    template <typename P, bool condition>
+    struct first_impl<P, when<condition>> {
+        static_assert(wrong<first_impl<P>>{},
+        "no definition of boost::hana::first for the given data type");
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // second
+    //////////////////////////////////////////////////////////////////////////
+    template <typename P, typename>
+    struct second_impl : second_impl<P, when<true>> { };
+
+    template <typename P, bool condition>
+    struct second_impl<P, when<condition>> {
+        static_assert(wrong<second_impl<P>>{},
+        "no definition of boost::hana::second for the given data type");
+    };
+
+
     template <typename T, typename U>
     struct equal_impl<T, U, when<is_a<Product, T>{} && is_a<Product, U>{}>> {
         template <typename X, typename Y>
