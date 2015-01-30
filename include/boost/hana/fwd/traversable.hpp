@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_TRAVERSABLE_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/method.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -73,15 +72,14 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(sequence_impl);
+    template <typename T, typename = void>
+    struct sequence_impl;
 
     template <typename A>
     struct _sequence {
         template <typename T>
         constexpr decltype(auto) operator()(T&& traversable) const {
-            return dispatch<sequence_impl<
-                typename datatype<T>::type
-            >>::template apply<A>(
+            return sequence_impl<typename datatype<T>::type>::template apply<A>(
                 detail::std::forward<T>(traversable)
             );
         }
@@ -119,15 +117,14 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(traverse_impl);
+    template <typename T, typename = void>
+    struct traverse_impl;
 
     template <typename A>
     struct _traverse {
         template <typename T, typename F>
         constexpr decltype(auto) operator()(T&& traversable, F&& f) const {
-            return dispatch<traverse_impl<
-                typename datatype<T>::type
-            >>::template apply<A>(
+            return traverse_impl<typename datatype<T>::type>::template apply<A>(
                 detail::std::forward<T>(traversable),
                 detail::std::forward<F>(f)
             );
