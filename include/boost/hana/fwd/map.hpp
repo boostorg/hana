@@ -28,10 +28,44 @@ namespace boost { namespace hana {
     //! keys must be comparable with each other and that comparison must
     //! yield a [compile-time](@ref Logical_terminology) `Logical`.
     //!
-    //! ### Instance of
-    //! `Comparable` and `Searchable`
+    //!
+    //! Modeled concepts
+    //! ----------------
+    //! 1. `Comparable` (operators provided)\n
+    //! Two maps are equal iff all their keys are equal and are associated
+    //! to equal values.
+    //! @snippet example/map.cpp comparable
+    //!
+    //! 2. `Searchable`\n
+    //! A map can be searched by its keys with a predicate yielding a
+    //! [compile-time](@ref Logical_terminology) `Logical`.
+    //! @snippet example/map.cpp searchable
+    //!
+    //!
+    //! Provided conversions
+    //! --------------------
+    //! 1. From any `Record`\n
+    //! Converting a `Record` `R` to a `Map` is equivalent to converting its
+    //! `members<R>()` to a `Map`, except the values are replaced by the actual
+    //! members of the object instead of accessors.
+    //!
+    //! 2. From any `Foldable`\n
+    //! Converts a `Foldable` of `Product`s to a `Map`.
+    //! Note that the foldable structure must not contain duplicate keys.
+    //! @todo
+    //! We should allow duplicate keys, with a documented policy (e.g. we
+    //! keep the last one).
+    //!
+    //! 3. To any `List` data type\n
+    //! A `Map` can be converted to a `List` of `Product`s.
     struct Map {
-        struct hana { struct enabled_operators : Comparable { }; };
+#ifndef BOOST_HANA_DOXYGEN_INVOKED
+        struct hana {
+            struct enabled_operators
+                : Comparable
+            { };
+        };
+#endif
     };
 
     //! Creates a `Map` with the given key/value associations.
