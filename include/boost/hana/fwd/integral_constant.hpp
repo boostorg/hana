@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_INTEGRAL_CONSTANT_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/method.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 
 
@@ -132,7 +131,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    BOOST_HANA_METHOD(integral_constant_impl);
+    template <typename C, typename = void>
+    struct integral_constant_impl;
 
     namespace ic_detail {
         template <typename C>
@@ -145,7 +145,7 @@ namespace boost { namespace hana {
     template <typename C, typename ic_detail::param<C>::type v>
     struct _integral_constant {
         constexpr decltype(auto) operator()() const {
-            return dispatch<integral_constant_impl<C>>::template apply<v>();
+            return integral_constant_impl<C>::template apply<v>();
         }
     };
 
