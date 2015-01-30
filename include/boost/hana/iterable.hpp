@@ -15,7 +15,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/method.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
@@ -28,9 +27,13 @@ Distributed under the Boost Software License, Version 1.0.
 
 // provided instances
 #include <boost/hana/foldable.hpp>
+#include <boost/hana/searchable.hpp>
 
 
 namespace boost { namespace hana {
+    //////////////////////////////////////////////////////////////////////////
+    // Operators
+    //////////////////////////////////////////////////////////////////////////
     namespace operators {
         //! Inherit this to get an `operator[]` equivalent to `at`.
         //! @relates boost::hana::Iterable
@@ -72,8 +75,14 @@ namespace boost { namespace hana {
         };
     }
 
-    template <typename It>
-    struct default_<at_impl<It>> {
+    //////////////////////////////////////////////////////////////////////////
+    // at
+    //////////////////////////////////////////////////////////////////////////
+    template <typename It, typename>
+    struct at_impl : at_impl<It, when<true>> { };
+
+    template <typename It, bool condition>
+    struct at_impl<It, when<condition>> {
         template <typename Index, typename Xs>
         static constexpr auto apply(Index n, Xs xs) {
             using I = typename datatype<Index>::type;
@@ -84,8 +93,14 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename It>
-    struct default_<last_impl<It>> {
+    //////////////////////////////////////////////////////////////////////////
+    // last
+    //////////////////////////////////////////////////////////////////////////
+    template <typename It, typename>
+    struct last_impl : last_impl<It, when<true>> { };
+
+    template <typename It, bool condition>
+    struct last_impl<It, when<condition>> {
         template <typename Xs>
         static constexpr auto apply(Xs xs) {
             return eval_if(is_empty(tail(xs)),
@@ -95,8 +110,14 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename It>
-    struct default_<drop_impl<It>> {
+    //////////////////////////////////////////////////////////////////////////
+    // drop
+    //////////////////////////////////////////////////////////////////////////
+    template <typename It, typename>
+    struct drop_impl : drop_impl<It, when<true>> { };
+
+    template <typename It, bool condition>
+    struct drop_impl<It, when<condition>> {
         template <typename N, typename Xs>
         static constexpr auto apply(N n, Xs xs) {
             using I = typename datatype<N>::type;
@@ -107,8 +128,14 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename It>
-    struct default_<drop_while_impl<It>> {
+    //////////////////////////////////////////////////////////////////////////
+    // drop_while
+    //////////////////////////////////////////////////////////////////////////
+    template <typename It, typename>
+    struct drop_while_impl : drop_while_impl<It, when<true>> { };
+
+    template <typename It, bool condition>
+    struct drop_while_impl<It, when<condition>> {
         template <typename Xs, typename Pred>
         static constexpr auto apply(Xs xs, Pred pred) {
             return eval_if(is_empty(xs),
@@ -123,8 +150,14 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename It>
-    struct default_<drop_until_impl<It>> {
+    //////////////////////////////////////////////////////////////////////////
+    // drop_until
+    //////////////////////////////////////////////////////////////////////////
+    template <typename It, typename>
+    struct drop_until_impl : drop_until_impl<It, when<true>> { };
+
+    template <typename It, bool condition>
+    struct drop_until_impl<It, when<condition>> {
         template <typename Xs, typename Pred>
         static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
             return drop_while(
@@ -134,10 +167,11 @@ namespace boost { namespace hana {
         }
     };
 
-    //! @todo Add perfect forwarding where possible. This is _not_ obvious
-    //! to me because of all those branches.
+    //////////////////////////////////////////////////////////////////////////
+    // Model of Foldable
+    //////////////////////////////////////////////////////////////////////////
     template <typename It>
-    struct foldl_impl<It, when<is_an<Iterable, It>{}>> {
+    struct Iterable::foldl_impl {
         template <typename Xs, typename State, typename F>
         static constexpr auto apply(Xs xs, State s, F f) {
             return eval_if(is_empty(xs),
@@ -150,7 +184,7 @@ namespace boost { namespace hana {
     };
 
     template <typename It>
-    struct foldr_impl<It, when<is_an<Iterable, It>{}>> {
+    struct Iterable::foldr_impl {
         template <typename Xs, typename State, typename F>
         static constexpr auto apply(Xs xs, State s, F f) {
             return eval_if(is_empty(xs),
@@ -163,7 +197,7 @@ namespace boost { namespace hana {
     };
 
     template <typename It>
-    struct foldr1_impl<It, when<is_an<Iterable, It>{}>> {
+    struct Iterable::foldr1_impl {
         template <typename Xs, typename F>
         static constexpr auto apply(Xs xs, F f) {
             return eval_if(is_empty(tail(xs)),
@@ -176,24 +210,17 @@ namespace boost { namespace hana {
     };
 
     template <typename It>
-    struct foldl1_impl<It, when<is_an<Iterable, It>{}>> {
+    struct Iterable::foldl1_impl {
         template <typename Xs, typename F>
         static constexpr auto apply(Xs xs, F f)
         { return foldl(tail(xs), head(xs), f); }
     };
 
-    //! Instance of `Searchable` for `Iterable`s.
-    //!
-    //! An `Iterable` can be searched by doing a linear search in the elements,
-    //! with the keys and values both being the elements in the iterable.
-    //!
-    //! ### Example
-    //! @snippet example/iterable.cpp find
-    //!
-    //! @todo
-    //! Use perfect forwarding once Clang bug #20619 is fixed.
+    //////////////////////////////////////////////////////////////////////////
+    // Model of Searchable
+    //////////////////////////////////////////////////////////////////////////
     template <typename It>
-    struct find_impl<It, when<is_an<Iterable, It>{}>> {
+    struct Iterable::find_impl {
         template <typename Xs, typename Pred>
         static constexpr auto apply(Xs xs, Pred pred) {
             auto e = drop_until(xs, pred);
@@ -205,7 +232,7 @@ namespace boost { namespace hana {
     };
 
     template <typename It>
-    struct any_impl<It, when<is_an<Iterable, It>{}>> {
+    struct Iterable::any_impl {
         template <typename Xs, typename Pred>
         static constexpr auto apply(Xs xs, Pred pred) {
             return eval_if(is_empty(xs),

@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_ITERABLE_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/method.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/integral.hpp>
@@ -52,7 +51,7 @@ namespace boost { namespace hana {
     //!
     //! Provided models
     //! ---------------
-    //! 1. `Foldable`
+    //! 1. `Foldable`\n
     //! Every finite `Iterable` instance gives rise to an instance of
     //! `Foldable`.
     //!
@@ -79,6 +78,12 @@ namespace boost { namespace hana {
     //! this makes no difference. Also note that lazy folds and folds with an
     //! initial state are implemented in an analogous way.
     //!
+    //! 2. `Searchable`\n
+    //! An `Iterable` can be searched by doing a linear search in the elements,
+    //! with the keys and values both being the elements in the iterable.
+    //! @snippet example/iterable.cpp find
+    //!
+    //!
     //! ### Example 1
     //! @snippet example/list/foldable.cpp foldl
     //!
@@ -86,10 +91,22 @@ namespace boost { namespace hana {
     //! @snippet example/integer_list/foldable.cpp foldr
     //!
     //!
-    //! @todo Either make it a requirement of Iterable to be convertible to a
-    //! Tuple (since it's used in the laws), or require something strictly
-    //! more general.
-    struct Iterable { };
+    //! @todo
+    //! - Either make it a requirement of Iterable to be convertible to a
+    //!   Tuple (since it's used in the laws), or require something strictly
+    //!   more general.
+    //! - Add perfect forwarding in the methods.
+    //! - Use perfect forwarding in `Iterable::find_impl` once Clang
+    //!   bug #20619 is fixed.
+    struct Iterable {
+        template <typename It> struct foldl_impl;
+        template <typename It> struct foldr_impl;
+        template <typename It> struct foldl1_impl;
+        template <typename It> struct foldr1_impl;
+
+        template <typename It> struct find_impl;
+        template <typename It> struct any_impl;
+    };
 
     //! Return the first element of a non-empty iterable.
     //! @relates Iterable
