@@ -21,7 +21,37 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     //! @ingroup group-datatypes
     //! A basic unordered container requiring `Comparable` elements.
-    struct Set { struct hana { struct enabled_operators : Comparable { }; }; };
+    //!
+    //! Modeled concepts
+    //! ----------------
+    //! 1. `Comparable` (operators provided)\n
+    //! Two sets are equal iff they contain the same elements, regardless of
+    //! the order.
+    //! @snippet example/set.cpp comparable
+    //!
+    //! 2. Searchable\n
+    //! The keys and the values of a `Set` are its elements; the `Searchable` 
+    //! instance follows naturally from that.
+    //! @snippet example/set.cpp searchable
+    //!
+    //!
+    //! Provided conversions
+    //! --------------------
+    //! 1. To any `List`\n
+    //! The order of the elements in the resulting list is unspecified.
+    //!
+    //! 2. From any `Foldable`\n
+    //! If the foldable structure contains duplicates, the last one will
+    //! be the one appearing in the resulting set.
+    struct Set {
+#ifndef BOOST_HANA_DOXYGEN_INVOKED
+        struct hana {
+            struct enabled_operators
+                : Comparable
+            { };
+        };
+#endif
+    };
 
     //! Creates a `Set` containing the given elements.
     //! @relates Set
@@ -79,7 +109,7 @@ namespace boost { namespace hana {
     //! @snippet example/set.cpp insert
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto insert = [](auto&& set, auto&& x) -> decltype(auto) {
-        return unspecified;
+        return tag-dispatched;
     };
 #endif
 
