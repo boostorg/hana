@@ -28,7 +28,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/variadic/for_each.hpp>
 #include <boost/hana/enumerable.hpp>
 #include <boost/hana/functional/partial.hpp>
-#include <boost/hana/integral.hpp>
+#include <boost/hana/integral_constant.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/monoid.hpp>
 #include <boost/hana/orderable.hpp>
@@ -408,7 +408,7 @@ namespace boost { namespace hana {
     struct sum_impl<T, when<condition>> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
-            using M = Integral<int>;
+            using M = IntegralConstant<int>;
             return hana::foldl(detail::std::forward<Xs>(xs), zero<M>(), plus);
         }
     };
@@ -423,7 +423,7 @@ namespace boost { namespace hana {
     struct product_impl<T, when<condition>> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
-            using R = Integral<int>;
+            using R = IntegralConstant<int>;
             return hana::foldl(detail::std::forward<Xs>(xs), one<R>(), mult);
         }
     };

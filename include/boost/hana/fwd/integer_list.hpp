@@ -42,7 +42,7 @@ namespace boost { namespace hana {
     //! Creates a list containing the given `Integral`s.
     //! @relates IntegerList
     //!
-    //! This is functionally equivalent to `tuple(integral<T, xs>...)`.
+    //! This is functionally equivalent to `tuple(integral_constant<T, xs>...)`.
     //!
     //! ### Example
     //! @snippet example/integer_list/integer_list.cpp main

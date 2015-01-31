@@ -14,7 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/create.hpp>
 #include <boost/hana/fwd/comparable.hpp>
 #include <boost/hana/fwd/constant.hpp>
-#include <boost/hana/fwd/integral.hpp>
+#include <boost/hana/fwd/integral_constant.hpp>
 #include <boost/hana/fwd/iterable.hpp>
 #include <boost/hana/fwd/orderable.hpp>
 
@@ -101,18 +101,19 @@ namespace boost { namespace hana {
     constexpr detail::create<_range> range{};
 #endif
 
-    //! Shorthand to create a `Range` of `Integral`s.
+    //! Shorthand to create a `Range` of `Constant`s.
     //! @relates Range
     //!
     //! This shorthand is provided for convenience only and it is equivalent
     //! to `range`. Specifically, `range_c<T, from, to>` is such that
     //! @code
-    //!     range_c<T, from, to> == range(integral<T, from>, integral<T, to>)
+    //!     range_c<T, from, to> == range(integral_constant<T, from>, integral_constant<T, to>)
     //! @endcode
     //!
     //!
     //! @tparam T
-    //! The underlying integral type of the `Integral`s in the created range.
+    //! The underlying integral type of the `IntegralConstant`s in the created
+    //! range.
     //!
     //! @tparam from
     //! The inclusive lower bound of the created range.
@@ -125,7 +126,8 @@ namespace boost { namespace hana {
     //! -------
     //! @snippet example/range.cpp range_c
     template <typename T, T from, T to>
-    constexpr auto range_c = range(integral<T, from>, integral<T, to>);
+    constexpr auto range_c = range(integral_constant<T, from>,
+                                   integral_constant<T, to>);
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_RANGE_HPP

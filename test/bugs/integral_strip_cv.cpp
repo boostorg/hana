@@ -4,7 +4,7 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/integral.hpp>
+#include <boost/hana/integral_constant.hpp>
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/type.hpp>
@@ -14,16 +14,16 @@ using namespace boost::hana;
 template <typename T>
 constexpr void test_for() {
     BOOST_HANA_CONSTANT_CHECK(equal(
-        decltype_(integral<T const, 0>),
-        decltype_(integral<T, 0>)
+        decltype_(integral_constant<T const, 0>),
+        decltype_(integral_constant<T, 0>)
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        decltype_(integral<T volatile, 0>),
-        decltype_(integral<T, 0>)
+        decltype_(integral_constant<T volatile, 0>),
+        decltype_(integral_constant<T, 0>)
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        decltype_(integral<T const volatile, 0>),
-        decltype_(integral<T, 0>)
+        decltype_(integral_constant<T const volatile, 0>),
+        decltype_(integral_constant<T, 0>)
     ));
 }
 

@@ -8,11 +8,11 @@ foreach(method IN ITEMS all any elem find lookup none subset)
         set(hana_tuple_env
             "((1..50).to_a + (51..500).step(25).to_a).map { |n|
                 xs = (1..n).to_a.map { |i|
-                    \"boost::hana::integral<int, #{i}>\"
+                    \"boost::hana::integral_constant<int, #{i}>\"
                 }.join(', ')
                 {
                     setup: '
-                        #include <boost/hana/integral.hpp>
+                        #include <boost/hana/integral_constant.hpp>
                         #include <boost/hana/tuple.hpp>
                     ',
                     searchable: \"boost::hana::tuple(#{xs})\",
@@ -24,12 +24,12 @@ foreach(method IN ITEMS all any elem find lookup none subset)
         set(std_tuple_env
             "((1..50).to_a + (51..500).step(25).to_a).map { |n|
                 xs = (1..n).to_a.map { |i|
-                    \"boost::hana::integral<int, #{i}>\"
+                    \"boost::hana::integral_constant<int, #{i}>\"
                 }.join(', ')
                 {
                     setup: '
                         #include <boost/hana/ext/std/tuple.hpp>
-                        #include <boost/hana/integral.hpp>
+                        #include <boost/hana/integral_constant.hpp>
                         #include <tuple>
                     ',
                     searchable: \"std::make_tuple(#{xs})\",

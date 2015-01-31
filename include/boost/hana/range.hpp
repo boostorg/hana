@@ -22,8 +22,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/enumerable.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/group.hpp>
-#include <boost/hana/integral.hpp> // required by fwd decl
-#include <boost/hana/integral_constant.hpp>
+#include <boost/hana/integral_constant.hpp> // required by fwd decl
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/monoid.hpp>
@@ -66,7 +65,7 @@ namespace boost { namespace hana {
         template <typename F, typename From, typename T, T ...vs>
         static constexpr decltype(auto)
         unpack_helper(F&& f, From from, detail::std::integer_sequence<T, vs...>) {
-            return detail::std::forward<F>(f)(integral<T, value(from) + vs>...);
+            return detail::std::forward<F>(f)(integral_constant<T, value(from) + vs>...);
         }
 
         template <typename R, typename F>

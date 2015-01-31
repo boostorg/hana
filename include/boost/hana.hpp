@@ -55,7 +55,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/either.hpp>
 #include <boost/hana/integer_list.hpp>
-#include <boost/hana/integral.hpp>
 #include <boost/hana/lazy.hpp>
 #include <boost/hana/map.hpp>
 #include <boost/hana/maybe.hpp>

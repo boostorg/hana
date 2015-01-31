@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/integer_list.hpp>
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/integral.hpp>
+#include <boost/hana/integral_constant.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
 
@@ -84,19 +84,19 @@ int main() {
         // cons
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                cons(integral<int, 0>, integer_list<long>),
+                cons(integral_constant<int, 0>, integer_list<long>),
                 integer_list<long, 0>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                cons(integral<int, 0>, integer_list<unsigned int, 1>),
+                cons(integral_constant<int, 0>, integer_list<unsigned int, 1>),
                 integer_list<unsigned int, 0, 1>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                cons(integral<long, 0>, integer_list<long long, 1, 2>),
+                cons(integral_constant<long, 0>, integer_list<long long, 1, 2>),
                 integer_list<long long, 0, 1, 2>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                cons(integral<unsigned long, 0>, integer_list<unsigned long, 1, 2, 3>),
+                cons(integral_constant<unsigned long, 0>, integer_list<unsigned long, 1, 2, 3>),
                 integer_list<unsigned long, 0, 1, 2, 3>
             ));
         }

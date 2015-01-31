@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/integer_list.hpp>
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/integral.hpp>
+#include <boost/hana/integral_constant.hpp>
 
 // instances
 #include <boost/hana/iterable.hpp>
@@ -30,7 +30,7 @@ namespace boost { namespace hana {
     struct head_impl<IntegerList> {
         template <typename T, T x, T ...xs>
         static constexpr auto apply(ilist_detail::integer_list<T, x, xs...>)
-        { return integral<T, x>; }
+        { return integral_constant<T, x>; }
     };
 
     template <>
