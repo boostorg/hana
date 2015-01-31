@@ -15,8 +15,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana { namespace detail { namespace std {
+    template <typename T, typename U, typename = void>
+    struct common_type { };
+
     template <typename T, typename U>
-    struct common_type {
+    struct common_type<T, U, decltype((void)(true ? declval<T>() : declval<U>()))> {
         using type = typename decay<
             decltype(true ? declval<T>() : declval<U>())
         >::type;
