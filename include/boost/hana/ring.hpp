@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/ring.hpp>
 
+#include <boost/hana/constant.hpp>
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
@@ -127,6 +128,47 @@ namespace boost { namespace hana {
         static constexpr T apply()
         { return static_cast<T>(1); }
     };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Model for Constants over a Ring
+    //////////////////////////////////////////////////////////////////////////
+    template <typename C>
+    struct models<Ring(C), when<
+        models<Constant(C)>{} && models<Ring(typename C::value_type)>{}
+    >>
+        : detail::std::true_type
+    { };
+
+    template <typename C>
+    struct mult_impl<C, C, when<
+        models<Constant(C)>{} && models<Ring(typename C::value_type)>{}
+    >> {
+        using T = typename C::value_type;
+        template <typename X, typename Y>
+        struct _constant {
+            static constexpr decltype(auto) get()
+            { return boost::hana::mult(value2<X>(), value2<Y>()); }
+            struct hana { using datatype = detail::CanonicalConstant<T>; };
+        };
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X const&, Y const&)
+        { return to<C>(_constant<X, Y>{}); }
+    };
+
+    template <typename C>
+    struct one_impl<C, when<
+        models<Constant(C)>{} && models<Ring(typename C::value_type)>{}
+    >> {
+        using T = typename C::value_type;
+        struct _constant {
+            static constexpr decltype(auto) get()
+            { return boost::hana::one<T>(); }
+            struct hana { using datatype = detail::CanonicalConstant<T>; };
+        };
+        static constexpr decltype(auto) apply()
+        { return to<C>(_constant{}); }
+    };
+
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_RING_HPP

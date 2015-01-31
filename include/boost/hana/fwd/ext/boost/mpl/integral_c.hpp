@@ -10,35 +10,13 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_EXT_BOOST_MPL_INTEGRAL_C_HPP
 #define BOOST_HANA_FWD_EXT_BOOST_MPL_INTEGRAL_C_HPP
 
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/std/is_same.hpp>
-
-#include <boost/mpl/integral_c_tag.hpp>
-
-
 namespace boost { namespace hana {
     namespace ext { namespace boost { namespace mpl {
         //! @ingroup group-datatypes
         //! Data type representing Boost.MPL IntegralConstants.
-        //!
-        //! ### Instance of
-        //! `Constant`, `IntegralConstant`
         template <typename T>
-        struct IntegralC;
+        struct IntegralC { using value_type = T; };
     }}}
-
-    template <typename T>
-    struct datatype<T, when<
-        detail::std::is_same<
-            typename T::tag,
-            ::boost::mpl::integral_c_tag
-        >::value
-    >> {
-        using type = ext::boost::mpl::IntegralC<
-            typename T::value_type
-        >;
-    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_EXT_BOOST_MPL_INTEGRAL_C_HPP

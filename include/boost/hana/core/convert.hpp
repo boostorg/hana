@@ -37,6 +37,9 @@ namespace boost { namespace hana {
     //! @todo Document
     struct embedding { };
 
+    template <bool condition> struct embedding_if { };
+    template <>               struct embedding_if<true> : embedding { };
+
     //! @ingroup group-core
     //!
     //!
@@ -88,10 +91,14 @@ namespace boost { namespace hana {
     template <typename To, typename From, typename = void>
     struct convert : convert<To, From, when<true>> { };
 
+    namespace core_detail { struct no_conversion { }; }
     template <typename To, typename From, bool condition>
-    struct convert<To, From, when<condition>> {
-        static_assert(wrong<convert<To, From>>{},
-        "no conversion is available between the provided data types");
+    struct convert<To, From, when<condition>> : core_detail::no_conversion {
+        template <typename X>
+        static constexpr auto apply(X const&) {
+            static_assert(wrong<convert<To, From>, X>{},
+            "no conversion is available between the provided data types");
+        }
     };
 
     template <typename To, typename From>
@@ -130,6 +137,14 @@ namespace boost { namespace hana {
     BOOST_HANA_DEFINE_EMBEDDING_IMPL(unsigned int          , unsigned short int);
 #undef BOOST_HANA_DEFINE_EMBEDDING_IMPL
 #endif
+
+    template <typename From, typename To, typename = void>
+    struct is_convertible : detail::std::true_type { };
+
+    template <typename From, typename To>
+    struct is_convertible<From, To, decltype((void)
+        static_cast<core_detail::no_conversion>(*(convert<To, From>*)0)
+    )> : detail::std::false_type { };
 
     //! @ingroup group-core
     //! Create an object of a data type from an object of another data type.

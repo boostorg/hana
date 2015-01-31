@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/comparable.hpp>
 
 #include <boost/hana/bool.hpp>
+#include <boost/hana/constant.hpp>
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
@@ -122,6 +123,25 @@ namespace boost { namespace hana {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y)
         { return detail::std::forward<X>(x) == detail::std::forward<Y>(y); }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Model for Constants wrapping a Comparable
+    //////////////////////////////////////////////////////////////////////////
+    template <typename C>
+    struct models<Comparable(C), when<
+        models<Constant(C)>{} && models<Comparable(typename C::value_type)>{}
+    >>
+        : detail::std::true_type
+    { };
+
+    template <typename C>
+    struct equal_impl<C, C, when<
+        models<Constant(C)>{} && models<Comparable(typename C::value_type)>{}
+    >> {
+        template <typename X, typename Y>
+        static constexpr auto apply(X const&, Y const&)
+        { return bool_<hana::equal(value2<X>(), value2<Y>())>; }
     };
 }} // end namespace boost::hana
 

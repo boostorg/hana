@@ -12,22 +12,40 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/ext/boost/mpl/integral_c.hpp>
 
+#include <boost/hana/constant.hpp>
 #include <boost/hana/core/convert.hpp>
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
-
-// instances
-#include <boost/hana/constant.hpp>
-#include <boost/hana/integral_constant.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
+#include <boost/hana/detail/std/is_integral.hpp>
+#include <boost/hana/detail/std/is_same.hpp>
 
 #include <boost/mpl/integral_c.hpp>
+#include <boost/mpl/integral_c_tag.hpp>
 
 
 namespace boost { namespace hana {
-    //! `Constant` instance for Boost.MPL IntegralConstants.
-    //!
-    //! ### Example
-    //! @include example/ext/boost/mpl/integral_c/constant.cpp
+    //////////////////////////////////////////////////////////////////////////
+    // datatype
+    //////////////////////////////////////////////////////////////////////////
+    template <typename T>
+    struct datatype<T, when<
+        detail::std::is_same<typename T::tag, ::boost::mpl::integral_c_tag>{}
+    >> {
+        using type = ext::boost::mpl::IntegralC<
+            typename T::value_type
+        >;
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Constant
+    //////////////////////////////////////////////////////////////////////////
+    template <typename T>
+    struct models<Constant(ext::boost::mpl::IntegralC<T>)>
+        : detail::std::true_type
+    { };
+
     template <typename T>
     struct value_impl<ext::boost::mpl::IntegralC<T>> {
         template <typename C>
@@ -35,22 +53,13 @@ namespace boost { namespace hana {
         { return C::value; }
     };
 
-    template <typename T>
-    struct integral_constant_impl<ext::boost::mpl::IntegralC<T>> {
-        template <T v>
-        static constexpr auto apply()
-        { return ::boost::mpl::integral_c<T, v>{}; }
-    };
-
     template <typename T, typename C>
-    struct convert<ext::boost::mpl::IntegralC<T>, C,
-        when<is_an<IntegralConstant, C>{}>
-    > {
+    struct convert<ext::boost::mpl::IntegralC<T>, C, when<
+        models<Constant(C)>{} && detail::std::is_integral<typename C::value_type>{}
+    >> : embedding_if<is_embedding<convert<T, typename C::value_type>>> {
         template <typename X>
-        static constexpr decltype(auto) apply(X x) {
-            constexpr auto v = value(x);
-            return ::boost::mpl::integral_c<T, v>{};
-        }
+        static constexpr auto apply(X)
+        { return ::boost::mpl::integral_c<T, value2<X>()>{}; }
     };
 }} // end namespace boost::hana
 

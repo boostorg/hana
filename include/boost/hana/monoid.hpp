@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/monoid.hpp>
 
+#include <boost/hana/constant.hpp>
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
@@ -97,6 +98,46 @@ namespace boost { namespace hana {
     struct zero_impl<T, when<detail::std::is_arithmetic<T>{}>> {
         static constexpr T apply()
         { return static_cast<T>(0); }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Model for Constants over a Monoid
+    //////////////////////////////////////////////////////////////////////////
+    template <typename C>
+    struct models<Monoid(C), when<
+        models<Constant(C)>{} && models<Monoid(typename C::value_type)>{}
+    >>
+        : detail::std::true_type
+    { };
+
+    template <typename C>
+    struct plus_impl<C, C, when<
+        models<Constant(C)>{} && models<Monoid(typename C::value_type)>{}
+    >> {
+        using T = typename C::value_type;
+        template <typename X, typename Y>
+        struct _constant {
+            static constexpr decltype(auto) get()
+            { return boost::hana::plus(value2<X>(), value2<Y>()); }
+            struct hana { using datatype = detail::CanonicalConstant<T>; };
+        };
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X const&, Y const&)
+        { return to<C>(_constant<X, Y>{}); }
+    };
+
+    template <typename C>
+    struct zero_impl<C, when<
+        models<Constant(C)>{} && models<Monoid(typename C::value_type)>{}
+    >> {
+        using T = typename C::value_type;
+        struct _constant {
+            static constexpr decltype(auto) get()
+            { return boost::hana::zero<T>(); }
+            struct hana { using datatype = detail::CanonicalConstant<T>; };
+        };
+        static constexpr decltype(auto) apply()
+        { return to<C>(_constant{}); }
     };
 }} // end namespace boost::hana
 

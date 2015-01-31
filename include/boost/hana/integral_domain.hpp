@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/integral_domain.hpp>
 
+#include <boost/hana/constant.hpp>
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
@@ -120,6 +121,48 @@ namespace boost { namespace hana {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y)
         { return detail::std::forward<X>(x) % detail::std::forward<Y>(y); }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Model for Constants over an IntegralDomain
+    //////////////////////////////////////////////////////////////////////////
+    template <typename C>
+    struct models<IntegralDomain(C), when<
+        models<Constant(C)>{} && models<IntegralDomain(typename C::value_type)>{}
+    >>
+        : detail::std::true_type
+    { };
+
+    template <typename C>
+    struct quot_impl<C, C, when<
+        models<Constant(C)>{} && models<IntegralDomain(typename C::value_type)>{}
+    >> {
+        using T = typename C::value_type;
+        template <typename X, typename Y>
+        struct _constant {
+            static constexpr decltype(auto) get()
+            { return boost::hana::quot(value2<X>(), value2<Y>()); }
+            struct hana { using datatype = detail::CanonicalConstant<T>; };
+        };
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X const&, Y const&)
+        { return to<C>(_constant<X, Y>{}); }
+    };
+
+    template <typename C>
+    struct mod_impl<C, C, when<
+        models<Constant(C)>{} && models<IntegralDomain(typename C::value_type)>{}
+    >> {
+        using T = typename C::value_type;
+        template <typename X, typename Y>
+        struct _constant {
+            static constexpr decltype(auto) get()
+            { return boost::hana::mod(value2<X>(), value2<Y>()); }
+            struct hana { using datatype = detail::CanonicalConstant<T>; };
+        };
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X const&, Y const&)
+        { return to<C>(_constant<X, Y>{}); }
     };
 }} // end namespace boost::hana
 

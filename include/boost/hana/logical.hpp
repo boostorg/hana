@@ -12,6 +12,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/logical.hpp>
 
+#include <boost/hana/constant.hpp>
+#include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
@@ -20,6 +22,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/declval.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/id.hpp>
@@ -211,6 +214,93 @@ namespace boost { namespace hana {
             else {
                 return detail::std::forward<State>(state);
             }
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Model for Constants over a Logical
+    //////////////////////////////////////////////////////////////////////////
+    template <typename C>
+    struct models<Logical(C), when<
+        models<Constant(C)>{} && models<Logical(typename C::value_type)>{}
+    >>
+        : detail::std::true_type
+    { };
+
+    template <typename C>
+    struct eval_if_impl<C, when<
+        models<Constant(C)>{} && models<Logical(typename C::value_type)>{}
+    >> {
+        template <typename Then, typename Else>
+        static constexpr auto helper(detail::std::true_type, Then t, Else e)
+        { return t(id); }
+
+        template <typename Then, typename Else>
+        static constexpr auto helper(detail::std::false_type, Then t, Else e)
+        { return e(id); }
+
+        template <typename Cond, typename Then, typename Else>
+        static constexpr auto apply(Cond, Then t, Else e) {
+            constexpr auto cond = value2<Cond>();
+            constexpr bool truth_value = hana::if_(cond, true, false);
+            return helper(detail::std::integral_constant<bool, truth_value>{}, t, e);
+        }
+    };
+
+    template <typename C>
+    struct not_impl<C, when<
+        models<Constant(C)>{} && models<Logical(typename C::value_type)>{}
+    >> {
+        using T = typename C::value_type;
+        template <typename Cond>
+        struct _constant {
+            static constexpr decltype(auto) get()
+            { return boost::hana::not_(value2<Cond>()); }
+            struct hana { using datatype = detail::CanonicalConstant<T>; };
+        };
+        template <typename Cond>
+        static constexpr auto apply(Cond const&)
+        { return to<C>(_constant<Cond>{}); }
+    };
+
+    template <typename C>
+    struct while_impl<C, when<
+        models<Constant(C)>{} && models<Logical(typename C::value_type)>{}
+    >> {
+        template <typename Pred, typename State, typename F>
+        static constexpr State
+        while_helper(detail::std::false_type, Pred&& pred, State&& state, F&& f) {
+            return detail::std::forward<State>(state);
+        }
+
+        template <typename Pred, typename State, typename F>
+        static constexpr decltype(auto)
+        while_helper(detail::std::true_type, Pred&& pred, State&& state, F&& f) {
+            decltype(auto) r = f(detail::std::forward<State>(state));
+            return while_(detail::std::forward<Pred>(pred),
+                          detail::std::forward<decltype(r)>(r),
+                          detail::std::forward<F>(f));
+        }
+
+        template <typename Pred, typename State, typename F>
+        static constexpr decltype(auto)
+        apply(Pred&& pred, State&& state, F&& f) {
+            // Since `pred(state)` returns a `Constant`, we do not actually
+            // need to call it; we only need its decltype. However, we still
+            // call it to run potential side effects. I'm not sure whether
+            // that is desirable, since we pretty much take for granted that
+            // functions are pure, but we'll do it like this for now. Also, I
+            // think there is something rather deep hidden behind this, and
+            // understanding what must be done here should give us a better
+            // understanding of something non-trivial.
+            (void)pred(state);
+
+            constexpr auto cond = value2<decltype(pred(state))>();
+            constexpr bool truth_value = hana::if_(cond, true, false);
+            return while_helper(detail::std::integral_constant<bool, truth_value>{},
+                                detail::std::forward<Pred>(pred),
+                                detail::std::forward<State>(state),
+                                detail::std::forward<F>(f));
         }
     };
 }} // end namespace boost::hana

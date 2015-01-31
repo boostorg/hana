@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/group.hpp>
 
+#include <boost/hana/constant.hpp>
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
@@ -124,6 +125,32 @@ namespace boost { namespace hana {
         template <typename X>
         static constexpr decltype(auto) apply(X&& x)
         { return -detail::std::forward<X>(x); }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Model for Constants over a Group
+    //////////////////////////////////////////////////////////////////////////
+    template <typename C>
+    struct models<Group(C), when<
+        models<Constant(C)>{} && models<Group(typename C::value_type)>{}
+    >>
+        : detail::std::true_type
+    { };
+
+    template <typename C>
+    struct minus_impl<C, C, when<
+        models<Constant(C)>{} && models<Group(typename C::value_type)>{}
+    >> {
+        using T = typename C::value_type;
+        template <typename X, typename Y>
+        struct _constant {
+            static constexpr decltype(auto) get()
+            { return boost::hana::minus(value2<X>(), value2<Y>()); }
+            struct hana { using datatype = detail::CanonicalConstant<T>; };
+        };
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X const&, Y const&)
+        { return to<C>(_constant<X, Y>{}); }
     };
 }} // end namespace boost::hana
 

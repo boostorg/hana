@@ -9,7 +9,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/assert.hpp>
 using namespace boost::hana;
 
-
+#error test me with indices and move me to integral_constant.cpp
 template <unsigned long n>
 void check() {
     unsigned long counter = 0;

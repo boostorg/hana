@@ -21,11 +21,11 @@ namespace boost { namespace hana {
     //!
     //! At its core, `Constant` is simply a generalization of the principle
     //! behind `std::integral_constant` to all types that can be constructed
-    //! at compile-time, i.e. to all types with a `constexpr` constructor.
-    //! A `Constant` is an object from which a `constexpr` value may be obtained
-    //! (through the `value` method) regardless of the `constexpr`ness of
-    //! the object itself. For this to be possible, the type of that object
-    //! must look somewhat like
+    //! at compile-time, i.e. to all types with a `constexpr` constructor
+    //! (also called [Literal][1] types). More specifically, a `Constant` is
+    //! an object from which a `constexpr` value may be obtained (through the
+    //! `value` method) regardless of the `constexpr`ness of the object itself.
+    //! For this to be possible, the type of that object must look somewhat like
     //! @code
     //!     struct Something {
     //!         static constexpr auto the_constexpr_value = ...;
@@ -41,14 +41,38 @@ namespace boost { namespace hana {
     //!
     //! Holding the value as a static constant makes it possible to obtain a
     //! `constexpr` result even when calling `value` on a non-constexpr object
-    //! of type `Something`. Of course, other implementations may be possible,
-    //! but this gives the idea. The requirement that a `constexpr` value can
-    //! be obtained from any object is embodied by the following laws.
+    //! of type `Something`. If the function had used the _value_ of its
+    //! argument, it could not have returned a constant expression when its
+    //! argument is not one. Hence, the function is only allowed to depend on
+    //! the _type_ of its argument.
+    //!
+    //! Also, all `Constant`s must be somewhat equivalent, in the following
+    //! sense. Let `C<T>` and `D<U>` denote the data types of `Constant`s
+    //! holding objects of type `T` and `U`, respectively. Then, an object
+    //! of data type `D<U>` must be convertible to an object of type `C<T>`
+    //! whenever `U` is convertible to `T`, has determined by `is_convertible`.
+    //! The interpretation here is that a `Constant` is just a box holding an
+    //! object of some type, and it should be possible to swap between boxes
+    //! whenever the objects inside the boxes can be swapped.
+    //!
+    //! Because of this last requirement, one could be tempted to think that
+    //! specialized "boxes" like `std::integral_constant` are prevented from
+    //! being `Constant`s because they are not able to hold objects of any
+    //! type `T` (`std::integral_constant` may only hold integral types).
+    //! This is false; the requirement should be interpreted as saying that
+    //! whenever `C<T>` is _meaningful_ (e.g. only when `T` is integral for
+    //! `std::integral_constant`) _and_ there exists a conversion from `U`
+    //! to `T`, then a conversion from `D<U>` to `C<T>` should also exist.
+    //! The precise requirements for being a `Constant` are embodied in the
+    //! following laws.
     //!
     //!
     //! Laws
     //! ----
-    //! For any `Constant` `c`, the following program must be well-formed:
+    //! Let `c` be an object of a data type `C`, which represents a `Constant`
+    //! holding an object of data type `T`. The first law ensures that the
+    //! value of the wrapped object can always be obtained as a constant
+    //! expression, by requiring that the following program be well-formed:
     //! @code
     //!     template <typename X>
     //!     void f(X x) {
@@ -63,20 +87,69 @@ namespace boost { namespace hana {
     //! This means that the `value` function must return an object that can
     //! be constructed at compile-time. It is important to note that since
     //! @code
-    //!     constexpr auto t = value(x);
+    //!     constexpr auto y = value(x);
     //! @endcode
     //!
-    //! appears in a context where `x` is _not_ a constant expression,
-    //! this law also means that `value` must be able to return a constant
+    //! appears in a context where `x` is _not_ a constant expression (function
+    //! arguments are never `constexpr` inside the function's context), this
+    //! law precisely means that `value` must be able to return a constant
     //! expression even when called with something that isn't one. This
-    //! requirement is the core of a `Constant`; it basically means that
-    //! all of the information stored inside the `c` object that's used in a
-    //! call to `value` must actually be stored inside its type.
+    //! requirement is the core of the `Constant` concept; it means that
+    //! the only information required to implement `value` must be stored
+    //! in the _type_ of its argument, and hence be available statically.
+    //!
+    //! The second law that must be satisfied ensures that `Constant`s are
+    //! basically dumb boxes, which makes it possible to provide models for
+    //! many concepts without much work from the user. The law simply asks
+    //! for the following expression to be valid:
+    //! @code
+    //!     to<C>(i)
+    //! @endcode
+    //! where, `i` is an _arbitrary_ `Constant` holding an internal value
+    //! of a data type which can be converted to `T`, as determined by the
+    //! `is_convertible` metafunction. In other words, whenever `U` is
+    //! convertible to `T`, a `Constant` holding a `U` is convertible to
+    //! a `Constant` holding a `T`, if such a `Constant` can be created.
     //!
     //!
     //! Minimal complete definition
     //! ---------------------------
     //! `value`, satisfying the laws above.
+    //!
+    //!
+    //! Provided conversions
+    //! --------------------
+    //! 1. To the data type of the underlying value\n
+    //! Any `Constant` `c` holding an underlying value of data type `T` is
+    //! convertible to any data type `U` such that `T` is convertible to `U`.
+    //! Specifically, the conversion is equivalent to
+    //! @code
+    //!     to<U>(c) == to<U>(value(c))
+    //! @endcode
+    //!
+    //!
+    //! Provided common data type
+    //! -------------------------
+    //! Because of the requirement that `Constant`s be interchangeable when
+    //! their contents are compatible, two `Constant`s `A` and `B` will have
+    //! a common data type whenever `A::value_type` and `B::value_type` have
+    //! one. Their common data type is an unspecified `Constant` `C` such
+    //! that `C::value_type` is exactly `common_t<A::value_type, B::value_type>`.
+    //! A specialization of the `common` metafunction is provided for `Constant`s
+    //! to embody this.
+    //!
+    //!
+    //! @todo
+    //! Replace value by value2.
+    //! Document the nested value_type.
+    //! Document the provided models, but that should be done in each concept.
+    //! The fact that `common_t<IntegralConstant<int>, IntegralConstant<long>>`
+    //! is `CanonicalConstant<long>` is unsatisfactory.
+    //! Are the conversions required to be embeddings? It seems like this
+    //! should always be the case?
+    //!
+    //!
+    //! [1]: http://en.cppreference.com/w/cpp/concept/LiteralType
     struct Constant { };
 
     //! Return the compile-time value associated to a constant.
@@ -89,7 +162,9 @@ namespace boost { namespace hana {
     //! by the type of its argument, and that it does not use the value of
     //! its argument at all.
     //!
-    //! ### Example
+    //!
+    //! Example
+    //! -------
     //! @snippet example/constant.cpp value
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto value = [](auto&& constant) -> decltype(auto) {
@@ -110,6 +185,27 @@ namespace boost { namespace hana {
 
     constexpr _value value{};
 #endif
+
+    template <typename X>
+    struct _value2 {
+        constexpr decltype(auto) operator()() const
+        { return hana::value(X{}); }
+    };
+
+    template <typename X>
+    constexpr _value2<X> value2{};
+
+    namespace detail {
+        //! @ingroup group-details
+        //! Data type representing a canonical `Constant`.
+        //!
+        //! This is an implementation detail used to provide many models for
+        //! stuff like `Monoid`, `Group`, etc...
+        template <typename T>
+        struct CanonicalConstant {
+            using value_type = T;
+        };
+    }
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CONSTANT_HPP

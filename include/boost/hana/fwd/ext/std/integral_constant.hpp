@@ -10,34 +10,13 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_EXT_STD_INTEGRAL_CONSTANT_HPP
 #define BOOST_HANA_FWD_EXT_STD_INTEGRAL_CONSTANT_HPP
 
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/when.hpp>
-
-#include <type_traits>
-
-
 namespace boost { namespace hana {
     namespace ext { namespace std {
+        //! @ingroup group-datatypes
+        //! Data type representing `std::integral_constant`s.
         template <typename T>
-        struct IntegralConstant;
+        struct IntegralConstant { using value_type = T; };
     }}
-
-    namespace std_ic_detail {
-        template <typename T, T v>
-        constexpr bool
-        is_std_integral_constant(::std::integral_constant<T, v>*)
-        { return true; }
-
-        constexpr bool is_std_integral_constant(...)
-        { return false; }
-    }
-
-    template <typename T>
-    struct datatype<T, when<std_ic_detail::is_std_integral_constant((T*)0)>> {
-        using type = ext::std::IntegralConstant<
-            typename T::value_type
-        >;
-    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_EXT_STD_INTEGRAL_CONSTANT_HPP
