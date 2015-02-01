@@ -12,11 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/create.hpp>
-#include <boost/hana/fwd/comparable.hpp>
-#include <boost/hana/fwd/constant.hpp>
 #include <boost/hana/fwd/integral_constant.hpp>
-#include <boost/hana/fwd/iterable.hpp>
-#include <boost/hana/fwd/orderable.hpp>
 
 
 namespace boost { namespace hana {
@@ -56,16 +52,7 @@ namespace boost { namespace hana {
     //! `[from, to)` is equivalent to iterating over a list containing
     //! `from, from+1, from+2, ..., to-1`.
     //! @snippet example/range.cpp iterable
-    struct Range {
-#ifndef BOOST_HANA_DOXYGEN_INVOKED
-        struct hana {
-            struct enabled_operators
-                : Comparable
-                , Iterable
-            { };
-        };
-#endif
-    };
+    struct Range { };
 
     //! Creates a `Range` representing the half-open interval of
     //! `Integral`s `[from, to)`.
@@ -84,19 +71,7 @@ namespace boost { namespace hana {
     };
 #else
     template <typename From, typename To>
-    struct _range
-        : operators::enable_adl
-        , operators::Iterable_ops<_range<From, To>>
-    {
-        constexpr _range(From f, To t) : from(f), to(t) {
-            auto valid_range = less_equal(from, to);
-            static_assert(value(valid_range),
-            "invalid usage of boost::hana::range(from, to) with from > to");
-        }
-        From from;
-        To to;
-        struct hana { using datatype = Range; };
-    };
+    struct _range;
 
     constexpr detail::create<_range> range{};
 #endif
