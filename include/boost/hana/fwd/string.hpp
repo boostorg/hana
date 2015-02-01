@@ -10,14 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_STRING_HPP
 #define BOOST_HANA_FWD_STRING_HPP
 
-#include <boost/hana/core/operators.hpp>
-#include <boost/hana/detail/std/integer_sequence.hpp>
-#include <boost/hana/detail/std/size_t.hpp>
-#include <boost/hana/fwd/comparable.hpp>
-#include <boost/hana/fwd/iterable.hpp>
-#include <boost/hana/fwd/orderable.hpp>
-
-
 namespace boost { namespace hana {
     //! @ingroup group-datatypes
     //! Represents a compile-time string.
@@ -70,17 +62,7 @@ namespace boost { namespace hana {
     //! @todo
     //! The `BOOST_HANA_STRING` macro does not appear near `String` in the
     //! documentation.
-    struct String {
-#ifndef BOOST_HANA_DOXYGEN_INVOKED
-        struct hana {
-            struct enabled_operators
-                : Comparable
-                , Orderable
-                , Iterable
-            { };
-        };
-#endif
-    };
+    struct String { using value_type = char const*; };
 
     //! Create a compile-time string from a parameter pack of characters.
     //! @relates String
@@ -94,12 +76,7 @@ namespace boost { namespace hana {
     constexpr unspecified-type string{};
 #else
     template <char ...s>
-    struct _string
-        : operators::enable_adl
-        , operators::Iterable_ops<_string<s...>>
-    {
-        struct hana { using datatype = String; };
-    };
+    struct _string;
 
     template <char ...s>
     constexpr _string<s...> string{};
@@ -122,27 +99,7 @@ namespace boost { namespace hana {
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
 #   define BOOST_HANA_STRING(s) unspecified
 #else
-    namespace string_detail {
-        template <typename S, detail::std::size_t ...N>
-        constexpr decltype(auto)
-        prepare_impl(S, detail::std::index_sequence<N...>)
-        { return string<S::storage()[N]...>; }
-
-        template <typename S>
-        constexpr decltype(auto) prepare(S s) {
-            return prepare_impl(s,
-                detail::std::make_index_sequence<sizeof(S::storage()) - 1>{});
-        }
-    }
-
-#   define BOOST_HANA_STRING(s)                                             \
-        (::boost::hana::string_detail::prepare([]{                          \
-            struct tmp {                                                    \
-                static constexpr decltype(auto) storage() { return s; }     \
-            };                                                              \
-            return tmp{};                                                   \
-        }()))                                                               \
-    /**/
+    // defined in boost/hana/string.hpp
 #endif
 }} // end namespace boost::hana
 

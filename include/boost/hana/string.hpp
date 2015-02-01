@@ -15,9 +15,15 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/constant.hpp>
-#include <boost/hana/constant.hpp>
+#include <boost/hana/core/convert.hpp>
+#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/operators.hpp>
+#include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/integer_sequence.hpp>
 #include <boost/hana/detail/std/integral_constant.hpp>
+#include <boost/hana/detail/std/is_same.hpp>
+#include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/iterable.hpp>
@@ -28,6 +34,45 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
+    //////////////////////////////////////////////////////////////////////////
+    // string
+    //////////////////////////////////////////////////////////////////////////
+    template <char ...s>
+    struct _string
+        : operators::enable_adl
+        , operators::Iterable_ops<_string<s...>>
+    { };
+
+    template <char ...s>
+    struct datatype<_string<s...>> {
+        using type = String;
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // BOOST_HANA_STRING
+    //////////////////////////////////////////////////////////////////////////
+#define BOOST_HANA_STRING(s)                                                \
+    (::boost::hana::to< ::boost::hana::String>([]{                          \
+        struct tmp {                                                        \
+            static constexpr char const* get()                              \
+            { return s; }                                                   \
+            using hana = tmp;                                               \
+            using datatype = ::boost::hana::detail::CanonicalConstant<      \
+                char const*                                                 \
+            >;                                                              \
+        };                                                                  \
+        return tmp{};                                                       \
+    }()))                                                                   \
+/**/
+
+    //////////////////////////////////////////////////////////////////////////
+    // Operators
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct enabled_operators<String>
+        : Comparable, Orderable, Iterable
+    { };
+
     //////////////////////////////////////////////////////////////////////////
     // Comparable
     //////////////////////////////////////////////////////////////////////////
@@ -92,6 +137,28 @@ namespace boost { namespace hana {
         template <char ...s>
         static constexpr char const* apply(_string<s...> const&)
         { return string_detail::store<s...>; }
+    };
+
+    template <typename C>
+    struct convert<String, C, when<
+        models<Constant(C)>{} &&
+        detail::std::is_same<typename C::value_type, char const*>{}
+    >> : embedding {
+        template <typename S, detail::std::size_t ...i>
+        static constexpr auto helper(S, detail::std::index_sequence<i...>)
+        { return string<value2<S>()[i]...>; }
+
+        static constexpr detail::std::size_t strlen(char const* s) {
+            detail::std::size_t len = 0;
+            while (*s++ != '\0') ++len;
+            return len;
+        }
+
+        template <typename S>
+        static constexpr decltype(auto) apply(S s) {
+            constexpr detail::std::size_t len = strlen(value2<S>());
+            return helper(s, detail::std::make_index_sequence<len>{});
+        }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -190,7 +257,7 @@ namespace boost { namespace hana {
         template <char ...s, typename C>
         static constexpr auto apply(_string<s...> str, C character) {
             return hana::if_(hana::elem(str, character),
-                just(character),
+                hana::just(character),
                 nothing
             );
         }
