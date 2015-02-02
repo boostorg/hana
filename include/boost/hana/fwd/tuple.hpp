@@ -10,28 +10,59 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_TUPLE_HPP
 #define BOOST_HANA_FWD_TUPLE_HPP
 
-#include <boost/hana/core/operators.hpp>
-#include <boost/hana/detail/closure.hpp>
 #include <boost/hana/detail/create.hpp>
-#include <boost/hana/fwd/comparable.hpp>
-#include <boost/hana/fwd/iterable.hpp>
-#include <boost/hana/fwd/monad.hpp>
 
 
 namespace boost { namespace hana {
     //! @ingroup group-datatypes
-    //! General purpose index-based heterogeneous sequence.
+    //! General purpose index-based heterogeneous sequence with a fixed length.
     //!
-    //! ### Instance of
-    //! `Comparable`, `Functor`, `Applicative`, `Monad`, `Traversable`,
-    //! `Foldable`, `Iterable`, `List` and `Searchable`.
-    struct Tuple {
-        struct hana {
-            struct enabled_operators : Comparable, Monad, Iterable { };
-        };
-    };
+    //! `Tuple` is the bread and butter for static metaprogramming.
+    //! Conceptually, it is exactly the same as a `std::tuple`; it is just
+    //! a sequence able of holding objects of different types and whose size
+    //! is fixed at compile-time. However, Hana's tuple provides much more
+    //! functionality than its `std` counterpart, and it is also much more
+    //! efficient than all standard library implementations tested so far.
+    //!
+    //! `Tuple`s are index-based sequences. If you need an associative
+    //! sequence with a key-based access, then you should consider the
+    //! `Map` and `Set` data types instead.
+    //!
+    //!
+    //! Modeled concepts
+    //! ----------------
+    //! 1. `Comparable` (operators provided)\n
+    //! @todo
+    //!
+    //! 2. `Functor`\n
+    //! @todo
+    //!
+    //! 3. `Applicative`\n
+    //! @todo
+    //!
+    //! 4. `Monad` (operators provided)\n
+    //! @todo
+    //!
+    //! 5. `MonadPlus`\n
+    //! @todo
+    //!
+    //! 6. `Foldable`\n
+    //! @todo
+    //!
+    //! 7. `Iterable` (operators provided)\n
+    //! @todo
+    //!
+    //! 8. `Searchable`\n
+    //! @todo
+    //!
+    //! 9. `Traversable`\n
+    //! @todo
+    //!
+    //! 10. `Sequence`\n
+    //! @todo
+    struct Tuple { };
 
-    //! Create a `Tuple` containing `xs...`.
+    //! Create a `Tuple` containing the given objects.
     //! @relates Tuple
     //!
     //! @todo
@@ -45,16 +76,48 @@ namespace boost { namespace hana {
     };
 #else
     template <typename ...Xs>
-    struct _tuple
-        : detail::closure<Xs...>
-        , operators::enable_adl
-        , operators::Iterable_ops<_tuple<Xs...>>
-    {
-        using detail::closure<Xs...>::closure; // inherit constructor
-        struct hana { using datatype = Tuple; };
-    };
+    struct _tuple;
 
     constexpr detail::create<_tuple> tuple{};
+#endif
+
+    //! Create a `Tuple` specialized for holding `Type`s.
+    //! @relates Tuple
+    //!
+    //! This is functionally equivalent to `tuple(type<T>...)`, except that
+    //! using `tuple_t` allows the library to perform some compile-time
+    //! optimizations. Note that those optimizations are 100% transparent
+    //! to the user.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/tuple.cpp tuple_t
+    //!
+    //! @todo
+    //! Implement efficient membership testing. This is possible by taking
+    //! advantage of the fact that equality is defined in terms of
+    //! `std::is_same` for `Type`s.
+    //! +@todo
+    //! - Optimize the following methods for `tuple_t`s:
+    //!     - `drop`
+    //!     - `get_element`
+    //!     - `intersperse`
+    //!     - `remove_at`
+    //!     - `slice`
+    //!     - `take`
+    //!     - `reverse`
+    //! - Optimize `concat` for three sequences.
+    //!
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    template <typename ...T>
+    constexpr unspecified-type tuple_t{};
+#else
+    template <typename ...T>
+    struct _tuple_t;
+
+    template <typename ...T>
+    constexpr typename _tuple_t<T...>::_ tuple_t{};
 #endif
 }} // end namespace boost::hana
 

@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/tuple.hpp>
 
 #include <boost/hana/bool.hpp>
+#include <boost/hana/comparable.hpp>
 #include <boost/hana/constant.hpp> // value
 #include <boost/hana/detail/closure.hpp>
 #include <boost/hana/detail/create.hpp>
@@ -24,65 +25,111 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
+#include <boost/hana/foldable.hpp>
 #include <boost/hana/functional/apply.hpp>
 #include <boost/hana/functional/curry.hpp>
-#include <boost/hana/integral_constant.hpp> // size_t
-
-// instances
-#include <boost/hana/foldable.hpp>
 #include <boost/hana/functor.hpp>
+#include <boost/hana/integral_constant.hpp> // size_t
 #include <boost/hana/iterable.hpp>
-#include <boost/hana/list.hpp>
-
-// operators
-#include <boost/hana/comparable.hpp>
 #include <boost/hana/monad.hpp>
+#include <boost/hana/sequence.hpp>
 
 
 namespace boost { namespace hana {
-    namespace tuple_detail {
-        struct utils {
-            template <typename ...Xs>
-            static constexpr detail::std::size_t get_size(_tuple<Xs...> const*)
-            { return sizeof...(Xs); }
+    //////////////////////////////////////////////////////////////////////////
+    // tuple and tuple_t
+    //////////////////////////////////////////////////////////////////////////
+    template <typename ...Xs>
+    struct _tuple
+        : detail::closure<Xs...>
+        , operators::enable_adl
+        , operators::Iterable_ops<_tuple<Xs...>>
+    {
+        using detail::closure<Xs...>::closure; // inherit constructor
 
-            template <detail::std::size_t n, typename Xn>
-            static constexpr decltype(auto)
-            get_element(detail::element<n, Xn> const& x)
-            { return (x.get); }
+        static constexpr detail::std::size_t size = sizeof...(Xs);
+        static constexpr bool is_empty = sizeof...(Xs) == 0;
+    };
 
-            template <detail::std::size_t n, typename Xn>
-            static constexpr decltype(auto)
-            get_element(detail::element<n, Xn>& x)
-            { return (x.get); }
+    template <typename ...Xs>
+    struct datatype<_tuple<Xs...>> {
+        using type = Tuple;
+    };
 
-            template <detail::std::size_t n, typename Xn>
-            static constexpr Xn
-            get_element(detail::element<n, Xn>&& x)
-            { return detail::std::move(x.get); }
-
-            template <bool, typename X>
-            using allow_expansion = X;
-
-            template <typename T, detail::std::size_t N>
-            static constexpr T homogeneous_min(T const (&array)[N]) {
-                static_assert(N > 0, "can't find the minimum of an empty array");
-                T m = array[0];
-                for (detail::std::size_t i = 0; i < N; ++i)
-                    if (array[i] < m)
-                        m = array[i];
-                return m;
-            }
-
-            template <typename T, detail::std::size_t N>
-            static constexpr T homogeneous_sum(T const (&array)[N]) {
-                T s = 0;
-                for (detail::std::size_t i = 0; i < N; ++i)
-                    s += array[i];
-                return s;
-            }
+    template <typename ...T>
+    struct _tuple_t {
+        struct _
+            : _tuple_t
+            , operators::enable_adl
+            , operators::Iterable_ops<_>
+        {
+            struct hana { using datatype = Tuple; };
+            static constexpr detail::std::size_t size = sizeof...(T);
+            static constexpr bool is_empty = sizeof...(T) == 0;
         };
-    }
+    };
+
+    template <>
+    struct enabled_operators<Tuple>
+        : Comparable, Monad, Iterable
+    { };
+
+    //////////////////////////////////////////////////////////////////////////
+    // make
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct make_impl<Tuple> {
+        template <typename ...Xs>
+        static constexpr
+        _tuple<typename detail::std::decay<Xs>::type...> apply(Xs&& ...xs)
+        { return {detail::std::forward<Xs>(xs)...}; }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // utilities
+    //////////////////////////////////////////////////////////////////////////
+    namespace detail {
+        template <typename F>
+        using is_Metafunction = detail::std::is_same<
+            typename datatype<F>::type, Metafunction
+        >;
+
+        template <typename T>
+        using is_Type = detail::std::is_same<
+            typename datatype<T>::type, Type
+        >;
+
+        template <typename ...Xs>
+        constexpr detail::std::size_t tuple_size_impl(_tuple<Xs...>*)
+        { return sizeof...(Xs); }
+
+        template <typename ...T>
+        constexpr detail::std::size_t tuple_size_impl(_tuple_t<T...>*)
+        { return sizeof...(T); }
+
+        template <typename Xs>
+        using tuple_size = detail::std::integral_constant<detail::std::size_t,
+            tuple_size_impl((Xs*)0)
+        >;
+
+        template <detail::std::size_t n, typename Xn>
+        static constexpr decltype(auto)
+        tuple_get(detail::element<n, Xn> const& x)
+        { return (x.get); }
+
+        template <detail::std::size_t n, typename Xn>
+        static constexpr decltype(auto)
+        tuple_get(detail::element<n, Xn>& x)
+        { return (x.get); }
+
+        template <detail::std::size_t n, typename Xn>
+        static constexpr Xn
+        tuple_get(detail::element<n, Xn>&& x)
+        { return detail::std::move(x.get); }
+
+        template <bool, typename T>
+        using expand = T;
+    } // end namespace detail
 
     #define BOOST_HANA_PP_FOR_EACH_REF1(MACRO)                          \
         MACRO(const&)                                                   \
@@ -108,41 +155,97 @@ namespace boost { namespace hana {
         MACRO(&&    , &&    , &&    )                                   \
     /**/
 
+    //////////////////////////////////////////////////////////////////////////
+    // Comparable
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Comparable(Tuple)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct equal_impl<Tuple, Tuple> {
+        template <typename Xs, typename Ys>
+        static constexpr decltype(auto) apply(Xs const& xs, Ys const& ys)
+        { return Sequence::equal_impl<Tuple, Tuple>::apply(xs, ys); }
+
+        template <typename ...T>
+        static constexpr auto apply(_tuple_t<T...>, _tuple_t<T...>)
+        { return true_; }
+
+        template <typename ...T, typename ...U>
+        static constexpr auto apply(_tuple_t<T...>, _tuple_t<U...>)
+        { return false_; }
+    };
+
+#error How to make Tuple Comparable with any other sequence?
+
+    //////////////////////////////////////////////////////////////////////////
+    // Foldable
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Foldable(Tuple)>
+        : detail::std::true_type
+    { };
+
     template <>
     struct unpack_impl<Tuple> {
         #define BOOST_HANA_PP_UNPACK(REF)                                   \
-            template <typename Into, typename ...Xs>                        \
+            template <typename ...Xs, typename F>                           \
             static constexpr decltype(auto)                                 \
-            apply(detail::closure_impl<Xs...> REF xs, Into&& into) {        \
-                return detail::std::forward<Into>(into)(                    \
+            apply(detail::closure_impl<Xs...> REF xs, F&& f) {              \
+                return detail::std::forward<F>(f)(                          \
                     static_cast<Xs REF>(xs).get...                          \
                 );                                                          \
             }                                                               \
         /**/
         BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_UNPACK)
         #undef BOOST_HANA_PP_UNPACK
+
+
+        template <typename ...T, typename F>
+        static constexpr auto helper(F const&, Metafunction*)
+        { return type<typename F::template apply<T...>::type>; }
+
+        template <typename ...T, typename F>
+        static constexpr decltype(auto) helper(F&& f, ...)
+        { return detail::std::forward<F>(f)(type<T>...); }
+
+        template <typename ...T, typename F>
+        static constexpr decltype(auto) apply(_tuple_t<T...> const&, F&& f) {
+            return helper<T...>(detail::std::forward<F>(f),
+                                (typename datatype<F>::type*)0);
+        }
     };
 
     template <>
     struct length_impl<Tuple> {
-        template <typename ...Xs>
-        static constexpr decltype(auto) apply(_tuple<Xs...> const&)
-        { return size_t<sizeof...(Xs)>; }
+        template <typename Xs>
+        static constexpr auto apply(Xs const&)
+        { return size_t<Xs::size>; }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Iterable
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Iterable(Tuple)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct head_impl<Tuple> {
+        template <typename Xs>
+        static constexpr decltype(auto) apply(Xs&& xs)
+        { return detail::tuple_get<0>(detail::std::forward<Xs>(xs)); }
     };
 
     template <>
-    struct head_impl<Tuple> : tuple_detail::utils {
-        template <typename Tuple>
-        static constexpr decltype(auto) apply(Tuple&& tuple)
-        { return get_element<0>(detail::std::forward<Tuple>(tuple)); }
-    };
-
-    template <>
-    struct at_impl<Tuple> : tuple_detail::utils {
+    struct at_impl<Tuple> {
         template <typename N, typename Xs>
-        static constexpr decltype(auto) apply(N n, Xs&& xs) {
-            constexpr detail::std::size_t index = value(n);
-            return get_element<index>(detail::std::forward<Xs>(xs));
+        static constexpr decltype(auto) apply(N, Xs&& xs) {
+            constexpr detail::std::size_t index = hana::value2<N>();
+            return detail::tuple_get<index>(detail::std::forward<Xs>(xs));
         }
     };
 
@@ -157,56 +260,215 @@ namespace boost { namespace hana {
         /**/
         BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_TAIL)
         #undef BOOST_HANA_PP_TAIL
+
+        template <typename T, typename ...Ts>
+        static constexpr auto apply(_tuple_t<T, Ts...> const&)
+        { return tuple_t<Ts...>; }
     };
 
     template <>
     struct is_empty_impl<Tuple> {
-        template <typename ...Xs>
-        static constexpr decltype(auto) apply(_tuple<Xs...> const&)
-        { return bool_<sizeof...(Xs) == 0>; }
+        template <typename Xs>
+        static constexpr auto apply(Xs const&)
+        { return bool_<Xs::is_empty>; }
     };
 
     template <>
-    struct last_impl<Tuple> : tuple_detail::utils {
+    struct last_impl<Tuple> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
-            constexpr detail::std::size_t size = get_size(decltype(&xs){});
-            return get_element<size - 1>(detail::std::forward<Xs>(xs));
+            constexpr detail::std::size_t size = detail::tuple_size<Xs>{};
+            return detail::tuple_get<size - 1>(detail::std::forward<Xs>(xs));
         }
     };
 
     template <>
-    struct drop_impl<Tuple> : tuple_detail::utils {
-        template <detail::std::size_t n, detail::std::size_t ...i, typename Xs>
+    struct drop_impl<Tuple> {
+        using size_t = detail::std::size_t;
+
+        template <size_t n, typename Xs, size_t ...i>
         static constexpr decltype(auto)
-        drop_helper(detail::std::index_sequence<i...>, Xs&& xs) {
-            return tuple(
-                get_element<n + i>(detail::std::forward<Xs>(xs))...
-            );
+        helper(Xs&& xs, detail::std::index_sequence<i...>) {
+            return hana::tuple(detail::tuple_get<n + i>(
+                                            detail::std::forward<Xs>(xs))...);
         }
 
         template <typename N, typename Xs>
-        static constexpr decltype(auto) apply(N n_, Xs&& xs) {
-            constexpr detail::std::size_t n = value(n_);
-            constexpr detail::std::size_t size = get_size(decltype(&xs){});
-            constexpr detail::std::size_t drop_size = n > size ? size : n;
-            return drop_helper<drop_size>(
-                detail::std::make_index_sequence<size - drop_size>{},
-                detail::std::forward<Xs>(xs));
+        static constexpr decltype(auto) apply(N, Xs&& xs) {
+            constexpr size_t n = hana::value2<N>();
+            constexpr size_t size = detail::tuple_size<Xs>{};
+            constexpr size_t drop_size = n > size ? size : n;
+            return helper<drop_size>(detail::std::forward<Xs>(xs),
+                detail::std::make_index_sequence<size - drop_size>{});
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Searchable
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Searchable(Tuple)>
+        : detail::std::true_type
+    { };
+#error implement this
+
+    //////////////////////////////////////////////////////////////////////////
+    // Traversable
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Traversable(Tuple)>
+        : detail::std::true_type
+    { };
+#error implement this
+
+    //////////////////////////////////////////////////////////////////////////
+    // Functor
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Functor(Tuple)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct transform_impl<Tuple> {
+        #define BOOST_HANA_PP_TRANSFORM(REF)                                \
+            template <typename ...Xs, typename F>                           \
+            static constexpr decltype(auto)                                 \
+            apply(detail::closure_impl<Xs...> REF xs, F&& f)                \
+            { return hana::tuple(f(static_cast<Xs REF>(xs).get)...); }      \
+        /**/
+        BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_TRANSFORM)
+        #undef BOOST_HANA_PP_TRANSFORM
+
+
+        template <typename ...T, typename F, typename = detail::std::enable_if_t<
+            !detail::is_metafunction<F>{}
+        >>
+        static constexpr decltype(auto) apply(_tuple_t<T...> const&, F&& f) {
+            return hana::tuple(f(type<T>)...);
+        }
+
+        template <typename ...T, typename F, typename = detail::std::enable_if_t<
+            detail::is_metafunction<F>{}
+        >>
+        static constexpr decltype(auto) apply(_tuple_t<T...> const&, F const&) {
+            return tuple_t<typename F::template apply<T>::type...>;
         }
     };
 
     template <>
-    struct make_impl<Tuple> {
-        template <typename ...Xs>
-        static constexpr
-        _tuple<typename detail::std::decay<Xs>::type...> apply(Xs&& ...xs)
-        { return {detail::std::forward<Xs>(xs)...}; }
+    struct fill_impl<Tuple> {
+        template <typename ...Xs, typename T>
+        static constexpr auto apply(_tuple_t<Xs...> const&, _type<T> const&)
+        { return tuple_t<detail::expand<sizeof(Xs), T>...>; }
+
+        template <typename V>
+        static constexpr auto apply(_tuple_t<> const&, V&&)
+        { return tuple_t<>; }
+
+        template <typename T, typename ...Ts, typename V>
+        static constexpr _tuple<
+            typename detail::std::decay<V>::type,
+            typename detail::std::decay<detail::expand<sizeof(Ts), V>>::type...
+        > apply(_tuple_t<T, Ts...> const&, V&& v)
+        { return {((void)sizeof(Ts), v)..., detail::std::forward<V>(v)}; }
+
+        template <typename ...Xs, typename V>
+        static constexpr decltype(auto) apply(_tuple<Xs...> const&, V&& v)
+        { return apply(tuple_t<Xs...>, detail::std::forward<V>(v)); }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Applicative
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Applicative(Tuple)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct lift_impl<Tuple> {
+        template <typename X>
+        static constexpr _tuple<typename detail::std::decay<X>::type> apply(X&& x)
+        { return {detail::std::forward<X>(x)}; }
     };
 
     template <>
-    struct concat_impl<Tuple> : tuple_detail::utils {
-        #define BOOST_HANA_PP_CONCAT2(REF1, REF2)                           \
+    struct ap_impl<Tuple> {
+        template <typename Fs, typename Xs>
+        static constexpr ... apply(Fs&& fs, Xs&& xs) {
+#error implement this
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Monad
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Monad(Tuple)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct flatten_impl<Tuple> {
+        using size_t = detail::std::size_t;
+
+        template <int Which, size_t ...Lengths>
+        struct flatten_indices {
+            template <typename Array>
+            constexpr auto operator()(Array outer) const {
+                constexpr size_t lengths[] = {Lengths...};
+                Array inner = outer;
+                for (size_t index = 0, i = 0; i < sizeof...(Lengths); ++i) {
+                    for (size_t j = 0; j < lengths[i]; ++j, ++index) {
+                        inner[index] = i;
+                        outer[index] = j;
+                    }
+                }
+                return detail::tuple_get<Which>(hana::tuple(outer, inner));
+            }
+        };
+
+        template <typename Xs, size_t ...outer, size_t ...inner>
+        static constexpr decltype(auto)
+        helper(Xs&& xs, detail::std::index_sequence<outer...>,
+                        detail::std::index_sequence<inner...>)
+        {
+            return hana::tuple(detail::tuple_get<outer>(
+                                detail::tuple_get<inner>(
+                                    detail::std::forward<Xs>(xs)))...);
+        }
+
+        #define BOOST_HANA_PP_FLATTEN(REF)                                      \
+            template <typename ...Xs>                                           \
+            static constexpr decltype(auto)                                     \
+            apply(detail::closure_impl<Xs...> REF xs) {                         \
+                constexpr size_t lengths[] = {detail::tuple_size<Xs>{}...};     \
+                constexpr size_t total_length = hana::sum(lengths);             \
+                                                                                \
+                using Outer = flatten_indices<0, detail::tuple_size<Xs>{}...>;  \
+                using Inner = flatten_indices<1, detail::tuple_size<Xs>{}...>;  \
+                                                                                \
+                return helper(static_cast<detail::closure_impl<Xs...> REF>(xs), \
+                    detail::generate_index_sequence<total_length, Outer>{},     \
+                    detail::generate_index_sequence<total_length, Inner>{});    \
+            }                                                                   \
+        /**/
+        BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_FLATTEN)
+        #undef BOOST_HANA_PP_FLATTEN
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // MonadPlus
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<MonadPlus(Tuple)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct concat_impl<Tuple> {
+        #define BOOST_HANA_PP_CONCAT(REF1, REF2)                            \
             template <typename ...Xs, typename ...Ys>                       \
             static constexpr _tuple<                                        \
                 typename Xs::get_type..., typename Ys::get_type...          \
@@ -219,67 +481,65 @@ namespace boost { namespace hana {
                 };                                                          \
             }                                                               \
         /**/
-        BOOST_HANA_PP_FOR_EACH_REF2(BOOST_HANA_PP_CONCAT2)
-        #undef BOOST_HANA_PP_CONCAT2
+        BOOST_HANA_PP_FOR_EACH_REF2(BOOST_HANA_PP_CONCAT)
+        #undef BOOST_HANA_PP_CONCAT
 
-        #define BOOST_HANA_PP_CONCAT3(REF1, REF2, REF3)                     \
-            template <typename ...Xs, typename ...Ys, typename ...Zs>       \
+        #define BOOST_HANA_PP_CONCAT_T(REF)                                 \
+            template <typename ...Xs, typename ...Us>                       \
             static constexpr _tuple<                                        \
-                typename Xs::get_type...,                                   \
-                typename Ys::get_type...,                                   \
-                typename Zs::get_type...                                    \
-            > apply(detail::closure_impl<Xs...> REF1 xs,                    \
-                    detail::closure_impl<Ys...> REF2 ys,                    \
-                    detail::closure_impl<Zs...> REF3 zs)                    \
-            {                                                               \
-                return {                                                    \
-                    static_cast<Xs REF1>(xs).get...,                        \
-                    static_cast<Ys REF2>(ys).get...,                        \
-                    static_cast<Zs REF2>(zs).get...                         \
-                };                                                          \
-            }                                                               \
+                typename Xs::get_type..., decltype(type<Us>)...             \
+            > apply(detail::closure_impl<Xs...> REF xs,                     \
+                    _tuple_t<Us...> const&)                                 \
+            { return {static_cast<Xs REF>(xs).get..., type<Us>...}; }       \
+                                                                            \
+            template <typename ...Ts, typename ...Ys>                       \
+            static constexpr _tuple<                                        \
+                decltype(type<Ts>)..., typename Ys::get_type...             \
+            > apply(_tuple_t<Ts...> const&,                                 \
+                    detail::closure_impl<Ys...> REF ys)                     \
+            { return {type<Ts>..., static_cast<Ys REF>(ys).get...}; }       \
         /**/
-        BOOST_HANA_PP_FOR_EACH_REF3(BOOST_HANA_PP_CONCAT3)
-        #undef BOOST_HANA_PP_CONCAT3
+        BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_CONCAT_T)
+        #undef BOOST_HANA_PP_CONCAT_T
 
-        template <int Which, detail::std::size_t ...Lengths>
-        struct generate_concat_indices {
-            template <typename Array>
-            constexpr auto operator()(Array outer) const {
-                constexpr detail::std::size_t lengths[] = {Lengths...};
-                Array inner = outer;
-                for (detail::std::size_t index = 0, i = 0; i < sizeof...(Lengths); ++i) {
-                    for (detail::std::size_t j = 0; j < lengths[i]; ++j, ++index) {
-                        inner[index] = i;
-                        outer[index] = j;
-                    }
-                }
-                return get_element<Which>(tuple(outer, inner));
-            }
-        };
-
-        template <typename Tuples, detail::std::size_t ...outer, detail::std::size_t ...inner>
-        static constexpr decltype(auto) concat_helper(Tuples&& tuples, detail::std::index_sequence<outer...>, detail::std::index_sequence<inner...>) {
-            return tuple(get_element<outer>(get_element<inner>(detail::std::forward<Tuples>(tuples)))...);
-        }
-
-        // The other overloads are more efficient and we prefer them when there
-        // are only 2 or 3 tuples to concatenate.
-        template <typename ...Tuples, typename = detail::std::enable_if_t<(sizeof...(Tuples) > 3)>>
-        static constexpr decltype(auto) apply(Tuples&& ...tuples) {
-            constexpr detail::std::size_t lengths[] = {get_size(decltype(&tuples){})...};
-            constexpr detail::std::size_t total_length = homogeneous_sum(lengths);
-            using Outer = generate_concat_indices<0, get_size(decltype(&tuples){})...>;
-            using Inner = generate_concat_indices<1, get_size(decltype(&tuples){})...>;
-            return concat_helper(tuple(detail::std::forward<Tuples>(tuples)...),
-                detail::generate_index_sequence<total_length, Outer>{},
-                detail::generate_index_sequence<total_length, Inner>{});
-        }
+        template <typename ...Ts, typename ...Us>
+        static constexpr auto apply(_tuple_t<Ts...> const&, _tuple_t<Us...> const&)
+        { return tuple_t<Ts..., Us...>; }
     };
 
     template <>
-    struct cons_impl<Tuple> {
-        #define BOOST_HANA_PP_CONS(REF)                                         \
+    struct nil_impl<Tuple> {
+        static constexpr auto apply()
+        { return tuple_t<>; }
+    };
+
+    template <>
+    struct cycle_impl<Tuple> {
+        template <typename Xs>
+        static constexpr _tuple<> helper(Xs&&, detail::std::index_sequence<>)
+        { return {}; }
+
+        template <typename Xs, detail::std::size_t i, detail::std::size_t ...j>
+        static constexpr decltype(auto)
+        helper(Xs&& xs, detail::std::index_sequence<i, j...>) {
+            _tuple<typename detail::std::decay<Xs>::type,
+                   typename detail::std::decay<detail::expand<j, Xs>>::type...
+            > zs{((void)j, xs)..., detail::std::forward<Xs>(xs)};
+            return hana::flatten(detail::std::move(zs));
+        }
+
+        template <typename N, typename Xs>
+        static constexpr decltype(auto) apply(N, Xs&& xs) {
+            constexpr detail::std::size_t n = hana::value2<N>();
+            return helper(detail::std::forward<X>(x),
+                          detail::std::make_index_sequence<n>{});
+        }
+    };
+#error implement repeat efficiently
+
+    template <>
+    struct prepend_impl<Tuple> {
+        #define BOOST_HANA_PP_PREPEND(REF)                                      \
             template <typename X, typename ...Xs>                               \
             static constexpr _tuple<                                            \
                 typename detail::std::decay<X>::type, typename Xs::get_type...  \
@@ -289,28 +549,53 @@ namespace boost { namespace hana {
                 };                                                              \
             }                                                                   \
         /**/
-        BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_CONS)
-        #undef BOOST_HANA_PP_CONS
+        BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_PREPEND)
+        #undef BOOST_HANA_PP_PREPEND
     };
 
     template <>
-    struct init_impl<Tuple> : tuple_detail::utils {
+    struct append_impl<Tuple> {
+        #define BOOST_HANA_PP_APPEND(REF)                                       \
+            template <typename ...Xs, typename X>                               \
+            static constexpr _tuple<                                            \
+                typename Xs::get_type..., typename detail::std::decay<X>::type  \
+            > apply(detail::closure_impl<Xs...> REF xs, X&& x) {                \
+                return {                                                        \
+                    static_cast<Xs REF>(xs).get..., detail::std::forward<X>(x)  \
+                };                                                              \
+            }                                                                   \
+        /**/
+        BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_APPEND)
+        #undef BOOST_HANA_PP_APPEND
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Sequence
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Sequence(Tuple)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct init_impl<Tuple> {
         template <typename Xs, detail::std::size_t ...n>
         static constexpr decltype(auto)
-        init_helper(Xs&& xs, detail::std::index_sequence<n...>) {
-            return tuple(get_element<n>(detail::std::forward<Xs>(xs))...);
+        helper(Xs&& xs, detail::std::index_sequence<n...>) {
+            return hana::tuple(detail::tuple_get<n>(
+                    detail::std::forward<Xs>(xs))...);
         }
 
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
-            constexpr detail::std::size_t size = get_size(decltype(&xs){});
-            return init_helper(detail::std::forward<Xs>(xs),
+            constexpr detail::std::size_t size = detail::tuple_size<Xs>{};
+            return helper(detail::std::forward<Xs>(xs),
                 detail::std::make_index_sequence<size - 1>{});
         }
     };
 
     template <>
-    struct intersperse_impl<Tuple> : tuple_detail::utils {
+    struct intersperse_impl<Tuple> {
         template <detail::std::size_t i, typename Z, typename Xs>
         static constexpr Z pick(Z&& z, Xs const&,
             detail::std::false_type /* odd index */)
@@ -330,8 +615,8 @@ namespace boost { namespace hana {
 
         template <typename Xs, typename Z, detail::std::size_t ...i>
         static constexpr decltype(auto)
-        intersperse_helper(Xs&& xs, Z&& z, detail::std::index_sequence<i...>) {
-            return tuple(
+        helper(Xs&& xs, Z&& z, detail::std::index_sequence<i...>) {
+            return hana::tuple(
                 pick<i>(
                     detail::std::forward<Z>(z),
                     detail::std::forward<Xs>(xs),
@@ -342,137 +627,92 @@ namespace boost { namespace hana {
 
         template <typename Xs, typename Z>
         static constexpr decltype(auto) apply(Xs&& xs, Z&& z) {
-            constexpr detail::std::size_t size = get_size(decltype(&xs){});
+            constexpr detail::std::size_t size = detail::tuple_size<Xs>{};
             constexpr auto new_seq_size = size == 0 ? 0 : (size * 2) - 1;
-            return intersperse_helper(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Z>(z),
-                detail::std::make_index_sequence<new_seq_size>{}
-            );
+            return helper(detail::std::forward<Xs>(xs),
+                          detail::std::forward<Z>(z),
+                          detail::std::make_index_sequence<new_seq_size>{});
         }
     };
 
     template <>
-    struct nil_impl<Tuple> {
-        static constexpr _tuple<> apply()
-        { return {}; }
-    };
+    struct remove_at_impl<Tuple> {
+        using size_t = detail::std::size_t;
 
-    template <>
-    struct remove_at_impl<Tuple> : tuple_detail::utils {
-        template <typename Xs, detail::std::size_t ...before,
-                               detail::std::size_t ...after>
+        template <typename Xs, size_t ...before, size_t ...after>
         static constexpr decltype(auto)
-        remove_at_helper(Xs&& xs, detail::std::index_sequence<before...>,
-                                  detail::std::index_sequence<after...>) {
-            return tuple(
-                get_element<before>(detail::std::forward<Xs>(xs))...,
-                get_element<sizeof...(before) + after + 1>(
+        helper(Xs&& xs, detail::std::index_sequence<before...>,
+                        detail::std::index_sequence<after...>)
+        {
+            return hana::tuple(
+                detail::tuple_get<before>(
+                    detail::std::forward<Xs>(xs)
+                )...,
+                detail::tuple_get<sizeof...(before) + after + 1>(
                     detail::std::forward<Xs>(xs)
                 )...
             );
         }
 
         template <typename N, typename Xs>
-        static constexpr decltype(auto) apply(N n, Xs&& xs) {
-            constexpr detail::std::size_t index = value(n);
-            constexpr detail::std::size_t size = get_size(decltype(&xs){});
-            return remove_at_helper(
-                detail::std::forward<Xs>(xs),
-                detail::std::make_index_sequence<index>{},
-                detail::std::make_index_sequence<size - index - 1>{}
-            );
+        static constexpr decltype(auto) apply(N, Xs&& xs) {
+            constexpr size_t index = hana::value2<N>();
+            constexpr size_t size = detail::tuple_size<Xs>{};
+            return helper(detail::std::forward<Xs>(xs),
+                          detail::std::make_index_sequence<index>{},
+                          detail::std::make_index_sequence<size - index - 1>{});
         }
     };
 
     template <>
-    struct repeat_impl<Tuple> : tuple_detail::utils {
-        template <typename X>
-        static constexpr _tuple<>
-        repeat_helper(X&& x, detail::std::index_sequence<>) { return {}; }
-
-        template <typename X, detail::std::size_t i, detail::std::size_t ...j>
-        static constexpr _tuple<
-            typename detail::std::decay<X>::type,
-            allow_expansion<(j, false), typename detail::std::decay<X>::type>...
-        >
-        repeat_helper(X&& x, detail::std::index_sequence<i, j...>) {
-            return {((void)j, x)..., detail::std::forward<X>(x)};
-        }
-
-        template <typename N, typename X>
-        static constexpr decltype(auto) apply(N n_, X&& x) {
-            constexpr detail::std::size_t n = value(n_);
-            return repeat_helper(detail::std::forward<X>(x),
-                detail::std::make_index_sequence<n>{}
-            );
-        }
-    };
-
-    template <>
-    struct reverse_impl<Tuple> : tuple_detail::utils {
+    struct reverse_impl<Tuple> {
         template <detail::std::size_t ...n, typename ...Xn>
         static constexpr decltype(auto)
         apply(detail::closure_impl<detail::element<n, Xn>...>&& xs) {
-            return tuple(
-                detail::std::move(get_element<sizeof...(n) - n - 1>(xs))...
-            );
+            return hana::tuple(detail::std::move(
+                    detail::tuple_get<sizeof...(n) - n - 1>(xs))...);
         }
 
         template <detail::std::size_t ...n, typename ...Xn>
         static constexpr decltype(auto)
         apply(detail::closure_impl<detail::element<n, Xn>...> const& xs) {
-            return tuple(get_element<sizeof...(n) - n - 1>(xs)...);
+            return hana::tuple(detail::tuple_get<sizeof...(n) - n - 1>(xs)...);
         }
     };
 
     template <>
-    struct slice_impl<Tuple> : tuple_detail::utils {
+    struct slice_impl<Tuple> {
         template <detail::std::size_t from, typename Xs, detail::std::size_t ...i>
         static constexpr decltype(auto)
-        slice_helper(Xs&& xs, detail::std::index_sequence<i...>) {
-            return tuple(get_element<from + i>(detail::std::forward<Xs>(xs))...);
+        helper(Xs&& xs, detail::std::index_sequence<i...>) {
+            return hana::tuple(detail::tuple_get<from + i>(
+                                    detail::std::forward<Xs>(xs))...);
         }
 
         template <typename Xs, typename From, typename To>
-        static constexpr decltype(auto) apply(Xs&& xs, From from_, To to_) {
-            constexpr detail::std::size_t from = value(from_), to = value(to_);
-            return slice_helper<from>(detail::std::forward<Xs>(xs),
+        static constexpr decltype(auto) apply(Xs&& xs, From, To) {
+            constexpr detail::std::size_t from = hana::value2<From>(),
+                                          to = hana::value2<To>();
+            return helper<from>(detail::std::forward<Xs>(xs),
                 detail::std::make_index_sequence<to - from>{}
             );
         }
     };
 
     template <>
-    struct snoc_impl<Tuple> {
-        #define BOOST_HANA_PP_SNOC(REF)                                         \
-            template <typename ...Xs, typename X>                               \
-            static constexpr _tuple<                                            \
-                typename Xs::get_type..., typename detail::std::decay<X>::type  \
-            > apply(detail::closure_impl<Xs...> REF xs, X&& x) {                \
-                return {                                                        \
-                    static_cast<Xs REF>(xs).get...,                             \
-                    detail::std::forward<X>(x)                                  \
-                };                                                              \
-            }                                                                   \
-        /**/
-        BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_SNOC)
-        #undef BOOST_HANA_PP_SNOC
-    };
-
-    template <>
-    struct take_impl<Tuple> : tuple_detail::utils {
+    struct take_impl<Tuple> {
         template <typename Xs, detail::std::size_t ...n>
         static constexpr decltype(auto)
-        take_helper(Xs&& xs, detail::std::index_sequence<n...>) {
-            return tuple(get_element<n>(detail::std::forward<Xs>(xs))...);
+        helper(Xs&& xs, detail::std::index_sequence<n...>) {
+            return hana::tuple(detail::tuple_get<n>(
+                                        detail::std::forward<Xs>(xs))...);
         }
 
         template <typename N, typename Xs>
-        static constexpr decltype(auto) apply(N n_, Xs&& xs) {
-            constexpr detail::std::size_t n = value(n_);
-            constexpr detail::std::size_t size = get_size(decltype(&xs){});
-            return take_helper(detail::std::forward<Xs>(xs),
+        static constexpr decltype(auto) apply(N, Xs&& xs) {
+            constexpr detail::std::size_t n = hana::value2<N>(),
+                                          size = detail::tuple_size<Xs>{};
+            return helper(detail::std::forward<Xs>(xs),
                 detail::std::make_index_sequence<(n < size ? n : size)>{});
         }
     };
@@ -483,21 +723,19 @@ namespace boost { namespace hana {
             template <typename ...Xs>                                       \
             static constexpr decltype(auto)                                 \
             apply(detail::closure_impl<Xs...> REF xs)                       \
-            { return zip(static_cast<Xs REF>(xs).get...); }                 \
+            { return hana::zip(static_cast<Xs REF>(xs).get...); }           \
         /**/
         BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_UNZIP)
         #undef BOOST_HANA_PP_UNZIP
     };
 
     template <>
-    struct zip_with_impl<Tuple> : tuple_detail::utils {
+    struct zip_with_impl<Tuple> {
         #define BOOST_HANA_PP_ZIP_WITH1(REF)                                \
             template <typename F, typename ...Xs>                           \
             static constexpr decltype(auto) zip_with_helper(F&& f,          \
                 detail::closure_impl<Xs...> REF xs)                         \
-            {                                                               \
-                return tuple(f(static_cast<Xs REF>(xs).get)...);            \
-            }                                                               \
+            { return hana::tuple(f(static_cast<Xs REF>(xs).get)...); }      \
         /**/
         BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_ZIP_WITH1)
         #undef BOOST_HANA_PP_ZIP_WITH1
@@ -508,7 +746,7 @@ namespace boost { namespace hana {
                 detail::closure_impl<Xs...> REF1 xs,                        \
                 detail::closure_impl<Ys...> REF2 ys)                        \
             {                                                               \
-                return tuple(                                               \
+                return hana::tuple(                                         \
                     f(static_cast<Xs REF1>(xs).get,                         \
                       static_cast<Ys REF2>(ys).get)...                      \
                 );                                                          \
@@ -524,7 +762,7 @@ namespace boost { namespace hana {
                 detail::closure_impl<Ys...> REF2 ys,                              \
                 detail::closure_impl<Zs...> REF3 zs)                              \
             {                                                                     \
-                return tuple(                                                     \
+                return hana::tuple(                                               \
                     f(static_cast<Xs REF1>(xs).get,                               \
                       static_cast<Ys REF2>(ys).get,                               \
                       static_cast<Zs REF3>(zs).get)...                            \
@@ -535,7 +773,8 @@ namespace boost { namespace hana {
         #undef BOOST_HANA_PP_ZIP_WITH3
 
         template <typename F, typename X1, typename X2, typename X3, typename X4, typename ...Xn>
-        static constexpr decltype(auto) zip_with_helper(F&& f, X1&& x1, X2&& x2, X3&& x3, X4&& x4, Xn&& ...xn) {
+        static constexpr decltype(auto)
+        zip_with_helper(F&& f, X1&& x1, X2&& x2, X3&& x3, X4&& x4, Xn&& ...xn) {
             return zip_with_helper(hana::apply,
                 zip_with_helper(
                     curry<sizeof...(xn) + 4>(detail::std::forward<F>(f)),
@@ -551,9 +790,9 @@ namespace boost { namespace hana {
         template <typename F, typename Xs, typename ...Ys>
         static constexpr decltype(auto) apply(F&& f, Xs&& xs, Ys&& ...ys) {
             constexpr detail::std::size_t lengths[] = {
-                get_size(decltype(&xs){}), get_size(decltype(&ys){})...
+                detail::tuple_size<Xs>{}, detail::tuple_size<Ys>{}...
             };
-            constexpr detail::std::size_t zip_length = homogeneous_min(lengths);
+            constexpr detail::std::size_t zip_length = hana::minimum(lengths);
             return zip_with_helper(detail::std::forward<F>(f),
                 take_c<zip_length>(detail::std::forward<Xs>(xs)),
                 take_c<zip_length>(detail::std::forward<Ys>(ys))...
@@ -562,7 +801,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct zip_impl<Tuple> : tuple_detail::utils {
+    struct zip_impl<Tuple> {
         #define BOOST_HANA_PP_ZIP1(REF)                                     \
             template <typename ...Xs>                                       \
             static constexpr _tuple<                                        \
@@ -623,7 +862,7 @@ namespace boost { namespace hana {
         template <typename X1, typename X2, typename X3, typename X4, typename ...Xn>
         static constexpr decltype(auto)
         zip_helper(X1&& x1, X2&& x2, X3&& x3, X4&& x4, Xn&& ...xn) {
-            return zip_with_helper(concat,
+            return hana::zip_with(concat,
                 zip_helper(
                     detail::std::forward<X1>(x1),
                     detail::std::forward<X2>(x2),
@@ -639,9 +878,9 @@ namespace boost { namespace hana {
         template <typename Xs, typename ...Ys>
         static constexpr decltype(auto) apply(Xs&& xs, Ys&& ...ys) {
             constexpr detail::std::size_t lengths[] = {
-                get_size(decltype(&xs){}), get_size(decltype(&ys){})...
+                detail::tuple_size<Xs>{}, detail::tuple_size<Ys>{}...
             };
-            constexpr detail::std::size_t zip_length = homogeneous_min(lengths);
+            constexpr detail::std::size_t zip_length = hana::minimum(lengths);
             return zip_helper(
                 take_c<zip_length>(detail::std::forward<Xs>(xs)),
                 take_c<zip_length>(detail::std::forward<Ys>(ys))...
@@ -649,84 +888,9 @@ namespace boost { namespace hana {
         }
     };
 
-    template <>
-    struct transform_impl<Tuple> {
-        #define BOOST_HANA_PP_TRANSFORM(REF)                                \
-            template <typename ...Xs, typename F>                           \
-            static constexpr decltype(auto)                                 \
-            apply(detail::closure_impl<Xs...> REF xs, F&& f) {              \
-                return tuple(f(static_cast<Xs REF>(xs).get)...);            \
-            }                                                               \
-        /**/
-        BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_TRANSFORM)
-        #undef BOOST_HANA_PP_TRANSFORM
-    };
-
-    template <>
-    struct fill_impl<Tuple> : tuple_detail::utils {
-        template <typename V>
-        static constexpr _tuple<> apply(_tuple<> const&, V&& v)
-        { return {}; }
-
-        template <typename X, typename ...Xs, typename V>
-        static constexpr _tuple<
-            typename detail::std::decay<V>::type,
-            allow_expansion<(sizeof(Xs), false), typename detail::std::decay<V>::type>...
-        > apply(_tuple<X, Xs...> const&, V&& v) {
-            return {((void)sizeof(Xs), v)..., detail::std::forward<V>(v)};
-        }
-    };
-
 #undef BOOST_HANA_PP_FOR_EACH_REF1
 #undef BOOST_HANA_PP_FOR_EACH_REF2
 #undef BOOST_HANA_PP_FOR_EACH_REF3
-
-#if 0
-
-
-    // As an optimization, we also provide the same operations but with the last
-    // argument as a parameter pack instead of a closure. This sometimes allows us
-    // to avoid creating a temporary closure just for passing it to the function.
-    namespace from_variadic {
-        template <typename Into, typename F, typename ...Xs>
-        constexpr decltype(auto) zip_with1(Into&& into, F&& f, Xs const& ...xs) {
-            return into(f(xs)...);
-        }
-
-        template <typename Into, typename F, typename ...Xs, typename ...Ys>
-        constexpr decltype(auto) zip_with2(Into&& into, F&& f, closure<Xs...> const& xs, Ys const& ...ys) {
-            return into(f(static_cast<Xs const&>(xs).get, ys)...);
-        }
-
-        template <typename Into, typename F, typename ...Xs, typename ...Ys, typename ...Zs>
-        constexpr decltype(auto) zip_with3(Into&& into, F&& f, closure<Xs...> const& xs, closure<Ys...> const& ys, Zs const& ...zs) {
-            return into(f(static_cast<Xs const&>(xs).get, static_cast<Ys const&>(ys).get, zs)...);
-        }
-
-
-        template <typename Into, typename ...Xs>
-        constexpr decltype(auto) unpack(Into&& into, Xs const& ...xs) {
-            return into(xs...);
-        }
-
-
-        template <typename Into, typename ...Xs, typename ...Ys>
-        constexpr decltype(auto) concat2(Into&& into, closure<Xs...> const& xs, Ys... const& ys) {
-            return into(static_cast<Xs const&>(xs).get..., ys...);
-        }
-
-        template <typename Into, typename ...Xs, typename ...Ys, typename ...Zs>
-        constexpr decltype(auto) concat3(Into&& into, closure<Xs...> const& xs, closure<Ys...> const& ys, Zs const& ...zs) {
-            return into(static_cast<Xs const&>(xs).get..., static_cast<Ys const&>(ys).get..., zs...);
-        }
-
-
-        template <std::size_t n, typename ...Xs>
-        constexpr decltype(auto) at(Xs const& ...xs) {
-            return variadic::at<n>(xs...);
-        }
-    }
-#endif
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_TUPLE_HPP

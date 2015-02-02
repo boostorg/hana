@@ -43,22 +43,6 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // Foldable
-    //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Foldable(TypeList)>
-        : detail::std::true_type
-    { };
-
-    template <>
-    struct unpack_impl<TypeList> {
-        //! @todo Fix the lost optimization caused by unpacking with `Type`s.
-        template <typename ...Xs, typename F>
-        static constexpr auto apply(_type_list<Xs...>, F&& f)
-        { return detail::std::forward<F>(f)(type<Xs>...); }
-    };
-
-    //////////////////////////////////////////////////////////////////////////
     // Iterable
     //////////////////////////////////////////////////////////////////////////
     template <>
