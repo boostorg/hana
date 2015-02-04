@@ -38,12 +38,23 @@ namespace boost { namespace hana { namespace test {
     );
 }}}
 
+namespace check_adl {
+    template <bool b = false>
+    struct invalid { static_assert(b, "invalid must not be instantiated"); };
+
+    template <typename T> void adl(T) { }
+    void foo() {
+        // ADL kicks in but `invalid<>` must not instantiated
+        adl(tuple_t<invalid<>>);
+    }
+}
+
 
 int main() {
     test::check_datatype<Tuple>();
     using test::x;
 
-    // move-only friendlyness and reference semantics
+    // move-only friendliness and reference semantics
     {
         struct movable {
             movable() = default;
@@ -82,12 +93,28 @@ int main() {
         }
     }
 
+    // Comparable
+    {
+        // equal
+        {
+            BOOST_HANA_CONSTANT_CHECK(equal(tuple_t<>, tuple_t<>));
+            BOOST_HANA_CONSTANT_CHECK(not_(equal(tuple_t<x0>, tuple_t<>)));
+            BOOST_HANA_CONSTANT_CHECK(not_(equal(tuple_t<>, tuple_t<x0>)));
+            BOOST_HANA_CONSTANT_CHECK(equal(tuple_t<x0>, tuple_t<x0>));
+            BOOST_HANA_CONSTANT_CHECK(not_(equal(tuple_t<x0, x1>, tuple_t<x0>)));
+            BOOST_HANA_CONSTANT_CHECK(not_(equal(tuple_t<x0>, tuple_t<x0, x1>)));
+            BOOST_HANA_CONSTANT_CHECK(equal(tuple_t<x0, x1>, tuple_t<x0, x1>));
+            BOOST_HANA_CONSTANT_CHECK(equal(tuple_t<x0, x1, x2>, tuple_t<x0, x1, x2>));
+        }
+    }
+
     // Foldable
     {
         // unpack
         {
             auto f = test::injection([]{});
 
+            // tuple
             BOOST_HANA_CONSTANT_CHECK(equal(
                 unpack(tuple(), f),
                 f()
@@ -104,11 +131,54 @@ int main() {
                 unpack(tuple(x<0>, x<1>, x<2>), f),
                 f(x<0>, x<1>, x<2>)
             ));
+
+            // tuple_t
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                unpack(tuple_t<>, f),
+                f()
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                unpack(tuple_t<x0>, f),
+                f(type<x0>)
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                unpack(tuple_t<x0, x1>, f),
+                f(type<x0>, type<x1>)
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                unpack(tuple_t<x0, x1, x2>, f),
+                f(type<x0>, type<x1>, type<x2>)
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                unpack(tuple_t<x0, x1, x2, x3>, f),
+                f(type<x0>, type<x1>, type<x2>, type<x3>)
+            ));
         }
     }
 
     // Iterable
     {
+        // head
+        {
+            BOOST_HANA_CONSTANT_CHECK(equal(head(tuple_t<x0>), type<x0>));
+            BOOST_HANA_CONSTANT_CHECK(equal(head(tuple_t<x0, x1>), type<x0>));
+            BOOST_HANA_CONSTANT_CHECK(equal(head(tuple_t<x0, x1, x2>), type<x0>));
+        }
+
+        // is_empty
+        {
+            BOOST_HANA_CONSTANT_CHECK(is_empty(tuple_t<>));
+            BOOST_HANA_CONSTANT_CHECK(not_(is_empty(tuple_t<x0>)));
+            BOOST_HANA_CONSTANT_CHECK(not_(is_empty(tuple_t<x0, x1>)));
+        }
+
+        // tail
+        {
+            BOOST_HANA_CONSTANT_CHECK(equal(tail(tuple_t<x0>), tuple_t<>));
+            BOOST_HANA_CONSTANT_CHECK(equal(tail(tuple_t<x0, x1>), tuple_t<x1>));
+            BOOST_HANA_CONSTANT_CHECK(equal(tail(tuple_t<x0, x1, x2>), tuple_t<x1, x2>));
+        }
+
         // operators
         {
             BOOST_HANA_CONSTANT_CHECK(equal(

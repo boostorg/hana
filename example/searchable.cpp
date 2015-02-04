@@ -16,7 +16,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/set.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
-#include <boost/hana/type_list.hpp>
 
 #include <type_traits>
 using namespace boost::hana;
@@ -90,7 +89,7 @@ int main() {
         BOOST_HANA_CONSTEXPR_CHECK(find(tuple(1.0, 2, '3'), trait_<std::is_integral>) == just(2));
         BOOST_HANA_CONSTANT_CHECK(find(tuple(1.0, 2, '3'), trait_<std::is_class>) == nothing);
 
-        constexpr auto types = type_list<char, int, unsigned, long, unsigned long>;
+        constexpr auto types = tuple_t<char, int, unsigned, long, unsigned long>;
         BOOST_HANA_CONSTANT_CHECK(find(types, _ == type<unsigned>) == just(type<unsigned>));
         BOOST_HANA_CONSTANT_CHECK(find(types, _ == type<void>) == nothing);
         //! [find]

@@ -10,7 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/integer_list.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
-#include <boost/hana/type_list.hpp>
 
 #include <type_traits>
 namespace hana = boost::hana;
@@ -31,7 +30,7 @@ struct is_homogeneous<T, std::enable_if_t<std::is_arithmetic<T>::value>> {
 
 // a list of Types
 template <typename ...xs>
-constexpr auto list_t = hana::type_list<xs...>;
+constexpr auto list_t = hana::tuple_t<xs...>;
 
 // a list of homogeneous Constants
 template <typename X, X ...xs>

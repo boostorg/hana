@@ -14,7 +14,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/range.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
-#include <boost/hana/type_list.hpp>
 
 #include <sstream>
 #include <string>
@@ -178,7 +177,7 @@ int main() {
             return x % 2_c != 0_c;
         };
 
-        constexpr auto types = type_list<int, char, long, short, char, double>;
+        constexpr auto types = tuple_t<int, char, long, short, char, double>;
         constexpr auto ints = integer_list<int, 1, 2, 3>;
 
         BOOST_HANA_CONSTANT_CHECK(count(ints, odd) == 2_c);

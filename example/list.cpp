@@ -14,7 +14,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/pair.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
-#include <boost/hana/type_list.hpp>
 
 #include <type_traits>
 #include <sstream>
@@ -427,11 +426,11 @@ BOOST_HANA_CONSTANT_CHECK(
 );
 
 BOOST_HANA_CONSTANT_CHECK(
-    partition(type_list<void, int, float, char, double>, trait<std::is_floating_point>)
+    partition(tuple_t<void, int, float, char, double>, trait<std::is_floating_point>)
     ==
     pair(
-        type_list<float, double>,
-        type_list<void, int, char>
+        tuple_t<float, double>,
+        tuple_t<void, int, char>
     )
 );
 //! [partition]

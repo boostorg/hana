@@ -9,7 +9,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/maybe.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
-#include <boost/hana/type_list.hpp>
 
 #include <sstream>
 #include <string>
@@ -65,9 +64,9 @@ BOOST_HANA_CONSTANT_CHECK(transform(nothing, to_string) == nothing);
 BOOST_HANA_RUNTIME_CHECK(transform(just(123), to_string) == just("123"));
 
 BOOST_HANA_CONSTANT_CHECK(
-    transform(type_list<void, int(), char[10]>, template_<std::add_pointer_t>)
+    transform(tuple_t<void, int(), char[10]>, template_<std::add_pointer_t>)
             ==
-    type_list<void*, int(*)(), char(*)[10]>
+    tuple_t<void*, int(*)(), char(*)[10]>
 );
 //! [transform]
 

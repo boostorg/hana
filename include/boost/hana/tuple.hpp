@@ -515,27 +515,36 @@ namespace boost { namespace hana {
 
     template <>
     struct cycle_impl<Tuple> {
-        template <typename Xs>
-        static constexpr _tuple<> helper(Xs&&, detail::std::index_sequence<>)
-        { return {}; }
-
-        template <typename Xs, detail::std::size_t i, detail::std::size_t ...j>
-        static constexpr decltype(auto)
-        helper(Xs&& xs, detail::std::index_sequence<i, j...>) {
-            _tuple<typename detail::std::decay<Xs>::type,
-                   typename detail::std::decay<detail::expand<j, Xs>>::type...
-            > zs{((void)j, xs)..., detail::std::forward<Xs>(xs)};
-            return hana::flatten(detail::std::move(zs));
-        }
-
         template <typename N, typename Xs>
-        static constexpr decltype(auto) apply(N, Xs&& xs) {
+        static constexpr decltype(auto) apply(N n, Xs&& xs)
+        { return hana::flatten(hana::repeat(n, detail::std::forward<Xs>(xs))); }
+    };
+
+    template <>
+    struct repeat_impl<Tuple> {
+        template <typename X>
+        static constexpr auto helper(X&&, detail::std::index_sequence<>, ...)
+        { return tuple_t<>; }
+
+        template <typename X, detail::std::size_t i, detail::std::size_t ...j>
+        static constexpr _tuple<
+            typename detail::std::decay<X>::type,
+            typename detail::std::decay<detail::expand<j, X>>::type...
+        > helper(X&& x, detail::std::index_sequence<i, j...>, ...)
+        { return {((void)j, x)..., detail::std::forward<X>(x)}; }
+
+        template <typename T, detail::std::size_t i, detail::std::size_t ...j>
+        static constexpr auto helper(T, detail::std::index_sequence<i, j...>, Type*)
+        { return tuple_t<typename T::type, detail::expand<j, typename T::type>...>; }
+
+        template <typename N, typename X>
+        static constexpr decltype(auto) apply(N, X&& x) {
             constexpr detail::std::size_t n = hana::value2<N>();
             return helper(detail::std::forward<X>(x),
-                          detail::std::make_index_sequence<n>{});
+                          detail::std::make_index_sequence<n>{},
+                          (typename datatype<X>::type*)0);
         }
     };
-#error implement repeat efficiently
 
     template <>
     struct prepend_impl<Tuple> {

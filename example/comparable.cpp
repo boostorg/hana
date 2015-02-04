@@ -7,7 +7,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/assert.hpp>
 #include <boost/hana/range.hpp>
 #include <boost/hana/tuple.hpp>
-#include <boost/hana/type_list.hpp>
 using namespace boost::hana;
 
 
@@ -20,7 +19,7 @@ constexpr auto grouped = group_by(comparing(length), tuple(
     tuple(1, 2, 3),
     tuple('x', 'y', 'z'),
     range_c<long, 0, 1>,
-    type_list<char, int>,
+    tuple_t<char, int>,
     range_c<int, 0, 2>,
     tuple(123.4, nullptr)
 ));
@@ -34,7 +33,7 @@ BOOST_HANA_CONSTEXPR_CHECK(grouped == tuple(
         range_c<long, 0, 1>
     ),
     tuple(
-        type_list<char, int>,
+        tuple_t<char, int>,
         range_c<int, 0, 2>,
         tuple(123.4, nullptr)
     )

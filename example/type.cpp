@@ -9,8 +9,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/ext/std/integral_constant.hpp>
 #include <boost/hana/functional/on.hpp>
 #include <boost/hana/integral_constant.hpp>
+#include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
-#include <boost/hana/type_list.hpp>
 
 #include <type_traits>
 using namespace boost::hana;
@@ -28,7 +28,7 @@ BOOST_HANA_CONSTANT_CHECK(type<T> != type<U>);
 namespace ns2 {
 //! [largest]
 template <typename ...T>
-using largest = decltype(maximum_by(less ^on^ sizeof_, type_list<T...>));
+using largest = decltype(maximum_by(less ^on^ sizeof_, tuple_t<T...>));
 
 template <int size>
 struct storage { char s[size]; };
