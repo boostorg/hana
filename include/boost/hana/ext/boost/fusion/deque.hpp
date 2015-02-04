@@ -17,7 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 // instances
 #include <boost/hana/iterable.hpp>
-#include <boost/hana/list.hpp>
+#include <boost/hana/sequence.hpp>
 
 #include <boost/fusion/algorithm/transformation/pop_front.hpp>
 #include <boost/fusion/algorithm/transformation/push_front.hpp>

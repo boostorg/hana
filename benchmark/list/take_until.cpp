@@ -5,7 +5,7 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/fwd/list.hpp>
+#include <boost/hana/fwd/sequence.hpp>
 
 #include "benchmark.hpp"
 

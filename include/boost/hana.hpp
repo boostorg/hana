@@ -29,7 +29,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_HPP
 #define BOOST_HANA_HPP
 
-// Type classes
+// Concepts
 #include <boost/hana/applicative.hpp>
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/constant.hpp>
@@ -40,7 +40,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/integral_domain.hpp>
 #include <boost/hana/iterable.hpp>
-#include <boost/hana/list.hpp>
+#include <boost/hana/sequence.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/monad.hpp>
 #include <boost/hana/monoid.hpp>
@@ -575,37 +575,17 @@ Write this, but how to avoid duplicating the reference documentation?
 
 @subsection tutorial-basic_concepts-comparing Comparing objects
 
-@todo Use Type and List (both compile-time and runtime).
-
-
 @subsection tutorial-basic_concepts-mapping Transforming collections
-
-@todo Use Maybe and List.
-
 
 @subsection tutorial-basic_concepts-folding Folding collections
 
-@todo Use Range, List
-
-
 @subsection tutorial-basic_concepts-searching Searching in collections
-
-@todo Use Map, Set, List
-
 
 @subsection tutorial-basic_concepts-iteration Iterating through collections
 
-@todo Use List
-
-
 @subsection tutorial-basic_concepts-list The List type class
 
-@todo Use List
-
-
 @subsection tutorial-basic_concepts-adapting Adapting user-defined structs
-
-@todo Use a hand-crafted example
 
 
 @section tutorial-external_libraries Integration with external libraries
@@ -614,33 +594,18 @@ Write this, but how to avoid duplicating the reference documentation?
 
 @subsection tutorial-external_libraries-stl The standard library
 
-@todo
-
-
 @subsection tutorial-external_libraries-fusion Boost.Fusion
 
-@todo
-
-
 @subsection tutorial-external_libraries-mpl Boost.MPL
-
-@todo
 
 
 @section tutorial-performance_considerations Performance considerations
 
 ------------------------------------------------------------------------------
-@todo
-
 
 @subsection tutorial-performance_considerations-compile_time Compile-time performance
 
-@todo
-
-
 @subsection tutorial-performance_considerations-run_time Runtime performance
-
-@todo
 
 
 @section tutorial-extending Extending the library

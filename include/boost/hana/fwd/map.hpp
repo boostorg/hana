@@ -15,8 +15,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/fwd/comparable.hpp>
 #include <boost/hana/fwd/functor.hpp>
-#include <boost/hana/fwd/list.hpp>
 #include <boost/hana/fwd/product.hpp>
+#include <boost/hana/fwd/sequence.hpp>
 #include <boost/hana/tuple.hpp>
 
 

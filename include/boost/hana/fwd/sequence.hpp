@@ -33,14 +33,33 @@ namespace boost { namespace hana {
     //! 2. `Orderable`\n
     //! @todo
     //!
-    //! 2. `Foldable`, `Iterable`, `Searchable`\n
+    //! 3. `Foldable`, `Iterable`, `Searchable`\n
     //! @todo
     //!
     //! 4. `Traversable` (model provided)\n
     //! @todo
     //! @snippet example/sequence.cpp traversable
     //!
-    //! 3. `Functor`, `Applicative`, `Monad`, `MonadPlus`\n
+    //! 5. `Functor`\n
+    //! `List`s implement `transform` as the mapping of a function over each
+    //! element of the list, which is somewhat equivalent to `std::transform`.
+    //! Mapping a function over an empty list returns an empty list and never
+    //! applies the function.
+    //! @snippet example/list/functor.cpp transform
+    //!
+    //! 6. `Applicative`\n
+    //! A value can be lifted into a singleton sequence with `lift`. `ap(fs, xs)`
+    //! applies each function in the list `fs` to each value in the list `xs`,
+    //! and returns a list containing all the results.
+    //! @snippet example/list/applicative.cpp main
+    //!
+    //! 7. `Monad`\n
+    //! A function returning a list of results can be mapped over all the
+    //! elements of a list and have all the results concatenated using `bind`.
+    //! Also, a list of lists can be flattened one level with `flatten`.
+    //! @snippet example/list/monad.cpp main
+    //!
+    //! 8. `MonadPlus`\n
     //! @todo
     //!
     //!
@@ -48,6 +67,18 @@ namespace boost { namespace hana {
     //! ---------------------------
     //! 1. ...
     //! ...
+    //!
+    //!
+    //! @todo
+    //! - Implement the following methods:
+    //!     - `intercalate`, `transpose`, `subsequences`
+    //!     - `split_at`, `break`, `inits`, `tails`
+    //!     - `iterate`
+    //! - Consider implementing the following methods:
+    //!     - `nub_by`, `nub`, `delete_by`, `insert`
+    //!     - `set_difference_by`, `set_union_by`, `set_intersection_by`
+    //! - Since we can benchmark the isomorphic instances, put the benchmarks
+    //!   in the documentation.
     struct Sequence {
         template <typename T, typename U>
         struct equal_impl;

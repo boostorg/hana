@@ -87,7 +87,7 @@ namespace boost { namespace hana { namespace sandbox {
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functor.hpp>
 #include <boost/hana/iterable.hpp>
-#include <boost/hana/list.hpp>
+#include <boost/hana/sequence.hpp>
 
 
 namespace boost { namespace hana {

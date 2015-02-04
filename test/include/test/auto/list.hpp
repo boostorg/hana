@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TEST_TEST_AUTO_LIST_HPP
 #define BOOST_HANA_TEST_TEST_AUTO_LIST_HPP
 
-#include <boost/hana/list.hpp>
+#include <boost/hana/sequence.hpp>
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/core/models.hpp>
