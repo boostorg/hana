@@ -11,6 +11,17 @@ Distributed under the Boost Software License, Version 1.0.
 using namespace boost::hana;
 
 
+//! [is_convertible]
+struct Person { };
+struct Employee : Person { };
+
+static_assert(is_convertible<Employee, Person>{}, "");
+static_assert(!is_convertible<Person, Employee>{}, "");
+
+static_assert(is_convertible<int, float>{}, "");
+//! [is_convertible]
+
+//! [to]
 template <typename X, typename Y, typename Z>
 struct Triple {
     X first;
@@ -24,7 +35,7 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto triple = [](auto x, auto y, auto z) {
 
 namespace boost { namespace hana {
     template <typename X, typename Y, typename Z>
-    struct convert<Tuple, Triple<X, Y, Z>> {
+    struct to_impl<Tuple, Triple<X, Y, Z>> {
         static constexpr auto apply(Triple<X, Y, Z> xs) {
             return tuple(xs.first, xs.second, xs.third);
         }
@@ -32,5 +43,8 @@ namespace boost { namespace hana {
 }}
 
 int main() {
-    BOOST_HANA_CONSTEXPR_CHECK(to<Tuple>(triple(1, '2', 3.3)) == tuple(1, '2', 3.3));
+    BOOST_HANA_CONSTEXPR_CHECK(
+        to<Tuple>(triple(1, '2', 3.3)) == tuple(1, '2', 3.3)
+    );
 }
+//! [to]

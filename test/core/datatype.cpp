@@ -28,7 +28,6 @@ struct test {
     static_assert(std::is_same<datatype_t<T const volatile&&>, ExpectedDatatype>{}, "");
 };
 
-struct NestedDatatype;
 struct Nested { struct hana { struct datatype; }; };
 template struct test<Nested, Nested::hana::datatype>;
 

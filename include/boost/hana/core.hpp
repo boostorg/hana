@@ -10,23 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_CORE_HPP
 #define BOOST_HANA_CORE_HPP
 
-//! @defgroup group-core Core
-//! Core utilities of the library.
-//!
-//! @todo
-//! Document how `common` is used for some binary methods.
-
-//! @defgroup group-typeclasses Type classes
-//! General purpose type classes provided by the library.
-
-#include <boost/hana/core/common.hpp>
-#include <boost/hana/core/convert.hpp>
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/default.hpp>
-#include <boost/hana/core/make.hpp>
-#include <boost/hana/core/models.hpp>
-#include <boost/hana/core/operators.hpp>
-#include <boost/hana/core/when.hpp>
-#include <boost/hana/core/wrong.hpp>
+#error "include good stuff"
 
 #endif // !BOOST_HANA_CORE_HPP

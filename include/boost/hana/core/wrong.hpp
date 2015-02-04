@@ -14,16 +14,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! @ingroup group-core
-    //! Equivalent to a type-dependent `std::false_type`.
-    //!
-    //! This is useful for making a static assertion that would otherwise
-    //! always fire up dependent on some template parameters.
-    //!
-    //! ### Example
-    //! @snippet example/core/wrong.cpp main
-    //!
-    //! @todo Improve the documentation.
     template <typename ...>
     struct wrong : detail::std::false_type { };
 }} // end namespace boost::hana

@@ -42,7 +42,7 @@ struct specialized_to {
 
 namespace boost { namespace hana {
     template <>
-    struct convert<SpecializedTo, SpecializedFrom> {
+    struct to_impl<SpecializedTo, SpecializedFrom> {
         template <typename T>
         static constexpr auto apply(T t)
         { return specialized_to{t.value}; }
@@ -60,6 +60,9 @@ void check_convert(F f, T t) {
         datatype_t<decltype(to<To>(f))>, To
     >{}, "");
 
+    static_assert(is_convertible<From, To>{}, "");
+
+
     // Make sure From -> From and To -> To are the identity.
     BOOST_HANA_RUNTIME_CHECK(to<From>(f) == f);
     static_assert(std::is_same<
@@ -70,6 +73,12 @@ void check_convert(F f, T t) {
     static_assert(std::is_same<
         datatype_t<decltype(to<To>(t))>, To
     >{}, "");
+
+    static_assert(is_convertible<From, From>{}, "");
+    static_assert(is_convertible<To, To>{}, "");
+
+    static_assert(is_embedded<From, From>{}, "");
+    static_assert(is_embedded<To, To>{}, "");
 }
 
 int main() {
@@ -81,4 +90,10 @@ int main() {
     check_convert(Datatype{1}, Datatype{1});
     check_convert(Other{1}, Other{1});
     check_convert(specialized_from{1}, specialized_to{1});
+
+    static_assert(!is_convertible<void, int>{}, "");
+    static_assert(!is_embedded<void, int>{}, "");
+
+    static_assert(is_convertible<int, void>{}, "");
+    static_assert(!is_embedded<int, void>{}, "");
 }

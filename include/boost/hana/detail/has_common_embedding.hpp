@@ -30,8 +30,8 @@ namespace boost { namespace hana { namespace detail {
         models<Concept(T)>{} &&
         models<Concept(U)>{} &&
         models<Concept(typename common<T, U>::type)>{} &&
-        is_embedding<convert<typename common<T, U>::type, T>>{} &&
-        is_embedding<convert<typename common<T, U>::type, U>>{}
+        is_embedded<T, typename common<T, U>::type>{} &&
+        is_embedded<U, typename common<T, U>::type>{}
     >;
 }}} // end namespace boost::hana::detail
 
