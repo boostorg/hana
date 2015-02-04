@@ -84,11 +84,8 @@ namespace boost { namespace hana {
     //! @snippet example/iterable.cpp find
     //!
     //!
-    //! ### Example 1
+    //! ### Example
     //! @snippet example/list/foldable.cpp foldl
-    //!
-    //! ### Example 2
-    //! @snippet example/integer_list/foldable.cpp foldr
     //!
     //!
     //! @todo

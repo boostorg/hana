@@ -14,7 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
-#include <boost/hana/constant.hpp> // value
+#include <boost/hana/constant.hpp>
 #include <boost/hana/detail/closure.hpp>
 #include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/generate_integer_sequence.hpp>
@@ -29,15 +29,16 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functional/apply.hpp>
 #include <boost/hana/functional/curry.hpp>
 #include <boost/hana/functor.hpp>
-#include <boost/hana/integral_constant.hpp> // size_t
+#include <boost/hana/integral_constant.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/monad.hpp>
 #include <boost/hana/sequence.hpp>
+#include <boost/hana/type.hpp>
 
 
 namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
-    // tuple and tuple_t
+    // tuple, tuple_t and tuple_c
     //////////////////////////////////////////////////////////////////////////
     template <typename ...Xs>
     struct _tuple
@@ -59,14 +60,32 @@ namespace boost { namespace hana {
     template <typename ...T>
     struct _tuple_t {
         struct _
-            : _tuple_t
-            , operators::enable_adl
-            , operators::Iterable_ops<_>
+            // : _tuple_t
+            // , operators::enable_adl
+            // , operators::Iterable_ops<_>
+
+            : _tuple<decltype(type<T>...)...>
         {
-            struct hana { using datatype = Tuple; };
-            static constexpr detail::std::size_t size = sizeof...(T);
-            static constexpr bool is_empty = sizeof...(T) == 0;
+            // struct hana { using datatype = Tuple; };
+            // static constexpr detail::std::size_t size = sizeof...(T);
+            // static constexpr bool is_empty = sizeof...(T) == 0;
         };
+    };
+
+    template <typename T, T ...v>
+    struct _tuple_c
+        // : operators::enable_adl
+        // , operators::Iterable_ops<_tuple_c<T, v...>>
+
+        : _tuple<decltype(integral_constant<T, v>)...>
+    {
+        // static constexpr detail::std::size_t size = sizeof...(v);
+        // static constexpr bool is_empty = sizeof...(v) == 0;
+    };
+
+    template <typename T, T ...v>
+    struct datatype<_tuple_c<T, v...>> {
+        using type = Tuple;
     };
 
     template <>
@@ -105,6 +124,10 @@ namespace boost { namespace hana {
 
         template <typename ...T>
         constexpr detail::std::size_t tuple_size_impl(_tuple_t<T...>*)
+        { return sizeof...(T); }
+
+        template <typename ...T>
+        constexpr detail::std::size_t tuple_size_impl(_tuple_c<T...>*)
         { return sizeof...(T); }
 
         template <typename Xs>
@@ -169,6 +192,8 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(Xs const& xs, Ys const& ys)
         { return Sequence::equal_impl<Tuple, Tuple>::apply(xs, ys); }
 
+
+        // tuple_t optimizations
         template <typename ...T>
         static constexpr auto apply(_tuple_t<T...>, _tuple_t<T...>)
         { return true_; }
@@ -176,9 +201,21 @@ namespace boost { namespace hana {
         template <typename ...T, typename ...U>
         static constexpr auto apply(_tuple_t<T...>, _tuple_t<U...>)
         { return false_; }
-    };
 
-#error How to make Tuple Comparable with any other sequence?
+
+        // tuple_c optimizations
+        template <typename V, V ...v, typename U, U ...u, typename =
+            detail::std::enable_if_t<sizeof...(v) == sizeof...(u)>>
+        static constexpr auto apply(_tuple_c<V, v...>, _tuple_c<U, u...>) {
+            constexpr bool comparisons[] = {(v == u)...};
+            return bool_<hana::all_of(comparisons)>;
+        }
+
+        template <typename V, V ...v, typename U, U ...u, typename =
+            detail::std::enable_if_t<sizeof...(v) != sizeof...(u)>>
+        static constexpr auto apply(_tuple_c<V, v...>, _tuple_c<U, u...>)
+        { return false_; }
+    };
 
     //////////////////////////////////////////////////////////////////////////
     // Foldable
@@ -310,7 +347,6 @@ namespace boost { namespace hana {
     struct models<Searchable(Tuple)>
         : detail::std::true_type
     { };
-#error implement this
 
     //////////////////////////////////////////////////////////////////////////
     // Traversable
@@ -319,7 +355,6 @@ namespace boost { namespace hana {
     struct models<Traversable(Tuple)>
         : detail::std::true_type
     { };
-#error implement this
 
     //////////////////////////////////////////////////////////////////////////
     // Functor
@@ -395,10 +430,7 @@ namespace boost { namespace hana {
 
     template <>
     struct ap_impl<Tuple> {
-        template <typename Fs, typename Xs>
-        static constexpr ... apply(Fs&& fs, Xs&& xs) {
-#error implement this
-        }
+
     };
 
     //////////////////////////////////////////////////////////////////////////

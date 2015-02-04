@@ -8,7 +8,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/ext/std/integral_constant.hpp>
 #include <boost/hana/functional.hpp>
-#include <boost/hana/integer_list.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/maybe.hpp>
 #include <boost/hana/pair.hpp>
@@ -170,9 +169,9 @@ BOOST_HANA_CONSTEXPR_CHECK(
 //! [take_while]
 using namespace literals;
 BOOST_HANA_CONSTANT_CHECK(
-    take_while(integer_list<int, 0, 1, 2, 3>, _ < 2_c)
+    take_while(tuple_c<int, 0, 1, 2, 3>, _ < 2_c)
     ==
-    integer_list<int, 0, 1>
+    tuple_c<int, 0, 1>
 );
 //! [take_while]
 
@@ -181,9 +180,9 @@ BOOST_HANA_CONSTANT_CHECK(
 //! [take_until]
 using namespace literals;
 BOOST_HANA_CONSTANT_CHECK(
-    take_until(integer_list<int, 3, 2, 1, 0>, _ < 2_c)
+    take_until(tuple_c<int, 3, 2, 1, 0>, _ < 2_c)
     ==
-    integer_list<int, 3, 2>
+    tuple_c<int, 3, 2>
 );
 //! [take_until]
 
@@ -319,7 +318,7 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto x) {
 BOOST_HANA_CONSTANT_CHECK(
     unfoldl<IntegerList>(f, int_<10>)
     ==
-    integer_list<int, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10>
+    tuple_c<int, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10>
 );
 //! [unfoldl]
 
@@ -333,7 +332,7 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto x) {
 BOOST_HANA_CONSTANT_CHECK(
     unfoldr<IntegerList>(f, int_<10>)
     ==
-    integer_list<int, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1>
+    tuple_c<int, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1>
 );
 //! [unfoldr]
 
@@ -415,13 +414,13 @@ BOOST_HANA_RUNTIME_CHECK(scanr1(tuple(1, "2", '3'), show) == tuple(
 
 //! [partition]
 BOOST_HANA_CONSTANT_CHECK(
-    partition(integer_list<int, 1, 2, 3, 4, 5, 6, 7>, [](auto x) {
+    partition(tuple_c<int, 1, 2, 3, 4, 5, 6, 7>, [](auto x) {
         return x % int_<2> != int_<0>;
     })
     ==
     pair(
-        integer_list<int, 1, 3, 5, 7>,
-        integer_list<int, 2, 4, 6>
+        tuple_c<int, 1, 3, 5, 7>,
+        tuple_c<int, 2, 4, 6>
     )
 );
 

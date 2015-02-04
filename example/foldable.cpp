@@ -8,7 +8,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/ext/std/integral_constant.hpp>
 #include <boost/hana/functional.hpp>
-#include <boost/hana/integer_list.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/maybe.hpp>
 #include <boost/hana/range.hpp>
@@ -102,7 +101,7 @@ int main() {
     {
         //! [maximum]
         BOOST_HANA_CONSTANT_CHECK(
-            maximum(integer_list<int, -1, 0, 2, -4, 6, 9>) == int_<9>
+            maximum(tuple_c<int, -1, 0, 2, -4, 6, 9>) == int_<9>
         );
         //! [maximum]
     }
@@ -110,7 +109,7 @@ int main() {
     {
         //! [minimum]
         BOOST_HANA_CONSTANT_CHECK(
-            minimum(integer_list<int, -1, 0, 2, -4, 6, 9>) == int_<-4>
+            minimum(tuple_c<int, -1, 0, 2, -4, 6, 9>) == int_<-4>
         );
         //! [minimum]
     }
@@ -178,7 +177,7 @@ int main() {
         };
 
         constexpr auto types = tuple_t<int, char, long, short, char, double>;
-        constexpr auto ints = integer_list<int, 1, 2, 3>;
+        constexpr auto ints = tuple_c<int, 1, 2, 3>;
 
         BOOST_HANA_CONSTANT_CHECK(count(ints, odd) == 2_c);
 

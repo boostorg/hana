@@ -158,6 +158,21 @@ int main() {
 
     // Iterable
     {
+        ///////////////////
+        // tuple
+        //////////////////
+        // operators
+        {
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                tuple(x<0>, x<1>)[int_<0>],
+                x<0>
+            ));
+        }
+
+
+        ///////////////////
+        // tuple_t
+        //////////////////
         // head
         {
             BOOST_HANA_CONSTANT_CHECK(equal(head(tuple_t<x0>), type<x0>));
@@ -179,11 +194,79 @@ int main() {
             BOOST_HANA_CONSTANT_CHECK(equal(tail(tuple_t<x0, x1, x2>), tuple_t<x1, x2>));
         }
 
-        // operators
+        //////////////////
+        // tuple_c
+        /////////////////
+
+        // head
+        {
+            BOOST_HANA_CONSTANT_CHECK(equal(head(tuple_c<int, 0>), int_<0>));
+            BOOST_HANA_CONSTANT_CHECK(equal(head(tuple_c<int, 0, 1>), int_<0>));
+            BOOST_HANA_CONSTANT_CHECK(equal(head(tuple_c<int, 0, 1, 2>), int_<0>));
+        }
+
+        // is_empty
+        {
+            BOOST_HANA_CONSTANT_CHECK(is_empty(tuple_c<int>));
+            BOOST_HANA_CONSTANT_CHECK(not_(is_empty(tuple_c<int, 0>)));
+            BOOST_HANA_CONSTANT_CHECK(not_(is_empty(tuple_c<int, 0, 1>)));
+            BOOST_HANA_CONSTANT_CHECK(not_(is_empty(tuple_c<int, 0, 1, 2>)));
+        }
+
+        // tail
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                tuple(x<0>, x<1>)[int_<0>],
-                x<0>
+                tail(tuple_c<int, 0>),
+                tuple_c<int>
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                tail(tuple_c<int, 0, 1>),
+                tuple_c<int, 1>
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                tail(tuple_c<int, 0, 1, 2>),
+                tuple_c<int, 1, 2>
+            ));
+        }
+    }
+
+    // MonadPlus
+    {
+        // prepend
+        {
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                prepend(integral_constant<int, 0>, tuple_c<long>),
+                tuple_c<long, 0>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                prepend(integral_constant<int, 0>, tuple_c<unsigned int, 1>),
+                tuple_c<unsigned int, 0, 1>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                prepend(integral_constant<long, 0>, tuple_c<long long, 1, 2>),
+                tuple_c<long long, 0, 1, 2>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                prepend(integral_constant<unsigned long, 0>, tuple_c<unsigned long, 1, 2, 3>),
+                tuple_c<unsigned long, 0, 1, 2, 3>
+            ));
+        }
+
+        // nil
+        {
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                nil<IntegerList>(),
+                tuple_c<int>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                nil<IntegerList>(),
+                tuple_c<long>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                nil<IntegerList>(),
+                tuple_c<void>
             ));
         }
     }

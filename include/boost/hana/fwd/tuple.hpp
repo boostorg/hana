@@ -60,6 +60,12 @@ namespace boost { namespace hana {
     //!
     //! 10. `Sequence`\n
     //! @todo
+    //!
+    //! @todo
+    //! - Implement Searchable
+    //! - Implement Traversable
+    //! - Implement `ap`
+    //! - Make comparison work with any other Sequence
     struct Tuple { };
 
     //! Create a `Tuple` containing the given objects.
@@ -95,20 +101,7 @@ namespace boost { namespace hana {
     //! @snippet example/tuple.cpp tuple_t
     //!
     //! @todo
-    //! Implement efficient membership testing. This is possible by taking
-    //! advantage of the fact that equality is defined in terms of
-    //! `std::is_same` for `Type`s.
-    //! +@todo
-    //! - Optimize the following methods for `tuple_t`s:
-    //!     - `drop`
-    //!     - `get_element`
-    //!     - `intersperse`
-    //!     - `remove_at`
-    //!     - `slice`
-    //!     - `take`
-    //!     - `reverse`
-    //! - Optimize `concat` for three sequences.
-    //!
+    //! Implement the optimization.
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename ...T>
     constexpr unspecified-type tuple_t{};
@@ -118,6 +111,32 @@ namespace boost { namespace hana {
 
     template <typename ...T>
     constexpr typename _tuple_t<T...>::_ tuple_t{};
+#endif
+
+    //! Create a `Tuple` specialized for holding `IntegralConstant`s.
+    //! @relates Tuple
+    //!
+    //! This is functionally equivalent to `tuple(integral_constant<T, v>...)`,
+    //! except that using `tuple_c` allows the library to perform some
+    //! compile-time optimizations. Note that those optimizations are 100%
+    //! transparent to the user.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/tuple.cpp tuple_c
+    //!
+    //! @todo
+    //! Implement the optimization.
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    template <typename T, T ...v>
+    constexpr unspecified-type tuple_c{};
+#else
+    template <typename T, T ...v>
+    struct _tuple_c;
+
+    template <typename T, T ...v>
+    constexpr _tuple_c<T, v...> tuple_c{};
 #endif
 }} // end namespace boost::hana
 
