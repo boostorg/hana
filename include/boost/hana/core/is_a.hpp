@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/disable.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/fwd/bool.hpp>
 
 
@@ -70,14 +71,20 @@ namespace boost { namespace hana {
     constexpr auto is_a = unspecified;
 #else
     namespace core_detail {
-        constexpr auto is_a_impl(...)      { return true_; }
-        constexpr auto is_a_impl(disable*) { return false_; }
+        constexpr bool is_a_impl(...)      { return true; }
+        constexpr bool is_a_impl(disable*) { return false; }
+
+        template <typename T> struct novoid { using type = T; };
+        template <>           struct novoid<void> { struct type; };
     }
 
     template <typename Typeclass, typename ...Datatypes>
-    constexpr auto is_a = core_detail::is_a_impl(
-        (typename Typeclass::template instance<Datatypes...>*)0
-    );
+    constexpr auto is_a = bool_<
+        core_detail::is_a_impl(
+            (typename Typeclass::template instance<Datatypes...>*)0
+        ) ||
+        models<Typeclass(typename core_detail::novoid<Datatypes>::type...)>{}
+    >;
 
     namespace core_detail {
         template <typename Datatype, typename ...D>
