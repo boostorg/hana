@@ -12,10 +12,18 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/applicative.hpp>
 
+#include <boost/hana/core/models.hpp>
+#include <boost/hana/core/when.hpp>
+
 
 namespace boost { namespace hana {
     //! Minimal complete definition : `lift` and `ap`
     struct Applicative::mcd { };
+
+    template <typename T>
+    struct Applicative::instance<T, when<models<Applicative(T)>{}>>
+        : Applicative::mcd
+    { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_APPLICATIVE_HPP

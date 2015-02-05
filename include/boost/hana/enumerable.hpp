@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/enumerable.hpp>
 
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/declval.hpp>
 #include <boost/hana/detail/std/forward.hpp>
@@ -41,6 +42,11 @@ namespace boost { namespace hana {
         static constexpr auto pred_impl(X /* by value */ x)
         { return --x; }
     };
-}}
+
+    template <typename T>
+    struct Enumerable::instance<T, when<models<Enumerable(T)>{}>>
+        : Enumerable::mcd
+    { };
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_ENUMERABLE_HPP

@@ -12,10 +12,18 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/constant.hpp>
 
+#include <boost/hana/core/models.hpp>
+#include <boost/hana/core/when.hpp>
+
 
 namespace boost { namespace hana {
     //! Minimal complete definition: `value`
     struct Constant::mcd { };
+
+    template <typename T>
+    struct Constant::instance<T, when<models<Constant(T)>{}>>
+        : Constant::mcd
+    { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_CONSTANT_HPP

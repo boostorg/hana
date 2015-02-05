@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/typeclass.hpp>
+#include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -55,12 +56,23 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct succ_impl : succ_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct succ_impl<T, when<condition>> {
+        template <typename X>
+        static constexpr decltype(auto) apply(X&& x) {
+            return Enumerable::instance<T>::succ_impl(
+                detail::std::forward<X>(x)
+            );
+        }
+    };
+
     struct _succ {
         template <typename Num>
         constexpr decltype(auto) operator()(Num&& num) const {
-            return Enumerable::instance<
-                datatype_t<Num>
-            >::succ_impl(detail::std::forward<Num>(num));
+            return succ_impl<datatype_t<Num>>::apply(detail::std::forward<Num>(num));
         }
     };
 
@@ -77,12 +89,23 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct pred_impl : pred_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct pred_impl<T, when<condition>> {
+        template <typename X>
+        static constexpr decltype(auto) apply(X&& x) {
+            return Enumerable::instance<T>::pred_impl(
+                detail::std::forward<X>(x)
+            );
+        }
+    };
+
     struct _pred {
         template <typename Num>
         constexpr decltype(auto) operator()(Num&& num) const {
-            return Enumerable::instance<
-                datatype_t<Num>
-            >::pred_impl(detail::std::forward<Num>(num));
+            return pred_impl<datatype_t<Num>>::apply(detail::std::forward<Num>(num));
         }
     };
 

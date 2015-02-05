@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/typeclass.hpp>
+#include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -58,12 +59,24 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename U, typename = void>
+    struct mod_impl : mod_impl<T, U, when<true>> { };
+
+    template <typename T, typename U, bool condition>
+    struct mod_impl<T, U, when<condition>> {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
+            return IntegralDomain::instance<T, U>::mod_impl(
+                detail::std::forward<X>(x),
+                detail::std::forward<Y>(y)
+            );
+        }
+    };
+
     struct _mod {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
-            return IntegralDomain::instance<
-                datatype_t<X>, datatype_t<Y>
-            >::mod_impl(
+            return mod_impl<datatype_t<X>, datatype_t<Y>>::apply(
                 detail::std::forward<X>(x),
                 detail::std::forward<Y>(y)
             );
@@ -83,12 +96,24 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename U, typename = void>
+    struct quot_impl : quot_impl<T, U, when<true>> { };
+
+    template <typename T, typename U, bool condition>
+    struct quot_impl<T, U, when<condition>> {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
+            return IntegralDomain::instance<T, U>::quot_impl(
+                detail::std::forward<X>(x),
+                detail::std::forward<Y>(y)
+            );
+        }
+    };
+
     struct _quot {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
-            return IntegralDomain::instance<
-                datatype_t<X>, datatype_t<Y>
-            >::quot_impl(
+            return quot_impl<datatype_t<X>, datatype_t<Y>>::apply(
                 detail::std::forward<X>(x),
                 detail::std::forward<Y>(y)
             );

@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/typeclass.hpp>
+#include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -73,18 +74,27 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    namespace constant_detail {
-        struct value {
-            template <typename C>
-            constexpr decltype(auto) operator()(C&& constant) const {
-                return Constant::instance<
-                    datatype_t<C>
-                >::value_impl(detail::std::forward<C>(constant));
-            }
-        };
-    }
+    template <typename T, typename = void>
+    struct value_impl : value_impl<T, when<true>> { };
 
-    constexpr constant_detail::value value{};
+    template <typename T, bool condition>
+    struct value_impl<T, when<condition>> {
+        template <typename C>
+        static constexpr decltype(auto) apply(C&& constant) {
+            return Constant::instance<T>::value_impl(
+                                    detail::std::forward<C>(constant));
+        }
+    };
+
+    struct _value {
+        template <typename C>
+        constexpr decltype(auto) operator()(C&& constant) const {
+            return value_impl<datatype_t<C>>::apply(
+                                detail::std::forward<C>(constant));
+        }
+    };
+
+    constexpr _value value{};
 #endif
 }} // end namespace boost::hana
 

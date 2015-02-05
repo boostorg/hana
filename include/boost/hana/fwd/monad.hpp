@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/typeclass.hpp>
+#include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -62,12 +63,24 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct bind_impl : bind_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct bind_impl<T, when<condition>> {
+        template <typename M, typename F>
+        static constexpr decltype(auto) apply(M&& m, F&& f) {
+            return Monad::instance<T>::bind_impl(
+                detail::std::forward<M>(m),
+                detail::std::forward<F>(f)
+            );
+        }
+    };
+
     struct _bind {
         template <typename M, typename F>
         constexpr decltype(auto) operator()(M&& m, F&& f) const {
-            return Monad::instance<
-                datatype_t<M>
-            >::bind_impl(
+            return bind_impl<datatype_t<M>>::apply(
                 detail::std::forward<M>(m),
                 detail::std::forward<F>(f)
             );
@@ -101,12 +114,24 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct then_impl : then_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct then_impl<T, when<condition>> {
+        template <typename Before, typename M>
+        static constexpr decltype(auto) apply(Before&& before, M&& m) {
+            return Monad::instance<T>::then_impl(
+                detail::std::forward<Before>(before),
+                detail::std::forward<M>(m)
+            );
+        }
+    };
+
     struct _then {
         template <typename Before, typename M>
         constexpr decltype(auto) operator()(Before&& before, M&& m) const {
-            return Monad::instance<
-                datatype_t<Before>
-            >::then_impl(
+            return then_impl<datatype_t<Before>>::apply(
                 detail::std::forward<Before>(before),
                 detail::std::forward<M>(m)
             );
@@ -129,12 +154,23 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct flatten_impl : flatten_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct flatten_impl<T, when<condition>> {
+        template <typename M>
+        static constexpr decltype(auto) apply(M&& m) {
+            return Monad::instance<T>::flatten_impl(
+                detail::std::forward<M>(m)
+            );
+        }
+    };
+
     struct _flatten {
         template <typename M>
         constexpr decltype(auto) operator()(M&& m) const {
-            return Monad::instance<
-                datatype_t<M>
-            >::flatten_impl(
+            return flatten_impl<datatype_t<M>>::apply(
                 detail::std::forward<M>(m)
             );
         }
@@ -171,11 +207,24 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct tap_impl : tap_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct tap_impl<T, when<condition>> {
+        template <typename F>
+        static constexpr decltype(auto) apply(F&& f) {
+            return Monad::instance<T>::tap_impl(
+                detail::std::forward<decltype(f)>(f)
+            );
+        }
+    };
+
     template <typename M>
     struct _tap {
         template <typename F>
         constexpr decltype(auto) operator()(F&& f) const {
-            return Monad::instance<M>::tap_impl(
+            return tap_impl<M>::apply(
                 detail::std::forward<decltype(f)>(f)
             );
         }

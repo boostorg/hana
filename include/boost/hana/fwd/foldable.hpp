@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/typeclass.hpp>
+#include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -83,12 +84,25 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct foldl_impl : foldl_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct foldl_impl<T, when<condition>> {
+        template <typename Fold, typename State, typename F>
+        static constexpr decltype(auto) apply(Fold&& foldable, State&& state, F&& f) {
+            return Foldable::instance<T>::foldl_impl(
+                detail::std::forward<Fold>(foldable),
+                detail::std::forward<State>(state),
+                detail::std::forward<F>(f)
+            );
+        }
+    };
+
     struct _foldl {
         template <typename Fold, typename State, typename F>
         constexpr decltype(auto) operator()(Fold&& foldable, State&& state, F&& f) const {
-            return Foldable::instance<
-                datatype_t<Fold>
-            >::foldl_impl(
+            return foldl_impl<datatype_t<Fold>>::apply(
                 detail::std::forward<Fold>(foldable),
                 detail::std::forward<State>(state),
                 detail::std::forward<F>(f)
@@ -124,12 +138,25 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct foldr_impl : foldr_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct foldr_impl<T, when<condition>> {
+        template <typename Fold, typename State, typename F>
+        static constexpr decltype(auto) apply(Fold&& foldable, State&& state, F&& f) {
+            return Foldable::instance<T>::foldr_impl(
+                detail::std::forward<Fold>(foldable),
+                detail::std::forward<State>(state),
+                detail::std::forward<F>(f)
+            );
+        }
+    };
+
     struct _foldr {
         template <typename Fold, typename State, typename F>
         constexpr decltype(auto) operator()(Fold&& foldable, State&& state, F&& f) const {
-            return Foldable::instance<
-                datatype_t<Fold>
-            >::foldr_impl(
+            return foldr_impl<datatype_t<Fold>>::apply(
                 detail::std::forward<Fold>(foldable),
                 detail::std::forward<State>(state),
                 detail::std::forward<F>(f)
@@ -163,12 +190,24 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct foldr1_impl : foldr1_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct foldr1_impl<T, when<condition>> {
+        template <typename Fold, typename F>
+        static constexpr decltype(auto) apply(Fold&& foldable, F&& f) {
+            return Foldable::instance<T>::foldr1_impl(
+                detail::std::forward<Fold>(foldable),
+                detail::std::forward<F>(f)
+            );
+        }
+    };
+
     struct _foldr1 {
         template <typename Fold, typename F>
         constexpr decltype(auto) operator()(Fold&& foldable, F&& f) const {
-            return Foldable::instance<
-                datatype_t<Fold>
-            >::foldr1_impl(
+            return foldr1_impl<datatype_t<Fold>>::apply(
                 detail::std::forward<Fold>(foldable),
                 detail::std::forward<F>(f)
             );
@@ -201,12 +240,24 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct foldl1_impl : foldl1_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct foldl1_impl<T, when<condition>> {
+        template <typename Fold, typename F>
+        static constexpr decltype(auto) apply(Fold&& foldable, F&& f) {
+            return Foldable::instance<T>::foldl1_impl(
+                detail::std::forward<Fold>(foldable),
+                detail::std::forward<F>(f)
+            );
+        }
+    };
+
     struct _foldl1 {
         template <typename Fold, typename F>
         constexpr decltype(auto) operator()(Fold&& foldable, F&& f) const {
-            return Foldable::instance<
-                datatype_t<Fold>
-            >::foldl1_impl(
+            return foldl1_impl<datatype_t<Fold>>::apply(
                 detail::std::forward<Fold>(foldable),
                 detail::std::forward<F>(f)
             );
@@ -248,12 +299,24 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct for_each_impl : for_each_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct for_each_impl<T, when<condition>> {
+        template <typename Fold, typename F>
+        static constexpr decltype(auto) apply(Fold&& foldable, F&& f) {
+            return Foldable::instance<T>::for_each_impl(
+                detail::std::forward<Fold>(foldable),
+                detail::std::forward<F>(f)
+            );
+        }
+    };
+
     struct _for_each {
         template <typename Fold, typename F>
         constexpr decltype(auto) operator()(Fold&& foldable, F&& f) const {
-            return Foldable::instance<
-                datatype_t<Fold>
-            >::for_each_impl(
+            return for_each_impl<datatype_t<Fold>>::apply(
                 detail::std::forward<Fold>(foldable),
                 detail::std::forward<F>(f)
             );
@@ -276,12 +339,23 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct length_impl : length_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct length_impl<T, when<condition>> {
+        template <typename Fold>
+        static constexpr decltype(auto) apply(Fold&& foldable) {
+            return Foldable::instance<T>::length_impl(
+                detail::std::forward<Fold>(foldable)
+            );
+        }
+    };
+
     struct _length {
         template <typename Fold>
         constexpr decltype(auto) operator()(Fold&& foldable) const {
-            return Foldable::instance<
-                datatype_t<Fold>
-            >::length_impl(
+            return length_impl<datatype_t<Fold>>::apply(
                 detail::std::forward<Fold>(foldable)
             );
         }
@@ -314,12 +388,24 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct minimum_by_impl : minimum_by_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct minimum_by_impl<T, when<condition>> {
+        template <typename Pred, typename Fold>
+        static constexpr decltype(auto) apply(Pred&& pred, Fold&& foldable) {
+            return Foldable::instance<T>::minimum_by_impl(
+                detail::std::forward<Pred>(pred),
+                detail::std::forward<Fold>(foldable)
+            );
+        }
+    };
+
     struct _minimum_by {
         template <typename Pred, typename Fold>
         constexpr decltype(auto) operator()(Pred&& pred, Fold&& foldable) const {
-            return Foldable::instance<
-                datatype_t<Fold>
-            >::minimum_by_impl(
+            return minimum_by_impl<datatype_t<Fold>>::apply(
                 detail::std::forward<Pred>(pred),
                 detail::std::forward<Fold>(foldable)
             );
@@ -342,12 +428,23 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct minimum_impl : minimum_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct minimum_impl<T, when<condition>> {
+        template <typename Fold>
+        static constexpr decltype(auto) apply(Fold&& foldable) {
+            return Foldable::instance<T>::minimum_impl(
+                detail::std::forward<Fold>(foldable)
+            );
+        }
+    };
+
     struct _minimum {
         template <typename Fold>
         constexpr decltype(auto) operator()(Fold&& foldable) const {
-            return Foldable::instance<
-                datatype_t<Fold>
-            >::minimum_impl(
+            return minimum_impl<datatype_t<Fold>>::apply(
                 detail::std::forward<Fold>(foldable)
             );
         }
@@ -380,12 +477,24 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct maximum_by_impl : maximum_by_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct maximum_by_impl<T, when<condition>> {
+        template <typename Pred, typename Fold>
+        static constexpr decltype(auto) apply(Pred&& pred, Fold&& foldable) {
+            return Foldable::instance<T>::maximum_by_impl(
+                detail::std::forward<Pred>(pred),
+                detail::std::forward<Fold>(foldable)
+            );
+        }
+    };
+
     struct _maximum_by {
         template <typename Pred, typename Fold>
         constexpr decltype(auto) operator()(Pred&& pred, Fold&& foldable) const {
-            return Foldable::instance<
-                datatype_t<Fold>
-            >::maximum_by_impl(
+            return maximum_by_impl<datatype_t<Fold>>::apply(
                 detail::std::forward<Pred>(pred),
                 detail::std::forward<Fold>(foldable)
             );
@@ -408,12 +517,23 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct maximum_impl : maximum_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct maximum_impl<T, when<condition>> {
+        template <typename Fold>
+        static constexpr decltype(auto) apply(Fold&& foldable) {
+            return Foldable::instance<T>::maximum_impl(
+                detail::std::forward<Fold>(foldable)
+            );
+        }
+    };
+
     struct _maximum {
         template <typename Fold>
         constexpr decltype(auto) operator()(Fold&& foldable) const {
-            return Foldable::instance<
-                datatype_t<Fold>
-            >::maximum_impl(
+            return maximum_impl<datatype_t<Fold>>::apply(
                 detail::std::forward<Fold>(foldable)
             );
         }
@@ -440,12 +560,23 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct sum_impl : sum_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct sum_impl<T, when<condition>> {
+        template <typename Fold>
+        static constexpr decltype(auto) apply(Fold&& foldable) {
+            return Foldable::instance<T>::sum_impl(
+                detail::std::forward<Fold>(foldable)
+            );
+        }
+    };
+
     struct _sum {
         template <typename Fold>
         constexpr decltype(auto) operator()(Fold&& foldable) const {
-            return Foldable::instance<
-                datatype_t<Fold>
-            >::sum_impl(
+            return sum_impl<datatype_t<Fold>>::apply(
                 detail::std::forward<Fold>(foldable)
             );
         }
@@ -472,12 +603,23 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct product_impl : product_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct product_impl<T, when<condition>> {
+        template <typename Fold>
+        static constexpr decltype(auto) apply(Fold&& foldable) {
+            return Foldable::instance<T>::product_impl(
+                detail::std::forward<Fold>(foldable)
+            );
+        }
+    };
+
     struct _product {
         template <typename Fold>
         constexpr decltype(auto) operator()(Fold&& foldable) const {
-            return Foldable::instance<
-                datatype_t<Fold>
-            >::product_impl(
+            return product_impl<datatype_t<Fold>>::apply(
                 detail::std::forward<Fold>(foldable)
             );
         }
@@ -510,12 +652,24 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct count_impl : count_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct count_impl<T, when<condition>> {
+        template <typename Fold, typename Pred>
+        static constexpr decltype(auto) apply(Fold&& foldable, Pred&& pred) {
+            return Foldable::instance<T>::count_impl(
+                detail::std::forward<Fold>(foldable),
+                detail::std::forward<Pred>(pred)
+            );
+        }
+    };
+
     struct _count {
         template <typename Fold, typename Pred>
         constexpr decltype(auto) operator()(Fold&& foldable, Pred&& pred) const {
-            return Foldable::instance<
-                datatype_t<Fold>
-            >::count_impl(
+            return count_impl<datatype_t<Fold>>::apply(
                 detail::std::forward<Fold>(foldable),
                 detail::std::forward<Pred>(pred)
             );
@@ -555,12 +709,24 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct unpack_impl : unpack_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct unpack_impl<T, when<condition>> {
+        template <typename Fold, typename F>
+        static constexpr decltype(auto) apply(Fold&& foldable, F&& f) {
+            return Foldable::instance<T>::unpack_impl(
+                detail::std::forward<Fold>(foldable),
+                detail::std::forward<F>(f)
+            );
+        }
+    };
+
     struct _unpack {
         template <typename Fold, typename F>
         constexpr decltype(auto) operator()(Fold&& foldable, F&& f) const {
-            return Foldable::instance<
-                datatype_t<Fold>
-            >::unpack_impl(
+            return unpack_impl<datatype_t<Fold>>::apply(
                 detail::std::forward<Fold>(foldable),
                 detail::std::forward<F>(f)
             );

@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/typeclass.hpp>
+#include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/integral.hpp>
@@ -48,6 +49,11 @@ namespace boost { namespace hana {
     struct Iterable {
         BOOST_HANA_TYPECLASS(Iterable);
         struct mcd;
+        template <typename T>
+        struct find_impl;
+
+        template <typename T>
+        struct any_impl;
     };
 
     //! Return the first element of a non-empty iterable.
@@ -60,12 +66,23 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename It, typename = void>
+    struct head_impl : head_impl<It, when<true>> { };
+
+    template <typename It, bool condition>
+    struct head_impl<It, when<condition>> {
+        template <typename Xs>
+        static constexpr decltype(auto) apply(Xs&& xs) {
+            return Iterable::instance<It>::head_impl(
+                detail::std::forward<Xs>(xs)
+            );
+        }
+    };
+
     struct _head {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-            return Iterable::instance<
-                datatype_t<Xs>
-            >::head_impl(
+            return head_impl<datatype_t<Xs>>::apply(
                 detail::std::forward<Xs>(xs)
             );
         }
@@ -88,12 +105,23 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename It, typename = void>
+    struct tail_impl : tail_impl<It, when<true>> { };
+
+    template <typename It, bool condition>
+    struct tail_impl<It, when<condition>> {
+        template <typename Xs>
+        static constexpr decltype(auto) apply(Xs&& xs) {
+            return Iterable::instance<It>::tail_impl(
+                detail::std::forward<Xs>(xs)
+            );
+        }
+    };
+
     struct _tail {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-            return Iterable::instance<
-                datatype_t<Xs>
-            >::tail_impl(
+            return tail_impl<datatype_t<Xs>>::apply(
                 detail::std::forward<Xs>(xs)
             );
         }
@@ -116,12 +144,23 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename It, typename = void>
+    struct is_empty_impl : is_empty_impl<It, when<true>> { };
+
+    template <typename It, bool condition>
+    struct is_empty_impl<It, when<condition>> {
+        template <typename Xs>
+        static constexpr decltype(auto) apply(Xs&& xs) {
+            return Iterable::instance<It>::is_empty_impl(
+                detail::std::forward<Xs>(xs)
+            );
+        }
+    };
+
     struct _is_empty {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-            return Iterable::instance<
-                datatype_t<Xs>
-            >::is_empty_impl(
+            return is_empty_impl<datatype_t<Xs>>::apply(
                 detail::std::forward<Xs>(xs)
             );
         }
@@ -155,12 +194,24 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename It, typename = void>
+    struct at_impl : at_impl<It, when<true>> { };
+
+    template <typename It, bool condition>
+    struct at_impl<It, when<condition>> {
+        template <typename N, typename Xs>
+        static constexpr decltype(auto) apply(N&& n, Xs&& xs) {
+            return Iterable::instance<It>::at_impl(
+                detail::std::forward<N>(n),
+                detail::std::forward<Xs>(xs)
+            );
+        }
+    };
+
     struct _at {
         template <typename N, typename Xs>
         constexpr decltype(auto) operator()(N&& n, Xs&& xs) const {
-            return Iterable::instance<
-                datatype_t<Xs>
-            >::at_impl(
+            return at_impl<datatype_t<Xs>>::apply(
                 detail::std::forward<N>(n),
                 detail::std::forward<Xs>(xs)
             );
@@ -210,12 +261,23 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename It, typename = void>
+    struct last_impl : last_impl<It, when<true>> { };
+
+    template <typename It, bool condition>
+    struct last_impl<It, when<condition>> {
+        template <typename Xs>
+        static constexpr decltype(auto) apply(Xs&& xs) {
+            return Iterable::instance<It>::last_impl(
+                detail::std::forward<Xs>(xs)
+            );
+        }
+    };
+
     struct _last {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-            return Iterable::instance<
-                datatype_t<Xs>
-            >::last_impl(
+            return last_impl<datatype_t<Xs>>::apply(
                 detail::std::forward<Xs>(xs)
             );
         }
@@ -247,12 +309,24 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename It, typename = void>
+    struct drop_impl : drop_impl<It, when<true>> { };
+
+    template <typename It, bool condition>
+    struct drop_impl<It, when<condition>> {
+        template <typename N, typename Xs>
+        static constexpr decltype(auto) apply(N&& n, Xs&& xs) {
+            return Iterable::instance<It>::drop_impl(
+                detail::std::forward<N>(n),
+                detail::std::forward<Xs>(xs)
+            );
+        }
+    };
+
     struct _drop {
         template <typename N, typename Xs>
         constexpr decltype(auto) operator()(N&& n, Xs&& xs) const {
-            return Iterable::instance<
-                datatype_t<Xs>
-            >::drop_impl(
+            return drop_impl<datatype_t<Xs>>::apply(
                 detail::std::forward<N>(n),
                 detail::std::forward<Xs>(xs)
             );
@@ -317,12 +391,24 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename It, typename = void>
+    struct drop_while_impl : drop_while_impl<It, when<true>> { };
+
+    template <typename It, bool condition>
+    struct drop_while_impl<It, when<condition>> {
+        template <typename Xs, typename Pred>
+        static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
+            return Iterable::instance<It>::drop_while_impl(
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<Pred>(pred)
+            );
+        }
+    };
+
     struct _drop_while {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
-            return Iterable::instance<
-                datatype_t<Xs>
-            >::drop_while_impl(
+            return drop_while_impl<datatype_t<Xs>>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred)
             );
@@ -369,12 +455,24 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename It, typename = void>
+    struct drop_until_impl : drop_until_impl<It, when<true>> { };
+
+    template <typename It, bool condition>
+    struct drop_until_impl<It, when<condition>> {
+        template <typename Xs, typename Pred>
+        static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
+            return Iterable::instance<It>::drop_until_impl(
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<Pred>(pred)
+            );
+        }
+    };
+
     struct _drop_until {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
-            return Iterable::instance<
-                datatype_t<Xs>
-            >::drop_until_impl(
+            return drop_until_impl<datatype_t<Xs>>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred)
             );

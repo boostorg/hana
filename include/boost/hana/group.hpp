@@ -16,6 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/is_a.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/declval.hpp>
@@ -95,6 +96,12 @@ namespace boost { namespace hana {
             return detail::std::forward<X>(x) - detail::std::forward<Y>(y);
         }
     };
+
+    template <typename T>
+    struct Group::instance<T, T, when<models<Group(T)>{}>>
+        : Group::minus_mcd<T, T>
+        , Group::negate_mcd<T, T>
+    { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_GROUP_HPP

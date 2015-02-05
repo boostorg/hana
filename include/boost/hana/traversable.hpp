@@ -12,6 +12,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/traversable.hpp>
 
+#include <boost/hana/core/models.hpp>
+#include <boost/hana/core/when.hpp>
 #include <boost/hana/functional/id.hpp>
 
 
@@ -22,6 +24,11 @@ namespace boost { namespace hana {
         static constexpr auto sequence_impl(T traversable)
         { return traverse<A>(traversable, id); }
     };
+
+    template <typename T>
+    struct Traversable::instance<T, when<models<Traversable(T)>{}>>
+        : Traversable::traverse_mcd
+    { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_TRAVERSABLE_HPP

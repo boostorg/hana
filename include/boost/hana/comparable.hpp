@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/comparable.hpp>
 
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/declval.hpp>
@@ -84,6 +85,11 @@ namespace boost { namespace hana {
             return detail::std::forward<X>(x) == detail::std::forward<Y>(y);
         }
     };
+
+    template <typename T>
+    struct Comparable::instance<T, T, when<models<Comparable(T)>{}>>
+        : Comparable::equal_mcd
+    { };
 }} // end namespace boost::hana
 
 

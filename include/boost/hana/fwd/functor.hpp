@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/typeclass.hpp>
+#include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -66,10 +67,24 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct fmap_impl : fmap_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct fmap_impl<T, when<condition>> {
+        template <typename Xs, typename F>
+        static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
+            return Functor::instance<T>::fmap_impl(
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<F>(f)
+            );
+        }
+    };
+
     struct _fmap {
         template <typename Xs, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
-            return Functor::instance<datatype_t<Xs>>::fmap_impl(
+            return fmap_impl<datatype_t<Xs>>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<F>(f)
             );
@@ -107,10 +122,25 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct adjust_impl : adjust_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct adjust_impl<T, when<condition>> {
+        template <typename Xs, typename Pred, typename F>
+        static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred, F&& f) {
+            return Functor::instance<T>::adjust_impl(
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<Pred>(pred),
+                detail::std::forward<F>(f)
+            );
+        }
+    };
+
     struct _adjust {
         template <typename Xs, typename Pred, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred, F&& f) const {
-            return Functor::instance<datatype_t<Xs>>::adjust_impl(
+            return adjust_impl<datatype_t<Xs>>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred),
                 detail::std::forward<F>(f)
@@ -149,10 +179,25 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct replace_impl : replace_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct replace_impl<T, when<condition>> {
+        template <typename Xs, typename Pred, typename Value>
+        static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred, Value&& value) {
+            return Functor::instance<T>::replace_impl(
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<Pred>(pred),
+                detail::std::forward<Value>(value)
+            );
+        }
+    };
+
     struct _replace {
         template <typename Xs, typename Pred, typename Value>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred, Value&& value) const {
-            return Functor::instance<datatype_t<Xs>>::replace_impl(
+            return replace_impl<datatype_t<Xs>>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred),
                 detail::std::forward<Value>(value)
@@ -185,10 +230,24 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct fill_impl : fill_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct fill_impl<T, when<condition>> {
+        template <typename Xs, typename Value>
+        static constexpr decltype(auto) apply(Xs&& xs, Value&& value) {
+            return Functor::instance<T>::fill_impl(
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<Value>(value)
+            );
+        }
+    };
+
     struct _fill {
         template <typename Xs, typename Value>
         constexpr decltype(auto) operator()(Xs&& xs, Value&& value) const {
-            return Functor::instance<datatype_t<Xs>>::fill_impl(
+            return fill_impl<datatype_t<Xs>>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Value>(value)
             );

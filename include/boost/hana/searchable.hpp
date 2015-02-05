@@ -13,6 +13,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/searchable.hpp>
 
 #include <boost/hana/comparable.hpp>
+#include <boost/hana/core/models.hpp>
+#include <boost/hana/core/when.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/id.hpp>
 #include <boost/hana/functional/partial.hpp>
@@ -65,6 +67,11 @@ namespace boost { namespace hana {
         static constexpr auto subset_impl(Xs xs, Ys ys)
         { return all(xs, partial(elem, ys)); }
     };
+
+    template <typename T>
+    struct Searchable::instance<T, when<models<Searchable(T)>{}>>
+        : Searchable::mcd
+    { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_SEARCHABLE_HPP

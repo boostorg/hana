@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/foldable.hpp>
 
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integer_sequence.hpp>
@@ -352,6 +353,11 @@ namespace boost { namespace hana {
             );
         }
     };
+
+    template <typename T>
+    struct Foldable::instance<T, when<models<Foldable(T)>{}>>
+        : Foldable::unpack_mcd
+    { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FOLDABLE_HPP

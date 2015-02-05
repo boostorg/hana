@@ -45,6 +45,11 @@ namespace boost { namespace hana {
     }
 
     //! @ingroup group-core
+    //! To facilitate transition to split methods.
+    template <bool = true>
+    struct embedding { };
+
+    //! @ingroup group-core
     //! Implements conversions between data types.
     //!
     //! To specify a conversion between two data types, one must specialize
@@ -69,13 +74,21 @@ namespace boost { namespace hana {
     struct convert { };
 #else
     template <typename To, typename From, typename = void>
+    struct to_impl : to_impl<To, From, when<true>> { };
+
+    template <typename To, typename From, bool condition>
+    struct to_impl<To, From, when<condition>>
+        : core_detail::default_convert<To, From>
+    { };
+
+    template <typename To, typename From, typename = void>
     struct convert
         : convert<To, From, when<true>>
     { };
 
     template <typename To, typename From, bool condition>
     struct convert<To, From, when<condition>>
-        : core_detail::default_convert<To, From>
+        : to_impl<To, From>
     { };
 #endif
 

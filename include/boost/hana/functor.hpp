@@ -13,6 +13,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/functor.hpp>
 
 #include <boost/hana/bool.hpp>
+#include <boost/hana/core/models.hpp>
+#include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/logical.hpp>
@@ -64,6 +66,17 @@ namespace boost { namespace hana {
                 detail::std::forward<F>(f)
             );
         }
+    };
+
+    template <typename T>
+    struct Functor::instance<T, when<models<Functor(T)>{}>>
+        : Functor::fmap_mcd
+        , Functor::adjust_mcd
+    {
+        using Functor::adjust_mcd::fmap_impl;
+        using Functor::fmap_mcd::adjust_impl;
+        using Functor::fmap_mcd::replace_impl;
+        using Functor::fmap_mcd::fill_impl;
     };
 }} // end namespace boost::hana
 

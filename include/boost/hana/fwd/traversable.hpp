@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/typeclass.hpp>
+#include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
@@ -70,14 +71,25 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct sequence_impl : sequence_impl<T, when<true>> { };
+
+    template <typename Trav, bool condition>
+    struct sequence_impl<Trav, when<condition>> {
+        template <typename A, typename Xs>
+        static constexpr decltype(auto) apply(Xs&& traversable) {
+            return Traversable::instance<Trav>::template sequence_impl<A>(
+                detail::std::forward<Xs>(traversable)
+            );
+        }
+    };
+
     template <typename A>
     struct _sequence {
-        template <typename T>
-        constexpr decltype(auto) operator()(T&& traversable) const {
-            return Traversable::instance<
-                datatype_t<decltype(traversable)>
-            >::template sequence_impl<A>(
-                detail::std::forward<T>(traversable)
+        template <typename Xs>
+        constexpr decltype(auto) operator()(Xs&& traversable) const {
+            return sequence_impl<datatype_t<Xs>>::template apply<A>(
+                detail::std::forward<Xs>(traversable)
             );
         }
     };
@@ -114,14 +126,26 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct traverse_impl : traverse_impl<T, when<true>> { };
+
+    template <typename Trav, bool condition>
+    struct traverse_impl<Trav, when<condition>> {
+        template <typename A, typename Xs, typename F>
+        static constexpr decltype(auto) apply(Xs&& traversable, F&& f) {
+            return Traversable::instance<Trav>::template traverse_impl<A>(
+                detail::std::forward<Xs>(traversable),
+                detail::std::forward<F>(f)
+            );
+        }
+    };
+
     template <typename A>
     struct _traverse {
-        template <typename T, typename F>
-        constexpr decltype(auto) operator()(T&& traversable, F&& f) const {
-            return Traversable::instance<
-                datatype_t<decltype(traversable)>
-            >::template traverse_impl<A>(
-                detail::std::forward<T>(traversable),
+        template <typename Xs, typename F>
+        constexpr decltype(auto) operator()(Xs&& traversable, F&& f) const {
+            return traverse_impl<datatype_t<Xs>>::template apply<A>(
+                detail::std::forward<Xs>(traversable),
                 detail::std::forward<F>(f)
             );
         }

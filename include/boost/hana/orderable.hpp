@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/declval.hpp>
@@ -123,9 +124,24 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename T, typename U>
+    template <typename T, typename U, typename>
     struct Orderable::default_instance
-        : Orderable::instance<common_t<T, U>, common_t<T, U>>
+        : Orderable::default_instance<T, U, when<true>>
+    { };
+
+    template <typename T, typename U, bool condition>
+    struct Orderable::default_instance<T, U, when<condition>>
+        : disable
+    { };
+
+    template <typename T>
+    struct Orderable::instance<T, T, when<models<Orderable(T)>{}>>
+        : Orderable::less_mcd
+    { };
+
+    template <typename T, typename U>
+    struct Orderable::default_instance<T, U, when_valid<common_t<T, U>>>
+        : Orderable::less_mcd
     {
         template <typename X, typename Y>
         static constexpr decltype(auto) less_impl(X&& x, Y&& y) {

@@ -43,7 +43,7 @@ namespace boost { namespace hana {
         struct less_mcd;
         template <typename I1, typename I2>
         struct integral_constant_mcd;
-        template <typename T, typename U>
+        template <typename T, typename U, typename = void>
         struct default_instance;
     };
 
@@ -57,12 +57,24 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename U, typename = void>
+    struct less_impl : less_impl<T, U, when<true>> { };
+
+    template <typename T, typename U, bool condition>
+    struct less_impl<T, U, when<condition>> {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
+            return Orderable::instance<T, U>::less_impl(
+                detail::std::forward<X>(x),
+                detail::std::forward<Y>(y)
+            );
+        }
+    };
+
     struct _less {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
-            return Orderable::instance<
-                datatype_t<X>, datatype_t<Y>
-            >::less_impl(
+            return less_impl<datatype_t<X>, datatype_t<Y>>::apply(
                 detail::std::forward<X>(x),
                 detail::std::forward<Y>(y)
             );

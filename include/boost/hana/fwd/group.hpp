@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/typeclass.hpp>
+#include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -61,12 +62,24 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename U, typename = void>
+    struct minus_impl : minus_impl<T, U, when<true>> { };
+
+    template <typename T, typename U, bool condition>
+    struct minus_impl<T, U, when<condition>> {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
+            return Group::instance<T, U>::minus_impl(
+                detail::std::forward<X>(x),
+                detail::std::forward<Y>(y)
+            );
+        }
+    };
+
     struct _minus {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
-            return Group::instance<
-                datatype_t<X>, datatype_t<Y>
-            >::minus_impl(
+            return minus_impl<datatype_t<X>, datatype_t<Y>>::apply(
                 detail::std::forward<X>(x),
                 detail::std::forward<Y>(y)
             );
@@ -90,12 +103,23 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct negate_impl : negate_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct negate_impl<T, when<condition>> {
+        template <typename X>
+        static constexpr decltype(auto) apply(X&& x) {
+            return Group::instance<T, T>::negate_impl(
+                detail::std::forward<X>(x)
+            );
+        }
+    };
+
     struct _negate {
         template <typename X>
         constexpr decltype(auto) operator()(X&& x) const {
-            return Group::instance<
-                datatype_t<X>, datatype_t<X>
-            >::negate_impl(
+            return negate_impl<datatype_t<X>>::apply(
                 detail::std::forward<X>(x)
             );
         }

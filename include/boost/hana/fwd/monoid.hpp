@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/typeclass.hpp>
+#include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -52,12 +53,24 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename U, typename = void>
+    struct plus_impl : plus_impl<T, U, when<true>> { };
+
+    template <typename T, typename U, bool condition>
+    struct plus_impl<T, U, when<condition>> {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
+            return Monoid::instance<T, U>::plus_impl(
+                detail::std::forward<X>(x),
+                detail::std::forward<Y>(y)
+            );
+        }
+    };
+
     struct _plus {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
-            return Monoid::instance<
-                datatype_t<X>, datatype_t<Y>
-            >::plus_impl(
+            return plus_impl<datatype_t<X>, datatype_t<Y>>::apply(
                 detail::std::forward<X>(x),
                 detail::std::forward<Y>(y)
             );
@@ -85,10 +98,20 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct zero_impl : zero_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct zero_impl<T, when<condition>> {
+        static constexpr decltype(auto) apply() {
+            return Monoid::instance<T, T>::zero_impl();
+        }
+    };
+
     template <typename M>
     struct _zero {
         constexpr decltype(auto) operator()() const {
-            return Monoid::instance<M, M>::zero_impl();
+            return zero_impl<M>::apply();
         }
     };
 

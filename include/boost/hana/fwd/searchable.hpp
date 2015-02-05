@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/typeclass.hpp>
+#include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/functional/flip.hpp>
@@ -99,12 +100,24 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct any_impl : any_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct any_impl<T, when<condition>> {
+        template <typename S, typename Pred>
+        static constexpr decltype(auto) apply(S&& searchable, Pred&& pred) {
+            return Searchable::instance<T>::any_impl(
+                detail::std::forward<S>(searchable),
+                detail::std::forward<Pred>(pred)
+            );
+        }
+    };
+
     struct _any {
         template <typename S, typename Pred>
         constexpr decltype(auto) operator()(S&& searchable, Pred&& pred) const {
-            return Searchable::instance<
-                datatype_t<S>
-            >::any_impl(
+            return any_impl<datatype_t<S>>::apply(
                 detail::std::forward<S>(searchable),
                 detail::std::forward<Pred>(pred)
             );
@@ -128,12 +141,23 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct any_of_impl : any_of_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct any_of_impl<T, when<condition>> {
+        template <typename S>
+        static constexpr decltype(auto) apply(S&& searchable) {
+            return Searchable::instance<T>::any_of_impl(
+                detail::std::forward<S>(searchable)
+            );
+        }
+    };
+
     struct _any_of {
         template <typename S>
         constexpr decltype(auto) operator()(S&& searchable) const {
-            return Searchable::instance<
-                datatype_t<S>
-            >::any_of_impl(
+            return any_of_impl<datatype_t<S>>::apply(
                 detail::std::forward<S>(searchable)
             );
         }
@@ -308,12 +332,24 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct elem_impl : elem_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct elem_impl<T, when<condition>> {
+        template <typename S, typename Key>
+        static constexpr decltype(auto) apply(S&& searchable, Key&& key) {
+            return Searchable::instance<T>::elem_impl(
+                detail::std::forward<S>(searchable),
+                detail::std::forward<Key>(key)
+            );
+        }
+    };
+
     struct _elem {
         template <typename S, typename Key>
         constexpr decltype(auto) operator()(S&& searchable, Key&& key) const {
-            return Searchable::instance<
-                datatype_t<S>
-            >::elem_impl(
+            return elem_impl<datatype_t<S>>::apply(
                 detail::std::forward<S>(searchable),
                 detail::std::forward<Key>(key)
             );
@@ -352,12 +388,24 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct find_impl : find_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct find_impl<T, when<condition>> {
+        template <typename S, typename Pred>
+        static constexpr decltype(auto) apply(S&& searchable, Pred&& pred) {
+            return Searchable::instance<T>::find_impl(
+                detail::std::forward<S>(searchable),
+                detail::std::forward<Pred>(pred)
+            );
+        }
+    };
+
     struct _find {
         template <typename S, typename Pred>
         constexpr decltype(auto) operator()(S&& searchable, Pred&& pred) const {
-            return Searchable::instance<
-                datatype_t<S>
-            >::find_impl(
+            return find_impl<datatype_t<S>>::apply(
                 detail::std::forward<S>(searchable),
                 detail::std::forward<Pred>(pred)
             );
@@ -397,12 +445,24 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct lookup_impl : lookup_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct lookup_impl<T, when<condition>> {
+        template <typename S, typename Key>
+        static constexpr decltype(auto) apply(S&& searchable, Key&& key) {
+            return Searchable::instance<T>::lookup_impl(
+                detail::std::forward<S>(searchable),
+                detail::std::forward<Key>(key)
+            );
+        }
+    };
+
     struct _lookup {
         template <typename S, typename Key>
         constexpr decltype(auto) operator()(S&& searchable, Key&& key) const {
-            return Searchable::instance<
-                datatype_t<S>
-            >::lookup_impl(
+            return lookup_impl<datatype_t<S>>::apply(
                 detail::std::forward<S>(searchable),
                 detail::std::forward<Key>(key)
             );
@@ -453,12 +513,24 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct subset_impl : subset_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct subset_impl<T, when<condition>> {
+        template <typename Xs, typename Ys>
+        static constexpr decltype(auto) apply(Xs&& xs, Ys&& ys) {
+            return Searchable::instance<T>::subset_impl(
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<Ys>(ys)
+            );
+        }
+    };
+
     struct _subset {
         template <typename Xs, typename Ys>
         constexpr decltype(auto) operator()(Xs&& xs, Ys&& ys) const {
-            return Searchable::instance<
-                datatype_t<Xs>
-            >::subset_impl(
+            return subset_impl<datatype_t<Xs>>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Ys>(ys)
             );

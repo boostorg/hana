@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/typeclass.hpp>
+#include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -53,12 +54,24 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename U, typename = void>
+    struct mult_impl : mult_impl<T, U, when<true>> { };
+
+    template <typename T, typename U, bool condition>
+    struct mult_impl<T, U, when<condition>> {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
+            return Ring::instance<T, U>::mult_impl(
+                detail::std::forward<X>(x),
+                detail::std::forward<Y>(y)
+            );
+        }
+    };
+
     struct _mult {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
-            return Ring::instance<
-                datatype_t<X>, datatype_t<Y>
-            >::mult_impl(
+            return mult_impl<datatype_t<X>, datatype_t<Y>>::apply(
                 detail::std::forward<X>(x),
                 detail::std::forward<Y>(y)
             );
@@ -86,10 +99,20 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct one_impl : one_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct one_impl<T, when<condition>> {
+        static constexpr decltype(auto) apply() {
+            return Ring::instance<T, T>::one_impl();
+        }
+    };
+
     template <typename R>
     struct _one {
         constexpr decltype(auto) operator()() const {
-            return Ring::instance<R, R>::one_impl();
+            return one_impl<R>::apply();
         }
     };
 
@@ -123,12 +146,24 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct power_impl : power_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct power_impl<T, when<condition>> {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
+            return Ring::instance<T, T>::power_impl(
+                detail::std::forward<X>(x),
+                detail::std::forward<Y>(y)
+            );
+        }
+    };
+
     struct _power {
         template <typename R, typename P>
         constexpr decltype(auto) operator()(R&& r, P&& p) const {
-            return Ring::instance<
-                datatype_t<R>, datatype_t<R>
-            >::power_impl(
+            return power_impl<datatype_t<R>>::apply(
                 detail::std::forward<R>(r),
                 detail::std::forward<P>(p)
             );

@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/is_a.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/enumerable.hpp>
@@ -227,6 +228,22 @@ namespace boost { namespace hana {
         }
     };
 
+    template <typename T>
+    struct Iterable::find_impl {
+        template <typename Xs, typename Pred>
+        static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
+            return Searchable::iterable_mcd::find_impl(xs, pred);
+        }
+    };
+
+    template <typename T>
+    struct Iterable::any_impl {
+        template <typename Xs, typename Pred>
+        static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
+            return Searchable::iterable_mcd::any_impl(xs, pred);
+        }
+    };
+
     //! Instance of `Searchable` for `Iterable`s.
     //!
     //! An `Iterable` can be searched by doing a linear search in the elements,
@@ -237,6 +254,11 @@ namespace boost { namespace hana {
     template <typename T>
     struct Searchable::instance<T, when<is_an<Iterable, T>()>>
         : Searchable::iterable_mcd
+    { };
+
+    template <typename T>
+    struct Iterable::instance<T, when<models<Iterable(T)>{}>>
+        : Iterable::mcd
     { };
 }} // end namespace boost::hana
 

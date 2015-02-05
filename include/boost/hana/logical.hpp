@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/logical.hpp>
 
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/declval.hpp>
@@ -136,6 +137,11 @@ namespace boost { namespace hana {
             }
         }
     };
+
+    template <typename T>
+    struct Logical::instance<T, when<models<Logical(T)>{}>>
+        : Logical::mcd
+    { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_LOGICAL_HPP

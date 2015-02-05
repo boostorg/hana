@@ -14,7 +14,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/applicative.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
+#include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/functional/always.hpp>
@@ -82,6 +84,17 @@ namespace boost { namespace hana {
                 )
             );
         }
+    };
+
+    template <typename T>
+    struct Monad::instance<T, when<models<Monad(T)>{}>>
+        : Monad::bind_mcd<T>
+        , Monad::flatten_mcd<T>
+    {
+        using Monad::bind_mcd<T>::flatten_impl;
+        using Monad::flatten_mcd<T>::bind_impl;
+        using Monad::flatten_mcd<T>::then_impl;
+        using Monad::flatten_mcd<T>::tap_impl;
     };
 }} // end namespace boost::hana
 

@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/typeclass.hpp>
+#include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/variadic/foldl.hpp>
 
@@ -76,12 +77,25 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct if_impl : if_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct if_impl<T, when<condition>> {
+        template <typename Cond, typename X, typename Y>
+        static constexpr decltype(auto) apply(Cond&& cond, X&& x, Y&& y) {
+            return Logical::instance<T>::if_impl(
+                detail::std::forward<Cond>(cond),
+                detail::std::forward<X>(x),
+                detail::std::forward<Y>(y)
+            );
+        }
+    };
+
     struct _if {
         template <typename L, typename T, typename E>
         constexpr decltype(auto) operator()(L&& l, T&& t, E&& e) const {
-            return Logical::instance<
-                datatype_t<L>
-            >::if_impl(
+            return if_impl<datatype_t<L>>::apply(
                 detail::std::forward<L>(l),
                 detail::std::forward<T>(t),
                 detail::std::forward<E>(e)
@@ -124,12 +138,25 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct eval_if_impl : eval_if_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct eval_if_impl<T, when<condition>> {
+        template <typename Cond, typename X, typename Y>
+        static constexpr decltype(auto) apply(Cond&& cond, X&& x, Y&& y) {
+            return Logical::instance<T>::eval_if_impl(
+                detail::std::forward<Cond>(cond),
+                detail::std::forward<X>(x),
+                detail::std::forward<Y>(y)
+            );
+        }
+    };
+
     struct _eval_if {
         template <typename L, typename T, typename E>
         constexpr decltype(auto) operator()(L&& l, T&& t, E&& e) const {
-            return Logical::instance<
-                datatype_t<L>
-            >::eval_if_impl(
+            return eval_if_impl<datatype_t<L>>::apply(
                 detail::std::forward<L>(l),
                 detail::std::forward<T>(t),
                 detail::std::forward<E>(e)
@@ -177,12 +204,25 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct while_impl : while_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct while_impl<T, when<condition>> {
+        template <typename Pred, typename State, typename F>
+        static constexpr decltype(auto) apply(Pred&& pred, State&& state, F&& f) {
+            return Logical::instance<T>::while_impl(
+                detail::std::forward<Pred>(pred),
+                detail::std::forward<State>(state),
+                detail::std::forward<F>(f)
+            );
+        }
+    };
+
     struct _while {
         template <typename Pred, typename State, typename F>
         constexpr decltype(auto) operator()(Pred&& pred, State&& state, F&& f) const {
-            return Logical::instance<
-                typename datatype<decltype(pred(state))>::type
-            >::while_impl(
+            return while_impl<datatype_t<decltype(pred(state))>>::apply(
                 detail::std::forward<Pred>(pred),
                 detail::std::forward<State>(state),
                 detail::std::forward<F>(f)
@@ -229,12 +269,25 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct until_impl : until_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct until_impl<T, when<condition>> {
+        template <typename Pred, typename State, typename F>
+        static constexpr decltype(auto) apply(Pred&& pred, State&& state, F&& f) {
+            return Logical::instance<T>::until_impl(
+                detail::std::forward<Pred>(pred),
+                detail::std::forward<State>(state),
+                detail::std::forward<F>(f)
+            );
+        }
+    };
+
     struct _until {
         template <typename Pred, typename State, typename F>
         constexpr decltype(auto) operator()(Pred&& pred, State&& state, F&& f) const {
-            return Logical::instance<
-                typename datatype<decltype(pred(state))>::type
-            >::until_impl(
+            return until_impl<datatype_t<decltype(pred(state))>>::apply(
                 detail::std::forward<Pred>(pred),
                 detail::std::forward<State>(state),
                 detail::std::forward<F>(f)
@@ -258,12 +311,23 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct not_impl : not_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct not_impl<T, when<condition>> {
+        template <typename Cond>
+        static constexpr decltype(auto) apply(Cond&& cond) {
+            return Logical::instance<T>::not_impl(
+                detail::std::forward<Cond>(cond)
+            );
+        }
+    };
+
     struct _not {
         template <typename L>
         constexpr decltype(auto) operator()(L&& l) const {
-            return Logical::instance<
-                datatype_t<L>
-            >::not_impl(
+            return not_impl<datatype_t<L>>::apply(
                 detail::std::forward<L>(l)
             );
         }
@@ -290,10 +354,24 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct and_impl : and_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct and_impl<T, when<condition>> {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
+            return Logical::instance<T>::and_impl(
+                detail::std::forward<X>(x),
+                detail::std::forward<Y>(y)
+            );
+        }
+    };
+
     struct _and {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
-            return Logical::instance<datatype_t<X>>::and_impl(
+            return and_impl<datatype_t<X>>::apply(
                 detail::std::forward<X>(x),
                 detail::std::forward<Y>(y)
             );
@@ -330,10 +408,24 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct or_impl : or_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct or_impl<T, when<condition>> {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
+            return Logical::instance<T>::or_impl(
+                detail::std::forward<X>(x),
+                detail::std::forward<Y>(y)
+            );
+        }
+    };
+
     struct _or {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
-            return Logical::instance<datatype_t<X>>::or_impl(
+            return or_impl<datatype_t<X>>::apply(
                 detail::std::forward<X>(x),
                 detail::std::forward<Y>(y)
             );
