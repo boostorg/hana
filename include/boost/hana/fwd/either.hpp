@@ -13,9 +13,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/detail/std/move.hpp>
-#include <boost/hana/fwd/comparable.hpp>
-#include <boost/hana/fwd/monad.hpp>
 
 
 namespace boost { namespace hana {
@@ -27,23 +24,93 @@ namespace boost { namespace hana {
     //! value `a` is represented as `left(a)`, and an `Either` containing a
     //! right value `b` is represented as `right(b)`.
     //!
-    //! The `Either` data type can sometimes be used to represent a value
-    //! which is either correct or an error; by convention, `left` is used
-    //! to hold an error and `right` is used to hold a correct value. A
-    //! mnemonic is that _right_ also means _correct_.
+    //! `Either` can sometimes be used to represent a value which is either
+    //! correct or an error; by convention, `left` is used to hold an error
+    //! and `right` is used to hold a correct value. A mnemonic is that
+    //! _right_ also means _correct_.
     //!
-    //! ## Instance of
-    //! `Comparable`, `Functor`, `Applicative` and `Monad`.
-    struct Either {
-        struct hana {
-            struct enabled_operators : Comparable, Monad { };
-        };
-    };
+    //!
+    //! Modeled concepts
+    //! ----------------
+    //! 1. `Comparable` (operators provided)\n
+    //! Two `Either`s are equal if and only if they both contain left values
+    //! or they both contain right values and those values are equal.
+    //! @snippet example/either.cpp comparable
+    //!
+    //! 2. `Orderable` (operators provided)\n
+    //! `Either`s are ordered by considering any `left` value as less than any
+    //! `right` value, and ordering two `left`s or two `right`s by ordering
+    //! their content. In other words,
+    //! @code
+    //!     left(anything) < right(anything)
+    //!     left(x)  < left(y)  if and only if x < y
+    //!     right(x) < right(y) if and only if x < y
+    //! @endcode
+    //! Example:
+    //! @snippet example/either.cpp orderable
+    //!
+    //! 3. `Functor`\n
+    //! Since `Either` can contain one of two possible values of different
+    //! data types and `transform` accepts a single function, `Either`'s instance
+    //! of `Functor` can only map the function over one arbitrarily-defined
+    //! side of the `Either`. Hence, mapping a function over an `Either e`
+    //! does nothing if `e` contains a left value, and it applies the function
+    //! if `e` contains a right value. In other words:
+    //! @code
+    //!     transform(left(x), f) == left(x)
+    //!     transform(right(x), f) == right(f(x))
+    //! @endcode
+    //! Example:
+    //! @snippet example/either.cpp functor
+    //!
+    //! 4. `Applicative`\n
+    //! The instance of `Applicative` for `Either` follows naturally from
+    //! the instance of `Functor`. Specifically,
+    //! @code
+    //!     ap(left(x), anything) == left(x)
+    //!     ap(right(x), left(anything)) == right(x)
+    //!     ap(right(f), right(x)) == right(f(x))
+    //!     lift<Either>(x) == right(x)
+    //! @endcode
+    //! Example:
+    //! @snippet example/either.applicative.cpp main
+    //!
+    //! 5. `Monad` (operators provided)\n
+    //! The instance of `Monad` for `Either` follows naturally from
+    //! the instance of `Applicative`. Specifically,
+    //! @code
+    //!     flatten(right(right(x))) == right(x)
+    //!     flatten(anything else) == anything else
+    //! @endcode
+    //! Example:
+    //! @snippet example/either.cpp monad
+    //!
+    //! 6. `Foldable`\n
+    //! For the purpose of being folded, an `Either` is considered empty if
+    //! it is a `left`, and it is considered equivalent to a one element list
+    //! if it is a `right`.
+    //! @snippet example/either.cpp foldable
+    //!
+    //! 7. `Traversable`\n
+    //! Traversing a `left` with an `Applicative A` just lifts the `left` into
+    //! the `Applicative`. Traversing a `right` will apply the function to the
+    //! value inside the `right`, which effectively lifts the value into the
+    //! `Applicative`, and then put back the value inside an `right` with
+    //! `transform`. In other words,
+    //! @code
+    //!     traverse<A>(left(x), f) == lift<A>(left(x))
+    //!     traverse<A>(right(y), f) == transform(f(y), right)
+    //! @endcode
+    //! Example:
+    //! @snippet example/either.cpp traversable
+    struct Either { };
 
     //! Create an `Either` containing the given left value.
     //! @relates Either
     //!
-    //! ### Example
+    //!
+    //! Example
+    //! -------
     //! @snippet example/either.cpp left
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto left = [](auto&& x) {
@@ -51,22 +118,7 @@ namespace boost { namespace hana {
     };
 #else
     template <typename X, typename = operators::enable_adl>
-    struct _left {
-        X value;
-        struct hana { using datatype = Either; };
-
-        template <typename F, typename G>
-        constexpr decltype(auto) go(F&& f, G const&) const&
-        { return detail::std::forward<F>(f)(value); }
-
-        template <typename F, typename G>
-        constexpr decltype(auto) go(F f, G const&) &
-        { return detail::std::forward<F>(f)(value); }
-
-        template <typename F, typename G>
-        constexpr decltype(auto) go(F&& f, G const&) &&
-        { return detail::std::forward<F>(f)(detail::std::move(value)); }
-    };
+    struct _left;
 
     constexpr detail::create<_left> left{};
 #endif
@@ -74,7 +126,9 @@ namespace boost { namespace hana {
     //! Create an `Either` containing the given right value.
     //! @relates Either
     //!
-    //! ### Example
+    //!
+    //! Example
+    //! -------
     //! @snippet example/either.cpp right
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto right = [](auto&& x) {
@@ -82,22 +136,7 @@ namespace boost { namespace hana {
     };
 #else
     template <typename X, typename = operators::enable_adl>
-    struct _right {
-        X value;
-        struct hana { using datatype = Either; };
-
-        template <typename F, typename G>
-        constexpr decltype(auto) go(F const&, G&& g) const&
-        { return detail::std::forward<G>(g)(value); }
-
-        template <typename F, typename G>
-        constexpr decltype(auto) go(F const&, G&& g) &
-        { return detail::std::forward<G>(g)(value); }
-
-        template <typename F, typename G>
-        constexpr decltype(auto) go(F const&, G&& g) &&
-        { return detail::std::forward<G>(g)(detail::std::move(value)); }
-    };
+    struct _right;
 
     constexpr detail::create<_right> right{};
 #endif
@@ -122,7 +161,8 @@ namespace boost { namespace hana {
     //! The `Either` value to analyze.
     //!
     //!
-    //! ### Example
+    //! Example
+    //! -------
     //! @snippet example/either.cpp either
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto either = [](auto&& f, auto&& g, auto&& e) -> decltype(auto) {

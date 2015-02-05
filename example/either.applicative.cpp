@@ -4,14 +4,18 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/bool.hpp>
 #include <boost/hana/assert.hpp>
+#include <boost/hana/bool.hpp>
 #include <boost/hana/either.hpp>
+#include <boost/hana/functional.hpp>
+#include <boost/hana/integral_constant.hpp>
+#include <boost/hana/tuple.hpp>
 
 #include <string>
 using namespace boost::hana;
 
 
+//! [main]
 template <char op>
 auto function = left(op + std::string{" is not a valid operation"});
 
@@ -44,3 +48,4 @@ int main() {
     BOOST_HANA_RUNTIME_CHECK(evaluate<'1', '+', '?'> == left("? is not a valid digit"));
     BOOST_HANA_RUNTIME_CHECK(evaluate<'?', '?', '?'> == left("? is not a valid operation"));
 }
+//! [main]

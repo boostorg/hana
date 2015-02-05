@@ -12,110 +12,238 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/either.hpp>
 
+#include <boost/hana/applicative.hpp>
 #include <boost/hana/bool.hpp>
+#include <boost/hana/comparable.hpp>
+#include <boost/hana/core/models.hpp>
+#include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
+#include <boost/hana/detail/std/move.hpp>
+#include <boost/hana/foldable.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/id.hpp>
-
-// instances
-#include <boost/hana/applicative.hpp>
-#include <boost/hana/comparable.hpp>
 #include <boost/hana/functor.hpp>
 #include <boost/hana/monad.hpp>
+#include <boost/hana/orderable.hpp>
+#include <boost/hana/traversable.hpp>
 
 
 namespace boost { namespace hana {
-    //! Instance of `Comparable` for `Either`s.
-    //!
-    //! Two `Either`s are equal if and only if they both contain left values
-    //! or they both contain right values and those values are equal.
-    //!
-    //! ### Example
-    //! @snippet example/either.cpp comparable
-    template <>
-    struct Comparable::instance<Either, Either> : Comparable::equal_mcd {
-        template <template <typename ...> class E, typename T, typename U>
-        static constexpr decltype(auto) equal_impl(E<T> const& x, E<U> const& y) {
-            return equal(x.value, y.value);
-        }
+    //////////////////////////////////////////////////////////////////////////
+    // left
+    //////////////////////////////////////////////////////////////////////////
+    template <typename X, typename>
+    struct _left {
+        X value;
 
-        template <template <typename ...> class E1,
-                  template <typename ...> class E2, typename T, typename U>
-        static constexpr auto equal_impl(E1<T> const&, E2<U> const&)
+        struct hana { using datatype = Either; };
+
+        template <typename F, typename G>
+        constexpr decltype(auto) go(F&& f, G const&) const&
+        { return detail::std::forward<F>(f)(value); }
+
+        template <typename F, typename G>
+        constexpr decltype(auto) go(F f, G const&) &
+        { return detail::std::forward<F>(f)(value); }
+
+        template <typename F, typename G>
+        constexpr decltype(auto) go(F&& f, G const&) &&
+        { return detail::std::forward<F>(f)(detail::std::move(value)); }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // right
+    //////////////////////////////////////////////////////////////////////////
+    template <typename X, typename>
+    struct _right {
+        X value;
+
+        struct hana { using datatype = Either; };
+
+        template <typename F, typename G>
+        constexpr decltype(auto) go(F const&, G&& g) const&
+        { return detail::std::forward<G>(g)(value); }
+
+        template <typename F, typename G>
+        constexpr decltype(auto) go(F const&, G&& g) &
+        { return detail::std::forward<G>(g)(value); }
+
+        template <typename F, typename G>
+        constexpr decltype(auto) go(F const&, G&& g) &&
+        { return detail::std::forward<G>(g)(detail::std::move(value)); }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Operators
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct enabled_operators<Either>
+        : Comparable, Orderable, Monad
+    { };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Comparable
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Comparable(Either)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct equal_impl<Either, Either> {
+        template <template <typename ...> class E, typename T, typename U>
+        static constexpr decltype(auto) apply(E<T> const& x, E<U> const& y)
+        { return hana::equal(x.value, y.value); }
+
+        template <typename X, typename Y>
+        static constexpr auto apply(X const&, Y const&)
         { return false_; }
     };
 
-    //! Instance of `Functor` for `Either`s.
-    //!
-    //! Since `Either` can contain one of two possible values of different
-    //! data types and `fmap` accepts a single function, `Either`'s instance
-    //! of `Functor` can only map the function over one arbitrarily-defined
-    //! side of the `Either`. Hence, mapping a function over an `Either e`
-    //! does nothing if `e` contains a left value, and it applies the function
-    //! if `e` contains a right value. In other words:
-    //! @code
-    //!     fmap(left(x), f) == left(x)
-    //!     fmap(right(x), f) == right(f(x))
-    //! @endcode
-    //!
-    //! ### Example
-    //! @snippet example/either.cpp functor
+    //////////////////////////////////////////////////////////////////////////
+    // Orderable
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Functor::instance<Either> : Functor::fmap_mcd {
+    struct models<Orderable(Either)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct less_impl<Either, Either> {
+        template <template <typename ...> class E, typename T, typename U>
+        static constexpr decltype(auto) apply(E<T> const& x, E<U> const& y)
+        { return hana::less(x.value, y.value); }
+
+        template <typename T, typename U>
+        static constexpr auto apply(_left<T> const&, _right<U> const&)
+        { return true_; }
+
+        template <typename T, typename U>
+        static constexpr auto apply(_right<T> const&, _left<U> const&)
+        { return false_; }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Functor
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Functor(Either)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct fmap_impl<Either> {
         template <typename E, typename F>
-        static constexpr decltype(auto) fmap_impl(E&& e, F&& f) {
-            return either(left,
-                compose(right, detail::std::forward<F>(f)),
+        static constexpr decltype(auto) apply(E&& e, F&& f) {
+            return hana::either(left,
+                hana::compose(right, detail::std::forward<F>(f)),
                 detail::std::forward<E>(e)
             );
         }
     };
 
-    //! Instance of `Applicative` for `Either`.
-    //!
-    //! The instance of `Applicative` for `Either` follows naturally from
-    //! the instance of `Functor`. Specifically,
-    //! @code
-    //!     ap(left(x), anything) == left(x)
-    //!     ap(right(x), left(anything)) == right(x)
-    //!     ap(right(f), right(x)) == right(f(x))
-    //!     lift<Either>(x) == right(x)
-    //! @endcode
-    //!
-    //! ### Example
-    //! @include example/either/applicative.cpp
+    //////////////////////////////////////////////////////////////////////////
+    // Applicative
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Applicative::instance<Either> : Applicative::mcd {
+    struct models<Applicative(Either)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct lift_impl<Either> {
         template <typename X>
-        static constexpr decltype(auto) lift_impl(X&& x) {
-            return right(detail::std::forward<X>(x));
-        }
+        static constexpr decltype(auto) apply(X&& x)
+        { return hana::right(detail::std::forward<X>(x)); }
+    };
 
+    template <>
+    struct ap_impl<Either> {
         template <typename E, typename X>
-        static constexpr decltype(auto) ap_impl(E&& e, X&& x) {
-            return either(left,
-                partial(fmap, detail::std::forward<X>(x)),
+        static constexpr decltype(auto) apply(E&& e, X&& x) {
+            return hana::either(left,
+                hana::partial(fmap, detail::std::forward<X>(x)),
                 detail::std::forward<E>(e)
             );
         }
     };
 
-    //! Instance of `Monad` for `Either`.
-    //!
-    //! The instance of `Monad` for `Either` follows naturally from
-    //! the instance of `Applicative`. Specifically,
-    //! @code
-    //!     flatten(right(right(x))) == right(x)
-    //!     flatten(anything else) == anything else
-    //! @endcode
-    //!
-    //! ### Example
-    //! @snippet example/either.cpp monad
+    //////////////////////////////////////////////////////////////////////////
+    // Monad
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Monad::instance<Either> : Monad::flatten_mcd<Either> {
+    struct models<Monad(Either)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct flatten_impl<Either> {
         template <typename E>
-        static constexpr decltype(auto) flatten_impl(E&& e) {
-            return either(left, id, detail::std::forward<E>(e));
+        static constexpr decltype(auto) apply(E&& e)
+        { return hana::either(left, id, detail::std::forward<E>(e)); }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Foldable
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Foldable(Either)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct unpack_impl<Either> {
+        template <typename T, typename F>
+        static constexpr decltype(auto) apply(_left<T> const&, F&& f)
+        { return detail::std::forward<F>(f)(); }
+
+
+        template <typename T, typename F>
+        static constexpr decltype(auto) apply(_right<T> const& x, F&& f)
+        { return detail::std::forward<F>(f)(x.value); }
+
+        template <typename T, typename F>
+        static constexpr decltype(auto) apply(_right<T>& x, F&& f)
+        { return detail::std::forward<F>(f)(x.value); }
+
+        template <typename T, typename F>
+        static constexpr decltype(auto) apply(_right<T>&& x, F&& f)
+        { return detail::std::forward<F>(f)(detail::std::move(x.value)); }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Traversable
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Traversable(Either)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct traverse_impl<Either> {
+        template <typename A, typename T, typename F>
+        static constexpr decltype(auto) apply(_left<T> const& e, F&& f)
+        { return lift<A>(e); }
+        template <typename A, typename T, typename F>
+        static constexpr decltype(auto) apply(_left<T>& e, F&& f)
+        { return lift<A>(e); }
+        template <typename A, typename T, typename F>
+        static constexpr decltype(auto) apply(_left<T>&& e, F&& f)
+        { return lift<A>(detail::std::move(e)); }
+
+        template <typename A, typename T, typename F>
+        static constexpr decltype(auto) apply(_right<T> const& e, F&& f) {
+            return hana::fmap(detail::std::forward<F>(f)(e.value), right);
+        }
+        template <typename A, typename T, typename F>
+        static constexpr decltype(auto) apply(_right<T>& e, F&& f) {
+            return hana::fmap(detail::std::forward<F>(f)(e.value), right);
+        }
+        template <typename A, typename T, typename F>
+        static constexpr decltype(auto) apply(_right<T>&& e, F&& f) {
+            return hana::fmap(detail::std::forward<F>(f)(
+                                        detail::std::move(e.value)), right);
         }
     };
 }} // end namespace boost::hana
