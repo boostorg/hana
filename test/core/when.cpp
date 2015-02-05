@@ -5,33 +5,22 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/core/when.hpp>
-
-#include <type_traits>
 using namespace boost::hana;
 
 
-namespace example1 {
-//! [when]
 template <typename T, typename = when<true>>
 struct base_template;
 
 template <typename T>
-struct base_template<T, when<std::is_integral<T>{}>> {
-    // something useful...
-};
-//! [when]
-}
-
-namespace example2 {
-//! [when_valid]
-template <typename T, typename = when<true>>
-struct base_template;
+struct base_template<T, when_valid<typename T::first_type>> { };
 
 template <typename T>
-struct base_template<T, when_valid<typename T::value_type>> {
-    // something useful...
-};
-//! [when_valid]
-}
+struct base_template<T, when_valid<typename T::second_type>> { };
+
+struct First { struct first_type; };
+struct Second { struct second_type; };
+
+template struct base_template<First>;
+template struct base_template<Second>;
 
 int main() { }

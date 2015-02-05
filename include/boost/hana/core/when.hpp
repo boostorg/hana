@@ -14,20 +14,24 @@ namespace boost { namespace hana {
     //! @ingroup group-core
     //! Enable a partial specialization only if a boolean condition is true.
     //!
-    //! @internal
-    //! ### Rationale for using `when` instead of `std::enable_if`
-    //! Using `when` is necessary for two reasons. First, a non-type template
-    //! argument may not depend on a template parameter of a partial
-    //! specialization, so we need to wrap the `bool` condition into a
-    //! type. Second, `when` is used to control the priority of partial
-    //! specializations in a finer grained manner than what can be achieved
-    //! with the usual `typename Enable = void` and `std::enable_if` pattern.
-    //! @endinternal
+    //! > #### Rationale for using `when` instead of `std::enable_if`
+    //! > `when` is used to control the priority of partial specializations
+    //! > in a finer grained manner than what can be achieved with the usual
+    //! > `typename Enable = void` and `std::enable_if` pattern. For example,
+    //! > a partially specialized tag-dispatched method will have a higher
+    //! > priority than an equivalent specialization that uses `when`.
     //!
-    //! ### Example
-    //! @include example/core/when.cpp
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/core/when.cpp when
     template <bool condition>
     struct when;
+
+    namespace core_detail {
+        template <typename ...>
+        static constexpr bool valid = true;
+    }
 
     //! @ingroup group-core
     //! Variant of `when` allowing specializations to be enabled only if an
@@ -37,10 +41,12 @@ namespace boost { namespace hana {
     //! used inside a partial specialization, SFINAE will cause the partial
     //! specialization to be ignored when the expression is ill-formed.
     //!
-    //! ### Example
-    //! @include example/core/when_valid.cpp
-    template <typename ...>
-    using when_valid = when<true>;
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/core/when.cpp when_valid
+    template <typename ...T>
+    using when_valid = when<core_detail::valid<T...>>;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_CORE_WHEN_HPP
