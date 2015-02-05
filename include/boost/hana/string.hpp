@@ -140,10 +140,10 @@ namespace boost { namespace hana {
     };
 
     template <typename C>
-    struct convert<String, C, when<
+    struct to_impl<String, C, when<
         models<Constant(C)>{} &&
         detail::std::is_same<typename C::value_type, char const*>{}
-    >> : embedding {
+    >> : embedding<> {
         template <typename S, detail::std::size_t ...i>
         static constexpr auto helper(S, detail::std::index_sequence<i...>)
         { return string<value2<S>()[i]...>; }

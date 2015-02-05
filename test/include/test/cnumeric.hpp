@@ -38,9 +38,9 @@ namespace boost { namespace hana {
     }
 
     template <typename T, typename C>
-    struct convert<test::CNumeric<T>, C,
-        when<is_an<IntegralConstant, C>{}>
-    > {
+    struct to_impl<test::CNumeric<T>, C, when<
+        models<Constant(C)>{} && detail::std::is_integral<typename C::value_type>{}
+    >> {
         template <typename X>
         static constexpr decltype(auto) apply(X x) {
             constexpr auto v = value(x);

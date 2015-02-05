@@ -77,7 +77,7 @@ namespace boost { namespace hana {
     // Conversions
     //////////////////////////////////////////////////////////////////////////
     template <typename F>
-    struct convert<Set, F, when<is_a<Foldable, F>{}>> {
+    struct to_impl<Set, F, when<is_a<Foldable, F>{}>> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
             return hana::foldr(detail::std::forward<Xs>(xs),
@@ -86,7 +86,7 @@ namespace boost { namespace hana {
     };
 
     template <typename L>
-    struct convert<L, Set, when<is_a<List, L>{}>> {
+    struct to_impl<L, Set, when<is_a<List, L>{}>> {
         template <typename Set>
         static constexpr decltype(auto) apply(Set&& set)
         { return to<L>(detail::std::forward<Set>(set).storage); }

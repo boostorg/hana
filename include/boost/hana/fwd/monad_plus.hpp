@@ -306,7 +306,7 @@ namespace boost { namespace hana {
         }
     };
 
-    constexpr _prefix<M> prefix{};
+    constexpr _prefix prefix{};
 #endif
 
     //! ...
@@ -331,7 +331,7 @@ namespace boost { namespace hana {
         }
     };
 
-    constexpr _suffix<M> suffix{};
+    constexpr _suffix suffix{};
 #endif
 }} // end namespace boost::hana
 

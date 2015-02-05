@@ -54,9 +54,9 @@ namespace boost { namespace hana {
     };
 
     template <typename T, typename C>
-    struct convert<ext::boost::mpl::IntegralC<T>, C, when<
+    struct to_impl<ext::boost::mpl::IntegralC<T>, C, when<
         models<Constant(C)>{} && detail::std::is_integral<typename C::value_type>{}
-    >> : embedding_if<is_embedding<convert<T, typename C::value_type>>> {
+    >> : embedding<is_embedded<typename C::value_type, T>> {
         template <typename X>
         static constexpr auto apply(X)
         { return ::boost::mpl::integral_c<T, value2<X>()>{}; }

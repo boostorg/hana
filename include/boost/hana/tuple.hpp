@@ -64,7 +64,7 @@ namespace boost { namespace hana {
             // , operators::enable_adl
             // , operators::Iterable_ops<_>
 
-            : _tuple<decltype(type<T>...)...>
+            : _tuple<decltype(type<T>)...>
         {
             // struct hana { using datatype = Tuple; };
             // static constexpr detail::std::size_t size = sizeof...(T);
@@ -213,7 +213,7 @@ namespace boost { namespace hana {
 
         template <typename V, V ...v, typename U, U ...u, typename =
             detail::std::enable_if_t<sizeof...(v) != sizeof...(u)>>
-        static constexpr auto apply(_tuple_c<V, v...>, _tuple_c<U, u...>)
+        static constexpr auto apply(_tuple_c<V, v...>, _tuple_c<U, u...>, ...)
         { return false_; }
     };
 
@@ -377,14 +377,14 @@ namespace boost { namespace hana {
 
 
         template <typename ...T, typename F, typename = detail::std::enable_if_t<
-            !detail::is_metafunction<F>{}
+            !detail::is_Metafunction<F>{}
         >>
         static constexpr decltype(auto) apply(_tuple_t<T...> const&, F&& f) {
             return hana::tuple(f(type<T>)...);
         }
 
         template <typename ...T, typename F, typename = detail::std::enable_if_t<
-            detail::is_metafunction<F>{}
+            detail::is_Metafunction<F>{}
         >>
         static constexpr decltype(auto) apply(_tuple_t<T...> const&, F const&) {
             return tuple_t<typename F::template apply<T>::type...>;
@@ -549,7 +549,7 @@ namespace boost { namespace hana {
     struct cycle_impl<Tuple> {
         template <typename N, typename Xs>
         static constexpr decltype(auto) apply(N n, Xs&& xs)
-        { return hana::flatten(hana::repeat(n, detail::std::forward<Xs>(xs))); }
+        { return hana::flatten(hana::repeat<Tuple>(n, detail::std::forward<Xs>(xs))); }
     };
 
     template <>

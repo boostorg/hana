@@ -12,6 +12,35 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/sequence.hpp>
 
+#include <boost/hana/applicative.hpp>
+#include <boost/hana/comparable.hpp>
+#include <boost/hana/core/make.hpp>
+#include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/size_t.hpp>
+#include <boost/hana/enumerable.hpp>
+#include <boost/hana/foldable.hpp>
+#include <boost/hana/functional/always.hpp>
+#include <boost/hana/functional/compose.hpp>
+#include <boost/hana/functional/compose.hpp>
+#include <boost/hana/functional/curry.hpp>
+#include <boost/hana/functional/flip.hpp>
+#include <boost/hana/functional/id.hpp>
+#include <boost/hana/functional/partial.hpp>
+#include <boost/hana/functor.hpp>
+#include <boost/hana/group.hpp>
+#include <boost/hana/integral_constant.hpp>
+#include <boost/hana/iterable.hpp>
+#include <boost/hana/logical.hpp>
+#include <boost/hana/maybe.hpp>
+#include <boost/hana/monad.hpp>
+#include <boost/hana/monad_plus.hpp>
+#include <boost/hana/monoid.hpp>
+#include <boost/hana/orderable.hpp>
+#include <boost/hana/pair.hpp>
+#include <boost/hana/product.hpp>
+
+
 namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // group_by
@@ -95,7 +124,7 @@ namespace boost { namespace hana {
                     return hana::id(detail::std::forward<Xs>(xs));
                 },
                 [&xs, &z](auto _) -> decltype(auto) {
-                    return hana::cons(
+                    return hana::prepend(
                         _(head)(xs),
                         hana::prefix(detail::std::forward<Z>(z), _(tail)(xs))
                     );
@@ -120,7 +149,7 @@ namespace boost { namespace hana {
                     [=](auto _) { return pair(first(parts), _(append)(second(parts), x)); }
                 );
             };
-            return foldl(xs, pair(nil<L>(), nil<L>()), go);
+            return foldl(xs, pair(nil<S>(), nil<S>()), go);
         }
     };
 
@@ -128,7 +157,7 @@ namespace boost { namespace hana {
     // permutations
     //////////////////////////////////////////////////////////////////////////
     template <typename S, typename>
-    struct permutations_impl : permutations_impl<Xs, when<true>> { };
+    struct permutations_impl : permutations_impl<S, when<true>> { };
 
     template <typename S, bool condition>
     struct permutations_impl<S, when<condition>> {
@@ -150,7 +179,7 @@ namespace boost { namespace hana {
         template <typename Xs>
         static constexpr auto apply(Xs xs) {
             return eval_if(is_empty(xs),
-                [](auto _) { return lift<L>(nil<L>()); },
+                [](auto _) { return lift<S>(nil<S>()); },
                 [=](auto _) {
                     return flatten(transform(apply(_(tail)(xs)), [=](auto ys) {
                         return insertions(_(head)(xs), ys);
@@ -265,7 +294,7 @@ namespace boost { namespace hana {
     // scanr
     //////////////////////////////////////////////////////////////////////////
     template <typename S, typename>
-    struct scanr_impl : scanr_impl<Xs, when<true>> { };
+    struct scanr_impl : scanr_impl<S, when<true>> { };
 
     template <typename S, bool condition>
     struct scanr_impl<S, when<condition>> {
@@ -292,7 +321,7 @@ namespace boost { namespace hana {
         template <typename Xs, typename F>
         static constexpr auto apply(Xs xs, F f) {
             return eval_if(is_empty(xs),
-                always(nil<L>()),
+                always(nil<S>()),
                 [=](auto _) {
                     auto y = _(head)(xs);
                     auto ys = _(tail)(xs);
@@ -356,7 +385,7 @@ namespace boost { namespace hana {
                             auto parts = partition(rest, [=](auto x) { return pred(x, pivot); });
                             return concat(
                                 apply(pred, first(parts)),
-                                cons(pivot, apply(pred, second(parts)))
+                                prepend(pivot, apply(pred, second(parts)))
                             );
                         }
                     );
@@ -398,7 +427,7 @@ namespace boost { namespace hana {
                             auto ys_zs = apply(xs_, _(pred));
                             auto ys = first(ys_zs);
                             auto zs = second(ys_zs);
-                            return pair(cons(x, ys), zs);
+                            return pair(prepend(x, ys), zs);
                         },
                         [=](auto _) {
                             return _(pair)(nil<S>(), xs);
@@ -471,7 +500,7 @@ namespace boost { namespace hana {
                 [=](auto _) {
                     return eval_if(pred(_(head)(xs)),
                         [=](auto _) {
-                            return cons(
+                            return prepend(
                                 _(head)(xs),
                                 apply(_(tail)(xs), pred)
                             );
@@ -511,7 +540,7 @@ namespace boost { namespace hana {
         template <typename F, typename Init>
         static constexpr auto apply(F f, Init init) {
             auto g = [=](auto a_b) {
-                return cons(first(a_b), apply(f, second(a_b)));
+                return prepend(first(a_b), apply(f, second(a_b)));
             };
             return maybe(nil<S>(), g, f(init));
         }
@@ -556,7 +585,7 @@ namespace boost { namespace hana {
             return eval_if(or_(is_empty(xss)...),
                 [](auto _) { return nil<S>(); },
                 [=](auto _) {
-                    return cons(
+                    return prepend(
                         f(_(head)(xss)...),
                         apply(f, _(tail)(xss)...)
                     );

@@ -12,6 +12,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/functional/curry.hpp>
+#include <boost/hana/functional/flip.hpp>
 
 
 namespace boost { namespace hana {
@@ -591,6 +593,31 @@ namespace boost { namespace hana {
     };
 
     constexpr _unpack unpack{};
+#endif
+
+    //! Transforms a function taking multiple arguments into a function that
+    //! can be called with the contents of a `Foldable`.
+    //! @relates Foldable
+    //!
+    //! Specifically, `fuse(f)(foldable)` is equivalent to `unpack(foldable, f)`.
+    //!
+    //!
+    //! @note
+    //! This function is not tag-dispatched and so it can not be customized.
+    //!
+    //!
+    //! ### Example
+    //! @snippet example/foldable.cpp fuse
+    //!
+    //! @todo Improve the documentation.
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto fuse = [](auto&& f) -> decltype(auto) {
+        return [perfect-capture](auto&& xs) -> decltype(auto) {
+            return unpack(forwarded(xs), forwarded(f));
+        };
+    };
+#else
+    constexpr auto fuse = curry<2>(flip(unpack));
 #endif
 }} // end namespace boost::hana
 

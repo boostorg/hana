@@ -77,13 +77,6 @@ int_<3>.times.with_index([&](auto index) {
 
 }{
 
-//! [integral_constant]
-BOOST_HANA_CONSTANT_CHECK(integral_constant<int, 2> == int_<2>);
-static_assert(decltype(integral_constant<int, 2>)::value == 2, "");
-//! [integral_constant]
-
-}{
-
 //! [literals]
 using namespace literals; // contains the _c suffix
 
@@ -91,6 +84,13 @@ BOOST_HANA_CONSTANT_CHECK(1234_c == llong<1234>);
 BOOST_HANA_CONSTANT_CHECK(-1234_c == llong<-1234>);
 BOOST_HANA_CONSTANT_CHECK(1_c + (3_c * 4_c) == llong<1 + (3 * 4)>);
 //! [literals]
+
+}{
+
+//! [integral_constant]
+BOOST_HANA_CONSTANT_CHECK(integral_constant<int, 2> == int_<2>);
+static_assert(decltype(integral_constant<int, 2>)::value == 2, "");
+//! [integral_constant]
 
 }
 

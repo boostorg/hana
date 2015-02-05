@@ -83,7 +83,7 @@ namespace boost { namespace hana {
     // Conversions
     //////////////////////////////////////////////////////////////////////////
     template <typename R>
-    struct convert<Map, R, when<is_a<Record, R>{}>> {
+    struct to_impl<Map, R, when<is_a<Record, R>{}>> {
         template <typename X>
         static constexpr decltype(auto) apply(X&& x) {
             auto extract = [x(detail::std::forward<X>(x))](auto&& member) -> decltype(auto) {
@@ -98,14 +98,14 @@ namespace boost { namespace hana {
     };
 
     template <typename F>
-    struct convert<Map, F, when<is_a<Foldable, F>{} && !is_a<Record, F>{}>> {
+    struct to_impl<Map, F, when<is_a<Foldable, F>{} && !is_a<Record, F>{}>> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs)
         { return hana::unpack(detail::std::forward<Xs>(xs), map); }
     };
 
     template <typename L>
-    struct convert<L, Map, when<is_a<List, L>{}>> {
+    struct to_impl<L, Map, when<is_a<List, L>{}>> {
         template <typename M>
         static constexpr decltype(auto) apply(M&& m)
         { return to<L>(detail::std::forward<M>(m).storage); }
