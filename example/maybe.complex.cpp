@@ -7,12 +7,14 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/assert.hpp>
 #include <boost/hana/bool.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/integral_constant.hpp>
 #include <boost/hana/maybe.hpp>
 using namespace boost::hana;
 
 
+//! [applicative]
 template <char op>
-BOOST_HANA_CONSTEXPR_LAMBDA auto function = nothing;
+constexpr auto function = nothing;
 
 template <>
 BOOST_HANA_CONSTEXPR_LAMBDA auto function<'+'> = just([](auto x, auto y) {
@@ -28,7 +30,8 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto function<'-'> = just([](auto x, auto y) {
 
 template <char n>
 BOOST_HANA_CONSTEXPR_LAMBDA auto digit = if_(bool_<(n >= '0' && n <= '9')>,
-    just(static_cast<int>(n - 48)), nothing
+    just(static_cast<int>(n - 48)),
+    nothing
 );
 
 template <char x, char op, char y>
@@ -44,3 +47,4 @@ int main() {
 
     BOOST_HANA_CONSTEXPR_CHECK(lift<Maybe>(123) == just(123));
 }
+//! [applicative]

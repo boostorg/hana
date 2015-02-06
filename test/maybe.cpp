@@ -13,16 +13,29 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
 
+#include <test/auto/applicative.hpp>
 #include <test/auto/base.hpp>
+#include <test/auto/comparable.hpp>
+#include <test/auto/foldable.hpp>
+#include <test/auto/functor.hpp>
+#include <test/auto/monad.hpp>
+#include <test/auto/orderable.hpp>
+#include <test/auto/searchable.hpp>
+#include <test/auto/traversable.hpp>
+#include <test/cnumeric.hpp>
 #include <test/identity.hpp>
 #include <test/injection.hpp>
 using namespace boost::hana;
 
 
+template <int i>
+constexpr auto ord = test::cnumeric<int, i>;
+
 namespace boost { namespace hana { namespace test {
     template <>
     auto instances<Maybe> = tuple(
         type<Comparable>,
+        type<Orderable>,
 
         type<Functor>,
         type<Applicative>,
@@ -36,22 +49,22 @@ namespace boost { namespace hana { namespace test {
     template <>
     auto objects<Maybe> = tuple(
         nothing,
-        just(x<0>),
-        just(x<1>),
-        just(x<2>)
+        just(ord<0>),
+        just(ord<1>),
+        just(ord<2>)
     );
 }}}
 
 
 int main() {
     test::check_datatype<Maybe>();
+    constexpr struct { } undefined{};
 
     // Maybe methods
     {
         auto f = test::injection([]{});
         auto x = test::injection([]{})();
         auto y = test::injection([]{})();
-        constexpr struct { } undefined{};
 
         // maybe
         {
@@ -115,6 +128,20 @@ int main() {
         }
     }
 
+    // Orderable
+    {
+        // less
+        {
+            BOOST_HANA_CONSTANT_CHECK(less(nothing, just(undefined)));
+            BOOST_HANA_CONSTANT_CHECK(not_(less(just(undefined), nothing)));
+            BOOST_HANA_CONSTANT_CHECK(not_(less(nothing, nothing)));
+
+            BOOST_HANA_CONSTANT_CHECK(less(just(ord<0>), just(ord<1>)));
+            BOOST_HANA_CONSTANT_CHECK(not_(less(just(ord<0>), just(ord<0>))));
+            BOOST_HANA_CONSTANT_CHECK(not_(less(just(ord<1>), just(ord<0>))));
+        }
+    }
+
     // Functor
     {
         // fmap
@@ -163,8 +190,8 @@ int main() {
         auto f = test::injection([]{});
         auto x = test::injection([]{})();
 
-        auto applicative = ::test::identity;
-        using A = ::test::Identity;
+        auto applicative = test::identity;
+        using A = test::Identity;
 
         // traverse
         {
@@ -202,6 +229,13 @@ int main() {
                 find(nothing, is(x)),
                 nothing
             ));
+
+            // Previously, there was a bug that would make this fail.
+            auto non_const_nothing = nothing;
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                find(non_const_nothing, is(x)),
+                nothing
+            ));
         }
 
         // any
@@ -228,6 +262,16 @@ int main() {
         {
             BOOST_HANA_CONSTANT_CHECK(equal(foldr(just(x), s, f), f(x, s)));
             BOOST_HANA_CONSTANT_CHECK(equal(foldr(nothing, s, f), s));
+        }
+
+        // unpack
+        {
+            BOOST_HANA_CONSTANT_CHECK(equal(unpack(nothing, f), f()));
+            BOOST_HANA_CONSTANT_CHECK(equal(unpack(just(x), f), f(x)));
+
+            // Previously, there was a bug that would make this fail.
+            auto non_const_nothing = nothing;
+            BOOST_HANA_CONSTANT_CHECK(equal(unpack(non_const_nothing, f), f()));
         }
     }
 }

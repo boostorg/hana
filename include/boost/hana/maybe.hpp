@@ -14,215 +14,306 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/applicative.hpp>
 #include <boost/hana/bool.hpp>
+#include <boost/hana/comparable.hpp>
+#include <boost/hana/core/models.hpp>
+#include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
+#include <boost/hana/detail/std/move.hpp>
+#include <boost/hana/detail/std/remove_reference.hpp>
+#include <boost/hana/foldable.hpp>
+#include <boost/hana/functional/always.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/id.hpp>
 #include <boost/hana/functor.hpp>
 #include <boost/hana/logical.hpp>
-
-// instances
-#include <boost/hana/applicative.hpp>
-#include <boost/hana/comparable.hpp>
-#include <boost/hana/foldable.hpp>
-#include <boost/hana/functor.hpp>
 #include <boost/hana/monad.hpp>
+#include <boost/hana/orderable.hpp>
 #include <boost/hana/searchable.hpp>
 #include <boost/hana/traversable.hpp>
 
 
 namespace boost { namespace hana {
-    //! Instance of `Comparable` for `Maybe`s.
-    //!
-    //! Two `Maybe`s are equal if and only if they are both empty or they
-    //! both contain a value and those values are equal.
-    //!
-    //! ### Example
-    //! @snippet example/maybe/comparable.cpp main
+    //////////////////////////////////////////////////////////////////////////
+    // Operators
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Comparable::instance<Maybe, Maybe> : Comparable::equal_mcd {
-        template <typename T, typename U>
-        static constexpr decltype(auto)
-        equal_impl(_just<T> const& t, _just<U> const& u)
-        { return equal(t.val, u.val); }
+    struct enabled_operators<Maybe>
+        : Comparable, Orderable, Monad
+    { };
 
-        static constexpr auto equal_impl(_nothing const&, _nothing const&)
+    //////////////////////////////////////////////////////////////////////////
+    // is_just and is_nothing
+    //////////////////////////////////////////////////////////////////////////
+    template <typename M>
+    constexpr decltype(auto) _is_just::operator()(M const&) const
+    { return bool_<M::is_just>; }
+
+    template <typename M>
+    constexpr decltype(auto) _is_nothing::operator()(M const&) const
+    { return bool_<!M::is_just>; }
+
+    //////////////////////////////////////////////////////////////////////////
+    // from_maybe and from_just
+    //////////////////////////////////////////////////////////////////////////
+    template <typename Default, typename M>
+    constexpr decltype(auto) _from_maybe::operator()(Default&& default_, M&& m) const {
+        return hana::maybe(detail::std::forward<Default>(default_), id,
+                                            detail::std::forward<M>(m));
+    }
+
+    template <typename M>
+    constexpr decltype(auto) _from_just::operator()(M&& m) const {
+        static_assert(detail::std::remove_reference<M>::type::is_just,
+        "trying to extract the value inside a boost::hana::nothing "
+        "with boost::hana::from_just");
+        return hana::id(detail::std::forward<M>(m).val);
+    }
+
+    //////////////////////////////////////////////////////////////////////////
+    // only_when
+    //////////////////////////////////////////////////////////////////////////
+    namespace maybe_detail {
+        template <typename F, typename X>
+        struct just_f_x {
+            F f; X x;
+            template <typename Id>
+            constexpr decltype(auto) operator()(Id _) && {
+                return hana::just(_(detail::std::forward<F>(f))(
+                    detail::std::forward<X>(x)
+                ));
+            }
+
+            template <typename Id>
+            constexpr decltype(auto) operator()(Id _) &
+            { return hana::just(_(f)(x)); }
+
+            template <typename Id>
+            constexpr decltype(auto) operator()(Id _) const&
+            { return hana::just(_(f)(x)); }
+        };
+    }
+
+    template <typename Pred, typename F, typename X>
+    constexpr decltype(auto) _only_when::operator()(Pred&& pred, F&& f, X&& x) const {
+        return hana::eval_if(detail::std::forward<Pred>(pred)(x),
+            maybe_detail::just_f_x<F, X>{detail::std::forward<F>(f),
+                                         detail::std::forward<X>(x)},
+            hana::always(nothing)
+        );
+    }
+
+    //////////////////////////////////////////////////////////////////////////
+    // Comparable
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Comparable(Maybe)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct equal_impl<Maybe, Maybe> {
+        template <typename T, typename U>
+        static constexpr decltype(auto) apply(_just<T> const& t, _just<U> const& u)
+        { return hana::equal(t.val, u.val); }
+
+        static constexpr auto apply(_nothing const&, _nothing const&)
         { return true_; }
 
         template <typename T, typename U>
-        static constexpr auto equal_impl(T const&, U const&)
+        static constexpr auto apply(T const&, U const&)
         { return false_; }
     };
 
-    //! Instance of `Functor` for `Maybe`s.
-    //!
-    //! A `Maybe` can be seen as a `List` containing either one element
-    //! (`just(x)`) or no elements at all (`nothing`). As such, `fmap` for
-    //! `Maybe`s returns `nothing` when applied to `nothing` and `just(f(x))`
-    //! when applied to `just(x)`.
-    //!
-    //! ### Example
-    //! @snippet example/maybe/functor.cpp main
+    //////////////////////////////////////////////////////////////////////////
+    // Orderable
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Functor::instance<Maybe> : Functor::fmap_mcd {
+    struct models<Orderable(Maybe)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct less_impl<Maybe, Maybe> {
+        template <typename T>
+        static constexpr auto apply(_nothing const&, _just<T> const&)
+        { return true_; }
+
+        static constexpr auto apply(_nothing const&, _nothing const&)
+        { return false_; }
+
+        template <typename T>
+        static constexpr auto apply(_just<T> const&, _nothing const&)
+        { return false_; }
+
+        template <typename T, typename U>
+        static constexpr auto apply(_just<T> const& x, _just<U> const& y)
+        { return hana::less(x.val, y.val); }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Functor
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Functor(Maybe)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct fmap_impl<Maybe> {
         template <typename M, typename F>
-        static constexpr decltype(auto) fmap_impl(M&& m, F&& f) {
-            return maybe(
+        static constexpr decltype(auto) apply(M&& m, F&& f) {
+            return hana::maybe(
                 nothing,
-                compose(just, detail::std::forward<F>(f)),
+                hana::compose(just, detail::std::forward<F>(f)),
                 detail::std::forward<M>(m)
             );
         }
     };
 
-    //! Instance of `Applicative` for `Maybe`s.
-    //!
-    //! First, a value can be made optional with `lift<Maybe>`, which is
-    //! equivalent to `just`. Second, one can feed an optional value to an
-    //! optional function with `ap`, which will return `just(f(x))` if there
-    //! is both a function _and_ a value, and `nothing` otherwise.
-    //!
-    //! ### Example
-    //! @snippet example/maybe/applicative_simple.cpp main
-    //!
-    //! ### Example
-    //! @include example/maybe/applicative.cpp
+    //////////////////////////////////////////////////////////////////////////
+    // Applicative
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Applicative::instance<Maybe> : Applicative::mcd {
+    struct models<Applicative(Maybe)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct lift_impl<Maybe> {
         template <typename X>
-        static constexpr decltype(auto) lift_impl(X&& x)
-        { return just(detail::std::forward<X>(x)); }
+        static constexpr decltype(auto) apply(X&& x)
+        { return hana::just(detail::std::forward<X>(x)); }
+    };
 
-        template <typename Mf, typename Mx>
-        static constexpr decltype(auto) ap_impl(Mf&& mf, Mx&& mx) {
-            return maybe(
-                nothing,
-                [&mx](auto&& f) -> decltype(auto) {
-                    return fmap(
-                        detail::std::forward<Mx>(mx),
-                        detail::std::forward<decltype(f)>(f)
-                    );
-                },
-                detail::std::forward<Mf>(mf)
+    template <>
+    struct ap_impl<Maybe> {
+        template <typename F, typename X>
+        static constexpr decltype(auto) apply_impl(F&& f, X&& x, detail::std::true_type) {
+            return hana::just(detail::std::forward<F>(f).val(detail::std::forward<X>(x).val));
+        }
+
+        template <typename F, typename X>
+        static constexpr auto apply_impl(F&&, X&&, detail::std::false_type)
+        { return nothing; }
+
+        template <typename F, typename X>
+        static constexpr auto apply(F&& f, X&& x) {
+            auto f_is_just = hana::is_just(f);
+            auto x_is_just = hana::is_just(x);
+            return apply_impl(
+                detail::std::forward<F>(f), detail::std::forward<X>(x),
+                detail::std::integral_constant<bool,
+                    hana::value(f_is_just) && hana::value(x_is_just)
+                >{}
             );
         }
     };
 
-    //! Instance of `Monad` for `Maybe`s.
-    //!
-    //! The `Maybe` `Monad` makes it easy to compose actions that might fail.
-    //! One can feed an optional value if there is one into a function with
-    //! `bind`, which will return `nothing` if there is no value. Finally,
-    //! optional-optional values can have their redundant level of
-    //! `Maybe`ness removed with `flatten`.
-    //!
-    //! ### Example
-    //! @include example/maybe/monad.cpp
+    //////////////////////////////////////////////////////////////////////////
+    // Monad
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Monad::instance<Maybe> : Monad::flatten_mcd<Maybe> {
+    struct models<Monad(Maybe)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct flatten_impl<Maybe> {
         template <typename MMX>
-        static constexpr decltype(auto) flatten_impl(MMX&& mmx) {
-            return maybe(nothing, id, detail::std::forward<MMX>(mmx));
+        static constexpr decltype(auto) apply(MMX&& mmx) {
+            return hana::maybe(nothing, id, detail::std::forward<MMX>(mmx));
         }
     };
 
-    //! Instance of `Traversable` for `Maybe`s.
-    //!
-    //! Traversing `nothing` yields `nothing` in the new applicative, and
-    //! traversing `just(x)` applies the function and maps `just` inside
-    //! the resulting applicative.
-    //!
-    //! ### Example
-    //! @snippet example/maybe/traversable.cpp main
+    //////////////////////////////////////////////////////////////////////////
+    // Traversable
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Traversable::instance<Maybe> : Traversable::traverse_mcd {
-        template <typename A, typename Mx, typename F>
-        static constexpr decltype(auto) traverse_impl(Mx&& mx, F&& f) {
-            return maybe(
-                lift<A>(nothing),
-                [&f](auto&& x) -> decltype(auto) {
-                    return fmap(
-                        detail::std::forward<F>(f)(
-                            detail::std::forward<decltype(x)>(x)
-                        ),
-                        just
-                    );
-                },
-                detail::std::forward<Mx>(mx)
-            );
-        }
+    struct models<Traversable(Maybe)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct traverse_impl<Maybe> {
+        template <typename A, typename F>
+        static constexpr decltype(auto) apply(_nothing const&, F&& f)
+        { return lift<A>(nothing); }
+
+        template <typename A, typename T, typename F>
+        static constexpr decltype(auto) apply(_just<T> const& x, F&& f)
+        { return hana::fmap(detail::std::forward<F>(f)(x.val), just); }
+
+        template <typename A, typename T, typename F>
+        static constexpr decltype(auto) apply(_just<T>& x, F&& f)
+        { return hana::fmap(detail::std::forward<F>(f)(x.val), just); }
+
+        template <typename A, typename T, typename F>
+        static constexpr decltype(auto) apply(_just<T>&& x, F&& f)
+        { return hana::fmap(detail::std::forward<F>(f)(detail::std::move(x.val)), just); }
     };
 
-    //! Instance of `Foldable` for `Maybe`s.
-    //!
-    //! Folding a `Maybe` is equivalent to folding a `List` containing either
-    //! no elements (for `nothing`) or `x` (for `just(x)`). The `Foldable`
-    //! instance follows from that.
-    //!
-    //! ### Example
-    //! @snippet example/maybe/foldable.cpp main
+    //////////////////////////////////////////////////////////////////////////
+    // Foldable
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Foldable::instance<Maybe>
-        : Foldable::folds_mcd
-    {
-        template <typename M, typename S, typename F>
-        static constexpr decltype(auto) foldr_impl(M&& m, S&& s, F&& f) {
-            // While it _seems_ like we're forwarding `s` twice, `s` may be
-            // moved from in only the branch which is actually executed.
-            return maybe(
-                detail::std::forward<S>(s),
-                [&f, &s](auto&& x) -> decltype(auto) {
-                    return detail::std::forward<F>(f)(
-                        detail::std::forward<decltype(x)>(x),
-                        detail::std::forward<S>(s)
-                    );
-                },
-                detail::std::forward<M>(m)
-            );
-        }
+    struct models<Foldable(Maybe)>
+        : detail::std::true_type
+    { };
 
-        template <typename M, typename S, typename F>
-        static constexpr decltype(auto) foldl_impl(M&& m, S&& s, F&& f) {
-            // The same comment as above applies for the forwarding of `s`.
-            return maybe(
-                detail::std::forward<S>(s),
-                [&f, &s](auto&& x) -> decltype(auto) {
-                    return detail::std::forward<F>(f)(
-                        detail::std::forward<S>(s),
-                        detail::std::forward<decltype(x)>(x)
-                    );
-                },
-                detail::std::forward<M>(m)
-            );
-        }
+    template <>
+    struct unpack_impl<Maybe> {
+        template <typename M, typename F>
+        static constexpr decltype(auto) apply(M&& m, F&& f)
+        { return detail::std::forward<F>(f)(detail::std::forward<M>(m).val); }
+
+        template <typename F>
+        static constexpr decltype(auto) apply(_nothing const&, F&& f)
+        { return detail::std::forward<F>(f)(); }
+
+        template <typename F>
+        static constexpr decltype(auto) apply(_nothing&&, F&& f)
+        { return detail::std::forward<F>(f)(); }
+
+        template <typename F>
+        static constexpr decltype(auto) apply(_nothing&, F&& f)
+        { return detail::std::forward<F>(f)(); }
     };
 
-    //! Instance of `Searchable` for `Maybe`s.
-    //!
-    //! Searching a `Maybe` is equivalent to searching a list containing
-    //! `x` for `just(x)` and an empty list for `nothing`.
-    //!
-    //! ### Example
-    //! @snippet example/maybe/searchable.cpp main
+    //////////////////////////////////////////////////////////////////////////
+    // Searchable
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Searchable::instance<Maybe> : Searchable::mcd {
+    struct models<Searchable(Maybe)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct find_impl<Maybe> {
         template <typename M, typename Pred>
-        static constexpr decltype(auto) find_impl(M&& m, Pred&& p) {
-            return maybe(nothing,
-                [&p](auto&& x) -> decltype(auto) {
-                    return eval_if(detail::std::forward<Pred>(p)(x),
-                        [&x](auto _) -> decltype(auto) {
-                            return just(detail::std::forward<decltype(x)>(x));
-                        },
-                        [](auto) { return nothing; }
-                    );
-                },
-                detail::std::forward<M>(m)
-            );
+        static constexpr decltype(auto) apply(M&& m, Pred&& pred) {
+            return hana::only_when(detail::std::forward<Pred>(pred), id,
+                                        detail::std::forward<M>(m).val);
         }
 
+        template <typename Pred>
+        static constexpr decltype(auto) apply(_nothing const&, Pred&&)
+        { return nothing; }
+
+        template <typename Pred>
+        static constexpr decltype(auto) apply(_nothing&&, Pred&&)
+        { return nothing; }
+
+        template <typename Pred>
+        static constexpr decltype(auto) apply(_nothing&, Pred&&)
+        { return nothing; }
+    };
+
+    template <>
+    struct any_impl<Maybe> {
         template <typename M, typename Pred>
-        static constexpr decltype(auto) any_impl(M&& m, Pred&& p) {
-            return maybe(false_,
+        static constexpr decltype(auto) apply(M&& m, Pred&& p) {
+            return hana::maybe(false_,
                 detail::std::forward<Pred>(p),
                 detail::std::forward<M>(m)
             );
