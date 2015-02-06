@@ -30,11 +30,13 @@ using namespace boost::hana;
 namespace boost { namespace hana { namespace test {
     template <>
     auto instances<String> = tuple(
-          type<Comparable>
-        , type<Constant>
+          type<Constant>
+
+        , type<Comparable>
+        , type<Orderable>
+
         , type<Foldable>
         , type<Iterable>
-        , type<Orderable>
         , type<Searchable>
     );
 
@@ -375,6 +377,32 @@ int main() {
                     return equal(c, char_<'d'>);
                 }),
                 just(char_<'d'>)
+            ));
+        }
+
+        // elem
+        {
+            struct invalid { };
+            BOOST_HANA_CONSTANT_CHECK(elem(BOOST_HANA_STRING("abcd"), char_<'a'>));
+            BOOST_HANA_CONSTANT_CHECK(elem(BOOST_HANA_STRING("abcd"), char_<'c'>));
+            BOOST_HANA_CONSTANT_CHECK(not_(elem(BOOST_HANA_STRING("abcd"), char_<'e'>)));
+            BOOST_HANA_CONSTANT_CHECK(not_(elem(BOOST_HANA_STRING("abcd"), invalid{})));
+        }
+
+        // lookup
+        {
+            struct invalid { };
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                lookup(BOOST_HANA_STRING("abcd"), char_<'a'>),
+                just(char_<'a'>)
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                lookup(BOOST_HANA_STRING("abcd"), char_<'c'>),
+                just(char_<'c'>)
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                lookup(BOOST_HANA_STRING("abcd"), invalid{}),
+                nothing
             ));
         }
     }

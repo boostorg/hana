@@ -194,7 +194,7 @@ namespace boost { namespace hana {
     //! ### Example 2
     //! @snippet example/integer_list/foldable.cpp foldr
     template <typename T>
-    struct Foldable::instance<T, when<is_an<Iterable, T>()>>
+    struct Foldable::instance<T, when<is_an<Iterable, T>() && !models<Foldable(T)>{}>>
         : Foldable::iterable_mcd
     { };
 
@@ -252,7 +252,7 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/iterable.cpp find
     template <typename T>
-    struct Searchable::instance<T, when<is_an<Iterable, T>()>>
+    struct Searchable::instance<T, when<is_an<Iterable, T>() && !models<Searchable(T)>{}>>
         : Searchable::iterable_mcd
     { };
 
