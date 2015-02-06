@@ -1,6 +1,6 @@
 /*!
 @file
-Defines the `boost::hana::Type` data type.
+Defines `boost::hana::Type` and `boost::hana::Metafunction`.
 
 @copyright Louis Dionne 2014
 Distributed under the Boost Software License, Version 1.0.
@@ -13,27 +13,37 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/type.hpp>
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/integral.hpp>
-
-// instances
 #include <boost/hana/comparable.hpp>
+#include <boost/hana/core/models.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
+#include <boost/hana/integral.hpp>
 
 
 namespace boost { namespace hana {
-    //! Instance of `Comparable` for `Type`s.
-    //!
-    //! Two `Type`s are equal if and only if they represent the same C++ type.
-    //! Hence, equality is equivalent to the `std::is_same` type trait.
-    //!
-    //! @snippet example/type/comparable.cpp main
+    //////////////////////////////////////////////////////////////////////////
+    // Operators
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Comparable::instance<Type, Type> : Comparable::equal_mcd {
+    struct enabled_operators<Type>
+        : Comparable
+    { };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Comparable
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Comparable(Type)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct equal_impl<Type, Type> {
         template <typename T, typename U>
-        static constexpr auto equal_impl(T, U)
+        static constexpr auto apply(T, U)
         { return false_; }
 
         template <typename T>
-        static constexpr auto equal_impl(T, T)
+        static constexpr auto apply(T, T)
         { return true_; }
     };
 
