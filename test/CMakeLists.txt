@@ -63,10 +63,10 @@ list(REMOVE_ITEM _public_headers ${_detail_headers})
 if (NOT Boost_FOUND)
     file(GLOB_RECURSE _headers_depending_on_boost
         RELATIVE "${PARENT_DIRECTORY}/include"
-        "${CMAKE_CURRENT_LIST_DIRECTORY}/../include/boost/hana/ext/boost/*.hpp"
-        "${CMAKE_CURRENT_LIST_DIRECTORY}/../include/boost/hana/ext/boost.hpp"
-        "${CMAKE_CURRENT_LIST_DIRECTORY}/../include/boost/hana/fwd/ext/boost/*.hpp"
-        "${CMAKE_CURRENT_LIST_DIRECTORY}/../include/boost/hana/fwd/ext/boost.hpp")
+        "${CMAKE_CURRENT_LIST_DIR}/../include/boost/hana/ext/boost/*.hpp"
+        "${CMAKE_CURRENT_LIST_DIR}/../include/boost/hana/ext/boost.hpp"
+        "${CMAKE_CURRENT_LIST_DIR}/../include/boost/hana/fwd/ext/boost/*.hpp"
+        "${CMAKE_CURRENT_LIST_DIR}/../include/boost/hana/fwd/ext/boost.hpp")
     list(REMOVE_ITEM _public_headers ${_headers_depending_on_boost})
 endif()
 
