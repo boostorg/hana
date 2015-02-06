@@ -188,22 +188,22 @@ namespace boost { namespace hana {
 using namespace boost::hana;
 
 int main() {
-    foldl(tuple_t<int, char, float>, type<int>, [](auto t, auto u) {
+    foldl(::tuple_t<int, char, float>, type<int>, [](auto t, auto u) {
         return type<std::common_type_t<
             typename decltype(t)::type,
             typename decltype(u)::type
         >>;
     });
 
-    fmap(tuple_t<int, char, float>, [](auto t) {
+    fmap(::tuple_t<int, char, float>, [](auto t) {
         return typeid(t).name();
     });
 
-    fmap(tuple_c<int, 1, 2, 3>, [](auto i) {
+    fmap(::tuple_c<int, 1, 2, 3>, [](auto i) {
         return std::array<int, value(i)>{};
     });
 
-    fmap(tuple_c<int, 1, 2, 3>, [](auto i) {
+    fmap(::tuple_c<int, 1, 2, 3>, [](auto i) {
         return i + int_<4>;
     });
 }
