@@ -11,68 +11,83 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_RANGE_HPP
 
 #include <boost/hana/core/operators.hpp>
-#include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/fwd/comparable.hpp>
-#include <boost/hana/fwd/iterable.hpp>
-#include <boost/hana/fwd/orderable.hpp>
-#include <boost/hana/integral.hpp>
+#include <boost/hana/detail/create.hpp>
+#include <boost/hana/fwd/integral.hpp>
 
 
 namespace boost { namespace hana {
     //! @ingroup group-datatypes
     //! Compile-time half-open interval of `Integral`s.
     //!
-    //! ## Instance of
-    //! `Iterable`, `Foldable`, `Comparable`
+    //! A `Range` represents a half-open interval of the form `[from, to)`
+    //! containing `Integral`s. The notation `[from, to)` represents the
+    //! values starting at `from` (inclusively) up to but excluding `from`.
+    //! In other words, it is a bit like the list `from, from+1, ..., to-1`.
     //!
-    //! @todo
-    //! Remove the requirement that the range contains `Integral`s, and allow
-    //! any `Orderable` and `Comparable` `Ring`, or something similar.
-    struct Range {
-        struct hana { struct enabled_operators : Comparable, Iterable { }; };
-    };
+    //! In particular, note that the bounds of the range can be any
+    //! `Integral`s (negative numbers are allowed) and the range does
+    //! not have to start at zero. The only requirement is that `from <= to`.
+    //!
+    //! Also note that because `Range`s do not specify much about their actual
+    //! representation, some interesting optimizations can be applied to
+    //! improve their compile-time performance over other similar utilities
+    //! like `std::integer_sequence`.
+    //!
+    //!
+    //! Modeled concepts
+    //! ----------------
+    //! 1. `Comparable` (operators provided)\n
+    //! Two ranges are equal if and only if they are both empty or they both
+    //! span the same interval.
+    //! @snippet example/range.cpp comparable
+    //!
+    //! 2. `Foldable`\n
+    //! Folding a `Range` is equivalent to folding the list of the `Integral`
+    //! values in the interval it spans.
+    //! @snippet example/range.cpp foldable
+    //!
+    //! 3. `Iterable` (operators provided)\n
+    //! Iterating over a `Range` is equivalent to iterating over a list of
+    //! the values it spans. In other words, iterating over the range
+    //! `[from, to)` is equivalent to iterating over a list containing
+    //! `from, from+1, from+2, ..., to-1`.
+    //! @snippet example/range.cpp iterable
+    struct Range { };
 
-    namespace range_detail {
-        template <typename From, typename To, typename = operators::enable_adl>
-        struct range : operators::Iterable_ops<range<From, To>> {
-            constexpr range(From f, To t) : from(f), to(t) { }
-            From from;
-            To to;
-            struct hana { using datatype = Range; };
-        };
-    }
-
-    //! Creates a `Range` containing the `Integral`s in `[from, to)`.
+    //! Creates a `Range` representing the half-open interval of
+    //! `Integral`s `[from, to)`.
     //! @relates Range
-    //! @hideinitializer
     //!
-    //! `from` and `to` must be `Integral`s such that `from <= to`. Otherwise,
-    //! a compilation error is triggered.
+    //! `from` and `to` must be `Integral`s such that `from <= to`.
+    //! Otherwise, a compilation error is triggered.
     //!
-    //! ### Example
+    //!
+    //! Example
+    //! -------
     //! @snippet example/range.cpp range
-    BOOST_HANA_CONSTEXPR_LAMBDA auto range = [](auto from, auto to) {
-        // For some reason, Clang 3.5 requires that we create an intermediate
-        // variable whose type is dependent so we can use `valid_range` as a
-        // constant expression below.
-        auto valid_range = less_equal(from, to);
-        static_assert(valid_range(),
-        "invalid usage of boost::hana::range(from, to) with from > to");
-        return range_detail::range<decltype(from), decltype(to)>{from, to};
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto range = [](auto from, auto to) {
+        return unspecified-type;
     };
+#else
+    template <typename From, typename To>
+    struct _range;
 
-    //! Shorthand to create a `Range` of `Integral`s.
+    constexpr detail::create<_range> range{};
+#endif
+
+    //! Shorthand to create a `Range` of `Constant`s.
     //! @relates Range
     //!
     //! This shorthand is provided for convenience only and it is equivalent
-    //! to using `range`. Specifically, `range_c<T, from, to>` is such that
+    //! to `range`. Specifically, `range_c<T, from, to>` is such that
     //! @code
     //!     range_c<T, from, to> == range(integral<T, from>, integral<T, to>)
     //! @endcode
     //!
     //!
     //! @tparam T
-    //! The underlying integral type of the `Integral`s in the created range.
+    //! The underlying integral type of the `Constant`s in the created range.
     //!
     //! @tparam from
     //! The inclusive lower bound of the created range.
@@ -81,10 +96,11 @@ namespace boost { namespace hana {
     //! The exclusive upper bound of the created range.
     //!
     //!
-    //! ### Example
+    //! Example
+    //! -------
     //! @snippet example/range.cpp range_c
     template <typename T, T from, T to>
-    BOOST_HANA_CONSTEXPR_LAMBDA auto range_c = range(integral<T, from>, integral<T, to>);
+    constexpr auto range_c = range(integral<T, from>, integral<T, to>);
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_RANGE_HPP

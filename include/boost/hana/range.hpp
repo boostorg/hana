@@ -14,71 +14,123 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/constant.hpp>
+#include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integer_sequence.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/enumerable.hpp>
+#include <boost/hana/foldable.hpp>
 #include <boost/hana/group.hpp>
-#include <boost/hana/integral.hpp>
-#include <boost/hana/integral_constant.hpp>
+#include <boost/hana/integral.hpp> // required by fwd decl
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/monoid.hpp>
 #include <boost/hana/orderable.hpp>
 
-// instances
-#include <boost/hana/comparable.hpp>
-#include <boost/hana/foldable.hpp>
-#include <boost/hana/iterable.hpp>
-
 
 namespace boost { namespace hana {
-    //! Instance of `Comparable` for `Range`s.
-    //!
-    //! Two ranges are equal if and only if they are both empty or they have
-    //! the same `head` and the same length.
+    //////////////////////////////////////////////////////////////////////////
+    // range
+    //////////////////////////////////////////////////////////////////////////
+    template <typename From, typename To>
+    struct _range
+        : operators::enable_adl
+        , operators::Iterable_ops<_range<From, To>>
+    {
+        constexpr _range(From f, To t) : from(f), to(t) {
+            auto valid_range = hana::less_equal(from, to);
+            static_assert(hana::value(valid_range),
+            "invalid usage of boost::hana::range(from, to) with from > to");
+        }
+        From from;
+        To to;
+    };
+
+    template <typename From, typename To>
+    struct datatype<_range<From, To>> {
+        using type = Range;
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Operators
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Comparable::instance<Range, Range> : Comparable::equal_mcd {
+    struct enabled_operators<Range>
+        : Comparable, Iterable
+    { };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Comparable
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Comparable(Range)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct equal_impl<Range, Range> {
         template <typename R1, typename R2>
-        static constexpr auto equal_impl(R1 r1, R2 r2) {
-            return or_(
-                and_(is_empty(r1), is_empty(r2)),
-                and_(
-                    equal(r1.from, r2.from),
-                    equal(r1.to, r2.to)
+        static constexpr auto apply(R1 r1, R2 r2) {
+            return hana::or_(
+                hana::and_(hana::is_empty(r1), hana::is_empty(r2)),
+                hana::and_(
+                    hana::equal(r1.from, r2.from),
+                    hana::equal(r1.to, r2.to)
                 )
             );
         }
     };
 
-    //! Instance of `Foldable` for `Range`s.
+    //////////////////////////////////////////////////////////////////////////
+    // Foldable
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Foldable::instance<Range> : Foldable::unpack_mcd {
+    struct models<Foldable(Range)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct unpack_impl<Range> {
         template <typename F, typename From, typename T, T ...vs>
         static constexpr decltype(auto)
         unpack_helper(F&& f, From from, detail::std::integer_sequence<T, vs...>) {
-            return detail::std::forward<F>(f)(integral<T, from() + vs>...);
+            return detail::std::forward<F>(f)(
+                                    integral<T, hana::value(from) + vs>...);
         }
 
         template <typename R, typename F>
-        static constexpr decltype(auto) unpack_impl(R r, F&& f) {
-            auto size = minus(r.to, r.from);
+        static constexpr decltype(auto) apply(R r, F&& f) {
+            auto size = hana::minus(r.to, r.from);
             return unpack_helper(detail::std::forward<F>(f), r.from,
-                detail::std::make_index_sequence<size()>{});
+                detail::std::make_index_sequence<hana::value(size)>{});
         }
+    };
 
+    template <>
+    struct length_impl<Range> {
         template <typename R>
-        static constexpr auto length_impl(R r)
-        { return minus(r.to, r.from); }
+        static constexpr auto apply(R r)
+        { return hana::minus(r.to, r.from); }
+    };
 
+    template <>
+    struct minimum_impl<Range> {
         template <typename R>
-        static constexpr auto minimum_impl(R r)
+        static constexpr auto apply(R r)
         { return r.from; }
+    };
 
+    template <>
+    struct maximum_impl<Range> {
         template <typename R>
-        static constexpr auto maximum_impl(R r)
-        { return pred(r.to); }
+        static constexpr auto apply(R r)
+        { return hana::pred(r.to); }
+    };
 
+    template <>
+    struct sum_impl<Range> {
         // Returns the sum of `[m, n]`, where `m <= n` always hold.
         template <typename I>
         static constexpr I sum_helper(I m, I n) {
@@ -102,23 +154,18 @@ namespace boost { namespace hana {
                 return -sum_helper(-n, -m);
         }
 
-        template <typename C, typename U>
-        struct rebind;
-
-        template <template <typename ...> class C, typename T, typename U>
-        struct rebind<C<T>, U> { using type = C<U>; };
-
         template <typename R>
-        static constexpr auto sum_impl(R r) {
-            using C = datatype_t<decltype(r.from)>;
-            constexpr auto from = value(r.from);
-            constexpr auto to = value(r.to);
+        static constexpr auto apply(R r) {
+            using C = typename datatype<decltype(r.from)>::type;
+            constexpr auto from = hana::value(r.from);
+            constexpr auto to = hana::value(r.to);
             constexpr auto s = from == to ? 0 : sum_helper(from, to-1);
-            return integral_constant<
-                typename rebind<C, decltype(s)>::type, s
-            >();
+            return hana::to<C>(integral<decltype(s), s>);
         }
+    };
 
+    template <>
+    struct product_impl<Range> {
         // Returns the product of `[m, n)`, where `m <= n` always hold.
         template <typename I>
         static constexpr I product_helper(I m, I n) {
@@ -133,58 +180,63 @@ namespace boost { namespace hana {
         }
 
         template <typename R>
-        static constexpr auto product_impl(R r) {
-            using C = datatype_t<decltype(r.from)>;
-            constexpr auto from = value(r.from);
-            constexpr auto to = value(r.to);
+        static constexpr auto apply(R r) {
+            using C = typename datatype<decltype(r.from)>::type;
+            constexpr auto from = hana::value(r.from);
+            constexpr auto to = hana::value(r.to);
             constexpr auto s = product_helper(from, to);
-            return integral_constant<
-                typename rebind<C, decltype(s)>::type, s
-            >();
+            return hana::to<C>(integral<decltype(s), s>);
         }
     };
 
-    //! Instance of `Iterable` for `Range`s.
-    //!
-    //! Let `r` be a `Range` containing the `Integral`s in the half-open
-    //! interval `[from, to)`. The head of `r` is an `Integral` with value
-    //! `from`, its tail is the range representing the `[from + 1, to)`
-    //! interval and `r` is empty if and only if `from == to`.
-    //!
-    //! @snippet example/range.cpp iterable
-    //!
-    //! @todo
-    //! Consider allowing the elements of the range to be any `Group`, since
-    //! we don't use much more than that (except `Comparable` and `Orderable`).
+    //////////////////////////////////////////////////////////////////////////
+    // Iterable
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Iterable::instance<Range> : Iterable::mcd {
+    struct models<Iterable(Range)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct head_impl<Range> {
         template <typename R>
-        static constexpr auto head_impl(R r)
+        static constexpr auto apply(R r)
         { return r.from; }
+    };
 
-        //! @todo
-        //! We need a type class to express the concept of
-        //! incrementing and decrementing.
+    template <>
+    struct tail_impl<Range> {
         template <typename R>
-        static constexpr auto tail_impl(R r)
-        { return range(succ(r.from), r.to); }
+        static constexpr auto apply(R r)
+        { return hana::range(hana::succ(r.from), r.to); }
+    };
 
+    template <>
+    struct is_empty_impl<Range> {
         template <typename R>
-        static constexpr auto is_empty_impl(R r)
-        { return equal(r.from, r.to); }
+        static constexpr auto apply(R r)
+        { return hana::equal(r.from, r.to); }
+    };
 
+    template <>
+    struct at_impl<Range> {
         template <typename N, typename R>
-        static constexpr auto at_impl(N n, R r)
-        { return plus(r.from, n); }
+        static constexpr auto apply(N n, R r)
+        { return hana::plus(r.from, n); }
+    };
 
+    template <>
+    struct last_impl<Range> {
         template <typename R>
-        static constexpr auto last_impl(R r)
-        { return pred(r.to); }
+        static constexpr auto apply(R r)
+        { return hana::pred(r.to); }
+    };
 
+    template <>
+    struct drop_impl<Range> {
         template <typename N, typename R>
-        static constexpr auto drop_impl(N n, R r) {
-            return range(min(r.to, plus(r.from, n)), r.to);
-        }
+        static constexpr auto apply(N n, R r)
+        { return hana::range(hana::min(r.to, hana::plus(r.from, n)), r.to); }
     };
 }} // end namespace boost::hana
 
