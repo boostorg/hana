@@ -5,6 +5,8 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/assert.hpp>
+#include <boost/hana/bool.hpp>
+#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/lazy.hpp>
 
 #include <functional>
@@ -13,7 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 using namespace boost::hana;
 
 
-//! [main]
+//! [monad]
 template <typename T>
 auto read_ = [](std::istream& stream) {
     T x;
@@ -46,4 +48,4 @@ int main() {
     std::cout << "the result of the monadic chain is " << eout << "\n";
     BOOST_HANA_RUNTIME_CHECK(eout == (in + 1) / 2);
 }
-//! [main]
+//! [monad]
