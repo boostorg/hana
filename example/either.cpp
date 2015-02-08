@@ -13,11 +13,13 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <string>
 using namespace boost::hana;
+using namespace std::literals;
 
 
 int main() {
 
 {
+
 //! [comparable]
 BOOST_HANA_CONSTEXPR_CHECK(left('x') == left('x'));
 BOOST_HANA_CONSTANT_CHECK(right('x') != left('x'));
@@ -41,7 +43,7 @@ BOOST_HANA_CONSTEXPR_CHECK(right(2) < right(2000));
 //! [functor]
 auto safediv = infix([](auto x, auto y) {
     return eval_if(y == int_<0>,
-        always(left(std::string{"division by zero"})),
+        always(left("division by zero"s)),
         [=](auto _) { return right(x / _(y)); }
     );
 });
@@ -52,7 +54,7 @@ BOOST_HANA_CONSTANT_CHECK(
 );
 
 BOOST_HANA_RUNTIME_CHECK(
-    fmap(int_<6> ^safediv^ int_<0>, inc) == left("division by zero")
+    fmap(int_<6> ^safediv^ int_<0>, inc) == left("division by zero"s)
 );
 //! [functor]
 
@@ -61,24 +63,24 @@ BOOST_HANA_RUNTIME_CHECK(
 //! [monad]
 auto safe_div = [](auto x, auto y) {
     return eval_if(y == int_<0>,
-        always(left(std::string{"division by zero"})),
+        always(left("division by zero"s)),
         [=](auto _) { return right(x / _(y)); }
     );
 };
 
 auto safe_dec = [](auto x) {
     return eval_if(x == int_<0>,
-        always(left(std::string{"negative value"})),
+        always(left("negative value"s)),
         [=](auto _) { return right(_(x) - int_<1>); }
     );
 };
 
 BOOST_HANA_RUNTIME_CHECK(
-    (safe_div(int_<4>, int_<0>) | safe_dec) == left("division by zero")
+    (safe_div(int_<4>, int_<0>) | safe_dec) == left("division by zero"s)
 );
 
 BOOST_HANA_RUNTIME_CHECK(
-    (safe_div(int_<0>, int_<2>) | safe_dec) == left("negative value")
+    (safe_div(int_<0>, int_<2>) | safe_dec) == left("negative value"s)
 );
 
 BOOST_HANA_CONSTANT_CHECK(

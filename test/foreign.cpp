@@ -47,22 +47,6 @@ int main() {
     using integer = test::builtin<1>;
     using integer2 = test::builtin<2>;
 
-    // Comparable
-    {
-        // equal
-        {
-            // same type
-            BOOST_HANA_CONSTEXPR_CHECK(equal(integer{0}, integer{0}));
-            BOOST_HANA_CONSTEXPR_CHECK(not_(equal(integer{0}, integer{1})));
-            BOOST_HANA_CONSTANT_CHECK(are<Comparable>(integer{0}, integer{0}));
-
-            // mixed types
-            BOOST_HANA_CONSTEXPR_CHECK(equal(integer{0}, integer2{0}));
-            BOOST_HANA_CONSTEXPR_CHECK(not_(equal(integer{0}, integer2{1})));
-            BOOST_HANA_CONSTANT_CHECK(are<Comparable>(integer{0}, integer2{0}));
-        }
-    }
-
     // Foldable
     {
         int a[] = {1};

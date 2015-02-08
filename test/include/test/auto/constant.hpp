@@ -8,6 +8,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_TEST_TEST_AUTO_CONSTANT_HPP
 
 #include <boost/hana/assert.hpp>
+#include <boost/hana/comparable.hpp>
 #include <boost/hana/constant.hpp>
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
@@ -19,13 +20,16 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/group.hpp>
 #include <boost/hana/integral_domain.hpp>
+#include <boost/hana/orderable.hpp>
 #include <boost/hana/type.hpp>
 
 #include <test/auto/base.hpp>
+#include <test/auto/comparable.hpp>
 #include <test/auto/enumerable.hpp>
 #include <test/auto/group.hpp>
 #include <test/auto/integral_domain.hpp>
 #include <test/auto/monoid.hpp>
+#include <test/auto/orderable.hpp>
 
 
 namespace boost { namespace hana { namespace test {
@@ -80,6 +84,25 @@ namespace boost { namespace hana { namespace test {
                 common_t<detail::CanonicalConstant<typename C::value_type>, C>,
                 detail::CanonicalConstant<typename C::value_type>
             >{}, "");
+        }
+
+        // Comparable
+        {
+            eval_if(is_an<Comparable, typename C::value_type>,
+                [=](auto _) {
+                    using Comp = typename decltype(+_(type<hana::Comparable>))::type;
+                    laws<Comp, C>();
+
+                    _(for_each)(objects<C>, [](auto x) {
+                        for_each(objects<C>, [=](auto y) {
+                            BOOST_HANA_CHECK(
+                                value(equal(x, y)) ^iff^ equal(value(x), value(y))
+                            );
+                        });
+                    });
+                },
+                [](auto) {}
+            );
         }
 
         // Orderable

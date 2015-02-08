@@ -160,19 +160,19 @@ int main() {
         // length
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                length(range(int_<0>, int_<0>)), int_<0>
+                length(range(int_<0>, int_<0>)), size_t<0>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                length(range(int_<0>, int_<1>)), int_<1>
+                length(range(int_<0>, int_<1>)), size_t<1>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                length(range(int_<0>, int_<2>)), int_<2>
+                length(range(int_<0>, int_<2>)), size_t<2>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                length(range(int_<4>, int_<4>)), int_<0>
+                length(range(int_<4>, int_<4>)), size_t<0>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                length(range(int_<4>, int_<10>)), int_<6>
+                length(range(int_<4>, int_<10>)), size_t<6>
             ));
         }
 

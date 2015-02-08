@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <string>
 #include <type_traits>
 using namespace boost::hana;
+using namespace std::literals;
 
 
 int main() {
@@ -50,17 +51,19 @@ int main() {
     {
         //! [fmap]
         auto to_string = [](auto x) {
-            return static_cast<std::ostringstream const&>(std::ostringstream{} << x).str();
+            std::ostringstream tmp;
+            tmp << x;
+            return tmp.str();
         };
 
         BOOST_HANA_RUNTIME_CHECK(
             fmap(tuple(1, '2', "345", std::string{"67"}), to_string)
             ==
-            tuple("1", "2", "345", "67")
+            tuple("1"s, "2"s, "345"s, "67"s)
         );
 
         BOOST_HANA_CONSTANT_CHECK(fmap(nothing, to_string) == nothing);
-        BOOST_HANA_RUNTIME_CHECK(fmap(just(123), to_string) == just("123"));
+        BOOST_HANA_RUNTIME_CHECK(fmap(just(123), to_string) == just("123"s));
 
         BOOST_HANA_CONSTANT_CHECK(
             fmap(type_list<void, int(), char[10]>, template_<std::add_pointer_t>)

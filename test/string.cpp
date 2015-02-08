@@ -213,16 +213,16 @@ int main() {
         // length
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                length(BOOST_HANA_STRING("")), int_<0>
+                length(BOOST_HANA_STRING("")), size_t<0>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                length(BOOST_HANA_STRING("a")), int_<1>
+                length(BOOST_HANA_STRING("a")), size_t<1>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                length(BOOST_HANA_STRING("ab")), int_<2>
+                length(BOOST_HANA_STRING("ab")), size_t<2>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                length(BOOST_HANA_STRING("abc")), int_<3>
+                length(BOOST_HANA_STRING("abc")), size_t<3>
             ));
         }
     }

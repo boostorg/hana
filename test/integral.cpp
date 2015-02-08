@@ -88,8 +88,8 @@ int main() {
             BOOST_HANA_CONSTANT_CHECK(int_<6> % int_<4> == int_<2>);
             BOOST_HANA_CONSTANT_CHECK(~int_<6> == int_<~6>);
             BOOST_HANA_CONSTANT_CHECK((int_<6> & int_<3>) == int_<6 & 3>);
-            BOOST_HANA_CONSTANT_CHECK(int_<6> | int_<3> == int_<6 | 3>);
-            BOOST_HANA_CONSTANT_CHECK(int_<6> ^ int_<3> == int_<6 ^ 3>);
+            BOOST_HANA_CONSTANT_CHECK((int_<4> | int_<2>) == int_<4 | 2>);
+            BOOST_HANA_CONSTANT_CHECK((int_<6> ^ int_<3>) == int_<6 ^ 3>);
             BOOST_HANA_CONSTANT_CHECK((int_<6> << int_<3>) == int_<(6 << 3)>);
             BOOST_HANA_CONSTANT_CHECK((int_<6> >> int_<3>) == int_<(6 >> 3)>);
         }

@@ -12,136 +12,138 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/comparable.hpp>
 
+#include <boost/hana/bool.hpp>
+#include <boost/hana/constant.hpp>
+#include <boost/hana/core/common.hpp>
+#include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/std/declval.hpp>
+#include <boost/hana/detail/equality_comparable.hpp>
+#include <boost/hana/detail/has_common_embedding.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/logical.hpp>
 
 
 namespace boost { namespace hana {
+    //////////////////////////////////////////////////////////////////////////
+    // Operators
+    //////////////////////////////////////////////////////////////////////////
     namespace operators {
-        //! Equivalent to `equal`.
-        //! @relates boost::hana::Comparable
         template <typename X, typename Y, typename = detail::std::enable_if_t<
             enable_operators<Comparable, datatype_t<X>>::value ||
             enable_operators<Comparable, datatype_t<Y>>::value
         >>
         constexpr decltype(auto) operator==(X&& x, Y&& y) {
-            return equal(detail::std::forward<X>(x),
-                         detail::std::forward<Y>(y));
+            return hana::equal(detail::std::forward<X>(x),
+                               detail::std::forward<Y>(y));
         }
 
-        //! Equivalent to `not_equal`.
-        //! @relates boost::hana::Comparable
         template <typename X, typename Y, typename = detail::std::enable_if_t<
             enable_operators<Comparable, datatype_t<X>>::value ||
             enable_operators<Comparable, datatype_t<Y>>::value
         >>
         constexpr decltype(auto) operator!=(X&& x, Y&& y) {
-            return not_equal(detail::std::forward<X>(x),
-                             detail::std::forward<Y>(y));
+            return hana::not_equal(detail::std::forward<X>(x),
+                                   detail::std::forward<Y>(y));
         }
     }
 
-    //! Minimal complete definition : `equal`
-    struct Comparable::equal_mcd {
-        template <typename X, typename Y>
-        static constexpr decltype(auto) not_equal_impl(X&& x, Y&& y) {
-            return not_(equal(
-                detail::std::forward<X>(x),
-                detail::std::forward<Y>(y)
-            ));
-        }
-    };
-
-    //! Minimal complete definition : `not_equal`
-    struct Comparable::not_equal_mcd {
-        template <typename X, typename Y>
-        static constexpr decltype(auto) equal_impl(X&& x, Y&& y) {
-            return not_(not_equal(
-                detail::std::forward<X>(x),
-                detail::std::forward<Y>(y)
-            ));
-        }
-    };
-
-    //! Instance of `Comparable` for objects of foreign types.
-    //!
-    //! Any two foreign objects whose types can be compared using
-    //! `operator==` are automatically instances of `Comparable` by
-    //! using that comparison.
-    template <typename T, typename U>
-    struct Comparable::instance<T, U, when_valid<
-        decltype(detail::std::declval<T>() == detail::std::declval<U>())
-    >>
-        : Comparable::equal_mcd
-    {
-        template <typename X, typename Y>
-        static constexpr decltype(auto) equal_impl(X&& x, Y&& y) {
-            return detail::std::forward<X>(x) == detail::std::forward<Y>(y);
-        }
-    };
-
-    template <typename T>
-    struct Comparable::instance<T, T, when<models<Comparable(T)>{}>>
-        : Comparable::equal_mcd
-    { };
-}} // end namespace boost::hana
-
-
-#include <boost/hana/bool.hpp>
-#include <boost/hana/core/common.hpp>
-#include <boost/hana/core/convert.hpp>
-#include <boost/hana/core/disable.hpp>
-#include <boost/hana/core/when.hpp>
-
-
-namespace boost { namespace hana {
+    //////////////////////////////////////////////////////////////////////////
+    // equal
+    //////////////////////////////////////////////////////////////////////////
     template <typename T, typename U, typename>
-    struct Comparable::default_instance
-        //! @cond
-        : Comparable::default_instance<T, U, when<true>>
-        //! @endcond
-    { };
+    struct equal_impl : equal_impl<T, U, when<true>> { };
 
-    //! Default instance for the `Comparable` type class.
-    //!
-    //! Objects of different data types that do not define a `Comparable`
-    //! instance are implicitly `Comparable` by letting any two such objects
-    //! always compare unequal. However, objects of the same data type are
-    //! not implicitly `Comparable`, and trying to compare two objects of
-    //! the same data type that do not define a `Comparable` instance will
-    //! result in a compile-time error.
     template <typename T, typename U, bool condition>
-    struct Comparable::default_instance<T, U, when<condition>>
-        : Comparable::equal_mcd
-    {
+    struct equal_impl<T, U, when<condition>> {
+        static_assert(!is_convertible<T, U>{} && !is_convertible<U, T>{},
+        "no default implementation of boost::hana::equal is provided for "
+        "related data types that can't be safely embedded into a common type");
+
         template <typename X, typename Y>
-        static constexpr auto equal_impl(X const&, Y const&)
+        static constexpr decltype(auto) apply(X&&, Y&&)
         { return false_; }
     };
 
+    // Cross-type overload
     template <typename T, typename U>
-    struct Comparable::default_instance<T, U, when_valid<common_t<T, U>>>
-        : Comparable::equal_mcd
-    {
+    struct equal_impl<T, U, when<
+        detail::has_common_embedding<Comparable, T, U>{} &&
+        !detail::concept::EqualityComparable<T, U>{}
+    >> {
+        using C = typename common<T, U>::type;
         template <typename X, typename Y>
-        static constexpr decltype(auto) equal_impl(X&& x, Y&& y) {
-            using C = common_t<T, U>;
-            return equal(
-                to<C>(detail::std::forward<X>(x)),
-                to<C>(detail::std::forward<Y>(y))
-            );
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
+            return hana::equal(to<C>(detail::std::forward<X>(x)),
+                               to<C>(detail::std::forward<Y>(y)));
         }
     };
 
+    //////////////////////////////////////////////////////////////////////////
+    // not_equal
+    //////////////////////////////////////////////////////////////////////////
+    template <typename T, typename U, typename>
+    struct not_equal_impl : not_equal_impl<T, U, when<true>> { };
+
+    template <typename T, typename U, bool condition>
+    struct not_equal_impl<T, U, when<condition>> {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
+            return hana::not_(hana::equal(detail::std::forward<X>(x),
+                                          detail::std::forward<Y>(y)));
+        }
+    };
+
+    // Cross-type overload
+    template <typename T, typename U>
+    struct not_equal_impl<T, U, when<detail::has_common_embedding<Comparable, T, U>{}>> {
+        using C = typename common<T, U>::type;
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
+            return hana::not_equal(to<C>(detail::std::forward<X>(x)),
+                                   to<C>(detail::std::forward<Y>(y)));
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Model for EqualityComparable data types
+    //////////////////////////////////////////////////////////////////////////
     template <typename T>
-    struct Comparable::default_instance<T, T> : disable {
-        // We let it fail if T is not comparable with itself.
+    struct models<Comparable(T), when<detail::concept::EqualityComparable<T>{}>>
+        : detail::std::true_type
+    { };
+
+    template <typename T, typename U>
+    struct equal_impl<T, U, when<detail::concept::EqualityComparable<T, U>{}>> {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X&& x, Y&& y)
+        { return detail::std::forward<X>(x) == detail::std::forward<Y>(y); }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Model for Constants wrapping a Comparable
+    //////////////////////////////////////////////////////////////////////////
+    template <typename C>
+    struct models<Comparable(C), when<
+        models<Constant(C)>{} && models<Comparable(typename C::value_type)>{}
+    >>
+        : detail::std::true_type
+    { };
+
+    template <typename C>
+    struct equal_impl<C, C, when<
+        models<Constant(C)>{} && models<Comparable(typename C::value_type)>{}
+    >> {
+        template <typename X, typename Y>
+        static constexpr auto apply(X x, Y y) {
+            constexpr auto equal = hana::equal(hana::value(x), hana::value(y));
+            constexpr bool truth_value = hana::if_(equal, true, false);
+            return bool_<truth_value>;
+        }
     };
 }} // end namespace boost::hana
 

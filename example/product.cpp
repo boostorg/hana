@@ -9,6 +9,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <string>
 using namespace boost::hana;
+using namespace std::literals;
 
 
 int main() {
@@ -16,7 +17,7 @@ int main() {
 {
 
 //! [comparable]
-BOOST_HANA_RUNTIME_CHECK(pair(1, std::string{"234"}) == pair(1, "234"));
+BOOST_HANA_RUNTIME_CHECK(pair(1, "234"s) == pair(1ll, "234"s));
 BOOST_HANA_CONSTEXPR_CHECK(pair('x', 2) != pair('y', 2));
 //! [comparable]
 

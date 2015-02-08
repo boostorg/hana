@@ -19,7 +19,7 @@ int main() {
 //! [comparable]
 BOOST_HANA_CONSTANT_CHECK(nothing == nothing);
 BOOST_HANA_CONSTEXPR_CHECK(just('x') == just('x'));
-BOOST_HANA_CONSTEXPR_CHECK(just('x') != just(3));
+BOOST_HANA_CONSTEXPR_CHECK(just('x') != just('y'));
 BOOST_HANA_CONSTANT_CHECK(just('x') != nothing);
 //! [comparable]
 
@@ -43,13 +43,9 @@ BOOST_HANA_CONSTEXPR_CHECK(fmap(just(1), inc) == just(2));
 }{
 
 //! [applicative]
-BOOST_HANA_CONSTEXPR_LAMBDA auto next = [](char x) {
-    return x + 1; // next letter
-};
-
-BOOST_HANA_CONSTEXPR_CHECK(ap(just(next), just('x')) == just('y'));
+BOOST_HANA_CONSTEXPR_CHECK(ap(just(succ), just('x')) == just('y'));
 BOOST_HANA_CONSTANT_CHECK(ap(nothing, just('x')) == nothing);
-BOOST_HANA_CONSTANT_CHECK(ap(just(next), nothing) == nothing);
+BOOST_HANA_CONSTANT_CHECK(ap(just(succ), nothing) == nothing);
 BOOST_HANA_CONSTANT_CHECK(ap(nothing, nothing) == nothing);
 //! [applicative]
 
@@ -115,9 +111,8 @@ BOOST_HANA_CONSTANT_CHECK(all(nothing, odd));
 }{
 
 //! [maybe]
-BOOST_HANA_CONSTEXPR_LAMBDA auto inc = [](auto x) { return x + 1; };
-BOOST_HANA_CONSTEXPR_CHECK(maybe('x', inc, just(1)) == 2);
-BOOST_HANA_CONSTEXPR_CHECK(maybe('x', inc, nothing) == 'x');
+BOOST_HANA_CONSTEXPR_CHECK(maybe('x', succ, just(1)) == 2);
+BOOST_HANA_CONSTEXPR_CHECK(maybe('x', succ, nothing) == 'x');
 //! [maybe]
 
 }{

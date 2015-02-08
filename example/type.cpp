@@ -100,10 +100,10 @@ BOOST_HANA_CONSTANT_CHECK(not_(trait<std::is_integral>(type<float>)));
 namespace ns8 {
 //! [non_liftable_trait]
 BOOST_HANA_CONSTEXPR_LAMBDA auto extent = [](auto t, auto n) {
-    return std::extent<typename decltype(t)::type, n()>{};
+    return std::extent<typename decltype(t)::type, value(n)>{};
 };
-BOOST_HANA_CONSTANT_CHECK(extent(type<char>, int_<1>) == int_<0>);
-BOOST_HANA_CONSTANT_CHECK(extent(type<char[1][2]>, int_<1>) == int_<2>);
+BOOST_HANA_CONSTANT_CHECK(extent(type<char>, int_<1>) == size_t<0>);
+BOOST_HANA_CONSTANT_CHECK(extent(type<char[1][2]>, int_<1>) == size_t<2>);
 //! [non_liftable_trait]
 }
 
@@ -115,6 +115,4 @@ BOOST_HANA_CONSTANT_CHECK(not_(trait_<std::is_integral>(2.2)));
 //! [trait_]
 }
 
-int main() {
-
-}
+int main() { }

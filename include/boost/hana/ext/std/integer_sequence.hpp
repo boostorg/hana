@@ -13,6 +13,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/ext/std/integer_sequence.hpp>
 
 #include <boost/hana/bool.hpp>
+#include <boost/hana/core/models.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/is_same.hpp>
 #include <boost/hana/ext/std/integral_constant.hpp>
 
@@ -25,12 +27,18 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
+    //////////////////////////////////////////////////////////////////////////
+    // Comparable
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Comparable::instance<ext::std::IntegerSequence, ext::std::IntegerSequence>
-        : Comparable::equal_mcd
-    {
+    struct models<Comparable(ext::std::IntegerSequence)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct equal_impl<ext::std::IntegerSequence, ext::std::IntegerSequence> {
         template <typename X, X ...xs, typename Y, Y ...ys>
-        static constexpr auto equal_impl(
+        static constexpr auto apply(
             ::std::integer_sequence<X, xs...>,
             ::std::integer_sequence<Y, ys...>,
             // this dummy parameter disables this specialization if
@@ -44,7 +52,7 @@ namespace boost { namespace hana {
         }
 
         template <typename Xs, typename Ys>
-        static constexpr auto equal_impl(Xs, Ys, ...)
+        static constexpr auto apply(Xs, Ys, ...)
         { return false_; }
     };
 

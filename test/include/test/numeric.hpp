@@ -40,42 +40,40 @@ namespace boost { namespace hana {
         constexpr _numeric numeric{};
     }
 
+    //////////////////////////////////////////////////////////////////////////
+    // Comparable
+    //
     // Define either one to select which MCD is used:
     //  BOOST_HANA_TEST_COMPARABLE_EQUAL_MCD
     //  BOOST_HANA_TEST_COMPARABLE_NOT_EQUAL_MCD
     //  BOOST_HANA_TEST_COMPARABLE_ORDERABLE_MCD
     //
     // If neither is defined, the MCD used is unspecified.
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Comparable(test::Numeric)>
+        : detail::std::true_type
+    { };
+
 #if defined(BOOST_HANA_TEST_COMPARABLE_EQUAL_MCD)
     template <>
-    struct Comparable::instance<test::Numeric, test::Numeric>
-        : Comparable::equal_mcd
-    {
+    struct equal_impl<test::Numeric, test::Numeric> {
         template <typename X, typename Y>
-        static constexpr auto equal_impl(X x, Y y)
+        static constexpr auto apply(X x, Y y)
         { return test::numeric(x.value == y.value); }
     };
 #elif defined(BOOST_HANA_TEST_COMPARABLE_NOT_EQUAL_MCD)
     template <>
-    struct Comparable::instance<test::Numeric, test::Numeric>
-        : Comparable::not_equal_mcd
-    {
+    struct not_equal_impl<test::Numeric, test::Numeric> {
         template <typename X, typename Y>
-        static constexpr auto not_equal_impl(X x, Y y)
+        static constexpr auto apply(X x, Y y)
         { return test::numeric(x.value != y.value); }
     };
 #else
     template <>
-    struct Comparable::instance<test::Numeric, test::Numeric>
-        : Comparable::equal_mcd
-    {
-        template <typename X, typename Y>
-        static constexpr auto equal_impl(X x, Y y) {
-            return Orderable::equal_impl<
-                test::Numeric, test::Numeric
-            >::apply(x, y);
-        }
-    };
+    struct equal_impl<test::Numeric, test::Numeric>
+        : Orderable::equal_impl<test::Numeric, test::Numeric>
+    { };
 #endif
 
     //////////////////////////////////////////////////////////////////////////

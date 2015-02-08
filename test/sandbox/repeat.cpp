@@ -70,7 +70,7 @@ namespace boost { namespace hana {
 int main() {
     BOOST_HANA_CONSTANT_CHECK(!is_empty(repeat_(1)));
     BOOST_HANA_CONSTEXPR_CHECK(head(repeat_(1)) == 1);
-    BOOST_HANA_CONSTEXPR_CHECK(at(int_<10>, repeat_(1)) == 1);
+    BOOST_HANA_CONSTEXPR_CHECK(at(size_t<10>, repeat_(1)) == 1);
 
-    BOOST_HANA_CONSTEXPR_CHECK(take(int_<2>, repeat_('x')) == tuple('x', 'x'));
+    BOOST_HANA_CONSTEXPR_CHECK(take(size_t<2>, repeat_('x')) == tuple('x', 'x'));
 }

@@ -27,7 +27,6 @@ int main() {
     BOOST_HANA_CONSTANT_CHECK( is_a<Foldable, Maybe>);
     BOOST_HANA_CONSTANT_CHECK(!is_a<Logical, Maybe>);
     BOOST_HANA_CONSTANT_CHECK(!is_a<Foldable, int>);
-    BOOST_HANA_CONSTANT_CHECK( are<Comparable, int, long>);
     //! [standard]
 
     //! [alternate]

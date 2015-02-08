@@ -436,24 +436,6 @@ namespace boost { namespace hana {
         : Applicative::list_mcd<T>
     { };
 
-    //! Minimal complete definition: `List`
-    struct Comparable::list_mcd
-        : Comparable::equal_mcd
-    {
-        template <typename Xs, typename Ys>
-        static constexpr decltype(auto) equal_impl(Xs const& xs, Ys const& ys) {
-            return eval_if(or_(is_empty(xs), is_empty(ys)),
-                [&xs, &ys](auto _) -> decltype(auto) {
-                    return and_(_(is_empty)(xs), _(is_empty)(ys));
-                },
-                [&xs, &ys](auto _) -> decltype(auto) {
-                    return and_(equal(_(head)(xs), _(head)(ys)),
-                                equal_impl(_(tail)(xs), _(tail)(ys)));
-                }
-            );
-        }
-    };
-
     //! Instance of `Comparable` for instances of `List`.
     //!
     //! Two `List`s are equal if and only if they contain the same number
@@ -461,12 +443,26 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/list/comparable.cpp main
-    template <typename T, typename U>
-    struct Comparable::instance<T, U, when<
-        is_a<List, T>() && is_a<List, U>()
-    >>
-        : Comparable::list_mcd
+    template <typename T>
+    struct models<Comparable(T), when<is_a<List, T>()>>
+        : detail::std::true_type
     { };
+
+    template <typename T, typename U>
+    struct equal_impl<T, U, when<is_a<List, T>() && is_a<List, U>()>> {
+        template <typename Xs, typename Ys>
+        static constexpr decltype(auto) apply(Xs const& xs, Ys const& ys) {
+            return eval_if(or_(is_empty(xs), is_empty(ys)),
+                [&xs, &ys](auto _) -> decltype(auto) {
+                    return and_(_(is_empty)(xs), _(is_empty)(ys));
+                },
+                [&xs, &ys](auto _) -> decltype(auto) {
+                    return and_(equal(_(head)(xs), _(head)(ys)),
+                                apply(_(tail)(xs), _(tail)(ys)));
+                }
+            );
+        }
+    };
 
     template <typename T>
     struct Functor::list_mcd : Functor::fmap_mcd {

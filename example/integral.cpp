@@ -29,9 +29,10 @@ int main() {
     //! [operators]
     BOOST_HANA_CONSTANT_CHECK(int_<1> + int_<3> == int_<4>);
 
-    // Mixed-type operations are supported:
+    // Mixed-type operations are supported, but only when it involves a
+    // promotion, and not a conversion that could be lossy.
     BOOST_HANA_CONSTANT_CHECK(size_t<3> * ushort<5> == size_t<15>);
-    BOOST_HANA_CONSTANT_CHECK(size_t<15> == int_<15>);
+    BOOST_HANA_CONSTANT_CHECK(llong<15> == int_<15>);
     //! [operators]
 
     //! [orderable]

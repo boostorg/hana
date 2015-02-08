@@ -58,8 +58,8 @@ namespace cppcon {
                     matrix_minor(std::forward<decltype(m)>(m), i, j);
         };
 
-        return eval_if(m.size() == int_<1>,
-            always(m.at(int_<0>, int_<0>)),
+        return eval_if(m.size() == size_t<1>,
+            always(m.at(size_t<0>, size_t<0>)),
             [=](auto _) {
                 auto cofactors_1st_row = unpack(_(range)(size_t<0>, m.ncolumns()),
                     on(tuple, partial(cofactor, m, size_t<0>))

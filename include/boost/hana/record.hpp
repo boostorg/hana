@@ -69,24 +69,24 @@ namespace boost { namespace hana {
         : Foldable::record_mcd<R>
     { };
 
+    //! Two `Records` of the same data type `R` are equal if and only if
+    //! all their members are equal. The members are compared in the
+    //! same order as they appear in `members<R>`.
     template <typename R>
-    struct Comparable::record_mcd : Comparable::equal_mcd {
+    struct models<Comparable(R), when<is_a<Record, R>()>>
+        : detail::std::true_type
+    { };
+
+    template <typename R>
+    struct equal_impl<R, R, when<is_a<Record, R>()>> {
         template <typename X, typename Y>
-        static constexpr decltype(auto) equal_impl(X const& x, Y const& y) {
+        static constexpr decltype(auto) apply(X const& x, Y const& y) {
             return all(members<R>, [&x, &y](auto&& member) -> decltype(auto) {
                 auto accessor = second(detail::std::forward<decltype(member)>(member));
                 return equal(accessor(x), accessor(y));
             });
         }
     };
-
-    //! Two `Records` of the same data type `R` are equal if and only if
-    //! all their members are equal. The members are compared in the
-    //! same order as they appear in `members<R>`.
-    template <typename R>
-    struct Comparable::instance<R, R, when<is_a<Record, R>()>>
-        : Comparable::record_mcd<R>
-    { };
 
     //! Minimal complete definition: `Record`
     template <typename R>

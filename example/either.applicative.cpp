@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <string>
 using namespace boost::hana;
+using namespace std::literals;
 
 
 //! [main]
@@ -43,9 +44,9 @@ auto evaluate = ap(function<op>, digit<x>, digit<y>);
 int main() {
     BOOST_HANA_RUNTIME_CHECK(evaluate<'1', '+', '2'> == right(1 + 2));
 
-    BOOST_HANA_RUNTIME_CHECK(evaluate<'?', '+', '2'> == left("? is not a valid digit"));
-    BOOST_HANA_RUNTIME_CHECK(evaluate<'1', '?', '2'> == left("? is not a valid operation"));
-    BOOST_HANA_RUNTIME_CHECK(evaluate<'1', '+', '?'> == left("? is not a valid digit"));
-    BOOST_HANA_RUNTIME_CHECK(evaluate<'?', '?', '?'> == left("? is not a valid operation"));
+    BOOST_HANA_RUNTIME_CHECK(evaluate<'?', '+', '2'> == left("? is not a valid digit"s));
+    BOOST_HANA_RUNTIME_CHECK(evaluate<'1', '?', '2'> == left("? is not a valid operation"s));
+    BOOST_HANA_RUNTIME_CHECK(evaluate<'1', '+', '?'> == left("? is not a valid digit"s));
+    BOOST_HANA_RUNTIME_CHECK(evaluate<'?', '?', '?'> == left("? is not a valid operation"s));
 }
 //! [main]

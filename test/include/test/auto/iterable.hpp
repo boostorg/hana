@@ -96,7 +96,7 @@ namespace boost { namespace hana { namespace test {
 
             auto check = map(
                 // when length == 0
-                pair(int_<0>, [=](auto xs) {
+                pair(size_t<0>, [=](auto xs) {
                     BOOST_HANA_CONSTANT_CHECK(equal(
                         foldl(xs, state, f),
                         state
@@ -109,71 +109,71 @@ namespace boost { namespace hana { namespace test {
                 }),
 
                 // when length == 1
-                pair(int_<1>, [=](auto xs) {
+                pair(size_t<1>, [=](auto xs) {
                     BOOST_HANA_CHECK(equal(
                         foldl(xs, state, f),
-                        f(state, at(int_<0>, xs))
+                        f(state, at(size_t<0>, xs))
                     ));
 
                     BOOST_HANA_CHECK(equal(
                         foldr(xs, state, f),
-                        f(at(int_<0>, xs), state)
+                        f(at(size_t<0>, xs), state)
                     ));
 
                     BOOST_HANA_CHECK(equal(
                         foldl1(xs, f),
-                        at(int_<0>, xs)
+                        at(size_t<0>, xs)
                     ));
 
                     BOOST_HANA_CHECK(equal(
                         foldr1(xs, f),
-                        at(int_<0>, xs)
+                        at(size_t<0>, xs)
                     ));
                 }),
 
                 // when length == 2
-                pair(int_<2>, [=](auto xs) {
+                pair(size_t<2>, [=](auto xs) {
                     BOOST_HANA_CHECK(equal(
                         foldl(xs, state, f),
-                        f(f(state, at(int_<0>, xs)), at(int_<1>, xs))
+                        f(f(state, at(size_t<0>, xs)), at(size_t<1>, xs))
                     ));
 
                     BOOST_HANA_CHECK(equal(
                         foldr(xs, state, f),
-                        f(at(int_<0>, xs), f(at(int_<1>, xs), state))
+                        f(at(size_t<0>, xs), f(at(size_t<1>, xs), state))
                     ));
 
                     BOOST_HANA_CHECK(equal(
                         foldl1(xs, f),
-                        f(at(int_<0>, xs), at(int_<1>, xs))
+                        f(at(size_t<0>, xs), at(size_t<1>, xs))
                     ));
 
                     BOOST_HANA_CHECK(equal(
                         foldr1(xs, f),
-                        f(at(int_<0>, xs), at(int_<1>, xs))
+                        f(at(size_t<0>, xs), at(size_t<1>, xs))
                     ));
                 }),
 
                 // when length == 3
-                pair(int_<3>, [=](auto xs) {
+                pair(size_t<3>, [=](auto xs) {
                     BOOST_HANA_CHECK(equal(
                         foldl(xs, state, f),
-                        f(f(f(state, at(int_<0>, xs)), at(int_<1>, xs)), at(int_<2>, xs))
+                        f(f(f(state, at(size_t<0>, xs)), at(size_t<1>, xs)), at(size_t<2>, xs))
                     ));
 
                     BOOST_HANA_CHECK(equal(
                         foldr(xs, state, f),
-                        f(at(int_<0>, xs), f(at(int_<1>, xs), f(at(int_<2>, xs), state)))
+                        f(at(size_t<0>, xs), f(at(size_t<1>, xs), f(at(size_t<2>, xs), state)))
                     ));
 
                     BOOST_HANA_CHECK(equal(
                         foldl1(xs, f),
-                        f(f(at(int_<0>, xs), at(int_<1>, xs)), at(int_<2>, xs))
+                        f(f(at(size_t<0>, xs), at(size_t<1>, xs)), at(size_t<2>, xs))
                     ));
 
                     BOOST_HANA_CHECK(equal(
                         foldr1(xs, f),
-                        f(at(int_<0>, xs), f(at(int_<1>, xs), at(int_<2>, xs)))
+                        f(at(size_t<0>, xs), f(at(size_t<1>, xs), at(size_t<2>, xs)))
                     ));
                 })
 

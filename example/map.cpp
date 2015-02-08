@@ -14,6 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <string>
 using namespace boost::hana;
+using namespace std::literals;
 
 
 int main() {
@@ -23,13 +24,13 @@ int main() {
 //! [comparable]
 BOOST_HANA_RUNTIME_CHECK(
     map(
-        pair(char_<'a'>, std::string{"foobar"}),
+        pair(char_<'a'>, "foobar"s),
         pair(type<int&&>, nullptr)
     )
     ==
     map(
         pair(type<int&&>, (void*)0),
-        pair(char_<'a'>, "foobar")
+        pair(char_<'a'>, "foobar"s)
     )
 );
 //! [comparable]

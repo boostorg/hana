@@ -92,11 +92,11 @@ int main() {
 
     {
         //! [length]
-        BOOST_HANA_CONSTANT_CHECK(length(tuple()) == int_<0>);
-        BOOST_HANA_CONSTANT_CHECK(length(tuple(1, '2', 3.0)) == int_<3>);
+        BOOST_HANA_CONSTANT_CHECK(length(tuple()) == size_t<0>);
+        BOOST_HANA_CONSTANT_CHECK(length(tuple(1, '2', 3.0)) == size_t<3>);
 
-        BOOST_HANA_CONSTANT_CHECK(length(nothing) == int_<0>);
-        BOOST_HANA_CONSTANT_CHECK(length(just('x')) == int_<1>);
+        BOOST_HANA_CONSTANT_CHECK(length(nothing) == size_t<0>);
+        BOOST_HANA_CONSTANT_CHECK(length(just('x')) == size_t<1>);
         //! [length]
     }
 
@@ -181,11 +181,11 @@ int main() {
         constexpr auto types = type_list<int, char, long, short, char, double>;
         constexpr auto ints = integer_list<int, 1, 2, 3>;
 
-        BOOST_HANA_CONSTANT_CHECK(count(ints, odd) == 2_c);
+        BOOST_HANA_CONSTANT_CHECK(count(ints, odd) == size_t<2>);
 
-        BOOST_HANA_CONSTANT_CHECK(count(types, trait<std::is_floating_point>) == 1_c);
-        BOOST_HANA_CONSTANT_CHECK(count(types, _ == type<char>) == 2_c);
-        BOOST_HANA_CONSTANT_CHECK(count(types, _ == type<void>) == 0_c);
+        BOOST_HANA_CONSTANT_CHECK(count(types, trait<std::is_floating_point>) == size_t<1>);
+        BOOST_HANA_CONSTANT_CHECK(count(types, _ == type<char>) == size_t<2>);
+        BOOST_HANA_CONSTANT_CHECK(count(types, _ == type<void>) == size_t<0>);
         //! [count]
     }
 

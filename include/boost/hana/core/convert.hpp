@@ -72,19 +72,30 @@ namespace boost { namespace hana {
     BOOST_HANA_DEFINE_EMBEDDING_IMPL(long double, float);
     BOOST_HANA_DEFINE_EMBEDDING_IMPL(double     , float);
 
-    BOOST_HANA_DEFINE_EMBEDDING_IMPL(long long int, long int);
-    BOOST_HANA_DEFINE_EMBEDDING_IMPL(long long int, int);
-    BOOST_HANA_DEFINE_EMBEDDING_IMPL(long long int, short int);
-    BOOST_HANA_DEFINE_EMBEDDING_IMPL(long int     , int);
-    BOOST_HANA_DEFINE_EMBEDDING_IMPL(long int     , short int);
-    BOOST_HANA_DEFINE_EMBEDDING_IMPL(int          , short int);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(long long, long);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(long long, int);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(long long, short);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(long long, signed char);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(long     , int);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(long     , short);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(long     , signed char);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(int      , short);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(int      , signed char);
 
-    BOOST_HANA_DEFINE_EMBEDDING_IMPL(unsigned long long int, unsigned long int);
-    BOOST_HANA_DEFINE_EMBEDDING_IMPL(unsigned long long int, unsigned int);
-    BOOST_HANA_DEFINE_EMBEDDING_IMPL(unsigned long long int, unsigned short int);
-    BOOST_HANA_DEFINE_EMBEDDING_IMPL(unsigned long int     , unsigned int);
-    BOOST_HANA_DEFINE_EMBEDDING_IMPL(unsigned long int     , unsigned short int);
-    BOOST_HANA_DEFINE_EMBEDDING_IMPL(unsigned int          , unsigned short int);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(unsigned long long, unsigned long);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(unsigned long long, unsigned int);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(unsigned long long, unsigned short);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(unsigned long long, unsigned char);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(unsigned long     , unsigned int);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(unsigned long     , unsigned short);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(unsigned long     , unsigned char);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(unsigned int      , unsigned short);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(unsigned int      , unsigned char);
+
+    template <typename T>
+    struct to_impl<T*, decltype(nullptr)> : embedding<> {
+        static constexpr T* apply(decltype(nullptr)) { return nullptr; }
+    };
 #undef BOOST_HANA_DEFINE_EMBEDDING_IMPL
 
     //////////////////////////////////////////////////////////////////////////

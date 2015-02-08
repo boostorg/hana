@@ -17,6 +17,7 @@ backward compatible.
 
 #include <string>
 using namespace boost::hana;
+using namespace std::literals;
 
 
 struct President { std::string name; };
@@ -28,7 +29,7 @@ int main() {
     auto stuff = tuple(President{"Obama"}, Car{"Toyota"}, City{"Quebec"});
 
     auto names = fmap(stuff, [](auto thing) { return thing.name; });
-    BOOST_HANA_RUNTIME_CHECK(reverse(names) == tuple("Quebec", "Toyota", "Obama"));
+    BOOST_HANA_RUNTIME_CHECK(reverse(names) == tuple("Quebec"s, "Toyota"s, "Obama"s));
 
     // No compile-time information is lost:
     // `stuff` wasn't constexpr but its length is!

@@ -82,14 +82,19 @@ namespace boost { namespace hana {
         BOOST_HANA_CONSTEXPR_LAMBDA auto x = injection_detail::wknd<i>{}();
     } // end namespace test
 
+    //////////////////////////////////////////////////////////////////////////
     // Comparable
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Comparable::instance<test::Injection,test::Injection>
-        : Comparable::equal_mcd
-    {
+    struct models<Comparable(test::Injection)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct equal_impl<test::Injection,test::Injection> {
         template <unsigned long n, typename X, typename Y, typename Token,
             typename = detail::std::enable_if_t<(n > 0)>>
-        static constexpr auto equal_impl(
+        static constexpr auto apply(
             test::injection_detail::injection_impl<n, X, Token> x,
             test::injection_detail::injection_impl<n, Y, Token> y
         ) {
@@ -108,14 +113,14 @@ namespace boost { namespace hana {
         }
 
         template <typename X, typename Y, typename Token>
-        static constexpr auto equal_impl(
+        static constexpr auto apply(
             test::injection_detail::injection_impl<0, X, Token>,
             test::injection_detail::injection_impl<0, Y, Token>
         )
         { return true_; }
 
         template <typename X, typename Y>
-        static constexpr auto equal_impl(X, Y)
+        static constexpr auto apply(X, Y)
         { return false_; }
     };
 

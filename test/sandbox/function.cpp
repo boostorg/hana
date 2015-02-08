@@ -5,8 +5,10 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/comparable.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/tuple.hpp>
@@ -59,9 +61,14 @@ namespace boost { namespace hana {
 
 
     template <>
-    struct Comparable::instance<Function, Function> : Comparable::equal_mcd {
+    struct models<Comparable(Function)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct equal_impl<Function, Function> {
         template <typename F, typename G>
-        static constexpr auto equal_impl(F f, G g) {
+        static constexpr auto apply(F f, G g) {
             return domain(f) == domain(g) && all(domain(f), demux(equal)(f, g));
         }
     };

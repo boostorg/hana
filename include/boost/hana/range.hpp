@@ -22,6 +22,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integer_sequence.hpp>
 #include <boost/hana/detail/std/integral_constant.hpp>
+#include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/enumerable.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/group.hpp>
@@ -130,8 +131,12 @@ namespace boost { namespace hana {
     template <>
     struct length_impl<Range> {
         template <typename R>
-        static constexpr auto apply(R r)
-        { return hana::minus(r.to, r.from); }
+        static constexpr auto apply(R r) {
+            constexpr auto from = hana::value(r.from);
+            constexpr auto to = hana::value(r.to);
+            constexpr detail::std::size_t len = to - from;
+            return size_t<len>;
+        }
     };
 
     template <>

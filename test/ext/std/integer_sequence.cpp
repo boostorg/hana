@@ -17,12 +17,13 @@ Distributed under the Boost Software License, Version 1.0.
 #include <test/auto/comparable.hpp>
 #include <test/auto/iterable.hpp>
 
+#include <cstddef>
 #include <utility>
 using namespace boost::hana;
 
 
 using T = int;
-using U = unsigned long;
+using U = long long;
 
 namespace boost { namespace hana { namespace test {
     template <>
@@ -98,11 +99,11 @@ int main() {
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
                 head(std::index_sequence<0>{}),
-                std::integral_constant<int, 0>{}
+                std::integral_constant<std::size_t, 0>{}
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
                 head(std::index_sequence<0, 1>{}),
-                std::integral_constant<int, 0>{}
+                std::integral_constant<std::size_t, 0>{}
             ));
         }
 

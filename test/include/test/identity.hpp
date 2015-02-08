@@ -33,14 +33,19 @@ namespace boost { namespace hana {
         constexpr detail::create<_identity> identity{};
     }
 
+    //////////////////////////////////////////////////////////////////////////
+    // Comparable
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Comparable::instance<test::Identity, test::Identity>
-        : Comparable::equal_mcd
-    {
+    struct models<Comparable(test::Identity)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct equal_impl<test::Identity, test::Identity> {
         template <typename Id1, typename Id2>
-        static constexpr auto equal_impl(Id1 x, Id2 y) {
-            return equal(x.value, y.value);
-        }
+        static constexpr auto apply(Id1 x, Id2 y)
+        { return equal(x.value, y.value); }
     };
 
     //////////////////////////////////////////////////////////////////////////

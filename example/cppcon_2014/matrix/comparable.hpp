@@ -11,17 +11,22 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
+#include <boost/hana/core/models.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/list.hpp>
 
 
 namespace boost { namespace hana {
+    template <unsigned R, unsigned C>
+    struct models<Comparable(cppcon::Matrix<R, C>)>
+        : detail::std::true_type
+    { };
+
     template <unsigned R1, unsigned C1, unsigned R2, unsigned C2>
-    struct Comparable::instance<cppcon::Matrix<R1, C1>, cppcon::Matrix<R2, C2>>
-        : Comparable::equal_mcd
-    {
+    struct equal_impl<cppcon::Matrix<R1, C1>, cppcon::Matrix<R2, C2>> {
         template <typename M1, typename M2>
-        static constexpr auto equal_impl(M1 const& m1, M2 const& m2) {
+        static constexpr auto apply(M1 const& m1, M2 const& m2) {
             return bool_<R1 == R2 && C1 == C2> &&
                    all_of(zip_with(equal, cppcon::rows(m1), cppcon::rows(m2)));
         }

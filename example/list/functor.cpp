@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <sstream>
 #include <string>
 using namespace boost::hana;
-
+using namespace std::literals;
 
 int main() {
     {
@@ -21,7 +21,7 @@ int main() {
 
         BOOST_HANA_RUNTIME_CHECK(
             fmap(tuple(1, '2', "345", std::string{"67"}), to_string) ==
-            tuple("1", "2", "345", "67")
+            tuple("1"s, "2"s, "345"s, "67"s)
         );
         //! [fmap]
     }
