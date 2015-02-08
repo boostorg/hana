@@ -16,10 +16,16 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/canonical_constant.hpp>
 #include <boost/hana/detail/std/is_same.hpp>
 #include <boost/hana/enumerable.hpp>
+#include <boost/hana/functional/partial.hpp>
+#include <boost/hana/group.hpp>
+#include <boost/hana/integral_domain.hpp>
 #include <boost/hana/type.hpp>
 
 #include <test/auto/base.hpp>
 #include <test/auto/enumerable.hpp>
+#include <test/auto/group.hpp>
+#include <test/auto/integral_domain.hpp>
+#include <test/auto/monoid.hpp>
 
 
 namespace boost { namespace hana { namespace test {
@@ -93,6 +99,107 @@ namespace boost { namespace hana { namespace test {
                             pred(value(c)),
                             value(pred(c))
                         ));
+                    });
+                },
+                [](auto) {}
+            );
+        }
+
+        // Monoid
+        {
+            eval_if(is_a<Monoid, typename C::value_type>,
+                [=](auto _) {
+                    using Monoid = typename decltype(+_(type<hana::Monoid>))::type;
+                    laws<Monoid, C>();
+
+                    BOOST_HANA_CHECK(equal(
+                        value(_(zero<C>)()),
+                        _(zero<typename C::value_type>)()
+                    ));
+
+                    _(for_each)(objects<C>, [](auto x) {
+                        for_each(objects<C>, [=](auto y) {
+                            BOOST_HANA_CHECK(equal(
+                                plus(value(x), value(y)),
+                                value(plus(x, y))
+                            ));
+                        });
+                    });
+                },
+                [](auto) {}
+            );
+        }
+
+        // Group
+        {
+            eval_if(is_a<Group, typename C::value_type>,
+                [=](auto _) {
+                    using Group = typename decltype(+_(type<hana::Group>))::type;
+                    laws<Group, C>();
+
+                    _(for_each)(objects<C>, [](auto x) {
+                        BOOST_HANA_CHECK(equal(
+                            negate(value(x)),
+                            value(negate(x))
+                        ));
+
+                        for_each(objects<C>, [=](auto y) {
+                            BOOST_HANA_CHECK(equal(
+                                minus(value(x), value(y)),
+                                value(minus(x, y))
+                            ));
+                        });
+                    });
+                },
+                [](auto) {}
+            );
+        }
+
+        // Ring
+        {
+            eval_if(is_a<Ring, typename C::value_type>,
+                [=](auto _) {
+                    using Ring = typename decltype(+_(type<hana::Ring>))::type;
+                    laws<Ring, C>();
+
+                    BOOST_HANA_CHECK(equal(
+                        value(_(one<C>)()),
+                        _(one<typename C::value_type>)()
+                    ));
+
+                    _(for_each)(objects<C>, [](auto x) {
+                        for_each(objects<C>, [=](auto y) {
+                            BOOST_HANA_CHECK(equal(
+                                mult(value(x), value(y)),
+                                value(mult(x, y))
+                            ));
+                        });
+                    });
+                },
+                [](auto) {}
+            );
+        }
+
+        // IntegralDomain
+        {
+            eval_if(is_an<IntegralDomain, typename C::value_type>,
+                [=](auto _) {
+                    using ID = typename decltype(+_(type<hana::IntegralDomain>))::type;
+                    laws<ID, C>();
+
+                    _(for_each)(objects<C>, [=](auto x) {
+                        auto nonzero = partial(not_equal, _(zero<C>)());
+                        for_each(_(filter)(objects<C>, nonzero), [=](auto y) {
+                            BOOST_HANA_CHECK(equal(
+                                quot(value(x), value(y)),
+                                value(quot(x, y))
+                            ));
+
+                            BOOST_HANA_CHECK(equal(
+                                mod(value(x), value(y)),
+                                value(mod(x, y))
+                            ));
+                        });
                     });
                 },
                 [](auto) {}

@@ -119,61 +119,97 @@ namespace boost { namespace hana {
         }
     };
 
+    //////////////////////////////////////////////////////////////////////////
+    // Monoid
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Monoid::instance<test::Numeric, test::Numeric> : Monoid::mcd {
-        template <typename X, typename Y>
-        static constexpr auto plus_impl(X x, Y y)
-        { return test::numeric(x.value + y.value); }
+    struct models<Monoid(test::Numeric)>
+        : detail::std::true_type
+    { };
 
-        static constexpr auto zero_impl()
+    template <>
+    struct plus_impl<test::Numeric, test::Numeric> {
+        template <typename X, typename Y>
+        static constexpr auto apply(X x, Y y)
+        { return test::numeric(x.value + y.value); }
+    };
+
+    template <>
+    struct zero_impl<test::Numeric> {
+        static constexpr auto apply()
         { return test::numeric(0); }
     };
 
+    //////////////////////////////////////////////////////////////////////////
+    // Group
+    //
     // Define either one to select which MCD is used:
     //  BOOST_HANA_TEST_GROUP_NEGATE_MCD
     //  BOOST_HANA_TEST_GROUP_MINUS_MCD
     //
     // If neither is defined, the MCD used is unspecified.
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Group(test::Numeric)>
+        : detail::std::true_type
+    { };
+
 #if defined(BOOST_HANA_TEST_GROUP_NEGATE_MCD)
     template <>
-    struct Group::instance<test::Numeric, test::Numeric>
-        : Group::negate_mcd<test::Numeric, test::Numeric>
-    {
+    struct negate_impl<test::Numeric> {
         template <typename X>
-        static constexpr auto negate_impl(X x)
+        static constexpr auto apply(X x)
         { return test::numeric(-x.value); }
     };
 #else
     template <>
-    struct Group::instance<test::Numeric, test::Numeric>
-        : Group::minus_mcd<test::Numeric, test::Numeric>
-    {
+    struct minus_impl<test::Numeric, test::Numeric> {
         template <typename X, typename Y>
-        static constexpr auto minus_impl(X x, Y y)
+        static constexpr auto apply(X x, Y y)
         { return test::numeric(x.value - y.value); }
     };
 #endif
 
+    //////////////////////////////////////////////////////////////////////////
+    // Ring
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Ring::instance<test::Numeric, test::Numeric> : Ring::mcd {
-        template <typename X, typename Y>
-        static constexpr auto mult_impl(X x, Y y)
-        { return test::numeric(x.value * y.value); }
+    struct models<Ring(test::Numeric)>
+        : detail::std::true_type
+    { };
 
-        static constexpr auto one_impl()
-        { return test::numeric(1); }
+    template <>
+    struct mult_impl<test::Numeric, test::Numeric> {
+        template <typename X, typename Y>
+        static constexpr auto apply(X x, Y y)
+        { return test::numeric(x.value * y.value); }
     };
 
     template <>
-    struct IntegralDomain::instance<test::Numeric, test::Numeric>
-        : IntegralDomain::mcd
-    {
-        template <typename X, typename Y>
-        static constexpr auto quot_impl(X x, Y y)
-        { return test::numeric(x.value / y.value); }
+    struct one_impl<test::Numeric> {
+        static constexpr auto apply()
+        { return test::numeric(1); }
+    };
 
+    //////////////////////////////////////////////////////////////////////////
+    // IntegralDomain
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<IntegralDomain(test::Numeric)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct quot_impl<test::Numeric, test::Numeric> {
         template <typename X, typename Y>
-        static constexpr auto mod_impl(X x, Y y)
+        static constexpr auto apply(X x, Y y)
+        { return test::numeric(x.value / y.value); }
+    };
+
+    template <>
+    struct mod_impl<test::Numeric, test::Numeric> {
+        template <typename X, typename Y>
+        static constexpr auto apply(X x, Y y)
         { return test::numeric(x.value % y.value); }
     };
 }} // end namespace boost::hana

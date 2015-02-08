@@ -12,96 +12,144 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/group.hpp>
 
+#include <boost/hana/constant.hpp>
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/is_a.hpp>
+#include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/std/declval.hpp>
+#include <boost/hana/core/wrong.hpp>
+#include <boost/hana/detail/has_common_embedding.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
+#include <boost/hana/detail/std/is_arithmetic.hpp>
 #include <boost/hana/monoid.hpp>
 
 
 namespace boost { namespace hana {
-    //! Minimal complete definition: `minus`
-    template <typename G1, typename G2>
-    struct Group::minus_mcd {
-        template <typename X>
-        static constexpr auto negate_impl(X x) {
-            return minus(zero<G1>(), x);
-        }
-    };
-
-    //! Minimal complete definition: `negate`
-    template <typename G1, typename G2>
-    struct Group::negate_mcd {
-        template <typename X, typename Y>
-        static constexpr auto minus_impl(X x, Y y) {
-            return plus(x, negate(y));
-        }
-    };
-
+    //////////////////////////////////////////////////////////////////////////
+    // Operators
+    //////////////////////////////////////////////////////////////////////////
     namespace operators {
-        //! Equivalent to `minus`.
-        //! @relates boost::hana::Group
         template <typename X, typename Y, typename = detail::std::enable_if_t<
             enable_operators<Group, datatype_t<X>>::value ||
             enable_operators<Group, datatype_t<Y>>::value
         >>
         constexpr decltype(auto) operator-(X&& x, Y&& y) {
-            return minus(detail::std::forward<X>(x),
-                         detail::std::forward<Y>(y));
+            return hana::minus(detail::std::forward<X>(x),
+                               detail::std::forward<Y>(y));
         }
 
-        //! Equivalent to `negate`.
-        //! @relates boost::hana::Group
         template <typename X, typename = detail::std::enable_if_t<
             enable_operators<Group, datatype_t<X>>::value
         >>
         constexpr decltype(auto) operator-(X&& x)
-        { return negate(detail::std::forward<X>(x)); }
+        { return hana::negate(detail::std::forward<X>(x)); }
     }
 
-    template <typename T, typename U>
-    struct Group::default_instance
-        : Group::instance<common_t<T, U>, common_t<T, U>>
-    {
+    //////////////////////////////////////////////////////////////////////////
+    // minus
+    //////////////////////////////////////////////////////////////////////////
+    template <typename T, typename U, typename>
+    struct minus_impl : minus_impl<T, U, when<true>> { };
+
+    template <typename T, typename U, bool condition>
+    struct minus_impl<T, U, when<condition>> {
+        static_assert(wrong<minus_impl<T, U>>{},
+        "no definition of boost::hana::minus for the given data types");
+    };
+
+    template <typename T, bool condition>
+    struct minus_impl<T, T, when<condition>> : default_ {
+        static_assert(!is_default<negate_impl<T>>{},
+        "no definition of boost::hana::minus for the given data type");
+
         template <typename X, typename Y>
-        static constexpr decltype(auto) minus_impl(X&& x, Y&& y) {
-            using C = common_t<T, U>;
-            return minus(
-                to<C>(detail::std::forward<X>(x)),
-                to<C>(detail::std::forward<Y>(y))
-            );
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
+            return hana::plus(detail::std::forward<X>(x),
+                              hana::negate(detail::std::forward<Y>(y)));
         }
     };
 
-    //! Instance of `Group` for objects of foreign numeric types.
-    //!
-    //! Any two foreign objects forming a `Monoid` and that can be
-    //! subtracted with the usual `operator-` naturally form an additive
-    //! group, with the group subtraction being that usual `operator-`.
+    // Cross-type overload
     template <typename T, typename U>
-    struct Group::instance<T, U, when_valid<
-        decltype(detail::std::declval<T>() - detail::std::declval<U>()),
-        char[are<Monoid, T, U>()]
-    >>
-        : Group::minus_mcd<T, U>
-    {
+    struct minus_impl<T, U, when<detail::has_common_embedding<Group, T, U>{}>> {
+        using C = typename common<T, U>::type;
         template <typename X, typename Y>
-        static constexpr decltype(auto) minus_impl(X&& x, Y&& y) {
-            return detail::std::forward<X>(x) - detail::std::forward<Y>(y);
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
+            return hana::minus(to<C>(detail::std::forward<X>(x)),
+                               to<C>(detail::std::forward<Y>(y)));
         }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // negate
+    //////////////////////////////////////////////////////////////////////////
+    template <typename T, typename>
+    struct negate_impl : negate_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct negate_impl<T, when<condition>> : default_ {
+        static_assert(!is_default<minus_impl<T, T>>{},
+        "no definition of boost::hana::negate for the given data type");
+
+        template <typename X>
+        static constexpr decltype(auto) apply(X&& x)
+        { return hana::minus(zero<T>(), detail::std::forward<X>(x)); }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Model for arithmetic data types
+    //////////////////////////////////////////////////////////////////////////
+    template <typename T>
+    struct models<Group(T), when<detail::std::is_non_boolean_arithmetic<T>{}>>
+        : detail::std::true_type
+    { };
+
+    template <typename T>
+    struct minus_impl<T, T, when<detail::std::is_non_boolean_arithmetic<T>{}>> {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X&& x, Y&& y)
+        { return detail::std::forward<X>(x) - detail::std::forward<Y>(y); }
     };
 
     template <typename T>
-    struct Group::instance<T, T, when<models<Group(T)>{}>>
-        : Group::minus_mcd<T, T>
-        , Group::negate_mcd<T, T>
+    struct negate_impl<T, when<detail::std::is_non_boolean_arithmetic<T>{}>> {
+        template <typename X>
+        static constexpr decltype(auto) apply(X&& x)
+        { return -detail::std::forward<X>(x); }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Model for Constants over a Group
+    //////////////////////////////////////////////////////////////////////////
+    template <typename C>
+    struct models<Group(C), when<
+        models<Constant(C)>{} && models<Group(typename C::value_type)>{}
+    >>
+        : detail::std::true_type
     { };
+
+    template <typename C>
+    struct minus_impl<C, C, when<
+        models<Constant(C)>{} && models<Group(typename C::value_type)>{}
+    >> {
+        using T = typename C::value_type;
+        template <typename X, typename Y>
+        struct _constant {
+            static constexpr decltype(auto) get() {
+                return boost::hana::minus(boost::hana::value(X{}),
+                                          boost::hana::value(Y{}));
+            }
+            struct hana { using datatype = detail::CanonicalConstant<T>; };
+        };
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X const&, Y const&)
+        { return to<C>(_constant<X, Y>{}); }
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_GROUP_HPP

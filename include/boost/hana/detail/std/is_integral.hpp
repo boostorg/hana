@@ -33,6 +33,12 @@ namespace boost { namespace hana { namespace detail { namespace std {
     template <> struct is_integral<unsigned long>      : true_type { };
     template <> struct is_integral<long long>          : true_type { };
     template <> struct is_integral<unsigned long long> : true_type { };
+
+
+    template <typename T>
+    struct is_non_boolean_integral : is_integral<T> { };
+    template <>
+    struct is_non_boolean_integral<bool> : false_type { };
 }}}} // end namespace boost::hana::detail::std
 
 #endif // !BOOST_HANA_DETAIL_STD_IS_INTEGRAL_HPP

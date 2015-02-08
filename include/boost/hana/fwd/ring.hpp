@@ -11,22 +11,36 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_RING_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/typeclass.hpp>
-#include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
 namespace boost { namespace hana {
     //! @ingroup group-typeclasses
-    //! The `Ring` type class is used for `Group`s that also form a `Monoid`
+    //! The `Ring` concept represents `Group`s that also form a `Monoid`
     //! under a second binary operation that distributes over the first.
     //!
-    //! The method names refer to the ring of numbers under multiplication.
+    //! A [Ring][1] is an algebraic structure built on top of a `Group`
+    //! which requires a monoidal structure with respect to a second binary
+    //! operation. This second binary operation must distribute over the
+    //! first one. Specifically, a `Ring` is a triple `(S, +, *)` such that
+    //! `(S, +)` is a `Group`, `(S, *)` is a `Monoid` and `*` distributes
+    //! over `+`, i.e.
+    //! @code
+    //!     x * (y + z) == (x * y) + (x * z)
+    //! @endcode
     //!
-    //! ### Requires
-    //! `Group`
+    //! The second binary operation is often written `*` with its identity
+    //! written `1`, in reference to the `Ring` of integers under
+    //! multiplication. The method names used here refer to this exact ring.
     //!
-    //! ### Laws
+    //!
+    //! Superclasses
+    //! ------------
+    //! `Monoid`, `Group`
+    //!
+    //!
+    //! Laws
+    //! ----
     //! For all objects `x`, `y`, `z` of a `Ring` `R`, the following laws must
     //! be satisfied:
     //! @code
@@ -35,19 +49,90 @@ namespace boost { namespace hana {
     //!     mult(one<R>(), x) == x                              // left identity
     //!     mult(x, plus(y, z)) == plus(mult(x, y), mult(x, z)) // distributivity
     //! @endcode
-    struct Ring {
-        BOOST_HANA_BINARY_TYPECLASS(Ring);
-        struct mcd;
-        template <typename I1, typename I2>
-        struct integral_constant_mcd;
-        template <typename T, typename U>
-        struct default_instance;
-    };
+    //!
+    //!
+    //! Minimal complete definintion
+    //! ----------------------------
+    //! `one` and `mult` satisfying the above laws
+    //!
+    //!
+    //! Provided models
+    //! ---------------
+    //! 1. For non-boolean arithmetic data types\n
+    //! A data type `T` is arithmetic if `std::is_arithmetic<T>::%value` is
+    //! true. For a non-boolean arithmetic data type `T`, a model of `Ring` is
+    //! automatically defined by using the provided `Group` model and setting
+    //! @code
+    //!     mult(x, y) = (x * y)
+    //!     one<T>() = static_cast<T>(1)
+    //! @endcode
+    //!
+    //! @note
+    //! The rationale for not providing a Ring model for `bool` is the same
+    //! as for not providing Monoid and Group models.
+    //!
+    //!
+    //! Operators
+    //! ---------
+    //! For convenience, the following operator is provided as an
+    //! equivalent way of calling the corresponding method:
+    //! @code
+    //!     * -> mult
+    //! @endcode
+    //!
+    //!
+    //! Structure-preserving functions
+    //! ------------------------------
+    //! Let `A` and `B` be two `Ring`s. A function `f : A -> B` is said to
+    //! be a [Ring morphism][2] if it preserves the ring structure between
+    //! `A` and `B`. Rigorously, for all objects `x, y` of data type `A`,
+    //! @code
+    //!     f(plus(x, y)) == plus(f(x), f(y))
+    //!     f(mult(x, y)) == mult(f(x), f(y))
+    //!     f(one<A>()) == one<B>()
+    //! @endcode
+    //! Because of the `Ring` structure, it is easy to prove that the
+    //! following will then also be satisfied:
+    //! @code
+    //!     f(zero<A>()) == zero<B>()
+    //!     f(negate(x)) == negate(f(x))
+    //! @endcode
+    //! which is to say that `f` will then also be a `Group` morphism.
+    //! Functions with these properties interact nicely with `Ring`s,
+    //! which is why they are given such a special treatment.
+    //!
+    //!
+    //! [1]: http://en.wikipedia.org/wiki/Ring_(mathematics)
+    //! [2]: http://en.wikipedia.org/wiki/Ring_homomorphism
+    struct Ring { };
 
     //! Associative operation of a `Ring`.
     //! @relates Ring
     //!
-    //! ### Example
+    //! @param x, y
+    //! Two `Ring` elements to combine with the `Ring` binary operation.
+    //!
+    //!
+    //! Cross-type version of the method
+    //! --------------------------------
+    //! The `mult` method is "overloaded" to handle distinct data types
+    //! with certain properties. Specifically, `mult` is defined for
+    //! _distinct_ data types `A` and `B` such that
+    //! 1. `A` and `B` share a common data type `C`, as determined by the
+    //!    `common` metafunction
+    //! 2. `A`, `B` and `C` are all `Ring`s when taken individually
+    //! 3. `to<C> : A -> B` and `to<C> : B -> C` are `Ring`-embeddings, as
+    //!    determined by the `is_embedding` metafunction.
+    //!
+    //! The definition of `mult` for data types satisfying the above
+    //! properties is obtained by setting
+    //! @code
+    //!     mult(x, y) = mult(to<C>(x), to<C>(y))
+    //! @endcode
+    //!
+    //!
+    //! Example
+    //! -------
     //! @snippet example/ring.cpp mult
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto mult = [](auto&& x, auto&& y) -> decltype(auto) {
@@ -55,23 +140,14 @@ namespace boost { namespace hana {
     };
 #else
     template <typename T, typename U, typename = void>
-    struct mult_impl : mult_impl<T, U, when<true>> { };
-
-    template <typename T, typename U, bool condition>
-    struct mult_impl<T, U, when<condition>> {
-        template <typename X, typename Y>
-        static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            return Ring::instance<T, U>::mult_impl(
-                detail::std::forward<X>(x),
-                detail::std::forward<Y>(y)
-            );
-        }
-    };
+    struct mult_impl;
 
     struct _mult {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
-            return mult_impl<datatype_t<X>, datatype_t<Y>>::apply(
+            return mult_impl<
+                typename datatype<X>::type, typename datatype<Y>::type
+            >::apply(
                 detail::std::forward<X>(x),
                 detail::std::forward<Y>(y)
             );
@@ -81,17 +157,15 @@ namespace boost { namespace hana {
     constexpr _mult mult{};
 #endif
 
-    //! Identity of `mult`.
+    //! Identity of the `Ring` multiplication.
     //! @relates Ring
-    //!
-    //! Since `Ring` is a binary type class and `one` is a nullary method,
-    //! `one<R>()` is dispatched to the type class instance for `R` and `R`,
-    //! i.e. `Ring::instance<R, R>`.
     //!
     //! @tparam R
     //! The data type (a `Ring`) of the returned identity.
     //!
-    //! ### Example
+    //!
+    //! Example
+    //! -------
     //! @snippet example/ring.cpp one
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename R>
@@ -99,15 +173,8 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    template <typename T, typename = void>
-    struct one_impl : one_impl<T, when<true>> { };
-
-    template <typename T, bool condition>
-    struct one_impl<T, when<condition>> {
-        static constexpr decltype(auto) apply() {
-            return Ring::instance<T, T>::one_impl();
-        }
-    };
+    template <typename R, typename = void>
+    struct one_impl;
 
     template <typename R>
     struct _one {
@@ -120,52 +187,40 @@ namespace boost { namespace hana {
     constexpr _one<R> one{};
 #endif
 
-    //! Power of a `Ring` element.
+    //! Elevate a ring element to its `n`th power.
     //! @relates Ring
     //!
-    //! Specifically, `power(r, p)`, is equivalent to multiplying `r` with
-    //! itself `p` times, by decrementing `p` until it is equal to `zero`
-    //! If `p` is equal to `zero` from the beginning, `one` is returned.
-    //!
-    //! @note
-    //! Dispatching for this method is done on the data type of `r` only.
-    //!
+    //! Specifically, `power(r, n)`, is equivalent to multiplying `r` with
+    //! itself `n` times using the `Ring` multiplication. If the power is
+    //! equal to `zero`, the `Ring` identity (`one`) is returned.
     //!
     //! @param r
-    //! A `Ring` element that is multiplied with itself `p` times.
+    //! A `Ring` element that is elevated to its `n`th power.
     //!
-    //! @param p
-    //! An `IntegralConstant` representing the number of times `r` should be
-    //! multiplied by itself.
+    //! @param n
+    //! An `IntegralConstant` representing the power to which `r` is elevated.
     //!
     //!
-    //! ### Example
+    //! @note
+    //! Only the data type of `r` is used for tag-dispatching.
+    //!
+    //! Example
+    //! -------
     //! @snippet example/ring.cpp power
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto power = [](auto&& r, auto&& p) -> decltype(auto) {
+    constexpr auto power = [](auto&& r, auto&& n) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    template <typename T, typename = void>
-    struct power_impl : power_impl<T, when<true>> { };
-
-    template <typename T, bool condition>
-    struct power_impl<T, when<condition>> {
-        template <typename X, typename Y>
-        static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            return Ring::instance<T, T>::power_impl(
-                detail::std::forward<X>(x),
-                detail::std::forward<Y>(y)
-            );
-        }
-    };
+    template <typename R, typename = void>
+    struct power_impl;
 
     struct _power {
-        template <typename R, typename P>
-        constexpr decltype(auto) operator()(R&& r, P&& p) const {
-            return power_impl<datatype_t<R>>::apply(
+        template <typename R, typename N>
+        constexpr decltype(auto) operator()(R&& r, N&& n) const {
+            return power_impl<typename datatype<R>::type>::apply(
                 detail::std::forward<R>(r),
-                detail::std::forward<P>(p)
+                detail::std::forward<N>(n)
             );
         }
     };

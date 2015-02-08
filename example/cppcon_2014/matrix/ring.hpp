@@ -9,6 +9,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include "matrix.hpp"
 
+#include <boost/hana/core/models.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/list.hpp>
@@ -20,12 +22,15 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
+    template <unsigned R, unsigned C>
+    struct models<cppcon::Matrix<R, C>>
+        : detail::std::true_type
+    { };
+
     template <unsigned R1, unsigned C1, unsigned R2, unsigned C2>
-    struct Ring::instance<
-        cppcon::Matrix<R1, C1>, cppcon::Matrix<R2, C2>
-    > : Ring::mcd {
+    struct mult_impl<cppcon::Matrix<R1, C1>, cppcon::Matrix<R2, C2>> {
         template <typename M1, typename M2>
-        static constexpr decltype(auto) mult_impl(M1&& m1, M2&& m2) {
+        static constexpr decltype(auto) apply(M1&& m1, M2&& m2) {
             static_assert(C1 == R2,
                 "wrong dimensions for matrix multiplication");
             auto cols = cppcon::columns(std::forward<M2>(m2));
@@ -41,10 +46,13 @@ namespace boost { namespace hana {
                 cppcon::matrix
             );
         }
+    };
 
-        static constexpr decltype(auto) one_impl() {
-            return unpack(range_c<unsigned, 0, R1>, [](auto ...n) {
-                return unpack(range_c<unsigned, 0, C1>, [=](auto ...m) {
+    template <unsigned R, unsigned C>
+    struct one_impl<cppcon::Matrix<R, C>> {
+        static constexpr decltype(auto) apply() {
+            return unpack(range_c<unsigned, 0, R>, [](auto ...n) {
+                return unpack(range_c<unsigned, 0, C>, [=](auto ...m) {
                     auto row = [=](auto n) {
                         return cppcon::row(if_(n == m, int_<1>, int_<0>)...);
                     };

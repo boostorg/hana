@@ -11,42 +11,123 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_MONOID_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/typeclass.hpp>
-#include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
 namespace boost { namespace hana {
     //! @ingroup group-typeclasses
-    //! The `Monoid` type class is used for data types with an associative
+    //! The `Monoid` concept represents data types with an associative
     //! binary operation that has an identity.
     //!
-    //! The method names refer to the monoid of numbers under addition, but
-    //! there are many other instances such as sequences under concatenation.
-    //! Some datatypes can be viewed as a monoid in more than one way, e.g.
-    //! both addition and multiplication on numbers.
+    //! Specifically, a [Monoid][1] is a basic algebraic structure typically
+    //! used in mathematics to construct more complex algebraic structures
+    //! like `Group`s, `Ring`s and so on. They are useful in several contexts,
+    //! notably to define the properties of numbers in a granular way. At its
+    //! core, a `Monoid` is a set `S` of objects along with a binary operation
+    //! (let's say `+`) that is associative and that has an identity in `S`.
+    //! There are many examples of `Monoid`s:
+    //! - strings with concatenation and the empty string as the identity
+    //! - integers with addition and `0` as the identity
+    //! - integers with multiplication and `1` as the identity
+    //! - many others...
     //!
-    //! ### Laws
-    //! For all objects `x`, `y` and `z` whose data type `M` is a `Monoid`,
-    //! the following laws must be satisfied:
+    //! As you can see with the integers, there are some sets that can be
+    //! viewed as a monoid in more than one way, depending on the choice
+    //! of the binary operation and identity. The method names used here
+    //! refer to the monoid of integers under addition; `plus` is the binary
+    //! operation and `zero` is the identity element of that operation.
+    //!
+    //!
+    //! Laws
+    //! ----
+    //! For all objects `x`, `y` and `z` of a `Monoid` `M`, the following
+    //! laws must be satisfied:
     //! @code
     //!     plus(zero<M>(), x) == x                    // left zero
     //!     plus(x, zero<M>()) == x                    // right zero
     //!     plus(x, plus(y, z)) == plus(plus(x, y), z) // associativity
     //! @endcode
-    struct Monoid {
-        BOOST_HANA_BINARY_TYPECLASS(Monoid);
-        struct mcd;
-        template <typename I1, typename I2>
-        struct integral_constant_mcd;
-        template <typename T, typename U>
-        struct default_instance;
-    };
+    //!
+    //!
+    //! Minimal complete definition
+    //! ---------------------------
+    //! `plus` and `zero` satisfying the above laws
+    //!
+    //!
+    //! Provided models
+    //! ---------------
+    //! 1. For non-boolean arithmetic data types\n
+    //! A data type `T` is arithmetic if `std::is_arithmetic<T>::%value` is
+    //! true. For a non-boolean arithmetic data type `T`, a model of `Monoid`
+    //! is automatically defined by setting
+    //! @code
+    //!     plus(x, y) = (x + y)
+    //!     zero<T>() = static_cast<T>(0)
+    //! @endcode
+    //!
+    //! > #### Rationale for not making `bool` a Monoid by default
+    //! > First, it makes no sense whatsoever to define an additive Monoid
+    //! > over the `bool` type. Also, it could make sense to define a `Monoid`
+    //! > with logical conjunction or disjunction. However, C++ allows `bool`s
+    //! > to be added, and the method names of this concept really suggest
+    //! > addition. In line with the principle of least surprise, no model
+    //! > is provided by default.
+    //!
+    //!
+    //! Operators
+    //! ---------
+    //! For convenience, the following operator is provided as an
+    //! equivalent way of calling the corresponding method:
+    //! @code
+    //!     + -> plus
+    //! @endcode
+    //!
+    //!
+    //! Structure-preserving functions
+    //! ------------------------------
+    //! Let `A` and `B` be two `Monoid`s. A function `f : A -> B` is said
+    //! to be a [Monoid morphism][2] if it preserves the monoidal structure
+    //! between `A` and `B`. Rigorously, for all objects `x, y` of data
+    //! type `A`,
+    //! @code
+    //!     f(plus(x, y)) == plus(f(x), f(y))
+    //!     f(zero<A>()) == zero<B>()
+    //! @endcode
+    //! Functions with these properties interact nicely with `Monoid`s, which
+    //! is why they are given such a special treatment.
+    //!
+    //!
+    //! [1]: http://en.wikipedia.org/wiki/Monoid
+    //! [2]: http://en.wikipedia.org/wiki/Monoid#Monoid_homomorphisms
+    struct Monoid { };
 
-    //! Associative operation on a `Monoid`.
+    //! Associative binary operation on a `Monoid`.
     //! @relates Monoid
     //!
-    //! ### Example
+    //! @param x, y
+    //! Two objects to combine with the `Monoid`'s binary operation.
+    //!
+    //!
+    //! Cross-type version of the method
+    //! --------------------------------
+    //! The `plus` method is "overloaded" to handle distinct data types
+    //! with certain properties. Specifically, `plus` is defined for
+    //! _distinct_ data types `A` and `B` such that
+    //! 1. `A` and `B` share a common data type `C`, as determined by the
+    //!    `common` metafunction
+    //! 2. `A`, `B` and `C` are all `Monoid`s when taken individually
+    //! 3. `to<C> : A -> B` and `to<C> : B -> C` are `Monoid`-embeddings, as
+    //!    determined by the `is_embedding` metafunction.
+    //!
+    //! The definition of `plus` for data types satisfying the above
+    //! properties is obtained by setting
+    //! @code
+    //!     plus(x, y) = plus(to<C>(x), to<C>(y))
+    //! @endcode
+    //!
+    //!
+    //! Example
+    //! -------
     //! @snippet example/monoid.cpp plus
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto plus = [](auto&& x, auto&& y) -> decltype(auto) {
@@ -54,23 +135,14 @@ namespace boost { namespace hana {
     };
 #else
     template <typename T, typename U, typename = void>
-    struct plus_impl : plus_impl<T, U, when<true>> { };
-
-    template <typename T, typename U, bool condition>
-    struct plus_impl<T, U, when<condition>> {
-        template <typename X, typename Y>
-        static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            return Monoid::instance<T, U>::plus_impl(
-                detail::std::forward<X>(x),
-                detail::std::forward<Y>(y)
-            );
-        }
-    };
+    struct plus_impl;
 
     struct _plus {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
-            return plus_impl<datatype_t<X>, datatype_t<Y>>::apply(
+            return plus_impl<
+                typename datatype<X>::type, typename datatype<Y>::type
+            >::apply(
                 detail::std::forward<X>(x),
                 detail::std::forward<Y>(y)
             );
@@ -83,14 +155,12 @@ namespace boost { namespace hana {
     //! Identity of `plus`.
     //! @relates Monoid
     //!
-    //! Since `Monoid` is a binary type class and `zero` is a nullary method,
-    //! `zero<M>()` is dispatched to the type class instance for `M` and `M`,
-    //! i.e. `Monoid::instance<M, M>`.
-    //!
     //! @tparam M
     //! The data type (a `Monoid`) of the returned identity.
     //!
-    //! ### Example
+    //!
+    //! Example
+    //! -------
     //! @snippet example/monoid.cpp zero
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename M>
@@ -98,21 +168,13 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    template <typename T, typename = void>
-    struct zero_impl : zero_impl<T, when<true>> { };
-
-    template <typename T, bool condition>
-    struct zero_impl<T, when<condition>> {
-        static constexpr decltype(auto) apply() {
-            return Monoid::instance<T, T>::zero_impl();
-        }
-    };
+    template <typename M, typename = void>
+    struct zero_impl;
 
     template <typename M>
     struct _zero {
-        constexpr decltype(auto) operator()() const {
-            return zero_impl<M>::apply();
-        }
+        constexpr decltype(auto) operator()() const
+        { return zero_impl<M>::apply(); }
     };
 
     template <typename M>

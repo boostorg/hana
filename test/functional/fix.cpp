@@ -15,8 +15,8 @@ using namespace boost::hana;
 
 BOOST_HANA_CONSTEXPR_LAMBDA auto fact = fix(
     [](auto fact, auto n) {
-        return eval_if(equal(n, int_<0>),
-            always(int_<1>),
+        return eval_if(equal(n, ullong<0>),
+            always(ullong<1>),
             [=](auto _) { return mult(n, fact(_(pred)(n))); }
         );
     }

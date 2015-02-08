@@ -57,54 +57,6 @@ namespace boost { namespace hana {
         : Comparable::integral_constant_mcd<I1, I2>
     { };
 
-    //! Any two `IntegralConstant`s form an additive `Group`.
-    template <template <typename ...> class C1, typename T,
-              template <typename ...> class C2, typename U>
-    struct Group::integral_constant_mcd<C1<T>, C2<U>>
-        : Group::minus_mcd<C1<T>, C2<U>>
-    {
-        template <typename X, typename Y>
-        static constexpr auto minus_impl(X x, Y y) {
-            constexpr auto sub = value(x) - value(y);
-            return integral_constant<C1<decltype(sub)>, sub>();
-        }
-    };
-
-    template <typename I1, typename I2>
-    struct Group::instance<I1, I2, when<
-        is_an<IntegralConstant, I1>() &&
-        is_an<IntegralConstant, I2>()
-    >>
-        : Group::integral_constant_mcd<I1, I2>
-    { };
-
-    //! Any two `IntegralConstant`s form a multiplicative `IntegralDomain`.
-    template <template <typename ...> class C1, typename T,
-              template <typename ...> class C2, typename U>
-    struct IntegralDomain::integral_constant_mcd<C1<T>, C2<U>>
-        : IntegralDomain::mcd
-    {
-        template <typename X, typename Y>
-        static constexpr auto quot_impl(X x, Y y) {
-            constexpr auto quotient = value(x) / value(y);
-            return integral_constant<C1<decltype(quotient)>, quotient>();
-        }
-
-        template <typename X, typename Y>
-        static constexpr auto mod_impl(X x, Y y) {
-            constexpr auto modulus = value(x) % value(y);
-            return integral_constant<C1<decltype(modulus)>, modulus>();
-        }
-    };
-
-    template <typename I1, typename I2>
-    struct IntegralDomain::instance<I1, I2, when<
-        is_an<IntegralConstant, I1>() &&
-        is_an<IntegralConstant, I2>()
-    >>
-        : IntegralDomain::integral_constant_mcd<I1, I2>
-    { };
-
     //! Instance of `Logical` for `IntegralConstant`s.
     //!
     //! An `IntegralConstant` is true-valued if and only if its integral
@@ -165,28 +117,6 @@ namespace boost { namespace hana {
         : Logical::integral_constant_mcd<I>
     { };
 
-    //! Any two `IntegralConstant`s form an additive `Monoid`.
-    template <template <typename ...> class C1, typename T,
-              template <typename ...> class C2, typename U>
-    struct Monoid::integral_constant_mcd<C1<T>, C2<U>> : Monoid::mcd {
-        template <typename X, typename Y>
-        static constexpr auto plus_impl(X x, Y y) {
-            constexpr auto sum = value(x) + value(y);
-            return integral_constant<C1<decltype(sum)>, sum>();
-        }
-
-        static constexpr auto zero_impl()
-        { return integral_constant<C1<T>, 0>(); }
-    };
-
-    template <typename I1, typename I2>
-    struct Monoid::instance<I1, I2, when<
-        is_an<IntegralConstant, I1>() &&
-        is_an<IntegralConstant, I2>()
-    >>
-        : Monoid::integral_constant_mcd<I1, I2>
-    { };
-
     template <template <typename ...> class C1, typename T,
               template <typename ...> class C2, typename U>
     struct Orderable::integral_constant_mcd<C1<T>, C2<U>>
@@ -205,28 +135,6 @@ namespace boost { namespace hana {
         is_an<IntegralConstant, I2>()
     >>
         : Orderable::integral_constant_mcd<I1, I2>
-    { };
-
-    //! Any two `IntegralConstant`s form a multiplicative `Ring`.
-    template <template <typename ...> class C1, typename T,
-              template <typename ...> class C2, typename U>
-    struct Ring::integral_constant_mcd<C1<T>, C2<U>> : Ring::mcd {
-        template <typename X, typename Y>
-        static constexpr auto mult_impl(X x, Y y) {
-            constexpr auto prod = value(x) * value(y);
-            return integral_constant<C1<decltype(prod)>, prod>();
-        }
-
-        static constexpr auto one_impl()
-        { return integral_constant<C1<T>, 1>(); }
-    };
-
-    template <typename I1, typename I2>
-    struct Ring::instance<I1, I2, when<
-        is_an<IntegralConstant, I1>() &&
-        is_an<IntegralConstant, I2>()
-    >>
-        : Ring::integral_constant_mcd<I1, I2>
     { };
 }} // end namespace boost::hana
 

@@ -19,11 +19,8 @@ Distributed under the Boost Software License, Version 1.0.
 // instances
 #include <test/auto/comparable.hpp>
 #include <test/auto/foldable.hpp>
-#include <test/auto/group.hpp>
-#include <test/auto/integral_domain.hpp>
 #include <test/auto/logical.hpp>
 #include <test/auto/orderable.hpp>
-#include <test/auto/ring.hpp>
 using namespace boost::hana;
 
 
@@ -32,10 +29,6 @@ namespace boost { namespace hana { namespace test {
     auto instances<builtin<i>> = tuple(
         type<Comparable>,
         type<Orderable>,
-        type<Ring>,
-        type<Monoid>,
-        type<Group>,
-        type<IntegralDomain>,
         type<Logical>
     );
 
@@ -87,87 +80,6 @@ int main() {
             BOOST_HANA_CONSTEXPR_CHECK(not_(less(integer{0}, integer2{0})));
             BOOST_HANA_CONSTEXPR_CHECK(not_(less(integer{1}, integer2{0})));
             BOOST_HANA_CONSTANT_CHECK(are<Orderable, integer, integer2>);
-        }
-    }
-
-    // Monoid
-    {
-        constexpr int x = 6, y = 4;
-
-        // zero
-        {
-            BOOST_HANA_CONSTEXPR_CHECK(zero<integer>().value == 0);
-        }
-
-        // plus
-        {
-            // same type
-            BOOST_HANA_CONSTEXPR_CHECK(plus(integer{x}, integer{y}).value == x + y);
-
-            // mixed types
-            BOOST_HANA_CONSTEXPR_CHECK(plus(integer{x}, integer2{y}).value == x + y);
-            BOOST_HANA_CONSTEXPR_CHECK(plus(integer2{x}, integer{y}).value == x + y);
-        }
-    }
-
-    // Group
-    {
-        // negate
-        {
-            BOOST_HANA_CONSTEXPR_CHECK(negate(integer{1}).value == -1);
-        }
-
-        // minus
-        {
-            // same type
-            BOOST_HANA_CONSTEXPR_CHECK(minus(integer{1}, integer{3}).value == 1 - 3);
-
-            // mixed types
-            BOOST_HANA_CONSTEXPR_CHECK(minus(integer{1}, integer2{3}).value == 1 - 3);
-            BOOST_HANA_CONSTEXPR_CHECK(minus(integer2{1}, integer{3}).value == 1 - 3);
-        }
-    }
-
-    // Ring
-    {
-        constexpr int x = 6, y = 4;
-
-        // one
-        {
-            BOOST_HANA_CONSTEXPR_CHECK(one<integer>().value == 1);
-        }
-
-        // mult
-        {
-            // same type
-            BOOST_HANA_CONSTEXPR_CHECK(mult(integer{x}, integer{y}).value == x * y);
-
-            // mixed types
-            BOOST_HANA_CONSTEXPR_CHECK(mult(integer{x}, integer2{y}).value == x * y);
-            BOOST_HANA_CONSTEXPR_CHECK(mult(integer2{x}, integer{y}).value == x * y);
-        }
-    }
-
-    // IntegralDomain
-    {
-        // quot
-        {
-            // same type
-            BOOST_HANA_CONSTEXPR_CHECK(quot(integer{6}, integer{3}).value == 6 / 3);
-
-            // mixed types
-            BOOST_HANA_CONSTEXPR_CHECK(quot(integer{6}, integer2{3}).value == 6 / 3);
-            BOOST_HANA_CONSTEXPR_CHECK(quot(integer2{6}, integer{3}).value == 6 / 3);
-        }
-
-        // mod
-        {
-            // same type
-            BOOST_HANA_CONSTEXPR_CHECK(mod(integer{6}, integer{4}).value == 6 % 4);
-
-            // mixed types
-            BOOST_HANA_CONSTEXPR_CHECK(mod(integer{6}, integer2{4}).value == 6 % 4);
-            BOOST_HANA_CONSTEXPR_CHECK(mod(integer2{6}, integer{4}).value == 6 % 4);
         }
     }
 

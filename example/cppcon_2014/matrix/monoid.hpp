@@ -9,6 +9,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include "matrix.hpp"
 
+#include <boost/hana/core/models.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/integral.hpp>
 #include <boost/hana/list.hpp>
 #include <boost/hana/monoid.hpp>
@@ -16,21 +18,27 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    template <unsigned Rows, unsigned Columns>
-    struct Monoid::instance<
-        cppcon::Matrix<Rows, Columns>, cppcon::Matrix<Rows, Columns>
-    > : Monoid::mcd {
+    template <unsigned R, unsigned C>
+    struct models<Monoid(cppcon::Matrix<R, C>)>
+        : detail::std::true_type
+    { };
+
+    template <unsigned R, unsigned C>
+    struct plus_impl<cppcon::Matrix<R, C>, cppcon::Matrix<R, C>> {
         template <typename M1, typename M2>
-        static constexpr decltype(auto) plus_impl(M1&& m1, M2&& m2) {
+        static constexpr decltype(auto) apply(M1&& m1, M2&& m2) {
             return element_wise(plus)(
                 std::forward<M1>(m1),
                 std::forward<M2>(m2)
             );
         }
+    };
 
-        static constexpr decltype(auto) zero_impl() {
-            auto zeros = repeat(int_<Columns>, int_<0>);
-            return unpack(repeat(int_<Rows>, zeros), cppcon::matrix);
+    template <unsigned R, unsigned C>
+    struct zero_impl<cppcon::Matrix<R, C>> {
+        static constexpr decltype(auto) apply() {
+            auto zeros = repeat(int_<C>, int_<0>);
+            return unpack(repeat(int_<R>, zeros), cppcon::matrix);
         }
     };
 }}

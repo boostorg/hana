@@ -12,76 +12,140 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/monoid.hpp>
 
+#include <boost/hana/constant.hpp>
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/std/declval.hpp>
+#include <boost/hana/core/wrong.hpp>
+#include <boost/hana/detail/has_common_embedding.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
+#include <boost/hana/detail/std/is_arithmetic.hpp>
+#include <boost/hana/detail/std/is_same.hpp>
 
 
 namespace boost { namespace hana {
-    //! Minimal complete definition : `zero` and `plus`
-    struct Monoid::mcd { };
-
+    //////////////////////////////////////////////////////////////////////////
+    // Operators
+    //////////////////////////////////////////////////////////////////////////
     namespace operators {
-        //! Equivalent to `plus`.
-        //! @relates boost::hana::Monoid
         template <typename X, typename Y, typename = typename detail::std::enable_if<
             enable_operators<Monoid, datatype_t<X>>::value ||
             enable_operators<Monoid, datatype_t<Y>>::value
         >::type>
         constexpr decltype(auto) operator+(X&& x, Y&& y) {
-            return plus(
-                detail::std::forward<decltype(x)>(x),
-                detail::std::forward<decltype(y)>(y)
-            );
+            return hana::plus(detail::std::forward<X>(x),
+                              detail::std::forward<Y>(y));
         }
     }
 
+    //////////////////////////////////////////////////////////////////////////
+    // plus
+    //////////////////////////////////////////////////////////////////////////
+    template <typename T, typename U, typename>
+    struct plus_impl : plus_impl<T, U, when<true>> { };
+
+    template <typename T, typename U, bool condition>
+    struct plus_impl<T, U, when<condition>> {
+        static_assert(wrong<plus_impl<T, U>>{},
+        "no definition of boost::hana::plus for the given data types");
+    };
+
+    // Cross-type overload
     template <typename T, typename U>
-    struct Monoid::default_instance
-        : Monoid::instance<common_t<T, U>, common_t<T, U>>
-    {
+    struct plus_impl<T, U, when<detail::has_common_embedding<Monoid, T, U>{}>> {
+        using C = typename common<T, U>::type;
         template <typename X, typename Y>
-        static constexpr decltype(auto) plus_impl(X&& x, Y&& y) {
-            using C = common_t<T, U>;
-            return plus(
-                to<C>(detail::std::forward<X>(x)),
-                to<C>(detail::std::forward<Y>(y))
-            );
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
+            return hana::plus(to<C>(detail::std::forward<X>(x)),
+                              to<C>(detail::std::forward<Y>(y)));
         }
     };
 
-    //! Instance of `Monoid` for foreign objects with numeric types.
-    //!
-    //! Any two foreign objects that can be added with the usual `operator+`
-    //! and for which a valid conversion from `int` exists (for both)
-    //! naturally form an additive `Monoid`, with `0` being the identity
-    //! and the usual `operator+` being the associative operation.
-    template <typename T, typename U>
-    struct Monoid::instance<T, U, when_valid<
-        decltype(static_cast<T>(0)),
-        decltype(static_cast<U>(0)),
-        decltype(detail::std::declval<T>() + detail::std::declval<U>())
-    >> : Monoid::mcd {
-        template <typename X, typename Y>
-        static constexpr decltype(auto) plus_impl(X&& x, Y&& y) {
-            return detail::std::forward<X>(x) + detail::std::forward<Y>(y);
-        }
+    //////////////////////////////////////////////////////////////////////////
+    // zero
+    //////////////////////////////////////////////////////////////////////////
+    template <typename M, typename>
+    struct zero_impl : zero_impl<M, when<true>> { };
 
-        // Will never be used with two different `T` and `U` anyway.
-        static constexpr decltype(auto) zero_impl()
-        { return static_cast<T>(0); }
+    template <typename M, bool condition>
+    struct zero_impl<M, when<condition>> {
+        static_assert(wrong<zero_impl<M>>{},
+        "no definition of boost::hana::zero for the given data type");
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Model for non-boolean arithmetic data types
+    //////////////////////////////////////////////////////////////////////////
+    template <typename T>
+    struct models<Monoid(T), when<
+        detail::std::is_arithmetic<T>{} && !detail::std::is_same<T, bool>{}
+    >>
+        : detail::std::true_type
+    { };
+
+    template <typename T>
+    struct plus_impl<T, T, when<
+        detail::std::is_arithmetic<T>{} && !detail::std::is_same<T, bool>{}
+    >> {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X&& x, Y&& y)
+        { return detail::std::forward<X>(x) + detail::std::forward<Y>(y); }
     };
 
     template <typename T>
-    struct Monoid::instance<T, T, when<models<Monoid(T)>{}>>
-        : Monoid::mcd
+    struct zero_impl<T, when<
+        detail::std::is_arithmetic<T>{} && !detail::std::is_same<T, bool>{}
+    >> {
+        static constexpr T apply()
+        { return static_cast<T>(0); }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Model for Constants over a Monoid
+    //////////////////////////////////////////////////////////////////////////
+    template <typename C>
+    struct models<Monoid(C), when<
+        models<Constant(C)>{} && models<Monoid(typename C::value_type)>{}
+    >>
+        : detail::std::true_type
     { };
+
+    template <typename C>
+    struct plus_impl<C, C, when<
+        models<Constant(C)>{} && models<Monoid(typename C::value_type)>{}
+    >> {
+        using T = typename C::value_type;
+        template <typename X, typename Y>
+        struct _constant {
+            static constexpr decltype(auto) get() {
+                return boost::hana::plus(boost::hana::value(X{}),
+                                         boost::hana::value(Y{}));
+            }
+            struct hana { using datatype = detail::CanonicalConstant<T>; };
+        };
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X const&, Y const&)
+        { return to<C>(_constant<X, Y>{}); }
+    };
+
+    template <typename C>
+    struct zero_impl<C, when<
+        models<Constant(C)>{} && models<Monoid(typename C::value_type)>{}
+    >> {
+        using T = typename C::value_type;
+        struct _constant {
+            static constexpr decltype(auto) get()
+            { return boost::hana::zero<T>(); }
+            struct hana { using datatype = detail::CanonicalConstant<T>; };
+        };
+        static constexpr decltype(auto) apply()
+        { return to<C>(_constant{}); }
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_MONOID_HPP

@@ -13,10 +13,12 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/ext/std/ratio.hpp>
 
 #include <boost/hana/bool.hpp>
+#include <boost/hana/constant.hpp>
 #include <boost/hana/core/convert.hpp>
-#include <boost/hana/core/is_a.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/integral_constant.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
+#include <boost/hana/detail/std/is_integral.hpp>
 
 // instances
 #include <boost/hana/comparable.hpp>
@@ -40,49 +42,15 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename I>
-    struct to_impl<ext::std::Ratio, I, when<is_an<IntegralConstant, I>()>> {
+    template <typename C>
+    struct to_impl<ext::std::Ratio, C, when<
+        models<Constant(C)>{} &&
+        detail::std::is_integral<typename C::value_type>{}
+    >> {
         template <typename N>
         static constexpr auto apply(N n) {
             constexpr auto v = value(n);
             return ::std::ratio<v>{};
-        }
-    };
-
-    template <>
-    struct Group::instance<ext::std::Ratio, ext::std::Ratio>
-        : Group::minus_mcd<ext::std::Ratio, ext::std::Ratio>
-    {
-        template <typename R1, typename R2>
-        static constexpr decltype(auto) minus_impl(R1, R2) {
-            return ::std::ratio_subtract<R1, R2>{};
-        }
-    };
-
-    template <>
-    struct IntegralDomain::instance<ext::std::Ratio, ext::std::Ratio>
-        : IntegralDomain::mcd
-    {
-        template <typename R1, typename R2>
-        static constexpr decltype(auto) quot_impl(R1, R2) {
-            return ::std::ratio_divide<R1, R2>{};
-        }
-
-        template <typename R1, typename R2>
-        static constexpr decltype(auto) mod_impl(R1, R2) {
-            return ::std::ratio<0>{};
-        }
-    };
-
-    template <>
-    struct Monoid::instance<ext::std::Ratio, ext::std::Ratio> : Monoid::mcd {
-        template <typename R1, typename R2>
-        static constexpr decltype(auto) plus_impl(R1, R2) {
-            return ::std::ratio_add<R1, R2>{};
-        }
-
-        static constexpr decltype(auto) zero_impl() {
-            return ::std::ratio<0>{};
         }
     };
 
@@ -96,16 +64,83 @@ namespace boost { namespace hana {
         }
     };
 
+    //////////////////////////////////////////////////////////////////////////
+    // Monoid
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Ring::instance<ext::std::Ratio, ext::std::Ratio> : Ring::mcd {
-        template <typename R1, typename R2>
-        static constexpr decltype(auto) mult_impl(R1, R2) {
-            return ::std::ratio_multiply<R1, R2>{};
-        }
+    struct models<Monoid(ext::std::Ratio)>
+        : detail::std::true_type
+    { };
 
-        static constexpr decltype(auto) one_impl() {
-            return ::std::ratio<1>{};
-        }
+    template <>
+    struct plus_impl<ext::std::Ratio, ext::std::Ratio> {
+        template <typename R1, typename R2>
+        static constexpr ::std::ratio_add<R1, R2> apply(R1, R2)
+        { return {}; }
+    };
+
+    template <>
+    struct zero_impl<ext::std::Ratio> {
+        static constexpr ::std::ratio<0> apply()
+        { return {}; }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Group
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Group(ext::std::Ratio)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct minus_impl<ext::std::Ratio, ext::std::Ratio> {
+        template <typename R1, typename R2>
+        static constexpr ::std::ratio_subtract<R1, R2> apply(R1, R2)
+        { return {}; }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Ring
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Ring(ext::std::Ratio)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct mult_impl<ext::std::Ratio, ext::std::Ratio> {
+        template <typename R1, typename R2>
+        static constexpr ::std::ratio_multiply<R1, R2> apply(R1, R2)
+        { return {}; }
+    };
+
+    template <>
+    struct one_impl<ext::std::Ratio> {
+        static constexpr ::std::ratio<1> apply()
+        { return {}; }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // IntegralDomain
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<IntegralDomain(ext::std::Ratio)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct quot_impl<ext::std::Ratio, ext::std::Ratio> {
+        template <typename R1, typename R2>
+        static constexpr ::std::ratio_divide<R1, R2> apply(R1, R2)
+        { return {}; }
+    };
+
+    template <>
+    struct mod_impl<ext::std::Ratio, ext::std::Ratio> {
+        template <typename R1, typename R2>
+        static constexpr ::std::ratio<0> apply(R1, R2)
+        { return {}; }
     };
 }} // end namespace boost::hana
 

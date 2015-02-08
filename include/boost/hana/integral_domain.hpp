@@ -12,92 +12,158 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/integral_domain.hpp>
 
+#include <boost/hana/constant.hpp>
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/std/declval.hpp>
+#include <boost/hana/core/wrong.hpp>
+#include <boost/hana/detail/has_common_embedding.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/ring.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
+#include <boost/hana/detail/std/is_integral.hpp>
 
 
 namespace boost { namespace hana {
-    //! Minimal complete definition : `quot` and `mod`
-    struct IntegralDomain::mcd { };
-
+    //////////////////////////////////////////////////////////////////////////
+    // Operators
+    //////////////////////////////////////////////////////////////////////////
     namespace operators {
-        //! Equivalent to `mod`.
-        //! @relates boost::hana::IntegralDomain
         template <typename X, typename Y, typename = typename detail::std::enable_if<
             enable_operators<IntegralDomain, datatype_t<X>>::value ||
             enable_operators<IntegralDomain, datatype_t<Y>>::value
         >::type>
-        constexpr decltype(auto) operator%(X&& x, Y&& y)
-        { return mod(detail::std::forward<X>(x), detail::std::forward<Y>(y)); }
-
-        //! Equivalent to `quot`.
-        //! @relates boost::hana::IntegralDomain
-        template <typename X, typename Y, typename = typename detail::std::enable_if<
-            enable_operators<IntegralDomain, datatype_t<X>>::value ||
-            enable_operators<IntegralDomain, datatype_t<Y>>::value
-        >::type>
-        constexpr decltype(auto) operator/(X&& x, Y&& y)
-        { return quot(detail::std::forward<X>(x), detail::std::forward<Y>(y)); }
-    }
-
-    template <typename T, typename U>
-    struct IntegralDomain::default_instance
-        : IntegralDomain::instance<common_t<T, U>, common_t<T, U>>
-    {
-        template <typename X, typename Y>
-        static constexpr decltype(auto) quot_impl(X&& x, Y&& y) {
-            using C = common_t<T, U>;
-            return quot(
-                to<C>(detail::std::forward<X>(x)),
-                to<C>(detail::std::forward<Y>(y))
-            );
+        constexpr decltype(auto) operator%(X&& x, Y&& y) {
+            return hana::mod(detail::std::forward<X>(x),
+                             detail::std::forward<Y>(y));
         }
 
+        template <typename X, typename Y, typename = typename detail::std::enable_if<
+            enable_operators<IntegralDomain, datatype_t<X>>::value ||
+            enable_operators<IntegralDomain, datatype_t<Y>>::value
+        >::type>
+        constexpr decltype(auto) operator/(X&& x, Y&& y) {
+            return hana::quot(detail::std::forward<X>(x),
+                              detail::std::forward<Y>(y));
+        }
+    }
+
+    //////////////////////////////////////////////////////////////////////////
+    // quot
+    //////////////////////////////////////////////////////////////////////////
+    template <typename T, typename U, typename>
+    struct quot_impl : quot_impl<T, U, when<true>> { };
+
+    template <typename T, typename U, bool condition>
+    struct quot_impl<T, U, when<condition>> {
+        static_assert(wrong<quot_impl<T, U>>{},
+        "no definition of boost::hana::quot for the given data types");
+    };
+
+    // Cross-type overload
+    template <typename T, typename U>
+    struct quot_impl<T, U, when<detail::has_common_embedding<IntegralDomain, T, U>{}>> {
+        using C = typename common<T, U>::type;
         template <typename X, typename Y>
-        static constexpr decltype(auto) mod_impl(X&& x, Y&& y) {
-            using C = common_t<T, U>;
-            return mod(
-                to<C>(detail::std::forward<X>(x)),
-                to<C>(detail::std::forward<Y>(y))
-            );
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
+            return hana::quot(to<C>(detail::std::forward<X>(x)),
+                              to<C>(detail::std::forward<Y>(y)));
         }
     };
 
-    //! Instance of `IntegralDomain` for objects of foreign numeric types.
-    //!
-    //! Any two foreign objects that are `Rings`s, that can be divided
-    //! and moded with the usual operators (`/` and `%`) naturally form
-    //! an integral domain with those operations.
-    template <typename T, typename U>
-    struct IntegralDomain::instance<T, U, when_valid<
-        decltype(detail::std::declval<T>() / detail::std::declval<U>()),
-        decltype(detail::std::declval<T>() % detail::std::declval<U>()),
-        char[are<Ring, T, U>()]
-    >> : IntegralDomain::mcd {
-        template <typename X, typename Y>
-        static constexpr decltype(auto) quot_impl(X&& x, Y&& y) {
-            return detail::std::forward<X>(x) / detail::std::forward<Y>(y);
-        }
+    //////////////////////////////////////////////////////////////////////////
+    // mod
+    //////////////////////////////////////////////////////////////////////////
+    template <typename T, typename U, typename>
+    struct mod_impl : mod_impl<T, U, when<true>> { };
 
+    template <typename T, typename U, bool condition>
+    struct mod_impl<T, U, when<condition>> {
+        static_assert(wrong<mod_impl<T, U>>{},
+        "no definition of boost::hana::mod for the given data types");
+    };
+
+    // Cross-type overload
+    template <typename T, typename U>
+    struct mod_impl<T, U, when<detail::has_common_embedding<IntegralDomain, T, U>{}>> {
+        using C = typename common<T, U>::type;
         template <typename X, typename Y>
-        static constexpr decltype(auto) mod_impl(X&& x, Y&& y) {
-            return detail::std::forward<X>(x) % detail::std::forward<Y>(y);
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
+            return hana::mod(to<C>(detail::std::forward<X>(x)),
+                             to<C>(detail::std::forward<Y>(y)));
         }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Model for integral data types
+    //////////////////////////////////////////////////////////////////////////
+    template <typename T>
+    struct models<IntegralDomain(T), when<detail::std::is_non_boolean_integral<T>{}>>
+        : detail::std::true_type
+    { };
+
+    template <typename T>
+    struct quot_impl<T, T, when<detail::std::is_non_boolean_integral<T>{}>> {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X&& x, Y&& y)
+        { return detail::std::forward<X>(x) / detail::std::forward<Y>(y); }
     };
 
     template <typename T>
-    struct IntegralDomain::instance<T, T, when<models<IntegralDomain(T)>{}>>
-        : IntegralDomain::mcd
+    struct mod_impl<T, T, when<detail::std::is_non_boolean_integral<T>{}>> {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X&& x, Y&& y)
+        { return detail::std::forward<X>(x) % detail::std::forward<Y>(y); }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Model for Constants over an IntegralDomain
+    //////////////////////////////////////////////////////////////////////////
+    template <typename C>
+    struct models<IntegralDomain(C), when<
+        models<Constant(C)>{} && models<IntegralDomain(typename C::value_type)>{}
+    >>
+        : detail::std::true_type
     { };
+
+    template <typename C>
+    struct quot_impl<C, C, when<
+        models<Constant(C)>{} && models<IntegralDomain(typename C::value_type)>{}
+    >> {
+        using T = typename C::value_type;
+        template <typename X, typename Y>
+        struct _constant {
+            static constexpr decltype(auto) get() {
+                return boost::hana::quot(boost::hana::value(X{}),
+                                         boost::hana::value(Y{}));
+            }
+            struct hana { using datatype = detail::CanonicalConstant<T>; };
+        };
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X const&, Y const&)
+        { return to<C>(_constant<X, Y>{}); }
+    };
+
+    template <typename C>
+    struct mod_impl<C, C, when<
+        models<Constant(C)>{} && models<IntegralDomain(typename C::value_type)>{}
+    >> {
+        using T = typename C::value_type;
+        template <typename X, typename Y>
+        struct _constant {
+            static constexpr decltype(auto) get() {
+                return boost::hana::mod(boost::hana::value(X{}),
+                                        boost::hana::value(Y{}));
+            }
+            struct hana { using datatype = detail::CanonicalConstant<T>; };
+        };
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X const&, Y const&)
+        { return to<C>(_constant<X, Y>{}); }
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_INTEGRAL_DOMAIN_HPP

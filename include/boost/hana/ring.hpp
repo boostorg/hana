@@ -12,98 +12,163 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/ring.hpp>
 
-#include <boost/hana/comparable.hpp>
+#include <boost/hana/constant.hpp>
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/std/declval.hpp>
+#include <boost/hana/core/wrong.hpp>
+#include <boost/hana/detail/has_common_embedding.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
+#include <boost/hana/detail/std/is_arithmetic.hpp>
+
+// for default power
+#include <boost/hana/comparable.hpp>
 #include <boost/hana/enumerable.hpp>
 #include <boost/hana/functional/always.hpp>
-#include <boost/hana/group.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/monoid.hpp>
 
 
 namespace boost { namespace hana {
-    //! Minimal complete definition : `one` and `mult`
-    struct Ring::mcd {
-        template <typename X, typename P>
-        static constexpr decltype(auto) power_impl(X&& x, P&& p) {
-            using R = datatype_t<X>;
-            using E = datatype_t<P>;
-            return eval_if(equal(p, zero<E>()),
+    //////////////////////////////////////////////////////////////////////////
+    // Operators
+    //////////////////////////////////////////////////////////////////////////
+    namespace operators {
+        template <typename X, typename Y, typename = typename detail::std::enable_if<
+            enable_operators<Ring, datatype_t<X>>::value ||
+            enable_operators<Ring, datatype_t<Y>>::value
+        >::type>
+        constexpr decltype(auto) operator*(X&& x, Y&& y) {
+            return hana::mult(detail::std::forward<X>(x),
+                              detail::std::forward<Y>(y));
+        }
+    }
+
+    //////////////////////////////////////////////////////////////////////////
+    // mult
+    //////////////////////////////////////////////////////////////////////////
+    template <typename T, typename U, typename>
+    struct mult_impl : mult_impl<T, U, when<true>> { };
+
+    template <typename T, typename U, bool condition>
+    struct mult_impl<T, U, when<condition>> {
+        static_assert(wrong<mult_impl<T, U>>{},
+        "no definition of boost::hana::mult for the given data types");
+    };
+
+    // Cross-type overload
+    template <typename T, typename U>
+    struct mult_impl<T, U, when<detail::has_common_embedding<Ring, T, U>{}>> {
+        using C = typename common<T, U>::type;
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
+            return hana::mult(to<C>(detail::std::forward<X>(x)),
+                              to<C>(detail::std::forward<Y>(y)));
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // one
+    //////////////////////////////////////////////////////////////////////////
+    template <typename R, typename>
+    struct one_impl : one_impl<R, when<true>> { };
+
+    template <typename R, bool condition>
+    struct one_impl<R, when<condition>> {
+        static_assert(wrong<one_impl<R>>{},
+        "no definition of boost::hana::one for the given data type");
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // power
+    //////////////////////////////////////////////////////////////////////////
+    template <typename R, typename>
+    struct power_impl : power_impl<R, when<true>> { };
+
+    template <typename R, bool condition>
+    struct power_impl<R, when<condition>> {
+        template <typename X, typename N>
+        static constexpr decltype(auto) apply(X&& x, N&& n) {
+            using Exp = typename datatype<N>::type;
+            return eval_if(equal(n, zero<Exp>()),
                 always(one<R>()),
-                [&p, &x](auto _) -> decltype(auto) {
+                [&n, &x](auto _) -> decltype(auto) {
                     return mult(
-                        x, power_impl(x, _(pred)(detail::std::forward<P>(p)))
+                        x, apply(x, _(pred)(detail::std::forward<N>(n)))
                     );
                 }
             );
         }
     };
 
-    namespace operators {
-        //! Equivalent to `mult`.
-        //! @relates boost::hana::Ring
-        template <typename X, typename Y, typename = typename detail::std::enable_if<
-            enable_operators<Ring, datatype_t<X>>::value ||
-            enable_operators<Ring, datatype_t<Y>>::value
-        >::type>
-        constexpr decltype(auto) operator*(X&& x, Y&& y) {
-            return mult(
-                detail::std::forward<decltype(x)>(x),
-                detail::std::forward<decltype(y)>(y)
-            );
-        }
-    }
+    //////////////////////////////////////////////////////////////////////////
+    // Model for non-boolean arithmetic data types
+    //////////////////////////////////////////////////////////////////////////
+    template <typename T>
+    struct models<Ring(T), when<detail::std::is_non_boolean_arithmetic<T>{}>>
+        : detail::std::true_type
+    { };
 
-    template <typename T, typename U>
-    struct Ring::default_instance
-        : Ring::instance<common_t<T, U>, common_t<T, U>>
-    {
+    template <typename T>
+    struct mult_impl<T, T, when<detail::std::is_non_boolean_arithmetic<T>{}>> {
         template <typename X, typename Y>
-        static constexpr decltype(auto) mult_impl(X&& x, Y&& y) {
-            using C = common_t<T, U>;
-            return mult(
-                to<C>(detail::std::forward<X>(x)),
-                to<C>(detail::std::forward<Y>(y))
-            );
-        }
-    };
-
-    //! Instance of `Ring` for foreign objects with numeric types.
-    //!
-    //! Any two foreign objects that are `Group`s, that can be multiplied
-    //! with the usual `operator*` and for which a valid conversion from `int`
-    //! exists (for both) naturally form a multiplicative `Ring`, with `1`
-    //! being the identity and the usual `operator*` being the ring operation.
-    template <typename T, typename U>
-    struct Ring::instance<T, U, when_valid<
-        decltype(static_cast<T>(1)),
-        decltype(static_cast<U>(1)),
-        decltype(detail::std::declval<T>() * detail::std::declval<U>()),
-        char[are<Group, T, U>()]
-    >> : Ring::mcd {
-        template <typename X, typename Y>
-        static constexpr decltype(auto) mult_impl(X&& x, Y&& y) {
-            return detail::std::forward<X>(x) * detail::std::forward<Y>(y);
-        }
-
-        // Will never be used with two different `T` and `U` anyway.
-        static constexpr auto one_impl()
-        { return static_cast<T>(1); }
+        static constexpr decltype(auto) apply(X&& x, Y&& y)
+        { return detail::std::forward<X>(x) * detail::std::forward<Y>(y); }
     };
 
     template <typename T>
-    struct Ring::instance<T, T, when<models<Ring(T)>{}>>
-        : Ring::mcd
+    struct one_impl<T, when<detail::std::is_non_boolean_arithmetic<T>{}>> {
+        static constexpr T apply()
+        { return static_cast<T>(1); }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Model for Constants over a Ring
+    //////////////////////////////////////////////////////////////////////////
+    template <typename C>
+    struct models<Ring(C), when<
+        models<Constant(C)>{} && models<Ring(typename C::value_type)>{}
+    >>
+        : detail::std::true_type
     { };
+
+    template <typename C>
+    struct mult_impl<C, C, when<
+        models<Constant(C)>{} && models<Ring(typename C::value_type)>{}
+    >> {
+        using T = typename C::value_type;
+        template <typename X, typename Y>
+        struct _constant {
+            static constexpr decltype(auto) get() {
+                return boost::hana::mult(boost::hana::value(X{}),
+                                         boost::hana::value(Y{}));
+            }
+            struct hana { using datatype = detail::CanonicalConstant<T>; };
+        };
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X const&, Y const&)
+        { return to<C>(_constant<X, Y>{}); }
+    };
+
+    template <typename C>
+    struct one_impl<C, when<
+        models<Constant(C)>{} && models<Ring(typename C::value_type)>{}
+    >> {
+        using T = typename C::value_type;
+        struct _constant {
+            static constexpr decltype(auto) get()
+            { return boost::hana::one<T>(); }
+            struct hana { using datatype = detail::CanonicalConstant<T>; };
+        };
+        static constexpr decltype(auto) apply()
+        { return to<C>(_constant{}); }
+    };
+
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_RING_HPP
