@@ -12,64 +12,101 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/product.hpp>
 
-#include <boost/hana/core/is_a.hpp>
-#include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/logical.hpp>
-
-// provided instances
 #include <boost/hana/comparable.hpp>
+#include <boost/hana/core/models.hpp>
+#include <boost/hana/core/when.hpp>
+#include <boost/hana/core/wrong.hpp>
+#include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/foldable.hpp>
+#include <boost/hana/logical.hpp>
+#include <boost/hana/orderable.hpp>
 
 
 namespace boost { namespace hana {
-    //! Minimal complete definition: `first`, `second` and `make`.
-    struct Product::mcd { };
+    //////////////////////////////////////////////////////////////////////////
+    // first
+    //////////////////////////////////////////////////////////////////////////
+    template <typename P, typename>
+    struct first_impl : first_impl<P, when<true>> { };
 
-    //! Mininal complete definition: `Product`
-    struct Comparable::product_mcd : Comparable::equal_mcd {
-        template <typename X, typename Y>
-        static constexpr decltype(auto) equal_impl(X const& x, Y const& y) {
-            return and_(
-                equal(first(x), first(y)),
-                equal(second(x), second(y))
-            );
-        }
+    template <typename P, bool condition>
+    struct first_impl<P, when<condition>> {
+        static_assert(wrong<first_impl<P>>{},
+        "no definition of boost::hana::first for the given data type");
     };
 
-    //! Instance of `Comparable` for `Product`s.
-    //!
-    //! Two products `x` and `y` are equal iff they are equal element-wise,
-    //! i.e. iff
-    //! @code
-    //!     first(x) == first(y) && second(x) == second(y)
-    //! @endcode
-    //!
-    //! ### Example
-    //! @snippet example/product.cpp comparable
-    template <typename T, typename U>
-    struct Comparable::instance<T, U, when<
-        is_a<Product, T>() && is_a<Product, U>()
-    >> : Comparable::product_mcd { };
+    //////////////////////////////////////////////////////////////////////////
+    // second
+    //////////////////////////////////////////////////////////////////////////
+    template <typename P, typename>
+    struct second_impl : second_impl<P, when<true>> { };
 
-    struct Foldable::product_mcd : Foldable::unpack_mcd {
-        template <typename P, typename F>
-        static constexpr decltype(auto) unpack_impl(P&& p, F&& f) {
-            return detail::std::forward<F>(f)(
-                first(detail::std::forward<P>(p)),
-                second(detail::std::forward<P>(p))
-            );
-        }
+    template <typename P, bool condition>
+    struct second_impl<P, when<condition>> {
+        static_assert(wrong<second_impl<P>>{},
+        "no definition of boost::hana::second for the given data type");
     };
 
-    //! Minimal complete definition of `Foldable` for `Product`s.
-    //!
-    //! Folding a `Product` `p` is equivalent to folding a list containing
-    //! `first(p)` and `second(p)`, in that order.
+    //////////////////////////////////////////////////////////////////////////
+    // Comparable
+    //////////////////////////////////////////////////////////////////////////
     template <typename P>
-    struct Foldable::instance<P, when<is_a<Product, P>()>>
-        : Foldable::product_mcd
+    struct models<Comparable(P), when<models<Product(P)>{}>>
+        : detail::std::true_type
     { };
+
+    template <typename T, typename U>
+    struct equal_impl<T, U, when<models<Product(T)>{} && models<Product(U)>{}>> {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X const& x, Y const& y) {
+            return hana::and_(
+                hana::equal(hana::first(x), hana::first(y)),
+                hana::equal(hana::second(x), hana::second(y))
+            );
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Orderable
+    //////////////////////////////////////////////////////////////////////////
+    template <typename P>
+    struct models<Orderable(P), when<models<Product(P)>{}>>
+        : detail::std::true_type
+    { };
+
+    template <typename T, typename U>
+    struct less_impl<T, U, when<models<Product(T)>{} && models<Product(U)>{}>> {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X const& x, Y const& y) {
+            return hana::or_(
+                hana::less(hana::first(x), hana::first(y)),
+                hana::and_(
+                    hana::less_equal(hana::first(x), hana::first(y)),
+                    hana::less(hana::second(x), hana::second(y))
+                )
+            );
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Foldable
+    //////////////////////////////////////////////////////////////////////////
+    template <typename P>
+    struct models<Foldable(P), when<models<Product(P)>{}>>
+        : detail::std::true_type
+    { };
+
+    template <typename T>
+    struct unpack_impl<T, when<models<Product(T)>{}>> {
+        template <typename P, typename F>
+        static constexpr decltype(auto) apply(P&& p, F&& f) {
+            return detail::std::forward<F>(f)(
+                hana::first(detail::std::forward<P>(p)),
+                hana::second(detail::std::forward<P>(p))
+            );
+        }
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_PRODUCT_HPP

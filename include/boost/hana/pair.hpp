@@ -12,29 +12,52 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/pair.hpp>
 
+#include <boost/hana/comparable.hpp>
+#include <boost/hana/core/make.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/std/forward.hpp>
-
-// instances
+#include <boost/hana/detail/std/integral_constant.hpp>
+#include <boost/hana/orderable.hpp>
 #include <boost/hana/product.hpp>
 
 
 namespace boost { namespace hana {
-    //! Instance of `Product` for `Pair`s.
-    //!
-    //! ### Example
-    //! @snippet example/pair.cpp product
+    //////////////////////////////////////////////////////////////////////////
+    // Operators
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Product::instance<Pair> : Product::mcd {
+    struct enabled_operators<Pair>
+        : Comparable, Orderable
+    { };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Product
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Product(Pair)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct make_impl<Pair> {
         template <typename F, typename S>
-        static constexpr decltype(auto) make_impl(F&& f, S&& s)
-        { return pair(detail::std::forward<F>(f), detail::std::forward<S>(s)); }
+        static constexpr decltype(auto) apply(F&& f, S&& s) {
+            return hana::pair(detail::std::forward<F>(f),
+                              detail::std::forward<S>(s));
+        }
+    };
 
+    template <>
+    struct first_impl<Pair> {
         template <typename P>
-        static constexpr decltype(auto) first_impl(P&& p)
+        static constexpr decltype(auto) apply(P&& p)
         { return detail::std::forward<P>(p).first; }
+    };
 
+    template <>
+    struct second_impl<Pair> {
         template <typename P>
-        static constexpr decltype(auto) second_impl(P&& p)
+        static constexpr decltype(auto) apply(P&& p)
         { return detail::std::forward<P>(p).second; }
     };
 }} // end namespace boost::hana

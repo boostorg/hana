@@ -10,10 +10,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
 
-// instances
 #include <test/auto/product.hpp>
-
+#include <test/cnumeric.hpp>
 #include <test/injection.hpp>
+
 #include <utility>
 using namespace boost::hana;
 
@@ -26,10 +26,10 @@ namespace boost { namespace hana { namespace test {
 
     template <>
     auto objects<ext::std::Pair> = tuple(
-        ::std::make_pair(x<0>, x<0>),
-        ::std::make_pair(x<0>, x<1>),
-        ::std::make_pair(x<1>, x<0>),
-        ::std::make_pair(x<1>, x<1>)
+          ::std::make_pair(cnumeric<int, 0>, cnumeric<int, 0>)
+        , ::std::make_pair(cnumeric<int, 0>, cnumeric<int, 1>)
+        , ::std::make_pair(cnumeric<int, 1>, cnumeric<int, 0>)
+        , ::std::make_pair(cnumeric<int, 1>, cnumeric<int, 1>)
     );
 }}}
 

@@ -7,7 +7,10 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TEST_TEST_MINIMAL_PRODUCT_HPP
 #define BOOST_HANA_TEST_TEST_MINIMAL_PRODUCT_HPP
 
+#include <boost/hana/core/make.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/create.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/product.hpp>
 
 
@@ -26,19 +29,28 @@ namespace boost { namespace hana {
     }
 
     template <>
-    struct Product::instance<test::MinimalProduct>
-        : Product::mcd
-    {
+    struct models<Product(test::MinimalProduct)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct make_impl<test::MinimalProduct> {
         template <typename X, typename Y>
-        static constexpr auto make_impl(X x, Y y)
+        static constexpr auto apply(X x, Y y)
         { return test::minimal_product(x, y); }
+    };
 
+    template <>
+    struct first_impl<test::MinimalProduct> {
         template <typename P>
-        static constexpr auto first_impl(P p)
+        static constexpr auto apply(P p)
         { return p.fst; }
+    };
 
+    template <>
+    struct second_impl<test::MinimalProduct> {
         template <typename P>
-        static constexpr auto second_impl(P p)
+        static constexpr auto apply(P p)
         { return p.snd; }
     };
 }} // end namespace boost::hana

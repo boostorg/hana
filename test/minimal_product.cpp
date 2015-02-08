@@ -11,10 +11,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/type.hpp>
 
 #include <test/auto/base.hpp>
-#include <test/injection.hpp>
-
-// instances
 #include <test/auto/product.hpp>
+#include <test/cnumeric.hpp>
+#include <test/injection.hpp>
 using namespace boost::hana;
 
 
@@ -26,10 +25,10 @@ namespace boost { namespace hana { namespace test {
 
     template <>
     auto objects<MinimalProduct> = tuple(
-        minimal_product(x<0>, x<0>),
-        minimal_product(x<0>, x<1>),
-        minimal_product(x<1>, x<0>),
-        minimal_product(x<1>, x<1>)
+          minimal_product(cnumeric<int, 0>, cnumeric<int, 0>)
+        , minimal_product(cnumeric<int, 0>, cnumeric<int, 1>)
+        , minimal_product(cnumeric<int, 1>, cnumeric<int, 0>)
+        , minimal_product(cnumeric<int, 1>, cnumeric<int, 1>)
     );
 }}}
 
