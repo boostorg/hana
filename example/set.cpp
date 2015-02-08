@@ -15,36 +15,40 @@ using namespace boost::hana;
 
 
 int main() {
-    {
-        //! [comparable]
-        BOOST_HANA_CONSTANT_CHECK(
-            set(int_<0>, type<char>, int_<1>) == set(int_<1>, int_<0>, type<char>)
-        );
 
-        BOOST_HANA_CONSTEXPR_CHECK(set(1, '2', 3.3) == set('2', 1, 3.3));
-        BOOST_HANA_CONSTANT_CHECK(set(1, '2', 3.3) != set('2', 1));
-        //! [comparable]
-    }
+{
 
-    {
-        //! [searchable]
-        BOOST_HANA_CONSTEXPR_LAMBDA auto xs = set(int_<0>, int_<1>, int_<2>);
-        BOOST_HANA_CONSTANT_CHECK(lookup(xs, int_<0>) == just(int_<0>));
-        BOOST_HANA_CONSTANT_CHECK(lookup(xs, int_<3>) == nothing);
-        //! [searchable]
-    }
+//! [comparable]
+BOOST_HANA_CONSTANT_CHECK(
+    set(int_<0>, type<char>, int_<1>) == set(int_<1>, int_<0>, type<char>)
+);
 
-    {
-        //! [insert]
-        BOOST_HANA_CONSTEXPR_LAMBDA auto xs = set(int_<0>, type<int>);
-        BOOST_HANA_CONSTANT_CHECK(
-            insert(xs, BOOST_HANA_STRING("abc")) ==
-            set(int_<0>, type<int>, BOOST_HANA_STRING("abc"))
-        );
+BOOST_HANA_CONSTEXPR_CHECK(set(1, '2', 3.3) == set('2', 1, 3.3));
+BOOST_HANA_CONSTANT_CHECK(set(1, '2', 3.3) != set('2', 1));
+//! [comparable]
 
-        BOOST_HANA_CONSTANT_CHECK(
-            insert(xs, int_<0>) == set(int_<0>, type<int>)
-        );
-        //! [insert]
-    }
+}{
+
+//! [searchable]
+BOOST_HANA_CONSTEXPR_LAMBDA auto xs = set(int_<0>, int_<1>, int_<2>);
+BOOST_HANA_CONSTANT_CHECK(lookup(xs, int_<0>) == just(int_<0>));
+BOOST_HANA_CONSTANT_CHECK(lookup(xs, int_<3>) == nothing);
+//! [searchable]
+
+}{
+
+//! [insert]
+BOOST_HANA_CONSTEXPR_LAMBDA auto xs = set(int_<0>, type<int>);
+BOOST_HANA_CONSTANT_CHECK(
+    insert(xs, BOOST_HANA_STRING("abc")) ==
+    set(int_<0>, type<int>, BOOST_HANA_STRING("abc"))
+);
+
+BOOST_HANA_CONSTANT_CHECK(
+    insert(xs, int_<0>) == set(int_<0>, type<int>)
+);
+//! [insert]
+
+}
+
 }
