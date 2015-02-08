@@ -302,18 +302,6 @@ namespace boost { namespace hana {
     constexpr _intersperse intersperse{};
 #endif
 
-    namespace list_detail {
-        template <typename L>
-        struct make {
-            template <typename ...Xs>
-            constexpr decltype(auto) operator()(Xs&& ...xs) const {
-                return List::instance<L>::make_impl(
-                    detail::std::forward<Xs>(xs)...
-                );
-            }
-        };
-    }
-
     //! Create a `List` with the given elements in it.
     //! @relates List
     //!
@@ -334,12 +322,19 @@ namespace boost { namespace hana {
     //! @image html benchmark/list/make.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename L>
-    constexpr auto make<L, when<is_a<List, L>()>> = [](auto&& ...xs) -> decltype(auto) {
-        return tag-dispatched;
+    struct make_impl<L, when<is_a<List, L>()>> {
+        tag-dispatched
     };
 #else
     template <typename L>
-    constexpr list_detail::make<L> make<L, when<is_a<List, L>()>>{};
+    struct make_impl<L, when<is_a<List, L>()>> {
+        template <typename ...Xs>
+        static constexpr decltype(auto) apply(Xs&& ...xs) {
+            return List::instance<L>::make_impl(
+                detail::std::forward<Xs>(xs)...
+            );
+        }
+    };
 #endif
 
     //! `nil<L>()` is an empty list of data type `L`.

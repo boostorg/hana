@@ -33,38 +33,44 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/core/make.cpp main
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    template <typename Datatype, typename = optional when-based enabler>
+    template <typename Datatype>
     constexpr auto make = [](auto&& ...x) -> decltype(auto) {
         return make_impl<Datatype>::apply(
             std::forward<decltype(x)>(x)...
         );
     };
 #else
-    namespace core_detail {
-        template <typename Datatype>
-        struct default_make {
-            template <typename ...X>
-            static constexpr auto apply_impl(int, X&& ...x)
-                -> decltype(Datatype(detail::std::forward<X>(x)...))
-            { return Datatype(detail::std::forward<X>(x)...); }
-
-            template <typename ...X>
-            static constexpr auto apply_impl(long, X&& ...) {
-                static_assert((sizeof...(X), false),
-                "there exists no constructor for the given data type");
-            }
-
-            template <typename ...X>
-            constexpr decltype(auto) operator()(X&& ...x) const
-            { return apply_impl(int{}, detail::std::forward<X>(x)...); }
-        };
-    }
-
     template <typename Datatype, typename = void>
-    constexpr auto make = make<Datatype, when<true>>;
+    struct make_impl : make_impl<Datatype, when<true>> { };
 
     template <typename Datatype, bool condition>
-    constexpr core_detail::default_make<Datatype> make<Datatype, when<condition>>{};
+    struct make_impl<Datatype, when<condition>> {
+        template <typename ...X>
+        static constexpr auto make_helper(int, X&& ...x)
+            -> decltype(Datatype(detail::std::forward<X>(x)...))
+        { return Datatype(detail::std::forward<X>(x)...); }
+
+        template <typename ...X>
+        static constexpr auto make_helper(long, X&& ...) {
+            static_assert((sizeof...(X), false),
+            "there exists no constructor for the given data type");
+        }
+
+        template <typename ...X>
+        static constexpr decltype(auto) apply(X&& ...x)
+        { return make_helper(int{}, detail::std::forward<X>(x)...); }
+    };
+
+    template <typename Datatype>
+    struct _make {
+        template <typename ...X>
+        constexpr decltype(auto) operator()(X&& ...x) const {
+            return make_impl<Datatype>::apply(detail::std::forward<X>(x)...);
+        }
+    };
+
+    template <typename Datatype>
+    constexpr _make<Datatype> make{};
 #endif
 }} // end namespace boost::hana
 

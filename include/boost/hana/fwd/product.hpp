@@ -66,25 +66,20 @@ namespace boost { namespace hana {
     //! @snippet example/product.cpp make
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename P>
-    constexpr auto make<P, when<is_a<Product, P>()>> = [](auto&& fst, auto&& snd) -> decltype(auto) {
-        return tag-dispatched;
+    struct make_impl<P, when<is_a<Product, P>()>> {
+        tag-dispatched
     };
 #else
-    namespace product_detail {
-        template <typename P>
-        struct make_product {
-            template <typename Fst, typename Snd>
-            constexpr decltype(auto) operator()(Fst&& fst, Snd&& snd) const {
-                return Product::instance<P>::make_impl(
-                    detail::std::forward<Fst>(fst),
-                    detail::std::forward<Snd>(snd)
-                );
-            }
-        };
-    }
-
     template <typename P>
-    constexpr product_detail::make_product<P> make<P, when<is_a<Product, P>()>>{};
+    struct make_impl<P, when<is_a<Product, P>()>> {
+        template <typename Fst, typename Snd>
+        static constexpr decltype(auto) apply(Fst&& fst, Snd&& snd) {
+            return Product::instance<P>::make_impl(
+                detail::std::forward<Fst>(fst),
+                detail::std::forward<Snd>(snd)
+            );
+        }
+    };
 #endif
 
     //! Return the first element of a product.
