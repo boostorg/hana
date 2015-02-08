@@ -401,7 +401,7 @@ namespace boost { namespace hana {
 
     //! Converts a `Foldable` to a `List`.
     template <typename L, typename T>
-    struct convert<L, T, when<is_a<List, L>() && is_a<Foldable, T>()>> {
+    struct to_impl<L, T, when<is_a<List, L>() && is_a<Foldable, T>()>> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs)
         { return foldr(detail::std::forward<Xs>(xs), nil<L>(), cons); }

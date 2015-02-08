@@ -41,7 +41,7 @@ namespace boost { namespace hana {
     };
 
     template <typename T, typename C>
-    struct convert<ext::std::IntegralConstant<T>, C,
+    struct to_impl<ext::std::IntegralConstant<T>, C,
         when<is_an<IntegralConstant, C>()>
     > {
         template <typename X>

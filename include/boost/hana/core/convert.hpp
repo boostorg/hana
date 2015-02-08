@@ -1,6 +1,6 @@
 /*!
 @file
-Defines `boost::hana::convert` and `boost::hana::to`.
+Defines `boost::hana::to` and related utilities.
 
 @copyright Louis Dionne 2014
 Distributed under the Boost Software License, Version 1.0.
@@ -10,124 +10,104 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_CORE_CONVERT_HPP
 #define BOOST_HANA_CORE_CONVERT_HPP
 
+#include <boost/hana/fwd/core/convert.hpp>
+
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/core/wrong.hpp>
+#include <boost/hana/detail/std/declval.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 
 
 namespace boost { namespace hana {
-    namespace core_detail {
-        template <typename To, typename From>
-        struct default_convert {
-            template <typename X>
-            static constexpr auto apply_impl(X&& x, int)
-                -> decltype(static_cast<To>(detail::std::forward<X>(x)))
-            { return static_cast<To>(detail::std::forward<X>(x)); }
-
-            template <typename X>
-            static constexpr auto apply_impl(X const&, ...) {
-                static_assert((sizeof(X), false),
-                "there exists no conversion between the given data types");
-            }
-
-            template <typename X>
-            static constexpr decltype(auto) apply(X&& x)
-            { return apply_impl(detail::std::forward<X>(x), int{}); }
-        };
-
-        template <typename To>
-        struct default_convert<To, To> {
-            template <typename X>
-            static constexpr X apply(X&& x) {
-                return detail::std::forward<X>(x);
-            }
-        };
-    }
-
-    //! @ingroup group-core
-    //! To facilitate transition to split methods.
-    template <bool = true>
-    struct embedding { };
-
-    //! @ingroup group-core
-    //! Implements conversions between data types.
-    //!
-    //! To specify a conversion between two data types, one must specialize
-    //! `convert` in the `boost::hana` namespace for the corresponding data
-    //! types. `when` can be used to perform flexible specialization.
-    //!
-    //! By default, `convert` has the following behavior:
-    //! If the `To` and `From` data types are the same, the object is
-    //! forwarded as-is. Otherwise, if the type of the converted-from object
-    //! -- its actual type, not its hana data type -- is convertible to the
-    //! `To` data type with `static_cast`, that conversion is used. Otherwise,
-    //! calling `convert<To, From>::%apply` triggers a static assertion.
-    //!
-    //! @note
-    //! `convert` is only used to provide the conversions; to actually
-    //! perform conversions, use `to`.
-    //!
-    //! ### Example
-    //! @include example/core/convert.cpp
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    template <typename To, typename From, typename optional when-based enabler>
-    struct convert { };
-#else
-    template <typename To, typename From, typename = void>
+    //////////////////////////////////////////////////////////////////////////
+    // to
+    //////////////////////////////////////////////////////////////////////////
+    template <typename To, typename From, typename>
     struct to_impl : to_impl<To, From, when<true>> { };
 
-    template <typename To, typename From, bool condition>
-    struct to_impl<To, From, when<condition>>
-        : core_detail::default_convert<To, From>
-    { };
-
-    template <typename To, typename From, typename = void>
-    struct convert
-        : convert<To, From, when<true>>
-    { };
+    namespace core_detail { struct no_conversion { }; }
 
     template <typename To, typename From, bool condition>
-    struct convert<To, From, when<condition>>
-        : to_impl<To, From>
-    { };
-#endif
-
-    //! @ingroup group-core
-    //! Create an object of a data type from an object of another data type.
-    //!
-    //! See `convert` to specify _how_ to convert from a data type to another.
-    //!
-    //!
-    //! @tparam To
-    //! The data type to which `x` should be converted.
-    //!
-    //! @param x
-    //! The object to convert to the given data type.
-    //!
-    //!
-    //! ### Example
-    //! @snippet example/core/to.cpp main
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    template <typename To>
-    constexpr auto to = [](auto&& x) -> decltype(auto) {
-        return convert<To, datatype_t<decltype(x)>>::apply(
-            std::forward<decltype(x)>(x)
-        );
+    struct to_impl<To, From, when<condition>> : core_detail::no_conversion {
+        template <typename X>
+        static constexpr auto apply(X const&) {
+            static_assert(wrong<to_impl<To, From>, X>{},
+            "no conversion is available between the provided data types");
+        }
     };
-#else
+
+    template <typename To, typename From>
+    struct to_impl<To, From, when_valid<
+        decltype(static_cast<To>(detail::std::declval<From>()))
+    >> {
+        template <typename X>
+        static constexpr To apply(X&& x)
+        { return static_cast<To>(detail::std::forward<X>(x)); }
+    };
+
+    template <typename To>
+    struct to_impl<To, To> : embedding<> {
+        template <typename X>
+        static constexpr X apply(X&& x)
+        { return detail::std::forward<X>(x); }
+    };
+
     template <typename To>
     struct _to {
         template <typename X>
         constexpr decltype(auto) operator()(X&& x) const {
-            return convert<To, typename datatype<X>::type>::apply(
-                detail::std::forward<X>(x)
-            );
+            return to_impl<To, typename datatype<X>::type>::apply(
+                                                detail::std::forward<X>(x));
         }
     };
 
-    template <typename To>
-    constexpr _to<To> to{};
-#endif
+#define BOOST_HANA_DEFINE_EMBEDDING_IMPL(TO, FROM)                          \
+    template <>                                                             \
+    struct to_impl<TO, FROM> : embedding<>                                  \
+    { static constexpr TO apply(FROM x) { return x; } }                     \
+/**/
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(long double, double);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(long double, float);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(double     , float);
+
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(long long int, long int);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(long long int, int);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(long long int, short int);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(long int     , int);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(long int     , short int);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(int          , short int);
+
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(unsigned long long int, unsigned long int);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(unsigned long long int, unsigned int);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(unsigned long long int, unsigned short int);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(unsigned long int     , unsigned int);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(unsigned long int     , unsigned short int);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(unsigned int          , unsigned short int);
+#undef BOOST_HANA_DEFINE_EMBEDDING_IMPL
+
+    //////////////////////////////////////////////////////////////////////////
+    // is_convertible
+    //////////////////////////////////////////////////////////////////////////
+    template <typename From, typename To, typename>
+    struct is_convertible : detail::std::true_type { };
+
+    template <typename From, typename To>
+    struct is_convertible<From, To, decltype((void)
+        static_cast<core_detail::no_conversion>(*(to_impl<To, From>*)0)
+    )> : detail::std::false_type { };
+
+    //////////////////////////////////////////////////////////////////////////
+    // is_embedded
+    //////////////////////////////////////////////////////////////////////////
+    template <typename From, typename To, typename>
+    struct is_embedded : detail::std::false_type { };
+
+    template <typename From, typename To>
+    struct is_embedded<From, To, decltype((void)
+        static_cast<embedding<true>>(*(to_impl<To, From>*)0)
+    )> : detail::std::true_type { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_CORE_CONVERT_HPP

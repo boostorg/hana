@@ -41,7 +41,7 @@ namespace boost { namespace hana {
     };
 
     template <typename I>
-    struct convert<ext::std::Ratio, I, when<is_an<IntegralConstant, I>()>> {
+    struct to_impl<ext::std::Ratio, I, when<is_an<IntegralConstant, I>()>> {
         template <typename N>
         static constexpr auto apply(N n) {
             constexpr auto v = value(n);

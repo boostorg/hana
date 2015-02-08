@@ -5,24 +5,26 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/core/common.hpp>
-#include <boost/hana/integral.hpp>
 
 #include <type_traits>
 using namespace boost::hana;
 
 
-int main() {
-    //! [main]
-    static_assert(std::is_same<
-        common_t<int, float>, std::common_type_t<int, float>
-    >{}, "");
+//! [common]
+struct Person { };
+struct Employee : Person { };
 
-    static_assert(std::is_same<
-        common_t<int, Integral<int>>, int
-    >{}, "");
+static_assert(std::is_same<common<int, float>::type, float>{}, "");
+static_assert(std::is_same<common<Person, Employee>::type, Person>{}, "");
+//! [common]
 
-    static_assert(std::is_same<
-        common_t<int, Integral<long>>, long
-    >{}, "");
-    //! [main]
-}
+//! [common_t]
+static_assert(std::is_same<common_t<int, float>, common<int, float>::type>{}, "");
+//! [common_t]
+
+//! [has_common]
+static_assert(has_common<int, float>{}, "");
+static_assert(!has_common<void, float>{}, "");
+//! [has_common]
+
+int main() { }

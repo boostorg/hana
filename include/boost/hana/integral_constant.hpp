@@ -40,7 +40,7 @@ namespace boost { namespace hana {
     //! Provides a conversion from any `IntegralConstant` to a runtime object
     //! of any integral type.
     template <typename To, typename I>
-    struct convert<To, I,
+    struct to_impl<To, I,
         when<detail::std::is_integral<To>::value && is_an<IntegralConstant, I>()>
     > {
         template <typename X>
