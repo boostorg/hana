@@ -8,6 +8,8 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_TEST_TEST_NUMERIC_HPP
 
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/models.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 
 // instances
 #include <boost/hana/comparable.hpp>
@@ -72,17 +74,26 @@ namespace boost { namespace hana {
         { return test::numeric(x.value < y.value); }
     };
 
+    //////////////////////////////////////////////////////////////////////////
+    // Enumerable
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Enumerable::instance<test::Numeric> : Enumerable::mcd {
-        template <typename N>
-        static constexpr auto succ_impl(N n) {
-            return test::numeric(n.value + 1);
-        }
+    struct models<Enumerable(test::Numeric)>
+        : detail::std::true_type
+    { };
 
+    template <>
+    struct succ_impl<test::Numeric> {
         template <typename N>
-        static constexpr auto pred_impl(N n) {
-            return test::numeric(n.value - 1);
-        }
+        static constexpr auto apply(N n)
+        { return test::numeric(n.value + 1); }
+    };
+
+    template <>
+    struct pred_impl<test::Numeric> {
+        template <typename N>
+        static constexpr auto apply(N n)
+        { return test::numeric(n.value - 1); }
     };
 
     template <>

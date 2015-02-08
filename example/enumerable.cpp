@@ -10,17 +10,20 @@ using namespace boost::hana;
 
 
 int main() {
-    {
-        //! [succ]
-        BOOST_HANA_CONSTANT_CHECK(succ(int_<4>) == int_<5>);
-        BOOST_HANA_CONSTEXPR_CHECK(succ(10) == 11);
-        //! [succ]
-    }
 
-    {
-        //! [pred]
-        BOOST_HANA_CONSTANT_CHECK(pred(int_<4>) == int_<3>);
-        BOOST_HANA_CONSTEXPR_CHECK(pred(10) == 9);
-        //! [pred]
-    }
+{
+
+//! [succ]
+BOOST_HANA_CONSTANT_CHECK(succ(int_<4>) == int_<5>);
+BOOST_HANA_CONSTEXPR_CHECK(succ(10) == 11);
+//! [succ]
+
+}{
+
+//! [pred]
+BOOST_HANA_CONSTANT_CHECK(pred(int_<4>) == int_<3>);
+BOOST_HANA_CONSTEXPR_CHECK(pred(10) == 9);
+//! [pred]
+}
+
 }

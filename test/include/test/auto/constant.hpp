@@ -15,8 +15,11 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/detail/canonical_constant.hpp>
 #include <boost/hana/detail/std/is_same.hpp>
+#include <boost/hana/enumerable.hpp>
+#include <boost/hana/type.hpp>
 
 #include <test/auto/base.hpp>
+#include <test/auto/enumerable.hpp>
 
 
 namespace boost { namespace hana { namespace test {
@@ -71,6 +74,29 @@ namespace boost { namespace hana { namespace test {
                 common_t<detail::CanonicalConstant<typename C::value_type>, C>,
                 detail::CanonicalConstant<typename C::value_type>
             >{}, "");
+        }
+
+        // Enumerable
+        {
+            eval_if(is_an<Enumerable, typename C::value_type>,
+                [=](auto _) {
+                    using E = typename decltype(+_(type<hana::Enumerable>))::type;
+                    laws<E, C>();
+
+                    for_each(_(objects<C>), [](auto c) {
+                        BOOST_HANA_CHECK(equal(
+                            succ(value(c)),
+                            value(succ(c))
+                        ));
+
+                        BOOST_HANA_CHECK(equal(
+                            pred(value(c)),
+                            value(pred(c))
+                        ));
+                    });
+                },
+                [](auto) {}
+            );
         }
     };
 }}} // end namespace boost::hana::test

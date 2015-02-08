@@ -11,8 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_ENUMERABLE_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/typeclass.hpp>
-#include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -20,7 +18,7 @@ namespace boost { namespace hana {
     //! @ingroup group-typeclasses
     //! Represents data types whose values can be enumerated.
     //!
-    //! `Enumerable` provides the `succ` and `pred` functions, whose names
+    //! `Enumerable` provides the `succ` and `pred` methods, whose names
     //! come from the [successor][1] and predecessor functions used when
     //! defining the natural numbers with the Peano axioms. Those functions
     //! allow the values of a data type to be enumerated. Note that an
@@ -29,7 +27,8 @@ namespace boost { namespace hana {
     //! [countable][2] (in its mathematical sense).
     //!
     //!
-    //! ### Laws
+    //! Laws
+    //! ----
     //! For any `Enumerable x`, the following laws must be satisfied:
     //! @code
     //!     succ(pred(x)) == x
@@ -37,42 +36,48 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //!
+    //! Minimal complete definition
+    //! ---------------------------
+    //! `succ` and `pred` satisfying the above laws
+    //!
+    //!
+    //! Provided models
+    //! ---------------
+    //! 1. For non-boolean arithmetic data types\n
+    //! A data type `T` is arithmetic if `std::is_arithmetic<T>::%value` is
+    //! true. For a non-boolean arithmetic data type `T`, a model of
+    //! `Enumerable` is automatically defined by setting
+    //! @code
+    //!     succ(x) = ++x
+    //!     pred(x) = --x
+    //! @endcode
+    //!
+    //!
     //! [1]: http://en.wikipedia.org/wiki/Successor_function
     //! [2]: http://en.wikipedia.org/wiki/Countable_set
-    struct Enumerable {
-        BOOST_HANA_TYPECLASS(Enumerable);
-        struct mcd;
-        template <typename I>
-        struct integral_constant_mcd;
-    };
+    struct Enumerable { };
 
     //! Returns the successor of a value.
     //! @relates Enumerable
     //!
-    //! ### Example
+    //!
+    //! Example
+    //! -------
     //! @snippet example/enumerable.cpp succ
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto succ = [](auto&& num) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    template <typename T, typename = void>
-    struct succ_impl : succ_impl<T, when<true>> { };
-
-    template <typename T, bool condition>
-    struct succ_impl<T, when<condition>> {
-        template <typename X>
-        static constexpr decltype(auto) apply(X&& x) {
-            return Enumerable::instance<T>::succ_impl(
-                detail::std::forward<X>(x)
-            );
-        }
-    };
+    template <typename E, typename = void>
+    struct succ_impl;
 
     struct _succ {
-        template <typename Num>
-        constexpr decltype(auto) operator()(Num&& num) const {
-            return succ_impl<datatype_t<Num>>::apply(detail::std::forward<Num>(num));
+        template <typename E>
+        constexpr decltype(auto) operator()(E&& num) const {
+            return succ_impl<
+                typename datatype<E>::type
+            >::apply(detail::std::forward<E>(num));
         }
     };
 
@@ -82,30 +87,24 @@ namespace boost { namespace hana {
     //! Returns the predecessor of a value.
     //! @relates Enumerable
     //!
-    //! ### Example
+    //!
+    //! Example
+    //! -------
     //! @snippet example/enumerable.cpp pred
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto pred = [](auto&& num) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    template <typename T, typename = void>
-    struct pred_impl : pred_impl<T, when<true>> { };
-
-    template <typename T, bool condition>
-    struct pred_impl<T, when<condition>> {
-        template <typename X>
-        static constexpr decltype(auto) apply(X&& x) {
-            return Enumerable::instance<T>::pred_impl(
-                detail::std::forward<X>(x)
-            );
-        }
-    };
+    template <typename E, typename = void>
+    struct pred_impl;
 
     struct _pred {
-        template <typename Num>
-        constexpr decltype(auto) operator()(Num&& num) const {
-            return pred_impl<datatype_t<Num>>::apply(detail::std::forward<Num>(num));
+        template <typename E>
+        constexpr decltype(auto) operator()(E&& num) const {
+            return pred_impl<
+                typename datatype<E>::type
+            >::apply(detail::std::forward<E>(num));
         }
     };
 

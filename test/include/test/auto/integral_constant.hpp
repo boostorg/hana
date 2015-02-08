@@ -148,47 +148,6 @@ namespace boost { namespace hana { namespace test {
             }
         }
 
-        // Enumerable
-        {
-            laws<Enumerable, C<T>>();
-
-            // succ
-            {
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    succ(integral_constant<C<T>, 0>()),
-                    integral_constant<C<T>, 1>()
-                ));
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    succ(integral_constant<C<T>, 1>()),
-                    integral_constant<C<T>, 2>()
-                ));
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    succ(integral_constant<C<T>, 2>()),
-                    integral_constant<C<T>, 3>()
-                ));
-            }
-
-            // pred
-            {
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    pred(integral_constant<C<T>, 1>()),
-                    integral_constant<C<T>, 0>()
-                ));
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    pred(integral_constant<C<T>, 2>()),
-                    integral_constant<C<T>, 1>()
-                ));
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    pred(integral_constant<C<T>, 3>()),
-                    integral_constant<C<T>, 2>()
-                ));
-            }
-        }
-
         // Monoid
         {
             laws<Monoid, C<T>>();

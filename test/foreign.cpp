@@ -18,12 +18,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 // instances
 #include <test/auto/comparable.hpp>
-#include <test/auto/enumerable.hpp>
 #include <test/auto/foldable.hpp>
 #include <test/auto/group.hpp>
 #include <test/auto/integral_domain.hpp>
 #include <test/auto/logical.hpp>
-#include <test/auto/monoid.hpp>
 #include <test/auto/orderable.hpp>
 #include <test/auto/ring.hpp>
 using namespace boost::hana;
@@ -34,7 +32,6 @@ namespace boost { namespace hana { namespace test {
     auto instances<builtin<i>> = tuple(
         type<Comparable>,
         type<Orderable>,
-        type<Enumerable>,
         type<Ring>,
         type<Monoid>,
         type<Group>,
@@ -58,29 +55,6 @@ int main() {
     test::check_datatype<test::builtin<1>>();
     using integer = test::builtin<1>;
     using integer2 = test::builtin<2>;
-
-    // Enumerable
-    {
-        // succ
-        {
-            BOOST_HANA_CONSTEXPR_CHECK(succ(integer{0}) == integer{1});
-            BOOST_HANA_CONSTEXPR_CHECK(succ(integer{1}) == integer{2});
-            BOOST_HANA_CONSTEXPR_CHECK(succ(integer{2}) == integer{3});
-        }
-
-        // pred
-        {
-            BOOST_HANA_CONSTEXPR_CHECK(pred(integer{3}) == integer{2});
-            BOOST_HANA_CONSTEXPR_CHECK(pred(integer{2}) == integer{1});
-            BOOST_HANA_CONSTEXPR_CHECK(pred(integer{1}) == integer{0});
-        }
-
-        // make sure pred and succ works with fundamental types
-        {
-            BOOST_HANA_CONSTEXPR_CHECK(pred(3) == 2);
-            BOOST_HANA_CONSTEXPR_CHECK(succ(3) == 4);
-        }
-    }
 
     // Comparable
     {
