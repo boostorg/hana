@@ -22,6 +22,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/logical.hpp>
 #include <boost/hana/monoid.hpp>
 #include <boost/hana/range.hpp>
+#include <boost/hana/ring.hpp>
 #include <boost/hana/tuple.hpp>
 
 #include <utility>
@@ -31,15 +32,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace cppcon {
     namespace detail {
-        constexpr int power(int x, unsigned int n) {
-            if (n == 0) return 1;
-            else        return x * power(x, n - 1);
-        }
-
         auto remove_at = [](auto n, auto xs) {
             using namespace boost::hana;
             using L = datatype_t<decltype(xs)>;
-            auto with_indices = zip(xs, to<L>(range(int_<0>, length(xs))));
+            auto with_indices = zip(xs, to<L>(range(size_t<0>, length(xs))));
             auto removed = filter(with_indices, compose(n != _, last));
             return fmap(removed, head);
         };
@@ -58,16 +54,15 @@ namespace cppcon {
         };
 
         auto cofactor = [=](auto&& m, auto i, auto j) {
-            auto i_plus_j = plus(i, j);
-            return int_<detail::power(-1, value(i_plus_j))> *
-                   matrix_minor(std::forward<decltype(m)>(m), i, j);
+            return power(int_<-1>, plus(i, j)) *
+                    matrix_minor(std::forward<decltype(m)>(m), i, j);
         };
 
         return eval_if(m.size() == int_<1>,
             always(m.at(int_<0>, int_<0>)),
             [=](auto _) {
-                auto cofactors_1st_row = unpack(_(range)(int_<0>, m.ncolumns()),
-                    on(tuple, partial(cofactor, m, int_<0>))
+                auto cofactors_1st_row = unpack(_(range)(size_t<0>, m.ncolumns()),
+                    on(tuple, partial(cofactor, m, size_t<0>))
                 );
                 return detail::tuple_scalar_product(head(rows(m)), cofactors_1st_row);
             }

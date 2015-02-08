@@ -70,7 +70,7 @@ namespace boost { namespace hana { namespace test {
                 });
 
                 // at(n, xs) == head(drop(n, xs))
-                for_each(range(int_<0>, length(iterable)), [=](auto n) {
+                for_each(range(size_t<0>, length(iterable)), [=](auto n) {
                     BOOST_HANA_CHECK(equal(
                         at(n, iterable),
                         head(drop(n, iterable))

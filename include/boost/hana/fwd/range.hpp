@@ -11,22 +11,23 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_RANGE_HPP
 
 #include <boost/hana/core/operators.hpp>
-#include <boost/hana/detail/create.hpp>
 #include <boost/hana/fwd/integral.hpp>
 
 
 namespace boost { namespace hana {
     //! @ingroup group-datatypes
-    //! Compile-time half-open interval of `Integral`s.
+    //! Compile-time half-open interval of `Constant`s.
     //!
     //! A `Range` represents a half-open interval of the form `[from, to)`
-    //! containing `Integral`s. The notation `[from, to)` represents the
-    //! values starting at `from` (inclusively) up to but excluding `from`.
-    //! In other words, it is a bit like the list `from, from+1, ..., to-1`.
+    //! containing `Constant`s of an integral type. The notation `[from, to)`
+    //! represents the values starting at `from` (inclusively) up to but
+    //! excluding `from`. In other words, it is a bit like the list
+    //! `from, from+1, ..., to-1`.
     //!
     //! In particular, note that the bounds of the range can be any
-    //! `Integral`s (negative numbers are allowed) and the range does
-    //! not have to start at zero. The only requirement is that `from <= to`.
+    //! `Constant`s (negative numbers are allowed) and the range does
+    //! not have to start at zero. The only requirement is that `from <= to`,
+    //! and that the `Constant`s are holding an integral type.
     //!
     //! Also note that because `Range`s do not specify much about their actual
     //! representation, some interesting optimizations can be applied to
@@ -42,8 +43,8 @@ namespace boost { namespace hana {
     //! @snippet example/range.cpp comparable
     //!
     //! 2. `Foldable`\n
-    //! Folding a `Range` is equivalent to folding the list of the `Integral`
-    //! values in the interval it spans.
+    //! Folding a `Range` is equivalent to folding a list of the `Constant`s
+    //! in the interval it spans.
     //! @snippet example/range.cpp foldable
     //!
     //! 3. `Iterable` (operators provided)\n
@@ -55,11 +56,14 @@ namespace boost { namespace hana {
     struct Range { };
 
     //! Creates a `Range` representing the half-open interval of
-    //! `Integral`s `[from, to)`.
+    //! `Constant`s `[from, to)`.
     //! @relates Range
     //!
-    //! `from` and `to` must be `Integral`s such that `from <= to`.
-    //! Otherwise, a compilation error is triggered.
+    //! `from` and `to` must be `Constant`s of an integral type and such that 
+    //! `from <= to`. Otherwise, a compilation error is triggered. Also note
+    //! that if `from` and `to` are `Constant`s with different underlying
+    //! integral types, the created range contains `Constant`s whose
+    //! underlying type is the common type of the two underlying types.
     //!
     //!
     //! Example
@@ -73,7 +77,12 @@ namespace boost { namespace hana {
     template <typename From, typename To>
     struct _range;
 
-    constexpr detail::create<_range> range{};
+    struct _make_range {
+        template <typename From, typename To>
+        constexpr auto operator()(From from, To to) const;
+    };
+
+    constexpr _make_range range{};
 #endif
 
     //! Shorthand to create a `Range` of `Constant`s.
