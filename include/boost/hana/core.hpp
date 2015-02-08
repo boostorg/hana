@@ -23,5 +23,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/typeclass.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/core/wrong.hpp>
 
 #endif // !BOOST_HANA_CORE_HPP
