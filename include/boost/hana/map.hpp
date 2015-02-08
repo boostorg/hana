@@ -12,105 +12,141 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/map.hpp>
 
+#include <boost/hana/comparable.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/is_a.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/foldable.hpp>
+#include <boost/hana/functional/compose.hpp>
+#include <boost/hana/functional/demux.hpp>
+#include <boost/hana/functional/partial.hpp>
 #include <boost/hana/functor.hpp>
+#include <boost/hana/list.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/product.hpp>
 #include <boost/hana/record.hpp>
-
-// instances
-#include <boost/hana/comparable.hpp>
 #include <boost/hana/searchable.hpp>
+#include <boost/hana/tuple.hpp>
 
 
 namespace boost { namespace hana {
-    //! Two maps are equal iff all their keys are equal and are associated
-    //! to equal values.
-    //!
-    //! ### Example
-    //! @snippet example/map.cpp comparable
+    //////////////////////////////////////////////////////////////////////////
+    // map
+    //////////////////////////////////////////////////////////////////////////
+    template <typename ...Pairs>
+    constexpr decltype(auto) _make_map::operator()(Pairs&& ...pairs) const {
+        return detail::create<_map>{}(
+                        hana::tuple(detail::std::forward<Pairs>(pairs)...));
+    }
+
+    //////////////////////////////////////////////////////////////////////////
+    // keys
+    //////////////////////////////////////////////////////////////////////////
+    template <typename Map>
+    constexpr decltype(auto) _keys::operator()(Map&& map) const {
+        return hana::fmap(detail::std::forward<Map>(map).storage, first);
+    }
+
+    //////////////////////////////////////////////////////////////////////////
+    // values
+    //////////////////////////////////////////////////////////////////////////
+    template <typename Map>
+    constexpr decltype(auto) _values::operator()(Map&& map) const {
+        return hana::fmap(detail::std::forward<Map>(map).storage, second);
+    }
+
+    //////////////////////////////////////////////////////////////////////////
+    // Operators
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Comparable::instance<Map, Map> : Comparable::equal_mcd {
+    struct enabled_operators<Map>
+        : Comparable
+    { };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Comparable
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Comparable(Map)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct equal_impl<Map, Map> {
         template <typename M1, typename M2>
-        static constexpr auto equal_impl(M1 m1, M2 m2) {
-            return and_(
-                equal(length(m1.storage), length(m2.storage)),
-                all(keys(m1), [=](auto k) {
-                    return equal(lookup(m1, k), lookup(m2, k));
-                })
+        static constexpr auto apply(M1 const& m1, M2 const& m2) {
+            return hana::and_(
+                hana::equal(hana::length(m1.storage), hana::length(m2.storage)),
+                hana::all(hana::keys(m1), hana::demux(equal)(
+                    hana::partial(lookup, m1),
+                    hana::partial(lookup, m2)
+                ))
             );
         }
     };
 
-    //! Converting a `Record` `R` to a `Map` is equivalent to converting its
-    //! `members<R>` to a `Map`, except the values are replaced by the actual
-    //! members of the object instead of accessors.
-    template <typename R>
-    struct convert<Map, R, when<is_a<Record, R>()>> {
-        template <typename X>
-        static constexpr decltype(auto) apply(X&& x) {
-            auto extract = [x(detail::std::forward<X>(x))](auto&& member) -> decltype(auto) {
-                using P = datatype_t<decltype(member)>;
-                return make<P>(
-                    first(detail::std::forward<decltype(member)>(member)),
-                    second(detail::std::forward<decltype(member)>(member))(x)
-                );
-            };
-            return to<Map>(fmap(members<R>, detail::std::move(extract)));
-        }
-    };
-
-    //! Converts a `Foldable` of `Product`s to a `Map`.
-    //! @relates Map
-    //!
-    //! @note
-    //! The foldable structure must not contain duplicate keys.
-    //!
-    //! @todo
-    //! We should allow duplicate keys, with a documented policy (e.g. we
-    //! keep the last one).
-    template <typename F>
-    struct convert<Map, F, when<is_a<Foldable, F>() && !is_a<Record, F>()>> {
-        template <typename Xs>
-        static constexpr decltype(auto) apply(Xs&& xs)
-        { return unpack(detail::std::forward<Xs>(xs), map); }
-    };
-
-    //! Converts a `Map` to a `List` of `Product`s.
-    //! @relates Map
-    template <typename L>
-    struct convert<L, Map, when<is_a<List, L>()>> {
-        template <typename M>
-        static constexpr decltype(auto) apply(M&& m)
-        { return to<L>(detail::std::forward<M>(m).storage); }
-    };
-
-    //! A map can be searched by its keys with a predicate yielding a
-    //! [compile-time](@ref Logical_terminology) `Logical`.
-    //!
-    //! ### Example
-    //! @snippet example/map.cpp searchable
+    //////////////////////////////////////////////////////////////////////////
+    // Searchable
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Searchable::instance<Map> : Searchable::mcd {
+    struct models<Searchable(Map)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct find_impl<Map> {
         template <typename M, typename Pred>
-        static constexpr auto find_impl(M map, Pred pred) {
-            return fmap(
-                find(map.storage, [=](auto p) {
-                    return pred(first(p));
-                }),
+        static constexpr auto apply(M&& map, Pred&& pred) {
+            return hana::fmap(
+                hana::find(detail::std::forward<M>(map).storage,
+                    hana::compose(detail::std::forward<Pred>(pred), first)),
                 second
             );
         }
+    };
 
+    template <>
+    struct any_impl<Map> {
         template <typename M, typename Pred>
-        static constexpr auto any_impl(M map, Pred pred)
-        { return any(keys(map), pred); }
+        static constexpr auto apply(M map, Pred pred)
+        { return hana::any(hana::keys(map), pred); }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Conversions
+    //////////////////////////////////////////////////////////////////////////
+    template <typename R>
+    struct to_impl<Map, R, when<is_a<Record, R>()>> {
+        template <typename X>
+        static constexpr decltype(auto) apply(X&& x) {
+            auto extract = [x(detail::std::forward<X>(x))](auto&& member) -> decltype(auto) {
+                using P = typename datatype<decltype(member)>::type;
+                return make<P>(
+                    hana::first(detail::std::forward<decltype(member)>(member)),
+                    hana::second(detail::std::forward<decltype(member)>(member))(x)
+                );
+            };
+            return to<Map>(hana::fmap(members<R>, detail::std::move(extract)));
+        }
+    };
+
+    template <typename F>
+    struct to_impl<Map, F, when<is_a<Foldable, F>() && !is_a<Record, F>()>> {
+        template <typename Xs>
+        static constexpr decltype(auto) apply(Xs&& xs)
+        { return hana::unpack(detail::std::forward<Xs>(xs), map); }
+    };
+
+    template <typename L>
+    struct to_impl<L, Map, when<is_a<List, L>()>> {
+        template <typename M>
+        static constexpr decltype(auto) apply(M&& m)
+        { return to<L>(detail::std::forward<M>(m).storage); }
     };
 }} // end namespace boost::hana
 
