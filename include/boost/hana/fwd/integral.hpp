@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_INTEGRAL_HPP
 #define BOOST_HANA_FWD_INTEGRAL_HPP
 
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/n_times.hpp>
 #include <boost/hana/detail/std/forward.hpp>
@@ -81,6 +82,7 @@ namespace boost { namespace hana {
                   Monoid, Group, Ring, IntegralDomain
             { };
         };
+        using value_type = T;
     };
 
     namespace integral_detail {
@@ -92,7 +94,11 @@ namespace boost { namespace hana {
             constexpr operator value_type() const noexcept { return value; }
             constexpr value_type operator()() const noexcept { return value; }
 
-            struct hana { using datatype = Integral<T>; };
+            struct hana {
+                using datatype = Integral<
+                    typename boost::hana::datatype<T>::type
+                >;
+            };
 
             template <typename F>
             constexpr void times(F&& f) const {

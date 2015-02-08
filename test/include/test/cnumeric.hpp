@@ -7,13 +7,14 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TEST_TEST_CNUMERIC_HPP
 #define BOOST_HANA_TEST_TEST_CNUMERIC_HPP
 
-#include <boost/hana/core/convert.hpp>
-#include <boost/hana/core/is_a.hpp>
-#include <boost/hana/core/when.hpp>
-
-// instances
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/constant.hpp>
+#include <boost/hana/core/convert.hpp>
+#include <boost/hana/core/is_a.hpp>
+#include <boost/hana/core/models.hpp>
+#include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
+#include <boost/hana/detail/std/is_integral.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/orderable.hpp>
@@ -22,7 +23,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     namespace test {
         template <typename T>
-        struct CNumeric { };
+        struct CNumeric { using value_type = T; };
 
         template <typename T, T v>
         struct cnumeric_type {
@@ -37,26 +38,40 @@ namespace boost { namespace hana {
         constexpr cnumeric_type<T, v> cnumeric{};
     }
 
-    template <typename T, typename C>
-    struct to_impl<test::CNumeric<T>, C,
-        when<is_an<IntegralConstant, C>()>
-    > {
+    //////////////////////////////////////////////////////////////////////////
+    // Constant
+    //////////////////////////////////////////////////////////////////////////
+    template <typename T>
+    struct models<Constant(test::CNumeric<T>)>
+        : detail::std::true_type
+    { };
+
+    template <typename T>
+    struct value_impl<test::CNumeric<T>> {
         template <typename X>
-        static constexpr decltype(auto) apply(X x) {
-            constexpr auto v = value(x);
-            return test::cnumeric<T, v>;
+        static constexpr auto apply(X const&)
+        { return X::value; }
+    };
+
+    template <typename T, typename C>
+    struct to_impl<test::CNumeric<T>, C, when<
+        models<Constant(C)>{} &&
+        detail::std::is_integral<typename C::value_type>{}
+    >>
+        : embedding<is_embedded<typename C::value_type, T>{}>
+    {
+        static_assert(detail::std::is_integral<T>{},
+        "trying to convert a Constant to a test::CNumeric of a non-integral "
+        "type; test::CNumeric may only hold integral types");
+
+        template <typename X>
+        static constexpr auto apply(X x) {
+            constexpr auto v = hana::value(x);
+            return test::cnumeric<T, static_cast<T>(v)>;
         }
     };
 
-    template <typename T>
-    struct Constant::instance<test::CNumeric<T>>
-        : Constant::mcd
-    {
-        template <typename X>
-        static constexpr auto value_impl(X const&) {
-            return X::value;
-        }
-    };
+
 
     template <typename T>
     struct IntegralConstant::instance<test::CNumeric<T>>

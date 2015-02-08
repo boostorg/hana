@@ -37,41 +37,6 @@ namespace boost { namespace hana {
     //! Minimal complete definition: `Constant` and `integral_constant`.
     struct IntegralConstant::mcd { };
 
-    //! Provides a conversion from any `IntegralConstant` to a runtime object
-    //! of any integral type.
-    template <typename To, typename I>
-    struct to_impl<To, I,
-        when<detail::std::is_integral<To>::value && is_an<IntegralConstant, I>()>
-    > {
-        template <typename X>
-        static constexpr To apply(X x) {
-            return static_cast<To>(value(x));
-        }
-    };
-
-    //! Provides a common type between an `IntegralConstant` and any integral
-    //! type.
-    template <template <typename ...> class C, typename T, typename U>
-    struct common<C<T>, U, when<
-        is_an<IntegralConstant, C<T>>() &&
-        detail::std::is_integral<U>::value
-    >> { using type = typename detail::std::common_type<T, U>::type; };
-
-    template <template <typename ...> class C, typename T, typename U>
-    struct common<U, C<T>, when<
-        is_an<IntegralConstant, C<T>>() &&
-        detail::std::is_integral<U>::value
-    >> { using type = typename detail::std::common_type<T, U>::type; };
-
-    template <template <typename ...> class C1, typename T,
-              template <typename ...> class C2, typename U>
-    struct common<C1<T>, C2<U>, when<
-        is_an<IntegralConstant, C1<T>>() &&
-        is_an<IntegralConstant, C2<U>>()
-    >> {
-        using type = C1<typename detail::std::common_type<T, U>::type>;
-    };
-
     template <template <typename ...> class C1, typename T,
               template <typename ...> class C2, typename U>
     struct Comparable::integral_constant_mcd<C1<T>, C2<U>>

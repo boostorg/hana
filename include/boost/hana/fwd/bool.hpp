@@ -11,39 +11,44 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_BOOL_HPP
 
 #include <boost/hana/core/operators.hpp>
-#include <boost/hana/fwd/comparable.hpp>
-#include <boost/hana/fwd/logical.hpp>
 
 
 namespace boost { namespace hana {
     //! @ingroup group-datatypes
     //! Represents a compile-time boolean value.
     //!
-    //! ### Instance of
-    //! `Comparable`, `Constant` and `Logical`
-    struct Bool {
-        struct hana {
-            struct enabled_operators : Comparable, Logical { };
-        };
-    };
-
-    namespace bool_detail {
-        template <bool v>
-        struct bool_ : operators::enable_adl {
-            using type = bool_;
-            using value_type = bool;
-            static constexpr value_type value = v;
-            constexpr operator value_type() const noexcept { return value; }
-            constexpr value_type operator()() const noexcept { return value; }
-
-            struct hana { using datatype = Bool; };
-        };
-    }
+    //! Modeled concepts
+    //! ----------------
+    //! - `Comparable` (operators provided)\n
+    //! @todo
+    //!
+    //! - `Constant`\n
+    //! @todo
+    //!
+    //! - `Logical` (operators provided)\n
+    //! @todo
+    struct Bool { using value_type = bool; };
 
     //! Creates a `Bool` with the given truth-value.
     //! @relates Bool
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    template <bool v>
+    constexpr unspecified-type bool_{};
+#else
+    template <bool v>
+    struct _bool : operators::enable_adl {
+        using type = _bool;
+        using value_type = bool;
+        static constexpr value_type value = v;
+        constexpr operator value_type() const noexcept { return value; }
+        constexpr value_type operator()() const noexcept { return value; }
+
+        struct hana { using datatype = Bool; };
+    };
+
     template <bool b>
-    constexpr bool_detail::bool_<b> bool_{};
+    constexpr _bool<b> bool_{};
+#endif
 
     //! Equivalent to `bool_<true>`.
     //! @relates Bool

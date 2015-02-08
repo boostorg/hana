@@ -78,31 +78,6 @@ namespace boost { namespace hana { namespace test {
             static_assert(::std::is_same<
                 common_t<U, C<T>>, ::std::common_type_t<T, U>
             >{}, "");
-
-            static_assert(::std::is_same<
-                common_t<C<T>, C<U>>, C< ::std::common_type_t<T, U>>
-            >{}, "");
-        }
-
-        // conversions
-        {
-            BOOST_HANA_CONSTEXPR_CHECK(equal(
-                to<T>(integral_constant<C<T>, 1>()),
-                T{1}
-            ));
-            BOOST_HANA_CONSTEXPR_CHECK(equal(
-                to<T>(integral_constant<C<T>, 0>()),
-                T{0}
-            ));
-
-            BOOST_HANA_CONSTEXPR_CHECK(equal(
-                to<U>(integral_constant<C<U>, 1>()),
-                U{1}
-            ));
-            BOOST_HANA_CONSTEXPR_CHECK(equal(
-                to<U>(integral_constant<C<U>, 0>()),
-                U{0}
-            ));
         }
 
         // Comparable

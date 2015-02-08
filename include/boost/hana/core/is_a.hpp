@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/disable.hpp>
 #include <boost/hana/core/models.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/fwd/bool.hpp>
 
 
@@ -71,8 +72,23 @@ namespace boost { namespace hana {
     constexpr auto is_a = unspecified;
 #else
     namespace core_detail {
-        constexpr bool is_a_impl(...)      { return true; }
-        constexpr bool is_a_impl(disable*) { return false; }
+        constexpr bool inherits_disable(...)      { return false; }
+        constexpr bool inherits_disable(disable*) { return true; }
+
+        template <typename ...Datatypes>
+        struct is_a_impl {
+            template <typename Typeclass, typename = void>
+            struct apply : detail::std::false_type { };
+
+            template <typename Typeclass>
+            struct apply<Typeclass, decltype((void)
+                (typename Typeclass::template instance<Datatypes...>*)0
+            )> : detail::std::integral_constant<bool,
+                !inherits_disable(
+                    (typename Typeclass::template instance<Datatypes...>*)0
+                )
+            > { };
+        };
 
         template <typename T> struct novoid { using type = T; };
         template <>           struct novoid<void> { struct type; };
@@ -80,10 +96,8 @@ namespace boost { namespace hana {
 
     template <typename Typeclass, typename ...Datatypes>
     constexpr auto is_a = bool_<
-        core_detail::is_a_impl(
-            (typename Typeclass::template instance<Datatypes...>*)0
-        ) ||
-        models<Typeclass(typename core_detail::novoid<Datatypes>::type...)>{}
+        core_detail::is_a_impl<Datatypes...>::template apply<Typeclass>::value
+        || models<Typeclass(typename core_detail::novoid<Datatypes>::type...)>{}
     >;
 
     namespace core_detail {

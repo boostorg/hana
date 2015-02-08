@@ -22,10 +22,13 @@ namespace boost { namespace hana {
         //! @ingroup group-datatypes
         //! Data type representing Boost.MPL IntegralConstants.
         //!
-        //! ### Instance of
-        //! `Constant`, `IntegralConstant`
+        //!
+        //! Provided models
+        //! ---------------
+        //! 1. `Constant`\n
+        //! @include example/ext/boost/mpl/integral_c/constant.cpp
         template <typename T>
-        struct IntegralC;
+        struct IntegralC { using value_type = T; };
     }}}
 
     template <typename T>
@@ -36,7 +39,7 @@ namespace boost { namespace hana {
         >::value
     >> {
         using type = ext::boost::mpl::IntegralC<
-            typename T::value_type
+            typename datatype<typename T::value_type>::type
         >;
     };
 }} // end namespace boost::hana

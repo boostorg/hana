@@ -19,7 +19,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     namespace ext { namespace std {
         template <typename T>
-        struct IntegralConstant;
+        struct IntegralConstant { using value_type = T; };
     }}
 
     namespace std_ic_detail {
@@ -35,7 +35,7 @@ namespace boost { namespace hana {
     template <typename T>
     struct datatype<T, when<std_ic_detail::is_std_integral_constant((T*)0)>> {
         using type = ext::std::IntegralConstant<
-            typename T::value_type
+            typename datatype<typename T::value_type>::type
         >;
     };
 }} // end namespace boost::hana
