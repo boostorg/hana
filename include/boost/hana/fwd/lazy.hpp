@@ -37,7 +37,7 @@ namespace boost { namespace hana {
     //! 3. `Monad`\n
     //! The `Lazy` monad allows combining lazy computations into larger
     //! lazy computations.
-    //! @snippet example/lazy.cpp monad
+    //! @snippet example/lazy.monad.cpp monad
     //!
     //!
     //! @note
