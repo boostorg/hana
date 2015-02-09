@@ -23,6 +23,16 @@ namespace boost { namespace hana { namespace detail { namespace std {
             is_floating_point<T>::value
         >
     { };
+
+    template <typename T>
+    struct is_non_boolean_arithmetic
+        : is_arithmetic<T>
+    { };
+
+    template <>
+    struct is_non_boolean_arithmetic<bool>
+        : false_type
+    { };
 }}}} // end namespace boost::hana::detail::std
 
 #endif // !BOOST_HANA_DETAIL_STD_IS_ARITHMETIC_HPP
