@@ -19,7 +19,6 @@ Distributed under the Boost Software License, Version 1.0.
 // instances
 #include <test/auto/comparable.hpp>
 #include <test/auto/foldable.hpp>
-#include <test/auto/logical.hpp>
 #include <test/auto/orderable.hpp>
 using namespace boost::hana;
 
@@ -28,8 +27,7 @@ namespace boost { namespace hana { namespace test {
     template <int i>
     auto instances<builtin<i>> = tuple(
         type<Comparable>,
-        type<Orderable>,
-        type<Logical>
+        type<Orderable>
     );
 
     template <int i>
@@ -80,31 +78,6 @@ int main() {
             BOOST_HANA_CONSTEXPR_CHECK(not_(less(integer{0}, integer2{0})));
             BOOST_HANA_CONSTEXPR_CHECK(not_(less(integer{1}, integer2{0})));
             BOOST_HANA_CONSTANT_CHECK(are<Orderable, integer, integer2>);
-        }
-    }
-
-    // Logical
-    {
-        BOOST_HANA_CONSTEXPR_LAMBDA auto x = test::numeric(0);
-        BOOST_HANA_CONSTEXPR_LAMBDA auto y = test::numeric(1);
-        BOOST_HANA_CONSTEXPR_LAMBDA auto t = [=](auto) { return x; };
-        BOOST_HANA_CONSTEXPR_LAMBDA auto e = [=](auto) { return y; };
-
-        // eval_if
-        {
-            BOOST_HANA_CONSTEXPR_CHECK(equal(
-                eval_if(integer{true}, t, e), x
-            ));
-
-            BOOST_HANA_CONSTEXPR_CHECK(equal(
-                eval_if(integer{false}, t, e), y
-            ));
-        }
-
-        // not_
-        {
-            BOOST_HANA_CONSTEXPR_CHECK(equal(not_(integer{true}), false));
-            BOOST_HANA_CONSTEXPR_CHECK(equal(not_(integer{false}), true));
         }
     }
 

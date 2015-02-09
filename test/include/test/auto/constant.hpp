@@ -205,6 +205,36 @@ namespace boost { namespace hana { namespace test {
                 [](auto) {}
             );
         }
+
+        // Logical
+        {
+            eval_if(is_a<Logical, typename C::value_type>,
+                [=](auto _) {
+                    using Logical = typename decltype(+_(type<hana::Logical>))::type;
+                    laws<Logical, C>();
+
+                    _(for_each)(objects<C>, [=](auto x) {
+                        BOOST_HANA_CHECK(equal(
+                            value(not_(x)),
+                            not_(value(x))
+                        ));
+
+                        _(for_each)(objects<C>, [=](auto y) {
+                            BOOST_HANA_CHECK(equal(
+                                value(and_(x, y)),
+                                and_(value(x), value(y))
+                            ));
+
+                            BOOST_HANA_CHECK(equal(
+                                value(or_(x, y)),
+                                or_(value(x), value(y))
+                            ));
+                        });
+                    });
+                },
+                [](auto) {}
+            );
+        }
     };
 }}} // end namespace boost::hana::test
 

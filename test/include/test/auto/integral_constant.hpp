@@ -147,37 +147,6 @@ namespace boost { namespace hana { namespace test {
                 BOOST_HANA_CONSTEXPR_CHECK(not_(less(T{1}, integral_constant<C<U>, 0>())));
             }
         }
-
-        // Logical
-        {
-            laws<Logical, C<T>>();
-            auto t = always(x<0>);
-            auto e = always(x<1>);
-
-            // eval_if
-            {
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    eval_if(integral_constant<C<bool>, true>(), t, e), x<0>
-                ));
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    eval_if(integral_constant<C<bool>, false>(), t, e), x<1>
-                ));
-            }
-
-            // not_
-            {
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    not_(integral_constant<C<bool>, true>()),
-                    integral_constant<C<bool>, false>()
-                ));
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    not_(integral_constant<C<bool>, false>()),
-                    not_(not_(integral_constant<C<bool>, true>()))
-                ));
-            }
-        }
     }
 
     template <template <typename ...> class C, typename T>

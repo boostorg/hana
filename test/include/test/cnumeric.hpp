@@ -71,65 +71,6 @@ namespace boost { namespace hana {
         }
     };
 
-
-
-    template <typename T>
-    struct IntegralConstant::instance<test::CNumeric<T>>
-        : IntegralConstant::mcd
-    {
-        template <T v>
-        static constexpr auto integral_constant_impl() {
-            return test::cnumeric<T, v>;
-        }
-    };
-
-    template <typename T>
-    struct Logical::instance<test::CNumeric<T>> : Logical::mcd {
-        template <typename Then, typename Else>
-        static constexpr auto
-        eval_if_impl(decltype(test::cnumeric<bool, true>), Then t, Else e) {
-            auto id = [](auto x) { return x; };
-            return t(id);
-        }
-
-        template <typename Then, typename Else>
-        static constexpr auto
-        eval_if_impl(decltype(test::cnumeric<bool, false>), Then t, Else e) {
-            auto id = [](auto x) { return x; };
-            return e(id);
-        }
-
-        template <typename Cond, typename Then, typename Else>
-        static constexpr auto eval_if_impl(Cond c, Then t, Else e) {
-            return eval_if_impl(
-                test::cnumeric<bool, static_cast<bool>(Cond::value)>, t, e
-            );
-        }
-
-        template <typename X>
-        static constexpr auto not_impl(X x)
-        { return test::cnumeric<bool, !X::value>; }
-
-        template <typename Pred, typename State, typename F>
-        static constexpr auto
-        while_helper(decltype(test::cnumeric<bool, false>), Pred pred, State state, F f)
-        { return state; }
-
-        template <typename Pred, typename State, typename F>
-        static constexpr auto
-        while_helper(decltype(test::cnumeric<bool, true>), Pred pred, State state, F f)
-        { return while_(pred, f(state), f); }
-
-        template <typename Pred, typename State, typename F>
-        static constexpr auto
-        while_impl(Pred pred, State state, F f) {
-            return while_helper(
-                test::cnumeric<bool, static_cast<bool>(value(pred(state)))>,
-                pred, state, f
-            );
-        }
-    };
-
     template <typename T, typename U>
     struct Orderable::instance<test::CNumeric<T>, test::CNumeric<U>>
         : Orderable::less_mcd

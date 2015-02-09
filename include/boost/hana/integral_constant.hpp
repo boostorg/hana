@@ -57,66 +57,6 @@ namespace boost { namespace hana {
         : Comparable::integral_constant_mcd<I1, I2>
     { };
 
-    //! Instance of `Logical` for `IntegralConstant`s.
-    //!
-    //! An `IntegralConstant` is true-valued if and only if its integral
-    //! value is true-valued, i.e. if
-    //! @code
-    //!     static_cast<bool>(value(n)) == true
-    //! @endcode
-    template <template <typename ...> class C, typename T>
-    struct Logical::integral_constant_mcd<C<T>> : Logical::mcd {
-        template <bool> struct tval { };
-
-        template <typename Then, typename Else>
-        static constexpr auto eval_if_impl(tval<true>, Then t, Else e)
-        { return t(id); }
-
-        template <typename Then, typename Else>
-        static constexpr auto eval_if_impl(tval<false>, Then t, Else e)
-        { return e(id); }
-
-        template <typename Cond, typename Then, typename Else>
-        static constexpr auto eval_if_impl(Cond c, Then t, Else e)
-        { return eval_if_impl(tval<static_cast<bool>(value(c))>{}, t, e); }
-
-        template <typename Cond>
-        static constexpr auto not_impl(Cond c) {
-            constexpr auto nc = !value(c);
-            return integral_constant<C<decltype(nc)>, nc>();
-        }
-
-        template <typename Pred, typename State, typename F>
-        static constexpr State
-        while_helper(tval<false>, Pred&& pred, State&& state, F&& f) {
-            return detail::std::forward<State>(state);
-        }
-
-        template <typename Pred, typename State, typename F>
-        static constexpr decltype(auto)
-        while_helper(tval<true>, Pred&& pred, State&& state, F&& f) {
-            decltype(auto) r = f(detail::std::forward<State>(state));
-            return while_(detail::std::forward<Pred>(pred),
-                          detail::std::forward<decltype(r)>(r),
-                          detail::std::forward<F>(f));
-        }
-
-        template <typename Pred, typename State, typename F>
-        static constexpr decltype(auto)
-        while_impl(Pred&& pred, State&& state, F&& f) {
-            auto cond = pred(state);
-            return while_helper(tval<static_cast<bool>(value(cond))>{},
-                                detail::std::forward<Pred>(pred),
-                                detail::std::forward<State>(state),
-                                detail::std::forward<F>(f));
-        }
-    };
-
-    template <typename I>
-    struct Logical::instance<I, when<is_an<IntegralConstant, I>()>>
-        : Logical::integral_constant_mcd<I>
-    { };
-
     template <template <typename ...> class C1, typename T,
               template <typename ...> class C2, typename U>
     struct Orderable::integral_constant_mcd<C1<T>, C2<U>>
