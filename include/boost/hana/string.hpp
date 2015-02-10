@@ -14,8 +14,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
-#include <boost/hana/constant.hpp>
-#include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
@@ -24,7 +22,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integer_sequence.hpp>
 #include <boost/hana/detail/std/integral_constant.hpp>
-#include <boost/hana/detail/std/is_same.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/integral.hpp>
@@ -126,48 +123,6 @@ namespace boost { namespace hana {
             constexpr char const c_str1[] = {s1..., '\0'};
             constexpr char const c_str2[] = {s2..., '\0'};
             return bool_<less_helper(c_str1, c_str2)>;
-        }
-    };
-
-    //////////////////////////////////////////////////////////////////////////
-    // Constant
-    //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Constant(String)>
-        : detail::std::true_type
-    { };
-
-    namespace string_detail {
-        template <char ...s>
-        constexpr char const store[sizeof...(s) + 1] = {s..., '\0'};
-    }
-
-    template <>
-    struct value_impl<String> {
-        template <char ...s>
-        static constexpr char const* apply(_string<s...> const&)
-        { return string_detail::store<s...>; }
-    };
-
-    template <typename C>
-    struct to_impl<String, C, when<
-        models<Constant(C)>{} &&
-        detail::std::is_same<typename C::value_type, char const*>{}
-    >> : embedding<> {
-        template <typename S, detail::std::size_t ...i>
-        static constexpr auto helper(S s, detail::std::index_sequence<i...>)
-        { return string<hana::value(s)[i]...>; }
-
-        static constexpr detail::std::size_t strlen(char const* s) {
-            detail::std::size_t len = 0;
-            while (*s++ != '\0') ++len;
-            return len;
-        }
-
-        template <typename S>
-        static constexpr decltype(auto) apply(S s) {
-            constexpr detail::std::size_t len = strlen(hana::value(s));
-            return helper(s, detail::std::make_index_sequence<len>{});
         }
     };
 

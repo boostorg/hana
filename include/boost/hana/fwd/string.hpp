@@ -18,7 +18,7 @@ namespace boost { namespace hana {
     //! Modeled concepts
     //! ----------------
     //! For most purposes, a `String` is functionally equivalent to a tuple
-    //! holding `IntegralConstant`s of underlying type `char`.
+    //! holding `Constant`s of underlying type `char`.
     //!
     //! 1. `Comparable` (operators provided)\n
     //! Two `String`s are equal if and only if they have the same number of
@@ -30,25 +30,31 @@ namespace boost { namespace hana {
     //! lexicographical comparison of strings.
     //! @snippet example/string.cpp orderable
     //!
-    //! 3. `Constant`\n
-    //! A `String`'s compile-time value is a constexpr `char const*` to its
-    //! internal data.
-    //! @snippet example/string.cpp constant
-    //!
-    //! 4. `Foldable`\n
+    //! 3. `Foldable`\n
     //! Folding a `String` is equivalent to folding the sequence of its
     //! characters.
     //! @snippet example/string.cpp foldable
     //!
-    //! 5. `Iterable` (operators provided)\n
+    //! 4. `Iterable` (operators provided)\n
     //! Iterating over a `String` is equivalent to iterating over the sequence
     //! of its characters.
     //! @snippet example/string.cpp iterable
     //!
-    //! 6. `Searchable`\n
+    //! 5. `Searchable`\n
     //! Searching through a `String` is equivalent to searching through the
     //! sequence of its characters.
     //! @snippet example/string.cpp searchable
+    //!
+    //!
+    //! > #### Rationale for `String` not being a `Constant`
+    //! > The underlying type held by a `String` could be either `char const*`
+    //! > or some other constexpr-enabled string-like container. In the first
+    //! > case, `String` can not be a `Constant` because the models of several
+    //! > concepts would not be respected by the underlying type, causing
+    //! > `value` not to be structure-preserving. Providing an underlying
+    //! > value of constexpr-enabled string-like container type like
+    //! > `std::string_view` would be great, but that's a bit complicated
+    //! > for the time being.
     //!
     //!
     //! @todo
@@ -89,15 +95,10 @@ namespace boost { namespace hana {
     //! compile-time strings. However, since this macro uses a lambda
     //! internally, it can't be used in an unevaluated context.
     //!
+    //!
     //! Example
     //! -------
     //! @snippet example/string.cpp BOOST_HANA_STRING
-    //!
-    //! @todo
-    //! - This could be generalized to arbitrary objects. This is basically a
-    //! way to create a `Constant` from any `constexpr` object.
-    //! - Use the generic conversion from any `Constant` to implement this
-    //! instead of the custom `prepare` function.
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
 #   define BOOST_HANA_STRING(s) unspecified
 #else

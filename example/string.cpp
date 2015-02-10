@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/assert.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/integral_constant.hpp>
+#include <boost/hana/integral.hpp>
 #include <boost/hana/maybe.hpp>
 #include <boost/hana/string.hpp>
 using namespace boost::hana;
@@ -52,14 +52,6 @@ BOOST_HANA_CONSTANT_CHECK(
     BOOST_HANA_STRING("abcd") > BOOST_HANA_STRING("abc")
 );
 //! [orderable]
-
-}{
-
-//! [constant]
-/* not constexpr */ auto abcdef = BOOST_HANA_STRING("abcdef");
-constexpr char const* s = value(abcdef);
-static_assert(s[2] == 'c', "");
-//! [constant]
 
 }{
 

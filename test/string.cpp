@@ -17,7 +17,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 // instances
 #include <test/auto/comparable.hpp>
-#include <test/auto/constant.hpp>
 #include <test/auto/foldable.hpp>
 #include <test/auto/iterable.hpp>
 #include <test/auto/orderable.hpp>
@@ -30,9 +29,7 @@ using namespace boost::hana;
 namespace boost { namespace hana { namespace test {
     template <>
     auto instances<String> = tuple(
-          type<Constant>
-
-        , type<Comparable>
+          type<Comparable>
         , type<Orderable>
 
         , type<Foldable>
@@ -166,15 +163,6 @@ int main() {
             BOOST_HANA_CONSTANT_CHECK(
                 BOOST_HANA_STRING("abc") >= BOOST_HANA_STRING("abc")
             );
-        }
-    }
-
-    // Constant
-    {
-        // value
-        {
-            auto s = BOOST_HANA_STRING("s");
-            static_assert(value(s)[0] == 's' && value(s)[1] == '\0', "");
         }
     }
 
