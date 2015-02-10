@@ -43,6 +43,7 @@ namespace boost { namespace hana {
     // Define either one to select which MCD is used:
     //  BOOST_HANA_TEST_COMPARABLE_EQUAL_MCD
     //  BOOST_HANA_TEST_COMPARABLE_NOT_EQUAL_MCD
+    //  BOOST_HANA_TEST_COMPARABLE_ORDERABLE_MCD
     //
     // If neither is defined, the MCD used is unspecified.
 #if defined(BOOST_HANA_TEST_COMPARABLE_EQUAL_MCD)
@@ -54,7 +55,7 @@ namespace boost { namespace hana {
         static constexpr auto equal_impl(X x, Y y)
         { return test::numeric(x.value == y.value); }
     };
-#else
+#elif defined(BOOST_HANA_TEST_COMPARABLE_NOT_EQUAL_MCD)
     template <>
     struct Comparable::instance<test::Numeric, test::Numeric>
         : Comparable::not_equal_mcd
@@ -63,14 +64,32 @@ namespace boost { namespace hana {
         static constexpr auto not_equal_impl(X x, Y y)
         { return test::numeric(x.value != y.value); }
     };
-#endif
-
+#else
     template <>
-    struct Orderable::instance<test::Numeric, test::Numeric>
-        : Orderable::less_mcd
+    struct Comparable::instance<test::Numeric, test::Numeric>
+        : Comparable::equal_mcd
     {
         template <typename X, typename Y>
-        static constexpr auto less_impl(X x, Y y)
+        static constexpr auto equal_impl(X x, Y y) {
+            return Orderable::equal_impl<
+                test::Numeric, test::Numeric
+            >::apply(x, y);
+        }
+    };
+#endif
+
+    //////////////////////////////////////////////////////////////////////////
+    // Orderable
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Orderable(test::Numeric)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct less_impl<test::Numeric, test::Numeric> {
+        template <typename X, typename Y>
+        static constexpr auto apply(X x, Y y)
         { return test::numeric(x.value < y.value); }
     };
 

@@ -340,47 +340,47 @@ namespace boost { namespace hana { namespace test {
             // slice
             {
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    slice(list(), int_<0>, int_<0>),
+                    slice(list(), size_t<0>, size_t<0>),
                     list()
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    slice(list(undefined), int_<0>, int_<0>),
+                    slice(list(undefined), size_t<0>, size_t<0>),
                     list()
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    slice(list(undefined, undefined), int_<0>, int_<0>),
+                    slice(list(undefined, undefined), size_t<0>, size_t<0>),
                     list()
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    slice(list(x<0>), int_<0>, int_<1>),
+                    slice(list(x<0>), size_t<0>, size_t<1>),
                     list(x<0>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    slice(list(x<0>, undefined), int_<0>, int_<1>),
+                    slice(list(x<0>, undefined), size_t<0>, size_t<1>),
                     list(x<0>)
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    slice(list(undefined, x<1>), int_<1>, int_<2>),
+                    slice(list(undefined, x<1>), size_t<1>, size_t<2>),
                     list(x<1>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    slice(list(undefined, x<1>, undefined), int_<1>, int_<2>),
+                    slice(list(undefined, x<1>, undefined), size_t<1>, size_t<2>),
                     list(x<1>)
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    slice(list(x<0>, x<1>), int_<0>, int_<2>),
+                    slice(list(x<0>, x<1>), size_t<0>, size_t<2>),
                     list(x<0>, x<1>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    slice(list(x<0>, x<1>, undefined), int_<0>, int_<2>),
+                    slice(list(x<0>, x<1>, undefined), size_t<0>, size_t<2>),
                     list(x<0>, x<1>)
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    slice(list(undefined, x<1>, x<2>), int_<1>, int_<3>),
+                    slice(list(undefined, x<1>, x<2>), size_t<1>, size_t<3>),
                     list(x<1>, x<2>)
                 ));
             }
@@ -418,54 +418,54 @@ namespace boost { namespace hana { namespace test {
             // take
             {
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take(int_<0>, list()),
+                    take(size_t<0>, list()),
                     list()
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take(int_<1>, list()),
+                    take(size_t<1>, list()),
                     list()
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take(int_<2>, list()),
+                    take(size_t<2>, list()),
                     list()
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take(int_<0>, list(x<0>)),
+                    take(size_t<0>, list(x<0>)),
                     list()
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take(int_<1>, list(x<0>)),
+                    take(size_t<1>, list(x<0>)),
                     list(x<0>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take(int_<2>, list(x<0>)),
+                    take(size_t<2>, list(x<0>)),
                     list(x<0>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take(int_<3>, list(x<0>)),
+                    take(size_t<3>, list(x<0>)),
                     list(x<0>)
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take(int_<0>, list(x<0>, x<1>)),
+                    take(size_t<0>, list(x<0>, x<1>)),
                     list()
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take(int_<1>, list(x<0>, x<1>)),
+                    take(size_t<1>, list(x<0>, x<1>)),
                     list(x<0>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take(int_<2>, list(x<0>, x<1>)),
+                    take(size_t<2>, list(x<0>, x<1>)),
                     list(x<0>, x<1>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take(int_<3>, list(x<0>, x<1>)),
+                    take(size_t<3>, list(x<0>, x<1>)),
                     list(x<0>, x<1>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take(int_<10>, list(x<0>, x<1>, x<2>, x<3>,  x<4>,  x<5>,  x<6>,
-                                        x<7>, x<8>, x<9>, x<10>, x<11>, x<12>, x<13>)),
+                    take(size_t<10>, list(x<0>, x<1>, x<2>, x<3>,  x<4>,  x<5>,  x<6>,
+                                          x<7>, x<8>, x<9>, x<10>, x<11>, x<12>, x<13>)),
                     list(x<0>, x<1>, x<2>, x<3>, x<4>, x<5>, x<6>, x<7>, x<8>, x<9>)
                 ));
             }
@@ -473,67 +473,67 @@ namespace boost { namespace hana { namespace test {
             // remove_at
             {
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    remove_at(int_<0>, list(x<0>)),
+                    remove_at(size_t<0>, list(x<0>)),
                     list()
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    remove_at(int_<0>, list(x<0>, x<1>)),
+                    remove_at(size_t<0>, list(x<0>, x<1>)),
                     list(x<1>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    remove_at(int_<1>, list(x<0>, x<1>)),
+                    remove_at(size_t<1>, list(x<0>, x<1>)),
                     list(x<0>)
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    remove_at(int_<0>, list(x<0>, x<1>, x<2>)),
+                    remove_at(size_t<0>, list(x<0>, x<1>, x<2>)),
                     list(x<1>, x<2>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    remove_at(int_<1>, list(x<0>, x<1>, x<2>)),
+                    remove_at(size_t<1>, list(x<0>, x<1>, x<2>)),
                     list(x<0>, x<2>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    remove_at(int_<2>, list(x<0>, x<1>, x<2>)),
+                    remove_at(size_t<2>, list(x<0>, x<1>, x<2>)),
                     list(x<0>, x<1>)
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    remove_at(int_<0>, list(x<0>, x<1>, x<2>, x<3>)),
+                    remove_at(size_t<0>, list(x<0>, x<1>, x<2>, x<3>)),
                     list(x<1>, x<2>, x<3>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    remove_at(int_<1>, list(x<0>, x<1>, x<2>, x<3>)),
+                    remove_at(size_t<1>, list(x<0>, x<1>, x<2>, x<3>)),
                     list(x<0>, x<2>, x<3>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    remove_at(int_<2>, list(x<0>, x<1>, x<2>, x<3>)),
+                    remove_at(size_t<2>, list(x<0>, x<1>, x<2>, x<3>)),
                     list(x<0>, x<1>, x<3>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    remove_at(int_<3>, list(x<0>, x<1>, x<2>, x<3>)),
+                    remove_at(size_t<3>, list(x<0>, x<1>, x<2>, x<3>)),
                     list(x<0>, x<1>, x<2>)
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    remove_at(int_<0>, list(x<0>, x<1>, x<2>, x<3>, x<4>)),
+                    remove_at(size_t<0>, list(x<0>, x<1>, x<2>, x<3>, x<4>)),
                     list(x<1>, x<2>, x<3>, x<4>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    remove_at(int_<1>, list(x<0>, x<1>, x<2>, x<3>, x<4>)),
+                    remove_at(size_t<1>, list(x<0>, x<1>, x<2>, x<3>, x<4>)),
                     list(x<0>, x<2>, x<3>, x<4>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    remove_at(int_<2>, list(x<0>, x<1>, x<2>, x<3>, x<4>)),
+                    remove_at(size_t<2>, list(x<0>, x<1>, x<2>, x<3>, x<4>)),
                     list(x<0>, x<1>, x<3>, x<4>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    remove_at(int_<3>, list(x<0>, x<1>, x<2>, x<3>, x<4>)),
+                    remove_at(size_t<3>, list(x<0>, x<1>, x<2>, x<3>, x<4>)),
                     list(x<0>, x<1>, x<2>, x<4>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    remove_at(int_<4>, list(x<0>, x<1>, x<2>, x<3>, x<4>)),
+                    remove_at(size_t<4>, list(x<0>, x<1>, x<2>, x<3>, x<4>)),
                     list(x<0>, x<1>, x<2>, x<3>)
                 ));
             }
@@ -2046,99 +2046,99 @@ namespace boost { namespace hana { namespace test {
                 }
 
                 {
+                    using long_long = long long;
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
                         maximum(list(int{0})),
                         int{0}
                     ));
 
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        maximum(list(int{0}, char{1})),
-                        char{1}
+                        maximum(list(int{0}, long{1})),
+                        long{1}
                     ));
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        maximum(list(int{1}, char{0})),
+                        maximum(list(int{1}, long{0})),
                         int{1}
                     ));
 
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        maximum(list(int{0}, char{1}, long{2})),
+                        maximum(list(int{0}, long_long{1}, long{2})),
                         long{2}
                     ));
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        maximum(list(int{1}, char{0}, long{2})),
+                        maximum(list(int{1}, long_long{0}, long{2})),
                         long{2}
                     ));
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        maximum(list(int{1}, char{2}, long{0})),
-                        char{2}
+                        maximum(list(int{1}, long_long{2}, long{0})),
+                        long_long{2}
                     ));
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        maximum(list(int{2}, char{1}, long{0})),
+                        maximum(list(int{2}, long_long{1}, long{0})),
                         int{2}
                     ));
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        maximum(list(int{2}, char{0}, long{1})),
+                        maximum(list(int{2}, long_long{0}, long{1})),
                         int{2}
                     ));
 
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        maximum(list(int{0}, char{1}, long{2}, double{3})),
-                        double{3}
+                        maximum(list(int{0}, long_long{1}, long{2}, short{3})),
+                        short{3}
                     ));
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        maximum(list(int{1}, char{0}, long{2}, double{3})),
-                        double{3}
+                        maximum(list(int{1}, long_long{0}, long{2}, short{3})),
+                        short{3}
                     ));
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        maximum(list(int{1}, char{2}, long{0}, double{3})),
-                        double{3}
+                        maximum(list(int{1}, long_long{2}, long{0}, short{3})),
+                        short{3}
                     ));
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        maximum(list(int{1}, char{2}, long{3}, double{0})),
+                        maximum(list(int{1}, long_long{2}, long{3}, short{0})),
                         long{3}
                     ));
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        maximum(list(int{2}, char{1}, long{3}, double{0})),
+                        maximum(list(int{2}, long_long{1}, long{3}, short{0})),
                         long{3}
                     ));
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        maximum(list(int{2}, char{3}, long{1}, double{0})),
-                        char{3}
+                        maximum(list(int{2}, long_long{3}, long{1}, short{0})),
+                        long_long{3}
                     ));
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        maximum(list(int{2}, char{3}, long{0}, double{1})),
-                        char{3}
+                        maximum(list(int{2}, long_long{3}, long{0}, short{1})),
+                        long_long{3}
                     ));
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        maximum(list(int{3}, char{2}, long{0}, double{1})),
+                        maximum(list(int{3}, long_long{2}, long{0}, short{1})),
                         int{3}
                     ));
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        maximum(list(int{3}, char{0}, long{2}, double{1})),
+                        maximum(list(int{3}, long_long{0}, long{2}, short{1})),
                         int{3}
                     ));
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        maximum(list(int{3}, char{0}, long{1}, double{2})),
+                        maximum(list(int{3}, long_long{0}, long{1}, short{2})),
                         int{3}
                     ));
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        maximum(list(int{0}, char{2}, long{3}, double{1})),
+                        maximum(list(int{0}, long_long{2}, long{3}, short{1})),
                         long{3}
                     ));
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        maximum(list(int{0}, char{3}, long{1}, double{2})),
-                        char{3}
+                        maximum(list(int{0}, long_long{3}, long{1}, short{2})),
+                        long_long{3}
                     ));
-                }
 
-                {
+
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        maximum(list(int{0}, char{1}, long_<2>)),
+                        maximum(list(int{0}, long_long{1}, long_<2>)),
                         long{2}
                     ));
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        maximum(list(int{0}, long_<1>, char{2})),
-                        char{2}
+                        maximum(list(int{0}, long_<1>, long_long{2})),
+                        long_long{2}
                     ));
                 }
             }
@@ -2232,98 +2232,99 @@ namespace boost { namespace hana { namespace test {
                 }
 
                 {
+                    using long_long = long long;
+
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
                         minimum(list(int{0})),
                         int{0}
                     ));
 
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        minimum(list(int{0}, char{1})),
+                        minimum(list(int{0}, short{1})),
                         int{0}
                     ));
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        minimum(list(int{1}, char{0})),
-                        char{0}
+                        minimum(list(int{1}, short{0})),
+                        short{0}
                     ));
 
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        minimum(list(int{0}, char{1}, long{2})),
+                        minimum(list(int{0}, short{1}, long{2})),
                         int{0}
                     ));
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        minimum(list(int{1}, char{0}, long{2})),
-                        char{0}
+                        minimum(list(int{1}, short{0}, long{2})),
+                        short{0}
                     ));
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        minimum(list(int{1}, char{2}, long{0})),
+                        minimum(list(int{1}, short{2}, long{0})),
                         long{0}
                     ));
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        minimum(list(int{2}, char{1}, long{0})),
+                        minimum(list(int{2}, short{1}, long{0})),
                         long{0}
                     ));
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        minimum(list(int{2}, char{0}, long{1})),
-                        char{0}
+                        minimum(list(int{2}, short{0}, long{1})),
+                        short{0}
                     ));
 
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        minimum(list(int{0}, char{1}, long{2}, double{3})),
+                        minimum(list(int{0}, short{1}, long{2}, long_long{3})),
                         int{0}
                     ));
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        minimum(list(int{1}, char{0}, long{2}, double{3})),
-                        char{0}
+                        minimum(list(int{1}, short{0}, long{2}, long_long{3})),
+                        short{0}
                     ));
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        minimum(list(int{1}, char{2}, long{0}, double{3})),
+                        minimum(list(int{1}, short{2}, long{0}, long_long{3})),
                         long{0}
                     ));
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        minimum(list(int{1}, char{2}, long{3}, double{0})),
-                        double{0}
+                        minimum(list(int{1}, short{2}, long{3}, long_long{0})),
+                        long_long{0}
                     ));
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        minimum(list(int{2}, char{1}, long{3}, double{0})),
-                        double{0}
+                        minimum(list(int{2}, short{1}, long{3}, long_long{0})),
+                        long_long{0}
                     ));
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        minimum(list(int{2}, char{3}, long{1}, double{0})),
-                        double{0}
+                        minimum(list(int{2}, short{3}, long{1}, long_long{0})),
+                        long_long{0}
                     ));
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        minimum(list(int{2}, char{3}, long{0}, double{1})),
+                        minimum(list(int{2}, short{3}, long{0}, long_long{1})),
                         long{0}
                     ));
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        minimum(list(int{3}, char{2}, long{0}, double{1})),
+                        minimum(list(int{3}, short{2}, long{0}, long_long{1})),
                         long{0}
                     ));
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        minimum(list(int{3}, char{0}, long{2}, double{1})),
-                        char{0}
+                        minimum(list(int{3}, short{0}, long{2}, long_long{1})),
+                        short{0}
                     ));
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        minimum(list(int{3}, char{0}, long{1}, double{2})),
-                        char{0}
+                        minimum(list(int{3}, short{0}, long{1}, long_long{2})),
+                        short{0}
                     ));
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        minimum(list(int{0}, char{2}, long{3}, double{1})),
+                        minimum(list(int{0}, short{2}, long{3}, long_long{1})),
                         int{0}
                     ));
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        minimum(list(int{0}, char{3}, long{1}, double{2})),
+                        minimum(list(int{0}, short{3}, long{1}, long_long{2})),
                         int{0}
                     ));
-                }
 
-                {
+
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        minimum(list(int{0}, char{1}, long_<2>)),
+                        minimum(list(int{0}, short{1}, long_<2>)),
                         int{0}
                     ));
                     BOOST_HANA_CONSTEXPR_CHECK(equal(
-                        minimum(list(ord<0>, char{1}, long{2})),
+                        minimum(list(ord<0>, short{1}, long{2})),
                         ord<0>
                     ));
                 }

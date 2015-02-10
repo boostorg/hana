@@ -63,24 +63,6 @@ int main() {
         }
     }
 
-    // Orderable
-    {
-        // less
-        {
-            // same type
-            BOOST_HANA_CONSTEXPR_CHECK(less(integer{0}, integer{1}));
-            BOOST_HANA_CONSTEXPR_CHECK(not_(less(integer{0}, integer{0})));
-            BOOST_HANA_CONSTEXPR_CHECK(not_(less(integer{1}, integer{0})));
-            BOOST_HANA_CONSTANT_CHECK(are<Orderable, integer, integer>);
-
-            // mixed types
-            BOOST_HANA_CONSTEXPR_CHECK(less(integer{0}, integer2{1}));
-            BOOST_HANA_CONSTEXPR_CHECK(not_(less(integer{0}, integer2{0})));
-            BOOST_HANA_CONSTEXPR_CHECK(not_(less(integer{1}, integer2{0})));
-            BOOST_HANA_CONSTANT_CHECK(are<Orderable, integer, integer2>);
-        }
-    }
-
     // Foldable
     {
         int a[] = {1};

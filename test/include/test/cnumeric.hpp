@@ -71,19 +71,25 @@ namespace boost { namespace hana {
         }
     };
 
+    //////////////////////////////////////////////////////////////////////////
+    // Orderable
+    //////////////////////////////////////////////////////////////////////////
+    template <typename T>
+    struct models<Orderable(test::CNumeric<T>)>
+        : detail::std::true_type
+    { };
+
     template <typename T, typename U>
-    struct Orderable::instance<test::CNumeric<T>, test::CNumeric<U>>
-        : Orderable::less_mcd
-    {
+    struct less_impl<test::CNumeric<T>, test::CNumeric<U>> {
         template <typename X, typename Y>
-        static constexpr auto less_impl(X x, Y y) {
-            return test::cnumeric<bool, (X::value < Y::value)>;
-        }
+        static constexpr auto apply(X x, Y y)
+        { return test::cnumeric<bool, (X::value < Y::value)>; }
     };
 
     // Define either one to select which MCD is used:
     //  BOOST_HANA_TEST_COMPARABLE_EQUAL_MCD
     //  BOOST_HANA_TEST_COMPARABLE_NOT_EQUAL_MCD
+    //  BOOST_HANA_TEST_COMPARABLE_ORDERABLE_MCD
     //
     // If neither is defined, the MCD used is unspecified.
 #ifdef BOOST_HANA_TEST_COMPARABLE_EQUAL_MCD
@@ -95,7 +101,7 @@ namespace boost { namespace hana {
         static constexpr auto equal_impl(X x, Y y)
         { return test::cnumeric<bool, X::value == Y::value>; }
     };
-#else
+#elif defined(BOOST_HANA_TEST_COMPARABLE_NOT_EQUAL_MCD)
     template <typename T, typename U>
     struct Comparable::instance<test::CNumeric<T>, test::CNumeric<U>>
         : Comparable::not_equal_mcd
@@ -103,6 +109,16 @@ namespace boost { namespace hana {
         template <typename X, typename Y>
         static constexpr auto not_equal_impl(X x, Y y)
         { return test::cnumeric<bool, X::value != Y::value>; }
+    };
+#else
+    template <typename T, typename U>
+    struct Comparable::instance<test::CNumeric<T>, test::CNumeric<U>>
+        : Comparable::equal_mcd
+    {
+        template <typename X, typename Y>
+        static constexpr auto equal_impl(X x, Y y) {
+            return Orderable::equal_impl<test::CNumeric<T>, test::CNumeric<U>>::apply(x, y);
+        }
     };
 #endif
 }}

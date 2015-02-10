@@ -327,10 +327,10 @@ namespace boost { namespace hana {
 
         template <typename N, typename Xs>
         static constexpr auto take_impl(N n, Xs xs) {
-            return eval_if(or_(is_empty(xs), equal(n, int_<0>)),
+            return eval_if(or_(is_empty(xs), equal(n, size_t<0>)),
                 always(nil<L>()),
                 [=](auto _) {
-                    return cons(_(head)(xs), take_impl(minus(n, int_<1>), _(tail)(xs)));
+                    return cons(_(head)(xs), take_impl(pred(n), _(tail)(xs)));
                 }
             );
         }

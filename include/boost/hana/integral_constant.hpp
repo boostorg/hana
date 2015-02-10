@@ -56,26 +56,6 @@ namespace boost { namespace hana {
     >>
         : Comparable::integral_constant_mcd<I1, I2>
     { };
-
-    template <template <typename ...> class C1, typename T,
-              template <typename ...> class C2, typename U>
-    struct Orderable::integral_constant_mcd<C1<T>, C2<U>>
-        : Orderable::less_mcd
-    {
-        template <typename X, typename Y>
-        static constexpr auto less_impl(X x, Y y) {
-            constexpr auto ord = value(x) < value(y);
-            return integral_constant<C1<decltype(ord)>, ord>();
-        }
-    };
-
-    template <typename I1, typename I2>
-    struct Orderable::instance<I1, I2, when<
-        is_an<IntegralConstant, I1>() &&
-        is_an<IntegralConstant, I2>()
-    >>
-        : Orderable::integral_constant_mcd<I1, I2>
-    { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_INTEGRAL_CONSTANT_HPP

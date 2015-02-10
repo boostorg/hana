@@ -82,6 +82,25 @@ namespace boost { namespace hana { namespace test {
             >{}, "");
         }
 
+        // Orderable
+        {
+            eval_if(is_an<Orderable, typename C::value_type>,
+                [=](auto _) {
+                    using Ord = typename decltype(+_(type<hana::Orderable>))::type;
+                    laws<Ord, C>();
+
+                    _(for_each)(objects<C>, [](auto x) {
+                        for_each(objects<C>, [=](auto y) {
+                            BOOST_HANA_CHECK(
+                                value(less(x, y)) ^iff^ less(value(x), value(y))
+                            );
+                        });
+                    });
+                },
+                [](auto) {}
+            );
+        }
+
         // Enumerable
         {
             eval_if(is_an<Enumerable, typename C::value_type>,

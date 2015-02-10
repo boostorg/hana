@@ -57,14 +57,14 @@ namespace boost { namespace hana { namespace test {
             for_each(objects<It>, [](auto iterable) {
                 // drop(0, xs) == xs
                 BOOST_HANA_CHECK(equal(
-                    drop(int_<0>, iterable),
+                    drop(size_t<0>, iterable),
                     iterable
                 ));
 
                 // drop(1, xs) == tail(xs) unless xs is empty
                 eval_if(is_empty(iterable), [](auto) { }, [=](auto _) {
                     BOOST_HANA_CHECK(equal(
-                        _(drop)(int_<1>, iterable),
+                        _(drop)(size_t<1>, iterable),
                         _(tail)(iterable)
                     ));
                 });

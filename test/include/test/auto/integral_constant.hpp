@@ -115,38 +115,6 @@ namespace boost { namespace hana { namespace test {
                 )));
             }
         }
-
-        // Orderable
-        {
-            laws<Orderable, C<T>>();
-
-            // less
-            {
-                // IntegralConstant < IntegralConstant
-                BOOST_HANA_CONSTANT_CHECK(less(
-                    integral_constant<C<T>, 0>(),
-                    integral_constant<C<U>, 1>()
-                ));
-                BOOST_HANA_CONSTANT_CHECK(not_(less(
-                    integral_constant<C<T>, 0>(),
-                    integral_constant<C<U>, 0>()
-                )));
-                BOOST_HANA_CONSTANT_CHECK(not_(less(
-                    integral_constant<C<T>, 1>(),
-                    integral_constant<C<U>, 0>()
-                )));
-
-                // IntegralConstant < other
-                BOOST_HANA_CONSTEXPR_CHECK(less(integral_constant<C<T>, 0>(), U{1}));
-                BOOST_HANA_CONSTEXPR_CHECK(not_(less(integral_constant<C<T>, 0>(), U{0})));
-                BOOST_HANA_CONSTEXPR_CHECK(not_(less(integral_constant<C<T>, 1>(), U{0})));
-
-                // other < IntegralConstant
-                BOOST_HANA_CONSTEXPR_CHECK(less(T{0}, integral_constant<C<U>, 1>()));
-                BOOST_HANA_CONSTEXPR_CHECK(not_(less(T{0}, integral_constant<C<U>, 0>())));
-                BOOST_HANA_CONSTEXPR_CHECK(not_(less(T{1}, integral_constant<C<U>, 0>())));
-            }
-        }
     }
 
     template <template <typename ...> class C, typename T>

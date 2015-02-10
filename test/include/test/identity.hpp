@@ -7,7 +7,9 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TEST_TEST_IDENTITY_HPP
 #define BOOST_HANA_TEST_TEST_IDENTITY_HPP
 
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/create.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/logical.hpp>
 
 // instances
@@ -41,14 +43,19 @@ namespace boost { namespace hana {
         }
     };
 
+    //////////////////////////////////////////////////////////////////////////
+    // Orderable
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Orderable::instance<test::Identity, test::Identity>
-        : Orderable::less_mcd
-    {
+    struct models<Orderable(test::Identity)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct less_impl<test::Identity, test::Identity> {
         template <typename Id1, typename Id2>
-        static constexpr auto less_impl(Id1 x, Id2 y) {
-            return less(x.value, y.value);
-        }
+        static constexpr auto apply(Id1 x, Id2 y)
+        { return less(x.value, y.value); }
     };
 
     // Define either one to select which MCD is used:

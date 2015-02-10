@@ -54,14 +54,19 @@ namespace boost { namespace hana {
         }
     };
 
+    //////////////////////////////////////////////////////////////////////////
+    // Orderable
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Orderable::instance<ext::std::Ratio, ext::std::Ratio>
-        : Orderable::less_mcd
-    {
+    struct models<Orderable(ext::std::Ratio)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct less_impl<ext::std::Ratio, ext::std::Ratio> {
         template <typename R1, typename R2>
-        static constexpr decltype(auto) less_impl(R1, R2) {
-            return bool_<::std::ratio_less<R1, R2>::value>;
-        }
+        static constexpr auto apply(R1, R2)
+        { return bool_< ::std::ratio_less<R1, R2>::value>; }
     };
 
     //////////////////////////////////////////////////////////////////////////

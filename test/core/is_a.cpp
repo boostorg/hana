@@ -79,8 +79,6 @@ int main() {
     BOOST_HANA_CONSTANT_CHECK(is_a<Monad>(just("abcd")));
     BOOST_HANA_CONSTANT_CHECK(is_a<Monad>(nothing));
 
-    BOOST_HANA_CONSTANT_CHECK(are<Orderable>(1, 2));
-
     BOOST_HANA_CONSTANT_CHECK(is_a<Tuple>(tuple(1, '2', 3)));
     BOOST_HANA_CONSTANT_CHECK(is_an<int>(1));
 }
