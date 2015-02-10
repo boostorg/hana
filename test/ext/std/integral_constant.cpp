@@ -11,9 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
 
-// instances
 #include <test/auto/constant.hpp>
-#include <test/auto/integral_constant.hpp>
 
 #include <type_traits>
 using namespace boost::hana;
@@ -22,8 +20,7 @@ using namespace boost::hana;
 namespace boost { namespace hana { namespace test {
     template <typename T>
     auto instances<ext::std::IntegralConstant<T>> = tuple(
-        type<Constant>,
-        type<IntegralConstant>
+        type<Constant>
     );
 
     template <typename T>

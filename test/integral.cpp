@@ -9,10 +9,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
 
-#include <cstddef>
 #include <test/auto/base.hpp>
 #include <test/auto/constant.hpp>
-#include <test/auto/integral_constant.hpp>
+
+#include <cstddef>
 #include <type_traits>
 using namespace boost::hana;
 
@@ -28,8 +28,7 @@ namespace boost { namespace hana { namespace test {
 
     template <typename T>
     auto instances<Integral<T>> = tuple(
-        type<Constant>,
-        type<IntegralConstant>
+        type<Constant>
     );
 }}}
 
@@ -136,17 +135,6 @@ int main() {
         {
             static_assert(value(integral<int, 0>) == 0, "");
             static_assert(value(integral<int, 1>) == 1, "");
-        }
-    }
-
-    // IntegralConstant
-    {
-        // integral_constant
-        {
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                integral_constant<Integral<int>, 3>(),
-                integral<int, 3>
-            ));
         }
     }
 }

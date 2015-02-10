@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/ext/boost/mpl/integral_c.hpp>
 
+#include <boost/hana/comparable.hpp>
 #include <boost/hana/constant.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/is_a.hpp>
@@ -19,7 +20,13 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/is_integral.hpp>
-#include <boost/hana/integral_constant.hpp>
+#include <boost/hana/enumerable.hpp>
+#include <boost/hana/group.hpp>
+#include <boost/hana/integral_domain.hpp>
+#include <boost/hana/logical.hpp>
+#include <boost/hana/monoid.hpp>
+#include <boost/hana/orderable.hpp>
+#include <boost/hana/ring.hpp>
 
 #include <boost/mpl/integral_c.hpp>
 
@@ -57,18 +64,6 @@ namespace boost { namespace hana {
             constexpr auto v = hana::value(x);
             return ::boost::mpl::integral_c<T, static_cast<T>(v)>{};
         }
-    };
-
-    //////////////////////////////////////////////////////////////////////////
-    // IntegralConstant
-    //////////////////////////////////////////////////////////////////////////
-    template <typename T>
-    struct IntegralConstant::instance<ext::boost::mpl::IntegralC<T>>
-        : IntegralConstant::mcd
-    {
-        template <T v>
-        static constexpr auto integral_constant_impl()
-        { return ::boost::mpl::integral_c<T, v>{}; }
     };
 }} // end namespace boost::hana
 

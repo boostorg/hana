@@ -8,7 +8,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/either.hpp>
 #include <boost/hana/functional.hpp>
-#include <boost/hana/integral_constant.hpp>
+#include <boost/hana/integral.hpp>
 #include <boost/hana/tuple.hpp>
 
 #include <string>
@@ -41,20 +41,19 @@ BOOST_HANA_CONSTEXPR_CHECK(right(2) < right(2000));
 }{
 
 //! [functor]
-auto safediv = infix([](auto x, auto y) {
+auto safe_div = infix([](auto x, auto y) {
     return eval_if(y == int_<0>,
         always(left("division by zero"s)),
         [=](auto _) { return right(x / _(y)); }
     );
 });
 
-auto inc = partial(plus, int_<1>);
 BOOST_HANA_CONSTANT_CHECK(
-    fmap(int_<6> ^safediv^ int_<3>, inc) == right(int_<3>)
+    fmap(int_<6> ^safe_div^ int_<3>, succ) == right(int_<3>)
 );
 
 BOOST_HANA_RUNTIME_CHECK(
-    fmap(int_<6> ^safediv^ int_<0>, inc) == left("division by zero"s)
+    fmap(int_<6> ^safe_div^ int_<0>, succ) == left("division by zero"s)
 );
 //! [functor]
 

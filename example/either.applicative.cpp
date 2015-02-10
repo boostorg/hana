@@ -8,7 +8,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/either.hpp>
 #include <boost/hana/functional.hpp>
-#include <boost/hana/integral_constant.hpp>
 #include <boost/hana/tuple.hpp>
 
 #include <string>

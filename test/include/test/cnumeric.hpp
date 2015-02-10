@@ -15,7 +15,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/is_integral.hpp>
-#include <boost/hana/integral_constant.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/orderable.hpp>
 

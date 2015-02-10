@@ -55,7 +55,7 @@ int main() {
 
     // Conversions
     {
-        // IntegralConstant -> Ratio
+        // Constant -> Ratio
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
                 to<ext::std::Ratio>(test::cnumeric<int, 0>),

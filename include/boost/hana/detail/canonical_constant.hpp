@@ -33,7 +33,6 @@ namespace boost { namespace hana { namespace detail {
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/is_integral.hpp>
-#include <boost/hana/fwd/integral_constant.hpp> // ok, this header includes us
 
 
 namespace boost { namespace hana {
@@ -67,24 +66,6 @@ namespace boost { namespace hana {
         template <typename X>
         static constexpr _constant<X> apply(X const&)
         { return {}; }
-    };
-
-    //////////////////////////////////////////////////////////////////////////
-    // IntegralConstant (temporary, until we remove it altogether)
-    //////////////////////////////////////////////////////////////////////////
-    template <typename T>
-    struct IntegralConstant::instance<detail::CanonicalConstant<T>, when<
-        detail::std::is_integral<T>{}
-    >> {
-        template <T v>
-        struct _constant {
-            static constexpr T get() { return v; };
-            struct hana { using datatype = detail::CanonicalConstant<T>; };
-        };
-
-        template <T v>
-        static constexpr auto integral_constant_impl()
-        { return _constant<v>{}; }
     };
 }} // end namespace boost::hana
 
