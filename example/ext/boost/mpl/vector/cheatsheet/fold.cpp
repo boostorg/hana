@@ -8,7 +8,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/ext/boost/mpl/vector.hpp>
 #include <boost/hana/ext/std/integral_constant.hpp>
-#include <boost/hana/integral.hpp>
+#include <boost/hana/integral_constant.hpp>
 #include <boost/hana/type_list.hpp>
 
 #include <boost/mpl/fold.hpp>

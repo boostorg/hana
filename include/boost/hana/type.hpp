@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/std/integral_constant.hpp>
-#include <boost/hana/integral.hpp>
+#include <boost/hana/integral_constant.hpp>
 
 
 namespace boost { namespace hana {

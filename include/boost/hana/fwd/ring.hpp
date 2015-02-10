@@ -198,7 +198,7 @@ namespace boost { namespace hana {
     //! A `Ring` element that is elevated to its `n`th power.
     //!
     //! @param n
-    //! An `IntegralConstant` representing the power to which `r` is elevated.
+    //! An integral `Constant` representing the power to which `r` is elevated.
     //!
     //!
     //! @note

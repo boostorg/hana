@@ -54,7 +54,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/either.hpp>
 #include <boost/hana/integer_list.hpp>
-#include <boost/hana/integral.hpp>
+#include <boost/hana/integral_constant.hpp>
 #include <boost/hana/lazy.hpp>
 #include <boost/hana/map.hpp>
 #include <boost/hana/maybe.hpp>
@@ -462,7 +462,7 @@ variable template:
     constexpr unspecified integral{};
 @endcode
 
-where the type of `integral<...>`, while being unspecified, actually looks a
+where the type of `integral_constant<...>`, while being unspecified, actually looks a
 lot like a `std::integral_constant`. Indeed, an `Integral` is guaranteed to
 have the same members as an equivalent `std::integral_constant`, so they can
 be used as such
@@ -481,7 +481,7 @@ Additionally, `Integral`s can be created with the help of [user-defined literals
 
 However, this syntax only allows creating `Integral`s with an underlying value
 of type `long long`. Another feature of `Integral`s is that they overload
-common operators so that `integral<...>`s can be used with an intuitive
+common operators so that `integral_constant<...>`s can be used with an intuitive
 syntax:
 
 @snippet example/tutorial/basic_concepts/constant/integral.cpp integral_operators
@@ -490,7 +490,7 @@ It is important to realize that these operators return `Integral`s, not normal
 values of an integral type. Specifically, for an operator `@`,
 
 @code
-    integral<X, x> @ integral<Y, y> == integral<decltype(x @ y), x @ y>
+    integral_constant<X, x> @ integral_constant<Y, y> == integral_constant<decltype(x @ y), x @ y>
 @endcode
 
 This is very important because it allows all the information that's known at

@@ -26,7 +26,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/functional/apply.hpp>
 #include <boost/hana/functional/curry.hpp>
-#include <boost/hana/integral.hpp> // size_t
+#include <boost/hana/integral_constant.hpp> // size_t
 
 // instances
 #include <boost/hana/foldable.hpp>

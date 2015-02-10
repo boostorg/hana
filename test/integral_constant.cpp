@@ -4,7 +4,7 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/integral.hpp>
+#include <boost/hana/integral_constant.hpp>
 
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
@@ -19,24 +19,24 @@ using namespace boost::hana;
 
 namespace boost { namespace hana { namespace test {
     template <typename T>
-    auto objects<Integral<T>> = tuple(
-        integral<T, 0>,
-        integral<T, 1>,
-        integral<T, 2>,
-        integral<T, 3>
+    auto objects<IntegralConstant<T>> = tuple(
+        integral_constant<T, 0>,
+        integral_constant<T, 1>,
+        integral_constant<T, 2>,
+        integral_constant<T, 3>
     );
 
     template <typename T>
-    auto instances<Integral<T>> = tuple(
+    auto instances<IntegralConstant<T>> = tuple(
         type<Constant>
     );
 }}}
 
 
 int main() {
-    test::check_datatype<Integral<int>>();
+    test::check_datatype<IntegralConstant<int>>();
 
-    // Integral's API (like std::integral_constant)
+    // IntegralConstant's API (like std::integral_constant)
     {
         // operator()
         static_assert(size_t<0>() == 0, "");
@@ -133,8 +133,8 @@ int main() {
     {
         // value
         {
-            static_assert(value(integral<int, 0>) == 0, "");
-            static_assert(value(integral<int, 1>) == 1, "");
+            static_assert(value(integral_constant<int, 0>) == 0, "");
+            static_assert(value(integral_constant<int, 1>) == 1, "");
         }
     }
 }

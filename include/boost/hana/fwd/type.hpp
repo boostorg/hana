@@ -410,7 +410,7 @@ namespace boost { namespace hana {
     //! Specifically, `trait<f>(t...)` is equivalent to `template_<f>(t...)()`.
     //! The principal use case for `trait` is to transform metafunctions
     //! inheriting from a meaningful base like `std::integral_constant`
-    //! into functions returning e.g. an `Integral`.
+    //! into functions returning e.g. an `IntegralConstant`.
     //!
     //! The word `trait` is used because a name was needed and the principal
     //! use case involves metafunctions from the standard that we also call

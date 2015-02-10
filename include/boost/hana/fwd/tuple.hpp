@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/comparable.hpp>
 #include <boost/hana/fwd/iterable.hpp>
 #include <boost/hana/fwd/monad.hpp>
-#include <boost/hana/integral.hpp>
+#include <boost/hana/integral_constant.hpp>
 #include <boost/hana/type.hpp>
 
 
@@ -63,7 +63,7 @@ namespace boost { namespace hana {
     constexpr auto tuple_t = tuple(type<T>...);
 
     template <typename T, T ...v>
-    constexpr auto tuple_c = tuple(integral<T, v>...);
+    constexpr auto tuple_c = tuple(integral_constant<T, v>...);
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_TUPLE_HPP

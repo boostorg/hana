@@ -5,7 +5,7 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/integral.hpp>
+#include <boost/hana/integral_constant.hpp>
 using namespace boost::hana;
 
 
@@ -14,7 +14,7 @@ int main() {
 {
 
 //! [zero]
-BOOST_HANA_CONSTANT_CHECK(zero<Integral<int>>() == int_<0>);
+BOOST_HANA_CONSTANT_CHECK(zero<IntegralConstant<int>>() == int_<0>);
 BOOST_HANA_CONSTEXPR_CHECK(zero<long>() == 0l);
 //! [zero]
 

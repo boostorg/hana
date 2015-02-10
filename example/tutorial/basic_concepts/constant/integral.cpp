@@ -5,15 +5,15 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/integral.hpp>
+#include <boost/hana/integral_constant.hpp>
 
 #include <type_traits>
 using namespace boost::hana;
 
 
 //! [integral_create]
-auto two = integral<int, 2>;
-auto yes = integral<bool, true>;
+auto two = integral_constant<int, 2>;
+auto yes = integral_constant<bool, true>;
 //! [integral_create]
 
 //! [integral_api]
@@ -47,7 +47,7 @@ BOOST_HANA_CONSTANT_CHECK(-1234_c == llong<-1234>);
 }
 
 //! [integral_operators]
-BOOST_HANA_CONSTANT_CHECK(int_<1> == integral<int, 1>);
+BOOST_HANA_CONSTANT_CHECK(int_<1> == integral_constant<int, 1>);
 BOOST_HANA_CONSTANT_CHECK(int_<1> + long_<2> == long_<3>);
 BOOST_HANA_CONSTANT_CHECK(!(bool_<true> && bool_<false>));
 //! [integral_operators]

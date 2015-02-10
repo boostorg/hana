@@ -3,17 +3,17 @@
 # (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
 foreach(method IN ITEMS count foldl foldl1 foldr foldr1 for_each length maximum maximum_by minimum minimum_by product sum unpack)
-    # Methods requiring `Integral` elements in the `Foldable`.
+    # Methods requiring integral `Constant`s (or stronger) in the `Foldable`.
     if(${method} MATCHES "maximum|minimum|product|sum")
         set(hana_tuple_env "
             ((1..50).to_a + (51..500).step(25).to_a).map { |n|
                 xs = (1..n).to_a.map { |i|
-                    \"boost::hana::integral<int, #{i}>\"
+                    \"boost::hana::integral_constant<int, #{i}>\"
                 }.join(', ')
 
                 {
                     setup: '
-                        #include <boost/hana/integral.hpp>
+                        #include <boost/hana/integral_constant.hpp>
                         #include <boost/hana/tuple.hpp>
                     ',
                     foldable: \"boost::hana::tuple(#{xs})\",
@@ -25,13 +25,13 @@ foreach(method IN ITEMS count foldl foldl1 foldr foldr1 for_each length maximum 
         set(std_tuple_env "
             ((1..50).to_a + (51..500).step(25).to_a).map { |n|
                 xs = (1..n).to_a.map { |i|
-                    \"boost::hana::integral<int, #{i}>\"
+                    \"boost::hana::integral_constant<int, #{i}>\"
                 }.join(', ')
 
                 {
                     setup: '
                         #include <boost/hana/ext/std/tuple.hpp>
-                        #include <boost/hana/integral.hpp>
+                        #include <boost/hana/integral_constant.hpp>
                         #include <tuple>
                     ',
                     foldable: \"std::make_tuple(#{xs})\",

@@ -53,7 +53,9 @@ namespace boost { namespace hana {
         //! @todo
         //! This is an awful hack to avoid having
         //! @code
-        //!     common<Integral<int>, Integral<long>> == CanonicalConstant<long>
+        //!     common<IntegralConstant<int>, IntegralConstant<long>>
+        //!         ==
+        //!     CanonicalConstant<long>
         //! @endcode
         template <typename A, typename B, typename C>
         struct which {

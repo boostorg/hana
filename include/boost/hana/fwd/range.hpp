@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_RANGE_HPP
 
 #include <boost/hana/core/operators.hpp>
-#include <boost/hana/fwd/integral.hpp>
+#include <boost/hana/fwd/integral_constant.hpp>
 
 
 namespace boost { namespace hana {
@@ -91,7 +91,8 @@ namespace boost { namespace hana {
     //! This shorthand is provided for convenience only and it is equivalent
     //! to `range`. Specifically, `range_c<T, from, to>` is such that
     //! @code
-    //!     range_c<T, from, to> == range(integral<T, from>, integral<T, to>)
+    //!     range_c<T, from, to> == range(integral_constant<T, from>,
+    //!                                   integral_constant<T, to>)
     //! @endcode
     //!
     //!
@@ -109,7 +110,8 @@ namespace boost { namespace hana {
     //! -------
     //! @snippet example/range.cpp range_c
     template <typename T, T from, T to>
-    constexpr auto range_c = range(integral<T, from>, integral<T, to>);
+    constexpr auto range_c = range(integral_constant<T, from>,
+                                   integral_constant<T, to>);
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_RANGE_HPP

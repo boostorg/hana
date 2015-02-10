@@ -43,7 +43,7 @@ auto tuple = [](auto ...xs) {
 };
 
 template <typename T, T v>
-constexpr auto constant = boost::hana::integral<T, v>;
+constexpr auto constant = boost::hana::integral_constant<T, v>;
 
 
 
@@ -134,11 +134,11 @@ namespace boost { namespace hana {
 
 
         template <typename X, typename T>
-        static constexpr auto cons_helper(X x, decltype(::tuple()) const&, Integral<T>)
+        static constexpr auto cons_helper(X x, decltype(::tuple()) const&, IntegralConstant<T>)
         { return tuple_c<decltype(value(x)), value(x)>; }
 
         template <typename X, typename T, T ...vs, typename U>
-        static constexpr auto cons_helper(X x, ::detail::tuple_c<T, vs...> xs, Integral<U>)
+        static constexpr auto cons_helper(X x, ::detail::tuple_c<T, vs...> xs, IntegralConstant<U>)
         { return tuple_c<T, value(x), vs...>; }
 
 

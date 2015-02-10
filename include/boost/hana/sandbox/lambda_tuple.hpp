@@ -79,7 +79,7 @@ namespace boost { namespace hana { namespace sandbox {
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/functional/id.hpp>
 #include <boost/hana/functional/on.hpp>
-#include <boost/hana/integral.hpp>
+#include <boost/hana/integral_constant.hpp>
 #include <boost/hana/orderable.hpp>
 #include <boost/hana/range.hpp>
 

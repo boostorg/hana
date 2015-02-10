@@ -8,7 +8,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/core/operators.hpp>
-#include <boost/hana/integral.hpp>
+#include <boost/hana/integral_constant.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
 

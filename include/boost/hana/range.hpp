@@ -26,7 +26,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/enumerable.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/group.hpp>
-#include <boost/hana/integral.hpp> // required by fwd decl
+#include <boost/hana/integral_constant.hpp> // required by fwd decl
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/monoid.hpp>
@@ -115,7 +115,7 @@ namespace boost { namespace hana {
         unpack_helper(R r, F&& f, detail::std::integer_sequence<T, v...>) {
             using U = typename R::underlying;
             constexpr auto from = hana::value(r.from);
-            return detail::std::forward<F>(f)(to<U>(integral<T, from + v>)...);
+            return detail::std::forward<F>(f)(to<U>(integral_constant<T, from + v>)...);
         }
 
         template <typename R, typename F>
@@ -184,7 +184,7 @@ namespace boost { namespace hana {
             constexpr auto from = hana::value(r.from);
             constexpr auto to = hana::value(r.to);
             constexpr auto s = from == to ? 0 : sum_helper(from, to-1);
-            return hana::to<U>(integral<decltype(s), s>);
+            return hana::to<U>(integral_constant<decltype(s), s>);
         }
     };
 
@@ -209,7 +209,7 @@ namespace boost { namespace hana {
             constexpr auto from = hana::value(r.from);
             constexpr auto to = hana::value(r.to);
             constexpr auto s = product_helper(from, to);
-            return hana::to<U>(integral<decltype(s), s>);
+            return hana::to<U>(integral_constant<decltype(s), s>);
         }
     };
 

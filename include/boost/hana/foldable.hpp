@@ -27,7 +27,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/enumerable.hpp>
 #include <boost/hana/functional/id.hpp>
 #include <boost/hana/functional/partial.hpp>
-#include <boost/hana/integral.hpp>
+#include <boost/hana/integral_constant.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/monoid.hpp>
 #include <boost/hana/orderable.hpp>
@@ -184,14 +184,14 @@ namespace boost { namespace hana {
         //! @todo Make it possible to specify the Monoid that's used?
         template <typename Xs>
         static constexpr decltype(auto) sum_impl(Xs&& xs) {
-            using M = Integral<int>;
+            using M = IntegralConstant<int>;
             return foldl(detail::std::forward<Xs>(xs), zero<M>(), plus);
         }
 
         //! @todo Make it possible to specify the Ring that's used?
         template <typename Xs>
         static constexpr decltype(auto) product_impl(Xs&& xs) {
-            using R = Integral<int>;
+            using R = IntegralConstant<int>;
             return foldl(detail::std::forward<Xs>(xs), one<R>(), mult);
         }
 
