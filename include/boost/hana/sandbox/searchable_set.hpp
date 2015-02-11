@@ -90,14 +90,25 @@ namespace boost { namespace hana {
         }
     };
 
+    //////////////////////////////////////////////////////////////////////////
+    // Applicative
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Applicative::instance<SearchableSet> : Applicative::mcd {
-        template <typename X>
-        static constexpr auto lift_impl(X x)
-        { return singleton(x); }
+    struct models<Applicative(SearchableSet)>
+        : detail::std::true_type
+    { };
 
+    template <>
+    struct lift_impl<SearchableSet> {
+        template <typename X>
+        static constexpr auto apply(X x)
+        { return singleton(x); }
+    };
+
+    template <>
+    struct ap_impl<SearchableSet> {
         template <typename F, typename Set>
-        static constexpr auto ap_impl(F fset, Set set) {
+        static constexpr auto apply(F fset, Set set) {
             return flatten(fmap(fset, [=](auto f) {
                 return fmap(set, f);
             }));

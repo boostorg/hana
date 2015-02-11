@@ -407,22 +407,6 @@ namespace boost { namespace hana {
         { return foldr(detail::std::forward<Xs>(xs), nil<L>(), cons); }
     };
 
-    //! Minimal complete definition: `Functor` and `List`
-    template <typename L>
-    struct Applicative::list_mcd {
-        template <typename X>
-        static constexpr decltype(auto) lift_impl(X&& x)
-        { return cons(detail::std::forward<X>(x), nil<L>()); }
-
-        template <typename Fs, typename Xs>
-        static constexpr decltype(auto) ap_impl(Fs&& fs, Xs&& xs) {
-            return bind(
-                detail::std::forward<Fs>(fs),
-                partial(fmap, detail::std::forward<Xs>(xs))
-            );
-        }
-    };
-
     //! `Applicative` instance for instances of the `List` type class.
     //!
     //! A value can be lifted into a singleton list with `lift`. `ap(fs, xs)`
@@ -432,8 +416,26 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/list/applicative.cpp main
     template <typename T>
-    struct Applicative::instance<T, when<is_a<List, T>()>>
-        : Applicative::list_mcd<T>
+    struct ap_impl<T, when<is_a<List, T>()>> {
+        template <typename Fs, typename Xs>
+        static constexpr decltype(auto) apply(Fs&& fs, Xs&& xs) {
+            return bind(
+                detail::std::forward<Fs>(fs),
+                partial(fmap, detail::std::forward<Xs>(xs))
+            );
+        }
+    };
+
+    template <typename T>
+    struct lift_impl<T, when<is_a<List, T>()>> {
+        template <typename X>
+        static constexpr decltype(auto) apply(X&& x)
+        { return cons(detail::std::forward<X>(x), nil<T>()); }
+    };
+
+    template <typename T>
+    struct models<Applicative(T), when<is_a<List, T>()>>
+        : detail::std::true_type
     { };
 
     //! Instance of `Comparable` for instances of `List`.

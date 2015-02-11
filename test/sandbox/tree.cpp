@@ -80,6 +80,36 @@ namespace boost { namespace hana {
         }
     };
 
+    //////////////////////////////////////////////////////////////////////////
+    // Applicative
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Applicative(Tree)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct lift_impl<Tree> {
+        template <typename X>
+        static constexpr decltype(auto) apply(X&& x)
+        { return node(std::forward<X>(x), forest()); }
+    };
+
+    template <>
+    struct ap_impl<Tree> {
+        template <typename F, typename X>
+        static constexpr decltype(auto) apply(F&& f, X&& x) {
+            return node(
+                f.value(x.value),
+                concat(
+                    fmap(x.subforest, partial(flip(fmap), f.value)),
+                    fmap(f.subforest, partial(flip(ap), x))
+                )
+            );
+        }
+    };
+
+
     template <>
     struct Foldable::instance<Tree> : Foldable::folds_mcd {
         template <typename N, typename S, typename F>
@@ -109,24 +139,6 @@ namespace boost { namespace hana {
                             f
                         );
                     }
-                )
-            );
-        }
-    };
-
-    template <>
-    struct Applicative::instance<Tree> : Applicative::mcd {
-        template <typename X>
-        static constexpr decltype(auto) lift_impl(X&& x)
-        { return node(std::forward<X>(x), forest()); }
-
-        template <typename F, typename X>
-        static constexpr decltype(auto) ap_impl(F&& f, X&& x) {
-            return node(
-                f.value(x.value),
-                concat(
-                    fmap(x.subforest, partial(flip(fmap), f.value)),
-                    fmap(f.subforest, partial(flip(ap), x))
                 )
             );
         }

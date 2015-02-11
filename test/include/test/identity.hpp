@@ -98,17 +98,26 @@ namespace boost { namespace hana {
     };
 #endif
 
+    //////////////////////////////////////////////////////////////////////////
+    // Applicative
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Applicative::instance<test::Identity>
-        : Applicative::mcd
-    {
-        template <typename X>
-        static constexpr auto lift_impl(X x) { return test::identity(x); }
+    struct models<Applicative(test::Identity)>
+        : detail::std::true_type
+    { };
 
+    template <>
+    struct lift_impl<test::Identity> {
+        template <typename X>
+        static constexpr auto apply(X x)
+        { return test::identity(x); }
+    };
+
+    template <>
+    struct ap_impl<test::Identity> {
         template <typename F, typename X>
-        static constexpr auto ap_impl(F f, X x) {
-            return test::identity(f.value(x.value));
-        }
+        static constexpr auto apply(F f, X x)
+        { return test::identity(f.value(x.value)); }
     };
 
     // Define either one to select which MCD is used:
