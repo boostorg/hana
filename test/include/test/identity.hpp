@@ -63,28 +63,32 @@ namespace boost { namespace hana {
         { return less(x.value, y.value); }
     };
 
+    //////////////////////////////////////////////////////////////////////////
+    // Functor
+    //
     // Define either one to select which MCD is used:
-    //  BOOST_HANA_TEST_FUNCTOR_FMAP_MCD
+    //  BOOST_HANA_TEST_FUNCTOR_TRANSFORM_MCD
     //  BOOST_HANA_TEST_FUNCTOR_ADJUST_MCD_MCD
     //
     // If neither is defined, the MCD used is unspecified.
-#ifdef BOOST_HANA_TEST_FUNCTOR_FMAP_MCD
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Functor::instance<test::Identity>
-        : Functor::fmap_mcd
-    {
+    struct models<Functor(test::Identity)>
+        : detail::std::true_type
+    { };
+
+#ifdef BOOST_HANA_TEST_FUNCTOR_TRANSFORM_MCD
+    template <>
+    struct transform_impl<test::Identity> {
         template <typename Id, typename F>
-        static constexpr auto fmap_impl(Id self, F f) {
-            return test::identity(f(self.value));
-        }
+        static constexpr auto apply(Id self, F f)
+        { return test::identity(f(self.value)); }
     };
 #else
     template <>
-    struct Functor::instance<test::Identity>
-        : Functor::adjust_mcd
-    {
+    struct adjust_impl<test::Identity> {
         template <typename Id, typename P, typename F>
-        static constexpr auto adjust_impl(Id self, P p, F f) {
+        static constexpr auto apply(Id self, P p, F f) {
             auto x = eval_if(p(self.value),
                 [=](auto _) { return _(f)(self.value); },
                 [=](auto _) { return self.value; }

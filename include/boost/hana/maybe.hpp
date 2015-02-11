@@ -160,7 +160,7 @@ namespace boost { namespace hana {
     { };
 
     template <>
-    struct fmap_impl<Maybe> {
+    struct transform_impl<Maybe> {
         template <typename M, typename F>
         static constexpr decltype(auto) apply(M&& m, F&& f) {
             return hana::maybe(
@@ -242,15 +242,17 @@ namespace boost { namespace hana {
 
         template <typename A, typename T, typename F>
         static constexpr decltype(auto) apply(_just<T> const& x, F&& f)
-        { return hana::fmap(detail::std::forward<F>(f)(x.val), just); }
+        { return hana::transform(detail::std::forward<F>(f)(x.val), just); }
 
         template <typename A, typename T, typename F>
         static constexpr decltype(auto) apply(_just<T>& x, F&& f)
-        { return hana::fmap(detail::std::forward<F>(f)(x.val), just); }
+        { return hana::transform(detail::std::forward<F>(f)(x.val), just); }
 
         template <typename A, typename T, typename F>
-        static constexpr decltype(auto) apply(_just<T>&& x, F&& f)
-        { return hana::fmap(detail::std::forward<F>(f)(detail::std::move(x.val)), just); }
+        static constexpr decltype(auto) apply(_just<T>&& x, F&& f) {
+            return hana::transform(detail::std::forward<F>(f)(
+                                        detail::std::move(x.val)), just);
+        }
     };
 
     //////////////////////////////////////////////////////////////////////////

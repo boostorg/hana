@@ -26,8 +26,8 @@ namespace boost { namespace hana {
     //! Modeled concepts
     //! ----------------
     //! 1. `Functor`\n
-    //! `fmap`ing a function over a lazy value returns the result of applying
-    //! the function, as a lazy value.
+    //! Applying a function over a lazy value with `transform` returns the
+    //! result of applying the function, as a lazy value.
     //! @snippet example/lazy.cpp functor
     //!
     //! 2. `Applicative`\n

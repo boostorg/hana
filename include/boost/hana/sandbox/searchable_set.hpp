@@ -71,10 +71,19 @@ namespace boost { namespace hana {
         { return and_(subset(xs, ys), subset(ys, xs)); }
     };
 
+
+    //////////////////////////////////////////////////////////////////////////
+    // Functor
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Functor::instance<SearchableSet> : Functor::fmap_mcd {
+    struct models<Functor(SearchableSet)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct transform_impl<SearchableSet> {
         template <typename Set, typename F>
-        static constexpr auto fmap_impl(Set set, F f) {
+        static constexpr auto apply(Set set, F f) {
             return searchable_set([=](auto q) {
                 return f(set.find([=](auto x) { return q(f(x)); }));
             });

@@ -14,6 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/constant.hpp> // value
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/closure.hpp>
 #include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/generate_integer_sequence.hpp>
@@ -651,35 +652,38 @@ namespace boost { namespace hana {
         }
     };
 
+    //////////////////////////////////////////////////////////////////////////
+    // Functor
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Functor::instance<Tuple>
-        : Functor::fmap_mcd
-        , tuple_detail::utils
-    {
-        // fmap
-        ///////////////
+    struct models<Functor(Tuple)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct transform_impl<Tuple> : tuple_detail::utils {
         #define BOOST_HANA_PP_FMAP(REF)                                     \
             template <typename ...Xs, typename F>                           \
             static constexpr decltype(auto)                                 \
-            fmap_impl(detail::closure_impl<Xs...> REF xs, F&& f) {          \
+            apply(detail::closure_impl<Xs...> REF xs, F&& f) {              \
                 return tuple(f(static_cast<Xs REF>(xs).get)...);            \
             }                                                               \
         /**/
         BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_FMAP)
         #undef BOOST_HANA_PP_FMAP
+    };
 
-
-        // fill
-        ///////////////
+    template <>
+    struct fill_impl<Tuple> : tuple_detail::utils {
         template <typename V>
-        static constexpr _tuple<> fill_impl(_tuple<> const&, V&& v)
+        static constexpr _tuple<> apply(_tuple<> const&, V&& v)
         { return {}; }
 
         template <typename X, typename ...Xs, typename V>
         static constexpr _tuple<
             typename detail::std::decay<V>::type,
             allow_expansion<(sizeof(Xs), false), typename detail::std::decay<V>::type>...
-        > fill_impl(_tuple<X, Xs...> const&, V&& v) {
+        > apply(_tuple<X, Xs...> const&, V&& v) {
             return {((void)sizeof(Xs), v)..., detail::std::forward<V>(v)};
         }
     };

@@ -120,7 +120,7 @@ namespace boost { namespace hana {
     { };
 
     template <>
-    struct fmap_impl<Lazy> {
+    struct transform_impl<Lazy> {
         template <typename LX, typename F>
         static constexpr decltype(auto) apply(LX&& lx, F&& f) {
             return hana::ap(hana::lazy(detail::std::forward<F>(f)),

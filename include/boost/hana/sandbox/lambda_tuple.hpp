@@ -69,8 +69,10 @@ namespace boost { namespace hana { namespace sandbox {
 
 
 #include <boost/hana/bool.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/detail/variadic/at.hpp>
 #include <boost/hana/detail/variadic/drop_into.hpp>
@@ -100,10 +102,18 @@ namespace boost { namespace hana {
         }
     };
 
+    //////////////////////////////////////////////////////////////////////////
+    // Functor
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Functor(sandbox::LambdaTuple)>
+        : detail::std::true_type
+    { };
+
     template <>
-    struct Functor::instance<sandbox::LambdaTuple> : Functor::fmap_mcd {
+    struct transform_impl<sandbox::LambdaTuple> {
         template <typename Xs, typename F>
-        static constexpr decltype(auto) fmap_impl(Xs&& xs, F f) {
+        static constexpr decltype(auto) apply(Xs&& xs, F f) {
             return detail::std::forward<Xs>(xs).storage(
                 [f(detail::std::move(f))](auto&& ...xs) -> decltype(auto) {
                     return sandbox::lambda_tuple(f(detail::std::forward<decltype(xs)>(xs))...);

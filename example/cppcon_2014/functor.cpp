@@ -15,7 +15,7 @@ using namespace cppcon;
 
 
 int main() {
-    // fmap
+    // transform
     {
         auto m = matrix(
             row(1,       int_<2>, 3),
@@ -23,7 +23,7 @@ int main() {
             row(7,       8,       int_<9>)
         );
 
-        BOOST_HANA_CONSTEXPR_CHECK(fmap(m, _ + int_<1>) ==
+        BOOST_HANA_CONSTEXPR_CHECK(transform(m, _ + int_<1>) ==
             matrix(
                 row(2,       int_<3>, 4),
                 row(int_<5>, 6,       7),

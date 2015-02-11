@@ -464,18 +464,6 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename T>
-    struct Functor::list_mcd : Functor::fmap_mcd {
-        template <typename Xs, typename F>
-        static constexpr decltype(auto) fmap_impl(Xs&& xs, F&& f) {
-            return foldr(
-                detail::std::forward<Xs>(xs),
-                nil<T>(),
-                compose(cons, detail::std::forward<F>(f))
-            );
-        }
-    };
-
     //! `Functor` instance for `List`s.
     //!
     //! `List`s implement `fmap` as the mapping of a function over each
@@ -486,9 +474,21 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/list/functor.cpp fmap
     template <typename T>
-    struct Functor::instance<T, when<is_a<List, T>()>>
-        : Functor::list_mcd<T>
+    struct models<Functor(T), when<is_a<List, T>()>>
+        : detail::std::true_type
     { };
+
+    template <typename T>
+    struct transform_impl<T, when<is_a<List, T>()>> {
+        template <typename Xs, typename F>
+        static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
+            return foldr(
+                detail::std::forward<Xs>(xs),
+                nil<T>(),
+                compose(cons, detail::std::forward<F>(f))
+            );
+        }
+    };
 
     template <typename T>
     struct Monad::list_mcd : Monad::flatten_mcd<T> {

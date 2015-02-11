@@ -19,6 +19,6 @@ int main() {
     auto functor = <%= functor %>;
 
     boost::hana::benchmark::measure([=] {
-        boost::hana::fmap(functor, f);
+        boost::hana::transform(functor, f);
     });
 }

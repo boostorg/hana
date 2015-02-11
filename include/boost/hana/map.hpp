@@ -49,7 +49,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename Map>
     constexpr decltype(auto) _keys::operator()(Map&& map) const {
-        return hana::fmap(detail::std::forward<Map>(map).storage, first);
+        return hana::transform(detail::std::forward<Map>(map).storage, first);
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -57,7 +57,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename Map>
     constexpr decltype(auto) _values::operator()(Map&& map) const {
-        return hana::fmap(detail::std::forward<Map>(map).storage, second);
+        return hana::transform(detail::std::forward<Map>(map).storage, second);
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -102,7 +102,7 @@ namespace boost { namespace hana {
     struct find_impl<Map> {
         template <typename M, typename Pred>
         static constexpr auto apply(M&& map, Pred&& pred) {
-            return hana::fmap(
+            return hana::transform(
                 hana::find(detail::std::forward<M>(map).storage,
                     hana::compose(detail::std::forward<Pred>(pred), first)),
                 second
@@ -131,7 +131,7 @@ namespace boost { namespace hana {
                     hana::second(detail::std::forward<decltype(member)>(member))(x)
                 );
             };
-            return to<Map>(hana::fmap(members<R>, detail::std::move(extract)));
+            return to<Map>(hana::transform(members<R>, detail::std::move(extract)));
         }
     };
 

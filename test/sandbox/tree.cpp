@@ -39,6 +39,9 @@ auto node = [](auto x, auto subforest) {
 };
 
 namespace boost { namespace hana {
+    //////////////////////////////////////////////////////////////////////////
+    // Comparable
+    //////////////////////////////////////////////////////////////////////////
     template <>
     struct models<Comparable(Tree)>
         : detail::std::true_type
@@ -55,16 +58,24 @@ namespace boost { namespace hana {
         }
     };
 
+    //////////////////////////////////////////////////////////////////////////
+    // Functor
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Functor::instance<Tree> : Functor::fmap_mcd {
+    struct models<Functor(Tree)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct transform_impl<Tree> {
         template <typename N, typename F>
-        static constexpr decltype(auto) fmap_impl(N&& n, F f) {
+        static constexpr decltype(auto) apply(N&& n, F f) {
             auto g = [=](auto&& subtree) -> decltype(auto) {
-                return fmap(std::forward<decltype(subtree)>(subtree), f);
+                return transform(std::forward<decltype(subtree)>(subtree), f);
             };
             return node(
                 f(std::forward<N>(n).value),
-                fmap(std::forward<N>(n).subforest, g)
+                transform(std::forward<N>(n).subforest, g)
             );
         }
     };

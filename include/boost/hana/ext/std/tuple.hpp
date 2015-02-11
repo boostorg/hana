@@ -13,8 +13,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/ext/std/tuple.hpp>
 
 #include <boost/hana/bool.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integer_sequence.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/remove_reference.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
 
@@ -28,21 +30,29 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
+    //////////////////////////////////////////////////////////////////////////
+    // Functor
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Functor::instance<ext::std::Tuple> : Functor::fmap_mcd {
+    struct models<Functor(ext::std::Tuple)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct transform_impl<ext::std::Tuple> {
         template <typename Xs, typename F, detail::std::size_t ...index>
         static constexpr decltype(auto)
-        helper(Xs&& xs, F&& f, detail::std::index_sequence<index...>) {
+        transform_helper(Xs&& xs, F&& f, detail::std::index_sequence<index...>) {
             return ::std::make_tuple(
                 f(::std::get<index>(detail::std::forward<Xs>(xs)))...
             );
         }
 
         template <typename Xs, typename F>
-        static constexpr decltype(auto) fmap_impl(Xs&& xs, F&& f) {
+        static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
             using Raw = typename detail::std::remove_reference<Xs>::type;
             constexpr auto N = ::std::tuple_size<Raw>::value;
-            return helper(
+            return transform_helper(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<F>(f),
                 detail::std::make_index_sequence<N>{}
