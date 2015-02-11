@@ -115,15 +115,23 @@ namespace boost { namespace hana {
         }
     };
 
+    //////////////////////////////////////////////////////////////////////////
+    // Monad
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Monad::instance<ext::std::Tuple> : Monad::flatten_mcd<ext::std::Tuple> {
+    struct models<Monad(ext::std::Tuple)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct flatten_impl<ext::std::Tuple> {
         template <typename ...Tuples, detail::std::size_t ...Index>
-        static constexpr auto
-        helper(::std::tuple<Tuples...> tuples, detail::std::index_sequence<Index...>)
+        static constexpr auto helper(::std::tuple<Tuples...> tuples,
+                                     detail::std::index_sequence<Index...>)
         { return ::std::tuple_cat(::std::get<Index>(tuples)...); }
 
         template <typename ...Tuples>
-        static constexpr decltype(auto) flatten_impl(::std::tuple<Tuples...> tuples)
+        static constexpr decltype(auto) apply(::std::tuple<Tuples...> tuples)
         { return helper(tuples, detail::std::index_sequence_for<Tuples...>{}); }
     };
 }} // end namespace boost::hana

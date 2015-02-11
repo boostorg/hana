@@ -6,21 +6,30 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/functional/partial.hpp>
 #include <boost/hana/maybe.hpp>
-#include <boost/hana/sandbox/detail/is_valid.hpp>
+#include <boost/hana/tuple.hpp>
+
+#include <sstream>
 using namespace boost::hana;
 
 
-// `sfinae(f)(x...)` returns `just(f(x...))` if `f(x...)` is well-formed,
-// and `nothing` otherwise.
-BOOST_HANA_CONSTEXPR_LAMBDA auto sfinae = [](auto f) {
-    return [=](auto ...x) {
-        return eval_if(detail::is_valid(f)(x...),
-            [=](auto _) { return just(_(f)(x...)); },
-            [](auto _) { return nothing; }
-        );
-    };
-};
+//! [bind]
+// sfinae_impl(f, x...) is just(f(x...)) if that expression is
+// well-formed, and nothing otherwise.
+template <typename F, typename ...X>
+constexpr auto sfinae_impl(F f, X ...x) -> decltype(just(f(x...)))
+{ return just(f(x...)); }
+
+constexpr auto sfinae_impl(...) { return nothing; }
+
+// sfinae(f)(x...) is equivalent to sfinae_impl(f, x...). In other words,
+// sfinae(f)(x...) is just(f(x...)) if that expression is well-formed,
+// and nothing otherwise.
+template <typename F>
+BOOST_HANA_CONSTEXPR_LAMBDA auto sfinae(F f) {
+    return [=](auto ...x) { return sfinae_impl(f, x...); };
+}
 
 BOOST_HANA_CONSTEXPR_LAMBDA auto deref = [](auto x) -> decltype(*x) {
     return *x;
@@ -51,3 +60,4 @@ int main() {
     // All is good.
     BOOST_HANA_CONSTEXPR_CHECK(f(&john) == just(30u));
 }
+//! [bind]

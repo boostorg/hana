@@ -11,83 +11,205 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_MONAD_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/typeclass.hpp>
-#include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
 namespace boost { namespace hana {
     //! @ingroup group-typeclasses
-    //! `Monad`s are `Applicative`s with the ability to flatten values that
-    //! were lifted more than once.
+    //! The `Monad` concept represents `Applicative`s with the ability to
+    //! flatten nested levels of structure.
     //!
-    //! ### Requires
-    //! `Functor`, `Applicative`
+    //! Intuitively, using the Functor-as-a-box analogy, a `Monad` is able
+    //! to flatten a box containing a box into just a single box. In other
+    //! words, it is able to remove one level of monadic structure. This
+    //! allows Monads to combine not only structures, but also functions
+    //! returning structures, which turns out to be pretty useful.
     //!
-    //! ### Laws
-    //! Instances of `Monad` must satisfy the following laws:
+    //! Historically, Monads are a construction coming from category theory,
+    //! an abstract branch of mathematics. The functional programming
+    //! community eventually discovered how Monads could be used to
+    //! formalize several useful things like side effects, which led
+    //! to the wide adoption of Monads in that community. However, even
+    //! in a multi-paradigm language like C++, there are several constructs
+    //! which turn out to be Monads, like `std::optional`, `std::vector` and
+    //! others.
+    //!
+    //! Everybody tries to introduce Monads with a different analogy, and
+    //! almost everybody fails. This is called the [Monad tutorial fallacy][1].
+    //! We won't fall into this trap here and will let readers who are new to
+    //! this concept read one of the many excellent tutorials available online.
+    //! Understanding Monads might take time at first, but once you get it, a
+    //! lot of patterns will become obvious Monads; this enlightening will be
+    //! your reward for the hard work. That being said, there are different
+    //! ways of defining a Monad; some will use the `bind` function (`>>=` in
+    //! Haskell), others will use `join` (called `flatten` in this library),
+    //! and there are probably other ways. In Hana, the Monad laws are written
+    //! in term of the monadic composition operator, called `mcompose`, which
+    //! we think gives the best intuition on the relation between a Monad and
+    //! a Monoid.
+    //!
+    //!
+    //! Laws
+    //! ----
+    //! In what follows, we use equality between functions as meaning
     //! @code
-    //!     bind(lift<M>(x), f) == f(x)
-    //!     bind(m, lift<M>) == m
-    //!     bind(m, [](auto x){ return bind(f(x), g); }) == bind(bind(m, f), g)
+    //!     f == g  if and only if  f(x) == g(x) for all x
     //! @endcode
-    struct Monad {
-        BOOST_HANA_TYPECLASS(Monad);
-        template <typename M>
-        struct bind_mcd;
+    //! This is to simplify writing the laws, which would be tedious otherwise.
+    //! For a data type `M` to be a `Monad`, the following must be satisfied
+    //! for all functions `f, g, h` with a suitable signature for the
+    //! composition to make sense:
+    //! @code
+    //!     mcompose<M>(lift<M>, f)           == f                                 // left identity
+    //!     mcompose<M>(f, lift<M>)           == f                                 // right identity
+    //!     mcompose<M>(mcompose<M>(f, g), h) == mcompose<M>(f, mcompose<M>(g, h)) // associativity
+    //! @endcode
+    //! By comparing with the `Monoid` laws, one can clearly see how these
+    //! two structures have something in common.
+    //!
+    //!
+    //! Superclass
+    //! ----------
+    //! `Functor` and `Applicative`
+    //!
+    //!
+    //! Minimal complete definition
+    //! ---------------------------
+    //! 1. `flatten`\n
+    //! When `flatten` is defined, `bind` is defined by setting:
+    //! @code
+    //!     bind(xs, f) = flatten(transform(xs, f))
+    //! @endcode
+    //!
+    //! 2. `bind`\n
+    //! When `bind` is defined, `flatten` is defined by setting:
+    //! @code
+    //!     flatten(xs) = bind(xs, id)
+    //! @endcode
+    //!
+    //!
+    //! Operators
+    //! ---------
+    //! For convenience, the following operator is provided as an
+    //! equivalent way of calling the corresponding method:
+    //! @code
+    //!     xs | f  ->  bind(xs, f)
+    //! @endcode
+    //!
+    //! > Note: `xs | f` was preferred over `xs >>= f` (as in Haskell),
+    //! > because `>>=` is right associative in C++, which would make it
+    //! > impossible to chain computations.
+    //!
+    //!
+    //! [1]: https://byorgey.wordpress.com/2009/01/12/abstraction-intuition-and-the-monad-tutorial-fallacy/
+    struct Monad { };
 
-        template <typename M>
-        struct flatten_mcd;
-
-        template <typename M>
-        struct list_mcd;
-    };
-
-    //! Apply a function returning a monad to the value(s) inside a monad.
+    //! Apply a function returning a monadic value to the value(s)
+    //! inside a monad.
     //! @relates Monad
     //!
     //!
-    //! @param monad
-    //! A `Monad` to compose monadically with the given function.
+    //! @param xs
+    //! A structure containing value(s) to transform with `f`.
     //!
     //! @param f
-    //! A function taking a value inside the `monad` and returning a `Monad`.
-    //! It will be called as `f(x)`, where `x` is the same argument as `f`
-    //! would be called with when doing `fmap(monad, f)`.
+    //! A function taking a value inside the `xs` structure and returning a
+    //! monadic value. It will be called as `f(x)` for an element `x` of the
+    //! structure `xs`.
     //!
     //!
-    //! ### Example
-    //! @include example/monad/bind.cpp
+    //! Example
+    //! -------
+    //! @snippet example/monad.bind.cpp bind
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto bind = [](auto&& monad, auto&& f) -> decltype(auto) {
+    constexpr auto bind = [](auto&& xs, auto&& f) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    template <typename T, typename = void>
-    struct bind_impl : bind_impl<T, when<true>> { };
-
-    template <typename T, bool condition>
-    struct bind_impl<T, when<condition>> {
-        template <typename M, typename F>
-        static constexpr decltype(auto) apply(M&& m, F&& f) {
-            return Monad::instance<T>::bind_impl(
-                detail::std::forward<M>(m),
-                detail::std::forward<F>(f)
-            );
-        }
-    };
+    template <typename M, typename = void>
+    struct bind_impl;
 
     struct _bind {
-        template <typename M, typename F>
-        constexpr decltype(auto) operator()(M&& m, F&& f) const {
-            return bind_impl<datatype_t<M>>::apply(
-                detail::std::forward<M>(m),
+        template <typename Xs, typename F>
+        constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
+            return bind_impl<typename datatype<Xs>::type>::apply(
+                detail::std::forward<Xs>(xs),
                 detail::std::forward<F>(f)
             );
         }
     };
 
     constexpr _bind bind{};
+#endif
+
+    //! Collapse two levels of monadic structure into a single level.
+    //! @relates Monad
+    //!
+    //! @param xs
+    //! An object with two levels of monadic structure, which should be
+    //! collapsed into a single level of structure.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/monad.cpp flatten
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto flatten = [](auto&& xs) -> decltype(auto) {
+        return tag-dispatched;
+    };
+#else
+    template <typename M, typename = void>
+    struct flatten_impl;
+
+    struct _flatten {
+        template <typename Xs>
+        constexpr decltype(auto) operator()(Xs&& xs) const {
+            return flatten_impl<typename datatype<Xs>::type>::apply(
+                detail::std::forward<Xs>(xs)
+            );
+        }
+    };
+
+    constexpr _flatten flatten{};
+#endif
+
+    //! Composition of monadic functions.
+    //! @relates Monad
+    //!
+    //! Specifically, this is equivalent to the `compose` function for
+    //! functions that return `Monad`s.
+    //!
+    //! @param f
+    //! A function with pseudo-signature `f :: A -> M<B>`.
+    //!
+    //! @param g
+    //! A function with pseudo-signature `g :: B -> M<C>`.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/monad.cpp mcompose
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto mcompose = [](auto&& f, auto&& g) -> decltype(auto) {
+        return tag-dispatched;
+    };
+#else
+    template <typename M, typename = void>
+    struct mcompose_impl;
+
+    template <typename M>
+    struct _mcompose {
+        template <typename F, typename G>
+        constexpr decltype(auto) operator()(F&& f, G&& g) const {
+            return mcompose_impl<M>::apply(
+                detail::std::forward<F>(f),
+                detail::std::forward<G>(g)
+            );
+        }
+    };
+
+    template <typename M>
+    constexpr _mcompose<M> mcompose{};
 #endif
 
     //! Sequentially compose two monadic actions, discarding any value
@@ -103,80 +225,32 @@ namespace boost { namespace hana {
     //! this monad is ignored, but its effects are combined with that of the
     //! second monad.
     //!
-    //! @param monad
+    //! @param xs
     //! The second `Monad` in the monadic composition chain.
     //!
     //!
-    //! ### Example
-    //! @snippet example/monad/then.cpp main
+    //! Example
+    //! -------
+    //! @snippet example/monad.cpp then
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto then = [](auto&& before, auto&& monad) -> decltype(auto) {
+    constexpr auto then = [](auto&& before, auto&& xs) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    template <typename T, typename = void>
-    struct then_impl : then_impl<T, when<true>> { };
-
-    template <typename T, bool condition>
-    struct then_impl<T, when<condition>> {
-        template <typename Before, typename M>
-        static constexpr decltype(auto) apply(Before&& before, M&& m) {
-            return Monad::instance<T>::then_impl(
-                detail::std::forward<Before>(before),
-                detail::std::forward<M>(m)
-            );
-        }
-    };
+    template <typename M, typename = void>
+    struct then_impl;
 
     struct _then {
-        template <typename Before, typename M>
-        constexpr decltype(auto) operator()(Before&& before, M&& m) const {
-            return then_impl<datatype_t<Before>>::apply(
+        template <typename Before, typename Xs>
+        constexpr decltype(auto) operator()(Before&& before, Xs&& xs) const {
+            return then_impl<typename datatype<Before>::type>::apply(
                 detail::std::forward<Before>(before),
-                detail::std::forward<M>(m)
+                detail::std::forward<Xs>(xs)
             );
         }
     };
 
     constexpr _then then{};
-#endif
-
-    //! Flatten two levels of monadic wrapping into a single level.
-    //! @relates Monad
-    //!
-    //! @param monad
-    //! A `Monad` containing a `Monad` that should be flattened to a `Monad`.
-    //!
-    //! ### Example
-    //! @snippet example/monad/flatten.cpp main
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto flatten = [](auto&& monad) -> decltype(auto) {
-        return tag-dispatched;
-    };
-#else
-    template <typename T, typename = void>
-    struct flatten_impl : flatten_impl<T, when<true>> { };
-
-    template <typename T, bool condition>
-    struct flatten_impl<T, when<condition>> {
-        template <typename M>
-        static constexpr decltype(auto) apply(M&& m) {
-            return Monad::instance<T>::flatten_impl(
-                detail::std::forward<M>(m)
-            );
-        }
-    };
-
-    struct _flatten {
-        template <typename M>
-        constexpr decltype(auto) operator()(M&& m) const {
-            return flatten_impl<datatype_t<M>>::apply(
-                detail::std::forward<M>(m)
-            );
-        }
-    };
-
-    constexpr _flatten flatten{};
 #endif
 
     //! Tap inside a monadic chain.
@@ -199,34 +273,23 @@ namespace boost { namespace hana {
     //! chain. The result of `f` is always discarded.
     //!
     //!
-    //! ### Example
-    //! @snippet example/monad/tap.cpp main
+    //! Example
+    //! -------
+    //! @snippet example/monad.cpp tap
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename M>
     constexpr auto tap = [](auto&& f) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    template <typename T, typename = void>
-    struct tap_impl : tap_impl<T, when<true>> { };
-
-    template <typename T, bool condition>
-    struct tap_impl<T, when<condition>> {
-        template <typename F>
-        static constexpr decltype(auto) apply(F&& f) {
-            return Monad::instance<T>::tap_impl(
-                detail::std::forward<decltype(f)>(f)
-            );
-        }
-    };
+    template <typename M, typename = void>
+    struct tap_impl;
 
     template <typename M>
     struct _tap {
         template <typename F>
         constexpr decltype(auto) operator()(F&& f) const {
-            return tap_impl<M>::apply(
-                detail::std::forward<decltype(f)>(f)
-            );
+            return tap_impl<M>::apply(detail::std::forward<decltype(f)>(f));
         }
     };
 

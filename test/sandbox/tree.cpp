@@ -102,13 +102,34 @@ namespace boost { namespace hana {
             return node(
                 f.value(x.value),
                 concat(
-                    fmap(x.subforest, partial(flip(fmap), f.value)),
-                    fmap(f.subforest, partial(flip(ap), x))
+                    transform(x.subforest, partial(flip(transform), f.value)),
+                    transform(f.subforest, partial(flip(ap), x))
                 )
             );
         }
     };
 
+    //////////////////////////////////////////////////////////////////////////
+    // Monad
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Monad(Tree)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct flatten_impl<Tree> {
+        template <typename N>
+        static constexpr decltype(auto) apply(N&& n) {
+            return node(
+                std::forward<N>(n).value.value,
+                concat(
+                    std::forward<N>(n).value.subforest,
+                    transform(std::forward<N>(n).subforest, flatten)
+                )
+            );
+        }
+    };
 
     template <>
     struct Foldable::instance<Tree> : Foldable::folds_mcd {
@@ -145,25 +166,11 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct Monad::instance<Tree> : Monad::flatten_mcd<Tree> {
-        template <typename N>
-        static constexpr decltype(auto) flatten_impl(N&& n) {
-            return node(
-                std::forward<N>(n).value.value,
-                concat(
-                    std::forward<N>(n).value.subforest,
-                    fmap(std::forward<N>(n).subforest, flatten)
-                )
-            );
-        }
-    };
-
-    template <>
     struct Traversable::instance<Tree> : Traversable::traverse_mcd {
         template <typename A, typename N, typename F>
         static constexpr decltype(auto) traverse_impl(N&& n, F&& f) {
             return ap(
-                fmap(f(std::forward<N>(n).value), curry<2>(node)),
+                transform(f(std::forward<N>(n).value), curry<2>(node)),
                 traverse<A>(
                     std::forward<N>(n).subforest,
                     partial(flip(traverse<A>), f)

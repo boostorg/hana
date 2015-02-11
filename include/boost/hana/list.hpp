@@ -492,14 +492,6 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename T>
-    struct Monad::list_mcd : Monad::flatten_mcd<T> {
-        template <typename Xss>
-        static constexpr decltype(auto) flatten_impl(Xss&& xss) {
-            return foldl(detail::std::forward<Xss>(xss), nil<T>(), concat);
-        }
-    };
-
     //! `Monad` instance for instances of the `List` type class.
     //!
     //! A function returning a list of results can be mapped over all the
@@ -509,9 +501,17 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/list/monad.cpp main
     template <typename T>
-    struct Monad::instance<T, when<is_a<List, T>()>>
-        : Monad::list_mcd<T>
+    struct models<Monad(T), when<is_a<List, T>()>>
+        : detail::std::true_type
     { };
+
+    template <typename T>
+    struct flatten_impl<T, when<is_a<List, T>()>> {
+        template <typename Xss>
+        static constexpr decltype(auto) apply(Xss&& xss) {
+            return foldl(detail::std::forward<Xss>(xss), nil<T>(), concat);
+        }
+    };
 
     template <typename T>
     struct Traversable::list_mcd : Traversable::traverse_mcd {
