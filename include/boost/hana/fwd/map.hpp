@@ -19,7 +19,7 @@ namespace boost { namespace hana {
     //!
     //! The order of the elements of the map is unspecified. Also, all the
     //! keys must be comparable with each other and that comparison must
-    //! yield a [compile-time](@ref Logical_terminology) `Logical`.
+    //! yield a compile-time `Logical`.
     //!
     //!
     //! Modeled concepts
@@ -31,7 +31,7 @@ namespace boost { namespace hana {
     //!
     //! 2. `Searchable`\n
     //! A map can be searched by its keys with a predicate yielding a
-    //! [compile-time](@ref Logical_terminology) `Logical`.
+    //! compile-time `Logical`.
     //! @snippet example/map.cpp searchable
     //!
     //!

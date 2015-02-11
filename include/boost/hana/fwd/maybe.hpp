@@ -161,8 +161,7 @@ namespace boost { namespace hana {
     //! `Logical` if `just(f(x))` should be the resulting value, and a
     //! false-valued one if `nothing` should be the resulting value.
     //! Since the type of `just` and `nothing` differ, the result of
-    //! `predicate` has to be a [compile-time](@ref Logical_terminology)
-    //! `Logical`.
+    //! `predicate` has to be a compile-time `Logical`.
     //!
     //! @param f
     //! A function called as `f(x)` if the `predicate` returns a true-valued
@@ -251,9 +250,8 @@ namespace boost { namespace hana {
     //! Return whether a `Maybe` contains a value.
     //! @relates Maybe
     //!
-    //! Specifically, returns a [compile-time](@ref Logical_terminology)
-    //! true-valued `Logical` if `m` is of the form `just(x)` for some `x`,
-    //! and a false-valued one otherwise.
+    //! Specifically, returns a compile-time true-valued `Logical` if `m` is
+    //! of the form `just(x)` for some `x`, and a false-valued one otherwise.
     //!
     //!
     //! Example
@@ -275,9 +273,8 @@ namespace boost { namespace hana {
     //! Return whether a `Maybe` is empty.
     //! @relates Maybe
     //!
-    //! Specifically, returns a [compile-time](@ref Logical_terminology)
-    //! true-valued `Logical` if `m` is of the form `nothing`, and a
-    //! false-valued one otherwise.
+    //! Specifically, returns a compile-time true-valued `Logical` if `m` is
+    //! a `nothing`, and a false-valued one otherwise.
     //!
     //!
     //! Example
