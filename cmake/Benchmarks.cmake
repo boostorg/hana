@@ -220,6 +220,7 @@
 ##############################################################################
 # Required modules and initial setup
 ##############################################################################
+cmake_policy(VERSION 3.1.1)
 include(CMakeParseArguments)
 
 set(BENCHMARK_AVAILABLE false)
