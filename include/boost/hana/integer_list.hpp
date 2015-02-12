@@ -18,9 +18,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/integral_constant.hpp>
 
 // instances
+#include <boost/hana/foldable.hpp>
 #include <boost/hana/iterable.hpp>
-#include <boost/hana/searchable.hpp>
 #include <boost/hana/list.hpp>
+#include <boost/hana/searchable.hpp>
 
 
 namespace boost { namespace hana {
@@ -63,6 +64,24 @@ namespace boost { namespace hana {
     template <>
     struct any_impl<IntegerList>
         : Iterable::any_impl<IntegerList>
+    { };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Foldable
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Foldable(IntegerList)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct foldl_impl<IntegerList>
+        : Iterable::foldl_impl<IntegerList>
+    { };
+
+    template <>
+    struct foldr_impl<IntegerList>
+        : Iterable::foldr_impl<IntegerList>
     { };
 
     //! Instance of `List` for `IntegerList`s.

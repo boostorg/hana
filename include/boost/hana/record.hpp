@@ -31,10 +31,17 @@ namespace boost { namespace hana {
     //! Minimal complete definition: `members`
     struct Record::mcd { };
 
+    //! Folding a `Record` `R` is equivalent to folding a list of its members,
+    //! in the same order as they appear in `members<R>`.
     template <typename R>
-    struct Foldable::record_mcd : Foldable::folds_mcd {
+    struct models<Foldable(R), when<is_a<Record, R>()>>
+        : detail::std::true_type
+    { };
+
+    template <typename R>
+    struct foldl_impl<R, when<is_a<Record, R>()>> {
         template <typename Udt, typename S, typename F>
-        static constexpr decltype(auto) foldl_impl(Udt&& udt, S&& s, F&& f) {
+        static constexpr decltype(auto) apply(Udt&& udt, S&& s, F&& f) {
             return foldl(members<R>, detail::std::forward<S>(s),
                 [&udt, f(detail::std::forward<F>(f))]
                 (auto&& s, auto&& member) -> decltype(auto) {
@@ -47,9 +54,12 @@ namespace boost { namespace hana {
                 }
             );
         }
+    };
 
+    template <typename R>
+    struct foldr_impl<R, when<is_a<Record, R>()>> {
         template <typename Udt, typename S, typename F>
-        static constexpr decltype(auto) foldr_impl(Udt&& udt, S&& s, F&& f) {
+        static constexpr decltype(auto) apply(Udt&& udt, S&& s, F&& f) {
             return foldr(members<R>, detail::std::forward<S>(s),
                 [&udt, f(detail::std::forward<F>(f))]
                 (auto&& member, auto&& s) -> decltype(auto) {
@@ -63,13 +73,6 @@ namespace boost { namespace hana {
             );
         }
     };
-
-    //! Folding a `Record` `R` is equivalent to folding a list of its members,
-    //! in the same order as they appear in `members<R>`.
-    template <typename R>
-    struct Foldable::instance<R, when<is_a<Record, R>()>>
-        : Foldable::record_mcd<R>
-    { };
 
     //! Two `Records` of the same data type `R` are equal if and only if
     //! all their members are equal. The members are compared in the

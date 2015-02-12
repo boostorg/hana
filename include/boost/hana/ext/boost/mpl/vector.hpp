@@ -20,6 +20,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/type.hpp>
 
 // instances
+#include <boost/hana/foldable.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/list.hpp>
 #include <boost/hana/searchable.hpp>
@@ -32,6 +33,24 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
+    //////////////////////////////////////////////////////////////////////////
+    // Foldable
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Foldable(ext::boost::mpl::Vector)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct foldl_impl<ext::boost::mpl::Vector>
+        : Iterable::foldl_impl<ext::boost::mpl::Vector>
+    { };
+
+    template <>
+    struct foldr_impl<ext::boost::mpl::Vector>
+        : Iterable::foldr_impl<ext::boost::mpl::Vector>
+    { };
+
     //////////////////////////////////////////////////////////////////////////
     // Searchable
     //////////////////////////////////////////////////////////////////////////

@@ -125,37 +125,48 @@ namespace boost { namespace hana {
     //!
     //! @todo Add perfect forwarding where possible. This is _not_ obvious
     //! to me because of all those branches.
-    struct Foldable::iterable_mcd : Foldable::folds_mcd {
+
+    template <typename T>
+    struct Iterable::foldl_impl {
         template <typename Xs, typename State, typename F>
-        static constexpr auto foldl_impl(Xs xs, State s, F f) {
+        static constexpr auto apply(Xs xs, State s, F f) {
             return eval_if(is_empty(xs),
                 always(s),
                 [xs, s, f](auto _) {
-                    return foldl_impl(tail(_(xs)), f(s, head(_(xs))), f);
+                    return apply(tail(_(xs)), f(s, head(_(xs))), f);
                 }
             );
         }
+    };
 
+    template <typename T>
+    struct Iterable::foldl1_impl {
         template <typename Xs, typename F>
-        static constexpr auto foldl1_impl(Xs xs, F f)
+        static constexpr auto apply(Xs xs, F f)
         { return foldl(tail(xs), head(xs), f); }
+    };
 
+    template <typename T>
+    struct Iterable::foldr1_impl {
         template <typename Xs, typename F>
-        static constexpr auto foldr1_impl(Xs xs, F f) {
+        static constexpr auto apply(Xs xs, F f) {
             return eval_if(is_empty(tail(xs)),
                 [xs](auto) { return head(xs); },
                 [xs, f](auto _) {
-                    return f(head(xs), foldr1_impl(_(tail)(xs), f));
+                    return f(head(xs), apply(_(tail)(xs), f));
                 }
             );
         }
+    };
 
+    template <typename T>
+    struct Iterable::foldr_impl {
         template <typename Xs, typename State, typename F>
-        static constexpr auto foldr_impl(Xs xs, State s, F f) {
+        static constexpr auto apply(Xs xs, State s, F f) {
             return eval_if(is_empty(xs),
                 always(s),
                 [xs, s, f](auto _) {
-                    return f(_(head)(xs), foldr_impl(_(tail)(xs), s, f));
+                    return f(_(head)(xs), apply(_(tail)(xs), s, f));
                 }
             );
         }
@@ -193,10 +204,7 @@ namespace boost { namespace hana {
     //!
     //! ### Example 2
     //! @snippet example/integer_list/foldable.cpp foldr
-    template <typename T>
-    struct Foldable::instance<T, when<is_an<Iterable, T>() && !models<Foldable(T)>{}>>
-        : Foldable::iterable_mcd
-    { };
+
 
     //! Minimal complete definition: `Iterable`
     //!

@@ -110,12 +110,20 @@ namespace boost { namespace hana {
         MACRO(&&    , &&    , &&    )                                   \
     /**/
 
+    //////////////////////////////////////////////////////////////////////////
+    // Foldable
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Foldable::instance<Tuple> : Foldable::unpack_mcd {
+    struct models<Foldable(Tuple)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct unpack_impl<Tuple> {
         #define BOOST_HANA_PP_UNPACK(REF)                                   \
             template <typename Into, typename ...Xs>                        \
             static constexpr decltype(auto)                                 \
-            unpack_impl(detail::closure_impl<Xs...> REF xs, Into&& into) {  \
+            apply(detail::closure_impl<Xs...> REF xs, Into&& into) {        \
                 return detail::std::forward<Into>(into)(                    \
                     static_cast<Xs REF>(xs).get...                          \
                 );                                                          \
@@ -123,10 +131,13 @@ namespace boost { namespace hana {
         /**/
         BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_UNPACK)
         #undef BOOST_HANA_PP_UNPACK
+    };
 
+    template <>
+    struct length_impl<Tuple> {
         template <typename ...Xs>
         static constexpr decltype(auto)
-        length_impl(detail::closure_impl<Xs...> const&) {
+        apply(detail::closure_impl<Xs...> const&) {
             return size_t<sizeof...(Xs)>;
         }
     };

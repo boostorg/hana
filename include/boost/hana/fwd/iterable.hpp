@@ -54,6 +54,19 @@ namespace boost { namespace hana {
 
         template <typename T>
         struct any_impl;
+
+
+        template <typename T>
+        struct foldl_impl;
+
+        template <typename T>
+        struct foldl1_impl;
+
+        template <typename T>
+        struct foldr_impl;
+
+        template <typename T>
+        struct foldr1_impl;
     };
 
     //! Return the first element of a non-empty iterable.

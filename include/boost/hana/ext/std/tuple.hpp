@@ -21,6 +21,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/size_t.hpp>
 
 // instances
+#include <boost/hana/foldable.hpp>
 #include <boost/hana/functor.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/list.hpp>
@@ -60,6 +61,24 @@ namespace boost { namespace hana {
             );
         }
     };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Foldable
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Foldable(ext::std::Tuple)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct foldl_impl<ext::std::Tuple>
+        : Iterable::foldl_impl<ext::std::Tuple>
+    { };
+
+    template <>
+    struct foldr_impl<ext::std::Tuple>
+        : Iterable::foldr_impl<ext::std::Tuple>
+    { };
 
     //////////////////////////////////////////////////////////////////////////
     // Searchable

@@ -19,6 +19,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/ext/std/integral_constant.hpp>
 
 // instances
+#include <boost/hana/foldable.hpp>
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/searchable.hpp>
@@ -56,6 +57,24 @@ namespace boost { namespace hana {
         static constexpr auto apply(Xs, Ys, ...)
         { return false_; }
     };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Foldable
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Foldable(ext::std::IntegerSequence)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct foldl_impl<ext::std::IntegerSequence>
+        : Iterable::foldl_impl<ext::std::IntegerSequence>
+    { };
+
+    template <>
+    struct foldr_impl<ext::std::IntegerSequence>
+        : Iterable::foldr_impl<ext::std::IntegerSequence>
+    { };
 
     //////////////////////////////////////////////////////////////////////////
     // Searchable

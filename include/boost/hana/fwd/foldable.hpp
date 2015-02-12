@@ -11,35 +11,36 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_FOLDABLE_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/typeclass.hpp>
-#include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/functional/curry.hpp>
+#include <boost/hana/functional/flip.hpp>
 
 
 namespace boost { namespace hana {
     //! @ingroup group-typeclasses
-    //! Data structures that can be folded, i.e. summarized into
-    //! a single value.
+    //! The `Foldable` concept represents data structures that can be folded,
+    //! i.e. summarized into a single value.
     //!
     //! Another way of seeing `Foldable`s is as data structures supporting
     //! internal iteration with the ability to accumulate a result. Also
-    //! note that since C++ only supports eager evaluation, all instances of
+    //! note that since C++ only supports eager evaluation, all models of
     //! `Foldable` must represent finite data structures.
     //!
     //! Additionally, only structures whose total size is known at
-    //! compile-time can be made  instances of `Foldable`. This is
-    //! because of the `unpack` method, whose return _type_ depends
-    //! on the number and types of the objects in the structure.
+    //! compile-time can be models of `Foldable`. This is because of
+    //! the `unpack` method, whose return _type_ depends on the number
+    //! and types of the objects in the structure.
     //!
     //! @note
     //! While the fact that `Foldable` only works for finite structures may
     //! seem overly restrictive in comparison to the Haskell definition of
-    //! `Foldable`, a finer grained separation of type classes (see `Iterable`
-    //!  and `Searchable`) should mitigate the issue.
+    //! `Foldable`, a finer grained separation of the concepts (see `Iterable`
+    //! and `Searchable`) should mitigate the issue.
     //!
     //!
-    //! ### Laws
-    //! For any `Foldable xs`, the following laws must be satisfied:
+    //! Laws
+    //! ----
+    //! For any `Foldable` `xs`, the following laws must be satisfied:
     //! @code
     //!     foldl(xs, s, f) == foldl(to<Tuple>(xs), s, f)
     //!     foldr(xs, s, f) == foldr(to<Tuple>(xs), s, f)
@@ -49,15 +50,24 @@ namespace boost { namespace hana {
     //! used for folding, respectively. Intuitively, these laws say that
     //! `Foldable` respects the left-to-right order of elements within a
     //! structure.
-    struct Foldable {
-        BOOST_HANA_TYPECLASS(Foldable);
-        struct folds_mcd;
-        struct unpack_mcd;
-        struct iterable_mcd;
-        struct product_mcd;
-        template <typename R>
-        struct record_mcd;
-    };
+    //!
+    //!
+    //! Minimal complete definition
+    //! ---------------------------
+    //! (`foldl` and `foldr`) or `unpack`
+    //!
+    //!
+    //! Provided models
+    //! ---------------
+    //! 1. Builtin arrays
+    //! Builtin arrays whose size is known can be folded as-if they were
+    //! homogeneous tuples. However, note that builtin arrays can't be made
+    //! more than `Foldable` (e.g. `Iterable`) because they can't be empty
+    //! and they also can't be returned from functions.
+    //!
+    //! @todo
+    //! Make it possible to specify the Monoid used for `sum` and `product`?
+    struct Foldable { };
 
     //! Left-associative fold of a structure using a binary operation.
     //! @relates Foldable
@@ -74,36 +84,27 @@ namespace boost { namespace hana {
     //! result accumulated so far and `x` is an element in the structure.
     //!
     //!
-    //! ### Example
+    //! Example
+    //! -------
     //! @snippet example/foldable.cpp foldl
     //!
-    //! ### Benchmarks
+    //!
+    //! Benchmarks
+    //! ----------
     //! @image html benchmark/foldable/foldl.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto foldl = [](auto&& foldable, auto&& state, auto&& f) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    template <typename T, typename = void>
-    struct foldl_impl : foldl_impl<T, when<true>> { };
-
-    template <typename T, bool condition>
-    struct foldl_impl<T, when<condition>> {
-        template <typename Fold, typename State, typename F>
-        static constexpr decltype(auto) apply(Fold&& foldable, State&& state, F&& f) {
-            return Foldable::instance<T>::foldl_impl(
-                detail::std::forward<Fold>(foldable),
-                detail::std::forward<State>(state),
-                detail::std::forward<F>(f)
-            );
-        }
-    };
+    template <typename Xs, typename = void>
+    struct foldl_impl;
 
     struct _foldl {
-        template <typename Fold, typename State, typename F>
-        constexpr decltype(auto) operator()(Fold&& foldable, State&& state, F&& f) const {
-            return foldl_impl<datatype_t<Fold>>::apply(
-                detail::std::forward<Fold>(foldable),
+        template <typename Xs, typename State, typename F>
+        constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
+            return foldl_impl<typename datatype<Xs>::type>::apply(
+                detail::std::forward<Xs>(xs),
                 detail::std::forward<State>(state),
                 detail::std::forward<F>(f)
             );
@@ -128,36 +129,27 @@ namespace boost { namespace hana {
     //! result accumulated so far and `x` is an element in the structure.
     //!
     //!
-    //! ### Example
+    //! Example
+    //! -------
     //! @snippet example/foldable.cpp foldr
     //!
-    //! ### Benchmarks
+    //!
+    //! Benchmarks
+    //! ----------
     //! @image html benchmark/foldable/foldr.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto foldr = [](auto&& foldable, auto&& state, auto&& f) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    template <typename T, typename = void>
-    struct foldr_impl : foldr_impl<T, when<true>> { };
-
-    template <typename T, bool condition>
-    struct foldr_impl<T, when<condition>> {
-        template <typename Fold, typename State, typename F>
-        static constexpr decltype(auto) apply(Fold&& foldable, State&& state, F&& f) {
-            return Foldable::instance<T>::foldr_impl(
-                detail::std::forward<Fold>(foldable),
-                detail::std::forward<State>(state),
-                detail::std::forward<F>(f)
-            );
-        }
-    };
+    template <typename Xs, typename = void>
+    struct foldr_impl;
 
     struct _foldr {
-        template <typename Fold, typename State, typename F>
-        constexpr decltype(auto) operator()(Fold&& foldable, State&& state, F&& f) const {
-            return foldr_impl<datatype_t<Fold>>::apply(
-                detail::std::forward<Fold>(foldable),
+        template <typename Xs, typename State, typename F>
+        constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
+            return foldr_impl<typename datatype<Xs>::type>::apply(
+                detail::std::forward<Xs>(xs),
                 detail::std::forward<State>(state),
                 detail::std::forward<F>(f)
             );
@@ -180,35 +172,27 @@ namespace boost { namespace hana {
     //! result accumulated so far and `x` is an element in the structure.
     //!
     //!
-    //! ### Example
+    //! Example
+    //! -------
     //! @snippet example/foldable.cpp foldr1
     //!
-    //! ### Benchmarks
+    //!
+    //! Benchmarks
+    //! ----------
     //! @image html benchmark/foldable/foldr1.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto foldr1 = [](auto&& foldable, auto&& f) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    template <typename T, typename = void>
-    struct foldr1_impl : foldr1_impl<T, when<true>> { };
-
-    template <typename T, bool condition>
-    struct foldr1_impl<T, when<condition>> {
-        template <typename Fold, typename F>
-        static constexpr decltype(auto) apply(Fold&& foldable, F&& f) {
-            return Foldable::instance<T>::foldr1_impl(
-                detail::std::forward<Fold>(foldable),
-                detail::std::forward<F>(f)
-            );
-        }
-    };
+    template <typename Xs, typename = void>
+    struct foldr1_impl;
 
     struct _foldr1 {
-        template <typename Fold, typename F>
-        constexpr decltype(auto) operator()(Fold&& foldable, F&& f) const {
-            return foldr1_impl<datatype_t<Fold>>::apply(
-                detail::std::forward<Fold>(foldable),
+        template <typename Xs, typename F>
+        constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
+            return foldr1_impl<typename datatype<Xs>::type>::apply(
+                detail::std::forward<Xs>(xs),
                 detail::std::forward<F>(f)
             );
         }
@@ -230,35 +214,27 @@ namespace boost { namespace hana {
     //! result accumulated so far and `x` is an element in the structure.
     //!
     //!
-    //! ### Example
+    //! Example
+    //! -------
     //! @snippet example/foldable.cpp foldl1
     //!
-    //! ### Benchmarks
+    //!
+    //! Benchmarks
+    //! ----------
     //! @image html benchmark/foldable/foldl1.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto foldl1 = [](auto&& foldable, auto&& f) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    template <typename T, typename = void>
-    struct foldl1_impl : foldl1_impl<T, when<true>> { };
-
-    template <typename T, bool condition>
-    struct foldl1_impl<T, when<condition>> {
-        template <typename Fold, typename F>
-        static constexpr decltype(auto) apply(Fold&& foldable, F&& f) {
-            return Foldable::instance<T>::foldl1_impl(
-                detail::std::forward<Fold>(foldable),
-                detail::std::forward<F>(f)
-            );
-        }
-    };
+    template <typename Xs, typename = void>
+    struct foldl1_impl;
 
     struct _foldl1 {
-        template <typename Fold, typename F>
-        constexpr decltype(auto) operator()(Fold&& foldable, F&& f) const {
-            return foldl1_impl<datatype_t<Fold>>::apply(
-                detail::std::forward<Fold>(foldable),
+        template <typename Xs, typename F>
+        constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
+            return foldl1_impl<typename datatype<Xs>::type>::apply(
+                detail::std::forward<Xs>(xs),
                 detail::std::forward<F>(f)
             );
         }
@@ -284,40 +260,33 @@ namespace boost { namespace hana {
     //! The result of `f(x)`, whatever it is, is ignored.
     //!
     //!
-    //! ### Example
-    //! @snippet example/foldable.cpp for_each
-    //!
-    //! ### Benchmarks
-    //! @image html benchmark/foldable/for_each.ctime.png
-    //!
     //! @todo
     //! The presence of implicit side effects in this function might be a
     //! smell that it should be moved to a different type class and handled
     //! through `Monad`s.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/foldable.cpp for_each
+    //!
+    //!
+    //! Benchmarks
+    //! ----------
+    //! @image html benchmark/foldable/for_each.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto for_each = [](auto&& foldable, auto&& f) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    template <typename T, typename = void>
-    struct for_each_impl : for_each_impl<T, when<true>> { };
-
-    template <typename T, bool condition>
-    struct for_each_impl<T, when<condition>> {
-        template <typename Fold, typename F>
-        static constexpr decltype(auto) apply(Fold&& foldable, F&& f) {
-            return Foldable::instance<T>::for_each_impl(
-                detail::std::forward<Fold>(foldable),
-                detail::std::forward<F>(f)
-            );
-        }
-    };
+    template <typename Xs, typename = void>
+    struct for_each_impl;
 
     struct _for_each {
-        template <typename Fold, typename F>
-        constexpr decltype(auto) operator()(Fold&& foldable, F&& f) const {
-            return for_each_impl<datatype_t<Fold>>::apply(
-                detail::std::forward<Fold>(foldable),
+        template <typename Xs, typename F>
+        constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
+            return for_each_impl<typename datatype<Xs>::type>::apply(
+                detail::std::forward<Xs>(xs),
                 detail::std::forward<F>(f)
             );
         }
@@ -329,34 +298,33 @@ namespace boost { namespace hana {
     //! Return the number of elements in a finite structure.
     //! @relates Foldable
     //!
-    //! ### Example
+    //! Specifically, returns an object of an unsigned integral type, or
+    //! a `Constant` holding such an object, which represents the number
+    //! of elements in the structure. The structure has to be finite for
+    //! this method to make sense.
+    //!
+    //!
+    //! Example
+    //! -------
     //! @snippet example/foldable.cpp length
     //!
-    //! ### Benchmarks
+    //!
+    //! Benchmarks
+    //! ----------
     //! @image html benchmark/foldable/length.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto length = [](auto&& foldable) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    template <typename T, typename = void>
-    struct length_impl : length_impl<T, when<true>> { };
-
-    template <typename T, bool condition>
-    struct length_impl<T, when<condition>> {
-        template <typename Fold>
-        static constexpr decltype(auto) apply(Fold&& foldable) {
-            return Foldable::instance<T>::length_impl(
-                detail::std::forward<Fold>(foldable)
-            );
-        }
-    };
+    template <typename Xs, typename = void>
+    struct length_impl;
 
     struct _length {
-        template <typename Fold>
-        constexpr decltype(auto) operator()(Fold&& foldable) const {
-            return length_impl<datatype_t<Fold>>::apply(
-                detail::std::forward<Fold>(foldable)
+        template <typename Xs>
+        constexpr decltype(auto) operator()(Xs&& xs) const {
+            return length_impl<typename datatype<Xs>::type>::apply(
+                detail::std::forward<Xs>(xs)
             );
         }
     };
@@ -371,43 +339,35 @@ namespace boost { namespace hana {
     //!
     //! @param predicate
     //! A function called as `predicate(x, y)`, where `x` and `y` are elements
-    //! of the structure. `predicate` should be a [strict weak ordering](@ref strict_weak_ordering)
-    //! on the elements of the structure and its return value should be a `Logical`.
+    //! of the structure. `predicate` should be a strict weak ordering on the
+    //! elements of the structure and its return value should be a `Logical`.
     //!
     //! @param foldable
     //! The structure to find the least element of.
     //!
     //!
-    //! ### Example
+    //! Example
+    //! -------
     //! @snippet example/foldable.cpp minimum_by
     //!
-    //! ### Benchmarks
+    //!
+    //! Benchmarks
+    //! ----------
     //! @image html benchmark/foldable/minimum_by.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto minimum_by = [](auto&& predicate, auto&& foldable) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    template <typename T, typename = void>
-    struct minimum_by_impl : minimum_by_impl<T, when<true>> { };
-
-    template <typename T, bool condition>
-    struct minimum_by_impl<T, when<condition>> {
-        template <typename Pred, typename Fold>
-        static constexpr decltype(auto) apply(Pred&& pred, Fold&& foldable) {
-            return Foldable::instance<T>::minimum_by_impl(
-                detail::std::forward<Pred>(pred),
-                detail::std::forward<Fold>(foldable)
-            );
-        }
-    };
+    template <typename Xs, typename = void>
+    struct minimum_by_impl;
 
     struct _minimum_by {
-        template <typename Pred, typename Fold>
-        constexpr decltype(auto) operator()(Pred&& pred, Fold&& foldable) const {
-            return minimum_by_impl<datatype_t<Fold>>::apply(
+        template <typename Pred, typename Xs>
+        constexpr decltype(auto) operator()(Pred&& pred, Xs&& xs) const {
+            return minimum_by_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Pred>(pred),
-                detail::std::forward<Fold>(foldable)
+                detail::std::forward<Xs>(xs)
             );
         }
     };
@@ -418,34 +378,28 @@ namespace boost { namespace hana {
     //! Return the least element of a non-empty structure.
     //! @relates Foldable
     //!
-    //! ### Example
+    //!
+    //! Example
+    //! -------
     //! @snippet example/foldable.cpp minimum
     //!
-    //! ### Benchmarks
+    //!
+    //! Benchmarks
+    //! ----------
     //! @image html benchmark/foldable/minimum.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto minimum = [](auto&& foldable) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    template <typename T, typename = void>
-    struct minimum_impl : minimum_impl<T, when<true>> { };
-
-    template <typename T, bool condition>
-    struct minimum_impl<T, when<condition>> {
-        template <typename Fold>
-        static constexpr decltype(auto) apply(Fold&& foldable) {
-            return Foldable::instance<T>::minimum_impl(
-                detail::std::forward<Fold>(foldable)
-            );
-        }
-    };
+    template <typename Xs, typename = void>
+    struct minimum_impl;
 
     struct _minimum {
-        template <typename Fold>
-        constexpr decltype(auto) operator()(Fold&& foldable) const {
-            return minimum_impl<datatype_t<Fold>>::apply(
-                detail::std::forward<Fold>(foldable)
+        template <typename Xs>
+        constexpr decltype(auto) operator()(Xs&& xs) const {
+            return minimum_impl<typename datatype<Xs>::type>::apply(
+                detail::std::forward<Xs>(xs)
             );
         }
     };
@@ -460,43 +414,35 @@ namespace boost { namespace hana {
     //!
     //! @param predicate
     //! A function called as `predicate(x, y)`, where `x` and `y` are elements
-    //! of the structure. `predicate` should be a [strict weak ordering](@ref strict_weak_ordering)
-    //! on the elements of the structure and its return value should be a `Logical`.
+    //! of the structure. `predicate` should be a strict weak ordering on the
+    //! elements of the structure and its return value should be a `Logical`.
     //!
     //! @param foldable
     //! The structure to find the greatest element of.
     //!
     //!
-    //! ### Example
+    //! Example
+    //! -------
     //! @snippet example/foldable.cpp maximum_by
     //!
-    //! ### Benchmarks
+    //!
+    //! Benchmarks
+    //! ----------
     //! @image html benchmark/foldable/maximum_by.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto maximum_by = [](auto&& predicate, auto&& foldable) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    template <typename T, typename = void>
-    struct maximum_by_impl : maximum_by_impl<T, when<true>> { };
-
-    template <typename T, bool condition>
-    struct maximum_by_impl<T, when<condition>> {
-        template <typename Pred, typename Fold>
-        static constexpr decltype(auto) apply(Pred&& pred, Fold&& foldable) {
-            return Foldable::instance<T>::maximum_by_impl(
-                detail::std::forward<Pred>(pred),
-                detail::std::forward<Fold>(foldable)
-            );
-        }
-    };
+    template <typename Xs, typename = void>
+    struct maximum_by_impl;
 
     struct _maximum_by {
-        template <typename Pred, typename Fold>
-        constexpr decltype(auto) operator()(Pred&& pred, Fold&& foldable) const {
-            return maximum_by_impl<datatype_t<Fold>>::apply(
+        template <typename Pred, typename Xs>
+        constexpr decltype(auto) operator()(Pred&& pred, Xs&& xs) const {
+            return maximum_by_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Pred>(pred),
-                detail::std::forward<Fold>(foldable)
+                detail::std::forward<Xs>(xs)
             );
         }
     };
@@ -507,34 +453,28 @@ namespace boost { namespace hana {
     //! Return the greatest element of a non-empty structure.
     //! @relates Foldable
     //!
-    //! ### Example
+    //!
+    //! Example
+    //! -------
     //! @snippet example/foldable.cpp maximum
     //!
-    //! ### Benchmarks
+    //!
+    //! Benchmarks
+    //! ----------
     //! @image html benchmark/foldable/maximum.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto maximum = [](auto&& foldable) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    template <typename T, typename = void>
-    struct maximum_impl : maximum_impl<T, when<true>> { };
-
-    template <typename T, bool condition>
-    struct maximum_impl<T, when<condition>> {
-        template <typename Fold>
-        static constexpr decltype(auto) apply(Fold&& foldable) {
-            return Foldable::instance<T>::maximum_impl(
-                detail::std::forward<Fold>(foldable)
-            );
-        }
-    };
+    template <typename Xs, typename = void>
+    struct maximum_impl;
 
     struct _maximum {
-        template <typename Fold>
-        constexpr decltype(auto) operator()(Fold&& foldable) const {
-            return maximum_impl<datatype_t<Fold>>::apply(
-                detail::std::forward<Fold>(foldable)
+        template <typename Xs>
+        constexpr decltype(auto) operator()(Xs&& xs) const {
+            return maximum_impl<typename datatype<Xs>::type>::apply(
+                detail::std::forward<Xs>(xs)
             );
         }
     };
@@ -550,34 +490,28 @@ namespace boost { namespace hana {
     //! elements of the structure `x` and `y` are adjacent if and only if
     //! they are adjacent in `to<Tuple>(foldable)`.
     //!
-    //! ### Example
+    //!
+    //! Example
+    //! -------
     //! @snippet example/foldable.cpp sum
     //!
-    //! ### Benchmarks
+    //!
+    //! Benchmarks
+    //! ----------
     //! @image html benchmark/foldable/sum.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto sum = [](auto&& foldable) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    template <typename T, typename = void>
-    struct sum_impl : sum_impl<T, when<true>> { };
-
-    template <typename T, bool condition>
-    struct sum_impl<T, when<condition>> {
-        template <typename Fold>
-        static constexpr decltype(auto) apply(Fold&& foldable) {
-            return Foldable::instance<T>::sum_impl(
-                detail::std::forward<Fold>(foldable)
-            );
-        }
-    };
+    template <typename Xs, typename = void>
+    struct sum_impl;
 
     struct _sum {
-        template <typename Fold>
-        constexpr decltype(auto) operator()(Fold&& foldable) const {
-            return sum_impl<datatype_t<Fold>>::apply(
-                detail::std::forward<Fold>(foldable)
+        template <typename Xs>
+        constexpr decltype(auto) operator()(Xs&& xs) const {
+            return sum_impl<typename datatype<Xs>::type>::apply(
+                detail::std::forward<Xs>(xs)
             );
         }
     };
@@ -593,34 +527,28 @@ namespace boost { namespace hana {
     //! elements of the structure `x` and `y` are adjacent if and only if
     //! they are adjacent in `to<Tuple>(foldable)`.
     //!
-    //! ### Example
+    //!
+    //! Example
+    //! -------
     //! @snippet example/foldable.cpp product
     //!
-    //! ### Benchmarks
+    //!
+    //! Benchmarks
+    //! ----------
     //! @image html benchmark/foldable/product.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto product = [](auto&& foldable) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    template <typename T, typename = void>
-    struct product_impl : product_impl<T, when<true>> { };
-
-    template <typename T, bool condition>
-    struct product_impl<T, when<condition>> {
-        template <typename Fold>
-        static constexpr decltype(auto) apply(Fold&& foldable) {
-            return Foldable::instance<T>::product_impl(
-                detail::std::forward<Fold>(foldable)
-            );
-        }
-    };
+    template <typename Xs, typename = void>
+    struct product_impl;
 
     struct _product {
-        template <typename Fold>
-        constexpr decltype(auto) operator()(Fold&& foldable) const {
-            return product_impl<datatype_t<Fold>>::apply(
-                detail::std::forward<Fold>(foldable)
+        template <typename Xs>
+        constexpr decltype(auto) operator()(Xs&& xs) const {
+            return product_impl<typename datatype<Xs>::type>::apply(
+                detail::std::forward<Xs>(xs)
             );
         }
     };
@@ -633,44 +561,41 @@ namespace boost { namespace hana {
     //! @relates Foldable
     //!
     //!
+    //! Specifically, returns an object of an unsigned integral type, or
+    //! a `Constant` holding such an object, which represents the number
+    //! of elements in the structure satisfying the given `predicate`.
+    //!
+    //!
     //! @param foldable
     //! The structure whose elements are counted.
     //!
     //! @param predicate
     //! A function called as `predicate(x)`, where `x` is an element of the
     //! structure, and returning a `Logical` representing whether `x` should
-    //! add `1` to the overall result.
+    //! be counted.
     //!
     //!
-    //! ### Example
+    //! Example
+    //! -------
     //! @snippet example/foldable.cpp count
     //!
-    //! ### Benchmarks
+    //!
+    //! Benchmarks
+    //! ----------
     //! @image html benchmark/foldable/count.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto count = [](auto&& foldable, auto&& predicate) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    template <typename T, typename = void>
-    struct count_impl : count_impl<T, when<true>> { };
-
-    template <typename T, bool condition>
-    struct count_impl<T, when<condition>> {
-        template <typename Fold, typename Pred>
-        static constexpr decltype(auto) apply(Fold&& foldable, Pred&& pred) {
-            return Foldable::instance<T>::count_impl(
-                detail::std::forward<Fold>(foldable),
-                detail::std::forward<Pred>(pred)
-            );
-        }
-    };
+    template <typename Xs, typename = void>
+    struct count_impl;
 
     struct _count {
-        template <typename Fold, typename Pred>
-        constexpr decltype(auto) operator()(Fold&& foldable, Pred&& pred) const {
-            return count_impl<datatype_t<Fold>>::apply(
-                detail::std::forward<Fold>(foldable),
+        template <typename Xs, typename Pred>
+        constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
+            return count_impl<typename datatype<Xs>::type>::apply(
+                detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred)
             );
         }
@@ -682,58 +607,86 @@ namespace boost { namespace hana {
     //! Invoke a function with the elements of a structure as arguments.
     //! @relates Foldable
     //!
+    //! Given a function and a foldable structure whose length can be known at
+    //! compile-time, `unpack` invokes the function with the contents of that
+    //! structure. In other words, `unpack(foldable, f)` is equivalent to
+    //! `f(x...)`, where `x...` are the elements of the structure. The length
+    //! of the structure must be known at compile-time, because the version of
+    //! `f`'s `operator()` that will be compiled depends on the number of
+    //! arguments it is called with, which has to be known at compile-time.
+    //!
+    //! To create a function that accepts a foldable instead of variadic
+    //! arguments, see `fuse`, which is roughly equivalent to
+    //! `boost::fusion::make_fused`.
+    //!
     //!
     //! @param foldable
     //! The structure to expand into the function.
     //!
     //! @param f
     //! A function to be invoked as `f(x...)`, where `x...` are the elements
-    //! of the structure as-if they had been linearized with `to<List>`.
+    //! of the structure as-if they had been linearized with `to<Tuple>`.
     //!
     //!
-    //! @note
-    //! This can be used to transform a function taking multiple arguments
-    //! to a function taking a `Foldable` by partially applying `unpack`:
-    //! @snippet example/foldable.cpp unpack_idiom
-    //! This idiom serves the role of `boost::fusion::make_fused` and
-    //! related utilities in the Boost.Fusion library.
-    //!
-    //!
-    //! ### Example
+    //! Example
+    //! -------
     //! @snippet example/foldable.cpp unpack
     //!
-    //! ### Benchmarks
+    //!
+    //! Benchmarks
+    //! ----------
     //! @image html benchmark/foldable/unpack.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto unpack = [](auto&& foldable, auto&& f) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    template <typename T, typename = void>
-    struct unpack_impl : unpack_impl<T, when<true>> { };
-
-    template <typename T, bool condition>
-    struct unpack_impl<T, when<condition>> {
-        template <typename Fold, typename F>
-        static constexpr decltype(auto) apply(Fold&& foldable, F&& f) {
-            return Foldable::instance<T>::unpack_impl(
-                detail::std::forward<Fold>(foldable),
-                detail::std::forward<F>(f)
-            );
-        }
-    };
+    template <typename Xs, typename = void>
+    struct unpack_impl;
 
     struct _unpack {
-        template <typename Fold, typename F>
-        constexpr decltype(auto) operator()(Fold&& foldable, F&& f) const {
-            return unpack_impl<datatype_t<Fold>>::apply(
-                detail::std::forward<Fold>(foldable),
+        template <typename Xs, typename F>
+        constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
+            return unpack_impl<typename datatype<Xs>::type>::apply(
+                detail::std::forward<Xs>(xs),
                 detail::std::forward<F>(f)
             );
         }
     };
 
     constexpr _unpack unpack{};
+#endif
+
+    //! Transform a function taking multiple arguments into a function that
+    //! can be called with a `Foldable`.
+    //! @relates Foldable
+    //!
+    //!
+    //! This function is provided for convenience as a different way of
+    //! calling `unpack`. Specifically, `fuse(f)` is a function such that
+    //! @code
+    //!     fuse(f)(foldable) == unpack(foldable, f)
+    //!                       == f(x...)
+    //! @endcode
+    //! where `x...` are the elements in the foldable. This function is
+    //! useful when one wants to create a function that accepts a foldable
+    //! which is not known yet.
+    //!
+    //! @note
+    //! This function is not tag-dispatched and so it can not be customized.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/foldable.cpp fuse
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto fuse = [](auto&& f) -> decltype(auto) {
+        return [perfect-capture](auto&& xs) -> decltype(auto) {
+            return unpack(forwarded(xs), forwarded(f));
+        };
+    };
+#else
+    constexpr auto fuse = curry<2>(flip(unpack));
 #endif
 }} // end namespace boost::hana
 
