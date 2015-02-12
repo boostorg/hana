@@ -23,6 +23,7 @@ namespace boost { namespace hana {
     //! is only superficial; only function applications made inside the `Lazy`
     //! monad can be made lazy, not all their subexpressions.
     //!
+    //!
     //! Modeled concepts
     //! ----------------
     //! 1. `Functor`\n
@@ -34,7 +35,7 @@ namespace boost { namespace hana {
     //! A normal value can be lifted into a lazy value by using `lift<Lazy>`.
     //! A lazy function can be lazily applied to a lazy value by using `ap`.
     //!
-    //! 3. `Monad`\n
+    //! 3. `Monad` (operators provided)\n
     //! The `Lazy` monad allows combining lazy computations into larger
     //! lazy computations.
     //! @snippet example/lazy.monad.cpp monad
