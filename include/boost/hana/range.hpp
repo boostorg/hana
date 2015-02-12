@@ -31,6 +31,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/logical.hpp>
 #include <boost/hana/monoid.hpp>
 #include <boost/hana/orderable.hpp>
+#include <boost/hana/searchable.hpp>
 
 
 namespace boost { namespace hana {
@@ -215,6 +216,24 @@ namespace boost { namespace hana {
             return hana::to<U>(integral_constant<decltype(s), s>);
         }
     };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Searchable
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Searchable(Range)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct find_impl<Range>
+        : Iterable::find_impl<Range>
+    { };
+
+    template <>
+    struct any_impl<Range>
+        : Iterable::any_impl<Range>
+    { };
 
     //////////////////////////////////////////////////////////////////////////
     // Iterable

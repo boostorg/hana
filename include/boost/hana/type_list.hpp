@@ -22,6 +22,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/list.hpp>
+#include <boost/hana/searchable.hpp>
 
 
 namespace boost { namespace hana {
@@ -55,6 +56,24 @@ namespace boost { namespace hana {
         static constexpr auto unpack_impl(Xs, F f)
         { return unpack_impl(typename Xs::storage{}, f); }
     };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Searchable
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Searchable(TypeList)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct find_impl<TypeList>
+        : Iterable::find_impl<TypeList>
+    { };
+
+    template <>
+    struct any_impl<TypeList>
+        : Iterable::any_impl<TypeList>
+    { };
 
     template <>
     struct Iterable::instance<TypeList> : Iterable::mcd {

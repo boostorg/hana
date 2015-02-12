@@ -34,6 +34,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functor.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/list.hpp>
+#include <boost/hana/searchable.hpp>
 
 // operators
 #include <boost/hana/comparable.hpp>
@@ -200,6 +201,24 @@ namespace boost { namespace hana {
                 detail::std::forward<Xs>(xs));
         }
     };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Searchable
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Searchable(Tuple)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct find_impl<Tuple>
+        : Iterable::find_impl<Tuple>
+    { };
+
+    template <>
+    struct any_impl<Tuple>
+        : Iterable::any_impl<Tuple>
+    { };
 
     template <>
     struct List::instance<Tuple>

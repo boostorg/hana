@@ -8,12 +8,15 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_TEST_TEST_SEQ_HPP
 
 #include <boost/hana/bool.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 
 // instances
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/list.hpp>
+#include <boost/hana/searchable.hpp>
 
 
 namespace boost { namespace hana {
@@ -86,6 +89,24 @@ namespace boost { namespace hana {
 #else
     // Defined implicitly by Iterable
 #endif
+
+    //////////////////////////////////////////////////////////////////////////
+    // Searchable
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Searchable(test::Seq)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct find_impl<test::Seq>
+        : Iterable::find_impl<test::Seq>
+    { };
+
+    template <>
+    struct any_impl<test::Seq>
+        : Iterable::any_impl<test::Seq>
+    { };
 
     template <>
     struct Iterable::instance<test::Seq> : Iterable::mcd {

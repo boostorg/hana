@@ -53,6 +53,16 @@ namespace boost { namespace hana {
     //! `[from, to)` is equivalent to iterating over a list containing
     //! `from, from+1, from+2, ..., to-1`.
     //! @snippet example/range.cpp iterable
+    //!
+    //! 4. `Searchable`\n
+    //! Searching a `Range` is equivalent to searching a list of the values
+    //! in the range `[from, to)`.
+    //! @snippet example/range.cpp searchable
+    //!
+    //!
+    //! @todo
+    //! Optimize the Searchable model; we can do real good for `elem` and
+    //! `lookup`.
     struct Range { };
 
     //! Creates a `Range` representing the half-open interval of

@@ -13,8 +13,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/record.hpp>
 
 #include <boost/hana/core/is_a.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/functor.hpp>
 #include <boost/hana/product.hpp>
 #include <boost/hana/searchable.hpp>
@@ -88,12 +90,20 @@ namespace boost { namespace hana {
         }
     };
 
-    //! Minimal complete definition: `Record`
+    //////////////////////////////////////////////////////////////////////////
+    // Searchable
+    //////////////////////////////////////////////////////////////////////////
     template <typename R>
-    struct Searchable::record_mcd : Searchable::mcd {
+    struct models<Searchable(R), when<is_a<Record, R>()>>
+        : detail::std::true_type
+    { };
+
+    //! Searching a `Record` `r` is equivalent to searching `to<Map>(r)`.
+    template <typename R>
+    struct find_impl<R, when<is_a<Record, R>()>> {
         template <typename X, typename Pred>
-        static constexpr decltype(auto) find_impl(X&& x, Pred&& pred) {
-            return fmap(
+        static constexpr decltype(auto) apply(X&& x, Pred&& pred) {
+            return transform(
                 find(members<R>, [&pred](auto&& member) -> decltype(auto) {
                     return pred(first(detail::std::forward<decltype(member)>(member)));
                 }),
@@ -104,20 +114,17 @@ namespace boost { namespace hana {
                 }
             );
         }
+    };
 
+    template <typename R>
+    struct any_impl<R, when<is_a<Record, R>()>> {
         template <typename X, typename Pred>
-        static constexpr decltype(auto) any_impl(X const&, Pred&& pred) {
+        static constexpr decltype(auto) apply(X const&, Pred&& pred) {
             return any(members<R>, [&pred](auto&& member) -> decltype(auto) {
                 return pred(first(detail::std::forward<decltype(member)>(member)));
             });
         }
     };
-
-    //! Searching a `Record` `r` is equivalent to searching `to<Map>(r)`.
-    template <typename R>
-    struct Searchable::instance<R, when<is_a<Record, R>()>>
-        : Searchable::record_mcd<R>
-    { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_RECORD_HPP

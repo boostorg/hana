@@ -13,6 +13,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/ext/boost/mpl/vector.hpp>
 
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/models.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/is_same.hpp>
 #include <boost/hana/ext/boost/mpl/integral_c.hpp>
 #include <boost/hana/type.hpp>
@@ -20,6 +22,7 @@ Distributed under the Boost Software License, Version 1.0.
 // instances
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/list.hpp>
+#include <boost/hana/searchable.hpp>
 
 #include <boost/mpl/empty.hpp>
 #include <boost/mpl/front.hpp>
@@ -29,6 +32,24 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
+    //////////////////////////////////////////////////////////////////////////
+    // Searchable
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Searchable(ext::boost::mpl::Vector)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct find_impl<ext::boost::mpl::Vector>
+        : Iterable::find_impl<ext::boost::mpl::Vector>
+    { };
+
+    template <>
+    struct any_impl<ext::boost::mpl::Vector>
+        : Iterable::any_impl<ext::boost::mpl::Vector>
+    { };
+
     //! `Iterable` instance for Boost.MPL vectors.
     //!
     //! ### Example

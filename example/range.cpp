@@ -7,6 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/integral_constant.hpp>
+#include <boost/hana/maybe.hpp>
 #include <boost/hana/monoid.hpp>
 #include <boost/hana/range.hpp>
 #include <boost/hana/tuple.hpp>
@@ -42,6 +43,13 @@ BOOST_HANA_CONSTANT_CHECK(last(r) == int_<999>);
 BOOST_HANA_CONSTANT_CHECK(!is_empty(r));
 BOOST_HANA_CONSTANT_CHECK(is_empty(range(int_<3>, int_<3>)));
 //! [iterable]
+
+}{
+
+//! [searchable]
+BOOST_HANA_CONSTANT_CHECK(lookup(range(int_<1>, int_<25>), int_<10>) == just(int_<10>));
+BOOST_HANA_CONSTANT_CHECK(lookup(range(int_<1>, int_<25>), int_<200>) == nothing);
+//! [searchable]
 
 }{
 

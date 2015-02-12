@@ -10,12 +10,15 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_SANDBOX_LAMBDA_TUPLE_HPP
 #define BOOST_HANA_SANDBOX_LAMBDA_TUPLE_HPP
 
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/fwd/comparable.hpp>
 #include <boost/hana/fwd/iterable.hpp>
 #include <boost/hana/fwd/monad.hpp>
+#include <boost/hana/searchable.hpp>
 
 
 namespace boost { namespace hana { namespace sandbox {
@@ -121,6 +124,24 @@ namespace boost { namespace hana {
             );
         }
     };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Searchable
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Searchable(sandbox::LambdaTuple)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct find_impl<sandbox::LambdaTuple>
+        : Iterable::find_impl<sandbox::LambdaTuple>
+    { };
+
+    template <>
+    struct any_impl<sandbox::LambdaTuple>
+        : Iterable::any_impl<sandbox::LambdaTuple>
+    { };
 
     //! Instance of `Iterable` for `Tuple`s.
     //!

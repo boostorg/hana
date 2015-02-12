@@ -13,11 +13,14 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/ext/boost/fusion/list.hpp>
 
 #include <boost/hana/bool.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 
 // instances
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/list.hpp>
+#include <boost/hana/searchable.hpp>
 
 #include <boost/fusion/algorithm/transformation/pop_front.hpp>
 #include <boost/fusion/algorithm/transformation/push_front.hpp>
@@ -29,6 +32,24 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
+    //////////////////////////////////////////////////////////////////////////
+    // Searchable
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Searchable(ext::boost::fusion::List)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct find_impl<ext::boost::fusion::List>
+        : Iterable::find_impl<ext::boost::fusion::List>
+    { };
+
+    template <>
+    struct any_impl<ext::boost::fusion::List>
+        : Iterable::any_impl<ext::boost::fusion::List>
+    { };
+
     template <>
     struct Iterable::instance<ext::boost::fusion::List>
         : Iterable::mcd

@@ -13,17 +13,38 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/ext/boost/tuple.hpp>
 
 #include <boost/hana/bool.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/move.hpp>
 
 // instances
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/list.hpp>
+#include <boost/hana/searchable.hpp>
 
 #include <boost/tuple/tuple.hpp>
 
 
 namespace boost { namespace hana {
+    //////////////////////////////////////////////////////////////////////////
+    // Searchable
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Searchable(ext::boost::Tuple)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct find_impl<ext::boost::Tuple>
+        : Iterable::find_impl<ext::boost::Tuple>
+    { };
+
+    template <>
+    struct any_impl<ext::boost::Tuple>
+        : Iterable::any_impl<ext::boost::Tuple>
+    { };
+
     template <>
     struct Iterable::instance<ext::boost::Tuple> : Iterable::mcd {
         template <typename Xs>

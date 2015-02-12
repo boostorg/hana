@@ -21,6 +21,7 @@ Distributed under the Boost Software License, Version 1.0.
 // instances
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/iterable.hpp>
+#include <boost/hana/searchable.hpp>
 
 #include <type_traits>
 #include <utility>
@@ -55,6 +56,24 @@ namespace boost { namespace hana {
         static constexpr auto apply(Xs, Ys, ...)
         { return false_; }
     };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Searchable
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Searchable(ext::std::IntegerSequence)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct find_impl<ext::std::IntegerSequence>
+        : Iterable::find_impl<ext::std::IntegerSequence>
+    { };
+
+    template <>
+    struct any_impl<ext::std::IntegerSequence>
+        : Iterable::any_impl<ext::std::IntegerSequence>
+    { };
 
     template <>
     struct Iterable::instance<ext::std::IntegerSequence> : Iterable::mcd {

@@ -25,6 +25,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/list.hpp>
 #include <boost/hana/monad.hpp>
+#include <boost/hana/searchable.hpp>
 
 #include <tuple>
 
@@ -59,6 +60,24 @@ namespace boost { namespace hana {
             );
         }
     };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Searchable
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Searchable(ext::std::Tuple)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct find_impl<ext::std::Tuple>
+        : Iterable::find_impl<ext::std::Tuple>
+    { };
+
+    template <>
+    struct any_impl<ext::std::Tuple>
+        : Iterable::any_impl<ext::std::Tuple>
+    { };
 
     template <>
     struct Iterable::instance<ext::std::Tuple> : Iterable::mcd {

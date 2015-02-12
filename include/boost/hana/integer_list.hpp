@@ -13,10 +13,13 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/integer_list.hpp>
 
 #include <boost/hana/bool.hpp>
+#include <boost/hana/core/models.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/integral_constant.hpp>
 
 // instances
 #include <boost/hana/iterable.hpp>
+#include <boost/hana/searchable.hpp>
 #include <boost/hana/list.hpp>
 
 
@@ -43,6 +46,24 @@ namespace boost { namespace hana {
             return bool_<sizeof...(xs) == 0>;
         }
     };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Searchable
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Searchable(IntegerList)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct find_impl<IntegerList>
+        : Iterable::find_impl<IntegerList>
+    { };
+
+    template <>
+    struct any_impl<IntegerList>
+        : Iterable::any_impl<IntegerList>
+    { };
 
     //! Instance of `List` for `IntegerList`s.
     //!

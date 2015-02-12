@@ -13,8 +13,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/searchable.hpp>
 
 #include <boost/hana/comparable.hpp>
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/core/wrong.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/id.hpp>
 #include <boost/hana/functional/partial.hpp>
@@ -22,56 +23,143 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! Minimal complete definition: `find` and `any`
-    //!
-    //! @note
-    //! We could implement `any(pred, xs)` as `is_just(find(pred, xs))`, and
-    //! then reduce the MCD to `find`. However, this is not done because that
-    //! implementation requires the predicate to be compile-time, which is
-    //! more restrictive than the original `any` in `Foldable`.
-    //!
-    //! @todo
-    //! Use perfect forwarding once bug
-    //! http://llvm.org/bugs/show_bug.cgi?id=20619
-    //! is fixed.
-    struct Searchable::mcd {
-        template <typename Srch, typename X>
-        static constexpr auto elem_impl(Srch srch, X x)
-        { return any(srch, partial(equal, x)); }
+    //////////////////////////////////////////////////////////////////////////
+    // any
+    //////////////////////////////////////////////////////////////////////////
+    template <typename S, typename>
+    struct any_impl : any_impl<S, when<true>> { };
 
-        template <typename Srch, typename Pred>
-        static constexpr auto all_impl(Srch srch, Pred pred)
-        { return not_(any(srch, compose(not_, pred))); }
-
-        template <typename Srch, typename Pred>
-        static constexpr auto none_impl(Srch srch, Pred pred)
-        { return not_(any(srch, pred)); }
-
-        template <typename Srch>
-        static constexpr auto any_of_impl(Srch srch)
-        { return any(srch, id); }
-
-        template <typename Srch>
-        static constexpr auto all_of_impl(Srch srch)
-        { return all(srch, id); }
-
-        template <typename Srch>
-        static constexpr auto none_of_impl(Srch srch)
-        { return none(srch, id); }
-
-        template <typename Srch, typename Key>
-        static constexpr auto lookup_impl(Srch srch, Key key)
-        { return find(srch, partial(equal, key)); }
-
-        template <typename Xs, typename Ys>
-        static constexpr auto subset_impl(Xs xs, Ys ys)
-        { return all(xs, partial(elem, ys)); }
+    template <typename S, bool condition>
+    struct any_impl<S, when<condition>> {
+        static_assert(wrong<any_impl<S>>{},
+        "no definition of boost::hana::any for the given data type");
     };
 
-    template <typename T>
-    struct Searchable::instance<T, when<models<Searchable(T)>{}>>
-        : Searchable::mcd
-    { };
+    //////////////////////////////////////////////////////////////////////////
+    // any_of
+    //////////////////////////////////////////////////////////////////////////
+    template <typename S, typename>
+    struct any_of_impl : any_of_impl<S, when<true>> { };
+
+    template <typename S, bool condition>
+    struct any_of_impl<S, when<condition>> {
+        template <typename Xs>
+        static constexpr decltype(auto) apply(Xs&& xs)
+        { return hana::any(detail::std::forward<Xs>(xs), id); }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // all
+    //////////////////////////////////////////////////////////////////////////
+    template <typename S, typename>
+    struct all_impl : all_impl<S, when<true>> { };
+
+    template <typename S, bool condition>
+    struct all_impl<S, when<condition>> {
+        template <typename Xs, typename Pred>
+        static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
+            return hana::not_(hana::any(detail::std::forward<Xs>(xs),
+                    hana::compose(not_, detail::std::forward<Pred>(pred))));
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // all_of
+    //////////////////////////////////////////////////////////////////////////
+    template <typename S, typename>
+    struct all_of_impl : all_of_impl<S, when<true>> { };
+
+    template <typename S, bool condition>
+    struct all_of_impl<S, when<condition>> {
+        template <typename Xs>
+        static constexpr decltype(auto) apply(Xs&& xs)
+        { return hana::all(detail::std::forward<Xs>(xs), id); }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // none
+    //////////////////////////////////////////////////////////////////////////
+    template <typename S, typename>
+    struct none_impl : none_impl<S, when<true>> { };
+
+    template <typename S, bool condition>
+    struct none_impl<S, when<condition>> {
+        template <typename Xs, typename Pred>
+        static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
+            return hana::not_(hana::any(detail::std::forward<Xs>(xs),
+                                        detail::std::forward<Pred>(pred)));
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // none_of
+    //////////////////////////////////////////////////////////////////////////
+    template <typename S, typename>
+    struct none_of_impl : none_of_impl<S, when<true>> { };
+
+    template <typename S, bool condition>
+    struct none_of_impl<S, when<condition>> {
+        template <typename Xs>
+        static constexpr decltype(auto) apply(Xs&& xs)
+        { return hana::none(detail::std::forward<Xs>(xs), id); }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // elem
+    //////////////////////////////////////////////////////////////////////////
+    template <typename S, typename>
+    struct elem_impl : elem_impl<S, when<true>> { };
+
+    template <typename S, bool condition>
+    struct elem_impl<S, when<condition>> {
+        template <typename Xs, typename X>
+        static constexpr decltype(auto) apply(Xs&& xs, X&& x) {
+            return hana::any(detail::std::forward<Xs>(xs),
+                             hana::partial(equal, detail::std::forward<X>(x)));
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // find
+    //////////////////////////////////////////////////////////////////////////
+    template <typename S, typename>
+    struct find_impl : find_impl<S, when<true>> { };
+
+    template <typename S, bool condition>
+    struct find_impl<S, when<condition>> {
+        static_assert(wrong<find_impl<S>>{},
+        "no definition of boost::hana::find for the given data type");
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // lookup
+    //////////////////////////////////////////////////////////////////////////
+    template <typename S, typename>
+    struct lookup_impl : lookup_impl<S, when<true>> { };
+
+    template <typename S, bool condition>
+    struct lookup_impl<S, when<condition>> {
+        template <typename Xs, typename Key>
+        static constexpr decltype(auto) apply(Xs&& xs, Key&& key) {
+            return hana::find(detail::std::forward<Xs>(xs),
+                    hana::partial(equal, detail::std::forward<Key>(key)));
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // subset
+    //////////////////////////////////////////////////////////////////////////
+    template <typename S, typename>
+    struct subset_impl : subset_impl<S, when<true>> { };
+
+    template <typename S, bool condition>
+    struct subset_impl<S, when<condition>> {
+        template <typename Xs, typename Ys>
+        static constexpr decltype(auto) apply(Xs&& xs, Ys&& ys) {
+            return hana::all(detail::std::forward<Xs>(xs),
+                    hana::partial(elem, detail::std::forward<Ys>(ys)));
+        }
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_SEARCHABLE_HPP
