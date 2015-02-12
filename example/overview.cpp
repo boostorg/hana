@@ -4,40 +4,52 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
+#ifdef NDEBUG
+#   undef NDEBUG
+#endif
+
 //////////////////////////////////////////////////////////////////////////////
 // Important: Keep this file in sync with the Overview in the README
 //////////////////////////////////////////////////////////////////////////////
 
-#include <boost/hana/assert.hpp>
-#include <boost/hana/tuple.hpp>
-#include <boost/hana/type.hpp>
+#include <boost/hana.hpp>
+#include <boost/hana/ext/std/integral_constant.hpp>
 
+#include <cassert>
+#include <iostream>
 #include <string>
+#include <type_traits>
 using namespace boost::hana;
-using namespace std::literals;
+using namespace boost::hana::literals;
 
 
-struct President { std::string name; };
-struct Car       { std::string name; };
-struct City      { std::string name; };
+struct Person { std::string name; };
+struct Car    { std::string name; };
+struct City   { std::string name; };
 
 int main() {
-    // Heterogeneous sequences for value-level metaprogramming.
-    auto stuff = tuple(President{"Obama"}, Car{"Toyota"}, City{"Quebec"});
+    // Sequences holding heterogeneous objects.
+    auto stuff = tuple(Person{"Louis"}, Car{"Toyota"}, City{"Quebec"});
 
-    auto names = fmap(stuff, [](auto thing) { return thing.name; });
-    BOOST_HANA_RUNTIME_CHECK(reverse(names) == tuple("Quebec"s, "Toyota"s, "Obama"s));
+    // Expressive algorithms to manipulate them.
+    auto names = transform(stuff, [](auto x) { return x.name; });
+    assert(reverse(names) == tuple("Quebec", "Toyota", "Louis"));
 
-    // No compile-time information is lost:
-    // `stuff` wasn't constexpr but its length is!
+    // No compile-time information is lost: even if `stuff` can't be constexpr
+    // because it holds `std::string`s, its length is known at compile-time.
     static_assert(length(stuff) == 3u, "");
 
-    // Type-level metaprogramming works too.
-    auto types = fmap(stuff, [](auto thing) {
-        return type<decltype(thing)*>;
-    });
+    // A way to represent types as values and to "lift" metafunctions into
+    // normal functions, so everything you can do with the MPL can be done
+    // with Hana, using a sane syntax.
+    constexpr auto types = tuple(type<Car>, type<City>, type<void>);
+    constexpr auto pointers = transform(types, metafunction<std::add_pointer>);
+    static_assert(pointers == tuple(type<Car*>, type<City*>, type<void*>), "");
 
-    BOOST_HANA_CONSTANT_CHECK(
-        types == tuple(type<President*>, type<Car*>, type<City*>)
-    );
+    // And many other goodies to make your life better.
+    static_assert(10_c == std::integral_constant<long long, 10>{}, "");
+
+    int_<10>.times([]{
+        std::cout << "rubyists rejoice!" << std::endl;
+    });
 }

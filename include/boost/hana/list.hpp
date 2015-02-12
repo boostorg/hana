@@ -453,16 +453,28 @@ namespace boost { namespace hana {
     template <typename T, typename U>
     struct equal_impl<T, U, when<is_a<List, T>() && is_a<List, U>()>> {
         template <typename Xs, typename Ys>
-        static constexpr decltype(auto) apply(Xs const& xs, Ys const& ys) {
-            return eval_if(or_(is_empty(xs), is_empty(ys)),
-                [&xs, &ys](auto _) -> decltype(auto) {
-                    return and_(_(is_empty)(xs), _(is_empty)(ys));
-                },
-                [&xs, &ys](auto _) -> decltype(auto) {
-                    return and_(equal(_(head)(xs), _(head)(ys)),
-                                apply(_(tail)(xs), _(tail)(ys)));
-                }
+        static constexpr decltype(auto)
+        equal_helper(Xs const& xs, Ys const& ys, detail::std::true_type) {
+            return hana::and_(hana::is_empty(xs), hana::is_empty(ys));
+        }
+
+        template <typename Xs, typename Ys>
+        static constexpr decltype(auto)
+        equal_helper(Xs const& xs, Ys const& ys, detail::std::false_type) {
+            return hana::and_(
+                hana::equal(hana::head(xs), hana::head(ys)),
+                apply(hana::tail(xs), hana::tail(ys))
             );
+        }
+
+        //! @todo This implementation requires that `is_empty` be known at
+        //! compile-time. This is too restrictive.
+        template <typename Xs, typename Ys>
+        static constexpr decltype(auto) apply(Xs const& xs, Ys const& ys) {
+            auto done = hana::or_(hana::is_empty(xs), hana::is_empty(ys));
+            constexpr bool truth_value = hana::value(done);
+            return equal_helper(xs, ys,
+                    detail::std::integral_constant<bool, truth_value>{});
         }
     };
 
