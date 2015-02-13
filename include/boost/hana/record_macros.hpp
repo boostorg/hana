@@ -15,8 +15,10 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_RECORD_MACROS_HPP
 #define BOOST_HANA_RECORD_MACROS_HPP
 
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/functional/id.hpp>
 #include <boost/hana/pair.hpp>
 #include <boost/hana/record.hpp>
@@ -66,7 +68,7 @@ Distributed under the Boost Software License, Version 1.0.
 /**/
 
 #define BOOST_HANA_PP_RECORD_DEFINE_INSTANCE_IMPL(MEMBERS)                  \
-    static BOOST_HANA_CONSTEXPR_LAMBDA decltype(auto) members_impl() {      \
+    static BOOST_HANA_CONSTEXPR_LAMBDA decltype(auto) apply() {             \
         return ::boost::hana::tuple(                                        \
             BOOST_PP_SEQ_ENUM(                                              \
                 BOOST_PP_SEQ_TRANSFORM(                                     \
@@ -77,15 +79,17 @@ Distributed under the Boost Software License, Version 1.0.
     }                                                                       \
 /**/
 
-//! Defines an instance of `Record` with the given members.
+//! Defines a model of `Record` with the given members.
 //! @relates boost::hana::Record
 //!
 //! Specifically, use this macro in the public section of a user-defined type
-//! `T` to define an instance of the `Record` type class for `T`. Note that
+//! `T` to define a model of the `Record` type class for `T`. Note that
 //! this only works if the data type of `T` is `T` itself.
 //!
-//! ### Example
-//! @snippet example/record/macros.cpp intrusive
+//!
+//! Example
+//! -------
+//! @snippet example/record.macros.cpp intrusive
 #define BOOST_HANA_DEFINE_RECORD_INTRUSIVE(...)                             \
     BOOST_HANA_PP_DEFINE_RECORD_INTRUSIVE_IMPL(                             \
         BOOST_PP_VARIADIC_ELEM(0, __VA_ARGS__),                             \
@@ -101,19 +105,21 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_PP_DEFINE_RECORD_INTRUSIVE_IMPL(DATATYPE, MEMBERS)       \
     BOOST_PP_SEQ_FOR_EACH(BOOST_HANA_PP_RECORD_DECLARE_MEMBER_IMPL, ~, MEMBERS)\
                                                                             \
-    struct hana { struct Record : ::boost::hana::Record::mcd {              \
+    struct hana { struct members_impl {                                     \
         BOOST_HANA_PP_RECORD_DEFINE_INSTANCE_IMPL(MEMBERS)                  \
     }; }                                                                    \
 /**/
 
-//! Defines an instance of `Record` with the given members.
+//! Defines a model of `Record` with the given members.
 //! @relates boost::hana::Record
 //!
-//! Specifically, use this macro at __global scope__ to define an instance of
-//! the `Record` type class for a given data type.
+//! Specifically, use this macro at __global scope__ to define a model of
+//! the `Record` concept for a given data type.
 //!
-//! ### Example
-//! @snippet example/record/macros.cpp adhoc
+//!
+//! Example
+//! -------
+//! @snippet example/record.macros.cpp adhoc
 #define BOOST_HANA_DEFINE_RECORD(...)                                       \
     BOOST_HANA_PP_DEFINE_RECORD_IMPL(                                       \
         BOOST_PP_VARIADIC_ELEM(0, __VA_ARGS__),                             \
@@ -124,9 +130,12 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_PP_DEFINE_RECORD_IMPL(DATATYPE, MEMBERS)                 \
     namespace boost { namespace hana {                                      \
         template <>                                                         \
-        struct Record::instance<DATATYPE>                                   \
-            : Record::mcd                                                   \
-        {                                                                   \
+        struct models< ::boost::hana::Record(DATATYPE)>                     \
+            : ::boost::hana::detail::std::true_type                         \
+        { };                                                                \
+                                                                            \
+        template <>                                                         \
+        struct members_impl<DATATYPE> {                                     \
             BOOST_HANA_PP_RECORD_DEFINE_INSTANCE_IMPL(MEMBERS)              \
         };                                                                  \
     }}                                                                      \

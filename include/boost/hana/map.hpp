@@ -136,7 +136,7 @@ namespace boost { namespace hana {
                     hana::second(detail::std::forward<decltype(member)>(member))(x)
                 );
             };
-            return to<Map>(hana::transform(members<R>, detail::std::move(extract)));
+            return to<Map>(hana::transform(members<R>(), detail::std::move(extract)));
         }
     };
 

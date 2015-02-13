@@ -94,6 +94,14 @@ int main() {
                 f(x<0>, f(x<1>, s))
             ));
         }
+
+        // unpack
+        {
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                unpack(record(x<0>, x<1>), f),
+                f(x<0>, x<1>)
+            ));
+        }
     }
 
     // Searchable

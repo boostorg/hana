@@ -16,7 +16,7 @@ add_custom_target(tests ALL
 
 file(GLOB_RECURSE BOOST_HANA_TESTS_REQUIRING_BOOST
     "ext/boost/*.cpp"
-    "record/macros.cpp"
+    "record_macros.cpp"
     "bugs/fold_move_only_record.cpp")
 
 list(APPEND BOOST_HANA_FILES_REQUIRING_BOOST ${BOOST_HANA_TESTS_REQUIRING_BOOST})

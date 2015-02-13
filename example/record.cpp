@@ -5,19 +5,19 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/assert.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/functional/id.hpp>
 #include <boost/hana/map.hpp>
 #include <boost/hana/pair.hpp>
+#include <boost/hana/record.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
-
-#include <boost/hana/record.hpp>
 
 #include <string>
 #include <utility>
 using namespace boost::hana;
-using namespace std::literals;
 
 
 struct Person {
@@ -31,8 +31,13 @@ constexpr auto age = decltype_(&Person::age);
 
 namespace boost { namespace hana {
     template <>
-    struct Record::instance<Person> : Record::mcd {
-        static BOOST_HANA_CONSTEXPR_LAMBDA auto members_impl() {
+    struct models<Record(Person)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct members_impl<Person> {
+        static BOOST_HANA_CONSTEXPR_LAMBDA auto apply() {
             return tuple(
                 pair(name, [](auto&& p) -> decltype(auto) {
                     return id(std::forward<decltype(p)>(p).name);
@@ -50,13 +55,13 @@ int main() {
     BOOST_HANA_RUNTIME_CHECK(equal(john, john));
     BOOST_HANA_RUNTIME_CHECK(not_equal(john, bob));
 
-    BOOST_HANA_RUNTIME_CHECK(lookup(john, name) == just("John"s));
+    BOOST_HANA_RUNTIME_CHECK(lookup(john, name) == just("John"));
     BOOST_HANA_RUNTIME_CHECK(lookup(john, age) == just(30));
     BOOST_HANA_CONSTANT_CHECK(lookup(john, "clearly not a member") == nothing);
 
-    BOOST_HANA_RUNTIME_CHECK(to<Tuple>(john) == tuple("John"s, 30));
+    BOOST_HANA_RUNTIME_CHECK(to<Tuple>(john) == tuple("John", 30));
     BOOST_HANA_RUNTIME_CHECK(to<Map>(john) == map(
-        pair(name, "John"s),
+        pair(name, "John"),
         pair(age, 30)
     ));
 }

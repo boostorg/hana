@@ -9,8 +9,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/record.hpp>
 
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/create.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/pair.hpp>
 #include <boost/hana/tuple.hpp>
 
@@ -35,10 +37,13 @@ namespace boost { namespace hana {
     }
 
     template <>
-    struct Record::instance<test::MinimalRecord>
-        : Record::mcd
-    {
-        static BOOST_HANA_CONSTEXPR_LAMBDA auto members_impl() {
+    struct models<Record(test::MinimalRecord)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct members_impl<test::MinimalRecord> {
+        static BOOST_HANA_CONSTEXPR_LAMBDA auto apply() {
             return tuple(
                 pair(test::member1, [](auto u) { return u.member1; }),
                 pair(test::member2, [](auto u) { return u.member2; })

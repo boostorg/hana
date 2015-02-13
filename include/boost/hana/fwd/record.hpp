@@ -10,20 +10,16 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_RECORD_HPP
 #define BOOST_HANA_FWD_RECORD_HPP
 
-#include <boost/hana/core/typeclass.hpp>
-#include <boost/hana/detail/constexpr.hpp>
-
-
 namespace boost { namespace hana {
     //! @ingroup group-typeclasses
-    //! Represents record-like user-defined types.
+    //! The `Record` concept represents record-like user-defined types.
     //!
     //! A record-like type is any type which is fundamentally a `struct`,
     //! regardless of the implementation of its accessors and other similar
-    //! details. Hence, `Record`s can be seen as `Map`s to which keys can't
-    //! be added.
+    //! details. In some sence, Records can be seen as maps to which keys
+    //! can't be added.
     //!
-    //! Instances of `Record` are created by specifying an ordered mapping
+    //! Models of `Record` are created by specifying an ordered mapping
     //! from keys to accessors, where keys are objects playing the role of
     //! member names, and accessors allow individual members to be retrieved
     //! from an object. Specifically, an accessor `A` for a subobject `sub`
@@ -51,10 +47,31 @@ namespace boost { namespace hana {
     //! it could end up accessing the moved-from subobject that was moved-from
     //! with `accessor_1`.
     //!
+    //!
+    //! Minimal complete definition
+    //! ---------------------------
+    //! `members`
+    //!
     //! @note
     //! The @ref BOOST_HANA_DEFINE_RECORD and
     //! @ref BOOST_HANA_DEFINE_RECORD_INTRUSIVE macros can
-    //! also be used to define instances of `Record`.
+    //! also be used to define models of `Record`.
+    //!
+    //!
+    //! Provided superclass models
+    //! --------------------------
+    //! 1. `Comparable`\n
+    //! Two `Records` of the same data type `R` are equal if and only if
+    //! all their members are equal. The members are compared in the
+    //! same order as they appear in `members<R>()`.
+    //!
+    //! 2. `Foldable`\n
+    //! Folding a `Record` `R` is equivalent to folding a list of its members,
+    //! in the same order as they appear in `members<R>()`.
+    //!
+    //! 3. `Searchable`\n
+    //! Searching a `Record` `r` is equivalent to searching `to<Map>(r)`.
+    //!
     //!
     //! @todo
     //! The restrictions on what constitutes an accessor are pretty fierce,
@@ -62,24 +79,42 @@ namespace boost { namespace hana {
     //! Is there a better way to allow an object to be decomposed optimally
     //! into its subobjects without resorting to such hacks?
     //!
-    //! ### Example
-    //! @include example/record/howto.cpp
-    struct Record {
-        BOOST_HANA_TYPECLASS(Record);
-        struct mcd;
-    };
+    //!
+    //! Example
+    //! -------
+    //! @include example/record.cpp
+    struct Record { };
 
-    //! A list of pairs representing the data structure.
+    //! Returns a list of pairs representing the data structure.
     //! @relates Record
     //!
-    //! Specifically, `members<R>` is a `List` of `Product`s associating keys
+    //! Specifically, `members<R>()` is a `List` of `Product`s associating keys
     //! to functions, where a pair `(k, f)` means that the member represented
     //! by the key `k` can be accessed by calling the function `f` on an object
     //! of data type `R`.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @include example/record.cpp
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    template <typename M>
+    constexpr auto members = []() -> decltype(auto) {
+        return tag-dispatched;
+    };
+#else
+    template <typename R, typename = void>
+    struct members_impl;
+
     template <typename R>
-    BOOST_HANA_CONSTEXPR_LAMBDA auto members = Record::instance<
-        R
-    >::members_impl();
+    struct _members {
+        constexpr decltype(auto) operator()() const
+        { return members_impl<R>::apply(); }
+    };
+
+    template <typename R>
+    constexpr _members<R> members{};
+#endif
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_RECORD_HPP

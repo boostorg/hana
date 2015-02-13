@@ -12,120 +12,152 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/record.hpp>
 
-#include <boost/hana/core/is_a.hpp>
+#include <boost/hana/comparable.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/core/wrong.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integral_constant.hpp>
+#include <boost/hana/foldable.hpp>
+#include <boost/hana/functional/partial.hpp>
 #include <boost/hana/functor.hpp>
 #include <boost/hana/product.hpp>
-#include <boost/hana/searchable.hpp>
-
-// provided instances
-#include <boost/hana/comparable.hpp>
-#include <boost/hana/foldable.hpp>
+#include <boost/hana/functional/compose.hpp>
 #include <boost/hana/searchable.hpp>
 
 
 namespace boost { namespace hana {
-    //! Minimal complete definition: `members`
-    struct Record::mcd { };
+    //////////////////////////////////////////////////////////////////////////
+    // members
+    //////////////////////////////////////////////////////////////////////////
+    template <typename R, typename>
+    struct members_impl : members_impl<R, when<true>> { };
 
-    //! Folding a `Record` `R` is equivalent to folding a list of its members,
-    //! in the same order as they appear in `members<R>`.
+    template <typename R, bool condition>
+    struct members_impl<R, when<condition>> {
+        static_assert(wrong<members_impl<R>>{},
+        "no definition of boost::hana::members for the given data type");
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Model for data types with a nested `hana::members_impl`
+    //////////////////////////////////////////////////////////////////////////
     template <typename R>
-    struct models<Foldable(R), when<is_a<Record, R>()>>
+    struct models<Record(R), when_valid<typename R::hana::members_impl>>
         : detail::std::true_type
     { };
 
     template <typename R>
-    struct foldl_impl<R, when<is_a<Record, R>()>> {
-        template <typename Udt, typename S, typename F>
-        static constexpr decltype(auto) apply(Udt&& udt, S&& s, F&& f) {
-            return foldl(members<R>, detail::std::forward<S>(s),
-                [&udt, f(detail::std::forward<F>(f))]
-                (auto&& s, auto&& member) -> decltype(auto) {
-                    return f(
-                        detail::std::forward<decltype(s)>(s),
-                        second(detail::std::forward<decltype(member)>(member))(
-                            detail::std::forward<Udt>(udt)
-                        )
-                    );
-                }
-            );
-        }
-    };
+    struct members_impl<R, when_valid<typename R::hana::members_impl>>
+        : R::hana::members_impl
+    { };
 
+    //////////////////////////////////////////////////////////////////////////
+    // Model of Comparable
+    //////////////////////////////////////////////////////////////////////////
     template <typename R>
-    struct foldr_impl<R, when<is_a<Record, R>()>> {
-        template <typename Udt, typename S, typename F>
-        static constexpr decltype(auto) apply(Udt&& udt, S&& s, F&& f) {
-            return foldr(members<R>, detail::std::forward<S>(s),
-                [&udt, f(detail::std::forward<F>(f))]
-                (auto&& member, auto&& s) -> decltype(auto) {
-                    return f(
-                        second(detail::std::forward<decltype(member)>(member))(
-                            detail::std::forward<Udt>(udt)
-                        ),
-                        detail::std::forward<decltype(s)>(s)
-                    );
-                }
-            );
-        }
-    };
-
-    //! Two `Records` of the same data type `R` are equal if and only if
-    //! all their members are equal. The members are compared in the
-    //! same order as they appear in `members<R>`.
-    template <typename R>
-    struct models<Comparable(R), when<is_a<Record, R>()>>
+    struct models<Comparable(R), when<models<Record(R)>{}>>
         : detail::std::true_type
     { };
 
+    namespace record_detail {
+        struct compare_members_of {
+            template <typename X, typename Y, typename Member>
+            constexpr decltype(auto) operator()(X&& x, Y&& y, Member&& member) const {
+                auto accessor = hana::second(detail::std::forward<Member>(member));
+                return hana::equal(accessor(detail::std::forward<X>(x)),
+                                   accessor(detail::std::forward<Y>(y)));
+            }
+        };
+    }
+
     template <typename R>
-    struct equal_impl<R, R, when<is_a<Record, R>()>> {
+    struct equal_impl<R, R, when<models<Record(R)>{}>> {
         template <typename X, typename Y>
-        static constexpr decltype(auto) apply(X const& x, Y const& y) {
-            return all(members<R>, [&x, &y](auto&& member) -> decltype(auto) {
-                auto accessor = second(detail::std::forward<decltype(member)>(member));
-                return equal(accessor(x), accessor(y));
-            });
+        static constexpr decltype(auto) apply(X&& x, Y&& y) {
+            return hana::all(members<R>(),
+                hana::partial(record_detail::compare_members_of{},
+                              detail::std::forward<X>(x),
+                              detail::std::forward<Y>(y)));
         }
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // Searchable
+    // Model of Foldable
     //////////////////////////////////////////////////////////////////////////
     template <typename R>
-    struct models<Searchable(R), when<is_a<Record, R>()>>
+    struct models<Foldable(R), when<models<Record(R)>{}>>
         : detail::std::true_type
     { };
 
-    //! Searching a `Record` `r` is equivalent to searching `to<Map>(r)`.
+    namespace record_detail {
+        // This is equivalent to `demux`, except that `demux` can't forward
+        // the `udt` because it does not know the `g`s are accessors. Hence,
+        // this can result in faster code.
+        struct almost_demux {
+            template <typename F, typename Udt, typename ...Members>
+            constexpr decltype(auto)
+            operator()(F&& f, Udt&& udt, Members&& ...g) const {
+                return detail::std::forward<F>(f)(
+                    hana::second(detail::std::forward<Members>(g))(
+                        detail::std::forward<Udt>(udt)
+                    )...
+                );
+            }
+        };
+    }
+
     template <typename R>
-    struct find_impl<R, when<is_a<Record, R>()>> {
+    struct unpack_impl<R, when<models<Record(R)>{}>> {
+        template <typename Udt, typename F>
+        static constexpr decltype(auto) apply(Udt&& udt, F&& f) {
+            return hana::unpack(hana::members<R>(),
+                hana::partial(record_detail::almost_demux{},
+                              detail::std::forward<F>(f),
+                              detail::std::forward<Udt>(udt)));
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Model of Searchable
+    //////////////////////////////////////////////////////////////////////////
+    template <typename R>
+    struct models<Searchable(R), when<models<Record(R)>{}>>
+        : detail::std::true_type
+    { };
+
+    namespace record_detail {
+        template <typename X>
+        struct get_member {
+            X x;
+            template <typename Member>
+            constexpr decltype(auto) operator()(Member&& member) && {
+                return hana::second(detail::std::forward<Member>(member))(
+                    detail::std::forward<X>(x)
+                );
+            }
+        };
+    }
+
+    template <typename R>
+    struct find_impl<R, when<models<Record(R)>{}>> {
         template <typename X, typename Pred>
         static constexpr decltype(auto) apply(X&& x, Pred&& pred) {
-            return transform(
-                find(members<R>, [&pred](auto&& member) -> decltype(auto) {
-                    return pred(first(detail::std::forward<decltype(member)>(member)));
-                }),
-                [&x](auto&& member) -> decltype(auto) {
-                    return second(detail::std::forward<decltype(member)>(member))(
-                        detail::std::forward<X>(x)
-                    );
-                }
+            return hana::transform(
+                hana::find(members<R>(),
+                    hana::compose(detail::std::forward<Pred>(pred), first)
+                ),
+                record_detail::get_member<X>{detail::std::forward<X>(x)}
             );
         }
     };
 
     template <typename R>
-    struct any_impl<R, when<is_a<Record, R>()>> {
+    struct any_impl<R, when<models<Record(R)>{}>> {
         template <typename X, typename Pred>
         static constexpr decltype(auto) apply(X const&, Pred&& pred) {
-            return any(members<R>, [&pred](auto&& member) -> decltype(auto) {
-                return pred(first(detail::std::forward<decltype(member)>(member)));
-            });
+            return hana::any(members<R>(),
+                    hana::compose(detail::std::forward<Pred>(pred), first));
         }
     };
 }} // end namespace boost::hana
