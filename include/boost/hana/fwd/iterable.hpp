@@ -11,11 +11,8 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_ITERABLE_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/typeclass.hpp>
-#include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
-#include <boost/hana/integral_constant.hpp>
 
 
 namespace boost { namespace hana {
@@ -25,77 +22,158 @@ namespace boost { namespace hana {
     }
 
     //! @ingroup group-typeclasses
-    //! `Iterable` represents data structures supporting external iteration.
+    //! The `Iterable` concept represents data structures supporting external
+    //! iteration.
     //!
-    //! ### Laws
-    //! In a sense, `Foldable` represents data structures supporting internal
-    //! iteration with the ability to accumulate a result. We request that
-    //! instances of both `Iterable` and `Foldable` provide consistent
-    //! instances. Hence, for any finite `Iterable` _and_ `Foldable` `it`,
-    //! the following laws must be satisfied:
+    //! Intuitively, an Iterable can be seen as a kind of container whose
+    //! elements can be pulled out one at a time. An Iterable also provides
+    //! a way to know when the _container_ is empty, i.e. when there are no
+    //! more elements to pull out.
+    //!
+    //! Iterables are also Foldable; whereas Foldable represents data
+    //! structures supporting internal iteration with the ability to
+    //! accumulate a result, the Iterable concept allows inverting the
+    //! control of the iteration. This is more flexible than Foldable
+    //! since it allows e.g. infinite structures to be iterated only in
+    //! part, while trying to fold such a structure would never finish.
+    //!
+    //! @todo
+    //! There's a problem; Foldable is more general than Iterable, but there
+    //! are some infinite Iterables that can't be folded properly. So both
+    //! concepts actually just overlap and there is no superclass relation?
+    //!
+    //!
+    //! Minimal complete definition
+    //! ---------------------------
+    //! `head`, `tail` and `is_empty`
+    //!
+    //!
+    //! Laws
+    //! ----
+    //! The laws that must be respected by models of the Iterable concept
+    //! essentially make sure that external iteration and internal iteration
+    //! over a data structure are well-behaved. Hence, we request that the
+    //! models for Iterable and Foldable are consistent. First, let's define
+    //! the notion of a _linearization_. For a Foldable data structure `xs`,
+    //! the linearization of `xs` is the sequence of all the elements in the
+    //! structure, as-if they had been put in a list:
     //! @code
-    //!     head(it) == head(to<Tuple>(it))
-    //!     to<Tuple>(tail(it)) == tail(to<Tuple>(it))
-    //!     is_empty(it) if and only if is_empty(to<Tuple>(it))
+    //!     linearization(xs) = [x1, x2, ..., xn]
     //! @endcode
     //!
-    //! This is basically saying that linearizing a `Foldable` and then
-    //! iterating through it should be equivalent to iterating through it
-    //! in the first place.
+    //! Note that it is always possible to produce such a linearization for a
+    //! finite Foldable by setting
+    //! @code
+    //!     linearization(xs) = foldl(xs, [], prepend)
+    //! @endcode
+    //! for an appropriate type of Sequence (heterogeneous or not).
     //!
-    //! @todo Either make it a requirement of Iterable to be convertible to a
-    //! Tuple (since it's used in the laws), or require something strictly
-    //! more general.
+    //! We can now express the laws of Iterable in terms of the linearization.
+    //! For any finite Iterable `xs` with linearization `[x1, ..., xn]`, the
+    //! following laws must be satisfied:
+    //! @code
+    //!     head(it) == x1
+    //!
+    //!     linearization(tail(it)) == tail(linearization(it))
+    //!                             == [x2, ..., xn]
+    //!
+    //!     is_empty(it)  <=>  is_empty(linearization(it))
+    //!                   <=>  n == 0
+    //! @endcode
+    //!
+    //! This says that linearizing an Iterable and then iterating through it
+    //! should be equivalent to iterating through it in the first place. With
+    //! the definition of linearization given above, this forces the models of
+    //! Foldable and Iterable to be consistent.
+    //!
+    //!
+    //! Superclasses
+    //! ------------
+    //! 1. `Foldable` (model provided)\n
+    //! Every finite Iterable gives rise to a Foldable, and a model of
+    //! Foldable is provided for Iterables via the `Iterable::foldr_impl`
+    //! and `Iterable::foldl_impl` methods.
+    //!
+    //! Let `xs` be an Iterable and let `xi` denote the `i`-th element in its
+    //! linearization. In other words, `xs` can be linearized as
+    //! `[x1, ..., xN]`, where `N` is the number of elements in `xs`. Then,
+    //! right-folding `xs` with a binary operation `*` (in infix notation for
+    //! legibility) is equivalent to
+    //! @code
+    //!     x1 * (x2 * ( ... * (xN-1 * xN)))
+    //! @endcode
+    //!
+    //! Similarly, left-folding `xs` is equivalent to
+    //! @code
+    //!     (((x1 * x2) * x3) * ...) * xN
+    //! @endcode
+    //!
+    //! In both cases, notice the side of the parentheses. Left-folding
+    //! applies `*` in a left-associative manner, whereas right-folding
+    //! applies it in a right-associative manner. For associative operations,
+    //! i.e. operations such that for all `a`, `b` and `c`,
+    //! @code
+    //!     (a * b) * c = a * (b * c)
+    //! @endcode
+    //! this makes no difference. Also note that folds with an initial state
+    //! are implemented in an analogous way, and they are provided as
+    //! `Iterable::foldr1_impl` and `Iterable::foldl1_impl`.
+    //!
+    //! 2. `Searchable` (model provided)\n
+    //! An Iterable can be searched by doing a linear search through the
+    //! elements, with the keys and values both being the elements in the
+    //! iterable.
+    //! @snippet example/iterable.cpp find
+    //!
+    //! Operators
+    //! ---------
+    //! For convenience, the following operator is provided as an
+    //! equivalent way of calling the corresponding method:
+    //! @code
+    //!     xs[n]  ->  at(n, xs)
+    //! @endcode
+    //! To take advantage of this operator for a type `T`, `T` must inherit
+    //! `hana::operators::Iterable_ops<T>`.
+    //!
+    //!
+    //! @todo
+    //! - Add perfect forwarding in the methods.
+    //! - Use perfect forwarding in `Iterable::find_impl` once Clang
+    //!   bug #20619 is fixed.
+    //! - Find a proper way to provide member operators.
     struct Iterable {
-        BOOST_HANA_TYPECLASS(Iterable);
-        struct mcd;
-        template <typename T>
-        struct find_impl;
+        template <typename It> struct foldl_impl;
+        template <typename It> struct foldr_impl;
+        template <typename It> struct foldl1_impl;
+        template <typename It> struct foldr1_impl;
 
-        template <typename T>
-        struct any_impl;
-
-
-        template <typename T>
-        struct foldl_impl;
-
-        template <typename T>
-        struct foldl1_impl;
-
-        template <typename T>
-        struct foldr_impl;
-
-        template <typename T>
-        struct foldr1_impl;
+        template <typename It> struct find_impl;
+        template <typename It> struct any_impl;
     };
 
-    //! Return the first element of a non-empty iterable.
+    //! Returns the first element of a non-empty iterable.
     //! @relates Iterable
     //!
-    //! ### Example
+    //! Given a non-empty Iterable `xs` with a linearization of `[x1, ..., xN]`,
+    //! `head(xs)` is equivalent to `x1`. If `xs` is empty, it is an error to
+    //! use `head`.
+    //!
+    //!
+    //! Example
+    //! -------
     //! @snippet example/iterable.cpp head
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto head = [](auto&& iterable) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    template <typename It, typename = void>
-    struct head_impl : head_impl<It, when<true>> { };
-
-    template <typename It, bool condition>
-    struct head_impl<It, when<condition>> {
-        template <typename Xs>
-        static constexpr decltype(auto) apply(Xs&& xs) {
-            return Iterable::instance<It>::head_impl(
-                detail::std::forward<Xs>(xs)
-            );
-        }
-    };
+    template <typename Xs, typename = void>
+    struct head_impl;
 
     struct _head {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-            return head_impl<datatype_t<Xs>>::apply(
+            return head_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs)
             );
         }
@@ -104,37 +182,31 @@ namespace boost { namespace hana {
     constexpr _head head{};
 #endif
 
-    //! Return a new iterable containing all but the first element of a
+    //! Returns a new iterable containing all but the first element of a
     //! non-empty iterable.
     //! @relates Iterable
     //!
-    //! In particular, `tail(iterable)` is functionally equivalent to
-    //! `drop(int_<1>, iterable)`.
+    //! Given a non-empty Iterable `xs` with a linearization of `[x1, ..., xN]`,
+    //! `tail(xs)` is an Iterable of the same data type whose linearization is
+    //! `[x2, ..., xN]`. In particular, `tail(xs)` is functionally equivalent
+    //! to `drop(size_t<1>, xs)`.
     //!
-    //! ### Example
+    //!
+    //! Example
+    //! -------
     //! @snippet example/iterable.cpp tail
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto tail = [](auto&& iterable) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    template <typename It, typename = void>
-    struct tail_impl : tail_impl<It, when<true>> { };
-
-    template <typename It, bool condition>
-    struct tail_impl<It, when<condition>> {
-        template <typename Xs>
-        static constexpr decltype(auto) apply(Xs&& xs) {
-            return Iterable::instance<It>::tail_impl(
-                detail::std::forward<Xs>(xs)
-            );
-        }
-    };
+    template <typename Xs, typename = void>
+    struct tail_impl;
 
     struct _tail {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-            return tail_impl<datatype_t<Xs>>::apply(
+            return tail_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs)
             );
         }
@@ -143,37 +215,28 @@ namespace boost { namespace hana {
     constexpr _tail tail{};
 #endif
 
-    //! Return whether the iterable is empty.
+    //! Returns whether the iterable is empty.
     //! @relates Iterable
     //!
-    //! Specificaly, `is_empty` must return a [compile-time]
-    //! (@ref Logical_terminology) `Logical` representing
+    //! `is_empty` must return a compile-time `Logical` representing
     //! whether the iterable is empty.
     //!
-    //! ### Example
+    //!
+    //! Example
+    //! -------
     //! @snippet example/iterable.cpp is_empty
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto is_empty = [](auto&& iterable) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    template <typename It, typename = void>
-    struct is_empty_impl : is_empty_impl<It, when<true>> { };
-
-    template <typename It, bool condition>
-    struct is_empty_impl<It, when<condition>> {
-        template <typename Xs>
-        static constexpr decltype(auto) apply(Xs&& xs) {
-            return Iterable::instance<It>::is_empty_impl(
-                detail::std::forward<Xs>(xs)
-            );
-        }
-    };
+    template <typename Xs, typename = void>
+    struct is_empty_impl;
 
     struct _is_empty {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-            return is_empty_impl<datatype_t<Xs>>::apply(
+            return is_empty_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs)
             );
         }
@@ -182,49 +245,46 @@ namespace boost { namespace hana {
     constexpr _is_empty is_empty{};
 #endif
 
-    //! Return the `n`th element of an iterable.
+    //! Returns the `n`th element of an iterable.
     //! @relates Iterable
     //!
-    //! This is functionally equivalent to `head(drop(n, iterable))`.
+    //! Given a `Constant` index and an iterable, `at` returns the
+    //! element located at the index in the linearization of the iterable.
+    //! Specifically, given an iterable `xs` with a linearization of
+    //! `[x1, ..., xN]`, `at(k, xs)` is equivalent to `xk`.
     //!
     //!
     //! @param n
-    //! A non-negative `IntegralConstant` representing the 0-based index of
-    //! the element to return. The iterable must contain at least `n + 1`
-    //! elements.
+    //! A (non-negative) `Constant` of an unsigned integral type representing
+    //! the 0-based index of the element to return. It is an error to call
+    //! `at` with an index that is either out of bounds for the iterable,
+    //! not of an unsigned type or not a Constant.
     //!
     //! @param iterable
-    //! The iterable in which an element is fetched.
+    //! The iterable in which an element is retrieved. The iterable must
+    //! contain at least `n + 1` elements.
     //!
     //!
-    //! ### Example
+    //! Example
+    //! -------
     //! @snippet example/iterable.cpp at
     //!
-    //! ### Benchmarks
+    //!
+    //! Benchmarks
+    //! ----------
     //! @image html benchmark/iterable/at.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto at = [](auto&& n, auto&& iterable) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    template <typename It, typename = void>
-    struct at_impl : at_impl<It, when<true>> { };
-
-    template <typename It, bool condition>
-    struct at_impl<It, when<condition>> {
-        template <typename N, typename Xs>
-        static constexpr decltype(auto) apply(N&& n, Xs&& xs) {
-            return Iterable::instance<It>::at_impl(
-                detail::std::forward<N>(n),
-                detail::std::forward<Xs>(xs)
-            );
-        }
-    };
+    template <typename Xs, typename = void>
+    struct at_impl;
 
     struct _at {
         template <typename N, typename Xs>
         constexpr decltype(auto) operator()(N&& n, Xs&& xs) const {
-            return at_impl<datatype_t<Xs>>::apply(
+            return at_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<N>(n),
                 detail::std::forward<Xs>(xs)
             );
@@ -237,7 +297,9 @@ namespace boost { namespace hana {
     //! Equivalent to `at`; provided for convenience.
     //! @relates Iterable
     //!
-    //! ### Example
+    //!
+    //! Example
+    //! -------
     //! @snippet example/iterable.cpp at_c
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <std::size_t n>
@@ -246,51 +308,39 @@ namespace boost { namespace hana {
     };
 #else
     template <detail::std::size_t n>
-    struct _at_c {
-        template <typename Xs>
-        constexpr decltype(auto) operator()(Xs&& xs) const
-        { return at(size_t<n>, detail::std::forward<Xs>(xs)); }
-    };
+    struct _at_c;
 
     template <detail::std::size_t n>
     constexpr _at_c<n> at_c{};
 #endif
 
-    //! Return the last element of a non-empty and finite iterable.
+    //! Returns the last element of a non-empty and finite iterable.
     //! @relates Iterable
     //!
-    //! This is functionally equivalent to
-    //! @code
-    //!     at(pred(length(iterable)), iterable)
-    //! @endcode
+    //! Given a non-empty and finite iterable `xs` with a linearization of
+    //! `[x1, ..., xN]`, `last(xs)` is equivalent to `xN`.
     //!
-    //! ### Example
+    //!
+    //! Example
+    //! -------
     //! @snippet example/iterable.cpp last
     //!
-    //! ### Benchmarks
+    //!
+    //! Benchmarks
+    //! ----------
     //! @image html benchmark/iterable/last.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto last = [](auto&& iterable) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    template <typename It, typename = void>
-    struct last_impl : last_impl<It, when<true>> { };
-
-    template <typename It, bool condition>
-    struct last_impl<It, when<condition>> {
-        template <typename Xs>
-        static constexpr decltype(auto) apply(Xs&& xs) {
-            return Iterable::instance<It>::last_impl(
-                detail::std::forward<Xs>(xs)
-            );
-        }
-    };
+    template <typename Xs, typename = void>
+    struct last_impl;
 
     struct _last {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-            return last_impl<datatype_t<Xs>>::apply(
+            return last_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs)
             );
         }
@@ -299,47 +349,44 @@ namespace boost { namespace hana {
     constexpr _last last{};
 #endif
 
-    //! Drop the first `n` elements of an iterable and return the rest.
+    //! Drops the first `n` elements of an iterable and returns the rest.
     //! @relates Iterable
     //!
+    //! Given an (non-negative) `Constant` `n` of an unsigned integral type
+    //! and an iterable `xs` with a linearization of `[x1, ..., xN]`,
+    //! `drop(n, xs)` is an iterable of the same data type whose
+    //! linearization is `[xn+1, ..., xN]`. In particular, note that
+    //! this method does not mutate the original iterable in any way.
     //!
     //! @param n
-    //! A non-negative `IntegralConstant` representing the number of elements
-    //! to be dropped from the iterable. If `n` is greater than the number of
-    //! elements in the iterable, the returned iterable is empty.
+    //! A non-negative `Constant` of an unsigned integral type representing
+    //! the number of elements to be dropped from the iterable. If `n` is
+    //! greater than the number of elements in the iterable, the returned
+    //! iterable is empty.
     //!
     //! @param iterable
     //! The iterable from which elements are dropped.
     //!
     //!
-    //! ### Example
+    //! Example
+    //! -------
     //! @snippet example/iterable.cpp drop
     //!
-    //! ### Benchmarks
+    //! Benchmarks
+    //! ----------
     //! @image html benchmark/iterable/drop.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto drop = [](auto&& n, auto&& iterable) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    template <typename It, typename = void>
-    struct drop_impl : drop_impl<It, when<true>> { };
-
-    template <typename It, bool condition>
-    struct drop_impl<It, when<condition>> {
-        template <typename N, typename Xs>
-        static constexpr decltype(auto) apply(N&& n, Xs&& xs) {
-            return Iterable::instance<It>::drop_impl(
-                detail::std::forward<N>(n),
-                detail::std::forward<Xs>(xs)
-            );
-        }
-    };
+    template <typename Xs, typename = void>
+    struct drop_impl;
 
     struct _drop {
         template <typename N, typename Xs>
         constexpr decltype(auto) operator()(N&& n, Xs&& xs) const {
-            return drop_impl<datatype_t<Xs>>::apply(
+            return drop_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<N>(n),
                 detail::std::forward<Xs>(xs)
             );
@@ -352,7 +399,9 @@ namespace boost { namespace hana {
     //! Equivalent to `drop`; provided for convenience.
     //! @relates Iterable
     //!
-    //! ### Example
+    //!
+    //! Example
+    //! -------
     //! @snippet example/iterable.cpp drop_c
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <std::size_t n>
@@ -361,11 +410,7 @@ namespace boost { namespace hana {
     };
 #else
     template <detail::std::size_t n>
-    struct _drop_c {
-        template <typename Xs>
-        constexpr decltype(auto) operator()(Xs&& xs) const
-        { return drop(size_t<n>, detail::std::forward<Xs>(xs)); }
-    };
+    struct _drop_c;
 
     template <detail::std::size_t n>
     constexpr _drop_c<n> drop_c{};
@@ -390,38 +435,29 @@ namespace boost { namespace hana {
     //! A function called as `predicate(x)`, where `x` is an element of the
     //! structure, and returning a `Logical` representing whether `x` should
     //! be dropped from the structure. In the current version of the library,
-    //! `predicate` should return a [compile-time](@ref Logical_terminology)
-    //! `Logical`.
+    //! `predicate` should return a compile-time `Logical`.
     //!
     //!
-    //! ### Example
+    //! Example
+    //! -------
     //! @snippet example/iterable.cpp drop_while
     //!
-    //! ### Benchmarks
+    //!
+    //! Benchmarks
+    //! ----------
     //! @image html benchmark/iterable/drop_while.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto drop_while = [](auto&& iterable, auto&& predicate) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    template <typename It, typename = void>
-    struct drop_while_impl : drop_while_impl<It, when<true>> { };
-
-    template <typename It, bool condition>
-    struct drop_while_impl<It, when<condition>> {
-        template <typename Xs, typename Pred>
-        static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
-            return Iterable::instance<It>::drop_while_impl(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Pred>(pred)
-            );
-        }
-    };
+    template <typename Xs, typename = void>
+    struct drop_while_impl;
 
     struct _drop_while {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
-            return drop_while_impl<datatype_t<Xs>>::apply(
+            return drop_while_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred)
             );
@@ -454,38 +490,30 @@ namespace boost { namespace hana {
     //! A function called as `predicate(x)`, where `x` is an element of the
     //! structure, and returning a `Logical` representing whether `x` and
     //! subsequent elements should be kept in the structure. In the current
-    //! version of the library, `predicate` should return a
-    //! [compile-time](@ref Logical_terminology) `Logical`.
+    //! version of the library, `predicate` should return a compile-time
+    //! `Logical`.
     //!
     //!
-    //! ### Example
+    //! Example
+    //! -------
     //! @snippet example/iterable.cpp drop_until
     //!
-    //! ### Benchmarks
+    //!
+    //! Benchmarks
+    //! ----------
     //! @image html benchmark/iterable/drop_until.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto drop_until = [](auto&& iterable, auto&& predicate) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    template <typename It, typename = void>
-    struct drop_until_impl : drop_until_impl<It, when<true>> { };
-
-    template <typename It, bool condition>
-    struct drop_until_impl<It, when<condition>> {
-        template <typename Xs, typename Pred>
-        static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
-            return Iterable::instance<It>::drop_until_impl(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Pred>(pred)
-            );
-        }
-    };
+    template <typename Xs, typename = void>
+    struct drop_until_impl;
 
     struct _drop_until {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
-            return drop_until_impl<datatype_t<Xs>>::apply(
+            return drop_until_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred)
             );

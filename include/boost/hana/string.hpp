@@ -223,7 +223,7 @@ namespace boost { namespace hana {
         template <typename S, typename Char>
         static constexpr decltype(auto) apply(S s, Char c) {
             return helper(s, c, detail::std::integral_constant<bool,
-                is_a<Constant>(c)
+                models<Constant(typename datatype<Char>::type)>{}
             >{});
         }
     };

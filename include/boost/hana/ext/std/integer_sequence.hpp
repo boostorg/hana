@@ -94,18 +94,32 @@ namespace boost { namespace hana {
         : Iterable::any_impl<ext::std::IntegerSequence>
     { };
 
+    //////////////////////////////////////////////////////////////////////////
+    // Iterable
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Iterable::instance<ext::std::IntegerSequence> : Iterable::mcd {
+    struct models<Iterable(ext::std::IntegerSequence)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct head_impl<ext::std::IntegerSequence> {
         template <typename T, T x, T ...xs>
-        static constexpr auto head_impl(::std::integer_sequence<T, x, xs...>)
+        static constexpr auto apply(::std::integer_sequence<T, x, xs...>)
         { return ::std::integral_constant<T, x>{}; }
+    };
 
+    template <>
+    struct tail_impl<ext::std::IntegerSequence> {
         template <typename T, T x, T ...xs>
-        static constexpr auto tail_impl(::std::integer_sequence<T, x, xs...>)
+        static constexpr auto apply(::std::integer_sequence<T, x, xs...>)
         { return ::std::integer_sequence<T, xs...>{}; }
+    };
 
+    template <>
+    struct is_empty_impl<ext::std::IntegerSequence> {
         template <typename T, T ...xs>
-        static constexpr auto is_empty_impl(::std::integer_sequence<T, xs...>)
+        static constexpr auto apply(::std::integer_sequence<T, xs...>)
         { return bool_<sizeof...(xs) == 0>; }
     };
 }} // end namespace boost::hana

@@ -119,24 +119,38 @@ namespace boost { namespace hana {
         : Iterable::any_impl<test::Seq>
     { };
 
+    //////////////////////////////////////////////////////////////////////////
+    // Iterable
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Iterable::instance<test::Seq> : Iterable::mcd {
+    struct models<Iterable(test::Seq)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct head_impl<test::Seq> {
         template <typename Xs>
-        static constexpr auto head_impl(Xs xs) {
+        static constexpr auto apply(Xs xs) {
             return xs.storage([=](auto x, auto ...xs) {
                 return x;
             });
         }
+    };
 
+    template <>
+    struct tail_impl<test::Seq> {
         template <typename Xs>
-        static constexpr auto tail_impl(Xs xs) {
+        static constexpr auto apply(Xs xs) {
             return xs.storage([=](auto x, auto ...xs) {
                 return test::seq(xs...);
             });
         }
+    };
 
+    template <>
+    struct is_empty_impl<test::Seq> {
         template <typename Xs>
-        static constexpr auto is_empty_impl(Xs xs) {
+        static constexpr auto apply(Xs xs) {
             return xs.storage([=](auto ...xs) {
                 return bool_<sizeof...(xs) == 0>;
             });

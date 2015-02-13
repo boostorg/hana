@@ -80,47 +80,56 @@ namespace boost { namespace hana {
         { return f(type<ts>...); }
     };
 
+    //////////////////////////////////////////////////////////////////////////
+    // Iterable
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Iterable::instance< ::Tuple> : Iterable::mcd {
-        // head
+    struct models<Iterable(::Tuple)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct head_impl<::Tuple> {
         template <typename Storage>
-        static constexpr auto head_impl(::detail::tuple<Storage> xs)
+        static constexpr auto apply(::detail::tuple<Storage> xs)
         { return xs.storage([](auto x, auto ...xs) { return x; }); }
 
         template <typename T, T v, T ...vs>
-        static constexpr auto head_impl(::detail::tuple_c<T, v, vs...>)
+        static constexpr auto apply(::detail::tuple_c<T, v, vs...>)
         { return ::constant<T, v>; }
 
         template <typename t, typename ...ts>
-        static constexpr auto head_impl(::detail::tuple_t<t, ts...>)
+        static constexpr auto apply(::detail::tuple_t<t, ts...>)
         { return type<t>; }
+    };
 
-
-        // tail
+    template <>
+    struct tail_impl<::Tuple> {
         template <typename Storage>
-        static constexpr auto tail_impl(::detail::tuple<Storage> xs)
+        static constexpr auto apply(::detail::tuple<Storage> xs)
         { return xs.storage([](auto x, auto ...xs) { return ::tuple(xs...); }); }
 
         template <typename T, T v, T ...vs>
-        static constexpr auto tail_impl(::detail::tuple_c<T, v, vs...>)
+        static constexpr auto apply(::detail::tuple_c<T, v, vs...>)
         { return tuple_c<T, vs...>; }
 
         template <typename t, typename ...ts>
-        static constexpr auto tail_impl(::detail::tuple_t<t, ts...>)
+        static constexpr auto apply(::detail::tuple_t<t, ts...>)
         { return tuple_t<ts...>; }
+    };
 
-
-        // is_empty
+    template <>
+    struct is_empty_impl<::Tuple> {
         template <typename Storage>
-        static constexpr auto is_empty_impl(::detail::tuple<Storage> xs)
+        static constexpr auto apply(::detail::tuple<Storage> xs)
         { return xs.storage([](auto ...xs) { return bool_<sizeof...(xs) == 0>; }); }
 
         template <typename T, T ...vs>
-        static constexpr auto is_empty_impl(::detail::tuple_c<T, vs...>)
+        static constexpr auto apply(::detail::tuple_c<T, vs...>)
         { return bool_<sizeof...(vs) == 0>; }
 
         template <typename ...ts>
-        static constexpr auto is_empty_impl(::detail::tuple_t<ts...>)
+        static constexpr auto apply(::detail::tuple_t<ts...>)
         { return bool_<sizeof...(ts) == 0>; }
     };
 

@@ -69,25 +69,37 @@ namespace boost { namespace hana {
         : Iterable::any_impl<ext::boost::fusion::Vector>
     { };
 
+    //////////////////////////////////////////////////////////////////////////
+    // Iterable
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Iterable::instance<ext::boost::fusion::Vector>
-        : Iterable::mcd
-    {
-        template <typename Xs>
-        static constexpr auto is_empty_impl(Xs&& xs) {
-            using R = decltype(::boost::fusion::empty(detail::std::forward<Xs>(xs)));
-            return bool_<R::value>;
-        }
+    struct models<Iterable(ext::boost::fusion::Vector)>
+        : detail::std::true_type
+    { };
 
+    template <>
+    struct head_impl<ext::boost::fusion::Vector> {
         template <typename Xs>
-        static constexpr decltype(auto) head_impl(Xs&& xs) {
+        static constexpr decltype(auto) apply(Xs&& xs) {
             return ::boost::fusion::front(detail::std::forward<Xs>(xs));
         }
+    };
 
+    template <>
+    struct tail_impl<ext::boost::fusion::Vector> {
         template <typename Xs>
-        static constexpr decltype(auto) tail_impl(Xs&& xs) {
+        static constexpr decltype(auto) apply(Xs&& xs) {
             return ::boost::fusion::as_vector(
                 ::boost::fusion::pop_front(detail::std::forward<Xs>(xs)));
+        }
+    };
+
+    template <>
+    struct is_empty_impl<ext::boost::fusion::Vector> {
+        template <typename Xs>
+        static constexpr auto apply(Xs&& xs) {
+            using R = decltype(::boost::fusion::empty(detail::std::forward<Xs>(xs)));
+            return bool_<R::value>;
         }
     };
 

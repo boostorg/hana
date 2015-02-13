@@ -37,21 +37,35 @@ auto repeat_ = fix([](auto repeat, auto x) {
 });
 
 namespace boost { namespace hana {
+    //////////////////////////////////////////////////////////////////////////
+    // Iterable
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Iterable::instance<LazyList> : Iterable::mcd {
+    struct models<Iterable(LazyList)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct head_impl<LazyList> {
         template <typename Xs>
-        static constexpr auto head_impl(Xs lcons)
+        static constexpr auto apply(Xs lcons)
         { return lcons.x; }
+    };
 
+    template <>
+    struct tail_impl<LazyList> {
         template <typename Xs>
-        static constexpr auto tail_impl(Xs lcons)
+        static constexpr auto apply(Xs lcons)
         { return eval(lcons.xs); }
+    };
 
+    template <>
+    struct is_empty_impl<LazyList> {
         template <typename Xs>
-        static constexpr auto is_empty_impl(Xs lcons)
+        static constexpr auto apply(Xs lcons)
         { return false_; }
 
-        static constexpr auto is_empty_impl(lazy_nil_type)
+        static constexpr auto apply(lazy_nil_type)
         { return true_; }
     };
 

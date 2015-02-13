@@ -25,25 +25,34 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! Instance of `Iterable` for `IntegerList`s.
-    //!
-    //! The head of `integer_list<T, x, xs...>` is `integral_constant<T, x>`, its tail
-    //! is `integer_list<T, xs...>` and an integer list is empty if and only
-    //! if it contains no integers at all.
+    //////////////////////////////////////////////////////////////////////////
+    // Iterable
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Iterable::instance<IntegerList> : Iterable::mcd {
+    struct models<Iterable(IntegerList)>
+        : detail::std::true_type
+    { };
+
+    template <>
+    struct head_impl<IntegerList> {
         template <typename T, T x, T ...xs>
-        static constexpr auto head_impl(ilist_detail::integer_list<T, x, xs...>) {
+        static constexpr auto apply(ilist_detail::integer_list<T, x, xs...>) {
             return integral_constant<T, x>;
         }
+    };
 
+    template <>
+    struct tail_impl<IntegerList> {
         template <typename T, T x, T ...xs>
-        static constexpr auto tail_impl(ilist_detail::integer_list<T, x, xs...>) {
+        static constexpr auto apply(ilist_detail::integer_list<T, x, xs...>) {
             return integer_list<T, xs...>;
         }
+    };
 
+    template <>
+    struct is_empty_impl<IntegerList> {
         template <typename T, T ...xs>
-        static constexpr auto is_empty_impl(ilist_detail::integer_list<T, xs...>) {
+        static constexpr auto apply(ilist_detail::integer_list<T, xs...>) {
             return bool_<sizeof...(xs) == 0>;
         }
     };
