@@ -30,7 +30,7 @@ namespace boost { namespace hana {
     struct transform_impl : transform_impl<Fun, when<true>> { };
 
     template <typename Fun, bool condition>
-    struct transform_impl<Fun, when<condition>> {
+    struct transform_impl<Fun, when<condition>> : default_ {
         static_assert(!is_default<adjust_impl<Fun>>{},
         "no definition of boost::hana::transform for the given data type");
 
@@ -77,7 +77,7 @@ namespace boost { namespace hana {
     }
 
     template <typename Fun, bool condition>
-    struct adjust_impl<Fun, when<condition>> {
+    struct adjust_impl<Fun, when<condition>> : default_ {
         static_assert(!is_default<transform_impl<Fun>>{},
         "no definition of boost::hana::adjust for the given data type");
 
