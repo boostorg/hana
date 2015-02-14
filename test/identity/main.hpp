@@ -21,6 +21,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <test/auto/applicative.hpp>
 #include <test/auto/functor.hpp>
 #include <test/auto/monad.hpp>
+#include <test/auto/traversable.hpp>
 using namespace boost::hana;
 
 
@@ -29,7 +30,8 @@ namespace boost { namespace hana { namespace test {
     auto instances<Identity> = tuple(
         type<Functor>,
         type<Applicative>,
-        type<Monad>
+        type<Monad>,
+        type<Traversable>
     );
 
     template <>
@@ -183,6 +185,36 @@ int main() {
             BOOST_HANA_CONSTANT_CHECK(equal(
                 monad(x<1>) | f | g,
                 bind(bind(monad(x<1>), f), g)
+            ));
+        }
+    }
+
+    // Traversable
+    {
+        // traverse
+        {
+            auto f = test::injection([]{});
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                traverse<test::Identity>(test::identity(x<0>), compose(test::identity, f)),
+                test::identity(test::identity(f(x<0>)))
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                traverse<Tuple>(test::identity(x<0>), compose(tuple, f)),
+                tuple(test::identity(f(x<0>)))
+            ));
+        }
+
+        // sequence
+        {
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                sequence<test::Identity>(test::identity(test::identity(x<0>))),
+                test::identity(test::identity(x<0>))
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                sequence<Tuple>(test::identity(tuple(x<0>, x<1>, x<2>))),
+                tuple(test::identity(x<0>), test::identity(x<1>), test::identity(x<2>))
             ));
         }
     }

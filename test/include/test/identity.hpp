@@ -18,6 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functor.hpp>
 #include <boost/hana/monad.hpp>
 #include <boost/hana/orderable.hpp>
+#include <boost/hana/traversable.hpp>
 
 
 namespace boost { namespace hana {
@@ -147,6 +148,38 @@ namespace boost { namespace hana {
         template <typename X, typename F>
         static constexpr auto apply(X x, F f)
         { return f(x.value); }
+    };
+#endif
+
+    //////////////////////////////////////////////////////////////////////////
+    // Traversable
+    //
+    // Define either one to select which MCD is used:
+    //  BOOST_HANA_TEST_TRAVERSABLE_TRAVERSE_MCD
+    //  BOOST_HANA_TEST_TRAVERSABLE_SEQUENCE_MCD
+    //
+    // If neither is defined, the MCD used is unspecified.
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Traversable(test::Identity)>
+        : detail::std::true_type
+    { };
+
+#ifdef BOOST_HANA_TEST_TRAVERSABLE_TRAVERSE_MCD
+    template <>
+    struct traverse_impl<test::Identity> {
+        template <typename A, typename X, typename F>
+        static constexpr auto apply(X x, F f) {
+            return transform(f(x.value), test::identity);
+        }
+    };
+#else
+    template <>
+    struct sequence_impl<test::Identity> {
+        template <typename A, typename X>
+        static constexpr auto apply(X x) {
+            return transform(x.value, test::identity);
+        }
     };
 #endif
 }} // end namespace boost::hana

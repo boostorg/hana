@@ -11,42 +11,75 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_TRAVERSABLE_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/typeclass.hpp>
-#include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
 namespace boost { namespace hana {
     //! @ingroup group-typeclasses
-    //! Types admitting a structure-preserving right fold with an `Applicative`.
+    //! The `Traversable` concept represents types admitting a structure-
+    //! preserving right fold with an `Applicative`.
     //!
-    //! ### Requires
-    //! `Functor`
+    //! Intuitively, the Traversable concept provides the minimal requirement
+    //! for commuting two Applicatives, i.e. for turning a `F<G<T>>` into a
+    //! `G<F<T>>`, where `F` and `G` are two Applicatives. For example, this
+    //! could allow turning a tree of lists into a list of trees, because
+    //! the tree is Traversable and the list is (in particular) an Applicative.
     //!
-    //! ### Laws
-    //! Instances of `Traversable` must satisfy the following laws. For any
-    //! [applicative transformation](@ref Applicative_terminology) `t`,
-    //!
+    //! The ability to commute Applicatives is fundamental when trying to
+    //! compose Monads. For example, suppose that `M` and `N` are Monads (thus
+    //! they are also Applicatives), and that we want to build the composition
+    //! of `M` and `N` given by `Z<T> = M<N<T>>` for any type `T`. If we want
+    //! the composition to be a Monad, we will need to implement the `flatten`
+    //! method, whose pseudo type is
     //! @code
-    //!     t(sequence(x)) == sequence(fmap(x, t))                              // naturality
-    //!     sequence(fmap(x, Identity)) == Identity(x)                          // identity
-    //!     sequence(fmap(x, Compose)) == Compose(fmap(sequence(x), sequence))  // composition
-    //!     traverse(x, f) == sequence(fmap(x, f))
+    //!     flatten : Z<Z<T>> -> Z<T>
+    //! @endcode
+    //! which is equivalent to
+    //! @code
+    //!     flatten : M<N<M<N<T>>>> -> M<N<T>>
+    //! @endcode
+    //! To be able to implement `flatten`, one has to be able to commute
+    //! `N` and `M`, and then use the `flatten` of each Monad `M` and `N`
+    //! to produce a value of the correct type. In other words, we want to do
+    //! @code
+    //!     M<N<M<N<T>>>>   ->   M<M<N<N<T>>>>  (commute M and N)
+    //!                     ->   M<M<N<T>>>     (flatten N)
+    //!                     ->   M<N<T>>        (flatten M)
     //! @endcode
     //!
-    //! where [Identity][] and [Compose][] are the identity functor and the
-    //! composition of functors, respectively. Note that those two functors
-    //! are not provided with the library right now.
+    //! The ability to commute Applicatives in this way is exactly what the
+    //! `sequence` method provides.
     //!
-    //! [Compose]: http://hackage.haskell.org/package/transformers-0.4.1.0/docs/Data-Functor-Compose.html
-    //! [Identity]: http://hackage.haskell.org/package/transformers-0.4.1.0/docs/Data-Functor-Identity.html
-    struct Traversable {
-        BOOST_HANA_TYPECLASS(Traversable);
-        struct traverse_mcd;
-        template <typename T>
-        struct list_mcd;
-    };
+    //!
+    //! Minimal complete definition
+    //! ---------------------------
+    //! 1. `sequence`\n
+    //! When `sequence` is defined, `traverse` can be obtained by setting
+    //! @code
+    //!     traverse<A>(xs, f) = sequence<A>(transform(xs, f))
+    //! @endcode
+    //!
+    //! 2. `traverse`\n
+    //! When `traverse` is defined, `sequence` can be obtained by setting
+    //! @code
+    //!     sequence<A>(xs) = traverse<A>(xs, id)
+    //! @endcode
+    //!
+    //!
+    //! Superclass
+    //! ----------
+    //! `Functor`
+    //!
+    //!
+    //! Laws
+    //! ----
+    //! @todo
+    //! Write the laws for this concept. Can be based on [1]. The problem is
+    //! that the current data type system is too weak to write complex laws,
+    //! because we don't even officially have parameterized data types.
+    //!
+    //! [1]: https://www.haskell.org/pipermail/libraries/2012-October/018706.html
+    struct Traversable { };
 
     //! Combine the applicatives in a structure from left to right and
     //! collect the results.
@@ -63,7 +96,8 @@ namespace boost { namespace hana {
     //! The structure containing the `Applicative`s to combine.
     //!
     //!
-    //! ### Example
+    //! Example
+    //! -------
     //! @snippet example/traversable.cpp sequence
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename A>
@@ -72,24 +106,14 @@ namespace boost { namespace hana {
     };
 #else
     template <typename T, typename = void>
-    struct sequence_impl : sequence_impl<T, when<true>> { };
-
-    template <typename Trav, bool condition>
-    struct sequence_impl<Trav, when<condition>> {
-        template <typename A, typename Xs>
-        static constexpr decltype(auto) apply(Xs&& traversable) {
-            return Traversable::instance<Trav>::template sequence_impl<A>(
-                detail::std::forward<Xs>(traversable)
-            );
-        }
-    };
+    struct sequence_impl;
 
     template <typename A>
     struct _sequence {
-        template <typename Xs>
-        constexpr decltype(auto) operator()(Xs&& traversable) const {
-            return sequence_impl<datatype_t<Xs>>::template apply<A>(
-                detail::std::forward<Xs>(traversable)
+        template <typename T>
+        constexpr decltype(auto) operator()(T&& traversable) const {
+            return sequence_impl<typename datatype<T>::type>::template apply<A>(
+                detail::std::forward<T>(traversable)
             );
         }
     };
@@ -118,7 +142,8 @@ namespace boost { namespace hana {
     //! `sequence`.
     //!
     //!
-    //! ### Example
+    //! Example
+    //! -------
     //! @snippet example/traversable.cpp traverse
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename A>
@@ -127,25 +152,14 @@ namespace boost { namespace hana {
     };
 #else
     template <typename T, typename = void>
-    struct traverse_impl : traverse_impl<T, when<true>> { };
-
-    template <typename Trav, bool condition>
-    struct traverse_impl<Trav, when<condition>> {
-        template <typename A, typename Xs, typename F>
-        static constexpr decltype(auto) apply(Xs&& traversable, F&& f) {
-            return Traversable::instance<Trav>::template traverse_impl<A>(
-                detail::std::forward<Xs>(traversable),
-                detail::std::forward<F>(f)
-            );
-        }
-    };
+    struct traverse_impl;
 
     template <typename A>
     struct _traverse {
-        template <typename Xs, typename F>
-        constexpr decltype(auto) operator()(Xs&& traversable, F&& f) const {
-            return traverse_impl<datatype_t<Xs>>::template apply<A>(
-                detail::std::forward<Xs>(traversable),
+        template <typename T, typename F>
+        constexpr decltype(auto) operator()(T&& traversable, F&& f) const {
+            return traverse_impl<typename datatype<T>::type>::template apply<A>(
+                detail::std::forward<T>(traversable),
                 detail::std::forward<F>(f)
             );
         }
