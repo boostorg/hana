@@ -13,8 +13,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/foldable.hpp>
 
 #include <boost/hana/core/default.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/create.hpp>
+#include <boost/hana/detail/dependent_on.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integer_sequence.hpp>
 #include <boost/hana/detail/std/integral_constant.hpp>
@@ -44,11 +46,12 @@ namespace boost { namespace hana {
 
     template <typename T, bool condition>
     struct foldl_impl<T, when<condition>> : default_ {
-        static_assert(!is_default<unpack_impl<T>>{},
-        "no definition of boost::hana::foldl for the given data type");
-
         template <typename Xs, typename S, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, S&& s, F&& f) {
+            using Foldable = detail::dependent_on_t<sizeof(xs) == 1, T>;
+            static_assert(!is_default<unpack_impl<Foldable>>{},
+            "no definition of boost::hana::foldl for the given data type");
+
             return hana::unpack(detail::std::forward<Xs>(xs),
                 hana::partial(
                     detail::variadic::foldl,
@@ -67,11 +70,12 @@ namespace boost { namespace hana {
 
     template <typename T, bool condition>
     struct foldr_impl<T, when<condition>> : default_ {
-        static_assert(!is_default<unpack_impl<T>>{},
-        "no definition of boost::hana::foldr for the given data type");
-
         template <typename Xs, typename S, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, S&& s, F&& f) {
+            using Foldable = detail::dependent_on_t<sizeof(xs) == 1, T>;
+            static_assert(!is_default<unpack_impl<Foldable>>{},
+            "no definition of boost::hana::foldr for the given data type");
+
             return hana::unpack(detail::std::forward<Xs>(xs),
                 hana::partial(
                     detail::variadic::foldr,
@@ -134,7 +138,7 @@ namespace boost { namespace hana {
 
     template <typename T, bool condition>
     struct foldr1_impl<T, when<condition>>
-        : foldable_detail::foldr1_helper<T>
+        : foldable_detail::foldr1_helper<T>, default_
     { };
 
 
@@ -175,7 +179,7 @@ namespace boost { namespace hana {
 
     template <typename T, bool condition>
     struct foldl1_impl<T, when<condition>>
-        : foldable_detail::foldl1_helper<T>
+        : foldable_detail::foldl1_helper<T>, default_
     { };
 
     //////////////////////////////////////////////////////////////////////////
@@ -230,7 +234,7 @@ namespace boost { namespace hana {
 
     template <typename T, bool condition>
     struct for_each_impl<T, when<condition>>
-        : foldable_detail::for_each_helper<T>
+        : foldable_detail::for_each_helper<T>, default_
     { };
 
     //////////////////////////////////////////////////////////////////////////
@@ -270,7 +274,7 @@ namespace boost { namespace hana {
 
     template <typename T, bool condition>
     struct length_impl<T, when<condition>>
-        : foldable_detail::length_helper<T>
+        : foldable_detail::length_helper<T>, default_
     { };
 
     //////////////////////////////////////////////////////////////////////////
@@ -311,7 +315,7 @@ namespace boost { namespace hana {
     struct minimum_by_impl : minimum_by_impl<T, when<true>> { };
 
     template <typename T, bool condition>
-    struct minimum_by_impl<T, when<condition>> {
+    struct minimum_by_impl<T, when<condition>> : default_ {
         template <typename Pred, typename Xs>
         static constexpr decltype(auto) apply(Pred&& pred, Xs&& xs) {
             return hana::foldl1(detail::std::forward<Xs>(xs),
@@ -329,7 +333,7 @@ namespace boost { namespace hana {
     struct minimum_impl : minimum_impl<T, when<true>> { };
 
     template <typename T, bool condition>
-    struct minimum_impl<T, when<condition>> {
+    struct minimum_impl<T, when<condition>> : default_ {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs)
         { return hana::minimum_by(less, detail::std::forward<Xs>(xs)); }
@@ -373,7 +377,7 @@ namespace boost { namespace hana {
     struct maximum_by_impl : maximum_by_impl<T, when<true>> { };
 
     template <typename T, bool condition>
-    struct maximum_by_impl<T, when<condition>> {
+    struct maximum_by_impl<T, when<condition>> : default_ {
         template <typename Pred, typename Xs>
         static constexpr decltype(auto) apply(Pred&& pred, Xs&& xs) {
             return hana::foldl1(detail::std::forward<Xs>(xs),
@@ -391,7 +395,7 @@ namespace boost { namespace hana {
     struct maximum_impl : maximum_impl<T, when<true>> { };
 
     template <typename T, bool condition>
-    struct maximum_impl<T, when<condition>> {
+    struct maximum_impl<T, when<condition>> : default_ {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs)
         { return hana::maximum_by(less, detail::std::forward<Xs>(xs)); }
@@ -404,7 +408,7 @@ namespace boost { namespace hana {
     struct sum_impl : sum_impl<T, when<true>> { };
 
     template <typename T, bool condition>
-    struct sum_impl<T, when<condition>> {
+    struct sum_impl<T, when<condition>> : default_ {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
             using M = IntegralConstant<int>;
@@ -419,7 +423,7 @@ namespace boost { namespace hana {
     struct product_impl : product_impl<T, when<true>> { };
 
     template <typename T, bool condition>
-    struct product_impl<T, when<condition>> {
+    struct product_impl<T, when<condition>> : default_ {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
             using R = IntegralConstant<int>;
@@ -462,7 +466,7 @@ namespace boost { namespace hana {
     struct count_impl : count_impl<T, when<true>> { };
 
     template <typename T, bool condition>
-    struct count_impl<T, when<condition>> {
+    struct count_impl<T, when<condition>> : default_ {
         template <typename Xs, typename Pred>
         static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
             return hana::foldl(detail::std::forward<Xs>(xs), size_t<0>,
@@ -483,6 +487,11 @@ namespace boost { namespace hana {
     struct unpack_impl<T, when<condition>> : default_ {
         template <typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
+            using Foldable = detail::dependent_on_t<sizeof(xs) == 1, T>;
+            static_assert(!is_default<foldl_impl<Foldable>>{} &&
+                          !is_default<foldr_impl<Foldable>>{},
+            "no definition of boost::hana::unpack for the given data type");
+
             return hana::foldl(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<F>(f),
@@ -492,13 +501,19 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // Model for builtin arrays
+    // models
     //////////////////////////////////////////////////////////////////////////
     template <typename T>
-    struct models<Foldable(T[])>
-        : detail::std::true_type
+    struct models<Foldable(T)>
+        : detail::std::integral_constant<bool,
+            (!is_default<foldl_impl<T>>{} && !is_default<foldr_impl<T>>{}) ||
+            !is_default<unpack_impl<T>>{}
+        >
     { };
 
+    //////////////////////////////////////////////////////////////////////////
+    // Model for builtin arrays
+    //////////////////////////////////////////////////////////////////////////
     template <typename T, detail::std::size_t N>
     struct unpack_impl<T[N]> {
         template <typename Xs, typename F, detail::std::size_t ...i>

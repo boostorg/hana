@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/constant.hpp>
 #include <boost/hana/core/is_a.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/id.hpp>
@@ -26,6 +27,8 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana { namespace test {
     template <typename S>
     auto laws<Searchable, S> = [] {
+        static_assert(models<Searchable(S)>{}, "");
+
         for_each(objects<S>, [](auto xs) {
 
             auto predicates = tuple(always(true_), always(false_));

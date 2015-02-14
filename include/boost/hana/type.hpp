@@ -14,8 +14,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
-#include <boost/hana/core/models.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/integral_constant.hpp>
 
 
@@ -32,11 +30,6 @@ namespace boost { namespace hana {
     // Comparable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Comparable(Type)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct equal_impl<Type, Type> {
         template <typename T, typename U>
         static constexpr auto apply(T, U)
@@ -47,11 +40,11 @@ namespace boost { namespace hana {
         { return true_; }
     };
 
-#ifndef BOOST_HANA_DOXYGEN_INVOKED
+    //! @cond
     template <typename T>
     constexpr auto _sizeof::operator()(T) const
     { return size_t<sizeof(typename T::type)>; }
-#endif
+    //! @endcond
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_TYPE_HPP

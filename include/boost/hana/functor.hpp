@@ -14,7 +14,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/core/default.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/dependent_on.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/functional/always.hpp>
@@ -31,11 +33,12 @@ namespace boost { namespace hana {
 
     template <typename Fun, bool condition>
     struct transform_impl<Fun, when<condition>> : default_ {
-        static_assert(!is_default<adjust_impl<Fun>>{},
-        "no definition of boost::hana::transform for the given data type");
-
         template <typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
+            using Functor = detail::dependent_on_t<sizeof(xs) == sizeof(f), Fun>;
+            static_assert(!is_default<adjust_impl<Functor>>{},
+            "no definition of boost::hana::transform for the given data type");
+
             return hana::adjust(detail::std::forward<Xs>(xs),
                                 hana::always(true_),
                                 detail::std::forward<F>(f));
@@ -78,11 +81,12 @@ namespace boost { namespace hana {
 
     template <typename Fun, bool condition>
     struct adjust_impl<Fun, when<condition>> : default_ {
-        static_assert(!is_default<transform_impl<Fun>>{},
-        "no definition of boost::hana::adjust for the given data type");
-
         template <typename Xs, typename Pred, typename F>
         static constexpr auto apply(Xs&& xs, Pred&& pred, F&& f) {
+            using Functor = detail::dependent_on_t<sizeof(xs) == sizeof(f), Fun>;
+            static_assert(!is_default<transform_impl<Functor>>{},
+            "no definition of boost::hana::adjust for the given data type");
+
             return hana::transform(detail::std::forward<Xs>(xs),
                 hana::partial(functor_detail::go{},
                         detail::std::forward<Pred>(pred),
@@ -97,7 +101,7 @@ namespace boost { namespace hana {
     struct replace_impl : replace_impl<Fun, when<true>> { };
 
     template <typename Fun, bool condition>
-    struct replace_impl<Fun, when<condition>> {
+    struct replace_impl<Fun, when<condition>> : default_ {
         template <typename Xs, typename Pred, typename Value>
         static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred, Value&& v) {
             return hana::adjust(detail::std::forward<Xs>(xs),
@@ -114,7 +118,7 @@ namespace boost { namespace hana {
     struct fill_impl : fill_impl<Fun, when<true>> { };
 
     template <typename Fun, bool condition>
-    struct fill_impl<Fun, when<condition>> {
+    struct fill_impl<Fun, when<condition>> : default_ {
         template <typename Xs, typename Value>
         static constexpr decltype(auto) apply(Xs&& xs, Value&& v) {
             return hana::transform(detail::std::forward<Xs>(xs),
@@ -122,6 +126,17 @@ namespace boost { namespace hana {
             );
         }
     };
+
+    //////////////////////////////////////////////////////////////////////////
+    // models
+    //////////////////////////////////////////////////////////////////////////
+    template <typename F>
+    struct models<Functor(F)>
+        : detail::std::integral_constant<bool,
+            !is_default<transform_impl<F>>{} ||
+            !is_default<adjust_impl<F>>{}
+        >
+    { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FUNCTOR_HPP

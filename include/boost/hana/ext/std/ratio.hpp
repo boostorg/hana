@@ -17,7 +17,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/is_integral.hpp>
 
 // instances
@@ -51,11 +50,6 @@ namespace boost { namespace hana {
     // Comparable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Comparable(ext::std::Ratio)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct equal_impl<ext::std::Ratio, ext::std::Ratio> {
         template <typename R1, typename R2>
         static constexpr auto apply(R1, R2)
@@ -66,11 +60,6 @@ namespace boost { namespace hana {
     // Orderable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Orderable(ext::std::Ratio)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct less_impl<ext::std::Ratio, ext::std::Ratio> {
         template <typename R1, typename R2>
         static constexpr auto apply(R1, R2)
@@ -80,11 +69,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Monoid
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Monoid(ext::std::Ratio)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct plus_impl<ext::std::Ratio, ext::std::Ratio> {
         template <typename R1, typename R2>
@@ -102,11 +86,6 @@ namespace boost { namespace hana {
     // Group
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Group(ext::std::Ratio)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct minus_impl<ext::std::Ratio, ext::std::Ratio> {
         template <typename R1, typename R2>
         static constexpr ::std::ratio_subtract<R1, R2> apply(R1, R2)
@@ -116,11 +95,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Ring
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Ring(ext::std::Ratio)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct mult_impl<ext::std::Ratio, ext::std::Ratio> {
         template <typename R1, typename R2>
@@ -137,11 +111,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // IntegralDomain
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<IntegralDomain(ext::std::Ratio)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct quot_impl<ext::std::Ratio, ext::std::Ratio> {
         template <typename R1, typename R2>

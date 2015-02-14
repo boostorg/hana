@@ -7,9 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TEST_TEST_IDENTITY_HPP
 #define BOOST_HANA_TEST_TEST_IDENTITY_HPP
 
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/create.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/logical.hpp>
 
 // instances
@@ -38,11 +36,6 @@ namespace boost { namespace hana {
     // Comparable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Comparable(test::Identity)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct equal_impl<test::Identity, test::Identity> {
         template <typename Id1, typename Id2>
         static constexpr auto apply(Id1 x, Id2 y)
@@ -52,11 +45,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Orderable
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Orderable(test::Identity)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct less_impl<test::Identity, test::Identity> {
         template <typename Id1, typename Id2>
@@ -73,11 +61,6 @@ namespace boost { namespace hana {
     //
     // If neither is defined, the MCD used is unspecified.
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Functor(test::Identity)>
-        : detail::std::true_type
-    { };
-
 #ifdef BOOST_HANA_TEST_FUNCTOR_TRANSFORM_MCD
     template <>
     struct transform_impl<test::Identity> {
@@ -103,11 +86,6 @@ namespace boost { namespace hana {
     // Applicative
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Applicative(test::Identity)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct lift_impl<test::Identity> {
         template <typename X>
         static constexpr auto apply(X x)
@@ -130,11 +108,6 @@ namespace boost { namespace hana {
     //
     // If neither is defined, the MCD used is unspecified.
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Monad(test::Identity)>
-        : detail::std::true_type
-    { };
-
 #ifdef BOOST_HANA_TEST_MONAD_FLATTEN_MCD
     template <>
     struct flatten_impl<test::Identity> {
@@ -160,11 +133,6 @@ namespace boost { namespace hana {
     //
     // If neither is defined, the MCD used is unspecified.
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Traversable(test::Identity)>
-        : detail::std::true_type
-    { };
-
 #ifdef BOOST_HANA_TEST_TRAVERSABLE_TRAVERSE_MCD
     template <>
     struct traverse_impl<test::Identity> {

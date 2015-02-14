@@ -8,9 +8,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_TEST_TEST_SEQ_HPP
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 
 // instances
 #include <boost/hana/foldable.hpp>
@@ -46,11 +44,6 @@ namespace boost { namespace hana {
     //
     // If neither is defined, the MCD used is unspecified.
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Foldable(test::Seq)>
-        : detail::std::true_type
-    { };
-
 #ifdef BOOST_HANA_TEST_FOLDABLE_FOLDS_MCD
     template <>
     struct foldr_impl<test::Seq> {
@@ -105,11 +98,6 @@ namespace boost { namespace hana {
     // Searchable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Searchable(test::Seq)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct find_impl<test::Seq>
         : Iterable::find_impl<test::Seq>
     { };
@@ -122,11 +110,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Iterable
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Iterable(test::Seq)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct head_impl<test::Seq> {
         template <typename Xs>

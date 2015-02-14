@@ -5,9 +5,7 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/functional/id.hpp>
 #include <boost/hana/map.hpp>
 #include <boost/hana/pair.hpp>
@@ -30,11 +28,6 @@ constexpr auto name = decltype_(&Person::name);
 constexpr auto age = decltype_(&Person::age);
 
 namespace boost { namespace hana {
-    template <>
-    struct models<Record(Person)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct members_impl<Person> {
         static BOOST_HANA_CONSTEXPR_LAMBDA auto apply() {

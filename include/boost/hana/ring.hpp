@@ -16,6 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
@@ -56,9 +57,12 @@ namespace boost { namespace hana {
     struct mult_impl : mult_impl<T, U, when<true>> { };
 
     template <typename T, typename U, bool condition>
-    struct mult_impl<T, U, when<condition>> {
-        static_assert(wrong<mult_impl<T, U>>{},
-        "no definition of boost::hana::mult for the given data types");
+    struct mult_impl<T, U, when<condition>> : default_ {
+        template <typename X, typename Y>
+        static constexpr void apply(X&&, Y&&) {
+            static_assert(wrong<mult_impl<T, U>, X, Y>{},
+            "no definition of boost::hana::mult for the given data types");
+        }
     };
 
     // Cross-type overload
@@ -79,9 +83,12 @@ namespace boost { namespace hana {
     struct one_impl : one_impl<R, when<true>> { };
 
     template <typename R, bool condition>
-    struct one_impl<R, when<condition>> {
-        static_assert(wrong<one_impl<R>>{},
-        "no definition of boost::hana::one for the given data type");
+    struct one_impl<R, when<condition>> : default_ {
+        template <typename ...Nothing>
+        static constexpr void apply(Nothing&& ...) {
+            static_assert(wrong<one_impl<R>, Nothing...>{},
+            "no definition of boost::hana::one for the given data type");
+        }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -91,7 +98,7 @@ namespace boost { namespace hana {
     struct power_impl : power_impl<R, when<true>> { };
 
     template <typename R, bool condition>
-    struct power_impl<R, when<condition>> {
+    struct power_impl<R, when<condition>> : default_ {
         template <typename X, typename N>
         static constexpr decltype(auto) apply(X&& x, N&& n) {
             using Exp = typename datatype<N>::type;
@@ -107,13 +114,19 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // Model for non-boolean arithmetic data types
+    // models
     //////////////////////////////////////////////////////////////////////////
-    template <typename T>
-    struct models<Ring(T), when<detail::std::is_non_boolean_arithmetic<T>{}>>
-        : detail::std::true_type
+    template <typename R>
+    struct models<Ring(R)>
+        : detail::std::integral_constant<bool,
+            !is_default<one_impl<R>>{} &&
+            !is_default<mult_impl<R, R>>{}
+        >
     { };
 
+    //////////////////////////////////////////////////////////////////////////
+    // Model for non-boolean arithmetic data types
+    //////////////////////////////////////////////////////////////////////////
     template <typename T>
     struct mult_impl<T, T, when<detail::std::is_non_boolean_arithmetic<T>{}>> {
         template <typename X, typename Y>
@@ -130,13 +143,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Model for Constants over a Ring
     //////////////////////////////////////////////////////////////////////////
-    template <typename C>
-    struct models<Ring(C), when<
-        models<Constant(C)>{} && models<Ring(typename C::value_type)>{}
-    >>
-        : detail::std::true_type
-    { };
-
     template <typename C>
     struct mult_impl<C, C, when<
         models<Constant(C)>{} && models<Ring(typename C::value_type)>{}

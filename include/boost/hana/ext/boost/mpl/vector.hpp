@@ -13,8 +13,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/ext/boost/mpl/vector.hpp>
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/models.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/is_same.hpp>
 #include <boost/hana/ext/boost/mpl/integral_c.hpp>
 #include <boost/hana/type.hpp>
@@ -37,11 +35,6 @@ namespace boost { namespace hana {
     // Foldable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Foldable(ext::boost::mpl::Vector)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct foldl_impl<ext::boost::mpl::Vector>
         : Iterable::foldl_impl<ext::boost::mpl::Vector>
     { };
@@ -54,11 +47,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Searchable
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Searchable(ext::boost::mpl::Vector)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct find_impl<ext::boost::mpl::Vector>
         : Iterable::find_impl<ext::boost::mpl::Vector>
@@ -77,11 +65,6 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @include example/ext/boost/mpl/vector/iterable.cpp
-    template <>
-    struct models<Iterable(ext::boost::mpl::Vector)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct head_impl<ext::boost::mpl::Vector> {
         template <typename xs>

@@ -16,7 +16,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/is_a.hpp>
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/std/forward.hpp>
@@ -77,11 +76,6 @@ namespace boost { namespace hana {
     // Comparable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Comparable(Map)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct equal_impl<Map, Map> {
         template <typename M1, typename M2>
         static constexpr auto apply(M1 const& m1, M2 const& m2) {
@@ -98,11 +92,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Searchable
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Searchable(Map)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct find_impl<Map> {
         template <typename M, typename Pred>

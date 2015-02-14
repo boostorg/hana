@@ -4,8 +4,6 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/core/models.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/functional/curry.hpp>
 #include <boost/hana/functional/flip.hpp>
 #include <boost/hana/functional/partial.hpp>
@@ -43,11 +41,6 @@ namespace boost { namespace hana {
     // Comparable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Comparable(Tree)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct equal_impl<Tree, Tree> {
         template <typename N1, typename N2>
         static constexpr decltype(auto) apply(N1&& n1, N2&& n2) {
@@ -61,11 +54,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Functor
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Functor(Tree)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct transform_impl<Tree> {
         template <typename N, typename F>
@@ -83,11 +71,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Applicative
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Applicative(Tree)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct lift_impl<Tree> {
         template <typename X>
@@ -113,11 +96,6 @@ namespace boost { namespace hana {
     // Monad
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Monad(Tree)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct flatten_impl<Tree> {
         template <typename N>
         static constexpr decltype(auto) apply(N&& n) {
@@ -134,11 +112,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Foldable
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Foldable(Tree)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct foldl_impl<Tree> {
         template <typename N, typename S, typename F>
@@ -179,11 +152,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Traversable
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Traversable(Tree)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct traverse_impl<Tree> {
         template <typename A, typename N, typename F>

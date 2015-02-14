@@ -19,7 +19,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/is_same.hpp>
 #include <boost/hana/functional/id.hpp>
 #include <boost/hana/logical.hpp>
@@ -38,11 +37,6 @@ namespace boost { namespace hana {
     // Comparable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Comparable(Bool)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct equal_impl<Bool, Bool> {
         template <typename X, typename Y>
         static constexpr auto apply(X const&, Y const&)
@@ -52,11 +46,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Constant
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Constant(Bool)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct value_impl<Bool> {
         template <typename C>
@@ -81,11 +70,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Logical
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Logical(Bool)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct eval_if_impl<Bool> {
         //! @bug

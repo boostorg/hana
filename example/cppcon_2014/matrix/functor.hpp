@@ -9,8 +9,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include "matrix.hpp"
 
-#include <boost/hana/core/models.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/functional/flip.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/functor.hpp>
@@ -19,11 +17,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    template <unsigned Rows, unsigned Columns>
-    struct models<Functor(cppcon::Matrix<Rows, Columns>)>
-        : detail::std::true_type
-    { };
-
     template <unsigned Rows, unsigned Columns>
     struct transform_impl<cppcon::Matrix<Rows, Columns>> {
         template <typename M, typename F>

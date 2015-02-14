@@ -21,6 +21,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/core/wrong.hpp>
+#include <boost/hana/detail/dependent_on.hpp>
 #include <boost/hana/detail/has_common_embedding.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
@@ -57,18 +58,22 @@ namespace boost { namespace hana {
     struct minus_impl : minus_impl<T, U, when<true>> { };
 
     template <typename T, typename U, bool condition>
-    struct minus_impl<T, U, when<condition>> {
-        static_assert(wrong<minus_impl<T, U>>{},
-        "no definition of boost::hana::minus for the given data types");
+    struct minus_impl<T, U, when<condition>> : default_ {
+        template <typename X, typename Y>
+        static constexpr void apply(X&&, Y&&) {
+            static_assert(wrong<minus_impl<T, U>, X, Y>{},
+            "no definition of boost::hana::minus for the given data types");
+        }
     };
 
     template <typename T, bool condition>
     struct minus_impl<T, T, when<condition>> : default_ {
-        static_assert(!is_default<negate_impl<T>>{},
-        "no definition of boost::hana::minus for the given data type");
-
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
+            using G = detail::dependent_on_t<sizeof(x) == 1, T>;
+            static_assert(!is_default<negate_impl<G>>{},
+            "no definition of boost::hana::minus for the given data type");
+
             return hana::plus(detail::std::forward<X>(x),
                               hana::negate(detail::std::forward<Y>(y)));
         }
@@ -93,22 +98,30 @@ namespace boost { namespace hana {
 
     template <typename T, bool condition>
     struct negate_impl<T, when<condition>> : default_ {
-        static_assert(!is_default<minus_impl<T, T>>{},
-        "no definition of boost::hana::negate for the given data type");
-
         template <typename X>
-        static constexpr decltype(auto) apply(X&& x)
-        { return hana::minus(zero<T>(), detail::std::forward<X>(x)); }
+        static constexpr decltype(auto) apply(X&& x) {
+            using G = detail::dependent_on_t<sizeof(x) == 1, T>;
+            static_assert(!is_default<minus_impl<G, G>>::value,
+            "no definition of boost::hana::negate for the given data type");
+
+            return hana::minus(zero<T>(), detail::std::forward<X>(x));
+        }
     };
+
+    //////////////////////////////////////////////////////////////////////////
+    // models
+    //////////////////////////////////////////////////////////////////////////
+    template <typename G>
+    struct models<Group(G)>
+        : detail::std::integral_constant<bool,
+            !is_default<negate_impl<G>>{} ||
+            !is_default<minus_impl<G, G>>{}
+        >
+    { };
 
     //////////////////////////////////////////////////////////////////////////
     // Model for arithmetic data types
     //////////////////////////////////////////////////////////////////////////
-    template <typename T>
-    struct models<Group(T), when<detail::std::is_non_boolean_arithmetic<T>{}>>
-        : detail::std::true_type
-    { };
-
     template <typename T>
     struct minus_impl<T, T, when<detail::std::is_non_boolean_arithmetic<T>{}>> {
         template <typename X, typename Y>
@@ -126,13 +139,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Model for Constants over a Group
     //////////////////////////////////////////////////////////////////////////
-    template <typename C>
-    struct models<Group(C), when<
-        models<Constant(C)>{} && models<Group(typename C::value_type)>{}
-    >>
-        : detail::std::true_type
-    { };
-
     template <typename C>
     struct minus_impl<C, C, when<
         models<Constant(C)>{} && models<Group(typename C::value_type)>{}

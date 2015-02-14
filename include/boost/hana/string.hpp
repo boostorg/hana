@@ -84,11 +84,6 @@ namespace boost { namespace hana {
     // Comparable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Comparable(String)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct equal_impl<String, String> {
         template <typename S>
         static constexpr auto apply(S const&, S const&)
@@ -102,11 +97,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Orderable
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Orderable(String)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct less_impl<String, String> {
         static constexpr bool less_helper(char const* s1, char const* s2) {
@@ -130,11 +120,6 @@ namespace boost { namespace hana {
     // Foldable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Foldable(String)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct unpack_impl<String> {
         template <char ...s, typename F>
         static constexpr decltype(auto) apply(_string<s...> const&, F&& f)
@@ -151,11 +136,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Iterable
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Iterable(String)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct head_impl<String> {
         template <char x, char ...xs>
@@ -190,11 +170,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Searchable
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Searchable(String)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct find_impl<String>
         : Iterable::find_impl<String>

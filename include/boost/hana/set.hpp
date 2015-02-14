@@ -14,13 +14,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core/convert.hpp>
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/insert_fwd.hpp>
 #include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional/flip.hpp>
 #include <boost/hana/functional/id.hpp>
@@ -54,11 +52,6 @@ namespace boost { namespace hana {
     // Comparable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Comparable(Set)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct equal_impl<Set, Set> {
         template <typename S1, typename S2>
         static constexpr decltype(auto) apply(S1&& s1, S2&& s2) {
@@ -72,11 +65,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Searchable
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Searchable(Set)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct find_impl<Set> {
         template <typename Set, typename Pred>

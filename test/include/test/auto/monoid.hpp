@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/comparable.hpp>
+#include <boost/hana/core/models.hpp>
 
 #include <test/auto/base.hpp>
 
@@ -18,6 +19,8 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana { namespace test {
     template <typename M>
     auto laws<Monoid, M> = [] {
+        static_assert(models<Monoid(M)>{}, "");
+
         for_each(objects<M>, [](auto x) {
             BOOST_HANA_CHECK(equal(
                 x,

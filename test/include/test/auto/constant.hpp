@@ -14,6 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/make.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/canonical_constant.hpp>
 #include <boost/hana/detail/std/is_same.hpp>
 #include <boost/hana/enumerable.hpp>
@@ -42,6 +43,8 @@ namespace boost { namespace hana { namespace test {
 
     template <typename C>
     auto laws<Constant, C> = [] {
+        static_assert(models<Constant(C)>{}, "");
+
         // laws
         {
             for_each(objects<C>, [](auto c) {

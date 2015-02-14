@@ -9,17 +9,18 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/traversable.hpp>
 
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/functor.hpp>
 
-// required instances
-#include <test/auto/functor.hpp>
-
 #include <test/auto/base.hpp>
+#include <test/auto/functor.hpp>
 
 
 namespace boost { namespace hana { namespace test {
     template <typename T>
     auto laws<Traversable, T> = [] {
+        static_assert(models<Traversable(T)>{}, "");
+
         laws<Functor, T>();
 
         //! @todo Write Traversable laws

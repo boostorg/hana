@@ -18,7 +18,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/is_integral.hpp>
 #include <boost/hana/enumerable.hpp>
 #include <boost/hana/group.hpp>
@@ -35,11 +34,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Constant
     //////////////////////////////////////////////////////////////////////////
-    template <typename T>
-    struct models<Constant(ext::boost::mpl::IntegralC<T>)>
-        : detail::std::true_type
-    { };
-
     template <typename T>
     struct value_impl<ext::boost::mpl::IntegralC<T>> {
         template <typename C>

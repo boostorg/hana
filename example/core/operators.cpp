@@ -6,11 +6,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/comparable.hpp>
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 
 #include <string>
-#include <type_traits>
 using namespace boost::hana;
 
 
@@ -34,20 +32,10 @@ struct Employee : operators::enable_adl {
 
 namespace boost { namespace hana {
     template <>
-    struct models<Comparable(Person)>
-        : std::true_type
-    { };
-
-    template <>
     struct equal_impl<Person, Person> {
         static bool apply(Person x, Person y)
         { return x.name == y.name; }
     };
-
-    template <>
-    struct models<Comparable(Employee)>
-        : std::true_type
-    { };
 
     template <>
     struct equal_impl<Employee, Employee> {

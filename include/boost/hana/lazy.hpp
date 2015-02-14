@@ -13,12 +13,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/lazy.hpp>
 
 #include <boost/hana/applicative.hpp>
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/closure.hpp>
 #include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/id.hpp>
@@ -118,11 +116,6 @@ namespace boost { namespace hana {
     // Functor
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Functor(Lazy)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct transform_impl<Lazy> {
         template <typename LX, typename F>
         static constexpr decltype(auto) apply(LX&& lx, F&& f) {
@@ -134,11 +127,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Applicative
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Applicative(Lazy)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct lift_impl<Lazy> {
         template <typename X>
@@ -181,11 +169,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Monad
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Monad(Lazy)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct flatten_impl<Lazy> {
         template <typename LLX>

@@ -14,6 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/constant.hpp>
 #include <boost/hana/core/convert.hpp>
+#include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/core/wrong.hpp>
@@ -30,9 +31,12 @@ namespace boost { namespace hana {
     struct succ_impl : succ_impl<E, when<true>> { };
 
     template <typename E, bool condition>
-    struct succ_impl<E, when<condition>> {
-        static_assert(wrong<succ_impl<E>>{},
-        "no definition of boost::hana::succ for the given data type");
+    struct succ_impl<E, when<condition>> : default_ {
+        template <typename X>
+        static constexpr void apply(X&&) {
+            static_assert(wrong<succ_impl<E>, X>{},
+            "no definition of boost::hana::succ for the given data type");
+        }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -42,21 +46,28 @@ namespace boost { namespace hana {
     struct pred_impl : pred_impl<E, when<true>> { };
 
     template <typename E, bool condition>
-    struct pred_impl<E, when<condition>> {
-        static_assert(wrong<pred_impl<E>>{},
-        "no definition of boost::hana::pred for the given data type");
+    struct pred_impl<E, when<condition>> : default_ {
+        template <typename X>
+        static constexpr void apply(X&&) {
+            static_assert(wrong<pred_impl<E>, X>{},
+            "no definition of boost::hana::pred for the given data type");
+        }
     };
+
+    //////////////////////////////////////////////////////////////////////////
+    // models
+    //////////////////////////////////////////////////////////////////////////
+    template <typename E>
+    struct models<Enumerable(E)>
+        : detail::std::integral_constant<bool,
+            !is_default<succ_impl<E>>{} &&
+            !is_default<pred_impl<E>>{}
+        >
+    { };
 
     //////////////////////////////////////////////////////////////////////////
     // Model for non-boolean arithmetic data types
     //////////////////////////////////////////////////////////////////////////
-    template <typename E>
-    struct models<Enumerable(E), when<
-        detail::std::is_arithmetic<E>{} && !detail::std::is_same<E, bool>{}
-    >>
-        : detail::std::true_type
-    { };
-
     template <typename E>
     struct succ_impl<E, when<
         detail::std::is_arithmetic<E>{} && !detail::std::is_same<E, bool>{}
@@ -78,13 +89,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Model for Constants over an Enumerable data type
     //////////////////////////////////////////////////////////////////////////
-    template <typename C>
-    struct models<Enumerable(C), when<
-        models<Constant(C)>{} && models<Enumerable(typename C::value_type)>{}
-    >>
-        : detail::std::true_type
-    { };
-
     template <typename C>
     struct succ_impl<C, when<
         models<Constant(C)>{} && models<Enumerable(typename C::value_type)>{}

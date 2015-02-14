@@ -16,6 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
@@ -58,9 +59,12 @@ namespace boost { namespace hana {
     struct quot_impl : quot_impl<T, U, when<true>> { };
 
     template <typename T, typename U, bool condition>
-    struct quot_impl<T, U, when<condition>> {
-        static_assert(wrong<quot_impl<T, U>>{},
-        "no definition of boost::hana::quot for the given data types");
+    struct quot_impl<T, U, when<condition>> : default_ {
+        template <typename X, typename Y>
+        static constexpr void apply(X&&, Y&&) {
+            static_assert(wrong<quot_impl<T, U>, X, Y>{},
+            "no definition of boost::hana::quot for the given data types");
+        }
     };
 
     // Cross-type overload
@@ -81,9 +85,12 @@ namespace boost { namespace hana {
     struct mod_impl : mod_impl<T, U, when<true>> { };
 
     template <typename T, typename U, bool condition>
-    struct mod_impl<T, U, when<condition>> {
-        static_assert(wrong<mod_impl<T, U>>{},
-        "no definition of boost::hana::mod for the given data types");
+    struct mod_impl<T, U, when<condition>> : default_ {
+        template <typename X, typename Y>
+        static constexpr void apply(X&&, Y&&) {
+            static_assert(wrong<mod_impl<T, U>, X, Y>{},
+            "no definition of boost::hana::mod for the given data types");
+        }
     };
 
     // Cross-type overload
@@ -98,13 +105,19 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // Model for integral data types
+    // models
     //////////////////////////////////////////////////////////////////////////
-    template <typename T>
-    struct models<IntegralDomain(T), when<detail::std::is_non_boolean_integral<T>{}>>
-        : detail::std::true_type
+    template <typename D>
+    struct models<IntegralDomain(D)>
+        : detail::std::integral_constant<bool,
+            !is_default<mod_impl<D, D>>{} &&
+            !is_default<quot_impl<D, D>>{}
+        >
     { };
 
+    //////////////////////////////////////////////////////////////////////////
+    // Model for integral data types
+    //////////////////////////////////////////////////////////////////////////
     template <typename T>
     struct quot_impl<T, T, when<detail::std::is_non_boolean_integral<T>{}>> {
         template <typename X, typename Y>
@@ -122,13 +135,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Model for Constants over an IntegralDomain
     //////////////////////////////////////////////////////////////////////////
-    template <typename C>
-    struct models<IntegralDomain(C), when<
-        models<Constant(C)>{} && models<IntegralDomain(typename C::value_type)>{}
-    >>
-        : detail::std::true_type
-    { };
-
     template <typename C>
     struct quot_impl<C, C, when<
         models<Constant(C)>{} && models<IntegralDomain(typename C::value_type)>{}

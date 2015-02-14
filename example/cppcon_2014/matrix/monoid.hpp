@@ -9,8 +9,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include "matrix.hpp"
 
-#include <boost/hana/core/models.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/list.hpp>
 #include <boost/hana/monoid.hpp>
@@ -18,11 +16,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    template <unsigned R, unsigned C>
-    struct models<Monoid(cppcon::Matrix<R, C>)>
-        : detail::std::true_type
-    { };
-
     template <unsigned R, unsigned C>
     struct plus_impl<cppcon::Matrix<R, C>, cppcon::Matrix<R, C>> {
         template <typename M1, typename M2>

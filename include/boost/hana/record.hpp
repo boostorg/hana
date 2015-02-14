@@ -13,16 +13,17 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/record.hpp>
 
 #include <boost/hana/comparable.hpp>
+#include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/core/wrong.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/foldable.hpp>
+#include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/functor.hpp>
 #include <boost/hana/product.hpp>
-#include <boost/hana/functional/compose.hpp>
 #include <boost/hana/searchable.hpp>
 
 
@@ -34,19 +35,27 @@ namespace boost { namespace hana {
     struct members_impl : members_impl<R, when<true>> { };
 
     template <typename R, bool condition>
-    struct members_impl<R, when<condition>> {
-        static_assert(wrong<members_impl<R>>{},
-        "no definition of boost::hana::members for the given data type");
+    struct members_impl<R, when<condition>> : default_ {
+        template <typename X>
+        static constexpr void apply(X&&) {
+            static_assert(wrong<members_impl<R>, X>{},
+            "no definition of boost::hana::members for the given data type");
+        }
     };
+
+    //////////////////////////////////////////////////////////////////////////
+    // models
+    //////////////////////////////////////////////////////////////////////////
+    template <typename R>
+    struct models<Record(R)>
+        : detail::std::integral_constant<bool,
+            !is_default<members_impl<R>>{}
+        >
+    { };
 
     //////////////////////////////////////////////////////////////////////////
     // Model for data types with a nested `hana::members_impl`
     //////////////////////////////////////////////////////////////////////////
-    template <typename R>
-    struct models<Record(R), when_valid<typename R::hana::members_impl>>
-        : detail::std::true_type
-    { };
-
     template <typename R>
     struct members_impl<R, when_valid<typename R::hana::members_impl>>
         : R::hana::members_impl
@@ -55,11 +64,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Model of Comparable
     //////////////////////////////////////////////////////////////////////////
-    template <typename R>
-    struct models<Comparable(R), when<models<Record(R)>{}>>
-        : detail::std::true_type
-    { };
-
     namespace record_detail {
         struct compare_members_of {
             template <typename X, typename Y, typename Member>
@@ -85,11 +89,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Model of Foldable
     //////////////////////////////////////////////////////////////////////////
-    template <typename R>
-    struct models<Foldable(R), when<models<Record(R)>{}>>
-        : detail::std::true_type
-    { };
-
     namespace record_detail {
         // This is equivalent to `demux`, except that `demux` can't forward
         // the `udt` because it does not know the `g`s are accessors. Hence,
@@ -121,11 +120,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Model of Searchable
     //////////////////////////////////////////////////////////////////////////
-    template <typename R>
-    struct models<Searchable(R), when<models<Record(R)>{}>>
-        : detail::std::true_type
-    { };
-
     namespace record_detail {
         template <typename X>
         struct get_member {

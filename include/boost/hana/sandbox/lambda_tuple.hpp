@@ -10,10 +10,8 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_SANDBOX_LAMBDA_TUPLE_HPP
 #define BOOST_HANA_SANDBOX_LAMBDA_TUPLE_HPP
 
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/fwd/comparable.hpp>
 #include <boost/hana/fwd/iterable.hpp>
@@ -72,10 +70,8 @@ namespace boost { namespace hana { namespace sandbox {
 
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/detail/variadic/at.hpp>
 #include <boost/hana/detail/variadic/drop_into.hpp>
@@ -100,11 +96,6 @@ namespace boost { namespace hana {
     // Foldable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Foldable(sandbox::LambdaTuple)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct unpack_impl<sandbox::LambdaTuple> {
         template <typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
@@ -116,11 +107,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Functor
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Functor(sandbox::LambdaTuple)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct transform_impl<sandbox::LambdaTuple> {
         template <typename Xs, typename F>
@@ -136,11 +122,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Searchable
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Searchable(sandbox::LambdaTuple)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct find_impl<sandbox::LambdaTuple>
         : Iterable::find_impl<sandbox::LambdaTuple>
@@ -165,11 +146,6 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/list/iterable.cpp main
-    template <>
-    struct models<Iterable(sandbox::LambdaTuple)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct head_impl<sandbox::LambdaTuple> {
         template <typename Xs>

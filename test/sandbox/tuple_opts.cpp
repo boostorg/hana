@@ -84,11 +84,6 @@ namespace boost { namespace hana {
     // Iterable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Iterable(::Tuple)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct head_impl<::Tuple> {
         template <typename Storage>
         static constexpr auto apply(::detail::tuple<Storage> xs)

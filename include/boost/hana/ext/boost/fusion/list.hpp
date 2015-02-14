@@ -13,9 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/ext/boost/fusion/list.hpp>
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 
 // instances
 #include <boost/hana/foldable.hpp>
@@ -37,11 +35,6 @@ namespace boost { namespace hana {
     // Foldable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Foldable(ext::boost::fusion::List)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct foldl_impl<ext::boost::fusion::List>
         : Iterable::foldl_impl<ext::boost::fusion::List>
     { };
@@ -55,11 +48,6 @@ namespace boost { namespace hana {
     // Searchable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Searchable(ext::boost::fusion::List)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct find_impl<ext::boost::fusion::List>
         : Iterable::find_impl<ext::boost::fusion::List>
     { };
@@ -72,11 +60,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Iterable
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Iterable(ext::boost::fusion::List)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct head_impl<ext::boost::fusion::List> {
         template <typename Xs>

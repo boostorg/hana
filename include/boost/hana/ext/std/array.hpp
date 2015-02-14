@@ -13,10 +13,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/ext/std/array.hpp>
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integer_sequence.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/detail/std/remove_reference.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
@@ -35,11 +33,6 @@ namespace boost { namespace hana {
     // Foldable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Foldable(ext::std::Array)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct foldl_impl<ext::std::Array>
         : Iterable::foldl_impl<ext::std::Array>
     { };
@@ -53,11 +46,6 @@ namespace boost { namespace hana {
     // Searchable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Searchable(ext::std::Array)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct find_impl<ext::std::Array>
         : Iterable::find_impl<ext::std::Array>
     { };
@@ -70,11 +58,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Iterable
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Iterable(ext::std::Array)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct head_impl<ext::std::Array> {
         template <typename Xs>

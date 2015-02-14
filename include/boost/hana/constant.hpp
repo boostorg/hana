@@ -14,6 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
+#include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/core/wrong.hpp>
@@ -29,10 +30,23 @@ namespace boost { namespace hana {
     struct value_impl : value_impl<C, when<true>> { };
 
     template <typename C, bool condition>
-    struct value_impl<C, when<condition>> {
-        static_assert(wrong<value_impl<C>>{},
-        "no definition of boost::hana::value for the given data type");
+    struct value_impl<C, when<condition>> : default_ {
+        template <typename X>
+        static constexpr void apply(X&&) {
+            static_assert(wrong<value_impl<C>, X>{},
+            "no definition of boost::hana::value for the given data type");
+        }
     };
+
+    //////////////////////////////////////////////////////////////////////////
+    // models
+    //////////////////////////////////////////////////////////////////////////
+    template <typename C>
+    struct models<Constant(C)>
+        : detail::std::integral_constant<bool,
+            !is_default<value_impl<C>>{}
+        >
+    { };
 
     //////////////////////////////////////////////////////////////////////////
     // Conversion to the underlying data type

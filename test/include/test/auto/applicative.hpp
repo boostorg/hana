@@ -9,18 +9,19 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/applicative.hpp>
 
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/functor.hpp>
 
-// required instances
-#include <test/auto/functor.hpp>
-
 #include <test/auto/base.hpp>
+#include <test/auto/functor.hpp>
 
 
 namespace boost { namespace hana { namespace test {
     template <typename A>
     auto laws<Applicative, A> = [] {
         laws<Functor, A>();
+
+        static_assert(models<Applicative(A)>{}, "");
 
         //! @todo Write Applicative laws
     };

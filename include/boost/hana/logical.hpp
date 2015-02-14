@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/constant.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
@@ -68,7 +69,7 @@ namespace boost { namespace hana {
     struct if_impl : if_impl<L, when<true>> { };
 
     template <typename L, bool condition>
-    struct if_impl<L, when<condition>> {
+    struct if_impl<L, when<condition>> : default_ {
         //! @todo By using `always` here, we create a copy of both `t` and `e`,
         //! which is not very smart.
         template <typename C, typename T, typename E>
@@ -87,9 +88,12 @@ namespace boost { namespace hana {
     struct eval_if_impl : eval_if_impl<L, when<true>> { };
 
     template <typename L, bool condition>
-    struct eval_if_impl<L, when<condition>> {
-        static_assert(wrong<eval_if_impl<L>>{},
-        "no definition of boost::hana::eval_if for the given data type");
+    struct eval_if_impl<L, when<condition>> : default_ {
+        template <typename Cond, typename Then, typename Else>
+        static constexpr void apply(Cond&&, Then&&, Else&&) {
+            static_assert(wrong<eval_if_impl<L>, Cond, Then, Else>{},
+            "no definition of boost::hana::eval_if for the given data type");
+        }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -99,9 +103,12 @@ namespace boost { namespace hana {
     struct while_impl : while_impl<L, when<true>> { };
 
     template <typename L, bool condition>
-    struct while_impl<L, when<condition>> {
-        static_assert(wrong<while_impl<L>>{},
-        "no definition of boost::hana::while_ for the given data type");
+    struct while_impl<L, when<condition>> : default_ {
+        template <typename Pred, typename State, typename F>
+        static constexpr void apply(Pred&&, State&&, F&&) {
+            static_assert(wrong<while_impl<L>, Pred, State, F>{},
+            "no definition of boost::hana::while_ for the given data type");
+        }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -111,7 +118,7 @@ namespace boost { namespace hana {
     struct until_impl : until_impl<L, when<true>> { };
 
     template <typename L, bool condition>
-    struct until_impl<L, when<condition>> {
+    struct until_impl<L, when<condition>> : default_ {
         template <typename Pred, typename State, typename F>
         static constexpr decltype(auto) apply(Pred&& pred, State&& state, F&& f) {
             return hana::while_(
@@ -128,9 +135,12 @@ namespace boost { namespace hana {
     struct not_impl : not_impl<L, when<true>> { };
 
     template <typename L, bool condition>
-    struct not_impl<L, when<condition>> {
-        static_assert(wrong<not_impl<L>>{},
-        "no definition of boost::hana::not_ for the given data type");
+    struct not_impl<L, when<condition>> : default_ {
+        template <typename Cond>
+        static constexpr void apply(Cond&&) {
+            static_assert(wrong<not_impl<L>, Cond>{},
+            "no definition of boost::hana::not_ for the given data type");
+        }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -160,7 +170,7 @@ namespace boost { namespace hana {
     struct and_impl : and_impl<L, when<true>> { };
 
     template <typename L, bool condition>
-    struct and_impl<L, when<condition>> {
+    struct and_impl<L, when<condition>> : default_ {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
             return hana::if_(x, detail::std::forward<Y>(y), x);
@@ -194,7 +204,7 @@ namespace boost { namespace hana {
     struct or_impl : or_impl<L, when<true>> { };
 
     template <typename L, bool condition>
-    struct or_impl<L, when<condition>> {
+    struct or_impl<L, when<condition>> : default_ {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
             //! @todo How to forward `x` here? Since the arguments to `if_`
@@ -205,13 +215,20 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // Model for arithmetic data types
+    // models
     //////////////////////////////////////////////////////////////////////////
     template <typename L>
-    struct models<Logical(L), when<detail::std::is_arithmetic<L>{}>>
-        : detail::std::true_type
+    struct models<Logical(L)>
+        : detail::std::integral_constant<bool,
+            !is_default<eval_if_impl<L>>{} &&
+            !is_default<not_impl<L>>{} &&
+            !is_default<while_impl<L>>{}
+        >
     { };
 
+    //////////////////////////////////////////////////////////////////////////
+    // Model for arithmetic data types
+    //////////////////////////////////////////////////////////////////////////
     template <typename L>
     struct eval_if_impl<L, when<detail::std::is_arithmetic<L>{}>> {
         template <typename Cond, typename T, typename E>
@@ -250,13 +267,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Model for Constants over a Logical
     //////////////////////////////////////////////////////////////////////////
-    template <typename C>
-    struct models<Logical(C), when<
-        models<Constant(C)>{} && models<Logical(typename C::value_type)>{}
-    >>
-        : detail::std::true_type
-    { };
-
     template <typename C>
     struct eval_if_impl<C, when<
         models<Constant(C)>{} && models<Logical(typename C::value_type)>{}

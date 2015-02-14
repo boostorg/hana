@@ -14,7 +14,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/product.hpp>
 
 #include <utility>
@@ -24,11 +23,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Product
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Product(ext::std::Pair)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct make_impl<ext::std::Pair> {
         template <typename X, typename Y>

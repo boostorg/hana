@@ -8,8 +8,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_TEST_TEST_NUMERIC_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/models.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 
 // instances
 #include <boost/hana/comparable.hpp>
@@ -45,29 +43,16 @@ namespace boost { namespace hana {
     //
     // Define either one to select which MCD is used:
     //  BOOST_HANA_TEST_COMPARABLE_EQUAL_MCD
-    //  BOOST_HANA_TEST_COMPARABLE_NOT_EQUAL_MCD
     //  BOOST_HANA_TEST_COMPARABLE_ORDERABLE_MCD
     //
     // If neither is defined, the MCD used is unspecified.
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Comparable(test::Numeric)>
-        : detail::std::true_type
-    { };
-
 #if defined(BOOST_HANA_TEST_COMPARABLE_EQUAL_MCD)
     template <>
     struct equal_impl<test::Numeric, test::Numeric> {
         template <typename X, typename Y>
         static constexpr auto apply(X x, Y y)
         { return test::numeric(x.value == y.value); }
-    };
-#elif defined(BOOST_HANA_TEST_COMPARABLE_NOT_EQUAL_MCD)
-    template <>
-    struct not_equal_impl<test::Numeric, test::Numeric> {
-        template <typename X, typename Y>
-        static constexpr auto apply(X x, Y y)
-        { return test::numeric(x.value != y.value); }
     };
 #else
     template <>
@@ -80,11 +65,6 @@ namespace boost { namespace hana {
     // Orderable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Orderable(test::Numeric)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct less_impl<test::Numeric, test::Numeric> {
         template <typename X, typename Y>
         static constexpr auto apply(X x, Y y)
@@ -94,11 +74,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Enumerable
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Enumerable(test::Numeric)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct succ_impl<test::Numeric> {
         template <typename N>
@@ -116,11 +91,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Logical
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Logical(test::Numeric)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct eval_if_impl<test::Numeric> {
         template <typename C, typename T, typename E>
@@ -154,11 +124,6 @@ namespace boost { namespace hana {
     // Monoid
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Monoid(test::Numeric)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct plus_impl<test::Numeric, test::Numeric> {
         template <typename X, typename Y>
         static constexpr auto apply(X x, Y y)
@@ -180,11 +145,6 @@ namespace boost { namespace hana {
     //
     // If neither is defined, the MCD used is unspecified.
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Group(test::Numeric)>
-        : detail::std::true_type
-    { };
-
 #if defined(BOOST_HANA_TEST_GROUP_NEGATE_MCD)
     template <>
     struct negate_impl<test::Numeric> {
@@ -205,11 +165,6 @@ namespace boost { namespace hana {
     // Ring
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Ring(test::Numeric)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct mult_impl<test::Numeric, test::Numeric> {
         template <typename X, typename Y>
         static constexpr auto apply(X x, Y y)
@@ -225,11 +180,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // IntegralDomain
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<IntegralDomain(test::Numeric)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct quot_impl<test::Numeric, test::Numeric> {
         template <typename X, typename Y>

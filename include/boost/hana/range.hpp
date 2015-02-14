@@ -17,11 +17,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integer_sequence.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/enumerable.hpp>
 #include <boost/hana/foldable.hpp>
@@ -86,11 +84,6 @@ namespace boost { namespace hana {
     // Comparable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Comparable(Range)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct equal_impl<Range, Range> {
         template <typename R1, typename R2>
         static constexpr auto apply(R1 r1, R2 r2) {
@@ -107,11 +100,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Foldable
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Foldable(Range)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct unpack_impl<Range> {
         template <typename R, typename F, typename T, T ...v>
@@ -221,11 +209,6 @@ namespace boost { namespace hana {
     // Searchable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Searchable(Range)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct find_impl<Range>
         : Iterable::find_impl<Range>
     { };
@@ -238,11 +221,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Iterable
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Iterable(Range)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct head_impl<Range> {
         template <typename R>

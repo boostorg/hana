@@ -9,10 +9,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/record.hpp>
 
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/create.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/pair.hpp>
 #include <boost/hana/tuple.hpp>
 
@@ -35,11 +33,6 @@ namespace boost { namespace hana {
 
         constexpr detail::create<_record> minimal_record{};
     }
-
-    template <>
-    struct models<Record(test::MinimalRecord)>
-        : detail::std::true_type
-    { };
 
     template <>
     struct members_impl<test::MinimalRecord> {

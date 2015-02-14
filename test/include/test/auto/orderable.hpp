@@ -10,14 +10,20 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/orderable.hpp>
 
 #include <boost/hana/assert.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/logical.hpp>
 
 #include <test/auto/base.hpp>
+#include <test/auto/comparable.hpp>
 
 
 namespace boost { namespace hana { namespace test {
     template <typename Ord>
     auto laws<Orderable, Ord> = [] {
+        static_assert(models<Orderable(Ord)>{}, "");
+
+        laws<Comparable, Ord>();
+
         auto incomparable = [](auto x, auto y) {
             return not_(or_(less(x, y), less(y, x)));
         };

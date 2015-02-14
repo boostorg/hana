@@ -19,7 +19,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integer_sequence.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/is_integral.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
 
@@ -163,11 +162,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Model of Constant
     //////////////////////////////////////////////////////////////////////////
-    template <typename T>
-    struct models<Constant(IntegralConstant<T>)>
-        : detail::std::true_type
-    { };
-
     template <typename T>
     struct value_impl<IntegralConstant<T>> {
         template <typename C>

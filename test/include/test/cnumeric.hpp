@@ -13,7 +13,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/is_integral.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/orderable.hpp>
@@ -40,11 +39,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Constant
     //////////////////////////////////////////////////////////////////////////
-    template <typename T>
-    struct models<Constant(test::CNumeric<T>)>
-        : detail::std::true_type
-    { };
-
     template <typename T>
     struct value_impl<test::CNumeric<T>> {
         template <typename X>
@@ -75,29 +69,16 @@ namespace boost { namespace hana {
     //
     // Define either one to select which MCD is used:
     //  BOOST_HANA_TEST_COMPARABLE_EQUAL_MCD
-    //  BOOST_HANA_TEST_COMPARABLE_NOT_EQUAL_MCD
     //  BOOST_HANA_TEST_COMPARABLE_ORDERABLE_MCD
     //
     // If neither is defined, the MCD used is unspecified.
     //////////////////////////////////////////////////////////////////////////
-    template <typename T>
-    struct models<Comparable(test::CNumeric<T>)>
-        : detail::std::true_type
-    { };
-
 #ifdef BOOST_HANA_TEST_COMPARABLE_EQUAL_MCD
     template <typename T, typename U>
     struct equal_impl<test::CNumeric<T>, test::CNumeric<U>> {
         template <typename X, typename Y>
         static constexpr auto apply(X x, Y y)
         { return test::cnumeric<bool, X::value == Y::value>; }
-    };
-#elif defined(BOOST_HANA_TEST_COMPARABLE_NOT_EQUAL_MCD)
-    template <typename T, typename U>
-    struct not_equal_impl<test::CNumeric<T>, test::CNumeric<U>> {
-        template <typename X, typename Y>
-        static constexpr auto apply(X x, Y y)
-        { return test::cnumeric<bool, X::value != Y::value>; }
     };
 #else
     template <typename T, typename U>
@@ -109,11 +90,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Orderable
     //////////////////////////////////////////////////////////////////////////
-    template <typename T>
-    struct models<Orderable(test::CNumeric<T>)>
-        : detail::std::true_type
-    { };
-
     template <typename T, typename U>
     struct less_impl<test::CNumeric<T>, test::CNumeric<U>> {
         template <typename X, typename Y>

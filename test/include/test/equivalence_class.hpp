@@ -8,8 +8,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_TEST_TEST_EQUIVALENCE_CLASS_HPP
 
 #include <boost/hana/comparable.hpp>
-#include <boost/hana/core/models.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 
 
 namespace boost { namespace hana {
@@ -27,11 +25,6 @@ namespace boost { namespace hana {
             return equivalence_class_impl<decltype(token), decltype(x)>{token, x};
         };
     }
-
-    template <>
-    struct models<Comparable(test::EquivalenceClass)>
-        : detail::std::true_type
-    { };
 
     template <>
     struct equal_impl<test::EquivalenceClass, test::EquivalenceClass> {

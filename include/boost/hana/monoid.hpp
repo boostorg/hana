@@ -16,6 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
@@ -50,9 +51,12 @@ namespace boost { namespace hana {
     struct plus_impl : plus_impl<T, U, when<true>> { };
 
     template <typename T, typename U, bool condition>
-    struct plus_impl<T, U, when<condition>> {
-        static_assert(wrong<plus_impl<T, U>>{},
-        "no definition of boost::hana::plus for the given data types");
+    struct plus_impl<T, U, when<condition>> : default_ {
+        template <typename X, typename Y>
+        static constexpr void apply(X&&, Y&&) {
+            static_assert(wrong<plus_impl<T, U>, X, Y>{},
+            "no definition of boost::hana::plus for the given data types");
+        }
     };
 
     // Cross-type overload
@@ -73,21 +77,28 @@ namespace boost { namespace hana {
     struct zero_impl : zero_impl<M, when<true>> { };
 
     template <typename M, bool condition>
-    struct zero_impl<M, when<condition>> {
-        static_assert(wrong<zero_impl<M>>{},
-        "no definition of boost::hana::zero for the given data type");
+    struct zero_impl<M, when<condition>> : default_ {
+        template <typename ...Nothing>
+        static constexpr void apply(Nothing&& ...) {
+            static_assert(wrong<zero_impl<M>, Nothing...>{},
+            "no definition of boost::hana::zero for the given data type");
+        }
     };
+
+    //////////////////////////////////////////////////////////////////////////
+    // models
+    //////////////////////////////////////////////////////////////////////////
+    template <typename M>
+    struct models<Monoid(M)>
+        : detail::std::integral_constant<bool,
+            !is_default<zero_impl<M>>{} &&
+            !is_default<plus_impl<M, M>>{}
+        >
+    { };
 
     //////////////////////////////////////////////////////////////////////////
     // Model for non-boolean arithmetic data types
     //////////////////////////////////////////////////////////////////////////
-    template <typename T>
-    struct models<Monoid(T), when<
-        detail::std::is_arithmetic<T>{} && !detail::std::is_same<T, bool>{}
-    >>
-        : detail::std::true_type
-    { };
-
     template <typename T>
     struct plus_impl<T, T, when<
         detail::std::is_arithmetic<T>{} && !detail::std::is_same<T, bool>{}
@@ -108,13 +119,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Model for Constants over a Monoid
     //////////////////////////////////////////////////////////////////////////
-    template <typename C>
-    struct models<Monoid(C), when<
-        models<Constant(C)>{} && models<Monoid(typename C::value_type)>{}
-    >>
-        : detail::std::true_type
-    { };
-
     template <typename C>
     struct plus_impl<C, C, when<
         models<Constant(C)>{} && models<Monoid(typename C::value_type)>{}

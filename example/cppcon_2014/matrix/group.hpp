@@ -9,19 +9,12 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include "matrix.hpp"
 
-#include <boost/hana/core/models.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/group.hpp>
 
 #include <utility>
 
 
 namespace boost { namespace hana {
-    template <unsigned Rows, unsigned Columns>
-    struct models<Group(cppcon::Matrix<Rows, Columns>)>
-        : detail::std::true_type
-    { };
-
     template <unsigned R, unsigned C>
     struct minus_impl<cppcon::Matrix<R, C>, cppcon::Matrix<R, C>> {
         template <typename M1, typename M2>

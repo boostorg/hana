@@ -31,7 +31,6 @@ namespace boost { namespace hana { namespace detail {
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/is_integral.hpp>
 
 
@@ -39,11 +38,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Constant
     //////////////////////////////////////////////////////////////////////////
-    template <typename T>
-    struct models<Constant(detail::CanonicalConstant<T>)>
-        : detail::std::true_type
-    { };
-
     template <typename T>
     struct value_impl<detail::CanonicalConstant<T>> {
         template <typename X>

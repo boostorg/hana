@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/applicative.hpp>
 #include <boost/hana/assert.hpp>
 #include <boost/hana/comparable.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/id.hpp>
 #include <boost/hana/functor.hpp>
@@ -25,6 +26,8 @@ namespace boost { namespace hana { namespace test {
     template <typename M>
     auto laws<Monad, M> = [] {
         laws<Applicative, M>();
+
+        static_assert(models<Monad(M)>{}, "");
 
         auto f = compose(lift<M>, injection([]{}));
         auto g = compose(lift<M>, injection([]{}));

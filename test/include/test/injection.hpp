@@ -9,10 +9,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/orderable.hpp>
 
@@ -86,11 +84,6 @@ namespace boost { namespace hana {
     // Comparable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Comparable(test::Injection)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct equal_impl<test::Injection,test::Injection> {
         template <unsigned long n, typename X, typename Y, typename Token,
             typename = detail::std::enable_if_t<(n > 0)>>
@@ -127,11 +120,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Orderable
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Orderable(test::Injection)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct less_impl<test::Injection, test::Injection> {
         template <typename X, typename Y, typename Token>

@@ -13,8 +13,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/type_list.hpp>
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/core/models.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/type.hpp>
 
 // instances
@@ -30,11 +28,6 @@ namespace boost { namespace hana {
     // Comparable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Comparable(TypeList)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct equal_impl<TypeList, TypeList> {
         template <typename Xs, typename Ys>
         static constexpr auto apply(Xs, Ys)
@@ -48,11 +41,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Foldable
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Foldable(TypeList)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct unpack_impl<TypeList> {
         //! @todo Fix the lost optimization caused by unpacking with `Type`s.
@@ -69,11 +57,6 @@ namespace boost { namespace hana {
     // Searchable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Searchable(TypeList)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct find_impl<TypeList>
         : Iterable::find_impl<TypeList>
     { };
@@ -86,11 +69,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Iterable
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Iterable(TypeList)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct head_impl<TypeList> {
         template <typename Xs>

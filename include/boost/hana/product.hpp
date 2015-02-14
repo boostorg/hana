@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/product.hpp>
 
 #include <boost/hana/comparable.hpp>
+#include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/core/wrong.hpp>
@@ -31,9 +32,12 @@ namespace boost { namespace hana {
     struct first_impl : first_impl<P, when<true>> { };
 
     template <typename P, bool condition>
-    struct first_impl<P, when<condition>> {
-        static_assert(wrong<first_impl<P>>{},
-        "no definition of boost::hana::first for the given data type");
+    struct first_impl<P, when<condition>> : default_ {
+        template <typename X>
+        static constexpr void apply(X&&) {
+            static_assert(wrong<first_impl<P>, X>{},
+            "no definition of boost::hana::first for the given data type");
+        }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -43,19 +47,28 @@ namespace boost { namespace hana {
     struct second_impl : second_impl<P, when<true>> { };
 
     template <typename P, bool condition>
-    struct second_impl<P, when<condition>> {
-        static_assert(wrong<second_impl<P>>{},
-        "no definition of boost::hana::second for the given data type");
+    struct second_impl<P, when<condition>> : default_ {
+        template <typename X>
+        static constexpr void apply(X&&) {
+            static_assert(wrong<second_impl<P>, X>{},
+            "no definition of boost::hana::second for the given data type");
+        }
     };
+
+    //////////////////////////////////////////////////////////////////////////
+    // models
+    //////////////////////////////////////////////////////////////////////////
+    template <typename P>
+    struct models<Product(P)>
+        : detail::std::integral_constant<bool,
+            !is_default<first_impl<P>>{} &&
+            !is_default<second_impl<P>>{}
+        >
+    { };
 
     //////////////////////////////////////////////////////////////////////////
     // Comparable
     //////////////////////////////////////////////////////////////////////////
-    template <typename P>
-    struct models<Comparable(P), when<models<Product(P)>{}>>
-        : detail::std::true_type
-    { };
-
     template <typename T, typename U>
     struct equal_impl<T, U, when<models<Product(T)>{} && models<Product(U)>{}>> {
         template <typename X, typename Y>
@@ -70,11 +83,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Orderable
     //////////////////////////////////////////////////////////////////////////
-    template <typename P>
-    struct models<Orderable(P), when<models<Product(P)>{}>>
-        : detail::std::true_type
-    { };
-
     template <typename T, typename U>
     struct less_impl<T, U, when<models<Product(T)>{} && models<Product(U)>{}>> {
         template <typename X, typename Y>
@@ -92,11 +100,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Foldable
     //////////////////////////////////////////////////////////////////////////
-    template <typename P>
-    struct models<Foldable(P), when<models<Product(P)>{}>>
-        : detail::std::true_type
-    { };
-
     template <typename T>
     struct unpack_impl<T, when<models<Product(T)>{}>> {
         template <typename P, typename F>

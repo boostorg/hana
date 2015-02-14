@@ -12,10 +12,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/applicative.hpp>
 #include <boost/hana/comparable.hpp>
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/functor.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/maybe.hpp>
@@ -60,11 +58,6 @@ namespace boost { namespace hana {
     // Comparable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Comparable(SearchableSet)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct equal_impl<SearchableSet, SearchableSet> {
         template <typename Xs, typename Ys>
         static constexpr auto apply(Xs xs, Ys ys)
@@ -75,11 +68,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Functor
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Functor(SearchableSet)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct transform_impl<SearchableSet> {
         template <typename Set, typename F>
@@ -93,11 +81,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Applicative
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Applicative(SearchableSet)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct lift_impl<SearchableSet> {
         template <typename X>
@@ -119,11 +102,6 @@ namespace boost { namespace hana {
     // Monad
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Monad(SearchableSet)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct flatten_impl<SearchableSet> {
         template <typename Set>
         static constexpr auto apply(Set set) {
@@ -138,11 +116,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Searchable
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Searchable(SearchableSet)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct find_impl<SearchableSet> {
         template <typename Set, typename Pred>

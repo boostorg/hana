@@ -11,17 +11,18 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/comparable.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/monoid.hpp>
 
 #include <test/auto/base.hpp>
-
-// required instances
 #include <test/auto/monoid.hpp>
 
 
 namespace boost { namespace hana { namespace test {
     template <typename G>
     auto laws<Group, G> = [] {
+        static_assert(models<Group(G)>{}, "");
+
         laws<Monoid, G>();
 
         // Instance laws

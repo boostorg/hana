@@ -114,11 +114,6 @@ namespace boost { namespace hana {
     // Foldable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Foldable(Tuple)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct unpack_impl<Tuple> {
         #define BOOST_HANA_PP_UNPACK(REF)                                   \
             template <typename Into, typename ...Xs>                        \
@@ -145,11 +140,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Iterable
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Iterable(Tuple)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct at_impl<Tuple> : tuple_detail::utils {
         template <typename N, typename Xs>
@@ -219,11 +209,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Searchable
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Searchable(Tuple)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct find_impl<Tuple>
         : Iterable::find_impl<Tuple>
@@ -688,11 +673,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Functor
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Functor(Tuple)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct transform_impl<Tuple> : tuple_detail::utils {
         #define BOOST_HANA_PP_FMAP(REF)                                     \

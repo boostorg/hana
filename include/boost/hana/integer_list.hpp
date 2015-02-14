@@ -13,11 +13,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/integer_list.hpp>
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/core/models.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/integral_constant.hpp>
 
-// instances
+
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/list.hpp>
@@ -28,11 +26,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Iterable
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Iterable(IntegerList)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct head_impl<IntegerList> {
         template <typename T, T x, T ...xs>
@@ -61,11 +54,6 @@ namespace boost { namespace hana {
     // Searchable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Searchable(IntegerList)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct find_impl<IntegerList>
         : Iterable::find_impl<IntegerList>
     { };
@@ -78,11 +66,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Foldable
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Foldable(IntegerList)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct foldl_impl<IntegerList>
         : Iterable::foldl_impl<IntegerList>

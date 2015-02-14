@@ -13,9 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/ext/boost/tuple.hpp>
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/move.hpp>
 
 // instances
@@ -32,11 +30,6 @@ namespace boost { namespace hana {
     // Foldable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Foldable(ext::boost::Tuple)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct foldl_impl<ext::boost::Tuple>
         : Iterable::foldl_impl<ext::boost::Tuple>
     { };
@@ -50,11 +43,6 @@ namespace boost { namespace hana {
     // Searchable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Searchable(ext::boost::Tuple)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct find_impl<ext::boost::Tuple>
         : Iterable::find_impl<ext::boost::Tuple>
     { };
@@ -67,11 +55,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Iterable
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Iterable(ext::boost::Tuple)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct head_impl<ext::boost::Tuple> {
         template <typename Xs>

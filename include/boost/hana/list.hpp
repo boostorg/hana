@@ -433,11 +433,6 @@ namespace boost { namespace hana {
         { return cons(detail::std::forward<X>(x), nil<T>()); }
     };
 
-    template <typename T>
-    struct models<Applicative(T), when<is_a<List, T>()>>
-        : detail::std::true_type
-    { };
-
     //! Instance of `Comparable` for instances of `List`.
     //!
     //! Two `List`s are equal if and only if they contain the same number
@@ -445,11 +440,6 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/list/comparable.cpp main
-    template <typename T>
-    struct models<Comparable(T), when<is_a<List, T>()>>
-        : detail::std::true_type
-    { };
-
     template <typename T, typename U>
     struct equal_impl<T, U, when<is_a<List, T>() && is_a<List, U>()>> {
         template <typename Xs, typename Ys>
@@ -488,11 +478,6 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/list/functor.cpp fmap
     template <typename T>
-    struct models<Functor(T), when<is_a<List, T>()>>
-        : detail::std::true_type
-    { };
-
-    template <typename T>
     struct transform_impl<T, when<is_a<List, T>()>> {
         template <typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
@@ -513,22 +498,12 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/list/monad.cpp main
     template <typename T>
-    struct models<Monad(T), when<is_a<List, T>()>>
-        : detail::std::true_type
-    { };
-
-    template <typename T>
     struct flatten_impl<T, when<is_a<List, T>()>> {
         template <typename Xss>
         static constexpr decltype(auto) apply(Xss&& xss) {
             return foldl(detail::std::forward<Xss>(xss), nil<T>(), concat);
         }
     };
-
-    template <typename T>
-    struct models<Traversable(T), when<is_a<List, T>()>>
-        : detail::std::true_type
-    { };
 
     template <typename T>
     struct traverse_impl<T, when<is_a<List, T>()>> {

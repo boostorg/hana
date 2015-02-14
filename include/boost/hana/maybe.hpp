@@ -15,7 +15,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/applicative.hpp>
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integral_constant.hpp>
@@ -112,11 +111,6 @@ namespace boost { namespace hana {
     // Comparable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Comparable(Maybe)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct equal_impl<Maybe, Maybe> {
         template <typename T, typename U>
         static constexpr decltype(auto) apply(_just<T> const& t, _just<U> const& u)
@@ -133,11 +127,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Orderable
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Orderable(Maybe)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct less_impl<Maybe, Maybe> {
         template <typename T>
@@ -160,11 +149,6 @@ namespace boost { namespace hana {
     // Functor
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Functor(Maybe)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct transform_impl<Maybe> {
         template <typename M, typename F>
         static constexpr decltype(auto) apply(M&& m, F&& f) {
@@ -179,11 +163,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Applicative
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Applicative(Maybe)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct lift_impl<Maybe> {
         template <typename X>
@@ -219,11 +198,6 @@ namespace boost { namespace hana {
     // Monad
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Monad(Maybe)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct flatten_impl<Maybe> {
         template <typename MMX>
         static constexpr decltype(auto) apply(MMX&& mmx) {
@@ -234,11 +208,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Traversable
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Traversable(Maybe)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct traverse_impl<Maybe> {
         template <typename A, typename F>
@@ -264,11 +233,6 @@ namespace boost { namespace hana {
     // Foldable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Foldable(Maybe)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct unpack_impl<Maybe> {
         template <typename M, typename F>
         static constexpr decltype(auto) apply(M&& m, F&& f)
@@ -290,11 +254,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Searchable
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Searchable(Maybe)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct find_impl<Maybe> {
         template <typename M, typename Pred>

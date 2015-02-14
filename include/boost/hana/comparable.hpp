@@ -17,9 +17,11 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/dependent_on.hpp>
 #include <boost/hana/detail/equality_comparable.hpp>
 #include <boost/hana/detail/has_common_embedding.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
@@ -59,14 +61,16 @@ namespace boost { namespace hana {
     struct equal_impl : equal_impl<T, U, when<true>> { };
 
     template <typename T, typename U, bool condition>
-    struct equal_impl<T, U, when<condition>> {
-        static_assert(!is_convertible<T, U>{} && !is_convertible<U, T>{},
-        "no default implementation of boost::hana::equal is provided for "
-        "related data types that can't be safely embedded into a common type");
-
+    struct equal_impl<T, U, when<condition>> : default_ {
         template <typename X, typename Y>
-        static constexpr decltype(auto) apply(X&&, Y&&)
-        { return false_; }
+        static constexpr decltype(auto) apply(X&&, Y&&) {
+            using T_ = detail::dependent_on_t<sizeof(X) == 1, T>;
+            static_assert(!is_convertible<T_, U>{} && !is_convertible<U, T_>{},
+            "no default implementation of boost::hana::equal is provided for "
+            "related data types that can't be safely embedded into a common type");
+
+            return false_;
+        }
     };
 
     // Cross-type overload
@@ -90,7 +94,7 @@ namespace boost { namespace hana {
     struct not_equal_impl : not_equal_impl<T, U, when<true>> { };
 
     template <typename T, typename U, bool condition>
-    struct not_equal_impl<T, U, when<condition>> {
+    struct not_equal_impl<T, U, when<condition>> : default_ {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
             return hana::not_(hana::equal(detail::std::forward<X>(x),
@@ -110,13 +114,18 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // Model for EqualityComparable data types
+    // models
     //////////////////////////////////////////////////////////////////////////
     template <typename T>
-    struct models<Comparable(T), when<detail::concept::EqualityComparable<T>{}>>
-        : detail::std::true_type
+    struct models<Comparable(T)>
+        : detail::std::integral_constant<bool,
+            !is_default<equal_impl<T, T>>{}
+        >
     { };
 
+    //////////////////////////////////////////////////////////////////////////
+    // Model for EqualityComparable data types
+    //////////////////////////////////////////////////////////////////////////
     template <typename T, typename U>
     struct equal_impl<T, U, when<detail::concept::EqualityComparable<T, U>{}>> {
         template <typename X, typename Y>
@@ -127,13 +136,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Model for Constants wrapping a Comparable
     //////////////////////////////////////////////////////////////////////////
-    template <typename C>
-    struct models<Comparable(C), when<
-        models<Constant(C)>{} && models<Comparable(typename C::value_type)>{}
-    >>
-        : detail::std::true_type
-    { };
-
     template <typename C>
     struct equal_impl<C, C, when<
         models<Constant(C)>{} && models<Comparable(typename C::value_type)>{}

@@ -13,8 +13,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/ext/std/integer_sequence.hpp>
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/core/models.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/is_same.hpp>
 #include <boost/hana/ext/std/integral_constant.hpp>
 
@@ -32,11 +30,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Comparable
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Comparable(ext::std::IntegerSequence)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct equal_impl<ext::std::IntegerSequence, ext::std::IntegerSequence> {
         template <typename X, X ...xs, typename Y, Y ...ys>
@@ -62,11 +55,6 @@ namespace boost { namespace hana {
     // Foldable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Foldable(ext::std::IntegerSequence)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct foldl_impl<ext::std::IntegerSequence>
         : Iterable::foldl_impl<ext::std::IntegerSequence>
     { };
@@ -80,11 +68,6 @@ namespace boost { namespace hana {
     // Searchable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Searchable(ext::std::IntegerSequence)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct find_impl<ext::std::IntegerSequence>
         : Iterable::find_impl<ext::std::IntegerSequence>
     { };
@@ -97,11 +80,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Iterable
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models<Iterable(ext::std::IntegerSequence)>
-        : detail::std::true_type
-    { };
-
     template <>
     struct head_impl<ext::std::IntegerSequence> {
         template <typename T, T x, T ...xs>

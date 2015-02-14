@@ -15,15 +15,17 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/enumerable.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/functional/compose.hpp>
-#include <boost/hana/logical.hpp>
 #include <boost/hana/integral_constant.hpp>
+#include <boost/hana/logical.hpp>
 #include <boost/hana/maybe.hpp>
 #include <boost/hana/monoid.hpp>
 #include <boost/hana/searchable.hpp>
@@ -77,9 +79,12 @@ namespace boost { namespace hana {
     struct head_impl : head_impl<It, when<true>> { };
 
     template <typename It, bool condition>
-    struct head_impl<It, when<condition>> {
-        static_assert(wrong<head_impl<It>>{},
-        "no definition of boost::hana::head for the given data types");
+    struct head_impl<It, when<condition>> : default_ {
+        template <typename Xs>
+        static constexpr void apply(Xs&&) {
+            static_assert(wrong<head_impl<It>, Xs>{},
+            "no definition of boost::hana::head for the given data types");
+        }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -89,9 +94,12 @@ namespace boost { namespace hana {
     struct tail_impl : tail_impl<It, when<true>> { };
 
     template <typename It, bool condition>
-    struct tail_impl<It, when<condition>> {
-        static_assert(wrong<tail_impl<It>>{},
-        "no definition of boost::hana::tail for the given data types");
+    struct tail_impl<It, when<condition>> : default_ {
+        template <typename Xs>
+        static constexpr void apply(Xs&&) {
+            static_assert(wrong<tail_impl<It>, Xs>{},
+            "no definition of boost::hana::tail for the given data types");
+        }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -102,8 +110,11 @@ namespace boost { namespace hana {
 
     template <typename It, bool condition>
     struct is_empty_impl<It, when<condition>> {
-        static_assert(wrong<is_empty_impl<It>>{},
-        "no definition of boost::hana::is_empty for the given data types");
+        template <typename Xs>
+        static constexpr void apply(Xs&&) {
+            static_assert(wrong<is_empty_impl<It>, Xs>{},
+            "no definition of boost::hana::is_empty for the given data types");
+        }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -113,7 +124,7 @@ namespace boost { namespace hana {
     struct at_impl : at_impl<It, when<true>> { };
 
     template <typename It, bool condition>
-    struct at_impl<It, when<condition>> {
+    struct at_impl<It, when<condition>> : default_ {
         template <typename Index, typename Xs>
         static constexpr auto apply(Index n, Xs xs) {
             using I = typename datatype<Index>::type;
@@ -141,7 +152,7 @@ namespace boost { namespace hana {
     struct last_impl : last_impl<It, when<true>> { };
 
     template <typename It, bool condition>
-    struct last_impl<It, when<condition>> {
+    struct last_impl<It, when<condition>> : default_ {
         template <typename Xs>
         static constexpr auto apply(Xs xs) {
             return hana::eval_if(hana::is_empty(hana::tail(xs)),
@@ -158,7 +169,7 @@ namespace boost { namespace hana {
     struct drop_impl : drop_impl<It, when<true>> { };
 
     template <typename It, bool condition>
-    struct drop_impl<It, when<condition>> {
+    struct drop_impl<It, when<condition>> : default_ {
         template <typename N, typename Xs>
         static constexpr auto apply(N n, Xs xs) {
             using I = typename datatype<N>::type;
@@ -187,7 +198,7 @@ namespace boost { namespace hana {
     struct drop_while_impl : drop_while_impl<It, when<true>> { };
 
     template <typename It, bool condition>
-    struct drop_while_impl<It, when<condition>> {
+    struct drop_while_impl<It, when<condition>> : default_ {
         template <typename Xs, typename Pred>
         static constexpr auto apply(Xs xs, Pred pred) {
             return hana::eval_if(hana::is_empty(xs),
@@ -209,7 +220,7 @@ namespace boost { namespace hana {
     struct drop_until_impl : drop_until_impl<It, when<true>> { };
 
     template <typename It, bool condition>
-    struct drop_until_impl<It, when<condition>> {
+    struct drop_until_impl<It, when<condition>> : default_ {
         template <typename Xs, typename Pred>
         static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
             return hana::drop_while(
@@ -218,6 +229,18 @@ namespace boost { namespace hana {
             );
         }
     };
+
+    //////////////////////////////////////////////////////////////////////////
+    // models
+    //////////////////////////////////////////////////////////////////////////
+    template <typename It>
+    struct models<Iterable(It)>
+        : detail::std::integral_constant<bool,
+            !is_default<head_impl<It>>{} &&
+            !is_default<tail_impl<It>>{} &&
+            !is_default<is_empty_impl<It>>{}
+        >
+    { };
 
     //////////////////////////////////////////////////////////////////////////
     // Model of Foldable

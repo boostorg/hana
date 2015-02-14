@@ -17,6 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
@@ -78,9 +79,12 @@ namespace boost { namespace hana {
     struct less_impl : less_impl<T, U, when<true>> { };
 
     template <typename T, typename U, bool condition>
-    struct less_impl<T, U, when<condition>> {
-        static_assert(wrong<less_impl<T, U>>{},
-        "no definition of boost::hana::less for the given data types");
+    struct less_impl<T, U, when<condition>> : default_ {
+        template <typename X, typename Y>
+        static constexpr void apply(X&&, Y&&) {
+            static_assert(wrong<less_impl<T, U>, X, Y>{},
+            "no definition of boost::hana::less for the given data types");
+        }
     };
 
     // Cross-type overload
@@ -104,7 +108,7 @@ namespace boost { namespace hana {
     struct less_equal_impl : less_equal_impl<T, U, when<true>> { };
 
     template <typename T, typename U, bool condition>
-    struct less_equal_impl<T, U, when<condition>> {
+    struct less_equal_impl<T, U, when<condition>> : default_ {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
             return hana::not_(hana::less(detail::std::forward<Y>(y),
@@ -130,7 +134,7 @@ namespace boost { namespace hana {
     struct greater_impl : greater_impl<T, U, when<true>> { };
 
     template <typename T, typename U, bool condition>
-    struct greater_impl<T, U, when<condition>> {
+    struct greater_impl<T, U, when<condition>> : default_ {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
             return hana::less(detail::std::forward<Y>(y),
@@ -156,7 +160,7 @@ namespace boost { namespace hana {
     struct greater_equal_impl : greater_equal_impl<T, U, when<true>> { };
 
     template <typename T, typename U, bool condition>
-    struct greater_equal_impl<T, U, when<condition>> {
+    struct greater_equal_impl<T, U, when<condition>> : default_ {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X x, Y y) {
             return hana::not_(hana::less(detail::std::forward<X>(x),
@@ -182,7 +186,7 @@ namespace boost { namespace hana {
     struct min_impl : min_impl<T, U, when<true>> { };
 
     template <typename T, typename U, bool condition>
-    struct min_impl<T, U, when<condition>> {
+    struct min_impl<T, U, when<condition>> : default_ {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
             decltype(auto) cond = hana::less(x, y);
@@ -200,7 +204,7 @@ namespace boost { namespace hana {
     struct max_impl : max_impl<T, U, when<true>> { };
 
     template <typename T, typename U, bool condition>
-    struct max_impl<T, U, when<condition>> {
+    struct max_impl<T, U, when<condition>> : default_ {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
             decltype(auto) cond = hana::less(x, y);
@@ -212,13 +216,18 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // Model for LessThanComparable data types
+    // models
     //////////////////////////////////////////////////////////////////////////
-    template <typename T>
-    struct models<Orderable(T), when<detail::concept::LessThanComparable<T>{}>>
-        : detail::std::true_type
+    template <typename Ord>
+    struct models<Orderable(Ord)>
+        : detail::std::integral_constant<bool,
+            !is_default<less_impl<Ord, Ord>>{}
+        >
     { };
 
+    //////////////////////////////////////////////////////////////////////////
+    // Model for LessThanComparable data types
+    //////////////////////////////////////////////////////////////////////////
     template <typename T, typename U>
     struct less_impl<T, U, when<detail::concept::LessThanComparable<T, U>{}>> {
         template <typename X, typename Y>
@@ -229,13 +238,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Model for Constants wrapping an Orderable
     //////////////////////////////////////////////////////////////////////////
-    template <typename C>
-    struct models<Orderable(C), when<
-        models<Constant(C)>{} && models<Orderable(typename C::value_type)>{}
-    >>
-        : detail::std::true_type
-    { };
-
     template <typename C>
     struct less_impl<C, C, when<
         models<Constant(C)>{} && models<Orderable(typename C::value_type)>{}

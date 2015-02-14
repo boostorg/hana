@@ -41,11 +41,6 @@ namespace boost { namespace hana {
     // Iterable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Iterable(LazyList)>
-        : detail::std::true_type
-    { };
-
-    template <>
     struct head_impl<LazyList> {
         template <typename Xs>
         static constexpr auto apply(Xs lcons)
