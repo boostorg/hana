@@ -21,7 +21,7 @@ namespace boost { namespace hana {
         struct Iterable_ops;
     }
 
-    //! @ingroup group-typeclasses
+    //! @ingroup group-concepts
     //! The `Iterable` concept represents data structures supporting external
     //! iteration.
     //!

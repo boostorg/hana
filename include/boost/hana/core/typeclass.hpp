@@ -16,8 +16,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! @defgroup group-typeclasses Type classes
-    //! General purpose type classes provided by the library.
+    //! @defgroup group-concepts Concepts
+    //! General purpose concepts provided by the library.
     //!
     //! @todo
     //! - Provide a way to check type class requirements like

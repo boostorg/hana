@@ -1093,19 +1093,19 @@ follow:
     functional setting. These are not tied to any type class or data type
     (currently).
 
-  - @ref group-typeclasses\n
-    Documentation for all the type classes provided with the library. Each
-    type class is documented as follows:
+  - @ref group-concepts\n
+    Documentation for all the concepts provided with the library. Each concept
+    is documented as follows:
       - The methods it provides
-      - The minimal complete definition(s) required to instantiate it
-      - The laws that must be respected by its instances
-      - Any additional type class specific information
+      - The minimal complete definition(s) required to model it
+      - The laws that must be respected by its models
+      - Any additional concept-specific information
 
   - @ref group-datatypes\n
     Documentation for all the data types provided with the library. Each
     data type is documented as follows:
-      - The type classes it instantiates, and how it does so
-      - Methods tied to the data type but not to any type class
+      - The concept(s) it models, and how it does so
+      - Methods tied to the data type but not to any concept
       - Any data type specific information
 
   - @ref group-config\n

@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_RECORD_HPP
 
 namespace boost { namespace hana {
-    //! @ingroup group-typeclasses
+    //! @ingroup group-concepts
     //! The `Record` concept represents record-like user-defined types.
     //!
     //! A record-like type is any type which is fundamentally a `struct`,

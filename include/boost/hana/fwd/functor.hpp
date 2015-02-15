@@ -15,7 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! @ingroup group-typeclasses
+    //! @ingroup group-concepts
     //! The `Functor` concept represents types that can be mapped over.
     //!
     //! Intuitively, a [Functor][1] is some kind of box that can hold generic

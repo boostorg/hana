@@ -15,7 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! @ingroup group-typeclasses
+    //! @ingroup group-concepts
     //! Represents data types whose values can be enumerated.
     //!
     //! `Enumerable` provides the `succ` and `pred` methods, whose names

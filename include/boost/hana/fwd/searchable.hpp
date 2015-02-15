@@ -17,7 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! @ingroup group-typeclasses
+    //! @ingroup group-concepts
     //! The `Searchable` concept represents structures that can be searched.
     //!
     //! Intuitively, a Searchable is any structure, finite or infinite,

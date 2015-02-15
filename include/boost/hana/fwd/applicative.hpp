@@ -14,7 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! @ingroup group-typeclasses
+    //! @ingroup group-concepts
     //! The `Applicative` concept represents `Functor`s with the ability
     //! to lift values and combine computations.
     //!

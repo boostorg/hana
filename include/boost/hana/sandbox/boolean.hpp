@@ -15,7 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! @ingroup group-typeclasses
+    //! @ingroup group-concepts
     //! The `Boolean` type class defines a
     //! [boolean algebra](http://en.wikipedia.org/wiki/Boolean_algebra_(structure)).
     //!

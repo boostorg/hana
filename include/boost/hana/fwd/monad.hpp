@@ -15,7 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! @ingroup group-typeclasses
+    //! @ingroup group-concepts
     //! The `Monad` concept represents `Applicative`s with the ability to
     //! flatten nested levels of structure.
     //!

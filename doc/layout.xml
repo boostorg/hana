@@ -17,10 +17,10 @@ This is an index of all the methods with links to the
 corresponding documentation."/>
 
       <tab type="classlist" visible="yes"
-                            title="Type classes, data types and instances"
+                            title="Concepts and data types"
                             intro="
-This is a list of all the type classes, data types and instances with links
-to the corresponding documentation. Note that other classes are also included
+This is a list of all the concepts and data types with links to the
+corresponding documentation. Note that other classes are also included
 in this list because of Doxygen limitations, but you won't even notice. :-)"/>
 
       <tab type="filelist" visible="yes"
@@ -59,7 +59,7 @@ in this list because of Doxygen limitations, but you won't even notice. :-)"/>
     <collaborationgraph visible="$COLLABORATION_GRAPH"/>
     <memberdecl>
       <related title="Synopsis of methods" subtitle=" "/>
-      <nestedclasses visible="yes" title="Instances and minimal complete definitions"/>
+      <nestedclasses visible="no" title=""/>
       <friends title=""/>
       <membergroups visible="yes"/>
 

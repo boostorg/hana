@@ -15,7 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! @ingroup group-typeclasses
+    //! @ingroup group-concepts
     //! The `Logical` concept represents types with a truth value.
     //!
     //! Intuitively, a `Logical` is just a `bool`, or something that can act
