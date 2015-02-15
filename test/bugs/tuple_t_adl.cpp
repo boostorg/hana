@@ -4,7 +4,7 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/type_list.hpp>
+#include <boost/hana/tuple.hpp>
 using namespace boost::hana;
 
 
@@ -16,5 +16,5 @@ template <typename T> void adl(T) { }
 
 int main() {
     // ADL kicks in but `invalid<>` must not instantiated
-    adl(type_list<invalid<>>);
+    adl(tuple_t<invalid<>>);
 }

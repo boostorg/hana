@@ -53,7 +53,6 @@ Distributed under the Boost Software License, Version 1.0.
 // Data types
 #include <boost/hana/bool.hpp>
 #include <boost/hana/either.hpp>
-#include <boost/hana/integer_list.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/lazy.hpp>
 #include <boost/hana/map.hpp>
@@ -64,7 +63,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/string.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
-#include <boost/hana/type_list.hpp>
 
 // Misc
 #include <boost/hana/assert.hpp>

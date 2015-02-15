@@ -9,7 +9,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/ext/boost/mpl/vector.hpp>
 #include <boost/hana/ext/std/integral_constant.hpp>
 #include <boost/hana/integral_constant.hpp>
-#include <boost/hana/type_list.hpp>
+#include <boost/hana/tuple.hpp>
 
 #include <boost/mpl/fold.hpp>
 #include <boost/mpl/if.hpp>
@@ -40,7 +40,7 @@ static_assert(number_of_floats::value == 3, "");
 
 namespace with_hana {
 //! [hana]
-constexpr auto types = hana::type_list<long, float, short, float, long, long double>;
+constexpr auto types = hana::tuple_t<long, float, short, float, long, long double>;
 BOOST_HANA_CONSTEXPR_LAMBDA auto number_of_floats = hana::foldl(
     types,
     hana::int_<0>,
