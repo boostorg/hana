@@ -6,11 +6,13 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/integral_constant.hpp>
 
+#include <boost/hana/assert.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
 
 #include <test/auto/base.hpp>
 #include <test/auto/constant.hpp>
+#include <test/injection.hpp>
 
 #include <cstddef>
 #include <type_traits>
@@ -20,10 +22,10 @@ using namespace boost::hana;
 namespace boost { namespace hana { namespace test {
     template <typename T>
     auto objects<IntegralConstant<T>> = tuple(
-        integral_constant<T, 0>,
-        integral_constant<T, 1>,
-        integral_constant<T, 2>,
-        integral_constant<T, 3>
+        integral_constant<T, static_cast<T>(0)>,
+        integral_constant<T, static_cast<T>(1)>,
+        integral_constant<T, static_cast<T>(2)>,
+        integral_constant<T, static_cast<T>(3)>
     );
 
     template <typename T>
@@ -35,6 +37,7 @@ namespace boost { namespace hana { namespace test {
 
 int main() {
     test::check_datatype<IntegralConstant<int>>();
+    test::check_datatype<IntegralConstant<bool>>();
 
     // IntegralConstant's API (like std::integral_constant)
     {
@@ -69,7 +72,7 @@ int main() {
 
     // Extensions to std::integral_constant
     {
-        // times member function
+        // times member function (the other ones are tested in the examples)
         {
             int counter = 0;
             int_<3>.times([&] { ++counter; });
@@ -135,6 +138,30 @@ int main() {
         {
             static_assert(value(integral_constant<int, 0>) == 0, "");
             static_assert(value(integral_constant<int, 1>) == 1, "");
+        }
+    }
+
+    // Logical
+    {
+        using test::x;
+        auto t = [=](auto) { return x<0>; };
+        auto e = [=](auto) { return x<1>; };
+
+        // eval_if
+        {
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                eval_if(true_, t, e), x<0>
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                eval_if(false_, t, e), x<1>
+            ));
+        }
+
+        // not_
+        {
+            BOOST_HANA_CONSTANT_CHECK(equal(not_(true_), false_));
+            BOOST_HANA_CONSTANT_CHECK(equal(not_(false_), true_));
         }
     }
 }

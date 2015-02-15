@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_INTEGRAL_CONSTANT_HPP
 #define BOOST_HANA_FWD_INTEGRAL_CONSTANT_HPP
 
+#include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
 
 
@@ -173,12 +174,50 @@ namespace boost { namespace hana {
     template <typename T, T v>
     constexpr unspecified-type integral_constant{};
 #else
+    namespace ic_detail {
+        template <typename T, T v>
+        struct _with_index {
+            template <typename F>
+            constexpr void operator()(F&& f) const;
+        };
+
+        template <typename T, T v>
+        struct _times {
+            static constexpr _with_index<T, v> with_index{};
+
+            template <typename F>
+            constexpr void operator()(F&& f) const;
+        };
+    }
+
     template <typename T, T v>
-    struct _integral_constant;
+    struct _integral_constant : operators::enable_adl {
+        // std::integral_constant interface
+        using type = _integral_constant;
+        using value_type = T;
+        static constexpr value_type value = v;
+        constexpr operator value_type() const noexcept { return value; }
+        constexpr value_type operator()() const noexcept { return value; }
+
+        // times
+        static constexpr ic_detail::_times<T, v> times{};
+    };
 
     template <typename T, T v>
     constexpr _integral_constant<T, v> integral_constant{};
 #endif
+
+    //! @relates IntegralConstant
+    template <bool b>
+    constexpr auto bool_ = integral_constant<bool, b>;
+
+    //! Equivalent to `bool_<true>`.
+    //! @relates IntegralConstant
+    constexpr auto true_ = bool_<true>;
+
+    //! Equivalent to `bool_<false>`.
+    //! @relates IntegralConstant
+    constexpr auto false_ = bool_<false>;
 
     //! @relates IntegralConstant
     template <char c>
