@@ -24,30 +24,40 @@ namespace boost { namespace hana { namespace test {
 
         laws<Comparable, Ord>();
 
-        auto incomparable = [](auto x, auto y) {
-            return not_(or_(less(x, y), less(y, x)));
-        };
-
         for_each(objects<Ord>, [=](auto a) {
-            BOOST_HANA_CHECK(not_(less(a, a)));
+        for_each(objects<Ord>, [=](auto b) {
+        for_each(objects<Ord>, [=](auto c) {
 
-            for_each(objects<Ord>, [=](auto b) {
-                BOOST_HANA_CHECK(
-                    less(a, b) ^implies^ not_(less(b, a))
-                );
+            BOOST_HANA_CHECK(
+                and_(less_equal(a, b), less_equal(b, a))
+                            ^implies^
+                            equal(a, b)
+            );
 
-                for_each(objects<Ord>, [=](auto c) {
-                    BOOST_HANA_CHECK(
-                        and_(less(a, b), less(b, c)) ^implies^ less(a, c)
-                    );
+            BOOST_HANA_CHECK(
+                and_(less_equal(a, b), less_equal(b, c))
+                            ^implies^
+                        less_equal(a, c)
+            );
 
-                    BOOST_HANA_CHECK(
-                        and_(incomparable(a, b), incomparable(b, c))
-                        ^implies^ incomparable(a, c)
-                    );
-                });
-            });
-        });
+            BOOST_HANA_CHECK(
+                or_(less_equal(a, b), less_equal(b, a))
+            );
+
+
+            BOOST_HANA_CHECK(
+                less(a, b) ^iff^ not_(less_equal(b, a))
+            );
+
+            BOOST_HANA_CHECK(
+                greater(a, b) ^iff^ less(b, a)
+            );
+
+            BOOST_HANA_CHECK(
+                greater_equal(a, b) ^iff^ not_(less(a, b))
+            );
+
+        });});});
     };
 }}} // end namespace boost::hana::test
 

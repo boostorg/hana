@@ -9,6 +9,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/tuple.hpp>
 
 #include <test/auto/base.hpp>
+#include <test/auto/comparable.hpp>
 #include <test/auto/orderable.hpp>
 
 #include <type_traits>
@@ -29,6 +30,16 @@ template <typename T, typename U, typename = std::enable_if_t<
 constexpr bool operator<(T a, U b)
 { return a.value < b.value; }
 
+namespace boost { namespace hana {
+    template <typename T, typename U>
+    struct equal_impl<T, U, when<
+        (std::is_same<T, ord1>{} || std::is_same<T, ord2>{}) &&
+        (std::is_same<U, ord1>{} || std::is_same<U, ord2>{})
+    >> {
+        static constexpr bool apply(T a, U b)
+        { return a.value == b.value; }
+    };
+}}
 
 namespace boost { namespace hana { namespace test {
     template <> auto objects<int> = tuple(0,1,2,3,4,5);
