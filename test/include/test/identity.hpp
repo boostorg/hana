@@ -84,6 +84,12 @@ namespace boost { namespace hana {
 
     //////////////////////////////////////////////////////////////////////////
     // Applicative
+    //
+    // Define either one to select which MCD is used:
+    //  BOOST_HANA_TEST_APPLICATIVE_FULL_MCD
+    //  BOOST_HANA_TEST_APPLICATIVE_MONAD_MCD
+    //
+    // If neither is defined, the MCD used is unspecified.
     //////////////////////////////////////////////////////////////////////////
     template <>
     struct lift_impl<test::Identity> {
@@ -91,13 +97,19 @@ namespace boost { namespace hana {
         static constexpr auto apply(X x)
         { return test::identity(x); }
     };
-
+#ifdef BOOST_HANA_TEST_APPLICATIVE_FULL_MCD
     template <>
     struct ap_impl<test::Identity> {
         template <typename F, typename X>
         static constexpr auto apply(F f, X x)
         { return test::identity(f.value(x.value)); }
     };
+#else
+    template <>
+    struct ap_impl<test::Identity>
+        : Monad::ap_impl<test::Identity>
+    { };
+#endif
 
     //////////////////////////////////////////////////////////////////////////
     // Monad

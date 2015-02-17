@@ -125,6 +125,7 @@ namespace boost { namespace hana {
     //! iterable.
     //! @snippet example/iterable.cpp find
     //!
+    //!
     //! Operators
     //! ---------
     //! For convenience, the following operator is provided as an

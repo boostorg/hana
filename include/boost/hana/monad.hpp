@@ -25,6 +25,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/functional/always.hpp>
+#include <boost/hana/functional/partial.hpp>
 #include <boost/hana/functor.hpp>
 
 
@@ -173,6 +174,20 @@ namespace boost { namespace hana {
             !is_default<bind_impl<M>>{}
         >
     { };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Monad::ap_impl
+    //////////////////////////////////////////////////////////////////////////
+    template <typename M>
+    struct Monad::ap_impl {
+        template <typename F, typename X>
+        static constexpr decltype(auto) apply(F&& f, X&& x) {
+            return hana::bind(
+                detail::std::forward<F>(f),
+                hana::partial(transform, detail::std::forward<X>(x))
+            );
+        }
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_MONAD_HPP

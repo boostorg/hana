@@ -68,9 +68,31 @@ namespace boost { namespace hana {
     //! two structures have something in common.
     //!
     //!
-    //! Superclass
-    //! ----------
+    //! Superclasses
+    //! ------------
     //! `Functor` and `Applicative`
+    //!
+    //!
+    //! Provided superclass methods
+    //! ---------------------------
+    //! 1. `ap`\n
+    //! When the minimal complete definition for `Monad` and `Functor` are
+    //! both satisfied, it is possible to automatically implement `ap` by
+    //! setting
+    //! @code
+    //!     ap(fs, x) = bind(fs, [](auto f) {
+    //!         return transform(x, f);
+    //!     })
+    //! @endcode
+    //!
+    //! This implementation is provided through the `Monad::ap_impl` type,
+    //! which you can use as follows:
+    //! @code
+    //!     template <>
+    //!     struct ap_impl<YourDatatype>
+    //!         : Monad::ap_impl<YourDatatype>
+    //!     { };
+    //! @endcode
     //!
     //!
     //! Minimal complete definition
@@ -102,7 +124,10 @@ namespace boost { namespace hana {
     //!
     //!
     //! [1]: https://byorgey.wordpress.com/2009/01/12/abstraction-intuition-and-the-monad-tutorial-fallacy/
-    struct Monad { };
+    struct Monad {
+        template <typename M>
+        struct ap_impl;
+    };
 
     //! Apply a function returning a monadic value to the value(s)
     //! inside a monad.
