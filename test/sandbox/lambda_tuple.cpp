@@ -6,33 +6,33 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/sandbox/lambda_tuple.hpp>
 
+#include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
 
 #include <test/auto/base.hpp>
-#include <test/auto/foldable.hpp>
-#include <test/auto/iterable.hpp>
-#include <test/auto/list.hpp>
-#include <test/injection.hpp>
+#include <test/auto/sequence.hpp>
+#include <test/cnumeric.hpp>
 using namespace boost::hana;
 
+
+template <int i>
+constexpr auto ord = test::cnumeric<int, i>;
 
 namespace boost { namespace hana { namespace test {
     template <>
     auto objects<sandbox::LambdaTuple> = tuple(
             sandbox::lambda_tuple()
-          , sandbox::lambda_tuple(x<0>)
-          , sandbox::lambda_tuple(x<0>, x<1>)
-          , sandbox::lambda_tuple(x<0>, x<1>, x<2>)
-          , sandbox::lambda_tuple(x<0>, x<1>, x<2>, x<3>)
-          , sandbox::lambda_tuple(x<0>, x<1>, x<2>, x<3>, x<4>)
-          , sandbox::lambda_tuple(x<0>, x<1>, x<2>, x<3>, x<4>, x<5>)
+          , sandbox::lambda_tuple(ord<0>)
+          , sandbox::lambda_tuple(ord<0>, ord<1>)
+          , sandbox::lambda_tuple(ord<0>, ord<1>, ord<2>)
+          , sandbox::lambda_tuple(ord<0>, ord<1>, ord<2>, ord<3>)
+          , sandbox::lambda_tuple(ord<0>, ord<1>, ord<2>, ord<3>, ord<4>)
+          , sandbox::lambda_tuple(ord<0>, ord<1>, ord<2>, ord<3>, ord<4>, ord<5>)
     );
 
     template <>
     auto instances<sandbox::LambdaTuple> = tuple(
-        type<Iterable>,
-        type<List>,
-        type<Foldable>
+        type<Sequence>
     );
 }}}
 

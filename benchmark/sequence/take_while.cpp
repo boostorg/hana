@@ -4,7 +4,8 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/fwd/list.hpp>
+#include <boost/hana/bool.hpp>
+#include <boost/hana/fwd/sequence.hpp>
 
 #include "benchmark.hpp"
 
@@ -12,6 +13,12 @@ Distributed under the Boost Software License, Version 1.0.
 
 template <int i> struct x { };
 
+struct pred {
+    template <int i>
+    constexpr decltype(auto) operator()(x<i> const&) const {
+        return boost::hana::bool_<i ==  <%= input_size / 2 %>   >;
+    }
+};
 
 int main() {
     using L = <%= datatype %>;
@@ -20,6 +27,6 @@ int main() {
     );
 
     boost::hana::benchmark::measure([=] {
-        boost::hana::permutations(list);
+        boost::hana::take_while(list, pred{});
     });
 }

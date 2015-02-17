@@ -109,7 +109,7 @@ int main() {
         using L = test::Seq;
         using test::x;
 
-        // Set -> List
+        // Set -> Sequence
         {
             auto check = [=](auto ...xs) {
                 BOOST_HANA_CONSTANT_CHECK(

@@ -88,10 +88,10 @@ namespace boost { namespace hana {
     //! Returns a list of pairs representing the data structure.
     //! @relates Record
     //!
-    //! Specifically, `members<R>()` is a `List` of `Product`s associating keys
-    //! to functions, where a pair `(k, f)` means that the member represented
-    //! by the key `k` can be accessed by calling the function `f` on an object
-    //! of data type `R`.
+    //! Specifically, `members<R>()` is a Sequence of `Product`s associating
+    //! keys to functions, where a pair `(k, f)` means that the member
+    //! represented by the key `k` can be accessed by calling the function
+    //! `f` on an object of data type `R`.
     //!
     //!
     //! Example

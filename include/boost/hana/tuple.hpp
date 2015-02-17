@@ -15,8 +15,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/constant.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/closure.hpp>
 #include <boost/hana/detail/create.hpp>
+#include <boost/hana/detail/dependent_on.hpp>
 #include <boost/hana/detail/generate_integer_sequence.hpp>
 #include <boost/hana/detail/std/decay.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
@@ -34,11 +36,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/monad.hpp>
 #include <boost/hana/monad_plus.hpp>
+#include <boost/hana/orderable.hpp>
 #include <boost/hana/searchable.hpp>
+#include <boost/hana/sequence.hpp>
 #include <boost/hana/type.hpp>
-
-// #include <boost/hana/sequence.hpp>
-#include <boost/hana/list.hpp>
 
 
 namespace boost { namespace hana {
@@ -135,15 +136,16 @@ namespace boost { namespace hana {
         MACRO(&&    , &&    , &&    )                                   \
     /**/
 
-#if 0
     //////////////////////////////////////////////////////////////////////////
     // Comparable
     //////////////////////////////////////////////////////////////////////////
     template <>
     struct equal_impl<Tuple, Tuple> {
         template <typename Xs, typename Ys>
-        static constexpr decltype(auto) apply(Xs const& xs, Ys const& ys)
-        { return Sequence::equal_impl<Tuple, Tuple>::apply(xs, ys); }
+        static constexpr decltype(auto) apply(Xs const& xs, Ys const& ys) {
+            using Tpl = detail::dependent_on_t<sizeof(xs) == 1, Tuple>;
+            return Sequence::equal_impl<Tpl, Tpl>::apply(xs, ys);
+        }
 
 
         // tuple_t optimizations
@@ -169,7 +171,6 @@ namespace boost { namespace hana {
         static constexpr auto apply(_tuple_c<V, v...>, _tuple_c<U, u...>, ...)
         { return false_; }
     };
-#endif
 
     //////////////////////////////////////////////////////////////////////////
     // Foldable
@@ -268,23 +269,6 @@ namespace boost { namespace hana {
                 detail::std::make_index_sequence<size - drop_size>{});
         }
     };
-
-    //////////////////////////////////////////////////////////////////////////
-    // Searchable
-    //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct find_impl<Tuple>
-        : Iterable::find_impl<Tuple>
-    { };
-
-    template <>
-    struct any_impl<Tuple>
-        : Iterable::any_impl<Tuple>
-    { };
-
-    //////////////////////////////////////////////////////////////////////////
-    // Traversable
-    //////////////////////////////////////////////////////////////////////////
 
     //////////////////////////////////////////////////////////////////////////
     // Functor
@@ -409,322 +393,6 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // List
-    //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct List::instance<Tuple>
-        : List::mcd<Tuple>
-    {
-        // init
-        ///////////////
-        template <typename Xs, detail::std::size_t ...n>
-        static constexpr decltype(auto)
-        init_helper(Xs&& xs, detail::std::index_sequence<n...>) {
-            return tuple(tuple_detail::get<n>(detail::std::forward<Xs>(xs))...);
-        }
-
-        template <typename Xs>
-        static constexpr decltype(auto) init_impl(Xs&& xs) {
-            constexpr detail::std::size_t size = tuple_detail::size<Xs>{};
-            return init_helper(detail::std::forward<Xs>(xs),
-                detail::std::make_index_sequence<size - 1>{});
-        }
-
-
-        // intersperse
-        ///////////////
-        template <detail::std::size_t i, typename Z, typename Xs>
-        static constexpr Z pick(Z&& z, Xs const&,
-            detail::std::false_type /* odd index */)
-        { return detail::std::forward<Z>(z); }
-
-        template <detail::std::size_t i, typename Z, typename Xn>
-        static constexpr decltype(auto)
-        pick(Z const&, detail::element<(i + 1) / 2, Xn> const& x,
-            detail::std::true_type /* even index */)
-        { return x.get; }
-
-        template <detail::std::size_t i, typename Z, typename Xn>
-        static constexpr decltype(auto)
-        pick(Z const&, detail::element<(i + 1) / 2, Xn>&& x,
-            detail::std::true_type /* even index */)
-        { return detail::std::move(x.get); }
-
-        template <typename Xs, typename Z, detail::std::size_t ...i>
-        static constexpr decltype(auto)
-        intersperse_helper(Xs&& xs, Z&& z, detail::std::index_sequence<i...>) {
-            return tuple(
-                pick<i>(
-                    detail::std::forward<Z>(z),
-                    detail::std::forward<Xs>(xs),
-                    detail::std::integral_constant<bool, (i % 2 == 0)>{}
-                )...
-            );
-        }
-
-        template <typename Xs, typename Z>
-        static constexpr decltype(auto) intersperse_impl(Xs&& xs, Z&& z) {
-            constexpr detail::std::size_t size = tuple_detail::size<Xs>{};
-            constexpr auto new_seq_size = size == 0 ? 0 : (size * 2) - 1;
-            return intersperse_helper(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Z>(z),
-                detail::std::make_index_sequence<new_seq_size>{}
-            );
-        }
-
-        // remove_at
-        ///////////////
-        template <typename Xs, detail::std::size_t ...before,
-                               detail::std::size_t ...after>
-        static constexpr decltype(auto)
-        remove_at_helper(Xs&& xs, detail::std::index_sequence<before...>,
-                                  detail::std::index_sequence<after...>) {
-            return tuple(
-                tuple_detail::get<before>(detail::std::forward<Xs>(xs))...,
-                tuple_detail::get<sizeof...(before) + after + 1>(
-                    detail::std::forward<Xs>(xs)
-                )...
-            );
-        }
-
-        template <typename N, typename Xs>
-        static constexpr decltype(auto) remove_at_impl(N n, Xs&& xs) {
-            constexpr detail::std::size_t index = value(n);
-            constexpr detail::std::size_t size = tuple_detail::size<Xs>{};
-            return remove_at_helper(
-                detail::std::forward<Xs>(xs),
-                detail::std::make_index_sequence<index>{},
-                detail::std::make_index_sequence<size - index - 1>{}
-            );
-        }
-
-
-        // reverse
-        ///////////////
-        template <detail::std::size_t ...n, typename ...Xn>
-        static constexpr decltype(auto)
-        reverse_impl(detail::closure_impl<detail::element<n, Xn>...>&& xs) {
-            return tuple(
-                detail::std::move(tuple_detail::get<sizeof...(n) - n - 1>(xs))...
-            );
-        }
-
-        template <detail::std::size_t ...n, typename ...Xn>
-        static constexpr decltype(auto)
-        reverse_impl(detail::closure_impl<detail::element<n, Xn>...> const& xs) {
-            return tuple(tuple_detail::get<sizeof...(n) - n - 1>(xs)...);
-        }
-
-        // slice
-        ///////////////
-        template <detail::std::size_t from, typename Xs, detail::std::size_t ...i>
-        static constexpr decltype(auto)
-        slice_helper(Xs&& xs, detail::std::index_sequence<i...>) {
-            return tuple(tuple_detail::get<from + i>(detail::std::forward<Xs>(xs))...);
-        }
-
-        template <typename Xs, typename From, typename To>
-        static constexpr decltype(auto) slice_impl(Xs&& xs, From from_, To to_) {
-            constexpr detail::std::size_t from = value(from_), to = value(to_);
-            return slice_helper<from>(detail::std::forward<Xs>(xs),
-                detail::std::make_index_sequence<to - from>{}
-            );
-        }
-
-
-        // take
-        ///////////////
-        template <typename Xs, detail::std::size_t ...n>
-        static constexpr decltype(auto)
-        take_helper(Xs&& xs, detail::std::index_sequence<n...>) {
-            return tuple(tuple_detail::get<n>(detail::std::forward<Xs>(xs))...);
-        }
-
-        template <typename N, typename Xs>
-        static constexpr decltype(auto) take_impl(N n_, Xs&& xs) {
-            constexpr detail::std::size_t n = value(n_);
-            constexpr detail::std::size_t size = tuple_detail::size<Xs>{};
-            return take_helper(detail::std::forward<Xs>(xs),
-                detail::std::make_index_sequence<(n < size ? n : size)>{});
-        }
-
-
-        // unzip
-        ///////////////
-        #define BOOST_HANA_PP_UNZIP(REF)                                    \
-            template <typename ...Xs>                                       \
-            static constexpr decltype(auto)                                 \
-            unzip_impl(detail::closure_impl<Xs...> REF xs)                  \
-            { return zip(static_cast<Xs REF>(xs).get...); }                 \
-        /**/
-        BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_UNZIP)
-        #undef BOOST_HANA_PP_UNZIP
-
-
-        // zip_with
-        ///////////////
-        #define BOOST_HANA_PP_ZIP_WITH1(REF)                                \
-            template <typename F, typename ...Xs>                           \
-            static constexpr decltype(auto) zip_with_helper(F&& f,          \
-                detail::closure_impl<Xs...> REF xs)                         \
-            {                                                               \
-                return tuple(f(static_cast<Xs REF>(xs).get)...);            \
-            }                                                               \
-        /**/
-        BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_ZIP_WITH1)
-        #undef BOOST_HANA_PP_ZIP_WITH1
-
-        #define BOOST_HANA_PP_ZIP_WITH2(REF1, REF2)                         \
-            template <typename F, typename ...Xs, typename ...Ys>           \
-            static constexpr decltype(auto) zip_with_helper(F&& f,          \
-                detail::closure_impl<Xs...> REF1 xs,                        \
-                detail::closure_impl<Ys...> REF2 ys)                        \
-            {                                                               \
-                return tuple(                                               \
-                    f(static_cast<Xs REF1>(xs).get,                         \
-                      static_cast<Ys REF2>(ys).get)...                      \
-                );                                                          \
-            }                                                               \
-        /**/
-        BOOST_HANA_PP_FOR_EACH_REF2(BOOST_HANA_PP_ZIP_WITH2)
-        #undef BOOST_HANA_PP_ZIP_WITH2
-
-        #define BOOST_HANA_PP_ZIP_WITH3(REF1, REF2, REF3)                         \
-            template <typename F, typename ...Xs, typename ...Ys, typename ...Zs> \
-            static constexpr decltype(auto) zip_with_helper(F&& f,                \
-                detail::closure_impl<Xs...> REF1 xs,                              \
-                detail::closure_impl<Ys...> REF2 ys,                              \
-                detail::closure_impl<Zs...> REF3 zs)                              \
-            {                                                                     \
-                return tuple(                                                     \
-                    f(static_cast<Xs REF1>(xs).get,                               \
-                      static_cast<Ys REF2>(ys).get,                               \
-                      static_cast<Zs REF3>(zs).get)...                            \
-                );                                                                \
-            }                                                                     \
-        /**/
-        BOOST_HANA_PP_FOR_EACH_REF3(BOOST_HANA_PP_ZIP_WITH3)
-        #undef BOOST_HANA_PP_ZIP_WITH3
-
-        template <typename F, typename X1, typename X2, typename X3, typename X4, typename ...Xn>
-        static constexpr decltype(auto) zip_with_helper(F&& f, X1&& x1, X2&& x2, X3&& x3, X4&& x4, Xn&& ...xn) {
-            return zip_with_helper(apply,
-                zip_with_helper(
-                    curry<sizeof...(xn) + 4>(detail::std::forward<F>(f)),
-                    detail::std::forward<X1>(x1),
-                    detail::std::forward<X2>(x2),
-                    detail::std::forward<X3>(x3)
-                ),
-                detail::std::forward<X4>(x4),
-                detail::std::forward<Xn>(xn)...
-            );
-        }
-
-        template <typename F, typename Xs, typename ...Ys>
-        static constexpr decltype(auto) zip_with_impl(F&& f, Xs&& xs, Ys&& ...ys) {
-            constexpr detail::std::size_t lengths[] = {
-                tuple_detail::size<Xs>{},
-                tuple_detail::size<Ys>{}...
-            };
-            constexpr detail::std::size_t zip_length = hana::minimum(lengths);
-            return zip_with_helper(detail::std::forward<F>(f),
-                take_c<zip_length>(detail::std::forward<Xs>(xs)),
-                take_c<zip_length>(detail::std::forward<Ys>(ys))...
-            );
-        }
-
-
-        // zip
-        ///////////////
-        #define BOOST_HANA_PP_ZIP1(REF)                                     \
-            template <typename ...Xs>                                       \
-            static constexpr _tuple<                                        \
-                _tuple<typename Xs::get_type>...                            \
-            > zip_helper(detail::closure_impl<Xs...> REF xs) {              \
-                return {                                                    \
-                    _tuple<typename Xs::get_type>{                          \
-                        static_cast<Xs REF>(xs).get                         \
-                    }...                                                    \
-                };                                                          \
-            }                                                               \
-        /**/
-        BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_ZIP1)
-        #undef BOOST_HANA_PP_ZIP1
-
-        #define BOOST_HANA_PP_ZIP2(REF1, REF2)                              \
-            template <typename ...Xs, typename ...Ys>                       \
-            static constexpr _tuple<                                        \
-                _tuple<typename Xs::get_type,                               \
-                       typename Ys::get_type>...                            \
-            > zip_helper(detail::closure_impl<Xs...> REF1 xs,               \
-                         detail::closure_impl<Ys...> REF2 ys) {             \
-                return {                                                    \
-                    _tuple<typename Xs::get_type,                           \
-                           typename Ys::get_type>{                          \
-                        static_cast<Xs REF1>(xs).get,                       \
-                        static_cast<Ys REF2>(ys).get                        \
-                    }...                                                    \
-                };                                                          \
-            }                                                               \
-        /**/
-        BOOST_HANA_PP_FOR_EACH_REF2(BOOST_HANA_PP_ZIP2)
-        #undef BOOST_HANA_PP_ZIP2
-
-        #define BOOST_HANA_PP_ZIP3(REF1, REF2, REF3)                    \
-            template <typename ...Xs, typename ...Ys, typename ...Zs>   \
-            static constexpr _tuple<                                    \
-                _tuple<typename Xs::get_type,                           \
-                       typename Ys::get_type,                           \
-                       typename Zs::get_type>...                        \
-            > zip_helper(detail::closure_impl<Xs...> REF1 xs,           \
-                         detail::closure_impl<Ys...> REF2 ys,           \
-                         detail::closure_impl<Zs...> REF3 zs) {         \
-                return {                                                \
-                    _tuple<typename Xs::get_type,                       \
-                           typename Ys::get_type,                       \
-                           typename Zs::get_type>{                      \
-                        static_cast<Xs REF1>(xs).get,                   \
-                        static_cast<Ys REF2>(ys).get,                   \
-                        static_cast<Zs REF3>(zs).get                    \
-                    }...                                                \
-                };                                                      \
-            }                                                           \
-        /**/
-        BOOST_HANA_PP_FOR_EACH_REF3(BOOST_HANA_PP_ZIP3)
-        #undef BOOST_HANA_PP_ZIP3
-
-        template <typename X1, typename X2, typename X3, typename X4, typename ...Xn>
-        static constexpr decltype(auto)
-        zip_helper(X1&& x1, X2&& x2, X3&& x3, X4&& x4, Xn&& ...xn) {
-            return zip_with_helper(concat,
-                zip_helper(
-                    detail::std::forward<X1>(x1),
-                    detail::std::forward<X2>(x2),
-                    detail::std::forward<X3>(x3)
-                ),
-                zip_helper(
-                    detail::std::forward<X4>(x4),
-                    detail::std::forward<Xn>(xn)...
-                )
-            );
-        }
-
-        template <typename Xs, typename ...Ys>
-        static constexpr decltype(auto) zip_impl(Xs&& xs, Ys&& ...ys) {
-            constexpr detail::std::size_t lengths[] = {
-                tuple_detail::size<Xs>{},
-                tuple_detail::size<Ys>{}...
-            };
-            constexpr detail::std::size_t zip_length = hana::minimum(lengths);
-            return zip_helper(
-                take_c<zip_length>(detail::std::forward<Xs>(xs)),
-                take_c<zip_length>(detail::std::forward<Ys>(ys))...
-            );
-        }
-    };
-
-    //////////////////////////////////////////////////////////////////////////
     // MonadPlus
     //////////////////////////////////////////////////////////////////////////
     template <>
@@ -816,16 +484,20 @@ namespace boost { namespace hana {
         #undef BOOST_HANA_PP_APPEND
     };
 
-#if 0
     //////////////////////////////////////////////////////////////////////////
     // Sequence
     //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Sequence(Tuple)>
+        : detail::std::true_type
+    { };
+
     template <>
     struct init_impl<Tuple> {
         template <typename Xs, detail::std::size_t ...n>
         static constexpr decltype(auto)
         init_helper(Xs&& xs, detail::std::index_sequence<n...>) {
-            return hana::tuple(detail::tuple_get<n>(
+            return hana::tuple(tuple_detail::get<n>(
                     detail::std::forward<Xs>(xs))...);
         }
 
@@ -858,7 +530,7 @@ namespace boost { namespace hana {
 
         template <typename Xs, typename Z, detail::std::size_t ...i>
         static constexpr decltype(auto)
-        helper(Xs&& xs, Z&& z, detail::std::index_sequence<i...>) {
+        intersperse_helper(Xs&& xs, Z&& z, detail::std::index_sequence<i...>) {
             return hana::tuple(
                 pick<i>(
                     detail::std::forward<Z>(z),
@@ -872,7 +544,7 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(Xs&& xs, Z&& z) {
             constexpr detail::std::size_t size = tuple_detail::size<Xs>{};
             constexpr auto new_seq_size = size == 0 ? 0 : (size * 2) - 1;
-            return helper(detail::std::forward<Xs>(xs),
+            return intersperse_helper(detail::std::forward<Xs>(xs),
                           detail::std::forward<Z>(z),
                           detail::std::make_index_sequence<new_seq_size>{});
         }
@@ -888,10 +560,10 @@ namespace boost { namespace hana {
                                   detail::std::index_sequence<after...>)
         {
             return hana::tuple(
-                detail::tuple_get<before>(
+                tuple_detail::get<before>(
                     detail::std::forward<Xs>(xs)
                 )...,
-                detail::tuple_get<sizeof...(before) + after + 1>(
+                tuple_detail::get<sizeof...(before) + after + 1>(
                     detail::std::forward<Xs>(xs)
                 )...
             );
@@ -913,13 +585,13 @@ namespace boost { namespace hana {
         static constexpr decltype(auto)
         apply(detail::closure_impl<detail::element<n, Xn>...>&& xs) {
             return hana::tuple(detail::std::move(
-                    detail::tuple_get<sizeof...(n) - n - 1>(xs))...);
+                    tuple_detail::get<sizeof...(n) - n - 1>(xs))...);
         }
 
         template <detail::std::size_t ...n, typename ...Xn>
         static constexpr decltype(auto)
         apply(detail::closure_impl<detail::element<n, Xn>...> const& xs) {
-            return hana::tuple(detail::tuple_get<sizeof...(n) - n - 1>(xs)...);
+            return hana::tuple(tuple_detail::get<sizeof...(n) - n - 1>(xs)...);
         }
     };
 
@@ -927,35 +599,34 @@ namespace boost { namespace hana {
     struct slice_impl<Tuple> {
         template <detail::std::size_t from, typename Xs, detail::std::size_t ...i>
         static constexpr decltype(auto)
-        helper(Xs&& xs, detail::std::index_sequence<i...>) {
-            return hana::tuple(detail::tuple_get<from + i>(
+        slice_helper(Xs&& xs, detail::std::index_sequence<i...>) {
+            return hana::tuple(tuple_detail::get<from + i>(
                                     detail::std::forward<Xs>(xs))...);
         }
 
         template <typename Xs, typename From, typename To>
-        static constexpr decltype(auto) apply(Xs&& xs, From, To) {
-            constexpr detail::std::size_t from = hana::value2<From>(),
-                                          to = hana::value2<To>();
-            return helper<from>(detail::std::forward<Xs>(xs),
-                detail::std::make_index_sequence<to - from>{}
-            );
+        static constexpr decltype(auto) apply(Xs&& xs, From from_, To to_) {
+            constexpr detail::std::size_t from = hana::value(from_);
+            constexpr detail::std::size_t to = hana::value(to_);
+            return slice_helper<from>(detail::std::forward<Xs>(xs),
+                                detail::std::make_index_sequence<to - from>{});
         }
     };
 
     template <>
-    struct take_impl<Tuple> {
+    struct take_at_most_impl<Tuple> {
         template <typename Xs, detail::std::size_t ...n>
         static constexpr decltype(auto)
-        helper(Xs&& xs, detail::std::index_sequence<n...>) {
-            return hana::tuple(detail::tuple_get<n>(
+        take_helper(Xs&& xs, detail::std::index_sequence<n...>) {
+            return hana::tuple(tuple_detail::get<n>(
                                         detail::std::forward<Xs>(xs))...);
         }
 
         template <typename N, typename Xs>
-        static constexpr decltype(auto) apply(N, Xs&& xs) {
-            constexpr detail::std::size_t n = hana::value2<N>(),
-                                          size = tuple_detail::size<Xs>{};
-            return helper(detail::std::forward<Xs>(xs),
+        static constexpr decltype(auto) apply(N n_, Xs&& xs) {
+            constexpr detail::std::size_t n = hana::value(n_);
+            constexpr detail::std::size_t size = tuple_detail::size<Xs>{};
+            return take_helper(detail::std::forward<Xs>(xs),
                 detail::std::make_index_sequence<(n < size ? n : size)>{});
         }
     };
@@ -973,10 +644,10 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct zip_with_impl<Tuple> {
+    struct zip_unsafe_with_impl<Tuple> {
         #define BOOST_HANA_PP_ZIP_WITH1(REF)                                \
             template <typename F, typename ...Xs>                           \
-            static constexpr decltype(auto) zip_with_helper(F&& f,          \
+            static constexpr decltype(auto) apply(F&& f,                    \
                 detail::closure_impl<Xs...> REF xs)                         \
             { return hana::tuple(f(static_cast<Xs REF>(xs).get)...); }      \
         /**/
@@ -985,7 +656,7 @@ namespace boost { namespace hana {
 
         #define BOOST_HANA_PP_ZIP_WITH2(REF1, REF2)                         \
             template <typename F, typename ...Xs, typename ...Ys>           \
-            static constexpr decltype(auto) zip_with_helper(F&& f,          \
+            static constexpr decltype(auto) apply(F&& f,                    \
                 detail::closure_impl<Xs...> REF1 xs,                        \
                 detail::closure_impl<Ys...> REF2 ys)                        \
             {                                                               \
@@ -1000,7 +671,7 @@ namespace boost { namespace hana {
 
         #define BOOST_HANA_PP_ZIP_WITH3(REF1, REF2, REF3)                         \
             template <typename F, typename ...Xs, typename ...Ys, typename ...Zs> \
-            static constexpr decltype(auto) zip_with_helper(F&& f,                \
+            static constexpr decltype(auto) apply(F&& f,                          \
                 detail::closure_impl<Xs...> REF1 xs,                              \
                 detail::closure_impl<Ys...> REF2 ys,                              \
                 detail::closure_impl<Zs...> REF3 zs)                              \
@@ -1017,9 +688,9 @@ namespace boost { namespace hana {
 
         template <typename F, typename X1, typename X2, typename X3, typename X4, typename ...Xn>
         static constexpr decltype(auto)
-        zip_with_helper(F&& f, X1&& x1, X2&& x2, X3&& x3, X4&& x4, Xn&& ...xn) {
-            return zip_with_helper(hana::apply,
-                zip_with_helper(
+        apply(F&& f, X1&& x1, X2&& x2, X3&& x3, X4&& x4, Xn&& ...xn) {
+            return apply(hana::apply,
+                apply(
                     curry<sizeof...(xn) + 4>(detail::std::forward<F>(f)),
                     detail::std::forward<X1>(x1),
                     detail::std::forward<X2>(x2),
@@ -1029,27 +700,15 @@ namespace boost { namespace hana {
                 detail::std::forward<Xn>(xn)...
             );
         }
-
-        template <typename F, typename Xs, typename ...Ys>
-        static constexpr decltype(auto) apply(F&& f, Xs&& xs, Ys&& ...ys) {
-            constexpr detail::std::size_t lengths[] = {
-                tuple_detail::size<Xs>{}, tuple_detail::size<Ys>{}...
-            };
-            constexpr detail::std::size_t zip_length = hana::minimum(lengths);
-            return zip_with_helper(detail::std::forward<F>(f),
-                take_c<zip_length>(detail::std::forward<Xs>(xs)),
-                take_c<zip_length>(detail::std::forward<Ys>(ys))...
-            );
-        }
     };
 
     template <>
-    struct zip_impl<Tuple> {
+    struct zip_unsafe_impl<Tuple> {
         #define BOOST_HANA_PP_ZIP1(REF)                                     \
             template <typename ...Xs>                                       \
             static constexpr _tuple<                                        \
                 _tuple<typename Xs::get_type>...                            \
-            > zip_helper(detail::closure_impl<Xs...> REF xs) {              \
+            > apply(detail::closure_impl<Xs...> REF xs) {                   \
                 return {                                                    \
                     _tuple<typename Xs::get_type>{                          \
                         static_cast<Xs REF>(xs).get                         \
@@ -1065,7 +724,7 @@ namespace boost { namespace hana {
             static constexpr _tuple<                                        \
                 _tuple<typename Xs::get_type,                               \
                        typename Ys::get_type>...                            \
-            > zip_helper(detail::closure_impl<Xs...> REF1 xs,               \
+            > apply(detail::closure_impl<Xs...> REF1 xs,                    \
                          detail::closure_impl<Ys...> REF2 ys) {             \
                 return {                                                    \
                     _tuple<typename Xs::get_type,                           \
@@ -1085,7 +744,7 @@ namespace boost { namespace hana {
                 _tuple<typename Xs::get_type,                           \
                        typename Ys::get_type,                           \
                        typename Zs::get_type>...                        \
-            > zip_helper(detail::closure_impl<Xs...> REF1 xs,           \
+            > apply(detail::closure_impl<Xs...> REF1 xs,                \
                          detail::closure_impl<Ys...> REF2 ys,           \
                          detail::closure_impl<Zs...> REF3 zs) {         \
                 return {                                                \
@@ -1104,33 +763,20 @@ namespace boost { namespace hana {
 
         template <typename X1, typename X2, typename X3, typename X4, typename ...Xn>
         static constexpr decltype(auto)
-        zip_helper(X1&& x1, X2&& x2, X3&& x3, X4&& x4, Xn&& ...xn) {
+        apply(X1&& x1, X2&& x2, X3&& x3, X4&& x4, Xn&& ...xn) {
             return hana::zip_with(concat,
-                zip_helper(
+                apply(
                     detail::std::forward<X1>(x1),
                     detail::std::forward<X2>(x2),
                     detail::std::forward<X3>(x3)
                 ),
-                zip_helper(
+                apply(
                     detail::std::forward<X4>(x4),
                     detail::std::forward<Xn>(xn)...
                 )
             );
         }
-
-        template <typename Xs, typename ...Ys>
-        static constexpr decltype(auto) apply(Xs&& xs, Ys&& ...ys) {
-            constexpr detail::std::size_t lengths[] = {
-                tuple_detail::size<Xs>{}, tuple_detail::size<Ys>{}...
-            };
-            constexpr detail::std::size_t zip_length = hana::minimum(lengths);
-            return zip_helper(
-                take_c<zip_length>(detail::std::forward<Xs>(xs)),
-                take_c<zip_length>(detail::std::forward<Ys>(ys))...
-            );
-        }
     };
-#endif
 
 #undef BOOST_HANA_PP_FOR_EACH_REF1
 #undef BOOST_HANA_PP_FOR_EACH_REF2

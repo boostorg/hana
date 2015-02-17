@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TEST_TEST_AUTO_LIST_HPP
 #define BOOST_HANA_TEST_TEST_AUTO_LIST_HPP
 
-#include <boost/hana/list.hpp>
+#include <boost/hana/sequence.hpp>
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/detail/constexpr.hpp>
@@ -17,15 +17,14 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/maybe.hpp>
 
-// provided instances
 #include <test/auto/applicative.hpp>
+#include <test/auto/base.hpp>
 #include <test/auto/comparable.hpp>
 #include <test/auto/functor.hpp>
 #include <test/auto/monad.hpp>
+#include <test/auto/orderable.hpp>
 #include <test/auto/searchable.hpp>
 #include <test/auto/traversable.hpp>
-
-#include <test/auto/base.hpp>
 #include <test/cnumeric.hpp>
 #include <test/equivalence_class.hpp>
 #include <test/identity.hpp>
@@ -58,7 +57,7 @@ namespace boost { namespace hana { namespace test {
     }
 
     template <typename L>
-    auto laws<List, L> = [] {
+    auto laws<Sequence, L> = [] {
         auto list = make<L>;
         auto foldable = seq;
         using list_detail::ord;
@@ -102,20 +101,9 @@ namespace boost { namespace hana { namespace test {
             >::value, "");
         }
 
-        // Instance-wide laws
-        {
-            for_each(objects<L>, [](auto xs) {
-                for_each(objects<L>, [=](auto ys) {
-                    BOOST_HANA_CHECK(
-                        equal(xs, ys) ^iff^ equal(to<Tuple>(xs), to<Tuple>(ys))
-                    );
-                });
-            });
-        }
-
         // Conversions
         {
-            // Foldable -> List
+            // Foldable -> Sequence
             {
                 BOOST_HANA_CONSTANT_CHECK(equal(
                     to<L>(foldable()),
@@ -282,8 +270,10 @@ namespace boost { namespace hana { namespace test {
                 ));
             }
 
-            // take
+            // take.at_most
             {
+                auto take = hana::take.at_most;
+
                 BOOST_HANA_CONSTANT_CHECK(equal(
                     take(size_t<0>, list()),
                     list()
@@ -330,6 +320,44 @@ namespace boost { namespace hana { namespace test {
                     take(size_t<3>, list(x<0>, x<1>)),
                     list(x<0>, x<1>)
                 ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    take(size_t<10>, list(x<0>, x<1>, x<2>, x<3>,  x<4>,  x<5>,  x<6>,
+                                          x<7>, x<8>, x<9>, x<10>, x<11>, x<12>, x<13>)),
+                    list(x<0>, x<1>, x<2>, x<3>, x<4>, x<5>, x<6>, x<7>, x<8>, x<9>)
+                ));
+            }
+
+            // take.exactly
+            {
+                auto take = hana::take.exactly;
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    take(size_t<0>, list()),
+                    list()
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    take(size_t<0>, list(x<0>)),
+                    list()
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    take(size_t<1>, list(x<0>)),
+                    list(x<0>)
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    take(size_t<0>, list(x<0>, x<1>)),
+                    list()
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    take(size_t<1>, list(x<0>, x<1>)),
+                    list(x<0>)
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    take(size_t<2>, list(x<0>, x<1>)),
+                    list(x<0>, x<1>)
+                ));
+
                 BOOST_HANA_CONSTANT_CHECK(equal(
                     take(size_t<10>, list(x<0>, x<1>, x<2>, x<3>,  x<4>,  x<5>,  x<6>,
                                           x<7>, x<8>, x<9>, x<10>, x<11>, x<12>, x<13>)),
@@ -1099,9 +1127,11 @@ namespace boost { namespace hana { namespace test {
                 ));
             }
 
-            // zip
+            // zip.shortest
             {
+                auto zip = hana::zip.shortest;
                 auto t = list; // tests are unreadable otherwise. mnemonic: tuple
+
                 BOOST_HANA_CONSTANT_CHECK(equal(
                     zip(list()),
                     list()
@@ -1138,102 +1168,232 @@ namespace boost { namespace hana { namespace test {
                 ));
             }
 
-            // zip_with
+            // zip.unsafe
             {
-                auto f = injection([]{});
+                auto zip = hana::zip.unsafe;
+                auto t = list; // tests are unreadable otherwise. mnemonic: tuple
 
-                // zip 1
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    zip_with(undefined, list()),
+                    zip(list()),
                     list()
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    zip_with(f, list(x<0>)),
+                    zip(list(x<0>)),
+                    list(t(x<0>))
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    zip(list(x<0>, x<1>)),
+                    list(t(x<0>), t(x<1>))
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    zip(list(x<0>, x<1>, x<2>)),
+                    list(t(x<0>), t(x<1>), t(x<2>))
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    zip(list(), list()),
+                    list()
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    zip(list(x<0>), list(x<1>)),
+                    list(t(x<0>, x<1>))
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    zip(list(x<0>), list(x<1>), list(x<2>)),
+                    list(t(x<0>, x<1>, x<2>))
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    zip(list(x<0>, x<3>), list(x<1>, x<4>), list(x<2>, x<5>)),
+                    list(t(x<0>, x<1>, x<2>), t(x<3>, x<4>, x<5>))
+                ));
+            }
+
+            // zip.unsafe.with
+            {
+                auto f = injection([]{});
+                auto zip = hana::zip.unsafe.with;
+
+                // zip 1
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    zip(undefined, list()),
+                    list()
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    zip(f, list(x<0>)),
                     list(f(x<0>))
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    zip_with(f, list(x<0>, x<1>)),
+                    zip(f, list(x<0>, x<1>)),
                     list(f(x<0>), f(x<1>))
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    zip_with(f, list(x<0>, x<1>, x<2>)),
+                    zip(f, list(x<0>, x<1>, x<2>)),
                     list(f(x<0>), f(x<1>), f(x<2>))
                 ));
 
                 // zip 2
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    zip_with(undefined, list(), list()),
+                    zip(undefined, list(), list()),
                     list()
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    zip_with(undefined, list(undefined), list()),
-                    list()
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    zip_with(undefined, list(), list(undefined)),
-                    list()
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    zip_with(f, list(x<1>), list(x<-1>)),
+                    zip(f, list(x<1>), list(x<-1>)),
                     list(f(x<1>, x<-1>))
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    zip_with(f, list(x<1>, x<2>), list(x<-1>)),
-                    list(f(x<1>, x<-1>))
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    zip_with(f, list(x<1>), list(x<-1>, x<-2>)),
-                    list(f(x<1>, x<-1>))
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    zip_with(f, list(x<1>, x<2>), list(x<-1>, x<-2>)),
+                    zip(f, list(x<1>, x<2>), list(x<-1>, x<-2>)),
                     list(f(x<1>, x<-1>), f(x<2>, x<-2>))
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    zip_with(f, list(x<1>, x<2>, x<3>, x<4>), list(x<-1>, x<-2>, x<-3>)),
+                    zip(f, list(x<1>, x<2>, x<3>), list(x<-1>, x<-2>, x<-3>)),
                     list(f(x<1>, x<-1>), f(x<2>, x<-2>), f(x<3>, x<-3>))
                 ));
 
                 // zip 3
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    zip_with(undefined, list(),          list(),          list()),
+                    zip(undefined, list(),          list(),          list()),
+                    list()
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    zip(f, list(x<0>), list(x<1>), list(x<2>)),
+                    list(f(x<0>, x<1>, x<2>))
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    zip(f, list(x<0>, x<1>), list(x<2>, x<3>), list(x<4>, x<5>)),
+                    list(f(x<0>, x<2>, x<4>), f(x<1>, x<3>, x<5>))
+                ));
+
+                // zip 4
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    zip(f,
+                        list(x<11>, x<12>, x<13>),
+                        list(x<21>, x<22>, x<23>),
+                        list(x<31>, x<32>, x<33>),
+                        list(x<41>, x<42>, x<43>)
+                    ),
+                    list(
+                        f(x<11>, x<21>, x<31>, x<41>),
+                        f(x<12>, x<22>, x<32>, x<42>),
+                        f(x<13>, x<23>, x<33>, x<43>)
+                    )
+                ));
+
+                // zip 5
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    zip(f,
+                        list(x<11>, x<12>, x<13>, x<14>),
+                        list(x<21>, x<22>, x<23>, x<24>),
+                        list(x<31>, x<32>, x<33>, x<34>),
+                        list(x<41>, x<42>, x<43>, x<44>),
+                        list(x<51>, x<52>, x<53>, x<54>)
+                    ),
+                    list(
+                        f(x<11>, x<21>, x<31>, x<41>, x<51>),
+                        f(x<12>, x<22>, x<32>, x<42>, x<52>),
+                        f(x<13>, x<23>, x<33>, x<43>, x<53>),
+                        f(x<14>, x<24>, x<34>, x<44>, x<54>)
+                    )
+                ));
+            }
+
+            // zip.shortest.with
+            {
+                auto f = injection([]{});
+                auto zip = hana::zip.shortest.with;
+
+                // zip 1
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    zip(undefined, list()),
+                    list()
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    zip(f, list(x<0>)),
+                    list(f(x<0>))
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    zip(f, list(x<0>, x<1>)),
+                    list(f(x<0>), f(x<1>))
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    zip(f, list(x<0>, x<1>, x<2>)),
+                    list(f(x<0>), f(x<1>), f(x<2>))
+                ));
+
+                // zip 2
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    zip(undefined, list(), list()),
+                    list()
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    zip(undefined, list(undefined), list()),
+                    list()
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    zip(undefined, list(), list(undefined)),
+                    list()
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    zip(f, list(x<1>), list(x<-1>)),
+                    list(f(x<1>, x<-1>))
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    zip(f, list(x<1>, x<2>), list(x<-1>)),
+                    list(f(x<1>, x<-1>))
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    zip(f, list(x<1>), list(x<-1>, x<-2>)),
+                    list(f(x<1>, x<-1>))
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    zip(f, list(x<1>, x<2>), list(x<-1>, x<-2>)),
+                    list(f(x<1>, x<-1>), f(x<2>, x<-2>))
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    zip(f, list(x<1>, x<2>, x<3>, x<4>), list(x<-1>, x<-2>, x<-3>)),
+                    list(f(x<1>, x<-1>), f(x<2>, x<-2>), f(x<3>, x<-3>))
+                ));
+
+                // zip 3
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    zip(undefined, list(),          list(),          list()),
                     list()
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    zip_with(undefined, list(undefined), list(),          list()),
+                    zip(undefined, list(undefined), list(),          list()),
                     list()
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    zip_with(undefined, list(),          list(undefined), list()),
+                    zip(undefined, list(),          list(undefined), list()),
                     list()
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    zip_with(undefined, list(),          list(),          list(undefined)),
-                    list()
-                ));
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    zip_with(undefined, list(),          list(undefined), list(undefined)),
-                    list()
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    zip_with(undefined, list(undefined), list(),          list(undefined)),
-                    list()
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    zip_with(undefined, list(undefined), list(undefined), list()),
+                    zip(undefined, list(),          list(),          list(undefined)),
                     list()
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    zip_with(f, list(x<0>), list(x<1>), list(x<2>)),
+                    zip(undefined, list(),          list(undefined), list(undefined)),
+                    list()
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    zip(undefined, list(undefined), list(),          list(undefined)),
+                    list()
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    zip(undefined, list(undefined), list(undefined), list()),
+                    list()
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    zip(f, list(x<0>), list(x<1>), list(x<2>)),
                     list(f(x<0>, x<1>, x<2>))
                 ));
 
                 // zip 4
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    zip_with(f,
+                    zip(f,
                         list(x<11>, x<12>, x<13>, x<14>),
                         list(x<21>, x<22>, x<23>),
                         list(x<31>, x<32>, x<33>, x<34>),
@@ -1248,7 +1408,7 @@ namespace boost { namespace hana { namespace test {
 
                 // zip 5
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    zip_with(f,
+                    zip(f,
                         list(x<11>, x<12>, x<13>, x<14>),
                         list(x<21>, x<22>, x<23>, x<24>, x<25>),
                         list(x<31>, x<32>, x<33>, x<34>),
@@ -1555,6 +1715,50 @@ namespace boost { namespace hana { namespace test {
                     list(x<0>, x<1>, x<2>, x<3>),
                     list(x<0>, x<1>, x<2>, x<4>)
                 )));
+            }
+        }
+
+        //////////////////////////////////////////////////////////////////////
+        // Orderable instance
+        //////////////////////////////////////////////////////////////////////
+        {
+            laws<Orderable, L>();
+            using list_detail::ord;
+            using list_detail::invalid;
+
+            // less
+            {
+                BOOST_HANA_CONSTANT_CHECK(not_(less(
+                    list(),
+                    list()
+                )));
+
+                BOOST_HANA_CONSTANT_CHECK(less(
+                    list(),
+                    list(invalid<>)
+                ));
+                BOOST_HANA_CONSTANT_CHECK(not_(less(
+                    list(invalid<>),
+                    list()
+                )));
+                BOOST_HANA_CONSTANT_CHECK(less(
+                    list(ord<0>),
+                    list(ord<1>)
+                ));
+                BOOST_HANA_CONSTANT_CHECK(not_(less(
+                    list(ord<1>),
+                    list(ord<0>)
+                )));
+
+                BOOST_HANA_CONSTANT_CHECK(not_(less(
+                    list(ord<0>, ord<1>, ord<2>),
+                    list(ord<0>, ord<1>)
+                )));
+
+                BOOST_HANA_CONSTANT_CHECK(less(
+                    list(ord<0>, ord<0>, ord<2>),
+                    list(ord<0>, ord<1>)
+                ));
             }
         }
 

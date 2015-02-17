@@ -4,8 +4,8 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/bool.hpp>
-#include <boost/hana/fwd/list.hpp>
+#include <boost/hana/integral_constant.hpp>
+#include <boost/hana/fwd/sequence.hpp>
 
 #include "benchmark.hpp"
 
@@ -20,9 +20,9 @@ int main() {
         <%= (1..input_size).to_a.map { |i| "x<#{i}>{}" }.join(', ') %>
     );
 
-    auto pred = [](auto&& x) { return boost::hana::true_; };
+    auto n = boost::hana::int_< <%= input_size / 2 %> >;
 
     boost::hana::benchmark::measure([=] {
-        boost::hana::filter(list, pred);
+        boost::hana::take(n, list);
     });
 }

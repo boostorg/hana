@@ -130,7 +130,7 @@ int main() {
                 ));
             }
 
-            // Map -> List
+            // Map -> Sequence
             {
                 BOOST_HANA_CONSTEXPR_LAMBDA auto check = [=](auto ...xs) {
                     BOOST_HANA_CONSTANT_CHECK(

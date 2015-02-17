@@ -22,7 +22,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional/flip.hpp>
 #include <boost/hana/functional/id.hpp>
-#include <boost/hana/list.hpp>
+#include <boost/hana/sequence.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/searchable.hpp>
 #include <boost/hana/tuple.hpp>
@@ -96,7 +96,7 @@ namespace boost { namespace hana {
     };
 
     template <typename L>
-    struct to_impl<L, Set, when<is_a<List, L>()>> {
+    struct to_impl<L, Set, when<is_a<Sequence, L>()>> {
         template <typename Set>
         static constexpr decltype(auto) apply(Set&& set)
         { return to<L>(detail::std::forward<Set>(set).storage); }

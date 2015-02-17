@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include "matrix.hpp"
 
 #include <boost/hana/integral_constant.hpp>
-#include <boost/hana/list.hpp>
+#include <boost/hana/sequence.hpp>
 #include <boost/hana/monoid.hpp>
 #include <boost/hana/range.hpp>
 

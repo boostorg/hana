@@ -31,51 +31,17 @@ namespace boost { namespace hana {
     //!
     //! Modeled concepts
     //! ----------------
-    //! 1. `Comparable` (operators provided)\n
-    //! @todo
+    //! `Sequence`, and all its superclasses
     //!
-    //! 2. `Functor`\n
-    //! @todo
     //!
-    //! 3. `Applicative`\n
-    //! @todo
-    //!
-    //! 4. `Monad` (operators provided)\n
-    //! @todo
-    //!
-    //! 5. `MonadPlus`\n
-    //! @todo
-    //!
-    //! 6. `Foldable`\n
-    //! @todo
-    //!
-    //! 7. `Iterable` (operators provided)\n
-    //! @todo
-    //!
-    //! 8. `Searchable`\n
-    //! @todo
-    //!
-    //! 9. `Traversable`\n
-    //! @todo
-    //!
-    //! 10. `Sequence`\n
-    //! @todo
-    //!
-    //! @todo
-    //! - Implement Traversable with Sequence
-    //! - Implement `ap`
-    //! - Implement `MonadPlus`
-    //! - Make comparison work with any other Sequence
+    //! Provided operators
+    //! ------------------
+    //! For convenience, operators for methods of the following concepts can
+    //! be used with `Tuple`: `Comparable`, `Orderable`, `Monad`, `Iterable`.
     struct Tuple { };
 
     //! Create a `Tuple` containing the given objects.
     //! @relates Tuple
-    //!
-    //! @todo
-    //! - Consider having specialized tuples to hold types, integers, etc...
-    //!   It does not fix the problem of partial type classes (e.g. `MplVector`
-    //!   is not _actually_ a `List`), but at least we remove `TypeList` and
-    //!   `IntegerList`, which are arguably ugly.
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto tuple = [](auto&& ...xs) {
         return unspecified-type;

@@ -5,15 +5,6 @@ libraries.
 
 
 @todo
-- When we have functions with several variants, consider naming versions
-  with the following scheme:
-  @code
-    foldr.lazy
-    foldr.strict
-    foldr == foldr.strict
-  @endcode
-  That would be prettier and not much more complicated. However, we would
-  need a naming convention for the `_impl` versions of those.
 - To consider: is it possible/desirable to eliminate partial functions?
   For example, removing `head` and `tail`, which can fail, and replace
   them by a function which returns a `Maybe`.
@@ -29,7 +20,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_HPP
 #define BOOST_HANA_HPP
 
-// Type classes
+// Concepts
 #include <boost/hana/applicative.hpp>
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/constant.hpp>
@@ -39,7 +30,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/group.hpp>
 #include <boost/hana/integral_domain.hpp>
 #include <boost/hana/iterable.hpp>
-#include <boost/hana/list.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/monad.hpp>
 #include <boost/hana/monad_plus.hpp>
@@ -49,6 +39,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/record.hpp>
 #include <boost/hana/ring.hpp>
 #include <boost/hana/searchable.hpp>
+#include <boost/hana/sequence.hpp>
 #include <boost/hana/traversable.hpp>
 
 // Data types

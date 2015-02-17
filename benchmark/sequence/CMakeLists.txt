@@ -14,7 +14,7 @@ foreach(method IN ITEMS filter group_by intersperse
                         scanl scanl1 scanr scanr1 sort
                         take take_until take_while zip_with)
 
-    Benchmark_add_dataset(dataset.list.hana_tuple.${method}
+    Benchmark_add_dataset(dataset.sequence.hana_tuple.${method}
         FEATURES COMPILATION_TIME EXECUTION_TIME MEMORY_USAGE
         FILE "${method}.cpp"
         ENV "((1..50).to_a + (51..500).step(25).to_a).map { |n|
@@ -27,7 +27,7 @@ foreach(method IN ITEMS filter group_by intersperse
         "
     )
 
-    Benchmark_add_dataset(dataset.list.std_tuple.${method}
+    Benchmark_add_dataset(dataset.sequence.std_tuple.${method}
         FEATURES COMPILATION_TIME EXECUTION_TIME MEMORY_USAGE
         FILE "${method}.cpp"
         ENV "((1..50).to_a + (51..500).step(25).to_a).map { |n|
@@ -44,7 +44,7 @@ foreach(method IN ITEMS filter group_by intersperse
     )
 
     if(Boost_FOUND)
-        Benchmark_add_dataset(dataset.list.boost_tuple.${method}
+        Benchmark_add_dataset(dataset.sequence.boost_tuple.${method}
             FEATURES COMPILATION_TIME EXECUTION_TIME MEMORY_USAGE
             FILE "${method}.cpp"
             ENV "((1..50).to_a + (51..500).step(25).to_a).map { |n|
@@ -61,7 +61,7 @@ foreach(method IN ITEMS filter group_by intersperse
             ADDITIONAL_COMPILER_FLAGS "-I${Boost_INCLUDE_DIRS}"
         )
 
-        Benchmark_add_dataset(dataset.list.boost_fusion_tuple.${method}
+        Benchmark_add_dataset(dataset.sequence.boost_fusion_tuple.${method}
             FEATURES COMPILATION_TIME EXECUTION_TIME MEMORY_USAGE
             FILE "${method}.cpp"
             ENV "((1..50).to_a + (51..500).step(25).to_a).map { |n|
@@ -80,7 +80,7 @@ foreach(method IN ITEMS filter group_by intersperse
 
         foreach(sequence IN ITEMS vector list deque)
             capitalize(${sequence} Sequence)
-            Benchmark_add_dataset(dataset.list.boost_fusion_${sequence}.${method}
+            Benchmark_add_dataset(dataset.sequence.boost_fusion_${sequence}.${method}
                 FEATURES COMPILATION_TIME EXECUTION_TIME MEMORY_USAGE
                 FILE "${method}.cpp"
                 ENV "((1..50).to_a + (51..500).step(25).to_a).map { |n|
@@ -104,43 +104,43 @@ foreach(method IN ITEMS filter group_by intersperse
     set(_feature_plot_suffix_MEMORY_USAGE "mem")
     foreach(_feature IN ITEMS EXECUTION_TIME COMPILATION_TIME MEMORY_USAGE)
         set(_suffix "${_feature_plot_suffix_${_feature}}")
-        Benchmark_add_plot(benchmark.list.${method}.${_suffix}
+        Benchmark_add_plot(benchmark.sequence.${method}.${_suffix}
             TITLE "${method}"
             FEATURE "${_feature}"
             OUTPUT "${method}.${_suffix}.png"
 
             CURVE
                 TITLE "hana::tuple"
-                DATASET dataset.list.hana_tuple.${method}
+                DATASET dataset.sequence.hana_tuple.${method}
 
             CURVE
                 TITLE "std::tuple"
-                DATASET dataset.list.std_tuple.${method}
+                DATASET dataset.sequence.std_tuple.${method}
         )
 
         if(Boost_FOUND)
-            Benchmark_add_curves(PLOT benchmark.list.${method}.${_suffix}
+            Benchmark_add_curves(PLOT benchmark.sequence.${method}.${_suffix}
                 CURVE
                     TITLE "boost::tuple"
-                    DATASET dataset.list.boost_tuple.${method}
+                    DATASET dataset.sequence.boost_tuple.${method}
                 CURVE
                     TITLE "boost::fusion::tuple"
-                    DATASET dataset.list.boost_fusion_tuple.${method}
+                    DATASET dataset.sequence.boost_fusion_tuple.${method}
                 CURVE
                     TITLE "boost::fusion::vector"
-                    DATASET dataset.list.boost_fusion_vector.${method}
+                    DATASET dataset.sequence.boost_fusion_vector.${method}
                 CURVE
                     TITLE "boost::fusion::list"
-                    DATASET dataset.list.boost_fusion_list.${method}
+                    DATASET dataset.sequence.boost_fusion_list.${method}
                 CURVE
                     TITLE "boost::fusion::deque"
-                    DATASET dataset.list.boost_fusion_deque.${method}
+                    DATASET dataset.sequence.boost_fusion_deque.${method}
             )
         endif()
     endforeach()
 
-    add_custom_target(benchmark.list.${method}
-        DEPENDS benchmark.list.${method}.etime
-                benchmark.list.${method}.ctime
-                benchmark.list.${method}.mem)
+    add_custom_target(benchmark.sequence.${method}
+        DEPENDS benchmark.sequence.${method}.etime
+                benchmark.sequence.${method}.ctime
+                benchmark.sequence.${method}.mem)
 endforeach()

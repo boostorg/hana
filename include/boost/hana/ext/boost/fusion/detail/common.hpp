@@ -11,12 +11,12 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_EXT_BOOST_FUSION_DETAIL_COMMON_HPP
 
 #include <boost/hana/bool.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integral_constant.hpp>
-#include <boost/hana/foldable.hpp>
 #include <boost/hana/iterable.hpp>
-#include <boost/hana/searchable.hpp>
+#include <boost/hana/sequence.hpp>
 
 #include <boost/fusion/sequence/intrinsic/empty.hpp>
 #include <boost/fusion/sequence/intrinsic/front.hpp>
@@ -29,32 +29,6 @@ namespace boost { namespace hana {
             : detail::std::false_type
         { };
     }
-
-    //////////////////////////////////////////////////////////////////////////
-    // Foldable
-    //////////////////////////////////////////////////////////////////////////
-    template <typename S>
-    struct foldl_impl<S, when<detail::is_fusion_sequence<S>{}>>
-        : Iterable::foldl_impl<S>
-    { };
-
-    template <typename S>
-    struct foldr_impl<S, when<detail::is_fusion_sequence<S>{}>>
-        : Iterable::foldr_impl<S>
-    { };
-
-    //////////////////////////////////////////////////////////////////////////
-    // Searchable
-    //////////////////////////////////////////////////////////////////////////
-    template <typename S>
-    struct find_impl<S, when<detail::is_fusion_sequence<S>{}>>
-        : Iterable::find_impl<S>
-    { };
-
-    template <typename S>
-    struct any_impl<S, when<detail::is_fusion_sequence<S>{}>>
-        : Iterable::any_impl<S>
-    { };
 
     //////////////////////////////////////////////////////////////////////////
     // Iterable
@@ -76,6 +50,14 @@ namespace boost { namespace hana {
             return bool_<Empty::value>;
         }
     };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Sequence
+    //////////////////////////////////////////////////////////////////////////
+    template <typename S>
+    struct models<Sequence(S), when<detail::is_fusion_sequence<S>{}>>
+        : detail::std::true_type
+    { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_EXT_BOOST_FUSION_DETAIL_COMMON_HPP

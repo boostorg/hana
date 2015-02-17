@@ -13,44 +13,18 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/ext/boost/tuple.hpp>
 
 #include <boost/hana/bool.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/move.hpp>
-#include <boost/hana/foldable.hpp>
 #include <boost/hana/iterable.hpp>
-#include <boost/hana/list.hpp>
 #include <boost/hana/monad_plus.hpp>
-#include <boost/hana/searchable.hpp>
+#include <boost/hana/sequence.hpp>
 
 #include <boost/tuple/tuple.hpp>
 
 
 namespace boost { namespace hana {
-    //////////////////////////////////////////////////////////////////////////
-    // Foldable
-    //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct foldl_impl<ext::boost::Tuple>
-        : Iterable::foldl_impl<ext::boost::Tuple>
-    { };
-
-    template <>
-    struct foldr_impl<ext::boost::Tuple>
-        : Iterable::foldr_impl<ext::boost::Tuple>
-    { };
-
-    //////////////////////////////////////////////////////////////////////////
-    // Searchable
-    //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct find_impl<ext::boost::Tuple>
-        : Iterable::find_impl<ext::boost::Tuple>
-    { };
-
-    template <>
-    struct any_impl<ext::boost::Tuple>
-        : Iterable::any_impl<ext::boost::Tuple>
-    { };
-
     //////////////////////////////////////////////////////////////////////////
     // Iterable
     //////////////////////////////////////////////////////////////////////////
@@ -82,18 +56,6 @@ namespace boost { namespace hana {
     // MonadPlus
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct concat_impl<ext::boost::Tuple> {
-        template <typename Xs, typename Ys>
-        static constexpr decltype(auto) apply(Xs&& xs, Ys&& ys) {
-            return hana::foldr(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Ys>(ys),
-                prepend
-            );
-        }
-    };
-
-    template <>
     struct prepend_impl<ext::boost::Tuple> {
         template <typename X, typename Xs>
         static constexpr auto apply(X x, Xs xs) {
@@ -109,6 +71,14 @@ namespace boost { namespace hana {
         static constexpr auto apply()
         { return ::boost::tuples::null_type{}; }
     };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Sequence
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Sequence(ext::boost::Tuple)>
+        : detail::std::true_type
+    { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_EXT_BOOST_TUPLE_HPP

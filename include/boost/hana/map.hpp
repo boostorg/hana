@@ -25,7 +25,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functional/demux.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/functor.hpp>
-#include <boost/hana/list.hpp>
+#include <boost/hana/sequence.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/product.hpp>
 #include <boost/hana/record.hpp>
@@ -137,7 +137,7 @@ namespace boost { namespace hana {
     };
 
     template <typename L>
-    struct to_impl<L, Map, when<is_a<List, L>()>> {
+    struct to_impl<L, Map, when<is_a<Sequence, L>()>> {
         template <typename M>
         static constexpr decltype(auto) apply(M&& m)
         { return to<L>(detail::std::forward<M>(m).storage); }

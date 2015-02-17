@@ -15,17 +15,17 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/applicative.hpp>
 #include <boost/hana/bool.hpp>
 #include <boost/hana/core/make.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integer_sequence.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/remove_reference.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
-#include <boost/hana/foldable.hpp>
 #include <boost/hana/functor.hpp>
 #include <boost/hana/iterable.hpp>
-#include <boost/hana/list.hpp>
 #include <boost/hana/monad.hpp>
 #include <boost/hana/monad_plus.hpp>
-#include <boost/hana/searchable.hpp>
+#include <boost/hana/sequence.hpp>
 
 #include <tuple>
 
@@ -119,32 +119,6 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // Foldable
-    //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct foldl_impl<ext::std::Tuple>
-        : Iterable::foldl_impl<ext::std::Tuple>
-    { };
-
-    template <>
-    struct foldr_impl<ext::std::Tuple>
-        : Iterable::foldr_impl<ext::std::Tuple>
-    { };
-
-    //////////////////////////////////////////////////////////////////////////
-    // Searchable
-    //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct find_impl<ext::std::Tuple>
-        : Iterable::find_impl<ext::std::Tuple>
-    { };
-
-    template <>
-    struct any_impl<ext::std::Tuple>
-        : Iterable::any_impl<ext::std::Tuple>
-    { };
-
-    //////////////////////////////////////////////////////////////////////////
     // Iterable
     //////////////////////////////////////////////////////////////////////////
     template <>
@@ -191,6 +165,14 @@ namespace boost { namespace hana {
             return ::std::get<index>(detail::std::forward<Xs>(xs));
         }
     };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Sequence
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Sequence(ext::std::Tuple)>
+        : detail::std::true_type
+    { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_EXT_STD_TUPLE_HPP

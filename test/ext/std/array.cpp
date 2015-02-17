@@ -11,10 +11,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/type.hpp>
 
 #include <test/auto/base.hpp>
-
-// instances
 #include <test/auto/iterable.hpp>
-#include <test/auto/list.hpp>
+#include <test/auto/sequence.hpp>
 
 #include <array>
 using namespace boost::hana;
@@ -26,10 +24,10 @@ constexpr auto array = std::array<int, sizeof...(i)>{{i...}};
 namespace boost { namespace hana { namespace test {
     template <>
     auto instances<ext::std::Array> = tuple(
-        //! @todo Array is not actually a List, because it can only hold
+        //! @todo Array is not actually a Sequence, because it can only hold
         //! homogeneous objects.
 #if 0
-        type<List>,
+        type<Sequence>,
 #endif
         type<Iterable>
     );
@@ -72,23 +70,47 @@ int main() {
         }
     }
 
-    // List
+    // MonadPlus
     {
         // nil
         {
-            BOOST_HANA_CONSTANT_CHECK(equal(nil<ext::std::Array>(), std::array<char, 0>{}));
-            BOOST_HANA_CONSTANT_CHECK(equal(nil<ext::std::Array>(), std::array<int, 0>{}));
-            BOOST_HANA_CONSTANT_CHECK(equal(nil<ext::std::Array>(), std::array<long, 0>{}));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                nil<ext::std::Array>(),
+                std::array<char, 0>{}
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                nil<ext::std::Array>(),
+                std::array<int, 0>{}
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                nil<ext::std::Array>(),
+                std::array<long, 0>{}
+            ));
         }
 
-        // cons
+        // prepend
         {
-            BOOST_HANA_CONSTEXPR_CHECK(equal(cons(0, array<>), array<0>));
-            BOOST_HANA_CONSTEXPR_CHECK(equal(cons(0, array<1>), array<0, 1>));
-            BOOST_HANA_CONSTEXPR_CHECK(equal(cons(0, array<1, 2>), array<0, 1, 2>));
-            BOOST_HANA_CONSTEXPR_CHECK(equal(cons(0, array<1, 2, 3>), array<0, 1, 2, 3>));
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
+                prepend(0, array<>),
+                array<0>
+            ));
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
+                prepend(0, array<1>),
+                array<0, 1>
+            ));
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
+                prepend(0, array<1, 2>),
+                array<0, 1, 2>
+            ));
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
+                prepend(0, array<1, 2, 3>),
+                array<0, 1, 2, 3>
+            ));
 
-            BOOST_HANA_CONSTEXPR_CHECK(equal(cons(0, nil<ext::std::Array>()), array<0>));
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
+                prepend(0, nil<ext::std::Array>()),
+                array<0>
+            ));
         }
     }
 }

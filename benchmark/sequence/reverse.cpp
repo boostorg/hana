@@ -4,8 +4,7 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/fwd/list.hpp>
+#include <boost/hana/fwd/sequence.hpp>
 
 #include "benchmark.hpp"
 
@@ -20,11 +19,7 @@ int main() {
         <%= (1..input_size).to_a.map { |i| "x<#{i}>{}" }.join(', ') %>
     );
 
-    auto f = [](auto&& s, auto&& x) -> decltype(auto) {
-        return boost::hana::detail::std::forward<decltype(x)>(x);
-    };
-
     boost::hana::benchmark::measure([=] {
-        boost::hana::scanl1(list, f);
+        boost::hana::reverse(list);
     });
 }

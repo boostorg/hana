@@ -6,12 +6,14 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/bool.hpp>
+#include <boost/hana/core/models.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/lazy.hpp>
-#include <boost/hana/list.hpp>
 #include <boost/hana/monad_plus.hpp>
+#include <boost/hana/sequence.hpp>
 #include <boost/hana/tuple.hpp>
 using namespace boost::hana;
 
@@ -69,18 +71,6 @@ namespace boost { namespace hana {
     // MonadPlus
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct concat_impl<LazyList> {
-        template <typename Xs, typename Ys>
-        static constexpr decltype(auto) apply(Xs&& xs, Ys&& ys) {
-            return hana::foldr(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Ys>(ys),
-                prepend
-            );
-        }
-    };
-
-    template <>
     struct prepend_impl<LazyList> {
         template <typename X, typename Xs>
         static constexpr auto apply(X x, Xs xs)
@@ -92,6 +82,14 @@ namespace boost { namespace hana {
         static constexpr auto apply()
         { return lazy_nil; }
     };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Sequence
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Sequence(LazyList)>
+        : detail::std::true_type
+    { };
 }}
 
 

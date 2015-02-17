@@ -10,30 +10,31 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
 
-// instances
-#include <test/auto/iterable.hpp>
-#include <test/auto/list.hpp>
+#include <test/auto/sequence.hpp>
+#include <test/cnumeric.hpp>
+#include <test/injection.hpp>
 
 #include <boost/tuple/tuple.hpp>
-#include <test/injection.hpp>
 #include <type_traits>
 using namespace boost::hana;
 
 
+template <int i>
+constexpr auto ord = test::cnumeric<int, i>;
+
 namespace boost { namespace hana { namespace test {
     template <>
     auto instances<ext::boost::Tuple> = tuple(
-        type<List>,
-        type<Iterable>
+        type<Sequence>
     );
 
     template <>
     auto objects<ext::boost::Tuple> = tuple(
         ::boost::make_tuple(),
-        ::boost::make_tuple(x<0>),
-        ::boost::make_tuple(x<0>, x<1>),
-        ::boost::make_tuple(x<0>, x<1>, x<2>),
-        ::boost::make_tuple(x<0>, x<1>, x<2>, x<3>)
+        ::boost::make_tuple(ord<0>),
+        ::boost::make_tuple(ord<0>, ord<1>),
+        ::boost::make_tuple(ord<0>, ord<1>, ord<2>),
+        ::boost::make_tuple(ord<0>, ord<1>, ord<2>, ord<3>)
     );
 }}}
 

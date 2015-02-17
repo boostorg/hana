@@ -13,13 +13,13 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/ext/boost/mpl/vector.hpp>
 
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/models.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/is_same.hpp>
 #include <boost/hana/ext/boost/mpl/integral_c.hpp>
-#include <boost/hana/foldable.hpp>
 #include <boost/hana/iterable.hpp>
-#include <boost/hana/list.hpp>
 #include <boost/hana/monad_plus.hpp>
-#include <boost/hana/searchable.hpp>
+#include <boost/hana/sequence.hpp>
 #include <boost/hana/type.hpp>
 
 #include <boost/mpl/empty.hpp>
@@ -30,32 +30,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //////////////////////////////////////////////////////////////////////////
-    // Foldable
-    //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct foldl_impl<ext::boost::mpl::Vector>
-        : Iterable::foldl_impl<ext::boost::mpl::Vector>
-    { };
-
-    template <>
-    struct foldr_impl<ext::boost::mpl::Vector>
-        : Iterable::foldr_impl<ext::boost::mpl::Vector>
-    { };
-
-    //////////////////////////////////////////////////////////////////////////
-    // Searchable
-    //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct find_impl<ext::boost::mpl::Vector>
-        : Iterable::find_impl<ext::boost::mpl::Vector>
-    { };
-
-    template <>
-    struct any_impl<ext::boost::mpl::Vector>
-        : Iterable::any_impl<ext::boost::mpl::Vector>
-    { };
-
     //////////////////////////////////////////////////////////////////////////
     // Iterable
     //////////////////////////////////////////////////////////////////////////
@@ -84,23 +58,12 @@ namespace boost { namespace hana {
     // MonadPlus
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct concat_impl<ext::boost::mpl::Vector> {
-        template <typename Xs, typename Ys>
-        static constexpr decltype(auto) apply(Xs&& xs, Ys&& ys) {
-            return hana::foldr(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Ys>(ys),
-                prepend
-            );
-        }
-    };
-
-    template <>
     struct prepend_impl<ext::boost::mpl::Vector> {
         template <typename X, typename Xs>
         static constexpr auto apply(X, Xs) {
-            static_assert(detail::std::is_same<datatype_t<X>, Type>::value,
-            "Only Types may be prepended to a Boost.MPL vector.");
+            using T = typename datatype<X>::type;
+            static_assert(detail::std::is_same<T, Type>{},
+            "trying to prepend a non-Type to a Boost.MPL vector");
 
             return typename ::boost::mpl::push_front<
                 Xs, typename X::type
@@ -113,6 +76,14 @@ namespace boost { namespace hana {
         static constexpr auto apply()
         { return ::boost::mpl::vector0<>{}; }
     };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Sequence
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Sequence(ext::boost::mpl::Vector)>
+        : detail::std::true_type
+    { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_EXT_BOOST_MPL_VECTOR_HPP

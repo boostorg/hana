@@ -11,30 +11,32 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <test/auto/base.hpp>
 #include <test/auto/iterable.hpp>
-#include <test/auto/list.hpp>
+#include <test/auto/sequence.hpp>
+#include <test/cnumeric.hpp>
 #include <test/injection.hpp>
+
 #include <utility>
 using namespace boost::hana;
 
+
+template <int i>
+constexpr auto ord = test::cnumeric<int, i>;
 
 namespace boost { namespace hana { namespace test {
     template <>
     auto objects<Tuple> = tuple(
             tuple()
-          , tuple(x<0>)
-          , tuple(x<0>, x<1>)
-          , tuple(x<0>, x<1>, x<2>)
-          , tuple(x<0>, x<1>, x<2>, x<3>)
-          , tuple(x<0>, x<1>, x<2>, x<3>, x<4>)
-          , tuple(x<0>, x<1>, x<2>, x<3>, x<4>, x<5>)
+          , tuple(ord<0>)
+          , tuple(ord<0>, ord<1>)
+          , tuple(ord<0>, ord<1>, ord<2>)
+          , tuple(ord<0>, ord<1>, ord<2>, ord<3>)
+          , tuple(ord<0>, ord<1>, ord<2>, ord<3>, ord<4>)
+          , tuple(ord<0>, ord<1>, ord<2>, ord<3>, ord<4>, ord<5>)
     );
 
     template <>
     auto instances<Tuple> = tuple(
-          type<List>
-        , type<Functor>
-        , type<Foldable>
-        , type<Iterable>
+          type<Sequence>
     );
 }}}
 
@@ -112,7 +114,7 @@ int main() {
         // operators
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                tuple(x<0>, x<1>)[int_<0>],
+                tuple(x<0>, x<1>)[size_t<0>],
                 x<0>
             ));
         }

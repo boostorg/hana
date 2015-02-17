@@ -16,7 +16,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/ext/boost/fusion/detail/common.hpp>
 #include <boost/hana/iterable.hpp>
-#include <boost/hana/list.hpp>
 #include <boost/hana/monad_plus.hpp>
 
 #include <boost/fusion/algorithm/transformation/pop_front.hpp>
@@ -48,18 +47,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // MonadPlus
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct concat_impl<ext::boost::fusion::List> {
-        template <typename Xs, typename Ys>
-        static constexpr decltype(auto) apply(Xs&& xs, Ys&& ys) {
-            return hana::foldr(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Ys>(ys),
-                prepend
-            );
-        }
-    };
-
     template <>
     struct prepend_impl<ext::boost::fusion::List> {
         template <typename X, typename Xs>

@@ -13,35 +13,31 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/type.hpp>
 
 #include <test/auto/base.hpp>
-#include <test/auto/foldable.hpp>
-#include <test/auto/iterable.hpp>
-#include <test/auto/list.hpp>
-#include <test/auto/monad_plus.hpp>
-#include <test/auto/traversable.hpp>
+#include <test/auto/sequence.hpp>
+#include <test/cnumeric.hpp>
 #include <test/injection.hpp>
 using namespace boost::hana;
 
+
+template <int i>
+constexpr auto ord = test::cnumeric<int, i>;
 
 namespace boost { namespace hana {
     namespace test {
         template <>
         auto instances<Seq> = tuple(
-            type<List>,
-            type<Foldable>,
-            type<Iterable>,
-            type<Traversable>,
-            type<MonadPlus>
+            type<Sequence>
         );
 
         template <>
         auto objects<Seq> = tuple(
             seq(),
-            seq(x<0>),
-            seq(x<0>, x<1>),
-            seq(x<0>, x<1>, x<2>),
-            seq(x<0>, x<1>, x<2>, x<3>),
-            seq(x<0>, x<1>, x<2>, x<3>, x<4>),
-            seq(x<0>, x<1>, x<2>, x<3>, x<4>, x<5>)
+            seq(ord<0>),
+            seq(ord<0>, ord<1>),
+            seq(ord<0>, ord<1>, ord<2>),
+            seq(ord<0>, ord<1>, ord<2>, ord<3>),
+            seq(ord<0>, ord<1>, ord<2>, ord<3>, ord<4>),
+            seq(ord<0>, ord<1>, ord<2>, ord<3>, ord<4>, ord<5>)
         );
     }
 
@@ -56,7 +52,7 @@ int main() {
     test::check_datatype<test::Seq>();
     using test::x;
 
-    // Iterable (everything else is checked by the tests for List)
+    // Iterable (everything else is checked by the tests for Sequence)
     {
         auto iterable = test::seq;
 

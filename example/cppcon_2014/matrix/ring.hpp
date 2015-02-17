@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/integral_constant.hpp>
-#include <boost/hana/list.hpp>
+#include <boost/hana/sequence.hpp>
 #include <boost/hana/range.hpp>
 #include <boost/hana/ring.hpp>
 #include <boost/hana/tuple.hpp>

@@ -34,8 +34,8 @@ namespace boost { namespace hana {
     //!
     //! Provided conversions
     //! --------------------
-    //! 1. To any `List`\n
-    //! The order of the elements in the resulting list is unspecified.
+    //! 1. To any `Sequence`\n
+    //! The order of the elements in the resulting sequence is unspecified.
     //!
     //! 2. From any `Foldable`\n
     //! If the foldable structure contains duplicates, the last one will

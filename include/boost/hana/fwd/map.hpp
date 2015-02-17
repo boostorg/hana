@@ -49,8 +49,8 @@ namespace boost { namespace hana {
     //! We should allow duplicate keys, with a documented policy (e.g. we
     //! keep the last one).
     //!
-    //! 3. To any `List` data type\n
-    //! A `Map` can be converted to a `List` of `Product`s.
+    //! 3. To any `Sequence`\n
+    //! A `Map` can be converted to a Sequence of Products.
     struct Map { };
 
     //! Creates a `Map` with the given key/value associations.

@@ -9,12 +9,13 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/applicative.hpp>
 #include <boost/hana/bool.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/iterable.hpp>
-#include <boost/hana/list.hpp>
 #include <boost/hana/monad_plus.hpp>
-#include <boost/hana/searchable.hpp>
+#include <boost/hana/sequence.hpp>
 
 
 namespace boost { namespace hana {
@@ -95,19 +96,6 @@ namespace boost { namespace hana {
 #endif
 
     //////////////////////////////////////////////////////////////////////////
-    // Searchable
-    //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct find_impl<test::Seq>
-        : Iterable::find_impl<test::Seq>
-    { };
-
-    template <>
-    struct any_impl<test::Seq>
-        : Iterable::any_impl<test::Seq>
-    { };
-
-    //////////////////////////////////////////////////////////////////////////
     // Iterable
     //////////////////////////////////////////////////////////////////////////
     template <>
@@ -152,7 +140,14 @@ namespace boost { namespace hana {
 
     //////////////////////////////////////////////////////////////////////////
     // MonadPlus
+    //
+    // Define either one to select which MCD is used:
+    //  BOOST_HANA_TEST_SEQUENCE_MONAD_PLUS_MCD
+    //  BOOST_HANA_TEST_SEQUENCE_PREPEND_MCD
+    //
+    // If neither is defined, the MCD used is unspecified.
     //////////////////////////////////////////////////////////////////////////
+#ifdef BOOST_HANA_TEST_SEQUENCE_MONAD_PLUS_MCD
     template <>
     struct concat_impl<test::Seq> {
         template <typename Xs, typename Ys>
@@ -164,12 +159,31 @@ namespace boost { namespace hana {
             });
         }
     };
+#else
+    template <>
+    struct prepend_impl<test::Seq> {
+        template <typename X, typename Xs>
+        static constexpr auto apply(X x, Xs xs) {
+            return xs.storage([=](auto ...xs) {
+                return test::seq(x, xs...);
+            });
+        }
+    };
+#endif
 
     template <>
     struct nil_impl<test::Seq> {
         static BOOST_HANA_CONSTEXPR_LAMBDA auto apply()
         { return test::seq(); }
     };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Sequence
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct models<Sequence(test::Seq)>
+        : detail::std::true_type
+    { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_TEST_TEST_SEQ_HPP
