@@ -375,6 +375,9 @@ namespace boost { namespace hana {
     //! Benchmarks
     //! ----------
     //! @image html benchmark/iterable/drop.ctime.png
+    //!
+    //! @todo
+    //! Provide two variants; `drop.at_most` and `drop.exactly`.
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto drop = [](auto&& n, auto&& iterable) -> decltype(auto) {
         return tag-dispatched;
