@@ -12,62 +12,29 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/ext/boost/fusion/vector.hpp>
 
-#include <boost/hana/bool.hpp>
 #include <boost/hana/detail/std/forward.hpp>
-
-// instances
-#include <boost/hana/foldable.hpp>
+#include <boost/hana/detail/std/integral_constant.hpp>
+#include <boost/hana/ext/boost/fusion/detail/common.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/list.hpp>
-#include <boost/hana/searchable.hpp>
 
 #include <boost/fusion/algorithm/transformation/pop_front.hpp>
 #include <boost/fusion/algorithm/transformation/push_front.hpp>
-#include <boost/fusion/container/generation/make_vector.hpp>
 #include <boost/fusion/container/vector.hpp>
 #include <boost/fusion/container/vector/convert.hpp>
-#include <boost/fusion/sequence/intrinsic/empty.hpp>
-#include <boost/fusion/sequence/intrinsic/front.hpp>
 
 
 namespace boost { namespace hana {
-    //////////////////////////////////////////////////////////////////////////
-    // Foldable
-    //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct foldl_impl<ext::boost::fusion::Vector>
-        : Iterable::foldl_impl<ext::boost::fusion::Vector>
-    { };
-
-    template <>
-    struct foldr_impl<ext::boost::fusion::Vector>
-        : Iterable::foldr_impl<ext::boost::fusion::Vector>
-    { };
+    namespace detail {
+        template <>
+        struct is_fusion_sequence<ext::boost::fusion::Vector>
+            : detail::std::true_type
+        { };
+    }
 
     //////////////////////////////////////////////////////////////////////////
-    // Searchable
+    // Iterable (the rest is in detail/common.hpp)
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct find_impl<ext::boost::fusion::Vector>
-        : Iterable::find_impl<ext::boost::fusion::Vector>
-    { };
-
-    template <>
-    struct any_impl<ext::boost::fusion::Vector>
-        : Iterable::any_impl<ext::boost::fusion::Vector>
-    { };
-
-    //////////////////////////////////////////////////////////////////////////
-    // Iterable
-    //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct head_impl<ext::boost::fusion::Vector> {
-        template <typename Xs>
-        static constexpr decltype(auto) apply(Xs&& xs) {
-            return ::boost::fusion::front(detail::std::forward<Xs>(xs));
-        }
-    };
-
     template <>
     struct tail_impl<ext::boost::fusion::Vector> {
         template <typename Xs>
@@ -77,15 +44,9 @@ namespace boost { namespace hana {
         }
     };
 
-    template <>
-    struct is_empty_impl<ext::boost::fusion::Vector> {
-        template <typename Xs>
-        static constexpr auto apply(Xs&& xs) {
-            using R = decltype(::boost::fusion::empty(detail::std::forward<Xs>(xs)));
-            return bool_<R::value>;
-        }
-    };
-
+    //////////////////////////////////////////////////////////////////////////
+    // List
+    //////////////////////////////////////////////////////////////////////////
     template <>
     struct List::instance<ext::boost::fusion::Vector>
         : List::mcd<ext::boost::fusion::Vector>
