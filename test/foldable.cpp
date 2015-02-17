@@ -4,49 +4,16 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <test/builtin.hpp>
-
 #include <boost/hana/assert.hpp>
-#include <boost/hana/core/is_a.hpp>
+#include <boost/hana/comparable.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-#include <boost/hana/tuple.hpp>
-#include <boost/hana/type.hpp>
 
-#include <test/auto/base.hpp>
-#include <test/injection.hpp>
-#include <test/numeric.hpp>
-
-// instances
-#include <test/auto/comparable.hpp>
 #include <test/auto/foldable.hpp>
-#include <test/auto/orderable.hpp>
+#include <test/injection.hpp>
 using namespace boost::hana;
 
 
-namespace boost { namespace hana { namespace test {
-    template <int i>
-    auto instances<builtin<i>> = tuple(
-        type<Comparable>,
-        type<Orderable>
-    );
-
-    template <int i>
-    auto objects<builtin<i>> = tuple(
-        builtin<i>{0},
-        builtin<i>{1},
-        builtin<i>{2},
-        builtin<i>{3},
-        builtin<i>{4},
-        builtin<i>{5}
-    );
-}}}
-
-
 int main() {
-    test::check_datatype<test::builtin<1>>();
-    using integer = test::builtin<1>;
-    using integer2 = test::builtin<2>;
-
     // Foldable
     {
         int a[] = {1};

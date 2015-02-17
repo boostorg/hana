@@ -520,7 +520,7 @@ namespace boost { namespace hana {
         static constexpr decltype(auto)
         unpack_helper(Xs&& xs, F&& f, detail::std::index_sequence<i...>) {
             return detail::std::forward<F>(f)(
-                detail::std::forward<T>(xs[i])...
+                detail::std::forward<Xs>(xs)[i]...
             );
         }
 
