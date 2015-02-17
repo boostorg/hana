@@ -15,13 +15,12 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/detail/std/is_same.hpp>
 #include <boost/hana/ext/boost/mpl/integral_c.hpp>
-#include <boost/hana/type.hpp>
-
-// instances
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/list.hpp>
+#include <boost/hana/monad_plus.hpp>
 #include <boost/hana/searchable.hpp>
+#include <boost/hana/type.hpp>
 
 #include <boost/mpl/empty.hpp>
 #include <boost/mpl/front.hpp>
@@ -60,11 +59,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Iterable
     //////////////////////////////////////////////////////////////////////////
-
-    //! `Iterable` instance for Boost.MPL vectors.
-    //!
-    //! ### Example
-    //! @include example/ext/boost/mpl/vector/iterable.cpp
     template <>
     struct head_impl<ext::boost::mpl::Vector> {
         template <typename xs>
@@ -86,28 +80,37 @@ namespace boost { namespace hana {
         { return typename ::boost::mpl::empty<xs>::type{}; }
     };
 
-    //! `List` instance for Boost.MPL vectors.
-    //!
-    //! Note that since Boost.MPL vectors can only hold types,
-    //! only `Type`s can be used with `cons`.
-    //!
-    //! ### Example
-    //! @include example/ext/boost/mpl/vector/list.cpp
+    //////////////////////////////////////////////////////////////////////////
+    // MonadPlus
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct List::instance<ext::boost::mpl::Vector>
-        : List::mcd<ext::boost::mpl::Vector>
-    {
-        template <typename x, typename xs>
-        static constexpr auto cons_impl(x, xs) {
-            static_assert(detail::std::is_same<datatype_t<x>, Type>::value,
+    struct concat_impl<ext::boost::mpl::Vector> {
+        template <typename Xs, typename Ys>
+        static constexpr decltype(auto) apply(Xs&& xs, Ys&& ys) {
+            return hana::foldr(
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<Ys>(ys),
+                prepend
+            );
+        }
+    };
+
+    template <>
+    struct prepend_impl<ext::boost::mpl::Vector> {
+        template <typename X, typename Xs>
+        static constexpr auto apply(X, Xs) {
+            static_assert(detail::std::is_same<datatype_t<X>, Type>::value,
             "Only Types may be prepended to a Boost.MPL vector.");
 
             return typename ::boost::mpl::push_front<
-                xs, typename x::type
+                Xs, typename X::type
             >::type{};
         }
+    };
 
-        static constexpr auto nil_impl()
+    template <>
+    struct nil_impl<ext::boost::mpl::Vector> {
+        static constexpr auto apply()
         { return ::boost::mpl::vector0<>{}; }
     };
 }} // end namespace boost::hana

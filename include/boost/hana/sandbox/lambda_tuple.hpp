@@ -16,6 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/comparable.hpp>
 #include <boost/hana/fwd/iterable.hpp>
 #include <boost/hana/fwd/monad.hpp>
+#include <boost/hana/monad_plus.hpp>
 #include <boost/hana/searchable.hpp>
 
 
@@ -135,17 +136,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Iterable
     //////////////////////////////////////////////////////////////////////////
-
-    //! Instance of `Iterable` for `Tuple`s.
-    //!
-    //! `Tuple` is an `Iterable` in the most obvious way. The head of a
-    //! non-empty tuple corresponds to its first element. The tail of a
-    //! non-empty tuple is a tuple containing all the elements in the same
-    //! order, except the head. Finally, a tuple is empty if and only if
-    //! it has no elements in it.
-    //!
-    //! ### Example
-    //! @snippet example/list/iterable.cpp main
     template <>
     struct head_impl<sandbox::LambdaTuple> {
         template <typename Xs>
@@ -203,36 +193,13 @@ namespace boost { namespace hana {
         }
     };
 
-
-    //! Instance of `List` for the `Tuple` data type.
-    //!
-    //! @todo
-    //! Use perfect forwarding everywhere possible.
+    //////////////////////////////////////////////////////////////////////////
+    // MonadPlus
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct List::instance<sandbox::LambdaTuple> : List::mcd<sandbox::LambdaTuple> {
-        static BOOST_HANA_CONSTEXPR_LAMBDA decltype(auto) nil_impl() {
-            return sandbox::lambda_tuple();
-        }
-
-        template <typename X, typename Xs>
-        static constexpr decltype(auto) cons_impl(X&& x, Xs&& xs) {
-            return detail::std::forward<Xs>(xs).storage(
-                [x(detail::std::forward<X>(x))](auto&& ...xs) -> decltype(auto) {
-                    return sandbox::lambda_tuple(
-                        detail::std::move(x),
-                        detail::std::forward<decltype(xs)>(xs)...
-                    );
-                }
-            );
-        }
-
-        template <typename ...Xs>
-        static constexpr decltype(auto) make_impl(Xs&& ...xs) {
-            return sandbox::lambda_tuple(detail::std::forward<Xs>(xs)...);
-        }
-
+    struct concat_impl<sandbox::LambdaTuple> {
         template <typename Xs, typename Ys>
-        static constexpr decltype(auto) concat_impl(Xs&& xs, Ys&& ys) {
+        static constexpr decltype(auto) apply(Xs&& xs, Ys&& ys) {
             return detail::std::forward<Xs>(xs).storage(
                 [ys(detail::std::forward<Ys>(ys))](auto&& ...xs) -> decltype(auto) {
                     return detail::std::move(ys).storage(
@@ -248,18 +215,27 @@ namespace boost { namespace hana {
                 }
             );
         }
+    };
 
-        template <typename Xs>
-        static constexpr decltype(auto) init_impl(Xs&& xs) {
-            return unpack(range(size_t<0>, pred(length(xs))),
-                on(sandbox::lambda_tuple, [&xs](auto index) -> decltype(auto) {
-                    return at(index, detail::std::forward<Xs>(xs));
-                })
+    template <>
+    struct prepend_impl<sandbox::LambdaTuple> {
+        template <typename X, typename Xs>
+        static constexpr decltype(auto) apply(X&& x, Xs&& xs) {
+            return detail::std::forward<Xs>(xs).storage(
+                [x(detail::std::forward<X>(x))](auto&& ...xs) -> decltype(auto) {
+                    return sandbox::lambda_tuple(
+                        detail::std::move(x),
+                        detail::std::forward<decltype(xs)>(xs)...
+                    );
+                }
             );
         }
+    };
 
+    template <>
+    struct append_impl<sandbox::LambdaTuple> {
         template <typename Xs, typename X>
-        static constexpr decltype(auto) snoc_impl(Xs&& xs, X&& x) {
+        static constexpr decltype(auto) apply(Xs&& xs, X&& x) {
             return detail::std::forward<Xs>(xs).storage(
                 [x(detail::std::forward<X>(x))](auto&& ...xs) -> decltype(auto) {
                     return sandbox::lambda_tuple(
@@ -267,6 +243,33 @@ namespace boost { namespace hana {
                         detail::std::move(x)
                     );
                 }
+            );
+        }
+    };
+
+    template <>
+    struct nil_impl<sandbox::LambdaTuple> {
+        static BOOST_HANA_CONSTEXPR_LAMBDA decltype(auto) apply() {
+            return sandbox::lambda_tuple();
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // List
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct List::instance<sandbox::LambdaTuple> : List::mcd<sandbox::LambdaTuple> {
+        template <typename ...Xs>
+        static constexpr decltype(auto) make_impl(Xs&& ...xs) {
+            return sandbox::lambda_tuple(detail::std::forward<Xs>(xs)...);
+        }
+
+        template <typename Xs>
+        static constexpr decltype(auto) init_impl(Xs&& xs) {
+            return unpack(range(size_t<0>, pred(length(xs))),
+                on(sandbox::lambda_tuple, [&xs](auto index) -> decltype(auto) {
+                    return at(index, detail::std::forward<Xs>(xs));
+                })
             );
         }
 

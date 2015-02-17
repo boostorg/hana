@@ -33,6 +33,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/monad.hpp>
+#include <boost/hana/monad_plus.hpp>
 #include <boost/hana/searchable.hpp>
 #include <boost/hana/type.hpp>
 
@@ -414,25 +415,6 @@ namespace boost { namespace hana {
     struct List::instance<Tuple>
         : List::mcd<Tuple>
     {
-        static constexpr _tuple<> nil_impl()
-        { return {}; }
-
-        // cons
-        ///////////////
-        #define BOOST_HANA_PP_CONS(REF)                                         \
-            template <typename X, typename ...Xs>                               \
-            static constexpr _tuple<                                            \
-                typename detail::std::decay<X>::type, typename Xs::get_type...  \
-            > cons_impl(X&& x, detail::closure_impl<Xs...> REF xs) {            \
-                return {                                                        \
-                    detail::std::forward<X>(x), static_cast<Xs REF>(xs).get...  \
-                };                                                              \
-            }                                                                   \
-        /**/
-        BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_CONS)
-        #undef BOOST_HANA_PP_CONS
-
-
         // init
         ///////////////
         template <typename Xs, detail::std::size_t ...n>
@@ -549,22 +531,6 @@ namespace boost { namespace hana {
                 detail::std::make_index_sequence<to - from>{}
             );
         }
-
-        // snoc
-        ///////////////
-        #define BOOST_HANA_PP_SNOC(REF)                                         \
-            template <typename ...Xs, typename X>                               \
-            static constexpr _tuple<                                            \
-                typename Xs::get_type..., typename detail::std::decay<X>::type  \
-            > snoc_impl(detail::closure_impl<Xs...> REF xs, X&& x) {            \
-                return {                                                        \
-                    static_cast<Xs REF>(xs).get...,                             \
-                    detail::std::forward<X>(x)                                  \
-                };                                                              \
-            }                                                                   \
-        /**/
-        BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_SNOC)
-        #undef BOOST_HANA_PP_SNOC
 
 
         // take
@@ -758,7 +724,6 @@ namespace boost { namespace hana {
         }
     };
 
-#if 0
     //////////////////////////////////////////////////////////////////////////
     // MonadPlus
     //////////////////////////////////////////////////////////////////////////
@@ -851,6 +816,7 @@ namespace boost { namespace hana {
         #undef BOOST_HANA_PP_APPEND
     };
 
+#if 0
     //////////////////////////////////////////////////////////////////////////
     // Sequence
     //////////////////////////////////////////////////////////////////////////

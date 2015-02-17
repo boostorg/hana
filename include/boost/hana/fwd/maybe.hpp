@@ -88,20 +88,26 @@ namespace boost { namespace hana {
     //! Example:
     //! @snippet example/maybe.cpp monad
     //!
-    //! 6. `Traversable`\n
+    //! 6. `MonadPlus`\n
+    //! The `Maybe` MonadPlus makes it easy to choose the first valid value
+    //! of two optional values. If both optional values are `nothing`s, then
+    //! `concat` will return `nothing`.
+    //! @snippet example/maybe.cpp monad_plus
+    //!
+    //! 7. `Traversable`\n
     //! Traversing `nothing` yields `nothing` in the new applicative, and
     //! traversing `just(x)` applies the function and maps `just` inside
     //! the resulting applicative.
     //! Example:
     //! @snippet example/maybe.cpp traversable
     //!
-    //! 7. `Foldable`\n
+    //! 8. `Foldable`\n
     //! Folding a `Maybe` is equivalent to folding a `List` containing either
     //! no elements (for `nothing`) or `x` (for `just(x)`).
     //! Example:
     //! @snippet example/maybe.cpp foldable
     //!
-    //! 8. `Searchable`\n
+    //! 9. `Searchable`\n
     //! Searching a `Maybe` is equivalent to searching a list containing
     //! `x` for `just(x)` and an empty list for `nothing`.
     //! Example:

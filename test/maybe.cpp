@@ -19,6 +19,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <test/auto/foldable.hpp>
 #include <test/auto/functor.hpp>
 #include <test/auto/monad.hpp>
+#include <test/auto/monad_plus.hpp>
 #include <test/auto/orderable.hpp>
 #include <test/auto/searchable.hpp>
 #include <test/auto/traversable.hpp>
@@ -40,6 +41,7 @@ namespace boost { namespace hana { namespace test {
         type<Functor>,
         type<Applicative>,
         type<Monad>,
+        type<MonadPlus>,
         type<Traversable>,
 
         type<Foldable>,
@@ -182,6 +184,32 @@ int main() {
             BOOST_HANA_CONSTANT_CHECK(equal(flatten(nothing), nothing));
             BOOST_HANA_CONSTANT_CHECK(equal(flatten(just(nothing)), nothing));
             BOOST_HANA_CONSTANT_CHECK(equal(flatten(just(just(x))), just(x)));
+        }
+    }
+
+    // MonadPlus
+    {
+        using test::x;
+
+        // nil
+        {
+            BOOST_HANA_CONSTANT_CHECK(equal(nil<Maybe>(), nothing));
+        }
+
+        // concat
+        {
+            auto rv_nothing = [] { return nothing; }; // rvalue nothing
+
+            BOOST_HANA_CONSTANT_CHECK(equal(concat(rv_nothing(), nothing), nothing));
+            BOOST_HANA_CONSTANT_CHECK(equal(concat(nothing, rv_nothing()), nothing));
+            BOOST_HANA_CONSTANT_CHECK(equal(concat(rv_nothing(), rv_nothing()), nothing));
+            BOOST_HANA_CONSTANT_CHECK(equal(concat(rv_nothing(), just(x<0>)), just(x<0>)));
+            BOOST_HANA_CONSTANT_CHECK(equal(concat(just(x<0>), rv_nothing()), just(x<0>)));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(concat(nothing, nothing), nothing));
+            BOOST_HANA_CONSTANT_CHECK(equal(concat(nothing, just(x<0>)), just(x<0>)));
+            BOOST_HANA_CONSTANT_CHECK(equal(concat(just(x<0>), nothing), just(x<0>)));
+            BOOST_HANA_CONSTANT_CHECK(equal(concat(just(x<0>), just(x<1>)), just(x<0>)));
         }
     }
 

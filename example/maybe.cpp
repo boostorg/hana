@@ -64,6 +64,24 @@ BOOST_HANA_CONSTEXPR_CHECK(flatten(just(just(2))) == just(2));
 
 }{
 
+//! [monad_plus]
+BOOST_HANA_CONSTEXPR_CHECK(
+    concat(nothing, just('x')) == just('x')
+);
+
+BOOST_HANA_CONSTANT_CHECK(
+    concat(nothing, nothing) == nothing
+);
+
+BOOST_HANA_CONSTEXPR_CHECK(
+    concat(just('x'), just('y')) == just('x')
+);
+
+BOOST_HANA_CONSTANT_CHECK(nil<Maybe>() == nothing);
+//! [monad_plus]
+
+}{
+
 //! [traversable]
 BOOST_HANA_CONSTEXPR_LAMBDA auto replicate3 = [](auto x) {
     return tuple(x, x, x);

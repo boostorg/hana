@@ -128,13 +128,23 @@ namespace boost { namespace hana {
         { return bool_<sizeof...(ts) == 0>; }
     };
 
+    //////////////////////////////////////////////////////////////////////////
+    // MonadPlus
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct List::instance< ::Tuple> : List::mcd< ::Tuple> {
-        // nil
-        static BOOST_HANA_CONSTEXPR_LAMBDA auto nil_impl()
-        { return ::tuple(); }
+    struct concat_impl< ::Tuple> {
+        template <typename Xs, typename Ys>
+        static constexpr decltype(auto) apply(Xs&& xs, Ys&& ys) {
+            return hana::foldr(
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<Ys>(ys),
+                prepend
+            );
+        }
+    };
 
-        // cons
+    template <>
+    struct prepend_impl< ::Tuple> {
         template <typename X, typename Xs, typename Datatype>
         static constexpr auto cons_helper(X x, Xs xs, Datatype)
         { return unpack(xs, [=](auto ...xs) { return ::tuple(x, xs...); }); }
@@ -159,11 +169,21 @@ namespace boost { namespace hana {
 
 
         template <typename X, typename Xs>
-        static constexpr auto cons_impl(X x, Xs xs)
+        static constexpr auto apply(X x, Xs xs)
         { return cons_helper(x, xs, datatype_t<X>{}); }
+    };
 
+    template <>
+    struct nil_impl< ::Tuple> {
+        static BOOST_HANA_CONSTEXPR_LAMBDA auto apply()
+        { return ::tuple(); }
+    };
 
-        // sort
+    //////////////////////////////////////////////////////////////////////////
+    // List
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct List::instance< ::Tuple> : List::mcd< ::Tuple> {
         template <typename Xs>
         static constexpr auto sort_impl(Xs xs)
         { return List::mcd< ::Tuple>::sort_impl(xs); }

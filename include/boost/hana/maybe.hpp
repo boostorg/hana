@@ -27,6 +27,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functor.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/monad.hpp>
+#include <boost/hana/monad_plus.hpp>
 #include <boost/hana/orderable.hpp>
 #include <boost/hana/searchable.hpp>
 #include <boost/hana/traversable.hpp>
@@ -203,6 +204,26 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(MMX&& mmx) {
             return hana::maybe(nothing, id, detail::std::forward<MMX>(mmx));
         }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // MonadPlus
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct concat_impl<Maybe> {
+        template <typename Y>
+        static constexpr auto apply(_nothing, Y&& y)
+        { return detail::std::forward<Y>(y); }
+
+        template <typename X, typename Y>
+        static constexpr auto apply(X&& x, Y const&)
+        { return detail::std::forward<X>(x); }
+    };
+
+    template <>
+    struct nil_impl<Maybe> {
+        static constexpr auto apply()
+        { return nothing; }
     };
 
     //////////////////////////////////////////////////////////////////////////

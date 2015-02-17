@@ -29,7 +29,9 @@ namespace boost { namespace hana {
         //! @endcode
         //!
         //! ## Instance of
-        //! `Functor`, `Iterable`, `List` and `Comparable`
+        //! `Functor`, `Iterable`, `List` and `Comparable`\n
+        //! Note that since Boost.MPL vectors can only hold types,
+        //! only `Type`s can be used with `cons`.
         //!
         //! ## MPL / Hana cheat sheet
         //! This section presents correspondences between operations with the

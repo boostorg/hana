@@ -17,6 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/ext/boost/fusion/detail/common.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/list.hpp>
+#include <boost/hana/monad_plus.hpp>
 
 #include <boost/fusion/algorithm/transformation/pop_front.hpp>
 #include <boost/fusion/algorithm/transformation/push_front.hpp>
@@ -45,21 +46,34 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // List
+    // MonadPlus
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct List::instance<ext::boost::fusion::List>
-        : List::mcd<ext::boost::fusion::List>
-    {
+    struct concat_impl<ext::boost::fusion::List> {
+        template <typename Xs, typename Ys>
+        static constexpr decltype(auto) apply(Xs&& xs, Ys&& ys) {
+            return hana::foldr(
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<Ys>(ys),
+                prepend
+            );
+        }
+    };
+
+    template <>
+    struct prepend_impl<ext::boost::fusion::List> {
         template <typename X, typename Xs>
-        static constexpr decltype(auto) cons_impl(X&& x, Xs&& xs) {
+        static constexpr decltype(auto) apply(X&& x, Xs&& xs) {
             return ::boost::fusion::as_list(
                 ::boost::fusion::push_front(
                     detail::std::forward<Xs>(xs),
                     detail::std::forward<X>(x)));
         }
+    };
 
-        static auto nil_impl()
+    template <>
+    struct nil_impl<ext::boost::fusion::List> {
+        static auto apply()
         { return ::boost::fusion::list<>{}; }
     };
 }} // end namespace boost::hana

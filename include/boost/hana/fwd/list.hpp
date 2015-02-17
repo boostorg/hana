@@ -57,111 +57,6 @@ namespace boost { namespace hana {
         struct mcd;
     };
 
-    //! Concatenate two lists together.
-    //! @relates List
-    //!
-    //! @param xs, ys
-    //! Two instances of `List` with _the same data type_.
-    //!
-    //! ### Example
-    //! @snippet example/list.cpp concat
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto concat = [](auto&& xs, auto&& ys) -> decltype(auto) {
-        return tag-dispatched;
-    };
-#else
-    struct _concat {
-        template <typename Xs, typename Ys>
-        constexpr decltype(auto) operator()(Xs&& xs, Ys&& ys) const {
-            static_assert(detail::std::is_same<
-                datatype_t<Xs>, datatype_t<Ys>
-            >::value,
-            "boost::hana::concat: both arguments must have the same data type");
-            return List::instance<
-                datatype_t<Xs>
-            >::concat_impl(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Ys>(ys)
-            );
-        }
-    };
-
-    constexpr _concat concat{};
-#endif
-
-    //! Prepend an element to the head of a list.
-    //! @relates List
-    //!
-    //!
-    //! @param x
-    //! An element to prepend to the list.
-    //!
-    //! @param xs
-    //! The list to which an element is prepended.
-    //!
-    //!
-    //! ### Example
-    //! @snippet example/list.cpp cons
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto cons = [](auto&& x, auto&& xs) -> decltype(auto) {
-        return tag-dispatched;
-    };
-#else
-    struct _cons {
-        template <typename X, typename Xs>
-        constexpr decltype(auto) operator()(X&& x, Xs&& xs) const {
-            return List::instance<
-                datatype_t<Xs>
-            >::cons_impl(
-                detail::std::forward<X>(x),
-                detail::std::forward<Xs>(xs)
-            );
-        }
-    };
-
-    constexpr _cons cons{};
-#endif
-
-    //! Return a list containing only the elements satisfying a `predicate`.
-    //! @relates List
-    //!
-    //!
-    //! @param xs
-    //! The list to filter.
-    //!
-    //! @param predicate
-    //! A function called as `predicate(x)` for each element `x` in the list
-    //! and returning a `Logical` representing whether that element should be
-    //! __kept__ in the resulting list. In the current version of the library,
-    //! the `predicate` has to return a [compile-time](@ref Logical_terminology)
-    //! `Logical`.
-    //!
-    //!
-    //! ### Example
-    //! @snippet example/list.cpp filter
-    //!
-    //! ### Benchmarks
-    //! @image html benchmark/list/filter.ctime.png
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto filter = [](auto&& xs, auto&& predicate) -> decltype(auto) {
-        return tag-dispatched;
-    };
-#else
-    struct _filter {
-        template <typename Xs, typename Pred>
-        constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
-            return List::instance<
-                datatype_t<Xs>
-            >::filter_impl(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Pred>(pred)
-            );
-        }
-    };
-
-    constexpr _filter filter{};
-#endif
-
     //! Group the elements of a list into subgroups of adjacent elements that
     //! are "equal" with respect to a predicate.
     //! @relates List
@@ -337,33 +232,6 @@ namespace boost { namespace hana {
     };
 #endif
 
-    //! `nil<L>()` is an empty list of data type `L`.
-    //! @relates List
-    //!
-    //! @tparam L
-    //! The data type of the empty list wanted. This must be an instance of
-    //! the `List` type class.
-    //!
-    //!
-    //! ### Example
-    //! @snippet example/list.cpp nil
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    template <typename L>
-    constexpr auto nil = []() -> decltype(auto) {
-        return tag-dispatched;
-    };
-#else
-    template <typename L>
-    struct _nil {
-        constexpr decltype(auto) operator()() const {
-            return List::instance<L>::nil_impl();
-        }
-    };
-
-    template <typename L>
-    constexpr _nil<L> nil{};
-#endif
-
     //! Partition a list based on a `predicate`.
     //! @relates List
     //!
@@ -503,48 +371,6 @@ namespace boost { namespace hana {
     template <detail::std::size_t n>
     constexpr _remove_at_c<n> remove_at_c{};
 #endif
-
-    //! Create a list containing `n` copies of a value.
-    //! @relates List
-    //!
-    //! Specifically, `repeat<L>(n, x)` is a list of data type `L` containing
-    //! `n` copies of `x`.
-    //!
-    //!
-    //! @tparam L
-    //! The data type of the list to create. It must be an instance of `List`.
-    //!
-    //! @param n
-    //! An `IntegralConstant` representing the number of copies of `x` to
-    //! shove into the returned list.
-    //!
-    //! @param x
-    //! The value to fill the list with.
-    //!
-    //!
-    //! ### Example
-    //! @snippet example/list.cpp repeat
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    template <typename L>
-    constexpr auto repeat = [](auto&& n, auto&& x) -> decltype(auto) {
-        return tag-dispatched;
-    };
-#else
-    template <typename L>
-    struct _repeat {
-        template <typename N, typename X>
-        constexpr decltype(auto) operator()(N&& n, X&& x) const {
-            return List::instance<L>::repeat_impl(
-                detail::std::forward<decltype(n)>(n),
-                detail::std::forward<decltype(x)>(x)
-            );
-        }
-    };
-
-    template <typename L>
-    constexpr _repeat<L> repeat{};
-#endif
-
 
     //! Reverse a list.
     //! @relates List
@@ -805,39 +631,6 @@ namespace boost { namespace hana {
 
     template <detail::std::size_t from, detail::std::size_t to>
     constexpr _slice_c<from, to> slice_c{};
-#endif
-
-    //! Append an element to the end of a list.
-    //! @relates List
-    //!
-    //!
-    //! @param xs
-    //! The list to which an element is appended.
-    //!
-    //! @param x
-    //! An element to append to the list.
-    //!
-    //!
-    //! ### Example
-    //! @snippet example/list.cpp snoc
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto snoc = [](auto&& xs, auto&& x) -> decltype(auto) {
-        return tag-dispatched;
-    };
-#else
-    struct _snoc {
-        template <typename Xs, typename X>
-        constexpr decltype(auto) operator()(Xs&& xs, X&& x) const {
-            return List::instance<
-                datatype_t<Xs>
-            >::snoc_impl(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<X>(x)
-            );
-        }
-    };
-
-    constexpr _snoc snoc{};
 #endif
 
     //! Sort a list based on the `less` [strict weak ordering](@ref strict_weak_ordering).

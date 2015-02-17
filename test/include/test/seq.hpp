@@ -7,13 +7,13 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TEST_TEST_SEQ_HPP
 #define BOOST_HANA_TEST_TEST_SEQ_HPP
 
+#include <boost/hana/applicative.hpp>
 #include <boost/hana/bool.hpp>
 #include <boost/hana/detail/constexpr.hpp>
-
-// instances
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/list.hpp>
+#include <boost/hana/monad_plus.hpp>
 #include <boost/hana/searchable.hpp>
 
 
@@ -140,18 +140,35 @@ namespace boost { namespace hana {
         }
     };
 
+    //////////////////////////////////////////////////////////////////////////
+    // Applicative
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct List::instance<test::Seq> : List::mcd<test::Seq> {
-        template <typename X, typename Xs>
-        static constexpr auto cons_impl(X x, Xs xs) {
+    struct lift_impl<test::Seq> {
+        template <typename X>
+        static constexpr auto apply(X x)
+        { return test::seq(x); }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // MonadPlus
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct concat_impl<test::Seq> {
+        template <typename Xs, typename Ys>
+        static constexpr auto apply(Xs xs, Ys ys) {
             return xs.storage([=](auto ...xs) {
-                return test::seq(x, xs...);
+                return ys.storage([=](auto ...ys) {
+                    return test::seq(xs..., ys...);
+                });
             });
         }
+    };
 
-        static BOOST_HANA_CONSTEXPR_LAMBDA auto nil_impl() {
-            return test::seq();
-        }
+    template <>
+    struct nil_impl<test::Seq> {
+        static BOOST_HANA_CONSTEXPR_LAMBDA auto apply()
+        { return test::seq(); }
     };
 }} // end namespace boost::hana
 

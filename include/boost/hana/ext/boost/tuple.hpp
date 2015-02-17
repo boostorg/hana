@@ -15,11 +15,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/move.hpp>
-
-// instances
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/list.hpp>
+#include <boost/hana/monad_plus.hpp>
 #include <boost/hana/searchable.hpp>
 
 #include <boost/tuple/tuple.hpp>
@@ -79,17 +78,35 @@ namespace boost { namespace hana {
         { return false_; }
     };
 
+    //////////////////////////////////////////////////////////////////////////
+    // MonadPlus
+    //////////////////////////////////////////////////////////////////////////
     template <>
-    struct List::instance<ext::boost::Tuple> : List::mcd<ext::boost::Tuple> {
+    struct concat_impl<ext::boost::Tuple> {
+        template <typename Xs, typename Ys>
+        static constexpr decltype(auto) apply(Xs&& xs, Ys&& ys) {
+            return hana::foldr(
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<Ys>(ys),
+                prepend
+            );
+        }
+    };
+
+    template <>
+    struct prepend_impl<ext::boost::Tuple> {
         template <typename X, typename Xs>
-        static constexpr auto cons_impl(X x, Xs xs) {
+        static constexpr auto apply(X x, Xs xs) {
             return ::boost::tuples::cons<X, Xs>{
                 detail::std::move(x),
                 detail::std::move(xs)
             };
         }
+    };
 
-        static constexpr auto nil_impl()
+    template <>
+    struct nil_impl<ext::boost::Tuple> {
+        static constexpr auto apply()
         { return ::boost::tuples::null_type{}; }
     };
 }} // end namespace boost::hana

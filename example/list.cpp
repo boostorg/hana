@@ -22,24 +22,6 @@ using namespace boost::hana;
 
 int main() {
     {
-        //! [cons]
-        BOOST_HANA_CONSTEXPR_CHECK(cons(1, tuple()) == tuple(1));
-        BOOST_HANA_CONSTEXPR_CHECK(cons(1, tuple('2', 3.3)) == tuple(1, '2', 3.3));
-        BOOST_HANA_CONSTEXPR_CHECK(cons(1, cons('2', cons(3.3, tuple()))) == tuple(1, '2', 3.3));
-        //! [cons]
-    }
-
-    {
-        //! [filter]
-        BOOST_HANA_CONSTEXPR_CHECK(
-            filter(tuple(1, 2.0, 3, 4.0), trait_<std::is_integral>)
-            ==
-            tuple(1, 3)
-        );
-        //! [filter]
-    }
-
-    {
         //! [make]
         BOOST_HANA_CONSTANT_CHECK(make<Tuple>() == tuple());
         BOOST_HANA_CONSTEXPR_CHECK(make<Tuple>(1, '2', 3.3) == tuple(1, '2', 3.3));
@@ -81,15 +63,6 @@ int main() {
         //! [reverse]
         BOOST_HANA_CONSTEXPR_CHECK(reverse(tuple(1, '2', 3.3)) == tuple(3.3, '2', 1));
         //! [reverse]
-    }
-
-    {
-        //! [concat]
-        using namespace literals;
-        BOOST_HANA_CONSTEXPR_CHECK(
-            concat(tuple(1, '2'), tuple(3.3, 4_c)) == tuple(1, '2', 3.3, 4_c)
-        );
-        //! [concat]
     }
 
     {
@@ -203,20 +176,6 @@ int main() {
     }
 
     {
-        //! [snoc]
-        BOOST_HANA_CONSTEXPR_CHECK(snoc(tuple(), 1) == tuple(1));
-        BOOST_HANA_CONSTEXPR_CHECK(snoc(tuple(1, '2'), 3.3) == tuple(1, '2', 3.3));
-        BOOST_HANA_CONSTEXPR_CHECK(snoc(snoc(snoc(tuple(), 1), '2'), 3.3) == tuple(1, '2', 3.3));
-        //! [snoc]
-    }
-
-    {
-        //! [repeat]
-        BOOST_HANA_CONSTEXPR_CHECK(repeat<Tuple>(int_<2>, 'x') == tuple('x', 'x'));
-        //! [repeat]
-    }
-
-    {
         //! [span]
         BOOST_HANA_CONSTEXPR_LAMBDA auto xs = tuple(int_<1>, int_<2>, int_<3>, int_<4>);
         BOOST_HANA_CONSTANT_CHECK(
@@ -257,12 +216,6 @@ int main() {
             tuple(3_c, 1_c, 0_c, -2_c)
         );
         //! [sort_by]
-    }
-
-    {
-        //! [nil]
-        BOOST_HANA_CONSTANT_CHECK(nil<Tuple>() == tuple());
-        //! [nil]
     }
 
     {

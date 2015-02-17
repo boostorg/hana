@@ -35,6 +35,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/logical.hpp>
 #include <boost/hana/maybe.hpp>
 #include <boost/hana/monad.hpp>
+#include <boost/hana/monad_plus.hpp>
 #include <boost/hana/orderable.hpp>
 #include <boost/hana/pair.hpp>
 #include <boost/hana/product.hpp>
@@ -48,30 +49,15 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
+    template <typename L>
+    struct List::instance<L, when<models<MonadPlus(L)>{}>>
+        : List::mcd<L>
+    { };
+
     //! Minimal complete definition:
-    //! `Monad`, `Iterable`, `Foldable`, `cons`, and `nil`
+    //! `Monad`, `Iterable`, `Foldable`, `MonadPlus`
     template <typename L>
     struct List::mcd {
-        template <typename Xs, typename Ys>
-        static constexpr decltype(auto) concat_impl(Xs&& xs, Ys&& ys) {
-            return foldr(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Ys>(ys),
-                cons
-            );
-        }
-
-        template <typename Xs, typename Pred>
-        static constexpr auto filter_impl(Xs xs, Pred pred) {
-            auto go = [=](auto x, auto xs) {
-                return eval_if(pred(x),
-                    [=](auto _) { return _(cons)(x, xs); },
-                    always(xs)
-                );
-            };
-            return foldr(xs, nil<L>(), go);
-        }
-
         template <typename Pred, typename Xs>
         static constexpr auto group_by_impl(Pred pred, Xs xs_) {
             return eval_if(is_empty(xs_),
@@ -199,18 +185,6 @@ namespace boost { namespace hana {
             );
         }
 
-        template <typename X, int ...i>
-        static constexpr decltype(auto)
-        repeat_helper(X&& x, detail::std::integer_sequence<int, i...>) {
-            return make<L>(((void)i, x)...);
-        }
-
-        template <typename N, typename X>
-        static constexpr auto repeat_impl(N n, X x) {
-            constexpr auto m = value(n);
-            return repeat_helper(x, detail::std::make_integer_sequence<int, m>{});
-        }
-
         template <typename Xs>
         static constexpr decltype(auto) reverse_impl(Xs&& xs) {
             return foldl(detail::std::forward<Xs>(xs), nil<L>(), flip(cons));
@@ -266,15 +240,6 @@ namespace boost { namespace hana {
         template <typename Xs, typename From, typename To>
         static constexpr auto slice_impl(Xs&& xs, From const& from, To const& to) {
             return take(minus(to, from), drop(from, detail::std::forward<Xs>(xs)));
-        }
-
-        template <typename Xs, typename X>
-        static constexpr decltype(auto) snoc_impl(Xs&& xs, X&& x) {
-            return foldr(
-                detail::std::forward<Xs>(xs),
-                lift<L>(detail::std::forward<X>(x)),
-                cons
-            );
         }
 
         template <typename Xs>

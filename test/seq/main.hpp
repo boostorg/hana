@@ -13,13 +13,12 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/type.hpp>
 
 #include <test/auto/base.hpp>
-#include <test/injection.hpp>
-
-// tested instances
 #include <test/auto/foldable.hpp>
 #include <test/auto/iterable.hpp>
 #include <test/auto/list.hpp>
+#include <test/auto/monad_plus.hpp>
 #include <test/auto/traversable.hpp>
+#include <test/injection.hpp>
 using namespace boost::hana;
 
 
@@ -30,7 +29,8 @@ namespace boost { namespace hana {
             type<List>,
             type<Foldable>,
             type<Iterable>,
-            type<Traversable>
+            type<Traversable>,
+            type<MonadPlus>
         );
 
         template <>
