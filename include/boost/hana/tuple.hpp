@@ -614,6 +614,49 @@ namespace boost { namespace hana {
     };
 
     template <>
+    struct sort_impl<Tuple> {
+        template <typename T, detail::std::size_t N>
+        struct array { T values[N]; };
+
+        template <typename T, detail::std::size_t N>
+        static constexpr auto insertion_sort(array<T, N> a) {
+            for (detail::std::size_t i = 1; i < N; ++i) {
+                detail::std::size_t j = i;
+                while (j > 0 && a.values[j-1] > a.values[j]) {
+                    auto tmp = a.values[j];
+                    a.values[j] = a.values[j-1];
+                    a.values[j-1] = tmp;
+
+                    --j;
+                }
+            }
+            return a;
+        }
+
+        template <typename T, T ...v, detail::std::size_t ...i>
+        static constexpr auto
+        sort_helper(_tuple_c<T, v...> xs, detail::std::index_sequence<i...>) {
+            constexpr array<T, sizeof...(v)> a{{v...}};
+            constexpr auto result = insertion_sort(a);
+            return tuple_c<T, result.values[i]...>;
+        }
+
+        template <typename ...T>
+        static constexpr decltype(auto) apply(_tuple<T...> const& xs)
+        { return hana::sort_by(less, xs); }
+
+        template <typename ...T>
+        static constexpr decltype(auto) apply(_tuple<T...>&& xs)
+        { return hana::sort_by(less, detail::std::move(xs)); }
+
+        template <typename T, T ...v>
+        static constexpr auto apply(_tuple_c<T, v...> const& xs) {
+            return sort_helper(xs,
+                    detail::std::make_index_sequence<sizeof...(v)>{});
+        }
+    };
+
+    template <>
     struct take_at_most_impl<Tuple> {
         template <typename Xs, detail::std::size_t ...n>
         static constexpr decltype(auto)
