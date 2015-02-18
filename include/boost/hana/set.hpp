@@ -14,6 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core/convert.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/create.hpp>
@@ -22,9 +23,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional/flip.hpp>
 #include <boost/hana/functional/id.hpp>
-#include <boost/hana/sequence.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/searchable.hpp>
+#include <boost/hana/sequence.hpp>
 #include <boost/hana/tuple.hpp>
 
 
@@ -87,7 +88,7 @@ namespace boost { namespace hana {
     // Conversions
     //////////////////////////////////////////////////////////////////////////
     template <typename F>
-    struct to_impl<Set, F, when<is_a<Foldable, F>()>> {
+    struct to_impl<Set, F, when<models<Foldable(F)>{}>> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
             return hana::foldr(detail::std::forward<Xs>(xs),
@@ -96,7 +97,7 @@ namespace boost { namespace hana {
     };
 
     template <typename L>
-    struct to_impl<L, Set, when<is_a<Sequence, L>()>> {
+    struct to_impl<L, Set, when<models<Sequence(L)>{}>> {
         template <typename Set>
         static constexpr decltype(auto) apply(Set&& set)
         { return to<L>(detail::std::forward<Set>(set).storage); }
