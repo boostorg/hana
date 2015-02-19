@@ -5,23 +5,20 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/core/operators.hpp>
-#include <boost/hana/core/typeclass.hpp>
 using namespace boost::hana;
 
 
-struct Typeclass {
-    BOOST_HANA_TYPECLASS(Typeclass);
-};
+struct Concept { };
 
 struct NestedOperators {
-    struct hana { struct enabled_operators : Typeclass { }; };
+    struct hana { struct enabled_operators : Concept { }; };
 };
 
 struct NoNested { };
 
-static_assert(enable_operators<Typeclass, NestedOperators>::value, "");
-static_assert(!enable_operators<Typeclass, NoNested>::value, "");
-static_assert(!enable_operators<Typeclass, void>::value, "");
+static_assert(enable_operators<Concept, NestedOperators>::value, "");
+static_assert(!enable_operators<Concept, NoNested>::value, "");
+static_assert(!enable_operators<Concept, void>::value, "");
 
 
 int main() { }

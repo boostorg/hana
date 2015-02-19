@@ -81,7 +81,16 @@ void check_convert(F f, T t) {
     static_assert(is_embedded<To, To>{}, "");
 }
 
+template <typename X>
+void check_variable_template_in_dependent_context(X x) {
+    to<int>(x);
+}
+
 int main() {
+    // Clang used to assert in the code generation when we used variable
+    // templates inside a lambda; this is to catch this.
+    check_variable_template_in_dependent_context(3);
+
     check_convert("abcdef", std::string{"abcdef"});
     check_convert(int{1}, double{1});
     check_convert(double{1}, int{1});
