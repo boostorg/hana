@@ -10,7 +10,8 @@ Distributed under the Boost Software License, Version 1.0.
 using namespace boost::hana;
 
 
-//! [main]
+namespace example1 {
+//! [datatype]
 static_assert(std::is_same<datatype<int>::type, int>{}, "");
 static_assert(std::is_same<datatype<int&>::type, int>{}, "");
 static_assert(std::is_same<datatype<int const&>::type, int>{}, "");
@@ -19,6 +20,15 @@ struct Datatype;
 struct Person { struct hana { using datatype = Datatype; }; };
 static_assert(std::is_same<datatype<Person>::type, Datatype>{}, "");
 static_assert(std::is_same<datatype<Person volatile&&>::type, Datatype>{}, "");
-//! [main]
+//! [datatype]
+}
+
+namespace example2 {
+//! [datatype_t]
+struct Datatype;
+struct Person { struct hana { using datatype = Datatype; }; };
+static_assert(std::is_same<datatype_t<Person>, Datatype>{}, "");
+//! [datatype_t]
+}
 
 int main() { }

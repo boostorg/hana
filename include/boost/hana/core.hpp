@@ -10,9 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_CORE_HPP
 #define BOOST_HANA_CORE_HPP
 
-//! @defgroup group-core Core
-//! Core utilities of the library.
-
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
