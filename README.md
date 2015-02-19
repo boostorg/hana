@@ -48,6 +48,8 @@ int main() {
     // And many other goodies to make your life better.
     static_assert(10_c == std::integral_constant<long long, 10>{}, "");
 
+    static_assert(pointers[1_c] == type<City*>, "std::get, revisited");
+
     int_<10>.times([]{
         std::cout << "rubyists rejoice!" << std::endl;
     });
