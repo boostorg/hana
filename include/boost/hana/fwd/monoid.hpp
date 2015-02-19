@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_MONOID_HPP
 
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -180,6 +181,11 @@ namespace boost { namespace hana {
     template <typename M>
     constexpr _zero<M> zero{};
 #endif
+
+    template <>
+    struct operators::of<Monoid>
+        : decltype(plus)
+    { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_MONOID_HPP

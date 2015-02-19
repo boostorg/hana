@@ -44,7 +44,10 @@ namespace boost { namespace hana { namespace test {
 }}}
 
 namespace boost { namespace hana {
-    template <> struct enabled_operators<test::Identity> : Monad { };
+    template <>
+    struct operators::of<test::Identity>
+        : operators::of<Monad>
+    { };
 }}
 
 

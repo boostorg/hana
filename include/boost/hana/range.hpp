@@ -38,7 +38,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename From, typename To>
     struct _range
-        : operators::enable_adl
+        : operators::adl
         , operators::Iterable_ops<_range<From, To>>
     {
         using underlying = typename common<
@@ -76,8 +76,8 @@ namespace boost { namespace hana {
     // Operators
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct enabled_operators<Range>
-        : Comparable, Iterable
+    struct operators::of<Range>
+        : operators::of<Comparable, Iterable>
     { };
 
     //////////////////////////////////////////////////////////////////////////

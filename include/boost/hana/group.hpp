@@ -36,8 +36,8 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     namespace operators {
         template <typename X, typename Y, typename = detail::std::enable_if_t<
-            enable_operators<Group, datatype_t<X>>::value ||
-            enable_operators<Group, datatype_t<Y>>::value
+            has_operator<datatype_t<X>, decltype(minus)>::value ||
+            has_operator<datatype_t<Y>, decltype(minus)>::value
         >>
         constexpr decltype(auto) operator-(X&& x, Y&& y) {
             return hana::minus(detail::std::forward<X>(x),
@@ -45,7 +45,7 @@ namespace boost { namespace hana {
         }
 
         template <typename X, typename = detail::std::enable_if_t<
-            enable_operators<Group, datatype_t<X>>::value
+            has_operator<datatype_t<X>, decltype(negate)>::value
         >>
         constexpr decltype(auto) operator-(X&& x)
         { return hana::negate(detail::std::forward<X>(x)); }

@@ -49,7 +49,7 @@ namespace boost { namespace hana {
     template <typename ...Xs>
     struct _tuple
         : detail::closure<Xs...>
-        , operators::enable_adl
+        , operators::adl
         , operators::Iterable_ops<_tuple<Xs...>>
     {
         using detail::closure<Xs...>::closure; // inherit constructor
@@ -69,8 +69,8 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct enabled_operators<Tuple>
-        : Comparable, Orderable, Monad, Iterable
+    struct operators::of<Tuple>
+        : operators::of<Comparable, Orderable, Monad, Iterable>
     { };
 
     //////////////////////////////////////////////////////////////////////////

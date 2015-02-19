@@ -63,7 +63,7 @@ namespace boost { namespace hana {
         return unspecified-type;
     };
 #else
-    template <typename Storage, typename = operators::enable_adl>
+    template <typename Storage, typename = operators::adl>
     struct _map {
         Storage storage;
         struct hana { using datatype = Map; };

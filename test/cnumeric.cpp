@@ -40,8 +40,8 @@ namespace boost { namespace hana { namespace test {
 
 namespace boost { namespace hana {
     template <typename T>
-    struct enabled_operators<test::CNumeric<T>>
-        : Logical
+    struct operators::of<test::CNumeric<T>>
+        : operators::of<Logical>
     { };
 }}
 

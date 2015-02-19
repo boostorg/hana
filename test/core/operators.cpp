@@ -5,20 +5,26 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/core/operators.hpp>
-using namespace boost::hana;
+namespace hana = boost::hana;
 
 
 struct Concept { };
+struct _method { };
+constexpr _method method{};
 
-struct NestedOperators {
-    struct hana { struct enabled_operators : Concept { }; };
+template <>
+struct boost::hana::operators::of<Concept>
+    : decltype(method)
+{ };
+
+struct Nested {
+    struct hana {
+        struct operators
+            : boost::hana::operators::of<Concept>
+        { };
+    };
 };
 
-struct NoNested { };
-
-static_assert(enable_operators<Concept, NestedOperators>::value, "");
-static_assert(!enable_operators<Concept, NoNested>::value, "");
-static_assert(!enable_operators<Concept, void>::value, "");
-
+static_assert(boost::hana::has_operator<Nested, decltype(method)>{}, "");
 
 int main() { }

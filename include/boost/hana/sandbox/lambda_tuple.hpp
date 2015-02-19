@@ -47,13 +47,17 @@ namespace boost { namespace hana { namespace sandbox {
     //! `Foldable`, `Iterable`, `List` and `Searchable`.
     struct LambdaTuple {
         struct hana {
-            struct enabled_operators : Comparable, Monad, Iterable { };
+            struct operators
+                : boost::hana::operators::of<
+                    Comparable, Monad, Iterable
+                >
+            { };
         };
     };
 
     template <typename Storage>
     struct _lambda_tuple
-        : operators::enable_adl,
+        : operators::adl,
           operators::Iterable_ops<_lambda_tuple<Storage>>
     {
         explicit constexpr _lambda_tuple(Storage&& s)

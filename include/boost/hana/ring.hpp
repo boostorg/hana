@@ -41,8 +41,8 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     namespace operators {
         template <typename X, typename Y, typename = typename detail::std::enable_if<
-            enable_operators<Ring, datatype_t<X>>::value ||
-            enable_operators<Ring, datatype_t<Y>>::value
+            has_operator<datatype_t<X>, decltype(mult)>::value ||
+            has_operator<datatype_t<Y>, decltype(mult)>::value
         >::type>
         constexpr decltype(auto) operator*(X&& x, Y&& y) {
             return hana::mult(detail::std::forward<X>(x),

@@ -126,7 +126,7 @@ namespace boost { namespace hana {
         return unspecified-type;
     };
 #else
-    template <typename T, typename = operators::enable_adl>
+    template <typename T, typename = operators::adl>
     struct _just {
         T val;
         static constexpr bool is_just = true;
@@ -146,7 +146,7 @@ namespace boost { namespace hana {
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr unspecified-type nothing{};
 #else
-    struct _nothing : operators::enable_adl {
+    struct _nothing : operators::adl {
         static constexpr bool is_just = false;
         struct hana { using datatype = Maybe; };
     };

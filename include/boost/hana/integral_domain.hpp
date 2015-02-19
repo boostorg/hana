@@ -34,8 +34,8 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     namespace operators {
         template <typename X, typename Y, typename = typename detail::std::enable_if<
-            enable_operators<IntegralDomain, datatype_t<X>>::value ||
-            enable_operators<IntegralDomain, datatype_t<Y>>::value
+            has_operator<datatype_t<X>, decltype(mod)>::value ||
+            has_operator<datatype_t<Y>, decltype(mod)>::value
         >::type>
         constexpr decltype(auto) operator%(X&& x, Y&& y) {
             return hana::mod(detail::std::forward<X>(x),
@@ -43,8 +43,8 @@ namespace boost { namespace hana {
         }
 
         template <typename X, typename Y, typename = typename detail::std::enable_if<
-            enable_operators<IntegralDomain, datatype_t<X>>::value ||
-            enable_operators<IntegralDomain, datatype_t<Y>>::value
+            has_operator<datatype_t<X>, decltype(quot)>::value ||
+            has_operator<datatype_t<Y>, decltype(quot)>::value
         >::type>
         constexpr decltype(auto) operator/(X&& x, Y&& y) {
             return hana::quot(detail::std::forward<X>(x),

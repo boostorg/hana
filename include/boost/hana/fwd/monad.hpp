@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_MONAD_HPP
 
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -321,6 +322,11 @@ namespace boost { namespace hana {
     template <typename M>
     constexpr _tap<M> tap{};
 #endif
+
+    template <>
+    struct operators::of<Monad>
+        : decltype(bind)
+    { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_MONAD_HPP

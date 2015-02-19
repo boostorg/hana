@@ -36,8 +36,8 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     namespace operators {
         template <typename X, typename Y, typename = detail::std::enable_if_t<
-            enable_operators<Comparable, datatype_t<X>>::value ||
-            enable_operators<Comparable, datatype_t<Y>>::value
+            has_operator<datatype_t<X>, decltype(equal)>::value ||
+            has_operator<datatype_t<Y>, decltype(equal)>::value
         >>
         constexpr decltype(auto) operator==(X&& x, Y&& y) {
             return hana::equal(detail::std::forward<X>(x),
@@ -45,8 +45,8 @@ namespace boost { namespace hana {
         }
 
         template <typename X, typename Y, typename = detail::std::enable_if_t<
-            enable_operators<Comparable, datatype_t<X>>::value ||
-            enable_operators<Comparable, datatype_t<Y>>::value
+            has_operator<datatype_t<X>, decltype(not_equal)>::value ||
+            has_operator<datatype_t<Y>, decltype(not_equal)>::value
         >>
         constexpr decltype(auto) operator!=(X&& x, Y&& y) {
             return hana::not_equal(detail::std::forward<X>(x),

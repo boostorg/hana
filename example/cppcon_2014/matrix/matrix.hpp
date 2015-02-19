@@ -24,17 +24,19 @@ namespace cppcon {
     template <unsigned Rows, unsigned Columns>
     struct Matrix {
         struct hana {
-            struct enabled_operators
-                : boost::hana::Comparable
-                , boost::hana::Monoid
-                , boost::hana::Group
-                , boost::hana::Ring
+            struct operators
+                : boost::hana::operators::of<
+                      boost::hana::Comparable
+                    , boost::hana::Monoid
+                    , boost::hana::Group
+                    , boost::hana::Ring
+                >
             { };
         };
     };
 
     template <unsigned Rows, unsigned Columns, typename Storage,
-        typename = boost::hana::operators::enable_adl
+        typename = boost::hana::operators::adl
     >
     struct matrix_type {
         struct hana { using datatype = Matrix<Rows, Columns>; };

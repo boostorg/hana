@@ -12,22 +12,35 @@ Distributed under the Boost Software License, Version 1.0.
 using namespace boost::hana;
 
 
-// Provided via a template parameter.
-template <typename = operators::enable_adl>
-struct Person_ {
-    std::string name;
-
-    struct hana { struct enabled_operators : Comparable { }; };
-};
+// The operators are made findable to ADL by making `operators::adl` a
+// template parameter.
+template <typename = operators::adl>
+struct Person_ { std::string name; };
 using Person = Person_<>;
 
-// Provided via inheritance. Unfortunately, we lose PODness even though
-// `operators::enable_adl` is empty.
-struct Employee : operators::enable_adl {
+// Once the operators can be found by name lookup, we still need to
+// specialize the `operators::of` trait to enable them, or we could
+// have used a nested `hana::operators` type too.
+template <>
+struct boost::hana::operators::of<Person>
+    : boost::hana::operators::of<Comparable>
+{ };
+
+// Here, the operators are made findable by ADL by using `operators::adl` as
+// a base class. Unfortunately, we lose PODness even though `operators::adl`
+// is empty, which is why it might sometimes be useful to use `operators::adl`
+// as a template parameter instead.
+struct Employee : operators::adl {
     explicit Employee(std::string n) : name{n} { }
     std::string name;
 
-    struct hana { struct enabled_operators : Comparable { }; };
+    // This time, we use the nested `hana::operators` type to enable the
+    // operators for Comparable.
+    struct hana {
+        struct operators
+            : boost::hana::operators::of<Comparable>
+        { };
+    };
 };
 
 namespace boost { namespace hana {
@@ -45,6 +58,12 @@ namespace boost { namespace hana {
 }}
 
 int main() {
+    static_assert(has_operator<Person, decltype(equal)>{}, "");
+    static_assert(has_operator<Person, decltype(not_equal)>{}, "");
+
+    static_assert(has_operator<Employee, decltype(equal)>{}, "");
+    static_assert(has_operator<Employee, decltype(not_equal)>{}, "");
+
     Person john{"John"}, bill{"Bill"};
     BOOST_HANA_RUNTIME_CHECK(john == john && john != bill);
 

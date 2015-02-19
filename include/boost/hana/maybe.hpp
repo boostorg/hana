@@ -38,8 +38,8 @@ namespace boost { namespace hana {
     // Operators
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct enabled_operators<Maybe>
-        : Comparable, Orderable, Monad
+    struct operators::of<Maybe>
+        : operators::of<Comparable, Orderable, Monad>
     { };
 
     //////////////////////////////////////////////////////////////////////////

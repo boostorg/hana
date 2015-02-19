@@ -191,7 +191,7 @@ namespace boost { namespace hana {
     }
 
     template <typename T, T v>
-    struct _integral_constant : operators::enable_adl {
+    struct _integral_constant : operators::adl {
         // std::integral_constant interface
         using type = _integral_constant;
         using value_type = T;

@@ -35,10 +35,15 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Operators
     //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct operators::of<Logical>
+        : decltype(and_), decltype(or_), decltype(not_)
+    { };
+
     namespace operators {
         template <typename X, typename Y, typename = typename detail::std::enable_if<
-            enable_operators<Logical, datatype_t<X>>::value ||
-            enable_operators<Logical, datatype_t<Y>>::value
+            has_operator<datatype_t<X>, decltype(and_)>::value ||
+            has_operator<datatype_t<Y>, decltype(and_)>::value
         >::type>
         constexpr decltype(auto) operator&&(X&& x, Y&& y) {
             return hana::and_(detail::std::forward<X>(x),
@@ -46,8 +51,8 @@ namespace boost { namespace hana {
         }
 
         template <typename X, typename Y, typename = typename detail::std::enable_if<
-            enable_operators<Logical, datatype_t<X>>::value ||
-            enable_operators<Logical, datatype_t<Y>>::value
+            has_operator<datatype_t<X>, decltype(or_)>::value ||
+            has_operator<datatype_t<Y>, decltype(or_)>::value
         >::type>
         constexpr decltype(auto) operator||(X&& x, Y&& y) {
             return hana::or_(detail::std::forward<X>(x),
@@ -55,7 +60,7 @@ namespace boost { namespace hana {
         }
 
         template <typename X, typename = typename detail::std::enable_if<
-            enable_operators<Logical, datatype_t<X>>::value
+            has_operator<datatype_t<X>, decltype(not_)>::value
         >::type>
         constexpr decltype(auto) operator!(X&& x) {
             return hana::not_(detail::std::forward<X>(x));

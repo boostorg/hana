@@ -35,7 +35,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     namespace operators {
         template <typename Xs, typename F, typename = typename detail::std::enable_if<
-            enable_operators<Monad, datatype_t<Xs>>::value
+            has_operator<datatype_t<Xs>, decltype(bind)>::value
         >::type>
         constexpr decltype(auto) operator|(Xs&& xs, F&& f) {
             return hana::bind(detail::std::forward<Xs>(xs),

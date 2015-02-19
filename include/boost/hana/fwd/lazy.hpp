@@ -84,10 +84,10 @@ namespace boost { namespace hana {
         return unspecified-type;
     };
 #else
-    template <typename F, typename X, typename = operators::enable_adl>
+    template <typename F, typename X, typename = operators::adl>
     struct _lazy_call;
 
-    template <typename X, typename = operators::enable_adl>
+    template <typename X, typename = operators::adl>
     struct _lazy;
 
     constexpr detail::create<_lazy> lazy{};

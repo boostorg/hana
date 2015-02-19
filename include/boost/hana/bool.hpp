@@ -86,10 +86,12 @@ namespace boost { namespace hana {
     // Operators (most of them are provided by the concepts)
     //////////////////////////////////////////////////////////////////////////
     template <typename T>
-    struct enabled_operators<IntegralConstant<T>>
-        : Comparable, Orderable
-        , Logical
-        , Monoid, Group, Ring, IntegralDomain
+    struct operators::of<IntegralConstant<T>>
+        : operators::of<
+              Comparable, Orderable
+            , Logical
+            , Monoid, Group, Ring, IntegralDomain
+        >
     { };
 
 #define BOOST_HANA_INTEGRAL_CONSTANT_BINARY_OP(op)                          \

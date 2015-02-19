@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_RING_HPP
 
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -227,6 +228,11 @@ namespace boost { namespace hana {
 
     constexpr _power power{};
 #endif
+
+    template <>
+    struct operators::of<Ring>
+        : decltype(mult)
+    { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_RING_HPP

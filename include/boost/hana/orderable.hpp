@@ -36,8 +36,8 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     namespace operators {
         template <typename X, typename Y, typename = detail::std::enable_if_t<
-            enable_operators<Orderable, datatype_t<X>>::value ||
-            enable_operators<Orderable, datatype_t<Y>>::value
+            has_operator<datatype_t<X>, decltype(less)>::value ||
+            has_operator<datatype_t<Y>, decltype(less)>::value
         >>
         constexpr decltype(auto) operator<(X&& x, Y&& y) {
             return hana::less(detail::std::forward<X>(x),
@@ -45,8 +45,8 @@ namespace boost { namespace hana {
         }
 
         template <typename X, typename Y, typename = detail::std::enable_if_t<
-            enable_operators<Orderable, datatype_t<X>>::value ||
-            enable_operators<Orderable, datatype_t<Y>>::value
+            has_operator<datatype_t<X>, decltype(less_equal)>::value ||
+            has_operator<datatype_t<Y>, decltype(less_equal)>::value
         >>
         constexpr decltype(auto) operator<=(X&& x, Y&& y) {
             return hana::less_equal(detail::std::forward<X>(x),
@@ -54,8 +54,8 @@ namespace boost { namespace hana {
         }
 
         template <typename X, typename Y, typename = detail::std::enable_if_t<
-            enable_operators<Orderable, datatype_t<X>>::value ||
-            enable_operators<Orderable, datatype_t<Y>>::value
+            has_operator<datatype_t<X>, decltype(greater)>::value ||
+            has_operator<datatype_t<Y>, decltype(greater)>::value
         >>
         constexpr decltype(auto) operator>(X&& x, Y&& y) {
             return hana::greater(detail::std::forward<X>(x),
@@ -63,8 +63,8 @@ namespace boost { namespace hana {
         }
 
         template <typename X, typename Y, typename = detail::std::enable_if_t<
-            enable_operators<Orderable, datatype_t<X>>::value ||
-            enable_operators<Orderable, datatype_t<Y>>::value
+            has_operator<datatype_t<X>, decltype(greater_equal)>::value ||
+            has_operator<datatype_t<Y>, decltype(greater_equal)>::value
         >>
         constexpr decltype(auto) operator>=(X&& x, Y&& y) {
             return hana::greater_equal(detail::std::forward<X>(x),

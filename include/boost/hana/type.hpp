@@ -22,8 +22,8 @@ namespace boost { namespace hana {
     // Operators
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct enabled_operators<Type>
-        : Comparable
+    struct operators::of<Type>
+        : operators::of<Comparable>
     { };
 
     //////////////////////////////////////////////////////////////////////////

@@ -51,14 +51,11 @@ namespace boost { namespace hana { namespace test {
 
 namespace boost { namespace hana {
     template <>
-    struct enabled_operators<test::Numeric>
-        : Monoid
-        , Group
-        , Ring
-        , IntegralDomain
-        , Comparable
-        , Orderable
-        , Logical
+    struct operators::of<test::Numeric>
+        : operators::of<
+            Monoid, Group, Ring, IntegralDomain,
+            Comparable, Orderable, Logical
+        >
     { };
 }}
 

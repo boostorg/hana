@@ -12,10 +12,10 @@ namespace boost { namespace hana { namespace operators {
     void operator+(T&&, U&&) { }
 }}}
 
-template <typename = boost::hana::operators::enable_adl>
+template <typename = boost::hana::operators::adl>
 struct template_param { };
 
-struct inheritance : boost::hana::operators::enable_adl { };
+struct inheritance : boost::hana::operators::adl { };
 
 struct nothing { };
 

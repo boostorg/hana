@@ -35,8 +35,8 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     namespace operators {
         template <typename X, typename Y, typename = typename detail::std::enable_if<
-            enable_operators<Monoid, datatype_t<X>>::value ||
-            enable_operators<Monoid, datatype_t<Y>>::value
+            has_operator<datatype_t<X>, decltype(plus)>::value ||
+            has_operator<datatype_t<Y>, decltype(plus)>::value
         >::type>
         constexpr decltype(auto) operator+(X&& x, Y&& y) {
             return hana::plus(detail::std::forward<X>(x),

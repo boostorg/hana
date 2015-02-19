@@ -76,8 +76,8 @@ namespace boost { namespace hana {
     // Operators
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct enabled_operators<Either>
-        : Comparable, Orderable, Monad
+    struct operators::of<Either>
+        : operators::of<Comparable, Orderable, Monad>
     { };
 
     //////////////////////////////////////////////////////////////////////////

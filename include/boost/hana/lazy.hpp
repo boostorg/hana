@@ -108,8 +108,8 @@ namespace boost { namespace hana {
     // Operators
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct enabled_operators<Lazy>
-        : Monad
+    struct operators::of<Lazy>
+        : operators::of<Monad>
     { };
 
     //////////////////////////////////////////////////////////////////////////

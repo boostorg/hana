@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_GROUP_HPP
 
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -193,6 +194,11 @@ namespace boost { namespace hana {
 
     constexpr _negate negate{};
 #endif
+
+    template <>
+    struct operators::of<Group>
+        : decltype(minus), decltype(negate)
+    { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_GROUP_HPP

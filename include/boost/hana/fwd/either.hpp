@@ -117,7 +117,7 @@ namespace boost { namespace hana {
         return unspecified-type;
     };
 #else
-    template <typename X, typename = operators::enable_adl>
+    template <typename X, typename = operators::adl>
     struct _left;
 
     constexpr detail::create<_left> left{};
@@ -135,7 +135,7 @@ namespace boost { namespace hana {
         return unspecified-type;
     };
 #else
-    template <typename X, typename = operators::enable_adl>
+    template <typename X, typename = operators::adl>
     struct _right;
 
     constexpr detail::create<_right> right{};

@@ -62,7 +62,7 @@ namespace boost { namespace hana {
         return unspecified-type;
     };
 #else
-    template <typename First, typename Second, typename = operators::enable_adl>
+    template <typename First, typename Second, typename = operators::adl>
     struct _pair {
         First first;
         Second second;

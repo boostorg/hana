@@ -38,7 +38,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <char ...s>
     struct _string
-        : operators::enable_adl
+        : operators::adl
         , operators::Iterable_ops<_string<s...>>
     { };
 
@@ -76,8 +76,8 @@ namespace boost { namespace hana {
     // Operators
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct enabled_operators<String>
-        : Comparable, Orderable, Iterable
+    struct operators::of<String>
+        : operators::of<Comparable, Orderable, Iterable>
     { };
 
     //////////////////////////////////////////////////////////////////////////

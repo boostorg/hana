@@ -16,10 +16,14 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     struct Function {
-        struct hana { struct enabled_operators :  Comparable { }; };
+        struct hana {
+            struct operators
+                : boost::hana::operators::of<Comparable>
+            { };
+        };
     };
 
-    template <typename Domain, typename Codomain, typename F, typename = operators::enable_adl>
+    template <typename Domain, typename Codomain, typename F, typename = operators::adl>
     struct function_type {
         struct hana { using datatype = Function; };
 

@@ -68,8 +68,8 @@ namespace boost { namespace hana {
     // Operators
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct enabled_operators<Map>
-        : Comparable
+    struct operators::of<Map>
+        : operators::of<Comparable>
     { };
 
     //////////////////////////////////////////////////////////////////////////
