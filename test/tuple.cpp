@@ -40,12 +40,13 @@ namespace boost { namespace hana { namespace test {
     );
 }}}
 
+struct x0; struct x1; struct x2; struct x3;
 
 int main() {
     test::check_datatype<Tuple>();
     using test::x;
 
-    // move-only friendlyness and reference semantics
+    // move-only friendliness and reference semantics
     {
         struct movable {
             movable() = default;
@@ -84,12 +85,28 @@ int main() {
         }
     }
 
+    // Comparable
+    {
+        // equal
+        {
+            BOOST_HANA_CONSTANT_CHECK(equal(tuple_t<>, tuple_t<>));
+            BOOST_HANA_CONSTANT_CHECK(not_(equal(tuple_t<x0>, tuple_t<>)));
+            BOOST_HANA_CONSTANT_CHECK(not_(equal(tuple_t<>, tuple_t<x0>)));
+            BOOST_HANA_CONSTANT_CHECK(equal(tuple_t<x0>, tuple_t<x0>));
+            BOOST_HANA_CONSTANT_CHECK(not_(equal(tuple_t<x0, x1>, tuple_t<x0>)));
+            BOOST_HANA_CONSTANT_CHECK(not_(equal(tuple_t<x0>, tuple_t<x0, x1>)));
+            BOOST_HANA_CONSTANT_CHECK(equal(tuple_t<x0, x1>, tuple_t<x0, x1>));
+            BOOST_HANA_CONSTANT_CHECK(equal(tuple_t<x0, x1, x2>, tuple_t<x0, x1, x2>));
+        }
+    }
+
     // Foldable
     {
         // unpack
         {
             auto f = test::injection([]{});
 
+            // tuple
             BOOST_HANA_CONSTANT_CHECK(equal(
                 unpack(tuple(), f),
                 f()
@@ -106,16 +123,148 @@ int main() {
                 unpack(tuple(x<0>, x<1>, x<2>), f),
                 f(x<0>, x<1>, x<2>)
             ));
+
+            // tuple_t
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                unpack(tuple_t<>, f),
+                f()
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                unpack(tuple_t<x0>, f),
+                f(type<x0>)
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                unpack(tuple_t<x0, x1>, f),
+                f(type<x0>, type<x1>)
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                unpack(tuple_t<x0, x1, x2>, f),
+                f(type<x0>, type<x1>, type<x2>)
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                unpack(tuple_t<x0, x1, x2, x3>, f),
+                f(type<x0>, type<x1>, type<x2>, type<x3>)
+            ));
         }
     }
 
     // Iterable
     {
+        ///////////////////
+        // tuple_t
+        //////////////////
+        // head
+        {
+            BOOST_HANA_CONSTANT_CHECK(equal(head(tuple_t<x0>), type<x0>));
+            BOOST_HANA_CONSTANT_CHECK(equal(head(tuple_t<x0, x1>), type<x0>));
+            BOOST_HANA_CONSTANT_CHECK(equal(head(tuple_t<x0, x1, x2>), type<x0>));
+        }
+
+        // is_empty
+        {
+            BOOST_HANA_CONSTANT_CHECK(is_empty(tuple_t<>));
+            BOOST_HANA_CONSTANT_CHECK(not_(is_empty(tuple_t<x0>)));
+            BOOST_HANA_CONSTANT_CHECK(not_(is_empty(tuple_t<x0, x1>)));
+        }
+
+        // tail
+        {
+            BOOST_HANA_CONSTANT_CHECK(equal(tail(tuple_t<x0>), tuple_t<>));
+            BOOST_HANA_CONSTANT_CHECK(equal(tail(tuple_t<x0, x1>), tuple_t<x1>));
+            BOOST_HANA_CONSTANT_CHECK(equal(tail(tuple_t<x0, x1, x2>), tuple_t<x1, x2>));
+        }
+
+        //////////////////
+        // tuple_c
+        /////////////////
+
+        // head
+        {
+            BOOST_HANA_CONSTANT_CHECK(equal(head(tuple_c<int, 0>), int_<0>));
+            BOOST_HANA_CONSTANT_CHECK(equal(head(tuple_c<int, 0, 1>), int_<0>));
+            BOOST_HANA_CONSTANT_CHECK(equal(head(tuple_c<int, 0, 1, 2>), int_<0>));
+        }
+
+        // is_empty
+        {
+            BOOST_HANA_CONSTANT_CHECK(is_empty(tuple_c<int>));
+            BOOST_HANA_CONSTANT_CHECK(not_(is_empty(tuple_c<int, 0>)));
+            BOOST_HANA_CONSTANT_CHECK(not_(is_empty(tuple_c<int, 0, 1>)));
+            BOOST_HANA_CONSTANT_CHECK(not_(is_empty(tuple_c<int, 0, 1, 2>)));
+        }
+
+        // tail
+        {
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                tail(tuple_c<int, 0>),
+                tuple_c<int>
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                tail(tuple_c<int, 0, 1>),
+                tuple_c<int, 1>
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                tail(tuple_c<int, 0, 1, 2>),
+                tuple_c<int, 1, 2>
+            ));
+        }
+
         // operators
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
                 tuple(x<0>, x<1>)[size_t<0>],
                 x<0>
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                tuple_t<int, void>[size_t<0>],
+                type<int>
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                tuple_t<int, void>[size_t<1>],
+                type<void>
+            ));
+        }
+    }
+
+    // MonadPlus
+    {
+        // prepend
+        {
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                prepend(long_<0>, tuple_c<long>),
+                tuple_c<long, 0>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                prepend(uint<0>, tuple_c<unsigned int, 1>),
+                tuple_c<unsigned int, 0, 1>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                prepend(llong<0>, tuple_c<long long, 1, 2>),
+                tuple_c<long long, 0, 1, 2>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                prepend(ulong<0>, tuple_c<unsigned long, 1, 2, 3>),
+                tuple_c<unsigned long, 0, 1, 2, 3>
+            ));
+        }
+
+        // nil
+        {
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                nil<Tuple>(),
+                tuple_c<int>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                nil<Tuple>(),
+                tuple_c<long>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                nil<Tuple>(),
+                tuple_c<void>
             ));
         }
     }
