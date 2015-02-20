@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/core/models.hpp>
+#include <boost/hana/core/operators.hpp>
 #include <boost/hana/logical.hpp>
 
 #include <test/auto/base.hpp>
@@ -38,6 +39,25 @@ namespace boost { namespace hana { namespace test {
                         and_(equal(a, b), equal(b, c)) ^implies^ equal(a, c)
                     );
                 });
+
+                // operators
+                eval_if(bool_<has_operator<T, decltype(equal)>{}>,
+                    [=](auto _) {
+                        BOOST_HANA_CHECK(
+                            equal(a, b) ^iff^ (_(a) == _(b))
+                        );
+                    },
+                    [](auto _) { }
+                );
+
+                eval_if(bool_<has_operator<T, decltype(not_equal)>{}>,
+                    [=](auto _) {
+                        BOOST_HANA_CHECK(
+                            not_equal(a, b) ^iff^ (_(a) != _(b))
+                        );
+                    },
+                    [](auto _) { }
+                );
             });
         });
     };
