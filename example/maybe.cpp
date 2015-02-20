@@ -36,8 +36,8 @@ BOOST_HANA_CONSTEXPR_CHECK(just(3) > just(2));
 
 //! [functor]
 BOOST_HANA_CONSTEXPR_LAMBDA auto inc = [](auto x) { return x + 1; };
-BOOST_HANA_CONSTANT_CHECK(fmap(nothing, inc) == nothing);
-BOOST_HANA_CONSTEXPR_CHECK(fmap(just(1), inc) == just(2));
+BOOST_HANA_CONSTANT_CHECK(transform(nothing, inc) == nothing);
+BOOST_HANA_CONSTEXPR_CHECK(transform(just(1), inc) == just(2));
 //! [functor]
 
 }{

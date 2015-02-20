@@ -35,7 +35,7 @@ namespace boost { namespace hana {
                 "wrong dimensions for matrix multiplication");
             auto cols = cppcon::columns(std::forward<M2>(m2));
             return unpack(
-                fmap(cppcon::rows(std::forward<M1>(m1)),
+                transform(cppcon::rows(std::forward<M1>(m1)),
                     [&](auto&& row) -> decltype(auto) {
                         return zip.with(cppcon::detail::tuple_scalar_product,
                             repeat<Tuple>(uint<R1>, std::forward<decltype(row)>(row)),

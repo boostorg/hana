@@ -146,13 +146,13 @@ int main() {
 
     // Functor
     {
-        // fmap
+        // transform
         {
             auto f = test::injection([]{});
             auto x = test::injection([]{})();
 
-            BOOST_HANA_CONSTANT_CHECK(equal(fmap(nothing, f), nothing));
-            BOOST_HANA_CONSTANT_CHECK(equal(fmap(just(x), f), just(f(x))));
+            BOOST_HANA_CONSTANT_CHECK(equal(transform(nothing, f), nothing));
+            BOOST_HANA_CONSTANT_CHECK(equal(transform(just(x), f), just(f(x))));
         }
     }
 

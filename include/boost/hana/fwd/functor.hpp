@@ -132,7 +132,6 @@ namespace boost { namespace hana {
     };
 
     constexpr _transform transform{};
-    constexpr auto fmap = transform; // for temporary backward compatibility
 #endif
 
     //! Apply a function on all the elements of a structure satisfying a

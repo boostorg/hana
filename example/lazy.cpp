@@ -37,9 +37,9 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto one_over = [](auto x) {
     return 1 / x;
 };
 
-BOOST_HANA_CONSTEXPR_CHECK(eval(fmap(lazy(one_over)(4), double_)) == 1 / 2);
+BOOST_HANA_CONSTEXPR_CHECK(eval(transform(lazy(one_over)(4), double_)) == 1 / 2);
 
-fmap(lazy(one_over)(0), double_); // never evaluated
+transform(lazy(one_over)(0), double_); // never evaluated
 //! [functor]
 
 }

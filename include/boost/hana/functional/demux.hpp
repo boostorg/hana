@@ -57,7 +57,7 @@ namespace boost { namespace hana {
     //! @snippet example/functional/demux.cpp main
     //!
     //! @todo
-    //! I think this is equivalent to `fmap . fmap`.
+    //! I think this is equivalent to `transform . transform`.
     //! See http://stackoverflow.com/q/5821089/627587
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto demux = [](auto&& f) {

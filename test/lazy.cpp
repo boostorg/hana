@@ -96,10 +96,10 @@ int main() {
         auto x = test::injection([]{})();
         auto f = test::injection([]{});
 
-        // fmap
+        // transform
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                fmap(lazy(x), f),
+                transform(lazy(x), f),
                 lazy(f(x))
             ));
         }

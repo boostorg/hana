@@ -50,11 +50,11 @@ auto safe_div = infix([](auto x, auto y) {
 });
 
 BOOST_HANA_CONSTANT_CHECK(
-    fmap(int_<6> ^safe_div^ int_<3>, succ) == right(int_<3>)
+    transform(int_<6> ^safe_div^ int_<3>, succ) == right(int_<3>)
 );
 
 BOOST_HANA_RUNTIME_CHECK(
-    fmap(int_<6> ^safe_div^ int_<0>, succ) == left("division by zero"s)
+    transform(int_<6> ^safe_div^ int_<0>, succ) == left("division by zero"s)
 );
 //! [functor]
 

@@ -136,13 +136,13 @@ int main() {
 
     // Functor
     {
-        // fmap
+        // transform
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                fmap(left(x), undefined), left(x)
+                transform(left(x), undefined), left(x)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                fmap(right(x), f), right(f(x))
+                transform(right(x), f), right(f(x))
             ));
         }
     }
