@@ -57,7 +57,7 @@ namespace boost { namespace hana {
         // Note: that would be better handled by a set data structure, but
         // whatever for now.
         return foldl(transform(domain(f), f), tuple(), [](auto xs, auto x) {
-            return if_(elem(xs, x), xs, cons(x, xs));
+            return if_(elem(xs, x), xs, prepend(x, xs));
         });
     };
 

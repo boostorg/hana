@@ -16,12 +16,12 @@ namespace mpl = boost::mpl;
 
 
 BOOST_HANA_CONSTANT_CHECK(equal(
-    cons(type<int>, mpl::vector<char>{}),
+    prepend(type<int>, mpl::vector<char>{}),
     mpl::vector<int, char>{}
 ));
 
 // error: only Types can go in a MPL vector
-// cons(1, mpl::vector<int>{});
+// prepend(1, mpl::vector<int>{});
 
 BOOST_HANA_CONSTANT_CHECK(equal(
     filter(mpl::vector<int, float, char, void>{}, trait<std::is_integral>),

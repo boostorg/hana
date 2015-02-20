@@ -142,20 +142,20 @@ int main() {
         }
     }
 
-    // List
+    // Sequence
     {
-        // cons
+        // prepend
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                cons(type<x1>, ::boost::mpl::vector<>{}),
+                prepend(type<x1>, ::boost::mpl::vector<>{}),
                 ::boost::mpl::vector<x1>{}
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                cons(type<x1>, ::boost::mpl::vector<x2>{}),
+                prepend(type<x1>, ::boost::mpl::vector<x2>{}),
                 ::boost::mpl::vector<x1, x2>{}
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                cons(type<x1>, ::boost::mpl::vector<x2, x3>{}),
+                prepend(type<x1>, ::boost::mpl::vector<x2, x3>{}),
                 ::boost::mpl::vector<x1, x2, x3>{}
             ));
         }

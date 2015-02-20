@@ -116,7 +116,7 @@ namespace boost { namespace hana {
                 },
                 [&set, &x](auto _) -> decltype(auto) {
                     return hana::unpack(
-                        _(cons)(
+                        _(prepend)(
                             detail::std::forward<X>(x),
                             detail::std::forward<S>(set).storage
                         ),

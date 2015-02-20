@@ -203,7 +203,6 @@ namespace boost { namespace hana {
     };
 
     constexpr _prepend prepend{};
-    constexpr auto cons = prepend; //! @todo Remove this; for bw compat.
 #endif
 
     //! Append an element to a monadic structure.
@@ -254,7 +253,6 @@ namespace boost { namespace hana {
     };
 
     constexpr _append append{};
-    constexpr auto snoc = append; //! @todo Remove this; for bw compat.
 #endif
 
     //! Filter a monadic structure using a custom predicate.
