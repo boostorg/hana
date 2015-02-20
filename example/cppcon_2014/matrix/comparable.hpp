@@ -21,7 +21,7 @@ namespace boost { namespace hana {
         template <typename M1, typename M2>
         static constexpr auto apply(M1 const& m1, M2 const& m2) {
             return bool_<R1 == R2 && C1 == C2> &&
-                   all_of(zip_with(equal, cppcon::rows(m1), cppcon::rows(m2)));
+                   all_of(zip.with(equal, cppcon::rows(m1), cppcon::rows(m2)));
         }
     };
 }}

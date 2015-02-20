@@ -243,7 +243,7 @@ BOOST_HANA_CONSTEXPR_CHECK(
 
 //! [zip_with]
 BOOST_HANA_CONSTEXPR_CHECK(
-    zip_with(_ * _, tuple(1, 2, 3, 4), tuple(5, 6, 7, 8, "ignored"))
+    zip.with(_ * _, tuple(1, 2, 3, 4), tuple(5, 6, 7, 8, "ignored"))
     ==
     tuple(5, 12, 21, 32)
 );

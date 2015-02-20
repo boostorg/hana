@@ -1490,7 +1490,6 @@ namespace boost { namespace hana {
     constexpr _zip_unsafe _zip::unsafe;
 
     constexpr _zip zip{};
-    constexpr auto zip_with = zip.with;
 #endif
 }} // end namespace boost::hana
 

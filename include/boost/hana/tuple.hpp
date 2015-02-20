@@ -807,7 +807,7 @@ namespace boost { namespace hana {
         template <typename X1, typename X2, typename X3, typename X4, typename ...Xn>
         static constexpr decltype(auto)
         apply(X1&& x1, X2&& x2, X3&& x3, X4&& x4, Xn&& ...xn) {
-            return hana::zip_with(concat,
+            return hana::zip.with(concat,
                 apply(
                     detail::std::forward<X1>(x1),
                     detail::std::forward<X2>(x2),

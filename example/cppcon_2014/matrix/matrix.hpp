@@ -96,7 +96,7 @@ namespace cppcon {
         using namespace boost::hana;
         return [f(std::forward<decltype(f)>(f))](auto&& ...m) -> decltype(auto) {
             return unpack(
-                zip_with(partial(zip_with, f),
+                zip.with(partial(zip.with, f),
                     rows(std::forward<decltype(m)>(m))...
                 ),
                 matrix
@@ -107,7 +107,7 @@ namespace cppcon {
     namespace detail {
         auto tuple_scalar_product = [](auto&& u, auto&& v) -> decltype(auto) {
             using namespace boost::hana;
-            return sum(zip_with(mult,
+            return sum(zip.with(mult,
                 std::forward<decltype(u)>(u),
                 std::forward<decltype(v)>(v)
             ));
