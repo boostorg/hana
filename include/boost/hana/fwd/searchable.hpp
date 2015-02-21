@@ -95,6 +95,16 @@ namespace boost { namespace hana {
     //! return a compile-time `Logical`, which is too restrictive.
     //!
     //!
+    //! Provided models
+    //! ---------------
+    //! 1. Builtin arrays
+    //! Builtin arrays whose size is known can be searched as-if they were
+    //! homogeneous tuples. However, since arrays can only hold objects of
+    //! a single type and the predicate to `find` must return a compile-time
+    //! Logical, the `find` method is fairly useless. For similar reasons,
+    //! the `lookup` method is also fairly useless.
+    //!
+    //!
     //! @todo
     //! - We should provide a member `operator[]` equivalent to `lookup`.
     //! - Use perfect forwarding in the MCD once Clang bug #20619 is fixed.
