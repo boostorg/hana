@@ -11,7 +11,8 @@ add_custom_target(examples ALL
 
 file(GLOB_RECURSE BOOST_HANA_EXAMPLES_REQUIRING_BOOST
     "ext/boost/*.cpp"
-    "record/macros.cpp")
+    "record.macros.cpp"
+    "tutorial/type_computations.cpp")
 list(APPEND BOOST_HANA_FILES_REQUIRING_BOOST ${BOOST_HANA_EXAMPLES_REQUIRING_BOOST})
 
 file(GLOB_RECURSE BOOST_HANA_EXAMPLE_SOURCES "*.cpp")

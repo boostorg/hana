@@ -10,9 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_CONFIG_HPP
 #define BOOST_HANA_CONFIG_HPP
 
-    //! @defgroup group-config Configuration options
-    //! Configurable options to tweak the global behavior of the library.
-
 #if defined(BOOST_HANA_DOXYGEN_INVOKED) || \
     (defined(NDEBUG) && !defined(BOOST_HANA_CONFIG_DISABLE_PRECONDITIONS))
     //! @ingroup group-config

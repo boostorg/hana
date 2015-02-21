@@ -27,8 +27,27 @@ BOOST_HANA_CONSTANT_CHECK(type<T> != type<U>);
 
 namespace ns2 {
 //! [largest]
+template <typename ...Types>
+constexpr auto largest(Types ...types) {
+    return maximum_by(less ^on^ sizeof_, make<Tuple>(types...));
+}
+
+template <int size>
+struct storage { char s[size]; };
+
+static_assert(
+    largest(type<storage<1>>, type<storage<2>>, type<storage<3>>) == type<storage<3>>
+, "");
+//! [largest]
+}
+
+namespace ns22 {
+//! [largest2]
+// Note: tuple_t<T...> is equivalent to make<Tuple>(type<T>...)
 template <typename ...T>
-using largest = decltype(maximum_by(less ^on^ sizeof_, tuple_t<T...>));
+struct largest
+    : decltype(maximum_by(less ^on^ sizeof_, tuple_t<T...>))
+{ };
 
 template <int size>
 struct storage { char s[size]; };
@@ -37,7 +56,7 @@ static_assert(std::is_same<
     largest<storage<1>, storage<2>, storage<3>>::type,
     storage<3>
 >{}, "");
-//! [largest]
+//! [largest2]
 }
 
 namespace ns3 {

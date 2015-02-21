@@ -9,9 +9,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <iostream>
 
 
-struct UserDefinedDatatype { };
-
-//! [main]
+//! [setup]
 template <typename Datatype>
 struct print_impl {
     template <typename X>
@@ -25,7 +23,11 @@ void print(std::ostream& os, X x) {
     using Datatype = typename boost::hana::datatype<X>::type;
     print_impl<Datatype>::apply(os, x);
 }
+//! [setup]
 
+struct UserDefinedDatatype { };
+
+//! [customize]
 template <>
 struct print_impl<UserDefinedDatatype> {
     template <typename X>
@@ -33,7 +35,7 @@ struct print_impl<UserDefinedDatatype> {
         /* a custom implementation for some data type */
     }
 };
-//! [main]
+//! [customize]
 
 int main() {
     print(std::cout, UserDefinedDatatype{}); // just make sure it works

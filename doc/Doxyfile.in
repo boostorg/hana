@@ -1,5 +1,5 @@
 PROJECT_NAME            = "Boost.Hana"
-PROJECT_BRIEF           = "Heterogeneous combinators for expressive metaprogramming"
+PROJECT_BRIEF           = "Your standard library for metaprogramming"
 PROJECT_LOGO            =
 PROJECT_NUMBER          =
 

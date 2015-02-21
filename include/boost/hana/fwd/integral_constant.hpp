@@ -46,10 +46,28 @@ namespace boost { namespace hana {
     //! `IntegralConstant`s, so compile-time arithmetic can be done easily:
     //! @snippet example/integral_constant.cpp operators
     //!
-    //! All those operators work pretty much in the same way. Simply put,
+    //! It is pretty important to realize that these operators return
+    //! `IntegralConstant`s, not normal values of an integral type.
+    //! Actually, all those operators work pretty much in the same way.
+    //! Simply put, for an operator `@`,
     //! @code
-    //!     integral_constant<T, x> op integral_constant<T, y> == integral_constant<T, x op y>
+    //!     integral_constant<T, x> @ integral_constant<T, y> == integral_constant<T, x @ y>
     //! @endcode
+    //!
+    //! The fact that the operators return `Constant`s is very important
+    //! because it allows all the information that's known at compile-time
+    //! to be conserved as long as it's only used with other values known at
+    //! compile-time. It is also interesting to observe that whenever an
+    //! `IntegralConstant` is combined with a normal runtime value, the
+    //! result will be a runtime value (because of the implicit conversion).
+    //! In general, this gives us the following table
+    //!
+    //! left operand       | right operand      | result
+    //! :-----------------:| :----------------: | :----------------:
+    //! `IntegralConstant` | `IntegralConstant` | `IntegralConstant`
+    //! `IntegralConstant` | runtime            | runtime
+    //! runtime            | `IntegralConstant` | runtime
+    //! runtime            | runtime            | runtime
     //!
     //! The full range of provided operators is
     //! - Arithmetic: binary `+`, binary `-`, `/`, `*`, `%`, unary `+`, unary `-`

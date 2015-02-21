@@ -17,9 +17,12 @@ namespace boost { namespace hana {
     //! @ingroup group-datatypes
     //! Represents a C++ type.
     //!
+    //! @note
+    //! This page explains how Types work at a low level. To gain intuition
+    //! about type-level metaprogramming in Hana, you should read the
+    //! [tutorial section](@ref tutorial-type_computations) on type level
+    //! computations.
     //!
-    //! Introduction to Hana's metaprogramming paradigm
-    //! -----------------------------------------------
     //! A `Type` is a special kind of object representing a C++ type like
     //! `int`, `void`, `std::vector<float>` or anything else you can imagine.
     //! Basically, the trick to implement such an object is to create the
@@ -44,8 +47,8 @@ namespace boost { namespace hana {
     //! > __Note__
     //! > This is not exactly how `Type`s are implemented in Hana because of
     //! > some subtleties; things were dumbed down here for the sake of
-    //! > clarity. Please check the reference section to know exactly what
-    //! > you can expect from a `Type`.
+    //! > clarity. Please check below to know exactly what you can expect
+    //! > from a `Type`.
     //!
     //! Now, let's say we wanted to transform our type `int` (represented by
     //! `foo`) into a type `int*` (represented by some other variable); how
@@ -59,11 +62,11 @@ namespace boost { namespace hana {
     //!     }
     //! @endcode
     //!
-    //! Easy enough? We let the compiler deduce the `T`, and from that we
-    //! are able to generate the proper return type. That's it for the
-    //! signature. For the implementation, we provide the simplest one
-    //! that will make the code compile; we create a dummy object of the
-    //! proper type and we return it. We can now use our function like:
+    //! We just let the compiler deduce the `T`, and from that we are able to
+    //! generate the proper return type. That's it for the signature. For the
+    //! implementation, we provide the simplest one that will make the code
+    //! compile; we create a dummy object of the proper type and we return it.
+    //! We can now use our function like:
     //! @code
     //!     auto bar = add_pointer(foo);
     //!     auto baz = add_pointer(bar);
@@ -81,40 +84,12 @@ namespace boost { namespace hana {
     //! Instead of typing `foo` or `_type<int>{}`, we can now simply write
     //! `type<int>`, which is effectively the same but looks better.
     //!
-    //! So far, manipulating types as objects is just more cumbersome than
-    //! using e.g. the `<type_traits>` header and the good old MPL. However,
-    //! let's observe that since `foo` is just a normal object, it can be
-    //! copied around, stored in containers, and (like we just saw) passed
-    //! to and returned from functions. Let's also notice that we're working
-    //! with real functions, not metafunctions or similar constructs
-    //! introduced in classical metaprogramming libraries. This has the
-    //! advantage that types can now be manipulated with the same syntax
-    //! used to manipulate values. In comparison, previous metaprogramming
-    //! libraries like [Boost.MPL][] or [MPL11][] used struct-based
-    //! metafunctions that worked at the type level only, were less
-    //! expressive due to the lack of anonymous functions and forced
-    //! us to use an awkward syntax.
-    //!
-    //! But the syntactic unification is not only some sugar for our eyes;
-    //! it also means that any piece of code generic enough to allow it will
-    //! work with our "types" out of the box. For example, we can create a
-    //! tuple containing "types":
-    //! @code
-    //!     auto ts = std::make_tuple(type<int>, type<int*>, type<int**>);
-    //!     auto t = std::get<1>(ts);
-    //! @endcode
-    //!
-    //! With previous approaches to type-level static metaprogramming, we had
-    //! to reimplement type sequences and basically everything from the ground
-    //! up. With this approach, we can in theory reuse a lot of existing code,
-    //! as long as it is generic enough.
-    //!
-    //! The current definition of `_type` does not make it very useful. Indeed,
-    //! we are only able to copy those objects around and perform pattern
-    //! matching in template functions, which is still a bit limited. To make
-    //! them more widely useful, we add the requirement that a `_type<T>`
-    //! provides a nested alias to the type it wraps. In Boost.MPL parlance,
-    //! we make `_type<T>` a nullary metafunction:
+    //! However, the current definition of `_type` does not make it very
+    //! useful. Indeed, we are only able to copy those objects around and
+    //! perform pattern matching in template functions, which is still a bit
+    //! limited. To make them more widely useful, we add the requirement
+    //! that a `_type<T>` provides a nested alias to the type it wraps.
+    //! In Boost.MPL parlance, we make `_type<T>` a nullary metafunction:
     //! @code
     //!     template <typename T>
     //!     struct _type {
@@ -126,37 +101,21 @@ namespace boost { namespace hana {
     //! having to perform pattern matching inside a template function:
     //! @code
     //!     auto bar = type<int*>;
-    //!     static_assert(std::is_same<int*, decltype(bar)::type>::value, "");
+    //!     using Bar = decltype(bar)::type;
+    //!     static_assert(std::is_same<int*, Bar>{}, "");
     //! @endcode
     //!
-    //! This example looks pretty circular and useless, but with a bit of
-    //! imagination, we can now create classical metafunctions in a pretty
-    //! interesting way:
-    //! @code
-    //!     template <unsigned n, typename ...T>
-    //!     struct at
-    //!         : decltype(
-    //!             std::get<n>(std::make_tuple(type<T>...))
-    //!         )
-    //!     { };
-    //! @endcode
-    //! And `at<1, int, char, float>::type` is now the type `char`. How does
-    //! it work? First, we create a tuple with these weird `_type` objects in
-    //! it. Specifically, the type of the `std::make_tuple(type<T>...)`
-    //! expression is
-    //! @code
-    //!     std::tuple<_type<T1>, _type<T2>, ..., _type<Tk>>
-    //! @endcode
-    //! Then, we use the `std::get` function to fetch the `n`th element for
-    //! us, and we use `decltype` to get the type of that `n`th object and
-    //! inherit from it. For example, `at<1, int, char, float>` is going to
-    //! inherit from `_type<char>`. But remember what's inside a `_type<char>`?
-    //! There's a nested alias to `char`, and that's what we will fetch when
-    //! we write `at<1, int, char, float>::type`!
+    //! Also, this makes any function returning a `Type` easily usable as a
+    //! classic metafunction, by simply using decltype. For example, let's
+    //! consider the following function, which finds the largest type in
+    //! a sequence of types:
     //!
-    //! Here's another example showing off the power of Hana to process
-    //! types in a concise way:
     //! @snippet example/type.cpp largest
+    //!
+    //! To make it a classic metafunction instead, we only need to modify it
+    //! slightly using `decltype`:
+    //!
+    //! @snippet example/type.cpp largest2
     //!
     //! While this new paradigm for type level programming might be difficult
     //! to grok at first, it will make more sense as you use it more and more.
@@ -188,6 +147,16 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //!
+    //! The actual representation of a Type
+    //! -----------------------------------
+    //! For subtle reasons having to do with ADL, the actual type of the
+    //! `type<T>` expression is not `_type<T>`. It is a dependent type
+    //! which inherits `_type<T>`. Hence, you should never rely on the
+    //! fact that `type<T>` is of type `_type<T>`, but you can rely on
+    //! the fact that it inherits it, which is different in some contexts,
+    //! e.g. for template specialization.
+    //!
+    //!
     //! Modeled concepts
     //! ----------------
     //! 1. `Comparable` (operators provided)\n
@@ -201,7 +170,6 @@ namespace boost { namespace hana {
     //!   foundation of this data type.
     //! - Consider instantiating `Functor`, `Applicative` and `Monad` if
     //!   that's possible.
-    //! - The type of a `Type` is currently not specified.
     //!
     //! @bug
     //! `metafunction` and friends are not SFINAE-friendly right now. See
@@ -210,8 +178,6 @@ namespace boost { namespace hana {
     //! and either uncomment or remove the relevant test section.
     //!
     //!
-    //! [Boost.MPL]: http://www.boost.org/doc/libs/release/libs/mpl/doc/index.html
-    //! [MPL11]: http://github.com/ldionne/mpl11
     //! [Core_1430]: http://www.open-std.org/jtc1/sc22/wg21/docs/cwg_active.html#1430
     //! [GCC_58498]: http://gcc.gnu.org/bugzilla/show_bug.cgi?id=59498
     struct Type { };

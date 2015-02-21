@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <type_traits>
 
 #include <boost/hana/assert.hpp>
+#include <boost/hana/ext/std/integral_constant.hpp>
 
 //! [includes]
 #include <boost/hana.hpp>
@@ -20,78 +21,76 @@ using namespace boost::hana;
 
 int main() {
 
-//! [xs]
-auto xs = tuple(1, '2', std::string{"345"});
-//! [xs]
+//! [tuple_auto]
+auto xs = make<Tuple>(1, '2', std::string{"345"});
+//! [tuple_auto]
 
-//! [value_operations]
-assert(last(xs) == "345");
+{
 
-assert(tail(xs) == tuple('2', std::string{"345"}));
+//! [tuple_type]
+_tuple<int, char, std::string> xs{1, '2', "345"};
+//! [tuple_type]
 
-BOOST_HANA_CONSTANT_CHECK(!is_empty(xs));
+}{
 
-for_each(xs, [](auto x) {
-    std::cout << x;
-});
-//! [value_operations]
+//! [operations]
+// BOOST_HANA_RUNTIME_CHECK is equivalent to assert
+BOOST_HANA_RUNTIME_CHECK(last(xs) == "345");
 
+BOOST_HANA_RUNTIME_CHECK(tail(xs) == make<Tuple>('2', std::string{"345"}));
 
-//! [std_tuple_parallel]
-auto ys = std::make_tuple(1, '2', std::string{"345"});
+static_assert(!is_empty(xs), "");
 
-static_assert(std::tuple_size<decltype(ys)>::value != 0, "");
-//! [std_tuple_parallel]
+static_assert(length(xs) == 3u, "");
 
+BOOST_HANA_RUNTIME_CHECK(at(int_<1>, xs) == '2');
+//! [operations]
 
-//! [useless]
-using wow_that_is_so_useless = decltype(xs);
-//! [useless]
-(void)sizeof(wow_that_is_so_useless); // remove unused variable warning
+}{
 
+//! [std_tuple_size]
+std::tuple<int, char, std::string> xs{1, '2', std::string{"345"}};
+static_assert(std::tuple_size<decltype(xs)>::value != 0, "");
+//! [std_tuple_size]
 
-//! [ts]
-auto ts = tuple(type<int*>, type<void>, type<char const>);
-//! [ts]
+}{
 
-//! [type_operations]
-BOOST_HANA_CONSTANT_CHECK(last(ts) == type<char const>);
+//! [transform]
+// BOOST_HANA_CONSTEXPR_CHECK is equivalent to assert, but it would be
+// equivalent to static_assert if lambdas could appear in constant expressions.
+BOOST_HANA_CONSTEXPR_CHECK(
+    transform(make<Tuple>(1, 2, 3), [](int i) { return i + 1; }) ==
+    make<Tuple>(2, 3, 4)
+);
+//! [transform]
 
-BOOST_HANA_CONSTANT_CHECK(tail(ts) == tuple(type<void>, type<char const>));
-//! [type_operations]
+}{
 
-//! [type_out]
-static_assert(std::is_same<
-    decltype(type<char const>)::type,
-    char const
->::value, "");
-//! [type_out]
+//! [algorithms]
+BOOST_HANA_CONSTEXPR_CHECK(
+    count(make<Tuple>(1, 2, 3, 4, 5), [](int i) {
+        return i > 2;
+    }) == 3u
+);
 
-//! [type_foreach]
-for_each(ts, [](auto t) {
-    using T = typename decltype(t)::type;
-    std::cout << typeid(T).name();
-});
-//! [type_foreach]
+BOOST_HANA_CONSTEXPR_CHECK(
+    filter(make<Tuple>(1, '2', 3.0, nullptr, 7.3f), [](auto x) {
+        return std::is_floating_point<decltype(x)>{};
+    }) == make<Tuple>(3.0, 7.3f)
+);
 
-//! [type_transformation_def]
-auto add_pointer = [](auto t) {
-    using T = typename decltype(t)::type;
-    return type<typename std::add_pointer<T>::type>;
-};
-//! [type_transformation_def]
+using namespace std::literals; // the s user-defined literal creates std::strings
+auto pangram = make<Tuple>(
+    make<Tuple>("The"s, "quick"s, "brown"s),
+    make<Tuple>("fox"s, "jumps"s, "over"s, "the"s, "lazy"s),
+    make<Tuple>("dog"s)
+);
+BOOST_HANA_RUNTIME_CHECK(
+    flatten(pangram) ==
+    make<Tuple>("The", "quick", "brown", "fox", "jumps", "over", "the", "lazy", "dog")
+);
+//! [algorithms]
 
-//! [type_transformation_check]
-static_assert(std::is_same<
-    decltype(add_pointer(type<char const>))::type,
-    char const*
->::value, "");
-//! [type_transformation_check]
+}
 
-//! [metafunction]
-static_assert(std::is_same<
-    decltype(metafunction<std::add_pointer>(type<char const>))::type,
-    char const*
->::value, "");
-//! [metafunction]
 }

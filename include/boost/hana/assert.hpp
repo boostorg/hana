@@ -20,9 +20,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    //! @defgroup group-assertions Assertions
-    //! Macros to perform different kinds of assertions.
-
     //! @ingroup group-assertions
     //! Expands to a runtime assertion.
     //!
@@ -38,7 +35,20 @@ Distributed under the Boost Software License, Version 1.0.
     //! This macro may be used at global or function scope. Its argument must
     //! be a `Constant`, or else a compile-time assertion is triggered. If the
     //! argument is a `Constant`, its `value` is retrieved, it is converted to
-    //! a boolean and `static_assert`ed upon.
+    //! a boolean and `static_assert`ed upon. This kind of assertion is even
+    //! stronger than a `static_assert`, since a `Constant` can yield a
+    //! constant expression in any context.
+    //!
+    //! When the expression is a Constant, `BOOST_HANA_CONSTANT_ASSERT(expr)`
+    //! is essentially equivalent to
+    //! @code
+    //!     auto temporary = expr;
+    //!     static_assert(value(expr), "...");
+    //! @endcode
+    //!
+    //! To understand why this is sometimes needed, especially when
+    //! the expression contains a lambda, read the section on
+    //! [Constants and side effects](@ref tutorial-constant-side_effects).
 #   define BOOST_HANA_CONSTANT_ASSERT(...) unspecified
 
     //! @ingroup group-assertions
@@ -94,142 +104,144 @@ Distributed under the Boost Software License, Version 1.0.
     //! but the assertion is always performed, even when
     //! `BOOST_HANA_CONFIG_DISABLE_ASSERTIONS` is defined.
 #   define BOOST_HANA_RUNTIME_CHECK(...) unspecified
-#endif
 
-#define BOOST_HANA_PP_CAT_IMPL(x, y) x ## y
-#define BOOST_HANA_PP_CAT(x, y) BOOST_HANA_PP_CAT_IMPL(x, y)
+#else
+
+#   define BOOST_HANA_PP_CAT_IMPL(x, y) x ## y
+#   define BOOST_HANA_PP_CAT(x, y) BOOST_HANA_PP_CAT_IMPL(x, y)
 
 
-#define BOOST_HANA_RUNTIME_CHECK_IMPL(assert_or_check, tmpvar, expr)        \
-    do {                                                                    \
-        auto tmpvar = expr;                                                 \
-        static_assert(!::boost::hana::value(                                \
-            ::boost::hana::is_a< ::boost::hana::Constant>(tmpvar)           \
-        ),                                                                  \
-        "the expression (" # expr ") yields a Constant; "                   \
-        "use BOOST_HANA_CONSTANT_" # assert_or_check " instead");           \
+#   define BOOST_HANA_RUNTIME_CHECK_IMPL(assert_or_check, tmpvar, expr)     \
+        do {                                                                \
+            auto tmpvar = expr;                                             \
+            static_assert(!::boost::hana::value(                            \
+                ::boost::hana::is_a< ::boost::hana::Constant>(tmpvar)       \
+            ),                                                              \
+            "the expression (" # expr ") yields a Constant; "               \
+            "use BOOST_HANA_CONSTANT_" # assert_or_check " instead");       \
                                                                             \
-        if (!static_cast<bool>(tmpvar)) {                                   \
-            ::std::fprintf(stderr, "Assertion failed: "                     \
-                "(%s), function %s, file %s, line %i.\n",                   \
-                # expr, __func__, __FILE__, __LINE__);                      \
-            ::std::abort();                                                 \
-        }                                                                   \
-    } while (false)                                                         \
-/**/
-
-#define BOOST_HANA_RUNTIME_CHECK(...)                                       \
-    BOOST_HANA_RUNTIME_CHECK_IMPL(                                          \
-        CHECK,                                                              \
-        BOOST_HANA_PP_CAT(boost_hana_tmp_, __LINE__),                       \
-        (__VA_ARGS__)                                                       \
-    )                                                                       \
-/**/
-
-
-#define BOOST_HANA_CONSTANT_CHECK_IMPL(tmpvar, expr)                        \
-    auto tmpvar = expr;                                                     \
-    static_assert(::boost::hana::value(                                     \
-        ::boost::hana::is_a< ::boost::hana::Constant>(tmpvar)               \
-    ),                                                                      \
-    "the expression " # expr " does not yield a Constant");                 \
-                                                                            \
-    static_assert(::boost::hana::value(tmpvar), # expr)                     \
-/**/
-
-#define BOOST_HANA_CONSTANT_CHECK(...)                                      \
-    BOOST_HANA_CONSTANT_CHECK_IMPL(                                         \
-        BOOST_HANA_PP_CAT(boost_hana_tmp_, __LINE__),                       \
-        (__VA_ARGS__)                                                       \
-    )                                                                       \
-/**/
-
-
-#define BOOST_HANA_CHECK_IMPL(tmpvar, expr)                                 \
-    do {                                                                    \
-        auto tmpvar = expr;                                                 \
-        ::boost::hana::eval_if(                                             \
-            ::boost::hana::is_a< ::boost::hana::Constant>(tmpvar),          \
-            [=](auto _) {                                                   \
-                auto copy = _(tmpvar);                                      \
-                static_assert(::boost::hana::value(copy), # expr);          \
-            },                                                              \
-            [=](auto _) {                                                   \
-                auto copy = _(tmpvar);                                      \
-                if (!static_cast<bool>(copy)) {                             \
-                    ::std::fprintf(stderr, "Assertion failed: "             \
-                        "(%s), function %s, file %s, line %i.\n",           \
-                        # expr, __func__, __FILE__, __LINE__);              \
-                    ::std::abort();                                         \
-                }                                                           \
+            if (!static_cast<bool>(tmpvar)) {                               \
+                ::std::fprintf(stderr, "Assertion failed: "                 \
+                    "(%s), function %s, file %s, line %i.\n",               \
+                    # expr, __func__, __FILE__, __LINE__);                  \
+                ::std::abort();                                             \
             }                                                               \
-        );                                                                  \
-    } while (false)                                                         \
-/**/
-
-#define BOOST_HANA_CHECK(...)                                               \
-    BOOST_HANA_CHECK_IMPL(                                                  \
-        BOOST_HANA_PP_CAT(boost_hana_tmp_, __LINE__),                       \
-        (__VA_ARGS__)                                                       \
-    )                                                                       \
-/**/
-
-
-#if defined(BOOST_HANA_CONFIG_HAS_CONSTEXPR_LAMBDA)
-#   define BOOST_HANA_CONSTEXPR_CHECK_IMPL(assert_or_check, tmpvar, expr)   \
-        constexpr auto tmpvar = expr;                                       \
-        static_assert(!::boost::hana::value(                                \
-            ::boost::hana::is_a< ::boost::hana::Constant>(tmpvar)           \
-        ),                                                                  \
-        "the expression " # expr " yields a Constant; "                     \
-        "use BOOST_HANA_CONSTANT_" #assert_or_check " instead");            \
-                                                                            \
-        static_assert(static_cast<bool>(tmpvar), # expr)                    \
+        } while (false)                                                     \
     /**/
 
-#   define BOOST_HANA_CONSTEXPR_CHECK(...)                                  \
-        BOOST_HANA_CONSTEXPR_CHECK_IMPL(                                    \
+#   define BOOST_HANA_RUNTIME_CHECK(...)                                    \
+        BOOST_HANA_RUNTIME_CHECK_IMPL(                                      \
             CHECK,                                                          \
             BOOST_HANA_PP_CAT(boost_hana_tmp_, __LINE__),                   \
             (__VA_ARGS__)                                                   \
         )                                                                   \
     /**/
-#else
-#   define BOOST_HANA_CONSTEXPR_CHECK_IMPL(_, __, expr) \
-        BOOST_HANA_RUNTIME_CHECK(expr)
-
-#   define BOOST_HANA_CONSTEXPR_CHECK(...) \
-        BOOST_HANA_RUNTIME_CHECK(__VA_ARGS__)
-#endif
 
 
-#if defined(BOOST_HANA_CONFIG_DISABLE_ASSERTIONS)
-#   define BOOST_HANA_CONSTANT_ASSERT(...)  /* nothing */
-#   define BOOST_HANA_RUNTIME_ASSERT(...)   /* nothing */
-#   define BOOST_HANA_CONSTEXPR_ASSERT(...) /* nothing */
-#   define BOOST_HANA_ASSERT(...)           /* nothing */
-#else
-#   define BOOST_HANA_CONSTANT_ASSERT(...) \
-        BOOST_HANA_CONSTANT_CHECK(__VA_ARGS__)
+#   define BOOST_HANA_CONSTANT_CHECK_IMPL(tmpvar, expr)                     \
+        auto tmpvar = expr;                                                 \
+        static_assert(::boost::hana::value(                                 \
+            ::boost::hana::is_a< ::boost::hana::Constant>(tmpvar)           \
+        ),                                                                  \
+        "the expression " # expr " does not yield a Constant");             \
+                                                                            \
+        static_assert(::boost::hana::value(tmpvar), # expr)                 \
+    /**/
 
-#   define BOOST_HANA_RUNTIME_ASSERT(...) \
-        BOOST_HANA_RUNTIME_CHECK_IMPL(                                      \
-            ASSERT,                                                         \
+#   define BOOST_HANA_CONSTANT_CHECK(...)                                   \
+        BOOST_HANA_CONSTANT_CHECK_IMPL(                                     \
             BOOST_HANA_PP_CAT(boost_hana_tmp_, __LINE__),                   \
             (__VA_ARGS__)                                                   \
         )                                                                   \
     /**/
 
-#   define BOOST_HANA_CONSTEXPR_ASSERT(...)                                 \
-        BOOST_HANA_CONSTEXPR_CHECK_IMPL(                                    \
-            ASSERT,                                                         \
+
+#   define BOOST_HANA_CHECK_IMPL(tmpvar, expr)                              \
+        do {                                                                \
+            auto tmpvar = expr;                                             \
+            ::boost::hana::eval_if(                                         \
+                ::boost::hana::is_a< ::boost::hana::Constant>(tmpvar),      \
+                [=](auto _) {                                               \
+                    auto copy = _(tmpvar);                                  \
+                    static_assert(::boost::hana::value(copy), # expr);      \
+                },                                                          \
+                [=](auto _) {                                               \
+                    auto copy = _(tmpvar);                                  \
+                    if (!static_cast<bool>(copy)) {                         \
+                        ::std::fprintf(stderr, "Assertion failed: "         \
+                            "(%s), function %s, file %s, line %i.\n",       \
+                            # expr, __func__, __FILE__, __LINE__);          \
+                        ::std::abort();                                     \
+                    }                                                       \
+                }                                                           \
+            );                                                              \
+        } while (false)                                                     \
+    /**/
+
+#   define BOOST_HANA_CHECK(...)                                            \
+        BOOST_HANA_CHECK_IMPL(                                              \
             BOOST_HANA_PP_CAT(boost_hana_tmp_, __LINE__),                   \
             (__VA_ARGS__)                                                   \
         )                                                                   \
     /**/
 
-#   define BOOST_HANA_ASSERT(...) \
-        BOOST_HANA_CHECK(__VA_ARGS__)
-#endif
+
+#   if defined(BOOST_HANA_CONFIG_HAS_CONSTEXPR_LAMBDA)
+#       define BOOST_HANA_CONSTEXPR_CHECK_IMPL(assert_or_check, tmpvar, expr)\
+            constexpr auto tmpvar = expr;                                   \
+            static_assert(!::boost::hana::value(                            \
+                ::boost::hana::is_a< ::boost::hana::Constant>(tmpvar)       \
+            ),                                                              \
+            "the expression " # expr " yields a Constant; "                 \
+            "use BOOST_HANA_CONSTANT_" #assert_or_check " instead");        \
+                                                                            \
+            static_assert(static_cast<bool>(tmpvar), # expr)                \
+        /**/
+
+#       define BOOST_HANA_CONSTEXPR_CHECK(...)                              \
+            BOOST_HANA_CONSTEXPR_CHECK_IMPL(                                \
+                CHECK,                                                      \
+                BOOST_HANA_PP_CAT(boost_hana_tmp_, __LINE__),               \
+                (__VA_ARGS__)                                               \
+            )                                                               \
+        /**/
+#   else
+#       define BOOST_HANA_CONSTEXPR_CHECK_IMPL(_, __, expr) \
+            BOOST_HANA_RUNTIME_CHECK(expr)
+
+#       define BOOST_HANA_CONSTEXPR_CHECK(...) \
+            BOOST_HANA_RUNTIME_CHECK(__VA_ARGS__)
+#   endif // BOOST_HANA_CONFIG_HAS_CONSTEXPR_LAMBDA
+
+
+#   if defined(BOOST_HANA_CONFIG_DISABLE_ASSERTIONS)
+#       define BOOST_HANA_CONSTANT_ASSERT(...)  /* nothing */
+#       define BOOST_HANA_RUNTIME_ASSERT(...)   /* nothing */
+#       define BOOST_HANA_CONSTEXPR_ASSERT(...) /* nothing */
+#       define BOOST_HANA_ASSERT(...)           /* nothing */
+#   else
+#       define BOOST_HANA_CONSTANT_ASSERT(...) \
+            BOOST_HANA_CONSTANT_CHECK(__VA_ARGS__)
+
+#       define BOOST_HANA_RUNTIME_ASSERT(...)                               \
+            BOOST_HANA_RUNTIME_CHECK_IMPL(                                  \
+                ASSERT,                                                     \
+                BOOST_HANA_PP_CAT(boost_hana_tmp_, __LINE__),               \
+                (__VA_ARGS__)                                               \
+            )                                                               \
+        /**/
+
+#       define BOOST_HANA_CONSTEXPR_ASSERT(...)                             \
+            BOOST_HANA_CONSTEXPR_CHECK_IMPL(                                \
+                ASSERT,                                                     \
+                BOOST_HANA_PP_CAT(boost_hana_tmp_, __LINE__),               \
+                (__VA_ARGS__)                                               \
+            )                                                               \
+        /**/
+
+#       define BOOST_HANA_ASSERT(...) \
+            BOOST_HANA_CHECK(__VA_ARGS__)
+#   endif // BOOST_HANA_CONFIG_DISABLE_ASSERTIONS
+#endif // BOOST_HANA_DOXYGEN_INVOKED
 
 #endif // !BOOST_HANA_ASSERT_HPP
