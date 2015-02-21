@@ -64,8 +64,12 @@ namespace boost { namespace hana {
     struct _tuple_c : decltype(tuple(integral_constant<T, v>...)) { };
 
     template <typename ...T>
-    struct _tuple_t : decltype(tuple(type<T>...)) {
-        struct _ : _tuple_t { };
+    struct _tuple_t {
+        struct _ : _tuple_t, _tuple<decltype(type<T>)...> {
+            constexpr _()
+                : _tuple<decltype(type<T>)...>{type<T>...}
+            { }
+        };
     };
 
     template <>
@@ -162,7 +166,7 @@ namespace boost { namespace hana {
         template <typename V, V ...v, typename U, U ...u, typename =
             detail::std::enable_if_t<sizeof...(v) == sizeof...(u)>>
         static constexpr auto apply(_tuple_c<V, v...>, _tuple_c<U, u...>) {
-            constexpr bool comparisons[] = {(v == u)...};
+            constexpr bool comparisons[] = {true, (v == u)...};
             return bool_<hana::all_of(comparisons)>;
         }
 
@@ -278,12 +282,12 @@ namespace boost { namespace hana {
         #define BOOST_HANA_PP_TRANSFORM(REF)                                \
             template <typename ...Xs, typename F>                           \
             static constexpr decltype(auto)                                 \
-            apply(detail::closure_impl<Xs...> REF xs, F&& f)                \
+            transform_helper(detail::closure_impl<Xs...> REF xs, F&& f, ...)\
             { return hana::tuple(f(static_cast<Xs REF>(xs).get)...); }      \
                                                                             \
             template <typename X, typename F>                               \
             static constexpr decltype(auto)                                 \
-            apply(detail::closure_impl<X> REF xs, F&& f) {                  \
+            transform_helper(detail::closure_impl<X> REF xs, F&& f, ...) {  \
                 return hana::tuple(detail::std::forward<F>(f)(              \
                     static_cast<X REF>(xs).get                              \
                 ));                                                         \
@@ -293,8 +297,15 @@ namespace boost { namespace hana {
         #undef BOOST_HANA_PP_TRANSFORM
 
         template <typename ...T, template <typename ...> class F>
-        static constexpr auto apply(_tuple_t<T...>, _metafunction<F>)
+        static constexpr auto
+        transform_helper(_tuple_t<T...>, _metafunction<F>, int)
         { return tuple_t<typename F<T>::type...>; }
+
+        template <typename Xs, typename F>
+        static constexpr auto apply(Xs&& xs, F&& f) {
+            return transform_helper(detail::std::forward<Xs>(xs),
+                                    detail::std::forward<F>(f), int{});
+        }
     };
 
     template <>
