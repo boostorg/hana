@@ -62,14 +62,12 @@ the [include](include) directory to your compiler's header search path and
 you are done.
 
 The library relies on a full-featured C++14 compiler and standard library,
-but nothing else is required. As of November 2014, the only compiler known to
-compile the full test suite is Clang 3.6.0 (trunk) with libc++ (trunk too).
-While Clang 3.5 is advertised as having full support for C++14, it has several
+but nothing else is required. As of February 2015, the only compiler known to
+compile the full test suite is Clang 3.7.0 (trunk) with libc++ (trunk too).
+While Clang 3.6 is advertised as having full support for C++14, it has several
 C++14-related bugs that are fixed in the trunk and make it incapable of
-compiling the full test suite. However, efforts were made to make the library
-usable with Clang 3.5 and the libc++ that's shipped with it; you should expect
-a couple of compiler bugs to pop up here and there, but most functionality
-should be available.
+compiling the full test suite. However, efforts are being made to port the
+library to GCC 4.9 and Clang 3.6.
 
 
 ## Documentation
