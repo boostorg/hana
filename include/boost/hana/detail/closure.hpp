@@ -73,6 +73,23 @@ namespace boost { namespace hana { namespace detail {
     using closure = typename make_closure_impl<
         detail::std::make_index_sequence<sizeof...(Xs)>, Xs...
     >::type;
+
+    //! @ingroup group-details
+    //! Get the nth element of a `closure`.
+    template <detail::std::size_t n, typename Xn>
+    static constexpr Xn const&
+    get(element<n, Xn> const& x)
+    { return x.get; }
+
+    template <detail::std::size_t n, typename Xn>
+    static constexpr Xn&
+    get(element<n, Xn>& x)
+    { return x.get; }
+
+    template <detail::std::size_t n, typename Xn>
+    static constexpr Xn&&
+    get(element<n, Xn>&& x)
+    { return static_cast<element<n, Xn>&&>(x).get; }
 }}} // end namespace boost::hana::detail
 
 #endif // !BOOST_HANA_DETAIL_CLOSURE_HPP

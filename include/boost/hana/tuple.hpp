@@ -92,21 +92,6 @@ namespace boost { namespace hana {
     // utilities
     //////////////////////////////////////////////////////////////////////////
     namespace tuple_detail {
-        template <detail::std::size_t n, typename Xn>
-        static constexpr decltype(auto)
-        get(detail::element<n, Xn> const& x)
-        { return (x.get); }
-
-        template <detail::std::size_t n, typename Xn>
-        static constexpr decltype(auto)
-        get(detail::element<n, Xn>& x)
-        { return (x.get); }
-
-        template <detail::std::size_t n, typename Xn>
-        static constexpr Xn
-        get(detail::element<n, Xn>&& x)
-        { return detail::std::move(x.get); }
-
         template <typename Xs>
         using size = detail::std::integral_constant<detail::std::size_t,
             detail::std::remove_reference<Xs>::type::size
@@ -212,7 +197,7 @@ namespace boost { namespace hana {
     struct head_impl<Tuple> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs)
-        { return tuple_detail::get<0>(detail::std::forward<Xs>(xs)); }
+        { return detail::get<0>(detail::std::forward<Xs>(xs)); }
     };
 
     template <>
@@ -220,7 +205,7 @@ namespace boost { namespace hana {
         template <typename N, typename Xs>
         static constexpr decltype(auto) apply(N n, Xs&& xs) {
             constexpr detail::std::size_t index = hana::value(n);
-            return tuple_detail::get<index>(detail::std::forward<Xs>(xs));
+            return detail::get<index>(detail::std::forward<Xs>(xs));
         }
     };
 
@@ -249,7 +234,7 @@ namespace boost { namespace hana {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
             constexpr detail::std::size_t size = tuple_detail::size<Xs>{};
-            return tuple_detail::get<size - 1>(detail::std::forward<Xs>(xs));
+            return detail::get<size - 1>(detail::std::forward<Xs>(xs));
         }
     };
 
@@ -260,8 +245,7 @@ namespace boost { namespace hana {
         template <Size n, typename Xs, Size ...i>
         static constexpr decltype(auto)
         drop_helper(Xs&& xs, detail::std::index_sequence<i...>) {
-            return hana::tuple(tuple_detail::get<n + i>(
-                                            detail::std::forward<Xs>(xs))...);
+            return hana::tuple(detail::get<n + i>(detail::std::forward<Xs>(xs))...);
         }
 
         template <typename N, typename Xs>
@@ -357,7 +341,7 @@ namespace boost { namespace hana {
                         outer[index] = j;
                     }
                 }
-                return tuple_detail::get<Which>(hana::tuple(outer, inner));
+                return detail::get<Which>(hana::tuple(outer, inner));
             }
         };
 
@@ -366,9 +350,9 @@ namespace boost { namespace hana {
         flatten_helper(Xs&& xs, detail::std::index_sequence<outer...>,
                                 detail::std::index_sequence<inner...>)
         {
-            return hana::tuple(tuple_detail::get<outer>(
-                                tuple_detail::get<inner>(
-                                    detail::std::forward<Xs>(xs)))...);
+            return hana::tuple(detail::get<outer>(
+                                    detail::get<inner>(
+                                        detail::std::forward<Xs>(xs)))...);
         }
         //! @todo
         //! Use `Size` instead of `long long` for the `lengths` array.
@@ -508,8 +492,7 @@ namespace boost { namespace hana {
         template <typename Xs, detail::std::size_t ...n>
         static constexpr decltype(auto)
         init_helper(Xs&& xs, detail::std::index_sequence<n...>) {
-            return hana::tuple(tuple_detail::get<n>(
-                    detail::std::forward<Xs>(xs))...);
+            return hana::tuple(detail::get<n>(detail::std::forward<Xs>(xs))...);
         }
 
         template <typename Xs>
@@ -571,10 +554,10 @@ namespace boost { namespace hana {
                                   detail::std::index_sequence<after...>)
         {
             return hana::tuple(
-                tuple_detail::get<before>(
+                detail::get<before>(
                     detail::std::forward<Xs>(xs)
                 )...,
-                tuple_detail::get<sizeof...(before) + after + 1>(
+                detail::get<sizeof...(before) + after + 1>(
                     detail::std::forward<Xs>(xs)
                 )...
             );
@@ -595,14 +578,15 @@ namespace boost { namespace hana {
         template <detail::std::size_t ...n, typename ...Xn>
         static constexpr decltype(auto)
         apply(detail::closure_impl<detail::element<n, Xn>...>&& xs) {
-            return hana::tuple(detail::std::move(
-                    tuple_detail::get<sizeof...(n) - n - 1>(xs))...);
+            using Closure = detail::closure_impl<detail::element<n, Xn>...>;
+            return hana::tuple(detail::get<sizeof...(n) - n - 1>(
+                                            static_cast<Closure&&>(xs))...);
         }
 
         template <detail::std::size_t ...n, typename ...Xn>
         static constexpr decltype(auto)
         apply(detail::closure_impl<detail::element<n, Xn>...> const& xs) {
-            return hana::tuple(tuple_detail::get<sizeof...(n) - n - 1>(xs)...);
+            return hana::tuple(detail::get<sizeof...(n) - n - 1>(xs)...);
         }
     };
 
@@ -611,7 +595,7 @@ namespace boost { namespace hana {
         template <detail::std::size_t from, typename Xs, detail::std::size_t ...i>
         static constexpr decltype(auto)
         slice_helper(Xs&& xs, detail::std::index_sequence<i...>) {
-            return hana::tuple(tuple_detail::get<from + i>(
+            return hana::tuple(detail::get<from + i>(
                                     detail::std::forward<Xs>(xs))...);
         }
 
@@ -672,8 +656,7 @@ namespace boost { namespace hana {
         template <typename Xs, detail::std::size_t ...n>
         static constexpr decltype(auto)
         take_helper(Xs&& xs, detail::std::index_sequence<n...>) {
-            return hana::tuple(tuple_detail::get<n>(
-                                        detail::std::forward<Xs>(xs))...);
+            return hana::tuple(detail::get<n>(detail::std::forward<Xs>(xs))...);
         }
 
         template <typename N, typename Xs>

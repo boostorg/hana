@@ -32,6 +32,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <test/minimal_product.hpp>
 #include <test/numeric.hpp>
 #include <test/seq.hpp>
+#include <test/tracked.hpp>
 
 #include <type_traits>
 #include <vector>
@@ -1616,6 +1617,10 @@ namespace boost { namespace hana { namespace test {
                     flatten(list(list(x<0>, x<1>), list(), list(x<2>, x<3>), list(x<4>))),
                     list(x<0>, x<1>, x<2>, x<3>, x<4>)
                 ));
+
+
+                // just make sure we don't double move; this happened in Tuple
+                flatten(list(list(test::Tracked{1}, test::Tracked{2})));
             }
 
             //! @todo Finish this

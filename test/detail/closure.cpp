@@ -6,6 +6,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/closure.hpp>
 
+#include <test/tracked.hpp>
+
 #include <type_traits>
 #include <utility>
 using namespace boost::hana;
@@ -64,5 +66,39 @@ int main() {
         static_assert(!std::is_constructible<
             detail::closure<float>, double
         >{}, "");
+    }
+
+    // get
+    {
+        {
+            T t{};
+            U u{};
+            V v{};
+
+            detail::closure<T, U, V> xs{t, u, v};
+            (void)static_cast<T>(detail::get<0>(xs));
+            (void)static_cast<U>(detail::get<1>(xs));
+            (void)static_cast<V>(detail::get<2>(xs));
+        }
+
+        // make sure we don't double-move and do other weird stuff
+        {
+            detail::closure<test::Tracked, test::Tracked, test::Tracked> xs{
+                test::Tracked{1}, test::Tracked{2}, test::Tracked{3}
+            };
+
+            test::Tracked a = detail::get<0>(std::move(xs)); (void)a;
+            test::Tracked b = detail::get<1>(std::move(xs)); (void)b;
+            test::Tracked c = detail::get<2>(std::move(xs)); (void)c;
+        }
+
+        // test with nested closures
+        {
+            using Inner = detail::closure<test::Tracked, test::Tracked>;
+            detail::closure<Inner> xs{Inner{test::Tracked{1}, test::Tracked{2}}};
+
+            test::Tracked a = detail::get<0>(detail::get<0>(std::move(xs))); (void)a;
+            test::Tracked b = detail::get<1>(detail::get<0>(std::move(xs))); (void)b;
+        }
     }
 }
