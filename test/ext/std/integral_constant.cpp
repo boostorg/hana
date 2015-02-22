@@ -19,12 +19,12 @@ using namespace boost::hana;
 
 namespace boost { namespace hana { namespace test {
     template <typename T>
-    auto instances<ext::std::IntegralConstant<T>> = tuple(
+    auto instances<ext::std::IntegralConstant<T>> = make<Tuple>(
         type<Constant>
     );
 
     template <typename T>
-    auto objects<ext::std::IntegralConstant<T>> = tuple(
+    auto objects<ext::std::IntegralConstant<T>> = make<Tuple>(
         ::std::integral_constant<T, 0>{},
         ::std::integral_constant<T, 1>{},
         ::std::integral_constant<T, 2>{},

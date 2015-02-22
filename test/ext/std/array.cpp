@@ -23,7 +23,7 @@ constexpr auto array = std::array<int, sizeof...(i)>{{i...}};
 
 namespace boost { namespace hana { namespace test {
     template <>
-    auto instances<ext::std::Array> = tuple(
+    auto instances<ext::std::Array> = make<Tuple>(
         //! @todo Array is not actually a Sequence, because it can only hold
         //! homogeneous objects.
 #if 0
@@ -33,7 +33,7 @@ namespace boost { namespace hana { namespace test {
     );
 
     template <>
-    auto objects<ext::std::Array> = tuple(
+    auto objects<ext::std::Array> = make<Tuple>(
         ::array<>,
         ::array<0>,
         ::array<0, 1>,

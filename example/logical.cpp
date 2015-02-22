@@ -43,11 +43,11 @@ BOOST_HANA_CONSTEXPR_CHECK(if_(false, 1, 2) == 2);
 
 BOOST_HANA_CONSTEXPR_CHECK(
     if_(true_,
-        tuple('t', 'r', 'u', 'e'),
-        tuple('f', 'a', 'l', 's', 'e')
+        make<Tuple>('t', 'r', 'u', 'e'),
+        make<Tuple>('f', 'a', 'l', 's', 'e')
     )
     ==
-    tuple('t', 'r', 'u', 'e')
+    make<Tuple>('t', 'r', 'u', 'e')
 );
 //! [if_]
 

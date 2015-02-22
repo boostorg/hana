@@ -14,10 +14,10 @@ using namespace boost::hana;
 
 int main() {
     //! [main]
-    auto foo = make<std::string>("foo");
-    BOOST_HANA_RUNTIME_CHECK(foo == "foo");
+    std::string foo{"foo"};
+    BOOST_HANA_RUNTIME_CHECK(make<std::string>("foo") == foo);
 
-    auto ts = make<Tuple>(1, '2', 3.3, std::string{"abcd"});
-    BOOST_HANA_RUNTIME_CHECK(ts == tuple(1, '2', 3.3, std::string{"abcd"}));
+    _tuple<int, char, double, std::string> ts{1, '2', 3.3, "abcd"};
+    BOOST_HANA_RUNTIME_CHECK(ts == make<Tuple>(1, '2', 3.3, std::string{"abcd"}));
     //! [main]
 }

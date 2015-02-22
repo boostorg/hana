@@ -31,7 +31,7 @@ namespace boost { namespace hana {
     template <>
     struct members_impl<Person> {
         static BOOST_HANA_CONSTEXPR_LAMBDA auto apply() {
-            return tuple(
+            return make<Tuple>(
                 pair(name, [](auto&& p) -> decltype(auto) {
                     return id(std::forward<decltype(p)>(p).name);
                 }),
@@ -52,7 +52,7 @@ int main() {
     BOOST_HANA_RUNTIME_CHECK(lookup(john, age) == just(30));
     BOOST_HANA_CONSTANT_CHECK(lookup(john, "clearly not a member") == nothing);
 
-    BOOST_HANA_RUNTIME_CHECK(to<Tuple>(john) == tuple("John", 30));
+    BOOST_HANA_RUNTIME_CHECK(to<Tuple>(john) == make<Tuple>("John", 30));
     BOOST_HANA_RUNTIME_CHECK(to<Map>(john) == map(
         pair(name, "John"),
         pair(age, 30)

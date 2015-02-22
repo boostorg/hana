@@ -29,7 +29,7 @@ using namespace boost::hana;
 
 namespace boost { namespace hana { namespace test {
     template <>
-    auto instances<Numeric> = tuple(
+    auto instances<Numeric> = make<Tuple>(
           type<Enumerable>
         , type<Monoid>
         , type<Group>
@@ -41,7 +41,7 @@ namespace boost { namespace hana { namespace test {
     );
 
     template <>
-    auto objects<Numeric> = tuple(
+    auto objects<Numeric> = make<Tuple>(
           numeric(0)
         , numeric(1)
         , numeric(2)

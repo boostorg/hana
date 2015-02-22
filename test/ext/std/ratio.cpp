@@ -27,7 +27,7 @@ using namespace boost::hana;
 
 namespace boost { namespace hana { namespace test {
     template <>
-    auto instances<ext::std::Ratio> = tuple(
+    auto instances<ext::std::Ratio> = make<Tuple>(
         type<Comparable>,
         type<Group>,
         type<IntegralDomain>,
@@ -37,7 +37,7 @@ namespace boost { namespace hana { namespace test {
     );
 
     template <>
-    auto objects<ext::std::Ratio> = tuple(
+    auto objects<ext::std::Ratio> = make<Tuple>(
         ::std::ratio<0>{},
         ::std::ratio<1, 3>{},
         ::std::ratio<1, 2>{},

@@ -69,7 +69,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #define BOOST_HANA_PP_RECORD_DEFINE_INSTANCE_IMPL(MEMBERS)                  \
     static BOOST_HANA_CONSTEXPR_LAMBDA decltype(auto) apply() {             \
-        return ::boost::hana::tuple(                                        \
+        return ::boost::hana::make< ::boost::hana::Tuple>(                  \
             BOOST_PP_SEQ_ENUM(                                              \
                 BOOST_PP_SEQ_TRANSFORM(                                     \
                     BOOST_HANA_PP_RECORD_TUPLE_MEMBER_IMPL, ~, MEMBERS      \

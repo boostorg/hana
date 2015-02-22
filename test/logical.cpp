@@ -17,7 +17,7 @@ using namespace boost::hana;
 
 
 namespace boost { namespace hana { namespace test {
-    template <> auto objects<bool> = tuple(true, false);
+    template <> auto objects<bool> = make<Tuple>(true, false);
 }}}
 
 

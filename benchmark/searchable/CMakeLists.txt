@@ -15,7 +15,7 @@ foreach(method IN ITEMS all any elem find lookup none subset)
                         #include <boost/hana/integral_constant.hpp>
                         #include <boost/hana/tuple.hpp>
                     ',
-                    searchable: \"boost::hana::tuple(#{xs})\",
+                    searchable: \"boost::hana::make<boost::hana::Tuple>(#{xs})\",
                     input_size: n
                 }
             }"
@@ -43,7 +43,7 @@ foreach(method IN ITEMS all any elem find lookup none subset)
                 xs = (1..n).to_a.map { |i| \"x<#{i}>{}\" }.join(', ')
                 {
                     setup: '#include <boost/hana/tuple.hpp>',
-                    searchable: \"boost::hana::tuple(#{xs})\",
+                    searchable: \"boost::hana::make<boost::hana::Tuple>(#{xs})\",
                     input_size: n
                 }
             }"

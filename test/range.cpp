@@ -23,7 +23,7 @@ using namespace boost::hana;
 
 namespace boost { namespace hana { namespace test {
     template <>
-    auto objects<Range> = tuple(
+    auto objects<Range> = make<Tuple>(
           range(int_<0>, int_<0>)
         , range(int_<0>, int_<1>)
         , range(int_<0>, int_<2>)
@@ -37,7 +37,7 @@ namespace boost { namespace hana { namespace test {
     );
 
     template <>
-    auto instances<Range> = tuple(
+    auto instances<Range> = make<Tuple>(
         type<Iterable>,
         type<Foldable>,
         type<Comparable>

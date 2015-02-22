@@ -10,7 +10,7 @@ foreach(method IN ITEMS at drop drop_until drop_while last)
             xs = (1..n).to_a.map { |i| \"x<#{i}>{}\" }.join(', ')
             {
                 setup: '#include <boost/hana/tuple.hpp>',
-                iterable: \"boost::hana::tuple(#{xs})\",
+                iterable: \"boost::hana::make<boost::hana::Tuple>(#{xs})\",
                 input_size: n
             }
         }"

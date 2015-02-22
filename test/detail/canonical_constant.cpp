@@ -23,7 +23,7 @@ struct canonical {
 
 namespace boost { namespace hana { namespace test {
     template <typename T>
-    auto objects<detail::CanonicalConstant<T>> = tuple(
+    auto objects<detail::CanonicalConstant<T>> = make<Tuple>(
         ::canonical<T, 0>{},
         ::canonical<T, 1>{},
         ::canonical<T, 2>{},
@@ -31,7 +31,7 @@ namespace boost { namespace hana { namespace test {
     );
 
     template <typename T>
-    auto instances<detail::CanonicalConstant<T>> = tuple(
+    auto instances<detail::CanonicalConstant<T>> = make<Tuple>(
         type<Constant>
     );
 }}}

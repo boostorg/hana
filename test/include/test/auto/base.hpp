@@ -16,10 +16,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana { namespace test {
     template <typename Datatype>
-    auto objects = tuple();
+    auto objects = make<Tuple>();
 
     template <typename Datatype>
-    auto instances = tuple();
+    auto instances = make<Tuple>();
 
     template <typename Typeclass, typename ...Datatypes>
     auto laws = [] { };

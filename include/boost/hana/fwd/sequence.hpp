@@ -1385,12 +1385,12 @@ namespace boost { namespace hana {
     //! non-`with` variants, which do not accept a custom function, will
     //! zip using a tuple. In other words,
     //! @code
-    //!     zip.*(s1, ..., sn) == zip.*.with(tuple, s1, ..., sn)
+    //!     zip.*(s1, ..., sn) == zip.*.with(make<Tuple>, s1, ..., sn)
     //!                        == [
-    //!                             tuple(s1[0], ..., sn[0]),
-    //!                             tuple(s1[1], ..., sn[1]),
+    //!                             make<Tuple>(s1[0], ..., sn[0]),
+    //!                             make<Tuple>(s1[1], ..., sn[1]),
     //!                             ...
-    //!                             tuple(s1[M], ..., sn[M])
+    //!                             make<Tuple>(s1[M], ..., sn[M])
     //!                        ]
     //! @endcode
     //!

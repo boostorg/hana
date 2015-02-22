@@ -24,13 +24,13 @@ using namespace boost::hana;
 
 namespace boost { namespace hana { namespace test {
     template <typename T>
-    auto instances<CNumeric<T>> = tuple(
+    auto instances<CNumeric<T>> = make<Tuple>(
         type<Constant>,
         type<Logical>
     );
 
     template <typename T>
-    auto objects<CNumeric<T>> = tuple(
+    auto objects<CNumeric<T>> = make<Tuple>(
         cnumeric<T, 0>,
         cnumeric<T, 1>,
         cnumeric<T, 2>,

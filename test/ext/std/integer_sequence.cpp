@@ -27,13 +27,13 @@ using U = long long;
 
 namespace boost { namespace hana { namespace test {
     template <>
-    auto instances<ext::std::IntegerSequence> = tuple(
+    auto instances<ext::std::IntegerSequence> = make<Tuple>(
         type<Iterable>,
         type<Comparable>
     );
 
     template <>
-    auto objects<ext::std::IntegerSequence> = tuple(
+    auto objects<ext::std::IntegerSequence> = make<Tuple>(
         ::std::integer_sequence<T>{},
         ::std::integer_sequence<U>{},
 

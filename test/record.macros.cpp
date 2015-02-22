@@ -65,7 +65,7 @@ int main() {
         BOOST_HANA_CONSTANT_CHECK(is_a<Record, ns::Intrusive>);
         BOOST_HANA_CONSTANT_CHECK(equal(
             to<Tuple>(intrusive),
-            tuple(intrusive.member1, intrusive.member2)
+            make<Tuple>(intrusive.member1, intrusive.member2)
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
@@ -90,7 +90,7 @@ int main() {
         BOOST_HANA_CONSTANT_CHECK(is_a<Record, ns::AdHoc>);
         BOOST_HANA_CONSTANT_CHECK(equal(
             to<Tuple>(adhoc),
-            tuple(adhoc.member1, adhoc.member2)
+            make<Tuple>(adhoc.member1, adhoc.member2)
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(

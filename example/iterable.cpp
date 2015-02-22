@@ -23,40 +23,40 @@ int main() {
 {
 
 //! [head]
-BOOST_HANA_CONSTEXPR_CHECK(head(tuple(1, '2', 3.3, nullptr)) == 1);
+BOOST_HANA_CONSTEXPR_CHECK(head(make<Tuple>(1, '2', 3.3, nullptr)) == 1);
 //! [head]
 
 }{
 
 //! [at]
-BOOST_HANA_CONSTEXPR_CHECK(at(int_<0>, tuple(0, '1', 2.0)) == 0);
-BOOST_HANA_CONSTEXPR_CHECK(at(int_<1>, tuple(0, '1', 2.0)) == '1');
-BOOST_HANA_CONSTEXPR_CHECK(at(int_<2>, tuple(0, '1', 2.0)) == 2.0);
+BOOST_HANA_CONSTEXPR_CHECK(at(int_<0>, make<Tuple>(0, '1', 2.0)) == 0);
+BOOST_HANA_CONSTEXPR_CHECK(at(int_<1>, make<Tuple>(0, '1', 2.0)) == '1');
+BOOST_HANA_CONSTEXPR_CHECK(at(int_<2>, make<Tuple>(0, '1', 2.0)) == 2.0);
 //! [at]
 
 }{
 
 //! [at_c]
-BOOST_HANA_CONSTEXPR_CHECK(at_c<0>(tuple(0, '1', 2.0)) == 0);
-BOOST_HANA_CONSTEXPR_CHECK(at_c<1>(tuple(0, '1', 2.0)) == '1');
-BOOST_HANA_CONSTEXPR_CHECK(at_c<2>(tuple(0, '1', 2.0)) == 2.0);
+BOOST_HANA_CONSTEXPR_CHECK(at_c<0>(make<Tuple>(0, '1', 2.0)) == 0);
+BOOST_HANA_CONSTEXPR_CHECK(at_c<1>(make<Tuple>(0, '1', 2.0)) == '1');
+BOOST_HANA_CONSTEXPR_CHECK(at_c<2>(make<Tuple>(0, '1', 2.0)) == 2.0);
 //! [at_c]
 
 }{
 
 //! [drop]
-constexpr auto xs = tuple(0, '1', 2.0);
+constexpr auto xs = make<Tuple>(0, '1', 2.0);
 BOOST_HANA_CONSTEXPR_CHECK(drop(int_<0>, xs) == xs);
-BOOST_HANA_CONSTEXPR_CHECK(drop(int_<1>, xs) == tuple('1', 2.0));
-BOOST_HANA_CONSTEXPR_CHECK(drop(int_<2>, xs) == tuple(2.0));
-BOOST_HANA_CONSTANT_CHECK(drop(int_<3>, xs) == tuple());
-BOOST_HANA_CONSTANT_CHECK(drop(int_<4>, xs) == tuple());
+BOOST_HANA_CONSTEXPR_CHECK(drop(int_<1>, xs) == make<Tuple>('1', 2.0));
+BOOST_HANA_CONSTEXPR_CHECK(drop(int_<2>, xs) == make<Tuple>(2.0));
+BOOST_HANA_CONSTANT_CHECK(drop(int_<3>, xs) == make<Tuple>());
+BOOST_HANA_CONSTANT_CHECK(drop(int_<4>, xs) == make<Tuple>());
 //! [drop]
 
 }{
 
 //! [drop_c]
-BOOST_HANA_CONSTEXPR_CHECK(drop_c<2>(tuple(0, '1', 2.0)) == tuple(2.0));
+BOOST_HANA_CONSTEXPR_CHECK(drop_c<2>(make<Tuple>(0, '1', 2.0)) == make<Tuple>(2.0));
 //! [drop_c]
 
 }{
@@ -72,7 +72,7 @@ BOOST_HANA_CONSTANT_CHECK(
 );
 
 BOOST_HANA_CONSTANT_CHECK(
-    drop_until(tuple(1_c, -2_c, 4_c, 5_c), positive) == tuple(1_c, -2_c, 4_c, 5_c)
+    drop_until(make<Tuple>(1_c, -2_c, 4_c, 5_c), positive) == make<Tuple>(1_c, -2_c, 4_c, 5_c)
 );
 //! [drop_until]
 
@@ -89,36 +89,36 @@ BOOST_HANA_CONSTANT_CHECK(
 );
 
 BOOST_HANA_CONSTANT_CHECK(
-    drop_while(tuple(1_c, -2_c, 4_c, 5_c), negative) == tuple(1_c, -2_c, 4_c, 5_c)
+    drop_while(make<Tuple>(1_c, -2_c, 4_c, 5_c), negative) == make<Tuple>(1_c, -2_c, 4_c, 5_c)
 );
 //! [drop_while]
 
 }{
 
 //! [is_empty]
-BOOST_HANA_CONSTANT_CHECK(!is_empty(tuple(1, '2')));
-BOOST_HANA_CONSTANT_CHECK( is_empty(tuple()));
+BOOST_HANA_CONSTANT_CHECK(!is_empty(make<Tuple>(1, '2')));
+BOOST_HANA_CONSTANT_CHECK( is_empty(make<Tuple>()));
 //! [is_empty]
 
 }{
 
 //! [last]
-BOOST_HANA_CONSTEXPR_CHECK(last(tuple(1, '2', 3.3, nullptr)) == nullptr);
+BOOST_HANA_CONSTEXPR_CHECK(last(make<Tuple>(1, '2', 3.3, nullptr)) == nullptr);
 //! [last]
 
 }{
 
 //! [tail]
 BOOST_HANA_CONSTEXPR_CHECK(
-    tail(tuple(1, '2', 3.3, nullptr)) == tuple('2', 3.3, nullptr)
+    tail(make<Tuple>(1, '2', 3.3, nullptr)) == make<Tuple>('2', 3.3, nullptr)
 );
 //! [tail]
 
 }{
 
 //! [find]
-BOOST_HANA_CONSTEXPR_CHECK(find(tuple(1.0, 2, '3'), trait_<std::is_integral>) == just(2));
-BOOST_HANA_CONSTANT_CHECK(find(tuple(1.0, 2, '3'), trait_<std::is_class>) == nothing);
+BOOST_HANA_CONSTEXPR_CHECK(find(make<Tuple>(1.0, 2, '3'), trait_<std::is_integral>) == just(2));
+BOOST_HANA_CONSTANT_CHECK(find(make<Tuple>(1.0, 2, '3'), trait_<std::is_class>) == nothing);
 //! [find]
 
 }

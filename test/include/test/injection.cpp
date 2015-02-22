@@ -30,9 +30,9 @@ int main() {
         };
 
         BOOST_HANA_CONSTANT_CHECK(all_of(
-            ap(tuple(is_injection),
-                tuple(x<0>, x<1>, x<2>, x<3>),
-                tuple(x<0>, x<1>, x<2>, x<3>))
+            ap(make<Tuple>(is_injection),
+                make<Tuple>(x<0>, x<1>, x<2>, x<3>),
+                make<Tuple>(x<0>, x<1>, x<2>, x<3>))
         ));
     }
 

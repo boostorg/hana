@@ -16,13 +16,13 @@ using namespace boost::hana;
 
 int main() {
     //! [main]
-    BOOST_HANA_CONSTEXPR_LAMBDA auto sorted = sort_by(less ^on^ first, tuple(
+    BOOST_HANA_CONSTEXPR_LAMBDA auto sorted = sort_by(less ^on^ first, make<Tuple>(
         pair(int_<3>, 'x'),
         pair(int_<1>, type<void>),
         pair(int_<2>, 9876)
     ));
 
-    BOOST_HANA_CONSTEXPR_CHECK(sorted == tuple(
+    BOOST_HANA_CONSTEXPR_CHECK(sorted == make<Tuple>(
         pair(int_<1>, type<void>),
         pair(int_<2>, 9876),
         pair(int_<3>, 'x')

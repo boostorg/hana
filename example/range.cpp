@@ -31,7 +31,7 @@ BOOST_HANA_CONSTANT_CHECK(range(int_<0>, int_<3>) != range(int_<-1>, int_<3>));
 
 //! [foldable]
 BOOST_HANA_CONSTANT_CHECK(foldl(range(int_<0>, int_<4>), int_<0>, plus) == int_<6>);
-BOOST_HANA_CONSTANT_CHECK(unpack(range(int_<-2>, int_<2>), tuple) == tuple(int_<-2>, int_<-1>, int_<0>, int_<1>));
+BOOST_HANA_CONSTANT_CHECK(unpack(range(int_<-2>, int_<2>), tuple) == make<Tuple>(int_<-2>, int_<-1>, int_<0>, int_<1>));
 //! [foldable]
 
 }{

@@ -20,12 +20,12 @@ using namespace boost::hana;
 
 namespace boost { namespace hana { namespace test {
     template <>
-    auto instances<ext::std::Pair> = tuple(
+    auto instances<ext::std::Pair> = make<Tuple>(
         type<Product>
     );
 
     template <>
-    auto objects<ext::std::Pair> = tuple(
+    auto objects<ext::std::Pair> = make<Tuple>(
           ::std::make_pair(cnumeric<int, 0>, cnumeric<int, 0>)
         , ::std::make_pair(cnumeric<int, 0>, cnumeric<int, 1>)
         , ::std::make_pair(cnumeric<int, 1>, cnumeric<int, 0>)

@@ -34,7 +34,7 @@ constexpr auto ord = test::cnumeric<int, i>;
 
 namespace boost { namespace hana { namespace test {
     template <>
-    auto instances<Maybe> = tuple(
+    auto instances<Maybe> = make<Tuple>(
         type<Comparable>,
         type<Orderable>,
 
@@ -49,7 +49,7 @@ namespace boost { namespace hana { namespace test {
     );
 
     template <>
-    auto objects<Maybe> = tuple(
+    auto objects<Maybe> = make<Tuple>(
         nothing,
         just(ord<0>),
         just(ord<1>),

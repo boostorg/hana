@@ -14,14 +14,14 @@ using namespace boost::hana;
 int main() {
     //! [main]
     BOOST_HANA_CONSTEXPR_CHECK(
-        demux(tuple)(
+        demux(make<Tuple>)(
             _ + _,
             _ - _,
             _ * _,
             _ / _
         )(10, 4)
         ==
-        tuple(10 + 4, 10 - 4, 10 * 4, 10 / 4)
+        make<Tuple>(10 + 4, 10 - 4, 10 * 4, 10 / 4)
     );
     //! [main]
 }

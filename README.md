@@ -28,22 +28,21 @@ struct City   { std::string name; };
 
 int main() {
     // Sequences holding heterogeneous objects.
-    auto stuff = tuple(Person{"Louis"}, Car{"Toyota"}, City{"Quebec"});
+    auto stuff = make<Tuple>(Person{"Louis"}, Car{"Toyota"}, City{"Quebec"});
 
     // Expressive algorithms to manipulate them.
     auto names = transform(stuff, [](auto x) { return x.name; });
-    assert(reverse(names) == tuple("Quebec", "Toyota", "Louis"));
+    assert(reverse(names) == make<Tuple>("Quebec", "Toyota", "Louis"));
 
     // No compile-time information is lost: even if `stuff` can't be constexpr
     // because it holds `std::string`s, its length is known at compile-time.
     static_assert(length(stuff) == 3u, "");
 
-    // A way to represent types as values and to "lift" metafunctions into
-    // normal functions, so everything you can do with the MPL can be done
-    // with Hana, using a sane syntax.
-    constexpr auto types = tuple(type<Car>, type<City>, type<void>);
+    // A way to represent types as values and metafunctions as normal functions,
+    // so everything that can be done with the MPL can be done with Hana.
+    constexpr auto types = make<Tuple>(type<Car>, type<City>, type<void>);
     constexpr auto pointers = transform(types, metafunction<std::add_pointer>);
-    static_assert(pointers == tuple(type<Car*>, type<City*>, type<void*>), "");
+    static_assert(pointers == tuple_t<Car*, City*, void*>, "");
 
     // And many other goodies to make your life better.
     static_assert(10_c == std::integral_constant<long long, 10>{}, "");

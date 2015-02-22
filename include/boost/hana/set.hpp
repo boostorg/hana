@@ -37,7 +37,8 @@ namespace boost { namespace hana {
     //! @cond
     template <typename ...Xs>
     constexpr decltype(auto) _make_set::operator()(Xs&& ...xs) const {
-        return detail::create<_set>{}(hana::tuple(detail::std::forward<Xs>(xs)...));
+        return detail::create<_set>{}(
+                    hana::make<Tuple>(detail::std::forward<Xs>(xs)...));
     }
     //! @endcond
 

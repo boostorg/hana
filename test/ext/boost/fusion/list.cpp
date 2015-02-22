@@ -25,12 +25,12 @@ constexpr auto ord = test::cnumeric<int, i>;
 
 namespace boost { namespace hana { namespace test {
     template <>
-    auto instances<ext::boost::fusion::List> = tuple(
+    auto instances<ext::boost::fusion::List> = make<Tuple>(
         type<Sequence>
     );
 
     template <>
-    auto objects<ext::boost::fusion::List> = tuple(
+    auto objects<ext::boost::fusion::List> = make<Tuple>(
         ::boost::fusion::make_list(),
         ::boost::fusion::make_list(ord<0>),
         ::boost::fusion::make_list(ord<0>, ord<1>),

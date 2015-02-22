@@ -33,13 +33,13 @@ auto p = test::minimal_product(key<i>, value<j>);
 
 namespace boost { namespace hana { namespace test {
     template <>
-    auto instances<Map> = tuple(
+    auto instances<Map> = make<Tuple>(
         type<Searchable>,
         type<Comparable>
     );
 
     template <>
-    auto objects<Map> = tuple(
+    auto objects<Map> = make<Tuple>(
         map(),
         map(p<1, 1>),
         map(p<1, 2>),

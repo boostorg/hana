@@ -27,7 +27,7 @@ using namespace boost::hana;
 
 namespace boost { namespace hana { namespace test {
     template <>
-    auto instances<Identity> = tuple(
+    auto instances<Identity> = make<Tuple>(
         type<Functor>,
         type<Applicative>,
         type<Monad>,
@@ -35,7 +35,7 @@ namespace boost { namespace hana { namespace test {
     );
 
     template <>
-    auto objects<Identity> = tuple(
+    auto objects<Identity> = make<Tuple>(
         identity(x<0>),
         identity(x<1>),
         identity(x<2>),
@@ -204,7 +204,7 @@ int main() {
 
             BOOST_HANA_CONSTANT_CHECK(equal(
                 traverse<Tuple>(test::identity(x<0>), compose(tuple, f)),
-                tuple(test::identity(f(x<0>)))
+                make<Tuple>(test::identity(f(x<0>)))
             ));
         }
 
@@ -216,8 +216,8 @@ int main() {
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                sequence<Tuple>(test::identity(tuple(x<0>, x<1>, x<2>))),
-                tuple(test::identity(x<0>), test::identity(x<1>), test::identity(x<2>))
+                sequence<Tuple>(test::identity(make<Tuple>(x<0>, x<1>, x<2>))),
+                make<Tuple>(test::identity(x<0>), test::identity(x<1>), test::identity(x<2>))
             ));
         }
     }

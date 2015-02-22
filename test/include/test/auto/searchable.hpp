@@ -31,7 +31,7 @@ namespace boost { namespace hana { namespace test {
 
         for_each(objects<S>, [](auto xs) {
 
-            auto predicates = tuple(always(true_), always(false_));
+            auto predicates = make<Tuple>(always(true_), always(false_));
             for_each(predicates, [=](auto p) {
                 BOOST_HANA_CHECK(
                     any(xs, p) ^iff^ not_(all(xs, compose(not_, p)))

@@ -56,10 +56,10 @@ namespace boost { namespace hana {
     //! Create a `Tuple` specialized for holding `Type`s.
     //! @relates Tuple
     //!
-    //! This is functionally equivalent to `tuple(type<T>...)`, except that
-    //! using `tuple_t` allows the library to perform some compile-time
-    //! optimizations. Note that those optimizations are 100% transparent
-    //! to the user.
+    //! This is functionally equivalent to `make<Tuple>(type<T>...)`, except
+    //! that using `tuple_t` allows the library to perform some compile-time
+    //! optimizations. Also note that the type of the objects returned by
+    //! `tuple_t` and an equivalent call to `make<Tuple>` may differ.
     //!
     //!
     //! Example
@@ -82,10 +82,10 @@ namespace boost { namespace hana {
     //! Create a `Tuple` specialized for holding `IntegralConstant`s.
     //! @relates Tuple
     //!
-    //! This is functionally equivalent to `tuple(integral_constant<T, v>...)`,
+    //! This is functionally equivalent to `make<Tuple>(integral_constant<T, v>...)`,
     //! except that using `tuple_c` allows the library to perform some
-    //! compile-time optimizations. Note that those optimizations are 100%
-    //! transparent to the user.
+    //! compile-time optimizations. Also note that the type of the objects
+    //! returned by `tuple_c` and an equivalent call to `make<Tuple>` may differ.
     //!
     //!
     //! Example

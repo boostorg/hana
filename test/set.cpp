@@ -23,7 +23,7 @@ using namespace boost::hana;
 
 namespace boost { namespace hana { namespace test {
     template <>
-    auto objects<Set> = tuple(
+    auto objects<Set> = make<Tuple>(
         set(),
         set(x<0>),
         set(x<0>, x<1>),
@@ -32,7 +32,7 @@ namespace boost { namespace hana { namespace test {
     );
 
     template <>
-    auto instances<Set> = tuple(
+    auto instances<Set> = make<Tuple>(
         type<Comparable>,
         type<Searchable>
     );
@@ -171,7 +171,7 @@ int main() {
         {
             BOOST_HANA_CONSTEXPR_LAMBDA auto check = [](auto ...keys) {
                 return and_(
-                    all(permutations(tuple(keys...)), [=](auto perm) {
+                    all(permutations(make<Tuple>(keys...)), [=](auto perm) {
                         return equal(to<Set>(perm), set(keys...));
                     }),
                     not_(equal(set(keys...), set(keys..., x<999>)))

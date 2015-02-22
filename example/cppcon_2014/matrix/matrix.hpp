@@ -60,7 +60,7 @@ namespace cppcon {
 
     auto matrix = [](auto&& ...rows) -> decltype(auto) {
         using namespace boost::hana;
-        auto storage = tuple(std::forward<decltype(rows)>(rows)...);
+        auto storage = make<Tuple>(std::forward<decltype(rows)>(rows)...);
         auto ncolumns = length(head(storage));
         BOOST_HANA_CONSTANT_CHECK(
             all(tail(storage), [&](auto const& row) {

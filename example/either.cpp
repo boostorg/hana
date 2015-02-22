@@ -91,19 +91,23 @@ BOOST_HANA_CONSTANT_CHECK(
 }{
 
 //! [foldable]
-BOOST_HANA_CONSTANT_CHECK(unpack(left('x'), tuple) == tuple());
-BOOST_HANA_CONSTEXPR_CHECK(unpack(right('x'), tuple) == tuple('x'));
+BOOST_HANA_CONSTANT_CHECK(unpack(left('x'), make<Tuple>) == make<Tuple>());
+BOOST_HANA_CONSTEXPR_CHECK(unpack(right('x'), make<Tuple>) == make<Tuple>('x'));
 //! [foldable]
 
 }{
 
 //! [traversable]
 BOOST_HANA_CONSTEXPR_LAMBDA auto duplicate = [](auto x) {
-    return tuple(x, x);
+    return make<Tuple>(x, x);
 };
 
-BOOST_HANA_CONSTEXPR_CHECK(traverse<Tuple>(left(1), duplicate) == tuple(left(1)));
-BOOST_HANA_CONSTEXPR_CHECK(traverse<Tuple>(right(1), duplicate) == tuple(right(1), right(1)));
+BOOST_HANA_CONSTEXPR_CHECK(
+    traverse<Tuple>(left(1), duplicate) == make<Tuple>(left(1))
+);
+BOOST_HANA_CONSTEXPR_CHECK(
+    traverse<Tuple>(right(1), duplicate) == make<Tuple>(right(1), right(1))
+);
 //! [traversable]
 
 }{

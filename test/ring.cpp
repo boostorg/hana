@@ -14,8 +14,8 @@ using namespace boost::hana;
 
 
 namespace boost { namespace hana { namespace test {
-    template <> auto objects<int> = tuple(0,1,2,3,4,5);
-    template <> auto objects<long> = tuple(0l,1l,2l,3l,4l,5l);
+    template <> auto objects<int> = make<Tuple>(0,1,2,3,4,5);
+    template <> auto objects<long> = make<Tuple>(0l,1l,2l,3l,4l,5l);
 }}}
 
 

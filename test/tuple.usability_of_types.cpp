@@ -21,17 +21,20 @@ using namespace boost::hana;
 struct T; struct U; struct V;
 
 int main() {
-    auto types = tuple(type<T>, type<U>, type<V>);
+    auto check = [](auto types) {
+        static_assert(std::is_same<
+            typename decltype(+head(types))::type, T
+        >{}, "");
 
-    static_assert(std::is_same<
-        decltype(+head(types))::type, T
-    >{}, "");
+        static_assert(std::is_same<
+            typename decltype(+at(int_<1>, types))::type, U
+        >{}, "");
 
-    static_assert(std::is_same<
-        decltype(+at(int_<1>, types))::type, U
-    >{}, "");
+        static_assert(std::is_same<
+            typename decltype(+last(types))::type, V
+        >{}, "");
+    };
 
-    static_assert(std::is_same<
-        decltype(+last(types))::type, V
-    >{}, "");
+    check(make<Tuple>(type<T>, type<U>, type<V>));
+    check(tuple_t<T, U, V>);
 }

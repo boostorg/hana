@@ -98,5 +98,5 @@ int main() {
     BOOST_HANA_CONSTEXPR_CHECK(head(repeat_(1)) == 1);
     BOOST_HANA_CONSTEXPR_CHECK(at(size_t<10>, repeat_(1)) == 1);
 
-    BOOST_HANA_CONSTEXPR_CHECK(take(size_t<2>, repeat_('x')) == tuple('x', 'x'));
+    BOOST_HANA_CONSTEXPR_CHECK(take(size_t<2>, repeat_('x')) == make<Tuple>('x', 'x'));
 }

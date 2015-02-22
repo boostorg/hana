@@ -27,7 +27,7 @@ using namespace boost::hana;
 
 namespace boost { namespace hana { namespace test {
     template <>
-    auto instances<SearchableSet> = tuple(
+    auto instances<SearchableSet> = make<Tuple>(
           type<Comparable>
         , type<Functor>
         , type<Applicative>
@@ -36,7 +36,7 @@ namespace boost { namespace hana { namespace test {
     );
 
     template <>
-    auto objects<SearchableSet> = tuple(
+    auto objects<SearchableSet> = make<Tuple>(
         singleton(numeric(0)),
         singleton(numeric(1)),
         doubleton(numeric(0), numeric(1)),

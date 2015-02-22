@@ -19,12 +19,12 @@ using namespace boost::hana;
 
 namespace boost { namespace hana { namespace test {
     template <>
-    auto instances<MinimalProduct> = tuple(
+    auto instances<MinimalProduct> = make<Tuple>(
         type<Product>
     );
 
     template <>
-    auto objects<MinimalProduct> = tuple(
+    auto objects<MinimalProduct> = make<Tuple>(
           minimal_product(cnumeric<int, 0>, cnumeric<int, 0>)
         , minimal_product(cnumeric<int, 0>, cnumeric<int, 1>)
         , minimal_product(cnumeric<int, 1>, cnumeric<int, 0>)

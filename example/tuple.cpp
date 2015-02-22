@@ -28,7 +28,7 @@ int main() {
 BOOST_HANA_CONSTANT_CHECK(
     to<Tuple>(tuple_t<int, char, void, int(float)>)
     ==
-    tuple(type<int>, type<char>, type<void>, type<int(float)>)
+    make<Tuple>(type<int>, type<char>, type<void>, type<int(float)>)
 );
 //! [tuple_t]
 
@@ -38,7 +38,7 @@ BOOST_HANA_CONSTANT_CHECK(
 BOOST_HANA_CONSTANT_CHECK(
     to<Tuple>(tuple_c<int, 0, 1, 2>)
     ==
-    tuple(int_<0>, int_<1>, int_<2>)
+    make<Tuple>(int_<0>, int_<1>, int_<2>)
 );
 BOOST_HANA_CONSTANT_CHECK(head(tuple_c<int, 0, 1, 2>) == int_<0>);
 //! [tuple_c]
@@ -62,15 +62,15 @@ BOOST_HANA_CONSTANT_CHECK(foldr(numbers, tuple_c<int>, keep_negatives) == negati
 
 //! [Tuple_interop]
 BOOST_HANA_CONSTEXPR_CHECK(
-    to<Tuple>(std::make_tuple(1, '2', 3.3)) == tuple(1, '2', 3.3)
+    to<Tuple>(std::make_tuple(1, '2', 3.3)) == make<Tuple>(1, '2', 3.3)
 );
 
 BOOST_HANA_CONSTANT_CHECK(
-    to<Tuple>(range(int_<1>, int_<4>)) == tuple(int_<1>, int_<2>, int_<3>)
+    to<Tuple>(range(int_<1>, int_<4>)) == make<Tuple>(int_<1>, int_<2>, int_<3>)
 );
 
 BOOST_HANA_CONSTEXPR_CHECK(
-    to<Tuple>(std::array<int, 3>{{1, 2, 3}}) == tuple(1, 2, 3)
+    to<Tuple>(std::array<int, 3>{{1, 2, 3}}) == make<Tuple>(1, 2, 3)
 );
 //! [Tuple_interop]
 

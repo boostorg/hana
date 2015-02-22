@@ -16,7 +16,7 @@ foreach(method IN ITEMS count foldl foldl1 foldr foldr1 for_each length maximum 
                         #include <boost/hana/integral_constant.hpp>
                         #include <boost/hana/tuple.hpp>
                     ',
-                    foldable: \"boost::hana::tuple(#{xs})\",
+                    foldable: \"boost::hana::make<boost::hana::Tuple>(#{xs})\",
                     input_size: n
                 }
             }
@@ -45,7 +45,7 @@ foreach(method IN ITEMS count foldl foldl1 foldr foldr1 for_each length maximum 
                 xs = (1..n).to_a.map { |i| \"x<#{i}>{}\" }.join(', ')
                 {
                     setup: '#include <boost/hana/tuple.hpp>',
-                    foldable: \"boost::hana::tuple(#{xs})\",
+                    foldable: \"boost::hana::make<boost::hana::Tuple>(#{xs})\",
                     input_size: n
                 }
             }

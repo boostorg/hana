@@ -31,9 +31,9 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto negate = [](auto x) {
 };
 
 BOOST_HANA_CONSTEXPR_CHECK(
-    adjust(tuple(-3, -2, -1, 0, 1, 2, 3), negative, negate)
+    adjust(make<Tuple>(-3, -2, -1, 0, 1, 2, 3), negative, negate)
     ==
-    tuple(3, 2, 1, 0, 1, 2, 3)
+    make<Tuple>(3, 2, 1, 0, 1, 2, 3)
 );
 //! [adjust]
 
@@ -41,7 +41,7 @@ BOOST_HANA_CONSTEXPR_CHECK(
 
 //! [fill]
 BOOST_HANA_CONSTEXPR_CHECK(
-    fill(tuple(1, '2', 3.3, nullptr), 'x') == tuple('x', 'x', 'x', 'x')
+    fill(make<Tuple>(1, '2', 3.3, nullptr), 'x') == make<Tuple>('x', 'x', 'x', 'x')
 );
 
 BOOST_HANA_CONSTANT_CHECK(fill(nothing, 'x') == nothing);
@@ -56,9 +56,9 @@ auto to_string = [](auto x) {
 };
 
 BOOST_HANA_RUNTIME_CHECK(
-    transform(tuple(1, '2', "345", std::string{"67"}), to_string)
+    transform(make<Tuple>(1, '2', "345", std::string{"67"}), to_string)
     ==
-    tuple("1", "2", "345", "67")
+    make<Tuple>("1", "2", "345", "67")
 );
 
 BOOST_HANA_CONSTANT_CHECK(transform(nothing, to_string) == nothing);
@@ -79,9 +79,9 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto negative = [](auto x) {
 };
 
 BOOST_HANA_CONSTEXPR_CHECK(
-    replace(tuple(-3, -2, -1, 0, 1, 2, 3), negative, 0)
+    replace(make<Tuple>(-3, -2, -1, 0, 1, 2, 3), negative, 0)
     ==
-    tuple(0, 0, 0, 0, 1, 2, 3)
+    make<Tuple>(0, 0, 0, 0, 1, 2, 3)
 );
 //! [replace]
 

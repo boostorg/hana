@@ -28,12 +28,12 @@ using namespace boost::hana;
 
 namespace boost { namespace hana { namespace test {
     template <typename T>
-    auto instances<ext::boost::mpl::IntegralC<T>> = tuple(
+    auto instances<ext::boost::mpl::IntegralC<T>> = make<Tuple>(
         type<Constant>
     );
 
     template <typename T>
-    auto objects<ext::boost::mpl::IntegralC<T>> = tuple(
+    auto objects<ext::boost::mpl::IntegralC<T>> = make<Tuple>(
         ::boost::mpl::integral_c<T, 0>{},
         ::boost::mpl::integral_c<T, 1>{},
         ::boost::mpl::integral_c<T, 2>{},

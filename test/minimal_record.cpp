@@ -23,14 +23,14 @@ using namespace boost::hana;
 
 namespace boost { namespace hana { namespace test {
     template <>
-    auto instances<MinimalRecord> = tuple(
+    auto instances<MinimalRecord> = make<Tuple>(
         type<Comparable>,
         type<Foldable>,
         type<Searchable>
     );
 
     template <>
-    auto objects<MinimalRecord> = tuple(
+    auto objects<MinimalRecord> = make<Tuple>(
         minimal_record(x<0>, x<0>),
         minimal_record(x<0>, x<1>),
         minimal_record(x<1>, x<0>),

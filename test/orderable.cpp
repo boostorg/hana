@@ -42,11 +42,11 @@ namespace boost { namespace hana {
 }}
 
 namespace boost { namespace hana { namespace test {
-    template <> auto objects<int> = tuple(0,1,2,3,4,5);
-    template <> auto objects<unsigned int> = tuple(0u,1u,2u,3u,4u,5u);
-    template <> auto objects<long> = tuple(0l,1l,2l,3l,4l,5l);
-    template <> auto objects<unsigned long> = tuple(0ul,1ul,2ul,3ul,4ul,5ul);
-    template <> auto objects<ord1> = tuple(ord1{0}, ord1{1}, ord1{2}, ord1{3}, ord1{4});
+    template <> auto objects<int> = make<Tuple>(0,1,2,3,4,5);
+    template <> auto objects<unsigned int> = make<Tuple>(0u,1u,2u,3u,4u,5u);
+    template <> auto objects<long> = make<Tuple>(0l,1l,2l,3l,4l,5l);
+    template <> auto objects<unsigned long> = make<Tuple>(0ul,1ul,2ul,3ul,4ul,5ul);
+    template <> auto objects<ord1> = make<Tuple>(ord1{0}, ord1{1}, ord1{2}, ord1{3}, ord1{4});
 }}}
 
 

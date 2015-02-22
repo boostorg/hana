@@ -793,7 +793,7 @@ namespace boost { namespace hana {
     struct zip_shortest_with_impl<S, when<condition>> : default_ {
         template <typename F, typename ...Xs>
         static constexpr decltype(auto) apply(F&& f, Xs&& ...xs) {
-            auto min = hana::minimum(hana::tuple(hana::length(xs)...));
+            auto min = hana::minimum(hana::make<Tuple>(hana::length(xs)...));
             return zip.unsafe.with(detail::std::forward<F>(f),
                 hana::take(min, detail::std::forward<Xs>(xs))...
             );
@@ -810,7 +810,7 @@ namespace boost { namespace hana {
     struct zip_shortest_impl<S, when<condition>> : default_ {
         template <typename ...Xs>
         static constexpr decltype(auto) apply(Xs&& ...xs) {
-            return zip.shortest.with(tuple, detail::std::forward<Xs>(xs)...);
+            return zip.shortest.with(make<Tuple>, detail::std::forward<Xs>(xs)...);
         }
     };
 
@@ -858,7 +858,7 @@ namespace boost { namespace hana {
     struct zip_unsafe_impl<S, when<condition>> : default_ {
         template <typename ...Xs>
         static constexpr decltype(auto) apply(Xs&& ...xs) {
-            return zip.unsafe.with(tuple, detail::std::forward<Xs>(xs)...);
+            return zip.unsafe.with(make<Tuple>, detail::std::forward<Xs>(xs)...);
         }
     };
 

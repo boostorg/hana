@@ -17,14 +17,14 @@ using namespace boost::hana;
 auto check = [](auto split) {
     auto result = split([](auto ...xs) {
         return [=](auto ...ys) {
-            return pair(tuple(xs...), tuple(ys...));
+            return pair(make<Tuple>(xs...), make<Tuple>(ys...));
         };
     });
 
     return [=](auto ...xs) {
-        BOOST_HANA_CONSTANT_CHECK(equal(tuple(xs...), first(result)));
+        BOOST_HANA_CONSTANT_CHECK(equal(make<Tuple>(xs...), first(result)));
         return [=](auto ...ys) {
-            BOOST_HANA_CONSTANT_CHECK(equal(tuple(ys...), second(result)));
+            BOOST_HANA_CONSTANT_CHECK(equal(make<Tuple>(ys...), second(result)));
         };
     };
 };

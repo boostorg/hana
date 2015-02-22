@@ -18,21 +18,24 @@ int main() {
 
 //! [sequence]
 BOOST_HANA_CONSTEXPR_CHECK(
-    sequence<Maybe>(tuple(just(1), just('2'), just(3.3))) == just(tuple(1, '2', 3.3))
+    sequence<Maybe>(make<Tuple>(just(1), just('2'), just(3.3))) ==
+    just(make<Tuple>(1, '2', 3.3))
 );
 
 BOOST_HANA_CONSTANT_CHECK(
-    sequence<Maybe>(tuple(just(1), nothing, just(3.3))) == nothing
+    sequence<Maybe>(make<Tuple>(just(1), nothing, just(3.3))) == nothing
 );
 
 // This is a generalized Cartesian product.
 BOOST_HANA_CONSTEXPR_CHECK(
-    sequence<Tuple>(tuple(tuple(1, 2, 3), tuple(4), tuple(5, 6)))
+    sequence<Tuple>(make<Tuple>(make<Tuple>(1, 2, 3),
+                                make<Tuple>(4),
+                                make<Tuple>(5, 6)))
     ==
-    tuple(
-        tuple(1, 4, 5), tuple(1, 4, 6),
-        tuple(2, 4, 5), tuple(2, 4, 6),
-        tuple(3, 4, 5), tuple(3, 4, 6)
+    make<Tuple>(
+        make<Tuple>(1, 4, 5), make<Tuple>(1, 4, 6),
+        make<Tuple>(2, 4, 5), make<Tuple>(2, 4, 6),
+        make<Tuple>(3, 4, 5), make<Tuple>(3, 4, 6)
     )
 );
 //! [sequence]
@@ -48,27 +51,27 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto half = [](auto x) {
 };
 
 BOOST_HANA_CONSTANT_CHECK(
-    traverse<Maybe>(tuple(int_<2>, int_<4>, int_<6>), half)
+    traverse<Maybe>(make<Tuple>(int_<2>, int_<4>, int_<6>), half)
     ==
-    just(tuple(int_<1>, int_<2>, int_<3>))
+    just(make<Tuple>(int_<1>, int_<2>, int_<3>))
 );
 
 BOOST_HANA_CONSTANT_CHECK(
-    traverse<Maybe>(tuple(int_<2>, int_<3>, int_<6>), half)
+    traverse<Maybe>(make<Tuple>(int_<2>, int_<3>, int_<6>), half)
     ==
     nothing
 );
 
 BOOST_HANA_CONSTEXPR_LAMBDA auto twice = [](auto x) {
-    return tuple(x, x);
+    return make<Tuple>(x, x);
 };
 
 BOOST_HANA_CONSTEXPR_CHECK(
-    traverse<Tuple>(just('x'), twice) == tuple(just('x'), just('x'))
+    traverse<Tuple>(just('x'), twice) == make<Tuple>(just('x'), just('x'))
 );
 
 BOOST_HANA_CONSTANT_CHECK(
-    traverse<Tuple>(nothing, twice) == tuple(nothing)
+    traverse<Tuple>(nothing, twice) == make<Tuple>(nothing)
 );
 //! [traverse]
 

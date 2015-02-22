@@ -24,18 +24,18 @@ constexpr auto ord = test::cnumeric<int, i>;
 
 namespace boost { namespace hana { namespace test {
     template <>
-    auto objects<Tuple> = tuple(
-            tuple()
-          , tuple(ord<0>)
-          , tuple(ord<0>, ord<1>)
-          , tuple(ord<0>, ord<1>, ord<2>)
-          , tuple(ord<0>, ord<1>, ord<2>, ord<3>)
-          , tuple(ord<0>, ord<1>, ord<2>, ord<3>, ord<4>)
-          , tuple(ord<0>, ord<1>, ord<2>, ord<3>, ord<4>, ord<5>)
+    auto objects<Tuple> = make<Tuple>(
+            make<Tuple>()
+          , make<Tuple>(ord<0>)
+          , make<Tuple>(ord<0>, ord<1>)
+          , make<Tuple>(ord<0>, ord<1>, ord<2>)
+          , make<Tuple>(ord<0>, ord<1>, ord<2>, ord<3>)
+          , make<Tuple>(ord<0>, ord<1>, ord<2>, ord<3>, ord<4>)
+          , make<Tuple>(ord<0>, ord<1>, ord<2>, ord<3>, ord<4>, ord<5>)
     );
 
     template <>
-    auto instances<Tuple> = tuple(
+    auto instances<Tuple> = make<Tuple>(
           type<Sequence>
     );
 }}}
@@ -55,7 +55,7 @@ int main() {
         };
 
         {
-            auto xs = tuple(movable{});
+            auto xs = make<Tuple>(movable{});
             auto by_val = [](auto) { };
 
             by_val(std::move(xs));
@@ -65,7 +65,7 @@ int main() {
         }
 
         {
-            auto const& xs = tuple(movable{});
+            auto const& xs = make<Tuple>(movable{});
             auto by_const_ref = [](auto const&) { };
 
             by_const_ref(xs);
@@ -75,7 +75,7 @@ int main() {
         }
 
         {
-            auto xs = tuple(movable{});
+            auto xs = make<Tuple>(movable{});
             auto by_ref = [](auto&) { };
 
             by_ref(xs);
@@ -117,19 +117,19 @@ int main() {
 
             // tuple
             BOOST_HANA_CONSTANT_CHECK(equal(
-                unpack(tuple(), f),
+                unpack(make<Tuple>(), f),
                 f()
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                unpack(tuple(x<0>), f),
+                unpack(make<Tuple>(x<0>), f),
                 f(x<0>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                unpack(tuple(x<0>, x<1>), f),
+                unpack(make<Tuple>(x<0>, x<1>), f),
                 f(x<0>, x<1>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                unpack(tuple(x<0>, x<1>, x<2>), f),
+                unpack(make<Tuple>(x<0>, x<1>, x<2>), f),
                 f(x<0>, x<1>, x<2>)
             ));
 
@@ -223,7 +223,7 @@ int main() {
         // operators
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                tuple(x<0>, x<1>)[size_t<0>],
+                make<Tuple>(x<0>, x<1>)[size_t<0>],
                 x<0>
             ));
 

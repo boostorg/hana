@@ -30,19 +30,19 @@ int main() {
     //! [standard]
 
     //! [alternate]
-    BOOST_HANA_CONSTEXPR_LAMBDA auto row = tuple;
+    constexpr auto row = make<Tuple>;
     BOOST_HANA_CONSTEXPR_LAMBDA auto check_table = [](auto ...headers) {
         return [=](auto ...rows) {
             auto row_is_correct = [=](auto row) {
-                return tuple(headers(head(row))...) == tail(row);
+                return make<Tuple>(headers(head(row))...) == tail(row);
             };
-            BOOST_HANA_CONSTANT_CHECK(all(tuple(rows...), row_is_correct));
+            BOOST_HANA_CONSTANT_CHECK(all(make<Tuple>(rows...), row_is_correct));
         };
     };
 
     check_table(                      is_a<Logical>, is_an<Iterable>, is_a<Monad>   )(
     row(just(1),                         false_,         false_,         true_      ),
-    row(tuple(1, '2', 3.3),              false_,         true_,          true_      ),
+    row(make<Tuple>(1, '2', 3.3),        false_,         true_,          true_      ),
     row(std::make_tuple("abc", 'd'),     false_,         true_,          true_      ),
     row(long_<12>,                       true_,          false_,         false_     ),
     row(range(int_<-4>, int_<15>),       false_,         true_,          false_     )

@@ -33,14 +33,14 @@ namespace boost { namespace hana {
 
     namespace test {
         template <>
-        auto instances<Lazy> = tuple(
+        auto instances<Lazy> = make<Tuple>(
             type<Functor>,
             type<Applicative>,
             type<Monad>
         );
 
         template <>
-        auto objects<Lazy> = tuple(
+        auto objects<Lazy> = make<Tuple>(
             lazy(x<0>), lazy(x<1>), lazy(x<2>)
         );
     }

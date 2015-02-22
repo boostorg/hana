@@ -14,9 +14,9 @@ using namespace boost::hana;
 
 
 auto check = [](auto take) {
-    auto result = take(tuple);
+    auto result = take(make<Tuple>);
     return [=](auto ...xs) {
-        BOOST_HANA_CONSTANT_CHECK(equal(tuple(xs...), result));
+        BOOST_HANA_CONSTANT_CHECK(equal(make<Tuple>(xs...), result));
     };
 };
 

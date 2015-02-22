@@ -15,7 +15,7 @@ int main () {
     boost::hana::benchmark::measure([] {
         long double result = 0;
         for (int iteration = 0; iteration < 1 << 10; ++iteration) {
-            auto values = bh::tuple(
+            auto values = bh::make<bh::Tuple>(
                 <%=
                     types.map { |t| "static_cast<#{t}>(std::rand())" }.join(', ')
                 %>

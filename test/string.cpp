@@ -28,7 +28,7 @@ using namespace boost::hana;
 
 namespace boost { namespace hana { namespace test {
     template <>
-    auto instances<String> = tuple(
+    auto instances<String> = make<Tuple>(
           type<Comparable>
         , type<Orderable>
 
@@ -38,7 +38,7 @@ namespace boost { namespace hana { namespace test {
     );
 
     template <>
-    auto objects<String> = tuple(
+    auto objects<String> = make<Tuple>(
         BOOST_HANA_STRING(""),
         BOOST_HANA_STRING("a"),
         BOOST_HANA_STRING("ab"),

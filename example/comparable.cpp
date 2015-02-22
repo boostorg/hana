@@ -16,27 +16,27 @@ int main() {
 {
 
 //! [comparing]
-BOOST_HANA_CONSTEXPR_LAMBDA auto grouped = group_by(comparing(length), tuple(
-    tuple(1, 2, 3),
-    tuple('x', 'y', 'z'),
+BOOST_HANA_CONSTEXPR_LAMBDA auto grouped = group_by(comparing(length), make<Tuple>(
+    make<Tuple>(1, 2, 3),
+    make<Tuple>('x', 'y', 'z'),
     range_c<long, 0, 1>,
     tuple_t<char, int>,
     range_c<int, 0, 2>,
-    tuple(123.4, nullptr)
+    make<Tuple>(123.4, nullptr)
 ));
 
-BOOST_HANA_CONSTEXPR_CHECK(grouped == tuple(
-    tuple(
-        tuple(1, 2, 3),
-        tuple('x', 'y', 'z')
+BOOST_HANA_CONSTEXPR_CHECK(grouped == make<Tuple>(
+    make<Tuple>(
+        make<Tuple>(1, 2, 3),
+        make<Tuple>('x', 'y', 'z')
     ),
-    tuple(
+    make<Tuple>(
         range_c<long, 0, 1>
     ),
-    tuple(
+    make<Tuple>(
         tuple_t<char, int>,
         range_c<int, 0, 2>,
-        tuple(123.4, nullptr)
+        make<Tuple>(123.4, nullptr)
     )
 ));
 //! [comparing]
@@ -44,17 +44,17 @@ BOOST_HANA_CONSTEXPR_CHECK(grouped == tuple(
 }{
 
 //! [equal]
-BOOST_HANA_CONSTEXPR_CHECK(equal(tuple(1, 2), tuple(1, 2)));
+BOOST_HANA_CONSTEXPR_CHECK(equal(make<Tuple>(1, 2), make<Tuple>(1, 2)));
 BOOST_HANA_CONSTEXPR_CHECK(!equal('x', 'y'));
-BOOST_HANA_CONSTANT_CHECK(!equal(tuple(1, 2), 'y'));
+BOOST_HANA_CONSTANT_CHECK(!equal(make<Tuple>(1, 2), 'y'));
 //! [equal]
 
 }{
 
 //! [not_equal]
-BOOST_HANA_CONSTEXPR_CHECK(not_equal(tuple(1, 2), tuple(3)));
+BOOST_HANA_CONSTEXPR_CHECK(not_equal(make<Tuple>(1, 2), make<Tuple>(3)));
 BOOST_HANA_CONSTEXPR_CHECK(not_equal('x', 'y'));
-BOOST_HANA_CONSTANT_CHECK(not_equal(tuple(1, 2), 'y'));
+BOOST_HANA_CONSTANT_CHECK(not_equal(make<Tuple>(1, 2), 'y'));
 //! [not_equal]
 
 }

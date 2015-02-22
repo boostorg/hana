@@ -18,9 +18,9 @@ int main() {
 
 //! [ap]
 BOOST_HANA_CONSTEXPR_CHECK(
-    ap(tuple(_+_), tuple(1, 2), tuple(3, 4, 5))
+    ap(make<Tuple>(_+_), make<Tuple>(1, 2), make<Tuple>(3, 4, 5))
         ==
-    tuple(
+    make<Tuple>(
         1 + 3,      1 + 4,      1 + 5,
         2 + 3,      2 + 4,      2 + 5
     )
@@ -40,7 +40,7 @@ BOOST_HANA_CONSTANT_CHECK(
 }{
 
 //! [lift]
-BOOST_HANA_CONSTEXPR_CHECK(lift<Tuple>('x') == tuple('x'));
+BOOST_HANA_CONSTEXPR_CHECK(lift<Tuple>('x') == make<Tuple>('x'));
 BOOST_HANA_CONSTEXPR_CHECK(lift<Maybe>('x') == just('x'));
 //! [lift]
 

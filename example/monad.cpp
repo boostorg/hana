@@ -21,9 +21,9 @@ int main() {
 
 //! [flatten]
 BOOST_HANA_CONSTEXPR_CHECK(
-    flatten(tuple(tuple(1, 2, 3), tuple(4, 5), tuple(6, 7, 8, 9)))
+    flatten(make<Tuple>(make<Tuple>(1, 2, 3), make<Tuple>(4, 5), make<Tuple>(6, 7, 8, 9)))
     ==
-    tuple(1, 2, 3, 4, 5, 6, 7, 8, 9)
+    make<Tuple>(1, 2, 3, 4, 5, 6, 7, 8, 9)
 );
 
 BOOST_HANA_CONSTANT_CHECK(flatten(nothing) == nothing);
@@ -36,7 +36,7 @@ BOOST_HANA_CONSTANT_CHECK(flatten(just(nothing)) == nothing);
 //! [mcompose]
 BOOST_HANA_CONSTEXPR_LAMBDA auto block = [](auto ...types) {
     return [=](auto x) {
-        return if_(elem(tuple(types...), decltype_(x)),
+        return if_(elem(make<Tuple>(types...), decltype_(x)),
             nothing,
             just(x)
         );
@@ -56,7 +56,7 @@ BOOST_HANA_CONSTEXPR_CHECK(h('x') == just('x')); // ok; 'x' has type char
 //! [then]
 struct undefined { };
 BOOST_HANA_CONSTEXPR_CHECK(
-    then(tuple(undefined{}, undefined{}), tuple(1, 2, 3)) == tuple(
+    then(make<Tuple>(undefined{}, undefined{}), make<Tuple>(1, 2, 3)) == make<Tuple>(
         1, 2, 3,
         1, 2, 3
     )
@@ -68,14 +68,14 @@ BOOST_HANA_CONSTEXPR_CHECK(
 //! [tap]
 std::stringstream before, after;
 
-auto xs = tuple(1, 2, 3)
+auto xs = make<Tuple>(1, 2, 3)
     | tap<Tuple>([&](auto x) { before << x << ' '; })
-    | [](auto x) { return tuple(x, -x); }
+    | [](auto x) { return make<Tuple>(x, -x); }
     | tap<Tuple>([&](auto x) { after << x << ' '; });
 
 BOOST_HANA_RUNTIME_CHECK(before.str() == "1 2 3 ");
 BOOST_HANA_RUNTIME_CHECK(after.str() == "1 -1 2 -2 3 -3 ");
-BOOST_HANA_RUNTIME_CHECK(xs == tuple(1, -1, 2, -2, 3, -3));
+BOOST_HANA_RUNTIME_CHECK(xs == make<Tuple>(1, -1, 2, -2, 3, -3));
 //! [tap]
 
 }

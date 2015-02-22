@@ -13,7 +13,7 @@ foreach(method IN ITEMS adjust fill transform replace)
             }.join(', ')
             {
                 setup: '#include <boost/hana/tuple.hpp>',
-                functor: \"boost::hana::tuple(#{xs})\",
+                functor: \"boost::hana::make<boost::hana::Tuple>(#{xs})\",
                 input_size: n
             }
         }"

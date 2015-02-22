@@ -33,7 +33,7 @@ auto show = [=](auto x, auto y) {
     return "(" + to_string(x) + " + " + to_string(y) + ")";
 };
 
-BOOST_HANA_RUNTIME_CHECK(foldl1(tuple(1, "2", '3'), show) == "((1 + 2) + 3)");
+BOOST_HANA_RUNTIME_CHECK(foldl1(make<Tuple>(1, "2", '3'), show) == "((1 + 2) + 3)");
 //! [foldl1]
 
 }{
@@ -47,7 +47,7 @@ auto show = [=](auto x, auto y) {
     return "(" + to_string(x) + " + " + to_string(y) + ")";
 };
 
-BOOST_HANA_RUNTIME_CHECK(foldl(tuple(2, "3", '4'), "1", show) == "(((1 + 2) + 3) + 4)");
+BOOST_HANA_RUNTIME_CHECK(foldl(make<Tuple>(2, "3", '4'), "1", show) == "(((1 + 2) + 3) + 4)");
 //! [foldl]
 
 }{
@@ -61,7 +61,7 @@ auto show = [=](auto x, auto y) {
     return "(" + to_string(x) + " + " + to_string(y) + ")";
 };
 
-BOOST_HANA_RUNTIME_CHECK(foldr(tuple(1, "2", '3'), "4", show) == "(1 + (2 + (3 + 4)))");
+BOOST_HANA_RUNTIME_CHECK(foldr(make<Tuple>(1, "2", '3'), "4", show) == "(1 + (2 + (3 + 4)))");
 //! [foldr]
 
 }{
@@ -75,14 +75,14 @@ auto show = [=](auto x, auto y) {
     return "(" + to_string(x) + " + " + to_string(y) + ")";
 };
 
-BOOST_HANA_RUNTIME_CHECK(foldr1(tuple(1, "2", '3'), show) == "(1 + (2 + 3))");
+BOOST_HANA_RUNTIME_CHECK(foldr1(make<Tuple>(1, "2", '3'), show) == "(1 + (2 + 3))");
 //! [foldr1]
 
 }{
 
 //! [for_each]
 std::stringstream ss;
-for_each(tuple(0, '1', "234", 5.5), [&](auto x) {
+for_each(make<Tuple>(0, '1', "234", 5.5), [&](auto x) {
     ss << x << ' ';
 });
 
@@ -92,8 +92,8 @@ BOOST_HANA_RUNTIME_CHECK(ss.str() == "0 1 234 5.5 ");
 }{
 
 //! [length]
-BOOST_HANA_CONSTANT_CHECK(length(tuple()) == size_t<0>);
-BOOST_HANA_CONSTANT_CHECK(length(tuple(1, '2', 3.0)) == size_t<3>);
+BOOST_HANA_CONSTANT_CHECK(length(make<Tuple>()) == size_t<0>);
+BOOST_HANA_CONSTANT_CHECK(length(make<Tuple>(1, '2', 3.0)) == size_t<3>);
 
 BOOST_HANA_CONSTANT_CHECK(length(nothing) == size_t<0>);
 BOOST_HANA_CONSTANT_CHECK(length(just('x')) == size_t<1>);
@@ -123,7 +123,7 @@ BOOST_HANA_CONSTANT_CHECK(
 );
 
 BOOST_HANA_CONSTEXPR_CHECK(
-    product(tuple(1, int_<3>, long_<-5>, 9)) == 1 * 3 * -5 * 9
+    product(make<Tuple>(1, int_<3>, long_<-5>, 9)) == 1 * 3 * -5 * 9
 );
 //! [product]
 
@@ -135,7 +135,7 @@ BOOST_HANA_CONSTANT_CHECK(
 );
 
 BOOST_HANA_CONSTEXPR_CHECK(
-    sum(tuple(1, int_<3>, long_<-5>, 9)) == 1 + 3 - 5 + 9
+    sum(make<Tuple>(1, int_<3>, long_<-5>, 9)) == 1 + 3 - 5 + 9
 );
 //! [sum]
 
@@ -153,7 +153,7 @@ int a = 0;
 char b = '\0';
 double c = 0;
 
-cheap_tie(a, b, c)(tuple(1, '2', 3.3));
+cheap_tie(a, b, c)(make<Tuple>(1, '2', 3.3));
 BOOST_HANA_RUNTIME_CHECK(a == 1 && b == '2' && c == 3.3);
 //! [unpack]
 
@@ -167,7 +167,7 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto add = [](auto x, auto y) {
 // Would be `boost::fusion::make_fused(add)` in Boost.Fusion.
 BOOST_HANA_CONSTEXPR_LAMBDA auto add_seq = fuse(add);
 
-BOOST_HANA_CONSTEXPR_CHECK(add_seq(tuple(1, 2)) == add(1, 2));
+BOOST_HANA_CONSTEXPR_CHECK(add_seq(make<Tuple>(1, 2)) == add(1, 2));
 //! [fuse]
 
 }{
@@ -196,9 +196,9 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto size = [](auto xs, auto ys) {
 };
 
 BOOST_HANA_CONSTEXPR_CHECK(
-    maximum_by(size, tuple(tuple(), tuple(1, '2'), tuple(3.3, nullptr, 4)))
+    maximum_by(size, make<Tuple>(make<Tuple>(), make<Tuple>(1, '2'), make<Tuple>(3.3, nullptr, 4)))
     ==
-    tuple(3.3, nullptr, 4)
+    make<Tuple>(3.3, nullptr, 4)
 );
 //! [maximum_by]
 
@@ -210,9 +210,9 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto size = [](auto xs, auto ys) {
 };
 
 BOOST_HANA_CONSTANT_CHECK(
-    minimum_by(size, tuple(tuple(), tuple(1, '2'), tuple(3.3, nullptr, 4)))
+    minimum_by(size, make<Tuple>(make<Tuple>(), make<Tuple>(1, '2'), make<Tuple>(3.3, nullptr, 4)))
     ==
-    tuple()
+    make<Tuple>()
 );
 //! [minimum_by]
 

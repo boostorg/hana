@@ -56,7 +56,7 @@ namespace boost { namespace hana {
     BOOST_HANA_CONSTEXPR_LAMBDA auto frange = [](auto f) {
         // Note: that would be better handled by a set data structure, but
         // whatever for now.
-        return foldl(transform(domain(f), f), tuple(), [](auto xs, auto x) {
+        return foldl(transform(domain(f), f), make<Tuple>(), [](auto xs, auto x) {
             return if_(elem(xs, x), xs, prepend(x, xs));
         });
     };
@@ -93,15 +93,15 @@ using namespace literals;
 
 
 int main() {
-    auto f = function(tuple(1_c, 2_c, 3_c), tuple(1_c, 2_c, 3_c, 4_c, 5_c, 6_c))(
+    auto f = function(make<Tuple>(1_c, 2_c, 3_c), make<Tuple>(1_c, 2_c, 3_c, 4_c, 5_c, 6_c))(
         [](auto x) { return x + 1_c; }
     );
 
-    auto g = function(tuple(1_c, 2_c, 3_c), tuple(2_c, 3_c, 4_c))(
+    auto g = function(make<Tuple>(1_c, 2_c, 3_c), make<Tuple>(2_c, 3_c, 4_c))(
         [](auto x) { return x + 1_c; }
     );
 
-    auto h = function(tuple(1_c, 2_c, 3_c), tuple(0_c, 1_c, 2_c))(
+    auto h = function(make<Tuple>(1_c, 2_c, 3_c), make<Tuple>(0_c, 1_c, 2_c))(
         [](auto x) { return x - 1_c; }
     );
 
@@ -111,6 +111,6 @@ int main() {
     try { f(6); throw; } catch (std::domain_error) { }
 
 
-    BOOST_HANA_CONSTANT_CHECK(frange(f) == tuple(4_c, 3_c, 2_c));
+    BOOST_HANA_CONSTANT_CHECK(frange(f) == make<Tuple>(4_c, 3_c, 2_c));
     (void)frange;
 }

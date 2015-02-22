@@ -23,10 +23,10 @@ struct T { }; struct U;
 
 namespace boost { namespace hana { namespace test {
     template <>
-    auto instances<Type> = tuple(type<Comparable>);
+    auto instances<Type> = make<Tuple>(type<Comparable>);
 
     template <>
-    auto objects<Type> = tuple(
+    auto objects<Type> = make<Tuple>(
         type<void>,
         type<char>,
         type<T>,

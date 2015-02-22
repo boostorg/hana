@@ -40,7 +40,7 @@ template <typename T, typename Enable = void>
 struct list_of {
     template <typename ...X>
     constexpr auto operator()(X ...x) const
-    { return hana::tuple(x...); }
+    { return hana::make<hana::Tuple>(x...); }
 };
 
 template <>
@@ -54,7 +54,7 @@ template <typename T>
 struct list_of<T, std::enable_if_t<is_homogeneous<T>::value>> {
     template <typename ...X>
     constexpr auto operator()(X ...x) const
-    { return hana::tuple(x...); } // would use an array
+    { return hana::make<hana::Tuple>(x...); } // would use an array
 };
 
 
@@ -74,23 +74,12 @@ struct _list {
 constexpr _list list{};
 
 
-template <typename ...> struct a_type { };
-auto show = [](auto ...x) {
-    using k = a_type<
-        typename a_type<decltype(x)>::show...
-    >;
-};
 
 int main() {
     list(1, 2, 3); // normal version
 
     // uses a list_t internally
     list.of<hana::Type>(hana::type<int>, hana::type<void>, hana::type<char>);
-
-    auto z = list.of<hana::Type>;
-    // z(hana::type<int>);
-    // show(z);
-
 
     // uses an array internally
     list.of<int>(1, 2, 3);

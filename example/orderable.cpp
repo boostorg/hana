@@ -46,13 +46,13 @@ int main() {
     //! [min]
 
     //! [ordering]
-    BOOST_HANA_CONSTEXPR_LAMBDA auto sorted = sort_by(ordering(sizeof_), tuple(
+    BOOST_HANA_CONSTEXPR_LAMBDA auto sorted = sort_by(ordering(sizeof_), make<Tuple>(
         type<char[3]>,
         type<char[1]>,
         type<char[2]>,
         type<char[15]>
     ));
-    BOOST_HANA_CONSTANT_CHECK(sorted == tuple(
+    BOOST_HANA_CONSTANT_CHECK(sorted == make<Tuple>(
         type<char[1]>,
         type<char[2]>,
         type<char[3]>,

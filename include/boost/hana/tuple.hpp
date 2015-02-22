@@ -61,7 +61,7 @@ namespace boost { namespace hana {
     };
 
     template <typename T, T ...v>
-    struct _tuple_c : decltype(tuple(integral_constant<T, v>...)) { };
+    struct _tuple_c : _tuple<_integral_constant<T, v>...> { };
 
     template <typename ...T>
     struct _tuple_t {
@@ -245,7 +245,8 @@ namespace boost { namespace hana {
         template <Size n, typename Xs, Size ...i>
         static constexpr decltype(auto)
         drop_helper(Xs&& xs, detail::std::index_sequence<i...>) {
-            return hana::tuple(detail::get<n + i>(detail::std::forward<Xs>(xs))...);
+            return hana::make<Tuple>(
+                        detail::get<n + i>(detail::std::forward<Xs>(xs))...);
         }
 
         template <typename N, typename Xs>
@@ -267,12 +268,12 @@ namespace boost { namespace hana {
             template <typename ...Xs, typename F>                           \
             static constexpr decltype(auto)                                 \
             transform_helper(detail::closure_impl<Xs...> REF xs, F&& f, ...)\
-            { return hana::tuple(f(static_cast<Xs REF>(xs).get)...); }      \
+            { return hana::make<Tuple>(f(static_cast<Xs REF>(xs).get)...); }\
                                                                             \
             template <typename X, typename F>                               \
             static constexpr decltype(auto)                                 \
             transform_helper(detail::closure_impl<X> REF xs, F&& f, ...) {  \
-                return hana::tuple(detail::std::forward<F>(f)(              \
+                return hana::make<Tuple>(detail::std::forward<F>(f)(        \
                     static_cast<X REF>(xs).get                              \
                 ));                                                         \
             }                                                               \
@@ -350,8 +351,7 @@ namespace boost { namespace hana {
         flatten_helper(Xs&& xs, detail::std::index_sequence<outer...>,
                                 detail::std::index_sequence<inner...>)
         {
-            return hana::tuple(detail::get<outer>(
-                                    detail::get<inner>(
+            return hana::make<Tuple>(detail::get<outer>(detail::get<inner>(
                                         detail::std::forward<Xs>(xs)))...);
         }
         //! @todo
@@ -492,7 +492,8 @@ namespace boost { namespace hana {
         template <typename Xs, detail::std::size_t ...n>
         static constexpr decltype(auto)
         init_helper(Xs&& xs, detail::std::index_sequence<n...>) {
-            return hana::tuple(detail::get<n>(detail::std::forward<Xs>(xs))...);
+            return hana::make<Tuple>(
+                        detail::get<n>(detail::std::forward<Xs>(xs))...);
         }
 
         template <typename Xs>
@@ -511,21 +512,21 @@ namespace boost { namespace hana {
         { return detail::std::forward<Z>(z); }
 
         template <detail::std::size_t i, typename Z, typename Xn>
-        static constexpr decltype(auto)
+        static constexpr Xn const&
         pick(Z const&, detail::element<(i + 1) / 2, Xn> const& x,
             detail::std::true_type /* even index */)
         { return x.get; }
 
         template <detail::std::size_t i, typename Z, typename Xn>
-        static constexpr decltype(auto)
+        static constexpr Xn&&
         pick(Z const&, detail::element<(i + 1) / 2, Xn>&& x,
             detail::std::true_type /* even index */)
-        { return detail::std::move(x.get); }
+        { return static_cast<detail::element<(i + 1) / 2, Xn>&&>(x).get; }
 
         template <typename Xs, typename Z, detail::std::size_t ...i>
         static constexpr decltype(auto)
         intersperse_helper(Xs&& xs, Z&& z, detail::std::index_sequence<i...>) {
-            return hana::tuple(
+            return hana::make<Tuple>(
                 pick<i>(
                     detail::std::forward<Z>(z),
                     detail::std::forward<Xs>(xs),
@@ -553,7 +554,7 @@ namespace boost { namespace hana {
         remove_at_helper(Xs&& xs, detail::std::index_sequence<before...>,
                                   detail::std::index_sequence<after...>)
         {
-            return hana::tuple(
+            return hana::make<Tuple>(
                 detail::get<before>(
                     detail::std::forward<Xs>(xs)
                 )...,
@@ -579,14 +580,14 @@ namespace boost { namespace hana {
         static constexpr decltype(auto)
         apply(detail::closure_impl<detail::element<n, Xn>...>&& xs) {
             using Closure = detail::closure_impl<detail::element<n, Xn>...>;
-            return hana::tuple(detail::get<sizeof...(n) - n - 1>(
+            return hana::make<Tuple>(detail::get<sizeof...(n) - n - 1>(
                                             static_cast<Closure&&>(xs))...);
         }
 
         template <detail::std::size_t ...n, typename ...Xn>
         static constexpr decltype(auto)
         apply(detail::closure_impl<detail::element<n, Xn>...> const& xs) {
-            return hana::tuple(detail::get<sizeof...(n) - n - 1>(xs)...);
+            return hana::make<Tuple>(detail::get<sizeof...(n) - n - 1>(xs)...);
         }
     };
 
@@ -595,8 +596,8 @@ namespace boost { namespace hana {
         template <detail::std::size_t from, typename Xs, detail::std::size_t ...i>
         static constexpr decltype(auto)
         slice_helper(Xs&& xs, detail::std::index_sequence<i...>) {
-            return hana::tuple(detail::get<from + i>(
-                                    detail::std::forward<Xs>(xs))...);
+            return hana::make<Tuple>(detail::get<from + i>(
+                                        detail::std::forward<Xs>(xs))...);
         }
 
         template <typename Xs, typename From, typename To>
@@ -656,7 +657,8 @@ namespace boost { namespace hana {
         template <typename Xs, detail::std::size_t ...n>
         static constexpr decltype(auto)
         take_helper(Xs&& xs, detail::std::index_sequence<n...>) {
-            return hana::tuple(detail::get<n>(detail::std::forward<Xs>(xs))...);
+            return hana::make<Tuple>(detail::get<n>(
+                                            detail::std::forward<Xs>(xs))...);
         }
 
         template <typename N, typename Xs>
@@ -686,7 +688,7 @@ namespace boost { namespace hana {
             template <typename F, typename ...Xs>                           \
             static constexpr decltype(auto) apply(F&& f,                    \
                 detail::closure_impl<Xs...> REF xs)                         \
-            { return hana::tuple(f(static_cast<Xs REF>(xs).get)...); }      \
+            { return hana::make<Tuple>(f(static_cast<Xs REF>(xs).get)...); }\
         /**/
         BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_ZIP_WITH1)
         #undef BOOST_HANA_PP_ZIP_WITH1
@@ -697,7 +699,7 @@ namespace boost { namespace hana {
                 detail::closure_impl<Xs...> REF1 xs,                        \
                 detail::closure_impl<Ys...> REF2 ys)                        \
             {                                                               \
-                return hana::tuple(                                         \
+                return hana::make<Tuple>(                                   \
                     f(static_cast<Xs REF1>(xs).get,                         \
                       static_cast<Ys REF2>(ys).get)...                      \
                 );                                                          \
@@ -713,7 +715,7 @@ namespace boost { namespace hana {
                 detail::closure_impl<Ys...> REF2 ys,                              \
                 detail::closure_impl<Zs...> REF3 zs)                              \
             {                                                                     \
-                return hana::tuple(                                               \
+                return hana::make<Tuple>(                                         \
                     f(static_cast<Xs REF1>(xs).get,                               \
                       static_cast<Ys REF2>(ys).get,                               \
                       static_cast<Zs REF3>(zs).get)...                            \

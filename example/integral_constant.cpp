@@ -51,7 +51,7 @@ BOOST_HANA_RUNTIME_CHECK(s == "xxxxxyyyyyzzzzz");
 
 //! [times_higher_order]
 std::string s;
-BOOST_HANA_CONSTEXPR_LAMBDA auto functions = tuple(
+BOOST_HANA_CONSTEXPR_LAMBDA auto functions = make<Tuple>(
     [&] { s += "x"; },
     [&] { s += "y"; },
     [&] { s += "z"; }
@@ -70,7 +70,7 @@ BOOST_HANA_RUNTIME_CHECK(v == std::vector<int>{0, 1, 2, 3, 4});
 //! [times_with_index_runtime]
 
 //! [times_with_index_compile_time]
-constexpr auto xs = tuple(0, 1, 2);
+constexpr auto xs = make<Tuple>(0, 1, 2);
 int_<3>.times.with_index([xs](auto index) {
     static_assert(xs[index] == index, "");
 });

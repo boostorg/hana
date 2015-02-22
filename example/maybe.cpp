@@ -84,19 +84,19 @@ BOOST_HANA_CONSTANT_CHECK(nil<Maybe>() == nothing);
 
 //! [traversable]
 BOOST_HANA_CONSTEXPR_LAMBDA auto replicate3 = [](auto x) {
-    return tuple(x, x, x);
+    return make<Tuple>(x, x, x);
 };
 
 BOOST_HANA_CONSTEXPR_CHECK(
     traverse<Tuple>(just(1), replicate3)
     ==
-    tuple(just(1), just(1), just(1))
+    make<Tuple>(just(1), just(1), just(1))
 );
 
 BOOST_HANA_CONSTANT_CHECK(
     traverse<Tuple>(nothing, replicate3)
     ==
-    tuple(nothing)
+    make<Tuple>(nothing)
 );
 //! [traversable]
 

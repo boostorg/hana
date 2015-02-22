@@ -37,7 +37,7 @@ namespace boost { namespace hana {
     template <>
     struct members_impl<test::MinimalRecord> {
         static BOOST_HANA_CONSTEXPR_LAMBDA auto apply() {
-            return tuple(
+            return make<Tuple>(
                 pair(test::member1, [](auto u) { return u.member1; }),
                 pair(test::member2, [](auto u) { return u.member2; })
             );

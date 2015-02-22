@@ -23,34 +23,34 @@ int main() {
 //! [concat]
 using namespace literals;
 BOOST_HANA_CONSTEXPR_CHECK(
-    concat(tuple(1, '2'), tuple(3.3, 4_c)) == tuple(1, '2', 3.3, 4_c)
+    concat(make<Tuple>(1, '2'), make<Tuple>(3.3, 4_c)) == make<Tuple>(1, '2', 3.3, 4_c)
 );
 //! [concat]
 
 }{
 
 //! [nil]
-BOOST_HANA_CONSTANT_CHECK(nil<Tuple>() == tuple());
+BOOST_HANA_CONSTANT_CHECK(nil<Tuple>() == make<Tuple>());
 BOOST_HANA_CONSTANT_CHECK(nil<Maybe>() == nothing);
 //! [nil]
 
 }{
 
 //! [prepend]
-BOOST_HANA_CONSTEXPR_CHECK(prepend(1, tuple()) == tuple(1));
-BOOST_HANA_CONSTEXPR_CHECK(prepend(1, tuple('2', 3.3)) == tuple(1, '2', 3.3));
+BOOST_HANA_CONSTEXPR_CHECK(prepend(1, make<Tuple>()) == make<Tuple>(1));
+BOOST_HANA_CONSTEXPR_CHECK(prepend(1, make<Tuple>('2', 3.3)) == make<Tuple>(1, '2', 3.3));
 BOOST_HANA_CONSTEXPR_CHECK(
-    prepend(1, prepend('2', prepend(3.3, tuple()))) == tuple(1, '2', 3.3)
+    prepend(1, prepend('2', prepend(3.3, make<Tuple>()))) == make<Tuple>(1, '2', 3.3)
 );
 //! [prepend]
 
 }{
 
 //! [append]
-BOOST_HANA_CONSTEXPR_CHECK(append(tuple(), 1) == tuple(1));
-BOOST_HANA_CONSTEXPR_CHECK(append(tuple(1, '2'), 3.3) == tuple(1, '2', 3.3));
+BOOST_HANA_CONSTEXPR_CHECK(append(make<Tuple>(), 1) == make<Tuple>(1));
+BOOST_HANA_CONSTEXPR_CHECK(append(make<Tuple>(1, '2'), 3.3) == make<Tuple>(1, '2', 3.3));
 BOOST_HANA_CONSTEXPR_CHECK(
-    append(append(append(tuple(), 1), '2'), 3.3) == tuple(1, '2', 3.3)
+    append(append(append(make<Tuple>(), 1), '2'), 3.3) == make<Tuple>(1, '2', 3.3)
 );
 //! [append]
 
@@ -58,7 +58,7 @@ BOOST_HANA_CONSTEXPR_CHECK(
 
 //! [filter]
 BOOST_HANA_CONSTEXPR_CHECK(
-    filter(tuple(1, 2.0, 3, 4.0), trait_<std::is_integral>) == tuple(1, 3)
+    filter(make<Tuple>(1, 2.0, 3, 4.0), trait_<std::is_integral>) == make<Tuple>(1, 3)
 );
 
 BOOST_HANA_CONSTEXPR_CHECK(
@@ -74,14 +74,14 @@ BOOST_HANA_CONSTANT_CHECK(
 
 //! [cycle]
 BOOST_HANA_CONSTEXPR_CHECK(
-    cycle(size_t<2>, tuple('x', 'y', 'z')) == tuple('x', 'y', 'z', 'x', 'y', 'z')
+    cycle(size_t<2>, make<Tuple>('x', 'y', 'z')) == make<Tuple>('x', 'y', 'z', 'x', 'y', 'z')
 );
 //! [cycle]
 
 }{
 
 //! [repeat]
-BOOST_HANA_CONSTEXPR_CHECK(repeat<Tuple>(size_t<2>, 'x') == tuple('x', 'x'));
+BOOST_HANA_CONSTEXPR_CHECK(repeat<Tuple>(size_t<2>, 'x') == make<Tuple>('x', 'x'));
 
 // Of course, because Maybe can hold at most one element.
 static_assert(repeat<Maybe>(size_t<2>, 'x') == just('x'), "");
@@ -92,8 +92,8 @@ static_assert(repeat<Maybe>(size_t<2>, 'x') == just('x'), "");
 //! [prefix]
 using namespace std::literals;
 BOOST_HANA_RUNTIME_CHECK(
-    prefix("my"s, tuple("dog"s, "car"s, "house"s)) ==
-    tuple("my", "dog", "my", "car", "my", "house")
+    prefix("my"s, make<Tuple>("dog"s, "car"s, "house"s)) ==
+    make<Tuple>("my", "dog", "my", "car", "my", "house")
 );
 //! [prefix]
 
@@ -101,7 +101,7 @@ BOOST_HANA_RUNTIME_CHECK(
 
 //! [suffix]
 BOOST_HANA_CONSTEXPR_CHECK(
-    suffix(0, tuple(1, 2, 3, 4)) == tuple(1, 0, 2, 0, 3, 0, 4, 0)
+    suffix(0, make<Tuple>(1, 2, 3, 4)) == make<Tuple>(1, 0, 2, 0, 3, 0, 4, 0)
 );
 //! [suffix]
 

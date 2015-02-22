@@ -108,9 +108,9 @@ auto lift_impl<List<X>> = [](auto x) {
 template <typename X, typename Y>
 auto ap_impl<List<Function<X, Y>>, List<X>> = [](auto fs, auto xs) {
     auto hana_fs = hana::detail::unwrap(fs)([](auto ...fs) {
-        return hana::tuple([fs](auto x) { return apply(fs, x); }...);
+        return hana::make<hana::Tuple>([fs](auto x) { return apply(fs, x); }...);
     });
-    auto hana_xs = hana::detail::unwrap(xs)(hana::tuple);
+    auto hana_xs = hana::detail::unwrap(xs)(hana::make<hana::Tuple>);
     auto hana_result = hana::ap(hana_fs, hana_xs);
 
     return hana::unpack(hana_result, list<Y>);

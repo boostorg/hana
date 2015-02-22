@@ -43,7 +43,7 @@ namespace boost { namespace hana {
     template <typename ...Pairs>
     constexpr decltype(auto) _make_map::operator()(Pairs&& ...pairs) const {
         return detail::create<_map>{}(
-                        hana::tuple(detail::std::forward<Pairs>(pairs)...));
+                    hana::make<Tuple>(detail::std::forward<Pairs>(pairs)...));
     }
 
     //////////////////////////////////////////////////////////////////////////
