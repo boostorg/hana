@@ -1,15 +1,16 @@
 var searchData=
 [
-  ['pair_2ehpp',['pair.hpp',['../ext_2std_2pair_2pair_8hpp.html',1,'']]],
-  ['pair_2ehpp',['pair.hpp',['../ext_2std_2pair_8hpp.html',1,'']]],
-  ['pair_2ehpp',['pair.hpp',['../pair_2pair_8hpp.html',1,'']]],
-  ['pair_2ehpp',['pair.hpp',['../pair_8hpp.html',1,'']]],
-  ['partial_2ehpp',['partial.hpp',['../partial_8hpp.html',1,'']]],
-  ['placeholder_2ehpp',['placeholder.hpp',['../placeholder_8hpp.html',1,'']]],
-  ['product_2ehpp',['product.hpp',['../product_2product_8hpp.html',1,'']]],
-  ['product_2ehpp',['product.hpp',['../pair_2product_8hpp.html',1,'']]],
-  ['product_2ehpp',['product.hpp',['../product_8hpp.html',1,'']]],
-  ['product_2ehpp',['product.hpp',['../ext_2std_2pair_2product_8hpp.html',1,'']]],
-  ['product_5fmcd_2ehpp',['product_mcd.hpp',['../foldable_2product__mcd_8hpp.html',1,'']]],
-  ['product_5fmcd_2ehpp',['product_mcd.hpp',['../comparable_2product__mcd_8hpp.html',1,'']]]
+  ['range_2ehpp',['range.hpp',['../fwd_2range_8hpp.html',1,'']]],
+  ['range_2ehpp',['range.hpp',['../range_8hpp.html',1,'']]],
+  ['ratio_2ehpp',['ratio.hpp',['../ext_2std_2ratio_8hpp.html',1,'']]],
+  ['ratio_2ehpp',['ratio.hpp',['../fwd_2ext_2std_2ratio_8hpp.html',1,'']]],
+  ['record_2ehpp',['record.hpp',['../fwd_2record_8hpp.html',1,'']]],
+  ['record_2ehpp',['record.hpp',['../record_8hpp.html',1,'']]],
+  ['record_5fmacros_2ehpp',['record_macros.hpp',['../record__macros_8hpp.html',1,'']]],
+  ['remove_5fcv_2ehpp',['remove_cv.hpp',['../remove__cv_8hpp.html',1,'']]],
+  ['remove_5freference_2ehpp',['remove_reference.hpp',['../remove__reference_8hpp.html',1,'']]],
+  ['reverse_5fapply_2ehpp',['reverse_apply.hpp',['../reverse__apply_8hpp.html',1,'']]],
+  ['reverse_5fpartial_2ehpp',['reverse_partial.hpp',['../reverse__partial_8hpp.html',1,'']]],
+  ['ring_2ehpp',['ring.hpp',['../ring_8hpp.html',1,'']]],
+  ['ring_2ehpp',['ring.hpp',['../fwd_2ring_8hpp.html',1,'']]]
 ];

@@ -1,9 +1,10 @@
 var searchData=
 [
   ['either',['Either',['../structboost_1_1hana_1_1_either.html',1,'boost::hana']]],
-  ['enable_5fadl',['enable_adl',['../structboost_1_1hana_1_1operators_1_1enable__adl.html',1,'boost::hana::operators']]],
-  ['enable_5foperators',['enable_operators',['../structboost_1_1hana_1_1enable__operators.html',1,'boost::hana']]],
-  ['enabled_5foperators',['enabled_operators',['../structboost_1_1hana_1_1enabled__operators.html',1,'boost::hana']]],
-  ['enumerable',['Enumerable',['../structboost_1_1hana_1_1_enumerable.html',1,'boost::hana']]],
-  ['equal_5fmcd',['equal_mcd',['../structboost_1_1hana_1_1_comparable_1_1equal__mcd.html',1,'boost::hana::Comparable']]]
+  ['embedding',['embedding',['../structboost_1_1hana_1_1embedding.html',1,'boost::hana']]],
+  ['embedding_3c_20is_5fembedded_3c_20c_3a_3avalue_5ftype_2c_20t_20_3e_7b_7d_3e',['embedding&lt; is_embedded&lt; C::value_type, T &gt;{}&gt;',['../structboost_1_1hana_1_1embedding.html',1,'boost::hana']]],
+  ['embedding_3c_20is_5fembedded_3c_20from_3a_3avalue_5ftype_2c_20to_20_3e_7b_7d_3e',['embedding&lt; is_embedded&lt; From::value_type, To &gt;{}&gt;',['../structboost_1_1hana_1_1embedding.html',1,'boost::hana']]],
+  ['embedding_3c_20models_3c_20sequence_28f_29_3e_7b_7d_3e',['embedding&lt; models&lt; Sequence(F)&gt;{}&gt;',['../structboost_1_1hana_1_1embedding.html',1,'boost::hana']]],
+  ['embedding_3c_3e',['embedding&lt;&gt;',['../structboost_1_1hana_1_1embedding.html',1,'boost::hana']]],
+  ['enumerable',['Enumerable',['../structboost_1_1hana_1_1_enumerable.html',1,'boost::hana']]]
 ];

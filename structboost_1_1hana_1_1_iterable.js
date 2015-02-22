@@ -1,10 +1,5 @@
 var structboost_1_1hana_1_1_iterable =
 [
-    [ "instance< BoostMplVector >", "structboost_1_1hana_1_1_iterable_1_1instance_3_01_boost_mpl_vector_01_4.html", null ],
-    [ "instance< IntegerList >", "structboost_1_1hana_1_1_iterable_1_1instance_3_01_integer_list_01_4.html", null ],
-    [ "instance< Range >", "structboost_1_1hana_1_1_iterable_1_1instance_3_01_range_01_4.html", null ],
-    [ "instance< Tuple >", "structboost_1_1hana_1_1_iterable_1_1instance_3_01_tuple_01_4.html", null ],
-    [ "mcd", "structboost_1_1hana_1_1_iterable_1_1mcd.html", null ],
     [ "head", "structboost_1_1hana_1_1_iterable.html#adc2675aeee1174a9b337e94f39506bec", null ],
     [ "tail", "structboost_1_1hana_1_1_iterable.html#ab15783aae10d4373e2399abe728f3f96", null ],
     [ "is_empty", "structboost_1_1hana_1_1_iterable.html#a4193ecf811f29479c60022564afa512a", null ],

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['type_20classes',['Type classes',['../group__group-typeclasses.html',1,'']]]
+  ['functional',['Functional',['../group__group-functional.html',1,'']]]
 ];

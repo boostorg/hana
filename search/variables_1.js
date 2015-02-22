@@ -8,6 +8,7 @@ var searchData=
   ['any',['any',['../structboost_1_1hana_1_1_searchable.html#a67dd29f7921b76f7d2bd372605f73f7c',1,'boost::hana::Searchable']]],
   ['any_5fof',['any_of',['../structboost_1_1hana_1_1_searchable.html#a2dc05dc4553467aa0a2235088de41b4b',1,'boost::hana::Searchable']]],
   ['ap',['ap',['../structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a',1,'boost::hana::Applicative']]],
+  ['append',['append',['../structboost_1_1hana_1_1_monad_plus.html#ae469094a7fee3a0f7dfcc900da9b07b4',1,'boost::hana::MonadPlus']]],
   ['apply',['apply',['../group__group-functional.html#ga30027c383676084be151ef3c6cf2829f',1,'boost::hana']]],
   ['are',['are',['../group__group-core.html#ga91ddd2ea55eca559a681c8e3e1003ba6',1,'boost::hana']]],
   ['arg',['arg',['../group__group-functional.html#ga6acc765a35c4dc85f0deab4785831a3d',1,'boost::hana']]],

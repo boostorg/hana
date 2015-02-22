@@ -1,5 +1,11 @@
 var searchData=
 [
-  ['negate_5fmcd',['negate_mcd',['../structboost_1_1hana_1_1_group_1_1negate__mcd.html',1,'boost::hana::Group']]],
-  ['not_5fequal_5fmcd',['not_equal_mcd',['../structboost_1_1hana_1_1_comparable_1_1not__equal__mcd.html',1,'boost::hana::Comparable']]]
+  ['make_5fimpl_3c_20set_20_3e',['make_impl&lt; Set &gt;',['../structboost_1_1hana_1_1make__impl_3_01_set_01_4.html',1,'boost::hana']]],
+  ['map',['Map',['../structboost_1_1hana_1_1_map.html',1,'boost::hana']]],
+  ['maybe',['Maybe',['../structboost_1_1hana_1_1_maybe.html',1,'boost::hana']]],
+  ['metafunction',['Metafunction',['../structboost_1_1hana_1_1_metafunction.html',1,'boost::hana']]],
+  ['models',['models',['../structboost_1_1hana_1_1models.html',1,'boost::hana']]],
+  ['monad',['Monad',['../structboost_1_1hana_1_1_monad.html',1,'boost::hana']]],
+  ['monadplus',['MonadPlus',['../structboost_1_1hana_1_1_monad_plus.html',1,'boost::hana']]],
+  ['monoid',['Monoid',['../structboost_1_1hana_1_1_monoid.html',1,'boost::hana']]]
 ];

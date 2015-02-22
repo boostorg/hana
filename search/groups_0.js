@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['core',['Core',['../group__group-core.html',1,'']]]
+  ['assertions',['Assertions',['../group__group-assertions.html',1,'']]]
 ];

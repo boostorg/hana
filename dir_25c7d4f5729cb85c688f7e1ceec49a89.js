@@ -12,6 +12,7 @@ var dir_25c7d4f5729cb85c688f7e1ceec49a89 =
     [ "infix.hpp", "infix_8hpp.html", "infix_8hpp" ],
     [ "lockstep.hpp", "lockstep_8hpp.html", "lockstep_8hpp" ],
     [ "on.hpp", "on_8hpp.html", "on_8hpp" ],
+    [ "overload.hpp", "overload_8hpp.html", "overload_8hpp" ],
     [ "partial.hpp", "partial_8hpp.html", "partial_8hpp" ],
     [ "placeholder.hpp", "placeholder_8hpp.html", "placeholder_8hpp" ]
 ];

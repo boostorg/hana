@@ -1,15 +1,5 @@
 var structboost_1_1hana_1_1_foldable =
 [
-    [ "folds_mcd", "structboost_1_1hana_1_1_foldable_1_1folds__mcd.html", null ],
-    [ "instance< Maybe >", "structboost_1_1hana_1_1_foldable_1_1instance_3_01_maybe_01_4.html", null ],
-    [ "instance< P, when< is_a< Product, P >()> >", "structboost_1_1hana_1_1_foldable_1_1instance_3_01_p_00_01when_3_01is__a_3_01_product_00_01_p_01_4_07_08_4_01_4.html", null ],
-    [ "instance< R, when< is_a< Record, R >()> >", "structboost_1_1hana_1_1_foldable_1_1instance_3_01_r_00_01when_3_01is__a_3_01_record_00_01_r_01_4_07_08_4_01_4.html", null ],
-    [ "instance< Range >", "structboost_1_1hana_1_1_foldable_1_1instance_3_01_range_01_4.html", null ],
-    [ "instance< String >", "structboost_1_1hana_1_1_foldable_1_1instance_3_01_string_01_4.html", null ],
-    [ "instance< T, when< is_an< Iterable, T >()> >", "structboost_1_1hana_1_1_foldable_1_1instance_3_01_t_00_01when_3_01is__an_3_01_iterable_00_01_t_01_4_07_08_4_01_4.html", null ],
-    [ "instance< T[N]>", "structboost_1_1hana_1_1_foldable_1_1instance_3_01_t[_n]_4.html", null ],
-    [ "iterable_mcd", "structboost_1_1hana_1_1_foldable_1_1iterable__mcd.html", null ],
-    [ "unpack_mcd", "structboost_1_1hana_1_1_foldable_1_1unpack__mcd.html", null ],
     [ "foldl", "structboost_1_1hana_1_1_foldable.html#a0a5d375abcde2ceed89662df491a2c43", null ],
     [ "foldr", "structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d", null ],
     [ "foldr1", "structboost_1_1hana_1_1_foldable.html#a03b3683b885c27b5c607fe6f0d2f7356", null ],
@@ -23,5 +13,6 @@ var structboost_1_1hana_1_1_foldable =
     [ "sum", "structboost_1_1hana_1_1_foldable.html#ae99a05a203907d1381a00d9e05425ab7", null ],
     [ "product", "structboost_1_1hana_1_1_foldable.html#aa37fd8d56461f749d49423c711e4c67a", null ],
     [ "count", "structboost_1_1hana_1_1_foldable.html#ae0a55dd7eb4bd4f587f51ffd8c923e53", null ],
-    [ "unpack", "structboost_1_1hana_1_1_foldable.html#a0e3e724580e826eaa39a934eefa2b328", null ]
+    [ "unpack", "structboost_1_1hana_1_1_foldable.html#a0e3e724580e826eaa39a934eefa2b328", null ],
+    [ "fuse", "structboost_1_1hana_1_1_foldable.html#a0840e48f29a87467e23d801ca0ca122a", null ]
 ];

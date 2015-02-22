@@ -1,19 +1,21 @@
 var searchData=
 [
   ['tail',['tail',['../structboost_1_1hana_1_1_iterable.html#ab15783aae10d4373e2399abe728f3f96',1,'boost::hana::Iterable']]],
-  ['take',['take',['../structboost_1_1hana_1_1_list.html#a2c20028c5115dcf38063d322f27b4ee1',1,'boost::hana::List']]],
-  ['take_5fc',['take_c',['../structboost_1_1hana_1_1_list.html#a63f9ab281c8e979adfd7f6678383c46b',1,'boost::hana::List']]],
-  ['take_5funtil',['take_until',['../structboost_1_1hana_1_1_list.html#a27aa67fa9ffc3d89b23a6dce018013d4',1,'boost::hana::List']]],
-  ['take_5fwhile',['take_while',['../structboost_1_1hana_1_1_list.html#a86916c5c62a42f01f85450b366ef6eff',1,'boost::hana::List']]],
+  ['take',['take',['../structboost_1_1hana_1_1_sequence.html#a2c20028c5115dcf38063d322f27b4ee1',1,'boost::hana::Sequence']]],
+  ['take_5fc',['take_c',['../structboost_1_1hana_1_1_sequence.html#a63f9ab281c8e979adfd7f6678383c46b',1,'boost::hana::Sequence']]],
+  ['take_5funtil',['take_until',['../structboost_1_1hana_1_1_sequence.html#a27aa67fa9ffc3d89b23a6dce018013d4',1,'boost::hana::Sequence']]],
+  ['take_5fwhile',['take_while',['../structboost_1_1hana_1_1_sequence.html#a86916c5c62a42f01f85450b366ef6eff',1,'boost::hana::Sequence']]],
   ['tap',['tap',['../structboost_1_1hana_1_1_monad.html#a17ea859a2702ea45ea4999a8a0d2cc63',1,'boost::hana::Monad']]],
-  ['template_5f',['template_',['../structboost_1_1hana_1_1_type.html#a503dafb950079297ba2ec206ed8d5c36',1,'boost::hana::Type']]],
+  ['template_5f',['template_',['../structboost_1_1hana_1_1_metafunction.html#a2d1a544fac1be2f9d9ac3ed2aeb5e9d2',1,'boost::hana::Metafunction']]],
   ['then',['then',['../structboost_1_1hana_1_1_monad.html#abfc7efb0044a87a21f663b1a151dac56',1,'boost::hana::Monad']]],
   ['to',['to',['../group__group-core.html#gadc70755c1d059139297814fb3bfeb91e',1,'boost::hana']]],
-  ['trait',['trait',['../structboost_1_1hana_1_1_type.html#acf4f287f903e6a0a75e53b86da1cbae8',1,'boost::hana::Type']]],
-  ['trait_5f',['trait_',['../structboost_1_1hana_1_1_type.html#a5157ade103ca188ea16e378e2d528fb7',1,'boost::hana::Type']]],
+  ['trait',['trait',['../structboost_1_1hana_1_1_metafunction.html#a5ed3cf82ea662dcfaff23e0e3f710ebd',1,'boost::hana::Metafunction']]],
+  ['trait_5f',['trait_',['../structboost_1_1hana_1_1_metafunction.html#ad9fc467ecfaeb2c167c748d37be96846',1,'boost::hana::Metafunction']]],
+  ['transform',['transform',['../structboost_1_1hana_1_1_functor.html#a3a3140eb3e41d54e2370eb19ee6b043c',1,'boost::hana::Functor']]],
   ['traverse',['traverse',['../structboost_1_1hana_1_1_traversable.html#a15f448955bcfe5b536c94a76b0c007fb',1,'boost::hana::Traversable']]],
-  ['true_5f',['true_',['../structboost_1_1hana_1_1_bool.html#ae6096d56dd1b76bb9d37e4121eb5b33c',1,'boost::hana::Bool']]],
+  ['true_5f',['true_',['../structboost_1_1hana_1_1_integral_constant.html#ae6096d56dd1b76bb9d37e4121eb5b33c',1,'boost::hana::IntegralConstant']]],
   ['tuple',['tuple',['../structboost_1_1hana_1_1_tuple.html#a6607b420b861d7abc8df34cb6900da19',1,'boost::hana::Tuple']]],
-  ['type',['type',['../structboost_1_1hana_1_1_type.html#a38a0f9e2d8df802d1a0a0d835d39b709',1,'boost::hana::Type']]],
-  ['type_5flist',['type_list',['../structboost_1_1hana_1_1_type_list.html#ab5789c6e700de00f298aa1f34dd10898',1,'boost::hana::TypeList']]]
+  ['tuple_5fc',['tuple_c',['../structboost_1_1hana_1_1_tuple.html#a718ca253f469ca8705677260e1a0def5',1,'boost::hana::Tuple']]],
+  ['tuple_5ft',['tuple_t',['../structboost_1_1hana_1_1_tuple.html#aaa14e68d483c13fcc034639a75ab48a8',1,'boost::hana::Tuple']]],
+  ['type',['type',['../structboost_1_1hana_1_1_type.html#a4b171ee57f23017113921071f72639d0',1,'boost::hana::Type']]]
 ];

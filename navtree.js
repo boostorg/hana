@@ -1,70 +1,3 @@
-var NAVTREE =
-[
-  [ "Boost.Hana", "index.html", [
-    [ "User Manual", "index.html", [
-      [ "Preface", "index.html#tutorial-preface", null ],
-      [ "Introduction", "index.html#tutorial-introduction", [
-        [ "A word of warning", "index.html#tutorial-introduction-warning", null ]
-      ] ],
-      [ "Quick start", "index.html#tutorial-quick_start", [
-        [ "Value computations", "index.html#tutorial-quick_start-value_computations", null ],
-        [ "Type computations", "index.html#tutorial-quick_start-type_computations", null ]
-      ] ],
-      [ "Basic concepts", "index.html#tutorial-basic_concepts", [
-        [ "Heterogeneity", "index.html#tutorial-basic_concepts-heterogeneity", null ],
-        [ "Constants, or setting constexpr straight", "index.html#tutorial-basic_concepts-constant", null ],
-        [ "Constants and side effects", "index.html#tutorial-basic_concepts-side_effects", null ],
-        [ "A zoo of assertions", "index.html#tutorial-basic_concepts-assertions", null ],
-        [ "Comparing objects", "index.html#tutorial-basic_concepts-comparing", null ],
-        [ "Transforming collections", "index.html#tutorial-basic_concepts-mapping", null ],
-        [ "Folding collections", "index.html#tutorial-basic_concepts-folding", null ],
-        [ "Searching in collections", "index.html#tutorial-basic_concepts-searching", null ],
-        [ "Iterating through collections", "index.html#tutorial-basic_concepts-iteration", null ],
-        [ "The List type class", "index.html#tutorial-basic_concepts-list", null ],
-        [ "Adapting user-defined structs", "index.html#tutorial-basic_concepts-adapting", null ]
-      ] ],
-      [ "Integration with external libraries", "index.html#tutorial-external_libraries", [
-        [ "The standard library", "index.html#tutorial-external_libraries-stl", null ],
-        [ "Boost.Fusion", "index.html#tutorial-external_libraries-fusion", null ],
-        [ "Boost.MPL", "index.html#tutorial-external_libraries-mpl", null ]
-      ] ],
-      [ "Performance considerations", "index.html#tutorial-performance_considerations", [
-        [ "Compile-time performance", "index.html#tutorial-performance_considerations-compile_time", null ],
-        [ "Runtime performance", "index.html#tutorial-performance_considerations-run_time", null ]
-      ] ],
-      [ "Extending the library", "index.html#tutorial-extending", [
-        [ "Basic tag dispatching", "index.html#tutorial-extending-tag_dispatching", null ],
-        [ "Data types", "index.html#tutorial-extending-datatypes", null ],
-        [ "Type classes", "index.html#tutorial-extending-typeclasses", null ]
-      ] ],
-      [ "Header organization", "index.html#tutorial-header_organization", null ],
-      [ "Mastering the library", "index.html#tutorial-mastering", null ]
-    ] ],
-    [ "Reference documentation", "modules.html", "modules" ],
-    [ "Indexes", "usergroup0.html", [
-      [ "Methods", "functions.html", [
-        [ "All", "functions.html", null ],
-        [ "Functions", "functions_func.html", null ],
-        [ "Variables", "functions_vars.html", null ]
-      ] ],
-      [ "Type classes, data types and instances", "annotated.html", "annotated" ],
-      [ "Files", "files.html", "files" ]
-    ] ],
-    [ "Todo List", "todo.html", null ],
-    [ "Bug List", "bug.html", null ]
-  ] ]
-];
-
-var NAVTREEINDEX =
-[
-".html",
-"group__group-core.html#ga38cf78e1e3e262f7f1c71ddd9ca70cd9",
-"structboost_1_1hana_1_1_comparable.html",
-"structboost_1_1hana_1_1_searchable.html#a82e67ada9561f5e1176faab8eb94a064"
-];
-
-var SYNCONMSG = 'click to disable panel synchronisation';
-var SYNCOFFMSG = 'click to enable panel synchronisation';
 var navTreeSubIndices = new Array();
 
 function getData(varName)
@@ -172,7 +105,7 @@ function createIndent(o,domNode,node,level)
     node.expandToggle.onclick = function() {
       if (node.expanded) {
         $(node.getChildrenUL()).slideUp("fast");
-        node.plus_img.src = node.relpath+"ftv2pnode.png";
+        node.plus_img.src = node.relpath+"arrowright.png";
         node.expanded = false;
       } else {
         expandNode(o, node, false, false);
@@ -180,7 +113,7 @@ function createIndent(o,domNode,node,level)
     }
     node.expandToggle.appendChild(imgNode);
     domNode.appendChild(node.expandToggle);
-    imgNode.src = node.relpath+"ftv2pnode.png";
+    imgNode.src = node.relpath+"arrowright.png";
   } else {
     var span = document.createElement("span");
     span.style.display = 'inline-block';
@@ -336,9 +269,9 @@ function expandNode(o, node, imm, showRoot)
         $(node.getChildrenUL()).slideDown("fast");
       }
       if (node.isLast) {
-        node.plus_img.src = node.relpath+"ftv2mlastnode.png";
+        node.plus_img.src = node.relpath+"arrowdown.png";
       } else {
-        node.plus_img.src = node.relpath+"ftv2mnode.png";
+        node.plus_img.src = node.relpath+"arrowdown.png";
       }
       node.expanded = true;
     }
@@ -408,11 +341,7 @@ function showNode(o, node, index, hash)
         getNode(o, node);
       }
       $(node.getChildrenUL()).css({'display':'block'});
-      if (node.isLast) {
-        node.plus_img.src = node.relpath+"ftv2mlastnode.png";
-      } else {
-        node.plus_img.src = node.relpath+"ftv2mnode.png";
-      }
+      node.plus_img.src = node.relpath+"arrowdown.png";
       node.expanded = true;
       var n = node.children[o.breadcrumbs[index]];
       if (index+1<o.breadcrumbs.length) {
@@ -550,7 +479,7 @@ function initNavTree(toroot,relpath)
   o.node.expanded = false;
   o.node.isLast = true;
   o.node.plus_img = document.createElement("img");
-  o.node.plus_img.src = relpath+"ftv2pnode.png";
+  o.node.plus_img.src = relpath+"arrowright.png";
   o.node.plus_img.width = 16;
   o.node.plus_img.height = 22;
 

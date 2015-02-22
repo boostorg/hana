@@ -12,6 +12,7 @@ var group__group_functional =
     [ "infix", "group__group-functional.html#ga7bdafba6dc801f1d2d83731ad9714557", null ],
     [ "lockstep", "group__group-functional.html#gafca60c09e1f7a32a2b52baaf6515c279", null ],
     [ "on", "group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1", null ],
+    [ "overload", "group__group-functional.html#ga83e71bae315e299f9f5f9de77b012139", null ],
     [ "partial", "group__group-functional.html#ga778b2daa27882e71d28b6f2b38982ddf", null ],
     [ "_", "group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23", null ]
 ];
