@@ -24,10 +24,12 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/functional/compose.hpp>
+#include <boost/hana/functional/partial.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/maybe.hpp>
 #include <boost/hana/monoid.hpp>
+#include <boost/hana/pair.hpp>
 #include <boost/hana/searchable.hpp>
 
 
@@ -245,16 +247,34 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Model of Foldable
     //////////////////////////////////////////////////////////////////////////
+    namespace iterable_detail {
+        struct foldl_helper {
+            template <typename F, typename X>
+            constexpr decltype(auto) operator()(F&& f, X&& x) const {
+                decltype(auto) state = hana::first(detail::std::forward<X>(x));
+                decltype(auto) xs = hana::second(detail::std::forward<X>(x));
+                return hana::pair(
+                    detail::std::forward<F>(f)(
+                        detail::std::forward<decltype(state)>(state),
+                        hana::head(xs)
+                    ),
+                    hana::tail(xs)
+                );
+            }
+        };
+    }
+
     template <typename It>
     struct Iterable::foldl_impl {
         template <typename Xs, typename State, typename F>
-        static constexpr auto apply(Xs xs, State s, F f) {
-            return hana::eval_if(hana::is_empty(xs),
-                hana::always(s),
-                [xs, s, f](auto _) {
-                    return apply(_(tail)(xs), f(s, _(head)(xs)), f);
-                }
-            );
+        static constexpr decltype(auto) apply(Xs&& xs, State&& s, F&& f) {
+            return hana::first(hana::until(
+                hana::compose(is_empty, second),
+                hana::pair(detail::std::forward<State>(s),
+                           detail::std::forward<Xs>(xs)),
+                hana::partial(iterable_detail::foldl_helper{},
+                              detail::std::forward<F>(f))
+            ));
         }
     };
 
