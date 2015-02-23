@@ -12,12 +12,11 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/type.hpp>
 
 #include <test/auto/base.hpp>
+#include <test/auto/comparable.hpp>
+#include <test/auto/foldable.hpp>
+#include <test/auto/searchable.hpp>
 #include <test/injection.hpp>
 #include <test/seq.hpp>
-
-// instances
-#include <test/auto/comparable.hpp>
-#include <test/auto/searchable.hpp>
 using namespace boost::hana;
 
 
@@ -34,6 +33,7 @@ namespace boost { namespace hana { namespace test {
     template <>
     auto instances<Set> = make<Tuple>(
         type<Comparable>,
+        type<Foldable>,
         type<Searchable>
     );
 }}}
@@ -109,7 +109,7 @@ int main() {
         using L = test::Seq;
         using test::x;
 
-        // Set -> Sequence
+        // Set -> Sequence (now provided by Sequence, but we keep the test)
         {
             auto check = [=](auto ...xs) {
                 BOOST_HANA_CONSTANT_CHECK(
@@ -233,5 +233,28 @@ int main() {
                 nothing
             ));
         }
+    }
+
+    // Foldable
+    {
+        auto list = test::seq;
+        using test::x;
+        auto f = test::injection([]{});
+
+        auto check = [=](auto ...xs) {
+            auto possible_results = transform(permutations(list(xs...)), [=](auto perm) {
+                return unpack(perm, f);
+            });
+
+            BOOST_HANA_CONSTANT_CHECK(
+                elem(possible_results, unpack(set(xs...), f))
+            );
+        };
+
+        check();
+        check(x<1>);
+        check(x<1>, x<2>);
+        check(x<1>, x<2>, x<3>);
+        check(x<1>, x<2>, x<3>, x<4>);
     }
 }

@@ -25,7 +25,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functional/id.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/searchable.hpp>
-#include <boost/hana/sequence.hpp>
 #include <boost/hana/tuple.hpp>
 
 
@@ -65,6 +64,18 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
+    // Foldable
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct unpack_impl<Set> {
+        template <typename Set, typename F>
+        static constexpr decltype(auto) apply(Set&& set, F&& f) {
+            return hana::unpack(detail::std::forward<Set>(set).storage,
+                                detail::std::forward<F>(f));
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
     // Searchable
     //////////////////////////////////////////////////////////////////////////
     template <>
@@ -95,13 +106,6 @@ namespace boost { namespace hana {
             return hana::foldr(detail::std::forward<Xs>(xs),
                                 set(), hana::flip(insert));
         }
-    };
-
-    template <typename L>
-    struct to_impl<L, Set, when<models<Sequence(L)>{}>> {
-        template <typename Set>
-        static constexpr decltype(auto) apply(Set&& set)
-        { return to<L>(detail::std::forward<Set>(set).storage); }
     };
 
     //////////////////////////////////////////////////////////////////////////

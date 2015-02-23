@@ -26,18 +26,22 @@ namespace boost { namespace hana {
     //! the order.
     //! @snippet example/set.cpp comparable
     //!
-    //! 2. Searchable\n
+    //! 2. Foldable\n
+    //! Folding a `Set` is equivalent to folding the sequence of its values.
+    //! However, note that the values are not required to be in any specific
+    //! order, so using the folds provided here with an operation that is not
+    //! both commutative and associative will yield unspecified behavior.
+    //! @snippet example/set.cpp foldable
+    //!
+    //! 3. Searchable\n
     //! The keys and the values of a `Set` are its elements; the `Searchable` 
-    //! instance follows naturally from that.
+    //! model follows naturally from that.
     //! @snippet example/set.cpp searchable
     //!
     //!
     //! Provided conversions
     //! --------------------
-    //! 1. To any `Sequence`\n
-    //! The order of the elements in the resulting sequence is unspecified.
-    //!
-    //! 2. From any `Foldable`\n
+    //! 1. From any `Foldable`\n
     //! If the foldable structure contains duplicates, the last one will
     //! be the one appearing in the resulting set.
     struct Set { };
