@@ -190,7 +190,7 @@ namespace boost { namespace hana {
 #else
     template <typename T>
     struct _type {
-        struct _ : operators::adl {
+        struct _ : _type, operators::adl {
             struct hana { using datatype = Type; };
             using type = T;
 

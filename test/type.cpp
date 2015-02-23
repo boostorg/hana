@@ -11,8 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/tuple.hpp>
 
 #include <test/auto/base.hpp>
-
-// instances
 #include <test/auto/comparable.hpp>
 
 #include <type_traits>
@@ -84,6 +82,11 @@ int main() {
             using T2 = decltype(+ref)::type;
             using T3 = decltype(+cref)::type;
             using T4 = decltype(+rref)::type;
+        }
+
+        // `decltype(type<T>)` should inherit `_type<T>`
+        {
+            static_assert(std::is_base_of<_type<T>, decltype(type<T>)>{}, "");
         }
     }
 
