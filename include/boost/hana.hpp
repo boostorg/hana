@@ -283,7 +283,7 @@ function                                     |  concept   | description
 `filter(sequence, predicate)`                | MonadPlus  | Remove all the elements that do not satisfy a predicate. The predicate must return an `integral_constant`.
 `{any,none,all}(sequence, predicate)`        | Searchable | Returns whether any/none/all of the elements of the sequence satisfy some predicate.
 `{any,none,all}_of(sequence)`                | Searchable | Returns whether any/non/all of the elements of a sequence are true-valued.
-`elem(value, sequence)`                      | Searchable | Returns whether an object is in a sequence.
+`elem(sequence, value)`                      | Searchable | Returns whether an object is in a sequence.
 `find(sequence, predicate)`                  | Searchable | Find the first element of a sequence satisfying the predicate and return `just` it, or return `nothing`. See Maybe.
 `lookup(sequence, value)`                    | Searchable | Find the first element of a sequence which is equal to some value and return `just` it, or return nothing. See Maybe.
 `group_by(predicate, sequence)`              | Sequence   | %Group the adjacent elements of a sequence which all satisfy (or all do not satisfy) some predicate.
