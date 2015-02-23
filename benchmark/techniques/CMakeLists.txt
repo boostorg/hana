@@ -58,3 +58,18 @@ foreach(operation IN ITEMS get make)
             COMPILATION_TIMEOUT 5
     )
 endforeach()
+
+
+Benchmark_add_plot(benchmark.techniques.at
+    TITLE "Random access in a parameter pack"
+    FEATURE COMPILATION_TIME
+    CURVE
+        TITLE "arg<n>"
+        FILE "at_index/arg.cpp"
+        ENV "(1..1000).step(25).map { |n| { input_size: n }}"
+
+    CURVE
+        TITLE "variadic::at"
+        FILE "at_index/variadic.cpp"
+        ENV "(1..1000).step(25).map { |n| { input_size: n }}"
+)

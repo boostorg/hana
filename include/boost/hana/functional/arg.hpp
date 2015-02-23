@@ -10,9 +10,9 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FUNCTIONAL_ARG_HPP
 #define BOOST_HANA_FUNCTIONAL_ARG_HPP
 
+#include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
-#include <boost/hana/detail/variadic/at.hpp>
 
 
 namespace boost { namespace hana {
@@ -50,29 +50,92 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/functional/arg.cpp main
+    //!
+    //!
+    //! @todo
+    //! This implementation is less compile-time efficient than `variadic::at`,
+    //! but at least we can use perfect forwarding. Is there a way to get the
+    //! efficiency of `variadic::at` with perfect forwarding?
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <std::size_t n>
     constexpr auto arg = [](auto&& x1, ..., auto&& xm) -> decltype(auto) {
         return forwarded(xn);
     };
 #else
-    template <detail::std::size_t n>
+    template <detail::std::size_t n, typename = void>
+    struct _arg;
+
+    template <>
+    struct _arg<1> {
+        template <typename X1, typename ...Xn>
+        constexpr X1 operator()(X1&& x1, Xn&& ...) const
+        { return detail::std::forward<X1>(x1); }
+    };
+
+    template <>
+    struct _arg<2> {
+        template <typename X1, typename X2, typename ...Xn>
+        constexpr X2 operator()(X1&&, X2&& x2, Xn&& ...) const
+        { return detail::std::forward<X2>(x2); }
+    };
+
+    template <>
+    struct _arg<3> {
+        template <typename X1, typename X2, typename X3, typename ...Xn>
+        constexpr X3 operator()(X1&&, X2&&, X3&& x3, Xn&& ...) const
+        { return detail::std::forward<X3>(x3); }
+    };
+
+    template <>
+    struct _arg<4> {
+        template <typename X1, typename X2, typename X3, typename X4, typename ...Xn>
+        constexpr X4 operator()(X1&&, X2&&, X3&&, X4&& x4, Xn&& ...) const
+        { return detail::std::forward<X4>(x4); }
+    };
+
+    template <>
+    struct _arg<5> {
+        template <typename X1, typename X2, typename X3, typename X4,
+                  typename X5, typename ...Xn>
+        constexpr X5 operator()(X1&&, X2&&, X3&&, X4&&, X5&& x5, Xn&& ...) const
+        { return detail::std::forward<X5>(x5); }
+    };
+
+    template <detail::std::size_t n, typename>
     struct _arg {
         static_assert(n > 0,
         "invalid usage of boost::hana::arg<n> with n == 0");
 
-        template <typename ...X>
-        constexpr decltype(auto) operator()(X&& ...x) const {
-            static_assert(sizeof...(x) >= n,
+        template <typename X1, typename X2, typename X3, typename X4,
+                  typename X5, typename ...Xn>
+        constexpr decltype(auto)
+        operator()(X1&&, X2&&, X3&&, X4&&, X5&&, Xn&& ...xn) const {
+            static_assert(sizeof...(xn) >= n - 5,
             "invalid usage of boost::hana::arg<n> with too few arguments");
 
             // Since compilers will typically try to continue for a bit after
             // an error/static assertion, we must avoid sending the compiler
             // in a very long computation if n == 0.
-            return detail::variadic::at<n == 0 ? 0 : n - 1>(
-                detail::std::forward<X>(x)...
-            );
+            return _arg<n == 0 ? 1 : n - 5>{}(detail::std::forward<Xn>(xn)...);
         }
+    };
+
+    template <detail::std::size_t n>
+    struct _arg<n, detail::std::enable_if_t<(n > 25)>> {
+        template <
+            typename X1,  typename X2,  typename X3,  typename X4,  typename X5,
+            typename X6,  typename X7,  typename X8,  typename X9,  typename X10,
+            typename X11, typename X12, typename X13, typename X14, typename X15,
+            typename X16, typename X17, typename X18, typename X19, typename X20,
+            typename X21, typename X22, typename X23, typename X24, typename X25,
+            typename ...Xn>
+        constexpr decltype(auto)
+        operator()(X1&&,  X2&&,  X3&&,  X4&&,  X5&&,
+                   X6&&,  X7&&,  X8&&,  X9&&,  X10&&,
+                   X11&&, X12&&, X13&&, X14&&, X15&&,
+                   X16&&, X17&&, X18&&, X19&&, X20&&,
+                   X21&&, X22&&, X23&&, X24&&, X25&&, Xn&& ...xn) const
+        { return _arg<n - 25>{}(detail::std::forward<Xn>(xn)...); }
     };
 
     template <detail::std::size_t n>

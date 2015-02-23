@@ -10,13 +10,16 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/constexpr.hpp>
 
 #include <test/injection.hpp>
+#include <test/tracked.hpp>
 
 #include <utility>
 using namespace boost::hana;
 
 
 template <int i>
-struct _nonpod { virtual ~_nonpod() { } };
+struct _nonpod : test::Tracked {
+    _nonpod() : test::Tracked{i} { }
+};
 
 template <int i = 0>
 _nonpod<i> nonpod{};
@@ -75,6 +78,9 @@ int main() {
 
     // arg
     {
+        // moveonly friendliness:
+        move_only z = arg<1>(move_only{}); (void)z;
+
         BOOST_HANA_CONSTANT_CHECK(equal(
             arg<1>(x<1>),
             x<1>
@@ -113,6 +119,42 @@ int main() {
         ));
         arg<3>(nonpod<1>, nonpod<2>, nonpod<3>);
         arg<3>(nonpod<1>, nonpod<2>, nonpod<3>, nonpod<4>);
+
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            arg<4>(undefined<1>, undefined<2>, undefined<3>, x<4>),
+            x<4>
+        ));
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            arg<4>(undefined<1>, undefined<2>, undefined<3>, x<4>, undefined<5>),
+            x<4>
+        ));
+        arg<4>(nonpod<1>, nonpod<2>, nonpod<3>, nonpod<4>);
+        arg<4>(nonpod<1>, nonpod<2>, nonpod<3>, nonpod<4>, nonpod<5>);
+
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            arg<5>(undefined<1>, undefined<2>, undefined<3>, undefined<4>, x<5>),
+            x<5>
+        ));
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            arg<5>(undefined<1>, undefined<2>, undefined<3>, undefined<4>, x<5>, undefined<6>),
+            x<5>
+        ));
+        arg<5>(nonpod<1>, nonpod<2>, nonpod<3>, nonpod<4>, nonpod<5>);
+        arg<5>(nonpod<1>, nonpod<2>, nonpod<3>, nonpod<4>, nonpod<5>, nonpod<6>);
+
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            arg<6>(undefined<1>, undefined<2>, undefined<3>, undefined<4>, undefined<5>, x<6>),
+            x<6>
+        ));
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            arg<6>(undefined<1>, undefined<2>, undefined<3>, undefined<4>, undefined<5>, x<6>, undefined<7>),
+            x<6>
+        ));
+        arg<6>(nonpod<1>, nonpod<2>, nonpod<3>, nonpod<4>, nonpod<5>, nonpod<6>);
+        arg<6>(nonpod<1>, nonpod<2>, nonpod<3>, nonpod<4>, nonpod<5>, nonpod<6>, nonpod<7>);
     }
 
     // compose
