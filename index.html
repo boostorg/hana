@@ -252,7 +252,7 @@ Cheatsheet</h2>
 <tr>
 <td align="center"><code>{any,none,all}_of(sequence)</code> </td><td align="center"><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a> </td><td align="center">Returns whether any/non/all of the elements of a sequence are true-valued. </td></tr>
 <tr>
-<td align="center"><code>elem(value, sequence)</code> </td><td align="center"><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a> </td><td align="center">Returns whether an object is in a sequence. </td></tr>
+<td align="center"><code>elem(sequence, value)</code> </td><td align="center"><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a> </td><td align="center">Returns whether an object is in a sequence. </td></tr>
 <tr>
 <td align="center"><code>find(sequence, predicate)</code> </td><td align="center"><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a> </td><td align="center">Find the first element of a sequence satisfying the predicate and return <code>just</code> it, or return <code>nothing</code>. See <a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a>. </td></tr>
 <tr>
@@ -399,7 +399,7 @@ Type computations</h1>
 <div class="line">    <span class="comment">// need this tricky line for it to do what we want.</span></div>
 <div class="line">    mpl::equal&lt;mpl::_1, mpl::_2, mpl::quote2&lt;std::is_same&gt;&gt;</div>
 <div class="line">&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000055">Todo:</a></b></dt><dd>Write a cheatsheet for common MPL idioms. Same for Fusion idioms, but where should it go? Maybe in some Appendix?</dd></dl>
+</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000056">Todo:</a></b></dt><dd>Write a cheatsheet for common MPL idioms. Same for Fusion idioms, but where should it go? Maybe in some Appendix?</dd></dl>
 <h1><a class="anchor" id="tutorial-constant"></a>
 Constants, or setting constexpr straight</h1>
 <hr/>

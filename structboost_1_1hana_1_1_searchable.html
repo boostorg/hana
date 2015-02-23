@@ -127,7 +127,7 @@ According to the above laws, it is possible to implement all the methods pertain
 <ol type="1">
 <li>Builtin arrays Builtin arrays whose size is known can be searched as-if they were homogeneous tuples. However, since arrays can only hold objects of a single type and the predicate to <code>find</code> must return a compile-time <a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a>, the <code>find</code> method is fairly useless. For similar reasons, the <code>lookup</code> method is also fairly useless.</li>
 </ol>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000031">Todo:</a></b></dt><dd><ul>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000032">Todo:</a></b></dt><dd><ul>
 <li>We should provide a member <code>operator[]</code> equivalent to <code>lookup</code>.</li>
 <li>Use perfect forwarding in the MCD once Clang bug #20619 is fixed. </li>
 </ul>
@@ -383,7 +383,7 @@ Synopsis of methods</h2></td></tr>
 <div class="line">);</div>
 </div><!-- fragment --><h2>Benchmarks </h2>
 <div class="image">
-<img src="benchmark/searchable/none.ctime.png" alt="none.ctime.png"/>
+<img src="none.ctime.png" alt="none.ctime.png"/>
 </div>
  
 </div>
@@ -605,7 +605,7 @@ Synopsis of methods</h2></td></tr>
 <p>Returns whether a structure contains a subset of the keys of another structure. </p>
 <p>Specifically, <code>subset(xs, ys)</code> is a <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> representing whether all of the keys of <code>xs</code> are also keys of <code>ys</code>. In particular, this method does <em>not</em> check whether <code>xs</code> is a strict subset of <code>ys</code>, i.e. a subset that is not equal.</p>
 <dl class="section note"><dt>Note</dt><dd>This method is tag-dispatched using the data type of the first argument only.</dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000032">Todo:</a></b></dt><dd>Consider using the data type of both arguments for tag-dispatching.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000033">Todo:</a></b></dt><dd>Consider using the data type of both arguments for tag-dispatching.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">xs</td><td>The structure to check whether it is a subset of <code>ys</code>.</td></tr>

@@ -130,7 +130,7 @@ Any <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The 
 </ol>
 <h2>Provided common data type </h2>
 <p>Because of the requirement that <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class represents data that can be manipulated at compile-time. ">Constant</a></code>s be interchangeable when their contents are compatible, two <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class represents data that can be manipulated at compile-time. ">Constant</a></code>s <code>A</code> and <code>B</code> will have a common data type whenever <code>A::value_type</code> and <code>B::value_type</code> have one. Their common data type is an unspecified <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class represents data that can be manipulated at compile-time. ">Constant</a></code> <code>C</code> such that <code>C::value_type</code> is exactly <code>common_t&lt;A::value_type, B::value_type&gt;</code>. A specialization of the <code>common</code> metafunction is provided for <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class represents data that can be manipulated at compile-time. ">Constant</a></code>s to embody this.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000009">Todo:</a></b></dt><dd><ul>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000010">Todo:</a></b></dt><dd><ul>
 <li>Replace value by an equivalent version that works with types only.</li>
 <li>Document the nested value_type.</li>
 <li>Document the provided models, but that should be done in each concept.</li>

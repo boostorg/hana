@@ -108,16 +108,23 @@ Two sets are equal iff they contain the same elements, regardless of the order. 
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(1, <span class="charliteral">&#39;2&#39;</span>, 3.3) == <a class="code" href="structboost_1_1hana_1_1_set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(<span class="charliteral">&#39;2&#39;</span>, 1, 3.3));</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(1, <span class="charliteral">&#39;2&#39;</span>, 3.3) != <a class="code" href="structboost_1_1hana_1_1_set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(<span class="charliteral">&#39;2&#39;</span>, 1));</div>
 </div><!-- fragment --></li>
+<li><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a><br />
+Folding a <code><a class="el" href="structboost_1_1hana_1_1_set.html" title="A basic unordered container requiring Comparable elements. ">Set</a></code> is equivalent to folding the sequence of its values. However, note that the values are not required to be in any specific order, so using the folds provided here with an operation that is not both commutative and associative will yield unspecified behavior. <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> xs = <a class="code" href="structboost_1_1hana_1_1_set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(int_&lt;0&gt;, int_&lt;1&gt;, int_&lt;2&gt;);</div>
+<div class="line">static_assert(minimum(xs) == int_&lt;0&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(maximum(xs) == int_&lt;2&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(sum(xs) == int_&lt;3&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// folding is not really meaningful since the order of the</span></div>
+<div class="line"><span class="comment">// elements is unspecified.</span></div>
+</div><!-- fragment --></li>
 <li><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a><br />
-The keys and the values of a <code><a class="el" href="structboost_1_1hana_1_1_set.html" title="A basic unordered container requiring Comparable elements. ">Set</a></code> are its elements; the <code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code>  instance follows naturally from that. <div class="fragment"><div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> xs = <a class="code" href="structboost_1_1hana_1_1_set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(int_&lt;0&gt;, int_&lt;1&gt;, int_&lt;2&gt;);</div>
+The keys and the values of a <code><a class="el" href="structboost_1_1hana_1_1_set.html" title="A basic unordered container requiring Comparable elements. ">Set</a></code> are its elements; the <code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code>  model follows naturally from that. <div class="fragment"><div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> xs = <a class="code" href="structboost_1_1hana_1_1_set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(int_&lt;0&gt;, int_&lt;1&gt;, int_&lt;2&gt;);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(lookup(xs, int_&lt;0&gt;) == just(int_&lt;0&gt;));</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(lookup(xs, int_&lt;3&gt;) == nothing);</div>
 </div><!-- fragment --></li>
 </ol>
 <h2>Provided conversions </h2>
 <ol type="1">
-<li>To any <code><a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code><br />
-The order of the elements in the resulting sequence is unspecified.</li>
 <li>From any <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a></code><br />
 If the foldable structure contains duplicates, the last one will be the one appearing in the resulting set. </li>
 </ol>
@@ -155,7 +162,7 @@ Synopsis of methods</h2></td></tr>
 </div><!-- fragment -->
 <p>Creates a <code><a class="el" href="structboost_1_1hana_1_1_set.html" title="A basic unordered container requiring Comparable elements. ">Set</a></code> containing the given elements. </p>
 <dl class="section note"><dt>Note</dt><dd>There must not be duplicate elements.</dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000040">Todo:</a></b></dt><dd>Consider allowing duplicates elements in this constructor. </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000041">Todo:</a></b></dt><dd>Consider allowing duplicates elements in this constructor. </dd></dl>
 
 </div>
 </div>
