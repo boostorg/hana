@@ -15,7 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/is_a.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/std/forward.hpp>
@@ -25,11 +25,11 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functional/demux.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/functor.hpp>
-#include <boost/hana/sequence.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/product.hpp>
 #include <boost/hana/record.hpp>
 #include <boost/hana/searchable.hpp>
+#include <boost/hana/sequence.hpp>
 #include <boost/hana/tuple.hpp>
 
 
@@ -115,32 +115,33 @@ namespace boost { namespace hana {
     // Conversions
     //////////////////////////////////////////////////////////////////////////
     template <typename R>
-    struct to_impl<Map, R, when<is_a<Record, R>()>> {
+    struct to_impl<Map, R, when<models<Record(R)>{}>> {
         template <typename X>
         static constexpr decltype(auto) apply(X&& x) {
             auto extract = [x(detail::std::forward<X>(x))](auto&& member) -> decltype(auto) {
                 using P = typename datatype<decltype(member)>::type;
-                return make<P>(
+                return hana::make<P>(
                     hana::first(detail::std::forward<decltype(member)>(member)),
                     hana::second(detail::std::forward<decltype(member)>(member))(x)
                 );
             };
-            return to<Map>(hana::transform(members<R>(), detail::std::move(extract)));
+            return hana::to<Map>(hana::transform(members<R>(),
+                                 detail::std::move(extract)));
         }
     };
 
     template <typename F>
-    struct to_impl<Map, F, when<is_a<Foldable, F>() && !is_a<Record, F>()>> {
+    struct to_impl<Map, F, when<models<Foldable(F)>{} && !models<Record(F)>{}>> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs)
         { return hana::unpack(detail::std::forward<Xs>(xs), map); }
     };
 
-    template <typename L>
-    struct to_impl<L, Map, when<is_a<Sequence, L>()>> {
+    template <typename S>
+    struct to_impl<S, Map, when<models<Sequence(S)>{}>> {
         template <typename M>
         static constexpr decltype(auto) apply(M&& m)
-        { return to<L>(detail::std::forward<M>(m).storage); }
+        { return hana::to<S>(detail::std::forward<M>(m).storage); }
     };
 }} // end namespace boost::hana
 
