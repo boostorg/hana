@@ -13,11 +13,17 @@ using namespace boost::hana;
 
 
 int main() {
-    //! [main]
-    std::string foo{"foo"};
-    BOOST_HANA_RUNTIME_CHECK(make<std::string>("foo") == foo);
 
-    _tuple<int, char, double, std::string> ts{1, '2', 3.3, "abcd"};
-    BOOST_HANA_RUNTIME_CHECK(ts == make<Tuple>(1, '2', 3.3, std::string{"abcd"}));
-    //! [main]
+{
+
+//! [make]
+_tuple<int, char, double, std::string> ts{1, '2', 3.3, "abcd"};
+BOOST_HANA_RUNTIME_CHECK(ts == make<Tuple>(1, '2', 3.3, std::string{"abcd"}));
+
+std::string foo{"foo"}; // std::string has no notion of data type
+BOOST_HANA_RUNTIME_CHECK(make<std::string>("foo") == foo);
+//! [make]
+
+}
+
 }
