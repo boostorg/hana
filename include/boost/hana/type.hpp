@@ -22,6 +22,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // _type
     //////////////////////////////////////////////////////////////////////////
+    //! @cond
     template <typename T>
     struct _type<T>::_ : _type<T>, operators::adl {
         struct hana { using datatype = Type; };
@@ -29,6 +30,7 @@ namespace boost { namespace hana {
 
         constexpr _ operator+() const { return *this; }
     };
+    //! @endcond
 
     //////////////////////////////////////////////////////////////////////////
     // Operators
