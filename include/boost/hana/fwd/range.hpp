@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_RANGE_HPP
 
 #include <boost/hana/core/operators.hpp>
+#include <boost/hana/fwd/core/make.hpp>
 #include <boost/hana/fwd/integral_constant.hpp>
 
 
@@ -65,6 +66,12 @@ namespace boost { namespace hana {
     //! `lookup`.
     struct Range { };
 
+    template <typename IntegralConstant,
+              typename IntegralConstant::value_type from,
+              typename IntegralConstant::value_type to>
+    struct _range;
+
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
     //! Creates a `Range` representing the half-open interval of
     //! `Constant`s `[from, to)`.
     //! @relates Range
@@ -78,33 +85,34 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/range.cpp range
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto range = [](auto from, auto to) {
-        return unspecified-type;
+    //! @snippet example/range.cpp make<Range>
+    template <>
+    constexpr auto make<Range> = [](auto from, auto to) {
+        return a Range [from, to) of an unspecified type;
     };
-#else
-    template <typename IntegralConstant,
-              typename IntegralConstant::value_type from,
-              typename IntegralConstant::value_type to>
-    struct _range;
-
-    struct _make_range {
-        template <typename From, typename To>
-        constexpr auto operator()(From from, To to) const;
-    };
-
-    constexpr _make_range range{};
 #endif
+
+    //! Alias to `make<Range>`; provided for convenience.
+    //! @relates Range
+    constexpr auto make_range = make<Range>;
+
+    //! @todo
+    //! Right now, this is provided for backwards compatibility.
+    //! However, should we really remove it? If so, we need a seriously
+    //! well-thought naming pattern for all the other objects in Hana,
+    //! because `range(from, to)` is awesome; much better than
+    //! `make_range(from, to)`.
+    [[deprecated("use make<Range> or make_range instead")]]
+    constexpr auto range = make<Range>;
 
     //! Shorthand to create a `Range` of `Constant`s.
     //! @relates Range
     //!
     //! This shorthand is provided for convenience only and it is equivalent
-    //! to `range`. Specifically, `range_c<T, from, to>` is such that
+    //! to `make<Range>`. Specifically, `range_c<T, from, to>` is such that
     //! @code
-    //!     range_c<T, from, to> == range(integral_constant<T, from>,
-    //!                                   integral_constant<T, to>)
+    //!     range_c<T, from, to> == make<Range>(integral_constant<T, from>,
+    //!                                         integral_constant<T, to>)
     //! @endcode
     //!
     //!
@@ -122,8 +130,8 @@ namespace boost { namespace hana {
     //! -------
     //! @snippet example/range.cpp range_c
     template <typename T, T from, T to>
-    constexpr auto range_c = range(integral_constant<T, from>,
-                                   integral_constant<T, to>);
+    constexpr auto range_c = make<Range>(integral_constant<T, from>,
+                                         integral_constant<T, to>);
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_RANGE_HPP
