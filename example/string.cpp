@@ -5,11 +5,13 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/core/models.hpp>
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/detail/constexpr.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/maybe.hpp>
 #include <boost/hana/string.hpp>
+
+#include <type_traits>
 using namespace boost::hana;
 
 
@@ -19,14 +21,14 @@ int main() {
 
 //! [BOOST_HANA_STRING]
 BOOST_HANA_CONSTEXPR_LAMBDA auto str = BOOST_HANA_STRING("abcdef");
-BOOST_HANA_CONSTANT_CHECK(is_a<String>(str));
+static_assert(std::is_same<datatype_t<decltype(str)>, String>{}, "");
 //! [BOOST_HANA_STRING]
 
 }{
 
 //! [string]
 constexpr auto str = string<'a', 'b', 'c', 'd', 'e', 'f'>;
-BOOST_HANA_CONSTANT_CHECK(is_a<String>(str));
+static_assert(std::is_same<datatype_t<decltype(str)>, String>{}, "");
 //! [string]
 
 }{
