@@ -5,36 +5,18 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/detail/closure.hpp>
-
-#include <boost/hana/detail/std/move.hpp>
-#include <boost/hana/detail/std/size_t.hpp>
 using namespace boost::hana;
 
-
-template <detail::std::size_t n, typename Xn>
-constexpr decltype(auto) get(detail::element<n, Xn> const& elt)
-{ return elt.get; }
-
-template <detail::std::size_t n, typename Xn>
-constexpr decltype(auto) get(detail::element<n, Xn>& elt)
-{ return elt.get; }
-
-template <detail::std::size_t n, typename Xn>
-constexpr decltype(auto) get(detail::element<n, Xn>&& elt)
-{ return detail::std::move(elt.get); }
-
-
-//////////////////////////////////////////////////////////////////////////////
 
 template <int> struct x { };
 
 int main() {
-    detail::closure_t<
+    detail::closure<
         <%= (0..input_size).map { |n| "x<#{n}>" }.join(', ') %>
     > tuple;
 
     <% (0..(input_size / 8)).each do |n| %>
-        get<
+        detail::get<
             <%= 4*n %>
         >(tuple);
     <% end %>
