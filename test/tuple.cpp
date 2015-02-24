@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <test/cnumeric.hpp>
 #include <test/injection.hpp>
 
+#include <type_traits>
 #include <utility>
 using namespace boost::hana;
 
@@ -83,6 +84,13 @@ int main() {
             by_ref(at_c<0>(xs));
             by_ref(last(xs));
         }
+    }
+
+    // `decltype(tuple_t<T...>)` should inherit `_tuple_t<T...>`
+    {
+        static_assert(std::is_base_of<
+            _tuple_t<x0, x1>, decltype(tuple_t<x0, x1>)
+        >{}, "");
     }
 
     // Comparable

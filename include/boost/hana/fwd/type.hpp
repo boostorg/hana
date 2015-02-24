@@ -190,12 +190,7 @@ namespace boost { namespace hana {
 #else
     template <typename T>
     struct _type {
-        struct _ : _type, operators::adl {
-            struct hana { using datatype = Type; };
-            using type = T;
-
-            constexpr _ operator+() const { return *this; }
-        };
+        struct _;
     };
 
     template <typename T>

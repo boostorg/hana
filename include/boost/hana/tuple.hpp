@@ -16,6 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/constant.hpp>
 #include <boost/hana/core/models.hpp>
+#include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/closure.hpp>
 #include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/dependent_on.hpp>
@@ -65,11 +66,16 @@ namespace boost { namespace hana {
 
     template <typename ...T>
     struct _tuple_t {
-        struct _ : _tuple_t, _tuple<decltype(type<T>)...> {
-            constexpr _()
-                : _tuple<decltype(type<T>)...>{type<T>...}
-            { }
-        };
+        struct _;
+    };
+
+    template <typename ...T>
+    struct _tuple_t<T...>::_
+        : _tuple_t<T...>, _tuple<decltype(type<T>)...>
+    {
+        constexpr _()
+            : _tuple<decltype(type<T>)...>{type<T>...}
+        { }
     };
 
     template <>
