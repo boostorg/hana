@@ -96,21 +96,6 @@ int main() {
                     at(size_t<0>, rvalue())
                 ));
             }
-
-            // T const&&
-            {
-                auto const_rvalue = [=]() -> decltype(iterable(x<0>)) const {
-                    return iterable(x<0>);
-                };
-
-                auto const&& result = at(size_t<0>, const_rvalue());
-                (void)result;
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    const_rvalue()[size_t<0>],
-                    at(size_t<0>, const_rvalue())
-                ));
-            }
         }
     }
 }

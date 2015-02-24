@@ -57,14 +57,6 @@ namespace boost { namespace hana {
             }
 
             template <typename I>
-            constexpr decltype(auto) operator[](I&& i) const&& {
-                return hana::at(
-                    detail::std::forward<I>(i),
-                    static_cast<Derived const&&>(*this)
-                );
-            }
-
-            template <typename I>
             constexpr decltype(auto) operator[](I&& i) && {
                 return hana::at(
                     detail::std::forward<I>(i),
