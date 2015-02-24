@@ -84,7 +84,9 @@ namespace boost { namespace hana {
         return unspecified-type;
     };
 #else
-    template <typename From, typename To>
+    template <typename IntegralConstant,
+              typename IntegralConstant::value_type from,
+              typename IntegralConstant::value_type to>
     struct _range;
 
     struct _make_range {
