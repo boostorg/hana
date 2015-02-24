@@ -4,14 +4,16 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
+#include <boost/hana/assert.hpp>
+#include <boost/hana/ext/std/integral_constant.hpp>
+#include <boost/hana/tuple.hpp>
+#include <boost/hana/type.hpp>
+
 #include <cassert>
 #include <iostream>
 #include <string>
 #include <tuple>
 #include <type_traits>
-
-#include <boost/hana/assert.hpp>
-#include <boost/hana/ext/std/integral_constant.hpp>
 
 #include <boost/mpl/if.hpp>
 #include <boost/mpl/quote.hpp>
