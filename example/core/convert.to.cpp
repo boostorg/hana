@@ -37,14 +37,14 @@ namespace boost { namespace hana {
     template <typename X, typename Y, typename Z>
     struct to_impl<Tuple, Triple<X, Y, Z>> {
         static constexpr auto apply(Triple<X, Y, Z> xs) {
-            return tuple(xs.first, xs.second, xs.third);
+            return make<Tuple>(xs.first, xs.second, xs.third);
         }
     };
 }}
 
 int main() {
     BOOST_HANA_CONSTEXPR_CHECK(
-        to<Tuple>(triple(1, '2', 3.3)) == tuple(1, '2', 3.3)
+        to<Tuple>(triple(1, '2', 3.3)) == make<Tuple>(1, '2', 3.3)
     );
 }
 //! [to]

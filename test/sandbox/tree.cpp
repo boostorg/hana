@@ -30,7 +30,7 @@ struct node_type {
     Subforest subforest;
 };
 
-auto forest = boost::hana::tuple;
+auto forest = boost::hana::make_tuple;
 
 auto node = [](auto x, auto subforest) {
     return node_type<decltype(x), decltype(subforest)>{x, subforest};

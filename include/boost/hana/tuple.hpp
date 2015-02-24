@@ -348,7 +348,7 @@ namespace boost { namespace hana {
                         outer[index] = j;
                     }
                 }
-                return detail::get<Which>(hana::tuple(outer, inner));
+                return detail::get<Which>(hana::make<Tuple>(outer, inner));
             }
         };
 

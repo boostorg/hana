@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_TUPLE_HPP
 
 #include <boost/hana/detail/create.hpp>
+#include <boost/hana/fwd/core/make.hpp>
 
 
 namespace boost { namespace hana {
@@ -40,18 +41,33 @@ namespace boost { namespace hana {
     //! be used with `Tuple`: `Comparable`, `Orderable`, `Monad`, `Iterable`.
     struct Tuple { };
 
-    //! Create a `Tuple` containing the given objects.
-    //! @relates Tuple
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto tuple = [](auto&& ...xs) {
-        return unspecified-type;
-    };
-#else
     template <typename ...Xs>
     struct _tuple;
 
-    constexpr detail::create<_tuple> tuple{};
+    //! @todo Remove this; kept for backward compatibility.
+    [[deprecated("use make<Tuple> instead")]] constexpr detail::create<_tuple> tuple{};
+
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    //! Create a `Tuple` containing the given objects.
+    //! @relates Tuple
+    //!
+    //! This is analoguous to `std::make_tuple` for creating Hana tuples.
+    //! The elements are held by value inside the resulting tuple, and hence
+    //! they are copied or moved in.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/tuple.cpp make<Tuple>
+    template <>
+    constexpr auto make<Tuple> = [](auto&& ...xs) {
+        return _tuple<decayed(decltype(xs))...>{forwarded(xs)...};
+    };
 #endif
+
+    //! Alias to `make<Tuple>`; provided for convenience.
+    //! @relates Tuple
+    constexpr auto make_tuple = make<Tuple>;
 
     //! Create a `Tuple` specialized for holding `Type`s.
     //! @relates Tuple

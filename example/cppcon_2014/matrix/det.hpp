@@ -62,7 +62,7 @@ namespace cppcon {
             always(m.at(size_t<0>, size_t<0>)),
             [=](auto _) {
                 auto cofactors_1st_row = unpack(_(range)(size_t<0>, m.ncolumns()),
-                    on(tuple, partial(cofactor, m, size_t<0>))
+                    on(make<Tuple>, partial(cofactor, m, size_t<0>))
                 );
                 return detail::tuple_scalar_product(head(rows(m)), cofactors_1st_row);
             }

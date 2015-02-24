@@ -21,7 +21,7 @@ using namespace boost::hana;
 
 namespace boost { namespace hana { namespace test {
     template <typename T>
-    auto objects<IntegralConstant<T>> = tuple(
+    auto objects<IntegralConstant<T>> = make<Tuple>(
         integral_constant<T, static_cast<T>(0)>,
         integral_constant<T, static_cast<T>(1)>,
         integral_constant<T, static_cast<T>(2)>,
@@ -29,7 +29,7 @@ namespace boost { namespace hana { namespace test {
     );
 
     template <typename T>
-    auto instances<IntegralConstant<T>> = tuple(
+    auto instances<IntegralConstant<T>> = make<Tuple>(
         type<Constant>
     );
 }}}

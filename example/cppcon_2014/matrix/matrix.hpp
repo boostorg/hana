@@ -56,7 +56,7 @@ namespace cppcon {
         { return boost::hana::at(j, boost::hana::at(i, rows_)); }
     };
 
-    auto row = boost::hana::tuple;
+    auto row = boost::hana::make_tuple;
 
     auto matrix = [](auto&& ...rows) -> decltype(auto) {
         using namespace boost::hana;

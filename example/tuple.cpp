@@ -16,6 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/tuple.hpp>
 
 #include <array>
+#include <string>
 #include <tuple>
 using namespace boost::hana;
 
@@ -23,6 +24,15 @@ using namespace boost::hana;
 int main() {
 
 {
+
+//! [make<Tuple>]
+auto xs = make<Tuple>(1, 2, '3', std::string{"456"});
+
+constexpr auto ys = make<Tuple>(1, '2', 3.456);
+//! [make<Tuple>]
+(void)xs; (void)ys;
+
+}{
 
 //! [tuple_t]
 BOOST_HANA_CONSTANT_CHECK(

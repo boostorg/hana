@@ -203,7 +203,7 @@ int main() {
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                traverse<Tuple>(test::identity(x<0>), compose(tuple, f)),
+                traverse<Tuple>(test::identity(x<0>), compose(make<Tuple>, f)),
                 make<Tuple>(test::identity(f(x<0>)))
             ));
         }

@@ -29,7 +29,7 @@ struct x1; struct x2; struct x3;
 
 namespace boost { namespace hana { namespace test {
     template <>
-    auto instances<ext::boost::mpl::Vector> = tuple(
+    auto instances<ext::boost::mpl::Vector> = make<Tuple>(
         //! @todo mpl::Vector is not actually a List, because we can only
         //! store types in it.
 #if 0
@@ -39,7 +39,7 @@ namespace boost { namespace hana { namespace test {
     );
 
     template <>
-    auto objects<ext::boost::mpl::Vector> = tuple(
+    auto objects<ext::boost::mpl::Vector> = make<Tuple>(
         ::boost::mpl::vector<>{},
         ::boost::mpl::vector<x1>{},
         ::boost::mpl::vector<x1, x2>{},
