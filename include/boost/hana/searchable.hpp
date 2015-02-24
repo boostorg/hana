@@ -188,72 +188,27 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename T, detail::std::size_t N>
     struct any_impl<T[N]> {
-        using Size = detail::std::size_t;
-
-        template <typename Xs, typename Pred, Size i>
-        static constexpr decltype(auto)
-        any_helper(Xs&& xs, Pred&& pred,
-                   detail::std::integral_constant<Size, i>,
-                   bool cond)
-        {
-            if (cond) {
-                return true;
-            }
-            else {
-                auto cond = hana::if_(pred(detail::std::forward<Xs>(xs)[i + 1]),
-                    detail::std::true_type{},
-                    detail::std::false_type{}
-                );
-                return any_helper(
-                    detail::std::forward<Xs>(xs),
-                    detail::std::forward<Pred>(pred),
-                    detail::std::integral_constant<Size, i + 1>{},
-                    cond
-                );
-            }
+        template <typename Xs, typename Pred>
+        static constexpr bool any_helper(bool cond, Xs&& xs, Pred&& pred) {
+            if (cond) return true;
+            for (detail::std::size_t i = 1; i < N; ++i)
+                if (pred(detail::std::forward<Xs>(xs)[i]))
+                    return true;
+            return false;
         }
+
+        // Since an array contains homogeneous data, if the predicate returns
+        // a compile-time logical at any index, it must do so at every index
+        // (because the type of the elements won't change)! In this case, we
+        // then only need to evaluate the predicate on the first element.
+        template <typename Xs, typename Pred>
+        static constexpr auto
+        any_helper(detail::std::true_type, Xs&& xs, Pred&&)
+        { return true_; }
 
         template <typename Xs, typename Pred>
-        static constexpr decltype(auto)
-        any_helper(Xs&& xs, Pred&& pred,
-                   detail::std::integral_constant<Size, N-1>,
-                   bool cond)
-        {
-            return cond;
-        }
-
-        template <typename Xs, typename Pred, Size i>
-        static constexpr decltype(auto)
-        any_helper(Xs&& xs, Pred&& pred,
-                   detail::std::integral_constant<Size, i>,
-                   detail::std::false_type)
-        {
-            auto cond = hana::if_(pred(detail::std::forward<Xs>(xs)[i + 1]),
-                detail::std::true_type{},
-                detail::std::false_type{}
-            );
-            return any_helper(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Pred>(pred),
-                detail::std::integral_constant<Size, i + 1>{},
-                cond
-            );
-        }
-
-        template <typename Xs, typename Pred, Size i>
-        static constexpr decltype(auto)
-        any_helper(Xs&& xs, Pred&&,
-                   detail::std::integral_constant<Size, i>,
-                   detail::std::true_type)
-        {
-            return true_;
-        }
-
-        template <typename Xs, typename Pred>
-        static constexpr decltype(auto)
-        any_helper(Xs&&, Pred&&,
-                   detail::std::integral_constant<Size, N-1>,
-                   detail::std::false_type)
+        static constexpr auto
+        any_helper(detail::std::false_type, Xs&&, Pred&&)
         { return false_; }
 
         template <typename Xs, typename Pred>
@@ -262,12 +217,8 @@ namespace boost { namespace hana {
                 detail::std::true_type{},
                 detail::std::false_type{}
             );
-            return any_helper(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Pred>(pred),
-                detail::std::integral_constant<Size, 0>{},
-                cond
-            );
+            return any_helper(cond, detail::std::forward<Xs>(xs),
+                                    detail::std::forward<Pred>(pred));
         }
     };
 
