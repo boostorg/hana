@@ -244,7 +244,7 @@ useful algorithms worth mentionning are:
 @snippet example/tutorial/quickstart.cpp algorithms
 
 There are many more operations and algorithms that can be performed on
-sequences; they are documented in their respective concept (Foldable,
+sequences; they are documented by their respective concept (Foldable,
 Iterable, Searchable, Sequence, etc...).
 
 
@@ -327,33 +327,71 @@ knowing anything specific about the types of `x`, `y` and `z`, it is impossible
 for `f` to do anything meaningful. For example, could it print its argument?
 Of course not, since it does not know whether `std::cout << x` is well-formed!
 In order to do something meaningful, the function has to put constraints on
-its arguments, it has to define a domain which is more specific that the set
-of all types. In other words, it can't be _fully_ polymorphic, at least not
-conceptually.
+its arguments; it has to define a domain which is more specific that the set
+of all types, and hence it can't be _fully_ polymorphic, even if we do not have
+a way to express this in C++ (right now). So while we're manipulating types
+that are technically heterogeneous, they still conceptually need something in
+common, or it wouldn't be possible to do anything meaningful with them. We'll
+still say that we're manipulating heterogeneous objects, but always keep in
+mind that the objects we manipulate share something, and are hence homogeneous
+in _some way_.
 
-So while we're manipulating types that are technically heterogeneous, they
-still conceptually need something in common, or it wouldn't be possible to
-do anything meaningful with them. We'll still say that we're manipulating
-heterogeneous objects, but always keep in mind that the objects we manipulate
-must have something in common, and hence be homogeneous in _some regard_.
+> Another way to see this is that we programmers __need__ concepts to do useful
+> things, whether or not there is language support for expressing them.
 
 Pushing this to the extreme, some type families represent exactly the same
 entity, except they must have a different C++ type because the language
 requires them to. For example, this is the case of `_tuple<...>`. In our
-context, we would like to see `_tuple<int, int>` and `_tuple<int, char, float>`
+context, we would like to see `_tuple<int, int>` and `_tuple<int, long, float>`
 as different representations for the same data structure (a "tuple"), but the
 C++ language requires us to give them different types. In Hana, we associate
-what we call a _generalized type_ (we also say _data type_) to each type family.
-A generalized type is simply a tag (like in MPL or Fusion) which is associated
-to all the types in a family through the `datatype` metafunction. For
-`_tuple<...>`, this generalized type is `Tuple`; other constructs in Hana
-also follow this convention of naming their generalized type with a capital
-letter. This tag is useful for several purposes, for example creating a tuple
-with `make<Tuple>`. Another important role of generalized types is to customize
-algorithms; see the section on [tag-dispatching](@ref tutorial-extending-tag_dispatching)
+what we call a _generalized type_ (we also say _data type_ and sometimes
+_gtype_) to each type family. A generalized type is simply a tag (like in
+MPL or Fusion) which is associated to all the types in a family through the
+`datatype` metafunction. For `_tuple<...>`, this generalized type is `Tuple`;
+other constructs in Hana also follow this convention of naming their
+generalized type with a capital letter.
+
+Just like C++ templates are families of types that are parameterized by some
+other type, it makes sense to speak of parameterized generalized types. A
+parameterized _gtype_ is simply a _gtype_ which depends on other generalized
+types. You might have seen it coming, but this is actually the case for
+`_tuple`, whose _gtype_ can be seen as depending on the _gtype_ of the objects
+it contains. However, take good note that __parameterized generalized types in
+Hana only live at the documentation level__. While enforcing proper
+parametricity would make the library more mathematically correct, I fear it
+would also make it less usable given the lack of language support. Given a
+parametric _gtype_ `F`, we use `F(T)` to denote the "application" of `F` to
+another _gtype_ `T`. While this is analogous to "applying" a C++ template to
+a type, we purposefully do not use the `F<T>` notation because parametric
+gtypes are not necessarily templates in Hana and that would be more confusing
+than helpful.
+
+As an example, `_tuple<int, int>` conceptually has a gtype of `Tuple(int)`,
+but its actual gtype (outside of the documentation) is just `Tuple`. What
+about `_tuple<int, long>`? Well, `int` and `long` are embedded in the same
+mathematical universe, so we could say that it's a `Tuple(Number)`, where
+`Number` is some generalized type containing all the numeric types. What
+about `_tuple<int, void>`? First, that won't compile. But why would you
+create a sequence of objects that have nothing in common? What can you do
+with that?
+
+These generalized types are useful for several purposes, for example creating
+a tuple with `make<Tuple>` and documenting pseudo-signatures for the functions
+provided in this library. Another important role is to customize algorithms;
+see the section on [tag-dispatching](@ref tutorial-extending-tag_dispatching)
 for more information. Finally, you can also consult the reference of the
 [datatype](@ref datatype) metafunction for details on how to specify the
-generalized type of a family.
+generalized type of a family of types.
+
+
+@todo
+There is obviously a connection between generalized types and concepts.
+I think that generalized types are concepts whose models are unique up
+to a unique isomorphism. Still, it is necessary to distinguish between
+isomorphic models when we want to provide an implementation or create an
+object. If you see how it all fits together better than I do right now,
+let me know.
 
 
 @section tutorial-type_computations Type computations

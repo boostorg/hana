@@ -29,6 +29,11 @@ namespace boost { namespace hana {
     //! made `Functor`s in one way or another, the most obvious example being
     //! sequences with the usual mapping of the function on each element.
     //!
+    //! Functors are parametric data types which are parameterized over the
+    //! data type of the objects they contain. Like everywhere else in Hana,
+    //! this parametricity is only at the documentation level and it is not
+    //! enforced.
+    //!
     //! In this library, the mapping function is called `transform` after the
     //! `std::transform` algorithm, but other programming languages have given
     //! it different names (usually `map`).
@@ -43,11 +48,13 @@ namespace boost { namespace hana {
     //!
     //! Laws
     //! ----
-    //! For any object `xs` whose data type is a `Functor`, the following
-    //! must be satisfied:
+    //! Let `xs` be a Functor of data type `F(A)`,
+    //!     \f$ f : A \to B \f$ and
+    //!     \f$ g : B \to C \f$.
+    //! The following laws must be satisfied:
     //! @code
     //!     transform(xs, id) == xs
-    //!     transform(xs, compose(f, g)) == transform(transform(xs, g), f)
+    //!     transform(xs, compose(g, f)) == transform(transform(xs, f), g)
     //! @endcode
     //! The first line says that mapping the identity function should not do
     //! anything, which precludes the functor from doing something nasty
@@ -55,9 +62,15 @@ namespace boost { namespace hana {
     //! of two functions is the same as mapping the first function, and then
     //! the second on the result. While the usual functor laws are usually
     //! restricted to the above, this library includes other convenience
-    //! methods and they should satisfy the following equations
+    //! methods and they should satisfy the following equations.
+    //! Let `xs` be a Functor of data type `F(A)`,
+    //!     \f$ f : A \to A \f$,
+    //!     \f$ \mathrm{pred} : A \to \mathrm{Bool} \f$
+    //! for some `Logical` `Bool`, and `v` an object of data type `A`. Then,
     //! @code
-    //!     adjust(xs, pred, f)  == transform(xs, [](x){ if pred(x) then f(x) else x })
+    //!     adjust(xs, pred, f) == transform(xs, [](x){
+    //!         if pred(x) then f(x) else x
+    //!     })
     //!     replace(xs, pred, v) == adjust(xs, pred, always(v))
     //!     fill(xs, v)          == replace(xs, always(true), v)
     //! @endcode
@@ -67,13 +80,15 @@ namespace boost { namespace hana {
     //! Minimal complete definitions
     //! ----------------------------
     //! 1. `transform`\n
-    //! When `transform` is specified, `adjust` is defined as
+    //! When `transform` is specified, `adjust` is defined analogously to
     //! @code
-    //!     adjust(xs, pred, f) = transform(xs, [](x){ if pred(x) then f(x) else x })
+    //!     adjust(xs, pred, f) = transform(xs, [](x){
+    //!         if pred(x) then f(x) else x
+    //!     })
     //! @endcode
     //!
     //! 2. `adjust`\n
-    //! When `adjust` is specified, `transform` is defined as
+    //! When `adjust` is specified, `transform` is defined analogously to
     //! @code
     //!     transform(xs, f) = adjust(xs, always(true), f)
     //! @endcode
@@ -93,9 +108,16 @@ namespace boost { namespace hana {
     //! [2]: http://en.wikipedia.org/wiki/Category_theory
     struct Functor { };
 
-    //! Map a function over a `Functor`.
+    //! %Map a function over a `Functor`.
     //! @relates Functor
     //!
+    //!
+    //! Signature
+    //! ---------
+    //! Given `F` a Functor, the signature is
+    //! \f$
+    //!     \mathrm{transform} : F(T) \times (T \to U) \to F(U)
+    //! \f$
     //!
     //! @param xs
     //! The structure to map `f` over.
@@ -108,7 +130,6 @@ namespace boost { namespace hana {
     //! Example
     //! -------
     //! @snippet example/functor.cpp transform
-    //!
     //!
     //! Benchmarks
     //! ----------
@@ -139,6 +160,13 @@ namespace boost { namespace hana {
     //! @relates Functor
     //!
     //!
+    //! Signature
+    //! ---------
+    //! Given `F` a Functor and `B` a Logical, the signature is
+    //! \f$
+    //!     \mathrm{adjust} : F(T) \times (T \to B) \times (T \to T) \to F(T)
+    //! \f$
+    //!
     //! @param xs
     //! The structure to map `f` over.
     //!
@@ -155,7 +183,6 @@ namespace boost { namespace hana {
     //! Example
     //! -------
     //! @snippet example/functor.cpp adjust
-    //!
     //!
     //! Benchmarks
     //! ----------
@@ -187,6 +214,13 @@ namespace boost { namespace hana {
     //! @relates Functor
     //!
     //!
+    //! Signature
+    //! ---------
+    //! Given `F` a Functor and `B` a Logical, the signature is
+    //! \f$
+    //!     \mathrm{replace} : F(T) \times (T \to B) \times T \to F(T)
+    //! \f$
+    //!
     //! @param xs
     //! The structure to replace elements of.
     //!
@@ -203,7 +237,6 @@ namespace boost { namespace hana {
     //! Example
     //! -------
     //! @snippet example/functor.cpp replace
-    //!
     //!
     //! Benchmarks
     //! ----------
@@ -234,8 +267,15 @@ namespace boost { namespace hana {
     //! @relates Functor
     //!
     //!
+    //! Signature
+    //! ---------
+    //! Given `F` a Functor, the signature is
+    //! \f$
+    //!     \mathrm{fill} : F(T) \times U \to F(U)
+    //! \f$
+    //!
     //! @param xs
-    //! The structure to fill with `value`.
+    //! The structure to fill with a `value`.
     //!
     //! @param value
     //! A value by which every element `x` of the structure is replaced,
@@ -245,7 +285,6 @@ namespace boost { namespace hana {
     //! Example
     //! -------
     //! @snippet example/functor.cpp fill
-    //!
     //!
     //! Benchmarks
     //! ----------
