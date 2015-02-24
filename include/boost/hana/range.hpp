@@ -23,8 +23,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/integer_sequence.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/foldable.hpp>
-#include <boost/hana/integral_constant.hpp> // required by fwd decl
+#include <boost/hana/integral_constant.hpp> // required by fwd decl and below
 #include <boost/hana/iterable.hpp>
+#include <boost/hana/maybe.hpp>
 #include <boost/hana/searchable.hpp>
 
 
@@ -208,6 +209,35 @@ namespace boost { namespace hana {
     struct any_impl<Range>
         : Iterable::any_impl<Range>
     { };
+
+    template <>
+    struct lookup_impl<Range> {
+        template <typename U, typename N>
+        static constexpr auto lookup_helper(N n_, decltype(true_)) {
+            constexpr auto n = hana::value(n_);
+            return hana::just(hana::to<U>(integral_constant<decltype(n), n>));
+        }
+
+        template <typename U, typename N>
+        static constexpr auto lookup_helper(N, decltype(false_))
+        { return nothing; }
+
+        template <typename R, typename N>
+        static constexpr auto apply(R, N n_) {
+            constexpr auto n = hana::value(n_);
+            return lookup_helper<typename R::underlying>(
+                                    n_, bool_<(n >= R::from && n < R::to)>);
+        }
+    };
+
+    template <>
+    struct elem_impl<Range> {
+        template <typename R, typename N>
+        static constexpr auto apply(R, N n_) {
+            constexpr auto n = hana::value(n_);
+            return bool_<(n >= R::from && n < R::to)>;
+        }
+    };
 
     //////////////////////////////////////////////////////////////////////////
     // Iterable

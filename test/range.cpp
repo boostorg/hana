@@ -8,6 +8,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/integral_constant.hpp>
+#include <boost/hana/maybe.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
 
@@ -15,6 +16,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <test/auto/comparable.hpp>
 #include <test/auto/foldable.hpp>
 #include <test/auto/iterable.hpp>
+#include <test/auto/searchable.hpp>
+#include <test/cnumeric.hpp>
 #include <test/injection.hpp>
 
 #include <type_traits>
@@ -40,6 +43,7 @@ namespace boost { namespace hana { namespace test {
     auto instances<Range> = make<Tuple>(
         type<Iterable>,
         type<Foldable>,
+        type<Searchable>,
         type<Comparable>
     );
 }}}
@@ -460,6 +464,87 @@ int main() {
                 drop(int_<10>, range(int_<20>, int_<50>)),
                 range(int_<30>, int_<50>)
             ));
+        }
+
+        // Searchable
+        {
+            // lookup
+            {
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    lookup(range(int_<0>, int_<0>), test::cnumeric<int, 0>),
+                    nothing
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    lookup(range(int_<0>, int_<1>), test::cnumeric<int, 0>),
+                    just(int_<0>)
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    lookup(range(int_<0>, int_<10>), test::cnumeric<int, 3>),
+                    just(int_<3>)
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    lookup(range(int_<0>, int_<10>), test::cnumeric<int, 9>),
+                    just(int_<9>)
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    lookup(range(int_<-10>, int_<10>), test::cnumeric<int, -10>),
+                    just(int_<-10>)
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    lookup(range(int_<-10>, int_<10>), test::cnumeric<int, -5>),
+                    just(int_<-5>)
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    lookup(range(int_<-10>, int_<0>), test::cnumeric<int, 3>),
+                    nothing
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    lookup(range(int_<0>, int_<10>), test::cnumeric<int, 15>),
+                    nothing
+                ));
+            }
+
+            // elem
+            {
+                BOOST_HANA_CONSTANT_CHECK(
+                    not_(elem(range(int_<0>, int_<0>), test::cnumeric<int, 0>))
+                );
+
+                BOOST_HANA_CONSTANT_CHECK(
+                    elem(range(int_<0>, int_<1>), test::cnumeric<int, 0>)
+                );
+
+                BOOST_HANA_CONSTANT_CHECK(
+                    elem(range(int_<0>, int_<10>), test::cnumeric<int, 3>)
+                );
+
+                BOOST_HANA_CONSTANT_CHECK(
+                    elem(range(int_<0>, int_<10>), test::cnumeric<int, 9>)
+                );
+
+                BOOST_HANA_CONSTANT_CHECK(
+                    elem(range(int_<-10>, int_<10>), test::cnumeric<int, -10>)
+                );
+
+                BOOST_HANA_CONSTANT_CHECK(
+                    elem(range(int_<-10>, int_<10>), test::cnumeric<int, -5>)
+                );
+
+                BOOST_HANA_CONSTANT_CHECK(
+                    not_(elem(range(int_<-10>, int_<0>), test::cnumeric<int, 3>))
+                );
+
+                BOOST_HANA_CONSTANT_CHECK(
+                    not_(elem(range(int_<0>, int_<10>), test::cnumeric<int, 15>))
+                );
+            }
         }
 
         // operators

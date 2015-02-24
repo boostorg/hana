@@ -57,13 +57,8 @@ namespace boost { namespace hana {
     //!
     //! 4. `Searchable`\n
     //! Searching a `Range` is equivalent to searching a list of the values
-    //! in the range `[from, to)`.
+    //! in the range `[from, to)`, but it is much more compile-time efficient.
     //! @snippet example/range.cpp searchable
-    //!
-    //!
-    //! @todo
-    //! Optimize the Searchable model; we can do real good for `elem` and
-    //! `lookup`.
     struct Range { };
 
     template <typename IntegralConstant,
