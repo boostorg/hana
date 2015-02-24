@@ -257,10 +257,12 @@ namespace boost { namespace hana {
     constexpr _power power{};
 #endif
 
-    template <>
-    struct operators::of<Ring>
-        : decltype(mult)
-    { };
+    namespace operators {
+        template <>
+        struct of<Ring>
+            : decltype(mult)
+        { };
+    }
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_RING_HPP

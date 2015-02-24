@@ -33,11 +33,11 @@ int main() {
     // ordered as the `types` above. However, as can be seen in the
     // static_assert below, the tuple is actually ordered differently.
     Tup tup;
-    char(&a)[4] = tup[indices[0_c]];
-    char(&b)[2] = tup[indices[1_c]];
-    char(&c)[1] = tup[indices[2_c]];
-    char(&d)[5] = tup[indices[3_c]];
-    char(&e)[3] = tup[indices[4_c]];
+    char const(&a)[4] = tup[indices[0_c]];
+    char const(&b)[2] = tup[indices[1_c]];
+    char const(&c)[1] = tup[indices[2_c]];
+    char const(&d)[5] = tup[indices[3_c]];
+    char const(&e)[3] = tup[indices[4_c]];
 
     static_assert(std::is_same<
         Tup,

@@ -22,6 +22,8 @@ using namespace boost::hana;
 
 int main() {
 
+using boost::hana::size_t; // disambiguate with ::size_t on GCC
+
 {
 
 //! [conversion]

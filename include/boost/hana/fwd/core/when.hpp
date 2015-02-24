@@ -49,6 +49,11 @@ namespace boost { namespace hana {
     //! Example
     //! -------
     //! @snippet example/core/when.cpp when_valid
+    //!
+    //!
+    //! @bug
+    //! Using `when_valid` seems to trigger ambiguous partial specializations
+    //! on GCC.
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename ...>
     using when_valid = when<true>;

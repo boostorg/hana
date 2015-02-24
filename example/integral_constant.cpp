@@ -15,6 +15,7 @@ using namespace boost::hana;
 
 
 int main() {
+using boost::hana::size_t; // disambiguate ::size_t on GCC
 
 {
 
@@ -76,9 +77,9 @@ BOOST_HANA_RUNTIME_CHECK(v == std::vector<int>{0, 1, 2, 3, 4});
 //! [times_with_index_runtime]
 
 //! [times_with_index_compile_time]
-constexpr auto xs = make<Tuple>(0, 1, 2);
+constexpr auto xs = tuple_c<int, 0, 1, 2>;
 int_<3>.times.with_index([xs](auto index) {
-    static_assert(xs[index] == index, "");
+    BOOST_HANA_CONSTANT_CHECK(xs[index] == index);
 });
 //! [times_with_index_compile_time]
 

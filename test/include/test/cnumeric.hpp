@@ -8,6 +8,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_TEST_TEST_CNUMERIC_HPP
 
 #include <boost/hana/comparable.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/constant.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/is_a.hpp>
@@ -24,14 +25,17 @@ namespace boost { namespace hana {
         struct CNumeric { using value_type = T; };
 
         template <typename T, T v>
-        struct cnumeric_type {
+        struct _cnumeric {
             static constexpr T value = v;
             struct hana { using datatype = CNumeric<T>; };
             constexpr operator T() const { return value; }
         };
 
         template <typename T, T v>
-        constexpr cnumeric_type<T, v> cnumeric{};
+        constexpr _cnumeric<T, v> cnumeric{};
+
+        template <typename T, T v>
+        constexpr _cnumeric<T, v> make_cnumeric() { return {}; }
     }
 
     //////////////////////////////////////////////////////////////////////////

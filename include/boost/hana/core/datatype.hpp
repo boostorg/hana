@@ -19,13 +19,20 @@ namespace boost { namespace hana {
     template <typename T, typename>
     struct datatype : datatype<T, when<true>> { };
 
+    namespace core_detail {
+        template <typename ...>
+        struct is_valid { static constexpr bool value = true; };
+    }
+
     template <typename T, bool condition>
     struct datatype<T, when<condition>> {
         using type = T;
     };
 
     template <typename T>
-    struct datatype<T, when_valid<typename T::hana::datatype>> {
+    struct datatype<T, when<
+        core_detail::is_valid<typename T::hana::datatype>::value
+    >> {
         using type = typename T::hana::datatype;
     };
 

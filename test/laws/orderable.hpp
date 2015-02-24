@@ -149,7 +149,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename S>
-    struct TestOrderable<S, when<_models<Sequence, S>{}>>
+    struct TestOrderable<S, when<_models<Sequence, S>{}()>>
         : TestOrderable<S, laws>
     {
         struct invalid { };

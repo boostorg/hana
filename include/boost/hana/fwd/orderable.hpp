@@ -561,11 +561,13 @@ namespace boost { namespace hana {
     constexpr detail::create<_ordering> ordering{};
 #endif
 
-    template <>
-    struct operators::of<Orderable>
-        : decltype(less), decltype(less_equal),
-          decltype(greater), decltype(greater_equal)
-    { };
+    namespace operators {
+        template <>
+        struct of<Orderable>
+            : decltype(less), decltype(less_equal),
+              decltype(greater), decltype(greater_equal)
+        { };
+    }
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_ORDERABLE_HPP

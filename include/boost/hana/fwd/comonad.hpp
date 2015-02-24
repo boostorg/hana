@@ -16,81 +16,88 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! @ingroup group-concepts
-    //! The `Comonad` concept represents context-sensitive computations and
-    //! data.
-    //!
-    //! Formally, the Comonad concept is dual to the Monad concept.
-    //! But unless you're a mathematician, you don't care about that and it's
-    //! fine. So intuitively, a Comonad represents context sensitive values
-    //! and computations. First, Comonads make it possible to extract
-    //! context-sensitive values from their context with `extract`.
-    //! In contrast, Monads make it possible to wrap raw values into
-    //! a given context with `lift` (from Applicative).
-    //!
-    //! Second, Comonads make it possible to apply context-sensitive values
-    //! to functions accepting those, and to return the result as a
-    //! context-sensitive value using `extend`. In contrast, Monads make
-    //! it possible to apply a monadic value to a function accepting a normal
-    //! value and returning a monadic value, and to return the result as a
-    //! monadic value (with `chain`).
-    //!
-    //! Finally, Comonads make it possible to wrap a context-sensitive value
-    //! into an extra layer of context using `duplicate`, while Monads make
-    //! it possible to take a value with an extra layer of context and to
-    //! strip it with `flatten`.
-    //!
-    //! Whereas `lift`, `chain` and `flatten` from Applicative and Monad have
-    //! types
-    //! \f{align*}{
-    //!     \mathrm{lift}_M &: T \to M(T) \\
-    //!     \mathrm{chain} &: M(T) \times (T \to M(U)) \to M(U) \\
-    //!     \mathrm{flatten} &: M(M(T)) \to M(T)
-    //! \f}
-    //!
-    //! `extract`, `extend` and `duplicate` from Comonad have types
-    //! \f{align*}{
-    //!     \mathrm{extract} &: W(T) \to T \\
-    //!     \mathrm{extend} &: W(T) \times (W(T) \to U) \to W(U) \\
-    //!     \mathrm{duplicate} &: W(T) \to W(W(T))
-    //! \f}
-    //!
-    //! Notice how the "arrows" are reversed. This symmetry is essentially
-    //! what we mean by Comonad being the _dual_ of Monad.
-    //!
-    //!
-    //! Superclass
-    //! ----------
-    //! 1. Functor\n
-    //! Every Comonad is also required to be a Functor. A good observation
-    //! would be that it might instead be a Cofunctor, but one soon realizes
-    //! that a Cofunctor and a Functor are the same thing, and hence Comonad
-    //! also requires Functor, just like Monad (and Applicative). The model
-    //! of Functor is bound by the laws explained below.
-    //!
-    //!
-    //! Minimal complete definition
-    //! ---------------------------
-    //! `extract` and (`extend` or `duplicate`) satisfying the laws below.
-    //!
-    //!
-    //! Concrete models
-    //! ---------------
-    //! `Lazy`
-    //!
-    //!
-    //! Laws
-    //! ----
-    //! For all Comonads `w`, the following laws must be satisfied
-    //! @code
-    //!     extract(duplicate(w)) == w
-    //!     transform(duplicate(w), extract) == w
-    //!     duplicate(duplicate(w)) == transform(duplicate(w), duplicate)
-    //! @endcode
-    //!
-    //! @note
-    //! There are several equivalent ways of defining Comonads, and this one
-    //! is just one that was picked arbitrarily for simplicity.
+    // Note: We use a multiline C++ comment because there's a double backslash
+    // symbol in the documentation (for LaTeX), which triggers
+    //      warning: multi-line comment [-Wcomment]
+    // on GCC.
+
+    /*!
+    @ingroup group-concepts
+    The `Comonad` concept represents context-sensitive computations and
+    data.
+
+    Formally, the Comonad concept is dual to the Monad concept.
+    But unless you're a mathematician, you don't care about that and it's
+    fine. So intuitively, a Comonad represents context sensitive values
+    and computations. First, Comonads make it possible to extract
+    context-sensitive values from their context with `extract`.
+    In contrast, Monads make it possible to wrap raw values into
+    a given context with `lift` (from Applicative).
+
+    Second, Comonads make it possible to apply context-sensitive values
+    to functions accepting those, and to return the result as a
+    context-sensitive value using `extend`. In contrast, Monads make
+    it possible to apply a monadic value to a function accepting a normal
+    value and returning a monadic value, and to return the result as a
+    monadic value (with `chain`).
+
+    Finally, Comonads make it possible to wrap a context-sensitive value
+    into an extra layer of context using `duplicate`, while Monads make
+    it possible to take a value with an extra layer of context and to
+    strip it with `flatten`.
+
+    Whereas `lift`, `chain` and `flatten` from Applicative and Monad have
+    types
+    \f{align*}{
+        \mathrm{lift}_M &: T \to M(T) \\
+        \mathrm{chain} &: M(T) \times (T \to M(U)) \to M(U) \\
+        \mathrm{flatten} &: M(M(T)) \to M(T)
+    \f}
+
+    `extract`, `extend` and `duplicate` from Comonad have types
+    \f{align*}{
+        \mathrm{extract} &: W(T) \to T \\
+        \mathrm{extend} &: W(T) \times (W(T) \to U) \to W(U) \\
+        \mathrm{duplicate} &: W(T) \to W(W(T))
+    \f}
+
+    Notice how the "arrows" are reversed. This symmetry is essentially
+    what we mean by Comonad being the _dual_ of Monad.
+
+
+    Superclass
+    ----------
+    1. Functor\n
+    Every Comonad is also required to be a Functor. A good observation
+    would be that it might instead be a Cofunctor, but one soon realizes
+    that a Cofunctor and a Functor are the same thing, and hence Comonad
+    also requires Functor, just like Monad (and Applicative). The model
+    of Functor is bound by the laws explained below.
+
+
+    Minimal complete definition
+    ---------------------------
+    `extract` and (`extend` or `duplicate`) satisfying the laws below.
+
+
+    Concrete models
+    ---------------
+    `Lazy`
+
+
+    Laws
+    ----
+    For all Comonads `w`, the following laws must be satisfied
+    @code
+        extract(duplicate(w)) == w
+        transform(duplicate(w), extract) == w
+        duplicate(duplicate(w)) == transform(duplicate(w), duplicate)
+    @endcode
+
+    @note
+    There are several equivalent ways of defining Comonads, and this one
+    is just one that was picked arbitrarily for simplicity.
+    */
     struct Comonad { };
 
     //! Extract a value in a given comonadic context.

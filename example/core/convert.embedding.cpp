@@ -30,8 +30,8 @@ static_assert(is_embedded<float, double>{}, "");
 namespace boost { namespace hana {
     template <typename To, typename From>
     struct to_impl<std::vector<To>, std::vector<From>,
-        when<is_convertible<From, To>{}>>
-        : embedding<is_embedded<From, To>{}>
+        when<is_convertible<From, To>{}()>>
+        : embedding<is_embedded<From, To>{}()>
     {
         static std::vector<To> apply(std::vector<From> const& xs) {
             std::vector<To> result;

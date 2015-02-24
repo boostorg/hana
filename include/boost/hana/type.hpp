@@ -183,10 +183,12 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Operators
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct operators::of<Type>
-        : operators::of<Comparable>
-    { };
+    namespace operators {
+        template <>
+        struct of<Type>
+            : operators::of<Comparable>
+        { };
+    }
 
     //////////////////////////////////////////////////////////////////////////
     // Comparable

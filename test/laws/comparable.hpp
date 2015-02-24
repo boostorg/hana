@@ -106,7 +106,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename P>
-    struct TestComparable<P, when<_models<Product, P>{}>>
+    struct TestComparable<P, when<_models<Product, P>{}()>>
         : TestComparable<P, laws>
     {
         template <typename Products>
@@ -124,7 +124,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename S>
-    struct TestComparable<S, when<_models<Sequence, S>{}>>
+    struct TestComparable<S, when<_models<Sequence, S>{}()>>
         : TestComparable<S, laws>
     {
         template <int i>

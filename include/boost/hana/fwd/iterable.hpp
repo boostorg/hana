@@ -652,10 +652,12 @@ namespace boost { namespace hana {
     constexpr _drop_until drop_until{};
 #endif
 
-    template <>
-    struct operators::of<Iterable>
-        : decltype(at)
-    { };
+    namespace operators {
+        template <>
+        struct of<Iterable>
+            : decltype(at)
+        { };
+    }
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_ITERABLE_HPP

@@ -27,13 +27,16 @@ using namespace boost::hana;
 
 
 namespace boost { namespace hana {
-    template <>
-    struct operators::of<test::Seq>
-        : operators::of<Iterable>
-    { };
+    namespace operators {
+        template <>
+        struct of<test::Seq>
+            : operators::of<Iterable>
+        { };
+    }
 }}
 
 int main() {
+    using boost::hana::size_t;
     using test::ct_eq;
     using test::ct_ord;
 

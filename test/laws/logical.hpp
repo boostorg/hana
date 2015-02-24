@@ -77,12 +77,14 @@ namespace boost { namespace hana { namespace test {
                 ));
 
                 // left identity
-                for_each_such_that(xs, true_valued, hana::capture(a)([](auto a, auto t) {
+                TestLogical::for_each_such_that(xs, true_valued,
+                hana::capture(a)([](auto a, auto t) {
                     BOOST_HANA_CHECK(hana::equal(
                         hana::and_(t, a), a
                     ));
                 }));
-                for_each_such_that(xs, false_valued, hana::capture(a)([](auto a, auto f) {
+                TestLogical::for_each_such_that(xs, false_valued,
+                hana::capture(a)([](auto a, auto f) {
                     BOOST_HANA_CHECK(hana::equal(
                         hana::or_(f, a), a
                     ));

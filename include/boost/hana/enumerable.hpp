@@ -52,8 +52,8 @@ namespace boost { namespace hana {
     template <typename E>
     struct models_impl<Enumerable, E>
         : _integral_constant<bool,
-            !is_default<succ_impl<E>>{} &&
-            !is_default<pred_impl<E>>{}
+            !is_default<succ_impl<E>>{}() &&
+            !is_default<pred_impl<E>>{}()
         >
     { };
 
@@ -62,7 +62,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename E>
     struct succ_impl<E, when<
-        detail::std::is_arithmetic<E>{} && !detail::std::is_same<E, bool>{}
+        detail::std::is_arithmetic<E>{}() && !detail::std::is_same<E, bool>{}()
     >> {
         template <typename X>
         static constexpr auto apply(X /* by value */ x)
@@ -71,7 +71,7 @@ namespace boost { namespace hana {
 
     template <typename E>
     struct pred_impl<E, when<
-        detail::std::is_arithmetic<E>{} && !detail::std::is_same<E, bool>{}
+        detail::std::is_arithmetic<E>{}() && !detail::std::is_same<E, bool>{}()
     >> {
         template <typename X>
         static constexpr auto apply(X /* by value */ x)
@@ -83,7 +83,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename C>
     struct succ_impl<C, when<
-        _models<Constant, C>{} && _models<Enumerable, typename C::value_type>{}
+        _models<Constant, C>{}() && _models<Enumerable, typename C::value_type>{}()
     >> {
         using T = typename C::value_type;
         template <typename X>
@@ -99,7 +99,7 @@ namespace boost { namespace hana {
 
     template <typename C>
     struct pred_impl<C, when<
-        _models<Constant, C>{} && _models<Enumerable, typename C::value_type>{}
+        _models<Constant, C>{}() && _models<Enumerable, typename C::value_type>{}()
     >> {
         using T = typename C::value_type;
         template <typename X>

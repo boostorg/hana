@@ -568,10 +568,12 @@ namespace boost { namespace hana {
     constexpr _or or_{};
 #endif
 
-    template <>
-    struct operators::of<Logical>
-        : decltype(and_), decltype(or_), decltype(not_)
-    { };
+    namespace operators {
+        template <>
+        struct of<Logical>
+            : decltype(and_), decltype(or_), decltype(not_)
+        { };
+    }
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_LOGICAL_HPP

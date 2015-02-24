@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/applicative.hpp>
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/std/decay.hpp>
 #include <boost/hana/detail/std/declval.hpp>
@@ -51,9 +52,11 @@ namespace boost { namespace hana {
         constexpr decltype(auto) go(F&& f, G const&) const&
         { return static_cast<F&&>(f)(value); }
 
+#ifndef BOOST_HANA_CONFIG_CONSTEXPR_MEMBER_FUNCTION_IS_CONST
         template <typename F, typename G>
-        constexpr decltype(auto) go(F f, G const&) &
+        constexpr decltype(auto) go(F&& f, G const&) &
         { return static_cast<F&&>(f)(value); }
+#endif
 
         template <typename F, typename G>
         constexpr decltype(auto) go(F&& f, G const&) &&
@@ -91,9 +94,11 @@ namespace boost { namespace hana {
         constexpr decltype(auto) go(F const&, G&& g) const&
         { return static_cast<G&&>(g)(value); }
 
+#ifndef BOOST_HANA_CONFIG_CONSTEXPR_MEMBER_FUNCTION_IS_CONST
         template <typename F, typename G>
         constexpr decltype(auto) go(F const&, G&& g) &
         { return static_cast<G&&>(g)(value); }
+#endif
 
         template <typename F, typename G>
         constexpr decltype(auto) go(F const&, G&& g) &&
@@ -112,10 +117,12 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Operators
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct operators::of<Either>
-        : operators::of<Comparable, Orderable, Monad>
-    { };
+    namespace operators {
+        template <>
+        struct of<Either>
+            : operators::of<Comparable, Orderable, Monad>
+        { };
+    }
 
     //////////////////////////////////////////////////////////////////////////
     // Comparable

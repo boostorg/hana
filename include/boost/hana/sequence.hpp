@@ -701,8 +701,9 @@ namespace boost { namespace hana {
         //! indices are Constants anyway.
         template <typename Xs, typename ...N>
         static constexpr auto
-        subsequence_helper(Xs&& xs, _tuple<N...> const&)
-        { return hana::make<S>(hana::at_c<hana::value<N>()>(xs)...); }
+        subsequence_helper(Xs&& xs, _tuple<N...> const&) {
+            return hana::make<S>(hana::_at_c<hana::value<N>()>{}(xs)...);
+        }
 
         template <typename Xs, typename Indices>
         static constexpr decltype(auto) apply(Xs&& xs, Indices const& indices) {
@@ -714,7 +715,7 @@ namespace boost { namespace hana {
 
         template <typename Xs, typename T, T ...v>
         static constexpr decltype(auto) apply(Xs&& xs, _tuple_c<T, v...> const&)
-        { return hana::make<S>(hana::at_c<v>(xs)...); }
+        { return hana::make<S>(hana::_at_c<v>{}(xs)...); }
     };
 
     //////////////////////////////////////////////////////////////////////////

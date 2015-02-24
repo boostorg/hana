@@ -176,6 +176,11 @@ namespace boost { namespace hana {
     constexpr typename _type<T>::_ type{};
 #endif
 
+    namespace gcc_wknd {
+        template <typename T>
+        constexpr auto mktype() { return type<T>; }
+    }
+
     //! `decltype` keyword, lifted to Hana.
     //! @relates Type
     //!

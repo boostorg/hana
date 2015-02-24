@@ -49,10 +49,12 @@ namespace boost { namespace hana {
         { }
     };
 
-    template <>
-    struct operators::of<Set>
-        : operators::of<Comparable, Searchable>
-    { };
+    namespace operators {
+        template <>
+        struct of<Set>
+            : operators::of<Comparable, Searchable>
+        { };
+    }
 
     //////////////////////////////////////////////////////////////////////////
     // make<Set>

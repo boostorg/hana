@@ -205,10 +205,12 @@ namespace boost { namespace hana {
     constexpr _zero<M> zero{};
 #endif
 
-    template <>
-    struct operators::of<Monoid>
-        : decltype(plus)
-    { };
+    namespace operators {
+        template <>
+        struct of<Monoid>
+            : decltype(plus)
+        { };
+    }
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_MONOID_HPP

@@ -34,6 +34,7 @@ namespace cppcon {
     namespace detail {
         auto remove_at = [](auto n, auto xs) {
             using namespace boost::hana;
+            using boost::hana::size_t;
             using L = datatype_t<decltype(xs)>;
             auto with_indices = zip(xs, to<L>(range(size_t<0>, length(xs))));
             auto removed = filter(with_indices, compose(n != _, last));
@@ -43,6 +44,7 @@ namespace cppcon {
 
     auto det = boost::hana::fix([](auto det, auto&& m) -> decltype(auto) {
         using namespace boost::hana;
+        using boost::hana::size_t;
         auto matrix_minor = [=](auto&& m, auto i, auto j) -> decltype(auto) {
             return det(unpack(
                 transform(

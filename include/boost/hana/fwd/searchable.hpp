@@ -708,10 +708,12 @@ namespace boost { namespace hana {
     constexpr auto is_subset = infix(_is_subset{});
 #endif
 
-    template <>
-    struct operators::of<Searchable>
-        : decltype(at_key)
-    { };
+    namespace operators {
+        template <>
+        struct of<Searchable>
+            : decltype(at_key)
+        { };
+    }
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_SEARCHABLE_HPP

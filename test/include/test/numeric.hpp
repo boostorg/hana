@@ -69,8 +69,14 @@ namespace boost { namespace hana {
     template <>
     struct less_impl<test::Numeric, test::Numeric> {
         template <typename X, typename Y>
-        static constexpr auto apply(X x, Y y)
-        { return test::numeric(x.value < y.value); }
+        static constexpr auto apply(X x, Y y) {
+            // Workaround a _weird_ GCC bug:
+            // error: parse error in template argument list
+            //      bool cmp = (x.value < y.value);
+            //                    ^
+            int xv = x.value, yv = y.value;
+            return test::numeric(xv < yv);
+        }
     };
 
     //////////////////////////////////////////////////////////////////////////

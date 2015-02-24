@@ -17,104 +17,108 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! @ingroup group-concepts
-    //! The `Traversable` concept represents types admitting a
-    //! structure-preserving right fold with an `Applicative`.
-    //!
-    //! Intuitively, the Traversable concept provides the minimal requirement
-    //! for commuting two Applicatives, i.e. for turning a `F(G(T))` into a
-    //! `G(F(T))`, where `F` and `G` are two Applicatives. For example, this
-    //! could allow turning a tree of lists into a list of trees, because
-    //! the tree is Traversable and the list is (in particular) an Applicative.
-    //!
-    //! The ability to commute structures is fundamental when trying to
-    //! compose Monads. For example, suppose that `M` and `N` are Monads (thus
-    //! they are also Applicatives), and that we want to build the composition
-    //! of `M` and `N` given by `Z(T) = M(N(T))` for any type `T`. If we want
-    //! the composition to be a Monad, we will need to implement the `flatten`
-    //! method, whose signature is then
-    //! @f[
-    //!     \mathrm{flatten} : Z(Z(T)) \to Z(T)
-    //! @f]
-    //!
-    //! which is equivalent to
-    //! @f[
-    //!     \mathrm{flatten} : M(N(M(N(T)))) \to M(N(T))
-    //! @f]
-    //!
-    //! To be able to implement `flatten`, one has to be able to commute
-    //! `N` and `M`, and then use the `flatten` of each Monad `M` and `N`
-    //! to produce a value of the correct type. In other words, we want to do
-    //! @f{align*}{
-    //!     M(N(M(N(T)))) &\to M(M(N(N(T)))) & (\text{commute $M$ and $N$}) \\
-    //!                   &\to M(M(N(T)))    & (\text{flatten $N$})         \\
-    //!                   &\to M(N(T))       & (\text{flatten $M$})
-    //! @f}
-    //!
-    //! Hence, the composition of two monads `M` and `N` will be a Monad
-    //! whenever `M` is Traversable. The ability to commute structures in
-    //! this way is exactly what the `sequence` method provides.
-    //!
-    //!
-    //! Superclasses
-    //! ------------
-    //! `Functor`, `Foldable`
-    //!
-    //!
-    //! Minimal complete definition
-    //! ---------------------------
-    //! 1. `sequence`\n
-    //! When `sequence` is defined, `traverse` can be obtained by setting
-    //! @code
-    //!     traverse<A>(xs, f) = sequence<A>(transform(xs, f))
-    //! @endcode
-    //!
-    //! 2. `traverse`\n
-    //! When `traverse` is defined, `sequence` can be obtained by setting
-    //! @code
-    //!     sequence<A>(xs) = traverse<A>(xs, id)
-    //! @endcode
-    //!
-    //!
-    //! Laws
-    //! ----
-    //! In the laws below, we use the `Identity` and `Compose` functors
-    //! defined [here][1]. Note that those functors are not provided by
-    //! Hana and they are only used here for documentation purposes.
-    //!
-    //! Let `A`, `B` be arbitrary Applicatives, and let `xs` be a Traversable
-    //! of data type `T(A(X))`. Then, for any @ref applicative-transformation
-    //! @f$ f : A(X) \to B(X) @f$, the following must hold. First, `sequence`
-    //! must _play well_ with `transform`:
-    //! @code
-    //!     // naturality
-    //!     f(sequence<A>(xs)) == sequence<B>(transform(xs, f))
-    //! @endcode
-    //!
-    //! Second, using `sequence` with the Identity functor must not do
-    //! anything special, which means that `sequence` can't make up
-    //! arbitrary effects:
-    //! @code
-    //!     // identity
-    //!     sequence<Identity>(transform(xs, make<Identity>)) == make<Identity>(xs)
-    //! @endcode
-    //!
-    //! Finally, for any Traversable `xxs` of data type `T(A(B(X)))`, doing
-    //! two traversals in sequence (commuting from `T(A(B(X)))` to `A(B(T(X)))`)
-    //! must be collapsible into a single traversal:
-    //! @code
-    //!     // composition
-    //!     sequence<Compose>(transform(xxs, make<Compose>))
-    //!         == make<Compose>(transform(sequence<A>(xxs), sequence<B>))
-    //! @endcode
-    //!
-    //!
-    //! Concrete models
-    //! ---------------
-    //! `Either`, `Maybe`, `Tuple`
-    //!
-    //!
-    //! [1]: https://hackage.haskell.org/package/base-4.7.0.2/docs/Data-Traversable.html
+    // Use long comment below to avoid multi-line comment warnings on GCC
+    // because of Latex double backslash.
+
+    /*!
+    @ingroup group-concepts
+    The `Traversable` concept represents types admitting a
+    structure-preserving right fold with an `Applicative`.
+
+    Intuitively, the Traversable concept provides the minimal requirement
+    for commuting two Applicatives, i.e. for turning a `F(G(T))` into a
+    `G(F(T))`, where `F` and `G` are two Applicatives. For example, this
+    could allow turning a tree of lists into a list of trees, because
+    the tree is Traversable and the list is (in particular) an Applicative.
+
+    The ability to commute structures is fundamental when trying to
+    compose Monads. For example, suppose that `M` and `N` are Monads (thus
+    they are also Applicatives), and that we want to build the composition
+    of `M` and `N` given by `Z(T) = M(N(T))` for any type `T`. If we want
+    the composition to be a Monad, we will need to implement the `flatten`
+    method, whose signature is then
+    @f[
+        \mathrm{flatten} : Z(Z(T)) \to Z(T)
+    @f]
+
+    which is equivalent to
+    @f[
+        \mathrm{flatten} : M(N(M(N(T)))) \to M(N(T))
+    @f]
+
+    To be able to implement `flatten`, one has to be able to commute
+    `N` and `M`, and then use the `flatten` of each Monad `M` and `N`
+    to produce a value of the correct type. In other words, we want to do
+    @f{align*}{
+        M(N(M(N(T)))) &\to M(M(N(N(T)))) & (\text{commute $M$ and $N$}) \\
+                      &\to M(M(N(T)))    & (\text{flatten $N$})         \\
+                      &\to M(N(T))       & (\text{flatten $M$})
+    @f}
+
+    Hence, the composition of two monads `M` and `N` will be a Monad
+    whenever `M` is Traversable. The ability to commute structures in
+    this way is exactly what the `sequence` method provides.
+
+
+    Superclasses
+    ------------
+    `Functor`, `Foldable`
+
+
+    Minimal complete definition
+    ---------------------------
+    1. `sequence`\n
+    When `sequence` is defined, `traverse` can be obtained by setting
+    @code
+        traverse<A>(xs, f) = sequence<A>(transform(xs, f))
+    @endcode
+
+    2. `traverse`\n
+    When `traverse` is defined, `sequence` can be obtained by setting
+    @code
+        sequence<A>(xs) = traverse<A>(xs, id)
+    @endcode
+
+
+    Concrete models
+    ---------------
+    `Either`, `Maybe`, `Tuple`
+
+
+    Laws
+    ----
+    In the laws below, we use the `Identity` and `Compose` functors
+    defined [here][1]. Note that those functors are not provided by
+    Hana and they are only used here for documentation purposes.
+
+    Let `A`, `B` be arbitrary Applicatives, and let `xs` be a Traversable
+    of data type `T(A(X))`. Then, for any @ref applicative-transformation
+    @f$ f : A(X) \to B(X) @f$, the following must hold. First, `sequence`
+    must _play well_ with `transform`:
+    @code
+        // naturality
+        f(sequence<A>(xs)) == sequence<B>(transform(xs, f))
+    @endcode
+
+    Second, using `sequence` with the Identity functor must not do
+    anything special, which means that `sequence` can't make up
+    arbitrary effects:
+    @code
+        // identity
+        sequence<Identity>(transform(xs, make<Identity>)) == make<Identity>(xs)
+    @endcode
+
+    Finally, for any Traversable `xxs` of data type `T(A(B(X)))`, doing
+    two traversals in sequence (commuting from `T(A(B(X)))` to `A(B(T(X)))`)
+    must be collapsible into a single traversal:
+    @code
+        // composition
+        sequence<Compose>(transform(xxs, make<Compose>))
+            == make<Compose>(transform(sequence<A>(xxs), sequence<B>))
+    @endcode
+
+    [1]: https://hackage.haskell.org/package/base-4.7.0.2/docs/Data-Traversable.html
+    */
     struct Traversable { };
 
     //! Combine the applicatives in a structure from left to right and

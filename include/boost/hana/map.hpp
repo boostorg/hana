@@ -55,10 +55,12 @@ namespace boost { namespace hana {
         { }
     };
 
-    template <>
-    struct operators::of<Map>
-        : operators::of<Searchable, Comparable>
-    { };
+    namespace operators {
+        template <>
+        struct of<Map>
+            : operators::of<Searchable, Comparable>
+        { };
+    }
 
     //////////////////////////////////////////////////////////////////////////
     // make<Map>

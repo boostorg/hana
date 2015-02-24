@@ -92,7 +92,9 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename S>
-    struct TestFunctor<S, when<_models<Sequence, S>{}>> : TestFunctor<S, laws> {
+    struct TestFunctor<S, when<_models<Sequence, S>{}()>>
+        : TestFunctor<S, laws>
+    {
         struct undefined { };
 
         template <typename Xs, typename Elements>

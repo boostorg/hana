@@ -140,7 +140,7 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(Xs&& xs) {
             return static_cast<Xs&&>(xs).storage(
                 [](auto const& ...xs) -> decltype(auto) {
-                    return bool_<sizeof...(xs) == 0>;
+                    return _bool<sizeof...(xs) == 0>{};
                 }
             );
         }
@@ -241,7 +241,7 @@ namespace boost { namespace hana {
     struct init_impl<sandbox::LambdaTuple> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
-            return unpack(range(size_t<0>, pred(length(xs))),
+            return unpack(range(_size_t<0>{}, pred(length(xs))),
                 on(sandbox::lambda_tuple, [&xs](auto index) -> decltype(auto) {
                     return at(index, static_cast<Xs&&>(xs));
                 })
@@ -268,7 +268,7 @@ namespace boost { namespace hana {
                 return always(f)(nothing...)(at(index, tuples)...);
             };
             auto zip_length = minimum(sandbox::lambda_tuple(length(tuples)...));
-            return unpack(range(size_t<0>, zip_length),
+            return unpack(range(_size_t<0>{}, zip_length),
                 on(sandbox::lambda_tuple, go)
             );
         }

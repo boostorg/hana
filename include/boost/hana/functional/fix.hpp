@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FUNCTIONAL_FIX_HPP
 #define BOOST_HANA_FUNCTIONAL_FIX_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/std/move.hpp>
 
@@ -67,9 +68,11 @@ namespace boost { namespace hana {
         constexpr decltype(auto) operator()(X&& ...x) const&
         { return f(fix(f), static_cast<X&&>(x)...); }
 
+#ifndef BOOST_HANA_CONFIG_CONSTEXPR_MEMBER_FUNCTION_IS_CONST
         template <typename ...X>
         constexpr decltype(auto) operator()(X&& ...x) &
         { return f(fix(f), static_cast<X&&>(x)...); }
+#endif
 
         template <typename ...X>
         constexpr decltype(auto) operator()(X&& ...x) &&

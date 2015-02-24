@@ -384,7 +384,7 @@ int main() {
 
     // infix
     {
-        BOOST_HANA_CONSTEXPR_LAMBDA auto g = infix(f);
+        auto g = infix(f);
 
         // disregard associativity
         BOOST_HANA_CONSTANT_CHECK(equal(

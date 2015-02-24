@@ -26,10 +26,15 @@ namespace boost { namespace hana {
     template <typename To, typename From, typename>
     struct to_impl : to_impl<To, From, when<true>> { };
 
-    namespace core_detail { struct no_conversion { }; }
+    namespace convert_detail {
+        struct no_conversion { };
+
+        template <typename ...>
+        struct is_valid { static constexpr bool value = true; };
+    }
 
     template <typename To, typename From, bool condition>
-    struct to_impl<To, From, when<condition>> : core_detail::no_conversion {
+    struct to_impl<To, From, when<condition>> : convert_detail::no_conversion {
         template <typename X>
         static constexpr auto apply(X const&) {
             static_assert(detail::wrong<to_impl<To, From>, X>{},
@@ -38,9 +43,9 @@ namespace boost { namespace hana {
     };
 
     template <typename To, typename From>
-    struct to_impl<To, From, when_valid<
+    struct to_impl<To, From, when<convert_detail::is_valid<
         decltype(static_cast<To>(detail::std::declval<From>()))
-    >> {
+    >::value>> {
         template <typename X>
         static constexpr To apply(X&& x)
         { return static_cast<To>(static_cast<X&&>(x)); }
@@ -105,7 +110,7 @@ namespace boost { namespace hana {
 
     template <typename From, typename To>
     struct is_convertible<From, To, decltype((void)
-        static_cast<core_detail::no_conversion>(*(to_impl<To, From>*)0)
+        static_cast<convert_detail::no_conversion>(*(to_impl<To, From>*)0)
     )> : detail::std::false_type { };
 
     //////////////////////////////////////////////////////////////////////////

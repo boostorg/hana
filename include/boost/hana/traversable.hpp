@@ -58,8 +58,8 @@ namespace boost { namespace hana {
     template <typename T>
     struct models_impl<Traversable, T>
         : _integral_constant<bool,
-            !is_default<sequence_impl<T>>{} ||
-            !is_default<traverse_impl<T>>{}
+            !is_default<sequence_impl<T>>{}() ||
+            !is_default<traverse_impl<T>>{}()
         >
     { };
 }} // end namespace boost::hana

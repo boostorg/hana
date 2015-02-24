@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_TUPLE_HPP
 #define BOOST_HANA_FWD_TUPLE_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/detail/create.hpp>
 #include <boost/hana/fwd/core/make.hpp>
 
@@ -84,6 +85,9 @@ namespace boost { namespace hana {
 #else
     template <typename ...T>
     struct _tuple_t;
+
+    template <typename ...T>
+    constexpr typename _tuple_t<T...>::_ make_tuple_t() { return {}; }
 
     template <typename ...T>
     constexpr typename _tuple_t<T...>::_ tuple_t{};

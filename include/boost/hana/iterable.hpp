@@ -14,6 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
@@ -51,6 +52,7 @@ namespace boost { namespace hana {
                 );
             }
 
+#ifndef BOOST_HANA_CONFIG_CONSTEXPR_MEMBER_FUNCTION_IS_CONST
             template <typename I>
             constexpr decltype(auto) operator[](I&& i) & {
                 return hana::at(
@@ -58,6 +60,7 @@ namespace boost { namespace hana {
                     static_cast<Derived&>(*this)
                 );
             }
+#endif
 
             template <typename I>
             constexpr decltype(auto) operator[](I&& i) && {
@@ -261,9 +264,9 @@ namespace boost { namespace hana {
     template <typename It>
     struct models_impl<Iterable, It>
         : _integral_constant<bool,
-            !is_default<head_impl<It>>{} &&
-            !is_default<tail_impl<It>>{} &&
-            !is_default<is_empty_impl<It>>{}
+            !is_default<head_impl<It>>{}() &&
+            !is_default<tail_impl<It>>{}() &&
+            !is_default<is_empty_impl<It>>{}()
         >
     { };
 

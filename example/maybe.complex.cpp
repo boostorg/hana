@@ -28,7 +28,7 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto function<'-'> = just([](auto x, auto y) {
 // and so on...
 
 template <char n>
-BOOST_HANA_CONSTEXPR_LAMBDA auto digit = if_(bool_<(n >= '0' && n <= '9')>,
+constexpr auto digit = if_(bool_<(n >= '0' && n <= '9')>,
     just(static_cast<int>(n - 48)),
     nothing
 );

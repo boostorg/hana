@@ -116,9 +116,13 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename S>
-    struct TestMonad<S, when<_models<Sequence, S>{}>> : TestMonad<S, laws> {
+    struct TestMonad<S, when<_models<Sequence, S>{}()>>
+        : TestMonad<S, laws>
+    {
         template <typename Xs, typename XXs>
-        TestMonad(Xs xs, XXs xxs) : TestMonad<S, laws>{xs, xxs} {
+        TestMonad(Xs xs, XXs xxs)
+            : TestMonad<S, laws>{xs, xxs}
+        {
             constexpr auto list = make<S>;
 
             //////////////////////////////////////////////////////////////////

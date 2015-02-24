@@ -20,7 +20,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 //////////////////////////////////////////////////////////////////////////////
-// Detect the compiler (currently only Clang is supported)
+// Detect the compiler
 //////////////////////////////////////////////////////////////////////////////
 #if defined(__clang__) && !defined(__apple_build_version__)
 
@@ -31,10 +31,15 @@ Distributed under the Boost Software License, Version 1.0.
 #       error Versions of Clang prior to 3.5.0 are not supported.
 #   endif
 
+#elif defined(__GNUC__)
+
+#   define BOOST_HANA_CONFIG_GCC BOOST_HANA_CONFIG_VERSION(                 \
+                            __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__)
+
 #else
 
-#   error Your compiler is not officially supported by Hana or it was \
-          not detected properly.
+#   warning Your compiler is not officially supported by Hana or it was \
+            not detected properly.
 
 #endif
 
@@ -46,20 +51,33 @@ Distributed under the Boost Software License, Version 1.0.
 // library to define its macros so we can detect it. See http://goo.gl/eXNYJH.
 #include <ciso646>
 
+// Right now, we also need to include this to detect stdlibc++.
+// See http://goo.gl/DHHlSK.
+#include <cstddef>
+
 #if defined(_LIBCPP_VERSION)
 
 #   define BOOST_HANA_CONFIG_LIBCPP BOOST_HANA_CONFIG_VERSION(              \
                 ((_LIBCPP_VERSION) / 1000) % 10, 0, (_LIBCPP_VERSION) % 1000)
 
 #   if BOOST_HANA_CONFIG_LIBCPP < BOOST_HANA_CONFIG_VERSION(1, 0, 101)
-#       error Versions of libc++ prior to the one shipped with Clang 3.5.0 \
-              are not supported.
+#       warning Versions of libc++ prior to the one shipped with Clang 3.5.0 \
+                are not supported.
 #   endif
+
+#elif defined(__GLIBCXX__)
+
+#   define BOOST_HANA_CONFIG_GLIBCXX BOOST_HANA_CONFIG_VERSION(             \
+                ((__GLIBCXX__) / 10000) % 10000 - 1970,                     \
+                ((__GLIBCXX__) / 100) % 100,                                \
+                (__GLIBCXX__) % 100                                         \
+            )                                                               \
+/**/
 
 #else
 
-#   error Your standard library is not officially supported by Hana or it \
-          was not detected properly.
+#   warning Your standard library is not officially supported by Hana or it \
+            was not detected properly.
 
 #endif
 
@@ -98,6 +116,23 @@ Distributed under the Boost Software License, Version 1.0.
 // See http://llvm.org/bugs/show_bug.cgi?id=22806.
 #if defined(BOOST_HANA_CONFIG_LIBCPP)
 #   define BOOST_HANA_CONFIG_LIBCPP_HAS_BUG_22806
+#endif
+
+// Whether non-static constexpr member functions are automatically marked
+// as `const`.
+//
+// In C++11, a non-static constexpr member function is automatically
+// marked as `const`. In C++14, this is not the case. This macro
+// essentially influences which overloads are provided for non-static
+// constexpr member functions. In particular, when such a function is
+// automatically marked as `const`, we can't provide both overloads:
+// @code
+//     constexpr ... member_function(...) const&
+//     constexpr ... member_function(...) &
+// @endcode
+// since they are actually the same.
+#if defined(BOOST_HANA_CONFIG_GCC)
+#   define BOOST_HANA_CONFIG_CONSTEXPR_MEMBER_FUNCTION_IS_CONST
 #endif
 
 

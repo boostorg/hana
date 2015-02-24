@@ -10,6 +10,9 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_STRING_HPP
 #define BOOST_HANA_FWD_STRING_HPP
 
+#include <boost/hana/config.hpp>
+
+
 namespace boost { namespace hana {
     //! @ingroup group-datatypes
     //! Represents a compile-time string.

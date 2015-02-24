@@ -124,8 +124,8 @@ namespace boost { namespace hana {
     template <>
     struct is_empty_impl<ext::std::Array> {
         template <typename T, std::size_t N>
-        static constexpr auto apply(::std::array<T, N> const&)
-        { return bool_<N == 0>; }
+        static constexpr _integral_constant<bool, N == 0>
+        apply(::std::array<T, N> const&) { return {}; }
     };
 }} // end namespace boost::hana
 

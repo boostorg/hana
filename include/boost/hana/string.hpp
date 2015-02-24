@@ -14,6 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/models.hpp>
@@ -52,9 +53,9 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     namespace string_detail {
         template <typename S, detail::std::size_t ...N>
-        constexpr decltype(auto)
+        constexpr _string<S::get()[N]...>
         prepare_impl(S, detail::std::index_sequence<N...>)
-        { return string<S::get()[N]...>; }
+        { return {}; }
 
         template <typename S>
         constexpr decltype(auto) prepare(S s) {
@@ -75,10 +76,12 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Operators
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct operators::of<String>
-        : operators::of<Comparable, Orderable, Iterable>
-    { };
+    namespace operators {
+        template <>
+        struct of<String>
+            : operators::of<Comparable, Orderable, Iterable>
+        { };
+    }
 
     //////////////////////////////////////////////////////////////////////////
     // to<char const*>
@@ -135,7 +138,7 @@ namespace boost { namespace hana {
     struct unpack_impl<String> {
         template <char ...s, typename F>
         static constexpr decltype(auto) apply(_string<s...> const&, F&& f)
-        { return static_cast<F&&>(f)(char_<s>...); }
+        { return static_cast<F&&>(f)(_char<s>{}...); }
     };
 
     template <>

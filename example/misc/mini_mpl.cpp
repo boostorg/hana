@@ -92,7 +92,7 @@ struct vector : decltype(hana::tuple_t<T...>) {
 };
 
 template <typename ...T>
-struct set : decltype(hana::set(hana::type<T>...)) {
+struct set : decltype(hana::set(hana::gcc_wknd::mktype<T>()...)) {
     using hana = set;
     using datatype = boost::hana::Set;
 };
@@ -680,7 +680,7 @@ using namespace hpl;
 // remove
 {
     using types = vector<int,float,char,float,float,double>;
-    using result = remove<types, float>::type;
+    using result = hpl::remove<types, float>::type;
     static_assert(equal<result, vector<int, char, double>>{}, "");
 }
 

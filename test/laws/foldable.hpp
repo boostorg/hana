@@ -92,7 +92,9 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename P>
-    struct TestFoldable<P, when<_models<Product, P>{}>> : TestFoldable<P, laws> {
+    struct TestFoldable<P, when<_models<Product, P>{}()>>
+        : TestFoldable<P, laws>
+    {
         template <typename Products>
         TestFoldable(Products products) : TestFoldable<P, laws>{products} {
             hana::for_each(products, [](auto p) {
@@ -107,7 +109,9 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename S>
-    struct TestFoldable<S, when<_models<Sequence, S>{}>> : TestFoldable<S, laws> {
+    struct TestFoldable<S, when<_models<Sequence, S>{}()>>
+        : TestFoldable<S, laws>
+    {
         template <int i>
         using x = _constant<i>;
 

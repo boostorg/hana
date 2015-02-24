@@ -21,10 +21,12 @@ using Person = Person_<>;
 // Once the operators can be found by name lookup, we still need to
 // specialize the `operators::of` trait to enable them, or we could
 // have used a nested `hana::operators` type too.
-template <>
-struct boost::hana::operators::of<Person>
-    : boost::hana::operators::of<Comparable>
-{ };
+namespace boost { namespace hana { namespace operators {
+    template <>
+    struct of<Person>
+        : operators::of<Comparable>
+    { };
+}}}
 
 // Here, the operators are made findable by ADL by using `operators::adl` as
 // a base class. Unfortunately, we lose PODness even though `operators::adl`

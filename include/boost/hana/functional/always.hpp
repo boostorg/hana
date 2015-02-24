@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FUNCTIONAL_ALWAYS_HPP
 #define BOOST_HANA_FUNCTIONAL_ALWAYS_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/std/move.hpp>
 
@@ -46,9 +47,11 @@ namespace boost { namespace hana {
         constexpr T const& operator()(Args const& ...) const&
         { return val_; }
 
+#ifndef BOOST_HANA_CONFIG_CONSTEXPR_MEMBER_FUNCTION_IS_CONST
         template <typename ...Args>
         constexpr T& operator()(Args const& ...) &
         { return val_; }
+#endif
 
         template <typename ...Args>
         constexpr T operator()(Args const& ...) &&

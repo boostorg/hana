@@ -88,15 +88,17 @@ namespace boost { namespace hana {
     template <typename ...T>
     struct _tuple_t<T...>::_
         : _tuple_t<T...>,
-          _tuple<typename detail::std::remove_cv<decltype(type<T>)>::type...>
+          _tuple<typename detail::std::remove_cv<decltype(gcc_wknd::mktype<T>())>::type...>
     {
         static constexpr bool is_tuple_t = true;
     };
 
-    template <>
-    struct operators::of<Tuple>
-        : operators::of<Comparable, Orderable, Monad, Iterable>
-    { };
+    namespace operators {
+        template <>
+        struct of<Tuple>
+            : operators::of<Comparable, Orderable, Monad, Iterable>
+        { };
+    }
 
     //////////////////////////////////////////////////////////////////////////
     // make
@@ -392,8 +394,8 @@ namespace boost { namespace hana {
     template <>
     struct length_impl<Tuple> {
         template <typename Xs>
-        static constexpr auto apply(Xs const&)
-        { return size_t<Xs::size>; }
+        static constexpr _size_t<Xs::size> apply(Xs const&)
+        { return {}; }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -455,7 +457,7 @@ namespace boost { namespace hana {
     struct last_impl<Tuple> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
-            constexpr detail::std::size_t size = tuple_detail::size<Xs>{};
+            constexpr detail::std::size_t size = tuple_detail::size<Xs>{}();
             return detail::get<size - 1>(static_cast<Xs&&>(xs));
         }
     };
@@ -474,7 +476,7 @@ namespace boost { namespace hana {
         template <typename N, typename Xs>
         static constexpr decltype(auto) apply(N const&, Xs&& xs) {
             constexpr Size n = hana::value<N>();
-            constexpr Size size = tuple_detail::size<Xs>{};
+            constexpr Size size = tuple_detail::size<Xs>{}();
             constexpr Size drop_size = n > size ? size : n;
             return drop_helper<drop_size>(static_cast<Xs&&>(xs),
                 detail::std::make_index_sequence<size - drop_size>{});
@@ -773,14 +775,14 @@ namespace boost { namespace hana {
         template <typename X, detail::std::size_t i, detail::std::size_t ...j>
         static constexpr _tuple<
             typename detail::std::decay<X>::type,
-            typename detail::std::decay<tuple_detail::expand<!!j, X>>::type...
+            tuple_detail::expand<!!j, typename detail::std::decay<X>::type>...
         > repeat_helper(X&& x, detail::std::index_sequence<i, j...>)
         { return {((void)j, x)..., static_cast<X&&>(x)}; }
 
         template <typename T, detail::std::size_t ...i>
         static constexpr auto
         repeat_helper(_type<T>, detail::std::index_sequence<i...>)
-        { return tuple_t<tuple_detail::expand<!!i, T>...>; }
+        { return make_tuple_t<tuple_detail::expand<!!i, T>...>(); }
 
         template <typename N, typename X>
         static constexpr decltype(auto) apply(N const&, X&& x) {
@@ -947,7 +949,7 @@ namespace boost { namespace hana {
 
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
-            constexpr detail::std::size_t size = tuple_detail::size<Xs>{};
+            constexpr detail::std::size_t size = tuple_detail::size<Xs>{}();
             return init_helper(static_cast<Xs&&>(xs),
                 detail::std::make_index_sequence<size - 1>{});
         }
@@ -986,7 +988,7 @@ namespace boost { namespace hana {
 
         template <typename Xs, typename Z>
         static constexpr decltype(auto) apply(Xs&& xs, Z&& z) {
-            constexpr detail::std::size_t size = tuple_detail::size<Xs>{};
+            constexpr detail::std::size_t size = tuple_detail::size<Xs>{}();
             constexpr auto new_seq_size = size == 0 ? 0 : (size * 2) - 1;
             return intersperse_helper(static_cast<Xs&&>(xs),
                           static_cast<Z&&>(z),
@@ -1055,7 +1057,7 @@ namespace boost { namespace hana {
         template <typename N, typename Xs>
         static constexpr decltype(auto) apply(N const&, Xs&& xs) {
             constexpr Size index = hana::value<N>();
-            constexpr Size size = tuple_detail::size<Xs>{};
+            constexpr Size size = tuple_detail::size<Xs>{}();
             return remove_at_helper(static_cast<Xs&&>(xs),
                           detail::std::make_index_sequence<index>{},
                           detail::std::make_index_sequence<size - index - 1>{});
@@ -1183,7 +1185,7 @@ namespace boost { namespace hana {
         template <typename N, typename Xs>
         static constexpr decltype(auto) apply(N const&, Xs&& xs) {
             constexpr detail::std::size_t n = hana::value<N>();
-            constexpr detail::std::size_t size = tuple_detail::size<Xs>{};
+            constexpr detail::std::size_t size = tuple_detail::size<Xs>{}();
             return take_helper(static_cast<Xs&&>(xs),
                 detail::std::make_index_sequence<(n < size ? n : size)>{});
         }
@@ -1247,8 +1249,8 @@ namespace boost { namespace hana {
         template <typename F, typename X1, typename X2, typename X3, typename X4, typename ...Xn>
         static constexpr decltype(auto)
         apply(F&& f, X1&& x1, X2&& x2, X3&& x3, X4&& x4, Xn&& ...xn) {
-            return apply(hana::apply,
-                apply(
+            return zip_unsafe_with_impl::apply(hana::apply,
+                zip_unsafe_with_impl::apply(
                     curry<sizeof...(xn) + 4>(static_cast<F&&>(f)),
                     static_cast<X1&&>(x1),
                     static_cast<X2&&>(x2),
@@ -1323,12 +1325,12 @@ namespace boost { namespace hana {
         static constexpr decltype(auto)
         apply(X1&& x1, X2&& x2, X3&& x3, X4&& x4, Xn&& ...xn) {
             return hana::zip.with(concat,
-                apply(
+                zip_unsafe_impl::apply(
                     static_cast<X1&&>(x1),
                     static_cast<X2&&>(x2),
                     static_cast<X3&&>(x3)
                 ),
-                apply(
+                zip_unsafe_impl::apply(
                     static_cast<X4&&>(x4),
                     static_cast<Xn&&>(xn)...
                 )

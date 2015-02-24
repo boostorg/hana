@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/orderable.hpp>
 
 #include <boost/hana/bool.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/constant.hpp>
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
@@ -243,9 +244,11 @@ namespace boost { namespace hana {
         constexpr decltype(auto) operator()(X&& x, Y&& y) const&
         { return hana::less(f(static_cast<X&&>(x)), f(static_cast<Y&&>(y))); }
 
+#ifndef BOOST_HANA_CONFIG_CONSTEXPR_MEMBER_FUNCTION_IS_CONST
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) &
         { return hana::less(f(static_cast<X&&>(x)), f(static_cast<Y&&>(y))); }
+#endif
     };
 
     //////////////////////////////////////////////////////////////////////////

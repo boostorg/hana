@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/comparable.hpp>
 
 #include <boost/hana/bool.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/constant.hpp>
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
@@ -136,9 +137,11 @@ namespace boost { namespace hana {
         constexpr decltype(auto) operator()(X&& x, Y&& y) const&
         { return hana::equal(f(static_cast<X&&>(x)), f(static_cast<Y&&>(y))); }
 
+#ifndef BOOST_HANA_CONFIG_CONSTEXPR_MEMBER_FUNCTION_IS_CONST
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) &
         { return hana::equal(f(static_cast<X&&>(x)), f(static_cast<Y&&>(y))); }
+#endif
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -173,7 +176,7 @@ namespace boost { namespace hana {
         static constexpr auto apply(X const&, Y const&) {
             constexpr auto equal = hana::equal(hana::value<X>(), hana::value<Y>());
             constexpr bool truth_value = hana::if_(equal, true, false);
-            return bool_<truth_value>;
+            return _bool<truth_value>{};
         }
     };
 }} // end namespace boost::hana

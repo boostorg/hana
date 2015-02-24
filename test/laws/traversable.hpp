@@ -36,7 +36,9 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename S>
-    struct TestTraversable<S, when<_models<Sequence, S>{}>> : TestTraversable<S, laws> {
+    struct TestTraversable<S, when<_models<Sequence, S>{}()>>
+        : TestTraversable<S, laws>
+    {
         template <int i>
         using x = _constant<i>;
 

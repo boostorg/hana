@@ -237,10 +237,12 @@ namespace boost { namespace hana {
     constexpr _rem rem{};
 #endif
 
-    template <>
-    struct operators::of<IntegralDomain>
-        : decltype(quot), decltype(rem)
-    { };
+    namespace operators {
+        template <>
+        struct of<IntegralDomain>
+            : decltype(quot), decltype(rem)
+        { };
+    }
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_INTEGRAL_DOMAIN_HPP

@@ -33,7 +33,7 @@ namespace boost { namespace hana {
     // Iterable
     //////////////////////////////////////////////////////////////////////////
     template <typename S>
-    struct head_impl<S, when<detail::is_fusion_sequence<S>{}>> {
+    struct head_impl<S, when<detail::is_fusion_sequence<S>{}()>> {
         template <typename Xs>
         static constexpr auto const& apply(Xs const& xs)
         { return ::boost::fusion::front(xs); }
@@ -48,7 +48,7 @@ namespace boost { namespace hana {
     };
 
     template <typename S>
-    struct is_empty_impl<S, when<detail::is_fusion_sequence<S>{}>> {
+    struct is_empty_impl<S, when<detail::is_fusion_sequence<S>{}()>> {
         template <typename Xs>
         static constexpr auto apply(Xs&& xs) {
             using Empty = decltype(::boost::fusion::empty(xs));
@@ -60,7 +60,7 @@ namespace boost { namespace hana {
     // Sequence
     //////////////////////////////////////////////////////////////////////////
     template <typename S>
-    struct models_impl<Sequence, S, when<detail::is_fusion_sequence<S>{}>>
+    struct models_impl<Sequence, S, when<detail::is_fusion_sequence<S>{}()>>
         : decltype(true_)
     { };
 }} // end namespace boost::hana

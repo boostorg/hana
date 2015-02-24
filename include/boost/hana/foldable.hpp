@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/foldable.hpp>
 
 #include <boost/hana/applicative.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
@@ -83,7 +84,7 @@ namespace boost { namespace hana {
             { return static_cast<Y&&>(y); }
         };
 
-        template <typename T, bool = is_default<unpack_impl<T>>{}>
+        template <typename T, bool = is_default<unpack_impl<T>>{}()>
         struct foldl1_helper {
             template <typename Xs, typename F>
             static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
@@ -143,7 +144,7 @@ namespace boost { namespace hana {
     struct fold_right_nostate_impl : fold_right_nostate_impl<T, when<true>> { };
 
     namespace foldable_detail {
-        template <typename T, bool = is_default<unpack_impl<T>>{}>
+        template <typename T, bool = is_default<unpack_impl<T>>{}()>
         struct foldr1_helper {
             template <typename Xs, typename F>
             static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
@@ -333,11 +334,13 @@ namespace boost { namespace hana {
                 f(static_cast<X&&>(x));
                 return 0;
             }
+#ifndef BOOST_HANA_CONFIG_CONSTEXPR_MEMBER_FUNCTION_IS_CONST
             template <typename X>
             constexpr int operator()(int /*ignore*/, X&& x) & {
                 f(static_cast<X&&>(x));
                 return 0;
             }
+#endif
             template <typename X>
             constexpr int operator()(int /*ignore*/, X&& x) && {
                 detail::std::move(f)(static_cast<X&&>(x));
@@ -345,7 +348,7 @@ namespace boost { namespace hana {
             }
         };
 
-        template <typename T, bool = is_default<unpack_impl<T>>{}>
+        template <typename T, bool = is_default<unpack_impl<T>>{}()>
         struct for_each_helper {
             template <typename Xs, typename F>
             static constexpr void apply(Xs&& xs, F&& f) {
@@ -428,6 +431,7 @@ namespace boost { namespace hana {
                     static_cast<Y&&>(y)
                 );
             }
+#ifndef BOOST_HANA_CONFIG_CONSTEXPR_MEMBER_FUNCTION_IS_CONST
             template <typename X, typename Y>
             constexpr decltype(auto) operator()(X&& x, Y&& y) & {
                 decltype(auto) r = pred(x, y);
@@ -436,6 +440,7 @@ namespace boost { namespace hana {
                     static_cast<Y&&>(y)
                 );
             }
+#endif
             template <typename X, typename Y>
             constexpr decltype(auto) operator()(X&& x, Y&& y) && {
                 decltype(auto) r = detail::std::move(pred)(x, y);
@@ -505,6 +510,7 @@ namespace boost { namespace hana {
                     static_cast<X&&>(x)
                 );
             }
+#ifndef BOOST_HANA_CONFIG_CONSTEXPR_MEMBER_FUNCTION_IS_CONST
             template <typename X, typename Y>
             constexpr decltype(auto) operator()(X&& x, Y&& y) & {
                 decltype(auto) r = pred(x, y);
@@ -513,6 +519,7 @@ namespace boost { namespace hana {
                     static_cast<X&&>(x)
                 );
             }
+#endif
             template <typename X, typename Y>
             constexpr decltype(auto) operator()(X&& x, Y&& y) && {
                 decltype(auto) r = detail::std::move(pred)(x, y);
@@ -609,6 +616,7 @@ namespace boost { namespace hana {
                     counter
                 );
             }
+#ifndef BOOST_HANA_CONFIG_CONSTEXPR_MEMBER_FUNCTION_IS_CONST
             template <typename Counter, typename X>
             constexpr decltype(auto) operator()(Counter&& counter, X&& x) & {
                 return hana::if_(pred(static_cast<X&&>(x)),
@@ -616,6 +624,7 @@ namespace boost { namespace hana {
                     counter
                 );
             }
+#endif
             template <typename Counter, typename X>
             constexpr decltype(auto) operator()(Counter&& counter, X&& x) && {
                 return hana::if_(detail::std::move(pred)(static_cast<X&&>(x)),
@@ -680,8 +689,8 @@ namespace boost { namespace hana {
     template <typename T>
     struct models_impl<Foldable, T>
         : _integral_constant<bool,
-            (!is_default<fold_left_impl<T>>{} && !is_default<fold_right_impl<T>>{}) ||
-            !is_default<unpack_impl<T>>{}
+            (!is_default<fold_left_impl<T>>{}() && !is_default<fold_right_impl<T>>{}()) ||
+            !is_default<unpack_impl<T>>{}()
         >
     { };
 

@@ -160,6 +160,8 @@ BOOST_HANA_CONSTANT_CHECK(not_(integral(metafunction<std::is_integral>)(type<flo
 }
 
 namespace ns8 {
+using boost::hana::size_t;
+
 //! [non_liftable_metafunction]
 BOOST_HANA_CONSTEXPR_LAMBDA auto extent = [](auto t, auto n) {
     return std::extent<typename decltype(t)::type, value(n)>{};

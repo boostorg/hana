@@ -58,7 +58,7 @@ namespace boost { namespace hana {
     template <typename C>
     struct models_impl<Constant, C>
         : _integral_constant<bool,
-            !is_default<value_impl<C>>{}
+            !is_default<value_impl<C>>{}()
         >
     { };
 
@@ -67,8 +67,8 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename To, typename From>
     struct to_impl<To, From, when<
-        _models<Constant, From>{} && is_convertible<typename From::value_type, To>{}
-    >> : embedding<is_embedded<typename From::value_type, To>{}> {
+        _models<Constant, From>{}() && is_convertible<typename From::value_type, To>{}()
+    >> : embedding<is_embedded<typename From::value_type, To>{}()> {
         template <typename X>
         static constexpr decltype(auto) apply(X const&)
         { return to<To>(hana::value<X>()); }
@@ -98,9 +98,9 @@ namespace boost { namespace hana {
 
     template <typename A, typename B>
     struct common<A, B, when<
-        _models<Constant, A>{} &&
-        _models<Constant, B>{} &&
-        has_common<typename A::value_type, typename B::value_type>{}
+        _models<Constant, A>{}() &&
+        _models<Constant, B>{}() &&
+        has_common<typename A::value_type, typename B::value_type>{}()
     >> {
         using type = typename constant_detail::which<
             A, B,
@@ -111,18 +111,18 @@ namespace boost { namespace hana {
 
     template <typename A, typename B>
     struct common<A, B, when<
-        _models<Constant, A>{} &&
-        !_models<Constant, B>{} &&
-        has_common<typename A::value_type, B>{}
+        _models<Constant, A>{}() &&
+        !_models<Constant, B>{}() &&
+        has_common<typename A::value_type, B>{}()
     >> {
         using type = typename common<typename A::value_type, B>::type;
     };
 
     template <typename A, typename B>
     struct common<A, B, when<
-        !_models<Constant, A>{} &&
-        _models<Constant, B>{} &&
-        has_common<A, typename B::value_type>{}
+        !_models<Constant, A>{}() &&
+        _models<Constant, B>{}() &&
+        has_common<A, typename B::value_type>{}()
     >> {
         using type = typename common<A, typename B::value_type>::type;
     };

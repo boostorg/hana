@@ -91,8 +91,15 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Model for data types with a nested `hana::accessors_impl`
     //////////////////////////////////////////////////////////////////////////
+    namespace struct_detail {
+        template <typename ...>
+        struct is_valid { static constexpr bool value = true; };
+    }
+
     template <typename S>
-    struct accessors_impl<S, when_valid<typename S::hana::accessors_impl>>
+    struct accessors_impl<S, when<
+        struct_detail::is_valid<typename S::hana::accessors_impl>::value
+    >>
         : S::hana::accessors_impl
     { };
 

@@ -30,6 +30,8 @@ void function() { }
 void function_index(...) { }
 
 int main() {
+    using boost::hana::size_t; // take priority over ::size_t
+
     auto ints = make<Tuple>(
         int_<-10>, int_<-2>, int_<0>, int_<1>, int_<3>, int_<4>
     );

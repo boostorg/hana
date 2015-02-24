@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FUNCTIONAL_PLACEHOLDER_HPP
 #define BOOST_HANA_FUNCTIONAL_PLACEHOLDER_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/detail/closure.hpp>
 #include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/std/declval.hpp>
@@ -76,6 +77,7 @@ namespace boost { namespace hana {
                 -> decltype(static_cast<Xs&&>(xs)[i])
             { return static_cast<Xs&&>(xs)[i]; }
 
+#ifndef BOOST_HANA_CONFIG_CONSTEXPR_MEMBER_FUNCTION_IS_CONST
             template <typename Xs, typename ...Z>
             constexpr auto operator()(Xs&& xs, Z const& ...) &
                 -> decltype(static_cast<Xs&&>(xs)[i])
@@ -85,6 +87,7 @@ namespace boost { namespace hana {
             constexpr auto operator()(Xs&& xs, Z const& ...) &&
                 -> decltype(static_cast<Xs&&>(xs)[detail::std::declval<I>()])
             { return static_cast<Xs&&>(xs)[detail::std::move(i)]; }
+#endif
         };
 
         template <typename X>
@@ -101,6 +104,7 @@ namespace boost { namespace hana {
                 ).get...))
             { return static_cast<F&&>(f)(static_cast<X const&>(x).get...); }
 
+#ifndef BOOST_HANA_CONFIG_CONSTEXPR_MEMBER_FUNCTION_IS_CONST
             template <typename F, typename ...Z>
             constexpr auto operator()(F&& f, Z const& ...) &
                 -> decltype(static_cast<F&&>(f)(static_cast<X&>(
@@ -114,6 +118,7 @@ namespace boost { namespace hana {
                     detail::std::declval<detail::closure_impl<X...>>()
                 ).get...))
             { return static_cast<F&&>(f)(static_cast<X&&>(x).get...); }
+#endif
         };
 
         struct placeholder {
@@ -131,6 +136,12 @@ namespace boost { namespace hana {
             }
         };
 
+#ifdef BOOST_HANA_CONFIG_CONSTEXPR_MEMBER_FUNCTION_IS_CONST
+#   define BOOST_HANA_IMPL_CONST_OVERLOAD(...) /* nothing */
+#else
+#   define BOOST_HANA_IMPL_CONST_OVERLOAD(...) __VA_ARGS__
+#endif
+
 #define BOOST_HANA_PLACEHOLDER_BINARY_OP(op, op_name)                           \
     template <typename X>                                                       \
     struct op_name ## _left {                                                   \
@@ -138,18 +149,18 @@ namespace boost { namespace hana {
                                                                                 \
         template <typename Y, typename ...Z>                                    \
         constexpr auto operator()(Y&& y, Z const& ...) const& -> decltype(      \
-            detail::std::declval<X const&>() op static_cast<Y&&>(y))     \
-        { return x op static_cast<Y&&>(y); }                             \
+            detail::std::declval<X const&>() op static_cast<Y&&>(y))            \
+        { return x op static_cast<Y&&>(y); }                                    \
                                                                                 \
         template <typename Y, typename ...Z>                                    \
         constexpr auto operator()(Y&& y, Z const& ...) & -> decltype(           \
-            detail::std::declval<X&>() op static_cast<Y&&>(y))           \
-        { return x op static_cast<Y&&>(y); }                             \
+            detail::std::declval<X&>() op static_cast<Y&&>(y))                  \
+        { return x op static_cast<Y&&>(y); }                                    \
                                                                                 \
         template <typename Y, typename ...Z>                                    \
         constexpr auto operator()(Y&& y, Z const& ...) && -> decltype(          \
-            detail::std::declval<X>() op static_cast<Y&&>(y))            \
-        { return detail::std::move(x) op static_cast<Y&&>(y); }          \
+            detail::std::declval<X>() op static_cast<Y&&>(y))                   \
+        { return detail::std::move(x) op static_cast<Y&&>(y); }                 \
     };                                                                          \
                                                                                 \
     template <typename Y>                                                       \
@@ -158,25 +169,25 @@ namespace boost { namespace hana {
                                                                                 \
         template <typename X, typename ...Z>                                    \
         constexpr auto operator()(X&& x, Z const& ...) const& -> decltype(      \
-            static_cast<X&&>(x) op detail::std::declval<Y const&>())     \
-        { return static_cast<X&&>(x) op y; }                             \
+            static_cast<X&&>(x) op detail::std::declval<Y const&>())            \
+        { return static_cast<X&&>(x) op y; }                                    \
                                                                                 \
         template <typename X, typename ...Z>                                    \
         constexpr auto operator()(X&& x, Z const& ...) & -> decltype(           \
-            static_cast<X&&>(x) op detail::std::declval<Y&>())           \
-        { return static_cast<X&&>(x) op y; }                             \
+            static_cast<X&&>(x) op detail::std::declval<Y&>())                  \
+        { return static_cast<X&&>(x) op y; }                                    \
                                                                                 \
         template <typename X, typename ...Z>                                    \
         constexpr auto operator()(X&& x, Z const& ...) && -> decltype(          \
-            static_cast<X&&>(x) op detail::std::declval<Y>())            \
-        { return static_cast<X&&>(x) op detail::std::move(y); }          \
+            static_cast<X&&>(x) op detail::std::declval<Y>())                   \
+        { return static_cast<X&&>(x) op detail::std::move(y); }                 \
     };                                                                          \
                                                                                 \
     struct op_name {                                                            \
         template <typename X, typename Y, typename ...Z>                        \
         constexpr auto operator()(X&& x, Y&& y, Z const& ...) const -> decltype(\
-            static_cast<X&&>(x) op static_cast<Y&&>(y))           \
-        { return static_cast<X&&>(x) op static_cast<Y&&>(y); }    \
+            static_cast<X&&>(x) op static_cast<Y&&>(y))                         \
+        { return static_cast<X&&>(x) op static_cast<Y&&>(y); }                  \
     };                                                                          \
                                                                                 \
     template <typename X>                                                       \
@@ -195,8 +206,8 @@ namespace boost { namespace hana {
     struct op_name {                                                        \
         template <typename X, typename ...Z>                                \
         constexpr auto operator()(X&& x, Z const& ...) const                \
-            -> decltype(op static_cast<X&&>(x))                      \
-        { return op static_cast<X&&>(x); }                           \
+            -> decltype(op static_cast<X&&>(x))                             \
+        { return op static_cast<X&&>(x); }                                  \
     };                                                                      \
                                                                             \
     inline constexpr decltype(auto) operator op (placeholder)               \
@@ -239,6 +250,7 @@ namespace boost { namespace hana {
 
 #undef BOOST_HANA_PREFIX_PLACEHOLDER_OP
 #undef BOOST_HANA_BINARY_PLACEHOLDER_OP
+#undef BOOST_HANA_IMPL_CONST_OVERLOAD
     } // end namespace placeholder_detail
 
     constexpr placeholder_detail::placeholder _{};

@@ -12,10 +12,12 @@ struct Concept { };
 struct _method { };
 constexpr _method method{};
 
-template <>
-struct boost::hana::operators::of<Concept>
-    : decltype(method)
-{ };
+namespace boost { namespace hana { namespace operators {
+    template <>
+    struct of<Concept>
+        : decltype(::method)
+    { };
+}}}
 
 struct Nested {
     struct hana {

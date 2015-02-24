@@ -212,10 +212,12 @@ namespace boost { namespace hana {
     constexpr _negate negate{};
 #endif
 
-    template <>
-    struct operators::of<Group>
-        : decltype(minus), decltype(negate)
-    { };
+    namespace operators {
+        template <>
+        struct of<Group>
+            : decltype(minus), decltype(negate)
+        { };
+    }
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_GROUP_HPP

@@ -50,7 +50,7 @@ namespace boost { namespace hana {
 
             template <typename F>
             static constexpr void with_index(F&& f)
-            { (void)swallow{T{}, ((void)f(integral_constant<T, i>), i)...}; }
+            { (void)swallow{T{}, ((void)f(_integral_constant<T, i>{}), i)...}; }
 
             template <typename F>
             static constexpr void without_index(F&& f)
@@ -60,12 +60,12 @@ namespace boost { namespace hana {
         template <typename T, T v>
         template <typename F>
         constexpr void _with_index<T, v>::operator()(F&& f) const
-        { go<T, (sizeof(&f), v)>::with_index(static_cast<F&&>(f)); }
+        { go<T, ((void)sizeof(&f), v)>::with_index(static_cast<F&&>(f)); }
 
         template <typename T, T v>
         template <typename F>
         constexpr void _times<T, v>::operator()(F&& f) const
-        { go<T, (sizeof(&f), v)>::without_index(static_cast<F&&>(f)); }
+        { go<T, ((void)sizeof(&f), v)>::without_index(static_cast<F&&>(f)); }
 
         // avoid link-time error
         template <typename T, T v>
@@ -85,14 +85,16 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Operators (most of them are provided by the concepts)
     //////////////////////////////////////////////////////////////////////////
-    template <typename T>
-    struct operators::of<IntegralConstant<T>>
-        : operators::of<
-              Comparable, Orderable
-            , Logical
-            , Monoid, Group, Ring, IntegralDomain
-        >
-    { };
+    namespace operators {
+        template <typename T>
+        struct of<IntegralConstant<T>>
+            : operators::of<
+                  Comparable, Orderable
+                , Logical
+                , Monoid, Group, Ring, IntegralDomain
+            >
+        { };
+    }
 
 #define BOOST_HANA_INTEGRAL_CONSTANT_BINARY_OP(op)                          \
     template <typename U, U u, typename V, V v>                             \
@@ -144,7 +146,7 @@ namespace boost { namespace hana {
     namespace literals {
         template <char ...c>
         constexpr auto operator"" _c()
-        { return llong<ic_detail::parse<sizeof...(c)>({c...})>; }
+        { return _llong<ic_detail::parse<sizeof...(c)>({c...})>{}; }
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -171,7 +173,7 @@ namespace boost { namespace hana {
         template <typename X>
         static constexpr auto apply(X const&) {
             constexpr T v = hana::value<X>();
-            return integral_constant<T, v>;
+            return _integral_constant<T, v>{};
         }
     };
 

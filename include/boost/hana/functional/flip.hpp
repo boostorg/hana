@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FUNCTIONAL_FLIP_HPP
 #define BOOST_HANA_FUNCTIONAL_FLIP_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/std/move.hpp>
 
@@ -45,6 +46,7 @@ namespace boost { namespace hana {
             );
         }
 
+#ifndef BOOST_HANA_CONFIG_CONSTEXPR_MEMBER_FUNCTION_IS_CONST
         template <typename X, typename Y, typename ...Z>
         constexpr decltype(auto) operator()(X&& x, Y&& y, Z&& ...z) & {
             return f(
@@ -53,6 +55,7 @@ namespace boost { namespace hana {
                 static_cast<Z&&>(z)...
             );
         }
+#endif
 
         template <typename X, typename Y, typename ...Z>
         constexpr decltype(auto) operator()(X&& x, Y&& y, Z&& ...z) && {

@@ -83,7 +83,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename C>
-    struct TestGroup<C, when<_models<Constant, C>{}>>
+    struct TestGroup<C, when<_models<Constant, C>{}()>>
         : TestGroup<C, laws>
     {
         template <typename Xs>

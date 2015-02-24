@@ -13,25 +13,26 @@ Distributed under the Boost Software License, Version 1.0.
 using namespace boost::hana;
 
 
-BOOST_HANA_CONSTEXPR_LAMBDA auto fact = fix(
-    [](auto fact, auto n) {
-        return eval_if(equal(n, ullong<0>),
-            always(ullong<1>),
-            [=](auto _) { return mult(n, fact(_(pred)(n))); }
-        );
-    }
-);
+BOOST_HANA_CONSTEXPR_LAMBDA auto fact = fix([](auto fact, auto n) {
+    return eval_if(equal(n, _ullong<0>{}),
+        always(_ullong<1>{}),
+        [=](auto _) { return mult(n, fact(_(pred)(n))); }
+    );
+});
 
 constexpr unsigned long long reference(unsigned long long n)
 { return n == 0 ? 1 : n * reference(n - 1); }
 
 template <int n>
-constexpr void test() {
-    BOOST_HANA_CONSTANT_CHECK(equal(fact(ullong<n>), ullong<reference(n)>));
+void test() {
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        fact(_ullong<n>{}),
+        _ullong<reference(n)>{}
+    ));
     test<n - 1>();
 }
 
-template <> constexpr void test<-1>() { }
+template <> void test<-1>() { }
 
 int main() {
     test<15>();

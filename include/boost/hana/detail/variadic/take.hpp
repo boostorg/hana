@@ -31,7 +31,7 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
                 reverse_partial(_take_impl2{},
                     static_cast<Xs&&>(xs)...)
             );
-        };
+        }
     };
 
     template <detail::std::size_t n>

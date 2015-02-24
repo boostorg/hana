@@ -483,10 +483,12 @@ namespace boost { namespace hana {
     constexpr _tap<M> tap{};
 #endif
 
-    template <>
-    struct operators::of<Monad>
-        : decltype(chain)
-    { };
+    namespace operators {
+        template <>
+        struct of<Monad>
+            : decltype(chain)
+        { };
+    }
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_MONAD_HPP

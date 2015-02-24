@@ -47,10 +47,12 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Operators
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct operators::of<Pair>
-        : operators::of<Comparable, Orderable>
-    { };
+    namespace operators {
+        template <>
+        struct of<Pair>
+            : operators::of<Comparable, Orderable>
+        { };
+    }
 
     //////////////////////////////////////////////////////////////////////////
     // Product

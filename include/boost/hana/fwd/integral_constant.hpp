@@ -176,6 +176,43 @@ namespace boost { namespace hana {
         using datatype = IntegralConstant<T>;
     };
 
+    template <bool b>
+    using _bool = _integral_constant<bool, b>;
+
+    using _true = _bool<true>;
+
+    using _false = _bool<false>;
+
+    template <char c>
+    using _char = _integral_constant<char, c>;
+
+    template <short i>
+    using _short = _integral_constant<short, i>;
+
+    template <unsigned short i>
+    using _ushort = _integral_constant<unsigned short, i>;
+
+    template <int i>
+    using _int = _integral_constant<int, i>;
+
+    template <unsigned int i>
+    using _uint = _integral_constant<unsigned int, i>;
+
+    template <long i>
+    using _long = _integral_constant<long, i>;
+
+    template <unsigned long i>
+    using _ulong = _integral_constant<unsigned long, i>;
+
+    template <long long i>
+    using _llong = _integral_constant<long long, i>;
+
+    template <unsigned long long i>
+    using _ullong = _integral_constant<unsigned long long, i>;
+
+    template <detail::std::size_t i>
+    using _size_t = _integral_constant<detail::std::size_t, i>;
+
     //! Creates an `IntegralConstant` holding the given compile-time value.
     //! @relates IntegralConstant
     //!
