@@ -7,9 +7,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functional/placeholder.hpp>
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/detail/constexpr.hpp>
 
 #include <type_traits>
+#include <utility>
 using namespace boost::hana;
 
 
@@ -54,6 +54,13 @@ constexpr auto valid_call(F&& f, Args&& ...args)
     static_assert(!valid_call(op _), "");                                   \
     static_assert(!valid_call(op _, invalid), "");                          \
 /**/
+
+struct _incr {
+    template <typename X>
+    constexpr auto operator()(X x) const -> decltype(x+1)
+    { return x+1; }
+};
+constexpr _incr incr{};
 
 int main() {
     // Arithmetic
@@ -103,16 +110,13 @@ int main() {
     static_assert(!valid_call(_[0], invalid), "");
 
     // Call operator
-    BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto x) -> decltype(x+1) {
-        return x + 1;
-    };
-    BOOST_HANA_CONSTEXPR_CHECK(_(1)(f) == f(1));
-    BOOST_HANA_RUNTIME_CHECK(_(1)(f, extra) == f(1));
-    BOOST_HANA_RUNTIME_CHECK(_(1)(f, extra, extra) == f(1));
-    BOOST_HANA_CONSTEXPR_CHECK(_(2)(f) == f(2));
-    BOOST_HANA_CONSTEXPR_CHECK(_(3)(f) == f(3));
+    BOOST_HANA_CONSTEXPR_CHECK(_(1)(incr) == incr(1));
+    BOOST_HANA_RUNTIME_CHECK(_(1)(incr, extra) == incr(1));
+    BOOST_HANA_RUNTIME_CHECK(_(1)(incr, extra, extra) == incr(1));
+    BOOST_HANA_CONSTEXPR_CHECK(_(2)(incr) == incr(2));
+    BOOST_HANA_CONSTEXPR_CHECK(_(3)(incr) == incr(3));
     static_assert(!valid_call(_(invalid)), "");
-    static_assert(!valid_call(_(invalid), f), "");
+    static_assert(!valid_call(_(invalid), incr), "");
     static_assert(!valid_call(_(invalid), invalid), "");
     static_assert(!valid_call(_(1), invalid), "");
 }
