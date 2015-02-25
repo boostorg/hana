@@ -14,6 +14,10 @@ namespace boost { namespace hana {
     //! @ingroup group-core
     //! Enable a partial specialization only if a boolean condition is true.
     //!
+    //! You might also want to take a look at `when_valid`, which provides
+    //! similar functionality but enables a specialziation only when some
+    //! expression is well-formed.
+    //!
     //! > #### Rationale for using `when` instead of `std::enable_if`
     //! > `when` is used to control the priority of partial specializations
     //! > in a finer grained manner than what can be achieved with the usual
