@@ -120,7 +120,7 @@ FORMULA_TRANSPARENT     = YES
 SEARCHENGINE            = YES
 
 # Mathjax (HTML only)
-USE_MATHJAX             = NO
+USE_MATHJAX             = YES
 MATHJAX_FORMAT          = HTML-CSS
 MATHJAX_RELPATH         = http://cdn.mathjax.org/mathjax/latest
 MATHJAX_EXTENSIONS      =
