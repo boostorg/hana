@@ -31,28 +31,50 @@ namespace boost { namespace hana {
     //!
     //! Laws
     //! ----
-    //! For any `Applicative` `A`, the following laws must be satisfied:
+    //! Given an Applicative `F`, the following laws must be satisfied:
+    //!
+    //! 1. Identity\n
+    //! For all objects `xs` of data type `F(A)`,
     //! @code
-    //!     ap(lift<A>(id), u) == u                          // identity
-    //!     ap(lift<A>(compose), u, v, w) == ap(u, ap(v, w)) // composition
-    //!     ap(lift<A>(f), lift<A>(x)) == lift<A>(f(x))      // homomorphism
-    //!     ap(u, lift<A>(y)) == ap(lift<A>(apply(y)), u)    // interchange
+    //!     ap(lift<F>(id), xs) == xs
     //! @endcode
     //!
-    //! As a consequence of these laws, the model of `Functor` for `A` will
-    //! satisfy
+    //! 2. Composition\n
+    //! For all objects `xs` of data type `F(A)` and functions-in-an-applicative
+    //! @f$ fs : F(B \to C) @f$,
+    //! @f$ gs : F(A \to B) @f$,
     //! @code
-    //!     transform(x, f) == ap(lift<A>(f), x)
+    //!     ap(lift<F>(compose), fs, gs, xs) == ap(fs, ap(gs, xs))
+    //! @endcode
+    //!
+    //! 3. Homomorphism\n
+    //! For all objects `x` of data type `A` and functions @f$ f : A \to B @f$,
+    //! @code
+    //!     ap(lift<F>(f), lift<F>(x)) == lift<F>(f(x))
+    //! @endcode
+    //!
+    //! 4. Interchange\n
+    //! For all objects `x` of data type `A` and functions-in-an-applicative
+    //! @f$ fs : F(A \to B) @f$,
+    //! @code
+    //!     ap(fs, lift<F>(x)) == ap(lift<F>([](f){ f(x) }), fs)
+    //! @endcode
+    //!
+    //! As a consequence of these laws, the model of `Functor` for `F` will
+    //! satisfy the following for all objects `xs` of data type `F(A)` and
+    //! functions @f$ f : A \to B @f$:
+    //! @code
+    //!     transform(xs, f) == ap(lift<F>(f), xs)
     //! @endcode
     //!
     //!
     //! Superclass
     //! ----------
     //! 1. `Functor` (model provided)\n
-    //! As a consequence of the above laws, any `Applicative A` can be made a
+    //! As a consequence of the above laws, any `Applicative F` can be made a
     //! `Functor` by setting
     //! @code
-    //!     transform(x, f) = ap(lift<A>(f), x)
+    //!     transform(xs, f) = ap(lift<F>(f), xs)
     //! @endcode
     //! This implementation of `transform` is provided as
     //! `Applicative::transform_impl`. To use it, simply inherit
@@ -72,12 +94,15 @@ namespace boost { namespace hana {
     //!
     //! Structure-preserving functions
     //! ------------------------------
-    //! An _applicative transformation_ is a function `f : A -> B` from an
-    //! `Applicative A` to an `Applicative B`, which preserves the operations
-    //! of an `Applicative`:
+    //! An _applicative transformation_ is a function @f$ t : F(a) \to G(a) @f$
+    //! from an `Applicative F` to an `Applicative G`, where `a` can be any
+    //! data type, and which preserves the operations of an `Applicative`.
+    //! In other words, for all objects `x` of data type `A`,
+    //! functions-in-an-applicative @f$ fs : F(A \to B) @f$ and
+    //! objects `xs` of data type `F(A)`,
     //! @code
-    //!     f(lift<A>(x)) == lift<B>(x)
-    //!     f(ap(x, y)) == ap(f(x), f(y))
+    //!     t(lift<F>(x)) == lift<G>(x)
+    //!     t(ap(fs, xs)) == ap(t(fs), t(xs))
     //! @endcode
     struct Applicative {
         template <typename A>
@@ -104,6 +129,13 @@ namespace boost { namespace hana {
     //! `x <ap> y` is just `ap(x, y)` written in infix notation to emphasize
     //! the left associativity.
     //!
+    //!
+    //! Signature
+    //! ---------
+    //! Given an Applicative `A`, the signature is
+    //! @f$ \mathrm{ap} : A(T_1 \times \cdots \times T_n \to U)
+    //!                   \times A(T_1) \times \cdots \times A(T_n)
+    //!                   \to A(U) @f$.
     //!
     //! @param f
     //! A structure containing function(s).
@@ -149,11 +181,16 @@ namespace boost { namespace hana {
     //! `ap`plied to another `Applicative` structure containing values.
     //!
     //!
-    //! @param x
-    //! The value to lift into the applicative.
+    //! Signature
+    //! ---------
+    //! Given an Applicative `A`, the signature is
+    //! @f$ \mathrm{lift}_A : T \to A(T) @f$.
     //!
     //! @tparam A
     //! The data type (an `Applicative`) into which the value is lifted.
+    //!
+    //! @param x
+    //! The value to lift into the applicative.
     //!
     //!
     //! Example
