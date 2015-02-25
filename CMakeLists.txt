@@ -40,6 +40,11 @@ boost_hana_append_flag(BOOST_HANA_CXX_WARNING_FLAGS BOOST_HANA_HAS_WNO_UNUSED_PA
 boost_hana_append_flag(BOOST_HANA_CXX_WARNING_FLAGS BOOST_HANA_HAS_WWRITE_STRINGS_FLAG            -Wwrite-strings)
 boost_hana_append_flag(BOOST_HANA_CXX_WARNING_FLAGS BOOST_HANA_HAS_FTEMPLATE_BACKTRACE_LIMIT_FLAG -ftemplate-backtrace-limit=0)
 
+check_cxx_compiler_flag("-Xclang -fdefine-sized-deallocation" BOOST_HANA_HAS_FDEFINE_SIZED_DEALLOCATION_FLAG)
+if (${BOOST_HANA_HAS_FDEFINE_SIZED_DEALLOCATION_FLAG})
+    list(APPEND BOOST_HANA_CXX_FEATURE_FLAGS -Xclang -fdefine-sized-deallocation)
+endif()
+
 if (BOOST_HANA_ENABLE_WERROR)
     boost_hana_append_flag(BOOST_HANA_CXX_WARNING_FLAGS BOOST_HANA_HAS_WERROR_FLAG -Werror)
     boost_hana_append_flag(BOOST_HANA_CXX_WARNING_FLAGS BOOST_HANA_HAS_WX_FLAG     -WX)
