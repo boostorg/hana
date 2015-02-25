@@ -58,6 +58,15 @@ namespace boost { namespace hana { namespace test {
                     },
                     [](auto _) { }
                 );
+
+                // equal.to and not_equal.to
+                BOOST_HANA_CHECK(
+                    equal.to(a)(b) ^iff^ equal(a, b)
+                );
+
+                BOOST_HANA_CHECK(
+                    not_equal.to(a)(b) ^iff^ not_equal(a, b)
+                );
             });
         });
     };

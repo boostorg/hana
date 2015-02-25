@@ -239,38 +239,35 @@ int main() {
     {
         auto x = test::injection([]{})();
         auto y = test::injection([]{})();
-        auto is = [](auto x) {
-            return [=](auto y) { return equal(x, y); };
-        };
 
         // find
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(just(x), is(x)),
+                find(just(x), equal.to(x)),
                 just(x)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(just(x), is(y)),
+                find(just(x), equal.to(y)),
                 nothing
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(nothing, is(x)),
+                find(nothing, equal.to(x)),
                 nothing
             ));
 
             // Previously, there was a bug that would make this fail.
             auto non_const_nothing = nothing;
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(non_const_nothing, is(x)),
+                find(non_const_nothing, equal.to(x)),
                 nothing
             ));
         }
 
         // any
         {
-            BOOST_HANA_CONSTANT_CHECK(any(just(x), is(x)));
-            BOOST_HANA_CONSTANT_CHECK(not_(any(just(x), is(y))));
-            BOOST_HANA_CONSTANT_CHECK(not_(any(nothing, is(x))));
+            BOOST_HANA_CONSTANT_CHECK(any(just(x), equal.to(x)));
+            BOOST_HANA_CONSTANT_CHECK(not_(any(just(x), equal.to(y))));
+            BOOST_HANA_CONSTANT_CHECK(not_(any(nothing, equal.to(x))));
         }
     }
 

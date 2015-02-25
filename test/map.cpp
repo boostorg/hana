@@ -171,48 +171,44 @@ int main() {
 
     // Searchable
     {
-        auto is = [](auto x) {
-            return [=](auto y) { return equal(x, y); };
-        };
-
         // any
         {
-            BOOST_HANA_CONSTANT_CHECK(not_(any(map(), is(key<1>))));
+            BOOST_HANA_CONSTANT_CHECK(not_(any(map(), equal.to(key<1>))));
 
-            BOOST_HANA_CONSTANT_CHECK(any(map(p<1, 1>), is(key<1>)));
-            BOOST_HANA_CONSTANT_CHECK(not_(any(map(p<1, 1>), is(key<2>))));
+            BOOST_HANA_CONSTANT_CHECK(any(map(p<1, 1>), equal.to(key<1>)));
+            BOOST_HANA_CONSTANT_CHECK(not_(any(map(p<1, 1>), equal.to(key<2>))));
 
-            BOOST_HANA_CONSTANT_CHECK(any(map(p<1, 1>, p<2, 2>), is(key<1>)));
-            BOOST_HANA_CONSTANT_CHECK(any(map(p<1, 1>, p<2, 2>), is(key<2>)));
-            BOOST_HANA_CONSTANT_CHECK(not_(any(map(p<1, 1>, p<2, 2>), is(key<3>))));
+            BOOST_HANA_CONSTANT_CHECK(any(map(p<1, 1>, p<2, 2>), equal.to(key<1>)));
+            BOOST_HANA_CONSTANT_CHECK(any(map(p<1, 1>, p<2, 2>), equal.to(key<2>)));
+            BOOST_HANA_CONSTANT_CHECK(not_(any(map(p<1, 1>, p<2, 2>), equal.to(key<3>))));
         }
 
         // find
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(map(), is(key<1>)),
+                find(map(), equal.to(key<1>)),
                 nothing
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(map(p<1, 1>), is(key<1>)),
+                find(map(p<1, 1>), equal.to(key<1>)),
                 just(value<1>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(map(p<1, 1>), is(key<2>)),
+                find(map(p<1, 1>), equal.to(key<2>)),
                 nothing
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(map(p<1, 1>, p<2, 2>), is(key<1>)),
+                find(map(p<1, 1>, p<2, 2>), equal.to(key<1>)),
                 just(value<1>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(map(p<1, 1>, p<2, 2>), is(key<2>)),
+                find(map(p<1, 1>, p<2, 2>), equal.to(key<2>)),
                 just(value<2>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(map(p<1, 1>, p<2, 2>), is(key<3>)),
+                find(map(p<1, 1>, p<2, 2>), equal.to(key<3>)),
                 nothing
             ));
         }

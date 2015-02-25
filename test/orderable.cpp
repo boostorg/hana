@@ -12,7 +12,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <test/auto/comparable.hpp>
 #include <test/auto/orderable.hpp>
 
+#include <string>
 #include <type_traits>
+using namespace std::literals;
 using namespace boost::hana;
 
 
@@ -76,6 +78,9 @@ int main() {
         BOOST_HANA_CONSTEXPR_CHECK(less(ord2{0}, ord1{1}));
         BOOST_HANA_CONSTEXPR_CHECK(not_(less(ord2{0}, ord1{0})));
         BOOST_HANA_CONSTEXPR_CHECK(not_(less(ord2{1}, ord1{0})));
+
+        BOOST_HANA_RUNTIME_CHECK(less("ab", "abc"s));
+        BOOST_HANA_RUNTIME_CHECK(less("abc"s, "abcde"));
     }
 
     // greater
@@ -83,6 +88,9 @@ int main() {
         BOOST_HANA_CONSTEXPR_CHECK(not_(greater(5, 6)));
         BOOST_HANA_CONSTEXPR_CHECK(not_(greater(6, 6)));
         BOOST_HANA_CONSTEXPR_CHECK(greater(7, 6));
+
+        BOOST_HANA_RUNTIME_CHECK(greater("abcd", "ab"s));
+        BOOST_HANA_RUNTIME_CHECK(greater("abc"s, "abb"));
     }
 
     // less_equal
@@ -90,6 +98,9 @@ int main() {
         BOOST_HANA_CONSTEXPR_CHECK(less_equal(5, 6));
         BOOST_HANA_CONSTEXPR_CHECK(less_equal(6, 6));
         BOOST_HANA_CONSTEXPR_CHECK(not_(less_equal(7, 6)));
+
+        BOOST_HANA_RUNTIME_CHECK(less_equal("ab", "abcd"s));
+        BOOST_HANA_RUNTIME_CHECK(less_equal("abc"s, "abc"));
     }
 
     // greater_equal
@@ -97,6 +108,9 @@ int main() {
         BOOST_HANA_CONSTEXPR_CHECK(not_(greater_equal(5, 6)));
         BOOST_HANA_CONSTEXPR_CHECK(greater_equal(6, 6));
         BOOST_HANA_CONSTEXPR_CHECK(greater_equal(7, 6));
+
+        BOOST_HANA_RUNTIME_CHECK(greater_equal("abcd", "ab"s));
+        BOOST_HANA_RUNTIME_CHECK(greater_equal("abc"s, "abc"));
     }
 
     // min

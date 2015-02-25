@@ -106,37 +106,33 @@ int main() {
 
     // Searchable
     {
-        auto is = [](auto k) {
-            return [=](auto key) { return equal(k, key); };
-        };
-
         // any
         {
             BOOST_HANA_CONSTANT_CHECK(
-                any(record(undefined<1>, undefined<2>), is(test::member1))
+                any(record(undefined<1>, undefined<2>), equal.to(test::member1))
             );
             BOOST_HANA_CONSTANT_CHECK(
-                any(record(undefined<1>, undefined<2>), is(test::member2))
+                any(record(undefined<1>, undefined<2>), equal.to(test::member2))
             );
             BOOST_HANA_CONSTANT_CHECK(not_(
-                any(record(undefined<1>, undefined<2>), is(undefined<>))
+                any(record(undefined<1>, undefined<2>), equal.to(undefined<>))
             ));
         }
 
         // find
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(record(x<0>, x<1>), is(test::member1)),
+                find(record(x<0>, x<1>), equal.to(test::member1)),
                 just(x<0>)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(record(x<0>, x<1>), is(test::member2)),
+                find(record(x<0>, x<1>), equal.to(test::member2)),
                 just(x<1>)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(record(x<0>, x<1>), is(undefined<>)),
+                find(record(x<0>, x<1>), equal.to(undefined<>)),
                 nothing
             ));
         }

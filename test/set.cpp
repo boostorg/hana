@@ -187,49 +187,46 @@ int main() {
 
     // Searchable
     {
-        auto is = [](auto x) {
-            return [=](auto y) { return equal(x, y); };
-        };
         using test::x;
 
         // any
         {
-            BOOST_HANA_CONSTANT_CHECK(not_(any(set(), is(x<1>))));
+            BOOST_HANA_CONSTANT_CHECK(not_(any(set(), equal.to(x<1>))));
 
-            BOOST_HANA_CONSTANT_CHECK(any(set(x<1>), is(x<1>)));
-            BOOST_HANA_CONSTANT_CHECK(not_(any(set(x<1>), is(x<2>))));
+            BOOST_HANA_CONSTANT_CHECK(any(set(x<1>), equal.to(x<1>)));
+            BOOST_HANA_CONSTANT_CHECK(not_(any(set(x<1>), equal.to(x<2>))));
 
-            BOOST_HANA_CONSTANT_CHECK(any(set(x<1>, x<2>), is(x<1>)));
-            BOOST_HANA_CONSTANT_CHECK(any(set(x<1>, x<2>), is(x<2>)));
-            BOOST_HANA_CONSTANT_CHECK(not_(any(set(x<1>, x<2>), is(x<3>))));
+            BOOST_HANA_CONSTANT_CHECK(any(set(x<1>, x<2>), equal.to(x<1>)));
+            BOOST_HANA_CONSTANT_CHECK(any(set(x<1>, x<2>), equal.to(x<2>)));
+            BOOST_HANA_CONSTANT_CHECK(not_(any(set(x<1>, x<2>), equal.to(x<3>))));
         }
 
         // find
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(set(), is(x<1>)),
+                find(set(), equal.to(x<1>)),
                 nothing
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(set(x<1>), is(x<1>)),
+                find(set(x<1>), equal.to(x<1>)),
                 just(x<1>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(set(x<1>), is(x<2>)),
+                find(set(x<1>), equal.to(x<2>)),
                 nothing
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(set(x<1>, x<2>), is(x<1>)),
+                find(set(x<1>, x<2>), equal.to(x<1>)),
                 just(x<1>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(set(x<1>, x<2>), is(x<2>)),
+                find(set(x<1>, x<2>), equal.to(x<2>)),
                 just(x<2>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(set(x<1>, x<2>), is(x<3>)),
+                find(set(x<1>, x<2>), equal.to(x<3>)),
                 nothing
             ));
         }

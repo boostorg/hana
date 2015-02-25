@@ -41,7 +41,8 @@ namespace boost { namespace hana {
     //! Laws
     //! ----
     //! Rigorously speaking, a [total order][1] `<=` on a set `S` is a binary
-    //! predicate `<= : S x S -> bool` such that for all `a, b, c` in `S`,
+    //! predicate @f$ <= \;: S \times S \to bool @f$ such that for all
+    //! `a`, `b`, `c` in `S`,
     //! @code
     //!     if  a <= b  and  b <= a  then  a == b // Antisymmetry
     //!     if  a <= b  and  b <= c  then  a <= c // Transitivity
@@ -91,12 +92,10 @@ namespace boost { namespace hana {
     //! @code
     //!     less(x, y) = (x < y)
     //! @endcode
-    //!
     //! The cross-type version of the LessThanComparable concept is analogous
     //! to the cross-type version of the EqualityComparable concept presented
     //! in [N3351][3], which is compatible with the usual single type
     //! definition.
-    //!
     //! However, note that the LessThanComparable concept only requires `<`
     //! to be a [strict weak ordering][4], which is a weaker requirement
     //! than being a total order. Hence, if `less` is used with objects
@@ -122,10 +121,11 @@ namespace boost { namespace hana {
     //!
     //! Order-preserving functions
     //! --------------------------
-    //! Let `A` and `B` be two `Orderable` data types. A function `f : A -> B`
-    //! is said to be order-preserving (also called monotone) if it preserves
-    //! the structure of the `Orderable` concept, which can be rigorously
-    //! stated as follows. For all objects `x, y` of data type `A`,
+    //! Let `A` and `B` be two `Orderable` data types. A function
+    //! @f$ f : A \to B@f$ is said to be order-preserving (also called
+    //! monotone) if it preserves the structure of the `Orderable` concept,
+    //! which can be rigorously stated as follows. For all objects `x`, `y`
+    //! of data type `A`,
     //! @code
     //!     if  less(x, y)  then  less(f(x), f(y))
     //! @endcode
@@ -150,8 +150,9 @@ namespace boost { namespace hana {
     //! 1. `A` and `B` share a common data type `C`, as determined by the
     //!    `common` metafunction
     //! 2. `A`, `B` and `C` are all `Orderable` when taken individually
-    //! 3. `to<C> : A -> C` and `to<C> : B -> C` are both order-embeddings
-    //!    as determined by the `is_embedding` metafunction.
+    //! 3. @f$\mathrm{to<C>} : A \to C@f$ and @f$\mathrm{to<C>} : B \to C@f$
+    //!    are both order-embeddings as determined by the `is_embedding`
+    //!    metafunction.
     //!
     //! The method definitions for data types satisfying the above
     //! properties are
@@ -161,6 +162,36 @@ namespace boost { namespace hana {
     //!     greater_equal(x, y) = greater_equal(to<C>(x), to<C>(y))
     //!     greater(x, y)       = greater(to<C>(x), to<C>(y))
     //! @endcode
+    //!
+    //!
+    //! Partial application of the methods
+    //! ----------------------------------
+    //! The `less`, `greater`, `less_equal` and `greater_equal` methods can
+    //! be called in two different ways. First, they can be called like
+    //! normal functions:
+    //! @code
+    //!     less(x, y)
+    //!     greater(x, y)
+    //!
+    //!     less_equal(x, y)
+    //!     greater_equal(x, y)
+    //! @endcode
+    //!
+    //! However, they may also be partially applied to an argument as follows:
+    //! @code
+    //!     less.than(x)(y)    == less(y, x)
+    //!     greater.than(x)(y) == greater(y, x)
+    //!
+    //!     less_equal.than(x)(y)    == less_equal(y, x)
+    //!     greater_equal.than(x)(y) == greater_equal(y, x)
+    //! @endcode
+    //!
+    //! Take good note that the order of the arguments is reversed, so
+    //! for example `less.than(x)(y)` is equivalent to `less(y, x)`, not
+    //! `less(x, y)`. This is because those variants are meant to be used
+    //! with higher order algorithms, where the chosen application order
+    //! makes sense:
+    //! @snippet example/orderable.cpp less.than
     //!
     //!
     //! @todo
@@ -185,6 +216,16 @@ namespace boost { namespace hana {
     //! @relates Orderable
     //!
     //!
+    //! Signature
+    //! ---------
+    //! Given a Logical `Bool` and two Orderables `A` and `B` with a common
+    //! embedding, the signature is
+    //! @f$ \mathrm{less} : A \times B \to Bool @f$.
+    //!
+    //! @param x, y
+    //! Two objects to compare.
+    //!
+    //!
     //! Example
     //! -------
     //! @snippet example/orderable.cpp less
@@ -206,7 +247,14 @@ namespace boost { namespace hana {
                 detail::std::forward<Y>(y)
             );
         }
+
+        struct _than {
+            template <typename X>
+            constexpr decltype(auto) operator()(X&& x) const;
+        };
+        static constexpr _than than{};
     };
+    constexpr _less::_than _less::than;
 
     constexpr _less less{};
 #endif
@@ -214,6 +262,16 @@ namespace boost { namespace hana {
     //! Returns a `Logical` representing whether `x` is less than or
     //! equal to `y`.
     //! @relates Orderable
+    //!
+    //!
+    //! Signature
+    //! ---------
+    //! Given a Logical `Bool` and two Orderables `A` and `B` with a common
+    //! embedding, the signature is
+    //! @f$ \mathrm{less\_equal} : A \times B \to Bool @f$.
+    //!
+    //! @param x, y
+    //! Two objects to compare.
     //!
     //!
     //! Example
@@ -237,13 +295,30 @@ namespace boost { namespace hana {
                 detail::std::forward<Y>(y)
             );
         }
+
+        struct _than {
+            template <typename X>
+            constexpr decltype(auto) operator()(X&& x) const;
+        };
+        static constexpr _than than{};
     };
+    constexpr _less_equal::_than _less_equal::than;
 
     constexpr _less_equal less_equal{};
 #endif
 
     //! Returns a `Logical` representing whether `x` is greater than `y`.
     //! @relates Orderable
+    //!
+    //!
+    //! Signature
+    //! ---------
+    //! Given a Logical `Bool` and two Orderables `A` and `B` with a common
+    //! embedding, the signature is
+    //! @f$ \mathrm{greater} : A \times B \to Bool @f$.
+    //!
+    //! @param x, y
+    //! Two objects to compare.
     //!
     //!
     //! Example
@@ -267,7 +342,14 @@ namespace boost { namespace hana {
                 detail::std::forward<Y>(y)
             );
         }
+
+        struct _than {
+            template <typename X>
+            constexpr decltype(auto) operator()(X&& x) const;
+        };
+        static constexpr _than than{};
     };
+    constexpr _greater::_than _greater::than;
 
     constexpr _greater greater{};
 #endif
@@ -275,6 +357,16 @@ namespace boost { namespace hana {
     //! Returns a `Logical` representing whether `x` is greater than or
     //! equal to `y`.
     //! @relates Orderable
+    //!
+    //!
+    //! Signature
+    //! ---------
+    //! Given a Logical `Bool` and two Orderables `A` and `B` with a common
+    //! embedding, the signature is
+    //! @f$ \mathrm{greater\_equal} : A \times B \to Bool @f$.
+    //!
+    //! @param x, y
+    //! Two objects to compare.
     //!
     //!
     //! Example
@@ -298,13 +390,29 @@ namespace boost { namespace hana {
                 detail::std::forward<Y>(y)
             );
         }
+
+        struct _than {
+            template <typename X>
+            constexpr decltype(auto) operator()(X&& x) const;
+        };
+        static constexpr _than than{};
     };
+    constexpr _greater_equal::_than _greater_equal::than;
 
     constexpr _greater_equal greater_equal{};
 #endif
 
     //! Returns the smallest of its arguments according to the `less` ordering.
     //! @relates Orderable
+    //!
+    //!
+    //! @todo
+    //! We can't specify the signature right now, because the returned
+    //! data type depends on whether `x < y` or not. If we wanted to be
+    //! mathematically correct, we should probably ask that `if_(cond, x, y)`
+    //! returns a common data type of `x` and `y`, and then the behavior
+    //! of `min` would follow naturally. However, I'm unsure whether this
+    //! is desirable because that's a big requirement.
     //!
     //!
     //! Example
@@ -336,6 +444,8 @@ namespace boost { namespace hana {
     //! Returns the greatest of its arguments according to the `less` ordering.
     //! @relates Orderable
     //!
+    //!
+    //! @todo Can't specify the signature here either. See `min` for details.
     //!
     //! Example
     //! -------
@@ -386,6 +496,12 @@ namespace boost { namespace hana {
     //! but just a convenience function provided with the `Orderable` concept.
     //!
     //!
+    //! Signature
+    //! ---------
+    //! Given a Logical `Bool` and an Orderable `B`, the signature is
+    //! @f$ \mathrm{ordering} : (A \to B) \to (A \times A \to Bool) @f$.
+    //!
+    //!
     //! Example
     //! -------
     //! @snippet example/orderable.cpp ordering
@@ -397,23 +513,7 @@ namespace boost { namespace hana {
     };
 #else
     template <typename F>
-    struct _ordering {
-        F f;
-        template <typename X, typename Y>
-        constexpr decltype(auto) operator()(X&& x, Y&& y) const& {
-            return hana::less(
-                f(detail::std::forward<X>(x)),
-                f(detail::std::forward<Y>(y))
-            );
-        }
-        template <typename X, typename Y>
-        constexpr decltype(auto) operator()(X&& x, Y&& y) & {
-            return hana::less(
-                f(detail::std::forward<X>(x)),
-                f(detail::std::forward<Y>(y))
-            );
-        }
-    };
+    struct _ordering;
 
     constexpr detail::create<_ordering> ordering{};
 #endif

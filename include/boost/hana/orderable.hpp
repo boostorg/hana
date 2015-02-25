@@ -27,6 +27,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integral_constant.hpp>
+#include <boost/hana/functional/flip.hpp>
+#include <boost/hana/functional/partial.hpp>
 #include <boost/hana/logical.hpp>
 
 
@@ -96,10 +98,16 @@ namespace boost { namespace hana {
         using C = typename common<T, U>::type;
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            return hana::less(to<C>(detail::std::forward<X>(x)),
-                              to<C>(detail::std::forward<Y>(y)));
+            return hana::less(hana::to<C>(detail::std::forward<X>(x)),
+                              hana::to<C>(detail::std::forward<Y>(y)));
         }
     };
+
+    //! @cond
+    template <typename X>
+    constexpr decltype(auto) _less::_than::operator()(X&& x) const
+    { return hana::partial(hana::flip(less), detail::std::forward<X>(x)); }
+    //! @endcond
 
     //////////////////////////////////////////////////////////////////////////
     // less_equal
@@ -124,10 +132,16 @@ namespace boost { namespace hana {
         using C = typename common<T, U>::type;
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            return hana::less_equal(to<C>(detail::std::forward<X>(x)),
-                                    to<C>(detail::std::forward<Y>(y)));
+            return hana::less_equal(hana::to<C>(detail::std::forward<X>(x)),
+                                    hana::to<C>(detail::std::forward<Y>(y)));
         }
     };
+
+    //! @cond
+    template <typename X>
+    constexpr decltype(auto) _less_equal::_than::operator()(X&& x) const
+    { return hana::partial(hana::flip(less_equal), detail::std::forward<X>(x)); }
+    //! @endcond
 
     //////////////////////////////////////////////////////////////////////////
     // greater
@@ -152,10 +166,16 @@ namespace boost { namespace hana {
         using C = typename common<T, U>::type;
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            return hana::greater(to<C>(detail::std::forward<X>(x)),
-                                 to<C>(detail::std::forward<Y>(y)));
+            return hana::greater(hana::to<C>(detail::std::forward<X>(x)),
+                                 hana::to<C>(detail::std::forward<Y>(y)));
         }
     };
+
+    //! @cond
+    template <typename X>
+    constexpr decltype(auto) _greater::_than::operator()(X&& x) const
+    { return hana::partial(hana::flip(greater), detail::std::forward<X>(x)); }
+    //! @endcond
 
     //////////////////////////////////////////////////////////////////////////
     // greater_equal
@@ -180,10 +200,16 @@ namespace boost { namespace hana {
         using C = typename common<T, U>::type;
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            return hana::greater_equal(to<C>(detail::std::forward<X>(x)),
-                                       to<C>(detail::std::forward<Y>(y)));
+            return hana::greater_equal(hana::to<C>(detail::std::forward<X>(x)),
+                                       hana::to<C>(detail::std::forward<Y>(y)));
         }
     };
+
+    //! @cond
+    template <typename X>
+    constexpr decltype(auto) _greater_equal::_than::operator()(X&& x) const
+    { return hana::partial(hana::flip(greater_equal), detail::std::forward<X>(x)); }
+    //! @endcond
 
     //////////////////////////////////////////////////////////////////////////
     // min
@@ -217,6 +243,28 @@ namespace boost { namespace hana {
             return hana::if_(detail::std::forward<decltype(cond)>(cond),
                 detail::std::forward<Y>(y),
                 detail::std::forward<X>(x)
+            );
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // ordering
+    //////////////////////////////////////////////////////////////////////////
+    template <typename F>
+    struct _ordering {
+        F f;
+        template <typename X, typename Y>
+        constexpr decltype(auto) operator()(X&& x, Y&& y) const& {
+            return hana::less(
+                f(detail::std::forward<X>(x)),
+                f(detail::std::forward<Y>(y))
+            );
+        }
+        template <typename X, typename Y>
+        constexpr decltype(auto) operator()(X&& x, Y&& y) & {
+            return hana::less(
+                f(detail::std::forward<X>(x)),
+                f(detail::std::forward<Y>(y))
             );
         }
     };

@@ -71,7 +71,6 @@ namespace boost { namespace hana {
     //! @code
     //!     equal(x, y) = (x == y)
     //! @endcode
-    //!
     //! Note that this also makes EqualityComparable types in the
     //! [usual sense][3] models of `Comparable` in the same way.
     //!
@@ -81,17 +80,17 @@ namespace boost { namespace hana {
     //! For convenience, the following operators are provided as an
     //! equivalent way of calling the corresponding method:
     //! @code
-    //!     == -> equal
-    //!     != -> not_equal
+    //!     ==  ->  equal
+    //!     !=  ->  not_equal
     //! @endcode
     //!
     //!
     //! Equality-preserving functions
     //! -----------------------------
-    //! Let `A` and `B` be two `Comparable` data types. A function `f : A -> B`
-    //! is said to be equality-preserving if it preserves the structure of
-    //! the `Comparable` concept, which can be rigorously stated as follows.
-    //! For all objects `x, y` of data type `A`,
+    //! Let `A` and `B` be two `Comparable` data types. A function
+    //! @f$ f : A \to B @f$ is said to be equality-preserving if it preserves
+    //! the structure of the `Comparable` concept, which can be rigorously
+    //! stated as follows. For all objects `x`, `y` of data type `A`,
     //! @code
     //!     if  equal(x, y)  then  equal(f(x), f(y))
     //! @endcode
@@ -124,9 +123,9 @@ namespace boost { namespace hana {
     //! 1. `A` and `B` share a common data type `C`, as determined by the
     //!    `common` metafunction
     //! 2. `A`, `B` and `C` are all `Comparable` when taken individually
-    //! 3. `to<C> : A -> C` and `to<C> : B -> C` are both equality-preserving
-    //!    and injective (i.e. they are embeddings), as determined by the
-    //!    `is_embedding` metafunction.
+    //! 3. @f$ \mathrm{to<C>} : A \to C @f$ and @f$\mathrm{to<C>} : B \to C@f$
+    //!    are both equality-preserving and injective (i.e. they are embeddings),
+    //!    as determined by the `is_embedding` metafunction.
     //!
     //! The method definitions for data types satisfying the above
     //! properties are
@@ -172,6 +171,29 @@ namespace boost { namespace hana {
     //! Returns a `Logical` representing whether `x` is equal to `y`.
     //! @relates Comparable
     //!
+    //! The `equal` function can be called in two different ways. First, it
+    //! can be called like a normal function:
+    //! @code
+    //!     equal(x, y)
+    //! @endcode
+    //!
+    //! However, it may also be partially applied to an argument by using
+    //! `equal.to`:
+    //! @code
+    //!     equal.to(x)(y) == equal(x, y)
+    //! @endcode
+    //!
+    //! In other words, `equal.to(x)` is a function object that is equivalent
+    //! to `partial(equal, x)`. This is provided to enhance the readability of
+    //! some constructs, especially when using higher order algorithms.
+    //!
+    //!
+    //! Signature
+    //! ---------
+    //! Given a Logical `Bool` and two Comparables `A` and `B` that
+    //! share a common embedding, the signature is
+    //! @f$ \mathrm{equal} : A \times B \to Bool @f$.
+    //!
     //! @param x, y
     //! Two objects to compare for equality.
     //!
@@ -208,7 +230,14 @@ namespace boost { namespace hana {
                 detail::std::forward<Y>(y)
             );
         }
+
+        struct _to {
+            template <typename X>
+            constexpr decltype(auto) operator()(X&& x) const;
+        };
+        static constexpr _to to{};
     };
+    constexpr _equal::_to _equal::to;
 
     constexpr _equal equal{};
 #endif
@@ -216,7 +245,29 @@ namespace boost { namespace hana {
     //! Returns a `Logical` representing whether `x` is not equal to `y`.
     //! @relates Comparable
     //!
-    //! Note that `not_equal` is just the complement of `equal`.
+    //! The `not_equal` function can be called in two different ways. First,
+    //! it can be called like a normal function:
+    //! @code
+    //!     not_equal(x, y)
+    //! @endcode
+    //!
+    //! However, it may also be partially applied to an argument by using
+    //! `not_equal.to`:
+    //! @code
+    //!     not_equal.to(x)(y) == not_equal(x, y)
+    //! @endcode
+    //!
+    //! In other words, `not_equal.to(x)` is a function object that is
+    //! equivalent to `partial(not_equal, x)`. This is provided to enhance
+    //! the readability of some constructs, especially when using higher
+    //! order algorithms.
+    //!
+    //!
+    //! Signature
+    //! ---------
+    //! Given a Logical `Bool` and two Comparables `A` and `B` that
+    //! share a common embedding, the signature is
+    //! @f$ \mathrm{not\_equal} : A \times B \to Bool @f$.
     //!
     //! @param x, y
     //! Two objects to compare for inequality.
@@ -243,7 +294,14 @@ namespace boost { namespace hana {
                 detail::std::forward<Y>(y)
             );
         }
+
+        struct _to {
+            template <typename X>
+            constexpr decltype(auto) operator()(X&& x) const;
+        };
+        static constexpr _to to{};
     };
+    constexpr _not_equal::_to _not_equal::to;
 
     constexpr _not_equal not_equal{};
 #endif
@@ -271,6 +329,12 @@ namespace boost { namespace hana {
     //! but just a convenience function provided with the `Comparable` concept.
     //!
     //!
+    //! Signature
+    //! ---------
+    //! Given a Logical `Bool` and a Comparable `B`, the signature is
+    //! @f$ \mathrm{comparing} : (A \to B) \to (A \times A \to Bool) @f$.
+    //!
+    //!
     //! Example
     //! -------
     //! @snippet example/comparable.cpp comparing
@@ -282,25 +346,7 @@ namespace boost { namespace hana {
     };
 #else
     template <typename F>
-    struct _comparing {
-        F f;
-
-        template <typename X, typename Y>
-        constexpr decltype(auto) operator()(X&& x, Y&& y) const& {
-            return hana::equal(
-                f(detail::std::forward<X>(x)),
-                f(detail::std::forward<Y>(y))
-            );
-        }
-
-        template <typename X, typename Y>
-        constexpr decltype(auto) operator()(X&& x, Y&& y) & {
-            return hana::equal(
-                f(detail::std::forward<X>(x)),
-                f(detail::std::forward<Y>(y))
-            );
-        }
-    };
+    struct _comparing;
 
     constexpr detail::create<_comparing> comparing{};
 #endif

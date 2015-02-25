@@ -64,13 +64,6 @@ namespace boost { namespace hana { namespace test {
         using list_detail::ord;
         using list_detail::invalid;
         constexpr struct { } undefined{};
-        auto is = [](auto x) {
-            return [=](auto y) { return equal(x, y); };
-        };
-
-        auto isnt = [](auto x) {
-            return [=](auto y) { return not_equal(x, y); };
-        };
 
         // Check for basic data type consistency
         {
@@ -589,50 +582,50 @@ namespace boost { namespace hana { namespace test {
                 auto z = x<999>;
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    span(list(), is(z)),
+                    span(list(), equal.to(z)),
                     prod(list(), list())
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    span(list(x<0>), is(z)),
+                    span(list(x<0>), equal.to(z)),
                     prod(list(), list(x<0>))
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    span(list(z), is(z)),
+                    span(list(z), equal.to(z)),
                     prod(list(z), list())
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    span(list(x<0>, z), is(z)),
+                    span(list(x<0>, z), equal.to(z)),
                     prod(list(), list(x<0>, z))
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    span(list(z, x<0>), is(z)),
+                    span(list(z, x<0>), equal.to(z)),
                     prod(list(z), list(x<0>))
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    span(list(x<0>, x<1>), is(z)),
+                    span(list(x<0>, x<1>), equal.to(z)),
                     prod(list(), list(x<0>, x<1>))
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    span(list(x<0>, x<1>, x<2>), is(z)),
+                    span(list(x<0>, x<1>, x<2>), equal.to(z)),
                     prod(list(), list(x<0>, x<1>, x<2>))
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    span(list(z, x<1>, x<2>), is(z)),
+                    span(list(z, x<1>, x<2>), equal.to(z)),
                     prod(list(z), list(x<1>, x<2>))
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    span(list(x<0>, z, x<2>), is(z)),
+                    span(list(x<0>, z, x<2>), equal.to(z)),
                     prod(list(), list(x<0>, z, x<2>))
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    span(list(z, z, x<2>), is(z)),
+                    span(list(z, z, x<2>), equal.to(z)),
                     prod(list(z, z), list(x<2>))
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    span(list(z, z, z), is(z)),
+                    span(list(z, z, z), equal.to(z)),
                     prod(list(z, z, z), list())
                 ));
             }
@@ -641,46 +634,46 @@ namespace boost { namespace hana { namespace test {
             {
                 auto z = x<999>;
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take_while(list(), isnt(z)),
+                    take_while(list(), not_equal.to(z)),
                     list()
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take_while(list(x<1>), isnt(z)),
+                    take_while(list(x<1>), not_equal.to(z)),
                     list(x<1>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take_while(list(z), isnt(z)),
+                    take_while(list(z), not_equal.to(z)),
                     list()
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take_while(list(x<1>, x<2>), isnt(z)),
+                    take_while(list(x<1>, x<2>), not_equal.to(z)),
                     list(x<1>, x<2>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take_while(list(x<1>, z), isnt(z)),
+                    take_while(list(x<1>, z), not_equal.to(z)),
                     list(x<1>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take_while(list(z, x<2>), isnt(z)),
+                    take_while(list(z, x<2>), not_equal.to(z)),
                     list()
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take_while(list(x<1>, x<2>, x<3>), isnt(z)),
+                    take_while(list(x<1>, x<2>, x<3>), not_equal.to(z)),
                     list(x<1>, x<2>, x<3>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take_while(list(x<1>, x<2>, z), isnt(z)),
+                    take_while(list(x<1>, x<2>, z), not_equal.to(z)),
                     list(x<1>, x<2>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take_while(list(x<1>, z, x<3>), isnt(z)),
+                    take_while(list(x<1>, z, x<3>), not_equal.to(z)),
                     list(x<1>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take_while(list(z, x<2>, x<3>), isnt(z)),
+                    take_while(list(z, x<2>, x<3>), not_equal.to(z)),
                     list()
                 ));
             }
@@ -690,46 +683,46 @@ namespace boost { namespace hana { namespace test {
                 auto z = x<999>;
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take_until(list(), is(z)),
+                    take_until(list(), equal.to(z)),
                     list()
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take_until(list(x<1>), is(z)),
+                    take_until(list(x<1>), equal.to(z)),
                     list(x<1>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take_until(list(z), is(z)),
+                    take_until(list(z), equal.to(z)),
                     list()
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take_until(list(x<1>, x<2>), is(z)),
+                    take_until(list(x<1>, x<2>), equal.to(z)),
                     list(x<1>, x<2>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take_until(list(x<1>, z), is(z)),
+                    take_until(list(x<1>, z), equal.to(z)),
                     list(x<1>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take_until(list(z, x<2>), is(z)),
+                    take_until(list(z, x<2>), equal.to(z)),
                     list()
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take_until(list(x<1>, x<2>, x<3>), is(z)),
+                    take_until(list(x<1>, x<2>, x<3>), equal.to(z)),
                     list(x<1>, x<2>, x<3>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take_until(list(x<1>, x<2>, z), is(z)),
+                    take_until(list(x<1>, x<2>, z), equal.to(z)),
                     list(x<1>, x<2>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take_until(list(x<1>, z, x<3>), is(z)),
+                    take_until(list(x<1>, z, x<3>), equal.to(z)),
                     list(x<1>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take_until(list(z, x<2>, x<3>), is(z)),
+                    take_until(list(z, x<2>, x<3>), equal.to(z)),
                     list()
                 ));
             }
@@ -2569,10 +2562,6 @@ namespace boost { namespace hana { namespace test {
         {
             laws<Searchable, L>();
 
-            BOOST_HANA_CONSTEXPR_LAMBDA auto is = [](auto x) {
-                return [=](auto y) { return equal(x, y); };
-            };
-
             BOOST_HANA_CONSTEXPR_LAMBDA auto is_even = [](auto x) {
                 return x % 2 == 0;
             };
@@ -2583,22 +2572,22 @@ namespace boost { namespace hana { namespace test {
             // any
             {
                 {
-                    BOOST_HANA_CONSTANT_CHECK(not_(any(list(), is(x<9>))));
+                    BOOST_HANA_CONSTANT_CHECK(not_(any(list(), equal.to(x<9>))));
 
-                    BOOST_HANA_CONSTANT_CHECK(not_(any(list(x<0>), is(x<9>))));
-                    BOOST_HANA_CONSTANT_CHECK(any(list(x<0>), is(x<0>)));
-                    BOOST_HANA_CONSTANT_CHECK(any(list(x<0>, invalid<1>), is(x<0>)));
-                    BOOST_HANA_CONSTANT_CHECK(any(list(x<0>, invalid<1>, invalid<2>), is(x<0>)));
+                    BOOST_HANA_CONSTANT_CHECK(not_(any(list(x<0>), equal.to(x<9>))));
+                    BOOST_HANA_CONSTANT_CHECK(any(list(x<0>), equal.to(x<0>)));
+                    BOOST_HANA_CONSTANT_CHECK(any(list(x<0>, invalid<1>), equal.to(x<0>)));
+                    BOOST_HANA_CONSTANT_CHECK(any(list(x<0>, invalid<1>, invalid<2>), equal.to(x<0>)));
 
-                    BOOST_HANA_CONSTANT_CHECK(not_(any(list(x<0>, x<1>), is(x<9>))));
-                    BOOST_HANA_CONSTANT_CHECK(any(list(x<0>, x<1>), is(x<1>)));
-                    BOOST_HANA_CONSTANT_CHECK(any(list(x<0>, x<1>, invalid<2>), is(x<1>)));
-                    BOOST_HANA_CONSTANT_CHECK(any(list(x<0>, x<1>, invalid<2>, invalid<3>), is(x<1>)));
+                    BOOST_HANA_CONSTANT_CHECK(not_(any(list(x<0>, x<1>), equal.to(x<9>))));
+                    BOOST_HANA_CONSTANT_CHECK(any(list(x<0>, x<1>), equal.to(x<1>)));
+                    BOOST_HANA_CONSTANT_CHECK(any(list(x<0>, x<1>, invalid<2>), equal.to(x<1>)));
+                    BOOST_HANA_CONSTANT_CHECK(any(list(x<0>, x<1>, invalid<2>, invalid<3>), equal.to(x<1>)));
 
-                    BOOST_HANA_CONSTANT_CHECK(not_(any(list(x<0>, x<1>, x<2>), is(x<9>))));
-                    BOOST_HANA_CONSTANT_CHECK(any(list(x<0>, x<1>, x<2>), is(x<2>)));
-                    BOOST_HANA_CONSTANT_CHECK(any(list(x<0>, x<1>, x<2>, nothing), is(x<2>)));
-                    BOOST_HANA_CONSTANT_CHECK(any(list(x<0>, x<1>, x<2>, nothing, nothing), is(x<2>)));
+                    BOOST_HANA_CONSTANT_CHECK(not_(any(list(x<0>, x<1>, x<2>), equal.to(x<9>))));
+                    BOOST_HANA_CONSTANT_CHECK(any(list(x<0>, x<1>, x<2>), equal.to(x<2>)));
+                    BOOST_HANA_CONSTANT_CHECK(any(list(x<0>, x<1>, x<2>, nothing), equal.to(x<2>)));
+                    BOOST_HANA_CONSTANT_CHECK(any(list(x<0>, x<1>, x<2>, nothing, nothing), equal.to(x<2>)));
                 }
 
                 {
@@ -2607,11 +2596,11 @@ namespace boost { namespace hana { namespace test {
                     ));
 
                     BOOST_HANA_CONSTEXPR_CHECK(
-                        any(list(c(0)), is(c(0)))
+                        any(list(c(0)), equal.to(c(0)))
                     );
 
                     BOOST_HANA_CONSTEXPR_CHECK(
-                        not_(any(list(c(0)), is(c(1))))
+                        not_(any(list(c(0)), equal.to(c(1))))
                     );
 
                     BOOST_HANA_CONSTEXPR_CHECK(not_(any(list(1), is_even)));
@@ -2644,16 +2633,16 @@ namespace boost { namespace hana { namespace test {
                 {
                     BOOST_HANA_CONSTANT_CHECK(all(list(), undefined));
                     BOOST_HANA_CONSTEXPR_CHECK(
-                        all(list(c(0)), is(c(0)))
+                        all(list(c(0)), equal.to(c(0)))
                     );
                     BOOST_HANA_CONSTEXPR_CHECK(
-                        not_(all(list(c(0)), is(c(1))))
+                        not_(all(list(c(0)), equal.to(c(1))))
                     );
                     BOOST_HANA_CONSTEXPR_CHECK(not_(
-                        all(list(c(0), c(1)), is(c(0)))
+                        all(list(c(0), c(1)), equal.to(c(0)))
                     ));
                     BOOST_HANA_CONSTEXPR_CHECK(
-                        all(list(c(0), c(0)), is(c(0)))
+                        all(list(c(0), c(0)), equal.to(c(0)))
                     );
 
                     BOOST_HANA_CONSTEXPR_CHECK(not_(all(list(1), is_even)));
@@ -2694,11 +2683,11 @@ namespace boost { namespace hana { namespace test {
                     BOOST_HANA_CONSTANT_CHECK(none(list(), undefined));
 
                     BOOST_HANA_CONSTEXPR_CHECK(
-                        none(list(c(0)), is(c(1)))
+                        none(list(c(0)), equal.to(c(1)))
                     );
 
                     BOOST_HANA_CONSTEXPR_CHECK(
-                        not_(none(list(c(0)), is(c(0))))
+                        not_(none(list(c(0)), equal.to(c(0))))
                     );
 
                     BOOST_HANA_CONSTEXPR_CHECK(none(list(1), is_even));
@@ -2728,58 +2717,58 @@ namespace boost { namespace hana { namespace test {
             // find
             {
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    find(list(), is(x<9>)),
+                    find(list(), equal.to(x<9>)),
                     nothing
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    find(list(x<0>), is(x<9>)),
+                    find(list(x<0>), equal.to(x<9>)),
                     nothing
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    find(list(x<0>), is(x<0>)),
+                    find(list(x<0>), equal.to(x<0>)),
                     just(x<0>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    find(list(x<0>, invalid<1>), is(x<0>)),
+                    find(list(x<0>, invalid<1>), equal.to(x<0>)),
                     just(x<0>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    find(list(x<0>, invalid<1>, invalid<2>), is(x<0>)),
+                    find(list(x<0>, invalid<1>, invalid<2>), equal.to(x<0>)),
                     just(x<0>)
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    find(list(x<0>, x<1>), is(x<9>)),
+                    find(list(x<0>, x<1>), equal.to(x<9>)),
                     nothing
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    find(list(x<0>, x<1>), is(x<1>)),
+                    find(list(x<0>, x<1>), equal.to(x<1>)),
                     just(x<1>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    find(list(x<0>, x<1>, invalid<2>), is(x<1>)),
+                    find(list(x<0>, x<1>, invalid<2>), equal.to(x<1>)),
                     just(x<1>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    find(list(x<0>, x<1>, invalid<2>, invalid<3>), is(x<1>)),
+                    find(list(x<0>, x<1>, invalid<2>, invalid<3>), equal.to(x<1>)),
                     just(x<1>)
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    find(list(x<0>, x<1>, x<2>), is(x<9>)),
+                    find(list(x<0>, x<1>, x<2>), equal.to(x<9>)),
                     nothing
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    find(list(x<0>, x<1>, x<2>), is(x<2>)),
+                    find(list(x<0>, x<1>, x<2>), equal.to(x<2>)),
                     just(x<2>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    find(list(x<0>, x<1>, x<2>, nothing), is(x<2>)),
+                    find(list(x<0>, x<1>, x<2>, nothing), equal.to(x<2>)),
                     just(x<2>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    find(list(x<0>, x<1>, x<2>, nothing, nothing), is(x<2>)),
+                    find(list(x<0>, x<1>, x<2>, nothing, nothing), equal.to(x<2>)),
                     just(x<2>)
                 ));
             }
@@ -3191,54 +3180,54 @@ namespace boost { namespace hana { namespace test {
                 auto z = x<999>;
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    filter(list(), isnt(z)),
+                    filter(list(), not_equal.to(z)),
                     list()
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    filter(list(z), isnt(z)),
+                    filter(list(z), not_equal.to(z)),
                     list()
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    filter(list(x<1>), isnt(z)),
+                    filter(list(x<1>), not_equal.to(z)),
                     list(x<1>)
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    filter(list(x<1>, x<2>), isnt(z)),
+                    filter(list(x<1>, x<2>), not_equal.to(z)),
                     list(x<1>, x<2>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    filter(list(z, x<2>), isnt(z)),
+                    filter(list(z, x<2>), not_equal.to(z)),
                     list(x<2>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    filter(list(x<1>, z), isnt(z)),
+                    filter(list(x<1>, z), not_equal.to(z)),
                     list(x<1>)
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    filter(list(z, x<2>, x<3>), isnt(z)),
+                    filter(list(z, x<2>, x<3>), not_equal.to(z)),
                     list(x<2>, x<3>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    filter(list(x<1>, z, x<3>), isnt(z)),
+                    filter(list(x<1>, z, x<3>), not_equal.to(z)),
                     list(x<1>, x<3>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    filter(list(x<1>, x<2>, z), isnt(z)),
+                    filter(list(x<1>, x<2>, z), not_equal.to(z)),
                     list(x<1>, x<2>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    filter(list(x<1>, z, z), isnt(z)),
+                    filter(list(x<1>, z, z), not_equal.to(z)),
                     list(x<1>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    filter(list(z, x<2>, z), isnt(z)),
+                    filter(list(z, x<2>, z), not_equal.to(z)),
                     list(x<2>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    filter(list(z, z, x<3>), isnt(z)),
+                    filter(list(z, z, x<3>), not_equal.to(z)),
                     list(x<3>)
                 ));
             }

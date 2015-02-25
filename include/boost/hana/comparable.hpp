@@ -27,6 +27,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integral_constant.hpp>
+#include <boost/hana/functional/partial.hpp>
 #include <boost/hana/logical.hpp>
 
 
@@ -82,10 +83,16 @@ namespace boost { namespace hana {
         using C = typename common<T, U>::type;
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            return hana::equal(to<C>(detail::std::forward<X>(x)),
-                               to<C>(detail::std::forward<Y>(y)));
+            return hana::equal(hana::to<C>(detail::std::forward<X>(x)),
+                               hana::to<C>(detail::std::forward<Y>(y)));
         }
     };
+
+    //! @cond
+    template <typename X>
+    constexpr decltype(auto) _equal::_to::operator()(X&& x) const
+    { return hana::partial(equal, detail::std::forward<X>(x)); }
+    //! @endcond
 
     //////////////////////////////////////////////////////////////////////////
     // not_equal
@@ -110,8 +117,38 @@ namespace boost { namespace hana {
         using C = typename common<T, U>::type;
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            return hana::not_equal(to<C>(detail::std::forward<X>(x)),
-                                   to<C>(detail::std::forward<Y>(y)));
+            return hana::not_equal(hana::to<C>(detail::std::forward<X>(x)),
+                                   hana::to<C>(detail::std::forward<Y>(y)));
+        }
+    };
+
+    //! @cond
+    template <typename X>
+    constexpr decltype(auto) _not_equal::_to::operator()(X&& x) const
+    { return hana::partial(not_equal, detail::std::forward<X>(x)); }
+    //! @endcond
+
+    //////////////////////////////////////////////////////////////////////////
+    // comparing
+    //////////////////////////////////////////////////////////////////////////
+    template <typename F>
+    struct _comparing {
+        F f;
+
+        template <typename X, typename Y>
+        constexpr decltype(auto) operator()(X&& x, Y&& y) const& {
+            return hana::equal(
+                f(detail::std::forward<X>(x)),
+                f(detail::std::forward<Y>(y))
+            );
+        }
+
+        template <typename X, typename Y>
+        constexpr decltype(auto) operator()(X&& x, Y&& y) & {
+            return hana::equal(
+                f(detail::std::forward<X>(x)),
+                f(detail::std::forward<Y>(y))
+            );
         }
     };
 
