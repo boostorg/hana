@@ -12,10 +12,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/type.hpp>
 
 #include <test/auto/base.hpp>
-
-// instances
 #include <test/auto/iterable.hpp>
-#include <test/auto/list.hpp>
+#include <test/auto/sequence.hpp>
 
 #include <boost/mpl/identity.hpp>
 #include <boost/mpl/quote.hpp>
@@ -30,10 +28,10 @@ struct x1; struct x2; struct x3;
 namespace boost { namespace hana { namespace test {
     template <>
     auto instances<ext::boost::mpl::Vector> = make<Tuple>(
-        //! @todo mpl::Vector is not actually a List, because we can only
+        //! @todo mpl::Vector is not actually a Sequence, because we can only
         //! store types in it.
 #if 0
-        type<List>,
+        type<Sequence>,
 #endif
         type<Iterable>
     );
