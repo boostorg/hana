@@ -99,22 +99,27 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_functor.html',
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
 <div class="textblock"><p>The <code><a class="el" href="structboost_1_1hana_1_1_functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code> concept represents types that can be mapped over. </p>
 <p>Intuitively, a <a href="http://en.wikipedia.org/wiki/Functor">Functor</a> is some kind of box that can hold generic data and map a function over this data to create a new, transformed box. Because we are only interested in mapping a function over the contents of a black box, the only real requirement for being a functor is to provide a function which can do the mapping, along with a couple of guarantees that the mapping is well-behaved. Those requirements are made precise in the laws below. The pattern captured by <code><a class="el" href="structboost_1_1hana_1_1_functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code> is very general, which makes it widely useful. A lot of objects can be made <code><a class="el" href="structboost_1_1hana_1_1_functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code>s in one way or another, the most obvious example being sequences with the usual mapping of the function on each element.</p>
+<p>Functors are parametric data types which are parameterized over the data type of the objects they contain. Like everywhere else in Hana, this parametricity is only at the documentation level and it is not enforced.</p>
 <p>In this library, the mapping function is called <code>transform</code> after the <code>std::transform</code> algorithm, but other programming languages have given it different names (usually <code>map</code>).</p>
 <dl class="section note"><dt>Note</dt><dd>The word <code><a class="el" href="structboost_1_1hana_1_1_functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code> comes from functional programming, where the concept has been used for a while, notably in the Haskell programming language. Haskell people borrowed the term from <a href="http://en.wikipedia.org/wiki/Category_theory">category theory</a>, which, broadly speaking, is a field of mathematics dealing with abstract structures and transformations between those structures.</dd></dl>
 <h2>Laws </h2>
-<p>For any object <code>xs</code> whose data type is a <code><a class="el" href="structboost_1_1hana_1_1_functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code>, the following must be satisfied: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(xs, <span class="keywordtype">id</span>) == xs</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1_functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(xs, <a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>(f, g)) == <a class="code" href="structboost_1_1hana_1_1_functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(<a class="code" href="structboost_1_1hana_1_1_functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(xs, g), f)</div>
-</div><!-- fragment --><p> The first line says that mapping the identity function should not do anything, which precludes the functor from doing something nasty behind the scenes. The second line states that mapping the composition of two functions is the same as mapping the first function, and then the second on the result. While the usual functor laws are usually restricted to the above, this library includes other convenience methods and they should satisfy the following equations </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_functor.html#ac27a1807b60b8fa59e6c618cb8ca749f">adjust</a>(xs, pred, f)  == <a class="code" href="structboost_1_1hana_1_1_functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(xs, [](x){ <span class="keywordflow">if</span> pred(x) then f(x) else x })</div>
+<p>Let <code>xs</code> be a <a class="el" href="structboost_1_1hana_1_1_functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a> of data type <code>F(A)</code>, <img class="formulaInl" alt="$ f : A \to B $" src="form_9.png"/> and <img class="formulaInl" alt="$ g : B \to C $" src="form_10.png"/>. The following laws must be satisfied: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(xs, <span class="keywordtype">id</span>) == xs</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1_functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(xs, <a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>(g, f)) == <a class="code" href="structboost_1_1hana_1_1_functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(<a class="code" href="structboost_1_1hana_1_1_functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(xs, f), g)</div>
+</div><!-- fragment --><p> The first line says that mapping the identity function should not do anything, which precludes the functor from doing something nasty behind the scenes. The second line states that mapping the composition of two functions is the same as mapping the first function, and then the second on the result. While the usual functor laws are usually restricted to the above, this library includes other convenience methods and they should satisfy the following equations. Let <code>xs</code> be a <a class="el" href="structboost_1_1hana_1_1_functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a> of data type <code>F(A)</code>, <img class="formulaInl" alt="$ f : A \to A $" src="form_13.png"/>, <img class="formulaInl" alt="$ \mathrm{pred} : A \to \mathrm{Bool} $" src="form_14.png"/> for some <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> <code>Bool</code>, and <code>v</code> an object of data type <code>A</code>. Then, </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_functor.html#ac27a1807b60b8fa59e6c618cb8ca749f">adjust</a>(xs, pred, f) == <a class="code" href="structboost_1_1hana_1_1_functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(xs, [](x){</div>
+<div class="line">    <span class="keywordflow">if</span> pred(x) then f(x) else x</div>
+<div class="line">})</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1_functor.html#a72e73dcc09699c619bcfb006029a8967">replace</a>(xs, pred, v) == <a class="code" href="structboost_1_1hana_1_1_functor.html#ac27a1807b60b8fa59e6c618cb8ca749f">adjust</a>(xs, pred, <a class="code" href="group__group-functional.html#ga835970cb25a0c8dc200f1e5f8943538b">always</a>(v))</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1_functor.html#a35025921d0fb75c28c2411d207a0da5e">fill</a>(xs, v)          == <a class="code" href="structboost_1_1hana_1_1_functor.html#a72e73dcc09699c619bcfb006029a8967">replace</a>(xs, <a class="code" href="group__group-functional.html#ga835970cb25a0c8dc200f1e5f8943538b">always</a>(true), v)</div>
 </div><!-- fragment --><p> The default definition of the methods will satisfy these equations.</p>
 <h2>Minimal complete definitions </h2>
 <ol type="1">
 <li><code>transform</code><br />
-When <code>transform</code> is specified, <code>adjust</code> is defined as <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_functor.html#ac27a1807b60b8fa59e6c618cb8ca749f">adjust</a>(xs, pred, f) = <a class="code" href="structboost_1_1hana_1_1_functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(xs, [](x){ <span class="keywordflow">if</span> pred(x) then f(x) else x })</div>
+When <code>transform</code> is specified, <code>adjust</code> is defined analogously to <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_functor.html#ac27a1807b60b8fa59e6c618cb8ca749f">adjust</a>(xs, pred, f) = <a class="code" href="structboost_1_1hana_1_1_functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(xs, [](x){</div>
+<div class="line">    <span class="keywordflow">if</span> pred(x) then f(x) else x</div>
+<div class="line">})</div>
 </div><!-- fragment --></li>
 <li><code>adjust</code><br />
-When <code>adjust</code> is specified, <code>transform</code> is defined as <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(xs, f) = <a class="code" href="structboost_1_1hana_1_1_functor.html#ac27a1807b60b8fa59e6c618cb8ca749f">adjust</a>(xs, <a class="code" href="group__group-functional.html#ga835970cb25a0c8dc200f1e5f8943538b">always</a>(<span class="keyword">true</span>), f)</div>
+When <code>adjust</code> is specified, <code>transform</code> is defined analogously to <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(xs, f) = <a class="code" href="structboost_1_1hana_1_1_functor.html#ac27a1807b60b8fa59e6c618cb8ca749f">adjust</a>(xs, <a class="code" href="group__group-functional.html#ga835970cb25a0c8dc200f1e5f8943538b">always</a>(<span class="keyword">true</span>), f)</div>
 </div><!-- fragment --></li>
 </ol>
 <h2>Structure-preserving functions for Functors </h2>
@@ -124,7 +129,7 @@ When <code>adjust</code> is specified, <code>transform</code> is defined as <div
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of methods</h2></td></tr>
 <tr class="memitem:a3a3140eb3e41d54e2370eb19ee6b043c"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a></td></tr>
-<tr class="memdesc:a3a3140eb3e41d54e2370eb19ee6b043c"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structboost_1_1hana_1_1_map.html" title="A basic associative array requiring unique and Comparable keys. ">Map</a> a function over a <code><a class="el" href="structboost_1_1hana_1_1_functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code>.  <a href="#a3a3140eb3e41d54e2370eb19ee6b043c">More...</a><br /></td></tr>
+<tr class="memdesc:a3a3140eb3e41d54e2370eb19ee6b043c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map a function over a <code><a class="el" href="structboost_1_1hana_1_1_functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code>.  <a href="#a3a3140eb3e41d54e2370eb19ee6b043c">More...</a><br /></td></tr>
 <tr class="separator:a3a3140eb3e41d54e2370eb19ee6b043c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac27a1807b60b8fa59e6c618cb8ca749f"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_functor.html#ac27a1807b60b8fa59e6c618cb8ca749f">adjust</a></td></tr>
 <tr class="memdesc:ac27a1807b60b8fa59e6c618cb8ca749f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Apply a function on all the elements of a structure satisfying a <code>predicate</code>.  <a href="#ac27a1807b60b8fa59e6c618cb8ca749f">More...</a><br /></td></tr>
@@ -158,7 +163,9 @@ Synopsis of methods</h2></td></tr>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
-<p><a class="el" href="structboost_1_1hana_1_1_map.html" title="A basic associative array requiring unique and Comparable keys. ">Map</a> a function over a <code><a class="el" href="structboost_1_1hana_1_1_functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code>. </p>
+<p>Map a function over a <code><a class="el" href="structboost_1_1hana_1_1_functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code>. </p>
+<h2>Signature </h2>
+<p>Given <code>F</code> a <a class="el" href="structboost_1_1hana_1_1_functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a>, the signature is <img class="formulaInl" alt="$ \mathrm{transform} : F(T) \times (T \to U) \to F(U) $" src="form_15.png"/></p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">xs</td><td>The structure to map <code>f</code> over.</td></tr>
@@ -185,7 +192,7 @@ Synopsis of methods</h2></td></tr>
 <div class="line">            ==</div>
 <div class="line">    tuple_t&lt;<span class="keywordtype">void</span>*, <span class="keywordtype">int</span>(*)(), <span class="keywordtype">char</span>(*)[10]&gt;</div>
 <div class="line">);</div>
-</div><!-- fragment --><h2>Benchmarks </h2>
+</div><!-- fragment --> <h2>Benchmarks </h2>
 <div class="image">
 <img src="benchmark/functor/transform.ctime.png" alt="transform.ctime.png"/>
 </div>
@@ -214,6 +221,8 @@ Synopsis of methods</h2></td></tr>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Apply a function on all the elements of a structure satisfying a <code>predicate</code>. </p>
+<h2>Signature </h2>
+<p>Given <code>F</code> a <a class="el" href="structboost_1_1hana_1_1_functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a> and <code>B</code> a <a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a>, the signature is <img class="formulaInl" alt="$ \mathrm{adjust} : F(T) \times (T \to B) \times (T \to T) \to F(T) $" src="form_16.png"/></p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">xs</td><td>The structure to map <code>f</code> over.</td></tr>
@@ -236,9 +245,9 @@ Synopsis of methods</h2></td></tr>
 <div class="line">    ==</div>
 <div class="line">    make&lt;Tuple&gt;(3, 2, 1, 0, 1, 2, 3)</div>
 <div class="line">);</div>
-</div><!-- fragment --><h2>Benchmarks </h2>
+</div><!-- fragment --> <h2>Benchmarks </h2>
 <div class="image">
-<img src="adjust.ctime.png" alt="adjust.ctime.png"/>
+<img src="benchmark/functor/adjust.ctime.png" alt="adjust.ctime.png"/>
 </div>
  
 </div>
@@ -265,6 +274,8 @@ Synopsis of methods</h2></td></tr>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Replace all the elements of a structure satisfying a <code>predicate</code> with a fixed value. </p>
+<h2>Signature </h2>
+<p>Given <code>F</code> a <a class="el" href="structboost_1_1hana_1_1_functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a> and <code>B</code> a <a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a>, the signature is <img class="formulaInl" alt="$ \mathrm{replace} : F(T) \times (T \to B) \times T \to F(T) $" src="form_17.png"/></p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">xs</td><td>The structure to replace elements of.</td></tr>
@@ -283,9 +294,9 @@ Synopsis of methods</h2></td></tr>
 <div class="line">    ==</div>
 <div class="line">    make&lt;Tuple&gt;(0, 0, 0, 0, 1, 2, 3)</div>
 <div class="line">);</div>
-</div><!-- fragment --><h2>Benchmarks </h2>
+</div><!-- fragment --> <h2>Benchmarks </h2>
 <div class="image">
-<img src="replace.ctime.png" alt="replace.ctime.png"/>
+<img src="benchmark/functor/replace.ctime.png" alt="replace.ctime.png"/>
 </div>
  
 </div>
@@ -312,9 +323,11 @@ Synopsis of methods</h2></td></tr>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Replace all the elements of a structure with a fixed value. </p>
+<h2>Signature </h2>
+<p>Given <code>F</code> a <a class="el" href="structboost_1_1hana_1_1_functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a>, the signature is <img class="formulaInl" alt="$ \mathrm{fill} : F(T) \times U \to F(U) $" src="form_18.png"/></p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">xs</td><td>The structure to fill with <code>value</code>.</td></tr>
+    <tr><td class="paramname">xs</td><td>The structure to fill with a <code>value</code>.</td></tr>
     <tr><td class="paramname">value</td><td>A value by which every element <code>x</code> of the structure is replaced, unconditionally.</td></tr>
   </table>
   </dd>
@@ -326,9 +339,9 @@ Synopsis of methods</h2></td></tr>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_functor.html#a35025921d0fb75c28c2411d207a0da5e">fill</a>(nothing, <span class="charliteral">&#39;x&#39;</span>) == nothing);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_functor.html#a35025921d0fb75c28c2411d207a0da5e">fill</a>(just(<span class="charliteral">&#39;y&#39;</span>), <span class="charliteral">&#39;x&#39;</span>) == just(<span class="charliteral">&#39;x&#39;</span>));</div>
-</div><!-- fragment --><h2>Benchmarks </h2>
+</div><!-- fragment --> <h2>Benchmarks </h2>
 <div class="image">
-<img src="fill.ctime.png" alt="fill.ctime.png"/>
+<img src="benchmark/functor/fill.ctime.png" alt="fill.ctime.png"/>
 </div>
  
 </div>

@@ -1,7 +1,7 @@
 var structboost_1_1hana_1_1_monad_plus =
 [
     [ "concat", "structboost_1_1hana_1_1_monad_plus.html#a30a6926751dfcafbe2bb67738e2da3c4", null ],
-    [ "nil", "structboost_1_1hana_1_1_monad_plus.html#a04e654b583265053e4dde63fff0c0aea", null ],
+    [ "empty", "structboost_1_1hana_1_1_monad_plus.html#a91ad3cf817440c20f200f91d4fa4e789", null ],
     [ "prepend", "structboost_1_1hana_1_1_monad_plus.html#a3e173a5524274624703353bb3ac4c129", null ],
     [ "append", "structboost_1_1hana_1_1_monad_plus.html#ae469094a7fee3a0f7dfcc900da9b07b4", null ],
     [ "filter", "structboost_1_1hana_1_1_monad_plus.html#a929370eddd43bb1a4a11b00a7880eadb", null ],

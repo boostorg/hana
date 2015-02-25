@@ -1,7 +1,6 @@
 var searchData=
 [
   ['negate',['negate',['../structboost_1_1hana_1_1_group.html#a69e56a0004a93e0745ee178ce0b80e65',1,'boost::hana::Group']]],
-  ['nil',['nil',['../structboost_1_1hana_1_1_monad_plus.html#a04e654b583265053e4dde63fff0c0aea',1,'boost::hana::MonadPlus']]],
   ['none',['none',['../structboost_1_1hana_1_1_searchable.html#a9365b793fe547271e48fa719a7f4854d',1,'boost::hana::Searchable']]],
   ['none_5fof',['none_of',['../structboost_1_1hana_1_1_searchable.html#abf1dbf83a1d98c62994e207ea18eea8a',1,'boost::hana::Searchable']]],
   ['not_5f',['not_',['../structboost_1_1hana_1_1_logical.html#a3c5a578f274b7513e5008eab698fa5bc',1,'boost::hana::Logical']]],

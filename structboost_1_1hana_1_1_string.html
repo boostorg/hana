@@ -191,7 +191,7 @@ template&lt;char... s&gt; </div>
 <p>Create a compile-time string from a parameter pack of characters. </p>
 <h2>Example </h2>
 <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> str = string&lt;&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;, &#39;f&#39;&gt;;</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(is_a&lt;String&gt;(str));</div>
+<div class="line">static_assert(std::is_same&lt;<a class="code" href="group__group-core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t</a>&lt;decltype(str)&gt;, String&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment -->
 </div>
 </div>

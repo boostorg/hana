@@ -105,50 +105,62 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_range.html',''
 <ol type="1">
 <li><code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code> (operators provided)<br />
 Two ranges are equal if and only if they are both empty or they both span the same interval. <div class="fragment"><div class="line"><span class="comment">// empty ranges are equal</span></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_range.html#ac3b5f08f5a346605377cf5fa9c4fb973">range</a>(int_&lt;6&gt;, int_&lt;6&gt;) == <a class="code" href="structboost_1_1hana_1_1_range.html#ac3b5f08f5a346605377cf5fa9c4fb973">range</a>(int_&lt;0&gt;, int_&lt;0&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(range(int_&lt;6&gt;, int_&lt;6&gt;) == range(int_&lt;0&gt;, int_&lt;0&gt;));</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// otherwise, ranges are equal if and only if they span the same interval</span></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_range.html#ac3b5f08f5a346605377cf5fa9c4fb973">range</a>(int_&lt;2&gt;, int_&lt;5&gt;) == <a class="code" href="structboost_1_1hana_1_1_range.html#ac3b5f08f5a346605377cf5fa9c4fb973">range</a>(int_&lt;2&gt;, int_&lt;5&gt;));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_range.html#ac3b5f08f5a346605377cf5fa9c4fb973">range</a>(int_&lt;0&gt;, int_&lt;3&gt;) != <a class="code" href="structboost_1_1hana_1_1_range.html#ac3b5f08f5a346605377cf5fa9c4fb973">range</a>(int_&lt;-1&gt;, int_&lt;3&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(range(int_&lt;2&gt;, int_&lt;5&gt;) == range(int_&lt;2&gt;, int_&lt;5&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(range(int_&lt;0&gt;, int_&lt;3&gt;) != range(int_&lt;-1&gt;, int_&lt;3&gt;));</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a></code><br />
-Folding a <code><a class="el" href="structboost_1_1hana_1_1_range.html" title="Compile-time half-open interval of Constants. ">Range</a></code> is equivalent to folding a list of the <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class represents data that can be manipulated at compile-time. ">Constant</a></code>s in the interval it spans. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(foldl(<a class="code" href="structboost_1_1hana_1_1_range.html#ac3b5f08f5a346605377cf5fa9c4fb973">range</a>(int_&lt;0&gt;, int_&lt;4&gt;), int_&lt;0&gt;, plus) == int_&lt;6&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(unpack(<a class="code" href="structboost_1_1hana_1_1_range.html#ac3b5f08f5a346605377cf5fa9c4fb973">range</a>(int_&lt;-2&gt;, int_&lt;2&gt;), tuple) == make&lt;Tuple&gt;(int_&lt;-2&gt;, int_&lt;-1&gt;, int_&lt;0&gt;, int_&lt;1&gt;));</div>
+Folding a <code><a class="el" href="structboost_1_1hana_1_1_range.html" title="Compile-time half-open interval of Constants. ">Range</a></code> is equivalent to folding a list of the <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class represents data that can be manipulated at compile-time. ">Constant</a></code>s in the interval it spans. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
+<div class="line">    foldl(range(int_&lt;0&gt;, int_&lt;4&gt;), int_&lt;0&gt;, plus) == int_&lt;6&gt;</div>
+<div class="line">);</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
+<div class="line">    unpack(range(int_&lt;-2&gt;, int_&lt;2&gt;), make&lt;Tuple&gt;) ==</div>
+<div class="line">    make&lt;Tuple&gt;(int_&lt;-2&gt;, int_&lt;-1&gt;, int_&lt;0&gt;, int_&lt;1&gt;)</div>
+<div class="line">);</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> (operators provided)<br />
-Iterating over a <code><a class="el" href="structboost_1_1hana_1_1_range.html" title="Compile-time half-open interval of Constants. ">Range</a></code> is equivalent to iterating over a list of the values it spans. In other words, iterating over the range <code>[from, to)</code> is equivalent to iterating over a list containing <code>from, from+1, from+2, ..., to-1</code>. <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> r = <a class="code" href="structboost_1_1hana_1_1_range.html#ac3b5f08f5a346605377cf5fa9c4fb973">range</a>(int_&lt;0&gt;, int_&lt;1000&gt;);</div>
+Iterating over a <code><a class="el" href="structboost_1_1hana_1_1_range.html" title="Compile-time half-open interval of Constants. ">Range</a></code> is equivalent to iterating over a list of the values it spans. In other words, iterating over the range <code>[from, to)</code> is equivalent to iterating over a list containing <code>from, from+1, from+2, ..., to-1</code>. <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> r = range(int_&lt;0&gt;, int_&lt;1000&gt;);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(head(r) == int_&lt;0&gt;);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(last(r) == int_&lt;999&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(tail(r) == range(int_&lt;1&gt;, int_&lt;1000&gt;));</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!is_empty(r));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(is_empty(<a class="code" href="structboost_1_1hana_1_1_range.html#ac3b5f08f5a346605377cf5fa9c4fb973">range</a>(int_&lt;3&gt;, int_&lt;3&gt;)));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(is_empty(range(int_&lt;3&gt;, int_&lt;3&gt;)));</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code><br />
-Searching a <code><a class="el" href="structboost_1_1hana_1_1_range.html" title="Compile-time half-open interval of Constants. ">Range</a></code> is equivalent to searching a list of the values in the range <code>[from, to)</code>. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(lookup(<a class="code" href="structboost_1_1hana_1_1_range.html#ac3b5f08f5a346605377cf5fa9c4fb973">range</a>(int_&lt;1&gt;, int_&lt;25&gt;), int_&lt;10&gt;) == just(int_&lt;10&gt;));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(lookup(<a class="code" href="structboost_1_1hana_1_1_range.html#ac3b5f08f5a346605377cf5fa9c4fb973">range</a>(int_&lt;1&gt;, int_&lt;25&gt;), int_&lt;200&gt;) == nothing);</div>
+Searching a <code><a class="el" href="structboost_1_1hana_1_1_range.html" title="Compile-time half-open interval of Constants. ">Range</a></code> is equivalent to searching a list of the values in the range <code>[from, to)</code>, but it is much more compile-time efficient. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(lookup(range(int_&lt;1&gt;, int_&lt;25&gt;), int_&lt;10&gt;) == just(int_&lt;10&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(lookup(range(int_&lt;1&gt;, int_&lt;25&gt;), int_&lt;200&gt;) == nothing);</div>
 </div><!-- fragment --></li>
 </ol>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000030">Todo:</a></b></dt><dd>Optimize the <a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a> model; we can do real good for <code>elem</code> and <code>lookup</code>. </dd></dl>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of methods</h2></td></tr>
-<tr class="memitem:ac3b5f08f5a346605377cf5fa9c4fb973"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_range.html#ac3b5f08f5a346605377cf5fa9c4fb973">range</a></td></tr>
-<tr class="memdesc:ac3b5f08f5a346605377cf5fa9c4fb973"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <code><a class="el" href="structboost_1_1hana_1_1_range.html" title="Compile-time half-open interval of Constants. ">Range</a></code> representing the half-open interval of <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class represents data that can be manipulated at compile-time. ">Constant</a></code>s <code>[from, to)</code>.  <a href="#ac3b5f08f5a346605377cf5fa9c4fb973">More...</a><br /></td></tr>
-<tr class="separator:ac3b5f08f5a346605377cf5fa9c4fb973"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e1347688d03d7298cf90f3cadf0a002"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
+<tr class="memitem:a2e1347688d03d7298cf90f3cadf0a002"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_range.html#a2e1347688d03d7298cf90f3cadf0a002">make&lt; Range &gt;</a></td></tr>
+<tr class="memdesc:a2e1347688d03d7298cf90f3cadf0a002"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <code><a class="el" href="structboost_1_1hana_1_1_range.html" title="Compile-time half-open interval of Constants. ">Range</a></code> representing the half-open interval of <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class represents data that can be manipulated at compile-time. ">Constant</a></code>s <code>[from, to)</code>.  <a href="#a2e1347688d03d7298cf90f3cadf0a002">More...</a><br /></td></tr>
+<tr class="separator:a2e1347688d03d7298cf90f3cadf0a002"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba8dd69deb1d810ef65ec289127bf0ab"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_range.html#aba8dd69deb1d810ef65ec289127bf0ab">make_range</a> = make&lt;<a class="el" href="structboost_1_1hana_1_1_range.html">Range</a>&gt;</td></tr>
+<tr class="memdesc:aba8dd69deb1d810ef65ec289127bf0ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1_range.html" title="Compile-time half-open interval of Constants. ">Range</a>&gt;</code>; provided for convenience.  <a href="#aba8dd69deb1d810ef65ec289127bf0ab">More...</a><br /></td></tr>
+<tr class="separator:aba8dd69deb1d810ef65ec289127bf0ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a899b7a0c065ff64cd747fe1671753d3f"><td class="memTemplParams" colspan="2">template&lt;typename T , T from, T to&gt; </td></tr>
 <tr class="memitem:a899b7a0c065ff64cd747fe1671753d3f"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_range.html#a899b7a0c065ff64cd747fe1671753d3f">range_c</a></td></tr>
 <tr class="memdesc:a899b7a0c065ff64cd747fe1671753d3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shorthand to create a <code><a class="el" href="structboost_1_1hana_1_1_range.html" title="Compile-time half-open interval of Constants. ">Range</a></code> of <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class represents data that can be manipulated at compile-time. ">Constant</a></code>s.  <a href="#a899b7a0c065ff64cd747fe1671753d3f">More...</a><br /></td></tr>
 <tr class="separator:a899b7a0c065ff64cd747fe1671753d3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Methods</h2>
-<a class="anchor" id="ac3b5f08f5a346605377cf5fa9c4fb973"></a>
+<a class="anchor" id="a2e1347688d03d7298cf90f3cadf0a002"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto range</td>
+          <td class="memname">constexpr auto make&lt; <a class="el" href="structboost_1_1hana_1_1_range.html">Range</a> &gt;</td>
         </tr>
       </table>
   </td>
@@ -158,18 +170,38 @@ Synopsis of methods</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> from, <span class="keyword">auto</span> <a class="code" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>) {</div>
-<div class="line">        <span class="keywordflow">return</span> unspecified-type;</div>
+<div class="line">        <span class="keywordflow">return</span> a Range [from, <a class="code" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>) of an unspecified type;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Creates a <code><a class="el" href="structboost_1_1hana_1_1_range.html" title="Compile-time half-open interval of Constants. ">Range</a></code> representing the half-open interval of <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class represents data that can be manipulated at compile-time. ">Constant</a></code>s <code>[from, to)</code>. </p>
 <p><code>from</code> and <code>to</code> must be <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class represents data that can be manipulated at compile-time. ">Constant</a></code>s of an integral type and such that  <code>from &lt;= to</code>. Otherwise, a compilation error is triggered. Also note that if <code>from</code> and <code>to</code> are <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class represents data that can be manipulated at compile-time. ">Constant</a></code>s with different underlying integral types, the created range contains <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class represents data that can be manipulated at compile-time. ">Constant</a></code>s whose underlying type is the common type of the two underlying types.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="keyword">using namespace </span>literals;</div>
-<div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(head(<a class="code" href="structboost_1_1hana_1_1_range.html#ac3b5f08f5a346605377cf5fa9c4fb973">range</a>(0_c, 5_c)) == 0_c);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(last(<a class="code" href="structboost_1_1hana_1_1_range.html#ac3b5f08f5a346605377cf5fa9c4fb973">range</a>(0_c, 5_c)) == 4_c);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(tail(<a class="code" href="structboost_1_1hana_1_1_range.html#ac3b5f08f5a346605377cf5fa9c4fb973">range</a>(0_c, 5_c)) == <a class="code" href="structboost_1_1hana_1_1_range.html#ac3b5f08f5a346605377cf5fa9c4fb973">range</a>(1_c, 5_c));</div>
+<div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> irange = <a class="code" href="structboost_1_1hana_1_1_range.html#a2e1347688d03d7298cf90f3cadf0a002">make&lt;Range&gt;</a>(int_&lt;0&gt;, int_&lt;10&gt;); <span class="comment">// [0, 10) int</span></div>
+<div class="line">constexpr <span class="keyword">auto</span> lrange = <a class="code" href="structboost_1_1hana_1_1_range.html#a2e1347688d03d7298cf90f3cadf0a002">make&lt;Range&gt;</a>(int_&lt;0&gt;, long_&lt;10&gt;); <span class="comment">// [0, 10) long</span></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(lrange == <a class="code" href="structboost_1_1hana_1_1_range.html#a2e1347688d03d7298cf90f3cadf0a002">make&lt;Range&gt;</a>(long_&lt;0&gt;, long_&lt;10&gt;));</div>
 </div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="aba8dd69deb1d810ef65ec289127bf0ab"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto make_range = make&lt;<a class="el" href="structboost_1_1hana_1_1_range.html">Range</a>&gt;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1_range.html" title="Compile-time half-open interval of Constants. ">Range</a>&gt;</code>; provided for convenience. </p>
+
 </div>
 </div>
 <a class="anchor" id="a899b7a0c065ff64cd747fe1671753d3f"></a>
@@ -191,12 +223,12 @@ template&lt;typename T , T from, T to&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= <a class="code" href="structboost_1_1hana_1_1_range.html#ac3b5f08f5a346605377cf5fa9c4fb973">range</a>(integral_constant&lt;T, from&gt;,</div>
-<div class="line">                                   integral_constant&lt;T, to&gt;)</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= <a class="code" href="structboost_1_1hana_1_1_range.html#a2e1347688d03d7298cf90f3cadf0a002">make&lt;Range&gt;</a>(integral_constant&lt;T, from&gt;,</div>
+<div class="line">                                         integral_constant&lt;T, to&gt;)</div>
 </div><!-- fragment -->
 <p>Shorthand to create a <code><a class="el" href="structboost_1_1hana_1_1_range.html" title="Compile-time half-open interval of Constants. ">Range</a></code> of <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class represents data that can be manipulated at compile-time. ">Constant</a></code>s. </p>
-<p>This shorthand is provided for convenience only and it is equivalent to <code>range</code>. Specifically, <code>range_c&lt;T, from, to&gt;</code> is such that </p><div class="fragment"><div class="line">range_c&lt;T, from, to&gt; == <a class="code" href="structboost_1_1hana_1_1_range.html#ac3b5f08f5a346605377cf5fa9c4fb973">range</a>(integral_constant&lt;T, from&gt;,</div>
-<div class="line">                              integral_constant&lt;T, to&gt;)</div>
+<p>This shorthand is provided for convenience only and it is equivalent to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1_range.html" title="Compile-time half-open interval of Constants. ">Range</a>&gt;</code>. Specifically, <code>range_c&lt;T, from, to&gt;</code> is such that </p><div class="fragment"><div class="line">range_c&lt;T, from, to&gt; == <a class="code" href="structboost_1_1hana_1_1_range.html#a2e1347688d03d7298cf90f3cadf0a002">make&lt;Range&gt;</a>(integral_constant&lt;T, from&gt;,</div>
+<div class="line">                                    integral_constant&lt;T, to&gt;)</div>
 </div><!-- fragment --><dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">T</td><td>The underlying integral type of the <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class represents data that can be manipulated at compile-time. ">Constant</a></code>s in the created range.</td></tr>
@@ -208,7 +240,7 @@ template&lt;typename T , T from, T to&gt; </div>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(head(range_c&lt;int, 0, 5&gt;) == int_&lt;0&gt;);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(last(range_c&lt;unsigned long, 0, 5&gt;) == ulong&lt;4&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(tail(range_c&lt;int, 0, 5&gt;) == <a class="code" href="structboost_1_1hana_1_1_range.html#ac3b5f08f5a346605377cf5fa9c4fb973">range</a>(int_&lt;1&gt;, int_&lt;5&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(tail(range_c&lt;int, 0, 5&gt;) == range(int_&lt;1&gt;, int_&lt;5&gt;));</div>
 </div><!-- fragment -->
 </div>
 </div>

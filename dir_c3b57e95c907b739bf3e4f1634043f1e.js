@@ -25,7 +25,7 @@ var dir_c3b57e95c907b739bf3e4f1634043f1e =
     [ "orderable.hpp", "fwd_2orderable_8hpp.html", null ],
     [ "pair.hpp", "fwd_2pair_8hpp.html", null ],
     [ "product.hpp", "fwd_2product_8hpp.html", null ],
-    [ "range.hpp", "fwd_2range_8hpp.html", null ],
+    [ "range.hpp", "fwd_2range_8hpp.html", "fwd_2range_8hpp" ],
     [ "record.hpp", "fwd_2record_8hpp.html", null ],
     [ "ring.hpp", "fwd_2ring_8hpp.html", null ],
     [ "searchable.hpp", "fwd_2searchable_8hpp.html", null ],
@@ -35,6 +35,6 @@ var dir_c3b57e95c907b739bf3e4f1634043f1e =
     ] ],
     [ "string.hpp", "fwd_2string_8hpp.html", "fwd_2string_8hpp" ],
     [ "traversable.hpp", "fwd_2traversable_8hpp.html", null ],
-    [ "tuple.hpp", "fwd_2tuple_8hpp.html", null ],
+    [ "tuple.hpp", "fwd_2tuple_8hpp.html", "fwd_2tuple_8hpp" ],
     [ "type.hpp", "fwd_2type_8hpp.html", null ]
 ];

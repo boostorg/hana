@@ -1,7 +1,6 @@
 var searchData=
 [
   ['range',['Range',['../structboost_1_1hana_1_1_range.html',1,'boost::hana']]],
-  ['range',['range',['../structboost_1_1hana_1_1_range.html#ac3b5f08f5a346605377cf5fa9c4fb973',1,'boost::hana::Range']]],
   ['range_2ehpp',['range.hpp',['../fwd_2range_8hpp.html',1,'']]],
   ['range_2ehpp',['range.hpp',['../range_8hpp.html',1,'']]],
   ['range_5fc',['range_c',['../structboost_1_1hana_1_1_range.html#a899b7a0c065ff64cd747fe1671753d3f',1,'boost::hana::Range']]],
@@ -23,6 +22,6 @@ var searchData=
   ['reverse_5fpartial_2ehpp',['reverse_partial.hpp',['../reverse__partial_8hpp.html',1,'']]],
   ['right',['right',['../structboost_1_1hana_1_1_either.html#a0bd40511a2cb9b281d36a7fe564177bb',1,'boost::hana::Either']]],
   ['ring',['Ring',['../structboost_1_1hana_1_1_ring.html',1,'boost::hana']]],
-  ['ring_2ehpp',['ring.hpp',['../ring_8hpp.html',1,'']]],
-  ['ring_2ehpp',['ring.hpp',['../fwd_2ring_8hpp.html',1,'']]]
+  ['ring_2ehpp',['ring.hpp',['../fwd_2ring_8hpp.html',1,'']]],
+  ['ring_2ehpp',['ring.hpp',['../ring_8hpp.html',1,'']]]
 ];

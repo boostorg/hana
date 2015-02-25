@@ -107,9 +107,13 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_tuple.html',''
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of methods</h2></td></tr>
-<tr class="memitem:a6607b420b861d7abc8df34cb6900da19"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_tuple.html#a6607b420b861d7abc8df34cb6900da19">tuple</a></td></tr>
-<tr class="memdesc:a6607b420b861d7abc8df34cb6900da19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <code><a class="el" href="structboost_1_1hana_1_1_tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code> containing the given objects.  <a href="#a6607b420b861d7abc8df34cb6900da19">More...</a><br /></td></tr>
-<tr class="separator:a6607b420b861d7abc8df34cb6900da19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4394c4c47cf8dd4934a40a4e2c10f8fb"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
+<tr class="memitem:a4394c4c47cf8dd4934a40a4e2c10f8fb"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_tuple.html#a4394c4c47cf8dd4934a40a4e2c10f8fb">make&lt; Tuple &gt;</a></td></tr>
+<tr class="memdesc:a4394c4c47cf8dd4934a40a4e2c10f8fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <code><a class="el" href="structboost_1_1hana_1_1_tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code> containing the given objects.  <a href="#a4394c4c47cf8dd4934a40a4e2c10f8fb">More...</a><br /></td></tr>
+<tr class="separator:a4394c4c47cf8dd4934a40a4e2c10f8fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3c175cfb83276339f91e867d738a2e6"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_tuple.html#af3c175cfb83276339f91e867d738a2e6">make_tuple</a> = make&lt;<a class="el" href="structboost_1_1hana_1_1_tuple.html">Tuple</a>&gt;</td></tr>
+<tr class="memdesc:af3c175cfb83276339f91e867d738a2e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1_tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a>&gt;</code>; provided for convenience.  <a href="#af3c175cfb83276339f91e867d738a2e6">More...</a><br /></td></tr>
+<tr class="separator:af3c175cfb83276339f91e867d738a2e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaa14e68d483c13fcc034639a75ab48a8"><td class="memTemplParams" colspan="2">template&lt;typename... T&gt; </td></tr>
 <tr class="memitem:aaa14e68d483c13fcc034639a75ab48a8"><td class="memTemplItemLeft" align="right" valign="top">constexpr unspecified type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_tuple.html#aaa14e68d483c13fcc034639a75ab48a8">tuple_t</a> {}</td></tr>
 <tr class="memdesc:aaa14e68d483c13fcc034639a75ab48a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <code><a class="el" href="structboost_1_1hana_1_1_tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code> specialized for holding <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="Represents a C++ type. ">Type</a></code>s.  <a href="#aaa14e68d483c13fcc034639a75ab48a8">More...</a><br /></td></tr>
@@ -120,15 +124,17 @@ Synopsis of methods</h2></td></tr>
 <tr class="separator:a718ca253f469ca8705677260e1a0def5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Methods</h2>
-<a class="anchor" id="a6607b420b861d7abc8df34cb6900da19"></a>
+<a class="anchor" id="a4394c4c47cf8dd4934a40a4e2c10f8fb"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto tuple</td>
+          <td class="memname">constexpr auto make&lt; <a class="el" href="structboost_1_1hana_1_1_tuple.html">Tuple</a> &gt;</td>
         </tr>
       </table>
   </td>
@@ -138,10 +144,37 @@ Synopsis of methods</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; ...xs) {</div>
-<div class="line">        <span class="keywordflow">return</span> unspecified-type;</div>
+<div class="line">        <span class="keywordflow">return</span> _tuple&lt;decayed(decltype(xs))...&gt;{forwarded(xs)...};</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Create a <code><a class="el" href="structboost_1_1hana_1_1_tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code> containing the given objects. </p>
+<p>This is analoguous to <code>std::make_tuple</code> for creating Hana tuples. The elements are held by value inside the resulting tuple, and hence they are copied or moved in.</p>
+<h2>Example </h2>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> xs = <a class="code" href="structboost_1_1hana_1_1_tuple.html#a4394c4c47cf8dd4934a40a4e2c10f8fb">make&lt;Tuple&gt;</a>(1, 2, <span class="charliteral">&#39;3&#39;</span>, std::string{<span class="stringliteral">&quot;456&quot;</span>});</div>
+<div class="line"></div>
+<div class="line">constexpr <span class="keyword">auto</span> ys = <a class="code" href="structboost_1_1hana_1_1_tuple.html#a4394c4c47cf8dd4934a40a4e2c10f8fb">make&lt;Tuple&gt;</a>(1, <span class="charliteral">&#39;2&#39;</span>, 3.456);</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="af3c175cfb83276339f91e867d738a2e6"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto make_tuple = make&lt;<a class="el" href="structboost_1_1hana_1_1_tuple.html">Tuple</a>&gt;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1_tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a>&gt;</code>; provided for convenience. </p>
 
 </div>
 </div>
@@ -171,9 +204,9 @@ template&lt;typename... T&gt; </div>
 <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
 <div class="line">    to&lt;Tuple&gt;(<a class="code" href="structboost_1_1hana_1_1_tuple.html#aaa14e68d483c13fcc034639a75ab48a8">tuple_t</a>&lt;<span class="keywordtype">int</span>, <span class="keywordtype">char</span>, <span class="keywordtype">void</span>, <span class="keywordtype">int</span>(<span class="keywordtype">float</span>)&gt;)</div>
 <div class="line">    ==</div>
-<div class="line">    make&lt;Tuple&gt;(type&lt;int&gt;, type&lt;char&gt;, type&lt;void&gt;, type&lt;<span class="keywordtype">int</span>(<span class="keywordtype">float</span>)&gt;)</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_tuple.html#a4394c4c47cf8dd4934a40a4e2c10f8fb">make&lt;Tuple&gt;</a>(type&lt;int&gt;, type&lt;char&gt;, type&lt;void&gt;, type&lt;<span class="keywordtype">int</span>(<span class="keywordtype">float</span>)&gt;)</div>
 <div class="line">);</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000045">Todo:</a></b></dt><dd>Implement the optimization. </dd></dl>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000046">Todo:</a></b></dt><dd>Implement the optimization. </dd></dl>
 
 </div>
 </div>
@@ -203,10 +236,10 @@ template&lt;typename T , T... v&gt; </div>
 <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
 <div class="line">    to&lt;Tuple&gt;(tuple_c&lt;int, 0, 1, 2&gt;)</div>
 <div class="line">    ==</div>
-<div class="line">    make&lt;Tuple&gt;(int_&lt;0&gt;, int_&lt;1&gt;, int_&lt;2&gt;)</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_tuple.html#a4394c4c47cf8dd4934a40a4e2c10f8fb">make&lt;Tuple&gt;</a>(int_&lt;0&gt;, int_&lt;1&gt;, int_&lt;2&gt;)</div>
 <div class="line">);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(head(tuple_c&lt;int, 0, 1, 2&gt;) == int_&lt;0&gt;);</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000046">Todo:</a></b></dt><dd>Implement the optimization. </dd></dl>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000047">Todo:</a></b></dt><dd>Implement the optimization. </dd></dl>
 
 </div>
 </div>

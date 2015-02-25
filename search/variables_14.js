@@ -14,7 +14,6 @@ var searchData=
   ['transform',['transform',['../structboost_1_1hana_1_1_functor.html#a3a3140eb3e41d54e2370eb19ee6b043c',1,'boost::hana::Functor']]],
   ['traverse',['traverse',['../structboost_1_1hana_1_1_traversable.html#a15f448955bcfe5b536c94a76b0c007fb',1,'boost::hana::Traversable']]],
   ['true_5f',['true_',['../structboost_1_1hana_1_1_integral_constant.html#ae6096d56dd1b76bb9d37e4121eb5b33c',1,'boost::hana::IntegralConstant']]],
-  ['tuple',['tuple',['../structboost_1_1hana_1_1_tuple.html#a6607b420b861d7abc8df34cb6900da19',1,'boost::hana::Tuple']]],
   ['tuple_5fc',['tuple_c',['../structboost_1_1hana_1_1_tuple.html#a718ca253f469ca8705677260e1a0def5',1,'boost::hana::Tuple']]],
   ['tuple_5ft',['tuple_t',['../structboost_1_1hana_1_1_tuple.html#aaa14e68d483c13fcc034639a75ab48a8',1,'boost::hana::Tuple']]],
   ['type',['type',['../structboost_1_1hana_1_1_type.html#a4b171ee57f23017113921071f72639d0',1,'boost::hana::Type']]]

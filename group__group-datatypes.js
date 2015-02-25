@@ -46,7 +46,8 @@ var group__group_datatypes =
       [ "pair", "structboost_1_1hana_1_1_pair.html#a8d15743bd0fcc2cf033ed657e95998c1", null ]
     ] ],
     [ "Range", "structboost_1_1hana_1_1_range.html", [
-      [ "range", "structboost_1_1hana_1_1_range.html#ac3b5f08f5a346605377cf5fa9c4fb973", null ],
+      [ "make< Range >", "structboost_1_1hana_1_1_range.html#a2e1347688d03d7298cf90f3cadf0a002", null ],
+      [ "make_range", "structboost_1_1hana_1_1_range.html#aba8dd69deb1d810ef65ec289127bf0ab", null ],
       [ "range_c", "structboost_1_1hana_1_1_range.html#a899b7a0c065ff64cd747fe1671753d3f", null ]
     ] ],
     [ "Set", "structboost_1_1hana_1_1_set.html", [
@@ -57,7 +58,8 @@ var group__group_datatypes =
       [ "string", "structboost_1_1hana_1_1_string.html#ae4ad84170f33b1068880b4b2375322a9", null ]
     ] ],
     [ "Tuple", "structboost_1_1hana_1_1_tuple.html", [
-      [ "tuple", "structboost_1_1hana_1_1_tuple.html#a6607b420b861d7abc8df34cb6900da19", null ],
+      [ "make< Tuple >", "structboost_1_1hana_1_1_tuple.html#a4394c4c47cf8dd4934a40a4e2c10f8fb", null ],
+      [ "make_tuple", "structboost_1_1hana_1_1_tuple.html#af3c175cfb83276339f91e867d738a2e6", null ],
       [ "tuple_t", "structboost_1_1hana_1_1_tuple.html#aaa14e68d483c13fcc034639a75ab48a8", null ],
       [ "tuple_c", "structboost_1_1hana_1_1_tuple.html#a718ca253f469ca8705677260e1a0def5", null ]
     ] ],

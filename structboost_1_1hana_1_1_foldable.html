@@ -204,7 +204,7 @@ Synopsis of methods</h2></td></tr>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a0a5d375abcde2ceed89662df491a2c43">foldl</a>(make&lt;Tuple&gt;(2, <span class="stringliteral">&quot;3&quot;</span>, <span class="charliteral">&#39;4&#39;</span>), <span class="stringliteral">&quot;1&quot;</span>, show) == <span class="stringliteral">&quot;(((1 + 2) + 3) + 4)&quot;</span>);</div>
 </div><!-- fragment --><h2>Benchmarks </h2>
 <div class="image">
-<img src="foldl.ctime.png" alt="foldl.ctime.png"/>
+<img src="benchmark/foldable/foldl.ctime.png" alt="foldl.ctime.png"/>
 </div>
  
 </div>
@@ -251,7 +251,7 @@ Synopsis of methods</h2></td></tr>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>(make&lt;Tuple&gt;(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>), <span class="stringliteral">&quot;4&quot;</span>, show) == <span class="stringliteral">&quot;(1 + (2 + (3 + 4)))&quot;</span>);</div>
 </div><!-- fragment --><h2>Benchmarks </h2>
 <div class="image">
-<img src="foldr.ctime.png" alt="foldr.ctime.png"/>
+<img src="benchmark/foldable/foldr.ctime.png" alt="foldr.ctime.png"/>
 </div>
  
 </div>
@@ -297,7 +297,7 @@ Synopsis of methods</h2></td></tr>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a03b3683b885c27b5c607fe6f0d2f7356">foldr1</a>(make&lt;Tuple&gt;(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>), show) == <span class="stringliteral">&quot;(1 + (2 + 3))&quot;</span>);</div>
 </div><!-- fragment --><h2>Benchmarks </h2>
 <div class="image">
-<img src="foldr1.ctime.png" alt="foldr1.ctime.png"/>
+<img src="benchmark/foldable/foldr1.ctime.png" alt="foldr1.ctime.png"/>
 </div>
  
 </div>
@@ -343,7 +343,7 @@ Synopsis of methods</h2></td></tr>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a8ca4972e61b7ad36ff9fcca9e6131da6">foldl1</a>(make&lt;Tuple&gt;(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>), show) == <span class="stringliteral">&quot;((1 + 2) + 3)&quot;</span>);</div>
 </div><!-- fragment --><h2>Benchmarks </h2>
 <div class="image">
-<img src="foldl1.ctime.png" alt="foldl1.ctime.png"/>
+<img src="benchmark/foldable/foldl1.ctime.png" alt="foldl1.ctime.png"/>
 </div>
  
 </div>
@@ -388,7 +388,7 @@ Synopsis of methods</h2></td></tr>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(ss.str() == <span class="stringliteral">&quot;0 1 234 5.5 &quot;</span>);</div>
 </div><!-- fragment --><h2>Benchmarks </h2>
 <div class="image">
-<img src="for_each.ctime.png" alt="for_each.ctime.png"/>
+<img src="benchmark/foldable/for_each.ctime.png" alt="for_each.ctime.png"/>
 </div>
  
 </div>
@@ -424,7 +424,7 @@ Synopsis of methods</h2></td></tr>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a5fb377e43aa7753bb77aa346c67fae0d">length</a>(just(<span class="charliteral">&#39;x&#39;</span>)) == size_t&lt;1&gt;);</div>
 </div><!-- fragment --><h2>Benchmarks </h2>
 <div class="image">
-<img src="length.ctime.png" alt="length.ctime.png"/>
+<img src="benchmark/foldable/length.ctime.png" alt="length.ctime.png"/>
 </div>
  
 </div>
@@ -470,7 +470,7 @@ Synopsis of methods</h2></td></tr>
 <div class="line">);</div>
 </div><!-- fragment --><h2>Benchmarks </h2>
 <div class="image">
-<img src="minimum_by.ctime.png" alt="minimum_by.ctime.png"/>
+<img src="benchmark/foldable/minimum_by.ctime.png" alt="minimum_by.ctime.png"/>
 </div>
  
 </div>
@@ -503,7 +503,7 @@ Synopsis of methods</h2></td></tr>
 <div class="line">);</div>
 </div><!-- fragment --><h2>Benchmarks </h2>
 <div class="image">
-<img src="minimum.ctime.png" alt="minimum.ctime.png"/>
+<img src="benchmark/foldable/minimum.ctime.png" alt="minimum.ctime.png"/>
 </div>
  
 </div>
@@ -549,7 +549,7 @@ Synopsis of methods</h2></td></tr>
 <div class="line">);</div>
 </div><!-- fragment --><h2>Benchmarks </h2>
 <div class="image">
-<img src="maximum_by.ctime.png" alt="maximum_by.ctime.png"/>
+<img src="benchmark/foldable/maximum_by.ctime.png" alt="maximum_by.ctime.png"/>
 </div>
  
 </div>
@@ -582,7 +582,7 @@ Synopsis of methods</h2></td></tr>
 <div class="line">);</div>
 </div><!-- fragment --><h2>Benchmarks </h2>
 <div class="image">
-<img src="maximum.ctime.png" alt="maximum.ctime.png"/>
+<img src="benchmark/foldable/maximum.ctime.png" alt="maximum.ctime.png"/>
 </div>
  
 </div>
@@ -620,7 +620,7 @@ Synopsis of methods</h2></td></tr>
 <div class="line">);</div>
 </div><!-- fragment --><h2>Benchmarks </h2>
 <div class="image">
-<img src="sum.ctime.png" alt="sum.ctime.png"/>
+<img src="benchmark/foldable/sum.ctime.png" alt="sum.ctime.png"/>
 </div>
  
 </div>
@@ -658,7 +658,7 @@ Synopsis of methods</h2></td></tr>
 <div class="line">);</div>
 </div><!-- fragment --><h2>Benchmarks </h2>
 <div class="image">
-<img src="product.ctime.png" alt="product.ctime.png"/>
+<img src="benchmark/foldable/product.ctime.png" alt="product.ctime.png"/>
 </div>
  
 </div>
@@ -709,7 +709,7 @@ Synopsis of methods</h2></td></tr>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#ae0a55dd7eb4bd4f587f51ffd8c923e53">count</a>(types, <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> == type&lt;void&gt;) == size_t&lt;0&gt;);</div>
 </div><!-- fragment --><h2>Benchmarks </h2>
 <div class="image">
-<img src="count.ctime.png" alt="count.ctime.png"/>
+<img src="benchmark/foldable/count.ctime.png" alt="count.ctime.png"/>
 </div>
  
 </div>
@@ -761,7 +761,7 @@ Synopsis of methods</h2></td></tr>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(a == 1 &amp;&amp; b == <span class="charliteral">&#39;2&#39;</span> &amp;&amp; c == 3.3);</div>
 </div><!-- fragment --><h2>Benchmarks </h2>
 <div class="image">
-<img src="unpack.ctime.png" alt="unpack.ctime.png"/>
+<img src="benchmark/foldable/unpack.ctime.png" alt="unpack.ctime.png"/>
 </div>
  
 </div>

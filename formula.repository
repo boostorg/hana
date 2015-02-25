@@ -1,0 +1,50 @@
+\form#0:\[ adjust : F(T) x (T -> B) x (T -> U) -> F(U) \]
+\form#1:\[ \mathrm{adjust} : F(T) \times (T \to B) \times (T \to U) \to F(U) \]
+\form#2:$F(T)$
+\form#3:$xs : F(T)$
+\form#4:$ F(T)$
+\form#5:\[ \mathrm{adjust} : F(T) \times (T \to B) \times (T \to T) \to F(T) \]
+\form#6:\[ \mathrm{transform} : F(T) \times (T \to U) \to F(U) \]
+\form#7:\[ \mathrm{replace} : F(T) \times (T \to B) \times T \to F(T) \]
+\form#8:\[ \mathrm{fill} : F(T) \times U \to F(U) \]
+\form#9:$ f : A \to B $
+\form#10:$ g : B \to C $
+\form#11:$ \mathrm{pred} : A \to Bool $
+\form#12:$ v : A $
+\form#13:$ f : A \to A $
+\form#14:$ \mathrm{pred} : A \to \mathrm{Bool} $
+\form#15:$ \mathrm{transform} : F(T) \times (T \to U) \to F(U) $
+\form#16:$ \mathrm{adjust} : F(T) \times (T \to B) \times (T \to T) \to F(T) $
+\form#17:$ \mathrm{replace} : F(T) \times (T \to B) \times T \to F(T) $
+\form#18:$ \mathrm{fill} : F(T) \times U \to F(U) $
+\form#19:$ f : T \to M(U) $
+\form#20:$ \mathrm{concat} : M(T) \times M(T) \to M(T) $
+\form#21:$ \mathrm{empty} : \emptyset \to $
+\form#22:$ \mathrm{empty} : \emptyset \to M(T) $
+\form#23:$ \mathrm{prepend} : T \times M(T) \to M(T) $
+\form#24:$ \mathrm{append} : M(T) \times T \to M(T) $
+\form#25:$ \mathrm{filter} : M(T) \times (M(T) \to \mathrm{Bool}) \to M(T) $
+\form#26:$ \mathrm{empty<M>} : \emptyset \to M(T) $
+\form#27:$ \mathrm{cycle} : C \times M(T) \to M(T) $
+\form#28:$ \mathrm{repeat<M>} : C \times T \to M(T) $
+\form#29:$ \mathrm{filter} : M(T) \times (T \to \mathrm{Bool}) \to M(T) $
+\form#30:$ \mathrm{prefix} : T \times M(T) \to M(T) $
+\form#31:$ \mathrm{suffix} : T \times M(T) \to M(T) $
+\form#32:$ f : F(B \to C) $
+\form#33:$ g : F(A \to B) $
+\form#34:$ fs : F(A \to B) $
+\form#35:$ t : F(a) \to G(a) $
+\form#36:$ \mathrm{ap} : F(A_1 \times \dots \times A_n \to B) \times F(A_) \times \dots \times F(A_n) \to F(B) $
+\form#37:$ \mathrm{empty_M} : \emptyset \to M(T) $
+\form#38:$ \mathrm{repeat_M} : C \times T \to M(T) $
+\form#39:$ fs : F(B \to C) $
+\form#40:$ gs : F(A \to B) $
+\form#41:$ \mathrm{ap} : F(A_1 \times \cdots \times A_n \to B) \times F(A_) \times \cdots \times F(A_n) \to F(B) $
+\form#42:$ \mathrm{ap} : F(A_1) \times \cdots \times A_n \to B) \times F(A_) \times \cdots \times F(A_n) \to F(B) $
+\form#43:$ \mathrm{ap} : F(A_1 \times \cdots \times A_n \to B) \times F(A_1) \times \cdots \times F(A_n) \to F(B) $
+\form#44:$ \mathrm{lift}_F : A \to F(A) $
+\form#45:$ \mathrm{ap} : A(T_1 \times \cdots \times T_n \to U) \times A(T_1) \times \cdots \times A(T_n) \to A(U) $
+\form#46:$ \mathrm{lift}_A : T \to A(T) $
+\form#47:$ \mathrm{lift_A} : T \to A(T) $
+\form#48:$ \mathrm{empty}_M : \emptyset \to M(T) $
+\form#49:$ \mathrm{repeat}_M : C \times T \to M(T) $

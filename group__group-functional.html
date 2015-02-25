@@ -548,22 +548,22 @@ template&lt;std::size_t n&gt; </div>
 <div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> contains = <a class="code" href="group__group-functional.html#ga7bdafba6dc801f1d2d83731ad9714557">infix</a>(elem);</div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">        <a class="code" href="group__group-functional.html#ga004f884cdbb85c2efe3383c1db450094">flip</a>(all)(tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3) ^ contains,</div>
-<div class="line">            tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)</div>
+<div class="line">        <a class="code" href="group__group-functional.html#ga004f884cdbb85c2efe3383c1db450094">flip</a>(all)(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3) ^ contains,</div>
+<div class="line">            make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)</div>
 <div class="line">        )</div>
 <div class="line">    );</div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
 <div class="line">        <a class="code" href="group__group-functional.html#ga004f884cdbb85c2efe3383c1db450094">flip</a>(all)(contains ^ <span class="charliteral">&#39;2&#39;</span>,</div>
-<div class="line">            tuple(</div>
-<div class="line">                tuple(1, <span class="charliteral">&#39;2&#39;</span>),</div>
-<div class="line">                tuple(<span class="charliteral">&#39;2&#39;</span>),</div>
-<div class="line">                tuple(<span class="charliteral">&#39;2&#39;</span>, 3.3)</div>
+<div class="line">            make&lt;Tuple&gt;(</div>
+<div class="line">                make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>),</div>
+<div class="line">                make&lt;Tuple&gt;(<span class="charliteral">&#39;2&#39;</span>),</div>
+<div class="line">                make&lt;Tuple&gt;(<span class="charliteral">&#39;2&#39;</span>, 3.3)</div>
 <div class="line">            )</div>
 <div class="line">        )</div>
 <div class="line">    );</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3) ^contains^ 3.3);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3) ^contains^ 3.3);</div>
 </div><!-- fragment -->
 </div>
 </div>
