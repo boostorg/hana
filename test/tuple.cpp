@@ -269,18 +269,18 @@ int main() {
             ));
         }
 
-        // nil
+        // empty
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                nil<Tuple>(),
+                empty<Tuple>(),
                 tuple_c<int>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                nil<Tuple>(),
+                empty<Tuple>(),
                 tuple_c<long>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                nil<Tuple>(),
+                empty<Tuple>(),
                 tuple_c<void>
             ));
         }

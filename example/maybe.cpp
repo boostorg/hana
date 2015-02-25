@@ -77,7 +77,7 @@ BOOST_HANA_CONSTEXPR_CHECK(
     concat(just('x'), just('y')) == just('x')
 );
 
-BOOST_HANA_CONSTANT_CHECK(nil<Maybe>() == nothing);
+BOOST_HANA_CONSTANT_CHECK(empty<Maybe>() == nothing);
 //! [monad_plus]
 
 }{

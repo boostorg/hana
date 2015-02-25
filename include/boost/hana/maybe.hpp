@@ -221,7 +221,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct nil_impl<Maybe> {
+    struct empty_impl<Maybe> {
         static constexpr auto apply()
         { return nothing; }
     };

@@ -44,29 +44,32 @@ namespace boost { namespace hana {
     //!
     //! Minimal complete definition
     //! ---------------------------
-    //! `concat` and `nil`
+    //! `concat` and `empty`
     //!
     //!
     //! Laws
     //! ----
     //! First, a MonadPlus is required to have a monoidal structure. Hence, it
-    //! is no surprise that we require a MonadPlus `M` to be a monoid. For
-    //! all objects `a, b, c` of a MonadPlus `M`,
+    //! is no surprise that for any MonadPlus `M`, we require `M(T)` to be a
+    //! valid monoid. However, we do not enforce that `M(T)` actually models
+    //! the Monoid concept provided by Hana. Further, for all objects `a, b, c`
+    //! of data type `M(T)`,
     //! @code
     //!     // identity
-    //!     concat(nil<M>(), a) == a
-    //!     concat(a, nil<M>()) == a
+    //!     concat(empty<M(T)>(), a) == a
+    //!     concat(a, empty<M(T)>()) == a
     //!
     //!     // associativity
     //!     concat(a, concat(b, c)) == concat(concat(a, b), c)
     //! @endcode
     //!
     //! Second, a MonadPlus is also required to obey the following laws,
-    //! which represent the fact that `nil<M>()` must be some kind of
-    //! absorbing element for the `bind` operation.
+    //! which represent the fact that `empty<M(T)>()` must be some kind of
+    //! absorbing element for the `bind` operation. For all objects `a` of
+    //! data type `M(T)` and functions @f$ f : T \to M(U) @f$,
     //! @code
-    //!     bind(nil<M>(), f)         == nil<M>()
-    //!     bind(a, always(nil<M>())) == nil<M>()
+    //!     bind(empty<M(T)>(), f)         == empty<M(U)>()
+    //!     bind(a, always(empty<M(T)>())) == empty<M(U)>()
     //! @endcode
     struct MonadPlus { };
 
@@ -85,6 +88,11 @@ namespace boost { namespace hana {
     //! @endcode
     //! , and it does not hold in general.
     //!
+    //!
+    //! Signature
+    //! ---------
+    //! Given `M` a MonadPlus, the signature is
+    //! @f$ \mathrm{concat} : M(T) \times M(T) \to M(T) @f$.
     //!
     //! @param xs, ys
     //! Two monadic structures to combine together.
@@ -121,6 +129,10 @@ namespace boost { namespace hana {
     //! Identity of the monadic combination `concat`.
     //! @relates MonadPlus
     //!
+    //! Signature
+    //! ---------
+    //! Given a MonadPlus `M`, the signature is
+    //! @f$ \mathrm{empty}_M : \emptyset \to M(T) @f$.
     //!
     //! @tparam M
     //! The data type of the monadic structure to return. This must be
@@ -129,35 +141,34 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/monad_plus.cpp nil
+    //! @snippet example/monad_plus.cpp empty
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename M>
-    constexpr auto nil = []() -> decltype(auto) {
+    constexpr auto empty = []() -> decltype(auto) {
         return tag-dispatched;
     };
 #else
     template <typename M, typename = void>
-    struct nil_impl;
+    struct empty_impl;
 
     template <typename M>
-    struct _nil {
+    struct _empty {
         constexpr decltype(auto) operator()() const {
-            return nil_impl<M>::apply();
+            return empty_impl<M>::apply();
         }
     };
 
     template <typename M>
-    constexpr _nil<M> nil{};
+    constexpr _empty<M> empty{};
 #endif
 
     //! Prepend an element to a monadic structure.
     //! @relates MonadPlus
     //!
-    //! Given an element `x` of data type `X` and a monadic structure
-    //! `xs` containing objects of data type `X`, `prepend` returns a
-    //! new monadic structure which is the result of lifting `x` into
-    //! the monadic structure and then combining that (to the left)
-    //! with `xs`. In other words,
+    //! Given an element `x` and a monadic structure `xs`, `prepend` returns
+    //! a new monadic structure which is the result of lifting `x` into the
+    //! monadic structure and then combining that (to the left) with `xs`.
+    //! In other words,
     //! @code
     //!     prepend(x, xs) == concat(lift<Xs>(x), xs)
     //! @endcode
@@ -173,6 +184,11 @@ namespace boost { namespace hana {
     //! > element to the front of a sequence, whereas `prepend` is slightly
     //! > more nuanced and bears its name better for e.g. `Maybe`.
     //!
+    //!
+    //! Signature
+    //! ---------
+    //! Given a MonadPlus `M`, the signature is
+    //! @f$ \mathrm{prepend} : T \times M(T) \to M(T) @f$.
     //!
     //! @param x
     //! An element to combine to the left of the monadic structure.
@@ -224,6 +240,11 @@ namespace boost { namespace hana {
     //! > See the rationale for using `prepend` instead of `push_front`.
     //!
     //!
+    //! Signature
+    //! ---------
+    //! Given a MonadPlus `M`, the signature is
+    //! @f$ \mathrm{append} : M(T) \times T \to M(T) @f$.
+    //!
     //! @param xs
     //! A monadic structure that will be combined to the left of the element.
     //!
@@ -265,7 +286,7 @@ namespace boost { namespace hana {
     //! somewhat equivalent to:
     //! @code
     //!     filter(xs, pred) == flatten(transform(xs, [](auto x) {
-    //!         return pred(x) ? lift<Xs>(x) : nil<Xs>();
+    //!         return pred(x) ? lift<Xs>(x) : empty<Xs>();
     //!     })
     //! @endcode
     //! In other words, we basically turn a monadic structure containing
@@ -281,6 +302,11 @@ namespace boost { namespace hana {
     //! , and we then `flatten` that.
     //!
     //!
+    //! Signature
+    //! ---------
+    //! Given a MonadPlus `M` and a Logical `Bool`, the signature is
+    //! @f$ \mathrm{filter} : M(T) \times (T \to \mathrm{Bool}) \to M(T) @f$.
+    //!
     //! @param xs
     //! The monadic structure to filter.
     //!
@@ -294,7 +320,6 @@ namespace boost { namespace hana {
     //! Example
     //! -------
     //! @snippet example/monad_plus.cpp filter
-    //!
     //!
     //! Benchmarks
     //! ----------
@@ -339,16 +364,21 @@ namespace boost { namespace hana {
     //!                               // ^^^^^ n times total
     //! @endcode
     //!
-    //! If `n` is zero, then the identity of `concat`, `nil`, is returned.
+    //! If `n` is zero, then the identity of `concat`, `empty`, is returned.
     //! In the case of sequences, this boils down to returning a sequence
     //! which containes `n` copies of itself; for other models it might
     //! differ.
     //!
     //!
+    //! Signature
+    //! ---------
+    //! Given a Constant `C` and a MonadPlus `M`, the signature is
+    //! @f$ \mathrm{cycle} : C \times M(T) \to M(T) @f$.
+    //!
     //! @param n
     //! A non-negative `Constant` of an unsigned integral type representing
     //! the number of times to combine the monadic structure with itself.
-    //! If `n` is zero, `cycle` returns `nil`.
+    //! If `n` is zero, `cycle` returns `empty`.
     //!
     //! @param xs
     //! A monadic structure to combine with itself a certain number of times.
@@ -396,14 +426,19 @@ namespace boost { namespace hana {
     //! holding `n` copies of `x`.
     //!
     //!
+    //! Signature
+    //! ---------
+    //! Given a Constant `C` and MonadPlus `M`, the signature is
+    //! @f$ \mathrm{repeat}_M : C \times T \to M(T) @f$.
+    //!
     //! @tparam M
-    //! The data type of the returned monadic structure. It must be a model of
-    //! the MonadPlus concept.
+    //! The data type of the returned monadic structure. It must be a
+    //! model of the MonadPlus concept.
     //!
     //! @param n
     //! A non-negative `Constant` of an unsigned integral type representing
     //! the number of times to combine `lift<M>(x)` with itself. If `n == 0`,
-    //! then `repeat` returns `nil<M>()`.
+    //! then `repeat` returns `empty<M>()`.
     //!
     //! @param x
     //! The value to lift into a monadic structure and then combine with
@@ -458,6 +493,11 @@ namespace boost { namespace hana {
     //! with various levels of interest.
     //!
     //!
+    //! Signature
+    //! ---------
+    //! Given a MonadPlus `M`, the signature is
+    //! @f$ \mathrm{prefix} : T \times M(T) \to M(T) @f$.
+    //!
     //! @param z
     //! A value (the prefix) to insert before each element of a monadic
     //! structure.
@@ -510,6 +550,11 @@ namespace boost { namespace hana {
     //! As explained above, this can be generalized to other MonadPlus models,
     //! with various levels of interest.
     //!
+    //!
+    //! Signature
+    //! ---------
+    //! Given a MonadPlus `M`, the signature is
+    //! @f$ \mathrm{suffix} : T \times M(T) \to M(T) @f$.
     //!
     //! @param z
     //! A value (the suffix) to insert after each element of a monadic

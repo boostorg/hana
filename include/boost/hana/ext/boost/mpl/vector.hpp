@@ -72,7 +72,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct nil_impl<ext::boost::mpl::Vector> {
+    struct empty_impl<ext::boost::mpl::Vector> {
         static constexpr auto apply()
         { return ::boost::mpl::vector0<>{}; }
     };

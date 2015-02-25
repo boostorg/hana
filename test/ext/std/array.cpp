@@ -72,18 +72,18 @@ int main() {
 
     // MonadPlus
     {
-        // nil
+        // empty
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                nil<ext::std::Array>(),
+                empty<ext::std::Array>(),
                 std::array<char, 0>{}
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                nil<ext::std::Array>(),
+                empty<ext::std::Array>(),
                 std::array<int, 0>{}
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                nil<ext::std::Array>(),
+                empty<ext::std::Array>(),
                 std::array<long, 0>{}
             ));
         }
@@ -108,7 +108,7 @@ int main() {
             ));
 
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                prepend(0, nil<ext::std::Array>()),
+                prepend(0, empty<ext::std::Array>()),
                 array<0>
             ));
         }

@@ -35,13 +35,13 @@ namespace boost { namespace hana { namespace test {
         for_each(objects<M>, [=](auto c) {
             // left identity
             BOOST_HANA_CHECK(equal(
-                concat(nil<M>(), a),
+                concat(empty<M>(), a),
                 a
             ));
 
             // right identity
             BOOST_HANA_CHECK(equal(
-                concat(a, nil<M>()),
+                concat(a, empty<M>()),
                 a
             ));
 
@@ -53,13 +53,13 @@ namespace boost { namespace hana { namespace test {
 
             // absorption
             BOOST_HANA_CHECK(equal(
-                bind(nil<M>(), f),
-                nil<M>()
+                bind(empty<M>(), f),
+                empty<M>()
             ));
 
             BOOST_HANA_CHECK(equal(
-                bind(a, always(nil<M>())),
-                nil<M>()
+                bind(a, always(empty<M>())),
+                empty<M>()
             ));
         });});});
     };

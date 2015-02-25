@@ -414,7 +414,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct nil_impl<Tuple> {
+    struct empty_impl<Tuple> {
         static constexpr _tuple<> apply()
         { return {}; }
     };

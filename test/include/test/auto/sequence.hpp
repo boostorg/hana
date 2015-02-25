@@ -3117,10 +3117,10 @@ namespace boost { namespace hana { namespace test {
         {
             laws<MonadPlus, L>();
 
-            // nil
+            // empty
             {
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    nil<L>(), list()
+                    empty<L>(), list()
                 ));
             }
 

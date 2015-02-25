@@ -191,9 +191,9 @@ int main() {
     {
         using test::x;
 
-        // nil
+        // empty
         {
-            BOOST_HANA_CONSTANT_CHECK(equal(nil<Maybe>(), nothing));
+            BOOST_HANA_CONSTANT_CHECK(equal(empty<Maybe>(), nothing));
         }
 
         // concat

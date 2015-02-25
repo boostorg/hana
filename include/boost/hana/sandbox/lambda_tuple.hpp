@@ -247,7 +247,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct nil_impl<sandbox::LambdaTuple> {
+    struct empty_impl<sandbox::LambdaTuple> {
         static BOOST_HANA_CONSTEXPR_LAMBDA decltype(auto) apply() {
             return sandbox::lambda_tuple();
         }

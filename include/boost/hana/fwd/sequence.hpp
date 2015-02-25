@@ -39,7 +39,7 @@ namespace boost { namespace hana {
     //!
     //! Minimal complete definition
     //! ---------------------------
-    //! 1. `Iterable`, `nil`, `prepend`, and explicitly specialize `models`
+    //! 1. `Iterable`, `empty`, `prepend`, and explicitly specialize `models`
     //! The Sequence concept does not provide basic methods that could be used
     //! as a minimal complete definition; it instead borrows methods from
     //! other concepts and add laws to them. For this reason, it is necessary
@@ -109,7 +109,7 @@ namespace boost { namespace hana {
     //! Sequences are models of the MonadPlus concept by considering the
     //! empty sequence as the unit of `concat`, and sequence concatenation
     //! as the combining operation. Note that the minimal complete definition
-    //! of Sequence includes the `prepend` and the `nil` methods, which are
+    //! of Sequence includes the `prepend` and the `empty` methods, which are
     //! part of the MonadPlus concept. When those methods are provided, the
     //! `concat` method is automatically defined and hence it is not strictly
     //! required to implement it in order to model MonadPlus.

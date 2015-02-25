@@ -78,7 +78,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct nil_impl<LazyList> {
+    struct empty_impl<LazyList> {
         static constexpr auto apply()
         { return lazy_nil; }
     };

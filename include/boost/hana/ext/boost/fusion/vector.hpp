@@ -59,7 +59,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct nil_impl<ext::boost::fusion::Vector> {
+    struct empty_impl<ext::boost::fusion::Vector> {
         static auto apply()
         { return ::boost::fusion::vector<>{}; }
     };

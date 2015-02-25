@@ -136,7 +136,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct nil_impl<ext::std::Array> {
+    struct empty_impl<ext::std::Array> {
         struct anything { };
         static constexpr auto apply()
         { return ::std::array<anything, 0>{}; }

@@ -29,10 +29,10 @@ BOOST_HANA_CONSTEXPR_CHECK(
 
 }{
 
-//! [nil]
-BOOST_HANA_CONSTANT_CHECK(nil<Tuple>() == make<Tuple>());
-BOOST_HANA_CONSTANT_CHECK(nil<Maybe>() == nothing);
-//! [nil]
+//! [empty]
+BOOST_HANA_CONSTANT_CHECK(empty<Tuple>() == make<Tuple>());
+BOOST_HANA_CONSTANT_CHECK(empty<Maybe>() == nothing);
+//! [empty]
 
 }{
 

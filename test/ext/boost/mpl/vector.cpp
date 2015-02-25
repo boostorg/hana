@@ -160,14 +160,14 @@ int main() {
             ));
         }
 
-        // nil
+        // empty
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                nil<ext::boost::mpl::Vector>(),
+                empty<ext::boost::mpl::Vector>(),
                 ::boost::mpl::vector<>{}
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                nil<ext::boost::mpl::Vector>(),
+                empty<ext::boost::mpl::Vector>(),
                 ::boost::mpl::vector0<>{}
             ));
         }

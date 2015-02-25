@@ -44,17 +44,17 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // nil
+    // empty
     //////////////////////////////////////////////////////////////////////////
     template <typename M, typename>
-    struct nil_impl : nil_impl<M, when<true>> { };
+    struct empty_impl : empty_impl<M, when<true>> { };
 
     template <typename M, bool condition>
-    struct nil_impl<M, when<condition>> : default_ {
+    struct empty_impl<M, when<condition>> : default_ {
         template <typename ...Nothing>
         static constexpr void apply(Nothing&& ...) {
-            static_assert(wrong<nil_impl<M>, Nothing...>{},
-            "no definition of boost::hana::nil for the given data type");
+            static_assert(wrong<empty_impl<M>, Nothing...>{},
+            "no definition of boost::hana::empty for the given data type");
         }
     };
 
@@ -102,7 +102,7 @@ namespace boost { namespace hana {
                 decltype(auto) cond = detail::std::forward<Pred>(pred)(x);
                 return hana::if_(detail::std::forward<decltype(cond)>(cond),
                     lift<M>(detail::std::forward<X>(x)),
-                    nil<M>()
+                    empty<M>()
                 );
             }
         };
@@ -129,7 +129,7 @@ namespace boost { namespace hana {
         struct cycle_helper<M, 0, true> {
             template <typename Xs>
             static constexpr decltype(auto) apply(Xs const&)
-            { return nil<M>(); }
+            { return empty<M>(); }
         };
 
         template <typename M, detail::std::size_t n>
@@ -209,7 +209,7 @@ namespace boost { namespace hana {
     struct models<MonadPlus(M)>
         : detail::std::integral_constant<bool,
             !is_default<concat_impl<M>>{} &&
-            !is_default<nil_impl<M>>{}
+            !is_default<empty_impl<M>>{}
         >
     { };
 }} // end namespace boost::hana

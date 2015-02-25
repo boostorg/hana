@@ -59,7 +59,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct nil_impl<ext::boost::fusion::Deque> {
+    struct empty_impl<ext::boost::fusion::Deque> {
         static auto apply()
         { return ::boost::fusion::deque<>{}; }
     };

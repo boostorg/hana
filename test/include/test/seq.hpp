@@ -172,7 +172,7 @@ namespace boost { namespace hana {
 #endif
 
     template <>
-    struct nil_impl<test::Seq> {
+    struct empty_impl<test::Seq> {
         static BOOST_HANA_CONSTEXPR_LAMBDA auto apply()
         { return test::seq(); }
     };
