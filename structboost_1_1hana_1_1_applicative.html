@@ -22,6 +22,12 @@
 <script type="text/javascript">
   $(document).ready(function() { init_search(); });
 </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -106,16 +112,16 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_applicative.ht
 For all objects <code>xs</code> of data type <code>F(A)</code>, <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(lift&lt;F&gt;(<span class="keywordtype">id</span>), xs) == xs</div>
 </div><!-- fragment --></li>
 <li>Composition<br />
-For all objects <code>xs</code> of data type <code>F(A)</code> and functions-in-an-applicative <img class="formulaInl" alt="$ fs : F(B \to C) $" src="form_39.png"/>, <img class="formulaInl" alt="$ gs : F(A \to B) $" src="form_40.png"/>, <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(lift&lt;F&gt;(<a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>), fs, gs, xs) == <a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(fs, <a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(gs, xs))</div>
+For all objects <code>xs</code> of data type <code>F(A)</code> and functions-in-an-applicative \( fs : F(B \to C) \), \( gs : F(A \to B) \), <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(lift&lt;F&gt;(<a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>), fs, gs, xs) == <a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(fs, <a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(gs, xs))</div>
 </div><!-- fragment --></li>
 <li>Homomorphism<br />
-For all objects <code>x</code> of data type <code>A</code> and functions <img class="formulaInl" alt="$ f : A \to B $" src="form_9.png"/>, <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(lift&lt;F&gt;(f), lift&lt;F&gt;(x)) == lift&lt;F&gt;(f(x))</div>
+For all objects <code>x</code> of data type <code>A</code> and functions \( f : A \to B \), <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(lift&lt;F&gt;(f), lift&lt;F&gt;(x)) == lift&lt;F&gt;(f(x))</div>
 </div><!-- fragment --></li>
 <li>Interchange<br />
-For all objects <code>x</code> of data type <code>A</code> and functions-in-an-applicative <img class="formulaInl" alt="$ fs : F(A \to B) $" src="form_34.png"/>, <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(fs, lift&lt;F&gt;(x)) == <a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(lift&lt;F&gt;([](f){ f(x) }), fs)</div>
+For all objects <code>x</code> of data type <code>A</code> and functions-in-an-applicative \( fs : F(A \to B) \), <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(fs, lift&lt;F&gt;(x)) == <a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(lift&lt;F&gt;([](f){ f(x) }), fs)</div>
 </div><!-- fragment --></li>
 </ol>
-<p>As a consequence of these laws, the model of <code><a class="el" href="structboost_1_1hana_1_1_functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code> for <code>F</code> will satisfy the following for all objects <code>xs</code> of data type <code>F(A)</code> and functions <img class="formulaInl" alt="$ f : A \to B $" src="form_9.png"/>: </p><div class="fragment"><div class="line">transform(xs, f) == <a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(lift&lt;F&gt;(f), xs)</div>
+<p>As a consequence of these laws, the model of <code><a class="el" href="structboost_1_1hana_1_1_functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code> for <code>F</code> will satisfy the following for all objects <code>xs</code> of data type <code>F(A)</code> and functions \( f : A \to B \): </p><div class="fragment"><div class="line">transform(xs, f) == <a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(lift&lt;F&gt;(f), xs)</div>
 </div><!-- fragment --><h2>Superclass </h2>
 <ol type="1">
 <li><code><a class="el" href="structboost_1_1hana_1_1_functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code> (model provided)<br />
@@ -129,7 +135,7 @@ As a consequence of the above laws, any <code><a class="el" href="structboost_1_
 <h2>Minimal complete definition </h2>
 <p><code>lift</code> and <code>ap</code> satisfying the above laws</p>
 <h2>Structure-preserving functions </h2>
-<p>An <em>applicative transformation</em> is a function <img class="formulaInl" alt="$ t : F(a) \to G(a) $" src="form_35.png"/> from an <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a> F</code> to an <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a> G</code>, where <code>a</code> can be any data type, and which preserves the operations of an <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a></code>. In other words, for all objects <code>x</code> of data type <code>A</code>, functions-in-an-applicative <img class="formulaInl" alt="$ fs : F(A \to B) $" src="form_34.png"/> and objects <code>xs</code> of data type <code>F(A)</code>, </p><div class="fragment"><div class="line">t(lift&lt;F&gt;(x)) == lift&lt;G&gt;(x)</div>
+<p>An <em>applicative transformation</em> is a function \( t : F(a) \to G(a) \) from an <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a> F</code> to an <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a> G</code>, where <code>a</code> can be any data type, and which preserves the operations of an <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a></code>. In other words, for all objects <code>x</code> of data type <code>A</code>, functions-in-an-applicative \( fs : F(A \to B) \) and objects <code>xs</code> of data type <code>F(A)</code>, </p><div class="fragment"><div class="line">t(lift&lt;F&gt;(x)) == lift&lt;G&gt;(x)</div>
 <div class="line">t(<a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(fs, xs)) == <a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(t(fs), t(xs))</div>
 </div><!-- fragment --> </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
@@ -169,7 +175,7 @@ Synopsis of methods</h2></td></tr>
 <p><code>ap</code> can be called with two arguments or more; the functions in the <code>f</code> structure are curried and then applied to the values in each <code>x...</code> structure using the binary form of <code>ap</code>. Note that this requires the number of <code>x...</code> must match the arity of the functions in the <code>f</code> structure. In other words, <code>ap(f, x1, ..., xN)</code> is equivalent to </p><div class="fragment"><div class="line">((f<span class="stringliteral">&#39; &lt;ap&gt; x1) &lt;ap&gt; x2) ... &lt;ap&gt; xN</span></div>
 </div><!-- fragment --><p> where <code>f'</code> is <code>f</code> but containing curried functions instead and <code>x &lt;ap&gt; y</code> is just <code>ap(x, y)</code> written in infix notation to emphasize the left associativity.</p>
 <h2>Signature </h2>
-<p>Given an <a class="el" href="structboost_1_1hana_1_1_applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a> <code>A</code>, the signature is <img class="formulaInl" alt="$ \mathrm{ap} : A(T_1 \times \cdots \times T_n \to U) \times A(T_1) \times \cdots \times A(T_n) \to A(U) $" src="form_45.png"/>.</p>
+<p>Given an <a class="el" href="structboost_1_1hana_1_1_applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a> <code>A</code>, the signature is \( \mathrm{ap} : A(T_1 \times \cdots \times T_n \to U) \times A(T_1) \times \cdots \times A(T_n) \to A(U) \).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">f</td><td>A structure containing function(s).</td></tr>
@@ -226,7 +232,7 @@ template&lt;typename A &gt; </div>
 <p>Lift a value into an <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a></code> structure. </p>
 <p><code>lift&lt;A&gt;</code> takes a normal value and embeds it into a structure whose shape is represented by the <code>A</code> <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a></code>. Note that the value may be a function, in which case the created structure may be <code>ap</code>plied to another <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a></code> structure containing values.</p>
 <h2>Signature </h2>
-<p>Given an <a class="el" href="structboost_1_1hana_1_1_applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a> <code>A</code>, the signature is <img class="formulaInl" alt="$ \mathrm{lift}_A : T \to A(T) $" src="form_46.png"/>.</p>
+<p>Given an <a class="el" href="structboost_1_1hana_1_1_applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a> <code>A</code>, the signature is \( \mathrm{lift}_A : T \to A(T) \).</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">A</td><td>The data type (an <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a></code>) into which the value is lifted.</td></tr>

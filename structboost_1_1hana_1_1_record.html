@@ -22,6 +22,12 @@
 <script type="text/javascript">
   $(document).ready(function() { init_search(); });
 </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -118,7 +124,7 @@ Folding a <code><a class="el" href="structboost_1_1hana_1_1_record.html" title="
 <li><code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code><br />
 Searching a <code><a class="el" href="structboost_1_1hana_1_1_record.html" title="The Record concept represents record-like user-defined types. ">Record</a></code> <code>r</code> is equivalent to searching <code>to&lt;<a class="el" href="structboost_1_1hana_1_1_map.html" title="A basic associative array requiring unique and Comparable keys. ">Map</a>&gt;(r)</code>.</li>
 </ol>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000031">Todo:</a></b></dt><dd>The restrictions on what constitutes an accessor are pretty fierce, and using <code>std::move</code> on the same object twice feels completely wrong. Is there a better way to allow an object to be decomposed optimally into its subobjects without resorting to such hacks?</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000033">Todo:</a></b></dt><dd>The restrictions on what constitutes an accessor are pretty fierce, and using <code>std::move</code> on the same object twice feels completely wrong. Is there a better way to allow an object to be decomposed optimally into its subobjects without resorting to such hacks?</dd></dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2014</span></div>
@@ -127,7 +133,7 @@ Searching a <code><a class="el" href="structboost_1_1hana_1_1_record.html" title
 <div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="constexpr_8hpp.html">boost/hana/detail/constexpr.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="config_8hpp.html">boost/hana/config.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="id_8hpp.html">boost/hana/functional/id.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="map_8hpp.html">boost/hana/map.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="pair_8hpp.html">boost/hana/pair.hpp</a>&gt;</span></div>
@@ -228,7 +234,7 @@ template&lt;typename M &gt; </div>
 <div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="constexpr_8hpp.html">boost/hana/detail/constexpr.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="config_8hpp.html">boost/hana/config.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="id_8hpp.html">boost/hana/functional/id.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="map_8hpp.html">boost/hana/map.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="pair_8hpp.html">boost/hana/pair.hpp</a>&gt;</span></div>

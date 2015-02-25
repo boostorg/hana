@@ -1,7 +1,6 @@
 var NAVTREEINDEX1 =
 {
-"has__common__embedding_8hpp.html#ga30deee39211913d4f4c2f527b19d8dd2":[2,2,0,0,1,9,1],
-"has__common__embedding_8hpp.html#ga68efe3312a44043cc54b18109cb3ef6b":[2,2,0,0,1,9,0],
+"has__common__embedding_8hpp.html#ga68efe3312a44043cc54b18109cb3ef6b":[2,2,0,0,1,8,0],
 "id_8hpp.html":[2,2,0,0,3,8],
 "id_8hpp.html#gaef38cf34324c8edbd3597ae71811d00d":[2,2,0,0,3,8,0],
 "index.html":[0],
@@ -28,7 +27,7 @@ var NAVTREEINDEX1 =
 "index.html#tutorial-using_the_reference":[0,10],
 "infix_8hpp.html":[2,2,0,0,3,9],
 "infix_8hpp.html#ga7bdafba6dc801f1d2d83731ad9714557":[2,2,0,0,3,9,0],
-"insert__fwd_8hpp.html":[2,2,0,0,1,10],
+"insert__fwd_8hpp.html":[2,2,0,0,1,9],
 "integral__constant_8hpp.html":[2,2,0,0,18],
 "integral__domain_8hpp.html":[2,2,0,0,19],
 "is__a_8hpp.html":[2,2,0,0,0,4],
@@ -45,7 +44,7 @@ var NAVTREEINDEX1 =
 "is__same_8hpp.html":[2,2,0,0,1,0,16],
 "iterable_8hpp.html":[2,2,0,0,20],
 "lazy_8hpp.html":[2,2,0,0,21],
-"less__than__comparable_8hpp.html":[2,2,0,0,1,11],
+"less__than__comparable_8hpp.html":[2,2,0,0,1,10],
 "lockstep_8hpp.html":[2,2,0,0,3,10],
 "lockstep_8hpp.html#gafca60c09e1f7a32a2b52baaf6515c279":[2,2,0,0,3,10,0],
 "logical_8hpp.html":[2,2,0,0,22],
@@ -77,8 +76,8 @@ var NAVTREEINDEX1 =
 "remove__cv_8hpp.html":[2,2,0,0,1,0,18],
 "remove__reference_8hpp.html":[2,2,0,0,1,0,19],
 "reverse__apply_8hpp.html":[2,2,0,0,1,1,8],
-"reverse__partial_8hpp.html":[2,2,0,0,1,12],
-"reverse__partial_8hpp.html#ga5d30ed36591b4062f54ab0c87ad8d7f0":[2,2,0,0,1,12,0],
+"reverse__partial_8hpp.html":[2,2,0,0,1,11],
+"reverse__partial_8hpp.html#ga5d30ed36591b4062f54ab0c87ad8d7f0":[2,2,0,0,1,11,0],
 "ring_8hpp.html":[2,2,0,0,34],
 "searchable_8hpp.html":[2,2,0,0,35],
 "sequence_8hpp.html":[2,2,0,0,36],
@@ -249,5 +248,6 @@ var NAVTREEINDEX1 =
 "structboost_1_1hana_1_1_sequence.html#a2c20028c5115dcf38063d322f27b4ee1":[1,0,18,18],
 "structboost_1_1hana_1_1_sequence.html#a2c8c7ea5db04febb890469a024fcd58b":[1,0,18,22],
 "structboost_1_1hana_1_1_sequence.html#a4471413ccc3835db5e48658683b8aba0":[1,0,18,8],
-"structboost_1_1hana_1_1_sequence.html#a45ec7767d19eb7eaabb71ead3796a7f1":[1,0,18,5]
+"structboost_1_1hana_1_1_sequence.html#a45ec7767d19eb7eaabb71ead3796a7f1":[1,0,18,5],
+"structboost_1_1hana_1_1_sequence.html#a58c1454689bf6d2264bc428dc1d039db":[1,0,18,16]
 };

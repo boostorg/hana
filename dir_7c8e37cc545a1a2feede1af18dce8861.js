@@ -4,7 +4,6 @@ var dir_7c8e37cc545a1a2feede1af18dce8861 =
     [ "variadic", "dir_0469e25f0061fb4758f217422c6dedaf.html", "dir_0469e25f0061fb4758f217422c6dedaf" ],
     [ "canonical_constant.hpp", "canonical__constant_8hpp.html", null ],
     [ "closure.hpp", "closure_8hpp.html", "closure_8hpp" ],
-    [ "constexpr.hpp", "constexpr_8hpp.html", "constexpr_8hpp" ],
     [ "create.hpp", "create_8hpp.html", null ],
     [ "dependent_on.hpp", "dependent__on_8hpp.html", null ],
     [ "equality_comparable.hpp", "equality__comparable_8hpp.html", null ],

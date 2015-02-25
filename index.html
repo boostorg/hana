@@ -22,6 +22,12 @@
 <script type="text/javascript">
   $(document).ready(function() { init_search(); });
 </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -298,7 +304,7 @@ Heterogeneity and generalized types</h1>
 <p>Just like C++ templates are families of types that are parameterized by some other type, it makes sense to speak of parameterized generalized types. A parameterized <em>gtype</em> is simply a <em>gtype</em> which depends on other generalized types. You might have seen it coming, but this is actually the case for <code>_tuple</code>, whose <em>gtype</em> can be seen as depending on the <em>gtype</em> of the objects it contains. However, take good note that <b>parameterized generalized types in Hana only live at the documentation level</b>. While enforcing proper parametricity would make the library more mathematically correct, I fear it would also make it less usable given the lack of language support. Given a parametric <em>gtype</em> <code>F</code>, we use <code>F(T)</code> to denote the "application" of <code>F</code> to another <em>gtype</em> <code>T</code>. While this is analogous to "applying" a C++ template to a type, we purposefully do not use the <code>F&lt;T&gt;</code> notation because parametric gtypes are not necessarily templates in Hana and that would be more confusing than helpful.</p>
 <p>As an example, <code>_tuple&lt;int, int&gt;</code> conceptually has a gtype of <code>Tuple(int)</code>, but its actual gtype (outside of the documentation) is just <code><a class="el" href="structboost_1_1hana_1_1_tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code>. What about <code>_tuple&lt;int, long&gt;</code>? Well, <code>int</code> and <code>long</code> are embedded in the same mathematical universe, so we could say that it's a <code>Tuple(Number)</code>, where <code>Number</code> is some generalized type containing all the numeric types. What about <code>_tuple&lt;int, void&gt;</code>? First, that won't compile. But why would you create a sequence of objects that have nothing in common? What can you do with that?</p>
 <p>These generalized types are useful for several purposes, for example creating a tuple with <code>make&lt;<a class="el" href="structboost_1_1hana_1_1_tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a>&gt;</code> and documenting pseudo-signatures for the functions provided in this library. Another important role is to customize algorithms; see the section on <a class="el" href="index.html#tutorial-extending-tag_dispatching">tag-dispatching</a> for more information. Finally, you can also consult the reference of the <a class="el" href="structboost_1_1hana_1_1datatype.html">datatype</a> metafunction for details on how to specify the generalized type of a family of types.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000057">Todo:</a></b></dt><dd>There is obviously a connection between generalized types and concepts. I think that generalized types are concepts whose models are unique up to a unique isomorphism. Still, it is necessary to distinguish between isomorphic models when we want to provide an implementation or create an object. If you see how it all fits together better than I do right now, let me know.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000059">Todo:</a></b></dt><dd>There is obviously a connection between generalized types and concepts. I think that generalized types are concepts whose models are unique up to a unique isomorphism. Still, it is necessary to distinguish between isomorphic models when we want to provide an implementation or create an object. If you see how it all fits together better than I do right now, let me know.</dd></dl>
 <h1><a class="anchor" id="tutorial-type_computations"></a>
 Type computations</h1>
 <hr/>
@@ -405,7 +411,7 @@ Type computations</h1>
 <div class="line">    <span class="comment">// need this tricky line for it to do what we want.</span></div>
 <div class="line">    mpl::equal&lt;mpl::_1, mpl::_2, mpl::quote2&lt;std::is_same&gt;&gt;</div>
 <div class="line">&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000058">Todo:</a></b></dt><dd>Write a cheatsheet for common MPL idioms. Same for Fusion idioms, but where should it go? Maybe in some Appendix?</dd></dl>
+</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000060">Todo:</a></b></dt><dd>Write a cheatsheet for common MPL idioms. Same for Fusion idioms, but where should it go? Maybe in some Appendix?</dd></dl>
 <h1><a class="anchor" id="tutorial-constant"></a>
 Constants, or setting constexpr straight</h1>
 <hr/>

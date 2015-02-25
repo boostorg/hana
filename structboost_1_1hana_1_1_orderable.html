@@ -22,6 +22,12 @@
 <script type="text/javascript">
   $(document).ready(function() { init_search(); });
 </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -102,7 +108,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_orderable.html
 <div class="line">a &lt;  b  =  !(b &lt;= a)</div>
 </div><!-- fragment --><p> The non-strict version is used in the description of the laws because it makes them easier to parse for humans, but they could be formulated equivalently using the strict order.</p>
 <h2>Laws </h2>
-<p>Rigorously speaking, a <a href="http://en.wikipedia.org/wiki/Total_order">total order</a> <code>&lt;=</code> on a set <code>S</code> is a binary predicate <code>&lt;= : S x S -&gt; bool</code> such that for all <code>a, b, c</code> in <code>S</code>, </p><div class="fragment"><div class="line"><span class="keywordflow">if</span>  a &lt;= b  and  b &lt;= a  then  a == b <span class="comment">// Antisymmetry</span></div>
+<p>Rigorously speaking, a <a href="http://en.wikipedia.org/wiki/Total_order">total order</a> <code>&lt;=</code> on a set <code>S</code> is a binary predicate \( &lt;= \;: S \times S \to bool \) such that for all <code>a</code>, <code>b</code>, <code>c</code> in <code>S</code>, </p><div class="fragment"><div class="line"><span class="keywordflow">if</span>  a &lt;= b  and  b &lt;= a  then  a == b <span class="comment">// Antisymmetry</span></div>
 <div class="line"><span class="keywordflow">if</span>  a &lt;= b  and  b &lt;= c  then  a &lt;= c <span class="comment">// Transitivity</span></div>
 <div class="line">either  a &lt;= b  or  b &lt;= a            <span class="comment">// Totality</span></div>
 </div><!-- fragment --><p> Additionally, the <code>less</code>, <code>greater</code> and <code>greater_equal</code> methods should have the following intuitive meanings: </p><div class="fragment"><div class="line">a &lt;  b  <span class="keywordflow">if</span> and only <span class="keywordflow">if</span>  !(b &lt;= a)</div>
@@ -127,29 +133,41 @@ When <code>less</code> is defined, the other methods are defined from it using t
 <ol type="1">
 <li>For <code>LessThanComparable</code> data types<br />
 Two data types <code>T</code> and <code>U</code> that model the cross-type version of the usual <a href="http://en.cppreference.com/w/cpp/concept/LessThanComparable">LessThanComparable</a> C++ concept are automatically a model of <code><a class="el" href="structboost_1_1hana_1_1_orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code> by setting <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(x, y) = (x &lt; y)</div>
-</div><!-- fragment --></li>
+</div><!-- fragment --> The cross-type version of the LessThanComparable concept is analogous to the cross-type version of the EqualityComparable concept presented in <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2012/n3351.pdf">N3351</a>, which is compatible with the usual single type definition. However, note that the LessThanComparable concept only requires <code>&lt;</code> to be a <a href="http://en.wikipedia.org/wiki/Strict_weak_ordering">strict weak ordering</a>, which is a weaker requirement than being a total order. Hence, if <code>less</code> is used with objects of a LessThanComparable data type that do not define a total order, some algorithms may have an unexpected behavior. It is the author's opinion that defining <code>operator&lt;</code> as a non-total order is a bad idea, but this is debatable and so the design choice of providing a model for LessThanComparable data types is open to debate. Waiting for some user input.</li>
 </ol>
-<p>The cross-type version of the LessThanComparable concept is analogous to the cross-type version of the EqualityComparable concept presented in <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2012/n3351.pdf">N3351</a>, which is compatible with the usual single type definition.</p>
-<p>However, note that the LessThanComparable concept only requires <code>&lt;</code> to be a <a href="http://en.wikipedia.org/wiki/Strict_weak_ordering">strict weak ordering</a>, which is a weaker requirement than being a total order. Hence, if <code>less</code> is used with objects of a LessThanComparable data type that do not define a total order, some algorithms may have an unexpected behavior. It is the author's opinion that defining <code>operator&lt;</code> as a non-total order is a bad idea, but this is debatable and so the design choice of providing a model for LessThanComparable data types is open to debate. Waiting for some user input.</p>
 <h2>Operators </h2>
 <p>For convenience, the following operators are provided as an equivalent way of calling the corresponding method: </p><div class="fragment"><div class="line">&lt;   -&gt;  <a class="code" href="structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a></div>
 <div class="line">&lt;=  -&gt;  <a class="code" href="structboost_1_1hana_1_1_orderable.html#a8012cbd416c2067be764046dcd0c2a23">less_equal</a></div>
 <div class="line">&gt;   -&gt;  <a class="code" href="structboost_1_1hana_1_1_orderable.html#a1c9f968a4217ff87b9fdd6c3bbea72bc">greater</a></div>
 <div class="line">&gt;=  -&gt;  <a class="code" href="structboost_1_1hana_1_1_orderable.html#a062300116ac52000449518ec546e65a3">greater_equal</a></div>
 </div><!-- fragment --><h2>Order-preserving functions </h2>
-<p>Let <code>A</code> and <code>B</code> be two <code><a class="el" href="structboost_1_1hana_1_1_orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code> data types. A function <code>f : A -&gt; B</code> is said to be order-preserving (also called monotone) if it preserves the structure of the <code><a class="el" href="structboost_1_1hana_1_1_orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code> concept, which can be rigorously stated as follows. For all objects <code>x, y</code> of data type <code>A</code>, </p><div class="fragment"><div class="line"><span class="keywordflow">if</span>  <a class="code" href="structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(x, y)  then  <a class="code" href="structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(f(x), f(y))</div>
+<p>Let <code>A</code> and <code>B</code> be two <code><a class="el" href="structboost_1_1hana_1_1_orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code> data types. A function \( f : A \to B\) is said to be order-preserving (also called monotone) if it preserves the structure of the <code><a class="el" href="structboost_1_1hana_1_1_orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code> concept, which can be rigorously stated as follows. For all objects <code>x</code>, <code>y</code> of data type <code>A</code>, </p><div class="fragment"><div class="line"><span class="keywordflow">if</span>  <a class="code" href="structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(x, y)  then  <a class="code" href="structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(f(x), f(y))</div>
 </div><!-- fragment --><p> Another important property is that of being order-reflecting, which can be stated as </p><div class="fragment"><div class="line"><span class="keywordflow">if</span>  <a class="code" href="structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(f(x), f(y))  then  <a class="code" href="structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(x, y)</div>
 </div><!-- fragment --><p> We say that a function is an order-embedding if it is both order-preserving and order-reflecting, i.e. if </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(x, y)  if and only if  <a class="code" href="structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(f(x), f(y))</div>
 </div><!-- fragment --><h2>Cross-type version of the methods </h2>
 <p>The comparison methods (<code>less</code>, <code>less_equal</code>, <code>greater</code> and <code>greater_equal</code>) are "overloaded" to handle distinct data types with certain properties. Specifically, they are defined for <em>distinct</em> data types <code>A</code> and <code>B</code> such that</p><ol type="1">
 <li><code>A</code> and <code>B</code> share a common data type <code>C</code>, as determined by the <code>common</code> metafunction</li>
 <li><code>A</code>, <code>B</code> and <code>C</code> are all <code><a class="el" href="structboost_1_1hana_1_1_orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code> when taken individually</li>
-<li><code>to&lt;C&gt; : A -&gt; C</code> and <code>to&lt;C&gt; : B -&gt; C</code> are both order-embeddings as determined by the <code>is_embedding</code> metafunction.</li>
+<li>\(\mathrm{to&lt;C&gt;} : A \to C\) and \(\mathrm{to&lt;C&gt;} : B \to C\) are both order-embeddings as determined by the <code>is_embedding</code> metafunction.</li>
 </ol>
 <p>The method definitions for data types satisfying the above properties are </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(x, y)          = <a class="code" href="structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(to&lt;C&gt;(x), to&lt;C&gt;(y))</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1_orderable.html#a8012cbd416c2067be764046dcd0c2a23">less_equal</a>(x, y)    = <a class="code" href="structboost_1_1hana_1_1_orderable.html#a8012cbd416c2067be764046dcd0c2a23">less_equal</a>(<a class="code" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>&lt;C&gt;(x), <a class="code" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>&lt;C&gt;(y))</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1_orderable.html#a062300116ac52000449518ec546e65a3">greater_equal</a>(x, y) = <a class="code" href="structboost_1_1hana_1_1_orderable.html#a062300116ac52000449518ec546e65a3">greater_equal</a>(<a class="code" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>&lt;C&gt;(x), <a class="code" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>&lt;C&gt;(y))</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1_orderable.html#a1c9f968a4217ff87b9fdd6c3bbea72bc">greater</a>(x, y)       = <a class="code" href="structboost_1_1hana_1_1_orderable.html#a1c9f968a4217ff87b9fdd6c3bbea72bc">greater</a>(<a class="code" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>&lt;C&gt;(x), <a class="code" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>&lt;C&gt;(y))</div>
+</div><!-- fragment --><h2>Partial application of the methods </h2>
+<p>The <code>less</code>, <code>greater</code>, <code>less_equal</code> and <code>greater_equal</code> methods can be called in two different ways. First, they can be called like normal functions: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(x, y)</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1_orderable.html#a1c9f968a4217ff87b9fdd6c3bbea72bc">greater</a>(x, y)</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1_orderable.html#a8012cbd416c2067be764046dcd0c2a23">less_equal</a>(x, y)</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1_orderable.html#a062300116ac52000449518ec546e65a3">greater_equal</a>(x, y)</div>
+</div><!-- fragment --><p>However, they may also be partially applied to an argument as follows: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>.than(x)(y)    == <a class="code" href="structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(y, x)</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1_orderable.html#a1c9f968a4217ff87b9fdd6c3bbea72bc">greater</a>.than(x)(y) == <a class="code" href="structboost_1_1hana_1_1_orderable.html#a1c9f968a4217ff87b9fdd6c3bbea72bc">greater</a>(y, x)</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1_orderable.html#a8012cbd416c2067be764046dcd0c2a23">less_equal</a>.than(x)(y)    == <a class="code" href="structboost_1_1hana_1_1_orderable.html#a8012cbd416c2067be764046dcd0c2a23">less_equal</a>(y, x)</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1_orderable.html#a062300116ac52000449518ec546e65a3">greater_equal</a>.than(x)(y) == <a class="code" href="structboost_1_1hana_1_1_orderable.html#a062300116ac52000449518ec546e65a3">greater_equal</a>(y, x)</div>
+</div><!-- fragment --><p>Take good note that the order of the arguments is reversed, so for example <code>less.than(x)(y)</code> is equivalent to <code>less(y, x)</code>, not <code>less(x, y)</code>. This is because those variants are meant to be used with higher order algorithms, where the chosen application order makes sense: </p><div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(all(tuple_c&lt;int, 1, 2, 3, 4&gt;, <a class="code" href="structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>.than(5)));</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(all(tuple_c&lt;int, 1, 2, 3, 4&gt;, <a class="code" href="structboost_1_1hana_1_1_orderable.html#a8012cbd416c2067be764046dcd0c2a23">less_equal</a>.than(int_&lt;4&gt;)));</div>
 </div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000028">Todo:</a></b></dt><dd>Consider allowing another minimal complete definition using <code>less_equal</code>.</dd></dl>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000029">Todo:</a></b></dt><dd>Make sure no circularity issue with our provided operators can arise when checking for the LessThanComparable concept.</dd></dl>
 </div><table class="memberdecls">
@@ -200,9 +218,17 @@ Synopsis of methods</h2></td></tr>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Returns a <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> representing whether <code>x</code> is less than <code>y</code>. </p>
+<h2>Signature </h2>
+<p>Given a <a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> <code>Bool</code> and two Orderables <code>A</code> and <code>B</code> with a common embedding, the signature is \( \mathrm{less} : A \times B \to Bool \).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x,y</td><td>Two objects to compare.</td></tr>
+  </table>
+  </dd>
+</dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(1, 4));</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!<a class="code" href="structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(int_&lt;3&gt;, int_&lt;2&gt;));</div>
+<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(1, 4));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!<a class="code" href="structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(int_&lt;3&gt;, int_&lt;2&gt;));</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -228,10 +254,18 @@ Synopsis of methods</h2></td></tr>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Returns a <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> representing whether <code>x</code> is less than or equal to <code>y</code>. </p>
+<h2>Signature </h2>
+<p>Given a <a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> <code>Bool</code> and two Orderables <code>A</code> and <code>B</code> with a common embedding, the signature is \( \mathrm{less\_equal} : A \times B \to Bool \).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x,y</td><td>Two objects to compare.</td></tr>
+  </table>
+  </dd>
+</dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_orderable.html#a8012cbd416c2067be764046dcd0c2a23">less_equal</a>(1, 4));</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_orderable.html#a8012cbd416c2067be764046dcd0c2a23">less_equal</a>(1, 1));</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!<a class="code" href="structboost_1_1hana_1_1_orderable.html#a8012cbd416c2067be764046dcd0c2a23">less_equal</a>(int_&lt;3&gt;, int_&lt;2&gt;));</div>
+<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_orderable.html#a8012cbd416c2067be764046dcd0c2a23">less_equal</a>(1, 4));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_orderable.html#a8012cbd416c2067be764046dcd0c2a23">less_equal</a>(1, 1));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!<a class="code" href="structboost_1_1hana_1_1_orderable.html#a8012cbd416c2067be764046dcd0c2a23">less_equal</a>(int_&lt;3&gt;, int_&lt;2&gt;));</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -257,9 +291,17 @@ Synopsis of methods</h2></td></tr>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Returns a <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> representing whether <code>x</code> is greater than <code>y</code>. </p>
+<h2>Signature </h2>
+<p>Given a <a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> <code>Bool</code> and two Orderables <code>A</code> and <code>B</code> with a common embedding, the signature is \( \mathrm{greater} : A \times B \to Bool \).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x,y</td><td>Two objects to compare.</td></tr>
+  </table>
+  </dd>
+</dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_orderable.html#a1c9f968a4217ff87b9fdd6c3bbea72bc">greater</a>(4, 1));</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!<a class="code" href="structboost_1_1hana_1_1_orderable.html#a1c9f968a4217ff87b9fdd6c3bbea72bc">greater</a>(int_&lt;1&gt;, int_&lt;3&gt;));</div>
+<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_orderable.html#a1c9f968a4217ff87b9fdd6c3bbea72bc">greater</a>(4, 1));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!<a class="code" href="structboost_1_1hana_1_1_orderable.html#a1c9f968a4217ff87b9fdd6c3bbea72bc">greater</a>(int_&lt;1&gt;, int_&lt;3&gt;));</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -285,10 +327,18 @@ Synopsis of methods</h2></td></tr>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Returns a <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> representing whether <code>x</code> is greater than or equal to <code>y</code>. </p>
+<h2>Signature </h2>
+<p>Given a <a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> <code>Bool</code> and two Orderables <code>A</code> and <code>B</code> with a common embedding, the signature is \( \mathrm{greater\_equal} : A \times B \to Bool \).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x,y</td><td>Two objects to compare.</td></tr>
+  </table>
+  </dd>
+</dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_orderable.html#a062300116ac52000449518ec546e65a3">greater_equal</a>(4, 1));</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_orderable.html#a062300116ac52000449518ec546e65a3">greater_equal</a>(1, 1));</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!<a class="code" href="structboost_1_1hana_1_1_orderable.html#a062300116ac52000449518ec546e65a3">greater_equal</a>(int_&lt;1&gt;, int_&lt;2&gt;));</div>
+<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_orderable.html#a062300116ac52000449518ec546e65a3">greater_equal</a>(4, 1));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_orderable.html#a062300116ac52000449518ec546e65a3">greater_equal</a>(1, 1));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!<a class="code" href="structboost_1_1hana_1_1_orderable.html#a062300116ac52000449518ec546e65a3">greater_equal</a>(int_&lt;1&gt;, int_&lt;2&gt;));</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -314,9 +364,10 @@ Synopsis of methods</h2></td></tr>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Returns the smallest of its arguments according to the <code>less</code> ordering. </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000030">Todo:</a></b></dt><dd>We can't specify the signature right now, because the returned data type depends on whether <code>x &lt; y</code> or not. If we wanted to be mathematically correct, we should probably ask that <code>if_(cond, x, y)</code> returns a common data type of <code>x</code> and <code>y</code>, and then the behavior of <code>min</code> would follow naturally. However, I'm unsure whether this is desirable because that's a big requirement.</dd></dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_orderable.html#af10ea2fee24c0a780758f67721bb5bfa">min</a>(1, 4) == 1);</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_orderable.html#af10ea2fee24c0a780758f67721bb5bfa">min</a>(int_&lt;7&gt;, int_&lt;5&gt;) == int_&lt;5&gt;);</div>
+<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_orderable.html#af10ea2fee24c0a780758f67721bb5bfa">min</a>(1, 4) == 1);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_orderable.html#af10ea2fee24c0a780758f67721bb5bfa">min</a>(int_&lt;7&gt;, int_&lt;5&gt;) == int_&lt;5&gt;);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -342,9 +393,10 @@ Synopsis of methods</h2></td></tr>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Returns the greatest of its arguments according to the <code>less</code> ordering. </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000031">Todo:</a></b></dt><dd>Can't specify the signature here either. See <code>min</code> for details.</dd></dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_orderable.html#a9fb8718f43756efef3953635f34fd67e">max</a>(1, 4) == 4);</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_orderable.html#a9fb8718f43756efef3953635f34fd67e">max</a>(int_&lt;7&gt;, int_&lt;5&gt;) == int_&lt;7&gt;);</div>
+<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_orderable.html#a9fb8718f43756efef3953635f34fd67e">max</a>(1, 4) == 4);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_orderable.html#a9fb8718f43756efef3953635f34fd67e">max</a>(int_&lt;7&gt;, int_&lt;5&gt;) == int_&lt;7&gt;);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -376,19 +428,15 @@ Synopsis of methods</h2></td></tr>
 <p>Specifically, <code>ordering</code> is such that </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_orderable.html#aaeb89edbf804237ca6710cba8cab9c37">ordering</a>(f) == <a class="code" href="structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a> ^<a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>^ f</div>
 </div><!-- fragment --><p> or, equivalently, </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_orderable.html#aaeb89edbf804237ca6710cba8cab9c37">ordering</a>(f)(x, y) == <a class="code" href="structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(f(x), f(y))</div>
 </div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>This is not a tag-dispatched method (hence it can't be customized), but just a convenience function provided with the <code><a class="el" href="structboost_1_1hana_1_1_orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code> concept.</dd></dl>
+<h2>Signature </h2>
+<p>Given a <a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> <code>Bool</code> and an <a class="el" href="structboost_1_1hana_1_1_orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a> <code>B</code>, the signature is \( \mathrm{ordering} : (A \to B) \to (A \times A \to Bool) \).</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> sorted = sort_by(<a class="code" href="structboost_1_1hana_1_1_orderable.html#aaeb89edbf804237ca6710cba8cab9c37">ordering</a>(sizeof_), make&lt;Tuple&gt;(</div>
-<div class="line">        type&lt;<span class="keywordtype">char</span>[3]&gt;,</div>
-<div class="line">        type&lt;<span class="keywordtype">char</span>[1]&gt;,</div>
-<div class="line">        type&lt;<span class="keywordtype">char</span>[2]&gt;,</div>
-<div class="line">        type&lt;<span class="keywordtype">char</span>[15]&gt;</div>
-<div class="line">    ));</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(sorted == make&lt;Tuple&gt;(</div>
-<div class="line">        type&lt;<span class="keywordtype">char</span>[1]&gt;,</div>
-<div class="line">        type&lt;<span class="keywordtype">char</span>[2]&gt;,</div>
-<div class="line">        type&lt;<span class="keywordtype">char</span>[3]&gt;,</div>
-<div class="line">        type&lt;<span class="keywordtype">char</span>[15]&gt;</div>
-<div class="line">    ));</div>
+<div class="fragment"><div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> sorted = sort_by(<a class="code" href="structboost_1_1hana_1_1_orderable.html#aaeb89edbf804237ca6710cba8cab9c37">ordering</a>(sizeof_), tuple_t&lt;</div>
+<div class="line">    <span class="keywordtype">char</span>[3], <span class="keywordtype">char</span>[1], <span class="keywordtype">char</span>[2], <span class="keywordtype">char</span>[15]</div>
+<div class="line">&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(sorted == tuple_t&lt;</div>
+<div class="line">    <span class="keywordtype">char</span>[1], <span class="keywordtype">char</span>[2], <span class="keywordtype">char</span>[3], <span class="keywordtype">char</span>[15]</div>
+<div class="line">&gt;);</div>
 </div><!-- fragment -->
 </div>
 </div>

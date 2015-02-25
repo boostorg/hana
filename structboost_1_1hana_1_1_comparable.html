@@ -22,6 +22,12 @@
 <script type="text/javascript">
   $(document).ready(function() { init_search(); });
 </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -119,14 +125,13 @@ When <code>equal</code> is defined, <code>not_equal</code> is implemented by def
 <ol type="1">
 <li>For <code>EqualityComparable</code> data types<br />
 Two data types <code>T</code> and <code>U</code> that model the cross-type EqualityComparable concept presented in <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2012/n3351.pdf">N3351</a> automatically model the <code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code> concept by setting <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>(x, y) = (x == y)</div>
-</div><!-- fragment --></li>
+</div><!-- fragment --> Note that this also makes EqualityComparable types in the <a href="http://en.cppreference.com/w/cpp/concept/EqualityComparable">usual sense</a> models of <code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code> in the same way.</li>
 </ol>
-<p>Note that this also makes EqualityComparable types in the <a href="http://en.cppreference.com/w/cpp/concept/EqualityComparable">usual sense</a> models of <code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code> in the same way.</p>
 <h2>Operators </h2>
-<p>For convenience, the following operators are provided as an equivalent way of calling the corresponding method: </p><div class="fragment"><div class="line">== -&gt; <a class="code" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a></div>
-<div class="line">!= -&gt; <a class="code" href="structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925">not_equal</a></div>
+<p>For convenience, the following operators are provided as an equivalent way of calling the corresponding method: </p><div class="fragment"><div class="line">==  -&gt;  <a class="code" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a></div>
+<div class="line">!=  -&gt;  <a class="code" href="structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925">not_equal</a></div>
 </div><!-- fragment --><h2>Equality-preserving functions </h2>
-<p>Let <code>A</code> and <code>B</code> be two <code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code> data types. A function <code>f : A -&gt; B</code> is said to be equality-preserving if it preserves the structure of the <code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code> concept, which can be rigorously stated as follows. For all objects <code>x, y</code> of data type <code>A</code>, </p><div class="fragment"><div class="line"><span class="keywordflow">if</span>  <a class="code" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>(x, y)  then  <a class="code" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>(f(x), f(y))</div>
+<p>Let <code>A</code> and <code>B</code> be two <code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code> data types. A function \( f : A \to B \) is said to be equality-preserving if it preserves the structure of the <code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code> concept, which can be rigorously stated as follows. For all objects <code>x</code>, <code>y</code> of data type <code>A</code>, </p><div class="fragment"><div class="line"><span class="keywordflow">if</span>  <a class="code" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>(x, y)  then  <a class="code" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>(f(x), f(y))</div>
 </div><!-- fragment --><p> Equivalently, we simply require that <code>f</code> is a function in the usual mathematical sense. Another property is <a href="http://en.wikipedia.org/wiki/Injective_function">injectivity</a>, which can be viewed as being a "lossless" mapping. This property can be stated as </p><div class="fragment"><div class="line"><span class="keywordflow">if</span>  <a class="code" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>(f(x), f(y))  then  <a class="code" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>(x, y)</div>
 </div><!-- fragment --><p> This is equivalent to saying that <code>f</code> maps distinct elements to distinct elements, hence the "lossless" analogy. In other words, <code>f</code> will not collapse distinct elements from its domain into a single element in its image, thus losing information.</p>
 <p>These functions are very important, especially equality-preserving ones, because they allow us to reason simply about programs. Also note that the property of being equality-preserving is taken for granted in mathematics because it is part of the definition of a function. We feel it is important to make the distinction here because programming has evolved differently and as a result programmers are used to work with functions that do not preserve equality.</p>
@@ -134,7 +139,7 @@ Two data types <code>T</code> and <code>U</code> that model the cross-type Equal
 <p>The <code>equal</code> and <code>not_equal</code> methods are "overloaded" to handle distinct data types with certain properties. Specifically, they are defined for <em>distinct</em> data types <code>A</code> and <code>B</code> such that</p><ol type="1">
 <li><code>A</code> and <code>B</code> share a common data type <code>C</code>, as determined by the <code>common</code> metafunction</li>
 <li><code>A</code>, <code>B</code> and <code>C</code> are all <code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code> when taken individually</li>
-<li><code>to&lt;C&gt; : A -&gt; C</code> and <code>to&lt;C&gt; : B -&gt; C</code> are both equality-preserving and injective (i.e. they are embeddings), as determined by the <code>is_embedding</code> metafunction.</li>
+<li>\( \mathrm{to&lt;C&gt;} : A \to C \) and \(\mathrm{to&lt;C&gt;} : B \to C\) are both equality-preserving and injective (i.e. they are embeddings), as determined by the <code>is_embedding</code> metafunction.</li>
 </ol>
 <p>The method definitions for data types satisfying the above properties are </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>(x, y)     = <a class="code" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>(to&lt;C&gt;(x), to&lt;C&gt;(y))</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925">not_equal</a>(x, y) = <a class="code" href="structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925">not_equal</a>(<a class="code" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>&lt;C&gt;(x), <a class="code" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>&lt;C&gt;(y))</div>
@@ -177,6 +182,11 @@ Synopsis of methods</h2></td></tr>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Returns a <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> representing whether <code>x</code> is equal to <code>y</code>. </p>
+<p>The <code>equal</code> function can be called in two different ways. First, it can be called like a normal function: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>(x, y)</div>
+</div><!-- fragment --><p>However, it may also be partially applied to an argument by using <code>equal.to</code>: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>.to(x)(y) == <a class="code" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>(x, y)</div>
+</div><!-- fragment --><p>In other words, <code>equal.to(x)</code> is a function object that is equivalent to <code>partial(equal, x)</code>. This is provided to enhance the readability of some constructs, especially when using higher order algorithms.</p>
+<h2>Signature </h2>
+<p>Given a <a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> <code>Bool</code> and two Comparables <code>A</code> and <code>B</code> that share a common embedding, the signature is \( \mathrm{equal} : A \times B \to Bool \).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">x,y</td><td>Two objects to compare for equality.</td></tr>
@@ -187,6 +197,8 @@ Synopsis of methods</h2></td></tr>
 <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>(make&lt;Tuple&gt;(1, 2), make&lt;Tuple&gt;(1, 2)));</div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(!<a class="code" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>));</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!<a class="code" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>(make&lt;Tuple&gt;(1, 2), <span class="charliteral">&#39;y&#39;</span>));</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(any(make&lt;Tuple&gt;(1, 2, 3), <a class="code" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>.to(2)));</div>
 </div><!-- fragment --><blockquote class="doxtable">
 <h4>Rationale for the arity of <code>equal</code></h4>
 <p>It is a valid question whether <code>equal</code> should accept more than 2 arguments and have semantics matching those of Python's <code>==</code>. This is not supported right now for the following reasons:</p><ul>
@@ -219,7 +231,11 @@ Synopsis of methods</h2></td></tr>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Returns a <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> representing whether <code>x</code> is not equal to <code>y</code>. </p>
-<p>Note that <code>not_equal</code> is just the complement of <code>equal</code>.</p>
+<p>The <code>not_equal</code> function can be called in two different ways. First, it can be called like a normal function: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925">not_equal</a>(x, y)</div>
+</div><!-- fragment --><p>However, it may also be partially applied to an argument by using <code>not_equal.to</code>: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925">not_equal</a>.to(x)(y) == <a class="code" href="structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925">not_equal</a>(x, y)</div>
+</div><!-- fragment --><p>In other words, <code>not_equal.to(x)</code> is a function object that is equivalent to <code>partial(not_equal, x)</code>. This is provided to enhance the readability of some constructs, especially when using higher order algorithms.</p>
+<h2>Signature </h2>
+<p>Given a <a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> <code>Bool</code> and two Comparables <code>A</code> and <code>B</code> that share a common embedding, the signature is \( \mathrm{not\_equal} : A \times B \to Bool \).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">x,y</td><td>Two objects to compare for inequality.</td></tr>
@@ -230,6 +246,8 @@ Synopsis of methods</h2></td></tr>
 <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925">not_equal</a>(make&lt;Tuple&gt;(1, 2), make&lt;Tuple&gt;(3)));</div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925">not_equal</a>(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>));</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925">not_equal</a>(make&lt;Tuple&gt;(1, 2), <span class="charliteral">&#39;y&#39;</span>));</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(all(make&lt;Tuple&gt;(1, 2, 3), <a class="code" href="structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925">not_equal</a>.to(5)));</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -261,6 +279,8 @@ Synopsis of methods</h2></td></tr>
 <p>Specifically, <code>comparing</code> is such that </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_comparable.html#a350ae6cc37fa971f203065bb628a7948">comparing</a>(f) == <a class="code" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a> ^<a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>^ f</div>
 </div><!-- fragment --><p> or, equivalently, </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_comparable.html#a350ae6cc37fa971f203065bb628a7948">comparing</a>(f)(x, y) == <a class="code" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>(f(x), f(y))</div>
 </div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>This is not a tag-dispatched method (hence it can't be customized), but just a convenience function provided with the <code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code> concept.</dd></dl>
+<h2>Signature </h2>
+<p>Given a <a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> <code>Bool</code> and a <a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a> <code>B</code>, the signature is \( \mathrm{comparing} : (A \to B) \to (A \times A \to Bool) \).</p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> grouped = group_by(<a class="code" href="structboost_1_1hana_1_1_comparable.html#a350ae6cc37fa971f203065bb628a7948">comparing</a>(length), make&lt;Tuple&gt;(</div>
 <div class="line">    make&lt;Tuple&gt;(1, 2, 3),</div>
