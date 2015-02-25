@@ -69,7 +69,9 @@ namespace boost { namespace hana {
 
     // Cross-type overload
     template <typename T, typename U>
-    struct quot_impl<T, U, when<detail::has_common_embedding<IntegralDomain, T, U>{}>> {
+    struct quot_impl<T, U, when<
+        detail::has_nontrivial_common_embedding<IntegralDomain, T, U>{}
+    >> {
         using C = typename common<T, U>::type;
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
@@ -95,7 +97,9 @@ namespace boost { namespace hana {
 
     // Cross-type overload
     template <typename T, typename U>
-    struct mod_impl<T, U, when<detail::has_common_embedding<IntegralDomain, T, U>{}>> {
+    struct mod_impl<T, U, when<
+        detail::has_nontrivial_common_embedding<IntegralDomain, T, U>{}
+    >> {
         using C = typename common<T, U>::type;
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {

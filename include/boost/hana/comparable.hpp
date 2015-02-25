@@ -76,7 +76,7 @@ namespace boost { namespace hana {
     // Cross-type overload
     template <typename T, typename U>
     struct equal_impl<T, U, when<
-        detail::has_common_embedding<Comparable, T, U>{} &&
+        detail::has_nontrivial_common_embedding<Comparable, T, U>{} &&
         !detail::concept::EqualityComparable<T, U>{}
     >> {
         using C = typename common<T, U>::type;
@@ -104,7 +104,9 @@ namespace boost { namespace hana {
 
     // Cross-type overload
     template <typename T, typename U>
-    struct not_equal_impl<T, U, when<detail::has_common_embedding<Comparable, T, U>{}>> {
+    struct not_equal_impl<T, U, when<
+        detail::has_nontrivial_common_embedding<Comparable, T, U>{}
+    >> {
         using C = typename common<T, U>::type;
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {

@@ -67,7 +67,9 @@ namespace boost { namespace hana {
 
     // Cross-type overload
     template <typename T, typename U>
-    struct mult_impl<T, U, when<detail::has_common_embedding<Ring, T, U>{}>> {
+    struct mult_impl<T, U, when<
+        detail::has_nontrivial_common_embedding<Ring, T, U>{}
+    >> {
         using C = typename common<T, U>::type;
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
