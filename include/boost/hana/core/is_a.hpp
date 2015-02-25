@@ -17,12 +17,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! @anchor group-core-is_a
     //! @ingroup group-core
-    //! Return whether a type class is instantiated with the given data types.
+    //! Deprecated for now, but kept around because some ideas are good.
     //!
-    //! Specifically, `is_a<Typeclass, Datatypes...>` is a [compile-time]
-    //! (@ref Logical_terminology) `Logical` representing whether
+    //! Specifically, `is_a<Typeclass, Datatypes...>` is a compile-time
+    //! `Logical` representing whether
     //! `Typeclass::instance<Datatypes...>` represents an instance of
     //! `Typeclass`. This does not check whether the instance is valid: it
     //! does not check whether laws are satisfied or even if the minimal

@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/default.hpp>
 #include <boost/hana/fwd/core/make.hpp>
+#include <boost/hana/fwd/core/models.hpp>
 #include <boost/hana/fwd/core/when.hpp>
 #include <boost/hana/fwd/core/wrong.hpp>
 
