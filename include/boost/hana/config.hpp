@@ -63,6 +63,17 @@ Distributed under the Boost Software License, Version 1.0.
     //! Enables some constructs requiring `constexpr` lambdas, which are not
     //! in the language (yet).
 #   define BOOST_HANA_CONFIG_HAS_CONSTEXPR_LAMBDA
+
+#endif
+
+
+#ifdef BOOST_HANA_CONFIG_HAS_CONSTEXPR_LAMBDA
+    //! @ingroup group-details
+    //! Expands to `constexpr` if constexpr lambdas are supported and
+    //! to nothing otherwise.
+#   define BOOST_HANA_CONSTEXPR_LAMBDA constexpr
+#else
+#   define BOOST_HANA_CONSTEXPR_LAMBDA /* nothing */
 #endif
 
 #endif // !BOOST_HANA_CONFIG_HPP

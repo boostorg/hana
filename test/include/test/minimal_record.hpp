@@ -9,7 +9,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/record.hpp>
 
-#include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/detail/create.hpp>
 #include <boost/hana/pair.hpp>
 #include <boost/hana/tuple.hpp>

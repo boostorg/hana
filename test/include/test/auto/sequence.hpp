@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/sequence.hpp>
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/id.hpp>
 #include <boost/hana/functional/partial.hpp>

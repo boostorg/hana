@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_WRAP_HPP
 #define BOOST_HANA_DETAIL_WRAP_HPP
 
-#include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/config.hpp>
 
 
 namespace boost { namespace hana { namespace detail {

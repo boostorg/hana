@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_VARIADIC_SPLIT_AT_HPP
 #define BOOST_HANA_DETAIL_VARIADIC_SPLIT_AT_HPP
 
-#include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/functional/partial.hpp>

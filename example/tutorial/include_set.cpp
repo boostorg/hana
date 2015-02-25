@@ -5,7 +5,7 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/config.hpp>
 
 //! [main]
 #include <boost/hana/set.hpp>

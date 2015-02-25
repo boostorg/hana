@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/variadic/foldr1.hpp>
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/type.hpp>
 using namespace boost::hana;
 namespace variadic = detail::variadic;

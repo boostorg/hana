@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/variadic/foldl.hpp>
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/detail/constexpr.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/type.hpp>
 using namespace boost::hana;
 namespace variadic = detail::variadic;
@@ -19,7 +19,7 @@ struct R;
 template <typename X, typename Y>
 struct F { using type = R<X, Y>; };
 
-BOOST_HANA_CONSTEXPR_LAMBDA auto mf = metafunction<F>;
+constexpr auto mf = metafunction<F>;
 BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto x, auto y) { return mf(x, y); };
 
 struct S;
