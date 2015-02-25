@@ -97,7 +97,6 @@ namespace boost { namespace hana {
     //! well-thought naming pattern for all the other objects in Hana,
     //! because `range(from, to)` is awesome; much better than
     //! `make_range(from, to)`.
-    [[deprecated("use make<Range> or make_range instead")]]
     constexpr auto range = make<Range>;
 
     //! Shorthand to create a `Range` of `Constant`s.
