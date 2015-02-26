@@ -507,9 +507,19 @@ algorithm on the fly (e.g. inside a function), and it will only work on types!
 @snippet example/tutorial/type_computations.cpp apply_to_all_mpl
 
 
+That's it for the introduction to type computations with Hana, but there are
+a couple of interesting examples scattered in the documentation if you want
+more. There's also a minimal reimplementation of the MPL using Hana under
+the hood in `example/mini_mpl.cpp`.
+
 @todo
-Write a cheatsheet for common MPL idioms. Same for Fusion idioms, but where
-should it go? %Maybe in some Appendix?
+- Provide links to the scattered examples, and also to example/mini_mpl. For
+  some reason, I can't get Doxygen to generate a link.
+- Expand this section to explain the philosophy behind Hana's metaprogramming
+  paradigm, i.e. that you only retrieve the types at the end and that you do
+  not try to represent everything as a type.
+- Write a cheatsheet mapping common MPL/Fusion idioms to idiomatic Hana code.
+  %Maybe this should go in some Appendix?
 
 
 @section tutorial-constant Constants, or setting constexpr straight
