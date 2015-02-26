@@ -411,7 +411,13 @@ Type computations</h1>
 <div class="line">    <span class="comment">// need this tricky line for it to do what we want.</span></div>
 <div class="line">    mpl::equal&lt;mpl::_1, mpl::_2, mpl::quote2&lt;std::is_same&gt;&gt;</div>
 <div class="line">&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000060">Todo:</a></b></dt><dd>Write a cheatsheet for common MPL idioms. Same for Fusion idioms, but where should it go? Maybe in some Appendix?</dd></dl>
+</div><!-- fragment --><p>That's it for the introduction to type computations with Hana, but there are a couple of interesting examples scattered in the documentation if you want more. There's also a minimal reimplementation of the MPL using Hana under the hood in <code>example/mini_mpl.cpp</code>.</p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000060">Todo:</a></b></dt><dd><ul>
+<li>Provide links to the scattered examples, and also to example/mini_mpl. For some reason, I can't get Doxygen to generate a link.</li>
+<li>Expand this section to explain the philosophy behind Hana's metaprogramming paradigm, i.e. that you only retrieve the types at the end and that you do not try to represent everything as a type.</li>
+<li>Write a cheatsheet mapping common MPL/Fusion idioms to idiomatic Hana code. Maybe this should go in some Appendix?</li>
+</ul>
+</dd></dl>
 <h1><a class="anchor" id="tutorial-constant"></a>
 Constants, or setting constexpr straight</h1>
 <hr/>
