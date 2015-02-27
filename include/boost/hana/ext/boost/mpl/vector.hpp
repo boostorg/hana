@@ -61,7 +61,7 @@ namespace boost { namespace hana {
         //! A MPL vector can be searched as if it were a Tuple of Types.
         //! @snippet example/ext/boost/mpl/vector.cpp searchable
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-        struct Vector;
+        struct Vector { };
 #else
         using Vector = ::boost::mpl::sequence_tag< ::boost::mpl::vector<>>::type;
 #endif

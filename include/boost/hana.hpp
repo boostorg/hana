@@ -141,46 +141,43 @@ Let the fun begin.
 @section tutorial-introduction Introduction
 
 ------------------------------------------------------------------------------
-Hana is a small (~ 13 KLOC), header-only replacement for Boost.MPL and
-Boost.Fusion, with more features as well. It boasts faster compile time
-performance than Boost.MPL or Boost.Fusion, and runtime performance on par
-or better than Boost.Fusion. It provides a unified way of manipulating types
-and values for a smoother metaprogramming experience. It is easy to extend in
-a ad-hoc manner and it provides out-of-the-box inter-operation with Boost.Fusion,
-Boost.MPL and the standard library. Hana is written against the C++14 standard.
+Hana is a small, header-only library for C++ metaprogramming suited for
+computations on both types and values. The functionality it provides is
+a superset of what is provided by the well established Boost.MPL and
+Boost.Fusion libraries. By leveraging C++11/14 implementation techniques
+and idioms, Hana boasts faster compilation times and runtime performance on
+par or better than previous metaprogramming libraries, while increasing the
+level of expressiveness in the process. Hana is easy to extend in a ad-hoc
+manner and it provides out-of-the-box inter-operation with Boost.Fusion,
+Boost.MPL and the standard library.
 
 
 __Motivation__\n
-For users that want to do extensive metaprogramming, Boost.MPL is clearly a
-very valuable tool. Its greatest weakness is that its liberal use leads to
-long compile times. For users that want to compute on sequences of
-heterogeneously-typed values, Boost.Fusion is also a very valuable tool.
-It also suffers from long compile times when used extensively.
-
-The C++11 and C++14 standards have made many metaprogramming tasks a lot
-easier and more straightforward to accomplish. Hana thus provides the
-functionality of Boost.MPL and Boost.Fusion with more straightforward
-(and thus more compile-time efficient) implementations.
+When Boost.MPL first appeared, it provided C++ programmers with a huge relief
+by abstracting tons of template hackery behind a workable interface. This
+breakthrough greatly contributed to making C++ template metaprogramming more
+mainstream, and today the discipline is deeply rooted in many serious projects.
+Recently, C++11 and C++14 brought many major changes to the language, some of
+which make metaprogramming much easier, while others drastically widen the
+design space for libraries. A natural question then arises: is it still
+desirable to have abstractions for metaprogramming, and if so, which ones?
+After investigating different options like the [MPL11][], the answer eventually
+came by itself in the form of a library; Hana. The key insight to Hana is that
+the manipulation of types and values are nothing but two sides of the same
+coin. By unifying both concepts, metaprogramming becomes easier and new
+exciting possibilities open before us.
 
 
 __Warning: functional programming ahead__\n
 Programming with heterogeneous objects is inherently functional -- since it is
 impossible to modify the type of an object, a new object must be introduced
 instead, which rules out mutation. Unlike previous metaprogramming libraries
-like Boost.MPL and Boost.Fusion, I have decided to embrace this and as a
-result, Hana uses an almost purely functional style of programming. However,
-this style of programming influences not only the internal implementation; it
-also leaks into the interface. Hence, if you continue beyond this point, be
-prepared to see quite a bit of functional programming along the way.
-
-In particular, unlike previous metaprogramming libraries, the design of Hana
-is not based on that of the STL. Instead, it is inspired by several standard
-and non standard modules written for the Haskell programming language. Through
-experience, I have found this to be much more expressive, flexible and easy
-to use while not sacrificing any performance given the heterogeneously typed
-setting. However, as a result, many concepts used in Hana will be unfamiliar
-to C++ programmers without a knowledge of FP, to whom I say: be assured that
-the reward is totally worth it.
+whose design was modeled on the STL, Hana uses a functional style of
+programming which is the source for a good portion of its expressiveness.
+However, as a result, many concepts used in Hana will be unfamiliar to C++
+programmers without a knowledge of FP. The documentation attempts to make
+these concepts approachable by using intuition whenever possible, but bear
+in mind that the highest rewards are usually the fruit of some effort.
 
 
 @section tutorial-quickstart Quick start
@@ -258,8 +255,7 @@ algorithms. Always keep in mind that the algorithms return their result as
 a new sequence and no in-place mutation is ever performed.
 
 function                                     |  concept   | description
-:------------------------------------------: | :--------: | :----------:
-`make<Tuple>(x1, ..., xN)`                   | None       | Returns a tuple containing the given elements.
+:------------------------------------------  | :--------  | :----------
 `transform(sequence, f)`                     | Functor    | Apply a function to each element of a sequence and return the result.
 `adjust(sequence, predicate, f)`             | Functor    | Apply a function to each element of a sequence satisfying some predicate and return the result.
 `replace(sequence, predicate, value)`        | Functor    | Replace the elements of a sequence that satisfy some predicate by some value.
@@ -303,98 +299,6 @@ function                                     |  concept   | description
 `zip(sequence1, ..., sequenceN)`             | Sequence   | Zip `N` sequences into a sequence of tuples.
 `zip.with(f, sequence1, ..., sequenceN)`     | Sequence   | Zip `N` sequences with a `N`-ary function.
 
-
-@section tutorial-heterogeneity Heterogeneity and generalized types
-
-------------------------------------------------------------------------------
-The purpose of Hana is to manipulate heterogeneous objects. Before we dive any
-deeper into the library, let's ask a fundamental question: does it even make
-sense to manipulate heterogeneous objects?
-
-For the sake of the explanation, let me make the following claim: a function
-template that compiles with an argument of every possible type must have a
-trivial implementation, in the sense that it must do nothing with its argument
-except perhaps return it. Hence, for a function template to do something
-interesting, it must fail to compile for some set of arguments. While I won't
-try to prove that claim formally -- it might be false in some corner cases --,
-think about it for a moment. Let's say I want to apply a function to each
-element of an heterogeneous sequence:
-
-@code
-    for_each([x, y, z], f)
-@endcode
-
-The first observation is that `f` must have a templated call operator because
-`x`, `y` and `z` have different types. The second observation is that without
-knowing anything specific about the types of `x`, `y` and `z`, it is impossible
-for `f` to do anything meaningful. For example, could it print its argument?
-Of course not, since it does not know whether `std::cout << x` is well-formed!
-In order to do something meaningful, the function has to put constraints on
-its arguments; it has to define a domain which is more specific that the set
-of all types, and hence it can't be _fully_ polymorphic, even if we do not have
-a way to express this in C++ (right now). So while we're manipulating types
-that are technically heterogeneous, they still conceptually need something in
-common, or it wouldn't be possible to do anything meaningful with them. We'll
-still say that we're manipulating heterogeneous objects, but always keep in
-mind that the objects we manipulate share something, and are hence homogeneous
-in _some way_.
-
-> Another way to see this is that we programmers __need__ concepts to do useful
-> things, whether or not there is language support for expressing them.
-
-Pushing this to the extreme, some type families represent exactly the same
-entity, except they must have a different C++ type because the language
-requires them to. For example, this is the case of `_tuple<...>`. In our
-context, we would like to see `_tuple<int, int>` and `_tuple<int, long, float>`
-as different representations for the same data structure (a "tuple"), but the
-C++ language requires us to give them different types. In Hana, we associate
-what we call a _generalized type_ (we also say _data type_ and sometimes
-_gtype_) to each type family. A generalized type is simply a tag (like in
-MPL or Fusion) which is associated to all the types in a family through the
-`datatype` metafunction. For `_tuple<...>`, this generalized type is `Tuple`;
-other constructs in Hana also follow this convention of naming their
-generalized type with a capital letter.
-
-Just like C++ templates are families of types that are parameterized by some
-other type, it makes sense to speak of parameterized generalized types. A
-parameterized _gtype_ is simply a _gtype_ which depends on other generalized
-types. You might have seen it coming, but this is actually the case for
-`_tuple`, whose _gtype_ can be seen as depending on the _gtype_ of the objects
-it contains. However, take good note that __parameterized generalized types in
-Hana only live at the documentation level__. While enforcing proper
-parametricity would make the library more mathematically correct, I fear it
-would also make it less usable given the lack of language support. Given a
-parametric _gtype_ `F`, we use `F(T)` to denote the "application" of `F` to
-another _gtype_ `T`. While this is analogous to "applying" a C++ template to
-a type, we purposefully do not use the `F<T>` notation because parametric
-gtypes are not necessarily templates in Hana and that would be more confusing
-than helpful.
-
-As an example, `_tuple<int, int>` conceptually has a gtype of `Tuple(int)`,
-but its actual gtype (outside of the documentation) is just `Tuple`. What
-about `_tuple<int, long>`? Well, `int` and `long` are embedded in the same
-mathematical universe, so we could say that it's a `Tuple(Number)`, where
-`Number` is some generalized type containing all the numeric types. What
-about `_tuple<int, void>`? First, that won't compile. But why would you
-create a sequence of objects that have nothing in common? What can you do
-with that?
-
-These generalized types are useful for several purposes, for example creating
-a tuple with `make<Tuple>` and documenting pseudo-signatures for the functions
-provided in this library. Another important role is to customize algorithms;
-see the section on [tag-dispatching](@ref tutorial-extending-tag_dispatching)
-for more information. Finally, you can also consult the reference of the
-[datatype](@ref datatype) metafunction for details on how to specify the
-generalized type of a family of types.
-
-
-@todo
-There is obviously a connection between generalized types and concepts.
-I think that generalized types are concepts whose models are unique up
-to a unique isomorphism. Still, it is necessary to distinguish between
-isomorphic models when we want to provide an implementation or create an
-object. If you see how it all fits together better than I do right now,
-let me know.
 
 
 @section tutorial-type_computations Type computations
@@ -674,6 +578,98 @@ dynamic initialization phase! Then, we use `value` to return the compile-time
 value associated to its argument. Also note that `value` takes a `const&` to
 its argument; if it tried taking it by value, we would be reading from a
 non-`constexpr` variable to do the copying, and that could hide side-effects.
+
+
+
+@section tutorial-heterogeneity Heterogeneity and generalized types
+
+------------------------------------------------------------------------------
+The purpose of Hana is to manipulate heterogeneous objects. However, there's
+a fundamental question that we have not asked yet: does it even make sense to
+manipulate heterogeneous objects?
+
+For the sake of the explanation, let me make the following claim: a function
+template that compiles with an argument of every possible type must have a
+trivial implementation, in the sense that it must do nothing with its argument
+except perhaps return it. Hence, for a function template to do something
+interesting, it must fail to compile for some set of arguments. While I won't
+try to prove that claim formally -- it might be false in some corner cases --,
+think about it for a moment. Let's say I want to apply a function to each
+element of an heterogeneous sequence:
+
+@code
+    for_each([x, y, z], f)
+@endcode
+
+The first observation is that `f` must have a templated call operator because
+`x`, `y` and `z` have different types. The second observation is that without
+knowing anything specific about the types of `x`, `y` and `z`, it is impossible
+for `f` to do anything meaningful. For example, could it print its argument?
+Of course not, since it does not know whether `std::cout << x` is well-formed!
+In order to do something meaningful, the function has to put constraints on
+its arguments; it has to define a domain which is more specific that the set
+of all types, and hence it can't be _fully_ polymorphic, even if we do not have
+a way to express this in C++ (right now). So while we're manipulating types
+that are technically heterogeneous, they still conceptually need something in
+common, or it wouldn't be possible to do anything meaningful with them. We'll
+still say that we're manipulating heterogeneous objects, but always keep in
+mind that the objects we manipulate share something, and are hence homogeneous
+in _some way_.
+
+Pushing this to the extreme, some type families represent exactly the same
+entity, except they must have a different C++ type because the language
+requires them to. For example, this is the case of `_tuple<...>`. In our
+context, we would like to see `_tuple<int, int>` and `_tuple<int, long, float>`
+as different representations for the same data structure (a "tuple"), but the
+C++ language requires us to give them different types. In Hana, we associate
+what we call a _generalized type_ (we also say _data type_ and sometimes
+_gtype_) to each type family. A generalized type is simply a tag (like in
+MPL or Fusion) which is associated to all the types in a family through the
+`datatype` metafunction. For `_tuple<...>`, this generalized type is `Tuple`;
+other constructs in Hana also follow this convention of naming their
+generalized type with a capital letter.
+
+Just like C++ templates are families of types that are parameterized by some
+other type, it makes sense to speak of parameterized generalized types. A
+parameterized _gtype_ is simply a _gtype_ which depends on other generalized
+types. You might have seen it coming, but this is actually the case for
+`_tuple`, whose _gtype_ can be seen as depending on the _gtype_ of the objects
+it contains. However, take good note that __parameterized generalized types in
+Hana only live at the documentation level__. While enforcing proper
+parametricity would make the library more mathematically correct, I fear it
+would also make it less usable given the lack of language support. Given a
+parametric _gtype_ `F`, we use `F(T)` to denote the "application" of `F` to
+another _gtype_ `T`. While this is analogous to "applying" a C++ template to
+a type, we purposefully do not use the `F<T>` notation because parametric
+gtypes are not necessarily templates in Hana and that would be more confusing
+than helpful.
+
+As an example, `_tuple<int, int>` conceptually has a gtype of `Tuple(int)`,
+but its actual gtype (outside of the documentation) is just `Tuple`. What
+about `_tuple<int, long>`? Well, `int` and `long` are embedded in the same
+mathematical universe, so we could say that it's a `Tuple(Number)`, where
+`Number` is some generalized type containing all the numeric types. What
+about `_tuple<int, void>`? First, that won't compile. But why would you
+create a sequence of objects that have nothing in common? What can you do
+with that?
+
+These generalized types are useful for several purposes, for example creating
+a tuple with `make<Tuple>` and documenting pseudo-signatures for the functions
+provided in this library. Another important role is to customize algorithms;
+see the section on [tag-dispatching](@ref tutorial-extending-tag_dispatching)
+for more information. Finally, you can also consult the reference of the
+[datatype](@ref datatype) metafunction for details on how to specify the
+generalized type of a family of types.
+
+
+@todo
+There is obviously a connection between generalized types and concepts.
+I think that generalized types are concepts whose models are unique up
+to a unique isomorphism. Still, it is necessary to distinguish between
+isomorphic models when we want to provide an implementation or create an
+object. If you see how it all fits together better than I do right now,
+let me know.
+
 
 
 @section tutorial-external_libraries Integration with external libraries
