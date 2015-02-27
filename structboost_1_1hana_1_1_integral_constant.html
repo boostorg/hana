@@ -185,8 +185,8 @@ An <code><a class="el" href="structboost_1_1hana_1_1_integral_constant.html" tit
 <li><code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_group.html" title="The Group concept represents Monoids where all objects have an inverse w.r.t. the Monoid&#39;s binary ope...">Group</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_ring.html" title="The Ring concept represents Groups that also form a Monoid under a second binary operation that distr...">Ring</a></code>, and <code><a class="el" href="structboost_1_1hana_1_1_integral_domain.html" title="The IntegralDomain concept represents a commutative Ring whose multiplication has some &quot;nice&quot; propert...">IntegralDomain</a></code> (operators provided)<br />
 Those models are exactly those provided for <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class represents data that can be manipulated at compile-time. ">Constant</a></code>s, which are documented in their respective concepts.</li>
 </ol>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000016">Todo:</a></b></dt><dd><code>times</code> should be a shortcut to some tag-dispatched method. Specifically, anything that can be incremented, decremented and compared to some "zero" value can implement a <code>times</code> method with the same semantics.</dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000017">Todo:</a></b></dt><dd>Implicit conversions to the underlying integral type can be problematic: <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> odd = [](<span class="keyword">auto</span> x) {</div>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000015">Todo:</a></b></dt><dd><code>times</code> should be a shortcut to some tag-dispatched method. Specifically, anything that can be incremented, decremented and compared to some "zero" value can implement a <code>times</code> method with the same semantics.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000016">Todo:</a></b></dt><dd>Implicit conversions to the underlying integral type can be problematic: <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> odd = [](<span class="keyword">auto</span> x) {</div>
 <div class="line">    <span class="keywordflow">return</span> x % int_&lt;2&gt;;</div>
 <div class="line">};</div>
 <div class="line"></div>
@@ -278,7 +278,7 @@ template&lt;typename T , T v&gt; </div>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(integral_constant&lt;int, 2&gt; == int_&lt;2&gt;);</div>
 <div class="line">static_assert(decltype(integral_constant&lt;int, 2&gt;)::value == 2, <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000018">Todo:</a></b></dt><dd><ul>
+</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000017">Todo:</a></b></dt><dd><ul>
 <li>Do we want <code>char_&lt;1&gt; + char_&lt;2&gt; == char_&lt;3&gt;</code> or <code>char_&lt;1&gt; + char_&lt;2&gt; == int_&lt;3&gt;</code>?</li>
 <li>Consider specifying the type of <code>integral_constant&lt;...&gt;</code> to allow overloading on its type. Not sure yet whether that's desirable or not. </li>
 </ul>
@@ -630,7 +630,7 @@ template&lt;char... c&gt; </div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(1234_c == llong&lt;1234&gt;);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(-1234_c == llong&lt;-1234&gt;);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(1_c + (3_c * 4_c) == <a class="code" href="structboost_1_1hana_1_1_integral_constant.html#a1d39c4f98b84422263842b6c04ef0a7e">llong</a>&lt;1 + (3 * 4)&gt;);</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000019">Todo:</a></b></dt><dd>Add support for stuff like <code>0x1234_c</code>. </dd></dl>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000018">Todo:</a></b></dt><dd>Add support for stuff like <code>0x1234_c</code>. </dd></dl>
 
 </div>
 </div>

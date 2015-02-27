@@ -5,7 +5,6 @@ var group__group_datatypes =
       [ "right", "structboost_1_1hana_1_1_either.html#a0bd40511a2cb9b281d36a7fe564177bb", null ],
       [ "either", "structboost_1_1hana_1_1_either.html#ad53196ce1c8235c53dc237668780cd36", null ]
     ] ],
-    [ "IntegralC", "structboost_1_1hana_1_1ext_1_1boost_1_1mpl_1_1_integral_c.html", null ],
     [ "IntegralConstant", "structboost_1_1hana_1_1_integral_constant.html", [
       [ "integral_constant", "structboost_1_1hana_1_1_integral_constant.html#add84fb21ae6605a61da449cb716d8c2a", null ],
       [ "bool_", "structboost_1_1hana_1_1_integral_constant.html#acf0a8576fc56fe55152b2478f190561f", null ],

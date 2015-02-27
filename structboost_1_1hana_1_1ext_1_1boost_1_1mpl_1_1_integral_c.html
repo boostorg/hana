@@ -98,42 +98,23 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1ext_1_1boost_1_
   <div class="summary">
 <a href="structboost_1_1hana_1_1ext_1_1boost_1_1mpl_1_1_integral_c-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">boost::hana::ext::boost::mpl::IntegralC&lt; T &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__group-datatypes.html">Data types</a></div></div>  </div>
+<div class="title">boost::hana::ext::boost::mpl::IntegralC&lt; T &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__group-ext.html">External adapters</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
 <div class="textblock"><h3>template&lt;typename T&gt;<br />
 struct boost::hana::ext::boost::mpl::IntegralC&lt; T &gt;</h3>
 
-<p>Data type representing Boost.MPL IntegralConstants. </p>
+<p>Adapter for IntegralConstants from the Boost.MPL. </p>
 <h2>Provided models </h2>
 <ol type="1">
 <li><code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class represents data that can be manipulated at compile-time. ">Constant</a></code><br />
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2014</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
-<div class="line"></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="ext_2boost_2mpl_2integral__c_8hpp.html">boost/hana/ext/boost/mpl/integral_c.hpp</a>&gt;</span></div>
-<div class="line"></div>
-<div class="line"><span class="preprocessor">#include &lt;boost/mpl/int.hpp&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;boost/mpl/integral_c.hpp&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;boost/mpl/long.hpp&gt;</span></div>
-<div class="line"><span class="keyword">using namespace </span><a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
-<div class="line"><span class="keyword">namespace </span>mpl = boost::mpl;</div>
-<div class="line"></div>
-<div class="line"></div>
-<div class="line">static_assert(value(mpl::integral_c&lt;int, 3&gt;{}) == 3, <span class="stringliteral">&quot;&quot;</span>);</div>
+As Constants holding an integral type, <code><a class="el" href="structboost_1_1hana_1_1ext_1_1boost_1_1mpl_1_1_integral_c.html" title="Adapter for IntegralConstants from the Boost.MPL. ">IntegralC</a></code>s are models not only of <a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class represents data that can be manipulated at compile-time. ">Constant</a>, but also all the other concepts that are provided for Constants of an integral type. <div class="fragment"><div class="line">static_assert(value(mpl::integral_c&lt;int, 3&gt;{}) == 3, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(equal(mpl::integral_c&lt;int, 3&gt;{}, mpl::int_&lt;3&gt;{}));</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(equal(mpl::integral_c&lt;int, 3&gt;{}, mpl::long_&lt;3&gt;{}));</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(not_equal(mpl::integral_c&lt;int, 3&gt;{}, mpl::int_&lt;0&gt;{}));</div>
-<div class="line"></div>
-<div class="line"></div>
-<div class="line"><span class="keywordtype">int</span> main() { }</div>
-</div><!-- fragment --> </li>
+</div><!-- fragment --></li>
 </ol>
 </div></div><!-- contents -->
 </div><!-- doc-content -->

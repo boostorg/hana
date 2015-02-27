@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['functional',['Functional',['../group__group-functional.html',1,'']]]
+  ['external_20adapters',['External adapters',['../group__group-ext.html',1,'']]]
 ];

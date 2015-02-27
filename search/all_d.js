@@ -10,8 +10,8 @@ var searchData=
   ['make_5ftuple',['make_tuple',['../structboost_1_1hana_1_1_tuple.html#af3c175cfb83276339f91e867d738a2e6',1,'boost::hana::Tuple']]],
   ['map',['Map',['../structboost_1_1hana_1_1_map.html',1,'boost::hana']]],
   ['map',['map',['../structboost_1_1hana_1_1_map.html#a56ec5fd28fa8659b89fc526c89bdea6b',1,'boost::hana::Map']]],
-  ['map_2ehpp',['map.hpp',['../fwd_2map_8hpp.html',1,'']]],
   ['map_2ehpp',['map.hpp',['../map_8hpp.html',1,'']]],
+  ['map_2ehpp',['map.hpp',['../fwd_2map_8hpp.html',1,'']]],
   ['max',['max',['../structboost_1_1hana_1_1_orderable.html#a9fb8718f43756efef3953635f34fd67e',1,'boost::hana::Orderable']]],
   ['maximum',['maximum',['../structboost_1_1hana_1_1_foldable.html#ac49a8fde2d3de61959c99e755a81c0a1',1,'boost::hana::Foldable']]],
   ['maximum_5fby',['maximum_by',['../structboost_1_1hana_1_1_foldable.html#a6f0b4fa3e86674f958b725d44607ec5e',1,'boost::hana::Foldable']]],
@@ -42,7 +42,6 @@ var searchData=
   ['monoid_2ehpp',['monoid.hpp',['../monoid_8hpp.html',1,'']]],
   ['monoid_2ehpp',['monoid.hpp',['../fwd_2monoid_8hpp.html',1,'']]],
   ['move_2ehpp',['move.hpp',['../move_8hpp.html',1,'']]],
-  ['mpl_2ehpp',['mpl.hpp',['../fwd_2ext_2boost_2mpl_8hpp.html',1,'']]],
-  ['mpl_2ehpp',['mpl.hpp',['../ext_2boost_2mpl_8hpp.html',1,'']]],
+  ['mpl_2ehpp',['mpl.hpp',['../mpl_8hpp.html',1,'']]],
   ['mult',['mult',['../structboost_1_1hana_1_1_ring.html#aca4df2fde91ca9c046282c6ec0f9bc3d',1,'boost::hana::Ring']]]
 ];

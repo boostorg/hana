@@ -7,11 +7,11 @@ var NAVTREE =
       [ "Quick start", "index.html#tutorial-quickstart", [
         [ "Cheatsheet", "index.html#tutorial-quickstart-cheatsheet", null ]
       ] ],
-      [ "Heterogeneity and generalized types", "index.html#tutorial-heterogeneity", null ],
       [ "Type computations", "index.html#tutorial-type_computations", null ],
       [ "Constants, or setting constexpr straight", "index.html#tutorial-constant", [
         [ "Side effects", "index.html#tutorial-constant-side_effects", null ]
       ] ],
+      [ "Heterogeneity and generalized types", "index.html#tutorial-heterogeneity", null ],
       [ "Integration with external libraries", "index.html#tutorial-external_libraries", [
         [ "The standard library", "index.html#tutorial-external_libraries-stl", null ],
         [ "Boost.Fusion", "index.html#tutorial-external_libraries-fusion", null ],
@@ -47,8 +47,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"has__common__embedding_8hpp.html#ga68efe3312a44043cc54b18109cb3ef6b",
-"structboost_1_1hana_1_1_sequence.html#a5948df39fe904d509f1bb073d53e3965"
+"index.html#tutorial-constant",
+"structboost_1_1hana_1_1_sequence.html#a65295edabe2029007e7ecf640ae7bb0b"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

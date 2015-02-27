@@ -117,7 +117,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_foldable.html'
 <ol type="1">
 <li>Builtin arrays Builtin arrays whose size is known can be folded as-if they were homogeneous tuples. However, note that builtin arrays can't be made more than <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a></code> (e.g. <code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>) because they can't be empty and they also can't be returned from functions.</li>
 </ol>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000013">Todo:</a></b></dt><dd>Make it possible to specify the <a class="el" href="structboost_1_1hana_1_1_monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a> used for <code>sum</code> and <code>product</code>? </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000012">Todo:</a></b></dt><dd>Make it possible to specify the <a class="el" href="structboost_1_1hana_1_1_monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a> used for <code>sum</code> and <code>product</code>? </dd></dl>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of methods</h2></td></tr>
@@ -384,7 +384,7 @@ Synopsis of methods</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000014">Todo:</a></b></dt><dd>The presence of implicit side effects in this function might be a smell that it should be moved to a different type class and handled through <code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code>s.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000013">Todo:</a></b></dt><dd>The presence of implicit side effects in this function might be a smell that it should be moved to a different type class and handled through <code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code>s.</dd></dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line">std::stringstream ss;</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1_foldable.html#a80176fbdfbccc09e902263557eb0984d">for_each</a>(make&lt;Tuple&gt;(0, <span class="charliteral">&#39;1&#39;</span>, <span class="stringliteral">&quot;234&quot;</span>, 5.5), [&amp;](<span class="keyword">auto</span> x) {</div>
