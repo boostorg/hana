@@ -10,15 +10,14 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EXT_BOOST_MPL_INTEGRAL_C_HPP
 #define BOOST_HANA_EXT_BOOST_MPL_INTEGRAL_C_HPP
 
-#include <boost/hana/fwd/ext/boost/mpl/integral_c.hpp>
-
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/constant.hpp>
 #include <boost/hana/core/convert.hpp>
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/is_a.hpp>
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/is_integral.hpp>
+#include <boost/hana/detail/std/is_same.hpp>
 #include <boost/hana/enumerable.hpp>
 #include <boost/hana/group.hpp>
 #include <boost/hana/integral_domain.hpp>
@@ -28,9 +27,37 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/ring.hpp>
 
 #include <boost/mpl/integral_c.hpp>
+#include <boost/mpl/integral_c_tag.hpp>
 
 
 namespace boost { namespace hana {
+    namespace ext { namespace boost { namespace mpl {
+        //! @ingroup group-ext
+        //! Adapter for IntegralConstants from the Boost.MPL.
+        //!
+        //! Provided models
+        //! ---------------
+        //! 1. `Constant`\n
+        //! As Constants holding an integral type, `IntegralC`s are models
+        //! not only of Constant, but also all the other concepts that are
+        //! provided for Constants of an integral type.
+        //! @snippet example/ext/boost/mpl/integral_c.cpp constant
+        template <typename T>
+        struct IntegralC { using value_type = T; };
+    }}}
+
+    template <typename T>
+    struct datatype<T, when<
+        detail::std::is_same<
+            typename T::tag,
+            ::boost::mpl::integral_c_tag
+        >::value
+    >> {
+        using type = ext::boost::mpl::IntegralC<
+            typename datatype<typename T::value_type>::type
+        >;
+    };
+
     //////////////////////////////////////////////////////////////////////////
     // Constant
     //////////////////////////////////////////////////////////////////////////

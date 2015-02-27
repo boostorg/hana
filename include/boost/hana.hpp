@@ -101,6 +101,9 @@ namespace boost { namespace hana {
 //! @defgroup group-core Core
 //! Core utilities of the library.
 
+//! @defgroup group-ext External adapters
+//! Adapters for external libraries.
+
 //! @defgroup group-config Configuration options
 //! Configurable options to tweak the global behavior of the library.
 
@@ -789,6 +792,8 @@ the library was also intentionally kept simple, because we all love simplicity.
     This subdirectory contains the forward declaration of every concept
     and data type in the library. Basically, `boost/hana/fwd/[XXX].hpp`
     is the forward declaration for the concept or data type named `XXX`.
+    Also note that forward declarations for headers in `boost/hana/ext/`
+    are not provided.
 
   - `boost/hana/functional/`\n
     This subdirectory contains various function objects that are often useful,
@@ -857,6 +862,11 @@ follow:
     data type documents the concept(s) it models, and how it does so. It
     also documents the methods tied to that data type but not to any concept,
     for example `make<Tuple>`.
+
+  - @ref group-ext\n
+    Documentation for all the adapters for external libraries. Basically, we
+    assign a data type to some objects in external libraries and we document
+    them as if they were normal data types provided by Hana.
 
   - @ref group-config\n
     Macros that can be used to tweak the global behavior of the library.

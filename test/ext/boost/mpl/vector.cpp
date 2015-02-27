@@ -12,8 +12,11 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/type.hpp>
 
 #include <test/auto/base.hpp>
+#include <test/auto/comparable.hpp>
+#include <test/auto/foldable.hpp>
 #include <test/auto/iterable.hpp>
-#include <test/auto/sequence.hpp>
+#include <test/auto/searchable.hpp>
+#include <test/injection.hpp>
 
 #include <boost/mpl/identity.hpp>
 #include <boost/mpl/quote.hpp>
@@ -28,12 +31,10 @@ struct x1; struct x2; struct x3;
 namespace boost { namespace hana { namespace test {
     template <>
     auto instances<ext::boost::mpl::Vector> = make<Tuple>(
-        //! @todo mpl::Vector is not actually a Sequence, because we can only
-        //! store types in it.
-#if 0
-        type<Sequence>,
-#endif
-        type<Iterable>
+        type<Comparable>,
+        type<Foldable>,
+        type<Iterable>,
+        type<Searchable>
     );
 
     template <>
@@ -93,6 +94,33 @@ int main() {
         >{}, "");
     }
 
+    // Foldable
+    {
+        // unpack
+        {
+            auto f = test::injection([]{});
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                unpack(::boost::mpl::vector<>{}, f),
+                f()
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                unpack(::boost::mpl::vector<x1>{}, f),
+                f(type<x1>)
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                unpack(::boost::mpl::vector<x1, x2>{}, f),
+                f(type<x1>, type<x2>)
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                unpack(::boost::mpl::vector<x1, x2, x3>{}, f),
+                f(type<x1>, type<x2>, type<x3>)
+            ));
+        }
+    }
+
     // Iterable
     {
         // head
@@ -137,37 +165,6 @@ int main() {
 
             BOOST_HANA_CONSTANT_CHECK(not_(is_empty(::boost::mpl::vector<x1, x2>{})));
             BOOST_HANA_CONSTANT_CHECK(not_(is_empty(::boost::mpl::vector2<x1, x2>{})));
-        }
-    }
-
-    // Sequence
-    {
-        // prepend
-        {
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                prepend(type<x1>, ::boost::mpl::vector<>{}),
-                ::boost::mpl::vector<x1>{}
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                prepend(type<x1>, ::boost::mpl::vector<x2>{}),
-                ::boost::mpl::vector<x1, x2>{}
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                prepend(type<x1>, ::boost::mpl::vector<x2, x3>{}),
-                ::boost::mpl::vector<x1, x2, x3>{}
-            ));
-        }
-
-        // empty
-        {
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                empty<ext::boost::mpl::Vector>(),
-                ::boost::mpl::vector<>{}
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                empty<ext::boost::mpl::Vector>(),
-                ::boost::mpl::vector0<>{}
-            ));
         }
     }
 }

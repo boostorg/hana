@@ -12,7 +12,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_EXT_BOOST_HPP
 
 #include <boost/hana/fwd/ext/boost/fusion.hpp>
-#include <boost/hana/fwd/ext/boost/mpl.hpp>
 #include <boost/hana/fwd/ext/boost/tuple.hpp>
 
 #endif // !BOOST_HANA_FWD_EXT_BOOST_HPP
