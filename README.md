@@ -62,12 +62,13 @@ the [include](include) directory to your compiler's header search path and
 you are done.
 
 The library relies on a full-featured C++14 compiler and standard library,
-but nothing else is required. As of February 2015, the only compiler known to
-compile the full test suite is Clang 3.7.0 (trunk) with libc++ (trunk too).
+but nothing else is required. As of February 2015, the only compiler known
+to compile the full test suite is Clang 3.7.0 (trunk) with libc++ (trunk too).
 While Clang 3.6 is advertised as having full support for C++14, it has several
 C++14-related bugs that are fixed in the trunk and make it incapable of
-compiling the full test suite. However, efforts are being made to port the
-library to GCC 4.9 and Clang 3.6.
+compiling the full test suite. However, efforts are being made to port
+the library to GCC 4.9 and Clang 3.6 and a version of Hana with reduced
+functionality lives on the `redux` branch.
 
 
 ## Documentation
@@ -89,6 +90,19 @@ cd build
 cmake ..
 ```
 
+Usually, you'll want to specify a custom compiler (e.g. Clang trunk):
+```shell
+cmake .. -DCMAKE_CXX_COMPILER=path-to-compiler
+```
+
+If you want to test the inter-operation with Boost.MPL and Boost.Fusion,
+you'll need Boost 1.58+. You can specify a custom path for your Boost
+installation if you don't want the system-wide Boost to be used:
+
+```shell
+cmake .. -DCMAKE_CXX_COMPILER=path-to-compiler -DBOOST_ROOT=path-to-boost
+```
+
 You can now build and run the unit tests and the examples. I assume that you
 used the Makefile generator with CMake; the commands may differ for other
 generators:
@@ -101,6 +115,11 @@ make examples
 > There is a Makefile at the root of the project which forwards everything
 > to the `build` directory. Hence, you can also issue those commands from the
 > root of the project instead of the `build` directory.
+
+Note that a couple of tests (mainly those for Fusion's adapters) will compile
+but fail to link; this is because of a [known bug][clang20619] in Clang. Also
+note that the tests for Fusion's adapters are very long to compile and will
+use a lot of RAM; you should probably just skip them.
 
 There are also optional targets which are enabled only when the required
 software is available on your computer. For example, generating the
@@ -172,6 +191,7 @@ Please see [LICENSE.md](LICENSE.md).
 <!-- Links -->
 [Benchcc]: http://github.com/ldionne/benchcc
 [C++Now]: http://cppnow.org
+[clang20619]: http://llvm.org/bugs/show_bug.cgi?id=20619
 [CMake]: http://www.cmake.org
 [CppCon]: http://cppcon.org
 [Doxygen]: http://www.doxygen.org
