@@ -27,6 +27,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/integer_sequence.hpp>
 #include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/move.hpp>
+#include <boost/hana/detail/std/remove_cv.hpp>
 #include <boost/hana/detail/std/remove_reference.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/foldable.hpp>
@@ -71,12 +72,9 @@ namespace boost { namespace hana {
 
     template <typename ...T>
     struct _tuple_t<T...>::_
-        : _tuple_t<T...>, _tuple<decltype(type<T>)...>
-    {
-        constexpr _()
-            : _tuple<decltype(type<T>)...>{type<T>...}
-        { }
-    };
+        : _tuple_t<T...>,
+          _tuple<typename detail::std::remove_cv<decltype(type<T>)>::type...>
+    { };
 
     template <>
     struct operators::of<Tuple>

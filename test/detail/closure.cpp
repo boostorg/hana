@@ -37,6 +37,9 @@ int main() {
 
         constexpr detail::closure<> copy1(x0); (void) copy1;
         constexpr detail::closure<T, U> copy2(x2); (void)copy2;
+
+        // default-constructibility
+        constexpr detail::closure<T, U, V> z3{}; (void)z3;
     }
 
     // non-copyable friendliness

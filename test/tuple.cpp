@@ -86,6 +86,17 @@ int main() {
         }
     }
 
+    // default-constructibility
+    {
+        _tuple<> z1{}; (void)z1;
+        _tuple<int> z2{}; (void)z2;
+        _tuple<int, char> z3{}; (void)z3;
+        _tuple<int, char, float> z4{}; (void)z4;
+
+        using Types = decltype(tuple_t<x0, x1>);
+        Types default_{}; (void)default_;
+    }
+
     // `decltype(tuple_t<T...>)` should inherit `_tuple_t<T...>`
     {
         static_assert(std::is_base_of<
