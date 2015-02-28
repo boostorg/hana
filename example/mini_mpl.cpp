@@ -60,34 +60,57 @@ constexpr decltype(auto) unique_by(Predicate predicate, Sequence sequence) {
     return hana::transform(hana::group_by(predicate, sequence), hana::head);
 }
 
+//////////////////////////////////////////////////////////////////////////////
+// integral_c
+//////////////////////////////////////////////////////////////////////////////
+template <typename T, T v>
+using integral_c = std::integral_constant<T, v>;
+
+template <int i>
+using int_ = integral_c<int, i>;
+
+template <long i>
+using long_ = integral_c<long, i>;
+
+template <bool b>
+using bool_ = integral_c<bool, b>;
+
+using true_ = bool_<true>;
+using false_ = bool_<false>;
+
 
 //////////////////////////////////////////////////////////////////////////////
 // Sequences, compile-time integers & al
 //
 // Differences with the MPL:
-// 1. No more goddamn numbered variants
-// 2. These are dependent types, so no pattern matching. This can be modified
-//    easily.
-// 3. `pair<...>::first` and `pair<...>::second` won't work;
+// 1. No more annoying numbered variants
+// 2. `pair<...>::first` and `pair<...>::second` won't work;
 //    use `first<pair<...>>` instead
 //////////////////////////////////////////////////////////////////////////////
 template <typename ...T>
-using vector = decltype(hana::tuple_t<T...>);
+struct vector : decltype(hana::tuple_t<T...>) {
+    using hana = vector;
+    using datatype = boost::hana::Tuple;
+};
 
-template <typename T, T v>
-using integral_c = decltype(hana::integral_constant<T, v>);
+template <typename ...T>
+struct set : decltype(hana::set(hana::type<T>...)) {
+    using hana = set;
+    using datatype = boost::hana::Set;
+};
 
 template <typename T, T ...v>
-using vector_c = decltype(hana::tuple_c<T, v...>);
+struct vector_c : decltype(hana::tuple_c<T, v...>) {
+    using hana = vector_c;
+    using datatype = boost::hana::Tuple;
+};
 
 template <typename T, T from, T to>
-using range_c = decltype(hana::range_c<T, from, to>);
+struct range_c : decltype(hana::range_c<T, from, to>) {
+    using hana = range_c;
+    using datatype = boost::hana::Range;
+};
 
-template <int i>
-using int_ = integral_c<int, i>;
-
-template <bool b>
-using bool_ = integral_c<bool, b>;
 
 template <typename T, typename U>
 struct pair : decltype(hana::pair(hana::type<T>, hana::type<U>)) { };
@@ -124,7 +147,50 @@ struct next
 
 //////////////////////////////////////////////////////////////////////////////
 // Intrinsics
+//
+// Differences with the MPL:
+// 1. `at` does not work for associative sequences; use `find` instead.
+// 2. `begin`, `end`, `clear`, `erase`, `erase_key`, `insert`, `insert_range`,
+//    `is_sequence`, `key_type`, `order`, `sequence_tag`, `value_type`: not implemented
 //////////////////////////////////////////////////////////////////////////////
+template <typename Sequence, typename N>
+struct at
+    : decltype(hana::at(N{}, Sequence{}))
+{ };
+
+template <typename Sequence, long n>
+using at_c = at<Sequence, long_<n>>;
+
+template <typename Sequence>
+struct back
+    : decltype(+hana::last(Sequence{}))
+{ };
+
+template <typename Sequence>
+struct empty
+    : decltype(hana::is_empty(Sequence{}))
+{ };
+
+template <typename Sequence>
+struct front
+    : decltype(+hana::head(Sequence{}))
+{ };
+
+template <typename Sequence>
+struct pop_back {
+    using type = decltype(hana::init(hana::to<hana::Tuple>(Sequence{})));
+};
+
+template <typename Sequence>
+struct pop_front {
+    using type = decltype(hana::tail(Sequence{}));
+};
+
+template <typename Sequence, typename T>
+struct push_back {
+    using type = decltype(hana::append(Sequence{}, hana::type<T>));
+};
+
 template <typename Sequence, typename T>
 struct push_front {
     using type = decltype(hana::prepend(hana::type<T>, Sequence{}));
@@ -380,13 +446,104 @@ using namespace hpl;
 // Intrinsics
 //////////////////////////////////////////////////////////////////////////////
 
+// at
+{
+    using range = range_c<long,10,50>;
+    static_assert(at<range, int_<0>>::value == 10, "");
+    static_assert(at<range, int_<10>>::value == 20, "");
+    static_assert(at<range, int_<40>>::value == 50, "");
+}
+
+// at_c
+{
+    using range = range_c<long, 10, 50>;
+    static_assert(at_c<range, 0>::value == 10, "");
+    static_assert(at_c<range, 10>::value == 20, "");
+    static_assert(at_c<range, 40>::value == 50, "");
+}
+
+// back
+{
+    using range1 = range_c<int,0,1>;
+    using range2 = range_c<int,0,10>;
+    using range3 = range_c<int,-10,0>;
+    using types = vector<int, char, float>;
+    static_assert(back<range1>::value == 0, "");
+    static_assert(back<range2>::value == 9, "");
+    static_assert(back<range3>::value == -1, "");
+    static_assert(std::is_same<back<types>::type, float>{}, "");
+}
+
+// empty
+{
+    using empty_range = range_c<int,0,0>;
+    using types = vector<long,float,double>;
+    static_assert(empty<empty_range>{}, "");
+    static_assert(!empty<types>{}, "");
+}
+
+// front
+{
+    using types1 = vector<long>;
+    using types2 = vector<int,long>;
+    using types3 = vector<char,int,long>;
+    static_assert(std::is_same<front<types1>::type, long>{}, "");
+    static_assert(std::is_same<front<types2>::type, int>{}, "");
+    static_assert(std::is_same<front<types3>::type, char>{}, "");
+}
+
+// pop_back
+{
+    using types1 = vector<long>;
+    using types2 = vector<long,int>;
+    using types3 = vector<long,int,char>;
+
+
+    using result1 = pop_back<types1>::type;
+    using result2 = pop_back<types2>::type;
+    using result3 = pop_back<types3>::type;
+
+    static_assert(size<result1>::value == 0, "");
+    static_assert(size<result2>::value == 1, "");
+    static_assert(size<result3>::value == 2, "");
+
+    static_assert(std::is_same< back<result2>::type, long>{}, "");
+    static_assert(std::is_same< back<result3>::type, int>{}, "");
+}
+
+// pop_front
+{
+    using types1 = vector<long>;
+    using types2 = vector<int,long>;
+    using types3 = vector<char,int,long>;
+
+    using result1 = pop_front<types1>::type;
+    using result2 = pop_front<types2>::type;
+    using result3 = pop_front<types3>::type;
+
+    static_assert(size<result1>::value == 0, "");
+    static_assert(size<result2>::value == 1, "");
+    static_assert(size<result3>::value == 2, "");
+
+    static_assert(std::is_same<front<result2>::type, long>{}, "");
+    static_assert(std::is_same<front<result3>::type, int>{}, "");
+}
+
+// push_back
+{
+    using bools = vector_c<bool,false,false,false,true,true,true,false,false>;
+    using message = push_back<bools, false_>::type;
+    static_assert(back<message>::type::value == false, "");
+    static_assert(count_if<message, equal_to<mpl::_1, false_>>{} == 6u, "");
+}
+
 // push_front
 {
     using v = vector_c<int,1,2,3,5,8,13,21>;
-    static_assert(size<v>{} == 7, "");
+    static_assert(size<v>{} == 7u, "");
 
     using fibonacci = push_front<v, int_<1>>::type;
-    static_assert(size<fibonacci>{} == 8, "");
+    static_assert(size<fibonacci>{} == 8u, "");
 
     static_assert(equal<
         fibonacci,
@@ -401,9 +558,9 @@ using namespace hpl;
     using numbers = vector_c<int,0,1,2,3,4,5>;
     using more_numbers = range_c<int,0,100>;
 
-    static_assert(size<empty_list>{} == 0, "");
-    static_assert(size<numbers>{} == 6, "");
-    static_assert(size<more_numbers>{} == 100, "");
+    static_assert(size<empty_list>{} == 0u, "");
+    static_assert(size<numbers>{} == 6u, "");
+    static_assert(size<more_numbers>{} == 100u, "");
 }
 
 
@@ -462,15 +619,15 @@ using namespace hpl;
 // count
 {
     using types = vector<int,char,long,short,char,short,double,long>;
-    static_assert(count<types, short>{} == 2, "");
+    static_assert(count<types, short>{} == 2u, "");
 }
 
 // count_if
 {
     using types = vector<int,char,long,short,char,long,double,long>;
-    static_assert(count_if<types, std::is_floating_point<mpl::_>>{} == 1, "");
-    static_assert(count_if<types, std::is_same<mpl::_, char>>{} == 2, "");
-    static_assert(count_if<types, std::is_same<mpl::_, void>>{} == 0, "");
+    static_assert(count_if<types, std::is_floating_point<mpl::_>>{} == 1u, "");
+    static_assert(count_if<types, std::is_same<mpl::_, char>>{} == 2u, "");
+    static_assert(count_if<types, std::is_same<mpl::_, void>>{} == 0u, "");
 }
 
 // min_element (MPL's example is completely broken)
@@ -496,14 +653,14 @@ using namespace hpl;
 {
     using numbers = vector_c<int,10, 11, 12, 13, 14, 15, 16, 17, 18, 19>;
     using result = copy<range_c<int, 10, 20>>::type;
-    static_assert(size<result>{} == 10, "");
+    static_assert(size<result>{} == 10u, "");
     static_assert(equal<result, numbers, mpl::quote2<equal_to>>{}, "");
 }
 
 // copy_if
 {
     using result = copy_if<range_c<int, 0, 10>, less<mpl::_1, int_<5>>>::type;
-    static_assert(size<result>{} == 5, "");
+    static_assert(size<result>{} == 5u, "");
     static_assert(equal<result, range_c<int, 0, 5>>{}, "");
 }
 
