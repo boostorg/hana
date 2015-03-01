@@ -219,6 +219,9 @@ namespace boost { namespace hana {
 
         // times
         static constexpr ic_detail::_times<T, v> times{};
+
+        using hana = _integral_constant;
+        using datatype = IntegralConstant<T>;
     };
 
     template <typename T, T v>

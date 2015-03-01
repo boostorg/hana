@@ -7,6 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/integral_constant.hpp>
 
 #include <boost/hana/assert.hpp>
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
 
@@ -69,6 +70,14 @@ int main() {
         // nested ::value_type
         static_assert(std::is_same<decltype(int_<1>)::value_type, int>{}, "");
     }
+
+    // Make sure we can inherit _integral_constant and retain the same
+    // data type.
+    {
+        struct derived : _integral_constant<int, 10> { };
+        static_assert(std::is_same<datatype_t<derived>, IntegralConstant<int>>{}, "");
+    }
+
 
     // Extensions to std::integral_constant
     {
