@@ -64,17 +64,10 @@ you are done.
 The library relies on a full-featured C++14 compiler and standard library,
 but nothing else is required. As of February 2015, the only compiler known
 to compile the full test suite is Clang (trunk) with libc++ (trunk too).
-While Clang 3.5 is advertised as having full support for C++14, it has several
-C++14-related bugs that are fixed in the trunk and make it incapable of
-compiling the full test suite.
-
-However, a version of Hana with slightly reduced functionality is provided
-on the `redux` branch; __that version is functional with Clang 3.5__! It has
-some limitations, notably the lack of working integration with Boost.Fusion
-and the standard library. You should also expect some glitches here and there,
-but it should be sufficient for most use cases. Efforts are also being made to
-port the library to GCC 4.9 on that branch, but this is a much more daunting
-task.
+However, the library is __completely functional with Clang 3.5__, except for
+a couple of adapters for the standard library and Boost.Fusion. Also, work
+on a GCC 4.9 port with reduced functionality is currently underway on the
+`redux` branch, but it is not in a working state right now.
 
 
 ## Documentation
@@ -122,10 +115,10 @@ make examples
 > to the `build` directory. Hence, you can also issue those commands from the
 > root of the project instead of the `build` directory.
 
-Note that a couple of tests (mainly those for Fusion's adapters) will compile
-but fail to link; this is because of a [known bug][clang20619] in Clang. Also
-note that the tests for Fusion's adapters are very long to compile and will
-use a lot of RAM; you should probably just skip them.
+You should be aware that compiling the unit tests is very time and RAM
+consuming, especially those for external adapters. This is due to the
+fact that Hana's unit tests are very thorough, and also that heterogeneous
+sequences in other libraries tend to have horrible compile-time performance.
 
 There are also optional targets which are enabled only when the required
 software is available on your computer. For example, generating the

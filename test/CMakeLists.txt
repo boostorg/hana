@@ -9,6 +9,7 @@
 # Allows putting stuff that's only relevant to the unit tests in the
 # test/include subdirectory.
 include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
+include_directories(${CMAKE_CURRENT_LIST_DIR})
 
 # Target to build and run all the unit tests
 add_custom_target(tests ALL
@@ -62,8 +63,8 @@ if (Boost_FOUND AND ${Boost_VERSION} LESS 105800)
         "boost/hana/fwd/ext/boost/fusion/list.hpp")
 
     file(GLOB_RECURSE _ext_fusion_bad_tests
-        "ext/boost/fusion/deque.cpp"
-        "ext/boost/fusion/list.cpp")
+        "ext/boost/fusion/deque/*.cpp"
+        "ext/boost/fusion/list/*.cpp")
     list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${_ext_fusion_bad_tests})
 endif()
 
@@ -81,6 +82,14 @@ endif()
 # The Fusion adapters are currently broken; I'm working on it.
 file(GLOB_RECURSE _ext_fusion_broken_tests "ext/boost/fusion/*.cpp")
 list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${_ext_fusion_broken_tests})
+
+# More adapters are currently broken on Clang 3.5; working on it too.
+if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND
+    "${CMAKE_CXX_COMPILER_VERSION}" VERSION_LESS "3.7.0")
+    file(GLOB_RECURSE _ext_other_broken_tests "ext/boost/mpl/vector.cpp"
+                                              "ext/std/integer_sequence.cpp")
+    list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${_ext_other_broken_tests})
+endif()
 
 # Add all the unit tests
 foreach(file IN LISTS BOOST_HANA_TEST_SOURCES)

@@ -11,36 +11,15 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
 
-#include <test/auto/base.hpp>
-#include <test/auto/constant.hpp>
-#include <test/injection.hpp>
-
 #include <cstddef>
 #include <type_traits>
 using namespace boost::hana;
 
 
-namespace boost { namespace hana { namespace test {
-    template <typename T>
-    auto objects<IntegralConstant<T>> = make<Tuple>(
-        integral_constant<T, static_cast<T>(0)>,
-        integral_constant<T, static_cast<T>(1)>,
-        integral_constant<T, static_cast<T>(2)>,
-        integral_constant<T, static_cast<T>(3)>
-    );
-
-    template <typename T>
-    auto instances<IntegralConstant<T>> = make<Tuple>(
-        type<Constant>
-    );
-}}}
-
-
 int main() {
-    test::check_datatype<IntegralConstant<int>>();
-    test::check_datatype<IntegralConstant<bool>>();
-
+    //////////////////////////////////////////////////////////////////////////
     // IntegralConstant's API (like std::integral_constant)
+    //////////////////////////////////////////////////////////////////////////
     {
         // operator()
         static_assert(size_t<0>() == 0, "");
@@ -71,15 +50,18 @@ int main() {
         static_assert(std::is_same<decltype(int_<1>)::value_type, int>{}, "");
     }
 
+    //////////////////////////////////////////////////////////////////////////
     // Make sure we can inherit _integral_constant and retain the same
     // data type.
+    //////////////////////////////////////////////////////////////////////////
     {
         struct derived : _integral_constant<int, 10> { };
         static_assert(std::is_same<datatype_t<derived>, IntegralConstant<int>>{}, "");
     }
 
-
+    //////////////////////////////////////////////////////////////////////////
     // Extensions to std::integral_constant
+    //////////////////////////////////////////////////////////////////////////
     {
         // times member function (the other ones are tested in the examples)
         {
@@ -138,39 +120,6 @@ int main() {
 
             BOOST_HANA_CONSTANT_CHECK(decltype_(-1234_c) == decltype_(llong<-1234>));
             BOOST_HANA_CONSTANT_CHECK(-12_c < 0_c);
-        }
-    }
-
-    // Constant
-    {
-        // value
-        {
-            static_assert(value(integral_constant<int, 0>) == 0, "");
-            static_assert(value(integral_constant<int, 1>) == 1, "");
-        }
-    }
-
-    // Logical
-    {
-        using test::x;
-        auto t = [=](auto) { return x<0>; };
-        auto e = [=](auto) { return x<1>; };
-
-        // eval_if
-        {
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                eval_if(true_, t, e), x<0>
-            ));
-
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                eval_if(false_, t, e), x<1>
-            ));
-        }
-
-        // not_
-        {
-            BOOST_HANA_CONSTANT_CHECK(equal(not_(true_), false_));
-            BOOST_HANA_CONSTANT_CHECK(equal(not_(false_), true_));
         }
     }
 }
