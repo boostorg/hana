@@ -20,8 +20,7 @@ namespace boost { namespace hana {
     //! @note
     //! This page explains how Types work at a low level. To gain intuition
     //! about type-level metaprogramming in Hana, you should read the
-    //! [tutorial section](@ref tutorial-type_computations) on type level
-    //! computations.
+    //! [tutorial section](@ref tutorial-type) on type-level computations.
     //!
     //! A `Type` is a special kind of object representing a C++ type like
     //! `int`, `void`, `std::vector<float>` or anything else you can imagine.

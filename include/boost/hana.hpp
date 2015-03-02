@@ -65,7 +65,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 // This is a bit stupid, but putting the documentation in the `boost::hana`
 // namespace makes Doxygen resolve references like `Iterable` properly.
-// Otherwise, we would need to write `boost::hana::Iterable` everytime.
+// Otherwise, we would need to write `boost::hana::Iterable` every time.
 namespace boost { namespace hana {
 
 //! @defgroup group-concepts Concepts
@@ -138,6 +138,14 @@ formal reviews with the goal of being part of Boost.
 Let the fun begin.
 
 
+
+
+
+
+
+
+
+
 @section tutorial-introduction Introduction
 
 ------------------------------------------------------------------------------
@@ -180,6 +188,14 @@ these concepts approachable by using intuition whenever possible, but bear
 in mind that the highest rewards are usually the fruit of some effort.
 
 
+
+
+
+
+
+
+
+
 @section tutorial-quickstart Quick start
 
 ------------------------------------------------------------------------------
@@ -191,117 +207,309 @@ and the [C++14 standard][Wikipedia.C++14]. First, let's include the library:
 Unless specified otherwise, the documentation assumes that the above lines
 are present before examples and code snippets. Also note that finer grained
 headers are provided and will be explained in the [Header organization]
-(@ref tutorial-header_organization) section. If you are reading this
-documentation, chances are you already know `std::tuple` and `std::make_tuple`.
-Hana provides its own `tuple` and `make_tuple` implementations:
+(@ref tutorial-header_organization) section. Now, let's define three simple
+types so we can work with them below:
 
-@snippet example/tutorial/quickstart.cpp tuple_auto
+@snippet example/tutorial/quickstart.cpp decls
 
-`make<Tuple>` is the usual way of creating a tuple in Hana. Simply put, `make`
-is used all around Hana to create different types of objects, thus generalizing
-the `std::make_xxx` family of functions. You have probably observed how the
-`auto` keyword is used when defining `xs`; it is often useful to let the
-compiler deduce the type of a tuple, but sometimes it is necessary to specify
-it. This is of course also possible:
+If you are reading this documentation, chances are you already know
+`std::tuple` and `std::make_tuple`. Hana provides its own `tuple` and
+`make_tuple`:
 
-@snippet example/tutorial/quickstart.cpp tuple_type
+@snippet example/tutorial/quickstart.cpp make_tuple
 
-Hana also provides several basic operations and higher level algorithms that
-can be performed on heterogeneous sequences. For example, here are a couple
-of basic operations; the higher level algorithms will be explained later:
+Notice how the `auto` keyword is used when defining `xs`; it is often useful
+to let the compiler deduce the type of a tuple, but sometimes it is necessary
+to specify it. This is of course also possible:
 
-@snippet example/tutorial/quickstart.cpp operations
+@snippet example/tutorial/quickstart.cpp _tuple
 
-An interesting observation in the previous example is that `is_empty` and
-`length` both return a constant expression, even though the tuple they were
-called on is not a constant expression (it couldn't be one because it
-contains a `std::string`). Indeed, the size of the sequence is known at
-compile-time regardless of its contents, so it only makes sense that Hana
-does not throw away this information. If that seems surprising, think about
-`std::tuple`:
+Hana provides several basic operations to manipulate tuples and other kinds
+of heterogeneous sequences. For example, one can get the `n`th element of a
+tuple with `at_c` and its length with `length`, which are analogous to
+`std::get` and `std::tuple_size` respectively:
 
-@snippet example/tutorial/quickstart.cpp std_tuple_size
+@snippet example/tutorial/quickstart.cpp basic_operations
 
-Since the size of the tuple is encoded in it's type, it's always available
-at compile-time regardless of whether the tuple is `constexpr` or not. How
-this works in Hana will be explained in detail later, but the trick is that
-`is_empty` returns something like a `std::integral_constant`, which can
-always be converted to an integral value at compile-time. Hana also provides
-high level algorithms to manipulate tuples and other heterogeneous containers.
-One example is `transform` (analogous to `std::transform`), which takes a
-sequence and a function, maps the function over each element of the sequence
-and returns the result in a new sequence:
+Notice how `length` can be used in a `static_assert` even though it is called
+on a non-`constexpr` tuple? Boldly, Hana makes sure that no information that's
+known at compile-time is lost, which is clearly the case of the tuple's size.
+The details are explained in the [section on amphibian algorithms]
+(@ref tutorial-amphi). Hana also provides high level algorithms to manipulate
+tuples and other heterogeneous containers. For example, one can apply a
+function to every element of a tuple and get a tuple of the results with
+`transform`, which is analogous to `std::transform`:
 
 @snippet example/tutorial/quickstart.cpp transform
 
-Unlike with Boost.Fusion, Hana algorithms always return a new sequence
-containing the result. Instead, Boost.Fusion returned views which held
-the original sequence by reference. This could lead to subtle lifetime
-issues, which can be avoided by using value semantics. Hana uses perfect
-forwarding heavily to ensure the best runtime performance possible. Other
-useful algorithms worth mentionning are:
+Notice how we pass a [C++14 generic lambda][Wikipedia.generic_lambda] to
+`transform`; this is required because the lambda will first be called with
+a `Person`, then a `Car` and finally a `City`, which are all different types.
+Hana also allows type computations to be expressed very naturally. Basically,
+one writes a metafunction as a generic function object as if the arguments
+were types:
 
-@snippet example/tutorial/quickstart.cpp algorithms
+@snippet example/tutorial/quickstart.cpp metafunction
 
-There are many more operations and algorithms that can be performed on
-sequences; they are documented by their respective concept (Foldable,
-Iterable, Searchable, Sequence, etc...).
+@note
+The traits in namespace `boost::hana::trait` are in the
+`<boost/hana/ext/std/type_traits.hpp>` header, which is not
+included by `<boost/hana.hpp>`.
 
+Then, one passes types to the function by representing them as objects using
+the `type<...>` wrapper, and everything just works:
 
-@subsection tutorial-quickstart-cheatsheet Cheatsheet
+@snippet example/tutorial/quickstart.cpp type
 
-For quick reference, here's a cheatsheet of the most useful functions and
-algorithms. Always keep in mind that the algorithms return their result as
-a new sequence and no in-place mutation is ever performed.
+This is a completely new way of doing type computations which turns out to
+be extremely powerful, especially for complex computations.
 
-function                                     |  concept   | description
-:------------------------------------------  | :--------  | :----------
-`transform(sequence, f)`                     | Functor    | Apply a function to each element of a sequence and return the result.
-`adjust(sequence, predicate, f)`             | Functor    | Apply a function to each element of a sequence satisfying some predicate and return the result.
-`replace(sequence, predicate, value)`        | Functor    | Replace the elements of a sequence that satisfy some predicate by some value.
-`fill(sequence, value)`                      | Functor    | Replace all the elements of a sequence with some value.
-`foldl(sequence, state, f)`                  | Foldable   | Accumulates the elements of a sequence from the left. Equivalent to `f(...f(f(state, x1), x2), ..., xN)`.
-`foldr(sequence, state, f)`                  | Foldable   | Accumulates the elements of a sequence from the right. Equivalent to `f(x1, f(x2, ..., f(xN, state))...)`.
-`for_each(sequence, f)`                      | Foldable   | Call a function on each element of a sequence. Returns `void`.
-`length(sequence)`                           | Foldable   | Returns the length of a sequence as an `integral_constant`.
-`{minimum, maximum}_by(predicate, sequence)` | Foldable   | Returns the smallest/greatest element of a sequence w.r.t. a predicate.
-`{minimum, maximum}_by(predicate, sequence)` | Foldable   | Returns the smallest/greatest element of a sequence. The elements must be Orderable.
-`count(sequence, predicate)`                 | Foldable   | Returns the number of elements that satisfy the predicate.
-`unpack(sequence, f)`                        | Foldable   | Calls a function with the contents of a sequence. Equivalent to `f(x1, ..., xN)`.
-`head(sequence)`                             | Iterable   | Returns the first element of a sequence.
-`tail(sequence)`                             | Iterable   | Returns all the elements except the first one. Analogous to `pop_front`.
-`is_empty(sequence)`                         | Iterable   | Returns whether a sequence is empty as an `integral_constant`.
-`at(index, sequence)`                        | Iterable   | Returns the n-th element of a sequence. The index must be an `integral_constant`.
-`last(sequence)`                             | Iterable   | Returns the last element of a sequence.
-`drop(number, sequence)`                     | Iterable   | Drops the n first elements from a sequence and returns the rest. `n` must be an `integral_constant`.
-`drop_{while,until}(sequence, predicate)`    | Iterable   | Drops elements from a sequence while/until a predicate is satisfied. The predicate must return an `integral_constant`.
-`flatten(sequence)`                          | Monad      | Flatten a sequence of sequences, a bit like `std::tuple_cat`.
-`prepend(value, sequence)`                   | MonadPlus  | Prepend an element to a sequence.
-`append(sequence, value)`                    | MonadPlus  | Append an element to a sequence.
-`concat(sequence1, sequence2)`               | MonadPlus  | Concatenate two sequences.
-`filter(sequence, predicate)`                | MonadPlus  | Remove all the elements that do not satisfy a predicate. The predicate must return an `integral_constant`.
-`{any,none,all}(sequence, predicate)`        | Searchable | Returns whether any/none/all of the elements of the sequence satisfy some predicate.
-`{any,none,all}_of(sequence)`                | Searchable | Returns whether any/non/all of the elements of a sequence are true-valued.
-`elem(sequence, value)`                      | Searchable | Returns whether an object is in a sequence.
-`find(sequence, predicate)`                  | Searchable | Find the first element of a sequence satisfying the predicate and return `just` it, or return `nothing`. See Maybe.
-`lookup(sequence, value)`                    | Searchable | Find the first element of a sequence which is equal to some value and return `just` it, or return nothing. See Maybe.
-`group_by(predicate, sequence)`              | Sequence   | %Group the adjacent elements of a sequence which all satisfy (or all do not satisfy) some predicate.
-`group(sequence)`                            | Sequence   | %Group adjacent elements of a sequence that compare equal. The elements must be Comparable.
-`init(sequence)`                             | Sequence   | Returns all the elements of a sequence, except the last one. Analogous to `pop_back`.
-`partition(sequence, predicate)`             | Sequence   | Partition a sequence into a pair of elements that satisfy some predicate, and elements that do not satisfy it.
-`remove_at(index, sequence)`                 | Sequence   | Remove the element at the given index. The index must be an `integral_constant`.
-`reverse(sequence)`                          | Sequence   | Reverse the order of the elements in a sequence.
-`slice(sequence, from, to)`                  | Sequence   | Returns the elements of a sequence at indices contained in `[from, to)`.
-`sort_by(predicate, sequence)`               | Sequence   | Sort the elements of a sequence according to some predicate. The sort is stable.
-`sort(predicate)`                            | Sequence   | Sort the elements of a sequence, which must be Orderable. The sort is stable.
-`take(number, sequence)`                     | Sequence   | Take the first n elements of a sequence. n must be an `integral_constant`.
-`take_{while,until}(sequence, predicate)`    | Sequence   | Take elements of a sequence while/until some predicate is satisfied, and return that.
-`zip(sequence1, ..., sequenceN)`             | Sequence   | Zip `N` sequences into a sequence of tuples.
-`zip.with(f, sequence1, ..., sequenceN)`     | Sequence   | Zip `N` sequences with a `N`-ary function.
+That's it for the quick start! There are many more algorithms that can be
+performed on sequences; they are documented by the concept to which they
+belong (Foldable, Iterable, Searchable, Sequence, etc...). Apart from tuples,
+there are also other kinds of sequences provided by Hana; they are documented
+in their respective page (Tuple, Range, Set, Map, etc..). The next sections
+gradually introduce general concepts pertaining to Hana, but you may skip
+directly to the section on [type computations](@ref tutorial-type) if you
+are mostly interested by that.
 
 
 
-@section tutorial-type_computations Type computations
+
+
+
+
+
+
+
+@section tutorial-create Creating sequences
+
+------------------------------------------------------------------------------
+Like we saw in the quick start, a tuple can be created with `make_tuple`. In
+general, sequences in Hana may be created with the `make` function:
+
+@snippet example/tutorial/create.cpp make<Tuple>
+
+Notice how we used `make<Tuple>` instead of `make_tuple`. Actually,
+`make_tuple` is just a shortcut for `make<Tuple>` so you don't have
+to type `boost::hana::make<boost::hana::Tuple>` when you are out of
+Hana's namespace. Simply put, `make<...>` is is used all around the
+library to create different types of objects, thus generalizing the
+`std::make_xxx` family of functions. For example, one can create
+a Range of compile-time integers with `make<Range>`:
+
+@snippet example/tutorial/create.cpp make<Range>
+
+@note
+`int_<...>` is not a type! It is a [C++14 variable template]
+[Wikipedia.variable_template] yielding what Hana calls an
+IntegralConstant. This is explained in the [section on constants]
+(@ref tutorial-constants).
+
+For convenience, whenever a component of Hana provides a `make<XXX>` function,
+it also provides the `make_xxx` shortcut to reduce typing. Also, an
+interesting point that can be raised in this example is the fact that
+`r` is `constexpr`. In general, whenever a Hana sequence is initialized
+only with constant expressions (which is the case for `int_<...>`), that
+sequence may be marked as `constexpr`. However, there are some limitations
+to this because we sometimes use lambdas in the implementation and C++14
+does not allow lambdas to appear in constant expressions, so this should be
+considered a work in progress.
+
+
+
+
+
+
+
+
+
+
+@section tutorial-sem Algorithm semantics
+
+------------------------------------------------------------------------------
+By default, all the sequences in Hana hold their elements by value and hence
+they own them. For example, when creating a tuple, the tuple will make copies
+of the elements it is initialized with:
+
+@snippet example/tutorial/sem.cpp copy_initialize
+
+When given the chance, the tuple will move the values in:
+
+@snippet example/tutorial/sem.cpp move_initialize
+
+Algorithms in Hana always return a new sequence containing the result.
+This allows one to easily chain algorithms by simply using the result of the
+first as the input of the second. For example, to apply a function to every
+element of a tuple and then reverse the result, one simply has to connect the
+`reverse` and `transform` algorithms:
+
+@snippet example/tutorial/sem.cpp reverse_transform
+
+This is different from the algorithms of the standard library, where one has
+to provide iterators to the underlying sequence. Iterator based designs
+have their own merits like low coupling and performance, but they also have
+drawbacks like reducing the composability of algorithms. In the context
+of heterogeneous sequences, iterators are also less useful. For example,
+incrementing an iterator would have to return a new iterator with a different
+type, because the type of the new object it is pointing to in the sequence
+might be different. To deal with complexity, Hana uses different abstractions
+that are composable and happen to be efficient given the heterogeneous setting.
+
+Algorithms in Hana are not lazy. When an algorithm is called, it does its
+job and returns a new sequence containing the result, end of the story.
+For example, calling the `permutations` algorithm on a large sequence is
+a stupid idea, because Hana will actually compute all the permutations:
+
+@code
+    auto perms = permutations(make_tuple(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+    // perms has 3 628 800 elements, and your compiler just crashed
+@endcode
+
+To contrast, algorithms in Boost.Fusion return views which hold the original
+sequence by reference and apply the algorithm on demand, as the elements of
+the sequence are accessed. This leads to subtle lifetime issues, like having
+a view that refers to a sequence that was destroyed. Hana's design assumes
+that most of the time, we want to access all or almost all the elements in a
+sequence anyway, and hence performance is not a big argument in favor of
+laziness.
+
+
+@subsection tutorial-sem-perf Performance considerations
+
+One might think that returning full sequences from an algorithm would lead to
+tons of undesirable copies. For example, when using `reverse` and `transform`,
+one could think that an intermediate copy is made after the call to `transform`:
+
+@snippet example/tutorial/sem.cpp reverse_transform_copy
+
+To make sure this does not happen, Hana uses perfect forwarding and move
+semantics heavily so it can provide almost optimal runtime performance.
+So instead of doing a copy, a move occurs between `reverse` and `transform`:
+
+@snippet example/tutorial/sem.cpp reverse_transform_move
+
+
+
+
+
+
+
+
+
+
+@section tutorial-amphi Amphibian algorithms
+
+------------------------------------------------------------------------------
+Like we saw in the quick start, some functions are able to return something
+that can be used in a constant expression even when they are called on a
+non-`constexpr` object. Let's refresh our memory a bit:
+
+@snippet example/tutorial/amphi.cpp quickstart_tuple
+
+Obviously, `stuff` can't be made `constexpr`, since it contains `std::string`s.
+Still, even though it is not called on a constant expression, `length` returns
+something that can be used inside one. If you think of it, the size of the
+tuple is known at compile-time regardless of its content, and hence it only
+makes sense that Hana does not throw away this information. If that seems
+surprising, think about `std::tuple`:
+
+@snippet example/tutorial/amphi.cpp std_tuple_size
+
+Since the size of the tuple is encoded in it's type, it's always available
+at compile-time regardless of whether the tuple is `constexpr` or not. In
+Hana, this is implemented by having `length` return what we call an
+IntegralConstant. Since an IntegralConstant is convertible to the integral
+value it represents at compile-time, it can be used in a constant expression.
+There are subtleties that could be highlighted, but this is left to the more
+hardcore [section on constants](@ref tutorial-constants). `length` is not the
+only function that returns an IntegralConstant; for example, `is_empty` does
+that too:
+
+@snippet example/tutorial/amphi.cpp is_empty
+
+More generally, any algorithm that queries something that can be known at
+compile-time will be able of returning such an IntegralConstant. To illustrate,
+let's take a look at the `all` algorithm, which is analogous to `std::all_of`:
+
+@snippet example/tutorial/amphi.cpp all_runtime
+
+Given a sequence and a predicate, `all` returns whether the predicate is
+satisfied by all the elements of the sequence. In this example, the result
+can't be known at compile-time, because our predicate returns a `bool` that's
+the result of comparing two `std::string`s. Since `std::string`s can't be
+compared at compile-time, our predicate must operate at runtime, and the
+overall result of the algorithm can then only be known at runtime too.
+However, let's say we used `all` with the following predicate instead:
+
+@snippet example/tutorial/amphi.cpp all_compile_time
+
+@note
+For this to work, the external adapters for `std::integral_constant` contained
+in `boost/hana/ext/std/integral_constant.hpp` have to be included.
+
+First, since the predicate is only querying information about the type of the
+`.name` member of an element of the tuple, it is clear that its result can be
+known at compile-time. Since the number of elements in the tuple is also known
+at compile-time, the overall result of the algorithm can, in theory, be known
+at compile-time. More precisely, what happens is that the predicate returns a
+default constructed `std::is_same<...>`, which inherits from
+`std::integral_constant`. Hana recognizes these objects, and `all` is written
+in such a way that it preserves the fact that the predicate's result is known
+at compile-time. In the end, `all` returns an IntegralConstant holding the
+result of the algorithm, and we use the compiler's type deduction in a clever
+way to make it look easy. Hence, it would be equivalent to write:
+
+@snippet example/tutorial/amphi.cpp all_compile_time_integral_constant
+
+We just saw how some algorithms are able to return IntegralConstants when their
+inputs satisfy some constraints with respect to `compile-time`ness. However,
+other algorithms are more restrictive and they _require_ their inputs to
+satisfy some constraints regarding `compile-time`ness, without which they
+are not able to operate at all. An example of this is `filter`, which takes a
+sequence and a predicate, and returns a new sequence containing only those
+elements for which the predicate is satisfied. `filter` requires the predicate
+to return an IntegralConstant (actually, a Constant holding a Logical). While
+this requirement may seem stringent, it really makes sense if you think about
+it. Indeed, since we're removing some elements from the tuple, the type of the
+object that's going to be returned by `filter` depends on the result of the
+predicate. Hence, the result of the predicate has to be known by the compiler
+to fix the type of the returned sequence. For example, consider what happens
+when we try to filter our sequence as follows:
+
+@code
+    auto result = filter(stuff, [](auto x) {
+        return x.name == "Louis";
+    });
+@endcode
+
+Clearly, we know that the predicate will only return true on the first
+element, and hence the result _should be_ a `_tuple<Person>`. However,
+the compiler has no way of knowing it since the predicate's result is the
+result of a runtime computation, which happens long after the compiler
+has finished its job. However, we could filter our sequence with any
+predicate whose result is available at compile-time:
+
+@snippet example/tutorial/amphi.cpp filter
+
+Since the predicate returns a Constant, the compiler is able to figure out
+the return type of the algorithm. Other algorithms like `partition` and `sort`
+work similarly; special requirements are always documented by the functions
+they apply to. While this constitutes a fairly complete explanation of the
+interaction between runtime and compile-time inside algorithms, the details
+about Hana's IntegralConstants are treated in the [section on constants]
+(@ref tutorial-constants) and in the reference for Constant and IntegralConstant.
+
+
+
+
+
+
+
+
+
+
+@section tutorial-type Type computations
 
 ------------------------------------------------------------------------------
 At this point, if you are interested in doing Boost.MPL-like computations on
@@ -312,9 +520,9 @@ of metaprogramming, and you should try to set your MPL habits aside for a bit
 if you want to become proficient with Hana. Basically, Hana provides a way of
 representing a type `T` as an object, and it also provides a way of applying
 type transformations to those objects as-if they were functions, by wrapping
-them properly. Concretely;
+them properly:
 
-@snippet example/tutorial/type_computations.cpp type
+@snippet example/tutorial/type.cpp type
 
 @note
 The `type<int>` expression is _not_ a type! It is an object, more precisely a
@@ -328,20 +536,20 @@ Now, since `type<...>` is just an object, we can store it in a heterogeneous
 sequence like a tuple. This also means that all the algorithms that apply to
 usual heterogeneous sequences are available to us, which is nice:
 
-@snippet example/tutorial/type_computations.cpp type_sequence
+@snippet example/tutorial/type.cpp type_sequence
 
 Also, since typing `type<...>` can be annoying at the end of the day, Hana
 provides a variable template called `tuple_t`, which creates a tuple of
 `type<...>`s:
 
-@snippet example/tutorial/type_computations.cpp tuple_t
+@snippet example/tutorial/type.cpp tuple_t
 
 I won't say much more about `type` and `metafunction` (see the [reference]
 (@ref Type)), but the last essential thing to know is that `decltype(type<T>)`
 is a MPL nullary metafunction. In other words, `decltype(type<T>)::%type` is
 an alias to `T`:
 
-@snippet example/tutorial/type_computations.cpp type_as_nullary_metafunction
+@snippet example/tutorial/type.cpp type_as_nullary_metafunction
 
 This way, you can recover the result of a type computation by unwrapping it
 with `decltype(...)::%type`. Hence, doing type-level metaprogramming with Hana
@@ -353,11 +561,11 @@ is usually a three step process:
 At this point, you must be thinking this is incredibly cumbersome. Why on
 earth would you want to write
 
-@snippet example/tutorial/type_computations.cpp type_three_step_cumbersome
+@snippet example/tutorial/type.cpp type_three_step_cumbersome
 
 instead of simply writing
 
-@snippet example/tutorial/type_computations.cpp type_three_step_alternative
+@snippet example/tutorial/type.cpp type_three_step_alternative
 
 The answer is that of course you don't! For simple type computations such as
 this one, where you know the type transformation and the type itself, just
@@ -401,7 +609,7 @@ With Hana, this is very straightforward, and in fact the resulting algorithm
 will even work when given a regular function and values instead of a
 metafunction and types:
 
-@snippet example/tutorial/type_computations.cpp apply_to_all
+@snippet example/tutorial/type.cpp apply_to_all
 
 > `BOOST_HANA_CONSTANT_CHECK` is essentially equivalent to `static_assert`;
 > see the [reference](@ref BOOST_HANA_CONSTANT_ASSERT) for more information.
@@ -411,13 +619,16 @@ expressions, which are much more limited than plain lambdas. It also requires
 being at class or global scope, which means that you can't create this
 algorithm on the fly (e.g. inside a function), and it will only work on types!
 
-@snippet example/tutorial/type_computations.cpp apply_to_all_mpl
+@snippet example/tutorial/type.cpp apply_to_all_mpl
 
 
 That's it for the introduction to type computations with Hana, but there are
 a couple of interesting examples scattered in the documentation if you want
 more. There's also a minimal reimplementation of the MPL using Hana under
 the hood in `example/mini_mpl.cpp`.
+
+
+@subsection tutorial-type-perf Performance considerations
 
 @todo
 - Provide links to the scattered examples, and also to example/mini_mpl. For
@@ -427,9 +638,19 @@ the hood in `example/mini_mpl.cpp`.
   not try to represent everything as a type.
 - Write a cheatsheet mapping common MPL/Fusion idioms to idiomatic Hana code.
   %Maybe this should go in some Appendix?
+- Introduce the mini-MPL
+- Introduce the integration with `<type_traits>`
 
 
-@section tutorial-constant Constants, or setting constexpr straight
+
+
+
+
+
+
+
+
+@section tutorial-constants Constants
 
 ------------------------------------------------------------------------------
 In C++, the border between compile-time and runtime is hazy, a fact that is
@@ -537,14 +758,12 @@ for `IntegralConstant`, which explains how to create these objects and what
 you can expect from them.
 
 
-@subsection tutorial-constant-side_effects Side effects
-
+@subsection tutorial-constants-side_effects Side effects
 
 @note
-Before reading this section, you should be familiar with the Constant concept.
+You should be familiar with the Constant concept before reading this section.
 Also note that this section contains somewhat advanced material, and it can
 safely be skipped during a first read.
-
 
 Let me ask a tricky question. Is the following code valid?
 
@@ -581,7 +800,14 @@ non-`constexpr` variable to do the copying, and that could hide side-effects.
 
 
 
-@section tutorial-heterogeneity Heterogeneity and generalized types
+
+
+
+
+
+
+
+@section tutorial-hetero Heterogeneity and generalized types
 
 ------------------------------------------------------------------------------
 The purpose of Hana is to manipulate heterogeneous objects. However, there's
@@ -661,7 +887,6 @@ for more information. Finally, you can also consult the reference of the
 [datatype](@ref datatype) metafunction for details on how to specify the
 generalized type of a family of types.
 
-
 @todo
 There is obviously a connection between generalized types and concepts.
 I think that generalized types are concepts whose models are unique up
@@ -672,24 +897,29 @@ let me know.
 
 
 
-@section tutorial-external_libraries Integration with external libraries
+
+
+
+
+
+
+
+@section tutorial-ext Integration with external libraries
 
 ------------------------------------------------------------------------------
 
-@subsection tutorial-external_libraries-stl The standard library
+@subsection tutorial-ext-std The standard library
 
-@subsection tutorial-external_libraries-fusion Boost.Fusion
+@subsection tutorial-ext-fusion Boost.Fusion
 
-@subsection tutorial-external_libraries-mpl Boost.MPL
+@subsection tutorial-ext-mpl Boost.MPL
 
 
-@section tutorial-performance_considerations Performance considerations
 
-------------------------------------------------------------------------------
 
-@subsection tutorial-performance_considerations-compile_time Compile-time performance
 
-@subsection tutorial-performance_considerations-run_time Runtime performance
+
+
 
 
 
@@ -763,6 +993,14 @@ template for the tag representing the whole family of types:
 @subsection tutorial-extending-creating_concepts Creating new concepts
 
 
+
+
+
+
+
+
+
+
 @section tutorial-header_organization Header organization
 
 ------------------------------------------------------------------------------
@@ -813,6 +1051,14 @@ the library was also intentionally kept simple, because we all love simplicity.
   - `boost/hana/detail/`\n
     This directory contains utilities required internally. Nothing in `detail/`
     is guaranteed to be stable, so you should not use it.
+
+
+
+
+
+
+
+
 
 
 @section tutorial-using_the_reference Using the reference
@@ -879,6 +1125,75 @@ there is still a lot of work to do!
 -- Louis
 
 
+
+
+
+
+
+
+
+
+@section tutorial-cheatsheet Apendix 1: Cheatsheet
+
+------------------------------------------------------------------------------
+For quick reference, here's a cheatsheet of the most useful functions and
+algorithms. Always keep in mind that the algorithms return their result as
+a new sequence and no in-place mutation is ever performed.
+
+function                                     |  concept   | description
+:------------------------------------------  | :--------  | :----------
+`transform(sequence, f)`                     | Functor    | Apply a function to each element of a sequence and return the result.
+`adjust(sequence, predicate, f)`             | Functor    | Apply a function to each element of a sequence satisfying some predicate and return the result.
+`replace(sequence, predicate, value)`        | Functor    | Replace the elements of a sequence that satisfy some predicate by some value.
+`fill(sequence, value)`                      | Functor    | Replace all the elements of a sequence with some value.
+`foldl(sequence, state, f)`                  | Foldable   | Accumulates the elements of a sequence from the left. Equivalent to `f(...f(f(state, x1), x2), ..., xN)`.
+`foldr(sequence, state, f)`                  | Foldable   | Accumulates the elements of a sequence from the right. Equivalent to `f(x1, f(x2, ..., f(xN, state))...)`.
+`for_each(sequence, f)`                      | Foldable   | Call a function on each element of a sequence. Returns `void`.
+`length(sequence)`                           | Foldable   | Returns the length of a sequence as an `integral_constant`.
+`{minimum, maximum}_by(predicate, sequence)` | Foldable   | Returns the smallest/greatest element of a sequence w.r.t. a predicate.
+`{minimum, maximum}_by(predicate, sequence)` | Foldable   | Returns the smallest/greatest element of a sequence. The elements must be Orderable.
+`count(sequence, predicate)`                 | Foldable   | Returns the number of elements that satisfy the predicate.
+`unpack(sequence, f)`                        | Foldable   | Calls a function with the contents of a sequence. Equivalent to `f(x1, ..., xN)`.
+`head(sequence)`                             | Iterable   | Returns the first element of a sequence.
+`tail(sequence)`                             | Iterable   | Returns all the elements except the first one. Analogous to `pop_front`.
+`is_empty(sequence)`                         | Iterable   | Returns whether a sequence is empty as an `integral_constant`.
+`at(index, sequence)`                        | Iterable   | Returns the n-th element of a sequence. The index must be an `integral_constant`.
+`last(sequence)`                             | Iterable   | Returns the last element of a sequence.
+`drop(number, sequence)`                     | Iterable   | Drops the n first elements from a sequence and returns the rest. `n` must be an `integral_constant`.
+`drop_{while,until}(sequence, predicate)`    | Iterable   | Drops elements from a sequence while/until a predicate is satisfied. The predicate must return an `integral_constant`.
+`flatten(sequence)`                          | Monad      | Flatten a sequence of sequences, a bit like `std::tuple_cat`.
+`prepend(value, sequence)`                   | MonadPlus  | Prepend an element to a sequence.
+`append(sequence, value)`                    | MonadPlus  | Append an element to a sequence.
+`concat(sequence1, sequence2)`               | MonadPlus  | Concatenate two sequences.
+`filter(sequence, predicate)`                | MonadPlus  | Remove all the elements that do not satisfy a predicate. The predicate must return an `integral_constant`.
+`{any,none,all}(sequence, predicate)`        | Searchable | Returns whether any/none/all of the elements of the sequence satisfy some predicate.
+`{any,none,all}_of(sequence)`                | Searchable | Returns whether any/non/all of the elements of a sequence are true-valued.
+`elem(sequence, value)`                      | Searchable | Returns whether an object is in a sequence.
+`find(sequence, predicate)`                  | Searchable | Find the first element of a sequence satisfying the predicate and return `just` it, or return `nothing`. See Maybe.
+`lookup(sequence, value)`                    | Searchable | Find the first element of a sequence which is equal to some value and return `just` it, or return nothing. See Maybe.
+`group_by(predicate, sequence)`              | Sequence   | %Group the adjacent elements of a sequence which all satisfy (or all do not satisfy) some predicate.
+`group(sequence)`                            | Sequence   | %Group adjacent elements of a sequence that compare equal. The elements must be Comparable.
+`init(sequence)`                             | Sequence   | Returns all the elements of a sequence, except the last one. Analogous to `pop_back`.
+`partition(sequence, predicate)`             | Sequence   | Partition a sequence into a pair of elements that satisfy some predicate, and elements that do not satisfy it.
+`remove_at(index, sequence)`                 | Sequence   | Remove the element at the given index. The index must be an `integral_constant`.
+`reverse(sequence)`                          | Sequence   | Reverse the order of the elements in a sequence.
+`slice(sequence, from, to)`                  | Sequence   | Returns the elements of a sequence at indices contained in `[from, to)`.
+`sort_by(predicate, sequence)`               | Sequence   | Sort the elements of a sequence according to some predicate. The sort is stable.
+`sort(predicate)`                            | Sequence   | Sort the elements of a sequence, which must be Orderable. The sort is stable.
+`take(number, sequence)`                     | Sequence   | Take the first n elements of a sequence. n must be an `integral_constant`.
+`take_{while,until}(sequence, predicate)`    | Sequence   | Take elements of a sequence while/until some predicate is satisfied, and return that.
+`zip(sequence1, ..., sequenceN)`             | Sequence   | Zip `N` sequences into a sequence of tuples.
+`zip.with(f, sequence1, ..., sequenceN)`     | Sequence   | Zip `N` sequences with a `N`-ary function.
+
+
+
+
+
+
+
+
+
+
 <!-- Links -->
 [Boost.Fusion]: http://www.boost.org/doc/libs/release/libs/fusion/doc/html/index.html
 [Boost.MPL]: http://www.boost.org/doc/libs/release/libs/mpl/doc/index.html
@@ -894,7 +1209,7 @@ there is still a lot of work to do!
 [Wikipedia.variable_template]: http://en.wikipedia.org/wiki/C%2B%2B14#Variable_templates
 [Wikipedia.generalized_constexpr]: http://en.wikipedia.org/wiki/C%2B%2B11#constexpr_.E2.80.93_Generalized_constant_expressions
 
- */
+*/
 
 }} // end namespace boost::hana
 

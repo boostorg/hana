@@ -4,14 +4,12 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <cassert>
 #include <iostream>
 #include <string>
 #include <tuple>
 #include <type_traits>
 
-#include <boost/hana/assert.hpp>
-#include <boost/hana/ext/std/integral_constant.hpp>
+#include <boost/hana/ext/std/type_traits.hpp>
 
 //! [includes]
 #include <boost/hana.hpp>
@@ -21,76 +19,49 @@ using namespace boost::hana;
 
 int main() {
 
-//! [tuple_auto]
-auto xs = make<Tuple>(1, '2', std::string{"345"});
-//! [tuple_auto]
+// IMPORTANT NOTE:
+// When changing this, make sure the corresponding changes are propagated
+// to `example/tutorial/amphi.cpp`.
+
+//! [decls]
+struct Person { std::string name; };
+struct Car    { std::string name; };
+struct City   { std::string name; };
+//! [decls]
+
+//! [make_tuple]
+auto stuff = make_tuple(Person{"Louis"}, Car{"Toyota"}, City{"Quebec"});
+//! [make_tuple]
 
 {
-
-//! [tuple_type]
-_tuple<int, char, std::string> xs{1, '2', "345"};
-//! [tuple_type]
-
-}{
-
-//! [operations]
-// BOOST_HANA_RUNTIME_CHECK is equivalent to assert
-BOOST_HANA_RUNTIME_CHECK(last(xs) == "345");
-
-BOOST_HANA_RUNTIME_CHECK(tail(xs) == make<Tuple>('2', std::string{"345"}));
-
-static_assert(!is_empty(xs), "");
-
-static_assert(length(xs) == 3u, "");
-
-BOOST_HANA_RUNTIME_CHECK(at(int_<1>, xs) == '2');
-//! [operations]
-
-}{
-
-//! [std_tuple_size]
-std::tuple<int, char, std::string> xs{1, '2', std::string{"345"}};
-static_assert(std::tuple_size<decltype(xs)>::value != 0, "");
-//! [std_tuple_size]
-
-}{
-
-//! [transform]
-// BOOST_HANA_CONSTEXPR_CHECK is equivalent to assert, but it would be
-// equivalent to static_assert if lambdas could appear in constant expressions.
-BOOST_HANA_CONSTEXPR_CHECK(
-    transform(make<Tuple>(1, 2, 3), [](int i) { return i + 1; }) ==
-    make<Tuple>(2, 3, 4)
-);
-//! [transform]
-
-}{
-
-//! [algorithms]
-BOOST_HANA_CONSTEXPR_CHECK(
-    count(make<Tuple>(1, 2, 3, 4, 5), [](int i) {
-        return i > 2;
-    }) == 3u
-);
-
-BOOST_HANA_CONSTEXPR_CHECK(
-    filter(make<Tuple>(1, '2', 3.0, nullptr, 7.3f), [](auto x) {
-        return std::is_floating_point<decltype(x)>{};
-    }) == make<Tuple>(3.0, 7.3f)
-);
-
-using namespace std::literals; // the s user-defined literal creates std::strings
-auto pangram = make<Tuple>(
-    make<Tuple>("The"s, "quick"s, "brown"s),
-    make<Tuple>("fox"s, "jumps"s, "over"s, "the"s, "lazy"s),
-    make<Tuple>("dog"s)
-);
-BOOST_HANA_RUNTIME_CHECK(
-    flatten(pangram) ==
-    make<Tuple>("The", "quick", "brown", "fox", "jumps", "over", "the", "lazy", "dog")
-);
-//! [algorithms]
-
+//! [_tuple]
+_tuple<Person, Car, City> stuff{Person{"Louis"}, Car{"Toyota"}, City{"Quebec"}};
+//! [_tuple]
 }
+
+//! [basic_operations]
+Car& car = at_c<1>(stuff);
+// BOOST_HANA_RUNTIME_CHECK is equivalent to assert
+BOOST_HANA_RUNTIME_CHECK(car.name == "Toyota");
+static_assert(length(stuff) == 3u, "");
+//! [basic_operations]
+
+//! [transform]
+_tuple<std::string, std::string, std::string> names = transform(stuff, [](auto x) { return x.name; });
+BOOST_HANA_RUNTIME_CHECK(names == make_tuple("Louis", "Toyota", "Quebec"));
+//! [transform]
+
+//! [metafunction]
+using namespace traits; // bring in remove_cv and add_pointer
+
+auto F = [](auto T) { // just pretend T is a type
+    return add_pointer(remove_cv(T));
+};
+//! [metafunction]
+
+//! [type]
+// BOOST_HANA_CONSTANT_CHECK is almost equivalent to static_assert
+BOOST_HANA_CONSTANT_CHECK(F(type<int const>) == type<int*>);
+//! [type]
 
 }

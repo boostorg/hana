@@ -50,7 +50,7 @@ Distributed under the Boost Software License, Version 1.0.
     //!
     //! To understand why this is sometimes needed, especially when
     //! the expression contains a lambda, read the section on
-    //! [Constants and side effects](@ref tutorial-constant-side_effects).
+    //! [Constants and side effects](@ref tutorial-constants-side_effects).
 #   define BOOST_HANA_CONSTANT_ASSERT(...) unspecified
 
     //! @ingroup group-assertions
