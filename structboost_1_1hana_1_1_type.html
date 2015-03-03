@@ -104,7 +104,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_type.html','')
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
 <div class="textblock"><p>Represents a C++ type. </p>
-<dl class="section note"><dt>Note</dt><dd>This page explains how Types work at a low level. To gain intuition about type-level metaprogramming in Hana, you should read the <a class="el" href="index.html#tutorial-type_computations">tutorial section</a> on type level computations.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This page explains how Types work at a low level. To gain intuition about type-level metaprogramming in Hana, you should read the <a class="el" href="index.html#tutorial-type">tutorial section</a> on type-level computations.</dd></dl>
 <p>A <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="Represents a C++ type. ">Type</a></code> is a special kind of object representing a C++ type like <code>int</code>, <code>void</code>, <code>std::vector&lt;float&gt;</code> or anything else you can imagine. Basically, the trick to implement such an object is to create the following dummy type: </p><div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><span class="keyword">struct </span>_type { };</div>
 </div><!-- fragment --><p>Now, if we want to represent the type <code>int</code> by an object, we just create the following object </p><div class="fragment"><div class="line">_type&lt;int&gt; foo;</div>

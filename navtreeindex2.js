@@ -1,5 +1,7 @@
 var NAVTREEINDEX2 =
 {
+"structboost_1_1hana_1_1_sequence.html#a62411eb57e86f3cb7394f22fd3651355":[1,0,18,10],
+"structboost_1_1hana_1_1_sequence.html#a63f9ab281c8e979adfd7f6678383c46b":[1,0,18,19],
 "structboost_1_1hana_1_1_sequence.html#a65295edabe2029007e7ecf640ae7bb0b":[1,0,18,6],
 "structboost_1_1hana_1_1_sequence.html#a6ed2907b48fcba3dd1059b4b0bfde624":[1,0,18,15],
 "structboost_1_1hana_1_1_sequence.html#a733fdb2e8686033466beea8323e53a26":[1,0,18,2],
@@ -60,6 +62,7 @@ var NAVTREEINDEX2 =
 "tuple_8hpp.html":[2,2,0,0,40],
 "tuple_8hpp.html#a31aa84626b49c35cb79a378c63c124e9":[2,2,0,0,40,0],
 "type_8hpp.html":[2,2,0,0,41],
+"type__traits_8hpp.html":[2,2,0,0,2,1,6],
 "unrolled_8hpp.html":[2,2,0,0,1,1,0,1],
 "usergroup0.html":[2],
 "void__t_8hpp.html":[2,2,0,0,1,0,21],

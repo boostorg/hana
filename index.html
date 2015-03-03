@@ -102,21 +102,22 @@ $(document).ready(function(){initNavTree('index.html','');});
 <div class="toc"><h3>Table of Contents</h3>
 <ul><li class="level1"><a href="#tutorial-preface">Preface</a></li>
 <li class="level1"><a href="#tutorial-introduction">Introduction</a></li>
-<li class="level1"><a href="#tutorial-quickstart">Quick start</a><ul><li class="level2"><a href="#tutorial-quickstart-cheatsheet">Cheatsheet</a></li>
+<li class="level1"><a href="#tutorial-quickstart">Quick start</a></li>
+<li class="level1"><a href="#tutorial-create">Creating sequences</a></li>
+<li class="level1"><a href="#tutorial-sem">Algorithm semantics</a><ul><li class="level2"><a href="#tutorial-sem-perf">Performance considerations</a></li>
 </ul>
 </li>
-<li class="level1"><a href="#tutorial-type_computations">Type computations</a></li>
-<li class="level1"><a href="#tutorial-constant">Constants, or setting constexpr straight</a><ul><li class="level2"><a href="#tutorial-constant-side_effects">Side effects</a></li>
+<li class="level1"><a href="#tutorial-amphi">Amphibian algorithms</a></li>
+<li class="level1"><a href="#tutorial-type">Type computations</a><ul><li class="level2"><a href="#tutorial-type-perf">Performance considerations</a></li>
 </ul>
 </li>
-<li class="level1"><a href="#tutorial-heterogeneity">Heterogeneity and generalized types</a></li>
-<li class="level1"><a href="#tutorial-external_libraries">Integration with external libraries</a><ul><li class="level2"><a href="#tutorial-external_libraries-stl">The standard library</a></li>
-<li class="level2"><a href="#tutorial-external_libraries-fusion">Boost.Fusion</a></li>
-<li class="level2"><a href="#tutorial-external_libraries-mpl">Boost.MPL</a></li>
+<li class="level1"><a href="#tutorial-constants">Constants</a><ul><li class="level2"><a href="#tutorial-constants-side_effects">Side effects</a></li>
 </ul>
 </li>
-<li class="level1"><a href="#tutorial-performance_considerations">Performance considerations</a><ul><li class="level2"><a href="#tutorial-performance_considerations-compile_time">Compile-time performance</a></li>
-<li class="level2"><a href="#tutorial-performance_considerations-run_time">Runtime performance</a></li>
+<li class="level1"><a href="#tutorial-hetero">Heterogeneity and generalized types</a></li>
+<li class="level1"><a href="#tutorial-ext">Integration with external libraries</a><ul><li class="level2"><a href="#tutorial-ext-std">The standard library</a></li>
+<li class="level2"><a href="#tutorial-ext-fusion">Boost.Fusion</a></li>
+<li class="level2"><a href="#tutorial-ext-mpl">Boost.MPL</a></li>
 </ul>
 </li>
 <li class="level1"><a href="#tutorial-extending">Extending the library</a><ul><li class="level2"><a href="#tutorial-extending-tag_dispatching">Tag dispatching</a></li>
@@ -125,6 +126,7 @@ $(document).ready(function(){initNavTree('index.html','');});
 </li>
 <li class="level1"><a href="#tutorial-header_organization">Header organization</a></li>
 <li class="level1"><a href="#tutorial-using_the_reference">Using the reference</a></li>
+<li class="level1"><a href="#tutorial-cheatsheet">Apendix 1: Cheatsheet</a></li>
 </ul>
 </div>
 <div class="textblock"><h1><a class="anchor" id="tutorial-preface"></a>
@@ -146,150 +148,134 @@ Quick start</h1>
 <p> This tutorial assumes the reader is already familiar with basic metaprogramming and the <a href="http://en.wikipedia.org/wiki/C%2B%2B14">C++14 standard</a>. First, let's include the library:</p>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="hana_8hpp.html">boost/hana.hpp</a>&gt;</span></div>
 <div class="line"><span class="keyword">using namespace </span><a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
-</div><!-- fragment --><p> Unless specified otherwise, the documentation assumes that the above lines are present before examples and code snippets. Also note that finer grained headers are provided and will be explained in the <a class="el" href="index.html#tutorial-header_organization">Header organization</a> section. If you are reading this documentation, chances are you already know <code>std::tuple</code> and <code>std::make_tuple</code>. Hana provides its own <code>tuple</code> and <code>make_tuple</code> implementations:</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> xs = make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, std::string{<span class="stringliteral">&quot;345&quot;</span>});</div>
-</div><!-- fragment --><p> <code>make&lt;<a class="el" href="structboost_1_1hana_1_1_tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a>&gt;</code> is the usual way of creating a tuple in Hana. Simply put, <code>make</code> is used all around Hana to create different types of objects, thus generalizing the <code>std::make_xxx</code> family of functions. You have probably observed how the <code>auto</code> keyword is used when defining <code>xs</code>; it is often useful to let the compiler deduce the type of a tuple, but sometimes it is necessary to specify it. This is of course also possible:</p>
-<div class="fragment"><div class="line">_tuple&lt;int, char, std::string&gt; xs{1, <span class="charliteral">&#39;2&#39;</span>, <span class="stringliteral">&quot;345&quot;</span>};</div>
-</div><!-- fragment --><p> Hana also provides several basic operations and higher level algorithms that can be performed on heterogeneous sequences. For example, here are a couple of basic operations; the higher level algorithms will be explained later:</p>
-<div class="fragment"><div class="line"><span class="comment">// BOOST_HANA_RUNTIME_CHECK is equivalent to assert</span></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(last(xs) == <span class="stringliteral">&quot;345&quot;</span>);</div>
+</div><!-- fragment --><p> Unless specified otherwise, the documentation assumes that the above lines are present before examples and code snippets. Also note that finer grained headers are provided and will be explained in the <a class="el" href="index.html#tutorial-header_organization">Header organization</a> section. Now, let's define three simple types so we can work with them below:</p>
+<div class="fragment"><div class="line"><span class="keyword">struct </span>Person { std::string name; };</div>
+<div class="line"><span class="keyword">struct </span>Car    { std::string name; };</div>
+<div class="line"><span class="keyword">struct </span>City   { std::string name; };</div>
+</div><!-- fragment --><p> If you are reading this documentation, chances are you already know <code>std::tuple</code> and <code>std::make_tuple</code>. Hana provides its own <code>tuple</code> and <code>make_tuple</code>:</p>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> stuff = make_tuple(Person{<span class="stringliteral">&quot;Louis&quot;</span>}, Car{<span class="stringliteral">&quot;Toyota&quot;</span>}, City{<span class="stringliteral">&quot;Quebec&quot;</span>});</div>
+</div><!-- fragment --><p> Notice how the <code>auto</code> keyword is used when defining <code>xs</code>; it is often useful to let the compiler deduce the type of a tuple, but sometimes it is necessary to specify it. This is of course also possible:</p>
+<div class="fragment"><div class="line">_tuple&lt;Person, Car, City&gt; stuff{Person{<span class="stringliteral">&quot;Louis&quot;</span>}, Car{<span class="stringliteral">&quot;Toyota&quot;</span>}, City{<span class="stringliteral">&quot;Quebec&quot;</span>}};</div>
+</div><!-- fragment --><p> Hana provides several basic operations to manipulate tuples and other kinds of heterogeneous sequences. For example, one can get the <code>n</code>th element of a tuple with <code>at_c</code> and its length with <code>length</code>, which are analogous to <code>std::get</code> and <code>std::tuple_size</code> respectively:</p>
+<div class="fragment"><div class="line">Car&amp; car = at_c&lt;1&gt;(stuff);</div>
+<div class="line"><span class="comment">// BOOST_HANA_RUNTIME_CHECK is equivalent to assert</span></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(car.name == <span class="stringliteral">&quot;Toyota&quot;</span>);</div>
+<div class="line">static_assert(length(stuff) == 3u, <span class="stringliteral">&quot;&quot;</span>);</div>
+</div><!-- fragment --><p> Notice how <code>length</code> can be used in a <code>static_assert</code> even though it is called on a non-<code>constexpr</code> tuple? Boldly, Hana makes sure that no information that's known at compile-time is lost, which is clearly the case of the tuple's size. The details are explained in the <a class="el" href="index.html#tutorial-amphi">section on amphibian algorithms</a>. Hana also provides high level algorithms to manipulate tuples and other heterogeneous containers. For example, one can apply a function to every element of a tuple and get a tuple of the results with <code>transform</code>, which is analogous to <code>std::transform</code>:</p>
+<div class="fragment"><div class="line">_tuple&lt;std::string, std::string, std::string&gt; names = transform(stuff, [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> x.name; });</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(names == make_tuple(<span class="stringliteral">&quot;Louis&quot;</span>, <span class="stringliteral">&quot;Toyota&quot;</span>, <span class="stringliteral">&quot;Quebec&quot;</span>));</div>
+</div><!-- fragment --><p> Notice how we pass a <a href="http://en.wikipedia.org/wiki/C%2B%2B14#Generic_lambdas">C++14 generic lambda</a> to <code>transform</code>; this is required because the lambda will first be called with a <code>Person</code>, then a <code>Car</code> and finally a <code>City</code>, which are all different types. Hana also allows type computations to be expressed very naturally. Basically, one writes a metafunction as a generic function object as if the arguments were types:</p>
+<div class="fragment"><div class="line"><span class="keyword">using namespace </span>traits; <span class="comment">// bring in remove_cv and add_pointer</span></div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(tail(xs) == make&lt;Tuple&gt;(<span class="charliteral">&#39;2&#39;</span>, std::string{<span class="stringliteral">&quot;345&quot;</span>}));</div>
+<div class="line"><span class="keyword">auto</span> F = [](<span class="keyword">auto</span> T) { <span class="comment">// just pretend T is a type</span></div>
+<div class="line">    <span class="keywordflow">return</span> add_pointer(remove_cv(T));</div>
+<div class="line">};</div>
+</div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd>The traits in namespace <code>boost::hana::trait</code> are in the <code>&lt;<a class="el" href="type__traits_8hpp.html" title="Defines everything in the boost::hana::traits namespace. ">boost/hana/ext/std/type_traits.hpp</a>&gt;</code> header, which is not included by <code>&lt;<a class="el" href="hana_8hpp.html" title="Includes all the library components except the adapters for external libraries. ">boost/hana.hpp</a>&gt;</code>.</dd></dl>
+<p>Then, one passes types to the function by representing them as objects using the <code>type&lt;...&gt;</code> wrapper, and everything just works:</p>
+<div class="fragment"><div class="line"><span class="comment">// BOOST_HANA_CONSTANT_CHECK is almost equivalent to static_assert</span></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(F(type&lt;int const&gt;) == type&lt;int*&gt;);</div>
+</div><!-- fragment --><p> This is a completely new way of doing type computations which turns out to be extremely powerful, especially for complex computations.</p>
+<p>That's it for the quick start! There are many more algorithms that can be performed on sequences; they are documented by the concept to which they belong (<a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a>, <a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a>, <a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a>, <a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a>, etc...). Apart from tuples, there are also other kinds of sequences provided by Hana; they are documented in their respective page (<a class="el" href="structboost_1_1hana_1_1_tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a>, <a class="el" href="structboost_1_1hana_1_1_range.html" title="Compile-time half-open interval of Constants. ">Range</a>, <a class="el" href="structboost_1_1hana_1_1_set.html" title="A basic unordered container requiring Comparable elements. ">Set</a>, <a class="el" href="structboost_1_1hana_1_1_map.html" title="A basic associative array requiring unique and Comparable keys. ">Map</a>, etc..). The next sections gradually introduce general concepts pertaining to Hana, but you may skip directly to the section on <a class="el" href="index.html#tutorial-type">type computations</a> if you are mostly interested by that.</p>
+<h1><a class="anchor" id="tutorial-create"></a>
+Creating sequences</h1>
+<hr/>
+<p> Like we saw in the quick start, a tuple can be created with <code>make_tuple</code>. In general, sequences in Hana may be created with the <code>make</code> function:</p>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> xs = make&lt;Tuple&gt;(1, 2.2, <span class="charliteral">&#39;a&#39;</span>, std::string{<span class="stringliteral">&quot;bcde&quot;</span>});</div>
+</div><!-- fragment --><p> Notice how we used <code>make&lt;<a class="el" href="structboost_1_1hana_1_1_tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a>&gt;</code> instead of <code>make_tuple</code>. Actually, <code>make_tuple</code> is just a shortcut for <code>make&lt;<a class="el" href="structboost_1_1hana_1_1_tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a>&gt;</code> so you don't have to type <code>boost::hana::make&lt;<a class="el" href="structboost_1_1hana_1_1_tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">boost::hana::Tuple</a>&gt;</code> when you are out of Hana's namespace. Simply put, <code>make&lt;...&gt;</code> is is used all around the library to create different types of objects, thus generalizing the <code>std::make_xxx</code> family of functions. For example, one can create a <a class="el" href="structboost_1_1hana_1_1_range.html" title="Compile-time half-open interval of Constants. ">Range</a> of compile-time integers with <code>make&lt;<a class="el" href="structboost_1_1hana_1_1_range.html" title="Compile-time half-open interval of Constants. ">Range</a>&gt;</code>:</p>
+<div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> r = make&lt;Range&gt;(int_&lt;3&gt;, int_&lt;10&gt;);</div>
+<div class="line">static_assert(r == make_range(int_&lt;3&gt;, int_&lt;10&gt;), <span class="stringliteral">&quot;&quot;</span>);</div>
+</div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd><code>int_&lt;...&gt;</code> is not a type! It is a <a href="http://en.wikipedia.org/wiki/C%2B%2B14#Variable_templates">C++14 variable template</a> yielding what Hana calls an <a class="el" href="structboost_1_1hana_1_1_integral_constant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a>. This is explained in the <a class="el" href="index.html#tutorial-constants">section on constants</a>.</dd></dl>
+<p>For convenience, whenever a component of Hana provides a <code>make&lt;XXX&gt;</code> function, it also provides the <code>make_xxx</code> shortcut to reduce typing. Also, an interesting point that can be raised in this example is the fact that <code>r</code> is <code>constexpr</code>. In general, whenever a Hana sequence is initialized only with constant expressions (which is the case for <code>int_&lt;...&gt;</code>), that sequence may be marked as <code>constexpr</code>. However, there are some limitations to this because we sometimes use lambdas in the implementation and C++14 does not allow lambdas to appear in constant expressions, so this should be considered a work in progress.</p>
+<h1><a class="anchor" id="tutorial-sem"></a>
+Algorithm semantics</h1>
+<hr/>
+<p> By default, all the sequences in Hana hold their elements by value and hence they own them. For example, when creating a tuple, the tuple will make copies of the elements it is initialized with:</p>
+<div class="fragment"><div class="line">std::string hello{<span class="stringliteral">&quot;Hello&quot;</span>};</div>
+<div class="line">std::string world{<span class="stringliteral">&quot;world&quot;</span>};</div>
+<div class="line"><span class="comment">// copies hello and world</span></div>
+<div class="line">_tuple&lt;std::string, std::string&gt; xs{hello, world};</div>
+</div><!-- fragment --><p> When given the chance, the tuple will move the values in:</p>
+<div class="fragment"><div class="line">std::string hello{<span class="stringliteral">&quot;Hello&quot;</span>};</div>
+<div class="line">std::string world{<span class="stringliteral">&quot;world&quot;</span>};</div>
+<div class="line"><span class="comment">// moves hello and world</span></div>
+<div class="line">_tuple&lt;std::string, std::string&gt; xs{std::move(hello), std::move(world)};</div>
+</div><!-- fragment --><p> Algorithms in Hana always return a new sequence containing the result. This allows one to easily chain algorithms by simply using the result of the first as the input of the second. For example, to apply a function to every element of a tuple and then reverse the result, one simply has to connect the <code>reverse</code> and <code>transform</code> algorithms:</p>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> to_str = [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; x) {</div>
+<div class="line">    std::stringstream ss;</div>
+<div class="line">    ss &lt;&lt; x;</div>
+<div class="line">    <span class="keywordflow">return</span> ss.str();</div>
+<div class="line">};</div>
 <div class="line"></div>
-<div class="line">static_assert(!is_empty(xs), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"></div>
-<div class="line">static_assert(length(xs) == 3u, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(at(int_&lt;1&gt;, xs) == <span class="charliteral">&#39;2&#39;</span>);</div>
-</div><!-- fragment --><p> An interesting observation in the previous example is that <code>is_empty</code> and <code>length</code> both return a constant expression, even though the tuple they were called on is not a constant expression (it couldn't be one because it contains a <code>std::string</code>). Indeed, the size of the sequence is known at compile-time regardless of its contents, so it only makes sense that Hana does not throw away this information. If that seems surprising, think about <code>std::tuple</code>:</p>
-<div class="fragment"><div class="line">std::tuple&lt;int, char, std::string&gt; xs{1, <span class="charliteral">&#39;2&#39;</span>, std::string{<span class="stringliteral">&quot;345&quot;</span>}};</div>
-<div class="line">static_assert(std::tuple_size&lt;decltype(xs)&gt;::value != 0, <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment --><p> Since the size of the tuple is encoded in it's type, it's always available at compile-time regardless of whether the tuple is <code>constexpr</code> or not. How this works in Hana will be explained in detail later, but the trick is that <code>is_empty</code> returns something like a <code>std::integral_constant</code>, which can always be converted to an integral value at compile-time. Hana also provides high level algorithms to manipulate tuples and other heterogeneous containers. One example is <code>transform</code> (analogous to <code>std::transform</code>), which takes a sequence and a function, maps the function over each element of the sequence and returns the result in a new sequence:</p>
-<div class="fragment"><div class="line"><span class="comment">// BOOST_HANA_CONSTEXPR_CHECK is equivalent to assert, but it would be</span></div>
-<div class="line"><span class="comment">// equivalent to static_assert if lambdas could appear in constant expressions.</span></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    transform(make&lt;Tuple&gt;(1, 2, 3), [](<span class="keywordtype">int</span> i) { <span class="keywordflow">return</span> i + 1; }) ==</div>
-<div class="line">    make&lt;Tuple&gt;(2, 3, 4)</div>
-<div class="line">);</div>
-</div><!-- fragment --><p> Unlike with Boost.Fusion, Hana algorithms always return a new sequence containing the result. Instead, Boost.Fusion returned views which held the original sequence by reference. This could lead to subtle lifetime issues, which can be avoided by using value semantics. Hana uses perfect forwarding heavily to ensure the best runtime performance possible. Other useful algorithms worth mentionning are:</p>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    count(make&lt;Tuple&gt;(1, 2, 3, 4, 5), [](<span class="keywordtype">int</span> i) {</div>
-<div class="line">        <span class="keywordflow">return</span> i &gt; 2;</div>
-<div class="line">    }) == 3u</div>
-<div class="line">);</div>
-<div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    filter(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.0, <span class="keyword">nullptr</span>, 7.3f), [](<span class="keyword">auto</span> x) {</div>
-<div class="line">        <span class="keywordflow">return</span> std::is_floating_point&lt;decltype(x)&gt;{};</div>
-<div class="line">    }) == make&lt;Tuple&gt;(3.0, 7.3f)</div>
-<div class="line">);</div>
-<div class="line"></div>
-<div class="line"><span class="keyword">using namespace </span>std::literals; <span class="comment">// the s user-defined literal creates std::strings</span></div>
-<div class="line"><span class="keyword">auto</span> pangram = make&lt;Tuple&gt;(</div>
-<div class="line">    make&lt;Tuple&gt;(<span class="stringliteral">&quot;The&quot;</span>s, <span class="stringliteral">&quot;quick&quot;</span>s, <span class="stringliteral">&quot;brown&quot;</span>s),</div>
-<div class="line">    make&lt;Tuple&gt;(<span class="stringliteral">&quot;fox&quot;</span>s, <span class="stringliteral">&quot;jumps&quot;</span>s, <span class="stringliteral">&quot;over&quot;</span>s, <span class="stringliteral">&quot;the&quot;</span>s, <span class="stringliteral">&quot;lazy&quot;</span>s),</div>
-<div class="line">    make&lt;Tuple&gt;(<span class="stringliteral">&quot;dog&quot;</span>s)</div>
-<div class="line">);</div>
+<div class="line"><span class="keyword">auto</span> xs = make_tuple(1, 2.2, <span class="charliteral">&#39;a&#39;</span>, <span class="stringliteral">&quot;bcde&quot;</span>);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
-<div class="line">    flatten(pangram) ==</div>
-<div class="line">    make&lt;Tuple&gt;(<span class="stringliteral">&quot;The&quot;</span>, <span class="stringliteral">&quot;quick&quot;</span>, <span class="stringliteral">&quot;brown&quot;</span>, <span class="stringliteral">&quot;fox&quot;</span>, <span class="stringliteral">&quot;jumps&quot;</span>, <span class="stringliteral">&quot;over&quot;</span>, <span class="stringliteral">&quot;the&quot;</span>, <span class="stringliteral">&quot;lazy&quot;</span>, <span class="stringliteral">&quot;dog&quot;</span>)</div>
+<div class="line">    reverse(transform(xs, to_str)) == make_tuple(<span class="stringliteral">&quot;bcde&quot;</span>, <span class="stringliteral">&quot;a&quot;</span>, <span class="stringliteral">&quot;2.2&quot;</span>, <span class="stringliteral">&quot;1&quot;</span>)</div>
 <div class="line">);</div>
-</div><!-- fragment --><p> There are many more operations and algorithms that can be performed on sequences; they are documented by their respective concept (<a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a>, <a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a>, <a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a>, <a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a>, etc...).</p>
-<h2><a class="anchor" id="tutorial-quickstart-cheatsheet"></a>
-Cheatsheet</h2>
-<p>For quick reference, here's a cheatsheet of the most useful functions and algorithms. Always keep in mind that the algorithms return their result as a new sequence and no in-place mutation is ever performed.</p>
-<table class="doxtable">
-<tr>
-<th align="left">function </th><th align="left">concept </th><th align="left">description  </th></tr>
-<tr>
-<td align="left"><code>transform(sequence, f)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a> </td><td align="left">Apply a function to each element of a sequence and return the result. </td></tr>
-<tr>
-<td align="left"><code>adjust(sequence, predicate, f)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a> </td><td align="left">Apply a function to each element of a sequence satisfying some predicate and return the result. </td></tr>
-<tr>
-<td align="left"><code>replace(sequence, predicate, value)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a> </td><td align="left">Replace the elements of a sequence that satisfy some predicate by some value. </td></tr>
-<tr>
-<td align="left"><code>fill(sequence, value)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a> </td><td align="left">Replace all the elements of a sequence with some value. </td></tr>
-<tr>
-<td align="left"><code>foldl(sequence, state, f)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a> </td><td align="left">Accumulates the elements of a sequence from the left. Equivalent to <code>f(...f(f(state, x1), x2), ..., xN)</code>. </td></tr>
-<tr>
-<td align="left"><code>foldr(sequence, state, f)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a> </td><td align="left">Accumulates the elements of a sequence from the right. Equivalent to <code>f(x1, f(x2, ..., f(xN, state))...)</code>. </td></tr>
-<tr>
-<td align="left"><code>for_each(sequence, f)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a> </td><td align="left">Call a function on each element of a sequence. Returns <code>void</code>. </td></tr>
-<tr>
-<td align="left"><code>length(sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a> </td><td align="left">Returns the length of a sequence as an <code>integral_constant</code>. </td></tr>
-<tr>
-<td align="left"><code>{minimum, maximum}_by(predicate, sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a> </td><td align="left">Returns the smallest/greatest element of a sequence w.r.t. a predicate. </td></tr>
-<tr>
-<td align="left"><code>{minimum, maximum}_by(predicate, sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a> </td><td align="left">Returns the smallest/greatest element of a sequence. The elements must be <a class="el" href="structboost_1_1hana_1_1_orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a>. </td></tr>
-<tr>
-<td align="left"><code>count(sequence, predicate)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a> </td><td align="left">Returns the number of elements that satisfy the predicate. </td></tr>
-<tr>
-<td align="left"><code>unpack(sequence, f)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a> </td><td align="left">Calls a function with the contents of a sequence. Equivalent to <code>f(x1, ..., xN)</code>. </td></tr>
-<tr>
-<td align="left"><code>head(sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a> </td><td align="left">Returns the first element of a sequence. </td></tr>
-<tr>
-<td align="left"><code>tail(sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a> </td><td align="left">Returns all the elements except the first one. Analogous to <code>pop_front</code>. </td></tr>
-<tr>
-<td align="left"><code>is_empty(sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a> </td><td align="left">Returns whether a sequence is empty as an <code>integral_constant</code>. </td></tr>
-<tr>
-<td align="left"><code>at(index, sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a> </td><td align="left">Returns the n-th element of a sequence. The index must be an <code>integral_constant</code>. </td></tr>
-<tr>
-<td align="left"><code>last(sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a> </td><td align="left">Returns the last element of a sequence. </td></tr>
-<tr>
-<td align="left"><code>drop(number, sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a> </td><td align="left">Drops the n first elements from a sequence and returns the rest. <code>n</code> must be an <code>integral_constant</code>. </td></tr>
-<tr>
-<td align="left"><code>drop_{while,until}(sequence, predicate)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a> </td><td align="left">Drops elements from a sequence while/until a predicate is satisfied. The predicate must return an <code>integral_constant</code>. </td></tr>
-<tr>
-<td align="left"><code>flatten(sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a> </td><td align="left">Flatten a sequence of sequences, a bit like <code>std::tuple_cat</code>. </td></tr>
-<tr>
-<td align="left"><code>prepend(value, sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_monad_plus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> </td><td align="left">Prepend an element to a sequence. </td></tr>
-<tr>
-<td align="left"><code>append(sequence, value)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_monad_plus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> </td><td align="left">Append an element to a sequence. </td></tr>
-<tr>
-<td align="left"><code>concat(sequence1, sequence2)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_monad_plus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> </td><td align="left">Concatenate two sequences. </td></tr>
-<tr>
-<td align="left"><code>filter(sequence, predicate)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_monad_plus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> </td><td align="left">Remove all the elements that do not satisfy a predicate. The predicate must return an <code>integral_constant</code>. </td></tr>
-<tr>
-<td align="left"><code>{any,none,all}(sequence, predicate)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a> </td><td align="left">Returns whether any/none/all of the elements of the sequence satisfy some predicate. </td></tr>
-<tr>
-<td align="left"><code>{any,none,all}_of(sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a> </td><td align="left">Returns whether any/non/all of the elements of a sequence are true-valued. </td></tr>
-<tr>
-<td align="left"><code>elem(sequence, value)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a> </td><td align="left">Returns whether an object is in a sequence. </td></tr>
-<tr>
-<td align="left"><code>find(sequence, predicate)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a> </td><td align="left">Find the first element of a sequence satisfying the predicate and return <code>just</code> it, or return <code>nothing</code>. See <a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a>. </td></tr>
-<tr>
-<td align="left"><code>lookup(sequence, value)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a> </td><td align="left">Find the first element of a sequence which is equal to some value and return <code>just</code> it, or return nothing. See <a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a>. </td></tr>
-<tr>
-<td align="left"><code>group_by(predicate, sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> </td><td align="left">Group the adjacent elements of a sequence which all satisfy (or all do not satisfy) some predicate. </td></tr>
-<tr>
-<td align="left"><code>group(sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> </td><td align="left">Group adjacent elements of a sequence that compare equal. The elements must be <a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a>. </td></tr>
-<tr>
-<td align="left"><code>init(sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> </td><td align="left">Returns all the elements of a sequence, except the last one. Analogous to <code>pop_back</code>. </td></tr>
-<tr>
-<td align="left"><code>partition(sequence, predicate)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> </td><td align="left">Partition a sequence into a pair of elements that satisfy some predicate, and elements that do not satisfy it. </td></tr>
-<tr>
-<td align="left"><code>remove_at(index, sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> </td><td align="left">Remove the element at the given index. The index must be an <code>integral_constant</code>. </td></tr>
-<tr>
-<td align="left"><code>reverse(sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> </td><td align="left">Reverse the order of the elements in a sequence. </td></tr>
-<tr>
-<td align="left"><code>slice(sequence, from, to)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> </td><td align="left">Returns the elements of a sequence at indices contained in <code>[from, to)</code>. </td></tr>
-<tr>
-<td align="left"><code>sort_by(predicate, sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> </td><td align="left">Sort the elements of a sequence according to some predicate. The sort is stable. </td></tr>
-<tr>
-<td align="left"><code>sort(predicate)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> </td><td align="left">Sort the elements of a sequence, which must be <a class="el" href="structboost_1_1hana_1_1_orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a>. The sort is stable. </td></tr>
-<tr>
-<td align="left"><code>take(number, sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> </td><td align="left">Take the first n elements of a sequence. n must be an <code>integral_constant</code>. </td></tr>
-<tr>
-<td align="left"><code>take_{while,until}(sequence, predicate)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> </td><td align="left">Take elements of a sequence while/until some predicate is satisfied, and return that. </td></tr>
-<tr>
-<td align="left"><code>zip(sequence1, ..., sequenceN)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> </td><td align="left">Zip <code>N</code> sequences into a sequence of tuples. </td></tr>
-<tr>
-<td align="left"><code>zip.with(f, sequence1, ..., sequenceN)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> </td><td align="left">Zip <code>N</code> sequences with a <code>N</code>-ary function. </td></tr>
-</table>
-<h1><a class="anchor" id="tutorial-type_computations"></a>
+</div><!-- fragment --><p> This is different from the algorithms of the standard library, where one has to provide iterators to the underlying sequence. Iterator based designs have their own merits like low coupling and performance, but they also have drawbacks like reducing the composability of algorithms. In the context of heterogeneous sequences, iterators are also less useful. For example, incrementing an iterator would have to return a new iterator with a different type, because the type of the new object it is pointing to in the sequence might be different. To deal with complexity, Hana uses different abstractions that are composable and happen to be efficient given the heterogeneous setting.</p>
+<p>Algorithms in Hana are not lazy. When an algorithm is called, it does its job and returns a new sequence containing the result, end of the story. For example, calling the <code>permutations</code> algorithm on a large sequence is a stupid idea, because Hana will actually compute all the permutations:</p>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> perms = permutations(make_tuple(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));</div>
+<div class="line"><span class="comment">// perms has 3 628 800 elements, and your compiler just crashed</span></div>
+</div><!-- fragment --><p>To contrast, algorithms in Boost.Fusion return views which hold the original sequence by reference and apply the algorithm on demand, as the elements of the sequence are accessed. This leads to subtle lifetime issues, like having a view that refers to a sequence that was destroyed. Hana's design assumes that most of the time, we want to access all or almost all the elements in a sequence anyway, and hence performance is not a big argument in favor of laziness.</p>
+<h2><a class="anchor" id="tutorial-sem-perf"></a>
+Performance considerations</h2>
+<p>One might think that returning full sequences from an algorithm would lead to tons of undesirable copies. For example, when using <code>reverse</code> and <code>transform</code>, one could think that an intermediate copy is made after the call to <code>transform</code>:</p>
+<div class="fragment"><div class="line">reverse(</div>
+<div class="line">    transform(xs, to_str) <span class="comment">// &lt;-- copy into reverse(...) here</span></div>
+<div class="line">);</div>
+</div><!-- fragment --><p> To make sure this does not happen, Hana uses perfect forwarding and move semantics heavily so it can provide almost optimal runtime performance. So instead of doing a copy, a move occurs between <code>reverse</code> and <code>transform</code>:</p>
+<div class="fragment"><div class="line">reverse(</div>
+<div class="line">    transform(xs, to_str) <span class="comment">// &lt;-- move from the temporary</span></div>
+<div class="line">);</div>
+</div><!-- fragment --><h1><a class="anchor" id="tutorial-amphi"></a>
+Amphibian algorithms</h1>
+<hr/>
+<p> Like we saw in the quick start, some functions are able to return something that can be used in a constant expression even when they are called on a non-<code>constexpr</code> object. Let's refresh our memory a bit:</p>
+<div class="fragment"><div class="line"><span class="keyword">struct </span>Person { std::string name; };</div>
+<div class="line"><span class="keyword">struct </span>Car    { std::string name; };</div>
+<div class="line"><span class="keyword">struct </span>City   { std::string name; };</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">auto</span> stuff = make_tuple(Person{<span class="stringliteral">&quot;Louis&quot;</span>}, Car{<span class="stringliteral">&quot;Toyota&quot;</span>}, City{<span class="stringliteral">&quot;Quebec&quot;</span>});</div>
+<div class="line"><span class="comment">//   ^^^^^ not constexpr</span></div>
+<div class="line">static_assert(length(stuff) == 3u, <span class="stringliteral">&quot;&quot;</span>); <span class="comment">// &lt;--- used in a constant expression</span></div>
+</div><!-- fragment --><p> Obviously, <code>stuff</code> can't be made <code>constexpr</code>, since it contains <code>std::string</code>s. Still, even though it is not called on a constant expression, <code>length</code> returns something that can be used inside one. If you think of it, the size of the tuple is known at compile-time regardless of its content, and hence it only makes sense that Hana does not throw away this information. If that seems surprising, think about <code>std::tuple</code>:</p>
+<div class="fragment"><div class="line">std::tuple&lt;int, char, std::string&gt; xs{1, <span class="charliteral">&#39;2&#39;</span>, std::string{<span class="stringliteral">&quot;345&quot;</span>}};</div>
+<div class="line">static_assert(std::tuple_size&lt;decltype(xs)&gt;::value == 3u, <span class="stringliteral">&quot;&quot;</span>);</div>
+</div><!-- fragment --><p> Since the size of the tuple is encoded in it's type, it's always available at compile-time regardless of whether the tuple is <code>constexpr</code> or not. In Hana, this is implemented by having <code>length</code> return what we call an <a class="el" href="structboost_1_1hana_1_1_integral_constant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a>. Since an <a class="el" href="structboost_1_1hana_1_1_integral_constant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a> is convertible to the integral value it represents at compile-time, it can be used in a constant expression. There are subtleties that could be highlighted, but this is left to the more hardcore <a class="el" href="index.html#tutorial-constants">section on constants</a>. <code>length</code> is not the only function that returns an <a class="el" href="structboost_1_1hana_1_1_integral_constant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a>; for example, <code>is_empty</code> does that too:</p>
+<div class="fragment"><div class="line">static_assert(!is_empty(stuff), <span class="stringliteral">&quot;&quot;</span>);</div>
+</div><!-- fragment --><p> More generally, any algorithm that queries something that can be known at compile-time will be able of returning such an <a class="el" href="structboost_1_1hana_1_1_integral_constant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a>. To illustrate, let's take a look at the <code>all</code> algorithm, which is analogous to <code>std::all_of</code>:</p>
+<div class="fragment"><div class="line"><span class="keywordtype">bool</span> result = all(stuff, [](<span class="keyword">auto</span> x) {</div>
+<div class="line">    <span class="keywordflow">return</span> x.name == <span class="stringliteral">&quot;Louis&quot;</span>;</div>
+<div class="line">});</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(!result);</div>
+</div><!-- fragment --><p> Given a sequence and a predicate, <code>all</code> returns whether the predicate is satisfied by all the elements of the sequence. In this example, the result can't be known at compile-time, because our predicate returns a <code>bool</code> that's the result of comparing two <code>std::string</code>s. Since <code>std::string</code>s can't be compared at compile-time, our predicate must operate at runtime, and the overall result of the algorithm can then only be known at runtime too. However, let's say we used <code>all</code> with the following predicate instead:</p>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> result = all(stuff, [](<span class="keyword">auto</span> x) {</div>
+<div class="line">    <span class="keywordflow">return</span> std::is_same&lt;</div>
+<div class="line">        std::remove_reference_t&lt;decltype(x.name)&gt;,</div>
+<div class="line">        std::string</div>
+<div class="line">    &gt;{};</div>
+<div class="line">});</div>
+<div class="line">static_assert(result, <span class="stringliteral">&quot;&quot;</span>);</div>
+</div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd>For this to work, the external adapters for <code>std::integral_constant</code> contained in <code><a class="el" href="ext_2std_2integral__constant_8hpp.html" title="Defines boost::hana::ext::std::IntegralConstant. ">boost/hana/ext/std/integral_constant.hpp</a></code> have to be included.</dd></dl>
+<p>First, since the predicate is only querying information about the type of the <code>.name</code> member of an element of the tuple, it is clear that its result can be known at compile-time. Since the number of elements in the tuple is also known at compile-time, the overall result of the algorithm can, in theory, be known at compile-time. More precisely, what happens is that the predicate returns a default constructed <code>std::is_same&lt;...&gt;</code>, which inherits from <code>std::integral_constant</code>. Hana recognizes these objects, and <code>all</code> is written in such a way that it preserves the fact that the predicate's result is known at compile-time. In the end, <code>all</code> returns an <a class="el" href="structboost_1_1hana_1_1_integral_constant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a> holding the result of the algorithm, and we use the compiler's type deduction in a clever way to make it look easy. Hence, it would be equivalent to write:</p>
+<div class="fragment"><div class="line">_integral_constant&lt;bool, true&gt; result = all(stuff, [](<span class="keyword">auto</span> x) {</div>
+<div class="line">    <span class="keywordflow">return</span> std::is_same&lt;</div>
+<div class="line">        std::remove_reference_t&lt;decltype(x.name)&gt;,</div>
+<div class="line">        std::string</div>
+<div class="line">    &gt;{};</div>
+<div class="line">});</div>
+<div class="line">static_assert(result, <span class="stringliteral">&quot;&quot;</span>);</div>
+</div><!-- fragment --><p> We just saw how some algorithms are able to return IntegralConstants when their inputs satisfy some constraints with respect to <code>compile-time</code>ness. However, other algorithms are more restrictive and they <em>require</em> their inputs to satisfy some constraints regarding <code>compile-time</code>ness, without which they are not able to operate at all. An example of this is <code>filter</code>, which takes a sequence and a predicate, and returns a new sequence containing only those elements for which the predicate is satisfied. <code>filter</code> requires the predicate to return an <a class="el" href="structboost_1_1hana_1_1_integral_constant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a> (actually, a <a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class represents data that can be manipulated at compile-time. ">Constant</a> holding a <a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a>). While this requirement may seem stringent, it really makes sense if you think about it. Indeed, since we're removing some elements from the tuple, the type of the object that's going to be returned by <code>filter</code> depends on the result of the predicate. Hence, the result of the predicate has to be known by the compiler to fix the type of the returned sequence. For example, consider what happens when we try to filter our sequence as follows:</p>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> result = filter(stuff, [](<span class="keyword">auto</span> x) {</div>
+<div class="line">    <span class="keywordflow">return</span> x.name == <span class="stringliteral">&quot;Louis&quot;</span>;</div>
+<div class="line">});</div>
+</div><!-- fragment --><p>Clearly, we know that the predicate will only return true on the first element, and hence the result <em>should be</em> a <code>_tuple&lt;Person&gt;</code>. However, the compiler has no way of knowing it since the predicate's result is the result of a runtime computation, which happens long after the compiler has finished its job. However, we could filter our sequence with any predicate whose result is available at compile-time:</p>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> result = filter(stuff, [](<span class="keyword">auto</span> x) {</div>
+<div class="line">    <span class="keywordflow">return</span> std::is_same&lt;decltype(x), Car&gt;{};</div>
+<div class="line">});</div>
+</div><!-- fragment --><p> Since the predicate returns a <a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class represents data that can be manipulated at compile-time. ">Constant</a>, the compiler is able to figure out the return type of the algorithm. Other algorithms like <code>partition</code> and <code>sort</code> work similarly; special requirements are always documented by the functions they apply to. While this constitutes a fairly complete explanation of the interaction between runtime and compile-time inside algorithms, the details about Hana's IntegralConstants are treated in the <a class="el" href="index.html#tutorial-constants">section on constants</a> and in the reference for <a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class represents data that can be manipulated at compile-time. ">Constant</a> and <a class="el" href="structboost_1_1hana_1_1_integral_constant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a>.</p>
+<h1><a class="anchor" id="tutorial-type"></a>
 Type computations</h1>
 <hr/>
-<p> At this point, if you are interested in doing Boost.MPL-like computations on types, you might be wondering how is Hana going to help you. Do not despair. Hana provides a way to perform type-level computations with a great deal of expressiveness by representing types as values. This is a completely new way of metaprogramming, and you should try to set your MPL habits aside for a bit if you want to become proficient with Hana. Basically, Hana provides a way of representing a type <code>T</code> as an object, and it also provides a way of applying type transformations to those objects as-if they were functions, by wrapping them properly. Concretely;</p>
+<p> At this point, if you are interested in doing Boost.MPL-like computations on types, you might be wondering how is Hana going to help you. Do not despair. Hana provides a way to perform type-level computations with a great deal of expressiveness by representing types as values. This is a completely new way of metaprogramming, and you should try to set your MPL habits aside for a bit if you want to become proficient with Hana. Basically, Hana provides a way of representing a type <code>T</code> as an object, and it also provides a way of applying type transformations to those objects as-if they were functions, by wrapping them properly:</p>
 <div class="fragment"><div class="line"><span class="comment">// We &quot;lift&quot; the `int` type to a value, and the `std::add_pointer` metafunction</span></div>
 <div class="line"><span class="comment">// to a regular function. Then, we can call that metafunction with a regular</span></div>
 <div class="line"><span class="comment">// function call syntax.</span></div>
@@ -393,14 +379,18 @@ Type computations</h1>
 <div class="line">    mpl::equal&lt;mpl::_1, mpl::_2, mpl::quote2&lt;std::is_same&gt;&gt;</div>
 <div class="line">&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment --><p>That's it for the introduction to type computations with Hana, but there are a couple of interesting examples scattered in the documentation if you want more. There's also a minimal reimplementation of the MPL using Hana under the hood in <code>example/mini_mpl.cpp</code>.</p>
+<h2><a class="anchor" id="tutorial-type-perf"></a>
+Performance considerations</h2>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000058">Todo:</a></b></dt><dd><ul>
 <li>Provide links to the scattered examples, and also to example/mini_mpl. For some reason, I can't get Doxygen to generate a link.</li>
 <li>Expand this section to explain the philosophy behind Hana's metaprogramming paradigm, i.e. that you only retrieve the types at the end and that you do not try to represent everything as a type.</li>
 <li>Write a cheatsheet mapping common MPL/Fusion idioms to idiomatic Hana code. Maybe this should go in some Appendix?</li>
+<li>Introduce the mini-MPL</li>
+<li>Introduce the integration with <code>&lt;type_traits&gt;</code></li>
 </ul>
 </dd></dl>
-<h1><a class="anchor" id="tutorial-constant"></a>
-Constants, or setting constexpr straight</h1>
+<h1><a class="anchor" id="tutorial-constants"></a>
+Constants</h1>
 <hr/>
 <p> In C++, the border between compile-time and runtime is hazy, a fact that is even more true with the introduction of <a href="http://en.wikipedia.org/wiki/C%2B%2B11#constexpr_.E2.80.93_Generalized_constant_expressions">generalized constant expressions</a> in C++11. However, being able to manipulate heterogeneous objects is all about understanding that border and then crossing it at one's will. The goal of this section is to set things straight with <code>constexpr</code>; to understand which problems it can solve and which ones it can't. Let's start off with a <a href="http://www.gotw.ca/gotw/index.htm">GOTW</a> style question: do you think the following code should compile, and why?</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
@@ -445,9 +435,9 @@ Constants, or setting constexpr straight</h1>
 <div class="line">    f(c);</div>
 <div class="line">}</div>
 </div><!-- fragment --><p>This law that must be respected by <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class represents data that can be manipulated at compile-time. ">Constant</a></code>s expresses the minimal requirement that we're able to retrieve a constant expression from an object, even if that object isn't a constant expression. There is no restriction on what the type of the constant expression might be, but it should be documented. Hana provides a model of this concept called an <code><a class="el" href="structboost_1_1hana_1_1_integral_constant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code>; it encodes a compile-time value of an integral type, and you can think of it as a <code>std::integral_constant</code>. Before going on to the next section, you probably want to take a look at the <a class="el" href="structboost_1_1hana_1_1_integral_constant.html">reference documentation</a> for <code><a class="el" href="structboost_1_1hana_1_1_integral_constant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code>, which explains how to create these objects and what you can expect from them.</p>
-<h2><a class="anchor" id="tutorial-constant-side_effects"></a>
+<h2><a class="anchor" id="tutorial-constants-side_effects"></a>
 Side effects</h2>
-<dl class="section note"><dt>Note</dt><dd>Before reading this section, you should be familiar with the <a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class represents data that can be manipulated at compile-time. ">Constant</a> concept. Also note that this section contains somewhat advanced material, and it can safely be skipped during a first read.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>You should be familiar with the <a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class represents data that can be manipulated at compile-time. ">Constant</a> concept before reading this section. Also note that this section contains somewhat advanced material, and it can safely be skipped during a first read.</dd></dl>
 <p>Let me ask a tricky question. Is the following code valid?</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;</div>
 <div class="line"><span class="keyword">auto</span> identity(X x) { <span class="keywordflow">return</span> x; }</div>
@@ -475,7 +465,7 @@ Side effects</h2>
 <div class="line"><span class="keyword">auto</span> x = identity(bool_&lt;true&gt;);</div>
 <div class="line">static_assert(value(x), <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment --><p> we're telling the compiler to perform those potential side effects during the dynamic initialization phase! Then, we use <code>value</code> to return the compile-time value associated to its argument. Also note that <code>value</code> takes a <code>const&amp;</code> to its argument; if it tried taking it by value, we would be reading from a non-<code>constexpr</code> variable to do the copying, and that could hide side-effects.</p>
-<h1><a class="anchor" id="tutorial-heterogeneity"></a>
+<h1><a class="anchor" id="tutorial-hetero"></a>
 Heterogeneity and generalized types</h1>
 <hr/>
 <p> The purpose of Hana is to manipulate heterogeneous objects. However, there's a fundamental question that we have not asked yet: does it even make sense to manipulate heterogeneous objects?</p>
@@ -487,22 +477,15 @@ Heterogeneity and generalized types</h1>
 <p>As an example, <code>_tuple&lt;int, int&gt;</code> conceptually has a gtype of <code>Tuple(int)</code>, but its actual gtype (outside of the documentation) is just <code><a class="el" href="structboost_1_1hana_1_1_tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code>. What about <code>_tuple&lt;int, long&gt;</code>? Well, <code>int</code> and <code>long</code> are embedded in the same mathematical universe, so we could say that it's a <code>Tuple(Number)</code>, where <code>Number</code> is some generalized type containing all the numeric types. What about <code>_tuple&lt;int, void&gt;</code>? First, that won't compile. But why would you create a sequence of objects that have nothing in common? What can you do with that?</p>
 <p>These generalized types are useful for several purposes, for example creating a tuple with <code>make&lt;<a class="el" href="structboost_1_1hana_1_1_tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a>&gt;</code> and documenting pseudo-signatures for the functions provided in this library. Another important role is to customize algorithms; see the section on <a class="el" href="index.html#tutorial-extending-tag_dispatching">tag-dispatching</a> for more information. Finally, you can also consult the reference of the <a class="el" href="structboost_1_1hana_1_1datatype.html">datatype</a> metafunction for details on how to specify the generalized type of a family of types.</p>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000059">Todo:</a></b></dt><dd>There is obviously a connection between generalized types and concepts. I think that generalized types are concepts whose models are unique up to a unique isomorphism. Still, it is necessary to distinguish between isomorphic models when we want to provide an implementation or create an object. If you see how it all fits together better than I do right now, let me know.</dd></dl>
-<h1><a class="anchor" id="tutorial-external_libraries"></a>
+<h1><a class="anchor" id="tutorial-ext"></a>
 Integration with external libraries</h1>
 <hr/>
-<h2><a class="anchor" id="tutorial-external_libraries-stl"></a>
+<h2><a class="anchor" id="tutorial-ext-std"></a>
 The standard library</h2>
-<h2><a class="anchor" id="tutorial-external_libraries-fusion"></a>
+<h2><a class="anchor" id="tutorial-ext-fusion"></a>
 Boost.Fusion</h2>
-<h2><a class="anchor" id="tutorial-external_libraries-mpl"></a>
+<h2><a class="anchor" id="tutorial-ext-mpl"></a>
 Boost.MPL</h2>
-<h1><a class="anchor" id="tutorial-performance_considerations"></a>
-Performance considerations</h1>
-<hr/>
-<h2><a class="anchor" id="tutorial-performance_considerations-compile_time"></a>
-Compile-time performance</h2>
-<h2><a class="anchor" id="tutorial-performance_considerations-run_time"></a>
-Runtime performance</h2>
 <h1><a class="anchor" id="tutorial-extending"></a>
 Extending the library</h1>
 <hr/>
@@ -611,7 +594,99 @@ Using the reference</h1>
  Implementation details. Don't go there.</li>
 </ul>
 <p>I hope you enjoy using the library, and please consider contributing since there is still a lot of work to do!</p>
-<p>&ndash; Louis </p>
+<p>&ndash; Louis</p>
+<h1><a class="anchor" id="tutorial-cheatsheet"></a>
+Apendix 1: Cheatsheet</h1>
+<hr/>
+<p> For quick reference, here's a cheatsheet of the most useful functions and algorithms. Always keep in mind that the algorithms return their result as a new sequence and no in-place mutation is ever performed.</p>
+<table class="doxtable">
+<tr>
+<th align="left">function </th><th align="left">concept </th><th align="left">description  </th></tr>
+<tr>
+<td align="left"><code>transform(sequence, f)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a> </td><td align="left">Apply a function to each element of a sequence and return the result. </td></tr>
+<tr>
+<td align="left"><code>adjust(sequence, predicate, f)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a> </td><td align="left">Apply a function to each element of a sequence satisfying some predicate and return the result. </td></tr>
+<tr>
+<td align="left"><code>replace(sequence, predicate, value)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a> </td><td align="left">Replace the elements of a sequence that satisfy some predicate by some value. </td></tr>
+<tr>
+<td align="left"><code>fill(sequence, value)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a> </td><td align="left">Replace all the elements of a sequence with some value. </td></tr>
+<tr>
+<td align="left"><code>foldl(sequence, state, f)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a> </td><td align="left">Accumulates the elements of a sequence from the left. Equivalent to <code>f(...f(f(state, x1), x2), ..., xN)</code>. </td></tr>
+<tr>
+<td align="left"><code>foldr(sequence, state, f)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a> </td><td align="left">Accumulates the elements of a sequence from the right. Equivalent to <code>f(x1, f(x2, ..., f(xN, state))...)</code>. </td></tr>
+<tr>
+<td align="left"><code>for_each(sequence, f)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a> </td><td align="left">Call a function on each element of a sequence. Returns <code>void</code>. </td></tr>
+<tr>
+<td align="left"><code>length(sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a> </td><td align="left">Returns the length of a sequence as an <code>integral_constant</code>. </td></tr>
+<tr>
+<td align="left"><code>{minimum, maximum}_by(predicate, sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a> </td><td align="left">Returns the smallest/greatest element of a sequence w.r.t. a predicate. </td></tr>
+<tr>
+<td align="left"><code>{minimum, maximum}_by(predicate, sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a> </td><td align="left">Returns the smallest/greatest element of a sequence. The elements must be <a class="el" href="structboost_1_1hana_1_1_orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a>. </td></tr>
+<tr>
+<td align="left"><code>count(sequence, predicate)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a> </td><td align="left">Returns the number of elements that satisfy the predicate. </td></tr>
+<tr>
+<td align="left"><code>unpack(sequence, f)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a> </td><td align="left">Calls a function with the contents of a sequence. Equivalent to <code>f(x1, ..., xN)</code>. </td></tr>
+<tr>
+<td align="left"><code>head(sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a> </td><td align="left">Returns the first element of a sequence. </td></tr>
+<tr>
+<td align="left"><code>tail(sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a> </td><td align="left">Returns all the elements except the first one. Analogous to <code>pop_front</code>. </td></tr>
+<tr>
+<td align="left"><code>is_empty(sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a> </td><td align="left">Returns whether a sequence is empty as an <code>integral_constant</code>. </td></tr>
+<tr>
+<td align="left"><code>at(index, sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a> </td><td align="left">Returns the n-th element of a sequence. The index must be an <code>integral_constant</code>. </td></tr>
+<tr>
+<td align="left"><code>last(sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a> </td><td align="left">Returns the last element of a sequence. </td></tr>
+<tr>
+<td align="left"><code>drop(number, sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a> </td><td align="left">Drops the n first elements from a sequence and returns the rest. <code>n</code> must be an <code>integral_constant</code>. </td></tr>
+<tr>
+<td align="left"><code>drop_{while,until}(sequence, predicate)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a> </td><td align="left">Drops elements from a sequence while/until a predicate is satisfied. The predicate must return an <code>integral_constant</code>. </td></tr>
+<tr>
+<td align="left"><code>flatten(sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a> </td><td align="left">Flatten a sequence of sequences, a bit like <code>std::tuple_cat</code>. </td></tr>
+<tr>
+<td align="left"><code>prepend(value, sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_monad_plus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> </td><td align="left">Prepend an element to a sequence. </td></tr>
+<tr>
+<td align="left"><code>append(sequence, value)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_monad_plus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> </td><td align="left">Append an element to a sequence. </td></tr>
+<tr>
+<td align="left"><code>concat(sequence1, sequence2)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_monad_plus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> </td><td align="left">Concatenate two sequences. </td></tr>
+<tr>
+<td align="left"><code>filter(sequence, predicate)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_monad_plus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> </td><td align="left">Remove all the elements that do not satisfy a predicate. The predicate must return an <code>integral_constant</code>. </td></tr>
+<tr>
+<td align="left"><code>{any,none,all}(sequence, predicate)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a> </td><td align="left">Returns whether any/none/all of the elements of the sequence satisfy some predicate. </td></tr>
+<tr>
+<td align="left"><code>{any,none,all}_of(sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a> </td><td align="left">Returns whether any/non/all of the elements of a sequence are true-valued. </td></tr>
+<tr>
+<td align="left"><code>elem(sequence, value)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a> </td><td align="left">Returns whether an object is in a sequence. </td></tr>
+<tr>
+<td align="left"><code>find(sequence, predicate)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a> </td><td align="left">Find the first element of a sequence satisfying the predicate and return <code>just</code> it, or return <code>nothing</code>. See <a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a>. </td></tr>
+<tr>
+<td align="left"><code>lookup(sequence, value)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a> </td><td align="left">Find the first element of a sequence which is equal to some value and return <code>just</code> it, or return nothing. See <a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a>. </td></tr>
+<tr>
+<td align="left"><code>group_by(predicate, sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> </td><td align="left">Group the adjacent elements of a sequence which all satisfy (or all do not satisfy) some predicate. </td></tr>
+<tr>
+<td align="left"><code>group(sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> </td><td align="left">Group adjacent elements of a sequence that compare equal. The elements must be <a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a>. </td></tr>
+<tr>
+<td align="left"><code>init(sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> </td><td align="left">Returns all the elements of a sequence, except the last one. Analogous to <code>pop_back</code>. </td></tr>
+<tr>
+<td align="left"><code>partition(sequence, predicate)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> </td><td align="left">Partition a sequence into a pair of elements that satisfy some predicate, and elements that do not satisfy it. </td></tr>
+<tr>
+<td align="left"><code>remove_at(index, sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> </td><td align="left">Remove the element at the given index. The index must be an <code>integral_constant</code>. </td></tr>
+<tr>
+<td align="left"><code>reverse(sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> </td><td align="left">Reverse the order of the elements in a sequence. </td></tr>
+<tr>
+<td align="left"><code>slice(sequence, from, to)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> </td><td align="left">Returns the elements of a sequence at indices contained in <code>[from, to)</code>. </td></tr>
+<tr>
+<td align="left"><code>sort_by(predicate, sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> </td><td align="left">Sort the elements of a sequence according to some predicate. The sort is stable. </td></tr>
+<tr>
+<td align="left"><code>sort(predicate)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> </td><td align="left">Sort the elements of a sequence, which must be <a class="el" href="structboost_1_1hana_1_1_orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a>. The sort is stable. </td></tr>
+<tr>
+<td align="left"><code>take(number, sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> </td><td align="left">Take the first n elements of a sequence. n must be an <code>integral_constant</code>. </td></tr>
+<tr>
+<td align="left"><code>take_{while,until}(sequence, predicate)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> </td><td align="left">Take elements of a sequence while/until some predicate is satisfied, and return that. </td></tr>
+<tr>
+<td align="left"><code>zip(sequence1, ..., sequenceN)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> </td><td align="left">Zip <code>N</code> sequences into a sequence of tuples. </td></tr>
+<tr>
+<td align="left"><code>zip.with(f, sequence1, ..., sequenceN)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> </td><td align="left">Zip <code>N</code> sequences with a <code>N</code>-ary function. </td></tr>
+</table>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
