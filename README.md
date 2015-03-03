@@ -28,11 +28,11 @@ struct City   { std::string name; };
 
 int main() {
     // Sequences holding heterogeneous objects.
-    auto stuff = make<Tuple>(Person{"Louis"}, Car{"Toyota"}, City{"Quebec"});
+    auto stuff = make_tuple(Person{"Louis"}, Car{"Toyota"}, City{"Quebec"});
 
     // Expressive algorithms to manipulate them.
     auto names = transform(stuff, [](auto x) { return x.name; });
-    assert(reverse(names) == make<Tuple>("Quebec", "Toyota", "Louis"));
+    assert(reverse(names) == make_tuple("Quebec", "Toyota", "Louis"));
 
     // No compile-time information is lost: even if `stuff` can't be constexpr
     // because it holds `std::string`s, its length is known at compile-time.
@@ -40,7 +40,7 @@ int main() {
 
     // A way to represent types as values and metafunctions as normal functions,
     // so everything that can be done with the MPL can be done with Hana.
-    constexpr auto types = make<Tuple>(type<Car>, type<City>, type<void>);
+    constexpr auto types = make_tuple(type<Car>, type<City>, type<void>);
     constexpr auto pointers = transform(types, metafunction<std::add_pointer>);
     static_assert(pointers == tuple_t<Car*, City*, void*>, "");
 
