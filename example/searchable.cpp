@@ -25,58 +25,58 @@ int main() {
 
 {
 
-//! [all]
+//! [all_of]
 using namespace literals;
 
 BOOST_HANA_CONSTEXPR_LAMBDA auto odd = [](auto x) {
     return x % 2_c != 0_c;
 };
 
-BOOST_HANA_CONSTEXPR_CHECK(all(make<Tuple>(1, 3), odd));
-BOOST_HANA_CONSTANT_CHECK(!all(make<Tuple>(3_c, 4_c), odd));
+BOOST_HANA_CONSTEXPR_CHECK(all_of(make<Tuple>(1, 3), odd));
+BOOST_HANA_CONSTANT_CHECK(!all_of(make<Tuple>(3_c, 4_c), odd));
 
 BOOST_HANA_CONSTANT_CHECK(
-    !all(make<Tuple>(type<void>, type<char&>), trait<std::is_void>)
+    !all_of(make<Tuple>(type<void>, type<char&>), trait<std::is_void>)
 );
 BOOST_HANA_CONSTANT_CHECK(
-    all(make<Tuple>(type<int>, type<char>), trait<std::is_integral>)
+    all_of(make<Tuple>(type<int>, type<char>), trait<std::is_integral>)
 );
+//! [all_of]
+
+}{
+
+//! [all]
+BOOST_HANA_CONSTEXPR_CHECK(all(make<Tuple>(true_, true, true_)));
+BOOST_HANA_CONSTANT_CHECK(!all(make<Tuple>(true, false_, true_)));
 //! [all]
 
 }{
 
-//! [all_of]
-BOOST_HANA_CONSTEXPR_CHECK(all_of(make<Tuple>(true_, true, true_)));
-BOOST_HANA_CONSTANT_CHECK(!all_of(make<Tuple>(true, false_, true_)));
-//! [all_of]
-
-}{
-
-//! [any]
+//! [any_of]
 using namespace literals;
 
 BOOST_HANA_CONSTEXPR_LAMBDA auto odd = [](auto x) {
     return x % 2_c != 0_c;
 };
 
-BOOST_HANA_CONSTEXPR_CHECK(any(make<Tuple>(1, 2), odd));
-BOOST_HANA_CONSTANT_CHECK(!any(make<Tuple>(2_c, 4_c), odd));
+BOOST_HANA_CONSTEXPR_CHECK(any_of(make<Tuple>(1, 2), odd));
+BOOST_HANA_CONSTANT_CHECK(!any_of(make<Tuple>(2_c, 4_c), odd));
 
 BOOST_HANA_CONSTANT_CHECK(
-    any(make<Tuple>(type<void>, type<char&>), trait<std::is_void>)
+    any_of(make<Tuple>(type<void>, type<char&>), trait<std::is_void>)
 );
 BOOST_HANA_CONSTANT_CHECK(
-    !any(make<Tuple>(type<void>, type<char&>), trait<std::is_integral>)
+    !any_of(make<Tuple>(type<void>, type<char&>), trait<std::is_integral>)
 );
-//! [any]
+//! [any_of]
 
 }{
 
-//! [any_of]
-BOOST_HANA_CONSTANT_CHECK(any_of(make<Tuple>(false, false_, true_)));
-BOOST_HANA_CONSTEXPR_CHECK(any_of(make<Tuple>(false, false_, true)));
-BOOST_HANA_CONSTEXPR_CHECK(!any_of(make<Tuple>(false, false_, false_)));
-//! [any_of]
+//! [any]
+BOOST_HANA_CONSTANT_CHECK(any(make<Tuple>(false, false_, true_)));
+BOOST_HANA_CONSTEXPR_CHECK(any(make<Tuple>(false, false_, true)));
+BOOST_HANA_CONSTEXPR_CHECK(!any(make<Tuple>(false, false_, false_)));
+//! [any]
 
 }{
 
@@ -125,31 +125,31 @@ BOOST_HANA_CONSTEXPR_CHECK(lookup(m, type<float>) == just(3.3));
 
 }{
 
-//! [none]
+//! [none_of]
 using namespace literals;
 
 BOOST_HANA_CONSTEXPR_LAMBDA auto odd = [](auto x) {
     return x % 2_c != 0_c;
 };
 
-BOOST_HANA_CONSTANT_CHECK(none(make<Tuple>(2_c, 4_c), odd));
-BOOST_HANA_CONSTEXPR_CHECK(!none(make<Tuple>(1, 2), odd));
+BOOST_HANA_CONSTANT_CHECK(none_of(make<Tuple>(2_c, 4_c), odd));
+BOOST_HANA_CONSTEXPR_CHECK(!none_of(make<Tuple>(1, 2), odd));
 
 BOOST_HANA_CONSTANT_CHECK(
-    !none(make<Tuple>(type<void>, type<char&>), trait<std::is_void>)
+    !none_of(make<Tuple>(type<void>, type<char&>), trait<std::is_void>)
 );
 BOOST_HANA_CONSTANT_CHECK(
-    none(make<Tuple>(type<void>, type<char&>), trait<std::is_integral>)
+    none_of(make<Tuple>(type<void>, type<char&>), trait<std::is_integral>)
 );
-//! [none]
+//! [none_of]
 
 }{
 
-//! [none_of]
-BOOST_HANA_CONSTEXPR_CHECK(none_of(make<Tuple>(false, false_, false_)));
-BOOST_HANA_CONSTEXPR_CHECK(!none_of(make<Tuple>(false, false_, true)));
-BOOST_HANA_CONSTANT_CHECK(!none_of(make<Tuple>(false, false_, true_)));
-//! [none_of]
+//! [none]
+BOOST_HANA_CONSTEXPR_CHECK(none(make<Tuple>(false, false_, false_)));
+BOOST_HANA_CONSTEXPR_CHECK(!none(make<Tuple>(false, false_, true)));
+BOOST_HANA_CONSTANT_CHECK(!none(make<Tuple>(false, false_, true_)));
+//! [none]
 
 }{
 

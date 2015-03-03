@@ -16,9 +16,9 @@ template <int i> struct x { };
 
 int main() {
     auto searchable = <%= searchable %>;
-    auto pred = [](auto&& x) { return boost::hana::true_; };
+    auto pred = [](auto&& x) { return boost::hana::false_; };
 
     boost::hana::benchmark::measure([=] {
-        boost::hana::all(searchable, pred);
+        boost::hana::none_of(searchable, pred);
     });
 }

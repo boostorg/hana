@@ -34,26 +34,26 @@ namespace boost { namespace hana { namespace test {
             auto predicates = make<Tuple>(always(true_), always(false_));
             for_each(predicates, [=](auto p) {
                 BOOST_HANA_CHECK(
-                    any(xs, p) ^iff^ not_(all(xs, compose(not_, p)))
+                    any_of(xs, p) ^iff^ not_(all_of(xs, compose(not_, p)))
                 );
 
                 BOOST_HANA_CHECK(
-                    any(xs, p) ^iff^ not_(none(xs, p))
+                    any_of(xs, p) ^iff^ not_(none_of(xs, p))
                 );
             });
 
-            eval_if(all(xs, is_a<Logical>),
+            eval_if(all_of(xs, is_a<Logical>),
                 [=](auto _) {
                     BOOST_HANA_CHECK(
-                        _(any_of)(xs) ^iff^ _(any)(xs, id)
+                        _(any)(xs) ^iff^ _(any_of)(xs, id)
                     );
 
                     BOOST_HANA_CHECK(
-                        _(all_of)(xs) ^iff^ _(all)(xs, id)
+                        _(all)(xs) ^iff^ _(all_of)(xs, id)
                     );
 
                     BOOST_HANA_CHECK(
-                        _(none_of)(xs) ^iff^ _(none)(xs, id)
+                        _(none)(xs) ^iff^ _(none_of)(xs, id)
                     );
                 },
                 [](auto) { }
@@ -74,7 +74,7 @@ namespace boost { namespace hana { namespace test {
                     auto compile_time_comparable = [=](auto y) {
                         return is_a<Constant>(equal(x, y));
                     };
-                    eval_if(all(xs, compile_time_comparable),
+                    eval_if(all_of(xs, compile_time_comparable),
                         [=](auto _) {
                             BOOST_HANA_CHECK(equal(
                                 _(lookup)(xs, x),
@@ -94,7 +94,7 @@ namespace boost { namespace hana { namespace test {
 
             for_each(objects<S>, [=](auto ys) {
                 BOOST_HANA_CHECK(
-                    subset(xs, ys) ^iff^ all(xs, [=](auto x) {
+                    subset(xs, ys) ^iff^ all_of(xs, [=](auto x) {
                         return elem(ys, x);
                     })
                 );

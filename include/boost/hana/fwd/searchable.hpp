@@ -34,8 +34,8 @@ namespace boost { namespace hana {
     //! requirement that both notions differ, and it is often useful to have
     //! keys and values coincide (think about `std::set`).
     //!
-    //! Some methods like `any`, `all` and `none` allow simple queries to be
-    //! performed on the keys of the structure, while other methods like
+    //! Some methods like `any_of`, `all_of` and `none_of` allow simple queries
+    //! to be performed on the keys of the structure, while other methods like
     //! `lookup` and `find` make it possible to find the value associated
     //! to a key. The most specific method should always be used if one
     //! cares about performance, because it is usually the case that heavy
@@ -60,39 +60,39 @@ namespace boost { namespace hana {
     //! Rigorously, for any `Searchable xs, ys` and predicate `p`, the
     //! following laws should be satisfied:
     //! @code
-    //!     any(xs, p) <=> !all(xs, negated p)
-    //!                <=> !none(xs, p)
+    //!     any_of(xs, p) <=> !all_of(xs, negated p)
+    //!                   <=> !none_of(xs, p)
     //!
-    //!     elem(xs, x) <=> any(xs, [](auto y) { return y == x; })
+    //!     elem(xs, x) <=> any_of(xs, [](auto y) { return y == x; })
     //!
     //!     lookup(xs, x) == find(xs, [](auto y) { return y == x; })
     //!     find(xs, always(false_)) == nothing
     //!
-    //!     subset(xs, ys) <=> all(xs, [](auto x) { return elem(ys, x); })
+    //!     subset(xs, ys) <=> all_of(xs, [](auto x) { return elem(ys, x); })
     //! @endcode
     //!
     //! Additionally, if all the keys of the Searchable are `Logical`s,
     //! the following laws should be satisfied:
     //! @code
-    //!     any_of(xs)  <=> any(xs, id)
-    //!     all_of(xs)  <=> all(xs, id)
-    //!     none_of(xs) <=> none(xs, id)
+    //!     any(xs)  <=> any_of(xs, id)
+    //!     all(xs)  <=> all_of(xs, id)
+    //!     none(xs) <=> none_of(xs, id)
     //! @endcode
     //!
     //!
     //! Minimal complete definition
     //! ---------------------------
-    //! 1. `find` and `any`\n
+    //! 1. `find` and `any_of`\n
     //! According to the above laws, it is possible to implement all the
-    //! methods pertaining to this concept using only `find` and `any`.
-    //! When `find` and `any` are provided, the other methods are implemented
-    //! according to the laws above.
+    //! methods pertaining to this concept using only `find` and `any_of`.
+    //! When `find` and `any_of` are provided, the other methods are
+    //! implemented according to the laws above.
     //!
     //! @note
-    //! We could implement `any(xs, pred)` as `is_just(find(xs, pred))`, and
-    //! then reduce the minimal complete definition to `find`. However, this
-    //! is not done because that implementation requires the predicate to
-    //! return a compile-time `Logical`, which is too restrictive.
+    //! We could implement `any_of(xs, pred)` as `is_just(find(xs, pred))`,
+    //! and then reduce the minimal complete definition to `find`. However,
+    //! this is not done because that implementation requires the predicate
+    //! to return a compile-time `Logical`, which is too restrictive.
     //!
     //!
     //! Provided models
@@ -127,31 +127,31 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/searchable.cpp any
+    //! @snippet example/searchable.cpp any_of
     //!
     //!
     //! Benchmarks
     //! ----------
-    //! @image html benchmark/searchable/any.ctime.png
+    //! @image html benchmark/searchable/any_of.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto any = [](auto&& xs, auto&& predicate) -> decltype(auto) {
+    constexpr auto any_of = [](auto&& xs, auto&& predicate) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
     template <typename S, typename = void>
-    struct any_impl;
+    struct any_of_impl;
 
-    struct _any {
+    struct _any_of {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
-            return any_impl<typename datatype<Xs>::type>::apply(
+            return any_of_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred)
             );
         }
     };
 
-    constexpr _any any{};
+    constexpr _any_of any_of{};
 #endif
 
     //! Returns whether any key of the structure is true-valued.
@@ -164,25 +164,25 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/searchable.cpp any_of
+    //! @snippet example/searchable.cpp any
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto any_of = [](auto&& xs) -> decltype(auto) {
+    constexpr auto any = [](auto&& xs) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
     template <typename S, typename = void>
-    struct any_of_impl;
+    struct any_impl;
 
-    struct _any_of {
+    struct _any {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-            return any_of_impl<typename datatype<Xs>::type>::apply(
+            return any_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs)
             );
         }
     };
 
-    constexpr _any_of any_of{};
+    constexpr _any any{};
 #endif
 
     //! Returns whether all the keys of the structure satisfy the `predicate`.
@@ -203,31 +203,31 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/searchable.cpp all
+    //! @snippet example/searchable.cpp all_of
     //!
     //!
     //! Benchmarks
     //! ----------
-    //! @image html benchmark/searchable/all.ctime.png
+    //! @image html benchmark/searchable/all_of.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto all = [](auto&& xs, auto&& predicate) -> decltype(auto) {
+    constexpr auto all_of = [](auto&& xs, auto&& predicate) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
     template <typename S, typename = void>
-    struct all_impl;
+    struct all_of_impl;
 
-    struct _all {
+    struct _all_of {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
-            return all_impl<typename datatype<Xs>::type>::apply(
+            return all_of_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred)
             );
         }
     };
 
-    constexpr _all all{};
+    constexpr _all_of all_of{};
 #endif
 
     //! Returns whether all the keys of the structure are true-valued.
@@ -240,25 +240,25 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/searchable.cpp all_of
+    //! @snippet example/searchable.cpp all
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto all_of = [](auto&& xs) -> decltype(auto) {
+    constexpr auto all = [](auto&& xs) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
     template <typename S, typename = void>
-    struct all_of_impl;
+    struct all_impl;
 
-    struct _all_of {
+    struct _all {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-            return all_of_impl<typename datatype<Xs>::type>::apply(
+            return all_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs)
             );
         }
     };
 
-    constexpr _all_of all_of{};
+    constexpr _all all{};
 #endif
 
     //! Returns whether none of the keys of the structure satisfy the
@@ -280,31 +280,31 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/searchable.cpp none
+    //! @snippet example/searchable.cpp none_of
     //!
     //!
     //! Benchmarks
     //! ----------
-    //! @image html benchmark/searchable/none.ctime.png
+    //! @image html benchmark/searchable/none_of.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto none = [](auto&& xs, auto&& predicate) -> decltype(auto) {
+    constexpr auto none_of = [](auto&& xs, auto&& predicate) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
     template <typename S, typename = void>
-    struct none_impl;
+    struct none_of_impl;
 
-    struct _none {
+    struct _none_of {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
-            return none_impl<typename datatype<Xs>::type>::apply(
+            return none_of_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred)
             );
         }
     };
 
-    constexpr _none none{};
+    constexpr _none_of none_of{};
 #endif
 
     //! Returns whether all of the keys of the structure are false-valued.
@@ -317,25 +317,25 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/searchable.cpp none_of
+    //! @snippet example/searchable.cpp none
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto none_of = [](auto&& xs) -> decltype(auto) {
+    constexpr auto none = [](auto&& xs) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
     template <typename S, typename = void>
-    struct none_of_impl;
+    struct none_impl;
 
-    struct _none_of {
+    struct _none {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-            return none_of_impl<typename datatype<Xs>::type>::apply(
+            return none_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs)
             );
         }
     };
 
-    constexpr _none_of none_of{};
+    constexpr _none none{};
 #endif
 
     //! Returns whether the key occurs in the structure.

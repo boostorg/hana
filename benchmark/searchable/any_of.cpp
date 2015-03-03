@@ -19,6 +19,6 @@ int main() {
     auto pred = [](auto&& x) { return boost::hana::false_; };
 
     boost::hana::benchmark::measure([=] {
-        boost::hana::none(searchable, pred);
+        boost::hana::any_of(searchable, pred);
     });
 }

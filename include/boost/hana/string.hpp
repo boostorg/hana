@@ -215,8 +215,8 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct any_impl<String>
-        : Iterable::any_impl<String>
+    struct any_of_impl<String>
+        : Iterable::any_of_impl<String>
     { };
 }} // end namespace boost::hana
 

@@ -37,36 +37,36 @@ static_assert(!is_empty(stuff), "");
 
 {
 
-//! [all_runtime]
-bool result = all(stuff, [](auto x) {
+//! [all_of_runtime]
+bool result = all_of(stuff, [](auto x) {
     return x.name == "Louis";
 });
 BOOST_HANA_RUNTIME_CHECK(!result);
-//! [all_runtime]
+//! [all_of_runtime]
 
 }{
 
-//! [all_compile_time]
-auto result = all(stuff, [](auto x) {
+//! [all_of_compile_time]
+auto result = all_of(stuff, [](auto x) {
     return std::is_same<
         std::remove_reference_t<decltype(x.name)>,
         std::string
     >{};
 });
 static_assert(result, "");
-//! [all_compile_time]
+//! [all_of_compile_time]
 
 }{
 
-//! [all_compile_time_integral_constant]
-_integral_constant<bool, true> result = all(stuff, [](auto x) {
+//! [all_of_compile_time_integral_constant]
+_integral_constant<bool, true> result = all_of(stuff, [](auto x) {
     return std::is_same<
         std::remove_reference_t<decltype(x.name)>,
         std::string
     >{};
 });
 static_assert(result, "");
-//! [all_compile_time_integral_constant]
+//! [all_of_compile_time_integral_constant]
 
 }{
 

@@ -81,7 +81,7 @@ namespace boost { namespace hana {
         static constexpr auto apply(M1 const& m1, M2 const& m2) {
             return hana::and_(
                 hana::equal(hana::length(m1.storage), hana::length(m2.storage)),
-                hana::all(hana::keys(m1), hana::demux(equal)(
+                hana::all_of(hana::keys(m1), hana::demux(equal)(
                     hana::partial(lookup, m1),
                     hana::partial(lookup, m2)
                 ))
@@ -105,10 +105,10 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct any_impl<Map> {
+    struct any_of_impl<Map> {
         template <typename M, typename Pred>
         static constexpr auto apply(M map, Pred pred)
-        { return hana::any(hana::keys(map), pred); }
+        { return hana::any_of(hana::keys(map), pred); }
     };
 
     //////////////////////////////////////////////////////////////////////////

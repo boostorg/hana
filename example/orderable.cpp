@@ -18,9 +18,9 @@ int main() {
 {
 
 //! [less.than]
-BOOST_HANA_CONSTEXPR_CHECK(all(tuple_c<int, 1, 2, 3, 4>, less.than(5)));
+BOOST_HANA_CONSTEXPR_CHECK(all_of(tuple_c<int, 1, 2, 3, 4>, less.than(5)));
 
-BOOST_HANA_CONSTANT_CHECK(all(tuple_c<int, 1, 2, 3, 4>, less_equal.than(int_<4>)));
+BOOST_HANA_CONSTANT_CHECK(all_of(tuple_c<int, 1, 2, 3, 4>, less_equal.than(int_<4>)));
 //! [less.than]
 
 }{

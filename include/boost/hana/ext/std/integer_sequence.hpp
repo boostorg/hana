@@ -73,8 +73,8 @@ namespace boost { namespace hana {
     { };
 
     template <>
-    struct any_impl<ext::std::IntegerSequence>
-        : Iterable::any_impl<ext::std::IntegerSequence>
+    struct any_of_impl<ext::std::IntegerSequence>
+        : Iterable::any_of_impl<ext::std::IntegerSequence>
     { };
 
     //////////////////////////////////////////////////////////////////////////

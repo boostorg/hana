@@ -377,7 +377,7 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto is_permutation_of = curry<2>([](auto xs, auto p
 });
 
 BOOST_HANA_CONSTEXPR_CHECK(
-    all(
+    all_of(
         make<Tuple>(
             make<Tuple>('1', 2, 3.0),
             make<Tuple>('1', 3.0, 2),

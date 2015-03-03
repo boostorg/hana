@@ -297,7 +297,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct any_impl<Maybe> {
+    struct any_of_impl<Maybe> {
         template <typename M, typename Pred>
         static constexpr decltype(auto) apply(M&& m, Pred&& p) {
             return hana::maybe(false_,

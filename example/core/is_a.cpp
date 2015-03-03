@@ -33,10 +33,10 @@ int main() {
     constexpr auto row = make<Tuple>;
     BOOST_HANA_CONSTEXPR_LAMBDA auto check_table = [](auto ...headers) {
         return [=](auto ...rows) {
-            auto row_is_correct = [=](auto row) {
+            auto is_correct = [=](auto row) {
                 return make<Tuple>(headers(head(row))...) == tail(row);
             };
-            BOOST_HANA_CONSTANT_CHECK(all(make<Tuple>(rows...), row_is_correct));
+            BOOST_HANA_CONSTANT_CHECK(all_of(make<Tuple>(rows...), is_correct));
         };
     };
 

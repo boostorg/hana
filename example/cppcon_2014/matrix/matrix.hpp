@@ -63,7 +63,7 @@ namespace cppcon {
         auto storage = make<Tuple>(std::forward<decltype(rows)>(rows)...);
         auto ncolumns = length(head(storage));
         BOOST_HANA_CONSTANT_CHECK(
-            all(tail(storage), [&](auto const& row) {
+            all_of(tail(storage), [&](auto const& row) {
                 return length(row) == ncolumns;
             })
         );

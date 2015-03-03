@@ -292,7 +292,7 @@ template <typename S1, typename S2, typename Pred = mpl::quote2<std::is_same>>
 struct equal
     : decltype( // inefficient but whatever
         hana::length(S1{}) == hana::length(S2{}) &&
-        hana::all_of(hana::zip.with(boolean_metafunction_class<Pred>,
+        hana::all(hana::zip.with(boolean_metafunction_class<Pred>,
                 hana::to<hana::Tuple>(S1{}),
                 hana::to<hana::Tuple>(S2{})))
     )

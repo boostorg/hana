@@ -171,7 +171,7 @@ int main() {
         {
             BOOST_HANA_CONSTEXPR_LAMBDA auto check = [](auto ...keys) {
                 return and_(
-                    all(permutations(make<Tuple>(keys...)), [=](auto perm) {
+                    all_of(permutations(make<Tuple>(keys...)), [=](auto perm) {
                         return equal(to<Set>(perm), set(keys...));
                     }),
                     not_(equal(set(keys...), set(keys..., x<999>)))
@@ -189,16 +189,16 @@ int main() {
     {
         using test::x;
 
-        // any
+        // any_of
         {
-            BOOST_HANA_CONSTANT_CHECK(not_(any(set(), equal.to(x<1>))));
+            BOOST_HANA_CONSTANT_CHECK(not_(any_of(set(), equal.to(x<1>))));
 
-            BOOST_HANA_CONSTANT_CHECK(any(set(x<1>), equal.to(x<1>)));
-            BOOST_HANA_CONSTANT_CHECK(not_(any(set(x<1>), equal.to(x<2>))));
+            BOOST_HANA_CONSTANT_CHECK(any_of(set(x<1>), equal.to(x<1>)));
+            BOOST_HANA_CONSTANT_CHECK(not_(any_of(set(x<1>), equal.to(x<2>))));
 
-            BOOST_HANA_CONSTANT_CHECK(any(set(x<1>, x<2>), equal.to(x<1>)));
-            BOOST_HANA_CONSTANT_CHECK(any(set(x<1>, x<2>), equal.to(x<2>)));
-            BOOST_HANA_CONSTANT_CHECK(not_(any(set(x<1>, x<2>), equal.to(x<3>))));
+            BOOST_HANA_CONSTANT_CHECK(any_of(set(x<1>, x<2>), equal.to(x<1>)));
+            BOOST_HANA_CONSTANT_CHECK(any_of(set(x<1>, x<2>), equal.to(x<2>)));
+            BOOST_HANA_CONSTANT_CHECK(not_(any_of(set(x<1>, x<2>), equal.to(x<3>))));
         }
 
         // find

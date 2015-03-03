@@ -318,22 +318,22 @@ int main() {
 
     // Searchable
     {
-        // any
+        // any_of
         {
             BOOST_HANA_CONSTANT_CHECK(
-                any(BOOST_HANA_STRING("abcd"), [](auto c) {
+                any_of(BOOST_HANA_STRING("abcd"), [](auto c) {
                     return equal(c, char_<'b'>);
                 })
             );
 
             BOOST_HANA_CONSTANT_CHECK(
-                not_(any(BOOST_HANA_STRING(""), [](auto c) {
+                not_(any_of(BOOST_HANA_STRING(""), [](auto c) {
                     return true_;
                 }))
             );
 
             BOOST_HANA_CONSTANT_CHECK(
-                not_(any(BOOST_HANA_STRING("abcd"), [](auto c) {
+                not_(any_of(BOOST_HANA_STRING("abcd"), [](auto c) {
                     return equal(c, char_<'z'>);
                 }))
             );

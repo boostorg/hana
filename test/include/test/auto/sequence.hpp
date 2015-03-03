@@ -736,7 +736,7 @@ namespace boost { namespace hana { namespace test {
 
                         BOOST_HANA_CONSTANT_CHECK(and_(
                             equal(length(expected), length(actual)),
-                            all(actual, [=](auto x) { return elem(expected, x); })
+                            all_of(actual, [=](auto x) { return elem(expected, x); })
                         ));
                     };
                 };
@@ -1042,7 +1042,7 @@ namespace boost { namespace hana { namespace test {
                         permutations(list(a(sorted)...)),
                         partial(sort_by, pred)
                     );
-                    BOOST_HANA_CONSTANT_CHECK(all(perms, [=](auto xs) {
+                    BOOST_HANA_CONSTANT_CHECK(all_of(perms, [=](auto xs) {
                         return equal(xs, list(a(sorted)...));
                     }));
                 };
@@ -2569,147 +2569,147 @@ namespace boost { namespace hana { namespace test {
             auto c = test::numeric; // a minimal comparable
             auto logical = test::numeric;
 
-            // any
-            {
-                {
-                    BOOST_HANA_CONSTANT_CHECK(not_(any(list(), equal.to(x<9>))));
-
-                    BOOST_HANA_CONSTANT_CHECK(not_(any(list(x<0>), equal.to(x<9>))));
-                    BOOST_HANA_CONSTANT_CHECK(any(list(x<0>), equal.to(x<0>)));
-                    BOOST_HANA_CONSTANT_CHECK(any(list(x<0>, invalid<1>), equal.to(x<0>)));
-                    BOOST_HANA_CONSTANT_CHECK(any(list(x<0>, invalid<1>, invalid<2>), equal.to(x<0>)));
-
-                    BOOST_HANA_CONSTANT_CHECK(not_(any(list(x<0>, x<1>), equal.to(x<9>))));
-                    BOOST_HANA_CONSTANT_CHECK(any(list(x<0>, x<1>), equal.to(x<1>)));
-                    BOOST_HANA_CONSTANT_CHECK(any(list(x<0>, x<1>, invalid<2>), equal.to(x<1>)));
-                    BOOST_HANA_CONSTANT_CHECK(any(list(x<0>, x<1>, invalid<2>, invalid<3>), equal.to(x<1>)));
-
-                    BOOST_HANA_CONSTANT_CHECK(not_(any(list(x<0>, x<1>, x<2>), equal.to(x<9>))));
-                    BOOST_HANA_CONSTANT_CHECK(any(list(x<0>, x<1>, x<2>), equal.to(x<2>)));
-                    BOOST_HANA_CONSTANT_CHECK(any(list(x<0>, x<1>, x<2>, nothing), equal.to(x<2>)));
-                    BOOST_HANA_CONSTANT_CHECK(any(list(x<0>, x<1>, x<2>, nothing, nothing), equal.to(x<2>)));
-                }
-
-                {
-                    BOOST_HANA_CONSTANT_CHECK(not_(
-                        any(list(), undefined)
-                    ));
-
-                    BOOST_HANA_CONSTEXPR_CHECK(
-                        any(list(c(0)), equal.to(c(0)))
-                    );
-
-                    BOOST_HANA_CONSTEXPR_CHECK(
-                        not_(any(list(c(0)), equal.to(c(1))))
-                    );
-
-                    BOOST_HANA_CONSTEXPR_CHECK(not_(any(list(1), is_even)));
-                    BOOST_HANA_CONSTEXPR_CHECK(any(list(2), is_even));
-                    BOOST_HANA_CONSTEXPR_CHECK(any(list(1, 2), is_even));
-                    BOOST_HANA_CONSTEXPR_CHECK(not_(any(list(1, 3), is_even)));
-                    BOOST_HANA_CONSTEXPR_CHECK(any(list(1, 3, 4), is_even));
-                }
-            }
-
             // any_of
             {
                 {
+                    BOOST_HANA_CONSTANT_CHECK(not_(any_of(list(), equal.to(x<9>))));
+
+                    BOOST_HANA_CONSTANT_CHECK(not_(any_of(list(x<0>), equal.to(x<9>))));
+                    BOOST_HANA_CONSTANT_CHECK(any_of(list(x<0>), equal.to(x<0>)));
+                    BOOST_HANA_CONSTANT_CHECK(any_of(list(x<0>, invalid<1>), equal.to(x<0>)));
+                    BOOST_HANA_CONSTANT_CHECK(any_of(list(x<0>, invalid<1>, invalid<2>), equal.to(x<0>)));
+
+                    BOOST_HANA_CONSTANT_CHECK(not_(any_of(list(x<0>, x<1>), equal.to(x<9>))));
+                    BOOST_HANA_CONSTANT_CHECK(any_of(list(x<0>, x<1>), equal.to(x<1>)));
+                    BOOST_HANA_CONSTANT_CHECK(any_of(list(x<0>, x<1>, invalid<2>), equal.to(x<1>)));
+                    BOOST_HANA_CONSTANT_CHECK(any_of(list(x<0>, x<1>, invalid<2>, invalid<3>), equal.to(x<1>)));
+
+                    BOOST_HANA_CONSTANT_CHECK(not_(any_of(list(x<0>, x<1>, x<2>), equal.to(x<9>))));
+                    BOOST_HANA_CONSTANT_CHECK(any_of(list(x<0>, x<1>, x<2>), equal.to(x<2>)));
+                    BOOST_HANA_CONSTANT_CHECK(any_of(list(x<0>, x<1>, x<2>, nothing), equal.to(x<2>)));
+                    BOOST_HANA_CONSTANT_CHECK(any_of(list(x<0>, x<1>, x<2>, nothing, nothing), equal.to(x<2>)));
+                }
+
+                {
                     BOOST_HANA_CONSTANT_CHECK(not_(
-                        any_of(list())
+                        any_of(list(), undefined)
                     ));
 
                     BOOST_HANA_CONSTEXPR_CHECK(
-                        any_of(list(logical(true)))
+                        any_of(list(c(0)), equal.to(c(0)))
                     );
 
                     BOOST_HANA_CONSTEXPR_CHECK(
-                        not_(any_of(list(logical(false))))
+                        not_(any_of(list(c(0)), equal.to(c(1))))
                     );
+
+                    BOOST_HANA_CONSTEXPR_CHECK(not_(any_of(list(1), is_even)));
+                    BOOST_HANA_CONSTEXPR_CHECK(any_of(list(2), is_even));
+                    BOOST_HANA_CONSTEXPR_CHECK(any_of(list(1, 2), is_even));
+                    BOOST_HANA_CONSTEXPR_CHECK(not_(any_of(list(1, 3), is_even)));
+                    BOOST_HANA_CONSTEXPR_CHECK(any_of(list(1, 3, 4), is_even));
                 }
             }
 
-            // all
+            // any
             {
                 {
-                    BOOST_HANA_CONSTANT_CHECK(all(list(), undefined));
-                    BOOST_HANA_CONSTEXPR_CHECK(
-                        all(list(c(0)), equal.to(c(0)))
-                    );
-                    BOOST_HANA_CONSTEXPR_CHECK(
-                        not_(all(list(c(0)), equal.to(c(1))))
-                    );
-                    BOOST_HANA_CONSTEXPR_CHECK(not_(
-                        all(list(c(0), c(1)), equal.to(c(0)))
+                    BOOST_HANA_CONSTANT_CHECK(not_(
+                        any(list())
                     ));
+
                     BOOST_HANA_CONSTEXPR_CHECK(
-                        all(list(c(0), c(0)), equal.to(c(0)))
+                        any(list(logical(true)))
                     );
 
-                    BOOST_HANA_CONSTEXPR_CHECK(not_(all(list(1), is_even)));
-                    BOOST_HANA_CONSTEXPR_CHECK(all(list(2), is_even));
-                    BOOST_HANA_CONSTEXPR_CHECK(all(list(2, 4), is_even));
-                    BOOST_HANA_CONSTEXPR_CHECK(not_(all(list(1, 2), is_even)));
-                    BOOST_HANA_CONSTEXPR_CHECK(not_(all(list(1, 3), is_even)));
-                    BOOST_HANA_CONSTEXPR_CHECK(not_(all(list(1, 3, 4), is_even)));
+                    BOOST_HANA_CONSTEXPR_CHECK(
+                        not_(any(list(logical(false))))
+                    );
                 }
             }
 
             // all_of
             {
+                {
+                    BOOST_HANA_CONSTANT_CHECK(all_of(list(), undefined));
+                    BOOST_HANA_CONSTEXPR_CHECK(
+                        all_of(list(c(0)), equal.to(c(0)))
+                    );
+                    BOOST_HANA_CONSTEXPR_CHECK(
+                        not_(all_of(list(c(0)), equal.to(c(1))))
+                    );
+                    BOOST_HANA_CONSTEXPR_CHECK(not_(
+                        all_of(list(c(0), c(1)), equal.to(c(0)))
+                    ));
+                    BOOST_HANA_CONSTEXPR_CHECK(
+                        all_of(list(c(0), c(0)), equal.to(c(0)))
+                    );
+
+                    BOOST_HANA_CONSTEXPR_CHECK(not_(all_of(list(1), is_even)));
+                    BOOST_HANA_CONSTEXPR_CHECK(all_of(list(2), is_even));
+                    BOOST_HANA_CONSTEXPR_CHECK(all_of(list(2, 4), is_even));
+                    BOOST_HANA_CONSTEXPR_CHECK(not_(all_of(list(1, 2), is_even)));
+                    BOOST_HANA_CONSTEXPR_CHECK(not_(all_of(list(1, 3), is_even)));
+                    BOOST_HANA_CONSTEXPR_CHECK(not_(all_of(list(1, 3, 4), is_even)));
+                }
+            }
+
+            // all
+            {
                 BOOST_HANA_CONSTANT_CHECK(
-                    all_of(list())
+                    all(list())
                 );
 
                 BOOST_HANA_CONSTEXPR_CHECK(
-                    all_of(list(logical(true)))
+                    all(list(logical(true)))
                 );
 
                 BOOST_HANA_CONSTEXPR_CHECK(
-                    not_(all_of(list(logical(false))))
+                    not_(all(list(logical(false))))
                 );
 
                 BOOST_HANA_CONSTEXPR_CHECK(
-                    all_of(list(logical(true), logical(true)))
+                    all(list(logical(true), logical(true)))
                 );
 
                 BOOST_HANA_CONSTEXPR_CHECK(not_(
-                    all_of(list(logical(true), logical(false)))
+                    all(list(logical(true), logical(false)))
                 ));
-            }
-
-            // none
-            {
-                {
-                    BOOST_HANA_CONSTANT_CHECK(none(list(), undefined));
-
-                    BOOST_HANA_CONSTEXPR_CHECK(
-                        none(list(c(0)), equal.to(c(1)))
-                    );
-
-                    BOOST_HANA_CONSTEXPR_CHECK(
-                        not_(none(list(c(0)), equal.to(c(0))))
-                    );
-
-                    BOOST_HANA_CONSTEXPR_CHECK(none(list(1), is_even));
-                    BOOST_HANA_CONSTEXPR_CHECK(not_(none(list(2), is_even)));
-                    BOOST_HANA_CONSTEXPR_CHECK(not_(none(list(1, 2), is_even)));
-                    BOOST_HANA_CONSTEXPR_CHECK(none(list(1, 3), is_even));
-                    BOOST_HANA_CONSTEXPR_CHECK(not_(none(list(1, 3, 4), is_even)));
-                }
             }
 
             // none_of
             {
-                // runtime
                 {
-                    BOOST_HANA_CONSTANT_CHECK(none_of(list()));
+                    BOOST_HANA_CONSTANT_CHECK(none_of(list(), undefined));
 
                     BOOST_HANA_CONSTEXPR_CHECK(
-                        none_of(list(logical(false)))
+                        none_of(list(c(0)), equal.to(c(1)))
                     );
 
                     BOOST_HANA_CONSTEXPR_CHECK(
-                        not_(none_of(list(logical(true))))
+                        not_(none_of(list(c(0)), equal.to(c(0))))
+                    );
+
+                    BOOST_HANA_CONSTEXPR_CHECK(none_of(list(1), is_even));
+                    BOOST_HANA_CONSTEXPR_CHECK(not_(none_of(list(2), is_even)));
+                    BOOST_HANA_CONSTEXPR_CHECK(not_(none_of(list(1, 2), is_even)));
+                    BOOST_HANA_CONSTEXPR_CHECK(none_of(list(1, 3), is_even));
+                    BOOST_HANA_CONSTEXPR_CHECK(not_(none_of(list(1, 3, 4), is_even)));
+                }
+            }
+
+            // none
+            {
+                // runtime
+                {
+                    BOOST_HANA_CONSTANT_CHECK(none(list()));
+
+                    BOOST_HANA_CONSTEXPR_CHECK(
+                        none(list(logical(false)))
+                    );
+
+                    BOOST_HANA_CONSTEXPR_CHECK(
+                        not_(none(list(logical(true))))
                     );
                 }
             }

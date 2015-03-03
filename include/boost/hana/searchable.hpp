@@ -29,21 +29,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
-    // any
-    //////////////////////////////////////////////////////////////////////////
-    template <typename S, typename>
-    struct any_impl : any_impl<S, when<true>> { };
-
-    template <typename S, bool condition>
-    struct any_impl<S, when<condition>> : default_ {
-        template <typename Xs, typename Pred>
-        static constexpr void apply(Xs&&, Pred&&) {
-            static_assert(wrong<any_impl<S>, Xs, Pred>{},
-            "no definition of boost::hana::any for the given data type");
-        }
-    };
-
-    //////////////////////////////////////////////////////////////////////////
     // any_of
     //////////////////////////////////////////////////////////////////////////
     template <typename S, typename>
@@ -51,24 +36,24 @@ namespace boost { namespace hana {
 
     template <typename S, bool condition>
     struct any_of_impl<S, when<condition>> : default_ {
-        template <typename Xs>
-        static constexpr decltype(auto) apply(Xs&& xs)
-        { return hana::any(detail::std::forward<Xs>(xs), id); }
+        template <typename Xs, typename Pred>
+        static constexpr void apply(Xs&&, Pred&&) {
+            static_assert(wrong<any_of_impl<S>, Xs, Pred>{},
+            "no definition of boost::hana::any_of for the given data type");
+        }
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // all
+    // any
     //////////////////////////////////////////////////////////////////////////
     template <typename S, typename>
-    struct all_impl : all_impl<S, when<true>> { };
+    struct any_impl : any_impl<S, when<true>> { };
 
     template <typename S, bool condition>
-    struct all_impl<S, when<condition>> : default_ {
-        template <typename Xs, typename Pred>
-        static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
-            return hana::not_(hana::any(detail::std::forward<Xs>(xs),
-                    hana::compose(not_, detail::std::forward<Pred>(pred))));
-        }
+    struct any_impl<S, when<condition>> : default_ {
+        template <typename Xs>
+        static constexpr decltype(auto) apply(Xs&& xs)
+        { return hana::any_of(detail::std::forward<Xs>(xs), id); }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -79,24 +64,24 @@ namespace boost { namespace hana {
 
     template <typename S, bool condition>
     struct all_of_impl<S, when<condition>> : default_ {
-        template <typename Xs>
-        static constexpr decltype(auto) apply(Xs&& xs)
-        { return hana::all(detail::std::forward<Xs>(xs), id); }
+        template <typename Xs, typename Pred>
+        static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
+            return hana::not_(hana::any_of(detail::std::forward<Xs>(xs),
+                    hana::compose(not_, detail::std::forward<Pred>(pred))));
+        }
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // none
+    // all
     //////////////////////////////////////////////////////////////////////////
     template <typename S, typename>
-    struct none_impl : none_impl<S, when<true>> { };
+    struct all_impl : all_impl<S, when<true>> { };
 
     template <typename S, bool condition>
-    struct none_impl<S, when<condition>> : default_ {
-        template <typename Xs, typename Pred>
-        static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
-            return hana::not_(hana::any(detail::std::forward<Xs>(xs),
-                                        detail::std::forward<Pred>(pred)));
-        }
+    struct all_impl<S, when<condition>> : default_ {
+        template <typename Xs>
+        static constexpr decltype(auto) apply(Xs&& xs)
+        { return hana::all_of(detail::std::forward<Xs>(xs), id); }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -107,9 +92,24 @@ namespace boost { namespace hana {
 
     template <typename S, bool condition>
     struct none_of_impl<S, when<condition>> : default_ {
+        template <typename Xs, typename Pred>
+        static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
+            return hana::not_(hana::any_of(detail::std::forward<Xs>(xs),
+                                        detail::std::forward<Pred>(pred)));
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // none
+    //////////////////////////////////////////////////////////////////////////
+    template <typename S, typename>
+    struct none_impl : none_impl<S, when<true>> { };
+
+    template <typename S, bool condition>
+    struct none_impl<S, when<condition>> : default_ {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs)
-        { return hana::none(detail::std::forward<Xs>(xs), id); }
+        { return hana::none_of(detail::std::forward<Xs>(xs), id); }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -122,7 +122,7 @@ namespace boost { namespace hana {
     struct elem_impl<S, when<condition>> : default_ {
         template <typename Xs, typename X>
         static constexpr decltype(auto) apply(Xs&& xs, X&& x) {
-            return hana::any(detail::std::forward<Xs>(xs),
+            return hana::any_of(detail::std::forward<Xs>(xs),
                              hana::partial(equal, detail::std::forward<X>(x)));
         }
     };
@@ -167,7 +167,7 @@ namespace boost { namespace hana {
     struct subset_impl<S, when<condition>> : default_ {
         template <typename Xs, typename Ys>
         static constexpr decltype(auto) apply(Xs&& xs, Ys&& ys) {
-            return hana::all(detail::std::forward<Xs>(xs),
+            return hana::all_of(detail::std::forward<Xs>(xs),
                     hana::partial(elem, detail::std::forward<Ys>(ys)));
         }
     };
@@ -178,7 +178,7 @@ namespace boost { namespace hana {
     template <typename S>
     struct models<Searchable(S)>
         : detail::std::integral_constant<bool,
-            !is_default<any_impl<S>>{} &&
+            !is_default<any_of_impl<S>>{} &&
             !is_default<find_impl<S>>{}
         >
     { };
@@ -187,9 +187,9 @@ namespace boost { namespace hana {
     // Model for builtin arrays
     //////////////////////////////////////////////////////////////////////////
     template <typename T, detail::std::size_t N>
-    struct any_impl<T[N]> {
+    struct any_of_impl<T[N]> {
         template <typename Xs, typename Pred>
-        static constexpr bool any_helper(bool cond, Xs&& xs, Pred&& pred) {
+        static constexpr bool any_of_helper(bool cond, Xs&& xs, Pred&& pred) {
             if (cond) return true;
             for (detail::std::size_t i = 1; i < N; ++i)
                 if (pred(detail::std::forward<Xs>(xs)[i]))
@@ -203,12 +203,12 @@ namespace boost { namespace hana {
         // then only need to evaluate the predicate on the first element.
         template <typename Xs, typename Pred>
         static constexpr auto
-        any_helper(detail::std::true_type, Xs&& xs, Pred&&)
+        any_of_helper(detail::std::true_type, Xs&& xs, Pred&&)
         { return true_; }
 
         template <typename Xs, typename Pred>
         static constexpr auto
-        any_helper(detail::std::false_type, Xs&&, Pred&&)
+        any_of_helper(detail::std::false_type, Xs&&, Pred&&)
         { return false_; }
 
         template <typename Xs, typename Pred>
@@ -217,8 +217,8 @@ namespace boost { namespace hana {
                 detail::std::true_type{},
                 detail::std::false_type{}
             );
-            return any_helper(cond, detail::std::forward<Xs>(xs),
-                                    detail::std::forward<Pred>(pred));
+            return any_of_helper(cond, detail::std::forward<Xs>(xs),
+                                       detail::std::forward<Pred>(pred));
         }
     };
 

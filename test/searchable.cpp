@@ -23,33 +23,33 @@ using array = T[n];
 int main() {
     // Model of Searchable for builtin arrays
     {
-        // any
+        // any_of
         {
             static_assert(
-                not_(any(array<int, 1>{0}, _ == 1))
+                not_(any_of(array<int, 1>{0}, _ == 1))
             , "");
 
             static_assert(
-                any(array<int, 2>{0, 1}, _ == 0)
+                any_of(array<int, 2>{0, 1}, _ == 0)
             , "");
             static_assert(
-                any(array<int, 2>{0, 1}, _ == 1)
+                any_of(array<int, 2>{0, 1}, _ == 1)
             , "");
             static_assert(
-                not_(any(array<int, 2>{0, 1}, _ == 2))
+                not_(any_of(array<int, 2>{0, 1}, _ == 2))
             , "");
 
             static_assert(
-                any(array<int, 3>{0, 1, 2}, _ == 0)
+                any_of(array<int, 3>{0, 1, 2}, _ == 0)
             , "");
             static_assert(
-                any(array<int, 3>{0, 1, 2}, _ == 1)
+                any_of(array<int, 3>{0, 1, 2}, _ == 1)
             , "");
             static_assert(
-                any(array<int, 3>{0, 1, 2}, _ == 2)
+                any_of(array<int, 3>{0, 1, 2}, _ == 2)
             , "");
             static_assert(
-                not_(any(array<int, 3>{0, 1, 2}, _ == 3))
+                not_(any_of(array<int, 3>{0, 1, 2}, _ == 3))
             , "");
         }
 

@@ -156,7 +156,7 @@ namespace boost { namespace hana {
             detail::std::enable_if_t<sizeof...(v) == sizeof...(u)>>
         static constexpr auto apply(_tuple_c<V, v...>, _tuple_c<U, u...>) {
             constexpr bool comparisons[] = {true, (v == u)...};
-            return bool_<hana::all_of(comparisons)>;
+            return bool_<hana::all(comparisons)>;
         }
 
         template <typename V, V ...v, typename U, U ...u, typename =

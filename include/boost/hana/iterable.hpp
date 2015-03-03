@@ -321,7 +321,7 @@ namespace boost { namespace hana {
     };
 
     template <typename It>
-    struct Iterable::any_impl {
+    struct Iterable::any_of_impl {
         template <typename Xs, typename Pred>
         static constexpr auto apply(Xs xs, Pred pred) {
             return hana::eval_if(hana::is_empty(xs),

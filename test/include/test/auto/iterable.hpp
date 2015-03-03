@@ -198,7 +198,7 @@ namespace boost { namespace hana { namespace test {
             for_each(objects<It>, [=](auto xs) {
                 eval_if(is_empty(xs),
                     [=](auto _) {
-                        BOOST_HANA_CONSTANT_CHECK(not_(_(any)(xs, always(true_))));
+                        BOOST_HANA_CONSTANT_CHECK(not_(_(any_of)(xs, always(true_))));
 
                         BOOST_HANA_CONSTANT_CHECK(equal(
                             _(find)(xs, always(true_)),
@@ -206,8 +206,8 @@ namespace boost { namespace hana { namespace test {
                         ));
                     },
                     [=](auto _) {
-                        BOOST_HANA_CHECK(_(any)(xs, always(true_)));
-                        BOOST_HANA_CHECK(not_(_(any)(xs, always(false_))));
+                        BOOST_HANA_CHECK(_(any_of)(xs, always(true_)));
+                        BOOST_HANA_CHECK(not_(_(any_of)(xs, always(false_))));
 
                         BOOST_HANA_CHECK(equal(
                             _(find)(xs, always(true_)),

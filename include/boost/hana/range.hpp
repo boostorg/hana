@@ -206,8 +206,8 @@ namespace boost { namespace hana {
     { };
 
     template <>
-    struct any_impl<Range>
-        : Iterable::any_impl<Range>
+    struct any_of_impl<Range>
+        : Iterable::any_of_impl<Range>
     { };
 
     template <>

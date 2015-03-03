@@ -88,11 +88,11 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct any_impl<Set> {
+    struct any_of_impl<Set> {
         template <typename Set, typename Pred>
         static constexpr decltype(auto) apply(Set&& set, Pred&& pred) {
-            return hana::any(detail::std::forward<Set>(set).storage,
-                             detail::std::forward<Pred>(pred));
+            return hana::any_of(detail::std::forward<Set>(set).storage,
+                                detail::std::forward<Pred>(pred));
         }
     };
 

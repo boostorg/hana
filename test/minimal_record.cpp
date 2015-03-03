@@ -106,16 +106,16 @@ int main() {
 
     // Searchable
     {
-        // any
+        // any_of
         {
             BOOST_HANA_CONSTANT_CHECK(
-                any(record(undefined<1>, undefined<2>), equal.to(test::member1))
+                any_of(record(undefined<1>, undefined<2>), equal.to(test::member1))
             );
             BOOST_HANA_CONSTANT_CHECK(
-                any(record(undefined<1>, undefined<2>), equal.to(test::member2))
+                any_of(record(undefined<1>, undefined<2>), equal.to(test::member2))
             );
             BOOST_HANA_CONSTANT_CHECK(not_(
-                any(record(undefined<1>, undefined<2>), equal.to(undefined<>))
+                any_of(record(undefined<1>, undefined<2>), equal.to(undefined<>))
             ));
         }
 

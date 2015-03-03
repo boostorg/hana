@@ -16,13 +16,13 @@ int main() {
     BOOST_HANA_CONSTEXPR_LAMBDA auto contains = infix(elem);
 
     BOOST_HANA_CONSTEXPR_CHECK(
-        flip(all)(make<Tuple>(1, '2', 3.3) ^ contains,
+        flip(all_of)(make<Tuple>(1, '2', 3.3) ^ contains,
             make<Tuple>(1, '2', 3.3)
         )
     );
 
     BOOST_HANA_CONSTEXPR_CHECK(
-        flip(all)(contains ^ '2',
+        flip(all_of)(contains ^ '2',
             make<Tuple>(
                 make<Tuple>(1, '2'),
                 make<Tuple>('2'),

@@ -171,16 +171,16 @@ int main() {
 
     // Searchable
     {
-        // any
+        // any_of
         {
-            BOOST_HANA_CONSTANT_CHECK(not_(any(map(), equal.to(key<1>))));
+            BOOST_HANA_CONSTANT_CHECK(not_(any_of(map(), equal.to(key<1>))));
 
-            BOOST_HANA_CONSTANT_CHECK(any(map(p<1, 1>), equal.to(key<1>)));
-            BOOST_HANA_CONSTANT_CHECK(not_(any(map(p<1, 1>), equal.to(key<2>))));
+            BOOST_HANA_CONSTANT_CHECK(any_of(map(p<1, 1>), equal.to(key<1>)));
+            BOOST_HANA_CONSTANT_CHECK(not_(any_of(map(p<1, 1>), equal.to(key<2>))));
 
-            BOOST_HANA_CONSTANT_CHECK(any(map(p<1, 1>, p<2, 2>), equal.to(key<1>)));
-            BOOST_HANA_CONSTANT_CHECK(any(map(p<1, 1>, p<2, 2>), equal.to(key<2>)));
-            BOOST_HANA_CONSTANT_CHECK(not_(any(map(p<1, 1>, p<2, 2>), equal.to(key<3>))));
+            BOOST_HANA_CONSTANT_CHECK(any_of(map(p<1, 1>, p<2, 2>), equal.to(key<1>)));
+            BOOST_HANA_CONSTANT_CHECK(any_of(map(p<1, 1>, p<2, 2>), equal.to(key<2>)));
+            BOOST_HANA_CONSTANT_CHECK(not_(any_of(map(p<1, 1>, p<2, 2>), equal.to(key<3>))));
         }
 
         // find

@@ -1081,8 +1081,8 @@ namespace boost { namespace hana {
     { };
 
     template <typename S>
-    struct any_impl<S, when<models<Sequence(S)>{}>>
-        : Iterable::any_impl<S>
+    struct any_of_impl<S, when<models<Sequence(S)>{}>>
+        : Iterable::any_of_impl<S>
     { };
 
     //////////////////////////////////////////////////////////////////////////

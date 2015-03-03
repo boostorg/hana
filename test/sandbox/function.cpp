@@ -66,7 +66,7 @@ namespace boost { namespace hana {
     struct equal_impl<Function, Function> {
         template <typename F, typename G>
         static constexpr auto apply(F f, G g) {
-            return domain(f) == domain(g) && all(domain(f), demux(equal)(f, g));
+            return domain(f) == domain(g) && all_of(domain(f), demux(equal)(f, g));
         }
     };
 }} // end namespace boost::hana
@@ -76,7 +76,7 @@ namespace boost { namespace hana {
 //     auto check = [](auto x, auto y) {
 //         return (x != y)     ^implies^   (f(x) != f(y));
 //     };
-//     return all(product(domain(f), domain(f)), check);
+//     return all_of(product(domain(f), domain(f)), check);
 // };
 
 // BOOST_HANA_CONSTEXPR_LAMBDA auto is_onto = [](auto f) {

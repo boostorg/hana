@@ -149,7 +149,7 @@ namespace boost { namespace hana {
         template <typename It> struct foldr1_impl;
 
         template <typename It> struct find_impl;
-        template <typename It> struct any_impl;
+        template <typename It> struct any_of_impl;
     };
 
     //! Returns the first element of a non-empty iterable.

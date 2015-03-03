@@ -48,7 +48,7 @@ BOOST_HANA_CONSTEXPR_CHECK(equal(make<Tuple>(1, 2), make<Tuple>(1, 2)));
 BOOST_HANA_CONSTEXPR_CHECK(!equal('x', 'y'));
 BOOST_HANA_CONSTANT_CHECK(!equal(make<Tuple>(1, 2), 'y'));
 
-BOOST_HANA_CONSTEXPR_CHECK(any(make<Tuple>(1, 2, 3), equal.to(2)));
+BOOST_HANA_CONSTEXPR_CHECK(any_of(make<Tuple>(1, 2, 3), equal.to(2)));
 //! [equal]
 
 }{
@@ -58,7 +58,7 @@ BOOST_HANA_CONSTEXPR_CHECK(not_equal(make<Tuple>(1, 2), make<Tuple>(3)));
 BOOST_HANA_CONSTEXPR_CHECK(not_equal('x', 'y'));
 BOOST_HANA_CONSTANT_CHECK(not_equal(make<Tuple>(1, 2), 'y'));
 
-BOOST_HANA_CONSTEXPR_CHECK(all(make<Tuple>(1, 2, 3), not_equal.to(5)));
+BOOST_HANA_CONSTEXPR_CHECK(all_of(make<Tuple>(1, 2, 3), not_equal.to(5)));
 //! [not_equal]
 
 }

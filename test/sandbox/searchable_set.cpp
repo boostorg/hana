@@ -182,13 +182,13 @@ int main() {
             return [=](auto y) { return equal(x, y); };
         };
 
-        // any
+        // any_of
         {
-            BOOST_HANA_CONSTEXPR_CHECK(any(singleton(n<0>), is(n<0>)));
-            BOOST_HANA_CONSTEXPR_CHECK(not_(any(singleton(n<0>), is(n<1>))));
-            BOOST_HANA_CONSTEXPR_CHECK(any(doubleton(n<0>, n<1>), is(n<0>)));
-            BOOST_HANA_CONSTEXPR_CHECK(any(doubleton(n<0>, n<1>), is(n<1>)));
-            BOOST_HANA_CONSTEXPR_CHECK(not_(any(doubleton(n<0>, n<1>), is(n<2>))));
+            BOOST_HANA_CONSTEXPR_CHECK(any_of(singleton(n<0>), is(n<0>)));
+            BOOST_HANA_CONSTEXPR_CHECK(not_(any_of(singleton(n<0>), is(n<1>))));
+            BOOST_HANA_CONSTEXPR_CHECK(any_of(doubleton(n<0>, n<1>), is(n<0>)));
+            BOOST_HANA_CONSTEXPR_CHECK(any_of(doubleton(n<0>, n<1>), is(n<1>)));
+            BOOST_HANA_CONSTEXPR_CHECK(not_(any_of(doubleton(n<0>, n<1>), is(n<2>))));
         }
 
         // find

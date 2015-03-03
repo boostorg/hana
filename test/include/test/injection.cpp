@@ -29,7 +29,7 @@ int main() {
             return equal(f(x), f(y)) ^implies^ equal(x, y);
         };
 
-        BOOST_HANA_CONSTANT_CHECK(all_of(
+        BOOST_HANA_CONSTANT_CHECK(all(
             ap(make<Tuple>(is_injection),
                 make<Tuple>(x<0>, x<1>, x<2>, x<3>),
                 make<Tuple>(x<0>, x<1>, x<2>, x<3>))

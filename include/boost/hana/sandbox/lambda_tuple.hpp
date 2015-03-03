@@ -128,8 +128,8 @@ namespace boost { namespace hana {
     { };
 
     template <>
-    struct any_impl<sandbox::LambdaTuple>
-        : Iterable::any_impl<sandbox::LambdaTuple>
+    struct any_of_impl<sandbox::LambdaTuple>
+        : Iterable::any_of_impl<sandbox::LambdaTuple>
     { };
 
     //////////////////////////////////////////////////////////////////////////

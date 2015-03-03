@@ -79,7 +79,7 @@ namespace boost { namespace hana {
     struct equal_impl<R, R, when<models<Record(R)>{}>> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            return hana::all(members<R>(),
+            return hana::all_of(members<R>(),
                 hana::partial(record_detail::compare_members_of{},
                               detail::std::forward<X>(x),
                               detail::std::forward<Y>(y)));
@@ -147,10 +147,10 @@ namespace boost { namespace hana {
     };
 
     template <typename R>
-    struct any_impl<R, when<models<Record(R)>{}>> {
+    struct any_of_impl<R, when<models<Record(R)>{}>> {
         template <typename X, typename Pred>
         static constexpr decltype(auto) apply(X const&, Pred&& pred) {
-            return hana::any(members<R>(),
+            return hana::any_of(members<R>(),
                     hana::compose(detail::std::forward<Pred>(pred), first));
         }
     };

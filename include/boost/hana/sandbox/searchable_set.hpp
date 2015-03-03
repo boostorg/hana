@@ -111,7 +111,7 @@ namespace boost { namespace hana {
         static constexpr auto apply(Set set) {
             return searchable_set([=](auto p) {
                 return set.find([=](auto set) {
-                    return any(set, p);
+                    return any_of(set, p);
                 }).find(p);
             });
         }
@@ -130,7 +130,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct any_impl<SearchableSet> {
+    struct any_of_impl<SearchableSet> {
         template <typename Set, typename Pred>
         static constexpr auto apply(Set set, Pred p) {
             return p(set.find(p));

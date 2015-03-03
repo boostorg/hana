@@ -135,8 +135,8 @@ namespace boost { namespace hana {
     { };
 
     template <>
-    struct any_impl<ext::boost::mpl::Vector>
-        : Iterable::any_impl<ext::boost::mpl::Vector>
+    struct any_of_impl<ext::boost::mpl::Vector>
+        : Iterable::any_of_impl<ext::boost::mpl::Vector>
     { };
 }} // end namespace boost::hana
 

@@ -263,11 +263,11 @@ int main() {
             ));
         }
 
-        // any
+        // any_of
         {
-            BOOST_HANA_CONSTANT_CHECK(any(just(x), equal.to(x)));
-            BOOST_HANA_CONSTANT_CHECK(not_(any(just(x), equal.to(y))));
-            BOOST_HANA_CONSTANT_CHECK(not_(any(nothing, equal.to(x))));
+            BOOST_HANA_CONSTANT_CHECK(any_of(just(x), equal.to(x)));
+            BOOST_HANA_CONSTANT_CHECK(not_(any_of(just(x), equal.to(y))));
+            BOOST_HANA_CONSTANT_CHECK(not_(any_of(nothing, equal.to(x))));
         }
     }
 
