@@ -7,7 +7,7 @@ Defines the `BOOST_HANA_DEFINE_RECORD` and the
 This header carries a dependency on the Boost.Preprocessor library. For this
 reason, it is not included by default by the master header of the library.
 
-@copyright Louis Dionne 2014
+@copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
