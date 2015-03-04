@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FUNCTIONAL_OVERLOAD_HPP
 #define BOOST_HANA_FUNCTIONAL_OVERLOAD_HPP
 
-#include <boost/hana/detail/create.hpp>
+#include <boost/hana/detail/std/decay.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -70,10 +70,18 @@ namespace boost { namespace hana {
         { return fptr_(detail::std::forward<Args>(args)...); }
     };
 
-    template <typename ...F>
-    using _overload_t = typename _overload<F...>::type;
+    struct _make_overload {
+        template <typename ...F,
+            typename Overload = typename _overload<
+                typename detail::std::decay<F>::type...
+            >::type
+        >
+        constexpr Overload operator()(F&& ...f) const {
+            return Overload(detail::std::forward<F>(f)...);
+        }
+    };
 
-    constexpr detail::create<_overload_t> overload{};
+    constexpr _make_overload overload{};
 #endif
 }} // end namespace boost::hana
 
