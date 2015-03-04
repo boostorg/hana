@@ -198,7 +198,7 @@ Synopsis of methods</h2></td></tr>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(!<a class="code" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>));</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!<a class="code" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>(make&lt;Tuple&gt;(1, 2), <span class="charliteral">&#39;y&#39;</span>));</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(any(make&lt;Tuple&gt;(1, 2, 3), <a class="code" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>.to(2)));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(any_of(make&lt;Tuple&gt;(1, 2, 3), <a class="code" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>.to(2)));</div>
 </div><!-- fragment --><blockquote class="doxtable">
 <h4>Rationale for the arity of <code>equal</code></h4>
 <p>It is a valid question whether <code>equal</code> should accept more than 2 arguments and have semantics matching those of Python's <code>==</code>. This is not supported right now for the following reasons:</p><ul>
@@ -247,7 +247,7 @@ Synopsis of methods</h2></td></tr>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925">not_equal</a>(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>));</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925">not_equal</a>(make&lt;Tuple&gt;(1, 2), <span class="charliteral">&#39;y&#39;</span>));</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(all(make&lt;Tuple&gt;(1, 2, 3), <a class="code" href="structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925">not_equal</a>.to(5)));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(all_of(make&lt;Tuple&gt;(1, 2, 3), <a class="code" href="structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925">not_equal</a>.to(5)));</div>
 </div><!-- fragment -->
 </div>
 </div>

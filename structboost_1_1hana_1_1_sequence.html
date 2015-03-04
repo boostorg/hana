@@ -123,8 +123,95 @@ Two <code><a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The 
 Sequences are ordered using the traditional lexicographical ordering. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(make&lt;Tuple&gt;(1, 2, 3) &lt; make&lt;Tuple&gt;(2, 3, 4));</div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(make&lt;Tuple&gt;(1, 2, 3) &lt; make&lt;Tuple&gt;(1, 2, 3, 4));</div>
 </div><!-- fragment --></li>
+<li><code><a class="el" href="structboost_1_1hana_1_1_functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code> (definition provided automatically)<br />
+Sequences implement <code>transform</code> as the mapping of a function over each element of the sequence. This is somewhat equivalent to what <code>std::transform</code> does to ranges of iterators. Also note that mapping a function over an empty sequence returns an empty sequence and never applies the function, as would be expected. <div class="fragment"><div class="line"><span class="keyword">auto</span> to_string = [](<span class="keyword">auto</span> x) {</div>
+<div class="line">    <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>std::ostringstream const&amp;<span class="keyword">&gt;</span>(std::ostringstream{} &lt;&lt; x).str();</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
+<div class="line">    transform(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, <span class="stringliteral">&quot;345&quot;</span>, std::string{<span class="stringliteral">&quot;67&quot;</span>}), to_string) ==</div>
+<div class="line">    make&lt;Tuple&gt;(<span class="stringliteral">&quot;1&quot;</span>, <span class="stringliteral">&quot;2&quot;</span>, <span class="stringliteral">&quot;345&quot;</span>, <span class="stringliteral">&quot;67&quot;</span>)</div>
+<div class="line">);</div>
+</div><!-- fragment --></li>
+<li><code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a></code> (definition provided automatically)<br />
+First, <code>lift</code>ing a value into a <a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> is the same as creating a singleton sequence containing that value. Second, applying a sequence of functions to a sequence of values will apply each function to all the values in the sequence, and then return a list of all the results. In other words, <div class="fragment"><div class="line">ap([f1, ..., fN], [x1, ..., xM]) == [</div>
+<div class="line">    f1(x1), ..., f1(xM),</div>
+<div class="line">    ...</div>
+<div class="line">    fN(x1), ..., fN(xM)</div>
+<div class="line">]</div>
+</div><!-- fragment --> Example: <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(lift&lt;Tuple&gt;(<span class="charliteral">&#39;x&#39;</span>) == make&lt;Tuple&gt;(<span class="charliteral">&#39;x&#39;</span>));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(equal(lift&lt;ext::std::Tuple&gt;(<span class="charliteral">&#39;x&#39;</span>), std::make_tuple(<span class="charliteral">&#39;x&#39;</span>)));</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> f = pair;</div>
+<div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> g = <a class="code" href="group__group-functional.html#ga004f884cdbb85c2efe3383c1db450094">flip</a>(pair);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
+<div class="line">    ap(make&lt;Tuple&gt;(f, g), make&lt;Tuple&gt;(1, 2, 3), make&lt;Tuple&gt;(<span class="charliteral">&#39;a&#39;</span>, <span class="charliteral">&#39;b&#39;</span>))</div>
+<div class="line">        ==</div>
+<div class="line">    make&lt;Tuple&gt;(</div>
+<div class="line">        f(1, <span class="charliteral">&#39;a&#39;</span>), f(1, <span class="charliteral">&#39;b&#39;</span>), f(2, <span class="charliteral">&#39;a&#39;</span>), f(2, <span class="charliteral">&#39;b&#39;</span>), f(3, <span class="charliteral">&#39;a&#39;</span>), f(3, <span class="charliteral">&#39;b&#39;</span>),</div>
+<div class="line">        g(1, <span class="charliteral">&#39;a&#39;</span>), g(1, <span class="charliteral">&#39;b&#39;</span>), g(2, <span class="charliteral">&#39;a&#39;</span>), g(2, <span class="charliteral">&#39;b&#39;</span>), g(3, <span class="charliteral">&#39;a&#39;</span>), g(3, <span class="charliteral">&#39;b&#39;</span>)</div>
+<div class="line">    )</div>
+<div class="line">);</div>
+</div><!-- fragment --></li>
+<li><code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code> (definition provided automatically)<br />
+First, <code>flaten</code>ning a <a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> takes a sequence of sequences and concatenates them to get a larger sequence. In other words, <div class="fragment"><div class="line">flatten([[a1, ..., aN], ..., [z1, ..., zM]]) == [</div>
+<div class="line">    a1, ..., aN, ..., z1, ..., zM</div>
+<div class="line">]</div>
+</div><!-- fragment --> Also note that the model of <a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a> for Sequences can be seen as modeling nondeterminism. A nondeterministic computation can be modeled as a function which returns a sequence of possible results. In this line of thought, <code>bind</code>ing such a function to a sequence of values will return a sequence of all the possible output values, i.e. a sequence of all the values applied to all the functions in the sequences. <div class="fragment"><div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> f = [](<span class="keyword">auto</span> x) {</div>
+<div class="line">    <span class="keywordflow">return</span> make&lt;Tuple&gt;(x, -x);</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>((make&lt;Tuple&gt;(1, 2, 3) | f) == make&lt;Tuple&gt;(1, -1, 2, -2, 3, -3));</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
+<div class="line">    flatten(make&lt;Tuple&gt;(make&lt;Tuple&gt;(1, 2), make&lt;Tuple&gt;(3, 4), make&lt;Tuple&gt;(make&lt;Tuple&gt;(5, 6))))</div>
+<div class="line">    ==</div>
+<div class="line">    make&lt;Tuple&gt;(1, 2, 3, 4, make&lt;Tuple&gt;(5, 6))</div>
+<div class="line">);</div>
+</div><!-- fragment --></li>
+<li><code><a class="el" href="structboost_1_1hana_1_1_monad_plus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a></code> (minimal complete definition modified)<br />
+Sequences are models of the <a class="el" href="structboost_1_1hana_1_1_monad_plus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> concept by considering the empty sequence as the unit of <code>concat</code>, and sequence concatenation as the combining operation. Note that the minimal complete definition of <a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> includes the <code>prepend</code> and the <code>empty</code> methods, which are part of the <a class="el" href="structboost_1_1hana_1_1_monad_plus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> concept. When those methods are provided, the <code>concat</code> method is automatically defined and hence it is not strictly required to implement it in order to model <a class="el" href="structboost_1_1hana_1_1_monad_plus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a>. <div class="fragment"><div class="line"><span class="keyword">using namespace </span>std::string_literals;</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(empty&lt;Tuple&gt;() == make&lt;Tuple&gt;());</div>
+<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
+<div class="line">    append(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3), <span class="keyword">nullptr</span>) == make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, <span class="keyword">nullptr</span>)</div>
+<div class="line">);</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
+<div class="line">    concat(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3), make&lt;Tuple&gt;(<span class="stringliteral">&quot;abcdef&quot;</span>s)) ==</div>
+<div class="line">    make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, <span class="stringliteral">&quot;abcdef&quot;</span>s)</div>
+<div class="line">);</div>
+</div><!-- fragment --></li>
+<li><code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a></code> (definition provided automatically)<br />
+The model of <a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a> for Sequences is uniquely determined by the model of <a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a>. The automatically provided model is the one provided by the <a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a> concept. <div class="fragment"><div class="line"><span class="keyword">auto</span> to_string = [](<span class="keyword">auto</span> x) {</div>
+<div class="line">    <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>std::ostringstream const&amp;<span class="keyword">&gt;</span>(std::ostringstream{} &lt;&lt; x).str();</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">auto</span> show = [=](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
+<div class="line">    <span class="keywordflow">return</span> <span class="stringliteral">&quot;(&quot;</span> + to_string(x) + <span class="stringliteral">&quot; + &quot;</span> + to_string(y) + <span class="stringliteral">&quot;)&quot;</span>;</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(foldl(make&lt;Tuple&gt;(2, <span class="stringliteral">&quot;3&quot;</span>, <span class="charliteral">&#39;4&#39;</span>), <span class="stringliteral">&quot;1&quot;</span>, show) == <span class="stringliteral">&quot;(((1 + 2) + 3) + 4)&quot;</span>);</div>
+</div><!-- fragment --></li>
+<li><code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code><br />
+The model of <a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a> for Sequences corresponds to iteration over each element of the sequence, in order. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(head(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)) == 1);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(tail(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)) == make&lt;Tuple&gt;(<span class="charliteral">&#39;2&#39;</span>, 3.3));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!is_empty(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(is_empty(make&lt;Tuple&gt;()));</div>
+</div><!-- fragment --></li>
+<li><code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code> (definition provided automatically)<br />
+Searching through a <a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> is equivalent to just searching through a list of the values it contains. The keys and the values on which the search is performed are both the elements of the sequence. <div class="fragment"><div class="line"><span class="keyword">using namespace </span>std::string_literals;</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
+<div class="line">    find(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, <span class="stringliteral">&quot;abc&quot;</span>s), is_a&lt;std::string&gt;) == just(<span class="stringliteral">&quot;abc&quot;</span>s)</div>
+<div class="line">);</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
+<div class="line">    <span class="stringliteral">&quot;abc&quot;</span>s ^in^ make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, <span class="stringliteral">&quot;abc&quot;</span>s)</div>
+<div class="line">);</div>
+</div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1_traversable.html" title="The Traversable concept represents types admitting a structure- preserving right fold with an Applica...">Traversable</a></code> (definition provided automatically)<br />
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000036">Todo:</a></b></dt><dd><div class="fragment"><div class="line"><span class="keyword">using namespace </span>std::string_literals;</div>
+The model of <a class="el" href="structboost_1_1hana_1_1_traversable.html" title="The Traversable concept represents types admitting a structure- preserving right fold with an Applica...">Traversable</a> for Sequences allows turning a sequence of Applicatives into an <a class="el" href="structboost_1_1hana_1_1_applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a> containing a sequence. <div class="fragment"><div class="line"><span class="keyword">using namespace </span>std::string_literals;</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
 <div class="line">    sequence&lt;Tuple&gt;(</div>
@@ -162,67 +249,11 @@ Sequences are ordered using the traditional lexicographical ordering. <div class
 <div class="line">    ==</div>
 <div class="line">    nothing</div>
 <div class="line">);</div>
-</div><!-- fragment --></dd></dl>
-</li>
-<li><code><a class="el" href="structboost_1_1hana_1_1_functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code> (definition provided automatically)<br />
-Sequences implement <code>transform</code> as the mapping of a function over each element of the sequence. This is somewhat equivalent to what <code>std::transform</code> does to ranges of iterators. Also note that mapping a function over an empty sequence returns an empty sequence and never applies the function, as would be expected. <div class="fragment"><div class="line"><span class="keyword">auto</span> to_string = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">    <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>std::ostringstream const&amp;<span class="keyword">&gt;</span>(std::ostringstream{} &lt;&lt; x).str();</div>
-<div class="line">};</div>
-<div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
-<div class="line">    transform(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, <span class="stringliteral">&quot;345&quot;</span>, std::string{<span class="stringliteral">&quot;67&quot;</span>}), to_string) ==</div>
-<div class="line">    make&lt;Tuple&gt;(<span class="stringliteral">&quot;1&quot;</span>, <span class="stringliteral">&quot;2&quot;</span>, <span class="stringliteral">&quot;345&quot;</span>, <span class="stringliteral">&quot;67&quot;</span>)</div>
-<div class="line">);</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a></code> (definition provided automatically)<br />
-First, <code>lift</code>ing a value into a <a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> is the same as creating a singleton sequence containing that value. Second, applying a sequence of functions to a sequence of values will apply each function to all the values in the sequence, and then return a list of all the results. In other words, <div class="fragment"><div class="line">ap([f1, ..., fN], [x1, ..., xM]) == [</div>
-<div class="line">    f1(x1), ..., f1(xM),</div>
-<div class="line">    ...</div>
-<div class="line">    fN(x1), ..., fN(xM)</div>
-<div class="line">]</div>
-</div><!-- fragment --> <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(lift&lt;Tuple&gt;(<span class="charliteral">&#39;x&#39;</span>) == make&lt;Tuple&gt;(<span class="charliteral">&#39;x&#39;</span>));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(equal(lift&lt;ext::std::Tuple&gt;(<span class="charliteral">&#39;x&#39;</span>), std::make_tuple(<span class="charliteral">&#39;x&#39;</span>)));</div>
-<div class="line"></div>
-<div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> f = pair;</div>
-<div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> g = <a class="code" href="group__group-functional.html#ga004f884cdbb85c2efe3383c1db450094">flip</a>(pair);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    ap(make&lt;Tuple&gt;(f, g), make&lt;Tuple&gt;(1, 2, 3), make&lt;Tuple&gt;(<span class="charliteral">&#39;a&#39;</span>, <span class="charliteral">&#39;b&#39;</span>))</div>
-<div class="line">        ==</div>
-<div class="line">    make&lt;Tuple&gt;(</div>
-<div class="line">        f(1, <span class="charliteral">&#39;a&#39;</span>), f(1, <span class="charliteral">&#39;b&#39;</span>), f(2, <span class="charliteral">&#39;a&#39;</span>), f(2, <span class="charliteral">&#39;b&#39;</span>), f(3, <span class="charliteral">&#39;a&#39;</span>), f(3, <span class="charliteral">&#39;b&#39;</span>),</div>
-<div class="line">        g(1, <span class="charliteral">&#39;a&#39;</span>), g(1, <span class="charliteral">&#39;b&#39;</span>), g(2, <span class="charliteral">&#39;a&#39;</span>), g(2, <span class="charliteral">&#39;b&#39;</span>), g(3, <span class="charliteral">&#39;a&#39;</span>), g(3, <span class="charliteral">&#39;b&#39;</span>)</div>
-<div class="line">    )</div>
-<div class="line">);</div>
-</div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code> (definition provided automatically)<br />
-First, <code>flaten</code>ning a <a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> takes a sequence of sequences and concatenates them to get a larger sequence. In other words, <div class="fragment"><div class="line">flatten([[a1, ..., aN], ..., [z1, ..., zM]]) == [</div>
-<div class="line">    a1, ..., aN, ..., z1, ..., zM</div>
-<div class="line">]</div>
-</div><!-- fragment --> Also note that the model of <a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a> for Sequences can be seen as modeling nondeterminism. A nondeterministic computation can be modeled as a function which returns a sequence of possible results. In this line of thought, <code>bind</code>ing such a function to a sequence of values will return a sequence of all the possible output values, i.e. a sequence of all the values applied to all the functions in the sequences. <div class="fragment"><div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> f = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">    <span class="keywordflow">return</span> make&lt;Tuple&gt;(x, -x);</div>
-<div class="line">};</div>
-<div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>((make&lt;Tuple&gt;(1, 2, 3) | f) == make&lt;Tuple&gt;(1, -1, 2, -2, 3, -3));</div>
-<div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    flatten(make&lt;Tuple&gt;(make&lt;Tuple&gt;(1, 2), make&lt;Tuple&gt;(3, 4), make&lt;Tuple&gt;(make&lt;Tuple&gt;(5, 6))))</div>
-<div class="line">    ==</div>
-<div class="line">    make&lt;Tuple&gt;(1, 2, 3, 4, make&lt;Tuple&gt;(5, 6))</div>
-<div class="line">);</div>
-</div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1_monad_plus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a></code> (minimal complete definition modified)<br />
-Sequences are models of the <a class="el" href="structboost_1_1hana_1_1_monad_plus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> concept by considering the empty sequence as the unit of <code>concat</code>, and sequence concatenation as the combining operation. Note that the minimal complete definition of <a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> includes the <code>prepend</code> and the <code>empty</code> methods, which are part of the <a class="el" href="structboost_1_1hana_1_1_monad_plus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> concept. When those methods are provided, the <code>concat</code> method is automatically defined and hence it is not strictly required to implement it in order to model <a class="el" href="structboost_1_1hana_1_1_monad_plus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a>. <div class="fragment"></div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a></code> (definition provided automatically)<br />
-The model of <a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a> for Sequences is uniquely determined by the model of <a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a>. The automatically provided model is the one provided by the <a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a> concept.</li>
-<li><code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code><br />
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000037">Todo:</a></b></dt><dd></dd></dl>
-</li>
-<li><code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code> (definition provided automatically)<br />
-Searching through a <a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> is equivalent to just searching through a list of the values it contains. The keys and the values on which the search is performed are both the elements of the sequence. <div class="fragment"></div><!-- fragment --></li>
 </ol>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000038">Todo:</a></b></dt><dd>Implement these methods: <code>intercalate</code>, <code>transpose</code>, <code>subsequences</code>, <code>split_at</code>, <code>break</code>, <code>inits</code>, <code>tails</code>, <code>iterate</code></dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000036">Todo:</a></b></dt><dd>Implement these methods: <code>intercalate</code>, <code>transpose</code>, <code>subsequences</code>, <code>split_at</code>, <code>break</code>, <code>inits</code>, <code>tails</code>, <code>iterate</code></dd></dl>
 <p>And perhaps also these: <code>nub_by</code>, <code>nub</code>, <code>delete_by</code>, <code>insert</code>, <code>set_difference_by</code>, <code>set_union_by</code>, <code>set_intersection_by</code></p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000039">Todo:</a></b></dt><dd>Document the <a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a> -&gt; <a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> conversion, and also the <code>make</code> function. </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000037">Todo:</a></b></dt><dd>Document the <a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a> -&gt; <a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> conversion, and also the <code>make</code> function. </dd></dl>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of methods</h2></td></tr>
@@ -551,7 +582,7 @@ Synopsis of methods</h2></td></tr>
 <div class="line">});</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    all(</div>
+<div class="line">    all_of(</div>
 <div class="line">        make&lt;Tuple&gt;(</div>
 <div class="line">            make&lt;Tuple&gt;(<span class="charliteral">&#39;1&#39;</span>, 2, 3.0),</div>
 <div class="line">            make&lt;Tuple&gt;(<span class="charliteral">&#39;1&#39;</span>, 3.0, 2),</div>
@@ -567,7 +598,7 @@ Synopsis of methods</h2></td></tr>
 <div class="image">
 <img src="benchmark/sequence/permutations.ctime.png" alt="permutations.ctime.png"/>
 </div>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000040">Todo:</a></b></dt><dd>When the size of the sequence is known at compile-time, we can generate the indices <code>constexpr</code> and then simply use <code>at_c</code>. This could vastly improve the compilation time. </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000038">Todo:</a></b></dt><dd>When the size of the sequence is known at compile-time, we can generate the indices <code>constexpr</code> and then simply use <code>at_c</code>. This could vastly improve the compilation time. </dd></dl>
 
 </div>
 </div>
@@ -948,7 +979,7 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">    ==</div>
 <div class="line">    make&lt;Tuple&gt;(<span class="charliteral">&#39;2&#39;</span>, 3.3)</div>
 <div class="line">);</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000041">Todo:</a></b></dt><dd>Should this be <code>slice(xs, from, length)</code> instead? </dd></dl>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000039">Todo:</a></b></dt><dd>Should this be <code>slice(xs, from, length)</code> instead? </dd></dl>
 
 </div>
 </div>

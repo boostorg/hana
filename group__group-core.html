@@ -299,10 +299,10 @@ template&lt;typename Typeclass , typename... Datatypes&gt; </div>
 <div class="fragment"><div class="line">    constexpr <span class="keyword">auto</span> row = make&lt;Tuple&gt;;</div>
 <div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> check_table = [](<span class="keyword">auto</span> ...headers) {</div>
 <div class="line">        <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> ...rows) {</div>
-<div class="line">            <span class="keyword">auto</span> row_is_correct = [=](<span class="keyword">auto</span> row) {</div>
+<div class="line">            <span class="keyword">auto</span> is_correct = [=](<span class="keyword">auto</span> row) {</div>
 <div class="line">                <span class="keywordflow">return</span> make&lt;Tuple&gt;(headers(head(row))...) == tail(row);</div>
 <div class="line">            };</div>
-<div class="line">            <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(all(make&lt;Tuple&gt;(rows...), row_is_correct));</div>
+<div class="line">            <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(all_of(make&lt;Tuple&gt;(rows...), is_correct));</div>
 <div class="line">        };</div>
 <div class="line">    };</div>
 <div class="line"></div>
