@@ -123,9 +123,16 @@ namespace boost { namespace hana {
     //! Example
     //! -------
     //! @snippet example/range.cpp range_c
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename T, T from, T to>
     constexpr auto range_c = make<Range>(integral_constant<T, from>,
                                          integral_constant<T, to>);
+#else
+    template <typename T, T from, T to>
+    constexpr decltype(
+        make<Range>(integral_constant<T, from>, integral_constant<T, to>)
+    ) range_c{};
+#endif
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_RANGE_HPP

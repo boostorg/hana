@@ -230,7 +230,7 @@ namespace boost { namespace hana {
 
     //! @relates IntegralConstant
     template <bool b>
-    constexpr auto bool_ = integral_constant<bool, b>;
+    constexpr _integral_constant<bool, b> bool_{};
 
     //! Equivalent to `bool_<true>`.
     //! @relates IntegralConstant
@@ -242,43 +242,43 @@ namespace boost { namespace hana {
 
     //! @relates IntegralConstant
     template <char c>
-    constexpr auto char_ = integral_constant<char, c>;
+    constexpr _integral_constant<char, c> char_{};
 
     //! @relates IntegralConstant
     template <short i>
-    constexpr auto short_ = integral_constant<short, i>;
+    constexpr _integral_constant<short, i> short_{};
 
     //! @relates IntegralConstant
     template <unsigned short i>
-    constexpr auto ushort = integral_constant<unsigned short, i>;
+    constexpr _integral_constant<unsigned short, i> ushort{};
 
     //! @relates IntegralConstant
     template <int i>
-    constexpr auto int_ = integral_constant<int, i>;
+    constexpr _integral_constant<int, i> int_{};
 
     //! @relates IntegralConstant
     template <unsigned int i>
-    constexpr auto uint = integral_constant<unsigned int, i>;
+    constexpr _integral_constant<unsigned int, i> uint{};
 
     //! @relates IntegralConstant
     template <long i>
-    constexpr auto long_ = integral_constant<long, i>;
+    constexpr _integral_constant<long, i> long_{};
 
     //! @relates IntegralConstant
     template <unsigned long i>
-    constexpr auto ulong = integral_constant<unsigned long, i>;
+    constexpr _integral_constant<unsigned long, i> ulong{};
 
     //! @relates IntegralConstant
     template <long long i>
-    constexpr auto llong = integral_constant<long long, i>;
+    constexpr _integral_constant<long long, i> llong{};
 
     //! @relates IntegralConstant
     template <unsigned long long i>
-    constexpr auto ullong = integral_constant<unsigned long long, i>;
+    constexpr _integral_constant<unsigned long long, i> ullong{};
 
     //! @relates IntegralConstant
     template <detail::std::size_t i>
-    constexpr auto size_t = integral_constant<detail::std::size_t, i>;
+    constexpr _integral_constant<detail::std::size_t, i> size_t{};
 
     namespace literals {
         //! Creates an `IntegralConstant` from a literal.

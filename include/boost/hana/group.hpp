@@ -102,9 +102,13 @@ namespace boost { namespace hana {
     struct negate_impl<T, when<condition>> : default_ {
         template <typename X>
         static constexpr decltype(auto) apply(X&& x) {
+            //! @todo
+            //! Clang 3.5 blows up when this is enabled. Figure out why.
+#if 0
             using G = detail::dependent_on_t<sizeof(x) == 1, T>;
             static_assert(!is_default<minus_impl<G, G>>::value,
             "no definition of boost::hana::negate for the given data type");
+#endif
 
             return hana::minus(zero<T>(), detail::std::forward<X>(x));
         }

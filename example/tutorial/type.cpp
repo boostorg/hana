@@ -31,8 +31,8 @@ int main() {
 // We "lift" the `int` type to a value, and the `std::add_pointer` metafunction
 // to a regular function. Then, we can call that metafunction with a regular
 // function call syntax.
-auto t = type<int>;
-auto add_pointer = metafunction<std::add_pointer>;
+constexpr auto t = type<int>;
+constexpr auto add_pointer = metafunction<std::add_pointer>;
 static_assert(add_pointer(t) == type<int*>, "");
 //! [type]
 
@@ -44,7 +44,7 @@ static_assert(std::is_same<T, int>{}, "");
 }{
 
 //! [type_sequence]
-auto types = make<Tuple>(type<int>, type<char const>, type<void>);
+constexpr auto types = make<Tuple>(type<int>, type<char const>, type<void>);
 static_assert(
     transform(types, metafunction<std::add_pointer>) ==
     make<Tuple>(type<int*>, type<char const*>, type<void*>)
@@ -54,7 +54,7 @@ static_assert(
 }{
 
 //! [tuple_t]
-auto types = tuple_t<int, char const, void>;
+constexpr auto types = tuple_t<int, char const, void>;
 static_assert(types == make<Tuple>(type<int>, type<char const>, type<void>), "");
 
 static_assert(
@@ -88,7 +88,7 @@ auto apply_to_all = [](auto sequences, auto f) {
     });
 };
 
-auto types = make<Tuple>(
+constexpr auto types = make<Tuple>(
     tuple_t<int, char>,
     tuple_t<void, std::string, double>
 );
