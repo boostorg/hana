@@ -357,7 +357,7 @@ int main() {
             BOOST_HANA_CONSTANT_CHECK(equal(f(otherwise{}), x<4>));
         }
 
-        // check move-only friendlyness for bare functions
+        // check move-only friendliness for bare functions
         {
             void (*g)(move_only) = [](move_only) { };
             overload(g)(move_only{});

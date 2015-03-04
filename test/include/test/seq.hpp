@@ -16,6 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/monad_plus.hpp>
 #include <boost/hana/sequence.hpp>
+#include <boost/hana/tuple.hpp>
 
 
 namespace boost { namespace hana {
@@ -29,10 +30,14 @@ namespace boost { namespace hana {
             struct hana { using datatype = Seq; };
         };
 
-        BOOST_HANA_CONSTEXPR_LAMBDA auto seq = [](auto ...xs) {
-            auto storage = [=](auto f) { return f(xs...); };
-            return seq_type<decltype(storage)>(storage);
+        struct _seq {
+            template <typename ...Xs>
+            constexpr decltype(auto) operator()(Xs ...xs) const {
+                auto storage = make<Tuple>(xs...);
+                return seq_type<decltype(storage)>(storage);
+            }
         };
+        constexpr _seq seq{};
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -48,37 +53,17 @@ namespace boost { namespace hana {
 #ifdef BOOST_HANA_TEST_FOLDABLE_FOLDS_MCD
     template <>
     struct foldr_impl<test::Seq> {
-        template <typename F, typename S, typename X, typename ...Xs>
-        static constexpr auto foldr_helper(F f, S s, X x, Xs ...xs)
-        { return f(x, foldr_helper(f, s, xs...)); }
-
-        template <typename F, typename S>
-        static constexpr auto foldr_helper(F f, S s)
-        { return s; }
-
         template <typename Xs, typename S, typename F>
         static constexpr auto apply(Xs xs, S s, F f) {
-            return xs.storage([=](auto ...xs) {
-                return foldr_helper(f, s, xs...);
-            });
+            return hana::foldr(xs.storage, s, f);
         }
     };
 
     template <>
     struct foldl_impl<test::Seq> {
-        template <typename F, typename S, typename X, typename ...Xs>
-        static constexpr auto foldl_helper(F f, S s, X x, Xs ...xs)
-        { return foldl_helper(f, f(s, x), xs...); }
-
-        template <typename F, typename S>
-        static constexpr auto foldl_helper(F f, S s)
-        { return s; }
-
         template <typename Xs, typename S, typename F>
         static constexpr auto apply(Xs xs, S s, F f) {
-            return xs.storage([=](auto ...xs) {
-                return foldl_helper(f, s, xs...);
-            });
+            return hana::foldl(xs.storage, s, f);
         }
     };
 #elif defined(BOOST_HANA_TEST_FOLDABLE_UNPACK_MCD)
@@ -86,7 +71,7 @@ namespace boost { namespace hana {
     struct unpack_impl<test::Seq> {
         template <typename Xs, typename F>
         static constexpr auto apply(Xs xs, F f)
-        { return xs.storage(f); }
+        { return hana::unpack(xs.storage, f); }
     };
 #else
     template <> struct foldl_impl<test::Seq>  : Iterable::foldl_impl<test::Seq>  { };
@@ -102,9 +87,7 @@ namespace boost { namespace hana {
     struct head_impl<test::Seq> {
         template <typename Xs>
         static constexpr auto apply(Xs xs) {
-            return xs.storage([=](auto x, auto ...xs) {
-                return x;
-            });
+            return hana::head(xs.storage);
         }
     };
 
@@ -112,9 +95,7 @@ namespace boost { namespace hana {
     struct tail_impl<test::Seq> {
         template <typename Xs>
         static constexpr auto apply(Xs xs) {
-            return xs.storage([=](auto x, auto ...xs) {
-                return test::seq(xs...);
-            });
+            return hana::unpack(hana::tail(xs.storage), test::seq);
         }
     };
 
@@ -122,9 +103,7 @@ namespace boost { namespace hana {
     struct is_empty_impl<test::Seq> {
         template <typename Xs>
         static constexpr auto apply(Xs xs) {
-            return xs.storage([=](auto ...xs) {
-                return bool_<sizeof...(xs) == 0>;
-            });
+            return hana::is_empty(xs.storage);
         }
     };
 
@@ -152,11 +131,10 @@ namespace boost { namespace hana {
     struct concat_impl<test::Seq> {
         template <typename Xs, typename Ys>
         static constexpr auto apply(Xs xs, Ys ys) {
-            return xs.storage([=](auto ...xs) {
-                return ys.storage([=](auto ...ys) {
-                    return test::seq(xs..., ys...);
-                });
-            });
+            return hana::unpack(
+                hana::concat(xs.storage, ys.storage),
+                test::seq
+            );
         }
     };
 #else
@@ -164,9 +142,7 @@ namespace boost { namespace hana {
     struct prepend_impl<test::Seq> {
         template <typename X, typename Xs>
         static constexpr auto apply(X x, Xs xs) {
-            return xs.storage([=](auto ...xs) {
-                return test::seq(x, xs...);
-            });
+            return hana::unpack(hana::prepend(x, xs.storage), test::seq);
         }
     };
 #endif
