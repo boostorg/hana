@@ -142,6 +142,15 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // last
     //////////////////////////////////////////////////////////////////////////
+    namespace iterable_detail {
+        struct last_helper {
+            template <typename Xs, typename Id>
+            constexpr decltype(auto) operator()(Xs&& xs, Id _) const {
+                return hana::last(hana::tail(detail::std::forward<Xs>(xs)));
+            }
+        };
+    }
+
     template <typename It, typename>
     struct last_impl : last_impl<It, when<true>> { };
 
@@ -150,8 +159,8 @@ namespace boost { namespace hana {
         template <typename Xs>
         static constexpr auto apply(Xs xs) {
             return hana::eval_if(hana::is_empty(hana::tail(xs)),
-                [=](auto _) { return _(head)(xs); },
-                [=](auto _) { return apply(_(tail)(xs)); }
+                hana::always(hana::head(xs)),
+                hana::partial(iterable_detail::last_helper{}, xs)
             );
         }
     };
@@ -159,6 +168,16 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // drop
     //////////////////////////////////////////////////////////////////////////
+    namespace iterable_detail {
+        struct drop_helper {
+            template <typename N, typename Xs, typename Id>
+            constexpr decltype(auto) operator()(N&& n, Xs&& xs, Id _) const {
+                return hana::drop(hana::pred(detail::std::forward<N>(n)),
+                                  hana::tail(detail::std::forward<Xs>(xs)));
+            }
+        };
+    }
+
     template <typename It, typename>
     struct drop_impl : drop_impl<It, when<true>> { };
 
@@ -170,7 +189,7 @@ namespace boost { namespace hana {
             return hana::eval_if(
                 hana::or_(hana::equal(n, zero<I>()), hana::is_empty(xs)),
                 hana::always(xs),
-                [=](auto _) { return apply(_(pred)(n), _(tail)(xs)); }
+                hana::partial(iterable_detail::drop_helper{}, n, xs)
             );
         }
     };
@@ -188,6 +207,28 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // drop_while
     //////////////////////////////////////////////////////////////////////////
+    namespace iterable_detail {
+        struct drop_while_helper {
+            struct next {
+                template <typename Xs, typename Pred, typename Id>
+                constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred, Id _) const {
+                    return hana::drop_while(
+                        hana::tail(detail::std::forward<Xs>(xs)),
+                        detail::std::forward<Pred>(pred)
+                    );
+                }
+            };
+
+            template <typename Xs, typename Pred, typename Id>
+            constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred, Id _) const {
+                return hana::eval_if(pred(hana::head(xs)),
+                    hana::partial(next{}, xs, pred),
+                    hana::always(xs)
+                );
+            }
+        };
+    }
+
     template <typename It, typename>
     struct drop_while_impl : drop_while_impl<It, when<true>> { };
 
@@ -197,12 +238,7 @@ namespace boost { namespace hana {
         static constexpr auto apply(Xs xs, Pred pred) {
             return hana::eval_if(hana::is_empty(xs),
                 hana::always(xs),
-                [=](auto _) {
-                    return hana::eval_if(pred(_(head)(xs)),
-                        [=](auto _) { return apply(_(tail)(xs), pred); },
-                        [=](auto) { return xs; }
-                    );
-                }
+                hana::partial(iterable_detail::drop_while_helper{}, xs, pred)
             );
         }
     };
@@ -254,6 +290,23 @@ namespace boost { namespace hana {
                 );
             }
         };
+
+        struct foldr_helper {
+            template <typename Xs, typename S, typename F, typename Id>
+            constexpr decltype(auto) operator()(Xs&& xs, S&& s, F&& f, Id _) const {
+                return f(
+                    hana::head(xs),
+                    hana::foldr(hana::tail(xs), detail::std::forward<S>(s), f)
+                );
+            }
+        };
+
+        struct foldr1_helper {
+            template <typename Xs, typename F, typename Id>
+            constexpr decltype(auto) operator()(Xs&& xs, F&& f, Id _) const {
+                return f(hana::head(xs), hana::foldr1(hana::tail(xs), f));
+            }
+        };
     }
 
     template <typename It>
@@ -276,9 +329,7 @@ namespace boost { namespace hana {
         static constexpr auto apply(Xs xs, State s, F f) {
             return hana::eval_if(hana::is_empty(xs),
                 hana::always(s),
-                [xs, s, f](auto _) {
-                    return f(_(head)(xs), apply(_(tail)(xs), s, f));
-                }
+                hana::partial(iterable_detail::foldr_helper{}, xs, s, f)
             );
         }
     };
@@ -288,10 +339,8 @@ namespace boost { namespace hana {
         template <typename Xs, typename F>
         static constexpr auto apply(Xs xs, F f) {
             return hana::eval_if(hana::is_empty(hana::tail(xs)),
-                [xs](auto) { return hana::head(xs); },
-                [xs, f](auto _) {
-                    return f(hana::head(xs), apply(_(tail)(xs), f));
-                }
+                hana::always(hana::head(xs)),
+                hana::partial(iterable_detail::foldr1_helper{}, xs, f)
             );
         }
     };

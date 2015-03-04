@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_ITERABLE_HPP
 
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
 
@@ -526,6 +527,11 @@ namespace boost { namespace hana {
 
     constexpr _drop_until drop_until{};
 #endif
+
+    template <>
+    struct operators::of<Iterable>
+        : decltype(at)
+    { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_ITERABLE_HPP
