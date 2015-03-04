@@ -290,9 +290,8 @@ general, sequences in Hana may be created with the `make` function:
 
 @snippet example/tutorial/create.cpp make<Tuple>
 
-Notice how we used `make<Tuple>` instead of `make_tuple`. Actually,
-`make_tuple` is just a shortcut for `make<Tuple>` so you don't have
-to type `boost::hana::make<boost::hana::Tuple>` when you are out of
+Actually, `make_tuple` is just a shortcut for `make<Tuple>` so you don't
+have to type `boost::hana::make<boost::hana::Tuple>` when you are out of
 Hana's namespace. Simply put, `make<...>` is is used all around the
 library to create different types of objects, thus generalizing the
 `std::make_xxx` family of functions. For example, one can create
@@ -1166,8 +1165,8 @@ function                                     |  concept   | description
 `append(sequence, value)`                    | MonadPlus  | Append an element to a sequence.
 `concat(sequence1, sequence2)`               | MonadPlus  | Concatenate two sequences.
 `filter(sequence, predicate)`                | MonadPlus  | Remove all the elements that do not satisfy a predicate. The predicate must return an `integral_constant`.
-`{any,none,all}(sequence, predicate)`        | Searchable | Returns whether any/none/all of the elements of the sequence satisfy some predicate.
-`{any,none,all}_of(sequence)`                | Searchable | Returns whether any/non/all of the elements of a sequence are true-valued.
+`{any,none,all}_of(sequence, predicate)`     | Searchable | Returns whether any/none/all of the elements of the sequence satisfy some predicate.
+`{any,none,all}(sequence)`                   | Searchable | Returns whether any/non/all of the elements of a sequence are true-valued.
 `elem(sequence, value)`                      | Searchable | Returns whether an object is in a sequence.
 `find(sequence, predicate)`                  | Searchable | Find the first element of a sequence satisfying the predicate and return `just` it, or return `nothing`. See Maybe.
 `lookup(sequence, value)`                    | Searchable | Find the first element of a sequence which is equal to some value and return `just` it, or return nothing. See Maybe.
