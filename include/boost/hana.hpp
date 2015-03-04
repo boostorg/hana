@@ -431,7 +431,7 @@ More generally, any algorithm that queries something that can be known at
 compile-time will be able of returning such an IntegralConstant. To illustrate,
 let's take a look at the `all` algorithm, which is analogous to `std::all_of`:
 
-@snippet example/tutorial/amphi.cpp all_runtime
+@snippet example/tutorial/amphi.cpp all_of_runtime
 
 Given a sequence and a predicate, `all` returns whether the predicate is
 satisfied by all the elements of the sequence. In this example, the result
@@ -441,7 +441,7 @@ compared at compile-time, our predicate must operate at runtime, and the
 overall result of the algorithm can then only be known at runtime too.
 However, let's say we used `all` with the following predicate instead:
 
-@snippet example/tutorial/amphi.cpp all_compile_time
+@snippet example/tutorial/amphi.cpp all_of_compile_time
 
 @note
 For this to work, the external adapters for `std::integral_constant` contained
@@ -459,7 +459,7 @@ at compile-time. In the end, `all` returns an IntegralConstant holding the
 result of the algorithm, and we use the compiler's type deduction in a clever
 way to make it look easy. Hence, it would be equivalent to write:
 
-@snippet example/tutorial/amphi.cpp all_compile_time_integral_constant
+@snippet example/tutorial/amphi.cpp all_of_compile_time_integral_constant
 
 We just saw how some algorithms are able to return IntegralConstants when their
 inputs satisfy some constraints with respect to `compile-time`ness. However,

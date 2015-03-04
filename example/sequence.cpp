@@ -62,6 +62,20 @@ BOOST_HANA_CONSTANT_CHECK(is_empty(make<Tuple>()));
 
 }{
 
+//! [searchable]
+using namespace std::string_literals;
+
+BOOST_HANA_RUNTIME_CHECK(
+    find(make<Tuple>(1, '2', 3.3, "abc"s), is_a<std::string>) == just("abc"s)
+);
+
+BOOST_HANA_RUNTIME_CHECK(
+    "abc"s ^in^ make<Tuple>(1, '2', 3.3, "abc"s)
+);
+//! [searchable]
+
+}{
+
 //! [functor]
 auto to_string = [](auto x) {
     return static_cast<std::ostringstream const&>(std::ostringstream{} << x).str();
@@ -106,6 +120,22 @@ BOOST_HANA_CONSTEXPR_CHECK(
     make<Tuple>(1, 2, 3, 4, make<Tuple>(5, 6))
 );
 //! [monad]
+
+}{
+
+//! [monad_plus]
+using namespace std::string_literals;
+
+BOOST_HANA_CONSTANT_CHECK(empty<Tuple>() == make<Tuple>());
+BOOST_HANA_CONSTEXPR_CHECK(
+    append(make<Tuple>(1, '2', 3.3), nullptr) == make<Tuple>(1, '2', 3.3, nullptr)
+);
+
+BOOST_HANA_CONSTEXPR_CHECK(
+    concat(make<Tuple>(1, '2', 3.3), make<Tuple>("abcdef"s)) ==
+    make<Tuple>(1, '2', 3.3, "abcdef"s)
+);
+//! [monad_plus]
 
 }{
 

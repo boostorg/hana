@@ -61,11 +61,7 @@ namespace boost { namespace hana {
     //! Sequences are ordered using the traditional lexicographical ordering.
     //! @snippet example/sequence.cpp orderable
     //!
-    //! 3. `Traversable` (definition provided automatically)\n
-    //! @todo
-    //! @snippet example/sequence.cpp traversable
-    //!
-    //! 4. `Functor` (definition provided automatically)\n
+    //! 3. `Functor` (definition provided automatically)\n
     //! Sequences implement `transform` as the mapping of a function over
     //! each element of the sequence. This is somewhat equivalent to what
     //! `std::transform` does to ranges of iterators. Also note that mapping
@@ -73,7 +69,7 @@ namespace boost { namespace hana {
     //! applies the function, as would be expected.
     //! @snippet example/sequence.cpp functor
     //!
-    //! 5. `Applicative` (definition provided automatically)\n
+    //! 4. `Applicative` (definition provided automatically)\n
     //! First, `lift`ing a value into a Sequence is the same as creating a
     //! singleton sequence containing that value. Second, applying a sequence
     //! of functions to a sequence of values will apply each function to
@@ -86,9 +82,10 @@ namespace boost { namespace hana {
     //!         fN(x1), ..., fN(xM)
     //!     ]
     //! @endcode
+    //! Example:
     //! @snippet example/sequence.cpp applicative
     //!
-    //! 6. `Monad` (definition provided automatically)\n
+    //! 5. `Monad` (definition provided automatically)\n
     //! First, `flaten`ning a Sequence takes a sequence of sequences and
     //! concatenates them to get a larger sequence. In other words,
     //! @code
@@ -105,7 +102,7 @@ namespace boost { namespace hana {
     //! the sequences.
     //! @snippet example/sequence.cpp monad
     //!
-    //! 7. `MonadPlus` (minimal complete definition modified)\n
+    //! 6. `MonadPlus` (minimal complete definition modified)\n
     //! Sequences are models of the MonadPlus concept by considering the
     //! empty sequence as the unit of `concat`, and sequence concatenation
     //! as the combining operation. Note that the minimal complete definition
@@ -115,19 +112,27 @@ namespace boost { namespace hana {
     //! required to implement it in order to model MonadPlus.
     //! @snippet example/sequence.cpp monad_plus
     //!
-    //! 8. `Foldable` (definition provided automatically)\n
+    //! 7. `Foldable` (definition provided automatically)\n
     //! The model of Foldable for Sequences is uniquely determined by the
     //! model of Iterable. The automatically provided model is the one
     //! provided by the Iterable concept.
+    //! @snippet example/sequence.cpp foldable
     //!
-    //! 9. `Iterable`\n
-    //! @todo
+    //! 8. `Iterable`\n
+    //! The model of Iterable for Sequences corresponds to iteration over each
+    //! element of the sequence, in order.
+    //! @snippet example/sequence.cpp iterable
     //!
-    //! 10. `Searchable` (definition provided automatically)\n
+    //! 9. `Searchable` (definition provided automatically)\n
     //! Searching through a Sequence is equivalent to just searching through
     //! a list of the values it contains. The keys and the values on which
     //! the search is performed are both the elements of the sequence.
     //! @snippet example/sequence.cpp searchable
+    //!
+    //! 10. `Traversable` (definition provided automatically)\n
+    //! The model of Traversable for Sequences allows turning a sequence of
+    //! Applicatives into an Applicative containing a sequence.
+    //! @snippet example/sequence.cpp traversable
     //!
     //!
     //! @todo
