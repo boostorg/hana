@@ -297,8 +297,8 @@ namespace boost { namespace hana {
         models<Constant(C)>{} && models<Orderable(typename C::value_type)>{}
     >> {
         template <typename X, typename Y>
-        static constexpr auto apply(X x, Y y) {
-            constexpr auto less = hana::less(hana::value(x), hana::value(y));
+        static constexpr auto apply(X const&, Y const&) {
+            constexpr auto less = hana::less(hana::value<X>(), hana::value<Y>());
             constexpr bool truth_value = hana::if_(less, true, false);
             return bool_<truth_value>;
         }

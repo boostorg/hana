@@ -37,7 +37,7 @@ namespace boost { namespace hana { namespace test {
     template <typename C, typename T>
     struct wrap_arbitrary_constant {
         static constexpr T get()
-        { return boost::hana::value(C{}); }
+        { return boost::hana::value<C>(); }
         struct hana { using datatype = detail::CanonicalConstant<T>; };
     };
 
@@ -48,8 +48,10 @@ namespace boost { namespace hana { namespace test {
         // laws
         {
             for_each(objects<C>, [](auto c) {
-                constexpr auto must_be_constexpr = hana::value(c);
-                (void)must_be_constexpr;
+                constexpr auto must_be_constexpr1 = hana::value(c);
+                constexpr auto must_be_constexpr2 = hana::value<decltype(c)>();
+                (void)must_be_constexpr1;
+                (void)must_be_constexpr2;
 
 
                 using T = decltype(hana::value(c));

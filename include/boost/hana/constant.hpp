@@ -20,6 +20,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/wrong.hpp>
 #include <boost/hana/detail/canonical_constant.hpp>
 #include <boost/hana/detail/std/integral_constant.hpp>
+#include <boost/hana/detail/std/remove_cv.hpp>
+#include <boost/hana/detail/std/remove_reference.hpp>
 
 
 namespace boost { namespace hana {
@@ -32,11 +34,19 @@ namespace boost { namespace hana {
     template <typename C, bool condition>
     struct value_impl<C, when<condition>> : default_ {
         template <typename X>
-        static constexpr void apply(X&&) {
+        static constexpr void apply() {
             static_assert(wrong<value_impl<C>, X>{},
             "no definition of boost::hana::value for the given data type");
         }
     };
+
+    template <typename T>
+    constexpr decltype(auto) value() {
+        using RawT = typename detail::std::remove_cv<
+            typename detail::std::remove_reference<T>::type
+        >::type;
+        return value_impl<typename datatype<RawT>::type>::template apply<RawT>();
+    }
 
     //////////////////////////////////////////////////////////////////////////
     // models

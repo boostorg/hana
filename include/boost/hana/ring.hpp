@@ -153,8 +153,8 @@ namespace boost { namespace hana {
         template <typename X, typename Y>
         struct _constant {
             static constexpr decltype(auto) get() {
-                return boost::hana::mult(boost::hana::value(X{}),
-                                         boost::hana::value(Y{}));
+                return boost::hana::mult(boost::hana::value<X>(),
+                                         boost::hana::value<Y>());
             }
             struct hana { using datatype = detail::CanonicalConstant<T>; };
         };

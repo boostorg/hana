@@ -11,47 +11,26 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_CONSTANT_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/detail/std/forward.hpp>
 
 
 namespace boost { namespace hana {
     //! @ingroup group-concepts
-    //! The `Constant` type class represents data that can be manipulated at
+    //! The `Constant` concept represents data that can be manipulated at
     //! compile-time.
     //!
     //! At its core, `Constant` is simply a generalization of the principle
     //! behind `std::integral_constant` to all types that can be constructed
     //! at compile-time, i.e. to all types with a `constexpr` constructor
-    //! (also called [Literal][1] types). More specifically, a `Constant` is
+    //! (also called [Literal types][1]). More specifically, a `Constant` is
     //! an object from which a `constexpr` value may be obtained (through the
     //! `value` method) regardless of the `constexpr`ness of the object itself.
-    //! For this to be possible, the type of that object must look somewhat like
-    //! @code
-    //!     struct Something {
-    //!         static constexpr auto the_constexpr_value = ...;
-    //!     };
-    //! @endcode
     //!
-    //! Then, the `value` method can be implemented as
-    //! @code
-    //!     constexpr auto value(Something) {
-    //!         return Something::the_constexpr_value;
-    //!     }
-    //! @endcode
-    //!
-    //! Holding the value as a static constant makes it possible to obtain a
-    //! `constexpr` result even when calling `value` on a non-constexpr object
-    //! of type `Something`. If the function had used the _value_ of its
-    //! argument, it could not have returned a constant expression when its
-    //! argument is not one. Hence, the function is only allowed to depend on
-    //! the _type_ of its argument.
-    //!
-    //! Also, all `Constant`s must be somewhat equivalent, in the following
-    //! sense. Let `C<T>` and `D<U>` denote the data types of `Constant`s
-    //! holding objects of type `T` and `U`, respectively. Then, an object
-    //! of data type `D<U>` must be convertible to an object of type `C<T>`
-    //! whenever `U` is convertible to `T`, has determined by `is_convertible`.
-    //! The interpretation here is that a `Constant` is just a box holding an
+    //! All `Constant`s must be somewhat equivalent, in the following sense.
+    //! Let `C(T)` and `D(U)` denote the data types of `Constant`s holding
+    //! objects of type `T` and `U`, respectively. Then, an object of data
+    //! type `D(U)` must be convertible to an object of type `C(T)` whenever
+    //! `U` is convertible to `T`, has determined by `is_convertible`. The
+    //! interpretation here is that a `Constant` is just a box holding an
     //! object of some type, and it should be possible to swap between boxes
     //! whenever the objects inside the boxes can be swapped.
     //!
@@ -60,9 +39,9 @@ namespace boost { namespace hana {
     //! being `Constant`s because they are not able to hold objects of any
     //! type `T` (`std::integral_constant` may only hold integral types).
     //! This is false; the requirement should be interpreted as saying that
-    //! whenever `C<T>` is _meaningful_ (e.g. only when `T` is integral for
+    //! whenever `C(T)` is _meaningful_ (e.g. only when `T` is integral for
     //! `std::integral_constant`) _and_ there exists a conversion from `U`
-    //! to `T`, then a conversion from `D<U>` to `C<T>` should also exist.
+    //! to `T`, then a conversion from `D(U)` to `C(T)` should also exist.
     //! The precise requirements for being a `Constant` are embodied in the
     //! following laws.
     //!
@@ -71,32 +50,18 @@ namespace boost { namespace hana {
     //! ----
     //! Let `c` be an object of a data type `C`, which represents a `Constant`
     //! holding an object of data type `T`. The first law ensures that the
-    //! value of the wrapped object can always be obtained as a constant
-    //! expression, by requiring that the following program be well-formed:
+    //! value of the wrapped object is always a constant expression by
+    //! requiring the following to be well-formed:
     //! @code
-    //!     template <typename X>
-    //!     void f(X x) {
-    //!         constexpr auto y = value(x);
-    //!     }
-    //!
-    //!     int main() {
-    //!         f(c);
-    //!     }
+    //!     constexpr auto x = hana::value<decltype(x)>();
     //! @endcode
     //!
     //! This means that the `value` function must return an object that can
-    //! be constructed at compile-time. It is important to note that since
-    //! @code
-    //!     constexpr auto y = value(x);
-    //! @endcode
-    //!
-    //! appears in a context where `x` is _not_ a constant expression (function
-    //! arguments are never `constexpr` inside the function's context), this
-    //! law precisely means that `value` must be able to return a constant
-    //! expression even when called with something that isn't one. This
-    //! requirement is the core of the `Constant` concept; it means that
-    //! the only information required to implement `value` must be stored
-    //! in the _type_ of its argument, and hence be available statically.
+    //! be constructed at compile-time. It is important to note how `value`
+    //! only receives the type of the object and not the object itself.
+    //! This is the core of the `Constant` concept; it means that the only
+    //! information required to implement `value` must be stored in the _type_
+    //! of its argument, and hence be available statically.
     //!
     //! The second law that must be satisfied ensures that `Constant`s are
     //! basically dumb boxes, which makes it possible to provide models for
@@ -124,7 +89,7 @@ namespace boost { namespace hana {
     //! convertible to any data type `U` such that `T` is convertible to `U`.
     //! Specifically, the conversion is equivalent to
     //! @code
-    //!     to<U>(c) == to<U>(value(c))
+    //!     to<U>(c) == to<U>(value<decltype(c)>())
     //! @endcode
     //!
     //!
@@ -135,12 +100,11 @@ namespace boost { namespace hana {
     //! a common data type whenever `A::value_type` and `B::value_type` have
     //! one. Their common data type is an unspecified `Constant` `C` such
     //! that `C::value_type` is exactly `common_t<A::value_type, B::value_type>`.
-    //! A specialization of the `common` metafunction is provided for `Constant`s
-    //! to embody this.
+    //! A specialization of the `common` metafunction is provided for
+    //! `Constant`s to reflect this.
     //!
     //!
     //! @todo
-    //! - Replace value by an equivalent version that works with types only.
     //! - Document the nested value_type.
     //! - Document the provided models, but that should be done in each concept.
     //! - The fact that `common_t<IntegralConstant<int>, IntegralConstant<long>>`
@@ -165,35 +129,77 @@ namespace boost { namespace hana {
     //! Return the compile-time value associated to a constant.
     //! @relates Constant
     //!
-    //! This function returns a value which is always a constant expression,
-    //! and this function can always be called inside a constant expression.
-    //! This imposes some rather heavy restrictions on the implementation;
-    //! specifically, it means that the implementation is fully determined
-    //! by the type of its argument, and that it does not use the value of
-    //! its argument at all.
+    //! This function returns the value associated to a `Constant`. That
+    //! value is always a constant expression. The normal way of using
+    //! `value` on an object `c` is
+    //! @code
+    //!     constexpr auto result = hana::value<decltype(c)>();
+    //! @endcode
+    //!
+    //! However, for convenience, an overload of `value` is provided so that
+    //! it can be called as:
+    //! @code
+    //!     constexpr auto result = hana::value(c);
+    //! @endcode
+    //!
+    //! This overload works by taking a `const&` to its argument, and then
+    //! forwarding to the first version of `value`. Since it does not use
+    //! its argument, the result can still be a constant expression, even
+    //! if the argument is not a constant expression.
+    //!
+    //! @note
+    //! `value<T>()` is tag-dispatched as `value_impl<C>::%apply<T>()`, where
+    //! `C` is the data type of `T`.
     //!
     //!
     //! Example
     //! -------
     //! @snippet example/constant.cpp value
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto value = [](auto&& constant) -> decltype(auto) {
+    template <typename T>
+    constexpr auto value = []() -> decltype(auto) {
         return tag-dispatched;
     };
 #else
     template <typename C, typename = void>
     struct value_impl;
 
-    struct _value {
-        template <typename C>
-        constexpr decltype(auto) operator()(C&& constant) const {
-            return value_impl<typename datatype<C>::type>::apply(
-                detail::std::forward<C>(constant)
-            );
-        }
+    template <typename T>
+    constexpr decltype(auto) value();
+
+    template <typename T>
+    constexpr decltype(auto) value(T const&)
+    { return value<T>(); }
+#endif
+
+    //! Equivalent to `value`, but can be passed to higher-order algorithms.
+    //! @relates Constant
+    //!
+    //! This function object is equivalent to `value`, except it can be passed
+    //! to higher order algorithms because it is a function object. `value`
+    //! can't be passed to higher-order algorithms because it is implemented
+    //! as an overloaded function.
+    //!
+    //! @note
+    //! This function is a simple alias to `value`, and hence it is not
+    //! tag-dispatched and can't be customized.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/constant.cpp value_of
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto value_of = [](auto const& c) -> decltype(auto) {
+        return value(c);
+    };
+#else
+    struct _value_of {
+        template <typename T>
+        constexpr decltype(auto) operator()(T const&) const
+        { return value<T>(); }
     };
 
-    constexpr _value value{};
+    constexpr _value_of value_of{};
 #endif
 }} // end namespace boost::hana
 

@@ -58,8 +58,8 @@ namespace boost { namespace hana {
     struct _to {
         template <typename X>
         constexpr decltype(auto) operator()(X&& x) const {
-            return to_impl<To, typename datatype<X>::type>::apply(
-                                                detail::std::forward<X>(x));
+            return to_impl<To, typename datatype<X>::type>::
+                                            apply(detail::std::forward<X>(x));
         }
     };
 

@@ -41,7 +41,7 @@ namespace boost { namespace hana {
     template <typename T>
     struct value_impl<detail::CanonicalConstant<T>> {
         template <typename X>
-        static constexpr decltype(auto) apply(X)
+        static constexpr decltype(auto) apply()
         { return X::get(); }
     };
 
@@ -54,7 +54,7 @@ namespace boost { namespace hana {
         template <typename X>
         struct _constant {
             static constexpr decltype(auto) get()
-            { return to<T>(boost::hana::value(X{})); }
+            { return to<T>(boost::hana::value<X>()); }
             struct hana { using datatype = detail::CanonicalConstant<T>; };
         };
         template <typename X>

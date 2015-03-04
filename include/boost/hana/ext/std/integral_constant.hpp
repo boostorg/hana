@@ -37,7 +37,7 @@ namespace boost { namespace hana {
     template <typename T>
     struct value_impl<ext::std::IntegralConstant<T>> {
         template <typename C>
-        static constexpr auto apply(C const&)
+        static constexpr auto apply()
         { return C::value; }
     };
 

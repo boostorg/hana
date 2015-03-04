@@ -352,9 +352,7 @@ a Range of compile-time integers with `make<Range>`:
 
 @note
 `int_<...>` is not a type! It is a [C++14 variable template]
-[Wikipedia.variable_template] yielding what Hana calls an
-IntegralConstant. This is explained in the [section on constants]
-(@ref tutorial-constants).
+[Wikipedia.variable_template] yielding what Hana calls an IntegralConstant.
 
 For convenience, whenever a component of Hana provides a `make<XXX>` function,
 it also provides the `make_xxx` shortcut to reduce typing. Also, an
@@ -472,9 +470,9 @@ Hana, this is implemented by having `length` return what we call an
 IntegralConstant. Since an IntegralConstant is convertible to the integral
 value it represents at compile-time, it can be used in a constant expression.
 There are subtleties that could be highlighted, but this is left to the more
-hardcore [section on constants](@ref tutorial-constants). `length` is not the
-only function that returns an IntegralConstant; for example, `is_empty` does
-that too:
+hardcore [section](@ref tutorial-constexpr) on the limitations of `constexpr`.
+`length` is not the only function that returns an IntegralConstant; for
+example, `is_empty` does that too:
 
 @snippet example/tutorial/amphi.cpp is_empty
 
@@ -546,9 +544,11 @@ Since the predicate returns a Constant, the compiler is able to figure out
 the return type of the algorithm. Other algorithms like `partition` and `sort`
 work similarly; special requirements are always documented by the functions
 they apply to. While this constitutes a fairly complete explanation of the
-interaction between runtime and compile-time inside algorithms, the details
-about Hana's IntegralConstants are treated in the [section on constants]
-(@ref tutorial-constants) and in the reference for Constant and IntegralConstant.
+interaction between runtime and compile-time inside algorithms, a deeper
+insight can be gained by reading the [section](@ref tutorial-constexpr) on
+the limitations of `constexpr` and the reference for Constant and
+IntegralConstant.
+
 
 
 
@@ -700,7 +700,7 @@ the hood in `example/mini_mpl.cpp`.
 
 
 
-@section tutorial-constants Constants
+@section tutorial-constexpr Limitations of constexpr
 
 ------------------------------------------------------------------------------
 In C++, the border between compile-time and runtime is hazy, a fact that is
@@ -779,36 +779,31 @@ from functions. Some of these functions might want to return an object of type
 analysis, we now know that these "cases" will have to depend on information
 encoded in the _types_ of the arguments, not in their _values_.
 
+
+@subsection tutorial-constexpr-constants Constants
+
 To represent this fact, Hana defines the concept of a `Constant`, which is an
 object from which a constant expression may always be obtained, regardless of
 the `constexpr`-ness of the object. `Constant`s provide a way to obtain that
 constant expression through the use of the `value` function. Specifically, for
-any `Constant` `c`, the following program must be valid:
+any `Constant` `c`, the following must be valid:
 
 @code
-    template <typename X>
-    void f(X x) {
-        constexpr auto y = value(x);
-    }
-
-    int main() {
-        f(c);
-    }
+    constexpr auto x = value<decltype(c)>();
 @endcode
 
-This law that must be respected by `Constant`s expresses the minimal
-requirement that we're able to retrieve a constant expression from an object,
-even if that object isn't a constant expression. There is no restriction on
-what the type of the constant expression might be, but it should be documented.
-Hana provides a model of this concept called an `IntegralConstant`; it encodes
-a compile-time value of an integral type, and you can think of it as a
-`std::integral_constant`. Before going on to the next section, you probably
-want to take a look at the [reference documentation](@ref IntegralConstant)
-for `IntegralConstant`, which explains how to create these objects and what
-you can expect from them.
+This requirement that must be respected by `Constant`s expresses the minimal
+requirement that we're able to retrieve a constant expression from an object.
+There is no restriction on what the type of the constant expression might be,
+but it should be documented. Hana provides a model of this concept called an
+`IntegralConstant`; it encodes a compile-time value of an integral type, and
+you can think of it as a `std::integral_constant`. Before going on to the next
+section, you probably want to take a look at the [reference documentation]
+(@ref IntegralConstant) for `IntegralConstant`, which explains how to create
+these objects and what you can expect from them.
 
 
-@subsection tutorial-constants-side_effects Side effects
+@subsection tutorial-constexpr-side_effects Side effects
 
 @note
 You should be familiar with the Constant concept before reading this section.

@@ -287,8 +287,8 @@ namespace boost { namespace hana {
         { return e(id); }
 
         template <typename Cond, typename Then, typename Else>
-        static constexpr auto apply(Cond cond_, Then t, Else e) {
-            constexpr auto cond = boost::hana::value(cond_);
+        static constexpr auto apply(Cond const&, Then t, Else e) {
+            constexpr auto cond = boost::hana::value<Cond>();
             constexpr bool truth_value = hana::if_(cond, true, false);
             return eval_if_helper(
                     detail::std::integral_constant<bool, truth_value>{}, t, e);
@@ -303,7 +303,7 @@ namespace boost { namespace hana {
         template <typename Cond>
         struct _constant {
             static constexpr decltype(auto) get()
-            { return boost::hana::not_(boost::hana::value(Cond{})); }
+            { return boost::hana::not_(boost::hana::value<Cond>()); }
             struct hana { using datatype = detail::CanonicalConstant<T>; };
         };
         template <typename Cond>

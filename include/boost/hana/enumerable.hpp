@@ -97,7 +97,7 @@ namespace boost { namespace hana {
         template <typename X>
         struct _constant {
             static constexpr decltype(auto) get()
-            { return boost::hana::succ(boost::hana::value(X{})); }
+            { return boost::hana::succ(boost::hana::value<X>()); }
             struct hana { using datatype = detail::CanonicalConstant<T>; };
         };
         template <typename X>
@@ -113,7 +113,7 @@ namespace boost { namespace hana {
         template <typename X>
         struct _constant {
             static constexpr decltype(auto) get()
-            { return boost::hana::pred(boost::hana::value(X{})); }
+            { return boost::hana::pred(boost::hana::value<X>()); }
             struct hana { using datatype = detail::CanonicalConstant<T>; };
         };
         template <typename X>

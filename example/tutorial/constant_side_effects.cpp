@@ -21,7 +21,6 @@ static_assert(value(x), "");
 }
 
 namespace impure {
-//! [impure]
 //! [impure_identity]
 template <typename X>
 auto identity(X x) {
@@ -30,6 +29,7 @@ auto identity(X x) {
 }
 //! [impure_identity]
 
+//! [impure]
 auto x = identity(bool_<true>);
 static_assert(value(x), "");
 //! [impure]
