@@ -4,7 +4,9 @@ var NAVTREE =
     [ "User Manual", "index.html", [
       [ "Preface", "index.html#tutorial-preface", null ],
       [ "Introduction", "index.html#tutorial-introduction", null ],
-      [ "Quick start", "index.html#tutorial-quickstart", null ],
+      [ "Quick start", "index.html#tutorial-quickstart", [
+        [ "Cheatsheet", "index.html#tutorial-quickstart-cheatsheet", null ]
+      ] ],
       [ "Creating sequences", "index.html#tutorial-create", null ],
       [ "Algorithm semantics", "index.html#tutorial-sem", [
         [ "Performance considerations", "index.html#tutorial-sem-perf", null ]
@@ -27,8 +29,7 @@ var NAVTREE =
         [ "Creating new concepts", "index.html#tutorial-extending-creating_concepts", null ]
       ] ],
       [ "Header organization", "index.html#tutorial-header_organization", null ],
-      [ "Using the reference", "index.html#tutorial-using_the_reference", null ],
-      [ "Apendix 1: Cheatsheet", "index.html#tutorial-cheatsheet", null ]
+      [ "Using the reference", "index.html#tutorial-using_the_reference", null ]
     ] ],
     [ "Reference documentation", "modules.html", "modules" ],
     [ "Indexes", "usergroup0.html", [

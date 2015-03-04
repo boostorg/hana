@@ -1,7 +1,6 @@
 var NAVTREEINDEX1 =
 {
 "index.html#tutorial-amphi":[0,5],
-"index.html#tutorial-cheatsheet":[0,13],
 "index.html#tutorial-constants":[0,7],
 "index.html#tutorial-constants-side_effects":[0,7,0],
 "index.html#tutorial-create":[0,3],
@@ -17,6 +16,7 @@ var NAVTREEINDEX1 =
 "index.html#tutorial-introduction":[0,1],
 "index.html#tutorial-preface":[0,0],
 "index.html#tutorial-quickstart":[0,2],
+"index.html#tutorial-quickstart-cheatsheet":[0,2,0],
 "index.html#tutorial-sem":[0,4],
 "index.html#tutorial-sem-perf":[0,4,0],
 "index.html#tutorial-type":[0,6],
