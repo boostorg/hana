@@ -81,9 +81,9 @@ namespace boost { namespace hana {
         "integral types");
 
         template <typename X>
-        static constexpr auto apply(X x) {
-            constexpr auto v = hana::value(x);
-            return ::boost::mpl::integral_c<T, static_cast<T>(v)>{};
+        static constexpr auto apply(X const&) {
+            constexpr T v = hana::value<X>();
+            return ::boost::mpl::integral_c<T, v>{};
         }
     };
 }} // end namespace boost::hana

@@ -66,8 +66,8 @@ namespace boost { namespace hana {
         models<Constant(From)>{} && is_convertible<typename From::value_type, To>{}
     >> : embedding<is_embedded<typename From::value_type, To>{}> {
         template <typename X>
-        static constexpr decltype(auto) apply(X x)
-        { return to<To>(hana::value(x)); }
+        static constexpr decltype(auto) apply(X const&)
+        { return to<To>(hana::value<X>()); }
     };
 
     //////////////////////////////////////////////////////////////////////////

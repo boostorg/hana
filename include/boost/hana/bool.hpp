@@ -169,9 +169,9 @@ namespace boost { namespace hana {
         "type; boost::hana::IntegralConstant may only hold integral types");
 
         template <typename X>
-        static constexpr auto apply(X x) {
-            constexpr auto v = hana::value(x);
-            return integral_constant<T, static_cast<T>(v)>;
+        static constexpr auto apply(X const&) {
+            constexpr T v = hana::value<X>();
+            return integral_constant<T, v>;
         }
     };
 }} // end namespace boost::hana

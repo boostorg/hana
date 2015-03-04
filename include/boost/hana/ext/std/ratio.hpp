@@ -40,8 +40,8 @@ namespace boost { namespace hana {
         detail::std::is_integral<typename C::value_type>{}
     >> {
         template <typename N>
-        static constexpr auto apply(N n) {
-            constexpr auto v = hana::value(n);
+        static constexpr auto apply(N const&) {
+            constexpr auto v = hana::value<N>();
             return ::std::ratio<v>{};
         }
     };
@@ -52,7 +52,7 @@ namespace boost { namespace hana {
     template <>
     struct equal_impl<ext::std::Ratio, ext::std::Ratio> {
         template <typename R1, typename R2>
-        static constexpr auto apply(R1, R2)
+        static constexpr auto apply(R1 const&, R2 const&)
         { return bool_< ::std::ratio_equal<R1, R2>::value>; }
     };
 
@@ -62,7 +62,7 @@ namespace boost { namespace hana {
     template <>
     struct less_impl<ext::std::Ratio, ext::std::Ratio> {
         template <typename R1, typename R2>
-        static constexpr auto apply(R1, R2)
+        static constexpr auto apply(R1 const&, R2 const&)
         { return bool_< ::std::ratio_less<R1, R2>::value>; }
     };
 
@@ -72,7 +72,7 @@ namespace boost { namespace hana {
     template <>
     struct plus_impl<ext::std::Ratio, ext::std::Ratio> {
         template <typename R1, typename R2>
-        static constexpr ::std::ratio_add<R1, R2> apply(R1, R2)
+        static constexpr ::std::ratio_add<R1, R2> apply(R1 const&, R2 const&)
         { return {}; }
     };
 
@@ -88,7 +88,7 @@ namespace boost { namespace hana {
     template <>
     struct minus_impl<ext::std::Ratio, ext::std::Ratio> {
         template <typename R1, typename R2>
-        static constexpr ::std::ratio_subtract<R1, R2> apply(R1, R2)
+        static constexpr ::std::ratio_subtract<R1, R2> apply(R1 const&, R2 const&)
         { return {}; }
     };
 
@@ -98,7 +98,7 @@ namespace boost { namespace hana {
     template <>
     struct mult_impl<ext::std::Ratio, ext::std::Ratio> {
         template <typename R1, typename R2>
-        static constexpr ::std::ratio_multiply<R1, R2> apply(R1, R2)
+        static constexpr ::std::ratio_multiply<R1, R2> apply(R1 const&, R2 const&)
         { return {}; }
     };
 
@@ -114,14 +114,14 @@ namespace boost { namespace hana {
     template <>
     struct quot_impl<ext::std::Ratio, ext::std::Ratio> {
         template <typename R1, typename R2>
-        static constexpr ::std::ratio_divide<R1, R2> apply(R1, R2)
+        static constexpr ::std::ratio_divide<R1, R2> apply(R1 const&, R2 const&)
         { return {}; }
     };
 
     template <>
     struct mod_impl<ext::std::Ratio, ext::std::Ratio> {
         template <typename R1, typename R2>
-        static constexpr ::std::ratio<0> apply(R1, R2)
+        static constexpr ::std::ratio<0> apply(R1 const&, R2 const&)
         { return {}; }
     };
 }} // end namespace boost::hana

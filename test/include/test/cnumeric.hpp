@@ -58,9 +58,9 @@ namespace boost { namespace hana {
         "type; test::CNumeric may only hold integral types");
 
         template <typename X>
-        static constexpr auto apply(X x) {
-            constexpr auto v = hana::value(x);
-            return test::cnumeric<T, static_cast<T>(v)>;
+        static constexpr auto apply(X const&) {
+            constexpr T v = hana::value<X>();
+            return test::cnumeric<T, v>;
         }
     };
 
@@ -70,7 +70,7 @@ namespace boost { namespace hana {
     template <typename T, typename U>
     struct equal_impl<test::CNumeric<T>, test::CNumeric<U>> {
         template <typename X, typename Y>
-        static constexpr auto apply(X x, Y y)
+        static constexpr auto apply(X const&, Y const&)
         { return test::cnumeric<bool, X::value == Y::value>; }
     };
 
@@ -80,7 +80,7 @@ namespace boost { namespace hana {
     template <typename T, typename U>
     struct less_impl<test::CNumeric<T>, test::CNumeric<U>> {
         template <typename X, typename Y>
-        static constexpr auto apply(X x, Y y)
+        static constexpr auto apply(X const&, Y const&)
         { return test::cnumeric<bool, (X::value < Y::value)>; }
     };
 }}
