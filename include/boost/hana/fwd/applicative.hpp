@@ -151,7 +151,7 @@ namespace boost { namespace hana {
     //! @snippet example/applicative.cpp ap
     //!
     //! @todo
-    //! Consider giving access to all the arguments to the type class
+    //! Consider giving access to all the arguments to the tag-dispatched
     //! implementation for performance purposes.
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto ap = [](auto&& f, auto&& ...x) -> decltype(auto) {

@@ -262,7 +262,7 @@ namespace boost { namespace hana {
     //!
     //! @todo
     //! The presence of implicit side effects in this function might be a
-    //! smell that it should be moved to a different type class and handled
+    //! smell that it should be moved to a different concept and handled
     //! through `Monad`s.
     //!
     //!

@@ -72,13 +72,8 @@ namespace boost { namespace hana { namespace sandbox {
     //! @relates Tuple
     //!
     //! @todo
-    //! - Consider having specialized tuples to hold types, integers, etc...
-    //!   It does not fix the problem of partial type classes (e.g. `MplVector`
-    //!   is not _actually_ a `List`), but at least we remove `TypeList` and
-    //!   `IntegerList`, which are arguably ugly.
     //! - Use perfect forwarding to construct the inner lambda capture when
     //!   this is supported and this bug is resolved: http://llvm.org/bugs/show_bug.cgi?id=20939
-    //! - Enable the test in tuple/tuple.cpp once the above is resolved.
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto lambda_tuple = [](auto&& ...xs) {
         return unspecified-type;

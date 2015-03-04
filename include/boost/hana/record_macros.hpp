@@ -83,7 +83,7 @@ Distributed under the Boost Software License, Version 1.0.
 //! @relates boost::hana::Record
 //!
 //! Specifically, use this macro in the public section of a user-defined type
-//! `T` to define a model of the `Record` type class for `T`. Note that
+//! `T` to define a model of the `Record` concept for `T`. Note that
 //! this only works if the data type of `T` is `T` itself.
 //!
 //!
