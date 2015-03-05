@@ -318,7 +318,7 @@ function                                     |  concept   | description
 `reverse(sequence)`                          | Sequence   | Reverse the order of the elements in a sequence.
 `slice(sequence, from, to)`                  | Sequence   | Returns the elements of a sequence at indices contained in `[from, to)`.
 `sort_by(predicate, sequence)`               | Sequence   | Sort the elements of a sequence according to some predicate. The sort is stable.
-`sort(predicate)`                            | Sequence   | Sort the elements of a sequence, which must be Orderable. The sort is stable.
+`sort(sequence)`                             | Sequence   | Sort the elements of a sequence, which must be Orderable. The sort is stable.
 `take(number, sequence)`                     | Sequence   | Take the first n elements of a sequence. n must be an `integral_constant`.
 `take_{while,until}(sequence, predicate)`    | Sequence   | Take elements of a sequence while/until some predicate is satisfied, and return that.
 `zip(sequence1, ..., sequenceN)`             | Sequence   | Zip `N` sequences into a sequence of tuples.
