@@ -12,9 +12,10 @@ template <bool b = false>
 struct invalid { static_assert(b, "invalid must not be instantiated"); };
 
 template <typename T> void adl(T) { }
-
+template <typename ...T> void adl_pattern(_tuple_t<T...>) { }
 
 int main() {
     // ADL kicks in but `invalid<>` must not instantiated
     adl(tuple_t<invalid<>>);
+    adl_pattern(tuple_t<invalid<>>);
 }
