@@ -291,10 +291,10 @@ Synopsis of methods</h2></td></tr>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Returns the <code>n</code>th element of an iterable. </p>
-<p>Given a <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class represents data that can be manipulated at compile-time. ">Constant</a></code> index and an iterable, <code>at</code> returns the element located at the index in the linearization of the iterable. Specifically, given an iterable <code>xs</code> with a linearization of <code>[x1, ..., xN]</code>, <code>at(k, xs)</code> is equivalent to <code>xk</code>.</p>
+<p>Given a <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> index and an iterable, <code>at</code> returns the element located at the index in the linearization of the iterable. Specifically, given an iterable <code>xs</code> with a linearization of <code>[x1, ..., xN]</code>, <code>at(k, xs)</code> is equivalent to <code>xk</code>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">n</td><td>A (non-negative) <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class represents data that can be manipulated at compile-time. ">Constant</a></code> of an unsigned integral type representing the 0-based index of the element to return. It is an error to call <code>at</code> with an index that is either out of bounds for the iterable, not of an unsigned type or not a <a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class represents data that can be manipulated at compile-time. ">Constant</a>.</td></tr>
+    <tr><td class="paramname">n</td><td>A (non-negative) <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> of an unsigned integral type representing the 0-based index of the element to return. It is an error to call <code>at</code> with an index that is either out of bounds for the iterable, not of an unsigned type or not a <a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a>.</td></tr>
     <tr><td class="paramname">iterable</td><td>The iterable in which an element is retrieved. The iterable must contain at least <code>n + 1</code> elements.</td></tr>
   </table>
   </dd>
@@ -395,10 +395,10 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Drops the first <code>n</code> elements of an iterable and returns the rest. </p>
-<p>Given an (non-negative) <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class represents data that can be manipulated at compile-time. ">Constant</a></code> <code>n</code> of an unsigned integral type and an iterable <code>xs</code> with a linearization of <code>[x1, ..., xN]</code>, <code>drop(n, xs)</code> is an iterable of the same data type whose linearization is <code>[xn+1, ..., xN]</code>. In particular, note that this method does not mutate the original iterable in any way.</p>
+<p>Given an (non-negative) <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> <code>n</code> of an unsigned integral type and an iterable <code>xs</code> with a linearization of <code>[x1, ..., xN]</code>, <code>drop(n, xs)</code> is an iterable of the same data type whose linearization is <code>[xn+1, ..., xN]</code>. In particular, note that this method does not mutate the original iterable in any way.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">n</td><td>A non-negative <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class represents data that can be manipulated at compile-time. ">Constant</a></code> of an unsigned integral type representing the number of elements to be dropped from the iterable. If <code>n</code> is greater than the number of elements in the iterable, the returned iterable is empty.</td></tr>
+    <tr><td class="paramname">n</td><td>A non-negative <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> of an unsigned integral type representing the number of elements to be dropped from the iterable. If <code>n</code> is greater than the number of elements in the iterable, the returned iterable is empty.</td></tr>
     <tr><td class="paramname">iterable</td><td>The iterable from which elements are dropped.</td></tr>
   </table>
   </dd>

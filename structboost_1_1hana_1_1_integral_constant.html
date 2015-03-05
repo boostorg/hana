@@ -121,7 +121,7 @@ struct boost::hana::IntegralConstant&lt; T &gt;</h3>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(size_t&lt;3&gt; * ushort&lt;5&gt; == size_t&lt;15&gt;);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(llong&lt;15&gt; == int_&lt;15&gt;);</div>
 </div><!-- fragment --><p> It is pretty important to realize that these operators return <code><a class="el" href="structboost_1_1hana_1_1_integral_constant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code>s, not normal values of an integral type. Actually, all those operators work pretty much in the same way. Simply put, for an operator <code>@</code>, </p><div class="fragment"><div class="line">integral_constant&lt;T, x&gt; @ integral_constant&lt;T, y&gt; == integral_constant&lt;T, x @ y&gt;</div>
-</div><!-- fragment --><p>The fact that the operators return <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class represents data that can be manipulated at compile-time. ">Constant</a></code>s is very important because it allows all the information that's known at compile-time to be conserved as long as it's only used with other values known at compile-time. It is also interesting to observe that whenever an <code><a class="el" href="structboost_1_1hana_1_1_integral_constant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code> is combined with a normal runtime value, the result will be a runtime value (because of the implicit conversion). In general, this gives us the following table</p>
+</div><!-- fragment --><p>The fact that the operators return <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code>s is very important because it allows all the information that's known at compile-time to be conserved as long as it's only used with other values known at compile-time. It is also interesting to observe that whenever an <code><a class="el" href="structboost_1_1hana_1_1_integral_constant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code> is combined with a normal runtime value, the result will be a runtime value (because of the implicit conversion). In general, this gives us the following table</p>
 <table class="doxtable">
 <tr>
 <th align="center">left operand </th><th align="center">right operand </th><th align="center">result  </th></tr>
@@ -175,15 +175,15 @@ struct boost::hana::IntegralConstant&lt; T &gt;</h3>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(1234_c == llong&lt;1234&gt;);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(-1234_c == llong&lt;-1234&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(1_c + (3_c * 4_c) == <a class="code" href="structboost_1_1hana_1_1_integral_constant.html#a1d39c4f98b84422263842b6c04ef0a7e">llong</a>&lt;1 + (3 * 4)&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(1_c + (3_c * 4_c) == <a class="code" href="structboost_1_1hana_1_1_integral_constant.html#af8d0f6571370d36d4f556fa70b3c24b5">llong</a>&lt;1 + (3 * 4)&gt;);</div>
 </div><!-- fragment --><h2>Modeled concepts </h2>
 <ol type="1">
-<li><code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class represents data that can be manipulated at compile-time. ">Constant</a></code><br />
-An <code><a class="el" href="structboost_1_1hana_1_1_integral_constant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code> is a model of the <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class represents data that can be manipulated at compile-time. ">Constant</a></code> concept in the most obvious way possible. Specifically, <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> c = integral_constant&lt;int, 10&gt;;</div>
+<li><code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code><br />
+An <code><a class="el" href="structboost_1_1hana_1_1_integral_constant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code> is a model of the <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> concept in the most obvious way possible. Specifically, <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> c = integral_constant&lt;int, 10&gt;;</div>
 <div class="line">static_assert(value2&lt;decltype(c)&gt;() == 10, <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_group.html" title="The Group concept represents Monoids where all objects have an inverse w.r.t. the Monoid&#39;s binary ope...">Group</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_ring.html" title="The Ring concept represents Groups that also form a Monoid under a second binary operation that distr...">Ring</a></code>, and <code><a class="el" href="structboost_1_1hana_1_1_integral_domain.html" title="The IntegralDomain concept represents a commutative Ring whose multiplication has some &quot;nice&quot; propert...">IntegralDomain</a></code> (operators provided)<br />
-Those models are exactly those provided for <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class represents data that can be manipulated at compile-time. ">Constant</a></code>s, which are documented in their respective concepts.</li>
+Those models are exactly those provided for <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code>s, which are documented in their respective concepts.</li>
 </ol>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000015">Todo:</a></b></dt><dd><code>times</code> should be a shortcut to some tag-dispatched method. Specifically, anything that can be incremented, decremented and compared to some "zero" value can implement a <code>times</code> method with the same semantics.</dd></dl>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000016">Todo:</a></b></dt><dd>Implicit conversions to the underlying integral type can be problematic: <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> odd = [](<span class="keyword">auto</span> x) {</div>
@@ -199,45 +199,45 @@ Synopsis of methods</h2></td></tr>
 <tr class="memitem:add84fb21ae6605a61da449cb716d8c2a"><td class="memTemplItemLeft" align="right" valign="top">constexpr unspecified type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_integral_constant.html#add84fb21ae6605a61da449cb716d8c2a">integral_constant</a> {}</td></tr>
 <tr class="memdesc:add84fb21ae6605a61da449cb716d8c2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an <code><a class="el" href="structboost_1_1hana_1_1_integral_constant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code> holding the given compile-time value.  <a href="#add84fb21ae6605a61da449cb716d8c2a">More...</a><br /></td></tr>
 <tr class="separator:add84fb21ae6605a61da449cb716d8c2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acf0a8576fc56fe55152b2478f190561f"><td class="memTemplParams" colspan="2">template&lt;bool b&gt; </td></tr>
-<tr class="memitem:acf0a8576fc56fe55152b2478f190561f"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_integral_constant.html#acf0a8576fc56fe55152b2478f190561f">bool_</a> = <a class="el" href="structboost_1_1hana_1_1_integral_constant.html#add84fb21ae6605a61da449cb716d8c2a">integral_constant</a>&lt;bool, b&gt;</td></tr>
-<tr class="separator:acf0a8576fc56fe55152b2478f190561f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae6096d56dd1b76bb9d37e4121eb5b33c"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_integral_constant.html#ae6096d56dd1b76bb9d37e4121eb5b33c">true_</a> = <a class="el" href="structboost_1_1hana_1_1_integral_constant.html#acf0a8576fc56fe55152b2478f190561f">bool_</a>&lt;true&gt;</td></tr>
+<tr class="memitem:ade6e1698f22d8a126992e55676496a87"><td class="memTemplParams" colspan="2">template&lt;bool b&gt; </td></tr>
+<tr class="memitem:ade6e1698f22d8a126992e55676496a87"><td class="memTemplItemLeft" align="right" valign="top">constexpr _integral_constant&lt; bool, b &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_integral_constant.html#ade6e1698f22d8a126992e55676496a87">bool_</a> {}</td></tr>
+<tr class="separator:ade6e1698f22d8a126992e55676496a87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6096d56dd1b76bb9d37e4121eb5b33c"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_integral_constant.html#ae6096d56dd1b76bb9d37e4121eb5b33c">true_</a> = <a class="el" href="structboost_1_1hana_1_1_integral_constant.html#ade6e1698f22d8a126992e55676496a87">bool_</a>&lt;true&gt;</td></tr>
 <tr class="memdesc:ae6096d56dd1b76bb9d37e4121eb5b33c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>bool_&lt;true&gt;</code>.  <a href="#ae6096d56dd1b76bb9d37e4121eb5b33c">More...</a><br /></td></tr>
 <tr class="separator:ae6096d56dd1b76bb9d37e4121eb5b33c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1fb33fb686dbbe3e9718071ba2630641"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_integral_constant.html#a1fb33fb686dbbe3e9718071ba2630641">false_</a> = <a class="el" href="structboost_1_1hana_1_1_integral_constant.html#acf0a8576fc56fe55152b2478f190561f">bool_</a>&lt;false&gt;</td></tr>
+<tr class="memitem:a1fb33fb686dbbe3e9718071ba2630641"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_integral_constant.html#a1fb33fb686dbbe3e9718071ba2630641">false_</a> = <a class="el" href="structboost_1_1hana_1_1_integral_constant.html#ade6e1698f22d8a126992e55676496a87">bool_</a>&lt;false&gt;</td></tr>
 <tr class="memdesc:a1fb33fb686dbbe3e9718071ba2630641"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>bool_&lt;false&gt;</code>.  <a href="#a1fb33fb686dbbe3e9718071ba2630641">More...</a><br /></td></tr>
 <tr class="separator:a1fb33fb686dbbe3e9718071ba2630641"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad2fa34981b7b50cbbb75482e3b95745c"><td class="memTemplParams" colspan="2">template&lt;char c&gt; </td></tr>
-<tr class="memitem:ad2fa34981b7b50cbbb75482e3b95745c"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_integral_constant.html#ad2fa34981b7b50cbbb75482e3b95745c">char_</a> = <a class="el" href="structboost_1_1hana_1_1_integral_constant.html#add84fb21ae6605a61da449cb716d8c2a">integral_constant</a>&lt;char, c&gt;</td></tr>
-<tr class="separator:ad2fa34981b7b50cbbb75482e3b95745c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a84287b99d47602c48157098aa1beb529"><td class="memTemplParams" colspan="2">template&lt;short i&gt; </td></tr>
-<tr class="memitem:a84287b99d47602c48157098aa1beb529"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_integral_constant.html#a84287b99d47602c48157098aa1beb529">short_</a> = <a class="el" href="structboost_1_1hana_1_1_integral_constant.html#add84fb21ae6605a61da449cb716d8c2a">integral_constant</a>&lt;short, i&gt;</td></tr>
-<tr class="separator:a84287b99d47602c48157098aa1beb529"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a22e80ee14529e7c6549266c51b2b953b"><td class="memTemplParams" colspan="2">template&lt;unsigned short i&gt; </td></tr>
-<tr class="memitem:a22e80ee14529e7c6549266c51b2b953b"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_integral_constant.html#a22e80ee14529e7c6549266c51b2b953b">ushort</a> = <a class="el" href="structboost_1_1hana_1_1_integral_constant.html#add84fb21ae6605a61da449cb716d8c2a">integral_constant</a>&lt;unsigned short, i&gt;</td></tr>
-<tr class="separator:a22e80ee14529e7c6549266c51b2b953b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab7bc46564313c4d3aeb0997bd92759e6"><td class="memTemplParams" colspan="2">template&lt;int i&gt; </td></tr>
-<tr class="memitem:ab7bc46564313c4d3aeb0997bd92759e6"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_integral_constant.html#ab7bc46564313c4d3aeb0997bd92759e6">int_</a> = <a class="el" href="structboost_1_1hana_1_1_integral_constant.html#add84fb21ae6605a61da449cb716d8c2a">integral_constant</a>&lt;int, i&gt;</td></tr>
-<tr class="separator:ab7bc46564313c4d3aeb0997bd92759e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ade3885aa06ddc4628710dc00cf74cbb9"><td class="memTemplParams" colspan="2">template&lt;unsigned int i&gt; </td></tr>
-<tr class="memitem:ade3885aa06ddc4628710dc00cf74cbb9"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_integral_constant.html#ade3885aa06ddc4628710dc00cf74cbb9">uint</a> = <a class="el" href="structboost_1_1hana_1_1_integral_constant.html#add84fb21ae6605a61da449cb716d8c2a">integral_constant</a>&lt;unsigned int, i&gt;</td></tr>
-<tr class="separator:ade3885aa06ddc4628710dc00cf74cbb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac9f0f0f418542662d6d3d6ad92a896e0"><td class="memTemplParams" colspan="2">template&lt;long i&gt; </td></tr>
-<tr class="memitem:ac9f0f0f418542662d6d3d6ad92a896e0"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_integral_constant.html#ac9f0f0f418542662d6d3d6ad92a896e0">long_</a> = <a class="el" href="structboost_1_1hana_1_1_integral_constant.html#add84fb21ae6605a61da449cb716d8c2a">integral_constant</a>&lt;long, i&gt;</td></tr>
-<tr class="separator:ac9f0f0f418542662d6d3d6ad92a896e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa699749e8ef0e4d1bdad9a0749c9519d"><td class="memTemplParams" colspan="2">template&lt;unsigned long i&gt; </td></tr>
-<tr class="memitem:aa699749e8ef0e4d1bdad9a0749c9519d"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_integral_constant.html#aa699749e8ef0e4d1bdad9a0749c9519d">ulong</a> = <a class="el" href="structboost_1_1hana_1_1_integral_constant.html#add84fb21ae6605a61da449cb716d8c2a">integral_constant</a>&lt;unsigned long, i&gt;</td></tr>
-<tr class="separator:aa699749e8ef0e4d1bdad9a0749c9519d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1d39c4f98b84422263842b6c04ef0a7e"><td class="memTemplParams" colspan="2">template&lt;long long i&gt; </td></tr>
-<tr class="memitem:a1d39c4f98b84422263842b6c04ef0a7e"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_integral_constant.html#a1d39c4f98b84422263842b6c04ef0a7e">llong</a> = <a class="el" href="structboost_1_1hana_1_1_integral_constant.html#add84fb21ae6605a61da449cb716d8c2a">integral_constant</a>&lt;long long, i&gt;</td></tr>
-<tr class="separator:a1d39c4f98b84422263842b6c04ef0a7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2c81419f29a6116793e524ac98b5931b"><td class="memTemplParams" colspan="2">template&lt;unsigned long long i&gt; </td></tr>
-<tr class="memitem:a2c81419f29a6116793e524ac98b5931b"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_integral_constant.html#a2c81419f29a6116793e524ac98b5931b">ullong</a> = <a class="el" href="structboost_1_1hana_1_1_integral_constant.html#add84fb21ae6605a61da449cb716d8c2a">integral_constant</a>&lt;unsigned long long, i&gt;</td></tr>
-<tr class="separator:a2c81419f29a6116793e524ac98b5931b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0bd564787f4fd66ab9a0270cae08785d"><td class="memTemplParams" colspan="2">template&lt;detail::std::size_t i&gt; </td></tr>
-<tr class="memitem:a0bd564787f4fd66ab9a0270cae08785d"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_integral_constant.html#a0bd564787f4fd66ab9a0270cae08785d">size_t</a> = <a class="el" href="structboost_1_1hana_1_1_integral_constant.html#add84fb21ae6605a61da449cb716d8c2a">integral_constant</a>&lt;detail::std::size_t, i&gt;</td></tr>
-<tr class="separator:a0bd564787f4fd66ab9a0270cae08785d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae66416a3d6373a69ac5e430a4eb8f478"><td class="memTemplParams" colspan="2">template&lt;char c&gt; </td></tr>
+<tr class="memitem:ae66416a3d6373a69ac5e430a4eb8f478"><td class="memTemplItemLeft" align="right" valign="top">constexpr _integral_constant&lt; char, c &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_integral_constant.html#ae66416a3d6373a69ac5e430a4eb8f478">char_</a> {}</td></tr>
+<tr class="separator:ae66416a3d6373a69ac5e430a4eb8f478"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf7583b06af7fedb758e4966f0ee4605"><td class="memTemplParams" colspan="2">template&lt;short i&gt; </td></tr>
+<tr class="memitem:aaf7583b06af7fedb758e4966f0ee4605"><td class="memTemplItemLeft" align="right" valign="top">constexpr _integral_constant&lt; short, i &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_integral_constant.html#aaf7583b06af7fedb758e4966f0ee4605">short_</a> {}</td></tr>
+<tr class="separator:aaf7583b06af7fedb758e4966f0ee4605"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af27cdbb184ef3eb020a534766206789c"><td class="memTemplParams" colspan="2">template&lt;unsigned short i&gt; </td></tr>
+<tr class="memitem:af27cdbb184ef3eb020a534766206789c"><td class="memTemplItemLeft" align="right" valign="top">constexpr _integral_constant&lt; unsigned short, i &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_integral_constant.html#af27cdbb184ef3eb020a534766206789c">ushort</a> {}</td></tr>
+<tr class="separator:af27cdbb184ef3eb020a534766206789c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a776055a433487d978a18afe4b60c2641"><td class="memTemplParams" colspan="2">template&lt;int i&gt; </td></tr>
+<tr class="memitem:a776055a433487d978a18afe4b60c2641"><td class="memTemplItemLeft" align="right" valign="top">constexpr _integral_constant&lt; int, i &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_integral_constant.html#a776055a433487d978a18afe4b60c2641">int_</a> {}</td></tr>
+<tr class="separator:a776055a433487d978a18afe4b60c2641"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a288d8c491ede76e06f0ffa5fcec865"><td class="memTemplParams" colspan="2">template&lt;unsigned int i&gt; </td></tr>
+<tr class="memitem:a6a288d8c491ede76e06f0ffa5fcec865"><td class="memTemplItemLeft" align="right" valign="top">constexpr _integral_constant&lt; unsigned int, i &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_integral_constant.html#a6a288d8c491ede76e06f0ffa5fcec865">uint</a> {}</td></tr>
+<tr class="separator:a6a288d8c491ede76e06f0ffa5fcec865"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac304b9b0f90a1d95e316a1e758c69fe0"><td class="memTemplParams" colspan="2">template&lt;long i&gt; </td></tr>
+<tr class="memitem:ac304b9b0f90a1d95e316a1e758c69fe0"><td class="memTemplItemLeft" align="right" valign="top">constexpr _integral_constant&lt; long, i &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_integral_constant.html#ac304b9b0f90a1d95e316a1e758c69fe0">long_</a> {}</td></tr>
+<tr class="separator:ac304b9b0f90a1d95e316a1e758c69fe0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae70bdb7f1d32f3df1116780c191dfb78"><td class="memTemplParams" colspan="2">template&lt;unsigned long i&gt; </td></tr>
+<tr class="memitem:ae70bdb7f1d32f3df1116780c191dfb78"><td class="memTemplItemLeft" align="right" valign="top">constexpr _integral_constant&lt; unsigned long, i &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_integral_constant.html#ae70bdb7f1d32f3df1116780c191dfb78">ulong</a> {}</td></tr>
+<tr class="separator:ae70bdb7f1d32f3df1116780c191dfb78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8d0f6571370d36d4f556fa70b3c24b5"><td class="memTemplParams" colspan="2">template&lt;long long i&gt; </td></tr>
+<tr class="memitem:af8d0f6571370d36d4f556fa70b3c24b5"><td class="memTemplItemLeft" align="right" valign="top">constexpr _integral_constant&lt; long long, i &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_integral_constant.html#af8d0f6571370d36d4f556fa70b3c24b5">llong</a> {}</td></tr>
+<tr class="separator:af8d0f6571370d36d4f556fa70b3c24b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f56d855798857292ca63b31d0417e43"><td class="memTemplParams" colspan="2">template&lt;unsigned long long i&gt; </td></tr>
+<tr class="memitem:a9f56d855798857292ca63b31d0417e43"><td class="memTemplItemLeft" align="right" valign="top">constexpr _integral_constant&lt; unsigned long long, i &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_integral_constant.html#a9f56d855798857292ca63b31d0417e43">ullong</a> {}</td></tr>
+<tr class="separator:a9f56d855798857292ca63b31d0417e43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44ed105eee40cf7c4fef4b4524575595"><td class="memTemplParams" colspan="2">template&lt;detail::std::size_t i&gt; </td></tr>
+<tr class="memitem:a44ed105eee40cf7c4fef4b4524575595"><td class="memTemplItemLeft" align="right" valign="top">constexpr _integral_constant&lt; detail::std::size_t, i &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_integral_constant.html#a44ed105eee40cf7c4fef4b4524575595">size_t</a> {}</td></tr>
+<tr class="separator:a44ed105eee40cf7c4fef4b4524575595"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1c078fd00db48686ca9e0aa17f47344e"><td class="memTemplParams" colspan="2">template&lt;char... c&gt; </td></tr>
 <tr class="memitem:a1c078fd00db48686ca9e0aa17f47344e"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_integral_constant.html#a1c078fd00db48686ca9e0aa17f47344e">operator&quot;&quot;_c</a> ()</td></tr>
 <tr class="memdesc:a1c078fd00db48686ca9e0aa17f47344e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an <code><a class="el" href="structboost_1_1hana_1_1_integral_constant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code> from a literal.  <a href="#a1c078fd00db48686ca9e0aa17f47344e">More...</a><br /></td></tr>
@@ -286,7 +286,7 @@ template&lt;typename T , T v&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="acf0a8576fc56fe55152b2478f190561f"></a>
+<a class="anchor" id="ade6e1698f22d8a126992e55676496a87"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -298,7 +298,7 @@ template&lt;bool b&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto bool_ = <a class="el" href="structboost_1_1hana_1_1_integral_constant.html#add84fb21ae6605a61da449cb716d8c2a">integral_constant</a>&lt;bool, b&gt;</td>
+          <td class="memname">constexpr _integral_constant&lt;bool, b&gt; bool_ {}</td>
         </tr>
       </table>
   </td>
@@ -320,7 +320,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto true_ = <a class="el" href="structboost_1_1hana_1_1_integral_constant.html#acf0a8576fc56fe55152b2478f190561f">bool_</a>&lt;true&gt;</td>
+          <td class="memname">constexpr auto true_ = <a class="el" href="structboost_1_1hana_1_1_integral_constant.html#ade6e1698f22d8a126992e55676496a87">bool_</a>&lt;true&gt;</td>
         </tr>
       </table>
   </td>
@@ -344,7 +344,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto false_ = <a class="el" href="structboost_1_1hana_1_1_integral_constant.html#acf0a8576fc56fe55152b2478f190561f">bool_</a>&lt;false&gt;</td>
+          <td class="memname">constexpr auto false_ = <a class="el" href="structboost_1_1hana_1_1_integral_constant.html#ade6e1698f22d8a126992e55676496a87">bool_</a>&lt;false&gt;</td>
         </tr>
       </table>
   </td>
@@ -358,7 +358,7 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="ad2fa34981b7b50cbbb75482e3b95745c"></a>
+<a class="anchor" id="ae66416a3d6373a69ac5e430a4eb8f478"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -370,7 +370,7 @@ template&lt;char c&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto char_ = <a class="el" href="structboost_1_1hana_1_1_integral_constant.html#add84fb21ae6605a61da449cb716d8c2a">integral_constant</a>&lt;char, c&gt;</td>
+          <td class="memname">constexpr _integral_constant&lt;char, c&gt; char_ {}</td>
         </tr>
       </table>
   </td>
@@ -382,7 +382,7 @@ template&lt;char c&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a84287b99d47602c48157098aa1beb529"></a>
+<a class="anchor" id="aaf7583b06af7fedb758e4966f0ee4605"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -394,7 +394,7 @@ template&lt;short i&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto short_ = <a class="el" href="structboost_1_1hana_1_1_integral_constant.html#add84fb21ae6605a61da449cb716d8c2a">integral_constant</a>&lt;short, i&gt;</td>
+          <td class="memname">constexpr _integral_constant&lt;short, i&gt; short_ {}</td>
         </tr>
       </table>
   </td>
@@ -406,7 +406,7 @@ template&lt;short i&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a22e80ee14529e7c6549266c51b2b953b"></a>
+<a class="anchor" id="af27cdbb184ef3eb020a534766206789c"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -418,7 +418,7 @@ template&lt;unsigned short i&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto ushort = <a class="el" href="structboost_1_1hana_1_1_integral_constant.html#add84fb21ae6605a61da449cb716d8c2a">integral_constant</a>&lt;unsigned short, i&gt;</td>
+          <td class="memname">constexpr _integral_constant&lt;unsigned short, i&gt; ushort {}</td>
         </tr>
       </table>
   </td>
@@ -430,7 +430,7 @@ template&lt;unsigned short i&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="ab7bc46564313c4d3aeb0997bd92759e6"></a>
+<a class="anchor" id="a776055a433487d978a18afe4b60c2641"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -442,7 +442,7 @@ template&lt;int i&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto int_ = <a class="el" href="structboost_1_1hana_1_1_integral_constant.html#add84fb21ae6605a61da449cb716d8c2a">integral_constant</a>&lt;int, i&gt;</td>
+          <td class="memname">constexpr _integral_constant&lt;int, i&gt; int_ {}</td>
         </tr>
       </table>
   </td>
@@ -454,7 +454,7 @@ template&lt;int i&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="ade3885aa06ddc4628710dc00cf74cbb9"></a>
+<a class="anchor" id="a6a288d8c491ede76e06f0ffa5fcec865"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -466,7 +466,7 @@ template&lt;unsigned int i&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto uint = <a class="el" href="structboost_1_1hana_1_1_integral_constant.html#add84fb21ae6605a61da449cb716d8c2a">integral_constant</a>&lt;unsigned int, i&gt;</td>
+          <td class="memname">constexpr _integral_constant&lt;unsigned int, i&gt; uint {}</td>
         </tr>
       </table>
   </td>
@@ -478,7 +478,7 @@ template&lt;unsigned int i&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="ac9f0f0f418542662d6d3d6ad92a896e0"></a>
+<a class="anchor" id="ac304b9b0f90a1d95e316a1e758c69fe0"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -490,7 +490,7 @@ template&lt;long i&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto long_ = <a class="el" href="structboost_1_1hana_1_1_integral_constant.html#add84fb21ae6605a61da449cb716d8c2a">integral_constant</a>&lt;long, i&gt;</td>
+          <td class="memname">constexpr _integral_constant&lt;long, i&gt; long_ {}</td>
         </tr>
       </table>
   </td>
@@ -502,7 +502,7 @@ template&lt;long i&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="aa699749e8ef0e4d1bdad9a0749c9519d"></a>
+<a class="anchor" id="ae70bdb7f1d32f3df1116780c191dfb78"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -514,7 +514,7 @@ template&lt;unsigned long i&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto ulong = <a class="el" href="structboost_1_1hana_1_1_integral_constant.html#add84fb21ae6605a61da449cb716d8c2a">integral_constant</a>&lt;unsigned long, i&gt;</td>
+          <td class="memname">constexpr _integral_constant&lt;unsigned long, i&gt; ulong {}</td>
         </tr>
       </table>
   </td>
@@ -526,7 +526,7 @@ template&lt;unsigned long i&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a1d39c4f98b84422263842b6c04ef0a7e"></a>
+<a class="anchor" id="af8d0f6571370d36d4f556fa70b3c24b5"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -538,7 +538,7 @@ template&lt;long long i&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto llong = <a class="el" href="structboost_1_1hana_1_1_integral_constant.html#add84fb21ae6605a61da449cb716d8c2a">integral_constant</a>&lt;long long, i&gt;</td>
+          <td class="memname">constexpr _integral_constant&lt;long long, i&gt; llong {}</td>
         </tr>
       </table>
   </td>
@@ -550,7 +550,7 @@ template&lt;long long i&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a2c81419f29a6116793e524ac98b5931b"></a>
+<a class="anchor" id="a9f56d855798857292ca63b31d0417e43"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -562,7 +562,7 @@ template&lt;unsigned long long i&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto ullong = <a class="el" href="structboost_1_1hana_1_1_integral_constant.html#add84fb21ae6605a61da449cb716d8c2a">integral_constant</a>&lt;unsigned long long, i&gt;</td>
+          <td class="memname">constexpr _integral_constant&lt;unsigned long long, i&gt; ullong {}</td>
         </tr>
       </table>
   </td>
@@ -574,7 +574,7 @@ template&lt;unsigned long long i&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a0bd564787f4fd66ab9a0270cae08785d"></a>
+<a class="anchor" id="a44ed105eee40cf7c4fef4b4524575595"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -586,7 +586,7 @@ template&lt;detail::std::size_t i&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto size_t = <a class="el" href="structboost_1_1hana_1_1_integral_constant.html#add84fb21ae6605a61da449cb716d8c2a">integral_constant</a>&lt;detail::std::size_t, i&gt;</td>
+          <td class="memname">constexpr _integral_constant&lt;detail::std::size_t, i&gt; size_t {}</td>
         </tr>
       </table>
   </td>
@@ -629,7 +629,7 @@ template&lt;char... c&gt; </div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(1234_c == llong&lt;1234&gt;);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(-1234_c == llong&lt;-1234&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(1_c + (3_c * 4_c) == <a class="code" href="structboost_1_1hana_1_1_integral_constant.html#a1d39c4f98b84422263842b6c04ef0a7e">llong</a>&lt;1 + (3 * 4)&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(1_c + (3_c * 4_c) == <a class="code" href="structboost_1_1hana_1_1_integral_constant.html#af8d0f6571370d36d4f556fa70b3c24b5">llong</a>&lt;1 + (3 * 4)&gt;);</div>
 </div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000018">Todo:</a></b></dt><dd>Add support for stuff like <code>0x1234_c</code>. </dd></dl>
 
 </div>

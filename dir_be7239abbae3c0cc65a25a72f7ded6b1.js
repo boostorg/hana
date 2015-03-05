@@ -10,9 +10,7 @@ var dir_be7239abbae3c0cc65a25a72f7ded6b1 =
     [ "bool.hpp", "bool_8hpp.html", null ],
     [ "comparable.hpp", "comparable_8hpp.html", null ],
     [ "config.hpp", "config_8hpp.html", "config_8hpp" ],
-    [ "constant.hpp", "constant_8hpp.html", [
-      [ "which", "structboost_1_1hana_1_1constant__detail_1_1which.html", null ]
-    ] ],
+    [ "constant.hpp", "constant_8hpp.html", "constant_8hpp" ],
     [ "core.hpp", "core_8hpp.html", null ],
     [ "either.hpp", "either_8hpp.html", null ],
     [ "enumerable.hpp", "enumerable_8hpp.html", null ],

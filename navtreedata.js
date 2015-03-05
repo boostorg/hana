@@ -15,8 +15,9 @@ var NAVTREE =
       [ "Type computations", "index.html#tutorial-type", [
         [ "Performance considerations", "index.html#tutorial-type-perf", null ]
       ] ],
-      [ "Constants", "index.html#tutorial-constants", [
-        [ "Side effects", "index.html#tutorial-constants-side_effects", null ]
+      [ "Limitations of constexpr", "index.html#tutorial-constexpr", [
+        [ "Constants", "index.html#tutorial-constexpr-constants", null ],
+        [ "Side effects", "index.html#tutorial-constexpr-side_effects", null ]
       ] ],
       [ "Heterogeneity and generalized types", "index.html#tutorial-hetero", null ],
       [ "Integration with external libraries", "index.html#tutorial-ext", [
@@ -50,8 +51,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"index.html#tutorial-amphi",
-"structboost_1_1hana_1_1_sequence.html#a62411eb57e86f3cb7394f22fd3651355"
+"index.html",
+"structboost_1_1hana_1_1_sequence.html#a45ec7767d19eb7eaabb71ead3796a7f1"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

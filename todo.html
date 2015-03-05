@@ -101,19 +101,18 @@ $(document).ready(function(){initNavTree('todo.html','');});
 <div class="contents">
 <div class="textblock"><dl class="reflist">
 <dt><a class="anchor" id="_todo000008"></a>Member <a class="el" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>  </dt>
-<dd>Consider giving access to all the arguments to the type class implementation for performance purposes.  </dd>
+<dd>Consider giving access to all the arguments to the tag-dispatched implementation for performance purposes.  </dd>
 <dt><a class="anchor" id="_todo000004"></a>Member <a class="el" href="group__group-functional.html#ga6acc765a35c4dc85f0deab4785831a3d">boost::hana::arg</a>  </dt>
 <dd>This implementation is less compile-time efficient than <code>variadic::at</code>, but at least we can use perfect forwarding. Is there a way to get the efficiency of <code>variadic::at</code> with perfect forwarding?  </dd>
 <dt><a class="anchor" id="_todo000009"></a>Class <a class="el" href="structboost_1_1hana_1_1_comparable.html">boost::hana::Comparable</a>  </dt>
 <dd>Make sure no circularity issue with our provided operators can arise when checking for the EqualityComparable concept. </dd>
 <dt><a class="anchor" id="_todo000010"></a>Class <a class="el" href="structboost_1_1hana_1_1_constant.html">boost::hana::Constant</a>  </dt>
 <dd><ul>
-<li>Replace value by an equivalent version that works with types only.</li>
 <li>Document the nested value_type.</li>
 <li>Document the provided models, but that should be done in each concept.</li>
 <li>The fact that <code>common_t&lt;<a class="el" href="structboost_1_1hana_1_1_integral_constant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a>&lt;int&gt;, <a class="el" href="structboost_1_1hana_1_1_integral_constant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a>&lt;long&gt;&gt;</code> is <code>CanonicalConstant&lt;long&gt;</code> is unsatisfactory. We use a super ugly hack right now to avoid it; get rid of it.</li>
 <li>Are the conversions required to be embeddings? It seems like this should always be the case?</li>
-<li>Right now, the provided conversion to non-constants T is marked as an embedding whenever conversion from the underlying type to T is an embedding, regardless of the fact that we actually lose the <a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class represents data that can be manipulated at compile-time. ">Constant</a>'s structure. This is a real bummer, but without this expressions like <code>plus(int_&lt;1&gt;, 1)</code> would fail. What should be done? In the same vein, we currently provide a common type with non-constants for which our underlying type has a common type. Does this respect the requirements of a common type? Add tests for that in the <a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class represents data that can be manipulated at compile-time. ">Constant</a> automatic tests once this is settled. </li>
+<li>Right now, the provided conversion to non-constants T is marked as an embedding whenever conversion from the underlying type to T is an embedding, regardless of the fact that we actually lose the <a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a>'s structure. This is a real bummer, but without this expressions like <code>plus(int_&lt;1&gt;, 1)</code> would fail. What should be done? In the same vein, we currently provide a common type with non-constants for which our underlying type has a common type. Does this respect the requirements of a common type? Add tests for that in the <a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a> automatic tests once this is settled. </li>
 </ul>
 </dd>
 <dt><a class="anchor" id="_todo000001"></a>Class <a class="el" href="structboost_1_1hana_1_1constant__detail_1_1which.html">boost::hana::constant_detail::which&lt; A, B, C &gt;</a>  </dt>
@@ -177,9 +176,9 @@ $(document).ready(function(){initNavTree('todo.html','');});
 <p>Implement these methods: <code>intercalate</code>, <code>transpose</code>, <code>subsequences</code>, <code>split_at</code>, <code>break</code>, <code>inits</code>, <code>tails</code>, <code>iterate</code></p>
 <p class="enddd">Document the <a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a> -&gt; <a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> conversion, and also the <code>make</code> function.  </p>
 </dd>
-<dt><a class="anchor" id="_todo000051"></a>Class <a class="el" href="structboost_1_1hana_1_1sequence__detail_1_1__lazily.html">boost::hana::sequence_detail::_lazily</a>  </dt>
+<dt><a class="anchor" id="_todo000052"></a>Class <a class="el" href="structboost_1_1hana_1_1sequence__detail_1_1__lazily.html">boost::hana::sequence_detail::_lazily</a>  </dt>
 <dd>Find a way to make it so that <code>lazy</code> interoperates properly with <code>eval_if</code>, without having to do this hack.  </dd>
-<dt><a class="anchor" id="_todo000052"></a>Class <a class="el" href="structboost_1_1hana_1_1sequence__detail_1_1partition__helper.html">boost::hana::sequence_detail::partition_helper</a>  </dt>
+<dt><a class="anchor" id="_todo000053"></a>Class <a class="el" href="structboost_1_1hana_1_1sequence__detail_1_1partition__helper.html">boost::hana::sequence_detail::partition_helper</a>  </dt>
 <dd>How could we avoid copying <code>parts</code> and <code>x</code> to both branches?  </dd>
 <dt><a class="anchor" id="_todo000041"></a>Class <a class="el" href="structboost_1_1hana_1_1_string.html">boost::hana::String</a>  </dt>
 <dd><p class="startdd">Right now, we use a different template specialization to store each different string. This could also work by using an anonymous type, but there seems to be a bug in Clang right now that makes this fail in some circumstances: <a href="http://llvm.org/bugs/show_bug.cgi?id=20625">http://llvm.org/bugs/show_bug.cgi?id=20625</a>. Using an anonymous type could have compile-time performance benefits, so this avenue should be explored once the bug is fixed.</p>
@@ -195,13 +194,13 @@ $(document).ready(function(){initNavTree('todo.html','');});
 </dd>
 <dt><a class="anchor" id="_todo000011"></a>Class <a class="el" href="structboost_1_1hana_1_1wrong.html">boost::hana::wrong&lt;&gt;</a>  </dt>
 <dd>Consider moving this to the <code>boost::hana::detail</code> namespace.  </dd>
-<dt><a class="anchor" id="_todo000054"></a>globalScope&gt; Member <a class="el" href="tuple_8hpp.html#a31aa84626b49c35cb79a378c63c124e9">BOOST_HANA_PP_FLATTEN</a>  (REF)</dt>
+<dt><a class="anchor" id="_todo000055"></a>globalScope&gt; Member <a class="el" href="tuple_8hpp.html#a31aa84626b49c35cb79a378c63c124e9">BOOST_HANA_PP_FLATTEN</a>  (REF)</dt>
 <dd>Use <code>Size</code> instead of <code>long long</code> for the <code>lengths</code> array. The problem is that <code>hana::sum</code> does not allow the type of the elements to be specified and it uses <code>int_&lt;0&gt;</code> as a base value, so this won't work with an unsigned type.  </dd>
 <dt><a class="anchor" id="_todo000023"></a>Member <a class="el" href="structboost_1_1hana_1_1_iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>  </dt>
 <dd>Provide two variants; <code>drop.at_most</code> and <code>drop.exactly</code>.  </dd>
 <dt><a class="anchor" id="_todo000013"></a>Member <a class="el" href="structboost_1_1hana_1_1_foldable.html#a80176fbdfbccc09e902263557eb0984d">for_each</a>  </dt>
-<dd>The presence of implicit side effects in this function might be a smell that it should be moved to a different type class and handled through <code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code>s. </dd>
-<dt><a class="anchor" id="_todo000055"></a>File <a class="el" href="hana_8hpp.html">hana.hpp</a>  </dt>
+<dd>The presence of implicit side effects in this function might be a smell that it should be moved to a different concept and handled through <code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code>s. </dd>
+<dt><a class="anchor" id="_todo000056"></a>File <a class="el" href="hana_8hpp.html">hana.hpp</a>  </dt>
 <dd><ul>
 <li>To consider: is it possible/desirable to eliminate partial functions? For example, removing <code>head</code> and <code>tail</code>, which can fail, and replace them by a function which returns a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code>.</li>
 <li>Document how to write common Boost.Fusion and Boost.MPL idioms with Boost.Hana.</li>
@@ -236,7 +235,7 @@ $(document).ready(function(){initNavTree('todo.html','');});
 <dd>Implement the optimization.  </dd>
 <dt><a class="anchor" id="_todo000045"></a>Member <a class="el" href="structboost_1_1hana_1_1_tuple.html#aaa14e68d483c13fcc034639a75ab48a8">tuple_t</a>  </dt>
 <dd>Implement the optimization.  </dd>
-<dt><a class="anchor" id="_todo000056"></a>page <a class="el" href="index.html">User Manual</a>  </dt>
+<dt><a class="anchor" id="_todo000057"></a>page <a class="el" href="index.html">User Manual</a>  </dt>
 <dd><ul>
 <li>Provide links to the scattered examples, and also to example/mini_mpl. For some reason, I can't get Doxygen to generate a link.</li>
 <li>Expand this section to explain the philosophy behind Hana's metaprogramming paradigm, i.e. that you only retrieve the types at the end and that you do not try to represent everything as a type.</li>

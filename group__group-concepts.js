@@ -10,7 +10,8 @@ var group__group_concepts =
       [ "comparing", "structboost_1_1hana_1_1_comparable.html#a350ae6cc37fa971f203065bb628a7948", null ]
     ] ],
     [ "Constant", "structboost_1_1hana_1_1_constant.html", [
-      [ "value", "structboost_1_1hana_1_1_constant.html#a615a7728e2278acb2cab50854079d7fc", null ]
+      [ "value", "structboost_1_1hana_1_1_constant.html#adea9453327ac4d6834a555ae9887d3f5", null ],
+      [ "value_of", "structboost_1_1hana_1_1_constant.html#ad06a1ad6dece8a0337c3a9e754067051", null ]
     ] ],
     [ "Enumerable", "structboost_1_1hana_1_1_enumerable.html", [
       [ "succ", "structboost_1_1hana_1_1_enumerable.html#a09bc77dab527650793cab53fce2c14b0", null ],

@@ -317,7 +317,7 @@ template&lt;typename M &gt; </div>
 <div class="line">    )                                                                       \</div>
 </div><!-- fragment -->
 <p>Defines a model of <code><a class="el" href="structboost_1_1hana_1_1_record.html" title="The Record concept represents record-like user-defined types. ">Record</a></code> with the given members. </p>
-<p>Specifically, use this macro in the public section of a user-defined type <code>T</code> to define a model of the <code><a class="el" href="structboost_1_1hana_1_1_record.html" title="The Record concept represents record-like user-defined types. ">Record</a></code> type class for <code>T</code>. Note that this only works if the data type of <code>T</code> is <code>T</code> itself.</p>
+<p>Specifically, use this macro in the public section of a user-defined type <code>T</code> to define a model of the <code><a class="el" href="structboost_1_1hana_1_1_record.html" title="The Record concept represents record-like user-defined types. ">Record</a></code> concept for <code>T</code>. Note that this only works if the data type of <code>T</code> is <code>T</code> itself.</p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="keyword">struct </span>Person {</div>
 <div class="line">    <a class="code" href="structboost_1_1hana_1_1_record.html#ac0c49e26841cde4895d867e2e479e085">BOOST_HANA_DEFINE_RECORD_INTRUSIVE</a>(Person,</div>

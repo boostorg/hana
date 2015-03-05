@@ -412,10 +412,10 @@ template&lt;typename M &gt; </div>
 <div class="line">                          <span class="comment">// ^^^^^ n times total</span></div>
 </div><!-- fragment --><p>If <code>n</code> is zero, then the identity of <code>concat</code>, <code>empty</code>, is returned. In the case of sequences, this boils down to returning a sequence which containes <code>n</code> copies of itself; for other models it might differ.</p>
 <h2>Signature </h2>
-<p>Given a <a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class represents data that can be manipulated at compile-time. ">Constant</a> <code>C</code> and a <a class="el" href="structboost_1_1hana_1_1_monad_plus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> <code>M</code>, the signature is \( \mathrm{cycle} : C \times M(T) \to M(T) \).</p>
+<p>Given a <a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a> <code>C</code> and a <a class="el" href="structboost_1_1hana_1_1_monad_plus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> <code>M</code>, the signature is \( \mathrm{cycle} : C \times M(T) \to M(T) \).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">n</td><td>A non-negative <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class represents data that can be manipulated at compile-time. ">Constant</a></code> of an unsigned integral type representing the number of times to combine the monadic structure with itself. If <code>n</code> is zero, <code>cycle</code> returns <code>empty</code>.</td></tr>
+    <tr><td class="paramname">n</td><td>A non-negative <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> of an unsigned integral type representing the number of times to combine the monadic structure with itself. If <code>n</code> is zero, <code>cycle</code> returns <code>empty</code>.</td></tr>
     <tr><td class="paramname">xs</td><td>A monadic structure to combine with itself a certain number of times.</td></tr>
   </table>
   </dd>
@@ -454,7 +454,7 @@ template&lt;typename M &gt; </div>
 <p>Given a non-negative number <code>n</code>, a value <code>x</code> and a monadic data type <code>M</code>, <code>repeat</code> creates a new monadic structure which is the result of combining <code>x</code> with itself <code>n</code> times inside the monadic structure. In other words, <code>repeat</code> simply <code>lift</code>s <code>x</code> into the monadic structure, and then combines that with itself <code>n</code> times: </p><div class="fragment"><div class="line">repeat&lt;M&gt;(n, x) == <a class="code" href="structboost_1_1hana_1_1_monad_plus.html#a15cd26f8259bdd4306cd0907ef578b47">cycle</a>(n, lift&lt;M&gt;(x))</div>
 </div><!-- fragment --><p>If <code>n</code> is zero, then the identity of the <code>concat</code> operation is returned. In the case of sequences, this corresponds to creating a new sequence holding <code>n</code> copies of <code>x</code>.</p>
 <h2>Signature </h2>
-<p>Given a <a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class represents data that can be manipulated at compile-time. ">Constant</a> <code>C</code> and <a class="el" href="structboost_1_1hana_1_1_monad_plus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> <code>M</code>, the signature is \( \mathrm{repeat}_M : C \times T \to M(T) \).</p>
+<p>Given a <a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a> <code>C</code> and <a class="el" href="structboost_1_1hana_1_1_monad_plus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> <code>M</code>, the signature is \( \mathrm{repeat}_M : C \times T \to M(T) \).</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">M</td><td>The data type of the returned monadic structure. It must be a model of the <a class="el" href="structboost_1_1hana_1_1_monad_plus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> concept.</td></tr>
@@ -463,7 +463,7 @@ template&lt;typename M &gt; </div>
 </dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">n</td><td>A non-negative <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant type class represents data that can be manipulated at compile-time. ">Constant</a></code> of an unsigned integral type representing the number of times to combine <code>lift&lt;M&gt;(x)</code> with itself. If <code>n == 0</code>, then <code>repeat</code> returns <code>empty&lt;M&gt;()</code>.</td></tr>
+    <tr><td class="paramname">n</td><td>A non-negative <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> of an unsigned integral type representing the number of times to combine <code>lift&lt;M&gt;(x)</code> with itself. If <code>n == 0</code>, then <code>repeat</code> returns <code>empty&lt;M&gt;()</code>.</td></tr>
     <tr><td class="paramname">x</td><td>The value to lift into a monadic structure and then combine with itself.</td></tr>
   </table>
   </dd>
