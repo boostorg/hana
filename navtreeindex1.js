@@ -1,6 +1,7 @@
 var NAVTREEINDEX1 =
 {
 "index.html":[],
+"index.html":[0],
 "index.html#tutorial-amphi":[0,5],
 "index.html#tutorial-constexpr":[0,7],
 "index.html#tutorial-constexpr-constants":[0,7,0],
@@ -26,7 +27,7 @@ var NAVTREEINDEX1 =
 "index.html#tutorial-using_the_reference":[0,12],
 "infix_8hpp.html":[2,2,0,0,3,9],
 "infix_8hpp.html#ga7bdafba6dc801f1d2d83731ad9714557":[2,2,0,0,3,9,0],
-"insert__fwd_8hpp.html":[2,2,0,0,1,9],
+"insert__fwd_8hpp.html":[2,2,0,0,1,10],
 "integral__c_8hpp.html":[2,2,0,0,2,0,1,0],
 "integral__constant_8hpp.html":[2,2,0,0,18],
 "integral__domain_8hpp.html":[2,2,0,0,19],
@@ -44,7 +45,7 @@ var NAVTREEINDEX1 =
 "is__same_8hpp.html":[2,2,0,0,1,0,16],
 "iterable_8hpp.html":[2,2,0,0,20],
 "lazy_8hpp.html":[2,2,0,0,21],
-"less__than__comparable_8hpp.html":[2,2,0,0,1,10],
+"less__than__comparable_8hpp.html":[2,2,0,0,1,11],
 "lockstep_8hpp.html":[2,2,0,0,3,10],
 "lockstep_8hpp.html#gafca60c09e1f7a32a2b52baaf6515c279":[2,2,0,0,3,10,0],
 "logical_8hpp.html":[2,2,0,0,22],
@@ -77,8 +78,8 @@ var NAVTREEINDEX1 =
 "remove__cv_8hpp.html":[2,2,0,0,1,0,18],
 "remove__reference_8hpp.html":[2,2,0,0,1,0,19],
 "reverse__apply_8hpp.html":[2,2,0,0,1,1,8],
-"reverse__partial_8hpp.html":[2,2,0,0,1,11],
-"reverse__partial_8hpp.html#ga5d30ed36591b4062f54ab0c87ad8d7f0":[2,2,0,0,1,11,0],
+"reverse__partial_8hpp.html":[2,2,0,0,1,12],
+"reverse__partial_8hpp.html#ga5d30ed36591b4062f54ab0c87ad8d7f0":[2,2,0,0,1,12,0],
 "ring_8hpp.html":[2,2,0,0,34],
 "searchable_8hpp.html":[2,2,0,0,35],
 "sequence_8hpp.html":[2,2,0,0,36],
@@ -145,7 +146,7 @@ var NAVTREEINDEX1 =
 "structboost_1_1hana_1_1_integral_constant.html#af8d0f6571370d36d4f556fa70b3c24b5":[1,1,1,11],
 "structboost_1_1hana_1_1_integral_domain.html":[1,0,7],
 "structboost_1_1hana_1_1_integral_domain.html#a0e8bcb07d9b0d681cb9c4dc0b4df3481":[1,0,7,0],
-"structboost_1_1hana_1_1_integral_domain.html#a2b306dc95e8beec0ea943136781fde88":[1,0,7,1],
+"structboost_1_1hana_1_1_integral_domain.html#a42de609cbe102ff3becddf8cb8dcc5a9":[1,0,7,1],
 "structboost_1_1hana_1_1_iterable.html":[1,0,8],
 "structboost_1_1hana_1_1_iterable.html#a1005463b688fed01eb1d292398ce8202":[1,0,8,4],
 "structboost_1_1hana_1_1_iterable.html#a102d3b758946ac60cec3004d70920cab":[1,0,8,7],
@@ -248,6 +249,5 @@ var NAVTREEINDEX1 =
 "structboost_1_1hana_1_1_sequence.html#a23b6ac9e78577d70b9108a80e6b1534c":[1,0,18,25],
 "structboost_1_1hana_1_1_sequence.html#a27aa67fa9ffc3d89b23a6dce018013d4":[1,0,18,20],
 "structboost_1_1hana_1_1_sequence.html#a2c20028c5115dcf38063d322f27b4ee1":[1,0,18,18],
-"structboost_1_1hana_1_1_sequence.html#a2c8c7ea5db04febb890469a024fcd58b":[1,0,18,22],
-"structboost_1_1hana_1_1_sequence.html#a4471413ccc3835db5e48658683b8aba0":[1,0,18,8]
+"structboost_1_1hana_1_1_sequence.html#a2c8c7ea5db04febb890469a024fcd58b":[1,0,18,22]
 };

@@ -6,6 +6,7 @@ var annotated =
           [ "which", "structboost_1_1hana_1_1constant__detail_1_1which.html", null ]
         ] ],
         [ "detail", null, [
+          [ "array", "structboost_1_1hana_1_1detail_1_1array.html", null ],
           [ "CanonicalConstant", "structboost_1_1hana_1_1detail_1_1_canonical_constant.html", null ],
           [ "create", "structboost_1_1hana_1_1detail_1_1create.html", null ]
         ] ],

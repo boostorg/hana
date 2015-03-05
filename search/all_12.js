@@ -10,6 +10,7 @@ var searchData=
   ['record_2ehpp',['record.hpp',['../fwd_2record_8hpp.html',1,'']]],
   ['record_2ehpp',['record.hpp',['../record_8hpp.html',1,'']]],
   ['record_5fmacros_2ehpp',['record_macros.hpp',['../record__macros_8hpp.html',1,'']]],
+  ['rem',['rem',['../structboost_1_1hana_1_1_integral_domain.html#a42de609cbe102ff3becddf8cb8dcc5a9',1,'boost::hana::IntegralDomain']]],
   ['remove_5fat',['remove_at',['../structboost_1_1hana_1_1_sequence.html#a65295edabe2029007e7ecf640ae7bb0b',1,'boost::hana::Sequence']]],
   ['remove_5fat_5fc',['remove_at_c',['../structboost_1_1hana_1_1_sequence.html#aa597b243b348503860e1179065c508ec',1,'boost::hana::Sequence']]],
   ['remove_5fcv_2ehpp',['remove_cv.hpp',['../remove__cv_8hpp.html',1,'']]],
@@ -22,6 +23,6 @@ var searchData=
   ['reverse_5fpartial_2ehpp',['reverse_partial.hpp',['../reverse__partial_8hpp.html',1,'']]],
   ['right',['right',['../structboost_1_1hana_1_1_either.html#a0bd40511a2cb9b281d36a7fe564177bb',1,'boost::hana::Either']]],
   ['ring',['Ring',['../structboost_1_1hana_1_1_ring.html',1,'boost::hana']]],
-  ['ring_2ehpp',['ring.hpp',['../fwd_2ring_8hpp.html',1,'']]],
-  ['ring_2ehpp',['ring.hpp',['../ring_8hpp.html',1,'']]]
+  ['ring_2ehpp',['ring.hpp',['../ring_8hpp.html',1,'']]],
+  ['ring_2ehpp',['ring.hpp',['../fwd_2ring_8hpp.html',1,'']]]
 ];
