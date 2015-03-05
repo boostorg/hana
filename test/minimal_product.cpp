@@ -14,6 +14,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <test/auto/product.hpp>
 #include <test/cnumeric.hpp>
 #include <test/injection.hpp>
+#include <test/tracked.hpp>
+
+#include <utility>
 using namespace boost::hana;
 
 
@@ -35,4 +38,9 @@ namespace boost { namespace hana { namespace test {
 
 int main() {
     test::check_datatype<test::MinimalProduct>();
+
+    // make sure `first` and `second` are "accessors"
+    auto prod = test::minimal_product(test::Tracked{1}, test::Tracked{2});
+    first(std::move(prod));
+    second(std::move(prod));
 }

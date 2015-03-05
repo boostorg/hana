@@ -39,14 +39,14 @@ namespace boost { namespace hana {
     template <>
     struct first_impl<test::MinimalProduct> {
         template <typename P>
-        static constexpr auto apply(P p)
+        static constexpr decltype(auto) apply(P&& p)
         { return p.fst; }
     };
 
     template <>
     struct second_impl<test::MinimalProduct> {
         template <typename P>
-        static constexpr auto apply(P p)
+        static constexpr decltype(auto) apply(P&& p)
         { return p.snd; }
     };
 }} // end namespace boost::hana
