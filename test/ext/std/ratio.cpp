@@ -190,15 +190,15 @@ int main() {
             ));
         }
 
-        // mod
+        // rem
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                mod(std::ratio<6>{}, std::ratio<4>{}),
+                rem(std::ratio<6>{}, std::ratio<4>{}),
                 std::ratio<0>{}
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                mod(std::ratio<3, 4>{}, std::ratio<5, 10>{}),
+                rem(std::ratio<3, 4>{}, std::ratio<5, 10>{}),
                 std::ratio<0>{}
             ));
         }

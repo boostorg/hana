@@ -34,11 +34,11 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     namespace operators {
         template <typename X, typename Y, typename = typename detail::std::enable_if<
-            has_operator<datatype_t<X>, decltype(mod)>::value ||
-            has_operator<datatype_t<Y>, decltype(mod)>::value
+            has_operator<datatype_t<X>, decltype(rem)>::value ||
+            has_operator<datatype_t<Y>, decltype(rem)>::value
         >::type>
         constexpr decltype(auto) operator%(X&& x, Y&& y) {
-            return hana::mod(detail::std::forward<X>(x),
+            return hana::rem(detail::std::forward<X>(x),
                              detail::std::forward<Y>(y));
         }
 
@@ -84,26 +84,26 @@ namespace boost { namespace hana {
     // mod
     //////////////////////////////////////////////////////////////////////////
     template <typename T, typename U, typename>
-    struct mod_impl : mod_impl<T, U, when<true>> { };
+    struct rem_impl : rem_impl<T, U, when<true>> { };
 
     template <typename T, typename U, bool condition>
-    struct mod_impl<T, U, when<condition>> : default_ {
+    struct rem_impl<T, U, when<condition>> : default_ {
         template <typename X, typename Y>
         static constexpr void apply(X&&, Y&&) {
-            static_assert(wrong<mod_impl<T, U>, X, Y>{},
-            "no definition of boost::hana::mod for the given data types");
+            static_assert(wrong<rem_impl<T, U>, X, Y>{},
+            "no definition of boost::hana::rem for the given data types");
         }
     };
 
     // Cross-type overload
     template <typename T, typename U>
-    struct mod_impl<T, U, when<
+    struct rem_impl<T, U, when<
         detail::has_nontrivial_common_embedding<IntegralDomain, T, U>{}
     >> {
         using C = typename common<T, U>::type;
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            return hana::mod(to<C>(detail::std::forward<X>(x)),
+            return hana::rem(to<C>(detail::std::forward<X>(x)),
                              to<C>(detail::std::forward<Y>(y)));
         }
     };
@@ -114,7 +114,7 @@ namespace boost { namespace hana {
     template <typename D>
     struct models<IntegralDomain(D)>
         : detail::std::integral_constant<bool,
-            !is_default<mod_impl<D, D>>{} &&
+            !is_default<rem_impl<D, D>>{} &&
             !is_default<quot_impl<D, D>>{}
         >
     { };
@@ -130,7 +130,7 @@ namespace boost { namespace hana {
     };
 
     template <typename T>
-    struct mod_impl<T, T, when<detail::std::is_non_boolean_integral<T>{}>> {
+    struct rem_impl<T, T, when<detail::std::is_non_boolean_integral<T>{}>> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y)
         { return detail::std::forward<X>(x) % detail::std::forward<Y>(y); }
@@ -158,14 +158,14 @@ namespace boost { namespace hana {
     };
 
     template <typename C>
-    struct mod_impl<C, C, when<
+    struct rem_impl<C, C, when<
         models<Constant(C)>{} && models<IntegralDomain(typename C::value_type)>{}
     >> {
         using T = typename C::value_type;
         template <typename X, typename Y>
         struct _constant {
             static constexpr decltype(auto) get() {
-                return boost::hana::mod(boost::hana::value<X>(),
+                return boost::hana::rem(boost::hana::value<X>(),
                                         boost::hana::value<Y>());
             }
             struct hana { using datatype = detail::CanonicalConstant<T>; };

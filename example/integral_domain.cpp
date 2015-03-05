@@ -13,18 +13,17 @@ int main() {
 
 {
 
-//! [mod]
-BOOST_HANA_CONSTANT_CHECK(mod(int_<6>, int_<4>) == int_<2>);
-BOOST_HANA_CONSTEXPR_CHECK(mod(6, 4) == 2);
-//! [mod]
+//! [rem]
+BOOST_HANA_CONSTANT_CHECK(rem(int_<6>, int_<4>) == int_<2>);
+BOOST_HANA_CONSTANT_CHECK(rem(int_<-6>, int_<4>) == int_<-2>);
+BOOST_HANA_CONSTEXPR_CHECK(rem(6, 4) == 2);
+//! [rem]
 
 }{
 
 //! [quot]
 BOOST_HANA_CONSTANT_CHECK(quot(int_<6>, int_<3>) == int_<2>);
 BOOST_HANA_CONSTANT_CHECK(quot(int_<6>, int_<4>) == int_<1>);
-
-}{
 
 BOOST_HANA_CONSTEXPR_CHECK(quot(6, 3) == 2);
 BOOST_HANA_CONSTEXPR_CHECK(quot(6, 4) == 1);

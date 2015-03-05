@@ -243,8 +243,8 @@ namespace boost { namespace hana { namespace test {
                             ));
 
                             BOOST_HANA_CHECK(equal(
-                                mod(value(x), value(y)),
-                                value(mod(x, y))
+                                rem(value(x), value(y)),
+                                value(rem(x, y))
                             ));
                         });
                     });

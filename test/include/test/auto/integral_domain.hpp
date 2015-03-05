@@ -40,21 +40,14 @@ namespace boost { namespace hana { namespace test {
                             a,
                             plus(
                                 mult(_(quot)(a, b), b),
-                                _(mod)(a, b)
+                                _(rem)(a, b)
                             )
                         ));
 
                         BOOST_HANA_CHECK(equal(
-                            _(mod)(zero<D>(), b),
+                            _(rem)(zero<D>(), b),
                             zero<D>()
                         ));
-
-                        for_each(objects<D>, [=](auto k) {
-                            BOOST_HANA_CHECK(equal(
-                                _(mod)(a, b),
-                                mod(plus(a, _(mult)(k, b)), b)
-                            ));
-                        });
                     });
                 });
             });

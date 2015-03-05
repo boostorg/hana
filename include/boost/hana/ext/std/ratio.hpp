@@ -119,7 +119,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct mod_impl<ext::std::Ratio, ext::std::Ratio> {
+    struct rem_impl<ext::std::Ratio, ext::std::Ratio> {
         template <typename R1, typename R2>
         static constexpr ::std::ratio<0> apply(R1 const&, R2 const&)
         { return {}; }

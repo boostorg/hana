@@ -190,7 +190,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct mod_impl<test::Numeric, test::Numeric> {
+    struct rem_impl<test::Numeric, test::Numeric> {
         template <typename X, typename Y>
         static constexpr auto apply(X x, Y y)
         { return test::numeric(x.value % y.value); }

@@ -43,26 +43,20 @@ namespace boost { namespace hana { namespace test {
                     BOOST_HANA_CHECK(hana::equal(
                         hana::plus(
                             hana::mult(hana::quot(a, b_), b_),
-                            hana::mod(a, b_)
+                            hana::rem(a, b_)
                         ),
                         a
                     ));
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::mod(zero<D>(), b_),
+                        hana::rem(zero<D>(), b_),
                         zero<D>()
                     ));
 
-                    // canonicity
-                    BOOST_HANA_CHECK(hana::equal(
-                        hana::mod(a, b_),
-                        hana::mod(hana::plus(a, hana::mult(k, b_)), b_)
-                    ));
-
                     // operators
-                    only_when_(bool_<has_operator<D, decltype(mod)>{}>, [=](auto _) {
+                    only_when_(bool_<has_operator<D, decltype(rem)>{}>, [=](auto _) {
                         BOOST_HANA_CHECK(hana::equal(
-                            hana::mod(a, _(b)),
+                            hana::rem(a, _(b)),
                             _(a) % _(b)
                         ));
                     });
@@ -95,8 +89,8 @@ namespace boost { namespace hana { namespace test {
                     ));
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::mod(hana::value(x), hana::value(y_)),
-                        hana::value(hana::mod(x, y_))
+                        hana::rem(hana::value(x), hana::value(y_)),
+                        hana::value(hana::rem(x, y_))
                     ));
 
                 });

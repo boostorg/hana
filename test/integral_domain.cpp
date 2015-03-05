@@ -29,10 +29,12 @@ int main() {
     // quot
     {
         BOOST_HANA_CONSTEXPR_CHECK(quot(x, y) == x / y);
+        BOOST_HANA_CONSTEXPR_CHECK(quot(7, -3) == 7 / -3);
     }
 
-    // mod
+    // rem
     {
-        BOOST_HANA_CONSTEXPR_CHECK(mod(x, y) == x % y);
+        BOOST_HANA_CONSTEXPR_CHECK(rem(x, y) == x % y);
+        BOOST_HANA_CONSTEXPR_CHECK(rem(7, -3) == 7 % -3);
     }
 }

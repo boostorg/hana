@@ -31,15 +31,13 @@ int main() {
         static_assert(has_operator<IntegralConstant<int>, decltype(negate)>{}, "");
         static_assert(has_operator<IntegralConstant<int>, decltype(mult)>{}, "");
         static_assert(has_operator<IntegralConstant<int>, decltype(quot)>{}, "");
-        static_assert(has_operator<IntegralConstant<int>, decltype(mod)>{}, "");
+        static_assert(has_operator<IntegralConstant<int>, decltype(rem)>{}, "");
 
         // laws
         test::TestEnumerable<IntegralConstant<int>>{int_constants};
         test::TestMonoid<IntegralConstant<int>>{int_constants};
         test::TestGroup<IntegralConstant<int>>{int_constants};
         test::TestRing<IntegralConstant<int>>{int_constants};
-        //! @todo We have a bug in the laws for mod with negative numbers.
-#warning "fix this!"
-        // test::TestIntegralDomain<IntegralConstant<int>>{int_constants};
+        test::TestIntegralDomain<IntegralConstant<int>>{int_constants};
     }
 }

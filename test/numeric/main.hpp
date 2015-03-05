@@ -383,15 +383,15 @@ int main() {
             ));
         }
 
-        // mod
+        // rem
         {
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                mod(test::numeric(x), test::numeric(y)),
+                rem(test::numeric(x), test::numeric(y)),
                 test::numeric(x % y)
             ));
 
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                mod(test::numeric(x), test::numeric(z)),
+                rem(test::numeric(x), test::numeric(z)),
                 test::numeric(x % z)
             ));
         }
@@ -401,7 +401,7 @@ int main() {
             using namespace boost::hana::operators;
             BOOST_HANA_CONSTEXPR_CHECK(equal(
                 test::numeric(x) % test::numeric(y),
-                mod(test::numeric(x), test::numeric(y))
+                rem(test::numeric(x), test::numeric(y))
             ));
 
             BOOST_HANA_CONSTEXPR_CHECK(equal(
