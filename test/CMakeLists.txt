@@ -75,7 +75,7 @@ if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND
         "boost/hana/fwd/ext/std/tuple.hpp"
         "boost/hana/ext/std/tuple.hpp")
 
-    file(GLOB_RECURSE _ext_std_tuple_tests "ext/std/tuple.cpp")
+    file(GLOB_RECURSE _ext_std_tuple_tests "ext/std/tuple/*.cpp")
     list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${_ext_std_tuple_tests})
 endif()
 
@@ -86,8 +86,8 @@ list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${_ext_fusion_broken_tests})
 # More adapters are currently broken on Clang 3.5; working on it too.
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND
     "${CMAKE_CXX_COMPILER_VERSION}" VERSION_LESS "3.7.0")
-    file(GLOB_RECURSE _ext_other_broken_tests "ext/boost/mpl/vector.cpp"
-                                              "ext/std/integer_sequence.cpp")
+    file(GLOB_RECURSE _ext_other_broken_tests "ext/boost/mpl/vector/*.cpp"
+                                              "ext/std/integer_sequence/*.cpp")
     list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${_ext_other_broken_tests})
 endif()
 
