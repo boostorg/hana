@@ -103,10 +103,12 @@ endforeach()
 # test.headers target.
 foreach(header IN LISTS BOOST_HANA_PUBLIC_HEADERS)
     string(REGEX REPLACE "/" "." header_name "${header}")
-    file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/header/${header}.cpp" "
-        #include <${header}>
-        int main() { }
-    ")
+    if (NOT EXISTS "${CMAKE_CURRENT_BINARY_DIR}/header/${header}.cpp")
+        file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/header/${header}.cpp" "
+            #include <${header}>
+            int main() { }
+        ")
+    endif()
     add_executable(test.header.${header_name} EXCLUDE_FROM_ALL
                         "${CMAKE_CURRENT_BINARY_DIR}/header/${header}.cpp")
     add_test(NAME test.header.${header_name} COMMAND test.header.${header_name})
