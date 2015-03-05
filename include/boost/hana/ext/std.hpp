@@ -10,12 +10,17 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EXT_STD_HPP
 #define BOOST_HANA_EXT_STD_HPP
 
+#include <boost/hana/config.hpp>
+
+#ifndef BOOST_HANA_CONFIG_HAS_NO_STD_TUPLE_ADAPTER
+#   include <boost/hana/ext/std/tuple.hpp>
+#endif
+
 #include <boost/hana/ext/std/array.hpp>
 #include <boost/hana/ext/std/integer_sequence.hpp>
 #include <boost/hana/ext/std/integral_constant.hpp>
 #include <boost/hana/ext/std/pair.hpp>
 #include <boost/hana/ext/std/ratio.hpp>
-#include <boost/hana/ext/std/tuple.hpp>
 #include <boost/hana/ext/std/type_traits.hpp>
 
 #endif // !BOOST_HANA_EXT_STD_HPP

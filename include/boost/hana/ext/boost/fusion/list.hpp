@@ -22,7 +22,13 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/fusion/algorithm/transformation/push_front.hpp>
 #include <boost/fusion/container/list.hpp>
 #include <boost/fusion/container/list/convert.hpp>
+#include <boost/version.hpp>
 
+
+#if BOOST_VERSION < 105800
+#   error The adapter for fusion::list is not supported for versions of    \
+          Boost prior to 1.58.0 because of bugs in fusion::list.
+#endif
 
 namespace boost { namespace hana {
     namespace detail {

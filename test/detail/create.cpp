@@ -4,6 +4,7 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/detail/create.hpp>
 
 #include <utility>
@@ -35,5 +36,10 @@ int main() {
     detail::create<single_holder>{}(1);
     detail::create<single_holder>{}([]{});
     detail::create<identity_t>{}(1);
+
+    // Clang < 3.7.0 fails this test
+#if !defined(BOOST_HANA_CONFIG_CLANG) || \
+    BOOST_HANA_CONFIG_CLANG >= BOOST_HANA_CONFIG_VERSION(3, 7, 0)
     detail::create<identity_t>{}([]{});
+#endif
 }

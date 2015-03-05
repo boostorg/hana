@@ -22,7 +22,13 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/fusion/algorithm/transformation/push_front.hpp>
 #include <boost/fusion/container/deque.hpp>
 #include <boost/fusion/container/deque/convert.hpp>
+#include <boost/version.hpp>
 
+
+#if BOOST_VERSION < 105800
+#   error The adapter for fusion::deque is not supported for versions of    \
+          Boost prior to 1.58.0 because of bugs in fusion::deque.
+#endif
 
 namespace boost { namespace hana {
     namespace detail {

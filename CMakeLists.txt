@@ -80,87 +80,51 @@ find_package(Boost)
 find_package(Doxygen)
 find_package(Git)
 
+if (Boost_FOUND)
+    include_directories(${Boost_INCLUDE_DIRS})
+endif()
+
 
 #=============================================================================
-# Setup functions to register executables and tests
+# Caveats
 #=============================================================================
-enable_testing()
-
 if (NOT Boost_FOUND)
     message(STATUS
     "The Boost library headers were not found; targets depending "
     "on Boost won't be available.")
 endif()
 
-# Internal list of files depending on Boost headers.
-# The files in this list are in absolute path.
-set(BOOST_HANA_FILES_REQUIRING_BOOST)
+if (Boost_FOUND AND ${Boost_VERSION} LESS 105800)
+    message(STATUS "The Boost version was detected to be < 1.58.0; "
+                   "the fusion::deque and fusion::list adapters will "
+                   "not be supported.")
+endif()
 
-#   boost_hana_add_executable(<target name> <source files>...)
-#
-# Add an executable with the given name and source files. If any of the source
-# files depend on Boost (as indicated by BOOST_HANA_FILES_REQUIRING_BOOST) but
-# Boost was not found, no executable is created. Hence, one should always
-# check whether a target was created before using it:
-#
-#   boost_hana_add_executable(target file1 ... fileN)
-#   if (TARGET target)
-#       use it
-#   endif()
-function(boost_hana_add_executable target_name)
-    set(_depends FALSE)
-    foreach(source_file IN LISTS ARGN)
-        list(FIND BOOST_HANA_FILES_REQUIRING_BOOST "${source_file}" _reqs)
-        if(NOT ${_reqs} EQUAL -1)
-            set(_depends TRUE)
-        endif()
-    endforeach()
-
-    if(NOT ${_depends})
-        add_executable(${target_name} EXCLUDE_FROM_ALL ${ARGN})
-    elseif(${_depends} AND Boost_FOUND)
-        add_executable(${target_name} EXCLUDE_FROM_ALL ${ARGN})
-        set_property(TARGET ${target_name}
-            APPEND PROPERTY INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIRS})
-    endif()
-endfunction()
-
-#   boost_hana_add_test(<source file> [<target name>])
-#
-# Add a unit test whose source is the file specified as an argument.
-# If the path of the source file relative from the root of Hana is
-# `path/to/source/file.cpp`, the target associated to the unit test
-# is `path.to.source.file`. The second argument, if provided, is a
-# variable that will be set to the created target.
-#
-# Note that if the source file has unsatisfied dependencies, no target is
-# created and so one should always check whether a target was created before
-# using it:
-#
-#   boost_hana_add_test(file target)
-#   if (TARGET target)
-#       use it
-#   endif()
-function(boost_hana_add_test file)
-    file(RELATIVE_PATH _relative ${CMAKE_SOURCE_DIR} ${file})
-    string(REGEX REPLACE "\\.cpp$" "" _name ${_relative})
-    string(REGEX REPLACE "/" "." _name ${_name})
-    boost_hana_add_executable(${_name} "${file}")
-    if (TARGET ${_name})
-        add_test(NAME ${_name} COMMAND ${_name})
-        if (ARGC EQUAL 2)
-            set(${ARGV1} "${_name}" PARENT_SCOPE)
-        endif()
-    endif()
-endfunction()
+if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND
+    "${CMAKE_CXX_COMPILER_VERSION}" VERSION_LESS "3.7.0")
+    message(STATUS "The compiler was detected to be Clang < 3.7.0; "
+                   "the std::tuple adapter will not be supported.")
+endif()
 
 
 #=============================================================================
 # Setup subdirectories
+#=============================================================================
+#   boost_hana_target_name_for(<output variable> <source file>)
 #
+# Return the target name associated to a source file. If the path of the
+# source file relative from the root of Hana is `path/to/source/file.cpp`,
+# the target name associated to it is `path.to.source.file`.
+function(boost_hana_target_name_for out file)
+    file(RELATIVE_PATH _relative ${CMAKE_SOURCE_DIR} ${file})
+    string(REGEX REPLACE "\\.cpp$" "" _name ${_relative})
+    string(REGEX REPLACE "/" "." _name ${_name})
+    set(${out} "${_name}" PARENT_SCOPE)
+endfunction()
+
 # Note: benchmark/ MUST be included before doc/ because the 'doc' target
 # depends on the 'benchmarks' target.
-#=============================================================================
+enable_testing()
 include_directories(include)
 add_subdirectory(benchmark)
 add_subdirectory(doc)

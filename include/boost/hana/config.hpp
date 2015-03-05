@@ -10,6 +10,71 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_CONFIG_HPP
 #define BOOST_HANA_CONFIG_HPP
 
+//! @internal
+//! Transforms a (version, revision, patchlevel) triple into a number of the
+//! form 0xVVRRPPPP to allow comparing versions in a normalized way.
+//!
+//! See http://sourceforge.net/p/predef/wiki/VersionNormalization.
+#define BOOST_HANA_CONFIG_VERSION(version, revision, patch) \
+    (((version) << 24) + ((revision) << 16) + (patch))
+
+
+//////////////////////////////////////////////////////////////////////////////
+// Detect the compiler (currently only Clang is supported)
+//////////////////////////////////////////////////////////////////////////////
+#if defined(__clang__) && !defined(__apple_build_version__)
+
+#   define BOOST_HANA_CONFIG_CLANG BOOST_HANA_CONFIG_VERSION(               \
+            __clang_major__, __clang_minor__, __clang_patchlevel__)
+
+#   if BOOST_HANA_CONFIG_CLANG < BOOST_HANA_CONFIG_VERSION(3, 5, 2)
+#       error Versions of Clang prior to 3.5.2 are not supported.
+#   endif
+
+#else
+
+#   error Your compiler is not officially supported by Hana or it was \
+          not detected properly.
+
+#endif
+
+//////////////////////////////////////////////////////////////////////////////
+// Detect the standard library
+//////////////////////////////////////////////////////////////////////////////
+
+// We include this empty header, which gives the chance to the standard
+// library to define its macros so we can detect it. See http://goo.gl/eXNYJH.
+#include <ciso646>
+
+#if defined(_LIBCPP_VERSION)
+
+#   define BOOST_HANA_CONFIG_LIBCPP BOOST_HANA_CONFIG_VERSION(              \
+                ((_LIBCPP_VERSION) / 1000) % 10, 0, (_LIBCPP_VERSION) % 1000)
+
+#   if BOOST_HANA_CONFIG_LIBCPP < BOOST_HANA_CONFIG_VERSION(1, 0, 101)
+#       error Versions of libc++ prior to the one shipped with Clang 3.5.2 \
+              are not supported.
+#   endif
+
+#else
+
+#   error Your standard library is not officially supported by Hana or it \
+          was not detected properly.
+
+#endif
+
+
+//////////////////////////////////////////////////////////////////////////////
+// Set up other configuration macros
+//////////////////////////////////////////////////////////////////////////////
+
+#if defined(BOOST_HANA_CONFIG_LIBCPP) &&                                    \
+        BOOST_HANA_CONFIG_LIBCPP < BOOST_HANA_CONFIG_VERSION(1, 0, 101)
+#   define BOOST_HANA_CONFIG_HAS_NO_STD_TUPLE_ADAPTER
+#endif
+
+
+
 #if defined(BOOST_HANA_DOXYGEN_INVOKED) || \
     (defined(NDEBUG) && !defined(BOOST_HANA_CONFIG_DISABLE_PRECONDITIONS))
     //! @ingroup group-config
