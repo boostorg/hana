@@ -45,8 +45,10 @@ namespace boost { namespace hana { namespace test {
             foreach(xs, [](auto c) {
 
                 // constexpr-ness of hana::value(c)
-                constexpr auto must_be_constexpr = hana::value(c);
-                (void)must_be_constexpr;
+                constexpr auto must_be_constexpr1 = hana::value(c);
+                constexpr auto must_be_constexpr2 = hana::value<decltype(c)>();
+                (void)must_be_constexpr1;
+                (void)must_be_constexpr2;
 
                 // consistency of C::value_type
                 static_assert(detail::std::is_same<
