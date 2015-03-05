@@ -94,8 +94,13 @@ namespace boost { namespace hana {
         template <typename Xs, detail::std::size_t ...i>
         static constexpr decltype(auto)
         flatten_helper(Xs&& xs, detail::std::index_sequence<i...>) {
-            return ::std::tuple_cat(
-                        ::std::get<i>(detail::std::forward<Xs>(xs))...);
+            return ::std::tuple_cat(::std::get<i>(
+#ifndef BOOST_HANA_CONFIG_LIBCPP_HAS_BUG_22806
+                    detail::std::forward<Xs>(xs)
+#else
+                    xs
+#endif
+            )...);
         }
 
         template <typename Xs>

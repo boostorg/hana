@@ -65,14 +65,21 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 //////////////////////////////////////////////////////////////////////////////
-// Set up other configuration macros
+// Caveats
 //////////////////////////////////////////////////////////////////////////////
 
+// The std::tuple adapter is broken on libc++ prior to the one shipped
+// with Clang 3.7.0.
 #if defined(BOOST_HANA_CONFIG_LIBCPP) &&                                    \
         BOOST_HANA_CONFIG_LIBCPP < BOOST_HANA_CONFIG_VERSION(1, 0, 101)
 #   define BOOST_HANA_CONFIG_HAS_NO_STD_TUPLE_ADAPTER
 #endif
 
+// There's a bug in std::tuple_cat in libc++ right now.
+// See http://llvm.org/bugs/show_bug.cgi?id=22806.
+#if defined(BOOST_HANA_CONFIG_LIBCPP)
+#   define BOOST_HANA_CONFIG_LIBCPP_HAS_BUG_22806
+#endif
 
 
 #if defined(BOOST_HANA_DOXYGEN_INVOKED) || \
