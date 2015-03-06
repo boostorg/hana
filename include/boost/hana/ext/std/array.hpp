@@ -10,10 +10,9 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EXT_STD_ARRAY_HPP
 #define BOOST_HANA_EXT_STD_ARRAY_HPP
 
-#include <boost/hana/fwd/ext/std/array.hpp>
-
 #include <boost/hana/applicative.hpp>
 #include <boost/hana/bool.hpp>
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/std/common_type.hpp>
 #include <boost/hana/detail/std/decay.hpp>
@@ -29,9 +28,16 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/sequence.hpp>
 
 #include <array>
-
+#include <cstddef>
 
 namespace boost { namespace hana {
+    namespace ext { namespace std { struct Array; }}
+
+    template <typename T, std::size_t N>
+    struct datatype< ::std::array<T, N>> {
+        using type = ext::std::Array;
+    };
+
     //////////////////////////////////////////////////////////////////////////
     // Iterable
     //////////////////////////////////////////////////////////////////////////

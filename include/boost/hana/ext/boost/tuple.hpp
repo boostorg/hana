@@ -10,9 +10,8 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EXT_BOOST_TUPLE_HPP
 #define BOOST_HANA_EXT_BOOST_TUPLE_HPP
 
-#include <boost/hana/fwd/ext/boost/tuple.hpp>
-
 #include <boost/hana/bool.hpp>
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integral_constant.hpp>
@@ -25,6 +24,23 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
+    namespace ext { namespace boost { struct Tuple; }}
+
+    template <typename ...Xs>
+    struct datatype< ::boost::tuple<Xs...>> {
+        using type = ext::boost::Tuple;
+    };
+
+    template <typename H, typename T>
+    struct datatype< ::boost::tuples::cons<H, T>> {
+        using type = ext::boost::Tuple;
+    };
+
+    template <>
+    struct datatype< ::boost::tuples::null_type> {
+        using type = ext::boost::Tuple;
+    };
+
     //////////////////////////////////////////////////////////////////////////
     // Iterable
     //////////////////////////////////////////////////////////////////////////

@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/applicative.hpp>
 #include <boost/hana/bool.hpp>
 #include <boost/hana/config.hpp>
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/std/forward.hpp>
@@ -38,6 +39,13 @@ Distributed under the Boost Software License, Version 1.0.
 #endif
 
 namespace boost { namespace hana {
+    namespace ext { namespace std { struct Tuple; }}
+
+    template <typename ...Xs>
+    struct datatype< ::std::tuple<Xs...>> {
+        using type = ext::std::Tuple;
+    };
+
     //////////////////////////////////////////////////////////////////////////
     // make
     //////////////////////////////////////////////////////////////////////////

@@ -10,10 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EXT_BOOST_FUSION_LIST_HPP
 #define BOOST_HANA_EXT_BOOST_FUSION_LIST_HPP
 
-#include <boost/hana/fwd/ext/boost/fusion/list.hpp>
-
+#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integral_constant.hpp>
+#include <boost/hana/detail/std/is_same.hpp>
 #include <boost/hana/ext/boost/fusion/detail/common.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/monad_plus.hpp>
@@ -22,6 +23,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/fusion/algorithm/transformation/push_front.hpp>
 #include <boost/fusion/container/list.hpp>
 #include <boost/fusion/container/list/convert.hpp>
+#include <boost/fusion/support/tag_of.hpp>
 #include <boost/version.hpp>
 
 
@@ -31,6 +33,22 @@ Distributed under the Boost Software License, Version 1.0.
 #endif
 
 namespace boost { namespace hana {
+    namespace ext { namespace boost { namespace fusion {
+        struct List;
+    }}}
+
+    template <typename T>
+    struct datatype<T, when<
+        detail::std::is_same<
+            typename ::boost::fusion::traits::tag_of<T>::type,
+            ::boost::fusion::traits::tag_of<
+                ::boost::fusion::list<>
+            >::type
+        >::value
+    >> {
+        using type = ext::boost::fusion::List;
+    };
+
     namespace detail {
         template <>
         struct is_fusion_sequence<ext::boost::fusion::List>

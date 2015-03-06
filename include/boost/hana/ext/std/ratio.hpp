@@ -10,27 +10,32 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EXT_STD_RATIO_HPP
 #define BOOST_HANA_EXT_STD_RATIO_HPP
 
-#include <boost/hana/fwd/ext/std/ratio.hpp>
-
 #include <boost/hana/bool.hpp>
+#include <boost/hana/comparable.hpp>
 #include <boost/hana/constant.hpp>
 #include <boost/hana/core/convert.hpp>
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/is_integral.hpp>
-
-// instances
-#include <boost/hana/comparable.hpp>
 #include <boost/hana/group.hpp>
 #include <boost/hana/integral_domain.hpp>
 #include <boost/hana/monoid.hpp>
 #include <boost/hana/orderable.hpp>
 #include <boost/hana/ring.hpp>
 
+#include <cstdint>
 #include <ratio>
 
 
 namespace boost { namespace hana {
+    namespace ext { namespace std { struct Ratio; }}
+
+    template < ::std::intmax_t num, ::std::intmax_t den>
+    struct datatype< ::std::ratio<num, den>> {
+        using type = ext::std::Ratio;
+    };
+
     //////////////////////////////////////////////////////////////////////////
     // Conversion from Constants
     //////////////////////////////////////////////////////////////////////////

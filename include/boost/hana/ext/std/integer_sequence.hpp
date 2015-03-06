@@ -10,15 +10,12 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EXT_STD_INTEGER_SEQUENCE_HPP
 #define BOOST_HANA_EXT_STD_INTEGER_SEQUENCE_HPP
 
-#include <boost/hana/fwd/ext/std/integer_sequence.hpp>
-
 #include <boost/hana/bool.hpp>
+#include <boost/hana/comparable.hpp>
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/detail/std/is_same.hpp>
 #include <boost/hana/ext/std/integral_constant.hpp>
-
-// instances
 #include <boost/hana/foldable.hpp>
-#include <boost/hana/comparable.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/searchable.hpp>
 
@@ -27,6 +24,13 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
+    namespace ext { namespace std { struct IntegerSequence; }}
+
+    template <typename T, T ...v>
+    struct datatype< ::std::integer_sequence<T, v...>> {
+        using type = ext::std::IntegerSequence;
+    };
+
     //////////////////////////////////////////////////////////////////////////
     // Comparable
     //////////////////////////////////////////////////////////////////////////
