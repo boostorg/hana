@@ -10,8 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EXT_STD_TUPLE_HPP
 #define BOOST_HANA_EXT_STD_TUPLE_HPP
 
-#include <boost/hana/fwd/ext/std/tuple.hpp>
-
 #include <boost/hana/applicative.hpp>
 #include <boost/hana/bool.hpp>
 #include <boost/hana/config.hpp>
