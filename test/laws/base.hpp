@@ -79,7 +79,7 @@ namespace boost { namespace hana {
         State state;
 
         explicit Tracked(int k) : value{k}, state{State::CONSTRUCTED} {
-            std::cerr << "constructing " << *this << '\n';
+            // std::cerr << "constructing " << *this << '\n';
         }
 
         Tracked(Tracked const& t) : value{t.value}, state{State::CONSTRUCTED} {
@@ -89,7 +89,7 @@ namespace boost { namespace hana {
             BOOST_HANA_RUNTIME_CHECK(t.state != State::DESTROYED &&
                 "copying a destroyed object");
 
-            std::cerr << "copying " << *this << '\n';
+            // std::cerr << "copying " << *this << '\n';
         }
 
         Tracked(Tracked&& t) : value{t.value}, state{State::CONSTRUCTED} {
@@ -99,7 +99,7 @@ namespace boost { namespace hana {
             BOOST_HANA_RUNTIME_CHECK(t.state != State::DESTROYED &&
                 "moving from a destroyed object");
 
-            std::cerr << "moving " << t << '\n';
+            // std::cerr << "moving " << t << '\n';
             t.state = State::MOVED_FROM;
         }
 
@@ -113,7 +113,7 @@ namespace boost { namespace hana {
             BOOST_HANA_RUNTIME_CHECK(other.state != State::DESTROYED &&
                 "assigning a destroyed object");
 
-            std::cerr << "assigning " << other << " to " << *this << '\n';
+            // std::cerr << "assigning " << other << " to " << *this << '\n';
             this->value = other.value;
             return *this;
         }
@@ -128,7 +128,7 @@ namespace boost { namespace hana {
             BOOST_HANA_RUNTIME_CHECK(other.state != State::DESTROYED &&
                 "assigning a destroyed object");
 
-            std::cerr << "assigning " << other << " to " << *this << '\n';
+            // std::cerr << "assigning " << other << " to " << *this << '\n';
             this->value = other.value;
             other.state = State::MOVED_FROM;
             return *this;
@@ -138,7 +138,7 @@ namespace boost { namespace hana {
             BOOST_HANA_RUNTIME_CHECK(state != State::DESTROYED &&
                 "double-destroying an object");
 
-            std::cerr << "destructing " << *this << '\n';
+            // std::cerr << "destructing " << *this << '\n';
             state = State::DESTROYED;
         }
 
