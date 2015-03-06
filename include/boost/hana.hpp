@@ -218,9 +218,9 @@ If you are reading this documentation, chances are you already know
 
 @snippet example/tutorial/quickstart.cpp make_tuple
 
-Notice how the `auto` keyword is used when defining `xs`; it is often useful
-to let the compiler deduce the type of a tuple, but sometimes it is necessary
-to specify it. This is of course also possible:
+Notice how the `auto` keyword is used when defining `stuff`; it is often
+useful to let the compiler deduce the type of a tuple, but sometimes it
+is necessary to specify it. This is of course also possible:
 
 @snippet example/tutorial/quickstart.cpp _tuple
 
@@ -256,8 +256,8 @@ The traits in namespace `boost::hana::trait` are in the
 `<boost/hana/ext/std/type_traits.hpp>` header, which is not
 included by `<boost/hana.hpp>`.
 
-Then, one passes types to the function by representing them as objects using
-the `type<...>` wrapper, and everything just works:
+Then, one passes types to the function by representing them as objects
+using the `type<...>` wrapper, and everything just works:
 
 @snippet example/tutorial/quickstart.cpp type
 

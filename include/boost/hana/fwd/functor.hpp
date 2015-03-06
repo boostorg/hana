@@ -162,9 +162,9 @@ namespace boost { namespace hana {
     //!
     //! Signature
     //! ---------
-    //! Given `F` a Functor and `B` a Logical, the signature is
+    //! Given `F` a Functor and `Bool` a Logical, the signature is
     //! \f$
-    //!     \mathrm{adjust} : F(T) \times (T \to B) \times (T \to T) \to F(T)
+    //!     \mathrm{adjust} : F(T) \times (T \to Bool) \times (T \to T) \to F(T)
     //! \f$
     //!
     //! @param xs
@@ -216,9 +216,9 @@ namespace boost { namespace hana {
     //!
     //! Signature
     //! ---------
-    //! Given `F` a Functor and `B` a Logical, the signature is
+    //! Given `F` a Functor and `Bool` a Logical, the signature is
     //! \f$
-    //!     \mathrm{replace} : F(T) \times (T \to B) \times T \to F(T)
+    //!     \mathrm{replace} : F(T) \times (T \to Bool) \times T \to F(T)
     //! \f$
     //!
     //! @param xs
