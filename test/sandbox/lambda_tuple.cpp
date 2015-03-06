@@ -32,7 +32,12 @@ namespace boost { namespace hana { namespace test {
 
     template <>
     auto instances<sandbox::LambdaTuple> = make<Tuple>(
-        type<Sequence>
+        // type<Sequence>
+          type<Iterable>
+        , type<Searchable>
+        , type<Foldable>
+        , type<Comparable>
+        , type<Orderable>
     );
 }}}
 
