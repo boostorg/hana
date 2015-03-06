@@ -5,4 +5,5 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #define BOOST_HANA_TEST_SEQUENCE_PREPEND_MCD
-#include "main.hpp"
+#define BOOST_HANA_TEST_SEQUENCE
+#include <laws/templates/seq.hpp>
