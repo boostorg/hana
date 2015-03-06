@@ -103,6 +103,37 @@ namespace boost { namespace hana {
             t.state = State::MOVED_FROM;
         }
 
+        Tracked& operator=(Tracked const& other) {
+            BOOST_HANA_RUNTIME_CHECK(this->state != State::DESTROYED &&
+                "assigning to a destroyed object");
+
+            BOOST_HANA_RUNTIME_CHECK(other.state != State::MOVED_FROM &&
+                "assigning a moved-from object");
+
+            BOOST_HANA_RUNTIME_CHECK(other.state != State::DESTROYED &&
+                "assigning a destroyed object");
+
+            std::cerr << "assigning " << other << " to " << *this << '\n';
+            this->value = other.value;
+            return *this;
+        }
+
+        Tracked& operator=(Tracked&& other) {
+            BOOST_HANA_RUNTIME_CHECK(this->state != State::DESTROYED &&
+                "assigning to a destroyed object");
+
+            BOOST_HANA_RUNTIME_CHECK(other.state != State::MOVED_FROM &&
+                "double-moving from an object");
+
+            BOOST_HANA_RUNTIME_CHECK(other.state != State::DESTROYED &&
+                "assigning a destroyed object");
+
+            std::cerr << "assigning " << other << " to " << *this << '\n';
+            this->value = other.value;
+            other.state = State::MOVED_FROM;
+            return *this;
+        }
+
         ~Tracked() {
             BOOST_HANA_RUNTIME_CHECK(state != State::DESTROYED &&
                 "double-destroying an object");
