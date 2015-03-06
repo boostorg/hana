@@ -12,8 +12,7 @@ var searchData=
   ['for_5feach_2ehpp',['for_each.hpp',['../for__each_8hpp.html',1,'']]],
   ['forward_2ehpp',['forward.hpp',['../forward_8hpp.html',1,'']]],
   ['functional_2ehpp',['functional.hpp',['../functional_8hpp.html',1,'']]],
-  ['functor_2ehpp',['functor.hpp',['../functor_8hpp.html',1,'']]],
   ['functor_2ehpp',['functor.hpp',['../fwd_2functor_8hpp.html',1,'']]],
-  ['fusion_2ehpp',['fusion.hpp',['../ext_2boost_2fusion_8hpp.html',1,'']]],
-  ['fusion_2ehpp',['fusion.hpp',['../fwd_2ext_2boost_2fusion_8hpp.html',1,'']]]
+  ['functor_2ehpp',['functor.hpp',['../functor_8hpp.html',1,'']]],
+  ['fusion_2ehpp',['fusion.hpp',['../fusion_8hpp.html',1,'']]]
 ];

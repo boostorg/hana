@@ -1,7 +1,6 @@
 var dir_c3b57e95c907b739bf3e4f1634043f1e =
 [
     [ "core", "dir_5cd48345e613e9c2bb7d6a9fbaa80f49.html", "dir_5cd48345e613e9c2bb7d6a9fbaa80f49" ],
-    [ "ext", "dir_c4fc84947b47362dcde4faa7405edc0e.html", "dir_c4fc84947b47362dcde4faa7405edc0e" ],
     [ "applicative.hpp", "fwd_2applicative_8hpp.html", null ],
     [ "bool.hpp", "fwd_2bool_8hpp.html", null ],
     [ "comparable.hpp", "fwd_2comparable_8hpp.html", null ],

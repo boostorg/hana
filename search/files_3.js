@@ -8,7 +8,6 @@ var searchData=
   ['default_2ehpp',['default.hpp',['../core_2default_8hpp.html',1,'']]],
   ['demux_2ehpp',['demux.hpp',['../demux_8hpp.html',1,'']]],
   ['dependent_5fon_2ehpp',['dependent_on.hpp',['../dependent__on_8hpp.html',1,'']]],
-  ['deque_2ehpp',['deque.hpp',['../ext_2boost_2fusion_2deque_8hpp.html',1,'']]],
-  ['deque_2ehpp',['deque.hpp',['../fwd_2ext_2boost_2fusion_2deque_8hpp.html',1,'']]],
+  ['deque_2ehpp',['deque.hpp',['../deque_8hpp.html',1,'']]],
   ['drop_5finto_2ehpp',['drop_into.hpp',['../drop__into_8hpp.html',1,'']]]
 ];

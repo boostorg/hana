@@ -12,8 +12,8 @@ var searchData=
   ['flip',['flip',['../group__group-functional.html#ga004f884cdbb85c2efe3383c1db450094',1,'boost::hana']]],
   ['flip_2ehpp',['flip.hpp',['../flip_8hpp.html',1,'']]],
   ['foldable',['Foldable',['../structboost_1_1hana_1_1_foldable.html',1,'boost::hana']]],
-  ['foldable_2ehpp',['foldable.hpp',['../fwd_2foldable_8hpp.html',1,'']]],
   ['foldable_2ehpp',['foldable.hpp',['../foldable_8hpp.html',1,'']]],
+  ['foldable_2ehpp',['foldable.hpp',['../fwd_2foldable_8hpp.html',1,'']]],
   ['foldl',['foldl',['../structboost_1_1hana_1_1_foldable.html#a0a5d375abcde2ceed89662df491a2c43',1,'boost::hana::Foldable']]],
   ['foldl_2ehpp',['foldl.hpp',['../foldl_8hpp.html',1,'']]],
   ['foldl1',['foldl1',['../structboost_1_1hana_1_1_foldable.html#a8ca4972e61b7ad36ff9fcca9e6131da6',1,'boost::hana::Foldable']]],
@@ -29,10 +29,9 @@ var searchData=
   ['from_5fmaybe',['from_maybe',['../structboost_1_1hana_1_1_maybe.html#afb98884a58d911687bf2aa64a411d623',1,'boost::hana::Maybe']]],
   ['functional_2ehpp',['functional.hpp',['../functional_8hpp.html',1,'']]],
   ['functor',['Functor',['../structboost_1_1hana_1_1_functor.html',1,'boost::hana']]],
-  ['functor_2ehpp',['functor.hpp',['../functor_8hpp.html',1,'']]],
   ['functor_2ehpp',['functor.hpp',['../fwd_2functor_8hpp.html',1,'']]],
+  ['functor_2ehpp',['functor.hpp',['../functor_8hpp.html',1,'']]],
   ['fuse',['fuse',['../structboost_1_1hana_1_1_foldable.html#a0840e48f29a87467e23d801ca0ca122a',1,'boost::hana::Foldable']]],
-  ['fusion_2ehpp',['fusion.hpp',['../ext_2boost_2fusion_8hpp.html',1,'']]],
-  ['fusion_2ehpp',['fusion.hpp',['../fwd_2ext_2boost_2fusion_8hpp.html',1,'']]],
+  ['fusion_2ehpp',['fusion.hpp',['../fusion_8hpp.html',1,'']]],
   ['functional',['Functional',['../group__group-functional.html',1,'']]]
 ];
