@@ -94,10 +94,12 @@ if (NOT Boost_FOUND)
     "on Boost won't be available.")
 endif()
 
-if (Boost_FOUND AND ${Boost_VERSION} LESS 105800)
-    message(STATUS "The Boost version was detected to be < 1.58.0; "
-                   "the fusion::deque and fusion::list adapters will "
-                   "not be supported.")
+if (Boost_FOUND)
+    if(${Boost_VERSION} LESS 105800)
+        message(STATUS "The Boost version was detected to be < 1.58.0; "
+                       "the fusion::deque and fusion::list adapters will "
+                       "not be supported.")
+    endif()
 endif()
 
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND

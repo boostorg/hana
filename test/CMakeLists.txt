@@ -55,17 +55,19 @@ if (NOT Boost_FOUND)
 endif()
 
 # With Boost < 1.58.0, the fusion::{deque,list} adapters are not supported.
-if (Boost_FOUND AND ${Boost_VERSION} LESS 105800)
-    list(REMOVE_ITEM BOOST_HANA_PUBLIC_HEADERS
-        "boost/hana/ext/boost/fusion/deque.hpp"
-        "boost/hana/fwd/ext/boost/fusion/deque.hpp"
-        "boost/hana/ext/boost/fusion/list.hpp"
-        "boost/hana/fwd/ext/boost/fusion/list.hpp")
+if (Boost_FOUND)
+    if (${Boost_VERSION} LESS 105800)
+        list(REMOVE_ITEM BOOST_HANA_PUBLIC_HEADERS
+            "boost/hana/ext/boost/fusion/deque.hpp"
+            "boost/hana/fwd/ext/boost/fusion/deque.hpp"
+            "boost/hana/ext/boost/fusion/list.hpp"
+            "boost/hana/fwd/ext/boost/fusion/list.hpp")
 
-    file(GLOB_RECURSE _ext_fusion_bad_tests
-        "ext/boost/fusion/deque/*.cpp"
-        "ext/boost/fusion/list/*.cpp")
-    list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${_ext_fusion_bad_tests})
+        file(GLOB_RECURSE _ext_fusion_bad_tests
+            "ext/boost/fusion/deque/*.cpp"
+            "ext/boost/fusion/list/*.cpp")
+        list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${_ext_fusion_bad_tests})
+    endif()
 endif()
 
 # With Clang < 3.7.0, the std::tuple adapter is not supported.
