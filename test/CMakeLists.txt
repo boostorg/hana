@@ -83,14 +83,6 @@ endif()
 file(GLOB_RECURSE _ext_fusion_broken_tests "ext/boost/fusion/*.cpp")
 list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${_ext_fusion_broken_tests})
 
-# More adapters are currently broken on Clang 3.5; working on it too.
-if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND
-    "${CMAKE_CXX_COMPILER_VERSION}" VERSION_LESS "3.7.0")
-    file(GLOB_RECURSE _ext_other_broken_tests "ext/boost/mpl/vector/*.cpp"
-                                              "ext/std/integer_sequence/*.cpp")
-    list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${_ext_other_broken_tests})
-endif()
-
 # Add all the unit tests
 foreach(file IN LISTS BOOST_HANA_TEST_SOURCES)
     boost_hana_target_name_for(_target "${file}")

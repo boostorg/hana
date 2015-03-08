@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/is_same.hpp>
 #include <boost/hana/ext/std/integral_constant.hpp>
 #include <boost/hana/foldable.hpp>
@@ -59,14 +60,15 @@ namespace boost { namespace hana {
     // Foldable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct foldl_impl<ext::std::IntegerSequence>
-        : Iterable::foldl_impl<ext::std::IntegerSequence>
-    { };
-
-    template <>
-    struct foldr_impl<ext::std::IntegerSequence>
-        : Iterable::foldr_impl<ext::std::IntegerSequence>
-    { };
+    struct unpack_impl<ext::std::IntegerSequence> {
+        template <typename T, T ...v, typename F>
+        static constexpr decltype(auto)
+        apply(::std::integer_sequence<T, v...>, F&& f) {
+            return detail::std::forward<F>(f)(
+                std::integral_constant<T, v>{}...
+            );
+        }
+    };
 
     //////////////////////////////////////////////////////////////////////////
     // Searchable

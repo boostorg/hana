@@ -102,6 +102,16 @@ namespace boost { namespace hana {
         : Iterable::foldr_impl<ext::boost::mpl::Vector>
     { };
 
+    template <>
+    struct foldl1_impl<ext::boost::mpl::Vector>
+        : Iterable::foldl1_impl<ext::boost::mpl::Vector>
+    { };
+
+    template <>
+    struct foldr1_impl<ext::boost::mpl::Vector>
+        : Iterable::foldr1_impl<ext::boost::mpl::Vector>
+    { };
+
     //////////////////////////////////////////////////////////////////////////
     // Iterable
     //////////////////////////////////////////////////////////////////////////
