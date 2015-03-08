@@ -10,6 +10,8 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_APPLICATIVE_HPP
 #define BOOST_HANA_FWD_APPLICATIVE_HPP
 
+#include <boost/hana/config.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -207,6 +209,11 @@ namespace boost { namespace hana {
 
     template <typename A>
     struct _lift {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        static_assert(models<Applicative, A>{},
+        "hana::lift<A> requires A to be an Applicative");
+#endif
+
         template <typename X>
         constexpr decltype(auto) operator()(X&& x) const {
             return lift_impl<A>::apply(detail::std::forward<X>(x));

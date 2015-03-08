@@ -23,7 +23,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana { namespace test {
     template <typename R>
     auto laws<Ring, R> = [] {
-        static_assert(models<Ring(R)>{}, "");
+        static_assert(models<Ring, R>{}, "");
 
         laws<Group, R>();
 

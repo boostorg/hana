@@ -10,7 +10,9 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_MONOID_HPP
 #define BOOST_HANA_FWD_MONOID_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
@@ -174,6 +176,10 @@ namespace boost { namespace hana {
 
     template <typename M>
     struct _zero {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        static_assert(models<Monoid, M>{},
+        "hana::zero<M>() requires M to be a Monoid");
+#endif
         constexpr decltype(auto) operator()() const
         { return zero_impl<M>::apply(); }
     };

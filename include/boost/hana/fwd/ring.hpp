@@ -10,7 +10,9 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_RING_HPP
 #define BOOST_HANA_FWD_RING_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
@@ -179,6 +181,10 @@ namespace boost { namespace hana {
 
     template <typename R>
     struct _one {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        static_assert(models<Ring, R>{},
+        "hana::one<R>() requires R to be a Ring");
+#endif
         constexpr decltype(auto) operator()() const {
             return one_impl<R>::apply();
         }
@@ -219,6 +225,10 @@ namespace boost { namespace hana {
     struct _power {
         template <typename R, typename N>
         constexpr decltype(auto) operator()(R&& r, N&& n) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Ring, typename datatype<R>::type>{},
+            "hana::power(r, n) requires r to be a Ring");
+#endif
             return power_impl<typename datatype<R>::type>::apply(
                 detail::std::forward<R>(r),
                 detail::std::forward<N>(n)

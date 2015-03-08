@@ -27,7 +27,7 @@ namespace boost { namespace hana { namespace test {
 
     template <typename S>
     struct TestSearchable<S, laws> {
-        static_assert(models<Searchable(S)>{}, "");
+        static_assert(models<Searchable, S>{}, "");
 
         template <typename Searchables, typename Keys>
         TestSearchable(Searchables searchables, Keys keys) {
@@ -104,7 +104,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename S>
-    struct TestSearchable<S, when<models<Sequence(S)>{}>> : TestSearchable<S, laws> {
+    struct TestSearchable<S, when<models<Sequence, S>{}>> : TestSearchable<S, laws> {
         template <int i>
         using x = _constant<i>;
 

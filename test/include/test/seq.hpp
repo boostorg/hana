@@ -157,7 +157,7 @@ namespace boost { namespace hana {
     // Sequence
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Sequence(test::Seq)>
+    struct models<Sequence, test::Seq>
         : detail::std::true_type
     { };
 }} // end namespace boost::hana

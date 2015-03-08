@@ -21,7 +21,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana { namespace test {
     template <typename D>
     auto laws<IntegralDomain, D> = [] {
-        static_assert(models<IntegralDomain(D)>{}, "");
+        static_assert(models<IntegralDomain, D>{}, "");
 
         laws<Ring, D>();
 

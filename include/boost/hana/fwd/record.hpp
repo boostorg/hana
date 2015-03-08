@@ -10,6 +10,10 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_RECORD_HPP
 #define BOOST_HANA_FWD_RECORD_HPP
 
+#include <boost/hana/config.hpp>
+#include <boost/hana/core/models.hpp>
+
+
 namespace boost { namespace hana {
     //! @ingroup group-concepts
     //! The `Record` concept represents record-like user-defined types.
@@ -108,6 +112,10 @@ namespace boost { namespace hana {
 
     template <typename R>
     struct _members {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        static_assert(models<Record, R>{},
+        "hana::members<R>() requires R to be a Record");
+#endif
         constexpr decltype(auto) operator()() const
         { return members_impl<R>::apply(); }
     };

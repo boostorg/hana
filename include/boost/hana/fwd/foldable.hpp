@@ -10,7 +10,9 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_FOLDABLE_HPP
 #define BOOST_HANA_FWD_FOLDABLE_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/functional/curry.hpp>
 #include <boost/hana/functional/flip.hpp>
@@ -59,11 +61,12 @@ namespace boost { namespace hana {
     //!
     //! Provided models
     //! ---------------
-    //! 1. Builtin arrays
+    //! 1. For builtin arrays\n
     //! Builtin arrays whose size is known can be folded as-if they were
-    //! homogeneous tuples. However, note that builtin arrays can't be made
-    //! more than `Foldable` (e.g. `Iterable`) because they can't be empty
-    //! and they also can't be returned from functions.
+    //! homogeneous tuples. However, note that builtin arrays can't be
+    //! made more than `Foldable` (e.g. `Iterable`) because they can't
+    //! be empty and they also can't be returned from functions.
+    //!
     //!
     //! @todo
     //! Make it possible to specify the Monoid used for `sum` and `product`?
@@ -103,6 +106,11 @@ namespace boost { namespace hana {
     struct _foldl {
         template <typename Xs, typename State, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Foldable, typename datatype<Xs>::type>{},
+            "hana::foldl(xs, state, f) requires xs to be Foldable");
+#endif
+
             return foldl_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<State>(state),
@@ -148,6 +156,11 @@ namespace boost { namespace hana {
     struct _foldr {
         template <typename Xs, typename State, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Foldable, typename datatype<Xs>::type>{},
+            "hana::foldr(xs, state, f) requires xs to be Foldable");
+#endif
+
             return foldr_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<State>(state),
@@ -191,6 +204,10 @@ namespace boost { namespace hana {
     struct _foldr1 {
         template <typename Xs, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Foldable, typename datatype<Xs>::type>{},
+            "hana::foldr1(xs, f) requires xs to be Foldable");
+#endif
             return foldr1_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<F>(f)
@@ -233,6 +250,10 @@ namespace boost { namespace hana {
     struct _foldl1 {
         template <typename Xs, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Foldable, typename datatype<Xs>::type>{},
+            "hana::foldl1(xs, f) requires xs to be Foldable");
+#endif
             return foldl1_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<F>(f)
@@ -285,6 +306,10 @@ namespace boost { namespace hana {
     struct _for_each {
         template <typename Xs, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Foldable, typename datatype<Xs>::type>{},
+            "hana::for_each(xs, f) requires xs to be Foldable");
+#endif
             return for_each_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<F>(f)
@@ -323,6 +348,10 @@ namespace boost { namespace hana {
     struct _length {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Foldable, typename datatype<Xs>::type>{},
+            "hana::length(xs) requires xs to be Foldable");
+#endif
             return length_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs)
             );
@@ -365,6 +394,10 @@ namespace boost { namespace hana {
     struct _minimum_by {
         template <typename Pred, typename Xs>
         constexpr decltype(auto) operator()(Pred&& pred, Xs&& xs) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Foldable, typename datatype<Xs>::type>{},
+            "hana::minimum_by(pred, xs) requires xs to be Foldable");
+#endif
             return minimum_by_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Pred>(pred),
                 detail::std::forward<Xs>(xs)
@@ -398,6 +431,11 @@ namespace boost { namespace hana {
     struct _minimum {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Foldable, typename datatype<Xs>::type>{},
+            "hana::minimum(xs) requires xs to be Foldable");
+#endif
+
             return minimum_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs)
             );
@@ -440,6 +478,11 @@ namespace boost { namespace hana {
     struct _maximum_by {
         template <typename Pred, typename Xs>
         constexpr decltype(auto) operator()(Pred&& pred, Xs&& xs) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Foldable, typename datatype<Xs>::type>{},
+            "hana::maximum_by(pred, xs) requires xs to be Foldable");
+#endif
+
             return maximum_by_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Pred>(pred),
                 detail::std::forward<Xs>(xs)
@@ -473,6 +516,11 @@ namespace boost { namespace hana {
     struct _maximum {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Foldable, typename datatype<Xs>::type>{},
+            "hana::maximum(xs) requires xs to be Foldable");
+#endif
+
             return maximum_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs)
             );
@@ -510,6 +558,11 @@ namespace boost { namespace hana {
     struct _sum {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Foldable, typename datatype<Xs>::type>{},
+            "hana::sum(xs) requires xs to be Foldable");
+#endif
+
             return sum_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs)
             );
@@ -547,6 +600,10 @@ namespace boost { namespace hana {
     struct _product {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Foldable, typename datatype<Xs>::type>{},
+            "hana::product(xs) requires xs to be Foldable");
+#endif
             return product_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs)
             );
@@ -594,6 +651,10 @@ namespace boost { namespace hana {
     struct _count {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Foldable, typename datatype<Xs>::type>{},
+            "hana::count(xs, pred) requires xs to be Foldable");
+#endif
             return count_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred)
@@ -647,6 +708,10 @@ namespace boost { namespace hana {
     struct _unpack {
         template <typename Xs, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Foldable, typename datatype<Xs>::type>{},
+            "hana::unpack(xs, f) requires xs to be Foldable");
+#endif
             return unpack_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<F>(f)

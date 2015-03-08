@@ -26,7 +26,7 @@ namespace boost { namespace hana { namespace test {
 
     template <typename M>
     struct TestMonoid<M, laws> {
-        static_assert(models<Monoid(M)>{}, "");
+        static_assert(models<Monoid, M>{}, "");
 
         template <typename Xs>
         TestMonoid(Xs xs) {
@@ -63,7 +63,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename C>
-    struct TestMonoid<C, when<models<Constant(C)>{}>>
+    struct TestMonoid<C, when<models<Constant, C>{}>>
         : TestMonoid<C, laws>
     {
         template <typename Xs>

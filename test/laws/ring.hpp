@@ -27,7 +27,7 @@ namespace boost { namespace hana { namespace test {
 
     template <typename R>
     struct TestRing<R, laws> {
-        static_assert(models<Ring(R)>{}, "");
+        static_assert(models<Ring, R>{}, "");
 
         template <typename Xs>
         TestRing(Xs xs) {
@@ -99,7 +99,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename C>
-    struct TestRing<C, when<models<Constant(C)>{}>>
+    struct TestRing<C, when<models<Constant, C>{}>>
         : TestRing<C, laws>
     {
         template <typename Xs>

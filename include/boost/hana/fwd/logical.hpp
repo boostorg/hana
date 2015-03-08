@@ -10,7 +10,9 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_LOGICAL_HPP
 #define BOOST_HANA_FWD_LOGICAL_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -201,6 +203,10 @@ namespace boost { namespace hana {
     struct _if {
         template <typename Cond, typename Then, typename Else>
         constexpr decltype(auto) operator()(Cond&& cond, Then&& then, Else&& else_) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Logical, typename datatype<Cond>::type>{},
+            "hana::if_(cond, then, else) requires cond to be a Logical");
+#endif
             return if_impl<typename datatype<Cond>::type>::apply(
                 detail::std::forward<Cond>(cond),
                 detail::std::forward<Then>(then),
@@ -252,6 +258,10 @@ namespace boost { namespace hana {
     struct _eval_if {
         template <typename Cond, typename Then, typename Else>
         constexpr decltype(auto) operator()(Cond&& cond, Then&& then, Else&& else_) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Logical, typename datatype<Cond>::type>{},
+            "hana::eval_if(cond, then, else) requires cond to be a Logical");
+#endif
             return eval_if_impl<typename datatype<Cond>::type>::apply(
                 detail::std::forward<Cond>(cond),
                 detail::std::forward<Then>(then),
@@ -314,9 +324,13 @@ namespace boost { namespace hana {
     struct _while {
         template <typename Pred, typename State, typename F>
         constexpr decltype(auto) operator()(Pred&& pred, State&& state, F&& f) const {
-            return while_impl<
-                typename datatype<decltype(pred(state))>::type
-            >::apply(
+            using Cond = decltype(pred(state));
+
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Logical, typename datatype<Cond>::type>{},
+            "hana::while_(pred, state, f) requires pred(state) to be a Logical");
+#endif
+            return while_impl<typename datatype<Cond>::type>::apply(
                 detail::std::forward<Pred>(pred),
                 detail::std::forward<State>(state),
                 detail::std::forward<F>(f)
@@ -371,9 +385,13 @@ namespace boost { namespace hana {
     struct _until {
         template <typename Pred, typename State, typename F>
         constexpr decltype(auto) operator()(Pred&& pred, State&& state, F&& f) const {
-            return until_impl<
-                typename datatype<decltype(pred(state))>::type
-            >::apply(
+            using Cond = decltype(pred(state));
+
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Logical, typename datatype<Cond>::type>{},
+            "hana::until(pred, state, f) requires pred(state) to be a Logical");
+#endif
+            return until_impl<typename datatype<Cond>::type>::apply(
                 detail::std::forward<Pred>(pred),
                 detail::std::forward<State>(state),
                 detail::std::forward<F>(f)

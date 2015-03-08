@@ -112,7 +112,7 @@ namespace boost { namespace hana {
     // models
     //////////////////////////////////////////////////////////////////////////
     template <typename D>
-    struct models<IntegralDomain(D)>
+    struct models<IntegralDomain, D>
         : detail::std::integral_constant<bool,
             !is_default<rem_impl<D, D>>{} &&
             !is_default<quot_impl<D, D>>{}
@@ -141,7 +141,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename C>
     struct quot_impl<C, C, when<
-        models<Constant(C)>{} && models<IntegralDomain(typename C::value_type)>{}
+        models<Constant, C>{} && models<IntegralDomain, typename C::value_type>{}
     >> {
         using T = typename C::value_type;
         template <typename X, typename Y>
@@ -159,7 +159,7 @@ namespace boost { namespace hana {
 
     template <typename C>
     struct rem_impl<C, C, when<
-        models<Constant(C)>{} && models<IntegralDomain(typename C::value_type)>{}
+        models<Constant, C>{} && models<IntegralDomain, typename C::value_type>{}
     >> {
         using T = typename C::value_type;
         template <typename X, typename Y>

@@ -10,7 +10,9 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_FUNCTOR_HPP
 #define BOOST_HANA_FWD_FUNCTOR_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -145,6 +147,11 @@ namespace boost { namespace hana {
     struct _transform {
         template <typename Xs, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Functor, typename datatype<Xs>::type>{},
+            "hana::transform(xs, f) requires xs to be a Functor");
+#endif
+
             return transform_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<F>(f)
@@ -198,6 +205,10 @@ namespace boost { namespace hana {
     struct _adjust {
         template <typename Xs, typename Pred, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred, F&& f) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Functor, typename datatype<Xs>::type>{},
+            "hana::adjust(xs, pred, f) requires xs to be a Functor");
+#endif
             return adjust_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred),
@@ -252,6 +263,10 @@ namespace boost { namespace hana {
     struct _replace {
         template <typename Xs, typename Pred, typename Value>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred, Value&& value) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Functor, typename datatype<Xs>::type>{},
+            "hana::replace(xs, pred, value) requires xs to be a Functor");
+#endif
             return replace_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred),
@@ -300,6 +315,10 @@ namespace boost { namespace hana {
     struct _fill {
         template <typename Xs, typename Value>
         constexpr decltype(auto) operator()(Xs&& xs, Value&& value) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Functor, typename datatype<Xs>::type>{},
+            "hana::fill(xs, value) requires xs to be a Functor");
+#endif
             return fill_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Value>(value)

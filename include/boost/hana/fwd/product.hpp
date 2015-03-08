@@ -10,7 +10,9 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_PRODUCT_HPP
 #define BOOST_HANA_FWD_PRODUCT_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -92,6 +94,10 @@ namespace boost { namespace hana {
     struct _first {
         template <typename P>
         constexpr decltype(auto) operator()(P&& p) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Product, typename datatype<P>::type>{},
+            "hana::first(p) requires p to be a Product");
+#endif
             return first_impl<typename datatype<P>::type>::apply(
                 detail::std::forward<P>(p)
             );
@@ -119,6 +125,10 @@ namespace boost { namespace hana {
     struct _second {
         template <typename P>
         constexpr decltype(auto) operator()(P&& p) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Product, typename datatype<P>::type>{},
+            "hana::second(p) requires p to be a Product");
+#endif
             return second_impl<typename datatype<P>::type>::apply(
                 detail::std::forward<P>(p)
             );

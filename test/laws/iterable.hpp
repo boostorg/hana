@@ -27,7 +27,7 @@ namespace boost { namespace hana { namespace test {
 
     template <typename It>
     struct TestIterable<It, laws> {
-        static_assert(models<Iterable(It)>{}, "");
+        static_assert(models<Iterable, It>{}, "");
 
         template <typename Xs>
         TestIterable(Xs xs) {
@@ -243,7 +243,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename S>
-    struct TestIterable<S, when<models<Sequence(S)>{}>> : TestIterable<S, laws> {
+    struct TestIterable<S, when<models<Sequence, S>{}>> : TestIterable<S, laws> {
         template <int i>
         using x = _constant<i>;
 

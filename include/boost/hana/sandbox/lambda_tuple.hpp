@@ -252,7 +252,7 @@ namespace boost { namespace hana {
     // Sequence
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Sequence(sandbox::LambdaTuple)>
+    struct models<Sequence, sandbox::LambdaTuple>
         : detail::std::true_type
     { };
 

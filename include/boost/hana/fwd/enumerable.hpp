@@ -10,7 +10,9 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_ENUMERABLE_HPP
 #define BOOST_HANA_FWD_ENUMERABLE_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -75,6 +77,11 @@ namespace boost { namespace hana {
     struct _succ {
         template <typename E>
         constexpr decltype(auto) operator()(E&& num) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        static_assert(models<Enumerable, typename datatype<E>::type>{},
+        "hana::succ(n) requires n to be Enumerable");
+#endif
+
             return succ_impl<
                 typename datatype<E>::type
             >::apply(detail::std::forward<E>(num));
@@ -102,6 +109,11 @@ namespace boost { namespace hana {
     struct _pred {
         template <typename E>
         constexpr decltype(auto) operator()(E&& num) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        static_assert(models<Enumerable, typename datatype<E>::type>{},
+        "hana::pred(n) requires n to be Enumerable");
+#endif
+
             return pred_impl<
                 typename datatype<E>::type
             >::apply(detail::std::forward<E>(num));

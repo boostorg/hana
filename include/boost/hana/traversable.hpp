@@ -12,10 +12,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/traversable.hpp>
 
+#include <boost/hana/applicative.hpp> // needed by fwd/
 #include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/dependent_on.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/functional/id.hpp>
@@ -33,10 +33,6 @@ namespace boost { namespace hana {
     struct sequence_impl<T, when<condition>> : default_ {
         template <typename A, typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
-            using Traversable = detail::dependent_on_t<sizeof(xs) == 1, T>;
-            static_assert(!is_default<traverse_impl<Traversable>>{},
-            "no definition of boost::hana::sequence for the given data type");
-
             return hana::traverse<A>(detail::std::forward<Xs>(xs), id);
         }
     };
@@ -51,10 +47,6 @@ namespace boost { namespace hana {
     struct traverse_impl<T, when<condition>> : default_ {
         template <typename A, typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
-            using Traversable = detail::dependent_on_t<sizeof(xs) == 1, T>;
-            static_assert(!is_default<sequence_impl<Traversable>>{},
-            "no definition of boost::hana::traverse for the given data type");
-
             return hana::sequence<A>(
                     hana::transform(detail::std::forward<Xs>(xs),
                                     detail::std::forward<F>(f)));
@@ -65,7 +57,7 @@ namespace boost { namespace hana {
     // models
     //////////////////////////////////////////////////////////////////////////
     template <typename T>
-    struct models<Traversable(T)>
+    struct models<Traversable, T>
         : detail::std::integral_constant<bool,
             !is_default<sequence_impl<T>>{} ||
             !is_default<traverse_impl<T>>{}

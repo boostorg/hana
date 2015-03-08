@@ -15,7 +15,7 @@ namespace boost { namespace hana {
     //! %Metafunction returning whether a data type is a model of the
     //! given concept.
     //!
-    //! Given a data type `T` and a concept `Concept`, `models<Concept(T)>`
+    //! Given a data type `T` and a concept `Concept`, `models<Concept, T>`
     //! represents whether `T` is a model of `Concept`. Usually, concepts
     //! provide methods, some of which __must__ be implemented in order to
     //! model the concept, and the others are given a default definition
@@ -53,10 +53,10 @@ namespace boost { namespace hana {
     //!
     //! @include example/core/models.new.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    template <see_documentation>
+    template <typename Concept, typename DataType>
     struct models;
 #else
-    template <typename Concept, typename = void>
+    template <typename Concept, typename DataType, typename = void>
     struct models;
 #endif
 }} // end namespace boost::hana

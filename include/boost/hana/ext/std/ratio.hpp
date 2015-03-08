@@ -41,7 +41,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename C>
     struct to_impl<ext::std::Ratio, C, when<
-        models<Constant(C)>{} &&
+        models<Constant, C>{} &&
         detail::std::is_integral<typename C::value_type>{}
     >> {
         template <typename N>

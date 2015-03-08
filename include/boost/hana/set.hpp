@@ -100,7 +100,7 @@ namespace boost { namespace hana {
     // Conversions
     //////////////////////////////////////////////////////////////////////////
     template <typename F>
-    struct to_impl<Set, F, when<models<Foldable(F)>{}>> {
+    struct to_impl<Set, F, when<models<Foldable, F>{}>> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
             return hana::foldr(detail::std::forward<Xs>(xs),

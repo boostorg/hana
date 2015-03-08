@@ -43,7 +43,7 @@ namespace boost { namespace hana { namespace test {
 
     template <typename C>
     auto laws<Constant, C> = [] {
-        static_assert(models<Constant(C)>{}, "");
+        static_assert(models<Constant, C>{}, "");
 
         // laws
         {

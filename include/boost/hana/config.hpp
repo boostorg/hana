@@ -65,8 +65,27 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 //////////////////////////////////////////////////////////////////////////////
-// Caveats
+// Caveats and other compiler-dependent options
 //////////////////////////////////////////////////////////////////////////////
+
+// Enables some optimizations based on C++1z fold-expressions.
+// Currently always disabled.
+#if 0
+#   define BOOST_HANA_CONFIG_HAS_CXX1Z_FOLD_EXPRESSIONS
+#endif
+
+// BOOST_HANA_CONFIG_HAS_CONSTEXPR_LAMBDA enables some constructs requiring
+// `constexpr` lambdas, which are not in the language (yet).
+// Currently always disabled.
+//
+// BOOST_HANA_CONSTEXPR_LAMBDA expands to `constexpr` if constexpr lambdas
+// are supported and to nothing otherwise.
+#if 0
+#   define BOOST_HANA_CONFIG_HAS_CONSTEXPR_LAMBDA
+#   define BOOST_HANA_CONSTEXPR_LAMBDA constexpr
+#else
+#   define BOOST_HANA_CONSTEXPR_LAMBDA /* nothing */
+#endif
 
 // The std::tuple adapter is broken on libc++ prior to the one shipped
 // with Clang 3.7.0.
@@ -81,6 +100,10 @@ Distributed under the Boost Software License, Version 1.0.
 #   define BOOST_HANA_CONFIG_LIBCPP_HAS_BUG_22806
 #endif
 
+
+//////////////////////////////////////////////////////////////////////////////
+// Compiler-independent options that can be tweaked by users
+//////////////////////////////////////////////////////////////////////////////
 
 #if defined(BOOST_HANA_DOXYGEN_INVOKED) || \
     (defined(NDEBUG) && !defined(BOOST_HANA_CONFIG_DISABLE_PRECONDITIONS))
@@ -124,28 +147,6 @@ Distributed under the Boost Software License, Version 1.0.
 #   define BOOST_HANA_CONFIG_DISABLE_ASSERTIONS
 #endif
 
-#if defined(BOOST_HANA_DOXYGEN_INVOKED) || 0 // currently always disabled
-    //! @ingroup group-config
-    //! Enables some optimizations based on C++1z fold-expressions.
-#   define BOOST_HANA_CONFIG_HAS_CXX1Z_FOLD_EXPRESSIONS
-#endif
-
-#if defined(BOOST_HANA_DOXYGEN_INVOKED) || 0 // currently always disabled
-    //! @ingroup group-config
-    //! Enables some constructs requiring `constexpr` lambdas, which are not
-    //! in the language (yet).
-#   define BOOST_HANA_CONFIG_HAS_CONSTEXPR_LAMBDA
-
-#endif
-
-
-#ifdef BOOST_HANA_CONFIG_HAS_CONSTEXPR_LAMBDA
-    //! @ingroup group-details
-    //! Expands to `constexpr` if constexpr lambdas are supported and
-    //! to nothing otherwise.
-#   define BOOST_HANA_CONSTEXPR_LAMBDA constexpr
-#else
-#   define BOOST_HANA_CONSTEXPR_LAMBDA /* nothing */
-#endif
+#define BOOST_HANA_CONFIG_CHECK_DATA_TYPES
 
 #endif // !BOOST_HANA_CONFIG_HPP

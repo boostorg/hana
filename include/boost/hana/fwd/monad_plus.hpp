@@ -10,7 +10,9 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_MONAD_PLUS_HPP
 #define BOOST_HANA_FWD_MONAD_PLUS_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/is_same.hpp>
 
@@ -112,10 +114,15 @@ namespace boost { namespace hana {
     struct _concat {
         template <typename Xs, typename Ys>
         constexpr decltype(auto) operator()(Xs&& xs, Ys&& ys) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
             static_assert(detail::std::is_same<
                 typename datatype<Xs>::type, typename datatype<Ys>::type
             >{},
-            "boost::hana::concat: both arguments must have the same data type");
+            "hana::concat(xs, ys) requires xs and ys to have the same data type");
+
+            static_assert(models<MonadPlus, typename datatype<Xs>::type>{},
+            "hana::concat(xs, ys) requires xs and ys to be a MonadPlus");
+#endif
             return concat_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Ys>(ys)
@@ -153,6 +160,10 @@ namespace boost { namespace hana {
 
     template <typename M>
     struct _empty {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        static_assert(models<MonadPlus, M>{},
+        "hana::empty<M>() requires M to be a MonadPlus");
+#endif
         constexpr decltype(auto) operator()() const {
             return empty_impl<M>::apply();
         }
@@ -211,6 +222,10 @@ namespace boost { namespace hana {
     struct _prepend {
         template <typename X, typename Xs>
         constexpr decltype(auto) operator()(X&& x, Xs&& xs) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<MonadPlus, typename datatype<Xs>::type>{},
+            "hana::prepend(x, xs) requires xs to be a MonadPlus");
+#endif
             return prepend_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<X>(x),
                 detail::std::forward<Xs>(xs)
@@ -266,6 +281,10 @@ namespace boost { namespace hana {
     struct _append {
         template <typename Xs, typename X>
         constexpr decltype(auto) operator()(Xs&& xs, X&& x) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<MonadPlus, typename datatype<Xs>::type>{},
+            "hana::append(xs, x) requires xs to be a MonadPlus");
+#endif
             return append_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<X>(x)
@@ -335,6 +354,10 @@ namespace boost { namespace hana {
     struct _filter {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<MonadPlus, typename datatype<Xs>::type>{},
+            "hana::filter(xs, pred) requires xs to be a MonadPlus");
+#endif
             return filter_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred)
@@ -398,6 +421,10 @@ namespace boost { namespace hana {
     struct _cycle {
         template <typename N, typename Xs>
         constexpr decltype(auto) operator()(N&& n, Xs&& xs) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<MonadPlus, typename datatype<Xs>::type>{},
+            "hana::cycle(n, xs) requires xs to be a MonadPlus");
+#endif
             return cycle_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<N>(n),
                 detail::std::forward<Xs>(xs)
@@ -459,6 +486,10 @@ namespace boost { namespace hana {
 
     template <typename M>
     struct _repeat {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        static_assert(models<MonadPlus, M>{},
+        "hana::repeat<M>(n, x) requires M to be a MonadPlus");
+#endif
         template <typename N, typename X>
         constexpr decltype(auto) operator()(N&& n, X&& x) const {
             return repeat_impl<M>::apply(
@@ -520,6 +551,10 @@ namespace boost { namespace hana {
     struct _prefix {
         template <typename Z, typename Xs>
         constexpr decltype(auto) operator()(Z&& z, Xs&& xs) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<MonadPlus, typename datatype<Xs>::type>{},
+            "hana::prefix(z, xs) requires xs to be a MonadPlus");
+#endif
             return prefix_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Z>(z),
                 detail::std::forward<Xs>(xs)
@@ -578,6 +613,10 @@ namespace boost { namespace hana {
     struct _suffix {
         template <typename Z, typename Xs>
         constexpr decltype(auto) operator()(Z&& z, Xs&& xs) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<MonadPlus, typename datatype<Xs>::type>{},
+            "hana::suffix(z, xs) requires xs to be a MonadPlus");
+#endif
             return suffix_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Z>(z),
                 detail::std::forward<Xs>(xs)

@@ -16,7 +16,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/core/wrong.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/foldable.hpp>
@@ -33,11 +32,7 @@ namespace boost { namespace hana {
 
     template <typename P, bool condition>
     struct first_impl<P, when<condition>> : default_ {
-        template <typename X>
-        static constexpr void apply(X&&) {
-            static_assert(wrong<first_impl<P>, X>{},
-            "no definition of boost::hana::first for the given data type");
-        }
+        static void apply(...) { }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -48,18 +43,14 @@ namespace boost { namespace hana {
 
     template <typename P, bool condition>
     struct second_impl<P, when<condition>> : default_ {
-        template <typename X>
-        static constexpr void apply(X&&) {
-            static_assert(wrong<second_impl<P>, X>{},
-            "no definition of boost::hana::second for the given data type");
-        }
+        static void apply(...) { }
     };
 
     //////////////////////////////////////////////////////////////////////////
     // models
     //////////////////////////////////////////////////////////////////////////
     template <typename P>
-    struct models<Product(P)>
+    struct models<Product, P>
         : detail::std::integral_constant<bool,
             !is_default<first_impl<P>>{} &&
             !is_default<second_impl<P>>{}
@@ -70,7 +61,7 @@ namespace boost { namespace hana {
     // Comparable
     //////////////////////////////////////////////////////////////////////////
     template <typename T, typename U>
-    struct equal_impl<T, U, when<models<Product(T)>{} && models<Product(U)>{}>> {
+    struct equal_impl<T, U, when<models<Product, T>{} && models<Product, U>{}>> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X const& x, Y const& y) {
             return hana::and_(
@@ -84,7 +75,7 @@ namespace boost { namespace hana {
     // Orderable
     //////////////////////////////////////////////////////////////////////////
     template <typename T, typename U>
-    struct less_impl<T, U, when<models<Product(T)>{} && models<Product(U)>{}>> {
+    struct less_impl<T, U, when<models<Product, T>{} && models<Product, U>{}>> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X const& x, Y const& y) {
             return hana::or_(
@@ -101,7 +92,7 @@ namespace boost { namespace hana {
     // Foldable
     //////////////////////////////////////////////////////////////////////////
     template <typename T>
-    struct unpack_impl<T, when<models<Product(T)>{}>> {
+    struct unpack_impl<T, when<models<Product, T>{}>> {
         template <typename P, typename F>
         static constexpr decltype(auto) apply(P&& p, F&& f) {
             return detail::std::forward<F>(f)(

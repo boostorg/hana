@@ -87,7 +87,7 @@ namespace boost { namespace hana {
     // Sequence
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Sequence(LazyList)>
+    struct models<Sequence, LazyList>
         : detail::std::true_type
     { };
 }}

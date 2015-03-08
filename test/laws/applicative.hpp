@@ -26,12 +26,12 @@ namespace boost { namespace hana { namespace test {
 
     template <typename F>
     struct TestApplicative<F, laws> {
-        static_assert(models<Applicative(F)>{}, "");
+        static_assert(models<Applicative, F>{}, "");
         //! @todo Write Applicative laws
     };
 
     template <typename S>
-    struct TestApplicative<S, when<models<Sequence(S)>{}>> : TestApplicative<S, laws> {
+    struct TestApplicative<S, when<models<Sequence, S>{}>> : TestApplicative<S, laws> {
         template <int i>
         using eq = _constant<i>;
 

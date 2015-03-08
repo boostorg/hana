@@ -21,11 +21,11 @@ namespace boost { namespace hana {
     // models
     //////////////////////////////////////////////////////////////////////////
     //! @cond
-    template <typename Concept, typename>
-    struct models : models<Concept, when<true>> { };
+    template <typename Concept, typename T, typename>
+    struct models : models<Concept, T, when<true>> { };
 
-    template <typename Concept, bool condition>
-    struct models<Concept, when<condition>>
+    template <typename Concept, typename T, bool condition>
+    struct models<Concept, T, when<condition>>
         : detail::std::false_type
     { };
     //! @endcond

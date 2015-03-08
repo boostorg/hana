@@ -19,7 +19,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/core/wrong.hpp>
 #include <boost/hana/detail/std/declval.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
@@ -94,11 +93,7 @@ namespace boost { namespace hana {
 
     template <typename L, bool condition>
     struct eval_if_impl<L, when<condition>> : default_ {
-        template <typename Cond, typename Then, typename Else>
-        static constexpr void apply(Cond&&, Then&&, Else&&) {
-            static_assert(wrong<eval_if_impl<L>, Cond, Then, Else>{},
-            "no definition of boost::hana::eval_if for the given data type");
-        }
+        static void apply(...) { }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -109,11 +104,7 @@ namespace boost { namespace hana {
 
     template <typename L, bool condition>
     struct while_impl<L, when<condition>> : default_ {
-        template <typename Pred, typename State, typename F>
-        static constexpr void apply(Pred&&, State&&, F&&) {
-            static_assert(wrong<while_impl<L>, Pred, State, F>{},
-            "no definition of boost::hana::while_ for the given data type");
-        }
+        static void apply(...) { }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -141,11 +132,7 @@ namespace boost { namespace hana {
 
     template <typename L, bool condition>
     struct not_impl<L, when<condition>> : default_ {
-        template <typename Cond>
-        static constexpr void apply(Cond&&) {
-            static_assert(wrong<not_impl<L>, Cond>{},
-            "no definition of boost::hana::not_ for the given data type");
-        }
+        static void apply(...) { }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -223,7 +210,7 @@ namespace boost { namespace hana {
     // models
     //////////////////////////////////////////////////////////////////////////
     template <typename L>
-    struct models<Logical(L)>
+    struct models<Logical, L>
         : detail::std::integral_constant<bool,
             !is_default<eval_if_impl<L>>{} &&
             !is_default<not_impl<L>>{} &&
@@ -274,7 +261,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename C>
     struct eval_if_impl<C, when<
-        models<Constant(C)>{} && models<Logical(typename C::value_type)>{}
+        models<Constant, C>{} && models<Logical, typename C::value_type>{}
     >> {
         template <typename Then, typename Else>
         static constexpr auto
@@ -297,7 +284,7 @@ namespace boost { namespace hana {
 
     template <typename C>
     struct not_impl<C, when<
-        models<Constant(C)>{} && models<Logical(typename C::value_type)>{}
+        models<Constant, C>{} && models<Logical, typename C::value_type>{}
     >> {
         using T = typename C::value_type;
         template <typename Cond>
@@ -313,7 +300,7 @@ namespace boost { namespace hana {
 
     template <typename C>
     struct while_impl<C, when<
-        models<Constant(C)>{} && models<Logical(typename C::value_type)>{}
+        models<Constant, C>{} && models<Logical, typename C::value_type>{}
     >> {
         template <typename Pred, typename State, typename F>
         static constexpr State

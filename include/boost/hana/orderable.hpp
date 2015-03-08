@@ -273,7 +273,7 @@ namespace boost { namespace hana {
     // models
     //////////////////////////////////////////////////////////////////////////
     template <typename Ord>
-    struct models<Orderable(Ord)>
+    struct models<Orderable, Ord>
         : detail::std::integral_constant<bool,
             !is_default<less_impl<Ord, Ord>>{}
         >
@@ -294,7 +294,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename C>
     struct less_impl<C, C, when<
-        models<Constant(C)>{} && models<Orderable(typename C::value_type)>{}
+        models<Constant, C>{} && models<Orderable, typename C::value_type>{}
     >> {
         template <typename X, typename Y>
         static constexpr auto apply(X const&, Y const&) {

@@ -86,11 +86,7 @@ namespace boost { namespace hana {
 
     template <typename R, bool condition>
     struct one_impl<R, when<condition>> : default_ {
-        template <typename ...Nothing>
-        static constexpr void apply(Nothing&& ...) {
-            static_assert(wrong<one_impl<R>, Nothing...>{},
-            "no definition of boost::hana::one for the given data type");
-        }
+        static void apply(...) { }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -119,7 +115,7 @@ namespace boost { namespace hana {
     // models
     //////////////////////////////////////////////////////////////////////////
     template <typename R>
-    struct models<Ring(R)>
+    struct models<Ring, R>
         : detail::std::integral_constant<bool,
             !is_default<one_impl<R>>{} &&
             !is_default<mult_impl<R, R>>{}
@@ -147,7 +143,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename C>
     struct mult_impl<C, C, when<
-        models<Constant(C)>{} && models<Ring(typename C::value_type)>{}
+        models<Constant, C>{} && models<Ring, typename C::value_type>{}
     >> {
         using T = typename C::value_type;
         template <typename X, typename Y>
@@ -165,7 +161,7 @@ namespace boost { namespace hana {
 
     template <typename C>
     struct one_impl<C, when<
-        models<Constant(C)>{} && models<Ring(typename C::value_type)>{}
+        models<Constant, C>{} && models<Ring, typename C::value_type>{}
     >> {
         using T = typename C::value_type;
         struct _constant {

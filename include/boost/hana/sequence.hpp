@@ -32,6 +32,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/orderable.hpp>
 #include <boost/hana/pair.hpp>
 #include <boost/hana/product.hpp>
+#include <boost/hana/searchable.hpp>
 #include <boost/hana/traversable.hpp>
 #include <boost/hana/tuple.hpp>
 
@@ -786,6 +787,26 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // zip.shortest.with
     //////////////////////////////////////////////////////////////////////////
+    //! @cond
+    template <typename F, typename Xs, typename ...Ys>
+    constexpr decltype(auto)
+    _zip_shortest_with::operator()(F&& f, Xs&& xs, Ys&& ...ys) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        constexpr bool models_of_Sequence[] = {
+            models<Sequence, typename datatype<Xs>::type>{},
+            models<Sequence, typename datatype<Ys>::type>{}...
+        };
+        static_assert(hana::all(models_of_Sequence),
+        "hana::zip.shortest.with(f, xs, ys...) requires xs and ys... to be Sequences");
+#endif
+        return zip_shortest_with_impl<typename datatype<Xs>::type>::apply(
+            detail::std::forward<F>(f),
+            detail::std::forward<Xs>(xs),
+            detail::std::forward<Ys>(ys)...
+        );
+    }
+    //! @endcond
+
     template <typename S, typename>
     struct zip_shortest_with_impl : zip_shortest_with_impl<S, when<true>> { };
 
@@ -803,6 +824,24 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // zip.shortest
     //////////////////////////////////////////////////////////////////////////
+    //! @cond
+    template <typename Xs, typename ...Ys>
+    constexpr decltype(auto) _zip_shortest::operator()(Xs&& xs, Ys&& ...ys) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        constexpr bool models_of_Sequence[] = {
+            models<Sequence, typename datatype<Xs>::type>{},
+            models<Sequence, typename datatype<Ys>::type>{}...
+        };
+        static_assert(hana::all(models_of_Sequence),
+        "hana::zip.shortest(xs, ys...) requires xs and ys... to be Sequences");
+#endif
+        return zip_shortest_impl<typename datatype<Xs>::type>::apply(
+            detail::std::forward<Xs>(xs),
+            detail::std::forward<Ys>(ys)...
+        );
+    }
+    //! @endcond
+
     template <typename S, typename>
     struct zip_shortest_impl : zip_shortest_impl<S, when<true>> { };
 
@@ -817,6 +856,26 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // zip.unsafe.with
     //////////////////////////////////////////////////////////////////////////
+    //! @cond
+    template <typename F, typename Xs, typename ...Ys>
+    constexpr decltype(auto)
+    _zip_unsafe_with::operator()(F&& f, Xs&& xs, Ys&& ...ys) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        constexpr bool models_of_Sequence[] = {
+            models<Sequence, typename datatype<Xs>::type>{},
+            models<Sequence, typename datatype<Ys>::type>{}...
+        };
+        static_assert(hana::all(models_of_Sequence),
+        "hana::zip.unsafe.with(f, xs, ys...) requires xs and ys... to be Sequences");
+#endif
+        return zip_unsafe_with_impl<typename datatype<Xs>::type>::apply(
+            detail::std::forward<F>(f),
+            detail::std::forward<Xs>(xs),
+            detail::std::forward<Ys>(ys)...
+        );
+    }
+    //! @endcond
+
     template <typename S, typename>
     struct zip_unsafe_with_impl : zip_unsafe_with_impl<S, when<true>> { };
 
@@ -851,6 +910,24 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // zip.unsafe
     //////////////////////////////////////////////////////////////////////////
+    //! @cond
+    template <typename Xs, typename ...Ys>
+    constexpr decltype(auto) _zip_unsafe::operator()(Xs&& xs, Ys&& ...ys) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        constexpr bool models_of_Sequence[] = {
+            models<Sequence, typename datatype<Xs>::type>{},
+            models<Sequence, typename datatype<Ys>::type>{}...
+        };
+        static_assert(hana::all(models_of_Sequence),
+        "hana::zip.unsafe(xs, ys...) requires xs and ys... to be Sequences");
+#endif
+        return zip_unsafe_impl<typename datatype<Xs>::type>::apply(
+            detail::std::forward<Xs>(xs),
+            detail::std::forward<Ys>(ys)...
+        );
+    }
+    //! @endcond
+
     template <typename S, typename>
     struct zip_unsafe_impl : zip_unsafe_impl<S, when<true>> { };
 
@@ -866,7 +943,7 @@ namespace boost { namespace hana {
     // make
     //////////////////////////////////////////////////////////////////////////
     template <typename S>
-    struct make_impl<S, when<models<Sequence(S)>{}>> {
+    struct make_impl<S, when<models<Sequence, S>{}>> {
         template <typename ...X>
         static constexpr decltype(auto) apply(X&& ...x) {
             return detail::variadic::foldr(prepend, empty<S>(),
@@ -916,7 +993,7 @@ namespace boost { namespace hana {
     };
 
     template <typename T, typename U>
-    struct equal_impl<T, U, when<models<Sequence(T)>{} && models<Sequence(U)>{}>>
+    struct equal_impl<T, U, when<models<Sequence, T>{} && models<Sequence, U>{}>>
         : Sequence::equal_impl<T, U>
     { };
 
@@ -976,7 +1053,7 @@ namespace boost { namespace hana {
     };
 
     template <typename T, typename U>
-    struct less_impl<T, U, when<models<Sequence(T)>{} && models<Sequence(U)>{}>>
+    struct less_impl<T, U, when<models<Sequence, T>{} && models<Sequence, U>{}>>
         : Sequence::less_impl<T, U>
     { };
 
@@ -993,7 +1070,7 @@ namespace boost { namespace hana {
     };
 
     template <typename S>
-    struct transform_impl<S, when<models<Sequence(S)>{}>>
+    struct transform_impl<S, when<models<Sequence, S>{}>>
         : Sequence::transform_impl<S>
     { };
 
@@ -1008,12 +1085,12 @@ namespace boost { namespace hana {
     };
 
     template <typename S>
-    struct ap_impl<S, when<models<Sequence(S)>{}>>
+    struct ap_impl<S, when<models<Sequence, S>{}>>
         : Monad::ap_impl<S>
     { };
 
     template <typename S>
-    struct lift_impl<S, when<models<Sequence(S)>{}>>
+    struct lift_impl<S, when<models<Sequence, S>{}>>
         : Sequence::lift_impl<S>
     { };
 
@@ -1028,7 +1105,7 @@ namespace boost { namespace hana {
     };
 
     template <typename S>
-    struct flatten_impl<S, when<models<Sequence(S)>{}>>
+    struct flatten_impl<S, when<models<Sequence, S>{}>>
         : Sequence::flatten_impl<S>
     { };
 
@@ -1045,7 +1122,7 @@ namespace boost { namespace hana {
     };
 
     template <typename S>
-    struct concat_impl<S, when<models<Sequence(S)>{}>>
+    struct concat_impl<S, when<models<Sequence, S>{}>>
         : Sequence::concat_impl<S>
     { };
 
@@ -1053,22 +1130,22 @@ namespace boost { namespace hana {
     // Automatic model of Foldable
     //////////////////////////////////////////////////////////////////////////
     template <typename S>
-    struct foldl_impl<S, when<models<Sequence(S)>{}>>
+    struct foldl_impl<S, when<models<Sequence, S>{}>>
         : Iterable::foldl_impl<S>
     { };
 
     template <typename S>
-    struct foldr_impl<S, when<models<Sequence(S)>{}>>
+    struct foldr_impl<S, when<models<Sequence, S>{}>>
         : Iterable::foldr_impl<S>
     { };
 
     template <typename S>
-    struct foldl1_impl<S, when<models<Sequence(S)>{}>>
+    struct foldl1_impl<S, when<models<Sequence, S>{}>>
         : Iterable::foldl1_impl<S>
     { };
 
     template <typename S>
-    struct foldr1_impl<S, when<models<Sequence(S)>{}>>
+    struct foldr1_impl<S, when<models<Sequence, S>{}>>
         : Iterable::foldr1_impl<S>
     { };
 
@@ -1076,12 +1153,12 @@ namespace boost { namespace hana {
     // Automatic model of Searchable
     //////////////////////////////////////////////////////////////////////////
     template <typename S>
-    struct find_impl<S, when<models<Sequence(S)>{}>>
+    struct find_impl<S, when<models<Sequence, S>{}>>
         : Iterable::find_impl<S>
     { };
 
     template <typename S>
-    struct any_of_impl<S, when<models<Sequence(S)>{}>>
+    struct any_of_impl<S, when<models<Sequence, S>{}>>
         : Iterable::any_of_impl<S>
     { };
 
@@ -1114,7 +1191,7 @@ namespace boost { namespace hana {
     };
 
     template <typename S>
-    struct traverse_impl<S, when<models<Sequence(S)>{}>>
+    struct traverse_impl<S, when<models<Sequence, S>{}>>
         : Sequence::traverse_impl<S>
     { };
 
@@ -1122,8 +1199,8 @@ namespace boost { namespace hana {
     // Automatic Foldable -> Sequence conversion
     //////////////////////////////////////////////////////////////////////////
     template <typename S, typename F>
-    struct to_impl<S, F, when<models<Sequence(S)>{} && models<Foldable(F)>{}>>
-        : embedding<models<Sequence(F)>{}>
+    struct to_impl<S, F, when<models<Sequence, S>{} && models<Foldable, F>{}>>
+        : embedding<models<Sequence, F>{}>
     {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs)

@@ -27,7 +27,7 @@ namespace boost { namespace hana { namespace test {
 
     template <typename T>
     struct TestTraversable<T, laws> {
-        static_assert(models<Traversable(T)>{}, "");
+        static_assert(models<Traversable, T>{}, "");
 
 
         TestTraversable() {
@@ -36,7 +36,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename S>
-    struct TestTraversable<S, when<models<Sequence(S)>{}>> : TestTraversable<S, laws> {
+    struct TestTraversable<S, when<models<Sequence, S>{}>> : TestTraversable<S, laws> {
         template <int i>
         using x = _constant<i>;
 

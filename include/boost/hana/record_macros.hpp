@@ -130,7 +130,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_PP_DEFINE_RECORD_IMPL(DATATYPE, MEMBERS)                 \
     namespace boost { namespace hana {                                      \
         template <>                                                         \
-        struct models< ::boost::hana::Record(DATATYPE)>                     \
+        struct models< ::boost::hana::Record, DATATYPE>                     \
             : ::boost::hana::detail::std::true_type                         \
         { };                                                                \
                                                                             \

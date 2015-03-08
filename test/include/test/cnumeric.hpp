@@ -48,7 +48,7 @@ namespace boost { namespace hana {
 
     template <typename T, typename C>
     struct to_impl<test::CNumeric<T>, C, when<
-        models<Constant(C)>{} &&
+        models<Constant, C>{} &&
         detail::std::is_integral<typename C::value_type>{}
     >>
         : embedding<is_embedded<typename C::value_type, T>{}>

@@ -76,7 +76,7 @@ namespace boost { namespace hana {
 
     template <typename Typeclass, typename ...Datatypes>
     constexpr auto is_a = bool_<
-        models<Typeclass(typename core_detail::novoid<Datatypes>::type...)>{}
+        models<Typeclass, typename core_detail::novoid<Datatypes>::type...>{}
     >;
 
     namespace core_detail {

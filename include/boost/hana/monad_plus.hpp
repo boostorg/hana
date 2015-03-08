@@ -17,7 +17,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/core/wrong.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
@@ -36,11 +35,7 @@ namespace boost { namespace hana {
 
     template <typename M, bool condition>
     struct concat_impl<M, when<condition>> : default_ {
-        template <typename Xs, typename Ys>
-        static constexpr void apply(Xs&&, Ys&&) {
-            static_assert(wrong<concat_impl<M>, Xs, Ys>{},
-            "no definition of boost::hana::concat for the given data type");
-        }
+        static void apply(...) { }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -51,11 +46,7 @@ namespace boost { namespace hana {
 
     template <typename M, bool condition>
     struct empty_impl<M, when<condition>> : default_ {
-        template <typename ...Nothing>
-        static constexpr void apply(Nothing&& ...) {
-            static_assert(wrong<empty_impl<M>, Nothing...>{},
-            "no definition of boost::hana::empty for the given data type");
-        }
+        static void apply(...) { }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -206,7 +197,7 @@ namespace boost { namespace hana {
     // models
     //////////////////////////////////////////////////////////////////////////
     template <typename M>
-    struct models<MonadPlus(M)>
+    struct models<MonadPlus, M>
         : detail::std::integral_constant<bool,
             !is_default<concat_impl<M>>{} &&
             !is_default<empty_impl<M>>{}

@@ -16,7 +16,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/create.hpp>
-#include <boost/hana/detail/dependent_on.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integer_sequence.hpp>
 #include <boost/hana/detail/std/integral_constant.hpp>
@@ -48,10 +47,6 @@ namespace boost { namespace hana {
     struct foldl_impl<T, when<condition>> : default_ {
         template <typename Xs, typename S, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, S&& s, F&& f) {
-            using Foldable = detail::dependent_on_t<sizeof(xs) == 1, T>;
-            static_assert(!is_default<unpack_impl<Foldable>>{},
-            "no definition of boost::hana::foldl for the given data type");
-
             return hana::unpack(detail::std::forward<Xs>(xs),
                 hana::partial(
                     detail::variadic::foldl,
@@ -72,10 +67,6 @@ namespace boost { namespace hana {
     struct foldr_impl<T, when<condition>> : default_ {
         template <typename Xs, typename S, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, S&& s, F&& f) {
-            using Foldable = detail::dependent_on_t<sizeof(xs) == 1, T>;
-            static_assert(!is_default<unpack_impl<Foldable>>{},
-            "no definition of boost::hana::foldr for the given data type");
-
             return hana::unpack(detail::std::forward<Xs>(xs),
                 hana::partial(
                     detail::variadic::foldr,
@@ -130,7 +121,7 @@ namespace boost { namespace hana {
                 );
 
                 static_assert(!detail::std::is_same<decltype(result), end>{},
-                "boost::hana::foldr1 requires a non-empty structure");
+                "hana::foldr1(xs, f) requires xs to be non-empty");
                 return result;
             }
         };
@@ -171,7 +162,7 @@ namespace boost { namespace hana {
                 );
 
                 static_assert(!detail::std::is_same<decltype(result), end>{},
-                "boost::hana::foldl1 requires a non-empty structure");
+                "hana::foldl1(xs, f) requires xs to be non-empty");
                 return result;
             }
         };
@@ -487,11 +478,6 @@ namespace boost { namespace hana {
     struct unpack_impl<T, when<condition>> : default_ {
         template <typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
-            using Foldable = detail::dependent_on_t<sizeof(xs) == 1, T>;
-            static_assert(!is_default<foldl_impl<Foldable>>{} &&
-                          !is_default<foldr_impl<Foldable>>{},
-            "no definition of boost::hana::unpack for the given data type");
-
             return hana::foldl(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<F>(f),
@@ -504,7 +490,7 @@ namespace boost { namespace hana {
     // models
     //////////////////////////////////////////////////////////////////////////
     template <typename T>
-    struct models<Foldable(T)>
+    struct models<Foldable, T>
         : detail::std::integral_constant<bool,
             (!is_default<foldl_impl<T>>{} && !is_default<foldr_impl<T>>{}) ||
             !is_default<unpack_impl<T>>{}

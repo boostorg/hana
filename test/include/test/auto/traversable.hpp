@@ -19,7 +19,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana { namespace test {
     template <typename T>
     auto laws<Traversable, T> = [] {
-        static_assert(models<Traversable(T)>{}, "");
+        static_assert(models<Traversable, T>{}, "");
 
         laws<Functor, T>();
 

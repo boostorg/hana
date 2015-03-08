@@ -80,18 +80,14 @@ namespace boost { namespace hana {
 
     template <typename M, bool condition>
     struct zero_impl<M, when<condition>> : default_ {
-        template <typename ...Nothing>
-        static constexpr void apply(Nothing&& ...) {
-            static_assert(wrong<zero_impl<M>, Nothing...>{},
-            "no definition of boost::hana::zero for the given data type");
-        }
+        static void apply(...) { }
     };
 
     //////////////////////////////////////////////////////////////////////////
     // models
     //////////////////////////////////////////////////////////////////////////
     template <typename M>
-    struct models<Monoid(M)>
+    struct models<Monoid, M>
         : detail::std::integral_constant<bool,
             !is_default<zero_impl<M>>{} &&
             !is_default<plus_impl<M, M>>{}
@@ -123,7 +119,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename C>
     struct plus_impl<C, C, when<
-        models<Constant(C)>{} && models<Monoid(typename C::value_type)>{}
+        models<Constant, C>{} && models<Monoid, typename C::value_type>{}
     >> {
         using T = typename C::value_type;
         template <typename X, typename Y>
@@ -141,7 +137,7 @@ namespace boost { namespace hana {
 
     template <typename C>
     struct zero_impl<C, when<
-        models<Constant(C)>{} && models<Monoid(typename C::value_type)>{}
+        models<Constant, C>{} && models<Monoid, typename C::value_type>{}
     >> {
         using T = typename C::value_type;
         struct _constant {

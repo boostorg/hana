@@ -491,7 +491,7 @@ namespace boost { namespace hana {
     // Sequence
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Sequence(Tuple)>
+    struct models<Sequence, Tuple>
         : detail::std::true_type
     { };
 

@@ -21,7 +21,7 @@ namespace boost { namespace hana { namespace test {
     auto laws<Applicative, A> = [] {
         laws<Functor, A>();
 
-        static_assert(models<Applicative(A)>{}, "");
+        static_assert(models<Applicative, A>{}, "");
 
         //! @todo Write Applicative laws
     };

@@ -9,7 +9,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include "matrix.hpp"
 
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/integral_constant.hpp>
@@ -22,11 +21,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    template <unsigned R, unsigned C>
-    struct models<cppcon::Matrix<R, C>>
-        : detail::std::true_type
-    { };
-
     template <unsigned R1, unsigned C1, unsigned R2, unsigned C2>
     struct mult_impl<cppcon::Matrix<R1, C1>, cppcon::Matrix<R2, C2>> {
         template <typename M1, typename M2>

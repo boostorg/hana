@@ -76,27 +76,6 @@ namespace boost { namespace hana {
 
 //! @defgroup group-functional Functional
 //! General purpose function objects.
-//!
-//! In the documentation of these utilities, a simplified implementation is
-//! often provided in pseudo-code using lambdas. The reason is that the actual
-//! implementation is often contrived because of limitations with lambdas in
-//! the current language. Here is an explanation of some terms that appear in
-//! the pseudo-code:
-//!
-//! ### `forwarded(x)`
-//! Means that the object is forwarded optimally. This means that if `x` is a
-//! parameter, it is `std::forward`ed, and if it is a captured variable, it is
-//! moved from whenever the lambda is an rvalue.
-//!
-//! Also note that when `x` can be moved from, the statement
-//! `return forwarded(x);` in a function with `decltype(auto)` does not mean
-//! that an rvalue reference to `x` will be returned, which would create a
-//! dangling reference. Rather, it means that `x` is returned by value, the
-//! value being constructed with the `std::forward`ed `x`.
-//!
-//! ### `perfect-capture`
-//! Means that the captured variables are initialized using perfect
-//! forwarding, as if `[x(forwarded(x))...]() { }` had been used.
 
 //! @defgroup group-core Core
 //! Core utilities of the library.
@@ -1079,14 +1058,11 @@ the library was also intentionally kept simple, because we all love simplicity.
     but that do not necessarily belong to a concept.
 
   - `boost/hana/ext/`\n
-    This directory contains adapters for external libraries. This is the only
-    part of the public interface which is not included by the master header,
-    because that would make the master header dependent on those external
-    libraries. Note that only the strict minimum required to adapt the
-    external components is included in these headers (e.g. a forward
-    declaration). This means that the definition of the external component
-    should still be included when one wants to use it. For example:
-
+    This directory contains adapters for external libraries. Only the strict
+    minimum required to adapt the external components is included in these
+    headers (e.g. a forward declaration). This means that the definition of
+    the external component should still be included when one wants to use it.
+    For example:
     @snippet example/tutorial/include_ext.cpp main
 
   - `boost/hana/sandbox/`\n
@@ -1163,6 +1139,31 @@ follow:
 
   - @ref group-details\n
     Implementation details. Don't go there.
+
+
+In the documentation, a simplified implementation of the documented object
+is sometimes provided in pseudo-code. The reason is that the actual
+implementation is sometimes contrived because of unimportant details or
+language limitations. This is particularly present in the [Functional]
+(@ref group-functional) module. Here is an explanation of some terms that
+appear in the pseudo-code:
+
+`forwarded(x)`
+--------------
+Means that the object is forwarded optimally. This means that if `x` is a
+parameter, it is `std::forward`ed, and if it is a captured variable, it is
+moved from whenever the enclosing lambda is an rvalue.
+
+Also note that when `x` can be moved from, the statement
+`return forwarded(x);` in a function with `decltype(auto)` does not mean
+that an rvalue reference to `x` will be returned, which would create a
+dangling reference. Rather, it means that `x` is returned by value, the
+value being constructed with the `std::forward`ed `x`.
+
+`perfect-capture`
+-----------------
+This is used in lambdas to signify that the captured variables are initialized
+using perfect forwarding, as if `[x(forwarded(x))...]() { }` had been used.
 
 I hope you enjoy using the library, and please consider contributing since
 there is still a lot of work to do!

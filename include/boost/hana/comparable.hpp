@@ -156,7 +156,7 @@ namespace boost { namespace hana {
     // models
     //////////////////////////////////////////////////////////////////////////
     template <typename T>
-    struct models<Comparable(T)>
+    struct models<Comparable, T>
         : detail::std::integral_constant<bool,
             !is_default<equal_impl<T, T>>{}
         >
@@ -177,7 +177,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename C>
     struct equal_impl<C, C, when<
-        models<Constant(C)>{} && models<Comparable(typename C::value_type)>{}
+        models<Constant, C>{} && models<Comparable, typename C::value_type>{}
     >> {
         template <typename X, typename Y>
         static constexpr auto apply(X const&, Y const&) {

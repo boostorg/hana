@@ -10,7 +10,9 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_SEARCHABLE_HPP
 #define BOOST_HANA_FWD_SEARCHABLE_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/functional/flip.hpp>
 #include <boost/hana/functional/infix.hpp>
@@ -88,21 +90,22 @@ namespace boost { namespace hana {
     //! When `find` and `any_of` are provided, the other methods are
     //! implemented according to the laws above.
     //!
-    //! @note
-    //! We could implement `any_of(xs, pred)` as `is_just(find(xs, pred))`,
-    //! and then reduce the minimal complete definition to `find`. However,
-    //! this is not done because that implementation requires the predicate
-    //! to return a compile-time `Logical`, which is too restrictive.
-    //!
     //!
     //! Provided models
     //! ---------------
-    //! 1. Builtin arrays
+    //! 1. For builtin arrays\n
     //! Builtin arrays whose size is known can be searched as-if they were
     //! homogeneous tuples. However, since arrays can only hold objects of
     //! a single type and the predicate to `find` must return a compile-time
     //! Logical, the `find` method is fairly useless. For similar reasons,
     //! the `lookup` method is also fairly useless.
+    //!
+    //!
+    //! @note
+    //! We could implement `any_of(xs, pred)` as `is_just(find(xs, pred))`,
+    //! and then reduce the minimal complete definition to `find`. However,
+    //! this is not done because that implementation requires the predicate
+    //! to return a compile-time `Logical`, which is too restrictive.
     //!
     //!
     //! @todo
@@ -144,6 +147,10 @@ namespace boost { namespace hana {
     struct _any_of {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Searchable, typename datatype<Xs>::type>{},
+            "hana::any_of(xs, pred) requires xs to be a Searchable");
+#endif
             return any_of_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred)
@@ -176,6 +183,10 @@ namespace boost { namespace hana {
     struct _any {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Searchable, typename datatype<Xs>::type>{},
+            "hana::any(xs) requires xs to be a Searchable");
+#endif
             return any_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs)
             );
@@ -220,6 +231,10 @@ namespace boost { namespace hana {
     struct _all_of {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Searchable, typename datatype<Xs>::type>{},
+            "hana::all_of(xs, pred) requires xs to be a Searchable");
+#endif
             return all_of_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred)
@@ -252,6 +267,10 @@ namespace boost { namespace hana {
     struct _all {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Searchable, typename datatype<Xs>::type>{},
+            "hana::all(xs) requires xs to be a Searchable");
+#endif
             return all_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs)
             );
@@ -297,6 +316,10 @@ namespace boost { namespace hana {
     struct _none_of {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Searchable, typename datatype<Xs>::type>{},
+            "hana::none_of(xs, pred) requires xs to be a Searchable");
+#endif
             return none_of_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred)
@@ -329,6 +352,10 @@ namespace boost { namespace hana {
     struct _none {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Searchable, typename datatype<Xs>::type>{},
+            "hana::none(xs) requires xs to be a Searchable");
+#endif
             return none_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs)
             );
@@ -374,6 +401,10 @@ namespace boost { namespace hana {
     struct _elem {
         template <typename Xs, typename Key>
         constexpr decltype(auto) operator()(Xs&& xs, Key&& key) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Searchable, typename datatype<Xs>::type>{},
+            "hana::elem(xs, key) requires xs to be a Searchable");
+#endif
             return elem_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Key>(key)
@@ -435,6 +466,10 @@ namespace boost { namespace hana {
     struct _find {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Searchable, typename datatype<Xs>::type>{},
+            "hana::find(xs, pred) requires xs to be a Searchable");
+#endif
             return find_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred)
@@ -482,6 +517,10 @@ namespace boost { namespace hana {
     struct _lookup {
         template <typename Xs, typename Key>
         constexpr decltype(auto) operator()(Xs&& xs, Key&& key) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Searchable, typename datatype<Xs>::type>{},
+            "hana::lookup(xs, key) requires xs to be a Searchable");
+#endif
             return lookup_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Key>(key)
@@ -535,6 +574,13 @@ namespace boost { namespace hana {
     struct _subset {
         template <typename Xs, typename Ys>
         constexpr decltype(auto) operator()(Xs&& xs, Ys&& ys) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Searchable, typename datatype<Xs>::type>{},
+            "hana::subset(xs, ys) requires xs to be a Searchable");
+
+            static_assert(models<Searchable, typename datatype<Ys>::type>{},
+            "hana::subset(xs, ys) requires ys to be a Searchable");
+#endif
             return subset_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Ys>(ys)

@@ -16,7 +16,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/core/wrong.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
@@ -36,11 +35,7 @@ namespace boost { namespace hana {
 
     template <typename S, bool condition>
     struct any_of_impl<S, when<condition>> : default_ {
-        template <typename Xs, typename Pred>
-        static constexpr void apply(Xs&&, Pred&&) {
-            static_assert(wrong<any_of_impl<S>, Xs, Pred>{},
-            "no definition of boost::hana::any_of for the given data type");
-        }
+        static void apply(...) { }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -135,11 +130,7 @@ namespace boost { namespace hana {
 
     template <typename S, bool condition>
     struct find_impl<S, when<condition>> : default_ {
-        template <typename Xs, typename Pred>
-        static constexpr void apply(Xs&&, Pred&&) {
-            static_assert(wrong<find_impl<S>, Xs, Pred>{},
-            "no definition of boost::hana::find for the given data type");
-        }
+        static void apply(...) { }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -176,7 +167,7 @@ namespace boost { namespace hana {
     // models
     //////////////////////////////////////////////////////////////////////////
     template <typename S>
-    struct models<Searchable(S)>
+    struct models<Searchable, S>
         : detail::std::integral_constant<bool,
             !is_default<any_of_impl<S>>{} &&
             !is_default<find_impl<S>>{}

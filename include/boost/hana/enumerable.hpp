@@ -17,7 +17,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/core/wrong.hpp>
 #include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/is_arithmetic.hpp>
 #include <boost/hana/detail/std/is_same.hpp>
@@ -32,11 +31,7 @@ namespace boost { namespace hana {
 
     template <typename E, bool condition>
     struct succ_impl<E, when<condition>> : default_ {
-        template <typename X>
-        static constexpr void apply(X&&) {
-            static_assert(wrong<succ_impl<E>, X>{},
-            "no definition of boost::hana::succ for the given data type");
-        }
+        static void apply(...) { }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -47,18 +42,14 @@ namespace boost { namespace hana {
 
     template <typename E, bool condition>
     struct pred_impl<E, when<condition>> : default_ {
-        template <typename X>
-        static constexpr void apply(X&&) {
-            static_assert(wrong<pred_impl<E>, X>{},
-            "no definition of boost::hana::pred for the given data type");
-        }
+        static void apply(...) { }
     };
 
     //////////////////////////////////////////////////////////////////////////
     // models
     //////////////////////////////////////////////////////////////////////////
     template <typename E>
-    struct models<Enumerable(E)>
+    struct models<Enumerable, E>
         : detail::std::integral_constant<bool,
             !is_default<succ_impl<E>>{} &&
             !is_default<pred_impl<E>>{}
@@ -91,7 +82,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename C>
     struct succ_impl<C, when<
-        models<Constant(C)>{} && models<Enumerable(typename C::value_type)>{}
+        models<Constant, C>{} && models<Enumerable, typename C::value_type>{}
     >> {
         using T = typename C::value_type;
         template <typename X>
@@ -107,7 +98,7 @@ namespace boost { namespace hana {
 
     template <typename C>
     struct pred_impl<C, when<
-        models<Constant(C)>{} && models<Enumerable(typename C::value_type)>{}
+        models<Constant, C>{} && models<Enumerable, typename C::value_type>{}
     >> {
         using T = typename C::value_type;
         template <typename X>

@@ -118,7 +118,7 @@ namespace boost { namespace hana {
     // models
     //////////////////////////////////////////////////////////////////////////
     template <typename G>
-    struct models<Group(G)>
+    struct models<Group, G>
         : detail::std::integral_constant<bool,
             !is_default<negate_impl<G>>{} ||
             !is_default<minus_impl<G, G>>{}
@@ -147,7 +147,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename C>
     struct minus_impl<C, C, when<
-        models<Constant(C)>{} && models<Group(typename C::value_type)>{}
+        models<Constant, C>{} && models<Group, typename C::value_type>{}
     >> {
         using T = typename C::value_type;
         template <typename X, typename Y>

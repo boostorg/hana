@@ -26,7 +26,7 @@ namespace boost { namespace hana { namespace test {
 
     template <typename P>
     struct TestProduct<P, laws> {
-        static_assert(models<Product(P)>{}, "");
+        static_assert(models<Product, P>{}, "");
 
         template <typename Elements>
         TestProduct(Elements elements) {

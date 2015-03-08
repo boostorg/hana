@@ -27,7 +27,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana { namespace test {
     template <typename S>
     auto laws<Searchable, S> = [] {
-        static_assert(models<Searchable(S)>{}, "");
+        static_assert(models<Searchable, S>{}, "");
 
         for_each(objects<S>, [](auto xs) {
 

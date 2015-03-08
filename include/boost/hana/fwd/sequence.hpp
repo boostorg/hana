@@ -10,7 +10,9 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_SEQUENCE_HPP
 #define BOOST_HANA_FWD_SEQUENCE_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
 
@@ -200,6 +202,10 @@ namespace boost { namespace hana {
     struct _group_by {
         template <typename Pred, typename Xs>
         constexpr decltype(auto) operator()(Pred&& pred, Xs&& xs) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Sequence, typename datatype<Xs>::type>{},
+            "hana::group_by(pred, xs) requires xs to be a Sequence");
+#endif
             return group_by_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Pred>(pred),
                 detail::std::forward<Xs>(xs)
@@ -236,6 +242,10 @@ namespace boost { namespace hana {
     struct _group {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Sequence, typename datatype<Xs>::type>{},
+            "hana::group(xs) requires xs to be a Sequence");
+#endif
             return group_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs)
             );
@@ -267,6 +277,10 @@ namespace boost { namespace hana {
     struct _init {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Sequence, typename datatype<Xs>::type>{},
+            "hana::init(xs) requires xs to be a Sequence");
+#endif
             return init_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs)
             );
@@ -306,6 +320,10 @@ namespace boost { namespace hana {
     struct _intersperse {
         template <typename Xs, typename Z>
         constexpr decltype(auto) operator()(Xs&& xs, Z&& z) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Sequence, typename datatype<Xs>::type>{},
+            "hana::intersperse(xs, z) requires xs to be a Sequence");
+#endif
             return intersperse_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Z>(z)
@@ -349,6 +367,10 @@ namespace boost { namespace hana {
     struct _partition {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Sequence, typename datatype<Xs>::type>{},
+            "hana::partition(xs, pred) requires xs to be a Sequence");
+#endif
             return partition_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred)
@@ -395,6 +417,10 @@ namespace boost { namespace hana {
     struct _permutations {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Sequence, typename datatype<Xs>::type>{},
+            "hana::permutations(xs) requires xs to be a Sequence");
+#endif
             return permutations_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs)
             );
@@ -440,6 +466,10 @@ namespace boost { namespace hana {
     struct _remove_at {
         template <typename N, typename Xs>
         constexpr decltype(auto) operator()(N&& n, Xs&& xs) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Sequence, typename datatype<Xs>::type>{},
+            "hana::remove_at(n, xs) requires xs to be a Sequence");
+#endif
             return remove_at_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<N>(n),
                 detail::std::forward<Xs>(xs)
@@ -495,6 +525,10 @@ namespace boost { namespace hana {
     struct _reverse {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Sequence, typename datatype<Xs>::type>{},
+            "hana::reverse(xs) requires xs to be a Sequence");
+#endif
             return reverse_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs)
             );
@@ -559,6 +593,10 @@ namespace boost { namespace hana {
     struct _scanl {
         template <typename Xs, typename State, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Sequence, typename datatype<Xs>::type>{},
+            "hana::scanl(xs, state, f) requires xs to be a Sequence");
+#endif
             return scanl_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<State>(state),
@@ -624,6 +662,10 @@ namespace boost { namespace hana {
     struct _scanl1 {
         template <typename Xs, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Sequence, typename datatype<Xs>::type>{},
+            "hana::scanl1(xs, f) requires xs to be a Sequence");
+#endif
             return scanl1_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<F>(f)
@@ -687,6 +729,10 @@ namespace boost { namespace hana {
     struct _scanr {
         template <typename Xs, typename State, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Sequence, typename datatype<Xs>::type>{},
+            "hana::group_by(xs, state, f) requires xs to be a Sequence");
+#endif
             return scanr_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<State>(state),
@@ -752,6 +798,10 @@ namespace boost { namespace hana {
     struct _scanr1 {
         template <typename Xs, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Sequence, typename datatype<Xs>::type>{},
+            "hana::scanr1(xs, f) requires xs to be a Sequence");
+#endif
             return scanr1_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<F>(f)
@@ -802,6 +852,10 @@ namespace boost { namespace hana {
     struct _slice {
         template <typename Xs, typename From, typename To>
         constexpr decltype(auto) operator()(Xs&& xs, From&& from, To&& to) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Sequence, typename datatype<Xs>::type>{},
+            "hana::slice(xs, from, to) requires xs to be a Sequence");
+#endif
             return slice_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<From>(from),
@@ -873,6 +927,10 @@ namespace boost { namespace hana {
     struct _sort_by {
         template <typename Pred, typename Xs>
         constexpr decltype(auto) operator()(Pred&& pred, Xs&& xs) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Sequence, typename datatype<Xs>::type>{},
+            "hana::sort_by(pred, xs) requires xs to be a Sequence");
+#endif
             return sort_by_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Pred>(pred),
                 detail::std::forward<Xs>(xs)
@@ -910,6 +968,10 @@ namespace boost { namespace hana {
     struct _sort {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Sequence, typename datatype<Xs>::type>{},
+            "hana::sort(xs) requires xs to be a Sequence");
+#endif
             return sort_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs)
             );
@@ -958,6 +1020,10 @@ namespace boost { namespace hana {
     struct _span {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Sequence, typename datatype<Xs>::type>{},
+            "hana::span(xs, pred) requires xs to be a Sequence");
+#endif
             return span_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred)
@@ -1023,6 +1089,10 @@ namespace boost { namespace hana {
     struct _take_exactly {
         template <typename N, typename Xs>
         constexpr decltype(auto) operator()(N&& n, Xs&& xs) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Sequence, typename datatype<Xs>::type>{},
+            "hana::take.exactly(n, xs) requires xs to be a Sequence");
+#endif
             return take_exactly_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<N>(n),
                 detail::std::forward<Xs>(xs)
@@ -1035,6 +1105,10 @@ namespace boost { namespace hana {
     struct _take_at_most {
         template <typename N, typename Xs>
         constexpr decltype(auto) operator()(N&& n, Xs&& xs) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Sequence, typename datatype<Xs>::type>{},
+            "hana::take.at_most(n, xs) requires xs to be a Sequence");
+#endif
             return take_at_most_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<N>(n),
                 detail::std::forward<Xs>(xs)
@@ -1108,6 +1182,10 @@ namespace boost { namespace hana {
     struct _take_until {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Sequence, typename datatype<Xs>::type>{},
+            "hana::take_until(xs, pred) requires xs to be a Sequence");
+#endif
             return take_until_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred)
@@ -1155,6 +1233,10 @@ namespace boost { namespace hana {
     struct _take_while {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Sequence, typename datatype<Xs>::type>{},
+            "hana::take_while(xs, pred) requires xs to be a Sequence");
+#endif
             return take_while_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred)
@@ -1210,19 +1292,23 @@ namespace boost { namespace hana {
     template <typename S, typename = void>
     struct unfoldl_impl;
 
-    template <typename L>
+    template <typename S>
     struct _unfoldl {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        static_assert(models<Sequence, S>{},
+        "hana::unfoldl<S>(f, initial) requires S to be a Sequence");
+#endif
         template <typename F, typename Initial>
         constexpr decltype(auto) operator()(F&& f, Initial&& initial) const {
-            return unfoldl_impl<L>::apply(
+            return unfoldl_impl<S>::apply(
                 detail::std::forward<decltype(f)>(f),
                 detail::std::forward<decltype(initial)>(initial)
             );
         }
     };
 
-    template <typename L>
-    constexpr _unfoldl<L> unfoldl{};
+    template <typename S>
+    constexpr _unfoldl<S> unfoldl{};
 #endif
 
     //! Dual to `foldr` for sequences.
@@ -1270,19 +1356,23 @@ namespace boost { namespace hana {
     template <typename S, typename = void>
     struct unfoldr_impl;
 
-    template <typename L>
+    template <typename S>
     struct _unfoldr {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        static_assert(models<Sequence, S>{},
+        "hana::unfoldr<S>(f, initial) requires S to be a Sequence");
+#endif
         template <typename F, typename Initial>
         constexpr decltype(auto) operator()(F&& f, Initial&& initial) const {
-            return unfoldr_impl<L>::apply(
+            return unfoldr_impl<S>::apply(
                 detail::std::forward<decltype(f)>(f),
                 detail::std::forward<decltype(initial)>(initial)
             );
         }
     };
 
-    template <typename L>
-    constexpr _unfoldr<L> unfoldr{};
+    template <typename S>
+    constexpr _unfoldr<S> unfoldr{};
 #endif
 
     //! Unzip a sequence of sequences.
@@ -1315,6 +1405,10 @@ namespace boost { namespace hana {
     struct _unzip {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Sequence, typename datatype<Xs>::type>{},
+            "hana::unzip(xs) requires xs to be a Sequence");
+#endif
             return unzip_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs)
             );
@@ -1431,13 +1525,7 @@ namespace boost { namespace hana {
     struct zip_unsafe_with_impl;
     struct _zip_unsafe_with {
         template <typename F, typename Xs, typename ...Ys>
-        constexpr decltype(auto) operator()(F&& f, Xs&& xs, Ys&& ...ys) const {
-            return zip_unsafe_with_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<F>(f),
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Ys>(ys)...
-            );
-        }
+        constexpr decltype(auto) operator()(F&& f, Xs&& xs, Ys&& ...ys) const;
     };
 
 
@@ -1447,12 +1535,7 @@ namespace boost { namespace hana {
         static constexpr _zip_unsafe_with with{};
 
         template <typename Xs, typename ...Ys>
-        constexpr decltype(auto) operator()(Xs&& xs, Ys&& ...ys) const {
-            return zip_unsafe_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Ys>(ys)...
-            );
-        }
+        constexpr decltype(auto) operator()(Xs&& xs, Ys&& ...ys) const;
     };
     constexpr _zip_unsafe_with _zip_unsafe::with;
 
@@ -1461,13 +1544,7 @@ namespace boost { namespace hana {
     struct zip_shortest_with_impl;
     struct _zip_shortest_with {
         template <typename F, typename Xs, typename ...Ys>
-        constexpr decltype(auto) operator()(F&& f, Xs&& xs, Ys&& ...ys) const {
-            return zip_shortest_with_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<F>(f),
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Ys>(ys)...
-            );
-        }
+        constexpr decltype(auto) operator()(F&& f, Xs&& xs, Ys&& ...ys) const;
     };
 
 
@@ -1475,14 +1552,8 @@ namespace boost { namespace hana {
     struct zip_shortest_impl;
     struct _zip_shortest {
         static constexpr _zip_shortest_with with{};
-
         template <typename Xs, typename ...Ys>
-        constexpr decltype(auto) operator()(Xs&& xs, Ys&& ...ys) const {
-            return zip_shortest_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Ys>(ys)...
-            );
-        }
+        constexpr decltype(auto) operator()(Xs&& xs, Ys&& ...ys) const;
     };
     constexpr _zip_shortest_with _zip_shortest::with;
 

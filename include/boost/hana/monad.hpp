@@ -19,7 +19,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/create.hpp>
-#include <boost/hana/detail/dependent_on.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integral_constant.hpp>
@@ -53,10 +52,6 @@ namespace boost { namespace hana {
     struct bind_impl<M, when<condition>> : default_ {
         template <typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
-            using Monad = detail::dependent_on_t<sizeof(xs) == 1, M>;
-            static_assert(!is_default<flatten_impl<Monad>>{},
-            "no definition of boost::hana::bind for the given data type");
-
             return hana::flatten(hana::transform(detail::std::forward<Xs>(xs),
                                                  detail::std::forward<F>(f)));
         }
@@ -72,10 +67,6 @@ namespace boost { namespace hana {
     struct flatten_impl<M, when<condition>> : default_ {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
-            using Monad = detail::dependent_on_t<sizeof(xs) == 1, M>;
-            static_assert(!is_default<bind_impl<Monad>>{},
-            "no definition of boost::hana::flatten for the given data type");
-
             return hana::bind(detail::std::forward<Xs>(xs), id);
         }
     };
@@ -168,7 +159,7 @@ namespace boost { namespace hana {
     // models
     //////////////////////////////////////////////////////////////////////////
     template <typename M>
-    struct models<Monad(M)>
+    struct models<Monad, M>
         : detail::std::integral_constant<bool,
             !is_default<flatten_impl<M>>{} ||
             !is_default<bind_impl<M>>{}

@@ -55,7 +55,7 @@ namespace boost { namespace hana {
     // Sequence
     //////////////////////////////////////////////////////////////////////////
     template <typename S>
-    struct models<Sequence(S), when<detail::is_fusion_sequence<S>{}>>
+    struct models<Sequence, S, when<detail::is_fusion_sequence<S>{}>>
         : detail::std::true_type
     { };
 }} // end namespace boost::hana

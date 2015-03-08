@@ -10,7 +10,9 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_ITERABLE_HPP
 #define BOOST_HANA_FWD_ITERABLE_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
@@ -175,6 +177,10 @@ namespace boost { namespace hana {
     struct _head {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Iterable, typename datatype<Xs>::type>{},
+            "hana::head(xs) requires xs to be an Iterable");
+#endif
             return head_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs)
             );
@@ -208,6 +214,10 @@ namespace boost { namespace hana {
     struct _tail {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Iterable, typename datatype<Xs>::type>{},
+            "hana::tail(xs) requires xs to be an Iterable");
+#endif
             return tail_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs)
             );
@@ -238,6 +248,11 @@ namespace boost { namespace hana {
     struct _is_empty {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Iterable, typename datatype<Xs>::type>{},
+            "hana::is_empty(xs) requires xs to be an Iterable");
+#endif
+
             return is_empty_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs)
             );
@@ -286,6 +301,10 @@ namespace boost { namespace hana {
     struct _at {
         template <typename N, typename Xs>
         constexpr decltype(auto) operator()(N&& n, Xs&& xs) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Iterable, typename datatype<Xs>::type>{},
+            "hana::at(n, xs) requires xs to be an Iterable");
+#endif
             return at_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<N>(n),
                 detail::std::forward<Xs>(xs)
@@ -342,6 +361,10 @@ namespace boost { namespace hana {
     struct _last {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Iterable, typename datatype<Xs>::type>{},
+            "hana::last(xs) requires xs to be an Iterable");
+#endif
             return last_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs)
             );
@@ -391,6 +414,10 @@ namespace boost { namespace hana {
     struct _drop {
         template <typename N, typename Xs>
         constexpr decltype(auto) operator()(N&& n, Xs&& xs) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Iterable, typename datatype<Xs>::type>{},
+            "hana::drop(n, xs) requires xs to be an Iterable");
+#endif
             return drop_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<N>(n),
                 detail::std::forward<Xs>(xs)
@@ -462,6 +489,10 @@ namespace boost { namespace hana {
     struct _drop_while {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Iterable, typename datatype<Xs>::type>{},
+            "hana::drop_while(xs, pred) requires xs to be an Iterable");
+#endif
             return drop_while_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred)
@@ -518,6 +549,10 @@ namespace boost { namespace hana {
     struct _drop_until {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Iterable, typename datatype<Xs>::type>{},
+            "hana::drop_until(xs, pred) requires xs to be an Iterable");
+#endif
             return drop_until_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred)

@@ -26,9 +26,9 @@ namespace boost { namespace hana { namespace detail {
     //! happens when instantiating this alias.
     template <typename Concept, typename T, typename U>
     using has_common_embedding = detail::std::integral_constant<bool,
-        models<Concept(T)>{} &&
-        models<Concept(U)>{} &&
-        models<Concept(typename common<T, U>::type)>{} &&
+        models<Concept, T>{} &&
+        models<Concept, U>{} &&
+        models<Concept, typename common<T, U>::type>{} &&
         is_embedded<T, typename common<T, U>::type>{} &&
         is_embedded<U, typename common<T, U>::type>{}
     >;

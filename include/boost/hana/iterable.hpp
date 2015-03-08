@@ -74,11 +74,7 @@ namespace boost { namespace hana {
 
     template <typename It, bool condition>
     struct head_impl<It, when<condition>> : default_ {
-        template <typename Xs>
-        static constexpr void apply(Xs&&) {
-            static_assert(wrong<head_impl<It>, Xs>{},
-            "no definition of boost::hana::head for the given data types");
-        }
+        static void apply(...);
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -89,11 +85,7 @@ namespace boost { namespace hana {
 
     template <typename It, bool condition>
     struct tail_impl<It, when<condition>> : default_ {
-        template <typename Xs>
-        static constexpr void apply(Xs&&) {
-            static_assert(wrong<tail_impl<It>, Xs>{},
-            "no definition of boost::hana::tail for the given data types");
-        }
+        static void apply(...);
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -103,12 +95,8 @@ namespace boost { namespace hana {
     struct is_empty_impl : is_empty_impl<It, when<true>> { };
 
     template <typename It, bool condition>
-    struct is_empty_impl<It, when<condition>> {
-        template <typename Xs>
-        static constexpr void apply(Xs&&) {
-            static_assert(wrong<is_empty_impl<It>, Xs>{},
-            "no definition of boost::hana::is_empty for the given data types");
-        }
+    struct is_empty_impl<It, when<condition>> : default_ {
+        static void apply(...);
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -264,7 +252,7 @@ namespace boost { namespace hana {
     // models
     //////////////////////////////////////////////////////////////////////////
     template <typename It>
-    struct models<Iterable(It)>
+    struct models<Iterable, It>
         : detail::std::integral_constant<bool,
             !is_default<head_impl<It>>{} &&
             !is_default<tail_impl<It>>{} &&

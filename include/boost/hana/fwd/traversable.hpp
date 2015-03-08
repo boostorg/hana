@@ -10,8 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_TRAVERSABLE_HPP
 #define BOOST_HANA_FWD_TRAVERSABLE_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/fwd/applicative.hpp>
 
 
 namespace boost { namespace hana {
@@ -92,7 +95,7 @@ namespace boost { namespace hana {
     //! type system is not powerful enough to let us peek into the contents
     //! of the traversable.
     //!
-    //! @param traversable
+    //! @param xs
     //! The structure containing the `Applicative`s to combine.
     //!
     //!
@@ -101,7 +104,7 @@ namespace boost { namespace hana {
     //! @snippet example/traversable.cpp sequence
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename A>
-    constexpr auto sequence = [](auto&& traversable) -> decltype(auto) {
+    constexpr auto sequence = [](auto&& xs) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
@@ -110,10 +113,18 @@ namespace boost { namespace hana {
 
     template <typename A>
     struct _sequence {
-        template <typename T>
-        constexpr decltype(auto) operator()(T&& traversable) const {
-            return sequence_impl<typename datatype<T>::type>::template apply<A>(
-                detail::std::forward<T>(traversable)
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        static_assert(models<Applicative, A>{},
+        "hana::sequence<A>(xs) requires A to be an Applicative");
+#endif
+        template <typename Xs>
+        constexpr decltype(auto) operator()(Xs&& xs) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Traversable, typename datatype<Xs>::type>{},
+            "hana::sequence<A>(xs) requires xs to be a Traversable");
+#endif
+            return sequence_impl<typename datatype<Xs>::type>::template apply<A>(
+                detail::std::forward<Xs>(xs)
             );
         }
     };
@@ -133,7 +144,7 @@ namespace boost { namespace hana {
     //! type explicitly because the current data type system is not powerful
     //! enough to let us peek into the data type returned by `f`.
     //!
-    //! @param traversable
+    //! @param xs
     //! The structure to be mapped over and then `sequence`d.
     //!
     //! @param f
@@ -147,19 +158,27 @@ namespace boost { namespace hana {
     //! @snippet example/traversable.cpp traverse
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename A>
-    constexpr auto traverse = [](auto&& traversable, auto&& f) -> decltype(auto) {
+    constexpr auto traverse = [](auto&& xs, auto&& f) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    template <typename T, typename = void>
+    template <typename Xs, typename = void>
     struct traverse_impl;
 
     template <typename A>
     struct _traverse {
-        template <typename T, typename F>
-        constexpr decltype(auto) operator()(T&& traversable, F&& f) const {
-            return traverse_impl<typename datatype<T>::type>::template apply<A>(
-                detail::std::forward<T>(traversable),
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        static_assert(models<Applicative, A>{},
+        "hana::traverse<A>(xs, f) requires A to be an Applicative");
+#endif
+        template <typename Xs, typename F>
+        constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Traversable, typename datatype<Xs>::type>{},
+            "hana::traverse<A>(xs, f) requires xs to be a Traversable");
+#endif
+            return traverse_impl<typename datatype<Xs>::type>::template apply<A>(
+                detail::std::forward<Xs>(xs),
                 detail::std::forward<F>(f)
             );
         }
