@@ -431,7 +431,7 @@ Synopsis of methods</h2></td></tr>
 <h2>Signature </h2>
 <p>Given a <a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> <code>Bool</code> and an <a class="el" href="structboost_1_1hana_1_1_orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a> <code>B</code>, the signature is \( \mathrm{ordering} : (A \to B) \to (A \times A \to Bool) \).</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> sorted = sort_by(<a class="code" href="structboost_1_1hana_1_1_orderable.html#aaeb89edbf804237ca6710cba8cab9c37">ordering</a>(sizeof_), tuple_t&lt;</div>
+<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> sorted = sort_by(<a class="code" href="structboost_1_1hana_1_1_orderable.html#aaeb89edbf804237ca6710cba8cab9c37">ordering</a>(sizeof_), tuple_t&lt;</div>
 <div class="line">    <span class="keywordtype">char</span>[3], <span class="keywordtype">char</span>[1], <span class="keywordtype">char</span>[2], <span class="keywordtype">char</span>[15]</div>
 <div class="line">&gt;);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(sorted == tuple_t&lt;</div>

@@ -142,8 +142,8 @@ First, <code>lift</code>ing a value into a <a class="el" href="structboost_1_1ha
 </div><!-- fragment --> Example: <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(lift&lt;Tuple&gt;(<span class="charliteral">&#39;x&#39;</span>) == make&lt;Tuple&gt;(<span class="charliteral">&#39;x&#39;</span>));</div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(equal(lift&lt;ext::std::Tuple&gt;(<span class="charliteral">&#39;x&#39;</span>), std::make_tuple(<span class="charliteral">&#39;x&#39;</span>)));</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> f = pair;</div>
-<div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> g = <a class="code" href="group__group-functional.html#ga004f884cdbb85c2efe3383c1db450094">flip</a>(pair);</div>
+<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> f = pair;</div>
+<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> g = <a class="code" href="group__group-functional.html#ga004f884cdbb85c2efe3383c1db450094">flip</a>(pair);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
 <div class="line">    ap(make&lt;Tuple&gt;(f, g), make&lt;Tuple&gt;(1, 2, 3), make&lt;Tuple&gt;(<span class="charliteral">&#39;a&#39;</span>, <span class="charliteral">&#39;b&#39;</span>))</div>
 <div class="line">        ==</div>
@@ -157,7 +157,7 @@ First, <code>lift</code>ing a value into a <a class="el" href="structboost_1_1ha
 First, <code>flaten</code>ning a <a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> takes a sequence of sequences and concatenates them to get a larger sequence. In other words, <div class="fragment"><div class="line">flatten([[a1, ..., aN], ..., [z1, ..., zM]]) == [</div>
 <div class="line">    a1, ..., aN, ..., z1, ..., zM</div>
 <div class="line">]</div>
-</div><!-- fragment --> Also note that the model of <a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a> for Sequences can be seen as modeling nondeterminism. A nondeterministic computation can be modeled as a function which returns a sequence of possible results. In this line of thought, <code>bind</code>ing such a function to a sequence of values will return a sequence of all the possible output values, i.e. a sequence of all the values applied to all the functions in the sequences. <div class="fragment"><div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> f = [](<span class="keyword">auto</span> x) {</div>
+</div><!-- fragment --> Also note that the model of <a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a> for Sequences can be seen as modeling nondeterminism. A nondeterministic computation can be modeled as a function which returns a sequence of possible results. In this line of thought, <code>bind</code>ing such a function to a sequence of values will return a sequence of all the possible output values, i.e. a sequence of all the values applied to all the functions in the sequences. <div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> f = [](<span class="keyword">auto</span> x) {</div>
 <div class="line">    <span class="keywordflow">return</span> make&lt;Tuple&gt;(x, -x);</div>
 <div class="line">};</div>
 <div class="line"></div>
@@ -231,7 +231,7 @@ The model of <a class="el" href="structboost_1_1hana_1_1_traversable.html" title
 <div class="line">    )</div>
 <div class="line">);</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> half = [](<span class="keyword">auto</span> x) {</div>
+<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> half = [](<span class="keyword">auto</span> x) {</div>
 <div class="line">    <span class="keywordflow">return</span> if_(x % int_&lt;2&gt; == int_&lt;0&gt;,</div>
 <div class="line">        just(x / int_&lt;2&gt;),</div>
 <div class="line">        nothing</div>
@@ -577,7 +577,7 @@ Synopsis of methods</h2></td></tr>
 <p>Return a sequence of all the permutations of the given sequence. </p>
 <p>Specifically, <code>permutations(xs)</code> is a sequence whose elements are permutations of the original sequence <code>xs</code>. The permutations are not guaranteed to be in any specific order. Also note that the number of permutations grows very rapidly as the length of the original sequence increases. The growth rate is <code>O(length(xs)!)</code>; with a sequence <code>xs</code> of length only 8, <code>permutations(xs)</code> contains over 40 000 elements!</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> is_permutation_of = curry&lt;2&gt;([](<span class="keyword">auto</span> xs, <span class="keyword">auto</span> perm) {</div>
+<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> is_permutation_of = curry&lt;2&gt;([](<span class="keyword">auto</span> xs, <span class="keyword">auto</span> perm) {</div>
 <div class="line">    <span class="keywordflow">return</span> elem(<a class="code" href="structboost_1_1hana_1_1_sequence.html#a45ec7767d19eb7eaabb71ead3796a7f1">permutations</a>(xs), perm);</div>
 <div class="line">});</div>
 <div class="line"></div>
@@ -1124,7 +1124,7 @@ template&lt;std::size_t from, std::size_t to&gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> xs = make&lt;Tuple&gt;(int_&lt;1&gt;, int_&lt;2&gt;, int_&lt;3&gt;, int_&lt;4&gt;);</div>
+<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> xs = make&lt;Tuple&gt;(int_&lt;1&gt;, int_&lt;2&gt;, int_&lt;3&gt;, int_&lt;4&gt;);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
 <div class="line">    <a class="code" href="structboost_1_1hana_1_1_sequence.html#ab663fc84c23656a41d4dfcb586f0085c">span</a>(xs, <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> &lt; int_&lt;3&gt;)</div>
 <div class="line">    ==</div>
@@ -1354,7 +1354,7 @@ template&lt;typename S &gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> f = [](<span class="keyword">auto</span> x) {</div>
+<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> f = [](<span class="keyword">auto</span> x) {</div>
 <div class="line">    <span class="keywordflow">return</span> if_(x == int_&lt;0&gt;, nothing, just(pair(x - int_&lt;1&gt;, x)));</div>
 <div class="line">};</div>
 <div class="line"></div>
@@ -1411,7 +1411,7 @@ template&lt;typename S &gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> f = [](<span class="keyword">auto</span> x) {</div>
+<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> f = [](<span class="keyword">auto</span> x) {</div>
 <div class="line">    <span class="keywordflow">return</span> if_(x == int_&lt;0&gt;, nothing, just(pair(x, x - int_&lt;1&gt;)));</div>
 <div class="line">};</div>
 <div class="line"></div>

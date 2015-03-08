@@ -139,7 +139,7 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1is__default.html">boost::hana::is_default&lt; Method, typename &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether a tag-dispatched method implementation is a default implementation.  <a href="structboost_1_1hana_1_1is__default.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1models.html">boost::hana::models&lt; see_documentation &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1models.html">boost::hana::models&lt; Concept, DataType &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Metafunction returning whether a data type is a model of the given concept.  <a href="structboost_1_1hana_1_1models.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1operators_1_1adl.html">boost::hana::operators::adl</a></td></tr>
@@ -297,7 +297,7 @@ template&lt;typename Typeclass , typename... Datatypes&gt; </div>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000002">Todo:</a></b></dt><dd>The extension of <code>is_a</code> to data types is inconsistent, because one would expect <code>is_a&lt;D, decltype(some object of data type D)&gt;</code> to be true, while it gives an error.</dd></dl>
 <h3>Example</h3>
 <div class="fragment"><div class="line">    constexpr <span class="keyword">auto</span> row = make&lt;Tuple&gt;;</div>
-<div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> check_table = [](<span class="keyword">auto</span> ...headers) {</div>
+<div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> check_table = [](<span class="keyword">auto</span> ...headers) {</div>
 <div class="line">        <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> ...rows) {</div>
 <div class="line">            <span class="keyword">auto</span> is_correct = [=](<span class="keyword">auto</span> row) {</div>
 <div class="line">                <span class="keywordflow">return</span> make&lt;Tuple&gt;(headers(head(row))...) == tail(row);</div>
@@ -366,7 +366,7 @@ template&lt;typename To &gt; </div>
 <div class="line">    Z third;</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> triple = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y, <span class="keyword">auto</span> z) {</div>
+<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> triple = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y, <span class="keyword">auto</span> z) {</div>
 <div class="line">    <span class="keywordflow">return</span> Triple&lt;decltype(x), decltype(y), decltype(z)&gt;{x, y, z};</div>
 <div class="line">};</div>
 <div class="line"></div>

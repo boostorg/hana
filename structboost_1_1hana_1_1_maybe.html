@@ -124,7 +124,7 @@ Two <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represe
 <li><code><a class="el" href="structboost_1_1hana_1_1_functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code><br />
 A <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code> can be seen as a <code>List</code> containing either one element (<code>just(x)</code>) or no elements at all (<code>nothing</code>). As such, mapping a function over a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code> is equivalent to applying it to its value if there is one and to <code>nothing</code> otherwise: <div class="fragment"><div class="line">transform(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(x), f) == <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(f(x))</div>
 <div class="line">transform(<a class="code" href="structboost_1_1hana_1_1_maybe.html#aaede0403a5f0093e82a7346b5cae0bc4">nothing</a>, f) == nothing</div>
-</div><!-- fragment --> Example: <div class="fragment"><div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> inc = [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> x + 1; };</div>
+</div><!-- fragment --> Example: <div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> inc = [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> x + 1; };</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(transform(nothing, inc) == nothing);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(transform(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(1), inc) == <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(2));</div>
 </div><!-- fragment --></li>
@@ -141,12 +141,12 @@ First, a value can be made optional with <code>lift&lt;<a class="el" href="struc
 <div class="line">constexpr <span class="keyword">auto</span> <span class="keyword">function</span> = <a class="code" href="structboost_1_1hana_1_1_maybe.html#aaede0403a5f0093e82a7346b5cae0bc4">nothing</a>;</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;&gt;</div>
-<div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> function&lt;&#39;+&#39;&gt; = <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>([](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
+<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> function&lt;&#39;+&#39;&gt; = <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>([](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
 <div class="line">    <span class="keywordflow">return</span> x + y;</div>
 <div class="line">});</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;&gt;</div>
-<div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> <span class="keyword">function</span>&lt;<span class="charliteral">&#39;-&#39;</span>&gt; = <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>([](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
+<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> <span class="keyword">function</span>&lt;<span class="charliteral">&#39;-&#39;</span>&gt; = <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>([](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
 <div class="line">    <span class="keywordflow">return</span> x - y;</div>
 <div class="line">});</div>
 <div class="line"></div>
@@ -350,11 +350,11 @@ Synopsis of methods</h2></td></tr>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> even = [](<span class="keyword">auto</span> x) {</div>
+<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> even = [](<span class="keyword">auto</span> x) {</div>
 <div class="line">    <span class="keywordflow">return</span> x % int_&lt;2&gt; == int_&lt;0&gt;;</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> half = [](<span class="keyword">auto</span> x) {</div>
+<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> half = [](<span class="keyword">auto</span> x) {</div>
 <div class="line">    <span class="keywordflow">return</span> x / int_&lt;2&gt;;</div>
 <div class="line">};</div>
 <div class="line"></div>

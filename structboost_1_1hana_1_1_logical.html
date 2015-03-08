@@ -271,7 +271,7 @@ Synopsis of methods</h2></td></tr>
   </dd>
 </dl>
 <h2>Example (purely compile-time condition) </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> safe_make_unsigned = [](<span class="keyword">auto</span> t) {</div>
+<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> safe_make_unsigned = [](<span class="keyword">auto</span> t) {</div>
 <div class="line">    <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_logical.html#a97f92ff5d73f8ebd7e9eb61142b2e68e">eval_if</a>(trait&lt;std::is_integral&gt;(t),</div>
 <div class="line">        [=](<span class="keyword">auto</span> <span class="keywordtype">id</span>) { <span class="keywordflow">return</span> <a class="code" href="group__group-functional.html#gaef38cf34324c8edbd3597ae71811d00d">id</a>(template_&lt;std::make_unsigned_t&gt;)(t); },</div>
 <div class="line">        <a class="code" href="group__group-functional.html#ga835970cb25a0c8dc200f1e5f8943538b">always</a>(t)</div>
@@ -281,7 +281,7 @@ Synopsis of methods</h2></td></tr>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(safe_make_unsigned(type&lt;void&gt;) == type&lt;void&gt;);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(safe_make_unsigned(type&lt;int&gt;) == type&lt;unsigned int&gt;);</div>
 </div><!-- fragment --> <h2>Example (runtime or <code>constexpr</code> condition) </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> safe_divide = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
+<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> safe_divide = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
 <div class="line">    <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_logical.html#a97f92ff5d73f8ebd7e9eb61142b2e68e">eval_if</a>(y == 0,</div>
 <div class="line">        [=](<span class="keyword">auto</span>) { <span class="keywordflow">return</span> 0; },</div>
 <div class="line">        [=](<span class="keyword">auto</span> <a class="code" href="group__group-functional.html#gaef38cf34324c8edbd3597ae71811d00d">id</a>) { <span class="keywordflow">return</span> <a class="code" href="group__group-functional.html#gaef38cf34324c8edbd3597ae71811d00d">id</a>(x) / y; }</div>

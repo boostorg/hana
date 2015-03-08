@@ -108,11 +108,11 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_lazy.html','')
 <h2>Modeled concepts </h2>
 <ol type="1">
 <li><code><a class="el" href="structboost_1_1hana_1_1_functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code><br />
-Applying a function over a lazy value with <code>transform</code> returns the result of applying the function, as a lazy value. <div class="fragment"><div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> double_ = [](<span class="keyword">auto</span> x) {</div>
+Applying a function over a lazy value with <code>transform</code> returns the result of applying the function, as a lazy value. <div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> double_ = [](<span class="keyword">auto</span> x) {</div>
 <div class="line">    <span class="keywordflow">return</span> x * 2;</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> one_over = [](<span class="keyword">auto</span> x) {</div>
+<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> one_over = [](<span class="keyword">auto</span> x) {</div>
 <div class="line">    <span class="keywordflow">return</span> 1 / x;</div>
 <div class="line">};</div>
 <div class="line"></div>
@@ -218,10 +218,10 @@ Synopsis of methods</h2></td></tr>
 <p>Lifts a normal value to a lazy one. </p>
 <p>Additionally, <code>lazy(f)</code> is a function such that <code>lazy(f)(x1, ..., xN)</code> is equivalent to <code>ap(lazy(f), lift&lt;<a class="el" href="structboost_1_1hana_1_1_lazy.html" title="The Lazy data type implements superficial laziness via a monadic interface. ">Lazy</a>&gt;(x1), ..., lift&lt;<a class="el" href="structboost_1_1hana_1_1_lazy.html" title="The Lazy data type implements superficial laziness via a monadic interface. ">Lazy</a>&gt;(xN))</code>, which in turn is equivalent to <code>lazy(f(x1, ..., xN))</code>, except for the fact that the inner call to <code>f</code> is evaluated lazily. Note that <code>lazy(f)()</code> is equivalent to <code>lazy(f())</code>, with the inner call to <code>f</code> being evaluated lazily. This is provided for convenience even though <code>ap(lazy(f))</code> would be invalid because <code>ap</code> requires 2 arguments or more.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> f = <a class="code" href="structboost_1_1hana_1_1_lazy.html#a73e14285897797737683aa2a776a6e0e">lazy</a>([](<span class="keyword">auto</span> x) {</div>
+<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> f = <a class="code" href="structboost_1_1hana_1_1_lazy.html#a73e14285897797737683aa2a776a6e0e">lazy</a>([](<span class="keyword">auto</span> x) {</div>
 <div class="line">    <span class="keywordflow">return</span> 1 / x;</div>
 <div class="line">});</div>
-<div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> g = <a class="code" href="structboost_1_1hana_1_1_lazy.html#a73e14285897797737683aa2a776a6e0e">lazy</a>([](<span class="keyword">auto</span> x) {</div>
+<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> g = <a class="code" href="structboost_1_1hana_1_1_lazy.html#a73e14285897797737683aa2a776a6e0e">lazy</a>([](<span class="keyword">auto</span> x) {</div>
 <div class="line">    <span class="keywordflow">return</span> x + 1;</div>
 <div class="line">});</div>
 <div class="line"></div>

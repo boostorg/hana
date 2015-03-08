@@ -115,7 +115,8 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_foldable.html'
 <p>(<code>foldl</code> and <code>foldr</code>) or <code>unpack</code></p>
 <h2>Provided models </h2>
 <ol type="1">
-<li>Builtin arrays Builtin arrays whose size is known can be folded as-if they were homogeneous tuples. However, note that builtin arrays can't be made more than <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a></code> (e.g. <code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>) because they can't be empty and they also can't be returned from functions.</li>
+<li>For builtin arrays<br />
+Builtin arrays whose size is known can be folded as-if they were homogeneous tuples. However, note that builtin arrays can't be made more than <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a></code> (e.g. <code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>) because they can't be empty and they also can't be returned from functions.</li>
 </ol>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000012">Todo:</a></b></dt><dd>Make it possible to specify the <a class="el" href="structboost_1_1hana_1_1_monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a> used for <code>sum</code> and <code>product</code>? </dd></dl>
 </div><table class="memberdecls">
@@ -465,7 +466,7 @@ Synopsis of methods</h2></td></tr>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> size = [](<span class="keyword">auto</span> xs, <span class="keyword">auto</span> ys) {</div>
+<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> size = [](<span class="keyword">auto</span> xs, <span class="keyword">auto</span> ys) {</div>
 <div class="line">    <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_foldable.html#a5fb377e43aa7753bb77aa346c67fae0d">length</a>(xs) &lt; <a class="code" href="structboost_1_1hana_1_1_foldable.html#a5fb377e43aa7753bb77aa346c67fae0d">length</a>(ys);</div>
 <div class="line">};</div>
 <div class="line"></div>
@@ -544,7 +545,7 @@ Synopsis of methods</h2></td></tr>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> size = [](<span class="keyword">auto</span> xs, <span class="keyword">auto</span> ys) {</div>
+<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> size = [](<span class="keyword">auto</span> xs, <span class="keyword">auto</span> ys) {</div>
 <div class="line">    <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_foldable.html#a5fb377e43aa7753bb77aa346c67fae0d">length</a>(xs) &lt; <a class="code" href="structboost_1_1hana_1_1_foldable.html#a5fb377e43aa7753bb77aa346c67fae0d">length</a>(ys);</div>
 <div class="line">};</div>
 <div class="line"></div>
@@ -701,7 +702,7 @@ Synopsis of methods</h2></td></tr>
 </dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="keyword">using namespace </span>literals;</div>
-<div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> odd = [](<span class="keyword">auto</span> x) {</div>
+<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> odd = [](<span class="keyword">auto</span> x) {</div>
 <div class="line">    <span class="keywordflow">return</span> x % 2_c != 0_c;</div>
 <div class="line">};</div>
 <div class="line"></div>
@@ -801,12 +802,12 @@ Synopsis of methods</h2></td></tr>
 </div><!-- fragment --><p> where <code>x...</code> are the elements in the foldable. This function is useful when one wants to create a function that accepts a foldable which is not known yet.</p>
 <dl class="section note"><dt>Note</dt><dd>This function is not tag-dispatched and so it can not be customized.</dd></dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> add = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
+<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> add = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
 <div class="line">    <span class="keywordflow">return</span> x + y;</div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// Would be `boost::fusion::make_fused(add)` in Boost.Fusion.</span></div>
-<div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> add_seq = <a class="code" href="structboost_1_1hana_1_1_foldable.html#a0840e48f29a87467e23d801ca0ca122a">fuse</a>(add);</div>
+<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> add_seq = <a class="code" href="structboost_1_1hana_1_1_foldable.html#a0840e48f29a87467e23d801ca0ca122a">fuse</a>(add);</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(add_seq(make&lt;Tuple&gt;(1, 2)) == add(1, 2));</div>
 </div><!-- fragment -->

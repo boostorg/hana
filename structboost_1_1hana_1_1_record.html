@@ -158,12 +158,12 @@ Searching a <code><a class="el" href="structboost_1_1hana_1_1_record.html" title
 <div class="line"><span class="keyword">namespace </span><a class="code" href="namespaceboost.html">boost</a> { <span class="keyword">namespace </span>hana {</div>
 <div class="line">    <span class="keyword">template</span> &lt;&gt;</div>
 <div class="line">    <span class="keyword">struct </span>members_impl&lt;Person&gt; {</div>
-<div class="line">        <span class="keyword">static</span> <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>() {</div>
+<div class="line">        <span class="keyword">static</span> BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>() {</div>
 <div class="line">            <span class="keywordflow">return</span> make&lt;Tuple&gt;(</div>
-<div class="line">                pair(name, [](<span class="keyword">auto</span>&amp;&amp; p) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">                make&lt;Pair&gt;(name, [](<span class="keyword">auto</span>&amp;&amp; p) -&gt; decltype(<span class="keyword">auto</span>) {</div>
 <div class="line">                    <span class="keywordflow">return</span> <a class="code" href="group__group-functional.html#gaef38cf34324c8edbd3597ae71811d00d">id</a>(std::forward&lt;decltype(p)&gt;(p).name);</div>
 <div class="line">                }),</div>
-<div class="line">                pair(age, [](<span class="keyword">auto</span>&amp;&amp; p) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">                make&lt;Pair&gt;(age, [](<span class="keyword">auto</span>&amp;&amp; p) -&gt; decltype(<span class="keyword">auto</span>) {</div>
 <div class="line">                    <span class="keywordflow">return</span> <a class="code" href="group__group-functional.html#gaef38cf34324c8edbd3597ae71811d00d">id</a>(std::forward&lt;decltype(p)&gt;(p).age);</div>
 <div class="line">                })</div>
 <div class="line">            );</div>
@@ -181,9 +181,9 @@ Searching a <code><a class="el" href="structboost_1_1hana_1_1_record.html" title
 <div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(lookup(john, <span class="stringliteral">&quot;clearly not a member&quot;</span>) == nothing);</div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(to&lt;Tuple&gt;(john) == make&lt;Tuple&gt;(<span class="stringliteral">&quot;John&quot;</span>, 30));</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(to&lt;Map&gt;(john) == map(</div>
-<div class="line">        pair(name, <span class="stringliteral">&quot;John&quot;</span>),</div>
-<div class="line">        pair(age, 30)</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(to&lt;Map&gt;(john) == make&lt;Map&gt;(</div>
+<div class="line">        make&lt;Pair&gt;(name, <span class="stringliteral">&quot;John&quot;</span>),</div>
+<div class="line">        make&lt;Pair&gt;(age, 30)</div>
 <div class="line">    ));</div>
 <div class="line">}</div>
 </div><!-- fragment --> </div><table class="memberdecls">
@@ -259,12 +259,12 @@ template&lt;typename M &gt; </div>
 <div class="line"><span class="keyword">namespace </span><a class="code" href="namespaceboost.html">boost</a> { <span class="keyword">namespace </span>hana {</div>
 <div class="line">    <span class="keyword">template</span> &lt;&gt;</div>
 <div class="line">    <span class="keyword">struct </span>members_impl&lt;Person&gt; {</div>
-<div class="line">        <span class="keyword">static</span> <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>() {</div>
+<div class="line">        <span class="keyword">static</span> BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>() {</div>
 <div class="line">            <span class="keywordflow">return</span> make&lt;Tuple&gt;(</div>
-<div class="line">                pair(name, [](<span class="keyword">auto</span>&amp;&amp; p) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">                make&lt;Pair&gt;(name, [](<span class="keyword">auto</span>&amp;&amp; p) -&gt; decltype(<span class="keyword">auto</span>) {</div>
 <div class="line">                    <span class="keywordflow">return</span> <a class="code" href="group__group-functional.html#gaef38cf34324c8edbd3597ae71811d00d">id</a>(std::forward&lt;decltype(p)&gt;(p).name);</div>
 <div class="line">                }),</div>
-<div class="line">                pair(age, [](<span class="keyword">auto</span>&amp;&amp; p) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">                make&lt;Pair&gt;(age, [](<span class="keyword">auto</span>&amp;&amp; p) -&gt; decltype(<span class="keyword">auto</span>) {</div>
 <div class="line">                    <span class="keywordflow">return</span> <a class="code" href="group__group-functional.html#gaef38cf34324c8edbd3597ae71811d00d">id</a>(std::forward&lt;decltype(p)&gt;(p).age);</div>
 <div class="line">                })</div>
 <div class="line">            );</div>
@@ -282,9 +282,9 @@ template&lt;typename M &gt; </div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(lookup(john, <span class="stringliteral">&quot;clearly not a member&quot;</span>) == nothing);</div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(to&lt;Tuple&gt;(john) == make&lt;Tuple&gt;(<span class="stringliteral">&quot;John&quot;</span>, 30));</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(to&lt;Map&gt;(john) == map(</div>
-<div class="line">        pair(name, <span class="stringliteral">&quot;John&quot;</span>),</div>
-<div class="line">        pair(age, 30)</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(to&lt;Map&gt;(john) == make&lt;Map&gt;(</div>
+<div class="line">        make&lt;Pair&gt;(name, <span class="stringliteral">&quot;John&quot;</span>),</div>
+<div class="line">        make&lt;Pair&gt;(age, 30)</div>
 <div class="line">    ));</div>
 <div class="line">}</div>
 </div><!-- fragment --> 

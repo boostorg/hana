@@ -108,20 +108,21 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_map.html','');
 <h2>Modeled concepts </h2>
 <ol type="1">
 <li><code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code> (operators provided)<br />
-Two maps are equal iff all their keys are equal and are associated to equal values. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1_map.html#a56ec5fd28fa8659b89fc526c89bdea6b">map</a>(</div>
+Two maps are equal iff all their keys are equal and are associated to equal values. <div class="fragment"><div class="line"><span class="keyword">using namespace </span>std::literals;</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_map.html#ae73cf43ee56352e4c25984b0fe3c3d04">make_map</a>(</div>
 <div class="line">        pair(char_&lt;&#39;a&#39;&gt;, <span class="stringliteral">&quot;foobar&quot;</span>s),</div>
 <div class="line">        pair(type&lt;int&amp;&amp;&gt;, <span class="keyword">nullptr</span>)</div>
 <div class="line">    )</div>
 <div class="line">    ==</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1_map.html#a56ec5fd28fa8659b89fc526c89bdea6b">map</a>(</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_map.html#ae73cf43ee56352e4c25984b0fe3c3d04">make_map</a>(</div>
 <div class="line">        pair(type&lt;int&amp;&amp;&gt;, (<span class="keywordtype">void</span>*)0),</div>
 <div class="line">        pair(char_&lt;&#39;a&#39;&gt;, <span class="stringliteral">&quot;foobar&quot;</span>s)</div>
 <div class="line">    )</div>
 <div class="line">);</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code><br />
-A map can be searched by its keys with a predicate yielding a compile-time <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>. <div class="fragment"><div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> m = <a class="code" href="structboost_1_1hana_1_1_map.html#a56ec5fd28fa8659b89fc526c89bdea6b">map</a>(</div>
+A map can be searched by its keys with a predicate yielding a compile-time <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>. <div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> m = <a class="code" href="structboost_1_1hana_1_1_map.html#ae73cf43ee56352e4c25984b0fe3c3d04">make_map</a>(</div>
 <div class="line">    pair(type&lt;int&gt;, <span class="charliteral">&#39;i&#39;</span>),</div>
 <div class="line">    pair(type&lt;float&gt;, <span class="charliteral">&#39;f&#39;</span>)</div>
 <div class="line">);</div>
@@ -144,26 +145,32 @@ A <code><a class="el" href="structboost_1_1hana_1_1_map.html" title="A basic ass
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of methods</h2></td></tr>
-<tr class="memitem:a56ec5fd28fa8659b89fc526c89bdea6b"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_map.html#a56ec5fd28fa8659b89fc526c89bdea6b">map</a></td></tr>
-<tr class="memdesc:a56ec5fd28fa8659b89fc526c89bdea6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <code><a class="el" href="structboost_1_1hana_1_1_map.html" title="A basic associative array requiring unique and Comparable keys. ">Map</a></code> with the given key/value associations.  <a href="#a56ec5fd28fa8659b89fc526c89bdea6b">More...</a><br /></td></tr>
-<tr class="separator:a56ec5fd28fa8659b89fc526c89bdea6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa98dda24b823031a42e47897de220019"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
+<tr class="memitem:aa98dda24b823031a42e47897de220019"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_map.html#aa98dda24b823031a42e47897de220019">make&lt; Map &gt;</a></td></tr>
+<tr class="memdesc:aa98dda24b823031a42e47897de220019"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <code><a class="el" href="structboost_1_1hana_1_1_map.html" title="A basic associative array requiring unique and Comparable keys. ">Map</a></code> with the given key/value associations.  <a href="#aa98dda24b823031a42e47897de220019">More...</a><br /></td></tr>
+<tr class="separator:aa98dda24b823031a42e47897de220019"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae73cf43ee56352e4c25984b0fe3c3d04"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_map.html#ae73cf43ee56352e4c25984b0fe3c3d04">make_map</a> = make&lt;<a class="el" href="structboost_1_1hana_1_1_map.html">Map</a>&gt;</td></tr>
+<tr class="memdesc:ae73cf43ee56352e4c25984b0fe3c3d04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1_map.html" title="A basic associative array requiring unique and Comparable keys. ">Map</a>&gt;</code>; provided for convenience.  <a href="#ae73cf43ee56352e4c25984b0fe3c3d04">More...</a><br /></td></tr>
+<tr class="separator:ae73cf43ee56352e4c25984b0fe3c3d04"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0f32260f859b2510dd16235b7bc011ac"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_map.html#a0f32260f859b2510dd16235b7bc011ac">keys</a></td></tr>
-<tr class="memdesc:a0f32260f859b2510dd16235b7bc011ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a list of the keys of the map, in unspecified order.  <a href="#a0f32260f859b2510dd16235b7bc011ac">More...</a><br /></td></tr>
+<tr class="memdesc:a0f32260f859b2510dd16235b7bc011ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> of the keys of the map, in unspecified order.  <a href="#a0f32260f859b2510dd16235b7bc011ac">More...</a><br /></td></tr>
 <tr class="separator:a0f32260f859b2510dd16235b7bc011ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2e016a68e3ec6eb25868fadb7ce80132"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_map.html#a2e016a68e3ec6eb25868fadb7ce80132">values</a></td></tr>
-<tr class="memdesc:a2e016a68e3ec6eb25868fadb7ce80132"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a list of the values of the map, in unspecified order.  <a href="#a2e016a68e3ec6eb25868fadb7ce80132">More...</a><br /></td></tr>
+<tr class="memdesc:a2e016a68e3ec6eb25868fadb7ce80132"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> of the values of the map, in unspecified order.  <a href="#a2e016a68e3ec6eb25868fadb7ce80132">More...</a><br /></td></tr>
 <tr class="separator:a2e016a68e3ec6eb25868fadb7ce80132"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Methods</h2>
-<a class="anchor" id="a56ec5fd28fa8659b89fc526c89bdea6b"></a>
+<a class="anchor" id="aa98dda24b823031a42e47897de220019"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto map</td>
+          <td class="memname">constexpr auto make&lt; <a class="el" href="structboost_1_1hana_1_1_map.html">Map</a> &gt;</td>
         </tr>
       </table>
   </td>
@@ -173,12 +180,53 @@ Synopsis of methods</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; ...pairs) {</div>
-<div class="line">        <span class="keywordflow">return</span> unspecified-type;</div>
+<div class="line">        <span class="keywordflow">return</span> unspecified-type{forwarded(pairs)...};</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
-<p>Creates a <code><a class="el" href="structboost_1_1hana_1_1_map.html" title="A basic associative array requiring unique and Comparable keys. ">Map</a></code> with the given key/value associations. </p>
-<dl class="section note"><dt>Note</dt><dd>The keys must all be unique. </dd></dl>
+<p>Create a <code><a class="el" href="structboost_1_1hana_1_1_map.html" title="A basic associative array requiring unique and Comparable keys. ">Map</a></code> with the given key/value associations. </p>
+<p>Given zero <code><a class="el" href="structboost_1_1hana_1_1_product.html" title="Represents types that are generic containers of two elements. ">Product</a></code>s or more representing key/value associations, <code>make&lt;<a class="el" href="structboost_1_1hana_1_1_map.html" title="A basic associative array requiring unique and Comparable keys. ">Map</a>&gt;</code> returns a <a class="el" href="structboost_1_1hana_1_1_map.html" title="A basic associative array requiring unique and Comparable keys. ">Map</a> associating these keys to these values. All the keys must be unique.</p>
+<h2>Example </h2>
+<div class="fragment"><div class="line"><span class="keyword">using namespace </span>std::literals;</div>
+<div class="line"><span class="keyword">auto</span> m = <a class="code" href="structboost_1_1hana_1_1_map.html#aa98dda24b823031a42e47897de220019">make&lt;Map&gt;</a>(</div>
+<div class="line">    make&lt;Pair&gt;(int_&lt;1&gt;, <span class="stringliteral">&quot;foobar&quot;</span>s),</div>
+<div class="line">    make&lt;Pair&gt;(type&lt;void&gt;, 1234)</div>
+<div class="line">);</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="ae73cf43ee56352e4c25984b0fe3c3d04"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto make_map = make&lt;<a class="el" href="structboost_1_1hana_1_1_map.html">Map</a>&gt;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
+<p>Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1_map.html" title="A basic associative array requiring unique and Comparable keys. ">Map</a>&gt;</code>; provided for convenience. </p>
+<h2>Example </h2>
+<div class="fragment"><div class="line"><span class="keyword">using namespace </span>std::literals;</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_map.html#ae73cf43ee56352e4c25984b0fe3c3d04">make_map</a>(</div>
+<div class="line">        make&lt;Pair&gt;(int_&lt;1&gt;, <span class="stringliteral">&quot;foobar&quot;</span>s),</div>
+<div class="line">        make&lt;Pair&gt;(type&lt;void&gt;, 1234)</div>
+<div class="line">    )</div>
+<div class="line">    ==</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_map.html#aa98dda24b823031a42e47897de220019">make&lt;Map&gt;</a>(</div>
+<div class="line">        make&lt;Pair&gt;(int_&lt;1&gt;, <span class="stringliteral">&quot;foobar&quot;</span>s),</div>
+<div class="line">        make&lt;Pair&gt;(type&lt;void&gt;, 1234)</div>
+<div class="line">    )</div>
+<div class="line">);</div>
+</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a0f32260f859b2510dd16235b7bc011ac"></a>
@@ -198,11 +246,11 @@ Synopsis of methods</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; <a class="code" href="structboost_1_1hana_1_1_map.html#a56ec5fd28fa8659b89fc526c89bdea6b">map</a>) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; map) -&gt; decltype(<span class="keyword">auto</span>) {</div>
 <div class="line">        <span class="keywordflow">return</span> unspecified-type;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
-<p>Returns a list of the keys of the map, in unspecified order. </p>
+<p>Returns a <a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> of the keys of the map, in unspecified order. </p>
 
 </div>
 </div>
@@ -223,11 +271,11 @@ Synopsis of methods</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; <a class="code" href="structboost_1_1hana_1_1_map.html#a56ec5fd28fa8659b89fc526c89bdea6b">map</a>) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; map) -&gt; decltype(<span class="keyword">auto</span>) {</div>
 <div class="line">        <span class="keywordflow">return</span> unspecified-type;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
-<p>Returns a list of the values of the map, in unspecified order. </p>
+<p>Returns a <a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> of the values of the map, in unspecified order. </p>
 
 </div>
 </div>

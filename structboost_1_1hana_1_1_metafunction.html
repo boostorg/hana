@@ -283,7 +283,7 @@ template&lt;template&lt; typename...&gt; class f&gt; </div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(not_(trait&lt;std::is_integral&gt;(type&lt;float&gt;)));</div>
 </div><!-- fragment --><p> Note that not all metafunctions of the standard library can be lifted this way. For example, <code>std::aligned_storage</code> can't be lifted because it requires non-type template parameters. Since there is no uniform way of dealing with non-type template parameters, one must resort to using e.g. an inline lambda to "lift" those metafunctions. In practice, however, this should not be a problem.</p>
 <h3>Example of a non-liftable metafunction</h3>
-<div class="fragment"><div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> extent = [](<span class="keyword">auto</span> t, <span class="keyword">auto</span> n) {</div>
+<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> extent = [](<span class="keyword">auto</span> t, <span class="keyword">auto</span> n) {</div>
 <div class="line">    <span class="keywordflow">return</span> std::extent&lt;typename decltype(t)::type, value(n)&gt;{};</div>
 <div class="line">};</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(extent(type&lt;char&gt;, int_&lt;1&gt;) == size_t&lt;0&gt;);</div>

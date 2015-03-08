@@ -156,7 +156,7 @@ template&lt;typename A &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; traversable) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs) -&gt; decltype(<span class="keyword">auto</span>) {</div>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
@@ -169,7 +169,7 @@ template&lt;typename A &gt; </div>
 </dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">traversable</td><td>The structure containing the <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a></code>s to combine.</td></tr>
+    <tr><td class="paramname">xs</td><td>The structure containing the <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a></code>s to combine.</td></tr>
   </table>
   </dd>
 </dl>
@@ -217,7 +217,7 @@ template&lt;typename A &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; traversable, <span class="keyword">auto</span>&amp;&amp; f) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs, <span class="keyword">auto</span>&amp;&amp; f) -&gt; decltype(<span class="keyword">auto</span>) {</div>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
@@ -230,13 +230,13 @@ template&lt;typename A &gt; </div>
 </dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">traversable</td><td>The structure to be mapped over and then <code>sequence</code>d.</td></tr>
+    <tr><td class="paramname">xs</td><td>The structure to be mapped over and then <code>sequence</code>d.</td></tr>
     <tr><td class="paramname">f</td><td>A function called as <code>f(x)</code> for each element <code>x</code> of the structure and returning an <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a></code> that will then be combined as per <code>sequence</code>.</td></tr>
   </table>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> half = [](<span class="keyword">auto</span> x) {</div>
+<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> half = [](<span class="keyword">auto</span> x) {</div>
 <div class="line">    <span class="keywordflow">return</span> if_(x % int_&lt;2&gt; == int_&lt;0&gt;,</div>
 <div class="line">        just(x / int_&lt;2&gt;),</div>
 <div class="line">        nothing</div>
@@ -255,7 +255,7 @@ template&lt;typename A &gt; </div>
 <div class="line">    nothing</div>
 <div class="line">);</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> twice = [](<span class="keyword">auto</span> x) {</div>
+<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> twice = [](<span class="keyword">auto</span> x) {</div>
 <div class="line">    <span class="keywordflow">return</span> make&lt;Tuple&gt;(x, x);</div>
 <div class="line">};</div>
 <div class="line"></div>

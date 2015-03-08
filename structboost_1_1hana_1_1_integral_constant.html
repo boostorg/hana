@@ -155,7 +155,7 @@ struct boost::hana::IntegralConstant&lt; T &gt;</h3>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(s == <span class="stringliteral">&quot;xxxxxyyyyyzzzzz&quot;</span>);</div>
 </div><!-- fragment --><p> Also, since <code>times</code> is a function object instead of an overloaded function, it does not need to be called right away, which can be useful in conjunction with some higher-order algorithms: </p><div class="fragment"><div class="line">std::string s;</div>
-<div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> functions = make&lt;Tuple&gt;(</div>
+<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> functions = make&lt;Tuple&gt;(</div>
 <div class="line">    [&amp;] { s += <span class="stringliteral">&quot;x&quot;</span>; },</div>
 <div class="line">    [&amp;] { s += <span class="stringliteral">&quot;y&quot;</span>; },</div>
 <div class="line">    [&amp;] { s += <span class="stringliteral">&quot;z&quot;</span>; }</div>

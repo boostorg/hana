@@ -204,19 +204,19 @@ Synopsis of methods</h2></td></tr>
 <div class="line"><span class="comment">// sfinae(f)(x...) is just(f(x...)) if that expression is well-formed,</span></div>
 <div class="line"><span class="comment">// and nothing otherwise.</span></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> F&gt;</div>
-<div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> sfinae(F f) {</div>
+<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> sfinae(F f) {</div>
 <div class="line">    <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> ...x) { <span class="keywordflow">return</span> sfinae_impl(f, x...); };</div>
 <div class="line">}</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> deref = [](<span class="keyword">auto</span> x) -&gt; decltype(*x) {</div>
+<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> deref = [](<span class="keyword">auto</span> x) -&gt; decltype(*x) {</div>
 <div class="line">    <span class="keywordflow">return</span> *x;</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> age = [](<span class="keyword">auto</span> x) -&gt; decltype(x.age) {</div>
+<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> age = [](<span class="keyword">auto</span> x) -&gt; decltype(x.age) {</div>
 <div class="line">    <span class="keywordflow">return</span> x.age;</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> f = [](<span class="keyword">auto</span> x) {</div>
+<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> f = [](<span class="keyword">auto</span> x) {</div>
 <div class="line">    <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_monad.html#a4df7d83b8aeb3bcf99e5675f69af4090">bind</a>(sfinae(deref)(x), sfinae(age));</div>
 <div class="line">};</div>
 <div class="line"></div>
@@ -312,7 +312,7 @@ Synopsis of methods</h2></td></tr>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> block = [](<span class="keyword">auto</span> ...types) {</div>
+<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> block = [](<span class="keyword">auto</span> ...types) {</div>
 <div class="line">    <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> x) {</div>
 <div class="line">        <span class="keywordflow">return</span> if_(elem(make&lt;Tuple&gt;(types...), decltype_(x)),</div>
 <div class="line">            nothing,</div>
@@ -321,9 +321,9 @@ Synopsis of methods</h2></td></tr>
 <div class="line">    };</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> f = block(type&lt;double&gt;);</div>
-<div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> g = block(type&lt;int&gt;);</div>
-<div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> h = mcompose&lt;Maybe&gt;(f, g);</div>
+<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> f = block(type&lt;double&gt;);</div>
+<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> g = block(type&lt;int&gt;);</div>
+<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> h = mcompose&lt;Maybe&gt;(f, g);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(h(1)    == nothing);   <span class="comment">// fails inside g; 1 has type int</span></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(h(1.2)  == nothing); <span class="comment">// fails inside f; 1.2 has type double</span></div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(h(<span class="charliteral">&#39;x&#39;</span>) == just(<span class="charliteral">&#39;x&#39;</span>)); <span class="comment">// ok; &#39;x&#39; has type char</span></div>

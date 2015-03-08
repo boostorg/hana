@@ -105,7 +105,11 @@ $(document).ready(function(){initNavTree('todo.html','');});
 <dt><a class="anchor" id="_todo000004"></a>Member <a class="el" href="group__group-functional.html#ga6acc765a35c4dc85f0deab4785831a3d">boost::hana::arg</a>  </dt>
 <dd>This implementation is less compile-time efficient than <code>variadic::at</code>, but at least we can use perfect forwarding. Is there a way to get the efficiency of <code>variadic::at</code> with perfect forwarding?  </dd>
 <dt><a class="anchor" id="_todo000009"></a>Class <a class="el" href="structboost_1_1hana_1_1_comparable.html">boost::hana::Comparable</a>  </dt>
-<dd>Make sure no circularity issue with our provided operators can arise when checking for the EqualityComparable concept. </dd>
+<dd><ul>
+<li>Make sure no circularity issue with our provided operators can arise when checking for the EqualityComparable concept.</li>
+<li>We could do some data type checks at the interface level, but those checks would be a bit hairy because of the cross-type methods. How should we handle that? </li>
+</ul>
+</dd>
 <dt><a class="anchor" id="_todo000010"></a>Class <a class="el" href="structboost_1_1hana_1_1_constant.html">boost::hana::Constant</a>  </dt>
 <dd><ul>
 <li>Document the nested value_type.</li>

@@ -128,11 +128,12 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_searchable.htm
 <li><code>find</code> and <code>any_of</code><br />
 According to the above laws, it is possible to implement all the methods pertaining to this concept using only <code>find</code> and <code>any_of</code>. When <code>find</code> and <code>any_of</code> are provided, the other methods are implemented according to the laws above.</li>
 </ol>
-<dl class="section note"><dt>Note</dt><dd>We could implement <code>any_of(xs, pred)</code> as <code>is_just(find(xs, pred))</code>, and then reduce the minimal complete definition to <code>find</code>. However, this is not done because that implementation requires the predicate to return a compile-time <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>, which is too restrictive.</dd></dl>
 <h2>Provided models </h2>
 <ol type="1">
-<li>Builtin arrays Builtin arrays whose size is known can be searched as-if they were homogeneous tuples. However, since arrays can only hold objects of a single type and the predicate to <code>find</code> must return a compile-time <a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a>, the <code>find</code> method is fairly useless. For similar reasons, the <code>lookup</code> method is also fairly useless.</li>
+<li>For builtin arrays<br />
+Builtin arrays whose size is known can be searched as-if they were homogeneous tuples. However, since arrays can only hold objects of a single type and the predicate to <code>find</code> must return a compile-time <a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a>, the <code>find</code> method is fairly useless. For similar reasons, the <code>lookup</code> method is also fairly useless.</li>
 </ol>
+<dl class="section note"><dt>Note</dt><dd>We could implement <code>any_of(xs, pred)</code> as <code>is_just(find(xs, pred))</code>, and then reduce the minimal complete definition to <code>find</code>. However, this is not done because that implementation requires the predicate to return a compile-time <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>, which is too restrictive.</dd></dl>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000034">Todo:</a></b></dt><dd><ul>
 <li>We should provide a member <code>operator[]</code> equivalent to <code>lookup</code>.</li>
 <li>Use perfect forwarding in the MCD once Clang bug #20619 is fixed. </li>
@@ -209,7 +210,7 @@ Synopsis of methods</h2></td></tr>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="keyword">using namespace </span>literals;</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> odd = [](<span class="keyword">auto</span> x) {</div>
+<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> odd = [](<span class="keyword">auto</span> x) {</div>
 <div class="line">    <span class="keywordflow">return</span> x % 2_c != 0_c;</div>
 <div class="line">};</div>
 <div class="line"></div>
@@ -292,7 +293,7 @@ Synopsis of methods</h2></td></tr>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="keyword">using namespace </span>literals;</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> odd = [](<span class="keyword">auto</span> x) {</div>
+<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> odd = [](<span class="keyword">auto</span> x) {</div>
 <div class="line">    <span class="keywordflow">return</span> x % 2_c != 0_c;</div>
 <div class="line">};</div>
 <div class="line"></div>
@@ -374,7 +375,7 @@ Synopsis of methods</h2></td></tr>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="keyword">using namespace </span>literals;</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> odd = [](<span class="keyword">auto</span> x) {</div>
+<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> odd = [](<span class="keyword">auto</span> x) {</div>
 <div class="line">    <span class="keywordflow">return</span> x % 2_c != 0_c;</div>
 <div class="line">};</div>
 <div class="line"></div>
@@ -485,7 +486,7 @@ Synopsis of methods</h2></td></tr>
 <p>Return whether the key occurs in the structure. </p>
 <p>Specifically, this is equivalent to <code>flip(elem)</code>, except that <code>in</code> can also be used in infix notation for increased expressiveness. This function is not a method that can be overriden; it is just a convenience function provided with the concept.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> xs = make&lt;Tuple&gt;(</div>
+<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> xs = make&lt;Tuple&gt;(</div>
 <div class="line">    int_&lt;1&gt;, type&lt;int&gt;, int_&lt;2&gt;, type&lt;float&gt;, int_&lt;3&gt;, type&lt;void&gt;, type&lt;char&gt;</div>
 <div class="line">);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
@@ -574,10 +575,10 @@ Synopsis of methods</h2></td></tr>
 <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a82e67ada9561f5e1176faab8eb94a064">lookup</a>(make&lt;Tuple&gt;(int_&lt;1&gt;, type&lt;int&gt;, <span class="charliteral">&#39;3&#39;</span>), type&lt;int&gt;) == just(type&lt;int&gt;));</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a82e67ada9561f5e1176faab8eb94a064">lookup</a>(make&lt;Tuple&gt;(int_&lt;1&gt;, type&lt;int&gt;, <span class="charliteral">&#39;3&#39;</span>), type&lt;void&gt;) == nothing);</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> m = map(</div>
-<div class="line">    pair(1, <span class="charliteral">&#39;x&#39;</span>),</div>
-<div class="line">    pair(type&lt;float&gt;, 3.3),</div>
-<div class="line">    pair(type&lt;char&gt;, type&lt;int&gt;)</div>
+<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> m = make&lt;Map&gt;(</div>
+<div class="line">    make&lt;Pair&gt;(1, <span class="charliteral">&#39;x&#39;</span>),</div>
+<div class="line">    make&lt;Pair&gt;(type&lt;float&gt;, 3.3),</div>
+<div class="line">    make&lt;Pair&gt;(type&lt;char&gt;, type&lt;int&gt;)</div>
 <div class="line">);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a82e67ada9561f5e1176faab8eb94a064">lookup</a>(m, type&lt;float&gt;) == just(3.3));</div>
 </div><!-- fragment --><h2>Benchmarks </h2>

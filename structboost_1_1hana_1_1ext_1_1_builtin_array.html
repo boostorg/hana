@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.9.1"/>
-<title>Boost.Hana: File Members</title>
+<title>Boost.Hana: boost::hana::ext::BuiltinArray&lt; T, N &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -77,7 +77,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('globals_defs.html','');});
+$(document).ready(function(){initNavTree('structboost_1_1hana_1_1ext_1_1_builtin_array.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -94,53 +94,29 @@ $(document).ready(function(){initNavTree('globals_defs.html','');});
 </iframe>
 </div>
 
+<div class="header">
+  <div class="headertitle">
+<div class="title">boost::hana::ext::BuiltinArray&lt; T, N &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__group-ext.html">External adapters</a></div></div>  </div>
+</div><!--header-->
 <div class="contents">
-&#160;<ul>
-<li>BOOST_HANA_ASSERT
-: <a class="el" href="group__group-assertions.html#ga3aef20746c9e8ad15ad10179f9b01397">assert.hpp</a>
-</li>
-<li>BOOST_HANA_CHECK
-: <a class="el" href="group__group-assertions.html#ga932876152d7f87b6b24077322a2e4139">assert.hpp</a>
-</li>
-<li>BOOST_HANA_CONFIG_DISABLE_ASSERTIONS
-: <a class="el" href="group__group-config.html#ga08dcc32bef198420e646244e851d1995">config.hpp</a>
-</li>
-<li>BOOST_HANA_CONFIG_DISABLE_PRECONDITIONS
-: <a class="el" href="group__group-config.html#gae842ac40c50442c84defc1f4b9ae4d38">config.hpp</a>
-</li>
-<li>BOOST_HANA_CONFIG_VERSION
-: <a class="el" href="config_8hpp.html#a36988ad8e4f82e0bfb7ff8e4808143a7">config.hpp</a>
-</li>
-<li>BOOST_HANA_CONSTANT_ASSERT
-: <a class="el" href="group__group-assertions.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">assert.hpp</a>
-</li>
-<li>BOOST_HANA_CONSTANT_CHECK
-: <a class="el" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">assert.hpp</a>
-</li>
-<li>BOOST_HANA_CONSTEXPR_ASSERT
-: <a class="el" href="group__group-assertions.html#gaf87274a2e99e7f63831553535de99d89">assert.hpp</a>
-</li>
-<li>BOOST_HANA_CONSTEXPR_CHECK
-: <a class="el" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">assert.hpp</a>
-</li>
-<li>BOOST_HANA_PP_FLATTEN
-: <a class="el" href="tuple_8hpp.html#a31aa84626b49c35cb79a378c63c124e9">tuple.hpp</a>
-</li>
-<li>BOOST_HANA_RUNTIME_ASSERT
-: <a class="el" href="group__group-assertions.html#ga7ad5b8e5cb988d185dffa511b50cebd2">assert.hpp</a>
-</li>
-<li>BOOST_HANA_RUNTIME_CHECK
-: <a class="el" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">assert.hpp</a>
-</li>
-<li>BOOST_HANA_STRING
-: <a class="el" href="fwd_2string_8hpp.html#a7f15faa77e126e1c2b08a2224ceefb84">string.hpp</a>
-</li>
-</ul>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Description</h2>
+<div class="textblock"><h3>template&lt;typename T, detail::std::size_t N&gt;<br />
+struct boost::hana::ext::BuiltinArray&lt; T, N &gt;</h3>
+
+<p>Adapter for builtin arrays. </p>
+<h2>Provided models </h2>
+<ol type="1">
+<li><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a><br />
+Builtin arrays whose size is known can be searched as-if they were homogeneous tuples. However, since arrays can only hold objects of a single type and the predicate to <code>find</code> must return a compile-time <a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a>, the <code>find</code> method is fairly useless. For similar reasons, the <code>lookup</code> method is also fairly useless.</li>
+<li><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a><br />
+Builtin arrays whose size is known can be folded as-if they were homogeneous tuples. However, note that builtin arrays can't be made more than <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a></code> (e.g. <code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>) because they can't be empty and they also can't be returned from functions. </li>
+</ol>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><b>boost</b></li><li class="navelem"><b>hana</b></li><li class="navelem"><b>ext</b></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1ext_1_1_builtin_array.html">BuiltinArray</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>

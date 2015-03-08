@@ -103,12 +103,6 @@ $(document).ready(function(){initNavTree('group__group-functional.html','');});
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
 <p>General purpose function objects. </p>
-<p>In the documentation of these utilities, a simplified implementation is often provided in pseudo-code using lambdas. The reason is that the actual implementation is often contrived because of limitations with lambdas in the current language. Here is an explanation of some terms that appear in the pseudo-code:</p>
-<h3><code>forwarded(x)</code></h3>
-<p>Means that the object is forwarded optimally. This means that if <code>x</code> is a parameter, it is <code>std::forward</code>ed, and if it is a captured variable, it is moved from whenever the lambda is an rvalue.</p>
-<p>Also note that when <code>x</code> can be moved from, the statement <code>return forwarded(x);</code> in a function with <code>decltype(auto)</code> does not mean that an rvalue reference to <code>x</code> will be returned, which would create a dangling reference. Rather, it means that <code>x</code> is returned by value, the value being constructed with the <code>std::forward</code>ed <code>x</code>.</p>
-<h3><code>perfect-capture</code></h3>
-<p>Means that the captured variables are initialized using perfect forwarding, as if <code>[x(forwarded(x))...]() { }</code> had been used. </p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -226,7 +220,7 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> plus = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
+<div class="fragment"><div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> plus = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
 <div class="line">        <span class="keywordflow">return</span> x + y;</div>
 <div class="line">    };</div>
 <div class="line"></div>
@@ -313,11 +307,11 @@ template&lt;std::size_t n&gt; </div>
 <div class="line"><a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>(<a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>(f, g), h)(x, xs...) == <a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>(f, g)(h(x), xs...)</div>
 <div class="line">                                    == f(g(h(x)), xs...)</div>
 </div><!-- fragment --> <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> to_char = [](<span class="keywordtype">int</span> x) {</div>
+<div class="fragment"><div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> to_char = [](<span class="keywordtype">int</span> x) {</div>
 <div class="line">        <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(x + 48);</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> increment = [](<span class="keyword">auto</span> x) {</div>
+<div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> increment = [](<span class="keyword">auto</span> x) {</div>
 <div class="line">        <span class="keywordflow">return</span> x + 1;</div>
 <div class="line">    };</div>
 <div class="line"></div>
@@ -360,13 +354,13 @@ template&lt;std::size_t n&gt; </div>
 </div><!-- fragment --><p>Note that the <code>n</code> has to be specified explicitly because the existence of functions with variadic arguments in C++ make it impossible to know when currying should stop.</p>
 <p>Unlike usual currying, this implementation also allows a curried function to be called with several arguments at a time. Hence, the following always holds </p><div class="fragment"><div class="line">curry&lt;n&gt;(f)(x1, ..., xk) == <a class="code" href="group__group-functional.html#ga49ea872ade5ac8f6c10052c495302e89">curry</a>&lt;n - k&gt;(f)(x1)...(xk)</div>
 </div><!-- fragment --><p>Of course, this requires <code>k</code> to be less than or equal to <code>n</code>; failure to satisfy this will trigger a static assertion. This syntax is supported because it makes curried functions usable where normal functions are expected.</p>
-<p>Another "extension" is that <code>curry&lt;0&gt;(f)</code> is supported: <code>curry&lt;0&gt;(f)</code> is a nullary function; whereas the classical definition for currying seems to leave this case undefined, as nullary functions don't make much sense in purely functional languages. </p><div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> two = []() {</div>
+<p>Another "extension" is that <code>curry&lt;0&gt;(f)</code> is supported: <code>curry&lt;0&gt;(f)</code> is a nullary function; whereas the classical definition for currying seems to leave this case undefined, as nullary functions don't make much sense in purely functional languages. </p><div class="fragment"><div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> two = []() {</div>
 <div class="line">        <span class="keywordflow">return</span> 2;</div>
 <div class="line">    };</div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(curry&lt;0&gt;(two)() == two());</div>
 </div><!-- fragment --><h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> add = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y, <span class="keyword">auto</span> z) {</div>
+<div class="fragment"><div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> add = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y, <span class="keyword">auto</span> z) {</div>
 <div class="line">        <span class="keywordflow">return</span> x + y + z;</div>
 <div class="line">    };</div>
 <div class="line"></div>
@@ -453,7 +447,7 @@ template&lt;std::size_t n&gt; </div>
   </dd>
 </dl>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> factorial = <a class="code" href="group__group-functional.html#ga1393f40da2e8da6e0c12fce953e56a6c">fix</a>([](<span class="keyword">auto</span> fact, <span class="keyword">auto</span> n) {</div>
+<div class="fragment"><div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> factorial = <a class="code" href="group__group-functional.html#ga1393f40da2e8da6e0c12fce953e56a6c">fix</a>([](<span class="keyword">auto</span> fact, <span class="keyword">auto</span> n) {</div>
 <div class="line">        <span class="keywordflow">if</span> (n == 0) <span class="keywordflow">return</span> 1;</div>
 <div class="line">        <span class="keywordflow">else</span>        <span class="keywordflow">return</span> n * fact(n - 1);</div>
 <div class="line">    });</div>
@@ -482,7 +476,7 @@ template&lt;std::size_t n&gt; </div>
 <p>Invoke a function with its two first arguments reversed. </p>
 <p>Specifically, <code>flip(f)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga004f884cdbb85c2efe3383c1db450094">flip</a>(f)(x, y, z...) == f(y, x, z...)</div>
 </div><!-- fragment --><h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> minus = [](<span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y, <span class="keywordtype">int</span> z = 0) {</div>
+<div class="fragment"><div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> minus = [](<span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y, <span class="keywordtype">int</span> z = 0) {</div>
 <div class="line">        <span class="keywordflow">return</span> x - y - z;</div>
 <div class="line">    };</div>
 <div class="line"></div>
@@ -551,7 +545,7 @@ template&lt;std::size_t n&gt; </div>
   </dd>
 </dl>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> contains = <a class="code" href="group__group-functional.html#ga7bdafba6dc801f1d2d83731ad9714557">infix</a>(elem);</div>
+<div class="fragment"><div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> contains = <a class="code" href="group__group-functional.html#ga7bdafba6dc801f1d2d83731ad9714557">infix</a>(elem);</div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
 <div class="line">        <a class="code" href="group__group-functional.html#ga004f884cdbb85c2efe3383c1db450094">flip</a>(all_of)(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3) ^ contains,</div>
@@ -594,15 +588,15 @@ template&lt;std::size_t n&gt; </div>
 <p>Specifically, <code>lockstep(f)(g1, ..., gN)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#gafca60c09e1f7a32a2b52baaf6515c279">lockstep</a>(f)(g1, ..., gN)(x1, ..., xN) == f(g1(x1), ..., gN(xN))</div>
 </div><!-- fragment --><p>Since each <code>g</code> is invoked on its corresponding argument in lockstep, the number of arguments must match the number of <code>g</code>s.</p>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> plus = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
+<div class="fragment"><div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> plus = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
 <div class="line">        <span class="keywordflow">return</span> x + y;</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> to_int = [](<span class="keywordtype">char</span> c) {</div>
+<div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> to_int = [](<span class="keywordtype">char</span> c) {</div>
 <div class="line">        <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(c) - 48;</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> inc = [](<span class="keyword">auto</span> x) {</div>
+<div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> inc = [](<span class="keyword">auto</span> x) {</div>
 <div class="line">        <span class="keywordflow">return</span> x + 1;</div>
 <div class="line">    };</div>
 <div class="line"></div>
@@ -631,7 +625,7 @@ template&lt;std::size_t n&gt; </div>
 </div><!-- fragment -->
 <p>Invoke a function with the result of invoking another function on each argument. </p>
 <p>Specifically, <code>on(f, g)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>(f, g)(x...) == f(g(x)...)</div>
-</div><!-- fragment --><p>For convenience, <code>on</code> also supports infix application as provided by <code>infix</code>. </p><div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> sorted = sort_by(less ^<a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>^ first, make&lt;Tuple&gt;(</div>
+</div><!-- fragment --><p>For convenience, <code>on</code> also supports infix application as provided by <code>infix</code>. </p><div class="fragment"><div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> sorted = sort_by(less ^<a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>^ first, make&lt;Tuple&gt;(</div>
 <div class="line">        pair(int_&lt;3&gt;, <span class="charliteral">&#39;x&#39;</span>),</div>
 <div class="line">        pair(int_&lt;1&gt;, type&lt;void&gt;),</div>
 <div class="line">        pair(int_&lt;2&gt;, 9876)</div>
@@ -650,22 +644,22 @@ template&lt;std::size_t n&gt; </div>
 <div class="line"><a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>(<a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>(f, g), h)(xs...) == <a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>(f, g)(h(xs)...)</div>
 <div class="line">                       == f(g(h(xs))...)</div>
 </div><!-- fragment --> <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> increment = [](<span class="keyword">auto</span> x) {</div>
+<div class="fragment"><div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> increment = [](<span class="keyword">auto</span> x) {</div>
 <div class="line">        <span class="keywordflow">return</span> x + 1;</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> multiply = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
+<div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> multiply = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
 <div class="line">        <span class="keywordflow">return</span> x * y;</div>
 <div class="line">    };</div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>(multiply, increment)(2, 4) == 3 * 5);</div>
 </div><!-- fragment --> <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> plus = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
+<div class="fragment"><div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> plus = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
 <div class="line">        <span class="keywordflow">return</span> x + y;</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> x = pair(1, 2);</div>
-<div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> y = pair(10, 20);</div>
+<div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> x = pair(1, 2);</div>
+<div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> y = pair(10, 20);</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>(plus, first)(x, y) == 1 + 10);</div>
 </div><!-- fragment -->
 </div>
@@ -742,11 +736,11 @@ template&lt;std::size_t n&gt; </div>
 <p>Specifically, <code>partial(f, x...)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga778b2daa27882e71d28b6f2b38982ddf">partial</a>(f, x...)(y...) == f(x..., y...)</div>
 </div><!-- fragment --><p>Given the semantics, the arity of <code>f</code> must match the number of arguments passed in total, i.e. <code>sizeof...(x) + sizeof...(y)</code>.</p>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> plus = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
+<div class="fragment"><div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> plus = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
 <div class="line">        <span class="keywordflow">return</span> x + y;</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> increment = <a class="code" href="group__group-functional.html#ga778b2daa27882e71d28b6f2b38982ddf">partial</a>(plus, 1);</div>
+<div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> increment = <a class="code" href="group__group-functional.html#ga778b2daa27882e71d28b6f2b38982ddf">partial</a>(plus, 1);</div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(increment(2) == 3);</div>
 </div><!-- fragment -->
@@ -781,13 +775,13 @@ template&lt;std::size_t n&gt; </div>
 </ul>
 <p>More complex functionality like the ability to compose placeholders into larger function objects inline are not supported. This is on purpose; you should either use C++14 generic lambdas or a library like <a href="http://www.boost.org/doc/libs/release/libs/phoenix/doc/html/index.html">Boost.Phoenix</a> if you need bigger guns. The goal here is to save you a couple of characters in simple situations.</p>
 <h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> plus = <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> + <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>;</div>
+<div class="fragment"><div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> plus = <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> + <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>;</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(plus(1, 2) == 1 + 2);</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> increment = _ + 1;</div>
+<div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> increment = _ + 1;</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(increment(1) == 2);</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> double_ = 2 * <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>;</div>
+<div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> double_ = 2 * <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>;</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(double_(1) == 2);</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// Extra arguments are ignored.</span></div>

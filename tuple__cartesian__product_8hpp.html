@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.9.1"/>
-<title>Boost.Hana: boost/hana/config.hpp File Reference</title>
+<title>Boost.Hana: boost/hana/detail/tuple_cartesian_product.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -77,7 +77,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('config_8hpp.html','');});
+$(document).ready(function(){initNavTree('tuple__cartesian__product_8hpp.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -95,71 +95,22 @@ $(document).ready(function(){initNavTree('config_8hpp.html','');});
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#define-members">Macros</a>  </div>
   <div class="headertitle">
-<div class="title">config.hpp File Reference</div>  </div>
+<div class="title">tuple_cartesian_product.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Defines configuration macros used throughout the library.  
+<p>Defines <code>boost::hana::detail::tuple_cartesian_product</code>.  
 <a href="#details">More...</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a36988ad8e4f82e0bfb7ff8e4808143a7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config_8hpp.html#a36988ad8e4f82e0bfb7ff8e4808143a7">BOOST_HANA_CONFIG_VERSION</a>(version,  revision,  patch)&#160;&#160;&#160;(((version) &lt;&lt; 24) + ((revision) &lt;&lt; 16) + (patch))</td></tr>
-<tr class="separator:a36988ad8e4f82e0bfb7ff8e4808143a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae842ac40c50442c84defc1f4b9ae4d38"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-config.html#gae842ac40c50442c84defc1f4b9ae4d38">BOOST_HANA_CONFIG_DISABLE_PRECONDITIONS</a></td></tr>
-<tr class="memdesc:gae842ac40c50442c84defc1f4b9ae4d38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disables the checking of preconditions in tag-dispatched methods.  <a href="group__group-config.html#gae842ac40c50442c84defc1f4b9ae4d38">More...</a><br /></td></tr>
-<tr class="separator:gae842ac40c50442c84defc1f4b9ae4d38"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga08dcc32bef198420e646244e851d1995"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-config.html#ga08dcc32bef198420e646244e851d1995">BOOST_HANA_CONFIG_DISABLE_ASSERTIONS</a></td></tr>
-<tr class="memdesc:ga08dcc32bef198420e646244e851d1995"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disables the <code>BOOST_HANA_*_ASSERT</code> macro &amp; friends.  <a href="group__group-config.html#ga08dcc32bef198420e646244e851d1995">More...</a><br /></td></tr>
-<tr class="separator:ga08dcc32bef198420e646244e851d1995"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Defines configuration macros used throughout the library. </p>
+<div class="textblock"><p>Defines <code>boost::hana::detail::tuple_cartesian_product</code>. </p>
 <dl class="section copyright"><dt>Copyright</dt><dd>Louis Dionne 2015 Distributed under the Boost Software License, Version 1.0. (See accompanying file LICENSE.md or copy at <a href="http://boost.org/LICENSE_1_0.txt">http://boost.org/LICENSE_1_0.txt</a>) </dd></dl>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a class="anchor" id="a36988ad8e4f82e0bfb7ff8e4808143a7"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define BOOST_HANA_CONFIG_VERSION</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">version, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">revision, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">patch&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td>&#160;&#160;&#160;(((version) &lt;&lt; 24) + ((revision) &lt;&lt; 16) + (patch))</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Transforms a (version, revision, patchlevel) triple into a number of the form 0xVVRRPPPP to allow comparing versions in a normalized way.</p>
-<p>See <a href="http://sourceforge.net/p/predef/wiki/VersionNormalization">http://sourceforge.net/p/predef/wiki/VersionNormalization</a>. </p>
-
-</div>
-</div>
-</div><!-- contents -->
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_3913df26df1cb371abfd458a6c1693a0.html">boost</a></li><li class="navelem"><a class="el" href="dir_be7239abbae3c0cc65a25a72f7ded6b1.html">hana</a></li><li class="navelem"><a class="el" href="config_8hpp.html">config.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_3913df26df1cb371abfd458a6c1693a0.html">boost</a></li><li class="navelem"><a class="el" href="dir_be7239abbae3c0cc65a25a72f7ded6b1.html">hana</a></li><li class="navelem"><a class="el" href="dir_7c8e37cc545a1a2feede1af18dce8861.html">detail</a></li><li class="navelem"><a class="el" href="tuple__cartesian__product_8hpp.html">tuple_cartesian_product.hpp</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>

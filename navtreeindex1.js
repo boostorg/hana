@@ -1,11 +1,5 @@
 var NAVTREEINDEX1 =
 {
-"index.html#tutorial-sem-perf":[0,4,0],
-"index.html#tutorial-type":[0,6],
-"index.html#tutorial-type-perf":[0,6,0],
-"index.html#tutorial-using_the_reference":[0,12],
-"infix_8hpp.html":[2,2,0,0,3,9],
-"infix_8hpp.html#ga7bdafba6dc801f1d2d83731ad9714557":[2,2,0,0,3,9,0],
 "insert__fwd_8hpp.html":[2,2,0,0,1,10],
 "integral__c_8hpp.html":[2,2,0,0,2,0,1,0],
 "integral__constant_8hpp.html":[2,2,0,0,18],
@@ -153,9 +147,10 @@ var NAVTREEINDEX1 =
 "structboost_1_1hana_1_1_logical.html#abd199c2e8d8947decc01a5e43b1f4489":[1,0,9,2],
 "structboost_1_1hana_1_1_logical.html#ac5683e17dd3318d3be74e5defb1e7252":[1,0,9,6],
 "structboost_1_1hana_1_1_map.html":[1,1,3],
-"structboost_1_1hana_1_1_map.html#a0f32260f859b2510dd16235b7bc011ac":[1,1,3,1],
-"structboost_1_1hana_1_1_map.html#a2e016a68e3ec6eb25868fadb7ce80132":[1,1,3,2],
-"structboost_1_1hana_1_1_map.html#a56ec5fd28fa8659b89fc526c89bdea6b":[1,1,3,0],
+"structboost_1_1hana_1_1_map.html#a0f32260f859b2510dd16235b7bc011ac":[1,1,3,2],
+"structboost_1_1hana_1_1_map.html#a2e016a68e3ec6eb25868fadb7ce80132":[1,1,3,3],
+"structboost_1_1hana_1_1_map.html#aa98dda24b823031a42e47897de220019":[1,1,3,0],
+"structboost_1_1hana_1_1_map.html#ae73cf43ee56352e4c25984b0fe3c3d04":[1,1,3,1],
 "structboost_1_1hana_1_1_maybe.html":[1,1,4],
 "structboost_1_1hana_1_1_maybe.html#a0d8246013d58b0809b6f18d894525b6c":[1,1,4,2],
 "structboost_1_1hana_1_1_maybe.html#a1047a69893a62cd36eb0d2934f85e0e7":[1,1,4,4],
@@ -249,5 +244,10 @@ var NAVTREEINDEX1 =
 "structboost_1_1hana_1_1_sequence.html#ab663fc84c23656a41d4dfcb586f0085c":[1,0,18,17],
 "structboost_1_1hana_1_1_sequence.html#ab6e88c5dd3f638a60c0a451ad6db95ec":[1,0,18,3],
 "structboost_1_1hana_1_1_sequence.html#ab8e70b7be1022d132ff5369d7b1b6c2c":[1,0,18,23],
-"structboost_1_1hana_1_1_sequence.html#abb725e66aedc0c19c38b38a00302abf4":[1,0,18,11]
+"structboost_1_1hana_1_1_sequence.html#abb725e66aedc0c19c38b38a00302abf4":[1,0,18,11],
+"structboost_1_1hana_1_1_sequence.html#abe5308d966fbf95d317511a706d6d20a":[1,0,18,24],
+"structboost_1_1hana_1_1_sequence.html#ad855f1d86e9bf0d31d67c191412a9082":[1,0,18,0],
+"structboost_1_1hana_1_1_sequence.html#adfb039a3d46931ef17fef56c77d8256c":[1,0,18,9],
+"structboost_1_1hana_1_1_sequence.html#afa204f71aac9f461d8574653295c67ba":[1,0,18,14],
+"structboost_1_1hana_1_1_set.html":[1,1,7]
 };

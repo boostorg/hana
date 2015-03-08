@@ -139,7 +139,7 @@ Macros</h2></td></tr>
 <p>Create a compile-time string from a string literal <code>s</code>. </p>
 <p>This macro is a more convenient alternative to <code>string</code> for creating compile-time strings. However, since this macro uses a lambda internally, it can't be used in an unevaluated context.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-details.html#gacf82d20cb2ab6efe5849fadae0a043a8">BOOST_HANA_CONSTEXPR_LAMBDA</a> <span class="keyword">auto</span> str = <a class="code" href="fwd_2string_8hpp.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;abcdef&quot;</span>);</div>
+<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> str = <a class="code" href="fwd_2string_8hpp.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;abcdef&quot;</span>);</div>
 <div class="line">static_assert(std::is_same&lt;<a class="code" href="group__group-core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t</a>&lt;decltype(str)&gt;, String&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment -->
 </div>

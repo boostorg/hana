@@ -628,9 +628,8 @@ Header organization</h1>
  This subdirectory contains the forward declaration of every concept and data type in the library. Basically, <code>boost/hana/fwd/[XXX].hpp</code> is the forward declaration for the concept or data type named <code>XXX</code>. Also note that forward declarations for headers in <code>boost/hana/ext/</code> are not provided.</li>
 <li><code>boost/hana/functional/</code><br />
  This subdirectory contains various function objects that are often useful, but that do not necessarily belong to a concept.</li>
-<li><p class="startli"><code>boost/hana/ext/</code><br />
- This directory contains adapters for external libraries. This is the only part of the public interface which is not included by the master header, because that would make the master header dependent on those external libraries. Note that only the strict minimum required to adapt the external components is included in these headers (e.g. a forward declaration). This means that the definition of the external component should still be included when one wants to use it. For example:</p>
-<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="ext_2std_2tuple_8hpp.html">boost/hana/ext/std/tuple.hpp</a>&gt;</span></div>
+<li><code>boost/hana/ext/</code><br />
+ This directory contains adapters for external libraries. Only the strict minimum required to adapt the external components is included in these headers (e.g. a forward declaration). This means that the definition of the external component should still be included when one wants to use it. For example: <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="ext_2std_2tuple_8hpp.html">boost/hana/ext/std/tuple.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;tuple&gt;</span> <span class="comment">// still required to create a tuple</span></div>
 <div class="line"><span class="keyword">using namespace </span><a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
@@ -674,6 +673,12 @@ Using the reference</h1>
 <li><a class="el" href="group__group-details.html">Details</a><br />
  Implementation details. Don't go there.</li>
 </ul>
+<p>In the documentation, a simplified implementation of the documented object is sometimes provided in pseudo-code. The reason is that the actual implementation is sometimes contrived because of unimportant details or language limitations. This is particularly present in the <a class="el" href="group__group-functional.html">Functional</a> module. Here is an explanation of some terms that appear in the pseudo-code:</p>
+<h2><code>forwarded(x)</code> </h2>
+<p>Means that the object is forwarded optimally. This means that if <code>x</code> is a parameter, it is <code>std::forward</code>ed, and if it is a captured variable, it is moved from whenever the enclosing lambda is an rvalue.</p>
+<p>Also note that when <code>x</code> can be moved from, the statement <code>return forwarded(x);</code> in a function with <code>decltype(auto)</code> does not mean that an rvalue reference to <code>x</code> will be returned, which would create a dangling reference. Rather, it means that <code>x</code> is returned by value, the value being constructed with the <code>std::forward</code>ed <code>x</code>.</p>
+<h2><code>perfect-capture</code> </h2>
+<p>This is used in lambdas to signify that the captured variables are initialized using perfect forwarding, as if <code>[x(forwarded(x))...]() { }</code> had been used.</p>
 <p>I hope you enjoy using the library, and please consider contributing since there is still a lot of work to do!</p>
 <p>&ndash; Louis </p>
 </div></div><!-- contents -->
