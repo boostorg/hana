@@ -26,11 +26,11 @@ namespace boost { namespace hana {
     //! can be particularly useful for returning from a function that might
     //! fail, when the reason of failure is unimportant. However, there is
     //! an important distinction to make between `Maybe` and `std::optional`:
-    //! `just(x)` and `nothing` do not share the same type. Hence whether a
+    //! `just(x)` and `nothing` do not share the same type. Hence, whether a
     //! `just` or a `nothing` will be returned from a function has to be
-    //! known at compile-time for the return type to be computable at
-    //! compile-time. This makes `Maybe` well suited for static
-    //! metaprogramming tasks but very poor for anything dynamic.
+    //! known at compile-time for the return type to be computable by the
+    //! compiler. This makes `Maybe` well suited for static metaprogramming
+    //! tasks but very poor for anything dynamic.
     //!
     //!
     //! Modeled concepts
