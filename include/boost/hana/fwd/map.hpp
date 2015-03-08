@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_MAP_HPP
 
 #include <boost/hana/core/operators.hpp>
+#include <boost/hana/fwd/core/make.hpp>
 
 
 namespace boost { namespace hana {
@@ -53,31 +54,40 @@ namespace boost { namespace hana {
     //! A `Map` can be converted to a Sequence of Products.
     struct Map { };
 
-    //! Creates a `Map` with the given key/value associations.
-    //! @relates Map
-    //!
-    //! @note
-    //! The keys must all be unique.
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto map = [](auto&& ...pairs) {
-        return unspecified-type;
-    };
-#else
     template <typename Storage, typename = operators::adl>
     struct _map {
         Storage storage;
         struct hana { using datatype = Map; };
     };
 
-    struct _make_map {
-        template <typename ...Pairs>
-        constexpr decltype(auto) operator()(Pairs&& ...pairs) const;
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    //! Create a `Map` with the given key/value associations.
+    //! @relates Map
+    //!
+    //! Given zero `Product`s or more representing key/value associations,
+    //! `make<Map>` returns a Map associating these keys to these values.
+    //! All the keys must be unique.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/map.cpp make<Map>
+    template <>
+    constexpr auto make<Map> = [](auto&& ...pairs) {
+        return unspecified-type{forwarded(pairs)...};
     };
-
-    constexpr _make_map map{};
 #endif
 
-    //! Returns a list of the keys of the map, in unspecified order.
+    //! Alias to `make<Map>`; provided for convenience.
+    //! @relates Map
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/map.cpp make_map
+    constexpr auto make_map = make<Map>;
+
+    //! Returns a Sequence of the keys of the map, in unspecified order.
     //! @relates Map
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto keys = [](auto&& map) -> decltype(auto) {
@@ -92,7 +102,7 @@ namespace boost { namespace hana {
     constexpr _keys keys{};
 #endif
 
-    //! Returns a list of the values of the map, in unspecified order.
+    //! Returns a Sequence of the values of the map, in unspecified order.
     //! @relates Map
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto values = [](auto&& map) -> decltype(auto) {

@@ -97,7 +97,7 @@ namespace boost { namespace hana { namespace test {
             auto state = test::injection([]{})();
             auto f = test::injection([]{});
 
-            auto check = map(
+            auto check = make<Map>(
                 // when length == 0
                 pair(size_t<0>, [=](auto xs) {
                     BOOST_HANA_CONSTANT_CHECK(equal(

@@ -115,10 +115,10 @@ BOOST_HANA_CONSTANT_CHECK(
 BOOST_HANA_CONSTANT_CHECK(lookup(make<Tuple>(int_<1>, type<int>, '3'), type<int>) == just(type<int>));
 BOOST_HANA_CONSTANT_CHECK(lookup(make<Tuple>(int_<1>, type<int>, '3'), type<void>) == nothing);
 
-BOOST_HANA_CONSTEXPR_LAMBDA auto m = map(
-    pair(1, 'x'),
-    pair(type<float>, 3.3),
-    pair(type<char>, type<int>)
+BOOST_HANA_CONSTEXPR_LAMBDA auto m = make<Map>(
+    make<Pair>(1, 'x'),
+    make<Pair>(type<float>, 3.3),
+    make<Pair>(type<char>, type<int>)
 );
 BOOST_HANA_CONSTEXPR_CHECK(lookup(m, type<float>) == just(3.3));
 //! [lookup]

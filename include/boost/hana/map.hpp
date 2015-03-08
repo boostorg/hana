@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/make.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/create.hpp>
@@ -38,13 +39,16 @@ namespace boost { namespace hana {
     //! @cond
 
     //////////////////////////////////////////////////////////////////////////
-    // map
+    // make<Map>
     //////////////////////////////////////////////////////////////////////////
-    template <typename ...Pairs>
-    constexpr decltype(auto) _make_map::operator()(Pairs&& ...pairs) const {
-        return detail::create<_map>{}(
+    template <>
+    struct make_impl<Map> {
+        template <typename ...Pairs>
+        static constexpr auto apply(Pairs&& ...pairs) {
+            return detail::create<_map>{}(
                     hana::make<Tuple>(detail::std::forward<Pairs>(pairs)...));
-    }
+        }
+    };
 
     //////////////////////////////////////////////////////////////////////////
     // keys
@@ -134,7 +138,7 @@ namespace boost { namespace hana {
     struct to_impl<Map, F, when<models<Foldable, F>{} && !models<Record, F>{}>> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs)
-        { return hana::unpack(detail::std::forward<Xs>(xs), map); }
+        { return hana::unpack(detail::std::forward<Xs>(xs), make<Map>); }
     };
 
     template <typename S>

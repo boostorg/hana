@@ -40,10 +40,10 @@ namespace boost { namespace hana { namespace test {
 
     template <>
     auto objects<Map> = make<Tuple>(
-        map(),
-        map(p<1, 1>),
-        map(p<1, 2>),
-        map(p<1, 1>, p<2, 2>)
+        make<Map>(),
+        make<Map>(p<1, 1>),
+        make<Map>(p<1, 2>),
+        make<Map>(p<1, 1>, p<2, 2>)
     );
 }}}
 
@@ -62,19 +62,19 @@ int main() {
         // keys
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                keys(map()),
+                keys(make<Map>()),
                 list()
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                keys(map(p<1, 1>)),
+                keys(make<Map>(p<1, 1>)),
                 list(key<1>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                keys(map(p<1, 1>, p<2, 2>)),
+                keys(make<Map>(p<1, 1>, p<2, 2>)),
                 list(key<1>, key<2>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                keys(map(p<1, 1>, p<2, 2>, p<3, 3>)),
+                keys(make<Map>(p<1, 1>, p<2, 2>, p<3, 3>)),
                 list(key<1>, key<2>, key<3>)
             ));
         }
@@ -82,19 +82,19 @@ int main() {
         // values
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                values(map()),
+                values(make<Map>()),
                 list()
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                values(map(p<1, 1>)),
+                values(make<Map>(p<1, 1>)),
                 list(val<1>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                values(map(p<1, 1>, p<2, 2>)),
+                values(make<Map>(p<1, 1>, p<2, 2>)),
                 list(val<1>, val<2>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                values(map(p<1, 1>, p<2, 2>, p<3, 3>)),
+                values(make<Map>(p<1, 1>, p<2, 2>, p<3, 3>)),
                 list(val<1>, val<2>, val<3>)
             ));
         }
@@ -105,7 +105,7 @@ int main() {
             {
                 BOOST_HANA_CONSTANT_CHECK(equal(
                     to<Map>(record(test::x<1>, test::x<2>)),
-                    map(pair(test::member1, test::x<1>),
+                    make<Map>(pair(test::member1, test::x<1>),
                         pair(test::member2, test::x<2>))
                 ));
             }
@@ -114,19 +114,19 @@ int main() {
             {
                 BOOST_HANA_CONSTANT_CHECK(equal(
                     to<Map>(foldable()),
-                    map()
+                    make<Map>()
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
                     to<Map>(foldable(p<1, 1>)),
-                    map(p<1, 1>)
+                    make<Map>(p<1, 1>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
                     to<Map>(foldable(p<1, 1>, p<2, 2>)),
-                    map(p<1, 1>, p<2, 2>)
+                    make<Map>(p<1, 1>, p<2, 2>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
                     to<Map>(foldable(p<1, 1>, p<2, 2>, p<3, 3>)),
-                    map(p<1, 1>, p<2, 2>, p<3, 3>)
+                    make<Map>(p<1, 1>, p<2, 2>, p<3, 3>)
                 ));
             }
 
@@ -134,7 +134,7 @@ int main() {
             {
                 BOOST_HANA_CONSTEXPR_LAMBDA auto check = [=](auto ...xs) {
                     BOOST_HANA_CONSTANT_CHECK(
-                        elem(permutations(list(xs...)), to<L>(map(xs...)))
+                        elem(permutations(list(xs...)), to<L>(make<Map>(xs...)))
                     );
                 };
                 check();
@@ -150,54 +150,63 @@ int main() {
     {
         // equal
         {
-            BOOST_HANA_CONSTANT_CHECK(equal(map(), map()));
-            BOOST_HANA_CONSTANT_CHECK(not_(equal(map(p<1, 1>), map())));
-            BOOST_HANA_CONSTANT_CHECK(not_(equal(map(), map(p<1, 1>))));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                make<Map>(),
+                make<Map>()
+            ));
+            BOOST_HANA_CONSTANT_CHECK(not_(equal(
+                make<Map>(p<1, 1>),
+                make<Map>())
+            ));
+            BOOST_HANA_CONSTANT_CHECK(not_(equal(
+                make<Map>(),
+                make<Map>(p<1, 1>)
+            )));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                map(p<1, 1>),
-                map(p<1, 1>)
+                make<Map>(p<1, 1>),
+                make<Map>(p<1, 1>)
             ));
             BOOST_HANA_CONSTANT_CHECK(not_(equal(
-                map(p<1, 1>),
-                map(p<1, 2>))
+                make<Map>(p<1, 1>),
+                make<Map>(p<1, 2>))
             ));
             BOOST_HANA_CONSTANT_CHECK(not_(equal(
-                map(p<1, 1>),
-                map(p<2, 1>))
+                make<Map>(p<1, 1>),
+                make<Map>(p<2, 1>))
             ));
             BOOST_HANA_CONSTANT_CHECK(not_(equal(
-                map(p<1, 1>),
-                map(p<1, 1>, p<2, 2>))
+                make<Map>(p<1, 1>),
+                make<Map>(p<1, 1>, p<2, 2>))
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                map(p<1, 1>, p<2, 2>),
-                map(p<1, 1>, p<2, 2>)
+                make<Map>(p<1, 1>, p<2, 2>),
+                make<Map>(p<1, 1>, p<2, 2>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                map(p<1, 1>, p<2, 2>),
-                map(p<2, 2>, p<1, 1>)
+                make<Map>(p<1, 1>, p<2, 2>),
+                make<Map>(p<2, 2>, p<1, 1>)
             ));
             BOOST_HANA_CONSTANT_CHECK(not_(equal(
-                map(p<1, 1>, p<2, 2>),
-                map(p<9, 1>, p<2, 2>))
+                make<Map>(p<1, 1>, p<2, 2>),
+                make<Map>(p<9, 1>, p<2, 2>))
             ));
             BOOST_HANA_CONSTANT_CHECK(not_(equal(
-                map(p<1, 1>, p<2, 2>),
-                map(p<1, 9>, p<2, 2>))
+                make<Map>(p<1, 1>, p<2, 2>),
+                make<Map>(p<1, 9>, p<2, 2>))
             ));
             BOOST_HANA_CONSTANT_CHECK(not_(equal(
-                map(p<1, 1>, p<2, 2>),
-                map(p<1, 1>, p<9, 2>))
+                make<Map>(p<1, 1>, p<2, 2>),
+                make<Map>(p<1, 1>, p<9, 2>))
             ));
             BOOST_HANA_CONSTANT_CHECK(not_(equal(
-                map(p<1, 1>, p<2, 2>),
-                map(p<1, 1>, p<2, 9>))
+                make<Map>(p<1, 1>, p<2, 2>),
+                make<Map>(p<1, 1>, p<2, 9>))
             ));
             BOOST_HANA_CONSTANT_CHECK(not_(equal(
-                map(p<1, 1>, p<2, 2>),
-                map(p<1, 1>, p<2, 2>, p<3, 3>))
+                make<Map>(p<1, 1>, p<2, 2>),
+                make<Map>(p<1, 1>, p<2, 2>, p<3, 3>))
             ));
         }
     }
@@ -206,42 +215,54 @@ int main() {
     {
         // any_of
         {
-            BOOST_HANA_CONSTANT_CHECK(not_(any_of(map(), equal.to(key<1>))));
+            BOOST_HANA_CONSTANT_CHECK(
+                not_(any_of(make<Map>(), equal.to(key<1>)))
+            );
 
-            BOOST_HANA_CONSTANT_CHECK(any_of(map(p<1, 1>), equal.to(key<1>)));
-            BOOST_HANA_CONSTANT_CHECK(not_(any_of(map(p<1, 1>), equal.to(key<2>))));
+            BOOST_HANA_CONSTANT_CHECK(
+                any_of(make<Map>(p<1, 1>), equal.to(key<1>))
+            );
+            BOOST_HANA_CONSTANT_CHECK(
+                not_(any_of(make<Map>(p<1, 1>), equal.to(key<2>)))
+            );
 
-            BOOST_HANA_CONSTANT_CHECK(any_of(map(p<1, 1>, p<2, 2>), equal.to(key<1>)));
-            BOOST_HANA_CONSTANT_CHECK(any_of(map(p<1, 1>, p<2, 2>), equal.to(key<2>)));
-            BOOST_HANA_CONSTANT_CHECK(not_(any_of(map(p<1, 1>, p<2, 2>), equal.to(key<3>))));
+            BOOST_HANA_CONSTANT_CHECK(
+                any_of(make<Map>(p<1, 1>, p<2, 2>), equal.to(key<1>))
+            );
+            BOOST_HANA_CONSTANT_CHECK(
+                any_of(make<Map>(p<1, 1>, p<2, 2>), equal.to(key<2>))
+            );
+            BOOST_HANA_CONSTANT_CHECK(
+                not_(any_of(make<Map>(p<1, 1>, p<2, 2>), equal.to(key<3>)))
+            );
         }
 
         // find
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(map(), equal.to(key<1>)),
+                find(make<Map>(), equal.to(key<1>)),
                 nothing
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(map(p<1, 1>), equal.to(key<1>)),
+                find(make<Map>(p<1, 1>), equal.to(key<1>)),
                 just(val<1>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(map(p<1, 1>), equal.to(key<2>)),
+                find(make<Map>(p<1, 1>), equal.to(key<2>)),
                 nothing
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(map(p<1, 1>, p<2, 2>), equal.to(key<1>)),
+                find(make<Map>(p<1, 1>, p<2, 2>), equal.to(key<1>)),
                 just(val<1>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(map(p<1, 1>, p<2, 2>), equal.to(key<2>)),
+                find(make<Map>(p<1, 1>, p<2, 2>), equal.to(key<2>)),
                 just(val<2>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(map(p<1, 1>, p<2, 2>), equal.to(key<3>)),
+                find(make<Map>(p<1, 1>, p<2, 2>), equal.to(key<3>)),
                 nothing
             ));
         }

@@ -14,21 +14,49 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <string>
 using namespace boost::hana;
-using namespace std::literals;
 
 
 int main() {
 
 {
 
-//! [comparable]
+//! [make<Map>]
+using namespace std::literals;
+auto m = make<Map>(
+    make<Pair>(int_<1>, "foobar"s),
+    make<Pair>(type<void>, 1234)
+);
+//! [make<Map>]
+(void)m;
+
+}{
+
+//! [make_map]
+using namespace std::literals;
 BOOST_HANA_RUNTIME_CHECK(
-    map(
+    make_map(
+        make<Pair>(int_<1>, "foobar"s),
+        make<Pair>(type<void>, 1234)
+    )
+    ==
+    make<Map>(
+        make<Pair>(int_<1>, "foobar"s),
+        make<Pair>(type<void>, 1234)
+    )
+);
+//! [make_map]
+
+}{
+
+//! [comparable]
+using namespace std::literals;
+BOOST_HANA_RUNTIME_CHECK(
+    make_map(
         pair(char_<'a'>, "foobar"s),
         pair(type<int&&>, nullptr)
     )
     ==
-    map(
+    make_map(
         pair(type<int&&>, (void*)0),
         pair(char_<'a'>, "foobar"s)
     )
@@ -38,7 +66,7 @@ BOOST_HANA_RUNTIME_CHECK(
 }{
 
 //! [searchable]
-BOOST_HANA_CONSTEXPR_LAMBDA auto m = map(
+BOOST_HANA_CONSTEXPR_LAMBDA auto m = make_map(
     pair(type<int>, 'i'),
     pair(type<float>, 'f')
 );
