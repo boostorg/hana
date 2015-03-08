@@ -10,7 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/tuple.hpp>
 
-#include <laws/comparable.hpp>
 #include <laws/orderable.hpp>
 
 #include <type_traits>
@@ -31,44 +30,6 @@ int main() {
         BOOST_HANA_STRING("ba"),
         BOOST_HANA_STRING("afcd")
     );
-
-    //////////////////////////////////////////////////////////////////////////
-    // Comparable
-    //////////////////////////////////////////////////////////////////////////
-    {
-        // equal
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            BOOST_HANA_STRING("abcd"),
-            BOOST_HANA_STRING("abcd")
-        ));
-
-        BOOST_HANA_CONSTANT_CHECK(not_(equal(
-            BOOST_HANA_STRING("abcd"),
-            BOOST_HANA_STRING("abcde")
-        )));
-
-        BOOST_HANA_CONSTANT_CHECK(not_(equal(
-            BOOST_HANA_STRING("abcd"),
-            BOOST_HANA_STRING("")
-        )));
-
-        BOOST_HANA_CONSTANT_CHECK(not_(equal(
-            BOOST_HANA_STRING(""),
-            BOOST_HANA_STRING("abcde")
-        )));
-
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            BOOST_HANA_STRING(""),
-            BOOST_HANA_STRING("")
-        ));
-
-        // operators
-        static_assert(has_operator<String, decltype(equal)>{}, "");
-        static_assert(has_operator<String, decltype(not_equal)>{}, "");
-
-        // laws
-        test::TestComparable<String>{strings};
-    }
 
     //////////////////////////////////////////////////////////////////////////
     // Orderable
