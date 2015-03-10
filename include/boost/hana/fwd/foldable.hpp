@@ -16,6 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/functional/curry.hpp>
 #include <boost/hana/functional/flip.hpp>
+#include <boost/hana/fwd/monad.hpp>
 
 
 namespace boost { namespace hana {
@@ -122,6 +123,62 @@ namespace boost { namespace hana {
     constexpr _foldl foldl{};
 #endif
 
+    //! Monadic left fold over the elements of a structure.
+    //! @relates Foldable
+    //!
+    //!
+    //! @tparam M
+    //! A Monad corresponding to the data type of `f`'s result.
+    //!
+    //! @param foldable
+    //! The structure to fold.
+    //!
+    //! @param state
+    //! The initial value used for folding. If the structure is empty, this
+    //! value is lifted in to the `M` Monad and then returned as-is.
+    //!
+    //! @param f
+    //! A binary function called as `f(state, x)`, where `state` is the result
+    //! accumulated so far and `x` is an element in the structure. The
+    //! function must return its result inside the `M` Monad.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/foldable.foldlM.cpp foldlM
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    template <typename M>
+    constexpr auto foldlM = [](auto&& foldable, auto&& state, auto&& f) -> decltype(auto) {
+        return tag-dispatched;
+    };
+#else
+    template <typename Xs, typename = void>
+    struct foldlM_impl;
+
+    template <typename M>
+    struct _foldlM {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        static_assert(models<Monad, M>{},
+        "hana::foldlM<M>(xs, state, f) requires M to be a Monad");
+#endif
+        template <typename Xs, typename State, typename F>
+        constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Foldable, typename datatype<Xs>::type>{},
+            "hana::foldlM<M>(xs, state, f) requires xs to be Foldable");
+#endif
+            return foldlM_impl<typename datatype<Xs>::type>::template apply<M>(
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<State>(state),
+                detail::std::forward<F>(f)
+            );
+        }
+    };
+
+    template <typename M>
+    constexpr _foldlM<M> foldlM{};
+#endif
+
     //! Right-associative fold of a structure using a binary operation.
     //! @relates Foldable
     //!
@@ -170,6 +227,62 @@ namespace boost { namespace hana {
     };
 
     constexpr _foldr foldr{};
+#endif
+
+    //! Monadic right fold over the elements of a structure.
+    //! @relates Foldable
+    //!
+    //!
+    //! @tparam M
+    //! A Monad corresponding to the data type of `f`'s result.
+    //!
+    //! @param foldable
+    //! The structure to fold.
+    //!
+    //! @param state
+    //! The initial value used for folding. If the structure is empty, this
+    //! value is lifted in to the `M` Monad and then returned as-is.
+    //!
+    //! @param f
+    //! A binary function called as `f(x, state)`, where `state` is the result
+    //! accumulated so far and `x` is an element in the structure. The
+    //! function must return its result inside the `M` Monad.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/foldable.cpp foldrM
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    template <typename M>
+    constexpr auto foldrM = [](auto&& foldable, auto&& state, auto&& f) -> decltype(auto) {
+        return tag-dispatched;
+    };
+#else
+    template <typename Xs, typename = void>
+    struct foldrM_impl;
+
+    template <typename M>
+    struct _foldrM {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        static_assert(models<Monad, M>{},
+        "hana::foldrM<M>(xs, state, f) requires M to be a Monad");
+#endif
+        template <typename Xs, typename State, typename F>
+        constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(models<Foldable, typename datatype<Xs>::type>{},
+            "hana::foldrM<M>(xs, state, f) requires xs to be Foldable");
+#endif
+            return foldrM_impl<typename datatype<Xs>::type>::template apply<M>(
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<State>(state),
+                detail::std::forward<F>(f)
+            );
+        }
+    };
+
+    template <typename M>
+    constexpr _foldrM<M> foldrM{};
 #endif
 
     //! Variant of `foldr` that has no base case, and thus may only be

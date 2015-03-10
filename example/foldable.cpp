@@ -24,7 +24,7 @@ int main() {
 
 {
 
-//! [foldl1]
+//! [foldl]
 auto to_string = [](auto x) {
     return static_cast<std::ostringstream const&>(std::ostringstream{} << x).str();
 };
@@ -33,12 +33,14 @@ auto show = [=](auto x, auto y) {
     return "(" + to_string(x) + " + " + to_string(y) + ")";
 };
 
-BOOST_HANA_RUNTIME_CHECK(foldl1(make<Tuple>(1, "2", '3'), show) == "((1 + 2) + 3)");
-//! [foldl1]
+BOOST_HANA_RUNTIME_CHECK(
+    foldl(make<Tuple>(2, "3", '4'), "1", show) == "(((1 + 2) + 3) + 4)"
+);
+//! [foldl]
 
 }{
 
-//! [foldl]
+//! [foldl1]
 auto to_string = [](auto x) {
     return static_cast<std::ostringstream const&>(std::ostringstream{} << x).str();
 };
@@ -47,8 +49,10 @@ auto show = [=](auto x, auto y) {
     return "(" + to_string(x) + " + " + to_string(y) + ")";
 };
 
-BOOST_HANA_RUNTIME_CHECK(foldl(make<Tuple>(2, "3", '4'), "1", show) == "(((1 + 2) + 3) + 4)");
-//! [foldl]
+BOOST_HANA_RUNTIME_CHECK(
+    foldl1(make<Tuple>(1, "2", '3'), show) == "((1 + 2) + 3)"
+);
+//! [foldl1]
 
 }{
 
@@ -61,8 +65,33 @@ auto show = [=](auto x, auto y) {
     return "(" + to_string(x) + " + " + to_string(y) + ")";
 };
 
-BOOST_HANA_RUNTIME_CHECK(foldr(make<Tuple>(1, "2", '3'), "4", show) == "(1 + (2 + (3 + 4)))");
+BOOST_HANA_RUNTIME_CHECK(
+    foldr(make<Tuple>(1, "2", '3'), "4", show) == "(1 + (2 + (3 + 4)))"
+);
 //! [foldr]
+
+}{
+
+//! [foldrM]
+BOOST_HANA_CONSTEXPR_LAMBDA auto safediv = [](auto x, auto y) {
+    return eval_if(y == int_<0>,
+        always(nothing),
+        [=](auto _) { return just(_(x) / y); }
+    );
+};
+
+BOOST_HANA_CONSTANT_CHECK(
+    foldrM<Maybe>(tuple_c<int, 1000, 8, 4>, int_<2>, safediv)
+        ==
+    just(int_<1000> / (int_<8> / (int_<4> / int_<2>)))
+);
+
+BOOST_HANA_CONSTANT_CHECK(
+    foldrM<Maybe>(tuple_c<int, 1000, 8, 4>, int_<0>, safediv)
+        ==
+    nothing
+);
+//! [foldrM]
 
 }{
 
@@ -75,7 +104,9 @@ auto show = [=](auto x, auto y) {
     return "(" + to_string(x) + " + " + to_string(y) + ")";
 };
 
-BOOST_HANA_RUNTIME_CHECK(foldr1(make<Tuple>(1, "2", '3'), show) == "(1 + (2 + 3))");
+BOOST_HANA_RUNTIME_CHECK(
+    foldr1(make<Tuple>(1, "2", '3'), show) == "(1 + (2 + 3))"
+);
 //! [foldr1]
 
 }{
@@ -196,7 +227,9 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto size = [](auto xs, auto ys) {
 };
 
 BOOST_HANA_CONSTEXPR_CHECK(
-    maximum_by(size, make<Tuple>(make<Tuple>(), make<Tuple>(1, '2'), make<Tuple>(3.3, nullptr, 4)))
+    maximum_by(size, make<Tuple>(make<Tuple>(),
+                                 make<Tuple>(1, '2'),
+                                 make<Tuple>(3.3, nullptr, 4)))
     ==
     make<Tuple>(3.3, nullptr, 4)
 );
@@ -210,7 +243,9 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto size = [](auto xs, auto ys) {
 };
 
 BOOST_HANA_CONSTANT_CHECK(
-    minimum_by(size, make<Tuple>(make<Tuple>(), make<Tuple>(1, '2'), make<Tuple>(3.3, nullptr, 4)))
+    minimum_by(size, make<Tuple>(make<Tuple>(),
+                                 make<Tuple>(1, '2'),
+                                 make<Tuple>(3.3, nullptr, 4)))
     ==
     make<Tuple>()
 );

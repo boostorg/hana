@@ -14,10 +14,12 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/foldable.hpp>
+#include <boost/hana/functional/demux.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/tuple.hpp>
 
 #include <laws/base.hpp>
+#include <test/identity.hpp>
 
 #include <vector>
 
@@ -125,6 +127,65 @@ namespace boost { namespace hana { namespace test {
             ));
 
             //////////////////////////////////////////////////////////////////
+            // foldlM
+            //////////////////////////////////////////////////////////////////
+            {
+                using M = test::Identity;
+                auto f = hana::demux(test::identity)(test::_injection<0>{});
+                auto a1 = x<999>{};
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    foldlM<M>(list(), a1, undefined{}),
+                    lift<M>(a1)
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    foldlM<M>(list(x<1>{}), a1, f),
+                    f(a1, x<1>{})
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    foldlM<M>(list(x<1>{}, x<2>{}), a1, f),
+                    bind(f(a1, x<1>{}), [=](auto a2) {
+                        return f(a2, x<2>{});
+                    })
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    foldlM<M>(list(x<1>{}, x<2>{}, x<3>{}), a1, f),
+                    bind(f(a1, x<1>{}), [=](auto a2) {
+                        return bind(f(a2, x<2>{}), [=](auto a3) {
+                            return f(a3, x<3>{});
+                        });
+                    })
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    foldlM<M>(list(x<1>{}, x<2>{}, x<3>{}, x<4>{}), a1, f),
+                    bind(f(a1, x<1>{}), [=](auto a2) {
+                        return bind(f(a2, x<2>{}), [=](auto a3) {
+                            return bind(f(a3, x<3>{}), [=](auto a4) {
+                                return f(a4, x<4>{});
+                            });
+                        });
+                    })
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    foldlM<M>(list(x<1>{}, x<2>{}, x<3>{}, x<4>{}, x<5>{}), a1, f),
+                    bind(f(a1, x<1>{}), [=](auto a2) {
+                        return bind(f(a2, x<2>{}), [=](auto a3) {
+                            return bind(f(a3, x<3>{}), [=](auto a4) {
+                                return bind(f(a4, x<4>{}), [=](auto a5) {
+                                    return f(a5, x<5>{});
+                                });
+                            });
+                        });
+                    })
+                ));
+            }
+
+            //////////////////////////////////////////////////////////////////
             // foldl1
             //////////////////////////////////////////////////////////////////
             BOOST_HANA_CONSTANT_CHECK(equal(
@@ -186,6 +247,65 @@ namespace boost { namespace hana { namespace test {
                 foldr(list(1, '2', 3.3, 4.4f), z, f),
                 f(1, f('2', f(3.3, f(4.4f, z))))
             ));
+
+            //////////////////////////////////////////////////////////////////
+            // foldrM
+            //////////////////////////////////////////////////////////////////
+            {
+                using M = test::Identity;
+                auto f = hana::demux(test::identity)(test::_injection<0>{});
+                auto aN = x<999>{};
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    foldrM<M>(list(), aN, undefined{}),
+                    lift<M>(aN)
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    foldrM<M>(list(x<1>{}), aN, f),
+                    f(x<1>{}, aN)
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    foldrM<M>(list(x<1>{}, x<2>{}), aN, f),
+                    bind(f(x<2>{}, aN), [=](auto a1) {
+                        return f(x<1>{}, a1);
+                    })
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    foldrM<M>(list(x<1>{}, x<2>{}, x<3>{}), aN, f),
+                    bind(f(x<3>{}, aN), [=](auto a2) {
+                        return bind(f(x<2>{}, a2), [=](auto a1) {
+                            return f(x<1>{}, a1);
+                        });
+                    })
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    foldrM<M>(list(x<1>{}, x<2>{}, x<3>{}, x<4>{}), aN, f),
+                    bind(f(x<4>{}, aN), [=](auto a3) {
+                        return bind(f(x<3>{}, a3), [=](auto a2) {
+                            return bind(f(x<2>{}, a2), [=](auto a1) {
+                                return f(x<1>{}, a1);
+                            });
+                        });
+                    })
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    foldrM<M>(list(x<1>{}, x<2>{}, x<3>{}, x<4>{}, x<5>{}), aN, f),
+                    bind(f(x<5>{}, aN), [=](auto a4) {
+                        return bind(f(x<4>{}, a4), [=](auto a3) {
+                            return bind(f(x<3>{}, a3), [=](auto a2) {
+                                return bind(f(x<2>{}, a2), [=](auto a1) {
+                                    return f(x<1>{}, a1);
+                                });
+                            });
+                        });
+                    })
+                ));
+            }
 
             //////////////////////////////////////////////////////////////////
             // foldr1

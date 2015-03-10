@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/foldable.hpp>
 
+#include <boost/hana/applicative.hpp>
 #include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
@@ -28,9 +29,11 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/variadic/foldr1.hpp>
 #include <boost/hana/detail/variadic/for_each.hpp>
 #include <boost/hana/enumerable.hpp>
+#include <boost/hana/functional/curry.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/logical.hpp>
+#include <boost/hana/monad.hpp>
 #include <boost/hana/monoid.hpp>
 #include <boost/hana/orderable.hpp>
 #include <boost/hana/ring.hpp>
@@ -58,6 +61,41 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
+    // foldlM
+    //////////////////////////////////////////////////////////////////////////
+    namespace foldable_detail {
+        struct foldlM_helper {
+            template <typename F, typename X, typename K, typename Z>
+            constexpr decltype(auto) operator()(F&& f, X&& x, K&& k, Z&& z) const {
+                return hana::bind(
+                    detail::std::forward<F>(f)(
+                        detail::std::forward<Z>(z),
+                        detail::std::forward<X>(x)
+                    ),
+                    detail::std::forward<K>(k)
+                );
+            }
+        };
+    }
+
+    template <typename T, typename>
+    struct foldlM_impl : foldlM_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct foldlM_impl<T, when<condition>> : default_ {
+        template <typename M, typename Xs, typename S, typename F>
+        static constexpr decltype(auto) apply(Xs&& xs, S&& s, F&& f) {
+            return hana::foldr(
+                detail::std::forward<Xs>(xs),
+                hana::lift<M>,
+                hana::curry<3>(hana::partial(
+                    foldable_detail::foldlM_helper{}, detail::std::forward<F>(f)
+                ))
+            )(detail::std::forward<S>(s));
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
     // foldr
     //////////////////////////////////////////////////////////////////////////
     template <typename T, typename>
@@ -74,6 +112,41 @@ namespace boost { namespace hana {
                     detail::std::forward<S>(s)
                 )
             );
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // foldrM
+    //////////////////////////////////////////////////////////////////////////
+    namespace foldable_detail {
+        struct foldrM_helper {
+            template <typename F, typename K, typename X, typename Z>
+            constexpr decltype(auto) operator()(F&& f, K&& k, X&& x, Z&& z) const {
+                return hana::bind(
+                    detail::std::forward<F>(f)(
+                        detail::std::forward<X>(x),
+                        detail::std::forward<Z>(z)
+                    ),
+                    detail::std::forward<K>(k)
+                );
+            }
+        };
+    }
+
+    template <typename T, typename>
+    struct foldrM_impl : foldrM_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct foldrM_impl<T, when<condition>> : default_ {
+        template <typename M, typename Xs, typename S, typename F>
+        static constexpr decltype(auto) apply(Xs&& xs, S&& s, F&& f) {
+            return hana::foldl(
+                detail::std::forward<Xs>(xs),
+                hana::lift<M>,
+                hana::curry<3>(hana::partial(
+                    foldable_detail::foldrM_helper{}, detail::std::forward<F>(f)
+                ))
+            )(detail::std::forward<S>(s));
         }
     };
 
