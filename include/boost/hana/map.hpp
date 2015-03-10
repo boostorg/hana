@@ -118,19 +118,29 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Conversions
     //////////////////////////////////////////////////////////////////////////
+    namespace map_detail {
+        struct extract {
+            template <typename X, typename Member>
+            constexpr decltype(auto) operator()(X&& x, Member&& member) const {
+                using P = typename datatype<Member>::type;
+                return hana::make<P>(
+                    hana::first(detail::std::forward<Member>(member)),
+                    hana::second(detail::std::forward<Member>(member))(
+                        detail::std::forward<X>(x)
+                    )
+                );
+            }
+        };
+    }
+
     template <typename R>
     struct to_impl<Map, R, when<models<Record, R>{}>> {
         template <typename X>
         static constexpr decltype(auto) apply(X&& x) {
-            auto extract = [x(detail::std::forward<X>(x))](auto&& member) -> decltype(auto) {
-                using P = typename datatype<decltype(member)>::type;
-                return hana::make<P>(
-                    hana::first(detail::std::forward<decltype(member)>(member)),
-                    hana::second(detail::std::forward<decltype(member)>(member))(x)
-                );
-            };
-            return hana::to<Map>(hana::transform(members<R>(),
-                                 detail::std::move(extract)));
+            return hana::to<Map>(
+                hana::transform(members<R>(),
+                    hana::partial(map_detail::extract{},
+                                  detail::std::forward<X>(x))));
         }
     };
 
