@@ -22,6 +22,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/dependent_on.hpp>
 #include <boost/hana/detail/generate_integer_sequence.hpp>
 #include <boost/hana/detail/std/decay.hpp>
+#include <boost/hana/detail/std/declval.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integer_sequence.hpp>
@@ -271,12 +272,12 @@ namespace boost { namespace hana {
         #define BOOST_HANA_PP_TRANSFORM(REF)                                \
             template <typename ...Xs, typename F>                           \
             static constexpr decltype(auto)                                 \
-            transform_helper(detail::closure_impl<Xs...> REF xs, F&& f, ...)\
+            apply_fun(detail::closure_impl<Xs...> REF xs, F&& f)            \
             { return hana::make<Tuple>(f(static_cast<Xs REF>(xs).get)...); }\
                                                                             \
             template <typename X, typename F>                               \
             static constexpr decltype(auto)                                 \
-            transform_helper(detail::closure_impl<X> REF xs, F&& f, ...) {  \
+            apply_fun(detail::closure_impl<X> REF xs, F&& f) {              \
                 return hana::make<Tuple>(detail::std::forward<F>(f)(        \
                     static_cast<X REF>(xs).get                              \
                 ));                                                         \
@@ -287,13 +288,24 @@ namespace boost { namespace hana {
 
         template <typename ...T, template <typename ...> class F>
         static constexpr auto
-        transform_helper(_tuple_t<T...>, _metafunction<F>, int)
+        apply_metafun(_tuple_t<T...> const&, _metafunction<F> const&)
         { return tuple_t<typename F<T>::type...>; }
 
         template <typename Xs, typename F>
-        static constexpr auto apply(Xs&& xs, F&& f) {
-            return transform_helper(detail::std::forward<Xs>(xs),
-                                    detail::std::forward<F>(f), int{});
+        static constexpr auto apply_dispatch(Xs&& xs, F&& f, int)
+            -> decltype(apply_metafun(xs, f))
+        { return apply_metafun(xs, f); }
+
+        template <typename Xs, typename F>
+        static constexpr decltype(auto) apply_dispatch(Xs&& xs, F&& f, long) {
+            return apply_fun(detail::std::forward<Xs>(xs),
+                             detail::std::forward<F>(f));
+        }
+
+        template <typename Xs, typename F>
+        static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
+            return apply_dispatch(detail::std::forward<Xs>(xs),
+                                  detail::std::forward<F>(f), int{});
         }
     };
 

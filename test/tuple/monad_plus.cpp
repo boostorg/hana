@@ -21,6 +21,10 @@ using namespace boost::hana;
 template <int i>
 using eq = test::ct_eq<i>;
 
+template <typename ...>
+struct F { struct type; };
+struct t1; struct t2; struct t3; struct t4;
+
 int main() {
     //////////////////////////////////////////////////////////////////////////
     // Setup for the laws below
@@ -46,6 +50,37 @@ int main() {
     // Functor
     //////////////////////////////////////////////////////////////////////////
     {
+        // Test transform with tuple_t and Metafunctions
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            transform(tuple_t<>, metafunction<F>),
+            tuple_t<>
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            transform(tuple_t<t1>, metafunction<F>),
+            tuple_t<F<t1>::type>
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            transform(tuple_t<t1, t2>, metafunction<F>),
+            tuple_t<F<t1>::type, F<t2>::type>
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            transform(tuple_t<t1, t2, t3>, metafunction<F>),
+            tuple_t<F<t1>::type, F<t2>::type, F<t3>::type>
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            transform(tuple_t<t1, t2, t3, t4>, metafunction<F>),
+            tuple_t<F<t1>::type, F<t2>::type, F<t3>::type, F<t4>::type>
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            transform(tuple_t<t1, t2, t3, t4>, template_<F>),
+            tuple_t<F<t1>, F<t2>, F<t3>, F<t4>>
+        ));
+
         test::TestFunctor<Tuple>{eq_tuples};
     }
 
