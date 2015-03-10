@@ -1,6 +1,7 @@
 /*!
 @file
-Defines everything in the `boost::hana::traits` namespace.
+Defines adapters for standard components in the `<type_traits>` header, and
+also most things in the `boost::hana::traits` namespace.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
@@ -10,9 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EXT_STD_TYPE_TRAITS_HPP
 #define BOOST_HANA_EXT_STD_TYPE_TRAITS_HPP
 
-// Those are defined in <type_traits>, so it only makes sense that we provide
-// them when this header is included.
-#include <boost/hana/ext/std/integer_sequence.hpp>
 #include <boost/hana/ext/std/integral_constant.hpp>
 
 #include <boost/hana/detail/std/size_t.hpp>

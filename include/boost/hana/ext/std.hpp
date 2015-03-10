@@ -22,6 +22,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/ext/std/pair.hpp>
 #include <boost/hana/ext/std/ratio.hpp>
 #include <boost/hana/ext/std/type_traits.hpp>
+#include <boost/hana/ext/std/utility.hpp>
 #include <boost/hana/ext/std/vector.hpp>
 
 #endif // !BOOST_HANA_EXT_STD_HPP
