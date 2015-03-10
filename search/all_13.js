@@ -16,6 +16,7 @@ var searchData=
   ['set',['Set',['../structboost_1_1hana_1_1_set.html',1,'boost::hana']]],
   ['set_2ehpp',['set.hpp',['../fwd_2set_8hpp.html',1,'']]],
   ['set_2ehpp',['set.hpp',['../set_8hpp.html',1,'']]],
+  ['sfinae',['sfinae',['../structboost_1_1hana_1_1_maybe.html#aa4c8c0b1ef3d8206974734b93646c9fd',1,'boost::hana::Maybe']]],
   ['short_5f',['short_',['../structboost_1_1hana_1_1_integral_constant.html#aaf7583b06af7fedb758e4966f0ee4605',1,'boost::hana::IntegralConstant']]],
   ['size_5ft',['size_t',['../structboost_1_1hana_1_1_integral_constant.html#a44ed105eee40cf7c4fef4b4524575595',1,'boost::hana::IntegralConstant']]],
   ['size_5ft_2ehpp',['size_t.hpp',['../size__t_8hpp.html',1,'']]],

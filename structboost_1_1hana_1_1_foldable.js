@@ -1,7 +1,9 @@
 var structboost_1_1hana_1_1_foldable =
 [
     [ "foldl", "structboost_1_1hana_1_1_foldable.html#a0a5d375abcde2ceed89662df491a2c43", null ],
+    [ "foldlM", "structboost_1_1hana_1_1_foldable.html#ad8c31306de6967bc6bbb1ef9587975f9", null ],
     [ "foldr", "structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d", null ],
+    [ "foldrM", "structboost_1_1hana_1_1_foldable.html#ae89d9d0e09f3181c4d90624c426e3d88", null ],
     [ "foldr1", "structboost_1_1hana_1_1_foldable.html#a03b3683b885c27b5c607fe6f0d2f7356", null ],
     [ "foldl1", "structboost_1_1hana_1_1_foldable.html#a8ca4972e61b7ad36ff9fcca9e6131da6", null ],
     [ "for_each", "structboost_1_1hana_1_1_foldable.html#a80176fbdfbccc09e902263557eb0984d", null ],

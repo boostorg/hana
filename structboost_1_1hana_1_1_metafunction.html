@@ -171,7 +171,8 @@ template&lt;template&lt; typename...&gt; class f&gt; </div>
 <div class="line">    decltype(template_&lt;f&gt;)::apply&lt;x, y&gt;::type,</div>
 <div class="line">    f&lt;x, y&gt;</div>
 <div class="line">&gt;::value, <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment -->
+</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd><code>template_</code> can't be SFINAE-friendly right now because of <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/cwg_active.html#1430">Core issue 1430</a>. </dd></dl>
+
 </div>
 </div>
 <a class="anchor" id="adc27574958fb3f1252b6a41d71a2a085"></a>

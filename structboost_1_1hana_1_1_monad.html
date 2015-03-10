@@ -192,23 +192,7 @@ Synopsis of methods</h2></td></tr>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">// sfinae_impl(f, x...) is just(f(x...)) if that expression is</span></div>
-<div class="line"><span class="comment">// well-formed, and nothing otherwise.</span></div>
-<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> F, <span class="keyword">typename</span> ...X&gt;</div>
-<div class="line">constexpr <span class="keyword">auto</span> sfinae_impl(F f, X ...x) -&gt; decltype(just(f(x...)))</div>
-<div class="line">{ <span class="keywordflow">return</span> just(f(x...)); }</div>
-<div class="line"></div>
-<div class="line">constexpr <span class="keyword">auto</span> sfinae_impl(...) { <span class="keywordflow">return</span> nothing; }</div>
-<div class="line"></div>
-<div class="line"><span class="comment">// sfinae(f)(x...) is equivalent to sfinae_impl(f, x...). In other words,</span></div>
-<div class="line"><span class="comment">// sfinae(f)(x...) is just(f(x...)) if that expression is well-formed,</span></div>
-<div class="line"><span class="comment">// and nothing otherwise.</span></div>
-<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> F&gt;</div>
-<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> sfinae(F f) {</div>
-<div class="line">    <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> ...x) { <span class="keywordflow">return</span> sfinae_impl(f, x...); };</div>
-<div class="line">}</div>
-<div class="line"></div>
-<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> deref = [](<span class="keyword">auto</span> x) -&gt; decltype(*x) {</div>
+<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> deref = [](<span class="keyword">auto</span> x) -&gt; decltype(*x) {</div>
 <div class="line">    <span class="keywordflow">return</span> *x;</div>
 <div class="line">};</div>
 <div class="line"></div>

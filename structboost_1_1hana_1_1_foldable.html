@@ -125,9 +125,17 @@ Synopsis of methods</h2></td></tr>
 <tr class="memitem:a0a5d375abcde2ceed89662df491a2c43"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_foldable.html#a0a5d375abcde2ceed89662df491a2c43">foldl</a></td></tr>
 <tr class="memdesc:a0a5d375abcde2ceed89662df491a2c43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Left-associative fold of a structure using a binary operation.  <a href="#a0a5d375abcde2ceed89662df491a2c43">More...</a><br /></td></tr>
 <tr class="separator:a0a5d375abcde2ceed89662df491a2c43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8c31306de6967bc6bbb1ef9587975f9"><td class="memTemplParams" colspan="2">template&lt;typename M &gt; </td></tr>
+<tr class="memitem:ad8c31306de6967bc6bbb1ef9587975f9"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_foldable.html#ad8c31306de6967bc6bbb1ef9587975f9">foldlM</a></td></tr>
+<tr class="memdesc:ad8c31306de6967bc6bbb1ef9587975f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Monadic left fold over the elements of a structure.  <a href="#ad8c31306de6967bc6bbb1ef9587975f9">More...</a><br /></td></tr>
+<tr class="separator:ad8c31306de6967bc6bbb1ef9587975f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab1dcc2a64352a571154c2ebd8fd1b37d"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a></td></tr>
 <tr class="memdesc:ab1dcc2a64352a571154c2ebd8fd1b37d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Right-associative fold of a structure using a binary operation.  <a href="#ab1dcc2a64352a571154c2ebd8fd1b37d">More...</a><br /></td></tr>
 <tr class="separator:ab1dcc2a64352a571154c2ebd8fd1b37d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae89d9d0e09f3181c4d90624c426e3d88"><td class="memTemplParams" colspan="2">template&lt;typename M &gt; </td></tr>
+<tr class="memitem:ae89d9d0e09f3181c4d90624c426e3d88"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_foldable.html#ae89d9d0e09f3181c4d90624c426e3d88">foldrM</a></td></tr>
+<tr class="memdesc:ae89d9d0e09f3181c4d90624c426e3d88"><td class="mdescLeft">&#160;</td><td class="mdescRight">Monadic right fold over the elements of a structure.  <a href="#ae89d9d0e09f3181c4d90624c426e3d88">More...</a><br /></td></tr>
+<tr class="separator:ae89d9d0e09f3181c4d90624c426e3d88"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a03b3683b885c27b5c607fe6f0d2f7356"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_foldable.html#a03b3683b885c27b5c607fe6f0d2f7356">foldr1</a></td></tr>
 <tr class="memdesc:a03b3683b885c27b5c607fe6f0d2f7356"><td class="mdescLeft">&#160;</td><td class="mdescRight">Variant of <code>foldr</code> that has no base case, and thus may only be applied to non-empty structures.  <a href="#a03b3683b885c27b5c607fe6f0d2f7356">More...</a><br /></td></tr>
 <tr class="separator:a03b3683b885c27b5c607fe6f0d2f7356"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -208,12 +216,97 @@ Synopsis of methods</h2></td></tr>
 <div class="line">    <span class="keywordflow">return</span> <span class="stringliteral">&quot;(&quot;</span> + to_string(x) + <span class="stringliteral">&quot; + &quot;</span> + to_string(y) + <span class="stringliteral">&quot;)&quot;</span>;</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a0a5d375abcde2ceed89662df491a2c43">foldl</a>(make&lt;Tuple&gt;(2, <span class="stringliteral">&quot;3&quot;</span>, <span class="charliteral">&#39;4&#39;</span>), <span class="stringliteral">&quot;1&quot;</span>, show) == <span class="stringliteral">&quot;(((1 + 2) + 3) + 4)&quot;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_foldable.html#a0a5d375abcde2ceed89662df491a2c43">foldl</a>(make&lt;Tuple&gt;(2, <span class="stringliteral">&quot;3&quot;</span>, <span class="charliteral">&#39;4&#39;</span>), <span class="stringliteral">&quot;1&quot;</span>, show) == <span class="stringliteral">&quot;(((1 + 2) + 3) + 4)&quot;</span></div>
+<div class="line">);</div>
 </div><!-- fragment --><h2>Benchmarks </h2>
 <div class="image">
 <img src="benchmark/foldable/foldl.ctime.png" alt="foldl.ctime.png"/>
 </div>
  
+</div>
+</div>
+<a class="anchor" id="ad8c31306de6967bc6bbb1ef9587975f9"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename M &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto foldlM</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; foldable, <span class="keyword">auto</span>&amp;&amp; state, <span class="keyword">auto</span>&amp;&amp; f) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Monadic left fold over the elements of a structure. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">M</td><td>A <a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a> corresponding to the data type of <code>f</code>'s result.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">foldable</td><td>The structure to fold.</td></tr>
+    <tr><td class="paramname">state</td><td>The initial value used for folding. If the structure is empty, this value is lifted in to the <code>M</code> <a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a> and then returned as-is.</td></tr>
+    <tr><td class="paramname">f</td><td>A binary function called as <code>f(state, x)</code>, where <code>state</code> is the result accumulated so far and <code>x</code> is an element in the structure. The function must return its result inside the <code>M</code> <a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<h2>Example </h2>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> builtin_common_t = sfinae([](<span class="keyword">auto</span> t, <span class="keyword">auto</span> u) -&gt; decltype(type&lt;</div>
+<div class="line">    std::decay_t&lt;decltype(<span class="keyword">true</span> ? traits::declval(t) : traits::declval(u))&gt;</div>
+<div class="line">&gt;) { <span class="keywordflow">return</span> {}; });</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...T&gt;</div>
+<div class="line"><span class="keyword">struct </span>common_type { };</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U&gt;</div>
+<div class="line"><span class="keyword">struct </span>common_type&lt;T, U&gt;</div>
+<div class="line">    : std::conditional_t&lt;std::is_same&lt;std::decay_t&lt;T&gt;, T&gt;{} &amp;&amp;</div>
+<div class="line">                         std::is_same&lt;std::decay_t&lt;U&gt;, U&gt;{},</div>
+<div class="line">        decltype(builtin_common_t(type&lt;T&gt;, type&lt;U&gt;)),</div>
+<div class="line">        common_type&lt;std::decay_t&lt;T&gt;, std::decay_t&lt;U&gt;&gt;</div>
+<div class="line">    &gt;</div>
+<div class="line">{ };</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T1, <span class="keyword">typename</span> ...Tn&gt;</div>
+<div class="line"><span class="keyword">struct </span>common_type&lt;T1, Tn...&gt;</div>
+<div class="line">    : decltype(foldlM&lt;Maybe&gt;(tuple_t&lt;Tn...&gt;,</div>
+<div class="line">                             type&lt;std::decay_t&lt;T1&gt;&gt;,</div>
+<div class="line">                             sfinae(metafunction&lt;common_type&gt;)))</div>
+<div class="line">{ };</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...Ts&gt;</div>
+<div class="line"><span class="keyword">using</span> common_type_t = <span class="keyword">typename</span> common_type&lt;Ts...&gt;::type;</div>
+<div class="line"></div>
+<div class="line">static_assert(std::is_same&lt;</div>
+<div class="line">    common_type_t&lt;char, short, char, short&gt;, <span class="keywordtype">int</span>&gt;{}</div>
+<div class="line">, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line">static_assert(std::is_same&lt;</div>
+<div class="line">    common_type_t&lt;char, double, short, char, short, double&gt;, <span class="keywordtype">double</span>&gt;{}</div>
+<div class="line">, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line">static_assert(std::is_same&lt;</div>
+<div class="line">    common_type_t&lt;char, short, float, short&gt;, <span class="keywordtype">float</span></div>
+<div class="line">&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line">static_assert(</div>
+<div class="line">    sfinae(metafunction&lt;common_type&gt;)(type&lt;int&gt;, type&lt;int&gt;, type&lt;int*&gt;) == nothing</div>
+<div class="line">, <span class="stringliteral">&quot;&quot;</span>);</div>
+</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="ab1dcc2a64352a571154c2ebd8fd1b37d"></a>
@@ -255,12 +348,74 @@ Synopsis of methods</h2></td></tr>
 <div class="line">    <span class="keywordflow">return</span> <span class="stringliteral">&quot;(&quot;</span> + to_string(x) + <span class="stringliteral">&quot; + &quot;</span> + to_string(y) + <span class="stringliteral">&quot;)&quot;</span>;</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>(make&lt;Tuple&gt;(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>), <span class="stringliteral">&quot;4&quot;</span>, show) == <span class="stringliteral">&quot;(1 + (2 + (3 + 4)))&quot;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>(make&lt;Tuple&gt;(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>), <span class="stringliteral">&quot;4&quot;</span>, show) == <span class="stringliteral">&quot;(1 + (2 + (3 + 4)))&quot;</span></div>
+<div class="line">);</div>
 </div><!-- fragment --><h2>Benchmarks </h2>
 <div class="image">
 <img src="benchmark/foldable/foldr.ctime.png" alt="foldr.ctime.png"/>
 </div>
  
+</div>
+</div>
+<a class="anchor" id="ae89d9d0e09f3181c4d90624c426e3d88"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename M &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto foldrM</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; foldable, <span class="keyword">auto</span>&amp;&amp; state, <span class="keyword">auto</span>&amp;&amp; f) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Monadic right fold over the elements of a structure. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">M</td><td>A <a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a> corresponding to the data type of <code>f</code>'s result.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">foldable</td><td>The structure to fold.</td></tr>
+    <tr><td class="paramname">state</td><td>The initial value used for folding. If the structure is empty, this value is lifted in to the <code>M</code> <a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a> and then returned as-is.</td></tr>
+    <tr><td class="paramname">f</td><td>A binary function called as <code>f(x, state)</code>, where <code>state</code> is the result accumulated so far and <code>x</code> is an element in the structure. The function must return its result inside the <code>M</code> <a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<h2>Example </h2>
+<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> safediv = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
+<div class="line">    <span class="keywordflow">return</span> eval_if(y == int_&lt;0&gt;,</div>
+<div class="line">        <a class="code" href="group__group-functional.html#ga835970cb25a0c8dc200f1e5f8943538b">always</a>(nothing),</div>
+<div class="line">        [=](<span class="keyword">auto</span> <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>) { <span class="keywordflow">return</span> just(<a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>(x) / y); }</div>
+<div class="line">    );</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
+<div class="line">    foldrM&lt;Maybe&gt;(tuple_c&lt;int, 1000, 8, 4&gt;, int_&lt;2&gt;, safediv)</div>
+<div class="line">        ==</div>
+<div class="line">    just(int_&lt;1000&gt; / (int_&lt;8&gt; / (int_&lt;4&gt; / int_&lt;2&gt;)))</div>
+<div class="line">);</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
+<div class="line">    foldrM&lt;Maybe&gt;(tuple_c&lt;int, 1000, 8, 4&gt;, int_&lt;0&gt;, safediv)</div>
+<div class="line">        ==</div>
+<div class="line">    nothing</div>
+<div class="line">);</div>
+</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a03b3683b885c27b5c607fe6f0d2f7356"></a>
@@ -301,7 +456,9 @@ Synopsis of methods</h2></td></tr>
 <div class="line">    <span class="keywordflow">return</span> <span class="stringliteral">&quot;(&quot;</span> + to_string(x) + <span class="stringliteral">&quot; + &quot;</span> + to_string(y) + <span class="stringliteral">&quot;)&quot;</span>;</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a03b3683b885c27b5c607fe6f0d2f7356">foldr1</a>(make&lt;Tuple&gt;(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>), show) == <span class="stringliteral">&quot;(1 + (2 + 3))&quot;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_foldable.html#a03b3683b885c27b5c607fe6f0d2f7356">foldr1</a>(make&lt;Tuple&gt;(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>), show) == <span class="stringliteral">&quot;(1 + (2 + 3))&quot;</span></div>
+<div class="line">);</div>
 </div><!-- fragment --><h2>Benchmarks </h2>
 <div class="image">
 <img src="benchmark/foldable/foldr1.ctime.png" alt="foldr1.ctime.png"/>
@@ -347,7 +504,9 @@ Synopsis of methods</h2></td></tr>
 <div class="line">    <span class="keywordflow">return</span> <span class="stringliteral">&quot;(&quot;</span> + to_string(x) + <span class="stringliteral">&quot; + &quot;</span> + to_string(y) + <span class="stringliteral">&quot;)&quot;</span>;</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a8ca4972e61b7ad36ff9fcca9e6131da6">foldl1</a>(make&lt;Tuple&gt;(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>), show) == <span class="stringliteral">&quot;((1 + 2) + 3)&quot;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_foldable.html#a8ca4972e61b7ad36ff9fcca9e6131da6">foldl1</a>(make&lt;Tuple&gt;(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>), show) == <span class="stringliteral">&quot;((1 + 2) + 3)&quot;</span></div>
+<div class="line">);</div>
 </div><!-- fragment --><h2>Benchmarks </h2>
 <div class="image">
 <img src="benchmark/foldable/foldl1.ctime.png" alt="foldl1.ctime.png"/>
@@ -471,7 +630,9 @@ Synopsis of methods</h2></td></tr>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1_foldable.html#a11341a0d825e7898572c1d22d1efe8f4">minimum_by</a>(size, make&lt;Tuple&gt;(make&lt;Tuple&gt;(), make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>), make&lt;Tuple&gt;(3.3, <span class="keyword">nullptr</span>, 4)))</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_foldable.html#a11341a0d825e7898572c1d22d1efe8f4">minimum_by</a>(size, make&lt;Tuple&gt;(make&lt;Tuple&gt;(),</div>
+<div class="line">                                 make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>),</div>
+<div class="line">                                 make&lt;Tuple&gt;(3.3, <span class="keyword">nullptr</span>, 4)))</div>
 <div class="line">    ==</div>
 <div class="line">    make&lt;Tuple&gt;()</div>
 <div class="line">);</div>
@@ -550,7 +711,9 @@ Synopsis of methods</h2></td></tr>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1_foldable.html#a6f0b4fa3e86674f958b725d44607ec5e">maximum_by</a>(size, make&lt;Tuple&gt;(make&lt;Tuple&gt;(), make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>), make&lt;Tuple&gt;(3.3, <span class="keyword">nullptr</span>, 4)))</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_foldable.html#a6f0b4fa3e86674f958b725d44607ec5e">maximum_by</a>(size, make&lt;Tuple&gt;(make&lt;Tuple&gt;(),</div>
+<div class="line">                                 make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>),</div>
+<div class="line">                                 make&lt;Tuple&gt;(3.3, <span class="keyword">nullptr</span>, 4)))</div>
 <div class="line">    ==</div>
 <div class="line">    make&lt;Tuple&gt;(3.3, <span class="keyword">nullptr</span>, 4)</div>
 <div class="line">);</div>
