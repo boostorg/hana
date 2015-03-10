@@ -14,6 +14,12 @@ using namespace boost::hana;
 
 struct x1; struct x2; struct x3;
 
+template <typename F, typename ...T>
+constexpr auto valid_call(F f, T ...t) -> decltype(((void)f(t...)), true)
+{ return true; }
+constexpr auto valid_call(...)
+{ return false; }
+
 // metafunction
 namespace tc1 {
     template <typename ...> struct f { struct type; };
@@ -26,6 +32,11 @@ namespace tc1 {
     static_assert(std::is_same<F::apply<x1>, f<x1>>::value, "");
     static_assert(std::is_same<F::apply<x1, x2>, f<x1, x2>>::value, "");
     static_assert(std::is_same<F::apply<x1, x2, x3>, f<x1, x2, x3>>::value, "");
+
+    // Make sure we're SFINAE-friendly
+    template <typename ...T> struct no_type { };
+    static_assert(!valid_call(metafunction<no_type>), "");
+    static_assert(!valid_call(metafunction<no_type>, type<x1>), "");
 }
 
 // metafunction_class
@@ -40,6 +51,11 @@ namespace tc2 {
     static_assert(std::is_same<F::apply<x1>, f::apply<x1>>::value, "");
     static_assert(std::is_same<F::apply<x1, x2>, f::apply<x1, x2>>::value, "");
     static_assert(std::is_same<F::apply<x1, x2, x3>, f::apply<x1, x2, x3>>::value, "");
+
+    // Make sure we're SFINAE-friendly
+    struct no_type { template <typename ...> struct apply { }; };
+    static_assert(!valid_call(metafunction_class<no_type>), "");
+    static_assert(!valid_call(metafunction_class<no_type>, type<x1>), "");
 }
 
 // template_
@@ -54,6 +70,10 @@ namespace tc3 {
     static_assert(std::is_same<F::apply<x1>::type, f<x1>>::value, "");
     static_assert(std::is_same<F::apply<x1, x2>::type, f<x1, x2>>::value, "");
     static_assert(std::is_same<F::apply<x1, x2, x3>::type, f<x1, x2, x3>>::value, "");
+
+    // Make sure we can use aliases
+    template <typename T> using alias = T;
+    static_assert(template_<alias>(type<x1>) == type<x1>, "");
 }
 
 // trait

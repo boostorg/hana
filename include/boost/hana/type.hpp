@@ -33,6 +33,40 @@ namespace boost { namespace hana {
     //! @endcond
 
     //////////////////////////////////////////////////////////////////////////
+    // template
+    //////////////////////////////////////////////////////////////////////////
+    template <template <typename ...> class f>
+    struct _template {
+        struct hana { using datatype = Metafunction; };
+
+        template <typename ...xs>
+        struct apply {
+            using type = f<xs...>;
+        };
+
+        template <typename ...xs>
+        constexpr auto operator()(xs...) const
+        { return type<f<typename xs::type...>>; }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // metafunction
+    //////////////////////////////////////////////////////////////////////////
+    template <template <typename ...> class f>
+    struct _metafunction {
+        struct hana { using datatype = Metafunction; };
+
+        template <typename ...xs>
+        using apply = f<xs...>;
+
+        template <typename ...xs>
+        constexpr auto operator()(xs...) const -> decltype(
+            type<typename f<typename xs::type...>::type>
+        )
+        { return type<typename f<typename xs::type...>::type>; }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
     // Operators
     //////////////////////////////////////////////////////////////////////////
     template <>

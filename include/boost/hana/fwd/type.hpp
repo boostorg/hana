@@ -169,16 +169,6 @@ namespace boost { namespace hana {
     //!   foundation of this data type.
     //! - Consider instantiating `Functor`, `Applicative` and `Monad` if
     //!   that's possible.
-    //!
-    //! @bug
-    //! `metafunction` and friends are not SFINAE-friendly right now. See
-    //! [this GCC bug][GCC_58498] and also [Core 1430 issue][Core_1430] issue.
-    //! Once this issue is resolved, look at the unit tests for those utilities
-    //! and either uncomment or remove the relevant test section.
-    //!
-    //!
-    //! [Core_1430]: http://www.open-std.org/jtc1/sc22/wg21/docs/cwg_active.html#1430
-    //! [GCC_58498]: http://gcc.gnu.org/bugzilla/show_bug.cgi?id=59498
     struct Type { };
 
     //! Creates an object representing the C++ type `T`.
@@ -265,6 +255,14 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/type.cpp template
+    //!
+    //!
+    //! @note
+    //! `template_` can't be SFINAE-friendly right now because of
+    //! [Core issue 1430][1].
+    //!
+    //!
+    //! [1]: http://www.open-std.org/jtc1/sc22/wg21/docs/cwg_active.html#1430
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <template <typename ...> class f>
     constexpr auto template_ = [](auto ...ts) {
@@ -274,18 +272,7 @@ namespace boost { namespace hana {
     };
 #else
     template <template <typename ...> class f>
-    struct _template {
-        struct hana { using datatype = Metafunction; };
-
-        template <typename ...xs>
-        struct apply {
-            using type = f<xs...>;
-        };
-
-        template <typename ...xs>
-        constexpr auto operator()(xs...) const
-        { return type<f<typename xs::type...>>; }
-    };
+    struct _template;
 
     template <template <typename ...> class f>
     constexpr _template<f> template_{};
@@ -311,16 +298,7 @@ namespace boost { namespace hana {
     };
 #else
     template <template <typename ...> class f>
-    struct _metafunction {
-        struct hana { using datatype = Metafunction; };
-
-        template <typename ...xs>
-        using apply = f<xs...>;
-
-        template <typename ...xs>
-        constexpr auto operator()(xs...) const
-        { return type<typename f<typename xs::type...>::type>; }
-    };
+    struct _metafunction;
 
     template <template <typename ...> class f>
     constexpr _metafunction<f> metafunction{};
@@ -345,19 +323,9 @@ namespace boost { namespace hana {
     };
 #else
     template <typename f>
-    struct _metafunction_class {
-        struct hana { using datatype = Metafunction; };
-
-        template <typename ...xs>
-        using apply = typename f::template apply<xs...>;
-
-        template <typename ...xs>
-        constexpr auto operator()(xs...) const {
-            return type<
-                typename f::template apply<typename xs::type...>::type
-            >;
-        }
-    };
+    struct _metafunction_class
+        : _metafunction<f::template apply>
+    { };
 
     template <typename f>
     constexpr _metafunction_class<f> metafunction_class{};
