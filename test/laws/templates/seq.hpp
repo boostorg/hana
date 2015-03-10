@@ -67,7 +67,6 @@ int main() {
         , test::seq(ct_ord<0>{}, ct_ord<1>{})
         , test::seq(ct_ord<0>{}, ct_ord<1>{}, ct_ord<2>{})
         , test::seq(ct_ord<0>{}, ct_ord<1>{}, ct_ord<2>{}, ct_ord<3>{})
-        , test::seq(ct_ord<0>{}, ct_ord<1>{}, ct_ord<2>{}, ct_ord<3>{}, ct_ord<4>{})
     );
     (void)ords;
 

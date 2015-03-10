@@ -28,9 +28,7 @@ int main() {
         , make<Tuple>(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{}, eq<5>{})
     );
 
-    auto eq_tuple_keys = make<Tuple>(
-        eq<3>{}, eq<5>{}, eq<7>{}
-    );
+    auto eq_tuple_keys = make<Tuple>(eq<3>{}, eq<5>{});
 
     //////////////////////////////////////////////////////////////////////////
     // Searchable
