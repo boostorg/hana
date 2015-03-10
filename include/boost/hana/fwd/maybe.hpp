@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_MAYBE_HPP
 
 #include <boost/hana/core/operators.hpp>
-#include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/move.hpp>
 
@@ -31,6 +30,19 @@ namespace boost { namespace hana {
     //! known at compile-time for the return type to be computable by the
     //! compiler. This makes `Maybe` well suited for static metaprogramming
     //! tasks but very poor for anything dynamic.
+    //!
+    //!
+    //! Interoperation with `Type`s
+    //! ---------------------------
+    //! When a `just` contains an object of type `T` which is a `Type`,
+    //! it has a nested `::%type` alias equivalent to `T::%type`. `nothing`,
+    //! however, never has a nested `::%type` alias. If `t` is a `Type`,
+    //! this allows `decltype(just(t))` to be seen as a nullary metafunction
+    //! equivalent to `decltype(t)`. Along with the `sfinae` function,
+    //! this allows `Maybe` to interact seamlessly with SFINAE-friendly
+    //! metafunctions.
+    //! Example:
+    //! @snippet example/maybe.cpp sfinae_friendly_metafunctions
     //!
     //!
     //! Modeled concepts
@@ -126,14 +138,15 @@ namespace boost { namespace hana {
         return unspecified-type;
     };
 #else
-    template <typename T, typename = operators::adl>
-    struct _just {
-        T val;
-        static constexpr bool is_just = true;
-        struct hana { using datatype = Maybe; };
+    template <typename T>
+    struct _just;
+
+    struct _make_just {
+        template <typename T>
+        constexpr auto operator()(T&&) const;
     };
 
-    constexpr detail::create<_just> just{};
+    constexpr _make_just just{};
 #endif
 
     //! An empty optional value.
@@ -352,6 +365,45 @@ namespace boost { namespace hana {
     };
 
     constexpr _from_just from_just{};
+#endif
+
+    //! Calls a function if the call expression is well-formed.
+    //! @relates Maybe
+    //!
+    //! Given a function `f`, `sfinae` returns a new function applying `f`
+    //! to its arguments and returning `just` the result if the call is
+    //! well-formed, and `nothing` otherwise. In other words, `sfinae(f)(x...)`
+    //! is `just(f(x...))` if that expression is well-formed, and `nothing`
+    //! otherwise. Note, however, that it is possible for an expression
+    //! `f(x...)` to be well-formed as far as SFINAE is concerned, but
+    //! trying to actually compile `f(x...)` still fails. In this case,
+    //! `sfinae` won't be able to detect it and a hard failure is likely
+    //! to happen.
+    //!
+    //! The fact that `sfinae` returns a function allows turning functions
+    //! that might fail to compile into ones whose compilation failure may
+    //! easily be handled through `Maybe`.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/maybe.cpp sfinae
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    auto sfinae = [](auto&& f) {
+        return [perfect-capture](auto&& ...x) {
+            if (decltype(forwarded(f)(forwarded(x)...)) is well-formed)
+                return just(forwarded(f)(forwarded(x)...));
+            else
+                return nothing;
+        };
+    };
+#else
+    struct _sfinae {
+        template <typename F>
+        constexpr decltype(auto) operator()(F&& f) const;
+    };
+
+    constexpr _sfinae sfinae{};
 #endif
 }} // end namespace boost::hana
 

@@ -15,7 +15,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/applicative.hpp>
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
+#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/operators.hpp>
+#include <boost/hana/detail/std/decay.hpp>
+#include <boost/hana/detail/std/declval.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/move.hpp>
@@ -24,7 +27,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/id.hpp>
+#include <boost/hana/functional/partial.hpp>
 #include <boost/hana/functor.hpp>
+#include <boost/hana/fwd/type.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/monad.hpp>
 #include <boost/hana/monad_plus.hpp>
@@ -34,6 +39,38 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
+    //////////////////////////////////////////////////////////////////////////
+    // _just
+    //////////////////////////////////////////////////////////////////////////
+    namespace maybe_detail {
+        template <typename T, typename = typename datatype<T>::type>
+        struct nested_type { };
+
+        template <typename T>
+        struct nested_type<T, Type> { using type = typename T::type; };
+    }
+
+    template <typename T>
+    struct _just : operators::adl, maybe_detail::nested_type<T> {
+        T val;
+        static constexpr bool is_just = true;
+        struct hana { using datatype = Maybe; };
+
+        template <typename U, typename = decltype(T(detail::std::declval<U>()))>
+        explicit constexpr _just(U&& u)
+            : val(detail::std::forward<U>(u))
+        { }
+    };
+
+    //! @cond
+    template <typename T>
+    constexpr auto _make_just::operator()(T&& t) const {
+        return _just<typename detail::std::decay<T>::type>(
+            detail::std::forward<T>(t)
+        );
+    }
+    //! @endcond
+
     //////////////////////////////////////////////////////////////////////////
     // Operators
     //////////////////////////////////////////////////////////////////////////
@@ -104,6 +141,32 @@ namespace boost { namespace hana {
                                          detail::std::forward<X>(x)},
             hana::always(nothing)
         );
+    }
+
+    //////////////////////////////////////////////////////////////////////////
+    // sfinae
+    //////////////////////////////////////////////////////////////////////////
+    namespace maybe_detail {
+        struct sfinae_impl {
+            template <typename F, typename ...X>
+            constexpr auto operator()(F&& f, X&& ...x) const -> decltype(
+                hana::just(
+                    detail::std::forward<F>(f)(detail::std::forward<X>(x)...)
+                )
+            ) {
+                return hana::just(
+                    detail::std::forward<F>(f)(detail::std::forward<X>(x)...)
+                );
+            }
+
+            constexpr auto operator()(...) const { return hana::nothing; }
+        };
+    }
+
+    template <typename F>
+    constexpr decltype(auto) _sfinae::operator()(F&& f) const {
+        return hana::partial(maybe_detail::sfinae_impl{},
+                             detail::std::forward<F>(f));
     }
 
     //! @endcond

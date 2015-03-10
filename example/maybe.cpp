@@ -7,9 +7,12 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/assert.hpp>
 #include <boost/hana/bool.hpp>
 #include <boost/hana/config.hpp>
+#include <boost/hana/ext/std/utility.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/maybe.hpp>
 #include <boost/hana/tuple.hpp>
+
+#include <type_traits>
 using namespace boost::hana;
 
 
@@ -190,6 +193,43 @@ constexpr auto just_x = just('x');
 
 (void)x;
 (void)just_x;
+
+}{
+
+//! [sfinae]
+BOOST_HANA_CONSTEXPR_LAMBDA auto incr = [](auto x) -> decltype(x + 1) {
+    return x + 1;
+};
+
+BOOST_HANA_CONSTEXPR_CHECK(sfinae(incr)(1) == just(2));
+
+struct invalid { };
+BOOST_HANA_CONSTANT_CHECK(sfinae(incr)(invalid{}) == nothing);
+//! [sfinae]
+
 }
 
 }
+
+template <typename ...>
+using void_t = void;
+
+template <typename T, typename = void>
+struct has_type : std::false_type { };
+
+template <typename T>
+struct has_type<T, void_t<typename T::type>>
+    : std::true_type
+{ };
+
+//! [sfinae_friendly_metafunctions]
+auto common_type_impl = sfinae([](auto t, auto u) -> decltype(type<
+    decltype(true ? traits::declval(t) : traits::declval(u))
+>) { return {}; });
+
+template <typename T, typename U>
+using common_type2 = decltype(common_type_impl(type<T>, type<U>));
+
+static_assert(!has_type<common_type2<int, int*>>{}, "");
+static_assert(std::is_same<common_type2<int, float>::type, float>{}, "");
+//! [sfinae_friendly_metafunctions]

@@ -6,31 +6,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/config.hpp>
-#include <boost/hana/functional/partial.hpp>
 #include <boost/hana/maybe.hpp>
-#include <boost/hana/tuple.hpp>
-
-#include <sstream>
 using namespace boost::hana;
 
 
 //! [bind]
-// sfinae_impl(f, x...) is just(f(x...)) if that expression is
-// well-formed, and nothing otherwise.
-template <typename F, typename ...X>
-constexpr auto sfinae_impl(F f, X ...x) -> decltype(just(f(x...)))
-{ return just(f(x...)); }
-
-constexpr auto sfinae_impl(...) { return nothing; }
-
-// sfinae(f)(x...) is equivalent to sfinae_impl(f, x...). In other words,
-// sfinae(f)(x...) is just(f(x...)) if that expression is well-formed,
-// and nothing otherwise.
-template <typename F>
-BOOST_HANA_CONSTEXPR_LAMBDA auto sfinae(F f) {
-    return [=](auto ...x) { return sfinae_impl(f, x...); };
-}
-
 BOOST_HANA_CONSTEXPR_LAMBDA auto deref = [](auto x) -> decltype(*x) {
     return *x;
 };

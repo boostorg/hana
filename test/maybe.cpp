@@ -8,6 +8,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/bool.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/tuple.hpp>
@@ -26,6 +27,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <test/cnumeric.hpp>
 #include <test/identity.hpp>
 #include <test/injection.hpp>
+
+#include <type_traits>
 using namespace boost::hana;
 
 
@@ -57,16 +60,33 @@ namespace boost { namespace hana { namespace test {
     );
 }}}
 
+template <typename ...>
+using void_t = void;
+
+template <typename T, typename = void>
+struct has_type : std::false_type { };
+
+template <typename T>
+struct has_type<T, void_t<typename T::type>>
+    : std::true_type
+{ };
 
 int main() {
     test::check_datatype<Maybe>();
     constexpr struct { } undefined{};
 
-    // Maybe methods
+    // Maybe interface
     {
         auto f = test::injection([]{});
         auto x = test::injection([]{})();
         auto y = test::injection([]{})();
+
+        // Interaction with Type (has a nested ::type)
+        {
+            struct T;
+            static_assert(std::is_same<decltype(just(type<T>))::type, T>{}, "");
+            static_assert(!has_type<decltype(nothing)>{}, "");
+        }
 
         // maybe
         {
@@ -111,6 +131,57 @@ int main() {
             BOOST_HANA_CONSTANT_CHECK(equal(
                 only_when(always(false_), undefined, x),
                 nothing
+            ));
+        }
+
+        // sfinae
+        {
+            struct invalid { };
+            auto f = test::injection([]{});
+            using test::x;
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                sfinae(f)(),
+                just(f())
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                sfinae(f)(x<0>),
+                just(f(x<0>))
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                sfinae(f)(x<0>, x<1>),
+                just(f(x<0>, x<1>))
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                sfinae(invalid{})(),
+                nothing
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                sfinae(invalid{})(x<0>),
+                nothing
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                sfinae(invalid{})(x<0>, x<1>),
+                nothing
+            ));
+
+            BOOST_HANA_CONSTEXPR_LAMBDA auto incr = sfinae([](auto x) -> decltype(x + 1) {
+                return x + 1;
+            });
+
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
+                incr(1), just(2)
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                incr(invalid{}), nothing
+            ));
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
+                bind(just(1), incr), just(2)
             ));
         }
     }
