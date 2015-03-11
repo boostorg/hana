@@ -81,6 +81,13 @@ if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND
     list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${_ext_std_tuple_tests})
 endif()
 
+# The sandbox/lambda_tuple.cpp test causes internal compiler errors on
+# Travis, so it's disabled there for now.
+if ($ENV{TRAVIS})
+    file(GLOB_RECURSE _sandbox_lambda_tuple_test "sandbox/lambda_tuple.cpp")
+    list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${_sandbox_lambda_tuple_test})
+endif()
+
 # The Fusion adapters are currently broken; I'm working on it.
 file(GLOB_RECURSE _ext_fusion_broken_tests "ext/boost/fusion/*.cpp")
 list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${_ext_fusion_broken_tests})
@@ -89,6 +96,7 @@ list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${_ext_fusion_broken_tests})
 foreach(file IN LISTS BOOST_HANA_TEST_SOURCES)
     boost_hana_target_name_for(_target "${file}")
     add_executable(${_target} EXCLUDE_FROM_ALL "${file}")
+    target_link_libraries(${_target} c++)
     add_test(NAME ${_target} COMMAND ${_target})
     add_dependencies(tests ${_target})
 endforeach()

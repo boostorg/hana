@@ -1,0 +1,79 @@
+language: cpp
+compiler: clang
+os: linux
+
+env:
+  - CLANG_VERSION=3.5
+  - CLANG_VERSION=3.6
+  - CLANG_VERSION=3.7
+
+before_install:
+    # Add deb repositories to get different versions of LLVM/Clang.
+    # The latest version of those repositories doesn't need a -3.x suffix,
+    # so we jump through the little hoop with _suffix below.
+    - sudo apt-add-repository "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu precise main"
+    - if [ "$CLANG_VERSION" != "3.7" ]; then _suffix="-${CLANG_VERSION}"; fi
+    - sudo apt-add-repository "deb http://llvm.org/apt/precise/ llvm-toolchain-precise${_suffix} main"
+    - sudo apt-get -qq update
+
+    # Checkout the latest libc++
+    - svn --quiet co http://llvm.org/svn/llvm-project/libcxx/trunk libcxx
+
+    # Install linuxbrew and its dependencies.
+    # We use </dev/null to bypass confirmations.
+    - sudo apt-get install build-essential curl git m4 ruby texinfo libbz2-dev libcurl4-openssl-dev libexpat-dev libncurses-dev zlib1g-dev
+    - ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/linuxbrew/go/install)" </dev/null
+    - export PATH=$HOME/.linuxbrew/bin:$PATH
+
+    # Clone the Boost modularized repository from GitHub.
+    # - git clone --quiet git://github.com/boostorg/boost.git boost
+    # - (cd boost && git submodule --quiet update --init)
+
+install:
+    # Install Clang
+    - sudo apt-get --allow-unauthenticated -qq install clang-${CLANG_VERSION}
+
+    # Install the latest CMake
+    - brew install cmake --without-docs
+
+    # Install libc++
+    - (cd libcxx/lib && bash buildit)
+    - sudo cp libcxx/lib/libc++.so.1.0 /usr/lib/
+    - sudo mkdir /usr/include/c++/v1
+    - sudo cp -r libcxx/include/* /usr/include/c++/v1/
+    - sudo ln -sf /usr/lib/libc++.so.1.0 /usr/lib/libc++.so
+    - sudo ln -sf /usr/lib/libc++.so.1.0 /usr/lib/libc++.so.1
+
+    # Setup Boost's headers
+    # - brew install boost --HEAD
+    # - (cd boost && ./bootstrap.sh && ./b2 headers)
+
+    # Setup the build directory
+    - (mkdir build && cd build && cmake .. -DCMAKE_CXX_COMPILER=clang++-${CLANG_VERSION})
+
+before_script:
+    # Check baseline memory usage; for compare with after_failure when OOMs occur
+    - free
+    - vmstat
+    - ps aux --sort -rss | head -n 10
+
+script:
+    # It often happens that compilation is aborted because the
+    # VM is out of memory. We attempt to compile the tests several
+    # times, knowing only those that were not compiled in previous
+    # passes will be compiled.
+    - (cd build && make -k)
+    - (cd build && make -k)
+    - (cd build && make -k)
+    - (cd build && make -k)
+
+    - (cd build && make examples -k)
+    - (cd build && make tests -k)
+    - (cd build && ctest --verbose)
+
+after_failure:
+    # check for OOMs
+    - sudo dmesg
+    - free
+    - vmstat
+    - ps aux --sort -rss | head -n 10

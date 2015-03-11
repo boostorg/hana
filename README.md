@@ -1,7 +1,6 @@
 # Boost.Hana
 > Your standard library for metaprogramming
 
-
 ## Disclaimers
 This is not an official Boost library. However, a formal review will be asked
 for shortly. The library is fairly stable, but no effort will be made to stay
@@ -198,3 +197,5 @@ Please see [LICENSE.md](LICENSE.md).
 [Hana-CppCon]: http://ldionne.github.io/hana-cppcon-2014
 [MPL11-C++Now]: http://ldionne.github.io/mpl11-cppnow-2014
 [MPL11]: http://github.com/ldionne/mpl11
+[Travis.travis_test]: https://travis-ci.org/ldionne/hana.svg?branch=travis_test
+[Travis]: https://travis-ci.org/ldionne/hana

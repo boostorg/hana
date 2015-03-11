@@ -27,8 +27,8 @@ Distributed under the Boost Software License, Version 1.0.
 #   define BOOST_HANA_CONFIG_CLANG BOOST_HANA_CONFIG_VERSION(               \
             __clang_major__, __clang_minor__, __clang_patchlevel__)
 
-#   if BOOST_HANA_CONFIG_CLANG < BOOST_HANA_CONFIG_VERSION(3, 5, 2)
-#       error Versions of Clang prior to 3.5.2 are not supported.
+#   if BOOST_HANA_CONFIG_CLANG < BOOST_HANA_CONFIG_VERSION(3, 5, 0)
+#       error Versions of Clang prior to 3.5.0 are not supported.
 #   endif
 
 #else
@@ -52,7 +52,7 @@ Distributed under the Boost Software License, Version 1.0.
                 ((_LIBCPP_VERSION) / 1000) % 10, 0, (_LIBCPP_VERSION) % 1000)
 
 #   if BOOST_HANA_CONFIG_LIBCPP < BOOST_HANA_CONFIG_VERSION(1, 0, 101)
-#       error Versions of libc++ prior to the one shipped with Clang 3.5.2 \
+#       error Versions of libc++ prior to the one shipped with Clang 3.5.0 \
               are not supported.
 #   endif
 
