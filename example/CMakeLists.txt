@@ -6,10 +6,15 @@
 # Setup examples
 #=============================================================================
 
-# Target to build and run all the examples
-add_custom_target(examples ALL
-    COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure -R "example.+"
-    COMMENT "Build and run all the examples.")
+add_custom_target(compile.examples
+    COMMENT "Build all the examples.")
+add_dependencies(compile.all compile.examples)
+
+add_custom_target(run.examples
+    COMMENT "Build and then run all the examples."
+    DEPENDS compile.examples
+    COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure -R "example.+")
+add_dependencies(run.all run.examples)
 
 # A list of all the example files
 file(GLOB_RECURSE BOOST_HANA_EXAMPLE_SOURCES "*.cpp")
@@ -28,8 +33,10 @@ endif()
 # Add all the examples
 foreach(file IN LISTS BOOST_HANA_EXAMPLE_SOURCES)
     boost_hana_target_name_for(_target "${file}")
-    add_executable(${_target} EXCLUDE_FROM_ALL "${file}")
-    target_link_libraries(${_target} c++)
-    add_test(NAME ${_target} COMMAND ${_target})
-    add_dependencies(examples ${_target})
+    add_executable(compile.${_target} EXCLUDE_FROM_ALL "${file}")
+    target_link_libraries(compile.${_target} c++)
+    add_dependencies(compile.examples compile.${_target})
+    add_custom_target(run.${_target} COMMAND compile.${_target})
+
+    add_test(NAME ${_target} COMMAND compile.${_target})
 endforeach()

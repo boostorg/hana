@@ -11,16 +11,19 @@
 include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
 include_directories(${CMAKE_CURRENT_LIST_DIR})
 
-# Target to build and run all the unit tests
-add_custom_target(tests ALL
-    COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure -R "test.+"
-    COMMENT "Build and run all the unit tests.")
+add_custom_target(compile.tests
+    COMMENT "Build all the unit tests.")
+add_dependencies(compile.all compile.tests)
 
-# Target to build an run all the invididual header inclusion tests
-add_custom_target(test.headers ALL
-    COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure -R "test.header.+"
-    COMMENT "Compile all the header-inclusion unit tests.")
-add_dependencies(tests test.headers)
+add_custom_target(run.tests
+    COMMENT "Build and then run all the unit tests."
+    DEPENDS compile.tests
+    COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure -R "test.+")
+add_dependencies(run.all run.tests)
+
+add_custom_target(compile.headers
+    COMMENT "Build all the header-inclusion unit tests.")
+add_dependencies(compile.tests compile.headers)
 
 # A list of all the test files
 file(GLOB_RECURSE BOOST_HANA_TEST_SOURCES "*.cpp")
@@ -95,10 +98,12 @@ list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${_ext_fusion_broken_tests})
 # Add all the unit tests
 foreach(file IN LISTS BOOST_HANA_TEST_SOURCES)
     boost_hana_target_name_for(_target "${file}")
-    add_executable(${_target} EXCLUDE_FROM_ALL "${file}")
-    target_link_libraries(${_target} c++)
-    add_test(NAME ${_target} COMMAND ${_target})
-    add_dependencies(tests ${_target})
+    add_executable(compile.${_target} EXCLUDE_FROM_ALL "${file}")
+    target_link_libraries(compile.${_target} c++)
+    add_dependencies(compile.tests compile.${_target})
+    add_custom_target(run.${_target} COMMAND compile.${_target})
+
+    add_test(NAME ${_target} COMMAND compile.${_target})
 endforeach()
 
 # Generate tests that include each public header and add them to the
@@ -111,8 +116,9 @@ foreach(header IN LISTS BOOST_HANA_PUBLIC_HEADERS)
             int main() { }
         ")
     endif()
-    add_executable(test.header.${header_name} EXCLUDE_FROM_ALL
+    add_executable(compile.header.${header_name} EXCLUDE_FROM_ALL
                         "${CMAKE_CURRENT_BINARY_DIR}/header/${header}.cpp")
-    add_test(NAME test.header.${header_name} COMMAND test.header.${header_name})
-    add_dependencies(test.headers test.header.${header_name})
+    add_dependencies(compile.headers compile.header.${header_name})
+
+    add_test(NAME header.${header_name} COMMAND compile.header.${header_name})
 endforeach()

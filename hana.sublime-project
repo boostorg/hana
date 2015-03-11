@@ -11,14 +11,15 @@
     [
         {
             "name": "Build current file",
-            "cmd": ["./sublime_make", "$file"],
-            "working_dir": "$project_path"
+            "working_dir": "$project_path",
+            "selector": "source.c++",
+            "cmd": ["ruby", "-r", "pathname", "-e", "exec('make', 'compile.' + Pathname.new('${file}').relative_path_from(Pathname.new('${project_path}')).sub_ext('').to_s.gsub('/', '.'))"],
+        },
+        {
+            "name": "Build and run current file",
+            "working_dir": "$project_path",
+            "selector": "source.c++",
+            "cmd": ["ruby", "-r", "pathname", "-e", "exec('make', 'run.' + Pathname.new('${file}').relative_path_from(Pathname.new('${project_path}')).sub_ext('').to_s.gsub('/', '.'))"]
         }
-    ],
-
-    "settings":
-    {
-        "sublimegdb_commandline": "gdb --interpreter=mi build/test/test.foldable.all_of",
-        "sublimegdb_workingdir": "."
-    }
+    ]
 }

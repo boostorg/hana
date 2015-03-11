@@ -62,14 +62,12 @@ script:
     # VM is out of memory. We attempt to compile the tests several
     # times, knowing only those that were not compiled in previous
     # passes will be compiled.
-    - (cd build && make -k)
-    - (cd build && make -k)
-    - (cd build && make -k)
-    - (cd build && make -k)
+    - (cd build && make compile.all -k)
+    - (cd build && make compile.all -k)
+    - (cd build && make compile.all -k)
+    - (cd build && make compile.all -k)
 
-    - (cd build && make examples -k)
-    - (cd build && make tests -k)
-    - (cd build && ctest --verbose)
+    - (cd build && make run.all -k)
 
 after_failure:
     # check for OOMs

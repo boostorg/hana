@@ -105,8 +105,7 @@ You can now build and run the unit tests and the examples. I assume that you
 used the Makefile generator with CMake; the commands may differ for other
 generators:
 ```shell
-make tests
-make examples
+make run.all
 ```
 
 > #### Tip
@@ -131,14 +130,17 @@ generation to update the list of available targets.
 
 If you want to add unit tests or examples, just add a source file in `test/`
 or `example/` and then re-run the CMake generation step so the new source
-file is known to the build system. If the relative path from the root of
-the  project to the new source file is `path/to/file.cpp`, a target named
-`path.to.file` to compile the file will be created when CMake is run.
+file is known to the build system. Let's suppose the relative path from the
+root of the project to the new source file is `path/to/file.cpp`. When you
+re-run the CMake generation step, two new targets will be created. The first
+is a target named `compile.path.to.file`, which compiles that source file, and
+the second is a target named `run.path.to.file`, which compiles and then runs
+that source file.
 
 > #### Tip for Sublime Text users
 > If you use the provided [hana.sublime-project](hana.sublime-project) file,
-> you can select the "Build current file" build system to build the target
-> associated to the current file.
+> you can select the "Build current file" build system. You can then compile
+> the current file by pressing ⌘B.
 
 
 ## Project organization

@@ -112,6 +112,12 @@ endif()
 #=============================================================================
 # Setup subdirectories
 #=============================================================================
+add_custom_target(compile.all
+    COMMENT "Build all the unit tests and examples.")
+
+add_custom_target(run.all ALL
+    COMMENT "Build and then run all the unit tests and examples.")
+
 #   boost_hana_target_name_for(<output variable> <source file>)
 #
 # Return the target name associated to a source file. If the path of the
