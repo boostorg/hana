@@ -10,8 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_PAIR_HPP
 #define BOOST_HANA_FWD_PAIR_HPP
 
-#include <boost/hana/core/operators.hpp>
-#include <boost/hana/detail/create.hpp>
+#include <boost/hana/fwd/core/make.hpp>
 
 
 namespace boost { namespace hana {
@@ -40,8 +39,8 @@ namespace boost { namespace hana {
     //! Folding a `Pair` is equivalent to folding a 2-element tuple. In other
     //! words:
     //! @code
-    //!     foldl(pair(x, y), s, f) == f(f(s, x), y)
-    //!     foldr(pair(x, y), s, f) == f(x, f(y, s))
+    //!     foldl(make_pair(x, y), s, f) == f(f(s, x), y)
+    //!     foldr(make_pair(x, y), s, f) == f(x, f(y, s))
     //! @endcode
     //! Example:
     //! @snippet example/pair.cpp foldable
@@ -52,25 +51,35 @@ namespace boost { namespace hana {
     //! @snippet example/pair.cpp product
     struct Pair { };
 
+    template <typename First, typename Second>
+    struct _pair;
+
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
     //! Creates a `Pair` with the given elements.
     //! @relates Pair
     //!
-    //! ### Example
-    //! @snippet example/pair.cpp pair
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto pair = [](auto&& first, auto&& second) {
-        return unspecified-type;
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/pair.cpp make<Pair>
+    template <>
+    constexpr auto make<Pair> = [](auto&& first, auto&& second) {
+        return _pair<decayed(decltype(first)), decayed(decltype(second))>{
+            forwarded(first), forwarded(second)
+        };
     };
-#else
-    template <typename First, typename Second, typename = operators::adl>
-    struct _pair {
-        First first;
-        Second second;
-        struct hana { using datatype = Pair; };
-    };
-
-    constexpr detail::create<_pair> pair{};
 #endif
+
+    //! Alias to `make<Pair>`; provided for convenience.
+    //! @relates Pair
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/pair.cpp make_pair
+    constexpr auto make_pair = make<Pair>;
+
+    //! @todo Provided for backward compatibility. What to do with it?
+    constexpr auto pair = make<Pair>;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_PAIR_HPP
