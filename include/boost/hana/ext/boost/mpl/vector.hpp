@@ -10,10 +10,8 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EXT_BOOST_MPL_VECTOR_HPP
 #define BOOST_HANA_EXT_BOOST_MPL_VECTOR_HPP
 
-#include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/is_same.hpp>
 #include <boost/hana/ext/boost/mpl/integral_c.hpp>
 #include <boost/hana/foldable.hpp>
@@ -84,8 +82,7 @@ namespace boost { namespace hana {
     struct equal_impl<ext::boost::mpl::Vector, ext::boost::mpl::Vector> {
         template <typename Xs, typename Ys>
         static constexpr auto apply(Xs, Ys) {
-            constexpr bool eq = ::boost::mpl::equal<Xs, Ys>::value;
-            return bool_<eq>;
+            return typename ::boost::mpl::equal<Xs, Ys>::type{};
         }
     };
 
