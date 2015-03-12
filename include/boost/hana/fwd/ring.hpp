@@ -182,7 +182,7 @@ namespace boost { namespace hana {
     template <typename R>
     struct _one {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-        static_assert(models<Ring, R>{},
+        static_assert(_models<Ring, R>{},
         "hana::one<R>() requires R to be a Ring");
 #endif
         constexpr decltype(auto) operator()() const {
@@ -226,7 +226,7 @@ namespace boost { namespace hana {
         template <typename R, typename N>
         constexpr decltype(auto) operator()(R&& r, N&& n) const {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(models<Ring, typename datatype<R>::type>{},
+            static_assert(_models<Ring, typename datatype<R>::type>{},
             "hana::power(r, n) requires r to be a Ring");
 #endif
             return power_impl<typename datatype<R>::type>::apply(

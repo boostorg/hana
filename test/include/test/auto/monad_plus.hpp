@@ -26,7 +26,7 @@ namespace boost { namespace hana { namespace test {
     template <typename M>
     auto laws<MonadPlus, M> = [] {
         laws<Monad, M>();
-        static_assert(models<MonadPlus, M>{}, "");
+        static_assert(_models<MonadPlus, M>{}, "");
 
         auto f = compose(lift<M>, injection([]{}));
 

@@ -7,7 +7,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/assert.hpp>
 #include <boost/hana/bool.hpp>
 #include <boost/hana/core/models.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/iterable.hpp>
@@ -87,8 +86,8 @@ namespace boost { namespace hana {
     // Sequence
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Sequence, LazyList>
-        : detail::std::true_type
+    struct models_impl<Sequence, LazyList>
+        : decltype(true_)
     { };
 }}
 

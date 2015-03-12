@@ -210,7 +210,7 @@ namespace boost { namespace hana {
     template <typename A>
     struct _lift {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-        static_assert(models<Applicative, A>{},
+        static_assert(_models<Applicative, A>{},
         "hana::lift<A> requires A to be an Applicative");
 #endif
 

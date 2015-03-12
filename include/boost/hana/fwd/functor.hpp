@@ -148,7 +148,7 @@ namespace boost { namespace hana {
         template <typename Xs, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(models<Functor, typename datatype<Xs>::type>{},
+            static_assert(_models<Functor, typename datatype<Xs>::type>{},
             "hana::transform(xs, f) requires xs to be a Functor");
 #endif
 
@@ -206,7 +206,7 @@ namespace boost { namespace hana {
         template <typename Xs, typename Pred, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred, F&& f) const {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(models<Functor, typename datatype<Xs>::type>{},
+            static_assert(_models<Functor, typename datatype<Xs>::type>{},
             "hana::adjust(xs, pred, f) requires xs to be a Functor");
 #endif
             return adjust_impl<typename datatype<Xs>::type>::apply(
@@ -264,7 +264,7 @@ namespace boost { namespace hana {
         template <typename Xs, typename Pred, typename Value>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred, Value&& value) const {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(models<Functor, typename datatype<Xs>::type>{},
+            static_assert(_models<Functor, typename datatype<Xs>::type>{},
             "hana::replace(xs, pred, value) requires xs to be a Functor");
 #endif
             return replace_impl<typename datatype<Xs>::type>::apply(
@@ -316,7 +316,7 @@ namespace boost { namespace hana {
         template <typename Xs, typename Value>
         constexpr decltype(auto) operator()(Xs&& xs, Value&& value) const {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(models<Functor, typename datatype<Xs>::type>{},
+            static_assert(_models<Functor, typename datatype<Xs>::type>{},
             "hana::fill(xs, value) requires xs to be a Functor");
 #endif
             return fill_impl<typename datatype<Xs>::type>::apply(

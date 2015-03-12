@@ -30,7 +30,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana { namespace test {
     template <typename C, typename = when<true>>
     struct TestConstant {
-        static_assert(models<Constant, C>{}, "");
+        static_assert(_models<Constant, C>{}, "");
         using T = typename C::value_type;
 
         template <typename X>

@@ -21,7 +21,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integer_sequence.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/integral_constant.hpp>
@@ -186,20 +185,18 @@ namespace boost { namespace hana {
 
         template <char ...s, typename Char>
         static constexpr auto
-        helper(_string<s...>, Char c, detail::std::true_type) {
+        helper(_string<s...>, Char c, decltype(true_)) {
             constexpr char c_str[] = {s..., '\0'};
             return bool_<str_elem(c_str, hana::value(c))>;
         }
 
         template <typename S, typename Char>
-        static constexpr auto helper(S, Char, detail::std::false_type)
+        static constexpr auto helper(S, Char, decltype(false_))
         { return false_; }
 
         template <typename S, typename Char>
         static constexpr decltype(auto) apply(S s, Char c) {
-            return helper(s, c, detail::std::integral_constant<bool,
-                models<Constant, typename datatype<Char>::type>{}
-            >{});
+            return helper(s, c, models<Constant, Char>);
         }
     };
 

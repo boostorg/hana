@@ -13,12 +13,12 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/traversable.hpp>
 
 #include <boost/hana/applicative.hpp> // needed by fwd/
+#include <boost/hana/bool.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/functional/id.hpp>
 #include <boost/hana/functor.hpp>
 
@@ -33,9 +33,8 @@ namespace boost { namespace hana {
     template <typename T, bool condition>
     struct sequence_impl<T, when<condition>> : default_ {
         template <typename A, typename Xs>
-        static constexpr decltype(auto) apply(Xs&& xs) {
-            return hana::traverse<A>(detail::std::forward<Xs>(xs), id);
-        }
+        static constexpr decltype(auto) apply(Xs&& xs)
+        { return hana::traverse<A>(detail::std::forward<Xs>(xs), id); }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -58,8 +57,8 @@ namespace boost { namespace hana {
     // models
     //////////////////////////////////////////////////////////////////////////
     template <typename T>
-    struct models<Traversable, T>
-        : detail::std::integral_constant<bool,
+    struct models_impl<Traversable, T>
+        : _integral_constant<bool,
             !is_default<sequence_impl<T>>{} ||
             !is_default<traverse_impl<T>>{}
         >

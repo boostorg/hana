@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/searchable.hpp>
 
+#include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/default.hpp>
@@ -168,8 +169,8 @@ namespace boost { namespace hana {
     // models
     //////////////////////////////////////////////////////////////////////////
     template <typename S>
-    struct models<Searchable, S>
-        : detail::std::integral_constant<bool,
+    struct models_impl<Searchable, S>
+        : _integral_constant<bool,
             !is_default<any_of_impl<S>>{} &&
             !is_default<find_impl<S>>{}
         >
@@ -195,19 +196,18 @@ namespace boost { namespace hana {
         // then only need to evaluate the predicate on the first element.
         template <typename Xs, typename Pred>
         static constexpr auto
-        any_of_helper(detail::std::true_type, Xs&& xs, Pred&&)
+        any_of_helper(decltype(true_), Xs&& xs, Pred&&)
         { return true_; }
 
         template <typename Xs, typename Pred>
         static constexpr auto
-        any_of_helper(detail::std::false_type, Xs&&, Pred&&)
+        any_of_helper(decltype(false_), Xs&&, Pred&&)
         { return false_; }
 
         template <typename Xs, typename Pred>
         static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
             auto cond = hana::if_(pred(detail::std::forward<Xs>(xs)[0]),
-                detail::std::true_type{},
-                detail::std::false_type{}
+                true_, false_
             );
             return any_of_helper(cond, detail::std::forward<Xs>(xs),
                                        detail::std::forward<Pred>(pred));
@@ -220,34 +220,24 @@ namespace boost { namespace hana {
 
         template <typename Xs, typename Pred, Size i>
         static constexpr decltype(auto)
-        find_helper(Xs&& xs, Pred&& pred,
-                    detail::std::integral_constant<Size, i>,
-                    detail::std::false_type)
-        {
+        find_helper(Xs&& xs, Pred&& pred, _integral_constant<Size, i>, decltype(false_)) {
             auto cond = pred(detail::std::forward<Xs>(xs)[i + 1]);
             constexpr bool truth_value = hana::if_(hana::value(cond), true, false);
             return find_helper(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred),
-                detail::std::integral_constant<Size, i + 1>{},
-                detail::std::integral_constant<bool, truth_value>{}
+                size_t<i + 1>, bool_<truth_value>
             );
         }
 
         template <typename Xs, typename Pred, Size i>
         static constexpr decltype(auto)
-        find_helper(Xs&& xs, Pred&&,
-                    detail::std::integral_constant<Size, i>,
-                    detail::std::true_type)
-        {
-            return hana::just(detail::std::forward<Xs>(xs)[i]);
-        }
+        find_helper(Xs&& xs, Pred&&, _integral_constant<Size, i>, decltype(true_))
+        { return hana::just(detail::std::forward<Xs>(xs)[i]); }
 
         template <typename Xs, typename Pred>
         static constexpr decltype(auto)
-        find_helper(Xs&&, Pred&&,
-                    detail::std::integral_constant<Size, N-1>,
-                    detail::std::false_type)
+        find_helper(Xs&&, Pred&&, _integral_constant<Size, N-1>, decltype(false_))
         { return nothing; }
 
         template <typename Xs, typename Pred>
@@ -257,8 +247,7 @@ namespace boost { namespace hana {
             return find_helper(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred),
-                detail::std::integral_constant<Size, 0>{},
-                detail::std::integral_constant<bool, truth_value>{}
+                size_t<0>, bool_<truth_value>
             );
         }
     };

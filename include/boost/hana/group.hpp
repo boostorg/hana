@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/group.hpp>
 
+#include <boost/hana/bool.hpp>
 #include <boost/hana/constant.hpp>
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
@@ -25,7 +26,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/has_common_embedding.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/is_arithmetic.hpp>
 #include <boost/hana/monoid.hpp>
 
@@ -118,8 +118,8 @@ namespace boost { namespace hana {
     // models
     //////////////////////////////////////////////////////////////////////////
     template <typename G>
-    struct models<Group, G>
-        : detail::std::integral_constant<bool,
+    struct models_impl<Group, G>
+        : _integral_constant<bool,
             !is_default<negate_impl<G>>{} ||
             !is_default<minus_impl<G, G>>{}
         >
@@ -147,7 +147,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename C>
     struct minus_impl<C, C, when<
-        models<Constant, C>{} && models<Group, typename C::value_type>{}
+        _models<Constant, C>{} && _models<Group, typename C::value_type>{}
     >> {
         using T = typename C::value_type;
         template <typename X, typename Y>

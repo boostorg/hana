@@ -20,7 +20,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integer_sequence.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/is_same.hpp>
 #include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
@@ -564,8 +563,8 @@ namespace boost { namespace hana {
     // models
     //////////////////////////////////////////////////////////////////////////
     template <typename T>
-    struct models<Foldable, T>
-        : detail::std::integral_constant<bool,
+    struct models_impl<Foldable, T>
+        : _integral_constant<bool,
             (!is_default<foldl_impl<T>>{} && !is_default<foldr_impl<T>>{}) ||
             !is_default<unpack_impl<T>>{}
         >

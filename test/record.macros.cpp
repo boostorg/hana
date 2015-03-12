@@ -62,7 +62,7 @@ int main() {
         (void)intrusive.member1;
         (void)intrusive.member2;
 
-        BOOST_HANA_CONSTANT_CHECK(is_a<Record, ns::Intrusive>);
+        static_assert(_models<Record, ns::Intrusive>{}, "");
         BOOST_HANA_CONSTANT_CHECK(equal(
             to<Tuple>(intrusive),
             make<Tuple>(intrusive.member1, intrusive.member2)
@@ -87,7 +87,7 @@ int main() {
     // AdHoc
     {
         ns::AdHoc adhoc{};
-        BOOST_HANA_CONSTANT_CHECK(is_a<Record, ns::AdHoc>);
+        static_assert(_models<Record, ns::AdHoc>{}, "");
         BOOST_HANA_CONSTANT_CHECK(equal(
             to<Tuple>(adhoc),
             make<Tuple>(adhoc.member1, adhoc.member2)

@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/monad.hpp>
 
 #include <boost/hana/applicative.hpp>
+#include <boost/hana/bool.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
@@ -21,7 +22,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/functional/partial.hpp>
@@ -159,8 +159,8 @@ namespace boost { namespace hana {
     // models
     //////////////////////////////////////////////////////////////////////////
     template <typename M>
-    struct models<Monad, M>
-        : detail::std::integral_constant<bool,
+    struct models_impl<Monad, M>
+        : _integral_constant<bool,
             !is_default<flatten_impl<M>>{} ||
             !is_default<bind_impl<M>>{}
         >

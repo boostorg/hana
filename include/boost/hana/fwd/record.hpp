@@ -113,7 +113,7 @@ namespace boost { namespace hana {
     template <typename R>
     struct _members {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-        static_assert(models<Record, R>{},
+        static_assert(_models<Record, R>{},
         "hana::members<R>() requires R to be a Record");
 #endif
         constexpr decltype(auto) operator()() const

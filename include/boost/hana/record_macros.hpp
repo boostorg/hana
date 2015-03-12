@@ -15,10 +15,10 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_RECORD_MACROS_HPP
 #define BOOST_HANA_RECORD_MACROS_HPP
 
+#include <boost/hana/bool.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/functional/id.hpp>
 #include <boost/hana/pair.hpp>
 #include <boost/hana/record.hpp>
@@ -130,8 +130,8 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_PP_DEFINE_RECORD_IMPL(DATATYPE, MEMBERS)                 \
     namespace boost { namespace hana {                                      \
         template <>                                                         \
-        struct models< ::boost::hana::Record, DATATYPE>                     \
-            : ::boost::hana::detail::std::true_type                         \
+        struct models_impl< ::boost::hana::Record, DATATYPE>                \
+            : ::boost::hana::_integral_constant<bool, true>                 \
         { };                                                                \
                                                                             \
         template <>                                                         \

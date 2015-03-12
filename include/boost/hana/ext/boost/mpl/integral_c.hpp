@@ -70,7 +70,7 @@ namespace boost { namespace hana {
 
     template <typename T, typename C>
     struct to_impl<ext::boost::mpl::IntegralC<T>, C, when<
-        models<Constant, C>{} &&
+        _models<Constant, C>{}() &&
         detail::std::is_integral<typename C::value_type>{}
     >>
         : embedding<is_embedded<typename C::value_type, T>{}>

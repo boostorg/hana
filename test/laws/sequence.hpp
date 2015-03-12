@@ -37,7 +37,7 @@ namespace boost { namespace hana { namespace test {
 
     template <typename S>
     struct TestSequence<S, laws> {
-        static_assert(models<Sequence, S>{}, "");
+        static_assert(_models<Sequence, S>{}, "");
 
         template <int i>
         using eq = integer<i,

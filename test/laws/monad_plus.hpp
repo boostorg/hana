@@ -26,7 +26,7 @@ namespace boost { namespace hana { namespace test {
 
     template <typename M>
     struct TestMonadPlus<M, laws> {
-        static_assert(models<MonadPlus, M>{}, "");
+        static_assert(_models<MonadPlus, M>{}, "");
 
         template <typename Xs>
         TestMonadPlus(Xs xs) {
@@ -68,7 +68,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename S>
-    struct TestMonadPlus<S, when<models<Sequence, S>{}>> : TestMonadPlus<S, laws> {
+    struct TestMonadPlus<S, when<_models<Sequence, S>{}>> : TestMonadPlus<S, laws> {
         template <int i>
         using eq = _constant<i>;
 

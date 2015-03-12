@@ -26,7 +26,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/has_common_embedding.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/logical.hpp>
 
@@ -156,8 +155,8 @@ namespace boost { namespace hana {
     // models
     //////////////////////////////////////////////////////////////////////////
     template <typename T>
-    struct models<Comparable, T>
-        : detail::std::integral_constant<bool,
+    struct models_impl<Comparable, T>
+        : _integral_constant<bool,
             !is_default<equal_impl<T, T>>{}
         >
     { };
@@ -177,7 +176,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename C>
     struct equal_impl<C, C, when<
-        models<Constant, C>{} && models<Comparable, typename C::value_type>{}
+        _models<Constant, C>{} && _models<Comparable, typename C::value_type>{}
     >> {
         template <typename X, typename Y>
         static constexpr auto apply(X const&, Y const&) {

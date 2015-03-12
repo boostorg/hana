@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/constant.hpp>
 
+#include <boost/hana/bool.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
@@ -20,7 +21,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/canonical_constant.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/remove_cv.hpp>
 #include <boost/hana/detail/std/remove_reference.hpp>
 
@@ -45,7 +45,7 @@ namespace boost { namespace hana {
         >::type;
 
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-        static_assert(models<Constant, typename datatype<RawT>::type>{},
+        static_assert(_models<Constant, typename datatype<RawT>::type>{},
         "hana::value<T>() requires T to be a Constant");
 #endif
 
@@ -56,8 +56,8 @@ namespace boost { namespace hana {
     // models
     //////////////////////////////////////////////////////////////////////////
     template <typename C>
-    struct models<Constant, C>
-        : detail::std::integral_constant<bool,
+    struct models_impl<Constant, C>
+        : _integral_constant<bool,
             !is_default<value_impl<C>>{}
         >
     { };
@@ -67,7 +67,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename To, typename From>
     struct to_impl<To, From, when<
-        models<Constant, From>{} && is_convertible<typename From::value_type, To>{}
+        _models<Constant, From>{} && is_convertible<typename From::value_type, To>{}
     >> : embedding<is_embedded<typename From::value_type, To>{}> {
         template <typename X>
         static constexpr decltype(auto) apply(X const&)
@@ -98,8 +98,8 @@ namespace boost { namespace hana {
 
     template <typename A, typename B>
     struct common<A, B, when<
-        models<Constant, A>{} &&
-        models<Constant, B>{} &&
+        _models<Constant, A>{} &&
+        _models<Constant, B>{} &&
         has_common<typename A::value_type, typename B::value_type>{}
     >> {
         using type = typename constant_detail::which<
@@ -111,8 +111,8 @@ namespace boost { namespace hana {
 
     template <typename A, typename B>
     struct common<A, B, when<
-        models<Constant, A>{} &&
-        !models<Constant, B>{} &&
+        _models<Constant, A>{} &&
+        !_models<Constant, B>{} &&
         has_common<typename A::value_type, B>{}
     >> {
         using type = typename common<typename A::value_type, B>::type;
@@ -120,8 +120,8 @@ namespace boost { namespace hana {
 
     template <typename A, typename B>
     struct common<A, B, when<
-        !models<Constant, A>{} &&
-        models<Constant, B>{} &&
+        !_models<Constant, A>{} &&
+        _models<Constant, B>{} &&
         has_common<A, typename B::value_type>{}
     >> {
         using type = typename common<A, typename B::value_type>::type;

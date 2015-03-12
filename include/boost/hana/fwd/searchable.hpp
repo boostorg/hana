@@ -148,7 +148,7 @@ namespace boost { namespace hana {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(models<Searchable, typename datatype<Xs>::type>{},
+            static_assert(_models<Searchable, typename datatype<Xs>::type>{},
             "hana::any_of(xs, pred) requires xs to be a Searchable");
 #endif
             return any_of_impl<typename datatype<Xs>::type>::apply(
@@ -184,7 +184,7 @@ namespace boost { namespace hana {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(models<Searchable, typename datatype<Xs>::type>{},
+            static_assert(_models<Searchable, typename datatype<Xs>::type>{},
             "hana::any(xs) requires xs to be a Searchable");
 #endif
             return any_impl<typename datatype<Xs>::type>::apply(
@@ -232,7 +232,7 @@ namespace boost { namespace hana {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(models<Searchable, typename datatype<Xs>::type>{},
+            static_assert(_models<Searchable, typename datatype<Xs>::type>{},
             "hana::all_of(xs, pred) requires xs to be a Searchable");
 #endif
             return all_of_impl<typename datatype<Xs>::type>::apply(
@@ -268,7 +268,7 @@ namespace boost { namespace hana {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(models<Searchable, typename datatype<Xs>::type>{},
+            static_assert(_models<Searchable, typename datatype<Xs>::type>{},
             "hana::all(xs) requires xs to be a Searchable");
 #endif
             return all_impl<typename datatype<Xs>::type>::apply(
@@ -317,7 +317,7 @@ namespace boost { namespace hana {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(models<Searchable, typename datatype<Xs>::type>{},
+            static_assert(_models<Searchable, typename datatype<Xs>::type>{},
             "hana::none_of(xs, pred) requires xs to be a Searchable");
 #endif
             return none_of_impl<typename datatype<Xs>::type>::apply(
@@ -353,7 +353,7 @@ namespace boost { namespace hana {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(models<Searchable, typename datatype<Xs>::type>{},
+            static_assert(_models<Searchable, typename datatype<Xs>::type>{},
             "hana::none(xs) requires xs to be a Searchable");
 #endif
             return none_impl<typename datatype<Xs>::type>::apply(
@@ -402,7 +402,7 @@ namespace boost { namespace hana {
         template <typename Xs, typename Key>
         constexpr decltype(auto) operator()(Xs&& xs, Key&& key) const {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(models<Searchable, typename datatype<Xs>::type>{},
+            static_assert(_models<Searchable, typename datatype<Xs>::type>{},
             "hana::elem(xs, key) requires xs to be a Searchable");
 #endif
             return elem_impl<typename datatype<Xs>::type>::apply(
@@ -467,7 +467,7 @@ namespace boost { namespace hana {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(models<Searchable, typename datatype<Xs>::type>{},
+            static_assert(_models<Searchable, typename datatype<Xs>::type>{},
             "hana::find(xs, pred) requires xs to be a Searchable");
 #endif
             return find_impl<typename datatype<Xs>::type>::apply(
@@ -518,7 +518,7 @@ namespace boost { namespace hana {
         template <typename Xs, typename Key>
         constexpr decltype(auto) operator()(Xs&& xs, Key&& key) const {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(models<Searchable, typename datatype<Xs>::type>{},
+            static_assert(_models<Searchable, typename datatype<Xs>::type>{},
             "hana::lookup(xs, key) requires xs to be a Searchable");
 #endif
             return lookup_impl<typename datatype<Xs>::type>::apply(
@@ -575,10 +575,10 @@ namespace boost { namespace hana {
         template <typename Xs, typename Ys>
         constexpr decltype(auto) operator()(Xs&& xs, Ys&& ys) const {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(models<Searchable, typename datatype<Xs>::type>{},
+            static_assert(_models<Searchable, typename datatype<Xs>::type>{},
             "hana::subset(xs, ys) requires xs to be a Searchable");
 
-            static_assert(models<Searchable, typename datatype<Ys>::type>{},
+            static_assert(_models<Searchable, typename datatype<Ys>::type>{},
             "hana::subset(xs, ys) requires ys to be a Searchable");
 #endif
             return subset_impl<typename datatype<Xs>::type>::apply(

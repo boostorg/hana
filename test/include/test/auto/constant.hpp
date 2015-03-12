@@ -43,7 +43,7 @@ namespace boost { namespace hana { namespace test {
 
     template <typename C>
     auto laws<Constant, C> = [] {
-        static_assert(models<Constant, C>{}, "");
+        static_assert(_models<Constant, C>{}, "");
 
         // laws
         {
@@ -93,7 +93,7 @@ namespace boost { namespace hana { namespace test {
 
         // Comparable
         {
-            eval_if(is_an<Comparable, typename C::value_type>,
+            eval_if(models<Comparable, typename C::value_type>,
                 [=](auto _) {
                     using Comp = typename decltype(+_(type<hana::Comparable>))::type;
                     laws<Comp, C>();
@@ -112,7 +112,7 @@ namespace boost { namespace hana { namespace test {
 
         // Orderable
         {
-            eval_if(is_an<Orderable, typename C::value_type>,
+            eval_if(models<Orderable, typename C::value_type>,
                 [=](auto _) {
                     using Ord = typename decltype(+_(type<hana::Orderable>))::type;
                     laws<Ord, C>();
@@ -131,7 +131,7 @@ namespace boost { namespace hana { namespace test {
 
         // Enumerable
         {
-            eval_if(is_an<Enumerable, typename C::value_type>,
+            eval_if(models<Enumerable, typename C::value_type>,
                 [=](auto _) {
                     using E = typename decltype(+_(type<hana::Enumerable>))::type;
                     laws<E, C>();
@@ -154,7 +154,7 @@ namespace boost { namespace hana { namespace test {
 
         // Monoid
         {
-            eval_if(is_a<Monoid, typename C::value_type>,
+            eval_if(models<Monoid, typename C::value_type>,
                 [=](auto _) {
                     using Monoid = typename decltype(+_(type<hana::Monoid>))::type;
                     laws<Monoid, C>();
@@ -179,7 +179,7 @@ namespace boost { namespace hana { namespace test {
 
         // Group
         {
-            eval_if(is_a<Group, typename C::value_type>,
+            eval_if(models<Group, typename C::value_type>,
                 [=](auto _) {
                     using Group = typename decltype(+_(type<hana::Group>))::type;
                     laws<Group, C>();
@@ -204,7 +204,7 @@ namespace boost { namespace hana { namespace test {
 
         // Ring
         {
-            eval_if(is_a<Ring, typename C::value_type>,
+            eval_if(models<Ring, typename C::value_type>,
                 [=](auto _) {
                     using Ring = typename decltype(+_(type<hana::Ring>))::type;
                     laws<Ring, C>();
@@ -229,7 +229,7 @@ namespace boost { namespace hana { namespace test {
 
         // IntegralDomain
         {
-            eval_if(is_an<IntegralDomain, typename C::value_type>,
+            eval_if(models<IntegralDomain, typename C::value_type>,
                 [=](auto _) {
                     using ID = typename decltype(+_(type<hana::IntegralDomain>))::type;
                     laws<ID, C>();
@@ -255,7 +255,7 @@ namespace boost { namespace hana { namespace test {
 
         // Logical
         {
-            eval_if(is_a<Logical, typename C::value_type>,
+            eval_if(models<Logical, typename C::value_type>,
                 [=](auto _) {
                     using Logical = typename decltype(+_(type<hana::Logical>))::type;
                     laws<Logical, C>();

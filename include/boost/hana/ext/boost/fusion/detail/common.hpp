@@ -14,7 +14,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/sequence.hpp>
 
@@ -55,8 +54,8 @@ namespace boost { namespace hana {
     // Sequence
     //////////////////////////////////////////////////////////////////////////
     template <typename S>
-    struct models<Sequence, S, when<detail::is_fusion_sequence<S>{}>>
-        : detail::std::true_type
+    struct models_impl<Sequence, S, when<detail::is_fusion_sequence<S>{}>>
+        : decltype(true_)
     { };
 }} // end namespace boost::hana
 

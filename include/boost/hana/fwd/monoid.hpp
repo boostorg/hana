@@ -177,7 +177,7 @@ namespace boost { namespace hana {
     template <typename M>
     struct _zero {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-        static_assert(models<Monoid, M>{},
+        static_assert(_models<Monoid, M>{},
         "hana::zero<M>() requires M to be a Monoid");
 #endif
         constexpr decltype(auto) operator()() const

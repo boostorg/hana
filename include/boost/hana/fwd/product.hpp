@@ -95,7 +95,7 @@ namespace boost { namespace hana {
         template <typename P>
         constexpr decltype(auto) operator()(P&& p) const {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(models<Product, typename datatype<P>::type>{},
+            static_assert(_models<Product, typename datatype<P>::type>{},
             "hana::first(p) requires p to be a Product");
 #endif
             return first_impl<typename datatype<P>::type>::apply(
@@ -126,7 +126,7 @@ namespace boost { namespace hana {
         template <typename P>
         constexpr decltype(auto) operator()(P&& p) const {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(models<Product, typename datatype<P>::type>{},
+            static_assert(_models<Product, typename datatype<P>::type>{},
             "hana::second(p) requires p to be a Product");
 #endif
             return second_impl<typename datatype<P>::type>::apply(

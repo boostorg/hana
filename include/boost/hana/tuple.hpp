@@ -26,7 +26,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integer_sequence.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/detail/std/remove_cv.hpp>
 #include <boost/hana/detail/std/remove_reference.hpp>
@@ -98,7 +97,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     namespace tuple_detail {
         template <typename Xs>
-        using size = detail::std::integral_constant<detail::std::size_t,
+        using size = _integral_constant<detail::std::size_t,
             detail::std::remove_reference<Xs>::type::size
         >;
 
@@ -503,8 +502,8 @@ namespace boost { namespace hana {
     // Sequence
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Sequence, Tuple>
-        : detail::std::true_type
+    struct models_impl<Sequence, Tuple>
+        : decltype(true_)
     { };
 
     template <>
@@ -528,19 +527,19 @@ namespace boost { namespace hana {
     struct intersperse_impl<Tuple> {
         template <detail::std::size_t i, typename Z, typename Xs>
         static constexpr Z pick(Z&& z, Xs const&,
-            detail::std::false_type /* odd index */)
+            decltype(false_) /* odd index */)
         { return detail::std::forward<Z>(z); }
 
         template <detail::std::size_t i, typename Z, typename Xn>
         static constexpr Xn const&
         pick(Z const&, detail::element<(i + 1) / 2, Xn> const& x,
-            detail::std::true_type /* even index */)
+            decltype(true_) /* even index */)
         { return x.get; }
 
         template <detail::std::size_t i, typename Z, typename Xn>
         static constexpr Xn&&
         pick(Z const&, detail::element<(i + 1) / 2, Xn>&& x,
-            detail::std::true_type /* even index */)
+            decltype(true_) /* even index */)
         { return static_cast<detail::element<(i + 1) / 2, Xn>&&>(x).get; }
 
         template <typename Xs, typename Z, detail::std::size_t ...i>
@@ -550,7 +549,7 @@ namespace boost { namespace hana {
                 pick<i>(
                     detail::std::forward<Z>(z),
                     detail::std::forward<Xs>(xs),
-                    detail::std::integral_constant<bool, (i % 2 == 0)>{}
+                    bool_<(i % 2 == 0)>
                 )...
             );
         }

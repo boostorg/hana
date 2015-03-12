@@ -205,7 +205,7 @@ namespace boost { namespace hana {
         template <typename Cond, typename Then, typename Else>
         constexpr decltype(auto) operator()(Cond&& cond, Then&& then, Else&& else_) const {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(models<Logical, typename datatype<Cond>::type>{},
+            static_assert(_models<Logical, typename datatype<Cond>::type>{},
             "hana::if_(cond, then, else) requires cond to be a Logical");
 #endif
             return if_impl<typename datatype<Cond>::type>::apply(
@@ -333,7 +333,7 @@ namespace boost { namespace hana {
         template <typename Cond, typename Then, typename Else>
         constexpr decltype(auto) operator()(Cond&& cond, Then&& then, Else&& else_) const {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(models<Logical, typename datatype<Cond>::type>{},
+            static_assert(_models<Logical, typename datatype<Cond>::type>{},
             "hana::eval_if(cond, then, else) requires cond to be a Logical");
 #endif
             return eval_if_impl<typename datatype<Cond>::type>::apply(
@@ -401,7 +401,7 @@ namespace boost { namespace hana {
             using Cond = decltype(pred(state));
 
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(models<Logical, typename datatype<Cond>::type>{},
+            static_assert(_models<Logical, typename datatype<Cond>::type>{},
             "hana::while_(pred, state, f) requires pred(state) to be a Logical");
 #endif
             return while_impl<typename datatype<Cond>::type>::apply(
@@ -462,7 +462,7 @@ namespace boost { namespace hana {
             using Cond = decltype(pred(state));
 
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(models<Logical, typename datatype<Cond>::type>{},
+            static_assert(_models<Logical, typename datatype<Cond>::type>{},
             "hana::until(pred, state, f) requires pred(state) to be a Logical");
 #endif
             return until_impl<typename datatype<Cond>::type>::apply(

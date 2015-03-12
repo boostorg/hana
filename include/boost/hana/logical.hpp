@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/logical.hpp>
 
+#include <boost/hana/bool.hpp>
 #include <boost/hana/constant.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
@@ -206,8 +207,8 @@ namespace boost { namespace hana {
     // models
     //////////////////////////////////////////////////////////////////////////
     template <typename L>
-    struct models<Logical, L>
-        : detail::std::integral_constant<bool,
+    struct models_impl<Logical, L>
+        : _integral_constant<bool,
             !is_default<eval_if_impl<L>>{} &&
             !is_default<not_impl<L>>{} &&
             !is_default<while_impl<L>>{}
@@ -257,30 +258,29 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename C>
     struct eval_if_impl<C, when<
-        models<Constant, C>{} && models<Logical, typename C::value_type>{}
+        _models<Constant, C>{}() && _models<Logical, typename C::value_type>{}()
     >> {
         template <typename Then, typename Else>
         static constexpr auto
-        eval_if_helper(detail::std::true_type, Then t, Else e)
+        eval_if_helper(decltype(true_), Then t, Else e)
         { return t(id); }
 
         template <typename Then, typename Else>
         static constexpr auto
-        eval_if_helper(detail::std::false_type, Then t, Else e)
+        eval_if_helper(decltype(false_), Then t, Else e)
         { return e(id); }
 
         template <typename Cond, typename Then, typename Else>
         static constexpr auto apply(Cond const&, Then t, Else e) {
-            constexpr auto cond = boost::hana::value<Cond>();
+            constexpr auto cond = hana::value<Cond>();
             constexpr bool truth_value = hana::if_(cond, true, false);
-            return eval_if_helper(
-                    detail::std::integral_constant<bool, truth_value>{}, t, e);
+            return eval_if_helper(bool_<truth_value>, t, e);
         }
     };
 
     template <typename C>
     struct not_impl<C, when<
-        models<Constant, C>{} && models<Logical, typename C::value_type>{}
+        _models<Constant, C>{}() && _models<Logical, typename C::value_type>{}()
     >> {
         using T = typename C::value_type;
         template <typename Cond>
@@ -296,17 +296,17 @@ namespace boost { namespace hana {
 
     template <typename C>
     struct while_impl<C, when<
-        models<Constant, C>{} && models<Logical, typename C::value_type>{}
+        _models<Constant, C>{}() && _models<Logical, typename C::value_type>{}()
     >> {
         template <typename Pred, typename State, typename F>
         static constexpr State
-        while_helper(detail::std::false_type, Pred&& pred, State&& state, F&& f) {
+        while_helper(decltype(false_), Pred&& pred, State&& state, F&& f) {
             return detail::std::forward<State>(state);
         }
 
         template <typename Pred, typename State, typename F>
         static constexpr decltype(auto)
-        while_helper(detail::std::true_type, Pred&& pred, State&& state, F&& f) {
+        while_helper(decltype(true_), Pred&& pred, State&& state, F&& f) {
             decltype(auto) r = f(detail::std::forward<State>(state));
             return hana::while_(detail::std::forward<Pred>(pred),
                                 detail::std::forward<decltype(r)>(r),
@@ -327,7 +327,7 @@ namespace boost { namespace hana {
             auto cond_ = pred(state);
             constexpr auto cond = hana::value(cond_);
             constexpr bool truth_value = hana::if_(cond, true, false);
-            return while_helper(detail::std::integral_constant<bool, truth_value>{},
+            return while_helper(bool_<truth_value>,
                                 detail::std::forward<Pred>(pred),
                                 detail::std::forward<State>(state),
                                 detail::std::forward<F>(f));

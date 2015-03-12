@@ -13,14 +13,14 @@ using namespace boost::hana;
 
 
 //! [models]
-static_assert(models<Iterable, Tuple>{}, "");
-static_assert(!models<Iterable, IntegralConstant<int>>{}, "");
+static_assert(models<Iterable, Tuple>, "");
+static_assert(!models<Iterable, IntegralConstant<int>>, "");
 //! [models]
 
 // Make sure senseless crap works as expected. This should be part
 // of the unit tests.
-static_assert(!models<Iterable, void>{}, "");
-static_assert(!models<void, IntegralConstant<int>>{}, "");
-static_assert(!models<void, void>{}, "");
+static_assert(!models<Iterable, void>, "");
+static_assert(!models<void, IntegralConstant<int>>, "");
+static_assert(!models<void, void>, "");
 
 int main() { }

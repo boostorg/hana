@@ -20,7 +20,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana { namespace test {
     template <typename Ord>
     auto laws<Orderable, Ord> = [] {
-        static_assert(models<Orderable, Ord>{}, "");
+        static_assert(_models<Orderable, Ord>{}, "");
 
         laws<Comparable, Ord>();
 

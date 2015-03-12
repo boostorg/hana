@@ -20,7 +20,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana { namespace test {
     template <typename T>
     auto laws<Comparable, T> = [] {
-        static_assert(models<Comparable, T>{}, "");
+        static_assert(_models<Comparable, T>{}, "");
 
         for_each(objects<T>, [](auto a) {
             BOOST_HANA_CHECK(equal(a, a));

@@ -16,7 +16,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/detail/variadic/at.hpp>
 #include <boost/hana/detail/variadic/drop_into.hpp>
@@ -252,8 +251,8 @@ namespace boost { namespace hana {
     // Sequence
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Sequence, sandbox::LambdaTuple>
-        : detail::std::true_type
+    struct models_impl<Sequence, sandbox::LambdaTuple>
+        : decltype(true_)
     { };
 
     template <>

@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/ring.hpp>
 
+#include <boost/hana/bool.hpp>
 #include <boost/hana/constant.hpp>
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
@@ -24,7 +25,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/has_common_embedding.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/is_arithmetic.hpp>
 
 // for default power
@@ -115,8 +115,8 @@ namespace boost { namespace hana {
     // models
     //////////////////////////////////////////////////////////////////////////
     template <typename R>
-    struct models<Ring, R>
-        : detail::std::integral_constant<bool,
+    struct models_impl<Ring, R>
+        : _integral_constant<bool,
             !is_default<one_impl<R>>{} &&
             !is_default<mult_impl<R, R>>{}
         >
@@ -143,7 +143,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename C>
     struct mult_impl<C, C, when<
-        models<Constant, C>{} && models<Ring, typename C::value_type>{}
+        _models<Constant, C>{} && _models<Ring, typename C::value_type>{}
     >> {
         using T = typename C::value_type;
         template <typename X, typename Y>
@@ -161,7 +161,7 @@ namespace boost { namespace hana {
 
     template <typename C>
     struct one_impl<C, when<
-        models<Constant, C>{} && models<Ring, typename C::value_type>{}
+        _models<Constant, C>{} && _models<Ring, typename C::value_type>{}
     >> {
         using T = typename C::value_type;
         struct _constant {

@@ -18,7 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana { namespace test {
     template <typename L>
     auto laws<Logical, L> = [] {
-        static_assert(models<Logical, L>{}, "");
+        static_assert(_models<Logical, L>{}, "");
 
         // laws
         {

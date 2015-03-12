@@ -20,7 +20,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/enumerable.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional/always.hpp>
@@ -253,8 +252,8 @@ namespace boost { namespace hana {
     // models
     //////////////////////////////////////////////////////////////////////////
     template <typename It>
-    struct models<Iterable, It>
-        : detail::std::integral_constant<bool,
+    struct models_impl<Iterable, It>
+        : _integral_constant<bool,
             !is_default<head_impl<It>>{} &&
             !is_default<tail_impl<It>>{} &&
             !is_default<is_empty_impl<It>>{}

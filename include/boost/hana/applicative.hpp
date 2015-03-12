@@ -12,13 +12,13 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/applicative.hpp>
 
+#include <boost/hana/bool.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/variadic/foldl.hpp>
 #include <boost/hana/functional/curry.hpp>
 #include <boost/hana/functor.hpp>
@@ -41,10 +41,10 @@ namespace boost { namespace hana {
     template <typename F, typename X>
     constexpr decltype(auto) _ap::operator()(F&& f, X&& x) const {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-        static_assert(models<Applicative, typename datatype<F>::type>{},
+        static_assert(_models<Applicative, typename datatype<F>::type>{},
         "hana::ap(f, x) requires f to be an Applicative");
 
-        static_assert(models<Applicative, typename datatype<X>::type>{},
+        static_assert(_models<Applicative, typename datatype<X>::type>{},
         "hana::ap(f, x) requires x to be an Applicative");
 #endif
         return ap_impl<typename datatype<F>::type>::apply(
@@ -92,8 +92,8 @@ namespace boost { namespace hana {
     // models
     //////////////////////////////////////////////////////////////////////////
     template <typename A>
-    struct models<Applicative, A>
-        : detail::std::integral_constant<bool,
+    struct models_impl<Applicative, A>
+        : _integral_constant<bool,
             !is_default<ap_impl<A>>{} &&
             !is_default<lift_impl<A>>{}
         >

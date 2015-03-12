@@ -161,7 +161,7 @@ namespace boost { namespace hana {
         template <typename Xs, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(models<Monad, typename datatype<Xs>::type>{},
+            static_assert(_models<Monad, typename datatype<Xs>::type>{},
             "hana::bind(xs, f) requires xs to be a Monad");
 #endif
             return bind_impl<typename datatype<Xs>::type>::apply(
@@ -197,7 +197,7 @@ namespace boost { namespace hana {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(models<Monad, typename datatype<Xs>::type>{},
+            static_assert(_models<Monad, typename datatype<Xs>::type>{},
             "hana::flatten(xs) requires xs to be a Monad");
 #endif
             return flatten_impl<typename datatype<Xs>::type>::apply(
@@ -236,7 +236,7 @@ namespace boost { namespace hana {
     template <typename M>
     struct _mcompose {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-        static_assert(models<Monad, M>{},
+        static_assert(_models<Monad, M>{},
         "hana::mcompose<M>(f, g) requires M to be a Monad");
 #endif
         template <typename F, typename G>
@@ -284,10 +284,10 @@ namespace boost { namespace hana {
         template <typename Before, typename Xs>
         constexpr decltype(auto) operator()(Before&& before, Xs&& xs) const {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(models<Monad, typename datatype<Before>::type>{},
+            static_assert(_models<Monad, typename datatype<Before>::type>{},
             "hana::then(before, xs) requires before to be a Monad");
 
-            static_assert(models<Monad, typename datatype<Xs>::type>{},
+            static_assert(_models<Monad, typename datatype<Xs>::type>{},
             "hana::then(before, xs) requires xs to be a Monad");
 #endif
             return then_impl<typename datatype<Before>::type>::apply(
@@ -335,7 +335,7 @@ namespace boost { namespace hana {
     template <typename M>
     struct _tap {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-        static_assert(models<Monad, M>{},
+        static_assert(_models<Monad, M>{},
         "hana::tap<M>(f) requires M to be a Monad");
 #endif
         template <typename F>

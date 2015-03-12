@@ -26,7 +26,7 @@ namespace boost { namespace hana { namespace test {
 
     template <typename F>
     struct TestFunctor<F, laws> {
-        static_assert(models<Functor, F>{}, "");
+        static_assert(_models<Functor, F>{}, "");
 
         template <typename Xs>
         TestFunctor(Xs xs) {
@@ -75,7 +75,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename S>
-    struct TestFunctor<S, when<models<Sequence, S>{}>> : TestFunctor<S, laws> {
+    struct TestFunctor<S, when<_models<Sequence, S>{}>> : TestFunctor<S, laws> {
         struct undefined { };
 
         template <typename Xs>

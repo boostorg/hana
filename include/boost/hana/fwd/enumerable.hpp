@@ -78,7 +78,7 @@ namespace boost { namespace hana {
         template <typename E>
         constexpr decltype(auto) operator()(E&& num) const {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-        static_assert(models<Enumerable, typename datatype<E>::type>{},
+        static_assert(_models<Enumerable, typename datatype<E>::type>{},
         "hana::succ(n) requires n to be Enumerable");
 #endif
 
@@ -110,7 +110,7 @@ namespace boost { namespace hana {
         template <typename E>
         constexpr decltype(auto) operator()(E&& num) const {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-        static_assert(models<Enumerable, typename datatype<E>::type>{},
+        static_assert(_models<Enumerable, typename datatype<E>::type>{},
         "hana::pred(n) requires n to be Enumerable");
 #endif
 

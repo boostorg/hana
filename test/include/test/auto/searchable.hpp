@@ -27,7 +27,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana { namespace test {
     template <typename S>
     auto laws<Searchable, S> = [] {
-        static_assert(models<Searchable, S>{}, "");
+        static_assert(_models<Searchable, S>{}, "");
 
         for_each(objects<S>, [](auto xs) {
 
@@ -42,7 +42,7 @@ namespace boost { namespace hana { namespace test {
                 );
             });
 
-            eval_if(all_of(xs, is_a<Logical>),
+            eval_if(all_of(xs, models<Logical>),
                 [=](auto _) {
                     BOOST_HANA_CHECK(
                         _(any)(xs) ^iff^ _(any_of)(xs, id)
@@ -72,7 +72,7 @@ namespace boost { namespace hana { namespace test {
                     //! not checking the law when this is the case, but that's
                     //! a hack.
                     auto compile_time_comparable = [=](auto y) {
-                        return is_a<Constant>(equal(x, y));
+                        return models<Constant, decltype(equal(x, y))>;
                     };
                     eval_if(all_of(xs, compile_time_comparable),
                         [=](auto _) {

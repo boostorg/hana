@@ -21,7 +21,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana { namespace test {
     template <typename G>
     auto laws<Group, G> = [] {
-        static_assert(models<Group, G>{}, "");
+        static_assert(_models<Group, G>{}, "");
 
         laws<Monoid, G>();
 

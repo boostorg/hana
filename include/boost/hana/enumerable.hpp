@@ -12,13 +12,13 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/enumerable.hpp>
 
+#include <boost/hana/bool.hpp>
 #include <boost/hana/constant.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/is_arithmetic.hpp>
 #include <boost/hana/detail/std/is_same.hpp>
 
@@ -50,8 +50,8 @@ namespace boost { namespace hana {
     // models
     //////////////////////////////////////////////////////////////////////////
     template <typename E>
-    struct models<Enumerable, E>
-        : detail::std::integral_constant<bool,
+    struct models_impl<Enumerable, E>
+        : _integral_constant<bool,
             !is_default<succ_impl<E>>{} &&
             !is_default<pred_impl<E>>{}
         >
@@ -83,7 +83,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename C>
     struct succ_impl<C, when<
-        models<Constant, C>{} && models<Enumerable, typename C::value_type>{}
+        _models<Constant, C>{} && _models<Enumerable, typename C::value_type>{}
     >> {
         using T = typename C::value_type;
         template <typename X>
@@ -99,7 +99,7 @@ namespace boost { namespace hana {
 
     template <typename C>
     struct pred_impl<C, when<
-        models<Constant, C>{} && models<Enumerable, typename C::value_type>{}
+        _models<Constant, C>{} && _models<Enumerable, typename C::value_type>{}
     >> {
         using T = typename C::value_type;
         template <typename X>

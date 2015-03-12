@@ -29,7 +29,7 @@ auto print = [](std::ostream& os, auto const& x) -> decltype(auto) {
 
 namespace boost { namespace hana {
     template <typename T>
-    struct models<Printable, T>
+    struct models_impl<Printable, T>
         : std::integral_constant<bool, !is_default<print_impl<T>>{}>
     { };
 }}
@@ -44,7 +44,7 @@ struct print_impl<Person> {
     }
 };
 
-static_assert(models<Printable, Person>{}, "");
+static_assert(_models<Printable, Person>{}, "");
 
 int main() {
     print(std::cout, Person{"Louis"});

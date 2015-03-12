@@ -22,7 +22,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana { namespace test {
     template <typename T>
     auto laws<Foldable, T> = [] {
-        static_assert(models<Foldable, T>{}, "");
+        static_assert(_models<Foldable, T>{}, "");
 
         auto f = injection([]{});
         auto s = injection([]{})();

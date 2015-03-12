@@ -18,7 +18,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integer_sequence.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/remove_reference.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/functor.hpp>
@@ -188,8 +187,8 @@ namespace boost { namespace hana {
     // Sequence
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Sequence, ext::std::Tuple>
-        : detail::std::true_type
+    struct models_impl<Sequence, ext::std::Tuple>
+        : decltype(true_)
     { };
 }} // end namespace boost::hana
 

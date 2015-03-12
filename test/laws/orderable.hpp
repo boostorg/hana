@@ -25,7 +25,7 @@ namespace boost { namespace hana { namespace test {
 
     template <typename T>
     struct TestOrderable<T, laws> {
-        static_assert(models<Orderable, T>{}, "");
+        static_assert(_models<Orderable, T>{}, "");
 
         template <typename Xs>
         TestOrderable(Xs xs) {
@@ -96,7 +96,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename C>
-    struct TestOrderable<C, when<models<Constant, C>{}>>
+    struct TestOrderable<C, when<_models<Constant, C>{}>>
         : TestOrderable<C, laws>
     {
         template <typename Xs>
@@ -113,7 +113,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename P>
-    struct TestOrderable<P, when<models<Product, P>{}>> : TestOrderable<P, laws> {
+    struct TestOrderable<P, when<_models<Product, P>{}>> : TestOrderable<P, laws> {
         template <typename Products>
         TestOrderable(Products products) : TestOrderable<P, laws>{products} {
             foreach2(products, [](auto x, auto y) {
@@ -132,7 +132,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename S>
-    struct TestOrderable<S, when<models<Sequence, S>{}>> : TestOrderable<S, laws> {
+    struct TestOrderable<S, when<_models<Sequence, S>{}>> : TestOrderable<S, laws> {
         template <int i>
         using ord = _constant<i>;
 

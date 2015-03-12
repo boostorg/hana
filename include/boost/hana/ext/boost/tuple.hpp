@@ -14,7 +14,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/monad_plus.hpp>
@@ -92,8 +91,8 @@ namespace boost { namespace hana {
     // Sequence
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Sequence, ext::boost::Tuple>
-        : detail::std::true_type
+    struct models_impl<Sequence, ext::boost::Tuple>
+        : decltype(true_)
     { };
 }} // end namespace boost::hana
 

@@ -26,7 +26,7 @@ namespace boost { namespace hana { namespace test {
 
     template <typename L>
     struct TestLogical<L, laws> {
-        static_assert(models<Logical, L>{}, "");
+        static_assert(_models<Logical, L>{}, "");
 
         template <typename Xs, typename Pred, typename F>
         static void for_each_such_that(Xs xs, Pred pred, F f) {
@@ -119,7 +119,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename C>
-    struct TestLogical<C, when<models<Constant, C>{}>>
+    struct TestLogical<C, when<_models<Constant, C>{}>>
         : TestLogical<C, laws>
     {
         template <typename Xs>

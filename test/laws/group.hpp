@@ -26,7 +26,7 @@ namespace boost { namespace hana { namespace test {
 
     template <typename G>
     struct TestGroup<G, laws> {
-        static_assert(models<Group, G>{}, "");
+        static_assert(_models<Group, G>{}, "");
 
         template <typename Xs>
         TestGroup(Xs xs) {
@@ -80,7 +80,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename C>
-    struct TestGroup<C, when<models<Constant, C>{}>>
+    struct TestGroup<C, when<_models<Constant, C>{}>>
         : TestGroup<C, laws>
     {
         template <typename Xs>

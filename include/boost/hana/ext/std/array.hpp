@@ -19,7 +19,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integer_sequence.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/detail/std/remove_reference.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
@@ -152,8 +151,8 @@ namespace boost { namespace hana {
     // Sequence
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models<Sequence, ext::std::Array>
-        : detail::std::true_type
+    struct models_impl<Sequence, ext::std::Array>
+        : decltype(true_)
     { };
 }} // end namespace boost::hana
 

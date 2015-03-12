@@ -12,8 +12,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/core/models.hpp>
 
+#include <boost/hana/bool.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 
 
 namespace boost { namespace hana {
@@ -21,13 +21,27 @@ namespace boost { namespace hana {
     // models
     //////////////////////////////////////////////////////////////////////////
     //! @cond
-    template <typename Concept, typename T, typename>
-    struct models : models<Concept, T, when<true>> { };
+    template <typename Concept, typename DataType, typename>
+    struct models_impl : models_impl<Concept, DataType, when<true>> { };
 
-    template <typename Concept, typename T, bool condition>
-    struct models<Concept, T, when<condition>>
-        : detail::std::false_type
+    template <typename Concept, typename DataType, bool condition>
+    struct models_impl<Concept, DataType, when<condition>>
+        : _integral_constant<bool, false>
     { };
+
+    template <typename Concept, typename T>
+    struct _models<Concept, T>
+        : _integral_constant<bool,
+            models_impl<Concept, typename datatype<T>::type>::value
+        >
+    { };
+
+    template <typename Concept>
+    struct _models<Concept> {
+        template <typename T>
+        constexpr auto operator()(T const&) const
+        { return models<Concept, T>; }
+    };
     //! @endcond
 }} // end namespace boost::hana
 

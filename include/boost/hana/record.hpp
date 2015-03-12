@@ -12,12 +12,12 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/record.hpp>
 
+#include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/partial.hpp>
@@ -42,8 +42,8 @@ namespace boost { namespace hana {
     // models
     //////////////////////////////////////////////////////////////////////////
     template <typename R>
-    struct models<Record, R>
-        : detail::std::integral_constant<bool,
+    struct models_impl<Record, R>
+        : _integral_constant<bool,
             !is_default<members_impl<R>>{}
         >
     { };
@@ -71,7 +71,7 @@ namespace boost { namespace hana {
     }
 
     template <typename R>
-    struct equal_impl<R, R, when<models<Record, R>{}>> {
+    struct equal_impl<R, R, when<_models<Record, R>{}>> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
             return hana::all_of(members<R>(),
@@ -102,7 +102,7 @@ namespace boost { namespace hana {
     }
 
     template <typename R>
-    struct unpack_impl<R, when<models<Record, R>{}>> {
+    struct unpack_impl<R, when<_models<Record, R>{}>> {
         template <typename Udt, typename F>
         static constexpr decltype(auto) apply(Udt&& udt, F&& f) {
             return hana::unpack(hana::members<R>(),
@@ -129,7 +129,7 @@ namespace boost { namespace hana {
     }
 
     template <typename R>
-    struct find_impl<R, when<models<Record, R>{}>> {
+    struct find_impl<R, when<_models<Record, R>{}>> {
         template <typename X, typename Pred>
         static constexpr decltype(auto) apply(X&& x, Pred&& pred) {
             return hana::transform(
@@ -142,7 +142,7 @@ namespace boost { namespace hana {
     };
 
     template <typename R>
-    struct any_of_impl<R, when<models<Record, R>{}>> {
+    struct any_of_impl<R, when<_models<Record, R>{}>> {
         template <typename X, typename Pred>
         static constexpr decltype(auto) apply(X const&, Pred&& pred) {
             return hana::any_of(members<R>(),
