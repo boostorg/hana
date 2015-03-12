@@ -221,11 +221,84 @@ namespace boost { namespace hana {
     //! Conditionally execute one of two branches based on a condition.
     //! @relates Logical
     //!
-    //! The selected branch will be invoked with an identity function, wich
-    //! allows making types and values dependent inside a lambda and achieve
-    //! a lazy-like behavior. However, type instantiation laziness can only
-    //! be achieved with `Logical`s whose truth-value is known at compile-time.
-    //! The result of the `eval_if` is the result of the invoked branch.
+    //! Given a condition and two branches in the form of lambdas, `eval_if`
+    //! will evaluate the branch selected by the condition and return the
+    //! result. But that's not all; the lambdas must accept a parameter
+    //! (usually called `_`), which can be used to defer the compile-time
+    //! evaluation of expressions as required. Here's an example:
+    //! @code
+    //!     template <typename N>
+    //!     auto fact(N n) {
+    //!         return hana::eval_if(n == hana::int_<0>,
+    //!             [](auto _) { return hana::int_<1>; },
+    //!             [=](auto _) { return n * fact(_(n) - hana::int_<1>); }
+    //!         );
+    //!     }
+    //! @endcode
+    //!
+    //! What happens here is that `eval_if` will pass an identity function to
+    //! the selected branch. Hence, `_(x)` is always the same as `x`, but the
+    //! compiler can't tell until the lambda has been called! Hence, the
+    //! compiler has to wait before it instantiates the body of the lambda
+    //! and no infinite recursion happens. However, this trick to delay the
+    //! instantiation of the lambda's body can only be used when the condition
+    //! is known at compile-time, because otherwise both branches have to be
+    //! instantiated inside the `eval_if` anyway. Also note that `always` can
+    //! be used to make `eval_if` easier to work with:
+    //! @code
+    //!     template <typename N>
+    //!     auto fact(N n) {
+    //!         return hana::eval_if(n == hana::int_<0>,
+    //!             always(hana::int_<1>),
+    //!             [=](auto _) { return n * fact(_(n) - hana::int_<1>); }
+    //!         );
+    //!     }
+    //! @endcode
+    //!
+    //! There are several caveats to note with our approach to lazy branching.
+    //! First, because we're using lambdas, it means that the function's
+    //! result can't be used in a constant expression. This is a limitation
+    //! of the current version of C++.
+    //!
+    //! The second caveat is that compilers currently have several bugs
+    //! regarding deeply nested lambdas with captures. So you always risk
+    //! crashing the compiler, but this is a question of time before it is
+    //! not a problem anymore.
+    //!
+    //! Finally, it means that conditionals can't be written directly inside
+    //! unevaluated contexts. The reason is that a lambda can't appear in an
+    //! unevaluated context, for example in `decltype`. One way to workaround
+    //! this is to completely lift your type computations into variable
+    //! templates instead. So instead of writing e.g. (stupid example, just
+    //! to show):
+    //! @code
+    //!     template <typename T>
+    //!     struct f : decltype(eval_if(true_,
+    //!             [](auto _) { return type<T>; },
+    //!             [](auto _) { return type<T>; }
+    //!         ))
+    //!     { };
+    //! @endcode
+    //!
+    //! you could instead write
+    //!
+    //! @code
+    //!     template <typename T>
+    //!     auto f_impl(_type<T> t) {
+    //!         return eval_if(true_,
+    //!             [](auto) { return type<T>; },
+    //!             [](auto) { return type<T>; }
+    //!         );
+    //!     }
+    //!
+    //!     template <typename T>
+    //!     using f = decltype(f_impl(type<T>));
+    //! @endcode
+    //!
+    //! Now, this hoop-jumping only has to be done in one place, because
+    //! you should use normal function notation everywhere else in your
+    //! metaprogram to perform type computations. So the syntactic
+    //! cost is amortized over the whole program.
     //!
     //!
     //! @param cond
