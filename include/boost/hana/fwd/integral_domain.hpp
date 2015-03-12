@@ -10,9 +10,9 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_INTEGRAL_DOMAIN_HPP
 #define BOOST_HANA_FWD_INTEGRAL_DOMAIN_HPP
 
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/fwd/core/datatype.hpp>
+#include <boost/hana/fwd/core/operators.hpp>
 
 
 namespace boost { namespace hana {

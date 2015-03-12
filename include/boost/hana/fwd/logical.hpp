@@ -11,9 +11,10 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_LOGICAL_HPP
 
 #include <boost/hana/config.hpp>
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/fwd/core/datatype.hpp>
+#include <boost/hana/fwd/core/models.hpp>
+#include <boost/hana/fwd/core/operators.hpp>
 
 
 namespace boost { namespace hana {
@@ -574,6 +575,11 @@ namespace boost { namespace hana {
 
     constexpr _or or_{};
 #endif
+
+    template <>
+    struct operators::of<Logical>
+        : decltype(and_), decltype(or_), decltype(not_)
+    { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_LOGICAL_HPP

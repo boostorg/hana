@@ -11,11 +11,11 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_SEARCHABLE_HPP
 
 #include <boost/hana/config.hpp>
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/functional/flip.hpp>
 #include <boost/hana/functional/infix.hpp>
+#include <boost/hana/fwd/core/datatype.hpp>
+#include <boost/hana/fwd/core/models.hpp>
 
 
 namespace boost { namespace hana {
