@@ -38,15 +38,15 @@ namespace boost { namespace hana {
     //!
     //! Some methods like `any_of`, `all_of` and `none_of` allow simple queries
     //! to be performed on the keys of the structure, while other methods like
-    //! `lookup` and `find` make it possible to find the value associated
+    //! `find` and `find_if` make it possible to find the value associated
     //! to a key. The most specific method should always be used if one
     //! cares about performance, because it is usually the case that heavy
     //! optimizations can be performed in more specific methods. For example,
     //! an associative data structure implemented as a hash table will be much
-    //! faster to access using `lookup` than `find`, because in the second
+    //! faster to access using `find` than `find_if`, because in the second
     //! case it will have to do a linear search through all the entries.
-    //! Similarly, using `elem` will likely be much faster than `any` with
-    //! an equivalent predicate.
+    //! Similarly, using `elem` will likely be much faster than `any_of`
+    //! with an equivalent predicate.
     //!
     //! > #### Insight
     //! > In a lazy evaluation context, any Foldable can also become a model
@@ -67,8 +67,8 @@ namespace boost { namespace hana {
     //!
     //!     elem(xs, x) <=> any_of(xs, [](auto y) { return y == x; })
     //!
-    //!     lookup(xs, x) == find(xs, [](auto y) { return y == x; })
-    //!     find(xs, always(false_)) == nothing
+    //!     find(xs, x) == find_if(xs, [](auto y) { return y == x; })
+    //!     find_if(xs, always(false_)) == nothing
     //!
     //!     subset(xs, ys) <=> all_of(xs, [](auto x) { return elem(ys, x); })
     //! @endcode
@@ -84,10 +84,10 @@ namespace boost { namespace hana {
     //!
     //! Minimal complete definition
     //! ---------------------------
-    //! 1. `find` and `any_of`\n
+    //! 1. `find_if` and `any_of`\n
     //! According to the above laws, it is possible to implement all the
-    //! methods pertaining to this concept using only `find` and `any_of`.
-    //! When `find` and `any_of` are provided, the other methods are
+    //! methods pertaining to this concept using only `find_if` and `any_of`.
+    //! When `find_if` and `any_of` are provided, the other methods are
     //! implemented according to the laws above.
     //!
     //!
@@ -96,21 +96,21 @@ namespace boost { namespace hana {
     //! 1. For builtin arrays\n
     //! Builtin arrays whose size is known can be searched as-if they were
     //! homogeneous tuples. However, since arrays can only hold objects of
-    //! a single type and the predicate to `find` must return a compile-time
-    //! Logical, the `find` method is fairly useless. For similar reasons,
-    //! the `lookup` method is also fairly useless.
+    //! a single type and the predicate to `find_if` must return a compile-time
+    //! Logical, the `find_if` method is fairly useless. For similar reasons,
+    //! the `find` method is also fairly useless.
     //!
     //!
     //! @note
-    //! We could implement `any_of(xs, pred)` as `is_just(find(xs, pred))`,
-    //! and then reduce the minimal complete definition to `find`. However,
+    //! We could implement `any_of(xs, pred)` as `is_just(find_if(xs, pred))`,
+    //! and then reduce the minimal complete definition to `find_if`. However,
     //! this is not done because that implementation requires the predicate
-    //! to return a compile-time `Logical`, which is too restrictive.
+    //! of `any_of` to return a compile-time `Logical`, which is more
+    //! restrictive than what we have right now.
     //!
     //!
     //! @todo
-    //! - We should provide a member `operator[]` equivalent to `lookup`.
-    //! - Use perfect forwarding in the MCD once Clang bug #20619 is fixed.
+    //! We should provide a member `operator[]` equivalent to `find`.
     struct Searchable { };
 
     //! Returns whether any key of the structure satisfies the `predicate`.
@@ -443,41 +443,39 @@ namespace boost { namespace hana {
     //! A function called as `predicate(k)`, where `k` is a key of the
     //! structure, and returning a `Logical`. Note that in the current
     //! version of the library, the `predicate` has to return a compile-time
-    //! `Logical`. This is because `find` returns a `Maybe`, which is an
-    //! heterogeneous data type.
+    //! `Logical` because `find_if` returns either a `just(...)` or `nothing`.
     //!
     //!
     //! Example
     //! -------
-    //! @snippet example/searchable.cpp find
-    //!
+    //! @snippet example/searchable.cpp find_if
     //!
     //! Benchmarks
     //! ----------
-    //! @image html benchmark/searchable/find.ctime.png
+    //! @image html benchmark/searchable/find_if.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto find = [](auto&& xs, auto&& predicate) -> decltype(auto) {
+    constexpr auto find_if = [](auto&& xs, auto&& predicate) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
     template <typename S, typename = void>
-    struct find_impl;
+    struct find_if_impl;
 
-    struct _find {
+    struct _find_if {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
             static_assert(_models<Searchable, typename datatype<Xs>::type>{},
-            "hana::find(xs, pred) requires xs to be a Searchable");
+            "hana::find_if(xs, pred) requires xs to be a Searchable");
 #endif
-            return find_impl<typename datatype<Xs>::type>::apply(
+            return find_if_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Pred>(pred)
             );
         }
     };
 
-    constexpr _find find{};
+    constexpr _find_if find_if{};
 #endif
 
     //! Finds the value associated to the given key in a structure.
@@ -500,35 +498,34 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/searchable.cpp lookup
-    //!
+    //! @snippet example/searchable.cpp find
     //!
     //! Benchmarks
     //! ----------
-    //! @image html benchmark/searchable/lookup.ctime.png
+    //! @image html benchmark/searchable/find.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto lookup = [](auto&& xs, auto&& key) -> decltype(auto) {
+    constexpr auto find = [](auto&& xs, auto&& key) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
     template <typename S, typename = void>
-    struct lookup_impl;
+    struct find_impl;
 
-    struct _lookup {
+    struct _find {
         template <typename Xs, typename Key>
         constexpr decltype(auto) operator()(Xs&& xs, Key&& key) const {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
             static_assert(_models<Searchable, typename datatype<Xs>::type>{},
-            "hana::lookup(xs, key) requires xs to be a Searchable");
+            "hana::find(xs, key) requires xs to be a Searchable");
 #endif
-            return lookup_impl<typename datatype<Xs>::type>::apply(
+            return find_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
                 detail::std::forward<Key>(key)
             );
         }
     };
 
-    constexpr _lookup lookup{};
+    constexpr _find find{};
 #endif
 
     //! Returns whether a structure contains a subset of the keys of
@@ -544,9 +541,6 @@ namespace boost { namespace hana {
     //! This method is tag-dispatched using the data type of the first
     //! argument only.
     //!
-    //! @todo
-    //! Consider using the data type of both arguments for tag-dispatching.
-    //!
     //!
     //! @param xs
     //! The structure to check whether it is a subset of `ys`.
@@ -559,10 +553,12 @@ namespace boost { namespace hana {
     //! -------
     //! @snippet example/searchable.cpp subset
     //!
-    //!
     //! Benchmarks
     //! ----------
     //! @image html benchmark/searchable/subset.ctime.png
+    //!
+    //! @todo
+    //! Consider using the data type of both arguments for tag-dispatching.
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto subset = [](auto&& xs, auto&& ys) -> decltype(auto) {
         return tag-dispatched;

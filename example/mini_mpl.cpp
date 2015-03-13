@@ -251,16 +251,14 @@ using accumulate = fold<Sequence, State, F>;
 //////////////////////////////////////////////////////////////////////////////
 template <typename Sequence, typename Pred>
 struct find_if
-    : decltype(hana::from_just(hana::find(
+    : decltype(hana::from_just(hana::find_if(
         Sequence{}, boolean_metafunction_class<Pred>
     )))
 { };
 
 template <typename Sequence, typename T>
 struct find
-    : decltype(hana::from_just(hana::find(
-        Sequence{}, hana::equal.to(hana::type<T>)
-    )))
+    : decltype(hana::from_just(hana::find(Sequence{}, hana::type<T>)))
 { };
 
 template <typename Sequence, typename T>

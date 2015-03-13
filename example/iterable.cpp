@@ -116,10 +116,21 @@ BOOST_HANA_CONSTEXPR_CHECK(
 
 }{
 
-//! [find]
-BOOST_HANA_CONSTEXPR_CHECK(find(make<Tuple>(1.0, 2, '3'), trait_<std::is_integral>) == just(2));
-BOOST_HANA_CONSTANT_CHECK(find(make<Tuple>(1.0, 2, '3'), trait_<std::is_class>) == nothing);
-//! [find]
+//! [Searchable]
+BOOST_HANA_CONSTEXPR_CHECK(
+    find_if(make<Tuple>(1.0, 2, '3'), trait_<std::is_integral>) == just(2)
+);
+BOOST_HANA_CONSTANT_CHECK(
+    find_if(make<Tuple>(1.0, 2, '3'), trait_<std::is_class>) == nothing
+);
+
+BOOST_HANA_CONSTANT_CHECK(
+    find(make<Tuple>(int_<1>, char_<'c'>, type<void>), type<void>) == just(type<void>)
+);
+BOOST_HANA_CONSTANT_CHECK(
+    find(make<Tuple>(int_<1>, char_<'c'>, type<void>), type<int>) == nothing
+);
+//! [Searchable]
 
 }
 

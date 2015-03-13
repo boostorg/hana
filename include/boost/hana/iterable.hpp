@@ -346,7 +346,7 @@ namespace boost { namespace hana {
     // Model of Searchable
     //////////////////////////////////////////////////////////////////////////
     template <typename It>
-    struct Iterable::find_impl {
+    struct Iterable::find_if_impl {
         template <typename Xs, typename Pred>
         static constexpr auto apply(Xs xs, Pred pred) {
             auto e = hana::drop_until(xs, pred);

@@ -79,10 +79,10 @@ namespace boost { namespace hana {
     // Searchable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct find_impl<Set> {
+    struct find_if_impl<Set> {
         template <typename Set, typename Pred>
         static constexpr decltype(auto) apply(Set&& set, Pred&& pred) {
-            return hana::find(detail::std::forward<Set>(set).storage,
+            return hana::find_if(detail::std::forward<Set>(set).storage,
                               detail::std::forward<Pred>(pred));
         }
     };

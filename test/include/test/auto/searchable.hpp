@@ -60,35 +60,35 @@ namespace boost { namespace hana { namespace test {
             );
 
             // If there's at least one element, we find it and then perform
-            // the check for `lookup` with it.
+            // the check for `find` with it.
             maybe(0,
                 [=](auto x) {
                     //! @todo
-                    //! `lookup` will only work on values that can be compared
+                    //! `find` will only work on values that can be compared
                     //! at compile-time, because it has to return a `nothing`
                     //! or a `just(x)`. Because of this, if the Searchable
                     //! contains elements that must be compared at runtime,
-                    //! using `lookup` would fail. We workaround this by
-                    //! not checking the law when this is the case, but that's
-                    //! a hack.
+                    //! using `find` would fail. We workaround this by
+                    //! not checking the law when this is the case, but
+                    //! that's a hack.
                     auto compile_time_comparable = [=](auto y) {
                         return models<Constant, decltype(equal(x, y))>;
                     };
                     eval_if(all_of(xs, compile_time_comparable),
                         [=](auto _) {
                             BOOST_HANA_CHECK(equal(
-                                _(lookup)(xs, x),
-                                _(find)(xs, [=](auto y) { return equal(y, x); })
+                                _(find)(xs, x),
+                                _(find_if)(xs, [=](auto y) { return equal(y, x); })
                             ));
                         },
                         [](auto) { }
                     );
                 },
-                find(xs, always(true_))
+                find_if(xs, always(true_))
             );
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(xs, always(false_)),
+                find_if(xs, always(false_)),
                 nothing
             ));
 

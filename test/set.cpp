@@ -201,32 +201,32 @@ int main() {
             BOOST_HANA_CONSTANT_CHECK(not_(any_of(set(x<1>, x<2>), equal.to(x<3>))));
         }
 
-        // find
+        // find_if
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(set(), equal.to(x<1>)),
+                find_if(set(), equal.to(x<1>)),
                 nothing
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(set(x<1>), equal.to(x<1>)),
+                find_if(set(x<1>), equal.to(x<1>)),
                 just(x<1>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(set(x<1>), equal.to(x<2>)),
+                find_if(set(x<1>), equal.to(x<2>)),
                 nothing
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(set(x<1>, x<2>), equal.to(x<1>)),
+                find_if(set(x<1>, x<2>), equal.to(x<1>)),
                 just(x<1>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(set(x<1>, x<2>), equal.to(x<2>)),
+                find_if(set(x<1>, x<2>), equal.to(x<2>)),
                 just(x<2>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(set(x<1>, x<2>), equal.to(x<3>)),
+                find_if(set(x<1>, x<2>), equal.to(x<3>)),
                 nothing
             ));
         }

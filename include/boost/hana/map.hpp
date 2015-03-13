@@ -86,8 +86,8 @@ namespace boost { namespace hana {
             return hana::and_(
                 hana::equal(hana::length(m1.storage), hana::length(m2.storage)),
                 hana::all_of(hana::keys(m1), hana::demux(equal)(
-                    hana::partial(lookup, m1),
-                    hana::partial(lookup, m2)
+                    hana::partial(find, m1),
+                    hana::partial(find, m2)
                 ))
             );
         }
@@ -97,11 +97,11 @@ namespace boost { namespace hana {
     // Searchable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct find_impl<Map> {
+    struct find_if_impl<Map> {
         template <typename M, typename Pred>
         static constexpr auto apply(M&& map, Pred&& pred) {
             return hana::transform(
-                hana::find(detail::std::forward<M>(map).storage,
+                hana::find_if(detail::std::forward<M>(map).storage,
                     hana::compose(detail::std::forward<Pred>(pred), first)),
                 second
             );

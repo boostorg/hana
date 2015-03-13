@@ -186,7 +186,7 @@ namespace boost { namespace hana { namespace test {
             for_each(objects<It>, [=](auto xs) {
                 maybe(0, // do nothing if we have no test for that length
                     [=](auto test) { test(xs); },
-                    lookup(check, length(xs))
+                    find(check, length(xs))
                 );
             });
         }
@@ -201,7 +201,7 @@ namespace boost { namespace hana { namespace test {
                         BOOST_HANA_CONSTANT_CHECK(not_(_(any_of)(xs, always(true_))));
 
                         BOOST_HANA_CONSTANT_CHECK(equal(
-                            _(find)(xs, always(true_)),
+                            _(find_if)(xs, always(true_)),
                             nothing
                         ));
                     },
@@ -210,12 +210,12 @@ namespace boost { namespace hana { namespace test {
                         BOOST_HANA_CHECK(not_(_(any_of)(xs, always(false_))));
 
                         BOOST_HANA_CHECK(equal(
-                            _(find)(xs, always(true_)),
+                            _(find_if)(xs, always(true_)),
                             just(_(head)(xs))
                         ));
 
                         BOOST_HANA_CHECK(equal(
-                            _(find)(xs, always(false_)),
+                            _(find_if)(xs, always(false_)),
                             nothing
                         ));
                     }

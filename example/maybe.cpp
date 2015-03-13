@@ -121,9 +121,9 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto odd = [](auto x) {
     return x % int_<2> != int_<0>;
 };
 
-BOOST_HANA_CONSTANT_CHECK(find(just(int_<3>), odd) == just(int_<3>));
-BOOST_HANA_CONSTANT_CHECK(find(just(int_<2>), odd) == nothing);
-BOOST_HANA_CONSTANT_CHECK(find(nothing, odd) == nothing);
+BOOST_HANA_CONSTANT_CHECK(find_if(just(int_<3>), odd) == just(int_<3>));
+BOOST_HANA_CONSTANT_CHECK(find_if(just(int_<2>), odd) == nothing);
+BOOST_HANA_CONSTANT_CHECK(find_if(nothing, odd) == nothing);
 
 BOOST_HANA_CONSTANT_CHECK(all_of(just(int_<3>), odd));
 BOOST_HANA_CONSTANT_CHECK(all_of(nothing, odd));

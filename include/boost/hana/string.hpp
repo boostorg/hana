@@ -170,8 +170,8 @@ namespace boost { namespace hana {
     // Searchable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct find_impl<String>
-        : Iterable::find_impl<String>
+    struct find_if_impl<String>
+        : Iterable::find_if_impl<String>
     { };
 
     template <>
@@ -201,7 +201,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct lookup_impl<String> {
+    struct find_impl<String> {
         template <char ...s, typename Char>
         static constexpr auto apply(_string<s...> str, Char c) {
             return hana::if_(hana::elem(str, c),

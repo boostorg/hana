@@ -64,13 +64,13 @@ BOOST_HANA_CONSTANT_CHECK(equal(
 
 //! [searchable]
 BOOST_HANA_CONSTANT_CHECK(
-    find(mpl::vector<int, float, char const*>{}, equal.to(type<float>))
+    find_if(mpl::vector<int, float, char const*>{}, equal.to(type<float>))
     ==
     just(type<float>)
 );
 
 BOOST_HANA_CONSTANT_CHECK(
-    lookup(mpl::vector<int, float, char const*>{}, type<void>)
+    find(mpl::vector<int, float, char const*>{}, type<void>)
     ==
     nothing
 );

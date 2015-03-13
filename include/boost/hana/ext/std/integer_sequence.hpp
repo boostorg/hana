@@ -74,8 +74,8 @@ namespace boost { namespace hana {
     // Searchable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct find_impl<ext::std::IntegerSequence>
-        : Iterable::find_impl<ext::std::IntegerSequence>
+    struct find_if_impl<ext::std::IntegerSequence>
+        : Iterable::find_if_impl<ext::std::IntegerSequence>
     { };
 
     template <>

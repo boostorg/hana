@@ -126,7 +126,7 @@ namespace boost { namespace hana {
     //! An Iterable can be searched by doing a linear search through the
     //! elements, with the keys and values both being the elements in the
     //! iterable.
-    //! @snippet example/iterable.cpp find
+    //! @snippet example/iterable.cpp Searchable
     //!
     //!
     //! Operators
@@ -151,7 +151,7 @@ namespace boost { namespace hana {
         template <typename It> struct foldl1_impl;
         template <typename It> struct foldr1_impl;
 
-        template <typename It> struct find_impl;
+        template <typename It> struct find_if_impl;
         template <typename It> struct any_of_impl;
     };
 

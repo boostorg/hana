@@ -117,8 +117,8 @@ namespace boost { namespace hana {
     // Searchable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct find_impl<sandbox::LambdaTuple>
-        : Iterable::find_impl<sandbox::LambdaTuple>
+    struct find_if_impl<sandbox::LambdaTuple>
+        : Iterable::find_if_impl<sandbox::LambdaTuple>
     { };
 
     template <>

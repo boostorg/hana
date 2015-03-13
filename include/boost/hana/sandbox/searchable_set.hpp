@@ -121,7 +121,7 @@ namespace boost { namespace hana {
     // Searchable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct find_impl<SearchableSet> {
+    struct find_if_impl<SearchableSet> {
         template <typename Set, typename Pred>
         static constexpr auto apply(Set set, Pred p) {
             auto x = set.find(p);

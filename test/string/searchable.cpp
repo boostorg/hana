@@ -53,25 +53,25 @@ int main() {
             );
         }
 
-        // find
+        // find_if
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(BOOST_HANA_STRING(""), always(true_)),
+                find_if(BOOST_HANA_STRING(""), always(true_)),
                 nothing
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(BOOST_HANA_STRING("abcd"), equal.to(char_<'a'>)),
+                find_if(BOOST_HANA_STRING("abcd"), equal.to(char_<'a'>)),
                 just(char_<'a'>)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(BOOST_HANA_STRING("abcd"), equal.to(char_<'c'>)),
+                find_if(BOOST_HANA_STRING("abcd"), equal.to(char_<'c'>)),
                 just(char_<'c'>)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(BOOST_HANA_STRING("abcd"), equal.to(char_<'d'>)),
+                find_if(BOOST_HANA_STRING("abcd"), equal.to(char_<'d'>)),
                 just(char_<'d'>)
             ));
         }
@@ -93,19 +93,19 @@ int main() {
             );
         }
 
-        // lookup
+        // find
         {
             struct invalid { };
             BOOST_HANA_CONSTANT_CHECK(equal(
-                lookup(BOOST_HANA_STRING("abcd"), char_<'a'>),
+                find(BOOST_HANA_STRING("abcd"), char_<'a'>),
                 just(char_<'a'>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                lookup(BOOST_HANA_STRING("abcd"), char_<'c'>),
+                find(BOOST_HANA_STRING("abcd"), char_<'c'>),
                 just(char_<'c'>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                lookup(BOOST_HANA_STRING("abcd"), invalid{}),
+                find(BOOST_HANA_STRING("abcd"), invalid{}),
                 nothing
             ));
         }

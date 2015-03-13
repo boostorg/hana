@@ -2714,61 +2714,61 @@ namespace boost { namespace hana { namespace test {
                 }
             }
 
-            // find
+            // find_if
             {
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    find(list(), equal.to(x<9>)),
+                    find_if(list(), equal.to(x<9>)),
                     nothing
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    find(list(x<0>), equal.to(x<9>)),
+                    find_if(list(x<0>), equal.to(x<9>)),
                     nothing
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    find(list(x<0>), equal.to(x<0>)),
+                    find_if(list(x<0>), equal.to(x<0>)),
                     just(x<0>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    find(list(x<0>, invalid<1>), equal.to(x<0>)),
+                    find_if(list(x<0>, invalid<1>), equal.to(x<0>)),
                     just(x<0>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    find(list(x<0>, invalid<1>, invalid<2>), equal.to(x<0>)),
+                    find_if(list(x<0>, invalid<1>, invalid<2>), equal.to(x<0>)),
                     just(x<0>)
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    find(list(x<0>, x<1>), equal.to(x<9>)),
+                    find_if(list(x<0>, x<1>), equal.to(x<9>)),
                     nothing
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    find(list(x<0>, x<1>), equal.to(x<1>)),
+                    find_if(list(x<0>, x<1>), equal.to(x<1>)),
                     just(x<1>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    find(list(x<0>, x<1>, invalid<2>), equal.to(x<1>)),
+                    find_if(list(x<0>, x<1>, invalid<2>), equal.to(x<1>)),
                     just(x<1>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    find(list(x<0>, x<1>, invalid<2>, invalid<3>), equal.to(x<1>)),
+                    find_if(list(x<0>, x<1>, invalid<2>, invalid<3>), equal.to(x<1>)),
                     just(x<1>)
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    find(list(x<0>, x<1>, x<2>), equal.to(x<9>)),
+                    find_if(list(x<0>, x<1>, x<2>), equal.to(x<9>)),
                     nothing
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    find(list(x<0>, x<1>, x<2>), equal.to(x<2>)),
+                    find_if(list(x<0>, x<1>, x<2>), equal.to(x<2>)),
                     just(x<2>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    find(list(x<0>, x<1>, x<2>, nothing), equal.to(x<2>)),
+                    find_if(list(x<0>, x<1>, x<2>, nothing), equal.to(x<2>)),
                     just(x<2>)
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    find(list(x<0>, x<1>, x<2>, nothing, nothing), equal.to(x<2>)),
+                    find_if(list(x<0>, x<1>, x<2>, nothing, nothing), equal.to(x<2>)),
                     just(x<2>)
                 ));
             }

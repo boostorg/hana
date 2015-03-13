@@ -66,32 +66,32 @@ int main() {
             );
         }
 
-        // find
+        // find_if
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(make<Map>(), equal.to(key<1>)),
+                find_if(make<Map>(), equal.to(key<1>)),
                 nothing
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(make<Map>(p<1, 1>), equal.to(key<1>)),
+                find_if(make<Map>(p<1, 1>), equal.to(key<1>)),
                 just(val<1>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(make<Map>(p<1, 1>), equal.to(key<2>)),
+                find_if(make<Map>(p<1, 1>), equal.to(key<2>)),
                 nothing
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(make<Map>(p<1, 1>, p<2, 2>), equal.to(key<1>)),
+                find_if(make<Map>(p<1, 1>, p<2, 2>), equal.to(key<1>)),
                 just(val<1>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(make<Map>(p<1, 1>, p<2, 2>), equal.to(key<2>)),
+                find_if(make<Map>(p<1, 1>, p<2, 2>), equal.to(key<2>)),
                 just(val<2>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(make<Map>(p<1, 1>, p<2, 2>), equal.to(key<3>)),
+                find_if(make<Map>(p<1, 1>, p<2, 2>), equal.to(key<3>)),
                 nothing
             ));
         }

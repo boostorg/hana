@@ -48,9 +48,9 @@ int main() {
     BOOST_HANA_RUNTIME_CHECK(equal(john, john));
     BOOST_HANA_RUNTIME_CHECK(not_equal(john, bob));
 
-    BOOST_HANA_RUNTIME_CHECK(lookup(john, name) == just("John"));
-    BOOST_HANA_RUNTIME_CHECK(lookup(john, age) == just(30));
-    BOOST_HANA_CONSTANT_CHECK(lookup(john, "clearly not a member") == nothing);
+    BOOST_HANA_RUNTIME_CHECK(find(john, name) == just("John"));
+    BOOST_HANA_RUNTIME_CHECK(find(john, age) == just(30));
+    BOOST_HANA_CONSTANT_CHECK(find(john, "clearly not a member") == nothing);
 
     BOOST_HANA_RUNTIME_CHECK(to<Tuple>(john) == make<Tuple>("John", 30));
     BOOST_HANA_RUNTIME_CHECK(to<Map>(john) == make<Map>(

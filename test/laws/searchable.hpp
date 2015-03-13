@@ -64,9 +64,9 @@ namespace boost { namespace hana { namespace test {
                 });
 
 
-                // find(xs, always(false_)) == nothing
+                // find_if(xs, always(false_)) == nothing
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    hana::find(xs, hana::always(false_)),
+                    hana::find_if(xs, hana::always(false_)),
                     nothing
                 ));
 
@@ -77,10 +77,10 @@ namespace boost { namespace hana { namespace test {
                     })
                 );
 
-                // lookup(xs, x) == find(xs, [](auto y) { return y == x; })
+                // find(xs, x) == find_if(xs, [](auto y) { return y == x; })
                 BOOST_HANA_CHECK(hana::equal(
-                    hana::lookup(xs, key),
-                    hana::find(xs, equal.to(key))
+                    hana::find(xs, key),
+                    hana::find_if(xs, equal.to(key))
                 ));
 
                 // elem(xs, x) <=> any_of(xs, [](auto y) { return y == x; })
@@ -99,7 +99,12 @@ namespace boost { namespace hana { namespace test {
                     hana::always(true_)
                 )
             );
-            hana::ap(make<Tuple>(check), predicates, keys, searchables, searchables);
+            hana::for_each(predicates, [=](auto pred) {
+            hana::for_each(keys, [=](auto key) {
+            hana::for_each(searchables, [=](auto xs) {
+            hana::for_each(searchables, [=](auto ys) {
+                check(pred, key, xs, ys);
+            });});});});
         }
     };
 
@@ -261,61 +266,120 @@ namespace boost { namespace hana { namespace test {
             BOOST_HANA_CONSTEXPR_CHECK(not_(none(list(logical(true)))));
 
             //////////////////////////////////////////////////////////////////
+            // find_if
+            //////////////////////////////////////////////////////////////////
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                find_if(list(), equal.to(x<9>{})),
+                nothing
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                find_if(list(x<0>{}), equal.to(x<9>{})),
+                nothing
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                find_if(list(x<0>{}), equal.to(x<0>{})),
+                just(x<0>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                find_if(list(x<0>{}, invalid<1>{}), equal.to(x<0>{})),
+                just(x<0>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                find_if(list(x<0>{}, invalid<1>{}, invalid<2>{}), equal.to(x<0>{})),
+                just(x<0>{})
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                find_if(list(x<0>{}, x<1>{}), equal.to(x<9>{})),
+                nothing
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                find_if(list(x<0>{}, x<1>{}), equal.to(x<1>{})),
+                just(x<1>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                find_if(list(x<0>{}, x<1>{}, invalid<2>{}), equal.to(x<1>{})),
+                just(x<1>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                find_if(list(x<0>{}, x<1>{}, invalid<2>{}, invalid<3>{}), equal.to(x<1>{})),
+                just(x<1>{})
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                find_if(list(x<0>{}, x<1>{}, x<2>{}), equal.to(x<9>{})),
+                nothing
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                find_if(list(x<0>{}, x<1>{}, x<2>{}), equal.to(x<2>{})),
+                just(x<2>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                find_if(list(x<0>{}, x<1>{}, x<2>{}, nothing), equal.to(x<2>{})),
+                just(x<2>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                find_if(list(x<0>{}, x<1>{}, x<2>{}, nothing, nothing), equal.to(x<2>{})),
+                just(x<2>{})
+            ));
+
+            //////////////////////////////////////////////////////////////////
             // find
             //////////////////////////////////////////////////////////////////
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(list(), equal.to(x<9>{})),
+                find(list(), invalid<>{}),
                 nothing
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(list(x<0>{}), equal.to(x<9>{})),
+                find(list(x<0>{}), x<9>{}),
                 nothing
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(list(x<0>{}), equal.to(x<0>{})),
+                find(list(x<0>{}), x<0>{}),
                 just(x<0>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(list(x<0>{}, invalid<1>{}), equal.to(x<0>{})),
+                find(list(x<0>{}, invalid<1>{}), x<0>{}),
                 just(x<0>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(list(x<0>{}, invalid<1>{}, invalid<2>{}), equal.to(x<0>{})),
+                find(list(x<0>{}, invalid<1>{}, invalid<2>{}), x<0>{}),
                 just(x<0>{})
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(list(x<0>{}, x<1>{}), equal.to(x<9>{})),
+                find(list(x<0>{}, x<1>{}), x<9>{}),
                 nothing
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(list(x<0>{}, x<1>{}), equal.to(x<1>{})),
+                find(list(x<0>{}, x<1>{}), x<1>{}),
                 just(x<1>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(list(x<0>{}, x<1>{}, invalid<2>{}), equal.to(x<1>{})),
+                find(list(x<0>{}, x<1>{}, invalid<2>{}), x<1>{}),
                 just(x<1>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(list(x<0>{}, x<1>{}, invalid<2>{}, invalid<3>{}), equal.to(x<1>{})),
+                find(list(x<0>{}, x<1>{}, invalid<2>{}, invalid<3>{}), x<1>{}),
                 just(x<1>{})
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(list(x<0>{}, x<1>{}, x<2>{}), equal.to(x<9>{})),
+                find(list(x<0>{}, x<1>{}, x<2>{}), x<9>{}),
                 nothing
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(list(x<0>{}, x<1>{}, x<2>{}), equal.to(x<2>{})),
+                find(list(x<0>{}, x<1>{}, x<2>{}), x<2>{}),
                 just(x<2>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(list(x<0>{}, x<1>{}, x<2>{}, nothing), equal.to(x<2>{})),
+                find(list(x<0>{}, x<1>{}, x<2>{}, nothing), x<2>{}),
                 just(x<2>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(list(x<0>{}, x<1>{}, x<2>{}, nothing, nothing), equal.to(x<2>{})),
+                find(list(x<0>{}, x<1>{}, x<2>{}, nothing, nothing), x<2>{}),
                 just(x<2>{})
             ));
 

@@ -217,7 +217,7 @@ namespace boost { namespace hana { namespace test {
                         );
 
                         BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                            hana::find(xs_, hana::always(true_)),
+                            hana::find_if(xs_, hana::always(true_)),
                             nothing
                         ));
                     },
@@ -232,7 +232,7 @@ namespace boost { namespace hana { namespace test {
                         );
 
                         BOOST_HANA_CHECK(hana::equal(
-                            hana::find(xs_, hana::always(true_)),
+                            hana::find_if(xs_, hana::always(true_)),
                             hana::just(hana::head(xs_))
                         ));
                     }

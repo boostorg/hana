@@ -119,20 +119,20 @@ int main() {
             ));
         }
 
-        // find
+        // find_if
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(record(x<0>, x<1>), equal.to(test::member1)),
+                find_if(record(x<0>, x<1>), equal.to(test::member1)),
                 just(x<0>)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(record(x<0>, x<1>), equal.to(test::member2)),
+                find_if(record(x<0>, x<1>), equal.to(test::member2)),
                 just(x<1>)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(record(x<0>, x<1>), equal.to(undefined<>)),
+                find_if(record(x<0>, x<1>), equal.to(undefined<>)),
                 nothing
             ));
         }

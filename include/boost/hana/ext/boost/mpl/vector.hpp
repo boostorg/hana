@@ -137,8 +137,8 @@ namespace boost { namespace hana {
     // Searchable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct find_impl<ext::boost::mpl::Vector>
-        : Iterable::find_impl<ext::boost::mpl::Vector>
+    struct find_if_impl<ext::boost::mpl::Vector>
+        : Iterable::find_if_impl<ext::boost::mpl::Vector>
     { };
 
     template <>

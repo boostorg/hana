@@ -100,17 +100,17 @@ int main() {
             , "");
         }
 
-        // find
+        // find_if
         // Note: Because we need the predicate to return a Constant, this
         // is incredibly not powerful.
         {
             static_assert(equal(
-                find(array<int, 1>{0}, always(true_)),
+                find_if(array<int, 1>{0}, always(true_)),
                 just(0)
             ), "");
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(array<int, 1>{0}, always(false_)),
+                find_if(array<int, 1>{0}, always(false_)),
                 nothing
             ));
         }

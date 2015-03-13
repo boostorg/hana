@@ -201,8 +201,8 @@ namespace boost { namespace hana {
     // Searchable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct find_impl<Range>
-        : Iterable::find_impl<Range>
+    struct find_if_impl<Range>
+        : Iterable::find_if_impl<Range>
     { };
 
     template <>
@@ -211,21 +211,21 @@ namespace boost { namespace hana {
     { };
 
     template <>
-    struct lookup_impl<Range> {
+    struct find_impl<Range> {
         template <typename U, typename N>
-        static constexpr auto lookup_helper(N n_, decltype(true_)) {
+        static constexpr auto find_helper(N n_, decltype(true_)) {
             constexpr auto n = hana::value(n_);
             return hana::just(hana::to<U>(integral_constant<decltype(n), n>));
         }
 
         template <typename U, typename N>
-        static constexpr auto lookup_helper(N, decltype(false_))
+        static constexpr auto find_helper(N, decltype(false_))
         { return nothing; }
 
         template <typename R, typename N>
         static constexpr auto apply(R, N n_) {
             constexpr auto n = hana::value(n_);
-            return lookup_helper<typename R::underlying>(
+            return find_helper<typename R::underlying>(
                                     n_, bool_<(n >= R::from && n < R::to)>);
         }
     };

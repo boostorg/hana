@@ -63,8 +63,8 @@ BOOST_HANA_CONSTANT_CHECK(is_empty(range(int_<3>, int_<3>)));
 }{
 
 //! [searchable]
-BOOST_HANA_CONSTANT_CHECK(lookup(range(int_<1>, int_<25>), int_<10>) == just(int_<10>));
-BOOST_HANA_CONSTANT_CHECK(lookup(range(int_<1>, int_<25>), int_<200>) == nothing);
+BOOST_HANA_CONSTANT_CHECK(find(range(int_<1>, int_<25>), int_<10>) == just(int_<10>));
+BOOST_HANA_CONSTANT_CHECK(find(range(int_<1>, int_<25>), int_<200>) == nothing);
 //! [searchable]
 
 }{

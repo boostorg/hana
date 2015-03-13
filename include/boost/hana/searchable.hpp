@@ -120,8 +120,19 @@ namespace boost { namespace hana {
         template <typename Xs, typename X>
         static constexpr decltype(auto) apply(Xs&& xs, X&& x) {
             return hana::any_of(detail::std::forward<Xs>(xs),
-                             hana::partial(equal, detail::std::forward<X>(x)));
+                    hana::equal.to(detail::std::forward<X>(x)));
         }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // find_if
+    //////////////////////////////////////////////////////////////////////////
+    template <typename S, typename>
+    struct find_if_impl : find_if_impl<S, when<true>> { };
+
+    template <typename S, bool condition>
+    struct find_if_impl<S, when<condition>> : default_ {
+        static void apply(...) { }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -132,21 +143,10 @@ namespace boost { namespace hana {
 
     template <typename S, bool condition>
     struct find_impl<S, when<condition>> : default_ {
-        static void apply(...) { }
-    };
-
-    //////////////////////////////////////////////////////////////////////////
-    // lookup
-    //////////////////////////////////////////////////////////////////////////
-    template <typename S, typename>
-    struct lookup_impl : lookup_impl<S, when<true>> { };
-
-    template <typename S, bool condition>
-    struct lookup_impl<S, when<condition>> : default_ {
         template <typename Xs, typename Key>
         static constexpr decltype(auto) apply(Xs&& xs, Key&& key) {
-            return hana::find(detail::std::forward<Xs>(xs),
-                    hana::partial(equal, detail::std::forward<Key>(key)));
+            return hana::find_if(detail::std::forward<Xs>(xs),
+                    hana::equal.to(detail::std::forward<Key>(key)));
         }
     };
 
@@ -172,7 +172,7 @@ namespace boost { namespace hana {
     struct models_impl<Searchable, S>
         : _integral_constant<bool,
             !is_default<any_of_impl<S>>{} &&
-            !is_default<find_impl<S>>{}
+            !is_default<find_if_impl<S>>{}
         >
     { };
 
@@ -215,7 +215,7 @@ namespace boost { namespace hana {
     };
 
     template <typename T, detail::std::size_t N>
-    struct find_impl<T[N]> {
+    struct find_if_impl<T[N]> {
         using Size = detail::std::size_t;
 
         template <typename Xs, typename Pred, Size i>

@@ -66,7 +66,7 @@ BOOST_HANA_CONSTANT_CHECK(is_empty(make<Tuple>()));
 using namespace std::string_literals;
 
 BOOST_HANA_RUNTIME_CHECK(
-    find(make<Tuple>(1, '2', 3.3, "abc"s), is_a<std::string>) == just("abc"s)
+    find_if(make<Tuple>(1, '2', 3.3, "abc"s), is_a<std::string>) == just("abc"s)
 );
 
 BOOST_HANA_RUNTIME_CHECK(

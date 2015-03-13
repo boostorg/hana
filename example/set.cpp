@@ -30,9 +30,9 @@ BOOST_HANA_CONSTANT_CHECK(set(1, '2', 3.3) != set('2', 1));
 }{
 
 //! [searchable]
-BOOST_HANA_CONSTEXPR_LAMBDA auto xs = set(int_<0>, int_<1>, int_<2>);
-BOOST_HANA_CONSTANT_CHECK(lookup(xs, int_<0>) == just(int_<0>));
-BOOST_HANA_CONSTANT_CHECK(lookup(xs, int_<3>) == nothing);
+constexpr auto xs = set(int_<0>, int_<1>, int_<2>);
+BOOST_HANA_CONSTANT_CHECK(find(xs, int_<0>) == just(int_<0>));
+BOOST_HANA_CONSTANT_CHECK(find(xs, int_<3>) == nothing);
 //! [searchable]
 
 }{
@@ -50,7 +50,7 @@ static_assert(sum(xs) == int_<3>, "");
 }{
 
 //! [insert]
-BOOST_HANA_CONSTEXPR_LAMBDA auto xs = set(int_<0>, type<int>);
+constexpr auto xs = set(int_<0>, type<int>);
 BOOST_HANA_CONSTANT_CHECK(
     insert(xs, BOOST_HANA_STRING("abc")) ==
     set(int_<0>, type<int>, BOOST_HANA_STRING("abc"))

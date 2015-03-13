@@ -191,14 +191,14 @@ int main() {
             BOOST_HANA_CONSTEXPR_CHECK(not_(any_of(doubleton(n<0>, n<1>), is(n<2>))));
         }
 
-        // find
+        // find_if
         {
-            BOOST_HANA_CONSTANT_CHECK(find(singleton(c<0>), is(c<0>)) == just(c<0>));
-            BOOST_HANA_CONSTANT_CHECK(find(singleton(c<1>), is(c<0>)) == nothing);
+            BOOST_HANA_CONSTANT_CHECK(find_if(singleton(c<0>), is(c<0>)) == just(c<0>));
+            BOOST_HANA_CONSTANT_CHECK(find_if(singleton(c<1>), is(c<0>)) == nothing);
 
-            BOOST_HANA_CONSTANT_CHECK(find(doubleton(c<0>, c<1>), is(c<0>)) == just(c<0>));
-            BOOST_HANA_CONSTANT_CHECK(find(doubleton(c<0>, c<1>), is(c<1>)) == just(c<1>));
-            BOOST_HANA_CONSTANT_CHECK(find(doubleton(c<0>, c<1>), is(c<2>)) == nothing);
+            BOOST_HANA_CONSTANT_CHECK(find_if(doubleton(c<0>, c<1>), is(c<0>)) == just(c<0>));
+            BOOST_HANA_CONSTANT_CHECK(find_if(doubleton(c<0>, c<1>), is(c<1>)) == just(c<1>));
+            BOOST_HANA_CONSTANT_CHECK(find_if(doubleton(c<0>, c<1>), is(c<2>)) == nothing);
         }
 
         // subset

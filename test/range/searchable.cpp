@@ -35,45 +35,45 @@ int main() {
     // Searchable
     //////////////////////////////////////////////////////////////////////////
     {
-        // lookup
+        // find
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                lookup(range(int_<0>, int_<0>), test::cnumeric<int, 0>),
+                find(range(int_<0>, int_<0>), test::cnumeric<int, 0>),
                 nothing
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                lookup(range(int_<0>, int_<1>), test::cnumeric<int, 0>),
+                find(range(int_<0>, int_<1>), test::cnumeric<int, 0>),
                 just(int_<0>)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                lookup(range(int_<0>, int_<10>), test::cnumeric<int, 3>),
+                find(range(int_<0>, int_<10>), test::cnumeric<int, 3>),
                 just(int_<3>)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                lookup(range(int_<0>, int_<10>), test::cnumeric<int, 9>),
+                find(range(int_<0>, int_<10>), test::cnumeric<int, 9>),
                 just(int_<9>)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                lookup(range(int_<-10>, int_<10>), test::cnumeric<int, -10>),
+                find(range(int_<-10>, int_<10>), test::cnumeric<int, -10>),
                 just(int_<-10>)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                lookup(range(int_<-10>, int_<10>), test::cnumeric<int, -5>),
+                find(range(int_<-10>, int_<10>), test::cnumeric<int, -5>),
                 just(int_<-5>)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                lookup(range(int_<-10>, int_<0>), test::cnumeric<int, 3>),
+                find(range(int_<-10>, int_<0>), test::cnumeric<int, 3>),
                 nothing
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                lookup(range(int_<0>, int_<10>), test::cnumeric<int, 15>),
+                find(range(int_<0>, int_<10>), test::cnumeric<int, 15>),
                 nothing
             ));
         }

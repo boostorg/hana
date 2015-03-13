@@ -339,7 +339,7 @@ namespace boost { namespace hana {
     // Searchable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct find_impl<Maybe> {
+    struct find_if_impl<Maybe> {
         template <typename M, typename Pred>
         static constexpr decltype(auto) apply(M&& m, Pred&& pred) {
             return hana::only_when(detail::std::forward<Pred>(pred), id,

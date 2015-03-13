@@ -129,11 +129,11 @@ namespace boost { namespace hana {
     }
 
     template <typename R>
-    struct find_impl<R, when<_models<Record, R>{}>> {
+    struct find_if_impl<R, when<_models<Record, R>{}>> {
         template <typename X, typename Pred>
         static constexpr decltype(auto) apply(X&& x, Pred&& pred) {
             return hana::transform(
-                hana::find(members<R>(),
+                hana::find_if(members<R>(),
                     hana::compose(detail::std::forward<Pred>(pred), first)
                 ),
                 record_detail::get_member<X>{detail::std::forward<X>(x)}

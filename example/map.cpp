@@ -70,10 +70,10 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto m = make_map(
     pair(type<int>, 'i'),
     pair(type<float>, 'f')
 );
-BOOST_HANA_CONSTEXPR_CHECK(lookup(m, type<int>) == just('i'));
-BOOST_HANA_CONSTEXPR_CHECK(lookup(m, type<float>) == just('f'));
-BOOST_HANA_CONSTANT_CHECK(lookup(m, type<void>) == nothing);
-BOOST_HANA_CONSTANT_CHECK(lookup(m, int_<3>) == nothing);
+BOOST_HANA_CONSTEXPR_CHECK(find(m, type<int>) == just('i'));
+BOOST_HANA_CONSTEXPR_CHECK(find(m, type<float>) == just('f'));
+BOOST_HANA_CONSTANT_CHECK(find(m, type<void>) == nothing);
+BOOST_HANA_CONSTANT_CHECK(find(m, int_<3>) == nothing);
 //! [searchable]
 
 }

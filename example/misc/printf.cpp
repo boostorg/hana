@@ -38,11 +38,11 @@ constexpr auto format(Tokens ...tokens_) {
     // can use this lambda instead of `demux(...)(...)`:
     //
     // [](auto token) {
-    //     return from_just(lookup(formats, decltype_(token)));
+    //     return from_just(find(formats, decltype_(token)));
     // }
     auto format_string_tokens = adjust_if(tokens,
         compose(not_, is_a<String>),
-        demux(from_just)(compose(partial(lookup, formats), decltype_))
+        demux(from_just)(compose(partial(find, formats), decltype_))
     );
 
     auto format_string = foldl(format_string_tokens, string<>, concat_strings{});

@@ -311,25 +311,25 @@ int main() {
         auto x = test::injection([]{})();
         auto y = test::injection([]{})();
 
-        // find
+        // find_if
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(just(x), equal.to(x)),
+                find_if(just(x), equal.to(x)),
                 just(x)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(just(x), equal.to(y)),
+                find_if(just(x), equal.to(y)),
                 nothing
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(nothing, equal.to(x)),
+                find_if(nothing, equal.to(x)),
                 nothing
             ));
 
             // Previously, there was a bug that would make this fail.
             auto non_const_nothing = nothing;
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(non_const_nothing, equal.to(x)),
+                find_if(non_const_nothing, equal.to(x)),
                 nothing
             ));
         }

@@ -1151,8 +1151,8 @@ namespace boost { namespace hana {
     // Automatic model of Searchable
     //////////////////////////////////////////////////////////////////////////
     template <typename S>
-    struct find_impl<S, when<_models<Sequence, S>{}>>
-        : Iterable::find_impl<S>
+    struct find_if_impl<S, when<_models<Sequence, S>{}>>
+        : Iterable::find_if_impl<S>
     { };
 
     template <typename S>

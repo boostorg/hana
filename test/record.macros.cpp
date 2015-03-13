@@ -69,17 +69,17 @@ int main() {
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
-            lookup(intrusive, BOOST_HANA_STRING("member1")),
+            find(intrusive, BOOST_HANA_STRING("member1")),
             just(intrusive.member1)
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
-            lookup(intrusive, BOOST_HANA_STRING("member2")),
+            find(intrusive, BOOST_HANA_STRING("member2")),
             just(intrusive.member2)
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
-            lookup(intrusive, BOOST_HANA_STRING("inexistant")),
+            find(intrusive, BOOST_HANA_STRING("inexistant")),
             nothing
         ));
     }
@@ -94,17 +94,17 @@ int main() {
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
-            lookup(adhoc, BOOST_HANA_STRING("member1")),
+            find(adhoc, BOOST_HANA_STRING("member1")),
             just(adhoc.member1)
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
-            lookup(adhoc, BOOST_HANA_STRING("member2")),
+            find(adhoc, BOOST_HANA_STRING("member2")),
             just(adhoc.member2)
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
-            lookup(adhoc, BOOST_HANA_STRING("inexistant")),
+            find(adhoc, BOOST_HANA_STRING("inexistant")),
             nothing
         ));
     }

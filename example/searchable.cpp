@@ -87,13 +87,39 @@ BOOST_HANA_CONSTANT_CHECK(elem(set(1, '2', type<int>, "foobar"), type<int>));
 
 }{
 
-//! [find]
-BOOST_HANA_CONSTEXPR_CHECK(find(make<Tuple>(1.0, 2, '3'), trait_<std::is_integral>) == just(2));
-BOOST_HANA_CONSTANT_CHECK(find(make<Tuple>(1.0, 2, '3'), trait_<std::is_class>) == nothing);
+//! [find_if]
+BOOST_HANA_CONSTEXPR_CHECK(
+    find_if(make<Tuple>(1.0, 2, '3'), trait_<std::is_integral>) == just(2)
+);
+BOOST_HANA_CONSTANT_CHECK(
+    find_if(make<Tuple>(1.0, 2, '3'), trait_<std::is_class>) == nothing
+);
 
 constexpr auto types = tuple_t<char, int, unsigned, long, unsigned long>;
-BOOST_HANA_CONSTANT_CHECK(find(types, _ == type<unsigned>) == just(type<unsigned>));
-BOOST_HANA_CONSTANT_CHECK(find(types, _ == type<void>) == nothing);
+BOOST_HANA_CONSTANT_CHECK(
+    find_if(types, _ == type<unsigned>) == just(type<unsigned>)
+);
+BOOST_HANA_CONSTANT_CHECK(
+    find_if(types, _ == type<void>) == nothing
+);
+//! [find_if]
+
+}{
+
+//! [find]
+BOOST_HANA_CONSTANT_CHECK(
+    find(make<Tuple>(int_<1>, type<int>, '3'), type<int>) == just(type<int>)
+);
+BOOST_HANA_CONSTANT_CHECK(
+    find(make<Tuple>(int_<1>, type<int>, '3'), type<void>) == nothing
+);
+
+BOOST_HANA_CONSTEXPR_LAMBDA auto m = make<Map>(
+    make<Pair>(1, 'x'),
+    make<Pair>(type<float>, 3.3),
+    make<Pair>(type<char>, type<int>)
+);
+BOOST_HANA_CONSTEXPR_CHECK(find(m, type<float>) == just(3.3));
 //! [find]
 
 }{
@@ -108,20 +134,6 @@ BOOST_HANA_CONSTANT_CHECK(
     make<Tuple>(type<int>, int_<3>, type<void>)
 );
 //! [in]
-
-}{
-
-//! [lookup]
-BOOST_HANA_CONSTANT_CHECK(lookup(make<Tuple>(int_<1>, type<int>, '3'), type<int>) == just(type<int>));
-BOOST_HANA_CONSTANT_CHECK(lookup(make<Tuple>(int_<1>, type<int>, '3'), type<void>) == nothing);
-
-BOOST_HANA_CONSTEXPR_LAMBDA auto m = make<Map>(
-    make<Pair>(1, 'x'),
-    make<Pair>(type<float>, 3.3),
-    make<Pair>(type<char>, type<int>)
-);
-BOOST_HANA_CONSTEXPR_CHECK(lookup(m, type<float>) == just(3.3));
-//! [lookup]
 
 }{
 

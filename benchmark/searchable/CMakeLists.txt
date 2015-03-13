@@ -2,7 +2,7 @@
 # Distributed under the Boost Software License, Version 1.0.
 # (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
-foreach(method IN ITEMS all_of any_of elem find lookup none_of subset)
+foreach(method IN ITEMS all_of any_of elem find_if find none_of subset)
     # Methods requiring the contents of the Searchable to be Comparable.
     if (${method} MATCHES "subset")
         set(hana_tuple_env
