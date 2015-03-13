@@ -132,6 +132,16 @@ BOOST_HANA_CONSTANT_CHECK(length(just('x')) == size_t<1>);
 
 }{
 
+//! [size]
+BOOST_HANA_CONSTANT_CHECK(size(make<Tuple>()) == size_t<0>);
+BOOST_HANA_CONSTANT_CHECK(size(make<Tuple>(1, '2', 3.0)) == size_t<3>);
+
+BOOST_HANA_CONSTANT_CHECK(size(nothing) == size_t<0>);
+BOOST_HANA_CONSTANT_CHECK(size(just('x')) == size_t<1>);
+//! [size]
+
+}{
+
 //! [maximum]
 BOOST_HANA_CONSTANT_CHECK(
     maximum(tuple_c<int, -1, 0, 2, -4, 6, 9>) == int_<9>

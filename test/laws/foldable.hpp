@@ -49,6 +49,13 @@ namespace boost { namespace hana { namespace test {
                     hana::foldr(xs, s, f),
                     hana::foldr(hana::to<Tuple>(xs), s, f)
                 ));
+
+
+                // equivalence of size(xs) and length(xs)
+                BOOST_HANA_CHECK(hana::equal(
+                    hana::length(xs),
+                    hana::size(xs)
+                ));
             });
         }
     };

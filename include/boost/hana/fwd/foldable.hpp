@@ -439,13 +439,12 @@ namespace boost { namespace hana {
     //! Specifically, returns an object of an unsigned integral type, or
     //! a `Constant` holding such an object, which represents the number
     //! of elements in the structure. The structure has to be finite for
-    //! this method to make sense.
+    //! this method to return.
     //!
     //!
     //! Example
     //! -------
     //! @snippet example/foldable.cpp length
-    //!
     //!
     //! Benchmarks
     //! ----------
@@ -473,6 +472,20 @@ namespace boost { namespace hana {
 
     constexpr _length length{};
 #endif
+
+    //! Equivalent to `length`; provided for consistency with the
+    //! standard library.
+    //! @relates Foldable
+    //!
+    //! This method is an alias to `length` provided for convenience and
+    //! consistency with the standard library. As an alias, `size` is not
+    //! tag-dispatched on its own and `length` should be customized instead.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/foldable.cpp size
+    constexpr auto size = length;
 
     //! Return the least element of a non-empty structure with respect to
     //! a `predicate`.
