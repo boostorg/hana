@@ -26,7 +26,7 @@ if (NOT Boost_FOUND)
         "record.macros.cpp"
         "tutorial/type.cpp"
         "tutorial/mpl_cheatsheet.cpp"
-        "mini_mpl.cpp")
+        "misc/mini_mpl.cpp")
     list(REMOVE_ITEM BOOST_HANA_EXAMPLE_SOURCES ${_examples_that_require_Boost})
 endif()
 

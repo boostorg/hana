@@ -694,14 +694,14 @@ algorithm on the fly (e.g. inside a function), and it will only work on types!
 That's it for the introduction to type computations with Hana, but there are
 a couple of interesting examples scattered in the documentation if you want
 more. There's also a minimal reimplementation of the MPL using Hana under
-the hood in `example/mini_mpl.cpp`.
+the hood in `example/misc/mini_mpl.cpp`.
 
 
 @subsection tutorial-type-perf Performance considerations
 
 @todo
-- Provide links to the scattered examples, and also to example/mini_mpl. For
-  some reason, I can't get Doxygen to generate a link.
+- Provide links to the scattered examples, and also to example/misc/mini_mpl.
+  For some reason, I can't get Doxygen to generate a link.
 - Expand this section to explain the philosophy behind Hana's metaprogramming
   paradigm, i.e. that you only retrieve the types at the end and that you do
   not try to represent everything as a type.
