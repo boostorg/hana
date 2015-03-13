@@ -147,6 +147,21 @@ Distributed under the Boost Software License, Version 1.0.
 #   define BOOST_HANA_CONFIG_DISABLE_ASSERTIONS
 #endif
 
-#define BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+#if defined(BOOST_HANA_DOXYGEN_INVOKED)
+    //! @ingroup group-config
+    //! Disables data type checks in the methods.
+    //!
+    //! When this macro is not defined, tag-dispatched methods will make sure
+    //! the arguments they are passed are models of the proper concept(s).
+    //! This can be very helpful in catching programming errors, but it is
+    //! also slightly less compile-time efficient. You should probably always
+    //! leave the checks enabled, except perhaps in translation units that are
+    //! compiled very often but whose code using Hana is modified very rarely.
+#   define BOOST_HANA_CONFIG_DISABLE_DATA_TYPE_CHECKS
+#endif
+
+#ifndef BOOST_HANA_CONFIG_DISABLE_DATA_TYPE_CHECKS
+#   define BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+#endif
 
 #endif // !BOOST_HANA_CONFIG_HPP
