@@ -214,14 +214,13 @@ namespace boost { namespace hana {
     //! @todo
     //! Should we also support non-`Type`s? That could definitely be useful.
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto sizeof_ = [](auto t) {
-        using T = typename decltype(t)::type;
+    constexpr auto sizeof_ = [](_type<T> const&) {
         return size_t<sizeof(T)>;
     };
 #else
     struct _sizeof {
         template <typename T>
-        constexpr auto operator()(T) const;
+        constexpr auto operator()(T const&) const;
     };
 
     constexpr _sizeof sizeof_{};
@@ -253,29 +252,27 @@ namespace boost { namespace hana {
     //!     decltype(template_<f>)::apply<x1, ..., xN>::type == f<x1, ..., xN>
     //! @endcode
     //!
-    //! ### Example
-    //! @snippet example/type.cpp template
-    //!
-    //!
     //! @note
     //! `template_` can't be SFINAE-friendly right now because of
     //! [Core issue 1430][1].
     //!
     //!
+    //! Example
+    //! -------
+    //! @snippet example/type.cpp template
+    //!
     //! [1]: http://www.open-std.org/jtc1/sc22/wg21/docs/cwg_active.html#1430
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    template <template <typename ...> class f>
-    constexpr auto template_ = [](auto ...ts) {
-        return type<
-            f<typename decltype(ts)::type...>
-        >;
+    template <template <typename ...> class F>
+    constexpr auto template_ = [](_type<T> const& ...) {
+        return type<F<T...>>;
     };
 #else
-    template <template <typename ...> class f>
+    template <template <typename ...> class F>
     struct _template;
 
-    template <template <typename ...> class f>
-    constexpr _template<f> template_{};
+    template <template <typename ...> class F>
+    constexpr _template<F> template_{};
 #endif
 
     //! Lift a MPL-style metafunction to a function on `Type`s.
@@ -290,11 +287,9 @@ namespace boost { namespace hana {
     //! ### Example
     //! @snippet example/type.cpp metafunction
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    template <template <typename ...> class f>
-    constexpr auto metafunction = [](auto ...ts) {
-        return type<
-            typename f<typename decltype(ts)::type...>::type
-        >;
+    template <template <typename ...> class F>
+    constexpr auto metafunction = [](_type<T> const& ...) {
+        return type<typename F<T...>::type>;
     };
 #else
     template <template <typename ...> class f>
@@ -313,22 +308,18 @@ namespace boost { namespace hana {
     //!     decltype(metafunction_class<f>)::apply<x1, ..., xN>::type == f::apply<x1, ..., xN>::type
     //! @endcode
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    template <typename f>
-    constexpr auto metafunction_class = [](auto ...ts) {
-        return type<
-            typename f::template apply<
-                typename decltype(ts)::type...
-            >::type
-        >;
+    template <typename F>
+    constexpr auto metafunction_class = [](_type<T> const& ...) {
+        return type<typename F::template apply<T...>::type>;
     };
 #else
-    template <typename f>
+    template <typename F>
     struct _metafunction_class
-        : _metafunction<f::template apply>
+        : _metafunction<F::template apply>
     { };
 
-    template <typename f>
-    constexpr _metafunction_class<f> metafunction_class{};
+    template <typename F>
+    constexpr _metafunction_class<F> metafunction_class{};
 #endif
 
     //! Lift a MPL-style metafunction to a function taking `Type`s and
@@ -367,20 +358,16 @@ namespace boost { namespace hana {
     //! don't forget to include the boost/hana/ext/std/integral_constant.hpp
     //! header!
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    template <template <typename ...> class f>
-    constexpr auto trait = [](auto ...ts) {
-        return f<typename decltype(ts)::type...>{};
+    template <template <typename ...> class F>
+    constexpr auto trait = [](_type<T> const& ...) {
+        return F<T...>{};
     };
 #else
-    template <template <typename ...> class f>
-    struct _trait {
-        template <typename ...xs>
-        constexpr auto operator()(xs...) const
-        { return f<typename xs::type...>{}; }
-    };
+    template <template <typename ...> class F>
+    struct _trait;
 
-    template <template <typename ...> class f>
-    constexpr _trait<f> trait{};
+    template <template <typename ...> class F>
+    constexpr _trait<F> trait{};
 #endif
 
     //! Equivalent to `compose(trait<f>, decltype_)`; provided for convenience.
@@ -391,23 +378,21 @@ namespace boost { namespace hana {
     //! In particular, it would not make sense to make `decltype(trait_<f>)`
     //! a MPL metafunction class.
     //!
-    //! ### Example
+    //!
+    //! Example
+    //! -------
     //! @snippet example/type.cpp trait_
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    template <template <typename ...> class f>
+    template <template <typename ...> class F>
     constexpr auto trait_ = [](auto ...xs) {
-        return f<decltype(xs)...>{};
+        return F<decltype(xs)...>{};
     };
 #else
-    template <template <typename ...> class f>
-    struct _trait_ {
-        template <typename ...xs>
-        constexpr auto operator()(xs...) const
-        { return f<xs...>{}; }
-    };
+    template <template <typename ...> class F>
+    struct _trait_;
 
-    template <template <typename ...> class f>
-    constexpr _trait_<f> trait_{};
+    template <template <typename ...> class F>
+    constexpr _trait_<F> trait_{};
 #endif
 }} // end namespace boost::hana
 

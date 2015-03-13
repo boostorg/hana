@@ -37,6 +37,10 @@ namespace tc1 {
     template <typename ...T> struct no_type { };
     static_assert(!valid_call(metafunction<no_type>), "");
     static_assert(!valid_call(metafunction<no_type>, type<x1>), "");
+
+    // Make sure we don't read from a non-constexpr variable
+    auto t = type<x1>;
+    constexpr auto r = metafunction<f>(t);
 }
 
 // metafunction_class
@@ -56,6 +60,10 @@ namespace tc2 {
     struct no_type { template <typename ...> struct apply { }; };
     static_assert(!valid_call(metafunction_class<no_type>), "");
     static_assert(!valid_call(metafunction_class<no_type>, type<x1>), "");
+
+    // Make sure we don't read from a non-constexpr variable
+    auto t = type<x1>;
+    constexpr auto r = metafunction_class<f>(t);
 }
 
 // template_
@@ -74,6 +82,10 @@ namespace tc3 {
     // Make sure we can use aliases
     template <typename T> using alias = T;
     static_assert(template_<alias>(type<x1>) == type<x1>, "");
+
+    // Make sure we don't read from a non-constexpr variable
+    auto t = type<x1>;
+    constexpr auto r = template_<f>(t);
 }
 
 // trait
@@ -91,6 +103,10 @@ namespace tc4 {
     constexpr auto b = trait<f>(type<x1>);
     constexpr auto c = trait<f>(type<x1>, type<x2>);
     constexpr auto d = trait<f>(type<x1>, type<x2>, type<x3>);
+
+    // Make sure we don't read from a non-constexpr variable
+    auto t = type<x1>;
+    constexpr auto r = trait<f>(t);
 }
 
 // trait_
@@ -109,6 +125,11 @@ namespace tc5 {
     constexpr auto b = trait_<f>(x1{});
     constexpr auto c = trait_<f>(x1{}, x2{});
     constexpr auto d = trait_<f>(x1{}, x2{}, x3{});
+
+    // Make sure we don't read from a non-constexpr variable
+    struct T { };
+    auto t = T{};
+    constexpr auto r = trait_<f>(t);
 }
 
 

@@ -52,8 +52,18 @@ int main() {
 
         // sizeof_
         {
-            BOOST_HANA_CONSTANT_CHECK(equal(sizeof_(type<int>), size_t<sizeof(int)>));
-            BOOST_HANA_CONSTANT_CHECK(equal(sizeof_(type<T>), size_t<sizeof(T)>));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                sizeof_(type<int>),
+                size_t<sizeof(int)>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                sizeof_(type<T>),
+                size_t<sizeof(T)>
+            ));
+
+            // make sure we don't read from non-constexpr variables
+            auto t = type<T>;
+            constexpr auto r = sizeof_(t); (void)r;
         }
 
         // nested ::type
@@ -104,6 +114,10 @@ int main() {
             BOOST_HANA_CONSTANT_CHECK(not_(equal(type<T&>, type<T&&>)));
             BOOST_HANA_CONSTANT_CHECK(not_(equal(type<T const>, type<T>)));
             BOOST_HANA_CONSTANT_CHECK(equal(type<T const>, type<T const>));
+
+            // make sure we don't read from a non-constexpr variable in equal
+            auto t = type<T>;
+            static_assert(equal(t, type<T>), "");
         }
     }
 }

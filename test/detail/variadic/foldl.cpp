@@ -36,9 +36,6 @@ void test_impl(S s, R result) {
 template <typename ...Ts, typename R>
 void test(R result) {
     test_impl<Ts...>(type<S>, result);
-
-    struct not_a_Type { using type = S; };
-    test_impl<Ts...>(not_a_Type{}, result);
 }
 
 int main() {

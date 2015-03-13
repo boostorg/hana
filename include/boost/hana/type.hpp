@@ -28,42 +28,71 @@ namespace boost { namespace hana {
         struct hana { using datatype = Type; };
         using type = T;
 
-        constexpr _ operator+() const { return *this; }
+        constexpr auto operator+() const { return *this; }
     };
+    //! @endcond
+
+    //////////////////////////////////////////////////////////////////////////
+    // sizeof_
+    //////////////////////////////////////////////////////////////////////////
+    //! @cond
+    template <typename T>
+    constexpr auto _sizeof::operator()(T const&) const
+    { return size_t<sizeof(typename T::type)>; }
     //! @endcond
 
     //////////////////////////////////////////////////////////////////////////
     // template
     //////////////////////////////////////////////////////////////////////////
-    template <template <typename ...> class f>
+    template <template <typename ...> class F>
     struct _template {
         struct hana { using datatype = Metafunction; };
 
-        template <typename ...xs>
+        template <typename ...T>
         struct apply {
-            using type = f<xs...>;
+            using type = F<T...>;
         };
 
-        template <typename ...xs>
-        constexpr auto operator()(xs...) const
-        { return type<f<typename xs::type...>>; }
+        template <typename ...T>
+        constexpr auto operator()(T const& ...) const
+        { return type<F<typename T::type...>>; }
     };
 
     //////////////////////////////////////////////////////////////////////////
     // metafunction
     //////////////////////////////////////////////////////////////////////////
-    template <template <typename ...> class f>
+    template <template <typename ...> class F>
     struct _metafunction {
         struct hana { using datatype = Metafunction; };
 
-        template <typename ...xs>
-        using apply = f<xs...>;
+        template <typename ...T>
+        using apply = F<T...>;
 
-        template <typename ...xs>
-        constexpr auto operator()(xs...) const -> decltype(
-            type<typename f<typename xs::type...>::type>
+        template <typename ...T>
+        constexpr auto operator()(T const& ...) const -> decltype(
+            type<typename F<typename T::type...>::type>
         )
-        { return type<typename f<typename xs::type...>::type>; }
+        { return type<typename F<typename T::type...>::type>; }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // trait
+    //////////////////////////////////////////////////////////////////////////
+    template <template <typename ...> class F>
+    struct _trait {
+       template <typename ...T>
+       constexpr auto operator()(T const& ...) const
+       { return F<typename T::type...>{}; }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // trait_
+    //////////////////////////////////////////////////////////////////////////
+    template <template <typename ...> class F>
+    struct _trait_ {
+        template <typename ...T>
+        constexpr auto operator()(T const& ...) const
+        { return F<T...>{}; }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -80,19 +109,13 @@ namespace boost { namespace hana {
     template <>
     struct equal_impl<Type, Type> {
         template <typename T, typename U>
-        static constexpr auto apply(T, U)
+        static constexpr auto apply(_type<T> const&, _type<U> const&)
         { return false_; }
 
         template <typename T>
-        static constexpr auto apply(T, T)
+        static constexpr auto apply(_type<T> const&, _type<T> const&)
         { return true_; }
     };
-
-    //! @cond
-    template <typename T>
-    constexpr auto _sizeof::operator()(T) const
-    { return size_t<sizeof(typename T::type)>; }
-    //! @endcond
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_TYPE_HPP
