@@ -91,6 +91,12 @@ namespace boost { namespace hana { namespace test {
                         hana::greater(a, b) ^iff^ (_(a) > _(b))
                     );
                 });
+
+                // ordering
+                _injection<0> f{}; // test::_injection is also monotonic
+                BOOST_HANA_CHECK(
+                    hana::ordering(f)(a, b) ^iff^ hana::less(f(a), f(b))
+                );
             });
         }
     };

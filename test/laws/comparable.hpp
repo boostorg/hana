@@ -72,6 +72,12 @@ namespace boost { namespace hana { namespace test {
                         hana::not_equal(a, b) ^iff^ (_(a) != _(b))
                     );
                 });
+
+                // comparing
+                _injection<0> f{};
+                BOOST_HANA_CHECK(
+                    hana::comparing(f)(a, b) ^iff^ hana::equal(f(a), f(b))
+                );
             });
         }
     };
