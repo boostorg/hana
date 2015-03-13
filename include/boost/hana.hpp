@@ -352,6 +352,42 @@ considered a work in progress.
 
 
 
+@section tutorial-assert Assertions
+
+------------------------------------------------------------------------------
+In the rest of this tutorial, you will come across code snippets in
+which different kinds of assertions like `BOOST_HANA_RUNTIME_CHECK` and
+`BOOST_HANA_CONSTANT_CHECK` are used. Like any sensible `assert` macro,
+they basically check that the condition they are given is satisfied.
+However, in the context of heterogeneous programming, some informations
+are known at compile-time, while others are known only at runtime. The
+exact type of assertion that's used in a context tells you whether the
+condition that's asserted upon can be known at compile-time or if it
+must be computed at runtime, which is very important to be aware of.
+Here are the different kinds of assertions used in the tutorial, with a
+small description of their particularities. For more details, you should
+check the [reference on assertions](@ref group-assertions).
+
+assertion                    | description
+:--------------------------- | :----------
+`BOOST_HANA_RUNTIME_CHECK`   | Assertion on a condition that is not known until runtime. This assertion provides the weakest form of guarantee.
+`BOOST_HANA_CONSTEXPR_CHECK` | Assertion on a condition that would be `constexpr` if lambdas were allowed inside constant expressions. In other words, it's not a `static_assert`, but only because lambdas are sometimes used inside the implementation and hence the result can't be `constexpr`.
+`BOOST_HANA_CONSTANT_CHECK`  | Assertion on a compile-time Logical. Basically, this means that the expression is in fact an IntegralConstant whose truth value is known at compile-time regardless of whether the value of the expression itself is known at compile-time, because that truth value is encoded in the type of the expression. This assertion provides the strongest form of guarantee.
+
+
+> Why don't we simply use `assert` and `static_assert`? That's because of
+> language limitations documented in the section on [constexpr's limitations]
+> (@ref tutorial-constexpr).
+
+
+
+
+
+
+
+
+
+
 @section tutorial-sem Algorithm semantics
 
 ------------------------------------------------------------------------------
@@ -485,7 +521,8 @@ default constructed `std::is_same<...>`, which inherits from
 in such a way that it preserves the fact that the predicate's result is known
 at compile-time. In the end, `all` returns an IntegralConstant holding the
 result of the algorithm, and we use the compiler's type deduction in a clever
-way to make it look easy. Hence, it would be equivalent to write:
+way to make it look easy. Hence, it would be equivalent to write (but then
+you would need to already know the result of the algorithm!):
 
 @snippet example/tutorial/amphi.cpp all_of_compile_time_integral_constant
 

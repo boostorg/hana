@@ -4,6 +4,12 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
+// Make sure assert always triggers an assertion
+#ifdef NDEBUG
+#   undef NDEBUG
+#endif
+
+#include <cassert>
 #include <iostream>
 #include <string>
 #include <tuple>
@@ -41,27 +47,26 @@ _tuple<Person, Car, City> stuff{Person{"Louis"}, Car{"Toyota"}, City{"Quebec"}};
 
 //! [basic_operations]
 Car& car = at_c<1>(stuff);
-// BOOST_HANA_RUNTIME_CHECK is equivalent to assert
-BOOST_HANA_RUNTIME_CHECK(car.name == "Toyota");
+assert(car.name == "Toyota");
 static_assert(length(stuff) == 3u, "");
 //! [basic_operations]
 
 //! [transform]
 _tuple<std::string, std::string, std::string> names = transform(stuff, [](auto x) { return x.name; });
-BOOST_HANA_RUNTIME_CHECK(names == make_tuple("Louis", "Toyota", "Quebec"));
+assert(names == make_tuple("Louis", "Toyota", "Quebec"));
 //! [transform]
 
 //! [metafunction]
 using namespace traits; // bring in remove_cv and add_pointer
 
-auto F = [](auto T) { // just pretend T is a type
+auto F = [](auto T) { // F is a "metafunction"; just pretend T is a type
     return add_pointer(remove_cv(T));
 };
 //! [metafunction]
 
 //! [type]
-// BOOST_HANA_CONSTANT_CHECK is almost equivalent to static_assert
-BOOST_HANA_CONSTANT_CHECK(F(type<int const>) == type<int*>);
+auto intp = F(type<int const>);
+static_assert(intp == type<int*>, "");
 //! [type]
 
 }
