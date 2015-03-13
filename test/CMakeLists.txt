@@ -84,11 +84,27 @@ if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND
     list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${_ext_std_tuple_tests})
 endif()
 
-# The sandbox/lambda_tuple.cpp test causes internal compiler errors on
-# Travis, so it's disabled there for now.
 if ($ENV{TRAVIS})
+    # The sandbox/lambda_tuple.cpp test causes internal compiler errors on
+    # Travis, so it's disabled there for now.
     file(GLOB_RECURSE _sandbox_lambda_tuple_test "sandbox/lambda_tuple.cpp")
     list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${_sandbox_lambda_tuple_test})
+
+    # For the MCD unit tests, we only keep the tests that directly
+    # relate to the tested MCD to reduce the total build time and
+    # the risk of OOM failure on Travis.
+    file(GLOB_RECURSE _non_minimal_mcds
+        "sequence/*iterable.cpp"
+        "sequence/*monad*.cpp"
+        "sequence/*orderable.cpp"
+        "sequence/*searchable.cpp"
+
+        "foldable/*monad*.cpp"
+        "foldable/*orderable.cpp"
+        "foldable/*searchable.cpp"
+        "foldable/*sequence.cpp"
+    )
+    list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${_non_minimal_mcds})
 endif()
 
 # The Fusion adapters are currently broken; I'm working on it.

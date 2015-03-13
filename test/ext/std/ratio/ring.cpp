@@ -9,7 +9,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/assert.hpp>
 #include <boost/hana/tuple.hpp>
 
-#include <laws/integral_domain.hpp>
+#include <laws/ring.hpp>
 
 #include <ratio>
 using namespace boost::hana;
@@ -28,36 +28,31 @@ int main() {
     );
 
     //////////////////////////////////////////////////////////////////////////
-    // IntegralDomain
+    // Ring
     //////////////////////////////////////////////////////////////////////////
     {
-        // quot
+        // mult
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                quot(std::ratio<6>{}, std::ratio<4>{}),
-                std::ratio<6, 4>{}
-            ));
-
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                quot(std::ratio<3, 4>{}, std::ratio<5, 10>{}),
-                std::ratio<3*10, 4*5>{}
+                mult(std::ratio<3, 4>{}, std::ratio<5, 10>{}),
+                std::ratio<3*5, 4*10>{}
             ));
         }
 
-        // rem
+        // one
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                rem(std::ratio<6>{}, std::ratio<4>{}),
-                std::ratio<0>{}
+                one<ext::std::Ratio>(),
+                std::ratio<1, 1>{}
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                rem(std::ratio<3, 4>{}, std::ratio<5, 10>{}),
-                std::ratio<0>{}
+                one<ext::std::Ratio>(),
+                std::ratio<2, 2>{}
             ));
         }
 
         // laws
-        test::TestIntegralDomain<ext::std::Ratio>{ratios};
+        test::TestRing<ext::std::Ratio>{ratios};
     }
 }

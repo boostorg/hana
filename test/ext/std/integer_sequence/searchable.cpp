@@ -23,20 +23,15 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     auto sequences = make<Tuple>(
         std::integer_sequence<T>{},
-        std::integer_sequence<U>{},
-
-        std::integer_sequence<T, 0>{},
-        std::integer_sequence<U, 0>{},
-
-        std::integer_sequence<T, 0, 1>{},
-        std::integer_sequence<U, 0, 1>{},
-
-        std::integer_sequence<T, 1, 0, 2>{},
-        std::integer_sequence<U, 1, 0, 2>{}
+        std::integer_sequence<T, 2>{},
+        std::integer_sequence<U, 3>{},
+        std::integer_sequence<T, 3, 4>{},
+        std::integer_sequence<U, 3, 4, 5>{},
+        std::integer_sequence<U, 4, 3, 5>{}
     );
 
     auto keys = make<Tuple>(
-        integral_constant<T, 0>, integral_constant<U, 1>
+        integral_constant<T, 3>, integral_constant<U, 4>
     );
 
     //////////////////////////////////////////////////////////////////////////

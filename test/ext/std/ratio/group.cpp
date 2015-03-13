@@ -9,7 +9,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/assert.hpp>
 #include <boost/hana/tuple.hpp>
 
-#include <laws/integral_domain.hpp>
+#include <laws/group.hpp>
+#include <laws/monoid.hpp>
 
 #include <ratio>
 using namespace boost::hana;
@@ -28,36 +29,47 @@ int main() {
     );
 
     //////////////////////////////////////////////////////////////////////////
-    // IntegralDomain
+    // Monoid
     //////////////////////////////////////////////////////////////////////////
     {
-        // quot
+        // plus
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                quot(std::ratio<6>{}, std::ratio<4>{}),
-                std::ratio<6, 4>{}
-            ));
-
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                quot(std::ratio<3, 4>{}, std::ratio<5, 10>{}),
-                std::ratio<3*10, 4*5>{}
+                plus(std::ratio<3, 4>{}, std::ratio<5, 10>{}),
+                std::ratio<3*10 + 5*4, 4*10>{}
             ));
         }
 
-        // rem
+        // zero
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                rem(std::ratio<6>{}, std::ratio<4>{}),
-                std::ratio<0>{}
+                zero<ext::std::Ratio>(),
+                std::ratio<0, 1>{}
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                rem(std::ratio<3, 4>{}, std::ratio<5, 10>{}),
-                std::ratio<0>{}
+                zero<ext::std::Ratio>(),
+                std::ratio<0, 2>{}
             ));
         }
 
         // laws
-        test::TestIntegralDomain<ext::std::Ratio>{ratios};
+        test::TestMonoid<ext::std::Ratio>{ratios};
+    }
+
+    //////////////////////////////////////////////////////////////////////////
+    // Group
+    //////////////////////////////////////////////////////////////////////////
+    {
+        // minus
+        {
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                minus(std::ratio<3, 4>{}, std::ratio<5, 10>{}),
+                std::ratio<3*10 - 5*4, 4*10>{}
+            ));
+        }
+
+        // laws
+        test::TestGroup<ext::std::Ratio>{ratios};
     }
 }
