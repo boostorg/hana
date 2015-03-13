@@ -270,12 +270,12 @@ struct contains
 
 template <typename Sequence, typename T>
 struct count
-    : decltype(hana::count(Sequence{}, hana::equal.to(hana::type<T>)))
+    : decltype(hana::count(Sequence{}, hana::type<T>))
 { };
 
 template <typename Sequence, typename Pred>
 struct count_if
-    : decltype(hana::count(Sequence{}, boolean_metafunction_class<Pred>))
+    : decltype(hana::count_if(Sequence{}, boolean_metafunction_class<Pred>))
 { };
 
 template <typename Sequence, typename Pred = mpl::quote2<less>>

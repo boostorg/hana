@@ -56,6 +56,20 @@ namespace boost { namespace hana { namespace test {
                     hana::length(xs),
                     hana::size(xs)
                 ));
+
+                // equivalence of count(xs, val) and count_if(xs, equal.to(val))
+                struct not_there { };
+                BOOST_HANA_CHECK(hana::equal(
+                    hana::count(xs, not_there{}),
+                    hana::count_if(xs, equal.to(not_there{}))
+                ));
+
+                hana::for_each(xs, [=](auto value) {
+                    BOOST_HANA_CHECK(hana::equal(
+                        hana::count(xs, value),
+                        hana::count_if(xs, equal.to(value))
+                    ));
+                });
             });
         }
     };
@@ -739,100 +753,100 @@ namespace boost { namespace hana { namespace test {
 
 
             //////////////////////////////////////////////////////////////////
-            // count
+            // count_if
             //////////////////////////////////////////////////////////////////
             BOOST_HANA_CONSTANT_CHECK(equal(
-                count(list(), id), size_t<0>
+                count_if(list(), id), size_t<0>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                count(list(int_<1>), id), size_t<1>
+                count_if(list(int_<1>), id), size_t<1>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                count(list(int_<0>), id), size_t<0>
+                count_if(list(int_<0>), id), size_t<0>
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                count(list(int_<1>, char_<1>), id), size_t<2>
+                count_if(list(int_<1>, char_<1>), id), size_t<2>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                count(list(int_<1>, char_<0>), id), size_t<1>
+                count_if(list(int_<1>, char_<0>), id), size_t<1>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                count(list(int_<0>, char_<1>), id), size_t<1>
+                count_if(list(int_<0>, char_<1>), id), size_t<1>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                count(list(int_<0>, char_<0>), id), size_t<0>
+                count_if(list(int_<0>, char_<0>), id), size_t<0>
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                count(list(int_<1>, char_<1>, long_<1>), id), size_t<3>
+                count_if(list(int_<1>, char_<1>, long_<1>), id), size_t<3>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                count(list(int_<1>, char_<1>, long_<0>), id), size_t<2>
+                count_if(list(int_<1>, char_<1>, long_<0>), id), size_t<2>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                count(list(int_<1>, char_<0>, long_<1>), id), size_t<2>
+                count_if(list(int_<1>, char_<0>, long_<1>), id), size_t<2>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                count(list(int_<1>, char_<0>, long_<0>), id), size_t<1>
+                count_if(list(int_<1>, char_<0>, long_<0>), id), size_t<1>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                count(list(int_<0>, char_<1>, long_<1>), id), size_t<2>
+                count_if(list(int_<0>, char_<1>, long_<1>), id), size_t<2>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                count(list(int_<0>, char_<1>, long_<0>), id), size_t<1>
+                count_if(list(int_<0>, char_<1>, long_<0>), id), size_t<1>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                count(list(int_<0>, char_<0>, long_<1>), id), size_t<1>
+                count_if(list(int_<0>, char_<0>, long_<1>), id), size_t<1>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                count(list(int_<0>, char_<0>, long_<0>), id), size_t<0>
+                count_if(list(int_<0>, char_<0>, long_<0>), id), size_t<0>
             ));
 
 
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                count(list(int{1}), id), 1u
+                count_if(list(int{1}), id), 1u
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                count(list(int{0}), id), 0u
-            ));
-
-            BOOST_HANA_CONSTEXPR_CHECK(equal(
-                count(list(int{1}, char{1}), id), 2u
-            ));
-            BOOST_HANA_CONSTEXPR_CHECK(equal(
-                count(list(int{1}, char{0}), id), 1u
-            ));
-            BOOST_HANA_CONSTEXPR_CHECK(equal(
-                count(list(int{0}, char{1}), id), 1u
-            ));
-            BOOST_HANA_CONSTEXPR_CHECK(equal(
-                count(list(int{0}, char{0}), id), 0u
+                count_if(list(int{0}), id), 0u
             ));
 
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                count(list(int{1}, char{1}, double{1}), id), 3u
+                count_if(list(int{1}, char{1}), id), 2u
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                count(list(int{1}, char{1}, double{0}), id), 2u
+                count_if(list(int{1}, char{0}), id), 1u
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                count(list(int{1}, char{0}, double{1}), id), 2u
+                count_if(list(int{0}, char{1}), id), 1u
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                count(list(int{1}, char{0}, double{0}), id), 1u
+                count_if(list(int{0}, char{0}), id), 0u
+            ));
+
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
+                count_if(list(int{1}, char{1}, double{1}), id), 3u
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                count(list(int{0}, char{1}, double{1}), id), 2u
+                count_if(list(int{1}, char{1}, double{0}), id), 2u
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                count(list(int{0}, char{1}, double{0}), id), 1u
+                count_if(list(int{1}, char{0}, double{1}), id), 2u
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                count(list(int{0}, char{0}, double{1}), id), 1u
+                count_if(list(int{1}, char{0}, double{0}), id), 1u
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                count(list(int{0}, char{0}, double{0}), id), 0u
+                count_if(list(int{0}, char{1}, double{1}), id), 2u
+            ));
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
+                count_if(list(int{0}, char{1}, double{0}), id), 1u
+            ));
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
+                count_if(list(int{0}, char{0}, double{1}), id), 1u
+            ));
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
+                count_if(list(int{0}, char{0}, double{0}), id), 0u
             ));
 
 
@@ -840,22 +854,56 @@ namespace boost { namespace hana { namespace test {
                 return x % 2 == 0;
             };
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                count(list(), is_even), 0u
+                count_if(list(), is_even), 0u
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                count(list(1), is_even), 0u
+                count_if(list(1), is_even), 0u
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                count(list(2), is_even), 1u
+                count_if(list(2), is_even), 1u
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                count(list(1, 2), is_even), 1u
+                count_if(list(1, 2), is_even), 1u
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                count(list(1, 2, 3), is_even), 1u
+                count_if(list(1, 2, 3), is_even), 1u
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                count(list(1, 2, 3, 4), is_even), 2u
+                count_if(list(1, 2, 3, 4), is_even), 2u
+            ));
+
+            //////////////////////////////////////////////////////////////////
+            // count
+            //////////////////////////////////////////////////////////////////
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::count(list(), undefined{}),
+                size_t<0>
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::count(list(ct_eq<0>{}), undefined{}),
+                size_t<0>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::count(list(ct_eq<0>{}), ct_eq<0>{}),
+                size_t<1>
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::count(list(ct_eq<0>{}, ct_eq<1>{}), undefined{}),
+                size_t<0>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::count(list(ct_eq<0>{}, ct_eq<1>{}), ct_eq<0>{}),
+                size_t<1>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::count(list(ct_eq<0>{}, ct_eq<1>{}), ct_eq<1>{}),
+                size_t<1>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::count(list(ct_eq<0>{}, ct_eq<0>{}), ct_eq<0>{}),
+                size_t<2>
             ));
 
             //////////////////////////////////////////////////////////////////

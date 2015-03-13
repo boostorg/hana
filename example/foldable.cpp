@@ -213,7 +213,7 @@ BOOST_HANA_CONSTEXPR_CHECK(add_seq(make<Tuple>(1, 2)) == add(1, 2));
 
 }{
 
-//! [count]
+//! [count_if]
 using namespace literals;
 BOOST_HANA_CONSTEXPR_LAMBDA auto odd = [](auto x) {
     return x % 2_c != 0_c;
@@ -222,11 +222,22 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto odd = [](auto x) {
 constexpr auto types = tuple_t<int, char, long, short, char, double>;
 constexpr auto ints = tuple_c<int, 1, 2, 3>;
 
-BOOST_HANA_CONSTANT_CHECK(count(ints, odd) == size_t<2>);
+BOOST_HANA_CONSTANT_CHECK(count_if(ints, odd) == size_t<2>);
 
-BOOST_HANA_CONSTANT_CHECK(count(types, trait<std::is_floating_point>) == size_t<1>);
-BOOST_HANA_CONSTANT_CHECK(count(types, _ == type<char>) == size_t<2>);
-BOOST_HANA_CONSTANT_CHECK(count(types, _ == type<void>) == size_t<0>);
+BOOST_HANA_CONSTANT_CHECK(count_if(types, trait<std::is_floating_point>) == size_t<1>);
+BOOST_HANA_CONSTANT_CHECK(count_if(types, _ == type<char>) == size_t<2>);
+BOOST_HANA_CONSTANT_CHECK(count_if(types, _ == type<void>) == size_t<0>);
+//! [count_if]
+
+}{
+
+//! [count]
+constexpr auto types = tuple_t<int, char, long, short, char, double>;
+constexpr auto ints = tuple_c<int, 1, 2, 3, 2, 2, 4, 2>;
+
+BOOST_HANA_CONSTANT_CHECK(count(ints, int_<2>) == size_t<4>);
+BOOST_HANA_CONSTEXPR_CHECK(count(ints, 2) == 4);
+BOOST_HANA_CONSTANT_CHECK(count(types, type<char>) == size_t<2>);
 //! [count]
 
 }{

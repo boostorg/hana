@@ -2,7 +2,7 @@
 # Distributed under the Boost Software License, Version 1.0.
 # (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
-foreach(method IN ITEMS count foldl foldl1 foldr foldr1 for_each length maximum maximum_by minimum minimum_by product sum unpack)
+foreach(method IN ITEMS count_if foldl foldl1 foldr foldr1 for_each length maximum maximum_by minimum minimum_by product sum unpack)
     # Methods requiring integral `Constant`s (or stronger) in the `Foldable`.
     if(${method} MATCHES "maximum|minimum|product|sum")
         set(hana_tuple_env "

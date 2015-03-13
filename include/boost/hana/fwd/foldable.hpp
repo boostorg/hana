@@ -743,7 +743,6 @@ namespace boost { namespace hana {
     //! `predicate` is satisfied.
     //! @relates Foldable
     //!
-    //!
     //! Specifically, returns an object of an unsigned integral type, or
     //! a `Constant` holding such an object, which represents the number
     //! of elements in the structure satisfying the given `predicate`.
@@ -760,14 +759,60 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/foldable.cpp count
-    //!
+    //! @snippet example/foldable.cpp count_if
     //!
     //! Benchmarks
     //! ----------
-    //! @image html benchmark/foldable/count.ctime.png
+    //! @image html benchmark/foldable/count_if.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto count = [](auto&& foldable, auto&& predicate) -> decltype(auto) {
+    constexpr auto count_if = [](auto&& foldable, auto&& predicate) -> decltype(auto) {
+        return tag-dispatched;
+    };
+#else
+    template <typename Xs, typename = void>
+    struct count_if_impl;
+
+    struct _count_if {
+        template <typename Xs, typename Pred>
+        constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(_models<Foldable, typename datatype<Xs>::type>{},
+            "hana::count_if(xs, pred) requires xs to be Foldable");
+#endif
+            return count_if_impl<typename datatype<Xs>::type>::apply(
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<Pred>(pred)
+            );
+        }
+    };
+
+    constexpr _count_if count_if{};
+#endif
+
+    //! Return the number of elements in the structure that compare equal to
+    //! a given value.
+    //! @relates Foldable
+    //!
+    //! Given a Foldable structure `foldable` and a value `value`, `count`
+    //! returns an unsigned integral, or a Constant thereof, representing the
+    //! number of elements of `foldable` that compare equal to `value`. For
+    //! this method to be well-defined, all the elements of the structure must
+    //! be Comparable with the given value.
+    //!
+    //!
+    //! @param foldable
+    //! The structure whose elements are counted.
+    //!
+    //! @param value
+    //! A value compared with each element in the structure. Elements
+    //! that compare equal to this value are counted, others are not.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/foldable.cpp count
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto count = [](auto&& foldable, auto&& value) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
@@ -775,15 +820,15 @@ namespace boost { namespace hana {
     struct count_impl;
 
     struct _count {
-        template <typename Xs, typename Pred>
-        constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
+        template <typename Xs, typename Value>
+        constexpr decltype(auto) operator()(Xs&& xs, Value&& value) const {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
             static_assert(_models<Foldable, typename datatype<Xs>::type>{},
-            "hana::count(xs, pred) requires xs to be Foldable");
+            "hana::count(xs, value) requires xs to be Foldable");
 #endif
             return count_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
-                detail::std::forward<Pred>(pred)
+                detail::std::forward<Value>(value)
             );
         }
     };

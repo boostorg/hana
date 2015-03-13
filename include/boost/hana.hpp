@@ -261,34 +261,37 @@ and no in-place mutation is ever performed.
 function                                     |  concept   | description
 :------------------------------------------  | :--------  | :----------
 `transform(sequence, f)`                     | Functor    | Apply a function to each element of a sequence and return the result.
-`adjust(sequence, predicate, f)`             | Functor    | Apply a function to each element of a sequence satisfying some predicate and return the result.
-`replace(sequence, predicate, value)`        | Functor    | Replace the elements of a sequence that satisfy some predicate by some value.
+`adjust_if(sequence, predicate, f)`          | Functor    | Apply a function to each element of a sequence satisfying some predicate and return the result.
+`adjust(sequence, value, f)`                 | Functor    | Apply a function to each element of a sequence that compares equal to some value and return the result.
+`replace_if(sequence, predicate, newval)`    | Functor    | Replace the elements of a sequence that satisfy some predicate by some value.
+`replace(sequence, oldval, newval)`          | Functor    | Replace the elements of a sequence that compare equal to some value by some other value.
 `fill(sequence, value)`                      | Functor    | Replace all the elements of a sequence with some value.
 `foldl(sequence, state, f)`                  | Foldable   | Accumulates the elements of a sequence from the left. Equivalent to `f(...f(f(state, x1), x2), ..., xN)`.
 `foldr(sequence, state, f)`                  | Foldable   | Accumulates the elements of a sequence from the right. Equivalent to `f(x1, f(x2, ..., f(xN, state))...)`.
 `for_each(sequence, f)`                      | Foldable   | Call a function on each element of a sequence. Returns `void`.
-`length(sequence)`                           | Foldable   | Returns the length of a sequence as an `integral_constant`.
+`{length, size}(sequence)`                   | Foldable   | Returns the length of a sequence as an IntegralConstant.
 `{minimum, maximum}_by(predicate, sequence)` | Foldable   | Returns the smallest/greatest element of a sequence w.r.t. a predicate.
 `{minimum, maximum}_by(predicate, sequence)` | Foldable   | Returns the smallest/greatest element of a sequence. The elements must be Orderable.
-`count(sequence, predicate)`                 | Foldable   | Returns the number of elements that satisfy the predicate.
+`count_if(sequence, predicate)`              | Foldable   | Returns the number of elements that satisfy the predicate.
+`count(sequence, value)`                     | Foldable   | Returns the number of elements that compare equal to the given value.
 `unpack(sequence, f)`                        | Foldable   | Calls a function with the contents of a sequence. Equivalent to `f(x1, ..., xN)`.
 `head(sequence)`                             | Iterable   | Returns the first element of a sequence.
 `tail(sequence)`                             | Iterable   | Returns all the elements except the first one. Analogous to `pop_front`.
-`is_empty(sequence)`                         | Iterable   | Returns whether a sequence is empty as an `integral_constant`.
-`at(index, sequence)`                        | Iterable   | Returns the n-th element of a sequence. The index must be an `integral_constant`.
+`is_empty(sequence)`                         | Iterable   | Returns whether a sequence is empty as an IntegralConstant.
+`at(index, sequence)`                        | Iterable   | Returns the n-th element of a sequence. The index must be an IntegralConstant.
 `last(sequence)`                             | Iterable   | Returns the last element of a sequence.
-`drop(number, sequence)`                     | Iterable   | Drops the n first elements from a sequence and returns the rest. `n` must be an `integral_constant`.
-`drop_{while,until}(sequence, predicate)`    | Iterable   | Drops elements from a sequence while/until a predicate is satisfied. The predicate must return an `integral_constant`.
+`drop(number, sequence)`                     | Iterable   | Drops the n first elements from a sequence and returns the rest. `n` must be an IntegralConstant.
+`drop_{while,until}(sequence, predicate)`    | Iterable   | Drops elements from a sequence while/until a predicate is satisfied. The predicate must return an IntegralConstant.
 `flatten(sequence)`                          | Monad      | Flatten a sequence of sequences, a bit like `std::tuple_cat`.
 `prepend(value, sequence)`                   | MonadPlus  | Prepend an element to a sequence.
 `append(sequence, value)`                    | MonadPlus  | Append an element to a sequence.
 `concat(sequence1, sequence2)`               | MonadPlus  | Concatenate two sequences.
-`filter(sequence, predicate)`                | MonadPlus  | Remove all the elements that do not satisfy a predicate. The predicate must return an `integral_constant`.
+`filter(sequence, predicate)`                | MonadPlus  | Remove all the elements that do not satisfy a predicate. The predicate must return an IntegralConstant.
 `{any,none,all}_of(sequence, predicate)`     | Searchable | Returns whether any/none/all of the elements of the sequence satisfy some predicate.
 `{any,none,all}(sequence)`                   | Searchable | Returns whether any/non/all of the elements of a sequence are true-valued.
 `elem(sequence, value)`                      | Searchable | Returns whether an object is in a sequence.
-`find(sequence, predicate)`                  | Searchable | Find the first element of a sequence satisfying the predicate and return `just` it, or return `nothing`. See Maybe.
-`lookup(sequence, value)`                    | Searchable | Find the first element of a sequence which is equal to some value and return `just` it, or return nothing. See Maybe.
+`find_if(sequence, predicate)`               | Searchable | Find the first element of a sequence satisfying the predicate and return `just` it, or return `nothing`. See Maybe.
+`find(sequence, value)`                      | Searchable | Find the first element of a sequence which compares equal to some value and return `just` it, or return nothing. See Maybe.
 `group_by(predicate, sequence)`              | Sequence   | %Group the adjacent elements of a sequence which all satisfy (or all do not satisfy) some predicate.
 `group(sequence)`                            | Sequence   | %Group adjacent elements of a sequence that compare equal. The elements must be Comparable.
 `init(sequence)`                             | Sequence   | Returns all the elements of a sequence, except the last one. Analogous to `pop_back`.

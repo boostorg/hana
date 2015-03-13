@@ -496,7 +496,7 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // count
+    // count_if
     //////////////////////////////////////////////////////////////////////////
     namespace foldable_detail {
         template <typename Pred>
@@ -527,10 +527,10 @@ namespace boost { namespace hana {
     }
 
     template <typename T, typename>
-    struct count_impl : count_impl<T, when<true>> { };
+    struct count_if_impl : count_if_impl<T, when<true>> { };
 
     template <typename T, bool condition>
-    struct count_impl<T, when<condition>> : default_ {
+    struct count_if_impl<T, when<condition>> : default_ {
         template <typename Xs, typename Pred>
         static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
             return hana::foldl(detail::std::forward<Xs>(xs), size_t<0>,
@@ -538,6 +538,21 @@ namespace boost { namespace hana {
                     detail::std::forward<Pred>(pred)
                 )
             );
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // count
+    //////////////////////////////////////////////////////////////////////////
+    template <typename T, typename>
+    struct count_impl : count_impl<T, when<true>> { };
+
+    template <typename T, bool condition>
+    struct count_impl<T, when<condition>> : default_ {
+        template <typename Xs, typename Value>
+        static constexpr decltype(auto) apply(Xs&& xs, Value&& value) {
+            return hana::count_if(detail::std::forward<Xs>(xs),
+                hana::equal.to(detail::std::forward<Value>(value)));
         }
     };
 
