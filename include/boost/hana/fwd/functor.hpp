@@ -68,13 +68,15 @@ namespace boost { namespace hana {
     //! Let `xs` be a Functor of data type `F(A)`,
     //!     \f$ f : A \to A \f$,
     //!     \f$ \mathrm{pred} : A \to \mathrm{Bool} \f$
-    //! for some `Logical` `Bool`, and `v` an object of data type `A`. Then,
+    //! for some `Logical` `Bool`, and `value` an object of data type `A`.
+    //! Then,
     //! @code
-    //!     adjust(xs, pred, f) == transform(xs, [](x){
+    //!     adjust(xs, value, f) == adjust_if(xs, equal.to(value), f)
+    //!     adjust_if(xs, pred, f) == transform(xs, [](x){
     //!         if pred(x) then f(x) else x
     //!     })
-    //!     replace(xs, pred, v) == adjust(xs, pred, always(v))
-    //!     fill(xs, v)          == replace(xs, always(true), v)
+    //!     replace(xs, pred, value) == adjust_if(xs, pred, always(value))
+    //!     fill(xs, value)          == replace(xs, always(true), value)
     //! @endcode
     //! The default definition of the methods will satisfy these equations.
     //!
@@ -82,17 +84,17 @@ namespace boost { namespace hana {
     //! Minimal complete definitions
     //! ----------------------------
     //! 1. `transform`\n
-    //! When `transform` is specified, `adjust` is defined analogously to
+    //! When `transform` is specified, `adjust_if` is defined analogously to
     //! @code
-    //!     adjust(xs, pred, f) = transform(xs, [](x){
+    //!     adjust_if(xs, pred, f) = transform(xs, [](x){
     //!         if pred(x) then f(x) else x
     //!     })
     //! @endcode
     //!
-    //! 2. `adjust`\n
-    //! When `adjust` is specified, `transform` is defined analogously to
+    //! 2. `adjust_if`\n
+    //! When `adjust_if` is specified, `transform` is defined analogously to
     //! @code
-    //!     transform(xs, f) = adjust(xs, always(true), f)
+    //!     transform(xs, f) = adjust_if(xs, always(true), f)
     //! @endcode
     //!
     //!
@@ -171,11 +173,11 @@ namespace boost { namespace hana {
     //! ---------
     //! Given `F` a Functor and `Bool` a Logical, the signature is
     //! \f$
-    //!     \mathrm{adjust} : F(T) \times (T \to Bool) \times (T \to T) \to F(T)
+    //!     \mathrm{adjust_if} : F(T) \times (T \to Bool) \times (T \to T) \to F(T)
     //! \f$
     //!
     //! @param xs
-    //! The structure to map `f` over.
+    //! The structure to adjust with `f`.
     //!
     //! @param predicate
     //! A function called as `predicate(x)` for element(s) `x` of the
@@ -189,13 +191,72 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
+    //! @snippet example/functor.cpp adjust_if
+    //!
+    //! Benchmarks
+    //! ----------
+    //! @image html benchmark/functor/adjust_if.ctime.png
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto adjust_if = [](auto&& xs, auto&& predicate, auto&& f) -> decltype(auto) {
+        return tag-dispatched;
+    };
+#else
+    template <typename Xs, typename = void>
+    struct adjust_if_impl;
+
+    struct _adjust_if {
+        template <typename Xs, typename Pred, typename F>
+        constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred, F&& f) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(_models<Functor, typename datatype<Xs>::type>{},
+            "hana::adjust_if(xs, pred, f) requires xs to be a Functor");
+#endif
+            return adjust_if_impl<typename datatype<Xs>::type>::apply(
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<Pred>(pred),
+                detail::std::forward<F>(f)
+            );
+        }
+    };
+
+    constexpr _adjust_if adjust_if{};
+#endif
+
+    //! Apply a function on all the elements of a structure that compare
+    //! equal to some value.
+    //! @relates Functor
+    //!
+    //!
+    //! Signature
+    //! ---------
+    //! Given `F` a Functor and `U` a type that can be compared with `T`'s,
+    //! the signature is
+    //! \f$
+    //!     \mathrm{adjust} : F(T) \times U \times (T \to T) \to F(T)
+    //! \f$
+    //!
+    //! @param xs
+    //! The structure to adjust with `f`.
+    //!
+    //! @param value
+    //! An object that is compared with each element `x` of the structure.
+    //! Elements of the structure that compare equal to `value` are adjusted
+    //! with the `f` function.
+    //!
+    //! @param f
+    //! A function called as `f(x)` on the element(s) of the structure that
+    //! compare equal to `value`.
+    //!
+    //!
+    //! Example
+    //! -------
     //! @snippet example/functor.cpp adjust
     //!
     //! Benchmarks
     //! ----------
     //! @image html benchmark/functor/adjust.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto adjust = [](auto&& xs, auto&& predicate, auto&& f) -> decltype(auto) {
+    constexpr auto adjust = [](auto&& xs, auto&& value, auto&& f) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
@@ -203,15 +264,15 @@ namespace boost { namespace hana {
     struct adjust_impl;
 
     struct _adjust {
-        template <typename Xs, typename Pred, typename F>
-        constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred, F&& f) const {
+        template <typename Xs, typename Value, typename F>
+        constexpr decltype(auto) operator()(Xs&& xs, Value&& value, F&& f) const {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
             static_assert(_models<Functor, typename datatype<Xs>::type>{},
-            "hana::adjust(xs, pred, f) requires xs to be a Functor");
+            "hana::adjust(xs, value, f) requires xs to be a Functor");
 #endif
             return adjust_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
-                detail::std::forward<Pred>(pred),
+                detail::std::forward<Value>(value),
                 detail::std::forward<F>(f)
             );
         }

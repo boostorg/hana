@@ -37,6 +37,8 @@ int main() {
         , make<Tuple>(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{}, eq<5>{})
     );
 
+    auto eq_values = make<Tuple>(eq<0>{}, eq<2>{});
+
     auto eq_tuples_tuples = make<Tuple>(
           make<Tuple>()
         , make<Tuple>(make<Tuple>(eq<0>{}))
@@ -81,7 +83,7 @@ int main() {
             tuple_t<F<t1>, F<t2>, F<t3>, F<t4>>
         ));
 
-        test::TestFunctor<Tuple>{eq_tuples};
+        test::TestFunctor<Tuple>{eq_tuples, eq_values};
     }
 
     //////////////////////////////////////////////////////////////////////////

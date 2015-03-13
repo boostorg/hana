@@ -34,6 +34,8 @@ int main() {
         , fusion::make_vector(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{})
     );
 
+    auto eq_values = make<Tuple>(eq<0>{}, eq<2>{});
+
     auto eq_vectors_vectors = make<Tuple>(
           fusion::make_vector()
         , fusion::make_vector(
@@ -50,7 +52,7 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     // Functor up to Monad
     //////////////////////////////////////////////////////////////////////////
-    test::TestFunctor<ext::boost::fusion::Vector>{eq_vectors};
+    test::TestFunctor<ext::boost::fusion::Vector>{eq_vectors, eq_values};
     test::TestApplicative<ext::boost::fusion::Vector>{};
     test::TestMonad<ext::boost::fusion::Vector>{eq_vectors, eq_vectors_vectors};
 }

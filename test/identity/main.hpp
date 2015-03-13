@@ -61,15 +61,15 @@ int main() {
     // Functor
     {
         auto functor = test::identity;
-        // adjust
+        // adjust_if
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                adjust(functor(x<0>), always(cnumeric<bool, true>), f),
+                adjust_if(functor(x<0>), always(cnumeric<bool, true>), f),
                 functor(f(x<0>))
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                adjust(functor(x<0>), always(cnumeric<bool, false>), f),
+                adjust_if(functor(x<0>), always(cnumeric<bool, false>), f),
                 functor(x<0>)
             ));
         }

@@ -33,6 +33,8 @@ int main() {
         , fusion::make_list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{})
     );
 
+    auto eq_values = make<Tuple>(eq<0>{}, eq<2>{});
+
     auto eq_lists_lists = make<Tuple>(
           fusion::make_list()
         , fusion::make_list(
@@ -49,7 +51,7 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     // Functor up to Monad
     //////////////////////////////////////////////////////////////////////////
-    test::TestFunctor<ext::boost::fusion::List>{eq_lists};
+    test::TestFunctor<ext::boost::fusion::List>{eq_lists, eq_values};
     test::TestApplicative<ext::boost::fusion::List>{};
     test::TestMonad<ext::boost::fusion::List>{eq_lists, eq_lists_lists};
 }

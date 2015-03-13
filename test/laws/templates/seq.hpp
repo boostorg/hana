@@ -153,7 +153,7 @@ int main() {
     // Functor, Applicative, Monad
     //////////////////////////////////////////////////////////////////////////
 #ifdef BOOST_HANA_TEST_MONAD
-    test::TestFunctor<test::Seq>{eqs};
+    test::TestFunctor<test::Seq>{eqs, eq_keys};
     test::TestApplicative<test::Seq>{};
     test::TestMonad<test::Seq>{eqs, nested_eqs};
 #endif

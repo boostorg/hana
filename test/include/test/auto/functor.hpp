@@ -43,7 +43,7 @@ namespace boost { namespace hana { namespace test {
             ));
 
             BOOST_HANA_CHECK(equal(
-                adjust(xs, pred, f),
+                adjust_if(xs, pred, f),
                 transform(xs, [=](auto x) {
                     return eval_if(pred(x),
                         [=](auto _) { return _(f)(x); },
@@ -54,7 +54,7 @@ namespace boost { namespace hana { namespace test {
 
             BOOST_HANA_CHECK(equal(
                 replace(xs, pred, v),
-                adjust(xs, pred, always(v))
+                adjust_if(xs, pred, always(v))
             ));
 
             BOOST_HANA_CHECK(equal(

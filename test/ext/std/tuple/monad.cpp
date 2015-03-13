@@ -31,6 +31,8 @@ int main() {
         , std::make_tuple(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{})
     );
 
+    auto eq_values = make<Tuple>(eq<0>{}, eq<2>{});
+
     auto eq_tuples_tuples = make<Tuple>(
           std::make_tuple()
         , std::make_tuple(
@@ -47,7 +49,7 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     // Functor up to Monad
     //////////////////////////////////////////////////////////////////////////
-    test::TestFunctor<ext::std::Tuple>{eq_tuples};
+    test::TestFunctor<ext::std::Tuple>{eq_tuples, eq_values};
     test::TestApplicative<ext::std::Tuple>{};
     test::TestMonad<ext::std::Tuple>{eq_tuples, eq_tuples_tuples};
 }

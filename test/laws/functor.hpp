@@ -28,14 +28,14 @@ namespace boost { namespace hana { namespace test {
     struct TestFunctor<F, laws> {
         static_assert(_models<Functor, F>{}, "");
 
-        template <typename Xs>
-        TestFunctor(Xs xs) {
+        template <typename Xs, typename Elements>
+        TestFunctor(Xs xs, Elements elements) {
             test::_injection<0> f{};
             test::_injection<1> g{};
             test::_constant<0> v{};
             auto pred = hana::always(true_);
 
-            foreach(xs, [=](auto x) {
+            hana::for_each(xs, [=](auto x) {
 
                 // identity
                 BOOST_HANA_CHECK(hana::equal(
@@ -49,9 +49,16 @@ namespace boost { namespace hana { namespace test {
                     hana::transform(hana::transform(x, g), f)
                 ));
 
-                // method definitions in terms of transform/adjust
+                // method definitions in terms of transform/adjust_if
+                hana::for_each(elements, [=](auto value) {
+                    BOOST_HANA_CHECK(hana::equal(
+                        hana::adjust(x, value, f),
+                        hana::adjust_if(x, hana::equal.to(value), f)
+                    ));
+                });
+
                 BOOST_HANA_CHECK(hana::equal(
-                    hana::adjust(x, pred, f),
+                    hana::adjust_if(x, pred, f),
                     hana::transform(x, [=](auto z) {
                         return hana::eval_if(pred(z),
                             [=](auto _) { return _(f)(z); },
@@ -62,7 +69,7 @@ namespace boost { namespace hana { namespace test {
 
                 BOOST_HANA_CHECK(hana::equal(
                     hana::replace(x, pred, v),
-                    hana::adjust(x, pred, hana::always(v))
+                    hana::adjust_if(x, pred, hana::always(v))
                 ));
 
                 BOOST_HANA_CHECK(hana::equal(
@@ -78,8 +85,10 @@ namespace boost { namespace hana { namespace test {
     struct TestFunctor<S, when<_models<Sequence, S>{}>> : TestFunctor<S, laws> {
         struct undefined { };
 
-        template <typename Xs>
-        TestFunctor(Xs xs) : TestFunctor<S, laws>{xs} {
+        template <typename Xs, typename Elements>
+        TestFunctor(Xs xs, Elements elements)
+            : TestFunctor<S, laws>{xs, elements}
+        {
             using test::ct_eq;
             using test::cx_eq;
             _injection<0> f{};

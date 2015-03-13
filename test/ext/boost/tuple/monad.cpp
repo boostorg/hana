@@ -31,6 +31,8 @@ int main() {
         , ::boost::make_tuple(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{})
     );
 
+    auto eq_values = make<Tuple>(eq<0>{}, eq<2>{});
+
     auto eq_tuples_tuples = make<Tuple>(
           ::boost::make_tuple()
         , ::boost::make_tuple(
@@ -47,7 +49,7 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     // Functor up to Monad
     //////////////////////////////////////////////////////////////////////////
-    test::TestFunctor<ext::boost::Tuple>{eq_tuples};
+    test::TestFunctor<ext::boost::Tuple>{eq_tuples, eq_values};
     test::TestApplicative<ext::boost::Tuple>{};
     test::TestMonad<ext::boost::Tuple>{eq_tuples, eq_tuples_tuples};
 }

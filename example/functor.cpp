@@ -21,7 +21,7 @@ int main() {
 
 {
 
-//! [adjust]
+//! [adjust_if]
 BOOST_HANA_CONSTEXPR_LAMBDA auto negative = [](auto x) {
     return x < 0;
 };
@@ -31,9 +31,23 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto negate = [](auto x) {
 };
 
 BOOST_HANA_CONSTEXPR_CHECK(
-    adjust(make<Tuple>(-3, -2, -1, 0, 1, 2, 3), negative, negate)
+    adjust_if(make<Tuple>(-3, -2, -1, 0, 1, 2, 3), negative, negate)
     ==
     make<Tuple>(3, 2, 1, 0, 1, 2, 3)
+);
+//! [adjust_if]
+
+}{
+
+//! [adjust]
+BOOST_HANA_CONSTEXPR_LAMBDA auto negate = [](auto x) {
+    return -x;
+};
+
+BOOST_HANA_CONSTEXPR_CHECK(
+    adjust(make<Tuple>(1, 4, 9, 2, 3, 4), 4, negate)
+    ==
+    make<Tuple>(1, -4, 9, 2, 3, -4)
 );
 //! [adjust]
 

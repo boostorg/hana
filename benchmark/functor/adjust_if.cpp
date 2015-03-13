@@ -21,6 +21,6 @@ int main() {
     auto functor = <%= functor %>;
 
     boost::hana::benchmark::measure([=] {
-        boost::hana::adjust(functor, pred, f);
+        boost::hana::adjust_if(functor, pred, f);
     });
 }

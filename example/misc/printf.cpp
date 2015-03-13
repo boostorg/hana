@@ -40,7 +40,7 @@ constexpr auto format(Tokens ...tokens_) {
     // [](auto token) {
     //     return from_just(lookup(formats, decltype_(token)));
     // }
-    auto format_string_tokens = adjust(tokens,
+    auto format_string_tokens = adjust_if(tokens,
         compose(not_, is_a<String>),
         demux(from_just)(compose(partial(lookup, formats), decltype_))
     );

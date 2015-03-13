@@ -29,6 +29,8 @@ int main() {
         right(ct_eq<3>{}), left(ct_eq<3>{})
     );
 
+    auto eq_keys = make<Tuple>(ct_eq<0>{}, ct_eq<2>{});
+
     auto nested_eqs = make<Tuple>(
         right(right(ct_eq<2>{})), left(right(ct_eq<2>{})),
         right(right(ct_eq<3>{})), left(right(ct_eq<3>{})),
@@ -55,7 +57,7 @@ int main() {
         }
 
         // laws
-        test::TestFunctor<Either>{eqs};
+        test::TestFunctor<Either>{eqs, eq_keys};
     }
 
     //////////////////////////////////////////////////////////////////////////

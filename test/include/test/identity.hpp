@@ -70,7 +70,7 @@ namespace boost { namespace hana {
     };
 #else
     template <>
-    struct adjust_impl<test::Identity> {
+    struct adjust_if_impl<test::Identity> {
         template <typename Id, typename P, typename F>
         static constexpr auto apply(Id self, P p, F f) {
             auto x = eval_if(p(self.value),
