@@ -1476,30 +1476,30 @@ namespace boost { namespace hana { namespace test {
                 }
             }
 
-            // replace
+            // replace_if
             {
                 BOOST_HANA_CONSTEXPR_LAMBDA auto is_even = [](auto x) {
                     return x % 2 == 0;
                 };
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    replace(list(), is_even, 'x'),
+                    replace_if(list(), is_even, 'x'),
                     list()
                 ));
                 BOOST_HANA_CONSTEXPR_CHECK(equal(
-                    replace(list(0), is_even, 'x'),
+                    replace_if(list(0), is_even, 'x'),
                     list('x')
                 ));
                 BOOST_HANA_CONSTEXPR_CHECK(equal(
-                    replace(list(0, 1), is_even, 'x'),
+                    replace_if(list(0, 1), is_even, 'x'),
                     list('x', 1)
                 ));
                 BOOST_HANA_CONSTEXPR_CHECK(equal(
-                    replace(list(0, 1, 2), is_even, 'x'),
+                    replace_if(list(0, 1, 2), is_even, 'x'),
                     list('x', 1, 'x')
                 ));
                 BOOST_HANA_CONSTEXPR_CHECK(equal(
-                    replace(list(0, 1, 2, 3), is_even, 'x'),
+                    replace_if(list(0, 1, 2, 3), is_even, 'x'),
                     list('x', 1, 'x', 3)
                 ));
             }

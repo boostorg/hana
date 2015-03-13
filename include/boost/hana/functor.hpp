@@ -103,6 +103,23 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
+    // replace_if
+    //////////////////////////////////////////////////////////////////////////
+    template <typename Fun, typename>
+    struct replace_if_impl : replace_if_impl<Fun, when<true>> { };
+
+    template <typename Fun, bool condition>
+    struct replace_if_impl<Fun, when<condition>> : default_ {
+        template <typename Xs, typename Pred, typename Value>
+        static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred, Value&& v) {
+            return hana::adjust_if(detail::std::forward<Xs>(xs),
+                detail::std::forward<Pred>(pred),
+                hana::always(detail::std::forward<Value>(v))
+            );
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
     // replace
     //////////////////////////////////////////////////////////////////////////
     template <typename Fun, typename>
@@ -110,11 +127,13 @@ namespace boost { namespace hana {
 
     template <typename Fun, bool condition>
     struct replace_impl<Fun, when<condition>> : default_ {
-        template <typename Xs, typename Pred, typename Value>
-        static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred, Value&& v) {
-            return hana::adjust_if(detail::std::forward<Xs>(xs),
-                detail::std::forward<Pred>(pred),
-                hana::always(detail::std::forward<Value>(v))
+        template <typename Xs, typename OldVal, typename NewVal>
+        static constexpr decltype(auto)
+        apply(Xs&& xs, OldVal&& oldval, NewVal&& newval) {
+            return hana::replace_if(
+                detail::std::forward<Xs>(xs),
+                hana::equal.to(detail::std::forward<OldVal>(oldval)),
+                detail::std::forward<NewVal>(newval)
             );
         }
     };

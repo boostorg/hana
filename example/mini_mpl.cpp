@@ -343,14 +343,14 @@ template <typename Sequence, typename OldType, typename NewType>
 struct replace {
     using type = decltype(hana::replace(
         hana::to<hana::Tuple>(Sequence{}),
-        hana::equal.to(hana::type<OldType>),
+        hana::type<OldType>,
         hana::type<NewType>
     ));
 };
 
 template <typename Sequence, typename Pred, typename NewType>
 struct replace_if {
-    using type = decltype(hana::replace(
+    using type = decltype(hana::replace_if(
         hana::to<hana::Tuple>(Sequence{}),
         boolean_metafunction_class<Pred>,
         hana::type<NewType>

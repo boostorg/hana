@@ -90,15 +90,15 @@ int main() {
             ));
         }
 
-        // replace
+        // replace_if
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                replace(functor(x<0>), always(cnumeric<bool, true>), x<1>),
+                replace_if(functor(x<0>), always(cnumeric<bool, true>), x<1>),
                 functor(x<1>)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                replace(functor(x<0>), always(cnumeric<bool, false>), x<1>),
+                replace_if(functor(x<0>), always(cnumeric<bool, false>), x<1>),
                 functor(x<0>)
             ));
         }

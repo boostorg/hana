@@ -53,13 +53,13 @@ namespace boost { namespace hana { namespace test {
             ));
 
             BOOST_HANA_CHECK(equal(
-                replace(xs, pred, v),
+                replace_if(xs, pred, v),
                 adjust_if(xs, pred, always(v))
             ));
 
             BOOST_HANA_CHECK(equal(
                 fill(xs, v),
-                replace(xs, always(true_), v)
+                replace_if(xs, always(true_), v)
             ));
         });
     };

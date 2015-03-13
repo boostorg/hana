@@ -18,6 +18,6 @@ int main() {
     auto functor = <%= functor %>;
 
     boost::hana::benchmark::measure([=] {
-        boost::hana::replace(functor, pred, any{});
+        boost::hana::replace_if(functor, pred, any{});
     });
 }

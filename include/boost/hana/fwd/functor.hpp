@@ -68,15 +68,16 @@ namespace boost { namespace hana {
     //! Let `xs` be a Functor of data type `F(A)`,
     //!     \f$ f : A \to A \f$,
     //!     \f$ \mathrm{pred} : A \to \mathrm{Bool} \f$
-    //! for some `Logical` `Bool`, and `value` an object of data type `A`.
-    //! Then,
+    //! for some `Logical` `Bool`, and `oldval`, `newval`, `value` objects
+    //! of data type `A`. Then,
     //! @code
     //!     adjust(xs, value, f) == adjust_if(xs, equal.to(value), f)
     //!     adjust_if(xs, pred, f) == transform(xs, [](x){
     //!         if pred(x) then f(x) else x
     //!     })
-    //!     replace(xs, pred, value) == adjust_if(xs, pred, always(value))
-    //!     fill(xs, value)          == replace(xs, always(true), value)
+    //!     replace_if(xs, pred, value) == adjust_if(xs, pred, always(value))
+    //!     replace(xs, oldval, newval) == replace_if(xs, equal.to(oldval), newval)
+    //!     fill(xs, value)             == replace_if(xs, always(true), value)
     //! @endcode
     //! The default definition of the methods will satisfy these equations.
     //!
@@ -290,7 +291,7 @@ namespace boost { namespace hana {
     //! ---------
     //! Given `F` a Functor and `Bool` a Logical, the signature is
     //! \f$
-    //!     \mathrm{replace} : F(T) \times (T \to Bool) \times T \to F(T)
+    //!     \mathrm{replace_if} : F(T) \times (T \to Bool) \times T \to F(T)
     //! \f$
     //!
     //! @param xs
@@ -308,13 +309,68 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/functor.cpp replace
+    //! @snippet example/functor.cpp replace_if
     //!
     //! Benchmarks
     //! ----------
-    //! @image html benchmark/functor/replace.ctime.png
+    //! @image html benchmark/functor/replace_if.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto replace = [](auto&& xs, auto&& predicate, auto&& value) -> decltype(auto) {
+    constexpr auto replace_if = [](auto&& xs, auto&& predicate, auto&& value) -> decltype(auto) {
+        return tag-dispatched;
+    };
+#else
+    template <typename Xs, typename = void>
+    struct replace_if_impl;
+
+    struct _replace_if {
+        template <typename Xs, typename Pred, typename Value>
+        constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred, Value&& value) const {
+#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(_models<Functor, typename datatype<Xs>::type>{},
+            "hana::replace_if(xs, pred, value) requires xs to be a Functor");
+#endif
+            return replace_if_impl<typename datatype<Xs>::type>::apply(
+                detail::std::forward<Xs>(xs),
+                detail::std::forward<Pred>(pred),
+                detail::std::forward<Value>(value)
+            );
+        }
+    };
+
+    constexpr _replace_if replace_if{};
+#endif
+
+    //! Replace all the elements of a structure that compare equal
+    //! to some `value` with some new fixed value.
+    //! @relates Functor
+    //!
+    //!
+    //! Signature
+    //! ---------
+    //! Given `F` a Functor and `U` a type that can be compared with `T`,
+    //! the signature is
+    //! \f$
+    //!     \mathrm{replace} : F(T) \times U \times T \to F(T)
+    //! \f$
+    //!
+    //! @param xs
+    //! The structure to replace elements of.
+    //!
+    //! @param oldval
+    //! An object compared with each element of the structure. Elements
+    //! of the structure that compare equal to `oldval` are replaced
+    //! by `newval` in the new structure.
+    //!
+    //! @param newval
+    //! A value by which every element `x` of the structure that compares
+    //! equal to `oldval` is replaced.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/functor.cpp replace
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto replace = [](auto&& xs, auto&& oldval, auto&& newval) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
@@ -322,16 +378,16 @@ namespace boost { namespace hana {
     struct replace_impl;
 
     struct _replace {
-        template <typename Xs, typename Pred, typename Value>
-        constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred, Value&& value) const {
+        template <typename Xs, typename OldVal, typename NewVal>
+        constexpr decltype(auto) operator()(Xs&& xs, OldVal&& oldval, NewVal&& newval) const {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
             static_assert(_models<Functor, typename datatype<Xs>::type>{},
-            "hana::replace(xs, pred, value) requires xs to be a Functor");
+            "hana::replace(xs, oldval, newval) requires xs to be a Functor");
 #endif
             return replace_impl<typename datatype<Xs>::type>::apply(
                 detail::std::forward<Xs>(xs),
-                detail::std::forward<Pred>(pred),
-                detail::std::forward<Value>(value)
+                detail::std::forward<OldVal>(oldval),
+                detail::std::forward<NewVal>(newval)
             );
         }
     };

@@ -55,6 +55,13 @@ namespace boost { namespace hana { namespace test {
                         hana::adjust(x, value, f),
                         hana::adjust_if(x, hana::equal.to(value), f)
                     ));
+
+                    hana::for_each(elements, [x, oldval = value](auto newval) {
+                        BOOST_HANA_CHECK(hana::equal(
+                            hana::replace(x, oldval, newval),
+                            hana::replace_if(x, hana::equal.to(oldval), newval)
+                        ));
+                    });
                 });
 
                 BOOST_HANA_CHECK(hana::equal(
@@ -68,13 +75,13 @@ namespace boost { namespace hana { namespace test {
                 ));
 
                 BOOST_HANA_CHECK(hana::equal(
-                    hana::replace(x, pred, v),
+                    hana::replace_if(x, pred, v),
                     hana::adjust_if(x, pred, hana::always(v))
                 ));
 
                 BOOST_HANA_CHECK(hana::equal(
                     hana::fill(x, v),
-                    hana::replace(x, hana::always(true_), v)
+                    hana::replace_if(x, hana::always(true_), v)
                 ));
 
             });
@@ -136,6 +143,71 @@ namespace boost { namespace hana { namespace test {
             ));
 
             //////////////////////////////////////////////////////////////////
+            // replace_if
+            //////////////////////////////////////////////////////////////////
+            {
+            auto a = ct_eq<888>{};
+            auto b = ct_eq<999>{};
+
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::replace_if(list(), undefined{}, undefined{}),
+                list()
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::replace_if(list(ct_eq<0>{}), equal.to(a), undefined{}),
+                list(ct_eq<0>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::replace_if(list(a), equal.to(a), b),
+                list(b)
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::replace_if(list(ct_eq<0>{}, ct_eq<1>{}), equal.to(a), undefined{}),
+                list(ct_eq<0>{}, ct_eq<1>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::replace_if(list(a, ct_eq<1>{}), equal.to(a), b),
+                list(b, ct_eq<1>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::replace_if(list(ct_eq<0>{}, a), equal.to(a), b),
+                list(ct_eq<0>{}, b)
+            ));
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::replace_if(list(a, a), equal.to(a), b),
+                list(b, b)
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::replace_if(list(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}), equal.to(a), undefined{}),
+                list(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::replace_if(list(a, ct_eq<1>{}, ct_eq<2>{}), equal.to(a), b),
+                list(b, ct_eq<1>{}, ct_eq<2>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::replace_if(list(ct_eq<0>{}, a, ct_eq<2>{}), equal.to(a), b),
+                list(ct_eq<0>{}, b, ct_eq<2>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::replace_if(list(ct_eq<0>{}, ct_eq<1>{}, a), equal.to(a), b),
+                list(ct_eq<0>{}, ct_eq<1>{}, b)
+            ));
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::replace_if(list(a, ct_eq<1>{}, a), equal.to(a), b),
+                list(b, ct_eq<1>{}, b)
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::replace_if(list(a, ct_eq<1>{}, a, ct_eq<3>{}, a), equal.to(a), b),
+                list(b, ct_eq<1>{}, b, ct_eq<3>{}, b)
+            ));
+            }
+
+            //////////////////////////////////////////////////////////////////
             // replace
             //////////////////////////////////////////////////////////////////
             {
@@ -148,54 +220,54 @@ namespace boost { namespace hana { namespace test {
             ));
 
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::replace(list(ct_eq<0>{}), equal.to(a), undefined{}),
+                hana::replace(list(ct_eq<0>{}), a, undefined{}),
                 list(ct_eq<0>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::replace(list(a), equal.to(a), b),
+                hana::replace(list(a), a, b),
                 list(b)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::replace(list(ct_eq<0>{}, ct_eq<1>{}), equal.to(a), undefined{}),
+                hana::replace(list(ct_eq<0>{}, ct_eq<1>{}), a, undefined{}),
                 list(ct_eq<0>{}, ct_eq<1>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::replace(list(a, ct_eq<1>{}), equal.to(a), b),
+                hana::replace(list(a, ct_eq<1>{}), a, b),
                 list(b, ct_eq<1>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::replace(list(ct_eq<0>{}, a), equal.to(a), b),
+                hana::replace(list(ct_eq<0>{}, a), a, b),
                 list(ct_eq<0>{}, b)
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::replace(list(a, a), equal.to(a), b),
+                hana::replace(list(a, a), a, b),
                 list(b, b)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::replace(list(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}), equal.to(a), undefined{}),
+                hana::replace(list(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}), a, undefined{}),
                 list(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::replace(list(a, ct_eq<1>{}, ct_eq<2>{}), equal.to(a), b),
+                hana::replace(list(a, ct_eq<1>{}, ct_eq<2>{}), a, b),
                 list(b, ct_eq<1>{}, ct_eq<2>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::replace(list(ct_eq<0>{}, a, ct_eq<2>{}), equal.to(a), b),
+                hana::replace(list(ct_eq<0>{}, a, ct_eq<2>{}), a, b),
                 list(ct_eq<0>{}, b, ct_eq<2>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::replace(list(ct_eq<0>{}, ct_eq<1>{}, a), equal.to(a), b),
+                hana::replace(list(ct_eq<0>{}, ct_eq<1>{}, a), a, b),
                 list(ct_eq<0>{}, ct_eq<1>{}, b)
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::replace(list(a, ct_eq<1>{}, a), equal.to(a), b),
+                hana::replace(list(a, ct_eq<1>{}, a), a, b),
                 list(b, ct_eq<1>{}, b)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::replace(list(a, ct_eq<1>{}, a, ct_eq<3>{}, a), equal.to(a), b),
+                hana::replace(list(a, ct_eq<1>{}, a, ct_eq<3>{}, a), a, b),
                 list(b, ct_eq<1>{}, b, ct_eq<3>{}, b)
             ));
             }

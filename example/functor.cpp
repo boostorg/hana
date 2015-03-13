@@ -87,15 +87,25 @@ BOOST_HANA_CONSTANT_CHECK(
 
 }{
 
-//! [replace]
+//! [replace_if]
 BOOST_HANA_CONSTEXPR_LAMBDA auto negative = [](auto x) {
     return x < 0;
 };
 
 BOOST_HANA_CONSTEXPR_CHECK(
-    replace(make<Tuple>(-3, -2, -1, 0, 1, 2, 3), negative, 0)
+    replace_if(make<Tuple>(-3, -2, -1, 0, 1, 2, 3), negative, 0)
     ==
     make<Tuple>(0, 0, 0, 0, 1, 2, 3)
+);
+//! [replace_if]
+
+}{
+
+//! [replace]
+BOOST_HANA_CONSTEXPR_CHECK(
+    replace(make<Tuple>(1, 1, 1, 2, 3, 1, 4, 5), 1, 0)
+    ==
+    make<Tuple>(0, 0, 0, 2, 3, 0, 4, 5)
 );
 //! [replace]
 
