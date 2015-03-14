@@ -10,8 +10,9 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_LAZY_HPP
 #define BOOST_HANA_FWD_LAZY_HPP
 
-#include <boost/hana/core/operators.hpp>
-#include <boost/hana/detail/create.hpp>
+#include <boost/hana/detail/std/decay.hpp>
+#include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/fwd/core/datatype.hpp>
 
 
 namespace boost { namespace hana {
@@ -40,24 +41,41 @@ namespace boost { namespace hana {
     //! lazy computations.
     //! @snippet example/lazy.monad.cpp monad
     //!
+    //! 4. `Comonad`\n
+    //! The `Lazy` comonad allows evaluating a lazy computation to get its
+    //! result and lazily applying functions taking lazy inputs to lazy
+    //! values. This [blog post][1]  goes into more details about lazy
+    //! evaluation and comonads.
+    //! @snippet example/lazy.cpp comonad
+    //!
     //!
     //! @note
     //! `Lazy` only models a few concepts because providing more functionality
     //! would require evaluating the lazy values in most cases. Since this
     //! raises some issues such as side effects and memoization, the interface
     //! is kept minimal.
+    //!
+    //!
+    //! [1]: http://ldionne.com/2015/03/16/laziness-as-a-comonad
     struct Lazy { };
 
     //! Evaluate a lazy value and return it.
     //! @relates Lazy
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto eval = [](auto&& lx) -> decltype(auto) {
-        return unspecified;
+    constexpr auto eval = [](auto&& see_documentation) -> decltype(auto) {
+        return tag-dispatched;
     };
 #else
+    template <typename T, typename = void>
+    struct eval_impl;
+
     struct _eval {
-        template <typename Lx>
-        constexpr decltype(auto) operator()(Lx&& lx) const;
+        template <typename Expr>
+        constexpr decltype(auto) operator()(Expr&& expr) const {
+            return eval_impl<typename datatype<Expr>::type>::apply(
+                detail::std::forward<Expr>(expr)
+            );
+        }
     };
 
     constexpr _eval eval{};
@@ -84,13 +102,16 @@ namespace boost { namespace hana {
         return unspecified-type;
     };
 #else
-    template <typename F, typename X, typename = operators::adl>
-    struct _lazy_call;
+    template <typename X>
+    struct _lazy_value;
 
-    template <typename X, typename = operators::adl>
-    struct _lazy;
+    struct _lazy {
+        template <typename X>
+        constexpr _lazy_value<typename detail::std::decay<X>::type>
+        operator()(X&& x) const;
+    };
 
-    constexpr detail::create<_lazy> lazy{};
+    constexpr _lazy lazy{};
 #endif
 }} // end namespace boost::hana
 

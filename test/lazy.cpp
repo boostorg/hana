@@ -14,6 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <laws/applicative.hpp>
 #include <laws/base.hpp>
+#include <laws/comonad.hpp>
 #include <laws/functor.hpp>
 #include <laws/monad.hpp>
 
@@ -116,7 +117,9 @@ int main() {
         test::TestFunctor<Lazy>{eqs, eq_elems};
     }
 
+    //////////////////////////////////////////////////////////////////////////
     // Applicative
+    //////////////////////////////////////////////////////////////////////////
     {
         // ap
         {
@@ -191,47 +194,79 @@ int main() {
 
         // laws
         test::TestMonad<Lazy>{eqs, nested};
+    }
 
-        //////////////////////////////////////////////////////////////////////////
-        // Make sure the monadic chain is evaluated in the right order.
-        //////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////
+    // Comonad
+    //////////////////////////////////////////////////////////////////////////
+    {
+        // extract
         {
-            std::array<bool, 3> executed = {{false, false, false}};
-            int dummy = 0;
-
-            std::cout << "creating the monadic chain...\n";
-            auto chain = lazy(dummy)
-                | [&](int dummy) {
-                    std::cout << "executing the first computation...\n";
-                    executed[0] = true;
-                    BOOST_HANA_RUNTIME_CHECK(
-                        executed == std::array<bool, 3>{{true, false, false}}
-                    );
-                    return lazy(dummy);
-                }
-                | [&](int dummy) {
-                    std::cout << "executing the second computation...\n";
-                    executed[1] = true;
-                    BOOST_HANA_RUNTIME_CHECK(
-                        executed == std::array<bool, 3>{{true, true, false}}
-                    );
-                    return lazy(dummy);
-                }
-                | [&](int dummy) {
-                    std::cout << "executing the third computation...\n";
-                    executed[2] = true;
-                    BOOST_HANA_RUNTIME_CHECK(
-                        executed == std::array<bool, 3>{{true, true, true}}
-                    );
-                    return lazy(dummy);
-                };
-
-            BOOST_HANA_RUNTIME_CHECK(
-                executed == std::array<bool, 3>{{false, false, false}}
-            );
-
-            std::cout << "evaluating the chain...\n";
-            eval(chain);
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                extract(lazy(ct_eq<4>{})),
+                ct_eq<4>{}
+            ));
         }
+
+        // duplicate
+        {
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                duplicate(lazy(ct_eq<4>{})),
+                lazy(lazy(ct_eq<4>{}))
+            ));
+        }
+
+        // extend
+        {
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                extend(lazy(ct_eq<4>{}), f),
+                lazy(f(lazy(ct_eq<4>{})))
+            ));
+        }
+
+        // laws
+        test::TestComonad<Lazy>{eqs};
+    }
+
+    //////////////////////////////////////////////////////////////////////////
+    // Make sure the monadic chain is evaluated in the right order.
+    //////////////////////////////////////////////////////////////////////////
+    {
+        std::array<bool, 3> executed = {{false, false, false}};
+        int dummy = 0;
+
+        std::cout << "creating the monadic chain...\n";
+        auto chain = lazy(dummy)
+            | [&](int dummy) {
+                std::cout << "executing the first computation...\n";
+                executed[0] = true;
+                BOOST_HANA_RUNTIME_CHECK(
+                    executed == std::array<bool, 3>{{true, false, false}}
+                );
+                return lazy(dummy);
+            }
+            | [&](int dummy) {
+                std::cout << "executing the second computation...\n";
+                executed[1] = true;
+                BOOST_HANA_RUNTIME_CHECK(
+                    executed == std::array<bool, 3>{{true, true, false}}
+                );
+                return lazy(dummy);
+            }
+            | [&](int dummy) {
+                std::cout << "executing the third computation...\n";
+                executed[2] = true;
+                BOOST_HANA_RUNTIME_CHECK(
+                    executed == std::array<bool, 3>{{true, true, true}}
+                );
+                return lazy(dummy);
+            };
+
+        BOOST_HANA_RUNTIME_CHECK(
+            executed == std::array<bool, 3>{{false, false, false}}
+        );
+
+        std::cout << "evaluating the chain...\n";
+        eval(chain);
     }
 }

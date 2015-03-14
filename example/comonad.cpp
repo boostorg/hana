@@ -5,8 +5,7 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/bool.hpp>
-#include <boost/hana/config.hpp>
+#include <boost/hana/comonad.hpp>
 #include <boost/hana/enumerable.hpp>
 #include <boost/hana/lazy.hpp>
 
@@ -18,36 +17,14 @@ int main() {
 
 {
 
-//! [lazy]
-BOOST_HANA_CONSTEXPR_LAMBDA auto f = lazy([](auto x) {
-    return 1 / x;
-});
-BOOST_HANA_CONSTEXPR_LAMBDA auto g = lazy([](auto x) {
-    return x + 1;
-});
-
-BOOST_HANA_CONSTEXPR_CHECK(eval(if_(false_, f(0), g(0))) == 0 + 1);
-//! [lazy]
+//! [extract]
+static_assert(extract(lazy(1)) == 1, "");
+static_assert(extract(lazy(succ)(3)) == 4, "");
+//! [extract]
 
 }{
 
-//! [functor]
-BOOST_HANA_CONSTEXPR_LAMBDA auto double_ = [](auto x) {
-    return x * 2;
-};
-
-BOOST_HANA_CONSTEXPR_LAMBDA auto one_over = [](auto x) {
-    return 1 / x;
-};
-
-BOOST_HANA_CONSTEXPR_CHECK(eval(transform(lazy(one_over)(4), double_)) == 1 / 2);
-
-transform(lazy(one_over)(0), double_); // never evaluated
-//! [functor]
-
-}{
-
-//! [comonad]
+//! [extend]
 std::stringstream s; s << "1 2 3";
 auto i = lazy([&] {
     int i;
@@ -62,7 +39,13 @@ auto i_plus_one = extend(i, [](auto lazy_int) {
 BOOST_HANA_RUNTIME_CHECK(extract(i_plus_one) == 2);
 BOOST_HANA_RUNTIME_CHECK(extract(i_plus_one) == 3);
 BOOST_HANA_RUNTIME_CHECK(extract(i_plus_one) == 4);
-//! [comonad]
+//! [extend]
+
+}{
+
+//! [duplicate]
+static_assert(extract(extract(duplicate(lazy(3)))) == 3, "");
+//! [duplicate]
 
 }
 
