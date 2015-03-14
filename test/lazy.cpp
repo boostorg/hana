@@ -91,6 +91,13 @@ int main() {
                 ct_eq<1>{}
             ));
         }
+
+        // Make sure this does not move from a destroyed object: it used to
+        // be the case that.
+        {
+            auto x = flatten(lazy(lazy(test::Tracked{1})));
+            auto z = eval(x); (void)z;
+        }
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -192,10 +199,10 @@ int main() {
             std::array<bool, 3> executed = {{false, false, false}};
             int dummy = 0;
 
-            std::cerr << "creating the monadic chain...\n";
+            std::cout << "creating the monadic chain...\n";
             auto chain = lazy(dummy)
                 | [&](int dummy) {
-                    std::cerr << "executing the first computation...\n";
+                    std::cout << "executing the first computation...\n";
                     executed[0] = true;
                     BOOST_HANA_RUNTIME_CHECK(
                         executed == std::array<bool, 3>{{true, false, false}}
@@ -203,7 +210,7 @@ int main() {
                     return lazy(dummy);
                 }
                 | [&](int dummy) {
-                    std::cerr << "executing the second computation...\n";
+                    std::cout << "executing the second computation...\n";
                     executed[1] = true;
                     BOOST_HANA_RUNTIME_CHECK(
                         executed == std::array<bool, 3>{{true, true, false}}
@@ -211,7 +218,7 @@ int main() {
                     return lazy(dummy);
                 }
                 | [&](int dummy) {
-                    std::cerr << "executing the third computation...\n";
+                    std::cout << "executing the third computation...\n";
                     executed[2] = true;
                     BOOST_HANA_RUNTIME_CHECK(
                         executed == std::array<bool, 3>{{true, true, true}}
@@ -223,7 +230,7 @@ int main() {
                 executed == std::array<bool, 3>{{false, false, false}}
             );
 
-            std::cerr << "evaluating the chain...\n";
+            std::cout << "evaluating the chain...\n";
             eval(chain);
         }
     }

@@ -15,7 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/applicative.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/closure.hpp>
-#include <boost/hana/detail/create.hpp>
+#include <boost/hana/detail/std/decay.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/functional/compose.hpp>
@@ -64,44 +64,29 @@ namespace boost { namespace hana {
         struct hana { using datatype = Lazy; };
 
         template <typename Id>
-        constexpr decltype(auto) eval_impl(Id const&) const&
+        constexpr X const& eval_impl(Id const&) const&
         { return x; }
 
         template <typename Id>
-        constexpr decltype(auto) eval_impl(Id const&) &
+        constexpr X& eval_impl(Id const&) &
         { return x; }
 
         template <typename Id>
-        constexpr decltype(auto) eval_impl(Id const&) &&
+        constexpr X eval_impl(Id const&) &&
         { return detail::std::move(x); }
 
 
         template <typename ...Xs>
-        constexpr decltype(auto) operator()(Xs&& ...xs) const& {
-            return detail::create<_lazy_call>{}(
-                x, detail::create<detail::closure>{}(
-                    detail::std::forward<Xs>(xs)...
-                )
-            );
-        }
+        constexpr _lazy_call<
+            X, detail::closure<typename detail::std::decay<Xs>::type...>
+        > operator()(Xs&& ...xs) const&
+        { return {x, {detail::std::forward<Xs>(xs)...}}; }
 
         template <typename ...Xs>
-        constexpr decltype(auto) operator()(Xs&& ...xs) & {
-            return detail::create<_lazy_call>{}(
-                x, detail::create<detail::closure>{}(
-                    detail::std::forward<Xs>(xs)...
-                )
-            );
-        }
-
-        template <typename ...Xs>
-        constexpr decltype(auto) operator()(Xs&& ...xs) && {
-            return detail::create<_lazy_call>{}(
-                detail::std::move(x), detail::create<detail::closure>{}(
-                    detail::std::forward<Xs>(xs)...
-                )
-            );
-        }
+        constexpr _lazy_call<
+            X, detail::closure<typename detail::std::decay<Xs>::type...>
+        > operator()(Xs&& ...xs) &&
+        { return {detail::std::move(x), {detail::std::forward<Xs>(xs)...}}; }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -159,10 +144,11 @@ namespace boost { namespace hana {
         };
 
         template <typename F, typename X>
-        static constexpr decltype(auto) apply(F&& f, X&& x) {
-            return detail::create<ap_result>{}(
-                detail::std::forward<F>(f), detail::std::forward<X>(x)
-            );
+        static constexpr ap_result<
+            typename detail::std::decay<F>::type,
+            typename detail::std::decay<X>::type
+        > apply(F&& f, X&& x) {
+            return {detail::std::forward<F>(f), detail::std::forward<X>(x)};
         }
     };
 
