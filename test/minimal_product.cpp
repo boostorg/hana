@@ -8,39 +8,46 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/tuple.hpp>
-#include <boost/hana/type.hpp>
 
-#include <test/auto/base.hpp>
-#include <test/auto/product.hpp>
-#include <test/cnumeric.hpp>
-#include <test/injection.hpp>
-#include <test/tracked.hpp>
-
-#include <utility>
+#include <laws/base.hpp>
+#include <laws/comparable.hpp>
+#include <laws/foldable.hpp>
+#include <laws/orderable.hpp>
+#include <laws/product.hpp>
 using namespace boost::hana;
 
 
-namespace boost { namespace hana { namespace test {
-    template <>
-    auto instances<MinimalProduct> = make<Tuple>(
-        type<Product>
-    );
-
-    template <>
-    auto objects<MinimalProduct> = make<Tuple>(
-          minimal_product(cnumeric<int, 0>, cnumeric<int, 0>)
-        , minimal_product(cnumeric<int, 0>, cnumeric<int, 1>)
-        , minimal_product(cnumeric<int, 1>, cnumeric<int, 0>)
-        , minimal_product(cnumeric<int, 1>, cnumeric<int, 1>)
-    );
-}}}
-
+using test::ct_eq;
+using test::ct_ord;
 
 int main() {
-    test::check_datatype<test::MinimalProduct>();
-
     // make sure `first` and `second` are "accessors"
     auto prod = test::minimal_product(test::Tracked{1}, test::Tracked{2});
     first(std::move(prod));
     second(std::move(prod));
+
+
+    //////////////////////////////////////////////////////////////////////////
+    // Comparable, Orderable, Foldable, Product
+    //////////////////////////////////////////////////////////////////////////
+    auto eq_elems = make<Tuple>(ct_eq<3>{}, ct_eq<4>{});
+
+    auto eqs = make<Tuple>(
+          test::minimal_product(ct_eq<3>{}, ct_eq<3>{})
+        , test::minimal_product(ct_eq<3>{}, ct_eq<4>{})
+        , test::minimal_product(ct_eq<4>{}, ct_eq<3>{})
+        , test::minimal_product(ct_eq<4>{}, ct_eq<4>{})
+    );
+
+    auto ords = make<Tuple>(
+          test::minimal_product(ct_ord<3>{}, ct_ord<3>{})
+        , test::minimal_product(ct_ord<3>{}, ct_ord<4>{})
+        , test::minimal_product(ct_ord<4>{}, ct_ord<3>{})
+        , test::minimal_product(ct_ord<4>{}, ct_ord<4>{})
+    );
+
+    test::TestComparable<test::MinimalProduct>{eqs};
+    test::TestOrderable<test::MinimalProduct>{ords};
+    test::TestFoldable<test::MinimalProduct>{eqs};
+    test::TestProduct<test::MinimalProduct>{eq_elems};
 }

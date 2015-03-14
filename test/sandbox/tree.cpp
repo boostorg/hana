@@ -4,19 +4,19 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
+#include <boost/hana/applicative.hpp>
+#include <boost/hana/assert.hpp>
+#include <boost/hana/comparable.hpp>
+#include <boost/hana/config.hpp>
+#include <boost/hana/foldable.hpp>
 #include <boost/hana/functional/curry.hpp>
 #include <boost/hana/functional/flip.hpp>
 #include <boost/hana/functional/partial.hpp>
-#include <boost/hana/tuple.hpp>
-
-// instances
-#include <boost/hana/applicative.hpp>
-#include <boost/hana/comparable.hpp>
-#include <boost/hana/foldable.hpp>
 #include <boost/hana/functor.hpp>
-#include <boost/hana/sequence.hpp>
 #include <boost/hana/monad.hpp>
+#include <boost/hana/sequence.hpp>
 #include <boost/hana/traversable.hpp>
+#include <boost/hana/tuple.hpp>
 
 #include <utility>
 
@@ -167,4 +167,12 @@ namespace boost { namespace hana {
     };
 }}
 
-int main() { }
+int main() {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto tree = node(1, forest(
+        node(2, forest()),
+        node(3, forest()),
+        node(4, forest())
+    ));
+
+    BOOST_HANA_CONSTEXPR_CHECK(boost::hana::sum(tree) == 10);
+}

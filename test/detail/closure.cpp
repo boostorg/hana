@@ -6,7 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/closure.hpp>
 
-#include <test/tracked.hpp>
+#include <laws/base.hpp>
 
 #include <type_traits>
 #include <utility>

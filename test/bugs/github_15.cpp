@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/functional/always.hpp>
 
-#include <test/tracked.hpp>
+#include <laws/base.hpp>
 
 #include <utility>
 using namespace boost::hana;

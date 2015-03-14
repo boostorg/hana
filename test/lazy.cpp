@@ -11,12 +11,14 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/config.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/tuple.hpp>
-#include <boost/hana/type.hpp>
+
+#include <laws/applicative.hpp>
+#include <laws/base.hpp>
+#include <laws/functor.hpp>
+#include <laws/monad.hpp>
 
 #include <array>
 #include <iostream>
-#include <test/auto/base.hpp>
-#include <test/injection.hpp>
 using namespace boost::hana;
 
 
@@ -30,20 +32,6 @@ namespace boost { namespace hana {
         static constexpr auto apply(X x, Y y)
         { return equal(eval(x), eval(y)); }
     };
-
-    namespace test {
-        template <>
-        auto instances<Lazy> = make<Tuple>(
-            type<Functor>,
-            type<Applicative>,
-            type<Monad>
-        );
-
-        template <>
-        auto objects<Lazy> = make<Tuple>(
-            lazy(x<0>), lazy(x<1>), lazy(x<2>)
-        );
-    }
 }}
 
 auto invalid = [](auto x)
@@ -51,13 +39,21 @@ auto invalid = [](auto x)
 
 
 int main() {
-    test::check_datatype<Lazy>();
+    test::_injection<0> f{};
+    using test::ct_eq;
 
+    auto eqs = make<Tuple>(lazy(ct_eq<0>{}), lazy(ct_eq<1>{}), lazy(ct_eq<2>{}));
+    auto eq_elems = make<Tuple>(ct_eq<0>{}, ct_eq<1>{}, ct_eq<1>{});
+    auto nested = make<Tuple>(
+        lazy(lazy(ct_eq<0>{})),
+        lazy(lazy(ct_eq<1>{})),
+        lazy(lazy(ct_eq<2>{}))
+    );
+
+    //////////////////////////////////////////////////////////////////////////
     // Lazy methods
+    //////////////////////////////////////////////////////////////////////////
     {
-        auto f = test::injection([]{});
-        using test::x;
-
         // lazy
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
@@ -65,107 +61,133 @@ int main() {
                 lazy(f())
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                lazy(f)(x<0>),
-                lazy(f(x<0>))
+                lazy(f)(ct_eq<0>{}),
+                lazy(f(ct_eq<0>{}))
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                lazy(f)(x<0>, x<1>),
-                lazy(f(x<0>, x<1>))
+                lazy(f)(ct_eq<0>{}, ct_eq<1>{}),
+                lazy(f(ct_eq<0>{}, ct_eq<1>{}))
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                lazy(f)(x<0>, x<1>, x<2>),
-                lazy(f(x<0>, x<1>, x<2>))
+                lazy(f)(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}),
+                lazy(f(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}))
             ));
 
             // The function is not applied.
             lazy(invalid)();
-            lazy(invalid)(x<0>);
-            lazy(invalid)(x<0>, x<1>);
-            lazy(invalid)(x<0>, x<1>, x<2>);
+            lazy(invalid)(ct_eq<0>{});
+            lazy(invalid)(ct_eq<0>{}, ct_eq<1>{});
+            lazy(invalid)(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{});
         }
 
         // eval
         {
-            BOOST_HANA_CONSTANT_CHECK(equal(eval(lazy(x<0>)), x<0>));
-            BOOST_HANA_CONSTANT_CHECK(equal(eval(lazy(x<1>)), x<1>));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                eval(lazy(ct_eq<0>{})),
+                ct_eq<0>{}
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                eval(lazy(ct_eq<1>{})),
+                ct_eq<1>{}
+            ));
         }
     }
 
+    //////////////////////////////////////////////////////////////////////////
     // Functor
+    //////////////////////////////////////////////////////////////////////////
     {
-        auto x = test::injection([]{})();
-        auto f = test::injection([]{});
-
         // transform
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                transform(lazy(x), f),
-                lazy(f(x))
+                transform(lazy(ct_eq<0>{}), f),
+                lazy(f(ct_eq<0>{}))
             ));
         }
+
+        // laws
+        test::TestFunctor<Lazy>{eqs, eq_elems};
     }
 
     // Applicative
     {
-        auto f = test::injection([]{});
-        using test::x;
-
         // ap
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                ap(lazy(f), lazy(x<0>)),
-                lazy(f(x<0>))
+                ap(lazy(f), lazy(ct_eq<0>{})),
+                lazy(f(ct_eq<0>{}))
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                ap(lazy(f), lazy(x<0>), lazy(x<1>)),
-                lazy(f(x<0>, x<1>))
+                ap(lazy(f), lazy(ct_eq<0>{}), lazy(ct_eq<1>{})),
+                lazy(f(ct_eq<0>{}, ct_eq<1>{}))
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                ap(lazy(f), lazy(x<0>), lazy(x<1>), lazy(x<2>)),
-                lazy(f(x<0>, x<1>, x<2>))
+                ap(lazy(f), lazy(ct_eq<0>{}), lazy(ct_eq<1>{}), lazy(ct_eq<2>{})),
+                lazy(f(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}))
             ));
 
             // The function is not applied.
-            ap(lazy(invalid), lazy(x<0>));
-            ap(lazy(invalid), lazy(x<0>), lazy(x<1>));
-            ap(lazy(invalid), lazy(x<0>), lazy(x<1>), lazy(x<2>));
+            ap(lazy(invalid), lazy(ct_eq<0>{}));
+            ap(lazy(invalid), lazy(ct_eq<0>{}), lazy(ct_eq<1>{}));
+            ap(lazy(invalid), lazy(ct_eq<0>{}), lazy(ct_eq<1>{}), lazy(ct_eq<2>{}));
         }
 
         // lift
         {
-            BOOST_HANA_CONSTANT_CHECK(equal(lift<Lazy>(x<0>), lazy(x<0>)));
-            BOOST_HANA_CONSTANT_CHECK(equal(lift<Lazy>(x<1>), lazy(x<1>)));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                lift<Lazy>(ct_eq<0>{}),
+                lazy(ct_eq<0>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                lift<Lazy>(ct_eq<1>{}),
+                lazy(ct_eq<1>{})
+            ));
         }
+
+        // laws
+        test::TestApplicative<Lazy>{};
     }
 
+    //////////////////////////////////////////////////////////////////////////
     // Monad
+    //////////////////////////////////////////////////////////////////////////
     {
-        using test::x;
-        auto f = compose(lazy, test::injection([]{}));
+        auto f_ = compose(lazy, f);
 
         // bind
         {
-            BOOST_HANA_CONSTANT_CHECK(equal(bind(lazy(x<0>), f), f(x<0>)));
-            BOOST_HANA_CONSTANT_CHECK(equal(bind(lazy(x<1>), f), f(x<1>)));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                bind(lazy(ct_eq<0>{}), f_),
+                f_(ct_eq<0>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                bind(lazy(ct_eq<1>{}), f_),
+                f_(ct_eq<1>{})
+            ));
         }
 
         // flatten
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                flatten(lazy(lazy(x<0>))),
-                lazy(x<0>)
+                flatten(lazy(lazy(ct_eq<0>{}))),
+                lazy(ct_eq<0>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                flatten(lazy(lazy(x<1>))),
-                lazy(x<1>)
+                flatten(lazy(lazy(ct_eq<1>{}))),
+                lazy(ct_eq<1>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                flatten(lazy(lazy(lazy(x<1>)))),
-                lazy(lazy(x<1>))
+                flatten(lazy(lazy(lazy(ct_eq<1>{})))),
+                lazy(lazy(ct_eq<1>{}))
             ));
         }
 
+        // laws
+        test::TestMonad<Lazy>{eqs, nested};
+
+        //////////////////////////////////////////////////////////////////////////
         // Make sure the monadic chain is evaluated in the right order.
+        //////////////////////////////////////////////////////////////////////////
         {
             std::array<bool, 3> executed = {{false, false, false}};
             int dummy = 0;

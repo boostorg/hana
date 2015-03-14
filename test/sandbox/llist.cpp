@@ -9,22 +9,25 @@ Distributed under the Boost Software License, Version 1.0.
 
 template <typename T>
 struct llist {
-    union {
+    union Storage {
         struct {
             T head_;
             llist const* next_;
         } it_;
         std::nullptr_t nil_;
+
+        constexpr Storage() : nil_{} { }
+        constexpr Storage(T t, llist const* n) : it_{t, n} { }
     } storage_;
 
     enum class Which { NIL, NEXT } which_;
 
     constexpr llist()
-        : storage_{.nil_ = nullptr}, which_{Which::NIL}
+        : storage_{}, which_{Which::NIL}
     { }
 
     constexpr llist(T x, llist const* nxt)
-        : storage_{{x, nxt}}, which_{Which::NEXT}
+        : storage_{x, nxt}, which_{Which::NEXT}
     { }
 
     friend constexpr bool is_empty(llist self)
