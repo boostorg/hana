@@ -62,6 +62,7 @@ namespace boost { namespace hana {
         }
     };
 
+#if 0
     //////////////////////////////////////////////////////////////////////////
     // Functor
     //////////////////////////////////////////////////////////////////////////
@@ -103,6 +104,7 @@ namespace boost { namespace hana {
             return std::move(v);
         }
     };
+#endif
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_EXT_STD_VECTOR_HPP

@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <laws/base.hpp>
 #include <laws/comparable.hpp>
-#include <laws/functor.hpp>
+// #include <laws/functor.hpp>
 #include <laws/orderable.hpp>
 
 #include <vector>
@@ -27,7 +27,7 @@ int main() {
         , std::vector<test::eq<0>>{{}, {}, {}, {}}
     );
 
-    auto eq_values = make<Tuple>(test::eq<0>{}, test::eq<2>{});
+    // auto eq_values = make<Tuple>(test::eq<0>{}, test::eq<2>{});
 
     auto ords = make_tuple(
           std::vector<test::ord<0>>{}
@@ -42,5 +42,5 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     test::TestComparable<ext::std::Vector>{eqs};
     test::TestOrderable<ext::std::Vector>{ords};
-    test::TestFunctor<ext::std::Vector>{eqs, eq_values};
+    // test::TestFunctor<ext::std::Vector>{eqs, eq_values};
 }
