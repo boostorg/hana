@@ -1,4 +1,5 @@
 var structboost_1_1hana_1_1_pair =
 [
-    [ "pair", "structboost_1_1hana_1_1_pair.html#a8d15743bd0fcc2cf033ed657e95998c1", null ]
+    [ "make< Pair >", "structboost_1_1hana_1_1_pair.html#acee1d72b1cd90c086252939258b59682", null ],
+    [ "make_pair", "structboost_1_1hana_1_1_pair.html#a1bc322b45af2148a413ba45ee8097045", null ]
 ];

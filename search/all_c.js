@@ -16,8 +16,7 @@ var searchData=
   ['lockstep',['lockstep',['../group__group-functional.html#gafca60c09e1f7a32a2b52baaf6515c279',1,'boost::hana']]],
   ['lockstep_2ehpp',['lockstep.hpp',['../lockstep_8hpp.html',1,'']]],
   ['logical',['Logical',['../structboost_1_1hana_1_1_logical.html',1,'boost::hana']]],
-  ['logical_2ehpp',['logical.hpp',['../logical_8hpp.html',1,'']]],
   ['logical_2ehpp',['logical.hpp',['../fwd_2logical_8hpp.html',1,'']]],
-  ['long_5f',['long_',['../structboost_1_1hana_1_1_integral_constant.html#ac304b9b0f90a1d95e316a1e758c69fe0',1,'boost::hana::IntegralConstant']]],
-  ['lookup',['lookup',['../structboost_1_1hana_1_1_searchable.html#a82e67ada9561f5e1176faab8eb94a064',1,'boost::hana::Searchable']]]
+  ['logical_2ehpp',['logical.hpp',['../logical_8hpp.html',1,'']]],
+  ['long_5f',['long_',['../structboost_1_1hana_1_1_integral_constant.html#ac304b9b0f90a1d95e316a1e758c69fe0',1,'boost::hana::IntegralConstant']]]
 ];

@@ -14,10 +14,10 @@ var searchData=
   ['integer_5fsequence_2ehpp',['integer_sequence.hpp',['../ext_2std_2integer__sequence_8hpp.html',1,'']]],
   ['integral_5fc_2ehpp',['integral_c.hpp',['../integral__c_8hpp.html',1,'']]],
   ['integral_5fconstant',['integral_constant',['../structboost_1_1hana_1_1_integral_constant.html#add84fb21ae6605a61da449cb716d8c2a',1,'boost::hana::IntegralConstant']]],
+  ['integral_5fconstant_2ehpp',['integral_constant.hpp',['../integral__constant_8hpp.html',1,'']]],
   ['integral_5fconstant_2ehpp',['integral_constant.hpp',['../detail_2std_2integral__constant_8hpp.html',1,'']]],
   ['integral_5fconstant_2ehpp',['integral_constant.hpp',['../ext_2std_2integral__constant_8hpp.html',1,'']]],
   ['integral_5fconstant_2ehpp',['integral_constant.hpp',['../fwd_2integral__constant_8hpp.html',1,'']]],
-  ['integral_5fconstant_2ehpp',['integral_constant.hpp',['../integral__constant_8hpp.html',1,'']]],
   ['integral_5fdomain_2ehpp',['integral_domain.hpp',['../fwd_2integral__domain_8hpp.html',1,'']]],
   ['integral_5fdomain_2ehpp',['integral_domain.hpp',['../integral__domain_8hpp.html',1,'']]],
   ['integralc',['IntegralC',['../structboost_1_1hana_1_1ext_1_1boost_1_1mpl_1_1_integral_c.html',1,'boost::hana::ext::boost::mpl']]],
@@ -25,7 +25,8 @@ var searchData=
   ['integraldomain',['IntegralDomain',['../structboost_1_1hana_1_1_integral_domain.html',1,'boost::hana']]],
   ['intersperse',['intersperse',['../structboost_1_1hana_1_1_sequence.html#ab6e88c5dd3f638a60c0a451ad6db95ec',1,'boost::hana::Sequence']]],
   ['is_5fa',['is_a',['../group__group-core.html#ga38cf78e1e3e262f7f1c71ddd9ca70cd9',1,'boost::hana']]],
-  ['is_5fa_2ehpp',['is_a.hpp',['../is__a_8hpp.html',1,'']]],
+  ['is_5fa_2ehpp',['is_a.hpp',['../core_2is__a_8hpp.html',1,'']]],
+  ['is_5fa_2ehpp',['is_a.hpp',['../fwd_2core_2is__a_8hpp.html',1,'']]],
   ['is_5fan',['is_an',['../group__group-core.html#ga7fdbde52f5fe384a816c6f39ff272df9',1,'boost::hana']]],
   ['is_5farithmetic_2ehpp',['is_arithmetic.hpp',['../is__arithmetic_8hpp.html',1,'']]],
   ['is_5farray_2ehpp',['is_array.hpp',['../is__array_8hpp.html',1,'']]],
@@ -42,6 +43,6 @@ var searchData=
   ['is_5frvalue_5freference_2ehpp',['is_rvalue_reference.hpp',['../is__rvalue__reference_8hpp.html',1,'']]],
   ['is_5fsame_2ehpp',['is_same.hpp',['../is__same_8hpp.html',1,'']]],
   ['iterable',['Iterable',['../structboost_1_1hana_1_1_iterable.html',1,'boost::hana']]],
-  ['iterable_2ehpp',['iterable.hpp',['../fwd_2iterable_8hpp.html',1,'']]],
-  ['iterable_2ehpp',['iterable.hpp',['../iterable_8hpp.html',1,'']]]
+  ['iterable_2ehpp',['iterable.hpp',['../iterable_8hpp.html',1,'']]],
+  ['iterable_2ehpp',['iterable.hpp',['../fwd_2iterable_8hpp.html',1,'']]]
 ];

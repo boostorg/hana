@@ -100,17 +100,17 @@ $(document).ready(function(){initNavTree('todo.html','');});
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><dl class="reflist">
-<dt><a class="anchor" id="_todo000008"></a>Member <a class="el" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>  </dt>
+<dt><a class="anchor" id="_todo000007"></a>Member <a class="el" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>  </dt>
 <dd>Consider giving access to all the arguments to the tag-dispatched implementation for performance purposes.  </dd>
-<dt><a class="anchor" id="_todo000004"></a>Member <a class="el" href="group__group-functional.html#ga6acc765a35c4dc85f0deab4785831a3d">boost::hana::arg</a>  </dt>
+<dt><a class="anchor" id="_todo000003"></a>Member <a class="el" href="group__group-functional.html#ga6acc765a35c4dc85f0deab4785831a3d">boost::hana::arg</a>  </dt>
 <dd>This implementation is less compile-time efficient than <code>variadic::at</code>, but at least we can use perfect forwarding. Is there a way to get the efficiency of <code>variadic::at</code> with perfect forwarding?  </dd>
-<dt><a class="anchor" id="_todo000009"></a>Class <a class="el" href="structboost_1_1hana_1_1_comparable.html">boost::hana::Comparable</a>  </dt>
+<dt><a class="anchor" id="_todo000008"></a>Class <a class="el" href="structboost_1_1hana_1_1_comparable.html">boost::hana::Comparable</a>  </dt>
 <dd><ul>
 <li>Make sure no circularity issue with our provided operators can arise when checking for the EqualityComparable concept.</li>
 <li>We could do some data type checks at the interface level, but those checks would be a bit hairy because of the cross-type methods. How should we handle that? </li>
 </ul>
 </dd>
-<dt><a class="anchor" id="_todo000010"></a>Class <a class="el" href="structboost_1_1hana_1_1_constant.html">boost::hana::Constant</a>  </dt>
+<dt><a class="anchor" id="_todo000009"></a>Class <a class="el" href="structboost_1_1hana_1_1_constant.html">boost::hana::Constant</a>  </dt>
 <dd><ul>
 <li>Document the nested value_type.</li>
 <li>Document the provided models, but that should be done in each concept.</li>
@@ -124,17 +124,17 @@ $(document).ready(function(){initNavTree('todo.html','');});
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;    ==</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;CanonicalConstant&lt;long&gt;</div>
 </div><!-- fragment -->  </dd>
-<dt><a class="anchor" id="_todo000005"></a>Member <a class="el" href="group__group-functional.html#ga49ea872ade5ac8f6c10052c495302e89">boost::hana::curry</a>  </dt>
+<dt><a class="anchor" id="_todo000004"></a>Member <a class="el" href="group__group-functional.html#ga49ea872ade5ac8f6c10052c495302e89">boost::hana::curry</a>  </dt>
 <dd>Consider making <code>curry&lt;0&gt;(f)</code> equivalent to <code>f</code>. It might be more general or less useful if it creates subtle pitfalls. </dd>
-<dt><a class="anchor" id="_todo000006"></a>Member <a class="el" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">boost::hana::demux</a>  </dt>
+<dt><a class="anchor" id="_todo000005"></a>Member <a class="el" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">boost::hana::demux</a>  </dt>
 <dd>I think this is equivalent to <code>transform . transform</code>. See <a href="http://stackoverflow.com/q/5821089/627587">http://stackoverflow.com/q/5821089/627587</a>  </dd>
-<dt><a class="anchor" id="_todo000003"></a>Member <a class="el" href="group__group-details.html#ga5d30ed36591b4062f54ab0c87ad8d7f0">boost::hana::detail::reverse_partial</a>  </dt>
+<dt><a class="anchor" id="_todo000002"></a>Member <a class="el" href="group__group-details.html#ga5d30ed36591b4062f54ab0c87ad8d7f0">boost::hana::detail::reverse_partial</a>  </dt>
 <dd>Perhaps find a better name and make this part of Functional.  </dd>
-<dt><a class="anchor" id="_todo000012"></a>Class <a class="el" href="structboost_1_1hana_1_1_foldable.html">boost::hana::Foldable</a>  </dt>
+<dt><a class="anchor" id="_todo000011"></a>Class <a class="el" href="structboost_1_1hana_1_1_foldable.html">boost::hana::Foldable</a>  </dt>
 <dd>Make it possible to specify the <a class="el" href="structboost_1_1hana_1_1_monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a> used for <code>sum</code> and <code>product</code>?  </dd>
-<dt><a class="anchor" id="_todo000014"></a>Class <a class="el" href="structboost_1_1hana_1_1_functor.html">boost::hana::Functor</a>  </dt>
+<dt><a class="anchor" id="_todo000013"></a>Class <a class="el" href="structboost_1_1hana_1_1_functor.html">boost::hana::Functor</a>  </dt>
 <dd>Grok and then document natural transformations. </dd>
-<dt><a class="anchor" id="_todo000015"></a>Class <a class="el" href="structboost_1_1hana_1_1_integral_constant.html">boost::hana::IntegralConstant&lt; T &gt;</a>  </dt>
+<dt><a class="anchor" id="_todo000014"></a>Class <a class="el" href="structboost_1_1hana_1_1_integral_constant.html">boost::hana::IntegralConstant&lt; T &gt;</a>  </dt>
 <dd><p class="startdd"><code>times</code> should be a shortcut to some tag-dispatched method. Specifically, anything that can be incremented, decremented and compared to some "zero" value can implement a <code>times</code> method with the same semantics.</p>
 <p class="enddd">Implicit conversions to the underlying integral type can be problematic: </p><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;constexpr auto odd = [](auto x) {</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;    return x % int_&lt;2&gt;;</div>
@@ -143,13 +143,11 @@ $(document).ready(function(){initNavTree('todo.html','');});
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;if_(odd(int_&lt;1&gt;), something_of_type_A, something_of_type_B)</div>
 </div><!-- fragment --><p> This will fail because <code>odd(int_&lt;1&gt;)</code> has type <code>Int&lt;1 % 2&gt;</code>, which is convertible to <code>bool</code> but not to <code>Bool&lt;...&gt;</code>. Because of this, the runtime <code>if_</code> is used and compilation fails.  </p>
 </dd>
-<dt><a class="anchor" id="_todo000019"></a>Class <a class="el" href="structboost_1_1hana_1_1_integral_domain.html">boost::hana::IntegralDomain</a>  </dt>
+<dt><a class="anchor" id="_todo000018"></a>Class <a class="el" href="structboost_1_1hana_1_1_integral_domain.html">boost::hana::IntegralDomain</a>  </dt>
 <dd><p class="startdd">Implement other utility methods like <code>divides</code>, <code>even</code> and <code>odd</code>. Also ponder adding <code>div_mod</code>, which might allow optimizations.</p>
 <p class="enddd"><a class="el" href="structboost_1_1hana_1_1_integral_domain.html" title="The IntegralDomain concept represents a commutative Ring whose multiplication has some &quot;nice&quot; propert...">IntegralDomain</a> is the wrong name for this concept. In abstract algebra, an <a class="el" href="structboost_1_1hana_1_1_integral_domain.html" title="The IntegralDomain concept represents a commutative Ring whose multiplication has some &quot;nice&quot; propert...">IntegralDomain</a> is not enough to provide <code>quot</code> and <code>rem</code>, I believe. </p>
 </dd>
-<dt><a class="anchor" id="_todo000002"></a>Member <a class="el" href="group__group-core.html#ga38cf78e1e3e262f7f1c71ddd9ca70cd9">boost::hana::is_a</a>  </dt>
-<dd>The extension of <code>is_a</code> to data types is inconsistent, because one would expect <code>is_a&lt;D, decltype(some object of data type D)&gt;</code> to be true, while it gives an error. </dd>
-<dt><a class="anchor" id="_todo000022"></a>Class <a class="el" href="structboost_1_1hana_1_1_iterable.html">boost::hana::Iterable</a>  </dt>
+<dt><a class="anchor" id="_todo000021"></a>Class <a class="el" href="structboost_1_1hana_1_1_iterable.html">boost::hana::Iterable</a>  </dt>
 <dd><p class="startdd">There's a problem; <a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a> is more general than <a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a>, but there are some infinite Iterables that can't be folded properly. So both concepts actually just overlap and there is no superclass relation?</p>
 <ul>
 <li>Add perfect forwarding in the methods.</li>
@@ -157,26 +155,22 @@ $(document).ready(function(){initNavTree('todo.html','');});
 <li>Find a proper way to provide member operators.  </li>
 </ul>
 </dd>
-<dt><a class="anchor" id="_todo000007"></a>Member <a class="el" href="group__group-functional.html#gafca60c09e1f7a32a2b52baaf6515c279">boost::hana::lockstep</a>  </dt>
+<dt><a class="anchor" id="_todo000006"></a>Member <a class="el" href="group__group-functional.html#gafca60c09e1f7a32a2b52baaf6515c279">boost::hana::lockstep</a>  </dt>
 <dd>I think this is equivalent to <code>&lt;*&gt;</code> for <code>((-&gt;) r)</code>.  </dd>
-<dt><a class="anchor" id="_todo000025"></a>Class <a class="el" href="structboost_1_1hana_1_1_logical.html">boost::hana::Logical</a>  </dt>
+<dt><a class="anchor" id="_todo000024"></a>Class <a class="el" href="structboost_1_1hana_1_1_logical.html">boost::hana::Logical</a>  </dt>
 <dd><p class="startdd"></p>
 <p class="enddd">The methods don't short-circuit right now, which is a real bummer. </p>
 </dd>
-<dt><a class="anchor" id="_todo000027"></a>Class <a class="el" href="structboost_1_1hana_1_1_map.html">boost::hana::Map</a>  </dt>
+<dt><a class="anchor" id="_todo000026"></a>Class <a class="el" href="structboost_1_1hana_1_1_map.html">boost::hana::Map</a>  </dt>
 <dd>We should allow duplicate keys, with a documented policy (e.g. we keep the last one). </dd>
-<dt><a class="anchor" id="_todo000028"></a>Class <a class="el" href="structboost_1_1hana_1_1_orderable.html">boost::hana::Orderable</a>  </dt>
+<dt><a class="anchor" id="_todo000027"></a>Class <a class="el" href="structboost_1_1hana_1_1_orderable.html">boost::hana::Orderable</a>  </dt>
 <dd><p class="startdd">Consider allowing another minimal complete definition using <code>less_equal</code>.</p>
 <p class="enddd">Make sure no circularity issue with our provided operators can arise when checking for the LessThanComparable concept. </p>
 </dd>
 <dt><a class="anchor" id="_todo000033"></a>Class <a class="el" href="structboost_1_1hana_1_1_record.html">boost::hana::Record</a>  </dt>
 <dd>The restrictions on what constitutes an accessor are pretty fierce, and using <code>std::move</code> on the same object twice feels completely wrong. Is there a better way to allow an object to be decomposed optimally into its subobjects without resorting to such hacks? </dd>
 <dt><a class="anchor" id="_todo000034"></a>Class <a class="el" href="structboost_1_1hana_1_1_searchable.html">boost::hana::Searchable</a>  </dt>
-<dd><ul>
-<li>We should provide a member <code>operator[]</code> equivalent to <code>lookup</code>.</li>
-<li>Use perfect forwarding in the MCD once Clang bug #20619 is fixed.  </li>
-</ul>
-</dd>
+<dd>We should provide a member <code>operator[]</code> equivalent to <code>find</code>.  </dd>
 <dt><a class="anchor" id="_todo000036"></a>Class <a class="el" href="structboost_1_1hana_1_1_sequence.html">boost::hana::Sequence</a>  </dt>
 <dd><p class="startdd"></p>
 <p>Implement these methods: <code>intercalate</code>, <code>transpose</code>, <code>subsequences</code>, <code>split_at</code>, <code>break</code>, <code>inits</code>, <code>tails</code>, <code>iterate</code></p>
@@ -198,13 +192,13 @@ $(document).ready(function(){initNavTree('todo.html','');});
 <li>Consider instantiating <code><a class="el" href="structboost_1_1hana_1_1_functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a></code> and <code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code> if that's possible.  </li>
 </ul>
 </dd>
-<dt><a class="anchor" id="_todo000011"></a>Class <a class="el" href="structboost_1_1hana_1_1wrong.html">boost::hana::wrong&lt;&gt;</a>  </dt>
+<dt><a class="anchor" id="_todo000010"></a>Class <a class="el" href="structboost_1_1hana_1_1wrong.html">boost::hana::wrong&lt;&gt;</a>  </dt>
 <dd>Consider moving this to the <code>boost::hana::detail</code> namespace.  </dd>
 <dt><a class="anchor" id="_todo000056"></a>globalScope&gt; Member <a class="el" href="tuple_8hpp.html#a31aa84626b49c35cb79a378c63c124e9">BOOST_HANA_PP_FLATTEN</a>  (REF)</dt>
 <dd>Use <code>Size</code> instead of <code>long long</code> for the <code>lengths</code> array. The problem is that <code>hana::sum</code> does not allow the type of the elements to be specified and it uses <code>int_&lt;0&gt;</code> as a base value, so this won't work with an unsigned type.  </dd>
-<dt><a class="anchor" id="_todo000024"></a>Member <a class="el" href="structboost_1_1hana_1_1_iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>  </dt>
+<dt><a class="anchor" id="_todo000023"></a>Member <a class="el" href="structboost_1_1hana_1_1_iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>  </dt>
 <dd>Provide two variants; <code>drop.at_most</code> and <code>drop.exactly</code>.  </dd>
-<dt><a class="anchor" id="_todo000013"></a>Member <a class="el" href="structboost_1_1hana_1_1_foldable.html#a80176fbdfbccc09e902263557eb0984d">for_each</a>  </dt>
+<dt><a class="anchor" id="_todo000012"></a>Member <a class="el" href="structboost_1_1hana_1_1_foldable.html#a80176fbdfbccc09e902263557eb0984d">for_each</a>  </dt>
 <dd>The presence of implicit side effects in this function might be a smell that it should be moved to a different concept and handled through <code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code>s. </dd>
 <dt><a class="anchor" id="_todo000057"></a>File <a class="el" href="hana_8hpp.html">hana.hpp</a>  </dt>
 <dd><ul>
@@ -213,21 +207,21 @@ $(document).ready(function(){initNavTree('todo.html','');});
 <li>Setup a BJam build system. </li>
 </ul>
 </dd>
-<dt><a class="anchor" id="_todo000017"></a>Member <a class="el" href="structboost_1_1hana_1_1_integral_constant.html#add84fb21ae6605a61da449cb716d8c2a">integral_constant</a>  </dt>
+<dt><a class="anchor" id="_todo000016"></a>Member <a class="el" href="structboost_1_1hana_1_1_integral_constant.html#add84fb21ae6605a61da449cb716d8c2a">integral_constant</a>  </dt>
 <dd><ul>
 <li>Do we want <code>char_&lt;1&gt; + char_&lt;2&gt; == char_&lt;3&gt;</code> or <code>char_&lt;1&gt; + char_&lt;2&gt; == int_&lt;3&gt;</code>?</li>
 <li>Consider specifying the type of <code>integral_constant&lt;...&gt;</code> to allow overloading on its type. Not sure yet whether that's desirable or not.  </li>
 </ul>
 </dd>
-<dt><a class="anchor" id="_todo000031"></a>Member <a class="el" href="structboost_1_1hana_1_1_orderable.html#a9fb8718f43756efef3953635f34fd67e">max</a>  </dt>
+<dt><a class="anchor" id="_todo000030"></a>Member <a class="el" href="structboost_1_1hana_1_1_orderable.html#a9fb8718f43756efef3953635f34fd67e">max</a>  </dt>
 <dd>Can't specify the signature here either. See <code>min</code> for details. </dd>
-<dt><a class="anchor" id="_todo000030"></a>Member <a class="el" href="structboost_1_1hana_1_1_orderable.html#af10ea2fee24c0a780758f67721bb5bfa">min</a>  </dt>
+<dt><a class="anchor" id="_todo000029"></a>Member <a class="el" href="structboost_1_1hana_1_1_orderable.html#af10ea2fee24c0a780758f67721bb5bfa">min</a>  </dt>
 <dd>We can't specify the signature right now, because the returned data type depends on whether <code>x &lt; y</code> or not. If we wanted to be mathematically correct, we should probably ask that <code>if_(cond, x, y)</code> returns a common data type of <code>x</code> and <code>y</code>, and then the behavior of <code>min</code> would follow naturally. However, I'm unsure whether this is desirable because that's a big requirement. </dd>
-<dt><a class="anchor" id="_todo000018"></a>Member <a class="el" href="structboost_1_1hana_1_1_integral_constant.html#a1c078fd00db48686ca9e0aa17f47344e">operator</a> "_c" </dt>
+<dt><a class="anchor" id="_todo000017"></a>Member <a class="el" href="structboost_1_1hana_1_1_integral_constant.html#a1c078fd00db48686ca9e0aa17f47344e">operator</a> "_c" </dt>
 <dd>Add support for stuff like <code>0x1234_c</code>.  </dd>
 <dt><a class="anchor" id="_todo000039"></a>Member <a class="el" href="structboost_1_1hana_1_1_sequence.html#a45ec7767d19eb7eaabb71ead3796a7f1">permutations</a>  </dt>
 <dd>When the size of the sequence is known at compile-time, we can generate the indices <code>constexpr</code> and then simply use <code>at_c</code>. This could vastly improve the compilation time.  </dd>
-<dt><a class="anchor" id="_todo000021"></a>Member <a class="el" href="structboost_1_1hana_1_1_integral_domain.html#a0e8bcb07d9b0d681cb9c4dc0b4df3481">quot</a>  </dt>
+<dt><a class="anchor" id="_todo000020"></a>Member <a class="el" href="structboost_1_1hana_1_1_integral_domain.html#a0e8bcb07d9b0d681cb9c4dc0b4df3481">quot</a>  </dt>
 <dd>Consider moving this to a <code>Field</code> concept?  </dd>
 <dt><a class="anchor" id="_todo000041"></a>Member <a class="el" href="structboost_1_1hana_1_1_set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>  </dt>
 <dd>Consider allowing duplicates elements in this constructor.  </dd>
@@ -236,14 +230,14 @@ $(document).ready(function(){initNavTree('todo.html','');});
 <dt><a class="anchor" id="_todo000040"></a>Member <a class="el" href="structboost_1_1hana_1_1_sequence.html#a18968c488a8b0cdc2697296024da9293">slice</a>  </dt>
 <dd>Should this be <code>slice(xs, from, length)</code> instead?  </dd>
 <dt><a class="anchor" id="_todo000035"></a>Member <a class="el" href="structboost_1_1hana_1_1_searchable.html#aa713b34e28603ea39c8873609fd24801">subset</a>  </dt>
-<dd>Consider using the data type of both arguments for tag-dispatching. </dd>
+<dd>Consider using the data type of both arguments for tag-dispatching.  </dd>
 <dt><a class="anchor" id="_todo000047"></a>Member <a class="el" href="structboost_1_1hana_1_1_tuple.html#a718ca253f469ca8705677260e1a0def5">tuple_c</a>  </dt>
 <dd>Implement the optimization.  </dd>
 <dt><a class="anchor" id="_todo000046"></a>Member <a class="el" href="structboost_1_1hana_1_1_tuple.html#aaa14e68d483c13fcc034639a75ab48a8">tuple_t</a>  </dt>
 <dd>Implement the optimization.  </dd>
 <dt><a class="anchor" id="_todo000058"></a>page <a class="el" href="index.html">User Manual</a>  </dt>
 <dd><ul>
-<li>Provide links to the scattered examples, and also to example/mini_mpl. For some reason, I can't get Doxygen to generate a link.</li>
+<li>Provide links to the scattered examples, and also to example/misc/mini_mpl. For some reason, I can't get Doxygen to generate a link.</li>
 <li>Expand this section to explain the philosophy behind Hana's metaprogramming paradigm, i.e. that you only retrieve the types at the end and that you do not try to represent everything as a type.</li>
 <li>Write a cheatsheet mapping common MPL/Fusion idioms to idiomatic Hana code. Maybe this should go in some Appendix?</li>
 <li>Introduce the mini-MPL</li>

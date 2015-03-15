@@ -118,7 +118,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_foldable.html'
 <li>For builtin arrays<br />
 Builtin arrays whose size is known can be folded as-if they were homogeneous tuples. However, note that builtin arrays can't be made more than <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a></code> (e.g. <code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>) because they can't be empty and they also can't be returned from functions.</li>
 </ol>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000012">Todo:</a></b></dt><dd>Make it possible to specify the <a class="el" href="structboost_1_1hana_1_1_monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a> used for <code>sum</code> and <code>product</code>? </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000011">Todo:</a></b></dt><dd>Make it possible to specify the <a class="el" href="structboost_1_1hana_1_1_monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a> used for <code>sum</code> and <code>product</code>? </dd></dl>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of methods</h2></td></tr>
@@ -148,6 +148,9 @@ Synopsis of methods</h2></td></tr>
 <tr class="memitem:a5fb377e43aa7753bb77aa346c67fae0d"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_foldable.html#a5fb377e43aa7753bb77aa346c67fae0d">length</a></td></tr>
 <tr class="memdesc:a5fb377e43aa7753bb77aa346c67fae0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of elements in a finite structure.  <a href="#a5fb377e43aa7753bb77aa346c67fae0d">More...</a><br /></td></tr>
 <tr class="separator:a5fb377e43aa7753bb77aa346c67fae0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95d3fe103aa2ab8634a824562dd8390c"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_foldable.html#a95d3fe103aa2ab8634a824562dd8390c">size</a> = <a class="el" href="structboost_1_1hana_1_1_foldable.html#a5fb377e43aa7753bb77aa346c67fae0d">length</a></td></tr>
+<tr class="memdesc:a95d3fe103aa2ab8634a824562dd8390c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>length</code>; provided for consistency with the standard library.  <a href="#a95d3fe103aa2ab8634a824562dd8390c">More...</a><br /></td></tr>
+<tr class="separator:a95d3fe103aa2ab8634a824562dd8390c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a11341a0d825e7898572c1d22d1efe8f4"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_foldable.html#a11341a0d825e7898572c1d22d1efe8f4">minimum_by</a></td></tr>
 <tr class="memdesc:a11341a0d825e7898572c1d22d1efe8f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the least element of a non-empty structure with respect to a <code>predicate</code>.  <a href="#a11341a0d825e7898572c1d22d1efe8f4">More...</a><br /></td></tr>
 <tr class="separator:a11341a0d825e7898572c1d22d1efe8f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -166,8 +169,11 @@ Synopsis of methods</h2></td></tr>
 <tr class="memitem:aa37fd8d56461f749d49423c711e4c67a"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_foldable.html#aa37fd8d56461f749d49423c711e4c67a">product</a></td></tr>
 <tr class="memdesc:aa37fd8d56461f749d49423c711e4c67a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the product of the numbers of a structure.  <a href="#aa37fd8d56461f749d49423c711e4c67a">More...</a><br /></td></tr>
 <tr class="separator:aa37fd8d56461f749d49423c711e4c67a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21ca48cce90274a5f54354f9d4622930"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_foldable.html#a21ca48cce90274a5f54354f9d4622930">count_if</a></td></tr>
+<tr class="memdesc:a21ca48cce90274a5f54354f9d4622930"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of elements in the structure for which the <code>predicate</code> is satisfied.  <a href="#a21ca48cce90274a5f54354f9d4622930">More...</a><br /></td></tr>
+<tr class="separator:a21ca48cce90274a5f54354f9d4622930"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae0a55dd7eb4bd4f587f51ffd8c923e53"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_foldable.html#ae0a55dd7eb4bd4f587f51ffd8c923e53">count</a></td></tr>
-<tr class="memdesc:ae0a55dd7eb4bd4f587f51ffd8c923e53"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of elements in the structure for which the <code>predicate</code> is satisfied.  <a href="#ae0a55dd7eb4bd4f587f51ffd8c923e53">More...</a><br /></td></tr>
+<tr class="memdesc:ae0a55dd7eb4bd4f587f51ffd8c923e53"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of elements in the structure that compare equal to a given value.  <a href="#ae0a55dd7eb4bd4f587f51ffd8c923e53">More...</a><br /></td></tr>
 <tr class="separator:ae0a55dd7eb4bd4f587f51ffd8c923e53"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0e3e724580e826eaa39a934eefa2b328"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_foldable.html#a0e3e724580e826eaa39a934eefa2b328">unpack</a></td></tr>
 <tr class="memdesc:a0e3e724580e826eaa39a934eefa2b328"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invoke a function with the elements of a structure as arguments.  <a href="#a0e3e724580e826eaa39a934eefa2b328">More...</a><br /></td></tr>
@@ -544,7 +550,7 @@ template&lt;typename M &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000013">Todo:</a></b></dt><dd>The presence of implicit side effects in this function might be a smell that it should be moved to a different concept and handled through <code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code>s.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000012">Todo:</a></b></dt><dd>The presence of implicit side effects in this function might be a smell that it should be moved to a different concept and handled through <code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code>s.</dd></dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line">std::stringstream ss;</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1_foldable.html#a80176fbdfbccc09e902263557eb0984d">for_each</a>(make&lt;Tuple&gt;(0, <span class="charliteral">&#39;1&#39;</span>, <span class="stringliteral">&quot;234&quot;</span>, 5.5), [&amp;](<span class="keyword">auto</span> x) {</div>
@@ -581,18 +587,47 @@ template&lt;typename M &gt; </div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Return the number of elements in a finite structure. </p>
-<p>Specifically, returns an object of an unsigned integral type, or a <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> holding such an object, which represents the number of elements in the structure. The structure has to be finite for this method to make sense.</p>
+<p>Specifically, returns an object of an unsigned integral type, or a <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> holding such an object, which represents the number of elements in the structure. The structure has to be finite for this method to return.</p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a5fb377e43aa7753bb77aa346c67fae0d">length</a>(make&lt;Tuple&gt;()) == size_t&lt;0&gt;);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a5fb377e43aa7753bb77aa346c67fae0d">length</a>(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.0)) == size_t&lt;3&gt;);</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a5fb377e43aa7753bb77aa346c67fae0d">length</a>(nothing) == size_t&lt;0&gt;);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a5fb377e43aa7753bb77aa346c67fae0d">length</a>(just(<span class="charliteral">&#39;x&#39;</span>)) == size_t&lt;1&gt;);</div>
-</div><!-- fragment --><h2>Benchmarks </h2>
+</div><!-- fragment --> <h2>Benchmarks </h2>
 <div class="image">
 <img src="benchmark/foldable/length.ctime.png" alt="length.ctime.png"/>
 </div>
  
+</div>
+</div>
+<a class="anchor" id="a95d3fe103aa2ab8634a824562dd8390c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto size = <a class="el" href="structboost_1_1hana_1_1_foldable.html#a5fb377e43aa7753bb77aa346c67fae0d">length</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Equivalent to <code>length</code>; provided for consistency with the standard library. </p>
+<p>This method is an alias to <code>length</code> provided for convenience and consistency with the standard library. As an alias, <code>size</code> is not tag-dispatched on its own and <code>length</code> should be customized instead.</p>
+<h2>Example </h2>
+<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a95d3fe103aa2ab8634a824562dd8390c">size</a>(make&lt;Tuple&gt;()) == size_t&lt;0&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a95d3fe103aa2ab8634a824562dd8390c">size</a>(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.0)) == size_t&lt;3&gt;);</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a95d3fe103aa2ab8634a824562dd8390c">size</a>(nothing) == size_t&lt;0&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a95d3fe103aa2ab8634a824562dd8390c">size</a>(just(<span class="charliteral">&#39;x&#39;</span>)) == size_t&lt;1&gt;);</div>
+</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a11341a0d825e7898572c1d22d1efe8f4"></a>
@@ -625,7 +660,7 @@ template&lt;typename M &gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> size = [](<span class="keyword">auto</span> xs, <span class="keyword">auto</span> ys) {</div>
+<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> <a class="code" href="structboost_1_1hana_1_1_foldable.html#a95d3fe103aa2ab8634a824562dd8390c">size</a> = [](<span class="keyword">auto</span> xs, <span class="keyword">auto</span> ys) {</div>
 <div class="line">    <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_foldable.html#a5fb377e43aa7753bb77aa346c67fae0d">length</a>(xs) &lt; <a class="code" href="structboost_1_1hana_1_1_foldable.html#a5fb377e43aa7753bb77aa346c67fae0d">length</a>(ys);</div>
 <div class="line">};</div>
 <div class="line"></div>
@@ -706,7 +741,7 @@ template&lt;typename M &gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> size = [](<span class="keyword">auto</span> xs, <span class="keyword">auto</span> ys) {</div>
+<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> <a class="code" href="structboost_1_1hana_1_1_foldable.html#a95d3fe103aa2ab8634a824562dd8390c">size</a> = [](<span class="keyword">auto</span> xs, <span class="keyword">auto</span> ys) {</div>
 <div class="line">    <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_foldable.html#a5fb377e43aa7753bb77aa346c67fae0d">length</a>(xs) &lt; <a class="code" href="structboost_1_1hana_1_1_foldable.html#a5fb377e43aa7753bb77aa346c67fae0d">length</a>(ys);</div>
 <div class="line">};</div>
 <div class="line"></div>
@@ -833,7 +868,7 @@ template&lt;typename M &gt; </div>
  
 </div>
 </div>
-<a class="anchor" id="ae0a55dd7eb4bd4f587f51ffd8c923e53"></a>
+<a class="anchor" id="a21ca48cce90274a5f54354f9d4622930"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -841,7 +876,7 @@ template&lt;typename M &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto count</td>
+          <td class="memname">constexpr auto count_if</td>
         </tr>
       </table>
   </td>
@@ -872,16 +907,56 @@ template&lt;typename M &gt; </div>
 <div class="line">constexpr <span class="keyword">auto</span> types = tuple_t&lt;int, char, long, short, char, double&gt;;</div>
 <div class="line">constexpr <span class="keyword">auto</span> ints = tuple_c&lt;int, 1, 2, 3&gt;;</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#ae0a55dd7eb4bd4f587f51ffd8c923e53">count</a>(ints, odd) == size_t&lt;2&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a21ca48cce90274a5f54354f9d4622930">count_if</a>(ints, odd) == size_t&lt;2&gt;);</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#ae0a55dd7eb4bd4f587f51ffd8c923e53">count</a>(types, trait&lt;std::is_floating_point&gt;) == size_t&lt;1&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#ae0a55dd7eb4bd4f587f51ffd8c923e53">count</a>(types, <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> == type&lt;char&gt;) == size_t&lt;2&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#ae0a55dd7eb4bd4f587f51ffd8c923e53">count</a>(types, <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> == type&lt;void&gt;) == size_t&lt;0&gt;);</div>
-</div><!-- fragment --><h2>Benchmarks </h2>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a21ca48cce90274a5f54354f9d4622930">count_if</a>(types, trait&lt;std::is_floating_point&gt;) == size_t&lt;1&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a21ca48cce90274a5f54354f9d4622930">count_if</a>(types, <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> == type&lt;char&gt;) == size_t&lt;2&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a21ca48cce90274a5f54354f9d4622930">count_if</a>(types, <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> == type&lt;void&gt;) == size_t&lt;0&gt;);</div>
+</div><!-- fragment --> <h2>Benchmarks </h2>
 <div class="image">
-<img src="benchmark/foldable/count.ctime.png" alt="count.ctime.png"/>
+<img src="benchmark/foldable/count_if.ctime.png" alt="count_if.ctime.png"/>
 </div>
  
+</div>
+</div>
+<a class="anchor" id="ae0a55dd7eb4bd4f587f51ffd8c923e53"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto count</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; foldable, <span class="keyword">auto</span>&amp;&amp; value) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Return the number of elements in the structure that compare equal to a given value. </p>
+<p>Given a <a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a> structure <code>foldable</code> and a value <code>value</code>, <code>count</code> returns an unsigned integral, or a <a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a> thereof, representing the number of elements of <code>foldable</code> that compare equal to <code>value</code>. For this method to be well-defined, all the elements of the structure must be <a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a> with the given value.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">foldable</td><td>The structure whose elements are counted.</td></tr>
+    <tr><td class="paramname">value</td><td>A value compared with each element in the structure. Elements that compare equal to this value are counted, others are not.</td></tr>
+  </table>
+  </dd>
+</dl>
+<h2>Example </h2>
+<div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> types = tuple_t&lt;int, char, long, short, char, double&gt;;</div>
+<div class="line">constexpr <span class="keyword">auto</span> ints = tuple_c&lt;int, 1, 2, 3, 2, 2, 4, 2&gt;;</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#ae0a55dd7eb4bd4f587f51ffd8c923e53">count</a>(ints, int_&lt;2&gt;) == size_t&lt;4&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#ae0a55dd7eb4bd4f587f51ffd8c923e53">count</a>(ints, 2) == 4);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#ae0a55dd7eb4bd4f587f51ffd8c923e53">count</a>(types, type&lt;char&gt;) == size_t&lt;2&gt;);</div>
+</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a0e3e724580e826eaa39a934eefa2b328"></a>

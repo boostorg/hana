@@ -4,6 +4,7 @@ var searchData=
   ['fill',['fill',['../structboost_1_1hana_1_1_functor.html#a35025921d0fb75c28c2411d207a0da5e',1,'boost::hana::Functor']]],
   ['filter',['filter',['../structboost_1_1hana_1_1_monad_plus.html#a929370eddd43bb1a4a11b00a7880eadb',1,'boost::hana::MonadPlus']]],
   ['find',['find',['../structboost_1_1hana_1_1_searchable.html#a2772d97163d2e2ca3f51b2d16d13ff66',1,'boost::hana::Searchable']]],
+  ['find_5fif',['find_if',['../structboost_1_1hana_1_1_searchable.html#ade889e960898a96ac6502c9301827220',1,'boost::hana::Searchable']]],
   ['first',['first',['../structboost_1_1hana_1_1_product.html#ab6548bd227a06799a2e5abdfd9e9b0b9',1,'boost::hana::Product']]],
   ['fix',['fix',['../group__group-functional.html#ga1393f40da2e8da6e0c12fce953e56a6c',1,'boost::hana']]],
   ['flatten',['flatten',['../structboost_1_1hana_1_1_monad.html#a45985423d0658e88f0403773146af110',1,'boost::hana::Monad']]],

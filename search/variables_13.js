@@ -9,6 +9,7 @@ var searchData=
   ['set',['set',['../structboost_1_1hana_1_1_set.html#a7c6caacd6df4a89e8b62b369007d9602',1,'boost::hana::Set']]],
   ['sfinae',['sfinae',['../structboost_1_1hana_1_1_maybe.html#aa4c8c0b1ef3d8206974734b93646c9fd',1,'boost::hana::Maybe']]],
   ['short_5f',['short_',['../structboost_1_1hana_1_1_integral_constant.html#aaf7583b06af7fedb758e4966f0ee4605',1,'boost::hana::IntegralConstant']]],
+  ['size',['size',['../structboost_1_1hana_1_1_foldable.html#a95d3fe103aa2ab8634a824562dd8390c',1,'boost::hana::Foldable']]],
   ['size_5ft',['size_t',['../structboost_1_1hana_1_1_integral_constant.html#a44ed105eee40cf7c4fef4b4524575595',1,'boost::hana::IntegralConstant']]],
   ['sizeof_5f',['sizeof_',['../structboost_1_1hana_1_1_type.html#a26b702b280ca02f118affaaca9112a8c',1,'boost::hana::Type']]],
   ['slice',['slice',['../structboost_1_1hana_1_1_sequence.html#a18968c488a8b0cdc2697296024da9293',1,'boost::hana::Sequence']]],

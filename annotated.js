@@ -49,7 +49,6 @@ var annotated =
         [ "Map", "structboost_1_1hana_1_1_map.html", "structboost_1_1hana_1_1_map" ],
         [ "Maybe", "structboost_1_1hana_1_1_maybe.html", "structboost_1_1hana_1_1_maybe" ],
         [ "Metafunction", "structboost_1_1hana_1_1_metafunction.html", "structboost_1_1hana_1_1_metafunction" ],
-        [ "models", "structboost_1_1hana_1_1models.html", null ],
         [ "Monad", "structboost_1_1hana_1_1_monad.html", "structboost_1_1hana_1_1_monad" ],
         [ "MonadPlus", "structboost_1_1hana_1_1_monad_plus.html", "structboost_1_1hana_1_1_monad_plus" ],
         [ "Monoid", "structboost_1_1hana_1_1_monoid.html", "structboost_1_1hana_1_1_monoid" ],

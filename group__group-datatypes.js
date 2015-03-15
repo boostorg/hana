@@ -44,7 +44,8 @@ var group__group_datatypes =
       [ "sfinae", "structboost_1_1hana_1_1_maybe.html#aa4c8c0b1ef3d8206974734b93646c9fd", null ]
     ] ],
     [ "Pair", "structboost_1_1hana_1_1_pair.html", [
-      [ "pair", "structboost_1_1hana_1_1_pair.html#a8d15743bd0fcc2cf033ed657e95998c1", null ]
+      [ "make< Pair >", "structboost_1_1hana_1_1_pair.html#acee1d72b1cd90c086252939258b59682", null ],
+      [ "make_pair", "structboost_1_1hana_1_1_pair.html#a1bc322b45af2148a413ba45ee8097045", null ]
     ] ],
     [ "Range", "structboost_1_1hana_1_1_range.html", [
       [ "make< Range >", "structboost_1_1hana_1_1_range.html#a2e1347688d03d7298cf90f3cadf0a002", null ],

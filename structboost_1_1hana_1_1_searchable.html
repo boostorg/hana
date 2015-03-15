@@ -105,7 +105,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_searchable.htm
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
 <div class="textblock"><p>The <code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code> concept represents structures that can be searched. </p>
 <p>Intuitively, a <a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a> is any structure, finite or infinite, containing elements that can be searched using a predicate. Sometimes, Searchables will associate keys to values; one can search for a key with a predicate, and the value associated to it is returned. This gives rise to map-like data structures. Other times, the elements of the structure that are searched (i.e. those to which the predicate is applied) are the same that are returned, which gives rise to set-like data structures. In general, we will refer to the <em>keys</em> of a <a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a> structure as those elements that are used for searching, and to the <em>values</em> of a <a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a> as those elements that are returned when a search is successful. As was explained, there is no requirement that both notions differ, and it is often useful to have keys and values coincide (think about <code>std::set</code>).</p>
-<p>Some methods like <code>any_of</code>, <code>all_of</code> and <code>none_of</code> allow simple queries to be performed on the keys of the structure, while other methods like <code>lookup</code> and <code>find</code> make it possible to find the value associated to a key. The most specific method should always be used if one cares about performance, because it is usually the case that heavy optimizations can be performed in more specific methods. For example, an associative data structure implemented as a hash table will be much faster to access using <code>lookup</code> than <code>find</code>, because in the second case it will have to do a linear search through all the entries. Similarly, using <code>elem</code> will likely be much faster than <code>any</code> with an equivalent predicate.</p>
+<p>Some methods like <code>any_of</code>, <code>all_of</code> and <code>none_of</code> allow simple queries to be performed on the keys of the structure, while other methods like <code>find</code> and <code>find_if</code> make it possible to find the value associated to a key. The most specific method should always be used if one cares about performance, because it is usually the case that heavy optimizations can be performed in more specific methods. For example, an associative data structure implemented as a hash table will be much faster to access using <code>find</code> than <code>find_if</code>, because in the second case it will have to do a linear search through all the entries. Similarly, using <code>elem</code> will likely be much faster than <code>any_of</code> with an equivalent predicate.</p>
 <blockquote class="doxtable">
 <h4>Insight</h4>
 <p>In a lazy evaluation context, any <a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a> can also become a model of <a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a> because we can search lazily through the structure with <code>foldr</code>. However, in the context of C++, some Searchables can not be folded; think for example of an infinite set. </p>
@@ -116,8 +116,8 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_searchable.htm
 <div class="line"></div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1_searchable.html#a04e413e4acd1dac89e442df2f30f3e2d">elem</a>(xs, x) &lt;=&gt; <a class="code" href="structboost_1_1hana_1_1_searchable.html#a2dc05dc4553467aa0a2235088de41b4b">any_of</a>(xs, [](auto y) { <span class="keywordflow">return</span> y == x; })</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1_searchable.html#a82e67ada9561f5e1176faab8eb94a064">lookup</a>(xs, x) == <a class="code" href="structboost_1_1hana_1_1_searchable.html#a2772d97163d2e2ca3f51b2d16d13ff66">find</a>(xs, [](<span class="keyword">auto</span> y) { <span class="keywordflow">return</span> y == x; })</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1_searchable.html#a2772d97163d2e2ca3f51b2d16d13ff66">find</a>(xs, <a class="code" href="group__group-functional.html#ga835970cb25a0c8dc200f1e5f8943538b">always</a>(false_)) == nothing</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1_searchable.html#a2772d97163d2e2ca3f51b2d16d13ff66">find</a>(xs, x) == <a class="code" href="structboost_1_1hana_1_1_searchable.html#ade889e960898a96ac6502c9301827220">find_if</a>(xs, [](<span class="keyword">auto</span> y) { <span class="keywordflow">return</span> y == x; })</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1_searchable.html#ade889e960898a96ac6502c9301827220">find_if</a>(xs, <a class="code" href="group__group-functional.html#ga835970cb25a0c8dc200f1e5f8943538b">always</a>(false_)) == nothing</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1_searchable.html#aa713b34e28603ea39c8873609fd24801">subset</a>(xs, ys) &lt;=&gt; <a class="code" href="structboost_1_1hana_1_1_searchable.html#adadd57241c497cbe1a2ce5ac57549080">all_of</a>(xs, [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_searchable.html#a04e413e4acd1dac89e442df2f30f3e2d">elem</a>(ys, x); })</div>
 </div><!-- fragment --><p>Additionally, if all the keys of the <a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a> are <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>s, the following laws should be satisfied: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_searchable.html#a67dd29f7921b76f7d2bd372605f73f7c">any</a>(xs)  &lt;=&gt; <a class="code" href="structboost_1_1hana_1_1_searchable.html#a2dc05dc4553467aa0a2235088de41b4b">any_of</a>(xs, <span class="keywordtype">id</span>)</div>
@@ -125,20 +125,16 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_searchable.htm
 <div class="line"><a class="code" href="structboost_1_1hana_1_1_searchable.html#a9365b793fe547271e48fa719a7f4854d">none</a>(xs) &lt;=&gt; <a class="code" href="structboost_1_1hana_1_1_searchable.html#abf1dbf83a1d98c62994e207ea18eea8a">none_of</a>(xs, <span class="keywordtype">id</span>)</div>
 </div><!-- fragment --><h2>Minimal complete definition </h2>
 <ol type="1">
-<li><code>find</code> and <code>any_of</code><br />
-According to the above laws, it is possible to implement all the methods pertaining to this concept using only <code>find</code> and <code>any_of</code>. When <code>find</code> and <code>any_of</code> are provided, the other methods are implemented according to the laws above.</li>
+<li><code>find_if</code> and <code>any_of</code><br />
+According to the above laws, it is possible to implement all the methods pertaining to this concept using only <code>find_if</code> and <code>any_of</code>. When <code>find_if</code> and <code>any_of</code> are provided, the other methods are implemented according to the laws above.</li>
 </ol>
 <h2>Provided models </h2>
 <ol type="1">
 <li>For builtin arrays<br />
-Builtin arrays whose size is known can be searched as-if they were homogeneous tuples. However, since arrays can only hold objects of a single type and the predicate to <code>find</code> must return a compile-time <a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a>, the <code>find</code> method is fairly useless. For similar reasons, the <code>lookup</code> method is also fairly useless.</li>
+Builtin arrays whose size is known can be searched as-if they were homogeneous tuples. However, since arrays can only hold objects of a single type and the predicate to <code>find_if</code> must return a compile-time <a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a>, the <code>find_if</code> method is fairly useless. For similar reasons, the <code>find</code> method is also fairly useless.</li>
 </ol>
-<dl class="section note"><dt>Note</dt><dd>We could implement <code>any_of(xs, pred)</code> as <code>is_just(find(xs, pred))</code>, and then reduce the minimal complete definition to <code>find</code>. However, this is not done because that implementation requires the predicate to return a compile-time <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>, which is too restrictive.</dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000034">Todo:</a></b></dt><dd><ul>
-<li>We should provide a member <code>operator[]</code> equivalent to <code>lookup</code>.</li>
-<li>Use perfect forwarding in the MCD once Clang bug #20619 is fixed. </li>
-</ul>
-</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>We could implement <code>any_of(xs, pred)</code> as <code>is_just(find_if(xs, pred))</code>, and then reduce the minimal complete definition to <code>find_if</code>. However, this is not done because that implementation requires the predicate of <code>any_of</code> to return a compile-time <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>, which is more restrictive than what we have right now.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000034">Todo:</a></b></dt><dd>We should provide a member <code>operator[]</code> equivalent to <code>find</code>. </dd></dl>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of methods</h2></td></tr>
@@ -166,12 +162,12 @@ Synopsis of methods</h2></td></tr>
 <tr class="memitem:a234e4ee0bd5e0e9e604d6140fde24074"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_searchable.html#a234e4ee0bd5e0e9e604d6140fde24074">in</a> = infix(flip(<a class="el" href="structboost_1_1hana_1_1_searchable.html#a04e413e4acd1dac89e442df2f30f3e2d">elem</a>))</td></tr>
 <tr class="memdesc:a234e4ee0bd5e0e9e604d6140fde24074"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return whether the key occurs in the structure.  <a href="#a234e4ee0bd5e0e9e604d6140fde24074">More...</a><br /></td></tr>
 <tr class="separator:a234e4ee0bd5e0e9e604d6140fde24074"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade889e960898a96ac6502c9301827220"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_searchable.html#ade889e960898a96ac6502c9301827220">find_if</a></td></tr>
+<tr class="memdesc:ade889e960898a96ac6502c9301827220"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the value associated to the first key satisfying a predicate.  <a href="#ade889e960898a96ac6502c9301827220">More...</a><br /></td></tr>
+<tr class="separator:ade889e960898a96ac6502c9301827220"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2772d97163d2e2ca3f51b2d16d13ff66"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_searchable.html#a2772d97163d2e2ca3f51b2d16d13ff66">find</a></td></tr>
-<tr class="memdesc:a2772d97163d2e2ca3f51b2d16d13ff66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the value associated to the first key satisfying a predicate.  <a href="#a2772d97163d2e2ca3f51b2d16d13ff66">More...</a><br /></td></tr>
+<tr class="memdesc:a2772d97163d2e2ca3f51b2d16d13ff66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the value associated to the given key in a structure.  <a href="#a2772d97163d2e2ca3f51b2d16d13ff66">More...</a><br /></td></tr>
 <tr class="separator:a2772d97163d2e2ca3f51b2d16d13ff66"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a82e67ada9561f5e1176faab8eb94a064"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_searchable.html#a82e67ada9561f5e1176faab8eb94a064">lookup</a></td></tr>
-<tr class="memdesc:a82e67ada9561f5e1176faab8eb94a064"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the value associated to the given key in a structure.  <a href="#a82e67ada9561f5e1176faab8eb94a064">More...</a><br /></td></tr>
-<tr class="separator:a82e67ada9561f5e1176faab8eb94a064"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa713b34e28603ea39c8873609fd24801"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_searchable.html#aa713b34e28603ea39c8873609fd24801">subset</a></td></tr>
 <tr class="memdesc:aa713b34e28603ea39c8873609fd24801"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether a structure contains a subset of the keys of another structure.  <a href="#aa713b34e28603ea39c8873609fd24801">More...</a><br /></td></tr>
 <tr class="separator:aa713b34e28603ea39c8873609fd24801"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -497,7 +493,7 @@ Synopsis of methods</h2></td></tr>
 </div><!-- fragment -->
 </div>
 </div>
-<a class="anchor" id="a2772d97163d2e2ca3f51b2d16d13ff66"></a>
+<a class="anchor" id="ade889e960898a96ac6502c9301827220"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -505,7 +501,7 @@ Synopsis of methods</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto find</td>
+          <td class="memname">constexpr auto find_if</td>
         </tr>
       </table>
   </td>
@@ -523,25 +519,33 @@ Synopsis of methods</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">xs</td><td>The structure to be searched.</td></tr>
-    <tr><td class="paramname">predicate</td><td>A function called as <code>predicate(k)</code>, where <code>k</code> is a key of the structure, and returning a <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>. Note that in the current version of the library, the <code>predicate</code> has to return a compile-time <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>. This is because <code>find</code> returns a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code>, which is an heterogeneous data type.</td></tr>
+    <tr><td class="paramname">predicate</td><td>A function called as <code>predicate(k)</code>, where <code>k</code> is a key of the structure, and returning a <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>. Note that in the current version of the library, the <code>predicate</code> has to return a compile-time <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> because <code>find_if</code> returns either a <code>just(...)</code> or <code>nothing</code>.</td></tr>
   </table>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a2772d97163d2e2ca3f51b2d16d13ff66">find</a>(make&lt;Tuple&gt;(1.0, 2, <span class="charliteral">&#39;3&#39;</span>), trait_&lt;std::is_integral&gt;) == just(2));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a2772d97163d2e2ca3f51b2d16d13ff66">find</a>(make&lt;Tuple&gt;(1.0, 2, <span class="charliteral">&#39;3&#39;</span>), trait_&lt;std::is_class&gt;) == nothing);</div>
+<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_searchable.html#ade889e960898a96ac6502c9301827220">find_if</a>(make&lt;Tuple&gt;(1.0, 2, <span class="charliteral">&#39;3&#39;</span>), trait_&lt;std::is_integral&gt;) == just(2)</div>
+<div class="line">);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_searchable.html#ade889e960898a96ac6502c9301827220">find_if</a>(make&lt;Tuple&gt;(1.0, 2, <span class="charliteral">&#39;3&#39;</span>), trait_&lt;std::is_class&gt;) == nothing</div>
+<div class="line">);</div>
 <div class="line"></div>
 <div class="line">constexpr <span class="keyword">auto</span> types = tuple_t&lt;char, int, unsigned, long, unsigned long&gt;;</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a2772d97163d2e2ca3f51b2d16d13ff66">find</a>(types, <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> == type&lt;unsigned&gt;) == just(type&lt;unsigned&gt;));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a2772d97163d2e2ca3f51b2d16d13ff66">find</a>(types, <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> == type&lt;void&gt;) == nothing);</div>
-</div><!-- fragment --><h2>Benchmarks </h2>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_searchable.html#ade889e960898a96ac6502c9301827220">find_if</a>(types, <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> == type&lt;unsigned&gt;) == just(type&lt;unsigned&gt;)</div>
+<div class="line">);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_searchable.html#ade889e960898a96ac6502c9301827220">find_if</a>(types, <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> == type&lt;void&gt;) == nothing</div>
+<div class="line">);</div>
+</div><!-- fragment --> <h2>Benchmarks </h2>
 <div class="image">
-<img src="benchmark/searchable/find.ctime.png" alt="find.ctime.png"/>
+<img src="benchmark/searchable/find_if.ctime.png" alt="find_if.ctime.png"/>
 </div>
  
 </div>
 </div>
-<a class="anchor" id="a82e67ada9561f5e1176faab8eb94a064"></a>
+<a class="anchor" id="a2772d97163d2e2ca3f51b2d16d13ff66"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -549,7 +553,7 @@ Synopsis of methods</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto lookup</td>
+          <td class="memname">constexpr auto find</td>
         </tr>
       </table>
   </td>
@@ -572,18 +576,22 @@ Synopsis of methods</h2></td></tr>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a82e67ada9561f5e1176faab8eb94a064">lookup</a>(make&lt;Tuple&gt;(int_&lt;1&gt;, type&lt;int&gt;, <span class="charliteral">&#39;3&#39;</span>), type&lt;int&gt;) == just(type&lt;int&gt;));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a82e67ada9561f5e1176faab8eb94a064">lookup</a>(make&lt;Tuple&gt;(int_&lt;1&gt;, type&lt;int&gt;, <span class="charliteral">&#39;3&#39;</span>), type&lt;void&gt;) == nothing);</div>
+<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_searchable.html#a2772d97163d2e2ca3f51b2d16d13ff66">find</a>(make&lt;Tuple&gt;(int_&lt;1&gt;, type&lt;int&gt;, <span class="charliteral">&#39;3&#39;</span>), type&lt;int&gt;) == just(type&lt;int&gt;)</div>
+<div class="line">);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_searchable.html#a2772d97163d2e2ca3f51b2d16d13ff66">find</a>(make&lt;Tuple&gt;(int_&lt;1&gt;, type&lt;int&gt;, <span class="charliteral">&#39;3&#39;</span>), type&lt;void&gt;) == nothing</div>
+<div class="line">);</div>
 <div class="line"></div>
 <div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> m = make&lt;Map&gt;(</div>
 <div class="line">    make&lt;Pair&gt;(1, <span class="charliteral">&#39;x&#39;</span>),</div>
 <div class="line">    make&lt;Pair&gt;(type&lt;float&gt;, 3.3),</div>
 <div class="line">    make&lt;Pair&gt;(type&lt;char&gt;, type&lt;int&gt;)</div>
 <div class="line">);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a82e67ada9561f5e1176faab8eb94a064">lookup</a>(m, type&lt;float&gt;) == just(3.3));</div>
-</div><!-- fragment --><h2>Benchmarks </h2>
+<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#a2772d97163d2e2ca3f51b2d16d13ff66">find</a>(m, type&lt;float&gt;) == just(3.3));</div>
+</div><!-- fragment --> <h2>Benchmarks </h2>
 <div class="image">
-<img src="benchmark/searchable/lookup.ctime.png" alt="lookup.ctime.png"/>
+<img src="benchmark/searchable/find.ctime.png" alt="find.ctime.png"/>
 </div>
  
 </div>
@@ -612,7 +620,6 @@ Synopsis of methods</h2></td></tr>
 <p>Returns whether a structure contains a subset of the keys of another structure. </p>
 <p>Specifically, <code>subset(xs, ys)</code> is a <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> representing whether all of the keys of <code>xs</code> are also keys of <code>ys</code>. In particular, this method does <em>not</em> check whether <code>xs</code> is a strict subset of <code>ys</code>, i.e. a subset that is not equal.</p>
 <dl class="section note"><dt>Note</dt><dd>This method is tag-dispatched using the data type of the first argument only.</dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000035">Todo:</a></b></dt><dd>Consider using the data type of both arguments for tag-dispatching.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">xs</td><td>The structure to check whether it is a subset of <code>ys</code>.</td></tr>
@@ -622,11 +629,12 @@ Synopsis of methods</h2></td></tr>
 </dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#aa713b34e28603ea39c8873609fd24801">subset</a>(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3), make&lt;Tuple&gt;(3.3, 1, <span class="charliteral">&#39;2&#39;</span>, <span class="keyword">nullptr</span>)));</div>
-</div><!-- fragment --><h2>Benchmarks </h2>
+</div><!-- fragment --> <h2>Benchmarks </h2>
 <div class="image">
 <img src="benchmark/searchable/subset.ctime.png" alt="subset.ctime.png"/>
 </div>
- 
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000035">Todo:</a></b></dt><dd>Consider using the data type of both arguments for tag-dispatching. </dd></dl>
+
 </div>
 </div>
 </div><!-- contents -->

@@ -136,8 +136,8 @@ Iterating over a <code><a class="el" href="structboost_1_1hana_1_1_range.html" t
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(is_empty(range(int_&lt;3&gt;, int_&lt;3&gt;)));</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code><br />
-Searching a <code><a class="el" href="structboost_1_1hana_1_1_range.html" title="Compile-time half-open interval of Constants. ">Range</a></code> is equivalent to searching a list of the values in the range <code>[from, to)</code>, but it is much more compile-time efficient. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(lookup(range(int_&lt;1&gt;, int_&lt;25&gt;), int_&lt;10&gt;) == just(int_&lt;10&gt;));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(lookup(range(int_&lt;1&gt;, int_&lt;25&gt;), int_&lt;200&gt;) == nothing);</div>
+Searching a <code><a class="el" href="structboost_1_1hana_1_1_range.html" title="Compile-time half-open interval of Constants. ">Range</a></code> is equivalent to searching a list of the values in the range <code>[from, to)</code>, but it is much more compile-time efficient. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(find(range(int_&lt;1&gt;, int_&lt;25&gt;), int_&lt;10&gt;) == just(int_&lt;10&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(find(range(int_&lt;1&gt;, int_&lt;25&gt;), int_&lt;200&gt;) == nothing);</div>
 </div><!-- fragment --></li>
 </ol>
 </div><table class="memberdecls">

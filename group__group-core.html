@@ -139,9 +139,6 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1is__default.html">boost::hana::is_default&lt; Method, typename &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether a tag-dispatched method implementation is a default implementation.  <a href="structboost_1_1hana_1_1is__default.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1models.html">boost::hana::models&lt; Concept, DataType &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Metafunction returning whether a data type is a model of the given concept.  <a href="structboost_1_1hana_1_1models.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1operators_1_1adl.html">boost::hana::operators::adl</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makes the operators from <code><a class="el" href="namespaceboost_1_1hana_1_1operators.html" title="Namespace containing operators provided as an alias to some methods. ">boost::hana::operators</a></code> visible to ADL.  <a href="structboost_1_1hana_1_1operators_1_1adl.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -175,28 +172,27 @@ Typedefs</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:ga38cf78e1e3e262f7f1c71ddd9ca70cd9"><td class="memTemplParams" colspan="2">template&lt;typename Typeclass , typename... Datatypes&gt; </td></tr>
-<tr class="memitem:ga38cf78e1e3e262f7f1c71ddd9ca70cd9"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-core.html#ga38cf78e1e3e262f7f1c71ddd9ca70cd9">boost::hana::is_a</a> = unspecified</td></tr>
-<tr class="memdesc:ga38cf78e1e3e262f7f1c71ddd9ca70cd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deprecated for now, but kept around because some ideas are good.  <a href="#ga38cf78e1e3e262f7f1c71ddd9ca70cd9">More...</a><br /></td></tr>
-<tr class="separator:ga38cf78e1e3e262f7f1c71ddd9ca70cd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga7fdbde52f5fe384a816c6f39ff272df9"><td class="memTemplParams" colspan="2"><a class="anchor" id="ga7fdbde52f5fe384a816c6f39ff272df9"></a>
-template&lt;typename Typeclass , typename... Datatypes&gt; </td></tr>
-<tr class="memitem:ga7fdbde52f5fe384a816c6f39ff272df9"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-core.html#ga7fdbde52f5fe384a816c6f39ff272df9">boost::hana::is_an</a> = decltype(is_a&lt;Typeclass, Datatypes...&gt;){}</td></tr>
-<tr class="memdesc:ga7fdbde52f5fe384a816c6f39ff272df9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>is_a</code>; provided for consistency with the rules of the English language. <br /></td></tr>
-<tr class="separator:ga7fdbde52f5fe384a816c6f39ff272df9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga91ddd2ea55eca559a681c8e3e1003ba6"><td class="memTemplParams" colspan="2"><a class="anchor" id="ga91ddd2ea55eca559a681c8e3e1003ba6"></a>
-template&lt;typename Typeclass , typename... Datatypes&gt; </td></tr>
-<tr class="memitem:ga91ddd2ea55eca559a681c8e3e1003ba6"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-core.html#ga91ddd2ea55eca559a681c8e3e1003ba6">boost::hana::are</a> = decltype(is_a&lt;Typeclass, Datatypes...&gt;){}</td></tr>
-<tr class="memdesc:ga91ddd2ea55eca559a681c8e3e1003ba6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>is_a</code>; provided for consistency with the rules of the English language when several data types are provided. <br /></td></tr>
-<tr class="separator:ga91ddd2ea55eca559a681c8e3e1003ba6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gadc70755c1d059139297814fb3bfeb91e"><td class="memTemplParams" colspan="2">template&lt;typename To &gt; </td></tr>
 <tr class="memitem:gadc70755c1d059139297814fb3bfeb91e"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">boost::hana::to</a></td></tr>
 <tr class="memdesc:gadc70755c1d059139297814fb3bfeb91e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts an object from one data type to another.  <a href="#gadc70755c1d059139297814fb3bfeb91e">More...</a><br /></td></tr>
 <tr class="separator:gadc70755c1d059139297814fb3bfeb91e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga38cf78e1e3e262f7f1c71ddd9ca70cd9"><td class="memTemplParams" colspan="2">template&lt;typename DataType , typename optional_T &gt; </td></tr>
+<tr class="memitem:ga38cf78e1e3e262f7f1c71ddd9ca70cd9"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-core.html#ga38cf78e1e3e262f7f1c71ddd9ca70cd9">boost::hana::is_a</a> = see-documentation</td></tr>
+<tr class="memdesc:ga38cf78e1e3e262f7f1c71ddd9ca70cd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the data type of an object matches a given data type.  <a href="#ga38cf78e1e3e262f7f1c71ddd9ca70cd9">More...</a><br /></td></tr>
+<tr class="separator:ga38cf78e1e3e262f7f1c71ddd9ca70cd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7fdbde52f5fe384a816c6f39ff272df9"><td class="memTemplParams" colspan="2"><a class="anchor" id="ga7fdbde52f5fe384a816c6f39ff272df9"></a>
+template&lt;typename DataType , typename... T&gt; </td></tr>
+<tr class="memitem:ga7fdbde52f5fe384a816c6f39ff272df9"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-core.html#ga7fdbde52f5fe384a816c6f39ff272df9">boost::hana::is_an</a> = is_a&lt;DataType, T...&gt;</td></tr>
+<tr class="memdesc:ga7fdbde52f5fe384a816c6f39ff272df9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>is_a</code>; provided for consistency with the rules of the English language. <br /></td></tr>
+<tr class="separator:ga7fdbde52f5fe384a816c6f39ff272df9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga1d92480f0af1029878e773dafa3e2f60"><td class="memTemplParams" colspan="2">template&lt;typename Datatype &gt; </td></tr>
 <tr class="memitem:ga1d92480f0af1029878e773dafa3e2f60"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-core.html#ga1d92480f0af1029878e773dafa3e2f60">boost::hana::make</a></td></tr>
 <tr class="memdesc:ga1d92480f0af1029878e773dafa3e2f60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an object of the given data type with the given arguments.  <a href="#ga1d92480f0af1029878e773dafa3e2f60">More...</a><br /></td></tr>
 <tr class="separator:ga1d92480f0af1029878e773dafa3e2f60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga91ecb6ee4fe2f7d156e5026e37df8946"><td class="memTemplParams" colspan="2">template&lt;typename Concept , typename optional_T &gt; </td></tr>
+<tr class="memitem:ga91ecb6ee4fe2f7d156e5026e37df8946"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-core.html#ga91ecb6ee4fe2f7d156e5026e37df8946">boost::hana::models</a> = see-documentation</td></tr>
+<tr class="memdesc:ga91ecb6ee4fe2f7d156e5026e37df8946"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the data type of an object is a model of the given concept.  <a href="#ga91ecb6ee4fe2f7d156e5026e37df8946">More...</a><br /></td></tr>
+<tr class="separator:ga91ecb6ee4fe2f7d156e5026e37df8946"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Typedef Documentation</h2>
 <a class="anchor" id="ga4da46c97755c0f430b063711b66ca05b"></a>
@@ -269,53 +265,6 @@ template&lt;typename... &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a class="anchor" id="ga38cf78e1e3e262f7f1c71ddd9ca70cd9"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Typeclass , typename... Datatypes&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr auto boost::hana::is_a = unspecified</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="is__a_8hpp.html">boost/hana/core/is_a.hpp</a>&gt;</code></p>
-
-<p>Deprecated for now, but kept around because some ideas are good. </p>
-<p>Specifically, <code>is_a&lt;Typeclass, Datatypes...&gt;</code> is a compile-time <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> representing whether <code>Typeclass::instance&lt;Datatypes...&gt;</code> represents an instance of <code>Typeclass</code>. This does not check whether the instance is valid: it does not check whether laws are satisfied or even if the minimal complete definition is syntactically correct. It only tells whether an instance is there and was not disabled explicitly with <code>disable</code>. Note that exactly one or two data types must be provided because the library currently supports only unary and binary type classes; failure to provide a correct number of arguments will trigger a static assertion.</p>
-<h3>Example</h3>
-<div class="fragment"><div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>( is_a&lt;Foldable, Maybe&gt;);</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!is_a&lt;Logical, Maybe&gt;);</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!is_a&lt;Foldable, int&gt;);</div>
-</div><!-- fragment --><p> An alternate syntax is provided for convenience. <code>is_a</code> can also be used as a function returning whether the data types of its arguments together define an instance of the given type class. In other words, </p><div class="fragment"><div class="line">is_a&lt;Typeclass&gt;(x1, ..., xn) == is_a&lt;Typeclass, D1, ..., Dn&gt;</div>
-</div><!-- fragment --><p> where <code>xi</code> is an arbitrary object and <code>Di</code> is the data type of the corresponding <code>xi</code>.</p>
-<p>With this alternate syntax, if a data type <code>D</code> is provided instead of a type class, and if a single object is passed, it returns whether the passed object has <code>D</code> as a data type. In other words, </p><div class="fragment"><div class="line">is_a&lt;Datatype&gt;(x)</div>
-</div><!-- fragment --><p> is true if <code>x</code> has a data type of <code>Datatype</code>.</p>
-<dl class="section note"><dt>Note</dt><dd>This relies on the fact that data types do not coincide with type classes. Otherwise, it would be impossible to differentiate between <code>is_a&lt;Datatype&gt;</code> and <code>is_a&lt;Typeclass&gt;</code> without introducing additional machinery.</dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000002">Todo:</a></b></dt><dd>The extension of <code>is_a</code> to data types is inconsistent, because one would expect <code>is_a&lt;D, decltype(some object of data type D)&gt;</code> to be true, while it gives an error.</dd></dl>
-<h3>Example</h3>
-<div class="fragment"><div class="line">    constexpr <span class="keyword">auto</span> row = make&lt;Tuple&gt;;</div>
-<div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> check_table = [](<span class="keyword">auto</span> ...headers) {</div>
-<div class="line">        <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> ...rows) {</div>
-<div class="line">            <span class="keyword">auto</span> is_correct = [=](<span class="keyword">auto</span> row) {</div>
-<div class="line">                <span class="keywordflow">return</span> make&lt;Tuple&gt;(headers(head(row))...) == tail(row);</div>
-<div class="line">            };</div>
-<div class="line">            <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(all_of(make&lt;Tuple&gt;(rows...), is_correct));</div>
-<div class="line">        };</div>
-<div class="line">    };</div>
-<div class="line"></div>
-<div class="line">    check_table(                      is_a&lt;Logical&gt;, is_an&lt;Iterable&gt;, is_a&lt;Monad&gt;   )(</div>
-<div class="line">    row(just(1),                         false_,         false_,         true_      ),</div>
-<div class="line">    row(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3),        false_,         true_,          true_      ),</div>
-<div class="line">    row(std::make_tuple(<span class="stringliteral">&quot;abc&quot;</span>, <span class="charliteral">&#39;d&#39;</span>),     false_,         true_,          true_      ),</div>
-<div class="line">    row(long_&lt;12&gt;,                       true_,          false_,         false_     ),</div>
-<div class="line">    row(range(int_&lt;-4&gt;, int_&lt;15&gt;),       false_,         true_,          false_     )</div>
-<div class="line">    );</div>
-</div><!-- fragment -->
-</div>
-</div>
 <a class="anchor" id="gadc70755c1d059139297814fb3bfeb91e"></a>
 <div class="memitem">
 <div class="memproto">
@@ -387,6 +336,30 @@ template&lt;typename To &gt; </div>
 </div><!-- fragment -->
 </div>
 </div>
+<a class="anchor" id="ga38cf78e1e3e262f7f1c71ddd9ca70cd9"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename DataType , typename optional_T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto boost::hana::is_a = see-documentation</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="fwd_2core_2is__a_8hpp.html">boost/hana/fwd/core/is_a.hpp</a>&gt;</code></p>
+
+<p>Returns whether the data type of an object matches a given data type. </p>
+<p>Given a data type <code>D</code> and a C++ type <code>T</code>, <code>is_a&lt;D, T&gt;</code> is a compile-time <a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> representing whether the data type of <code>T</code> is exactly <code>D</code>. In other words, it is equivalent to </p><div class="fragment"><div class="line">std::is_same&lt;D, datatype_t&lt;T&gt;&gt;</div>
+</div><!-- fragment --><p>For convenience, an alternate syntax is provided for using <code>is_a</code>. Specifically, <code>is_a&lt;D&gt;</code> is a function object returning whether the argument it is passed is of data type <code>D</code>. In other words, </p><div class="fragment"><div class="line">is_a&lt;D&gt;(x) == <a class="code" href="group__group-core.html#ga38cf78e1e3e262f7f1c71ddd9ca70cd9">is_a</a>&lt;D, decltype(x)&gt;</div>
+</div><!-- fragment --><h2>Example </h2>
+<div class="fragment"><div class="line">static_assert(<a class="code" href="group__group-core.html#ga38cf78e1e3e262f7f1c71ddd9ca70cd9">is_a</a>&lt;Tuple, decltype(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3))&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(!is_a&lt;Tuple, void&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(<a class="code" href="group__group-core.html#ga7fdbde52f5fe384a816c6f39ff272df9">is_an</a>&lt;IntegralConstant&lt;int&gt;&gt;(int_&lt;10&gt;), <span class="stringliteral">&quot;&quot;</span>);</div>
+</div><!-- fragment -->
+</div>
+</div>
 <a class="anchor" id="ga1d92480f0af1029878e773dafa3e2f60"></a>
 <div class="memitem">
 <div class="memproto">
@@ -416,6 +389,83 @@ template&lt;typename Datatype &gt; </div>
 <div class="line">std::string foo{<span class="stringliteral">&quot;foo&quot;</span>}; <span class="comment">// std::string has no notion of data type</span></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(make&lt;std::string&gt;(<span class="stringliteral">&quot;foo&quot;</span>) == foo);</div>
 </div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="ga91ecb6ee4fe2f7d156e5026e37df8946"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Concept , typename optional_T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto boost::hana::models = see-documentation</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="fwd_2core_2models_8hpp.html">boost/hana/fwd/core/models.hpp</a>&gt;</code></p>
+
+<p>Returns whether the data type of an object is a model of the given concept. </p>
+<p>Given a C++ type <code>T</code> and a concept <code>Concept</code>, <code>models&lt;Concept, T&gt;</code> is a compile-time <a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> representing whether <code>T</code>'s data type is a model of <code>Concept</code>. Usually, concepts provide methods, some of which <b>must</b> be implemented in order to model the concept, and the others are given a default definition in terms of the mandatory ones. More specifically, <code>models</code> returns whether a minimal complete definition of a concept is provided by the data type. However, concepts also usually provide semantic requirements (called laws) that must be satisfied by their models; <code>models</code> does not attempt to check whether those laws are satisfied. In fact, <code>models</code> does not even check whether the provided minimal complete definition is syntactically correct, but only if it is there.</p>
+<p>A few concepts (like <a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a>) do not introduce methods that suffice to provide a minimal complete definition. They provide semantic guarantees through laws and superclasses, and they usually also provide methods that do useful things with existing methods and those additional guarantees. In this case, it is usually necessary to explicitly specialize <code>models_impl</code> in the <code>boost::hana</code> namespace. When this is the case, the concept should document it.</p>
+<dl class="section note"><dt>Note</dt><dd><code>models</code> is a tag-dispatched method. More specifically, <code>models&lt;Concept, T&gt;</code> dispatches to <code>models_impl&lt;Concept, datatype_t&lt;T&gt;&gt;</code>, which should be a metafunction with a nested boolean <code><a class="el" href="structboost_1_1hana_1_1_constant.html#adea9453327ac4d6834a555ae9887d3f5" title="Return the compile-time value associated to a constant. ">value</a></code> representing whether <code>datatype_t&lt;T&gt;</code> models the concept <code>Concept</code>.</dd></dl>
+<h2>Example </h2>
+<div class="fragment"><div class="line">static_assert(models&lt;Iterable, Tuple&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(!<a class="code" href="group__group-core.html#ga91ecb6ee4fe2f7d156e5026e37df8946">models</a>&lt;Iterable, IntegralConstant&lt;int&gt;&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
+</div><!-- fragment --><h2>How does it work </h2>
+<p>When a concept writer provides minimal complete definitions in terms of other methods introduced by the concept, they specialize the <code>models_impl</code> metafunction so that whenever a proper minimal complete definition is provided by the user, <code>models</code> returns true. Here's an example of how a simple concept could support <code>models</code>:</p>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2models_8hpp.html">boost/hana/core/models.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2default_8hpp.html">boost/hana/core/default.hpp</a>&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="iterable_8hpp.html">boost/hana/iterable.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
+<div class="line"><span class="keyword">using namespace </span><a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keyword">struct </span>Printable { };</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><span class="keyword">struct </span>print_impl : <a class="code" href="structboost_1_1hana_1_1default__.html">default_</a> {</div>
+<div class="line">    <span class="comment">/* no definition; `print(x)` fails at compile-time by default */</span></div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">auto</span> print = [](std::ostream&amp; os, <span class="keyword">auto</span> <span class="keyword">const</span>&amp; x) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">    <span class="keywordflow">return</span> print_impl&lt;datatype_t&lt;decltype(x)&gt;&gt;<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">::apply</a>(os, x);</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">namespace </span><a class="code" href="namespaceboost.html">boost</a> { <span class="keyword">namespace </span>hana {</div>
+<div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line">    <span class="keyword">struct </span>models_impl&lt;Printable, T&gt;</div>
+<div class="line">        : std::integral_constant&lt;bool, !is_default&lt;print_impl&lt;T&gt;&gt;{}&gt;</div>
+<div class="line">    { };</div>
+<div class="line">}}</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">struct </span>Person { std::string name; };</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;&gt;</div>
+<div class="line"><span class="keyword">struct </span>print_impl&lt;Person&gt; {</div>
+<div class="line">    <span class="keyword">static</span> std::ostream&amp; <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>(std::ostream&amp; os, Person <span class="keyword">const</span>&amp; p) {</div>
+<div class="line">        os &lt;&lt; p.name;</div>
+<div class="line">        <span class="keywordflow">return</span> os;</div>
+<div class="line">    }</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line">static_assert(_models&lt;Printable, Person&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    print(std::cout, Person{<span class="stringliteral">&quot;Louis&quot;</span>});</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
 </div>
 </div>
 </div><!-- contents -->

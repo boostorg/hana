@@ -139,13 +139,13 @@ Iterating over a MPL vector is just iterating over each of the types it contains
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code><br />
 A MPL vector can be searched as if it were a <a class="el" href="structboost_1_1hana_1_1_tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a> of Types. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    find(mpl::vector&lt;int, float, char const*&gt;{}, equal.to(type&lt;float&gt;))</div>
+<div class="line">    find_if(mpl::vector&lt;int, float, char const*&gt;{}, equal.to(type&lt;float&gt;))</div>
 <div class="line">    ==</div>
 <div class="line">    just(type&lt;float&gt;)</div>
 <div class="line">);</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    lookup(mpl::vector&lt;int, float, char const*&gt;{}, type&lt;void&gt;)</div>
+<div class="line">    find(mpl::vector&lt;int, float, char const*&gt;{}, type&lt;void&gt;)</div>
 <div class="line">    ==</div>
 <div class="line">    nothing</div>
 <div class="line">);</div>

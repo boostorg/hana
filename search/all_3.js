@@ -28,6 +28,7 @@ var searchData=
   ['core_2ehpp',['core.hpp',['../core_8hpp.html',1,'']]],
   ['core_2ehpp',['core.hpp',['../fwd_2core_8hpp.html',1,'']]],
   ['count',['count',['../structboost_1_1hana_1_1_foldable.html#ae0a55dd7eb4bd4f587f51ffd8c923e53',1,'boost::hana::Foldable']]],
+  ['count_5fif',['count_if',['../structboost_1_1hana_1_1_foldable.html#a21ca48cce90274a5f54354f9d4622930',1,'boost::hana::Foldable']]],
   ['create',['create',['../structboost_1_1hana_1_1detail_1_1create.html',1,'boost::hana::detail']]],
   ['create_2ehpp',['create.hpp',['../create_8hpp.html',1,'']]],
   ['curry',['curry',['../group__group-functional.html#ga49ea872ade5ac8f6c10052c495302e89',1,'boost::hana']]],

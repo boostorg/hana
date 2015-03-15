@@ -8,6 +8,7 @@ var NAVTREE =
         [ "Cheatsheet", "index.html#tutorial-quickstart-cheatsheet", null ]
       ] ],
       [ "Creating sequences", "index.html#tutorial-create", null ],
+      [ "Assertions", "index.html#tutorial-assert", null ],
       [ "Algorithm semantics", "index.html#tutorial-sem", [
         [ "Performance considerations", "index.html#tutorial-sem-perf", null ]
       ] ],
@@ -51,8 +52,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"insert__fwd_8hpp.html",
-"structboost_1_1hana_1_1_sequence.html#adfb039a3d46931ef17fef56c77d8256c"
+"index.html#tutorial-quickstart",
+"structboost_1_1hana_1_1_sequence.html#a788b65dd69bb016d647801718e840816"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

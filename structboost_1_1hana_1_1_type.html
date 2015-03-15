@@ -265,8 +265,7 @@ template&lt;typename T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> t) {</div>
-<div class="line">        <span class="keyword">using</span> T = <span class="keyword">typename</span> decltype(t)::<a class="code" href="structboost_1_1hana_1_1_type.html#a4b171ee57f23017113921071f72639d0">type</a>;</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](_type&lt;T&gt; <span class="keyword">const</span>&amp;) {</div>
 <div class="line">        <span class="keywordflow">return</span> size_t&lt;sizeof(T)&gt;;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->

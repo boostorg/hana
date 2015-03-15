@@ -203,7 +203,7 @@ The model of <a class="el" href="structboost_1_1hana_1_1_iterable.html" title="T
 Searching through a <a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> is equivalent to just searching through a list of the values it contains. The keys and the values on which the search is performed are both the elements of the sequence. <div class="fragment"><div class="line"><span class="keyword">using namespace </span>std::string_literals;</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
-<div class="line">    find(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, <span class="stringliteral">&quot;abc&quot;</span>s), is_a&lt;std::string&gt;) == just(<span class="stringliteral">&quot;abc&quot;</span>s)</div>
+<div class="line">    find_if(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, <span class="stringliteral">&quot;abc&quot;</span>s), is_a&lt;std::string&gt;) == just(<span class="stringliteral">&quot;abc&quot;</span>s)</div>
 <div class="line">);</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>

@@ -112,6 +112,9 @@ Macros</h2></td></tr>
 <tr class="memitem:ga08dcc32bef198420e646244e851d1995"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-config.html#ga08dcc32bef198420e646244e851d1995">BOOST_HANA_CONFIG_DISABLE_ASSERTIONS</a></td></tr>
 <tr class="memdesc:ga08dcc32bef198420e646244e851d1995"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disables the <code>BOOST_HANA_*_ASSERT</code> macro &amp; friends.  <a href="#ga08dcc32bef198420e646244e851d1995">More...</a><br /></td></tr>
 <tr class="separator:ga08dcc32bef198420e646244e851d1995"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4052530075fb10a81c8110b7830e56bd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-config.html#ga4052530075fb10a81c8110b7830e56bd">BOOST_HANA_CONFIG_DISABLE_DATA_TYPE_CHECKS</a></td></tr>
+<tr class="memdesc:ga4052530075fb10a81c8110b7830e56bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disables data type checks in the methods.  <a href="#ga4052530075fb10a81c8110b7830e56bd">More...</a><br /></td></tr>
+<tr class="separator:ga4052530075fb10a81c8110b7830e56bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a class="anchor" id="gae842ac40c50442c84defc1f4b9ae4d38"></a>
@@ -149,6 +152,23 @@ Macros</h2></td></tr>
 <p>When this macro is defined, the <code>BOOST_HANA_*_ASSERT</code> macro &amp; friends are disabled, i.e. they expand to nothing.</p>
 <p>This macro is defined automatically when <code>NDEBUG</code> is defined. It can also be defined by users before including this header or defined on the command line.</p>
 <dl class="section note"><dt>Note</dt><dd>This macro has the side effect of disabling the checking of most preconditions in tag-dispatched methods, because those preconditions usually use the <code>BOOST_HANA_*_ASSERT</code> macros to do their job. However, if one wants to disable the checking of preconditions specifically, the <a class="el" href="group__group-config.html#gae842ac40c50442c84defc1f4b9ae4d38">BOOST_HANA_CONFIG_DISABLE_PRECONDITIONS</a> macro should be used instead. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga4052530075fb10a81c8110b7830e56bd"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BOOST_HANA_CONFIG_DISABLE_DATA_TYPE_CHECKS</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="config_8hpp.html">boost/hana/config.hpp</a>&gt;</code></p>
+
+<p>Disables data type checks in the methods. </p>
+<p>When this macro is not defined, tag-dispatched methods will make sure the arguments they are passed are models of the proper concept(s). This can be very helpful in catching programming errors, but it is also slightly less compile-time efficient. You should probably always leave the checks enabled, except perhaps in translation units that are compiled very often but whose code using Hana is modified very rarely. </p>
 
 </div>
 </div>

@@ -6,6 +6,7 @@ var searchData=
   ['remove_5fat_5fc',['remove_at_c',['../structboost_1_1hana_1_1_sequence.html#aa597b243b348503860e1179065c508ec',1,'boost::hana::Sequence']]],
   ['repeat',['repeat',['../structboost_1_1hana_1_1_monad_plus.html#acbf4797cf95bb19dfe33a16cf86fe3c9',1,'boost::hana::MonadPlus']]],
   ['replace',['replace',['../structboost_1_1hana_1_1_functor.html#a72e73dcc09699c619bcfb006029a8967',1,'boost::hana::Functor']]],
+  ['replace_5fif',['replace_if',['../structboost_1_1hana_1_1_functor.html#ab57d42b572f43016f929b5729c2533f5',1,'boost::hana::Functor']]],
   ['reverse',['reverse',['../structboost_1_1hana_1_1_sequence.html#a4471413ccc3835db5e48658683b8aba0',1,'boost::hana::Sequence']]],
   ['reverse_5fpartial',['reverse_partial',['../group__group-details.html#ga5d30ed36591b4062f54ab0c87ad8d7f0',1,'boost::hana::detail']]],
   ['right',['right',['../structboost_1_1hana_1_1_either.html#a0bd40511a2cb9b281d36a7fe564177bb',1,'boost::hana::Either']]]

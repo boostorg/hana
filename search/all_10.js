@@ -1,7 +1,6 @@
 var searchData=
 [
   ['pair',['Pair',['../structboost_1_1hana_1_1_pair.html',1,'boost::hana']]],
-  ['pair',['pair',['../structboost_1_1hana_1_1_pair.html#a8d15743bd0fcc2cf033ed657e95998c1',1,'boost::hana::Pair']]],
   ['pair_2ehpp',['pair.hpp',['../ext_2std_2pair_8hpp.html',1,'']]],
   ['pair_2ehpp',['pair.hpp',['../fwd_2pair_8hpp.html',1,'']]],
   ['pair_2ehpp',['pair.hpp',['../pair_8hpp.html',1,'']]],
@@ -16,8 +15,8 @@ var searchData=
   ['pred',['pred',['../structboost_1_1hana_1_1_enumerable.html#a283eaffe2c556e841a84a2e03d6b95f9',1,'boost::hana::Enumerable']]],
   ['prefix',['prefix',['../structboost_1_1hana_1_1_monad_plus.html#a85ba602a660bdb3bbeb43cc600de3008',1,'boost::hana::MonadPlus']]],
   ['prepend',['prepend',['../structboost_1_1hana_1_1_monad_plus.html#a3e173a5524274624703353bb3ac4c129',1,'boost::hana::MonadPlus']]],
-  ['product',['product',['../structboost_1_1hana_1_1_foldable.html#aa37fd8d56461f749d49423c711e4c67a',1,'boost::hana::Foldable']]],
   ['product',['Product',['../structboost_1_1hana_1_1_product.html',1,'boost::hana']]],
+  ['product',['product',['../structboost_1_1hana_1_1_foldable.html#aa37fd8d56461f749d49423c711e4c67a',1,'boost::hana::Foldable']]],
   ['product_2ehpp',['product.hpp',['../product_8hpp.html',1,'']]],
   ['product_2ehpp',['product.hpp',['../fwd_2product_8hpp.html',1,'']]]
 ];

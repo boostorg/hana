@@ -22,7 +22,7 @@ var dir_c3b57e95c907b739bf3e4f1634043f1e =
     [ "monad_plus.hpp", "fwd_2monad__plus_8hpp.html", null ],
     [ "monoid.hpp", "fwd_2monoid_8hpp.html", null ],
     [ "orderable.hpp", "fwd_2orderable_8hpp.html", null ],
-    [ "pair.hpp", "fwd_2pair_8hpp.html", null ],
+    [ "pair.hpp", "fwd_2pair_8hpp.html", "fwd_2pair_8hpp" ],
     [ "product.hpp", "fwd_2product_8hpp.html", null ],
     [ "range.hpp", "fwd_2range_8hpp.html", "fwd_2range_8hpp" ],
     [ "record.hpp", "fwd_2record_8hpp.html", null ],

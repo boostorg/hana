@@ -147,7 +147,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_logical.html',
 <h2>Minimal complete definition </h2>
 <ol type="1">
 <li><code>eval_if</code>, <code>not_</code> and <code>while_</code><br />
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000025">Todo:</a></b></dt><dd></dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000024">Todo:</a></b></dt><dd></dd></dl>
 </li>
 </ol>
 <h2>Provided models </h2>
@@ -166,7 +166,7 @@ A data type <code>T</code> is arithmetic if <code>std::is_arithmetic&lt;T&gt;<a 
 <p>For convenience, the following operators are provided as an equivalent way of calling the corresponding method: </p><div class="fragment"><div class="line">&amp;&amp;  -&gt;  <a class="code" href="structboost_1_1hana_1_1_logical.html#a8d0365b860f1383b8077ea86eee79a23">and_</a></div>
 <div class="line">||  -&gt;  <a class="code" href="structboost_1_1hana_1_1_logical.html#ac5683e17dd3318d3be74e5defb1e7252">or_</a></div>
 </div><!-- fragment --><dl class="bug"><dt><b><a class="el" href="bug.html#_bug000001">Bug:</a></b></dt><dd>We can't use perfect forwarding in that MCD because of <a href="http://llvm.org/bugs/show_bug.cgi?id=20619">this bug</a>.</dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000026">Todo:</a></b></dt><dd>The methods don't short-circuit right now, which is a real bummer.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000025">Todo:</a></b></dt><dd>The methods don't short-circuit right now, which is a real bummer.</dd></dl>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of methods</h2></td></tr>
@@ -261,7 +261,40 @@ Synopsis of methods</h2></td></tr>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Conditionally execute one of two branches based on a condition. </p>
-<p>The selected branch will be invoked with an identity function, wich allows making types and values dependent inside a lambda and achieve a lazy-like behavior. However, type instantiation laziness can only be achieved with <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>s whose truth-value is known at compile-time. The result of the <code>eval_if</code> is the result of the invoked branch.</p>
+<p>Given a condition and two branches in the form of lambdas, <code>eval_if</code> will evaluate the branch selected by the condition and return the result. But that's not all; the lambdas must accept a parameter (usually called <code>_</code>), which can be used to defer the compile-time evaluation of expressions as required. Here's an example: </p><div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> N&gt;</div>
+<div class="line"><span class="keyword">auto</span> fact(N n) {</div>
+<div class="line">    <span class="keywordflow">return</span> hana::eval_if(n == hana::int_&lt;0&gt;,</div>
+<div class="line">        [](<span class="keyword">auto</span> <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>) { <span class="keywordflow">return</span> hana::int_&lt;1&gt;; },</div>
+<div class="line">        [=](<span class="keyword">auto</span> <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>) { <span class="keywordflow">return</span> n * fact(<a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>(n) - hana::int_&lt;1&gt;); }</div>
+<div class="line">    );</div>
+<div class="line">}</div>
+</div><!-- fragment --><p>What happens here is that <code>eval_if</code> will pass an identity function to the selected branch. Hence, <code>_(x)</code> is always the same as <code>x</code>, but the compiler can't tell until the lambda has been called! Hence, the compiler has to wait before it instantiates the body of the lambda and no infinite recursion happens. However, this trick to delay the instantiation of the lambda's body can only be used when the condition is known at compile-time, because otherwise both branches have to be instantiated inside the <code>eval_if</code> anyway. Also note that <code>always</code> can be used to make <code>eval_if</code> easier to work with: </p><div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> N&gt;</div>
+<div class="line"><span class="keyword">auto</span> fact(N n) {</div>
+<div class="line">    <span class="keywordflow">return</span> hana::eval_if(n == hana::int_&lt;0&gt;,</div>
+<div class="line">        <a class="code" href="group__group-functional.html#ga835970cb25a0c8dc200f1e5f8943538b">always</a>(hana::int_&lt;1&gt;),</div>
+<div class="line">        [=](<span class="keyword">auto</span> <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>) { <span class="keywordflow">return</span> n * fact(<a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>(n) - hana::int_&lt;1&gt;); }</div>
+<div class="line">    );</div>
+<div class="line">}</div>
+</div><!-- fragment --><p>There are several caveats to note with our approach to lazy branching. First, because we're using lambdas, it means that the function's result can't be used in a constant expression. This is a limitation of the current version of C++.</p>
+<p>The second caveat is that compilers currently have several bugs regarding deeply nested lambdas with captures. So you always risk crashing the compiler, but this is a question of time before it is not a problem anymore.</p>
+<p>Finally, it means that conditionals can't be written directly inside unevaluated contexts. The reason is that a lambda can't appear in an unevaluated context, for example in <code>decltype</code>. One way to workaround this is to completely lift your type computations into variable templates instead. So instead of writing e.g. (stupid example, just to show): </p><div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><span class="keyword">struct </span>f : decltype(eval_if(true_,</div>
+<div class="line">        [](auto _) { return type&lt;T&gt;; },</div>
+<div class="line">        [](auto _) { return type&lt;T&gt;; }</div>
+<div class="line">    ))</div>
+<div class="line">{ };</div>
+</div><!-- fragment --><p>you could instead write</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><span class="keyword">auto</span> f_impl(_type&lt;T&gt; t) {</div>
+<div class="line">    <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_logical.html#a97f92ff5d73f8ebd7e9eb61142b2e68e">eval_if</a>(true_,</div>
+<div class="line">        [](<span class="keyword">auto</span>) { <span class="keywordflow">return</span> type&lt;T&gt;; },</div>
+<div class="line">        [](<span class="keyword">auto</span>) { <span class="keywordflow">return</span> type&lt;T&gt;; }</div>
+<div class="line">    );</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><span class="keyword">using</span> f = decltype(f_impl(type&lt;T&gt;));</div>
+</div><!-- fragment --><p>Now, this hoop-jumping only has to be done in one place, because you should use normal function notation everywhere else in your metaprogram to perform type computations. So the syntactic cost is amortized over the whole program.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">cond</td><td>The condition determining which of the two branches is selected.</td></tr>

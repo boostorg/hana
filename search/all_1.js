@@ -2,6 +2,7 @@ var searchData=
 [
   ['add_5frvalue_5freference_2ehpp',['add_rvalue_reference.hpp',['../add__rvalue__reference_8hpp.html',1,'']]],
   ['adjust',['adjust',['../structboost_1_1hana_1_1_functor.html#ac27a1807b60b8fa59e6c618cb8ca749f',1,'boost::hana::Functor']]],
+  ['adjust_5fif',['adjust_if',['../structboost_1_1hana_1_1_functor.html#af88457a3be4c40dfe3dbf1a0e3f52480',1,'boost::hana::Functor']]],
   ['adl',['adl',['../structboost_1_1hana_1_1operators_1_1adl.html',1,'boost::hana::operators']]],
   ['all',['all',['../structboost_1_1hana_1_1_searchable.html#a695907e4a3ef7d0e9ab34f5afff709b2',1,'boost::hana::Searchable']]],
   ['all_5fof',['all_of',['../structboost_1_1hana_1_1_searchable.html#adadd57241c497cbe1a2ce5ac57549080',1,'boost::hana::Searchable']]],
@@ -17,7 +18,6 @@ var searchData=
   ['applicative_2ehpp',['applicative.hpp',['../fwd_2applicative_8hpp.html',1,'']]],
   ['apply',['apply',['../group__group-functional.html#ga30027c383676084be151ef3c6cf2829f',1,'boost::hana']]],
   ['apply_2ehpp',['apply.hpp',['../apply_8hpp.html',1,'']]],
-  ['are',['are',['../group__group-core.html#ga91ddd2ea55eca559a681c8e3e1003ba6',1,'boost::hana']]],
   ['arg',['arg',['../group__group-functional.html#ga6acc765a35c4dc85f0deab4785831a3d',1,'boost::hana']]],
   ['arg_2ehpp',['arg.hpp',['../arg_8hpp.html',1,'']]],
   ['array',['array',['../structboost_1_1hana_1_1detail_1_1array.html',1,'boost::hana::detail']]],

@@ -4,7 +4,7 @@ var dir_de4d28507ef13ef0f026c42dad2d0ec7 =
     [ "convert.hpp", "core_2convert_8hpp.html", null ],
     [ "datatype.hpp", "core_2datatype_8hpp.html", null ],
     [ "default.hpp", "core_2default_8hpp.html", null ],
-    [ "is_a.hpp", "is__a_8hpp.html", "is__a_8hpp" ],
+    [ "is_a.hpp", "core_2is__a_8hpp.html", null ],
     [ "make.hpp", "core_2make_8hpp.html", null ],
     [ "models.hpp", "core_2models_8hpp.html", null ],
     [ "operators.hpp", "core_2operators_8hpp.html", null ],
