@@ -237,11 +237,9 @@ using accumulate = fold<Sequence, State, F>;
 //
 // Differences with the MPL:
 // 1. find_if and find:
-//    Not returning an iterator; instead it returns the type itself and
-//    bails out if the type was not found. We could do better by providing
-//    a MPL-friendly interface to Maybe. We could also provide a function to
-//    find the index of a given element in an Iterable. This couldn't be in
-//    Searchable, because those have no notion of index.
+//    Instead of returning an iterator, they either have a nested `::type`
+//    alias to the answer, or they have no nested `::type` at all, which
+//    makes them SFINAE-friendly.
 //
 // 2. lower_bound, upper_bound:
 //    Not implemented.
@@ -251,14 +249,14 @@ using accumulate = fold<Sequence, State, F>;
 //////////////////////////////////////////////////////////////////////////////
 template <typename Sequence, typename Pred>
 struct find_if
-    : decltype(hana::from_just(hana::find_if(
+    : decltype(hana::find_if(
         Sequence{}, boolean_metafunction_class<Pred>
-    )))
+    ))
 { };
 
 template <typename Sequence, typename T>
 struct find
-    : decltype(hana::from_just(hana::find(Sequence{}, hana::type<T>)))
+    : decltype(hana::find(Sequence{}, hana::type<T>))
 { };
 
 template <typename Sequence, typename T>
@@ -300,8 +298,8 @@ struct equal
 // Transformaton algorithms
 //
 // Differences from the MPL:
-// 1. The algorithms do not accept an optional inserter, and they always return
-//    a `vector`.
+// 1. The algorithms do not accept an optional inserter, and they always
+//    return a `vector`.
 // 2. stable_partition: not implemented
 // 3. All the reverse_* algorithms are not implemented.
 //////////////////////////////////////////////////////////////////////////////
