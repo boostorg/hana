@@ -348,11 +348,10 @@ namespace boost { namespace hana {
     template <typename It>
     struct Iterable::find_if_impl {
         template <typename Xs, typename Pred>
-        static constexpr auto apply(Xs xs, Pred pred) {
-            auto e = hana::drop_until(xs, pred);
-            return hana::eval_if(hana::is_empty(e),
-                hana::always(nothing),
-                [=](auto _) { return hana::just(_(head)(e)); }
+        static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
+            return hana::only_when(hana::compose(not_, is_empty), head,
+                hana::drop_until(detail::std::forward<Xs>(xs),
+                                 detail::std::forward<Pred>(pred))
             );
         }
     };
