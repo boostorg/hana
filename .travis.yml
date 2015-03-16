@@ -3,75 +3,75 @@ compiler: clang
 os: linux
 
 env:
-  - CLANG_VERSION=3.5
-  - CLANG_VERSION=3.6
-  - CLANG_VERSION=3.7
+  - CLANG_VERSION=3.5 BOOST_VERSION=1.57.0
+  - CLANG_VERSION=3.6 BOOST_VERSION=1.57.0
+  - CLANG_VERSION=3.7 BOOST_VERSION=1.57.0
+
+  - CLANG_VERSION=3.5 BOOST_VERSION=1.58.0
+  - CLANG_VERSION=3.6 BOOST_VERSION=1.58.0
+  - CLANG_VERSION=3.7 BOOST_VERSION=1.58.0
+
 
 before_install:
+    # All the dependencies are installed to the deps/ subdirectory.
+    - mkdir deps
+    - DEPS_DIR="${PWD}/deps"
+
     # Add deb repositories to get different versions of LLVM/Clang.
     # The latest version of those repositories doesn't need a -3.x suffix,
     # so we jump through the little hoop with _suffix below.
     - sudo apt-add-repository "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu precise main"
-    - if [ "$CLANG_VERSION" != "3.7" ]; then _suffix="-${CLANG_VERSION}"; fi
+    - if [ "${CLANG_VERSION}" != "3.7" ]; then _suffix="-${CLANG_VERSION}"; fi
     - sudo apt-add-repository "deb http://llvm.org/apt/precise/ llvm-toolchain-precise${_suffix} main"
     - sudo apt-get -qq update
 
     # Checkout the latest libc++
-    - svn --quiet co http://llvm.org/svn/llvm-project/libcxx/trunk libcxx
+    - svn --quiet co http://llvm.org/svn/llvm-project/libcxx/trunk ${DEPS_DIR}/libcxx
 
-    # Install linuxbrew and its dependencies.
-    # We use </dev/null to bypass confirmations.
-    - sudo apt-get install build-essential curl git m4 ruby texinfo libbz2-dev libcurl4-openssl-dev libexpat-dev libncurses-dev zlib1g-dev
-    - ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/linuxbrew/go/install)" </dev/null
-    - export PATH=$HOME/.linuxbrew/bin:$PATH
+    # Install Boost headers
+    - if [ "${BOOST_VERSION}" == "1.57.0" ]; then wget --quiet -O ${DEPS_DIR}/boost.tar.gz http://sourceforge.net/projects/boost/files/boost/1.57.0/boost_1_57_0.tar.gz; fi
+    - if [ "${BOOST_VERSION}" == "1.58.0" ]; then wget --quiet -O ${DEPS_DIR}/boost.tar.gz http://sourceforge.net/projects/boost/files/boost/1.58.0.beta.1/boost_1_58_0_b1.tar.gz; fi
+    - mkdir ${DEPS_DIR}/boost && tar --strip-components=1 -C ${DEPS_DIR}/boost -xzf ${DEPS_DIR}/boost.tar.gz
 
-    # Clone the Boost modularized repository from GitHub.
-    # - git clone --quiet git://github.com/boostorg/boost.git boost
-    # - (cd boost && git submodule --quiet update --init)
 
 install:
     # Install Clang
-    - sudo apt-get --allow-unauthenticated -qq install clang-${CLANG_VERSION}
+    - sudo apt-get -qq --allow-unauthenticated install clang-${CLANG_VERSION}
 
-    # Install the latest CMake
-    - brew install cmake --without-docs
+    # Install a more recent CMake
+    - wget --quiet -O ${DEPS_DIR}/cmake.tar.gz http://www.cmake.org/files/v3.2/cmake-3.2.1-Linux-x86_64.tar.gz
+    - mkdir ${DEPS_DIR}/cmake && tar --strip-components=1 -C ${DEPS_DIR}/cmake -xzf ${DEPS_DIR}/cmake.tar.gz
+    - export PATH=${DEPS_DIR}/cmake/bin:${PATH}
 
     # Install libc++
-    - (cd libcxx/lib && bash buildit)
-    - sudo cp libcxx/lib/libc++.so.1.0 /usr/lib/
+    - (cd ${DEPS_DIR}/libcxx/lib && bash buildit)
+    - sudo cp ${DEPS_DIR}/libcxx/lib/libc++.so.1.0 /usr/lib/
     - sudo mkdir /usr/include/c++/v1
-    - sudo cp -r libcxx/include/* /usr/include/c++/v1/
+    - sudo cp -r ${DEPS_DIR}/libcxx/include/* /usr/include/c++/v1/
     - sudo ln -sf /usr/lib/libc++.so.1.0 /usr/lib/libc++.so
     - sudo ln -sf /usr/lib/libc++.so.1.0 /usr/lib/libc++.so.1
 
-    # Setup Boost's headers
-    # - brew install boost --HEAD
-    # - (cd boost && ./bootstrap.sh && ./b2 headers)
-
     # Setup the build directory
-    - (mkdir build && cd build && cmake .. -DCMAKE_CXX_COMPILER=clang++-${CLANG_VERSION})
+    - (mkdir build && cd build && cmake .. -DCMAKE_CXX_COMPILER=clang++-${CLANG_VERSION} -DBOOST_ROOT=${DEPS_DIR}/boost)
+
 
 before_script:
     # Check baseline memory usage; for compare with after_failure when OOMs occur
     - free
     - vmstat
-    - ps aux --sort -rss | head -n 10
+    - ps aux --sort=-rss | head -n 10
+
 
 script:
-    # It often happens that compilation is aborted because the
-    # VM is out of memory. We attempt to compile the tests several
-    # times, knowing only those that were not compiled in previous
-    # passes will be compiled.
-    - (cd build && make compile.all -k)
-    - (cd build && make compile.all -k)
-    - (cd build && make compile.all -k)
-    - (cd build && make compile.all -k)
-
+    # We use the -k switch because it will cause the build to continue even
+    # when there's a failure. However, the tests will still globally fail
+    # (as expected) because running ctest will fail.
     - (cd build && make run.all -k)
+
 
 after_failure:
     # check for OOMs
     - sudo dmesg
     - free
     - vmstat
-    - ps aux --sort -rss | head -n 10
+    - ps aux --sort=-rss

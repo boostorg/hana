@@ -104,8 +104,6 @@ int main() {
 
         // laws
         auto types = make<Tuple>(
-            type<void>,
-            type<char>,
             type<T>,
             type<T*>,
             type<T&>,

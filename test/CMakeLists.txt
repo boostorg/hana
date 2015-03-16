@@ -48,16 +48,21 @@ list(REMOVE_ITEM BOOST_HANA_PUBLIC_HEADERS ${_detail_headers})
 # This list must not be modified by the caveats below; when a source file is
 # not available in BOOST_HANA_TEST_SOURCES, it won't be split regardless of
 # whether it appears in this list.
-file(GLOB_RECURSE BOOST_HANA_SPLIT_TEST_SOURCES
+file(GLOB BOOST_HANA_SPLIT_TEST_SOURCES
     "cnumeric.cpp"
     "detail/canonical_constant.cpp"
     "either.cpp"
+    "ext/std/array.cpp"
+    "ext/std/integer_sequence.cpp"
     "ext/std/integral_constant.cpp"
+    "ext/std/ratio.cpp"
     "ext/std/tuple.cpp"
+    "integral_constant.cpp"
     "maybe.cpp"
     "minimal_record.cpp"
     "set.cpp"
     "string.cpp"
+    "tuple.cpp"
 )
 
 
@@ -134,8 +139,16 @@ if ($ENV{TRAVIS})
     list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${_non_minimal_mcds})
 endif()
 
-# The Fusion adapters are currently broken; I'm working on it.
-file(GLOB_RECURSE _ext_fusion_broken_tests "ext/boost/fusion/*.cpp")
+# Some Fusion adapters are currently broken; I'm working on it.
+file(GLOB _ext_fusion_broken_tests
+    "ext/boost/fusion/vector/searchable.cpp"
+    "ext/boost/fusion/vector/sequence.cpp"
+    "ext/boost/fusion/tuple/monad.cpp"
+    "ext/boost/fusion/tuple/searchable.cpp"
+    "ext/boost/fusion/tuple/sequence.cpp"
+    "ext/boost/fusion/deque/searchable.cpp"
+    "ext/boost/fusion/deque/sequence.cpp"
+)
 list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${_ext_fusion_broken_tests})
 
 

@@ -8,11 +8,16 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/integral_constant.hpp>
 
+#include <laws/applicative.hpp>
 #include <laws/base.hpp>
 #include <laws/comparable.hpp>
 #include <laws/foldable.hpp>
+#include <laws/functor.hpp>
 #include <laws/iterable.hpp>
+#include <laws/monad.hpp>
+#include <laws/monad_plus.hpp>
 #include <laws/orderable.hpp>
+#include <laws/searchable.hpp>
 #include <laws/sequence.hpp>
 #include <laws/traversable.hpp>
 
@@ -27,9 +32,44 @@ using eq = test::ct_eq<i>;
 template <int i>
 using ord = test::ct_ord<i>;
 
-struct x0; struct x1; struct x2; struct x3;
+struct x0; struct x1; struct x2; struct x3; struct x4;
+
+template <typename ...>
+struct F { struct type; };
 
 int main() {
+    auto eq_tuples = make<Tuple>(
+          make<Tuple>()
+        , make<Tuple>(eq<0>{})
+        , make<Tuple>(eq<0>{}, eq<1>{})
+        , make<Tuple>(eq<0>{}, eq<1>{}, eq<2>{})
+        , make<Tuple>(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{})
+        , make<Tuple>(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{})
+        , make<Tuple>(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{}, eq<5>{})
+    );
+    (void)eq_tuples;
+
+    auto ord_tuples = make<Tuple>(
+          make<Tuple>()
+        , make<Tuple>(ord<0>{})
+        , make<Tuple>(ord<0>{}, ord<1>{})
+        , make<Tuple>(ord<0>{}, ord<1>{}, ord<2>{})
+        , make<Tuple>(ord<0>{}, ord<1>{}, ord<2>{}, ord<3>{})
+        , make<Tuple>(ord<0>{}, ord<1>{}, ord<2>{}, ord<3>{}, ord<4>{})
+    );
+    (void)ord_tuples;
+
+    auto nested_eqs = make<Tuple>(
+          make<Tuple>()
+        , make<Tuple>(make<Tuple>(eq<0>{}))
+        , make<Tuple>(make<Tuple>(eq<0>{}), make<Tuple>(eq<1>{}, eq<2>{}))
+        , make<Tuple>(make<Tuple>(eq<0>{}),
+                      make<Tuple>(eq<1>{}, eq<2>{}),
+                      make<Tuple>(eq<3>{}, eq<4>{}))
+    );
+    (void)nested_eqs;
+
+#if BOOST_HANA_TEST_PART == 1
     //////////////////////////////////////////////////////////////////////////
     // Move-only friendliness and reference semantics
     //////////////////////////////////////////////////////////////////////////
@@ -94,18 +134,41 @@ int main() {
     }
 
     //////////////////////////////////////////////////////////////////////////
-    // Setup for the laws below
+    // Comparable
     //////////////////////////////////////////////////////////////////////////
-    auto eq_tuples = make<Tuple>(
-          make<Tuple>()
-        , make<Tuple>(eq<0>{})
-        , make<Tuple>(eq<0>{}, eq<1>{})
-        , make<Tuple>(eq<0>{}, eq<1>{}, eq<2>{})
-        , make<Tuple>(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{})
-        , make<Tuple>(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{})
-        , make<Tuple>(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{}, eq<5>{})
-    );
+    {
+        // equal
 
+        // tuple_t
+        BOOST_HANA_CONSTANT_CHECK(equal(tuple_t<>, tuple_t<>));
+        BOOST_HANA_CONSTANT_CHECK(not_(equal(tuple_t<x0>, tuple_t<>)));
+        BOOST_HANA_CONSTANT_CHECK(not_(equal(tuple_t<>, tuple_t<x0>)));
+        BOOST_HANA_CONSTANT_CHECK(equal(tuple_t<x0>, tuple_t<x0>));
+        BOOST_HANA_CONSTANT_CHECK(not_(equal(tuple_t<x0, x1>, tuple_t<x0>)));
+        BOOST_HANA_CONSTANT_CHECK(not_(equal(tuple_t<x0>, tuple_t<x0, x1>)));
+        BOOST_HANA_CONSTANT_CHECK(equal(tuple_t<x0, x1>, tuple_t<x0, x1>));
+        BOOST_HANA_CONSTANT_CHECK(equal(tuple_t<x0, x1, x2>, tuple_t<x0, x1, x2>));
+
+        // tuple_c
+        BOOST_HANA_CONSTANT_CHECK(equal(tuple_c<int>, tuple_c<int>));
+        BOOST_HANA_CONSTANT_CHECK(not_(equal(tuple_c<int, 0>, tuple_c<int>)));
+        BOOST_HANA_CONSTANT_CHECK(equal(tuple_c<int, 0>, tuple_c<int, 0>));
+        BOOST_HANA_CONSTANT_CHECK(not_(equal(tuple_c<int, 0, 1>, tuple_c<int, 0>)));
+        BOOST_HANA_CONSTANT_CHECK(equal(tuple_c<int, 0, 1>, tuple_c<int, 0, 1>));
+        BOOST_HANA_CONSTANT_CHECK(equal(tuple_c<int, 0, 1, 2>, tuple_c<int, 0, 1, 2>));
+
+        test::TestComparable<Tuple>{eq_tuples};
+    }
+
+#elif BOOST_HANA_TEST_PART == 2
+    //////////////////////////////////////////////////////////////////////////
+    // Orderable
+    //////////////////////////////////////////////////////////////////////////
+    {
+        test::TestOrderable<Tuple>{ord_tuples};
+    }
+
+#elif BOOST_HANA_TEST_PART == 3
     //////////////////////////////////////////////////////////////////////////
     // Foldable
     //////////////////////////////////////////////////////////////////////////
@@ -158,6 +221,7 @@ int main() {
         test::TestFoldable<Tuple>{eq_tuples};
     }
 
+#elif BOOST_HANA_TEST_PART == 4
     //////////////////////////////////////////////////////////////////////////
     // Iterable
     //////////////////////////////////////////////////////////////////////////
@@ -223,10 +287,131 @@ int main() {
         test::TestTraversable<Tuple>{};
     }
 
+#elif BOOST_HANA_TEST_PART == 5
+    //////////////////////////////////////////////////////////////////////////
+    // Searchable
+    //////////////////////////////////////////////////////////////////////////
+    {
+        auto eq_tuples = make<Tuple>(
+              make<Tuple>()
+            , make<Tuple>(eq<0>{})
+            , make<Tuple>(eq<0>{}, eq<1>{})
+            , make<Tuple>(eq<0>{}, eq<1>{}, eq<2>{})
+            , make<Tuple>(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{})
+            , make<Tuple>(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{})
+        );
+
+        auto eq_tuple_keys = make<Tuple>(eq<3>{}, eq<5>{});
+        test::TestSearchable<Tuple>{eq_tuples, eq_tuple_keys};
+    }
+
+#elif BOOST_HANA_TEST_PART == 6
     //////////////////////////////////////////////////////////////////////////
     // Sequence
     //////////////////////////////////////////////////////////////////////////
     {
         test::TestSequence<Tuple>{};
     }
+
+#elif BOOST_HANA_TEST_PART == 7
+    //////////////////////////////////////////////////////////////////////////
+    // Functor
+    //////////////////////////////////////////////////////////////////////////
+    {
+        // Test transform with tuple_t and Metafunctions
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            transform(tuple_t<>, metafunction<F>),
+            tuple_t<>
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            transform(tuple_t<x1>, metafunction<F>),
+            tuple_t<F<x1>::type>
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            transform(tuple_t<x1, x2>, metafunction<F>),
+            tuple_t<F<x1>::type, F<x2>::type>
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            transform(tuple_t<x1, x2, x3>, metafunction<F>),
+            tuple_t<F<x1>::type, F<x2>::type, F<x3>::type>
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            transform(tuple_t<x1, x2, x3, x4>, metafunction<F>),
+            tuple_t<F<x1>::type, F<x2>::type, F<x3>::type, F<x4>::type>
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            transform(tuple_t<x1, x2, x3, x4>, template_<F>),
+            tuple_t<F<x1>, F<x2>, F<x3>, F<x4>>
+        ));
+
+        // laws
+        auto eq_values = make<Tuple>(eq<0>{}, eq<2>{});
+        test::TestFunctor<Tuple>{eq_tuples, eq_values};
+    }
+
+    //////////////////////////////////////////////////////////////////////////
+    // Applicative
+    //////////////////////////////////////////////////////////////////////////
+    {
+        test::TestApplicative<Tuple>{};
+    }
+
+#elif BOOST_HANA_TEST_PART == 8
+    //////////////////////////////////////////////////////////////////////////
+    // Monad
+    //////////////////////////////////////////////////////////////////////////
+    {
+        test::TestMonad<Tuple>{eq_tuples, nested_eqs};
+    }
+
+#elif BOOST_HANA_TEST_PART == 9
+    //////////////////////////////////////////////////////////////////////////
+    // MonadPlus
+    //////////////////////////////////////////////////////////////////////////
+    {
+        // prepend
+        {
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                prepend(long_<0>, tuple_c<long>),
+                tuple_c<long, 0>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                prepend(uint<0>, tuple_c<unsigned int, 1>),
+                tuple_c<unsigned int, 0, 1>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                prepend(llong<0>, tuple_c<long long, 1, 2>),
+                tuple_c<long long, 0, 1, 2>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                prepend(ulong<0>, tuple_c<unsigned long, 1, 2, 3>),
+                tuple_c<unsigned long, 0, 1, 2, 3>
+            ));
+        }
+
+        // empty
+        {
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                empty<Tuple>(),
+                tuple_c<int>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                empty<Tuple>(),
+                tuple_c<long>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                empty<Tuple>(),
+                tuple_c<void>
+            ));
+        }
+
+        // laws
+        test::TestMonadPlus<Tuple>{eq_tuples};
+    }
+#endif
 }

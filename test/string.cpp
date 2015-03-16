@@ -295,6 +295,14 @@ int main() {
         static_assert(has_operator<String, decltype(greater_equal)>{}, "");
 
         // laws
+        auto strings = make<Tuple>(
+            BOOST_HANA_STRING(""),
+            BOOST_HANA_STRING("a"),
+            BOOST_HANA_STRING("ab"),
+            BOOST_HANA_STRING("abc"),
+            BOOST_HANA_STRING("ba"),
+            BOOST_HANA_STRING("abd")
+        );
         test::TestOrderable<String>{strings};
     }
 
