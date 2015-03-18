@@ -9,20 +9,14 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/logical.hpp>
 #include <boost/hana/tuple.hpp>
 
-#include <test/auto/base.hpp>
-#include <test/auto/logical.hpp>
+#include <laws/logical.hpp>
 
 #include <vector>
 using namespace boost::hana;
 
 
-namespace boost { namespace hana { namespace test {
-    template <> auto objects<bool> = make<Tuple>(true, false);
-}}}
-
-
 int main() {
-    test::laws<Logical, bool>();
+    test::TestLogical<bool>{make<Tuple>(true, false)};
 
     // eval_if
     {

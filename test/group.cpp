@@ -8,31 +8,17 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/group.hpp>
 #include <boost/hana/tuple.hpp>
 
-#include <test/auto/base.hpp>
-#include <test/auto/group.hpp>
+#include <laws/group.hpp>
 using namespace boost::hana;
 
 
-namespace boost { namespace hana { namespace test {
-    template <> auto objects<int> = make<Tuple>(0,1,2,3,4,5);
-    template <> auto objects<long> = make<Tuple>(0l,1l,2l,3l,4l,5l);
-}}}
-
-
 int main() {
-    test::laws<Group, int>();
-    test::laws<Group, long>();
-
-    using T = int;
-    constexpr T x = 6, y = 4;
+    test::TestGroup<int>{make<Tuple>(0,1,2,3,4,5)};
+    test::TestGroup<long>{make<Tuple>(0l,1l,2l,3l,4l,5l)};
 
     // minus
-    {
-        BOOST_HANA_CONSTEXPR_CHECK(minus(x, y) == x - y);
-    }
+    static_assert(minus(6, 4) == 6 - 4, "");
 
     // negate
-    {
-        BOOST_HANA_CONSTEXPR_CHECK(negate(x) == -x);
-    }
+    static_assert(negate(6) == -6, "");
 }

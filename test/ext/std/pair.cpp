@@ -8,61 +8,73 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/tuple.hpp>
-#include <boost/hana/type.hpp>
 
-#include <test/auto/product.hpp>
-#include <test/cnumeric.hpp>
-#include <test/injection.hpp>
+#include <laws/base.hpp>
+#include <laws/comparable.hpp>
+#include <laws/foldable.hpp>
+#include <laws/orderable.hpp>
+#include <laws/product.hpp>
 
 #include <utility>
 using namespace boost::hana;
 
 
-namespace boost { namespace hana { namespace test {
-    template <>
-    auto instances<ext::std::Pair> = make<Tuple>(
-        type<Product>
-    );
-
-    template <>
-    auto objects<ext::std::Pair> = make<Tuple>(
-          ::std::make_pair(cnumeric<int, 0>, cnumeric<int, 0>)
-        , ::std::make_pair(cnumeric<int, 0>, cnumeric<int, 1>)
-        , ::std::make_pair(cnumeric<int, 1>, cnumeric<int, 0>)
-        , ::std::make_pair(cnumeric<int, 1>, cnumeric<int, 1>)
-    );
-}}}
-
+using test::ct_eq;
+using test::ct_ord;
 
 int main() {
-    test::check_datatype<ext::std::Pair>();
+    auto eq_elems = make<Tuple>(ct_eq<3>{}, ct_eq<4>{});
 
-    using test::x;
+    auto eqs = make<Tuple>(
+          std::make_pair(ct_eq<3>{}, ct_eq<3>{})
+        , std::make_pair(ct_eq<3>{}, ct_eq<4>{})
+        , std::make_pair(ct_eq<4>{}, ct_eq<3>{})
+        , std::make_pair(ct_eq<4>{}, ct_eq<4>{})
+    );
 
+    auto ords = make<Tuple>(
+          std::make_pair(ct_ord<3>{}, ct_ord<3>{})
+        , std::make_pair(ct_ord<3>{}, ct_ord<4>{})
+        , std::make_pair(ct_ord<4>{}, ct_ord<3>{})
+        , std::make_pair(ct_ord<4>{}, ct_ord<4>{})
+    );
+
+    //////////////////////////////////////////////////////////////////////////
+    // Comparable, Orderable, Foldable
+    //////////////////////////////////////////////////////////////////////////
+    test::TestComparable<ext::std::Pair>{eqs};
+    test::TestOrderable<ext::std::Pair>{ords};
+    test::TestFoldable<ext::std::Pair>{eqs};
+
+    //////////////////////////////////////////////////////////////////////////
     // Product
+    //////////////////////////////////////////////////////////////////////////
     {
         // first
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                first(std::make_pair(x<0>, x<1>)),
-                x<0>
+                first(std::make_pair(ct_eq<0>{}, ct_eq<1>{})),
+                ct_eq<0>{}
             ));
         }
 
         // second
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                second(std::make_pair(x<0>, x<1>)),
-                x<1>
+                second(std::make_pair(ct_eq<0>{}, ct_eq<1>{})),
+                ct_eq<1>{}
             ));
         }
 
         // make
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                make<ext::std::Pair>(x<0>, x<1>),
-                std::make_pair(x<0>, x<1>)
+                make<ext::std::Pair>(ct_eq<0>{}, ct_eq<1>{}),
+                std::make_pair(ct_eq<0>{}, ct_eq<1>{})
             ));
         }
+
+        // laws
+        test::TestProduct<ext::std::Pair>{eq_elems};
     }
 }

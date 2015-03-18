@@ -9,132 +9,140 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/assert.hpp>
 #include <boost/hana/maybe.hpp>
 #include <boost/hana/tuple.hpp>
-#include <boost/hana/type.hpp>
 
-#include <test/auto/base.hpp>
-#include <test/injection.hpp>
-
-// instances
-#include <test/auto/comparable.hpp>
-#include <test/auto/foldable.hpp>
-#include <test/auto/searchable.hpp>
+#include <laws/base.hpp>
+#include <laws/comparable.hpp>
+#include <laws/foldable.hpp>
+#include <laws/searchable.hpp>
 using namespace boost::hana;
 
 
-namespace boost { namespace hana { namespace test {
-    template <>
-    auto instances<MinimalRecord> = make<Tuple>(
-        type<Comparable>,
-        type<Foldable>,
-        type<Searchable>
-    );
-
-    template <>
-    auto objects<MinimalRecord> = make<Tuple>(
-        minimal_record(x<0>, x<0>),
-        minimal_record(x<0>, x<1>),
-        minimal_record(x<1>, x<0>),
-        minimal_record(x<1>, x<1>),
-        minimal_record(x<0>, x<2>),
-        minimal_record(x<2>, x<3>)
-    );
-}}}
-
-template <int i>
-struct _undefined { };
-
 template <int i = 0>
-constexpr _undefined<i> undefined{};
+struct undefined { };
+
+using test::ct_eq;
 
 int main() {
-    using test::x;
     constexpr auto record = test::minimal_record;
 
-    test::check_datatype<test::MinimalRecord>();
+    auto eqs = make<Tuple>(
+        record(ct_eq<0>{}, ct_eq<0>{}),
+        record(ct_eq<0>{}, ct_eq<1>{}),
+        record(ct_eq<1>{}, ct_eq<0>{}),
+        record(ct_eq<1>{}, ct_eq<1>{}),
+        record(ct_eq<0>{}, ct_eq<2>{}),
+        record(ct_eq<2>{}, ct_eq<3>{})
+    );
+    (void)eqs;
 
+#if BOOST_HANA_TEST_PART == 1
+    //////////////////////////////////////////////////////////////////////////
     // Comparable
+    //////////////////////////////////////////////////////////////////////////
     {
         // equal
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                record(x<0>, x<1>), record(x<0>, x<1>)
+                record(ct_eq<0>{}, ct_eq<1>{}),
+                record(ct_eq<0>{}, ct_eq<1>{})
             ));
 
             BOOST_HANA_CONSTANT_CHECK(not_(equal(
-                record(x<1>, x<0>), record(x<0>, x<1>)
+                record(ct_eq<1>{}, ct_eq<0>{}),
+                record(ct_eq<0>{}, ct_eq<1>{})
             )));
 
             BOOST_HANA_CONSTANT_CHECK(not_(equal(
-                record(x<0>, x<99>), record(x<0>, x<1>)
+                record(ct_eq<0>{}, ct_eq<99>{}),
+                record(ct_eq<0>{}, ct_eq<1>{})
             )));
 
             BOOST_HANA_CONSTANT_CHECK(not_(equal(
-                record(x<99>, x<1>), record(x<0>, x<1>)
+                record(ct_eq<99>{}, ct_eq<1>{}),
+                record(ct_eq<0>{}, ct_eq<1>{})
             )));
         }
+
+        // laws
+        test::TestComparable<test::MinimalRecord>{eqs};
     }
 
+#elif BOOST_HANA_TEST_PART == 2
+    //////////////////////////////////////////////////////////////////////////
     // Foldable
+    //////////////////////////////////////////////////////////////////////////
     {
-        auto s = x<999>;
-        auto f = test::injection([]{});
+        test::ct_eq<999> s{};
+        test::_injection<0> f{};
 
         // foldl
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                foldl(record(x<0>, x<1>), s, f),
-                f(f(s, x<0>), x<1>)
+                foldl(record(ct_eq<0>{}, ct_eq<1>{}), s, f),
+                f(f(s, ct_eq<0>{}), ct_eq<1>{})
             ));
         }
 
         // foldr
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                foldr(record(x<0>, x<1>), s, f),
-                f(x<0>, f(x<1>, s))
+                foldr(record(ct_eq<0>{}, ct_eq<1>{}), s, f),
+                f(ct_eq<0>{}, f(ct_eq<1>{}, s))
             ));
         }
 
         // unpack
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                unpack(record(x<0>, x<1>), f),
-                f(x<0>, x<1>)
+                unpack(record(ct_eq<0>{}, ct_eq<1>{}), f),
+                f(ct_eq<0>{}, ct_eq<1>{})
             ));
         }
+
+        // laws
+        test::TestFoldable<test::MinimalRecord>{eqs};
     }
 
+#elif BOOST_HANA_TEST_PART == 3
+    //////////////////////////////////////////////////////////////////////////
     // Searchable
+    //////////////////////////////////////////////////////////////////////////
     {
         // any_of
         {
             BOOST_HANA_CONSTANT_CHECK(
-                any_of(record(undefined<1>, undefined<2>), equal.to(test::member1))
+                any_of(record(undefined<1>{}, undefined<2>{}), equal.to(test::member1))
             );
             BOOST_HANA_CONSTANT_CHECK(
-                any_of(record(undefined<1>, undefined<2>), equal.to(test::member2))
+                any_of(record(undefined<1>{}, undefined<2>{}), equal.to(test::member2))
             );
             BOOST_HANA_CONSTANT_CHECK(not_(
-                any_of(record(undefined<1>, undefined<2>), equal.to(undefined<>))
+                any_of(record(undefined<1>{}, undefined<2>{}), equal.to(undefined<>{}))
             ));
         }
 
         // find_if
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find_if(record(x<0>, x<1>), equal.to(test::member1)),
-                just(x<0>)
+                find_if(record(ct_eq<0>{}, ct_eq<1>{}), equal.to(test::member1)),
+                just(ct_eq<0>{})
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find_if(record(x<0>, x<1>), equal.to(test::member2)),
-                just(x<1>)
+                find_if(record(ct_eq<0>{}, ct_eq<1>{}), equal.to(test::member2)),
+                just(ct_eq<1>{})
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find_if(record(x<0>, x<1>), equal.to(undefined<>)),
+                find_if(record(ct_eq<0>{}, ct_eq<1>{}), equal.to(undefined<>{})),
                 nothing
             ));
         }
+
+        // laws
+        test::TestSearchable<test::MinimalRecord>{eqs, make<Tuple>(
+            test::member1, test::member2
+        )};
     }
+#endif
 }

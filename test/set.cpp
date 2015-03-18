@@ -9,105 +9,95 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/assert.hpp>
 #include <boost/hana/maybe.hpp>
 #include <boost/hana/tuple.hpp>
-#include <boost/hana/type.hpp>
 
-#include <test/auto/base.hpp>
-#include <test/auto/comparable.hpp>
-#include <test/auto/foldable.hpp>
-#include <test/auto/searchable.hpp>
-#include <test/injection.hpp>
+#include <laws/base.hpp>
+#include <laws/comparable.hpp>
+#include <laws/foldable.hpp>
+#include <laws/searchable.hpp>
 #include <test/seq.hpp>
 using namespace boost::hana;
 
 
-namespace boost { namespace hana { namespace test {
-    template <>
-    auto objects<Set> = make<Tuple>(
-        set(),
-        set(x<0>),
-        set(x<0>, x<1>),
-        set(x<1>, x<0>),
-        set(x<0>, x<1>, x<2>)
-    );
-
-    template <>
-    auto instances<Set> = make<Tuple>(
-        type<Comparable>,
-        type<Foldable>,
-        type<Searchable>
-    );
-}}}
-
+using test::ct_eq;
 
 int main() {
-    test::check_datatype<Set>();
+    auto eqs = make<Tuple>(
+        set(),
+        set(ct_eq<0>{}),
+        set(ct_eq<0>{}, ct_eq<1>{}),
+        set(ct_eq<1>{}, ct_eq<0>{}),
+        set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})
+    );
+    (void)eqs;
 
-    // make
+#if BOOST_HANA_TEST_PART == 1
+    //////////////////////////////////////////////////////////////////////////
+    // make<Set>
+    //////////////////////////////////////////////////////////////////////////
     {
-        using test::x;
-
         BOOST_HANA_CONSTANT_CHECK(equal(
             make<Set>(),
             set()
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
-            make<Set>(x<0>),
-            set(x<0>)
+            make<Set>(ct_eq<0>{}),
+            set(ct_eq<0>{})
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
-            make<Set>(x<0>, x<1>),
-            set(x<0>, x<1>)
+            make<Set>(ct_eq<0>{}, ct_eq<1>{}),
+            set(ct_eq<0>{}, ct_eq<1>{})
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
-            make<Set>(x<0>, x<1>, x<2>),
-            set(x<0>, x<1>, x<2>)
+            make<Set>(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}),
+            set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})
         ));
     }
 
+    //////////////////////////////////////////////////////////////////////////
     // insert
+    //////////////////////////////////////////////////////////////////////////
     {
-        using test::x;
-
         BOOST_HANA_CONSTANT_CHECK(equal(
-            insert(set(), x<0>),
-            set(x<0>)
+            insert(set(), ct_eq<0>{}),
+            set(ct_eq<0>{})
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
-            insert(set(x<0>), x<0>),
-            set(x<0>)
+            insert(set(ct_eq<0>{}), ct_eq<0>{}),
+            set(ct_eq<0>{})
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
-            insert(set(x<0>), x<1>),
-            set(x<0>, x<1>)
+            insert(set(ct_eq<0>{}), ct_eq<1>{}),
+            set(ct_eq<0>{}, ct_eq<1>{})
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
-            insert(set(x<0>, x<1>), x<1>),
-            set(x<0>, x<1>)
+            insert(set(ct_eq<0>{}, ct_eq<1>{}), ct_eq<1>{}),
+            set(ct_eq<0>{}, ct_eq<1>{})
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
-            insert(set(x<0>, x<1>), x<2>),
-            set(x<0>, x<1>, x<2>)
+            insert(set(ct_eq<0>{}, ct_eq<1>{}), ct_eq<2>{}),
+            set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
-            insert(set(x<0>, x<1>, x<2>), x<3>),
-            set(x<0>, x<1>, x<2>, x<3>)
+            insert(set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}), ct_eq<3>{}),
+            set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{})
         ));
     }
 
+    //////////////////////////////////////////////////////////////////////////
     // Conversions
+    //////////////////////////////////////////////////////////////////////////
     {
         auto list = test::seq;
         auto foldable = test::seq;
         using L = test::Seq;
-        using test::x;
 
         // Set -> Sequence (now provided by Sequence, but we keep the test)
         {
@@ -117,10 +107,10 @@ int main() {
                 );
             };
             check();
-            check(x<1>);
-            check(x<1>, x<2>);
-            check(x<1>, x<2>, x<3>);
-            check(x<1>, x<2>, x<3>, x<4>);
+            check(ct_eq<1>{});
+            check(ct_eq<1>{}, ct_eq<2>{});
+            check(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{});
+            check(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{});
         }
 
         // Foldable -> Set
@@ -131,112 +121,142 @@ int main() {
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                to<Set>(foldable(x<1>)),
-                set(x<1>)
+                to<Set>(foldable(ct_eq<1>{})),
+                set(ct_eq<1>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                to<Set>(foldable(x<1>, x<1>)),
-                set(x<1>)
-            ));
-
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                to<Set>(foldable(x<1>, x<2>)),
-                set(x<1>, x<2>)
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                to<Set>(foldable(x<1>, x<2>, x<1>)),
-                set(x<1>, x<2>)
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                to<Set>(foldable(x<1>, x<2>, x<2>)),
-                set(x<1>, x<2>)
+                to<Set>(foldable(ct_eq<1>{}, ct_eq<1>{})),
+                set(ct_eq<1>{})
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                to<Set>(foldable(x<1>, x<2>, x<3>)),
-                set(x<1>, x<2>, x<3>)
+                to<Set>(foldable(ct_eq<1>{}, ct_eq<2>{})),
+                set(ct_eq<1>{}, ct_eq<2>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                to<Set>(foldable(x<1>, x<2>, x<3>, x<2>, x<1>)),
-                set(x<1>, x<2>, x<3>)
+                to<Set>(foldable(ct_eq<1>{}, ct_eq<2>{}, ct_eq<1>{})),
+                set(ct_eq<1>{}, ct_eq<2>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                to<Set>(foldable(ct_eq<1>{}, ct_eq<2>{}, ct_eq<2>{})),
+                set(ct_eq<1>{}, ct_eq<2>{})
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                to<Set>(foldable(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{})),
+                set(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                to<Set>(foldable(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<2>{}, ct_eq<1>{})),
+                set(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{})
             ));
         }
     }
 
+#elif BOOST_HANA_TEST_PART == 2
+    //////////////////////////////////////////////////////////////////////////
     // Comparable
+    //////////////////////////////////////////////////////////////////////////
     {
-        using test::x;
-
         // equal
         {
-            BOOST_HANA_CONSTEXPR_LAMBDA auto check = [](auto ...keys) {
+            auto check = [](auto ...keys) {
                 return and_(
                     all_of(permutations(make<Tuple>(keys...)), [=](auto perm) {
                         return equal(to<Set>(perm), set(keys...));
                     }),
-                    not_(equal(set(keys...), set(keys..., x<999>)))
+                    not_(equal(set(keys...), set(keys..., ct_eq<999>{})))
                 );
             };
 
             BOOST_HANA_CONSTANT_CHECK(check());
-            BOOST_HANA_CONSTANT_CHECK(check(x<0>));
-            BOOST_HANA_CONSTANT_CHECK(check(x<0>, x<1>));
-            BOOST_HANA_CONSTANT_CHECK(check(x<0>, x<1>, x<2>));
+            BOOST_HANA_CONSTANT_CHECK(check(ct_eq<0>{}));
+            BOOST_HANA_CONSTANT_CHECK(check(ct_eq<0>{}, ct_eq<1>{}));
+            BOOST_HANA_CONSTANT_CHECK(check(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}));
         }
+
+        // laws
+        test::TestComparable<Set>{eqs};
     }
 
+#elif BOOST_HANA_TEST_PART == 3
+    //////////////////////////////////////////////////////////////////////////
     // Searchable
+    //////////////////////////////////////////////////////////////////////////
     {
-        using test::x;
-
         // any_of
         {
-            BOOST_HANA_CONSTANT_CHECK(not_(any_of(set(), equal.to(x<1>))));
+            BOOST_HANA_CONSTANT_CHECK(
+                not_(any_of(set(), equal.to(ct_eq<1>{})))
+            );
 
-            BOOST_HANA_CONSTANT_CHECK(any_of(set(x<1>), equal.to(x<1>)));
-            BOOST_HANA_CONSTANT_CHECK(not_(any_of(set(x<1>), equal.to(x<2>))));
+            BOOST_HANA_CONSTANT_CHECK(
+                any_of(set(ct_eq<1>{}), equal.to(ct_eq<1>{}))
+            );
+            BOOST_HANA_CONSTANT_CHECK(
+                not_(any_of(set(ct_eq<1>{}), equal.to(ct_eq<2>{})))
+            );
 
-            BOOST_HANA_CONSTANT_CHECK(any_of(set(x<1>, x<2>), equal.to(x<1>)));
-            BOOST_HANA_CONSTANT_CHECK(any_of(set(x<1>, x<2>), equal.to(x<2>)));
-            BOOST_HANA_CONSTANT_CHECK(not_(any_of(set(x<1>, x<2>), equal.to(x<3>))));
+            BOOST_HANA_CONSTANT_CHECK(
+                any_of(set(ct_eq<1>{}, ct_eq<2>{}), equal.to(ct_eq<1>{}))
+            );
+            BOOST_HANA_CONSTANT_CHECK(
+                any_of(set(ct_eq<1>{}, ct_eq<2>{}), equal.to(ct_eq<2>{}))
+            );
+            BOOST_HANA_CONSTANT_CHECK(
+                not_(any_of(set(ct_eq<1>{}, ct_eq<2>{}), equal.to(ct_eq<3>{})))
+            );
         }
 
         // find_if
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find_if(set(), equal.to(x<1>)),
+                find_if(set(), equal.to(ct_eq<1>{})),
                 nothing
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find_if(set(x<1>), equal.to(x<1>)),
-                just(x<1>)
+                find_if(set(ct_eq<1>{}), equal.to(ct_eq<1>{})),
+                just(ct_eq<1>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find_if(set(x<1>), equal.to(x<2>)),
+                find_if(set(ct_eq<1>{}), equal.to(ct_eq<2>{})),
                 nothing
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find_if(set(x<1>, x<2>), equal.to(x<1>)),
-                just(x<1>)
+                find_if(set(ct_eq<1>{}, ct_eq<2>{}), equal.to(ct_eq<1>{})),
+                just(ct_eq<1>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find_if(set(x<1>, x<2>), equal.to(x<2>)),
-                just(x<2>)
+                find_if(set(ct_eq<1>{}, ct_eq<2>{}), equal.to(ct_eq<2>{})),
+                just(ct_eq<2>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find_if(set(x<1>, x<2>), equal.to(x<3>)),
+                find_if(set(ct_eq<1>{}, ct_eq<2>{}), equal.to(ct_eq<3>{})),
                 nothing
             ));
         }
+
+        // laws
+        auto eqs = make<Tuple>(
+            set(),
+            set(ct_eq<0>{}),
+            set(ct_eq<0>{}, ct_eq<1>{}),
+            set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})
+        );
+        auto keys = make<Tuple>(ct_eq<2>{}, ct_eq<3>{});
+        test::TestSearchable<Set>{eqs, keys};
     }
 
+#elif BOOST_HANA_TEST_PART == 4
+    //////////////////////////////////////////////////////////////////////////
     // Foldable
+    //////////////////////////////////////////////////////////////////////////
     {
+        // unpack
         auto list = test::seq;
-        using test::x;
-        auto f = test::injection([]{});
+        test::_injection<0> f{};
 
         auto check = [=](auto ...xs) {
             auto possible_results = transform(permutations(list(xs...)), [=](auto perm) {
@@ -249,9 +269,13 @@ int main() {
         };
 
         check();
-        check(x<1>);
-        check(x<1>, x<2>);
-        check(x<1>, x<2>, x<3>);
-        check(x<1>, x<2>, x<3>, x<4>);
+        check(ct_eq<1>{});
+        check(ct_eq<1>{}, ct_eq<2>{});
+        check(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{});
+        check(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{});
+
+        // laws
+        test::TestFoldable<Set>{eqs};
     }
+#endif
 }

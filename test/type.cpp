@@ -10,8 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/tuple.hpp>
 
-#include <test/auto/base.hpp>
-#include <test/auto/comparable.hpp>
+#include <laws/comparable.hpp>
 
 #include <type_traits>
 using namespace boost::hana;
@@ -19,29 +18,10 @@ using namespace boost::hana;
 
 struct T { }; struct U;
 
-namespace boost { namespace hana { namespace test {
-    template <>
-    auto instances<Type> = make<Tuple>(type<Comparable>);
-
-    template <>
-    auto objects<Type> = make<Tuple>(
-        type<void>,
-        type<char>,
-        type<T>,
-        type<T*>,
-        type<T&>,
-        type<T&&>,
-        type<T const>,
-        type<T volatile>,
-        type<T const volatile>
-    );
-}}}
-
-
 int main() {
-    test::check_datatype<Type>();
-
+    //////////////////////////////////////////////////////////////////////////
     // Type interface and helper functions
+    //////////////////////////////////////////////////////////////////////////
     {
         // decltype_
         {
@@ -100,7 +80,9 @@ int main() {
         }
     }
 
+    //////////////////////////////////////////////////////////////////////////
     // Comparable
+    //////////////////////////////////////////////////////////////////////////
     {
         // equal
         {
@@ -119,5 +101,19 @@ int main() {
             auto t = type<T>;
             static_assert(equal(t, type<T>), "");
         }
+
+        // laws
+        auto types = make<Tuple>(
+            type<void>,
+            type<char>,
+            type<T>,
+            type<T*>,
+            type<T&>,
+            type<T&&>,
+            type<T const>,
+            type<T volatile>,
+            type<T const volatile>
+        );
+        test::TestComparable<Type>{types};
     }
 }

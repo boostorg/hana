@@ -29,6 +29,24 @@ Distributed under the Boost Software License, Version 1.0.
 #include <vector>
 
 
+#if defined(BOOST_HANA_TEST_SEQUENCE_KNOWN_PARTS) && \
+    BOOST_HANA_TEST_SEQUENCE_KNOWN_PARTS != 3
+#   error The Sequence laws are currently split into 3 different parts. \
+          Your unit test must have gone out of sync.
+#endif
+
+#if defined(BOOST_HANA_TEST_SEQUENCE_PART) && \
+    !defined(BOOST_HANA_TEST_SEQUENCE_KNOWN_PARTS)
+#   error When splitting the Sequence test into subparts, you must define \
+          the BOOST_HANA_TEST_SEQUENCE_KNOWN_PARTS macro to the number of \
+          parts in the Sequence test to make sure your tests stay in sync.
+#endif
+
+#if defined(BOOST_HANA_TEST_SEQUENCE_PART) && BOOST_HANA_TEST_SEQUENCE_PART > 3
+#   error BOOST_HANA_TEST_SEQUENCE_PART must not be defined or              \
+          it must be a number in {1, 2, 3}
+#endif
+
 namespace boost { namespace hana { namespace test {
     template <typename S, typename = when<true>>
     struct TestSequence : TestSequence<S, laws> {
@@ -62,6 +80,7 @@ namespace boost { namespace hana { namespace test {
         TestSequence() {
             constexpr auto list = make<S>;
 
+#if !defined(BOOST_HANA_TEST_SEQUENCE_PART) || BOOST_HANA_TEST_SEQUENCE_PART == 1
             //////////////////////////////////////////////////////////////////
             // Check for basic data type consistency
             //////////////////////////////////////////////////////////////////
@@ -613,6 +632,7 @@ namespace boost { namespace hana { namespace test {
             ));
             }
 
+#elif !defined(BOOST_HANA_TEST_SEQUENCE_PART) || BOOST_HANA_TEST_SEQUENCE_PART == 2
 
             //////////////////////////////////////////////////////////////////
             // take_while
@@ -980,6 +1000,8 @@ namespace boost { namespace hana { namespace test {
                 )
             ));
             }
+
+#elif !defined(BOOST_HANA_TEST_SEQUENCE_PART) || BOOST_HANA_TEST_SEQUENCE_PART == 3
 
             //////////////////////////////////////////////////////////////////
             // unfoldl
@@ -1499,6 +1521,7 @@ namespace boost { namespace hana { namespace test {
                 )
             ));
             }
+#endif
         }
     };
 }}} // end namespace boost::hana::test

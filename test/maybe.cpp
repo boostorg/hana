@@ -14,51 +14,21 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
 
-#include <test/auto/applicative.hpp>
-#include <test/auto/base.hpp>
-#include <test/auto/comparable.hpp>
-#include <test/auto/foldable.hpp>
-#include <test/auto/functor.hpp>
-#include <test/auto/monad.hpp>
-#include <test/auto/monad_plus.hpp>
-#include <test/auto/orderable.hpp>
-#include <test/auto/searchable.hpp>
-#include <test/auto/traversable.hpp>
-#include <test/cnumeric.hpp>
+#include <laws/applicative.hpp>
+#include <laws/base.hpp>
+#include <laws/comparable.hpp>
+#include <laws/foldable.hpp>
+#include <laws/functor.hpp>
+#include <laws/monad.hpp>
+#include <laws/monad_plus.hpp>
+#include <laws/orderable.hpp>
+#include <laws/searchable.hpp>
+#include <laws/traversable.hpp>
 #include <test/identity.hpp>
-#include <test/injection.hpp>
 
 #include <type_traits>
 using namespace boost::hana;
 
-
-template <int i>
-constexpr auto ord = test::cnumeric<int, i>;
-
-namespace boost { namespace hana { namespace test {
-    template <>
-    auto instances<Maybe> = make<Tuple>(
-        type<Comparable>,
-        type<Orderable>,
-
-        type<Functor>,
-        type<Applicative>,
-        type<Monad>,
-        type<MonadPlus>,
-        type<Traversable>,
-
-        type<Foldable>,
-        type<Searchable>
-    );
-
-    template <>
-    auto objects<Maybe> = make<Tuple>(
-        nothing,
-        just(ord<0>),
-        just(ord<1>),
-        just(ord<2>)
-    );
-}}}
 
 template <typename ...>
 using void_t = void;
@@ -71,15 +41,38 @@ struct has_type<T, void_t<typename T::type>>
     : std::true_type
 { };
 
-int main() {
-    test::check_datatype<Maybe>();
-    constexpr struct { } undefined{};
+struct undefined { };
 
+using test::ct_eq;
+using test::ct_ord;
+
+int main() {
+    auto ords = make<Tuple>(
+        nothing, just(ct_ord<0>{}), just(ct_ord<1>{}), just(ct_ord<2>{})
+    );
+    (void)ords;
+
+    auto eqs = make<Tuple>(
+        nothing, just(ct_eq<0>{}), just(ct_eq<1>{}), just(ct_eq<2>{})
+    );
+    (void)eqs;
+
+    auto eq_values = make<Tuple>(ct_eq<0>{}, ct_eq<2>{}, ct_eq<3>{});
+    (void)eq_values;
+
+    auto nested_eqs = make<Tuple>(
+        nothing, just(just(ct_eq<0>{})), just(nothing), just(just(ct_eq<2>{}))
+    );
+    (void)nested_eqs;
+
+#if BOOST_HANA_TEST_PART == 1
+    //////////////////////////////////////////////////////////////////////////
     // Maybe interface
+    //////////////////////////////////////////////////////////////////////////
     {
-        auto f = test::injection([]{});
-        auto x = test::injection([]{})();
-        auto y = test::injection([]{})();
+        test::_injection<0> f{};
+        test::ct_eq<2> x{};
+        test::ct_eq<3> y{};
 
         // Interaction with Type (has a nested ::type)
         {
@@ -90,19 +83,19 @@ int main() {
 
         // maybe
         {
-            BOOST_HANA_CONSTANT_CHECK(equal(maybe(x, undefined, nothing), x));
-            BOOST_HANA_CONSTANT_CHECK(equal(maybe(undefined, f, just(x)), f(x)));
+            BOOST_HANA_CONSTANT_CHECK(equal(maybe(x, undefined{}, nothing), x));
+            BOOST_HANA_CONSTANT_CHECK(equal(maybe(undefined{}, f, just(x)), f(x)));
         }
 
         // is_nothing
         {
             BOOST_HANA_CONSTANT_CHECK(is_nothing(nothing));
-            BOOST_HANA_CONSTANT_CHECK(not_(is_nothing(just(undefined))));
+            BOOST_HANA_CONSTANT_CHECK(not_(is_nothing(just(undefined{}))));
         }
 
         // is_just
         {
-            BOOST_HANA_CONSTANT_CHECK(is_just(just(undefined)));
+            BOOST_HANA_CONSTANT_CHECK(is_just(just(undefined{})));
             BOOST_HANA_CONSTANT_CHECK(not_(is_just(nothing)));
         }
 
@@ -115,7 +108,7 @@ int main() {
         // from_maybe
         {
             BOOST_HANA_CONSTANT_CHECK(equal(from_maybe(x, nothing), x));
-            BOOST_HANA_CONSTANT_CHECK(equal(from_maybe(undefined, just(y)), y));
+            BOOST_HANA_CONSTANT_CHECK(equal(from_maybe(undefined{}, just(y)), y));
         }
 
         // only_when
@@ -129,16 +122,14 @@ int main() {
                 nothing
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                only_when(always(false_), undefined, x),
+                only_when(always(false_), undefined{}, x),
                 nothing
             ));
         }
 
         // sfinae
         {
-            struct invalid { };
-            auto f = test::injection([]{});
-            using test::x;
+            test::_injection<0> f{};
 
             BOOST_HANA_CONSTANT_CHECK(equal(
                 sfinae(f)(),
@@ -146,27 +137,27 @@ int main() {
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                sfinae(f)(x<0>),
-                just(f(x<0>))
+                sfinae(f)(ct_eq<0>{}),
+                just(f(ct_eq<0>{}))
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                sfinae(f)(x<0>, x<1>),
-                just(f(x<0>, x<1>))
+                sfinae(f)(ct_eq<0>{}, ct_eq<1>{}),
+                just(f(ct_eq<0>{}, ct_eq<1>{}))
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                sfinae(invalid{})(),
+                sfinae(undefined{})(),
                 nothing
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                sfinae(invalid{})(x<0>),
+                sfinae(undefined{})(ct_eq<0>{}),
                 nothing
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                sfinae(invalid{})(x<0>, x<1>),
+                sfinae(undefined{})(ct_eq<0>{}, ct_eq<1>{}),
                 nothing
             ));
 
@@ -178,7 +169,7 @@ int main() {
                 incr(1), just(2)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                incr(invalid{}), nothing
+                incr(undefined{}), nothing
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
                 bind(just(1), incr), just(2)
@@ -186,12 +177,15 @@ int main() {
         }
     }
 
+#elif BOOST_HANA_TEST_PART == 2
+    //////////////////////////////////////////////////////////////////////////
     // Comparable
+    //////////////////////////////////////////////////////////////////////////
     {
         // equal
         {
-            auto x = test::injection([]{})();
-            auto y = test::injection([]{})();
+            test::ct_eq<3> x{};
+            test::ct_eq<4> y{};
 
             BOOST_HANA_CONSTANT_CHECK(equal(nothing, nothing));
             BOOST_HANA_CONSTANT_CHECK(not_(equal(nothing, just(x))));
@@ -199,95 +193,198 @@ int main() {
             BOOST_HANA_CONSTANT_CHECK(equal(just(x), just(x)));
             BOOST_HANA_CONSTANT_CHECK(not_(equal(just(x), just(y))));
         }
+
+        // laws
+        test::TestComparable<Maybe>{eqs};
     }
 
+#elif BOOST_HANA_TEST_PART == 3
+    //////////////////////////////////////////////////////////////////////////
     // Orderable
+    //////////////////////////////////////////////////////////////////////////
     {
         // less
         {
-            BOOST_HANA_CONSTANT_CHECK(less(nothing, just(undefined)));
-            BOOST_HANA_CONSTANT_CHECK(not_(less(just(undefined), nothing)));
-            BOOST_HANA_CONSTANT_CHECK(not_(less(nothing, nothing)));
+            BOOST_HANA_CONSTANT_CHECK(less(
+                nothing,
+                just(undefined{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(not_(less(
+                just(undefined{}),
+                nothing
+            )));
+            BOOST_HANA_CONSTANT_CHECK(not_(less(
+                nothing,
+                nothing
+            )));
 
-            BOOST_HANA_CONSTANT_CHECK(less(just(ord<0>), just(ord<1>)));
-            BOOST_HANA_CONSTANT_CHECK(not_(less(just(ord<0>), just(ord<0>))));
-            BOOST_HANA_CONSTANT_CHECK(not_(less(just(ord<1>), just(ord<0>))));
+            BOOST_HANA_CONSTANT_CHECK(less(
+                just(ct_ord<3>{}),
+                just(ct_ord<4>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(not_(less(
+                just(ct_ord<3>{}),
+                just(ct_ord<3>{})
+            )));
+            BOOST_HANA_CONSTANT_CHECK(not_(less(
+                just(ct_ord<4>{}),
+                just(ct_ord<3>{})
+            )));
         }
+
+        // laws
+        test::TestOrderable<Maybe>{ords};
     }
 
+#elif BOOST_HANA_TEST_PART == 4
+    //////////////////////////////////////////////////////////////////////////
     // Functor
+    //////////////////////////////////////////////////////////////////////////
     {
         // transform
         {
-            auto f = test::injection([]{});
-            auto x = test::injection([]{})();
+            test::_injection<0> f{};
 
-            BOOST_HANA_CONSTANT_CHECK(equal(transform(nothing, f), nothing));
-            BOOST_HANA_CONSTANT_CHECK(equal(transform(just(x), f), just(f(x))));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                transform(nothing, f),
+                nothing
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                transform(just(ct_eq<3>{}), f),
+                just(f(ct_eq<3>{}))
+            ));
         }
+
+        // laws
+        test::TestFunctor<Maybe>{eqs, eq_values};
     }
 
+    //////////////////////////////////////////////////////////////////////////
     // Applicative
+    //////////////////////////////////////////////////////////////////////////
     {
-        auto f = test::injection([]{});
-        auto x = test::injection([]{})();
+        test::_injection<0> f{};
 
         // ap
         {
-            BOOST_HANA_CONSTANT_CHECK(equal(ap(nothing, nothing), nothing));
-            BOOST_HANA_CONSTANT_CHECK(equal(ap(just(f), nothing), nothing));
-            BOOST_HANA_CONSTANT_CHECK(equal(ap(nothing, just(x)), nothing));
-            BOOST_HANA_CONSTANT_CHECK(equal(ap(just(f), just(x)), just(f(x))));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                ap(nothing, nothing),
+                nothing
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                ap(just(f), nothing),
+                nothing
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                ap(nothing, just(ct_eq<3>{})),
+                nothing
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                ap(just(f), just(ct_eq<3>{})),
+                just(f(ct_eq<3>{}))
+            ));
         }
 
         // lift
         {
-            BOOST_HANA_CONSTANT_CHECK(equal(lift<Maybe>(x), just(x)));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                lift<Maybe>(ct_eq<3>{}),
+                just(ct_eq<3>{})
+            ));
         }
+
+        // laws
+        test::TestApplicative<Maybe>{};
     }
 
+    //////////////////////////////////////////////////////////////////////////
     // Monad
+    //////////////////////////////////////////////////////////////////////////
     {
         // flatten
         {
-            auto x = test::injection([]{})();
-
-            BOOST_HANA_CONSTANT_CHECK(equal(flatten(nothing), nothing));
-            BOOST_HANA_CONSTANT_CHECK(equal(flatten(just(nothing)), nothing));
-            BOOST_HANA_CONSTANT_CHECK(equal(flatten(just(just(x))), just(x)));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                flatten(nothing),
+                nothing
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                flatten(just(nothing)),
+                nothing
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                flatten(just(just(ct_eq<4>{}))),
+                just(ct_eq<4>{})
+            ));
         }
+
+        // laws
+        test::TestMonad<Maybe>{eqs, nested_eqs};
     }
 
+    //////////////////////////////////////////////////////////////////////////
     // MonadPlus
+    //////////////////////////////////////////////////////////////////////////
     {
-        using test::x;
-
         // empty
         {
-            BOOST_HANA_CONSTANT_CHECK(equal(empty<Maybe>(), nothing));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                empty<Maybe>(),
+                nothing
+            ));
         }
 
         // concat
         {
             auto rv_nothing = [] { return nothing; }; // rvalue nothing
 
-            BOOST_HANA_CONSTANT_CHECK(equal(concat(rv_nothing(), nothing), nothing));
-            BOOST_HANA_CONSTANT_CHECK(equal(concat(nothing, rv_nothing()), nothing));
-            BOOST_HANA_CONSTANT_CHECK(equal(concat(rv_nothing(), rv_nothing()), nothing));
-            BOOST_HANA_CONSTANT_CHECK(equal(concat(rv_nothing(), just(x<0>)), just(x<0>)));
-            BOOST_HANA_CONSTANT_CHECK(equal(concat(just(x<0>), rv_nothing()), just(x<0>)));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                concat(rv_nothing(), nothing),
+                nothing
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                concat(nothing, rv_nothing()),
+                nothing
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                concat(rv_nothing(), rv_nothing()),
+                nothing
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                concat(rv_nothing(), just(ct_eq<0>{})),
+                just(ct_eq<0>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                concat(just(ct_eq<0>{}), rv_nothing()),
+                just(ct_eq<0>{})
+            ));
 
-            BOOST_HANA_CONSTANT_CHECK(equal(concat(nothing, nothing), nothing));
-            BOOST_HANA_CONSTANT_CHECK(equal(concat(nothing, just(x<0>)), just(x<0>)));
-            BOOST_HANA_CONSTANT_CHECK(equal(concat(just(x<0>), nothing), just(x<0>)));
-            BOOST_HANA_CONSTANT_CHECK(equal(concat(just(x<0>), just(x<1>)), just(x<0>)));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                concat(nothing, nothing), nothing
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                concat(nothing, just(ct_eq<0>{})),
+                just(ct_eq<0>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                concat(just(ct_eq<0>{}), nothing),
+                just(ct_eq<0>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                concat(just(ct_eq<0>{}), just(ct_eq<1>{})),
+                just(ct_eq<0>{})
+            ));
         }
+
+        // laws
+        test::TestMonadPlus<Maybe>{eqs};
     }
 
+#elif BOOST_HANA_TEST_PART == 5
+    //////////////////////////////////////////////////////////////////////////
     // Traversable
+    //////////////////////////////////////////////////////////////////////////
     {
-        auto f = test::injection([]{});
-        auto x = test::injection([]{})();
+        test::_injection<0> f{};
 
         auto applicative = test::identity;
         using A = test::Identity;
@@ -295,8 +392,8 @@ int main() {
         // traverse
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                traverse<A>(just(x), compose(applicative, f)),
-                applicative(just(f(x)))
+                traverse<A>(just(ct_eq<3>{}), compose(applicative, f)),
+                applicative(just(f(ct_eq<3>{})))
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
@@ -304,12 +401,17 @@ int main() {
                 applicative(nothing)
             ));
         }
+
+        // laws
+        test::TestTraversable<Maybe>{};
     }
 
+    //////////////////////////////////////////////////////////////////////////
     // Searchable
+    //////////////////////////////////////////////////////////////////////////
     {
-        auto x = test::injection([]{})();
-        auto y = test::injection([]{})();
+        test::ct_eq<2> x{};
+        test::ct_eq<3> y{};
 
         // find_if
         {
@@ -340,13 +442,19 @@ int main() {
             BOOST_HANA_CONSTANT_CHECK(not_(any_of(just(x), equal.to(y))));
             BOOST_HANA_CONSTANT_CHECK(not_(any_of(nothing, equal.to(x))));
         }
+
+        // laws
+        test::TestSearchable<Maybe>{eqs, eq_values};
     }
 
+#elif BOOST_HANA_TEST_PART == 6
+    //////////////////////////////////////////////////////////////////////////
     // Foldable
+    //////////////////////////////////////////////////////////////////////////
     {
-        auto x = test::injection([]{})();
-        auto s = test::injection([]{})();
-        auto f = test::injection([]{});
+        test::ct_eq<2> x{};
+        test::ct_eq<3> s{};
+        test::_injection<0> f{};
 
         // foldl
         {
@@ -369,5 +477,9 @@ int main() {
             auto non_const_nothing = nothing;
             BOOST_HANA_CONSTANT_CHECK(equal(unpack(non_const_nothing, f), f()));
         }
+
+        // laws
+        test::TestFoldable<Maybe>{eqs};
     }
+#endif
 }

@@ -2,9 +2,9 @@
 # Distributed under the Boost Software License, Version 1.0.
 # (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
-#=============================================================================
-# Setup unit tests
-#=============================================================================
+##############################################################################
+# Setup master test targets and file lists
+##############################################################################
 
 # Allows putting stuff that's only relevant to the unit tests in the
 # test/include subdirectory.
@@ -26,9 +26,13 @@ add_custom_target(compile.headers
 add_dependencies(compile.tests compile.headers)
 
 # A list of all the test files
+# Source files that are not available due to caveats are removed from this
+# list below.
 file(GLOB_RECURSE BOOST_HANA_TEST_SOURCES "*.cpp")
 
-# A list of all the public headers
+# A list of all the public headers.
+# Header files that are not available due to caveats are removed from this
+# list below.
 file(GLOB_RECURSE BOOST_HANA_PUBLIC_HEADERS
     RELATIVE "${CMAKE_CURRENT_LIST_DIR}/../include"
     "${CMAKE_CURRENT_LIST_DIR}/../include/*.hpp")
@@ -37,6 +41,29 @@ file(GLOB_RECURSE _detail_headers
     "${CMAKE_CURRENT_LIST_DIR}/../include/boost/hana/detail/*.hpp"
     "${CMAKE_CURRENT_LIST_DIR}/../include/boost/hana/sandbox/*.hpp")
 list(REMOVE_ITEM BOOST_HANA_PUBLIC_HEADERS ${_detail_headers})
+
+# A list of all the unit tests that are split into subparts to reduce the
+# load on the compiler.
+#
+# This list must not be modified by the caveats below; when a source file is
+# not available in BOOST_HANA_TEST_SOURCES, it won't be split regardless of
+# whether it appears in this list.
+file(GLOB_RECURSE BOOST_HANA_SPLIT_TEST_SOURCES
+    "cnumeric.cpp"
+    "detail/canonical_constant.cpp"
+    "either.cpp"
+    "ext/std/integral_constant.cpp"
+    "ext/std/tuple.cpp"
+    "maybe.cpp"
+    "minimal_record.cpp"
+    "set.cpp"
+    "string.cpp"
+)
+
+
+##############################################################################
+# Caveats
+##############################################################################
 
 # If Boost is not found, remove the headers that require Boost from the list
 # of public headers and the tests that require Boost from the list of tests.
@@ -80,7 +107,7 @@ if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND
         "boost/hana/fwd/ext/std/tuple.hpp"
         "boost/hana/ext/std/tuple.hpp")
 
-    file(GLOB_RECURSE _ext_std_tuple_tests "ext/std/tuple/*.cpp")
+    file(GLOB_RECURSE _ext_std_tuple_tests "ext/std/tuple.cpp")
     list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${_ext_std_tuple_tests})
 endif()
 
@@ -111,19 +138,10 @@ endif()
 file(GLOB_RECURSE _ext_fusion_broken_tests "ext/boost/fusion/*.cpp")
 list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${_ext_fusion_broken_tests})
 
-# Add all the unit tests
-foreach(file IN LISTS BOOST_HANA_TEST_SOURCES)
-    boost_hana_target_name_for(_target "${file}")
-    add_executable(compile.${_target} EXCLUDE_FROM_ALL "${file}")
-    target_link_libraries(compile.${_target} c++)
-    add_dependencies(compile.tests compile.${_target})
-    add_custom_target(run.${_target} COMMAND compile.${_target})
 
-    add_test(NAME ${_target} COMMAND compile.${_target})
-endforeach()
-
-# Generate tests that include each public header and add them to the
-# test.headers target.
+##############################################################################
+# Generate tests that include each public header.
+##############################################################################
 foreach(header IN LISTS BOOST_HANA_PUBLIC_HEADERS)
     string(REGEX REPLACE "/" "." header_name "${header}")
     if (NOT EXISTS "${CMAKE_CURRENT_BINARY_DIR}/header/${header}.cpp")
@@ -137,4 +155,59 @@ foreach(header IN LISTS BOOST_HANA_PUBLIC_HEADERS)
     add_dependencies(compile.headers compile.header.${header_name})
 
     add_test(NAME header.${header_name} COMMAND compile.header.${header_name})
+endforeach()
+
+
+##############################################################################
+# Split specially marked unit tests into subparts to avoid long compile-times,
+# OOMs on Travis and other inconveniences.
+##############################################################################
+foreach(_file IN LISTS BOOST_HANA_SPLIT_TEST_SOURCES)
+    # We only process the file if it appears in the list of all tests,
+    # which means it was not removed in the caveats above.
+    list(FIND BOOST_HANA_TEST_SOURCES "${_file}" _index)
+    if (NOT (${_index} EQUAL -1))
+        # Parse the file to find how it is split.
+        file(READ "${_file}" _contents)
+        string(REGEX MATCHALL "BOOST_HANA_TEST_PART == ([0-9]+)" _parts "${_contents}")
+        string(REGEX REPLACE "BOOST_HANA_TEST_PART == ([0-9]+)" "\\1" _parts "${_parts}")
+        list(REMOVE_DUPLICATES _parts)
+
+        boost_hana_target_name_for(_target "${_file}")
+        add_custom_target(compile.${_target})
+        add_dependencies(compile.tests compile.${_target})
+        add_custom_target(run.${_target})
+
+        foreach(_part IN LISTS _parts)
+            set(_ptarget "${_target}.part${_part}")
+            add_executable(compile.${_ptarget} EXCLUDE_FROM_ALL "${_file}")
+            set_target_properties(compile.${_ptarget}
+                PROPERTIES COMPILE_DEFINITIONS "BOOST_HANA_TEST_PART=${_part}")
+            target_link_libraries(compile.${_ptarget} c++)
+            add_dependencies(compile.${_target} compile.${_ptarget})
+
+            add_custom_target(run.${_ptarget} COMMAND compile.${_ptarget})
+            add_dependencies(run.${_target} run.${_ptarget})
+
+            add_test(NAME ${_ptarget} COMMAND compile.${_ptarget})
+        endforeach()
+    endif()
+endforeach()
+
+# We remove the unit tests that were split into subparts so we don't
+# add them twice.
+list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${BOOST_HANA_SPLIT_TEST_SOURCES})
+
+
+##############################################################################
+# Add all the remaining regular unit tests
+##############################################################################
+foreach(file IN LISTS BOOST_HANA_TEST_SOURCES)
+    boost_hana_target_name_for(_target "${file}")
+    add_executable(compile.${_target} EXCLUDE_FROM_ALL "${file}")
+    target_link_libraries(compile.${_target} c++)
+    add_dependencies(compile.tests compile.${_target})
+    add_custom_target(run.${_target} COMMAND compile.${_target})
+
+    add_test(NAME ${_target} COMMAND compile.${_target})
 endforeach()

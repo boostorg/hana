@@ -8,63 +8,79 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/comparable.hpp>
-#include <boost/hana/core/operators.hpp>
 #include <boost/hana/functional/curry.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
 
-#include <test/auto/base.hpp>
-#include <test/injection.hpp>
-
-// tested instances
-#include <test/auto/constant.hpp>
-#include <test/auto/logical.hpp>
+#include <laws/base.hpp>
+#include <laws/comparable.hpp>
+#include <laws/constant.hpp>
+#include <laws/enumerable.hpp>
+#include <laws/group.hpp>
+#include <laws/integral_domain.hpp>
+#include <laws/logical.hpp>
+#include <laws/monoid.hpp>
+#include <laws/orderable.hpp>
+#include <laws/ring.hpp>
 using namespace boost::hana;
 
 
-namespace boost { namespace hana { namespace test {
-    template <typename T>
-    auto instances<CNumeric<T>> = make<Tuple>(
-        type<Constant>,
-        type<Logical>
-    );
-
-    template <typename T>
-    auto objects<CNumeric<T>> = make<Tuple>(
-        cnumeric<T, 0>,
-        cnumeric<T, 1>,
-        cnumeric<T, 2>,
-        cnumeric<T, 3>
-    );
-}}}
-
-namespace boost { namespace hana {
-    template <typename T>
-    struct operators::of<test::CNumeric<T>>
-        : operators::of<Logical>
-    { };
-}}
-
+struct invalid { };
+using test::ct_eq;
 
 int main() {
-    test::check_datatype<test::CNumeric<int>>();
+    auto ints = make<Tuple>(
+        test::cnumeric<int, -3>,
+        test::cnumeric<int, 0>,
+        test::cnumeric<int, 1>,
+        test::cnumeric<int, 2>,
+        test::cnumeric<int, 3>
+    );
+    (void)ints;
 
+#if BOOST_HANA_TEST_PART == 1
+    //////////////////////////////////////////////////////////////////////////
     // Constant
+    //////////////////////////////////////////////////////////////////////////
     {
         // value
-        {
-            static_assert(value(test::cnumeric<int, 0>) == 0, "");
-            static_assert(value(test::cnumeric<int, 1>) == 1, "");
-        }
+        static_assert(value(test::cnumeric<int, 0>) == 0, "");
+        static_assert(value(test::cnumeric<int, 1>) == 1, "");
+
+        // laws
+        test::TestConstant<test::CNumeric<int>>{ints};
     }
 
-    // Logical
+    //////////////////////////////////////////////////////////////////////////
+    // Enumerable, Monoid, Group, Ring, IntegralDomain
+    //////////////////////////////////////////////////////////////////////////
     {
-        struct invalid { };
+        test::TestEnumerable<test::CNumeric<int>>{ints};
+        test::TestMonoid<test::CNumeric<int>>{ints};
+        test::TestGroup<test::CNumeric<int>>{ints};
+        test::TestRing<test::CNumeric<int>>{ints};
+        test::TestIntegralDomain<test::CNumeric<int>>{ints};
+    }
+
+#elif BOOST_HANA_TEST_PART == 2
+    //////////////////////////////////////////////////////////////////////////
+    // Comparable
+    //////////////////////////////////////////////////////////////////////////
+    test::TestComparable<test::CNumeric<int>>{ints};
+
+#elif BOOST_HANA_TEST_PART == 3
+    //////////////////////////////////////////////////////////////////////////
+    // Orderable
+    //////////////////////////////////////////////////////////////////////////
+    test::TestOrderable<test::CNumeric<int>>{ints};
+
+#elif BOOST_HANA_TEST_PART == 4
+    //////////////////////////////////////////////////////////////////////////
+    // Logical
+    //////////////////////////////////////////////////////////////////////////
+    {
         constexpr auto true_ = test::cnumeric<bool, true>;
         constexpr auto false_ = test::cnumeric<bool, false>;
-        constexpr auto x = test::cnumeric<int, 1>;
-        constexpr auto y = test::cnumeric<int, 2>;
 
         // not_
         {
@@ -158,25 +174,25 @@ int main() {
         // if_
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                if_(true_, x, y), x
+                if_(true_, ct_eq<3>{}, ct_eq<4>{}), ct_eq<3>{}
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                if_(false_, x, y), y
+                if_(false_, ct_eq<3>{}, ct_eq<4>{}), ct_eq<4>{}
             ));
         }
 
         // eval_if
         {
-            auto t = [=](auto) { return x; };
-            auto e = [=](auto) { return y; };
+            auto t = [](auto) { return ct_eq<2>{}; };
+            auto e = [](auto) { return ct_eq<3>{}; };
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                eval_if(true_, t, invalid{}), x
+                eval_if(true_, t, invalid{}), ct_eq<2>{}
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                eval_if(false_, invalid{}, e), y
+                eval_if(false_, invalid{}, e), ct_eq<3>{}
             ));
         }
 
@@ -187,62 +203,46 @@ int main() {
 
         // until
         {
-            using test::x;
             auto equal_to = curry<2>(equal);
-
-            struct { } invalid{};
-            auto f = test::injection([]{});
+            test::_injection<0> f{};
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                until(equal_to(x<0>), x<0>, invalid),
-                x<0>
+                until(equal_to(ct_eq<0>{}), ct_eq<0>{}, invalid{}),
+                ct_eq<0>{}
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                until(equal_to(f(x<0>)), x<0>, f),
-                f(x<0>)
+                until(equal_to(f(ct_eq<0>{})), ct_eq<0>{}, f),
+                f(ct_eq<0>{})
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                until(equal_to(f(f(x<0>))), x<0>, f),
-                f(f(x<0>))
+                until(equal_to(f(f(ct_eq<0>{}))), ct_eq<0>{}, f),
+                f(f(ct_eq<0>{}))
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                until(equal_to(f(f(f(x<0>)))), x<0>, f),
-                f(f(f(x<0>)))
+                until(equal_to(f(f(f(ct_eq<0>{})))), ct_eq<0>{}, f),
+                f(f(f(ct_eq<0>{})))
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                until(equal_to(f(f(f(f(x<0>))))), x<0>, f),
-                f(f(f(f(x<0>))))
+                until(equal_to(f(f(f(f(ct_eq<0>{}))))), ct_eq<0>{}, f),
+                f(f(f(f(ct_eq<0>{}))))
             ));
 
             // Make sure it can be called with an lvalue state:
-            auto state = x<0>;
+            auto state = ct_eq<0>{};
             BOOST_HANA_CONSTANT_CHECK(equal(
-                until(equal_to(f(f(f(f(x<0>))))), state, f),
-                f(f(f(f(x<0>))))
+                until(equal_to(f(f(f(f(ct_eq<0>{}))))), state, f),
+                f(f(f(f(ct_eq<0>{}))))
             ));
         }
 
-        // operators
-        {
-            using namespace boost::hana::operators;
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                !true_,
-                not_(true_)
-            ));
-
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                true_ && true_,
-                and_(true_, true_)
-            ));
-
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                false_ || false_,
-                or_(false_, false_)
-            ));
-        }
+        // laws
+        test::TestLogical<test::CNumeric<bool>>{make<Tuple>(
+            test::cnumeric<bool, true>, test::cnumeric<bool, false>
+        )};
     }
+#endif
 }

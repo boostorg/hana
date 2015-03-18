@@ -7,10 +7,16 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/canonical_constant.hpp>
 
 #include <boost/hana/tuple.hpp>
-#include <boost/hana/type.hpp>
 
-#include <test/auto/base.hpp>
-#include <test/auto/constant.hpp>
+#include <laws/comparable.hpp>
+#include <laws/constant.hpp>
+#include <laws/enumerable.hpp>
+#include <laws/group.hpp>
+#include <laws/integral_domain.hpp>
+#include <laws/logical.hpp>
+#include <laws/monoid.hpp>
+#include <laws/orderable.hpp>
+#include <laws/ring.hpp>
 using namespace boost::hana;
 
 
@@ -21,23 +27,60 @@ struct canonical {
     struct hana { using datatype = detail::CanonicalConstant<T>; };
 };
 
-namespace boost { namespace hana { namespace test {
-    template <typename T>
-    auto objects<detail::CanonicalConstant<T>> = make<Tuple>(
-        ::canonical<T, 0>{},
-        ::canonical<T, 1>{},
-        ::canonical<T, 2>{},
-        ::canonical<T, 3>{}
-    );
-
-    template <typename T>
-    auto instances<detail::CanonicalConstant<T>> = make<Tuple>(
-        type<Constant>
-    );
-}}}
-
-
 int main() {
-    test::check_datatype<detail::CanonicalConstant<int>>();
-    test::check_datatype<detail::CanonicalConstant<long>>();
+    auto ints = make<Tuple>(
+        canonical<int, -10>{}, canonical<int, -2>{}, canonical<int, 0>{},
+        canonical<int, 1>{}, canonical<int, 3>{}, canonical<int, 4>{}
+    );
+    (void)ints;
+
+    auto bools = make<Tuple>(canonical<bool, true>{}, canonical<bool, false>{});
+    (void)bools;
+
+    //////////////////////////////////////////////////////////////////////////
+    // Constant
+    //////////////////////////////////////////////////////////////////////////
+#if BOOST_HANA_TEST_PART == 1
+    test::TestConstant<detail::CanonicalConstant<int>>{ints};
+    test::TestConstant<detail::CanonicalConstant<bool>>{bools};
+#endif
+
+    //////////////////////////////////////////////////////////////////////////
+    // Enumerable, Monoid, Group, Ring, IntegralDomain
+    //////////////////////////////////////////////////////////////////////////
+#if BOOST_HANA_TEST_PART == 2
+    test::TestEnumerable<detail::CanonicalConstant<int>>{ints};
+    test::TestMonoid<detail::CanonicalConstant<int>>{ints};
+    test::TestGroup<detail::CanonicalConstant<int>>{ints};
+#endif
+
+#if BOOST_HANA_TEST_PART == 3
+    test::TestRing<detail::CanonicalConstant<int>>{ints};
+#endif
+
+#if BOOST_HANA_TEST_PART == 4
+    test::TestIntegralDomain<detail::CanonicalConstant<int>>{ints};
+#endif
+
+    //////////////////////////////////////////////////////////////////////////
+    // Logical
+    //////////////////////////////////////////////////////////////////////////
+#if BOOST_HANA_TEST_PART == 5
+    {
+        auto ints = make<Tuple>(
+            canonical<int, -2>{}, canonical<int, 0>{},
+            canonical<int, 1>{}, canonical<int, 3>{}
+        );
+        test::TestLogical<detail::CanonicalConstant<int>>{ints};
+        test::TestLogical<detail::CanonicalConstant<bool>>{bools};
+    }
+#endif
+
+    //////////////////////////////////////////////////////////////////////////
+    // Comparable and Orderable
+    //////////////////////////////////////////////////////////////////////////
+#if BOOST_HANA_TEST_PART == 6
+    test::TestComparable<detail::CanonicalConstant<int>>{ints};
+    test::TestOrderable<detail::CanonicalConstant<int>>{ints};
+#endif
 }
