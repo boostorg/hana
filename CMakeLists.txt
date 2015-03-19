@@ -2,17 +2,17 @@
 # Distributed under the Boost Software License, Version 1.0.
 # (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
-#=============================================================================
+##############################################################################
 # Setup project
-#=============================================================================
+##############################################################################
 project(Boost.Hana CXX)
 cmake_minimum_required(VERSION 3.0)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 
-#=============================================================================
+##############################################################################
 # Setup CMake options
-#=============================================================================
+##############################################################################
 include(CMakeDependentOption)
 option(BOOST_HANA_ENABLE_PEDANTIC "Compile with pedantic enabled." ON)
 option(BOOST_HANA_ENABLE_WERROR   "Fail and stop if a warning is triggered." OFF)
@@ -20,9 +20,9 @@ option(BOOST_HANA_ENABLE_CXX1Y    "Use the -std=c++1y switch if the compiler sup
 option(BOOST_HANA_ENABLE_LIBCXX   "Use the -stdlib=libc++ if the compiler supports it." ON)
 
 
-#=============================================================================
+##############################################################################
 # Setup compiler flags
-#=============================================================================
+##############################################################################
 include(CheckCXXCompilerFlag)
 macro(boost_hana_append_flag lst testname flag)
     check_cxx_compiler_flag(${flag} ${testname})
@@ -70,12 +70,12 @@ add_compile_options(
 )
 
 
-#=============================================================================
+##############################################################################
 # Search for packages.
 #
 # Behavior when the package is found or not is customized at the
 # point where the package is required.
-#=============================================================================
+##############################################################################
 find_package(Boost)
 find_package(Doxygen)
 find_package(Git)
@@ -85,33 +85,19 @@ if (Boost_FOUND)
 endif()
 
 
-#=============================================================================
+##############################################################################
 # Caveats
-#=============================================================================
+##############################################################################
 if (NOT Boost_FOUND)
     message(STATUS
     "The Boost library headers were not found; targets depending "
     "on Boost won't be available.")
 endif()
 
-if (Boost_FOUND)
-    if(${Boost_VERSION} LESS 105800)
-        message(STATUS "The Boost version was detected to be < 1.58.0; "
-                       "the fusion::deque and fusion::list adapters will "
-                       "not be supported.")
-    endif()
-endif()
 
-if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND
-    "${CMAKE_CXX_COMPILER_VERSION}" VERSION_LESS "3.7.0")
-    message(STATUS "The compiler was detected to be Clang < 3.7.0; "
-                   "the std::tuple adapter will not be supported.")
-endif()
-
-
-#=============================================================================
+##############################################################################
 # Setup subdirectories
-#=============================================================================
+##############################################################################
 add_custom_target(compile.all
     COMMENT "Build all the unit tests and examples.")
 

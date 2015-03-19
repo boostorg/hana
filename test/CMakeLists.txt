@@ -89,9 +89,12 @@ if (NOT Boost_FOUND)
     list(REMOVE_ITEM BOOST_HANA_PUBLIC_HEADERS ${_headers_that_require_boost})
 endif()
 
-# With Boost < 1.58.0, the fusion::{deque,list} adapters are not supported.
 if (Boost_FOUND)
     if (${Boost_VERSION} LESS 105800)
+        message(STATUS "The Boost version was detected to be < 1.58.0; "
+                       "the fusion::deque and fusion::list adapters are "
+                       "not supported because of bugs in Boost.Fusion.")
+
         list(REMOVE_ITEM BOOST_HANA_PUBLIC_HEADERS
             "boost/hana/ext/boost/fusion/deque.hpp"
             "boost/hana/fwd/ext/boost/fusion/deque.hpp"
@@ -105,9 +108,11 @@ if (Boost_FOUND)
     endif()
 endif()
 
-# With Clang < 3.7.0, the std::tuple adapter is not supported.
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND
     "${CMAKE_CXX_COMPILER_VERSION}" VERSION_LESS "3.7.0")
+    message(STATUS "The compiler was detected to be Clang < 3.7.0; "
+                   "the std::tuple adapter will not be supported.")
+
     list(REMOVE_ITEM BOOST_HANA_PUBLIC_HEADERS
         "boost/hana/fwd/ext/std/tuple.hpp"
         "boost/hana/ext/std/tuple.hpp")
@@ -141,13 +146,17 @@ endif()
 
 # Some Fusion adapters are currently broken; I'm working on it.
 file(GLOB _ext_fusion_broken_tests
-    "ext/boost/fusion/vector/searchable.cpp"
-    "ext/boost/fusion/vector/sequence.cpp"
+    "ext/boost/fusion/deque/monad_plus.cpp"
+    "ext/boost/fusion/deque/searchable.cpp"
+    "ext/boost/fusion/deque/sequence.cpp"
+    "ext/boost/fusion/list/monad.cpp"
+    "ext/boost/fusion/list/monad_plus.cpp"
+    "ext/boost/fusion/list/sequence.cpp"
     "ext/boost/fusion/tuple/monad.cpp"
     "ext/boost/fusion/tuple/searchable.cpp"
     "ext/boost/fusion/tuple/sequence.cpp"
-    "ext/boost/fusion/deque/searchable.cpp"
-    "ext/boost/fusion/deque/sequence.cpp"
+    "ext/boost/fusion/vector/searchable.cpp"
+    "ext/boost/fusion/vector/sequence.cpp"
 )
 list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${_ext_fusion_broken_tests})
 
