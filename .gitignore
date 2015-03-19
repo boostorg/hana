@@ -1,7 +1,2 @@
 /build/
-/build
-/clang35/
-/clang37/
-/debug/
-/release/
 /test/worksheet.cpp
