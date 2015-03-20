@@ -87,6 +87,15 @@ int main() {
         static_assert(has_operator<String, decltype(not_equal)>{}, "");
 
         // laws
+        auto strings = make<Tuple>(
+            BOOST_HANA_STRING(""),
+            BOOST_HANA_STRING("a"),
+            BOOST_HANA_STRING("ab"),
+            BOOST_HANA_STRING("abc"),
+            BOOST_HANA_STRING("abcd"),
+            BOOST_HANA_STRING("abcde"),
+            BOOST_HANA_STRING("ba")
+        );
         test::TestComparable<String>{strings};
     }
 

@@ -3,16 +3,33 @@ compiler: clang
 os: linux
 
 env:
-  - CLANG_VERSION=3.5 BOOST_VERSION=1.57.0
-  - CLANG_VERSION=3.6 BOOST_VERSION=1.57.0
-  - CLANG_VERSION=3.7 BOOST_VERSION=1.57.0
+    global:
+        # The ###.7 job is the "respawner"; this job will restart any build
+        # that failed because of OOMs. See the after_failure part for how
+        # this is used.
+        - OOM_RESPAWNER="${TRAVIS_BUILD_NUMBER}.7"
 
-  - CLANG_VERSION=3.5 BOOST_VERSION=1.58.0
-  - CLANG_VERSION=3.6 BOOST_VERSION=1.58.0
-  - CLANG_VERSION=3.7 BOOST_VERSION=1.58.0
+        # GitHub token for `travis login --github-token`. The token is stored
+        # in the ${GITHUB_TOKEN} environment variable.
+        - secure: Jt+++hJ/wCBT1s1vuph4xs9J2mOp+ljLbTPEPrR0UFjcieAYjoPTFI0jmoV0yt2j+3plqLee5JQvZBMXdnLKtxaHyqAD95A0BsXknqYfyXmqvT/x1XQ3EifdWvhPrpJMNhHOQboTXjRaiwP4xlglmkQGX9ScNWzlnZQ4U/Wq9m4=
+
+    matrix:
+        - CLANG_VERSION=3.5 BOOST_VERSION=1.57.0
+        - CLANG_VERSION=3.6 BOOST_VERSION=1.57.0
+        - CLANG_VERSION=3.7 BOOST_VERSION=1.57.0
+
+        - CLANG_VERSION=3.5 BOOST_VERSION=1.58.0
+        - CLANG_VERSION=3.6 BOOST_VERSION=1.58.0
+        - CLANG_VERSION=3.7 BOOST_VERSION=1.58.0
+        - OOM_RESPAWN=true
 
 
 before_install:
+    - if [ "${OOM_RESPAWN}" = true ]; then gem install travis --no-document --minimal-deps --quiet; fi
+    - if [ "${OOM_RESPAWN}" = true ]; then yes no | travis --version; fi
+    - if [ "${OOM_RESPAWN}" = true ]; then travis login --github-token ${GITHUB_TOKEN}; fi
+    - if [ "${OOM_RESPAWN}" = true ]; then ./oom_respawn.sh; exit; fi
+
     # All the dependencies are installed to the deps/ subdirectory.
     - mkdir deps
     - DEPS_DIR="${PWD}/deps"
@@ -63,15 +80,26 @@ before_script:
 
 
 script:
-    # We use the -k switch because it will cause the build to continue even
-    # when there's a failure. However, the tests will still globally fail
-    # (as expected) because running ctest will fail.
-    - (cd build && make run.all -k)
+    - (cd build && make compile.headers -j2)
+    - (cd build && make compile.examples -j2)
+    - (cd build && make run.all)
 
 
 after_failure:
-    # check for OOMs
+    # Check for OOMs
     - sudo dmesg
     - free
     - vmstat
     - ps aux --sort=-rss
+
+    # If the failure was caused by an OOM, use the `travis` command
+    # line utility to restart the build. Basically, we restart the
+    # respawner job, which restarts all builds that failed because of
+    # OOMs.
+    #
+    # We use `travis --version` to skip the "would you like to install shell
+    # completion?" prompt.
+    - gem install travis --no-document --minimal-deps --quiet
+    - yes no | travis --version
+    - if (sudo dmesg | grep --quiet OOM); then travis login --github-token ${GITHUB_TOKEN}; fi
+    - if (sudo dmesg | grep --quiet OOM); then travis restart ${OOM_RESPAWNER} --repo ldionne/hana; fi
