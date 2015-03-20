@@ -30,7 +30,7 @@ namespace boost { namespace hana { namespace test {
 
         template <typename Xs>
         TestIntegralDomain(Xs xs) {
-            foreach3(xs, [](auto a, auto b, auto k) {
+            foreach2(xs, [](auto a, auto b) {
 
                 // commutativity
                 BOOST_HANA_CHECK(hana::equal(
@@ -80,7 +80,7 @@ namespace boost { namespace hana { namespace test {
         template <typename Xs>
         TestIntegralDomain(Xs xs) : TestIntegralDomain<C, laws>{xs} {
             foreach2(xs, [](auto x, auto y) {
-                hana::eval_if(hana::equal(zero<C>(), y), [](auto){}, [=](auto _) {
+                only_when_(hana::not_equal(zero<C>(), y), [=](auto _) {
                     auto y_ = _(y);
 
                     BOOST_HANA_CHECK(hana::equal(

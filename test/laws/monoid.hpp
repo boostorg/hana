@@ -30,7 +30,7 @@ namespace boost { namespace hana { namespace test {
 
         template <typename Xs>
         TestMonoid(Xs xs) {
-            foreach3(xs, [](auto a, auto b, auto c) {
+            hana::for_each(xs, [=](auto a) {
 
                 // left identity
                 BOOST_HANA_CHECK(hana::equal(
@@ -44,18 +44,23 @@ namespace boost { namespace hana { namespace test {
                     a
                 ));
 
-                // associativity
-                BOOST_HANA_CHECK(equal(
-                    hana::plus(a, hana::plus(b, c)),
-                    hana::plus(hana::plus(a, b), c)
-                ));
+                hana::for_each(xs, [=](auto b) {
+                    hana::for_each(xs, [=](auto c) {
+                        // associativity
+                        BOOST_HANA_CHECK(equal(
+                            hana::plus(a, hana::plus(b, c)),
+                            hana::plus(hana::plus(a, b), c)
+                        ));
+                    });
 
-                // operators
-                only_when_(bool_<has_operator<M, decltype(plus)>{}>, [=](auto _) {
-                    BOOST_HANA_CHECK(hana::equal(
-                        hana::plus(a, b),
-                        _(a) + _(b)
-                    ));
+                    // operators
+                    only_when_(bool_<has_operator<M, decltype(plus)>{}>, [=](auto _) {
+                        BOOST_HANA_CHECK(hana::equal(
+                            hana::plus(a, b),
+                            _(a) + _(b)
+                        ));
+                    });
+
                 });
 
             });
@@ -68,18 +73,17 @@ namespace boost { namespace hana { namespace test {
     {
         template <typename Xs>
         TestMonoid(Xs xs) : TestMonoid<C, laws>{xs} {
+
+            BOOST_HANA_CHECK(hana::equal(
+                hana::value(zero<C>()),
+                zero<typename C::value_type>()
+            ));
+
             foreach2(xs, [](auto x, auto y) {
-
-                BOOST_HANA_CHECK(hana::equal(
-                    hana::value(zero<C>()),
-                    zero<typename C::value_type>()
-                ));
-
                 BOOST_HANA_CHECK(hana::equal(
                     hana::plus(hana::value(x), hana::value(y)),
                     hana::value(hana::plus(x, y))
                 ));
-
             });
         }
     };

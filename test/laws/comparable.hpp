@@ -29,7 +29,7 @@ namespace boost { namespace hana { namespace test {
 
         template <typename Xs>
         TestComparable(Xs xs) {
-            foreach3(xs, [](auto a, auto b, auto c) {
+            foreach2(xs, [](auto a, auto b) {
 
                 // reflexivity
                 BOOST_HANA_CHECK(
@@ -39,11 +39,6 @@ namespace boost { namespace hana { namespace test {
                 // symmetry
                 BOOST_HANA_CHECK(
                     hana::equal(a, b) ^implies^ hana::equal(b, a)
-                );
-
-                // transitivity
-                BOOST_HANA_CHECK(
-                    hana::and_(hana::equal(a, b), hana::equal(b, c)) ^implies^ hana::equal(a, c)
                 );
 
                 // `not_equal` is the negation of `equal`
@@ -77,6 +72,14 @@ namespace boost { namespace hana { namespace test {
                 _injection<0> f{};
                 BOOST_HANA_CHECK(
                     hana::comparing(f)(a, b) ^iff^ hana::equal(f(a), f(b))
+                );
+            });
+
+            // transitivity
+            foreach3(xs, [](auto a, auto b, auto c) {
+                BOOST_HANA_CHECK(
+                    hana::and_(hana::equal(a, b), hana::equal(b, c))
+                        ^implies^ hana::equal(a, c)
                 );
             });
         }

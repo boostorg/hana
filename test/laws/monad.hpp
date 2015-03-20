@@ -35,10 +35,9 @@ namespace boost { namespace hana { namespace test {
             auto f = hana::compose(lift<M>, test::_injection<0>{});
             auto g = hana::compose(lift<M>, test::_injection<1>{});
             auto h = hana::compose(lift<M>, test::_injection<2>{});
-            auto x = test::_constant<0>{};
+            auto x = test::ct_eq<0>{};
 
-            for_each(xs, [=](auto m) {
-            for_each(xxs, [=](auto mm) {
+            hana::for_each(xs, [=](auto m) {
 
                 // Laws formulated with mcompose:
                 // left identity
@@ -88,12 +87,14 @@ namespace boost { namespace hana { namespace test {
                     hana::flatten(hana::transform(m, f))
                 ));
 
-                BOOST_HANA_CHECK(hana::equal(
-                    hana::flatten(mm),
-                    hana::bind(mm, id)
-                ));
+                hana::for_each(xxs, [=](auto mm) {
+                    BOOST_HANA_CHECK(hana::equal(
+                        hana::flatten(mm),
+                        hana::bind(mm, id)
+                    ));
+                });
 
-            });});
+            });
         }
     };
 

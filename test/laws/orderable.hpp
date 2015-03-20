@@ -29,18 +29,12 @@ namespace boost { namespace hana { namespace test {
 
         template <typename Xs>
         TestOrderable(Xs xs) {
-            foreach3(xs, [](auto a, auto b, auto c) {
+            foreach2(xs, [](auto a, auto b) {
 
                 // antisymmetry
                 BOOST_HANA_CHECK(
                     hana::and_(hana::less_equal(a, b), hana::less_equal(b, a))
                         ^implies^ hana::equal(a, b)
-                );
-
-                // transitivity
-                BOOST_HANA_CHECK(
-                    hana::and_(hana::less_equal(a, b), hana::less_equal(b, c))
-                        ^implies^ hana::less_equal(a, c)
                 );
 
                 // totality
@@ -98,6 +92,14 @@ namespace boost { namespace hana { namespace test {
                     hana::ordering(f)(a, b) ^iff^ hana::less(f(a), f(b))
                 );
             });
+
+            // transitivity
+            foreach3(xs, [](auto a, auto b, auto c) {
+                BOOST_HANA_CHECK(
+                    hana::and_(hana::less_equal(a, b), hana::less_equal(b, c))
+                        ^implies^ hana::less_equal(a, c)
+                );
+            });
         }
     };
 
@@ -139,9 +141,6 @@ namespace boost { namespace hana { namespace test {
 
     template <typename S>
     struct TestOrderable<S, when<_models<Sequence, S>{}>> : TestOrderable<S, laws> {
-        template <int i>
-        using ord = _constant<i>;
-
         struct invalid { };
 
         template <typename Xs>
@@ -165,22 +164,22 @@ namespace boost { namespace hana { namespace test {
                 list()
             )));
             BOOST_HANA_CONSTANT_CHECK(hana::less(
-                list(ord<0>{}),
-                list(ord<7>{})
+                list(ct_ord<0>{}),
+                list(ct_ord<7>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::less(
-                list(ord<1>{}),
-                list(ord<0>{})
+                list(ct_ord<1>{}),
+                list(ct_ord<0>{})
             )));
 
             BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::less(
-                list(ord<0>{}, ord<1>{}, ord<8>{}),
-                list(ord<0>{}, ord<1>{})
+                list(ct_ord<0>{}, ct_ord<1>{}, ct_ord<8>{}),
+                list(ct_ord<0>{}, ct_ord<1>{})
             )));
 
             BOOST_HANA_CONSTANT_CHECK(hana::less(
-                list(ord<0>{}, ord<0>{}, ord<8>{}),
-                list(ord<0>{}, ord<1>{})
+                list(ct_ord<0>{}, ct_ord<0>{}, ct_ord<8>{}),
+                list(ct_ord<0>{}, ct_ord<1>{})
             ));
         }
     };

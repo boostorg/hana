@@ -68,7 +68,7 @@ namespace boost { namespace hana {
     //! To simplify the reading, we will use the `+`, `*`, `/` and `%`
     //! operators with infix notation to denote the application of the
     //! corresponding methods in Monoid, Group, Ring and IntegralDomain.
-    //! For all objects `a`, `b` and `k` of an `IntegralDomain` `D`, the
+    //! For all objects `a` and `b` of an `IntegralDomain` `D`, the
     //! following laws must be satisfied:
     //! @code
     //!     a * b == b * a // commutativity

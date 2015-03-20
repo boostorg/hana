@@ -30,10 +30,7 @@ namespace boost { namespace hana { namespace test {
 
         template <typename Xs>
         TestMonadPlus(Xs xs) {
-            auto f = hana::compose(lift<M>, test::_injection<0>{});
-
-            foreach3(xs, [=](auto a, auto b, auto c) {
-
+            hana::for_each(xs, [](auto a) {
                 // left identity
                 BOOST_HANA_CHECK(hana::equal(
                     hana::concat(empty<M>(), a),
@@ -46,13 +43,8 @@ namespace boost { namespace hana { namespace test {
                     a
                 ));
 
-                // associativity
-                BOOST_HANA_CHECK(hana::equal(
-                    hana::concat(a, hana::concat(b, c)),
-                    hana::concat(hana::concat(a, b), c)
-                ));
-
                 // absorption
+                auto f = hana::compose(lift<M>, test::_injection<0>{});
                 BOOST_HANA_CHECK(hana::equal(
                     hana::bind(empty<M>(), f),
                     empty<M>()
@@ -63,6 +55,14 @@ namespace boost { namespace hana { namespace test {
                     empty<M>()
                 ));
 
+            });
+
+            // associativity
+            foreach3(xs, [](auto a, auto b, auto c) {
+                BOOST_HANA_CHECK(hana::equal(
+                    hana::concat(a, hana::concat(b, c)),
+                    hana::concat(hana::concat(a, b), c)
+                ));
             });
         }
     };

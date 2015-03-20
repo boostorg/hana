@@ -40,11 +40,13 @@ namespace boost { namespace hana { namespace test {
 
         template <typename Xs>
         TestLogical(Xs xs) {
-            auto true_valued = [](auto x) { return hana::if_(x, true_, false_); };
-            auto false_valued = [](auto x) { return hana::if_(x, false_, true_); };
+            auto true_valued = [](auto x) {
+                return hana::if_(x, true_, false_);
+            };
+            auto false_valued = [](auto x) {
+                return hana::if_(x, false_, true_);
+            };
 
-            for_each_such_that(xs, true_valued, [=](auto t) {
-            for_each_such_that(xs, false_valued, [=](auto f) {
             foreach3(xs, [=](auto a, auto b, auto c) {
 
                 // associativity
@@ -74,12 +76,16 @@ namespace boost { namespace hana { namespace test {
                 ));
 
                 // left identity
-                BOOST_HANA_CHECK(hana::equal(
-                    hana::or_(f, a), a
-                ));
-                BOOST_HANA_CHECK(hana::equal(
-                    hana::and_(t, a), a
-                ));
+                for_each_such_that(xs, true_valued, [=](auto t) {
+                    BOOST_HANA_CHECK(hana::equal(
+                        hana::and_(t, a), a
+                    ));
+                });
+                for_each_such_that(xs, false_valued, [=](auto f) {
+                    BOOST_HANA_CHECK(hana::equal(
+                        hana::or_(f, a), a
+                    ));
+                });
 
                 // distributivity
                 BOOST_HANA_CHECK(hana::equal(
@@ -114,7 +120,7 @@ namespace boost { namespace hana { namespace test {
                     );
                 });
 
-            });});});
+            });
         }
     };
 

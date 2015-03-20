@@ -31,13 +31,29 @@ namespace boost { namespace hana { namespace test {
 
         template <typename Xs>
         TestRing(Xs xs) {
-            foreach3(xs, [](auto x, auto y, auto z) {
+            hana::for_each(xs, [=](auto x) {
 
-                // associativity
-                BOOST_HANA_CHECK(hana::equal(
-                    hana::mult(x, hana::mult(y, z)),
-                    hana::mult(hana::mult(x, y), z)
-                ));
+                foreach2(xs, [=](auto y, auto z) {
+                    // associativity
+                    BOOST_HANA_CHECK(hana::equal(
+                        hana::mult(x, hana::mult(y, z)),
+                        hana::mult(hana::mult(x, y), z)
+                    ));
+
+                    // distributivity
+                    BOOST_HANA_CHECK(hana::equal(
+                        hana::mult(x, hana::plus(y, z)),
+                        hana::plus(hana::mult(x, y), hana::mult(x, z))
+                    ));
+
+                    // operators
+                    only_when_(bool_<has_operator<R, decltype(mult)>{}>, [=](auto _) {
+                        BOOST_HANA_CHECK(hana::equal(
+                            hana::mult(x, y),
+                            _(x) * _(y)
+                        ));
+                    });
+                });
 
                 // right identity
                 BOOST_HANA_CHECK(hana::equal(
@@ -48,20 +64,6 @@ namespace boost { namespace hana { namespace test {
                 BOOST_HANA_CHECK(hana::equal(
                     hana::mult(one<R>(), x), x
                 ));
-
-                // distributivity
-                BOOST_HANA_CHECK(hana::equal(
-                    hana::mult(x, hana::plus(y, z)),
-                    hana::plus(hana::mult(x, y), hana::mult(x, z))
-                ));
-
-                // operators
-                only_when_(bool_<has_operator<R, decltype(mult)>{}>, [=](auto _) {
-                    BOOST_HANA_CHECK(hana::equal(
-                        hana::mult(x, y),
-                        _(x) * _(y)
-                    ));
-                });
 
                 // power
                 BOOST_HANA_CHECK(hana::equal(
@@ -104,18 +106,16 @@ namespace boost { namespace hana { namespace test {
     {
         template <typename Xs>
         TestRing(Xs xs) : TestRing<C, laws>{xs} {
+            BOOST_HANA_CHECK(hana::equal(
+                hana::value(one<C>()),
+                one<typename C::value_type>()
+            ));
+
             foreach2(xs, [](auto x, auto y) {
-
-                BOOST_HANA_CHECK(hana::equal(
-                    hana::value(one<C>()),
-                    one<typename C::value_type>()
-                ));
-
                 BOOST_HANA_CHECK(hana::equal(
                     hana::mult(hana::value(x), hana::value(y)),
                     hana::value(hana::mult(x, y))
                 ));
-
             });
         }
     };

@@ -31,18 +31,28 @@ namespace boost { namespace hana { namespace test {
 
         template <typename Searchables, typename Keys>
         TestSearchable(Searchables searchables, Keys keys) {
-            auto check = [](auto p, auto key, auto xs, auto ys) {
-                // any_of(xs, p) <=> !all_of(xs, negated p)
-                //               <=> !none_of(xs, p)
-                BOOST_HANA_CHECK(
-                    hana::any_of(xs, p) ^iff^
-                    hana::not_(hana::all_of(xs, hana::compose(not_, p)))
-                );
+            auto predicates = hana::concat(
+                hana::to<hana::Tuple>(hana::transform(keys, equal.to)),
+                hana::make_tuple(
+                    hana::always(false_),
+                    hana::always(true_)
+                )
+            );
 
-                BOOST_HANA_CHECK(
-                    hana::any_of(xs, p) ^iff^
-                    hana::not_(hana::none_of(xs, p))
-                );
+            hana::for_each(searchables, [=](auto xs) {
+                hana::for_each(predicates, [=](auto p) {
+                    // any_of(xs, p) <=> !all_of(xs, negated p)
+                    //               <=> !none_of(xs, p)
+                    BOOST_HANA_CHECK(
+                        hana::any_of(xs, p) ^iff^
+                        hana::not_(hana::all_of(xs, hana::compose(not_, p)))
+                    );
+
+                    BOOST_HANA_CHECK(
+                        hana::any_of(xs, p) ^iff^
+                        hana::not_(hana::none_of(xs, p))
+                    );
+                });
 
                 // any(xs)  <=> any_of(xs, id)
                 // all(xs)  <=> all_of(xs, id)
@@ -70,41 +80,29 @@ namespace boost { namespace hana { namespace test {
                     nothing
                 ));
 
-                // subset(xs, ys) <=> all_of(xs, [](auto x) { return elem(ys, x); })
-                BOOST_HANA_CHECK(
-                    hana::subset(xs, ys) ^iff^ hana::all_of(xs, [=](auto x) {
-                        return elem(ys, x);
-                    })
-                );
+                hana::for_each(searchables, [=](auto ys) {
+                    // subset(xs, ys) <=> all_of(xs, [](auto x) { return elem(ys, x); })
+                    BOOST_HANA_CHECK(
+                        hana::subset(xs, ys) ^iff^ hana::all_of(xs, [=](auto x) {
+                            return elem(ys, x);
+                        })
+                    );
+                });
 
-                // find(xs, x) == find_if(xs, [](auto y) { return y == x; })
-                BOOST_HANA_CHECK(hana::equal(
-                    hana::find(xs, key),
-                    hana::find_if(xs, equal.to(key))
-                ));
+                hana::for_each(keys, [=](auto key) {
+                    // find(xs, x) == find_if(xs, [](auto y) { return y == x; })
+                    BOOST_HANA_CHECK(hana::equal(
+                        hana::find(xs, key),
+                        hana::find_if(xs, equal.to(key))
+                    ));
 
-                // elem(xs, x) <=> any_of(xs, [](auto y) { return y == x; })
-                BOOST_HANA_CHECK(
-                    hana::elem(xs, key) ^iff^
-                    hana::any_of(xs, equal.to(key))
-                );
-
-                return 1;
-            };
-
-            auto predicates = hana::concat(
-                hana::to<hana::Tuple>(hana::transform(keys, equal.to)),
-                hana::make_tuple(
-                    hana::always(false_),
-                    hana::always(true_)
-                )
-            );
-            hana::for_each(predicates, [=](auto pred) {
-            hana::for_each(keys, [=](auto key) {
-            hana::for_each(searchables, [=](auto xs) {
-            hana::for_each(searchables, [=](auto ys) {
-                check(pred, key, xs, ys);
-            });});});});
+                    // elem(xs, x) <=> any_of(xs, [](auto y) { return y == x; })
+                    BOOST_HANA_CHECK(
+                        hana::elem(xs, key) ^iff^
+                        hana::any_of(xs, equal.to(key))
+                    );
+                });
+            });
         }
     };
 
