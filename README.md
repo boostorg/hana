@@ -1,4 +1,4 @@
-# Boost.Hana
+# Boost.Hana [![Build Status][Travis.master]][Travis.Hana]
 > Your standard library for metaprogramming
 
 ## Disclaimers
@@ -191,7 +191,6 @@ Please see [LICENSE.md](LICENSE.md).
 <!-- Links -->
 [Benchcc]: http://github.com/ldionne/benchcc
 [C++Now]: http://cppnow.org
-[clang20619]: http://llvm.org/bugs/show_bug.cgi?id=20619
 [CMake]: http://www.cmake.org
 [CppCon]: http://cppcon.org
 [Doxygen]: http://www.doxygen.org
@@ -199,5 +198,5 @@ Please see [LICENSE.md](LICENSE.md).
 [Hana-CppCon]: http://ldionne.github.io/hana-cppcon-2014
 [MPL11-C++Now]: http://ldionne.github.io/mpl11-cppnow-2014
 [MPL11]: http://github.com/ldionne/mpl11
-[Travis.travis_test]: https://travis-ci.org/ldionne/hana.svg?branch=travis_test
-[Travis]: https://travis-ci.org/ldionne/hana
+[Travis.Hana]: https://travis-ci.org/ldionne/hana
+[Travis.master]: https://travis-ci.org/ldionne/hana.svg?branch=master
