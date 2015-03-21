@@ -255,12 +255,12 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     {
         // unpack
-        auto list = test::seq;
         test::_injection<0> f{};
 
         auto check = [=](auto ...xs) {
-            auto possible_results = transform(permutations(list(xs...)), [=](auto perm) {
-                return unpack(perm, f);
+            auto arg_perms = permutations(make_tuple(xs...));
+            auto possible_results = transform(arg_perms, [=](auto args) {
+                return unpack(args, f);
             });
 
             BOOST_HANA_CONSTANT_CHECK(
