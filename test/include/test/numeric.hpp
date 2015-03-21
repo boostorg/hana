@@ -9,6 +9,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/operators.hpp>
+#include <boost/hana/lazy.hpp>
 
 // instances
 #include <boost/hana/comparable.hpp>
@@ -97,8 +98,7 @@ namespace boost { namespace hana {
     struct eval_if_impl<test::Numeric> {
         template <typename C, typename T, typename E>
         static constexpr auto apply(C c, T t, E e) {
-            auto id = [](auto x) { return x; };
-            return c.value ? t(id) : e(id);
+            return c.value ? hana::eval(t) : hana::eval(e);
         }
     };
 

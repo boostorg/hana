@@ -30,6 +30,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/id.hpp>
+#include <boost/hana/lazy.hpp>
 
 
 namespace boost { namespace hana {
@@ -222,7 +223,7 @@ namespace boost { namespace hana {
     struct eval_if_impl<L, when<detail::std::is_arithmetic<L>{}>> {
         template <typename Cond, typename T, typename E>
         static constexpr auto apply(Cond cond, T t, E e)
-        { return cond ? t(id) : e(id); }
+        { return cond ? hana::eval(t) : hana::eval(e); }
     };
 
     template <typename L>
@@ -263,15 +264,15 @@ namespace boost { namespace hana {
         template <typename Then, typename Else>
         static constexpr auto
         eval_if_helper(decltype(true_), Then t, Else e)
-        { return t(id); }
+        { return hana::eval(t); }
 
         template <typename Then, typename Else>
         static constexpr auto
         eval_if_helper(decltype(false_), Then t, Else e)
-        { return e(id); }
+        { return hana::eval(e); }
 
         template <typename Cond, typename Then, typename Else>
-        static constexpr auto apply(Cond const&, Then t, Else e) {
+        static constexpr decltype(auto) apply(Cond const&, Then t, Else e) {
             constexpr auto cond = hana::value<Cond>();
             constexpr bool truth_value = hana::if_(cond, true, false);
             return eval_if_helper(bool_<truth_value>, t, e);

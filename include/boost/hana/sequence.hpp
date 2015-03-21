@@ -41,21 +41,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     namespace sequence_detail {
-        //! @todo Find a way to make it so that `lazy` interoperates properly
-        //! with `eval_if`, without having to do this hack.
-        struct _lazily {
-            template <typename F, typename Id>
-            constexpr decltype(auto) operator()(F&& f, Id _) const
-            { return hana::eval(detail::std::forward<F>(f)); }
-        };
-
-        template <typename F, typename ...X>
-        constexpr decltype(auto) lazily(F&& f, X&& ...x) {
-            return hana::partial(_lazily{},
-                hana::lazy(detail::std::forward<F>(f))(
-                    detail::std::forward<X>(x)...));
-        }
-
         struct pairwise {
             template <typename F, typename G, typename P>
             constexpr decltype(auto) operator()(F&& f, G&& g, P&& p) const {
@@ -277,8 +262,8 @@ namespace boost { namespace hana {
             constexpr decltype(auto)
             operator()(Pred&& pred, Parts&& parts, X&& x) const {
                 return hana::eval_if(detail::std::forward<Pred>(pred)(x),
-                    sequence_detail::lazily(sequence_detail::append_first{}, parts, x),
-                    sequence_detail::lazily(sequence_detail::append_second{}, parts, x)
+                    hana::lazy(sequence_detail::append_first{})(parts, x),
+                    hana::lazy(sequence_detail::append_second{})(parts, x)
                 );
             }
         };
@@ -411,13 +396,12 @@ namespace boost { namespace hana {
 
     namespace sequence_detail {
         struct scanl1_helper {
-            template <typename Xs, typename F, typename Id>
-            constexpr decltype(auto)
-            operator()(Xs&& xs, F&& f, Id const& _) const {
+            template <typename Xs, typename F>
+            constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
                 //! @todo We need a way to extract the head of an Iterable
                 //! and get its tail at the same time. It would allow us to
                 //! use perfect forwarding here.
-                return hana::scanl(_(tail)(xs), _(head)(xs),
+                return hana::scanl(hana::tail(xs), hana::head(xs),
                         detail::std::forward<F>(f));
             }
         };
@@ -429,9 +413,10 @@ namespace boost { namespace hana {
         static constexpr auto apply(Xs&& xs, F&& f) {
             decltype(auto) done = hana::is_empty(xs);
             return hana::eval_if(detail::std::forward<decltype(done)>(done),
-                hana::always(empty<S>()),
-                hana::partial(sequence_detail::scanl1_helper{},
-                    detail::std::forward<Xs>(xs), detail::std::forward<F>(f))
+                hana::lazy(empty<S>()),
+                hana::lazy(sequence_detail::scanl1_helper{})(
+                    detail::std::forward<Xs>(xs), detail::std::forward<F>(f)
+                )
             );
         }
     };
@@ -896,8 +881,8 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(F&& f, Xs&& xs, Ys&& ...ys) {
             auto done = hana::is_empty(xs);
             return hana::eval_if(done,
-                hana::always(empty<S>()),
-                sequence_detail::lazily(sequence_detail::zip_unsafe_with_helper{},
+                hana::lazy(empty<S>()),
+                hana::lazy(sequence_detail::zip_unsafe_with_helper{})(
                     detail::std::forward<F>(f),
                     detail::std::forward<Xs>(xs),
                     detail::std::forward<Ys>(ys)...

@@ -47,7 +47,7 @@ namespace boost { namespace hana {
         { return detail::std::forward<Expr>(expr)(); }
 
         template <typename Expr>
-        static constexpr auto eval_helper(Expr&& expr, int)
+        static constexpr auto eval_helper(Expr&& expr, long)
             -> decltype(detail::std::forward<Expr>(expr)(hana::id))
         { return detail::std::forward<Expr>(expr)(hana::id); }
 

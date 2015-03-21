@@ -8,6 +8,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/enumerable.hpp>
+#include <boost/hana/functional/placeholder.hpp>
 #include <boost/hana/lazy.hpp>
 
 #include <sstream>
@@ -31,24 +32,22 @@ BOOST_HANA_CONSTEXPR_CHECK(eval(if_(false_, f(0), g(0))) == 0 + 1);
 
 }{
 
+//! [eval]
+static_assert(eval(lazy(_ + 1)(3)) == 4, "");
+//! [eval]
+
+}{
+
 //! [functor]
-BOOST_HANA_CONSTEXPR_LAMBDA auto double_ = [](auto x) {
-    return x * 2;
-};
+static_assert(eval(transform(lazy(4 / _)(1), _ * 3)) == (4 / 1) * 3, "");
 
-BOOST_HANA_CONSTEXPR_LAMBDA auto one_over = [](auto x) {
-    return 1 / x;
-};
-
-BOOST_HANA_CONSTEXPR_CHECK(eval(transform(lazy(one_over)(4), double_)) == 1 / 2);
-
-transform(lazy(one_over)(0), double_); // never evaluated
+transform(lazy(4 / _)(0), _ * 3); // never evaluated
 //! [functor]
 
 }{
 
 //! [comonad]
-std::stringstream s; s << "1 2 3";
+std::stringstream s("1 2 3");
 auto i = lazy([&] {
     int i;
     s >> i;

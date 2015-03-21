@@ -83,6 +83,7 @@ int main() {
 
         // eval
         {
+            // With lazy expressions
             BOOST_HANA_CONSTANT_CHECK(equal(
                 eval(lazy(ct_eq<0>{})),
                 ct_eq<0>{}
@@ -91,10 +92,42 @@ int main() {
                 eval(lazy(ct_eq<1>{})),
                 ct_eq<1>{}
             ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                eval(lazy(f)()),
+                f()
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                eval(lazy(f)(ct_eq<3>{})),
+                f(ct_eq<3>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                eval(lazy(f)(ct_eq<3>{}, ct_eq<4>{})),
+                f(ct_eq<3>{}, ct_eq<4>{})
+            ));
+
+            // Should call a nullary function
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                eval([]{ return ct_eq<3>{}; }),
+                ct_eq<3>{}
+            ));
+
+            // Should call a unary function with hana::id.
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                eval([](auto _) { return _(ct_eq<3>{}); }),
+                ct_eq<3>{}
+            ));
+
+            // For overloaded function objects that are both nullary and unary,
+            // the nullary overload should be preferred.
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                eval(f),
+                f()
+            ));
         }
 
-        // Make sure this does not move from a destroyed object: it used to
-        // be the case that.
+        // Make sure this does not move from a destroyed object, as that
+        // used to be the case.
         {
             auto x = flatten(lazy(lazy(test::Tracked{1})));
             auto z = eval(x); (void)z;
