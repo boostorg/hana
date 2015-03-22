@@ -377,6 +377,113 @@ namespace boost { namespace hana {
     constexpr _foldl1 foldl1{};
 #endif
 
+    //! Equivalent to `fold` in Boost.Fusion and Boost.MPL.
+    //! @relates Foldable
+    //!
+    //! This method has the same semantics as `fold` in Boost.Fusion and
+    //! Boost.MPL, with the extension that an initial state is not required.
+    //! Hence, this method can be called in two different ways. When called
+    //! with three arguments, `fold` is just equivalent to `foldl`.
+    //! In other words,
+    //! @code
+    //!     fold(sequence, state, f) == foldl(sequence, state, f)
+    //! @endcode
+    //!
+    //! When called with only two arguments, `fold` is equivalent to `foldl1`.
+    //! In this case, `fold` assumes that the two arguments consist of a
+    //! Foldable and a function. In other words,
+    //! @code
+    //!     fold(sequence, f) == foldl1(sequence, f)
+    //! @endcode
+    //!
+    //! @note
+    //! This method is a convenience alias to `foldl` or `foldl1`. As an
+    //! alias, `fold` is not tag-dispatched on its own and `foldl`/`foldl1`
+    //! should be customized instead.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/foldable.cpp fold
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto fold = [](auto&& foldable[, auto&& state], auto&& f) -> decltype(auto) {
+        return see-documentation;
+    };
+#else
+    struct _fold {
+        template <typename Xs, typename S, typename F>
+        constexpr decltype(auto) operator()(Xs&& xs, S&& s, F&& f) const {
+            return hana::foldl(detail::std::forward<Xs>(xs),
+                               detail::std::forward<S>(s),
+                               detail::std::forward<F>(f));
+        }
+
+        template <typename Xs, typename F>
+        constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
+            return hana::foldl1(detail::std::forward<Xs>(xs),
+                                detail::std::forward<F>(f));
+        }
+    };
+
+    constexpr _fold fold{};
+#endif
+
+    //! Equivalent to `reverse_fold` in Boost.Fusion and Boost.MPL.
+    //! @relates Foldable
+    //!
+    //! This method has the same semantics as `reverse_fold` in Boost.Fusion
+    //! and Boost.MPL, with the extension that an initial state is not
+    //! required. Hence, this method can be called in two different ways.
+    //! When called with three arguments, `reverse_fold` is equivalent to
+    //! `foldr`, except that the accumulating function should expect its
+    //! arguments in reverse order (to match the order used in Fusion).
+    //! In other words,
+    //! @code
+    //!     reverse_fold(sequence, state, f) == foldr(sequence, state, flip(f))
+    //! @endcode
+    //!
+    //! When called with only two arguments, `reverse_fold` is equivalent to
+    //! `foldr1`, except that the accumulating function should expect its
+    //! arguments in reverse order (to match the order used in Fusion).
+    //! In this case, `reverse_fold` assumes that the two arguments consist
+    //! of a Foldable and a function. In other words,
+    //! @code
+    //!     reverse_fold(sequence, f) == foldr1(sequence, flip(f))
+    //! @endcode
+    //!
+    //!
+    //! @note
+    //! This method is a convenience alias to `foldr` or `foldr1`. As an
+    //! alias, `reverse_fold` is not tag-dispatched on its own and
+    //! `foldr`/`foldr1` should be customized instead.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/foldable.cpp reverse_fold
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto reverse_fold = [](auto&& foldable[, auto&& state], auto&& f) -> decltype(auto) {
+        return see-documentation;
+    };
+#else
+    struct _reverse_fold {
+        template <typename Xs, typename S, typename F>
+        constexpr decltype(auto) operator()(Xs&& xs, S&& s, F&& f) const {
+            return hana::foldr(detail::std::forward<Xs>(xs),
+                               detail::std::forward<S>(s),
+                               hana::flip(detail::std::forward<F>(f)));
+        }
+
+        template <typename Xs, typename F>
+        constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
+            return hana::foldr1(detail::std::forward<Xs>(xs),
+                                hana::flip(detail::std::forward<F>(f)));
+        }
+    };
+
+    constexpr _reverse_fold reverse_fold{};
+#endif
+
     //! Perform an action on each element of a foldable, discarding
     //! the result each time.
     //! @relates Foldable

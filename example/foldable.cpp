@@ -26,15 +26,19 @@ int main() {
 
 //! [foldl]
 auto to_string = [](auto x) {
-    return static_cast<std::ostringstream const&>(std::ostringstream{} << x).str();
+    std::ostringstream ss;
+    ss << x;
+    return ss.str();
 };
 
-auto show = [=](auto x, auto y) {
-    return "(" + to_string(x) + " + " + to_string(y) + ")";
+auto f = [=](std::string s, auto element) {
+    return "f(" + s + ", " + to_string(element) + ")";
 };
 
 BOOST_HANA_RUNTIME_CHECK(
-    foldl(make<Tuple>(2, "3", '4'), "1", show) == "(((1 + 2) + 3) + 4)"
+    foldl(make<Tuple>(2, '3', 4, 5.0), "1", f)
+        ==
+    "f(f(f(f(1, 2), 3), 4), 5)"
 );
 //! [foldl]
 
@@ -42,15 +46,19 @@ BOOST_HANA_RUNTIME_CHECK(
 
 //! [foldl1]
 auto to_string = [](auto x) {
-    return static_cast<std::ostringstream const&>(std::ostringstream{} << x).str();
+    std::ostringstream ss;
+    ss << x;
+    return ss.str();
 };
 
-auto show = [=](auto x, auto y) {
-    return "(" + to_string(x) + " + " + to_string(y) + ")";
+auto f = [=](std::string s, auto element) {
+    return "f(" + s + ", " + to_string(element) + ")";
 };
 
 BOOST_HANA_RUNTIME_CHECK(
-    foldl1(make<Tuple>(1, "2", '3'), show) == "((1 + 2) + 3)"
+    foldl1(make<Tuple>("1", 2, '3', 4, 5.0), f)
+        ==
+    "f(f(f(f(1, 2), 3), 4), 5)"
 );
 //! [foldl1]
 
@@ -58,15 +66,19 @@ BOOST_HANA_RUNTIME_CHECK(
 
 //! [foldr]
 auto to_string = [](auto x) {
-    return static_cast<std::ostringstream const&>(std::ostringstream{} << x).str();
+    std::ostringstream ss;
+    ss << x;
+    return ss.str();
 };
 
-auto show = [=](auto x, auto y) {
-    return "(" + to_string(x) + " + " + to_string(y) + ")";
+auto f = [=](auto element, std::string s) {
+    return "f(" + to_string(element) + ", " + s + ")";
 };
 
 BOOST_HANA_RUNTIME_CHECK(
-    foldr(make<Tuple>(1, "2", '3'), "4", show) == "(1 + (2 + (3 + 4)))"
+    foldr(make<Tuple>(1, '2', 3.0, 4), "5", f)
+        ==
+    "f(1, f(2, f(3, f(4, 5))))"
 );
 //! [foldr]
 
@@ -97,17 +109,77 @@ BOOST_HANA_CONSTANT_CHECK(
 
 //! [foldr1]
 auto to_string = [](auto x) {
-    return static_cast<std::ostringstream const&>(std::ostringstream{} << x).str();
+    std::ostringstream ss;
+    ss << x;
+    return ss.str();
 };
 
-auto show = [=](auto x, auto y) {
-    return "(" + to_string(x) + " + " + to_string(y) + ")";
+auto f = [=](auto element, std::string s) {
+    return "f(" + to_string(element) + ", " + s + ")";
 };
 
 BOOST_HANA_RUNTIME_CHECK(
-    foldr1(make<Tuple>(1, "2", '3'), show) == "(1 + (2 + 3))"
+    foldr1(make<Tuple>(1, '2', 3.0, 4, "5"), f)
+        ==
+    "f(1, f(2, f(3, f(4, 5))))"
 );
 //! [foldr1]
+
+}{
+
+// [fold]
+auto to_string = [](auto x) {
+    std::ostringstream ss;
+    ss << x;
+    return ss.str();
+};
+
+auto f = [=](std::string s, auto element) {
+    return "f(" + s + ", " + to_string(element) + ")";
+};
+
+// With an initial state
+BOOST_HANA_RUNTIME_CHECK(
+    fold(make<Tuple>(2, '3', 4, 5.0), "1", f)
+        ==
+    "f(f(f(f(1, 2), 3), 4), 5)"
+);
+
+// Without an initial state
+BOOST_HANA_RUNTIME_CHECK(
+    fold(make<Tuple>("1", 2, '3', 4, 5.0), f)
+        ==
+    "f(f(f(f(1, 2), 3), 4), 5)"
+);
+// [fold]
+
+}{
+
+// [reverse_fold]
+auto to_string = [](auto x) {
+    std::ostringstream ss;
+    ss << x;
+    return ss.str();
+};
+
+auto f = [=](std::string s, auto element) {
+    return "f(" + s + ", " + to_string(element) + ")";
+};
+
+// With an initial state
+BOOST_HANA_RUNTIME_CHECK(
+    reverse_fold(make<Tuple>(1, '2', 3.0, 4), "5", f)
+        ==
+    "f(f(f(f(5, 4), 3), 2), 1)"
+);
+
+// Without an initial state
+BOOST_HANA_RUNTIME_CHECK(
+    reverse_fold(make<Tuple>(1, '2', 3.0, 4, "5"), f)
+        ==
+    "f(f(f(f(5, 4), 3), 2), 1)"
+);
+// [reverse_fold]
 
 }{
 

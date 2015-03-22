@@ -37,7 +37,7 @@ namespace boost { namespace hana { namespace test {
         template <typename Foldables>
         TestFoldable(Foldables foldables) {
             _injection<0> f{};
-            _constant<0> s{};
+            ct_eq<999> s{};
 
             hana::for_each(foldables, [=](auto xs) {
                 BOOST_HANA_CHECK(hana::equal(
@@ -56,6 +56,30 @@ namespace boost { namespace hana { namespace test {
                     hana::length(xs),
                     hana::size(xs)
                 ));
+
+                // equivalence of fold with foldl/foldl1 and
+                // of reverse_fold with foldr/foldr1
+                BOOST_HANA_CHECK(hana::equal(
+                    hana::fold(xs, s, f),
+                    hana::foldl(xs, s, f)
+                ));
+
+                BOOST_HANA_CHECK(hana::equal(
+                    hana::reverse_fold(xs, s, f),
+                    hana::foldr(xs, s, hana::flip(f))
+                ));
+
+                only_when_(hana::not_equal(hana::length(xs), size_t<0>), [=](auto _) {
+                    BOOST_HANA_CHECK(hana::equal(
+                        _(hana::fold)(xs, f),
+                        _(hana::foldl1)(xs, f)
+                    ));
+
+                    BOOST_HANA_CHECK(hana::equal(
+                        _(hana::reverse_fold)(xs, f),
+                        _(hana::foldr1)(xs, hana::flip(f))
+                    ));
+                });
 
                 // equivalence of count(xs, val) and count_if(xs, equal.to(val))
                 struct not_there { };
