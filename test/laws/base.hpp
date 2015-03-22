@@ -30,21 +30,35 @@ namespace boost { namespace hana {
     namespace test {
         struct laws;
 
-        auto foreach = hana::for_each;
-        auto foreach3 = [](auto xs, auto pred) {
-            hana::for_each(xs, [=](auto a) {
-            hana::for_each(xs, [=](auto b) {
-            hana::for_each(xs, [=](auto c) {
-                pred(a, b, c);
-            });});});
+        template <int i>
+        struct _for_each_n {
+            static_assert(i > 0, "can't use for_each_n with i < 0");
+
+            template <typename Xs, typename F>
+            constexpr auto operator()(Xs xs, F f) const {
+                hana::for_each(xs,
+                    hana::compose(
+                        hana::partial(_for_each_n<i - 1>{}, xs),
+                        hana::partial(hana::partial, f)
+                    )
+                );
+            }
         };
 
-        auto foreach2 = [](auto xs, auto pred) {
-            hana::for_each(xs, [=](auto a) {
-            hana::for_each(xs, [=](auto b) {
-                pred(a, b);
-            });});
+        template <>
+        struct _for_each_n<1> {
+            template <typename Xs, typename F>
+            constexpr auto operator()(Xs xs, F f) const {
+                hana::for_each(xs, f);
+            }
         };
+
+        template <int i>
+        constexpr _for_each_n<i> for_each_n{};
+
+        auto foreach = hana::for_each;
+        constexpr auto foreach3 = for_each_n<3>;
+        constexpr auto foreach2 = for_each_n<2>;
 
         struct _implies {
             template <typename P, typename Q>
