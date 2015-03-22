@@ -100,6 +100,31 @@ int main() {
                 g(ct_eq<0>{})
             ));
         }
+
+        // Make sure we do not instantiate rogue contructors when trying
+        // to copy an Either.
+        {
+            {
+                auto expr = right(test::trap_construct{});
+                auto implicit_copy = expr;          (void)implicit_copy;
+                decltype(expr) explicit_copy(expr); (void)explicit_copy;
+            }
+
+            {
+                auto expr = left(test::trap_construct{});
+                auto implicit_copy = expr;          (void)implicit_copy;
+                decltype(expr) explicit_copy(expr); (void)explicit_copy;
+            }
+        }
+
+        // implicit and explicit construction of left and right
+        {
+            _right<int> r1{1};       (void)r1;
+            _right<int> r2 = {1};    (void)r2;
+
+            _left<int> l1{1};       (void)l1;
+            _left<int> l2 = {1};    (void)l2;
+        }
     }
 
     //////////////////////////////////////////////////////////////////////////

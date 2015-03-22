@@ -175,6 +175,20 @@ int main() {
                 bind(just(1), incr), just(2)
             ));
         }
+
+        // Make sure we do not instantiate rogue contructors when trying
+        // to copy a just.
+        {
+            auto expr = just(test::trap_construct{});
+            auto implicit_copy = expr;          (void)implicit_copy;
+            decltype(expr) explicit_copy(expr); (void)explicit_copy;
+        }
+
+        // implicit and explicit construction of just
+        {
+            _just<int> j1{1};       (void)j1;
+            _just<int> j2 = {1};    (void)j2;
+        }
     }
 
 #elif BOOST_HANA_TEST_PART == 2

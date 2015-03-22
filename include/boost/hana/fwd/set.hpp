@@ -10,9 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_SET_HPP
 #define BOOST_HANA_FWD_SET_HPP
 
-#include <boost/hana/core/make.hpp>
-#include <boost/hana/core/operators.hpp>
-#include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/fwd/core/make.hpp>
 
 
 namespace boost { namespace hana {
@@ -53,34 +51,33 @@ namespace boost { namespace hana {
     //! There must not be duplicate elements.
     //!
     //! @todo Consider allowing duplicates elements in this constructor.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/set.cpp make<Set>
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto set = [](auto&& ...xs) {
-        return unspecified-type;
+    template <>
+    constexpr auto make<Set> = [](auto&& ...xs) {
+        return unspecified-type{forwarded(xs)...};
     };
-#else
-    template <typename Storage, typename = operators::adl>
-    struct _set {
-        Storage storage;
-        struct hana { using datatype = Set; };
-    };
-
-    struct _make_set {
-        template <typename ...Xs>
-        constexpr decltype(auto) operator()(Xs&& ...xs) const;
-    };
-
-    constexpr _make_set set{};
 #endif
 
-    //! Equivalent to `set`, provided for consistency.
+    template <typename ...Xs>
+    struct _set;
+
+    //! Equivalent to `make<Set>`; provided for convenience.
     //! @relates Set
-    template <>
-    struct make_impl<Set> {
-        template <typename ...Xs>
-        static constexpr decltype(auto) apply(Xs&& ...xs) {
-            return hana::set(detail::std::forward<Xs>(xs)...);
-        }
-    };
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/set.cpp make_set
+    constexpr auto make_set = make<Set>;
+
+    //! Equivalent to `make<Set>`, provided for convenience.
+    //! @relates Set
+    constexpr auto set = make<Set>;
 
     //! Insert an element in a `Set`.
     //! @relates Set

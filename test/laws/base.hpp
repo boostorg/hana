@@ -68,6 +68,37 @@ namespace boost { namespace hana {
             return hana::eval_if(cond, f, [](auto){ });
         }
 
+        // A type with a constructor that must not be instantiated.
+        // This is to make sure we don't instantiate something else than
+        // the copy-constructor of the elements inside a container when we
+        // copy the container.
+        struct trap_construct {
+            trap_construct() = default;
+            trap_construct(trap_construct const&) = default;
+            trap_construct(trap_construct&) = default;
+            trap_construct(trap_construct&&) = default;
+
+            template <typename X>
+            trap_construct(X&&) {
+                static_assert(wrong<X>{},
+                "this constructor must not be instantiated");
+            }
+        };
+
+        // A non-copyable type. Useful for testing containers.
+        struct no_copy {
+            no_copy() = default;
+            no_copy(no_copy const&) = delete;
+            no_copy(no_copy&&) = default;
+        };
+
+        // A move-only type. Useful for testing containers.
+        struct move_only {
+            move_only() = default;
+            move_only(move_only const&) = delete;
+            move_only(move_only&&) = default;
+        };
+
         //////////////////////////////////////////////////////////////////////
         // Tracked
         //////////////////////////////////////////////////////////////////////

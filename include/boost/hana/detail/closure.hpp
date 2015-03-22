@@ -26,6 +26,9 @@ namespace boost { namespace hana { namespace detail {
     template <typename ...Xs>
     struct closure_impl : Xs... {
         closure_impl() = default;
+        closure_impl(closure_impl&&) = default;
+        closure_impl(closure_impl const&) = default;
+        closure_impl(closure_impl&) = default;
 
         // Make sure the constructor is SFINAE-friendly.
         template <typename ...Ys, typename = decltype(swallow(

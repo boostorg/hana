@@ -10,8 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_EITHER_HPP
 #define BOOST_HANA_FWD_EITHER_HPP
 
-#include <boost/hana/core/operators.hpp>
-#include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 
 
@@ -117,10 +115,15 @@ namespace boost { namespace hana {
         return unspecified-type;
     };
 #else
-    template <typename X, typename = operators::adl>
+    template <typename X>
     struct _left;
 
-    constexpr detail::create<_left> left{};
+    struct _make_left {
+        template <typename T>
+        constexpr auto operator()(T&&) const;
+    };
+
+    constexpr _make_left left{};
 #endif
 
     //! Create an `Either` containing the given right value.
@@ -135,10 +138,15 @@ namespace boost { namespace hana {
         return unspecified-type;
     };
 #else
-    template <typename X, typename = operators::adl>
+    template <typename X>
     struct _right;
 
-    constexpr detail::create<_right> right{};
+    struct _make_right {
+        template <typename T>
+        constexpr auto operator()(T&&) const;
+    };
+
+    constexpr _make_right right{};
 #endif
 
     //! Apply one of two functions to the value inside an `Either`.

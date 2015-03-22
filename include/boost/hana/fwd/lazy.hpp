@@ -10,7 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_LAZY_HPP
 #define BOOST_HANA_FWD_LAZY_HPP
 
-#include <boost/hana/detail/std/decay.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
 
@@ -128,8 +127,7 @@ namespace boost { namespace hana {
 
     struct _lazy {
         template <typename X>
-        constexpr _lazy_value<typename detail::std::decay<X>::type>
-        operator()(X&& x) const;
+        constexpr auto operator()(X&& x) const;
     };
 
     constexpr _lazy lazy{};

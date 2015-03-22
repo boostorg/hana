@@ -37,6 +37,7 @@ struct x0; struct x1; struct x2; struct x3; struct x4;
 template <typename ...>
 struct F { struct type; };
 
+
 int main() {
     auto eq_tuples = make<Tuple>(
           make<Tuple>()
@@ -74,14 +75,8 @@ int main() {
     // Move-only friendliness and reference semantics
     //////////////////////////////////////////////////////////////////////////
     {
-        struct movable {
-            movable() = default;
-            movable(movable const&) = delete;
-            movable(movable&&) = default;
-        };
-
         {
-            auto xs = make<Tuple>(movable{});
+            auto xs = make<Tuple>(test::move_only{});
             auto by_val = [](auto) { };
 
             by_val(std::move(xs));
@@ -91,7 +86,7 @@ int main() {
         }
 
         {
-            auto const& xs = make<Tuple>(movable{});
+            auto const& xs = make<Tuple>(test::move_only{});
             auto by_const_ref = [](auto const&) { };
 
             by_const_ref(xs);
@@ -101,7 +96,7 @@ int main() {
         }
 
         {
-            auto xs = make<Tuple>(movable{});
+            auto xs = make<Tuple>(test::move_only{});
             auto by_ref = [](auto&) { };
 
             by_ref(xs);
@@ -122,6 +117,19 @@ int main() {
 
         using Types = decltype(tuple_t<x0, x1>);
         Types default_{}; (void)default_;
+    }
+
+    //////////////////////////////////////////////////////////////////////////
+    // In some cases where a type has a constructor that is way too
+    // general, copying a unary tuple holding an object of that type
+    // could trigger the instantiation of that constructor. If that
+    // constructor was ill-formed, the compilation could fail. We
+    // make sure this does not happen.
+    //////////////////////////////////////////////////////////////////////////
+    {
+        auto expr = make<Tuple>(test::trap_construct{});
+        auto implicit_copy = expr;          (void)implicit_copy;
+        decltype(expr) explicit_copy(expr); (void)explicit_copy;
     }
 
     //////////////////////////////////////////////////////////////////////////

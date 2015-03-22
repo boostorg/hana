@@ -25,29 +25,43 @@ int main() {
     // Creation
     //////////////////////////////////////////////////////////////////////////
     {
-        constexpr _pair<int, char> p1{1, '2'}; (void)p1;
-        constexpr _pair<int, char> p2 = {1, '2'}; (void)p2;
+        // Implicit and explicit construction
+        {
+            constexpr _pair<int, char> p1{1, '2'};      (void)p1;
+            constexpr _pair<int, char> p2 = {1, '2'};   (void)p2;
+        }
 
         // default constructibility
-        struct default_constr {
-            default_constr() = default;
-            default_constr(default_constr const&) = delete;
-            default_constr(default_constr &&) = delete;
-        };
-        constexpr _pair<default_constr, default_constr> p3; (void)p3;
+        {
+            struct default_constr {
+                default_constr() = default;
+                default_constr(default_constr const&) = delete;
+                default_constr(default_constr &&) = delete;
+            };
+            constexpr _pair<default_constr, default_constr> p; (void)p;
+        }
 
         // pair with non default-constructible elements
-        struct nodefault {
-            nodefault() = delete;
-            constexpr nodefault(int) { }
-        };
-        constexpr _pair<nodefault, nodefault> p4{1, 1}; (void)p4;
+        {
+            struct no_default {
+                no_default() = delete;
+                constexpr no_default(int) { }
+            };
+            constexpr _pair<no_default, no_default> p{1, 1}; (void)p;
+        }
 
         // pair with non-constexpr default-constructible elements
-        struct non_constexpr {
-            non_constexpr() { }
-        };
-        _pair<non_constexpr, non_constexpr> p5; (void)p5;
+        {
+            struct non_constexpr { non_constexpr() { } };
+            _pair<non_constexpr, non_constexpr> p; (void)p;
+        }
+
+        // Make sure we do not instantiate wrong constructors when copying
+        {
+            _pair<test::trap_construct, int> expr{};
+            auto implicit_copy = expr;          (void)implicit_copy;
+            decltype(expr) explicit_copy(expr); (void)explicit_copy;
+        }
     }
 
     auto eq_elems = make<Tuple>(ct_eq<3>{}, ct_eq<4>{});

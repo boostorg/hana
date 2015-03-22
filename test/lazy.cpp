@@ -9,6 +9,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/assert.hpp>
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/config.hpp>
+#include <boost/hana/core/wrong.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/tuple.hpp>
 
@@ -131,6 +132,25 @@ int main() {
         {
             auto x = flatten(lazy(lazy(test::Tracked{1})));
             auto z = eval(x); (void)z;
+        }
+
+        // In some cases where a type has a constructor that is way too
+        // general, copying a lazy value holding an object of that type
+        // could trigger the instantiation of that constructor. If that
+        // constructor was ill-formed, the compilation would fail. We
+        // make sure this does not happen.
+        {
+            {
+                auto expr = lazy(test::trap_construct{});
+                auto implicit_copy = expr;          (void)implicit_copy;
+                decltype(expr) explicit_copy(expr); (void)explicit_copy;
+            }
+
+            {
+                auto expr = lazy(test::trap_construct{})();
+                auto implicit_copy = expr;          (void)implicit_copy;
+                decltype(expr) explicit_copy(expr); (void)explicit_copy;
+            }
         }
     }
 

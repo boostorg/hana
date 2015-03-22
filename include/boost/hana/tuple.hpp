@@ -55,6 +55,11 @@ namespace boost { namespace hana {
         , operators::Iterable_ops<_tuple<Xs...>>
     {
         using detail::closure<Xs...>::closure; // inherit constructor
+        _tuple() = default;
+        _tuple(_tuple&&) = default;
+        _tuple(_tuple const&) = default;
+        _tuple(_tuple&) = default;
+
         using hana = _tuple;
         using datatype = Tuple;
 

@@ -13,12 +13,6 @@ Distributed under the Boost Software License, Version 1.0.
 using namespace boost::hana;
 
 
-struct nocopy {
-    nocopy() = default;
-    nocopy(nocopy const&) = delete;
-    nocopy(nocopy&&) = default;
-};
-
 struct T { };
 struct U { };
 struct V { };
@@ -42,16 +36,26 @@ int main() {
         constexpr detail::closure<T, U, V> z3{}; (void)z3;
     }
 
+    //////////////////////////////////////////////////////////////////////////
+    // Make sure we do not try to instantiate invalid constructors when
+    // doing copies.
+    //////////////////////////////////////////////////////////////////////////
+    {
+        detail::closure<test::trap_construct> expr{};
+        auto implicit_copy = expr;          (void)implicit_copy;
+        decltype(expr) explicit_copy(expr); (void)explicit_copy;
+    }
+
     // non-copyable friendliness
     {
-        detail::closure<nocopy, nocopy, nocopy> xs{};
+        detail::closure<test::no_copy, test::no_copy, test::no_copy> xs{};
         auto ys = std::move(xs); (void)ys;
     }
 
     // SFINAE-friendliness of the constructor
     {
         static_assert(!std::is_copy_constructible<
-            detail::closure<nocopy>
+            detail::closure<test::no_copy>
         >{}, "");
 
         static_assert(!std::is_constructible<

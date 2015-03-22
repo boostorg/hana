@@ -18,6 +18,21 @@ int main() {
 
 {
 
+//! [make<Set>]
+auto m = make<Set>(int_<1>, type<void>);
+//! [make<Set>]
+(void)m;
+
+}{
+
+//! [make_set]
+BOOST_HANA_CONSTANT_CHECK(
+    make_set(int_<1>, type<void>) == make<Set>(int_<1>, type<void>)
+);
+//! [make_set]
+
+}{
+
 //! [comparable]
 BOOST_HANA_CONSTANT_CHECK(
     set(int_<0>, type<char>, int_<1>) == set(int_<1>, int_<0>, type<char>)

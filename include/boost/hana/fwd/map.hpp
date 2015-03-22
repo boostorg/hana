@@ -10,7 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_MAP_HPP
 #define BOOST_HANA_FWD_MAP_HPP
 
-#include <boost/hana/core/operators.hpp>
 #include <boost/hana/fwd/core/make.hpp>
 
 
@@ -54,11 +53,8 @@ namespace boost { namespace hana {
     //! A `Map` can be converted to a Sequence of Products.
     struct Map { };
 
-    template <typename Storage, typename = operators::adl>
-    struct _map {
-        Storage storage;
-        struct hana { using datatype = Map; };
-    };
+    template <typename ...Pairs>
+    struct _map;
 
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     //! Create a `Map` with the given key/value associations.

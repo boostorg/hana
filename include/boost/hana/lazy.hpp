@@ -75,12 +75,16 @@ namespace boost { namespace hana {
         F function;
         detail::closure_impl<Args...> args;
 
+        _lazy_apply(_lazy_apply const&) = default;
+        _lazy_apply(_lazy_apply&&) = default;
+        _lazy_apply(_lazy_apply&) = default;
+
         template <typename F_, typename ...Args_,
             typename = decltype(F(detail::std::declval<F_>())),
             typename = decltype(detail::closure_impl<Args...>(
                                     detail::std::declval<Args_>()...))
         >
-        constexpr _lazy_apply(F_&& f, Args_&& ...x)
+        explicit constexpr _lazy_apply(F_&& f, Args_&& ...x)
             : function(detail::std::forward<F_>(f))
             , args(detail::std::forward<Args_>(x)...)
         { }
@@ -93,24 +97,28 @@ namespace boost { namespace hana {
     struct _lazy_value : operators::adl {
         X value;
 
+        _lazy_value(_lazy_value const&) = default;
+        _lazy_value(_lazy_value&&) = default;
+        _lazy_value(_lazy_value&) = default;
+
         template <typename X_, typename = decltype(X(detail::std::declval<X_>()))>
-        constexpr _lazy_value(X_&& x)
+        explicit constexpr _lazy_value(X_&& x)
             : value(detail::std::forward<X_>(x))
         { }
 
         // If this is called, we assume that `value` is in fact a function.
         template <typename ...Args>
-        constexpr _lazy_apply<
-            X, detail::closure<typename detail::std::decay<Args>::type...>
-        > operator()(Args&& ...args) const&
-        { return {value, detail::std::forward<Args>(args)...}; }
+        constexpr auto operator()(Args&& ...args) const& {
+            return _lazy_apply<
+                X, detail::closure<typename detail::std::decay<Args>::type...>
+            >{value, detail::std::forward<Args>(args)...};
+        }
 
         template <typename ...Args>
-        constexpr _lazy_apply<
-            X, detail::closure<typename detail::std::decay<Args>::type...>
-        > operator()(Args&& ...args) && {
-            return {detail::std::move(value),
-                    detail::std::forward<Args>(args)...};
+        constexpr auto operator()(Args&& ...args) && {
+            return _lazy_apply<
+                X, detail::closure<typename detail::std::decay<Args>::type...>
+            >{detail::std::move(value), detail::std::forward<Args>(args)...};
         }
 
         using hana = _lazy_value;
@@ -119,9 +127,11 @@ namespace boost { namespace hana {
 
     //! @cond
     template <typename X>
-    constexpr _lazy_value<typename detail::std::decay<X>::type>
-    _lazy::operator()(X&& x) const
-    { return {detail::std::forward<X>(x)}; }
+    constexpr auto _lazy::operator()(X&& x) const {
+        return _lazy_value<typename detail::std::decay<X>::type>{
+            detail::std::forward<X>(x)
+        };
+    }
     //! @endcond
 
     //////////////////////////////////////////////////////////////////////////
@@ -188,9 +198,11 @@ namespace boost { namespace hana {
     template <>
     struct lift_impl<Lazy> {
         template <typename X>
-        static constexpr _lazy_value<typename detail::std::decay<X>::type>
-        apply(X&& x)
-        { return {detail::std::forward<X>(x)}; }
+        static constexpr auto apply(X&& x) {
+            return _lazy_value<typename detail::std::decay<X>::type>{
+                detail::std::forward<X>(x)
+            };
+        }
     };
 
     template <>

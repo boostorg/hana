@@ -56,8 +56,13 @@ namespace boost { namespace hana {
         static constexpr bool is_just = true;
         struct hana { using datatype = Maybe; };
 
+        _just() = default;
+        _just(_just const&) = default;
+        _just(_just&&) = default;
+        _just(_just&) = default;
+
         template <typename U, typename = decltype(T(detail::std::declval<U>()))>
-        explicit constexpr _just(U&& u)
+        constexpr _just(U&& u)
             : val(detail::std::forward<U>(u))
         { }
     };

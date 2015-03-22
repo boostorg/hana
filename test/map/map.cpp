@@ -38,6 +38,15 @@ int main() {
         auto record = test::minimal_record;
         using L = test::Seq;
 
+        // Make sure we do not instantiate rogue constructors when doing copies
+        {
+            auto expr = make<Map>(
+                test::minimal_product(1, test::trap_construct{})
+            );
+            auto implicit_copy = expr;          (void)implicit_copy;
+            decltype(expr) explicit_copy(expr); (void)explicit_copy;
+        }
+
         // keys
         {
             BOOST_HANA_CONSTANT_CHECK(equal(

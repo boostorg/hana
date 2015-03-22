@@ -16,6 +16,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core/operators.hpp>
+#include <boost/hana/detail/std/decay.hpp>
+#include <boost/hana/detail/std/declval.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/foldable.hpp>
@@ -31,11 +33,20 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // left
     //////////////////////////////////////////////////////////////////////////
-    template <typename X, typename>
-    struct _left {
+    template <typename X>
+    struct _left : operators::adl {
         X value;
+        using hana = _left;
+        using datatype = Either;
 
-        struct hana { using datatype = Either; };
+        _left() = default;
+        _left(_left const&) = default;
+        _left(_left&&) = default;
+        _left(_left&) = default;
+        template <typename Y, typename = decltype(X(detail::std::declval<Y>()))>
+        constexpr _left(Y&& y)
+            : value(detail::std::forward<Y>(y))
+        { }
 
         template <typename F, typename G>
         constexpr decltype(auto) go(F&& f, G const&) const&
@@ -50,14 +61,32 @@ namespace boost { namespace hana {
         { return detail::std::forward<F>(f)(detail::std::move(value)); }
     };
 
+    //! @cond
+    template <typename T>
+    constexpr auto _make_left::operator()(T&& t) const {
+        return _left<typename detail::std::decay<T>::type>{
+            detail::std::forward<T>(t)
+        };
+    }
+    //! @endcond
+
     //////////////////////////////////////////////////////////////////////////
     // right
     //////////////////////////////////////////////////////////////////////////
-    template <typename X, typename>
-    struct _right {
+    template <typename X>
+    struct _right : operators::adl {
         X value;
+        using hana = _right;
+        using datatype = Either;
 
-        struct hana { using datatype = Either; };
+        _right() = default;
+        _right(_right const&) = default;
+        _right(_right&&) = default;
+        _right(_right&) = default;
+        template <typename Y, typename = decltype(X(detail::std::declval<Y>()))>
+        constexpr _right(Y&& y)
+            : value(detail::std::forward<Y>(y))
+        { }
 
         template <typename F, typename G>
         constexpr decltype(auto) go(F const&, G&& g) const&
@@ -71,6 +100,15 @@ namespace boost { namespace hana {
         constexpr decltype(auto) go(F const&, G&& g) &&
         { return detail::std::forward<G>(g)(detail::std::move(value)); }
     };
+
+    //! @cond
+    template <typename T>
+    constexpr auto _make_right::operator()(T&& t) const {
+        return _right<typename detail::std::decay<T>::type>{
+            detail::std::forward<T>(t)
+        };
+    }
+    //! @endcond
 
     //////////////////////////////////////////////////////////////////////////
     // Operators
