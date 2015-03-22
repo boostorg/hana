@@ -21,6 +21,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <laws/sequence.hpp>
 #include <laws/traversable.hpp>
 
+#include <string>
 #include <type_traits>
 #include <utility>
 using namespace boost::hana;
@@ -130,6 +131,15 @@ int main() {
         auto expr = make<Tuple>(test::trap_construct{});
         auto implicit_copy = expr;          (void)implicit_copy;
         decltype(expr) explicit_copy(expr); (void)explicit_copy;
+    }
+
+    //////////////////////////////////////////////////////////////////////////
+    // This used to trigger an ICE on Clang
+    //////////////////////////////////////////////////////////////////////////
+    {
+        struct Car { std::string name; };
+        auto stuff = make<Tuple>(Car{}, Car{}, Car{});
+        any_of(stuff, [](auto&& x) { return true; });
     }
 
     //////////////////////////////////////////////////////////////////////////

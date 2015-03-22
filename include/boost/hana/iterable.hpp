@@ -20,6 +20,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/enumerable.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional/always.hpp>
@@ -341,17 +342,45 @@ namespace boost { namespace hana {
 
     template <typename It>
     struct Iterable::any_of_impl {
+        template <detail::std::size_t k, detail::std::size_t Len>
+        struct any_of_helper {
+            template <typename Xs, typename Pred>
+            static constexpr auto apply(bool prev_cond, Xs&& xs, Pred&& pred) {
+                auto cond = hana::if_(pred(at_c<k>(xs)), true_, false_);
+                return prev_cond ? true_
+                    : any_of_helper<k + 1, Len>::apply(cond,
+                                        detail::std::forward<Xs>(xs),
+                                        detail::std::forward<Pred>(pred));
+            }
+
+            template <typename Xs, typename Pred>
+            static constexpr auto apply(decltype(true_), Xs&&, Pred&&)
+            { return true_; }
+
+            template <typename Xs, typename Pred>
+            static constexpr auto apply(decltype(false_), Xs&& xs, Pred&& pred) {
+                auto cond = hana::if_(pred(at_c<k>(xs)), true_, false_);
+                return any_of_helper<k + 1, Len>::apply(cond,
+                                        detail::std::forward<Xs>(xs),
+                                        detail::std::forward<Pred>(pred));
+            }
+        };
+
+        template <detail::std::size_t Len>
+        struct any_of_helper<Len, Len> {
+            template <typename Cond, typename Xs, typename Pred>
+            static constexpr auto apply(Cond cond, Xs&&, Pred&&)
+            { return cond; }
+        };
+
         template <typename Xs, typename Pred>
-        static constexpr auto apply(Xs xs, Pred pred) {
-            return hana::eval_if(hana::is_empty(xs),
-                hana::always(false_),
-                [=](auto _) {
-                    return hana::eval_if(pred(_(head)(xs)),
-                        hana::always(true_),
-                        [=](auto _) { return apply(_(tail)(xs), pred); }
-                    );
-                }
-            );
+        static constexpr auto apply(Xs&& xs, Pred&& pred) {
+            constexpr detail::std::size_t len = hana::value<
+                decltype(hana::length(xs))
+            >();
+            return any_of_helper<0, len>::apply(false_,
+                                            detail::std::forward<Xs>(xs),
+                                            detail::std::forward<Pred>(pred));
         }
     };
 }} // end namespace boost::hana
