@@ -20,11 +20,11 @@ var annotated =
         ] ],
         [ "operators", "namespaceboost_1_1hana_1_1operators.html", "namespaceboost_1_1hana_1_1operators" ],
         [ "sequence_detail", null, [
-          [ "_lazily", "structboost_1_1hana_1_1sequence__detail_1_1__lazily.html", null ],
           [ "partition_helper", "structboost_1_1hana_1_1sequence__detail_1_1partition__helper.html", null ]
         ] ],
         [ "Applicative", "structboost_1_1hana_1_1_applicative.html", "structboost_1_1hana_1_1_applicative" ],
         [ "common", "structboost_1_1hana_1_1common.html", null ],
+        [ "Comonad", "structboost_1_1hana_1_1_comonad.html", "structboost_1_1hana_1_1_comonad" ],
         [ "Comparable", "structboost_1_1hana_1_1_comparable.html", "structboost_1_1hana_1_1_comparable" ],
         [ "Constant", "structboost_1_1hana_1_1_constant.html", "structboost_1_1hana_1_1_constant" ],
         [ "datatype", "structboost_1_1hana_1_1datatype.html", null ],
@@ -45,7 +45,6 @@ var annotated =
         [ "Iterable", "structboost_1_1hana_1_1_iterable.html", "structboost_1_1hana_1_1_iterable" ],
         [ "Lazy", "structboost_1_1hana_1_1_lazy.html", "structboost_1_1hana_1_1_lazy" ],
         [ "Logical", "structboost_1_1hana_1_1_logical.html", "structboost_1_1hana_1_1_logical" ],
-        [ "make_impl< Set >", "structboost_1_1hana_1_1make__impl_3_01_set_01_4.html", null ],
         [ "Map", "structboost_1_1hana_1_1_map.html", "structboost_1_1hana_1_1_map" ],
         [ "Maybe", "structboost_1_1hana_1_1_maybe.html", "structboost_1_1hana_1_1_maybe" ],
         [ "Metafunction", "structboost_1_1hana_1_1_metafunction.html", "structboost_1_1hana_1_1_metafunction" ],

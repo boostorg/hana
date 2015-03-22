@@ -147,7 +147,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_logical.html',
 <h2>Minimal complete definition </h2>
 <ol type="1">
 <li><code>eval_if</code>, <code>not_</code> and <code>while_</code><br />
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000024">Todo:</a></b></dt><dd></dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000019">Todo:</a></b></dt><dd></dd></dl>
 </li>
 </ol>
 <h2>Provided models </h2>
@@ -165,9 +165,8 @@ A data type <code>T</code> is arithmetic if <code>std::is_arithmetic&lt;T&gt;<a 
 <h2>Operators </h2>
 <p>For convenience, the following operators are provided as an equivalent way of calling the corresponding method: </p><div class="fragment"><div class="line">&amp;&amp;  -&gt;  <a class="code" href="structboost_1_1hana_1_1_logical.html#a8d0365b860f1383b8077ea86eee79a23">and_</a></div>
 <div class="line">||  -&gt;  <a class="code" href="structboost_1_1hana_1_1_logical.html#ac5683e17dd3318d3be74e5defb1e7252">or_</a></div>
-</div><!-- fragment --><dl class="bug"><dt><b><a class="el" href="bug.html#_bug000001">Bug:</a></b></dt><dd>We can't use perfect forwarding in that MCD because of <a href="http://llvm.org/bugs/show_bug.cgi?id=20619">this bug</a>.</dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000025">Todo:</a></b></dt><dd>The methods don't short-circuit right now, which is a real bummer.</dd></dl>
-</div><table class="memberdecls">
+<div class="line">!   -&gt; <a class="code" href="structboost_1_1hana_1_1_logical.html#a3c5a578f274b7513e5008eab698fa5bc">not_</a></div>
+</div><!-- fragment --> </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of methods</h2></td></tr>
 <tr class="memitem:a06927a2badb729e1522b9030d18234df"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_logical.html#a06927a2badb729e1522b9030d18234df">if_</a></td></tr>
@@ -228,14 +227,14 @@ Synopsis of methods</h2></td></tr>
 <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_logical.html#a06927a2badb729e1522b9030d18234df">if_</a>(<span class="keyword">true</span>, 1, 2) == 1);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_logical.html#a06927a2badb729e1522b9030d18234df">if_</a>(<span class="keyword">false</span>, 1, 2) == 2);</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
+<div class="line">static_assert(</div>
 <div class="line">    <a class="code" href="structboost_1_1hana_1_1_logical.html#a06927a2badb729e1522b9030d18234df">if_</a>(true_,</div>
 <div class="line">        make&lt;Tuple&gt;(<span class="charliteral">&#39;t&#39;</span>, <span class="charliteral">&#39;r&#39;</span>, <span class="charliteral">&#39;u&#39;</span>, <span class="charliteral">&#39;e&#39;</span>),</div>
 <div class="line">        make&lt;Tuple&gt;(<span class="charliteral">&#39;f&#39;</span>, <span class="charliteral">&#39;a&#39;</span>, <span class="charliteral">&#39;l&#39;</span>, <span class="charliteral">&#39;s&#39;</span>, <span class="charliteral">&#39;e&#39;</span>)</div>
 <div class="line">    )</div>
 <div class="line">    ==</div>
 <div class="line">    make&lt;Tuple&gt;(<span class="charliteral">&#39;t&#39;</span>, <span class="charliteral">&#39;r&#39;</span>, <span class="charliteral">&#39;u&#39;</span>, <span class="charliteral">&#39;e&#39;</span>)</div>
-<div class="line">);</div>
+<div class="line">, <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -261,52 +260,52 @@ Synopsis of methods</h2></td></tr>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Conditionally execute one of two branches based on a condition. </p>
-<p>Given a condition and two branches in the form of lambdas, <code>eval_if</code> will evaluate the branch selected by the condition and return the result. But that's not all; the lambdas must accept a parameter (usually called <code>_</code>), which can be used to defer the compile-time evaluation of expressions as required. Here's an example: </p><div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> N&gt;</div>
+<p>Given a condition and two branches in the form of lambdas or <a class="el" href="structboost_1_1hana_1_1_lazy.html" title="The Lazy data type implements superficial laziness via a monadic interface. ">Lazy</a> expressions, <code>eval_if</code> will evaluate the branch selected by the condition with <code>eval</code> and return the result. The exact requirements for what the branches may be are the same requirements as those for the <code>eval</code> function.</p>
+<h2>Deferring compile-time evaluation inside <code>eval_if</code> </h2>
+<p>By passing a unary callable to <code>eval_if</code>, it is possible to defer the compile-time evaluation of selected expressions inside the lambda. This is useful when instantiating a branch would trigger a compile-time error; we only want the branch to be instantiated when that branch is selected. Here's how it can be achieved.</p>
+<p>For simplicity, we'll use a unary lambda as our unary callable. Our lambda must accept a parameter (usually called <code>_</code>), which can be used to defer the compile-time evaluation of expressions as required. Here's an example: </p><div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> N&gt;</div>
 <div class="line"><span class="keyword">auto</span> fact(N n) {</div>
-<div class="line">    <span class="keywordflow">return</span> hana::eval_if(n == hana::int_&lt;0&gt;,</div>
-<div class="line">        [](<span class="keyword">auto</span> <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>) { <span class="keywordflow">return</span> hana::int_&lt;1&gt;; },</div>
-<div class="line">        [=](<span class="keyword">auto</span> <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>) { <span class="keywordflow">return</span> n * fact(<a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>(n) - hana::int_&lt;1&gt;); }</div>
+<div class="line">    <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_logical.html#a97f92ff5d73f8ebd7e9eb61142b2e68e">eval_if</a>(n == int_&lt;0&gt;,</div>
+<div class="line">        [] { <span class="keywordflow">return</span> int_&lt;1&gt;; },</div>
+<div class="line">        [=](<span class="keyword">auto</span> <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>) { <span class="keywordflow">return</span> n * fact(<a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>(n) - int_&lt;1&gt;); }</div>
 <div class="line">    );</div>
 <div class="line">}</div>
-</div><!-- fragment --><p>What happens here is that <code>eval_if</code> will pass an identity function to the selected branch. Hence, <code>_(x)</code> is always the same as <code>x</code>, but the compiler can't tell until the lambda has been called! Hence, the compiler has to wait before it instantiates the body of the lambda and no infinite recursion happens. However, this trick to delay the instantiation of the lambda's body can only be used when the condition is known at compile-time, because otherwise both branches have to be instantiated inside the <code>eval_if</code> anyway. Also note that <code>always</code> can be used to make <code>eval_if</code> easier to work with: </p><div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> N&gt;</div>
-<div class="line"><span class="keyword">auto</span> fact(N n) {</div>
-<div class="line">    <span class="keywordflow">return</span> hana::eval_if(n == hana::int_&lt;0&gt;,</div>
-<div class="line">        <a class="code" href="group__group-functional.html#ga835970cb25a0c8dc200f1e5f8943538b">always</a>(hana::int_&lt;1&gt;),</div>
-<div class="line">        [=](<span class="keyword">auto</span> <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>) { <span class="keywordflow">return</span> n * fact(<a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>(n) - hana::int_&lt;1&gt;); }</div>
-<div class="line">    );</div>
-<div class="line">}</div>
-</div><!-- fragment --><p>There are several caveats to note with our approach to lazy branching. First, because we're using lambdas, it means that the function's result can't be used in a constant expression. This is a limitation of the current version of C++.</p>
+</div><!-- fragment --><p> What happens here is that <code>eval_if</code> will call <code>eval</code> on the selected branch. In turn, <code>eval</code> will call the selected branch either with nothing &ndash; for the <em>then</em> branch &ndash; or with <code>hana::id</code> &ndash; for the <em>else</em> branch. Hence, <code>_(x)</code> is always the same as <code>x</code>, but the compiler can't tell until the lambda has been called! Hence, the compiler has to wait before it instantiates the body of the lambda and no infinite recursion happens. However, this trick to delay the instantiation of the lambda's body can only be used when the condition is known at compile-time, because otherwise both branches have to be instantiated inside the <code>eval_if</code> anyway.</p>
+<p>There are several caveats to note with this approach to lazy branching. First, because we're using lambdas, it means that the function's result can't be used in a constant expression. This is a limitation of the current language.</p>
 <p>The second caveat is that compilers currently have several bugs regarding deeply nested lambdas with captures. So you always risk crashing the compiler, but this is a question of time before it is not a problem anymore.</p>
-<p>Finally, it means that conditionals can't be written directly inside unevaluated contexts. The reason is that a lambda can't appear in an unevaluated context, for example in <code>decltype</code>. One way to workaround this is to completely lift your type computations into variable templates instead. So instead of writing e.g. (stupid example, just to show): </p><div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><span class="keyword">struct </span>f : decltype(eval_if(true_,</div>
-<div class="line">        [](auto _) { return type&lt;T&gt;; },</div>
-<div class="line">        [](auto _) { return type&lt;T&gt;; }</div>
+<p>Finally, it means that conditionals can't be written directly inside unevaluated contexts. The reason is that a lambda can't appear in an unevaluated context, for example in <code>decltype</code>. One way to workaround this is to completely lift your type computations into variable templates instead. For example, instead of writing </p><div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><span class="keyword">struct </span>pointerize : decltype(eval_if(traits::is_pointer(type&lt;T&gt;),</div>
+<div class="line">        [] { return type&lt;T&gt;; },</div>
+<div class="line">        [](auto _) { return _(traits::add_pointer)(type&lt;T&gt;); }</div>
 <div class="line">    ))</div>
 <div class="line">{ };</div>
 </div><!-- fragment --><p>you could instead write</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><span class="keyword">auto</span> f_impl(_type&lt;T&gt; t) {</div>
-<div class="line">    <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_logical.html#a97f92ff5d73f8ebd7e9eb61142b2e68e">eval_if</a>(true_,</div>
-<div class="line">        [](<span class="keyword">auto</span>) { <span class="keywordflow">return</span> type&lt;T&gt;; },</div>
-<div class="line">        [](<span class="keyword">auto</span>) { <span class="keywordflow">return</span> type&lt;T&gt;; }</div>
+<div class="line"><span class="keyword">auto</span> pointerize_impl(T t) {</div>
+<div class="line">    <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_logical.html#a97f92ff5d73f8ebd7e9eb61142b2e68e">eval_if</a>(traits::is_pointer(t),</div>
+<div class="line">        [=] { <span class="keywordflow">return</span> t; },</div>
+<div class="line">        [=](<span class="keyword">auto</span> <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>) { <span class="keywordflow">return</span> <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>(traits::add_pointer)(t); }</div>
 <div class="line">    );</div>
 <div class="line">}</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><span class="keyword">using</span> f = decltype(f_impl(type&lt;T&gt;));</div>
-</div><!-- fragment --><p>Now, this hoop-jumping only has to be done in one place, because you should use normal function notation everywhere else in your metaprogram to perform type computations. So the syntactic cost is amortized over the whole program.</p>
+<div class="line"><span class="keyword">using</span> pointerize = decltype(pointerize_impl(type&lt;T&gt;));</div>
+</div><!-- fragment --> <blockquote class="doxtable">
+<p><b>Note</b>: This example would actually be implemented more easily with partial specializations, but my bag of examples is empty at the time of writing this. </p>
+</blockquote>
+<p>Now, this hoop-jumping only has to be done in one place, because you should use normal function notation everywhere else in your metaprogram to perform type computations. So the syntactic cost is amortized over the whole program.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">cond</td><td>The condition determining which of the two branches is selected.</td></tr>
-    <tr><td class="paramname">then</td><td>A function called as <code>then([](auto x) { return x; })</code> if <code>cond</code> is true-valued.</td></tr>
-    <tr><td class="paramname">else_</td><td>A function called as <code>else_([](auto x) { return x; })</code> if <code>cond</code> is false-valued.</td></tr>
+    <tr><td class="paramname">then</td><td>An expression called as <code>eval(then)</code> if <code>cond</code> is true-valued.</td></tr>
+    <tr><td class="paramname">else_</td><td>A function called as <code>eval(else_)</code> if <code>cond</code> is false-valued.</td></tr>
   </table>
   </dd>
 </dl>
 <h2>Example (purely compile-time condition) </h2>
 <div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> safe_make_unsigned = [](<span class="keyword">auto</span> t) {</div>
-<div class="line">    <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_logical.html#a97f92ff5d73f8ebd7e9eb61142b2e68e">eval_if</a>(trait&lt;std::is_integral&gt;(t),</div>
-<div class="line">        [=](<span class="keyword">auto</span> <span class="keywordtype">id</span>) { <span class="keywordflow">return</span> <a class="code" href="group__group-functional.html#gaef38cf34324c8edbd3597ae71811d00d">id</a>(template_&lt;std::make_unsigned_t&gt;)(t); },</div>
+<div class="line">    <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_logical.html#a97f92ff5d73f8ebd7e9eb61142b2e68e">eval_if</a>(traits::is_integral(t),</div>
+<div class="line">        [=](<span class="keyword">auto</span> <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>) { <span class="keywordflow">return</span> <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>(traits::make_unsigned)(t); },</div>
 <div class="line">        <a class="code" href="group__group-functional.html#ga835970cb25a0c8dc200f1e5f8943538b">always</a>(t)</div>
 <div class="line">    );</div>
 <div class="line">};</div>
@@ -317,7 +316,7 @@ Synopsis of methods</h2></td></tr>
 <div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> safe_divide = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
 <div class="line">    <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_logical.html#a97f92ff5d73f8ebd7e9eb61142b2e68e">eval_if</a>(y == 0,</div>
 <div class="line">        [=](<span class="keyword">auto</span>) { <span class="keywordflow">return</span> 0; },</div>
-<div class="line">        [=](<span class="keyword">auto</span> <a class="code" href="group__group-functional.html#gaef38cf34324c8edbd3597ae71811d00d">id</a>) { <span class="keywordflow">return</span> <a class="code" href="group__group-functional.html#gaef38cf34324c8edbd3597ae71811d00d">id</a>(x) / y; }</div>
+<div class="line">        [=](<span class="keyword">auto</span> <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>) { <span class="keywordflow">return</span> <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>(x) / y; }</div>
 <div class="line">    );</div>
 <div class="line">};</div>
 <div class="line"></div>

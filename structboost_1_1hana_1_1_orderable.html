@@ -168,8 +168,8 @@ Two data types <code>T</code> and <code>U</code> that model the cross-type versi
 </div><!-- fragment --><p>Take good note that the order of the arguments is reversed, so for example <code>less.than(x)(y)</code> is equivalent to <code>less(y, x)</code>, not <code>less(x, y)</code>. This is because those variants are meant to be used with higher order algorithms, where the chosen application order makes sense: </p><div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(all_of(tuple_c&lt;int, 1, 2, 3, 4&gt;, <a class="code" href="structboost_1_1hana_1_1_orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>.than(5)));</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(all_of(tuple_c&lt;int, 1, 2, 3, 4&gt;, <a class="code" href="structboost_1_1hana_1_1_orderable.html#a8012cbd416c2067be764046dcd0c2a23">less_equal</a>.than(int_&lt;4&gt;)));</div>
-</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000027">Todo:</a></b></dt><dd>Consider allowing another minimal complete definition using <code>less_equal</code>.</dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000028">Todo:</a></b></dt><dd>Make sure no circularity issue with our provided operators can arise when checking for the LessThanComparable concept.</dd></dl>
+</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000021">Todo:</a></b></dt><dd>Consider allowing another minimal complete definition using <code>less_equal</code>.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000022">Todo:</a></b></dt><dd>Make sure no circularity issue with our provided operators can arise when checking for the LessThanComparable concept.</dd></dl>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of methods</h2></td></tr>
@@ -364,7 +364,7 @@ Synopsis of methods</h2></td></tr>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Returns the smallest of its arguments according to the <code>less</code> ordering. </p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000029">Todo:</a></b></dt><dd>We can't specify the signature right now, because the returned data type depends on whether <code>x &lt; y</code> or not. If we wanted to be mathematically correct, we should probably ask that <code>if_(cond, x, y)</code> returns a common data type of <code>x</code> and <code>y</code>, and then the behavior of <code>min</code> would follow naturally. However, I'm unsure whether this is desirable because that's a big requirement.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000023">Todo:</a></b></dt><dd>We can't specify the signature right now, because the returned data type depends on whether <code>x &lt; y</code> or not. If we wanted to be mathematically correct, we should probably ask that <code>if_(cond, x, y)</code> returns a common data type of <code>x</code> and <code>y</code>, and then the behavior of <code>min</code> would follow naturally. However, I'm unsure whether this is desirable because that's a big requirement.</dd></dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_orderable.html#af10ea2fee24c0a780758f67721bb5bfa">min</a>(1, 4) == 1);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_orderable.html#af10ea2fee24c0a780758f67721bb5bfa">min</a>(int_&lt;7&gt;, int_&lt;5&gt;) == int_&lt;5&gt;);</div>
@@ -393,7 +393,7 @@ Synopsis of methods</h2></td></tr>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Returns the greatest of its arguments according to the <code>less</code> ordering. </p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000030">Todo:</a></b></dt><dd>Can't specify the signature here either. See <code>min</code> for details.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000024">Todo:</a></b></dt><dd>Can't specify the signature here either. See <code>min</code> for details.</dd></dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_orderable.html#a9fb8718f43756efef3953635f34fd67e">max</a>(1, 4) == 4);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_orderable.html#a9fb8718f43756efef3953635f34fd67e">max</a>(int_&lt;7&gt;, int_&lt;5&gt;) == int_&lt;7&gt;);</div>

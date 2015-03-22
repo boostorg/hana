@@ -44,16 +44,15 @@ var NAVTREE =
       [ "Concepts and data types", "annotated.html", "annotated" ],
       [ "Files", "files.html", "files" ]
     ] ],
-    [ "Todo List", "todo.html", null ],
-    [ "Bug List", "bug.html", null ]
+    [ "Todo List", "todo.html", null ]
   ] ]
 ];
 
 var NAVTREEINDEX =
 [
 ".html",
-"index.html#tutorial-quickstart",
-"structboost_1_1hana_1_1_sequence.html#a788b65dd69bb016d647801718e840816"
+"index.html#tutorial-preface",
+"structboost_1_1hana_1_1_sequence.html#a58c1454689bf6d2264bc428dc1d039db"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

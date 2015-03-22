@@ -1,15 +1,6 @@
 var searchData=
 [
-  ['of',['of',['../structboost_1_1hana_1_1operators_1_1of.html',1,'boost::hana::operators']]],
-  ['of_3c_20comparable_20_3e',['of&lt; Comparable &gt;',['../structboost_1_1hana_1_1operators_1_1of.html',1,'boost::hana::operators']]],
-  ['of_3c_20comparable_2c_20iterable_20_3e',['of&lt; Comparable, Iterable &gt;',['../structboost_1_1hana_1_1operators_1_1of.html',1,'boost::hana::operators']]],
-  ['of_3c_20comparable_2c_20orderable_20_3e',['of&lt; Comparable, Orderable &gt;',['../structboost_1_1hana_1_1operators_1_1of.html',1,'boost::hana::operators']]],
-  ['of_3c_20comparable_2c_20orderable_2c_20iterable_20_3e',['of&lt; Comparable, Orderable, Iterable &gt;',['../structboost_1_1hana_1_1operators_1_1of.html',1,'boost::hana::operators']]],
-  ['of_3c_20comparable_2c_20orderable_2c_20logical_2c_20monoid_2c_20group_2c_20ring_2c_20integraldomain_20_3e',['of&lt; Comparable, Orderable, Logical, Monoid, Group, Ring, IntegralDomain &gt;',['../structboost_1_1hana_1_1operators_1_1of.html',1,'boost::hana::operators']]],
-  ['of_3c_20comparable_2c_20orderable_2c_20monad_20_3e',['of&lt; Comparable, Orderable, Monad &gt;',['../structboost_1_1hana_1_1operators_1_1of.html',1,'boost::hana::operators']]],
-  ['of_3c_20comparable_2c_20orderable_2c_20monad_2c_20iterable_20_3e',['of&lt; Comparable, Orderable, Monad, Iterable &gt;',['../structboost_1_1hana_1_1operators_1_1of.html',1,'boost::hana::operators']]],
-  ['of_3c_20concept_20_3e',['of&lt; Concept &gt;',['../structboost_1_1hana_1_1operators_1_1of.html',1,'boost::hana::operators']]],
-  ['of_3c_20monad_20_3e',['of&lt; Monad &gt;',['../structboost_1_1hana_1_1operators_1_1of.html',1,'boost::hana::operators']]],
-  ['of_3c_20rest_20_3e',['of&lt; Rest &gt;',['../structboost_1_1hana_1_1operators_1_1of.html',1,'boost::hana::operators']]],
-  ['orderable',['Orderable',['../structboost_1_1hana_1_1_orderable.html',1,'boost::hana']]]
+  ['pair',['Pair',['../structboost_1_1hana_1_1_pair.html',1,'boost::hana']]],
+  ['partition_5fhelper',['partition_helper',['../structboost_1_1hana_1_1sequence__detail_1_1partition__helper.html',1,'boost::hana::sequence_detail']]],
+  ['product',['Product',['../structboost_1_1hana_1_1_product.html',1,'boost::hana']]]
 ];

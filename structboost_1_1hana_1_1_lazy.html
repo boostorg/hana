@@ -108,17 +108,9 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_lazy.html','')
 <h2>Modeled concepts </h2>
 <ol type="1">
 <li><code><a class="el" href="structboost_1_1hana_1_1_functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code><br />
-Applying a function over a lazy value with <code>transform</code> returns the result of applying the function, as a lazy value. <div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> double_ = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">    <span class="keywordflow">return</span> x * 2;</div>
-<div class="line">};</div>
+Applying a function over a lazy value with <code>transform</code> returns the result of applying the function, as a lazy value. <div class="fragment"><div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1_lazy.html#aae2998c08f1f80ed52a6acf57c4eec6c">eval</a>(transform(<a class="code" href="structboost_1_1hana_1_1_lazy.html#a73e14285897797737683aa2a776a6e0e">lazy</a>(4 / <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>)(1), <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> * 3)) == (4 / 1) * 3, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
-<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> one_over = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">    <span class="keywordflow">return</span> 1 / x;</div>
-<div class="line">};</div>
-<div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_lazy.html#aae2998c08f1f80ed52a6acf57c4eec6c">eval</a>(transform(<a class="code" href="structboost_1_1hana_1_1_lazy.html#a73e14285897797737683aa2a776a6e0e">lazy</a>(one_over)(4), double_)) == 1 / 2);</div>
-<div class="line"></div>
-<div class="line">transform(<a class="code" href="structboost_1_1hana_1_1_lazy.html#a73e14285897797737683aa2a776a6e0e">lazy</a>(one_over)(0), double_); <span class="comment">// never evaluated</span></div>
+<div class="line">transform(<a class="code" href="structboost_1_1hana_1_1_lazy.html#a73e14285897797737683aa2a776a6e0e">lazy</a>(4 / <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>)(0), <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> * 3); <span class="comment">// never evaluated</span></div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a></code><br />
 A normal value can be lifted into a lazy value by using <code>lift&lt;<a class="el" href="structboost_1_1hana_1_1_lazy.html" title="The Lazy data type implements superficial laziness via a monadic interface. ">Lazy</a>&gt;</code>. A lazy function can be lazily applied to a lazy value by using <code>ap</code>.</li>
@@ -156,6 +148,22 @@ The <code><a class="el" href="structboost_1_1hana_1_1_lazy.html" title="The Lazy
 <div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(eout == (in + 1) / 2);</div>
 <div class="line">}</div>
 </div><!-- fragment --></li>
+<li><code><a class="el" href="structboost_1_1hana_1_1_comonad.html" title="The Comonad concept represents context-sensitive computations and data. ">Comonad</a></code><br />
+The <code><a class="el" href="structboost_1_1hana_1_1_lazy.html" title="The Lazy data type implements superficial laziness via a monadic interface. ">Lazy</a></code> comonad allows evaluating a lazy computation to get its result and lazily applying functions taking lazy inputs to lazy values. This <a href="http://ldionne.com/2015/03/16/laziness-as-a-comonad">blog post</a> goes into more details about lazy evaluation and comonads. <div class="fragment"><div class="line">std::stringstream s(<span class="stringliteral">&quot;1 2 3&quot;</span>);</div>
+<div class="line"><span class="keyword">auto</span> i = <a class="code" href="structboost_1_1hana_1_1_lazy.html#a73e14285897797737683aa2a776a6e0e">lazy</a>([&amp;] {</div>
+<div class="line">    <span class="keywordtype">int</span> i;</div>
+<div class="line">    s &gt;&gt; i;</div>
+<div class="line">    <span class="keywordflow">return</span> i;</div>
+<div class="line">})();</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">auto</span> i_plus_one = extend(i, [](<span class="keyword">auto</span> lazy_int) {</div>
+<div class="line">    <span class="keywordflow">return</span> succ(<a class="code" href="structboost_1_1hana_1_1_lazy.html#aae2998c08f1f80ed52a6acf57c4eec6c">eval</a>(lazy_int));</div>
+<div class="line">});</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(extract(i_plus_one) == 2);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(extract(i_plus_one) == 3);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(extract(i_plus_one) == 4);</div>
+</div><!-- fragment --></li>
 </ol>
 <dl class="section note"><dt>Note</dt><dd><code><a class="el" href="structboost_1_1hana_1_1_lazy.html" title="The Lazy data type implements superficial laziness via a monadic interface. ">Lazy</a></code> only models a few concepts because providing more functionality would require evaluating the lazy values in most cases. Since this raises some issues such as side effects and memoization, the interface is kept minimal. </dd></dl>
 </div><table class="memberdecls">
@@ -186,12 +194,16 @@ Synopsis of methods</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; lx) -&gt; decltype(<span class="keyword">auto</span>) {</div>
-<div class="line">        <span class="keywordflow">return</span> unspecified;</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; see_documentation) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Evaluate a lazy value and return it. </p>
-
+<p>Given a lazy expression <code>expr</code>, <code>eval</code> evaluates <code>expr</code> and returns the result as a normal value. However, for convenience, <code>eval</code> can also be used with nullary and unary function objects. Specifically, if <code>expr</code> does not have the <code><a class="el" href="structboost_1_1hana_1_1_lazy.html" title="The Lazy data type implements superficial laziness via a monadic interface. ">Lazy</a></code> generalized type, it is called with no arguments at all and the result of that call is returned, i.e. <code>expr()</code> is returned. Otherwise, if <code>expr()</code> is ill-formed, then <code>expr(hana::id)</code> is returned instead. If that expression is ill-formed, then a compile-time error is triggered.</p>
+<p>The reason for allowing nullary callables in <code>eval</code> is because this allows using nullary lambdas as lazy branches to <code>eval_if</code>, which is convenient. The reason for allowing unary callables and calling them with <code>hana::id</code> is because this allows deferring the compile-time evaluation of selected expressions inside the callable. How this can be achieve is documented by <code>eval_if</code>.</p>
+<h2>Example </h2>
+<div class="fragment"><div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1_lazy.html#aae2998c08f1f80ed52a6acf57c4eec6c">eval</a>(<a class="code" href="structboost_1_1hana_1_1_lazy.html#a73e14285897797737683aa2a776a6e0e">lazy</a>(<a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> + 1)(3)) == 4, <span class="stringliteral">&quot;&quot;</span>);</div>
+</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a73e14285897797737683aa2a776a6e0e"></a>

@@ -1,10 +1,15 @@
 var searchData=
 [
-  ['make_5fimpl_3c_20set_20_3e',['make_impl&lt; Set &gt;',['../structboost_1_1hana_1_1make__impl_3_01_set_01_4.html',1,'boost::hana']]],
-  ['map',['Map',['../structboost_1_1hana_1_1_map.html',1,'boost::hana']]],
-  ['maybe',['Maybe',['../structboost_1_1hana_1_1_maybe.html',1,'boost::hana']]],
-  ['metafunction',['Metafunction',['../structboost_1_1hana_1_1_metafunction.html',1,'boost::hana']]],
-  ['monad',['Monad',['../structboost_1_1hana_1_1_monad.html',1,'boost::hana']]],
-  ['monadplus',['MonadPlus',['../structboost_1_1hana_1_1_monad_plus.html',1,'boost::hana']]],
-  ['monoid',['Monoid',['../structboost_1_1hana_1_1_monoid.html',1,'boost::hana']]]
+  ['of',['of',['../structboost_1_1hana_1_1operators_1_1of.html',1,'boost::hana::operators']]],
+  ['of_3c_20comparable_20_3e',['of&lt; Comparable &gt;',['../structboost_1_1hana_1_1operators_1_1of.html',1,'boost::hana::operators']]],
+  ['of_3c_20comparable_2c_20iterable_20_3e',['of&lt; Comparable, Iterable &gt;',['../structboost_1_1hana_1_1operators_1_1of.html',1,'boost::hana::operators']]],
+  ['of_3c_20comparable_2c_20orderable_20_3e',['of&lt; Comparable, Orderable &gt;',['../structboost_1_1hana_1_1operators_1_1of.html',1,'boost::hana::operators']]],
+  ['of_3c_20comparable_2c_20orderable_2c_20iterable_20_3e',['of&lt; Comparable, Orderable, Iterable &gt;',['../structboost_1_1hana_1_1operators_1_1of.html',1,'boost::hana::operators']]],
+  ['of_3c_20comparable_2c_20orderable_2c_20logical_2c_20monoid_2c_20group_2c_20ring_2c_20integraldomain_20_3e',['of&lt; Comparable, Orderable, Logical, Monoid, Group, Ring, IntegralDomain &gt;',['../structboost_1_1hana_1_1operators_1_1of.html',1,'boost::hana::operators']]],
+  ['of_3c_20comparable_2c_20orderable_2c_20monad_20_3e',['of&lt; Comparable, Orderable, Monad &gt;',['../structboost_1_1hana_1_1operators_1_1of.html',1,'boost::hana::operators']]],
+  ['of_3c_20comparable_2c_20orderable_2c_20monad_2c_20iterable_20_3e',['of&lt; Comparable, Orderable, Monad, Iterable &gt;',['../structboost_1_1hana_1_1operators_1_1of.html',1,'boost::hana::operators']]],
+  ['of_3c_20concept_20_3e',['of&lt; Concept &gt;',['../structboost_1_1hana_1_1operators_1_1of.html',1,'boost::hana::operators']]],
+  ['of_3c_20monad_20_3e',['of&lt; Monad &gt;',['../structboost_1_1hana_1_1operators_1_1of.html',1,'boost::hana::operators']]],
+  ['of_3c_20rest_20_3e',['of&lt; Rest &gt;',['../structboost_1_1hana_1_1operators_1_1of.html',1,'boost::hana::operators']]],
+  ['orderable',['Orderable',['../structboost_1_1hana_1_1_orderable.html',1,'boost::hana']]]
 ];

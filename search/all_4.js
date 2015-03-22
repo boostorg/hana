@@ -20,6 +20,7 @@ var searchData=
   ['drop_5finto_2ehpp',['drop_into.hpp',['../drop__into_8hpp.html',1,'']]],
   ['drop_5funtil',['drop_until',['../structboost_1_1hana_1_1_iterable.html#a7ea270dc46fcf8e1a186e99c3019e551',1,'boost::hana::Iterable']]],
   ['drop_5fwhile',['drop_while',['../structboost_1_1hana_1_1_iterable.html#aab3e80f4ae219afb61b12201738d28b8',1,'boost::hana::Iterable']]],
+  ['duplicate',['duplicate',['../structboost_1_1hana_1_1_comonad.html#afad82256757090063fe46aab188dd0e1',1,'boost::hana::Comonad']]],
   ['data_20types',['Data types',['../group__group-datatypes.html',1,'']]],
   ['details',['Details',['../group__group-details.html',1,'']]]
 ];

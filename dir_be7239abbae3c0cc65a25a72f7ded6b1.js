@@ -8,6 +8,7 @@ var dir_be7239abbae3c0cc65a25a72f7ded6b1 =
     [ "applicative.hpp", "applicative_8hpp.html", null ],
     [ "assert.hpp", "assert_8hpp.html", "assert_8hpp" ],
     [ "bool.hpp", "bool_8hpp.html", null ],
+    [ "comonad.hpp", "comonad_8hpp.html", null ],
     [ "comparable.hpp", "comparable_8hpp.html", null ],
     [ "config.hpp", "config_8hpp.html", "config_8hpp" ],
     [ "constant.hpp", "constant_8hpp.html", "constant_8hpp" ],

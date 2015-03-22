@@ -8,6 +8,7 @@ var searchData=
   ['replace',['replace',['../structboost_1_1hana_1_1_functor.html#a72e73dcc09699c619bcfb006029a8967',1,'boost::hana::Functor']]],
   ['replace_5fif',['replace_if',['../structboost_1_1hana_1_1_functor.html#ab57d42b572f43016f929b5729c2533f5',1,'boost::hana::Functor']]],
   ['reverse',['reverse',['../structboost_1_1hana_1_1_sequence.html#a4471413ccc3835db5e48658683b8aba0',1,'boost::hana::Sequence']]],
+  ['reverse_5ffold',['reverse_fold',['../structboost_1_1hana_1_1_foldable.html#a9240a51cd23ef65186e32d643e82f52e',1,'boost::hana::Foldable']]],
   ['reverse_5fpartial',['reverse_partial',['../group__group-details.html#ga5d30ed36591b4062f54ab0c87ad8d7f0',1,'boost::hana::detail']]],
   ['right',['right',['../structboost_1_1hana_1_1_either.html#a0bd40511a2cb9b281d36a7fe564177bb',1,'boost::hana::Either']]]
 ];

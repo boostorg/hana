@@ -1,6 +1,9 @@
 var searchData=
 [
-  ['adl',['adl',['../structboost_1_1hana_1_1operators_1_1adl.html',1,'boost::hana::operators']]],
-  ['applicative',['Applicative',['../structboost_1_1hana_1_1_applicative.html',1,'boost::hana']]],
-  ['array',['array',['../structboost_1_1hana_1_1detail_1_1array.html',1,'boost::hana::detail']]]
+  ['canonicalconstant',['CanonicalConstant',['../structboost_1_1hana_1_1detail_1_1_canonical_constant.html',1,'boost::hana::detail']]],
+  ['common',['common',['../structboost_1_1hana_1_1common.html',1,'boost::hana']]],
+  ['comonad',['Comonad',['../structboost_1_1hana_1_1_comonad.html',1,'boost::hana']]],
+  ['comparable',['Comparable',['../structboost_1_1hana_1_1_comparable.html',1,'boost::hana']]],
+  ['constant',['Constant',['../structboost_1_1hana_1_1_constant.html',1,'boost::hana']]],
+  ['create',['create',['../structboost_1_1hana_1_1detail_1_1create.html',1,'boost::hana::detail']]]
 ];

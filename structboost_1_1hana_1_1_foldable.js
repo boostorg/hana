@@ -6,6 +6,8 @@ var structboost_1_1hana_1_1_foldable =
     [ "foldrM", "structboost_1_1hana_1_1_foldable.html#ae89d9d0e09f3181c4d90624c426e3d88", null ],
     [ "foldr1", "structboost_1_1hana_1_1_foldable.html#a03b3683b885c27b5c607fe6f0d2f7356", null ],
     [ "foldl1", "structboost_1_1hana_1_1_foldable.html#a8ca4972e61b7ad36ff9fcca9e6131da6", null ],
+    [ "fold", "structboost_1_1hana_1_1_foldable.html#a4e8e653553829fc2bf88f13ab907def1", null ],
+    [ "reverse_fold", "structboost_1_1hana_1_1_foldable.html#a9240a51cd23ef65186e32d643e82f52e", null ],
     [ "for_each", "structboost_1_1hana_1_1_foldable.html#a80176fbdfbccc09e902263557eb0984d", null ],
     [ "length", "structboost_1_1hana_1_1_foldable.html#a5fb377e43aa7753bb77aa346c67fae0d", null ],
     [ "size", "structboost_1_1hana_1_1_foldable.html#a95d3fe103aa2ab8634a824562dd8390c", null ],

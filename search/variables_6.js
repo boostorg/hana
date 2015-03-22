@@ -9,6 +9,7 @@ var searchData=
   ['fix',['fix',['../group__group-functional.html#ga1393f40da2e8da6e0c12fce953e56a6c',1,'boost::hana']]],
   ['flatten',['flatten',['../structboost_1_1hana_1_1_monad.html#a45985423d0658e88f0403773146af110',1,'boost::hana::Monad']]],
   ['flip',['flip',['../group__group-functional.html#ga004f884cdbb85c2efe3383c1db450094',1,'boost::hana']]],
+  ['fold',['fold',['../structboost_1_1hana_1_1_foldable.html#a4e8e653553829fc2bf88f13ab907def1',1,'boost::hana::Foldable']]],
   ['foldl',['foldl',['../structboost_1_1hana_1_1_foldable.html#a0a5d375abcde2ceed89662df491a2c43',1,'boost::hana::Foldable']]],
   ['foldl1',['foldl1',['../structboost_1_1hana_1_1_foldable.html#a8ca4972e61b7ad36ff9fcca9e6131da6',1,'boost::hana::Foldable']]],
   ['foldlm',['foldlM',['../structboost_1_1hana_1_1_foldable.html#ad8c31306de6967bc6bbb1ef9587975f9',1,'boost::hana::Foldable']]],

@@ -6,7 +6,7 @@ var group__group_datatypes =
       [ "either", "structboost_1_1hana_1_1_either.html#ad53196ce1c8235c53dc237668780cd36", null ]
     ] ],
     [ "IntegralConstant", "structboost_1_1hana_1_1_integral_constant.html", [
-      [ "integral_constant", "structboost_1_1hana_1_1_integral_constant.html#add84fb21ae6605a61da449cb716d8c2a", null ],
+      [ "integral_constant", "structboost_1_1hana_1_1_integral_constant.html#a3548ddeed18cbfe945b7de9cb65f873b", null ],
       [ "bool_", "structboost_1_1hana_1_1_integral_constant.html#ade6e1698f22d8a126992e55676496a87", null ],
       [ "true_", "structboost_1_1hana_1_1_integral_constant.html#ae6096d56dd1b76bb9d37e4121eb5b33c", null ],
       [ "false_", "structboost_1_1hana_1_1_integral_constant.html#a1fb33fb686dbbe3e9718071ba2630641", null ],
@@ -53,6 +53,8 @@ var group__group_datatypes =
       [ "range_c", "structboost_1_1hana_1_1_range.html#a899b7a0c065ff64cd747fe1671753d3f", null ]
     ] ],
     [ "Set", "structboost_1_1hana_1_1_set.html", [
+      [ "make< Set >", "structboost_1_1hana_1_1_set.html#ade2be766c8daa85306a8d9c29bf75dfe", null ],
+      [ "make_set", "structboost_1_1hana_1_1_set.html#af38c23fb98d8eec68c1491a8bca9ce43", null ],
       [ "set", "structboost_1_1hana_1_1_set.html#a7c6caacd6df4a89e8b62b369007d9602", null ],
       [ "insert", "structboost_1_1hana_1_1_set.html#a5791e6dc0e27d8e3a113e4d94482550f", null ]
     ] ],

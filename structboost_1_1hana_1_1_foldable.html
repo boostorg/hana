@@ -118,7 +118,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_foldable.html'
 <li>For builtin arrays<br />
 Builtin arrays whose size is known can be folded as-if they were homogeneous tuples. However, note that builtin arrays can't be made more than <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a></code> (e.g. <code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>) because they can't be empty and they also can't be returned from functions.</li>
 </ol>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000011">Todo:</a></b></dt><dd>Make it possible to specify the <a class="el" href="structboost_1_1hana_1_1_monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a> used for <code>sum</code> and <code>product</code>? </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000010">Todo:</a></b></dt><dd>Make it possible to specify the <a class="el" href="structboost_1_1hana_1_1_monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a> used for <code>sum</code> and <code>product</code>? </dd></dl>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of methods</h2></td></tr>
@@ -142,6 +142,12 @@ Synopsis of methods</h2></td></tr>
 <tr class="memitem:a8ca4972e61b7ad36ff9fcca9e6131da6"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_foldable.html#a8ca4972e61b7ad36ff9fcca9e6131da6">foldl1</a></td></tr>
 <tr class="memdesc:a8ca4972e61b7ad36ff9fcca9e6131da6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Variant of <code>foldl</code> that has no base case, and thus may only be applied to non-empty structures.  <a href="#a8ca4972e61b7ad36ff9fcca9e6131da6">More...</a><br /></td></tr>
 <tr class="separator:a8ca4972e61b7ad36ff9fcca9e6131da6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e8e653553829fc2bf88f13ab907def1"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_foldable.html#a4e8e653553829fc2bf88f13ab907def1">fold</a></td></tr>
+<tr class="memdesc:a4e8e653553829fc2bf88f13ab907def1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>fold</code> in Boost.Fusion and Boost.MPL.  <a href="#a4e8e653553829fc2bf88f13ab907def1">More...</a><br /></td></tr>
+<tr class="separator:a4e8e653553829fc2bf88f13ab907def1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9240a51cd23ef65186e32d643e82f52e"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_foldable.html#a9240a51cd23ef65186e32d643e82f52e">reverse_fold</a></td></tr>
+<tr class="memdesc:a9240a51cd23ef65186e32d643e82f52e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>reverse_fold</code> in Boost.Fusion and Boost.MPL.  <a href="#a9240a51cd23ef65186e32d643e82f52e">More...</a><br /></td></tr>
+<tr class="separator:a9240a51cd23ef65186e32d643e82f52e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a80176fbdfbccc09e902263557eb0984d"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_foldable.html#a80176fbdfbccc09e902263557eb0984d">for_each</a></td></tr>
 <tr class="memdesc:a80176fbdfbccc09e902263557eb0984d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform an action on each element of a foldable, discarding the result each time.  <a href="#a80176fbdfbccc09e902263557eb0984d">More...</a><br /></td></tr>
 <tr class="separator:a80176fbdfbccc09e902263557eb0984d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -215,15 +221,19 @@ Synopsis of methods</h2></td></tr>
 </dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="keyword">auto</span> to_string = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">    <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>std::ostringstream const&amp;<span class="keyword">&gt;</span>(std::ostringstream{} &lt;&lt; x).str();</div>
+<div class="line">    std::ostringstream ss;</div>
+<div class="line">    ss &lt;&lt; x;</div>
+<div class="line">    <span class="keywordflow">return</span> ss.str();</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><span class="keyword">auto</span> show = [=](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
-<div class="line">    <span class="keywordflow">return</span> <span class="stringliteral">&quot;(&quot;</span> + to_string(x) + <span class="stringliteral">&quot; + &quot;</span> + to_string(y) + <span class="stringliteral">&quot;)&quot;</span>;</div>
+<div class="line"><span class="keyword">auto</span> f = [=](std::string s, <span class="keyword">auto</span> element) {</div>
+<div class="line">    <span class="keywordflow">return</span> <span class="stringliteral">&quot;f(&quot;</span> + s + <span class="stringliteral">&quot;, &quot;</span> + to_string(element) + <span class="stringliteral">&quot;)&quot;</span>;</div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1_foldable.html#a0a5d375abcde2ceed89662df491a2c43">foldl</a>(make&lt;Tuple&gt;(2, <span class="stringliteral">&quot;3&quot;</span>, <span class="charliteral">&#39;4&#39;</span>), <span class="stringliteral">&quot;1&quot;</span>, show) == <span class="stringliteral">&quot;(((1 + 2) + 3) + 4)&quot;</span></div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_foldable.html#a0a5d375abcde2ceed89662df491a2c43">foldl</a>(make&lt;Tuple&gt;(2, <span class="charliteral">&#39;3&#39;</span>, 4, 5.0), <span class="stringliteral">&quot;1&quot;</span>, f)</div>
+<div class="line">        ==</div>
+<div class="line">    <span class="stringliteral">&quot;f(f(f(f(1, 2), 3), 4), 5)&quot;</span></div>
 <div class="line">);</div>
 </div><!-- fragment --><h2>Benchmarks </h2>
 <div class="image">
@@ -347,15 +357,19 @@ template&lt;typename M &gt; </div>
 </dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="keyword">auto</span> to_string = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">    <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>std::ostringstream const&amp;<span class="keyword">&gt;</span>(std::ostringstream{} &lt;&lt; x).str();</div>
+<div class="line">    std::ostringstream ss;</div>
+<div class="line">    ss &lt;&lt; x;</div>
+<div class="line">    <span class="keywordflow">return</span> ss.str();</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><span class="keyword">auto</span> show = [=](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
-<div class="line">    <span class="keywordflow">return</span> <span class="stringliteral">&quot;(&quot;</span> + to_string(x) + <span class="stringliteral">&quot; + &quot;</span> + to_string(y) + <span class="stringliteral">&quot;)&quot;</span>;</div>
+<div class="line"><span class="keyword">auto</span> f = [=](<span class="keyword">auto</span> element, std::string s) {</div>
+<div class="line">    <span class="keywordflow">return</span> <span class="stringliteral">&quot;f(&quot;</span> + to_string(element) + <span class="stringliteral">&quot;, &quot;</span> + s + <span class="stringliteral">&quot;)&quot;</span>;</div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>(make&lt;Tuple&gt;(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>), <span class="stringliteral">&quot;4&quot;</span>, show) == <span class="stringliteral">&quot;(1 + (2 + (3 + 4)))&quot;</span></div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.0, 4), <span class="stringliteral">&quot;5&quot;</span>, f)</div>
+<div class="line">        ==</div>
+<div class="line">    <span class="stringliteral">&quot;f(1, f(2, f(3, f(4, 5))))&quot;</span></div>
 <div class="line">);</div>
 </div><!-- fragment --><h2>Benchmarks </h2>
 <div class="image">
@@ -455,15 +469,19 @@ template&lt;typename M &gt; </div>
 </dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="keyword">auto</span> to_string = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">    <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>std::ostringstream const&amp;<span class="keyword">&gt;</span>(std::ostringstream{} &lt;&lt; x).str();</div>
+<div class="line">    std::ostringstream ss;</div>
+<div class="line">    ss &lt;&lt; x;</div>
+<div class="line">    <span class="keywordflow">return</span> ss.str();</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><span class="keyword">auto</span> show = [=](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
-<div class="line">    <span class="keywordflow">return</span> <span class="stringliteral">&quot;(&quot;</span> + to_string(x) + <span class="stringliteral">&quot; + &quot;</span> + to_string(y) + <span class="stringliteral">&quot;)&quot;</span>;</div>
+<div class="line"><span class="keyword">auto</span> f = [=](<span class="keyword">auto</span> element, std::string s) {</div>
+<div class="line">    <span class="keywordflow">return</span> <span class="stringliteral">&quot;f(&quot;</span> + to_string(element) + <span class="stringliteral">&quot;, &quot;</span> + s + <span class="stringliteral">&quot;)&quot;</span>;</div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1_foldable.html#a03b3683b885c27b5c607fe6f0d2f7356">foldr1</a>(make&lt;Tuple&gt;(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>), show) == <span class="stringliteral">&quot;(1 + (2 + 3))&quot;</span></div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_foldable.html#a03b3683b885c27b5c607fe6f0d2f7356">foldr1</a>(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.0, 4, <span class="stringliteral">&quot;5&quot;</span>), f)</div>
+<div class="line">        ==</div>
+<div class="line">    <span class="stringliteral">&quot;f(1, f(2, f(3, f(4, 5))))&quot;</span></div>
 <div class="line">);</div>
 </div><!-- fragment --><h2>Benchmarks </h2>
 <div class="image">
@@ -503,21 +521,129 @@ template&lt;typename M &gt; </div>
 </dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="keyword">auto</span> to_string = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">    <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>std::ostringstream const&amp;<span class="keyword">&gt;</span>(std::ostringstream{} &lt;&lt; x).str();</div>
+<div class="line">    std::ostringstream ss;</div>
+<div class="line">    ss &lt;&lt; x;</div>
+<div class="line">    <span class="keywordflow">return</span> ss.str();</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><span class="keyword">auto</span> show = [=](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
-<div class="line">    <span class="keywordflow">return</span> <span class="stringliteral">&quot;(&quot;</span> + to_string(x) + <span class="stringliteral">&quot; + &quot;</span> + to_string(y) + <span class="stringliteral">&quot;)&quot;</span>;</div>
+<div class="line"><span class="keyword">auto</span> f = [=](std::string s, <span class="keyword">auto</span> element) {</div>
+<div class="line">    <span class="keywordflow">return</span> <span class="stringliteral">&quot;f(&quot;</span> + s + <span class="stringliteral">&quot;, &quot;</span> + to_string(element) + <span class="stringliteral">&quot;)&quot;</span>;</div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1_foldable.html#a8ca4972e61b7ad36ff9fcca9e6131da6">foldl1</a>(make&lt;Tuple&gt;(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>), show) == <span class="stringliteral">&quot;((1 + 2) + 3)&quot;</span></div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_foldable.html#a8ca4972e61b7ad36ff9fcca9e6131da6">foldl1</a>(make&lt;Tuple&gt;(<span class="stringliteral">&quot;1&quot;</span>, 2, <span class="charliteral">&#39;3&#39;</span>, 4, 5.0), f)</div>
+<div class="line">        ==</div>
+<div class="line">    <span class="stringliteral">&quot;f(f(f(f(1, 2), 3), 4), 5)&quot;</span></div>
 <div class="line">);</div>
 </div><!-- fragment --><h2>Benchmarks </h2>
 <div class="image">
 <img src="benchmark/foldable/foldl1.ctime.png" alt="foldl1.ctime.png"/>
 </div>
  
+</div>
+</div>
+<a class="anchor" id="a4e8e653553829fc2bf88f13ab907def1"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto fold</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; foldable[, <span class="keyword">auto</span>&amp;&amp; state], <span class="keyword">auto</span>&amp;&amp; f) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">        <span class="keywordflow">return</span> see-documentation;</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Equivalent to <code>fold</code> in Boost.Fusion and Boost.MPL. </p>
+<p>This method has the same semantics as <code>fold</code> in Boost.Fusion and Boost.MPL, with the extension that an initial state is not required. Hence, this method can be called in two different ways. When called with three arguments, <code>fold</code> is just equivalent to <code>foldl</code>. In other words, </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_foldable.html#a4e8e653553829fc2bf88f13ab907def1">fold</a>(sequence, state, f) == <a class="code" href="structboost_1_1hana_1_1_foldable.html#a0a5d375abcde2ceed89662df491a2c43">foldl</a>(sequence, state, f)</div>
+</div><!-- fragment --><p>When called with only two arguments, <code>fold</code> is equivalent to <code>foldl1</code>. In this case, <code>fold</code> assumes that the two arguments consist of a <a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a> and a function. In other words, </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_foldable.html#a4e8e653553829fc2bf88f13ab907def1">fold</a>(sequence, f) == <a class="code" href="structboost_1_1hana_1_1_foldable.html#a8ca4972e61b7ad36ff9fcca9e6131da6">foldl1</a>(sequence, f)</div>
+</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>This method is a convenience alias to <code>foldl</code> or <code>foldl1</code>. As an alias, <code>fold</code> is not tag-dispatched on its own and <code>foldl</code>/<code>foldl1</code> should be customized instead.</dd></dl>
+<h2>Example </h2>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> to_string = [](<span class="keyword">auto</span> x) {</div>
+<div class="line">    std::ostringstream ss;</div>
+<div class="line">    ss &lt;&lt; x;</div>
+<div class="line">    <span class="keywordflow">return</span> ss.str();</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">auto</span> f = [=](std::string s, <span class="keyword">auto</span> element) {</div>
+<div class="line">    <span class="keywordflow">return</span> <span class="stringliteral">&quot;f(&quot;</span> + s + <span class="stringliteral">&quot;, &quot;</span> + to_string(element) + <span class="stringliteral">&quot;)&quot;</span>;</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// With an initial state</span></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_foldable.html#a4e8e653553829fc2bf88f13ab907def1">fold</a>(make&lt;Tuple&gt;(2, <span class="charliteral">&#39;3&#39;</span>, 4, 5.0), <span class="stringliteral">&quot;1&quot;</span>, f)</div>
+<div class="line">        ==</div>
+<div class="line">    <span class="stringliteral">&quot;f(f(f(f(1, 2), 3), 4), 5)&quot;</span></div>
+<div class="line">);</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// Without an initial state</span></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_foldable.html#a4e8e653553829fc2bf88f13ab907def1">fold</a>(make&lt;Tuple&gt;(<span class="stringliteral">&quot;1&quot;</span>, 2, <span class="charliteral">&#39;3&#39;</span>, 4, 5.0), f)</div>
+<div class="line">        ==</div>
+<div class="line">    <span class="stringliteral">&quot;f(f(f(f(1, 2), 3), 4), 5)&quot;</span></div>
+<div class="line">);</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="a9240a51cd23ef65186e32d643e82f52e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto reverse_fold</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; foldable[, <span class="keyword">auto</span>&amp;&amp; state], <span class="keyword">auto</span>&amp;&amp; f) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">        <span class="keywordflow">return</span> see-documentation;</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Equivalent to <code>reverse_fold</code> in Boost.Fusion and Boost.MPL. </p>
+<p>This method has the same semantics as <code>reverse_fold</code> in Boost.Fusion and Boost.MPL, with the extension that an initial state is not required. Hence, this method can be called in two different ways. When called with three arguments, <code>reverse_fold</code> is equivalent to <code>foldr</code>, except that the accumulating function should expect its arguments in reverse order (to match the order used in Fusion). In other words, </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_foldable.html#a9240a51cd23ef65186e32d643e82f52e">reverse_fold</a>(sequence, state, f) == <a class="code" href="structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d">foldr</a>(sequence, state, <a class="code" href="group__group-functional.html#ga004f884cdbb85c2efe3383c1db450094">flip</a>(f))</div>
+</div><!-- fragment --><p>When called with only two arguments, <code>reverse_fold</code> is equivalent to <code>foldr1</code>, except that the accumulating function should expect its arguments in reverse order (to match the order used in Fusion). In this case, <code>reverse_fold</code> assumes that the two arguments consist of a <a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a> and a function. In other words, </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_foldable.html#a9240a51cd23ef65186e32d643e82f52e">reverse_fold</a>(sequence, f) == <a class="code" href="structboost_1_1hana_1_1_foldable.html#a03b3683b885c27b5c607fe6f0d2f7356">foldr1</a>(sequence, <a class="code" href="group__group-functional.html#ga004f884cdbb85c2efe3383c1db450094">flip</a>(f))</div>
+</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>This method is a convenience alias to <code>foldr</code> or <code>foldr1</code>. As an alias, <code>reverse_fold</code> is not tag-dispatched on its own and <code>foldr</code>/<code>foldr1</code> should be customized instead.</dd></dl>
+<h2>Example </h2>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> to_string = [](<span class="keyword">auto</span> x) {</div>
+<div class="line">    std::ostringstream ss;</div>
+<div class="line">    ss &lt;&lt; x;</div>
+<div class="line">    <span class="keywordflow">return</span> ss.str();</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">auto</span> f = [=](std::string s, <span class="keyword">auto</span> element) {</div>
+<div class="line">    <span class="keywordflow">return</span> <span class="stringliteral">&quot;f(&quot;</span> + s + <span class="stringliteral">&quot;, &quot;</span> + to_string(element) + <span class="stringliteral">&quot;)&quot;</span>;</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// With an initial state</span></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_foldable.html#a9240a51cd23ef65186e32d643e82f52e">reverse_fold</a>(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.0, 4), <span class="stringliteral">&quot;5&quot;</span>, f)</div>
+<div class="line">        ==</div>
+<div class="line">    <span class="stringliteral">&quot;f(f(f(f(5, 4), 3), 2), 1)&quot;</span></div>
+<div class="line">);</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// Without an initial state</span></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_foldable.html#a9240a51cd23ef65186e32d643e82f52e">reverse_fold</a>(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.0, 4, <span class="stringliteral">&quot;5&quot;</span>), f)</div>
+<div class="line">        ==</div>
+<div class="line">    <span class="stringliteral">&quot;f(f(f(f(5, 4), 3), 2), 1)&quot;</span></div>
+<div class="line">);</div>
+</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a80176fbdfbccc09e902263557eb0984d"></a>
@@ -550,7 +676,7 @@ template&lt;typename M &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000012">Todo:</a></b></dt><dd>The presence of implicit side effects in this function might be a smell that it should be moved to a different concept and handled through <code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code>s.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000011">Todo:</a></b></dt><dd>The presence of implicit side effects in this function might be a smell that it should be moved to a different concept and handled through <code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code>s.</dd></dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line">std::stringstream ss;</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1_foldable.html#a80176fbdfbccc09e902263557eb0984d">for_each</a>(make&lt;Tuple&gt;(0, <span class="charliteral">&#39;1&#39;</span>, <span class="stringliteral">&quot;234&quot;</span>, 5.5), [&amp;](<span class="keyword">auto</span> x) {</div>

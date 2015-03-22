@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['traversable',['Traversable',['../structboost_1_1hana_1_1_traversable.html',1,'boost::hana']]],
-  ['tuple',['Tuple',['../structboost_1_1hana_1_1_tuple.html',1,'boost::hana']]],
-  ['type',['Type',['../structboost_1_1hana_1_1_type.html',1,'boost::hana']]]
+  ['vector',['Vector',['../structboost_1_1hana_1_1ext_1_1boost_1_1mpl_1_1_vector.html',1,'boost::hana::ext::boost::mpl']]]
 ];

@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['_5flazily',['_lazily',['../structboost_1_1hana_1_1sequence__detail_1_1__lazily.html',1,'boost::hana::sequence_detail']]]
+  ['adl',['adl',['../structboost_1_1hana_1_1operators_1_1adl.html',1,'boost::hana::operators']]],
+  ['applicative',['Applicative',['../structboost_1_1hana_1_1_applicative.html',1,'boost::hana']]],
+  ['array',['array',['../structboost_1_1hana_1_1detail_1_1array.html',1,'boost::hana::detail']]]
 ];

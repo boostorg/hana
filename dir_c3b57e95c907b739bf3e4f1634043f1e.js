@@ -3,6 +3,7 @@ var dir_c3b57e95c907b739bf3e4f1634043f1e =
     [ "core", "dir_5cd48345e613e9c2bb7d6a9fbaa80f49.html", "dir_5cd48345e613e9c2bb7d6a9fbaa80f49" ],
     [ "applicative.hpp", "fwd_2applicative_8hpp.html", null ],
     [ "bool.hpp", "fwd_2bool_8hpp.html", null ],
+    [ "comonad.hpp", "fwd_2comonad_8hpp.html", null ],
     [ "comparable.hpp", "fwd_2comparable_8hpp.html", null ],
     [ "constant.hpp", "fwd_2constant_8hpp.html", null ],
     [ "core.hpp", "fwd_2core_8hpp.html", null ],
@@ -29,9 +30,7 @@ var dir_c3b57e95c907b739bf3e4f1634043f1e =
     [ "ring.hpp", "fwd_2ring_8hpp.html", null ],
     [ "searchable.hpp", "fwd_2searchable_8hpp.html", null ],
     [ "sequence.hpp", "fwd_2sequence_8hpp.html", null ],
-    [ "set.hpp", "fwd_2set_8hpp.html", [
-      [ "make_impl< Set >", "structboost_1_1hana_1_1make__impl_3_01_set_01_4.html", null ]
-    ] ],
+    [ "set.hpp", "fwd_2set_8hpp.html", null ],
     [ "string.hpp", "fwd_2string_8hpp.html", "fwd_2string_8hpp" ],
     [ "traversable.hpp", "fwd_2traversable_8hpp.html", null ],
     [ "tuple.hpp", "fwd_2tuple_8hpp.html", "fwd_2tuple_8hpp" ],

@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['searchable',['Searchable',['../structboost_1_1hana_1_1_searchable.html',1,'boost::hana']]],
-  ['sequence',['Sequence',['../structboost_1_1hana_1_1_sequence.html',1,'boost::hana']]],
-  ['set',['Set',['../structboost_1_1hana_1_1_set.html',1,'boost::hana']]],
-  ['string',['String',['../structboost_1_1hana_1_1_string.html',1,'boost::hana']]]
+  ['traversable',['Traversable',['../structboost_1_1hana_1_1_traversable.html',1,'boost::hana']]],
+  ['tuple',['Tuple',['../structboost_1_1hana_1_1_tuple.html',1,'boost::hana']]],
+  ['type',['Type',['../structboost_1_1hana_1_1_type.html',1,'boost::hana']]]
 ];
