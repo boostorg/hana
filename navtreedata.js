@@ -31,7 +31,9 @@ var NAVTREE =
         [ "Creating new concepts", "index.html#tutorial-extending-creating_concepts", null ]
       ] ],
       [ "Header organization", "index.html#tutorial-header_organization", null ],
-      [ "Using the reference", "index.html#tutorial-using_the_reference", null ]
+      [ "Using the reference", "index.html#tutorial-using_the_reference", [
+        [ "Pseudo-code glossary", "index.html#tutorial-using_the_reference-pseudo", null ]
+      ] ]
     ] ],
     [ "Reference documentation", "modules.html", "modules" ],
     [ "Indexes", "usergroup0.html", [
@@ -52,7 +54,7 @@ var NAVTREEINDEX =
 [
 ".html",
 "index.html#tutorial-preface",
-"structboost_1_1hana_1_1_sequence.html#a58c1454689bf6d2264bc428dc1d039db"
+"structboost_1_1hana_1_1_sequence.html#a45ec7767d19eb7eaabb71ead3796a7f1"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -8,6 +8,7 @@ var NAVTREEINDEX1 =
 "index.html#tutorial-type":[0,7],
 "index.html#tutorial-type-perf":[0,7,0],
 "index.html#tutorial-using_the_reference":[0,13],
+"index.html#tutorial-using_the_reference-pseudo":[0,13,0],
 "infix_8hpp.html":[2,2,0,0,3,9],
 "infix_8hpp.html#ga7bdafba6dc801f1d2d83731ad9714557":[2,2,0,0,3,9,0],
 "insert__fwd_8hpp.html":[2,2,0,0,1,10],
@@ -248,6 +249,5 @@ var NAVTREEINDEX1 =
 "structboost_1_1hana_1_1_sequence.html#a27aa67fa9ffc3d89b23a6dce018013d4":[1,0,19,20],
 "structboost_1_1hana_1_1_sequence.html#a2c20028c5115dcf38063d322f27b4ee1":[1,0,19,18],
 "structboost_1_1hana_1_1_sequence.html#a2c8c7ea5db04febb890469a024fcd58b":[1,0,19,22],
-"structboost_1_1hana_1_1_sequence.html#a4471413ccc3835db5e48658683b8aba0":[1,0,19,8],
-"structboost_1_1hana_1_1_sequence.html#a45ec7767d19eb7eaabb71ead3796a7f1":[1,0,19,5]
+"structboost_1_1hana_1_1_sequence.html#a4471413ccc3835db5e48658683b8aba0":[1,0,19,8]
 };
