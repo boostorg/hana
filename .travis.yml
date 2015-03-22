@@ -73,6 +73,10 @@ install:
 
 
 before_script:
+    # Kill some unused processes that take up some memory.
+    - sudo /etc/init.d/postgresql stop
+    - sudo service mysql stop
+
     # Check baseline memory usage; for compare with after_failure when OOMs occur
     - free
     - vmstat
