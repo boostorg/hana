@@ -1179,32 +1179,53 @@ follow:
     Implementation details. Don't go there.
 
 
+
+@subsection tutorial-using_the_reference-pseudo Pseudo-code glossary
+
 In the documentation, a simplified implementation of the documented object
 is sometimes provided in pseudo-code. The reason is that the actual
-implementation is sometimes contrived because of unimportant details or
-language limitations. This is particularly present in the [Functional]
-(@ref group-functional) module. Here is an explanation of some terms that
+implementation is sometimes contrived because of unimportant details
+or language limitations. Here is an explanation of some terms that
 appear in the pseudo-code:
 
-`forwarded(x)`
---------------
-Means that the object is forwarded optimally. This means that if `x` is a
-parameter, it is `std::forward`ed, and if it is a captured variable, it is
-moved from whenever the enclosing lambda is an rvalue.
+- `forwarded(x)`\n
+    Means that the object is forwarded optimally. This means that if `x` is a
+    parameter, it is `std::forward`ed, and if it is a captured variable, it is
+    moved from whenever the enclosing lambda is an rvalue.
 
-Also note that when `x` can be moved from, the statement
-`return forwarded(x);` in a function with `decltype(auto)` does not mean
-that an rvalue reference to `x` will be returned, which would create a
-dangling reference. Rather, it means that `x` is returned by value, the
-value being constructed with the `std::forward`ed `x`.
+    Also note that when `x` can be moved from, the statement
+    `return forwarded(x);` in a function with `decltype(auto)` does not mean
+    that an rvalue reference to `x` will be returned, which would create a
+    dangling reference. Rather, it means that `x` is returned by value, the
+    value being constructed with the `std::forward`ed `x`.
 
-`perfect-capture`
------------------
-This is used in lambdas to signify that the captured variables are initialized
-using perfect forwarding, as if `[x(forwarded(x))...]() { }` had been used.
+- `perfect-capture`\n
+    This is used in lambdas to signify that the captured variables are
+    initialized using perfect forwarding, as if `[x(forwarded(x))...]() { }`
+    had been used.
 
-I hope you enjoy using the library, and please consider contributing since
-there is still a lot of work to do!
+- `decayed(T)`\n
+    Represents a type `T` after decaying. This is basically equivalent to
+    `std::decay_t<T>`.
+
+- `tag-dispatched`\n
+    This means that the documented method uses tag-dispatching, and hence
+    the exact implementation depends on the model of the concept associated
+    to the method.
+
+- `unspecified-type`\n
+    This is used to express the fact that the return-type of a function
+    is unspecified, and hence you should not rely on it being anything
+    special beyond what is documented. Normally, the concepts satisfied
+    by the returned object will be specified, because otherwise that
+    function wouldn't be very useful.
+
+
+
+
+------------------------------------------------------------------------------
+This finishes the tutorial part of the documentation. I hope you enjoy using
+the library, and please leave feedback on GitHub so we can improve the library!
 
 -- Louis
 
