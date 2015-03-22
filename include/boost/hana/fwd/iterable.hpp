@@ -144,7 +144,6 @@ namespace boost { namespace hana {
     //! - Add perfect forwarding in the methods.
     //! - Use perfect forwarding in `Iterable::find_impl` once Clang
     //!   bug #20619 is fixed.
-    //! - Find a proper way to provide member operators.
     struct Iterable {
         template <typename It> struct foldl_impl;
         template <typename It> struct foldr_impl;

@@ -161,14 +161,6 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //!
-    //! @bug
-    //! We can't use perfect forwarding in that MCD because of
-    //! [this bug](http://llvm.org/bugs/show_bug.cgi?id=20619).
-    //!
-    //! @todo
-    //! The methods don't short-circuit right now, which is a real bummer.
-    //!
-    //!
     //! [1]: http://en.wikipedia.org/wiki/Boolean_algebra_(structure)
     struct Logical { };
 

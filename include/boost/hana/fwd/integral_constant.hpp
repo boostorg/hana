@@ -163,35 +163,6 @@ namespace boost { namespace hana {
         using value_type = T;
     };
 
-    //! Creates an `IntegralConstant` holding the given compile-time value.
-    //! @relates IntegralConstant
-    //!
-    //! Specifically, `integral_constant<T, v` is an `IntegralConstant`
-    //! holding the compile-time value `v` of an integral type `T`.
-    //!
-    //!
-    //! @tparam T
-    //! The type of the value to hold in the `IntegralConstant`. It must be an
-    //! integral type.
-    //!
-    //! @tparam v
-    //! The integral value to hold in the `IntegralConstant`.
-    //!
-    //!
-    //! Example
-    //! -------
-    //! @snippet example/integral_constant.cpp integral_constant
-    //!
-    //!
-    //! @todo
-    //! - Do we want `char_<1> + char_<2> == char_<3>` or
-    //!   `char_<1> + char_<2> == int_<3>`?
-    //! - Consider specifying the type of `integral_constant<...>` to allow
-    //!   overloading on its type. Not sure yet whether that's desirable or not.
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    template <typename T, T v>
-    constexpr unspecified-type integral_constant{};
-#else
     namespace ic_detail {
         template <typename T, T v>
         struct _with_index {
@@ -224,9 +195,26 @@ namespace boost { namespace hana {
         using datatype = IntegralConstant<T>;
     };
 
+    //! Creates an `IntegralConstant` holding the given compile-time value.
+    //! @relates IntegralConstant
+    //!
+    //! Specifically, `integral_constant<T, v` is an `IntegralConstant`
+    //! holding the compile-time value `v` of an integral type `T`.
+    //!
+    //!
+    //! @tparam T
+    //! The type of the value to hold in the `IntegralConstant`. It must be an
+    //! integral type.
+    //!
+    //! @tparam v
+    //! The integral value to hold in the `IntegralConstant`.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/integral_constant.cpp integral_constant
     template <typename T, T v>
     constexpr _integral_constant<T, v> integral_constant{};
-#endif
 
     //! @relates IntegralConstant
     template <bool b>

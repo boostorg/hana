@@ -109,14 +109,6 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //!
-    //! @todo
-    //! Implement other utility methods like `divides`, `even` and `odd`.
-    //! Also ponder adding `div_mod`, which might allow optimizations.
-    //!
-    //! @todo
-    //! IntegralDomain is the wrong name for this concept. In abstract algebra,
-    //! an IntegralDomain is not enough to provide `quot` and `rem`, I believe.
-    //!
     //! [1]: http://en.wikipedia.org/wiki/Integral_domain
     struct IntegralDomain { };
 
@@ -144,10 +136,6 @@ namespace boost { namespace hana {
     //! Example
     //! -------
     //! @snippet example/integral_domain.cpp quot
-    //!
-    //!
-    //! @todo
-    //! Consider moving this to a `Field` concept?
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto quot = [](auto&& x, auto&& y) -> decltype(auto) {
         return tag-dispatched;

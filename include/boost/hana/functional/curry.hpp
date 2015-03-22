@@ -76,12 +76,10 @@ namespace boost { namespace hana {
     //! @snippet example/functional/curry.cpp curry0
     //!
     //!
-    //! ### Example
+    //! Example
+    //! -------
     //! @snippet example/functional/curry.cpp main
     //!
-    //! @todo
-    //! Consider making `curry<0>(f)` equivalent to `f`. It might be more
-    //! general or less useful if it creates subtle pitfalls.
     //!
     //! [Wikipedia.currying]: http://en.wikipedia.org/wiki/Currying
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
