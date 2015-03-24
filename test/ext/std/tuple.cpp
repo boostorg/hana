@@ -18,8 +18,17 @@ Distributed under the Boost Software License, Version 1.0.
 #include <laws/monad_plus.hpp>
 #include <laws/orderable.hpp>
 #include <laws/searchable.hpp>
-#include <laws/sequence.hpp>
 #include <laws/traversable.hpp>
+
+#define BOOST_HANA_TEST_SEQUENCE_KNOWN_PARTS 3
+#if BOOST_HANA_TEST_PART == 6
+#   define BOOST_HANA_TEST_SEQUENCE_PART 1
+#elif BOOST_HANA_TEST_PART == 7
+#   define BOOST_HANA_TEST_SEQUENCE_PART 2
+#elif BOOST_HANA_TEST_PART == 8
+#   define BOOST_HANA_TEST_SEQUENCE_PART 3
+#endif
+#include <laws/sequence.hpp>
 
 #include <tuple>
 using namespace boost::hana;
@@ -115,17 +124,7 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     // Sequence
     //////////////////////////////////////////////////////////////////////////
-#elif BOOST_HANA_TEST_PART == 6
-#   define BOOST_HANA_TEST_SEQUENCE_KNOWN_PARTS 3
-#   define BOOST_HANA_TEST_SEQUENCE_PART 1
-    test::TestSequence<ext::std::Tuple>{};
-#elif BOOST_HANA_TEST_PART == 7
-#   define BOOST_HANA_TEST_SEQUENCE_KNOWN_PARTS 3
-#   define BOOST_HANA_TEST_SEQUENCE_PART 2
-    test::TestSequence<ext::std::Tuple>{};
-#elif BOOST_HANA_TEST_PART == 8
-#   define BOOST_HANA_TEST_SEQUENCE_KNOWN_PARTS 3
-#   define BOOST_HANA_TEST_SEQUENCE_PART 3
+#elif BOOST_HANA_TEST_PART == 6 || BOOST_HANA_TEST_PART == 7 || BOOST_HANA_TEST_PART == 8
     test::TestSequence<ext::std::Tuple>{};
 #endif
 }
