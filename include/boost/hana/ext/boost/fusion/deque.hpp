@@ -19,6 +19,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/monad_plus.hpp>
 
+#include <boost/fusion/algorithm/transformation/join.hpp>
 #include <boost/fusion/algorithm/transformation/pop_front.hpp>
 #include <boost/fusion/algorithm/transformation/push_front.hpp>
 #include <boost/fusion/container/deque.hpp>
@@ -79,6 +80,17 @@ namespace boost { namespace hana {
                 ::boost::fusion::push_front(
                     detail::std::forward<Xs>(xs),
                     detail::std::forward<X>(x)));
+        }
+    };
+
+    template <>
+    struct concat_impl<ext::boost::fusion::Deque> {
+        template <typename Xs, typename Ys>
+        static constexpr decltype(auto) apply(Xs&& xs, Ys&& ys) {
+            return ::boost::fusion::as_deque(
+                ::boost::fusion::join(
+                    detail::std::forward<Xs>(xs),
+                    detail::std::forward<Ys>(ys)));
         }
     };
 
