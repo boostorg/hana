@@ -96,10 +96,6 @@ if (Boost_FOUND)
                        "the fusion::deque and fusion::list adapters are "
                        "not being tested because of bugs in Boost.Fusion.")
 
-        message(STATUS "The Boost version was detected to be < 1.58.0; "
-                       "the fusion::tuple model of Monad is not being "
-                       "tested because of bugs in Boost.Fusion.")
-
         list(REMOVE_ITEM BOOST_HANA_PUBLIC_HEADERS
             "boost/hana/ext/boost/fusion/deque.hpp"
             "boost/hana/fwd/ext/boost/fusion/deque.hpp"
@@ -108,10 +104,14 @@ if (Boost_FOUND)
 
         file(GLOB_RECURSE _ext_fusion_bad_tests
             "ext/boost/fusion/deque/*.cpp"
-            "ext/boost/fusion/list/*.cpp"
-            "ext/boost/fusion/tuple/monad.cpp")
+            "ext/boost/fusion/list/*.cpp")
         list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${_ext_fusion_bad_tests})
     endif()
+
+    message(STATUS "The fusion::tuple model of Monad is not being tested "
+                   "currently because of a bug in Boost.Fusion.")
+    list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES
+        "${CMAKE_CURRENT_LIST_DIR}/ext/boost/fusion/tuple/monad.cpp")
 endif()
 
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND
