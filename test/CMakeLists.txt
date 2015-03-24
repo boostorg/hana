@@ -94,7 +94,11 @@ if (Boost_FOUND)
     if (${Boost_VERSION} LESS 105800)
         message(STATUS "The Boost version was detected to be < 1.58.0; "
                        "the fusion::deque and fusion::list adapters are "
-                       "not supported because of bugs in Boost.Fusion.")
+                       "not being tested because of bugs in Boost.Fusion.")
+
+        message(STATUS "The Boost version was detected to be < 1.58.0; "
+                       "the fusion::tuple model of Monad is not being "
+                       "tested because of bugs in Boost.Fusion.")
 
         list(REMOVE_ITEM BOOST_HANA_PUBLIC_HEADERS
             "boost/hana/ext/boost/fusion/deque.hpp"
@@ -104,7 +108,8 @@ if (Boost_FOUND)
 
         file(GLOB_RECURSE _ext_fusion_bad_tests
             "ext/boost/fusion/deque/*.cpp"
-            "ext/boost/fusion/list/*.cpp")
+            "ext/boost/fusion/list/*.cpp"
+            "ext/boost/fusion/tuple/monad.cpp")
         list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${_ext_fusion_bad_tests})
     endif()
 endif()
@@ -144,22 +149,6 @@ if ($ENV{TRAVIS})
     )
     list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${_non_minimal_mcds})
 endif()
-
-# Some Fusion adapters are currently broken; I'm working on it.
-file(GLOB _ext_fusion_broken_tests
-    "ext/boost/fusion/deque/monad_plus.cpp"
-    "ext/boost/fusion/deque/searchable.cpp"
-    "ext/boost/fusion/deque/sequence.cpp"
-    "ext/boost/fusion/list/monad.cpp"
-    "ext/boost/fusion/list/monad_plus.cpp"
-    "ext/boost/fusion/list/sequence.cpp"
-    "ext/boost/fusion/tuple/monad.cpp"
-    "ext/boost/fusion/tuple/searchable.cpp"
-    "ext/boost/fusion/tuple/sequence.cpp"
-    "ext/boost/fusion/vector/searchable.cpp"
-    "ext/boost/fusion/vector/sequence.cpp"
-)
-list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${_ext_fusion_broken_tests})
 
 
 ##############################################################################
