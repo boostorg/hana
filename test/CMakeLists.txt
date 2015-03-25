@@ -92,9 +92,10 @@ endif()
 
 if (Boost_FOUND)
     if (${Boost_VERSION} LESS 105800)
-        message(STATUS "The Boost version was detected to be < 1.58.0; "
-                       "the fusion::deque and fusion::list adapters are "
-                       "not being tested because of bugs in Boost.Fusion.")
+        message(STATUS
+        "The Boost version was detected to be < 1.58.0; "
+        "the fusion::deque and fusion::list adapters are "
+        "not being tested because of bugs in Boost.Fusion.")
 
         list(REMOVE_ITEM BOOST_HANA_PUBLIC_HEADERS
             "boost/hana/ext/boost/fusion/deque.hpp"
@@ -108,8 +109,24 @@ if (Boost_FOUND)
         list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${_ext_fusion_bad_tests})
     endif()
 
-    message(STATUS "The fusion::tuple model of Monad is not being tested "
-                   "currently because of a bug in Boost.Fusion.")
+    message(STATUS
+    "Tests for fusion::deque's model of MonadPlus and Sequence are disabled "
+    "because of bugs in Boost.Fusion.")
+    list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES
+        "${CMAKE_CURRENT_LIST_DIR}/ext/boost/fusion/deque/monad_plus.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/ext/boost/fusion/deque/sequence.cpp")
+
+    message(STATUS
+    "Tests for fusion::list's model of Monad, MonadPlus and Sequence are "
+    "disabled because of bugs in Boost.Fusion.")
+    list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES
+        "${CMAKE_CURRENT_LIST_DIR}/ext/boost/fusion/list/monad.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/ext/boost/fusion/list/monad_plus.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/ext/boost/fusion/list/sequence.cpp")
+
+    message(STATUS
+    "Tests for fusion::tuple's model of Monad are disabled because of a "
+    "bug in Boost.Fusion.")
     list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES
         "${CMAKE_CURRENT_LIST_DIR}/ext/boost/fusion/tuple/monad.cpp")
 endif()
