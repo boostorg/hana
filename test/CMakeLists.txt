@@ -52,6 +52,7 @@ file(GLOB BOOST_HANA_SPLIT_TEST_SOURCES
     "cnumeric.cpp"
     "detail/canonical_constant.cpp"
     "either.cpp"
+    "ext/boost/fusion/vector/sequence.cpp"
     "ext/boost/mpl/integral_c.cpp"
     "ext/std/array.cpp"
     "ext/std/integer_sequence.cpp"
