@@ -2,8 +2,9 @@
 # Distributed under the Boost Software License, Version 1.0.
 # (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
+add_subdirectory(transform)
 
-foreach(method IN ITEMS adjust_if fill transform replace_if)
+foreach(method IN ITEMS adjust_if fill replace_if)
     Benchmark_add_dataset(dataset.functor.hana_tuple.${method}
         FILE "${method}.cpp"
         FEATURES COMPILATION_TIME EXECUTION_TIME MEMORY_USAGE
