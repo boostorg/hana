@@ -10,6 +10,7 @@ var group__group_functional =
     [ "flip", "group__group-functional.html#ga004f884cdbb85c2efe3383c1db450094", null ],
     [ "id", "group__group-functional.html#gaef38cf34324c8edbd3597ae71811d00d", null ],
     [ "infix", "group__group-functional.html#ga7bdafba6dc801f1d2d83731ad9714557", null ],
+    [ "iterate", "group__group-functional.html#gad1b8669c022d8675d68e5974451073d1", null ],
     [ "lockstep", "group__group-functional.html#gafca60c09e1f7a32a2b52baaf6515c279", null ],
     [ "on", "group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1", null ],
     [ "overload", "group__group-functional.html#ga83e71bae315e299f9f5f9de77b012139", null ],

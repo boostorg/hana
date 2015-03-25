@@ -138,6 +138,10 @@ Variables</h2></td></tr>
 <tr class="memitem:ga7bdafba6dc801f1d2d83731ad9714557"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-functional.html#ga7bdafba6dc801f1d2d83731ad9714557">boost::hana::infix</a></td></tr>
 <tr class="memdesc:ga7bdafba6dc801f1d2d83731ad9714557"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return an equivalent function that can also be applied in infix notation.  <a href="#ga7bdafba6dc801f1d2d83731ad9714557">More...</a><br /></td></tr>
 <tr class="separator:ga7bdafba6dc801f1d2d83731ad9714557"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad1b8669c022d8675d68e5974451073d1"><td class="memTemplParams" colspan="2">template&lt;std::size_t n&gt; </td></tr>
+<tr class="memitem:gad1b8669c022d8675d68e5974451073d1"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-functional.html#gad1b8669c022d8675d68e5974451073d1">boost::hana::iterate</a></td></tr>
+<tr class="memdesc:gad1b8669c022d8675d68e5974451073d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applies another function <code>n</code> times to its argument.  <a href="#gad1b8669c022d8675d68e5974451073d1">More...</a><br /></td></tr>
+<tr class="separator:gad1b8669c022d8675d68e5974451073d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gafca60c09e1f7a32a2b52baaf6515c279"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-functional.html#gafca60c09e1f7a32a2b52baaf6515c279">boost::hana::lockstep</a></td></tr>
 <tr class="memdesc:gafca60c09e1f7a32a2b52baaf6515c279"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invoke a function with the result of invoking other functions on its arguments, in lockstep.  <a href="#gafca60c09e1f7a32a2b52baaf6515c279">More...</a><br /></td></tr>
 <tr class="separator:gafca60c09e1f7a32a2b52baaf6515c279"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -563,6 +567,55 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">    );</div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3) ^contains^ 3.3);</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="gad1b8669c022d8675d68e5974451073d1"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;std::size_t n&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto boost::hana::iterate</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="iterate_8hpp.html">boost/hana/functional/iterate.hpp</a>&gt;</code></p>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; f) {</div>
+<div class="line">        <span class="keywordflow">return</span> [perfect-capture](<span class="keyword">auto</span>&amp;&amp; x) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">            <span class="keywordflow">return</span> f(f( ... f(forwarded(x))));</div>
+<div class="line">        };</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Applies another function <code>n</code> times to its argument. </p>
+<p>Given a function <code>f</code> and an argument <code>x</code>, <code>iterate&lt;n&gt;(f, x)</code> returns the result of applying <code>f</code> <code>n</code> times to its argument. In other words, </p><div class="fragment"><div class="line">iterate&lt;n&gt;(f, x) == f(f( ... f(x)))</div>
+<div class="line">                    ^^^^^^^^^^ n times total</div>
+</div><!-- fragment --><p>If <code>n == 0</code>, <code>iterate&lt;n&gt;(f, x)</code> returns the <code>x</code> argument unchanged and <code>f</code> is never applied. It is important to note that the function passed to <code>iterate&lt;n&gt;</code> must be a unary function. Indeed, since <code>f</code> will be called with the result of the previous <code>f</code> application, it may only take a single argument.</p>
+<p>In addition to what's documented above, <code>iterate</code> can also be partially applied to the function argument out-of-the-box. In other words, <code>iterate&lt;n&gt;(f)</code> is a function object applying <code>f</code> <code>n</code> times to the argument it is called with, which means that </p><div class="fragment"><div class="line">iterate&lt;n&gt;(f)(x) == iterate&lt;n&gt;(f, x)</div>
+</div><!-- fragment --><p>This is provided for convenience, and it turns out to be especially useful in conjunction with higher-order algorithms.</p>
+<h2>Signature </h2>
+<p>Given a function \( f : T \to T \) and <code>x</code> and argument of data type <code>T</code>, the signature is \( \mathrm{iterate_n} : (T \to T) \times T \to T \)</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">n</td><td>An unsigned integer representing the number of times that <code>f</code> should be applied to its argument.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">f</td><td>A function to apply <code>n</code> times to its argument.</td></tr>
+    <tr><td class="paramname">x</td><td>The initial value to call <code>f</code> with.</td></tr>
+  </table>
+  </dd>
+</dl>
+<h2>Example </h2>
+<div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> next_10 = iterate&lt;10&gt;(succ);</div>
+<div class="line">static_assert(next_10(3) == 13, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line">constexpr <span class="keyword">auto</span> xs = make&lt;Tuple&gt;(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);</div>
+<div class="line">static_assert(iterate&lt;5&gt;(tail, xs) == make&lt;Tuple&gt;(6, 7, 8, 9, 10), <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment -->
 </div>
 </div>

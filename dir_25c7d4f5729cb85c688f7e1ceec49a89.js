@@ -10,6 +10,7 @@ var dir_25c7d4f5729cb85c688f7e1ceec49a89 =
     [ "flip.hpp", "flip_8hpp.html", "flip_8hpp" ],
     [ "id.hpp", "id_8hpp.html", "id_8hpp" ],
     [ "infix.hpp", "infix_8hpp.html", "infix_8hpp" ],
+    [ "iterate.hpp", "iterate_8hpp.html", "iterate_8hpp" ],
     [ "lockstep.hpp", "lockstep_8hpp.html", "lockstep_8hpp" ],
     [ "on.hpp", "on_8hpp.html", "on_8hpp" ],
     [ "overload.hpp", "overload_8hpp.html", "overload_8hpp" ],
