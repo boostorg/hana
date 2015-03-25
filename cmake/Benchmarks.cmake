@@ -21,9 +21,6 @@
 #   - Gnuplot
 #     For drawing the plots
 #
-#   - A file called benchmark.hpp, downloaded automatically from GitHub.
-#     This file is required to perform runtime benchmarks.
-#
 # When the module is included, it checks for the above dependencies. If they
 # are not available, a STATUS message is printed, the BENCHMARK_AVAILABLE
 # variable is set to false and and we immediately return to the calling CMake
@@ -257,18 +254,50 @@ file(MAKE_DIRECTORY
     "${__BENCHMARK_SUPPORT_DIR}/include"
     "${__BENCHMARK_SUPPORT_DIR}/envs")
 
-# download the benchmark.hpp header
-file(DOWNLOAD
-    "https://gist.githubusercontent.com/ldionne/ae1ddf95e7a064d3d27f/raw/c6950de64ab9f3c4aa6a6f46d71d21c5b4a10315/benchmark.hpp"
-    "${__BENCHMARK_SUPPORT_DIR}/include/benchmark.hpp"
-    STATUS __BENCHMARK_HEADER_DOWNLOAD_STATUS)
-list(GET __BENCHMARK_HEADER_DOWNLOAD_STATUS 0 __BENCHMARK_HEADER_DOWNLOAD_ERROR)
-if(${__BENCHMARK_HEADER_DOWNLOAD_ERROR})
-    list(GET __BENCHMARK_HEADER_DOWNLOAD_STATUS 1 __BENCHMARK_HEADER_DOWNLOAD_ERROR_STR)
-    message(STATUS
-        "The benchmark.hpp header file could not be downloaded; the Benchmarks "
-        "module can't be used. Error was ${__BENCHMARK_HEADER_DOWNLOAD_ERROR_STR}.")
-    return()
+# create the benchmark.hpp header if needed
+if (${CMAKE_CURRENT_LIST_FILE} IS_NEWER_THAN "${__BENCHMARK_SUPPORT_DIR}/include/benchmark.hpp")
+    file(WRITE "${__BENCHMARK_SUPPORT_DIR}/include/benchmark.hpp"
+        "/*                                                                              \n"
+        "@copyright Louis Dionne 2015                                                    \n"
+        "Distributed under the Boost Software License, Version 1.0.                      \n"
+        "(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)  \n"
+        " */                                                                             \n"
+        "                                                                                \n"
+        "#ifndef BOOST_HANA_BENCHMARK_MEASURE_HPP                                        \n"
+        "#define BOOST_HANA_BENCHMARK_MEASURE_HPP                                        \n"
+        "                                                                                \n"
+        "#include <chrono>                                                               \n"
+        "#include <iostream>                                                             \n"
+        "#include <thread>                                                               \n"
+        "                                                                                \n"
+        "                                                                                \n"
+        "namespace boost { namespace hana { namespace benchmark {                        \n"
+        "    template <int i>                                                            \n"
+        "    struct object {                                                             \n"
+        "        constexpr object() = default;                                           \n"
+        "                                                                                \n"
+        "        object(object const&) {                                                 \n"
+        "            std::this_thread::sleep_for(std::chrono::nanoseconds(1));           \n"
+        "        }                                                                       \n"
+        "    };                                                                          \n"
+        "                                                                                \n"
+        "    auto measure = [](auto f) {                                                 \n"
+        "        constexpr auto repetitions = 1000ull;                                   \n"
+        "        auto start = std::chrono::steady_clock::now();                          \n"
+        "        for (auto i = repetitions; i > 0; --i) {                                \n"
+        "            f();                                                                \n"
+        "        }                                                                       \n"
+        "        auto stop = std::chrono::steady_clock::now();                           \n"
+        "                                                                                \n"
+        "        auto time = std::chrono::duration_cast<std::chrono::microseconds>(      \n"
+        "            (stop - start) / repetitions                                        \n"
+        "        );                                                                      \n"
+        "        std::cout << \"execution time: \" << time.count() << std::endl;         \n"
+        "    };                                                                          \n"
+        "}}}                                                                             \n"
+        "                                                                                \n"
+        "#endif                                                                          \n"
+    )
 endif()
 
 set(BENCHMARK_AVAILABLE true)
