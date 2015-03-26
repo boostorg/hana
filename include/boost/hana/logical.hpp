@@ -222,14 +222,16 @@ namespace boost { namespace hana {
     template <typename L>
     struct eval_if_impl<L, when<detail::std::is_arithmetic<L>{}>> {
         template <typename Cond, typename T, typename E>
-        static constexpr auto apply(Cond cond, T t, E e)
-        { return cond ? hana::eval(t) : hana::eval(e); }
+        static constexpr auto apply(Cond const& cond, T&& t, E&& e) {
+            return cond ? hana::eval(detail::std::forward<T>(t))
+                        : hana::eval(detail::std::forward<E>(e));
+        }
     };
 
     template <typename L>
     struct not_impl<L, when<detail::std::is_arithmetic<L>{}>> {
         template <typename Cond>
-        static constexpr Cond apply(Cond cond)
+        static constexpr Cond apply(Cond const& cond)
         { return static_cast<Cond>(cond ? false : true); }
     };
 
@@ -262,20 +264,22 @@ namespace boost { namespace hana {
         _models<Constant, C>{}() && _models<Logical, typename C::value_type>{}()
     >> {
         template <typename Then, typename Else>
-        static constexpr auto
-        eval_if_helper(decltype(true_), Then t, Else e)
-        { return hana::eval(t); }
+        static constexpr decltype(auto)
+        eval_if_helper(decltype(true_), Then&& t, Else&&)
+        { return hana::eval(detail::std::forward<Then>(t)); }
 
         template <typename Then, typename Else>
-        static constexpr auto
-        eval_if_helper(decltype(false_), Then t, Else e)
-        { return hana::eval(e); }
+        static constexpr decltype(auto)
+        eval_if_helper(decltype(false_), Then&&, Else&& e)
+        { return hana::eval(detail::std::forward<Else>(e)); }
 
         template <typename Cond, typename Then, typename Else>
-        static constexpr decltype(auto) apply(Cond const&, Then t, Else e) {
+        static constexpr decltype(auto) apply(Cond const&, Then&& t, Else&& e) {
             constexpr auto cond = hana::value<Cond>();
             constexpr bool truth_value = hana::if_(cond, true, false);
-            return eval_if_helper(bool_<truth_value>, t, e);
+            return eval_if_helper(bool_<truth_value>,
+                                            detail::std::forward<Then>(t),
+                                            detail::std::forward<Else>(e));
         }
     };
 
