@@ -46,8 +46,16 @@ namespace boost { namespace hana {
     template <>
     struct head_impl<ext::boost::Tuple> {
         template <typename Xs>
-        static constexpr decltype(auto) apply(Xs&& tuple)
-        { return detail::std::forward<Xs>(tuple).get_head(); }
+        static constexpr auto const& apply(Xs const& tuple)
+        { return tuple.get_head(); }
+
+        template <typename Xs>
+        static constexpr auto& apply(Xs& tuple)
+        { return tuple.get_head(); }
+
+        template <typename Xs>
+        static constexpr auto apply(Xs&& tuple)
+        { return detail::std::move(tuple.get_head()); }
     };
 
     template <>

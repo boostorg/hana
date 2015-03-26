@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integer_sequence.hpp>
+#include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/detail/std/remove_reference.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/sequence.hpp>
@@ -87,9 +88,17 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <>
     struct head_impl<ext::std::Array> {
-        template <typename Xs>
-        static constexpr decltype(auto) apply(Xs&& xs)
-        { return detail::std::forward<Xs>(xs)[0]; }
+        template <typename T, std::size_t n>
+        static constexpr T const& apply(::std::array<T, n> const& xs)
+        { return xs[0]; }
+
+        template <typename T, std::size_t n>
+        static constexpr T& apply(::std::array<T, n>& xs)
+        { return xs[0]; }
+
+        template <typename T, std::size_t n>
+        static constexpr T apply(::std::array<T, n>&& xs)
+        { return detail::std::move(xs[0]); }
     };
 
     template <>
