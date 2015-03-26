@@ -11,37 +11,15 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/tuple.hpp>
-#include <boost/hana/type.hpp>
 
-#include <test/auto/base.hpp>
-#include <test/injection.hpp>
+#include <laws/applicative.hpp>
+#include <laws/base.hpp>
+#include <laws/functor.hpp>
+#include <laws/monad.hpp>
+#include <laws/traversable.hpp>
 #include <test/cnumeric.hpp>
-
-// tested instances
-#include <test/auto/applicative.hpp>
-#include <test/auto/functor.hpp>
-#include <test/auto/monad.hpp>
-#include <test/auto/traversable.hpp>
 using namespace boost::hana;
 
-
-namespace boost { namespace hana { namespace test {
-    template <>
-    auto instances<Identity> = make<Tuple>(
-        type<Functor>,
-        type<Applicative>,
-        type<Monad>,
-        type<Traversable>
-    );
-
-    template <>
-    auto objects<Identity> = make<Tuple>(
-        identity(x<0>),
-        identity(x<1>),
-        identity(x<2>),
-        identity(x<3>)
-    );
-}}}
 
 namespace boost { namespace hana {
     template <>
@@ -52,11 +30,9 @@ namespace boost { namespace hana {
 
 
 int main() {
-    using test::x;
+    using test::ct_eq;
     using test::cnumeric;
-    auto f = test::injection([]{});
-
-    test::check_datatype<test::Identity>();
+    test::_injection<0> f{};
 
     // Functor
     {
@@ -64,42 +40,42 @@ int main() {
         // adjust_if
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                adjust_if(functor(x<0>), always(cnumeric<bool, true>), f),
-                functor(f(x<0>))
+                adjust_if(functor(ct_eq<0>{}), always(cnumeric<bool, true>), f),
+                functor(f(ct_eq<0>{}))
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                adjust_if(functor(x<0>), always(cnumeric<bool, false>), f),
-                functor(x<0>)
+                adjust_if(functor(ct_eq<0>{}), always(cnumeric<bool, false>), f),
+                functor(ct_eq<0>{})
             ));
         }
 
         // fill
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                fill(functor(x<0>), x<1>),
-                functor(x<1>)
+                fill(functor(ct_eq<0>{}), ct_eq<1>{}),
+                functor(ct_eq<1>{})
             ));
         }
 
         // transform
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                transform(functor(x<0>), f),
-                functor(f(x<0>))
+                transform(functor(ct_eq<0>{}), f),
+                functor(f(ct_eq<0>{}))
             ));
         }
 
         // replace_if
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                replace_if(functor(x<0>), always(cnumeric<bool, true>), x<1>),
-                functor(x<1>)
+                replace_if(functor(ct_eq<0>{}), always(cnumeric<bool, true>), ct_eq<1>{}),
+                functor(ct_eq<1>{})
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                replace_if(functor(x<0>), always(cnumeric<bool, false>), x<1>),
-                functor(x<0>)
+                replace_if(functor(ct_eq<0>{}), always(cnumeric<bool, false>), ct_eq<1>{}),
+                functor(ct_eq<0>{})
             ));
         }
     }
@@ -112,31 +88,31 @@ int main() {
         // ap
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                ap(a(f), a(x<0>)),
-                a(f(x<0>))
+                ap(a(f), a(ct_eq<0>{})),
+                a(f(ct_eq<0>{}))
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                ap(a(f), a(x<0>), a(x<1>)),
-                a(f(x<0>, x<1>))
+                ap(a(f), a(ct_eq<0>{}), a(ct_eq<1>{})),
+                a(f(ct_eq<0>{}, ct_eq<1>{}))
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                ap(a(f), a(x<0>), a(x<1>), a(x<2>)),
-                a(f(x<0>, x<1>, x<2>))
+                ap(a(f), a(ct_eq<0>{}), a(ct_eq<1>{}), a(ct_eq<2>{})),
+                a(f(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}))
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                ap(a(f), a(x<0>), a(x<1>), a(x<2>), a(x<3>)),
-                a(f(x<0>, x<1>, x<2>, x<3>))
+                ap(a(f), a(ct_eq<0>{}), a(ct_eq<1>{}), a(ct_eq<2>{}), a(ct_eq<3>{})),
+                a(f(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}))
             ));
         }
 
         // lift
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                lift<A>(x<0>),
-                a(x<0>)
+                lift<A>(ct_eq<0>{}),
+                a(ct_eq<0>{})
             ));
         }
     }
@@ -145,14 +121,14 @@ int main() {
     {
         auto monad = test::identity;
         using M = test::Identity;
-        auto f = compose(monad, test::injection([]{}));
-        auto g = compose(monad, test::injection([]{}));
+        auto f = compose(monad, test::_injection<0>{});
+        auto g = compose(monad, test::_injection<1>{});
 
         // bind
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                bind(monad(x<1>), f),
-                f(x<1>)
+                bind(monad(ct_eq<1>{}), f),
+                f(ct_eq<1>{})
             ));
         }
 
@@ -161,8 +137,8 @@ int main() {
             bool executed = false;
             auto exec = [&](auto) { executed = true; };
             BOOST_HANA_CONSTANT_CHECK(equal(
-                bind(monad(x<0>), tap<M>(exec)),
-                monad(x<0>)
+                bind(monad(ct_eq<0>{}), tap<M>(exec)),
+                monad(ct_eq<0>{})
             ));
             BOOST_HANA_RUNTIME_CHECK(executed);
         }
@@ -171,8 +147,8 @@ int main() {
         {
             struct invalid { };
             BOOST_HANA_CONSTANT_CHECK(equal(
-                then(monad(invalid{}), monad(x<0>)),
-                monad(x<0>)
+                then(monad(invalid{}), monad(ct_eq<0>{})),
+                monad(ct_eq<0>{})
             ));
         }
 
@@ -181,13 +157,13 @@ int main() {
             using namespace boost::hana::operators;
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                monad(x<1>) | f,
-                bind(monad(x<1>), f)
+                monad(ct_eq<1>{}) | f,
+                bind(monad(ct_eq<1>{}), f)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                monad(x<1>) | f | g,
-                bind(bind(monad(x<1>), f), g)
+                monad(ct_eq<1>{}) | f | g,
+                bind(bind(monad(ct_eq<1>{}), f), g)
             ));
         }
     }
@@ -196,28 +172,27 @@ int main() {
     {
         // traverse
         {
-            auto f = test::injection([]{});
             BOOST_HANA_CONSTANT_CHECK(equal(
-                traverse<test::Identity>(test::identity(x<0>), compose(test::identity, f)),
-                test::identity(test::identity(f(x<0>)))
+                traverse<test::Identity>(test::identity(ct_eq<0>{}), compose(test::identity, f)),
+                test::identity(test::identity(f(ct_eq<0>{})))
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                traverse<Tuple>(test::identity(x<0>), compose(make<Tuple>, f)),
-                make<Tuple>(test::identity(f(x<0>)))
+                traverse<Tuple>(test::identity(ct_eq<0>{}), compose(make<Tuple>, f)),
+                make<Tuple>(test::identity(f(ct_eq<0>{})))
             ));
         }
 
         // sequence
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                sequence<test::Identity>(test::identity(test::identity(x<0>))),
-                test::identity(test::identity(x<0>))
+                sequence<test::Identity>(test::identity(test::identity(ct_eq<0>{}))),
+                test::identity(test::identity(ct_eq<0>{}))
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                sequence<Tuple>(test::identity(make<Tuple>(x<0>, x<1>, x<2>))),
-                make<Tuple>(test::identity(x<0>), test::identity(x<1>), test::identity(x<2>))
+                sequence<Tuple>(test::identity(make<Tuple>(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}))),
+                make<Tuple>(test::identity(ct_eq<0>{}), test::identity(ct_eq<1>{}), test::identity(ct_eq<2>{}))
             ));
         }
     }

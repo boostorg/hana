@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/pair.hpp>
 #include <boost/hana/tuple.hpp>
 
-#include <test/injection.hpp>
+#include <laws/base.hpp>
 using namespace boost::hana;
 
 
@@ -31,100 +31,100 @@ auto check = [](auto split) {
 
 int main() {
     namespace vd = detail::variadic;
-    using test::x;
+    using test::ct_eq;
 
     {
         check(vd::split_at<0>())
             ()
             ();
 
-        check(vd::split_at<0>(x<1>))
+        check(vd::split_at<0>(ct_eq<1>{}))
             ()
-            (x<1>);
+            (ct_eq<1>{});
 
-        check(vd::split_at<0>(x<1>, x<2>))
+        check(vd::split_at<0>(ct_eq<1>{}, ct_eq<2>{}))
             ()
-            (x<1>, x<2>);
+            (ct_eq<1>{}, ct_eq<2>{});
 
-        check(vd::split_at<0>(x<1>, x<2>, x<3>))
+        check(vd::split_at<0>(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}))
             ()
-            (x<1>, x<2>, x<3>);
+            (ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{});
     }
     {
-        check(vd::split_at<1>(x<1>))
-            (x<1>)
+        check(vd::split_at<1>(ct_eq<1>{}))
+            (ct_eq<1>{})
             ();
 
-        check(vd::split_at<1>(x<1>, x<2>))
-            (x<1>)
-            (x<2>);
+        check(vd::split_at<1>(ct_eq<1>{}, ct_eq<2>{}))
+            (ct_eq<1>{})
+            (ct_eq<2>{});
 
-        check(vd::split_at<1>(x<1>, x<2>, x<3>))
-            (x<1>)
-            (x<2>, x<3>);
+        check(vd::split_at<1>(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}))
+            (ct_eq<1>{})
+            (ct_eq<2>{}, ct_eq<3>{});
 
-        check(vd::split_at<1>(x<1>, x<2>, x<3>, x<4>))
-            (x<1>)
-            (x<2>, x<3>, x<4>);
+        check(vd::split_at<1>(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}))
+            (ct_eq<1>{})
+            (ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{});
     }
     {
-        check(vd::split_at<2>(x<1>, x<2>))
-            (x<1>, x<2>)
+        check(vd::split_at<2>(ct_eq<1>{}, ct_eq<2>{}))
+            (ct_eq<1>{}, ct_eq<2>{})
             ();
 
-        check(vd::split_at<2>(x<1>, x<2>, x<3>))
-            (x<1>, x<2>)
-            (x<3>);
+        check(vd::split_at<2>(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}))
+            (ct_eq<1>{}, ct_eq<2>{})
+            (ct_eq<3>{});
 
-        check(vd::split_at<2>(x<1>, x<2>, x<3>, x<4>))
-            (x<1>, x<2>)
-            (x<3>, x<4>);
+        check(vd::split_at<2>(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}))
+            (ct_eq<1>{}, ct_eq<2>{})
+            (ct_eq<3>{}, ct_eq<4>{});
 
-        check(vd::split_at<2>(x<1>, x<2>, x<3>, x<4>, x<5>))
-            (x<1>, x<2>)
-            (x<3>, x<4>, x<5>);
+        check(vd::split_at<2>(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}, ct_eq<5>{}))
+            (ct_eq<1>{}, ct_eq<2>{})
+            (ct_eq<3>{}, ct_eq<4>{}, ct_eq<5>{});
     }
     {
-        check(vd::split_at<7>(x<1>, x<2>, x<3>, x<4>, x<5>, x<6>, x<7>))
-            (x<1>, x<2>, x<3>, x<4>, x<5>, x<6>, x<7>)
+        check(vd::split_at<7>(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}, ct_eq<5>{}, ct_eq<6>{}, ct_eq<7>{}))
+            (ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}, ct_eq<5>{}, ct_eq<6>{}, ct_eq<7>{})
             ();
 
-        check(vd::split_at<7>(x<1>, x<2>, x<3>, x<4>, x<5>, x<6>, x<7>, x<8>))
-            (x<1>, x<2>, x<3>, x<4>, x<5>, x<6>, x<7>)
-            (x<8>);
+        check(vd::split_at<7>(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}, ct_eq<5>{}, ct_eq<6>{}, ct_eq<7>{}, ct_eq<8>{}))
+            (ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}, ct_eq<5>{}, ct_eq<6>{}, ct_eq<7>{})
+            (ct_eq<8>{});
 
-        check(vd::split_at<7>(x<1>, x<2>, x<3>, x<4>, x<5>, x<6>, x<7>, x<8>, x<9>))
-            (x<1>, x<2>, x<3>, x<4>, x<5>, x<6>, x<7>)
-            (x<8>, x<9>);
+        check(vd::split_at<7>(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}, ct_eq<5>{}, ct_eq<6>{}, ct_eq<7>{}, ct_eq<8>{}, ct_eq<9>{}))
+            (ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}, ct_eq<5>{}, ct_eq<6>{}, ct_eq<7>{})
+            (ct_eq<8>{}, ct_eq<9>{});
 
-        check(vd::split_at<7>(x<1>, x<2>, x<3>, x<4>, x<5>, x<6>, x<7>, x<8>, x<9>, x<10>))
-            (x<1>, x<2>, x<3>, x<4>, x<5>, x<6>, x<7>)
-            (x<8>, x<9>, x<10>);
+        check(vd::split_at<7>(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}, ct_eq<5>{}, ct_eq<6>{}, ct_eq<7>{}, ct_eq<8>{}, ct_eq<9>{}, ct_eq<10>{}))
+            (ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}, ct_eq<5>{}, ct_eq<6>{}, ct_eq<7>{})
+            (ct_eq<8>{}, ct_eq<9>{}, ct_eq<10>{});
     }
     {
-        check(vd::split_at<8>(x<1>, x<2>, x<3>, x<4>, x<5>, x<6>, x<7>, x<8>))
-            (x<1>, x<2>, x<3>, x<4>, x<5>, x<6>, x<7>, x<8>)
+        check(vd::split_at<8>(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}, ct_eq<5>{}, ct_eq<6>{}, ct_eq<7>{}, ct_eq<8>{}))
+            (ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}, ct_eq<5>{}, ct_eq<6>{}, ct_eq<7>{}, ct_eq<8>{})
             ();
 
-        check(vd::split_at<8>(x<1>, x<2>, x<3>, x<4>, x<5>, x<6>, x<7>, x<8>, x<9>))
-            (x<1>, x<2>, x<3>, x<4>, x<5>, x<6>, x<7>, x<8>)
-            (x<9>);
+        check(vd::split_at<8>(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}, ct_eq<5>{}, ct_eq<6>{}, ct_eq<7>{}, ct_eq<8>{}, ct_eq<9>{}))
+            (ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}, ct_eq<5>{}, ct_eq<6>{}, ct_eq<7>{}, ct_eq<8>{})
+            (ct_eq<9>{});
 
-        check(vd::split_at<8>(x<1>, x<2>, x<3>, x<4>, x<5>, x<6>, x<7>, x<8>, x<9>, x<10>))
-            (x<1>, x<2>, x<3>, x<4>, x<5>, x<6>, x<7>, x<8>)
-            (x<9>, x<10>);
+        check(vd::split_at<8>(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}, ct_eq<5>{}, ct_eq<6>{}, ct_eq<7>{}, ct_eq<8>{}, ct_eq<9>{}, ct_eq<10>{}))
+            (ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}, ct_eq<5>{}, ct_eq<6>{}, ct_eq<7>{}, ct_eq<8>{})
+            (ct_eq<9>{}, ct_eq<10>{});
     }
     {
-        check(vd::split_at<9>(x<1>, x<2>, x<3>, x<4>, x<5>, x<6>, x<7>, x<8>, x<9>))
-            (x<1>, x<2>, x<3>, x<4>, x<5>, x<6>, x<7>, x<8>, x<9>)
+        check(vd::split_at<9>(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}, ct_eq<5>{}, ct_eq<6>{}, ct_eq<7>{}, ct_eq<8>{}, ct_eq<9>{}))
+            (ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}, ct_eq<5>{}, ct_eq<6>{}, ct_eq<7>{}, ct_eq<8>{}, ct_eq<9>{})
             ();
 
-        check(vd::split_at<9>(x<1>, x<2>, x<3>, x<4>, x<5>, x<6>, x<7>, x<8>, x<9>, x<10>))
-            (x<1>, x<2>, x<3>, x<4>, x<5>, x<6>, x<7>, x<8>, x<9>)
-            (x<10>);
+        check(vd::split_at<9>(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}, ct_eq<5>{}, ct_eq<6>{}, ct_eq<7>{}, ct_eq<8>{}, ct_eq<9>{}, ct_eq<10>{}))
+            (ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}, ct_eq<5>{}, ct_eq<6>{}, ct_eq<7>{}, ct_eq<8>{}, ct_eq<9>{})
+            (ct_eq<10>{});
 
-        check(vd::split_at<9>(x<1>, x<2>, x<3>, x<4>, x<5>, x<6>, x<7>, x<8>, x<9>, x<10>, x<11>))
-            (x<1>, x<2>, x<3>, x<4>, x<5>, x<6>, x<7>, x<8>, x<9>)
-            (x<10>, x<11>);
+        check(vd::split_at<9>(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}, ct_eq<5>{}, ct_eq<6>{}, ct_eq<7>{}, ct_eq<8>{}, ct_eq<9>{}, ct_eq<10>{}, ct_eq<11>{}))
+            (ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}, ct_eq<5>{}, ct_eq<6>{}, ct_eq<7>{}, ct_eq<8>{}, ct_eq<9>{})
+            (ct_eq<10>{}, ct_eq<11>{});
     }
 }

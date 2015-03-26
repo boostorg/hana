@@ -146,11 +146,6 @@ if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND
 endif()
 
 if ($ENV{TRAVIS})
-    # The sandbox/lambda_tuple.cpp test causes internal compiler errors on
-    # Travis, so it's disabled there for now.
-    file(GLOB_RECURSE _sandbox_lambda_tuple_test "sandbox/lambda_tuple.cpp")
-    list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${_sandbox_lambda_tuple_test})
-
     # For the MCD unit tests, we only keep the tests that directly
     # relate to the tested MCD to reduce the total build time and
     # the risk of OOM failure on Travis.

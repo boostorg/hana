@@ -8,42 +8,85 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/assert.hpp>
 
-#include <test/injection.hpp>
+#include <laws/base.hpp>
 using namespace boost::hana;
 namespace vd = detail::variadic;
 
 
 struct non_pod { virtual ~non_pod() { } };
 
-template <int i> struct invalid { };
-template <int i> constexpr invalid<i> y{};
-
-using test::x;
+template <int i> struct y { };
+using test::ct_eq;
 
 int main() {
-    BOOST_HANA_CONSTANT_CHECK(equal(vd::at<0>(x<0>),    x<0>));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        vd::at<0>(ct_eq<0>{}),
+        ct_eq<0>{}
+    ));
 
-    BOOST_HANA_CONSTANT_CHECK(equal(vd::at<0>(x<0>, x<1>),    x<0>));
-    BOOST_HANA_CONSTANT_CHECK(equal(vd::at<1>(y<0>, x<1>),    x<1>));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        vd::at<0>(ct_eq<0>{}, ct_eq<1>{}),
+        ct_eq<0>{}
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        vd::at<1>(y<0>{}, ct_eq<1>{}),
+        ct_eq<1>{}
+    ));
 
-    BOOST_HANA_CONSTANT_CHECK(equal(vd::at<0>(x<0>, y<1>, y<2>),    x<0>));
-    BOOST_HANA_CONSTANT_CHECK(equal(vd::at<1>(y<0>, x<1>, y<2>),    x<1>));
-    BOOST_HANA_CONSTANT_CHECK(equal(vd::at<2>(y<0>, y<1>, x<2>),    x<2>));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        vd::at<0>(ct_eq<0>{}, y<1>{}, y<2>{}),
+        ct_eq<0>{}
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        vd::at<1>(y<0>{}, ct_eq<1>{}, y<2>{}),
+        ct_eq<1>{}
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        vd::at<2>(y<0>{}, y<1>{}, ct_eq<2>{}),
+        ct_eq<2>{}
+    ));
 
-    BOOST_HANA_CONSTANT_CHECK(equal(vd::at<0>(x<0>, y<1>, y<2>, y<3>),    x<0>));
-    BOOST_HANA_CONSTANT_CHECK(equal(vd::at<1>(y<0>, x<1>, y<2>, y<3>),    x<1>));
-    BOOST_HANA_CONSTANT_CHECK(equal(vd::at<2>(y<0>, y<1>, x<2>, y<3>),    x<2>));
-    BOOST_HANA_CONSTANT_CHECK(equal(vd::at<3>(y<0>, y<1>, y<2>, x<3>),    x<3>));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        vd::at<0>(ct_eq<0>{}, y<1>{}, y<2>{}, y<3>{}),
+        ct_eq<0>{}
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        vd::at<1>(y<0>{}, ct_eq<1>{}, y<2>{}, y<3>{}),
+        ct_eq<1>{}
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        vd::at<2>(y<0>{}, y<1>{}, ct_eq<2>{}, y<3>{}),
+        ct_eq<2>{}
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        vd::at<3>(y<0>{}, y<1>{}, y<2>{}, ct_eq<3>{}),
+        ct_eq<3>{}
+    ));
 
-    BOOST_HANA_CONSTANT_CHECK(equal(vd::at<0>(x<0>, y<1>, y<2>, y<3>, y<4>),    x<0>));
-    BOOST_HANA_CONSTANT_CHECK(equal(vd::at<1>(y<0>, x<1>, y<2>, y<3>, y<4>),    x<1>));
-    BOOST_HANA_CONSTANT_CHECK(equal(vd::at<2>(y<0>, y<1>, x<2>, y<3>, y<4>),    x<2>));
-    BOOST_HANA_CONSTANT_CHECK(equal(vd::at<3>(y<0>, y<1>, y<2>, x<3>, y<4>),    x<3>));
-    BOOST_HANA_CONSTANT_CHECK(equal(vd::at<4>(y<0>, y<1>, y<2>, y<3>, x<4>),    x<4>));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        vd::at<0>(ct_eq<0>{}, y<1>{}, y<2>{}, y<3>{}, y<4>{}),
+        ct_eq<0>{}
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        vd::at<1>(y<0>{}, ct_eq<1>{}, y<2>{}, y<3>{}, y<4>{}),
+        ct_eq<1>{}
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        vd::at<2>(y<0>{}, y<1>{}, ct_eq<2>{}, y<3>{}, y<4>{}),
+        ct_eq<2>{}
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        vd::at<3>(y<0>{}, y<1>{}, y<2>{}, ct_eq<3>{}, y<4>{}),
+        ct_eq<3>{}
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        vd::at<4>(y<0>{}, y<1>{}, y<2>{}, y<3>{}, ct_eq<4>{}),
+        ct_eq<4>{}
+    ));
 
     // make sure we can use non-pods on both side of the fetched object
-    vd::at<0>(x<0>, non_pod{});
-    vd::at<1>(non_pod{}, x<1>);
+    vd::at<0>(ct_eq<0>{}, non_pod{});
+    vd::at<1>(non_pod{}, ct_eq<1>{});
 
     // make sure it works with const objects
     int const i = 1;

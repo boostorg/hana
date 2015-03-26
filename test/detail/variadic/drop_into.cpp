@@ -8,72 +8,72 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/assert.hpp>
 
-#include <test/injection.hpp>
+#include <laws/base.hpp>
 using namespace boost::hana;
 namespace vd = detail::variadic;
 
 
 struct non_pod { virtual ~non_pod() { } };
 
-using test::x;
+using test::ct_eq;
 
 int main() {
-    auto f = test::injection([]{});
+    test::_injection<0> f{};
 
     BOOST_HANA_CONSTANT_CHECK(equal(
         vd::drop_into<0>(f)(),
         f()
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        vd::drop_into<0>(f)(x<0>),
-        f(x<0>)
+        vd::drop_into<0>(f)(ct_eq<0>{}),
+        f(ct_eq<0>{})
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        vd::drop_into<0>(f)(x<0>, x<1>),
-        f(x<0>, x<1>)
+        vd::drop_into<0>(f)(ct_eq<0>{}, ct_eq<1>{}),
+        f(ct_eq<0>{}, ct_eq<1>{})
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        vd::drop_into<0>(f)(x<0>, x<1>, x<2>),
-        f(x<0>, x<1>, x<2>)
+        vd::drop_into<0>(f)(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}),
+        f(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})
     ));
 
 
     BOOST_HANA_CONSTANT_CHECK(equal(
-        vd::drop_into<1>(f)(x<0>),
+        vd::drop_into<1>(f)(ct_eq<0>{}),
         f()
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        vd::drop_into<1>(f)(x<0>, x<1>),
-        f(x<1>)
+        vd::drop_into<1>(f)(ct_eq<0>{}, ct_eq<1>{}),
+        f(ct_eq<1>{})
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        vd::drop_into<1>(f)(x<0>, x<1>, x<2>),
-        f(x<1>, x<2>)
+        vd::drop_into<1>(f)(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}),
+        f(ct_eq<1>{}, ct_eq<2>{})
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        vd::drop_into<1>(f)(x<0>, x<1>, x<2>, x<3>),
-        f(x<1>, x<2>, x<3>)
+        vd::drop_into<1>(f)(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}),
+        f(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{})
     ));
 
 
     BOOST_HANA_CONSTANT_CHECK(equal(
-        vd::drop_into<2>(f)(x<0>, x<1>),
+        vd::drop_into<2>(f)(ct_eq<0>{}, ct_eq<1>{}),
         f()
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        vd::drop_into<2>(f)(x<0>, x<1>, x<2>),
-        f(x<2>)
+        vd::drop_into<2>(f)(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}),
+        f(ct_eq<2>{})
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        vd::drop_into<2>(f)(x<0>, x<1>, x<2>, x<3>),
-        f(x<2>, x<3>)
+        vd::drop_into<2>(f)(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}),
+        f(ct_eq<2>{}, ct_eq<3>{})
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        vd::drop_into<2>(f)(x<0>, x<1>, x<2>, x<3>, x<4>),
-        f(x<2>, x<3>, x<4>)
+        vd::drop_into<2>(f)(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}),
+        f(ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{})
     ));
 
     // make sure we can use non-pods
-    vd::drop_into<1>(f)(x<0>, non_pod{});
-    vd::drop_into<1>(f)(non_pod{}, x<1>);
+    vd::drop_into<1>(f)(ct_eq<0>{}, non_pod{});
+    vd::drop_into<1>(f)(non_pod{}, ct_eq<1>{});
 }

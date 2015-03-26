@@ -5,14 +5,14 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/detail/variadic/for_each.hpp>
-
 #include <boost/hana/assert.hpp>
 
-#include <test/injection.hpp>
+#include <laws/base.hpp>
 
 #include <vector>
 using namespace boost::hana;
 namespace vd = detail::variadic;
+using test::ct_eq;
 
 
 int main() {
@@ -33,10 +33,9 @@ int main() {
 
     // Make sure it works with heterogeneous sequences.
     {
-        using test::x;
-        vd::for_each([](auto) { }, x<0>);
-        vd::for_each([](auto) { }, x<0>, x<1>);
-        vd::for_each([](auto) { }, x<0>, x<1>, x<2>);
-        vd::for_each([](auto) { }, x<0>, x<1>, x<2>, x<3>);
+        vd::for_each([](auto) { }, ct_eq<0>{});
+        vd::for_each([](auto) { }, ct_eq<0>{}, ct_eq<1>{});
+        vd::for_each([](auto) { }, ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{});
+        vd::for_each([](auto) { }, ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{});
     }
 }

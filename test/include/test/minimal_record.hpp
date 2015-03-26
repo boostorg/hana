@@ -14,15 +14,15 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/pair.hpp>
 #include <boost/hana/tuple.hpp>
 
-#include <test/injection.hpp>
+#include <laws/base.hpp>
 
 
 namespace boost { namespace hana {
     namespace test {
         struct MinimalRecord;
 
-        BOOST_HANA_CONSTEXPR_LAMBDA auto member1 = injection([]{})();
-        BOOST_HANA_CONSTEXPR_LAMBDA auto member2 = injection([]{})();
+        ct_eq<292138> member1{};
+        ct_eq<292139> member2{};
 
         template <typename X, typename Y>
         struct _record {

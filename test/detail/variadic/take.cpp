@@ -9,7 +9,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/assert.hpp>
 #include <boost/hana/tuple.hpp>
 
-#include <test/injection.hpp>
+#include <laws/base.hpp>
 using namespace boost::hana;
 
 
@@ -22,33 +22,33 @@ auto check = [](auto take) {
 
 int main() {
     namespace vd = detail::variadic;
-    using test::x;
+    using test::ct_eq;
 
     {
         check(vd::take<0>())
             ();
 
-        check(vd::take<0>(x<1>))
+        check(vd::take<0>(ct_eq<1>{}))
             ();
 
-        check(vd::take<0>(x<1>, x<2>))
+        check(vd::take<0>(ct_eq<1>{}, ct_eq<2>{}))
             ();
     }
     {
-        check(vd::take<1>(x<1>))
-            (x<1>);
+        check(vd::take<1>(ct_eq<1>{}))
+            (ct_eq<1>{});
 
-        check(vd::take<1>(x<1>, x<2>))
-            (x<1>);
+        check(vd::take<1>(ct_eq<1>{}, ct_eq<2>{}))
+            (ct_eq<1>{});
 
-        check(vd::take<1>(x<1>, x<2>, x<3>))
-            (x<1>);
+        check(vd::take<1>(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}))
+            (ct_eq<1>{});
     }
     {
-        check(vd::take<8>(x<1>, x<2>, x<3>, x<4>, x<5>, x<6>, x<7>, x<8>))
-            (x<1>, x<2>, x<3>, x<4>, x<5>, x<6>, x<7>, x<8>);
+        check(vd::take<8>(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}, ct_eq<5>{}, ct_eq<6>{}, ct_eq<7>{}, ct_eq<8>{}))
+            (ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}, ct_eq<5>{}, ct_eq<6>{}, ct_eq<7>{}, ct_eq<8>{});
 
-        check(vd::take<8>(x<1>, x<2>, x<3>, x<4>, x<5>, x<6>, x<7>, x<8>, x<9>))
-            (x<1>, x<2>, x<3>, x<4>, x<5>, x<6>, x<7>, x<8>);
+        check(vd::take<8>(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}, ct_eq<5>{}, ct_eq<6>{}, ct_eq<7>{}, ct_eq<8>{}, ct_eq<9>{}))
+            (ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}, ct_eq<5>{}, ct_eq<6>{}, ct_eq<7>{}, ct_eq<8>{});
     }
 }

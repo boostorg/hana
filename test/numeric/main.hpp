@@ -9,45 +9,20 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/assert.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/tuple.hpp>
-#include <boost/hana/type.hpp>
 
-#include <test/auto/base.hpp>
+#include <laws/base.hpp>
+#include <laws/comparable.hpp>
+#include <laws/enumerable.hpp>
+#include <laws/group.hpp>
+#include <laws/integral_domain.hpp>
+#include <laws/logical.hpp>
+#include <laws/monoid.hpp>
+#include <laws/orderable.hpp>
 #include <test/cnumeric.hpp>
-#include <test/injection.hpp>
-#include <vector>
 
-// tested instances
-#include <test/auto/comparable.hpp>
-#include <test/auto/enumerable.hpp>
-#include <test/auto/group.hpp>
-#include <test/auto/integral_domain.hpp>
-#include <test/auto/logical.hpp>
-#include <test/auto/monoid.hpp>
-#include <test/auto/orderable.hpp>
+#include <vector>
 using namespace boost::hana;
 
-
-namespace boost { namespace hana { namespace test {
-    template <>
-    auto instances<Numeric> = make<Tuple>(
-          type<Enumerable>
-        , type<Monoid>
-        , type<Group>
-        , type<Ring>
-        , type<IntegralDomain>
-        , type<Comparable>
-        , type<Orderable>
-        , type<Logical>
-    );
-
-    template <>
-    auto objects<Numeric> = make<Tuple>(
-          numeric(0)
-        , numeric(1)
-        , numeric(2)
-        , numeric(3)
-    );
-}}}
 
 namespace boost { namespace hana {
     template <>
@@ -65,11 +40,11 @@ struct invalid {
 };
 
 int main() {
-    test::check_datatype<test::Numeric>();
-
+    //////////////////////////////////////////////////////////////////////////
     // Comparable
+    //////////////////////////////////////////////////////////////////////////
     {
-        auto f = test::injection([]{});
+        test::_injection<0> f{};
         auto x = test::numeric(1);
         auto y = test::numeric(2);
 
@@ -113,12 +88,14 @@ int main() {
         }
     }
 
+    //////////////////////////////////////////////////////////////////////////
     // Orderable
+    //////////////////////////////////////////////////////////////////////////
     {
         auto ord = test::numeric;
 
-        // test::injection is also monotonic
-        auto f = test::injection([]{});
+        // test::_injection is also monotonic
+        test::_injection<0> f{};
 
         // less
         {
@@ -220,7 +197,9 @@ int main() {
         }
     }
 
+    //////////////////////////////////////////////////////////////////////////
     // Enumerable
+    //////////////////////////////////////////////////////////////////////////
     {
         // succ
         {
@@ -249,7 +228,9 @@ int main() {
         }
     }
 
+    //////////////////////////////////////////////////////////////////////////
     // Monoid
+    //////////////////////////////////////////////////////////////////////////
     {
         constexpr int x = 2, y = 3;
 
@@ -278,7 +259,9 @@ int main() {
         }
     }
 
+    //////////////////////////////////////////////////////////////////////////
     // Group
+    //////////////////////////////////////////////////////////////////////////
     {
         constexpr int x = 2, y = 3;
 
@@ -313,7 +296,9 @@ int main() {
         }
     }
 
+    //////////////////////////////////////////////////////////////////////////
     // Ring
+    //////////////////////////////////////////////////////////////////////////
     {
         constexpr int x = 2, y = 3;
 
@@ -366,7 +351,9 @@ int main() {
         }
     }
 
+    //////////////////////////////////////////////////////////////////////////
     // IntegralDomain
+    //////////////////////////////////////////////////////////////////////////
     {
         constexpr int x = 6, y = 3, z = 4;
 
@@ -411,7 +398,9 @@ int main() {
         }
     }
 
+    //////////////////////////////////////////////////////////////////////////
     // Logical
+    //////////////////////////////////////////////////////////////////////////
     {
         auto logical = test::numeric;
         auto comparable = test::numeric;

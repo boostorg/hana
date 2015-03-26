@@ -10,53 +10,53 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/assert.hpp>
 
-#include <test/injection.hpp>
+#include <laws/base.hpp>
 using namespace boost::hana;
 
 
 auto check = [](auto reverse_apply) {
-    using test::x;
-    auto f = test::injection([]{});
+    using test::ct_eq;
+    test::_injection<0> f{};
 
     BOOST_HANA_CONSTANT_CHECK(equal(
         reverse_apply(f),
         f()
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        reverse_apply(f, x<0>),
-        f(x<0>)
+        reverse_apply(f, ct_eq<0>{}),
+        f(ct_eq<0>{})
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        reverse_apply(f, x<0>, x<1>),
-        f(x<1>, x<0>)
+        reverse_apply(f, ct_eq<0>{}, ct_eq<1>{}),
+        f(ct_eq<1>{}, ct_eq<0>{})
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        reverse_apply(f, x<0>, x<1>, x<2>),
-        f(x<2>, x<1>, x<0>)
+        reverse_apply(f, ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}),
+        f(ct_eq<2>{}, ct_eq<1>{}, ct_eq<0>{})
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        reverse_apply(f, x<0>, x<1>, x<2>, x<3>),
-        f(x<3>, x<2>, x<1>, x<0>)
+        reverse_apply(f, ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}),
+        f(ct_eq<3>{}, ct_eq<2>{}, ct_eq<1>{}, ct_eq<0>{})
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        reverse_apply(f, x<0>, x<1>, x<2>, x<3>, x<4>),
-        f(x<4>, x<3>, x<2>, x<1>, x<0>)
+        reverse_apply(f, ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}),
+        f(ct_eq<4>{}, ct_eq<3>{}, ct_eq<2>{}, ct_eq<1>{}, ct_eq<0>{})
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        reverse_apply(f, x<0>, x<1>, x<2>, x<3>, x<4>, x<5>),
-        f(x<5>, x<4>, x<3>, x<2>, x<1>, x<0>)
+        reverse_apply(f, ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}, ct_eq<5>{}),
+        f(ct_eq<5>{}, ct_eq<4>{}, ct_eq<3>{}, ct_eq<2>{}, ct_eq<1>{}, ct_eq<0>{})
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        reverse_apply(f, x<0>, x<1>, x<2>, x<3>, x<4>, x<5>, x<6>),
-        f(x<6>, x<5>, x<4>, x<3>, x<2>, x<1>, x<0>)
+        reverse_apply(f, ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}, ct_eq<5>{}, ct_eq<6>{}),
+        f(ct_eq<6>{}, ct_eq<5>{}, ct_eq<4>{}, ct_eq<3>{}, ct_eq<2>{}, ct_eq<1>{}, ct_eq<0>{})
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        reverse_apply(f, x<0>, x<1>, x<2>, x<3>, x<4>, x<5>, x<6>, x<7>),
-        f(x<7>, x<6>, x<5>, x<4>, x<3>, x<2>, x<1>, x<0>)
+        reverse_apply(f, ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}, ct_eq<5>{}, ct_eq<6>{}, ct_eq<7>{}),
+        f(ct_eq<7>{}, ct_eq<6>{}, ct_eq<5>{}, ct_eq<4>{}, ct_eq<3>{}, ct_eq<2>{}, ct_eq<1>{}, ct_eq<0>{})
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        reverse_apply(f, x<0>, x<1>, x<2>, x<3>, x<4>, x<5>, x<6>, x<7>, x<8>),
-        f(x<8>, x<7>, x<6>, x<5>, x<4>, x<3>, x<2>, x<1>, x<0>)
+        reverse_apply(f, ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}, ct_eq<5>{}, ct_eq<6>{}, ct_eq<7>{}, ct_eq<8>{}),
+        f(ct_eq<8>{}, ct_eq<7>{}, ct_eq<6>{}, ct_eq<5>{}, ct_eq<4>{}, ct_eq<3>{}, ct_eq<2>{}, ct_eq<1>{}, ct_eq<0>{})
     ));
 };
 

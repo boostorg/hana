@@ -7,43 +7,11 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/sandbox/searchable_set.hpp>
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/config.hpp>
-#include <boost/hana/tuple.hpp>
-#include <boost/hana/type.hpp>
 
-#include <test/auto/base.hpp>
+#include <laws/base.hpp>
 #include <test/cnumeric.hpp>
-#include <test/injection.hpp>
 #include <test/numeric.hpp>
-
-// instances
-#include <test/auto/applicative.hpp>
-#include <test/auto/comparable.hpp>
-#include <test/auto/functor.hpp>
-#include <test/auto/monad.hpp>
-#include <test/auto/searchable.hpp>
 using namespace boost::hana;
-
-
-namespace boost { namespace hana { namespace test {
-    template <>
-    auto instances<SearchableSet> = make<Tuple>(
-          type<Comparable>
-        , type<Functor>
-        , type<Applicative>
-        , type<Monad>
-        , type<Searchable>
-    );
-
-    template <>
-    auto objects<SearchableSet> = make<Tuple>(
-        singleton(numeric(0)),
-        singleton(numeric(1)),
-        doubleton(numeric(0), numeric(1)),
-        doubleton(numeric(0), numeric(3)),
-        doubleton(numeric(0), numeric(0))
-    );
-}}}
 
 
 template <int i>
@@ -53,10 +21,8 @@ template <int i>
 constexpr auto c = test::cnumeric<int, i>;
 
 int main() {
-    test::check_datatype<SearchableSet>();
-    using test::x;
-    auto f = test::injection([]{});
-    auto g = test::injection([]{});
+    test::_injection<0> f{};
+    test::_injection<1> g{};
 
     // union_
     {
@@ -116,29 +82,30 @@ int main() {
         // ap
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                ap(singleton(f), singleton(x<0>)),
-                singleton(f(x<0>))
+                ap(singleton(f), singleton(c<0>)),
+                singleton(f(c<0>))
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                ap(singleton(f), doubleton(x<0>, x<1>)),
-                doubleton(f(x<0>), f(x<1>))
+                ap(singleton(f), doubleton(c<0>, c<1>)),
+                doubleton(f(c<0>), f(c<1>))
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                ap(doubleton(f, g), singleton(x<0>)),
-                doubleton(f(x<0>), g(x<0>))
+                ap(doubleton(f, g), singleton(c<0>)),
+                doubleton(f(c<0>), g(c<0>))
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                ap(doubleton(f, g), doubleton(x<0>, x<1>)),
-                union_(doubleton(f(x<0>), f(x<1>)), doubleton(g(x<0>), g(x<1>)))
+                ap(doubleton(f, g), doubleton(c<0>, c<1>)),
+                union_(doubleton(f(c<0>), f(c<1>)),
+                       doubleton(g(c<0>), g(c<1>)))
             ));
         }
 
         // lift
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                lift<SearchableSet>(x<0>),
-                singleton(x<0>)
+                lift<SearchableSet>(c<0>),
+                singleton(c<0>)
             ));
         }
     }
@@ -177,28 +144,23 @@ int main() {
 
     // Searchable
     {
-
-        BOOST_HANA_CONSTEXPR_LAMBDA auto is = [](auto x) {
-            return [=](auto y) { return equal(x, y); };
-        };
-
         // any_of
         {
-            BOOST_HANA_CONSTEXPR_CHECK(any_of(singleton(n<0>), is(n<0>)));
-            BOOST_HANA_CONSTEXPR_CHECK(not_(any_of(singleton(n<0>), is(n<1>))));
-            BOOST_HANA_CONSTEXPR_CHECK(any_of(doubleton(n<0>, n<1>), is(n<0>)));
-            BOOST_HANA_CONSTEXPR_CHECK(any_of(doubleton(n<0>, n<1>), is(n<1>)));
-            BOOST_HANA_CONSTEXPR_CHECK(not_(any_of(doubleton(n<0>, n<1>), is(n<2>))));
+            BOOST_HANA_CONSTEXPR_CHECK(any_of(singleton(n<0>), equal.to(n<0>)));
+            BOOST_HANA_CONSTEXPR_CHECK(not_(any_of(singleton(n<0>), equal.to(n<1>))));
+            BOOST_HANA_CONSTEXPR_CHECK(any_of(doubleton(n<0>, n<1>), equal.to(n<0>)));
+            BOOST_HANA_CONSTEXPR_CHECK(any_of(doubleton(n<0>, n<1>), equal.to(n<1>)));
+            BOOST_HANA_CONSTEXPR_CHECK(not_(any_of(doubleton(n<0>, n<1>), equal.to(n<2>))));
         }
 
         // find_if
         {
-            BOOST_HANA_CONSTANT_CHECK(find_if(singleton(c<0>), is(c<0>)) == just(c<0>));
-            BOOST_HANA_CONSTANT_CHECK(find_if(singleton(c<1>), is(c<0>)) == nothing);
+            BOOST_HANA_CONSTANT_CHECK(find_if(singleton(c<0>), equal.to(c<0>)) == just(c<0>));
+            BOOST_HANA_CONSTANT_CHECK(find_if(singleton(c<1>), equal.to(c<0>)) == nothing);
 
-            BOOST_HANA_CONSTANT_CHECK(find_if(doubleton(c<0>, c<1>), is(c<0>)) == just(c<0>));
-            BOOST_HANA_CONSTANT_CHECK(find_if(doubleton(c<0>, c<1>), is(c<1>)) == just(c<1>));
-            BOOST_HANA_CONSTANT_CHECK(find_if(doubleton(c<0>, c<1>), is(c<2>)) == nothing);
+            BOOST_HANA_CONSTANT_CHECK(find_if(doubleton(c<0>, c<1>), equal.to(c<0>)) == just(c<0>));
+            BOOST_HANA_CONSTANT_CHECK(find_if(doubleton(c<0>, c<1>), equal.to(c<1>)) == just(c<1>));
+            BOOST_HANA_CONSTANT_CHECK(find_if(doubleton(c<0>, c<1>), equal.to(c<2>)) == nothing);
         }
 
         // subset

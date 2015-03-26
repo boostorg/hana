@@ -7,29 +7,62 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/reverse_partial.hpp>
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/config.hpp>
 
-#include <test/injection.hpp>
+#include <laws/base.hpp>
 using namespace boost::hana;
 
 
-constexpr auto rp = detail::reverse_partial;
-BOOST_HANA_CONSTEXPR_LAMBDA auto f = test::injection([]{});
-using test::x;
+using test::ct_eq;
 
 int main() {
-    BOOST_HANA_CONSTANT_CHECK(equal(rp(f)(), f()));
-    BOOST_HANA_CONSTANT_CHECK(equal(rp(f)(x<1>), f(x<1>)));
-    BOOST_HANA_CONSTANT_CHECK(equal(rp(f)(x<1>, x<2>), f(x<1>, x<2>)));
-    BOOST_HANA_CONSTANT_CHECK(equal(rp(f)(x<1>, x<2>, x<3>), f(x<1>, x<2>, x<3>)));
+    constexpr auto rp = detail::reverse_partial;
+    test::_injection<0> f{};
 
-    BOOST_HANA_CONSTANT_CHECK(equal(rp(f, x<1>)(), f(x<1>)));
-    BOOST_HANA_CONSTANT_CHECK(equal(rp(f, x<1>)(x<2>), f(x<2>, x<1>)));
-    BOOST_HANA_CONSTANT_CHECK(equal(rp(f, x<1>)(x<2>, x<3>), f(x<2>, x<3>, x<1>)));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        rp(f)(),
+        f()
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        rp(f)(ct_eq<1>{}),
+        f(ct_eq<1>{})
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        rp(f)(ct_eq<1>{}, ct_eq<2>{}),
+        f(ct_eq<1>{}, ct_eq<2>{})
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        rp(f)(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}),
+        f(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{})
+    ));
 
-    BOOST_HANA_CONSTANT_CHECK(equal(rp(f, x<1>, x<2>)(), f(x<1>, x<2>)));
-    BOOST_HANA_CONSTANT_CHECK(equal(rp(f, x<1>, x<2>)(x<3>), f(x<3>, x<1>, x<2>)));
-    BOOST_HANA_CONSTANT_CHECK(equal(rp(f, x<1>, x<2>)(x<3>, x<4>), f(x<3>, x<4>, x<1>, x<2>)));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        rp(f, ct_eq<1>{})(),
+        f(ct_eq<1>{})
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        rp(f, ct_eq<1>{})(ct_eq<2>{}),
+        f(ct_eq<2>{}, ct_eq<1>{})
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        rp(f, ct_eq<1>{})(ct_eq<2>{}, ct_eq<3>{}),
+        f(ct_eq<2>{}, ct_eq<3>{}, ct_eq<1>{})
+    ));
 
-    BOOST_HANA_CONSTANT_CHECK(equal(rp(f, x<1>, x<2>, x<3>)(), f(x<1>, x<2>, x<3>)));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        rp(f, ct_eq<1>{}, ct_eq<2>{})(),
+        f(ct_eq<1>{}, ct_eq<2>{})
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        rp(f, ct_eq<1>{}, ct_eq<2>{})(ct_eq<3>{}),
+        f(ct_eq<3>{}, ct_eq<1>{}, ct_eq<2>{})
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        rp(f, ct_eq<1>{}, ct_eq<2>{})(ct_eq<3>{}, ct_eq<4>{}),
+        f(ct_eq<3>{}, ct_eq<4>{}, ct_eq<1>{}, ct_eq<2>{})
+    ));
+
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        rp(f, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{})(),
+        f(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{})
+    ));
 }
