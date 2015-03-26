@@ -110,12 +110,19 @@ namespace boost { namespace hana {
 
     template <typename It, bool condition>
     struct at_impl<It, when<condition>> : default_ {
+        struct next {
+            template <typename Index, typename Xs>
+            constexpr decltype(auto) operator()(Index&& n, Xs&& xs) const {
+                return at_impl::apply(hana::pred(n), hana::tail(xs));
+            }
+        };
+
         template <typename Index, typename Xs>
-        static constexpr auto apply(Index&& n, Xs xs) {
+        static constexpr decltype(auto) apply(Index&& n, Xs&& xs) {
             using I = typename datatype<Index>::type;
             return hana::eval_if(hana::equal(n, zero<I>()),
-                [&](auto _) { return _(head)(xs); },
-                [&](auto _) { return apply(_(pred)(n), _(tail)(xs)); }
+                hana::lazy(head)(xs),
+                hana::lazy(next{})(n, xs)
             );
         }
     };

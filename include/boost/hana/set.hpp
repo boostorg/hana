@@ -24,6 +24,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional/flip.hpp>
 #include <boost/hana/functional/id.hpp>
+#include <boost/hana/lazy.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/searchable.hpp>
 #include <boost/hana/tuple.hpp>
@@ -134,21 +135,24 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <>
     struct insert_impl<Set> {
+        struct insert_helper {
+            template <typename S, typename X>
+            constexpr decltype(auto) operator()(S&& s, X&& x) const {
+                return hana::unpack(
+                    hana::prepend(
+                        detail::std::forward<X>(x),
+                        detail::std::forward<S>(s).storage
+                    ),
+                    hana::set
+                );
+            }
+        };
+
         template <typename S, typename X>
         static constexpr decltype(auto) apply(S&& set, X&& x) {
             return hana::eval_if(hana::elem(set, x),
-                [&set](auto) -> decltype(auto) {
-                    return hana::id(detail::std::forward<S>(set));
-                },
-                [&set, &x](auto _) -> decltype(auto) {
-                    return hana::unpack(
-                        _(prepend)(
-                            detail::std::forward<X>(x),
-                            detail::std::forward<S>(set).storage
-                        ),
-                        hana::set
-                    );
-                }
+                hana::lazy(set),
+                hana::lazy(insert_helper{})(set, x)
             );
         }
     };

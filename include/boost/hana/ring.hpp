@@ -30,7 +30,7 @@ Distributed under the Boost Software License, Version 1.0.
 // for default power
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/enumerable.hpp>
-#include <boost/hana/functional/always.hpp>
+#include <boost/hana/lazy.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/monoid.hpp>
 
@@ -97,16 +97,21 @@ namespace boost { namespace hana {
 
     template <typename R, bool condition>
     struct power_impl<R, when<condition>> : default_ {
+        struct next {
+            template <typename X, typename N>
+            constexpr decltype(auto) operator()(X&& x, N&& n) const {
+                return hana::mult(x,
+                    power_impl::apply(x, hana::pred(detail::std::forward<N>(n)))
+                );
+            }
+        };
+
         template <typename X, typename N>
         static constexpr decltype(auto) apply(X&& x, N&& n) {
             using Exp = typename datatype<N>::type;
-            return eval_if(equal(n, zero<Exp>()),
-                always(one<R>()),
-                [&n, &x](auto _) -> decltype(auto) {
-                    return mult(
-                        x, apply(x, _(pred)(detail::std::forward<N>(n)))
-                    );
-                }
+            return hana::eval_if(hana::equal(n, hana::zero<Exp>()),
+                hana::lazy(hana::one<R>()),
+                hana::lazy(next{})(x, detail::std::forward<N>(n))
             );
         }
     };

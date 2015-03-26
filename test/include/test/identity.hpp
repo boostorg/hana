@@ -8,6 +8,8 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_TEST_TEST_IDENTITY_HPP
 
 #include <boost/hana/detail/create.hpp>
+#include <boost/hana/functional/compose.hpp>
+#include <boost/hana/lazy.hpp>
 #include <boost/hana/logical.hpp>
 
 // instances
@@ -71,11 +73,16 @@ namespace boost { namespace hana {
 #else
     template <>
     struct adjust_if_impl<test::Identity> {
+        struct get_value {
+            template <typename T>
+            constexpr auto operator()(T t) const { return t.value; }
+        };
+
         template <typename Id, typename P, typename F>
         static constexpr auto apply(Id self, P p, F f) {
             auto x = eval_if(p(self.value),
-                [=](auto _) { return _(f)(self.value); },
-                [=](auto _) { return self.value; }
+                lazy(compose(f, get_value{}))(self),
+                lazy(get_value{})(self)
             );
             return test::identity(x);
         }

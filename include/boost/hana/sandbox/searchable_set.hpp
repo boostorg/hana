@@ -77,7 +77,7 @@ namespace boost { namespace hana {
         template <typename Set, typename F>
         static constexpr auto apply(Set set, F f) {
             return searchable_set([=](auto q) {
-                return f(set.find([=](auto x) { return q(f(x)); }));
+                return f(set.find(compose(q, f)));
             });
         }
     };
@@ -96,9 +96,7 @@ namespace boost { namespace hana {
     struct ap_impl<SearchableSet> {
         template <typename F, typename Set>
         static constexpr auto apply(F fset, Set set) {
-            return flatten(transform(fset, [=](auto f) {
-                return transform(set, f);
-            }));
+            return flatten(transform(fset, partial(transform, set)));
         }
     };
 
