@@ -139,8 +139,9 @@ that source file.
 
 > #### Tip for Sublime Text users
 > If you use the provided [hana.sublime-project](hana.sublime-project) file,
-> you can select the "Build current file" build system. You can then compile
-> the current file by pressing ⌘B.
+> you can select the "[Hana] Build current file" build system. When viewing a
+> file to which a target is associated (like a test or an example), you can
+> then compile it by pressing ⌘B, or compile and then run it using ⇧⌘B.
 
 
 ## Project organization
