@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/config.hpp>
 #include <boost/hana/detail/create.hpp>
+#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/pair.hpp>
 #include <boost/hana/tuple.hpp>
 
@@ -38,8 +39,12 @@ namespace boost { namespace hana {
     struct members_impl<test::MinimalRecord> {
         static BOOST_HANA_CONSTEXPR_LAMBDA auto apply() {
             return make<Tuple>(
-                pair(test::member1, [](auto u) { return u.member1; }),
-                pair(test::member2, [](auto u) { return u.member2; })
+                pair(test::member1, [](auto&& u) {
+                    return detail::std::forward<decltype(u)>(u).member1;
+                }),
+                pair(test::member2, [](auto&& u) {
+                    return detail::std::forward<decltype(u)>(u).member2;
+                })
             );
         }
     };
