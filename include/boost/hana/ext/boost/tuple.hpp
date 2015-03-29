@@ -60,9 +60,27 @@ namespace boost { namespace hana {
 
     template <>
     struct tail_impl<ext::boost::Tuple> {
-        template <typename Xs>
-        static constexpr decltype(auto) apply(Xs&& tuple)
-        { return detail::std::forward<Xs>(tuple).get_tail(); }
+        template <typename H>
+        static constexpr auto
+        apply(::boost::tuples::cons<H, ::boost::tuples::null_type> const&)
+        { return ::boost::tuples::null_type{}; }
+
+        template <typename H>
+        static constexpr auto
+        apply(::boost::tuples::cons<H, ::boost::tuples::null_type>&)
+        { return ::boost::tuples::null_type{}; }
+
+        template <typename H, typename T>
+        static constexpr auto const& apply(::boost::tuples::cons<H, T> const& xs)
+        { return xs.get_tail(); }
+
+        template <typename H, typename T>
+        static constexpr auto& apply(::boost::tuples::cons<H, T>& xs)
+        { return xs.get_tail(); }
+
+        template <typename H, typename T>
+        static constexpr auto apply(::boost::tuples::cons<H, T>&& xs)
+        { return detail::std::move(xs.get_tail()); }
     };
 
     template <>
