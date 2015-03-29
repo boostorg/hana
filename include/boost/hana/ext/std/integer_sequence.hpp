@@ -64,7 +64,7 @@ namespace boost { namespace hana {
         template <typename T, T ...v, typename F>
         static constexpr decltype(auto)
         apply(::std::integer_sequence<T, v...>, F&& f) {
-            return detail::std::forward<F>(f)(
+            return static_cast<F&&>(f)(
                 std::integral_constant<T, v>{}...
             );
         }

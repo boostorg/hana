@@ -40,8 +40,8 @@ namespace boost { namespace hana {
             has_operator<datatype_t<Y>, decltype(equal)>::value
         >>
         constexpr decltype(auto) operator==(X&& x, Y&& y) {
-            return hana::equal(detail::std::forward<X>(x),
-                               detail::std::forward<Y>(y));
+            return hana::equal(static_cast<X&&>(x),
+                               static_cast<Y&&>(y));
         }
 
         template <typename X, typename Y, typename = detail::std::enable_if_t<
@@ -49,8 +49,8 @@ namespace boost { namespace hana {
             has_operator<datatype_t<Y>, decltype(not_equal)>::value
         >>
         constexpr decltype(auto) operator!=(X&& x, Y&& y) {
-            return hana::not_equal(detail::std::forward<X>(x),
-                                   detail::std::forward<Y>(y));
+            return hana::not_equal(static_cast<X&&>(x),
+                                   static_cast<Y&&>(y));
         }
     }
 
@@ -82,15 +82,15 @@ namespace boost { namespace hana {
         using C = typename common<T, U>::type;
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            return hana::equal(hana::to<C>(detail::std::forward<X>(x)),
-                               hana::to<C>(detail::std::forward<Y>(y)));
+            return hana::equal(hana::to<C>(static_cast<X&&>(x)),
+                               hana::to<C>(static_cast<Y&&>(y)));
         }
     };
 
     //! @cond
     template <typename X>
     constexpr decltype(auto) _equal::_to::operator()(X&& x) const
-    { return hana::partial(equal, detail::std::forward<X>(x)); }
+    { return hana::partial(equal, static_cast<X&&>(x)); }
     //! @endcond
 
     //////////////////////////////////////////////////////////////////////////
@@ -103,8 +103,8 @@ namespace boost { namespace hana {
     struct not_equal_impl<T, U, when<condition>> : default_ {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            return hana::not_(hana::equal(detail::std::forward<X>(x),
-                                          detail::std::forward<Y>(y)));
+            return hana::not_(hana::equal(static_cast<X&&>(x),
+                                          static_cast<Y&&>(y)));
         }
     };
 
@@ -116,15 +116,15 @@ namespace boost { namespace hana {
         using C = typename common<T, U>::type;
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            return hana::not_equal(hana::to<C>(detail::std::forward<X>(x)),
-                                   hana::to<C>(detail::std::forward<Y>(y)));
+            return hana::not_equal(hana::to<C>(static_cast<X&&>(x)),
+                                   hana::to<C>(static_cast<Y&&>(y)));
         }
     };
 
     //! @cond
     template <typename X>
     constexpr decltype(auto) _not_equal::_to::operator()(X&& x) const
-    { return hana::partial(not_equal, detail::std::forward<X>(x)); }
+    { return hana::partial(not_equal, static_cast<X&&>(x)); }
     //! @endcond
 
     //////////////////////////////////////////////////////////////////////////
@@ -137,16 +137,16 @@ namespace boost { namespace hana {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const& {
             return hana::equal(
-                f(detail::std::forward<X>(x)),
-                f(detail::std::forward<Y>(y))
+                f(static_cast<X&&>(x)),
+                f(static_cast<Y&&>(y))
             );
         }
 
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) & {
             return hana::equal(
-                f(detail::std::forward<X>(x)),
-                f(detail::std::forward<Y>(y))
+                f(static_cast<X&&>(x)),
+                f(static_cast<Y&&>(y))
             );
         }
     };
@@ -168,7 +168,7 @@ namespace boost { namespace hana {
     struct equal_impl<T, U, when<detail::concept::EqualityComparable<T, U>{}>> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y)
-        { return detail::std::forward<X>(x) == detail::std::forward<Y>(y); }
+        { return static_cast<X&&>(x) == static_cast<Y&&>(y); }
     };
 
     //////////////////////////////////////////////////////////////////////////

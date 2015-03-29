@@ -59,7 +59,7 @@ namespace boost { namespace hana {
     struct _make {
         template <typename ...X>
         constexpr decltype(auto) operator()(X&& ...x) const {
-            return make_impl<Datatype>::apply(detail::std::forward<X>(x)...);
+            return make_impl<Datatype>::apply(static_cast<X&&>(x)...);
         }
     };
 

@@ -27,7 +27,7 @@ namespace boost { namespace hana {
     struct _id {
         template <typename T>
         constexpr T operator()(T&& t) const {
-            return detail::std::forward<T>(t);
+            return static_cast<T&&>(t);
         }
     };
 

@@ -59,7 +59,7 @@ namespace boost { namespace hana {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
             return ::boost::fusion::as_vector(
-                ::boost::fusion::pop_front(detail::std::forward<Xs>(xs)));
+                ::boost::fusion::pop_front(static_cast<Xs&&>(xs)));
         }
     };
 
@@ -72,8 +72,8 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(X&& x, Xs&& xs) {
             return ::boost::fusion::as_vector(
                 ::boost::fusion::push_front(
-                    detail::std::forward<Xs>(xs),
-                    detail::std::forward<X>(x)));
+                    static_cast<Xs&&>(xs),
+                    static_cast<X&&>(x)));
         }
     };
 
@@ -83,8 +83,8 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(Xs&& xs, Ys&& ys) {
             return ::boost::fusion::as_vector(
                 ::boost::fusion::join(
-                    detail::std::forward<Xs>(xs),
-                    detail::std::forward<Ys>(ys)));
+                    static_cast<Xs&&>(xs),
+                    static_cast<Ys&&>(ys)));
         }
     };
 

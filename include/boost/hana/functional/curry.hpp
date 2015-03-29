@@ -104,7 +104,7 @@ namespace boost { namespace hana {
     struct _make_curry {
         template <typename F>
         constexpr _curry<n, typename detail::std::decay<F>::type>
-        operator()(F&& f) const { return {detail::std::forward<F>(f)}; }
+        operator()(F&& f) const { return {static_cast<F&&>(f)}; }
     };
 
     template <detail::std::size_t n>
@@ -127,7 +127,7 @@ namespace boost { namespace hana {
             static_assert(sizeof...(x) <= n,
             "too many arguments provided to boost::hana::curry");
             return curry_detail::curry_or_call<n - sizeof...(x)>(
-                partial(f, detail::std::forward<X>(x)...)
+                partial(f, static_cast<X&&>(x)...)
             );
         }
 
@@ -136,7 +136,7 @@ namespace boost { namespace hana {
             static_assert(sizeof...(x) <= n,
             "too many arguments provided to boost::hana::curry");
             return curry_detail::curry_or_call<n - sizeof...(x)>(
-                partial(f, detail::std::forward<X>(x)...)
+                partial(f, static_cast<X&&>(x)...)
             );
         }
 
@@ -145,7 +145,7 @@ namespace boost { namespace hana {
             static_assert(sizeof...(x) <= n,
             "too many arguments provided to boost::hana::curry");
             return curry_detail::curry_or_call<n - sizeof...(x)>(
-                partial(detail::std::move(f), detail::std::forward<X>(x)...)
+                partial(detail::std::move(f), static_cast<X&&>(x)...)
             );
         }
     };

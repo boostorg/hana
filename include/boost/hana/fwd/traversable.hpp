@@ -124,7 +124,7 @@ namespace boost { namespace hana {
             "hana::sequence<A>(xs) requires xs to be a Traversable");
 #endif
             return sequence_impl<typename datatype<Xs>::type>::template apply<A>(
-                detail::std::forward<Xs>(xs)
+                static_cast<Xs&&>(xs)
             );
         }
     };
@@ -178,8 +178,8 @@ namespace boost { namespace hana {
             "hana::traverse<A>(xs, f) requires xs to be a Traversable");
 #endif
             return traverse_impl<typename datatype<Xs>::type>::template apply<A>(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<F>(f)
+                static_cast<Xs&&>(xs),
+                static_cast<F&&>(f)
             );
         }
     };

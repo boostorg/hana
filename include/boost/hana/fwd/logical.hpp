@@ -202,9 +202,9 @@ namespace boost { namespace hana {
             "hana::if_(cond, then, else) requires cond to be a Logical");
 #endif
             return if_impl<typename datatype<Cond>::type>::apply(
-                detail::std::forward<Cond>(cond),
-                detail::std::forward<Then>(then),
-                detail::std::forward<Else>(else_)
+                static_cast<Cond&&>(cond),
+                static_cast<Then&&>(then),
+                static_cast<Else&&>(else_)
             );
         }
     };
@@ -318,9 +318,9 @@ namespace boost { namespace hana {
             "hana::eval_if(cond, then, else) requires cond to be a Logical");
 #endif
             return eval_if_impl<typename datatype<Cond>::type>::apply(
-                detail::std::forward<Cond>(cond),
-                detail::std::forward<Then>(then),
-                detail::std::forward<Else>(else_)
+                static_cast<Cond&&>(cond),
+                static_cast<Then&&>(then),
+                static_cast<Else&&>(else_)
             );
         }
     };
@@ -386,9 +386,9 @@ namespace boost { namespace hana {
             "hana::while_(pred, state, f) requires pred(state) to be a Logical");
 #endif
             return while_impl<typename datatype<Cond>::type>::apply(
-                detail::std::forward<Pred>(pred),
-                detail::std::forward<State>(state),
-                detail::std::forward<F>(f)
+                static_cast<Pred&&>(pred),
+                static_cast<State&&>(state),
+                static_cast<F&&>(f)
             );
         }
     };
@@ -447,9 +447,9 @@ namespace boost { namespace hana {
             "hana::until(pred, state, f) requires pred(state) to be a Logical");
 #endif
             return until_impl<typename datatype<Cond>::type>::apply(
-                detail::std::forward<Pred>(pred),
-                detail::std::forward<State>(state),
-                detail::std::forward<F>(f)
+                static_cast<Pred&&>(pred),
+                static_cast<State&&>(state),
+                static_cast<F&&>(f)
             );
         }
     };
@@ -481,7 +481,7 @@ namespace boost { namespace hana {
         template <typename X>
         constexpr decltype(auto) operator()(X&& x) const {
             return not_impl<typename datatype<X>::type>::apply(
-                detail::std::forward<X>(x)
+                static_cast<X&&>(x)
             );
         }
     };

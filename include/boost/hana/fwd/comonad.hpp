@@ -125,7 +125,7 @@ namespace boost { namespace hana {
             "hana::extract(w) requires w to be a Comonad");
 #endif
             return extract_impl<typename datatype<W>::type>::apply(
-                detail::std::forward<W>(w)
+                static_cast<W&&>(w)
             );
         }
     };
@@ -171,7 +171,7 @@ namespace boost { namespace hana {
             "hana::duplicate(w) requires w to be a Comonad");
 #endif
             return duplicate_impl<typename datatype<W>::type>::apply(
-                detail::std::forward<W>(w)
+                static_cast<W&&>(w)
             );
         }
     };
@@ -222,8 +222,8 @@ namespace boost { namespace hana {
             "hana::extend(w, f) requires w to be a Comonad");
 #endif
             return extend_impl<typename datatype<W>::type>::apply(
-                detail::std::forward<W>(w),
-                detail::std::forward<F>(f)
+                static_cast<W&&>(w),
+                static_cast<F&&>(f)
             );
         }
     };

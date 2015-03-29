@@ -51,17 +51,17 @@ namespace boost { namespace hana {
 
         template <typename ...X>
         constexpr decltype(auto) operator()(X&& ...x) const& {
-            return f(static_cast<G const&>(g).get(detail::std::forward<X>(x))...);
+            return f(static_cast<G const&>(g).get(static_cast<X&&>(x))...);
         }
 
         template <typename ...X>
         constexpr decltype(auto) operator()(X&& ...x) & {
-            return f(static_cast<G&>(g).get(detail::std::forward<X>(x))...);
+            return f(static_cast<G&>(g).get(static_cast<X&&>(x))...);
         }
 
         template <typename ...X>
         constexpr decltype(auto) operator()(X&& ...x) && {
-            return f(static_cast<G&&>(g).get(detail::std::forward<X>(x))...);
+            return f(static_cast<G&&>(g).get(static_cast<X&&>(x))...);
         }
     };
 
@@ -71,14 +71,14 @@ namespace boost { namespace hana {
         template <typename ...G>
         constexpr decltype(auto) operator()(G&& ...g) const& {
             return detail::create<_lockstep>{}(f,
-                detail::create<detail::closure>{}(detail::std::forward<G>(g)...)
+                detail::create<detail::closure>{}(static_cast<G&&>(g)...)
             );
         }
 
         template <typename ...G>
         constexpr decltype(auto) operator()(G&& ...g) && {
             return detail::create<_lockstep>{}(detail::std::move(f),
-                detail::create<detail::closure>{}(detail::std::forward<G>(g)...)
+                detail::create<detail::closure>{}(static_cast<G&&>(g)...)
             );
         }
     };

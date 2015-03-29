@@ -82,14 +82,14 @@ namespace boost { namespace hana {
     struct _iterate<0> {
         template <typename F, typename X>
         constexpr X operator()(F&&, X&& x) const
-        { return detail::std::forward<X>(x); }
+        { return static_cast<X&&>(x); }
     };
 
     template <>
     struct _iterate<1> {
         template <typename F, typename X>
         constexpr decltype(auto) operator()(F&& f, X&& x) const {
-            return f(detail::std::forward<X>(x));
+            return f(static_cast<X&&>(x));
         }
     };
 
@@ -97,7 +97,7 @@ namespace boost { namespace hana {
     struct _iterate<2> {
         template <typename F, typename X>
         constexpr decltype(auto) operator()(F&& f, X&& x) const {
-            return f(f(detail::std::forward<X>(x)));
+            return f(f(static_cast<X&&>(x)));
         }
     };
 
@@ -105,7 +105,7 @@ namespace boost { namespace hana {
     struct _iterate<3> {
         template <typename F, typename X>
         constexpr decltype(auto) operator()(F&& f, X&& x) const {
-            return f(f(f(detail::std::forward<X>(x))));
+            return f(f(f(static_cast<X&&>(x))));
         }
     };
 
@@ -113,7 +113,7 @@ namespace boost { namespace hana {
     struct _iterate<4> {
         template <typename F, typename X>
         constexpr decltype(auto) operator()(F&& f, X&& x) const {
-            return f(f(f(f(detail::std::forward<X>(x)))));
+            return f(f(f(f(static_cast<X&&>(x)))));
         }
     };
 
@@ -121,7 +121,7 @@ namespace boost { namespace hana {
     struct _iterate<5> {
         template <typename F, typename X>
         constexpr decltype(auto) operator()(F&& f, X&& x) const {
-            return f(f(f(f(f(detail::std::forward<X>(x))))));
+            return f(f(f(f(f(static_cast<X&&>(x))))));
         }
     };
 
@@ -130,7 +130,7 @@ namespace boost { namespace hana {
         template <typename F, typename X>
         constexpr decltype(auto) operator()(F&& f, X&& x) const {
             return _iterate<n - 6>{}(f,
-                f(f(f(f(f(f(detail::std::forward<X>(x)))))))
+                f(f(f(f(f(f(static_cast<X&&>(x)))))))
             );
         }
     };
@@ -141,7 +141,7 @@ namespace boost { namespace hana {
         constexpr decltype(auto) operator()(F&& f, X&& x) const {
             return _iterate<n - 12>{}(f,
                 f(f(f(f(f(f(f(f(f(f(f(f(
-                    detail::std::forward<X>(x)
+                    static_cast<X&&>(x)
                 ))))))))))))
             );
         }
@@ -154,7 +154,7 @@ namespace boost { namespace hana {
             return _iterate<n - 24>{}(f,
                 f(f(f(f(f(f(f(f(f(f(f(f(
                 f(f(f(f(f(f(f(f(f(f(f(f(
-                    detail::std::forward<X>(x)
+                    static_cast<X&&>(x)
                 ))))))))))))
                 ))))))))))))
             );
@@ -170,7 +170,7 @@ namespace boost { namespace hana {
                 f(f(f(f(f(f(f(f(f(f(f(f(
                 f(f(f(f(f(f(f(f(f(f(f(f(
                 f(f(f(f(f(f(f(f(f(f(f(f(
-                    detail::std::forward<X>(x)
+                    static_cast<X&&>(x)
                 ))))))))))))
                 ))))))))))))
                 ))))))))))))
@@ -183,12 +183,12 @@ namespace boost { namespace hana {
     struct _make_iterate {
         template <typename F>
         constexpr decltype(auto) operator()(F&& f) const
-        { return hana::partial(_iterate<n>{}, detail::std::forward<F>(f)); }
+        { return hana::partial(_iterate<n>{}, static_cast<F&&>(f)); }
 
         template <typename F, typename X>
         constexpr decltype(auto) operator()(F&& f, X&& x) const {
-            return _iterate<n>{}(detail::std::forward<F>(f),
-                                 detail::std::forward<X>(x));
+            return _iterate<n>{}(static_cast<F&&>(f),
+                                 static_cast<X&&>(x));
         }
     };
 

@@ -152,8 +152,8 @@ namespace boost { namespace hana {
             "hana::any_of(xs, pred) requires xs to be a Searchable");
 #endif
             return any_of_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Pred>(pred)
+                static_cast<Xs&&>(xs),
+                static_cast<Pred&&>(pred)
             );
         }
     };
@@ -188,7 +188,7 @@ namespace boost { namespace hana {
             "hana::any(xs) requires xs to be a Searchable");
 #endif
             return any_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs)
+                static_cast<Xs&&>(xs)
             );
         }
     };
@@ -236,8 +236,8 @@ namespace boost { namespace hana {
             "hana::all_of(xs, pred) requires xs to be a Searchable");
 #endif
             return all_of_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Pred>(pred)
+                static_cast<Xs&&>(xs),
+                static_cast<Pred&&>(pred)
             );
         }
     };
@@ -272,7 +272,7 @@ namespace boost { namespace hana {
             "hana::all(xs) requires xs to be a Searchable");
 #endif
             return all_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs)
+                static_cast<Xs&&>(xs)
             );
         }
     };
@@ -321,8 +321,8 @@ namespace boost { namespace hana {
             "hana::none_of(xs, pred) requires xs to be a Searchable");
 #endif
             return none_of_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Pred>(pred)
+                static_cast<Xs&&>(xs),
+                static_cast<Pred&&>(pred)
             );
         }
     };
@@ -357,7 +357,7 @@ namespace boost { namespace hana {
             "hana::none(xs) requires xs to be a Searchable");
 #endif
             return none_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs)
+                static_cast<Xs&&>(xs)
             );
         }
     };
@@ -406,8 +406,8 @@ namespace boost { namespace hana {
             "hana::elem(xs, key) requires xs to be a Searchable");
 #endif
             return elem_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Key>(key)
+                static_cast<Xs&&>(xs),
+                static_cast<Key&&>(key)
             );
         }
     };
@@ -469,8 +469,8 @@ namespace boost { namespace hana {
             "hana::find_if(xs, pred) requires xs to be a Searchable");
 #endif
             return find_if_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Pred>(pred)
+                static_cast<Xs&&>(xs),
+                static_cast<Pred&&>(pred)
             );
         }
     };
@@ -519,8 +519,8 @@ namespace boost { namespace hana {
             "hana::find(xs, key) requires xs to be a Searchable");
 #endif
             return find_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Key>(key)
+                static_cast<Xs&&>(xs),
+                static_cast<Key&&>(key)
             );
         }
     };
@@ -578,8 +578,8 @@ namespace boost { namespace hana {
             "hana::subset(xs, ys) requires ys to be a Searchable");
 #endif
             return subset_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Ys>(ys)
+                static_cast<Xs&&>(xs),
+                static_cast<Ys&&>(ys)
             );
         }
     };

@@ -216,7 +216,7 @@ namespace boost { namespace hana {
 
         template <typename X>
         constexpr decltype(auto) operator()(X&& x) const {
-            return lift_impl<A>::apply(detail::std::forward<X>(x));
+            return lift_impl<A>::apply(static_cast<X&&>(x));
         }
     };
 

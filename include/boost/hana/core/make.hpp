@@ -28,8 +28,8 @@ namespace boost { namespace hana {
     struct make_impl<Datatype, when<condition>> : default_ {
         template <typename ...X>
         static constexpr auto make_helper(int, X&& ...x)
-            -> decltype(Datatype(detail::std::forward<X>(x)...))
-        { return Datatype(detail::std::forward<X>(x)...); }
+            -> decltype(Datatype(static_cast<X&&>(x)...))
+        { return Datatype(static_cast<X&&>(x)...); }
 
         template <typename ...X>
         static constexpr auto make_helper(long, X&& ...) {
@@ -39,7 +39,7 @@ namespace boost { namespace hana {
 
         template <typename ...X>
         static constexpr decltype(auto) apply(X&& ...x)
-        { return make_helper(int{}, detail::std::forward<X>(x)...); }
+        { return make_helper(int{}, static_cast<X&&>(x)...); }
     };
 }} // end namespace boost::hana
 

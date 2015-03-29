@@ -50,7 +50,7 @@ namespace boost { namespace hana {
     struct any_impl<S, when<condition>> : default_ {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs)
-        { return hana::any_of(detail::std::forward<Xs>(xs), id); }
+        { return hana::any_of(static_cast<Xs&&>(xs), id); }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -63,8 +63,8 @@ namespace boost { namespace hana {
     struct all_of_impl<S, when<condition>> : default_ {
         template <typename Xs, typename Pred>
         static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
-            return hana::not_(hana::any_of(detail::std::forward<Xs>(xs),
-                    hana::compose(not_, detail::std::forward<Pred>(pred))));
+            return hana::not_(hana::any_of(static_cast<Xs&&>(xs),
+                    hana::compose(not_, static_cast<Pred&&>(pred))));
         }
     };
 
@@ -78,7 +78,7 @@ namespace boost { namespace hana {
     struct all_impl<S, when<condition>> : default_ {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs)
-        { return hana::all_of(detail::std::forward<Xs>(xs), id); }
+        { return hana::all_of(static_cast<Xs&&>(xs), id); }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -91,8 +91,8 @@ namespace boost { namespace hana {
     struct none_of_impl<S, when<condition>> : default_ {
         template <typename Xs, typename Pred>
         static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
-            return hana::not_(hana::any_of(detail::std::forward<Xs>(xs),
-                                        detail::std::forward<Pred>(pred)));
+            return hana::not_(hana::any_of(static_cast<Xs&&>(xs),
+                                        static_cast<Pred&&>(pred)));
         }
     };
 
@@ -106,7 +106,7 @@ namespace boost { namespace hana {
     struct none_impl<S, when<condition>> : default_ {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs)
-        { return hana::none_of(detail::std::forward<Xs>(xs), id); }
+        { return hana::none_of(static_cast<Xs&&>(xs), id); }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -119,8 +119,8 @@ namespace boost { namespace hana {
     struct elem_impl<S, when<condition>> : default_ {
         template <typename Xs, typename X>
         static constexpr decltype(auto) apply(Xs&& xs, X&& x) {
-            return hana::any_of(detail::std::forward<Xs>(xs),
-                    hana::equal.to(detail::std::forward<X>(x)));
+            return hana::any_of(static_cast<Xs&&>(xs),
+                    hana::equal.to(static_cast<X&&>(x)));
         }
     };
 
@@ -145,8 +145,8 @@ namespace boost { namespace hana {
     struct find_impl<S, when<condition>> : default_ {
         template <typename Xs, typename Key>
         static constexpr decltype(auto) apply(Xs&& xs, Key&& key) {
-            return hana::find_if(detail::std::forward<Xs>(xs),
-                    hana::equal.to(detail::std::forward<Key>(key)));
+            return hana::find_if(static_cast<Xs&&>(xs),
+                    hana::equal.to(static_cast<Key&&>(key)));
         }
     };
 
@@ -160,8 +160,8 @@ namespace boost { namespace hana {
     struct subset_impl<S, when<condition>> : default_ {
         template <typename Xs, typename Ys>
         static constexpr decltype(auto) apply(Xs&& xs, Ys&& ys) {
-            return hana::all_of(detail::std::forward<Xs>(xs),
-                    hana::partial(elem, detail::std::forward<Ys>(ys)));
+            return hana::all_of(static_cast<Xs&&>(xs),
+                    hana::partial(elem, static_cast<Ys&&>(ys)));
         }
     };
 
@@ -185,7 +185,7 @@ namespace boost { namespace hana {
         static constexpr bool any_of_helper(bool cond, Xs&& xs, Pred&& pred) {
             if (cond) return true;
             for (detail::std::size_t i = 1; i < N; ++i)
-                if (pred(detail::std::forward<Xs>(xs)[i]))
+                if (pred(static_cast<Xs&&>(xs)[i]))
                     return true;
             return false;
         }
@@ -206,11 +206,11 @@ namespace boost { namespace hana {
 
         template <typename Xs, typename Pred>
         static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
-            auto cond = hana::if_(pred(detail::std::forward<Xs>(xs)[0]),
+            auto cond = hana::if_(pred(static_cast<Xs&&>(xs)[0]),
                 true_, false_
             );
-            return any_of_helper(cond, detail::std::forward<Xs>(xs),
-                                       detail::std::forward<Pred>(pred));
+            return any_of_helper(cond, static_cast<Xs&&>(xs),
+                                       static_cast<Pred&&>(pred));
         }
     };
 
@@ -221,11 +221,11 @@ namespace boost { namespace hana {
         template <typename Xs, typename Pred, Size i>
         static constexpr decltype(auto)
         find_helper(Xs&& xs, Pred&& pred, _integral_constant<Size, i>, decltype(false_)) {
-            auto cond = pred(detail::std::forward<Xs>(xs)[i + 1]);
+            auto cond = pred(static_cast<Xs&&>(xs)[i + 1]);
             constexpr bool truth_value = hana::if_(hana::value(cond), true, false);
             return find_helper(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Pred>(pred),
+                static_cast<Xs&&>(xs),
+                static_cast<Pred&&>(pred),
                 size_t<i + 1>, bool_<truth_value>
             );
         }
@@ -233,7 +233,7 @@ namespace boost { namespace hana {
         template <typename Xs, typename Pred, Size i>
         static constexpr decltype(auto)
         find_helper(Xs&& xs, Pred&&, _integral_constant<Size, i>, decltype(true_))
-        { return hana::just(detail::std::forward<Xs>(xs)[i]); }
+        { return hana::just(static_cast<Xs&&>(xs)[i]); }
 
         template <typename Xs, typename Pred>
         static constexpr decltype(auto)
@@ -242,11 +242,11 @@ namespace boost { namespace hana {
 
         template <typename Xs, typename Pred>
         static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
-            auto cond = pred(detail::std::forward<Xs>(xs)[0]);
+            auto cond = pred(static_cast<Xs&&>(xs)[0]);
             constexpr bool truth_value = hana::if_(hana::value(cond), true, false);
             return find_helper(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Pred>(pred),
+                static_cast<Xs&&>(xs),
+                static_cast<Pred&&>(pred),
                 size_t<0>, bool_<truth_value>
             );
         }

@@ -63,9 +63,9 @@ namespace boost { namespace hana {
         struct compare_members_of {
             template <typename X, typename Y, typename Member>
             constexpr decltype(auto) operator()(X&& x, Y&& y, Member&& member) const {
-                auto accessor = hana::second(detail::std::forward<Member>(member));
-                return hana::equal(accessor(detail::std::forward<X>(x)),
-                                   accessor(detail::std::forward<Y>(y)));
+                auto accessor = hana::second(static_cast<Member&&>(member));
+                return hana::equal(accessor(static_cast<X&&>(x)),
+                                   accessor(static_cast<Y&&>(y)));
             }
         };
     }
@@ -76,8 +76,8 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
             return hana::all_of(members<R>(),
                 hana::partial(record_detail::compare_members_of{},
-                              detail::std::forward<X>(x),
-                              detail::std::forward<Y>(y)));
+                              static_cast<X&&>(x),
+                              static_cast<Y&&>(y)));
         }
     };
 
@@ -92,9 +92,9 @@ namespace boost { namespace hana {
             template <typename F, typename Udt, typename ...Members>
             constexpr decltype(auto)
             operator()(F&& f, Udt&& udt, Members&& ...g) const {
-                return detail::std::forward<F>(f)(
-                    hana::second(detail::std::forward<Members>(g))(
-                        detail::std::forward<Udt>(udt)
+                return static_cast<F&&>(f)(
+                    hana::second(static_cast<Members&&>(g))(
+                        static_cast<Udt&&>(udt)
                     )...
                 );
             }
@@ -107,8 +107,8 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(Udt&& udt, F&& f) {
             return hana::unpack(hana::members<R>(),
                 hana::partial(record_detail::almost_demux{},
-                              detail::std::forward<F>(f),
-                              detail::std::forward<Udt>(udt)));
+                              static_cast<F&&>(f),
+                              static_cast<Udt&&>(udt)));
         }
     };
 
@@ -121,8 +121,8 @@ namespace boost { namespace hana {
             X x;
             template <typename Member>
             constexpr decltype(auto) operator()(Member&& member) && {
-                return hana::second(detail::std::forward<Member>(member))(
-                    detail::std::forward<X>(x)
+                return hana::second(static_cast<Member&&>(member))(
+                    static_cast<X&&>(x)
                 );
             }
         };
@@ -134,9 +134,9 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(X&& x, Pred&& pred) {
             return hana::transform(
                 hana::find_if(members<R>(),
-                    hana::compose(detail::std::forward<Pred>(pred), first)
+                    hana::compose(static_cast<Pred&&>(pred), first)
                 ),
-                record_detail::get_member<X>{detail::std::forward<X>(x)}
+                record_detail::get_member<X>{static_cast<X&&>(x)}
             );
         }
     };
@@ -146,7 +146,7 @@ namespace boost { namespace hana {
         template <typename X, typename Pred>
         static constexpr decltype(auto) apply(X const&, Pred&& pred) {
             return hana::any_of(members<R>(),
-                    hana::compose(detail::std::forward<Pred>(pred), first));
+                    hana::compose(static_cast<Pred&&>(pred), first));
         }
     };
 }} // end namespace boost::hana

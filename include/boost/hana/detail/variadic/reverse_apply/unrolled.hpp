@@ -18,65 +18,65 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
     struct _reverse_apply_unrolled {
         template <typename F>
         constexpr decltype(auto) operator()(F&& f) const {
-            return detail::std::forward<F>(f)();
+            return static_cast<F&&>(f)();
         }
 
         template <typename F, typename X1>
         constexpr decltype(auto) operator()(F&& f, X1&& x1) const {
-            return detail::std::forward<F>(f)(
-                detail::std::forward<X1>(x1)
+            return static_cast<F&&>(f)(
+                static_cast<X1&&>(x1)
             );
         }
 
         template <typename F, typename X1, typename X2>
         constexpr decltype(auto) operator()(F&& f, X1&& x1, X2&& x2) const {
-            return detail::std::forward<F>(f)(
-                detail::std::forward<X2>(x2),
-                detail::std::forward<X1>(x1)
+            return static_cast<F&&>(f)(
+                static_cast<X2&&>(x2),
+                static_cast<X1&&>(x1)
             );
         }
 
         template <typename F, typename X1, typename X2, typename X3>
         constexpr decltype(auto) operator()(F&& f, X1&& x1, X2&& x2, X3&& x3) const {
-            return detail::std::forward<F>(f)(
-                detail::std::forward<X3>(x3),
-                detail::std::forward<X2>(x2),
-                detail::std::forward<X1>(x1)
+            return static_cast<F&&>(f)(
+                static_cast<X3&&>(x3),
+                static_cast<X2&&>(x2),
+                static_cast<X1&&>(x1)
             );
         }
 
         template <typename F, typename X1, typename X2, typename X3, typename X4>
         constexpr decltype(auto) operator()(F&& f, X1&& x1, X2&& x2, X3&& x3, X4&& x4) const {
-            return detail::std::forward<F>(f)(
-                detail::std::forward<X4>(x4),
-                detail::std::forward<X3>(x3),
-                detail::std::forward<X2>(x2),
-                detail::std::forward<X1>(x1)
+            return static_cast<F&&>(f)(
+                static_cast<X4&&>(x4),
+                static_cast<X3&&>(x3),
+                static_cast<X2&&>(x2),
+                static_cast<X1&&>(x1)
             );
         }
 
         template <typename F, typename X1, typename X2, typename X3, typename X4, typename X5>
         constexpr decltype(auto) operator()(F&& f, X1&& x1, X2&& x2, X3&& x3, X4&& x4, X5&& x5) const {
-            return detail::std::forward<F>(f)(
-                detail::std::forward<X5>(x5),
-                detail::std::forward<X4>(x4),
-                detail::std::forward<X3>(x3),
-                detail::std::forward<X2>(x2),
-                detail::std::forward<X1>(x1)
+            return static_cast<F&&>(f)(
+                static_cast<X5&&>(x5),
+                static_cast<X4&&>(x4),
+                static_cast<X3&&>(x3),
+                static_cast<X2&&>(x2),
+                static_cast<X1&&>(x1)
             );
         }
 
         template <typename F, typename X1, typename X2, typename X3, typename X4, typename X5, typename X6, typename ...Xn>
         constexpr decltype(auto) operator()(F&& f, X1&& x1, X2&& x2, X3&& x3, X4&& x4, X5&& x5, X6&& x6, Xn&& ...xn) const {
             return (*this)(detail::reverse_partial(
-                  detail::std::forward<F>(f)
-                , detail::std::forward<X6>(x6)
-                , detail::std::forward<X5>(x5)
-                , detail::std::forward<X4>(x4)
-                , detail::std::forward<X3>(x3)
-                , detail::std::forward<X2>(x2)
-                , detail::std::forward<X1>(x1)
-            ), detail::std::forward<Xn>(xn)...);
+                  static_cast<F&&>(f)
+                , static_cast<X6&&>(x6)
+                , static_cast<X5&&>(x5)
+                , static_cast<X4&&>(x4)
+                , static_cast<X3&&>(x3)
+                , static_cast<X2&&>(x2)
+                , static_cast<X1&&>(x1)
+            ), static_cast<Xn&&>(xn)...);
         }
     };
 

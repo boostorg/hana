@@ -93,7 +93,7 @@ namespace boost { namespace hana {
         template <typename Expr>
         constexpr decltype(auto) operator()(Expr&& expr) const {
             return eval_impl<typename datatype<Expr>::type>::apply(
-                detail::std::forward<Expr>(expr)
+                static_cast<Expr&&>(expr)
             );
         }
     };

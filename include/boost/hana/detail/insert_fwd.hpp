@@ -24,8 +24,8 @@ namespace boost { namespace hana {
             return insert_impl<
                 datatype_t<Set>
             >::apply(
-                detail::std::forward<Set>(set),
-                detail::std::forward<X>(x)
+                static_cast<Set&&>(set),
+                static_cast<X&&>(x)
             );
         }
     };

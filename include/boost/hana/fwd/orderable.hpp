@@ -243,8 +243,8 @@ namespace boost { namespace hana {
             return less_impl<
                 typename datatype<X>::type, typename datatype<Y>::type
             >::apply(
-                detail::std::forward<X>(x),
-                detail::std::forward<Y>(y)
+                static_cast<X&&>(x),
+                static_cast<Y&&>(y)
             );
         }
 
@@ -291,8 +291,8 @@ namespace boost { namespace hana {
             return less_equal_impl<
                 typename datatype<X>::type, typename datatype<Y>::type
             >::apply(
-                detail::std::forward<X>(x),
-                detail::std::forward<Y>(y)
+                static_cast<X&&>(x),
+                static_cast<Y&&>(y)
             );
         }
 
@@ -338,8 +338,8 @@ namespace boost { namespace hana {
             return greater_impl<
                 typename datatype<X>::type, typename datatype<Y>::type
             >::apply(
-                detail::std::forward<X>(x),
-                detail::std::forward<Y>(y)
+                static_cast<X&&>(x),
+                static_cast<Y&&>(y)
             );
         }
 
@@ -386,8 +386,8 @@ namespace boost { namespace hana {
             return greater_equal_impl<
                 typename datatype<X>::type, typename datatype<Y>::type
             >::apply(
-                detail::std::forward<X>(x),
-                detail::std::forward<Y>(y)
+                static_cast<X&&>(x),
+                static_cast<Y&&>(y)
             );
         }
 
@@ -432,8 +432,8 @@ namespace boost { namespace hana {
             return min_impl<
                 typename datatype<X>::type, typename datatype<Y>::type
             >::apply(
-                detail::std::forward<X>(x),
-                detail::std::forward<Y>(y)
+                static_cast<X&&>(x),
+                static_cast<Y&&>(y)
             );
         }
     };
@@ -464,8 +464,8 @@ namespace boost { namespace hana {
             return max_impl<
                 typename datatype<X>::type, typename datatype<Y>::type
             >::apply(
-                detail::std::forward<X>(x),
-                detail::std::forward<Y>(y)
+                static_cast<X&&>(x),
+                static_cast<Y&&>(y)
             );
         }
     };

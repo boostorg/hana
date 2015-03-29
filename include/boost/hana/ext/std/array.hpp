@@ -106,7 +106,7 @@ namespace boost { namespace hana {
         template <typename T, std::size_t N, typename Xs, std::size_t ...index>
         static constexpr auto tail_helper(Xs&& xs, detail::std::index_sequence<index...>) {
             return ::std::array<T, N - 1>{{
-                detail::std::forward<Xs>(xs)[index + 1]...
+                static_cast<Xs&&>(xs)[index + 1]...
             }};
         }
 
@@ -116,7 +116,7 @@ namespace boost { namespace hana {
             constexpr auto N = ::std::tuple_size<RawArray>::value;
             using T = typename RawArray::value_type;
             return tail_helper<T, N>(
-                detail::std::forward<Xs>(xs),
+                static_cast<Xs&&>(xs),
                 detail::std::make_index_sequence<N - 1>{}
             );
         }

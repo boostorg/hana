@@ -113,9 +113,9 @@ namespace boost { namespace hana {
 #endif
 
             return foldl_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<State>(state),
-                detail::std::forward<F>(f)
+                static_cast<Xs&&>(xs),
+                static_cast<State&&>(state),
+                static_cast<F&&>(f)
             );
         }
     };
@@ -168,9 +168,9 @@ namespace boost { namespace hana {
             "hana::foldlM<M>(xs, state, f) requires xs to be Foldable");
 #endif
             return foldlM_impl<typename datatype<Xs>::type>::template apply<M>(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<State>(state),
-                detail::std::forward<F>(f)
+                static_cast<Xs&&>(xs),
+                static_cast<State&&>(state),
+                static_cast<F&&>(f)
             );
         }
     };
@@ -219,9 +219,9 @@ namespace boost { namespace hana {
 #endif
 
             return foldr_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<State>(state),
-                detail::std::forward<F>(f)
+                static_cast<Xs&&>(xs),
+                static_cast<State&&>(state),
+                static_cast<F&&>(f)
             );
         }
     };
@@ -274,9 +274,9 @@ namespace boost { namespace hana {
             "hana::foldrM<M>(xs, state, f) requires xs to be Foldable");
 #endif
             return foldrM_impl<typename datatype<Xs>::type>::template apply<M>(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<State>(state),
-                detail::std::forward<F>(f)
+                static_cast<Xs&&>(xs),
+                static_cast<State&&>(state),
+                static_cast<F&&>(f)
             );
         }
     };
@@ -322,8 +322,8 @@ namespace boost { namespace hana {
             "hana::foldr1(xs, f) requires xs to be Foldable");
 #endif
             return foldr1_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<F>(f)
+                static_cast<Xs&&>(xs),
+                static_cast<F&&>(f)
             );
         }
     };
@@ -368,8 +368,8 @@ namespace boost { namespace hana {
             "hana::foldl1(xs, f) requires xs to be Foldable");
 #endif
             return foldl1_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<F>(f)
+                static_cast<Xs&&>(xs),
+                static_cast<F&&>(f)
             );
         }
     };
@@ -413,15 +413,15 @@ namespace boost { namespace hana {
     struct _fold {
         template <typename Xs, typename S, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, S&& s, F&& f) const {
-            return hana::foldl(detail::std::forward<Xs>(xs),
-                               detail::std::forward<S>(s),
-                               detail::std::forward<F>(f));
+            return hana::foldl(static_cast<Xs&&>(xs),
+                               static_cast<S&&>(s),
+                               static_cast<F&&>(f));
         }
 
         template <typename Xs, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
-            return hana::foldl1(detail::std::forward<Xs>(xs),
-                                detail::std::forward<F>(f));
+            return hana::foldl1(static_cast<Xs&&>(xs),
+                                static_cast<F&&>(f));
         }
     };
 
@@ -469,15 +469,15 @@ namespace boost { namespace hana {
     struct _reverse_fold {
         template <typename Xs, typename S, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, S&& s, F&& f) const {
-            return hana::foldr(detail::std::forward<Xs>(xs),
-                               detail::std::forward<S>(s),
-                               hana::flip(detail::std::forward<F>(f)));
+            return hana::foldr(static_cast<Xs&&>(xs),
+                               static_cast<S&&>(s),
+                               hana::flip(static_cast<F&&>(f)));
         }
 
         template <typename Xs, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
-            return hana::foldr1(detail::std::forward<Xs>(xs),
-                                hana::flip(detail::std::forward<F>(f)));
+            return hana::foldr1(static_cast<Xs&&>(xs),
+                                hana::flip(static_cast<F&&>(f)));
         }
     };
 
@@ -531,8 +531,8 @@ namespace boost { namespace hana {
             "hana::for_each(xs, f) requires xs to be Foldable");
 #endif
             return for_each_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<F>(f)
+                static_cast<Xs&&>(xs),
+                static_cast<F&&>(f)
             );
         }
     };
@@ -572,7 +572,7 @@ namespace boost { namespace hana {
             "hana::length(xs) requires xs to be Foldable");
 #endif
             return length_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs)
+                static_cast<Xs&&>(xs)
             );
         }
     };
@@ -632,8 +632,8 @@ namespace boost { namespace hana {
             "hana::minimum_by(pred, xs) requires xs to be Foldable");
 #endif
             return minimum_by_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Pred>(pred),
-                detail::std::forward<Xs>(xs)
+                static_cast<Pred&&>(pred),
+                static_cast<Xs&&>(xs)
             );
         }
     };
@@ -670,7 +670,7 @@ namespace boost { namespace hana {
 #endif
 
             return minimum_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs)
+                static_cast<Xs&&>(xs)
             );
         }
     };
@@ -717,8 +717,8 @@ namespace boost { namespace hana {
 #endif
 
             return maximum_by_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Pred>(pred),
-                detail::std::forward<Xs>(xs)
+                static_cast<Pred&&>(pred),
+                static_cast<Xs&&>(xs)
             );
         }
     };
@@ -755,7 +755,7 @@ namespace boost { namespace hana {
 #endif
 
             return maximum_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs)
+                static_cast<Xs&&>(xs)
             );
         }
     };
@@ -797,7 +797,7 @@ namespace boost { namespace hana {
 #endif
 
             return sum_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs)
+                static_cast<Xs&&>(xs)
             );
         }
     };
@@ -838,7 +838,7 @@ namespace boost { namespace hana {
             "hana::product(xs) requires xs to be Foldable");
 #endif
             return product_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs)
+                static_cast<Xs&&>(xs)
             );
         }
     };
@@ -887,8 +887,8 @@ namespace boost { namespace hana {
             "hana::count_if(xs, pred) requires xs to be Foldable");
 #endif
             return count_if_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Pred>(pred)
+                static_cast<Xs&&>(xs),
+                static_cast<Pred&&>(pred)
             );
         }
     };
@@ -934,8 +934,8 @@ namespace boost { namespace hana {
             "hana::count(xs, value) requires xs to be Foldable");
 #endif
             return count_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Value>(value)
+                static_cast<Xs&&>(xs),
+                static_cast<Value&&>(value)
             );
         }
     };
@@ -991,8 +991,8 @@ namespace boost { namespace hana {
             "hana::unpack(xs, f) requires xs to be Foldable");
 #endif
             return unpack_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<F>(f)
+                static_cast<Xs&&>(xs),
+                static_cast<F&&>(f)
             );
         }
     };

@@ -33,8 +33,8 @@ namespace boost { namespace hana {
     struct make_impl<ext::std::Pair> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            return ::std::make_pair(detail::std::forward<X>(x),
-                                    detail::std::forward<Y>(y));
+            return ::std::make_pair(static_cast<X&&>(x),
+                                    static_cast<Y&&>(y));
         }
     };
 
@@ -42,14 +42,14 @@ namespace boost { namespace hana {
     struct first_impl<ext::std::Pair> {
         template <typename P>
         static constexpr decltype(auto) apply(P&& p)
-        { return detail::std::forward<P>(p).first; }
+        { return static_cast<P&&>(p).first; }
     };
 
     template <>
     struct second_impl<ext::std::Pair> {
         template <typename P>
         static constexpr decltype(auto) apply(P&& p)
-        { return detail::std::forward<P>(p).second; }
+        { return static_cast<P&&>(p).second; }
     };
 }} // end namespace boost::hana
 

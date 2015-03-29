@@ -37,8 +37,8 @@ namespace boost { namespace hana {
             ((void)Second(detail::std::declval<S>()))
         )>
         constexpr _pair(F&& f, S&& s)
-            : first(detail::std::forward<F>(f))
-            , second(detail::std::forward<S>(s))
+            : first(static_cast<F&&>(f))
+            , second(static_cast<S&&>(s))
         { }
 
         using hana = _pair;
@@ -63,7 +63,7 @@ namespace boost { namespace hana {
             typename detail::std::decay<F>::type,
             typename detail::std::decay<S>::type
         > apply(F&& f, S&& s) {
-            return {detail::std::forward<F>(f), detail::std::forward<S>(s)};
+            return {static_cast<F&&>(f), static_cast<S&&>(s)};
         }
     };
 
@@ -71,14 +71,14 @@ namespace boost { namespace hana {
     struct first_impl<Pair> {
         template <typename P>
         static constexpr decltype(auto) apply(P&& p)
-        { return detail::std::forward<P>(p).first; }
+        { return static_cast<P&&>(p).first; }
     };
 
     template <>
     struct second_impl<Pair> {
         template <typename P>
         static constexpr decltype(auto) apply(P&& p)
-        { return detail::std::forward<P>(p).second; }
+        { return static_cast<P&&>(p).second; }
     };
 }} // end namespace boost::hana
 

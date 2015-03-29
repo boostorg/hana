@@ -39,8 +39,8 @@ namespace boost { namespace hana {
             has_operator<datatype_t<Y>, decltype(plus)>::value
         >::type>
         constexpr decltype(auto) operator+(X&& x, Y&& y) {
-            return hana::plus(detail::std::forward<X>(x),
-                              detail::std::forward<Y>(y));
+            return hana::plus(static_cast<X&&>(x),
+                              static_cast<Y&&>(y));
         }
     }
 
@@ -67,8 +67,8 @@ namespace boost { namespace hana {
         using C = typename common<T, U>::type;
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            return hana::plus(to<C>(detail::std::forward<X>(x)),
-                              to<C>(detail::std::forward<Y>(y)));
+            return hana::plus(to<C>(static_cast<X&&>(x)),
+                              to<C>(static_cast<Y&&>(y)));
         }
     };
 
@@ -103,7 +103,7 @@ namespace boost { namespace hana {
     >> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y)
-        { return detail::std::forward<X>(x) + detail::std::forward<Y>(y); }
+        { return static_cast<X&&>(x) + static_cast<Y&&>(y); }
     };
 
     template <typename T>

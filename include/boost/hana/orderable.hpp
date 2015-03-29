@@ -41,8 +41,8 @@ namespace boost { namespace hana {
             has_operator<datatype_t<Y>, decltype(less)>::value
         >>
         constexpr decltype(auto) operator<(X&& x, Y&& y) {
-            return hana::less(detail::std::forward<X>(x),
-                              detail::std::forward<Y>(y));
+            return hana::less(static_cast<X&&>(x),
+                              static_cast<Y&&>(y));
         }
 
         template <typename X, typename Y, typename = detail::std::enable_if_t<
@@ -50,8 +50,8 @@ namespace boost { namespace hana {
             has_operator<datatype_t<Y>, decltype(less_equal)>::value
         >>
         constexpr decltype(auto) operator<=(X&& x, Y&& y) {
-            return hana::less_equal(detail::std::forward<X>(x),
-                                    detail::std::forward<Y>(y));
+            return hana::less_equal(static_cast<X&&>(x),
+                                    static_cast<Y&&>(y));
         }
 
         template <typename X, typename Y, typename = detail::std::enable_if_t<
@@ -59,8 +59,8 @@ namespace boost { namespace hana {
             has_operator<datatype_t<Y>, decltype(greater)>::value
         >>
         constexpr decltype(auto) operator>(X&& x, Y&& y) {
-            return hana::greater(detail::std::forward<X>(x),
-                                 detail::std::forward<Y>(y));
+            return hana::greater(static_cast<X&&>(x),
+                                 static_cast<Y&&>(y));
         }
 
         template <typename X, typename Y, typename = detail::std::enable_if_t<
@@ -68,8 +68,8 @@ namespace boost { namespace hana {
             has_operator<datatype_t<Y>, decltype(greater_equal)>::value
         >>
         constexpr decltype(auto) operator>=(X&& x, Y&& y) {
-            return hana::greater_equal(detail::std::forward<X>(x),
-                                       detail::std::forward<Y>(y));
+            return hana::greater_equal(static_cast<X&&>(x),
+                                       static_cast<Y&&>(y));
         }
     }
 
@@ -97,15 +97,15 @@ namespace boost { namespace hana {
         using C = typename common<T, U>::type;
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            return hana::less(hana::to<C>(detail::std::forward<X>(x)),
-                              hana::to<C>(detail::std::forward<Y>(y)));
+            return hana::less(hana::to<C>(static_cast<X&&>(x)),
+                              hana::to<C>(static_cast<Y&&>(y)));
         }
     };
 
     //! @cond
     template <typename X>
     constexpr decltype(auto) _less::_than::operator()(X&& x) const
-    { return hana::partial(hana::flip(less), detail::std::forward<X>(x)); }
+    { return hana::partial(hana::flip(less), static_cast<X&&>(x)); }
     //! @endcond
 
     //////////////////////////////////////////////////////////////////////////
@@ -118,8 +118,8 @@ namespace boost { namespace hana {
     struct less_equal_impl<T, U, when<condition>> : default_ {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            return hana::not_(hana::less(detail::std::forward<Y>(y),
-                                         detail::std::forward<X>(x)));
+            return hana::not_(hana::less(static_cast<Y&&>(y),
+                                         static_cast<X&&>(x)));
         }
     };
 
@@ -131,15 +131,15 @@ namespace boost { namespace hana {
         using C = typename common<T, U>::type;
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            return hana::less_equal(hana::to<C>(detail::std::forward<X>(x)),
-                                    hana::to<C>(detail::std::forward<Y>(y)));
+            return hana::less_equal(hana::to<C>(static_cast<X&&>(x)),
+                                    hana::to<C>(static_cast<Y&&>(y)));
         }
     };
 
     //! @cond
     template <typename X>
     constexpr decltype(auto) _less_equal::_than::operator()(X&& x) const
-    { return hana::partial(hana::flip(less_equal), detail::std::forward<X>(x)); }
+    { return hana::partial(hana::flip(less_equal), static_cast<X&&>(x)); }
     //! @endcond
 
     //////////////////////////////////////////////////////////////////////////
@@ -152,8 +152,8 @@ namespace boost { namespace hana {
     struct greater_impl<T, U, when<condition>> : default_ {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            return hana::less(detail::std::forward<Y>(y),
-                              detail::std::forward<X>(x));
+            return hana::less(static_cast<Y&&>(y),
+                              static_cast<X&&>(x));
         }
     };
 
@@ -165,15 +165,15 @@ namespace boost { namespace hana {
         using C = typename common<T, U>::type;
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            return hana::greater(hana::to<C>(detail::std::forward<X>(x)),
-                                 hana::to<C>(detail::std::forward<Y>(y)));
+            return hana::greater(hana::to<C>(static_cast<X&&>(x)),
+                                 hana::to<C>(static_cast<Y&&>(y)));
         }
     };
 
     //! @cond
     template <typename X>
     constexpr decltype(auto) _greater::_than::operator()(X&& x) const
-    { return hana::partial(hana::flip(greater), detail::std::forward<X>(x)); }
+    { return hana::partial(hana::flip(greater), static_cast<X&&>(x)); }
     //! @endcond
 
     //////////////////////////////////////////////////////////////////////////
@@ -186,8 +186,8 @@ namespace boost { namespace hana {
     struct greater_equal_impl<T, U, when<condition>> : default_ {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X x, Y y) {
-            return hana::not_(hana::less(detail::std::forward<X>(x),
-                                         detail::std::forward<Y>(y)));
+            return hana::not_(hana::less(static_cast<X&&>(x),
+                                         static_cast<Y&&>(y)));
         }
     };
 
@@ -199,15 +199,15 @@ namespace boost { namespace hana {
         using C = typename common<T, U>::type;
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            return hana::greater_equal(hana::to<C>(detail::std::forward<X>(x)),
-                                       hana::to<C>(detail::std::forward<Y>(y)));
+            return hana::greater_equal(hana::to<C>(static_cast<X&&>(x)),
+                                       hana::to<C>(static_cast<Y&&>(y)));
         }
     };
 
     //! @cond
     template <typename X>
     constexpr decltype(auto) _greater_equal::_than::operator()(X&& x) const
-    { return hana::partial(hana::flip(greater_equal), detail::std::forward<X>(x)); }
+    { return hana::partial(hana::flip(greater_equal), static_cast<X&&>(x)); }
     //! @endcond
 
     //////////////////////////////////////////////////////////////////////////
@@ -222,8 +222,8 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
             decltype(auto) cond = hana::less(x, y);
             return hana::if_(detail::std::forward<decltype(cond)>(cond),
-                detail::std::forward<X>(x),
-                detail::std::forward<Y>(y)
+                static_cast<X&&>(x),
+                static_cast<Y&&>(y)
             );
         }
     };
@@ -240,8 +240,8 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
             decltype(auto) cond = hana::less(x, y);
             return hana::if_(detail::std::forward<decltype(cond)>(cond),
-                detail::std::forward<Y>(y),
-                detail::std::forward<X>(x)
+                static_cast<Y&&>(y),
+                static_cast<X&&>(x)
             );
         }
     };
@@ -255,15 +255,15 @@ namespace boost { namespace hana {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const& {
             return hana::less(
-                f(detail::std::forward<X>(x)),
-                f(detail::std::forward<Y>(y))
+                f(static_cast<X&&>(x)),
+                f(static_cast<Y&&>(y))
             );
         }
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) & {
             return hana::less(
-                f(detail::std::forward<X>(x)),
-                f(detail::std::forward<Y>(y))
+                f(static_cast<X&&>(x)),
+                f(static_cast<Y&&>(y))
             );
         }
     };
@@ -285,7 +285,7 @@ namespace boost { namespace hana {
     struct less_impl<T, U, when<detail::concept::LessThanComparable<T, U>{}>> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y)
-        { return detail::std::forward<X>(x) < detail::std::forward<Y>(y); }
+        { return static_cast<X&&>(x) < static_cast<Y&&>(y); }
     };
 
     //////////////////////////////////////////////////////////////////////////

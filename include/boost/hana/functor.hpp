@@ -35,9 +35,9 @@ namespace boost { namespace hana {
     struct transform_impl<Fun, when<condition>> : default_ {
         template <typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
-            return hana::adjust_if(detail::std::forward<Xs>(xs),
+            return hana::adjust_if(static_cast<Xs&&>(xs),
                                    hana::always(true_),
-                                   detail::std::forward<F>(f));
+                                   static_cast<F&&>(f));
         }
     };
 
@@ -51,25 +51,25 @@ namespace boost { namespace hana {
         struct go {
             template <typename F, typename X>
             static constexpr decltype(auto) helper(decltype(true_), F&& f, X&& x)
-            { return detail::std::forward<F>(f)(detail::std::forward<X>(x)); }
+            { return static_cast<F&&>(f)(static_cast<X&&>(x)); }
 
             template <typename F, typename X>
             static constexpr X helper(decltype(false_), F&&, X&& x)
-            { return detail::std::forward<X>(x); }
+            { return static_cast<X&&>(x); }
 
             template <typename F, typename X>
             static constexpr decltype(auto) helper(bool cond, F&& f, X&& x) {
-                return cond ? detail::std::forward<F>(f)(detail::std::forward<X>(x))
-                            : detail::std::forward<X>(x);
+                return cond ? static_cast<F&&>(f)(static_cast<X&&>(x))
+                            : static_cast<X&&>(x);
             }
 
             template <typename Pred, typename F, typename X>
             constexpr decltype(auto) operator()(Pred&& pred, F&& f, X&& x) const {
-                auto cond = hana::if_(detail::std::forward<Pred>(pred)(x),
+                auto cond = hana::if_(static_cast<Pred&&>(pred)(x),
                     true_, false_
                 );
-                return go::helper(cond, detail::std::forward<F>(f),
-                                        detail::std::forward<X>(x));
+                return go::helper(cond, static_cast<F&&>(f),
+                                        static_cast<X&&>(x));
             }
         };
     }
@@ -78,10 +78,10 @@ namespace boost { namespace hana {
     struct adjust_if_impl<Fun, when<condition>> : default_ {
         template <typename Xs, typename Pred, typename F>
         static constexpr auto apply(Xs&& xs, Pred&& pred, F&& f) {
-            return hana::transform(detail::std::forward<Xs>(xs),
+            return hana::transform(static_cast<Xs&&>(xs),
                 hana::partial(functor_detail::go{},
-                        detail::std::forward<Pred>(pred),
-                        detail::std::forward<F>(f)));
+                        static_cast<Pred&&>(pred),
+                        static_cast<F&&>(f)));
         }
     };
 
@@ -96,9 +96,9 @@ namespace boost { namespace hana {
         template <typename Xs, typename Value, typename F>
         static constexpr auto apply(Xs&& xs, Value&& value, F&& f) {
             return hana::adjust_if(
-                detail::std::forward<Xs>(xs),
-                hana::equal.to(detail::std::forward<Value>(value)),
-                detail::std::forward<F>(f)
+                static_cast<Xs&&>(xs),
+                hana::equal.to(static_cast<Value&&>(value)),
+                static_cast<F&&>(f)
             );
         }
     };
@@ -113,9 +113,9 @@ namespace boost { namespace hana {
     struct replace_if_impl<Fun, when<condition>> : default_ {
         template <typename Xs, typename Pred, typename Value>
         static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred, Value&& v) {
-            return hana::adjust_if(detail::std::forward<Xs>(xs),
-                detail::std::forward<Pred>(pred),
-                hana::always(detail::std::forward<Value>(v))
+            return hana::adjust_if(static_cast<Xs&&>(xs),
+                static_cast<Pred&&>(pred),
+                hana::always(static_cast<Value&&>(v))
             );
         }
     };
@@ -132,9 +132,9 @@ namespace boost { namespace hana {
         static constexpr decltype(auto)
         apply(Xs&& xs, OldVal&& oldval, NewVal&& newval) {
             return hana::replace_if(
-                detail::std::forward<Xs>(xs),
-                hana::equal.to(detail::std::forward<OldVal>(oldval)),
-                detail::std::forward<NewVal>(newval)
+                static_cast<Xs&&>(xs),
+                hana::equal.to(static_cast<OldVal&&>(oldval)),
+                static_cast<NewVal&&>(newval)
             );
         }
     };
@@ -149,8 +149,8 @@ namespace boost { namespace hana {
     struct fill_impl<Fun, when<condition>> : default_ {
         template <typename Xs, typename Value>
         static constexpr decltype(auto) apply(Xs&& xs, Value&& v) {
-            return hana::transform(detail::std::forward<Xs>(xs),
-                                   hana::always(detail::std::forward<Value>(v))
+            return hana::transform(static_cast<Xs&&>(xs),
+                                   hana::always(static_cast<Value&&>(v))
             );
         }
     };

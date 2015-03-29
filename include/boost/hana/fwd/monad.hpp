@@ -165,8 +165,8 @@ namespace boost { namespace hana {
             "hana::bind(xs, f) requires xs to be a Monad");
 #endif
             return bind_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<F>(f)
+                static_cast<Xs&&>(xs),
+                static_cast<F&&>(f)
             );
         }
     };
@@ -201,7 +201,7 @@ namespace boost { namespace hana {
             "hana::flatten(xs) requires xs to be a Monad");
 #endif
             return flatten_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs)
+                static_cast<Xs&&>(xs)
             );
         }
     };
@@ -242,8 +242,8 @@ namespace boost { namespace hana {
         template <typename F, typename G>
         constexpr decltype(auto) operator()(F&& f, G&& g) const {
             return mcompose_impl<M>::apply(
-                detail::std::forward<F>(f),
-                detail::std::forward<G>(g)
+                static_cast<F&&>(f),
+                static_cast<G&&>(g)
             );
         }
     };
@@ -291,8 +291,8 @@ namespace boost { namespace hana {
             "hana::then(before, xs) requires xs to be a Monad");
 #endif
             return then_impl<typename datatype<Before>::type>::apply(
-                detail::std::forward<Before>(before),
-                detail::std::forward<Xs>(xs)
+                static_cast<Before&&>(before),
+                static_cast<Xs&&>(xs)
             );
         }
     };

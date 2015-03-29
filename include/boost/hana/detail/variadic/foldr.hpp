@@ -21,24 +21,24 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
     template <typename ...Xs, typename F, typename S>
     constexpr decltype(auto) foldr_impl(F&& f, S&& s, ...) {
         return foldr1(
-            detail::std::forward<F>(f),
+            static_cast<F&&>(f),
             type<Xs>...,
-            detail::std::forward<S>(s)
+            static_cast<S&&>(s)
         );
     }
 
     template <typename ...Xs, typename F, typename S>
     constexpr decltype(auto) foldr_impl(F&& f, S, Type*) {
         return foldr1_t<Xs..., typename S::type>(
-            detail::std::forward<F>(f)
+            static_cast<F&&>(f)
         );
     }
 
     template <typename ...Xs, typename F, typename S>
     constexpr decltype(auto) foldr_t(F&& f, S&& s) {
         return foldr_impl<Xs...>(
-            detail::std::forward<F>(f),
-            detail::std::forward<S>(s),
+            static_cast<F&&>(f),
+            static_cast<S&&>(s),
             (datatype_t<S>*)nullptr
         );
     }
@@ -47,9 +47,9 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
         template <typename F, typename S, typename ...Xs>
         constexpr decltype(auto) operator()(F&& f, S&& s, Xs&& ...xs) const {
             return foldr1(
-                detail::std::forward<F>(f),
-                detail::std::forward<Xs>(xs)...,
-                detail::std::forward<S>(s)
+                static_cast<F&&>(f),
+                static_cast<Xs&&>(xs)...,
+                static_cast<S&&>(s)
             );
         }
     };

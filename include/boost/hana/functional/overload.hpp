@@ -49,8 +49,8 @@ namespace boost { namespace hana {
 
         template <typename F_, typename ...G_>
         constexpr explicit _overload(F_&& f, G_&& ...g)
-            : _overload<F>::type(detail::std::forward<F_>(f))
-            , _overload<G...>::type(detail::std::forward<G_>(g)...)
+            : _overload<F>::type(static_cast<F_&&>(f))
+            , _overload<G...>::type(static_cast<G_&&>(g)...)
         { }
     };
 
@@ -67,7 +67,7 @@ namespace boost { namespace hana {
         { }
 
         constexpr R operator()(Args ...args) const
-        { return fptr_(detail::std::forward<Args>(args)...); }
+        { return fptr_(static_cast<Args&&>(args)...); }
     };
 
     struct _make_overload {
@@ -77,7 +77,7 @@ namespace boost { namespace hana {
             >::type
         >
         constexpr Overload operator()(F&& ...f) const {
-            return Overload(detail::std::forward<F>(f)...);
+            return Overload(static_cast<F&&>(f)...);
         }
     };
 

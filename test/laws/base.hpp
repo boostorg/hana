@@ -63,8 +63,8 @@ namespace boost { namespace hana {
         struct _implies {
             template <typename P, typename Q>
             constexpr decltype(auto) operator()(P&& p, Q&& q) const {
-                return hana::or_(hana::not_(detail::std::forward<P>(p)),
-                                 detail::std::forward<Q>(q));
+                return hana::or_(hana::not_(static_cast<P&&>(p)),
+                                 static_cast<Q&&>(q));
             }
         };
         constexpr auto implies = hana::infix(_implies{});
@@ -218,7 +218,7 @@ namespace boost { namespace hana {
 
             template <typename ...Y, typename = decltype(_tuple<X...>{std::declval<Y>()...})>
             constexpr explicit injection_result(Y&& ...y)
-                : args{boost::hana::detail::std::forward<Y>(y)...}, tracker{i}
+                : args{static_cast<Y&&>(y)...}, tracker{i}
             { }
         };
 
@@ -240,7 +240,7 @@ namespace boost { namespace hana {
             constexpr auto operator()(X&& ...x) const {
                 return injection_result<i,
                     typename hana::detail::std::decay<X>::type...
-                >{hana::detail::std::forward<X>(x)...};
+                >{static_cast<X&&>(x)...};
             }
         };
     } // end namespace test

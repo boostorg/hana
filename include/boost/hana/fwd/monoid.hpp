@@ -146,8 +146,8 @@ namespace boost { namespace hana {
             return plus_impl<
                 typename datatype<X>::type, typename datatype<Y>::type
             >::apply(
-                detail::std::forward<X>(x),
-                detail::std::forward<Y>(y)
+                static_cast<X&&>(x),
+                static_cast<Y&&>(y)
             );
         }
     };

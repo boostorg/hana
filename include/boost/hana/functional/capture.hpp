@@ -49,19 +49,19 @@ namespace boost { namespace hana {
 
         template <typename F>
         constexpr decltype(auto) operator()(F&& f) const& {
-            return hana::partial(detail::std::forward<F>(f),
+            return hana::partial(static_cast<F&&>(f),
                                  static_cast<X const&>(x).get...);
         }
 
         template <typename F>
         constexpr decltype(auto) operator()(F&& f) & {
-            return hana::partial(detail::std::forward<F>(f),
+            return hana::partial(static_cast<F&&>(f),
                                  static_cast<X&>(x).get...);
         }
 
         template <typename F>
         constexpr decltype(auto) operator()(F&& f) && {
-            return hana::partial(detail::std::forward<F>(f),
+            return hana::partial(static_cast<F&&>(f),
                                  static_cast<X&&>(x).get...);
         }
     };
@@ -70,7 +70,7 @@ namespace boost { namespace hana {
         template <typename ...X>
         constexpr decltype(auto) operator()(X&& ...x) const {
             return detail::create<_capture>{}(
-                detail::create<detail::closure>{}(detail::std::forward<X>(x)...)
+                detail::create<detail::closure>{}(static_cast<X&&>(x)...)
             );
         }
     };

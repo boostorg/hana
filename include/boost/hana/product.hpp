@@ -96,9 +96,9 @@ namespace boost { namespace hana {
     struct unpack_impl<T, when<_models<Product, T>{}>> {
         template <typename P, typename F>
         static constexpr decltype(auto) apply(P&& p, F&& f) {
-            return detail::std::forward<F>(f)(
-                hana::first(detail::std::forward<P>(p)),
-                hana::second(detail::std::forward<P>(p))
+            return static_cast<F&&>(f)(
+                hana::first(static_cast<P&&>(p)),
+                hana::second(static_cast<P&&>(p))
             );
         }
     };

@@ -51,7 +51,7 @@ namespace boost { namespace hana {
         _map(_map&) = default;
         template <typename ...Ys>
         explicit constexpr _map(Ys&& ...ys)
-            : storage{detail::std::forward<Ys>(ys)...}
+            : storage{static_cast<Ys&&>(ys)...}
         { }
     };
 
@@ -63,7 +63,7 @@ namespace boost { namespace hana {
         template <typename ...Pairs>
         static constexpr auto apply(Pairs&& ...pairs) {
             return _map<typename detail::std::decay<Pairs>::type...>{
-                detail::std::forward<Pairs>(pairs)...
+                static_cast<Pairs&&>(pairs)...
             };
         }
     };
@@ -74,7 +74,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Map>
     constexpr decltype(auto) _keys::operator()(Map&& map) const {
-        return hana::transform(detail::std::forward<Map>(map).storage, first);
+        return hana::transform(static_cast<Map&&>(map).storage, first);
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -82,7 +82,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename Map>
     constexpr decltype(auto) _values::operator()(Map&& map) const {
-        return hana::transform(detail::std::forward<Map>(map).storage, second);
+        return hana::transform(static_cast<Map&&>(map).storage, second);
     }
 
     //! @endcond
@@ -120,8 +120,8 @@ namespace boost { namespace hana {
         template <typename M, typename Pred>
         static constexpr auto apply(M&& map, Pred&& pred) {
             return hana::transform(
-                hana::find_if(detail::std::forward<M>(map).storage,
-                    hana::compose(detail::std::forward<Pred>(pred), first)),
+                hana::find_if(static_cast<M&&>(map).storage,
+                    hana::compose(static_cast<Pred&&>(pred), first)),
                 second
             );
         }
@@ -143,9 +143,9 @@ namespace boost { namespace hana {
             constexpr decltype(auto) operator()(X&& x, Member&& member) const {
                 using P = typename datatype<Member>::type;
                 return hana::make<P>(
-                    hana::first(detail::std::forward<Member>(member)),
-                    hana::second(detail::std::forward<Member>(member))(
-                        detail::std::forward<X>(x)
+                    hana::first(static_cast<Member&&>(member)),
+                    hana::second(static_cast<Member&&>(member))(
+                        static_cast<X&&>(x)
                     )
                 );
             }
@@ -159,7 +159,7 @@ namespace boost { namespace hana {
             return hana::to<Map>(
                 hana::transform(members<R>(),
                     hana::partial(map_detail::extract{},
-                                  detail::std::forward<X>(x))));
+                                  static_cast<X&&>(x))));
         }
     };
 
@@ -167,14 +167,14 @@ namespace boost { namespace hana {
     struct to_impl<Map, F, when<_models<Foldable, F>{} && !_models<Record, F>{}>> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs)
-        { return hana::unpack(detail::std::forward<Xs>(xs), make<Map>); }
+        { return hana::unpack(static_cast<Xs&&>(xs), make<Map>); }
     };
 
     template <typename S>
     struct to_impl<S, Map, when<_models<Sequence, S>{}>> {
         template <typename M>
         static constexpr decltype(auto) apply(M&& m)
-        { return hana::to<S>(detail::std::forward<M>(m).storage); }
+        { return hana::to<S>(static_cast<M&&>(m).storage); }
     };
 }} // end namespace boost::hana
 

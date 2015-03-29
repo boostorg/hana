@@ -45,27 +45,27 @@ namespace boost { namespace hana {
         _left(_left&) = default;
         template <typename Y, typename = decltype(X(detail::std::declval<Y>()))>
         constexpr _left(Y&& y)
-            : value(detail::std::forward<Y>(y))
+            : value(static_cast<Y&&>(y))
         { }
 
         template <typename F, typename G>
         constexpr decltype(auto) go(F&& f, G const&) const&
-        { return detail::std::forward<F>(f)(value); }
+        { return static_cast<F&&>(f)(value); }
 
         template <typename F, typename G>
         constexpr decltype(auto) go(F f, G const&) &
-        { return detail::std::forward<F>(f)(value); }
+        { return static_cast<F&&>(f)(value); }
 
         template <typename F, typename G>
         constexpr decltype(auto) go(F&& f, G const&) &&
-        { return detail::std::forward<F>(f)(detail::std::move(value)); }
+        { return static_cast<F&&>(f)(detail::std::move(value)); }
     };
 
     //! @cond
     template <typename T>
     constexpr auto _make_left::operator()(T&& t) const {
         return _left<typename detail::std::decay<T>::type>{
-            detail::std::forward<T>(t)
+            static_cast<T&&>(t)
         };
     }
     //! @endcond
@@ -85,27 +85,27 @@ namespace boost { namespace hana {
         _right(_right&) = default;
         template <typename Y, typename = decltype(X(detail::std::declval<Y>()))>
         constexpr _right(Y&& y)
-            : value(detail::std::forward<Y>(y))
+            : value(static_cast<Y&&>(y))
         { }
 
         template <typename F, typename G>
         constexpr decltype(auto) go(F const&, G&& g) const&
-        { return detail::std::forward<G>(g)(value); }
+        { return static_cast<G&&>(g)(value); }
 
         template <typename F, typename G>
         constexpr decltype(auto) go(F const&, G&& g) &
-        { return detail::std::forward<G>(g)(value); }
+        { return static_cast<G&&>(g)(value); }
 
         template <typename F, typename G>
         constexpr decltype(auto) go(F const&, G&& g) &&
-        { return detail::std::forward<G>(g)(detail::std::move(value)); }
+        { return static_cast<G&&>(g)(detail::std::move(value)); }
     };
 
     //! @cond
     template <typename T>
     constexpr auto _make_right::operator()(T&& t) const {
         return _right<typename detail::std::decay<T>::type>{
-            detail::std::forward<T>(t)
+            static_cast<T&&>(t)
         };
     }
     //! @endcond
@@ -158,8 +158,8 @@ namespace boost { namespace hana {
         template <typename E, typename F>
         static constexpr decltype(auto) apply(E&& e, F&& f) {
             return hana::either(left,
-                hana::compose(right, detail::std::forward<F>(f)),
-                detail::std::forward<E>(e)
+                hana::compose(right, static_cast<F&&>(f)),
+                static_cast<E&&>(e)
             );
         }
     };
@@ -171,7 +171,7 @@ namespace boost { namespace hana {
     struct lift_impl<Either> {
         template <typename X>
         static constexpr decltype(auto) apply(X&& x)
-        { return hana::right(detail::std::forward<X>(x)); }
+        { return hana::right(static_cast<X&&>(x)); }
     };
 
     template <>
@@ -179,8 +179,8 @@ namespace boost { namespace hana {
         template <typename E, typename X>
         static constexpr decltype(auto) apply(E&& e, X&& x) {
             return hana::either(left,
-                hana::partial(transform, detail::std::forward<X>(x)),
-                detail::std::forward<E>(e)
+                hana::partial(transform, static_cast<X&&>(x)),
+                static_cast<E&&>(e)
             );
         }
     };
@@ -192,7 +192,7 @@ namespace boost { namespace hana {
     struct flatten_impl<Either> {
         template <typename E>
         static constexpr decltype(auto) apply(E&& e)
-        { return hana::either(left, id, detail::std::forward<E>(e)); }
+        { return hana::either(left, id, static_cast<E&&>(e)); }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -202,20 +202,20 @@ namespace boost { namespace hana {
     struct unpack_impl<Either> {
         template <typename T, typename F>
         static constexpr decltype(auto) apply(_left<T> const&, F&& f)
-        { return detail::std::forward<F>(f)(); }
+        { return static_cast<F&&>(f)(); }
 
 
         template <typename T, typename F>
         static constexpr decltype(auto) apply(_right<T> const& x, F&& f)
-        { return detail::std::forward<F>(f)(x.value); }
+        { return static_cast<F&&>(f)(x.value); }
 
         template <typename T, typename F>
         static constexpr decltype(auto) apply(_right<T>& x, F&& f)
-        { return detail::std::forward<F>(f)(x.value); }
+        { return static_cast<F&&>(f)(x.value); }
 
         template <typename T, typename F>
         static constexpr decltype(auto) apply(_right<T>&& x, F&& f)
-        { return detail::std::forward<F>(f)(detail::std::move(x.value)); }
+        { return static_cast<F&&>(f)(detail::std::move(x.value)); }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -235,15 +235,15 @@ namespace boost { namespace hana {
 
         template <typename A, typename T, typename F>
         static constexpr decltype(auto) apply(_right<T> const& e, F&& f) {
-            return hana::transform(detail::std::forward<F>(f)(e.value), right);
+            return hana::transform(static_cast<F&&>(f)(e.value), right);
         }
         template <typename A, typename T, typename F>
         static constexpr decltype(auto) apply(_right<T>& e, F&& f) {
-            return hana::transform(detail::std::forward<F>(f)(e.value), right);
+            return hana::transform(static_cast<F&&>(f)(e.value), right);
         }
         template <typename A, typename T, typename F>
         static constexpr decltype(auto) apply(_right<T>&& e, F&& f) {
-            return hana::transform(detail::std::forward<F>(f)(
+            return hana::transform(static_cast<F&&>(f)(
                                         detail::std::move(e.value)), right);
         }
     };

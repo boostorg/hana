@@ -67,24 +67,24 @@ namespace boost { namespace hana {
         template <typename X, typename ...Xs>
         constexpr decltype(auto) operator()(X&& x, Xs&& ...xs) const& {
             return f(
-                g(detail::std::forward<X>(x)),
-                detail::std::forward<Xs>(xs)...
+                g(static_cast<X&&>(x)),
+                static_cast<Xs&&>(xs)...
             );
         }
 
         template <typename X, typename ...Xs>
         constexpr decltype(auto) operator()(X&& x, Xs&& ...xs) & {
             return f(
-                g(detail::std::forward<X>(x)),
-                detail::std::forward<Xs>(xs)...
+                g(static_cast<X&&>(x)),
+                static_cast<Xs&&>(xs)...
             );
         }
 
         template <typename X, typename ...Xs>
         constexpr decltype(auto) operator()(X&& x, Xs&& ...xs) && {
             return detail::std::move(f)(
-                detail::std::move(g)(detail::std::forward<X>(x)),
-                detail::std::forward<Xs>(xs)...
+                detail::std::move(g)(static_cast<X&&>(x)),
+                static_cast<Xs&&>(xs)...
             );
         }
     };
@@ -93,9 +93,9 @@ namespace boost { namespace hana {
         template <typename F, typename G, typename ...H>
         constexpr decltype(auto) operator()(F&& f, G&& g, H&& ...h) const {
             return detail::variadic::foldl(detail::create<_compose>{},
-                detail::std::forward<F>(f),
-                detail::std::forward<G>(g),
-                detail::std::forward<H>(h)...
+                static_cast<F&&>(f),
+                static_cast<G&&>(g),
+                static_cast<H&&>(h)...
             );
         }
     };

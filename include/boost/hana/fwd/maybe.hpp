@@ -248,19 +248,19 @@ namespace boost { namespace hana {
     struct _maybe {
         template <typename Def, typename F, typename T>
         constexpr decltype(auto) operator()(Def&&, F&& f, _just<T> const& m) const
-        { return detail::std::forward<F>(f)(m.val); }
+        { return static_cast<F&&>(f)(m.val); }
 
         template <typename Def, typename F, typename T>
         constexpr decltype(auto) operator()(Def&&, F&& f, _just<T>& m) const
-        { return detail::std::forward<F>(f)(m.val); }
+        { return static_cast<F&&>(f)(m.val); }
 
         template <typename Def, typename F, typename T>
         constexpr decltype(auto) operator()(Def&&, F&& f, _just<T>&& m) const
-        { return detail::std::forward<F>(f)(detail::std::move(m).val); }
+        { return static_cast<F&&>(f)(detail::std::move(m).val); }
 
         template <typename Def, typename F>
         constexpr Def operator()(Def&& def, F&&, _nothing) const
-        { return detail::std::forward<Def>(def); }
+        { return static_cast<Def&&>(def); }
     };
 
     constexpr _maybe maybe{};

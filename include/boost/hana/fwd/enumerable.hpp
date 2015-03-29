@@ -84,7 +84,7 @@ namespace boost { namespace hana {
 
             return succ_impl<
                 typename datatype<E>::type
-            >::apply(detail::std::forward<E>(num));
+            >::apply(static_cast<E&&>(num));
         }
     };
 
@@ -116,7 +116,7 @@ namespace boost { namespace hana {
 
             return pred_impl<
                 typename datatype<E>::type
-            >::apply(detail::std::forward<E>(num));
+            >::apply(static_cast<E&&>(num));
         }
     };
 

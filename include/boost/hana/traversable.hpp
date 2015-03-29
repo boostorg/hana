@@ -34,7 +34,7 @@ namespace boost { namespace hana {
     struct sequence_impl<T, when<condition>> : default_ {
         template <typename A, typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs)
-        { return hana::traverse<A>(detail::std::forward<Xs>(xs), id); }
+        { return hana::traverse<A>(static_cast<Xs&&>(xs), id); }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -48,8 +48,8 @@ namespace boost { namespace hana {
         template <typename A, typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
             return hana::sequence<A>(
-                    hana::transform(detail::std::forward<Xs>(xs),
-                                    detail::std::forward<F>(f)));
+                    hana::transform(static_cast<Xs&&>(xs),
+                                    static_cast<F&&>(f)));
         }
     };
 

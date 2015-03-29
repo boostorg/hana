@@ -40,27 +40,27 @@ namespace boost { namespace hana {
         template <typename X, typename Y, typename ...Z>
         constexpr decltype(auto) operator()(X&& x, Y&& y, Z&& ...z) const& {
             return f(
-                detail::std::forward<Y>(y),
-                detail::std::forward<X>(x),
-                detail::std::forward<Z>(z)...
+                static_cast<Y&&>(y),
+                static_cast<X&&>(x),
+                static_cast<Z&&>(z)...
             );
         }
 
         template <typename X, typename Y, typename ...Z>
         constexpr decltype(auto) operator()(X&& x, Y&& y, Z&& ...z) & {
             return f(
-                detail::std::forward<Y>(y),
-                detail::std::forward<X>(x),
-                detail::std::forward<Z>(z)...
+                static_cast<Y&&>(y),
+                static_cast<X&&>(x),
+                static_cast<Z&&>(z)...
             );
         }
 
         template <typename X, typename Y, typename ...Z>
         constexpr decltype(auto) operator()(X&& x, Y&& y, Z&& ...z) && {
             return detail::std::move(f)(
-                detail::std::forward<Y>(y),
-                detail::std::forward<X>(x),
-                detail::std::forward<Z>(z)...
+                static_cast<Y&&>(y),
+                static_cast<X&&>(x),
+                static_cast<Z&&>(z)...
             );
         }
     };

@@ -101,7 +101,7 @@ namespace boost { namespace hana {
         static constexpr decltype(auto)
         unpack_helper(R r, F&& f, detail::std::integer_sequence<T, v...>) {
             using U = typename R::underlying;
-            return detail::std::forward<F>(f)(
+            return static_cast<F&&>(f)(
                 to<U>(integral_constant<T, R::from + v>)...
             );
         }
@@ -109,7 +109,7 @@ namespace boost { namespace hana {
         template <typename R, typename F>
         static constexpr decltype(auto) apply(R r, F&& f) {
             constexpr auto size = R::to - R::from;
-            return unpack_helper(r, detail::std::forward<F>(f),
+            return unpack_helper(r, static_cast<F&&>(f),
                 detail::std::make_integer_sequence<decltype(size), size>{});
         }
     };

@@ -69,28 +69,28 @@ namespace boost { namespace hana {
     struct _arg<1> {
         template <typename X1, typename ...Xn>
         constexpr X1 operator()(X1&& x1, Xn&& ...) const
-        { return detail::std::forward<X1>(x1); }
+        { return static_cast<X1&&>(x1); }
     };
 
     template <>
     struct _arg<2> {
         template <typename X1, typename X2, typename ...Xn>
         constexpr X2 operator()(X1&&, X2&& x2, Xn&& ...) const
-        { return detail::std::forward<X2>(x2); }
+        { return static_cast<X2&&>(x2); }
     };
 
     template <>
     struct _arg<3> {
         template <typename X1, typename X2, typename X3, typename ...Xn>
         constexpr X3 operator()(X1&&, X2&&, X3&& x3, Xn&& ...) const
-        { return detail::std::forward<X3>(x3); }
+        { return static_cast<X3&&>(x3); }
     };
 
     template <>
     struct _arg<4> {
         template <typename X1, typename X2, typename X3, typename X4, typename ...Xn>
         constexpr X4 operator()(X1&&, X2&&, X3&&, X4&& x4, Xn&& ...) const
-        { return detail::std::forward<X4>(x4); }
+        { return static_cast<X4&&>(x4); }
     };
 
     template <>
@@ -98,7 +98,7 @@ namespace boost { namespace hana {
         template <typename X1, typename X2, typename X3, typename X4,
                   typename X5, typename ...Xn>
         constexpr X5 operator()(X1&&, X2&&, X3&&, X4&&, X5&& x5, Xn&& ...) const
-        { return detail::std::forward<X5>(x5); }
+        { return static_cast<X5&&>(x5); }
     };
 
     template <detail::std::size_t n, typename>
@@ -116,7 +116,7 @@ namespace boost { namespace hana {
             // Since compilers will typically try to continue for a bit after
             // an error/static assertion, we must avoid sending the compiler
             // in a very long computation if n == 0.
-            return _arg<n == 0 ? 1 : n - 5>{}(detail::std::forward<Xn>(xn)...);
+            return _arg<n == 0 ? 1 : n - 5>{}(static_cast<Xn&&>(xn)...);
         }
     };
 
@@ -135,7 +135,7 @@ namespace boost { namespace hana {
                    X11&&, X12&&, X13&&, X14&&, X15&&,
                    X16&&, X17&&, X18&&, X19&&, X20&&,
                    X21&&, X22&&, X23&&, X24&&, X25&&, Xn&& ...xn) const
-        { return _arg<n - 25>{}(detail::std::forward<Xn>(xn)...); }
+        { return _arg<n - 25>{}(static_cast<Xn&&>(xn)...); }
     };
 
     template <detail::std::size_t n>

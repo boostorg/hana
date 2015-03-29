@@ -37,8 +37,8 @@ namespace boost { namespace hana {
     struct _apply {
         template <typename F, typename ...Args>
         constexpr decltype(auto) operator()(F&& f, Args&& ...args) const {
-            return detail::std::forward<F>(f)(
-                detail::std::forward<Args>(args)...
+            return static_cast<F&&>(f)(
+                static_cast<Args&&>(args)...
             );
         }
     };

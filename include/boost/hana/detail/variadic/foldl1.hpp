@@ -28,7 +28,7 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
         template <typename F, typename X1>
         static constexpr decltype(auto) apply(F&&, X1&& x1) {
             // id handles rvalue-ness properly
-            return id(detail::std::forward<X1>(x1));
+            return id(static_cast<X1&&>(x1));
         }
     };
 
@@ -39,9 +39,9 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
 
         template <typename F, typename X1, typename X2>
         static constexpr decltype(auto) apply(F&& f, X1&& x1, X2&& x2) {
-            return detail::std::forward<F>(f)(
-                detail::std::forward<X1>(x1),
-                detail::std::forward<X2>(x2)
+            return static_cast<F&&>(f)(
+                static_cast<X1&&>(x1),
+                static_cast<X2&&>(x2)
             );
         }
     };
@@ -55,10 +55,10 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
         static constexpr decltype(auto) apply(F&& f, X1&& x1, X2&& x2, X3&& x3) {
             return f(
                 f(
-                    detail::std::forward<X1>(x1),
-                    detail::std::forward<X2>(x2)
+                    static_cast<X1&&>(x1),
+                    static_cast<X2&&>(x2)
                 ),
-                detail::std::forward<X3>(x3)
+                static_cast<X3&&>(x3)
             );
         }
     };
@@ -81,14 +81,14 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
                     f(
                         f(
                             f(
-                                detail::std::forward<X1>(x1),
-                                detail::std::forward<X2>(x2)
+                                static_cast<X1&&>(x1),
+                                static_cast<X2&&>(x2)
                             ),
-                            detail::std::forward<X3>(x3)
+                            static_cast<X3&&>(x3)
                         ),
-                        detail::std::forward<X4>(x4)
+                        static_cast<X4&&>(x4)
                     ),
-                    detail::std::forward<Xs>(xs)...
+                    static_cast<Xs&&>(xs)...
                 );
         }
     };
@@ -96,7 +96,7 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
     template <typename ...Xs, typename F>
     constexpr decltype(auto) foldl1_helper(F&& f, ...) {
         return foldl1_impl<foldl1_next(sizeof...(Xs))>::apply(
-            detail::std::forward<F>(f), type<Xs>...
+            static_cast<F&&>(f), type<Xs>...
         );
     }
 
@@ -111,7 +111,7 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
     template <typename ...Xs, typename F>
     constexpr decltype(auto) foldl1_t(F&& f) {
         return foldl1_helper<Xs...>(
-            detail::std::forward<F>(f), (datatype_t<F>*)nullptr
+            static_cast<F&&>(f), (datatype_t<F>*)nullptr
         );
     }
 
@@ -119,8 +119,8 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
         template <typename F, typename ...Xs>
         constexpr decltype(auto) operator()(F&& f, Xs&& ...xs) const {
             return foldl1_impl<foldl1_next(sizeof...(Xs))>::apply(
-                detail::std::forward<F>(f),
-                detail::std::forward<Xs>(xs)...
+                static_cast<F&&>(f),
+                static_cast<Xs&&>(xs)...
             );
         }
     };

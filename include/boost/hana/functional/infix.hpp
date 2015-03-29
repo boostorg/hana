@@ -89,22 +89,22 @@ namespace boost { namespace hana {
 
             template <typename ...X>
             constexpr decltype(auto) operator()(X&& ...x) const&
-            { return f(detail::std::forward<X>(x)...); }
+            { return f(static_cast<X&&>(x)...); }
 
             template <typename ...X>
             constexpr decltype(auto) operator()(X&& ...x) &
-            { return f(detail::std::forward<X>(x)...); }
+            { return f(static_cast<X&&>(x)...); }
 
             template <typename ...X>
             constexpr decltype(auto) operator()(X&& ...x) &&
-            { return detail::std::move(f)(detail::std::forward<X>(x)...); }
+            { return detail::std::move(f)(static_cast<X&&>(x)...); }
         };
 
         template <bool left, bool right>
         struct make_infix {
             template <typename F>
             constexpr _infix<left, right, typename detail::std::decay<F>::type>
-            operator()(F&& f) const { return {detail::std::forward<F>(f)}; }
+            operator()(F&& f) const { return {static_cast<F&&>(f)}; }
         };
 
         template <bool left, bool right>
@@ -129,7 +129,7 @@ namespace boost { namespace hana {
             static constexpr decltype(auto) apply(F&& f, Y&& y) {
                 return make_infix<false, true>{}(
                     detail::reverse_partial(
-                        detail::std::forward<F>(f), detail::std::forward<Y>(y)
+                        static_cast<F&&>(f), static_cast<Y&&>(y)
                     )
                 );
             }
@@ -140,7 +140,7 @@ namespace boost { namespace hana {
         struct bind_infix<Infix<true, false>, Object> {
             template <typename F, typename Y>
             static constexpr decltype(auto) apply(F&& f, Y&& y) {
-                return detail::std::forward<F>(f)(detail::std::forward<Y>(y));
+                return static_cast<F&&>(f)(static_cast<Y&&>(y));
             }
         };
 
@@ -150,7 +150,7 @@ namespace boost { namespace hana {
             template <typename X, typename F>
             static constexpr decltype(auto) apply(X&& x, F&& f) {
                 return make_infix<true, false>{}(
-                    partial(detail::std::forward<F>(f), detail::std::forward<X>(x))
+                    partial(static_cast<F&&>(f), static_cast<X&&>(x))
                 );
             }
         };
@@ -160,7 +160,7 @@ namespace boost { namespace hana {
         struct bind_infix<Object, Infix<false, true>> {
             template <typename X, typename F>
             static constexpr decltype(auto) apply(X&& x, F&& f) {
-                return detail::std::forward<F>(f)(detail::std::forward<X>(x));
+                return static_cast<F&&>(f)(static_cast<X&&>(x));
             }
         };
 
@@ -174,7 +174,7 @@ namespace boost { namespace hana {
             return bind_infix<
                 typename dispatch<strip<X>>::type,
                 typename dispatch<strip<Y>>::type
-            >::apply(detail::std::forward<X>(x), detail::std::forward<Y>(y));
+            >::apply(static_cast<X&&>(x), static_cast<Y&&>(y));
         }
     } // end namespace infix_detail
 

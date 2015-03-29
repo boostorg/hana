@@ -63,17 +63,17 @@ namespace boost { namespace hana {
         F f; G g;
         template <typename ...X>
         constexpr decltype(auto) operator()(X&& ...x) const& {
-            return f(g(detail::std::forward<X>(x))...);
+            return f(g(static_cast<X&&>(x))...);
         }
 
         template <typename ...X>
         constexpr decltype(auto) operator()(X&& ...x) & {
-            return f(g(detail::std::forward<X>(x))...);
+            return f(g(static_cast<X&&>(x))...);
         }
 
         template <typename ...X>
         constexpr decltype(auto) operator()(X&& ...x) && {
-            return detail::std::move(f)(g(detail::std::forward<X>(x))...);
+            return detail::std::move(f)(g(static_cast<X&&>(x))...);
         }
     };
 

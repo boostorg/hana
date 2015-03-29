@@ -22,8 +22,8 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
     template <typename ...Xs, typename F, typename S>
     constexpr decltype(auto) foldl_impl(F&& f, S&& s, ...) {
         return foldl1(
-            detail::std::forward<F>(f),
-            detail::std::forward<S>(s),
+            static_cast<F&&>(f),
+            static_cast<S&&>(s),
             type<Xs>...
         );
     }
@@ -31,15 +31,15 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
     template <typename ...Xs, typename F, typename S>
     constexpr decltype(auto) foldl_impl(F&& f, S, Type*) {
         return foldl1_t<typename S::type, Xs...>(
-            detail::std::forward<F>(f)
+            static_cast<F&&>(f)
         );
     }
 
     template <typename ...Xs, typename F, typename S>
     constexpr decltype(auto) foldl_t(F&& f, S&& s) {
         return foldl_impl<Xs...>(
-            detail::std::forward<F>(f),
-            detail::std::forward<S>(s),
+            static_cast<F&&>(f),
+            static_cast<S&&>(s),
             (datatype_t<S>*)0
         );
     }
@@ -48,9 +48,9 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
         template <typename F, typename S, typename ...Xs>
         constexpr decltype(auto) operator()(F&& f, S&& s, Xs&& ...xs) const {
             return foldl1(
-                detail::std::forward<F>(f),
-                detail::std::forward<S>(s),
-                detail::std::forward<Xs>(xs)...
+                static_cast<F&&>(f),
+                static_cast<S&&>(s),
+                static_cast<Xs&&>(xs)...
             );
         }
     };
@@ -69,21 +69,21 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
         template <typename X>
         constexpr decltype(auto) operator+(X&& x) const& {
             return detail::create<variadic::accumulator>{}(
-                f, f(state, detail::std::forward<X>(x))
+                f, f(state, static_cast<X&&>(x))
             );
         }
 
         template <typename X>
         constexpr decltype(auto) operator+(X&& x) & {
             return detail::create<variadic::accumulator>{}(
-                f, f(state, detail::std::forward<X>(x))
+                f, f(state, static_cast<X&&>(x))
             );
         }
 
         template <typename X>
         constexpr decltype(auto) operator+(X&& x) && {
             decltype(auto) result = f(detail::std::move(state),
-                                      detail::std::forward<X>(x));
+                                      static_cast<X&&>(x));
             return detail::create<variadic::accumulator>{}(
                 detail::std::move(f),
                 detail::std::forward<decltype(result)>(result)
@@ -98,16 +98,16 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
     struct _foldl {
         template <typename ...Xs>
         static constexpr decltype(auto) helper(Xs&& ...xs)
-        { return (... + detail::std::forward<Xs>(xs)); }
+        { return (... + static_cast<Xs&&>(xs)); }
 
         template <typename F, typename State, typename ...Xs>
         constexpr decltype(auto) operator()(F&& f, State&& state, Xs&& ...xs) const {
             return helper(
                 detail::create<accumulator>{}(
-                    detail::std::forward<F>(f),
-                    detail::std::forward<State>(state)
+                    static_cast<F&&>(f),
+                    static_cast<State&&>(state)
                 ),
-                detail::std::forward<Xs>(xs)...
+                static_cast<Xs&&>(xs)...
             ).get();
         }
     };

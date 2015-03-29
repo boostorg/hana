@@ -159,8 +159,8 @@ namespace boost { namespace hana {
             return minus_impl<
                 typename datatype<X>::type, typename datatype<Y>::type
             >::apply(
-                detail::std::forward<X>(x),
-                detail::std::forward<Y>(y)
+                static_cast<X&&>(x),
+                static_cast<Y&&>(y)
             );
         }
     };
@@ -187,7 +187,7 @@ namespace boost { namespace hana {
         template <typename X>
         constexpr decltype(auto) operator()(X&& x) const {
             return negate_impl<typename datatype<X>::type>::apply(
-                detail::std::forward<X>(x)
+                static_cast<X&&>(x)
             );
         }
     };

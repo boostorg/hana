@@ -104,7 +104,7 @@ namespace boost { namespace hana { namespace detail {
             constexpr long long lengths[] = {tuple_detail::size<Tuples>{}...};
             constexpr Size total_length = hana::product(lengths);
             return cartesian_prod_impl_cat2(
-                detail::std::forward<Tuples>(tuples)...,
+                static_cast<Tuples&&>(tuples)...,
                 detail::generate_index_sequence<total_length,
                     indexN<0, tuple_detail::size<Tuples>{}...>
                 >{},
@@ -120,7 +120,7 @@ namespace boost { namespace hana { namespace detail {
             constexpr long long lengths[] = {tuple_detail::size<Tuples>{}...};
             constexpr Size total_length = hana::product(lengths);
             return cartesian_prod_impl(
-                detail::std::forward<Tuples>(tuples)...,
+                static_cast<Tuples&&>(tuples)...,
                 detail::generate_index_sequence<total_length,
                     indexN<i, tuple_detail::size<Tuples>{}...>
                 >{}...
@@ -129,7 +129,7 @@ namespace boost { namespace hana { namespace detail {
 
         template <typename Tuple>
         constexpr decltype(auto) operator()(Tuple&& tuple) const
-        { return hana::transform(detail::std::forward<Tuple>(tuple), hana::make_tuple); }
+        { return hana::transform(static_cast<Tuple&&>(tuple), hana::make_tuple); }
 
         template <typename ...Tuples>
         constexpr decltype(auto) operator()(Tuples&& ...tuples) const {
@@ -138,7 +138,7 @@ namespace boost { namespace hana { namespace detail {
 
             return cartesian_prod_helper(
                 detail::std::make_index_sequence<sizeof...(Tuples)>{},
-                detail::std::forward<Tuples>(tuples)...
+                static_cast<Tuples&&>(tuples)...
             );
         }
 
@@ -148,13 +148,13 @@ namespace boost { namespace hana { namespace detail {
             return hana::transform( // Flatten to get A x B x C x D1 x ... x Dn
                 cartesian_prod_helper_cat2( // <- Compute (A x B x C) x (D1 x ... x Dn)
                     (*this)( // <- Compute A x B x C
-                        detail::std::forward<A>(a),
-                        detail::std::forward<B>(b),
-                        detail::std::forward<C>(c)
+                        static_cast<A&&>(a),
+                        static_cast<B&&>(b),
+                        static_cast<C&&>(c)
                     ),
                     (*this)( // <- Compute D1 x ... x Dn
-                        detail::std::forward<D1>(d1),
-                        detail::std::forward<Dn>(dn)...
+                        static_cast<D1&&>(d1),
+                        static_cast<Dn&&>(dn)...
                     )
                 )
             , id);

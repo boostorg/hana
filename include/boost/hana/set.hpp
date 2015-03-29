@@ -46,7 +46,7 @@ namespace boost { namespace hana {
         _set(_set&) = default;
         template <typename ...Ys>
         explicit constexpr _set(Ys&& ...ys)
-            : storage{detail::std::forward<Ys>(ys)...}
+            : storage{static_cast<Ys&&>(ys)...}
         { }
     };
 
@@ -58,7 +58,7 @@ namespace boost { namespace hana {
         template <typename ...Xs>
         static constexpr auto apply(Xs&& ...xs) {
             return _set<typename detail::std::decay<Xs>::type...>{
-                detail::std::forward<Xs>(xs)...
+                static_cast<Xs&&>(xs)...
             };
         }
     };
@@ -80,7 +80,7 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(S1&& s1, S2&& s2) {
             return hana::and_(
                 hana::equal(hana::length(s1.storage), hana::length(s2.storage)),
-                hana::subset(detail::std::forward<S1>(s1), detail::std::forward<S2>(s2))
+                hana::subset(static_cast<S1&&>(s1), static_cast<S2&&>(s2))
             );
         }
     };
@@ -92,8 +92,8 @@ namespace boost { namespace hana {
     struct unpack_impl<Set> {
         template <typename Set, typename F>
         static constexpr decltype(auto) apply(Set&& set, F&& f) {
-            return hana::unpack(detail::std::forward<Set>(set).storage,
-                                detail::std::forward<F>(f));
+            return hana::unpack(static_cast<Set&&>(set).storage,
+                                static_cast<F&&>(f));
         }
     };
 
@@ -104,8 +104,8 @@ namespace boost { namespace hana {
     struct find_if_impl<Set> {
         template <typename Set, typename Pred>
         static constexpr decltype(auto) apply(Set&& set, Pred&& pred) {
-            return hana::find_if(detail::std::forward<Set>(set).storage,
-                              detail::std::forward<Pred>(pred));
+            return hana::find_if(static_cast<Set&&>(set).storage,
+                              static_cast<Pred&&>(pred));
         }
     };
 
@@ -113,8 +113,8 @@ namespace boost { namespace hana {
     struct any_of_impl<Set> {
         template <typename Set, typename Pred>
         static constexpr decltype(auto) apply(Set&& set, Pred&& pred) {
-            return hana::any_of(detail::std::forward<Set>(set).storage,
-                                detail::std::forward<Pred>(pred));
+            return hana::any_of(static_cast<Set&&>(set).storage,
+                                static_cast<Pred&&>(pred));
         }
     };
 
@@ -125,7 +125,7 @@ namespace boost { namespace hana {
     struct to_impl<Set, F, when<_models<Foldable, F>{}>> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
-            return hana::foldr(detail::std::forward<Xs>(xs),
+            return hana::foldr(static_cast<Xs&&>(xs),
                                 set(), hana::flip(insert));
         }
     };
@@ -140,8 +140,8 @@ namespace boost { namespace hana {
             constexpr decltype(auto) operator()(S&& s, X&& x) const {
                 return hana::unpack(
                     hana::prepend(
-                        detail::std::forward<X>(x),
-                        detail::std::forward<S>(s).storage
+                        static_cast<X&&>(x),
+                        static_cast<S&&>(s).storage
                     ),
                     hana::set
                 );

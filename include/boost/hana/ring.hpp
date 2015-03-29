@@ -45,8 +45,8 @@ namespace boost { namespace hana {
             has_operator<datatype_t<Y>, decltype(mult)>::value
         >::type>
         constexpr decltype(auto) operator*(X&& x, Y&& y) {
-            return hana::mult(detail::std::forward<X>(x),
-                              detail::std::forward<Y>(y));
+            return hana::mult(static_cast<X&&>(x),
+                              static_cast<Y&&>(y));
         }
     }
 
@@ -73,8 +73,8 @@ namespace boost { namespace hana {
         using C = typename common<T, U>::type;
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            return hana::mult(to<C>(detail::std::forward<X>(x)),
-                              to<C>(detail::std::forward<Y>(y)));
+            return hana::mult(to<C>(static_cast<X&&>(x)),
+                              to<C>(static_cast<Y&&>(y)));
         }
     };
 
@@ -101,7 +101,7 @@ namespace boost { namespace hana {
             template <typename X, typename N>
             constexpr decltype(auto) operator()(X&& x, N&& n) const {
                 return hana::mult(x,
-                    power_impl::apply(x, hana::pred(detail::std::forward<N>(n)))
+                    power_impl::apply(x, hana::pred(static_cast<N&&>(n)))
                 );
             }
         };
@@ -111,7 +111,7 @@ namespace boost { namespace hana {
             using Exp = typename datatype<N>::type;
             return hana::eval_if(hana::equal(n, hana::zero<Exp>()),
                 hana::lazy(hana::one<R>()),
-                hana::lazy(next{})(x, detail::std::forward<N>(n))
+                hana::lazy(next{})(x, static_cast<N&&>(n))
             );
         }
     };
@@ -134,7 +134,7 @@ namespace boost { namespace hana {
     struct mult_impl<T, T, when<detail::std::is_non_boolean_arithmetic<T>{}>> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y)
-        { return detail::std::forward<X>(x) * detail::std::forward<Y>(y); }
+        { return static_cast<X&&>(x) * static_cast<Y&&>(y); }
     };
 
     template <typename T>

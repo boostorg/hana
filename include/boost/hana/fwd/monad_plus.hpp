@@ -124,8 +124,8 @@ namespace boost { namespace hana {
             "hana::concat(xs, ys) requires xs and ys to be a MonadPlus");
 #endif
             return concat_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Ys>(ys)
+                static_cast<Xs&&>(xs),
+                static_cast<Ys&&>(ys)
             );
         }
     };
@@ -227,8 +227,8 @@ namespace boost { namespace hana {
             "hana::prepend(x, xs) requires xs to be a MonadPlus");
 #endif
             return prepend_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<X>(x),
-                detail::std::forward<Xs>(xs)
+                static_cast<X&&>(x),
+                static_cast<Xs&&>(xs)
             );
         }
     };
@@ -286,8 +286,8 @@ namespace boost { namespace hana {
             "hana::append(xs, x) requires xs to be a MonadPlus");
 #endif
             return append_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<X>(x)
+                static_cast<Xs&&>(xs),
+                static_cast<X&&>(x)
             );
         }
     };
@@ -359,8 +359,8 @@ namespace boost { namespace hana {
             "hana::filter(xs, pred) requires xs to be a MonadPlus");
 #endif
             return filter_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Pred>(pred)
+                static_cast<Xs&&>(xs),
+                static_cast<Pred&&>(pred)
             );
         }
     };
@@ -426,8 +426,8 @@ namespace boost { namespace hana {
             "hana::cycle(n, xs) requires xs to be a MonadPlus");
 #endif
             return cycle_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<N>(n),
-                detail::std::forward<Xs>(xs)
+                static_cast<N&&>(n),
+                static_cast<Xs&&>(xs)
             );
         }
     };
@@ -556,8 +556,8 @@ namespace boost { namespace hana {
             "hana::prefix(z, xs) requires xs to be a MonadPlus");
 #endif
             return prefix_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Z>(z),
-                detail::std::forward<Xs>(xs)
+                static_cast<Z&&>(z),
+                static_cast<Xs&&>(xs)
             );
         }
     };
@@ -618,8 +618,8 @@ namespace boost { namespace hana {
             "hana::suffix(z, xs) requires xs to be a MonadPlus");
 #endif
             return suffix_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Z>(z),
-                detail::std::forward<Xs>(xs)
+                static_cast<Z&&>(z),
+                static_cast<Xs&&>(xs)
             );
         }
     };

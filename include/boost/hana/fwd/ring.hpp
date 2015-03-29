@@ -151,8 +151,8 @@ namespace boost { namespace hana {
             return mult_impl<
                 typename datatype<X>::type, typename datatype<Y>::type
             >::apply(
-                detail::std::forward<X>(x),
-                detail::std::forward<Y>(y)
+                static_cast<X&&>(x),
+                static_cast<Y&&>(y)
             );
         }
     };
@@ -230,8 +230,8 @@ namespace boost { namespace hana {
             "hana::power(r, n) requires r to be a Ring");
 #endif
             return power_impl<typename datatype<R>::type>::apply(
-                detail::std::forward<R>(r),
-                detail::std::forward<N>(n)
+                static_cast<R&&>(r),
+                static_cast<N&&>(n)
             );
         }
     };

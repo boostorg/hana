@@ -40,15 +40,15 @@ namespace boost { namespace hana {
             has_operator<datatype_t<Y>, decltype(minus)>::value
         >>
         constexpr decltype(auto) operator-(X&& x, Y&& y) {
-            return hana::minus(detail::std::forward<X>(x),
-                               detail::std::forward<Y>(y));
+            return hana::minus(static_cast<X&&>(x),
+                               static_cast<Y&&>(y));
         }
 
         template <typename X, typename = detail::std::enable_if_t<
             has_operator<datatype_t<X>, decltype(negate)>::value
         >>
         constexpr decltype(auto) operator-(X&& x)
-        { return hana::negate(detail::std::forward<X>(x)); }
+        { return hana::negate(static_cast<X&&>(x)); }
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -74,8 +74,8 @@ namespace boost { namespace hana {
             static_assert(!is_default<negate_impl<G>>{},
             "no definition of boost::hana::minus for the given data type");
 
-            return hana::plus(detail::std::forward<X>(x),
-                              hana::negate(detail::std::forward<Y>(y)));
+            return hana::plus(static_cast<X&&>(x),
+                              hana::negate(static_cast<Y&&>(y)));
         }
     };
 
@@ -87,8 +87,8 @@ namespace boost { namespace hana {
         using C = typename common<T, U>::type;
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            return hana::minus(to<C>(detail::std::forward<X>(x)),
-                               to<C>(detail::std::forward<Y>(y)));
+            return hana::minus(to<C>(static_cast<X&&>(x)),
+                               to<C>(static_cast<Y&&>(y)));
         }
     };
 
@@ -110,7 +110,7 @@ namespace boost { namespace hana {
             "no definition of boost::hana::negate for the given data type");
 #endif
 
-            return hana::minus(zero<T>(), detail::std::forward<X>(x));
+            return hana::minus(zero<T>(), static_cast<X&&>(x));
         }
     };
 
@@ -132,14 +132,14 @@ namespace boost { namespace hana {
     struct minus_impl<T, T, when<detail::std::is_non_boolean_arithmetic<T>{}>> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y)
-        { return detail::std::forward<X>(x) - detail::std::forward<Y>(y); }
+        { return static_cast<X&&>(x) - static_cast<Y&&>(y); }
     };
 
     template <typename T>
     struct negate_impl<T, when<detail::std::is_non_boolean_arithmetic<T>{}>> {
         template <typename X>
         static constexpr decltype(auto) apply(X&& x)
-        { return -detail::std::forward<X>(x); }
+        { return -static_cast<X&&>(x); }
     };
 
     //////////////////////////////////////////////////////////////////////////

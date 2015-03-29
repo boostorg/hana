@@ -21,7 +21,7 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
     struct _take_impl2 {
         template <typename F, typename ...Xs>
         constexpr decltype(auto) operator()(F&& f, Xs&& ...xs) const {
-            return detail::std::forward<F>(f)(detail::std::forward<Xs>(xs)...);
+            return static_cast<F&&>(f)(static_cast<Xs&&>(xs)...);
         }
     };
 
@@ -30,7 +30,7 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
         constexpr auto operator()(Xs&& ...xs) const {
             return hana::always(
                 detail::reverse_partial(_take_impl2{},
-                    detail::std::forward<Xs>(xs)...)
+                    static_cast<Xs&&>(xs)...)
             );
         };
     };
@@ -39,7 +39,7 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
     struct _take {
         template <typename ...Xs>
         constexpr decltype(auto) operator()(Xs&& ...xs) const {
-            return split_at<n>(detail::std::forward<Xs>(xs)...)(_take_impl1{});
+            return split_at<n>(static_cast<Xs&&>(xs)...)(_take_impl1{});
         }
     };
 

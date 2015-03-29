@@ -74,18 +74,18 @@ namespace boost { namespace hana {
 
             template <typename Xs, typename ...Z>
             constexpr auto operator()(Xs&& xs, Z const& ...) const&
-                -> decltype(detail::std::forward<Xs>(xs)[i])
-            { return detail::std::forward<Xs>(xs)[i]; }
+                -> decltype(static_cast<Xs&&>(xs)[i])
+            { return static_cast<Xs&&>(xs)[i]; }
 
             template <typename Xs, typename ...Z>
             constexpr auto operator()(Xs&& xs, Z const& ...) &
-                -> decltype(detail::std::forward<Xs>(xs)[i])
-            { return detail::std::forward<Xs>(xs)[i]; }
+                -> decltype(static_cast<Xs&&>(xs)[i])
+            { return static_cast<Xs&&>(xs)[i]; }
 
             template <typename Xs, typename ...Z>
             constexpr auto operator()(Xs&& xs, Z const& ...) &&
-                -> decltype(detail::std::forward<Xs>(xs)[detail::std::declval<I>()])
-            { return detail::std::forward<Xs>(xs)[detail::std::move(i)]; }
+                -> decltype(static_cast<Xs&&>(xs)[detail::std::declval<I>()])
+            { return static_cast<Xs&&>(xs)[detail::std::move(i)]; }
         };
 
         template <typename X>
@@ -97,36 +97,36 @@ namespace boost { namespace hana {
 
             template <typename F, typename ...Z>
             constexpr auto operator()(F&& f, Z const& ...) const&
-                -> decltype(detail::std::forward<F>(f)(static_cast<X const&>(
+                -> decltype(static_cast<F&&>(f)(static_cast<X const&>(
                     detail::std::declval<detail::closure_impl<X...>>()
                 ).get...))
-            { return detail::std::forward<F>(f)(static_cast<X const&>(x).get...); }
+            { return static_cast<F&&>(f)(static_cast<X const&>(x).get...); }
 
             template <typename F, typename ...Z>
             constexpr auto operator()(F&& f, Z const& ...) &
-                -> decltype(detail::std::forward<F>(f)(static_cast<X&>(
+                -> decltype(static_cast<F&&>(f)(static_cast<X&>(
                     detail::std::declval<detail::closure_impl<X...>&>()
                 ).get...))
-            { return detail::std::forward<F>(f)(static_cast<X&>(x).get...); }
+            { return static_cast<F&&>(f)(static_cast<X&>(x).get...); }
 
             template <typename F, typename ...Z>
             constexpr auto operator()(F&& f, Z const& ...) &&
-                -> decltype(detail::std::forward<F>(f)(static_cast<X&&>(
+                -> decltype(static_cast<F&&>(f)(static_cast<X&&>(
                     detail::std::declval<detail::closure_impl<X...>>()
                 ).get...))
-            { return detail::std::forward<F>(f)(static_cast<X&&>(x).get...); }
+            { return static_cast<F&&>(f)(static_cast<X&&>(x).get...); }
         };
 
         struct placeholder {
             template <typename X>
             constexpr decltype(auto) operator[](X&& x) const
-            { return detail::create<subscript>{}(detail::std::forward<X>(x)); }
+            { return detail::create<subscript>{}(static_cast<X&&>(x)); }
 
             template <typename ...X>
             constexpr decltype(auto) operator()(X&& ...x) const {
                 return detail::create<invoke>{}(
                     detail::create<detail::closure>{}(
-                        detail::std::forward<X>(x)...
+                        static_cast<X&&>(x)...
                     )
                 );
             }
@@ -139,18 +139,18 @@ namespace boost { namespace hana {
                                                                                 \
         template <typename Y, typename ...Z>                                    \
         constexpr auto operator()(Y&& y, Z const& ...) const& -> decltype(      \
-            detail::std::declval<X const&>() op detail::std::forward<Y>(y))     \
-        { return x op detail::std::forward<Y>(y); }                             \
+            detail::std::declval<X const&>() op static_cast<Y&&>(y))     \
+        { return x op static_cast<Y&&>(y); }                             \
                                                                                 \
         template <typename Y, typename ...Z>                                    \
         constexpr auto operator()(Y&& y, Z const& ...) & -> decltype(           \
-            detail::std::declval<X&>() op detail::std::forward<Y>(y))           \
-        { return x op detail::std::forward<Y>(y); }                             \
+            detail::std::declval<X&>() op static_cast<Y&&>(y))           \
+        { return x op static_cast<Y&&>(y); }                             \
                                                                                 \
         template <typename Y, typename ...Z>                                    \
         constexpr auto operator()(Y&& y, Z const& ...) && -> decltype(          \
-            detail::std::declval<X>() op detail::std::forward<Y>(y))            \
-        { return detail::std::move(x) op detail::std::forward<Y>(y); }          \
+            detail::std::declval<X>() op static_cast<Y&&>(y))            \
+        { return detail::std::move(x) op static_cast<Y&&>(y); }          \
     };                                                                          \
                                                                                 \
     template <typename Y>                                                       \
@@ -159,34 +159,34 @@ namespace boost { namespace hana {
                                                                                 \
         template <typename X, typename ...Z>                                    \
         constexpr auto operator()(X&& x, Z const& ...) const& -> decltype(      \
-            detail::std::forward<X>(x) op detail::std::declval<Y const&>())     \
-        { return detail::std::forward<X>(x) op y; }                             \
+            static_cast<X&&>(x) op detail::std::declval<Y const&>())     \
+        { return static_cast<X&&>(x) op y; }                             \
                                                                                 \
         template <typename X, typename ...Z>                                    \
         constexpr auto operator()(X&& x, Z const& ...) & -> decltype(           \
-            detail::std::forward<X>(x) op detail::std::declval<Y&>())           \
-        { return detail::std::forward<X>(x) op y; }                             \
+            static_cast<X&&>(x) op detail::std::declval<Y&>())           \
+        { return static_cast<X&&>(x) op y; }                             \
                                                                                 \
         template <typename X, typename ...Z>                                    \
         constexpr auto operator()(X&& x, Z const& ...) && -> decltype(          \
-            detail::std::forward<X>(x) op detail::std::declval<Y>())            \
-        { return detail::std::forward<X>(x) op detail::std::move(y); }          \
+            static_cast<X&&>(x) op detail::std::declval<Y>())            \
+        { return static_cast<X&&>(x) op detail::std::move(y); }          \
     };                                                                          \
                                                                                 \
     struct op_name {                                                            \
         template <typename X, typename Y, typename ...Z>                        \
         constexpr auto operator()(X&& x, Y&& y, Z const& ...) const -> decltype(\
-            detail::std::forward<X>(x) op detail::std::forward<Y>(y))           \
-        { return detail::std::forward<X>(x) op detail::std::forward<Y>(y); }    \
+            static_cast<X&&>(x) op static_cast<Y&&>(y))           \
+        { return static_cast<X&&>(x) op static_cast<Y&&>(y); }    \
     };                                                                          \
                                                                                 \
     template <typename X>                                                       \
     constexpr decltype(auto) operator op (X&& x, placeholder)                   \
-    { return detail::create<op_name ## _left>{}(detail::std::forward<X>(x)); }  \
+    { return detail::create<op_name ## _left>{}(static_cast<X&&>(x)); }  \
                                                                                 \
     template <typename Y>                                                       \
     constexpr decltype(auto) operator op (placeholder, Y&& y)                   \
-    { return detail::create<op_name ## _right>{}(detail::std::forward<Y>(y)); } \
+    { return detail::create<op_name ## _right>{}(static_cast<Y&&>(y)); } \
                                                                                 \
     inline constexpr decltype(auto) operator op (placeholder, placeholder)      \
     { return op_name{}; }                                                       \
@@ -196,8 +196,8 @@ namespace boost { namespace hana {
     struct op_name {                                                        \
         template <typename X, typename ...Z>                                \
         constexpr auto operator()(X&& x, Z const& ...) const                \
-            -> decltype(op detail::std::forward<X>(x))                      \
-        { return op detail::std::forward<X>(x); }                           \
+            -> decltype(op static_cast<X&&>(x))                      \
+        { return op static_cast<X&&>(x); }                           \
     };                                                                      \
                                                                             \
     inline constexpr decltype(auto) operator op (placeholder)               \

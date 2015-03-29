@@ -20,9 +20,9 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
     constexpr decltype(auto)
     reverse_apply_flat_helper(detail::std::integer_sequence<int, i...>, F&& f, X&& ...x)
     {
-        return detail::std::forward<F>(f)(
+        return static_cast<F&&>(f)(
             detail::variadic::at<sizeof...(x) - i - 1>(
-                detail::std::forward<X>(x)...
+                static_cast<X&&>(x)...
             )...
         );
     }
@@ -31,8 +31,8 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
     constexpr decltype(auto) reverse_apply_flat(F&& f, X&& ...x) {
         return reverse_apply_flat_helper(
             detail::std::make_integer_sequence<int, sizeof...(x)>{},
-            detail::std::forward<F>(f),
-            detail::std::forward<X>(x)...
+            static_cast<F&&>(f),
+            static_cast<X&&>(x)...
         );
     }
 }}}} // end namespace boost::hana::detail::variadic

@@ -24,7 +24,7 @@ namespace boost { namespace hana { namespace detail {
         constexpr T<typename detail::std::decay<X>::type...>
         operator()(X&& ...x) const {
             return T<typename detail::std::decay<X>::type...>{
-                detail::std::forward<X>(x)...
+                static_cast<X&&>(x)...
             };
         }
     };

@@ -99,7 +99,7 @@ namespace boost { namespace hana {
             "hana::first(p) requires p to be a Product");
 #endif
             return first_impl<typename datatype<P>::type>::apply(
-                detail::std::forward<P>(p)
+                static_cast<P&&>(p)
             );
         }
     };
@@ -130,7 +130,7 @@ namespace boost { namespace hana {
             "hana::second(p) requires p to be a Product");
 #endif
             return second_impl<typename datatype<P>::type>::apply(
-                detail::std::forward<P>(p)
+                static_cast<P&&>(p)
             );
         }
     };

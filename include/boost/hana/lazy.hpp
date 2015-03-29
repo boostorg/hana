@@ -43,13 +43,13 @@ namespace boost { namespace hana {
     struct eval_impl<T, when<condition>> : default_ {
         template <typename Expr>
         static constexpr auto eval_helper(Expr&& expr, int)
-            -> decltype(detail::std::forward<Expr>(expr)())
-        { return detail::std::forward<Expr>(expr)(); }
+            -> decltype(static_cast<Expr&&>(expr)())
+        { return static_cast<Expr&&>(expr)(); }
 
         template <typename Expr>
         static constexpr auto eval_helper(Expr&& expr, long)
-            -> decltype(detail::std::forward<Expr>(expr)(hana::id))
-        { return detail::std::forward<Expr>(expr)(hana::id); }
+            -> decltype(static_cast<Expr&&>(expr)(hana::id))
+        { return static_cast<Expr&&>(expr)(hana::id); }
 
         template <typename Expr>
         static constexpr auto eval_helper(Expr&&, ...) {
@@ -61,7 +61,7 @@ namespace boost { namespace hana {
 
         template <typename Expr>
         static constexpr decltype(auto) apply(Expr&& expr)
-        { return eval_helper(detail::std::forward<Expr>(expr), int{}); }
+        { return eval_helper(static_cast<Expr&&>(expr), int{}); }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -85,8 +85,8 @@ namespace boost { namespace hana {
                                     detail::std::declval<Args_>()...))
         >
         explicit constexpr _lazy_apply(F_&& f, Args_&& ...x)
-            : function(detail::std::forward<F_>(f))
-            , args(detail::std::forward<Args_>(x)...)
+            : function(static_cast<F_&&>(f))
+            , args(static_cast<Args_&&>(x)...)
         { }
 
         using hana = _lazy_apply;
@@ -103,7 +103,7 @@ namespace boost { namespace hana {
 
         template <typename X_, typename = decltype(X(detail::std::declval<X_>()))>
         explicit constexpr _lazy_value(X_&& x)
-            : value(detail::std::forward<X_>(x))
+            : value(static_cast<X_&&>(x))
         { }
 
         // If this is called, we assume that `value` is in fact a function.
@@ -111,14 +111,14 @@ namespace boost { namespace hana {
         constexpr auto operator()(Args&& ...args) const& {
             return _lazy_apply<
                 X, detail::closure<typename detail::std::decay<Args>::type...>
-            >{value, detail::std::forward<Args>(args)...};
+            >{value, static_cast<Args&&>(args)...};
         }
 
         template <typename ...Args>
         constexpr auto operator()(Args&& ...args) && {
             return _lazy_apply<
                 X, detail::closure<typename detail::std::decay<Args>::type...>
-            >{detail::std::move(value), detail::std::forward<Args>(args)...};
+            >{detail::std::move(value), static_cast<Args&&>(args)...};
         }
 
         using hana = _lazy_value;
@@ -129,7 +129,7 @@ namespace boost { namespace hana {
     template <typename X>
     constexpr auto _lazy::operator()(X&& x) const {
         return _lazy_value<typename detail::std::decay<X>::type>{
-            detail::std::forward<X>(x)
+            static_cast<X&&>(x)
         };
     }
     //! @endcond
@@ -186,9 +186,9 @@ namespace boost { namespace hana {
     struct transform_impl<Lazy> {
         template <typename Expr, typename F>
         static constexpr auto apply(Expr&& expr, F&& f) {
-            return hana::lazy(hana::compose(detail::std::forward<F>(f),
+            return hana::lazy(hana::compose(static_cast<F&&>(f),
                                             hana::eval))
-                                        (detail::std::forward<Expr>(expr));
+                                        (static_cast<Expr&&>(expr));
         }
     };
 
@@ -200,7 +200,7 @@ namespace boost { namespace hana {
         template <typename X>
         static constexpr auto apply(X&& x) {
             return _lazy_value<typename detail::std::decay<X>::type>{
-                detail::std::forward<X>(x)
+                static_cast<X&&>(x)
             };
         }
     };
@@ -210,7 +210,7 @@ namespace boost { namespace hana {
         template <typename F, typename X>
         static constexpr decltype(auto) apply(F&& f, X&& x) {
             return hana::lazy(hana::on(hana::apply, hana::eval))(
-                detail::std::forward<F>(f), detail::std::forward<X>(x)
+                static_cast<F&&>(f), static_cast<X&&>(x)
             );
         }
     };
@@ -223,7 +223,7 @@ namespace boost { namespace hana {
         template <typename Expr>
         static constexpr decltype(auto) apply(Expr&& expr) {
             return hana::lazy(hana::compose(eval, eval))(
-                detail::std::forward<Expr>(expr)
+                static_cast<Expr&&>(expr)
             );
         }
     };
@@ -235,22 +235,22 @@ namespace boost { namespace hana {
     struct extract_impl<Lazy> {
         template <typename Expr>
         static constexpr decltype(auto) apply(Expr&& expr)
-        { return hana::eval(detail::std::forward<Expr>(expr)); }
+        { return hana::eval(static_cast<Expr&&>(expr)); }
     };
 
     template <>
     struct duplicate_impl<Lazy> {
         template <typename Expr>
         static constexpr decltype(auto) apply(Expr&& expr)
-        { return hana::lazy(detail::std::forward<Expr>(expr)); }
+        { return hana::lazy(static_cast<Expr&&>(expr)); }
     };
 
     template <>
     struct extend_impl<Lazy> {
         template <typename Expr, typename F>
         static constexpr decltype(auto) apply(Expr&& expr, F&& f) {
-            return hana::lazy(detail::std::forward<F>(f))(
-                                        detail::std::forward<Expr>(expr));
+            return hana::lazy(static_cast<F&&>(f))(
+                                        static_cast<Expr&&>(expr));
         }
     };
 }} // end namespace boost::hana

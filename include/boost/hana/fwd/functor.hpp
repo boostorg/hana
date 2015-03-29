@@ -156,8 +156,8 @@ namespace boost { namespace hana {
 #endif
 
             return transform_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<F>(f)
+                static_cast<Xs&&>(xs),
+                static_cast<F&&>(f)
             );
         }
     };
@@ -213,9 +213,9 @@ namespace boost { namespace hana {
             "hana::adjust_if(xs, pred, f) requires xs to be a Functor");
 #endif
             return adjust_if_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Pred>(pred),
-                detail::std::forward<F>(f)
+                static_cast<Xs&&>(xs),
+                static_cast<Pred&&>(pred),
+                static_cast<F&&>(f)
             );
         }
     };
@@ -272,9 +272,9 @@ namespace boost { namespace hana {
             "hana::adjust(xs, value, f) requires xs to be a Functor");
 #endif
             return adjust_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Value>(value),
-                detail::std::forward<F>(f)
+                static_cast<Xs&&>(xs),
+                static_cast<Value&&>(value),
+                static_cast<F&&>(f)
             );
         }
     };
@@ -330,9 +330,9 @@ namespace boost { namespace hana {
             "hana::replace_if(xs, pred, value) requires xs to be a Functor");
 #endif
             return replace_if_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Pred>(pred),
-                detail::std::forward<Value>(value)
+                static_cast<Xs&&>(xs),
+                static_cast<Pred&&>(pred),
+                static_cast<Value&&>(value)
             );
         }
     };
@@ -385,9 +385,9 @@ namespace boost { namespace hana {
             "hana::replace(xs, oldval, newval) requires xs to be a Functor");
 #endif
             return replace_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<OldVal>(oldval),
-                detail::std::forward<NewVal>(newval)
+                static_cast<Xs&&>(xs),
+                static_cast<OldVal&&>(oldval),
+                static_cast<NewVal&&>(newval)
             );
         }
     };
@@ -437,8 +437,8 @@ namespace boost { namespace hana {
             "hana::fill(xs, value) requires xs to be a Functor");
 #endif
             return fill_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Value>(value)
+                static_cast<Xs&&>(xs),
+                static_cast<Value&&>(value)
             );
         }
     };

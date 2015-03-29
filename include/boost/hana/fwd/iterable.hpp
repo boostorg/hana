@@ -181,7 +181,7 @@ namespace boost { namespace hana {
             "hana::head(xs) requires xs to be an Iterable");
 #endif
             return head_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs)
+                static_cast<Xs&&>(xs)
             );
         }
     };
@@ -218,7 +218,7 @@ namespace boost { namespace hana {
             "hana::tail(xs) requires xs to be an Iterable");
 #endif
             return tail_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs)
+                static_cast<Xs&&>(xs)
             );
         }
     };
@@ -253,7 +253,7 @@ namespace boost { namespace hana {
 #endif
 
             return is_empty_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs)
+                static_cast<Xs&&>(xs)
             );
         }
     };
@@ -305,8 +305,8 @@ namespace boost { namespace hana {
             "hana::at(n, xs) requires xs to be an Iterable");
 #endif
             return at_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<N>(n),
-                detail::std::forward<Xs>(xs)
+                static_cast<N&&>(n),
+                static_cast<Xs&&>(xs)
             );
         }
     };
@@ -365,7 +365,7 @@ namespace boost { namespace hana {
             "hana::last(xs) requires xs to be an Iterable");
 #endif
             return last_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs)
+                static_cast<Xs&&>(xs)
             );
         }
     };
@@ -418,8 +418,8 @@ namespace boost { namespace hana {
             "hana::drop(n, xs) requires xs to be an Iterable");
 #endif
             return drop_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<N>(n),
-                detail::std::forward<Xs>(xs)
+                static_cast<N&&>(n),
+                static_cast<Xs&&>(xs)
             );
         }
     };
@@ -493,8 +493,8 @@ namespace boost { namespace hana {
             "hana::drop_while(xs, pred) requires xs to be an Iterable");
 #endif
             return drop_while_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Pred>(pred)
+                static_cast<Xs&&>(xs),
+                static_cast<Pred&&>(pred)
             );
         }
     };
@@ -553,8 +553,8 @@ namespace boost { namespace hana {
             "hana::drop_until(xs, pred) requires xs to be an Iterable");
 #endif
             return drop_until_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Pred>(pred)
+                static_cast<Xs&&>(xs),
+                static_cast<Pred&&>(pred)
             );
         }
     };

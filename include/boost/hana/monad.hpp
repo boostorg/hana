@@ -37,8 +37,8 @@ namespace boost { namespace hana {
             has_operator<datatype_t<Xs>, decltype(bind)>::value
         >::type>
         constexpr decltype(auto) operator|(Xs&& xs, F&& f) {
-            return hana::bind(detail::std::forward<Xs>(xs),
-                              detail::std::forward<F>(f));
+            return hana::bind(static_cast<Xs&&>(xs),
+                              static_cast<F&&>(f));
         }
     }
 
@@ -52,8 +52,8 @@ namespace boost { namespace hana {
     struct bind_impl<M, when<condition>> : default_ {
         template <typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
-            return hana::flatten(hana::transform(detail::std::forward<Xs>(xs),
-                                                 detail::std::forward<F>(f)));
+            return hana::flatten(hana::transform(static_cast<Xs&&>(xs),
+                                                 static_cast<F&&>(f)));
         }
     };
 
@@ -67,7 +67,7 @@ namespace boost { namespace hana {
     struct flatten_impl<M, when<condition>> : default_ {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
-            return hana::bind(detail::std::forward<Xs>(xs), id);
+            return hana::bind(static_cast<Xs&&>(xs), id);
         }
     };
 
@@ -83,15 +83,15 @@ namespace boost { namespace hana {
             F f; G g;
             template <typename X>
             constexpr decltype(auto) operator()(X&& x) const& {
-                return hana::bind(f(detail::std::forward<X>(x)), g);
+                return hana::bind(f(static_cast<X&&>(x)), g);
             }
             template <typename X>
             constexpr decltype(auto) operator()(X&& x) & {
-                return hana::bind(f(detail::std::forward<X>(x)), g);
+                return hana::bind(f(static_cast<X&&>(x)), g);
             }
             template <typename X>
             constexpr decltype(auto) operator()(X&& x) && {
-                return hana::bind(detail::std::move(f)(detail::std::forward<X>(x)),
+                return hana::bind(detail::std::move(f)(static_cast<X&&>(x)),
                                   detail::std::move(g));
             }
         };
@@ -102,7 +102,7 @@ namespace boost { namespace hana {
         template <typename F, typename G>
         static constexpr decltype(auto) apply(F&& f, G&& g) {
             return detail::create<monad_detail::mcompose>{}(
-                detail::std::forward<F>(f), detail::std::forward<G>(g));
+                static_cast<F&&>(f), static_cast<G&&>(g));
         }
     };
 
@@ -116,8 +116,8 @@ namespace boost { namespace hana {
     struct then_impl<M, when<condition>> : default_ {
         template <typename Xs, typename Ys>
         static constexpr decltype(auto) apply(Xs&& xs, Ys&& ys) {
-            return hana::bind(detail::std::forward<Xs>(xs),
-                              hana::always(detail::std::forward<Ys>(ys)));
+            return hana::bind(static_cast<Xs&&>(xs),
+                              hana::always(static_cast<Ys&&>(ys)));
         }
     };
 
@@ -135,23 +135,23 @@ namespace boost { namespace hana {
             template <typename X>
             constexpr decltype(auto) operator()(X&& x) const& {
                 f(x);
-                return lift<M>(detail::std::forward<X>(x));
+                return lift<M>(static_cast<X&&>(x));
             }
             template <typename X>
             constexpr decltype(auto) operator()(X&& x) & {
                 f(x);
-                return lift<M>(detail::std::forward<X>(x));
+                return lift<M>(static_cast<X&&>(x));
             }
             template <typename X>
             constexpr decltype(auto) operator()(X&& x) && {
                 detail::std::move(f)(x);
-                return lift<M>(detail::std::forward<X>(x));
+                return lift<M>(static_cast<X&&>(x));
             }
         };
 
         template <typename F>
         static constexpr decltype(auto) apply(F&& f) {
-            return detail::create<_tap>{}(detail::std::forward<F>(f));
+            return detail::create<_tap>{}(static_cast<F&&>(f));
         }
     };
 
@@ -174,8 +174,8 @@ namespace boost { namespace hana {
         template <typename F, typename X>
         static constexpr decltype(auto) apply(F&& f, X&& x) {
             return hana::bind(
-                detail::std::forward<F>(f),
-                hana::partial(transform, detail::std::forward<X>(x))
+                static_cast<F&&>(f),
+                hana::partial(transform, static_cast<X&&>(x))
             );
         }
     };

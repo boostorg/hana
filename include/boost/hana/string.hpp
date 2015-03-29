@@ -122,7 +122,7 @@ namespace boost { namespace hana {
     struct unpack_impl<String> {
         template <char ...s, typename F>
         static constexpr decltype(auto) apply(_string<s...> const&, F&& f)
-        { return detail::std::forward<F>(f)(char_<s>...); }
+        { return static_cast<F&&>(f)(char_<s>...); }
     };
 
     template <>

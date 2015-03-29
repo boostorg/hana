@@ -50,7 +50,7 @@ namespace boost { namespace hana {
     struct make_impl<ext::std::Tuple> {
         template <typename ...Xs>
         static constexpr decltype(auto) apply(Xs&& ...xs) {
-            return ::std::make_tuple(detail::std::forward<Xs>(xs)...);
+            return ::std::make_tuple(static_cast<Xs&&>(xs)...);
         }
     };
 
@@ -63,7 +63,7 @@ namespace boost { namespace hana {
         static constexpr decltype(auto)
         transform_helper(Xs&& xs, F&& f, detail::std::index_sequence<index...>) {
             return ::std::make_tuple(
-                f(::std::get<index>(detail::std::forward<Xs>(xs)))...
+                f(::std::get<index>(static_cast<Xs&&>(xs)))...
             );
         }
 
@@ -72,8 +72,8 @@ namespace boost { namespace hana {
             using Raw = typename detail::std::remove_reference<Xs>::type;
             constexpr auto N = ::std::tuple_size<Raw>::value;
             return transform_helper(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<F>(f),
+                static_cast<Xs&&>(xs),
+                static_cast<F&&>(f),
                 detail::std::make_index_sequence<N>{}
             );
         }
@@ -87,7 +87,7 @@ namespace boost { namespace hana {
         template <typename X>
         static constexpr auto apply(X&& x) {
             return ::std::tuple<typename detail::std::decay<X>::type>{
-                                                detail::std::forward<X>(x)};
+                                                static_cast<X&&>(x)};
         }
     };
 
@@ -101,7 +101,7 @@ namespace boost { namespace hana {
         flatten_helper(Xs&& xs, detail::std::index_sequence<i...>) {
             return ::std::tuple_cat(::std::get<i>(
 #ifndef BOOST_HANA_CONFIG_LIBCPP_HAS_BUG_22806
-                    detail::std::forward<Xs>(xs)
+                    static_cast<Xs&&>(xs)
 #else
                     xs
 #endif
@@ -125,8 +125,8 @@ namespace boost { namespace hana {
         template <typename Xs, typename Ys>
         static constexpr decltype(auto) apply(Xs&& xs, Ys&& ys) {
 #ifndef BOOST_HANA_CONFIG_LIBCPP_HAS_BUG_22806
-            return ::std::tuple_cat(detail::std::forward<Xs>(xs),
-                                    detail::std::forward<Ys>(ys));
+            return ::std::tuple_cat(static_cast<Xs&&>(xs),
+                                    static_cast<Ys&&>(ys));
 #else
             return ::std::tuple_cat(xs, ys);
 #endif
@@ -146,7 +146,7 @@ namespace boost { namespace hana {
     struct head_impl<ext::std::Tuple> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
-            return ::std::get<0>(detail::std::forward<Xs>(xs));
+            return ::std::get<0>(static_cast<Xs&&>(xs));
         }
     };
 
@@ -156,7 +156,7 @@ namespace boost { namespace hana {
         static constexpr decltype(auto)
         tail_helper(Xs&& xs, detail::std::index_sequence<index...>) {
             return ::std::make_tuple(
-                ::std::get<index + 1>(detail::std::forward<Xs>(xs))...
+                ::std::get<index + 1>(static_cast<Xs&&>(xs))...
             );
         }
 
@@ -165,7 +165,7 @@ namespace boost { namespace hana {
             using Raw = typename detail::std::remove_reference<Xs>::type;
             constexpr auto N = ::std::tuple_size<Raw>::value;
             return tail_helper(
-                detail::std::forward<Xs>(xs),
+                static_cast<Xs&&>(xs),
                 detail::std::make_index_sequence<N - 1>{}
             );
         }
@@ -183,7 +183,7 @@ namespace boost { namespace hana {
         template <typename N, typename Xs>
         static constexpr decltype(auto) apply(N const&, Xs&& xs) {
             constexpr detail::std::size_t index = hana::value<N>();
-            return ::std::get<index>(detail::std::forward<Xs>(xs));
+            return ::std::get<index>(static_cast<Xs&&>(xs));
         }
     };
 

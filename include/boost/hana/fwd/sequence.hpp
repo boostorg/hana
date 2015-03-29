@@ -207,8 +207,8 @@ namespace boost { namespace hana {
             "hana::group_by(pred, xs) requires xs to be a Sequence");
 #endif
             return group_by_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Pred>(pred),
-                detail::std::forward<Xs>(xs)
+                static_cast<Pred&&>(pred),
+                static_cast<Xs&&>(xs)
             );
         }
     };
@@ -247,7 +247,7 @@ namespace boost { namespace hana {
             "hana::group(xs) requires xs to be a Sequence");
 #endif
             return group_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs)
+                static_cast<Xs&&>(xs)
             );
         }
     };
@@ -282,7 +282,7 @@ namespace boost { namespace hana {
             "hana::init(xs) requires xs to be a Sequence");
 #endif
             return init_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs)
+                static_cast<Xs&&>(xs)
             );
         }
     };
@@ -325,8 +325,8 @@ namespace boost { namespace hana {
             "hana::intersperse(xs, z) requires xs to be a Sequence");
 #endif
             return intersperse_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Z>(z)
+                static_cast<Xs&&>(xs),
+                static_cast<Z&&>(z)
             );
         }
     };
@@ -372,8 +372,8 @@ namespace boost { namespace hana {
             "hana::partition(xs, pred) requires xs to be a Sequence");
 #endif
             return partition_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Pred>(pred)
+                static_cast<Xs&&>(xs),
+                static_cast<Pred&&>(pred)
             );
         }
     };
@@ -422,7 +422,7 @@ namespace boost { namespace hana {
             "hana::permutations(xs) requires xs to be a Sequence");
 #endif
             return permutations_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs)
+                static_cast<Xs&&>(xs)
             );
         }
     };
@@ -471,8 +471,8 @@ namespace boost { namespace hana {
             "hana::remove_at(n, xs) requires xs to be a Sequence");
 #endif
             return remove_at_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<N>(n),
-                detail::std::forward<Xs>(xs)
+                static_cast<N&&>(n),
+                static_cast<Xs&&>(xs)
             );
         }
     };
@@ -530,7 +530,7 @@ namespace boost { namespace hana {
             "hana::reverse(xs) requires xs to be a Sequence");
 #endif
             return reverse_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs)
+                static_cast<Xs&&>(xs)
             );
         }
     };
@@ -598,9 +598,9 @@ namespace boost { namespace hana {
             "hana::scanl(xs, state, f) requires xs to be a Sequence");
 #endif
             return scanl_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<State>(state),
-                detail::std::forward<F>(f)
+                static_cast<Xs&&>(xs),
+                static_cast<State&&>(state),
+                static_cast<F&&>(f)
             );
         }
     };
@@ -667,8 +667,8 @@ namespace boost { namespace hana {
             "hana::scanl1(xs, f) requires xs to be a Sequence");
 #endif
             return scanl1_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<F>(f)
+                static_cast<Xs&&>(xs),
+                static_cast<F&&>(f)
             );
         }
     };
@@ -734,9 +734,9 @@ namespace boost { namespace hana {
             "hana::group_by(xs, state, f) requires xs to be a Sequence");
 #endif
             return scanr_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<State>(state),
-                detail::std::forward<F>(f)
+                static_cast<Xs&&>(xs),
+                static_cast<State&&>(state),
+                static_cast<F&&>(f)
             );
         }
     };
@@ -803,8 +803,8 @@ namespace boost { namespace hana {
             "hana::scanr1(xs, f) requires xs to be a Sequence");
 #endif
             return scanr1_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<F>(f)
+                static_cast<Xs&&>(xs),
+                static_cast<F&&>(f)
             );
         }
     };
@@ -857,9 +857,9 @@ namespace boost { namespace hana {
             "hana::slice(xs, from, to) requires xs to be a Sequence");
 #endif
             return slice_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<From>(from),
-                detail::std::forward<To>(to)
+                static_cast<Xs&&>(xs),
+                static_cast<From&&>(from),
+                static_cast<To&&>(to)
             );
         }
     };
@@ -932,8 +932,8 @@ namespace boost { namespace hana {
             "hana::sort_by(pred, xs) requires xs to be a Sequence");
 #endif
             return sort_by_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Pred>(pred),
-                detail::std::forward<Xs>(xs)
+                static_cast<Pred&&>(pred),
+                static_cast<Xs&&>(xs)
             );
         }
     };
@@ -973,7 +973,7 @@ namespace boost { namespace hana {
             "hana::sort(xs) requires xs to be a Sequence");
 #endif
             return sort_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs)
+                static_cast<Xs&&>(xs)
             );
         }
     };
@@ -1025,8 +1025,8 @@ namespace boost { namespace hana {
             "hana::span(xs, pred) requires xs to be a Sequence");
 #endif
             return span_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Pred>(pred)
+                static_cast<Xs&&>(xs),
+                static_cast<Pred&&>(pred)
             );
         }
     };
@@ -1094,8 +1094,8 @@ namespace boost { namespace hana {
             "hana::take.exactly(n, xs) requires xs to be a Sequence");
 #endif
             return take_exactly_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<N>(n),
-                detail::std::forward<Xs>(xs)
+                static_cast<N&&>(n),
+                static_cast<Xs&&>(xs)
             );
         }
     };
@@ -1110,8 +1110,8 @@ namespace boost { namespace hana {
             "hana::take.at_most(n, xs) requires xs to be a Sequence");
 #endif
             return take_at_most_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<N>(n),
-                detail::std::forward<Xs>(xs)
+                static_cast<N&&>(n),
+                static_cast<Xs&&>(xs)
             );
         }
     };
@@ -1187,8 +1187,8 @@ namespace boost { namespace hana {
             "hana::take_until(xs, pred) requires xs to be a Sequence");
 #endif
             return take_until_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Pred>(pred)
+                static_cast<Xs&&>(xs),
+                static_cast<Pred&&>(pred)
             );
         }
     };
@@ -1238,8 +1238,8 @@ namespace boost { namespace hana {
             "hana::take_while(xs, pred) requires xs to be a Sequence");
 #endif
             return take_while_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs),
-                detail::std::forward<Pred>(pred)
+                static_cast<Xs&&>(xs),
+                static_cast<Pred&&>(pred)
             );
         }
     };
@@ -1410,7 +1410,7 @@ namespace boost { namespace hana {
             "hana::unzip(xs) requires xs to be a Sequence");
 #endif
             return unzip_impl<typename datatype<Xs>::type>::apply(
-                detail::std::forward<Xs>(xs)
+                static_cast<Xs&&>(xs)
             );
         }
     };

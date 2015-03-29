@@ -183,9 +183,9 @@ namespace boost { namespace hana {
     struct _either {
         template <typename F, typename G, typename E>
         constexpr decltype(auto) operator()(F&& f, G&& g, E&& e) const {
-            return detail::std::forward<E>(e).go(
-                detail::std::forward<F>(f),
-                detail::std::forward<G>(g)
+            return static_cast<E&&>(e).go(
+                static_cast<F&&>(f),
+                static_cast<G&&>(g)
             );
         }
     };

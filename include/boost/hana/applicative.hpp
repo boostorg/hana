@@ -48,7 +48,7 @@ namespace boost { namespace hana {
         "hana::ap(f, x) requires x to be an Applicative");
 #endif
         return ap_impl<typename datatype<F>::type>::apply(
-            detail::std::forward<F>(f), detail::std::forward<X>(x)
+            static_cast<F&&>(f), static_cast<X&&>(x)
         );
     }
 
@@ -59,8 +59,8 @@ namespace boost { namespace hana {
 
         return detail::variadic::foldl(
             *this,
-            hana::transform(detail::std::forward<F>(f), curry<sizeof...(xs)>),
-            detail::std::forward<Xs>(xs)...
+            hana::transform(static_cast<F&&>(f), curry<sizeof...(xs)>),
+            static_cast<Xs&&>(xs)...
         );
     }
     //! @endcond
@@ -83,8 +83,8 @@ namespace boost { namespace hana {
     struct Applicative::transform_impl {
         template <typename X, typename F>
         static constexpr decltype(auto) apply(X&& x, F&& f) {
-            return hana::ap(lift<A>(detail::std::forward<F>(f)),
-                            detail::std::forward<X>(x));
+            return hana::ap(lift<A>(static_cast<F&&>(f)),
+                            static_cast<X&&>(x));
         }
     };
 

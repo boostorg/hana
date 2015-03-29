@@ -44,14 +44,14 @@ namespace boost { namespace hana {
     >> {
         template <typename X>
         static constexpr To apply(X&& x)
-        { return static_cast<To>(detail::std::forward<X>(x)); }
+        { return static_cast<To>(static_cast<X&&>(x)); }
     };
 
     template <typename To>
     struct to_impl<To, To> : embedding<> {
         template <typename X>
         static constexpr X apply(X&& x)
-        { return detail::std::forward<X>(x); }
+        { return static_cast<X&&>(x); }
     };
 
     template <typename To>
@@ -59,7 +59,7 @@ namespace boost { namespace hana {
         template <typename X>
         constexpr decltype(auto) operator()(X&& x) const {
             return to_impl<To, typename datatype<X>::type>::
-                                            apply(detail::std::forward<X>(x));
+                                            apply(static_cast<X&&>(x));
         }
     };
 

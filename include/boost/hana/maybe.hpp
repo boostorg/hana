@@ -65,7 +65,7 @@ namespace boost { namespace hana {
 
         template <typename U, typename = decltype(T(detail::std::declval<U>()))>
         constexpr _just(U&& u)
-            : val(detail::std::forward<U>(u))
+            : val(static_cast<U&&>(u))
         { }
 
         constexpr T& operator*() & { return this->val; }
@@ -80,7 +80,7 @@ namespace boost { namespace hana {
     template <typename T>
     constexpr auto _make_just::operator()(T&& t) const {
         return _just<typename detail::std::decay<T>::type>(
-            detail::std::forward<T>(t)
+            static_cast<T&&>(t)
         );
     }
     //! @endcond
@@ -112,8 +112,8 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename Default, typename M>
     constexpr decltype(auto) _from_maybe::operator()(Default&& default_, M&& m) const {
-        return hana::maybe(detail::std::forward<Default>(default_), id,
-                                            detail::std::forward<M>(m));
+        return hana::maybe(static_cast<Default&&>(default_), id,
+                                            static_cast<M&&>(m));
     }
 
     template <typename M>
@@ -121,7 +121,7 @@ namespace boost { namespace hana {
         static_assert(detail::std::remove_reference<M>::type::is_just,
         "trying to extract the value inside a boost::hana::nothing "
         "with boost::hana::from_just");
-        return hana::id(detail::std::forward<M>(m).val);
+        return hana::id(static_cast<M&&>(m).val);
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -129,9 +129,9 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename Pred, typename F, typename X>
     constexpr decltype(auto) _only_when::operator()(Pred&& pred, F&& f, X&& x) const {
-        return hana::eval_if(detail::std::forward<Pred>(pred)(x),
-            hana::lazy(hana::compose(just, detail::std::forward<F>(f)))(
-                detail::std::forward<X>(x)
+        return hana::eval_if(static_cast<Pred&&>(pred)(x),
+            hana::lazy(hana::compose(just, static_cast<F&&>(f)))(
+                static_cast<X&&>(x)
             ),
             hana::lazy(nothing)
         );
@@ -148,13 +148,13 @@ namespace boost { namespace hana {
             constexpr decltype(auto) operator()(int, F&& f, X&& ...x) const {
                 constexpr bool returns_void = detail::std::is_same<
                     void, decltype(
-                        detail::std::forward<F>(f)(detail::std::forward<X>(x)...)
+                        static_cast<F&&>(f)(static_cast<X&&>(x)...)
                     )
                 >{};
                 static_assert(!returns_void,
                 "hana::sfinae(f)(args...) requires f(args...) to be non-void");
                 return hana::just(
-                    detail::std::forward<F>(f)(detail::std::forward<X>(x)...)
+                    static_cast<F&&>(f)(static_cast<X&&>(x)...)
                 );
             }
 
@@ -168,7 +168,7 @@ namespace boost { namespace hana {
     template <typename F>
     constexpr decltype(auto) _sfinae::operator()(F&& f) const {
         return hana::partial(maybe_detail::sfinae_impl{}, int{},
-                             detail::std::forward<F>(f));
+                             static_cast<F&&>(f));
     }
 
     //! @endcond
@@ -220,8 +220,8 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(M&& m, F&& f) {
             return hana::maybe(
                 nothing,
-                hana::compose(just, detail::std::forward<F>(f)),
-                detail::std::forward<M>(m)
+                hana::compose(just, static_cast<F&&>(f)),
+                static_cast<M&&>(m)
             );
         }
     };
@@ -233,14 +233,14 @@ namespace boost { namespace hana {
     struct lift_impl<Maybe> {
         template <typename X>
         static constexpr decltype(auto) apply(X&& x)
-        { return hana::just(detail::std::forward<X>(x)); }
+        { return hana::just(static_cast<X&&>(x)); }
     };
 
     template <>
     struct ap_impl<Maybe> {
         template <typename F, typename X>
         static constexpr decltype(auto) apply_impl(F&& f, X&& x, detail::std::true_type) {
-            return hana::just(detail::std::forward<F>(f).val(detail::std::forward<X>(x).val));
+            return hana::just(static_cast<F&&>(f).val(static_cast<X&&>(x).val));
         }
 
         template <typename F, typename X>
@@ -252,7 +252,7 @@ namespace boost { namespace hana {
             auto f_is_just = hana::is_just(f);
             auto x_is_just = hana::is_just(x);
             return apply_impl(
-                detail::std::forward<F>(f), detail::std::forward<X>(x),
+                static_cast<F&&>(f), static_cast<X&&>(x),
                 detail::std::integral_constant<bool,
                     hana::value(f_is_just) && hana::value(x_is_just)
                 >{}
@@ -267,7 +267,7 @@ namespace boost { namespace hana {
     struct flatten_impl<Maybe> {
         template <typename MMX>
         static constexpr decltype(auto) apply(MMX&& mmx) {
-            return hana::maybe(nothing, id, detail::std::forward<MMX>(mmx));
+            return hana::maybe(nothing, id, static_cast<MMX&&>(mmx));
         }
     };
 
@@ -278,11 +278,11 @@ namespace boost { namespace hana {
     struct concat_impl<Maybe> {
         template <typename Y>
         static constexpr auto apply(_nothing, Y&& y)
-        { return detail::std::forward<Y>(y); }
+        { return static_cast<Y&&>(y); }
 
         template <typename X, typename Y>
         static constexpr auto apply(X&& x, Y const&)
-        { return detail::std::forward<X>(x); }
+        { return static_cast<X&&>(x); }
     };
 
     template <>
@@ -302,15 +302,15 @@ namespace boost { namespace hana {
 
         template <typename A, typename T, typename F>
         static constexpr decltype(auto) apply(_just<T> const& x, F&& f)
-        { return hana::transform(detail::std::forward<F>(f)(x.val), just); }
+        { return hana::transform(static_cast<F&&>(f)(x.val), just); }
 
         template <typename A, typename T, typename F>
         static constexpr decltype(auto) apply(_just<T>& x, F&& f)
-        { return hana::transform(detail::std::forward<F>(f)(x.val), just); }
+        { return hana::transform(static_cast<F&&>(f)(x.val), just); }
 
         template <typename A, typename T, typename F>
         static constexpr decltype(auto) apply(_just<T>&& x, F&& f) {
-            return hana::transform(detail::std::forward<F>(f)(
+            return hana::transform(static_cast<F&&>(f)(
                                         detail::std::move(x.val)), just);
         }
     };
@@ -322,19 +322,19 @@ namespace boost { namespace hana {
     struct unpack_impl<Maybe> {
         template <typename M, typename F>
         static constexpr decltype(auto) apply(M&& m, F&& f)
-        { return detail::std::forward<F>(f)(detail::std::forward<M>(m).val); }
+        { return static_cast<F&&>(f)(static_cast<M&&>(m).val); }
 
         template <typename F>
         static constexpr decltype(auto) apply(_nothing const&, F&& f)
-        { return detail::std::forward<F>(f)(); }
+        { return static_cast<F&&>(f)(); }
 
         template <typename F>
         static constexpr decltype(auto) apply(_nothing&&, F&& f)
-        { return detail::std::forward<F>(f)(); }
+        { return static_cast<F&&>(f)(); }
 
         template <typename F>
         static constexpr decltype(auto) apply(_nothing&, F&& f)
-        { return detail::std::forward<F>(f)(); }
+        { return static_cast<F&&>(f)(); }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -344,8 +344,8 @@ namespace boost { namespace hana {
     struct find_if_impl<Maybe> {
         template <typename M, typename Pred>
         static constexpr decltype(auto) apply(M&& m, Pred&& pred) {
-            return hana::only_when(detail::std::forward<Pred>(pred), id,
-                                        detail::std::forward<M>(m).val);
+            return hana::only_when(static_cast<Pred&&>(pred), id,
+                                        static_cast<M&&>(m).val);
         }
 
         template <typename Pred>
@@ -366,8 +366,8 @@ namespace boost { namespace hana {
         template <typename M, typename Pred>
         static constexpr decltype(auto) apply(M&& m, Pred&& p) {
             return hana::maybe(false_,
-                detail::std::forward<Pred>(p),
-                detail::std::forward<M>(m)
+                static_cast<Pred&&>(p),
+                static_cast<M&&>(m)
             );
         }
     };
