@@ -329,7 +329,7 @@ namespace boost { namespace hana {
             using value_type = int;
         };
 
-        template <int i, Policy policy>
+        template <int i, Policy policy, typename = void>
         struct integer {
             static_assert(
             !!(policy & (Policy::Constant | Policy::Constexpr | Policy::Runtime))
@@ -338,10 +338,14 @@ namespace boost { namespace hana {
             static constexpr int value = i;
             constexpr operator int() const { return value; }
             struct hana { using datatype = Integer<policy>; };
+            Tracked tracker{i};
+        };
 
-            struct notrack { constexpr notrack(int) { } };
-            //! @todo Fix broken usages of `value` and then enable this.
-            std::conditional_t<!!(policy & Policy::Tracked), Tracked, notrack> tracker{i};
+        template <int i, Policy policy>
+        struct integer <i, policy, std::enable_if_t<!!(policy & Policy::Constexpr)>> {
+            static constexpr int value = i;
+            constexpr operator int() const { return value; }
+            struct hana { using datatype = Integer<policy>; };
         };
 
         template <int i>

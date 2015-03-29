@@ -14,8 +14,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/foldable.hpp>
+#include <boost/hana/functional/capture.hpp>
 #include <boost/hana/functional/demux.hpp>
 #include <boost/hana/integral_constant.hpp>
+#include <boost/hana/lazy.hpp>
 #include <boost/hana/tuple.hpp>
 
 #include <laws/base.hpp>
@@ -36,10 +38,10 @@ namespace boost { namespace hana { namespace test {
 
         template <typename Foldables>
         TestFoldable(Foldables foldables) {
-            _injection<0> f{};
-            ct_eq<999> s{};
+            hana::for_each(foldables, [](auto xs) {
+                _injection<0> f{};
+                ct_eq<999> s{};
 
-            hana::for_each(foldables, [=](auto xs) {
                 BOOST_HANA_CHECK(hana::equal(
                     hana::foldl(xs, s, f),
                     hana::foldl(hana::to<Tuple>(xs), s, f)
@@ -69,17 +71,18 @@ namespace boost { namespace hana { namespace test {
                     hana::foldr(xs, s, hana::flip(f))
                 ));
 
-                only_when_(hana::not_equal(hana::length(xs), size_t<0>), [=](auto _) {
+                only_when_(hana::not_equal(hana::length(xs), size_t<0>),
+                hana::lazy([](auto f, auto xs) {
                     BOOST_HANA_CHECK(hana::equal(
-                        _(hana::fold)(xs, f),
-                        _(hana::foldl1)(xs, f)
+                        hana::fold(xs, f),
+                        hana::foldl1(xs, f)
                     ));
 
                     BOOST_HANA_CHECK(hana::equal(
-                        _(hana::reverse_fold)(xs, f),
-                        _(hana::foldr1)(xs, hana::flip(f))
+                        hana::reverse_fold(xs, f),
+                        hana::foldr1(xs, hana::flip(f))
                     ));
-                });
+                })(f, xs));
 
                 // equivalence of count(xs, val) and count_if(xs, equal.to(val))
                 struct not_there { };
@@ -88,12 +91,12 @@ namespace boost { namespace hana { namespace test {
                     hana::count_if(xs, equal.to(not_there{}))
                 ));
 
-                hana::for_each(xs, [=](auto value) {
+                hana::for_each(xs, hana::capture(xs)([](auto xs, auto value) {
                     BOOST_HANA_CHECK(hana::equal(
                         hana::count(xs, value),
                         hana::count_if(xs, equal.to(value))
                     ));
-                });
+                }));
             });
         }
     };
@@ -375,9 +378,9 @@ namespace boost { namespace hana { namespace test {
             //////////////////////////////////////////////////////////////////
             // for_each
             //////////////////////////////////////////////////////////////////
-            auto check = [=](auto ...xs) {
+            auto check = [list](auto ...xs) {
                 std::vector<int> seen{};
-                for_each(list(xs...), [&](int x) {
+                hana::for_each(list(xs...), [&seen](int x) {
                     seen.push_back(x);
                 });
                 BOOST_HANA_RUNTIME_CHECK(seen == std::vector<int>{xs...});

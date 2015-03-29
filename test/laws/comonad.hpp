@@ -30,7 +30,7 @@ namespace boost { namespace hana { namespace test {
 
         template <typename Ws>
         TestComonad(Ws ws) {
-            hana::for_each(ws, [=](auto w) {
+            hana::for_each(ws, [](auto w) {
                 // extract(duplicate(w)) == w
                 BOOST_HANA_CHECK(hana::equal(
                     hana::extract(hana::duplicate(w)),

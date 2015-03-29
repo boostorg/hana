@@ -8,11 +8,13 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_TEST_LAWS_MONOID_HPP
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/comparable.hpp>
 #include <boost/hana/bool.hpp>
+#include <boost/hana/comparable.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/functional/capture.hpp>
+#include <boost/hana/lazy.hpp>
 #include <boost/hana/monoid.hpp>
 
 #include <laws/base.hpp>
@@ -30,7 +32,7 @@ namespace boost { namespace hana { namespace test {
 
         template <typename Xs>
         TestMonoid(Xs xs) {
-            hana::for_each(xs, [=](auto a) {
+            hana::for_each(xs, hana::capture(xs)([](auto xs, auto a) {
 
                 // left identity
                 BOOST_HANA_CHECK(hana::equal(
@@ -44,26 +46,27 @@ namespace boost { namespace hana { namespace test {
                     a
                 ));
 
-                hana::for_each(xs, [=](auto b) {
-                    hana::for_each(xs, [=](auto c) {
+                hana::for_each(xs, hana::capture(xs, a)([](auto xs, auto a, auto b) {
+                    hana::for_each(xs, hana::capture(a, b)([](auto a, auto b, auto c) {
                         // associativity
                         BOOST_HANA_CHECK(equal(
                             hana::plus(a, hana::plus(b, c)),
                             hana::plus(hana::plus(a, b), c)
                         ));
-                    });
+                    }));
 
                     // operators
-                    only_when_(bool_<has_operator<M, decltype(plus)>{}>, [=](auto _) {
+                    only_when_(bool_<has_operator<M, decltype(plus)>{}>,
+                    hana::lazy([](auto a, auto b) {
                         BOOST_HANA_CHECK(hana::equal(
                             hana::plus(a, b),
-                            _(a) + _(b)
+                            a + b
                         ));
-                    });
+                    })(a, b));
 
-                });
+                }));
 
-            });
+            }));
         }
     };
 

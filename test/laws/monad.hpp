@@ -32,12 +32,11 @@ namespace boost { namespace hana { namespace test {
         // XXs are Monads over Monads over something
         template <typename Xs, typename XXs>
         TestMonad(Xs xs, XXs xxs) {
-            auto f = hana::compose(lift<M>, test::_injection<0>{});
-            auto g = hana::compose(lift<M>, test::_injection<1>{});
-            auto h = hana::compose(lift<M>, test::_injection<2>{});
-            auto x = test::ct_eq<0>{};
-
-            hana::for_each(xs, [=](auto m) {
+            hana::for_each(xs, [](auto m) {
+                auto f = hana::compose(lift<M>, test::_injection<0>{});
+                auto g = hana::compose(lift<M>, test::_injection<1>{});
+                auto h = hana::compose(lift<M>, test::_injection<2>{});
+                auto x = test::ct_eq<0>{};
 
                 // Laws formulated with mcompose:
                 // left identity
@@ -71,7 +70,9 @@ namespace boost { namespace hana { namespace test {
                 ));
 
                 BOOST_HANA_CHECK(hana::equal(
-                    hana::bind(m, [=](auto x) { return hana::bind(f(x), g); }),
+                    hana::bind(m, [f, g](auto x) {
+                        return hana::bind(f(x), g);
+                    }),
                     hana::bind(hana::bind(m, f), g)
                 ));
 
@@ -87,13 +88,13 @@ namespace boost { namespace hana { namespace test {
                     hana::flatten(hana::transform(m, f))
                 ));
 
-                hana::for_each(xxs, [=](auto mm) {
-                    BOOST_HANA_CHECK(hana::equal(
-                        hana::flatten(mm),
-                        hana::bind(mm, id)
-                    ));
-                });
+            });
 
+            hana::for_each(xxs, [](auto mm) {
+                BOOST_HANA_CHECK(hana::equal(
+                    hana::flatten(mm),
+                    hana::bind(mm, id)
+                ));
             });
         }
     };

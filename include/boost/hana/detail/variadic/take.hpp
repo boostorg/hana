@@ -10,32 +10,41 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_VARIADIC_TAKE_HPP
 #define BOOST_HANA_DETAIL_VARIADIC_TAKE_HPP
 
+#include <boost/hana/detail/reverse_partial.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/detail/variadic/split_at.hpp>
+#include <boost/hana/functional/always.hpp>
 
 
 namespace boost { namespace hana { namespace detail { namespace variadic {
-    namespace take_detail {
-        template <detail::std::size_t n>
-        struct take_impl {
-            template <typename ...Xs>
-            constexpr decltype(auto) operator()(Xs&& ...xs) const {
-                return split_at<n>(detail::std::forward<Xs>(xs)...)(
-                    [](auto&& ...xs) {
-                        return [=](auto&& ...ys) {
-                            return [=](auto&& f) -> decltype(auto) {
-                                return detail::std::forward<decltype(f)>(f)(xs...);
-                            };
-                        };
-                    }
-                );
-            }
+    struct _take_impl2 {
+        template <typename F, typename ...Xs>
+        constexpr decltype(auto) operator()(F&& f, Xs&& ...xs) const {
+            return detail::std::forward<F>(f)(detail::std::forward<Xs>(xs)...);
+        }
+    };
+
+    struct _take_impl1 {
+        template <typename ...Xs>
+        constexpr auto operator()(Xs&& ...xs) const {
+            return hana::always(
+                detail::reverse_partial(_take_impl2{},
+                    detail::std::forward<Xs>(xs)...)
+            );
         };
-    }
+    };
 
     template <detail::std::size_t n>
-    constexpr take_detail::take_impl<n> take{};
+    struct _take {
+        template <typename ...Xs>
+        constexpr decltype(auto) operator()(Xs&& ...xs) const {
+            return split_at<n>(detail::std::forward<Xs>(xs)...)(_take_impl1{});
+        }
+    };
+
+    template <detail::std::size_t n>
+    constexpr _take<n> take{};
 }}}} // end namespace boost::hana::detail::variadic
 
 #endif // !BOOST_HANA_DETAIL_VARIADIC_TAKE_HPP

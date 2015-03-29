@@ -13,6 +13,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/functional/capture.hpp>
+#include <boost/hana/lazy.hpp>
 #include <boost/hana/logical.hpp>
 
 #include <laws/base.hpp>
@@ -30,9 +32,9 @@ namespace boost { namespace hana { namespace test {
 
         template <typename Xs, typename Pred, typename F>
         static void for_each_such_that(Xs xs, Pred pred, F f) {
-            hana::for_each(xs, [=](auto x) {
+            hana::for_each(xs, [&pred, &f](auto x) {
                 hana::eval_if(pred(x),
-                    [=](auto _) { _(f)(x); },
+                    hana::lazy(f)(x),
                     [](auto _) { }
                 );
             });
@@ -40,14 +42,13 @@ namespace boost { namespace hana { namespace test {
 
         template <typename Xs>
         TestLogical(Xs xs) {
-            auto true_valued = [](auto x) {
-                return hana::if_(x, true_, false_);
-            };
-            auto false_valued = [](auto x) {
-                return hana::if_(x, false_, true_);
-            };
-
-            foreach3(xs, [=](auto a, auto b, auto c) {
+            foreach3(xs, hana::capture(xs)([](auto xs, auto a, auto b, auto c) {
+                auto true_valued = [](auto x) {
+                    return hana::if_(x, true_, false_);
+                };
+                auto false_valued = [](auto x) {
+                    return hana::if_(x, false_, true_);
+                };
 
                 // associativity
                 BOOST_HANA_CHECK(hana::equal(
@@ -76,16 +77,16 @@ namespace boost { namespace hana { namespace test {
                 ));
 
                 // left identity
-                for_each_such_that(xs, true_valued, [=](auto t) {
+                for_each_such_that(xs, true_valued, hana::capture(a)([](auto a, auto t) {
                     BOOST_HANA_CHECK(hana::equal(
                         hana::and_(t, a), a
                     ));
-                });
-                for_each_such_that(xs, false_valued, [=](auto f) {
+                }));
+                for_each_such_that(xs, false_valued, hana::capture(a)([](auto a, auto f) {
                     BOOST_HANA_CHECK(hana::equal(
                         hana::or_(f, a), a
                     ));
-                });
+                }));
 
                 // distributivity
                 BOOST_HANA_CHECK(hana::equal(
@@ -102,25 +103,28 @@ namespace boost { namespace hana { namespace test {
                 BOOST_HANA_CHECK(false_valued(hana::and_(a, hana::not_(a))));
 
                 // operators
-                only_when_(bool_<has_operator<L, decltype(or_)>{}>, [=](auto _) {
+                only_when_(bool_<has_operator<L, decltype(or_)>{}>,
+                hana::lazy([](auto a, auto b) {
                     BOOST_HANA_CHECK(
-                        hana::or_(a, b) ^iff^ (_(a) || _(b))
+                        hana::or_(a, b) ^iff^ (a || b)
                     );
-                });
+                })(a, b));
 
-                only_when_(bool_<has_operator<L, decltype(and_)>{}>, [=](auto _) {
+                only_when_(bool_<has_operator<L, decltype(and_)>{}>,
+                hana::lazy([](auto a, auto b) {
                     BOOST_HANA_CHECK(
-                        hana::and_(a, b) ^iff^ (_(a) && _(b))
+                        hana::and_(a, b) ^iff^ (a && b)
                     );
-                });
+                })(a, b));
 
-                only_when_(bool_<has_operator<L, decltype(not_)>{}>, [=](auto _) {
+                only_when_(bool_<has_operator<L, decltype(not_)>{}>,
+                hana::lazy([](auto a) {
                     BOOST_HANA_CHECK(
-                        hana::not_(a) ^iff^ !_(a)
+                        hana::not_(a) ^iff^ !a
                     );
-                });
+                })(a));
 
-            });
+            }));
         }
     };
 

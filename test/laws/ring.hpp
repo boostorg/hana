@@ -8,11 +8,13 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_TEST_LAWS_RING_HPP
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/comparable.hpp>
 #include <boost/hana/bool.hpp>
+#include <boost/hana/comparable.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/functional/capture.hpp>
+#include <boost/hana/lazy.hpp>
 #include <boost/hana/monoid.hpp>
 #include <boost/hana/ring.hpp>
 
@@ -31,9 +33,9 @@ namespace boost { namespace hana { namespace test {
 
         template <typename Xs>
         TestRing(Xs xs) {
-            hana::for_each(xs, [=](auto x) {
+            hana::for_each(xs, hana::capture(xs)([](auto xs, auto x) {
 
-                foreach2(xs, [=](auto y, auto z) {
+                foreach2(xs, hana::capture(x)([](auto x, auto y, auto z) {
                     // associativity
                     BOOST_HANA_CHECK(hana::equal(
                         hana::mult(x, hana::mult(y, z)),
@@ -47,13 +49,14 @@ namespace boost { namespace hana { namespace test {
                     ));
 
                     // operators
-                    only_when_(bool_<has_operator<R, decltype(mult)>{}>, [=](auto _) {
+                    only_when_(bool_<has_operator<R, decltype(mult)>{}>,
+                    hana::lazy([](auto x, auto y) {
                         BOOST_HANA_CHECK(hana::equal(
                             hana::mult(x, y),
-                            _(x) * _(y)
+                            x * y
                         ));
-                    });
-                });
+                    })(x, y));
+                }));
 
                 // right identity
                 BOOST_HANA_CHECK(hana::equal(
@@ -96,7 +99,7 @@ namespace boost { namespace hana { namespace test {
                     hana::mult(hana::mult(hana::mult(hana::mult(x, x), x), x), x)
                 ));
 
-            });
+            }));
         }
     };
 

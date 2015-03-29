@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/lazy.hpp>
 
 #include <laws/base.hpp>
 
@@ -56,17 +57,19 @@ namespace boost { namespace hana { namespace test {
                 );
 
                 // operators
-                only_when_(bool_<has_operator<T, decltype(equal)>{}>, [=](auto _) {
+                only_when_(bool_<has_operator<T, decltype(equal)>{}>,
+                hana::lazy([](auto a, auto b) {
                     BOOST_HANA_CHECK(
-                        hana::equal(a, b) ^iff^ (_(a) == _(b))
+                        hana::equal(a, b) ^iff^ (a == b)
                     );
-                });
+                })(a, b));
 
-                only_when_(bool_<has_operator<T, decltype(not_equal)>{}>, [=](auto _) {
+                only_when_(bool_<has_operator<T, decltype(not_equal)>{}>,
+                hana::lazy([](auto a, auto b) {
                     BOOST_HANA_CHECK(
-                        hana::not_equal(a, b) ^iff^ (_(a) != _(b))
+                        hana::not_equal(a, b) ^iff^ (a != b)
                     );
-                });
+                })(a, b));
 
                 // comparing
                 _injection<0> f{};

@@ -14,6 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/functional/capture.hpp>
 #include <boost/hana/searchable.hpp>
 
 #include <laws/base.hpp>
@@ -39,8 +40,10 @@ namespace boost { namespace hana { namespace test {
                 )
             );
 
-            hana::for_each(searchables, [=](auto xs) {
-                hana::for_each(predicates, [=](auto p) {
+            hana::for_each(searchables, hana::capture(searchables, keys, predicates)(
+            [](auto searchables, auto keys, auto predicates, auto xs) {
+                hana::for_each(predicates, hana::capture(searchables, keys, xs)(
+                [](auto searchables, auto keys, auto xs, auto p) {
                     // any_of(xs, p) <=> !all_of(xs, negated p)
                     //               <=> !none_of(xs, p)
                     BOOST_HANA_CHECK(
@@ -52,26 +55,24 @@ namespace boost { namespace hana { namespace test {
                         hana::any_of(xs, p) ^iff^
                         hana::not_(hana::none_of(xs, p))
                     );
-                });
+                }));
 
                 // any(xs)  <=> any_of(xs, id)
                 // all(xs)  <=> all_of(xs, id)
                 // none(xs) <=> none_of(xs, id)
-                only_when_(hana::all_of(xs, models<Logical>), [=](auto _) {
-                    auto xs_ = _(xs);
-
+                only_when_(hana::all_of(xs, models<Logical>), hana::lazy([](auto xs) {
                     BOOST_HANA_CHECK(
-                        hana::any(xs_) ^iff^ hana::any_of(xs_, id)
+                        hana::any(xs) ^iff^ hana::any_of(xs, id)
                     );
 
                     BOOST_HANA_CHECK(
-                        hana::all(xs_) ^iff^ hana::all_of(xs_, id)
+                        hana::all(xs) ^iff^ hana::all_of(xs, id)
                     );
 
                     BOOST_HANA_CHECK(
-                        hana::none(xs_) ^iff^ hana::none_of(xs_, id)
+                        hana::none(xs) ^iff^ hana::none_of(xs, id)
                     );
-                });
+                })(xs));
 
 
                 // find_if(xs, always(false_)) == nothing
@@ -80,16 +81,15 @@ namespace boost { namespace hana { namespace test {
                     nothing
                 ));
 
-                hana::for_each(searchables, [=](auto ys) {
+                hana::for_each(searchables, hana::capture(xs)([](auto xs, auto ys) {
                     // subset(xs, ys) <=> all_of(xs, [](auto x) { return elem(ys, x); })
                     BOOST_HANA_CHECK(
-                        hana::subset(xs, ys) ^iff^ hana::all_of(xs, [=](auto x) {
-                            return elem(ys, x);
-                        })
+                        hana::subset(xs, ys) ^iff^
+                            hana::all_of(xs, hana::partial(elem, ys))
                     );
-                });
+                }));
 
-                hana::for_each(keys, [=](auto key) {
+                hana::for_each(keys, hana::capture(xs)([](auto xs, auto key) {
                     // find(xs, x) == find_if(xs, [](auto y) { return y == x; })
                     BOOST_HANA_CHECK(hana::equal(
                         hana::find(xs, key),
@@ -101,8 +101,8 @@ namespace boost { namespace hana { namespace test {
                         hana::elem(xs, key) ^iff^
                         hana::any_of(xs, equal.to(key))
                     );
-                });
-            });
+                }));
+            }));
         }
     };
 

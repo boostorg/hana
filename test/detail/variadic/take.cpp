@@ -7,48 +7,57 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/variadic/take.hpp>
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/tuple.hpp>
 
 #include <laws/base.hpp>
 using namespace boost::hana;
 
 
-auto check = [](auto take) {
-    auto result = take(make<Tuple>);
-    return [=](auto ...xs) {
-        BOOST_HANA_CONSTANT_CHECK(equal(make<Tuple>(xs...), result));
-    };
-};
-
 int main() {
     namespace vd = detail::variadic;
     using test::ct_eq;
+    test::_injection<0> f{};
 
     {
-        check(vd::take<0>())
-            ();
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            vd::take<0>()(f),
+            f()
+        ));
 
-        check(vd::take<0>(ct_eq<1>{}))
-            ();
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            vd::take<0>(ct_eq<1>{})(f),
+            f()
+        ));
 
-        check(vd::take<0>(ct_eq<1>{}, ct_eq<2>{}))
-            ();
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            vd::take<0>(ct_eq<1>{}, ct_eq<2>{})(f),
+            f()
+        ));
     }
     {
-        check(vd::take<1>(ct_eq<1>{}))
-            (ct_eq<1>{});
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            vd::take<1>(ct_eq<1>{})(f),
+            f(ct_eq<1>{})
+        ));
 
-        check(vd::take<1>(ct_eq<1>{}, ct_eq<2>{}))
-            (ct_eq<1>{});
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            vd::take<1>(ct_eq<1>{}, ct_eq<2>{})(f),
+            f(ct_eq<1>{})
+        ));
 
-        check(vd::take<1>(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}))
-            (ct_eq<1>{});
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            vd::take<1>(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{})(f),
+            f(ct_eq<1>{})
+        ));
     }
     {
-        check(vd::take<8>(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}, ct_eq<5>{}, ct_eq<6>{}, ct_eq<7>{}, ct_eq<8>{}))
-            (ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}, ct_eq<5>{}, ct_eq<6>{}, ct_eq<7>{}, ct_eq<8>{});
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            vd::take<8>(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}, ct_eq<5>{}, ct_eq<6>{}, ct_eq<7>{}, ct_eq<8>{})(f),
+            f(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}, ct_eq<5>{}, ct_eq<6>{}, ct_eq<7>{}, ct_eq<8>{})
+        ));
 
-        check(vd::take<8>(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}, ct_eq<5>{}, ct_eq<6>{}, ct_eq<7>{}, ct_eq<8>{}, ct_eq<9>{}))
-            (ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}, ct_eq<5>{}, ct_eq<6>{}, ct_eq<7>{}, ct_eq<8>{});
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            vd::take<8>(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}, ct_eq<5>{}, ct_eq<6>{}, ct_eq<7>{}, ct_eq<8>{}, ct_eq<9>{})(f),
+            f(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}, ct_eq<5>{}, ct_eq<6>{}, ct_eq<7>{}, ct_eq<8>{})
+        ));
     }
 }

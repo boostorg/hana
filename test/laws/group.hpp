@@ -14,6 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/group.hpp>
+#include <boost/hana/lazy.hpp>
 
 #include <laws/base.hpp>
 
@@ -62,19 +63,21 @@ namespace boost { namespace hana { namespace test {
                 ));
 
                 // operators
-                only_when_(bool_<has_operator<G, decltype(minus)>{}>, [=](auto _) {
+                only_when_(bool_<has_operator<G, decltype(minus)>{}>,
+                hana::lazy([](auto x, auto y) {
                     BOOST_HANA_CHECK(hana::equal(
                         hana::minus(x, y),
-                        _(x) - _(y)
+                        x - y
                     ));
-                });
+                })(x, y));
 
-                only_when_(bool_<has_operator<G, decltype(negate)>{}>, [=](auto _) {
+                only_when_(bool_<has_operator<G, decltype(negate)>{}>,
+                hana::lazy([](auto x) {
                     BOOST_HANA_CHECK(hana::equal(
                         hana::negate(x),
-                        -_(x)
+                        -x
                     ));
-                });
+                })(x));
             });
         }
     };

@@ -14,6 +14,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/foldable.hpp>
+#include <boost/hana/functional/capture.hpp>
+#include <boost/hana/lazy.hpp>
 #include <boost/hana/range.hpp>
 
 #include <laws/base.hpp>
@@ -37,33 +39,31 @@ namespace boost { namespace hana { namespace test {
                     hana::is_empty(xs) ^iff^ hana::is_empty(hana::to<Tuple>(xs))
                 );
 
-                only_when_(hana::not_(hana::is_empty(xs)), [=](auto _) {
-                    auto xs_ = _(xs);
-
+                only_when_(hana::not_(hana::is_empty(xs)), hana::lazy([](auto xs) {
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::head(xs_),
-                        hana::head(hana::to<Tuple>(xs_))
+                        hana::head(xs),
+                        hana::head(hana::to<Tuple>(xs))
                     ));
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::to<Tuple>(hana::tail(xs_)),
-                        hana::tail(hana::to<Tuple>(xs_))
+                        hana::to<Tuple>(hana::tail(xs)),
+                        hana::tail(hana::to<Tuple>(xs))
                     ));
 
                     // methods
                     // drop(1, xs) == tail(xs) unless xs is empty
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::drop(size_t<1>, xs_),
-                        hana::tail(xs_)
+                        hana::drop(size_t<1>, xs),
+                        hana::tail(xs)
                     ));
 
                     // last(xs) == at(length(xs)-1, xs)
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::last(xs_),
-                        hana::at(hana::pred(hana::length(xs_)), xs_)
+                        hana::last(xs),
+                        hana::at(hana::pred(hana::length(xs)), xs)
                     ));
 
-                });
+                })(xs));
 
                 // drop(0, xs) == xs
                 BOOST_HANA_CHECK(hana::equal(
@@ -72,170 +72,176 @@ namespace boost { namespace hana { namespace test {
                 ));
 
                 // at(n, xs) == head(drop(n, xs))
-                hana::for_each(hana::make_range(size_t<0>, hana::length(xs)), [=](auto n) {
+                hana::for_each(hana::make_range(size_t<0>, hana::length(xs)),
+                hana::capture(xs)([](auto xs, auto n) {
                     BOOST_HANA_CHECK(hana::equal(
                         hana::at(n, xs),
                         hana::head(hana::drop(n, xs))
                     ));
-                });
+                }));
 
                 // operators
-                only_when_(bool_<has_operator<It, decltype(at)>{}>, [=](auto _) {
-                    hana::for_each(hana::make_range(size_t<0>, hana::length(xs)), [=](auto n) {
+                only_when_(bool_<has_operator<It, decltype(at)>{}>, hana::lazy([](auto xs) {
+                    hana::for_each(hana::make_range(size_t<0>, hana::length(xs)),
+                    hana::capture(xs)([](auto xs, auto n) {
                         BOOST_HANA_CHECK(hana::equal(
-                            hana::at(n, _(xs)),
-                            _(xs)[n]
+                            hana::at(n, xs),
+                            xs[n]
                         ));
-                    });
-                });
+                    }));
+                })(xs));
 
                 // Foldable
                 // when length == 0
-                test::_injection<0> f{};
-                test::_constant<0> state{};
+                only_when_(hana::equal(hana::length(xs), size_t<0>),
+                hana::lazy([](auto xs) {
+                    test::_injection<0> f{};
+                    test::_constant<0> state{};
 
-                only_when_(hana::equal(hana::length(xs), size_t<0>), [=](auto _) {
-                    auto xs_ = _(xs);
                     BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                        hana::foldl(xs_, state, f),
+                        hana::foldl(xs, state, f),
                         state
                     ));
 
                     BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                        hana::foldr(xs_, state, f),
+                        hana::foldr(xs, state, f),
                         state
                     ));
-                });
+                })(xs));
 
                 // when length == 1
-                only_when_(hana::equal(hana::length(xs), size_t<1>), [=](auto _) {
-                    auto xs_ = _(xs);
+                only_when_(hana::equal(hana::length(xs), size_t<1>),
+                hana::lazy([](auto xs) {
+                    test::_injection<0> f{};
+                    test::_constant<0> state{};
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::foldl(xs_, state, f),
-                        f(state, at_c<0>(xs_))
+                        hana::foldl(xs, state, f),
+                        f(state, at_c<0>(xs))
                     ));
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::foldr(xs_, state, f),
-                        f(at_c<0>(xs_), state)
+                        hana::foldr(xs, state, f),
+                        f(at_c<0>(xs), state)
                     ));
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::foldl1(xs_, f),
-                        at_c<0>(xs_)
+                        hana::foldl1(xs, f),
+                        at_c<0>(xs)
                     ));
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::foldr1(xs_, f),
-                        at_c<0>(xs_)
+                        hana::foldr1(xs, f),
+                        at_c<0>(xs)
                     ));
-                });
+                })(xs));
 
                 // when length == 2
-                only_when_(hana::equal(hana::length(xs), size_t<2>), [=](auto _) {
-                    auto xs_ = _(xs);
+                only_when_(hana::equal(hana::length(xs), size_t<2>),
+                hana::lazy([](auto xs) {
+                    test::_injection<0> f{};
+                    test::_constant<0> state{};
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::foldl(xs_, state, f),
-                        f(f(state, at_c<0>(xs_)), at_c<1>(xs_))
+                        hana::foldl(xs, state, f),
+                        f(f(state, at_c<0>(xs)), at_c<1>(xs))
                     ));
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::foldr(xs_, state, f),
-                        f(at_c<0>(xs_), f(at_c<1>(xs_), state))
+                        hana::foldr(xs, state, f),
+                        f(at_c<0>(xs), f(at_c<1>(xs), state))
                     ));
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::foldl1(xs_, f),
-                        f(at_c<0>(xs_), at_c<1>(xs_))
+                        hana::foldl1(xs, f),
+                        f(at_c<0>(xs), at_c<1>(xs))
                     ));
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::foldr1(xs_, f),
-                        f(at_c<0>(xs_), at_c<1>(xs_))
+                        hana::foldr1(xs, f),
+                        f(at_c<0>(xs), at_c<1>(xs))
                     ));
-                });
+                })(xs));
 
                 // when length == 3
-                only_when_(hana::equal(hana::length(xs), size_t<3>), [=](auto _) {
-                    auto xs_ = _(xs);
+                only_when_(hana::equal(hana::length(xs), size_t<3>),
+                hana::lazy([](auto xs) {
+                    test::_injection<0> f{};
+                    test::_constant<0> state{};
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::foldl(xs_, state, f),
-                        f(f(f(state, at_c<0>(xs_)), at_c<1>(xs_)), at_c<2>(xs_))
+                        hana::foldl(xs, state, f),
+                        f(f(f(state, at_c<0>(xs)), at_c<1>(xs)), at_c<2>(xs))
                     ));
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::foldr(xs_, state, f),
-                        f(at_c<0>(xs_), f(at_c<1>(xs_), f(at_c<2>(xs_), state)))
+                        hana::foldr(xs, state, f),
+                        f(at_c<0>(xs), f(at_c<1>(xs), f(at_c<2>(xs), state)))
                     ));
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::foldl1(xs_, f),
-                        f(f(at_c<0>(xs_), at_c<1>(xs_)), at_c<2>(xs_))
+                        hana::foldl1(xs, f),
+                        f(f(at_c<0>(xs), at_c<1>(xs)), at_c<2>(xs))
                     ));
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::foldr1(xs_, f),
-                        f(at_c<0>(xs_), f(at_c<1>(xs_), at_c<2>(xs_)))
+                        hana::foldr1(xs, f),
+                        f(at_c<0>(xs), f(at_c<1>(xs), at_c<2>(xs)))
                     ));
-                });
+                })(xs));
 
                 // when length == 4
-                only_when_(hana::equal(hana::length(xs), size_t<4>), [=](auto _) {
-                    auto xs_ = _(xs);
+                only_when_(hana::equal(hana::length(xs), size_t<4>),
+                hana::lazy([](auto xs) {
+                    test::_injection<0> f{};
+                    test::_constant<0> state{};
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::foldl(xs_, state, f),
-                        f(f(f(f(state, at_c<0>(xs_)), at_c<1>(xs_)), at_c<2>(xs_)), at_c<3>(xs_))
+                        hana::foldl(xs, state, f),
+                        f(f(f(f(state, at_c<0>(xs)), at_c<1>(xs)), at_c<2>(xs)), at_c<3>(xs))
                     ));
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::foldr(xs_, state, f),
-                        f(at_c<0>(xs_), f(at_c<1>(xs_), f(at_c<2>(xs_), f(at_c<3>(xs_), state))))
+                        hana::foldr(xs, state, f),
+                        f(at_c<0>(xs), f(at_c<1>(xs), f(at_c<2>(xs), f(at_c<3>(xs), state))))
                     ));
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::foldl1(xs_, f),
-                        f(f(f(at_c<0>(xs_), at_c<1>(xs_)), at_c<2>(xs_)), at_c<3>(xs_))
+                        hana::foldl1(xs, f),
+                        f(f(f(at_c<0>(xs), at_c<1>(xs)), at_c<2>(xs)), at_c<3>(xs))
                     ));
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::foldr1(xs_, f),
-                        f(at_c<0>(xs_), f(at_c<1>(xs_), f(at_c<2>(xs_), at_c<3>(xs_))))
+                        hana::foldr1(xs, f),
+                        f(at_c<0>(xs), f(at_c<1>(xs), f(at_c<2>(xs), at_c<3>(xs))))
                     ));
-                });
+                })(xs));
 
                 // Searchable
                 hana::eval_if(hana::is_empty(xs),
-                    [=](auto _) {
-                        auto xs_ = _(xs);
-
+                    hana::lazy([](auto xs) {
                         BOOST_HANA_CONSTANT_CHECK(
-                            hana::not_(hana::any_of(xs_, hana::always(true_)))
+                            hana::not_(hana::any_of(xs, hana::always(true_)))
                         );
 
                         BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                            hana::find_if(xs_, hana::always(true_)),
+                            hana::find_if(xs, hana::always(true_)),
                             nothing
                         ));
-                    },
-                    [=](auto _) {
-                        auto xs_ = _(xs);
-
+                    })(xs),
+                    hana::lazy([](auto xs) {
                         BOOST_HANA_CHECK(
-                            hana::any_of(xs_, hana::always(true_))
+                            hana::any_of(xs, hana::always(true_))
                         );
                         BOOST_HANA_CHECK(
-                            hana::not_(hana::any_of(xs_, hana::always(false_)))
+                            hana::not_(hana::any_of(xs, hana::always(false_)))
                         );
 
                         BOOST_HANA_CHECK(hana::equal(
-                            hana::find_if(xs_, hana::always(true_)),
-                            hana::just(hana::head(xs_))
+                            hana::find_if(xs, hana::always(true_)),
+                            hana::just(hana::head(xs))
                         ));
-                    }
+                    })(xs)
                 );
 
             });

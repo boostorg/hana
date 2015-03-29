@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/assert.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/functional/capture.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/id.hpp>
 #include <boost/hana/functional/partial.hpp>
@@ -741,18 +742,20 @@ namespace boost { namespace hana { namespace test {
             //////////////////////////////////////////////////////////////////
             {
             auto permute = [=](auto xs) {
-                return [=](auto ...expected_) {
-                    auto actual = permutations(xs);
+                return hana::capture(xs)([=](auto xs, auto ...expected_) {
+                    auto actual = hana::permutations(xs);
                     auto expected = list(expected_...);
-
-                    BOOST_HANA_CONSTANT_CHECK(and_(
-                        equal(length(expected), length(actual)),
-                        all_of(actual, [=](auto x) { return elem(expected, x); })
+                    BOOST_HANA_CONSTANT_CHECK(hana::and_(
+                        hana::equal(hana::length(expected), hana::length(actual)),
+                        hana::all_of(actual, hana::in ^ expected)
                     ));
-                };
+                });
             };
 
-            BOOST_HANA_CONSTANT_CHECK(equal(permutations(list()), list(list())));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                permutations(list()),
+                list(list())
+            ));
 
             permute(list(eq<0>{}))(list(eq<0>{}));
             permute(list(eq<0>{}, eq<1>{}))(

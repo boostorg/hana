@@ -8,12 +8,14 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_TEST_LAWS_FUNCTOR_HPP
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/comparable.hpp>
 #include <boost/hana/bool.hpp>
+#include <boost/hana/comparable.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/functional/capture.hpp>
 #include <boost/hana/functor.hpp>
+#include <boost/hana/lazy.hpp>
 
 #include <laws/base.hpp>
 
@@ -30,12 +32,9 @@ namespace boost { namespace hana { namespace test {
 
         template <typename Xs, typename Elements>
         TestFunctor(Xs xs, Elements elements) {
-            test::_injection<0> f{};
-            test::_injection<1> g{};
-            test::_constant<0> v{};
-            auto pred = hana::always(true_);
-
-            hana::for_each(xs, [=](auto x) {
+            hana::for_each(xs, hana::capture(elements)([](auto elements, auto x) {
+                test::_injection<0> f{};
+                test::_injection<1> g{};
 
                 // identity
                 BOOST_HANA_CHECK(hana::equal(
@@ -50,30 +49,34 @@ namespace boost { namespace hana { namespace test {
                 ));
 
                 // method definitions in terms of transform/adjust_if
-                hana::for_each(elements, [=](auto value) {
+                hana::for_each(elements, hana::capture(x, f, elements)(
+                [](auto x, auto f, auto elements, auto value) {
                     BOOST_HANA_CHECK(hana::equal(
                         hana::adjust(x, value, f),
                         hana::adjust_if(x, hana::equal.to(value), f)
                     ));
 
-                    hana::for_each(elements, [x, oldval = value](auto newval) {
+                    hana::for_each(elements, hana::capture(x, value)(
+                    [](auto x, auto oldval, auto newval) {
                         BOOST_HANA_CHECK(hana::equal(
                             hana::replace(x, oldval, newval),
                             hana::replace_if(x, hana::equal.to(oldval), newval)
                         ));
-                    });
-                });
+                    }));
+                }));
 
+                auto pred = hana::always(true_);
                 BOOST_HANA_CHECK(hana::equal(
                     hana::adjust_if(x, pred, f),
                     hana::transform(x, [=](auto z) {
                         return hana::eval_if(pred(z),
-                            [=](auto _) { return _(f)(z); },
+                            hana::lazy(f)(z),
                             hana::always(z)
                         );
                     })
                 ));
 
+                test::_constant<0> v{};
                 BOOST_HANA_CHECK(hana::equal(
                     hana::replace_if(x, pred, v),
                     hana::adjust_if(x, pred, hana::always(v))
@@ -84,7 +87,7 @@ namespace boost { namespace hana { namespace test {
                     hana::replace_if(x, hana::always(true_), v)
                 ));
 
-            });
+            }));
         }
     };
 

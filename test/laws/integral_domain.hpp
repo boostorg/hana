@@ -14,6 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/integral_domain.hpp>
+#include <boost/hana/lazy.hpp>
 
 #include <laws/base.hpp>
 
@@ -38,36 +39,38 @@ namespace boost { namespace hana { namespace test {
                     hana::mult(b, a)
                 ));
 
-                only_when_(hana::not_equal(b, zero<D>()), [=](auto _) {
-                    auto b_ = _(b);
+                only_when_(hana::not_equal(b, zero<D>()),
+                hana::lazy([](auto a, auto b) {
                     BOOST_HANA_CHECK(hana::equal(
                         hana::plus(
-                            hana::mult(hana::quot(a, b_), b_),
-                            hana::rem(a, b_)
+                            hana::mult(hana::quot(a, b), b),
+                            hana::rem(a, b)
                         ),
                         a
                     ));
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::rem(zero<D>(), b_),
+                        hana::rem(zero<D>(), b),
                         zero<D>()
                     ));
 
                     // operators
-                    only_when_(bool_<has_operator<D, decltype(rem)>{}>, [=](auto _) {
+                    only_when_(bool_<has_operator<D, decltype(rem)>{}>,
+                    hana::lazy([](auto a, auto b) {
                         BOOST_HANA_CHECK(hana::equal(
-                            hana::rem(a, _(b)),
-                            _(a) % _(b)
+                            hana::rem(a, b),
+                            a % b
                         ));
-                    });
+                    })(a, b));
 
-                    only_when_(bool_<has_operator<D, decltype(quot)>{}>, [=](auto _) {
+                    only_when_(bool_<has_operator<D, decltype(quot)>{}>,
+                    hana::lazy([](auto a, auto b) {
                         BOOST_HANA_CHECK(hana::equal(
-                            hana::quot(a, _(b)),
-                            _(a) / _(b)
+                            hana::quot(a, b),
+                            a / b
                         ));
-                    });
-                });
+                    })(a, b));
+                })(a, b));
 
             });
         }
@@ -80,20 +83,19 @@ namespace boost { namespace hana { namespace test {
         template <typename Xs>
         TestIntegralDomain(Xs xs) : TestIntegralDomain<C, laws>{xs} {
             foreach2(xs, [](auto x, auto y) {
-                only_when_(hana::not_equal(zero<C>(), y), [=](auto _) {
-                    auto y_ = _(y);
-
+                only_when_(hana::not_equal(zero<C>(), y),
+                hana::lazy([](auto x, auto y) {
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::quot(hana::value(x), hana::value(y_)),
-                        hana::value(hana::quot(x, y_))
+                        hana::quot(hana::value(x), hana::value(y)),
+                        hana::value(hana::quot(x, y))
                     ));
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::rem(hana::value(x), hana::value(y_)),
-                        hana::value(hana::rem(x, y_))
+                        hana::rem(hana::value(x), hana::value(y)),
+                        hana::value(hana::rem(x, y))
                     ));
 
-                });
+                })(x, y));
             });
         }
     };
