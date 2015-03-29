@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/maybe.hpp>
 #include <boost/hana/tuple.hpp>
 
+#include <string>
 #include <type_traits>
 using namespace boost::hana;
 
@@ -178,6 +179,9 @@ BOOST_HANA_CONSTANT_CHECK(only_when(even, half, int_<3>) == nothing);
 
 //! [from_just]
 BOOST_HANA_CONSTEXPR_CHECK(from_just(just('x')) == 'x');
+BOOST_HANA_CONSTANT_CHECK(*just(type<int>) == type<int>);
+BOOST_HANA_RUNTIME_CHECK(just(std::string{"abcd"})->size() == 4);
+
 // from_just(nothing); // compile-time static assertion
 //! [from_just]
 

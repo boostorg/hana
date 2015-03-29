@@ -346,7 +346,10 @@ namespace boost { namespace hana {
     //! @relates Maybe
     //!
     //! Specifically, returns `x` if the optional value is `just(x)`, and
-    //! triggers a static assertion otherwise.
+    //! triggers a static assertion otherwise. For convenience, the pointer
+    //! dereference operators (`*` and `->`)  can be used as an equivalent
+    //! way of calling this method or calling this method and accessing a
+    //! member of the returned object, respectively.
     //!
     //!
     //! Example

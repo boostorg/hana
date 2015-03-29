@@ -67,6 +67,13 @@ namespace boost { namespace hana {
         constexpr _just(U&& u)
             : val(detail::std::forward<U>(u))
         { }
+
+        constexpr T& operator*() & { return this->val; }
+        constexpr T const& operator*() const& { return this->val; }
+        constexpr T operator*() && { return detail::std::move(this->val); }
+
+        constexpr T* operator->() & { return &this->val; }
+        constexpr T const* operator->() const& { return &this->val; }
     };
 
     //! @cond

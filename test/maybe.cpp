@@ -102,7 +102,52 @@ int main() {
         // from_just
         {
             BOOST_HANA_CONSTANT_CHECK(equal(from_just(just(x)), x));
-            // from_just(nothing);
+
+            {
+                auto lvalue = just(test::ct_eq<3>{});
+                test::ct_eq<3>& ref = *lvalue;
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    ref,
+                    test::ct_eq<3>{}
+                ));
+
+                auto const const_lvalue = just(test::ct_eq<3>{});
+                test::ct_eq<3> const& const_ref = *const_lvalue;
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    const_ref,
+                    test::ct_eq<3>{}
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    *just(test::ct_eq<3>{}),
+                    test::ct_eq<3>{}
+                ));
+            }
+
+            {
+                struct object {
+                    test::ct_eq<3> member;
+                };
+
+                auto lvalue = just(object{});
+                test::ct_eq<3>& ref = lvalue->member;
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    ref,
+                    test::ct_eq<3>{}
+                ));
+
+                auto const const_lvalue = just(object{});
+                test::ct_eq<3> const& const_ref = const_lvalue->member;
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    const_ref,
+                    test::ct_eq<3>{}
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    just(object{})->member,
+                    test::ct_eq<3>{}
+                ));
+            }
         }
 
         // from_maybe
