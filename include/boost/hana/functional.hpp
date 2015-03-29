@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/functional/apply.hpp>
 #include <boost/hana/functional/arg.hpp>
+#include <boost/hana/functional/capture.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/curry.hpp>
 #include <boost/hana/functional/demux.hpp>
