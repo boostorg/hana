@@ -158,27 +158,27 @@ Distributed under the Boost Software License, Version 1.0.
     /**/
 
 
-#   define BOOST_HANA_CHECK_IMPL(tmpvar, expr)                              \
+#   define BOOST_HANA_CHECK_IMPL(tmpvar, EXPR)                              \
         do {                                                                \
-            auto tmpvar = expr;                                             \
-            ::boost::hana::eval_if(                                         \
+            auto tmpvar = EXPR;                                             \
+            ::boost::hana::if_(                                             \
                 ::boost::hana::models<                                      \
-                    ::boost::hana::Constant                                 \
-                >(tmpvar),                                                  \
-                [=](auto _) {                                               \
-                    auto copy = _(tmpvar);                                  \
-                    static_assert(::boost::hana::value(copy), # expr);      \
+                    ::boost::hana::Constant,                                \
+                    decltype(tmpvar)                                        \
+                >,                                                          \
+                [](auto expr) {                                             \
+                    static_assert(::boost::hana::value<decltype(expr)>(),   \
+                    # EXPR);                                                \
                 },                                                          \
-                [=](auto _) {                                               \
-                    auto copy = _(tmpvar);                                  \
-                    if (!static_cast<bool>(copy)) {                         \
+                [](auto expr) {                                             \
+                    if (!static_cast<bool>(expr)) {                         \
                         ::std::fprintf(stderr, "Assertion failed: "         \
                             "(%s), function %s, file %s, line %i.\n",       \
-                            # expr, __func__, __FILE__, __LINE__);          \
+                            # EXPR, __func__, __FILE__, __LINE__);          \
                         ::std::abort();                                     \
                     }                                                       \
                 }                                                           \
-            );                                                              \
+            )(tmpvar);                                                      \
         } while (false)                                                     \
     /**/
 
@@ -188,7 +188,6 @@ Distributed under the Boost Software License, Version 1.0.
             (__VA_ARGS__)                                                   \
         )                                                                   \
     /**/
-
 
 #   if defined(BOOST_HANA_CONFIG_HAS_CONSTEXPR_LAMBDA)
 #       define BOOST_HANA_CONSTEXPR_CHECK_IMPL(assert_or_check, tmpvar, expr)\
