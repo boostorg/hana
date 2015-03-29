@@ -380,9 +380,11 @@ namespace boost { namespace hana {
     //! `sfinae` won't be able to detect it and a hard failure is likely
     //! to happen.
     //!
-    //! The fact that `sfinae` returns a function allows turning functions
-    //! that might fail to compile into ones whose compilation failure may
-    //! easily be handled through `Maybe`.
+    //!
+    //! @note
+    //! The function given to `sfinae` must not return `void`, since
+    //! `just(void)` does not make sense. A compilation error is
+    //! triggered if the function returns void.
     //!
     //!
     //! Example

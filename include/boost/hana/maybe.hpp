@@ -21,6 +21,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/declval.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integral_constant.hpp>
+#include <boost/hana/detail/std/is_same.hpp>
 #include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/detail/std/remove_reference.hpp>
 #include <boost/hana/foldable.hpp>
@@ -30,6 +31,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/functor.hpp>
 #include <boost/hana/fwd/type.hpp>
+#include <boost/hana/lazy.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/monad.hpp>
 #include <boost/hana/monad_plus.hpp>
@@ -118,33 +120,13 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // only_when
     //////////////////////////////////////////////////////////////////////////
-    namespace maybe_detail {
-        template <typename F, typename X>
-        struct just_f_x {
-            F f; X x;
-            template <typename Id>
-            constexpr decltype(auto) operator()(Id _) && {
-                return hana::just(_(detail::std::forward<F>(f))(
-                    detail::std::forward<X>(x)
-                ));
-            }
-
-            template <typename Id>
-            constexpr decltype(auto) operator()(Id _) &
-            { return hana::just(_(f)(x)); }
-
-            template <typename Id>
-            constexpr decltype(auto) operator()(Id _) const&
-            { return hana::just(_(f)(x)); }
-        };
-    }
-
     template <typename Pred, typename F, typename X>
     constexpr decltype(auto) _only_when::operator()(Pred&& pred, F&& f, X&& x) const {
         return hana::eval_if(detail::std::forward<Pred>(pred)(x),
-            maybe_detail::just_f_x<F, X>{detail::std::forward<F>(f),
-                                         detail::std::forward<X>(x)},
-            hana::always(nothing)
+            hana::lazy(hana::compose(just, detail::std::forward<F>(f)))(
+                detail::std::forward<X>(x)
+            ),
+            hana::lazy(nothing)
         );
     }
 
@@ -153,24 +135,32 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     namespace maybe_detail {
         struct sfinae_impl {
-            template <typename F, typename ...X>
-            constexpr auto operator()(F&& f, X&& ...x) const -> decltype(
-                hana::just(
-                    detail::std::forward<F>(f)(detail::std::forward<X>(x)...)
-                )
-            ) {
+            template <typename F, typename ...X, typename = decltype(
+                detail::std::declval<F>()(detail::std::declval<X>()...)
+            )>
+            constexpr decltype(auto) operator()(int, F&& f, X&& ...x) const {
+                constexpr bool returns_void = detail::std::is_same<
+                    void, decltype(
+                        detail::std::forward<F>(f)(detail::std::forward<X>(x)...)
+                    )
+                >{};
+                static_assert(!returns_void,
+                "hana::sfinae(f)(args...) requires f(args...) to be non-void");
                 return hana::just(
                     detail::std::forward<F>(f)(detail::std::forward<X>(x)...)
                 );
             }
 
-            constexpr auto operator()(...) const { return hana::nothing; }
+            template <typename F, typename ...X>
+            constexpr auto operator()(long, F&&, X&& ...) const {
+                return hana::nothing;
+            }
         };
     }
 
     template <typename F>
     constexpr decltype(auto) _sfinae::operator()(F&& f) const {
-        return hana::partial(maybe_detail::sfinae_impl{},
+        return hana::partial(maybe_detail::sfinae_impl{}, int{},
                              detail::std::forward<F>(f));
     }
 

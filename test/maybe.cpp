@@ -174,6 +174,10 @@ int main() {
             BOOST_HANA_CONSTEXPR_CHECK(equal(
                 bind(just(1), incr), just(2)
             ));
+
+            // using `sfinae` with a non-pod argument used to fail
+            sfinae(undefined{})(Tracked{1});
+            sfinae([t = Tracked{1}](auto) { return 1; })(Tracked{1});
         }
 
         // Make sure we do not instantiate rogue contructors when trying
