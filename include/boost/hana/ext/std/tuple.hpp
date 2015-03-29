@@ -109,10 +109,10 @@ namespace boost { namespace hana {
         }
 
         template <typename Xs>
-        static constexpr decltype(auto) apply(Xs&& xs) {
+        static constexpr decltype(auto) apply(Xs xs) {
             using Raw = typename detail::std::remove_reference<Xs>::type;
             constexpr detail::std::size_t len = ::std::tuple_size<Raw>::value;
-            return flatten_helper(detail::std::forward<Xs>(xs),
+            return flatten_helper(xs,
                     detail::std::make_index_sequence<len>{});
         }
     };
@@ -124,8 +124,12 @@ namespace boost { namespace hana {
     struct concat_impl<ext::std::Tuple> {
         template <typename Xs, typename Ys>
         static constexpr decltype(auto) apply(Xs&& xs, Ys&& ys) {
+#ifndef BOOST_HANA_CONFIG_LIBCPP_HAS_BUG_22806
             return ::std::tuple_cat(detail::std::forward<Xs>(xs),
                                     detail::std::forward<Ys>(ys));
+#else
+            return ::std::tuple_cat(xs, ys);
+#endif
         }
     };
 
@@ -177,8 +181,8 @@ namespace boost { namespace hana {
     template <>
     struct at_impl<ext::std::Tuple> {
         template <typename N, typename Xs>
-        static constexpr decltype(auto) apply(N n, Xs&& xs) {
-            constexpr detail::std::size_t index = value(n);
+        static constexpr decltype(auto) apply(N const&, Xs&& xs) {
+            constexpr detail::std::size_t index = hana::value<N>();
             return ::std::get<index>(detail::std::forward<Xs>(xs));
         }
     };
