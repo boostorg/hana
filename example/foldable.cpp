@@ -24,7 +24,7 @@ int main() {
 
 {
 
-//! [foldl]
+//! [fold.left]
 auto to_string = [](auto x) {
     std::ostringstream ss;
     ss << x;
@@ -35,36 +35,24 @@ auto f = [=](std::string s, auto element) {
     return "f(" + s + ", " + to_string(element) + ")";
 };
 
+// with an initial state
 BOOST_HANA_RUNTIME_CHECK(
-    foldl(make<Tuple>(2, '3', 4, 5.0), "1", f)
+    fold.left(make<Tuple>(2, '3', 4, 5.0), "1", f)
         ==
     "f(f(f(f(1, 2), 3), 4), 5)"
 );
-//! [foldl]
 
-}{
-
-//! [foldl1]
-auto to_string = [](auto x) {
-    std::ostringstream ss;
-    ss << x;
-    return ss.str();
-};
-
-auto f = [=](std::string s, auto element) {
-    return "f(" + s + ", " + to_string(element) + ")";
-};
-
+// without initial state
 BOOST_HANA_RUNTIME_CHECK(
-    foldl1(make<Tuple>("1", 2, '3', 4, 5.0), f)
+    fold.left(make<Tuple>("1", 2, '3', 4, 5.0), f)
         ==
     "f(f(f(f(1, 2), 3), 4), 5)"
 );
-//! [foldl1]
+//! [fold.left]
 
 }{
 
-//! [foldr]
+//! [fold.right]
 auto to_string = [](auto x) {
     std::ostringstream ss;
     ss << x;
@@ -75,16 +63,24 @@ auto f = [=](auto element, std::string s) {
     return "f(" + to_string(element) + ", " + s + ")";
 };
 
+// with an initial state
 BOOST_HANA_RUNTIME_CHECK(
-    foldr(make<Tuple>(1, '2', 3.0, 4), "5", f)
+    fold.right(make<Tuple>(1, '2', 3.0, 4), "5", f)
         ==
     "f(1, f(2, f(3, f(4, 5))))"
 );
-//! [foldr]
+
+// without initial state
+BOOST_HANA_RUNTIME_CHECK(
+    fold.right(make<Tuple>(1, '2', 3.0, 4, "5"), f)
+        ==
+    "f(1, f(2, f(3, f(4, 5))))"
+);
+//! [fold.right]
 
 }{
 
-//! [foldrM]
+//! [monadic_fold.right]
 BOOST_HANA_CONSTEXPR_LAMBDA auto safediv = [](auto x, auto y) {
     return eval_if(y == int_<0>,
         always(nothing),
@@ -92,66 +88,32 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto safediv = [](auto x, auto y) {
     );
 };
 
+// with an initial state
 BOOST_HANA_CONSTANT_CHECK(
-    foldrM<Maybe>(tuple_c<int, 1000, 8, 4>, int_<2>, safediv)
+    monadic_fold<Maybe>.right(tuple_c<int, 1000, 8, 4>, int_<2>, safediv)
         ==
     just(int_<1000> / (int_<8> / (int_<4> / int_<2>)))
 );
 
 BOOST_HANA_CONSTANT_CHECK(
-    foldrM<Maybe>(tuple_c<int, 1000, 8, 4>, int_<0>, safediv)
+    monadic_fold<Maybe>.right(tuple_c<int, 1000, 8, 4>, int_<0>, safediv)
         ==
     nothing
 );
-//! [foldrM]
 
-}{
-
-//! [foldr1]
-auto to_string = [](auto x) {
-    std::ostringstream ss;
-    ss << x;
-    return ss.str();
-};
-
-auto f = [=](auto element, std::string s) {
-    return "f(" + to_string(element) + ", " + s + ")";
-};
-
-BOOST_HANA_RUNTIME_CHECK(
-    foldr1(make<Tuple>(1, '2', 3.0, 4, "5"), f)
+// without an initial state
+BOOST_HANA_CONSTANT_CHECK(
+    monadic_fold<Maybe>.right(tuple_c<int, 1000, 8, 4, 2>, safediv)
         ==
-    "f(1, f(2, f(3, f(4, 5))))"
-);
-//! [foldr1]
-
-}{
-
-// [fold]
-auto to_string = [](auto x) {
-    std::ostringstream ss;
-    ss << x;
-    return ss.str();
-};
-
-auto f = [=](std::string s, auto element) {
-    return "f(" + s + ", " + to_string(element) + ")";
-};
-
-// With an initial state
-BOOST_HANA_RUNTIME_CHECK(
-    fold(make<Tuple>(2, '3', 4, 5.0), "1", f)
-        ==
-    "f(f(f(f(1, 2), 3), 4), 5)"
+    just(int_<1000> / (int_<8> / (int_<4> / int_<2>)))
 );
 
-// Without an initial state
-BOOST_HANA_RUNTIME_CHECK(
-    fold(make<Tuple>("1", 2, '3', 4, 5.0), f)
+BOOST_HANA_CONSTANT_CHECK(
+    monadic_fold<Maybe>.right(tuple_c<int, 1000, 8, 4, 0>, safediv)
         ==
-    "f(f(f(f(1, 2), 3), 4), 5)"
+    nothing
 );
-// [fold]
+//! [monadic_fold.right]
 
 }{
 

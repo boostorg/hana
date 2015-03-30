@@ -56,7 +56,7 @@ namespace boost { namespace hana {
     BOOST_HANA_CONSTEXPR_LAMBDA auto frange = [](auto f) {
         // Note: that would be better handled by a set data structure, but
         // whatever for now.
-        return foldl(transform(domain(f), f), make<Tuple>(), [](auto xs, auto x) {
+        return fold.left(transform(domain(f), f), make<Tuple>(), [](auto xs, auto x) {
             return if_(elem(xs, x), xs, prepend(x, xs));
         });
     };

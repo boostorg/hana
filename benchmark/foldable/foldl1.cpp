@@ -21,6 +21,6 @@ int main() {
     auto foldable = <%= foldable %>;
 
     boost::hana::benchmark::measure([=] {
-        boost::hana::foldl1(foldable, f);
+        boost::hana::fold.left(foldable, f);
     });
 }

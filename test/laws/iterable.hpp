@@ -99,12 +99,12 @@ namespace boost { namespace hana { namespace test {
                     test::_constant<0> state{};
 
                     BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                        hana::foldl(xs, state, f),
+                        hana::fold.left(xs, state, f),
                         state
                     ));
 
                     BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                        hana::foldr(xs, state, f),
+                        hana::fold.right(xs, state, f),
                         state
                     ));
                 })(xs));
@@ -116,22 +116,22 @@ namespace boost { namespace hana { namespace test {
                     test::_constant<0> state{};
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::foldl(xs, state, f),
+                        hana::fold.left(xs, state, f),
                         f(state, at_c<0>(xs))
                     ));
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::foldr(xs, state, f),
+                        hana::fold.right(xs, state, f),
                         f(at_c<0>(xs), state)
                     ));
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::foldl1(xs, f),
+                        hana::fold.left(xs, f),
                         at_c<0>(xs)
                     ));
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::foldr1(xs, f),
+                        hana::fold.right(xs, f),
                         at_c<0>(xs)
                     ));
                 })(xs));
@@ -143,22 +143,22 @@ namespace boost { namespace hana { namespace test {
                     test::_constant<0> state{};
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::foldl(xs, state, f),
+                        hana::fold.left(xs, state, f),
                         f(f(state, at_c<0>(xs)), at_c<1>(xs))
                     ));
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::foldr(xs, state, f),
+                        hana::fold.right(xs, state, f),
                         f(at_c<0>(xs), f(at_c<1>(xs), state))
                     ));
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::foldl1(xs, f),
+                        hana::fold.left(xs, f),
                         f(at_c<0>(xs), at_c<1>(xs))
                     ));
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::foldr1(xs, f),
+                        hana::fold.right(xs, f),
                         f(at_c<0>(xs), at_c<1>(xs))
                     ));
                 })(xs));
@@ -170,22 +170,22 @@ namespace boost { namespace hana { namespace test {
                     test::_constant<0> state{};
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::foldl(xs, state, f),
+                        hana::fold.left(xs, state, f),
                         f(f(f(state, at_c<0>(xs)), at_c<1>(xs)), at_c<2>(xs))
                     ));
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::foldr(xs, state, f),
+                        hana::fold.right(xs, state, f),
                         f(at_c<0>(xs), f(at_c<1>(xs), f(at_c<2>(xs), state)))
                     ));
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::foldl1(xs, f),
+                        hana::fold.left(xs, f),
                         f(f(at_c<0>(xs), at_c<1>(xs)), at_c<2>(xs))
                     ));
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::foldr1(xs, f),
+                        hana::fold.right(xs, f),
                         f(at_c<0>(xs), f(at_c<1>(xs), at_c<2>(xs)))
                     ));
                 })(xs));
@@ -197,22 +197,22 @@ namespace boost { namespace hana { namespace test {
                     test::_constant<0> state{};
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::foldl(xs, state, f),
+                        hana::fold.left(xs, state, f),
                         f(f(f(f(state, at_c<0>(xs)), at_c<1>(xs)), at_c<2>(xs)), at_c<3>(xs))
                     ));
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::foldr(xs, state, f),
+                        hana::fold.right(xs, state, f),
                         f(at_c<0>(xs), f(at_c<1>(xs), f(at_c<2>(xs), f(at_c<3>(xs), state))))
                     ));
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::foldl1(xs, f),
+                        hana::fold.left(xs, f),
                         f(f(f(at_c<0>(xs), at_c<1>(xs)), at_c<2>(xs)), at_c<3>(xs))
                     ));
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::foldr1(xs, f),
+                        hana::fold.right(xs, f),
                         f(at_c<0>(xs), f(at_c<1>(xs), f(at_c<2>(xs), at_c<3>(xs))))
                     ));
                 })(xs));

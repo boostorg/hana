@@ -43,8 +43,8 @@ BOOST_HANA_CONSTEXPR_CHECK(make<Pair>(1, 'y') < make<Pair>(10, 'x'));
 }{
 
 //! [foldable]
-BOOST_HANA_CONSTEXPR_CHECK(foldl(make<Pair>(1, 3), 0, plus) == 4);
-BOOST_HANA_CONSTEXPR_CHECK(foldr(make<Pair>(1, 3), 0, minus) == -2);
+BOOST_HANA_CONSTEXPR_CHECK(fold.left(make<Pair>(1, 3), 0, plus) == 4);
+BOOST_HANA_CONSTEXPR_CHECK(fold.right(make<Pair>(1, 3), 0, minus) == -2);
 //! [foldable]
 
 }{

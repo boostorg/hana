@@ -51,23 +51,23 @@ namespace boost { namespace hana {
     // Foldable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct foldl_impl<ext::std::Array>
-        : Iterable::foldl_impl<ext::std::Array>
+    struct fold_left_impl<ext::std::Array>
+        : Iterable::fold_left_impl<ext::std::Array>
     { };
 
     template <>
-    struct foldr_impl<ext::std::Array>
-        : Iterable::foldr_impl<ext::std::Array>
+    struct fold_right_impl<ext::std::Array>
+        : Iterable::fold_right_impl<ext::std::Array>
     { };
 
     template <>
-    struct foldl1_impl<ext::std::Array>
-        : Iterable::foldl1_impl<ext::std::Array>
+    struct fold_left_nostate_impl<ext::std::Array>
+        : Iterable::fold_left_nostate_impl<ext::std::Array>
     { };
 
     template <>
-    struct foldr1_impl<ext::std::Array>
-        : Iterable::foldr1_impl<ext::std::Array>
+    struct fold_right_nostate_impl<ext::std::Array>
+        : Iterable::fold_right_nostate_impl<ext::std::Array>
     { };
 
     //////////////////////////////////////////////////////////////////////////

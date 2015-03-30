@@ -65,7 +65,7 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto keep_negatives = [](auto n, auto acc) {
     return if_(n < 0_c, prepend(n, acc), acc);
 };
 
-BOOST_HANA_CONSTANT_CHECK(foldr(numbers, tuple_c<int>, keep_negatives) == negatives);
+BOOST_HANA_CONSTANT_CHECK(fold.right(numbers, tuple_c<int>, keep_negatives) == negatives);
 //! [Foldable]
 
 }{

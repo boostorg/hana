@@ -14,13 +14,12 @@ struct f {
 
 struct state { };
 
-template <int i>
 struct x { };
 
 int main() {
     constexpr auto tuple = boost::hana::make_tuple(
-        <%= (1..input_size).map { |n| "x<#{n}>{}" }.join(', ') %>
+        <%= (1..input_size).map { "x{}" }.join(', ') %>
     );
-    constexpr auto result = boost::hana::foldr(tuple, state{}, f{});
+    constexpr auto result = boost::hana::fold.right(tuple, state{}, f{});
     (void)result;
 }

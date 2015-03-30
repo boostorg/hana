@@ -30,6 +30,6 @@ int g(moveonly, int) { return 1; }
 int main() {
     // Folding a Record with move-only members should work when the
     // Record is an rvalue.
-    foldl(T{}, 0, f);
-    foldr(T{}, 0, g);
+    fold.left(T{}, 0, f);
+    fold.right(T{}, 0, g);
 }

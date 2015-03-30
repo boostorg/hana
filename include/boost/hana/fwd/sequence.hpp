@@ -538,18 +538,18 @@ namespace boost { namespace hana {
     constexpr _reverse reverse{};
 #endif
 
-    //! Similar to `foldl`, but returns a sequence of reduced values from
+    //! Similar to `fold.left`, but returns a sequence of reduced values from
     //! the left.
     //! @relates Sequence
     //!
-    //! `scanl` folds a sequence from the left, like `foldl`, but it builds
-    //! up a sequence of the intermediary results computed along the way
-    //! and returns that instead. Specifically, the `i`th element of the
+    //! `scanl` folds a sequence from the left, like `fold.left`, but it
+    //! builds up a sequence of the intermediary results computed along the
+    //! way and returns that instead. Specifically, the `i`th element of the
     //! `scanl([x1, ..., xn], state, f)` sequence is equivalent to
-    //! `foldl([x1, ..., xi], state, f)`. For example, consider this left
+    //! `fold.left([x1, ..., xi], state, f)`. For example, consider this left
     //! fold on a short sequence:
     //! @code
-    //!     foldl([x1, x2, x3], state, f) == f(f(f(state, x1), x2), x3)
+    //!     fold.left([x1, x2, x3], state, f) == f(f(f(state, x1), x2), x3)
     //! @endcode
     //! The analogous sequence generated with `scanl` will be
     //! @code
@@ -676,16 +676,16 @@ namespace boost { namespace hana {
     constexpr _scanl1 scanl1{};
 #endif
 
-    //! Similar to `foldr`, but returns a sequence of reduced values from
-    //! the right.
+    //! Similar to `fold.right`, but returns a sequence of reduced values
+    //! from the right.
     //! @relates Sequence
     //!
-    //! `scanr` folds a sequence from the right, like `foldr`, but it builds
-    //! up a sequence of the intermediary results computed along the way
-    //! and returns that instead. For example, consider this right fold on
-    //! a short sequence:
+    //! `scanr` folds a sequence from the right, like `fold.right`, but it
+    //! builds up a sequence of the intermediary results computed along the
+    //! way and returns that instead. For example, consider this right fold
+    //! on a short sequence:
     //! @code
-    //!     foldr([x1, x2, x3], state, f) == f(x1, f(x2, f(x3, state)))
+    //!     fold.right([x1, x2, x3], state, f) == f(x1, f(x2, f(x3, state)))
     //! @endcode
     //! The analogous sequence generated with `scanr` will be
     //! @code
@@ -731,7 +731,7 @@ namespace boost { namespace hana {
         constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
             static_assert(_models<Sequence, typename datatype<Xs>::type>{},
-            "hana::group_by(xs, state, f) requires xs to be a Sequence");
+            "hana::scanr(xs, state, f) requires xs to be a Sequence");
 #endif
             return scanr_impl<typename datatype<Xs>::type>::apply(
                 static_cast<Xs&&>(xs),
@@ -1247,14 +1247,14 @@ namespace boost { namespace hana {
     constexpr _take_while take_while{};
 #endif
 
-    //! Dual to `foldl` for sequences.
+    //! Dual to `fold.left` for sequences.
     //! @relates Sequence
     //!
-    //! While `foldl` reduces a structure to a summary value, `unfoldl` builds
-    //! a sequence from a seed value and a function. In some cases, `unfoldl`
-    //! can undo a `foldl` operation:
+    //! While `fold.left` reduces a structure to a summary value, `unfoldl`
+    //! builds a sequence from a seed value and a function. In some cases,
+    //! `unfoldl` can undo a `fold.left` operation:
     //! @code
-    //!     unfoldl(g, foldl(xs, z, f))
+    //!     unfoldl(g, fold.left(xs, z, f))
     //! @endcode
     //!
     //! if the following holds
@@ -1311,14 +1311,14 @@ namespace boost { namespace hana {
     constexpr _unfoldl<S> unfoldl{};
 #endif
 
-    //! Dual to `foldr` for sequences.
+    //! Dual to `fold.right` for sequences.
     //! @relates Sequence
     //!
-    //! While `foldr` reduces a structure to a summary value, `unfoldr` builds
-    //! a sequence from a seed value and a function. In some cases, `unfoldr`
-    //! can undo a `foldr` operation:
+    //! While `fold.right` reduces a structure to a summary value, `unfoldr`
+    //! builds a sequence from a seed value and a function. In some cases,
+    //! `unfoldr` can undo a `fold.right` operation:
     //! @code
-    //!     unfoldr(g, foldr(xs, z, f))
+    //!     unfoldr(g, fold.right(xs, z, f))
     //! @endcode
     //!
     //! if the following holds
@@ -1494,7 +1494,7 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //! All of the different zipping variants are tag-dispatched methods that
-    //! can be overriden. Here is how each variant is tag-dispatched:
+    //! can be overridden. Here is how each variant is tag-dispatched:
     //! @code
     //!     zip.shortest       ->  zip_shortest_impl
     //!     zip.shortest.with  ->  zip_shortest_with_impl

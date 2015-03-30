@@ -1114,11 +1114,11 @@ namespace boost { namespace hana { namespace test {
             );
             for_each(lists, [=](auto xs) {
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    unfoldl<S>(g, foldl(xs, z, f)),
+                    unfoldl<S>(g, fold.left(xs, z, f)),
                     xs
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    unfoldr<S>(g, foldr(xs, z, f)),
+                    unfoldr<S>(g, fold.right(xs, z, f)),
                     xs
                 ));
             });

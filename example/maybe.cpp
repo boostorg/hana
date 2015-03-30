@@ -111,8 +111,8 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto plus = [](auto x, auto y) {
     return x + y;
 };
 
-BOOST_HANA_CONSTEXPR_CHECK(foldr(nothing, 1, plus) == 1);
-BOOST_HANA_CONSTEXPR_CHECK(foldr(just(4), 1, plus) == 5);
+BOOST_HANA_CONSTEXPR_CHECK(fold.right(nothing, 1, plus) == 1);
+BOOST_HANA_CONSTEXPR_CHECK(fold.right(just(4), 1, plus) == 5);
 //! [foldable]
 
 }{

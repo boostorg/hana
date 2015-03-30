@@ -113,14 +113,14 @@ namespace boost { namespace hana {
     // Foldable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct foldl_impl<Tree> {
+    struct fold_left_impl<Tree> {
         template <typename N, typename S, typename F>
         static constexpr decltype(auto) apply(N&& n, S&& s, F f) {
-            return foldl(
+            return hana::fold.left(
                 std::forward<N>(n).subforest,
                 f(std::forward<S>(s), std::forward<N>(n).value),
                 [=](auto&& state, auto&& subtree) -> decltype(auto) {
-                    return foldl(
+                    return hana::fold.left(
                         std::forward<decltype(subtree)>(subtree),
                         std::forward<decltype(state)>(state),
                         f
@@ -131,14 +131,14 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct foldr_impl<Tree> {
+    struct fold_right_impl<Tree> {
         template <typename N, typename S, typename F>
         static constexpr decltype(auto) apply(N&& n, S&& s, F f) {
             return f(
                 std::forward<N>(n).value,
-                foldr(std::forward<N>(n).subforest, std::forward<S>(s),
+                hana::fold.right(std::forward<N>(n).subforest, std::forward<S>(s),
                     [=](auto&& subtree, auto&& state) -> decltype(auto) {
-                        return foldr(
+                        return hana::fold.right(
                             std::forward<decltype(subtree)>(subtree),
                             std::forward<decltype(state)>(state),
                             f

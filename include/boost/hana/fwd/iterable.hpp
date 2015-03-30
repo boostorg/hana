@@ -67,7 +67,7 @@ namespace boost { namespace hana {
     //! Note that it is always possible to produce such a linearization for a
     //! finite Foldable by setting
     //! @code
-    //!     linearization(xs) = foldl(xs, [], prepend)
+    //!     linearization(xs) = fold.left(xs, [], prepend)
     //! @endcode
     //! for an appropriate type of Sequence (heterogeneous or not).
     //!
@@ -94,8 +94,8 @@ namespace boost { namespace hana {
     //! ------------
     //! 1. `Foldable` (model provided)\n
     //! Every finite Iterable gives rise to a Foldable, and a model of
-    //! Foldable is provided for Iterables via the `Iterable::foldr_impl`
-    //! and `Iterable::foldl_impl` methods.
+    //! Foldable is provided for Iterables via the `Iterable::fold_right_impl`
+    //! and `Iterable::fold_left_impl` methods.
     //!
     //! Let `xs` be an Iterable and let `xi` denote the `i`-th element in its
     //! linearization. In other words, `xs` can be linearized as
@@ -120,7 +120,7 @@ namespace boost { namespace hana {
     //! @endcode
     //! this makes no difference. Also note that folds with an initial state
     //! are implemented in an analogous way, and they are provided as
-    //! `Iterable::foldr1_impl` and `Iterable::foldl1_impl`.
+    //! `Iterable::fold_{left,right}_nostate_impl`.
     //!
     //! 2. `Searchable` (model provided)\n
     //! An Iterable can be searched by doing a linear search through the
@@ -145,10 +145,10 @@ namespace boost { namespace hana {
     //! - Use perfect forwarding in `Iterable::find_impl` once Clang
     //!   bug #20619 is fixed.
     struct Iterable {
-        template <typename It> struct foldl_impl;
-        template <typename It> struct foldr_impl;
-        template <typename It> struct foldl1_impl;
-        template <typename It> struct foldr1_impl;
+        template <typename It> struct fold_left_impl;
+        template <typename It> struct fold_right_impl;
+        template <typename It> struct fold_left_nostate_impl;
+        template <typename It> struct fold_right_nostate_impl;
 
         template <typename It> struct find_if_impl;
         template <typename It> struct any_of_impl;

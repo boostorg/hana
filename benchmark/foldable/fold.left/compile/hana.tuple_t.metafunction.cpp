@@ -5,12 +5,11 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/tuple.hpp>
+#include <boost/hana/type.hpp>
 
 
-struct f {
-    template <typename X, typename State>
-    constexpr X operator()(X x, State) const { return x; }
-};
+template <typename State, typename X>
+struct f { using type = X; };
 
 struct state { };
 
@@ -21,6 +20,10 @@ int main() {
     constexpr auto tuple = boost::hana::tuple_t<
         <%= (1..input_size).to_a.map { |n| "t<#{n}>" }.join(', ') %>
     >;
-    constexpr auto result = boost::hana::foldr(tuple, state{}, f{});
+    constexpr auto result = boost::hana::fold.left(
+        tuple,
+        boost::hana::type<state>,
+        boost::hana::metafunction<f>
+    );
     (void)result;
 }

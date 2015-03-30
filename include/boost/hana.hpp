@@ -264,8 +264,7 @@ function                                     |  concept   | description
 `replace_if(sequence, predicate, newval)`    | Functor    | Replace the elements of a sequence that satisfy some predicate by some value.
 `replace(sequence, oldval, newval)`          | Functor    | Replace the elements of a sequence that compare equal to some value by some other value.
 `fill(sequence, value)`                      | Functor    | Replace all the elements of a sequence with some value.
-`foldl(sequence, state, f)`                  | Foldable   | Accumulates the elements of a sequence from the left. Equivalent to `f(...f(f(state, x1), x2), ..., xN)`.
-`foldr(sequence, state, f)`                  | Foldable   | Accumulates the elements of a sequence from the right. Equivalent to `f(x1, f(x2, ..., f(xN, state))...)`.
+`fold.{left,right}(sequence[, state], f)`    | Foldable   | Accumulates the elements of a sequence from the left or right, and optionally with a provided initial state.
 `for_each(sequence, f)`                      | Foldable   | Call a function on each element of a sequence. Returns `void`.
 `{length, size}(sequence)`                   | Foldable   | Returns the length of a sequence as an IntegralConstant.
 `{minimum, maximum}_by(predicate, sequence)` | Foldable   | Returns the smallest/greatest element of a sequence w.r.t. a predicate.

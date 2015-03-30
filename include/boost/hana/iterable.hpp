@@ -275,7 +275,7 @@ namespace boost { namespace hana {
             constexpr decltype(auto) operator()(Xs&& xs, S&& s, F&& f) const {
                 return f(
                     hana::head(xs),
-                    hana::foldr(hana::tail(xs), static_cast<S&&>(s), f)
+                    hana::fold.right(hana::tail(xs), static_cast<S&&>(s), f)
                 );
             }
         };
@@ -283,13 +283,13 @@ namespace boost { namespace hana {
         struct foldr1_helper {
             template <typename Xs, typename F>
             constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
-                return f(hana::head(xs), hana::foldr1(hana::tail(xs), f));
+                return f(hana::head(xs), hana::fold.right(hana::tail(xs), f));
             }
         };
     } // end namespace iterable_detail
 
     template <typename It>
-    struct Iterable::foldl_impl {
+    struct Iterable::fold_left_impl {
         template <typename Xs, typename State, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, State&& s, F&& f) {
             return hana::first(hana::until(
@@ -303,7 +303,7 @@ namespace boost { namespace hana {
     };
 
     template <typename It>
-    struct Iterable::foldr_impl {
+    struct Iterable::fold_right_impl {
         template <typename Xs, typename State, typename F>
         static constexpr auto apply(Xs xs, State s, F f) {
             return hana::eval_if(hana::is_empty(xs),
@@ -314,7 +314,7 @@ namespace boost { namespace hana {
     };
 
     template <typename It>
-    struct Iterable::foldr1_impl {
+    struct Iterable::fold_right_nostate_impl {
         template <typename Xs, typename F>
         static constexpr auto apply(Xs xs, F f) {
             return hana::eval_if(hana::is_empty(hana::tail(xs)),
@@ -325,10 +325,10 @@ namespace boost { namespace hana {
     };
 
     template <typename It>
-    struct Iterable::foldl1_impl {
+    struct Iterable::fold_left_nostate_impl {
         template <typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
-            return hana::foldl(hana::tail(xs), hana::head(xs),
+            return hana::fold.left(hana::tail(xs), hana::head(xs),
                         static_cast<F&&>(f));
         }
     };

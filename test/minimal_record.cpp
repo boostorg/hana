@@ -75,18 +75,18 @@ int main() {
         test::ct_eq<999> s{};
         test::_injection<0> f{};
 
-        // foldl
+        // fold.left
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                foldl(record(ct_eq<0>{}, ct_eq<1>{}), s, f),
+                fold.left(record(ct_eq<0>{}, ct_eq<1>{}), s, f),
                 f(f(s, ct_eq<0>{}), ct_eq<1>{})
             ));
         }
 
-        // foldr
+        // fold.right
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                foldr(record(ct_eq<0>{}, ct_eq<1>{}), s, f),
+                fold.right(record(ct_eq<0>{}, ct_eq<1>{}), s, f),
                 f(ct_eq<0>{}, f(ct_eq<1>{}, s))
             ));
         }

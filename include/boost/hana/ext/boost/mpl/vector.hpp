@@ -90,23 +90,23 @@ namespace boost { namespace hana {
     // Foldable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct foldl_impl<ext::boost::mpl::Vector>
-        : Iterable::foldl_impl<ext::boost::mpl::Vector>
+    struct fold_left_impl<ext::boost::mpl::Vector>
+        : Iterable::fold_left_impl<ext::boost::mpl::Vector>
     { };
 
     template <>
-    struct foldr_impl<ext::boost::mpl::Vector>
-        : Iterable::foldr_impl<ext::boost::mpl::Vector>
+    struct fold_right_impl<ext::boost::mpl::Vector>
+        : Iterable::fold_right_impl<ext::boost::mpl::Vector>
     { };
 
     template <>
-    struct foldl1_impl<ext::boost::mpl::Vector>
-        : Iterable::foldl1_impl<ext::boost::mpl::Vector>
+    struct fold_left_nostate_impl<ext::boost::mpl::Vector>
+        : Iterable::fold_left_nostate_impl<ext::boost::mpl::Vector>
     { };
 
     template <>
-    struct foldr1_impl<ext::boost::mpl::Vector>
-        : Iterable::foldr1_impl<ext::boost::mpl::Vector>
+    struct fold_right_nostate_impl<ext::boost::mpl::Vector>
+        : Iterable::fold_right_nostate_impl<ext::boost::mpl::Vector>
     { };
 
     //////////////////////////////////////////////////////////////////////////

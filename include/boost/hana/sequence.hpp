@@ -276,7 +276,7 @@ namespace boost { namespace hana {
     struct partition_impl<S, when<condition>> : default_ {
         template <typename Xs, typename Pred>
         static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
-            return hana::foldl(
+            return hana::fold.left(
                 static_cast<Xs&&>(xs),
                 hana::pair(empty<S>(), empty<S>()),
                 hana::partial(sequence_detail::partition_helper{},
@@ -383,7 +383,7 @@ namespace boost { namespace hana {
     struct reverse_impl<S, when<condition>> : default_ {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
-            return hana::foldl(static_cast<Xs&&>(xs), empty<S>(),
+            return hana::fold.left(static_cast<Xs&&>(xs), empty<S>(),
                                                         hana::flip(prepend));
         }
     };
@@ -1110,7 +1110,7 @@ namespace boost { namespace hana {
     struct Sequence::transform_impl {
         template <typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
-            return hana::foldr(static_cast<Xs&&>(xs), empty<S>(),
+            return hana::fold.right(static_cast<Xs&&>(xs), empty<S>(),
                         hana::compose(prepend, static_cast<F&&>(f)));
         }
     };
@@ -1147,7 +1147,7 @@ namespace boost { namespace hana {
     struct Sequence::flatten_impl {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs)
-        { return hana::foldr(static_cast<Xs&&>(xs), empty<S>(), concat); }
+        { return hana::fold.right(static_cast<Xs&&>(xs), empty<S>(), concat); }
     };
 
     template <typename S>
@@ -1162,7 +1162,7 @@ namespace boost { namespace hana {
     struct Sequence::concat_impl {
         template <typename Xs, typename Ys>
         static constexpr decltype(auto) apply(Xs&& xs, Ys&& ys) {
-            return hana::foldr(static_cast<Xs&&>(xs),
+            return hana::fold.right(static_cast<Xs&&>(xs),
                                static_cast<Ys&&>(ys), prepend);
         }
     };
@@ -1176,23 +1176,23 @@ namespace boost { namespace hana {
     // Automatic model of Foldable
     //////////////////////////////////////////////////////////////////////////
     template <typename S>
-    struct foldl_impl<S, when<_models<Sequence, S>{}>>
-        : Iterable::foldl_impl<S>
+    struct fold_left_impl<S, when<_models<Sequence, S>{}>>
+        : Iterable::fold_left_impl<S>
     { };
 
     template <typename S>
-    struct foldr_impl<S, when<_models<Sequence, S>{}>>
-        : Iterable::foldr_impl<S>
+    struct fold_right_impl<S, when<_models<Sequence, S>{}>>
+        : Iterable::fold_right_impl<S>
     { };
 
     template <typename S>
-    struct foldl1_impl<S, when<_models<Sequence, S>{}>>
-        : Iterable::foldl1_impl<S>
+    struct fold_left_nostate_impl<S, when<_models<Sequence, S>{}>>
+        : Iterable::fold_left_nostate_impl<S>
     { };
 
     template <typename S>
-    struct foldr1_impl<S, when<_models<Sequence, S>{}>>
-        : Iterable::foldr1_impl<S>
+    struct fold_right_nostate_impl<S, when<_models<Sequence, S>{}>>
+        : Iterable::fold_right_nostate_impl<S>
     { };
 
     //////////////////////////////////////////////////////////////////////////
@@ -1230,7 +1230,7 @@ namespace boost { namespace hana {
     struct Sequence::traverse_impl {
         template <typename A, typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
-            return hana::foldr(static_cast<Xs&&>(xs), lift<A>(empty<S>()),
+            return hana::fold.right(static_cast<Xs&&>(xs), lift<A>(empty<S>()),
                 hana::partial(sequence_detail::traverse_helper{},
                               static_cast<F&&>(f)));
         }
@@ -1250,7 +1250,7 @@ namespace boost { namespace hana {
     {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs)
-        { return hana::foldr(static_cast<Xs&&>(xs), empty<S>(), prepend); }
+        { return hana::fold.right(static_cast<Xs&&>(xs), empty<S>(), prepend); }
     };
 }} // end namespace boost::hana
 

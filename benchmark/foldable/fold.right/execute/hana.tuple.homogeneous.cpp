@@ -19,7 +19,7 @@ int main () {
                 <%= input_size.times.map { 'std::rand()' }.join(', ') %>
             );
 
-            result += boost::hana::foldr(values, 0, [](auto t, auto state) {
+            result += boost::hana::fold.right(values, 0, [](auto t, auto state) {
                 return state + t;
             });
         }

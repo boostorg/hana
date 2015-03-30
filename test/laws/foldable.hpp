@@ -15,7 +15,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional/capture.hpp>
+#include <boost/hana/functional/curry.hpp>
 #include <boost/hana/functional/demux.hpp>
+#include <boost/hana/functional/flip.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/lazy.hpp>
 #include <boost/hana/tuple.hpp>
@@ -43,13 +45,13 @@ namespace boost { namespace hana { namespace test {
                 ct_eq<999> s{};
 
                 BOOST_HANA_CHECK(hana::equal(
-                    hana::foldl(xs, s, f),
-                    hana::foldl(hana::to<Tuple>(xs), s, f)
+                    hana::fold.left(xs, s, f),
+                    hana::fold.left(hana::to<Tuple>(xs), s, f)
                 ));
 
                 BOOST_HANA_CHECK(hana::equal(
-                    hana::foldr(xs, s, f),
-                    hana::foldr(hana::to<Tuple>(xs), s, f)
+                    hana::fold.right(xs, s, f),
+                    hana::fold.right(hana::to<Tuple>(xs), s, f)
                 ));
 
 
@@ -59,28 +61,28 @@ namespace boost { namespace hana { namespace test {
                     hana::size(xs)
                 ));
 
-                // equivalence of fold with foldl/foldl1 and
-                // of reverse_fold with foldr/foldr1
+                // equivalence of fold with fold.left and
+                // of reverse_fold with fold.right
                 BOOST_HANA_CHECK(hana::equal(
                     hana::fold(xs, s, f),
-                    hana::foldl(xs, s, f)
+                    hana::fold.left(xs, s, f)
                 ));
 
                 BOOST_HANA_CHECK(hana::equal(
                     hana::reverse_fold(xs, s, f),
-                    hana::foldr(xs, s, hana::flip(f))
+                    hana::fold.right(xs, s, hana::flip(f))
                 ));
 
                 only_when_(hana::not_equal(hana::length(xs), size_t<0>),
                 hana::lazy([](auto f, auto xs) {
                     BOOST_HANA_CHECK(hana::equal(
                         hana::fold(xs, f),
-                        hana::foldl1(xs, f)
+                        hana::fold.left(xs, f)
                     ));
 
                     BOOST_HANA_CHECK(hana::equal(
                         hana::reverse_fold(xs, f),
-                        hana::foldr1(xs, hana::flip(f))
+                        hana::fold.right(xs, hana::flip(f))
                     ));
                 })(f, xs));
 
@@ -133,247 +135,281 @@ namespace boost { namespace hana { namespace test {
             constexpr auto list = make<S>;
 
             //////////////////////////////////////////////////////////////////
-            // foldl
+            // fold.left (with initial state)
             //////////////////////////////////////////////////////////////////
             BOOST_HANA_CONSTANT_CHECK(equal(
-                foldl(list(), z, undefined{}),
+                fold.left(list(), z, undefined{}),
                 z
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                foldl(list(x<1>{}), z, f),
+                fold.left(list(x<1>{}), z, f),
                 f(z, x<1>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                foldl(list(x<1>{}, x<2>{}), z, f),
+                fold.left(list(x<1>{}, x<2>{}), z, f),
                 f(f(z, x<1>{}), x<2>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                foldl(list(x<1>{}, x<2>{}, x<3>{}), z, f),
+                fold.left(list(x<1>{}, x<2>{}, x<3>{}), z, f),
                 f(f(f(z, x<1>{}), x<2>{}), x<3>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                foldl(list(x<1>{}, x<2>{}, x<3>{}, x<4>{}), z, f),
+                fold.left(list(x<1>{}, x<2>{}, x<3>{}, x<4>{}), z, f),
                 f(f(f(f(z, x<1>{}), x<2>{}), x<3>{}), x<4>{})
             ));
 
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                foldl(list(1), z, f),
+                fold.left(list(1), z, f),
                 f(z, 1)
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                foldl(list(1, '2'), z, f),
+                fold.left(list(1, '2'), z, f),
                 f(f(z, 1), '2')
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                foldl(list(1, '2', 3.3), z, f),
+                fold.left(list(1, '2', 3.3), z, f),
                 f(f(f(z, 1), '2'), 3.3)
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                foldl(list(1, '2', 3.3, 4.4f), z, f),
+                fold.left(list(1, '2', 3.3, 4.4f), z, f),
                 f(f(f(f(z, 1), '2'), 3.3), 4.4f)
             ));
 
             //////////////////////////////////////////////////////////////////
-            // foldlM
-            //////////////////////////////////////////////////////////////////
-            {
-                using M = test::Identity;
-                auto f = hana::demux(test::identity)(test::_injection<0>{});
-                auto a1 = x<999>{};
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    foldlM<M>(list(), a1, undefined{}),
-                    lift<M>(a1)
-                ));
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    foldlM<M>(list(x<1>{}), a1, f),
-                    f(a1, x<1>{})
-                ));
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    foldlM<M>(list(x<1>{}, x<2>{}), a1, f),
-                    bind(f(a1, x<1>{}), [=](auto a2) {
-                        return f(a2, x<2>{});
-                    })
-                ));
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    foldlM<M>(list(x<1>{}, x<2>{}, x<3>{}), a1, f),
-                    bind(f(a1, x<1>{}), [=](auto a2) {
-                        return bind(f(a2, x<2>{}), [=](auto a3) {
-                            return f(a3, x<3>{});
-                        });
-                    })
-                ));
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    foldlM<M>(list(x<1>{}, x<2>{}, x<3>{}, x<4>{}), a1, f),
-                    bind(f(a1, x<1>{}), [=](auto a2) {
-                        return bind(f(a2, x<2>{}), [=](auto a3) {
-                            return bind(f(a3, x<3>{}), [=](auto a4) {
-                                return f(a4, x<4>{});
-                            });
-                        });
-                    })
-                ));
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    foldlM<M>(list(x<1>{}, x<2>{}, x<3>{}, x<4>{}, x<5>{}), a1, f),
-                    bind(f(a1, x<1>{}), [=](auto a2) {
-                        return bind(f(a2, x<2>{}), [=](auto a3) {
-                            return bind(f(a3, x<3>{}), [=](auto a4) {
-                                return bind(f(a4, x<4>{}), [=](auto a5) {
-                                    return f(a5, x<5>{});
-                                });
-                            });
-                        });
-                    })
-                ));
-            }
-
-            //////////////////////////////////////////////////////////////////
-            // foldl1
+            // fold.left (without initial state)
             //////////////////////////////////////////////////////////////////
             BOOST_HANA_CONSTANT_CHECK(equal(
-                foldl1(list(z), f),
+                fold.left(list(z), undefined{}),
                 z
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                foldl1(list(z, x<2>{}), f),
+                fold.left(list(z, x<2>{}), f),
                 f(z, x<2>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                foldl1(list(z, x<2>{}, x<3>{}), f),
+                fold.left(list(z, x<2>{}, x<3>{}), f),
                 f(f(z, x<2>{}), x<3>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                foldl1(list(z, x<2>{}, x<3>{}, x<4>{}), f),
+                fold.left(list(z, x<2>{}, x<3>{}, x<4>{}), f),
                 f(f(f(z, x<2>{}), x<3>{}), x<4>{})
             ));
 
             //////////////////////////////////////////////////////////////////
-            // foldr
+            // fold.right (with initial state)
             //////////////////////////////////////////////////////////////////
             BOOST_HANA_CONSTANT_CHECK(equal(
-                foldr(list(), z, undefined{}),
+                fold.right(list(), z, undefined{}),
                 z
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                foldr(list(x<0>{}), z, f),
+                fold.right(list(x<0>{}), z, f),
                 f(x<0>{}, z)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                foldr(list(x<0>{}, x<1>{}), z, f),
+                fold.right(list(x<0>{}, x<1>{}), z, f),
                 f(x<0>{}, f(x<1>{}, z))
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                foldr(list(x<0>{}, x<1>{}, x<2>{}), z, f),
+                fold.right(list(x<0>{}, x<1>{}, x<2>{}), z, f),
                 f(x<0>{}, f(x<1>{}, f(x<2>{}, z)))
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                foldr(list(x<0>{}, x<1>{}, x<2>{}, x<3>{}), z, f),
+                fold.right(list(x<0>{}, x<1>{}, x<2>{}, x<3>{}), z, f),
                 f(x<0>{}, f(x<1>{}, f(x<2>{}, f(x<3>{}, z))))
             ));
 
 
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                foldr(list(1), z, f),
+                fold.right(list(1), z, f),
                 f(1, z)
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                foldr(list(1, '2'), z, f),
+                fold.right(list(1, '2'), z, f),
                 f(1, f('2', z))
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                foldr(list(1, '2', 3.3), z, f),
+                fold.right(list(1, '2', 3.3), z, f),
                 f(1, f('2', f(3.3, z)))
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                foldr(list(1, '2', 3.3, 4.4f), z, f),
+                fold.right(list(1, '2', 3.3, 4.4f), z, f),
                 f(1, f('2', f(3.3, f(4.4f, z))))
             ));
 
             //////////////////////////////////////////////////////////////////
-            // foldrM
+            // fold.right (without initial state)
+            //////////////////////////////////////////////////////////////////
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                fold.right(list(z), undefined{}),
+                z
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                fold.right(list(x<1>{}, z), f),
+                f(x<1>{}, z)
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                fold.right(list(x<1>{}, x<2>{}, z), f),
+                f(x<1>{}, f(x<2>{}, z))
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                fold.right(list(x<1>{}, x<2>{}, x<3>{}, z), f),
+                f(x<1>{}, f(x<2>{}, f(x<3>{}, z)))
+            ));
+
+            //////////////////////////////////////////////////////////////////
+            // monadic_fold.left (with initial state)
             //////////////////////////////////////////////////////////////////
             {
                 using M = test::Identity;
                 auto f = hana::demux(test::identity)(test::_injection<0>{});
-                auto aN = x<999>{};
+                auto s = x<999>{};
+                auto fp = hana::curry<2>(hana::flip(f));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    foldrM<M>(list(), aN, undefined{}),
-                    lift<M>(aN)
+                    monadic_fold<M>.left(list(), s, undefined{}),
+                    lift<M>(s)
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    foldrM<M>(list(x<1>{}), aN, f),
-                    f(x<1>{}, aN)
+                    monadic_fold<M>.left(list(x<1>{}), s, f),
+                    f(s, x<1>{})
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    foldrM<M>(list(x<1>{}, x<2>{}), aN, f),
-                    bind(f(x<2>{}, aN), [=](auto a1) {
-                        return f(x<1>{}, a1);
-                    })
+                    monadic_fold<M>.left(list(x<1>{}, x<2>{}), s, f),
+                    bind(f(s, x<1>{}), fp(x<2>{}))
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    foldrM<M>(list(x<1>{}, x<2>{}, x<3>{}), aN, f),
-                    bind(f(x<3>{}, aN), [=](auto a2) {
-                        return bind(f(x<2>{}, a2), [=](auto a1) {
-                            return f(x<1>{}, a1);
-                        });
-                    })
+                    monadic_fold<M>.left(list(x<1>{}, x<2>{}, x<3>{}), s, f),
+                    bind(bind(f(s, x<1>{}), fp(x<2>{})), fp(x<3>{}))
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    foldrM<M>(list(x<1>{}, x<2>{}, x<3>{}, x<4>{}), aN, f),
-                    bind(f(x<4>{}, aN), [=](auto a3) {
-                        return bind(f(x<3>{}, a3), [=](auto a2) {
-                            return bind(f(x<2>{}, a2), [=](auto a1) {
-                                return f(x<1>{}, a1);
-                            });
-                        });
-                    })
+                    monadic_fold<M>.left(list(x<1>{}, x<2>{}, x<3>{}, x<4>{}), s, f),
+                    bind(bind(bind(f(s, x<1>{}), fp(x<2>{})), fp(x<3>{})), fp(x<4>{}))
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    foldrM<M>(list(x<1>{}, x<2>{}, x<3>{}, x<4>{}, x<5>{}), aN, f),
-                    bind(f(x<5>{}, aN), [=](auto a4) {
-                        return bind(f(x<4>{}, a4), [=](auto a3) {
-                            return bind(f(x<3>{}, a3), [=](auto a2) {
-                                return bind(f(x<2>{}, a2), [=](auto a1) {
-                                    return f(x<1>{}, a1);
-                                });
-                            });
-                        });
-                    })
+                    monadic_fold<M>.left(list(x<1>{}, x<2>{}, x<3>{}, x<4>{}, x<5>{}), s, f),
+                    bind(bind(bind(bind(f(s, x<1>{}), fp(x<2>{})), fp(x<3>{})), fp(x<4>{})), fp(x<5>{}))
                 ));
             }
 
             //////////////////////////////////////////////////////////////////
-            // foldr1
+            // monadic_fold.left (without initial state)
             //////////////////////////////////////////////////////////////////
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                foldr1(list(z), f),
-                z
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                foldr1(list(x<1>{}, z), f),
-                f(x<1>{}, z)
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                foldr1(list(x<1>{}, x<2>{}, z), f),
-                f(x<1>{}, f(x<2>{}, z))
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                foldr1(list(x<1>{}, x<2>{}, x<3>{}, z), f),
-                f(x<1>{}, f(x<2>{}, f(x<3>{}, z)))
-            ));
+            {
+                using M = test::Identity;
+                auto f = hana::demux(test::identity)(test::_injection<0>{});
+                auto fp = hana::curry<2>(hana::flip(f));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    monadic_fold<M>.left(list(x<1>{}), undefined{}),
+                    lift<M>(x<1>{})
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    monadic_fold<M>.left(list(x<1>{}, x<2>{}), f),
+                    f(x<1>{}, x<2>{})
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    monadic_fold<M>.left(list(x<1>{}, x<2>{}, x<3>{}), f),
+                    bind(f(x<1>{}, x<2>{}), fp(x<3>{}))
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    monadic_fold<M>.left(list(x<1>{}, x<2>{}, x<3>{}, x<4>{}), f),
+                    bind(bind(f(x<1>{}, x<2>{}), fp(x<3>{})), fp(x<4>{}))
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    monadic_fold<M>.left(list(x<1>{}, x<2>{}, x<3>{}, x<4>{}, x<5>{}), f),
+                    bind(bind(bind(f(x<1>{}, x<2>{}), fp(x<3>{})), fp(x<4>{})), fp(x<5>{}))
+                ));
+            }
+
+            //////////////////////////////////////////////////////////////////
+            // monadic_fold.right (with initial state)
+            //////////////////////////////////////////////////////////////////
+            {
+                using M = test::Identity;
+                auto f = hana::demux(test::identity)(test::_injection<0>{});
+                auto s = x<999>{};
+                auto fp = hana::curry<2>(f);
+                // flipping bind makes the right associativity easier to see
+                auto bind = hana::flip(hana::bind);
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    monadic_fold<M>.right(list(), s, undefined{}),
+                    lift<M>(s)
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    monadic_fold<M>.right(list(x<1>{}), s, f),
+                    f(x<1>{}, s)
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    monadic_fold<M>.right(list(x<1>{}, x<2>{}), s, f),
+                    bind(fp(x<1>{}), f(x<2>{}, s))
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    monadic_fold<M>.right(list(x<1>{}, x<2>{}, x<3>{}), s, f),
+                    bind(fp(x<1>{}), bind(fp(x<2>{}), f(x<3>{}, s)))
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    monadic_fold<M>.right(list(x<1>{}, x<2>{}, x<3>{}, x<4>{}), s, f),
+                    bind(fp(x<1>{}), bind(fp(x<2>{}), bind(fp(x<3>{}), f(x<4>{}, s))))
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    monadic_fold<M>.right(list(x<1>{}, x<2>{}, x<3>{}, x<4>{}, x<5>{}), s, f),
+                    bind(fp(x<1>{}), bind(fp(x<2>{}), bind(fp(x<3>{}), bind(fp(x<4>{}), f(x<5>{}, s)))))
+                ));
+            }
+
+            //////////////////////////////////////////////////////////////////
+            // monadic_fold.right (without initial state)
+            //////////////////////////////////////////////////////////////////
+            {
+                using M = test::Identity;
+                auto f = hana::demux(test::identity)(test::_injection<0>{});
+                auto fp = hana::curry<2>(f);
+                // flipping bind makes the right associativity easier to see
+                auto bind = hana::flip(hana::bind);
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    monadic_fold<M>.right(list(x<1>{}), undefined{}),
+                    lift<M>(x<1>{})
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    monadic_fold<M>.right(list(x<1>{}, x<2>{}), f),
+                    f(x<1>{}, x<2>{})
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    monadic_fold<M>.right(list(x<1>{}, x<2>{}, x<3>{}), f),
+                    bind(fp(x<1>{}), f(x<2>{}, x<3>{}))
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    monadic_fold<M>.right(list(x<1>{}, x<2>{}, x<3>{}, x<4>{}), f),
+                    bind(fp(x<1>{}), bind(fp(x<2>{}), f(x<3>{}, x<4>{})))
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    monadic_fold<M>.right(list(x<1>{}, x<2>{}, x<3>{}, x<4>{}, x<5>{}), f),
+                    bind(fp(x<1>{}), bind(fp(x<2>{}), bind(fp(x<3>{}), f(x<4>{}, x<5>{}))))
+                ));
+            }
 
             //////////////////////////////////////////////////////////////////
             // for_each

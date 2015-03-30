@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 using namespace boost::hana;
 
 
-//! [foldlM]
+//! [monadic_fold.left]
 auto builtin_common_t = sfinae([](auto t, auto u) -> decltype(type<
     std::decay_t<decltype(true ? traits::declval(t) : traits::declval(u))>
 >) { return {}; });
@@ -32,9 +32,11 @@ struct common_type<T, U>
 
 template <typename T1, typename ...Tn>
 struct common_type<T1, Tn...>
-    : decltype(foldlM<Maybe>(tuple_t<Tn...>,
-                             type<std::decay_t<T1>>,
-                             sfinae(metafunction<common_type>)))
+    : decltype(monadic_fold<Maybe>.left(
+        tuple_t<Tn...>,
+        type<std::decay_t<T1>>,
+        sfinae(metafunction<common_type>)
+    ))
 { };
 
 template <typename ...Ts>
@@ -55,6 +57,6 @@ static_assert(std::is_same<
 static_assert(
     sfinae(metafunction<common_type>)(type<int>, type<int>, type<int*>) == nothing
 , "");
-//! [foldlM]
+//! [monadic_fold.left]
 
 int main() { }

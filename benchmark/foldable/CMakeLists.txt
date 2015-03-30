@@ -2,11 +2,11 @@
 # Distributed under the Boost Software License, Version 1.0.
 # (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
-add_subdirectory(foldl)
-add_subdirectory(foldr)
+add_subdirectory(fold.left)
+add_subdirectory(fold.right)
 add_subdirectory(product)
 
-foreach(method IN ITEMS count_if foldl1 foldr1 for_each length maximum maximum_by minimum minimum_by sum unpack)
+foreach(method IN ITEMS count_if for_each length maximum maximum_by minimum minimum_by sum unpack)
     # Methods requiring integral `Constant`s (or stronger) in the `Foldable`.
     if(${method} MATCHES "maximum|minimum|sum")
         set(hana_tuple_env "

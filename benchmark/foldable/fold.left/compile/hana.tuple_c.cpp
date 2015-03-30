@@ -15,12 +15,12 @@ struct f {
 struct state { };
 
 template <int i>
-struct t { };
+struct x { };
 
 int main() {
-    constexpr auto tuple = boost::hana::tuple_t<
-        <%= (1..input_size).to_a.map { |n| "t<#{n}>" }.join(', ') %>
+    constexpr auto tuple = boost::hana::tuple_c<unsigned long long,
+        <%= (1..input_size).to_a.join(', ') %>
     >;
-    constexpr auto result = boost::hana::foldl(tuple, state{}, f{});
+    constexpr auto result = boost::hana::fold.left(tuple, state{}, f{});
     (void)result;
 }

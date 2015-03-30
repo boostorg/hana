@@ -213,7 +213,7 @@ struct size
 //////////////////////////////////////////////////////////////////////////////
 template <typename Sequence, typename State, typename F>
 struct fold
-    : decltype(hana::foldl(
+    : decltype(hana::fold.left(
         Sequence{}, hana::type<State>, hana::metafunction_class<
             typename mpl::lambda<F>::type
         >
@@ -222,7 +222,7 @@ struct fold
 
 template <typename Sequence, typename State, typename F>
 struct reverse_fold
-    : decltype(hana::foldr(
+    : decltype(hana::fold.right(
         Sequence{}, hana::type<State>, hana::flip(hana::metafunction_class<
             typename mpl::lambda<F>::type
         >)

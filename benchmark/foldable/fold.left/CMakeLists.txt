@@ -10,31 +10,31 @@
 # Hana
 ###################
 
-Benchmark_add_dataset(dataset.foldable.foldl.compile.hana.tuple.heterogeneous
+Benchmark_add_dataset(dataset.foldable.fold.left.compile.hana.tuple.heterogeneous
     FILE "compile/hana.tuple.heterogeneous.cpp"
     FEATURES COMPILATION_TIME MEMORY_USAGE
     ENV "((1..50).to_a + (51..90).step(10).to_a).map { |n| { input_size: n } }"
 )
 
-Benchmark_add_dataset(dataset.foldable.foldl.compile.hana.tuple.homogeneous
+Benchmark_add_dataset(dataset.foldable.fold.left.compile.hana.tuple.homogeneous
     FILE "compile/hana.tuple.homogeneous.cpp"
     FEATURES COMPILATION_TIME MEMORY_USAGE
     ENV "((1..50).to_a + (51..90).step(10).to_a).map { |n| { input_size: n } }"
 )
 
-Benchmark_add_dataset(dataset.foldable.foldl.compile.hana.tuple_c
+Benchmark_add_dataset(dataset.foldable.fold.left.compile.hana.tuple_c
     FILE "compile/hana.tuple_c.cpp"
     FEATURES COMPILATION_TIME MEMORY_USAGE
     ENV "((1..50).to_a + (51..90).step(10).to_a).map { |n| { input_size: n } }"
 )
 
-Benchmark_add_dataset(dataset.foldable.foldl.compile.hana.tuple_t
+Benchmark_add_dataset(dataset.foldable.fold.left.compile.hana.tuple_t
     FILE "compile/hana.tuple_t.cpp"
     FEATURES COMPILATION_TIME MEMORY_USAGE
     ENV "((1..50).to_a + (51..90).step(10).to_a).map { |n| { input_size: n } }"
 )
 
-Benchmark_add_dataset(dataset.foldable.foldl.compile.hana.tuple_t.metafunction
+Benchmark_add_dataset(dataset.foldable.fold.left.compile.hana.tuple_t.metafunction
     FILE "compile/hana.tuple_t.metafunction.cpp"
     FEATURES COMPILATION_TIME MEMORY_USAGE
     ENV "((1..50).to_a + (51..90).step(10).to_a).map { |n| { input_size: n } }"
@@ -44,19 +44,19 @@ Benchmark_add_dataset(dataset.foldable.foldl.compile.hana.tuple_t.metafunction
 # Fusion and MPL
 ###################
 if (Boost_FOUND)
-    Benchmark_add_dataset(dataset.foldable.foldl.compile.fusion.vector.heterogeneous
+    Benchmark_add_dataset(dataset.foldable.fold.left.compile.fusion.vector.heterogeneous
         FILE "compile/fusion.vector.heterogeneous.cpp"
         FEATURES COMPILATION_TIME MEMORY_USAGE
         ENV "(1..20).to_a.map { |n| { input_size: n } }"
     )
 
-    Benchmark_add_dataset(dataset.foldable.foldl.compile.fusion.vector.homogeneous
+    Benchmark_add_dataset(dataset.foldable.fold.left.compile.fusion.vector.homogeneous
         FILE "compile/fusion.vector.homogeneous.cpp"
         FEATURES COMPILATION_TIME MEMORY_USAGE
         ENV "(1..20).to_a.map { |n| { input_size: n } }"
     )
 
-    Benchmark_add_dataset(dataset.foldable.foldl.compile.mpl.vector
+    Benchmark_add_dataset(dataset.foldable.fold.left.compile.mpl.vector
         FILE "compile/mpl.vector.cpp"
         FEATURES COMPILATION_TIME MEMORY_USAGE
         ENV "(1..20).to_a.map { |n| { input_size: n } }"
@@ -67,7 +67,7 @@ endif()
 ##############################################################################
 # Runtime benchmarks
 ##############################################################################
-Benchmark_add_dataset(dataset.foldable.foldl.execute.hana.tuple
+Benchmark_add_dataset(dataset.foldable.fold.left.execute.hana.tuple
     FILE "execute/hana.tuple.cpp"
     FEATURES EXECUTION_TIME
     ENV "(0..20).map { |n| { input_size: n } }"
@@ -77,7 +77,7 @@ Benchmark_add_dataset(dataset.foldable.foldl.execute.hana.tuple
 # Fusion
 ###################
 if (Boost_FOUND)
-    Benchmark_add_dataset(dataset.foldable.foldl.execute.fusion.vector
+    Benchmark_add_dataset(dataset.foldable.fold.left.execute.fusion.vector
         FILE "execute/fusion.vector.cpp"
         FEATURES EXECUTION_TIME
         ENV "(0..20).map { |n| { input_size: n } }"

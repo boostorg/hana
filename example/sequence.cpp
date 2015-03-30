@@ -48,7 +48,7 @@ auto show = [=](auto x, auto y) {
     return "(" + to_string(x) + " + " + to_string(y) + ")";
 };
 
-BOOST_HANA_RUNTIME_CHECK(foldl(make<Tuple>(2, "3", '4'), "1", show) == "(((1 + 2) + 3) + 4)");
+BOOST_HANA_RUNTIME_CHECK(fold.left(make<Tuple>(2, "3", '4'), "1", show) == "(((1 + 2) + 3) + 4)");
 //! [foldable]
 
 }{
