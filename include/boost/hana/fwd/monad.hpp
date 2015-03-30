@@ -340,7 +340,7 @@ namespace boost { namespace hana {
 #endif
         template <typename F>
         constexpr decltype(auto) operator()(F&& f) const {
-            return tap_impl<M>::apply(detail::std::forward<decltype(f)>(f));
+            return tap_impl<M>::apply(static_cast<F&&>(f));
         }
     };
 

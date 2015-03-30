@@ -101,9 +101,6 @@ namespace boost { namespace hana { namespace test {
 
     template <typename S>
     struct TestMonad<S, when<_models<Sequence, S>{}>> : TestMonad<S, laws> {
-        template <int i>
-        using eq = _constant<i>;
-
         template <typename Xs, typename XXs>
         TestMonad(Xs xs, XXs xxs) : TestMonad<S, laws>{xs, xxs} {
             constexpr auto list = make<S>;
@@ -117,30 +114,65 @@ namespace boost { namespace hana { namespace test {
             ));
 
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::flatten(list(list(eq<0>{}), list())),
-                list(eq<0>{})
+                hana::flatten(list(list(ct_eq<0>{}), list())),
+                list(ct_eq<0>{})
             ));
 
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::flatten(list(list(), list(eq<0>{}))),
-                list(eq<0>{})
+                hana::flatten(list(list(), list(ct_eq<0>{}))),
+                list(ct_eq<0>{})
             ));
 
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::flatten(list(list(eq<0>{}), list(eq<1>{}))),
-                list(eq<0>{}, eq<1>{})
+                hana::flatten(list(list(ct_eq<0>{}), list(ct_eq<1>{}))),
+                list(ct_eq<0>{}, ct_eq<1>{})
             ));
 
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::flatten(list(list(eq<0>{}, eq<1>{}), list(), list(eq<2>{}, eq<3>{}), list(eq<4>{}))),
-                list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{})
+                hana::flatten(list(
+                    list(ct_eq<0>{}, ct_eq<1>{}),
+                    list(),
+                    list(ct_eq<2>{}, ct_eq<3>{}),
+                    list(ct_eq<4>{})
+                )),
+                list(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{})
             ));
-
 
             // just make sure we don't double move; this happened in Tuple
             flatten(list(list(Tracked{1}, Tracked{2})));
 
-            //! @todo Finish this
+            //////////////////////////////////////////////////////////////////
+            // bind
+            //////////////////////////////////////////////////////////////////
+            {
+                test::_injection<0> f{};
+                auto g = [=](auto x) { return list(f(x)); };
+
+                BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                    hana::bind(list(), g),
+                    list()
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                    hana::bind(list(ct_eq<1>{}), g),
+                    list(f(ct_eq<1>{}))
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                    hana::bind(list(ct_eq<1>{}, ct_eq<2>{}), g),
+                    list(f(ct_eq<1>{}), f(ct_eq<2>{}))
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                    hana::bind(list(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}), g),
+                    list(f(ct_eq<1>{}), f(ct_eq<2>{}), f(ct_eq<3>{}))
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                    hana::bind(list(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}), g),
+                    list(f(ct_eq<1>{}), f(ct_eq<2>{}), f(ct_eq<3>{}), f(ct_eq<4>{}))
+                ));
+            }
         }
     };
 }}} // end namespace boost::hana::test
