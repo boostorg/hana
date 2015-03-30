@@ -423,31 +423,29 @@ BOOST_HANA_CONSTEXPR_CHECK(
 
 }{
 
-//! [unfoldl]
-BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto x) {
-    return if_(x == int_<0>, nothing, just(pair(x - int_<1>, x)));
-};
-
+//! [unfold]
 BOOST_HANA_CONSTANT_CHECK(
-    unfoldl<Tuple>(f, int_<10>)
+    unfold<Tuple>.left(int_<10>, [](auto x) {
+        return if_(x == int_<0>,
+            nothing,
+            just(pair(x - int_<1>, x))
+        );
+    })
     ==
     tuple_c<int, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10>
 );
-//! [unfoldl]
-
-}{
-
-//! [unfoldr]
-BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto x) {
-    return if_(x == int_<0>, nothing, just(pair(x, x - int_<1>)));
-};
 
 BOOST_HANA_CONSTANT_CHECK(
-    unfoldr<Tuple>(f, int_<10>)
+    unfold<Tuple>.right(int_<10>, [](auto x) {
+        return if_(x == int_<0>,
+            nothing,
+            just(pair(x, x - int_<1>))
+        );
+    })
     ==
     tuple_c<int, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1>
 );
-//! [unfoldr]
+//! [unfold]
 
 }{
 

@@ -766,57 +766,63 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // unfoldl
+    // unfold.left
     //////////////////////////////////////////////////////////////////////////
     template <typename S, typename>
-    struct unfoldl_impl : unfoldl_impl<S, when<true>> { };
+    struct unfold_left_impl : unfold_left_impl<S, when<true>> { };
 
     template <typename S, bool condition>
-    struct unfoldl_impl<S, when<condition>> : default_ {
-        struct unfoldl_helper {
+    struct unfold_left_impl<S, when<condition>> : default_ {
+        struct unfold_left_helper {
             template <typename F, typename P>
             constexpr decltype(auto) operator()(F&& f, P&& p) const {
                 return hana::append(
-                    unfoldl_impl::apply(static_cast<F&&>(f),
-                                  hana::first(static_cast<P&&>(p))),
+                    unfold_left_impl::apply(
+                        hana::first(static_cast<P&&>(p)),
+                        static_cast<F&&>(f)
+                    ),
                     hana::second(static_cast<P&&>(p))
                 );
             }
         };
 
-        template <typename F, typename Init>
-        static constexpr decltype(auto) apply(F&& f, Init&& init) {
+        template <typename Init, typename F>
+        static constexpr decltype(auto) apply(Init&& init, F&& f) {
+            decltype(auto) elt = f(static_cast<Init&&>(init));
             return hana::maybe(empty<S>(),
-                hana::partial(unfoldl_helper{}, f),
-                f(static_cast<Init&&>(init))
+                hana::partial(unfold_left_helper{}, static_cast<F&&>(f)),
+                static_cast<decltype(elt)&&>(elt)
             );
         }
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // unfoldr
+    // unfold.right
     //////////////////////////////////////////////////////////////////////////
     template <typename S, typename>
-    struct unfoldr_impl : unfoldr_impl<S, when<true>> { };
+    struct unfold_right_impl : unfold_right_impl<S, when<true>> { };
 
     template <typename S, bool condition>
-    struct unfoldr_impl<S, when<condition>> : default_ {
-        struct unfoldr_helper {
+    struct unfold_right_impl<S, when<condition>> : default_ {
+        struct unfold_right_helper {
             template <typename F, typename P>
             constexpr decltype(auto) operator()(F&& f, P&& p) const {
                 return hana::prepend(
                     hana::first(static_cast<P&&>(p)),
-                    unfoldr_impl::apply(static_cast<F&&>(f),
-                        hana::second(static_cast<P&&>(p)))
+                    unfold_right_impl::apply(
+                        hana::second(static_cast<P&&>(p)),
+                        static_cast<F&&>(f)
+                    )
                 );
             }
         };
 
-        template <typename F, typename Init>
-        static constexpr decltype(auto) apply(F&& f, Init&& init) {
+        template <typename Init, typename F>
+        static constexpr decltype(auto) apply(Init&& init, F&& f) {
+            decltype(auto) elt = f(static_cast<Init&&>(init));
             return hana::maybe(empty<S>(),
-                hana::partial(unfoldr_helper{}, f),
-                f(static_cast<Init&&>(init))
+                hana::partial(unfold_right_helper{}, static_cast<F&&>(f)),
+                static_cast<decltype(elt)&&>(elt)
             );
         }
     };

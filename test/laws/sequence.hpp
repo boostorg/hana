@@ -1007,121 +1007,138 @@ namespace boost { namespace hana { namespace test {
 #elif !defined(BOOST_HANA_TEST_SEQUENCE_PART) || BOOST_HANA_TEST_SEQUENCE_PART == 3
 
             //////////////////////////////////////////////////////////////////
-            // unfoldl
+            // unfold.left
             //////////////////////////////////////////////////////////////////
             {
-            auto prod = minimal_product;
-            _injection<0> f{};
-            auto stop_at = [=](auto stop) {
-                return [=](auto x) {
-                    return hana::if_(hana::equal(stop, x),
-                        hana::nothing,
-                        hana::just(prod(hana::succ(x), f(x)))
-                    );
+                auto prod = minimal_product;
+                _injection<0> f{};
+                auto stop_at = [=](auto stop) {
+                    return [=](auto x) {
+                        return hana::if_(hana::equal(stop, x),
+                            hana::nothing,
+                            hana::just(prod(hana::succ(x), f(x)))
+                        );
+                    };
                 };
-            };
 
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                unfoldl<S>(stop_at(int_<0>), int_<0>),
-                list()
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                unfoldl<S>(stop_at(int_<1>), int_<0>),
-                list(f(int_<0>))
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                unfoldl<S>(stop_at(int_<2>), int_<0>),
-                list(f(int_<1>), f(int_<0>))
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                unfoldl<S>(stop_at(int_<3>), int_<0>),
-                list(f(int_<2>), f(int_<1>), f(int_<0>))
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                unfoldl<S>(stop_at(int_<4>), int_<0>),
-                list(f(int_<3>), f(int_<2>), f(int_<1>), f(int_<0>))
-            ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    unfold<S>.left(int_<0>, stop_at(int_<0>)),
+                    list()
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    unfold<S>.left(int_<0>, stop_at(int_<1>)),
+                    list(f(int_<0>))
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    unfold<S>.left(int_<0>, stop_at(int_<2>)),
+                    list(f(int_<1>), f(int_<0>))
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    unfold<S>.left(int_<0>, stop_at(int_<3>)),
+                    list(f(int_<2>), f(int_<1>), f(int_<0>))
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    unfold<S>.left(int_<0>, stop_at(int_<4>)),
+                    list(f(int_<3>), f(int_<2>), f(int_<1>), f(int_<0>))
+                ));
+
+                // make sure unfold<S> is equivalent to unfold<S>.left
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    unfold<S>(int_<0>, stop_at(int_<0>)),
+                    unfold<S>.left(int_<0>, stop_at(int_<0>))
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    unfold<S>(int_<0>, stop_at(int_<3>)),
+                    unfold.left<S>(int_<0>, stop_at(int_<3>))
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    unfold<S>(int_<0>, stop_at(int_<4>)),
+                    unfold<S>.left(int_<0>, stop_at(int_<4>))
+                ));
             }
 
             //////////////////////////////////////////////////////////////////
-            // unfoldr
+            // unfold.right
             //////////////////////////////////////////////////////////////////
             {
-            auto prod = minimal_product;
-            _injection<0> f{};
-            auto stop_at = [=](auto stop) {
-                return [=](auto x) {
-                    return hana::if_(hana::equal(stop, x),
+                auto prod = minimal_product;
+                _injection<0> f{};
+                auto stop_at = [=](auto stop) {
+                    return [=](auto x) {
+                        return hana::if_(hana::equal(stop, x),
+                            nothing,
+                            hana::just(prod(f(x), hana::succ(x)))
+                        );
+                    };
+                };
+
+                BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                    unfold<S>.right(int_<0>, stop_at(int_<0>)),
+                    list()
+                ));
+                BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                    unfold<S>.right(int_<0>, stop_at(int_<1>)),
+                    list(f(int_<0>))
+                ));
+                BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                    unfold<S>.right(int_<0>, stop_at(int_<2>)),
+                    list(f(int_<0>), f(int_<1>))
+                ));
+                BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                    unfold<S>.right(int_<0>, stop_at(int_<3>)),
+                    list(f(int_<0>), f(int_<1>), f(int_<2>))
+                ));
+                BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                    unfold<S>.right(int_<0>, stop_at(int_<4>)),
+                    list(f(int_<0>), f(int_<1>), f(int_<2>), f(int_<3>))
+                ));
+            }
+
+            //////////////////////////////////////////////////////////////////
+            // Make sure unfolds can be reversed under certain conditions.
+            //////////////////////////////////////////////////////////////////
+            {
+                auto prod = minimal_product;
+                auto z = eq<999>{};
+                auto f = prod;
+                auto g = [=](auto k) {
+                    return if_(equal(k, z),
                         nothing,
-                        hana::just(prod(f(x), hana::succ(x)))
+                        just(k)
                     );
                 };
-            };
 
-            BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                unfoldr<S>(stop_at(int_<0>), int_<0>),
-                list()
-            ));
-            BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                unfoldr<S>(stop_at(int_<1>), int_<0>),
-                list(f(int_<0>))
-            ));
-            BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                unfoldr<S>(stop_at(int_<2>), int_<0>),
-                list(f(int_<0>), f(int_<1>))
-            ));
-            BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                unfoldr<S>(stop_at(int_<3>), int_<0>),
-                list(f(int_<0>), f(int_<1>), f(int_<2>))
-            ));
-            BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                unfoldr<S>(stop_at(int_<4>), int_<0>),
-                list(f(int_<0>), f(int_<1>), f(int_<2>), f(int_<3>))
-            ));
-            }
-
-            //////////////////////////////////////////////////////////////////
-            // Make sure unfold{r,l} can be reversed under certain conditions.
-            //////////////////////////////////////////////////////////////////
-            {
-            auto prod = minimal_product;
-            auto z = eq<999>{};
-            auto f = prod;
-            auto g = [=](auto k) {
-                return if_(equal(k, z), nothing, just(k));
-            };
-
-            // Make sure the special conditions are met
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                g(z),
-                nothing
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                g(f(eq<0>{}, z)),
-                just(prod(eq<0>{}, z))
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                g(f(z, eq<0>{})),
-                just(prod(z, eq<0>{}))
-            ));
-
-            // Make sure the reversing works
-            auto lists = list(
-                list(),
-                list(eq<0>{}),
-                list(eq<0>{}, eq<1>{}),
-                list(eq<0>{}, eq<1>{}, eq<2>{})
-            );
-            for_each(lists, [=](auto xs) {
+                // Make sure the special conditions are met
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    unfoldl<S>(g, fold.left(xs, z, f)),
-                    xs
+                    g(z),
+                    nothing
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    unfoldr<S>(g, fold.right(xs, z, f)),
-                    xs
+                    g(f(eq<0>{}, z)),
+                    just(prod(eq<0>{}, z))
                 ));
-            });
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    g(f(z, eq<0>{})),
+                    just(prod(z, eq<0>{}))
+                ));
+
+                // Make sure the reversing works
+                auto lists = list(
+                    list(),
+                    list(eq<0>{}),
+                    list(eq<0>{}, eq<1>{}),
+                    list(eq<0>{}, eq<1>{}, eq<2>{})
+                );
+                for_each(lists, [=](auto xs) {
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        unfold<S>.left(fold.left(xs, z, f), g),
+                        xs
+                    ));
+                    BOOST_HANA_CONSTANT_CHECK(equal(
+                        unfold<S>.right(fold.right(xs, z, f), g),
+                        xs
+                    ));
+                });
             }
 
             //////////////////////////////////////////////////////////////////

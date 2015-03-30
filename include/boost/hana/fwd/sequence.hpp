@@ -1247,78 +1247,26 @@ namespace boost { namespace hana {
     constexpr _take_while take_while{};
 #endif
 
-    //! Dual to `fold.left` for sequences.
+    //! Dual operation to `fold` for sequences.
     //! @relates Sequence
     //!
-    //! While `fold.left` reduces a structure to a summary value, `unfoldl`
-    //! builds a sequence from a seed value and a function. In some cases,
-    //! `unfoldl` can undo a `fold.left` operation:
+    //! While `fold` reduces a structure to a summary value, `unfold` builds
+    //! a sequence from a seed value and a function. As explained in the
+    //! documentation for `fold`, there are several different flavors of
+    //! folds. In particular, there are folds which are left associative
+    //! and folds which are right associative. Similarly, there are two
+    //! versions of `unfold`; one which builds the sequence from the left,
+    //! and another one which builds the sequence from the right. Those
+    //! two variants are accessible through `unfold<S>.left` and
+    //! `unfold<S>.right`, respectively. Also note that for convenience,
+    //! `unfold<S>` is an alias to `unfold<S>.left`.
+    //!
+    //!
+    //! ### Fun fact
+    //! In some cases, `unfold` can undo a `fold` operation:
     //! @code
-    //!     unfoldl(g, fold.left(xs, z, f))
-    //! @endcode
-    //!
-    //! if the following holds
-    //! @code
-    //!     g(f(y, x)) == just(pair(y, x))
-    //!     g(z) == nothing
-    //! @endcode
-    //!
-    //!
-    //! @tparam S
-    //! The data type of the sequence to build up.
-    //!
-    //! @param f
-    //! A function called as `f(init)`, where `init` is an initial value,
-    //! and returning
-    //!     1. `nothing` if it is done producing the sequence.
-    //!     2. `just(pair(init, x))` if it isn't, where `init` is the new
-    //!        initial value used in the next call to `f` and `x` is an
-    //!        element to be appended to the resulting sequence. Also note
-    //!        that `pair` may actually be replaced by any `Product`.
-    //!
-    //! @param init
-    //! An initial value to build the sequence from.
-    //!
-    //!
-    //! Example
-    //! -------
-    //! @snippet example/sequence.cpp unfoldl
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    template <typename S>
-    constexpr auto unfoldl = [](auto&& f, auto&& init) -> decltype(auto) {
-        return tag-dispatched;
-    };
-#else
-    template <typename S, typename = void>
-    struct unfoldl_impl;
-
-    template <typename S>
-    struct _unfoldl {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-        static_assert(_models<Sequence, S>{},
-        "hana::unfoldl<S>(f, initial) requires S to be a Sequence");
-#endif
-        template <typename F, typename Initial>
-        constexpr decltype(auto) operator()(F&& f, Initial&& initial) const {
-            return unfoldl_impl<S>::apply(
-                detail::std::forward<decltype(f)>(f),
-                detail::std::forward<decltype(initial)>(initial)
-            );
-        }
-    };
-
-    template <typename S>
-    constexpr _unfoldl<S> unfoldl{};
-#endif
-
-    //! Dual to `fold.right` for sequences.
-    //! @relates Sequence
-    //!
-    //! While `fold.right` reduces a structure to a summary value, `unfoldr`
-    //! builds a sequence from a seed value and a function. In some cases,
-    //! `unfoldr` can undo a `fold.right` operation:
-    //! @code
-    //!     unfoldr(g, fold.right(xs, z, f))
+    //!     unfold<S>.left(fold.left(xs, z, f), g) == xs
+    //!     unfold<S>.right(fold.right(xs, z, f), g) == xs
     //! @endcode
     //!
     //! if the following holds
@@ -1328,51 +1276,90 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //!
+    //! Signature
+    //! ---------
+    //! Given a Sequence data type `S`, an initial value `init` of data type
+    //! `I`, an arbitrary Product `P` and a function \f$ f : I \to P(I, T) \f$,
+    //! `unfold<S>.left` has the following signature:
+    //! \f[
+    //!     \mathrm{unfold}_S.\mathrm{left} : I \times (I \to P(I, T)) \to S(T)
+    //! \f]
+    //!
+    //! Given a function \f$ f : I \to P(T, I) \f$ instead, `unfold<S>.right`
+    //! has the following signature:
+    //! \f[
+    //!     \mathrm{unfold}_S.\mathrm{right} : I \times (I \to P(T, I)) \to S(T)
+    //! \f]
+    //!
     //! @tparam S
     //! The data type of the sequence to build up.
+    //!
+    //! @param init
+    //! An initial value to build the sequence from.
     //!
     //! @param f
     //! A function called as `f(init)`, where `init` is an initial value,
     //! and returning
-    //!     1. `nothing` if it is done producing the sequence.
-    //!     2. `just(pair(x, init))` if it isn't, where `init` is the new
-    //!        initial value used in a recursive call to `f` and `x` is an
-    //!        element prepended to the resulting sequence. Also note that
-    //!        `pair` may actually be replaced by any `Product`.
-    //!
-    //! @param init
-    //! An initial value to build the list from.
+    //! 1. `nothing` if it is done producing the sequence.
+    //! 2. otherwise, `just(pair(init, x))` for `unfold.left` and
+    //!    `just(pair(x, init))` for `unfold.right`, where `init` is the
+    //!    new initial value used in the next call to `f` and `x` is an
+    //!    element to be appended to the resulting sequence. Also note that
+    //!    `pair` may actually be replaced by any `Product`.
     //!
     //!
     //! Example
     //! -------
-    //! @snippet example/sequence.cpp unfoldr
+    //! @snippet example/sequence.cpp unfold
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename S>
-    constexpr auto unfoldr = [](auto&& f, auto&& init) -> decltype(auto) {
-        return tag-dispatched;
-    };
+    constexpr auto unfold = see documentation;
 #else
     template <typename S, typename = void>
-    struct unfoldr_impl;
+    struct unfold_left_impl;
+
+    template <typename S, typename = void>
+    struct unfold_right_impl;
 
     template <typename S>
-    struct _unfoldr {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-        static_assert(_models<Sequence, S>{},
-        "hana::unfoldr<S>(f, initial) requires S to be a Sequence");
-#endif
-        template <typename F, typename Initial>
-        constexpr decltype(auto) operator()(F&& f, Initial&& initial) const {
-            return unfoldr_impl<S>::apply(
-                detail::std::forward<decltype(f)>(f),
-                detail::std::forward<decltype(initial)>(initial)
+    struct _unfold_left {
+        template <typename Initial, typename F>
+        constexpr decltype(auto) operator()(Initial&& initial, F&& f) const {
+            return unfold_left_impl<S>::apply(
+                static_cast<Initial&&>(initial),
+                static_cast<F&&>(f)
             );
         }
     };
 
     template <typename S>
-    constexpr _unfoldr<S> unfoldr{};
+    struct _unfold_right {
+        template <typename Initial, typename F>
+        constexpr decltype(auto) operator()(Initial&& initial, F&& f) const {
+            return unfold_right_impl<S>::apply(
+                static_cast<Initial&&>(initial),
+                static_cast<F&&>(f)
+            );
+        }
+    };
+
+    template <typename S>
+    struct _unfold : _unfold_left<S> {
+    #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        static_assert(_models<Sequence, S>{},
+        "hana::unfold<S> requires S to be a Sequence");
+    #endif
+
+        static constexpr _unfold_left<S> left{};
+        static constexpr _unfold_right<S> right{};
+    };
+    template <typename S>
+    constexpr _unfold_left<S> _unfold<S>::left;
+    template <typename S>
+    constexpr _unfold_right<S> _unfold<S>::right;
+
+    template <typename S>
+    constexpr _unfold<S> unfold{};
 #endif
 
     //! Unzip a sequence of sequences.
