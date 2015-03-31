@@ -1049,7 +1049,7 @@ namespace boost { namespace hana { namespace test {
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
                     unfold<S>(int_<0>, stop_at(int_<3>)),
-                    unfold.left<S>(int_<0>, stop_at(int_<3>))
+                    unfold<S>.left(int_<0>, stop_at(int_<3>))
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
                     unfold<S>(int_<0>, stop_at(int_<4>)),
