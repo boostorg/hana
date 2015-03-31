@@ -18,6 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/create.hpp>
+#include <boost/hana/detail/std/decay.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integer_sequence.hpp>
 #include <boost/hana/detail/std/is_same.hpp>
@@ -237,10 +238,11 @@ namespace boost { namespace hana {
         template <typename M, typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
             using namespace foldable_detail;
+            using G = monadic_fold1_helper<M, typename detail::std::decay<F>::type>;
             decltype(auto) result = hana::monadic_fold<M>.left(
                 static_cast<Xs&&>(xs),
                 end{},
-                monadic_fold1_helper<M, F>{static_cast<F&&>(f)}
+                G{static_cast<F&&>(f)}
             );
 
             static_assert(!detail::std::is_same<
@@ -300,10 +302,11 @@ namespace boost { namespace hana {
         template <typename M, typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
             using namespace foldable_detail;
+            using G = monadic_fold1_helper<M, typename detail::std::decay<F>::type>;
             decltype(auto) result = hana::monadic_fold<M>.right(
                 static_cast<Xs&&>(xs),
                 end{},
-                monadic_fold1_helper<M, F>{static_cast<F&&>(f)}
+                G{static_cast<F&&>(f)}
             );
 
             static_assert(!detail::std::is_same<
