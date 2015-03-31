@@ -456,8 +456,8 @@ auto to_string = [](auto x) {
     return ss.str();
 };
 
-auto f = [=](std::string s, auto element) {
-    return "f(" + s + ", " + to_string(element) + ")";
+auto f = [=](auto state, auto element) {
+    return "f(" + to_string(state) + ", " + to_string(element) + ")";
 };
 
 // with initial state
@@ -485,8 +485,8 @@ auto to_string = [](auto x) {
     return ss.str();
 };
 
-auto f = [=](auto element, std::string s) {
-    return "f(" + to_string(element) + ", " + s + ")";
+auto f = [=](auto element, auto state) {
+    return "f(" + to_string(element) + ", " + to_string(state) + ")";
 };
 
 // with initial state
