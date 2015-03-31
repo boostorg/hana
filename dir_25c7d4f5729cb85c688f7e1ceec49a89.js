@@ -3,6 +3,7 @@ var dir_25c7d4f5729cb85c688f7e1ceec49a89 =
     [ "always.hpp", "always_8hpp.html", "always_8hpp" ],
     [ "apply.hpp", "apply_8hpp.html", "apply_8hpp" ],
     [ "arg.hpp", "arg_8hpp.html", "arg_8hpp" ],
+    [ "capture.hpp", "capture_8hpp.html", "capture_8hpp" ],
     [ "compose.hpp", "compose_8hpp.html", "compose_8hpp" ],
     [ "curry.hpp", "curry_8hpp.html", "curry_8hpp" ],
     [ "demux.hpp", "demux_8hpp.html", "demux_8hpp" ],

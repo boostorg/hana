@@ -3,6 +3,7 @@ var group__group_functional =
     [ "always", "group__group-functional.html#ga835970cb25a0c8dc200f1e5f8943538b", null ],
     [ "apply", "group__group-functional.html#ga30027c383676084be151ef3c6cf2829f", null ],
     [ "arg", "group__group-functional.html#ga6acc765a35c4dc85f0deab4785831a3d", null ],
+    [ "capture", "group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0", null ],
     [ "compose", "group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b", null ],
     [ "curry", "group__group-functional.html#ga49ea872ade5ac8f6c10052c495302e89", null ],
     [ "demux", "group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2", null ],

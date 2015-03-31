@@ -229,8 +229,8 @@ Folding a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="R
 <div class="line">    <span class="keywordflow">return</span> x + y;</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(foldr(nothing, 1, plus) == 1);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(foldr(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(4), 1, plus) == 5);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(fold.right(nothing, 1, plus) == 1);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(fold.right(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(4), 1, plus) == 5);</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code><br />
 Searching a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code> is equivalent to searching a list containing <code>x</code> for <code>just(x)</code> and an empty list for <code>nothing</code>. Example: <div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> odd = [](<span class="keyword">auto</span> x) {</div>
@@ -537,9 +537,12 @@ Synopsis of methods</h2></td></tr>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Extract the content of a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code> or fail at compile-time. </p>
-<p>Specifically, returns <code>x</code> if the optional value is <code>just(x)</code>, and triggers a static assertion otherwise.</p>
+<p>Specifically, returns <code>x</code> if the optional value is <code>just(x)</code>, and triggers a static assertion otherwise. For convenience, the pointer dereference operators (<code>*</code> and <code>-&gt;</code>) can be used as an equivalent way of calling this method or calling this method and accessing a member of the returned object, respectively.</p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a2ebdc9b916940e038e6f2e3043e4f796">from_just</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<span class="charliteral">&#39;x&#39;</span>)) == <span class="charliteral">&#39;x&#39;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(*<a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(type&lt;int&gt;) == type&lt;int&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(std::string{<span class="stringliteral">&quot;abcd&quot;</span>})-&gt;size() == 4);</div>
+<div class="line"></div>
 <div class="line"><span class="comment">// from_just(nothing); // compile-time static assertion</span></div>
 </div><!-- fragment -->
 </div>
@@ -562,7 +565,7 @@ Synopsis of methods</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; f) {</div>
-<div class="line">        <span class="keywordflow">return</span> [perfect-capture](<span class="keyword">auto</span>&amp;&amp; ...x) {</div>
+<div class="line">        <span class="keywordflow">return</span> [perfect-<a class="code" href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">capture</a>](<span class="keyword">auto</span>&amp;&amp; ...x) {</div>
 <div class="line">            <span class="keywordflow">if</span> (decltype(forwarded(f)(forwarded(x)...)) is well-formed)</div>
 <div class="line">                <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(forwarded(f)(forwarded(x)...));</div>
 <div class="line">            <span class="keywordflow">else</span></div>
@@ -572,7 +575,7 @@ Synopsis of methods</h2></td></tr>
 </div><!-- fragment -->
 <p>Calls a function if the call expression is well-formed. </p>
 <p>Given a function <code>f</code>, <code>sfinae</code> returns a new function applying <code>f</code> to its arguments and returning <code>just</code> the result if the call is well-formed, and <code>nothing</code> otherwise. In other words, <code>sfinae(f)(x...)</code> is <code>just(f(x...))</code> if that expression is well-formed, and <code>nothing</code> otherwise. Note, however, that it is possible for an expression <code>f(x...)</code> to be well-formed as far as SFINAE is concerned, but trying to actually compile <code>f(x...)</code> still fails. In this case, <code>sfinae</code> won't be able to detect it and a hard failure is likely to happen.</p>
-<p>The fact that <code>sfinae</code> returns a function allows turning functions that might fail to compile into ones whose compilation failure may easily be handled through <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code>.</p>
+<dl class="section note"><dt>Note</dt><dd>The function given to <code>sfinae</code> must not return <code>void</code>, since <code>just(void)</code> does not make sense. A compilation error is triggered if the function returns void.</dd></dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> incr = [](<span class="keyword">auto</span> x) -&gt; decltype(x + 1) {</div>
 <div class="line">    <span class="keywordflow">return</span> x + 1;</div>

@@ -107,7 +107,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_sequence.html'
 <p>The <a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> concept is very specific. It represents generic index-based sequences. The reason why such a specific concept is provided is because there are a lot of models that behave exactly the same while being implemented in wildly different ways. It is useful to regroup all those data types under the same umbrella for the purpose of generic programming.</p>
 <p>In fact, models of this concept are not only <em>similar</em>. They are actually <em>isomorphic</em>, in a sense that we define below, which is a fancy way of rigorously saying that they behave exactly the same to an external observer.</p>
 <h2>Laws </h2>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000030">Todo:</a></b></dt><dd></dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000029">Todo:</a></b></dt><dd></dd></dl>
 <h2>Minimal complete definition </h2>
 <ol type="1">
 <li><code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>, <code>empty</code>, <code>prepend</code>, and explicitly specialize <code>models</code> The <a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> concept does not provide basic methods that could be used as a minimal complete definition; it instead borrows methods from other concepts and add laws to them. For this reason, it is necessary to specialize the <code>models</code> metafunction in the <code>boost::hana</code> namespace in addition to defining the above methods. Defining the <code>models</code> metafunction can be seen like a seal saying "this data type satisfies
@@ -191,7 +191,7 @@ The model of <a class="el" href="structboost_1_1hana_1_1_foldable.html" title="T
 <div class="line">    <span class="keywordflow">return</span> <span class="stringliteral">&quot;(&quot;</span> + to_string(x) + <span class="stringliteral">&quot; + &quot;</span> + to_string(y) + <span class="stringliteral">&quot;)&quot;</span>;</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(foldl(make&lt;Tuple&gt;(2, <span class="stringliteral">&quot;3&quot;</span>, <span class="charliteral">&#39;4&#39;</span>), <span class="stringliteral">&quot;1&quot;</span>, show) == <span class="stringliteral">&quot;(((1 + 2) + 3) + 4)&quot;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(fold.left(make&lt;Tuple&gt;(2, <span class="stringliteral">&quot;3&quot;</span>, <span class="charliteral">&#39;4&#39;</span>), <span class="stringliteral">&quot;1&quot;</span>, show) == <span class="stringliteral">&quot;(((1 + 2) + 3) + 4)&quot;</span>);</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code><br />
 The model of <a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a> for Sequences corresponds to iteration over each element of the sequence, in order. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(head(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)) == 1);</div>
@@ -251,9 +251,9 @@ The model of <a class="el" href="structboost_1_1hana_1_1_traversable.html" title
 <div class="line">);</div>
 </div><!-- fragment --></li>
 </ol>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000031">Todo:</a></b></dt><dd>Implement these methods: <code>intercalate</code>, <code>transpose</code>, <code>subsequences</code>, <code>split_at</code>, <code>break</code>, <code>inits</code>, <code>tails</code>, <code>iterate</code></dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000030">Todo:</a></b></dt><dd>Implement these methods: <code>intercalate</code>, <code>transpose</code>, <code>subsequences</code>, <code>split_at</code>, <code>break</code>, <code>inits</code>, <code>tails</code>, <code>iterate</code></dd></dl>
 <p>And perhaps also these: <code>nub_by</code>, <code>nub</code>, <code>delete_by</code>, <code>insert</code>, <code>set_difference_by</code>, <code>set_union_by</code>, <code>set_intersection_by</code></p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000032">Todo:</a></b></dt><dd>Document the <a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a> -&gt; <a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> conversion, and also the <code>make</code> function. </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000031">Todo:</a></b></dt><dd>Document the <a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a> -&gt; <a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> conversion, and also the <code>make</code> function. </dd></dl>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of methods</h2></td></tr>
@@ -286,13 +286,13 @@ Synopsis of methods</h2></td></tr>
 <tr class="memdesc:a4471413ccc3835db5e48658683b8aba0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reverse a sequence.  <a href="#a4471413ccc3835db5e48658683b8aba0">More...</a><br /></td></tr>
 <tr class="separator:a4471413ccc3835db5e48658683b8aba0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adfb039a3d46931ef17fef56c77d8256c"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_sequence.html#adfb039a3d46931ef17fef56c77d8256c">scanl</a></td></tr>
-<tr class="memdesc:adfb039a3d46931ef17fef56c77d8256c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Similar to <code>foldl</code>, but returns a sequence of reduced values from the left.  <a href="#adfb039a3d46931ef17fef56c77d8256c">More...</a><br /></td></tr>
+<tr class="memdesc:adfb039a3d46931ef17fef56c77d8256c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Similar to <code>fold.left</code>, but returns a sequence of reduced values from the left.  <a href="#adfb039a3d46931ef17fef56c77d8256c">More...</a><br /></td></tr>
 <tr class="separator:adfb039a3d46931ef17fef56c77d8256c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a62411eb57e86f3cb7394f22fd3651355"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_sequence.html#a62411eb57e86f3cb7394f22fd3651355">scanl1</a></td></tr>
 <tr class="memdesc:a62411eb57e86f3cb7394f22fd3651355"><td class="mdescLeft">&#160;</td><td class="mdescRight">Variant of <code>scanl</code> that has no starting value argument.  <a href="#a62411eb57e86f3cb7394f22fd3651355">More...</a><br /></td></tr>
 <tr class="separator:a62411eb57e86f3cb7394f22fd3651355"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abb725e66aedc0c19c38b38a00302abf4"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_sequence.html#abb725e66aedc0c19c38b38a00302abf4">scanr</a></td></tr>
-<tr class="memdesc:abb725e66aedc0c19c38b38a00302abf4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Similar to <code>foldr</code>, but returns a sequence of reduced values from the right.  <a href="#abb725e66aedc0c19c38b38a00302abf4">More...</a><br /></td></tr>
+<tr class="memdesc:abb725e66aedc0c19c38b38a00302abf4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Similar to <code>fold.right</code>, but returns a sequence of reduced values from the right.  <a href="#abb725e66aedc0c19c38b38a00302abf4">More...</a><br /></td></tr>
 <tr class="separator:abb725e66aedc0c19c38b38a00302abf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5948df39fe904d509f1bb073d53e3965"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_sequence.html#a5948df39fe904d509f1bb073d53e3965">scanr1</a></td></tr>
 <tr class="memdesc:a5948df39fe904d509f1bb073d53e3965"><td class="mdescLeft">&#160;</td><td class="mdescRight">Variant of <code>scanr</code> that has no starting value argument.  <a href="#a5948df39fe904d509f1bb073d53e3965">More...</a><br /></td></tr>
@@ -326,14 +326,10 @@ Synopsis of methods</h2></td></tr>
 <tr class="memitem:a86916c5c62a42f01f85450b366ef6eff"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_sequence.html#a86916c5c62a42f01f85450b366ef6eff">take_while</a></td></tr>
 <tr class="memdesc:a86916c5c62a42f01f85450b366ef6eff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Take elements from a sequence while the <code>predicate</code> is satisfied.  <a href="#a86916c5c62a42f01f85450b366ef6eff">More...</a><br /></td></tr>
 <tr class="separator:a86916c5c62a42f01f85450b366ef6eff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2c8c7ea5db04febb890469a024fcd58b"><td class="memTemplParams" colspan="2">template&lt;typename S &gt; </td></tr>
-<tr class="memitem:a2c8c7ea5db04febb890469a024fcd58b"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_sequence.html#a2c8c7ea5db04febb890469a024fcd58b">unfoldl</a></td></tr>
-<tr class="memdesc:a2c8c7ea5db04febb890469a024fcd58b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dual to <code>foldl</code> for sequences.  <a href="#a2c8c7ea5db04febb890469a024fcd58b">More...</a><br /></td></tr>
-<tr class="separator:a2c8c7ea5db04febb890469a024fcd58b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab8e70b7be1022d132ff5369d7b1b6c2c"><td class="memTemplParams" colspan="2">template&lt;typename S &gt; </td></tr>
-<tr class="memitem:ab8e70b7be1022d132ff5369d7b1b6c2c"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_sequence.html#ab8e70b7be1022d132ff5369d7b1b6c2c">unfoldr</a></td></tr>
-<tr class="memdesc:ab8e70b7be1022d132ff5369d7b1b6c2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dual to <code>foldr</code> for sequences.  <a href="#ab8e70b7be1022d132ff5369d7b1b6c2c">More...</a><br /></td></tr>
-<tr class="separator:ab8e70b7be1022d132ff5369d7b1b6c2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08bed7da3a1bc6d0e8d11e5440d879c3"><td class="memTemplParams" colspan="2">template&lt;typename S &gt; </td></tr>
+<tr class="memitem:a08bed7da3a1bc6d0e8d11e5440d879c3"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_sequence.html#a08bed7da3a1bc6d0e8d11e5440d879c3">unfold</a> = see documentation</td></tr>
+<tr class="memdesc:a08bed7da3a1bc6d0e8d11e5440d879c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dual operation to <code>fold</code> for sequences.  <a href="#a08bed7da3a1bc6d0e8d11e5440d879c3">More...</a><br /></td></tr>
+<tr class="separator:a08bed7da3a1bc6d0e8d11e5440d879c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe5308d966fbf95d317511a706d6d20a"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_sequence.html#abe5308d966fbf95d317511a706d6d20a">unzip</a></td></tr>
 <tr class="memdesc:abe5308d966fbf95d317511a706d6d20a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unzip a sequence of sequences.  <a href="#abe5308d966fbf95d317511a706d6d20a">More...</a><br /></td></tr>
 <tr class="separator:abe5308d966fbf95d317511a706d6d20a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -598,7 +594,7 @@ Synopsis of methods</h2></td></tr>
 <div class="image">
 <img src="benchmark/sequence/permutations.ctime.png" alt="permutations.ctime.png"/>
 </div>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000033">Todo:</a></b></dt><dd>When the size of the sequence is known at compile-time, we can generate the indices <code>constexpr</code> and then simply use <code>at_c</code>. This could vastly improve the compilation time. </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000032">Todo:</a></b></dt><dd>When the size of the sequence is known at compile-time, we can generate the indices <code>constexpr</code> and then simply use <code>at_c</code>. This could vastly improve the compilation time. </dd></dl>
 
 </div>
 </div>
@@ -729,8 +725,8 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
-<p>Similar to <code>foldl</code>, but returns a sequence of reduced values from the left. </p>
-<p><code>scanl</code> folds a sequence from the left, like <code>foldl</code>, but it builds up a sequence of the intermediary results computed along the way and returns that instead. Specifically, the <code>i</code>th element of the <code>scanl([x1, ..., xn], state, f)</code> sequence is equivalent to <code>foldl([x1, ..., xi], state, f)</code>. For example, consider this left fold on a short sequence: </p><div class="fragment"><div class="line">foldl([x1, x2, x3], state, f) == f(f(f(state, x1), x2), x3)</div>
+<p>Similar to <code>fold.left</code>, but returns a sequence of reduced values from the left. </p>
+<p><code>scanl</code> folds a sequence from the left, like <code>fold.left</code>, but it builds up a sequence of the intermediary results computed along the way and returns that instead. Specifically, the <code>i</code>th element of the <code>scanl([x1, ..., xn], state, f)</code> sequence is equivalent to <code>fold.left([x1, ..., xi], state, f)</code>. For example, consider this left fold on a short sequence: </p><div class="fragment"><div class="line">fold.left([x1, x2, x3], state, f) == f(f(f(state, x1), x2), x3)</div>
 </div><!-- fragment --><p> The analogous sequence generated with <code>scanl</code> will be </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_sequence.html#adfb039a3d46931ef17fef56c77d8256c">scanl</a>([x1, x2, x3], state, f) == [</div>
 <div class="line">    state,</div>
 <div class="line">    f(state, x1),</div>
@@ -846,8 +842,8 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
-<p>Similar to <code>foldr</code>, but returns a sequence of reduced values from the right. </p>
-<p><code>scanr</code> folds a sequence from the right, like <code>foldr</code>, but it builds up a sequence of the intermediary results computed along the way and returns that instead. For example, consider this right fold on a short sequence: </p><div class="fragment"><div class="line">foldr([x1, x2, x3], state, f) == f(x1, f(x2, f(x3, state)))</div>
+<p>Similar to <code>fold.right</code>, but returns a sequence of reduced values from the right. </p>
+<p><code>scanr</code> folds a sequence from the right, like <code>fold.right</code>, but it builds up a sequence of the intermediary results computed along the way and returns that instead. For example, consider this right fold on a short sequence: </p><div class="fragment"><div class="line">fold.right([x1, x2, x3], state, f) == f(x1, f(x2, f(x3, state)))</div>
 </div><!-- fragment --><p> The analogous sequence generated with <code>scanr</code> will be </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_sequence.html#abb725e66aedc0c19c38b38a00302abf4">scanr</a>([x1, x2, x3], state, f) == [</div>
 <div class="line">    f(x1, f(x2, f(x3, state))),</div>
 <div class="line">          f(x2, f(x3, state)),</div>
@@ -979,7 +975,7 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">    ==</div>
 <div class="line">    make&lt;Tuple&gt;(<span class="charliteral">&#39;2&#39;</span>, 3.3)</div>
 <div class="line">);</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000034">Todo:</a></b></dt><dd>Should this be <code>slice(xs, from, length)</code> instead? </dd></dl>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000033">Todo:</a></b></dt><dd>Should this be <code>slice(xs, from, length)</code> instead? </dd></dl>
 
 </div>
 </div>
@@ -1309,7 +1305,7 @@ template&lt;std::size_t n&gt; </div>
  
 </div>
 </div>
-<a class="anchor" id="a2c8c7ea5db04febb890469a024fcd58b"></a>
+<a class="anchor" id="a08bed7da3a1bc6d0e8d11e5440d879c3"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -1319,7 +1315,7 @@ template&lt;typename S &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto unfoldl</td>
+          <td class="memname">constexpr auto unfold = see documentation</td>
         </tr>
       </table>
   </td>
@@ -1328,15 +1324,22 @@ template&lt;typename S &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; f, <span class="keyword">auto</span>&amp;&amp; <a class="code" href="structboost_1_1hana_1_1_sequence.html#a733fdb2e8686033466beea8323e53a26">init</a>) -&gt; decltype(<span class="keyword">auto</span>) {</div>
-<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
-<div class="line">    }</div>
-</div><!-- fragment -->
-<p>Dual to <code>foldl</code> for sequences. </p>
-<p>While <code>foldl</code> reduces a structure to a summary value, <code>unfoldl</code> builds a sequence from a seed value and a function. In some cases, <code>unfoldl</code> can undo a <code>foldl</code> operation: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_sequence.html#a2c8c7ea5db04febb890469a024fcd58b">unfoldl</a>(g, foldl(xs, z, f))</div>
-</div><!-- fragment --><p>if the following holds </p><div class="fragment"><div class="line">g(f(y, x)) == just(pair(y, x))</div>
+
+<p>Dual operation to <code>fold</code> for sequences. </p>
+<p>While <code>fold</code> reduces a structure to a summary value, <code>unfold</code> builds a sequence from a seed value and a function. As explained in the documentation for <code>fold</code>, there are several different flavors of folds. In particular, there are folds which are left associative and folds which are right associative. Similarly, there are two versions of <code>unfold</code>; one which builds the sequence from the left, and another one which builds the sequence from the right. Those two variants are accessible through <code>unfold&lt;S&gt;.left</code> and <code>unfold&lt;S&gt;.right</code>, respectively. Also note that for convenience, <code>unfold&lt;S&gt;</code> is an alias to <code>unfold&lt;S&gt;.left</code>.</p>
+<h3>Fun fact</h3>
+<p>In some cases, <code>unfold</code> can undo a <code>fold</code> operation: </p><div class="fragment"><div class="line">unfold&lt;S&gt;.left(fold.left(xs, z, f), g) == xs</div>
+<div class="line">unfold&lt;S&gt;.right(fold.right(xs, z, f), g) == xs</div>
+</div><!-- fragment --><p>if the following holds </p><div class="fragment"><div class="line">g(f(x, y)) == just(pair(x, y))</div>
 <div class="line">g(z) == nothing</div>
-</div><!-- fragment --><dl class="tparams"><dt>Template Parameters</dt><dd>
+</div><!-- fragment --><h2>Signature </h2>
+<p>Given a <a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> data type <code>S</code>, an initial value <code>init</code> of data type <code>I</code>, an arbitrary <a class="el" href="structboost_1_1hana_1_1_product.html" title="Represents types that are generic containers of two elements. ">Product</a> <code>P</code> and a function \( f : I \to P(I, T) \), <code>unfold&lt;S&gt;.left</code> has the following signature: </p><p class="formulaDsp">
+\[ \mathrm{unfold}_S.\mathrm{left} : I \times (I \to P(I, T)) \to S(T) \]
+</p>
+<p>Given a function \( f : I \to P(T, I) \) instead, <code>unfold&lt;S&gt;.right</code> has the following signature: </p><p class="formulaDsp">
+\[ \mathrm{unfold}_S.\mathrm{right} : I \times (I \to P(T, I)) \to S(T) \]
+</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">S</td><td>The data type of the sequence to build up.</td></tr>
   </table>
@@ -1344,79 +1347,34 @@ template&lt;typename S &gt; </div>
 </dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">init</td><td>An initial value to build the sequence from.</td></tr>
     <tr><td class="paramname">f</td><td>A function called as <code>f(init)</code>, where <code>init</code> is an initial value, and returning<ol type="1">
 <li><code>nothing</code> if it is done producing the sequence.</li>
-<li><code>just(pair(init, x))</code> if it isn't, where <code>init</code> is the new initial value used in the next call to <code>f</code> and <code>x</code> is an element to be appended to the resulting sequence. Also note that <code>pair</code> may actually be replaced by any <code><a class="el" href="structboost_1_1hana_1_1_product.html" title="Represents types that are generic containers of two elements. ">Product</a></code>.</li>
+<li>otherwise, <code>just(pair(init, x))</code> for <code>unfold.left</code> and <code>just(pair(x, init))</code> for <code>unfold.right</code>, where <code>init</code> is the new initial value used in the next call to <code>f</code> and <code>x</code> is an element to be appended to the resulting sequence. Also note that <code>pair</code> may actually be replaced by any <code><a class="el" href="structboost_1_1hana_1_1_product.html" title="Represents types that are generic containers of two elements. ">Product</a></code>.</li>
 </ol>
 </td></tr>
-    <tr><td class="paramname">init</td><td>An initial value to build the sequence from.</td></tr>
   </table>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> f = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">    <span class="keywordflow">return</span> if_(x == int_&lt;0&gt;, nothing, just(pair(x - int_&lt;1&gt;, x)));</div>
-<div class="line">};</div>
-<div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    unfoldl&lt;Tuple&gt;(f, int_&lt;10&gt;)</div>
+<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
+<div class="line">    unfold&lt;Tuple&gt;.left(int_&lt;10&gt;, [](<span class="keyword">auto</span> x) {</div>
+<div class="line">        <span class="keywordflow">return</span> if_(x == int_&lt;0&gt;,</div>
+<div class="line">            nothing,</div>
+<div class="line">            just(pair(x - int_&lt;1&gt;, x))</div>
+<div class="line">        );</div>
+<div class="line">    })</div>
 <div class="line">    ==</div>
 <div class="line">    tuple_c&lt;int, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10&gt;</div>
 <div class="line">);</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a class="anchor" id="ab8e70b7be1022d132ff5369d7b1b6c2c"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename S &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr auto unfoldr</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">related</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; f, <span class="keyword">auto</span>&amp;&amp; <a class="code" href="structboost_1_1hana_1_1_sequence.html#a733fdb2e8686033466beea8323e53a26">init</a>) -&gt; decltype(<span class="keyword">auto</span>) {</div>
-<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
-<div class="line">    }</div>
-</div><!-- fragment -->
-<p>Dual to <code>foldr</code> for sequences. </p>
-<p>While <code>foldr</code> reduces a structure to a summary value, <code>unfoldr</code> builds a sequence from a seed value and a function. In some cases, <code>unfoldr</code> can undo a <code>foldr</code> operation: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_sequence.html#ab8e70b7be1022d132ff5369d7b1b6c2c">unfoldr</a>(g, foldr(xs, z, f))</div>
-</div><!-- fragment --><p>if the following holds </p><div class="fragment"><div class="line">g(f(x, y)) == just(pair(x, y))</div>
-<div class="line">g(z) == nothing</div>
-</div><!-- fragment --><dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">S</td><td>The data type of the sequence to build up.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">f</td><td>A function called as <code>f(init)</code>, where <code>init</code> is an initial value, and returning<ol type="1">
-<li><code>nothing</code> if it is done producing the sequence.</li>
-<li><code>just(pair(x, init))</code> if it isn't, where <code>init</code> is the new initial value used in a recursive call to <code>f</code> and <code>x</code> is an element prepended to the resulting sequence. Also note that <code>pair</code> may actually be replaced by any <code><a class="el" href="structboost_1_1hana_1_1_product.html" title="Represents types that are generic containers of two elements. ">Product</a></code>.</li>
-</ol>
-</td></tr>
-    <tr><td class="paramname">init</td><td>An initial value to build the list from.</td></tr>
-  </table>
-  </dd>
-</dl>
-<h2>Example </h2>
-<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> f = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">    <span class="keywordflow">return</span> if_(x == int_&lt;0&gt;, nothing, just(pair(x, x - int_&lt;1&gt;)));</div>
-<div class="line">};</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    unfoldr&lt;Tuple&gt;(f, int_&lt;10&gt;)</div>
+<div class="line">    unfold&lt;Tuple&gt;.right(int_&lt;10&gt;, [](<span class="keyword">auto</span> x) {</div>
+<div class="line">        <span class="keywordflow">return</span> if_(x == int_&lt;0&gt;,</div>
+<div class="line">            nothing,</div>
+<div class="line">            just(pair(x, x - int_&lt;1&gt;))</div>
+<div class="line">        );</div>
+<div class="line">    })</div>
 <div class="line">    ==</div>
 <div class="line">    tuple_c&lt;int, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1&gt;</div>
 <div class="line">);</div>
@@ -1515,7 +1473,7 @@ template&lt;typename S &gt; </div>
 <div class="line">                        ...</div>
 <div class="line">                        make&lt;Tuple&gt;(s1[M], ..., sn[M])</div>
 <div class="line">                   ]</div>
-</div><!-- fragment --><p>All of the different zipping variants are tag-dispatched methods that can be overriden. Here is how each variant is tag-dispatched: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_sequence.html#a23b6ac9e78577d70b9108a80e6b1534c">zip</a>.shortest       -&gt;  zip_shortest_impl</div>
+</div><!-- fragment --><p>All of the different zipping variants are tag-dispatched methods that can be overridden. Here is how each variant is tag-dispatched: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_sequence.html#a23b6ac9e78577d70b9108a80e6b1534c">zip</a>.shortest       -&gt;  zip_shortest_impl</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1_sequence.html#a23b6ac9e78577d70b9108a80e6b1534c">zip</a>.shortest.with  -&gt;  zip_shortest_with_impl</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1_sequence.html#a23b6ac9e78577d70b9108a80e6b1534c">zip</a>.unsafe         -&gt;  zip_unsafe_impl</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1_sequence.html#a23b6ac9e78577d70b9108a80e6b1534c">zip</a>.unsafe.with    -&gt;  zip_unsafe_with_impl</div>

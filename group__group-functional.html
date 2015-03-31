@@ -116,6 +116,9 @@ Variables</h2></td></tr>
 <tr class="memitem:ga6acc765a35c4dc85f0deab4785831a3d"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-functional.html#ga6acc765a35c4dc85f0deab4785831a3d">boost::hana::arg</a></td></tr>
 <tr class="memdesc:ga6acc765a35c4dc85f0deab4785831a3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the <code>n</code>th passed argument.  <a href="#ga6acc765a35c4dc85f0deab4785831a3d">More...</a><br /></td></tr>
 <tr class="separator:ga6acc765a35c4dc85f0deab4785831a3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga41ada6b336e9d5bcb101ff0c737acbd0"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">boost::hana::capture</a></td></tr>
+<tr class="memdesc:ga41ada6b336e9d5bcb101ff0c737acbd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a function capturing the given variables.  <a href="#ga41ada6b336e9d5bcb101ff0c737acbd0">More...</a><br /></td></tr>
+<tr class="separator:ga41ada6b336e9d5bcb101ff0c737acbd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga3b16146e53efcdf9ecbb9a7b21f8cd0b"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">boost::hana::compose</a></td></tr>
 <tr class="memdesc:ga3b16146e53efcdf9ecbb9a7b21f8cd0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the composition of two functions or more.  <a href="#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">More...</a><br /></td></tr>
 <tr class="separator:ga3b16146e53efcdf9ecbb9a7b21f8cd0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -171,10 +174,11 @@ Variables</h2></td></tr>
 
 <p><code>#include &lt;<a class="el" href="always_8hpp.html">boost/hana/functional/always.hpp</a>&gt;</code></p>
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; x) {</div>
-<div class="line">        <span class="keywordflow">return</span> [perfect-capture](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; ...y) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">        <span class="keywordflow">return</span> [perfect-<a class="code" href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">capture</a>](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; ...y) -&gt; decltype(<span class="keyword">auto</span>) {</div>
 <div class="line">            <span class="keywordflow">return</span> forwarded(x);</div>
 <div class="line">        };</div>
 <div class="line">    }</div>
+<div class="ttc" id="group__group-functional_html_ga41ada6b336e9d5bcb101ff0c737acbd0"><div class="ttname"><a href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">boost::hana::capture</a></div><div class="ttdeci">constexpr auto capture</div><div class="ttdoc">Create a function capturing the given variables. </div><div class="ttdef"><b>Definition:</b> capture.hpp:35</div></div>
 </div><!-- fragment -->
 <p>Return a constant function returning <code>x</code> regardless of the argument(s) it is invoked with. </p>
 <p>Specifically, <code>always(x)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga835970cb25a0c8dc200f1e5f8943538b">always</a>(x)(y...) == x</div>
@@ -277,6 +281,38 @@ template&lt;std::size_t n&gt; </div>
 
 </div>
 </div>
+<a class="anchor" id="ga41ada6b336e9d5bcb101ff0c737acbd0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto boost::hana::capture</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="capture_8hpp.html">boost/hana/functional/capture.hpp</a>&gt;</code></p>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; ...variables) {</div>
+<div class="line">        <span class="keywordflow">return</span> [perfect-<a class="code" href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">capture</a>](<span class="keyword">auto</span>&amp;&amp; f) {</div>
+<div class="line">            <span class="keywordflow">return</span> [perfect-<a class="code" href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">capture</a>](<span class="keyword">auto</span>&amp;&amp; ...args) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">                <span class="keywordflow">return</span> forwarded(f)(forwarded(variables)..., forwarded(args)...);</div>
+<div class="line">            };</div>
+<div class="line">        };</div>
+<div class="line">    }</div>
+<div class="ttc" id="group__group-functional_html_ga41ada6b336e9d5bcb101ff0c737acbd0"><div class="ttname"><a href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">boost::hana::capture</a></div><div class="ttdeci">constexpr auto capture</div><div class="ttdoc">Create a function capturing the given variables. </div><div class="ttdef"><b>Definition:</b> capture.hpp:35</div></div>
+</div><!-- fragment -->
+<p>Create a function capturing the given variables. </p>
+<p>Given 0 or more variables and a function <code>f</code>, <code>capture</code> returns a function equivalent to <code>f</code> except that the first arguments sent to <code>f</code> are the captured variables. Specifically, <code>capture(vars...)(f)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">capture</a>(vars...)(f)(args...) == f(vars..., args...)</div>
+</div><!-- fragment --><h3>Example</h3>
+<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> sum = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y, <span class="keyword">auto</span> z) {</div>
+<div class="line">    <span class="keywordflow">return</span> x + y + z;</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">capture</a>(1, 2, 3)(sum)() == 6);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">capture</a>(1, 2)(sum)(3) == 6);</div>
+</div><!-- fragment -->
+</div>
+</div>
 <a class="anchor" id="ga3b16146e53efcdf9ecbb9a7b21f8cd0b"></a>
 <div class="memitem">
 <div class="memproto">
@@ -289,7 +325,7 @@ template&lt;std::size_t n&gt; </div>
 
 <p><code>#include &lt;<a class="el" href="compose_8hpp.html">boost/hana/functional/compose.hpp</a>&gt;</code></p>
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; f1, <span class="keyword">auto</span>&amp;&amp; f2, ..., <span class="keyword">auto</span>&amp;&amp; fn) {</div>
-<div class="line">        <span class="keywordflow">return</span> [perfect-capture](<span class="keyword">auto</span>&amp;&amp; x, <span class="keyword">auto</span>&amp;&amp; ...xs) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">        <span class="keywordflow">return</span> [perfect-<a class="code" href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">capture</a>](<span class="keyword">auto</span>&amp;&amp; x, <span class="keyword">auto</span>&amp;&amp; ...xs) -&gt; decltype(<span class="keyword">auto</span>) {</div>
 <div class="line">            <span class="keywordflow">return</span> forwarded(f1)(</div>
 <div class="line">                    forwarded(f2)(</div>
 <div class="line">                     ...</div>
@@ -299,6 +335,7 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">                );</div>
 <div class="line">        }</div>
 <div class="line">    }</div>
+<div class="ttc" id="group__group-functional_html_ga41ada6b336e9d5bcb101ff0c737acbd0"><div class="ttname"><a href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">boost::hana::capture</a></div><div class="ttdeci">constexpr auto capture</div><div class="ttdoc">Create a function capturing the given variables. </div><div class="ttdef"><b>Definition:</b> capture.hpp:35</div></div>
 </div><!-- fragment -->
 <p>Return the composition of two functions or more. </p>
 <p><code>compose</code> is defined inductively. When given more than two functions, <code>compose(f, g, h...)</code> is equivalent to <code>compose(f, compose(g, h...))</code>. When given two functions, <code>compose(f, g)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>(f, g)(x, y...) == f(g(x), y...)</div>
@@ -337,10 +374,10 @@ template&lt;std::size_t n&gt; </div>
 
 <p><code>#include &lt;<a class="el" href="curry_8hpp.html">boost/hana/functional/curry.hpp</a>&gt;</code></p>
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; f) {</div>
-<div class="line">        <span class="keywordflow">return</span> [perfect-capture](<span class="keyword">auto</span>&amp;&amp; x1) {</div>
-<div class="line">            <span class="keywordflow">return</span> [perfect-capture](<span class="keyword">auto</span>&amp;&amp; x2) {</div>
+<div class="line">        <span class="keywordflow">return</span> [perfect-<a class="code" href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">capture</a>](<span class="keyword">auto</span>&amp;&amp; x1) {</div>
+<div class="line">            <span class="keywordflow">return</span> [perfect-<a class="code" href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">capture</a>](<span class="keyword">auto</span>&amp;&amp; x2) {</div>
 <div class="line">                ...</div>
-<div class="line">                    <span class="keywordflow">return</span> [perfect-capture](<span class="keyword">auto</span>&amp;&amp; xn) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">                    <span class="keywordflow">return</span> [perfect-<a class="code" href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">capture</a>](<span class="keyword">auto</span>&amp;&amp; xn) -&gt; decltype(<span class="keyword">auto</span>) {</div>
 <div class="line">                        <span class="keywordflow">return</span> forwarded(f)(</div>
 <div class="line">                            forwarded(x1), forwarded(x2), ..., forwarded(xn)</div>
 <div class="line">                        );</div>
@@ -348,6 +385,7 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">            };</div>
 <div class="line">        };</div>
 <div class="line">    }</div>
+<div class="ttc" id="group__group-functional_html_ga41ada6b336e9d5bcb101ff0c737acbd0"><div class="ttname"><a href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">boost::hana::capture</a></div><div class="ttdeci">constexpr auto capture</div><div class="ttdoc">Create a function capturing the given variables. </div><div class="ttdef"><b>Definition:</b> capture.hpp:35</div></div>
 </div><!-- fragment -->
 <p>Curry a function up to the given number of arguments. </p>
 <p><a href="http://en.wikipedia.org/wiki/Currying">Currying</a> is a technique in which we consider a function taking multiple arguments (or, equivalently, a tuple of arguments), and turn it into a function which takes a single argument and returns a function to handle the remaining arguments. To help visualize, let's denote the type of a function <code>f</code> which takes arguments of types <code>X1, ..., Xn</code> and returns a <code>R</code> as </p><div class="fragment"><div class="line">(X1, ..., Xn) -&gt; R</div>
@@ -386,13 +424,14 @@ template&lt;std::size_t n&gt; </div>
 
 <p><code>#include &lt;<a class="el" href="demux_8hpp.html">boost/hana/functional/demux.hpp</a>&gt;</code></p>
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; f) {</div>
-<div class="line">        <span class="keywordflow">return</span> [perfect-capture](<span class="keyword">auto</span>&amp;&amp; ...g) {</div>
-<div class="line">            <span class="keywordflow">return</span> [perfect-capture](<span class="keyword">auto</span>&amp;&amp; ...x) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">        <span class="keywordflow">return</span> [perfect-<a class="code" href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">capture</a>](<span class="keyword">auto</span>&amp;&amp; ...g) {</div>
+<div class="line">            <span class="keywordflow">return</span> [perfect-<a class="code" href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">capture</a>](<span class="keyword">auto</span>&amp;&amp; ...x) -&gt; decltype(<span class="keyword">auto</span>) {</div>
 <div class="line">                </div>
 <div class="line">                <span class="keywordflow">return</span> forwarded(f)(g(x...)...);</div>
 <div class="line">            };</div>
 <div class="line">        };</div>
 <div class="line">    }</div>
+<div class="ttc" id="group__group-functional_html_ga41ada6b336e9d5bcb101ff0c737acbd0"><div class="ttname"><a href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">boost::hana::capture</a></div><div class="ttdeci">constexpr auto capture</div><div class="ttdoc">Create a function capturing the given variables. </div><div class="ttdef"><b>Definition:</b> capture.hpp:35</div></div>
 </div><!-- fragment -->
 <p>Invoke a function with the results of invoking other functions on its arguments. </p>
 <p>Specifically, <code>demux(f)(g...)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(f)(g...)(x...) == f(g(x...)...)</div>
@@ -432,11 +471,12 @@ template&lt;std::size_t n&gt; </div>
 
 <p><code>#include &lt;<a class="el" href="fix_8hpp.html">boost/hana/functional/fix.hpp</a>&gt;</code></p>
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; f) {</div>
-<div class="line">        <span class="keywordflow">return</span> [perfect-capture](<span class="keyword">auto</span>&amp;&amp; ...x) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">        <span class="keywordflow">return</span> [perfect-<a class="code" href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">capture</a>](<span class="keyword">auto</span>&amp;&amp; ...x) -&gt; decltype(<span class="keyword">auto</span>) {</div>
 <div class="line">            <span class="keywordflow">return</span> forwarded(f)(<a class="code" href="group__group-functional.html#ga1393f40da2e8da6e0c12fce953e56a6c">fix</a>(f), forwarded(x)...);</div>
 <div class="line">        };</div>
 <div class="line">    }</div>
 <div class="ttc" id="group__group-functional_html_ga1393f40da2e8da6e0c12fce953e56a6c"><div class="ttname"><a href="group__group-functional.html#ga1393f40da2e8da6e0c12fce953e56a6c">boost::hana::fix</a></div><div class="ttdeci">constexpr auto fix</div><div class="ttdoc">Return a function computing the fixed point of a function. </div><div class="ttdef"><b>Definition:</b> fix.hpp:52</div></div>
+<div class="ttc" id="group__group-functional_html_ga41ada6b336e9d5bcb101ff0c737acbd0"><div class="ttname"><a href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">boost::hana::capture</a></div><div class="ttdeci">constexpr auto capture</div><div class="ttdoc">Create a function capturing the given variables. </div><div class="ttdef"><b>Definition:</b> capture.hpp:35</div></div>
 </div><!-- fragment -->
 <p>Return a function computing the fixed point of a function. </p>
 <p><code>fix</code> is an implementation of the <a href="http://en.wikipedia.org/wiki/Fixed-point_combinator">Y-combinator</a>, also called the fixed-point combinator. It encodes the idea of recursion, and in fact any recursive function can be written in terms of it.</p>
@@ -471,10 +511,11 @@ template&lt;std::size_t n&gt; </div>
 
 <p><code>#include &lt;<a class="el" href="flip_8hpp.html">boost/hana/functional/flip.hpp</a>&gt;</code></p>
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; f) {</div>
-<div class="line">        <span class="keywordflow">return</span> [perfect-capture](<span class="keyword">auto</span>&amp;&amp; x, <span class="keyword">auto</span>&amp;&amp; y, <span class="keyword">auto</span>&amp;&amp; ...z) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">        <span class="keywordflow">return</span> [perfect-<a class="code" href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">capture</a>](<span class="keyword">auto</span>&amp;&amp; x, <span class="keyword">auto</span>&amp;&amp; y, <span class="keyword">auto</span>&amp;&amp; ...z) -&gt; decltype(<span class="keyword">auto</span>) {</div>
 <div class="line">            <span class="keywordflow">return</span> forwarded(f)(forwarded(y), forwarded(x), forwarded(z)...);</div>
 <div class="line">        };</div>
 <div class="line">    }</div>
+<div class="ttc" id="group__group-functional_html_ga41ada6b336e9d5bcb101ff0c737acbd0"><div class="ttname"><a href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">boost::hana::capture</a></div><div class="ttdeci">constexpr auto capture</div><div class="ttdoc">Create a function capturing the given variables. </div><div class="ttdef"><b>Definition:</b> capture.hpp:35</div></div>
 </div><!-- fragment -->
 <p>Invoke a function with its two first arguments reversed. </p>
 <p>Specifically, <code>flip(f)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga004f884cdbb85c2efe3383c1db450094">flip</a>(f)(x, y, z...) == f(y, x, z...)</div>
@@ -584,10 +625,11 @@ template&lt;std::size_t n&gt; </div>
 
 <p><code>#include &lt;<a class="el" href="iterate_8hpp.html">boost/hana/functional/iterate.hpp</a>&gt;</code></p>
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; f) {</div>
-<div class="line">        <span class="keywordflow">return</span> [perfect-capture](<span class="keyword">auto</span>&amp;&amp; x) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">        <span class="keywordflow">return</span> [perfect-<a class="code" href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">capture</a>](<span class="keyword">auto</span>&amp;&amp; x) -&gt; decltype(<span class="keyword">auto</span>) {</div>
 <div class="line">            <span class="keywordflow">return</span> f(f( ... f(forwarded(x))));</div>
 <div class="line">        };</div>
 <div class="line">    }</div>
+<div class="ttc" id="group__group-functional_html_ga41ada6b336e9d5bcb101ff0c737acbd0"><div class="ttname"><a href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">boost::hana::capture</a></div><div class="ttdeci">constexpr auto capture</div><div class="ttdoc">Create a function capturing the given variables. </div><div class="ttdef"><b>Definition:</b> capture.hpp:35</div></div>
 </div><!-- fragment -->
 <p>Applies another function <code>n</code> times to its argument. </p>
 <p>Given a function <code>f</code> and an argument <code>x</code>, <code>iterate&lt;n&gt;(f, x)</code> returns the result of applying <code>f</code> <code>n</code> times to its argument. In other words, </p><div class="fragment"><div class="line">iterate&lt;n&gt;(f, x) == f(f( ... f(x)))</div>
@@ -631,10 +673,11 @@ template&lt;std::size_t n&gt; </div>
 
 <p><code>#include &lt;<a class="el" href="lockstep_8hpp.html">boost/hana/functional/lockstep.hpp</a>&gt;</code></p>
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; f, <span class="keyword">auto</span>&amp;&amp; ...g) {</div>
-<div class="line">        <span class="keywordflow">return</span> [perfect-capture](<span class="keyword">auto</span>&amp;&amp; ...x) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">        <span class="keywordflow">return</span> [perfect-<a class="code" href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">capture</a>](<span class="keyword">auto</span>&amp;&amp; ...x) -&gt; decltype(<span class="keyword">auto</span>) {</div>
 <div class="line">            <span class="keywordflow">return</span> forwarded(f)(forwarded(g)(forwarded(x))...);</div>
 <div class="line">        };</div>
 <div class="line">    }</div>
+<div class="ttc" id="group__group-functional_html_ga41ada6b336e9d5bcb101ff0c737acbd0"><div class="ttname"><a href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">boost::hana::capture</a></div><div class="ttdeci">constexpr auto capture</div><div class="ttdoc">Create a function capturing the given variables. </div><div class="ttdef"><b>Definition:</b> capture.hpp:35</div></div>
 </div><!-- fragment -->
 <p>Invoke a function with the result of invoking other functions on its arguments, in lockstep. </p>
 <p>Specifically, <code>lockstep(f)(g1, ..., gN)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#gafca60c09e1f7a32a2b52baaf6515c279">lockstep</a>(f)(g1, ..., gN)(x1, ..., xN) == f(g1(x1), ..., gN(xN))</div>
@@ -669,10 +712,11 @@ template&lt;std::size_t n&gt; </div>
 
 <p><code>#include &lt;<a class="el" href="on_8hpp.html">boost/hana/functional/on.hpp</a>&gt;</code></p>
 <b>Initial value:</b><div class="fragment"><div class="line">= <a class="code" href="group__group-functional.html#ga7bdafba6dc801f1d2d83731ad9714557">infix</a>([](<span class="keyword">auto</span>&amp;&amp; f, <span class="keyword">auto</span>&amp;&amp; g) {</div>
-<div class="line">        <span class="keywordflow">return</span> [perfect-capture](<span class="keyword">auto</span>&amp;&amp; ...x) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">        <span class="keywordflow">return</span> [perfect-<a class="code" href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">capture</a>](<span class="keyword">auto</span>&amp;&amp; ...x) -&gt; decltype(<span class="keyword">auto</span>) {</div>
 <div class="line">            <span class="keywordflow">return</span> forwarded(f)(g(forwarded(x))...);</div>
 <div class="line">        };</div>
 <div class="line">    })</div>
+<div class="ttc" id="group__group-functional_html_ga41ada6b336e9d5bcb101ff0c737acbd0"><div class="ttname"><a href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">boost::hana::capture</a></div><div class="ttdeci">constexpr auto capture</div><div class="ttdoc">Create a function capturing the given variables. </div><div class="ttdef"><b>Definition:</b> capture.hpp:35</div></div>
 <div class="ttc" id="group__group-functional_html_ga7bdafba6dc801f1d2d83731ad9714557"><div class="ttname"><a href="group__group-functional.html#ga7bdafba6dc801f1d2d83731ad9714557">boost::hana::infix</a></div><div class="ttdeci">constexpr auto infix</div><div class="ttdoc">Return an equivalent function that can also be applied in infix notation. </div><div class="ttdef"><b>Definition:</b> infix.hpp:79</div></div>
 </div><!-- fragment -->
 <p>Invoke a function with the result of invoking another function on each argument. </p>
@@ -728,10 +772,11 @@ template&lt;std::size_t n&gt; </div>
 
 <p><code>#include &lt;<a class="el" href="overload_8hpp.html">boost/hana/functional/overload.hpp</a>&gt;</code></p>
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; f1, <span class="keyword">auto</span>&amp;&amp; f2, ..., <span class="keyword">auto</span>&amp;&amp; fn) {</div>
-<div class="line">        <span class="keywordflow">return</span> [perfect-capture](<span class="keyword">auto</span>&amp;&amp; ...x) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">        <span class="keywordflow">return</span> [perfect-<a class="code" href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">capture</a>](<span class="keyword">auto</span>&amp;&amp; ...x) -&gt; decltype(<span class="keyword">auto</span>) {</div>
 <div class="line">            <span class="keywordflow">return</span> forwarded(fk)(forwarded(x)...);</div>
 <div class="line">        };</div>
 <div class="line">    }</div>
+<div class="ttc" id="group__group-functional_html_ga41ada6b336e9d5bcb101ff0c737acbd0"><div class="ttname"><a href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">boost::hana::capture</a></div><div class="ttdeci">constexpr auto capture</div><div class="ttdoc">Create a function capturing the given variables. </div><div class="ttdef"><b>Definition:</b> capture.hpp:35</div></div>
 </div><!-- fragment -->
 <p>Pick one of several functions to call based on overload resolution. </p>
 <p>Specifically, <code>overload(f1, f2, ..., fn)</code> is a function object such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga83e71bae315e299f9f5f9de77b012139">overload</a>(f1, f2, ..., fn)(x...) == fk(x...)</div>
@@ -779,10 +824,11 @@ template&lt;std::size_t n&gt; </div>
 
 <p><code>#include &lt;<a class="el" href="partial_8hpp.html">boost/hana/functional/partial.hpp</a>&gt;</code></p>
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; f, <span class="keyword">auto</span>&amp;&amp; ...x) {</div>
-<div class="line">        <span class="keywordflow">return</span> [perfect-capture](<span class="keyword">auto</span>&amp;&amp; ...y) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">        <span class="keywordflow">return</span> [perfect-<a class="code" href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">capture</a>](<span class="keyword">auto</span>&amp;&amp; ...y) -&gt; decltype(<span class="keyword">auto</span>) {</div>
 <div class="line">            <span class="keywordflow">return</span> forwarded(f)(forwarded(x)..., forwarded(y)...);</div>
 <div class="line">        };</div>
 <div class="line">    }</div>
+<div class="ttc" id="group__group-functional_html_ga41ada6b336e9d5bcb101ff0c737acbd0"><div class="ttname"><a href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">boost::hana::capture</a></div><div class="ttdeci">constexpr auto capture</div><div class="ttdoc">Create a function capturing the given variables. </div><div class="ttdef"><b>Definition:</b> capture.hpp:35</div></div>
 </div><!-- fragment -->
 <p>Partially apply a function to some arguments. </p>
 <p>Specifically, <code>partial(f, x...)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga778b2daa27882e71d28b6f2b38982ddf">partial</a>(f, x...)(y...) == f(x..., y...)</div>

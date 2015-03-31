@@ -119,7 +119,7 @@ Two ranges are equal if and only if they are both empty or they both span the sa
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a></code><br />
 Folding a <code><a class="el" href="structboost_1_1hana_1_1_range.html" title="Compile-time half-open interval of Constants. ">Range</a></code> is equivalent to folding a list of the <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code>s in the interval it spans. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    foldl(range(int_&lt;0&gt;, int_&lt;4&gt;), int_&lt;0&gt;, plus) == int_&lt;6&gt;</div>
+<div class="line">    fold.left(range(int_&lt;0&gt;, int_&lt;4&gt;), int_&lt;0&gt;, plus) == int_&lt;6&gt;</div>
 <div class="line">);</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>

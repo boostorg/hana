@@ -273,7 +273,7 @@ Synopsis of methods</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; f) {</div>
-<div class="line">        <span class="keywordflow">return</span> [perfect-capture](<span class="keyword">auto</span>&amp;&amp; x, <span class="keyword">auto</span>&amp;&amp; y) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">        <span class="keywordflow">return</span> [perfect-<a class="code" href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">capture</a>](<span class="keyword">auto</span>&amp;&amp; x, <span class="keyword">auto</span>&amp;&amp; y) -&gt; decltype(<span class="keyword">auto</span>) {</div>
 <div class="line">            <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>(f(forwarded(x)), f(forwarded(y)));</div>
 <div class="line">        };</div>
 <div class="line">    }</div>

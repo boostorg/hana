@@ -114,7 +114,7 @@ Comparing two MPL vectors is equivalent to comparing them as <code><a class="el"
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a></code><br />
 Folding a MPL vector is equivalent to folding it as a <a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a>. <div class="fragment"><div class="line"><span class="keyword">auto</span> types = mpl::vector&lt;long, float, short, float, long, long double&gt;{};</div>
-<div class="line"><span class="keyword">auto</span> number_of_floats = foldl(types, int_&lt;0&gt;, [](<span class="keyword">auto</span> count, <span class="keyword">auto</span> t) {</div>
+<div class="line"><span class="keyword">auto</span> number_of_floats = fold.left(types, int_&lt;0&gt;, [](<span class="keyword">auto</span> count, <span class="keyword">auto</span> t) {</div>
 <div class="line">    <span class="keywordflow">return</span> if_(trait&lt;std::is_floating_point&gt;(t),</div>
 <div class="line">        count + int_&lt;1&gt;,</div>
 <div class="line">        count</div>

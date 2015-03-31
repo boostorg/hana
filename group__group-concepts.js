@@ -23,13 +23,8 @@ var group__group_concepts =
       [ "pred", "structboost_1_1hana_1_1_enumerable.html#a283eaffe2c556e841a84a2e03d6b95f9", null ]
     ] ],
     [ "Foldable", "structboost_1_1hana_1_1_foldable.html", [
-      [ "foldl", "structboost_1_1hana_1_1_foldable.html#a0a5d375abcde2ceed89662df491a2c43", null ],
-      [ "foldlM", "structboost_1_1hana_1_1_foldable.html#ad8c31306de6967bc6bbb1ef9587975f9", null ],
-      [ "foldr", "structboost_1_1hana_1_1_foldable.html#ab1dcc2a64352a571154c2ebd8fd1b37d", null ],
-      [ "foldrM", "structboost_1_1hana_1_1_foldable.html#ae89d9d0e09f3181c4d90624c426e3d88", null ],
-      [ "foldr1", "structboost_1_1hana_1_1_foldable.html#a03b3683b885c27b5c607fe6f0d2f7356", null ],
-      [ "foldl1", "structboost_1_1hana_1_1_foldable.html#a8ca4972e61b7ad36ff9fcca9e6131da6", null ],
       [ "fold", "structboost_1_1hana_1_1_foldable.html#a4e8e653553829fc2bf88f13ab907def1", null ],
+      [ "monadic_fold", "structboost_1_1hana_1_1_foldable.html#a9d423c33a801e7cf2058faa19423d991", null ],
       [ "reverse_fold", "structboost_1_1hana_1_1_foldable.html#a9240a51cd23ef65186e32d643e82f52e", null ],
       [ "for_each", "structboost_1_1hana_1_1_foldable.html#a80176fbdfbccc09e902263557eb0984d", null ],
       [ "length", "structboost_1_1hana_1_1_foldable.html#a5fb377e43aa7753bb77aa346c67fae0d", null ],
@@ -163,8 +158,7 @@ var group__group_concepts =
       [ "take_c", "structboost_1_1hana_1_1_sequence.html#a63f9ab281c8e979adfd7f6678383c46b", null ],
       [ "take_until", "structboost_1_1hana_1_1_sequence.html#a27aa67fa9ffc3d89b23a6dce018013d4", null ],
       [ "take_while", "structboost_1_1hana_1_1_sequence.html#a86916c5c62a42f01f85450b366ef6eff", null ],
-      [ "unfoldl", "structboost_1_1hana_1_1_sequence.html#a2c8c7ea5db04febb890469a024fcd58b", null ],
-      [ "unfoldr", "structboost_1_1hana_1_1_sequence.html#ab8e70b7be1022d132ff5369d7b1b6c2c", null ],
+      [ "unfold", "structboost_1_1hana_1_1_sequence.html#a08bed7da3a1bc6d0e8d11e5440d879c3", null ],
       [ "unzip", "structboost_1_1hana_1_1_sequence.html#abe5308d966fbf95d317511a706d6d20a", null ],
       [ "zip", "structboost_1_1hana_1_1_sequence.html#a23b6ac9e78577d70b9108a80e6b1534c", null ]
     ] ],

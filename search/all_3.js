@@ -2,6 +2,8 @@ var searchData=
 [
   ['canonical_5fconstant_2ehpp',['canonical_constant.hpp',['../canonical__constant_8hpp.html',1,'']]],
   ['canonicalconstant',['CanonicalConstant',['../structboost_1_1hana_1_1detail_1_1_canonical_constant.html',1,'boost::hana::detail']]],
+  ['capture',['capture',['../group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0',1,'boost::hana']]],
+  ['capture_2ehpp',['capture.hpp',['../capture_8hpp.html',1,'']]],
   ['char_5f',['char_',['../structboost_1_1hana_1_1_integral_constant.html#ae66416a3d6373a69ac5e430a4eb8f478',1,'boost::hana::IntegralConstant']]],
   ['closure',['closure',['../group__group-details.html#ga69e96285beeb552b4cddc9f32336f5a2',1,'boost::hana::detail']]],
   ['closure_2ehpp',['closure.hpp',['../closure_8hpp.html',1,'']]],
@@ -26,8 +28,8 @@ var searchData=
   ['constant',['Constant',['../structboost_1_1hana_1_1_constant.html',1,'boost::hana']]],
   ['constant_2ehpp',['constant.hpp',['../constant_8hpp.html',1,'']]],
   ['constant_2ehpp',['constant.hpp',['../fwd_2constant_8hpp.html',1,'']]],
-  ['convert_2ehpp',['convert.hpp',['../core_2convert_8hpp.html',1,'']]],
   ['convert_2ehpp',['convert.hpp',['../fwd_2core_2convert_8hpp.html',1,'']]],
+  ['convert_2ehpp',['convert.hpp',['../core_2convert_8hpp.html',1,'']]],
   ['core_2ehpp',['core.hpp',['../fwd_2core_8hpp.html',1,'']]],
   ['core_2ehpp',['core.hpp',['../core_8hpp.html',1,'']]],
   ['count',['count',['../structboost_1_1hana_1_1_foldable.html#ae0a55dd7eb4bd4f587f51ffd8c923e53',1,'boost::hana::Foldable']]],

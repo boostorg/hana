@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['capture',['capture',['../group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0',1,'boost::hana']]],
   ['char_5f',['char_',['../structboost_1_1hana_1_1_integral_constant.html#ae66416a3d6373a69ac5e430a4eb8f478',1,'boost::hana::IntegralConstant']]],
   ['comparing',['comparing',['../structboost_1_1hana_1_1_comparable.html#a350ae6cc37fa971f203065bb628a7948',1,'boost::hana::Comparable']]],
   ['compose',['compose',['../group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b',1,'boost::hana']]],

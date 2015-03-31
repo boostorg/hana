@@ -24,5 +24,6 @@ var searchData=
   ['minimum_5fby',['minimum_by',['../structboost_1_1hana_1_1_foldable.html#a11341a0d825e7898572c1d22d1efe8f4',1,'boost::hana::Foldable']]],
   ['minus',['minus',['../structboost_1_1hana_1_1_group.html#a866303b4a7433e5320efc6b961a04238',1,'boost::hana::Group']]],
   ['models',['models',['../group__group-core.html#ga91ecb6ee4fe2f7d156e5026e37df8946',1,'boost::hana']]],
+  ['monadic_5ffold',['monadic_fold',['../structboost_1_1hana_1_1_foldable.html#a9d423c33a801e7cf2058faa19423d991',1,'boost::hana::Foldable']]],
   ['mult',['mult',['../structboost_1_1hana_1_1_ring.html#aca4df2fde91ca9c046282c6ec0f9bc3d',1,'boost::hana::Ring']]]
 ];
