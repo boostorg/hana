@@ -538,22 +538,50 @@ namespace boost { namespace hana {
     constexpr _reverse reverse{};
 #endif
 
-    //! Similar to `fold.left`, but returns a sequence of reduced values from
-    //! the left.
+    //! Fold a Sequence and return a list containing the successive reduction
+    //! states.
     //! @relates Sequence
     //!
-    //! `scanl` folds a sequence from the left, like `fold.left`, but it
-    //! builds up a sequence of the intermediary results computed along the
-    //! way and returns that instead. Specifically, the `i`th element of the
-    //! `scanl([x1, ..., xn], state, f)` sequence is equivalent to
-    //! `fold.left([x1, ..., xi], state, f)`. For example, consider this left
-    //! fold on a short sequence:
+    //! Like `fold`, `scan` reduces a sequence to a single value. However,
+    //! unlike `fold`, it builds up a sequence of the intermediary results
+    //! computed along the way and returns that instead. In the same way as
+    //! `fold` comes with several variants (left/right folds, with/without
+    //! an initial state), `scan` offers the same 4 flavors. This method
+    //! may be used to access all of these variants by using the different
+    //! syntaxes documented below. Here is an overview:
+    //! @code
+    //!     scan.left(xs, state, f) = see below
+    //!     scan.left(xs, f) = see below
+    //!     scan = scan.left
+    //!
+    //!     scan.right(xs, state, f) = see below
+    //!     scan.right(xs, f) = see below
+    //! @endcode
+    //!
+    //! In the above, `xs` is the sequence to be folded, `state` is the
+    //! optional initial accumulation state that can be provided, and
+    //! `f` is a binary operation used to reduce the sequence.
+    //!
+    //! When the sequence is empty, two things may arise. If an initial state
+    //! was provided, a singleton list containing that state is returned.
+    //! Otherwise, if no initial state was provided, an empty list is
+    //! returned. In particular, unlike for `fold`, using `scan` on an
+    //! empty sequence without an initial state is not an error.
+    //!
+    //!
+    //! ## Left scans (`scan.left`)
+    //! `scan.left` is a left associative scan of a sequence. Specifically,
+    //! the `i`th element of `scan.left([x1, ..., xn], state, f)` is
+    //! equivalent to `fold.left([x1, ..., xi], state, f)`, with the
+    //! no-state variant handled analogously. For example, consider this
+    //! left fold on a short sequence:
     //! @code
     //!     fold.left([x1, x2, x3], state, f) == f(f(f(state, x1), x2), x3)
     //! @endcode
-    //! The analogous sequence generated with `scanl` will be
+    //!
+    //! The analogous sequence generated with `scan.left` will be
     //! @code
-    //!     scanl([x1, x2, x3], state, f) == [
+    //!     scan.left([x1, x2, x3], state, f) == [
     //!         state,
     //!         f(state, x1),
     //!         f(f(state, x1), x2),
@@ -561,67 +589,15 @@ namespace boost { namespace hana {
     //!     ]
     //! @endcode
     //!
-    //!
-    //! @param xs
-    //! The sequence to fold from the left.
-    //!
-    //! @param state
-    //! The initial value used for folding. This will always be the first
-    //! element of the resulting sequence.
-    //!
-    //! @param f
-    //! A binary function called as `f(state, x)`, where `state` is the
-    //! result accumulated so far and `x` is an element in the sequence.
-    //!
-    //!
-    //! Example
-    //! -------
-    //! @snippet example/sequence.cpp scanl
-    //!
-    //!
-    //! Benchmarks
-    //! ----------
-    //! @image html benchmark/sequence/scanl.ctime.png
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto scanl = [](auto&& xs, auto&& state, auto&& f) -> decltype(auto) {
-        return tag-dispatched;
-    };
-#else
-    template <typename Xs, typename = void>
-    struct scanl_impl;
-
-    struct _scanl {
-        template <typename Xs, typename State, typename F>
-        constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(_models<Sequence, typename datatype<Xs>::type>{},
-            "hana::scanl(xs, state, f) requires xs to be a Sequence");
-#endif
-            return scanl_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs),
-                static_cast<State&&>(state),
-                static_cast<F&&>(f)
-            );
-        }
-    };
-
-    constexpr _scanl scanl{};
-#endif
-
-    //! Variant of `scanl` that has no starting value argument.
-    //! @relates Sequence
-    //!
-    //! `scanl1` is to `scanl` what `foldl1` is to `foldl`. Like `scanl`,
-    //! `scanl1` folds a sequence from the left and build up a sequence
-    //! of the intermediary results. However, it uses the first element
-    //! of the sequence as an initial state instead of taking it as an
-    //! argument. For example, consider this left fold on a short sequence:
+    //! Similarly, consider this left fold (without an initial state) on
+    //! a short sequence:
     //! @code
-    //!     foldl1([x1, x2, x3, x4], f) == f(f(f(x1, x2), x3), x4)
+    //!     fold.left([x1, x2, x3, x4], f) == f(f(f(x1, x2), x3), x4)
     //! @endcode
-    //! The analogous sequence generated with `scanl1` will be
+    //!
+    //! The analogous sequence generated with `scan.left` will be
     //! @code
-    //!     scanl1([x1, x2, x3, x4], f) == [
+    //!     scan.left([x1, x2, x3, x4], f) == [
     //!         x1,
     //!         f(x1, x2),
     //!         f(f(x1, x2), x3),
@@ -629,67 +605,41 @@ namespace boost { namespace hana {
     //!     ]
     //! @endcode
     //!
-    //! @note
-    //! Unlike `foldl1`, which fails when it is applied to an empty structure,
-    //! `scanl1` can be called on an empty sequence, in which case it will
-    //! simply return an empty sequence.
-    //!
-    //!
     //! @param xs
     //! The sequence to fold from the left.
+    //!
+    //! @param state
+    //! The initial value used for folding.
     //!
     //! @param f
     //! A binary function called as `f(state, x)`, where `state` is the
     //! result accumulated so far and `x` is an element in the sequence.
+    //! If no initial state is provided, `f` is called as `f(x1, x2)`,
+    //! where `x1` and `x2` are both elements of the sequence.
+    //!
+    //! @note
+    //! `scan` is equivalent to `scan.left`, so `scan(xs, f)` and
+    //! `scan(xs, state, f)` are equivalent to `scan.left(xs, f)` and
+    //! `scan.left(xs, state, f)` respectively. This is provided solely
+    //! for convenience.
+    //!
+    //! ### Example
+    //! @snippet example/sequence.cpp scan.left
     //!
     //!
-    //! Example
-    //! -------
-    //! @snippet example/sequence.cpp scanl1
-    //!
-    //!
-    //! Benchmarks
-    //! ----------
-    //! @image html benchmark/sequence/scanl1.ctime.png
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto scanl1 = [](auto&& xs, auto&& f) -> decltype(auto) {
-        return tag-dispatched;
-    };
-#else
-    template <typename Xs, typename = void>
-    struct scanl1_impl;
-
-    struct _scanl1 {
-        template <typename Xs, typename F>
-        constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(_models<Sequence, typename datatype<Xs>::type>{},
-            "hana::scanl1(xs, f) requires xs to be a Sequence");
-#endif
-            return scanl1_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs),
-                static_cast<F&&>(f)
-            );
-        }
-    };
-
-    constexpr _scanl1 scanl1{};
-#endif
-
-    //! Similar to `fold.right`, but returns a sequence of reduced values
-    //! from the right.
-    //! @relates Sequence
-    //!
-    //! `scanr` folds a sequence from the right, like `fold.right`, but it
-    //! builds up a sequence of the intermediary results computed along the
-    //! way and returns that instead. For example, consider this right fold
-    //! on a short sequence:
+    //! ## Right scans (`scan.right`)
+    //! `scan.right` is a right associative scan of a sequence. Specifically,
+    //! the `i`th element of `scan.right([x1, ..., xn], state, f)` is
+    //! equivalent to `fold.right([xi, ..., xn], state, f)`, with the
+    //! no-state variant handled analogously. For example, consider this
+    //! right fold on a short sequence:
     //! @code
     //!     fold.right([x1, x2, x3], state, f) == f(x1, f(x2, f(x3, state)))
     //! @endcode
-    //! The analogous sequence generated with `scanr` will be
+    //!
+    //! The analogous sequence generated with `scan.right` will be
     //! @code
-    //!     scanr([x1, x2, x3], state, f) == [
+    //!     scan.right([x1, x2, x3], state, f) == [
     //!         f(x1, f(x2, f(x3, state))),
     //!               f(x2, f(x3, state)),
     //!                     f(x3, state),
@@ -697,67 +647,15 @@ namespace boost { namespace hana {
     //!     ]
     //! @endcode
     //!
-    //!
-    //! @param xs
-    //! The sequence to fold from the right.
-    //!
-    //! @param state
-    //! The initial value used for folding. This will always be the last
-    //! element of the resulting sequence.
-    //!
-    //! @param f
-    //! A binary function called as `f(x, state)`, where `state` is the
-    //! result accumulated so far and `x` is an element in the sequence.
-    //!
-    //!
-    //! Example
-    //! -------
-    //! @snippet example/sequence.cpp scanr
-    //!
-    //!
-    //! Benchmarks
-    //! ----------
-    //! @image html benchmark/sequence/scanr.ctime.png
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto scanr = [](auto&& xs, auto&& state, auto&& f) -> decltype(auto) {
-        return tag-dispatched;
-    };
-#else
-    template <typename S, typename = void>
-    struct scanr_impl;
-
-    struct _scanr {
-        template <typename Xs, typename State, typename F>
-        constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(_models<Sequence, typename datatype<Xs>::type>{},
-            "hana::scanr(xs, state, f) requires xs to be a Sequence");
-#endif
-            return scanr_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs),
-                static_cast<State&&>(state),
-                static_cast<F&&>(f)
-            );
-        }
-    };
-
-    constexpr _scanr scanr{};
-#endif
-
-    //! Variant of `scanr` that has no starting value argument.
-    //! @relates Sequence
-    //!
-    //! `scanr1` is to `scanr` what `foldr1` is to `foldr`. Like `scanr`,
-    //! `scanr1` folds a sequence from the right and build up a sequence
-    //! of the intermediary results. However, it uses the last element
-    //! of the sequence as an initial state instead of taking it as an
-    //! argument. For example, consider this right fold on a short sequence:
+    //! Similarly, consider this right fold (without an initial state) on
+    //! a short sequence:
     //! @code
-    //!     foldr1([x1, x2, x3, x4], f) == f(x1, f(x2, f(x3, x4)))
+    //!     fold.right([x1, x2, x3, x4], f) == f(x1, f(x2, f(x3, x4)))
     //! @endcode
-    //! The analogous sequence generated with `scanr1` will be
+    //!
+    //! The analogous sequence generated with `scan.left` will be
     //! @code
-    //!     scanr1([x1, x2, x3, x4], f) == [
+    //!     scan.right([x1, x2, x3, x4], f) == [
     //!         f(x1, f(x2, f(x3, x4))),
     //!               f(x2, f(x3, x4)),
     //!                     f(x3, x4),
@@ -765,52 +663,111 @@ namespace boost { namespace hana {
     //!     ]
     //! @endcode
     //!
-    //! @note
-    //! Unlike `foldr1`, which fails when it is applied to an empty structure,
-    //! `scanr1` can be called on an empty sequence, in which case it will
-    //! simply return an empty sequence.
-    //!
-    //!
     //! @param xs
     //! The sequence to fold from the right.
+    //!
+    //! @param state
+    //! The initial value used for folding.
     //!
     //! @param f
     //! A binary function called as `f(x, state)`, where `state` is the
     //! result accumulated so far and `x` is an element in the sequence.
+    //! When no initial state is provided, `f` is called as `f(x1, x2)`,
+    //! where `x1` and `x2` are elements of the sequence.
     //!
-    //!
-    //! Example
-    //! -------
-    //! @snippet example/sequence.cpp scanr1
-    //!
-    //!
-    //! Benchmarks
-    //! ----------
-    //! @image html benchmark/sequence/scanr1.ctime.png
+    //! ### Example
+    //! @snippet example/sequence.cpp scan.right
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto scanr1 = [](auto&& xs, auto&& f) -> decltype(auto) {
-        return tag-dispatched;
-    };
+    constexpr auto scan = see documentation;
 #else
-    template <typename S, typename = void>
-    struct scanr1_impl;
+    template <typename Xs, typename = void>
+    struct scan_left_impl;
 
-    struct _scanr1 {
+    template <typename Xs, typename = void>
+    struct scan_left_nostate_impl;
+
+    template <typename Xs, typename = void>
+    struct scan_right_impl;
+
+    template <typename Xs, typename = void>
+    struct scan_right_nostate_impl;
+
+
+    struct _scan_left {
+        template <typename Xs, typename State, typename F>
+        constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(_models<Sequence, typename datatype<Xs>::type>{},
+            "hana::scan.left(xs, state, f) requires xs to be a Sequence");
+        #endif
+            return scan_left_impl<typename datatype<Xs>::type>::apply(
+                static_cast<Xs&&>(xs),
+                static_cast<State&&>(state),
+                static_cast<F&&>(f)
+            );
+        }
+
         template <typename Xs, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
             static_assert(_models<Sequence, typename datatype<Xs>::type>{},
-            "hana::scanr1(xs, f) requires xs to be a Sequence");
-#endif
-            return scanr1_impl<typename datatype<Xs>::type>::apply(
+            "hana::scan.left(xs, f) requires xs to be a Sequence");
+        #endif
+            return scan_left_nostate_impl<typename datatype<Xs>::type>::apply(
                 static_cast<Xs&&>(xs),
                 static_cast<F&&>(f)
             );
         }
     };
 
-    constexpr _scanr1 scanr1{};
+    struct _scan_right {
+        template <typename Xs, typename State, typename F>
+        constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(_models<Sequence, typename datatype<Xs>::type>{},
+            "hana::scan.right(xs, state, f) requires xs to be a Sequence");
+        #endif
+            return scan_right_impl<typename datatype<Xs>::type>::apply(
+                static_cast<Xs&&>(xs),
+                static_cast<State&&>(state),
+                static_cast<F&&>(f)
+            );
+        }
+
+        template <typename Xs, typename F>
+        constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(_models<Sequence, typename datatype<Xs>::type>{},
+            "hana::scan.right(xs, f) requires xs to be a Sequence");
+        #endif
+            return scan_right_nostate_impl<typename datatype<Xs>::type>::apply(
+                static_cast<Xs&&>(xs),
+                static_cast<F&&>(f)
+            );
+        }
+    };
+
+    struct _scan : _scan_left {
+        static constexpr _scan_left left{};
+        static constexpr _scan_right right{};
+    };
+    constexpr _scan_left _scan::left;
+    constexpr _scan_right _scan::right;
+
+    constexpr _scan scan{};
 #endif
+
+    [[deprecated("use scan.left or scan instead")]]
+    constexpr auto scanl = scan.left;
+
+    [[deprecated("use scan.left or scan instead")]]
+    constexpr auto scanl1 = scan.left;
+
+    [[deprecated("use scan.right instead")]]
+    constexpr auto scanr = scan.right;
+
+    [[deprecated("use scan.right instead")]]
+    constexpr auto scanr1 = scan.right;
 
     //! Extract a subsequence delimited by the given indices.
     //! @relates Sequence

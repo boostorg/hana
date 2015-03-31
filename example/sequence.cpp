@@ -449,77 +449,61 @@ BOOST_HANA_CONSTANT_CHECK(
 
 }{
 
-//! [scanl]
+//! [scan.left]
 auto to_string = [](auto x) {
-    return static_cast<std::ostringstream const&>(std::ostringstream{} << x).str();
+    std::ostringstream ss;
+    ss << x;
+    return ss.str();
 };
 
-auto show = [=](auto x, auto y) {
-    return "(" + to_string(x) + " + " + to_string(y) + ")";
+auto f = [=](std::string s, auto element) {
+    return "f(" + s + ", " + to_string(element) + ")";
 };
 
-BOOST_HANA_RUNTIME_CHECK(scanl(make<Tuple>(2, "3", '4'), 1, show) == make<Tuple>(
+// with initial state
+BOOST_HANA_RUNTIME_CHECK(scan.left(make<Tuple>(2, "3", '4'), 1, f) == make<Tuple>(
     1,
-    "(1 + 2)",
-    "((1 + 2) + 3)",
-    "(((1 + 2) + 3) + 4)"
+    "f(1, 2)",
+    "f(f(1, 2), 3)",
+    "f(f(f(1, 2), 3), 4)"
 ));
-//! [scanl]
+
+// without initial state
+BOOST_HANA_RUNTIME_CHECK(scan.left(make<Tuple>(1, "2", '3'), f) == make<Tuple>(
+    1,
+    "f(1, 2)",
+    "f(f(1, 2), 3)"
+));
+//! [scan.left]
 
 }{
 
-//! [scanl1]
+//! [scan.right]
 auto to_string = [](auto x) {
-    return static_cast<std::ostringstream const&>(std::ostringstream{} << x).str();
+    std::ostringstream ss;
+    ss << x;
+    return ss.str();
 };
 
-auto show = [=](auto x, auto y) {
-    return "(" + to_string(x) + " + " + to_string(y) + ")";
+auto f = [=](auto element, std::string s) {
+    return "f(" + to_string(element) + ", " + s + ")";
 };
 
-BOOST_HANA_RUNTIME_CHECK(scanl1(make<Tuple>(1, "2", '3'), show) == make<Tuple>(
-    1,
-    "(1 + 2)",
-    "((1 + 2) + 3)"
-));
-//! [scanl1]
-
-}{
-
-//! [scanr]
-auto to_string = [](auto x) {
-    return static_cast<std::ostringstream const&>(std::ostringstream{} << x).str();
-};
-
-auto show = [=](auto x, auto y) {
-    return "(" + to_string(x) + " + " + to_string(y) + ")";
-};
-
-BOOST_HANA_RUNTIME_CHECK(scanr(make<Tuple>(1, "2", '3'), 4, show) == make<Tuple>(
-    "(1 + (2 + (3 + 4)))",
-    "(2 + (3 + 4))",
-    "(3 + 4)",
+// with initial state
+BOOST_HANA_RUNTIME_CHECK(scan.right(make<Tuple>(1, "2", '3'), 4, f) == make<Tuple>(
+    "f(1, f(2, f(3, 4)))",
+    "f(2, f(3, 4))",
+    "f(3, 4)",
     4
 ));
-//! [scanr]
 
-}{
-
-//! [scanr1]
-auto to_string = [](auto x) {
-    return static_cast<std::ostringstream const&>(std::ostringstream{} << x).str();
-};
-
-auto show = [=](auto x, auto y) {
-    return "(" + to_string(x) + " + " + to_string(y) + ")";
-};
-
-BOOST_HANA_RUNTIME_CHECK(scanr1(make<Tuple>(1, "2", '3'), show) == make<Tuple>(
-    "(1 + (2 + 3))",
-    "(2 + 3)",
+// without initial state
+BOOST_HANA_RUNTIME_CHECK(scan.right(make<Tuple>(1, "2", '3'), f) == make<Tuple>(
+    "f(1, f(2, 3))",
+    "f(2, 3)",
     '3'
 ));
-//! [scanr1]
+//! [scan.right]
 
 }{
 

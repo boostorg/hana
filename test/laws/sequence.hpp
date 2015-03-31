@@ -870,138 +870,162 @@ namespace boost { namespace hana { namespace test {
             }
 
             //////////////////////////////////////////////////////////////////
-            // scanl
+            // scan.left (with initial state)
             //////////////////////////////////////////////////////////////////
             {
-            _injection<0> f{};
-            auto s = eq<999>{};
+                _injection<0> f{};
+                auto s = eq<999>{};
 
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                scanl(list(), s, f),
-                list(s)
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                scanl(list(eq<0>{}), s, f),
-                list(s, f(s, eq<0>{}))
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                scanl(list(eq<0>{}, eq<1>{}), s, f),
-                list(s, f(s, eq<0>{}), f(f(s, eq<0>{}), eq<1>{}))
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                scanl(list(eq<0>{}, eq<1>{}, eq<2>{}), s, f),
-                list(
-                    s,
-                    f(s, eq<0>{}),
-                    f(f(s, eq<0>{}), eq<1>{}),
-                    f(f(f(s, eq<0>{}), eq<1>{}), eq<2>{})
-                )
-            ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    scan.left(list(), s, undefined{}),
+                    list(s)
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    scan.left(list(eq<0>{}), s, f),
+                    list(s, f(s, eq<0>{}))
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    scan.left(list(eq<0>{}, eq<1>{}), s, f),
+                    list(s, f(s, eq<0>{}), f(f(s, eq<0>{}), eq<1>{}))
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    scan.left(list(eq<0>{}, eq<1>{}, eq<2>{}), s, f),
+                    list(
+                        s,
+                        f(s, eq<0>{}),
+                        f(f(s, eq<0>{}), eq<1>{}),
+                        f(f(f(s, eq<0>{}), eq<1>{}), eq<2>{})
+                    )
+                ));
+
+                // make sure scan is equivalent to scan.left
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    scan(list(), s, undefined{}),
+                    scan.left(list(), s, undefined{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    scan(list(eq<0>{}), s, f),
+                    scan.left(list(eq<0>{}), s, f)
+                ));
             }
 
             //////////////////////////////////////////////////////////////////
-            // scanr
+            // scan.left (without initial state)
             //////////////////////////////////////////////////////////////////
             {
-            _injection<0> f{};
-            auto s = eq<999>{};
+                _injection<0> f{};
 
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                scanr(list(), s, f),
-                list(s)
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                scanr(list(eq<0>{}), s, f),
-                list(
-                    f(eq<0>{}, s),
-                    s
-                )
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                scanr(list(eq<0>{}, eq<1>{}), s, f),
-                list(
-                    f(eq<0>{}, f(eq<1>{}, s)),
-                    f(eq<1>{}, s),
-                    s
-                )
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                scanr(list(eq<0>{}, eq<1>{}, eq<2>{}), s, f),
-                list(
-                    f(eq<0>{}, f(eq<1>{}, f(eq<2>{}, s))),
-                    f(eq<1>{}, f(eq<2>{}, s)),
-                    f(eq<2>{}, s),
-                    s
-                )
-            ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    scan.left(list(), undefined{}),
+                    list()
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    scan.left(list(eq<0>{}), undefined{}),
+                    list(eq<0>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    scan.left(list(eq<0>{}, eq<1>{}), f),
+                    list(eq<0>{}, f(eq<0>{}, eq<1>{}))
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    scan.left(list(eq<0>{}, eq<1>{}, eq<2>{}), f),
+                    list(
+                        eq<0>{},
+                        f(eq<0>{}, eq<1>{}),
+                        f(f(eq<0>{}, eq<1>{}), eq<2>{})
+                    )
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    scan.left(list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}), f),
+                    list(
+                        eq<0>{},
+                        f(eq<0>{}, eq<1>{}),
+                        f(f(eq<0>{}, eq<1>{}), eq<2>{}),
+                        f(f(f(eq<0>{}, eq<1>{}), eq<2>{}), eq<3>{})
+                    )
+                ));
+
+                // make sure scan is equivalent to scan.left
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    scan(list(), undefined{}),
+                    scan.left(list(), undefined{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    scan(list(eq<0>{}), undefined{}),
+                    scan.left(list(eq<0>{}), undefined{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    scan(list(eq<0>{}, eq<1>{}), f),
+                    scan.left(list(eq<0>{}, eq<1>{}), f)
+                ));
             }
 
             //////////////////////////////////////////////////////////////////
-            // scanl1
+            // scan.right (with initial state)
             //////////////////////////////////////////////////////////////////
             {
-            _injection<0> f{};
+                _injection<0> f{};
+                auto s = eq<999>{};
 
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                scanl1(list(), f),
-                list()
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                scanl1(list(eq<0>{}), f),
-                list(eq<0>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                scanl1(list(eq<0>{}, eq<1>{}), f),
-                list(eq<0>{}, f(eq<0>{}, eq<1>{}))
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                scanl1(list(eq<0>{}, eq<1>{}, eq<2>{}), f),
-                list(
-                    eq<0>{},
-                    f(eq<0>{}, eq<1>{}),
-                    f(f(eq<0>{}, eq<1>{}), eq<2>{})
-                )
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                scanl1(list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}), f),
-                list(
-                    eq<0>{},
-                    f(eq<0>{}, eq<1>{}),
-                    f(f(eq<0>{}, eq<1>{}), eq<2>{}),
-                    f(f(f(eq<0>{}, eq<1>{}), eq<2>{}), eq<3>{})
-                )
-            ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    scan.right(list(), s, undefined{}),
+                    list(s)
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    scan.right(list(eq<0>{}), s, f),
+                    list(
+                        f(eq<0>{}, s),
+                        s
+                    )
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    scan.right(list(eq<0>{}, eq<1>{}), s, f),
+                    list(
+                        f(eq<0>{}, f(eq<1>{}, s)),
+                        f(eq<1>{}, s),
+                        s
+                    )
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    scan.right(list(eq<0>{}, eq<1>{}, eq<2>{}), s, f),
+                    list(
+                        f(eq<0>{}, f(eq<1>{}, f(eq<2>{}, s))),
+                        f(eq<1>{}, f(eq<2>{}, s)),
+                        f(eq<2>{}, s),
+                        s
+                    )
+                ));
             }
 
             //////////////////////////////////////////////////////////////////
-            // scanr1
+            // scan.right (without initial state)
             //////////////////////////////////////////////////////////////////
             {
-            _injection<0> f{};
+                _injection<0> f{};
 
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                scanr1(list(), f),
-                list()
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                scanr1(list(eq<0>{}), f),
-                list(eq<0>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                scanr1(list(eq<0>{}, eq<1>{}), f),
-                list(
-                    f(eq<0>{}, eq<1>{}),
-                    eq<1>{}
-                )
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                scanr1(list(eq<0>{}, eq<1>{}, eq<2>{}), f),
-                list(
-                    f(eq<0>{}, f(eq<1>{}, eq<2>{})),
-                    f(eq<1>{}, eq<2>{}),
-                    eq<2>{}
-                )
-            ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    scan.right(list(), undefined{}),
+                    list()
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    scan.right(list(eq<0>{}), undefined{}),
+                    list(eq<0>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    scan.right(list(eq<0>{}, eq<1>{}), f),
+                    list(
+                        f(eq<0>{}, eq<1>{}),
+                        eq<1>{}
+                    )
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    scan.right(list(eq<0>{}, eq<1>{}, eq<2>{}), f),
+                    list(
+                        f(eq<0>{}, f(eq<1>{}, eq<2>{})),
+                        f(eq<1>{}, eq<2>{}),
+                        eq<2>{}
+                    )
+                ));
             }
 
 #elif !defined(BOOST_HANA_TEST_SEQUENCE_PART) || BOOST_HANA_TEST_SEQUENCE_PART == 3

@@ -389,18 +389,20 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // scanl
+    // scan.left (with initial state)
     //////////////////////////////////////////////////////////////////////////
     template <typename S, typename>
-    struct scanl_impl : scanl_impl<S, when<true>> { };
+    struct scan_left_impl : scan_left_impl<S, when<true>> { };
 
     template <typename S, bool condition>
-    struct scanl_impl<S, when<condition>> : default_ {
-        struct scanl_helper {
+    struct scan_left_impl<S, when<condition>> : default_ {
+        struct scan_left_helper {
             template <typename Xs, typename State, typename F>
             constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
                 return hana::prepend(state,
-                    scanl_impl::apply(hana::tail(xs), f(state, hana::head(xs)), f));
+                    scan_left_impl::apply(hana::tail(xs),
+                                          f(state, hana::head(xs)),
+                                          f));
             }
         };
 
@@ -408,38 +410,38 @@ namespace boost { namespace hana {
         static constexpr auto apply(Xs xs, State state, F f) {
             return hana::eval_if(hana::is_empty(xs),
                 hana::lazy(hana::lift<S>(state)),
-                hana::lazy(scanl_helper{})(xs, state, f)
+                hana::lazy(scan_left_helper{})(xs, state, f)
             );
         }
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // scanl1
+    // scan.left (without initial state)
     //////////////////////////////////////////////////////////////////////////
     template <typename S, typename>
-    struct scanl1_impl : scanl1_impl<S, when<true>> { };
+    struct scan_left_nostate_impl : scan_left_nostate_impl<S, when<true>> { };
 
     namespace sequence_detail {
-        struct scanl1_helper {
+        struct scan_left_nostate_helper {
             template <typename Xs, typename F>
             constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
                 //! @todo We need a way to extract the head of an Iterable
                 //! and get its tail at the same time. It would allow us to
                 //! use perfect forwarding here.
-                return hana::scanl(hana::tail(xs), hana::head(xs),
+                return hana::scan.left(hana::tail(xs), hana::head(xs),
                         static_cast<F&&>(f));
             }
         };
     }
 
     template <typename S, bool condition>
-    struct scanl1_impl<S, when<condition>> : default_ {
+    struct scan_left_nostate_impl<S, when<condition>> : default_ {
         template <typename Xs, typename F>
         static constexpr auto apply(Xs&& xs, F&& f) {
             decltype(auto) done = hana::is_empty(xs);
-            return hana::eval_if(detail::std::forward<decltype(done)>(done),
+            return hana::eval_if(static_cast<decltype(done)&&>(done),
                 hana::lazy(empty<S>()),
-                hana::lazy(sequence_detail::scanl1_helper{})(
+                hana::lazy(sequence_detail::scan_left_nostate_helper{})(
                     static_cast<Xs&&>(xs), static_cast<F&&>(f)
                 )
             );
@@ -447,42 +449,44 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // scanr
+    // scan.right (with initial state)
     //////////////////////////////////////////////////////////////////////////
     template <typename S, typename>
-    struct scanr_impl : scanr_impl<S, when<true>> { };
+    struct scan_right_impl : scan_right_impl<S, when<true>> { };
 
     template <typename S, bool condition>
-    struct scanr_impl<S, when<condition>> : default_ {
-        struct scanr_helper {
+    struct scan_right_impl<S, when<condition>> : default_ {
+        struct scan_right_helper {
             template <typename Xs, typename State, typename F>
             constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
-                auto rest = scanr_impl::apply(hana::tail(xs), state, f);
+                auto rest = scan_right_impl::apply(hana::tail(xs), state, f);
                 return hana::prepend(f(hana::head(xs), hana::head(rest)), rest);
             }
         };
 
         template <typename Xs, typename State, typename F>
-        static constexpr auto apply(Xs xs, State state, F f) {
-            return hana::eval_if(hana::is_empty(xs),
+        static constexpr auto apply(Xs&& xs, State state, F&& f) {
+            auto done = hana::is_empty(xs);
+            return hana::eval_if(done,
                 hana::lazy(hana::lift<S>(state)),
-                hana::lazy(scanr_helper{})(xs, state, f)
+                hana::lazy(scan_right_helper{})(static_cast<Xs&&>(xs), state,
+                                                static_cast<F&&>(f))
             );
         }
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // scanr1
+    // scan.right (without initial state)
     //////////////////////////////////////////////////////////////////////////
     template <typename S, typename>
-    struct scanr1_impl : scanr1_impl<S, when<true>> { };
+    struct scan_right_nostate_impl : scan_right_nostate_impl<S, when<true>> { };
 
     template <typename S, bool condition>
-    struct scanr1_impl<S, when<condition>> : default_ {
+    struct scan_right_nostate_impl<S, when<condition>> : default_ {
         struct scanr1_helper2 {
             template <typename Y, typename Ys, typename F>
             constexpr decltype(auto) operator()(Y&& y, Ys&& ys, F&& f) const {
-                auto rest = scanr1_impl::apply(ys, f);
+                auto rest = scan_right_nostate_impl::apply(ys, f);
                 return hana::prepend(f(y, hana::head(rest)), rest);
             }
         };
@@ -494,16 +498,18 @@ namespace boost { namespace hana {
                 auto ys = hana::tail(xs);
                 return hana::eval_if(hana::is_empty(ys),
                     hana::lazy(hana::lift<S>(y)),
-                    hana::lazy(scanr1_helper2{})(y, ys, f)
+                    hana::lazy(scanr1_helper2{})(y, ys, static_cast<F&&>(f))
                 );
             }
         };
 
         template <typename Xs, typename F>
-        static constexpr auto apply(Xs xs, F f) {
-            return hana::eval_if(hana::is_empty(xs),
+        static constexpr auto apply(Xs&& xs, F&& f) {
+            auto done = hana::is_empty(xs);
+            return hana::eval_if(done,
                 hana::lazy(empty<S>()),
-                hana::lazy(scanr1_helper1{})(xs, f)
+                hana::lazy(scanr1_helper1{})(static_cast<Xs&&>(xs),
+                                             static_cast<F&&>(f))
             );
         }
     };

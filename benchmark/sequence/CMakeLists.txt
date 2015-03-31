@@ -11,8 +11,7 @@ endfunction()
 
 foreach(method IN ITEMS filter group_by intersperse
                         make permutations remove_at reverse
-                        scanl scanl1 scanr scanr1 sort
-                        take take_until take_while zip_with)
+                        sort take take_until take_while zip_with)
 
     Benchmark_add_dataset(dataset.sequence.hana_tuple.${method}
         FEATURES COMPILATION_TIME EXECUTION_TIME MEMORY_USAGE
