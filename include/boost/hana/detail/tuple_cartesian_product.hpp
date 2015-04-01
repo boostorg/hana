@@ -101,8 +101,8 @@ namespace boost { namespace hana { namespace detail {
         template <typename ...Tuples>
         static constexpr decltype(auto)
         cartesian_prod_helper_cat2(Tuples&& ...tuples) {
-            constexpr long long lengths[] = {tuple_detail::size<Tuples>{}...};
-            constexpr Size total_length = hana::product(lengths);
+            constexpr Size lengths[] = {tuple_detail::size<Tuples>{}...};
+            constexpr Size total_length = hana::product<Size>(lengths);
             return cartesian_prod_impl_cat2(
                 static_cast<Tuples&&>(tuples)...,
                 detail::generate_index_sequence<total_length,
@@ -117,8 +117,8 @@ namespace boost { namespace hana { namespace detail {
         template <Size ...i, typename ...Tuples>
         static constexpr decltype(auto)
         cartesian_prod_helper(detail::std::index_sequence<i...>, Tuples&& ...tuples) {
-            constexpr long long lengths[] = {tuple_detail::size<Tuples>{}...};
-            constexpr Size total_length = hana::product(lengths);
+            constexpr Size lengths[] = {tuple_detail::size<Tuples>{}...};
+            constexpr Size total_length = hana::product<Size>(lengths);
             return cartesian_prod_impl(
                 static_cast<Tuples&&>(tuples)...,
                 detail::generate_index_sequence<total_length,

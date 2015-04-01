@@ -16,7 +16,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functional/flip.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/models.hpp>
+#include <boost/hana/fwd/integral_constant.hpp>
 #include <boost/hana/fwd/monad.hpp>
+#include <boost/hana/fwd/monoid.hpp>
+#include <boost/hana/fwd/ring.hpp>
 
 
 namespace boost { namespace hana {
@@ -883,10 +886,42 @@ namespace boost { namespace hana {
     //! Compute the sum of the numbers of a structure.
     //! @relates Foldable
     //!
-    //! It must be possible to perform `plus` on any two adjacent elements of
-    //! the structure. The meaning of "adjacent" as used here is that two
-    //! elements of the structure `x` and `y` are adjacent if and only if
-    //! they are adjacent in `to<Tuple>(foldable)`.
+    //! More generally, `sum` will take any foldable structure containing
+    //! objects forming a Monoid and reduce them using the Monoid's binary
+    //! operation. The initial state for folding is the identity of the
+    //! Monoid. It is sometimes necessary to specify the Monoid to use;
+    //! this is possible by using `sum<M>`. If no Monoid is specified,
+    //! the structure will use the Monoid formed by the elements it contains
+    //! (if it knows it), or `IntegralConstant<int>` otherwise. Hence,
+    //! @code
+    //!     sum<M>(xs) = fold.left(xs, zero<M or inferred Monoid>(), plus)
+    //!     sum<> = sum<IntegralConstant<int>>
+    //! @endcode
+    //!
+    //! For numbers, this will just compute the sum of the numbers in the
+    //! `xs` structure.
+    //!
+    //!
+    //! @note
+    //! The elements of the structure are not actually required to be in the
+    //! same Monoid, but it must be possible to perform `plus` on any two
+    //! adjacent elements of the structure, which requires each pair of
+    //! adjacent element to at least have a common Monoid embedding. The
+    //! meaning of "adjacent" as used here is that two elements of the
+    //! structure `x` and `y` are adjacent if and only if they are adjacent
+    //! in the linearization of that structure, as documented by the Iterable
+    //! concept.
+    //!
+    //!
+    //! Why must the Monoid be specified sometimes?
+    //! -------------------------------------------
+    //! This is because sequences like Tuple are not parameterized data
+    //! types (by design). Hence, we do not know what kind of objects are
+    //! in the sequence, and so that must be specified explicitly. Other
+    //! foldable structures like Ranges will ignore the suggested Monoid
+    //! because they know the data type of the objects they contain. This
+    //! inconsistent behavior is a limitation of the current design of data
+    //! types, and work is being done to resolve it.
     //!
     //!
     //! Example
@@ -898,37 +933,66 @@ namespace boost { namespace hana {
     //! ----------
     //! @image html benchmark/foldable/sum.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto sum = [](auto&& foldable) -> decltype(auto) {
-        return tag-dispatched;
-    };
+    constexpr auto sum = see documentation;
 #else
     template <typename Xs, typename = void>
     struct sum_impl;
 
+    template <typename M>
     struct _sum {
+    #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        static_assert(_models<Monoid, M>{},
+        "hana::sum<M> requires M to be a Monoid");
+    #endif
+
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
             static_assert(_models<Foldable, typename datatype<Xs>::type>{},
-            "hana::sum(xs) requires xs to be Foldable");
-#endif
-
-            return sum_impl<typename datatype<Xs>::type>::apply(
+            "hana::sum<M>(xs) requires xs to be Foldable");
+        #endif
+            return sum_impl<typename datatype<Xs>::type>::template apply<M>(
                 static_cast<Xs&&>(xs)
             );
         }
     };
 
-    constexpr _sum sum{};
+    template <typename M = IntegralConstant<int>>
+    constexpr _sum<M> sum{};
 #endif
 
     //! Compute the product of the numbers of a structure.
     //! @relates Foldable
     //!
-    //! It must be possible to perform `mult` on any two adjacent elements of
-    //! the structure. The meaning of "adjacent" as used here is that two
-    //! elements of the structure `x` and `y` are adjacent if and only if
-    //! they are adjacent in `to<Tuple>(foldable)`.
+    //! More generally, `product` will take any foldable structure containing
+    //! objects forming a Ring and reduce them using the Ring's binary
+    //! operation. The initial state for folding is the identity of the
+    //! Ring's operation. It is sometimes necessary to specify the Ring to
+    //! use; this is possible by using `product<R>`. If no Ring is specified,
+    //! the structure will use the Ring formed by the elements it contains
+    //! (if it knows it), or `IntegralConstant<int>` otherwise.
+    //! Hence,
+    //! @code
+    //!     product<R>(xs) = fold.left(xs, one<R or inferred Ring>(), mult)
+    //!     product<> = product<IntegralConstant<int>>
+    //! @endcode
+    //!
+    //! For numbers, this will just compute the product of the numbers in the
+    //! `xs` structure.
+    //!
+    //! @note
+    //! The elements of the structure are not actually required to be in the
+    //! same Ring, but it must be possible to perform `mult` on any two
+    //! adjacent elements of the structure, which requires each pair of
+    //! adjacent element to at least have a common Ring embedding. The
+    //! meaning of "adjacent" as used here is that two elements of the
+    //! structure `x` and `y` are adjacent if and only if they are adjacent
+    //! in the linearization of that structure, as documented by the Iterable
+    //! concept.
+    //!
+    //! @note
+    //! See the documentation for `sum` to understand why the Ring must
+    //! sometimes be specified explicitly.
     //!
     //!
     //! Example
@@ -947,20 +1011,27 @@ namespace boost { namespace hana {
     template <typename Xs, typename = void>
     struct product_impl;
 
+    template <typename R>
     struct _product {
+    #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        static_assert(_models<Ring, R>{},
+        "hana::product<R> requires R to be a Ring");
+    #endif
+
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
             static_assert(_models<Foldable, typename datatype<Xs>::type>{},
-            "hana::product(xs) requires xs to be Foldable");
+            "hana::product<R>(xs) requires xs to be Foldable");
 #endif
-            return product_impl<typename datatype<Xs>::type>::apply(
+            return product_impl<typename datatype<Xs>::type>::template apply<R>(
                 static_cast<Xs&&>(xs)
             );
         }
     };
 
-    constexpr _product product{};
+    template <typename R = IntegralConstant<int>>
+    constexpr _product<R> product{};
 #endif
 
     //! Return the number of elements in the structure for which the

@@ -164,7 +164,7 @@ namespace boost { namespace hana {
                 return -sum_helper(-n, -m);
         }
 
-        template <typename R>
+        template <typename T, typename R>
         static constexpr auto apply(R) {
             using U = typename R::underlying;
             constexpr auto from = R::from;
@@ -189,7 +189,7 @@ namespace boost { namespace hana {
             }
         }
 
-        template <typename R>
+        template <typename T, typename R>
         static constexpr auto apply(R) {
             using U = typename R::underlying;
             constexpr auto p = product_helper(R::from, R::to);

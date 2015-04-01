@@ -11,6 +11,6 @@ int main() {
     constexpr auto tuple = boost::hana::make_tuple(
         <%= (1..input_size).to_a.map{ |n| "#{n}ull" }.join(', ') %>
     );
-    constexpr auto result = boost::hana::product(tuple);
+    constexpr auto result = boost::hana::product<unsigned long long>(tuple);
     (void)result;
 }

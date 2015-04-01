@@ -11,6 +11,6 @@ int main() {
     constexpr auto range = boost::hana::range_c<
         unsigned long long, 1, <%= input_size %>
     >;
-    constexpr auto result = boost::hana::product(range);
+    constexpr auto result = boost::hana::product<>(range);
     (void)result;
 }

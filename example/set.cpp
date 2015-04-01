@@ -56,7 +56,7 @@ BOOST_HANA_CONSTANT_CHECK(find(xs, int_<3>) == nothing);
 constexpr auto xs = set(int_<0>, int_<1>, int_<2>);
 static_assert(minimum(xs) == int_<0>, "");
 static_assert(maximum(xs) == int_<2>, "");
-static_assert(sum(xs) == int_<3>, "");
+static_assert(sum<>(xs) == int_<3>, "");
 
 // folding is not really meaningful since the order of the
 // elements is unspecified.

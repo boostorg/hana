@@ -194,11 +194,15 @@ BOOST_HANA_CONSTANT_CHECK(
 
 //! [product]
 BOOST_HANA_CONSTANT_CHECK(
-    product(range(int_<1>, int_<6>)) == int_<1 * 2 * 3 * 4 * 5>
+    product<>(range(int_<1>, int_<6>)) == int_<1 * 2 * 3 * 4 * 5>
 );
 
 BOOST_HANA_CONSTEXPR_CHECK(
-    product(make<Tuple>(1, int_<3>, long_<-5>, 9)) == 1 * 3 * -5 * 9
+    product<>(make<Tuple>(1, int_<3>, long_<-5>, 9)) == 1 * 3 * -5 * 9
+);
+
+BOOST_HANA_CONSTEXPR_CHECK(
+    product<unsigned long>(make<Tuple>(2ul, 3ul)) == 6ul
 );
 //! [product]
 
@@ -206,11 +210,15 @@ BOOST_HANA_CONSTEXPR_CHECK(
 
 //! [sum]
 BOOST_HANA_CONSTANT_CHECK(
-    sum(range(int_<1>, int_<6>)) == int_<1 + 2 + 3 + 4 + 5>
+    sum<>(range(int_<1>, int_<6>)) == int_<1 + 2 + 3 + 4 + 5>
 );
 
 BOOST_HANA_CONSTEXPR_CHECK(
-    sum(make<Tuple>(1, int_<3>, long_<-5>, 9)) == 1 + 3 - 5 + 9
+    sum<>(make<Tuple>(1, int_<3>, long_<-5>, 9)) == 1 + 3 - 5 + 9
+);
+
+BOOST_HANA_CONSTEXPR_CHECK(
+    sum<unsigned long>(make<Tuple>(1ul, 3ul)) == 4ul
 );
 //! [sum]
 

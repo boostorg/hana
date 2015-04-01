@@ -18,7 +18,7 @@ int main() {
                 <%= input_size.times.map { 'std::rand()' }.join(', ') %>
             );
 
-            result += boost::hana::product(values);
+            result += boost::hana::product<>(values);
         }
     });
 }

@@ -973,40 +973,49 @@ namespace boost { namespace hana { namespace test {
             // product
             //////////////////////////////////////////////////////////////////
             BOOST_HANA_CONSTANT_CHECK(equal(
-                product(list()),
+                product<IntegralConstant<int>>(list()),
                 int_<1>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                product(list(int_<2>)),
+                product<IntegralConstant<int>>(list(int_<2>)),
                 int_<2>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                product(list(int_<2>, int_<3>)),
+                product<IntegralConstant<int>>(list(int_<2>, int_<3>)),
                 int_<2 * 3>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                product(list(int_<2>, int_<3>, int_<4>)),
+                product<IntegralConstant<int>>(list(int_<2>, int_<3>, int_<4>)),
                 int_<2 * 3 * 4>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                product(list(int_<2>, int_<3>, int_<4>, int_<5>)),
+                product<IntegralConstant<int>>(list(int_<2>, int_<3>, int_<4>, int_<5>)),
                 int_<2 * 3 * 4 * 5>
             ));
 
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                product<IntegralConstant<unsigned long>>(list()),
+                ulong<1>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                product<IntegralConstant<unsigned long>>(list(ulong<2>, ulong<3>, ulong<4>)),
+                ulong<2 * 3 * 4>
+            ));
+
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                product(list(2)),
+                product<int>(list(2)),
                 2
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                product(list(2, 3)),
+                product<int>(list(2, 3)),
                 2 * 3
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                product(list(2, 3, 4)),
+                product<int>(list(2, 3, 4)),
                 2 * 3 * 4
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                product(list(2, 3, 4, 5)),
+                product<int>(list(2, 3, 4, 5)),
                 2 * 3 * 4 * 5
             ));
 
@@ -1015,38 +1024,48 @@ namespace boost { namespace hana { namespace test {
             // sum
             //////////////////////////////////////////////////////////////////
             BOOST_HANA_CONSTANT_CHECK(equal(
-                sum(list()),
+                sum<IntegralConstant<int>>(list()),
                 int_<0>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                sum(list(int_<1>)),
+                sum<IntegralConstant<int>>(list(int_<1>)),
                 int_<1>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                sum(list(int_<1>, int_<2>)),
+                sum<IntegralConstant<int>>(list(int_<1>, int_<2>)),
                 int_<1 + 2>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                sum(list(int_<1>, int_<2>, int_<3>)),
+                sum<IntegralConstant<int>>(list(int_<1>, int_<2>, int_<3>)),
                 int_<1 + 2 + 3>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                sum(list(int_<1>, int_<2>, int_<3>, int_<4>)),
+                sum<IntegralConstant<int>>(list(int_<1>, int_<2>, int_<3>, int_<4>)),
                 int_<1 + 2 + 3 + 4>
             ));
 
 
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                sum<IntegralConstant<unsigned long>>(list()),
+                ulong<0>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                sum<IntegralConstant<unsigned long>>(list(ulong<1>, ulong<2>, ulong<3>)),
+                ulong<1 + 2 + 3>
+            ));
+
+
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                sum(list(1)), 1
+                sum<int>(list(1)), 1
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                sum(list(1, 2)), 1 + 2
+                sum<int>(list(1, 2)), 1 + 2
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                sum(list(1, 2, 3)), 1 + 2 + 3
+                sum<int>(list(1, 2, 3)), 1 + 2 + 3
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                sum(list(1, 2, 3, 4)), 1 + 2 + 3 + 4
+                sum<int>(list(1, 2, 3, 4)), 1 + 2 + 3 + 4
             ));
 
 

@@ -12,6 +12,8 @@ int main() {
     constexpr auto tuple = boost::hana::make_tuple(<%=
         (1..input_size).to_a.map{ |n| "boost::hana::ullong<#{n}>" }.join(', ')
     %>);
-    constexpr auto result = boost::hana::product(tuple);
+    constexpr auto result = boost::hana::product<
+        IntegralConstant<unsigned long long>
+    >(tuple);
     (void)result;
 }

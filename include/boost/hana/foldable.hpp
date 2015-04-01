@@ -545,9 +545,8 @@ namespace boost { namespace hana {
 
     template <typename T, bool condition>
     struct sum_impl<T, when<condition>> : default_ {
-        template <typename Xs>
+        template <typename M, typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
-            using M = IntegralConstant<int>;
             return hana::fold.left(static_cast<Xs&&>(xs), zero<M>(), plus);
         }
     };
@@ -560,9 +559,8 @@ namespace boost { namespace hana {
 
     template <typename T, bool condition>
     struct product_impl<T, when<condition>> : default_ {
-        template <typename Xs>
+        template <typename R, typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
-            using R = IntegralConstant<int>;
             return hana::fold.left(static_cast<Xs&&>(xs), one<R>(), mult);
         }
     };

@@ -374,19 +374,15 @@ namespace boost { namespace hana {
             return hana::make<Tuple>(detail::get<outer>(detail::get<inner>(
                                         static_cast<Xs&&>(xs)))...);
         }
-        //! @todo
-        //! Use `Size` instead of `long long` for the `lengths` array.
-        //! The problem is that `hana::sum` does not allow the type of
-        //! the elements to be specified and it uses `int_<0>` as a base
-        //! value, so this won't work with an unsigned type.
+
         #define BOOST_HANA_PP_FLATTEN(REF)                                      \
             template <typename ...Xs>                                           \
             static constexpr decltype(auto)                                     \
             apply(detail::closure_impl<Xs...> REF xs) {                         \
-                constexpr /* Size */ long long lengths[] = {0,                  \
+                constexpr /* Size */ Size lengths[] = {0,                       \
                     tuple_detail::size<typename Xs::get_type>{}...              \
                 };                                                              \
-                constexpr Size total_length = hana::sum(lengths);               \
+                constexpr Size total_length = hana::sum<Size>(lengths);         \
                                                                                 \
                 using Outer = flatten_indices<0,                                \
                     tuple_detail::size<typename Xs::get_type>{}...              \

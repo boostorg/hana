@@ -174,5 +174,5 @@ int main() {
         node(4, forest())
     ));
 
-    BOOST_HANA_CONSTEXPR_CHECK(boost::hana::sum(tree) == 10);
+    BOOST_HANA_CONSTEXPR_CHECK(boost::hana::sum<>(tree) == 10);
 }

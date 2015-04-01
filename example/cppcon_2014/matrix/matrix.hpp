@@ -107,7 +107,7 @@ namespace cppcon {
     namespace detail {
         auto tuple_scalar_product = [](auto&& u, auto&& v) -> decltype(auto) {
             using namespace boost::hana;
-            return sum(zip.with(mult,
+            return sum<>(zip.with(mult,
                 std::forward<decltype(u)>(u),
                 std::forward<decltype(v)>(v)
             ));

@@ -117,114 +117,114 @@ int main() {
         // sum
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                sum(range(int_<-3>, int_<-3>)), int_<0>
+                sum<>(range(int_<-3>, int_<-3>)), int_<0>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                sum(range(int_<-3>, int_<-2>)), int_<-3>
+                sum<>(range(int_<-3>, int_<-2>)), int_<-3>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                sum(range(int_<-3>, int_<-1>)), int_<-3 + -2>
+                sum<>(range(int_<-3>, int_<-1>)), int_<-3 + -2>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                sum(range(int_<-3>, int_<0>)), int_<-3 + -2 + -1>
+                sum<>(range(int_<-3>, int_<0>)), int_<-3 + -2 + -1>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                sum(range(int_<-3>, int_<1>)), int_<-3 + -2 + -1 + 0>
+                sum<>(range(int_<-3>, int_<1>)), int_<-3 + -2 + -1 + 0>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                sum(range(int_<-3>, int_<2>)), int_<-3 + -2 + -1 + 0 + 1>
+                sum<>(range(int_<-3>, int_<2>)), int_<-3 + -2 + -1 + 0 + 1>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                sum(range(int_<-3>, int_<3>)), int_<-3 + -2 + -1 + 0 + 1 + 2>
-            ));
-
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                sum(range(int_<0>, int_<0>)), int_<0>
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                sum(range(int_<0>, int_<1>)), int_<0>
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                sum(range(int_<0>, int_<2>)), int_<0 + 1>
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                sum(range(int_<0>, int_<3>)), int_<0 + 1 + 2>
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                sum(range(int_<0>, int_<4>)), int_<0 + 1 + 2 + 3>
+                sum<>(range(int_<-3>, int_<3>)), int_<-3 + -2 + -1 + 0 + 1 + 2>
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                sum(range(int_<3>, int_<3>)), int_<0>
+                sum<>(range(int_<0>, int_<0>)), int_<0>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                sum(range(int_<3>, int_<4>)), int_<3>
+                sum<>(range(int_<0>, int_<1>)), int_<0>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                sum(range(int_<3>, int_<5>)), int_<3 + 4>
+                sum<>(range(int_<0>, int_<2>)), int_<0 + 1>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                sum(range(int_<3>, int_<6>)), int_<3 + 4 + 5>
+                sum<>(range(int_<0>, int_<3>)), int_<0 + 1 + 2>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                sum(range(int_<3>, int_<7>)), int_<3 + 4 + 5 + 6>
+                sum<>(range(int_<0>, int_<4>)), int_<0 + 1 + 2 + 3>
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                sum<>(range(int_<3>, int_<3>)), int_<0>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                sum<>(range(int_<3>, int_<4>)), int_<3>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                sum<>(range(int_<3>, int_<5>)), int_<3 + 4>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                sum<>(range(int_<3>, int_<6>)), int_<3 + 4 + 5>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                sum<>(range(int_<3>, int_<7>)), int_<3 + 4 + 5 + 6>
             ));
         }
 
         // product
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                product(range(int_<-3>, int_<-3>)), int_<1>
+                product<>(range(int_<-3>, int_<-3>)), int_<1>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                product(range(int_<-3>, int_<-2>)), int_<-3>
+                product<>(range(int_<-3>, int_<-2>)), int_<-3>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                product(range(int_<-3>, int_<-1>)), int_<-3 * -2>
+                product<>(range(int_<-3>, int_<-1>)), int_<-3 * -2>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                product(range(int_<-3>, int_<0>)), int_<-3 * -2 * -1>
+                product<>(range(int_<-3>, int_<0>)), int_<-3 * -2 * -1>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                product(range(int_<-3>, int_<1>)), int_<-3 * -2 * -1 * 0>
+                product<>(range(int_<-3>, int_<1>)), int_<-3 * -2 * -1 * 0>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                product(range(int_<-3>, int_<2>)), int_<-3 * -2 * -1 * 0 * 1>
+                product<>(range(int_<-3>, int_<2>)), int_<-3 * -2 * -1 * 0 * 1>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                product(range(int_<-3>, int_<3>)), int_<-3 * -2 * -1 * 0 * 1 * 2>
-            ));
-
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                product(range(int_<1>, int_<1>)), int_<1>
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                product(range(int_<1>, int_<2>)), int_<1>
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                product(range(int_<1>, int_<3>)), int_<1 * 2>
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                product(range(int_<1>, int_<4>)), int_<1 * 2 * 3>
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                product(range(int_<1>, int_<5>)), int_<1 * 2 * 3 * 4>
+                product<>(range(int_<-3>, int_<3>)), int_<-3 * -2 * -1 * 0 * 1 * 2>
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                product(range(int_<3>, int_<3>)), int_<1>
+                product<>(range(int_<1>, int_<1>)), int_<1>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                product(range(int_<3>, int_<4>)), int_<3>
+                product<>(range(int_<1>, int_<2>)), int_<1>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                product(range(int_<3>, int_<5>)), int_<3 * 4>
+                product<>(range(int_<1>, int_<3>)), int_<1 * 2>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                product(range(int_<3>, int_<6>)), int_<3 * 4 * 5>
+                product<>(range(int_<1>, int_<4>)), int_<1 * 2 * 3>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                product(range(int_<3>, int_<7>)), int_<3 * 4 * 5 * 6>
+                product<>(range(int_<1>, int_<5>)), int_<1 * 2 * 3 * 4>
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                product<>(range(int_<3>, int_<3>)), int_<1>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                product<>(range(int_<3>, int_<4>)), int_<3>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                product<>(range(int_<3>, int_<5>)), int_<3 * 4>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                product<>(range(int_<3>, int_<6>)), int_<3 * 4 * 5>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                product<>(range(int_<3>, int_<7>)), int_<3 * 4 * 5 * 6>
             ));
         }
 
