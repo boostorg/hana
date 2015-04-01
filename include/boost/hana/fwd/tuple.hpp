@@ -81,9 +81,6 @@ namespace boost { namespace hana {
     //! Example
     //! -------
     //! @snippet example/tuple.cpp tuple_t
-    //!
-    //! @todo
-    //! Implement the optimization.
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename ...T>
     constexpr unspecified-type tuple_t{};
@@ -107,9 +104,6 @@ namespace boost { namespace hana {
     //! Example
     //! -------
     //! @snippet example/tuple.cpp tuple_c
-    //!
-    //! @todo
-    //! Implement the optimization.
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename T, T ...v>
     constexpr unspecified-type tuple_c{};
