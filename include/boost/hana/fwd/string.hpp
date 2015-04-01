@@ -26,7 +26,7 @@ namespace boost { namespace hana {
     //! @snippet example/string.cpp comparable
     //!
     //! 2. `Orderable` (operators provided)\n
-    //! The strict weak ordering implemented for `Orderable` is the usual
+    //! The total order implemented for `Orderable` is the usual
     //! lexicographical comparison of strings.
     //! @snippet example/string.cpp orderable
     //!

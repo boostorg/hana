@@ -659,11 +659,11 @@ namespace boost { namespace hana {
 
         template <typename ...T>
         static constexpr decltype(auto) apply(_tuple<T...> const& xs)
-        { return hana::sort_by(less, xs); }
+        { return hana::sort(xs, less); }
 
         template <typename ...T>
         static constexpr decltype(auto) apply(_tuple<T...>&& xs)
-        { return hana::sort_by(less, detail::std::move(xs)); }
+        { return hana::sort(detail::std::move(xs), less); }
 
         template <typename T, T ...v>
         static constexpr auto apply(_tuple_c<T, v...> const& xs) {

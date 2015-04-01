@@ -57,7 +57,7 @@ constexpr _boolean_metafunction_class<F> boolean_metafunction_class{};
 // certainly be made more efficient.
 template <typename Predicate, typename Sequence>
 constexpr decltype(auto) unique_by(Predicate predicate, Sequence sequence) {
-    return hana::transform(hana::group_by(predicate, sequence), hana::head);
+    return hana::transform(hana::group(sequence, predicate), hana::head);
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -390,8 +390,8 @@ struct partition {
 
 template <typename Sequence, typename Pred = mpl::quote2<less>>
 struct sort {
-    using type = decltype(hana::sort_by(
-        boolean_metafunction_class<Pred>, hana::to<hana::Tuple>(Sequence{})
+    using type = decltype(hana::sort(
+        hana::to<hana::Tuple>(Sequence{}), boolean_metafunction_class<Pred>
     ));
 };
 

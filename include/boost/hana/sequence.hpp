@@ -24,6 +24,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/curry.hpp>
+#include <boost/hana/functional/flip.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/functor.hpp>
 #include <boost/hana/iterable.hpp>
@@ -125,10 +126,10 @@ namespace boost { namespace hana {
     } // end namespace sequence_detail
 
     //////////////////////////////////////////////////////////////////////////
-    // group_by
+    // group (with a predicate)
     //////////////////////////////////////////////////////////////////////////
     template <typename S, typename>
-    struct group_by_impl : group_by_impl<S, when<true>> { };
+    struct group_pred_impl : group_pred_impl<S, when<true>> { };
 
     namespace sequence_detail {
         struct group_by_loop {
@@ -138,22 +139,22 @@ namespace boost { namespace hana {
                 decltype(auto) x = hana::head(xs);
                 decltype(auto) tmp = hana::span(static_cast<Xs&&>(xs),
                     hana::partial(static_cast<Pred&&>(pred),
-                                  detail::std::forward<decltype(x)>(x)));
-                decltype(auto) spn = hana::first(detail::std::forward<decltype(tmp)>(tmp));
-                decltype(auto) rest = hana::second(detail::std::forward<decltype(tmp)>(tmp));
+                                  static_cast<decltype(x)&&>(x)));
+                decltype(auto) spn = hana::first(static_cast<decltype(tmp)&&>(tmp));
+                decltype(auto) rest = hana::second(static_cast<decltype(tmp)&&>(tmp));
                 return hana::pair(
                     hana::append(static_cast<Grouped&&>(grouped),
-                                 detail::std::forward<decltype(spn)>(spn)),
-                    detail::std::forward<decltype(rest)>(rest)
+                                 static_cast<decltype(spn)&&>(spn)),
+                    static_cast<decltype(rest)&&>(rest)
                 );
             }
         };
     }
 
     template <typename S, bool condition>
-    struct group_by_impl<S, when<condition>> : default_ {
-        template <typename Pred, typename Xs>
-        static constexpr decltype(auto) apply(Pred&& pred, Xs&& xs) {
+    struct group_pred_impl<S, when<condition>> : default_ {
+        template <typename Xs, typename Pred>
+        static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
             return hana::first(hana::until(hana::compose(is_empty, second),
                 hana::pair(empty<S>(), static_cast<Xs&&>(xs)),
                 hana::fuse(hana::partial(sequence_detail::group_by_loop{},
@@ -163,7 +164,7 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // group
+    // group (without a predicate)
     //////////////////////////////////////////////////////////////////////////
     template <typename S, typename>
     struct group_impl : group_impl<S, when<true>> { };
@@ -172,8 +173,23 @@ namespace boost { namespace hana {
     struct group_impl<S, when<condition>> : default_ {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs)
-        { return hana::group_by(equal, static_cast<Xs&&>(xs)); }
+        { return hana::group(static_cast<Xs&&>(xs), equal); }
     };
+
+    //////////////////////////////////////////////////////////////////////////
+    // group.by
+    //////////////////////////////////////////////////////////////////////////
+    //! @cond
+    template <typename Predicate, typename Xs>
+    constexpr decltype(auto) _group_by::operator()(Predicate&& pred, Xs&& xs) const {
+        return hana::group(static_cast<Xs&&>(xs), static_cast<Predicate&&>(pred));
+    }
+
+    template <typename Predicate>
+    constexpr decltype(auto) _group_by::operator()(Predicate&& pred) const {
+        return hana::partial(hana::flip(group), static_cast<Predicate&&>(pred));
+    }
+    //! @endcond
 
     //////////////////////////////////////////////////////////////////////////
     // init
@@ -543,49 +559,49 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // sort_by
+    // sort (with a predicate)
     //////////////////////////////////////////////////////////////////////////
     template <typename S, typename>
-    struct sort_by_impl : sort_by_impl<S, when<true>> { };
+    struct sort_pred_impl : sort_pred_impl<S, when<true>> { };
 
     template <typename S, bool condition>
-    struct sort_by_impl<S, when<condition>> : default_ {
+    struct sort_pred_impl<S, when<condition>> : default_ {
         struct sort_by_helper2 {
-            template <typename Pred, typename Xs>
-            constexpr decltype(auto) operator()(Pred&& pred, Xs&& xs) const {
+            template <typename Xs, typename Pred>
+            constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
                 auto pivot = hana::head(xs);
                 auto rest = hana::tail(xs);
                 auto parts = hana::partition(rest,
                                     hana::partial(hana::flip(pred), pivot));
                 return hana::concat(
-                    sort_by_impl::apply(pred, hana::first(parts)),
+                    sort_pred_impl::apply(hana::first(parts), pred),
                     hana::prepend(pivot,
-                            sort_by_impl::apply(pred, hana::second(parts)))
+                            sort_pred_impl::apply(hana::second(parts), pred))
                 );
             }
         };
 
         struct sort_by_helper1 {
-            template <typename Pred, typename Xs>
-            constexpr decltype(auto) operator()(Pred&& pred, Xs&& xs) const {
+            template <typename Xs, typename Pred>
+            constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
                 return hana::eval_if(hana::is_empty(hana::tail(xs)),
                     hana::lazy(xs),
-                    hana::lazy(sort_by_helper2{})(pred, xs)
+                    hana::lazy(sort_by_helper2{})(xs, static_cast<Pred&&>(pred))
                 );
             }
         };
 
-        template <typename Pred, typename Xs>
-        static constexpr auto apply(Pred pred, Xs xs) {
+        template <typename Xs, typename Pred>
+        static constexpr auto apply(Xs xs, Pred&& pred) {
             return hana::eval_if(hana::is_empty(xs),
                 hana::lazy(xs),
-                hana::lazy(sort_by_helper1{})(pred, xs)
+                hana::lazy(sort_by_helper1{})(xs, static_cast<Pred&&>(pred))
             );
         }
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // sort
+    // sort (without a predicate)
     //////////////////////////////////////////////////////////////////////////
     template <typename S, typename>
     struct sort_impl : sort_impl<S, when<true>> { };
@@ -594,8 +610,23 @@ namespace boost { namespace hana {
     struct sort_impl<S, when<condition>> : default_ {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs)
-        { return hana::sort_by(less, static_cast<Xs&&>(xs)); }
+        { return hana::sort(static_cast<Xs&&>(xs), less); }
     };
+
+    //////////////////////////////////////////////////////////////////////////
+    // sort.by
+    //////////////////////////////////////////////////////////////////////////
+    //! @cond
+    template <typename Predicate, typename Xs>
+    constexpr decltype(auto) _sort_by::operator()(Predicate&& pred, Xs&& xs) const {
+        return hana::sort(static_cast<Xs&&>(xs), static_cast<Predicate&&>(pred));
+    }
+
+    template <typename Predicate>
+    constexpr decltype(auto) _sort_by::operator()(Predicate&& pred) const {
+        return hana::partial(hana::flip(sort), static_cast<Predicate&&>(pred));
+    }
+    //! @endcond
 
     //////////////////////////////////////////////////////////////////////////
     // span

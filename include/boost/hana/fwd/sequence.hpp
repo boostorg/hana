@@ -161,15 +161,40 @@ namespace boost { namespace hana {
         template <typename S> struct traverse_impl;
     };
 
-    //! Group the elements of a sequence into subgroups of adjacent elements
-    //! that are "equal" with respect to a predicate.
+    //! Group adjacent elements of a sequence that all respect a binary
+    //! predicate, by default equality.
     //! @relates Sequence
     //!
-    //! Specifically, `group_by` takes a sequence and returns a sequence of
-    //! sequences such that the concatenation of the result is equal to the
-    //! argument. Moreover, each subsequence contains only elements for which
-    //! the predicate is satisfied when applied to two adjacent elements.
+    //! Given a Sequence and an optional predicate (by default `equal`),
+    //! `group` returns a sequence of subsequences representing groups of
+    //! adjacent elements that are "equal" with respect to the predicate.
+    //! In other words, the groups are such that the predicate is satisfied
+    //! when it is applied to any two adjacent elements in that group.
+    //! The sequence returned by `group` is such that the concatenation of
+    //! its elements is equal to the original sequence, which is equivalent
+    //! to saying that the order of the elements is not changed.
     //!
+    //! If no predicate is provided, adjacent elements in the sequence must
+    //! all be compile-time `Comparable`.
+    //!
+    //!
+    //! Signature
+    //! ---------
+    //! Given a Sequence `s` of data type `S(T)`, a Logical `Bool` and a
+    //! predicate \f$ pred : T \times T \to Bool \f$, `group` has the
+    //! following signatures. For the variant with a provided predicate,
+    //! \f[
+    //!     \mathrm{group} : S(T) \times (T \times T \to Bool) \to S(S(T))
+    //! \f]
+    //!
+    //! for the variant without a custom predicate, the `T` data type is
+    //! required to be Comparable. The signature is then
+    //! \f[
+    //!     \mathrm{group} : S(T) \to S(S(T))
+    //! \f]
+    //!
+    //! @param xs
+    //! The sequence to split into groups.
     //!
     //! @param predicate
     //! A binary function called as `predicate(x, y)`, where `x` and `y`
@@ -178,79 +203,84 @@ namespace boost { namespace hana {
     //! (subsequence) of the result. The result returned by `predicate` has
     //! to be a `Constant Logical`. Also, `predicate` has to define an
     //! equivalence relation as defined by the `Comparable` concept.
-    //!
-    //! @param xs
-    //! The sequence to split into groups.
+    //! When this predicate is not provided, it defaults to `equal`.
     //!
     //!
-    //! Example
-    //! -------
-    //! @snippet example/sequence.cpp group_by
+    //! Syntactic sugar (`group.by`)
+    //! ----------------------------
+    //! `group` can be called in a third way, which provides a nice syntax
+    //! especially when working with the `comparing` combinator:
+    //! @code
+    //!     group.by(predicate, xs) == group(xs, predicate)
+    //!     group.by(predicate) == group(-, predicate)
+    //! @endcode
+    //!
+    //! where `group(-, predicate)` denotes the partial application of
+    //! `group` to `predicate`.
     //!
     //!
-    //! Benchmarks
-    //! ----------
-    //! @image html benchmark/sequence/group_by.ctime.png
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto group_by = [](auto&& predicate, auto&& xs) -> decltype(auto) {
-        return tag-dispatched;
-    };
-#else
-    template <typename S, typename = void>
-    struct group_by_impl;
-
-    struct _group_by {
-        template <typename Pred, typename Xs>
-        constexpr decltype(auto) operator()(Pred&& pred, Xs&& xs) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(_models<Sequence, typename datatype<Xs>::type>{},
-            "hana::group_by(pred, xs) requires xs to be a Sequence");
-#endif
-            return group_by_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Pred&&>(pred),
-                static_cast<Xs&&>(xs)
-            );
-        }
-    };
-
-    constexpr _group_by group_by{};
-#endif
-
-    //! Group the elements of a sequence into subsequences of equal
-    //! adjacent elements.
-    //! @relates Sequence
+    //! Tag dispatching
+    //! ---------------
+    //! Both the non-predicated version and the predicated versions of `group`
+    //! are tag-dispatched methods, and hence they can be customized
+    //! independently. Here is how the different versions of `group`
+    //! are dispatched:
+    //! @code
+    //!     group(xs) -> group_impl<data type of xs>::apply(xs)
+    //!     group(xs, pred) -> group_pred_impl<data type of xs>::apply(xs, pred)
+    //! @endcode
     //!
-    //! Specifically, `group(xs)` is equivalent to `group_by(equal, xs)`.
-    //! For this method to work, comparing adjacent elements have to return
-    //! a `Constant Logical`.
-    //!
-    //! @param xs
-    //! The sequence to split into groups.
+    //! Also note that `group.by` is not tag-dispatched on its own, since it
+    //! is just syntactic sugar for calling the corresponding `group`.
     //!
     //!
     //! Example
     //! -------
     //! @snippet example/sequence.cpp group
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto group = [](auto&& xs) -> decltype(auto) {
-        return tag-dispatched;
-    };
+    constexpr auto group = see documentation;
 #else
     template <typename S, typename = void>
     struct group_impl;
 
+    template <typename S, typename = void>
+    struct group_pred_impl;
+
+    struct _group_by {
+        template <typename Predicate, typename Xs>
+        constexpr decltype(auto) operator()(Predicate&&, Xs&&) const;
+
+        template <typename Predicate>
+        constexpr decltype(auto) operator()(Predicate&&) const;
+    };
+
     struct _group {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
             static_assert(_models<Sequence, typename datatype<Xs>::type>{},
             "hana::group(xs) requires xs to be a Sequence");
-#endif
+        #endif
             return group_impl<typename datatype<Xs>::type>::apply(
                 static_cast<Xs&&>(xs)
             );
         }
+
+        template <typename Xs, typename Predicate>
+        constexpr decltype(auto) operator()(Xs&& xs, Predicate&& pred) const {
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(_models<Sequence, typename datatype<Xs>::type>{},
+            "hana::group(xs, predicate) requires xs to be a Sequence");
+        #endif
+            return group_pred_impl<typename datatype<Xs>::type>::apply(
+                static_cast<Xs&&>(xs),
+                static_cast<Predicate&&>(pred)
+            );
+        }
+
+        static constexpr _group_by by{};
     };
+    constexpr _group_by _group::by;
 
     constexpr _group group{};
 #endif
@@ -844,96 +874,131 @@ namespace boost { namespace hana {
     constexpr _slice_c<from, to> slice_c{};
 #endif
 
-    //! Sort a sequence based on the given `predicate`.
+    //! Sort a sequence, optionally based on a custom `predicate`.
     //! @relates Sequence
     //!
-    //! Specifically, `sort_by` returns a new sequence containing the same
-    //! elements as the original, except they are ordered in such a way
-    //! that if `x` comes before `y` in the sequence, then either
-    //! `predicate(x, y)` is true, or both `predicate(x, y)` and
-    //! `predicate(y, x)` are false. Also note that the sort is guaranteed
-    //! to be stable. Hence, if `x` comes before `y` in the original sequence
-    //! and both `predicate(x, y)` and `predicate(y, x)` are false, then
-    //! `x` will come before `y` in the resulting sequence.
+    //! Given a Sequence and an optional predicate (by default `less`), `sort`
+    //! returns a new sequence containing the same elements as the original,
+    //! except they are ordered in such a way that if `x` comes before `y` in
+    //! the sequence, then either `predicate(x, y)` is true, or both
+    //! `predicate(x, y)` and `predicate(y, x)` are false.
     //!
+    //! Also note that the sort is guaranteed to be stable. Hence, if `x`
+    //! comes before `y` in the original sequence and both `predicate(x, y)`
+    //! and `predicate(y, x)` are false, then `x` will come before `y` in the
+    //! resulting sequence.
     //!
-    //! @param predicate
-    //! A function called as `predicate(x, y)` for two elements `x` and `y` of
-    //! the sequence, and returning a `Logical` representing whether `x` should
-    //! appear __before__ `y` in the resulting sequence. More specifically,
-    //! `predicate` must define a [strict weak ordering][1] on the elements of
-    //! the sequence. In the current version of the library, also note that
-    //! `predicate` must return a `Constant Logical` when called with any two
-    //! elements of the sequence.
+    //! If no predicate is provided, the elements in the sequence must all be
+    //! compile-time `Orderable`.
+    //!
+    //! Signature
+    //! ---------
+    //! Given a Sequence `s` of data type `S(T)`, a Logical `Bool` and a
+    //! predicate \f$ pred : T \times T \to Bool \f$, `sort` has the following
+    //! signatures. For the variant with a provided predicate,
+    //! \f[
+    //!     \mathrm{sort} : S(T) \times (T \times T \to Bool) \to S(T)
+    //! \f]
+    //!
+    //! for the variant without a custom predicate, the `T` data type is
+    //! required to be Orderable. The signature is then
+    //! \f[
+    //!     \mathrm{sort} : S(T) \to S(T)
+    //! \f]
     //!
     //! @param xs
     //! The sequence to sort.
     //!
+    //! @param predicate
+    //! A function called as `predicate(x, y)` for two elements `x` and `y` of
+    //! the sequence, and returning a `Logical` representing whether `x` is to
+    //! be considered _less_ than `y`, i.e. whether `x` should appear _before_
+    //! `y` in the resulting sequence. More specifically, `predicate` must
+    //! define a [strict weak ordering][1] on the elements of the sequence.
+    //! In the current version of the library, also note that `predicate` must
+    //! return a `Constant Logical` when called with any two elements of the
+    //! sequence. When the predicate is not specified, this defaults to `less`.
     //!
-    //! Example
-    //! -------
-    //! @snippet example/sequence.cpp sort_by
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto sort_by = [](auto&& predicate, auto&& xs) -> decltype(auto) {
-        return tag-dispatched;
-    };
-#else
-    template <typename S, typename = void>
-    struct sort_by_impl;
-
-    struct _sort_by {
-        template <typename Pred, typename Xs>
-        constexpr decltype(auto) operator()(Pred&& pred, Xs&& xs) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(_models<Sequence, typename datatype<Xs>::type>{},
-            "hana::sort_by(pred, xs) requires xs to be a Sequence");
-#endif
-            return sort_by_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Pred&&>(pred),
-                static_cast<Xs&&>(xs)
-            );
-        }
-    };
-
-    constexpr _sort_by sort_by{};
-#endif
-
-    //! Sort a sequence based on the total order induced by the `less` method.
-    //! @relates Sequence
     //!
-    //! The elements in the sequence must all be `Orderable`. Also, in the
-    //! current version of the library, the `less` method must return a
-    //! `Constant Logical` when called with any two elements of the sequence.
+    //! Syntactic sugar (`sort.by`)
+    //! ---------------------------
+    //! `sort` can be called in a third way, which provides a nice syntax
+    //! especially when working with the `ordering` combinator:
+    //! @code
+    //!     sort.by(predicate, xs) == sort(xs, predicate)
+    //!     sort.by(predicate) == sort(-, predicate)
+    //! @endcode
+    //!
+    //! where `sort(-, predicate)` denotes the partial application of
+    //! `sort` to `predicate`.
+    //!
+    //!
+    //! Tag dispatching
+    //! ---------------
+    //! Both the non-predicated version and the predicated versions of `sort`
+    //! are tag-dispatched methods, and hence they can be customized
+    //! independently. One reason for this is that some structures are
+    //! able to provide a much more efficient implementation of `sort`
+    //! when the `less` predicate is used. Here is how the different
+    //! versions of `sort` are dispatched:
+    //! @code
+    //!     sort(xs) -> sort_impl<data type of xs>::apply(xs)
+    //!     sort(xs, pred) -> sort_pred_impl<data type of xs>::apply(xs, pred)
+    //! @endcode
+    //!
+    //! Also note that `sort.by` is not tag-dispatched on its own, since it
+    //! is just syntactic sugar for calling the corresponding `sort`.
     //!
     //!
     //! Example
     //! -------
     //! @snippet example/sequence.cpp sort
     //!
-    //!
-    //! Benchmarks
-    //! ----------
-    //! @image html benchmark/sequence/sort.ctime.png
+    //! [1]: http://en.wikipedia.org/wiki/Strict_weak_ordering
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto sort = [](auto&& xs) -> decltype(auto) {
-        return tag-dispatched;
-    };
+    constexpr auto sort = see documentation;
 #else
     template <typename S, typename = void>
     struct sort_impl;
 
+    template <typename S, typename = void>
+    struct sort_pred_impl;
+
+    struct _sort_by {
+        template <typename Predicate, typename Xs>
+        constexpr decltype(auto) operator()(Predicate&&, Xs&&) const;
+
+        template <typename Predicate>
+        constexpr decltype(auto) operator()(Predicate&&) const;
+    };
+
     struct _sort {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
             static_assert(_models<Sequence, typename datatype<Xs>::type>{},
             "hana::sort(xs) requires xs to be a Sequence");
-#endif
+        #endif
             return sort_impl<typename datatype<Xs>::type>::apply(
                 static_cast<Xs&&>(xs)
             );
         }
+
+        template <typename Xs, typename Predicate>
+        constexpr decltype(auto) operator()(Xs&& xs, Predicate&& pred) const {
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(_models<Sequence, typename datatype<Xs>::type>{},
+            "hana::sort(xs, predicate) requires xs to be a Sequence");
+        #endif
+            return sort_pred_impl<typename datatype<Xs>::type>::apply(
+                static_cast<Xs&&>(xs),
+                static_cast<Predicate&&>(pred)
+            );
+        }
+
+        static constexpr _sort_by by{};
     };
+    constexpr _sort_by _sort::by;
 
     constexpr _sort sort{};
 #endif

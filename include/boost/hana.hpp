@@ -267,8 +267,7 @@ function                                     |  concept   | description
 `fold.{left,right}(sequence[, state], f)`    | Foldable   | Accumulates the elements of a sequence from the left or right, and optionally with a provided initial state.
 `for_each(sequence, f)`                      | Foldable   | Call a function on each element of a sequence. Returns `void`.
 `{length, size}(sequence)`                   | Foldable   | Returns the length of a sequence as an IntegralConstant.
-`{minimum, maximum}_by(predicate, sequence)` | Foldable   | Returns the smallest/greatest element of a sequence w.r.t. a predicate.
-`{minimum, maximum}_by(predicate, sequence)` | Foldable   | Returns the smallest/greatest element of a sequence. The elements must be Orderable.
+`{minimum, maximum}(sequence[, predicate])`  | Foldable   | Returns the smallest/greatest element of a sequence, optionally according to a predicate. The elements must be Orderable if no predicate is provided.
 `count_if(sequence, predicate)`              | Foldable   | Returns the number of elements that satisfy the predicate.
 `count(sequence, value)`                     | Foldable   | Returns the number of elements that compare equal to the given value.
 `unpack(sequence, f)`                        | Foldable   | Calls a function with the contents of a sequence. Equivalent to `f(x1, ..., xN)`.
@@ -289,15 +288,13 @@ function                                     |  concept   | description
 `elem(sequence, value)`                      | Searchable | Returns whether an object is in a sequence.
 `find_if(sequence, predicate)`               | Searchable | Find the first element of a sequence satisfying the predicate and return `just` it, or return `nothing`. See Maybe.
 `find(sequence, value)`                      | Searchable | Find the first element of a sequence which compares equal to some value and return `just` it, or return nothing. See Maybe.
-`group_by(predicate, sequence)`              | Sequence   | %Group the adjacent elements of a sequence which all satisfy (or all do not satisfy) some predicate.
-`group(sequence)`                            | Sequence   | %Group adjacent elements of a sequence that compare equal. The elements must be Comparable.
+`group(sequence[, predicate])`               | Sequence   | %Group adjacent elements of a sequence which all satisfy (or all do not satisfy) some predicate. The predicate defaults to equality, in which case the elements must be Comparable.
 `init(sequence)`                             | Sequence   | Returns all the elements of a sequence, except the last one. Analogous to `pop_back`.
 `partition(sequence, predicate)`             | Sequence   | Partition a sequence into a pair of elements that satisfy some predicate, and elements that do not satisfy it.
 `remove_at(index, sequence)`                 | Sequence   | Remove the element at the given index. The index must be an `integral_constant`.
 `reverse(sequence)`                          | Sequence   | Reverse the order of the elements in a sequence.
 `slice(sequence, from, to)`                  | Sequence   | Returns the elements of a sequence at indices contained in `[from, to)`.
-`sort_by(predicate, sequence)`               | Sequence   | Sort the elements of a sequence according to some predicate. The sort is stable.
-`sort(sequence)`                             | Sequence   | Sort the elements of a sequence, which must be Orderable. The sort is stable.
+`sort(sequence[, predicate])`                | Sequence   | Sort (stably) the elements of a sequence, optionally according to a predicate. The elements must be Orderable if no predicate is provided.
 `take(number, sequence)`                     | Sequence   | Take the first n elements of a sequence. n must be an `integral_constant`.
 `take_{while,until}(sequence, predicate)`    | Sequence   | Take elements of a sequence while/until some predicate is satisfied, and return that.
 `zip(sequence1, ..., sequenceN)`             | Sequence   | Zip `N` sequences into a sequence of tuples.

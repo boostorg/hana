@@ -16,7 +16,7 @@ int main() {
 {
 
 //! [comparing]
-BOOST_HANA_CONSTEXPR_LAMBDA auto grouped = group_by(comparing(length), make<Tuple>(
+constexpr auto grouped = group.by(comparing(length), make<Tuple>(
     make<Tuple>(1, 2, 3),
     make<Tuple>('x', 'y', 'z'),
     range_c<long, 0, 1>,
@@ -25,7 +25,7 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto grouped = group_by(comparing(length), make<Tupl
     make<Tuple>(123.4, nullptr)
 ));
 
-BOOST_HANA_CONSTEXPR_CHECK(grouped == make<Tuple>(
+static_assert(grouped == make<Tuple>(
     make<Tuple>(
         make<Tuple>(1, 2, 3),
         make<Tuple>('x', 'y', 'z')
@@ -38,27 +38,27 @@ BOOST_HANA_CONSTEXPR_CHECK(grouped == make<Tuple>(
         range_c<int, 0, 2>,
         make<Tuple>(123.4, nullptr)
     )
-));
+), "");
 //! [comparing]
 
 }{
 
 //! [equal]
-BOOST_HANA_CONSTEXPR_CHECK(equal(make<Tuple>(1, 2), make<Tuple>(1, 2)));
-BOOST_HANA_CONSTEXPR_CHECK(!equal('x', 'y'));
+static_assert(equal(make<Tuple>(1, 2), make<Tuple>(1, 2)), "");
+static_assert(!equal('x', 'y'), "");
 BOOST_HANA_CONSTANT_CHECK(!equal(make<Tuple>(1, 2), 'y'));
 
-BOOST_HANA_CONSTEXPR_CHECK(any_of(make<Tuple>(1, 2, 3), equal.to(2)));
+static_assert(any_of(make<Tuple>(1, 2, 3), equal.to(2)), "");
 //! [equal]
 
 }{
 
 //! [not_equal]
-BOOST_HANA_CONSTEXPR_CHECK(not_equal(make<Tuple>(1, 2), make<Tuple>(3)));
-BOOST_HANA_CONSTEXPR_CHECK(not_equal('x', 'y'));
+static_assert(not_equal(make<Tuple>(1, 2), make<Tuple>(3)), "");
+static_assert(not_equal('x', 'y'), "");
 BOOST_HANA_CONSTANT_CHECK(not_equal(make<Tuple>(1, 2), 'y'));
 
-BOOST_HANA_CONSTEXPR_CHECK(all_of(make<Tuple>(1, 2, 3), not_equal.to(5)));
+static_assert(all_of(make<Tuple>(1, 2, 3), not_equal.to(5)), "");
 //! [not_equal]
 
 }

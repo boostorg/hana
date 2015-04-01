@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/maybe.hpp>
 #include <boost/hana/pair.hpp>
+#include <boost/hana/range.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
 
@@ -228,30 +229,47 @@ BOOST_HANA_CONSTEXPR_CHECK(reverse(make<Tuple>(1, '2', 3.3)) == make<Tuple>(3.3,
 
 }{
 
-//! [group_by]
-BOOST_HANA_CONSTEXPR_CHECK(
-    group_by(equal ^on^ decltype_,
-        make<Tuple>(1, 2, 3, 'x', 'y', 4.4, 5.5)
-    )
-    == make<Tuple>(
-        make<Tuple>(1, 2, 3),
-        make<Tuple>('x', 'y'),
-        make<Tuple>(4.4, 5.5)
-    )
-);
-//! [group_by]
-
-}{
-
 //! [group]
+// without a predicate
 BOOST_HANA_CONSTANT_CHECK(
     group(make<Tuple>(int_<1>, long_<1>, type<int>, char_<'x'>, char_<'x'>))
-    ==
-    make<Tuple>(
-        make<Tuple>(int_<1>, long_<1>),
-        make<Tuple>(type<int>),
-        make<Tuple>(char_<'x'>, char_<'x'>)
-    )
+        == make<Tuple>(
+            make<Tuple>(int_<1>, long_<1>),
+            make<Tuple>(type<int>),
+            make<Tuple>(char_<'x'>, char_<'x'>)
+        )
+);
+
+// with a predicate
+auto tuples = make<Tuple>(
+    range_c<int, 0, 1>,
+    range_c<int, 0, 2>,
+    range_c<int, 1, 3>,
+    range_c<int, 2, 6>
+);
+BOOST_HANA_CONSTANT_CHECK(
+    group(tuples, comparing(length))
+        == make<Tuple>(
+            make<Tuple>(
+                range_c<int, 0, 1>
+            ),
+            make<Tuple>(
+                range_c<int, 0, 2>,
+                range_c<int, 1, 3>
+            ),
+            make<Tuple>(
+                range_c<int, 2, 6>
+            )
+        )
+);
+
+BOOST_HANA_CONSTEXPR_CHECK(
+    group.by(comparing(decltype_), make<Tuple>(1, 2, 3, 'x', 'y', 4.4, 5.5))
+        == make<Tuple>(
+            make<Tuple>(1, 2, 3),
+            make<Tuple>('x', 'y'),
+            make<Tuple>(4.4, 5.5)
+        )
 );
 //! [group]
 
@@ -363,21 +381,31 @@ BOOST_HANA_CONSTANT_CHECK(
 
 //! [sort]
 using namespace literals;
+
+// without a predicate
 BOOST_HANA_CONSTANT_CHECK(
-    sort(make<Tuple>(1_c, -2_c, 3_c, 0_c)) == make<Tuple>(-2_c, 0_c, 1_c, 3_c)
+    sort(make<Tuple>(1_c, -2_c, 3_c, 0_c)) ==
+        make<Tuple>(-2_c, 0_c, 1_c, 3_c)
+);
+
+// with a predicate
+BOOST_HANA_CONSTANT_CHECK(
+    sort(make<Tuple>(1_c, -2_c, 3_c, 0_c), greater) ==
+        make<Tuple>(3_c, 1_c, 0_c, -2_c)
+);
+
+auto tuples = make<Tuple>(
+    make<Tuple>(2_c, 'x', nullptr),
+    make<Tuple>(1_c, std::string{"foobar"}, int_<4>)
+);
+BOOST_HANA_RUNTIME_CHECK(
+    sort.by(ordering(head), tuples)
+        == make<Tuple>(
+            make<Tuple>(1_c, std::string{"foobar"}, int_<4>),
+            make<Tuple>(2_c, 'x', nullptr)
+        )
 );
 //! [sort]
-
-}{
-
-//! [sort_by]
-using namespace literals;
-BOOST_HANA_CONSTANT_CHECK(
-    sort_by(_>_, make<Tuple>(1_c, -2_c, 3_c, 0_c))
-    ==
-    make<Tuple>(3_c, 1_c, 0_c, -2_c)
-);
-//! [sort_by]
 
 }{
 

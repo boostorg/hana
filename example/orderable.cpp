@@ -70,7 +70,7 @@ BOOST_HANA_CONSTANT_CHECK(min(int_<7>, int_<5>) == int_<5>);
 }{
 
 //! [ordering]
-BOOST_HANA_CONSTEXPR_LAMBDA auto sorted = sort_by(ordering(sizeof_), tuple_t<
+BOOST_HANA_CONSTEXPR_LAMBDA auto sorted = sort.by(ordering(sizeof_), tuple_t<
     char[3], char[1], char[2], char[15]
 >);
 BOOST_HANA_CONSTANT_CHECK(sorted == tuple_t<

@@ -28,6 +28,6 @@ int main() {
     );
 
     boost::hana::benchmark::measure([=] {
-        boost::hana::group_by(decade{}, list);
+        boost::hana::group_by(list, decade{});
     });
 }
