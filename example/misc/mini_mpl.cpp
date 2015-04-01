@@ -276,12 +276,12 @@ struct count_if
 
 template <typename Sequence, typename Pred = mpl::quote2<less>>
 struct min_element
-    : decltype(hana::minimum_by(boolean_metafunction_class<Pred>, Sequence{}))
+    : decltype(hana::minimum(Sequence{}, boolean_metafunction_class<Pred>))
 { };
 
 template <typename Sequence, typename Pred = mpl::quote2<less>>
 struct max_element
-    : decltype(hana::maximum_by(boolean_metafunction_class<Pred>, Sequence{}))
+    : decltype(hana::maximum(Sequence{}, boolean_metafunction_class<Pred>))
 { };
 
 template <typename S1, typename S2, typename Pred = mpl::quote2<std::is_same>>

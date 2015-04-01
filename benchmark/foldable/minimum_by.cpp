@@ -17,6 +17,6 @@ int main() {
     auto pred = [](auto&& x, auto&& y) { return boost::hana::true_; };
 
     boost::hana::benchmark::measure([=] {
-        boost::hana::minimum_by(pred, foldable);
+        boost::hana::minimum(foldable, pred);
     });
 }

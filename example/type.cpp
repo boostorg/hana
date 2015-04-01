@@ -7,7 +7,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/assert.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/ext/std/integral_constant.hpp>
-#include <boost/hana/functional/on.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
@@ -29,7 +28,7 @@ namespace ns2 {
 //! [largest]
 template <typename ...Types>
 constexpr auto largest(Types ...types) {
-    return maximum_by(less ^on^ sizeof_, make<Tuple>(types...));
+    return maximum.by(ordering(sizeof_), make<Tuple>(types...));
 }
 
 template <int size>
@@ -46,7 +45,7 @@ namespace ns22 {
 // Note: tuple_t<T...> is equivalent to make<Tuple>(type<T>...)
 template <typename ...T>
 struct largest
-    : decltype(maximum_by(less ^on^ sizeof_, tuple_t<T...>))
+    : decltype(maximum.by(ordering(sizeof_), tuple_t<T...>))
 { };
 
 template <int size>

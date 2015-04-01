@@ -176,22 +176,6 @@ BOOST_HANA_CONSTANT_CHECK(size(just('x')) == size_t<1>);
 
 }{
 
-//! [maximum]
-BOOST_HANA_CONSTANT_CHECK(
-    maximum(tuple_c<int, -1, 0, 2, -4, 6, 9>) == int_<9>
-);
-//! [maximum]
-//!
-}{
-
-//! [minimum]
-BOOST_HANA_CONSTANT_CHECK(
-    minimum(tuple_c<int, -1, 0, 2, -4, 6, 9>) == int_<-4>
-);
-//! [minimum]
-
-}{
-
 //! [product]
 BOOST_HANA_CONSTANT_CHECK(
     product<>(range(int_<1>, int_<6>)) == int_<1 * 2 * 3 * 4 * 5>
@@ -284,35 +268,53 @@ BOOST_HANA_CONSTANT_CHECK(count(types, type<char>) == size_t<2>);
 
 }{
 
-//! [maximum_by]
-BOOST_HANA_CONSTEXPR_LAMBDA auto size = [](auto xs, auto ys) {
-    return length(xs) < length(ys);
-};
+//! [maximum]
+// without a predicate
+BOOST_HANA_CONSTANT_CHECK(
+    maximum(tuple_c<int, -1, 0, 2, -4, 6, 9>) == int_<9>
+);
+
+// with a predicate
+BOOST_HANA_CONSTANT_CHECK(
+    maximum(tuple_c<int, -1, 0, 2, -4, 6, 9>, [](auto x, auto y) {
+        return x > y;
+    }) == int_<-4>
+);
 
 BOOST_HANA_CONSTEXPR_CHECK(
-    maximum_by(size, make<Tuple>(make<Tuple>(),
-                                 make<Tuple>(1, '2'),
-                                 make<Tuple>(3.3, nullptr, 4)))
-    ==
-    make<Tuple>(3.3, nullptr, 4)
+    maximum.by(ordering(length), make<Tuple>(
+        make<Tuple>(),
+        make<Tuple>(1, '2'),
+        make<Tuple>(3.3, nullptr, 4)
+    ))
+    == make<Tuple>(3.3, nullptr, 4)
 );
-//! [maximum_by]
+//! [maximum]
 
 }{
 
-//! [minimum_by]
-BOOST_HANA_CONSTEXPR_LAMBDA auto size = [](auto xs, auto ys) {
-    return length(xs) < length(ys);
-};
+//! [minimum]
+// without a predicate
+BOOST_HANA_CONSTANT_CHECK(
+    minimum(tuple_c<int, -1, 0, 2, -4, 6, 9>) == int_<-4>
+);
+
+// with a predicate
+BOOST_HANA_CONSTANT_CHECK(
+    minimum(tuple_c<int, -1, 0, 2, -4, 6, 9>, [](auto x, auto y) {
+        return x > y;
+    }) == int_<9>
+);
 
 BOOST_HANA_CONSTANT_CHECK(
-    minimum_by(size, make<Tuple>(make<Tuple>(),
-                                 make<Tuple>(1, '2'),
-                                 make<Tuple>(3.3, nullptr, 4)))
-    ==
-    make<Tuple>()
+    minimum.by(ordering(length), make<Tuple>(
+        make<Tuple>(),
+        make<Tuple>(1, '2'),
+        make<Tuple>(3.3, nullptr, 4)
+    ))
+    == make<Tuple>()
 );
-//! [minimum_by]
+//! [minimum]
 
 }
 

@@ -715,170 +715,243 @@ namespace boost { namespace hana {
     constexpr auto size = length;
 
     //! Return the least element of a non-empty structure with respect to
-    //! a `predicate`.
+    //! a `predicate`, by default `less`.
     //! @relates Foldable
     //!
+    //! Given a non-empty structure and an optional binary predicate
+    //! (`less` by default), `minimum` returns the least element of
+    //! the structure, i.e. an element which is less than or equal to
+    //! every other element in the structure, according to the predicate.
+    //!
+    //! If the structure contains heterogeneous objects, then the predicate
+    //! must return a compile-time `Logical`. If no predicate is provided,
+    //! the elements in the structure must be Orderable, or compile-time
+    //! Orderable if the structure is heterogeneous.
+    //!
+    //!
+    //! Signature
+    //! ---------
+    //! Given a Foldable `xs` of data type `F(T)`, a Logical `Bool` and a
+    //! predicate \f$ pred : T \times T \to Bool \f$, `minimum` has the
+    //! following signatures. For the variant with a provided predicate,
+    //! \f[
+    //!     \mathrm{minimum} : S(T) \times (T \times T \to Bool) \to T
+    //! \f]
+    //!
+    //! for the variant without a custom predicate, the `T` data type is
+    //! required to be Orderable. The signature is then
+    //! \f[
+    //!     \mathrm{minimum} : S(T) \to T
+    //! \f]
+    //!
+    //! @param xs
+    //! The structure to find the least element of.
     //!
     //! @param predicate
     //! A function called as `predicate(x, y)`, where `x` and `y` are elements
     //! of the structure. `predicate` should be a strict weak ordering on the
-    //! elements of the structure and its return value should be a `Logical`.
-    //!
-    //! @param foldable
-    //! The structure to find the least element of.
+    //! elements of the structure and its return value should be a Logical,
+    //! or a compile-time Logical if the structure is heterogeneous.
     //!
     //!
-    //! Example
-    //! -------
-    //! @snippet example/foldable.cpp minimum_by
+    //! Syntactic sugar (`minimum.by`)
+    //! ------------------------------
+    //! `minimum` can be called in a third way, which provides a nice syntax
+    //! especially when working with the `ordering` combinator:
+    //! @code
+    //!     minimum.by(predicate, xs) == minimum(xs, predicate)
+    //!     minimum.by(predicate) == minimum(-, predicate)
+    //! @endcode
+    //!
+    //! where `minimum(-, predicate)` denotes the partial application of
+    //! `minimum` to `predicate`.
     //!
     //!
-    //! Benchmarks
-    //! ----------
-    //! @image html benchmark/foldable/minimum_by.ctime.png
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto minimum_by = [](auto&& predicate, auto&& foldable) -> decltype(auto) {
-        return tag-dispatched;
-    };
-#else
-    template <typename Xs, typename = void>
-    struct minimum_by_impl;
-
-    struct _minimum_by {
-        template <typename Pred, typename Xs>
-        constexpr decltype(auto) operator()(Pred&& pred, Xs&& xs) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(_models<Foldable, typename datatype<Xs>::type>{},
-            "hana::minimum_by(pred, xs) requires xs to be Foldable");
-#endif
-            return minimum_by_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Pred&&>(pred),
-                static_cast<Xs&&>(xs)
-            );
-        }
-    };
-
-    constexpr _minimum_by minimum_by{};
-#endif
-
-    //! Return the least element of a non-empty structure.
-    //! @relates Foldable
+    //! Tag dispatching
+    //! ---------------
+    //! Both the non-predicated version and the predicated versions of
+    //! `minimum` are tag-dispatched methods, and hence they can be
+    //! customized independently. One reason for this is that some
+    //! structures are able to provide a much more efficient implementation
+    //! of `minimum` when the `less` predicate is used. Here is how the
+    //! different versions of `minimum` are dispatched:
+    //! @code
+    //!     minimum(xs) -> minimum_impl<data type of xs>::apply(xs)
+    //!     minimum(xs, pred) -> minimum_pred_impl<data type of xs>::apply(xs, pred)
+    //! @endcode
+    //!
+    //! Also note that `minimum.by` is not tag-dispatched on its own, since it
+    //! is just syntactic sugar for calling the corresponding `minimum`.
     //!
     //!
     //! Example
     //! -------
     //! @snippet example/foldable.cpp minimum
-    //!
-    //!
-    //! Benchmarks
-    //! ----------
-    //! @image html benchmark/foldable/minimum.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto minimum = [](auto&& foldable) -> decltype(auto) {
-        return tag-dispatched;
-    };
+    constexpr auto minimum = see documentation;
 #else
-    template <typename Xs, typename = void>
+    template <typename S, typename = void>
     struct minimum_impl;
+
+    template <typename S, typename = void>
+    struct minimum_pred_impl;
+
+    struct _minimum_by {
+        template <typename Predicate, typename Xs>
+        constexpr decltype(auto) operator()(Predicate&&, Xs&&) const;
+
+        template <typename Predicate>
+        constexpr decltype(auto) operator()(Predicate&&) const;
+    };
 
     struct _minimum {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
             static_assert(_models<Foldable, typename datatype<Xs>::type>{},
             "hana::minimum(xs) requires xs to be Foldable");
-#endif
-
+        #endif
             return minimum_impl<typename datatype<Xs>::type>::apply(
                 static_cast<Xs&&>(xs)
             );
         }
+
+        template <typename Xs, typename Predicate>
+        constexpr decltype(auto) operator()(Xs&& xs, Predicate&& pred) const {
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(_models<Foldable, typename datatype<Xs>::type>{},
+            "hana::minimum(xs, predicate) requires xs to be Foldable");
+        #endif
+            return minimum_pred_impl<typename datatype<Xs>::type>::apply(
+                static_cast<Xs&&>(xs),
+                static_cast<Predicate&&>(pred)
+            );
+        }
+
+        static constexpr _minimum_by by{};
     };
+    constexpr _minimum_by _minimum::by;
 
     constexpr _minimum minimum{};
 #endif
 
     //! Return the greatest element of a non-empty structure with respect to
-    //! a `predicate`.
+    //! a `predicate`, by default `less`.
     //! @relates Foldable
     //!
+    //! Given a non-empty structure and an optional binary predicate
+    //! (`less` by default), `maximum` returns the greatest element of
+    //! the structure, i.e. an element which is greater than or equal to
+    //! every other element in the structure, according to the predicate.
+    //!
+    //! If the structure contains heterogeneous objects, then the predicate
+    //! must return a compile-time `Logical`. If no predicate is provided,
+    //! the elements in the structure must be Orderable, or compile-time
+    //! Orderable if the structure is heterogeneous.
+    //!
+    //!
+    //! Signature
+    //! ---------
+    //! Given a Foldable `xs` of data type `F(T)`, a Logical `Bool` and a
+    //! predicate \f$ pred : T \times T \to Bool \f$, `maximum` has the
+    //! following signatures. For the variant with a provided predicate,
+    //! \f[
+    //!     \mathrm{maximum} : S(T) \times (T \times T \to Bool) \to T
+    //! \f]
+    //!
+    //! for the variant without a custom predicate, the `T` data type is
+    //! required to be Orderable. The signature is then
+    //! \f[
+    //!     \mathrm{maximum} : S(T) \to T
+    //! \f]
+    //!
+    //! @param xs
+    //! The structure to find the greatest element of.
     //!
     //! @param predicate
     //! A function called as `predicate(x, y)`, where `x` and `y` are elements
     //! of the structure. `predicate` should be a strict weak ordering on the
-    //! elements of the structure and its return value should be a `Logical`.
-    //!
-    //! @param foldable
-    //! The structure to find the greatest element of.
+    //! elements of the structure and its return value should be a Logical,
+    //! or a compile-time Logical if the structure is heterogeneous.
     //!
     //!
-    //! Example
-    //! -------
-    //! @snippet example/foldable.cpp maximum_by
+    //! Syntactic sugar (`maximum.by`)
+    //! ------------------------------
+    //! `maximum` can be called in a third way, which provides a nice syntax
+    //! especially when working with the `ordering` combinator:
+    //! @code
+    //!     maximum.by(predicate, xs) == maximum(xs, predicate)
+    //!     maximum.by(predicate) == maximum(-, predicate)
+    //! @endcode
+    //!
+    //! where `maximum(-, predicate)` denotes the partial application of
+    //! `maximum` to `predicate`.
     //!
     //!
-    //! Benchmarks
-    //! ----------
-    //! @image html benchmark/foldable/maximum_by.ctime.png
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto maximum_by = [](auto&& predicate, auto&& foldable) -> decltype(auto) {
-        return tag-dispatched;
-    };
-#else
-    template <typename Xs, typename = void>
-    struct maximum_by_impl;
-
-    struct _maximum_by {
-        template <typename Pred, typename Xs>
-        constexpr decltype(auto) operator()(Pred&& pred, Xs&& xs) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(_models<Foldable, typename datatype<Xs>::type>{},
-            "hana::maximum_by(pred, xs) requires xs to be Foldable");
-#endif
-
-            return maximum_by_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Pred&&>(pred),
-                static_cast<Xs&&>(xs)
-            );
-        }
-    };
-
-    constexpr _maximum_by maximum_by{};
-#endif
-
-    //! Return the greatest element of a non-empty structure.
-    //! @relates Foldable
+    //! Tag dispatching
+    //! ---------------
+    //! Both the non-predicated version and the predicated versions of
+    //! `maximum` are tag-dispatched methods, and hence they can be
+    //! customized independently. One reason for this is that some
+    //! structures are able to provide a much more efficient implementation
+    //! of `maximum` when the `less` predicate is used. Here is how the
+    //! different versions of `maximum` are dispatched:
+    //! @code
+    //!     maximum(xs) -> maximum_impl<data type of xs>::apply(xs)
+    //!     maximum(xs, pred) -> maximum_pred_impl<data type of xs>::apply(xs, pred)
+    //! @endcode
+    //!
+    //! Also note that `maximum.by` is not tag-dispatched on its own, since it
+    //! is just syntactic sugar for calling the corresponding `maximum`.
     //!
     //!
     //! Example
     //! -------
     //! @snippet example/foldable.cpp maximum
-    //!
-    //!
-    //! Benchmarks
-    //! ----------
-    //! @image html benchmark/foldable/maximum.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto maximum = [](auto&& foldable) -> decltype(auto) {
-        return tag-dispatched;
-    };
+    constexpr auto maximum = see documentation;
 #else
-    template <typename Xs, typename = void>
+    template <typename S, typename = void>
     struct maximum_impl;
+
+    template <typename S, typename = void>
+    struct maximum_pred_impl;
+
+    struct _maximum_by {
+        template <typename Predicate, typename Xs>
+        constexpr decltype(auto) operator()(Predicate&&, Xs&&) const;
+
+        template <typename Predicate>
+        constexpr decltype(auto) operator()(Predicate&&) const;
+    };
 
     struct _maximum {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
             static_assert(_models<Foldable, typename datatype<Xs>::type>{},
             "hana::maximum(xs) requires xs to be Foldable");
-#endif
-
+        #endif
             return maximum_impl<typename datatype<Xs>::type>::apply(
                 static_cast<Xs&&>(xs)
             );
         }
+
+        template <typename Xs, typename Predicate>
+        constexpr decltype(auto) operator()(Xs&& xs, Predicate&& pred) const {
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(_models<Foldable, typename datatype<Xs>::type>{},
+            "hana::maximum(xs, predicate) requires xs to be Foldable");
+        #endif
+            return maximum_pred_impl<typename datatype<Xs>::type>::apply(
+                static_cast<Xs&&>(xs),
+                static_cast<Predicate&&>(pred)
+            );
+        }
+
+        static constexpr _maximum_by by{};
     };
+    constexpr _maximum_by _maximum::by;
 
     constexpr _maximum maximum{};
 #endif

@@ -31,6 +31,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/variadic/for_each.hpp>
 #include <boost/hana/enumerable.hpp>
 #include <boost/hana/functional/curry.hpp>
+#include <boost/hana/functional/flip.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/logical.hpp>
@@ -414,7 +415,7 @@ namespace boost { namespace hana {
     { };
 
     //////////////////////////////////////////////////////////////////////////
-    // minimum_by
+    // minimum (with a custom predicate)
     //////////////////////////////////////////////////////////////////////////
     namespace foldable_detail {
         template <typename Pred>
@@ -448,12 +449,12 @@ namespace boost { namespace hana {
     }
 
     template <typename T, typename>
-    struct minimum_by_impl : minimum_by_impl<T, when<true>> { };
+    struct minimum_pred_impl : minimum_pred_impl<T, when<true>> { };
 
     template <typename T, bool condition>
-    struct minimum_by_impl<T, when<condition>> : default_ {
-        template <typename Pred, typename Xs>
-        static constexpr decltype(auto) apply(Pred&& pred, Xs&& xs) {
+    struct minimum_pred_impl<T, when<condition>> : default_ {
+        template <typename Xs, typename Pred>
+        static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
             return hana::fold.left(static_cast<Xs&&>(xs),
                 detail::create<foldable_detail::minpred>{}(
                     static_cast<Pred&&>(pred)
@@ -463,7 +464,7 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // minimum
+    // minimum (without a custom predicate)
     //////////////////////////////////////////////////////////////////////////
     template <typename T, typename>
     struct minimum_impl : minimum_impl<T, when<true>> { };
@@ -472,11 +473,26 @@ namespace boost { namespace hana {
     struct minimum_impl<T, when<condition>> : default_ {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs)
-        { return hana::minimum_by(less, static_cast<Xs&&>(xs)); }
+        { return hana::minimum(static_cast<Xs&&>(xs), less); }
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // maximum_by
+    // minimum.by
+    //////////////////////////////////////////////////////////////////////////
+    //! @cond
+    template <typename Predicate, typename Xs>
+    constexpr decltype(auto) _minimum_by::operator()(Predicate&& pred, Xs&& xs) const {
+        return hana::minimum(static_cast<Xs&&>(xs), static_cast<Predicate&&>(pred));
+    }
+
+    template <typename Predicate>
+    constexpr decltype(auto) _minimum_by::operator()(Predicate&& pred) const {
+        return hana::partial(hana::flip(minimum), static_cast<Predicate&&>(pred));
+    }
+    //! @endcond
+
+    //////////////////////////////////////////////////////////////////////////
+    // maximum (with a custom predicate)
     //////////////////////////////////////////////////////////////////////////
     namespace foldable_detail {
         template <typename Pred>
@@ -510,12 +526,12 @@ namespace boost { namespace hana {
     }
 
     template <typename T, typename>
-    struct maximum_by_impl : maximum_by_impl<T, when<true>> { };
+    struct maximum_pred_impl : maximum_pred_impl<T, when<true>> { };
 
     template <typename T, bool condition>
-    struct maximum_by_impl<T, when<condition>> : default_ {
-        template <typename Pred, typename Xs>
-        static constexpr decltype(auto) apply(Pred&& pred, Xs&& xs) {
+    struct maximum_pred_impl<T, when<condition>> : default_ {
+        template <typename Xs, typename Pred>
+        static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
             return hana::fold.left(static_cast<Xs&&>(xs),
                 detail::create<foldable_detail::maxpred>{}(
                     static_cast<Pred&&>(pred)
@@ -525,7 +541,7 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // maximum
+    // maximum (without a custom predicate)
     //////////////////////////////////////////////////////////////////////////
     template <typename T, typename>
     struct maximum_impl : maximum_impl<T, when<true>> { };
@@ -534,8 +550,23 @@ namespace boost { namespace hana {
     struct maximum_impl<T, when<condition>> : default_ {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs)
-        { return hana::maximum_by(less, static_cast<Xs&&>(xs)); }
+        { return hana::maximum(static_cast<Xs&&>(xs), less); }
     };
+
+    //////////////////////////////////////////////////////////////////////////
+    // maximum.by
+    //////////////////////////////////////////////////////////////////////////
+    //! @cond
+    template <typename Predicate, typename Xs>
+    constexpr decltype(auto) _maximum_by::operator()(Predicate&& pred, Xs&& xs) const {
+        return hana::maximum(static_cast<Xs&&>(xs), static_cast<Predicate&&>(pred));
+    }
+
+    template <typename Predicate>
+    constexpr decltype(auto) _maximum_by::operator()(Predicate&& pred) const {
+        return hana::partial(hana::flip(maximum), static_cast<Predicate&&>(pred));
+    }
+    //! @endcond
 
     //////////////////////////////////////////////////////////////////////////
     // sum
