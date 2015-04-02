@@ -1,109 +1,105 @@
-language: cpp
+language: c++
 compiler: clang
 os: linux
+sudo: false
 
 env:
     global:
-        # The ###.7 job is the "respawner"; this job will restart any build
-        # that failed because of OOMs. See the after_failure part for how
-        # this is used.
-        - OOM_RESPAWNER="${TRAVIS_BUILD_NUMBER}.7"
-
-        # GitHub token for `travis login --github-token`. The token is stored
-        # in the ${GITHUB_TOKEN} environment variable.
+        # GitHub token for pushing the documentation, logging in with the
+        # Travis command line utility and so on. The token is stored in the
+        # ${GITHUB_TOKEN} environment variable.
         - secure: Jt+++hJ/wCBT1s1vuph4xs9J2mOp+ljLbTPEPrR0UFjcieAYjoPTFI0jmoV0yt2j+3plqLee5JQvZBMXdnLKtxaHyqAD95A0BsXknqYfyXmqvT/x1XQ3EifdWvhPrpJMNhHOQboTXjRaiwP4xlglmkQGX9ScNWzlnZQ4U/Wq9m4=
 
     matrix:
-        - CLANG_VERSION=3.5 BOOST_VERSION=1.57.0
-        - CLANG_VERSION=3.6 BOOST_VERSION=1.57.0
-        - CLANG_VERSION=3.7 BOOST_VERSION=1.57.0
+        # - BUILD_DOCS=false CLANG_VERSION=3.5 BOOST_VERSION=1.57.0
+        - BUILD_DOCS=false CLANG_VERSION=3.6 BOOST_VERSION=1.57.0
+        - BUILD_DOCS=false CLANG_VERSION=3.7 BOOST_VERSION=1.57.0
 
-        - CLANG_VERSION=3.5 BOOST_VERSION=1.58.0
-        - CLANG_VERSION=3.6 BOOST_VERSION=1.58.0
-        - CLANG_VERSION=3.7 BOOST_VERSION=1.58.0
-        - OOM_RESPAWN=true
+        # - BUILD_DOCS=false CLANG_VERSION=3.5 BOOST_VERSION=1.58.0
+        - BUILD_DOCS=false CLANG_VERSION=3.6 BOOST_VERSION=1.58.0
+        - BUILD_DOCS=false CLANG_VERSION=3.7 BOOST_VERSION=1.58.0
+
+        # - BUILD_DOCS=false CLANG_VERSION=3.5 BOOST_VERSION=trunk
+        - BUILD_DOCS=false CLANG_VERSION=3.6 BOOST_VERSION=trunk
+        - BUILD_DOCS=false CLANG_VERSION=3.7 BOOST_VERSION=trunk
+
+        - BUILD_DOCS=true CLANG_VERSION=3.7 BOOST_VERSION=1.58.0
 
 
-before_install:
-    - if [ "${OOM_RESPAWN}" = true ]; then gem install travis --no-document --minimal-deps --quiet; fi
-    - if [ "${OOM_RESPAWN}" = true ]; then yes no | travis --version; fi
-    - if [ "${OOM_RESPAWN}" = true ]; then travis login --github-token ${GITHUB_TOKEN}; fi
-    - if [ "${OOM_RESPAWN}" = true ]; then ./oom_respawn.sh; exit; fi
+matrix:
+    allow_failures:
+        - env: BOOST_VERSION=trunk
 
-    # All the dependencies are installed to the deps/ subdirectory.
-    - mkdir deps
-    - DEPS_DIR="${PWD}/deps"
 
-    # Add deb repositories to get different versions of LLVM/Clang.
-    # The latest version of those repositories doesn't need a -3.x suffix,
-    # so we jump through the little hoop with _suffix below.
-    - sudo apt-add-repository "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu precise main"
-    - if [ "${CLANG_VERSION}" != "3.7" ]; then _suffix="-${CLANG_VERSION}"; fi
-    - sudo apt-add-repository "deb http://llvm.org/apt/precise/ llvm-toolchain-precise${_suffix} main"
-    - sudo apt-get -qq update
+addons:
+    apt:
+        sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise
+            - llvm-toolchain-precise-3.5
+            - llvm-toolchain-precise-3.6
 
-    # Checkout the latest libc++
-    - svn --quiet co http://llvm.org/svn/llvm-project/libcxx/trunk ${DEPS_DIR}/libcxx
-
-    # Install Boost headers
-    - if [ "${BOOST_VERSION}" == "1.57.0" ]; then wget --quiet -O ${DEPS_DIR}/boost.tar.gz http://sourceforge.net/projects/boost/files/boost/1.57.0/boost_1_57_0.tar.gz; fi
-    - if [ "${BOOST_VERSION}" == "1.58.0" ]; then wget --quiet -O ${DEPS_DIR}/boost.tar.gz http://sourceforge.net/projects/boost/files/boost/1.58.0.beta.1/boost_1_58_0_b1.tar.gz; fi
-    - mkdir ${DEPS_DIR}/boost && tar --strip-components=1 -C ${DEPS_DIR}/boost -xzf ${DEPS_DIR}/boost.tar.gz
+        packages:
+            - clang-3.6
+            - clang-3.7
 
 
 install:
-    # Install Clang
-    - sudo apt-get -qq --allow-unauthenticated install clang-${CLANG_VERSION}
+    # All the dependencies are installed to the deps/ subdirectory.
+    - DEPS_DIR="${PWD}/deps"
+    - mkdir ${DEPS_DIR} && cd ${DEPS_DIR}
 
-    # Install a more recent CMake
-    - wget --quiet -O ${DEPS_DIR}/cmake.tar.gz http://www.cmake.org/files/v3.2/cmake-3.2.1-Linux-x86_64.tar.gz
-    - mkdir ${DEPS_DIR}/cmake && tar --strip-components=1 -C ${DEPS_DIR}/cmake -xzf ${DEPS_DIR}/cmake.tar.gz
-    - export PATH=${DEPS_DIR}/cmake/bin:${PATH}
+    # Install Boost headers
+    - if [ "${BOOST_VERSION}" == "1.57.0" ]; then BOOST_TARBALL_URL="http://sourceforge.net/projects/boost/files/boost/1.57.0/boost_1_57_0.tar.gz"; fi
+    - if [ "${BOOST_VERSION}" == "1.58.0" ]; then BOOST_TARBALL_URL="http://sourceforge.net/projects/boost/files/boost/1.58.0.beta.1/boost_1_58_0_b1.tar.gz"; fi
+    - if [ "${BOOST_VERSION}" != "trunk" ]; then wget --quiet -O boost.tar.gz ${BOOST_TARBALL_URL}; fi
+    - if [ "${BOOST_VERSION}" != "trunk" ]; then mkdir boost && tar --strip-components=1 -C boost -xzf boost.tar.gz; fi
+    - if [ "${BOOST_VERSION}" == "trunk" ]; then git clone --recursive --quiet http://github.com/boostorg/boost.git; fi
+    - if [ "${BOOST_VERSION}" == "trunk" ]; then (cd boost && ./bootstrap.sh && ./b2 headers); fi
 
-    # Install libc++
-    - (cd ${DEPS_DIR}/libcxx/lib && bash buildit)
-    - sudo cp ${DEPS_DIR}/libcxx/lib/libc++.so.1.0 /usr/lib/
-    - sudo mkdir /usr/include/c++/v1
-    - sudo cp -r ${DEPS_DIR}/libcxx/include/* /usr/include/c++/v1/
-    - sudo ln -sf /usr/lib/libc++.so.1.0 /usr/lib/libc++.so
-    - sudo ln -sf /usr/lib/libc++.so.1.0 /usr/lib/libc++.so.1
+    # Install a recent CMake
+    - wget --quiet -O cmake.tar.gz http://www.cmake.org/files/v3.2/cmake-3.2.1-Linux-x86_64.tar.gz
+    - mkdir cmake && tar --strip-components=1 -C cmake -xzf cmake.tar.gz
+    - export PATH=${PWD}/cmake/bin:${PATH}
 
-    # Setup the build directory
-    - (mkdir build && cd build && cmake .. -DCMAKE_CXX_COMPILER=clang++-${CLANG_VERSION} -DBOOST_ROOT=${DEPS_DIR}/boost -DLIBCXX_ROOT=/usr)
+    # Install libc++ with libstdc++ (see http://libcxx.llvm.org)
+    - echo | g++ -Wp,-v -x c++ - -fsyntax-only
+    - svn --quiet co http://llvm.org/svn/llvm-project/libcxx/trunk libcxx
+    - mkdir libcxx/build
+    - (cd libcxx/build && cmake .. -DLIBCXX_CXX_ABI=libstdc++ -DLIBCXX_CXX_ABI_INCLUDE_PATHS="/usr/include/c++/4.6;/usr/include/c++/4.6/x86_64-linux-gnu")
+    - make -C libcxx/build cxx -j2
+
+    # Install a more recent Doxygen via Linuxbrew
+    - if [ "${BUILD_DOCS}" == "true" ]; then ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/linuxbrew/go/install)" </dev/null; fi
+    - if [ "${BUILD_DOCS}" == "true" ]; then export PATH=$HOME/.linuxbrew/bin:$PATH; fi
+    - if [ "${BUILD_DOCS}" == "true" ]; then brew install doxygen; fi
 
 
 before_script:
-    # Kill some unused processes that take up some memory.
-    - sudo /etc/init.d/postgresql stop
-    - sudo service mysql stop
+    # Go back to the root of the project.
+    - cd ${TRAVIS_BUILD_DIR}
 
-    # Check baseline memory usage; for compare with after_failure when OOMs occur
+    # Set the git identity to myself (for pushing the documentation)
+    - git config --global user.email "ldionne.2@gmail.com"
+    - git config --global user.name "Louis Dionne"
+
+    # Check baseline memory usage; useful to know when OOMs occur
     - free
     - vmstat
     - ps aux --sort=-rss | head -n 10
 
+    # Setup the build directory
+    - mkdir build
+    - cd build
+    - cmake .. -DCMAKE_CXX_COMPILER=clang++-${CLANG_VERSION} -DBOOST_ROOT=${DEPS_DIR}/boost -DLIBCXX_ROOT=${DEPS_DIR}/libcxx/build
+
 
 script:
-    - (cd build && make compile.headers -j2)
-    - (cd build && make compile.examples -j2)
-    - (cd build && make run.all)
+    # Only push the documentation when we're on master, otherwise just check it.
+    - if [[ "${BUILD_DOCS}" == "true" && ("${TRAVIS_PULL_REQUEST}" == "true" || "${TRAVIS_BRANCH}" != "master") ]]; then make doc.check; fi
+    - if [[ "${BUILD_DOCS}" == "true" && "${TRAVIS_PULL_REQUEST}" == "false" && "${TRAVIS_BRANCH}" == "master" ]]; then make gh-pages.push; fi
 
-
-after_failure:
-    # Check for OOMs
-    - sudo dmesg
-    - free
-    - vmstat
-    - ps aux --sort=-rss
-
-    # If the failure was caused by an OOM, use the `travis` command
-    # line utility to restart the build. Basically, we restart the
-    # respawner job, which restarts all builds that failed because of
-    # OOMs.
-    #
-    # We use `travis --version` to skip the "would you like to install shell
-    # completion?" prompt.
-    - gem install travis --no-document --minimal-deps --quiet
-    - yes no | travis --version
-    - if (sudo dmesg | grep --quiet OOM); then travis login --github-token ${GITHUB_TOKEN}; fi
-    - if (sudo dmesg | grep --quiet OOM); then travis restart ${OOM_RESPAWNER} --repo ldionne/hana; fi
+    - if [[ "${BUILD_DOCS}" == "false" ]]; then make compile.headers -j2; fi
+    - if [[ "${BUILD_DOCS}" == "false" ]]; then make compile.tests; fi
+    - if [[ "${BUILD_DOCS}" == "false" ]]; then make compile.examples -j2; fi
+    - if [[ "${BUILD_DOCS}" == "false" ]]; then make run.all; fi

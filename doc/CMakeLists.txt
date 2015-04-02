@@ -19,7 +19,7 @@ add_custom_target(doc.check
     VERBATIM
 )
 
-if (NOT TARGET benchmarks)
+if (NOT DEFINED ENV{TRAVIS} AND NOT TARGET benchmarks)
     message(WARNING
         "The 'benchmarks' target is not available; the 'doc' and the various "
         "'gh-pages.*' targets will be unavailable. The 'doc.check' target can "
@@ -82,7 +82,7 @@ execute_process(
 )
 
 add_custom_target(gh-pages.update
-    COMMAND ${GIT_EXECUTABLE} add .
+    COMMAND ${GIT_EXECUTABLE} add --all .
     COMMAND ${GIT_EXECUTABLE} commit -m "Update to ${BOOST_HANA_GIT_SHORT_SHA}"
     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/gh-pages
     COMMENT "Updating the gh-pages clone with freshly built documentation"
