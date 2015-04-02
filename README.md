@@ -71,10 +71,15 @@ a version of Hana with reduced functionality.
 ## Documentation
 You can browse the documentation online at http://ldionne.github.io/hana.
 You can also get an offline version of the documentation by checking out
-the `doc/gh-pages` submodule at its latest version:
+the `gh-pages` branch. To avoid overwriting the current directory, you
+can clone the `gh-pages` branch into a subdirectory like `doc/gh-pages`:
 ```shell
-git submodule update --init --remote
+git clone http://github.com/ldionne/hana --branch=gh-pages doc/gh-pages
 ```
+
+After issuing this, `doc/gh-pages` will contain exactly the same static
+website that's available online. Note that `doc/gh-pages` is automatically
+ignored by git so updating the documentation won't pollute your index.
 
 
 ## Hacking on Hana
