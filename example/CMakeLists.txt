@@ -33,8 +33,7 @@ endif()
 # Add all the examples
 foreach(file IN LISTS BOOST_HANA_EXAMPLE_SOURCES)
     boost_hana_target_name_for(_target "${file}")
-    add_executable(compile.${_target} EXCLUDE_FROM_ALL "${file}")
-    target_link_libraries(compile.${_target} c++)
+    boost_hana_add_executable(compile.${_target} EXCLUDE_FROM_ALL "${file}")
     add_dependencies(compile.examples compile.${_target})
     add_custom_target(run.${_target} COMMAND compile.${_target})
 

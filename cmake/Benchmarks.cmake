@@ -225,14 +225,16 @@ set(BENCHMARK_AVAILABLE false)
 # check for Gnuplot
 find_package(Gnuplot)
 if(NOT ${GNUPLOT_FOUND})
-    message(STATUS "Gnuplot was not found; the Benchmarks module can't be used.")
+    message(WARNING
+        "Gnuplot was not found; the Benchmarks module can't be used.")
     return()
 endif()
 
 # check for Ruby
 find_package(Ruby 2.1)
 if(NOT ${RUBY_FOUND})
-    message(STATUS "Ruby 2.1+ was not found; the Benchmarks module can't be used.")
+    message(WARNING
+        "Ruby 2.1+ was not found; the Benchmarks module can't be used.")
     return()
 endif()
 
@@ -241,7 +243,7 @@ execute_process(COMMAND ${RUBY_EXECUTABLE} -r benchcc -e ""
                 RESULT_VARIABLE __BENCHMARK_BENCHCC_NOT_FOUND
                 OUTPUT_QUIET ERROR_QUIET)
 if(${__BENCHMARK_BENCHCC_NOT_FOUND})
-    message(STATUS
+    message(WARNING
         "The Benchcc gem was not found; the Benchmarks module can't "
         "be used. Use `gem install benchcc` to install it.")
     return()

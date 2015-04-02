@@ -61,12 +61,11 @@ the [include](include) directory to your compiler's header search path and
 you are done.
 
 The library relies on a full-featured C++14 compiler and standard library,
-but nothing else is required. As of February 2015, the only compiler known
-to compile the full test suite is Clang (trunk) with libc++ (trunk too).
-However, the library is __completely functional with Clang 3.5__, except for
-a couple of adapters for the standard library and Boost.Fusion. Also, work
-on a GCC 4.9 port with reduced functionality is currently underway on the
-`redux` branch, but it is not in a working state right now.
+but nothing else is required. As of April 2015, the only compiler known to
+compile the full test suite is Clang >= 3.5.0 with a recent libc++. The code
+is tested on OS X and Linux. Work on a GCC port is currently underway. The
+goal is to support GCC 5 when it is released, and perhaps GCC 4.9 by providing
+a version of Hana with reduced functionality.
 
 
 ## Documentation
@@ -88,33 +87,38 @@ cd build
 cmake ..
 ```
 
-Usually, you'll want to specify a custom compiler (e.g. Clang trunk):
+Usually, you'll want to specify a custom compiler because the system's
+compiler is too old:
 ```shell
-cmake .. -DCMAKE_CXX_COMPILER=path-to-compiler
+cmake .. -DCMAKE_CXX_COMPILER=/path/to/compiler
 ```
 
-If you want to test the inter-operation with Boost.MPL and Boost.Fusion,
-you'll need Boost 1.58+. You can specify a custom path for your Boost
-installation if you don't want the system-wide Boost to be used:
-
+On Linux, you'll also need to specify a custom standard library (libc++).
+You can set the location of your custom libc++ installation as follows:
 ```shell
-cmake .. -DCMAKE_CXX_COMPILER=path-to-compiler -DBOOST_ROOT=path-to-boost
+cmake .. -DLIBCXX_ROOT=/path/to/libc++
 ```
 
-You can now build and run the unit tests and the examples. I assume that you
-used the Makefile generator with CMake; the commands may differ for other
-generators:
+You may also want to use a recent version of Boost if you want to use all the
+adapters for Boost.MPL and Boost.Fusion. You can specify a custom path for
+your Boost installation if you don't want the system-wide Boost to be used:
+```shell
+cmake .. -DBOOST_ROOT=/path/to/boost
+```
+
+You can now build and run the unit tests and the examples. Assuming you
+used the Makefile generator with CMake, you can issue
 ```shell
 make run.all
 ```
 
 > #### Tip
 > There is a Makefile at the root of the project which forwards everything
-> to the `build` directory. Hence, you can also issue those commands from the
-> root of the project instead of the `build` directory.
+> to the `build` directory. This way, you can also issue those commands from
+> the root of the project instead of the `build` directory.
 
-You should be aware that compiling the unit tests is very time and RAM
-consuming, especially those for external adapters. This is due to the
+You should be aware that compiling the unit tests is pretty time and RAM
+consuming, especially the tests for external adapters. This is due to the
 fact that Hana's unit tests are very thorough, and also that heterogeneous
 sequences in other libraries tend to have horrible compile-time performance.
 

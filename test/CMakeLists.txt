@@ -93,10 +93,10 @@ endif()
 
 if (Boost_FOUND)
     if (${Boost_VERSION} LESS 105800)
-        message(STATUS
-        "The Boost version was detected to be < 1.58.0; "
-        "the fusion::deque and fusion::list adapters are "
-        "not being tested because of bugs in Boost.Fusion.")
+        message(WARNING
+            "The Boost version was detected to be < 1.58.0; "
+            "the fusion::deque and fusion::list adapters are "
+            "not being tested because of bugs in Boost.Fusion.")
 
         list(REMOVE_ITEM BOOST_HANA_PUBLIC_HEADERS
             "boost/hana/ext/boost/fusion/deque.hpp"
@@ -110,32 +110,33 @@ if (Boost_FOUND)
         list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${_ext_fusion_bad_tests})
     endif()
 
-    message(STATUS
-    "Tests for fusion::deque's model of MonadPlus and Sequence are disabled "
-    "because of bugs in Boost.Fusion.")
+    message(WARNING
+        "Tests for fusion::deque's model of MonadPlus and Sequence are "
+        "disabled because of bugs in Boost.Fusion.")
     list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES
         "${CMAKE_CURRENT_LIST_DIR}/ext/boost/fusion/deque/monad_plus.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/ext/boost/fusion/deque/sequence.cpp")
 
-    message(STATUS
-    "Tests for fusion::list's model of Monad, MonadPlus and Sequence are "
-    "disabled because of bugs in Boost.Fusion.")
+    message(WARNING
+        "Tests for fusion::list's model of Monad, MonadPlus and "
+        "Sequence are disabled because of bugs in Boost.Fusion.")
     list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES
         "${CMAKE_CURRENT_LIST_DIR}/ext/boost/fusion/list/monad.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/ext/boost/fusion/list/monad_plus.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/ext/boost/fusion/list/sequence.cpp")
 
-    message(STATUS
-    "Tests for fusion::tuple's model of Monad are disabled because of a "
-    "bug in Boost.Fusion.")
+    message(WARNING
+        "Tests for fusion::tuple's model of Monad are disabled because "
+        "of a bug in Boost.Fusion.")
     list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES
         "${CMAKE_CURRENT_LIST_DIR}/ext/boost/fusion/tuple/monad.cpp")
 endif()
 
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND
     "${CMAKE_CXX_COMPILER_VERSION}" VERSION_LESS "3.7.0")
-    message(STATUS "The compiler was detected to be Clang < 3.7.0; "
-                   "the std::tuple adapter will not be supported.")
+    message(WARNING
+        "The compiler was detected to be Clang < 3.7.0; "
+        "the std::tuple adapter will not be supported.")
 
     list(REMOVE_ITEM BOOST_HANA_PUBLIC_HEADERS
         "boost/hana/fwd/ext/std/tuple.hpp"
@@ -143,24 +144,6 @@ if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND
 
     file(GLOB_RECURSE _ext_std_tuple_tests "ext/std/tuple.cpp")
     list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${_ext_std_tuple_tests})
-endif()
-
-if ($ENV{TRAVIS})
-    # For the MCD unit tests, we only keep the tests that directly
-    # relate to the tested MCD to reduce the total build time and
-    # the risk of OOM failure on Travis.
-    file(GLOB_RECURSE _non_minimal_mcds
-        "sequence/*iterable.cpp"
-        "sequence/*monad*.cpp"
-        "sequence/*orderable.cpp"
-        "sequence/*searchable.cpp"
-
-        "foldable/*monad*.cpp"
-        "foldable/*orderable.cpp"
-        "foldable/*searchable.cpp"
-        "foldable/*sequence.cpp"
-    )
-    list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${_non_minimal_mcds})
 endif()
 
 
@@ -175,7 +158,7 @@ foreach(header IN LISTS BOOST_HANA_PUBLIC_HEADERS)
             int main() { }
         ")
     endif()
-    add_executable(compile.header.${header_name} EXCLUDE_FROM_ALL
+    boost_hana_add_executable(compile.header.${header_name} EXCLUDE_FROM_ALL
                         "${CMAKE_CURRENT_BINARY_DIR}/header/${header}.cpp")
     add_dependencies(compile.headers compile.header.${header_name})
 
@@ -205,10 +188,9 @@ foreach(_file IN LISTS BOOST_HANA_SPLIT_TEST_SOURCES)
 
         foreach(_part IN LISTS _parts)
             set(_ptarget "${_target}.part${_part}")
-            add_executable(compile.${_ptarget} EXCLUDE_FROM_ALL "${_file}")
+            boost_hana_add_executable(compile.${_ptarget} EXCLUDE_FROM_ALL "${_file}")
             set_target_properties(compile.${_ptarget}
                 PROPERTIES COMPILE_DEFINITIONS "BOOST_HANA_TEST_PART=${_part}")
-            target_link_libraries(compile.${_ptarget} c++)
             add_dependencies(compile.${_target} compile.${_ptarget})
 
             add_custom_target(run.${_ptarget} COMMAND compile.${_ptarget})
@@ -229,8 +211,7 @@ list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${BOOST_HANA_SPLIT_TEST_SOURCES})
 ##############################################################################
 foreach(file IN LISTS BOOST_HANA_TEST_SOURCES)
     boost_hana_target_name_for(_target "${file}")
-    add_executable(compile.${_target} EXCLUDE_FROM_ALL "${file}")
-    target_link_libraries(compile.${_target} c++)
+    boost_hana_add_executable(compile.${_target} EXCLUDE_FROM_ALL "${file}")
     add_dependencies(compile.tests compile.${_target})
     add_custom_target(run.${_target} COMMAND compile.${_target})
 

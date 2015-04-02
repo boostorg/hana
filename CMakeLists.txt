@@ -16,58 +16,43 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 include(CMakeDependentOption)
 option(BOOST_HANA_ENABLE_PEDANTIC "Compile with pedantic enabled." ON)
 option(BOOST_HANA_ENABLE_WERROR   "Fail and stop if a warning is triggered." OFF)
-option(BOOST_HANA_ENABLE_CXX1Y    "Use the -std=c++1y switch if the compiler supports it." ON)
 option(BOOST_HANA_ENABLE_LIBCXX   "Use the -stdlib=libc++ if the compiler supports it." ON)
 
 
 ##############################################################################
-# Setup compiler flags
+# Setup compiler flags (more can be set on a per-target basis)
 ##############################################################################
 include(CheckCXXCompilerFlag)
-macro(boost_hana_append_flag lst testname flag)
+macro(boost_hana_append_flag testname flag)
     check_cxx_compiler_flag(${flag} ${testname})
     if (${testname})
-        list(APPEND ${lst} ${flag})
+        add_compile_options(${flag})
     endif()
 endmacro()
 
-boost_hana_append_flag(BOOST_HANA_CXX_WARNING_FLAGS BOOST_HANA_HAS_W_FLAG                         -W)
-boost_hana_append_flag(BOOST_HANA_CXX_WARNING_FLAGS BOOST_HANA_HAS_WALL_FLAG                      -Wall)
-boost_hana_append_flag(BOOST_HANA_CXX_WARNING_FLAGS BOOST_HANA_HAS_WEXTRA_FLAG                    -Wextra)
-boost_hana_append_flag(BOOST_HANA_CXX_WARNING_FLAGS BOOST_HANA_HAS_WNO_LONG_LONG_FLAG             -Wno-long-long)
-boost_hana_append_flag(BOOST_HANA_CXX_WARNING_FLAGS BOOST_HANA_HAS_WNO_UNUSED_LOCAL_TYPEDEFS_FLAG -Wno-unused-local-typedefs)
-boost_hana_append_flag(BOOST_HANA_CXX_WARNING_FLAGS BOOST_HANA_HAS_WNO_UNUSED_PARAMETER_FLAG      -Wno-unused-parameter)
-boost_hana_append_flag(BOOST_HANA_CXX_WARNING_FLAGS BOOST_HANA_HAS_WWRITE_STRINGS_FLAG            -Wwrite-strings)
-boost_hana_append_flag(BOOST_HANA_CXX_WARNING_FLAGS BOOST_HANA_HAS_FTEMPLATE_BACKTRACE_LIMIT_FLAG -ftemplate-backtrace-limit=0)
-
-check_cxx_compiler_flag("-Xclang -fdefine-sized-deallocation" BOOST_HANA_HAS_FDEFINE_SIZED_DEALLOCATION_FLAG)
-if (${BOOST_HANA_HAS_FDEFINE_SIZED_DEALLOCATION_FLAG})
-    list(APPEND BOOST_HANA_CXX_FEATURE_FLAGS -Xclang -fdefine-sized-deallocation)
-endif()
+boost_hana_append_flag(BOOST_HANA_HAS_W                          -W)
+boost_hana_append_flag(BOOST_HANA_HAS_WALL                       -Wall)
+boost_hana_append_flag(BOOST_HANA_HAS_WEXTRA                     -Wextra)
+boost_hana_append_flag(BOOST_HANA_HAS_WNO_LONG_LONG              -Wno-long-long)
+boost_hana_append_flag(BOOST_HANA_HAS_WNO_UNUSED_LOCAL_TYPEDEFS  -Wno-unused-local-typedefs)
+boost_hana_append_flag(BOOST_HANA_HAS_WNO_UNUSED_PARAMETER       -Wno-unused-parameter)
+boost_hana_append_flag(BOOST_HANA_HAS_WWRITE_STRINGS             -Wwrite-strings)
+boost_hana_append_flag(BOOST_HANA_HAS_FTEMPLATE_BACKTRACE_LIMIT  -ftemplate-backtrace-limit=0)
+boost_hana_append_flag(BOOST_HANA_HAS_FDEFINE_SIZED_DEALLOCATION "-Xclang -fdefine-sized-deallocation")
+boost_hana_append_flag(BOOST_HANA_HAS_STDCXX1Y                   -std=c++1y)
 
 if (BOOST_HANA_ENABLE_WERROR)
-    boost_hana_append_flag(BOOST_HANA_CXX_WARNING_FLAGS BOOST_HANA_HAS_WERROR_FLAG -Werror)
-    boost_hana_append_flag(BOOST_HANA_CXX_WARNING_FLAGS BOOST_HANA_HAS_WX_FLAG     -WX)
+    boost_hana_append_flag(BOOST_HANA_HAS_WERROR -Werror)
+    boost_hana_append_flag(BOOST_HANA_HAS_WX -WX)
 endif()
 
 if (BOOST_HANA_ENABLE_PEDANTIC)
-    boost_hana_append_flag(BOOST_HANA_CXX_WARNING_FLAGS BOOST_HANA_HAS_PEDANTIC_FLAG -pedantic)
-endif()
-
-if (BOOST_HANA_ENABLE_CXX1Y)
-    boost_hana_append_flag(BOOST_HANA_CXX_FEATURE_FLAGS BOOST_HANA_HAS_STDCXX1Y_FLAG -std=c++1y)
+    boost_hana_append_flag(BOOST_HANA_HAS_PEDANTIC -pedantic)
 endif()
 
 if (BOOST_HANA_ENABLE_LIBCXX)
-    boost_hana_append_flag(BOOST_HANA_CXX_FEATURE_FLAGS BOOST_HANA_HAS_STDLIB_LIBCXX_FLAG -stdlib=libc++)
+    boost_hana_append_flag(BOOST_HANA_HAS_STDLIB_LIBCXX -stdlib=libc++)
 endif()
-
-# This is the only place where `add_compile_options` is called.
-# Other properties are set on a per-target basis.
-add_compile_options(
-    ${BOOST_HANA_CXX_WARNING_FLAGS}
-    ${BOOST_HANA_CXX_FEATURE_FLAGS}
-)
 
 
 ##############################################################################
@@ -82,16 +67,10 @@ find_package(Git)
 
 if (Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS})
-endif()
-
-
-##############################################################################
-# Caveats
-##############################################################################
-if (NOT Boost_FOUND)
-    message(STATUS
-    "The Boost library headers were not found; targets depending "
-    "on Boost won't be available.")
+else()
+    message(WARNING
+        "The Boost library headers were not found; targets depending "
+        "on Boost won't be available.")
 endif()
 
 
@@ -114,6 +93,24 @@ function(boost_hana_target_name_for out file)
     string(REGEX REPLACE "\\.cpp$" "" _name ${_relative})
     string(REGEX REPLACE "/" "." _name ${_name})
     set(${out} "${_name}" PARENT_SCOPE)
+endfunction()
+
+if (DEFINED LIBCXX_ROOT)
+    find_library(libcxx c++ HINTS ${LIBCXX_ROOT}/lib)
+endif()
+
+#   boost_hana_add_executable(<name> ...)
+#
+# Calls `add_executable` with exactly the same arguments that were received,
+# but also links the executable with the custom libc++ installation
+# specified by `LIBCXX_ROOT`, if any.
+function(boost_hana_add_executable name)
+    add_executable(${ARGV})
+    if (DEFINED LIBCXX_ROOT)
+        target_link_libraries(${name} ${libcxx})
+        set_property(TARGET ${name} APPEND PROPERTY
+            INCLUDE_DIRECTORIES "${LIBCXX_ROOT}/include/c++/v1")
+    endif()
 endfunction()
 
 # Note: benchmark/ MUST be included before doc/ because the 'doc' target
