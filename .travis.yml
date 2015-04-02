@@ -69,7 +69,7 @@ install:
     - sudo ln -sf /usr/lib/libc++.so.1.0 /usr/lib/libc++.so.1
 
     # Setup the build directory
-    - (mkdir build && cd build && cmake .. -DCMAKE_CXX_COMPILER=clang++-${CLANG_VERSION} -DBOOST_ROOT=${DEPS_DIR}/boost)
+    - (mkdir build && cd build && cmake .. -DCMAKE_CXX_COMPILER=clang++-${CLANG_VERSION} -DBOOST_ROOT=${DEPS_DIR}/boost -DLIBCXX_ROOT=/usr)
 
 
 before_script:
