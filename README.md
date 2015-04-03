@@ -1,4 +1,4 @@
-# Boost.Hana [![Build Status][Travis.master]][Travis.Hana]
+# Boost.Hana [![Build Status][Travis.master]][Travis.Hana] [![Gitter Chat][Gitter.badge]][Gitter.Hana]
 > Your standard library for metaprogramming
 
 ## Disclaimers
@@ -205,6 +205,8 @@ Please see [LICENSE.md](LICENSE.md).
 [CppCon]: http://cppcon.org
 [Doxygen]: http://www.doxygen.org
 [eRuby]: http://en.wikipedia.org/wiki/ERuby
+[Gitter.badge]: https://img.shields.io/badge/gitter-join%20chat%20%E2%86%92-brightgreen.svg
+[Gitter.Hana]: https://gitter.im/ldionne/hana
 [Hana-CppCon]: http://ldionne.github.io/hana-cppcon-2014
 [MPL11-C++Now]: http://ldionne.github.io/mpl11-cppnow-2014
 [MPL11]: http://github.com/ldionne/mpl11

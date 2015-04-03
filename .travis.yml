@@ -103,3 +103,12 @@ script:
     - if [[ "${BUILD_DOCS}" == "false" ]]; then make compile.tests; fi
     - if [[ "${BUILD_DOCS}" == "false" ]]; then make compile.examples -j2; fi
     - if [[ "${BUILD_DOCS}" == "false" ]]; then make run.all; fi
+
+
+notifications:
+    webhooks:
+        urls:
+            - https://webhooks.gitter.im/e/ce1e3a2036d94b4a644f
+        on_success: change
+        on_failure: always
+        on_start: false
