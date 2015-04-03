@@ -95,69 +95,22 @@ $(document).ready(function(){initNavTree('tuple_8hpp.html','');});
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#define-members">Macros</a>  </div>
   <div class="headertitle">
 <div class="title">tuple.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Defines <code><a class="el" href="structboost_1_1hana_1_1_tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">boost::hana::Tuple</a></code>.  
+<p>Defines <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">boost::hana::Tuple</a></code>.  
 <a href="#details">More...</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a31aa84626b49c35cb79a378c63c124e9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tuple_8hpp.html#a31aa84626b49c35cb79a378c63c124e9">BOOST_HANA_PP_FLATTEN</a>(REF)</td></tr>
-<tr class="separator:a31aa84626b49c35cb79a378c63c124e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Defines <code><a class="el" href="structboost_1_1hana_1_1_tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">boost::hana::Tuple</a></code>. </p>
+<div class="textblock"><p>Defines <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">boost::hana::Tuple</a></code>. </p>
 <dl class="section copyright"><dt>Copyright</dt><dd>Louis Dionne 2015 Distributed under the Boost Software License, Version 1.0. (See accompanying file LICENSE.md or copy at <a href="http://boost.org/LICENSE_1_0.txt">http://boost.org/LICENSE_1_0.txt</a>) </dd></dl>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a class="anchor" id="a31aa84626b49c35cb79a378c63c124e9"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define BOOST_HANA_PP_FLATTEN</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">REF</td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...Xs&gt;                                           \</div>
-<div class="line">            static constexpr decltype(<span class="keyword">auto</span>)                                     <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">\</a></div>
-<div class="line"><a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">            apply</a>(detail::closure_impl&lt;Xs...&gt; REF xs) {                         \</div>
-<div class="line">                constexpr <span class="comment">/* Size */</span> <span class="keywordtype">long</span> <span class="keywordtype">long</span> lengths[] = {0,                  \</div>
-<div class="line">                    tuple_detail::size&lt;typename Xs::get_type&gt;{}...              \</div>
-<div class="line">                };                                                              \</div>
-<div class="line">                constexpr Size total_length = hana::sum(lengths);               \</div>
-<div class="line">                                                                                \</div>
-<div class="line">                using Outer = flatten_indices&lt;0,                                \</div>
-<div class="line">                    tuple_detail::size&lt;typename Xs::get_type&gt;{}...              \</div>
-<div class="line">                &gt;;                                                              \</div>
-<div class="line">                using Inner = flatten_indices&lt;1,                                \</div>
-<div class="line">                    tuple_detail::size&lt;typename Xs::get_type&gt;{}...              \</div>
-<div class="line">                &gt;;                                                              \</div>
-<div class="line">                                                                                \</div>
-<div class="line">                return flatten_helper(                                          \</div>
-<div class="line">                    <span class="keyword">static_cast&lt;</span>detail::closure_impl&lt;Xs...<span class="keyword">&gt;</span> REF&gt;(xs),           \</div>
-<div class="line">                    detail::generate_index_sequence&lt;total_length, Outer&gt;{},     \</div>
-<div class="line">                    detail::generate_index_sequence&lt;total_length, Inner&gt;{});    \</div>
-<div class="line">            }                                                                   \</div>
-<div class="ttc" id="group__group-functional_html_ga30027c383676084be151ef3c6cf2829f"><div class="ttname"><a href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">boost::hana::apply</a></div><div class="ttdeci">constexpr auto apply</div><div class="ttdoc">Invoke f with x... as arguments. </div><div class="ttdef"><b>Definition:</b> apply.hpp:33</div></div>
-</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000048">Todo:</a></b></dt><dd>Use <code>Size</code> instead of <code>long long</code> for the <code>lengths</code> array. The problem is that <code>hana::sum</code> does not allow the type of the elements to be specified and it uses <code>int_&lt;0&gt;</code> as a base value, so this won't work with an unsigned type. </dd></dl>
-
-</div>
-</div>
-</div><!-- contents -->
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_3913df26df1cb371abfd458a6c1693a0.html">boost</a></li><li class="navelem"><a class="el" href="dir_be7239abbae3c0cc65a25a72f7ded6b1.html">hana</a></li><li class="navelem"><a class="el" href="tuple_8hpp.html">tuple.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_8ba7d03e214d8b93f63f7ed9669a8ee5.html">boost</a></li><li class="navelem"><a class="el" href="dir_62ceaa6da6a428bacbefa2ca5daffcb8.html">hana</a></li><li class="navelem"><a class="el" href="tuple_8hpp.html">tuple.hpp</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>

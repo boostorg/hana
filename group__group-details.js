@@ -1,7 +1,7 @@
 var group__group_details =
 [
     [ "array", "structboost_1_1hana_1_1detail_1_1array.html", null ],
-    [ "CanonicalConstant", "structboost_1_1hana_1_1detail_1_1_canonical_constant.html", null ],
+    [ "CanonicalConstant", "structboost_1_1hana_1_1detail_1_1CanonicalConstant.html", null ],
     [ "create", "structboost_1_1hana_1_1detail_1_1create.html", null ],
     [ "closure", "group__group-details.html#ga69e96285beeb552b4cddc9f32336f5a2", null ],
     [ "generate_integer_sequence", "group__group-details.html#ga6b8de4dadb6a27692e3db3d199b4b774", null ],

@@ -721,17 +721,17 @@ template&lt;std::size_t n&gt; </div>
 </div><!-- fragment -->
 <p>Invoke a function with the result of invoking another function on each argument. </p>
 <p>Specifically, <code>on(f, g)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>(f, g)(x...) == f(g(x)...)</div>
-</div><!-- fragment --><p>For convenience, <code>on</code> also supports infix application as provided by <code>infix</code>. </p><div class="fragment"><div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> sorted = sort_by(less ^<a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>^ first, make&lt;Tuple&gt;(</div>
-<div class="line">        pair(int_&lt;3&gt;, <span class="charliteral">&#39;x&#39;</span>),</div>
-<div class="line">        pair(int_&lt;1&gt;, type&lt;void&gt;),</div>
-<div class="line">        pair(int_&lt;2&gt;, 9876)</div>
-<div class="line">    ));</div>
+</div><!-- fragment --><p>For convenience, <code>on</code> also supports infix application as provided by <code>infix</code>. </p><div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> sorted = sort.by(less ^<a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>^ first, make&lt;Tuple&gt;(</div>
+<div class="line">    pair(int_&lt;3&gt;, <span class="charliteral">&#39;x&#39;</span>),</div>
+<div class="line">    pair(int_&lt;1&gt;, type&lt;void&gt;),</div>
+<div class="line">    pair(int_&lt;2&gt;, 9876)</div>
+<div class="line">));</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(sorted == make&lt;Tuple&gt;(</div>
-<div class="line">        pair(int_&lt;1&gt;, type&lt;void&gt;),</div>
-<div class="line">        pair(int_&lt;2&gt;, 9876),</div>
-<div class="line">        pair(int_&lt;3&gt;, <span class="charliteral">&#39;x&#39;</span>)</div>
-<div class="line">    ));</div>
+<div class="line">static_assert(sorted == make&lt;Tuple&gt;(</div>
+<div class="line">    pair(int_&lt;1&gt;, type&lt;void&gt;),</div>
+<div class="line">    pair(int_&lt;2&gt;, 9876),</div>
+<div class="line">    pair(int_&lt;3&gt;, <span class="charliteral">&#39;x&#39;</span>)</div>
+<div class="line">), <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd><code>on</code> is associative, i.e. <code>on(f, on(g, h))</code> is equivalent to <code>on(on(f, g), h)</code>.</dd></dl>
 <h3>Proof of associativity</h3>
 <div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>(f, <a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>(g, h))(xs...) == f(<a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>(g, h)(xs)...)</div>
