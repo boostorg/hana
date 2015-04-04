@@ -165,9 +165,9 @@ The project is organized in a couple of subdirectories.
 - The [cmake](cmake) directory contains additional CMake modules used by the
   build system.
 - The [doc](doc) directory contains configuration files needed to generate
-  the documentation. Also, the [doc/gh-pages](doc/gh-pages) directory is
-  a submodule tracking the `gh-pages` branch of the official repository at
-  http://github.com/ldionne/hana, which contains the latest documentation.
+  the documentation. The `doc/gh-pages` subdirectory is automatically ignored
+  by git; you can conveniently store a local copy of the documentation by
+  cloning the gh-pages branch into that directory, as explained above.
 - The [example](example) directory contains the source code for all the
   examples of both the tutorial and the reference documentation.
 - The [include](include) directory contains the library itself, which is
