@@ -30,9 +30,14 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/remove_cv.hpp>
 #include <boost/hana/detail/std/remove_reference.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
+#include <boost/hana/detail/type_foldl1.hpp>
+#include <boost/hana/detail/type_foldr1.hpp>
+#include <boost/hana/detail/variadic/foldl1.hpp>
+#include <boost/hana/detail/variadic/foldr1.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional/apply.hpp>
 #include <boost/hana/functional/curry.hpp>
+#include <boost/hana/functional/overload_linearly.hpp>
 #include <boost/hana/functor.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/iterable.hpp>
@@ -64,7 +69,6 @@ namespace boost { namespace hana {
         using datatype = Tuple;
 
         static constexpr detail::std::size_t size = sizeof...(Xs);
-        static constexpr bool is_empty = sizeof...(Xs) == 0;
     };
 
     template <typename T, T ...v>
@@ -139,34 +143,33 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <>
     struct equal_impl<Tuple, Tuple> {
+        // general case
         template <typename Xs, typename Ys>
         static constexpr decltype(auto) apply(Xs const& xs, Ys const& ys) {
             using Tpl = detail::dependent_on_t<sizeof(xs) == 1, Tuple>;
             return Sequence::equal_impl<Tpl, Tpl>::apply(xs, ys);
         }
 
-
-        // tuple_t optimizations
+        // tuple_t
         template <typename ...T>
-        static constexpr auto apply(_tuple_t<T...>, _tuple_t<T...>)
+        static constexpr auto apply(_tuple_t<T...> const&, _tuple_t<T...> const&)
         { return true_; }
 
         template <typename ...T, typename ...U>
-        static constexpr auto apply(_tuple_t<T...>, _tuple_t<U...>)
+        static constexpr auto apply(_tuple_t<T...> const&, _tuple_t<U...> const&)
         { return false_; }
 
-
-        // tuple_c optimizations
+        // tuple_c
         template <typename V, V ...v, typename U, U ...u, typename =
             detail::std::enable_if_t<sizeof...(v) == sizeof...(u)>>
-        static constexpr auto apply(_tuple_c<V, v...>, _tuple_c<U, u...>) {
+        static constexpr auto apply(_tuple_c<V, v...> const&, _tuple_c<U, u...> const&) {
             constexpr bool comparisons[] = {true, (v == u)...};
             return bool_<hana::all(comparisons)>;
         }
 
         template <typename V, V ...v, typename U, U ...u, typename =
             detail::std::enable_if_t<sizeof...(v) != sizeof...(u)>>
-        static constexpr auto apply(_tuple_c<V, v...>, _tuple_c<U, u...>, ...)
+        static constexpr auto apply(_tuple_c<V, v...> const&, _tuple_c<U, u...> const&, ...)
         { return false_; }
     };
 
@@ -175,21 +178,166 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <>
     struct unpack_impl<Tuple> {
-        #define BOOST_HANA_PP_UNPACK(REF)                                   \
-            template <typename ...Xs, typename F>                           \
-            static constexpr decltype(auto)                                 \
-            apply(detail::closure_impl<Xs...> REF xs, F&& f) {              \
-                return static_cast<F&&>(f)(                          \
-                    static_cast<Xs REF>(xs).get...                          \
-                );                                                          \
-            }                                                               \
-        /**/
-        BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_UNPACK)
-        #undef BOOST_HANA_PP_UNPACK
+        struct unpack_tuple_t_metafunction {
+            template <typename ...T, template <typename ...> class F>
+            constexpr auto operator()(_tuple_t<T...> const&, _metafunction<F> const&) const
+            { return type<typename F<T...>::type>; }
+        };
 
-        template <typename ...T, template <typename ...> class F>
-        static constexpr auto apply(_tuple_t<T...>, _metafunction<F>)
-        { return type<typename F<T...>::type>; }
+        struct unpack_tuple {
+            #define BOOST_HANA_PP_UNPACK(REF)                                   \
+                template <typename ...Xs, typename F>                           \
+                constexpr decltype(auto)                                        \
+                operator()(detail::closure_impl<Xs...> REF xs, F&& f) const     \
+                { return static_cast<F&&>(f)(static_cast<Xs REF>(xs).get...); } \
+            /**/
+            BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_UNPACK)
+            #undef BOOST_HANA_PP_UNPACK
+        };
+
+        template <typename Xs, typename F>
+        static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
+            return overload_linearly(
+                unpack_tuple_t_metafunction{},
+                unpack_tuple{}
+            )(static_cast<Xs&&>(xs), static_cast<F&&>(f));
+        }
+    };
+
+    template <>
+    struct fold_left_impl<Tuple> {
+        struct fold_left_tuple {
+            #define BOOST_HANA_PP_FOLD_LEFT(REF)                                \
+                template <typename ...Xs, typename S, typename F>               \
+                constexpr decltype(auto)                                        \
+                operator()(detail::closure_impl<Xs...> REF xs, S&& s, F&& f) const {\
+                    return detail::variadic::foldl1(                            \
+                        static_cast<F&&>(f),                                    \
+                        static_cast<S&&>(s),                                    \
+                        static_cast<Xs REF>(xs).get...                          \
+                    );                                                          \
+                }                                                               \
+            /**/
+            BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_FOLD_LEFT)
+            #undef BOOST_HANA_PP_FOLD_LEFT
+        };
+
+        struct fold_left_tuple_t_metafunction {
+            template <typename ...T, typename S, template <typename ...> class F>
+            constexpr auto
+            operator()(_tuple_t<T...>const&, _type<S> const&, _metafunction<F> const&) const {
+                return type<typename detail::type_foldl1<F, S, T...>::type>;
+            }
+        };
+
+        template <typename Xs, typename S, typename F>
+        static constexpr decltype(auto) apply(Xs&& xs, S&& s, F&& f) {
+            return overload_linearly(
+                fold_left_tuple_t_metafunction{},
+                fold_left_tuple{}
+            )(static_cast<Xs&&>(xs), static_cast<S&&>(s), static_cast<F&&>(f));
+        }
+    };
+
+    template <>
+    struct fold_left_nostate_impl<Tuple> {
+        struct fold_left_nostate_tuple {
+            #define BOOST_HANA_PP_FOLD_LEFT(REF)                                \
+                template <typename ...Xs, typename F>                           \
+                constexpr decltype(auto)                                        \
+                operator()(detail::closure_impl<Xs...> REF xs, F&& f) const {   \
+                    return detail::variadic::foldl1(                            \
+                        static_cast<F&&>(f),                                    \
+                        static_cast<Xs REF>(xs).get...                          \
+                    );                                                          \
+                }                                                               \
+            /**/
+            BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_FOLD_LEFT)
+            #undef BOOST_HANA_PP_FOLD_LEFT
+        };
+
+        struct fold_left_nostate_tuple_t_metafunction {
+            template <typename ...T, template <typename ...> class F>
+            constexpr auto operator()(_tuple_t<T...> const&, _metafunction<F> const&) const {
+                return type<typename detail::type_foldl1<F, T...>::type>;
+            }
+        };
+
+        template <typename Xs, typename F>
+        static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
+            return overload_linearly(
+                fold_left_nostate_tuple_t_metafunction{},
+                fold_left_nostate_tuple{}
+            )(static_cast<Xs&&>(xs), static_cast<F&&>(f));
+        }
+    };
+
+    template <>
+    struct fold_right_impl<Tuple> {
+        struct fold_right_tuple {
+            #define BOOST_HANA_PP_FOLD_RIGHT(REF)                               \
+                template <typename ...Xs, typename S, typename F>               \
+                constexpr decltype(auto)                                        \
+                operator()(detail::closure_impl<Xs...> REF xs, S&& s, F&& f) const {\
+                    return detail::variadic::foldr1(                            \
+                        static_cast<F&&>(f),                                    \
+                        static_cast<Xs REF>(xs).get...,                         \
+                        static_cast<S&&>(s)                                     \
+                    );                                                          \
+                }                                                               \
+            /**/
+            BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_FOLD_RIGHT)
+            #undef BOOST_HANA_PP_FOLD_RIGHT
+        };
+
+        struct fold_right_tuple_t_metafunction {
+            template <typename ...T, typename S, template <typename ...> class F>
+            constexpr auto
+            operator()(_tuple_t<T...> const&, _type<S> const&, _metafunction<F> const&) const {
+                return type<typename detail::type_foldr1<F, T..., S>::type>;
+            }
+        };
+
+        template <typename Xs, typename S, typename F>
+        static constexpr decltype(auto) apply(Xs&& xs, S&& s, F&& f) {
+            return overload_linearly(
+                fold_right_tuple_t_metafunction{},
+                fold_right_tuple{}
+            )(static_cast<Xs&&>(xs), static_cast<S&&>(s), static_cast<F&&>(f));
+        }
+    };
+
+    template <>
+    struct fold_right_nostate_impl<Tuple> {
+        struct fold_right_nostate_tuple {
+            #define BOOST_HANA_PP_FOLD_RIGHT(REF)                            \
+                template <typename ...Xs, typename F>                        \
+                constexpr decltype(auto)                                     \
+                operator()(detail::closure_impl<Xs...> REF xs, F&& f) const {\
+                    return detail::variadic::foldr1(                         \
+                        static_cast<F&&>(f),                                 \
+                        static_cast<Xs REF>(xs).get...                       \
+                    );                                                       \
+                }                                                            \
+            /**/
+            BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_FOLD_RIGHT)
+            #undef BOOST_HANA_PP_FOLD_RIGHT
+        };
+
+        struct fold_right_nostate_tuple_t_metafunction {
+            template <typename ...T, template <typename ...> class F>
+            constexpr auto operator()(_tuple_t<T...> const&, _metafunction<F> const&) const {
+                return type<typename detail::type_foldr1<F, T...>::type>;
+            }
+        };
+
+        template <typename Xs, typename F>
+        static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
+            return overload_linearly(
+                fold_right_nostate_tuple_t_metafunction{},
+                fold_right_nostate_tuple{}
+            )(static_cast<Xs&&>(xs), static_cast<F&&>(f));
+        }
     };
 
     template <>
@@ -220,22 +368,38 @@ namespace boost { namespace hana {
 
     template <>
     struct tail_impl<Tuple> {
-        #define BOOST_HANA_PP_TAIL(REF)                                     \
-            template <typename X, typename ...Xn>                           \
-            static constexpr _tuple<typename Xn::get_type...>               \
-            apply(detail::closure_impl<X, Xn...> REF xs) {                  \
-                return {static_cast<Xn REF>(xs).get...};                    \
-            }                                                               \
-        /**/
-        BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_TAIL)
-        #undef BOOST_HANA_PP_TAIL
+        struct tail_tuple {
+            #define BOOST_HANA_PP_TAIL(REF)                                 \
+                template <typename X, typename ...Xn>                       \
+                constexpr _tuple<typename Xn::get_type...>                  \
+                operator()(detail::closure_impl<X, Xn...> REF xs) const {   \
+                    return {static_cast<Xn REF>(xs).get...};                \
+                }                                                           \
+            /**/
+            BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_TAIL)
+            #undef BOOST_HANA_PP_TAIL
+        };
+
+        struct tail_tuple_t {
+            template <typename T, typename ...Ts>
+            constexpr auto operator()(_tuple_t<T, Ts...>) const
+            { return tuple_t<Ts...>; }
+        };
+
+        template <typename Xs>
+        static constexpr decltype(auto) apply(Xs&& xs) {
+            return overload_linearly(
+                tail_tuple_t{},
+                tail_tuple{}
+            )(static_cast<Xs&&>(xs));
+        }
     };
 
     template <>
     struct is_empty_impl<Tuple> {
         template <typename Xs>
         static constexpr auto apply(Xs const&)
-        { return bool_<Xs::is_empty>; }
+        { return bool_<Xs::size == 0>; }
     };
 
     template <>
@@ -273,50 +437,47 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <>
     struct transform_impl<Tuple> {
-        #define BOOST_HANA_PP_TRANSFORM(REF)                                \
-            template <typename ...Xs, typename F>                           \
-            static constexpr decltype(auto)                                 \
-            apply_fun(detail::closure_impl<Xs...> REF xs, F&& f)            \
-            { return hana::make<Tuple>(f(static_cast<Xs REF>(xs).get)...); }\
-                                                                            \
-            template <typename X, typename F>                               \
-            static constexpr decltype(auto)                                 \
-            apply_fun(detail::closure_impl<X> REF xs, F&& f) {              \
-                return hana::make<Tuple>(static_cast<F&&>(f)(        \
-                    static_cast<X REF>(xs).get                              \
-                ));                                                         \
-            }                                                               \
-        /**/
-        BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_TRANSFORM)
-        #undef BOOST_HANA_PP_TRANSFORM
+        struct transform_tuple {
+            #define BOOST_HANA_PP_TRANSFORM(REF)                                \
+                template <typename ...Xs, typename F>                           \
+                constexpr decltype(auto)                                        \
+                operator()(detail::closure_impl<Xs...> REF xs, F&& f) const     \
+                { return hana::make<Tuple>(f(static_cast<Xs REF>(xs).get)...); }\
+                                                                                \
+                template <typename X, typename F>                               \
+                constexpr decltype(auto)                                        \
+                operator()(detail::closure_impl<X> REF xs, F&& f) const {       \
+                    return hana::make<Tuple>(static_cast<F&&>(f)(               \
+                        static_cast<X REF>(xs).get                              \
+                    ));                                                         \
+                }                                                               \
+            /**/
+            BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_TRANSFORM)
+            #undef BOOST_HANA_PP_TRANSFORM
+        };
 
-        template <typename ...T, template <typename ...> class F>
-        static constexpr auto
-        apply_metafun(_tuple_t<T...> const&, _metafunction<F> const&)
-        { return tuple_t<typename F<T>::type...>; }
-
-        template <typename Xs, typename F>
-        static constexpr auto apply_dispatch(Xs&& xs, F&& f, int)
-            -> decltype(apply_metafun(xs, f))
-        { return apply_metafun(xs, f); }
-
-        template <typename Xs, typename F>
-        static constexpr decltype(auto) apply_dispatch(Xs&& xs, F&& f, long) {
-            return apply_fun(static_cast<Xs&&>(xs),
-                             static_cast<F&&>(f));
-        }
+        struct transform_tuple_t_metafunction {
+            template <typename ...T, template <typename ...> class F>
+            constexpr auto operator()(_tuple_t<T...> const&, _metafunction<F> const&) const
+            { return tuple_t<typename F<T>::type...>; }
+        };
 
         template <typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
-            return apply_dispatch(static_cast<Xs&&>(xs),
-                                  static_cast<F&&>(f), int{});
+            return overload_linearly(
+                transform_tuple_t_metafunction{},
+                transform_tuple{}
+            )(static_cast<Xs&&>(xs), static_cast<F&&>(f));
         }
     };
 
     template <>
     struct fill_impl<Tuple> {
+        template <typename ...T>
+        struct pack { };
+
         template <typename V>
-        static constexpr _tuple<> apply(detail::closure_impl<> const&, V&&)
+        static constexpr _tuple<> helper(pack<> const&, V&&)
         { return {}; }
 
         template <typename X, typename ...Xs, typename V>
@@ -325,12 +486,17 @@ namespace boost { namespace hana {
             typename detail::std::decay<
                 tuple_detail::expand<!!sizeof(Xs), V>
             >::type...
-        > apply(detail::closure_impl<X, Xs...> const&, V&& v)
+        > helper(pack<X, Xs...> const&, V&& v)
         { return {((void)sizeof(Xs), v)..., static_cast<V&&>(v)}; }
 
         template <typename ...Xs, typename T>
-        static constexpr auto apply(_tuple<Xs...> const&, _type<T> const&)
+        static constexpr auto helper(pack<Xs...> const&, _type<T> const&)
         { return tuple_t<tuple_detail::expand<!!sizeof(Xs), T>...>; }
+
+        template <typename ...T, template <typename ...> class tuple, typename V>
+        static constexpr decltype(auto) apply(tuple<T...> const&, V&& v) {
+            return helper(pack<T...>{}, static_cast<V&&>(v));
+        }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -338,9 +504,15 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <>
     struct lift_impl<Tuple> {
+        // _tuple
         template <typename X>
         static constexpr _tuple<typename detail::std::decay<X>::type> apply(X&& x)
         { return {static_cast<X&&>(x)}; }
+
+        // tuple_t
+        template <typename T>
+        static constexpr auto apply(_type<T> const&)
+        { return tuple_t<T>; }
     };
 
     //////////////////////////////////////////////////////////////////////////

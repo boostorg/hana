@@ -7,6 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/tuple.hpp>
 
 #include <boost/hana/integral_constant.hpp>
+#include <boost/hana/type.hpp>
 
 #include <laws/applicative.hpp>
 #include <laws/base.hpp>
@@ -234,6 +235,123 @@ int main() {
                 unpack(tuple_t<x0, x1, x2, x3>, f),
                 f(type<x0>, type<x1>, type<x2>, type<x3>)
             ));
+
+            // tuple_t with metafunction
+            auto g = metafunction<F>;
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                unpack(tuple_t<>, g),
+                g()
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                unpack(tuple_t<x0>, g),
+                g(type<x0>)
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                unpack(tuple_t<x0, x1>, g),
+                g(type<x0>, type<x1>)
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                unpack(tuple_t<x0, x1, x2>, g),
+                g(type<x0>, type<x1>, type<x2>)
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                unpack(tuple_t<x0, x1, x2, x3>, g),
+                g(type<x0>, type<x1>, type<x2>, type<x3>)
+            ));
+        }
+
+        // fold.left with tuple_t and initial state
+        {
+            auto f = metafunction<F>;
+            auto s = type<struct initial_state>;
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                fold.left(tuple_t<>, s, f),
+                s
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                fold.left(tuple_t<x0>, s, f),
+                f(s, type<x0>)
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                fold.left(tuple_t<x0, x1>, s, f),
+                f(f(s, type<x0>), type<x1>)
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                fold.left(tuple_t<x0, x1, x2>, s, f),
+                f(f(f(s, type<x0>), type<x1>), type<x2>)
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                fold.left(tuple_t<x0, x1, x2, x3>, s, f),
+                f(f(f(f(s, type<x0>), type<x1>), type<x2>), type<x3>)
+            ));
+        }
+
+        // fold.left with tuple_t and no initial state
+        {
+            auto f = metafunction<F>;
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                fold.left(tuple_t<x0>, f),
+                type<x0>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                fold.left(tuple_t<x0, x1>, f),
+                f(type<x0>, type<x1>)
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                fold.left(tuple_t<x0, x1, x2>, f),
+                f(f(type<x0>, type<x1>), type<x2>)
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                fold.left(tuple_t<x0, x1, x2, x3>, f),
+                f(f(f(type<x0>, type<x1>), type<x2>), type<x3>)
+            ));
+        }
+
+        // fold.right with tuple_t and an initial state
+        {
+            auto f = metafunction<F>;
+            auto s = type<struct initial_state>;
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                fold.right(tuple_t<>, s, f),
+                s
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                fold.right(tuple_t<x0>, s, f),
+                f(type<x0>, s)
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                fold.right(tuple_t<x0, x1>, s, f),
+                f(type<x0>, f(type<x1>, s))
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                fold.right(tuple_t<x0, x1, x2>, s, f),
+                f(type<x0>, f(type<x1>, f(type<x2>, s)))
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                fold.right(tuple_t<x0, x1, x2, x3>, s, f),
+                f(type<x0>, f(type<x1>, f(type<x2>, f(type<x3>, s))))
+            ));
+        }
+
+        // fold.right with tuple_t and no initial state
+        {
+            auto f = metafunction<F>;
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                fold.right(tuple_t<x0>, f),
+                type<x0>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                fold.right(tuple_t<x0, x1>, f),
+                f(type<x0>, type<x1>)
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                fold.right(tuple_t<x0, x1, x2>, f),
+                f(type<x0>, f(type<x1>, type<x2>))
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                fold.right(tuple_t<x0, x1, x2, x3>, f),
+                f(type<x0>, f(type<x1>, f(type<x2>, type<x3>)))
+            ));
         }
 
         test::TestFoldable<Tuple>{eq_tuples};
@@ -274,9 +392,18 @@ int main() {
         // tail
         {
             // tuple_t
-            BOOST_HANA_CONSTANT_CHECK(equal(tail(tuple_t<x0>), tuple_t<>));
-            BOOST_HANA_CONSTANT_CHECK(equal(tail(tuple_t<x0, x1>), tuple_t<x1>));
-            BOOST_HANA_CONSTANT_CHECK(equal(tail(tuple_t<x0, x1, x2>), tuple_t<x1, x2>));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                tail(tuple_t<x0>),
+                tuple_t<>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                tail(tuple_t<x0, x1>),
+                tuple_t<x1>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                tail(tuple_t<x0, x1, x2>),
+                tuple_t<x1, x2>
+            ));
 
             // tuple_c
             BOOST_HANA_CONSTANT_CHECK(equal(
@@ -336,36 +463,59 @@ int main() {
     // Functor
     //////////////////////////////////////////////////////////////////////////
     {
-        // Test transform with tuple_t and Metafunctions
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            transform(tuple_t<>, metafunction<F>),
-            tuple_t<>
-        ));
+        // transform with tuple_t and a Metafunction
+        {
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                transform(tuple_t<>, metafunction<F>),
+                tuple_t<>
+            ));
 
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            transform(tuple_t<x1>, metafunction<F>),
-            tuple_t<F<x1>::type>
-        ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                transform(tuple_t<x1>, metafunction<F>),
+                tuple_t<F<x1>::type>
+            ));
 
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            transform(tuple_t<x1, x2>, metafunction<F>),
-            tuple_t<F<x1>::type, F<x2>::type>
-        ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                transform(tuple_t<x1, x2>, metafunction<F>),
+                tuple_t<F<x1>::type, F<x2>::type>
+            ));
 
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            transform(tuple_t<x1, x2, x3>, metafunction<F>),
-            tuple_t<F<x1>::type, F<x2>::type, F<x3>::type>
-        ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                transform(tuple_t<x1, x2, x3>, metafunction<F>),
+                tuple_t<F<x1>::type, F<x2>::type, F<x3>::type>
+            ));
 
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            transform(tuple_t<x1, x2, x3, x4>, metafunction<F>),
-            tuple_t<F<x1>::type, F<x2>::type, F<x3>::type, F<x4>::type>
-        ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                transform(tuple_t<x1, x2, x3, x4>, metafunction<F>),
+                tuple_t<F<x1>::type, F<x2>::type, F<x3>::type, F<x4>::type>
+            ));
 
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            transform(tuple_t<x1, x2, x3, x4>, template_<F>),
-            tuple_t<F<x1>, F<x2>, F<x3>, F<x4>>
-        ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                transform(tuple_t<x1, x2, x3, x4>, template_<F>),
+                tuple_t<F<x1>, F<x2>, F<x3>, F<x4>>
+            ));
+        }
+
+        // fill with tuple_t and a Type
+        {
+            struct z;
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                fill(tuple_t<>, type<z>),
+                tuple_t<>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                fill(tuple_t<x1>, type<z>),
+                tuple_t<z>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                fill(tuple_t<x1, x2>, type<z>),
+                tuple_t<z, z>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                fill(tuple_t<x1, x2, x3>, type<z>),
+                tuple_t<z, z, z>
+            ));
+        }
 
         // laws
         auto eq_values = make<Tuple>(eq<0>{}, eq<2>{});

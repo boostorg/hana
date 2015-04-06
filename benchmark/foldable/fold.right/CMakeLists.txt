@@ -37,7 +37,7 @@ Benchmark_add_dataset(dataset.foldable.fold.right.compile.hana.tuple_t
 Benchmark_add_dataset(dataset.foldable.fold.right.compile.hana.tuple_t.metafunction
     FILE "compile/hana.tuple_t.metafunction.cpp"
     FEATURES COMPILATION_TIME MEMORY_USAGE
-    ENV "((1..50).to_a + (51..90).step(10).to_a).map { |n| { input_size: n } }"
+    ENV "((1..50).to_a + (51..300).step(10).to_a).map { |n| { input_size: n } }"
 )
 
 ###################
