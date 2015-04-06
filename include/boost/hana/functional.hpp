@@ -25,6 +25,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functional/lockstep.hpp>
 #include <boost/hana/functional/on.hpp>
 #include <boost/hana/functional/overload.hpp>
+#include <boost/hana/functional/overload_linearly.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/functional/placeholder.hpp>
 
