@@ -1,5 +1,6 @@
 var NAVTREEINDEX1 =
 {
+"index.html#tutorial-extending-creating_concepts":[0,11,1],
 "index.html#tutorial-extending-tag_dispatching":[0,11,0],
 "index.html#tutorial-header_organization":[0,12],
 "index.html#tutorial-hetero":[0,9],
@@ -50,12 +51,14 @@ var NAVTREEINDEX1 =
 "orderable_8hpp.html":[2,2,0,0,29],
 "overload_8hpp.html":[2,2,0,0,3,14],
 "overload_8hpp.html#ga83e71bae315e299f9f5f9de77b012139":[2,2,0,0,3,14,0],
+"overload__linearly_8hpp.html":[2,2,0,0,3,15],
+"overload__linearly_8hpp.html#gaa46de6f618d9f14edb1589b36b6e75ec":[2,2,0,0,3,15,0],
 "pages.html":[],
 "pair_8hpp.html":[2,2,0,0,30],
-"partial_8hpp.html":[2,2,0,0,3,15],
-"partial_8hpp.html#ga778b2daa27882e71d28b6f2b38982ddf":[2,2,0,0,3,15,0],
-"placeholder_8hpp.html":[2,2,0,0,3,16],
-"placeholder_8hpp.html#gaefe9fd152cba94be71c2b5b9de689d23":[2,2,0,0,3,16,0],
+"partial_8hpp.html":[2,2,0,0,3,16],
+"partial_8hpp.html#ga778b2daa27882e71d28b6f2b38982ddf":[2,2,0,0,3,16,0],
+"placeholder_8hpp.html":[2,2,0,0,3,17],
+"placeholder_8hpp.html#gaefe9fd152cba94be71c2b5b9de689d23":[2,2,0,0,3,17,0],
 "product_8hpp.html":[2,2,0,0,31],
 "range_8hpp.html":[2,2,0,0,32],
 "ratio_8hpp.html":[2,2,0,0,2,1,4],
@@ -246,8 +249,5 @@ var NAVTREEINDEX1 =
 "structboost_1_1hana_1_1Sequence.html#a08bed7da3a1bc6d0e8d11e5440d879c3":[1,0,19,17],
 "structboost_1_1hana_1_1Sequence.html#a18968c488a8b0cdc2697296024da9293":[1,0,19,9],
 "structboost_1_1hana_1_1Sequence.html#a23b6ac9e78577d70b9108a80e6b1534c":[1,0,19,19],
-"structboost_1_1hana_1_1Sequence.html#a27aa67fa9ffc3d89b23a6dce018013d4":[1,0,19,15],
-"structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1":[1,0,19,13],
-"structboost_1_1hana_1_1Sequence.html#a37751569a9f7188ab64a2c288168b404":[1,0,19,8],
-"structboost_1_1hana_1_1Sequence.html#a4471413ccc3835db5e48658683b8aba0":[1,0,19,7]
+"structboost_1_1hana_1_1Sequence.html#a27aa67fa9ffc3d89b23a6dce018013d4":[1,0,19,15]
 };

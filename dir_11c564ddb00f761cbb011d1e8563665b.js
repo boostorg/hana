@@ -14,5 +14,7 @@ var dir_11c564ddb00f761cbb011d1e8563665b =
     [ "less_than_comparable.hpp", "less__than__comparable_8hpp.html", null ],
     [ "reverse_partial.hpp", "reverse__partial_8hpp.html", "reverse__partial_8hpp" ],
     [ "tuple_cartesian_product.hpp", "tuple__cartesian__product_8hpp.html", null ],
+    [ "type_foldl1.hpp", "type__foldl1_8hpp.html", null ],
+    [ "type_foldr1.hpp", "type__foldr1_8hpp.html", null ],
     [ "wrap.hpp", "wrap_8hpp.html", null ]
 ];

@@ -1,5 +1,8 @@
 var NAVTREEINDEX2 =
 {
+"structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1":[1,0,19,13],
+"structboost_1_1hana_1_1Sequence.html#a37751569a9f7188ab64a2c288168b404":[1,0,19,8],
+"structboost_1_1hana_1_1Sequence.html#a4471413ccc3835db5e48658683b8aba0":[1,0,19,7],
 "structboost_1_1hana_1_1Sequence.html#a45ec7767d19eb7eaabb71ead3796a7f1":[1,0,19,4],
 "structboost_1_1hana_1_1Sequence.html#a58c1454689bf6d2264bc428dc1d039db":[1,0,19,11],
 "structboost_1_1hana_1_1Sequence.html#a63f9ab281c8e979adfd7f6678383c46b":[1,0,19,14],
@@ -58,10 +61,12 @@ var NAVTREEINDEX2 =
 "tuple_8hpp.html":[2,2,0,0,41],
 "tuple__cartesian__product_8hpp.html":[2,2,0,0,1,13],
 "type_8hpp.html":[2,2,0,0,42],
+"type__foldl1_8hpp.html":[2,2,0,0,1,14],
+"type__foldr1_8hpp.html":[2,2,0,0,1,15],
 "type__traits_8hpp.html":[2,2,0,0,2,1,6],
 "unrolled_8hpp.html":[2,2,0,0,1,1,0,1],
 "usergroup0.html":[2],
 "utility_8hpp.html":[2,2,0,0,2,1,7],
 "void__t_8hpp.html":[2,2,0,0,1,0,21],
-"wrap_8hpp.html":[2,2,0,0,1,14]
+"wrap_8hpp.html":[2,2,0,0,1,16]
 };

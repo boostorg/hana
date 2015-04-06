@@ -24,5 +24,7 @@ var searchData=
   ['orderable_2ehpp',['orderable.hpp',['../orderable_8hpp.html',1,'']]],
   ['ordering',['ordering',['../structboost_1_1hana_1_1Orderable.html#aaeb89edbf804237ca6710cba8cab9c37',1,'boost::hana::Orderable']]],
   ['overload',['overload',['../group__group-functional.html#ga83e71bae315e299f9f5f9de77b012139',1,'boost::hana']]],
-  ['overload_2ehpp',['overload.hpp',['../overload_8hpp.html',1,'']]]
+  ['overload_2ehpp',['overload.hpp',['../overload_8hpp.html',1,'']]],
+  ['overload_5flinearly',['overload_linearly',['../group__group-functional.html#gaa46de6f618d9f14edb1589b36b6e75ec',1,'boost::hana']]],
+  ['overload_5flinearly_2ehpp',['overload_linearly.hpp',['../overload__linearly_8hpp.html',1,'']]]
 ];
