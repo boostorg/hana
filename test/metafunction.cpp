@@ -13,6 +13,7 @@ using namespace boost::hana;
 
 
 struct x1; struct x2; struct x3;
+struct y1 { }; struct y2 { }; struct y3 { };
 
 template <typename F, typename ...T>
 constexpr auto valid_call(F f, T ...t) -> decltype(((void)f(t...)), true)
@@ -41,20 +42,79 @@ namespace tc1 {
     // Make sure we don't read from a non-constexpr variable
     auto t = type<x1>;
     constexpr auto r = metafunction<f>(t);
+
+    // `metafunction` with non-Type arguments
+    // 1 arg
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        metafunction<f>(y1{}),
+        metafunction<f>(type<y1>)
+    ));
+
+    // 2 args
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        metafunction<f>(type<x1>, y2{}),
+        metafunction<f>(type<x1>, type<y2>)
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        metafunction<f>(y1{}, type<x2>),
+        metafunction<f>(type<y1>, type<x2>)
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        metafunction<f>(y1{}, y2{}),
+        metafunction<f>(type<y1>, type<y2>)
+    ));
+
+    // 3 args
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        metafunction<f>(type<x1>, type<x2>, y3{}),
+        metafunction<f>(type<x1>, type<x2>, type<y3>)
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        metafunction<f>(type<x1>, y2{}, type<x3>),
+        metafunction<f>(type<x1>, type<y2>, type<x3>)
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        metafunction<f>(type<x1>, y2{}, y3{}),
+        metafunction<f>(type<x1>, type<y2>, type<y3>)
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        metafunction<f>(y1{}, type<x2>, type<x3>),
+        metafunction<f>(type<y1>, type<x2>, type<x3>)
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        metafunction<f>(y1{}, type<x2>, y3{}),
+        metafunction<f>(type<y1>, type<x2>, type<y3>)
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        metafunction<f>(y1{}, y2{}, y3{}),
+        metafunction<f>(type<y1>, type<y2>, type<y3>)
+    ));
 }
 
 // metafunction_class
 namespace tc2 {
     struct f { template <typename ...> struct apply { struct type; }; };
     using F = decltype(metafunction_class<f>);
-    BOOST_HANA_CONSTANT_CHECK(metafunction_class<f>() == type<f::apply<>::type>);
-    BOOST_HANA_CONSTANT_CHECK(metafunction_class<f>(type<x1>) == type<f::apply<x1>::type>);
-    BOOST_HANA_CONSTANT_CHECK(metafunction_class<f>(type<x1>, type<x2>) == type<f::apply<x1, x2>::type>);
-    BOOST_HANA_CONSTANT_CHECK(metafunction_class<f>(type<x1>, type<x2>, type<x3>) == type<f::apply<x1, x2, x3>::type>);
-    static_assert(std::is_same<F::apply<>, f::apply<>>::value, "");
-    static_assert(std::is_same<F::apply<x1>, f::apply<x1>>::value, "");
-    static_assert(std::is_same<F::apply<x1, x2>, f::apply<x1, x2>>::value, "");
-    static_assert(std::is_same<F::apply<x1, x2, x3>, f::apply<x1, x2, x3>>::value, "");
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        metafunction_class<f>(),
+        type<f::apply<>::type>
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        metafunction_class<f>(type<x1>),
+        type<f::apply<x1>::type>
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        metafunction_class<f>(type<x1>, type<x2>),
+        type<f::apply<x1, x2>::type>
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        metafunction_class<f>(type<x1>, type<x2>, type<x3>),
+        type<f::apply<x1, x2, x3>::type>
+    ));
+    static_assert(std::is_same<F::apply<>, f::apply<>>{}, "");
+    static_assert(std::is_same<F::apply<x1>, f::apply<x1>>{}, "");
+    static_assert(std::is_same<F::apply<x1, x2>, f::apply<x1, x2>>{}, "");
+    static_assert(std::is_same<F::apply<x1, x2, x3>, f::apply<x1, x2, x3>>{}, "");
 
     // Make sure we're SFINAE-friendly
     struct no_type { template <typename ...> struct apply { }; };
@@ -64,20 +124,126 @@ namespace tc2 {
     // Make sure we don't read from a non-constexpr variable
     auto t = type<x1>;
     constexpr auto r = metafunction_class<f>(t);
+
+    // `metafunction_class` with non-Type arguments
+    // 1 arg
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        metafunction_class<f>(y1{}),
+        metafunction_class<f>(type<y1>)
+    ));
+
+    // 2 args
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        metafunction_class<f>(type<x1>, y2{}),
+        metafunction_class<f>(type<x1>, type<y2>)
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        metafunction_class<f>(y1{}, type<x2>),
+        metafunction_class<f>(type<y1>, type<x2>)
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        metafunction_class<f>(y1{}, y2{}),
+        metafunction_class<f>(type<y1>, type<y2>)
+    ));
+
+    // 3 args
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        metafunction_class<f>(type<x1>, type<x2>, y3{}),
+        metafunction_class<f>(type<x1>, type<x2>, type<y3>)
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        metafunction_class<f>(type<x1>, y2{}, type<x3>),
+        metafunction_class<f>(type<x1>, type<y2>, type<x3>)
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        metafunction_class<f>(type<x1>, y2{}, y3{}),
+        metafunction_class<f>(type<x1>, type<y2>, type<y3>)
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        metafunction_class<f>(y1{}, type<x2>, type<x3>),
+        metafunction_class<f>(type<y1>, type<x2>, type<x3>)
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        metafunction_class<f>(y1{}, type<x2>, y3{}),
+        metafunction_class<f>(type<y1>, type<x2>, type<y3>)
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        metafunction_class<f>(y1{}, y2{}, y3{}),
+        metafunction_class<f>(type<y1>, type<y2>, type<y3>)
+    ));
 }
 
 // template_
 namespace tc3 {
     template <typename ...> struct f;
     using F = decltype(template_<f>);
-    BOOST_HANA_CONSTANT_CHECK(template_<f>() == type<f<>>);
-    BOOST_HANA_CONSTANT_CHECK(template_<f>(type<x1>) == type<f<x1>>);
-    BOOST_HANA_CONSTANT_CHECK(template_<f>(type<x1>, type<x2>) == type<f<x1, x2>>);
-    BOOST_HANA_CONSTANT_CHECK(template_<f>(type<x1>, type<x2>, type<x3>) == type<f<x1, x2, x3>>);
-    static_assert(std::is_same<F::apply<>::type, f<>>::value, "");
-    static_assert(std::is_same<F::apply<x1>::type, f<x1>>::value, "");
-    static_assert(std::is_same<F::apply<x1, x2>::type, f<x1, x2>>::value, "");
-    static_assert(std::is_same<F::apply<x1, x2, x3>::type, f<x1, x2, x3>>::value, "");
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        template_<f>(),
+        type<f<>>
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        template_<f>(type<x1>),
+        type<f<x1>>
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        template_<f>(type<x1>, type<x2>),
+        type<f<x1, x2>>
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        template_<f>(type<x1>, type<x2>, type<x3>),
+        type<f<x1, x2, x3>>
+    ));
+    static_assert(std::is_same<F::apply<>::type, f<>>{}, "");
+    static_assert(std::is_same<F::apply<x1>::type, f<x1>>{}, "");
+    static_assert(std::is_same<F::apply<x1, x2>::type, f<x1, x2>>{}, "");
+    static_assert(std::is_same<F::apply<x1, x2, x3>::type, f<x1, x2, x3>>{}, "");
+
+    // `template_` with non-Type arguments
+    // 1 arg
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        template_<f>(y1{}),
+        template_<f>(type<y1>)
+    ));
+
+    // 2 args
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        template_<f>(type<x1>, y2{}),
+        template_<f>(type<x1>, type<y2>)
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        template_<f>(y1{}, type<x2>),
+        template_<f>(type<y1>, type<x2>)
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        template_<f>(y1{}, y2{}),
+        template_<f>(type<y1>, type<y2>)
+    ));
+
+    // 3 args
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        template_<f>(type<x1>, type<x2>, y3{}),
+        template_<f>(type<x1>, type<x2>, type<y3>)
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        template_<f>(type<x1>, y2{}, type<x3>),
+        template_<f>(type<x1>, type<y2>, type<x3>)
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        template_<f>(type<x1>, y2{}, y3{}),
+        template_<f>(type<x1>, type<y2>, type<y3>)
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        template_<f>(y1{}, type<x2>, type<x3>),
+        template_<f>(type<y1>, type<x2>, type<x3>)
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        template_<f>(y1{}, type<x2>, y3{}),
+        template_<f>(type<y1>, type<x2>, type<y3>)
+    ));
+    BOOST_HANA_CONSTANT_CHECK(equal(
+        template_<f>(y1{}, y2{}, y3{}),
+        template_<f>(type<y1>, type<y2>, type<y3>)
+    ));
 
     // Make sure we can use aliases
     template <typename T> using alias = T;
@@ -108,30 +274,6 @@ namespace tc4 {
     auto t = type<x1>;
     constexpr auto r = trait<f>(t);
 }
-
-// trait_
-namespace tc5 {
-    struct x1 { }; struct x2 { }; struct x3 { };
-    template <typename ...> struct f { };
-
-    // make sure `trait_<f>(...)` returns the right type
-    static_assert(std::is_same<decltype(trait_<f>()), f<>>{}, "");
-    static_assert(std::is_same<decltype(trait_<f>(x1{})), f<x1>>{}, "");
-    static_assert(std::is_same<decltype(trait_<f>(x1{}, x2{})), f<x1, x2>>{}, "");
-    static_assert(std::is_same<decltype(trait_<f>(x1{}, x2{}, x3{})), f<x1, x2, x3>>{}, "");
-
-    // make sure we can perform the call; we already made sure the return type was correct
-    constexpr auto a = trait_<f>();
-    constexpr auto b = trait_<f>(x1{});
-    constexpr auto c = trait_<f>(x1{}, x2{});
-    constexpr auto d = trait_<f>(x1{}, x2{}, x3{});
-
-    // Make sure we don't read from a non-constexpr variable
-    struct T { };
-    auto t = T{};
-    constexpr auto r = trait_<f>(t);
-}
-
 
 int main() {
 

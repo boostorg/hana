@@ -15,7 +15,6 @@ struct T;
 int main() {
     // See http://llvm.org/bugs/show_bug.cgi?id=20046
     [](auto) { return trait<F>; }(1);
-    [](auto) { return trait_<F>; }(1);
     [](auto) { return type<T>; }(1);
     [](auto) { return template_<F>; }(1);
     [](auto) { return metafunction<F>; }(1);

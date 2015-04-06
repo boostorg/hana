@@ -14,7 +14,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
+#include <boost/hana/core/make.hpp>
 #include <boost/hana/core/operators.hpp>
+#include <boost/hana/detail/std/remove_reference.hpp>
 #include <boost/hana/integral_constant.hpp>
 
 
@@ -25,7 +27,9 @@ namespace boost { namespace hana {
     //! @cond
     template <typename T>
     struct _type<T>::_ : _type<T>, operators::adl {
-        struct hana { using datatype = Type; };
+        using hana = _;
+        using datatype = Type;
+
         using type = T;
 
         constexpr auto operator+() const { return *this; }
@@ -33,20 +37,63 @@ namespace boost { namespace hana {
     //! @endcond
 
     //////////////////////////////////////////////////////////////////////////
+    // decltype_
+    //////////////////////////////////////////////////////////////////////////
+    namespace detail {
+        template <typename T, typename = Type>
+        struct _decltype {
+            using type = typename detail::std::remove_reference<T>::type;
+        };
+
+        template <typename T>
+        struct _decltype<T,
+            typename detail::std::remove_reference<T>::type::hana::datatype
+        > {
+            using type = typename detail::std::remove_reference<T>::type::type;
+        };
+    }
+
+    //! @cond
+    template <typename T>
+    constexpr auto _decltype::operator()(T&&) const
+    { return type<typename detail::_decltype<T>::type>; }
+    //! @endcond
+
+    //////////////////////////////////////////////////////////////////////////
+    // make<Type>
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct make_impl<Type> {
+        template <typename T>
+        static constexpr auto apply(T&& t)
+        { return hana::decltype_(static_cast<T&&>(t)); }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
     // sizeof_
     //////////////////////////////////////////////////////////////////////////
     //! @cond
     template <typename T>
-    constexpr auto _sizeof::operator()(T const&) const
-    { return size_t<sizeof(typename T::type)>; }
+    constexpr auto _sizeof::operator()(T&&) const
+    { return size_t<sizeof(typename detail::_decltype<T>::type)>; }
     //! @endcond
 
     //////////////////////////////////////////////////////////////////////////
-    // template
+    // alignof_
+    //////////////////////////////////////////////////////////////////////////
+    //! @cond
+    template <typename T>
+    constexpr auto _alignof::operator()(T&&) const
+    { return size_t<alignof(typename detail::_decltype<T>::type)>; }
+    //! @endcond
+
+    //////////////////////////////////////////////////////////////////////////
+    // template_
     //////////////////////////////////////////////////////////////////////////
     template <template <typename ...> class F>
     struct _template {
-        struct hana { using datatype = Metafunction; };
+        using hana = _template;
+        using datatype = Metafunction;
 
         template <typename ...T>
         struct apply {
@@ -54,8 +101,8 @@ namespace boost { namespace hana {
         };
 
         template <typename ...T>
-        constexpr auto operator()(T const& ...) const
-        { return type<F<typename T::type...>>; }
+        constexpr auto operator()(T&& ...t) const
+        { return type<F<typename detail::_decltype<T>::type...>>; }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -63,16 +110,16 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <template <typename ...> class F>
     struct _metafunction {
-        struct hana { using datatype = Metafunction; };
+        using hana = _metafunction;
+        using datatype = Metafunction;
 
         template <typename ...T>
         using apply = F<T...>;
 
         template <typename ...T>
-        constexpr auto operator()(T const& ...) const -> decltype(
-            type<typename F<typename T::type...>::type>
-        )
-        { return type<typename F<typename T::type...>::type>; }
+        constexpr auto operator()(T&& ...) const -> decltype(
+            type<typename F<typename detail::_decltype<T>::type...>::type>
+        ) { return {}; }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -81,18 +128,8 @@ namespace boost { namespace hana {
     template <template <typename ...> class F>
     struct _trait {
        template <typename ...T>
-       constexpr auto operator()(T const& ...) const
-       { return F<typename T::type...>{}; }
-    };
-
-    //////////////////////////////////////////////////////////////////////////
-    // trait_
-    //////////////////////////////////////////////////////////////////////////
-    template <template <typename ...> class F>
-    struct _trait_ {
-        template <typename ...T>
-        constexpr auto operator()(T const& ...) const
-        { return F<T...>{}; }
+       constexpr auto operator()(T&& ...t) const
+       { return F<typename detail::_decltype<T>::type...>{}; }
     };
 
     //////////////////////////////////////////////////////////////////////////

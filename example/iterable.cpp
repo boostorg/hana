@@ -118,10 +118,10 @@ BOOST_HANA_CONSTEXPR_CHECK(
 
 //! [Searchable]
 BOOST_HANA_CONSTEXPR_CHECK(
-    find_if(make<Tuple>(1.0, 2, '3'), trait_<std::is_integral>) == just(2)
+    find_if(make<Tuple>(1.0, 2, '3'), trait<std::is_integral>) == just(2)
 );
 BOOST_HANA_CONSTANT_CHECK(
-    find_if(make<Tuple>(1.0, 2, '3'), trait_<std::is_class>) == nothing
+    find_if(make<Tuple>(1.0, 2, '3'), trait<std::is_class>) == nothing
 );
 
 BOOST_HANA_CONSTANT_CHECK(

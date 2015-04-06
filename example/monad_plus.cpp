@@ -58,15 +58,15 @@ BOOST_HANA_CONSTEXPR_CHECK(
 
 //! [filter]
 BOOST_HANA_CONSTEXPR_CHECK(
-    filter(make<Tuple>(1, 2.0, 3, 4.0), trait_<std::is_integral>) == make<Tuple>(1, 3)
+    filter(make<Tuple>(1, 2.0, 3, 4.0), trait<std::is_integral>) == make<Tuple>(1, 3)
 );
 
 BOOST_HANA_CONSTEXPR_CHECK(
-    filter(just(3), trait_<std::is_integral>) == just(3)
+    filter(just(3), trait<std::is_integral>) == just(3)
 );
 
 BOOST_HANA_CONSTANT_CHECK(
-    filter(just(3.0), trait_<std::is_integral>) == nothing
+    filter(just(3.0), trait<std::is_integral>) == nothing
 );
 //! [filter]
 

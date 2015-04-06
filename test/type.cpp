@@ -18,32 +18,229 @@ using namespace boost::hana;
 
 struct T { }; struct U;
 
+using Function = void();
+void function() { }
+
 int main() {
     //////////////////////////////////////////////////////////////////////////
     // Type interface and helper functions
     //////////////////////////////////////////////////////////////////////////
     {
+        // make<Type>
+        {
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                make<Type>(T{}),
+                decltype_(T{})
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                make<Type>(type<T>),
+                decltype_(type<T>)
+            ));
+
+            // make sure we don't read from non-constexpr variables
+            {
+                auto t = type<T>;
+                auto x = 1;
+                constexpr auto r1 = make<Type>(t); (void)r1;
+                constexpr auto r2 = make<Type>(x); (void)r2;
+            }
+        }
+
         // decltype_
         {
-            BOOST_HANA_CONSTANT_CHECK(equal(decltype_(1), type<int>));
-            BOOST_HANA_CONSTANT_CHECK(equal(decltype_('1'), type<char>));
-            BOOST_HANA_CONSTANT_CHECK(equal(decltype_(T{}), type<T>));
+            T t;
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                decltype_(T{}),
+                type<T>
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                decltype_(t),
+                type<T>
+            ));
+
+            // [cv-qualified] reference types
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                decltype_(static_cast<T&>(t)),
+                type<T>
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                decltype_(static_cast<T const&>(t)),
+                type<T const>
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                decltype_(static_cast<T volatile&>(t)),
+                type<T volatile>
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                decltype_(static_cast<T const volatile&>(t)),
+                type<T const volatile>
+            ));
+
+
+            // [cv-qualified] rvalue reference types
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                decltype_(static_cast<T&&>(t)),
+                type<T>
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                decltype_(static_cast<T const &&>(t)),
+                type<T const>
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                decltype_(static_cast<T volatile&&>(t)),
+                type<T volatile>
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                decltype_(static_cast<T const volatile&&>(t)),
+                type<T const volatile>
+            ));
+
+            // decltype_(type<T>) is the identity function
+            auto const type_const = type<T>;
+            auto const& type_const_ref = type<T>;
+            auto& type_ref = type<T>;
+            auto&& type_ref_ref = static_cast<decltype(type_ref)&&>(type_ref);
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                decltype_(type<T>),
+                type<T>
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                decltype_(type_const),
+                type<T>
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                decltype_(type_const_ref),
+                type<T>
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                decltype_(type_ref),
+                type<T>
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                decltype_(type_ref_ref),
+                type<T>
+            ));
+
+            // make sure we don't read from non-constexpr variables
+            {
+                auto t = type<T>;
+                auto x = 1;
+                constexpr auto r1 = decltype_(t); (void)r1;
+                constexpr auto r2 = decltype_(x); (void)r2;
+            }
+
+            // decltype_ with builtin arrays, function pointers and other weirdos
+            {
+                using A = T[3];
+                A a;
+                A& a_ref = a;
+                A const& a_const_ref = a;
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    decltype_(a),
+                    type<A>
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    decltype_(a_ref),
+                    type<A>
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    decltype_(a_const_ref),
+                    type<A const>
+                ));
+            }
+            {
+                using Fptr = int(*)();
+                Fptr f;
+                Fptr& f_ref = f;
+                Fptr const& f_const_ref = f;
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    decltype_(f),
+                    type<Fptr>
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    decltype_(f_ref),
+                    type<Fptr>
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    decltype_(f_const_ref),
+                    type<Fptr const>
+                ));
+            }
+            {
+                Function& function_ref = function;
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    decltype_(function),
+                    type<Function>
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    decltype_(function_ref),
+                    type<Function>
+                ));
+            }
         }
 
         // sizeof_
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                sizeof_(type<int>),
-                size_t<sizeof(int)>
+                sizeof_(T{}),
+                size_t<sizeof(T)>
             ));
+
             BOOST_HANA_CONSTANT_CHECK(equal(
                 sizeof_(type<T>),
                 size_t<sizeof(T)>
             ));
 
             // make sure we don't read from non-constexpr variables
-            auto t = type<T>;
-            constexpr auto r = sizeof_(t); (void)r;
+            {
+                auto t = type<T>;
+                auto x = 1;
+                constexpr auto r1 = sizeof_(t); (void)r1;
+                constexpr auto r2 = sizeof_(x); (void)r2;
+            }
+        }
+
+        // alignof_
+        {
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                alignof_(T{}),
+                size_t<alignof(T)>
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                alignof_(type<T>),
+                size_t<alignof(T)>
+            ));
+
+            // make sure we don't read from non-constexpr variables
+            {
+                auto t = type<T>;
+                auto x = 1;
+                constexpr auto r1 = alignof_(t); (void)r1;
+                constexpr auto r2 = alignof_(x); (void)r2;
+            }
         }
 
         // nested ::type

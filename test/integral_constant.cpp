@@ -137,7 +137,11 @@ int main() {
             BOOST_HANA_CONSTANT_CHECK(1234567_c == llong<1234567>);
             BOOST_HANA_CONSTANT_CHECK(-34_c == llong<-34>);
 
-            BOOST_HANA_CONSTANT_CHECK(decltype_(-1234_c) == decltype_(llong<-1234>));
+            static_assert(std::is_same<
+                decltype(-1234_c)::value_type,
+                long long
+            >{}, "");
+            static_assert(-1234_c == -1234ll, "");
             BOOST_HANA_CONSTANT_CHECK(-12_c < 0_c);
         }
     }

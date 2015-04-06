@@ -89,10 +89,10 @@ BOOST_HANA_CONSTANT_CHECK(elem(set(1, '2', type<int>, "foobar"), type<int>));
 
 //! [find_if]
 BOOST_HANA_CONSTEXPR_CHECK(
-    find_if(make<Tuple>(1.0, 2, '3'), trait_<std::is_integral>) == just(2)
+    find_if(make<Tuple>(1.0, 2, '3'), trait<std::is_integral>) == just(2)
 );
 BOOST_HANA_CONSTANT_CHECK(
-    find_if(make<Tuple>(1.0, 2, '3'), trait_<std::is_class>) == nothing
+    find_if(make<Tuple>(1.0, 2, '3'), trait<std::is_class>) == nothing
 );
 
 constexpr auto types = tuple_t<char, int, unsigned, long, unsigned long>;

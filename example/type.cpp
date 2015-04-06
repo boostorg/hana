@@ -59,19 +59,36 @@ static_assert(std::is_same<
 }
 
 namespace ns3 {
-//! [decltype]
+//! [decltype_]
 struct X { };
-BOOST_HANA_CONSTANT_CHECK(type<X> == decltype_(X{}));
-BOOST_HANA_CONSTANT_CHECK(type<int> == decltype_(1));
-//! [decltype]
+BOOST_HANA_CONSTANT_CHECK(decltype_(X{}) == type<X>);
+BOOST_HANA_CONSTANT_CHECK(decltype_(type<X>) == type<X>);
+
+BOOST_HANA_CONSTANT_CHECK(decltype_(1) == type<int>);
+
+static int const& i = 1;
+BOOST_HANA_CONSTANT_CHECK(decltype_(i) == type<int const>);
+//! [decltype_]
 }
 
 namespace ns4 {
-//! [sizeof]
+//! [sizeof_]
 struct X { };
 static_assert(sizeof_(type<X>) == sizeof(X), "");
+
+static_assert(sizeof_(1) == sizeof(1), "");
 static_assert(sizeof_(type<int>) == sizeof(int), "");
-//! [sizeof]
+//! [sizeof_]
+}
+
+namespace ns44 {
+//! [alignof_]
+struct X { };
+static_assert(alignof_(type<X>) == alignof(X), "");
+
+static_assert(alignof_(1) == alignof(decltype(1)), "");
+static_assert(alignof_(type<int>) == alignof(int), "");
+//! [alignof_]
 }
 
 namespace ns5 {
@@ -83,6 +100,9 @@ struct y;
 BOOST_HANA_CONSTANT_CHECK(template_<f>() == type<f<>>);
 BOOST_HANA_CONSTANT_CHECK(template_<f>(type<x>) == type<f<x>>);
 BOOST_HANA_CONSTANT_CHECK(template_<f>(type<x>, type<y>) == type<f<x, y>>);
+
+// calling `template_` on non-Types
+BOOST_HANA_CONSTANT_CHECK(template_<f>(1) == type<f<int>>);
 
 static_assert(std::is_same<
     decltype(template_<f>)::apply<x, y>::type,
@@ -100,6 +120,9 @@ struct y;
 BOOST_HANA_CONSTANT_CHECK(metafunction<f>() == type<f<>::type>);
 BOOST_HANA_CONSTANT_CHECK(metafunction<f>(type<x>) == type<f<x>::type>);
 BOOST_HANA_CONSTANT_CHECK(metafunction<f>(type<x>, type<y>) == type<f<x, y>::type>);
+
+// calling `metafunction` on non-Types
+BOOST_HANA_CONSTANT_CHECK(metafunction<f>(1) == type<f<int>::type>);
 
 static_assert(std::is_same<
     decltype(metafunction<f>)::apply<x, y>::type,
@@ -126,11 +149,11 @@ BOOST_HANA_CONSTANT_CHECK(extent(type<char[1][2]>, int_<1>) == size_t<2>);
 }
 
 namespace ns9 {
-//! [trait_]
-BOOST_HANA_CONSTANT_CHECK(trait_<std::is_integral>(2));
-BOOST_HANA_CONSTANT_CHECK(trait_<std::is_integral>(2ll));
-BOOST_HANA_CONSTANT_CHECK(not_(trait_<std::is_integral>(2.2)));
-//! [trait_]
+//! [make<Type>]
+struct X { };
+BOOST_HANA_CONSTANT_CHECK(make<Type>(X{}) == decltype_(X{}));
+BOOST_HANA_CONSTANT_CHECK(make<Type>(type<X>) == decltype_(type<X>));
+//! [make<Type>]
 }
 
 int main() { }
