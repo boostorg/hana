@@ -30,7 +30,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/functional/capture.cpp main
+    //! @snippet example/functional.cpp capture
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto capture = [](auto&& ...variables) {
         return [perfect-capture](auto&& f) {

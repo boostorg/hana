@@ -25,7 +25,7 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //! ### Example
-    //! @snippet example/functional/flip.cpp main
+    //! @snippet example/functional.cpp flip
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto flip = [](auto&& f) {
         return [perfect-capture](auto&& x, auto&& y, auto&& ...z) -> decltype(auto) {

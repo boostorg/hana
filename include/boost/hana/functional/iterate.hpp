@@ -66,7 +66,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/functional/iterate.cpp main
+    //! @snippet example/functional.cpp iterate
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <std::size_t n>
     constexpr auto iterate = [](auto&& f) {

@@ -49,7 +49,7 @@ namespace boost { namespace hana {
     //! @endinternal
     //!
     //! ### Example
-    //! @snippet example/functional/arg.cpp main
+    //! @snippet example/functional.cpp arg
     //!
     //!
     //! @todo

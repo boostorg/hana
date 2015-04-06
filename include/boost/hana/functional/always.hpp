@@ -28,14 +28,9 @@ namespace boost { namespace hana {
     //! a reference to the `x` it owns. This reference is valid as long
     //! as `always(x)` is in scope.
     //!
-    //! @note
-    //! This can be useful to make an expression dependent in order to delay
-    //! the instantiation of its type by the compiler.
-    //! @snippet example/functional/always/dependent.cpp main
-    //!
     //!
     //! ### Example
-    //! @snippet example/functional/always/basic.cpp main
+    //! @snippet example/functional.cpp always
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto always = [](auto&& x) {
         return [perfect-capture](auto const& ...y) -> decltype(auto) {

@@ -18,7 +18,7 @@ namespace boost { namespace hana {
     //! The identity function -- returns its argument unchanged.
     //!
     //! ### Example
-    //! @snippet example/functional/id.cpp main
+    //! @snippet example/functional.cpp id
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto id = [](auto&& x) -> decltype(auto) {
         return forwarded(x);

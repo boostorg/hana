@@ -30,7 +30,7 @@ namespace boost { namespace hana {
     //! the number of arguments must match the number of `g`s.
     //!
     //! ### Example
-    //! @snippet example/functional/lockstep.cpp main
+    //! @snippet example/functional.cpp lockstep
     //!
     //! @todo
     //! I think this is equivalent to `<*>` for `((->) r)`.

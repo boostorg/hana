@@ -61,7 +61,7 @@ namespace boost { namespace hana {
     //! to save you a couple of characters in simple situations.
     //!
     //! ### Example
-    //! @snippet example/functional/placeholder.cpp main
+    //! @snippet example/functional.cpp placeholder
     //!
     //! [Boost.Phoenix]: http://www.boost.org/doc/libs/release/libs/phoenix/doc/html/index.html
 #ifdef BOOST_HANA_DOXYGEN_INVOKED

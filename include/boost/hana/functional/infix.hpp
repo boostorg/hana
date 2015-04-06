@@ -74,7 +74,7 @@ namespace boost { namespace hana {
     //! triggered otherwise.
     //!
     //! ### Example
-    //! @snippet example/functional/infix.cpp main
+    //! @snippet example/functional.cpp infix
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto infix = [](auto f) {
         return unspecified;

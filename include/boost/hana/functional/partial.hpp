@@ -29,7 +29,7 @@ namespace boost { namespace hana {
     //! arguments passed in total, i.e. `sizeof...(x) + sizeof...(y)`.
     //!
     //! ### Example
-    //! @snippet example/functional/partial.cpp main
+    //! @snippet example/functional.cpp partial
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto partial = [](auto&& f, auto&& ...x) {
         return [perfect-capture](auto&& ...y) -> decltype(auto) {

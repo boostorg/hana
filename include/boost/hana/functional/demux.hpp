@@ -54,7 +54,7 @@ namespace boost { namespace hana {
     //! @endinternal
     //!
     //! ### Example
-    //! @snippet example/functional/demux.cpp main
+    //! @snippet example/functional.cpp demux
     //!
     //! @todo
     //! I think this is equivalent to `transform . transform`.
