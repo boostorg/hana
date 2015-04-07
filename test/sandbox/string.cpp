@@ -5,7 +5,7 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/config.hpp>
-#include <boost/hana/sandbox/algorithm.hpp>
+#include "algorithm.hpp"
 
 #include <cstddef>
 #include <functional>

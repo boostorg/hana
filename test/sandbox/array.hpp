@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_SANDBOX_ARRAY_HPP
 #define BOOST_HANA_SANDBOX_ARRAY_HPP
 
-#include <boost/hana/sandbox/algorithm.hpp>
+#include "algorithm.hpp"
 
 #include <cstddef>      // for std::size_t and std::ptrdiff_t
 #include <functional>   // for std::less and std::equal_to

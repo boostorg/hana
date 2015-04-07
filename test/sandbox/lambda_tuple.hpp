@@ -38,12 +38,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana { namespace sandbox {
-    //! @ingroup group-datatypes
-    //! General purpose index-based heterogeneous sequence.
-    //!
-    //! ### Instance of
-    //! `Comparable`, `Functor`, `Applicative`, `Monad`, `Traversable`,
-    //! `Foldable`, `Iterable`, `List` and `Searchable`.
     struct LambdaTuple {
         struct hana {
             struct operators
@@ -67,22 +61,10 @@ namespace boost { namespace hana { namespace sandbox {
         Storage storage;
     };
 
-    //! Create a `Tuple` containing `xs...`.
-    //! @relates Tuple
-    //!
-    //! @todo
-    //! - Use perfect forwarding to construct the inner lambda capture when
-    //!   this is supported and this bug is resolved: http://llvm.org/bugs/show_bug.cgi?id=20939
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto lambda_tuple = [](auto&& ...xs) {
-        return unspecified-type;
-    };
-#else
     BOOST_HANA_CONSTEXPR_LAMBDA auto lambda_tuple = [](auto ...xs) -> decltype(auto) {
         auto storage = [=](auto f) -> decltype(auto) { return f(xs...); };
         return _lambda_tuple<decltype(storage)>{hana::detail::std::move(storage)};
     };
-#endif
 }}} // end namespace boost::hana::sandbox
 
 namespace boost { namespace hana {
@@ -196,8 +178,9 @@ namespace boost { namespace hana {
             return static_cast<Xs&&>(xs).storage(
                 [ys(static_cast<Ys&&>(ys))](auto&& ...xs) -> decltype(auto) {
                     return detail::std::move(ys).storage(
-                        //! @todo Initialize the capture with perfect
-                        //! forwarding once that's supported by the language.
+                        // We can't initialize the capture with perfect
+                        // forwarding since that's not supported by the
+                        // language.
                         [=](auto&& ...ys) -> decltype(auto) {
                             return sandbox::lambda_tuple(
                                 detail::std::move(xs)...,

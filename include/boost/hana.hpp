@@ -1101,10 +1101,6 @@ the library was also intentionally kept simple, because we all love simplicity.
     For example:
     @snippet example/tutorial/include_ext.cpp main
 
-  - `boost/hana/sandbox/`\n
-    This directory contains experimental code on which no guarantee whatsoever
-    is made. It might not even compile and it will definitely not be stable.
-
   - `boost/hana/detail/`\n
     This directory contains utilities required internally. Nothing in `detail/`
     is guaranteed to be stable, so you should not use it.
