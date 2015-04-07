@@ -103,10 +103,23 @@ namespace boost { namespace hana {
     //! -------------------------------------------
     //! A mapping between two functors which also preserves the functor
     //! laws is called a natural transformation (the term comes from
-    //! category theory).
+    //! category theory). A natural transformation is a function `f`
+    //! from a functor `F` to a functor `G` such that for every other
+    //! function `g` with an appropriate signature and for every object
+    //! `xs` of generalized type `F(X)`,
+    //! @code
+    //!     f(transform(xs, g)) == transform(f(xs), g)
+    //! @endcode
     //!
-    //! @todo
-    //! Grok and then document natural transformations.
+    //! There are several examples of such transformations, like `to<Tuple>`
+    //! when applied to a Maybe. Indeed, for any function `g` and Maybe `m`,
+    //! @code
+    //!     to<Tuple>(transform(m, g)) == transform(to<Tuple>(m), g)
+    //! @endcode
+    //!
+    //! Of course, natural transformations are not limited to the `to<...>`
+    //! functions. However, note that any conversion function between Functors
+    //! should be natural for the behavior of the conversion to be intuitive.
     //!
     //!
     //! [1]: http://en.wikipedia.org/wiki/Functor
