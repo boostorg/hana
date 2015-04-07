@@ -55,7 +55,7 @@ Distributed under the Boost Software License, Version 1.0.
     BOOST_PP_TUPLE_ELEM(BOOST_PP_DEC(BOOST_PP_TUPLE_SIZE(MEMBER)), MEMBER)
 
 #define BOOST_HANA_PP_RECORD_TUPLE_MEMBER_IMPL(_, __, MEMBER)               \
-    ::boost::hana::pair(                                                    \
+    ::boost::hana::make_pair(                                               \
         BOOST_HANA_STRING(BOOST_HANA_PP_STRINGIZE(                          \
             BOOST_HANA_PP_RECORD_MEMBER_NAME(MEMBER)                        \
         )),                                                                 \

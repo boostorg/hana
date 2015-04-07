@@ -102,7 +102,7 @@ int main() {
         // first
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                first(pair(ct_eq<1>{}, ct_eq<2>{})),
+                first(make_pair(ct_eq<1>{}, ct_eq<2>{})),
                 ct_eq<1>{}
             ));
         }
@@ -110,7 +110,7 @@ int main() {
         // second
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                second(pair(ct_eq<1>{}, ct_eq<2>{})),
+                second(make_pair(ct_eq<1>{}, ct_eq<2>{})),
                 ct_eq<2>{}
             ));
         }

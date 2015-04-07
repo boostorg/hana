@@ -286,18 +286,6 @@ namespace boost { namespace hana {
     constexpr _fold fold{};
 #endif
 
-    [[deprecated("use fold.left or fold instead")]]
-    constexpr auto foldl = fold.left;
-
-    [[deprecated("use fold.left or fold instead")]]
-    constexpr auto foldl1 = fold.left;
-
-    [[deprecated("use fold.right instead")]]
-    constexpr auto foldr = fold.right;
-
-    [[deprecated("use fold.right instead")]]
-    constexpr auto foldr1 = fold.right;
-
     //! Monadic fold of a structure with a binary operation and an optional
     //! initial reduction state.
     //! @relates Foldable
@@ -548,15 +536,6 @@ namespace boost { namespace hana {
     template <typename M>
     constexpr _monadic_fold<M> monadic_fold{};
 #endif
-
-    template <typename M>
-    [[deprecated("use monadic_fold<M>.left or monadic_fold<M> instead")]]
-    constexpr auto foldlM = monadic_fold<M>.left;
-
-    template <typename M>
-    [[deprecated("use monadic_fold<M>.right instead")]]
-    constexpr auto foldrM = monadic_fold<M>.right;
-
 
     //! Equivalent to `reverse_fold` in Boost.Fusion and Boost.MPL.
     //! @relates Foldable

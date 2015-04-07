@@ -44,9 +44,6 @@ namespace boost { namespace hana {
     template <typename ...Xs>
     struct _tuple;
 
-    //! @todo Remove this; kept for backward compatibility.
-    [[deprecated("use make<Tuple> instead")]] constexpr detail::create<_tuple> tuple{};
-
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     //! Create a `Tuple` containing the given objects.
     //! @relates Tuple

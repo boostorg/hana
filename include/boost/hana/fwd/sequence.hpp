@@ -787,18 +787,6 @@ namespace boost { namespace hana {
     constexpr _scan scan{};
 #endif
 
-    [[deprecated("use scan.left or scan instead")]]
-    constexpr auto scanl = scan.left;
-
-    [[deprecated("use scan.left or scan instead")]]
-    constexpr auto scanl1 = scan.left;
-
-    [[deprecated("use scan.right instead")]]
-    constexpr auto scanr = scan.right;
-
-    [[deprecated("use scan.right instead")]]
-    constexpr auto scanr1 = scan.right;
-
     //! Extract a subsequence delimited by the given indices.
     //! @relates Sequence
     //!
@@ -1011,12 +999,12 @@ namespace boost { namespace hana {
     //! all elements satisfy the given predicate. The second component of the
     //! returned `Product` is a sequence containing the remainder of the
     //! argument. Both or either sequences may be empty, depending on the
-    //! input argument. Specifically, `span(xs, predicate)` is equivalent to
+    //! input argument. More specifically,
     //! @code
-    //!     span(xs, predicate) == pair(take_while(xs, predicate),
-    //!                                 drop_while(xs, predicate))
+    //!     span(xs, predicate) == make_pair(take_while(xs, predicate),
+    //!                                      drop_while(xs, predicate))
     //! @endcode
-    //! except that `pair` may be an arbitrary `Product`.
+    //! except that `make_pair` may be an arbitrary `Product`.
     //!
     //!
     //! @param xs
@@ -1293,7 +1281,7 @@ namespace boost { namespace hana {
     //!
     //! if the following holds
     //! @code
-    //!     g(f(x, y)) == just(pair(x, y))
+    //!     g(f(x, y)) == just(make_pair(x, y))
     //!     g(z) == nothing
     //! @endcode
     //!
@@ -1323,11 +1311,11 @@ namespace boost { namespace hana {
     //! A function called as `f(init)`, where `init` is an initial value,
     //! and returning
     //! 1. `nothing` if it is done producing the sequence.
-    //! 2. otherwise, `just(pair(init, x))` for `unfold.left` and
-    //!    `just(pair(x, init))` for `unfold.right`, where `init` is the
+    //! 2. otherwise, `just(make_pair(init, x))` for `unfold.left` and
+    //!    `just(make_pair(x, init))` for `unfold.right`, where `init` is the
     //!    new initial value used in the next call to `f` and `x` is an
     //!    element to be appended to the resulting sequence. Also note that
-    //!    `pair` may actually be replaced by any `Product`.
+    //!    `make_pair` may actually be replaced by any `Product`.
     //!
     //!
     //! Example

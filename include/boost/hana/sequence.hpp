@@ -45,7 +45,7 @@ namespace boost { namespace hana {
         struct pairwise {
             template <typename F, typename G, typename P>
             constexpr decltype(auto) operator()(F&& f, G&& g, P&& p) const {
-                return hana::pair(
+                return hana::make<Pair>(
                     static_cast<F&&>(f)(hana::first(static_cast<P&&>(p))),
                     static_cast<G&&>(g)(hana::second(static_cast<P&&>(p)))
                 );
@@ -59,8 +59,8 @@ namespace boost { namespace hana {
                 return hana::second(
                     hana::while_(
                         hana::compose(static_cast<Pred&&>(pred), first),
-                        hana::pair(static_cast<Init&&>(init),
-                                   static_cast<State&&>(state)),
+                        hana::make<Pair>(static_cast<Init&&>(init),
+                                         static_cast<State&&>(state)),
                         hana::partial(pairwise{},
                             static_cast<Incr&&>(incr),
                             static_cast<F&&>(f)
@@ -85,7 +85,7 @@ namespace boost { namespace hana {
         struct pairwise2 {
             template <typename F, typename G, typename P>
             constexpr decltype(auto) operator()(F&& f, G&& g, P&& p) const {
-                return hana::pair(
+                return hana::make<Pair>(
                     static_cast<F&&>(f)(hana::first(p)),
                     static_cast<G&&>(g)(
                         hana::first(p),
@@ -101,8 +101,8 @@ namespace boost { namespace hana {
                 return hana::second(
                     hana::while_(
                         hana::compose(static_cast<Pred&&>(pred), first),
-                        hana::pair(static_cast<Init&&>(init),
-                                   static_cast<State&&>(state)),
+                        hana::make<Pair>(static_cast<Init&&>(init),
+                                         static_cast<State&&>(state)),
                         hana::partial(pairwise2{},
                             static_cast<Incr&&>(incr),
                             static_cast<F&&>(f)
@@ -142,7 +142,7 @@ namespace boost { namespace hana {
                                   static_cast<decltype(x)&&>(x)));
                 decltype(auto) spn = hana::first(static_cast<decltype(tmp)&&>(tmp));
                 decltype(auto) rest = hana::second(static_cast<decltype(tmp)&&>(tmp));
-                return hana::pair(
+                return hana::make<Pair>(
                     hana::append(static_cast<Grouped&&>(grouped),
                                  static_cast<decltype(spn)&&>(spn)),
                     static_cast<decltype(rest)&&>(rest)
@@ -156,7 +156,7 @@ namespace boost { namespace hana {
         template <typename Xs, typename Pred>
         static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
             return hana::first(hana::until(hana::compose(is_empty, second),
-                hana::pair(empty<S>(), static_cast<Xs&&>(xs)),
+                hana::make<Pair>(empty<S>(), static_cast<Xs&&>(xs)),
                 hana::fuse(hana::partial(sequence_detail::group_by_loop{},
                                          static_cast<Pred&&>(pred)))
             ));
@@ -256,7 +256,7 @@ namespace boost { namespace hana {
         struct append_first {
             template <typename Parts, typename X>
             constexpr decltype(auto) operator()(Parts&& parts, X&& x) const {
-                return hana::pair(
+                return hana::make<Pair>(
                     hana::append(hana::first(static_cast<Parts&&>(parts)),
                                  static_cast<X&&>(x)),
                     hana::second(static_cast<Parts&&>(parts))
@@ -267,7 +267,7 @@ namespace boost { namespace hana {
         struct append_second {
             template <typename Parts, typename X>
             constexpr decltype(auto) operator()(Parts&& parts, X&& x) const {
-                return hana::pair(
+                return hana::make<Pair>(
                     hana::first(static_cast<Parts&&>(parts)),
                     hana::append(hana::second(static_cast<Parts&&>(parts)),
                                  static_cast<X&&>(x))
@@ -294,7 +294,7 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
             return hana::fold.left(
                 static_cast<Xs&&>(xs),
-                hana::pair(empty<S>(), empty<S>()),
+                hana::make<Pair>(empty<S>(), empty<S>()),
                 hana::partial(sequence_detail::partition_helper{},
                               static_cast<Pred&&>(pred))
             );

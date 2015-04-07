@@ -39,11 +39,11 @@ namespace boost { namespace hana {
     struct members_impl<test::MinimalRecord> {
         static BOOST_HANA_CONSTEXPR_LAMBDA auto apply() {
             return make<Tuple>(
-                pair(test::member1, [](auto&& u) {
-                    return detail::std::forward<decltype(u)>(u).member1;
+                make<Pair>(test::member1, [](auto&& u) {
+                    return static_cast<decltype(u)&&>(u).member1;
                 }),
-                pair(test::member2, [](auto&& u) {
-                    return detail::std::forward<decltype(u)>(u).member2;
+                make<Pair>(test::member2, [](auto&& u) {
+                    return static_cast<decltype(u)&&>(u).member2;
                 })
             );
         }

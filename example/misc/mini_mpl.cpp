@@ -113,7 +113,7 @@ struct range_c : decltype(hana::range_c<T, from, to>) {
 
 
 template <typename T, typename U>
-struct pair : decltype(hana::pair(hana::type<T>, hana::type<U>)) { };
+struct pair : decltype(hana::make_pair(hana::type<T>, hana::type<U>)) { };
 
 template <typename P>
 struct first : decltype(hana::first(P{})) { };

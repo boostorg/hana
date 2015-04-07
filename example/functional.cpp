@@ -166,15 +166,15 @@ static_assert(iterate<5>(tail, xs) == make<Tuple>(6, 7, 8, 9, 10), "");
 
 //! [on.infix]
 constexpr auto sorted = sort.by(less ^on^ first, make<Tuple>(
-    pair(int_<3>, 'x'),
-    pair(int_<1>, type<void>),
-    pair(int_<2>, 9876)
+    make_pair(int_<3>, 'x'),
+    make_pair(int_<1>, type<void>),
+    make_pair(int_<2>, 9876)
 ));
 
 static_assert(sorted == make<Tuple>(
-    pair(int_<1>, type<void>),
-    pair(int_<2>, 9876),
-    pair(int_<3>, 'x')
+    make_pair(int_<1>, type<void>),
+    make_pair(int_<2>, 9876),
+    make_pair(int_<3>, 'x')
 ), "");
 //! [on.infix]
 

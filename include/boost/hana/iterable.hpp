@@ -260,9 +260,9 @@ namespace boost { namespace hana {
             constexpr decltype(auto) operator()(F&& f, X&& x) const {
                 decltype(auto) state = hana::first(static_cast<X&&>(x));
                 decltype(auto) xs = hana::second(static_cast<X&&>(x));
-                return hana::pair(
+                return hana::make<Pair>(
                     static_cast<F&&>(f)(
-                        detail::std::forward<decltype(state)>(state),
+                        static_cast<decltype(state)&&>(state),
                         hana::head(xs)
                     ),
                     hana::tail(xs)
@@ -294,8 +294,8 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(Xs&& xs, State&& s, F&& f) {
             return hana::first(hana::until(
                 hana::compose(is_empty, second),
-                hana::pair(static_cast<State&&>(s),
-                           static_cast<Xs&&>(xs)),
+                hana::make<Pair>(static_cast<State&&>(s),
+                                 static_cast<Xs&&>(xs)),
                 hana::partial(iterable_detail::foldl_helper{},
                                                 static_cast<F&&>(f))
             ));

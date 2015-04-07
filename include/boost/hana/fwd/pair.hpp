@@ -77,9 +77,6 @@ namespace boost { namespace hana {
     //! -------
     //! @snippet example/pair.cpp make_pair
     constexpr auto make_pair = make<Pair>;
-
-    //! @todo Provided for backward compatibility. What to do with it?
-    constexpr auto pair = make<Pair>;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_PAIR_HPP

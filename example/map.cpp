@@ -52,13 +52,13 @@ BOOST_HANA_RUNTIME_CHECK(
 using namespace std::literals;
 BOOST_HANA_RUNTIME_CHECK(
     make_map(
-        pair(char_<'a'>, "foobar"s),
-        pair(type<int&&>, nullptr)
+        make_pair(char_<'a'>, "foobar"s),
+        make_pair(type<int&&>, nullptr)
     )
     ==
     make_map(
-        pair(type<int&&>, (void*)0),
-        pair(char_<'a'>, "foobar"s)
+        make_pair(type<int&&>, (void*)0),
+        make_pair(char_<'a'>, "foobar"s)
     )
 );
 //! [comparable]
@@ -67,8 +67,8 @@ BOOST_HANA_RUNTIME_CHECK(
 
 //! [searchable]
 BOOST_HANA_CONSTEXPR_LAMBDA auto m = make_map(
-    pair(type<int>, 'i'),
-    pair(type<float>, 'f')
+    make_pair(type<int>, 'i'),
+    make_pair(type<float>, 'f')
 );
 BOOST_HANA_CONSTEXPR_CHECK(find(m, type<int>) == just('i'));
 BOOST_HANA_CONSTEXPR_CHECK(find(m, type<float>) == just('f'));

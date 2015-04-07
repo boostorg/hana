@@ -91,19 +91,19 @@ BOOST_HANA_RUNTIME_CHECK(
 }{
 
 //! [applicative]
-BOOST_HANA_CONSTEXPR_CHECK(lift<Tuple>('x') == make<Tuple>('x'));
-BOOST_HANA_CONSTEXPR_CHECK(equal(lift<ext::std::Tuple>('x'), std::make_tuple('x')));
+static_assert(lift<Tuple>('x') == make<Tuple>('x'), "");
+static_assert(equal(lift<ext::std::Tuple>('x'), std::make_tuple('x')), "");
 
-BOOST_HANA_CONSTEXPR_LAMBDA auto f = pair;
-BOOST_HANA_CONSTEXPR_LAMBDA auto g = flip(pair);
-BOOST_HANA_CONSTEXPR_CHECK(
+constexpr auto f = make_pair;
+constexpr auto g = flip(make_pair);
+static_assert(
     ap(make<Tuple>(f, g), make<Tuple>(1, 2, 3), make<Tuple>('a', 'b'))
         ==
     make<Tuple>(
         f(1, 'a'), f(1, 'b'), f(2, 'a'), f(2, 'b'), f(3, 'a'), f(3, 'b'),
         g(1, 'a'), g(1, 'b'), g(2, 'a'), g(2, 'b'), g(3, 'a'), g(3, 'b')
     )
-);
+, "");
 //! [applicative]
 
 }{
@@ -361,19 +361,19 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto xs = make<Tuple>(int_<1>, int_<2>, int_<3>, int
 BOOST_HANA_CONSTANT_CHECK(
     span(xs, _ < int_<3>)
     ==
-    pair(make<Tuple>(int_<1>, int_<2>), make<Tuple>(int_<3>, int_<4>))
+    make_pair(make<Tuple>(int_<1>, int_<2>), make<Tuple>(int_<3>, int_<4>))
 );
 
 BOOST_HANA_CONSTANT_CHECK(
     span(xs, _ < int_<0>)
     ==
-    pair(make<Tuple>(), xs)
+    make_pair(make<Tuple>(), xs)
 );
 
 BOOST_HANA_CONSTANT_CHECK(
     span(xs, _ < int_<5>)
     ==
-    pair(xs, make<Tuple>())
+    make_pair(xs, make<Tuple>())
 );
 //! [span]
 
@@ -456,7 +456,7 @@ BOOST_HANA_CONSTANT_CHECK(
     unfold<Tuple>.left(int_<10>, [](auto x) {
         return if_(x == int_<0>,
             nothing,
-            just(pair(x - int_<1>, x))
+            just(make_pair(x - int_<1>, x))
         );
     })
     ==
@@ -467,7 +467,7 @@ BOOST_HANA_CONSTANT_CHECK(
     unfold<Tuple>.right(int_<10>, [](auto x) {
         return if_(x == int_<0>,
             nothing,
-            just(pair(x, x - int_<1>))
+            just(make_pair(x, x - int_<1>))
         );
     })
     ==
@@ -541,7 +541,7 @@ BOOST_HANA_CONSTANT_CHECK(
         return x % int_<2> != int_<0>;
     })
     ==
-    pair(
+    make_pair(
         tuple_c<int, 1, 3, 5, 7>,
         tuple_c<int, 2, 4, 6>
     )
@@ -550,7 +550,7 @@ BOOST_HANA_CONSTANT_CHECK(
 BOOST_HANA_CONSTANT_CHECK(
     partition(tuple_t<void, int, float, char, double>, trait<std::is_floating_point>)
     ==
-    pair(
+    make_pair(
         tuple_t<float, double>,
         tuple_t<void, int, char>
     )
