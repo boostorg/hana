@@ -170,7 +170,7 @@ int main() {
     // MonadPlus
     //////////////////////////////////////////////////////////////////////////
 #ifdef BOOST_HANA_TEST_MONAD_PLUS
-    test::TestMonadPlus<test::Seq>{eqs, eq_keys, predicates};
+    test::TestMonadPlus<test::Seq>{eqs, predicates, eq_keys};
 #endif
 
     //////////////////////////////////////////////////////////////////////////
