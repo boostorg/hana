@@ -198,43 +198,74 @@ int main() {
 
         // while_
         {
-            //! @todo implement this
-        }
-
-        // until
-        {
-            auto equal_to = curry<2>(equal);
             test::_injection<0> f{};
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                until(equal_to(ct_eq<0>{}), ct_eq<0>{}, invalid{}),
+                while_(not_equal.to(ct_eq<0>{}), ct_eq<0>{}, invalid{}),
                 ct_eq<0>{}
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                until(equal_to(f(ct_eq<0>{})), ct_eq<0>{}, f),
+                while_(not_equal.to(f(ct_eq<0>{})), ct_eq<0>{}, f),
                 f(ct_eq<0>{})
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                until(equal_to(f(f(ct_eq<0>{}))), ct_eq<0>{}, f),
+                while_(not_equal.to(f(f(ct_eq<0>{}))), ct_eq<0>{}, f),
                 f(f(ct_eq<0>{}))
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                until(equal_to(f(f(f(ct_eq<0>{})))), ct_eq<0>{}, f),
+                while_(not_equal.to(f(f(f(ct_eq<0>{})))), ct_eq<0>{}, f),
                 f(f(f(ct_eq<0>{})))
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                until(equal_to(f(f(f(f(ct_eq<0>{}))))), ct_eq<0>{}, f),
+                while_(not_equal.to(f(f(f(f(ct_eq<0>{}))))), ct_eq<0>{}, f),
                 f(f(f(f(ct_eq<0>{}))))
             ));
 
             // Make sure it can be called with an lvalue state:
             auto state = ct_eq<0>{};
             BOOST_HANA_CONSTANT_CHECK(equal(
-                until(equal_to(f(f(f(f(ct_eq<0>{}))))), state, f),
+                while_(not_equal.to(f(f(f(f(ct_eq<0>{}))))), state, f),
+                f(f(f(f(ct_eq<0>{}))))
+            ));
+        }
+
+        // until
+        {
+            test::_injection<0> f{};
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                until(equal.to(ct_eq<0>{}), ct_eq<0>{}, invalid{}),
+                ct_eq<0>{}
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                until(equal.to(f(ct_eq<0>{})), ct_eq<0>{}, f),
+                f(ct_eq<0>{})
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                until(equal.to(f(f(ct_eq<0>{}))), ct_eq<0>{}, f),
+                f(f(ct_eq<0>{}))
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                until(equal.to(f(f(f(ct_eq<0>{})))), ct_eq<0>{}, f),
+                f(f(f(ct_eq<0>{})))
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                until(equal.to(f(f(f(f(ct_eq<0>{}))))), ct_eq<0>{}, f),
+                f(f(f(f(ct_eq<0>{}))))
+            ));
+
+            // Make sure it can be called with an lvalue state:
+            auto state = ct_eq<0>{};
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                until(equal.to(f(f(f(f(ct_eq<0>{}))))), state, f),
                 f(f(f(f(ct_eq<0>{}))))
             ));
         }
