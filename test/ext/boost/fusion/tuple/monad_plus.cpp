@@ -7,6 +7,8 @@ Distributed under the Boost Software License, Version 1.0.
 #define FUSION_MAX_VECTOR_SIZE 20
 #include <boost/hana/ext/boost/fusion/tuple.hpp>
 
+#include <boost/hana/bool.hpp>
+#include <boost/hana/functional/always.hpp>
 #include <boost/hana/tuple.hpp>
 
 #include <laws/base.hpp>
@@ -30,8 +32,14 @@ int main() {
         , fusion::make_tuple(eq<0>{}, eq<1>{}, eq<2>{})
     );
 
+    auto eq_values = make<Tuple>(eq<0>{}, eq<1>{}, eq<2>{});
+    auto predicates = make<Tuple>(
+        equal.to(eq<0>{}), equal.to(eq<1>{}), equal.to(eq<2>{}),
+        always(false_), always(true_)
+    );
+
     //////////////////////////////////////////////////////////////////////////
     // MonadPlus
     //////////////////////////////////////////////////////////////////////////
-    test::TestMonadPlus<ext::boost::fusion::Tuple>{eq_tuples};
+    test::TestMonadPlus<ext::boost::fusion::Tuple>{eq_tuples, predicates, eq_values};
 }

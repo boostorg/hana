@@ -6,6 +6,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/ext/std/tuple.hpp>
 
+#include <boost/hana/bool.hpp>
+#include <boost/hana/functional/always.hpp>
 #include <boost/hana/tuple.hpp>
 
 #include <laws/applicative.hpp>
@@ -66,6 +68,29 @@ int main() {
     );
     (void)ord_tuples;
 
+    auto eq_values = make<Tuple>(eq<0>{}, eq<1>{}, eq<2>{});
+    (void)eq_values;
+
+    auto predicates = make<Tuple>(
+        equal.to(eq<0>{}), equal.to(eq<1>{}), equal.to(eq<2>{}),
+        always(false_), always(true_)
+    );
+    (void)predicates;
+
+    auto nested_tuples = make<Tuple>(
+          std::make_tuple()
+        , std::make_tuple(
+            std::make_tuple(eq<0>{}))
+        , std::make_tuple(
+            std::make_tuple(eq<0>{}),
+            std::make_tuple(eq<1>{}, eq<2>{}))
+        , std::make_tuple(
+            std::make_tuple(eq<0>{}),
+            std::make_tuple(eq<1>{}, eq<2>{}),
+            std::make_tuple(eq<3>{}, eq<4>{}))
+    );
+    (void)nested_tuples;
+
 #if BOOST_HANA_TEST_PART == 1
     //////////////////////////////////////////////////////////////////////////
     // Searchable
@@ -86,7 +111,7 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     // MonadPlus
     //////////////////////////////////////////////////////////////////////////
-    test::TestMonadPlus<ext::std::Tuple>{small_eq_tuples};
+    test::TestMonadPlus<ext::std::Tuple>{small_eq_tuples, predicates, eq_values};
 
 #elif BOOST_HANA_TEST_PART == 4
     //////////////////////////////////////////////////////////////////////////
@@ -101,24 +126,9 @@ int main() {
     // Functor up to Monad
     //////////////////////////////////////////////////////////////////////////
     {
-        auto eq_values = make<Tuple>(eq<0>{}, eq<2>{});
-
-        auto eq_tuples_tuples = make<Tuple>(
-              std::make_tuple()
-            , std::make_tuple(
-                std::make_tuple(eq<0>{}))
-            , std::make_tuple(
-                std::make_tuple(eq<0>{}),
-                std::make_tuple(eq<1>{}, eq<2>{}))
-            , std::make_tuple(
-                std::make_tuple(eq<0>{}),
-                std::make_tuple(eq<1>{}, eq<2>{}),
-                std::make_tuple(eq<3>{}, eq<4>{}))
-        );
-
         test::TestFunctor<ext::std::Tuple>{big_eq_tuples, eq_values};
         test::TestApplicative<ext::std::Tuple>{};
-        test::TestMonad<ext::std::Tuple>{big_eq_tuples, eq_tuples_tuples};
+        test::TestMonad<ext::std::Tuple>{big_eq_tuples, nested_tuples};
     }
 
     //////////////////////////////////////////////////////////////////////////

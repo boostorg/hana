@@ -21,6 +21,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
+#include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/flip.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/logical.hpp>
@@ -145,6 +146,36 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(N n, Xs const& xs) {
             constexpr detail::std::size_t n_ = hana::value(n);
             return mdetail::cycle_helper<M, n_>::apply(xs);
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // remove_if
+    //////////////////////////////////////////////////////////////////////////
+    template <typename M, typename>
+    struct remove_if_impl : remove_if_impl<M, when<true>> { };
+
+    template <typename M, bool condition>
+    struct remove_if_impl<M, when<condition>> : default_ {
+        template <typename Xs, typename Pred>
+        static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
+            return hana::filter(static_cast<Xs&&>(xs),
+                        hana::compose(hana::not_, static_cast<Pred&&>(pred)));
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // remove
+    //////////////////////////////////////////////////////////////////////////
+    template <typename M, typename>
+    struct remove_impl : remove_impl<M, when<true>> { };
+
+    template <typename M, bool condition>
+    struct remove_impl<M, when<condition>> : default_ {
+        template <typename Xs, typename Value>
+        static constexpr decltype(auto) apply(Xs&& xs, Value&& value) {
+            return hana::remove_if(static_cast<Xs&&>(xs),
+                        hana::equal.to(static_cast<Value&&>(value)));
         }
     };
 

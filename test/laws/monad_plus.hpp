@@ -8,11 +8,13 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_TEST_LAWS_MONAD_PLUS_HPP
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/comparable.hpp>
 #include <boost/hana/bool.hpp>
+#include <boost/hana/comparable.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/functional/capture.hpp>
+#include <boost/hana/functional/compose.hpp>
 #include <boost/hana/monad_plus.hpp>
 
 #include <laws/base.hpp>
@@ -28,8 +30,8 @@ namespace boost { namespace hana { namespace test {
     struct TestMonadPlus<M, laws> {
         static_assert(_models<MonadPlus, M>{}, "");
 
-        template <typename Xs>
-        TestMonadPlus(Xs xs) {
+        template <typename Xs, typename Predicates, typename Values>
+        TestMonadPlus(Xs xs, Predicates predicates, Values values) {
             hana::for_each(xs, [](auto a) {
                 // left identity
                 BOOST_HANA_CHECK(hana::equal(
@@ -64,16 +66,41 @@ namespace boost { namespace hana { namespace test {
                     hana::concat(hana::concat(a, b), c)
                 ));
             });
+
+            // Default method definitions
+            hana::for_each(xs, hana::capture(predicates, values)(
+            [](auto predicates, auto values, auto x) {
+
+                // remove_if(x, pred) == filter(x, negated pred)
+                hana::for_each(predicates, hana::capture(x)([](auto x, auto pred) {
+                    BOOST_HANA_CHECK(hana::equal(
+                        hana::remove_if(x, pred),
+                        hana::filter(x, hana::compose(hana::not_, pred))
+                    ));
+                }));
+
+                // remove(x, value) == remove_if(x, equal.to(value))
+                hana::for_each(values, hana::capture(x)([](auto x, auto value) {
+                    BOOST_HANA_CHECK(hana::equal(
+                        hana::remove(x, value),
+                        hana::remove_if(x, hana::equal.to(value))
+                    ));
+                }));
+            }));
         }
     };
 
     template <typename S>
     struct TestMonadPlus<S, when<_models<Sequence, S>{}>> : TestMonadPlus<S, laws> {
         template <int i>
-        using eq = _constant<i>;
+        using eq = test::ct_eq<i>;
 
-        template <typename Xs>
-        TestMonadPlus(Xs xs) : TestMonadPlus<S, laws>{xs} {
+        struct undefined { };
+
+        template <typename Xs, typename Predicates, typename Values>
+        TestMonadPlus(Xs xs, Predicates predicates, Values values)
+            : TestMonadPlus<S, laws>{xs, predicates, values}
+        {
             auto z = eq<999>{};
             constexpr auto list = make<S>;
 
@@ -153,7 +180,7 @@ namespace boost { namespace hana { namespace test {
             // filter
             //////////////////////////////////////////////////////////////////
             BOOST_HANA_CONSTANT_CHECK(equal(
-                filter(list(), not_equal.to(z)),
+                filter(list(), undefined{}),
                 list()
             ));
 
@@ -336,6 +363,132 @@ namespace boost { namespace hana { namespace test {
                 list(eq<0>{}, eq<1>{}, eq<2>{}, eq<0>{}, eq<1>{}, eq<2>{}, eq<0>{}, eq<1>{}, eq<2>{})
             ));
 
+            //////////////////////////////////////////////////////////////////
+            // remove_if
+            //////////////////////////////////////////////////////////////////
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                remove_if(list(), undefined{}),
+                list()
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                remove_if(list(eq<0>{}), equal.to(z)),
+                list(eq<0>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                remove_if(list(z), equal.to(z)),
+                list()
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                remove_if(list(eq<0>{}, eq<1>{}), equal.to(z)),
+                list(eq<0>{}, eq<1>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                remove_if(list(z, eq<1>{}), equal.to(z)),
+                list(eq<1>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                remove_if(list(eq<0>{}, z), equal.to(z)),
+                list(eq<0>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                remove_if(list(z, z), equal.to(z)),
+                list()
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                remove_if(list(eq<0>{}, eq<1>{}, eq<2>{}), equal.to(z)),
+                list(eq<0>{}, eq<1>{}, eq<2>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                remove_if(list(eq<0>{}, eq<1>{}, z), equal.to(z)),
+                list(eq<0>{}, eq<1>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                remove_if(list(eq<0>{}, z, eq<2>{}), equal.to(z)),
+                list(eq<0>{}, eq<2>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                remove_if(list(z, eq<1>{}, eq<2>{}), equal.to(z)),
+                list(eq<1>{}, eq<2>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                remove_if(list(z, z, eq<2>{}), equal.to(z)),
+                list(eq<2>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                remove_if(list(eq<0>{}, z, z), equal.to(z)),
+                list(eq<0>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                remove_if(list(z, z, z), equal.to(z)),
+                list()
+            ));
+
+            //////////////////////////////////////////////////////////////////
+            // remove
+            //////////////////////////////////////////////////////////////////
+            using hana::remove; // make sure we don't clash with ::remove in <stdio.h>
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                remove(list(), undefined{}),
+                list()
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                remove(list(eq<0>{}), z),
+                list(eq<0>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                remove(list(z), z),
+                list()
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                remove(list(eq<0>{}, eq<1>{}), z),
+                list(eq<0>{}, eq<1>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                remove(list(z, eq<1>{}), z),
+                list(eq<1>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                remove(list(eq<0>{}, z), z),
+                list(eq<0>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                remove(list(z, z), z),
+                list()
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                remove(list(eq<0>{}, eq<1>{}, eq<2>{}), z),
+                list(eq<0>{}, eq<1>{}, eq<2>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                remove(list(eq<0>{}, eq<1>{}, z), z),
+                list(eq<0>{}, eq<1>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                remove(list(eq<0>{}, z, eq<2>{}), z),
+                list(eq<0>{}, eq<2>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                remove(list(z, eq<1>{}, eq<2>{}), z),
+                list(eq<1>{}, eq<2>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                remove(list(z, z, eq<2>{}), z),
+                list(eq<2>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                remove(list(eq<0>{}, z, z), z),
+                list(eq<0>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                remove(list(z, z, z), z),
+                list()
+            ));
 
             //////////////////////////////////////////////////////////////////
             // repeat

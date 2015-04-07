@@ -6,6 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/tuple.hpp>
 
+#include <boost/hana/functional/always.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/type.hpp>
 
@@ -51,6 +52,15 @@ int main() {
         , make<Tuple>(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{}, eq<5>{})
     );
     (void)eq_tuples;
+
+    auto eq_values = make<Tuple>(eq<0>{}, eq<2>{}, eq<4>{});
+    (void)eq_values;
+
+    auto predicates = make<Tuple>(
+        equal.to(eq<0>{}), equal.to(eq<2>{}), equal.to(eq<4>{}),
+        always(true_), always(false_)
+    );
+    (void)predicates;
 
     auto ord_tuples = make<Tuple>(
           make<Tuple>()
@@ -518,7 +528,6 @@ int main() {
         }
 
         // laws
-        auto eq_values = make<Tuple>(eq<0>{}, eq<2>{});
         test::TestFunctor<Tuple>{eq_tuples, eq_values};
     }
 
@@ -579,7 +588,7 @@ int main() {
         }
 
         // laws
-        test::TestMonadPlus<Tuple>{eq_tuples};
+        test::TestMonadPlus<Tuple>{eq_tuples, predicates, eq_values};
     }
 #endif
 }

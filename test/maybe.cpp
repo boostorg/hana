@@ -60,6 +60,12 @@ int main() {
     auto eq_values = make<Tuple>(ct_eq<0>{}, ct_eq<2>{}, ct_eq<3>{});
     (void)eq_values;
 
+    auto predicates = make<Tuple>(
+        equal.to(ct_eq<0>{}), equal.to(ct_eq<2>{}), equal.to(ct_eq<3>{}),
+        always(false_), always(true_)
+    );
+    (void)predicates;
+
     auto nested_eqs = make<Tuple>(
         nothing, just(just(ct_eq<0>{})), just(nothing), just(just(ct_eq<2>{}))
     );
@@ -439,7 +445,7 @@ int main() {
         }
 
         // laws
-        test::TestMonadPlus<Maybe>{eqs};
+        test::TestMonadPlus<Maybe>{eqs, predicates, eq_values};
     }
 
 #elif BOOST_HANA_TEST_PART == 5

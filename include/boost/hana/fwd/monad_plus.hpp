@@ -83,12 +83,12 @@ namespace boost { namespace hana {
     //! will depend on the exact model of MonadPlus at hand, but for
     //! sequences it corresponds intuitively to simple concatenation.
     //!
-    //! Also note that combination is not required to be commutative. In other
-    //! words, there is no requirement that
+    //! Also note that combination is not required to be commutative.
+    //! In other words, there is no requirement that
     //! @code
     //!     concat(xs, ys) == concat(ys, xs)
     //! @endcode
-    //! , and it does not hold in general.
+    //! and indeed it does not hold in general.
     //!
     //!
     //! Signature
@@ -421,10 +421,10 @@ namespace boost { namespace hana {
     struct _cycle {
         template <typename N, typename Xs>
         constexpr decltype(auto) operator()(N&& n, Xs&& xs) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
             static_assert(_models<MonadPlus, typename datatype<Xs>::type>{},
             "hana::cycle(n, xs) requires xs to be a MonadPlus");
-#endif
+        #endif
             return cycle_impl<typename datatype<Xs>::type>::apply(
                 static_cast<N&&>(n),
                 static_cast<Xs&&>(xs)
@@ -433,6 +433,125 @@ namespace boost { namespace hana {
     };
 
     constexpr _cycle cycle{};
+#endif
+
+    //! Remove all the elements of a monadic structure that satisfy some
+    //! predicate.
+    //! @relates MonadPlus
+    //!
+    //! Given a monadic structure `xs` and a unary predicate, `remove_if`
+    //! returns a new monadic structure equal to `xs` without all its elements
+    //! that satisfy the predicate. This is equivalent to `filter` with a
+    //! negated predicate, i.e.
+    //! @code
+    //!     remove_if(xs, predicate) == filter(xs, negated predicated)
+    //! @endcode
+    //!
+    //!
+    //! Signature
+    //! ---------
+    //! Given a MonadPlus `M` and a predicate of type \f$ T \to Bool \f$ for
+    //! some compile-time Logical `Bool`, the signature is
+    //! \f$
+    //!     \mathrm{remove\_if} : M(T) \times (T \to Bool) \to M(T)
+    //! \f$
+    //!
+    //! @param xs
+    //! A monadic structure to remove some elements from.
+    //!
+    //! @param predicate
+    //! A unary predicate called as `predicate(x)`, where `x` is an element
+    //! of the structure, and returning whether `x` should be removed from
+    //! the structure. In the current version of the library, `predicate`
+    //! must return a compile-time Logical.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/monad_plus.cpp remove_if
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto remove_if = [](auto&& xs, auto&& predicate) -> decltype(auto) {
+        return tag-dispatched;
+    };
+#else
+    template <typename M, typename = void>
+    struct remove_if_impl;
+
+    struct _remove_if {
+        template <typename Xs, typename Pred>
+        constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
+            #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+                static_assert(_models<MonadPlus, typename datatype<Xs>::type>{},
+                "hana::remove_if(xs, predicate) requires xs to be a MonadPlus");
+            #endif
+            return remove_if_impl<typename datatype<Xs>::type>::apply(
+                static_cast<Xs&&>(xs),
+                static_cast<Pred&&>(pred)
+            );
+        }
+    };
+
+    constexpr _remove_if remove_if{};
+#endif
+
+    //! Remove all the elements of a monadic structure that are equal to some
+    //! value.
+    //! @relates MonadPlus
+    //!
+    //! Given a monadic structure `xs` and a `value`, `remove` returns a new
+    //! monadic structure equal to `xs` without all its elements that are
+    //! equal to the given `value`. `remove` is equivalent to `remove_if`
+    //! with the `equal.to(value)` predicate, i.e.
+    //! @code
+    //!     remove(xs, value) == remove_if(xs, equal.to(value))
+    //! @endcode
+    //!
+    //!
+    //! Signature
+    //! ---------
+    //! Given a MonadPlus `M` and a value of type `T`, the signature is
+    //! \f$
+    //!     \mathrm{remove} : M(T) \times T \to M(T)
+    //! \f$
+    //!
+    //! @param xs
+    //! A monadic structure to remove some elements from.
+    //!
+    //! @param value
+    //! A value that is compared to every element `x` of the structure.
+    //! Elements of the structure that are equal to that value are removed
+    //! from the structure. This requires every element to be Comparable
+    //! with `value`. Furthermore, in the current version of the library,
+    //! comparing `value` with any element of the structure must yield a
+    //! compile-time Logical.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/monad_plus.cpp remove
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto remove = [](auto&& xs, auto&& value) -> decltype(auto) {
+        return tag-dispatched;
+    };
+#else
+    template <typename M, typename = void>
+    struct remove_impl;
+
+    struct _remove {
+        template <typename Xs, typename Value>
+        constexpr decltype(auto) operator()(Xs&& xs, Value&& value) const {
+            #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+                static_assert(_models<MonadPlus, typename datatype<Xs>::type>{},
+                "hana::remove(xs, value) requires xs to be a MonadPlus");
+            #endif
+            return remove_impl<typename datatype<Xs>::type>::apply(
+                static_cast<Xs&&>(xs),
+                static_cast<Value&&>(value)
+            );
+        }
+    };
+
+    constexpr _remove remove{};
 #endif
 
     //! Create a monadic structure by combining a lifted value with itself

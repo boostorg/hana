@@ -283,6 +283,8 @@ function                                     |  concept   | description
 `append(sequence, value)`                    | MonadPlus  | Append an element to a sequence.
 `concat(sequence1, sequence2)`               | MonadPlus  | Concatenate two sequences.
 `filter(sequence, predicate)`                | MonadPlus  | Remove all the elements that do not satisfy a predicate. The predicate must return an IntegralConstant.
+`remove_if(sequence, predicate)`             | MonadPlus  | Remove all the elements that satisfy a predicate. The predicate must return an IntegralConstant.
+`remove(sequence, value)`                    | MonadPlus  | Remove all the elements that are equal to a given value.
 `{any,none,all}_of(sequence, predicate)`     | Searchable | Returns whether any/none/all of the elements of the sequence satisfy some predicate.
 `{any,none,all}(sequence)`                   | Searchable | Returns whether any/non/all of the elements of a sequence are true-valued.
 `elem(sequence, value)`                      | Searchable | Returns whether an object is in a sequence.

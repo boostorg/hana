@@ -6,7 +6,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <test/seq.hpp>
 
+#include <boost/hana/bool.hpp>
 #include <boost/hana/core/operators.hpp>
+#include <boost/hana/functional/always.hpp>
 #include <boost/hana/tuple.hpp>
 
 #include <laws/applicative.hpp>
@@ -60,6 +62,12 @@ int main() {
 
     auto eq_keys = make<Tuple>(ct_eq<0>{}, ct_eq<3>{}, ct_eq<10>{});
     (void)eq_keys;
+
+    auto predicates = make<Tuple>(
+        equal.to(ct_eq<0>{}), equal.to(ct_eq<3>{}), equal.to(ct_eq<10>{}),
+        always(true_), always(false_)
+    );
+    (void)predicates;
 
     auto ords = make<Tuple>(
           test::seq()
@@ -162,7 +170,7 @@ int main() {
     // MonadPlus
     //////////////////////////////////////////////////////////////////////////
 #ifdef BOOST_HANA_TEST_MONAD_PLUS
-    test::TestMonadPlus<test::Seq>{eqs};
+    test::TestMonadPlus<test::Seq>{eqs, eq_keys, predicates};
 #endif
 
     //////////////////////////////////////////////////////////////////////////
