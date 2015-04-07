@@ -21,11 +21,11 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/core/wrong.hpp>
 #include <boost/hana/detail/has_common_embedding.hpp>
 #include <boost/hana/detail/less_than_comparable.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/wrong.hpp>
 #include <boost/hana/functional/flip.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/logical.hpp>
@@ -83,7 +83,7 @@ namespace boost { namespace hana {
     struct less_impl<T, U, when<condition>> : default_ {
         template <typename X, typename Y>
         static constexpr void apply(X&&, Y&&) {
-            static_assert(wrong<less_impl<T, U>, X, Y>{},
+            static_assert(detail::wrong<less_impl<T, U>, X, Y>{},
             "no definition of boost::hana::less for the given data types");
         }
     };

@@ -18,12 +18,12 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/default.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/core/wrong.hpp>
 #include <boost/hana/detail/closure.hpp>
 #include <boost/hana/detail/std/decay.hpp>
 #include <boost/hana/detail/std/declval.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/move.hpp>
+#include <boost/hana/detail/wrong.hpp>
 #include <boost/hana/functional/apply.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/id.hpp>
@@ -53,7 +53,7 @@ namespace boost { namespace hana {
 
         template <typename Expr>
         static constexpr auto eval_helper(Expr&&, ...) {
-            static_assert(wrong<Expr>{},
+            static_assert(detail::wrong<Expr>{},
             "hana::eval(expr) requires the expression to be Lazy, "
             "a nullary Callable or a unary Callable that may be "
             "called with hana::id");

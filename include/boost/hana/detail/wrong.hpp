@@ -1,17 +1,20 @@
 /*!
 @file
-Forward declares `boost::hana::wrong`.
+Defines `boost::hana::detail::wrong`.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#ifndef BOOST_HANA_FWD_CORE_WRONG_HPP
-#define BOOST_HANA_FWD_CORE_WRONG_HPP
+#ifndef BOOST_HANA_DETAIL_WRONG_HPP
+#define BOOST_HANA_DETAIL_WRONG_HPP
 
-namespace boost { namespace hana {
-    //! @ingroup group-core
+#include <boost/hana/detail/std/integral_constant.hpp>
+
+
+namespace boost { namespace hana { namespace detail {
+    //! @ingroup group-detail
     //! Equivalent to a type-dependent `std::false_type`.
     //!
     //! This is useful for making a static assertion that would otherwise
@@ -20,11 +23,9 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/core/wrong.cpp wrong
-    //!
-    //! @todo Consider moving this to the `boost::hana::detail` namespace.
+    //! @snippet example/detail/wrong.cpp wrong
     template <typename ...>
-    struct wrong;
-}} // end namespace boost::hana
+    struct wrong : detail::std::false_type { };
+}}} // end namespace boost::hana::detail
 
-#endif // !BOOST_HANA_FWD_CORE_WRONG_HPP
+#endif // !BOOST_HANA_DETAIL_WRONG_HPP

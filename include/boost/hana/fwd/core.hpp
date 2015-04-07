@@ -18,6 +18,5 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/core/make.hpp>
 #include <boost/hana/fwd/core/models.hpp>
 #include <boost/hana/fwd/core/when.hpp>
-#include <boost/hana/fwd/core/wrong.hpp>
 
 #endif // !BOOST_HANA_FWD_CORE_HPP

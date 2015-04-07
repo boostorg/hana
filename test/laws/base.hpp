@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/constant.hpp>
 #include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/detail/wrong.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional/infix.hpp>
 #include <boost/hana/logical.hpp>
@@ -94,7 +95,7 @@ namespace boost { namespace hana {
 
             template <typename X>
             trap_construct(X&&) {
-                static_assert(wrong<X>{},
+                static_assert(detail::wrong<X>{},
                 "this constructor must not be instantiated");
             }
         };

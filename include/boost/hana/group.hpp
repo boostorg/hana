@@ -21,12 +21,12 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/core/wrong.hpp>
 #include <boost/hana/detail/dependent_on.hpp>
 #include <boost/hana/detail/has_common_embedding.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/is_arithmetic.hpp>
+#include <boost/hana/detail/wrong.hpp>
 #include <boost/hana/monoid.hpp>
 
 
@@ -61,7 +61,7 @@ namespace boost { namespace hana {
     struct minus_impl<T, U, when<condition>> : default_ {
         template <typename X, typename Y>
         static constexpr void apply(X&&, Y&&) {
-            static_assert(wrong<minus_impl<T, U>, X, Y>{},
+            static_assert(detail::wrong<minus_impl<T, U>, X, Y>{},
             "no definition of boost::hana::minus for the given data types");
         }
     };
