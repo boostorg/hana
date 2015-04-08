@@ -3,111 +3,137 @@ compiler: clang
 os: linux
 sudo: false
 
-env:
-    global:
-        # GitHub token for pushing the documentation, logging in with the
-        # Travis command line utility and so on. The token is stored in the
-        # ${GITHUB_TOKEN} environment variable.
-        - secure: Jt+++hJ/wCBT1s1vuph4xs9J2mOp+ljLbTPEPrR0UFjcieAYjoPTFI0jmoV0yt2j+3plqLee5JQvZBMXdnLKtxaHyqAD95A0BsXknqYfyXmqvT/x1XQ3EifdWvhPrpJMNhHOQboTXjRaiwP4xlglmkQGX9ScNWzlnZQ4U/Wq9m4=
-
-    matrix:
-        # - BUILD_DOCS=false CLANG_VERSION=3.5 BOOST_VERSION=1.57.0
-        - BUILD_DOCS=false CLANG_VERSION=3.6 BOOST_VERSION=1.57.0
-        - BUILD_DOCS=false CLANG_VERSION=3.7 BOOST_VERSION=1.57.0
-
-        # - BUILD_DOCS=false CLANG_VERSION=3.5 BOOST_VERSION=1.58.0
-        - BUILD_DOCS=false CLANG_VERSION=3.6 BOOST_VERSION=1.58.0
-        - BUILD_DOCS=false CLANG_VERSION=3.7 BOOST_VERSION=1.58.0
-
-        # - BUILD_DOCS=false CLANG_VERSION=3.5 BOOST_VERSION=trunk
-        - BUILD_DOCS=false CLANG_VERSION=3.6 BOOST_VERSION=trunk
-        - BUILD_DOCS=false CLANG_VERSION=3.7 BOOST_VERSION=trunk
-
-        - BUILD_DOCS=true CLANG_VERSION=3.7 BOOST_VERSION=1.58.0
-
 
 matrix:
-    allow_failures:
-        - env: BOOST_VERSION=trunk
+  allow_failures:
+    - env: BOOST_VERSION=trunk
 
-
-addons:
-    apt:
-        sources:
+  include:
+    # clang 3.5
+    - env: CLANG_VERSION=3.5 BOOST_VERSION=1.57.0 BUILD_DOCS=false
+      addons: &clang35
+        apt:
+          packages: clang-3.5
+          sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise
             - llvm-toolchain-precise-3.5
+
+    - env: CLANG_VERSION=3.5 BOOST_VERSION=1.58.0 BUILD_DOCS=false
+      addons: *clang35
+
+    - env: CLANG_VERSION=3.5 BOOST_VERSION=trunk BUILD_DOCS=false
+      addons: *clang35
+
+    # clang 3.6
+    - env: CLANG_VERSION=3.6 BOOST_VERSION=1.57.0 BUILD_DOCS=false
+      addons: &clang36
+        apt:
+          packages: clang-3.6
+          sources:
+            - ubuntu-toolchain-r-test
             - llvm-toolchain-precise-3.6
 
-        packages:
-            - clang-3.6
-            - clang-3.7
+    - env: CLANG_VERSION=3.6 BOOST_VERSION=1.58.0 BUILD_DOCS=false
+      addons: *clang36
+
+    - env: CLANG_VERSION=3.6 BOOST_VERSION=trunk BUILD_DOCS=false
+      addons: *clang36
+
+    # clang 3.7
+    - env: CLANG_VERSION=3.7 BOOST_VERSION=1.57.0 BUILD_DOCS=false
+      addons: &clang37
+        apt:
+          packages: clang-3.7
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise # latest
+
+    - env: CLANG_VERSION=3.7 BOOST_VERSION=1.58.0 BUILD_DOCS=false
+      addons: *clang37
+
+    - env: CLANG_VERSION=3.7 BOOST_VERSION=trunk BUILD_DOCS=false
+      addons: *clang37
+
+
+env:
+  global:
+    # GitHub token for pushing the documentation, logging in with the
+    # Travis command line utility and so on. The token is stored in the
+    # ${GITHUB_TOKEN} environment variable.
+    - secure: Jt+++hJ/wCBT1s1vuph4xs9J2mOp+ljLbTPEPrR0UFjcieAYjoPTFI0jmoV0yt2j+3plqLee5JQvZBMXdnLKtxaHyqAD95A0BsXknqYfyXmqvT/x1XQ3EifdWvhPrpJMNhHOQboTXjRaiwP4xlglmkQGX9ScNWzlnZQ4U/Wq9m4=
+
+  # We define the documentation job here instead of in matrix.include, because
+  # otherwise we end up with a job that has no environment variables at all in
+  # the matrix.
+  matrix:
+    - BUILD_DOCS=true CLANG_VERSION=3.7 BOOST_VERSION=1.58.0
+
+# Those addons are just for the documentation job.
+addons: *clang37
 
 
 install:
-    # All the dependencies are installed to the deps/ subdirectory.
-    - DEPS_DIR="${PWD}/deps"
-    - mkdir ${DEPS_DIR} && cd ${DEPS_DIR}
+  # All the dependencies are installed to the deps/ subdirectory.
+  - DEPS_DIR="${PWD}/deps"
+  - mkdir ${DEPS_DIR} && cd ${DEPS_DIR}
 
-    # Install Boost headers
-    - if [ "${BOOST_VERSION}" == "1.57.0" ]; then BOOST_TARBALL_URL="http://sourceforge.net/projects/boost/files/boost/1.57.0/boost_1_57_0.tar.gz"; fi
-    - if [ "${BOOST_VERSION}" == "1.58.0" ]; then BOOST_TARBALL_URL="http://sourceforge.net/projects/boost/files/boost/1.58.0.beta.1/boost_1_58_0_b1.tar.gz"; fi
-    - if [ "${BOOST_VERSION}" != "trunk" ]; then travis_retry wget --quiet -O boost.tar.gz ${BOOST_TARBALL_URL}; fi
-    - if [ "${BOOST_VERSION}" != "trunk" ]; then mkdir boost && tar --strip-components=1 -C boost -xzf boost.tar.gz; fi
-    - if [ "${BOOST_VERSION}" == "trunk" ]; then travis_retry git clone --recursive --quiet http://github.com/boostorg/boost.git; fi
-    - if [ "${BOOST_VERSION}" == "trunk" ]; then (cd boost && ./bootstrap.sh && ./b2 headers); fi
+  # Install Boost headers
+  - if [ "${BOOST_VERSION}" == "1.57.0" ]; then BOOST_TARBALL_URL="http://sourceforge.net/projects/boost/files/boost/1.57.0/boost_1_57_0.tar.gz"; fi
+  - if [ "${BOOST_VERSION}" == "1.58.0" ]; then BOOST_TARBALL_URL="http://sourceforge.net/projects/boost/files/boost/1.58.0.beta.1/boost_1_58_0_b1.tar.gz"; fi
+  - if [ "${BOOST_VERSION}" != "trunk" ]; then travis_retry wget --quiet -O boost.tar.gz ${BOOST_TARBALL_URL}; fi
+  - if [ "${BOOST_VERSION}" != "trunk" ]; then mkdir boost && tar --strip-components=1 -C boost -xzf boost.tar.gz; fi
+  - if [ "${BOOST_VERSION}" == "trunk" ]; then travis_retry git clone --recursive --quiet http://github.com/boostorg/boost.git; fi
+  - if [ "${BOOST_VERSION}" == "trunk" ]; then (cd boost && ./bootstrap.sh && ./b2 headers); fi
 
-    # Install a recent CMake
-    - travis_retry wget --quiet -O cmake.tar.gz http://www.cmake.org/files/v3.2/cmake-3.2.1-Linux-x86_64.tar.gz
-    - mkdir cmake && tar --strip-components=1 -C cmake -xzf cmake.tar.gz
-    - export PATH=${PWD}/cmake/bin:${PATH}
+  # Install a recent CMake
+  - travis_retry wget --quiet -O cmake.tar.gz http://www.cmake.org/files/v3.2/cmake-3.2.1-Linux-x86_64.tar.gz
+  - mkdir cmake && tar --strip-components=1 -C cmake -xzf cmake.tar.gz
+  - export PATH=${PWD}/cmake/bin:${PATH}
 
-    # Install libc++ with libstdc++ (see http://libcxx.llvm.org)
-    - echo | g++ -Wp,-v -x c++ - -fsyntax-only
-    - travis_retry svn --quiet co http://llvm.org/svn/llvm-project/libcxx/trunk libcxx
-    - mkdir libcxx/build
-    - (cd libcxx/build && cmake .. -DLIBCXX_CXX_ABI=libstdc++ -DLIBCXX_CXX_ABI_INCLUDE_PATHS="/usr/include/c++/4.6;/usr/include/c++/4.6/x86_64-linux-gnu")
-    - make -C libcxx/build cxx -j2
+  # Install libc++ with libstdc++ (see http://libcxx.llvm.org)
+  - echo | g++ -Wp,-v -x c++ - -fsyntax-only
+  - travis_retry svn --quiet co http://llvm.org/svn/llvm-project/libcxx/trunk libcxx
+  - mkdir libcxx/build
+  - (cd libcxx/build && cmake .. -DLIBCXX_CXX_ABI=libstdc++ -DLIBCXX_CXX_ABI_INCLUDE_PATHS="/usr/include/c++/4.6;/usr/include/c++/4.6/x86_64-linux-gnu")
+  - make -C libcxx/build cxx -j2
 
-    # Install a more recent Doxygen via Linuxbrew
-    - if [ "${BUILD_DOCS}" == "true" ]; then ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/linuxbrew/go/install)" </dev/null; fi
-    - if [ "${BUILD_DOCS}" == "true" ]; then export PATH=$HOME/.linuxbrew/bin:$PATH; fi
-    - if [ "${BUILD_DOCS}" == "true" ]; then brew install doxygen; fi
+  # Install a more recent Doxygen via Linuxbrew
+  - if [ "${BUILD_DOCS}" == "true" ]; then ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/linuxbrew/go/install)" </dev/null; fi
+  - if [ "${BUILD_DOCS}" == "true" ]; then export PATH=$HOME/.linuxbrew/bin:$PATH; fi
+  - if [ "${BUILD_DOCS}" == "true" ]; then brew install doxygen; fi
 
 
 before_script:
-    # Go back to the root of the project.
-    - cd ${TRAVIS_BUILD_DIR}
+  # Go back to the root of the project.
+  - cd ${TRAVIS_BUILD_DIR}
 
-    # Set the git identity to myself (for pushing the documentation)
-    - git config --global user.email "ldionne.2@gmail.com"
-    - git config --global user.name "Louis Dionne"
+  # Set the git identity to myself (for pushing the documentation)
+  - git config --global user.email "ldionne.2@gmail.com"
+  - git config --global user.name "Louis Dionne"
 
-    # Check baseline memory usage; useful to know when OOMs occur
-    - free
-    - vmstat
-    - ps aux --sort=-rss | head -n 10
+  # Check baseline memory usage; useful to know when OOMs occur
+  - free
+  - vmstat
+  - ps aux --sort=-rss | head -n 10
 
-    # Setup the build directory
-    - mkdir build
-    - cd build
-    - cmake .. -DCMAKE_CXX_COMPILER=clang++-${CLANG_VERSION} -DBOOST_ROOT=${DEPS_DIR}/boost -DLIBCXX_ROOT=${DEPS_DIR}/libcxx/build
+  # Setup the build directory
+  - mkdir build
+  - cd build
+  - cmake .. -DCMAKE_CXX_COMPILER=clang++-${CLANG_VERSION} -DBOOST_ROOT=${DEPS_DIR}/boost -DLIBCXX_ROOT=${DEPS_DIR}/libcxx/build
 
 
 script:
-    # Only push the documentation when we're on master, otherwise just check it.
-    - if [[ "${BUILD_DOCS}" == "true" && ("${TRAVIS_PULL_REQUEST}" == "true" || "${TRAVIS_BRANCH}" != "master") ]]; then make doc.check; fi
-    - if [[ "${BUILD_DOCS}" == "true" && "${TRAVIS_PULL_REQUEST}" == "false" && "${TRAVIS_BRANCH}" == "master" ]]; then make gh-pages.push; fi
+  # Only push the documentation when we're on master, otherwise just check it.
+  - if [[ "${BUILD_DOCS}" == "true" && ("${TRAVIS_PULL_REQUEST}" == "true" || "${TRAVIS_BRANCH}" != "master") ]]; then make doc.check; fi
+  - if [[ "${BUILD_DOCS}" == "true" && "${TRAVIS_PULL_REQUEST}" == "false" && "${TRAVIS_BRANCH}" == "master" ]]; then make gh-pages.push; fi
 
-    - if [[ "${BUILD_DOCS}" == "false" ]]; then make compile.headers compile.examples -k -j2 >/dev/null; fi
-    - if [[ "${BUILD_DOCS}" == "false" ]]; then make compile.all -k; fi
-    - if [[ "${BUILD_DOCS}" == "false" ]]; then make run.all; fi
+  - if [[ "${BUILD_DOCS}" == "false" ]]; then make compile.headers compile.examples -k -j2 >/dev/null; fi
+  - if [[ "${BUILD_DOCS}" == "false" ]]; then make compile.all -k; fi
+  - if [[ "${BUILD_DOCS}" == "false" ]]; then make run.all; fi
 
 
 notifications:
-    webhooks:
-        urls:
-            - https://webhooks.gitter.im/e/ce1e3a2036d94b4a644f
-        on_success: change
-        on_failure: always
-        on_start: false
+  webhooks:
+    urls: https://webhooks.gitter.im/e/ce1e3a2036d94b4a644f
+    on_success: change
+    on_failure: always
