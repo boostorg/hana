@@ -25,7 +25,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/equality_comparable.hpp>
 #include <boost/hana/detail/has_common_embedding.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
-#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/logical.hpp>
 
@@ -39,19 +38,15 @@ namespace boost { namespace hana {
             has_operator<datatype_t<X>, decltype(equal)>::value ||
             has_operator<datatype_t<Y>, decltype(equal)>::value
         >>
-        constexpr decltype(auto) operator==(X&& x, Y&& y) {
-            return hana::equal(static_cast<X&&>(x),
-                               static_cast<Y&&>(y));
-        }
+        constexpr decltype(auto) operator==(X&& x, Y&& y)
+        { return hana::equal(static_cast<X&&>(x), static_cast<Y&&>(y)); }
 
         template <typename X, typename Y, typename = detail::std::enable_if_t<
             has_operator<datatype_t<X>, decltype(not_equal)>::value ||
             has_operator<datatype_t<Y>, decltype(not_equal)>::value
         >>
-        constexpr decltype(auto) operator!=(X&& x, Y&& y) {
-            return hana::not_equal(static_cast<X&&>(x),
-                                   static_cast<Y&&>(y));
-        }
+        constexpr decltype(auto) operator!=(X&& x, Y&& y)
+        { return hana::not_equal(static_cast<X&&>(x), static_cast<Y&&>(y)); }
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -66,8 +61,11 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(X&&, Y&&) {
             using T_ = detail::dependent_on_t<sizeof(X) == 1, T>;
             static_assert(!is_convertible<T_, U>{} && !is_convertible<U, T_>{},
-            "no default implementation of boost::hana::equal is provided for "
-            "related data types that can't be safely embedded into a common type");
+            "No default implementation of hana::equal is provided for related "
+            "data types that can't be safely embedded into a common type, "
+            "because those are most likely programming errors. If this is "
+            "really what you want, you can manually convert both objects to "
+            "a common Comparable data type before performing the comparison.");
 
             return false_;
         }
@@ -135,20 +133,12 @@ namespace boost { namespace hana {
         F f;
 
         template <typename X, typename Y>
-        constexpr decltype(auto) operator()(X&& x, Y&& y) const& {
-            return hana::equal(
-                f(static_cast<X&&>(x)),
-                f(static_cast<Y&&>(y))
-            );
-        }
+        constexpr decltype(auto) operator()(X&& x, Y&& y) const&
+        { return hana::equal(f(static_cast<X&&>(x)), f(static_cast<Y&&>(y))); }
 
         template <typename X, typename Y>
-        constexpr decltype(auto) operator()(X&& x, Y&& y) & {
-            return hana::equal(
-                f(static_cast<X&&>(x)),
-                f(static_cast<Y&&>(y))
-            );
-        }
+        constexpr decltype(auto) operator()(X&& x, Y&& y) &
+        { return hana::equal(f(static_cast<X&&>(x)), f(static_cast<Y&&>(y))); }
     };
 
     //////////////////////////////////////////////////////////////////////////

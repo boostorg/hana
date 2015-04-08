@@ -11,8 +11,8 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_MONOID_HPP
 
 #include <boost/hana/config.hpp>
-#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
+#include <boost/hana/fwd/core/default.hpp>
 #include <boost/hana/fwd/core/models.hpp>
 #include <boost/hana/fwd/core/operators.hpp>
 
@@ -143,12 +143,23 @@ namespace boost { namespace hana {
     struct _plus {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
-            return plus_impl<
-                typename datatype<X>::type, typename datatype<Y>::type
-            >::apply(
-                static_cast<X&&>(x),
-                static_cast<Y&&>(y)
-            );
+            using T = typename datatype<X>::type;
+            using U = typename datatype<Y>::type;
+            using Plus = plus_impl<T, U>;
+
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(_models<Monoid, T>{},
+            "hana::plus(x, y) requires x to be a Monoid");
+
+            static_assert(_models<Monoid, U>{},
+            "hana::plus(x, y) requires y to be a Monoid");
+
+            static_assert(!is_default<plus_impl<T, U>>{},
+            "hana::plus(x, y) requires x and y to be embeddable "
+            "in a common Monoid");
+        #endif
+
+            return Plus::apply(static_cast<X&&>(x), static_cast<Y&&>(y));
         }
     };
 
@@ -176,10 +187,12 @@ namespace boost { namespace hana {
 
     template <typename M>
     struct _zero {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+
+    #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
         static_assert(_models<Monoid, M>{},
         "hana::zero<M>() requires M to be a Monoid");
-#endif
+    #endif
+
         constexpr decltype(auto) operator()() const
         { return zero_impl<M>::apply(); }
     };

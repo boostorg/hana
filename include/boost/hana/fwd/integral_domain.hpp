@@ -10,8 +10,10 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_INTEGRAL_DOMAIN_HPP
 #define BOOST_HANA_FWD_INTEGRAL_DOMAIN_HPP
 
-#include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
+#include <boost/hana/fwd/core/default.hpp>
+#include <boost/hana/fwd/core/models.hpp>
 #include <boost/hana/fwd/core/operators.hpp>
 
 
@@ -147,12 +149,23 @@ namespace boost { namespace hana {
     struct _quot {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
-            return quot_impl<
-                typename datatype<X>::type, typename datatype<Y>::type
-            >::apply(
-                static_cast<X&&>(x),
-                static_cast<Y&&>(y)
-            );
+            using T = typename datatype<X>::type;
+            using U = typename datatype<Y>::type;
+            using Quot = quot_impl<T, U>;
+
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(_models<IntegralDomain, T>{},
+            "hana::quot(x, y) requires x to be an IntegralDomain");
+
+            static_assert(_models<IntegralDomain, U>{},
+            "hana::quot(x, y) requires y to be an IntegralDomain");
+
+            static_assert(!is_default<quot_impl<T, U>>{},
+            "hana::quot(x, y) requires x and y to be embeddable "
+            "in a common IntegralDomain");
+        #endif
+
+            return Quot::apply(static_cast<X&&>(x), static_cast<Y&&>(y));
         }
     };
 
@@ -197,12 +210,23 @@ namespace boost { namespace hana {
     struct _rem {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
-            return rem_impl<
-                typename datatype<X>::type, typename datatype<Y>::type
-            >::apply(
-                static_cast<X&&>(x),
-                static_cast<Y&&>(y)
-            );
+            using T = typename datatype<X>::type;
+            using U = typename datatype<Y>::type;
+            using Rem = rem_impl<T, U>;
+
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(_models<IntegralDomain, T>{},
+            "hana::rem(x, y) requires x to be an IntegralDomain");
+
+            static_assert(_models<IntegralDomain, U>{},
+            "hana::rem(x, y) requires y to be an IntegralDomain");
+
+            static_assert(!is_default<rem_impl<T, U>>{},
+            "hana::rem(x, y) requires x and y to be embeddable "
+            "in a common IntegralDomain");
+        #endif
+
+            return Rem::apply(static_cast<X&&>(x), static_cast<Y&&>(y));
         }
     };
 

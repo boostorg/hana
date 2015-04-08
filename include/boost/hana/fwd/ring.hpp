@@ -11,8 +11,8 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_RING_HPP
 
 #include <boost/hana/config.hpp>
-#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
+#include <boost/hana/fwd/core/default.hpp>
 #include <boost/hana/fwd/core/models.hpp>
 #include <boost/hana/fwd/core/operators.hpp>
 
@@ -148,12 +148,23 @@ namespace boost { namespace hana {
     struct _mult {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
-            return mult_impl<
-                typename datatype<X>::type, typename datatype<Y>::type
-            >::apply(
-                static_cast<X&&>(x),
-                static_cast<Y&&>(y)
-            );
+            using T = typename datatype<X>::type;
+            using U = typename datatype<Y>::type;
+            using Mult = mult_impl<T, U>;
+
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(_models<Ring, T>{},
+            "hana::mult(x, y) requires x to be a Ring");
+
+            static_assert(_models<Ring, U>{},
+            "hana::mult(x, y) requires y to be a Ring");
+
+            static_assert(!is_default<mult_impl<T, U>>{},
+            "hana::mult(x, y) requires x and y to be embeddable "
+            "in a common Ring");
+        #endif
+
+            return Mult::apply(static_cast<X&&>(x), static_cast<Y&&>(y));
         }
     };
 
@@ -181,13 +192,14 @@ namespace boost { namespace hana {
 
     template <typename R>
     struct _one {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+
+    #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
         static_assert(_models<Ring, R>{},
         "hana::one<R>() requires R to be a Ring");
-#endif
-        constexpr decltype(auto) operator()() const {
-            return one_impl<R>::apply();
-        }
+    #endif
+
+        constexpr decltype(auto) operator()() const
+        { return one_impl<R>::apply(); }
     };
 
     template <typename R>
@@ -197,25 +209,26 @@ namespace boost { namespace hana {
     //! Elevate a ring element to its `n`th power.
     //! @relates Ring
     //!
-    //! Specifically, `power(r, n)`, is equivalent to multiplying `r` with
-    //! itself `n` times using the `Ring` multiplication. If the power is
-    //! equal to `zero`, the `Ring` identity (`one`) is returned.
+    //! Specifically, `power(x, n)`, is equivalent to multiplying `x` with
+    //! itself `n` times using the Ring's multiplication. If the power is
+    //! equal to `zero`, the Ring's identity (`one`) is returned.
     //!
-    //! @param r
+    //! @param x
     //! A `Ring` element that is elevated to its `n`th power.
     //!
     //! @param n
-    //! An integral `Constant` representing the power to which `r` is elevated.
+    //! A `Constant` of an unsigned integral type representing the power
+    //! to which `x` is elevated.
     //!
     //!
     //! @note
-    //! Only the data type of `r` is used for tag-dispatching.
+    //! Only the data type of `x` is used for tag-dispatching.
     //!
     //! Example
     //! -------
     //! @snippet example/ring.cpp power
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto power = [](auto&& r, auto&& n) -> decltype(auto) {
+    constexpr auto power = [](auto&& x, auto&& n) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
@@ -223,16 +236,17 @@ namespace boost { namespace hana {
     struct power_impl;
 
     struct _power {
-        template <typename R, typename N>
-        constexpr decltype(auto) operator()(R&& r, N&& n) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(_models<Ring, typename datatype<R>::type>{},
-            "hana::power(r, n) requires r to be a Ring");
-#endif
-            return power_impl<typename datatype<R>::type>::apply(
-                static_cast<R&&>(r),
-                static_cast<N&&>(n)
-            );
+        template <typename X, typename N>
+        constexpr decltype(auto) operator()(X&& x, N&& n) const {
+            using R = typename datatype<X>::type;
+            using Power = power_impl<R>;
+
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(_models<Ring, R>{},
+            "hana::power(x, n) requires x to be in a Ring");
+        #endif
+
+            return Power::apply(static_cast<X&&>(x), static_cast<N&&>(n));
         }
     };
 

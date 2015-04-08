@@ -10,8 +10,9 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_GROUP_HPP
 #define BOOST_HANA_FWD_GROUP_HPP
 
-#include <boost/hana/detail/std/forward.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
+#include <boost/hana/fwd/core/models.hpp>
 #include <boost/hana/fwd/core/operators.hpp>
 
 
@@ -156,12 +157,19 @@ namespace boost { namespace hana {
     struct _minus {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
-            return minus_impl<
-                typename datatype<X>::type, typename datatype<Y>::type
-            >::apply(
-                static_cast<X&&>(x),
-                static_cast<Y&&>(y)
-            );
+            using T = typename datatype<X>::type;
+            using U = typename datatype<Y>::type;
+            using Minus = minus_impl<T, U>;
+
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(_models<Group, T>{},
+            "hana::minus(x, y) requires x to be a Group");
+
+            static_assert(_models<Group, U>{},
+            "hana::minus(x, y) requires y to be a Group");
+        #endif
+
+            return Minus::apply(static_cast<X&&>(x), static_cast<Y&&>(y));
         }
     };
 
@@ -186,9 +194,14 @@ namespace boost { namespace hana {
     struct _negate {
         template <typename X>
         constexpr decltype(auto) operator()(X&& x) const {
-            return negate_impl<typename datatype<X>::type>::apply(
-                static_cast<X&&>(x)
-            );
+            using G = typename datatype<X>::type;
+
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(_models<Group, G>{},
+            "hana::negate(x) requires x to be in a Group");
+        #endif
+
+            return negate_impl<G>::apply(static_cast<X&&>(x));
         }
     };
 

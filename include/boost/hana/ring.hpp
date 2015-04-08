@@ -25,14 +25,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/is_arithmetic.hpp>
-#include <boost/hana/detail/wrong.hpp>
-
-// for default power
-#include <boost/hana/comparable.hpp>
-#include <boost/hana/enumerable.hpp>
-#include <boost/hana/lazy.hpp>
-#include <boost/hana/logical.hpp>
-#include <boost/hana/monoid.hpp>
+#include <boost/hana/detail/std/size_t.hpp>
+#include <boost/hana/functional/iterate.hpp>
+#include <boost/hana/functional/partial.hpp>
 
 
 namespace boost { namespace hana {
@@ -40,14 +35,12 @@ namespace boost { namespace hana {
     // Operators
     //////////////////////////////////////////////////////////////////////////
     namespace operators {
-        template <typename X, typename Y, typename = typename detail::std::enable_if<
+        template <typename X, typename Y, typename = detail::std::enable_if_t<
             has_operator<datatype_t<X>, decltype(mult)>::value ||
             has_operator<datatype_t<Y>, decltype(mult)>::value
-        >::type>
-        constexpr decltype(auto) operator*(X&& x, Y&& y) {
-            return hana::mult(static_cast<X&&>(x),
-                              static_cast<Y&&>(y));
-        }
+        >>
+        constexpr decltype(auto) operator*(X&& x, Y&& y)
+        { return hana::mult(static_cast<X&&>(x), static_cast<Y&&>(y)); }
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -58,11 +51,7 @@ namespace boost { namespace hana {
 
     template <typename T, typename U, bool condition>
     struct mult_impl<T, U, when<condition>> : default_ {
-        template <typename X, typename Y>
-        static constexpr void apply(X&&, Y&&) {
-            static_assert(detail::wrong<mult_impl<T, U>, X, Y>{},
-            "no definition of boost::hana::mult for the given data types");
-        }
+        static void apply(...);
     };
 
     // Cross-type overload
@@ -73,8 +62,8 @@ namespace boost { namespace hana {
         using C = typename common<T, U>::type;
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            return hana::mult(to<C>(static_cast<X&&>(x)),
-                              to<C>(static_cast<Y&&>(y)));
+            return hana::mult(hana::to<C>(static_cast<X&&>(x)),
+                              hana::to<C>(static_cast<Y&&>(y)));
         }
     };
 
@@ -97,21 +86,12 @@ namespace boost { namespace hana {
 
     template <typename R, bool condition>
     struct power_impl<R, when<condition>> : default_ {
-        struct next {
-            template <typename X, typename N>
-            constexpr decltype(auto) operator()(X&& x, N&& n) const {
-                return hana::mult(x,
-                    power_impl::apply(x, hana::pred(static_cast<N&&>(n)))
-                );
-            }
-        };
-
         template <typename X, typename N>
-        static constexpr decltype(auto) apply(X&& x, N&& n) {
-            using Exp = typename datatype<N>::type;
-            return hana::eval_if(hana::equal(n, hana::zero<Exp>()),
-                hana::lazy(hana::one<R>()),
-                hana::lazy(next{})(x, static_cast<N&&>(n))
+        static constexpr decltype(auto) apply(X&& x, N const&) {
+            constexpr detail::std::size_t n = hana::value<N>();
+            return hana::iterate<n>(
+                hana::partial(hana::mult, static_cast<X&&>(x)),
+                hana::one<R>()
             );
         }
     };
@@ -157,11 +137,13 @@ namespace boost { namespace hana {
                 return boost::hana::mult(boost::hana::value<X>(),
                                          boost::hana::value<Y>());
             }
-            struct hana { using datatype = detail::CanonicalConstant<T>; };
+
+            using hana = _constant;
+            using datatype = detail::CanonicalConstant<T>;
         };
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X const&, Y const&)
-        { return to<C>(_constant<X, Y>{}); }
+        { return hana::to<C>(_constant<X, Y>{}); }
     };
 
     template <typename C>
@@ -172,10 +154,12 @@ namespace boost { namespace hana {
         struct _constant {
             static constexpr decltype(auto) get()
             { return boost::hana::one<T>(); }
-            struct hana { using datatype = detail::CanonicalConstant<T>; };
+
+            using hana = _constant;
+            using datatype = detail::CanonicalConstant<T>;
         };
         static constexpr decltype(auto) apply()
-        { return to<C>(_constant{}); }
+        { return hana::to<C>(_constant{}); }
     };
 
 }} // end namespace boost::hana

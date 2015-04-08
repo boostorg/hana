@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_COMPARABLE_HPP
 
 #include <boost/hana/detail/create.hpp>
-#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/operators.hpp>
 
@@ -29,9 +28,9 @@ namespace boost { namespace hana {
     //! 1. Equality should be compatible with copy construction; copy
     //!    constructing a value yields an `equal` value.
     //! 2. Equality should be independent of representation; an object
-    //!    representing the fraction `0/2` should be `equal` to an object
-    //!    representing `0/4`, because they both represent the mathematical
-    //!    object `0`.
+    //!    representing a fraction as `4/8` should be `equal` to an object
+    //!    representing a fraction as `2/4`, because they both represent
+    //!    the mathematical object `1/2`.
     //!
     //! Moreover, `equal` must exhibit properties that make it intuitive to
     //! use for determining the equivalence of objects, which is formalized
@@ -226,12 +225,10 @@ namespace boost { namespace hana {
     struct _equal {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
-            return equal_impl<
-                typename datatype<X>::type, typename datatype<Y>::type
-            >::apply(
-                static_cast<X&&>(x),
-                static_cast<Y&&>(y)
-            );
+            using T = typename datatype<X>::type;
+            using U = typename datatype<Y>::type;
+            using Equal = equal_impl<T, U>;
+            return Equal::apply(static_cast<X&&>(x), static_cast<Y&&>(y));
         }
 
         struct _to {
@@ -290,12 +287,10 @@ namespace boost { namespace hana {
     struct _not_equal {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
-            return not_equal_impl<
-                typename datatype<X>::type, typename datatype<Y>::type
-            >::apply(
-                static_cast<X&&>(x),
-                static_cast<Y&&>(y)
-            );
+            using T = typename datatype<X>::type;
+            using U = typename datatype<Y>::type;
+            using NotEqual = not_equal_impl<T, U>;
+            return NotEqual::apply(static_cast<X&&>(x), static_cast<Y&&>(y));
         }
 
         struct _to {

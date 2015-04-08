@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_ENUMERABLE_HPP
 
 #include <boost/hana/config.hpp>
-#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/models.hpp>
 
@@ -75,16 +74,17 @@ namespace boost { namespace hana {
     struct succ_impl;
 
     struct _succ {
-        template <typename E>
-        constexpr decltype(auto) operator()(E&& num) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-        static_assert(_models<Enumerable, typename datatype<E>::type>{},
-        "hana::succ(n) requires n to be Enumerable");
-#endif
+        template <typename N>
+        constexpr decltype(auto) operator()(N&& n) const {
+            using E = typename datatype<N>::type;
+            using Succ = succ_impl<E>;
 
-            return succ_impl<
-                typename datatype<E>::type
-            >::apply(static_cast<E&&>(num));
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(_models<Enumerable, E>{},
+            "hana::succ(n) requires n to be Enumerable");
+        #endif
+
+            return Succ::apply(static_cast<N&&>(n));
         }
     };
 
@@ -107,16 +107,17 @@ namespace boost { namespace hana {
     struct pred_impl;
 
     struct _pred {
-        template <typename E>
-        constexpr decltype(auto) operator()(E&& num) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-        static_assert(_models<Enumerable, typename datatype<E>::type>{},
-        "hana::pred(n) requires n to be Enumerable");
-#endif
+        template <typename N>
+        constexpr decltype(auto) operator()(N&& n) const {
+            using E = typename datatype<N>::type;
+            using Pred = pred_impl<E>;
 
-            return pred_impl<
-                typename datatype<E>::type
-            >::apply(static_cast<E&&>(num));
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(_models<Enumerable, E>{},
+            "hana::pred(n) requires n to be Enumerable");
+        #endif
+
+            return Pred::apply(static_cast<N&&>(n));
         }
     };
 

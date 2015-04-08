@@ -39,10 +39,8 @@ namespace boost { namespace hana {
             has_operator<datatype_t<X>, decltype(minus)>::value ||
             has_operator<datatype_t<Y>, decltype(minus)>::value
         >>
-        constexpr decltype(auto) operator-(X&& x, Y&& y) {
-            return hana::minus(static_cast<X&&>(x),
-                               static_cast<Y&&>(y));
-        }
+        constexpr decltype(auto) operator-(X&& x, Y&& y)
+        { return hana::minus(static_cast<X&&>(x), static_cast<Y&&>(y)); }
 
         template <typename X, typename = detail::std::enable_if_t<
             has_operator<datatype_t<X>, decltype(negate)>::value
@@ -59,21 +57,13 @@ namespace boost { namespace hana {
 
     template <typename T, typename U, bool condition>
     struct minus_impl<T, U, when<condition>> : default_ {
-        template <typename X, typename Y>
-        static constexpr void apply(X&&, Y&&) {
-            static_assert(detail::wrong<minus_impl<T, U>, X, Y>{},
-            "no definition of boost::hana::minus for the given data types");
-        }
+        static void apply(...);
     };
 
     template <typename T, bool condition>
     struct minus_impl<T, T, when<condition>> : default_ {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            using G = detail::dependent_on_t<sizeof(x) == 1, T>;
-            static_assert(!is_default<negate_impl<G>>{},
-            "no definition of boost::hana::minus for the given data type");
-
             return hana::plus(static_cast<X&&>(x),
                               hana::negate(static_cast<Y&&>(y)));
         }
@@ -87,8 +77,8 @@ namespace boost { namespace hana {
         using C = typename common<T, U>::type;
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            return hana::minus(to<C>(static_cast<X&&>(x)),
-                               to<C>(static_cast<Y&&>(y)));
+            return hana::minus(hana::to<C>(static_cast<X&&>(x)),
+                               hana::to<C>(static_cast<Y&&>(y)));
         }
     };
 
@@ -101,17 +91,8 @@ namespace boost { namespace hana {
     template <typename T, bool condition>
     struct negate_impl<T, when<condition>> : default_ {
         template <typename X>
-        static constexpr decltype(auto) apply(X&& x) {
-            //! @todo
-            //! Clang 3.5 blows up when this is enabled. Figure out why.
-#if 0
-            using G = detail::dependent_on_t<sizeof(x) == 1, T>;
-            static_assert(!is_default<minus_impl<G, G>>::value,
-            "no definition of boost::hana::negate for the given data type");
-#endif
-
-            return hana::minus(zero<T>(), static_cast<X&&>(x));
-        }
+        static constexpr decltype(auto) apply(X&& x)
+        { return hana::minus(zero<T>(), static_cast<X&&>(x)); }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -156,11 +137,13 @@ namespace boost { namespace hana {
                 return boost::hana::minus(boost::hana::value<X>(),
                                           boost::hana::value<Y>());
             }
-            struct hana { using datatype = detail::CanonicalConstant<T>; };
+
+            using hana = _constant;
+            using datatype = detail::CanonicalConstant<T>;
         };
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X const&, Y const&)
-        { return to<C>(_constant<X, Y>{}); }
+        { return hana::to<C>(_constant<X, Y>{}); }
     };
 }} // end namespace boost::hana
 
