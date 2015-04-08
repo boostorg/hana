@@ -28,7 +28,7 @@ int main() {
 
 //! [comparable]
 BOOST_HANA_CONSTEXPR_CHECK(make<Tuple>(1, 2, 3) == make<Tuple>(1, 2, 3));
-BOOST_HANA_CONSTEXPR_CHECK(make<Tuple>(1, 2, 3) != make<Tuple>(1, 2, 3, 4));
+BOOST_HANA_CONSTANT_CHECK(make<Tuple>(1, 2, 3) != make<Tuple>(1, 2, 3, 4));
 //! [comparable]
 
 }{

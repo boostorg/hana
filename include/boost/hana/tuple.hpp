@@ -19,7 +19,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/closure.hpp>
 #include <boost/hana/detail/create.hpp>
-#include <boost/hana/detail/dependent_on.hpp>
 #include <boost/hana/detail/generate_integer_sequence.hpp>
 #include <boost/hana/detail/std/decay.hpp>
 #include <boost/hana/detail/std/declval.hpp>
@@ -41,6 +40,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functor.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/iterable.hpp>
+#include <boost/hana/lazy.hpp>
 #include <boost/hana/monad.hpp>
 #include <boost/hana/monad_plus.hpp>
 #include <boost/hana/orderable.hpp>
@@ -69,10 +69,14 @@ namespace boost { namespace hana {
         using datatype = Tuple;
 
         static constexpr detail::std::size_t size = sizeof...(Xs);
+        static constexpr bool is_tuple_t = false;
+        static constexpr bool is_tuple_c = false;
     };
 
     template <typename T, T ...v>
-    struct _tuple_c : _tuple<_integral_constant<T, v>...> { };
+    struct _tuple_c : _tuple<_integral_constant<T, v>...> {
+        static constexpr bool is_tuple_c = true;
+    };
 
     template <typename ...T>
     struct _tuple_t {
@@ -83,7 +87,9 @@ namespace boost { namespace hana {
     struct _tuple_t<T...>::_
         : _tuple_t<T...>,
           _tuple<typename detail::std::remove_cv<decltype(type<T>)>::type...>
-    { };
+    {
+        static constexpr bool is_tuple_t = true;
+    };
 
     template <>
     struct operators::of<Tuple>
@@ -143,34 +149,59 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <>
     struct equal_impl<Tuple, Tuple> {
-        // general case
-        template <typename Xs, typename Ys>
-        static constexpr decltype(auto) apply(Xs const& xs, Ys const& ys) {
-            using Tpl = detail::dependent_on_t<sizeof(xs) == 1, Tuple>;
-            return Sequence::equal_impl<Tpl, Tpl>::apply(xs, ys);
-        }
-
         // tuple_t
         template <typename ...T>
-        static constexpr auto apply(_tuple_t<T...> const&, _tuple_t<T...> const&)
+        static constexpr auto apply(_tuple_t<T...> const&,
+                                    _tuple_t<T...> const&)
         { return true_; }
-
-        template <typename ...T, typename ...U>
-        static constexpr auto apply(_tuple_t<T...> const&, _tuple_t<U...> const&)
-        { return false_; }
 
         // tuple_c
         template <typename V, V ...v, typename U, U ...u, typename =
             detail::std::enable_if_t<sizeof...(v) == sizeof...(u)>>
-        static constexpr auto apply(_tuple_c<V, v...> const&, _tuple_c<U, u...> const&) {
+        static constexpr auto apply(_tuple_c<V, v...> const&,
+                                    _tuple_c<U, u...> const&)
+        {
             constexpr bool comparisons[] = {true, (v == u)...};
             return bool_<hana::all(comparisons)>;
         }
 
-        template <typename V, V ...v, typename U, U ...u, typename =
-            detail::std::enable_if_t<sizeof...(v) != sizeof...(u)>>
-        static constexpr auto apply(_tuple_c<V, v...> const&, _tuple_c<U, u...> const&, ...)
-        { return false_; }
+        // tuple
+        template <detail::std::size_t i, detail::std::size_t n>
+        struct equal_tuple {
+            //! @todo We're making a copy of xs and ys when we pass it to
+            //! `lazy`. We need a way to take stuff by reference.
+            template <typename Xs, typename Ys>
+            constexpr decltype(auto) operator()(Xs const& xs, Ys const& ys) const {
+                return hana::eval_if(
+                    hana::equal(detail::get<i>(xs), detail::get<i>(ys)),
+                    hana::lazy(equal_tuple<i+1, n>{})(xs, ys),
+                    hana::lazy(false_)
+                );
+            }
+        };
+
+        template <detail::std::size_t n>
+        struct equal_tuple<n, n> {
+            template <typename Xs, typename Ys>
+            constexpr auto operator()(Xs const&, Ys const&) const
+            { return true_; }
+        };
+
+        template <typename Xs, typename Ys, typename = detail::std::enable_if_t<
+            (Xs::size == Ys::size && Xs::size != 0) &&
+            !(Xs::is_tuple_t && Ys::is_tuple_t) &&
+            !(Xs::is_tuple_c && Ys::is_tuple_c)
+        >>
+        static constexpr decltype(auto) apply(Xs const& xs, Ys const& ys)
+        { return equal_tuple<0, Xs::size>{}(xs, ys); }
+
+
+        // empty tuples and tuples with different sizes
+        template <typename Xs, typename Ys, typename = detail::std::enable_if_t<
+            Xs::size != Ys::size || Xs::size == 0
+        >>
+        static constexpr decltype(auto) apply(Xs const& xs, Ys const& ys, ...)
+        { return bool_<Xs::size == 0 && Ys::size == 0>; }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -225,7 +256,7 @@ namespace boost { namespace hana {
         struct fold_left_tuple_t_metafunction {
             template <typename ...T, typename S, template <typename ...> class F>
             constexpr auto
-            operator()(_tuple_t<T...>const&, _type<S> const&, _metafunction<F> const&) const {
+            operator()(_tuple_t<T...> const&, _type<S> const&, _metafunction<F> const&) const {
                 return type<typename detail::type_foldl1<F, S, T...>::type>;
             }
         };
