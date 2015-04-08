@@ -64,10 +64,6 @@ namespace boost { namespace hana {
     //! in some circumstances: http://llvm.org/bugs/show_bug.cgi?id=20625.
     //! Using an anonymous type could have compile-time performance benefits,
     //! so this avenue should be explored once the bug is fixed.
-    //!
-    //! @todo
-    //! The `BOOST_HANA_STRING` macro does not appear near `String` in the
-    //! documentation.
     struct String { using value_type = char const*; };
 
     //! Create a compile-time string from a parameter pack of characters.
@@ -100,7 +96,13 @@ namespace boost { namespace hana {
     //! -------
     //! @snippet example/string.cpp BOOST_HANA_STRING
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-#   define BOOST_HANA_STRING(s) unspecified
+    auto BOOST_HANA_STRING(s) = see documentation;
+    #define BOOST_HANA_STRING(s) see documentation
+
+    // Note:
+    // The trick above seems to exploit a bug in Doxygen, which makes the
+    // BOOST_HANA_STRING macro appear in the related objects of String
+    // (as we want it to).
 #else
     // defined in boost/hana/string.hpp
 #endif
