@@ -676,9 +676,6 @@ metafunction and types:
 
 @snippet example/tutorial/type.cpp apply_to_all
 
-> `BOOST_HANA_CONSTANT_CHECK` is essentially equivalent to `static_assert`;
-> see the [reference](@ref BOOST_HANA_CONSTANT_ASSERT) for more information.
-
 However, expressing the same algorithm using Boost.MPL requires using lambda
 expressions, which are much more limited than plain lambdas. It also requires
 being at class or global scope, which means that you can't create this
